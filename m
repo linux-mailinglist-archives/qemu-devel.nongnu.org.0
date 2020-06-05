@@ -2,76 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 768C81EFFE2
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 20:28:50 +0200 (CEST)
-Received: from localhost ([::1]:54700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B1C21EFFDF
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 20:27:54 +0200 (CEST)
+Received: from localhost ([::1]:52228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jhH5F-0005Iz-J1
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 14:28:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54328)
+	id 1jhH4L-0004G3-Dl
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 14:27:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54314)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jhH3e-0003MR-O0
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 14:27:10 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:54263
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jhH3d-0006mP-39
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 14:27:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591381627;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=J+B8DoCKiyeuDsNQv5s0sIOLEcbNJMud2G9Thb99Jac=;
- b=BijeItb9EuQjtQmTUVvLJVijsgoBZaSiUXUGDcHl417FI922KitIT+krjRELdYB5xiNskJ
- fu8M1IsB7yT9UmgBPdY/sQ2dvov2VGtCs8XVRIuwX8Fb64hKpdcQY+5DH/ZxpxEgJTakQ4
- XdgB4t/cmdMYPGixwFksOHc9sFB4Gf0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-214-cAUzpADFMsOGIW9-w7TTig-1; Fri, 05 Jun 2020 14:27:05 -0400
-X-MC-Unique: cAUzpADFMsOGIW9-w7TTig-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AEC93107ACCA;
- Fri,  5 Jun 2020 18:27:04 +0000 (UTC)
-Received: from [10.3.113.22] (ovpn-113-22.phx2.redhat.com [10.3.113.22])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7FD8F1972B;
- Fri,  5 Jun 2020 18:27:02 +0000 (UTC)
-Subject: Re: [PATCH] configure: Disable -Wtautological-type-limit-compare
-To: Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>
-References: <20200604034513.75103-1-richard.henderson@linaro.org>
- <87bllx4igz.fsf@linaro.org> <535cf85f-96d7-0e98-c69e-c09b976bc251@linaro.org>
- <CAFEAcA88+W6PR2K5rmov7fM9+vyCuWW9u3mxg=61B1r9kYQT2g@mail.gmail.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <5aafc164-a4e7-d3be-8922-5f98d767a97d@redhat.com>
-Date: Fri, 5 Jun 2020 13:26:59 -0500
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jhH3Z-0003Aa-DH
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 14:27:05 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:37248)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jhH3Y-0006lh-Pk
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 14:27:05 -0400
+Received: by mail-wm1-x343.google.com with SMTP id y20so2293490wmi.2
+ for <qemu-devel@nongnu.org>; Fri, 05 Jun 2020 11:27:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=bTTh4EO+d/slPGFZnFe5fOHEsNGvl1Yatl7sm9mgRlk=;
+ b=MyayfARcwnlywzdIIYYIN+m1L1/O09iZ9oG/5P3iBfnBSyl2K+cnCNYzxEUcLvl2Kl
+ uPoWk3ny17IZ6Qv/OPDgVan9MDbMo9B6EqnPW44NaRprICGvv/EoJJuMREb2Xm4kFB/e
+ pYCZom3/OwRwOQUrK9eDgEhoFIhhJVfLUdwSxaPu1eMsOMGZwhCWZSaFGBStR8MPUu7i
+ HobnLzaLFI9JsBtYyAyKD5/TeThwfuqPVWVxFeJMWxDKqEOU3LkxSAkkRNCwRo0hyzJE
+ D730mPTs5tO9js2sDtg3J3CYcI3uHwS06qFW+iBSIqAx5l1DRa+aT2bBLxftbsQpNHQw
+ 6LXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=bTTh4EO+d/slPGFZnFe5fOHEsNGvl1Yatl7sm9mgRlk=;
+ b=hsJ/jRyY8d46kHcM83F4y8odOf5aQ77ftIY6F2kYAVNqxcE61A6wi4iXLUEdLznrru
+ wLSmfO/y42nKWw9ZN4i3+3GjjzkvE1odhu2zaZrKmMaBd7y67xPsZr6DI5rsLREk0KG7
+ CyVnVX1uZCpvG1qy4Vm2MdmUKymvqgzLeIMf2Wd1R0geYF+akVXKhhpQcvGdkWPtdu4G
+ jGek5G2XRrE68sHnGK46UlE7Ft20ujyeGCoEnEYdmN4EopvFjmhww4Amc6GuIGpWGZHi
+ XUvRSs6hvqZ/7ki6b2JRMZpYJCxDjGicAvSl2qG+cpMR3snoPJwcvvkHXjqgpTPMyl4P
+ fzOA==
+X-Gm-Message-State: AOAM533DZf3l/Vi/0pPpfL2slh5hZ4c9Eh5diQvZJ3QbU8zH6gkCbsNq
+ H5hjrEDkJAq7p1h9yHmdAPk=
+X-Google-Smtp-Source: ABdhPJx+0oCChnAmo5XsZVczxokYaGrl9wSRIS2zFoxK6ytoD8zqGYnz1HPdbbAhniaUOG/GOzgtBg==
+X-Received: by 2002:a1c:3dd6:: with SMTP id k205mr3896711wma.87.1591381623125; 
+ Fri, 05 Jun 2020 11:27:03 -0700 (PDT)
+Received: from [192.168.1.43] (181.red-88-10-103.dynamicip.rima-tde.net.
+ [88.10.103.181])
+ by smtp.gmail.com with ESMTPSA id a14sm13693265wrv.20.2020.06.05.11.27.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 05 Jun 2020 11:27:02 -0700 (PDT)
+Subject: Re: [PATCH v2] fuzz: add oss-fuzz build.sh script
+To: Darren Kenny <darren.kenny@oracle.com>, Alexander Bulekov
+ <alxndr@bu.edu>, qemu-devel@nongnu.org
+References: <20200605175028.5626-1-alxndr@bu.edu> <m2a71hv1gf.fsf@oracle.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <c2153590-e318-d232-e3fd-9a8028484762@amsat.org>
+Date: Fri, 5 Jun 2020 20:27:01 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA88+W6PR2K5rmov7fM9+vyCuWW9u3mxg=61B1r9kYQT2g@mail.gmail.com>
+In-Reply-To: <m2a71hv1gf.fsf@oracle.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=eblake@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/05 03:27:26
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,61 +91,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: bsd@redhat.com, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/5/20 1:09 PM, Peter Maydell wrote:
-
-> If there's an ordering requirement here we should make it clearer,
-> or somebody is going to do the obvious "tidying up" at some point
-> in the future.
+On 6/5/20 7:58 PM, Darren Kenny wrote:
+> Hi Alex,
 > 
-> Perhaps this whole set of lines should be rearranged, something like:
-> 
-> # Enable these warnings if the compiler supports them:
-> warn_flags="-Wold-style-declaration -Wold-style-definition -Wtype-limits"
-> warn_flags="-Wformat-security -Wformat-y2k -Winit-self
-> -Wignored-qualifiers $warn_flags"
-> warn_flags="-Wno-missing-include-dirs -Wempty-body -Wnested-externs $warn_flags"
-> warn_flags="-Wendif-labels -Wexpansion-to-defined $warn_flags"
-> # Now disable sub-types of warning we don't want but which are
-> # enabled by some of the warning flags we do want; these must come
-> # later in the compiler command line than the enabling warning options.
-> nowarn_flags="-Wno-missing-include-dirs -Wno-shift-negative-value"
-> nowarn_flags="-Wno-initializer-overrides $nowarn_flags"
-> nowarn_flags="-Wno-string-plus-int -Wno-typedef-redefinition $nowarn_flags"
-> warn_flags="$warn_flags $nowarn_flags"
-> 
-> (is there a nicer shell idiom for creating a variable that's
-> a long string of stuff without having over-long lines?)
+> From looking at another OSS Fuzz project recently (a coincidence) I
+> wonder if we could make this script work so that it can be run outside
+> of the OSS-Fuzz environment?
 
-You could always do:
-
-# Append $2 into the variable named $1, with space separation
-add_to () {
-     eval $1=\${$1:+\"\$$1 \"}\$2
-}
-
-add_to warn_flags -Wold-style-declaration
-add_to warn_flags -Wold-style-definition
-add_to warn_flags -Wtype-limits
-...
-add_to nowarn_flags -Wno-string-plus-int
-add_to nowarn_flags -Wno-typedef-redefinition
-warn_flags="$warn_flags $nowarn_flags"
+Yes, we want to have this feature to reproduce/debug what oss-fuzz does.
 
 > 
-> It's also tempting to pull the handful of warning related
-> options currently set directly in QEMU_CFLAGS (-Wall, etc) into
-> this same set of variables.
+> Specifically, for example, if $OUT is not set, then creating a subdir in
+> the build directory, and setting it to be that.
 > 
+> Similarly for some other things like $LIB_FUZZING_ENGINE?
+> 
+> I'm just thinking that it might help someone that is not familiar with
+> OSS-Fuzz to validate that the script still works without having to go
+> through setting up the containers, etc that would be required to
+> validate it.
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+Exactly.
 
+> 
+> Also, I would definitely recommend running ShellCheck against any script
+> to ensure that you're catching any mistakes that can so easily be put in
+> to shell scripts - speaking from experience here ;)
+> 
+> Thanks,
+> 
+> Darren.
+[...]
 
