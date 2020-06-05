@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA2BA1EFE4E
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 18:55:23 +0200 (CEST)
-Received: from localhost ([::1]:41650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B6931EFE4B
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 18:54:50 +0200 (CEST)
+Received: from localhost ([::1]:38260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jhFco-0002rz-NS
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 12:55:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40536)
+	id 1jhFcH-0001Ur-7g
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 12:54:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40530)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jhFY1-0001Yn-W8
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 12:50:26 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:39927)
+ id 1jhFY1-0001Wb-1c
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 12:50:25 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:52495)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jhFXy-0001fR-J7
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 12:50:25 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id k26so9786950wmi.4
- for <qemu-devel@nongnu.org>; Fri, 05 Jun 2020 09:50:22 -0700 (PDT)
+ id 1jhFXz-0001fi-FB
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 12:50:24 -0400
+Received: by mail-wm1-x341.google.com with SMTP id r9so9048251wmh.2
+ for <qemu-devel@nongnu.org>; Fri, 05 Jun 2020 09:50:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=B11TWBi3t4BqEUK06AJy9FT5GDdcpsPdhsKTPpp5Dvw=;
- b=ijj8qHEp5ittgF3ICoUVuIZG1YxA6hFXxjgJ0xcYKWN/lQWShjEPqGuJ3KcoQEqyl/
- Fw++k2jxH+UgI8tnQQT9QkRcyVXO//kpVo3PlRDwdQ7f52QyTLWSdRjlMf3x21qcQA3n
- jcnfPz4YGa+bC+vJ0y/3QfU21yQoREMPcYpvm5dGfzgeOAM9GLHt9xcH1/HpKH1p5Ako
- HbP6CXO+rOi2Ykqu8HkfA7y2NAAc85VGl7F2ntIHED7+0LEvjaUE+iEMUcF7EErd49m4
- JO7kC/1qiap/X4h+NL4ZvyGI5NAQmy/zXoOBaa2s8rD5nsKfXTmCr+FlKBBcwGsjUU+Z
- LLsw==
+ bh=cM/nenshJFdr/xOFmEA2BlgzqbESOdnacOqE/yTx7cc=;
+ b=HMIWoObQKqDqwtD4kVek/6HJj3mlAFwFTqg0umhwfKwz5KPwbVgK7HVDK4CCSUqPPI
+ zvn4T57IW98INGNa17b2AREnP10oPB4BNBFJXvX8CYvMCrePBK0i+QMFM0VHUBFsWg0e
+ G41F2A+Fkn7dVOogFXAP7TXgzQxEi23BpO26QiyvdT9xZBe5X5Q8QpEltJUlDd8KB1AL
+ 7Sigc1uICwjGivSmG6haQyYitvwZPghdL0MzhhUG2v36zrq/Ol/PTnoiNLEgd0Va2LEw
+ NEbthbQKxK5sxNMTjgoclyh2KwKQqfGpAIyhfiiR5mJFZjlUCjfHiAD6AKdbYdC+E6CT
+ UnDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=B11TWBi3t4BqEUK06AJy9FT5GDdcpsPdhsKTPpp5Dvw=;
- b=RZZ3Mp5NdbbLlciIe/wiYo3SbHi9hEJyWBF8ROHFO1DBbUKVyRC9F+MtDslNNYBXKN
- Q284ztBOxOa9XvlyTnmh0jufNDFgqGjvVmVca01G4mGeCv8u3hWCP1dOR3Gu+yhgmetu
- o4LaW7XMW21G0iIJ5PDrGkrXrAgrOf9lwAnadOlJHkyNianhux+tO4oJ7wBk/olqo8XT
- SQdLmJoAxK8o5hxJiaUrVSMS7lsb/erNho9o9JxHWbbPYqfIJJM5aJbgaRlpLh/OKAb3
- qBdPlHdJ7cWp57zlFETOdlWofq6KA0C/YaNuyK1S8hlWu5eNrcHHVole20LRVcRLSeFP
- +Emg==
-X-Gm-Message-State: AOAM533GFcFQntaUD/ExtUNBPSM4ZeN4fNP3avwHvt+C9B9mbto+oxZU
- +XN5XQZJH6vn3DQtfvQj/ar+y9KfigWiQA==
-X-Google-Smtp-Source: ABdhPJxbeRmyuIAspDy+Kt1+Wwba65kh80P8QDkscnuhUEGhsuyXe+4wXAMQQTFASASFonaHclq03g==
-X-Received: by 2002:a05:600c:2110:: with SMTP id
- u16mr3524625wml.26.1591375820882; 
- Fri, 05 Jun 2020 09:50:20 -0700 (PDT)
+ bh=cM/nenshJFdr/xOFmEA2BlgzqbESOdnacOqE/yTx7cc=;
+ b=n99oAKAuEX0K9nVPu2aMOhTc6VleNE6GO3Th3N1Nue2G684KlDLLL69tfRETjFsbF9
+ ML7B5GR6i+LMlzu4Yx6uaMNxS5HH1LeEoSvt/RBNHXiS5hAgU98DxKx97hC1JdQmm6ht
+ kUyZVJLpxQdRmMylFFzCXWV0MFRP1bgtcCt0UkG+urj8j8hSY4wcNwCmnfP3dzGDHqcX
+ SHyHvCiDaTXWGhXno6VpNJEai9bu4NFMiVz8F3xlKeVADoON+kBKPQOncP53+ru9hBMI
+ dy+YhfGOuPL4Id9V3B1XGk1rWIb00hxmwt55KVJLAKdyEkKV3LJlVKiLMHpZBG05sE4H
+ fysQ==
+X-Gm-Message-State: AOAM532FOAs7wt5+lFOHLswtVqt9aK+7qqyeTPI0C5ay98Bmv+TFUjQs
+ dHwXbvIknz96QdMY9zzlkn+4kfFpgy5PJw==
+X-Google-Smtp-Source: ABdhPJykdUIU2pmojqyggMkI55Zbh9nPuR3lUwtKN4Sg70vpskB04kWwuaeUdUVTjsHKUQcUu54lNw==
+X-Received: by 2002:a7b:c852:: with SMTP id c18mr3691831wml.77.1591375821845; 
+ Fri, 05 Jun 2020 09:50:21 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id c140sm12272724wmd.18.2020.06.05.09.50.19
+ by smtp.gmail.com with ESMTPSA id c140sm12272724wmd.18.2020.06.05.09.50.20
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Jun 2020 09:50:20 -0700 (PDT)
+ Fri, 05 Jun 2020 09:50:21 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/29] target/arm: Split helper_crypto_sm3tt
-Date: Fri,  5 Jun 2020 17:49:48 +0100
-Message-Id: <20200605165007.12095-11-peter.maydell@linaro.org>
+Subject: [PULL 11/29] hw/adc/stm32f2xx_adc: Correct memory region size and
+ access size
+Date: Fri,  5 Jun 2020 17:49:49 +0100
+Message-Id: <20200605165007.12095-12-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200605165007.12095-1-peter.maydell@linaro.org>
 References: <20200605165007.12095-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,137 +90,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Rather than passing an opcode to a helper, fully decode the
-operation at translate time.  Use clear_tail_16 to zap the
-balance of the SVE register with the AdvSIMD write.
+The ADC region size is 256B, split as:
+ - [0x00 - 0x4f] defined
+ - [0x50 - 0xff] reserved
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200514212831.31248-7-richard.henderson@linaro.org
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+All registers are 32-bit (thus when the datasheet mentions the
+last defined register is 0x4c, it means its address range is
+0x4c .. 0x4f.
+
+This model implementation is also 32-bit. Set MemoryRegionOps
+'impl' fields.
+
+See:
+  'RM0033 Reference manual Rev 8', Table 10.13.18 "ADC register map".
+
+Reported-by: Seth Kintigh <skintigh@gmail.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-id: 20200603055915.17678-1-f4bug@amsat.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/helper.h        |  5 ++++-
- target/arm/crypto_helper.c | 24 ++++++++++++++++++------
- target/arm/translate-a64.c | 21 +++++----------------
- 3 files changed, 27 insertions(+), 23 deletions(-)
+ hw/adc/stm32f2xx_adc.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/target/arm/helper.h b/target/arm/helper.h
-index 13475ecf810..2a20c8174cf 100644
---- a/target/arm/helper.h
-+++ b/target/arm/helper.h
-@@ -531,7 +531,10 @@ DEF_HELPER_FLAGS_3(crypto_sha512su0, TCG_CALL_NO_RWG, void, ptr, ptr, i32)
- DEF_HELPER_FLAGS_4(crypto_sha512su1, TCG_CALL_NO_RWG,
-                    void, ptr, ptr, ptr, i32)
+diff --git a/hw/adc/stm32f2xx_adc.c b/hw/adc/stm32f2xx_adc.c
+index 4f9d485ecf2..01a0b14e69d 100644
+--- a/hw/adc/stm32f2xx_adc.c
++++ b/hw/adc/stm32f2xx_adc.c
+@@ -246,6 +246,8 @@ static const MemoryRegionOps stm32f2xx_adc_ops = {
+     .read = stm32f2xx_adc_read,
+     .write = stm32f2xx_adc_write,
+     .endianness = DEVICE_NATIVE_ENDIAN,
++    .impl.min_access_size = 4,
++    .impl.max_access_size = 4,
+ };
  
--DEF_HELPER_FLAGS_5(crypto_sm3tt, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32, i32)
-+DEF_HELPER_FLAGS_4(crypto_sm3tt1a, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(crypto_sm3tt1b, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(crypto_sm3tt2a, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(crypto_sm3tt2b, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
- DEF_HELPER_FLAGS_4(crypto_sm3partw1, TCG_CALL_NO_RWG,
-                    void, ptr, ptr, ptr, i32)
- DEF_HELPER_FLAGS_4(crypto_sm3partw2, TCG_CALL_NO_RWG,
-diff --git a/target/arm/crypto_helper.c b/target/arm/crypto_helper.c
-index 636683d0f15..c76806dc8d2 100644
---- a/target/arm/crypto_helper.c
-+++ b/target/arm/crypto_helper.c
-@@ -632,15 +632,14 @@ void HELPER(crypto_sm3partw2)(void *vd, void *vn, void *vm, uint32_t desc)
-     clear_tail_16(vd, desc);
+ static const VMStateDescription vmstate_stm32f2xx_adc = {
+@@ -278,7 +280,7 @@ static void stm32f2xx_adc_init(Object *obj)
+     sysbus_init_irq(SYS_BUS_DEVICE(obj), &s->irq);
+ 
+     memory_region_init_io(&s->mmio, obj, &stm32f2xx_adc_ops, s,
+-                          TYPE_STM32F2XX_ADC, 0xFF);
++                          TYPE_STM32F2XX_ADC, 0x100);
+     sysbus_init_mmio(SYS_BUS_DEVICE(obj), &s->mmio);
  }
  
--void HELPER(crypto_sm3tt)(void *vd, void *vn, void *vm, uint32_t imm2,
--                          uint32_t opcode)
-+static inline void QEMU_ALWAYS_INLINE
-+crypto_sm3tt(uint64_t *rd, uint64_t *rn, uint64_t *rm,
-+             uint32_t desc, uint32_t opcode)
- {
--    uint64_t *rd = vd;
--    uint64_t *rn = vn;
--    uint64_t *rm = vm;
-     union CRYPTO_STATE d = { .l = { rd[0], rd[1] } };
-     union CRYPTO_STATE n = { .l = { rn[0], rn[1] } };
-     union CRYPTO_STATE m = { .l = { rm[0], rm[1] } };
-+    uint32_t imm2 = simd_data(desc);
-     uint32_t t;
- 
-     assert(imm2 < 4);
-@@ -655,7 +654,7 @@ void HELPER(crypto_sm3tt)(void *vd, void *vn, void *vm, uint32_t imm2,
-         /* SM3TT2B */
-         t = cho(CR_ST_WORD(d, 3), CR_ST_WORD(d, 2), CR_ST_WORD(d, 1));
-     } else {
--        g_assert_not_reached();
-+        qemu_build_not_reached();
-     }
- 
-     t += CR_ST_WORD(d, 0) + CR_ST_WORD(m, imm2);
-@@ -680,8 +679,21 @@ void HELPER(crypto_sm3tt)(void *vd, void *vn, void *vm, uint32_t imm2,
- 
-     rd[0] = d.l[0];
-     rd[1] = d.l[1];
-+
-+    clear_tail_16(rd, desc);
- }
- 
-+#define DO_SM3TT(NAME, OPCODE) \
-+    void HELPER(NAME)(void *vd, void *vn, void *vm, uint32_t desc) \
-+    { crypto_sm3tt(vd, vn, vm, desc, OPCODE); }
-+
-+DO_SM3TT(crypto_sm3tt1a, 0)
-+DO_SM3TT(crypto_sm3tt1b, 1)
-+DO_SM3TT(crypto_sm3tt2a, 2)
-+DO_SM3TT(crypto_sm3tt2b, 3)
-+
-+#undef DO_SM3TT
-+
- static uint8_t const sm4_sbox[] = {
-     0xd6, 0x90, 0xe9, 0xfe, 0xcc, 0xe1, 0x3d, 0xb7,
-     0x16, 0xb6, 0x14, 0xc2, 0x28, 0xfb, 0x2c, 0x05,
-diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index 3f28888cd21..a0e72ad6942 100644
---- a/target/arm/translate-a64.c
-+++ b/target/arm/translate-a64.c
-@@ -13866,13 +13866,15 @@ static void disas_crypto_xar(DisasContext *s, uint32_t insn)
-  */
- static void disas_crypto_three_reg_imm2(DisasContext *s, uint32_t insn)
- {
-+    static gen_helper_gvec_3 * const fns[4] = {
-+        gen_helper_crypto_sm3tt1a, gen_helper_crypto_sm3tt1b,
-+        gen_helper_crypto_sm3tt2a, gen_helper_crypto_sm3tt2b,
-+    };
-     int opcode = extract32(insn, 10, 2);
-     int imm2 = extract32(insn, 12, 2);
-     int rm = extract32(insn, 16, 5);
-     int rn = extract32(insn, 5, 5);
-     int rd = extract32(insn, 0, 5);
--    TCGv_ptr tcg_rd_ptr, tcg_rn_ptr, tcg_rm_ptr;
--    TCGv_i32 tcg_imm2, tcg_opcode;
- 
-     if (!dc_isar_feature(aa64_sm3, s)) {
-         unallocated_encoding(s);
-@@ -13883,20 +13885,7 @@ static void disas_crypto_three_reg_imm2(DisasContext *s, uint32_t insn)
-         return;
-     }
- 
--    tcg_rd_ptr = vec_full_reg_ptr(s, rd);
--    tcg_rn_ptr = vec_full_reg_ptr(s, rn);
--    tcg_rm_ptr = vec_full_reg_ptr(s, rm);
--    tcg_imm2   = tcg_const_i32(imm2);
--    tcg_opcode = tcg_const_i32(opcode);
--
--    gen_helper_crypto_sm3tt(tcg_rd_ptr, tcg_rn_ptr, tcg_rm_ptr, tcg_imm2,
--                            tcg_opcode);
--
--    tcg_temp_free_ptr(tcg_rd_ptr);
--    tcg_temp_free_ptr(tcg_rn_ptr);
--    tcg_temp_free_ptr(tcg_rm_ptr);
--    tcg_temp_free_i32(tcg_imm2);
--    tcg_temp_free_i32(tcg_opcode);
-+    gen_gvec_op3_ool(s, true, rd, rn, rm, imm2, fns[opcode]);
- }
- 
- /* C3.6 Data processing - SIMD, inc Crypto
 -- 
 2.20.1
 
