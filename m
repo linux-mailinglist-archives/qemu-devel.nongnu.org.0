@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EFDA1EF087
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 06:25:18 +0200 (CEST)
-Received: from localhost ([::1]:41228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D89E11EF04F
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 06:21:05 +0200 (CEST)
+Received: from localhost ([::1]:52478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jh3uv-0001fa-GJ
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 00:25:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39550)
+	id 1jh3qq-0002wc-UP
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 00:21:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jh3nj-0004fi-64
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 00:17:51 -0400
-Received: from mail-pj1-x1043.google.com ([2607:f8b0:4864:20::1043]:55971)
+ id 1jh3nk-0004ha-E0
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 00:17:53 -0400
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:37554)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jh3ni-0000lO-Da
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 00:17:50 -0400
-Received: by mail-pj1-x1043.google.com with SMTP id fs4so2053924pjb.5
- for <qemu-devel@nongnu.org>; Thu, 04 Jun 2020 21:17:49 -0700 (PDT)
+ id 1jh3nj-0000lf-MB
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 00:17:52 -0400
+Received: by mail-pf1-x443.google.com with SMTP id j1so4152821pfe.4
+ for <qemu-devel@nongnu.org>; Thu, 04 Jun 2020 21:17:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=p6D0SimXYVXC4E7m3TGAGtyiw9jb/y2AGrQNgRl17pM=;
- b=WmdMO5TGkw0TnA4jGXKKBq8eFbnXqVpmqipAkp2psIxZU2FVAlXYOpKCeWGu3u14h5
- rqwhBMb01muYtUfwrASzv28qgOClQh9AEmb84yEjxzawxX6Idj8ecE4WGi/PXRVOil1y
- A2D+oCWfXLnGq8C6ip3DbknI9L1w05tugi7hWQ0CmKAjNYq2Ptg9kwEB85JouCSHtyIL
- lV7qkPK4RA5407gvDD1W/TluVUQp7940TTYE7iyg1xUkSrGEnRkQpR8oRnLBRPf+rF+0
- WQEGfG4jcIa02qbA2Lfn5hS+VHHjrLHmKce7Ll32LMd5uGy1Kzku7iJ/py4vTeri3QOB
- Pg9g==
+ bh=OzYHxasinbK12hHGjXt3IY3GTdvR0p0In8jS7714bjc=;
+ b=GVjk9AlOfDA0AZJUKWECc3CSMsveyiA9UBLqrsI9qYIAP5YcDDgPKCt1+Vgy6YKY6Z
+ Fv1/jsK7UcR4d9GPSIJyCQO4UCp2N4d6hOxX0wAfvRLa6JQ4wOvblIVTvWF8UGilXXAA
+ 0pjwRpf19EidPalvapvrOUklORbg/MmOQQt2jP6Xh1jIUvQEVXCwdx0evxQqXQus3nsV
+ LP6uuSic/UITigTWMufeWl+7k1JSJOZPHx0xj9Avkfd5/tTFf/sSdRZJaIDF0riPuhTk
+ KyQNKvx8W8GKpIC5FwG6sIBJ4+eifZzXx40EXeF5jT/Fn5viBvZVqX1kBeWYM13RVhcs
+ Wevg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=p6D0SimXYVXC4E7m3TGAGtyiw9jb/y2AGrQNgRl17pM=;
- b=ZarHSLhPrRI+T/bOI2QPXrDZsjWkhyYjtavh0A0CJZwYKGw5LZ3pC0OknTP+vRvjPP
- cZknj5s+iEaUq9sPMXLgO2d3jaXcfj1mTq/XvOQh+LIhhMNRvBTgJeZJq5nj2CHAb1pO
- dP77L7A3VauLs+KZXwUkOf9uxkdzWztFbI7bcF3tlU3jhTnKwOscLbp8+7Z5FSRNIVyx
- pjuF42hZLmE+z1c8hlfo1DQHprVW6tLpCJLbuF4xcXTFY9eXOaIcnByVaIExpBi2jXqt
- PhNiSkoYb+isiRDAciyZ7dao23Bnv8K42BXvctKLI0Zmck2xfVVWGpyboAKrQYVJ9hPw
- W4tg==
-X-Gm-Message-State: AOAM531PVTBhe9b3GTZ+U0zTqqHCwTGYsYGKg7Jda0F2WC5g+QLuLJia
- /lHq1ms9BHuKjDDqhKfvBtn41VCK39s=
-X-Google-Smtp-Source: ABdhPJz01C6w+euwWDAv7jpYJ9mjxR+Hda09HLWgpWaMBZseBwOTbQiHXZ/3f2bYB7cvnNsCoXRdBw==
-X-Received: by 2002:a17:902:564:: with SMTP id
- 91mr8130642plf.212.1591330668657; 
- Thu, 04 Jun 2020 21:17:48 -0700 (PDT)
+ bh=OzYHxasinbK12hHGjXt3IY3GTdvR0p0In8jS7714bjc=;
+ b=N4f9KneHnRt3xA6VxygjhdThoe3oakSv4WzZIhXNoKMHEXdHknC3QcP8bXlTCry5rn
+ lH+DvVPB1f2qJhYavJdF1WOW6w6YACoERzEuhBbnZjt1xnyeInGFDovoOVZP/fcWY7rF
+ /QGRn0HMyyZvFQ00qWxVg33v/LZoAK5J+63G3oUiIEpooFQKuPWSv1DfAybWhwocXdds
+ EUpHsvMw4COQazPbbgXOHCqHrIkMCUd+yTulxBqb0aUwGC7CtBBEBpkOZ2MTP5Os9XhF
+ yiByC4XSYLa0JWNSARvBHVt8GBsMwMyNFirR3YQu7B9rNdc1FnW6BhIP0rYkx3oIqCWj
+ cj8w==
+X-Gm-Message-State: AOAM532YOqLmPML2W6TYSKVsfyEh4vyoZHTFZ26ohqRq0dV6Y5NW9Tz7
+ rU0d9/GUkdNuqHIi28wMzhvd5eMGnTQ=
+X-Google-Smtp-Source: ABdhPJwoZl4kXIFIUzS4JICf1Nr069Ii8sMEWHiLmCCZSm1NX2qAWOHAZFrsXrDCCs5jXPho7JPHeA==
+X-Received: by 2002:a63:c5a:: with SMTP id 26mr7460938pgm.270.1591330669986;
+ Thu, 04 Jun 2020 21:17:49 -0700 (PDT)
 Received: from localhost.localdomain (174-21-143-238.tukw.qwest.net.
  [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id h15sm5440902pgl.12.2020.06.04.21.17.47
+ by smtp.gmail.com with ESMTPSA id h15sm5440902pgl.12.2020.06.04.21.17.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 Jun 2020 21:17:48 -0700 (PDT)
+ Thu, 04 Jun 2020 21:17:49 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 11/17] linux-user/aarch64: Implement PROT_MTE
-Date: Thu,  4 Jun 2020 21:17:27 -0700
-Message-Id: <20200605041733.415188-12-richard.henderson@linaro.org>
+Subject: [PATCH v2 12/17] linux-user/aarch64: Pass syndrome to EXC_*_ABORT
+Date: Thu,  4 Jun 2020 21:17:28 -0700
+Message-Id: <20200605041733.415188-13-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200605041733.415188-1-richard.henderson@linaro.org>
 References: <20200605041733.415188-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1043;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1043.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::443;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,75 +89,113 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, steplong@quicinc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Remember the PROT_MTE bit as PAGE_TARGET_2.
-Otherwise this does not yet have effect.
+A proper syndrome is required to fill in the proper si_code.
+Use page_get_flags to determine permission vs translation
+for user-only.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/exec/cpu-all.h    |  1 +
- linux-user/syscall_defs.h |  1 +
- linux-user/mmap.c         | 20 ++++++++++++--------
- 3 files changed, 14 insertions(+), 8 deletions(-)
+ linux-user/aarch64/cpu_loop.c | 23 ++++++++++++++++++++---
+ target/arm/tlb_helper.c       | 27 +++++++++++++++++++++------
+ 2 files changed, 41 insertions(+), 9 deletions(-)
 
-diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
-index 3cac7750e4..7ff10a8b08 100644
---- a/include/exec/cpu-all.h
-+++ b/include/exec/cpu-all.h
-@@ -286,6 +286,7 @@ extern intptr_t qemu_host_page_mask;
- #endif
- /* Target-specific bits that will be used via page_get_flags().  */
- #define PAGE_TARGET_1  0x0080
-+#define PAGE_TARGET_2  0x0100
+diff --git a/linux-user/aarch64/cpu_loop.c b/linux-user/aarch64/cpu_loop.c
+index 3cca637bb9..ce56e15be2 100644
+--- a/linux-user/aarch64/cpu_loop.c
++++ b/linux-user/aarch64/cpu_loop.c
+@@ -75,7 +75,7 @@
+ void cpu_loop(CPUARMState *env)
+ {
+     CPUState *cs = env_cpu(env);
+-    int trapnr;
++    int trapnr, ec, fsc;
+     abi_long ret;
+     target_siginfo_t info;
  
- #if defined(CONFIG_USER_ONLY)
- void page_dump(FILE *f);
-diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index 36bdafb3f1..f2bfa3b17f 100644
---- a/linux-user/syscall_defs.h
-+++ b/linux-user/syscall_defs.h
-@@ -1196,6 +1196,7 @@ struct target_winsize {
+@@ -116,9 +116,26 @@ void cpu_loop(CPUARMState *env)
+         case EXCP_DATA_ABORT:
+             info.si_signo = TARGET_SIGSEGV;
+             info.si_errno = 0;
+-            /* XXX: check env->error_code */
+-            info.si_code = TARGET_SEGV_MAPERR;
+             info._sifields._sigfault._addr = env->exception.vaddress;
++
++            /* We should only arrive here with EC in {DATAABORT, INSNABORT}. */
++            ec = extract32(env->exception.syndrome, 26, 6);
++            assert(ec == 0x24 || ec == 0x20);
++
++            /* Both EC have the same format for FSC, or close enough. */
++            fsc = extract32(env->exception.syndrome, 0, 6);
++            switch (fsc) {
++            case 0x04 ... 0x07: /* Translation fault, level {0-3} */
++                info.si_code = TARGET_SEGV_MAPERR;
++                break;
++            case 0x09 ... 0x0b: /* Access flag fault, level {1-3} */
++            case 0x0d ... 0x0f: /* Permission fault, level {1-3} */
++                info.si_code = TARGET_SEGV_ACCERR;
++                break;
++            default:
++                g_assert_not_reached();
++            }
++
+             queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
+             break;
+         case EXCP_UNALIGNED:
+diff --git a/target/arm/tlb_helper.c b/target/arm/tlb_helper.c
+index d4e6d37f4f..35d84ac24f 100644
+--- a/target/arm/tlb_helper.c
++++ b/target/arm/tlb_helper.c
+@@ -10,8 +10,6 @@
+ #include "internals.h"
+ #include "exec/exec-all.h"
  
- #ifdef TARGET_AARCH64
- #define TARGET_PROT_BTI         0x10
-+#define TARGET_PROT_MTE         0x20
- #endif
+-#if !defined(CONFIG_USER_ONLY)
+-
+ static inline uint32_t merge_syn_data_abort(uint32_t template_syn,
+                                             unsigned int target_el,
+                                             bool same_el, bool ea,
+@@ -51,6 +49,8 @@ static inline uint32_t merge_syn_data_abort(uint32_t template_syn,
+     return syn;
+ }
  
- /* Common */
-diff --git a/linux-user/mmap.c b/linux-user/mmap.c
-index fdd55986a1..b5618c40bd 100644
---- a/linux-user/mmap.c
-+++ b/linux-user/mmap.c
-@@ -84,18 +84,22 @@ static int validate_prot_to_pageflags(int *host_prot, int prot)
-                | (prot & PROT_EXEC ? PROT_READ : 0);
++#if !defined(CONFIG_USER_ONLY)
++
+ static void QEMU_NORETURN arm_deliver_fault(ARMCPU *cpu, vaddr addr,
+                                             MMUAccessType access_type,
+                                             int mmu_idx, ARMMMUFaultInfo *fi)
+@@ -138,13 +138,28 @@ bool arm_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+     ARMCPU *cpu = ARM_CPU(cs);
  
- #ifdef TARGET_AARCH64
--    /*
--     * The PROT_BTI bit is only accepted if the cpu supports the feature.
--     * Since this is the unusual case, don't bother checking unless
--     * the bit has been requested.  If set and valid, record the bit
--     * within QEMU's page_flags as PAGE_TARGET_1.
--     */
--    if (prot & TARGET_PROT_BTI) {
-+    {
-         ARMCPU *cpu = ARM_CPU(thread_cpu);
--        if (cpu_isar_feature(aa64_bti, cpu)) {
-+        /*
-+         * The PROT_BTI bit is only accepted if the cpu supports the feature.
-+         * If set and valid, record the bit within QEMU's page_flags
-+         * as PAGE_TARGET_1.
-+         */
-+        if ((prot & TARGET_PROT_BTI) && cpu_isar_feature(aa64_bti, cpu)) {
-             valid |= TARGET_PROT_BTI;
-             page_flags |= PAGE_TARGET_1;
-         }
-+        /* Similarly for the PROT_MTE bit; set PAGE_TARGET_2. */
-+        if ((prot & TARGET_PROT_MTE) && cpu_isar_feature(aa64_mte, cpu)) {
-+            valid |= TARGET_PROT_MTE;
-+            page_flags |= PAGE_TARGET_2;
-+        }
+ #ifdef CONFIG_USER_ONLY
++    int flags, fsc, exc;
++    unsigned syn;
++
+     cpu->env.exception.vaddress = address;
+-    if (access_type == MMU_INST_FETCH) {
+-        cs->exception_index = EXCP_PREFETCH_ABORT;
++
++    flags = page_get_flags(useronly_clean_ptr(address));
++    if (flags & PAGE_VALID) {
++        fsc = 0xf; /* permission fault, level 3 */
+     } else {
+-        cs->exception_index = EXCP_DATA_ABORT;
++        fsc = 0x7; /* translation fault, level 3 */
      }
- #endif
- 
+-    cpu_loop_exit_restore(cs, retaddr);
++
++    cpu_restore_state(cs, retaddr, true);
++    if (access_type == MMU_INST_FETCH) {
++        exc = EXCP_PREFETCH_ABORT;
++        syn = syn_insn_abort(0, 0, 0, fsc);
++    } else {
++        exc = EXCP_DATA_ABORT;
++        syn = merge_syn_data_abort(cpu->env.exception.syndrome, 1, 0, 0, 0,
++                                   access_type == MMU_DATA_STORE, fsc);
++    }
++    raise_exception(&cpu->env, exc, syn, 1);
+ #else
+     hwaddr phys_addr;
+     target_ulong page_size;
 -- 
 2.25.1
 
