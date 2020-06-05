@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1B431EFF31
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 19:39:13 +0200 (CEST)
-Received: from localhost ([::1]:33384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A35F1EFF3D
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 19:40:58 +0200 (CEST)
+Received: from localhost ([::1]:41784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jhGJE-0006Qd-Tx
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 13:39:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48156)
+	id 1jhGKv-0001l2-FJ
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 13:40:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jhGHm-0003WP-Ef
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 13:37:42 -0400
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:43332)
+ id 1jhGHo-0003cX-IE
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 13:37:44 -0400
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:40810)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jhGHl-0003rQ-CT
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 13:37:42 -0400
-Received: by mail-pf1-x444.google.com with SMTP id 23so4392891pfw.10
- for <qemu-devel@nongnu.org>; Fri, 05 Jun 2020 10:37:40 -0700 (PDT)
+ id 1jhGHn-0003rf-NX
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 13:37:44 -0400
+Received: by mail-pg1-x543.google.com with SMTP id o8so5504528pgm.7
+ for <qemu-devel@nongnu.org>; Fri, 05 Jun 2020 10:37:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=KA74qkYRKvEU3ng1kAP13z7yTrox0/WpEe+h4sJiZmM=;
- b=lw2/Uwd8ZHKoaA5GuN/k3mU2SK9d8Uf+vZNl7PC/3t1lUu8jbQOB4SXaIsVyzWmdan
- GRPftAlfazcikKZGh4gBeGVRrXrDcw0v9el+qXwSJeajvb9FIm7dLDOJvpJ1oIcOYWgY
- 5cA+a1cW4kWnp70n1UW0TdbAgwiLFMdAE9yS707VIXCmt2/us8ldRUelEyEeUOaRTcEU
- H5IiqTnAS0kjIBxhrALY8oAq3EBgvo3zHARtPauxyCW9y+FVzqqjrefoATCSU/3qnDgH
- tSM/0q1X4P0qVv6Js/wuuDrZRj+OG4ruI6mndCoFbHIUhl/p20t6OWzyeze6QC5C37Tf
- RisQ==
+ bh=hMythbUcqIycDnX7vBXLsyLkA4NDGTmBWD2zTKmRWuE=;
+ b=QF39NHud8/ra/5ZqZBKv3m/n/nAeaD/9obblpGC2uR2ywu9ieUwSgeD0xj/Lhp0JPC
+ I7f8pgYM/w/YGbzMvEKTLQUkKr7iDFWTkM9KNm9HAJI/MHZNZX6/ZOSGKRFzaG7YsfUt
+ QLwZwUyV0zTMbnwQvHW79B1y0Unr/0NFSTQZN/+rLsn7mJ6cotfulusU8GlCuyoCD3xP
+ oDvhsIjJmV0YK0vcU6xSfgoHra9GxGHFHDgtkAjO0FiBDvshRG5uxEmw7G4f+HgOKaaA
+ n7Be7vyb+syOfzGphDOC39D4DK/Awfn0kfaoCk+vwhpJDZToyXymvJhDFkLZs+Tkv1/1
+ 7dzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=KA74qkYRKvEU3ng1kAP13z7yTrox0/WpEe+h4sJiZmM=;
- b=JLzUZFNR4ODuhgfyb3CuAESpCsQRIpsJ9L30ASNF7tjrCrSjAH9vLdjfhytyL+aSDZ
- 43mmRlqA3QlpYdQqFL+vbxyk3Sm6mNDyg8hbp8nAwH95SxSOJmC8cDYzyy3Zaz6yNChy
- 9sF2eJk71/JX4aHqMtQ2/Bh9bSasd6OCW03c0sJgOwozsSAvb64Xbc1JgQ99Im87V73L
- NQluhtJRE/brsx25L1XBjYU8FLUSCohOjUiWyvVoiYPKO1r8esoRysUc7wr8kNdydpsu
- sIInAz7PiiLyl5CvbaD8Mf3FhLpSHoummpa4Cah3/3VZE7O+Drk4y7M3IUA8gtMxHeY7
- SUXQ==
-X-Gm-Message-State: AOAM532ETORFXidpqNQa7AgcBbNp0gBQqwL5/m+rV5Uio/oFrZ5ZNii2
- QSXpCjba0TJ6+NObZVpG4z1e36FFHX2JgA==
-X-Google-Smtp-Source: ABdhPJxA2O96zZ55IsBV3APgiv6CPJKSRMFbChmryneh1OAD2OWU7gaiafd8gWr/JnA4dGsHV0HObg==
-X-Received: by 2002:a63:fc4a:: with SMTP id r10mr10624014pgk.417.1591378659877; 
- Fri, 05 Jun 2020 10:37:39 -0700 (PDT)
+ bh=hMythbUcqIycDnX7vBXLsyLkA4NDGTmBWD2zTKmRWuE=;
+ b=gZXEETRiN7GsgOGgGk8bOjkjcG4/DPDqFVITtnP+QfXRVIlooEAWsT+u9OG9QOkJKY
+ ZD9efT/ANZ0AcSj5UBL3IbL5KPGp9QBZrNmQDnseV5FmAVZOH0Yx5Yj2qSGB8i7QxQ5Y
+ 3wXYtHzVffwr6xy/PsCJAMXSL4lqtz1JjGmy2mcrkFHMxCaSGOI32lcWHNGcUsWRO5dh
+ mjmxef/Kjwoq/2iLIzrhPIsob5QvPUsJfXj3TFPFfOiN0P5oZPIuzh7qw6VmOEnz4SCx
+ qJhgi+MbXaSLlkuDYHfJyQ+GZiDVwd4VB8kQBxsGrj3b+dqUl28EfWbpLEJuiLJoaVNK
+ ZGRw==
+X-Gm-Message-State: AOAM530iszJv//8eubVK9FQO4P+iimEcE5Z6EFHrhrkXK2OaIexw0KX/
+ WZFW8EmzoeE7Q8iz9N7944gBwBn6FGDjDw==
+X-Google-Smtp-Source: ABdhPJwVbfy5cn6wXa9rs1ItQJb4TkGXiG0kaK6fKn2CldolA5ZgeZWBAL66GCoA9GVOg7J11KV21w==
+X-Received: by 2002:a63:7d58:: with SMTP id m24mr10192861pgn.81.1591378661982; 
+ Fri, 05 Jun 2020 10:37:41 -0700 (PDT)
 Received: from Rfoley-MA01.hsd1.ma.comcast.net
  (c-73-47-162-176.hsd1.ma.comcast.net. [73.47.162.176])
- by smtp.gmail.com with ESMTPSA id a19sm188307pfd.165.2020.06.05.10.37.37
+ by smtp.gmail.com with ESMTPSA id a19sm188307pfd.165.2020.06.05.10.37.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Jun 2020 10:37:38 -0700 (PDT)
+ Fri, 05 Jun 2020 10:37:41 -0700 (PDT)
 From: Robert Foley <robert.foley@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 04/13] cputlb: destroy CPUTLB with tlb_destroy
-Date: Fri,  5 Jun 2020 13:34:13 -0400
-Message-Id: <20200605173422.1490-5-robert.foley@linaro.org>
+Subject: [PATCH v2 05/13] qht: call qemu_spin_destroy for head buckets
+Date: Fri,  5 Jun 2020 13:34:14 -0400
+Message-Id: <20200605173422.1490-6-robert.foley@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200605173422.1490-1-robert.foley@linaro.org>
 References: <20200605173422.1490-1-robert.foley@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
- envelope-from=robert.foley@linaro.org; helo=mail-pf1-x444.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::543;
+ envelope-from=robert.foley@linaro.org; helo=mail-pg1-x543.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -86,90 +86,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: robert.foley@linaro.org, cota@braap.org,
- Paolo Bonzini <pbonzini@redhat.com>, peter.puhov@linaro.org,
- alex.bennee@linaro.org, Richard Henderson <rth@twiddle.net>
+Cc: peter.puhov@linaro.org, cota@braap.org, alex.bennee@linaro.org,
+ robert.foley@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Emilio G. Cota" <cota@braap.org>
 
-I was after adding qemu_spin_destroy calls, but while at
-it I noticed that we are leaking some memory.
-
-Signed-off-by: Emilio G. Cota <cota@braap.org>
 Signed-off-by: Robert Foley <robert.foley@linaro.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- accel/tcg/cputlb.c      | 15 +++++++++++++++
- exec.c                  |  1 +
- include/exec/exec-all.h |  8 ++++++++
- 3 files changed, 24 insertions(+)
+ util/qht.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index eb2cf9de5e..1e815357c7 100644
---- a/accel/tcg/cputlb.c
-+++ b/accel/tcg/cputlb.c
-@@ -270,6 +270,21 @@ void tlb_init(CPUState *cpu)
-     }
- }
+diff --git a/util/qht.c b/util/qht.c
+index aa51be3c52..67e5d5b916 100644
+--- a/util/qht.c
++++ b/util/qht.c
+@@ -348,6 +348,7 @@ static inline void qht_chain_destroy(const struct qht_bucket *head)
+     struct qht_bucket *curr = head->next;
+     struct qht_bucket *prev;
  
-+void tlb_destroy(CPUState *cpu)
-+{
-+    CPUArchState *env = cpu->env_ptr;
-+    int i;
-+
-+    qemu_spin_destroy(&env_tlb(env)->c.lock);
-+    for (i = 0; i < NB_MMU_MODES; i++) {
-+        CPUTLBDesc *desc = &env_tlb(env)->d[i];
-+        CPUTLBDescFast *fast = &env_tlb(env)->f[i];
-+
-+        g_free(fast->table);
-+        g_free(desc->iotlb);
-+    }
-+}
-+
- /* flush_all_helper: run fn across all cpus
-  *
-  * If the wait flag is set then the src cpu's helper will be queued as
-diff --git a/exec.c b/exec.c
-index 5162f0d12f..da3d60b034 100644
---- a/exec.c
-+++ b/exec.c
-@@ -892,6 +892,7 @@ void cpu_exec_unrealizefn(CPUState *cpu)
- {
-     CPUClass *cc = CPU_GET_CLASS(cpu);
- 
-+    tlb_destroy(cpu);
-     cpu_list_remove(cpu);
- 
-     if (cc->vmsd != NULL) {
-diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
-index 8792bea07a..3cf88272df 100644
---- a/include/exec/exec-all.h
-+++ b/include/exec/exec-all.h
-@@ -124,6 +124,11 @@ void cpu_address_space_init(CPUState *cpu, int asidx,
-  * @cpu: CPU whose TLB should be initialized
-  */
- void tlb_init(CPUState *cpu);
-+/**
-+ * tlb_destroy - destroy a CPU's TLB
-+ * @cpu: CPU whose TLB should be destroyed
-+ */
-+void tlb_destroy(CPUState *cpu);
- /**
-  * tlb_flush_page:
-  * @cpu: CPU whose TLB should be flushed
-@@ -284,6 +289,9 @@ void tlb_set_page(CPUState *cpu, target_ulong vaddr,
- static inline void tlb_init(CPUState *cpu)
- {
- }
-+static inline void tlb_destroy(CPUState *cpu)
-+{
-+}
- static inline void tlb_flush_page(CPUState *cpu, target_ulong addr)
- {
- }
++    qemu_spin_destroy(&head->lock);
+     while (curr) {
+         prev = curr;
+         curr = curr->next;
 -- 
 2.17.1
 
