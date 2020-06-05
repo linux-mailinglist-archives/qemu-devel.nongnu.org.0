@@ -2,74 +2,114 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E5A81EF34A
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 10:41:14 +0200 (CEST)
-Received: from localhost ([::1]:48204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F23A1EF377
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 10:55:06 +0200 (CEST)
+Received: from localhost ([::1]:57604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jh7ub-0000NT-64
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 04:41:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34364)
+	id 1jh881-0005Ft-5C
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 04:55:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35490)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jh7ti-0008Nj-NV
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 04:40:18 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:36087)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jh7tf-0001HX-PH
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 04:40:18 -0400
-Received: by mail-wr1-x442.google.com with SMTP id q11so8864246wrp.3
- for <qemu-devel@nongnu.org>; Fri, 05 Jun 2020 01:40:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=XIEDysmKuJpNl+PJCgn+1jzsnqx+tgAmg8Ot2awGpaY=;
- b=Ee2VIm8bAGjHjYWgnLj+rJuyWSYvmM1r4q8d+W2YZl/Bj8c5dutUXINE6Z+qTQpUJ9
- GyeRbdV0r6XfoT4Kw7N640DIofH1b487JyknOKvY20978F9l9GYU9BcvHcsDZsYNXgV7
- LNqElM7/IpD9NciNuzIJ6cDZy/lv51AQeqjstBnsN20PSAL3RckVZWyW2eIn9R+yZcq5
- sYbfm6AMVOyNvAviEv+qHhhBfqyCOm18ndQKWmcI33uj8nq51ldp9i9P3bS5cDLqnfgP
- lLfSzuZWae7/1u3VuMYdoXl5fPSE3hzwNcsD3Rc6hveWbN39Do7OGdVBqhgkboV+kFHv
- j/KQ==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jh87E-0004id-V6
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 04:54:16 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:30344
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jh87D-0004D6-Cf
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 04:54:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1591347253;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=5nK92y1lDU/Ry7JMnpqW5tTEMd08lN+ayGP2T+rlNWY=;
+ b=WoiFQPggWQLzKnLbnGBdItkxWroMyVweUmjuRvqXotba6g7MY9igqZ5UW44F/4hrO8hdlw
+ BhcVm6aDUerHEjg7vZMB9CYmu2JVKEd2BxPqlARsQHhUBce9ViUZl+p3658lSSz8gd6/51
+ nKQ1QWZgfMTXKfL0EJFCCyIbd0yn+vE=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-27-6yZ2F1S-OASSGO1B5L4RXQ-1; Fri, 05 Jun 2020 04:54:12 -0400
+X-MC-Unique: 6yZ2F1S-OASSGO1B5L4RXQ-1
+Received: by mail-wm1-f71.google.com with SMTP id l2so2515352wmi.2
+ for <qemu-devel@nongnu.org>; Fri, 05 Jun 2020 01:54:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=XIEDysmKuJpNl+PJCgn+1jzsnqx+tgAmg8Ot2awGpaY=;
- b=A0PPH3E2eBPnadzdBHZ926Hi9fFH7GvUutv1SDom6suW4r8+ib2mTx1oiFjRzF9wqF
- 3fMFbqg2plQ2YZZRo4othCuXwoZO9fN1e6FG7BtU/Ic0uLovZktT8m5Q0fhUJNlhVdzc
- vOa5DVYtq8aooSiJEt1pcs6TErx1bPxqFesiSo6jx9zboaL/wH7BXGobeSlFQWM+6kHy
- dftecrXFkJfvNPUXW1bmpzNzONZH3x51sR+PQia8MnQQIqSnCR/PwDEWceKemyEv7U/7
- VIKzPT08+AsCYjW3maKemQ8gg+zj5cFHP7DP3s1/2bxLMDjdg2uX0La/V5P2HlUvMPb6
- rHfA==
-X-Gm-Message-State: AOAM533CwK+7j2DzfludAHOCRF7EGVC26gSfRqoRbQxglk5eMPfv6rlC
- EJZwbXgcy7T0CWSdFPagrSFQINdN9VCay74b41U=
-X-Google-Smtp-Source: ABdhPJwylBoyYKYqHkc6Rv1Dyzst4g6vPzneHxQcwQa6YNZ7FoWXKHuSatNslSs4jgr3R/YSDVVrCH//tCNukFPgB4w=
-X-Received: by 2002:adf:c98a:: with SMTP id f10mr8428844wrh.329.1591346414252; 
- Fri, 05 Jun 2020 01:40:14 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=5nK92y1lDU/Ry7JMnpqW5tTEMd08lN+ayGP2T+rlNWY=;
+ b=T/+RZrGf3PQyviM6awUk7UOeFJGSY8FTNNq6VqeAxwsuekyZeTNGky4iFM1HlIgjd8
+ JOUC+442xD1STbC//iiC6q12zKOYXOHHl7JnVVF5uuQqDm6Qvh85/qz6X3AJPg/r4dFm
+ k8ZiBiRV52GbA6tR94RpaBwPlKca0uFhENqcTQrRLgtXsG9qiyU7PrSMXNmxntR386jC
+ MeAW86v0w7cP35icbF3QzeJth0v/VEOA6Q6AEqCxoonfMrHmZZ92t6qjtG1ht8T6QTrR
+ Eny6fgFqzhdVY9iKUBaSII26R4LYSceHnBGv8/eJIRUfDGHpribc4qd4tDGFyFKeP0aX
+ opdg==
+X-Gm-Message-State: AOAM532YwZRJJLZZQi3KkF8JZLHd0Gp/KZlT1d9Zkhsz2qI8VQP3zqlH
+ OjXRc0BEodCiLSchv+5GgqVe7nBqirPWM6uqZkQwnnRJj0RPssMTIQ3XieSa/ikwIejhrmtnTZT
+ pco/TqVsz6k1XqjY=
+X-Received: by 2002:a1c:658a:: with SMTP id z132mr1623630wmb.20.1591347251267; 
+ Fri, 05 Jun 2020 01:54:11 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwkkiYPBVt6pSp3u5fMcJTFLD7sruWJoS72WKzz2nMViyDUIYXFb8EVP/f1fXW5VOnOZE96FA==
+X-Received: by 2002:a1c:658a:: with SMTP id z132mr1623611wmb.20.1591347251096; 
+ Fri, 05 Jun 2020 01:54:11 -0700 (PDT)
+Received: from [192.168.1.43] (181.red-88-10-103.dynamicip.rima-tde.net.
+ [88.10.103.181])
+ by smtp.gmail.com with ESMTPSA id z2sm10909463wrs.87.2020.06.05.01.54.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 05 Jun 2020 01:54:10 -0700 (PDT)
+Subject: Re: [PATCH v4] osdep: Make MIN/MAX evaluate arguments only once
+To: David Edmondson <dme@dme.org>, Eric Blake <eblake@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20200604215236.2798244-1-eblake@redhat.com>
+ <m2eeqtapix.fsf@dme.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <be4d75b5-b545-0802-cbe7-0bb8d352d6b2@redhat.com>
+Date: Fri, 5 Jun 2020 10:54:09 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-References: <1591065557-9174-1-git-send-email-chenhc@lemote.com>
- <CAHiYmc7YtDSL_+LexXXBtZArdQVuU9-bwRoAxyTfseG=-6+NOQ@mail.gmail.com>
-In-Reply-To: <CAHiYmc7YtDSL_+LexXXBtZArdQVuU9-bwRoAxyTfseG=-6+NOQ@mail.gmail.com>
-From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Date: Fri, 5 Jun 2020 10:40:01 +0200
-Message-ID: <CAHiYmc4qDXFj_6Fki1JYZTjcMtEbj8XNo2ULzKNWm2Nh85HE3w@mail.gmail.com>
-Subject: Re: [PATCH for-5.1 V4 0/7] mips: Add Loongson-3 machine support (with
- KVM)
-To: Huacai Chen <zltjiangshi@gmail.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-wr1-x442.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+In-Reply-To: <m2eeqtapix.fsf@dme.org>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/05 03:07:04
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,174 +122,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Huacai Chen <chenhuacai@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Huacai Chen <chenhc@lemote.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ "open list:Block layer core" <qemu-block@nongnu.org>,
+ crosthwaite.peter@gmail.com, quintela@redhat.com, dgilbert@redhat.com,
+ Max Reitz <mreitz@redhat.com>, kraxel@redhat.com, dirty.ice.hu@gmail.com,
+ pbonzini@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Just adding Jiaxun.
+On 6/5/20 10:24 AM, David Edmondson wrote:
+> On Thursday, 2020-06-04 at 16:52:36 -05, Eric Blake wrote:
+> 
+>>  /* Minimum function that returns zero only iff both values are zero.
+> 
+> Not your change, but "only" is unnecessary here (or iff -> if).
 
-=D0=BF=D0=B5=D1=82, 5. =D1=98=D1=83=D0=BD 2020. =D1=83 10:38 Aleksandar Mar=
-kovic
-<aleksandar.qemu.devel@gmail.com> =D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=
-=81=D0=B0=D0=BE/=D0=BB=D0=B0:
->
-> =D1=83=D1=82=D0=BE, 2. =D1=98=D1=83=D0=BD 2020. =D1=83 04:38 Huacai Chen =
-<zltjiangshi@gmail.com> =D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=
-=D0=BE/=D0=BB=D0=B0:
-> >
-> > Loongson-3 CPU family include Loongson-3A R1/R2/R3/R4 and Loongson-3B
-> > R1/R2.
->
-> Hi, Huacai,
->
-> The documents you kindly provided contain some valuable info on
-> Loongson-3A R1/R2/R3/R4 and Loongson-3B R1/R2. However, I
-> couldn't find detailed instruction-by-instruction specifications.
->
-> In fact, I don't need all the details right now, but some form of
-> overview of instructions sets of Loongson-3A R1/R2/R3/R4 and
-> Loongson-3B R1/R2. Could you please provide textual description
-> (one of two paragraph) of supported instructions for each of these
-> models:
->
-> * Loongson-3A R1
-> * Loongson-3A R2
-> * Loongson-3A R3
-> * Loongson-3A R4
-> * Loongson-3B R1
-> * Loongson-3B R2
->
-> (what is the base instructuin set; the difference to the previous model;
-> what SIMD extension (LMI/MSA) is supported other specifics around
-> supported instructions)
->
-> Based on your answer I may bring forward some suggestions on the
-> improvement of v4 of this series.
->
-> Truly yours,
-> Aleksandar
->
-> > 1, "Loongson-3A1000" CPU which is corresponding to Loongson-3A R1. It i=
-s
-> >    suitable for TCG because Loongson-3A R1 has fewest ASE.
-> > 2, "Loongson-3A4000" CPU which is corresponding to Loongson-3A R4. It i=
-s
-> >    suitable for KVM because Loongson-3A R4 has the VZ ASE.
-> >
-> > Loongson-3 lacks English documents. I've tried to translated them with
-> > translate.google.com, and the machine translated documents (together
-> > with their original Chinese versions) are available here.
-> >
-> > Loongson-3A R1 (Loongson-3A1000)
-> > User Manual Part 1:
-> > http://ftp.godson.ac.cn/lemote/3A1000_p1.pdf
-> > http://ftp.godson.ac.cn/lemote/Loongson3A1000_processor_user_manual_P1.=
-pdf (Chinese Version)
-> > User Manual Part 2:
-> > http://ftp.godson.ac.cn/lemote/3A1000_p2.pdf
-> > http://ftp.godson.ac.cn/lemote/Loongson3A1000_processor_user_manual_P2.=
-pdf (Chinese Version)
-> >
-> > Loongson-3A R2 (Loongson-3A2000)
-> > User Manual Part 1:
-> > http://ftp.godson.ac.cn/lemote/3A2000_p1.pdf
-> > http://ftp.godson.ac.cn/lemote/Loongson3A2000_user1.pdf (Chinese Versio=
-n)
-> > User Manual Part 2:
-> > http://ftp.godson.ac.cn/lemote/3A2000_p2.pdf
-> > http://ftp.godson.ac.cn/lemote/Loongson3A2000_user2.pdf (Chinese Versio=
-n)
-> >
-> > Loongson-3A R3 (Loongson-3A3000)
-> > User Manual Part 1:
-> > http://ftp.godson.ac.cn/lemote/3A3000_p1.pdf
-> > http://ftp.godson.ac.cn/lemote/Loongson3A3000_3B3000usermanual1.pdf (Ch=
-inese Version)
-> > User Manual Part 2:
-> > http://ftp.godson.ac.cn/lemote/3A3000_p2.pdf
-> > http://ftp.godson.ac.cn/lemote/Loongson3A3000_3B3000usermanual2.pdf (Ch=
-inese Version)
-> >
-> > Loongson-3A R4 (Loongson-3A4000)
-> > User Manual Part 1:
-> > http://ftp.godson.ac.cn/lemote/3A4000_p1.pdf
-> > http://ftp.godson.ac.cn/lemote/3A4000user.pdf (Chinese Version)
-> > User Manual Part 2:
-> > I'm sorry that it is unavailable now.
-> >
-> > We are preparing to add QEMU's Loongson-3 support. MIPS VZ extension is
-> > fully supported in Loongson-3A R4+, so we at first add QEMU/KVM support
-> > in this series. And the next series will add QEMU/TCG support (it will
-> > emulate Loongson-3A R1).
-> >
-> > We already have a full functional Linux kernel (based on Linux-5.4.x LT=
-S
-> > but not upstream yet) here:
-> >
-> > https://github.com/chenhuacai/linux
-> >
-> > How to use QEMU/Loongson-3?
-> > 1, Download kernel source from the above URL;
-> > 2, Build a kernel with arch/mips/configs/loongson3_{def,hpc}config;
-> > 3, Boot a Loongson-3A4000 host with this kernel;
-> > 4, Build QEMU-5.0.0 with this patchset;
-> > 5, modprobe kvm;
-> > 6, Use QEMU with TCG (available in future):
-> >        qemu-system-mips64el -M loongson3,accel=3Dtcg -cpu Loongson-3A10=
-00 -kernel <path_to_kernel> -append ...
-> >    Use QEMU with KVM (available at present):
-> >        qemu-system-mips64el -M loongson3,accel=3Dkvm -cpu Loongson-3A40=
-00 -kernel <path_to_kernel> -append ...
-> >
-> >    The "-cpu" parameter can be omitted here and QEMU will use the corre=
-ct type for TCG/KVM automatically.
-> >
-> > V1 -> V2:
-> > 1, Add a cover letter;
-> > 2, Improve CPU definitions;
-> > 3, Remove LS7A-related things (Use GPEX instead);
-> > 4, Add a description of how to run QEMU/Loongson-3.
-> >
-> > V2 -> V3:
-> > 1, Fix all possible checkpatch.pl errors and warnings.
-> >
-> > V3 -> V4:
-> > 1, Sync code with upstream;
-> > 2, Remove merged patches;
-> > 3, Fix build failure without CONFIG_KVM;
-> > 4, Add Reviewed-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.co=
-m>.
-> >
-> > Huacai Chen(4):
-> >  hw/mips: Implement the kvm_type() hook in MachineClass
-> >  target/mips: Add Loongson-3 CPU definition
-> >  hw/mips: Add Loongson-3 machine support (with KVM)
-> >  MAINTAINERS: Add myself as Loongson-3 maintainer
-> >
-> > Signed-off-by: Huacai Chen <chenhc@lemote.com>
-> > ---
-> >  MAINTAINERS                          |   5 +
-> >  default-configs/mips64el-softmmu.mak |   1 +
-> >  hw/core/Makefile.objs                |   2 +-
-> >  hw/core/null-machine.c               |   4 +
-> >  hw/mips/Kconfig                      |  10 +
-> >  hw/mips/Makefile.objs                |   3 +-
-> >  hw/mips/common.c                     |  42 ++
-> >  hw/mips/loongson3.c                  | 901 +++++++++++++++++++++++++++=
-++++++++
-> >  include/hw/mips/mips.h               |   3 +
-> >  target/mips/cpu.h                    |  28 ++
-> >  target/mips/internal.h               |   2 +
-> >  target/mips/mips-defs.h              |   7 +-
-> >  target/mips/translate.c              |   2 +
-> >  target/mips/translate_init.inc.c     |  86 ++++
-> >  14 files changed, 1092 insertions(+), 4 deletions(-)
-> >  create mode 100644 hw/mips/common.c
-> >  create mode 100644 hw/mips/loongson3.c
-> > --
-> > 2.7.0
+Maybe we should teach checkpatch.pl to refuse the idiomatic 'iff',
+it is already hard enough for non-native English to read (or write)
+technical documentation...
+
 
