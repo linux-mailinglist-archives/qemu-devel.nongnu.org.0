@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E79481EF055
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 06:22:35 +0200 (CEST)
-Received: from localhost ([::1]:59198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21D671EF05B
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 06:24:50 +0200 (CEST)
+Received: from localhost ([::1]:38466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jh3sI-0005ey-VB
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 00:22:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39526)
+	id 1jh3uT-0000LT-5w
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 00:24:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jh3ng-0004YU-Nu
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 00:17:48 -0400
-Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:50428)
+ id 1jh3ni-0004ce-5B
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 00:17:50 -0400
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:37554)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jh3nf-0000kw-PO
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 00:17:48 -0400
-Received: by mail-pj1-x1042.google.com with SMTP id jz3so2057014pjb.0
- for <qemu-devel@nongnu.org>; Thu, 04 Jun 2020 21:17:47 -0700 (PDT)
+ id 1jh3nh-0000lC-8v
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 00:17:49 -0400
+Received: by mail-pf1-x444.google.com with SMTP id j1so4152767pfe.4
+ for <qemu-devel@nongnu.org>; Thu, 04 Jun 2020 21:17:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=icu8Xm8+iq0LFQnztaWvz0M6KFnN5WeXG+dX4xSgCB0=;
- b=ENhlwBTPAICF2kxkscsFd9h5uKG0+SgIUId49kIUuFpcoHB9bONUg3CxMO1dsSB13F
- d2beu93TTZp5rDNJbnIFfRNo5WpId2QtnU1gtjkcSGreHEBDx03NNxhfpfpD7Aw9WUOM
- I5H3llmqRMkcLPI9DDBXaokQbBzQOXaceOEBGr0sp8jln2RB/AK16wSYZhX8giaYAO9T
- ujVEK7YDtkI+mUn1+RYmfsPCaaqCFY8wnEDEVPSi9/NPdBpxec6F//uKhssfBGPTyrRJ
- 4B1lWzXixcWNuQmT2YcvKcERPaOYi/XDuBMTFXtTyveW8YbOnFFfHMh+0Aqneb/XZOPm
- bphQ==
+ bh=yLR2Th1A4FLiNvF9RrUXZ7U/jaonjCXwdyobyMFPwns=;
+ b=GOj5nQRMVmP06GT6WO6lkqGGxSSz4XbxY1w5dXfQDWo37gkmhVehwjctG0mbtz8pU7
+ 3SN07v2kEzJxPXiH7fbB2XxsfjK1eqmoxo5TsOH95XuPSmvu00djLFabYcMKLS3s8tVj
+ rCDSXUSyCzeFOS+x8T0dCg3N5KoqBb0RSg4ctwxko+nHtfSGfm57KdZGtL/aURWjvZrM
+ Ky2h3LluNLZ2tV7ih9wAqDkGcMH+1aHJRWMz4SaybB9pj4Bt6G/yolmkR+kA/GmIAc0U
+ UzxYbX3Qg/6vhH58LA6QYniDQaBu5yLD9I7oIfFyi5n+BKTg+ooRFJsPb32WNNGuioVf
+ 0WBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=icu8Xm8+iq0LFQnztaWvz0M6KFnN5WeXG+dX4xSgCB0=;
- b=S/jhcwY9J5Bp9zFpcLPdTZJrPCMYT0GsuCgxpaEA0hYjKu9ABTb4Bm58lzkEOJDEwx
- 5ujIUCFjZ3bUcyOwFKfN4wHhIcnTdbHCLMByQVmjYsE3UV/MYMi6cHdn5ttBrjX5EMdM
- 00jaMJekeKmqQkmQNPLVjS8oQy1l8rHobCekApEPqrBjQgz8v29t1ks7/Z+3fjnm/ufG
- wQGztxXHEXV+12hILLtFbuh7iI1fE5COlaVL8h99veLyN8ETBWRrcwIbWcQTf2/0QffT
- 6lAhYFoFjvTDW490w/JDW2SdY3Fp7BR0YS5e+yDg48Kl8EeML52zb/mUfDZa3bm6TN9k
- 8P9w==
-X-Gm-Message-State: AOAM533UsJhNcIX7ClPkakUHw/5/LOk0uDv1xD4IBwPR1WGEqNI9v8cW
- Nb37XBM8zwfX61crxL7VYluHiWLTIUw=
-X-Google-Smtp-Source: ABdhPJx8ml2qgvN53/sQuOFKl3ajEDeK3rLf3hymF8RR20lvSJn253hHmsa1ufVJis1OY863HtLqsQ==
-X-Received: by 2002:a17:902:7d8a:: with SMTP id
- a10mr7643821plm.116.1591330666007; 
- Thu, 04 Jun 2020 21:17:46 -0700 (PDT)
+ bh=yLR2Th1A4FLiNvF9RrUXZ7U/jaonjCXwdyobyMFPwns=;
+ b=EKTb79D4WSU8SJ5ChG3/AhF0WEa9sjzkOadLypvG+LUQbzbGJXRme+s/0HGi3Ne+SE
+ MNNWt1VhJRgyiEaK8OlhOi41WplRaSzhuO1HutkM5MsAo8WvN4Os855hHvTdy90m7CwJ
+ tjZFOHJ3teUX9wpgKjYFVqoY2Vkwsf3hTG/8j3We0YwbNC3tfUPzrULsMiHl3AxZZV0D
+ 7FSHJ1tycQauIsHdrS3dfdo1GRTocKKk1FMnJ9/lVoEEV7tnU3+uxrT/8GOcUI70HKhi
+ AcWetrAHSHAPyXckIDj/treDB/E6Surz/we6BgUbjfa/ud7tLwYk5Pz5rcqiWCY7Rfhd
+ U1xQ==
+X-Gm-Message-State: AOAM531XnT46zSZ0CWnKylxqO4EP844BZLCvY8mhQjJ1dcPMvwgKjHAU
+ wcImW0qgaCh0L4EY5tbtMI5Wx5X8WcY=
+X-Google-Smtp-Source: ABdhPJyRoo6vgoKYh+l1dwojsZGlRP41MC9/3XeO0h07JmLMEI+JN0x+afzj1w5hDdNFPjzs//zdNw==
+X-Received: by 2002:a63:a50:: with SMTP id z16mr7448730pgk.162.1591330667378; 
+ Thu, 04 Jun 2020 21:17:47 -0700 (PDT)
 Received: from localhost.localdomain (174-21-143-238.tukw.qwest.net.
  [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id h15sm5440902pgl.12.2020.06.04.21.17.44
+ by smtp.gmail.com with ESMTPSA id h15sm5440902pgl.12.2020.06.04.21.17.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 Jun 2020 21:17:45 -0700 (PDT)
+ Thu, 04 Jun 2020 21:17:46 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 09/17] linux-user/aarch64: Implement PR_TAGGED_ADDR_ENABLE
-Date: Thu,  4 Jun 2020 21:17:25 -0700
-Message-Id: <20200605041733.415188-10-richard.henderson@linaro.org>
+Subject: [PATCH v2 10/17] linux-user/aarch64: Implement PR_MTE_TCF and
+ PR_MTE_TAG
+Date: Thu,  4 Jun 2020 21:17:26 -0700
+Message-Id: <20200605041733.415188-11-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200605041733.415188-1-richard.henderson@linaro.org>
 References: <20200605041733.415188-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1042;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1042.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,63 +90,108 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, steplong@quicinc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is the prctl bit that controls whether syscalls accept tagged
-addresses.  See Documentation/arm64/tagged-address-abi.rst in the
-linux kernel.
+These prctl fields are required for the function of MTE.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/aarch64/target_syscall.h |  4 ++++
- linux-user/syscall.c                | 23 +++++++++++++++++++++++
- 2 files changed, 27 insertions(+)
+ linux-user/aarch64/target_syscall.h |  9 ++++++
+ linux-user/syscall.c                | 46 +++++++++++++++++++++++++++++
+ 2 files changed, 55 insertions(+)
 
 diff --git a/linux-user/aarch64/target_syscall.h b/linux-user/aarch64/target_syscall.h
-index 995e475c73..5fb0bf4a5d 100644
+index 5fb0bf4a5d..779ca0c805 100644
 --- a/linux-user/aarch64/target_syscall.h
 +++ b/linux-user/aarch64/target_syscall.h
-@@ -29,4 +29,8 @@ struct target_pt_regs {
- # define TARGET_PR_PAC_APDBKEY   (1 << 3)
- # define TARGET_PR_PAC_APGAKEY   (1 << 4)
+@@ -32,5 +32,14 @@ struct target_pt_regs {
+ #define TARGET_PR_SET_TAGGED_ADDR_CTRL 55
+ #define TARGET_PR_GET_TAGGED_ADDR_CTRL 56
+ # define TARGET_PR_TAGGED_ADDR_ENABLE  (1UL << 0)
++/* MTE tag check fault modes */
++# define TARGET_PR_MTE_TCF_SHIFT       1
++# define TARGET_PR_MTE_TCF_NONE        (0UL << TARGET_PR_MTE_TCF_SHIFT)
++# define TARGET_PR_MTE_TCF_SYNC        (1UL << TARGET_PR_MTE_TCF_SHIFT)
++# define TARGET_PR_MTE_TCF_ASYNC       (2UL << TARGET_PR_MTE_TCF_SHIFT)
++# define TARGET_PR_MTE_TCF_MASK        (3UL << TARGET_PR_MTE_TCF_SHIFT)
++/* MTE tag inclusion mask */
++# define TARGET_PR_MTE_TAG_SHIFT       3
++# define TARGET_PR_MTE_TAG_MASK        (0xffffUL << TARGET_PR_MTE_TAG_SHIFT)
  
-+#define TARGET_PR_SET_TAGGED_ADDR_CTRL 55
-+#define TARGET_PR_GET_TAGGED_ADDR_CTRL 56
-+# define TARGET_PR_TAGGED_ADDR_ENABLE  (1UL << 0)
-+
  #endif /* AARCH64_TARGET_SYSCALL_H */
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index d190fb1122..e4da53c5b3 100644
+index e4da53c5b3..9cf3ce872d 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -10460,6 +10460,29 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+@@ -10463,10 +10463,47 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+         case TARGET_PR_SET_TAGGED_ADDR_CTRL:
+             {
+                 abi_ulong valid_mask = TARGET_PR_TAGGED_ADDR_ENABLE;
++                CPUARMState *env = cpu_env;
++                ARMCPU *cpu = env_archcpu(env);
++
++                if (cpu_isar_feature(aa64_mte, cpu)) {
++                    valid_mask |= TARGET_PR_MTE_TCF_MASK;
++                    valid_mask |= TARGET_PR_MTE_TAG_MASK;
++                }
+ 
+                 if ((arg2 & ~valid_mask) || arg3 || arg4 || arg5) {
+                     return -TARGET_EINVAL;
                  }
++
++                if (cpu_isar_feature(aa64_mte, cpu)) {
++                    switch (arg2 & TARGET_PR_MTE_TCF_MASK) {
++                    case TARGET_PR_MTE_TCF_NONE:
++                    case TARGET_PR_MTE_TCF_SYNC:
++                    case TARGET_PR_MTE_TCF_ASYNC:
++                        break;
++                    default:
++                        return -EINVAL;
++                    }
++
++                    /*
++                     * Write PR_MTE_TCF to SCTLR_EL1[TCF0].
++                     * Note that the syscall values are consistent with hw.
++                     */
++                    env->cp15.sctlr_el[1] =
++                        deposit64(env->cp15.sctlr_el[1], 38, 2,
++                                  arg2 >> TARGET_PR_MTE_TCF_SHIFT);
++
++                    /*
++                     * Write PR_MTE_TAG to GCR_EL1[Exclude].
++                     * Note that the syscall uses an include mask,
++                     * and hardware uses an exclude mask -- invert.
++                     */
++                    env->cp15.gcr_el1 =
++                        deposit64(env->cp15.gcr_el1, 0, 16,
++                                  ~arg2 >> TARGET_PR_MTE_TAG_SHIFT);
++                    arm_rebuild_hflags(env);
++                }
++
+                 untagged_addr_mask = (arg2 & TARGET_PR_TAGGED_ADDR_ENABLE
+                                       ? MAKE_64BIT_MASK(0, 56) : -1);
+                 return 0;
+@@ -10474,6 +10511,8 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+         case TARGET_PR_GET_TAGGED_ADDR_CTRL:
+             {
+                 abi_long ret = 0;
++                CPUARMState *env = cpu_env;
++                ARMCPU *cpu = env_archcpu(env);
+ 
+                 if (arg2 || arg3 || arg4 || arg5) {
+                     return -TARGET_EINVAL;
+@@ -10481,6 +10520,13 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+                 if (~untagged_addr_mask != 0) {
+                     ret |= TARGET_PR_TAGGED_ADDR_ENABLE;
+                 }
++                if (cpu_isar_feature(aa64_mte, cpu)) {
++                    /* See above. */
++                    ret |= (extract64(env->cp15.sctlr_el[1], 38, 2)
++                            << TARGET_PR_MTE_TCF_SHIFT);
++                    ret = deposit64(ret, TARGET_PR_MTE_TAG_SHIFT, 16,
++                                    ~env->cp15.gcr_el1);
++                }
+                 return ret;
              }
-             return -TARGET_EINVAL;
-+        case TARGET_PR_SET_TAGGED_ADDR_CTRL:
-+            {
-+                abi_ulong valid_mask = TARGET_PR_TAGGED_ADDR_ENABLE;
-+
-+                if ((arg2 & ~valid_mask) || arg3 || arg4 || arg5) {
-+                    return -TARGET_EINVAL;
-+                }
-+                untagged_addr_mask = (arg2 & TARGET_PR_TAGGED_ADDR_ENABLE
-+                                      ? MAKE_64BIT_MASK(0, 56) : -1);
-+                return 0;
-+            }
-+        case TARGET_PR_GET_TAGGED_ADDR_CTRL:
-+            {
-+                abi_long ret = 0;
-+
-+                if (arg2 || arg3 || arg4 || arg5) {
-+                    return -TARGET_EINVAL;
-+                }
-+                if (~untagged_addr_mask != 0) {
-+                    ret |= TARGET_PR_TAGGED_ADDR_ENABLE;
-+                }
-+                return ret;
-+            }
  #endif /* AARCH64 */
-         case PR_GET_SECCOMP:
-         case PR_SET_SECCOMP:
 -- 
 2.25.1
 
