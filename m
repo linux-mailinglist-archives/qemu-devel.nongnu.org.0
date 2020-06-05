@@ -2,106 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 532011EF67F
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 13:37:25 +0200 (CEST)
-Received: from localhost ([::1]:39188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC77B1EF69E
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 13:43:57 +0200 (CEST)
+Received: from localhost ([::1]:51376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jhAf5-0008Rk-Vt
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 07:37:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53414)
+	id 1jhAlR-0005VC-2e
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 07:43:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jhAeI-0007xQ-31; Fri, 05 Jun 2020 07:36:34 -0400
-Received: from mail-eopbgr30106.outbound.protection.outlook.com
- ([40.107.3.106]:19878 helo=EUR03-AM5-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jhAj9-0002BX-2t
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 07:41:35 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:56589)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jhAeF-000507-7n; Fri, 05 Jun 2020 07:36:32 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=O463PR/QXEnUei/VxoOjtbBzqpl0Ijj84x84rdJy5i6SjLWZMSg7hbz+GLmfAsoQHBKMJ6gLVJN7AOLIuqy0sNPfaGQW7hHeKl3K0Afe/3M9JE3NYwL37r21l20b5QCeYP5m0Ahy0JJ8THnqJzNtRaVm2wunBwqZxNq/TzoDanJj2hdVtkBTYCMAF52meOWRB/G4MpRedRR6+ZLMf2R6d104n/lvDdqVFUrCyQeN4tEaafr1t1iicbzzknauiahNaKfxA4fwz4Rm1yeZq+ampoyMAYHaSXyBYI5Rmt9eSyPUXLOou2Eig1X97TYrhtSUdlEbrz0u7SSuuMBvAdHWjw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MFj+8UpNX4tAAKu9YMgxdMgNnavwfqUSCHzWI8dUb7Y=;
- b=CYRcYkSGRfjpt7UNzU+U5Ra29yMXnm728f5KXoY4OmWP3+7rVOkVVsb+U1ml6tLitCdPakHGynM6cgxyGWj6HE5hfkZVIlOMXO9y8DDw1wj7I/lT59O8yhZWWyrHbXo7MrXz0XwQ+vX6AcygAKCP9oDGnELd8cAaV2b2JylZbuqcxf1O0RCd9K7/4qnrM60EcgQ1azrFM+0J9WlqnHl5OL+9pcEhbDxetJYKLWbVmR/ln6wyyu9VaMtD4WqobsG0d4wT4X5U6A8u++2SYntCxPajs9IRT80IIhyuLOTVy7Gsu6qLxLRxvcJwR9Og2x0NCL+0R9LsdZaahDhJtEsixA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MFj+8UpNX4tAAKu9YMgxdMgNnavwfqUSCHzWI8dUb7Y=;
- b=dkIwJDtiYnpPAu6R5sW4tzsBZ8B2B6kdo82nQb89OIw77Y/ejwoW0FRB0AUsesWzG4W09GlKYWyJ3g1RkMsCd6/QJoypy+Bvjo3QV+pTm3R6hDnhb0pVD5BcZe4VYc5XeVIgrac75g2wmi6H13ssW98jjzHYF/vLdgVePAuW+b8=
-Received: from AM6PR08MB4070.eurprd08.prod.outlook.com (2603:10a6:20b:a3::25)
- by AM6PR08MB2967.eurprd08.prod.outlook.com (2603:10a6:209:44::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3066.18; Fri, 5 Jun
- 2020 11:36:27 +0000
-Received: from AM6PR08MB4070.eurprd08.prod.outlook.com
- ([fe80::2122:8358:546a:adae]) by AM6PR08MB4070.eurprd08.prod.outlook.com
- ([fe80::2122:8358:546a:adae%3]) with mapi id 15.20.3066.022; Fri, 5 Jun 2020
- 11:36:27 +0000
-From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>
-Subject: Re: [PATCH v4 06/12] qcow2_format.py: use strings to specify c-type
- of struct fields
-Thread-Topic: [PATCH v4 06/12] qcow2_format.py: use strings to specify c-type
- of struct fields
-Thread-Index: AQHWOpdvLXgmQz4yjEKWFG9o3MasH6jJ5c99
-Date: Fri, 5 Jun 2020 11:36:27 +0000
-Message-ID: <AM6PR08MB407095A89EFF45353DFEB615F4860@AM6PR08MB4070.eurprd08.prod.outlook.com>
-References: <20200604174135.11042-1-vsementsov@virtuozzo.com>,
- <20200604174135.11042-7-vsementsov@virtuozzo.com>
-In-Reply-To: <20200604174135.11042-7-vsementsov@virtuozzo.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: virtuozzo.com; dkim=none (message not signed)
- header.d=none;virtuozzo.com; dmarc=none action=none
- header.from=virtuozzo.com;
-x-originating-ip: [109.252.114.191]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 58ee988a-0ae2-42d5-bf53-08d80944af54
-x-ms-traffictypediagnostic: AM6PR08MB2967:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <AM6PR08MB2967B3C348654449D024756DF4860@AM6PR08MB2967.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:3513;
-x-forefront-prvs: 0425A67DEF
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: rDtcU5m9drkTveDtVlccfqpfu6npXeFSK5fuHe1UObF5DfOgA2P8opiq7gjO5weOvgcKMJTExUxrzPYz+iR2CTmj6pLQXur/brr4F5GCpOxxya13xp66BtoZ+SBNaLHbCTARxQ2OR4PXw+KAOVzK/9WdG9gPattPkkB6kfzrFspdbBlfcLULJGl9w3Ouk//pluWsAYR5NImzrxs2Iihkjsq2ZhD9XZ8AQ+1xDbpZlteKCMviAHZ5H6IoEjZsdiEiScvpciK4GDSxF1/kinP54ZlXKWodI1OvRNnLrvp3Ap0aZ315a2t2N9kfL9NMtird
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM6PR08MB4070.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(136003)(346002)(396003)(376002)(366004)(39840400004)(2906002)(86362001)(53546011)(110136005)(66476007)(8676002)(8936002)(66446008)(66556008)(83380400001)(64756008)(316002)(54906003)(91956017)(478600001)(66946007)(76116006)(26005)(9686003)(5660300002)(33656002)(44832011)(7696005)(4326008)(71200400001)(107886003)(55016002)(186003)(52536014)(6506007);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: bWkE8IoDqTNmcwownHT/T2pvDcq+VwfgQ9mN4/eVGqa0FH0tje9D74rfzjJipvvV1C5eBBPGwWRgmaopnTC2jjyuXBNfHHSokegmQxcrnk7isNc2TiD4y05zQaQBYCxLi7GxMwEENkBh6ptI4WeBd6XcsNH1V2+6YJ5ZMdfOm0c+uicBvqhchdMcIN2+5hMqNtFmQqOdfN+3wlRCNYBSaCUJ0XhKwSOUHqqQ8MbaW8ML1EjSjqPJVJod4ZLiMntsLevnOzDLMvrdboQlQM/9PKNR1kDJsmQJhXb5B8n59OGhEuL/j11sXkOwco2p94ZjUAIZJIiElWzTGCfDC8fXGQU17RTPXrhDtzkr8K5t30dtM6po8Dhd+Xc6+/kVoHv2KCchdmzpMxVMcm6ZMKSXtqd7MVApQgTHSiDjh80Z8ERyuao5u1xCcBuSQ24CGb2DwRmGb0TBPhh88yfvFiHA5/Um7Ol/E/tCA04DaCJYz97h0bsFnKPrhWQeqQnQvc3e
-Content-Type: multipart/alternative;
- boundary="_000_AM6PR08MB407095A89EFF45353DFEB615F4860AM6PR08MB4070eurp_"
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jhAj8-0005ew-2k
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 07:41:34 -0400
+Received: from localhost.localdomain ([82.252.135.106]) by
+ mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
+ id 1MVJZv-1jZDwg2oB5-00SQkQ; Fri, 05 Jun 2020 13:41:25 +0200
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/19] Linux user for 5.1 patches
+Date: Fri,  5 Jun 2020 13:41:01 +0200
+Message-Id: <20200605114120.1051236-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 58ee988a-0ae2-42d5-bf53-08d80944af54
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Jun 2020 11:36:27.5398 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: +ISA8IwBWVgEOQ7YWiTGYE14wqPM+c1RcJJMqMyC7fUtbVu8dLX6Do8ickNGjd3bzLHBKkTiCg/sscJLH3Jk4qtMf4NxrH5veMfhu3UhQ0E=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB2967
-Received-SPF: pass client-ip=40.107.3.106;
- envelope-from=andrey.shinkevich@virtuozzo.com;
- helo=EUR03-AM5-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/05 07:36:28
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:XBEOuTH1DJf3LKDfI6k8kVQTKX9ZJp3IOWVH22Pgl9D5fGnJk4B
+ xGLZuyZXnvzGOv91okM2uOnCiSeZ+OhLl08Okrps93vjeXWdacu36if+dVE5B+P7G6hZl3X
+ 2UhFOY1TcmdML0AAWENf/4kQXk1tWI7ELetTlWVkkts8He+aoV0bbLXcROt9/qWdh/DJgPI
+ 2nbFRLRhMuFSuCqGAYH/g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:gdQYRqFPS8c=:HRG+GC22HVYnLusCSnQrB0
+ F2MMC0/U4cSlSPfdUgTFexph0C5FxtYC1bzS5zsGBXULvcOhR7F1m7xjLMZID8cRsWfHE2EER
+ kxdU4rWE6rVrVlU0Hh3welYUc96XxH/aRzN/MVYlkfx4mDoiapsIuTa9ecQqDKlg5yR73PbLU
+ +guV7PtIemFl5YujrUiyDiK9+jC4tiGWAu0bCAVyNVCL74/p/PWjHVa5J/AtUHpr/fN1NBaZc
+ yDys4dlOwr6CSmoyTozTasvt547qArDd+AHJRrvH4+Qr64DA90W5zK5vOV7NXbr240iDCGGO8
+ BrI4DHQIh0sa/+LeQ3jKgWfLxyE2hoHU8heUp845OmxDzjlj15bk8evoaTP/zdsmo1B9H5gWk
+ Au5wId+C3+BUBIedSjP8GiqLeITPxA3xaUUNiiVMhJ23uwIyOgnMudNd4Zi9L0N8L1LM9AARp
+ k+bjUnS6a0PuFPbQlfk2gC+WWmfwqRprsoD+6nWwX4bP0TCJQ8qs/sE+DheUBqFUFoSvkEZX+
+ gAv4q2pXpVx/YYyBuSyuyXagDqAVHBqmfwN709vtPM9+fS8BqzPoouOW4LIaLekdSKOBo15At
+ 8VHOjyMrXwS1WTRRq/JnQcG2O2iKj8h2E6DSS0F3wTqNkKIOzdRytvUQvVH5uTaz40XTzUmUJ
+ sB6PIwxkqPA3A1Y+AfQCxfK06bV8AT9rBKGJUmN2WfLrMFXL1KwizFtKlfEb9Gu4vua+oX3sf
+ xG02pwJcDMuRYmmYu0bHCAAwY3u5pA4VZYyM5bMmgi9MqsvUqzEyXG0T5tSldLfHzu3zOlqHF
+ GE/lfTeo76Z9M9tyhl1M0NpeAtER1kDaNv1p2WFfKeoeuyC7k5zeRYbqijI2/pQ78x4ZLFB
+Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/05 07:41:32
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -114,95 +67,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "kwolf@redhat.com" <kwolf@redhat.com>, Denis Lunev <den@virtuozzo.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "mreitz@redhat.com" <mreitz@redhat.com>
+Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---_000_AM6PR08MB407095A89EFF45353DFEB615F4860AM6PR08MB4070eurp_
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-
-Reviewed-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-
-________________________________
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Sent: Thursday, June 4, 2020 8:41 PM
-To: qemu-block@nongnu.org <qemu-block@nongnu.org>
-Cc: qemu-devel@nongnu.org <qemu-devel@nongnu.org>; mreitz@redhat.com <mreit=
-z@redhat.com>; kwolf@redhat.com <kwolf@redhat.com>; eblake@redhat.com <ebla=
-ke@redhat.com>; Denis Lunev <den@virtuozzo.com>; Vladimir Sementsov-Ogievsk=
-iy <vsementsov@virtuozzo.com>; Andrey Shinkevich <andrey.shinkevich@virtuoz=
-zo.com>
-Subject: [PATCH v4 06/12] qcow2_format.py: use strings to specify c-type of=
- struct fields
-
-We are going to move field-parsing to super-class, this will be simpler
-with simple string specifiers instead of variables.
-
-For some reason python doesn't allow to define ctypes in class too, as
-well as fields: it's not available than in 'for' operator. Don't worry:
-ctypes will be moved to metaclass soon.
-
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- tests/qemu-iotests/qcow2_format.py | 50 +++++++++++++++++-------------
- 1 file changed, 28 insertions(+), 22 deletions(-)
-
---_000_AM6PR08MB407095A89EFF45353DFEB615F4860AM6PR08MB4070eurp_
-Content-Type: text/html; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
-1">
-</head>
-<body>
-<div><span style=3D"color: rgb(33, 33, 33); font-family: &quot;Segoe UI Wes=
-tEuropean&quot;, &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif; font-s=
-ize: 14.6667px; font-style: normal; font-variant-ligatures: normal; font-va=
-riant-caps: normal; font-weight: 400;">Reviewed-by: Andrey
- Shinkevich &lt;andrey.shinkevich@virtuozzo.com&gt;</span><br>
-</div>
-<div><br>
-</div>
-<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
-<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
-yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> Vladimir Sementsov-Og=
-ievskiy &lt;vsementsov@virtuozzo.com&gt;<br>
-<b>Sent:</b> Thursday, June 4, 2020 8:41 PM<br>
-<b>To:</b> qemu-block@nongnu.org &lt;qemu-block@nongnu.org&gt;<br>
-<b>Cc:</b> qemu-devel@nongnu.org &lt;qemu-devel@nongnu.org&gt;; mreitz@redh=
-at.com &lt;mreitz@redhat.com&gt;; kwolf@redhat.com &lt;kwolf@redhat.com&gt;=
-; eblake@redhat.com &lt;eblake@redhat.com&gt;; Denis Lunev &lt;den@virtuozz=
-o.com&gt;; Vladimir Sementsov-Ogievskiy &lt;vsementsov@virtuozzo.com&gt;;
- Andrey Shinkevich &lt;andrey.shinkevich@virtuozzo.com&gt;<br>
-<b>Subject:</b> [PATCH v4 06/12] qcow2_format.py: use strings to specify c-=
-type of struct fields</font>
-<div>&nbsp;</div>
-</div>
-<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
-">
-<div class=3D"PlainText">We are going to move field-parsing to super-class,=
- this will be simpler<br>
-with simple string specifiers instead of variables.<br>
-<br>
-For some reason python doesn't allow to define ctypes in class too, as<br>
-well as fields: it's not available than in 'for' operator. Don't worry:<br>
-ctypes will be moved to metaclass soon.<br>
-<br>
-Signed-off-by: Vladimir Sementsov-Ogievskiy &lt;vsementsov@virtuozzo.com&gt=
-;<br>
----<br>
-&nbsp;tests/qemu-iotests/qcow2_format.py | 50 &#43;&#43;&#43;&#43;&#43;&#43=
-;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;-------------<br>
-&nbsp;1 file changed, 28 insertions(&#43;), 22 deletions(-)<br>
-</div>
-</span></font></div>
-</body>
-</html>
-
---_000_AM6PR08MB407095A89EFF45353DFEB615F4860AM6PR08MB4070eurp_--
+The following changes since commit ddc760832fa8cf5e93b9d9e6e854a5114ac63510=
+:=0D
+=0D
+  Merge remote-tracking branch 'remotes/gkurz/tags/9p-next-2020-05-26' into=
+ s=3D=0D
+taging (2020-05-26 14:05:53 +0100)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  git://github.com/vivier/qemu.git tags/linux-user-for-5.1-pull-request=0D
+=0D
+for you to fetch changes up to aa3d2045d4ca760bd8c22935a2d73ee4f3480bd5:=0D
+=0D
+  stubs: Restrict ui/win32-kbd-hook to system-mode (2020-06-05 11:36:00 +02=
+00)=0D
+=0D
+----------------------------------------------------------------=0D
+linux-user pull request 20200605=0D
+=0D
+Implement F_OFD_ fcntl() command, /proc/cpuinfo for hppa=0D
+Fix socket(), prnctl() error codes, underflow in target_mremap,=0D
+    epoll_create() strace, oldumount for alpha=0D
+User-mode build dependencies improvement=0D
+=0D
+----------------------------------------------------------------=0D
+=0D
+Andreas Schwab (1):=0D
+  linux-user: implement OFD locks=0D
+=0D
+Helge Deller (2):=0D
+  linux-user: return target error codes for socket() and prctl()=0D
+  linux-user: Add support for /proc/cpuinfo on hppa platform=0D
+=0D
+Jonathan Marler (1):=0D
+  linux-user/mmap.c: fix integer underflow in target_mremap=0D
+=0D
+Laurent Vivier (1):=0D
+  linux-user, alpha: fix oldumount syscall=0D
+=0D
+Philippe Mathieu-Daud=3DC3=3DA9 (13):=0D
+  Makefile: Only build virtiofsd if system-mode is enabled=0D
+  configure: Avoid building TCG when not needed=0D
+  tests/Makefile: Only display TCG-related tests when TCG is available=0D
+  tests/Makefile: Restrict some softmmu-only tests=0D
+  util/Makefile: Reduce the user-mode object list=0D
+  stubs/Makefile: Reduce the user-mode object list=0D
+  target/riscv/cpu: Restrict CPU migration to system-mode=0D
+  exec: Assert CPU migration is not used on user-only build=0D
+  arch_init: Remove unused 'qapi-commands-misc.h' include=0D
+  target/i386: Restrict CpuClass::get_crash_info() to system-mode=0D
+  target/s390x: Restrict CpuClass::get_crash_info() to system-mode=0D
+  hw/core: Restrict CpuClass::get_crash_info() to system-mode=0D
+  stubs: Restrict ui/win32-kbd-hook to system-mode=0D
+=0D
+Sergei Trofimovich (1):=0D
+  linux-user/strace.list: fix epoll_create{,1} -strace output=0D
+=0D
+ Makefile                   |  2 +-=0D
+ arch_init.c                |  1 -=0D
+ configure                  |  4 +++=0D
+ exec.c                     |  4 ++-=0D
+ hw/core/cpu.c              |  2 ++=0D
+ include/hw/core/cpu.h      |  7 ++++-=0D
+ linux-user/generic/fcntl.h |  4 +++=0D
+ linux-user/mmap.c          |  2 +-=0D
+ linux-user/strace.list     |  4 +--=0D
+ linux-user/syscall.c       | 31 +++++++++++++++++---=0D
+ stubs/Makefile.objs        | 52 +++++++++++++++++++--------------=0D
+ target/i386/cpu.c          |  6 +++-=0D
+ target/riscv/cpu.c         |  6 ++--=0D
+ target/s390x/cpu.c         | 12 ++++----=0D
+ tests/Makefile.include     | 18 ++++++------=0D
+ util/Makefile.objs         | 59 ++++++++++++++++++++++++--------------=0D
+ 16 files changed, 142 insertions(+), 72 deletions(-)=0D
+=0D
+--=3D20=0D
+2.26.2=0D
+=0D
 
