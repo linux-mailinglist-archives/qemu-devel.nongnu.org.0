@@ -2,83 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 454CC1EFF5F
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 19:49:08 +0200 (CEST)
-Received: from localhost ([::1]:36408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D9671EFF63
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 19:49:57 +0200 (CEST)
+Received: from localhost ([::1]:40026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jhGSo-0003Jy-IU
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 13:49:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49148)
+	id 1jhGTc-0004ns-Ds
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 13:49:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49252)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jhGQr-0001f1-Ll
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 13:47:05 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:33377)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jhGQp-0005yw-MT
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 13:47:05 -0400
-Received: by mail-wr1-x436.google.com with SMTP id l11so10628216wru.0
- for <qemu-devel@nongnu.org>; Fri, 05 Jun 2020 10:46:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=szRLaJkTq8YpJZUftMmZyJasvvWtFd9tKiC/HGO2Zxc=;
- b=ncBmSaywUu9jqwdkTBBQv6/YHOaW7+zObl5wXdHmP54nPJSKuUpG3m0U62o6KM05JO
- WuaDaLSpV7eWvkN9GfI9QrSos+klDtUmV3evEPHJ+0c/6ykYtFwMg4GhrBMl+m9zlzqv
- NS1wfaVww1oXrWkW2CnTKoQ+vsJcBA1XNib7xtqbF+KCmHqksNQaAmDr7fQrSETv7nm7
- ehcnEdFy501hgHAewwsG8TPz2DpNRyd8ink/a0Gx9xWiSaZO9teqzJnjDXXbpNDtrWuq
- M8FLFfA3kzINTKABHnPxA872N0ZUETqvqd6TD8/skkvMq8sHXDHhbB0EXT37h+mect1m
- yoDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=szRLaJkTq8YpJZUftMmZyJasvvWtFd9tKiC/HGO2Zxc=;
- b=TTKSYArVQcRiK12wWY2aEbhzJYYOLhdHNhyvt8WDA4wyh1+qDQCo+C8tx2roeueTus
- vknIc44kTz22deJQW7+PSA5rPBP7SYOr4w4gCRBnJz+WQjbYPw5ITGNU/ZY7O52apwsR
- sfPVXczGPlaaV8DrT4lkib+TaAn3rHam4xSrKZkeHbE1cxWRiXkOkC6bALXlXiU81IkT
- Yn9eSNqaUjWJVWdbOADBKiBOW0HyIpHigGl0lzLIs+AqW3FTuPbldiWfQ5Qh7QeGp5wI
- YLA9nj6QWNZTl8846lM7QAhjs59DE20a4PsggLY3ux9iPjHDOMd5EXJ7XSIlr0HSjkWQ
- +UNg==
-X-Gm-Message-State: AOAM532xTkoBqCNBakCR12G1sicJNgC2MF4N8nG+4AH2otA70itGMuTJ
- ToDLQ8qtPn79RbYpB4aKApZP4w==
-X-Google-Smtp-Source: ABdhPJyxzkn8KvrLEULZ2oya7+EAF25B0MN2xVoZ3skdNunhjqhE6Hi8rzfcP2445omosHksiGiUvw==
-X-Received: by 2002:adf:e908:: with SMTP id f8mr10625721wrm.184.1591379193031; 
- Fri, 05 Jun 2020 10:46:33 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id s7sm13284911wrr.60.2020.06.05.10.46.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Jun 2020 10:46:31 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E9A1C1FF7E;
- Fri,  5 Jun 2020 18:46:30 +0100 (BST)
-References: <20200515144405.20580-1-alex.bennee@linaro.org>
- <20200515144405.20580-6-alex.bennee@linaro.org>
- <843d72a9-22a7-b0b5-0a92-edf1dcd290d2@vivier.eu>
- <87zh9i4u1f.fsf@linaro.org> <87h7vp4n6w.fsf@linaro.org>
- <f8c9afba-4c7c-a410-f42c-c63aa2128ef6@twiddle.net>
-User-agent: mu4e 1.5.1; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <rth@twiddle.net>
-Subject: Re: [PULL v2 05/13] accel/tcg: Relax va restrictions on 64-bit guests
-In-reply-to: <f8c9afba-4c7c-a410-f42c-c63aa2128ef6@twiddle.net>
-Date: Fri, 05 Jun 2020 18:46:30 +0100
-Message-ID: <8736794d8p.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jhGRN-0002bx-0g
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 13:47:37 -0400
+Received: from relay64.bu.edu ([128.197.228.104]:41763)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jhGRK-00069B-A8
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 13:47:36 -0400
+X-Envelope-From: alxndr@bu.edu
+X-BU-AUTH: mozz.bu.edu [128.197.127.33]
+Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
+ bits=0)
+ by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id 055Hl1un003624
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Fri, 5 Jun 2020 13:47:08 -0400
+Date: Fri, 5 Jun 2020 13:47:01 -0400
+From: Alexander Bulekov <alxndr@bu.edu>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH] fuzz: add oss-fuzz build.sh script
+Message-ID: <20200605174701.qaqxqf6v3xpnm4df@mozz.bu.edu>
+References: <20200605174036.4527-1-alxndr@bu.edu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200605174036.4527-1-alxndr@bu.edu>
+User-Agent: NeoMutt/20180716
+Received-SPF: pass client-ip=128.197.228.104; envelope-from=alxndr@bu.edu;
+ helo=relay64.bu.edu
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/05 13:47:33
+X-ACL-Warn: Detected OS   = Linux 2.6.x
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,34 +57,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, peter.maydell@linaro.org,
- Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: darren.kenny@oracle.com, bsd@redhat.com, f4bug@amsat.org,
+ stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 200605 1340, Alexander Bulekov wrote:
+> It is neater to keep this in the QEMU repo, since any change that
+> requires an update to the oss-fuzz build configuration, can make the
+> necessary changes in the same series.
+> 
+> Suggested-by: Philippe Mathieu-Daude <f4bug@amsat.org>
+> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+> ---
+>  scripts/oss-fuzz/build.sh | 47 +++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 47 insertions(+)
+>  create mode 100755 scripts/oss-fuzz/build.sh
+> 
+> diff --git a/scripts/oss-fuzz/build.sh b/scripts/oss-fuzz/build.sh
+> new file mode 100755
+> index 0000000000..7be6dcce4c
+> --- /dev/null
+> +++ b/scripts/oss-fuzz/build.sh
+> @@ -0,0 +1,47 @@
+> +#!/bin/sh
+> +#
+> +# Update syscall_nr.h files from linux headers asm-generic/unistd.h
+This is obviously wrong... Sending v2.
 
-Richard Henderson <rth@twiddle.net> writes:
-
-> On 6/5/20 7:11 AM, Alex Benn=C3=A9e wrote:
->> @@ -467,7 +467,7 @@ abi_long target_mmap(abi_ulong start, abi_ulong len,=
- int prot,
->>           * It can fail only on 64-bit host with 32-bit target.
->>           * On any other target/host host mmap() handles this error corr=
-ectly.
->>           */
->> -        if (!guest_range_valid(start, len)) {
->> +        if (end < start || !guest_range_valid(start, len)) {
->>              errno =3D ENOMEM;
->>              goto fail;
->>          }
->
-> Interesting.  I was adjusting guest_range_valid tagged pointers yesterday=
-, and
-> thought that it looked buggy.
-
-Should be picking this up in guest_range_valid?
-
---=20
-Alex Benn=C3=A9e
+> +#
+> +# This code is licensed under the GPL version 2 or later.  See
+> +# the COPYING file in the top-level directory.
+> +#
+> +
+> +# build project
+> +# e.g.
+> +# ./autogen.sh
+> +# ./configure
+> +# make -j$(nproc) all
+> +
+> +# build fuzzers
+> +# e.g.
+> +# $CXX $CXXFLAGS -std=c++11 -Iinclude \
+> +#     /path/to/name_of_fuzzer.cc -o $OUT/name_of_fuzzer \
+> +#     $LIB_FUZZING_ENGINE /path/to/library.a
+> +
+> +mkdir -p $OUT/lib/              # Shared libraries
+> +
+> +# Build once to get the list of dynamic lib paths, and copy them over
+> +./configure --datadir="./data/" --disable-werror --cc="$CC" --cxx="$CXX" \
+> +    --extra-cflags="$CFLAGS -U __OPTIMIZE__ "
+> +make CONFIG_FUZZ=y CFLAGS="$LIB_FUZZING_ENGINE" -j$(nproc) i386-softmmu/fuzz
+> +
+> +for i in $(ldd ./i386-softmmu/qemu-fuzz-i386  | cut -f3 -d' '); do 
+> +    cp $i $OUT/lib/
+> +done
+> +rm ./i386-softmmu/qemu-fuzz-i386
+> +
+> +# Build a second time to build the final binary with correct rpath
+> +./configure --datadir="./data/" --disable-werror --cc="$CC" --cxx="$CXX" \
+> +    --extra-cflags="$CFLAGS -U __OPTIMIZE__" \
+> +    --extra-ldflags="-Wl,-rpath,'\$\$ORIGIN/lib'"
+> +make CONFIG_FUZZ=y CFLAGS="$LIB_FUZZING_ENGINE" -j$(nproc) i386-softmmu/fuzz
+> +
+> +# Copy over the datadir
+> +cp  -r ./pc-bios/ $OUT/pc-bios
+> +
+> +# Copy over the qemu-fuzz-i386, naming it according to each available fuzz
+> +# target (See 05509c8e6d fuzz: select fuzz target using executable name)
+> +for target in $(./i386-softmmu/qemu-fuzz-i386 | awk '$1 ~ /\*/  {print $2}');
+> +do
+> +    cp ./i386-softmmu/qemu-fuzz-i386 $OUT/qemu-fuzz-i386-target-$target
+> +done
+> -- 
+> 2.26.2
+> 
 
