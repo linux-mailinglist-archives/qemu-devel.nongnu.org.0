@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75C881EFC29
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 17:06:44 +0200 (CEST)
-Received: from localhost ([::1]:36728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34C131EFC1A
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 17:04:20 +0200 (CEST)
+Received: from localhost ([::1]:56876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jhDvf-0001Yy-GY
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 11:06:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50922)
+	id 1jhDtL-0006DP-7s
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 11:04:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jhDlw-000437-5x
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 10:56:40 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:58815
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jhDlu-0003xZ-2F
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 10:56:38 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:60631
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jhDlq-0007V2-JH
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 10:56:39 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jhDlp-0007Tb-3Y
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 10:56:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591368993;
+ s=mimecast20190719; t=1591368991;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9F19pJ5pCq+EaJrtk3gQVuSal6JrPOM3WJQwFOQ483I=;
- b=WoOH4uc1CcHj/gRdzzvfhOg0GT8YWxMcWa4MFZyEfhYXCOrMn8R6LvkNzQ/Ebr+8LA0/cS
- RaZdLLxAKZDO/PW9LaKQsnbd06qxLPzYmxgoO1Pm6YlmNhE67Xiht0kdyeEm2RjMGgP9H3
- GnKC+lkPa3woMpmMPNGmuUvJ1VD0i7g=
+ bh=i3101kz0zM1l86BuC6//QQfAgyjfRGIetEZd5akUA/4=;
+ b=JOiD4rf5681Ft08QQgv5DDZB75dlb87Sgbh4WBDqCGmIpksWF9BLI4Cc/DBIKh2LjwuT2h
+ AUZCkrsVE34WYcVpZK3pwj6xuMYwkWo5Vks2QtVJ4nx9I+cWKcQYa++Ihdp6ngY3QCRKAZ
+ Hll6aw6ODS2AdPM3jXYRxeG2SDg474g=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-141-H6NWpd5dOhqyKyCZpjMIlA-1; Fri, 05 Jun 2020 10:56:30 -0400
-X-MC-Unique: H6NWpd5dOhqyKyCZpjMIlA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-385-tqcwHBK9P-e0m01rp6uXCg-1; Fri, 05 Jun 2020 10:56:30 -0400
+X-MC-Unique: tqcwHBK9P-e0m01rp6uXCg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 32B3AEC1A4;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 388A619200C4;
  Fri,  5 Jun 2020 14:56:29 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-121.ams2.redhat.com
  [10.36.112.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CBE4B78F1F;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D09F260C05;
  Fri,  5 Jun 2020 14:56:28 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id B5B2D11384A9; Fri,  5 Jun 2020 16:56:25 +0200 (CEST)
+ id B933F1138460; Fri,  5 Jun 2020 16:56:25 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 08/16] blockdev: Deprecate -drive with bogus interface type
-Date: Fri,  5 Jun 2020 16:56:17 +0200
-Message-Id: <20200605145625.2920920-9-armbru@redhat.com>
+Subject: [PATCH 09/16] qdev: Eliminate get_pointer(), set_pointer()
+Date: Fri,  5 Jun 2020 16:56:18 +0200
+Message-Id: <20200605145625.2920920-10-armbru@redhat.com>
 In-Reply-To: <20200605145625.2920920-1-armbru@redhat.com>
 References: <20200605145625.2920920-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/05 03:07:04
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/05 03:40:54
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,150 +86,176 @@ Cc: kwolf@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Drives with interface types other than if=none are for onboard
-devices.  Unfortunately, any such drives the board doesn't pick up can
-still be used with -device, like this:
-
-    $ qemu-system-x86_64 -nodefaults -display none -S -drive if=floppy,id=bogus,unit=7 -device ide-cd,drive=bogus -monitor stdio
-    QEMU 5.0.50 monitor - type 'help' for more information
-    (qemu) info block
-    bogus: [not inserted]
-	Attached to:      /machine/peripheral-anon/device[0]
-	Removable device: not locked, tray closed
-    (qemu) info qtree
-    bus: main-system-bus
-      type System
-      [...]
-	    bus: ide.1
-	      type IDE
-	      dev: ide-cd, id ""
---->		drive = "bogus"
-		[...]
-		unit = 0 (0x0)
-      [...]
-
-This kind of abuse has always worked.  Deprecate it:
-
-    qemu-system-x86_64: -drive if=floppy,id=bogus,unit=7: warning: bogus if=floppy is deprecated, use if=none
+We stopped using get_pointer() and set_pointer() for netdev in commit
+23120b13c6 "net: don't use set/get_pointer() in set/get_netdev()"
+(v2.3.0), and for chardev in commit becdfa00cf "char: replace PROP_CHR
+with CharBackend" (v2.8.0).  With only the drive user left, they're
+not helpful anymore.  Eliminate.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- docs/system/deprecated.rst |  8 ++++++++
- include/sysemu/blockdev.h  |  2 ++
- blockdev.c                 | 27 +++++++++++++++++++++++++--
- softmmu/vl.c               |  8 ++++++++
- 4 files changed, 43 insertions(+), 2 deletions(-)
+ hw/core/qdev-properties-system.c | 95 ++++++++++++--------------------
+ 1 file changed, 35 insertions(+), 60 deletions(-)
 
-diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-index 9bd11c1e95..27a1c21165 100644
---- a/docs/system/deprecated.rst
-+++ b/docs/system/deprecated.rst
-@@ -198,6 +198,14 @@ become
+diff --git a/hw/core/qdev-properties-system.c b/hw/core/qdev-properties-system.c
+index 70bfd4809b..9aa80495ee 100644
+--- a/hw/core/qdev-properties-system.c
++++ b/hw/core/qdev-properties-system.c
+@@ -25,29 +25,45 @@
+ #include "sysemu/iothread.h"
+ #include "sysemu/tpm_backend.h"
  
-     -device floppy,unit=1,drive=...
- 
-+``-drive`` with bogus interface type
-+''''''''''''''''''''''''''''''''''''
+-static void get_pointer(Object *obj, Visitor *v, Property *prop,
+-                        char *(*print)(void *ptr),
+-                        const char *name, Error **errp)
++/* --- drive --- */
 +
-+Drives with interface types other than ``if=none`` are for onboard
-+devices.  It is possible to use drives the board doesn't pick up with
-+-device.  This usage is now deprecated.  Use ``if=none`` instead.
++static void get_drive(Object *obj, Visitor *v, const char *name, void *opaque,
++                      Error **errp)
+ {
+     DeviceState *dev = DEVICE(obj);
++    Property *prop = opaque;
+     void **ptr = qdev_get_prop_ptr(dev, prop);
++    const char *value;
+     char *p;
+ 
+-    p = *ptr ? print(*ptr) : g_strdup("");
++    if (*ptr) {
++        value = blk_name(*ptr);
++        if (!*value) {
++            BlockDriverState *bs = blk_bs(*ptr);
++            if (bs) {
++                value = bdrv_get_node_name(bs);
++            }
++        }
++    } else {
++        value = "";
++    }
 +
-+
- QEMU Machine Protocol (QMP) commands
- ------------------------------------
- 
-diff --git a/include/sysemu/blockdev.h b/include/sysemu/blockdev.h
-index a86d99b3d8..3b5fcda08d 100644
---- a/include/sysemu/blockdev.h
-+++ b/include/sysemu/blockdev.h
-@@ -35,6 +35,7 @@ struct DriveInfo {
-     bool is_default;            /* Added by default_drive() ?  */
-     int media_cd;
-     QemuOpts *opts;
-+    bool claimed_by_board;
-     QTAILQ_ENTRY(DriveInfo) next;
- };
- 
-@@ -45,6 +46,7 @@ BlockBackend *blk_by_legacy_dinfo(DriveInfo *dinfo);
- void override_max_devs(BlockInterfaceType type, int max_devs);
- 
- DriveInfo *drive_get(BlockInterfaceType type, int bus, int unit);
-+void drive_mark_claimed_by_board(void);
- void drive_check_orphaned(void);
- DriveInfo *drive_get_by_index(BlockInterfaceType type, int index);
- int drive_get_max_bus(BlockInterfaceType type);
-diff --git a/blockdev.c b/blockdev.c
-index 72df193ca7..31d5eaf6bf 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -239,6 +239,19 @@ DriveInfo *drive_get(BlockInterfaceType type, int bus, int unit)
-     return NULL;
++    p = g_strdup(value);
+     visit_type_str(v, name, &p, errp);
+     g_free(p);
  }
  
-+void drive_mark_claimed_by_board(void)
-+{
-+    BlockBackend *blk;
-+    DriveInfo *dinfo;
-+
-+    for (blk = blk_next(NULL); blk; blk = blk_next(blk)) {
-+        dinfo = blk_legacy_dinfo(blk);
-+        if (dinfo && blk_get_attached_dev(blk)) {
-+            dinfo->claimed_by_board = true;
-+        }
-+    }
-+}
-+
- void drive_check_orphaned(void)
+-static void set_pointer(Object *obj, Visitor *v, Property *prop,
+-                        void (*parse)(DeviceState *dev, const char *str,
+-                                      void **ptr, const char *propname,
+-                                      Error **errp),
+-                        const char *name, Error **errp)
++static void set_drive_helper(Object *obj, Visitor *v, const char *name,
++                             void *opaque, bool iothread, Error **errp)
  {
-     BlockBackend *blk;
-@@ -248,8 +261,10 @@ void drive_check_orphaned(void)
+     DeviceState *dev = DEVICE(obj);
++    Property *prop = opaque;
+     Error *local_err = NULL;
+     void **ptr = qdev_get_prop_ptr(dev, prop);
+     char *str;
++    BlockBackend *blk;
++    bool blk_created = false;
++    int ret;
  
-     for (blk = blk_next(NULL); blk; blk = blk_next(blk)) {
-         dinfo = blk_legacy_dinfo(blk);
--        if (!blk_get_attached_dev(blk) && !dinfo->is_default &&
--            dinfo->type != IF_NONE) {
-+        if (dinfo->is_default || dinfo->type == IF_NONE) {
-+            continue;
-+        }
-+        if (!blk_get_attached_dev(blk)) {
-             loc_push_none(&loc);
-             qemu_opts_loc_restore(dinfo->opts);
-             error_report("machine type does not support"
-@@ -257,6 +272,14 @@ void drive_check_orphaned(void)
-                          if_name[dinfo->type], dinfo->bus, dinfo->unit);
-             loc_pop(&loc);
-             orphans = true;
-+            continue;
-+        }
-+        if (!dinfo->claimed_by_board && dinfo->type != IF_VIRTIO) {
-+            loc_push_none(&loc);
-+            qemu_opts_loc_restore(dinfo->opts);
-+            warn_report("bogus if=%s is deprecated, use if=none",
-+                        if_name[dinfo->type]);
-+            loc_pop(&loc);
-         }
+     if (dev->realized) {
+         qdev_prop_set_after_realize(dev, name, errp);
+@@ -59,23 +75,12 @@ static void set_pointer(Object *obj, Visitor *v, Property *prop,
+         error_propagate(errp, local_err);
+         return;
      }
- 
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index ae5451bc23..d8a98c707c 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -4346,6 +4346,14 @@ void qemu_init(int argc, char **argv, char **envp)
-     /* from here on runstate is RUN_STATE_PRELAUNCH */
-     machine_run_board_init(current_machine);
- 
-+    /*
-+     * TODO To drop support for deprecated bogus if=..., move
-+     * drive_check_orphaned() here, replacing this call.  Also drop
-+     * its deprecation warning, along with DriveInfo member
-+     * @claimed_by_board.
-+     */
-+    drive_mark_claimed_by_board();
 +
-     realtime_init();
+     if (!*str) {
+         g_free(str);
+         *ptr = NULL;
+         return;
+     }
+-    parse(dev, str, ptr, prop->name, errp);
+-    g_free(str);
+-}
+-
+-/* --- drive --- */
+-
+-static void do_parse_drive(DeviceState *dev, const char *str, void **ptr,
+-                           const char *propname, bool iothread, Error **errp)
+-{
+-    BlockBackend *blk;
+-    bool blk_created = false;
+-    int ret;
  
-     soundhw_init();
+     blk = blk_by_name(str);
+     if (!blk) {
+@@ -101,7 +106,7 @@ static void do_parse_drive(DeviceState *dev, const char *str, void **ptr,
+     }
+     if (!blk) {
+         error_setg(errp, "Property '%s.%s' can't find value '%s'",
+-                   object_get_typename(OBJECT(dev)), propname, str);
++                   object_get_typename(OBJECT(dev)), prop->name, str);
+         goto fail;
+     }
+     if (blk_attach_dev(blk, dev) < 0) {
+@@ -126,18 +131,20 @@ fail:
+         /* If we need to keep a reference, blk_attach_dev() took it */
+         blk_unref(blk);
+     }
++
++    g_free(str);
+ }
+ 
+-static void parse_drive(DeviceState *dev, const char *str, void **ptr,
+-                        const char *propname, Error **errp)
++static void set_drive(Object *obj, Visitor *v, const char *name, void *opaque,
++                      Error **errp)
+ {
+-    do_parse_drive(dev, str, ptr, propname, false, errp);
++    set_drive_helper(obj, v, name, opaque, false, errp);
+ }
+ 
+-static void parse_drive_iothread(DeviceState *dev, const char *str, void **ptr,
+-                                 const char *propname, Error **errp)
++static void set_drive_iothread(Object *obj, Visitor *v, const char *name,
++                               void *opaque, Error **errp)
+ {
+-    do_parse_drive(dev, str, ptr, propname, true, errp);
++    set_drive_helper(obj, v, name, opaque, true, errp);
+ }
+ 
+ static void release_drive(Object *obj, const char *name, void *opaque)
+@@ -156,38 +163,6 @@ static void release_drive(Object *obj, const char *name, void *opaque)
+     }
+ }
+ 
+-static char *print_drive(void *ptr)
+-{
+-    const char *name;
+-
+-    name = blk_name(ptr);
+-    if (!*name) {
+-        BlockDriverState *bs = blk_bs(ptr);
+-        if (bs) {
+-            name = bdrv_get_node_name(bs);
+-        }
+-    }
+-    return g_strdup(name);
+-}
+-
+-static void get_drive(Object *obj, Visitor *v, const char *name, void *opaque,
+-                      Error **errp)
+-{
+-    get_pointer(obj, v, opaque, print_drive, name, errp);
+-}
+-
+-static void set_drive(Object *obj, Visitor *v, const char *name, void *opaque,
+-                      Error **errp)
+-{
+-    set_pointer(obj, v, opaque, parse_drive, name, errp);
+-}
+-
+-static void set_drive_iothread(Object *obj, Visitor *v, const char *name,
+-                               void *opaque, Error **errp)
+-{
+-    set_pointer(obj, v, opaque, parse_drive_iothread, name, errp);
+-}
+-
+ const PropertyInfo qdev_prop_drive = {
+     .name  = "str",
+     .description = "Node name or ID of a block device to use as a backend",
 -- 
 2.26.2
 
