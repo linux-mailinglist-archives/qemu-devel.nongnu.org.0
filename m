@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3371D1EFE42
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 18:52:07 +0200 (CEST)
-Received: from localhost ([::1]:51960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0C651EFE45
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 18:53:04 +0200 (CEST)
+Received: from localhost ([::1]:57820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jhFZe-00044Q-5F
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 12:52:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40448)
+	id 1jhFaZ-0006Pq-M6
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 12:53:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jhFXq-000198-NE
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 12:50:14 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:44068)
+ id 1jhFXs-0001BI-5s
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 12:50:16 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:38728)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jhFXp-0001de-UF
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 12:50:14 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id y17so10420935wrn.11
- for <qemu-devel@nongnu.org>; Fri, 05 Jun 2020 09:50:13 -0700 (PDT)
+ id 1jhFXq-0001dy-MH
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 12:50:15 -0400
+Received: by mail-wm1-x341.google.com with SMTP id f185so9782452wmf.3
+ for <qemu-devel@nongnu.org>; Fri, 05 Jun 2020 09:50:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=JbPgHS0uFT5SU5bLrmRMVkoZQ1aduSbm+LPDO/fRmyE=;
- b=X7Z7bGQRLiYsJrsNMGg5FXaYMpITJ8ghGTKZySGnluDH2St8rgPbbHqcy4SO3J2Eto
- 5ByIL8nhmUBpVlQevFi2G4u0kSk6jjJHvRoNz3RDTCNoWAhFcVsJpDzIfTY4suzPzMtc
- yYQSGmQtMq8LLtUQPJg8hv7BJlx3i4hFdTGG1lOmvSydtFdjUpa118x4qPFqp5TbINX3
- nvYvlxhORYS6pZ4EE5BiaP+3eG8fBjsv8z13j3IVM7MhwImrNPHoxcIn9T+qAKNRe2DC
- 2TgFKB5U3DVpmsAEMNK32zRwxOMogxXdUHUf4lfkPxb66ZX/rtbyT6Ou0TuwueMe9c4O
- Fjdw==
+ bh=2W0hZmJmprXTXvmQPYEl3pMM+b1VTyiikXeZP4VVDCo=;
+ b=vhXk41YNLDta19kH6i1sDaAlHGnb/sY7HtNDvgflsmmZ+DwdXqdmxtwFyYQinUPqXz
+ rm/8MWHlpPQjGuIWUUY9vl4wWnC9uBliua+TYah/yYBzidTzVL2KEsA7ApHH1MZJVAcU
+ 5/uG0rDJB9/wSSkzZQ46ioFPT4TD5Xzd2VRtxSqhZ9Ir+8gwOrJkrR5vZZSMNPg+Jnmr
+ s0TDrMVvVE0pfdv/R3brWC8+r5jshs74ZyhaPq39IuW/2wqnEetC6PFavujQByTDntJo
+ RGRzRVDs11RinleYOLBOY8rrG+lO8gG6RuHdcOuwGDcN6C0SD3GwWbDSLgOVowubyQ1Q
+ dYTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=JbPgHS0uFT5SU5bLrmRMVkoZQ1aduSbm+LPDO/fRmyE=;
- b=L8xvUTHbu00bSlDilX1QD4Yw7NSE7j9k+sW6WBrsJuv0ynuuJd3O/UlfERP0eyNQjA
- WvH6/1ci43h2fVr5uhOdL1CvtGuhXK8jx+laffuX9qJS76DnKeii9UsPObU9O0GeqD3X
- hD2MyIl9EaXAaKXiuaKXqyjYV8XsV0tTjRRTorv1tXLNnlIJMx8aN41tKlbFkQ7jBeFw
- y+jZa/PSBeZHRpTpoAVjvITRzMk09q3ZkroczRCYvdm82UJihVvHv7NAaVZhedHdrRLM
- zXAiwDySPlWQtU9LuF7sBOOHd/x/M8sBBFTrLawCAjlodgA22hlg5cvb58OAog1++ZbT
- c/Cg==
-X-Gm-Message-State: AOAM532/3gsCtZtEQOYC1KAAhOqLNVgHHbYdXbCwjxNxZDk0BFDEGu1n
- aw2nn97OmyNXnPEyHgQBVWJ1WPO4m09a5w==
-X-Google-Smtp-Source: ABdhPJzm3IfFarDNCI1BIxi1WH2LWP50FdJmlFu4yfZtWW3v2zbcKgUVjmyhnm2aGtb341SMTgXCjg==
-X-Received: by 2002:adf:e590:: with SMTP id l16mr10081659wrm.383.1591375812080; 
+ bh=2W0hZmJmprXTXvmQPYEl3pMM+b1VTyiikXeZP4VVDCo=;
+ b=H0fCA9RZdqk7Ka1pbqQKRKrtmi8aQzX7B/S2jTfkxTaZvVfXCY0t6gt0gVfCd1OUC9
+ QbVinSJ8hJqr7Lww7LSJcYVYntKBOqe6Rw6pxWt2BKjyGJYGlmF3RPcZ95BNXgDpf8JR
+ eRdIXT3XbQuXP5RXc4tCQZPBISUwL6BRFz8yCFxZu+oaO3pdjY4EYKmH/yeI/PP6hW7h
+ K485RxzJWMuxeeMqjtT11y6ZWNUQlvkOoSD0cfyawApwITkoD4O/CVCDydeTfTjuz2YM
+ pms48bs/QmF3wCqU6RxO19hsrbQSIwn5+iaKJZdsFzg7WA79bCVETbaFTip/ZsbvQJhe
+ Z9ow==
+X-Gm-Message-State: AOAM531CYpgTpBVgs20xn5EQZJpjw5noALtMwKv1WvqGWStEfKa3Dk2M
+ B8O0bK/3EAotHZWZ+ewcejjxVXQZ23mUyA==
+X-Google-Smtp-Source: ABdhPJxMEr+ZnCLOe7lWNNjTnd9p5hxs+luGWp8KGC+x9tAWGBlJSUQycZaTMo4KQtq+lfAQ/z4cYQ==
+X-Received: by 2002:a7b:ce88:: with SMTP id q8mr3533881wmj.176.1591375812952; 
  Fri, 05 Jun 2020 09:50:12 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id c140sm12272724wmd.18.2020.06.05.09.50.11
+ by smtp.gmail.com with ESMTPSA id c140sm12272724wmd.18.2020.06.05.09.50.12
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Jun 2020 09:50:11 -0700 (PDT)
+ Fri, 05 Jun 2020 09:50:12 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/29] hw/ssi/imx_spi: Removed unnecessary cast of rx data
- received from slave
-Date: Fri,  5 Jun 2020 17:49:40 +0100
-Message-Id: <20200605165007.12095-3-peter.maydell@linaro.org>
+Subject: [PULL 03/29] hw/input/pxa2xx_keypad: Replace hw_error() by
+ qemu_log_mask()
+Date: Fri,  5 Jun 2020 17:49:41 +0100
+Message-Id: <20200605165007.12095-4-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200605165007.12095-1-peter.maydell@linaro.org>
 References: <20200605165007.12095-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,34 +90,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Eden Mikitas <e.mikitas@gmail.com>
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-When inserting the value retrieved (rx) from the spi slave, rx is pushed to
-rx_fifo after being cast to uint8_t. rx_fifo is a fifo32, and the rx
-register the driver uses is also 32 bit. This zeroes the 24 most
-significant bits of rx. This proved problematic with devices that expect to
-use the whole 32 bits of the rx register.
+hw_error() calls exit(). This a bit overkill when we can log
+the accesses as unimplemented or guest error.
 
-Signed-off-by: Eden Mikitas <e.mikitas@gmail.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+When fuzzing the devices, we don't want the whole process to
+exit. Replace some hw_error() calls by qemu_log_mask()
+(missed in commit 5a0001ec7e).
+
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-id: 20200525114123.21317-2-f4bug@amsat.org
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/ssi/imx_spi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/input/pxa2xx_keypad.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/hw/ssi/imx_spi.c b/hw/ssi/imx_spi.c
-index 6fef5c79588..43b2f14dd28 100644
---- a/hw/ssi/imx_spi.c
-+++ b/hw/ssi/imx_spi.c
-@@ -206,7 +206,7 @@ static void imx_spi_flush_txfifo(IMXSPIState *s)
-         if (fifo32_is_full(&s->rx_fifo)) {
-             s->regs[ECSPI_STATREG] |= ECSPI_STATREG_RO;
-         } else {
--            fifo32_push(&s->rx_fifo, (uint8_t)rx);
-+            fifo32_push(&s->rx_fifo, rx);
-         }
+diff --git a/hw/input/pxa2xx_keypad.c b/hw/input/pxa2xx_keypad.c
+index 31862a7d16c..62aa6f6b15a 100644
+--- a/hw/input/pxa2xx_keypad.c
++++ b/hw/input/pxa2xx_keypad.c
+@@ -12,7 +12,7 @@
+  */
  
-         if (s->burst_length <= 0) {
+ #include "qemu/osdep.h"
+-#include "hw/hw.h"
++#include "qemu/log.h"
+ #include "hw/irq.h"
+ #include "migration/vmstate.h"
+ #include "hw/arm/pxa.h"
+@@ -233,7 +233,9 @@ static uint64_t pxa2xx_keypad_read(void *opaque, hwaddr offset,
+         return s->kpkdi;
+         break;
+     default:
+-        hw_error("%s: Bad offset " REG_FMT "\n", __func__, offset);
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: Bad read offset 0x%"HWADDR_PRIx"\n",
++                      __func__, offset);
+     }
+ 
+     return 0;
+@@ -280,7 +282,9 @@ static void pxa2xx_keypad_write(void *opaque, hwaddr offset,
+         break;
+ 
+     default:
+-        hw_error("%s: Bad offset " REG_FMT "\n", __func__, offset);
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: Bad write offset 0x%"HWADDR_PRIx"\n",
++                      __func__, offset);
+     }
+ }
+ 
 -- 
 2.20.1
 
