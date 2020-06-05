@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D02061F0026
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 21:02:07 +0200 (CEST)
-Received: from localhost ([::1]:45408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2174D1F0028
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 21:02:46 +0200 (CEST)
+Received: from localhost ([::1]:47340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jhHbS-0000TF-Rh
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 15:02:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58278)
+	id 1jhHc5-0001Hj-4k
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 15:02:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <joseph_myers@mentor.com>)
- id 1jhHZj-0007ng-Oj
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 15:00:19 -0400
-Received: from esa4.mentor.iphmx.com ([68.232.137.252]:33964)
+ id 1jhHaD-0008PS-0l
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 15:00:49 -0400
+Received: from esa2.mentor.iphmx.com ([68.232.141.98]:23527)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <joseph_myers@mentor.com>)
- id 1jhHZi-0006kF-Sc
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 15:00:19 -0400
-IronPort-SDR: 9GYcwDgzUE23Zz9Jpn/vvQdCGmbQtwS2G28xA4vme/GAffyb8iKOBIY/oCDOnlOYw54MOqueKd
- sX9+zpWbvN/tjd4ouhXrnOcXF2gKjiZAaXfRrNI2MwSt+fuct1e6TEsPvgVFl0Wcje7b8gJxe1
- co7Ck+V4F9dpryuI8TdKrSVyJKKwKKX6JkctrXEbn/yiq6mPe5Ig/SQylF9l/X7SxfNyVFYdjg
- OSFskJxj8uYEfQf6mKjPJktXTc5EMAubSlU/+Db5kUDwaGbvHnRb4GFe8zYnLfhbRXHiIeVfWg
- ceg=
-X-IronPort-AV: E=Sophos;i="5.73,477,1583222400"; d="scan'208";a="49633038"
+ id 1jhHaB-0006ti-TU
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 15:00:48 -0400
+IronPort-SDR: o6OyhxX5WPW9Ivz+XOQSmu7wA963PKKC/fmCb2nUBqNhcVskOpK/i9QWucaKNx2RLlg8rTa5sN
+ qLBaF3cjGQexwisqaWWjuw9TwFVRpoH2xhxV+p5nTKxhdzGuIEC09mUoZm2vwUbyw7Herulozj
+ g/0rz8EjPAkDX94tzq4brxgPbvyC+mizFOrj3rBnI1SJt0utCd7McNnF2lKlLrAeI/RRenoFKV
+ 5aUd7cys9Rrmr4e0/+C+YkGXau3hhtejQTz2nodOEWbMtA9NM6IGx4CjVH050X7ibrL68uw/l8
+ WxQ=
+X-IronPort-AV: E=Sophos;i="5.73,477,1583222400"; d="scan'208";a="49520896"
 Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
- by esa4.mentor.iphmx.com with ESMTP; 05 Jun 2020 11:00:17 -0800
-IronPort-SDR: F/1FruGMO9R7ujubsMTUScSsM8Mx4W2Fh5rWxXLYYxsGY9wrtJq5kU0mA1aJ2JrIGkbkAFNdis
- sOixld8CnN58F1VpLQSeM9EipzExRbuwSgoaoy7IaMOVqyAtZekhdwyQtNi+Nxwk6XfbmT1qDy
- qZ0qx/q6L0cH8RYLyGtd4Eeyx/nBq/XEgl5QshxttGwCsuQ87mf7Y3+iTybqIduvkJ2xYb8GC7
- gZuZ3J0vxk0ZCc04k4jy0V2/36aN6F2iQ/fetXsaVmd5/PP01Gt7xcjYh4UrRKWTNmdbdNjqc7
- bOk=
-Date: Fri, 5 Jun 2020 19:00:11 +0000
+ by esa2.mentor.iphmx.com with ESMTP; 05 Jun 2020 11:00:46 -0800
+IronPort-SDR: BSk93enA7yO2QEG4arDdvltkG4B+ihlQv19LPP7LOT2XKUCNBupnNF79AJAIUwo7s1YZ/9WDx1
+ yjfAB4x7YnUYIcW8Y/Nj3m3P1XrI0CMKE8+p34qf9ZE64pmDAai6Llm2AafNKqXp2H9gXgqQpJ
+ Ve/uAay/ecrzmRZneg7LpTVBOjO1IfyMadYHoxm4aY/h25xE8DjPaFA6dGfrWLJY8P3LI/rzN2
+ hfW5pC80CHU63IGWNQLi8tPDU3Mb/fNjrtaSUIAptu7nbJOs05bniMWQxGU55ry10a3FhHq9Av
+ g/k=
+Date: Fri, 5 Jun 2020 19:00:40 +0000
 From: Joseph Myers <joseph@codesourcery.com>
 X-X-Sender: jsm28@digraph.polyomino.org.uk
 To: <qemu-devel@nongnu.org>, <aurelien@aurel32.net>,
  <peter.maydell@linaro.org>, <alex.bennee@linaro.org>, <laurent@vivier.eu>,
  <pbonzini@redhat.com>, <rth@twiddle.net>, <ehabkost@redhat.com>
-Subject: [PATCH 2/7] softfloat: fix floatx80 remainder pseudo-denormal check
- for zero
+Subject: [PATCH 3/7] softfloat: do not return pseudo-denormal from floatx80
+ remainder
 In-Reply-To: <alpine.DEB.2.21.2006051857110.13777@digraph.polyomino.org.uk>
-Message-ID: <alpine.DEB.2.21.2006051859440.13777@digraph.polyomino.org.uk>
+Message-ID: <alpine.DEB.2.21.2006051900130.13777@digraph.polyomino.org.uk>
 References: <alpine.DEB.2.21.2006051857110.13777@digraph.polyomino.org.uk>
 User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="US-ASCII"
 X-Originating-IP: [137.202.0.90]
-X-ClientProxiedBy: svr-ies-mbx-02.mgc.mentorg.com (139.181.222.2) To
+X-ClientProxiedBy: SVR-IES-MBX-07.mgc.mentorg.com (139.181.222.7) To
  svr-ies-mbx-02.mgc.mentorg.com (139.181.222.2)
-Received-SPF: pass client-ip=68.232.137.252;
- envelope-from=joseph_myers@mentor.com; helo=esa4.mentor.iphmx.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/05 14:59:46
+Received-SPF: pass client-ip=68.232.141.98;
+ envelope-from=joseph_myers@mentor.com; helo=esa2.mentor.iphmx.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/05 14:58:48
 X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
 X-Spam_score_int: -39
 X-Spam_score: -4.0
@@ -75,30 +75,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The floatx80 remainder implementation ignores the high bit of the
-significand when checking whether an operand (numerator) with zero
-exponent is zero.  This means it mishandles a pseudo-denormal
-representation of 0x1p-16382L by treating it as zero.  Fix this by
-checking the whole significand instead.
+The floatx80 remainder implementation sometimes returns the numerator
+unchanged when the denominator is sufficiently larger than the
+numerator.  But if the value to be returned unchanged is a
+pseudo-denormal, that is incorrect.  Fix it to normalize the numerator
+in that case.
 
 Signed-off-by: Joseph Myers <joseph@codesourcery.com>
 ---
- fpu/softfloat.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ fpu/softfloat.c | 18 +++++++++++++++---
+ 1 file changed, 15 insertions(+), 3 deletions(-)
 
 diff --git a/fpu/softfloat.c b/fpu/softfloat.c
-index 7b1ce7664f..091847beb9 100644
+index 091847beb9..00f362af23 100644
 --- a/fpu/softfloat.c
 +++ b/fpu/softfloat.c
-@@ -5726,7 +5726,7 @@ floatx80 floatx80_modrem(floatx80 a, floatx80 b, bool mod,
-         normalizeFloatx80Subnormal( bSig, &bExp, &bSig );
+@@ -5691,7 +5691,7 @@ floatx80 floatx80_modrem(floatx80 a, floatx80 b, bool mod,
+                          float_status *status)
+ {
+     bool aSign, zSign;
+-    int32_t aExp, bExp, expDiff;
++    int32_t aExp, bExp, expDiff, aExpOrig;
+     uint64_t aSig0, aSig1, bSig;
+     uint64_t q, term0, term1, alternateASig0, alternateASig1;
+ 
+@@ -5700,7 +5700,7 @@ floatx80 floatx80_modrem(floatx80 a, floatx80 b, bool mod,
+         return floatx80_default_nan(status);
      }
-     if ( aExp == 0 ) {
--        if ( (uint64_t) ( aSig0<<1 ) == 0 ) return a;
-+        if ( aSig0 == 0 ) return a;
-         normalizeFloatx80Subnormal( aSig0, &aExp, &aSig0 );
+     aSig0 = extractFloatx80Frac( a );
+-    aExp = extractFloatx80Exp( a );
++    aExpOrig = aExp = extractFloatx80Exp( a );
+     aSign = extractFloatx80Sign( a );
+     bSig = extractFloatx80Frac( b );
+     bExp = extractFloatx80Exp( b );
+@@ -5715,6 +5715,11 @@ floatx80 floatx80_modrem(floatx80 a, floatx80 b, bool mod,
+         if ((uint64_t)(bSig << 1)) {
+             return propagateFloatx80NaN(a, b, status);
+         }
++        if (aExp == 0 && aSig0 >> 63) {
++            /* Pseudo-denormal argument must be returned in normalized
++             * form.  */
++            return packFloatx80(aSign, 1, aSig0);
++        }
+         return a;
      }
-     bSig |= UINT64_C(0x8000000000000000);
+     if ( bExp == 0 ) {
+@@ -5734,7 +5739,14 @@ floatx80 floatx80_modrem(floatx80 a, floatx80 b, bool mod,
+     expDiff = aExp - bExp;
+     aSig1 = 0;
+     if ( expDiff < 0 ) {
+-        if ( mod || expDiff < -1 ) return a;
++        if ( mod || expDiff < -1 ) {
++            if (aExp == 1 && aExpOrig == 0) {
++                /* Pseudo-denormal argument must be returned in
++                 * normalized form.  */
++                return packFloatx80(aSign, aExp, aSig0);
++            }
++            return a;
++        }
+         shift128Right( aSig0, 0, 1, &aSig0, &aSig1 );
+         expDiff = 0;
+     }
 -- 
 2.17.1
 
