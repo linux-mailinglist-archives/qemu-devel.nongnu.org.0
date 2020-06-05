@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 258121EFD18
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 17:58:18 +0200 (CEST)
-Received: from localhost ([::1]:48852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B3911EFD0E
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 17:55:25 +0200 (CEST)
+Received: from localhost ([::1]:37848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jhEjZ-0001HY-7Z
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 11:58:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58390)
+	id 1jhEgm-0003MK-8G
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 11:55:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jhEbP-00041v-LB
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 11:49:51 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:52994)
+ id 1jhEbS-00049n-N2
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 11:49:54 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:42759)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jhEbO-0004MD-Fh
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 11:49:51 -0400
-Received: by mail-wm1-x341.google.com with SMTP id r9so8877048wmh.2
- for <qemu-devel@nongnu.org>; Fri, 05 Jun 2020 08:49:50 -0700 (PDT)
+ id 1jhEbR-0004MZ-MU
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 11:49:54 -0400
+Received: by mail-wr1-x442.google.com with SMTP id p5so10242363wrw.9
+ for <qemu-devel@nongnu.org>; Fri, 05 Jun 2020 08:49:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Ou/1yLdNR/Td2p6rgjvxI8THzHHOh+I9GsvdOs07AMM=;
- b=uFjeECQGJhmpjJSX9xWl6GS9H2uG1KOKVQOLtLl4pfL9X7sUjGgOCwmhrJercWMRy3
- 9fBcZiROldGuVlirunkq9GJFB1FEuABDY1XTBucjKvYOTJqneANe3dJfAJPbLBDu/4aX
- DxbuAp4gHkCIr+lIA6eUqVYwX4t0xOgQqBNjtgzMMmbHN5jeicvyCbFA90UlztrFNIPb
- v7Ohe2TY4GOq+7atqQ2daTiRmIMpbAMvasB34l6KRFtD3dC3Z3MrltdoITo/zsxei/NO
- ayO58UN/r0qHjSQPwSmRohYrYTTn7IamxQHGBO7PGreZYZn+Fbkc2Xqy7wS2xBjH+gzX
- Fu2g==
+ bh=o205Gy4dIq94JtyORDq4ueHvgsS7WKPATaza+gEBGrc=;
+ b=Dwe/XF/StfZvDDrtiiBItgKpQT9C9bsDkFPMkSYUGKNAy3jRPnEP1VbG3RhC/NWVav
+ 8hAVExW4vcccya0D7NaxfD1vmvcFK/QTx33/RlN/U63w1Y8+AOoR4d9ET5G+oZc3Fqc7
+ 3L1B6suRV0o2r5TchQQr4i/8ES22SUgph082cihOOPMi+sbqoG9aKHtWbhHXXhgXiW10
+ 9bnYWoKQZSIaG7ph6w6KHiM9CZmR6+fMmloiat3hzkFdyGdlhhoorw9cemuZ28qr8Fuw
+ S/O1tkRAVnXEiuIPramsLxUY9KzaawPK6bZFDQVCWVeGV3diNw2f7K1ytsR0mHTfMbqB
+ PuPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Ou/1yLdNR/Td2p6rgjvxI8THzHHOh+I9GsvdOs07AMM=;
- b=lgSJsXwg8yAZZ7s9TAEr9YPJUUX4F8eic2WCZ3O/PjORMvSU6wHuP2sFAvUFwTmp+E
- uWhUexrY1lgQgN3BbMH6HvQkuoOqmAZ0BY+ZlmmP/lNenoM8FxWdbDBTFgsl5ZJauxD7
- 89kjg8/MHu0sB5fxGYA9bJObvHDREFb3UAvMiJ9S94ldEjEn1qFRJID4fl3/1pRx5HDQ
- fRKfpn6A2TRuRaGN794WKHpWkio0lw6+QdTSljWdOlWgy7FFB53JhMqq2ufY1Emy6Mdy
- QYfPetwcnKLqDeUFI2NPayB3xxb6nR5rzo+frmaNLydyebr6GSRuA71mnAXauymYnWBw
- l2sQ==
-X-Gm-Message-State: AOAM530nqP0GEYHiZT7UpOleqPdVGD/oNwhOCNgvlxMOeP49OIc/p8fZ
- F3RLQOLiKKkjhwSO11HSe9GbNg==
-X-Google-Smtp-Source: ABdhPJzjJysKDY3Jcd/Cdqp85W47q9lx7lR6kZdTsdKOGXx3dZANCe5i6fCLGG0FS/UWizphnexE/w==
-X-Received: by 2002:a1c:9ec4:: with SMTP id h187mr3266598wme.27.1591372189031; 
- Fri, 05 Jun 2020 08:49:49 -0700 (PDT)
+ bh=o205Gy4dIq94JtyORDq4ueHvgsS7WKPATaza+gEBGrc=;
+ b=YV0ImS7w5oIBwtzp5GcvV19v75qn3+iPt+4+H8U4M2ak2wviAOJaYTF81qN1O34Xbn
+ 7XbaQaZJQ+WiEgLkThE30wXR032aUTw/rBYH89oU1Q/JyqdQOp8v193Rf7qak9beyQXW
+ Ntl5BApXhWOv+QfSSJ84k/AekmGEPgtxVuJuRD41983TPDefO79YOZ71RwAz0gjELVlg
+ w9jhf0MA56qDT1FNUgShlpIndJW7Ya67zfW3vSWlg93bhycAl7fwOHisqb4gqJXjVih3
+ d6U+rAjSO3gKFmWSaNi7A+x20Ml8bWjN2U+xgC8vCQbpwrcHPg+tcgInUHFE9VZwsiq1
+ FnMg==
+X-Gm-Message-State: AOAM531W8R0kJHk2jjo3OvjOkcxxHOuQ1dXt7l+fD0z0tobAu+GyzqIw
+ b9M+k5bN1eZMNnoIGr6RajQjOQ==
+X-Google-Smtp-Source: ABdhPJz5WtfsM8XCA8XZXxmlqxDM4J1ooBn7EUOMyXz6RSV67z8sWyCXg/OqNjuVyIBBq1hDR4IpHw==
+X-Received: by 2002:a5d:484b:: with SMTP id n11mr10390298wrs.356.1591372192284; 
+ Fri, 05 Jun 2020 08:49:52 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id j190sm11823001wmb.33.2020.06.05.08.49.43
+ by smtp.gmail.com with ESMTPSA id k17sm11284426wmj.15.2020.06.05.08.49.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Jun 2020 08:49:44 -0700 (PDT)
+ Fri, 05 Jun 2020 08:49:50 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 3129C1FF9B;
+ by zen.linaroharston (Postfix) with ESMTP id 483E71FF9C;
  Fri,  5 Jun 2020 16:49:30 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 12/14] linux-user: deal with address wrap for ARM_COMMPAGE
- on 32 bit
-Date: Fri,  5 Jun 2020 16:49:27 +0100
-Message-Id: <20200605154929.26910-13-alex.bennee@linaro.org>
+Subject: [PATCH  v1 13/14] tests/tcg: add simple commpage test case
+Date: Fri,  5 Jun 2020 16:49:28 +0100
+Message-Id: <20200605154929.26910-14-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200605154929.26910-1-alex.bennee@linaro.org>
 References: <20200605154929.26910-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x341.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,159 +88,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Bug 1880225 <1880225@bugs.launchpad.net>, Riku Voipio <riku.voipio@iki.fi>,
- Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We rely on the pointer to wrap when accessing the high address of the
-COMMPAGE so it lands somewhere reasonable. However on 32 bit hosts we
-cannot afford just to map the entire 4gb address range. The old mmap
-trial and error code handled this by just checking we could map both
-the guest_base and the computed COMMPAGE address.
+The COMMPAGE are a number of kernel provided user-space routines for
+32 bit ARM systems. Add a basic series of smoke tests to ensure it is
+working as it should.
 
-We can't just manipulate loadaddr to get what we want so we introduce
-an offset which pgb_find_hole can apply when looking for a gap for
-guest_base that ensures there is space left to map the COMMPAGE
-afterwards.
-
-This is arguably a little inefficient for the one 32 bit
-value (kuser_helper_version) we need to keep there given all the
-actual code entries are picked up during the translation phase.
-
-Fixes: ee94743034b
-Bug: https://bugs.launchpad.net/qemu/+bug/1880225
-Cc: Bug 1880225 <1880225@bugs.launchpad.net>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Tested-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Cc: Richard Henderson <richard.henderson@linaro.org>
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20200527100546.29297-3-alex.bennee@linaro.org>
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20200527100546.29297-4-alex.bennee@linaro.org>
 ---
-v3
-  - base offset on ARM_COMMPAGE
-  - ensure we MAP_FIXED the commpage
-  - support offset in pgd_find_hole_fallback
----
- linux-user/elfload.c | 31 +++++++++++++++++--------------
- 1 file changed, 17 insertions(+), 14 deletions(-)
+ tests/tcg/arm/commpage.c      | 61 +++++++++++++++++++++++++++++++++++
+ tests/tcg/arm/Makefile.target |  2 ++
+ 2 files changed, 63 insertions(+)
+ create mode 100644 tests/tcg/arm/commpage.c
 
-diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index 475d243f3bd..b5cb21384a1 100644
---- a/linux-user/elfload.c
-+++ b/linux-user/elfload.c
-@@ -389,7 +389,7 @@ static bool init_guest_commpage(void)
- {
-     void *want = g2h(ARM_COMMPAGE & -qemu_host_page_size);
-     void *addr = mmap(want, qemu_host_page_size, PROT_READ | PROT_WRITE,
--                      MAP_ANONYMOUS | MAP_PRIVATE, -1, 0);
-+                      MAP_ANONYMOUS | MAP_PRIVATE | MAP_FIXED, -1, 0);
+diff --git a/tests/tcg/arm/commpage.c b/tests/tcg/arm/commpage.c
+new file mode 100644
+index 00000000000..c76e70cb8bd
+--- /dev/null
++++ b/tests/tcg/arm/commpage.c
+@@ -0,0 +1,61 @@
++/*
++ * Verify the COMMPAGE emulation
++ *
++ * The ARM commpage is a set of user space helper functions provided
++ * by the kernel in an effort to ease portability of user space code
++ * between different CPUs with potentially different capabilities. It
++ * is a 32 bit invention and similar to the vdso segment in many ways.
++ *
++ * The ABI is documented in the Linux kernel:
++ *     Documentation/arm/kernel_userspace_helpers.rst
++ *
++ * Copyright (c) 2020 Linaro Ltd
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++
++#include <stdlib.h>
++#include <stdio.h>
++#include <stdint.h>
++
++#define ARM_COMMPAGE      (0xffff0f00u)
++#define ARM_KUSER_VERSION (*(int32_t *)(ARM_COMMPAGE + 0xfc))
++typedef void * (get_tls_fn)(void);
++#define ARM_KUSER_GET_TLS (*(get_tls_fn *)(ARM_COMMPAGE + 0xe0))
++typedef int (cmpxchg_fn)(int oldval, int newval, volatile int *ptr);
++#define ARM_KUSER_CMPXCHG (*(cmpxchg_fn *)(ARM_COMMPAGE + 0xc0))
++typedef void (dmb_fn)(void);
++#define ARM_KUSER_DMB (*(dmb_fn *)(ARM_COMMPAGE + 0xa0))
++typedef int (cmpxchg64_fn)(const int64_t *oldval,
++                           const int64_t *newval,
++                           volatile int64_t *ptr);
++#define ARM_KUSER_CMPXCHG64 (*(cmpxchg64_fn *)(ARM_COMMPAGE + 0x60))
++
++#define fail_unless(x)                                                  \
++    do {                                                                \
++        if (!(x)) {                                                     \
++            fprintf(stderr, "FAILED at %s:%d\n", __FILE__, __LINE__);   \
++            exit(EXIT_FAILURE);                                         \
++        }                                                               \
++    } while (0)
++
++
++int main(int argc, char *argv[argc])
++{
++    void *kuser_tls;
++    int val = 1;
++    const int64_t oldval = 1, newval = 2;
++    int64_t val64 = 1;
++
++    fail_unless(ARM_KUSER_VERSION == 0x5);
++    kuser_tls = ARM_KUSER_GET_TLS();
++    printf("TLS = %p\n", kuser_tls);
++    fail_unless(kuser_tls != 0);
++    fail_unless(ARM_KUSER_CMPXCHG(1, 2, &val) == 0);
++    printf("val = %d\n", val);
++    /* this is a crash test, not checking an actual barrier occurs */
++    ARM_KUSER_DMB();
++    fail_unless(ARM_KUSER_CMPXCHG64(&oldval, &newval, &val64) == 0);
++    printf("val64 = %lld\n", val64);
++    return 0;
++}
+diff --git a/tests/tcg/arm/Makefile.target b/tests/tcg/arm/Makefile.target
+index 11c39c601ea..3da09a38be7 100644
+--- a/tests/tcg/arm/Makefile.target
++++ b/tests/tcg/arm/Makefile.target
+@@ -68,6 +68,8 @@ run-semiconsole-arm: semiconsole-arm
+ run-plugin-semiconsole-arm-with-%:
+ 	$(call skip-test, $<, "MANUAL ONLY")
  
-     if (addr == MAP_FAILED) {
-         perror("Allocating guest commpage");
-@@ -2113,7 +2113,8 @@ static void pgb_have_guest_base(const char *image_name, abi_ulong guest_loaddr,
-  * only dumbly iterate up the host address space seeing if the
-  * allocation would work.
-  */
--static uintptr_t pgd_find_hole_fallback(uintptr_t guest_size, uintptr_t brk, long align)
-+static uintptr_t pgd_find_hole_fallback(uintptr_t guest_size, uintptr_t brk,
-+                                        long align, uintptr_t offset)
- {
-     uintptr_t base;
++ARM_TESTS += commpage
++
+ TESTS += $(ARM_TESTS)
  
-@@ -2123,7 +2124,7 @@ static uintptr_t pgd_find_hole_fallback(uintptr_t guest_size, uintptr_t brk, lon
-     while (true) {
-         uintptr_t align_start, end;
-         align_start = ROUND_UP(base, align);
--        end = align_start + guest_size;
-+        end = align_start + guest_size + offset;
- 
-         /* if brk is anywhere in the range give ourselves some room to grow. */
-         if (align_start <= brk && brk < end) {
-@@ -2138,7 +2139,7 @@ static uintptr_t pgd_find_hole_fallback(uintptr_t guest_size, uintptr_t brk, lon
-                                      PROT_NONE, flags, -1, 0);
-             if (mmap_start != MAP_FAILED) {
-                 munmap((void *) align_start, guest_size);
--                return (uintptr_t) mmap_start;
-+                return (uintptr_t) mmap_start + offset;
-             }
-             base += qemu_host_page_size;
-         }
-@@ -2147,7 +2148,7 @@ static uintptr_t pgd_find_hole_fallback(uintptr_t guest_size, uintptr_t brk, lon
- 
- /* Return value for guest_base, or -1 if no hole found. */
- static uintptr_t pgb_find_hole(uintptr_t guest_loaddr, uintptr_t guest_size,
--                               long align)
-+                               long align, uintptr_t offset)
- {
-     GSList *maps, *iter;
-     uintptr_t this_start, this_end, next_start, brk;
-@@ -2161,7 +2162,7 @@ static uintptr_t pgb_find_hole(uintptr_t guest_loaddr, uintptr_t guest_size,
-     brk = (uintptr_t)sbrk(0);
- 
-     if (!maps) {
--        return pgd_find_hole_fallback(guest_size, brk, align);
-+        return pgd_find_hole_fallback(guest_size, brk, align, offset);
-     }
- 
-     /* The first hole is before the first map entry. */
-@@ -2173,7 +2174,7 @@ static uintptr_t pgb_find_hole(uintptr_t guest_loaddr, uintptr_t guest_size,
- 
-         this_end = ((MapInfo *)iter->data)->start;
-         next_start = ((MapInfo *)iter->data)->end;
--        align_start = ROUND_UP(this_start, align);
-+        align_start = ROUND_UP(this_start + offset, align);
- 
-         /* Skip holes that are too small. */
-         if (align_start >= this_end) {
-@@ -2223,6 +2224,7 @@ static void pgb_static(const char *image_name, abi_ulong orig_loaddr,
- {
-     uintptr_t loaddr = orig_loaddr;
-     uintptr_t hiaddr = orig_hiaddr;
-+    uintptr_t offset = 0;
-     uintptr_t addr;
- 
-     if (hiaddr != orig_hiaddr) {
-@@ -2236,18 +2238,19 @@ static void pgb_static(const char *image_name, abi_ulong orig_loaddr,
-     if (ARM_COMMPAGE) {
-         /*
-          * Extend the allocation to include the commpage.
--         * For a 64-bit host, this is just 4GiB; for a 32-bit host,
--         * the address arithmetic will wrap around, but the difference
--         * will produce the correct allocation size.
-+         * For a 64-bit host, this is just 4GiB; for a 32-bit host we
-+         * need to ensure there is space bellow the guest_base so we
-+         * can map the commpage in the place needed when the address
-+         * arithmetic wraps around.
-          */
-         if (sizeof(uintptr_t) == 8 || loaddr >= 0x80000000u) {
--            hiaddr = (uintptr_t)4 << 30;
-+            hiaddr = (uintptr_t) 4 << 30;
-         } else {
--            loaddr = ARM_COMMPAGE & -align;
-+            offset = -(ARM_COMMPAGE & -align);
-         }
-     }
- 
--    addr = pgb_find_hole(loaddr, hiaddr - loaddr, align);
-+    addr = pgb_find_hole(loaddr, hiaddr - loaddr, align, offset);
-     if (addr == -1) {
-         /*
-          * If ARM_COMMPAGE, there *might* be a non-consecutive allocation
-@@ -2282,7 +2285,7 @@ static void pgb_dynamic(const char *image_name, long align)
-          * just above that, and maximises the positive guest addresses.
-          */
-         commpage = ARM_COMMPAGE & -align;
--        addr = pgb_find_hole(commpage, -commpage, align);
-+        addr = pgb_find_hole(commpage, -commpage, align, 0);
-         assert(addr != -1);
-         guest_base = addr;
-     }
+ # On ARM Linux only supports 4k pages
 -- 
 2.20.1
 
