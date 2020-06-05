@@ -2,86 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FE5F1EFF99
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 20:04:42 +0200 (CEST)
-Received: from localhost ([::1]:47822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBE0A1EFFA0
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 20:07:13 +0200 (CEST)
+Received: from localhost ([::1]:55494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jhGht-0004lt-H8
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 14:04:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50738)
+	id 1jhGkK-0008Fq-Td
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 14:07:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jhGcn-0006IO-5y
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 13:59:28 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:60072
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jhGcm-0000f3-D8
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 13:59:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591379963;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=EtHXc08cU2h+YYoVzqMY8ITi4IAZMxthxIEDG0nzDUM=;
- b=cOodsi+mfngnR4E8usiqCxNv/Wul1K0On/qq+3pCV7yJ4LCJw/glvgILh25BAneWxtVxlw
- p3+L/tj2wH5/M24hyDMou3V2/ogitjhO/SolU/b2uvVRjMf+Fv37nNzHwjyYBsapw+Ey9b
- EPp4ptB1PbJnIgTaHZZzLKqRj3PcC5k=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-90-qk0rOu4IOr2KWL6uj2AwcA-1; Fri, 05 Jun 2020 13:59:20 -0400
-X-MC-Unique: qk0rOu4IOr2KWL6uj2AwcA-1
-Received: by mail-wr1-f69.google.com with SMTP id l1so4064679wrc.8
- for <qemu-devel@nongnu.org>; Fri, 05 Jun 2020 10:59:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=EtHXc08cU2h+YYoVzqMY8ITi4IAZMxthxIEDG0nzDUM=;
- b=QL8eXTZfhTPBVIytJxV+xzQiRfUlhNEOG16tnIloErmSizTaMKd1buDC5Y7q8tlso/
- giCJgBTkP0C2uIdomz+3K8Xdy+tzVKrPH+xxiKxLqzrgqB2LHJ7OxVhupRJDOBRLrMiv
- 1j7M8Qp/Gnnhb5BgPrXD+NojX63rIEW3pREp3Ay1/0LxrScDOabxM4whzAB1DIyIBVGn
- NI57IBQs3OGkUPzv+VFBpqxR4+qQpGUeR4hIoMZdtvZid7wPzYdBMkluSvg7zHaXKErl
- QQ/1B4V5Bh11qLDQxagxrqfSR1tr3q3gM/1IJrSeoCqADVgVd2kNNH1NiqQiApZe5uoB
- jBpg==
-X-Gm-Message-State: AOAM530AZfhngWVCG2KK+991I3WIIPqIc/Nuc0Axs5BLB4eW+xYdjw0t
- UMvshT8cGUP1T5SakjxqkY5Xm4yJNCQ7AX2Vu9riogaVfFbyUfvf39FhiQCe6b0RRN71M39SGaj
- lP7LLPwjAF/hFwM0=
-X-Received: by 2002:a1c:e0c3:: with SMTP id x186mr3742387wmg.17.1591379958894; 
- Fri, 05 Jun 2020 10:59:18 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwEle4zM0O5FN65X66KgWJBPS6QuFGnI/2gr9FFF+EjV0CsQ+3nSC3lfzQ7zq4IE2Vx2JDnmA==
-X-Received: by 2002:a1c:e0c3:: with SMTP id x186mr3742380wmg.17.1591379958678; 
- Fri, 05 Jun 2020 10:59:18 -0700 (PDT)
-Received: from localhost.localdomain
- (181.red-88-10-103.dynamicip.rima-tde.net. [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id y19sm11760700wmi.6.2020.06.05.10.59.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Jun 2020 10:59:18 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v7 11/11] accel/tcg: Add stub for probe_access()
-Date: Fri,  5 Jun 2020 19:58:21 +0200
-Message-Id: <20200605175821.20926-12-philmd@redhat.com>
-X-Mailer: git-send-email 2.21.3
-In-Reply-To: <20200605175821.20926-1-philmd@redhat.com>
-References: <20200605175821.20926-1-philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
+ id 1jhGca-0005t0-Cc
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 13:59:15 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:55196)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
+ id 1jhGcX-0000at-DK
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 13:59:11 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 055Hgggt114315;
+ Fri, 5 Jun 2020 17:59:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : in-reply-to : references : date : message-id : mime-version :
+ content-type; s=corp-2020-01-29;
+ bh=uDfAcGYVhUuoqLje7qv74ZmkRbFeU9jdHfSBibKlp+E=;
+ b=y4VFNSbwE2HeaciCmfWRpysJ54yff1LZ3l7Vtem3YrubSL57mjgruSa7HO177E0OR0cP
+ GTg5sIy07hR6hT9fK/8cKCzjowXVex432kCx326gPUu+q11hqNffoOpXwbAesNn9lj0A
+ +lp0O3AwJuait2S8S4Jh1RR81Axjzgo5l02LqgYTN5nUleHAbXos4tnUeeXIOOn1gpi8
+ d0ZwffUCMWbh7ATB1Rs9uthdB1Fv4HJiZFq+HONr+oZbh/Ep4JhoIqbVxAn4SaeSTVJA
+ g7VhEpgQ+I+VWNv+XrvbDNKbqlwFExVD8RCnk4jNWKVqsxI6aHloR8dgInJz55C+EVOx OQ== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by aserp2120.oracle.com with ESMTP id 31f91dv3w5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Fri, 05 Jun 2020 17:59:02 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 055HhTuh046709;
+ Fri, 5 Jun 2020 17:59:02 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by userp3030.oracle.com with ESMTP id 31f92t3n1c-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 05 Jun 2020 17:59:02 +0000
+Received: from abhmp0005.oracle.com (abhmp0005.oracle.com [141.146.116.11])
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 055Hx0HI023421;
+ Fri, 5 Jun 2020 17:59:00 GMT
+Received: from starbug-mbp.localdomain (/79.97.215.145)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Fri, 05 Jun 2020 10:59:00 -0700
+Received: by starbug-mbp.localdomain (Postfix, from userid 501)
+ id 6C9A959AB4C; Fri,  5 Jun 2020 18:58:56 +0100 (IST)
+From: Darren Kenny <darren.kenny@oracle.com>
+To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
+Subject: Re: [PATCH v2] fuzz: add oss-fuzz build.sh script
+In-Reply-To: <20200605175028.5626-1-alxndr@bu.edu>
+References: <20200605175028.5626-1-alxndr@bu.edu>
+Date: Fri, 05 Jun 2020 18:58:56 +0100
+Message-ID: <m2a71hv1gf.fsf@oracle.com>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8;
-	text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/05 03:35:49
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+Content-Type: text/plain
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9643
+ signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ bulkscore=0 mlxscore=0
+ malwarescore=0 spamscore=0 suspectscore=0 mlxlogscore=999 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2004280000
+ definitions=main-2006050132
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9643
+ signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ lowpriorityscore=0 bulkscore=0
+ clxscore=1015 cotscore=-2147483648 malwarescore=0 adultscore=0
+ priorityscore=1501 suspectscore=0 phishscore=0 spamscore=0 mlxscore=0
+ impostorscore=0 mlxlogscore=999 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2004280000 definitions=main-2006050132
+Received-SPF: pass client-ip=141.146.126.78;
+ envelope-from=darren.kenny@oracle.com; helo=aserp2120.oracle.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/05 13:59:05
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,48 +99,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, David Hildenbrand <david@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Richard Henderson <rth@twiddle.net>
+Cc: Alexander Bulekov <alxndr@bu.edu>, bsd@redhat.com, f4bug@amsat.org,
+ stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Hi Alex,
 
-The TCG helpers where added in b92e5a22ec3 in softmmu_template.h.
-probe_write() was added in there in 3b4afc9e75a to be moved out
-to accel/tcg/cputlb.c in 3b08f0a9254, and was later refactored
-as probe_access() in c25c283df0f.
-Since it is a TCG specific helper, add a stub to avoid failures
-when building without TCG, such:
+From looking at another OSS Fuzz project recently (a coincidence) I
+wonder if we could make this script work so that it can be run outside
+of the OSS-Fuzz environment?
 
-  target/arm/helper.o: In function `probe_read':
-  include/exec/exec-all.h:362: undefined reference to `probe_access'
+Specifically, for example, if $OUT is not set, then creating a subdir in
+the build directory, and setting it to be that.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: David Hildenbrand <david@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- accel/stubs/tcg-stub.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+Similarly for some other things like $LIB_FUZZING_ENGINE?
 
-diff --git a/accel/stubs/tcg-stub.c b/accel/stubs/tcg-stub.c
-index 677191a69c..e4bbf997aa 100644
---- a/accel/stubs/tcg-stub.c
-+++ b/accel/stubs/tcg-stub.c
-@@ -22,3 +22,10 @@ void tb_flush(CPUState *cpu)
- void tlb_set_dirty(CPUState *cpu, target_ulong vaddr)
- {
- }
-+
-+void *probe_access(CPUArchState *env, target_ulong addr, int size,
-+                   MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
-+{
-+     /* Handled by hardware accelerator. */
-+     g_assert_not_reached();
-+}
--- 
-2.21.3
+I'm just thinking that it might help someone that is not familiar with
+OSS-Fuzz to validate that the script still works without having to go
+through setting up the containers, etc that would be required to
+validate it.
 
+Also, I would definitely recommend running ShellCheck against any script
+to ensure that you're catching any mistakes that can so easily be put in
+to shell scripts - speaking from experience here ;)
+
+Thanks,
+
+Darren.
+
+
+On Friday, 2020-06-05 at 13:50:28 -04, Alexander Bulekov wrote:
+> It is neater to keep this in the QEMU repo, since any change that
+> requires an update to the oss-fuzz build configuration, can make the
+> necessary changes in the same series.
+>
+> Suggested-by: Philippe Mathieu-Daude <f4bug@amsat.org>
+> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+> ---
+>
+> v2 updates the script header comment.
+>
+>  scripts/oss-fuzz/build.sh | 50 +++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 50 insertions(+)
+>  create mode 100755 scripts/oss-fuzz/build.sh
+>
+> diff --git a/scripts/oss-fuzz/build.sh b/scripts/oss-fuzz/build.sh
+> new file mode 100755
+> index 0000000000..e93d6f2e03
+> --- /dev/null
+> +++ b/scripts/oss-fuzz/build.sh
+> @@ -0,0 +1,50 @@
+> +#!/bin/sh
+> +#
+> +# OSS-Fuzz build script. See:
+> +# https://google.github.io/oss-fuzz/getting-started/new-project-guide/#buildsh
+> +#
+> +# This code is licensed under the GPL version 2 or later.  See
+> +# the COPYING file in the top-level directory.
+> +#
+> +
+> +# build project
+> +# e.g.
+> +# ./autogen.sh
+> +# ./configure
+> +# make -j$(nproc) all
+> +
+> +# build fuzzers
+> +# e.g.
+> +# $CXX $CXXFLAGS -std=c++11 -Iinclude \
+> +#     /path/to/name_of_fuzzer.cc -o $OUT/name_of_fuzzer \
+> +#     $LIB_FUZZING_ENGINE /path/to/library.a
+> +
+> +mkdir -p $OUT/lib/              # Shared libraries
+> +
+> +# Build once to get the list of dynamic lib paths, and copy them over
+> +./configure --datadir="./data/" --disable-werror --cc="$CC" --cxx="$CXX" \
+> +    --extra-cflags="$CFLAGS -U __OPTIMIZE__ "
+> +make CONFIG_FUZZ=y CFLAGS="$LIB_FUZZING_ENGINE" -j$(nproc) i386-softmmu/fuzz
+> +
+> +for i in $(ldd ./i386-softmmu/qemu-fuzz-i386  | cut -f3 -d' '); do 
+> +    cp $i $OUT/lib/
+> +done
+> +rm ./i386-softmmu/qemu-fuzz-i386
+> +
+> +# Build a second time to build the final binary with correct rpath
+> +./configure --datadir="./data/" --disable-werror --cc="$CC" --cxx="$CXX" \
+> +    --extra-cflags="$CFLAGS -U __OPTIMIZE__" \
+> +    --extra-ldflags="-Wl,-rpath,'\$\$ORIGIN/lib'"
+> +make CONFIG_FUZZ=y CFLAGS="$LIB_FUZZING_ENGINE" -j$(nproc) i386-softmmu/fuzz
+> +
+> +# Copy over the datadir
+> +cp  -r ./pc-bios/ $OUT/pc-bios
+> +
+> +# Run the fuzzer with no arguments, to print the help-string and get the list
+> +# of available fuzz-targets. Copy over the qemu-fuzz-i386, naming it according
+> +# to each available fuzz target (See 05509c8e6d fuzz: select fuzz target using
+> +# executable name)
+> +for target in $(./i386-softmmu/qemu-fuzz-i386 | awk '$1 ~ /\*/  {print $2}');
+> +do
+> +    cp ./i386-softmmu/qemu-fuzz-i386 $OUT/qemu-fuzz-i386-target-$target
+> +done
+> -- 
+> 2.26.2
 
