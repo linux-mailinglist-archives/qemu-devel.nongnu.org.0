@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C628A1EF69B
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 13:42:51 +0200 (CEST)
-Received: from localhost ([::1]:46668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7E541EF699
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 13:42:48 +0200 (CEST)
+Received: from localhost ([::1]:46278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jhAkM-0003Vc-Qg
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 07:42:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53840)
+	id 1jhAkJ-0003Kl-BF
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 07:42:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jhAj9-0002CT-SZ
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 07:41:35 -0400
-Received: from mout.kundenserver.de ([212.227.126.134]:53979)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jhAj6-0002A5-At
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 07:41:32 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:38477)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jhAj9-0005f3-1J
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 07:41:35 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jhAj5-0005el-B4
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 07:41:32 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1Md76B-1j7pm12Y4J-00a9wI; Fri, 05 Jun 2020 13:41:26 +0200
+ id 1MIbzB-1jmvLe0kpZ-00EdE4; Fri, 05 Jun 2020 13:41:27 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/19] linux-user: return target error codes for socket() and
- prctl()
-Date: Fri,  5 Jun 2020 13:41:03 +0200
-Message-Id: <20200605114120.1051236-3-laurent@vivier.eu>
+Subject: [PULL 03/19] linux-user: Add support for /proc/cpuinfo on hppa
+ platform
+Date: Fri,  5 Jun 2020 13:41:04 +0200
+Message-Id: <20200605114120.1051236-4-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200605114120.1051236-1-laurent@vivier.eu>
 References: <20200605114120.1051236-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:yd6XIaELBsx2mJxCyYJBS6LYBEOtFTzmsw8aLpEKsBJJvBen0cF
- bqyOCkKtGuBSm2W17n45c/reIH3z7of1vubvPAjs83Z8+Fh7FjraDP0dfWrqYMm9AssX1DC
- OpGJNX6S2zfHAoINTtBSDTMBXKP68RNtdGn5fGTCRjg4UmaT93LxO2/T8cOxYkWDlQBG6AX
- aQhaDqxhYf2OHgyic+e0w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:dDCu5qbq0l0=:TFrkawL/Nz3420iuWd8P3F
- mpwfFlAP6KPLQmz3ERW1H/iBYmMoWe7Db9eit+MqdLbi/Ji7fNUvF7aN82xEa681VYSt6DFTL
- TTVh8JlblOly6Tv+TG+ERIp5d6ajYQnvUDIY+bPzcBjxzFu6isKAH0aVxulMilFWARBbx9DrG
- lb4iAMFWlAEzq0O9E2s0IGrqoJrd+kcL0niNsSYlK0lIVB1FfE4UkAgDGv4vXSnmLjRf+D2z2
- z+9UueT+ABeZ2cWjQxlH4dGNVw3s02BKjLklcV61J5Be52kL10ChYyvvdt60j+FwQaUmpvE30
- CnjPTtMmfjnLJyy3+uli0hJCk8Ra2ovIyXP/bczY7BXHzjAIlW4Vz9MoqWzlh8K30v+/l2v4I
- UjJASO1PTm19dYgRcucReyg3nGZraVAqXVLUqarjRHsLyGb9IGmbBdlk3Ux4mOP+li/ix35xJ
- ABDBMLQ25vUFWNbRnfh0HmmB/r/2uu7UYr81OoG87UONb9FjDdrsWHrXoXB4fL64iWdXB4dtw
- 4IE2vAjAo34YM7HVNAdQWkCHJQrD5pSxEUPVjNpMZCo9TIfUHsnBWL8tW+m6BspRcpupqtEeU
- W/ge9gy9hNOkv04MT+h6/5czZmsDUFhGW96YidfNApt/e+v/JesPSzWCZp0Hr1PvwDgrZKwL1
- KWHZ84/SXXtTTjRJbn7mYBkRJ/fW7gjo4RP7bL30mjynmvEKkXSmhPX2SpWPYqCHcMyfOqCBB
- 32Fc4Eo6Ax3DCjbJEPxOrsFlH9ZCpAIHg4ZAcVj/IM6Bmlvpc+g4Iy8W4718FpCw2QLWe551r
- 9pK00fqm4bmSn2IndbG2w4WuYB2mansXookdqjEMZsLu/2q24NVS4pB11qq5cWyTxPUh/U+
-Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:Ktzu7gJSUVZNNv1Qs1OpSvAJ4zNi8z02hVt7F4Jc4dhN1rmHGdZ
+ YVvTzQUYJFcIIjGC14EYvrx5G72GMSv+ZGbBZvNmEkKxLc6BytHZK1OwynbbWs/LR7xvRMY
+ hXRTwMc295nO57mh4m4i29Q8JgQH6pG8g03aC5Mxo29c0GtYP4/ZxEA/CKl8IB2/FcQUgf9
+ UQjqwVILCXEXo5JY2n+Kg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:gEqkqLsGtoE=:expfnda4zky+58R/lDPl4m
+ M1QLyF/Z7W41fMi3IXro730mu9mGTI7cRo3tkfIDHeIO58/TK0OBY+32b0cV9T9aRvPLrD7pi
+ UnHxJqL6Zz9Mk1r5xQYo7ZiLF6T+Y2XzsPbvmTUv89e8EgUrn6phOSR7y/kjcPuobYzbrRtNr
+ +vCbZC9s7eQxGJOhjkIMAyw08LkKn9ldbNfgtiFV0Pm3t3PmJHcHh62913MqSezkNGkCVHdyp
+ U7TULXobSS+jPVa+ND47lq2V7sj/5b+dVvdYwIfV+Fjyf/Ir8boq/ikQnTt71zg3n/jzWwG+Y
+ A/KEMylysSbn9a/SQCitsSMcS2x1It3F6Vwvz4+CWcic3UlTG9jQQlrYQWlNiAcnmA5D5uvK/
+ WV7fmsW4SKlQlcXrdaS6VWjP0iYH1t6h6A7zxoXh7HUSn+nRbCrQQqQE360vJ7zvruK/+YZ1E
+ R0qntUIbv3pDF3nu/XjANYPwJXmRn1HyhUa0JsuUqGG6DuyjYxBBJUM4GEGpYt0tssn3CCZpk
+ eDxJ1v3/P1fMKp+S5VbLeyk7rRq8Fc2lC1ux0uUR53iIC8V6K4ZGaqGnbTl4jW8M/Dz7kYVsM
+ X9/7TqBlPX/8QuP1JlQstOWMZgKtnbrLnxA/R93T4VPlEEp0qZXpe1VEZAAGTxPMVu5/Pb86I
+ 1eecFZr5DH5EcCW2i63S/6esK/GOS6aksWft1v2qKm9sjho5bYHM1/DF/V82jeTprk0L0Tlbo
+ Wg1XDNQBTuO+LbY61J2He9EAQdNzlVRDPgmQgn6uM11aSpc+dZ3mEhN3kbGUvQHPiIfGbSF+9
+ SeZG0D+siYyBESoit0h8OmM+jFYOTKgz2vHbUkMoZ5zV+tEYKRVW2FRgv19ctebHS5HxVxd
+Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/05 07:41:33
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/05 07:41:29
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -70,45 +70,57 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Helge Deller <deller@gmx.de>, Riku Voipio <riku.voipio@iki.fi>,
+ Richard Henderson <richard.henderson@linaro.org>,
  Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Helge Deller <deller@gmx.de>
 
-Return target error codes instead of host error codes.
+Provide our own /proc/cpuinfo file for the hppa (parisc) platform.
 
 Signed-off-by: Helge Deller <deller@gmx.de>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-
-Message-Id: <20200424220033.GA28140@ls3530.fritz.box>
+Message-Id: <20200424210648.GA26715@ls3530.fritz.box>
+[lv: s/an/our/]
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/syscall.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ linux-user/syscall.c | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
 
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index e89b815ce983..fd5c4f1d73e6 100644
+index fd5c4f1d73e6..63c40c48e31f 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -2987,7 +2987,7 @@ static abi_long do_socket(int domain, int type, int protocol)
- #endif
-          protocol == NETLINK_KOBJECT_UEVENT ||
-          protocol == NETLINK_AUDIT)) {
--        return -EPFNOSUPPORT;
-+        return -TARGET_EPFNOSUPPORT;
-     }
- 
-     if (domain == AF_PACKET ||
-@@ -5856,7 +5856,7 @@ static abi_long do_get_thread_area(CPUX86State *env, abi_ulong ptr)
- 
- abi_long do_arch_prctl(CPUX86State *env, int code, abi_ulong addr)
- {
--    return -ENOSYS;
-+    return -TARGET_ENOSYS;
+@@ -7438,6 +7438,18 @@ static int open_cpuinfo(void *cpu_env, int fd)
  }
- #else
- abi_long do_arch_prctl(CPUX86State *env, int code, abi_ulong addr)
+ #endif
+ 
++#if defined(TARGET_HPPA)
++static int open_cpuinfo(void *cpu_env, int fd)
++{
++    dprintf(fd, "cpu family\t: PA-RISC 1.1e\n");
++    dprintf(fd, "cpu\t\t: PA7300LC (PCX-L2)\n");
++    dprintf(fd, "capabilities\t: os32\n");
++    dprintf(fd, "model\t\t: 9000/778/B160L\n");
++    dprintf(fd, "model name\t: Merlin L2 160 QEMU (9000/778/B160L)\n");
++    return 0;
++}
++#endif
++
+ #if defined(TARGET_M68K)
+ static int open_hardware(void *cpu_env, int fd)
+ {
+@@ -7462,7 +7474,7 @@ static int do_openat(void *cpu_env, int dirfd, const char *pathname, int flags,
+ #if defined(HOST_WORDS_BIGENDIAN) != defined(TARGET_WORDS_BIGENDIAN)
+         { "/proc/net/route", open_net_route, is_proc },
+ #endif
+-#if defined(TARGET_SPARC)
++#if defined(TARGET_SPARC) || defined(TARGET_HPPA)
+         { "/proc/cpuinfo", open_cpuinfo, is_proc },
+ #endif
+ #if defined(TARGET_M68K)
 -- 
 2.26.2
 
