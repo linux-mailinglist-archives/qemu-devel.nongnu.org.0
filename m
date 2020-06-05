@@ -2,54 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABA471EEFA9
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 04:57:14 +0200 (CEST)
-Received: from localhost ([::1]:46944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 887E21EEFF3
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 05:31:36 +0200 (CEST)
+Received: from localhost ([::1]:55846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jh2Xh-0003pT-PX
-	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 22:57:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32996)
+	id 1jh34x-0002ya-0h
+	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 23:31:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1jh2Wy-00037S-0Z; Thu, 04 Jun 2020 22:56:28 -0400
-Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:54710)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1jh2Wx-00028I-3U; Thu, 04 Jun 2020 22:56:27 -0400
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.08851187|-1; CH=green;
- DM=|CONTINUE|false|;
- DS=CONTINUE|ham_enroll_verification|0.0108073-0.000526368-0.988666;
- FP=0|0|0|0|0|-1|-1|-1; HT=e02c03267; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS;
- RN=7; RT=7; SR=0; TI=SMTPD_---.HiLnHZs_1591325782; 
-Received: from 30.225.208.46(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.HiLnHZs_1591325782) by smtp.aliyun-inc.com(10.147.40.2);
- Fri, 05 Jun 2020 10:56:22 +0800
-Subject: Re: [PATCH v8 40/62] target/riscv: vector floating-point compare
- instructions
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jh33q-0002Mh-Ce
+ for qemu-devel@nongnu.org; Thu, 04 Jun 2020 23:30:26 -0400
+Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:39622)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jh33p-0007y6-5s
+ for qemu-devel@nongnu.org; Thu, 04 Jun 2020 23:30:25 -0400
+Received: by mail-pl1-x641.google.com with SMTP id v24so3073132plo.6
+ for <qemu-devel@nongnu.org>; Thu, 04 Jun 2020 20:30:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=T7tfFGqFWJm7beKDzfuyU5uUicJlwCl5DwiAo7jIPM4=;
+ b=Tpl/yD7YWVPOezF7lKEr+k7mM7Xtq3rtkopJO2DHKQVum2oHaPFNMnVumLcmXTMGtr
+ zlcnQc1zwMW3VQv2lOyANeW32eYU4dgEjNNH6MCNXFG6XN7m2KaI6Mr5a36FZ0aGICiS
+ CRqWoIMcK5opGVAUgTYnusLdNpR27tTH3tnAXW1igxr8dA+eTPaS9/22WILNB4le01OJ
+ CO/Snbz7tJsg7dkF3H9S6KIRBO5xH+kehDb/tCMEfZ9ThJvQoMhVo74G6XWQ3wnZeG7m
+ SjaH837H06Xkrx/55W/Ia3uiDga9Ic5lrlJhtnZXjL5jJLorVIiWV/ukl9CxQER8+APi
+ CLkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=T7tfFGqFWJm7beKDzfuyU5uUicJlwCl5DwiAo7jIPM4=;
+ b=L1hgVUjtLxC8AZu5aHlit23obiKhFg1GIvVOq8HIFB7gKKjLnYXKGXR7a9z4adAx2k
+ 2m+QFLVMyGSjVpbKhKdIxmOoRfX214qcdntf9AEEmTEvdC5UkF3oe2Y+z5gZf8jAcr0x
+ E6hs9esxYiE2OmH4PVz5w8mRqRW91QuSKVUf4CGSfnsHtqm4qUltWjWmbFLt9Yp3NjcI
+ CW1VeIF3mOCMk/WZV/trjn//dicyaTZ+o+FqDqDkUFLCQSOhf2FOSfqvVruUxANAP2fV
+ mXekbjeLTwY7MXr5lkwbN4YUcmEToHddDF9WdCxIM4YUcVLcDTEcF1Y326jiNHN1Sntq
+ IZDA==
+X-Gm-Message-State: AOAM532388wvL76dI+fZT2WkLVm6zIDYwGQoLhGubGhXFO3Qs1Eo379Z
+ qSnFAJeN1kNxLuVn4oPu/+gYBw==
+X-Google-Smtp-Source: ABdhPJysH7mtpd9r1ZYUJuGCK6iuHSLbBULBiqmS3I2wQZ33uPUNidg/HsdqCuCVHIaRMNp1st2zqw==
+X-Received: by 2002:a17:902:9b92:: with SMTP id
+ y18mr7674823plp.93.1591327823167; 
+ Thu, 04 Jun 2020 20:30:23 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
+ by smtp.gmail.com with ESMTPSA id ds11sm6678664pjb.0.2020.06.04.20.30.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 04 Jun 2020 20:30:22 -0700 (PDT)
+Subject: Re: [PATCH v8 30/62] target/riscv: Update fp_status when float
+ rounding mode changes
+To: LIU Zhiwei <zhiwei_liu@c-sky.com>, qemu-devel@nongnu.org,
  qemu-riscv@nongnu.org
 References: <20200521094413.10425-1-zhiwei_liu@c-sky.com>
- <20200521094413.10425-41-zhiwei_liu@c-sky.com>
- <ae22d15e-9899-e2e7-ee91-9ea445e7a40f@linaro.org>
-From: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Message-ID: <2139f4a1-2270-634b-5aef-242ea2c50934@c-sky.com>
-Date: Fri, 5 Jun 2020 10:56:22 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.1
+ <20200521094413.10425-31-zhiwei_liu@c-sky.com>
+ <7cb2aa5d-833a-8544-dadc-5aabba06ecd2@linaro.org>
+ <ca1e71cd-c290-5fb9-e9bf-026c73e06560@c-sky.com>
+ <7ec3d397-bf9a-07f5-3014-4acf47a4fd6e@linaro.org>
+ <ba7ef161-8bc6-516f-b5a7-8133e3a89998@c-sky.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <dd721c20-fc04-49b8-0c5a-1b4761105461@linaro.org>
+Date: Thu, 4 Jun 2020 20:30:18 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <ae22d15e-9899-e2e7-ee91-9ea445e7a40f@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <ba7ef161-8bc6-516f-b5a7-8133e3a89998@c-sky.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Received-SPF: none client-ip=121.197.200.217;
- envelope-from=zhiwei_liu@c-sky.com; helo=smtp2200-217.mail.aliyun.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/04 22:19:39
-X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, UNPARSEABLE_RELAY=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::641;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x641.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -68,31 +101,39 @@ Cc: palmer@dabbelt.com, wenmeng_zhang@c-sky.com, alistair.francis@wdc.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 6/4/20 7:50 PM, LIU Zhiwei wrote:
+> So no scalar insns will require changes within a translation block.
+
+Not true -- scalar insns can encode rm into the instruction.
+
+> I think there is a error in gen_set_rm
+> 
+> static void gen_set_rm(DisasContext *ctx, int rm)
+> {
+>     TCGv_i32 t0;
+> 
+>     if (ctx->frm == rm) {
+>         return;
+>     }
+>     ctx->frm = rm;
+>     t0 = tcg_const_i32(rm);
+>     gen_helper_set_rounding_mode(cpu_env, t0);
+>     tcg_temp_free_i32(t0);
+> }
+> 
+> I don't know why  updating ctx->frm in this function.
+
+This is a cache of the current rm, as most recently stored in
+env->fp_status.rounding_mode.
+
+So if we have
+
+	fadd.s  ft0, ft0, ft0, rtz
+	fadd.s  ft0, ft0, ft0, rtz
+	fadd.s  ft0, ft0, ft0, rtz
+
+we will only switch to round_to_zero once.
 
 
-On 2020/6/5 4:51, Richard Henderson wrote:
-> On 5/21/20 2:43 AM, LIU Zhiwei wrote:
->> +static uint8_t float16_eq_quiet(uint16_t a, uint16_t b, float_status *s)
-> Return bool, better than uint8_t.
-Yes.
->
->> +{
->> +    int compare = float16_compare_quiet(a, b, s);
-> New since your last revision is that compare should be type FloatRelation.
->
-> And similarly for the other 13 comparison helpers.
-OK. I will use the FloatRelation in next patch set.
->> +        vext_set_elem_mask(vd, mlen, i, DO_OP(s2, (ETYPE)s1,        \
->> +                           &env->fp_status));                       \
-> Indentation is off.  env->fp_status should align with DO_OP.
-Yes. Thanks.
-
-Zhiwei
->
-> With that,
->
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
->
-> r~
-
+r~
 
