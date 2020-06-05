@@ -2,80 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27CE91EFD11
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 17:55:42 +0200 (CEST)
-Received: from localhost ([::1]:39632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 719F01EFD17
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 17:58:08 +0200 (CEST)
+Received: from localhost ([::1]:48320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jhEh3-0004Jb-2J
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 11:55:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58876)
+	id 1jhEjP-0000sh-Hj
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 11:58:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58966)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jhEfB-0002CH-OE
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 11:53:45 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:43429)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jhEf9-0004tj-HU
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 11:53:45 -0400
-Received: by mail-wr1-x443.google.com with SMTP id l10so10247319wrr.10
- for <qemu-devel@nongnu.org>; Fri, 05 Jun 2020 08:53:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=0ywUrKfUpLgjpcf5wzKneETkV2LMfE2TylBvOMx+B8A=;
- b=gK7IAaLPdnFm0gCR4kUfehoBKSiJ7DznIp7yPi4QZuC2eLOdxWAe3QBrNiD+NbJIBO
- QRX3+VkI/d3Ibad0n6LeU6NlD3QGRJDECZdn0dv23gd6ddEce+4u9QDDCogO/XOgYzTE
- XiGAfiLAdRiAmIUZRQRfR+G5ViKU17lxaGDZNBMdT9xxG08v5Ia3zZPyK4jhQ9VSO39N
- DP2maV8V9C+TP7UXRy1pjxxIz7lieupP5b8xgTb2Il+7yUoKSFrr8LDsnsmiScTOKD55
- Vg1xX6CUy6e86wnhvWppAAYlWJqei38G6znrm4X/664y+j2ZvUy0f8Z4B0dJVlKep3G0
- fqEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=0ywUrKfUpLgjpcf5wzKneETkV2LMfE2TylBvOMx+B8A=;
- b=ZkGv+knx0URzSOEeLv0xtpDY4sCbc9SlNOvgoZXKMX/YWZbMf1LIOqkVm0Labp7fMf
- AGSTZ+qTdhteCT67YlUy8R2C+0TkM+az8c6msXoQMjIptQsdUw8eUatOBk58aeZ0AZ1L
- XwIWTIxA5BRl3KUlC3Y3Z4ptaHUhuvR6/sHJfeXADr1Wr9NxDHQDrylIFR8N0QrMFVD9
- 4jdw5iDwDysNtjnl3NQfRYS44o11H4aS5eZAbJQRDo5CimlxoBgd40iDoE3c1y54rfoE
- 9MQxwHeRPiqW61OjS9cyhYm1X7BDGXRx+/Ne2W9RmwXc9AOXoOh3DqNiiLyhaBeMSPAr
- Jg3A==
-X-Gm-Message-State: AOAM533xxoL6mP5WkWAez/zlUMGaPf/Wji4K6AZQDbl8ZmlhyD4dmB5U
- SCAWJdSdmOyxQ7HQ6RvxRPm3gQ==
-X-Google-Smtp-Source: ABdhPJxmPGic9AiTgC9ti0aek8T7elKUDC3ZTm7utdYAAFiKUmRr2Zkf14MuTlk4OBAUR6MSwV+nVw==
-X-Received: by 2002:a5d:4e81:: with SMTP id e1mr10330387wru.83.1591372421912; 
- Fri, 05 Jun 2020 08:53:41 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id 5sm17054308wrr.5.2020.06.05.08.53.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Jun 2020 08:53:40 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 41D701FF7E;
- Fri,  5 Jun 2020 16:53:32 +0100 (BST)
-References: <20200604034513.75103-1-richard.henderson@linaro.org>
-User-agent: mu4e 1.5.1; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH] configure: Disable -Wtautological-type-limit-compare
-In-reply-to: <20200604034513.75103-1-richard.henderson@linaro.org>
-Date: Fri, 05 Jun 2020 16:53:32 +0100
-Message-ID: <87bllx4igz.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jhEgI-0003wJ-UY
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 11:54:54 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:53293
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jhEgH-0004zQ-Go
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 11:54:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1591372492;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VNA5BbRTwuJTsiVfhGA1Txb8W4yr50sFIpeSyUwMq6Y=;
+ b=if3DQ27YgxZqXqw6RKIcbhQ8YXDDKd5UWLQn5VfYn6SAKWaLX4joUuXGpt0/IL0VgWAEu3
+ 7AukHMnvLoPbjOS6TclPPaNrzMGqHKhonimX+356pQJVIUk4JYbCwDL7Vh0/a78hxbT/0D
+ OhxXAd3JBTMdaG/5lqZ2VD/Ob5u8npU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-264-xr5F5JkFNdmb7YkCSJQ1yg-1; Fri, 05 Jun 2020 11:54:46 -0400
+X-MC-Unique: xr5F5JkFNdmb7YkCSJQ1yg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F79B107ACCA;
+ Fri,  5 Jun 2020 15:54:45 +0000 (UTC)
+Received: from [10.3.113.22] (ovpn-113-22.phx2.redhat.com [10.3.113.22])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0969460BE2;
+ Fri,  5 Jun 2020 15:54:44 +0000 (UTC)
+Subject: Re: [PATCH v1 00/14] various fixes for next PR (testing, vhost,
+ guest_base fixes)
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20200605154929.26910-1-alex.bennee@linaro.org>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <80fa6131-51c1-eed5-f2a6-54ae60e71539@redhat.com>
+Date: Fri, 5 Jun 2020 10:54:44 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x443.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+In-Reply-To: <20200605154929.26910-1-alex.bennee@linaro.org>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=eblake@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/05 03:27:26
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,48 +83,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 6/5/20 10:49 AM, Alex Bennée wrote:
+> Hi,
+> 
+> These are all the patches I've currently got which are ready for a
+> pull request next week. I've included some patches which are destined
+> to go in via other trees so I can keep the testing green on the CI.
+> 
+> In summary:
+> 
+>   Some simple plugin cleanups (the reset remain in plugins/next)
+>   Reliability fixes for travis/shippable
+>   iotest 194 fix (going in via block tree?)
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+I've got that one queued for a PR Monday with some typo fixes included.
 
-> Clang 10 enables this by default with -Wtype-limit.
->
-> All of the instances flagged by this Werror so far have been
-> cases in which we really do want the compiler to optimize away
-> the test completely.  Disabling the warning will avoid having
-> to add ifdefs to work around this.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  configure | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/configure b/configure
-> index f087d2bcd1..693f01327f 100755
-> --- a/configure
-> +++ b/configure
-> @@ -2009,6 +2009,8 @@ gcc_flags=3D"-Wno-missing-include-dirs -Wempty-body=
- -Wnested-externs $gcc_flags"
->  gcc_flags=3D"-Wendif-labels -Wno-shift-negative-value $gcc_flags"
->  gcc_flags=3D"-Wno-initializer-overrides -Wexpansion-to-defined $gcc_flag=
-s"
->  gcc_flags=3D"-Wno-string-plus-int -Wno-typedef-redefinition $gcc_flags"
-> +gcc_flags=3D"$gcc_flags -Wno-tautological-type-limit-compare"
-> +
+>   docker updates (ubuntu and tricore fix)
+>   vhost-user and TCG fix
+>   more linux-user guest_base fixes
+> 
+> I'll certainly include the testing stuff in my PR but if others are
+> happy for me to include bits touching their areas then shout and I'll
+> include them in the PR.
+> 
+> The following need review:
+> 
+>   - linux-user: detect overflow of MAP_FIXED mmap
+>   - linux-user: deal with address wrap for ARM_COMMPAGE on 32 bit
+>   - linux-user: provide fallback pgd_find_hole for bare chroots
+>   - tests/docker: fix pre-requisite for debian-tricore-cross
+>   - hw/virtio/vhost: re-factor vhost-section and allow DIRTY_MEMORY_CODE
+>   - .shippable: temporaily disable some cross builds
+>   - exec: flush the whole TLB if a watchpoint crosses a page boundary
+> 
 
-nit: the pattern is reversed compared to the previous lines (foo $gcc_flags)
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
-I had exactly the same patch in my local tree but it wasn't enough for
-clang-9 which I was using for a sanitiser build. I ended up
-having to apply --disable-werrror to the configuration.
-
-Anyway:
-
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
---=20
-Alex Benn=C3=A9e
 
