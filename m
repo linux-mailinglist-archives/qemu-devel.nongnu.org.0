@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E27091EF7D2
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 14:32:20 +0200 (CEST)
-Received: from localhost ([::1]:42374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0D511EF823
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 14:42:02 +0200 (CEST)
+Received: from localhost ([::1]:53070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jhBWF-0007Re-Vn
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 08:32:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60998)
+	id 1jhBfd-0004V0-Po
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 08:42:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34372)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jhBUs-0006l1-G5
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 08:30:55 -0400
-Received: from indium.canonical.com ([91.189.90.7]:49714)
+ id 1jhBed-0003hC-B8
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 08:40:59 -0400
+Received: from indium.canonical.com ([91.189.90.7]:51290)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jhBUp-0000eH-Qj
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 08:30:54 -0400
+ id 1jhBeb-0002Pr-4B
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 08:40:58 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jhBUn-0004RR-Ux
- for <qemu-devel@nongnu.org>; Fri, 05 Jun 2020 12:30:49 +0000
+ id 1jhBeX-00064M-Cd
+ for <qemu-devel@nongnu.org>; Fri, 05 Jun 2020 12:40:53 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id E8E772E80BA
- for <qemu-devel@nongnu.org>; Fri,  5 Jun 2020 12:30:49 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 264BB2E8107
+ for <qemu-devel@nongnu.org>; Fri,  5 Jun 2020 12:40:53 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 05 Jun 2020 12:17:27 -0000
-From: Hajin Jang <1882123@bugs.launchpad.net>
+Date: Fri, 05 Jun 2020 12:30:39 -0000
+From: timsoft <1882241@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: arm armhf debian regression
+X-Launchpad-Bug-Tags: i82551
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: joveler pmaydell
-X-Launchpad-Bug-Reporter: Hajin Jang (joveler)
-X-Launchpad-Bug-Modifier: Hajin Jang (joveler)
-References: <159129432300.4081.5698403082350753204.malonedeb@soybean.canonical.com>
-Message-Id: <159135944766.31675.4523233204978552419.malone@gac.canonical.com>
-Subject: [Bug 1882123] Re: ARM cpu emulation regression on QEMU 4.2.0
+X-Launchpad-Bug-Commenters: tim-tree-of-life
+X-Launchpad-Bug-Reporter: timsoft (tim-tree-of-life)
+X-Launchpad-Bug-Modifier: timsoft (tim-tree-of-life)
+Message-Id: <159136023930.32294.17616621945608188739.malonedeb@gac.canonical.com>
+Subject: [Bug 1882241] [NEW] file transfer over cifs to 64bit guest corrupts
+ large files
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="ef9fc486e875d54078fa61cf91e898b895125d89";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 2cf87dc320abf0faf909db8afb31df3c040d3de0
+X-Launchpad-Hash: 219de917e7f32009d15601a99fc1382909f9124e
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/05 04:10:55
@@ -73,111 +73,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1882123 <1882123@bugs.launchpad.net>
+Reply-To: Bug 1882241 <1882241@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I pinpointed the exact commits which affected the regression.
+Public bug reported:
 
-[QEMU 4.2.0-rc0 : illegal hardware instruction]
-- Introduced in commit af28822
-https://github.com/qemu/qemu/commit/af2882289951e58363d714afd16f80050685fa29
-The commit affected LDREX/STREX translation, and broke dotnet command from =
-.NET Core SDK.
+qemu 4.0 compiled fom source.
+vm called by
+qemu-system-x86_64 -cpu qemu64 -smp 4 -m 4G -drive file=3D/data/images/slac=
+k14.2_64bit_test.qcow2,format=3Dqcow2 -cdrom /mnt/smb1/slackware/iso/slackw=
+are64-14.2-install-dvd.iso -boot c -net nic,macaddr=3D02:00:00:11:11:17,mod=
+el=3Di82551 -net bridge,br=3Dbr0 -enable-kvm -k en-gb -display vnc=3D:3 -mo=
+nitor telnet:localhost:7103,server,nowait,nodelay
 
-[QEMU 4.2.0-rc2 : .NET SEHException]
-- Introduced in commit 655b026
-https://github.com/qemu/qemu/commit/655b02646dc175dc10666459b0a1e4346fc8d46a
-The commit fixes STREX a bit. As a result, dotnet command is now executable=
- except JIT compiling. =
+copying large files eg 2.4gb or reading them on a cifs mount in the guest c=
+auses corruption every time. For smaller files 40-60mb corruption is more t=
+han 50% of the time. tested by md5sum on cifs server, or on host machine vs=
+. on guest vm.
+corruption is seen only with 64bit guest using cifs with i82551 emulated ne=
+twork device
+ie. 32bit guest using cifs with i82551 emulated network device gives no cor=
+ruption.
+
+changing the emulated device to vmxnet3 removes the data corruption (see
+below)
+
+qemu-system-x86_64 -cpu qemu64 -smp 4 -m 4G -drive
+file=3D/data/images/slack14.2_64bit_test.qcow2,format=3Dqcow2 -cdrom
+/mnt/smb1/slackware/iso/slackware64-14.2-install-dvd.iso -boot c -net
+nic,macaddr=3D02:00:00:11:11:17,model=3Dvmxnet3 -net bridge,br=3Dbr0 -enabl=
+e-
+kvm -k en-gb -display vnc=3D:3 -monitor
+telnet:localhost:7103,server,nowait,nodelay
+
+this corruption is repeatable. ie. I created new vm, call using top example=
+, installed 64bit linux, mounted cifs share and copied 2.4gb file to /tmp t=
+hen run md5sum "filecopied"
+the md5sum is different every time. copy same file to the host, or to a 32b=
+it guest with the same virtual network device and bridge and md5sums are co=
+rrect. The host pysical network adapter is
+lspci|grep Ether
+1e:00.0 Ethernet controller: Realtek Semiconductor Co., Ltd. RTL8111/8168/8=
+411 PCI Express Gigabit Ethernet Controller (rev 11)
+
+physically connected via gigabit ethernet to cifs server (via gigabit
+switch)
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
 
 
-
-I also tested lastest HEAD from the master, and it still has the SEHExcepti=
-on regression.
-(Tested commit is 66234fee9c2d37bfbc523aa8d0ae5300a14cc10e)
+** Tags: i82551
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1882123
+https://bugs.launchpad.net/bugs/1882241
 
 Title:
-  ARM cpu emulation regression on QEMU 4.2.0
+  file transfer over cifs to 64bit guest corrupts large files
 
 Status in QEMU:
   New
 
 Bug description:
-  [*] Summary
+  qemu 4.0 compiled fom source.
+  vm called by
+  qemu-system-x86_64 -cpu qemu64 -smp 4 -m 4G -drive file=3D/data/images/sl=
+ack14.2_64bit_test.qcow2,format=3Dqcow2 -cdrom /mnt/smb1/slackware/iso/slac=
+kware64-14.2-install-dvd.iso -boot c -net nic,macaddr=3D02:00:00:11:11:17,m=
+odel=3Di82551 -net bridge,br=3Dbr0 -enable-kvm -k en-gb -display vnc=3D:3 -=
+monitor telnet:localhost:7103,server,nowait,nodelay
 
-  Latest QEMU has an ARM CPU emulation regression.
-  Regression is reproducible by building any C# project with .NET Core SDK =
-3.1.300 on Debian 10 armhf guest OS.
+  copying large files eg 2.4gb or reading them on a cifs mount in the guest=
+ causes corruption every time. For smaller files 40-60mb corruption is more=
+ than 50% of the time. tested by md5sum on cifs server, or on host machine =
+vs. on guest vm.
+  corruption is seen only with 64bit guest using cifs with i82551 emulated =
+network device
+  ie. 32bit guest using cifs with i82551 emulated network device gives no c=
+orruption.
 
-  Releases affected: QEMU 4.2.0, 5.0.0
-  Releases not affected: QEMU 4.1.0, QEMU 4.1.1
+  changing the emulated device to vmxnet3 removes the data corruption
+  (see below)
 
-  [*] Detail
+  qemu-system-x86_64 -cpu qemu64 -smp 4 -m 4G -drive
+  file=3D/data/images/slack14.2_64bit_test.qcow2,format=3Dqcow2 -cdrom
+  /mnt/smb1/slackware/iso/slackware64-14.2-install-dvd.iso -boot c -net
+  nic,macaddr=3D02:00:00:11:11:17,model=3Dvmxnet3 -net bridge,br=3Dbr0
+  -enable-kvm -k en-gb -display vnc=3D:3 -monitor
+  telnet:localhost:7103,server,nowait,nodelay
 
-  .NET Core SDK 3.1 fails to run on Debian 10 emulated by qemu-system-
-  arm.
+  this corruption is repeatable. ie. I created new vm, call using top examp=
+le, installed 64bit linux, mounted cifs share and copied 2.4gb file to /tmp=
+ then run md5sum "filecopied"
+  the md5sum is different every time. copy same file to the host, or to a 3=
+2bit guest with the same virtual network device and bridge and md5sums are =
+correct. The host pysical network adapter is
+  lspci|grep Ether
+  1e:00.0 Ethernet controller: Realtek Semiconductor Co., Ltd. RTL8111/8168=
+/8411 PCI Express Gigabit Ethernet Controller (rev 11)
 
-  I occasionally test my C# projects on the virtual armhf/arm64 system
-  emulated by QEMU. MSBuild, a build engine of the .NET Core SDK,
-  crashes on QEMU 4.2.0 or later. The crash only happens when MSBuild
-  tries to do any JIT compiling (dotnet build / dotnet test).
-
-  I attached the MSBuild crash logs. MSBuild always crashes with
-  SEHException, which means it tried to call C binary from .NET binary.
-
-  I think the ARM CPU emulation regression happened between QEMU 4.1.1 ~
-  4.2.0. The issue affects QEMU 4.2.0 and 5.0.0. QEMU 4.1.0, 4.1.1, and
-  real Raspberry Pi 2 are not affected by this issue, and .NET Core SDK
-  works completely fine.
-
-  [*] Environment
-
-  [Host OS]
-  Distribution: Linux Mint 19.3 amd64
-  CPU: AMD Ryzen 5 3600
-  Kernel: Ubuntu 5.3.0-51-generic
-
-  [QEMU Guest OS]
-  Distribution: Debian 10 Buster armhf
-  Kernel: Debian 4.19.0-9-armmp-lpae
-  .NET Core SDK: 3.1.300
-
-  [Raspberry Pi 2]
-  Distribution: Raspberry Pi OS Buster armhf
-  Kernel: 4.19.118-v7+
-
-  [Tested C# Projects]
-  This is a list of C# projects I have tested on QEMU and RPI2.
-  - https://github.com/ied206/Joveler.DynLoader
-  - https://github.com/ied206/Joveler.Compression
-  - https://github.com/ied206/ManagedWimLib
-
-  [QEMU Launch Arguments]
-  qemu-system-arm \
-  =C2=A0=C2=A0=C2=A0=C2=A0-smp 3 -M virt -m 4096 \
-  =C2=A0=C2=A0=C2=A0=C2=A0-kernel vmlinuz-4.19.0-9-armmp-lpae \
-  =C2=A0=C2=A0=C2=A0=C2=A0-initrd initrd.img-4.19.0-9-armmp-lpae \
-  =C2=A0=C2=A0=C2=A0=C2=A0-append "root=3D/dev/vda2" \
-  =C2=A0=C2=A0=C2=A0=C2=A0-drive if=3Dnone,file=3Ddebian_arm.qcow2,format=
-=3Dqcow2,id=3Dhd \
-  =C2=A0=C2=A0=C2=A0=C2=A0-device virtio-blk-device,drive=3Dhd \
-  =C2=A0=C2=A0=C2=A0=C2=A0-netdev user,id=3Dmynet,hostfwd=3Dtcp::<PORT>-:22=
- \
-  =C2=A0=C2=A0=C2=A0=C2=A0-device virtio-net-device,netdev=3Dmynet \
-  =C2=A0=C2=A0=C2=A0=C2=A0-device virtio-rng-device
-
-  [QEMU Configure Arguments]
-  ./configure --enable-spice --enable-gtk --enable-vnc-jpeg --enable-vnc-pn=
-g --enable-avx2 --enable-libusb --enable-opengl --enable-virglrenderer --en=
-able-kvm --enable-system --enable-modules --audio-drv-list=3Dpa
+  physically connected via gigabit ethernet to cifs server (via gigabit
+  switch)
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1882123/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1882241/+subscriptions
 
