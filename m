@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AE701EFF94
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 20:02:21 +0200 (CEST)
-Received: from localhost ([::1]:41398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FE5F1EFF99
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 20:04:42 +0200 (CEST)
+Received: from localhost ([::1]:47822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jhGfc-0001AV-En
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 14:02:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50732)
+	id 1jhGht-0004lt-H8
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 14:04:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jhGcg-00062N-HU
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 13:59:18 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:30392
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jhGcn-0006IO-5y
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 13:59:28 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:60072
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jhGcf-0000eg-Oi
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 13:59:18 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jhGcm-0000f3-D8
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 13:59:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591379956;
+ s=mimecast20190719; t=1591379963;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WgLubjKz8VmCZqpELU1JLw/uHIcEFx15X1H+hmJK3kA=;
- b=ck4FK7bC5OfqOEVmI1yRWfDBWPA0n+wWuhgjofz+p6xLzMuV3VN7y6O66JKBSvBk3402N9
- cxxttkUQlSzlWOuqnjPBDvWp84RajhNaV6+uowQON8QR2Hj3xSs2gHBKWbkbgCB6irbN2C
- Mv5nkN7pIbAdV12InTCPQv7zCivJ/d4=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-488-iSafNz04Osii_NVpjihFQw-1; Fri, 05 Jun 2020 13:59:15 -0400
-X-MC-Unique: iSafNz04Osii_NVpjihFQw-1
-Received: by mail-wr1-f70.google.com with SMTP id c14so4046567wrw.11
- for <qemu-devel@nongnu.org>; Fri, 05 Jun 2020 10:59:14 -0700 (PDT)
+ bh=EtHXc08cU2h+YYoVzqMY8ITi4IAZMxthxIEDG0nzDUM=;
+ b=cOodsi+mfngnR4E8usiqCxNv/Wul1K0On/qq+3pCV7yJ4LCJw/glvgILh25BAneWxtVxlw
+ p3+L/tj2wH5/M24hyDMou3V2/ogitjhO/SolU/b2uvVRjMf+Fv37nNzHwjyYBsapw+Ey9b
+ EPp4ptB1PbJnIgTaHZZzLKqRj3PcC5k=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-90-qk0rOu4IOr2KWL6uj2AwcA-1; Fri, 05 Jun 2020 13:59:20 -0400
+X-MC-Unique: qk0rOu4IOr2KWL6uj2AwcA-1
+Received: by mail-wr1-f69.google.com with SMTP id l1so4064679wrc.8
+ for <qemu-devel@nongnu.org>; Fri, 05 Jun 2020 10:59:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=WgLubjKz8VmCZqpELU1JLw/uHIcEFx15X1H+hmJK3kA=;
- b=mebIz0gaA9lHg4Oi/prNcVDeQkJnn8IK8vF4nNi5eXIOKP51uyeF6GQ5ROBlWttXMP
- hV8jekzH+34q5nqNab/67C93ac33mj9TkiJ9XaoiUjxMnLICVdJWIZu1OzozQSnUm+uG
- MIjbP1W29dg1ZJ6jQ5eHJtqne8Zfniu9hgUq9Iu1G6HxZlgJJM/tJqyhyvALNeSGuQ6K
- P7VLROL9Yrdc+QzBOhef94RUrir0m8IAu/GLYvkEpCNRhxy11nrb1cpvyR2TZYYxDEhP
- r3QCV/QplZoGJ0tt4uAt3Jqt5eKm7sMljjfK0DUFdk122j8fU1ep8GrYSqx/NvFqnvL7
- p+dQ==
-X-Gm-Message-State: AOAM533sefDF5o2BgvZom8MhlL3tRZtuW5o1L49ODMOYkCFwz92mzfzm
- L+MDFBDlA/SF4OE74XqhSxAmzfxhGU6HShnRuewtxJwKgQHjDJrSGN+uHL5uW+u1QkToSrutt/7
- koqTZSkXyWr3Vvkg=
-X-Received: by 2002:a1c:9d96:: with SMTP id g144mr3708849wme.126.1591379953812; 
- Fri, 05 Jun 2020 10:59:13 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz/ujp0mrZ+FuQIpvB3JDuQmfgyTRwVcPY0wV1wWey7JzNt0+gtp8fo5g1uYUtJkf+Jez95/g==
-X-Received: by 2002:a1c:9d96:: with SMTP id g144mr3708839wme.126.1591379953656; 
- Fri, 05 Jun 2020 10:59:13 -0700 (PDT)
+ bh=EtHXc08cU2h+YYoVzqMY8ITi4IAZMxthxIEDG0nzDUM=;
+ b=QL8eXTZfhTPBVIytJxV+xzQiRfUlhNEOG16tnIloErmSizTaMKd1buDC5Y7q8tlso/
+ giCJgBTkP0C2uIdomz+3K8Xdy+tzVKrPH+xxiKxLqzrgqB2LHJ7OxVhupRJDOBRLrMiv
+ 1j7M8Qp/Gnnhb5BgPrXD+NojX63rIEW3pREp3Ay1/0LxrScDOabxM4whzAB1DIyIBVGn
+ NI57IBQs3OGkUPzv+VFBpqxR4+qQpGUeR4hIoMZdtvZid7wPzYdBMkluSvg7zHaXKErl
+ QQ/1B4V5Bh11qLDQxagxrqfSR1tr3q3gM/1IJrSeoCqADVgVd2kNNH1NiqQiApZe5uoB
+ jBpg==
+X-Gm-Message-State: AOAM530AZfhngWVCG2KK+991I3WIIPqIc/Nuc0Axs5BLB4eW+xYdjw0t
+ UMvshT8cGUP1T5SakjxqkY5Xm4yJNCQ7AX2Vu9riogaVfFbyUfvf39FhiQCe6b0RRN71M39SGaj
+ lP7LLPwjAF/hFwM0=
+X-Received: by 2002:a1c:e0c3:: with SMTP id x186mr3742387wmg.17.1591379958894; 
+ Fri, 05 Jun 2020 10:59:18 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwEle4zM0O5FN65X66KgWJBPS6QuFGnI/2gr9FFF+EjV0CsQ+3nSC3lfzQ7zq4IE2Vx2JDnmA==
+X-Received: by 2002:a1c:e0c3:: with SMTP id x186mr3742380wmg.17.1591379958678; 
+ Fri, 05 Jun 2020 10:59:18 -0700 (PDT)
 Received: from localhost.localdomain
  (181.red-88-10-103.dynamicip.rima-tde.net. [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id s8sm13674175wrg.50.2020.06.05.10.59.12
+ by smtp.gmail.com with ESMTPSA id y19sm11760700wmi.6.2020.06.05.10.59.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Jun 2020 10:59:13 -0700 (PDT)
+ Fri, 05 Jun 2020 10:59:18 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 10/11] Makefile: Allow target-specific optional Kconfig
-Date: Fri,  5 Jun 2020 19:58:20 +0200
-Message-Id: <20200605175821.20926-11-philmd@redhat.com>
+Subject: [PATCH v7 11/11] accel/tcg: Add stub for probe_access()
+Date: Fri,  5 Jun 2020 19:58:21 +0200
+Message-Id: <20200605175821.20926-12-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200605175821.20926-1-philmd@redhat.com>
 References: <20200605175821.20926-1-philmd@redhat.com>
@@ -72,17 +72,17 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/05 03:27:26
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/05 03:35:49
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,40 +95,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
+Cc: Paolo Bonzini <pbonzini@redhat.com>, David Hildenbrand <david@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Allow use of target-specific Kconfig file.
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+The TCG helpers where added in b92e5a22ec3 in softmmu_template.h.
+probe_write() was added in there in 3b4afc9e75a to be moved out
+to accel/tcg/cputlb.c in 3b08f0a9254, and was later refactored
+as probe_access() in c25c283df0f.
+Since it is a TCG specific helper, add a stub to avoid failures
+when building without TCG, such:
+
+  target/arm/helper.o: In function `probe_read':
+  include/exec/exec-all.h:362: undefined reference to `probe_access'
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- Makefile | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ accel/stubs/tcg-stub.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/Makefile b/Makefile
-index f8a45e1379..d5009cd304 100644
---- a/Makefile
-+++ b/Makefile
-@@ -423,11 +423,13 @@ MINIKCONF_INPUTS = $(SRC_PATH)/Kconfig.host \
-                    $(SRC_PATH)/accel/Kconfig \
-                    $(SRC_PATH)/hw/Kconfig
- MINIKCONF_DEPS = $(MINIKCONF_INPUTS) \
--                 $(wildcard $(SRC_PATH)/hw/*/Kconfig)
-+                 $(wildcard $(SRC_PATH)/hw/*/Kconfig) \
-+                 $(wildcard $(SRC_PATH)/target/*/Kconfig)
- MINIKCONF = $(PYTHON) $(SRC_PATH)/scripts/minikconf.py
- 
- $(SUBDIR_DEVICES_MAK): %/config-devices.mak: default-configs/%.mak $(MINIKCONF_DEPS) $(BUILD_DIR)/config-host.mak
- 	$(call quiet-command, $(MINIKCONF) $(MINIKCONF_ARGS) \
-+		$(wildcard $(SRC_PATH)/target/$(call base-arch, $(firstword $(subst -, ,$@)))/Kconfig) \
- 		> $@.tmp, "GEN", "$@.tmp")
- 	$(call quiet-command, if test -f $@; then \
- 	  if cmp -s $@.old $@; then \
+diff --git a/accel/stubs/tcg-stub.c b/accel/stubs/tcg-stub.c
+index 677191a69c..e4bbf997aa 100644
+--- a/accel/stubs/tcg-stub.c
++++ b/accel/stubs/tcg-stub.c
+@@ -22,3 +22,10 @@ void tb_flush(CPUState *cpu)
+ void tlb_set_dirty(CPUState *cpu, target_ulong vaddr)
+ {
+ }
++
++void *probe_access(CPUArchState *env, target_ulong addr, int size,
++                   MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
++{
++     /* Handled by hardware accelerator. */
++     g_assert_not_reached();
++}
 -- 
 2.21.3
 
