@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66BFB1EEF2E
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 03:38:32 +0200 (CEST)
-Received: from localhost ([::1]:42390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCEA01EEF30
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 03:40:28 +0200 (CEST)
+Received: from localhost ([::1]:48190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jh1JX-0007J7-Gz
-	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 21:38:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55662)
+	id 1jh1LP-0001Ym-Vt
+	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 21:40:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=4185f83b6=alistair.francis@wdc.com>)
- id 1jh1BR-0002ES-OU; Thu, 04 Jun 2020 21:30:09 -0400
+ id 1jh1BT-0002Is-Gg; Thu, 04 Jun 2020 21:30:11 -0400
 Received: from esa2.hgst.iphmx.com ([68.232.143.124]:22008)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=4185f83b6=alistair.francis@wdc.com>)
- id 1jh1BQ-00009e-HO; Thu, 04 Jun 2020 21:30:09 -0400
+ id 1jh1BS-00009e-IW; Thu, 04 Jun 2020 21:30:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
  t=1591320611; x=1622856611;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=gpdiww6CQEQzO5fQ1sP5VZqoLxUdv32tk/zd6cFv+B0=;
- b=U3WKsFAYdgoACQmfJOf1RJdP1z4rs0EWAGkaYXvDCa3uPS8VqFHURuw5
- Uvy6qBzLeHTAqcoUZTLgUdv5osMn1ACzGkO7CbDE4CHxzHfzttl8brkcd
- nNtyEwXMnV7POjb+WwZ60o/yyybgNL/qzjbhAcdGcM9ZoZjo6fFFtg3EJ
- dc35rCWiAIUY4Ul5hbu6rDSaIrAWC6Wt3aM4JDKgCINfBZgItE760ZioY
- S/V+e3vf1NK7eESJUgVWAgzbyafo8uehV4CjrygRVQAH37hk4oISFfYxC
- sCIEEnCaXTCpQGHep7mrhojRJCGgctF4uW5cj5VaNJy1myguHFY6Bbifm w==;
-IronPort-SDR: d3m0AbNUlVruwmZ0KONvtD1oSolm8gkGE2Kthe7n9l1KFqYRstqYpLTWhPhQfgQGEcoy8Yxbnd
- zyGiZqRuHN8YxXE4TIxwEuTj7stBTs96Nxp3qlrAlyoOy97GFdb/aoIlClzuyI7i2d9KiT3VUx
- KCsE9WdXxfExAjErdeJ3dYleWPK0fAiAdur+NyicO6AOgc5WQr0MMG9hNr2FAmoyWNKFIz5ieX
- ZPuIs4MEywetLYp7FPfgE1+PZxQy3Pk0NqfRUxZfLlNsiDbk947jVrJCyW4NjPVDi60RaPNAZ7
- RYk=
-X-IronPort-AV: E=Sophos;i="5.73,474,1583164800"; d="scan'208";a="242127052"
+ bh=z8VaLoKTwg3sLdA7SkrOvr7GWa/yDdx8KFbYEC1qzJQ=;
+ b=lmHphc+vLuKtFyRzLt5XS4TafM9RWyISfbt6uoNNVV1eDbAxgRjgTpVr
+ sfmSsLD7PErc3yLm2wCNfo6Ki8DxOFWgSW5+xXmwQ2a5DAEuNeYCY1pTK
+ 5GJ0bqAZYPmdCvf+N7+7Wqwh2lKq1VaBdOyr7Eaz2HjxGNwck7IeFdQZl
+ E/VJxhKDlpLZT8gKnba9C98W1DxqA2XOGJRHFy5KXm5SKRKHFp9JeOqrO
+ eOW9hy1Z9GnAvX9cxjrp9+oqKOja9KTpiOtccSAt/eb+lcG643OjpC/ae
+ V8IDbVZFiXYPZK1MV47XfRPQZWSJl9DrFtUNKkpUrM/O5xmZ5R3/XzSbS A==;
+IronPort-SDR: JQcrJ/rkELxvKVGO0EZxgMCrcBESmgvo0H5lllZaDmPIp6K8vQBRw2GpSMBgvmTQE43hK2xiLk
+ DN59uACcaQBEasPAC440d6mJh8X0bsLTmJCXigqME6H7wKVMhxRLOCiO9UutVcfwNmkuNoQmWM
+ S3VOQaGLWZ7uvmD9nD9JOAuyG1tws02f5HuYalxjqmCCHUkgJ/XaVRKA0D+VZki5PPQeHxMQbE
+ eaXbB8h8RccTekIKskeGlucfQ5zWJFSxeGB1aQTRISBqbxC4mPfJTJVdd8id+zRBvDBkGxegbJ
+ GUw=
+X-IronPort-AV: E=Sophos;i="5.73,474,1583164800"; d="scan'208";a="242127062"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 05 Jun 2020 09:30:07 +0800
-IronPort-SDR: lxFq0Al4oYITA8IzMaBNE075CAYBJelrxtZtcjMrpYOrjT73LWfDFQVLwqid+D5Ih3tCPSv/zt
- RAJ5qlpkBOGS8Os3RIyItAWkq1+0hTvQk=
+ by ob1.hgst.iphmx.com with ESMTP; 05 Jun 2020 09:30:10 +0800
+IronPort-SDR: dFdBb6foojPeiGgyHfSe5O+Win3ORGvKiNSuwj5wn+CD3KDt5V/buNY98/ubGzbuP9o7vQcR7V
+ ZC6iJ3ar6biLr6WuRAG3N7wV9iqIbsPb0=
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jun 2020 18:19:42 -0700
-IronPort-SDR: jXOfY482oKuw3Yaemoi6CYAjv3XHA35+Kc5+UeOPpMIUHe7IsCL7kv8gA/h8stAfJqxi9F6b15
- rh+YdZcSKxhw==
+ 04 Jun 2020 18:19:45 -0700
+IronPort-SDR: E0Ty70A44x+A5ncCZuKy4iFVZDkxZHuyP6C6LG3Dc5/foKlQSIdcRDz2cQRtamGoXFNVnhqr53
+ wIaP3DR+TlWw==
 WDCIronportException: Internal
 Received: from cnf006056.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.57.233])
- by uls-op-cesaip02.wdc.com with ESMTP; 04 Jun 2020 18:30:06 -0700
+ by uls-op-cesaip02.wdc.com with ESMTP; 04 Jun 2020 18:30:09 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [PATCH v2 13/17] target/riscv: Only support a single VSXL length
-Date: Thu,  4 Jun 2020 18:21:18 -0700
-Message-Id: <088e016b3f96a9508165ab3d10217041e8a3e536.1591319882.git.alistair@alistair23.me>
+Subject: [PATCH v2 14/17] target/riscv: Only support little endian guests
+Date: Thu,  4 Jun 2020 18:21:21 -0700
+Message-Id: <7faee43fc9a209a9c801e0a543a51b09a479331a.1591319882.git.alistair@alistair23.me>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1591319882.git.alistair@alistair23.me>
 References: <cover.1591319882.git.alistair@alistair23.me>
@@ -93,32 +93,29 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/csr.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ target/riscv/csr.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 69a3c8379c..973404d0aa 100644
+index 973404d0aa..5b64539efb 100644
 --- a/target/riscv/csr.c
 +++ b/target/riscv/csr.c
-@@ -768,12 +768,21 @@ static int write_satp(CPURISCVState *env, int csrno, target_ulong val)
- static int read_hstatus(CPURISCVState *env, int csrno, target_ulong *val)
- {
-     *val = env->hstatus;
-+#ifdef TARGET_RISCV64
-+    /* We only support 64-bit VSXL */
-+    *val = set_field(*val, HSTATUS_VSXL, 2);
-+#endif
+@@ -772,6 +772,8 @@ static int read_hstatus(CPURISCVState *env, int csrno, target_ulong *val)
+     /* We only support 64-bit VSXL */
+     *val = set_field(*val, HSTATUS_VSXL, 2);
+ #endif
++    /* We only support little endian */
++    *val = set_field(*val, HSTATUS_VSBE, 0);
      return 0;
  }
  
- static int write_hstatus(CPURISCVState *env, int csrno, target_ulong val)
- {
-     env->hstatus = val;
-+#ifdef TARGET_RISCV64
-+    if (get_field(val, HSTATUS_VSXL) != 2) {
-+        qemu_log_mask(LOG_UNIMP, "QEMU does not support mixed HSXLEN options.");
+@@ -783,6 +785,9 @@ static int write_hstatus(CPURISCVState *env, int csrno, target_ulong val)
+         qemu_log_mask(LOG_UNIMP, "QEMU does not support mixed HSXLEN options.");
+     }
+ #endif
++    if (get_field(val, HSTATUS_VSBE) != 0) {
++        qemu_log_mask(LOG_UNIMP, "QEMU does not support big endian guests.");
 +    }
-+#endif
      return 0;
  }
  
