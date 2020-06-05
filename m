@@ -2,56 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1A631EFE37
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 18:49:50 +0200 (CEST)
-Received: from localhost ([::1]:42610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BAF61EFE40
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 18:51:31 +0200 (CEST)
+Received: from localhost ([::1]:49322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jhFXR-0008UH-Ox
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 12:49:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40150)
+	id 1jhFZ4-00030T-7w
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 12:51:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40442)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jhFWC-0007XF-HV
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 12:48:32 -0400
-Received: from 11.mo6.mail-out.ovh.net ([188.165.38.119]:60615)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jhFWA-00015n-CL
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 12:48:32 -0400
-Received: from player732.ha.ovh.net (unknown [10.110.208.44])
- by mo6.mail-out.ovh.net (Postfix) with ESMTP id 1A533211306
- for <qemu-devel@nongnu.org>; Fri,  5 Jun 2020 18:48:19 +0200 (CEST)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player732.ha.ovh.net (Postfix) with ESMTPSA id B00C312F8DE81;
- Fri,  5 Jun 2020 16:47:59 +0000 (UTC)
-Authentication-Results: garm.ovh; auth=pass
- (GARM-96R00171f0a97b-1de5-4267-aee7-336a0a374b76,78B6A409CB68D4ADAA3DD5D4BC07D4D8F234AD6B)
- smtp.auth=groug@kaod.org
-Date: Fri, 5 Jun 2020 18:47:58 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH v3] numa: forbid '-numa node, mem' for 5.1 and newer
- machine types
-Message-ID: <20200605184758.6a7aa3ef@bahia>
-In-Reply-To: <20200605160321.671964-1-imammedo@redhat.com>
-References: <20200605160321.671964-1-imammedo@redhat.com>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jhFXp-00018E-KX
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 12:50:13 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:45377)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jhFXo-0001dQ-95
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 12:50:13 -0400
+Received: by mail-wr1-x430.google.com with SMTP id c3so10424579wru.12
+ for <qemu-devel@nongnu.org>; Fri, 05 Jun 2020 09:50:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=d0wr87mnUdy9e95d4CG/7IUoBY3RN7PHOhlJdr0e89w=;
+ b=UZQsAGRThuBk75wi0HN6F33KEVOXbkmvdWQesqjsO1ocOjvRW8ezm0crDRYBQqszlO
+ s9pzuQ+H49PeuuvDKWm+8OuC06v/vHYxA73oj7SbM9+23UdNEP4bNNEIjbNlCbOFFKR5
+ lPJXtalTv8nHvop2RUl/u6T3BCVRtKmMQBjaTCX6Sv/7bYTrf0bQGi2odG39SFIIo6V2
+ QpgXx7EbdjhsjdjkQWpIU+UuHpgmE0PZmZM2tQk1Yrd50MslYpB0ILO09Rj4+q044oJ7
+ EEL6/4+rm9bnftaK5EkkKZOuGKvmLd9/KHkks3NpccpfLk/rbapzlEwdx3jS0fpASXkY
+ izUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=d0wr87mnUdy9e95d4CG/7IUoBY3RN7PHOhlJdr0e89w=;
+ b=Ch/3dIOA7cNhrp1xjdlT7wpJ3z7MgrvySk2TVjekrLkGQA4DQuMQOxIh+tUdg5tlKI
+ Bzy2d/Fo8PZjU1l2fYNw7Gr6IKgU1zRas/zS33z46WE9H8SYfNWo/0ORH4XV2eeYgRtM
+ nUJHzOuyCk7k0hKAKQgndKj39esSlZ9VxivFIbyMdroDGlCwCmbO8IsK0OViNmpC8K8Y
+ HO4B58N1bz2MZ7Ii/mJ2WkQORBmPmpfvHBQX2K4I8G90RO3zuuixgDZ+cwDRn/PVwru0
+ AETRrVDwrML4SejvkCPKpWnGWX/2j/IPrgbhPuXqmx7WTQrr9C6xyHFAUgAbnXHmS4fP
+ anxA==
+X-Gm-Message-State: AOAM531HtcHuEgNCNarO8+0PbL6tjqUTLh50QZL9n0f6VsUCtyt84DQd
+ v0OYdjVhIveb976WQ6X4hdcMLobnzqeyAg==
+X-Google-Smtp-Source: ABdhPJyth4A6acrz9gVLYzS5nz9wrXXzwlrgmz8AyBSXP7JJjWqdvSFG48XB93fbzxzZms5yBYbdSA==
+X-Received: by 2002:adf:edc8:: with SMTP id v8mr10137747wro.176.1591375809920; 
+ Fri, 05 Jun 2020 09:50:09 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id c140sm12272724wmd.18.2020.06.05.09.50.09
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 05 Jun 2020 09:50:09 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/29] target-arm queue
+Date: Fri,  5 Jun 2020 17:49:38 +0100
+Message-Id: <20200605165007.12095-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 8598216115286284654
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduhedrudegfedgledvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepheekhfdtheegheehjeeludefkefhvdelfedvieehhfekhfdufffhueeuvdfftdfhnecukfhppedtrddtrddtrddtpdekvddrvdehfedrvddtkedrvdegkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejfedvrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
-Received-SPF: pass client-ip=188.165.38.119; envelope-from=groug@kaod.org;
- helo=11.mo6.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/05 12:48:21
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -65,223 +84,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, ehabkost@redhat.com, mst@redhat.com,
- libvir-list@redhat.com, Michal Privoznik <mprivozn@redhat.com>,
- qemu-devel@nongnu.org, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
- pbonzini@redhat.com, rth@twiddle.net, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri,  5 Jun 2020 12:03:21 -0400
-Igor Mammedov <imammedo@redhat.com> wrote:
+Arm queue; some of the simpler stuff, things other have reviewed (thanks!), etc.
 
-> Deprecation period is run out and it's a time to flip the switch
-> introduced by cd5ff8333a.  Disable legacy option for new machine
-> types (since 5.1) and amend documentation.
-> 
-> '-numa node,memdev' shall be used instead of disabled option
-> with new machine types.
-> 
-> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
-> ---
-> v1:
->  - rebased on top of current master
->  - move compat mode from 4.2 to 5.0
-> v2:
->  - move deprection text to recently removed section
-> v3:
->  - increase title line length for (deprecated.rst)
->      '``-numa node,mem=``\ *size* (removed in 5.1)'
-> 
-> CC: peter.maydell@linaro.org
-> CC: ehabkost@redhat.com
-> CC: marcel.apfelbaum@gmail.com
-> CC: mst@redhat.com
-> CC: pbonzini@redhat.com
-> CC: rth@twiddle.net
-> CC: david@gibson.dropbear.id.au
-> CC: libvir-list@redhat.com
-> CC: qemu-arm@nongnu.org
-> CC: qemu-ppc@nongnu.org
-> ---
->  docs/system/deprecated.rst | 37 ++++++++++++++++++++-----------------
->  hw/arm/virt.c              |  2 +-
->  hw/core/numa.c             |  6 ++++++
->  hw/i386/pc.c               |  1 -
->  hw/i386/pc_piix.c          |  1 +
->  hw/i386/pc_q35.c           |  1 +
->  hw/ppc/spapr.c             |  2 +-
->  qemu-options.hx            |  9 +++++----
->  8 files changed, 35 insertions(+), 24 deletions(-)
-> 
-> diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-> index f0061f94aa..502e41ff35 100644
-> --- a/docs/system/deprecated.rst
-> +++ b/docs/system/deprecated.rst
-> @@ -101,23 +101,6 @@ error in the future.
->  The ``-realtime mlock=on|off`` argument has been replaced by the
->  ``-overcommit mem-lock=on|off`` argument.
->  
-> -``-numa node,mem=``\ *size* (since 4.1)
-> -'''''''''''''''''''''''''''''''''''''''
-> -
-> -The parameter ``mem`` of ``-numa node`` is used to assign a part of
-> -guest RAM to a NUMA node. But when using it, it's impossible to manage specified
-> -RAM chunk on the host side (like bind it to a host node, setting bind policy, ...),
-> -so guest end-ups with the fake NUMA configuration with suboptiomal performance.
-> -However since 2014 there is an alternative way to assign RAM to a NUMA node
-> -using parameter ``memdev``, which does the same as ``mem`` and adds
-> -means to actualy manage node RAM on the host side. Use parameter ``memdev``
-> -with *memory-backend-ram* backend as an replacement for parameter ``mem``
-> -to achieve the same fake NUMA effect or a properly configured
-> -*memory-backend-file* backend to actually benefit from NUMA configuration.
-> -In future new machine versions will not accept the option but it will still
-> -work with old machine types. User can check QAPI schema to see if the legacy
-> -option is supported by looking at MachineInfo::numa-mem-supported property.
-> -
->  ``-numa`` node (without memory specified) (since 4.1)
->  '''''''''''''''''''''''''''''''''''''''''''''''''''''
->  
-> @@ -512,3 +495,23 @@ long starting at 1MiB, the old command::
->  can be rewritten as::
->  
->    qemu-nbd -t --image-opts driver=raw,offset=1M,size=100M,file.driver=qcow2,file.file.driver=file,file.file.filename=file.qcow2
-> +
-> +Command line options
-> +--------------------
-> +
-> +``-numa node,mem=``\ *size* (removed in 5.1)
-> +''''''''''''''''''''''''''''''''''''''''''''
-> +
-> +The parameter ``mem`` of ``-numa node`` is used to assign a part of
-> +guest RAM to a NUMA node. But when using it, it's impossible to manage specified
-> +RAM chunk on the host side (like bind it to a host node, setting bind policy, ...),
-> +so guest end-ups with the fake NUMA configuration with suboptiomal performance.
-> +However since 2014 there is an alternative way to assign RAM to a NUMA node
-> +using parameter ``memdev``, which does the same as ``mem`` and adds
-> +means to actualy manage node RAM on the host side. Use parameter ``memdev``
-> +with *memory-backend-ram* backend as an replacement for parameter ``mem``
-> +to achieve the same fake NUMA effect or a properly configured
-> +*memory-backend-file* backend to actually benefit from NUMA configuration.
-> +In future new machine versions will not accept the option but it will still
-> +work with old machine types. User can check QAPI schema to see if the legacy
-> +option is supported by looking at MachineInfo::numa-mem-supported property.
-> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-> index 37462a6f78..063d4703f7 100644
-> --- a/hw/arm/virt.c
-> +++ b/hw/arm/virt.c
-> @@ -2262,7 +2262,6 @@ static void virt_machine_class_init(ObjectClass *oc, void *data)
->      hc->pre_plug = virt_machine_device_pre_plug_cb;
->      hc->plug = virt_machine_device_plug_cb;
->      hc->unplug_request = virt_machine_device_unplug_request_cb;
-> -    mc->numa_mem_supported = true;
->      mc->nvdimm_supported = true;
->      mc->auto_enable_numa_with_memhp = true;
->      mc->default_ram_id = "mach-virt.ram";
-> @@ -2375,6 +2374,7 @@ DEFINE_VIRT_MACHINE_AS_LATEST(5, 1)
->  static void virt_machine_5_0_options(MachineClass *mc)
->  {
->      virt_machine_5_1_options(mc);
-> +    mc->numa_mem_supported = true;
->  }
->  DEFINE_VIRT_MACHINE(5, 0)
->  
-> diff --git a/hw/core/numa.c b/hw/core/numa.c
-> index 316bc50d75..05be412e59 100644
-> --- a/hw/core/numa.c
-> +++ b/hw/core/numa.c
-> @@ -117,6 +117,12 @@ static void parse_numa_node(MachineState *ms, NumaNodeOptions *node,
->      }
->  
->      if (node->has_mem) {
-> +        if (!mc->numa_mem_supported) {
-> +            error_setg(errp, "Parameter -numa node,mem is not supported by this"
-> +                      " machine type. Use -numa node,memdev instead");
+-- PMM
 
-What about using error_append_hint() for the hint part ?
+The following changes since commit 5d2f557b47dfbf8f23277a5bdd8473d4607c681a:
 
-> +            return;
-> +        }
-> +
->          numa_info[nodenr].node_mem = node->mem;
->          if (!qtest_enabled()) {
->              warn_report("Parameter -numa node,mem is deprecated,"
-> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-> index 2128f3d6fe..a86136069c 100644
-> --- a/hw/i386/pc.c
-> +++ b/hw/i386/pc.c
-> @@ -1960,7 +1960,6 @@ static void pc_machine_class_init(ObjectClass *oc, void *data)
->      hc->unplug = pc_machine_device_unplug_cb;
->      mc->default_cpu_type = TARGET_DEFAULT_CPU_TYPE;
->      mc->nvdimm_supported = true;
-> -    mc->numa_mem_supported = true;
->      mc->default_ram_id = "pc.ram";
->  
->      object_class_property_add(oc, PC_MACHINE_DEVMEM_REGION_SIZE, "int",
-> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-> index f66e1d73ce..8955436efa 100644
-> --- a/hw/i386/pc_piix.c
-> +++ b/hw/i386/pc_piix.c
-> @@ -438,6 +438,7 @@ static void pc_i440fx_5_0_machine_options(MachineClass *m)
->      pc_i440fx_5_1_machine_options(m);
->      m->alias = NULL;
->      m->is_default = false;
-> +    m->numa_mem_supported = true;
->      compat_props_add(m->compat_props, hw_compat_5_0, hw_compat_5_0_len);
->      compat_props_add(m->compat_props, pc_compat_5_0, pc_compat_5_0_len);
->  }
-> diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-> index 4ba8ac8774..af6b32adb7 100644
-> --- a/hw/i386/pc_q35.c
-> +++ b/hw/i386/pc_q35.c
-> @@ -366,6 +366,7 @@ static void pc_q35_5_0_machine_options(MachineClass *m)
->  {
->      pc_q35_5_1_machine_options(m);
->      m->alias = NULL;
-> +    m->numa_mem_supported = true;
->      compat_props_add(m->compat_props, hw_compat_5_0, hw_compat_5_0_len);
->      compat_props_add(m->compat_props, pc_compat_5_0, pc_compat_5_0_len);
->  }
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index 3b1a5ed865..210d61d1b3 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -4511,7 +4511,6 @@ static void spapr_machine_class_init(ObjectClass *oc, void *data)
->       * in which LMBs are represented and hot-added
->       */
->      mc->numa_mem_align_shift = 28;
-> -    mc->numa_mem_supported = true;
->      mc->auto_enable_numa = true;
->  
->      smc->default_caps.caps[SPAPR_CAP_HTM] = SPAPR_CAP_OFF;
-> @@ -4599,6 +4598,7 @@ static void spapr_machine_5_0_class_options(MachineClass *mc)
->  {
->      spapr_machine_5_1_class_options(mc);
->      compat_props_add(mc->compat_props, hw_compat_5_0, hw_compat_5_0_len);
-> +    mc->numa_mem_supported = true;
->  }
->  
->  DEFINE_SPAPR_MACHINE(5_0, "5.0", false);
-> diff --git a/qemu-options.hx b/qemu-options.hx
-> index 93bde2bbc8..196f468786 100644
-> --- a/qemu-options.hx
-> +++ b/qemu-options.hx
-> @@ -239,10 +239,11 @@ SRST
->          -numa node,nodeid=0 -numa node,nodeid=1 \
->          -numa cpu,node-id=0,socket-id=0 -numa cpu,node-id=1,socket-id=1
->  
-> -    '\ ``mem``\ ' assigns a given RAM amount to a node. '\ ``memdev``\ '
-> -    assigns RAM from a given memory backend device to a node. If
-> -    '\ ``mem``\ ' and '\ ``memdev``\ ' are omitted in all nodes, RAM is
-> -    split equally between them.
-> +    Legacy '\ ``mem``\ ' assigns a given RAM amount to a node (not supported
-> +    for 5.1 and newer machine types). '\ ``memdev``\ ' assigns RAM from
-> +    a given memory backend device to a node. If '\ ``mem``\ ' and
-> +    '\ ``memdev``\ ' are omitted in all nodes, RAM is split equally between them.
-> +
->  
->      '\ ``mem``\ ' and '\ ``memdev``\ ' are mutually exclusive.
->      Furthermore, if one node uses '\ ``memdev``\ ', all of them have to
+  Merge remote-tracking branch 'remotes/kraxel/tags/vga-20200605-pull-request' into staging (2020-06-05 13:53:05 +0100)
 
+are available in the Git repository at:
+
+  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20200605
+
+for you to fetch changes up to 2c35a39eda0b16c2ed85c94cec204bf5efb97812:
+
+  target/arm: Convert Neon one-register-and-immediate insns to decodetree (2020-06-05 17:23:10 +0100)
+
+----------------------------------------------------------------
+target-arm queue:
+ hw/ssi/imx_spi: Handle tx burst lengths other than 8 correctly
+ hw/input/pxa2xx_keypad: Replace hw_error() by qemu_log_mask()
+ hw/arm/pxa2xx: Replace printf() call by qemu_log_mask()
+ target/arm: Convert crypto insns to gvec
+ hw/adc/stm32f2xx_adc: Correct memory region size and access size
+ tests/acceptance: Add a boot test for the xlnx-versal-virt machine
+ docs/system: Document Aspeed boards
+ raspi: Add model of the USB controller
+ target/arm: Convert 2-reg-and-shift and 1-reg-imm Neon insns to decodetree
+
+----------------------------------------------------------------
+Cédric Le Goater (1):
+      docs/system: Document Aspeed boards
+
+Eden Mikitas (2):
+      hw/ssi/imx_spi: changed while statement to prevent underflow
+      hw/ssi/imx_spi: Removed unnecessary cast of rx data received from slave
+
+Paul Zimmerman (7):
+      raspi: add BCM2835 SOC MPHI emulation
+      dwc-hsotg (dwc2) USB host controller register definitions
+      dwc-hsotg (dwc2) USB host controller state definitions
+      dwc-hsotg (dwc2) USB host controller emulation
+      usb: add short-packet handling to usb-storage driver
+      wire in the dwc-hsotg (dwc2) USB host controller emulation
+      raspi2 acceptance test: add test for dwc-hsotg (dwc2) USB host
+
+Peter Maydell (9):
+      target/arm: Convert Neon VSHL and VSLI 2-reg-shift insn to decodetree
+      target/arm: Convert Neon VSHR 2-reg-shift insns to decodetree
+      target/arm: Convert Neon VSRA, VSRI, VRSHR, VRSRA 2-reg-shift insns to decodetree
+      target/arm: Convert VQSHLU, VQSHL 2-reg-shift insns to decodetree
+      target/arm: Convert Neon narrowing shifts with op==8 to decodetree
+      target/arm: Convert Neon narrowing shifts with op==9 to decodetree
+      target/arm: Convert Neon VSHLL, VMOVL to decodetree
+      target/arm: Convert VCVT fixed-point ops to decodetree
+      target/arm: Convert Neon one-register-and-immediate insns to decodetree
+
+Philippe Mathieu-Daudé (3):
+      hw/input/pxa2xx_keypad: Replace hw_error() by qemu_log_mask()
+      hw/arm/pxa2xx: Replace printf() call by qemu_log_mask()
+      hw/adc/stm32f2xx_adc: Correct memory region size and access size
+
+Richard Henderson (6):
+      target/arm: Convert aes and sm4 to gvec helpers
+      target/arm: Convert rax1 to gvec helpers
+      target/arm: Convert sha512 and sm3 to gvec helpers
+      target/arm: Convert sha1 and sha256 to gvec helpers
+      target/arm: Split helper_crypto_sha1_3reg
+      target/arm: Split helper_crypto_sm3tt
+
+Thomas Huth (1):
+      tests/acceptance: Add a boot test for the xlnx-versal-virt machine
+
+ docs/system/arm/aspeed.rst             |   85 ++
+ docs/system/target-arm.rst             |    1 +
+ hw/usb/hcd-dwc2.h                      |  190 +++++
+ include/hw/arm/bcm2835_peripherals.h   |    5 +-
+ include/hw/misc/bcm2835_mphi.h         |   44 +
+ include/hw/usb/dwc2-regs.h             |  899 ++++++++++++++++++++
+ target/arm/helper.h                    |   45 +-
+ target/arm/translate-a64.h             |    3 +
+ target/arm/vec_internal.h              |   33 +
+ target/arm/neon-dp.decode              |  214 ++++-
+ hw/adc/stm32f2xx_adc.c                 |    4 +-
+ hw/arm/bcm2835_peripherals.c           |   38 +-
+ hw/arm/pxa2xx.c                        |   66 +-
+ hw/input/pxa2xx_keypad.c               |   10 +-
+ hw/misc/bcm2835_mphi.c                 |  191 +++++
+ hw/ssi/imx_spi.c                       |    4 +-
+ hw/usb/dev-storage.c                   |   15 +-
+ hw/usb/hcd-dwc2.c                      | 1417 ++++++++++++++++++++++++++++++++
+ target/arm/crypto_helper.c             |  267 ++++--
+ target/arm/translate-a64.c             |  198 ++---
+ target/arm/translate-neon.inc.c        |  796 ++++++++++++++----
+ target/arm/translate.c                 |  539 +-----------
+ target/arm/vec_helper.c                |   12 +-
+ hw/misc/Makefile.objs                  |    1 +
+ hw/usb/Kconfig                         |    5 +
+ hw/usb/Makefile.objs                   |    1 +
+ hw/usb/trace-events                    |   50 ++
+ tests/acceptance/boot_linux_console.py |   35 +-
+ 28 files changed, 4258 insertions(+), 910 deletions(-)
+ create mode 100644 docs/system/arm/aspeed.rst
+ create mode 100644 hw/usb/hcd-dwc2.h
+ create mode 100644 include/hw/misc/bcm2835_mphi.h
+ create mode 100644 include/hw/usb/dwc2-regs.h
+ create mode 100644 target/arm/vec_internal.h
+ create mode 100644 hw/misc/bcm2835_mphi.c
+ create mode 100644 hw/usb/hcd-dwc2.c
 
