@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9386E1EFE52
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 18:56:17 +0200 (CEST)
-Received: from localhost ([::1]:46850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59B821EFE4D
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 18:55:14 +0200 (CEST)
+Received: from localhost ([::1]:40726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jhFdg-00051z-HZ
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 12:56:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40542)
+	id 1jhFcf-0002Un-DQ
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 12:55:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jhFY2-0001ar-V2
+ id 1jhFY2-0001aa-PH
  for qemu-devel@nongnu.org; Fri, 05 Jun 2020 12:50:27 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:56203)
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:52137)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jhFY0-0001fq-Eh
+ id 1jhFY1-0001g4-Jg
  for qemu-devel@nongnu.org; Fri, 05 Jun 2020 12:50:26 -0400
-Received: by mail-wm1-x334.google.com with SMTP id c71so9036371wmd.5
- for <qemu-devel@nongnu.org>; Fri, 05 Jun 2020 09:50:23 -0700 (PDT)
+Received: by mail-wm1-x32c.google.com with SMTP id u13so9071917wml.1
+ for <qemu-devel@nongnu.org>; Fri, 05 Jun 2020 09:50:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=2yUBQIbu54pdqWo2t660udQ3QOPVJ1+0t/Js/DFf5WY=;
- b=Mfm1DtyJP9bL42gpn1BC/vmnFWfQMarR1tubE2Af3D/iDs9IdgFPifOyn2lvNaOYGZ
- 6sTmRVram6tEc4Zrf5HXDYQmo0TRMIZF8LIgxWYX3aNTFAdDcgDE4p0Lo4BvDC5q5tYT
- 9QmpFh6bNBkHaY+4wc+lP60QSaeB13UVEjnkVzchj1Yg3WgZyRsOSDfrbnyD1/rfzAe1
- bmC4uMOIhCQcNcU8c6GINNPDYKwKQKv3PmrEtxKrjrZeQwMR8E1Shj41bJY9Gnmi5RNg
- 5oic9wR53pc7nWY9FauAbiRgs1vNiKuSD718RxY1AMA8RgyPhndhN067RpJCSOAs6knP
- lbGA==
+ bh=p06xAuPBqkUPgldQtU+c9R5ekbMeiVqYhWcLz5TebRE=;
+ b=KwWV2upfxjEypAAX1eUz1ZlPpRYgXJbwIdGphNRwPDPNzjKohrYELUuroPwEVY4yTn
+ PKN+bNQoDHnkZSo1jKWIF4JYMF5rdm9taPeRokjsm43O+jrwZ4ciMF9wVSzyHXVBhqrT
+ N7JykBslj+WngW3Fo2vkdLRNxLEZtNKwmJIJXoh2pCiHLvonfPdaFS6ViAeDIMhRWA5B
+ uykxtidFTKnuwK5SrjzZC4V/z4l9c/3WQRf4119HAYM9xWlG4W0o+oU/cx+SdUGwvDbE
+ KDPWoM2xWqP4lA/YX5Powqo73GiMKYzrfkF9sNjr+xdZArSoK6KrAu0Y7ox0HbZPwZl8
+ 6tRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2yUBQIbu54pdqWo2t660udQ3QOPVJ1+0t/Js/DFf5WY=;
- b=Fpzksox3RxH6lbB3rYwAzWWNH/F4aeHC/BwhgpVfRBDXPYmyJPzfOqpthotyXAhwh4
- Kpv0xs7/291DQLq/RTZzyuciF3pQ1088ED6kYMkVZU1e5gpjFAMZAOikbiSzNSaRPNqP
- 80BHYYZbIWlbyDSZTpCgiGwQdzM6s5PGLRZBgqk3tOl1iL1Z46Zrjm0xU7BO/9YcaTkJ
- 1l+Tk1w2PxAWLoDjzoAn9biJuwd6nW2iLawyxJ9sMhCcSVu4wgouFduu3tJKB5s3uL0l
- M75ll5bB9NGJJOazlk78RVRcZ53Wa/T0LKbIw+nHM3cOHHf/BNWEZgVaxHQo2ZV+ecdv
- wLog==
-X-Gm-Message-State: AOAM533IQl7IWOmZckI/KbjwFaCEUg4g0NuA3rQmnMS4apc0eZsQ8D6N
- 16Qpjk8Qwm3y6259d+g/tyc7Ryoqz7kXAQ==
-X-Google-Smtp-Source: ABdhPJynlFiHTl4y8f4T3SRN1BMp6l5TAQRUGwwwmdV6ShPXkSWs1dbLooKJCigfcDoDJ9CaVlPFRQ==
-X-Received: by 2002:a05:600c:1146:: with SMTP id
- z6mr3531259wmz.179.1591375822819; 
- Fri, 05 Jun 2020 09:50:22 -0700 (PDT)
+ bh=p06xAuPBqkUPgldQtU+c9R5ekbMeiVqYhWcLz5TebRE=;
+ b=Yqd19AdZtMUMVA7TXXy3eVKviWcjCAXEGmel8DTba2z+u0velxpLuI0AqMU17CJiJd
+ u2sG+2MLFy7XngykcPvK2qZz8kTqG8FI10/mV56d4r6FZXaMxksfQm1gCeZ6Ix3P4plo
+ dOnDEc9oMuQ8CwZKue+TS+87MyXbwY3OF9Z+CokIXrZEkY2VSZvMsyxXBzmW3q4N8ZKI
+ UToFay1E3hLCgcD6ibdlSMGxEUoNIukLU7fztZanghibnFtN28+57hjaLT2NgP08yvuv
+ RveAap9Ps9wkxCnq8fOFohjsw9Bd5dyApA3GUmEr0mGP5Eh8f9kcUl96YbYcD6g5adkX
+ Pz5Q==
+X-Gm-Message-State: AOAM531m0Y3+W0lzRPuW2UVM4sr7M6+4+Nhx8jmjeYtHdvUctIvExCX/
+ 4Qgs212G+VDUZkZwTjuD8tvcA7bzzyZAiA==
+X-Google-Smtp-Source: ABdhPJy4QQBghKDGUAUkbKZuyK8iCB9TjqBI26EVXEkJIW/Pfxv1jxOpMtGUR1hsHShJksazl7KKGw==
+X-Received: by 2002:a1c:6243:: with SMTP id w64mr3518060wmb.162.1591375823816; 
+ Fri, 05 Jun 2020 09:50:23 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id c140sm12272724wmd.18.2020.06.05.09.50.21
+ by smtp.gmail.com with ESMTPSA id c140sm12272724wmd.18.2020.06.05.09.50.22
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Jun 2020 09:50:22 -0700 (PDT)
+ Fri, 05 Jun 2020 09:50:23 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/29] tests/acceptance: Add a boot test for the
- xlnx-versal-virt machine
-Date: Fri,  5 Jun 2020 17:49:50 +0100
-Message-Id: <20200605165007.12095-13-peter.maydell@linaro.org>
+Subject: [PULL 13/29] docs/system: Document Aspeed boards
+Date: Fri,  5 Jun 2020 17:49:51 +0100
+Message-Id: <20200605165007.12095-14-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200605165007.12095-1-peter.maydell@linaro.org>
 References: <20200605165007.12095-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -91,63 +89,121 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+From: Cédric Le Goater <clg@kaod.org>
 
-As described by Edgar here:
-
- https://www.mail-archive.com/qemu-devel@nongnu.org/msg605124.html
-
-we can use the Ubuntu kernel for testing the xlnx-versal-virt machine.
-So let's add a boot test for this now.
-
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-Message-id: 20200525141237.15243-1-thuth@redhat.com
+Signed-off-by: Cédric Le Goater <clg@kaod.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-id: 20200602135050.593692-1-clg@kaod.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- tests/acceptance/boot_linux_console.py | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+ docs/system/arm/aspeed.rst | 85 ++++++++++++++++++++++++++++++++++++++
+ docs/system/target-arm.rst |  1 +
+ 2 files changed, 86 insertions(+)
+ create mode 100644 docs/system/arm/aspeed.rst
 
-diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
-index 12725d45290..bbbbd30e48d 100644
---- a/tests/acceptance/boot_linux_console.py
-+++ b/tests/acceptance/boot_linux_console.py
-@@ -308,6 +308,32 @@ class BootLinuxConsole(LinuxKernelTest):
-         console_pattern = 'Kernel command line: %s' % kernel_command_line
-         self.wait_for_console_pattern(console_pattern)
- 
-+    def test_aarch64_xlnx_versal_virt(self):
-+        """
-+        :avocado: tags=arch:aarch64
-+        :avocado: tags=machine:xlnx-versal-virt
-+        :avocado: tags=device:pl011
-+        :avocado: tags=device:arm_gicv3
-+        """
-+        kernel_url = ('http://ports.ubuntu.com/ubuntu-ports/dists/'
-+                      'bionic-updates/main/installer-arm64/current/images/'
-+                      'netboot/ubuntu-installer/arm64/linux')
-+        kernel_hash = '5bfc54cf7ed8157d93f6e5b0241e727b6dc22c50'
-+        kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
+diff --git a/docs/system/arm/aspeed.rst b/docs/system/arm/aspeed.rst
+new file mode 100644
+index 00000000000..45f891eb3ca
+--- /dev/null
++++ b/docs/system/arm/aspeed.rst
+@@ -0,0 +1,85 @@
++Aspeed family boards (``*-bmc``, ``ast2500-evb``, ``ast2600-evb``)
++==================================================================
 +
-+        initrd_url = ('http://ports.ubuntu.com/ubuntu-ports/dists/'
-+                      'bionic-updates/main/installer-arm64/current/images/'
-+                      'netboot/ubuntu-installer/arm64/initrd.gz')
-+        initrd_hash = 'd385d3e88d53e2004c5d43cbe668b458a094f772'
-+        initrd_path = self.fetch_asset(initrd_url, asset_hash=initrd_hash)
++The QEMU Aspeed machines model BMCs of various OpenPOWER systems and
++Aspeed evaluation boards. They are based on different releases of the
++Aspeed SoC : the AST2400 integrating an ARM926EJ-S CPU (400MHz), the
++AST2500 with an ARM1176JZS CPU (800MHz) and more recently the AST2600
++with dual cores ARM Cortex A7 CPUs (1.2GHz).
 +
-+        self.vm.set_console()
-+        self.vm.add_args('-m', '2G',
-+                         '-kernel', kernel_path,
-+                         '-initrd', initrd_path)
-+        self.vm.launch()
-+        self.wait_for_console_pattern('Checked W+X mappings: passed')
++The SoC comes with RAM, Gigabit ethernet, USB, SD/MMC, USB, SPI, I2C,
++etc.
 +
-     def test_arm_virt(self):
-         """
-         :avocado: tags=arch:arm
++AST2400 SoC based machines :
++
++- ``palmetto-bmc``         OpenPOWER Palmetto POWER8 BMC
++
++AST2500 SoC based machines :
++
++- ``ast2500-evb``          Aspeed AST2500 Evaluation board
++- ``romulus-bmc``          OpenPOWER Romulus POWER9 BMC
++- ``witherspoon-bmc``      OpenPOWER Witherspoon POWER9 BMC
++- ``sonorapass-bmc``       OCP SonoraPass BMC
++- ``swift-bmc``            OpenPOWER Swift BMC POWER9
++
++AST2600 SoC based machines :
++
++- ``ast2600-evb``          Aspeed AST2600 Evaluation board (Cortex A7)
++- ``tacoma-bmc``           OpenPOWER Witherspoon POWER9 AST2600 BMC
++
++Supported devices
++-----------------
++
++ * SMP (for the AST2600 Cortex-A7)
++ * Interrupt Controller (VIC)
++ * Timer Controller
++ * RTC Controller
++ * I2C Controller
++ * System Control Unit (SCU)
++ * SRAM mapping
++ * X-DMA Controller (basic interface)
++ * Static Memory Controller (SMC or FMC) - Only SPI Flash support
++ * SPI Memory Controller
++ * USB 2.0 Controller
++ * SD/MMC storage controllers
++ * SDRAM controller (dummy interface for basic settings and training)
++ * Watchdog Controller
++ * GPIO Controller (Master only)
++ * UART
++ * Ethernet controllers
++
++
++Missing devices
++---------------
++
++ * Coprocessor support
++ * ADC (out of tree implementation)
++ * PWM and Fan Controller
++ * LPC Bus Controller
++ * Slave GPIO Controller
++ * Super I/O Controller
++ * Hash/Crypto Engine
++ * PCI-Express 1 Controller
++ * Graphic Display Controller
++ * PECI Controller
++ * MCTP Controller
++ * Mailbox Controller
++ * Virtual UART
++ * eSPI Controller
++ * I3C Controller
++
++Boot options
++------------
++
++The Aspeed machines can be started using the -kernel option to load a
++Linux kernel or from a firmare image which can be downloaded from the
++OpenPOWER jenkins :
++
++   https://openpower.xyz/
++
++The image should be attached as an MTD drive. Run :
++
++.. code-block:: bash
++
++  $ qemu-system-arm -M romulus-bmc -nic user \
++	-drive file=flash-romulus,format=raw,if=mtd -nographic
+diff --git a/docs/system/target-arm.rst b/docs/system/target-arm.rst
+index dce384cb0e3..1bd477a2936 100644
+--- a/docs/system/target-arm.rst
++++ b/docs/system/target-arm.rst
+@@ -81,6 +81,7 @@ undocumented; you can get a complete list by running
+    arm/realview
+    arm/versatile
+    arm/vexpress
++   arm/aspeed
+    arm/musicpal
+    arm/nseries
+    arm/orangepi
 -- 
 2.20.1
 
