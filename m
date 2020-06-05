@@ -2,72 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B67D51F02A8
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 23:53:37 +0200 (CEST)
-Received: from localhost ([::1]:43478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 873141F02AA
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 23:54:02 +0200 (CEST)
+Received: from localhost ([::1]:44658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jhKHQ-0004CK-Oj
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 17:53:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50452)
+	id 1jhKHp-0004fb-Kr
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 17:54:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50464)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jhKG2-0002mM-Vd
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 17:52:10 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:47265
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jhKG0-0003fa-Sk
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 17:52:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591393927;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=z5dMG9qIndKHUEPY36afaIz6UnK796I7mplnX5vGor4=;
- b=EnYexZk2wbfc2vnN8BD/fovCsjqeNpciv750niUhCFewgRol+s1rwvADrH1AqJ+KeE/GYS
- EriX0eQmpYAmmDTjEOMohzteO5lMj71KimRfoo8L4mPZbwpmeFgxUx6HXvrWxcqH8z2QFf
- a3ZptLyiq9Vz61ixPKhCrbC6r1Rr9K0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-310-lyk5S5TPMjiBkRJ277rwxw-1; Fri, 05 Jun 2020 17:51:41 -0400
-X-MC-Unique: lyk5S5TPMjiBkRJ277rwxw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E862A8018AB;
- Fri,  5 Jun 2020 21:51:40 +0000 (UTC)
-Received: from [10.3.113.22] (ovpn-113-22.phx2.redhat.com [10.3.113.22])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 74BE419C58;
- Fri,  5 Jun 2020 21:51:34 +0000 (UTC)
-Subject: Re: [PATCH RFC v2 0/5] block: add block-dirty-bitmap-populate job
-To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
-References: <20200514034922.24834-1-jsnow@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <d36e7081-4de9-4f35-d1f1-b780e75739c9@redhat.com>
-Date: Fri, 5 Jun 2020 16:51:33 -0500
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jhKG4-0002pi-6O
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 17:52:12 -0400
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:46237)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jhKG3-0003fx-Bl
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 17:52:11 -0400
+Received: by mail-pl1-x642.google.com with SMTP id n2so4201472pld.13
+ for <qemu-devel@nongnu.org>; Fri, 05 Jun 2020 14:52:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=hw0sxcsgGJAm4C7/HVjWZij3aE9QrBGSh2yyjifznPA=;
+ b=yzaKLTaxAFGZBSet8gYR6KCoQjnKfjDmAatcNflWqGOz05CdhFM3uduXgql1abeNMR
+ v/Zo6W2dInLOzzGh39HOBBff6YbAmddqm6ZRPCrdVIOIc2lVe9GLmxfSPUqHLyTa1uko
+ aUtykRPIT99D6rgSfBjk7TxrYrtHHgCX0FImFEL0TkDnjFGL+JABTkjZ+Q2JsiHFrOZE
+ 2NAvhqmegebBEVeKdbVf5DMCJP217ary3BTVht+PF/amf9kndGERLNO/PWp8luK0Rd1L
+ lydXBK19+Vjz01Oa2ie5H/j3BS0maShqFs50jYr/+7qNCNBlI8FNpajT3abAtVlNNc+t
+ Va1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=hw0sxcsgGJAm4C7/HVjWZij3aE9QrBGSh2yyjifznPA=;
+ b=rv1WXZEl6srgnBlWZJYmsawNs7ghQR3uHjY6BO7OsXbpRy3speiAko22N+MWqN6AL0
+ 4WCTaPUDGfVL6YOrPNt5N1L+8epsCnlC9NaVo/xo9rgt50s4ZAIBvWMXKXKmymLxDZGz
+ FYjvBKqV3E/kqWt/YZB86ZwZffictMJHzYXpAs98vAcwqhw7+Tj2dnGzg6AytxL2ppaa
+ r8VE0jq9eaSUd3ZjS+xRNtnvUZzEvDQM1z1b6hvxYj84zfulFXSvqpLSZolYgSLq9UNW
+ Cn4maBZz0cVNQKuYxSimIiDrVaHtcz+HVJ5i9q1p5HQI3f2oOG17e8HlU9y5/Yi07U9w
+ H4pw==
+X-Gm-Message-State: AOAM531GFWxoDI/cx38+wmNvDDO1eBjiVM5KbfY/5WfmWHF7gKMYBr+0
+ unYlAzG177Psls2kBjiQVemXxA==
+X-Google-Smtp-Source: ABdhPJxr+cxe+S+lJg9yUaKQFlhkNN0wdvCxrFEZu3NW0NUsSAxVlIKkd6J8kcDEBD0X3YE3UOiJSA==
+X-Received: by 2002:a17:90b:3005:: with SMTP id
+ hg5mr5073677pjb.215.1591393930037; 
+ Fri, 05 Jun 2020 14:52:10 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
+ by smtp.gmail.com with ESMTPSA id i191sm500862pfe.99.2020.06.05.14.52.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 05 Jun 2020 14:52:09 -0700 (PDT)
+Subject: Re: [PATCH v7 05/11] rules.mak: Add base-arch() rule
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20200605175821.20926-1-philmd@redhat.com>
+ <20200605175821.20926-6-philmd@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <aaf04dd1-507d-d7d9-80cc-90002762677e@linaro.org>
+Date: Fri, 5 Jun 2020 14:52:07 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200514034922.24834-1-jsnow@redhat.com>
+In-Reply-To: <20200605175821.20926-6-philmd@redhat.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/05 16:19:25
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::642;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x642.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,49 +91,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, pkrempa@redhat.com,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
- vsementsov@virtuozzo.com, Cleber Rosa <crosa@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/13/20 10:49 PM, John Snow wrote:
-> Hi,
+On 6/5/20 10:58 AM, Philippe Mathieu-Daudé wrote:
+> Add a rule to return the base architecture for a QEMU target.
 > 
-> This is a new (very small) block job that writes a pattern into a
-> bitmap. The only pattern implemented is the top allocation information.
+> The current list of TARGET_BASE_ARCH is:
 > 
-> This can be used to "recover" an incremental bitmap chain if an external
-> snapshot was taken without creating a new bitmap first: any writes made
-> to the image will be reflected by the allocation status and can be
-> written back into a bitmap.
+>   $ git grep  TARGET_BASE_ARCH configure
+>   configure:7785:TARGET_BASE_ARCH=""
+>   configure:7795:    TARGET_BASE_ARCH=i386
+>   configure:7813:    TARGET_BASE_ARCH=arm
+>   configure:7846:    TARGET_BASE_ARCH=mips
+>   configure:7854:    TARGET_BASE_ARCH=mips
+>   configure:7864:    TARGET_BASE_ARCH=openrisc
+>   configure:7871:    TARGET_BASE_ARCH=ppc
+>   configure:7879:    TARGET_BASE_ARCH=ppc
+>   configure:7887:    TARGET_BASE_ARCH=ppc
+>   configure:7894:    TARGET_BASE_ARCH=riscv
+>   configure:7900:    TARGET_BASE_ARCH=riscv
+>   configure:7920:    TARGET_BASE_ARCH=sparc
+>   configure:7925:    TARGET_BASE_ARCH=sparc
 > 
-> This is useful for e.g. libvirt managing backup chains if a user creates
-> an external snapshot outside of libvirt.
+> The rule can be tested calling 'print-base-arch-$TARGET':
 > 
-> v2:
->   - Addressed some, but not all feedback
->   - Rebased on latest 'job-runner' series; but it's not clear if it
->     should be kept.
+>   $ make \
+>       print-base-arch-openrisc \
+>       print-base-arch-aarch64_be \
+>       print-base-arch-x86_64 \
+>       print-base-arch-mips64el \
+>       print-base-arch-ppc64 \
+>       print-base-arch-riscv64
+>   openrisc=openrisc
+>   aarch64_be=arm
+>   x86_64=i386
+>   mips64el=mips
+>   ppc64=ppc
+>   riscv64=riscv
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+>  rules.mak | 35 +++++++++++++++++++++++++++++++++++
+>  1 file changed, 35 insertions(+)
 
-Message-id for that series? I'm not finding a message with a subject 
-containing a literal 'job-runner', but am not sure which subject to look 
-for instead.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-I also couldn't find an obvious tag or branch at 
-https://github.com/jnsnow/qemu/branches where you might have stashed 
-this including prerequisites.
-
->   - This version doesn't address all of the feedback from v1,
->     but I am posting it to the list as an RFC.
-
-I'm happy to try and take over these patches to prepare a v3, but only 
-if I can get them to build by finding the prerequisites :)
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+r~
 
 
