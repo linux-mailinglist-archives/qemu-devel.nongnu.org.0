@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B2001EF552
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 12:28:14 +0200 (CEST)
-Received: from localhost ([::1]:47656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A880A1EF55A
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 12:29:28 +0200 (CEST)
+Received: from localhost ([::1]:54504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jh9a9-0003jE-Fb
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 06:28:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44914)
+	id 1jh9bL-0006eM-Pa
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 06:29:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jh9VB-0003ak-So
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 06:23:05 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:25426
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jh9VG-0003oE-Uo
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 06:23:10 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27616
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jh9VB-0006PC-0M
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 06:23:05 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jh9VG-0006R3-2D
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 06:23:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591352584;
+ s=mimecast20190719; t=1591352589;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cCwuEoJ2Oz59P52pgmfXcQkO9n1Xvg5SPqRDxLaXzRI=;
- b=hkCs9a4re8KJ4Nl4t845mLN+0NTYNr0is0jmDNaLrNAGQ9n+RMJeKJy8jPbCgA0gxvo9jq
- lqvXCTNmmshhVeuRfyIRJlZCBSNs9FEk4IRGukp1R2qLkoiGOxgJR6oQRky6E2lwDW6/Pf
- gPuSYbS5g7Mcsn1cy7QBkF02m508oYU=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-460-GphZWswwNCavn6W070fOXA-1; Fri, 05 Jun 2020 06:23:02 -0400
-X-MC-Unique: GphZWswwNCavn6W070fOXA-1
-Received: by mail-wr1-f72.google.com with SMTP id w16so3583056wru.18
- for <qemu-devel@nongnu.org>; Fri, 05 Jun 2020 03:23:02 -0700 (PDT)
+ bh=6lSSjLejiscLCvJVDaLCtQGkkV0h02Ah/YQj2aVjpKQ=;
+ b=SWaTlEx7Pf1VQs+2iQSAsQENxhMTV8g4zla8yJmhkP8wHXRpTJ80kcDIpDVxxuSMhuwXs1
+ AlB280qoZIdwhDWROi5iSnLC14W6ZTMf/0XX7ZtCJG4C0eu4DIAW1JbTpyiAdXXM1/9fue
+ HhngMtcy37faIaLkh0xEU1YwLabvoT8=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-90-v8jD5gH4N42edEMQUh-FsA-1; Fri, 05 Jun 2020 06:23:07 -0400
+X-MC-Unique: v8jD5gH4N42edEMQUh-FsA-1
+Received: by mail-wm1-f72.google.com with SMTP id u11so2843268wmc.7
+ for <qemu-devel@nongnu.org>; Fri, 05 Jun 2020 03:23:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=cCwuEoJ2Oz59P52pgmfXcQkO9n1Xvg5SPqRDxLaXzRI=;
- b=NxiVMqelgycbHBLpEyqXlF3rjNCBgvzoQxzltisaWuSJp8s8ErzVsXxMt2ffYHy3qN
- B9Tielb0dvp4hrSuzg+l6U/deg9E5jUdBNj+aV723tWNMoWv4SjYo1r5GluxcLYIAw0N
- 61yYYojr+ZpSQdMtmDtaJ7o8camAyVcjkz35DMijUMD0qbg4HzI6oBNamh19dfH65mVi
- E7WX2d4ZLSymir1rNin4lQRMnUsu3v4xQ497oJiU1CIpq2TffdMEsbErsQTDT9Mhi2f4
- r5ulw83FshN+vfACt/zL/ZIfsIz0UfykYcaxaOey78tHjVuyrwfX7NM9xfH07p8MlE3Q
- c8XQ==
-X-Gm-Message-State: AOAM530faQUoNu8baANk1G94p6xAeVMsaMpIrWKe4NtzktTFzEfIckqF
- +KZoF5bEe6kqoOBrF6umn5/Bw2eSLeVAtT83UCsVrXKXnEGKDaP8HOq8Na8bP1Zs77G3bLh4juD
- Yss0i6PUByYZ9Faw=
-X-Received: by 2002:a5d:610f:: with SMTP id v15mr8827762wrt.52.1591352581350; 
- Fri, 05 Jun 2020 03:23:01 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwkIyf5cb1hyyHLYtN7d0yIbePCKHjNDYfY5+3Uq3Tl67IiC2rMM5qr+C7UTvnqDP1iU0xGCg==
-X-Received: by 2002:a5d:610f:: with SMTP id v15mr8827746wrt.52.1591352581183; 
- Fri, 05 Jun 2020 03:23:01 -0700 (PDT)
+ bh=6lSSjLejiscLCvJVDaLCtQGkkV0h02Ah/YQj2aVjpKQ=;
+ b=KjFMWTq/U+FTZfWQx5xwrbXNBCF+bLWF8CEfXc6mgPR2llkXOJSnjjcEdCUL2EhOst
+ lAKd10IFgAIT3rCc1NMIFu71Chl14QShAYIdJ/dqDaSJWDyLuMwNAvwr3nTcXsx89Vsh
+ z2BwQGj+fTXufh00G4JGaAJaFTG/k38ZYgn9WwR0GQy9PoNLIh2JrmGrjIMLPsYOc1ni
+ 5gM7dp4YLgUf6NkfyYITnnQ1rDvr5SWq7Fxuhf1ow+T1auZfPCYJ06SdBaRR/kkjkhao
+ wvwx9PudUvRNIfnbCPP9kNAr0ZgEEBhNC1J3+GuzIdRnzinTdC4ymP2epHFKbHXge++f
+ Dg1g==
+X-Gm-Message-State: AOAM531TM5WhzIcroJehXLXcPnjoCmWWex2xDDw4quxykKZGAqxFHyJZ
+ cCa106fKEyR4QVjmmg5QLS3LzjMnybV8fC64aSp3FN1W8AeIhswaPJxNMzuNWfazpghtln1LMvn
+ stQ6CKRDbv2fu6x0=
+X-Received: by 2002:adf:ed4f:: with SMTP id u15mr8655713wro.126.1591352586305; 
+ Fri, 05 Jun 2020 03:23:06 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx1/gm5RqSpGyRv3/h4o+yYzMBujqn1ZUWppyGY4JpNXUGRCiqMhWW2IMqzpAfhq0ntaLOWAA==
+X-Received: by 2002:adf:ed4f:: with SMTP id u15mr8655698wro.126.1591352586101; 
+ Fri, 05 Jun 2020 03:23:06 -0700 (PDT)
 Received: from localhost.localdomain
  (181.red-88-10-103.dynamicip.rima-tde.net. [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id s2sm10350288wmh.11.2020.06.05.03.23.00
+ by smtp.gmail.com with ESMTPSA id a3sm11303685wrp.91.2020.06.05.03.23.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Jun 2020 03:23:00 -0700 (PDT)
+ Fri, 05 Jun 2020 03:23:05 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 06/11] hw/sd/sdcard: Simplify cmd_valid_while_locked()
-Date: Fri,  5 Jun 2020 12:22:25 +0200
-Message-Id: <20200605102230.21493-7-philmd@redhat.com>
+Subject: [PATCH v3 07/11] hw/sd/sdcard: Constify sd_crc*()'s message argument
+Date: Fri,  5 Jun 2020 12:22:26 +0200
+Message-Id: <20200605102230.21493-8-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200605102230.21493-1-philmd@redhat.com>
 References: <20200605102230.21493-1-philmd@redhat.com>
@@ -72,17 +72,17 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/05 03:35:49
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/05 03:27:26
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,7 +95,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
@@ -103,53 +104,47 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-cmd_valid_while_locked() only needs to read SDRequest->cmd,
-pass it directly and make it const.
+CRC functions don't modify the buffer argument,
+make it const.
 
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/sd/sd.c | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
+ hw/sd/sd.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-index 9bfd65ac34..7799a3c621 100644
+index 7799a3c621..9d51138b11 100644
 --- a/hw/sd/sd.c
 +++ b/hw/sd/sd.c
-@@ -1647,7 +1647,7 @@ static sd_rsp_type_t sd_app_command(SDState *sd,
-     return sd_illegal;
- }
+@@ -242,11 +242,11 @@ static const int sd_cmd_class[SDMMC_CMD_MAX] = {
+     7,  7, 10,  7,  9,  9,  9,  8,  8, 10,  8,  8,  8,  8,  8,  8,
+ };
  
--static int cmd_valid_while_locked(SDState *sd, SDRequest *req)
-+static int cmd_valid_while_locked(SDState *sd, const uint8_t cmd)
+-static uint8_t sd_crc7(void *message, size_t width)
++static uint8_t sd_crc7(const void *message, size_t width)
  {
-     /* Valid commands in locked state:
-      * basic class (0)
-@@ -1658,13 +1658,12 @@ static int cmd_valid_while_locked(SDState *sd, SDRequest *req)
-      * Anything else provokes an "illegal command" response.
-      */
-     if (sd->expecting_acmd) {
--        return req->cmd == 41 || req->cmd == 42;
-+        return cmd == 41 || cmd == 42;
-     }
--    if (req->cmd == 16 || req->cmd == 55) {
-+    if (cmd == 16 || cmd == 55) {
-         return 1;
-     }
--    return sd_cmd_class[req->cmd] == 0
--            || sd_cmd_class[req->cmd] == 7;
-+    return sd_cmd_class[cmd] == 0 || sd_cmd_class[cmd] == 7;
+     int i, bit;
+     uint8_t shift_reg = 0x00;
+-    uint8_t *msg = (uint8_t *) message;
++    const uint8_t *msg = (const uint8_t *)message;
+ 
+     for (i = 0; i < width; i ++, msg ++)
+         for (bit = 7; bit >= 0; bit --) {
+@@ -258,11 +258,11 @@ static uint8_t sd_crc7(void *message, size_t width)
+     return shift_reg;
  }
  
- int sd_do_command(SDState *sd, SDRequest *req,
-@@ -1690,7 +1689,7 @@ int sd_do_command(SDState *sd, SDRequest *req,
-     }
+-static uint16_t sd_crc16(void *message, size_t width)
++static uint16_t sd_crc16(const void *message, size_t width)
+ {
+     int i, bit;
+     uint16_t shift_reg = 0x0000;
+-    uint16_t *msg = (uint16_t *) message;
++    const uint16_t *msg = (const uint16_t *)message;
+     width <<= 1;
  
-     if (sd->card_status & CARD_IS_LOCKED) {
--        if (!cmd_valid_while_locked(sd, req)) {
-+        if (!cmd_valid_while_locked(sd, req->cmd)) {
-             sd->card_status |= ILLEGAL_COMMAND;
-             sd->expecting_acmd = false;
-             qemu_log_mask(LOG_GUEST_ERROR, "SD: Card is locked\n");
+     for (i = 0; i < width; i ++, msg ++)
 -- 
 2.21.3
 
