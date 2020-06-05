@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59B821EFE4D
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 18:55:14 +0200 (CEST)
-Received: from localhost ([::1]:40726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA6FC1EFE56
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 18:57:51 +0200 (CEST)
+Received: from localhost ([::1]:55358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jhFcf-0002Un-DQ
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 12:55:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40538)
+	id 1jhFfC-00006s-Pn
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 12:57:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40550)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jhFY2-0001aa-PH
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 12:50:27 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:52137)
+ id 1jhFY4-0001du-Eo
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 12:50:28 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:37697)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jhFY1-0001g4-Jg
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 12:50:26 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id u13so9071917wml.1
- for <qemu-devel@nongnu.org>; Fri, 05 Jun 2020 09:50:25 -0700 (PDT)
+ id 1jhFY3-0001gI-4d
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 12:50:28 -0400
+Received: by mail-wm1-x335.google.com with SMTP id y20so2051789wmi.2
+ for <qemu-devel@nongnu.org>; Fri, 05 Jun 2020 09:50:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=p06xAuPBqkUPgldQtU+c9R5ekbMeiVqYhWcLz5TebRE=;
- b=KwWV2upfxjEypAAX1eUz1ZlPpRYgXJbwIdGphNRwPDPNzjKohrYELUuroPwEVY4yTn
- PKN+bNQoDHnkZSo1jKWIF4JYMF5rdm9taPeRokjsm43O+jrwZ4ciMF9wVSzyHXVBhqrT
- N7JykBslj+WngW3Fo2vkdLRNxLEZtNKwmJIJXoh2pCiHLvonfPdaFS6ViAeDIMhRWA5B
- uykxtidFTKnuwK5SrjzZC4V/z4l9c/3WQRf4119HAYM9xWlG4W0o+oU/cx+SdUGwvDbE
- KDPWoM2xWqP4lA/YX5Powqo73GiMKYzrfkF9sNjr+xdZArSoK6KrAu0Y7ox0HbZPwZl8
- 6tRw==
+ bh=R3dF63zgdE0fDZP+pS5/jJ34uuilYhEcirCm7ZOAzm8=;
+ b=hbUtEpb6xHWus1kC34Nv/NVs+MdyVY8pvywZUaEskom4R0+TwX6N+EjuO/nm98HQ+b
+ nTRdgVXt+JwzI5wi/I/EXSlw5gpaidAi6Knt73nPXFR3cUnbKuz0h3jpSfimHDQxwAZi
+ gzx/ZZfwIr1vtBxkYTSeLJYhiOpyAm+sMxp2ssCXLzERjmZalenAXydb5eqYTX2IGuwf
+ qgzyuSvDp+cxim+gQVztCA/FatPFaPLyvwLkPzVqNVDu2jhxF+WVGFC4Qquu0ZVzzMir
+ 9IaegJ41hcItmMbSQ8bYwTHWmEGiYfjXU0Po6Uvgv72w2ShWxP2N1xSYj9mKIRb6Lt59
+ 5cvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=p06xAuPBqkUPgldQtU+c9R5ekbMeiVqYhWcLz5TebRE=;
- b=Yqd19AdZtMUMVA7TXXy3eVKviWcjCAXEGmel8DTba2z+u0velxpLuI0AqMU17CJiJd
- u2sG+2MLFy7XngykcPvK2qZz8kTqG8FI10/mV56d4r6FZXaMxksfQm1gCeZ6Ix3P4plo
- dOnDEc9oMuQ8CwZKue+TS+87MyXbwY3OF9Z+CokIXrZEkY2VSZvMsyxXBzmW3q4N8ZKI
- UToFay1E3hLCgcD6ibdlSMGxEUoNIukLU7fztZanghibnFtN28+57hjaLT2NgP08yvuv
- RveAap9Ps9wkxCnq8fOFohjsw9Bd5dyApA3GUmEr0mGP5Eh8f9kcUl96YbYcD6g5adkX
- Pz5Q==
-X-Gm-Message-State: AOAM531m0Y3+W0lzRPuW2UVM4sr7M6+4+Nhx8jmjeYtHdvUctIvExCX/
- 4Qgs212G+VDUZkZwTjuD8tvcA7bzzyZAiA==
-X-Google-Smtp-Source: ABdhPJy4QQBghKDGUAUkbKZuyK8iCB9TjqBI26EVXEkJIW/Pfxv1jxOpMtGUR1hsHShJksazl7KKGw==
-X-Received: by 2002:a1c:6243:: with SMTP id w64mr3518060wmb.162.1591375823816; 
- Fri, 05 Jun 2020 09:50:23 -0700 (PDT)
+ bh=R3dF63zgdE0fDZP+pS5/jJ34uuilYhEcirCm7ZOAzm8=;
+ b=psaV84T/MZlVMgD0KiM7BLB1B1VUm9WCR/VZGSbsb5av6DjkiMjraSz0wEdR6FWh23
+ b1oY+RmteB4vPYoegyozMiYRCb+k33wDtcEkGmQJalnOWJuXo9sfBgLAqwR3vivTTWg+
+ IlZP8JeCL6pRJiEHLlQlr5JbLDAg2D/5yIa2Ti8NCFpboa/00MBfMYHX1lLrm3n4L5Z0
+ yBG4eaaujLhJmTL9asrcZFQKpInHKSjtekdiMRGeSgQnKKnEEqxIzL2hLneO1W7eV6tP
+ a819h5umwUiSLQIw2znxiP+AYXWComxRoslYj6KCGrrcCW+x6oxqcNJRRIqvQVTSYwrB
+ hK4A==
+X-Gm-Message-State: AOAM531SfEEr5lCTiLYWyw7sUI21gxSPLmOwaNTVSTreB1I18NL9j5SL
+ vJJfoxJCErK7gK0wR+c/8Vosiz9jsqv6lw==
+X-Google-Smtp-Source: ABdhPJy5Ti/usopEM4psqqDowPTd+qHRCo0qoIkq9hZri0xNjAEYpYJClUVMqmQMhhtwMmNKd8cSBA==
+X-Received: by 2002:a1c:3d05:: with SMTP id k5mr3589444wma.160.1591375824940; 
+ Fri, 05 Jun 2020 09:50:24 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id c140sm12272724wmd.18.2020.06.05.09.50.22
+ by smtp.gmail.com with ESMTPSA id c140sm12272724wmd.18.2020.06.05.09.50.23
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Jun 2020 09:50:23 -0700 (PDT)
+ Fri, 05 Jun 2020 09:50:24 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/29] docs/system: Document Aspeed boards
-Date: Fri,  5 Jun 2020 17:49:51 +0100
-Message-Id: <20200605165007.12095-14-peter.maydell@linaro.org>
+Subject: [PULL 14/29] raspi: add BCM2835 SOC MPHI emulation
+Date: Fri,  5 Jun 2020 17:49:52 +0100
+Message-Id: <20200605165007.12095-15-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200605165007.12095-1-peter.maydell@linaro.org>
 References: <20200605165007.12095-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,121 +88,342 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Cédric Le Goater <clg@kaod.org>
+From: Paul Zimmerman <pauldzim@gmail.com>
 
-Signed-off-by: Cédric Le Goater <clg@kaod.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20200602135050.593692-1-clg@kaod.org
+Add BCM2835 SOC MPHI (Message-based Parallel Host Interface)
+emulation. It is very basic, only providing the FIQ interrupt
+needed to allow the dwc-otg USB host controller driver in the
+Raspbian kernel to function.
+
+Signed-off-by: Paul Zimmerman <pauldzim@gmail.com>
+Acked-by: Philippe Mathieu-Daude <f4bug@amsat.org>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Message-id: 20200520235349.21215-2-pauldzim@gmail.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- docs/system/arm/aspeed.rst | 85 ++++++++++++++++++++++++++++++++++++++
- docs/system/target-arm.rst |  1 +
- 2 files changed, 86 insertions(+)
- create mode 100644 docs/system/arm/aspeed.rst
+ include/hw/arm/bcm2835_peripherals.h |   2 +
+ include/hw/misc/bcm2835_mphi.h       |  44 ++++++
+ hw/arm/bcm2835_peripherals.c         |  17 +++
+ hw/misc/bcm2835_mphi.c               | 191 +++++++++++++++++++++++++++
+ hw/misc/Makefile.objs                |   1 +
+ 5 files changed, 255 insertions(+)
+ create mode 100644 include/hw/misc/bcm2835_mphi.h
+ create mode 100644 hw/misc/bcm2835_mphi.c
 
-diff --git a/docs/system/arm/aspeed.rst b/docs/system/arm/aspeed.rst
+diff --git a/include/hw/arm/bcm2835_peripherals.h b/include/hw/arm/bcm2835_peripherals.h
+index 2e8655a7c2d..7a7a8f61414 100644
+--- a/include/hw/arm/bcm2835_peripherals.h
++++ b/include/hw/arm/bcm2835_peripherals.h
+@@ -21,6 +21,7 @@
+ #include "hw/misc/bcm2835_property.h"
+ #include "hw/misc/bcm2835_rng.h"
+ #include "hw/misc/bcm2835_mbox.h"
++#include "hw/misc/bcm2835_mphi.h"
+ #include "hw/misc/bcm2835_thermal.h"
+ #include "hw/sd/sdhci.h"
+ #include "hw/sd/bcm2835_sdhost.h"
+@@ -42,6 +43,7 @@ typedef struct BCM2835PeripheralState {
+     qemu_irq irq, fiq;
+ 
+     BCM2835SystemTimerState systmr;
++    BCM2835MphiState mphi;
+     UnimplementedDeviceState armtmr;
+     UnimplementedDeviceState cprman;
+     UnimplementedDeviceState a2w;
+diff --git a/include/hw/misc/bcm2835_mphi.h b/include/hw/misc/bcm2835_mphi.h
 new file mode 100644
-index 00000000000..45f891eb3ca
+index 00000000000..e084314d0f0
 --- /dev/null
-+++ b/docs/system/arm/aspeed.rst
-@@ -0,0 +1,85 @@
-+Aspeed family boards (``*-bmc``, ``ast2500-evb``, ``ast2600-evb``)
-+==================================================================
++++ b/include/hw/misc/bcm2835_mphi.h
+@@ -0,0 +1,44 @@
++/*
++ * BCM2835 SOC MPHI state definitions
++ *
++ * Copyright (c) 2020 Paul Zimmerman <pauldzim@gmail.com>
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation; either version 2 of the License, or
++ * (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
++ * GNU General Public License for more details.
++ */
 +
-+The QEMU Aspeed machines model BMCs of various OpenPOWER systems and
-+Aspeed evaluation boards. They are based on different releases of the
-+Aspeed SoC : the AST2400 integrating an ARM926EJ-S CPU (400MHz), the
-+AST2500 with an ARM1176JZS CPU (800MHz) and more recently the AST2600
-+with dual cores ARM Cortex A7 CPUs (1.2GHz).
++#ifndef HW_MISC_BCM2835_MPHI_H
++#define HW_MISC_BCM2835_MPHI_H
 +
-+The SoC comes with RAM, Gigabit ethernet, USB, SD/MMC, USB, SPI, I2C,
-+etc.
++#include "hw/irq.h"
++#include "hw/sysbus.h"
 +
-+AST2400 SoC based machines :
++#define MPHI_MMIO_SIZE      0x1000
 +
-+- ``palmetto-bmc``         OpenPOWER Palmetto POWER8 BMC
++typedef struct BCM2835MphiState BCM2835MphiState;
 +
-+AST2500 SoC based machines :
++struct BCM2835MphiState {
++    SysBusDevice parent_obj;
++    qemu_irq irq;
++    MemoryRegion iomem;
 +
-+- ``ast2500-evb``          Aspeed AST2500 Evaluation board
-+- ``romulus-bmc``          OpenPOWER Romulus POWER9 BMC
-+- ``witherspoon-bmc``      OpenPOWER Witherspoon POWER9 BMC
-+- ``sonorapass-bmc``       OCP SonoraPass BMC
-+- ``swift-bmc``            OpenPOWER Swift BMC POWER9
++    uint32_t outdda;
++    uint32_t outddb;
++    uint32_t ctrl;
++    uint32_t intstat;
++    uint32_t swirq;
++};
 +
-+AST2600 SoC based machines :
++#define TYPE_BCM2835_MPHI   "bcm2835-mphi"
 +
-+- ``ast2600-evb``          Aspeed AST2600 Evaluation board (Cortex A7)
-+- ``tacoma-bmc``           OpenPOWER Witherspoon POWER9 AST2600 BMC
++#define BCM2835_MPHI(obj) \
++    OBJECT_CHECK(BCM2835MphiState, (obj), TYPE_BCM2835_MPHI)
 +
-+Supported devices
-+-----------------
++#endif
+diff --git a/hw/arm/bcm2835_peripherals.c b/hw/arm/bcm2835_peripherals.c
+index f1bcc14f553..b3e0495040d 100644
+--- a/hw/arm/bcm2835_peripherals.c
++++ b/hw/arm/bcm2835_peripherals.c
+@@ -125,6 +125,10 @@ static void bcm2835_peripherals_init(Object *obj)
+                                    OBJECT(&s->sdhci.sdbus));
+     object_property_add_const_link(OBJECT(&s->gpio), "sdbus-sdhost",
+                                    OBJECT(&s->sdhost.sdbus));
 +
-+ * SMP (for the AST2600 Cortex-A7)
-+ * Interrupt Controller (VIC)
-+ * Timer Controller
-+ * RTC Controller
-+ * I2C Controller
-+ * System Control Unit (SCU)
-+ * SRAM mapping
-+ * X-DMA Controller (basic interface)
-+ * Static Memory Controller (SMC or FMC) - Only SPI Flash support
-+ * SPI Memory Controller
-+ * USB 2.0 Controller
-+ * SD/MMC storage controllers
-+ * SDRAM controller (dummy interface for basic settings and training)
-+ * Watchdog Controller
-+ * GPIO Controller (Master only)
-+ * UART
-+ * Ethernet controllers
++    /* Mphi */
++    sysbus_init_child_obj(obj, "mphi", &s->mphi, sizeof(s->mphi),
++                          TYPE_BCM2835_MPHI);
+ }
+ 
+ static void bcm2835_peripherals_realize(DeviceState *dev, Error **errp)
+@@ -360,6 +364,19 @@ static void bcm2835_peripherals_realize(DeviceState *dev, Error **errp)
+ 
+     object_property_add_alias(OBJECT(s), "sd-bus", OBJECT(&s->gpio), "sd-bus");
+ 
++    /* Mphi */
++    object_property_set_bool(OBJECT(&s->mphi), true, "realized", &err);
++    if (err) {
++        error_propagate(errp, err);
++        return;
++    }
 +
++    memory_region_add_subregion(&s->peri_mr, MPHI_OFFSET,
++                sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->mphi), 0));
++    sysbus_connect_irq(SYS_BUS_DEVICE(&s->mphi), 0,
++        qdev_get_gpio_in_named(DEVICE(&s->ic), BCM2835_IC_GPU_IRQ,
++                               INTERRUPT_HOSTPORT));
 +
-+Missing devices
-+---------------
+     create_unimp(s, &s->armtmr, "bcm2835-sp804", ARMCTRL_TIMER0_1_OFFSET, 0x40);
+     create_unimp(s, &s->cprman, "bcm2835-cprman", CPRMAN_OFFSET, 0x1000);
+     create_unimp(s, &s->a2w, "bcm2835-a2w", A2W_OFFSET, 0x1000);
+diff --git a/hw/misc/bcm2835_mphi.c b/hw/misc/bcm2835_mphi.c
+new file mode 100644
+index 00000000000..0428e10ba5c
+--- /dev/null
++++ b/hw/misc/bcm2835_mphi.c
+@@ -0,0 +1,191 @@
++/*
++ * BCM2835 SOC MPHI emulation
++ *
++ * Very basic emulation, only providing the FIQ interrupt needed to
++ * allow the dwc-otg USB host controller driver in the Raspbian kernel
++ * to function.
++ *
++ * Copyright (c) 2020 Paul Zimmerman <pauldzim@gmail.com>
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation; either version 2 of the License, or
++ * (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
++ * GNU General Public License for more details.
++ */
 +
-+ * Coprocessor support
-+ * ADC (out of tree implementation)
-+ * PWM and Fan Controller
-+ * LPC Bus Controller
-+ * Slave GPIO Controller
-+ * Super I/O Controller
-+ * Hash/Crypto Engine
-+ * PCI-Express 1 Controller
-+ * Graphic Display Controller
-+ * PECI Controller
-+ * MCTP Controller
-+ * Mailbox Controller
-+ * Virtual UART
-+ * eSPI Controller
-+ * I3C Controller
++#include "qemu/osdep.h"
++#include "qapi/error.h"
++#include "hw/misc/bcm2835_mphi.h"
++#include "migration/vmstate.h"
++#include "qemu/error-report.h"
++#include "qemu/log.h"
++#include "qemu/main-loop.h"
 +
-+Boot options
-+------------
++static inline void mphi_raise_irq(BCM2835MphiState *s)
++{
++    qemu_set_irq(s->irq, 1);
++}
 +
-+The Aspeed machines can be started using the -kernel option to load a
-+Linux kernel or from a firmare image which can be downloaded from the
-+OpenPOWER jenkins :
++static inline void mphi_lower_irq(BCM2835MphiState *s)
++{
++    qemu_set_irq(s->irq, 0);
++}
 +
-+   https://openpower.xyz/
++static uint64_t mphi_reg_read(void *ptr, hwaddr addr, unsigned size)
++{
++    BCM2835MphiState *s = ptr;
++    uint32_t val = 0;
 +
-+The image should be attached as an MTD drive. Run :
++    switch (addr) {
++    case 0x28:  /* outdda */
++        val = s->outdda;
++        break;
++    case 0x2c:  /* outddb */
++        val = s->outddb;
++        break;
++    case 0x4c:  /* ctrl */
++        val = s->ctrl;
++        val |= 1 << 17;
++        break;
++    case 0x50:  /* intstat */
++        val = s->intstat;
++        break;
++    case 0x1f0: /* swirq_set */
++        val = s->swirq;
++        break;
++    case 0x1f4: /* swirq_clr */
++        val = s->swirq;
++        break;
++    default:
++        qemu_log_mask(LOG_UNIMP, "read from unknown register");
++        break;
++    }
 +
-+.. code-block:: bash
++    return val;
++}
 +
-+  $ qemu-system-arm -M romulus-bmc -nic user \
-+	-drive file=flash-romulus,format=raw,if=mtd -nographic
-diff --git a/docs/system/target-arm.rst b/docs/system/target-arm.rst
-index dce384cb0e3..1bd477a2936 100644
---- a/docs/system/target-arm.rst
-+++ b/docs/system/target-arm.rst
-@@ -81,6 +81,7 @@ undocumented; you can get a complete list by running
-    arm/realview
-    arm/versatile
-    arm/vexpress
-+   arm/aspeed
-    arm/musicpal
-    arm/nseries
-    arm/orangepi
++static void mphi_reg_write(void *ptr, hwaddr addr, uint64_t val, unsigned size)
++{
++    BCM2835MphiState *s = ptr;
++    int do_irq = 0;
++
++    switch (addr) {
++    case 0x28:  /* outdda */
++        s->outdda = val;
++        break;
++    case 0x2c:  /* outddb */
++        s->outddb = val;
++        if (val & (1 << 29)) {
++            do_irq = 1;
++        }
++        break;
++    case 0x4c:  /* ctrl */
++        s->ctrl = val;
++        if (val & (1 << 16)) {
++            do_irq = -1;
++        }
++        break;
++    case 0x50:  /* intstat */
++        s->intstat = val;
++        if (val & ((1 << 16) | (1 << 29))) {
++            do_irq = -1;
++        }
++        break;
++    case 0x1f0: /* swirq_set */
++        s->swirq |= val;
++        do_irq = 1;
++        break;
++    case 0x1f4: /* swirq_clr */
++        s->swirq &= ~val;
++        do_irq = -1;
++        break;
++    default:
++        qemu_log_mask(LOG_UNIMP, "write to unknown register");
++        return;
++    }
++
++    if (do_irq > 0) {
++        mphi_raise_irq(s);
++    } else if (do_irq < 0) {
++        mphi_lower_irq(s);
++    }
++}
++
++static const MemoryRegionOps mphi_mmio_ops = {
++    .read = mphi_reg_read,
++    .write = mphi_reg_write,
++    .impl.min_access_size = 4,
++    .impl.max_access_size = 4,
++    .endianness = DEVICE_LITTLE_ENDIAN,
++};
++
++static void mphi_reset(DeviceState *dev)
++{
++    BCM2835MphiState *s = BCM2835_MPHI(dev);
++
++    s->outdda = 0;
++    s->outddb = 0;
++    s->ctrl = 0;
++    s->intstat = 0;
++    s->swirq = 0;
++}
++
++static void mphi_realize(DeviceState *dev, Error **errp)
++{
++    SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
++    BCM2835MphiState *s = BCM2835_MPHI(dev);
++
++    sysbus_init_irq(sbd, &s->irq);
++}
++
++static void mphi_init(Object *obj)
++{
++    SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
++    BCM2835MphiState *s = BCM2835_MPHI(obj);
++
++    memory_region_init_io(&s->iomem, obj, &mphi_mmio_ops, s, "mphi", MPHI_MMIO_SIZE);
++    sysbus_init_mmio(sbd, &s->iomem);
++}
++
++const VMStateDescription vmstate_mphi_state = {
++    .name = "mphi",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINT32(outdda, BCM2835MphiState),
++        VMSTATE_UINT32(outddb, BCM2835MphiState),
++        VMSTATE_UINT32(ctrl, BCM2835MphiState),
++        VMSTATE_UINT32(intstat, BCM2835MphiState),
++        VMSTATE_UINT32(swirq, BCM2835MphiState),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
++static void mphi_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++
++    dc->realize = mphi_realize;
++    dc->reset = mphi_reset;
++    dc->vmsd = &vmstate_mphi_state;
++}
++
++static const TypeInfo bcm2835_mphi_type_info = {
++    .name          = TYPE_BCM2835_MPHI,
++    .parent        = TYPE_SYS_BUS_DEVICE,
++    .instance_size = sizeof(BCM2835MphiState),
++    .instance_init = mphi_init,
++    .class_init    = mphi_class_init,
++};
++
++static void bcm2835_mphi_register_types(void)
++{
++    type_register_static(&bcm2835_mphi_type_info);
++}
++
++type_init(bcm2835_mphi_register_types)
+diff --git a/hw/misc/Makefile.objs b/hw/misc/Makefile.objs
+index b25181b7113..60a9d80b742 100644
+--- a/hw/misc/Makefile.objs
++++ b/hw/misc/Makefile.objs
+@@ -56,6 +56,7 @@ common-obj-$(CONFIG_OMAP) += omap_l4.o
+ common-obj-$(CONFIG_OMAP) += omap_sdrc.o
+ common-obj-$(CONFIG_OMAP) += omap_tap.o
+ common-obj-$(CONFIG_RASPI) += bcm2835_mbox.o
++common-obj-$(CONFIG_RASPI) += bcm2835_mphi.o
+ common-obj-$(CONFIG_RASPI) += bcm2835_property.o
+ common-obj-$(CONFIG_RASPI) += bcm2835_rng.o
+ common-obj-$(CONFIG_RASPI) += bcm2835_thermal.o
 -- 
 2.20.1
 
