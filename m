@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6734C1EF451
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 11:36:13 +0200 (CEST)
-Received: from localhost ([::1]:51362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 753FC1EF44E
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 11:34:51 +0200 (CEST)
+Received: from localhost ([::1]:43434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jh8lo-0004zn-EG
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 05:36:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39760)
+	id 1jh8kU-0001gX-HD
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 05:34:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39768)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jh8j2-0000HS-QX
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 05:33:20 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:52789
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jh8j5-0000Iq-QT
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 05:33:23 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:30972
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jh8j1-0004ZW-MG
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 05:33:20 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jh8j3-0004Zo-SN
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 05:33:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591349598;
+ s=mimecast20190719; t=1591349601;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rhooDoq31Iw0ds0BQEJhXV5JDDKysW0nQian/XkdMKs=;
- b=KpYAvYZ3xLN0E/2HXpeziT1idAOZCkX7RD7LfctiC3Nv2NHau5SsRHCBsY6gRYb1A3DIPa
- 97Tqsts3S6ynxyW+Cd7uaxud2nb3DSKIFimN5Yp23IOT3ooOrB6edbH8GLNymQZCvpvlqv
- Zz2RVlVBVWM0j48Jp5PkAlq15uVRuZ4=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-482-QkhnKTg0MxiuQbuYBI6xJw-1; Fri, 05 Jun 2020 05:33:15 -0400
-X-MC-Unique: QkhnKTg0MxiuQbuYBI6xJw-1
-Received: by mail-wm1-f71.google.com with SMTP id l26so2809753wmh.3
- for <qemu-devel@nongnu.org>; Fri, 05 Jun 2020 02:33:14 -0700 (PDT)
+ bh=OHk2hvp/I3N6csdyclibeQLQrPIWchtpAoc6xxVu9kE=;
+ b=PRFdofBQSKqTNSM/IlUlpMgdHpsWOVWdTNzD/hGdEA12fVpdpSzgrPFmv0XDS2VDiLA2M9
+ D9tI6nj2NWvJZba7aw5gVJc/WuHkRnayGEN9TuSsgb6fvfBG7h5IpfBhKZZEdZ8fdKwpXA
+ htdYdJX8tFmBideKFFPLKg5vzp9BIwQ=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-188-yTl2zcJXO7OhPLfwIF01vA-1; Fri, 05 Jun 2020 05:33:19 -0400
+X-MC-Unique: yTl2zcJXO7OhPLfwIF01vA-1
+Received: by mail-wr1-f72.google.com with SMTP id p10so3549545wrn.19
+ for <qemu-devel@nongnu.org>; Fri, 05 Jun 2020 02:33:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=rhooDoq31Iw0ds0BQEJhXV5JDDKysW0nQian/XkdMKs=;
- b=LMB9V58xv55SnukjPBOPPQMd6IeIA3PLd9Ybi5wP3HtrqFlyplmjFdtwv5eJkchNFl
- bfiEtAaQ0+dWaScPdfQ2Y5BVhNaMqDxQagzltY/Ky+g0QSAjt8737yWWz3UG9fRn6nQ6
- BcXiHYPGZBIR7k0VtwTH1l0tQMLlG6RhdJDcWm6TYn0DuOThf8iu6Ig67wYDuAIvgdsr
- LRIor4oFaYfFM2zZepoZkmVQT+LauoGq/i0A8E2aX9gkBCt/KPPj8zyPNLr28AcMUVOD
- KW/JX70IcjzGdJRHi8MiSaXTwZt7k8aem8ZAa+xBR0EHhr5pRrCltIbttQoF5e7U1uhm
- 390w==
-X-Gm-Message-State: AOAM5328NaIaHriZ7jp1v5cNCTIPfu3QaM6uDi2tAVkGbI2Ff2Us/RXY
- Ht/kE2p0w+WNXXmye6j8xfzYnaSXXda7VqIgaf4XO9toGu5yV9kXeBOC6pPgTB4j3h98PfWw6tq
- VzxODgH8NMh2fGkI=
-X-Received: by 2002:a1c:3dd6:: with SMTP id k205mr1770630wma.87.1591349593752; 
- Fri, 05 Jun 2020 02:33:13 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyhkQHGbrs7h59u9rayg1cXlgrdCtllSBGRA9jrX9r2l6Bcneb8lbo3JB0Rsvs7sPhfTWb93w==
-X-Received: by 2002:a1c:3dd6:: with SMTP id k205mr1770609wma.87.1591349593552; 
- Fri, 05 Jun 2020 02:33:13 -0700 (PDT)
+ bh=OHk2hvp/I3N6csdyclibeQLQrPIWchtpAoc6xxVu9kE=;
+ b=GQnnt0OZCJO1D8VyoG0XF+xX5i7UvduIEvDY0Xeg+waBthaR2YYQyRGnfIXt6CeP3J
+ N3Vs4YeQ58o2UQRhJhf3dC2hHOhwD0K0JLLmeROeGZ7wjLYui9BMNa/9/yXqN4vP/KsN
+ Fc3KDB6Ixg3fVv6pVurJ9XPUKYO+1XzQ8vqKWtubKvZwP25Z8UL1rZGpbNR47EL89Fm7
+ 6ZZPCnwGFyhHTCY6mEVuIBErn4QOc4hmaSbG4GQIvEyM0e+pvT5g7YAQBJUqTuw05XiH
+ jyLE7ofVJcbhjtI7EKm75RASQ9EFFK+gRZw5DGrJ473EoipoBX0f278BXM/hz0b7Bd32
+ gOMA==
+X-Gm-Message-State: AOAM530EpUwX+w79OpHhijYQNcO4cabazIwKEEP0zEVFFd0ZfHN5Vhl3
+ gZF2mZhp3K6viNvX9eFgeX9kNKR7HYahFw4+64QwGUwswEJZOkvjoLvjrirXRVlLrNdN/DUkg+1
+ nk82N6D0xr3iOjHs=
+X-Received: by 2002:adf:fd48:: with SMTP id h8mr9361318wrs.226.1591349598410; 
+ Fri, 05 Jun 2020 02:33:18 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwhA+hB3tn5MvRWc0RXkdkrTUtZ0V2j0/aeJ9SZgZdV7BssyWou47DhB2XozOHOtLS9DZuEJw==
+X-Received: by 2002:adf:fd48:: with SMTP id h8mr9361309wrs.226.1591349598212; 
+ Fri, 05 Jun 2020 02:33:18 -0700 (PDT)
 Received: from localhost.localdomain
  (181.red-88-10-103.dynamicip.rima-tde.net. [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id c5sm7019115wma.20.2020.06.05.02.33.12
+ by smtp.gmail.com with ESMTPSA id i3sm11548685wrm.83.2020.06.05.02.33.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Jun 2020 02:33:13 -0700 (PDT)
+ Fri, 05 Jun 2020 02:33:17 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 03/11] MAINTAINERS: Add an entry for the HAX accelerator
-Date: Fri,  5 Jun 2020 11:32:48 +0200
-Message-Id: <20200605093256.30351-4-philmd@redhat.com>
+Subject: [PATCH v6 04/11] rules.mak: Add strequal() and startwith() rules
+Date: Fri,  5 Jun 2020 11:32:49 +0200
+Message-Id: <20200605093256.30351-5-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200605093256.30351-1-philmd@redhat.com>
 References: <20200605093256.30351-1-philmd@redhat.com>
@@ -95,49 +95,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vincent Palatin <vpalatin@chromium.org>,
- Sergio Andres Gomez Del Real <sergio.g.delreal@gmail.com>,
- Wenchao Wang <wenchao.wang@intel.com>, haxm-team@intel.com,
- Colin Xu <colin.xu@intel.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <rth@twiddle.net>,
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Tao Wu <lepton@google.com>
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Nobody replied since the first time [*] that patch was
-posted, so mark HAX as orphan.
+Add a rule to test if two strings are equal,
+and another to test if a string starts with a substring.
 
-[*] https://mid.mail-archive.com/20200316120049.11225-4-philmd@redhat.com
-
-Cc: haxm-team@intel.com
-Cc: Tao Wu <lepton@google.com>
-Cc: Colin Xu <colin.xu@intel.com>
-Cc: Wenchao Wang <wenchao.wang@intel.com>
-Cc: Vincent Palatin <vpalatin@chromium.org>
-Cc: Sergio Andres Gomez Del Real <sergio.g.delreal@gmail.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- MAINTAINERS | 6 ++++++
- 1 file changed, 6 insertions(+)
+ rules.mak | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index f725c12161..05d7210204 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -426,6 +426,12 @@ F: accel/accel.c
- F: accel/Makefile.objs
- F: accel/stubs/Makefile.objs
+diff --git a/rules.mak b/rules.mak
+index 694865b63e..ccc1c49604 100644
+--- a/rules.mak
++++ b/rules.mak
+@@ -191,6 +191,20 @@ ne = $(if $(subst $2,,$1)$(subst $1,,$2),y,n)
+ isempty = $(if $1,n,y)
+ notempty = $(if $1,y,n)
  
-+HAX Accelerator
-+S: Orphan
-+F: accel/stubs/hax-stub.c
-+F: target/i386/hax-all.c
-+F: include/sysemu/hax.h
++# strequal
++# Usage: $(call strequal, str1, str2)
++#
++# This macro returns a string (TRUE) when @str1 and @str2
++# are equal, else returns the empty string (FALSE)
++strequal = $(if $(subst $2,,$1)$(subst $1,,$2),,$1)
 +
- X86 HVF CPUs
- M: Roman Bolshakov <r.bolshakov@yadro.com>
- S: Maintained
++# startwith
++# Usage: $(call startwith, startstr, fullstr)
++#
++# This macro returns a string (TRUE) when @fullstr starts with
++# @startstr, else returns the empty string (FALSE)
++startwith = $(findstring :$1,:$2)
++
+ # Generate files with tracetool
+ TRACETOOL=$(PYTHON) $(SRC_PATH)/scripts/tracetool.py
+ 
 -- 
 2.21.3
 
