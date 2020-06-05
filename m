@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A179D1EF6C0
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 13:50:59 +0200 (CEST)
-Received: from localhost ([::1]:41434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B49EE1EF6D2
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 13:52:25 +0200 (CEST)
+Received: from localhost ([::1]:49592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jhAsE-0005L8-Mo
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 07:50:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54836)
+	id 1jhAtc-0000Gz-OY
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 07:52:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jhAoi-0008Gm-Gf
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jhAoi-0008HN-Oo
  for qemu-devel@nongnu.org; Fri, 05 Jun 2020 07:47:20 -0400
-Received: from mout.kundenserver.de ([217.72.192.75]:42897)
+Received: from mout.kundenserver.de ([217.72.192.74]:39505)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jhAoh-0006iw-1K
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jhAoh-0006ip-18
  for qemu-devel@nongnu.org; Fri, 05 Jun 2020 07:47:20 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1N4Q4m-1izu7J2HVm-011VBZ; Fri, 05 Jun 2020 13:47:07 +0200
+ id 1MGhds-1jkyQI0Mmw-00DoPN; Fri, 05 Jun 2020 13:47:08 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/19] linux-user/mmap.c: fix integer underflow in target_mremap
-Date: Fri,  5 Jun 2020 13:46:46 +0200
-Message-Id: <20200605114700.1052050-6-laurent@vivier.eu>
+Subject: [PULL 06/19] linux-user: implement OFD locks
+Date: Fri,  5 Jun 2020 13:46:47 +0200
+Message-Id: <20200605114700.1052050-7-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200605114700.1052050-1-laurent@vivier.eu>
 References: <20200605114700.1052050-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:ga9jgcQO+kjdoOyWdWYM+CF0HEBsS0q9SxmybE2WV2mpG8z0Tnm
- q7tH18xVoj77aWbFCpvPmbqpzpdbGBGFAm8DLE4u9slcTmhh6qu0ZP+sjDF6wMEDTbI3iqR
- YSnhwKzuEJvGBVpH1WAvGvJjsPbdQr6/ujR7xxGuz8+3D5k1WAz6Pq7C4aXX6eY2a2hp4mJ
- S3u3CPE7r5XjVyvw5FD5A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:CYjl3Us4nIw=:8d2MiDOkbv1i/MkGhLxav3
- xeubtyWPGDyJmTnOAd1vP56SaWK4HRq0oB4Wh2h4qQ9zF/1iQUDXDKlu6v8ZkXafHV4CeVpYe
- 0jgIzAswb+fd1xsIV6kxV6Dzvl4ogwJxbVu5mR3r0rfylAZBq5ImS2DIYx+6xEBZ2/V/kZuDf
- xbQoGj5aLVzCdkMlWtJcngc3fMHTSb2+eSzOj7dFp5kBtNT9NfEYZ3Cd5A9xJELldmx+oBLvC
- nc1+OPdQpFEMtnjpY59GByG0LGs9wPQfm/V22FmbnK97i+G5wUR040PugWK8mVe/W/3zxLXEX
- 5L0aYGZqnmceV6QdLj62FSXbNnp/Gk0zAnbS9fBXMpRYWjBv8qn/DYzgGauzlxS+ABcQ8pe2U
- ueDOh8mQGbN/VZpFPEUZxpOlPBh+R/PMqgL/pBPdgC59UIoh5UyZu6UxrFLVS1VplHTOJrnx2
- A1af3+PvwfCesQ3fZWYlHv+p8J3Efk4EQCtdCYm5gj61g7nQhAyuhfPlLCMphmv/JhHcVRLqc
- VcxrLVWJvd6YknK+MJ3zK4WXonvIb+mJHBsBhVbo4jTCggGEhFi0PTXkWm6cUFceqqHhvx56G
- jpOCiYg2zZHx0U7zDZuF6PDuLapaFKhsX/sus5u3eXX4lEQstnnxwfNkInClw+eS2s/eeEqyQ
- GVzkzmTdCR0oVwPUgpQMgvw2ckInTRUbt4cnYZKGMjH7Wgfg6JS+K3NrCP5wLQrAsGu/XT2jN
- 27uqFKMGQduHh4OEQK3jR+vYWCCZkvB46X31Pyz7tJmkydE11JQq2suMvUkmND8uPfeew30/v
- 1xg5WllMrvzVRrAy0wSqgT+LadkKt+MiM7YZG4rk4waMTXGJ4IqVXczj065HxsVE1HPUf4L
-Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:vkFt+5HVP+GXJ1RSohT/ydQFJAnHvmtqpph0SGnYR62YJqfg418
+ o8qrK19SuuJTnaPJnAg8DJG7uoYafxty9DyJu0DNMnRECLOuTDinkxbw+208uBitCXcddRc
+ zzc8kqDtCCSq530rqH7HKJwaVjQ3Szj9eCAfuOwzyRz0xHbkve9Z/ChuqxrJj83Zn38qSiN
+ uWAXsj62FrD9IMeVGCviA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:qMiX3Kl+18U=:lwfMqII+xn3RRboMbV4/hq
+ xYARZUQg3rxpo7cv/qOLZMzucnPDhJXWl1EFiaEve8mapYLjvn3GrOuvdPNKY3dJGb+XYMdtq
+ 0dvHmoFFcXzcBA7oUhU1RS1/Fe0NwOufjvcM78CacpqJvJhllom6RRzwLmNJnl5eYvuefdk8E
+ y15lxkQE7AhIrNUZdIm8PVUsoVTKLZYJNdgABYGpUnmpmof0AsIZY1fu7wAxtq/4+5tnDdjHn
+ 43im3wEfUZbLj6W2swHojtfSUn92Lh3jrgVmN8ceOz5N7zYYxxwLBQ7RyREBBfCmtQdRMW06v
+ McqwHHS95An3WyA2Toy2C5rzgrFREdRvUS07ZGp16P7e/ve9+pKN0Y0V8pns5ZgFzRX6QD9zO
+ bhcEjFbQYuC/iATIvHEwy3SGtK9+OffF1DRk/vi95Ic7E7IC+XUbEB2PcLMeJDLx+rwwJW5qO
+ cw8EHnolw8KNy5QyoH8J7mTROr2KVXfri61rY1NK5MXo9CvNZ0vbF+cWYxdutZQJVDZ9t6TAt
+ GGxksolAjWS3Z3JwS8Nd7CREtnT4AIDnT3K+U43x+nSgVM4irS7XVBGZKxmUnp8MeD5e/9743
+ +lGXCjzvXLexigCkiuEryt7qvGfQhpXjRw6Q9Xy9BvBkz4VNokNjgAByizidjv0tt4AEBEQMJ
+ n5+aZAdc4OeeOfMUc8KQoSSf8JTkN0l9ATfmCfMVoEAN+Rnp96sS9UhCI2qBdQqkjB8KM/UdR
+ 4/iszbEOPulzSmiZVn/09EV1R2+1sQR/Y82NlTVHqb9yG3gtiPzK64srKcwiTvzr+yAszkgg8
+ GPjh1fhd7vohIe9BtHIorOvDyzL250MslvaeJUNyuAmPUANhOjHsriUwrjQjbJVT2hzwinF
+Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/05 07:47:15
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/05 07:47:11
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -68,39 +68,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>, Jonathan Marler <johnnymarler@gmail.com>,
+Cc: Andreas Schwab <schwab@suse.de>, Riku Voipio <riku.voipio@iki.fi>,
  Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jonathan Marler <johnnymarler@gmail.com>
+From: Andreas Schwab <schwab@suse.de>
 
-Fixes: https://bugs.launchpad.net/bugs/1876373
-
-This code path in mmap occurs when a page size is decreased with mremap.  When a section of pages is shrunk, qemu calls mmap_reserve on the pages that were released.  However, it has the diff operation reversed, subtracting the larger old_size from the smaller new_size.  Instead, it should be subtracting the smaller new_size from the larger old_size.  You can also see in the previous line of the change that this mmap_reserve call only occurs when old_size > new_size.
-
-Bug: https://bugs.launchpad.net/qemu/+bug/1876373
-Signed-off-by: Jonathan Marler <johnnymarler@gmail.com>
-Reviewded-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20200502161225.14346-1-johnnymarler@gmail.com>
+Signed-off-by: Andreas Schwab <schwab@suse.de>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <mvm7dx0cun3.fsf@suse.de>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/mmap.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ linux-user/generic/fcntl.h | 4 ++++
+ linux-user/syscall.c       | 6 ++++++
+ 2 files changed, 10 insertions(+)
 
-diff --git a/linux-user/mmap.c b/linux-user/mmap.c
-index e37803379747..caab62909eb1 100644
---- a/linux-user/mmap.c
-+++ b/linux-user/mmap.c
-@@ -708,7 +708,7 @@ abi_long target_mremap(abi_ulong old_addr, abi_ulong old_size,
-         if (prot == 0) {
-             host_addr = mremap(g2h(old_addr), old_size, new_size, flags);
-             if (host_addr != MAP_FAILED && reserved_va && old_size > new_size) {
--                mmap_reserve(old_addr + old_size, new_size - old_size);
-+                mmap_reserve(old_addr + old_size, old_size - new_size);
-             }
-         } else {
-             errno = ENOMEM;
+diff --git a/linux-user/generic/fcntl.h b/linux-user/generic/fcntl.h
+index 9f727d4df2c8..c85c5b9fed65 100644
+--- a/linux-user/generic/fcntl.h
++++ b/linux-user/generic/fcntl.h
+@@ -99,6 +99,10 @@
+ #define TARGET_F_SETLKW64      14
+ #endif
+ 
++#define TARGET_F_OFD_GETLK     36
++#define TARGET_F_OFD_SETLK     37
++#define TARGET_F_OFD_SETLKW    38
++
+ #ifndef TARGET_F_SETOWN_EX
+ #define TARGET_F_SETOWN_EX     15
+ #define TARGET_F_GETOWN_EX     16
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 63c40c48e31f..1cf638208201 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -6098,6 +6098,9 @@ static int target_to_host_fcntl_cmd(int cmd)
+     case TARGET_F_SETFD:
+     case TARGET_F_GETFL:
+     case TARGET_F_SETFL:
++    case TARGET_F_OFD_GETLK:
++    case TARGET_F_OFD_SETLK:
++    case TARGET_F_OFD_SETLKW:
+         ret = cmd;
+         break;
+     case TARGET_F_GETLK:
+@@ -6383,6 +6386,7 @@ static abi_long do_fcntl(int fd, int cmd, abi_ulong arg)
+         break;
+ 
+     case TARGET_F_GETLK64:
++    case TARGET_F_OFD_GETLK:
+         ret = copy_from_user_flock64(&fl64, arg);
+         if (ret) {
+             return ret;
+@@ -6394,6 +6398,8 @@ static abi_long do_fcntl(int fd, int cmd, abi_ulong arg)
+         break;
+     case TARGET_F_SETLK64:
+     case TARGET_F_SETLKW64:
++    case TARGET_F_OFD_SETLK:
++    case TARGET_F_OFD_SETLKW:
+         ret = copy_from_user_flock64(&fl64, arg);
+         if (ret) {
+             return ret;
 -- 
 2.26.2
 
