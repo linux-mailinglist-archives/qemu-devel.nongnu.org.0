@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72E011EFD16
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 17:57:51 +0200 (CEST)
-Received: from localhost ([::1]:46874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32DE01EFD06
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 17:51:25 +0200 (CEST)
+Received: from localhost ([::1]:50684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jhEj8-0008IF-Cf
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 11:57:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58350)
+	id 1jhEcu-0005BC-6j
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 11:51:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jhEbI-0003gb-0e
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 11:49:44 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:42757)
+ id 1jhEbA-0003Ph-RL
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 11:49:36 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:35425)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jhEbH-0004LB-5n
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 11:49:43 -0400
-Received: by mail-wr1-x441.google.com with SMTP id p5so10241813wrw.9
- for <qemu-devel@nongnu.org>; Fri, 05 Jun 2020 08:49:42 -0700 (PDT)
+ id 1jhEb9-0004Is-8S
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 11:49:35 -0400
+Received: by mail-wm1-x341.google.com with SMTP id q25so9620786wmj.0
+ for <qemu-devel@nongnu.org>; Fri, 05 Jun 2020 08:49:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=LK/4Qo6f+ZFTpUODCPrnJnwtXwRUNzbilhvZ9R6yVoU=;
- b=W4ADJJc6X3xO/DvyxxtK30S8n9f2uUs5I0jtmImRRBfLw7FrX1MfEZSd/OSDJG7SBP
- Xgtgm9pW4isLrerSZXJgUiCutstvU2pzTC5vqvtrTP/R6j0Fc48C9whGKA4yANIfT7tZ
- j1a+depkvkHAJOKVTpiWPKAQr8/YlVu5GWIV3xGBn6S2HARCjoLHpjzwJCBXlxmodGEp
- CKRjoxtpIooETibHPD9LuGqy0KxS9n6q2gM/6wgfCpBECUC1jcsXMLTQuW75uH96yPCC
- RFO5xNvPKvBZGmpefQmDAWDegY0VKcef306/1iwmXSQf69+JvCnSfaWp4583Vd2aDlnF
- +y3A==
+ bh=phvNC/3twlj1z+FSK0lUDFiax2fRGfdSfNFp/IJDVTk=;
+ b=mCTl1mvCxnnPcuLi0xBxmz6EH2VTEyybz5fZVgREAcDoQWmRObW5N+U6sEouCoe8LU
+ v0S1AJAie0ZtTLa3ijetOQ8GF1OQVmEbsWTf2EKCIiwp+zAuSYgt4BRtHIR7Zgsfqv6q
+ L1YcdeJVHGQo83svTl/ih6BFGqak3EmZSa36WNwVxcbDXs7GGNhaCJEqRmDsZ8cCYxXF
+ 9pSCA2QsXwSb356Tb5H93jDHFy7YTQayBKgRTnBzWI25nv9Vk7adWq38eIIf+NMnnwIA
+ DBMD8LLER5Lxddka2vqDzNY5Cx90fVqePAY7CpHTxK/lLCzIPb6Ji/9N94hF+xdcaiCm
+ MIug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=LK/4Qo6f+ZFTpUODCPrnJnwtXwRUNzbilhvZ9R6yVoU=;
- b=LocbOtNylol/jVwEJBhccYimzCNy8WXn26M9osgy9vKB1/doL16OMSPkkr6mhrnTwJ
- eBoT7T9xGE4c/78PJhJyr+gdMBWS2JgGDBP1eMozJNTxjw9T6JSS7Y5hegS6AXsrmlWV
- ecsRGGf7csbA9VVXJI0FDbExy+hP3nSscQbd7af33dDjNYevwDoy2WHonzTWCGBLMoa4
- LQ1fSiHl8FU5pl3Ao7RFipCWiTLRgYMEq4wQHgJkhNYmUYwh2U3RpJworamoSAQDZ9cJ
- oYX+Yi7mKLOjnPZFxPjk5T8fZd+ilYCIFjpEUhN8r/KRuZ+h5Ueg8cLu20Tf3S0C7EOa
- b72g==
-X-Gm-Message-State: AOAM532+/eOXbU/FNlZdX0osr5ouZm/bcJ8IC/axtER9PawGaHPbtO69
- iNztfiu8/SgEz3/oVDR9GVweBVD3N7w=
-X-Google-Smtp-Source: ABdhPJwUiJOXXwDi8auQozjNS+TnpDKXrDGTFCu5wKbmH/d0s/1ARucN8DWicMkEsWdZYlSjKukhUA==
-X-Received: by 2002:adf:ca0e:: with SMTP id o14mr10974316wrh.254.1591372181861; 
- Fri, 05 Jun 2020 08:49:41 -0700 (PDT)
+ bh=phvNC/3twlj1z+FSK0lUDFiax2fRGfdSfNFp/IJDVTk=;
+ b=Z0p7EqmF3cUAiLlXAQqEz6g6ytYDnfkPcqz3zl5dbIWjP3Y598hwGKHIlxFJ+gKPOI
+ FVKkHWTjUPdWwP0ek1n8RkctKN9Vl9khDr0cDIDOEsR/ktptok7ZcGhq2WaYzngS6n4f
+ 6Vwn7Mh/JsJ3i9sq9op9Fnh0jXD5BMFrrGp68QodhhK/jwboah/iwsQ9e+QcG/OMvNFS
+ WCPVOFxm2u9WKdJC3YbiI6e3gzGQejG+j8x8mAd2VoLElhBWybqrpqiff1DsD03gzoE+
+ 19zEJxxzd+IqWP1Kd3vgA2+kotlJBQLCVgbNRz7KP06Tx834Ld4uWIMD6e/QzFj2haU7
+ kLtA==
+X-Gm-Message-State: AOAM530Vj/fniw+heC8HlvQW9v45K6MGjbsAPIJe15drf/H9B5NToNBM
+ MQw057jeSxx75OPkdmrP7LrH/A==
+X-Google-Smtp-Source: ABdhPJw7H3CVv9zcPxZY1Qqx0SDFbtTnSe+Qu+M/AAbgaSAmLJY1QSVEG/30Hat1m/xmtNFL9Tkvag==
+X-Received: by 2002:a05:600c:4102:: with SMTP id
+ j2mr1165177wmi.48.1591372173529; 
+ Fri, 05 Jun 2020 08:49:33 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id l17sm11102401wmi.3.2020.06.05.08.49.37
+ by smtp.gmail.com with ESMTPSA id o10sm12731793wrj.37.2020.06.05.08.49.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Jun 2020 08:49:39 -0700 (PDT)
+ Fri, 05 Jun 2020 08:49:32 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 6116D1FF8F;
+ by zen.linaroharston (Postfix) with ESMTP id 74F761FF90;
  Fri,  5 Jun 2020 16:49:29 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 03/14] tests/plugin: correctly honour io_count
-Date: Fri,  5 Jun 2020 16:49:18 +0100
-Message-Id: <20200605154929.26910-4-alex.bennee@linaro.org>
+Subject: [PATCH v1 04/14] exec: flush the whole TLB if a watchpoint crosses a
+ page boundary
+Date: Fri,  5 Jun 2020 16:49:19 +0100
+Message-Id: <20200605154929.26910-5-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200605154929.26910-1-alex.bennee@linaro.org>
 References: <20200605154929.26910-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x441.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,30 +90,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Alexander Bulekov <alxndr@bu.edu>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- tests/plugin/mem.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+There is no particular reason why you can't have a watchpoint in TCG
+that covers a large chunk of the address space. We could be clever
+about it but these cases are pretty rare and we can assume the user
+will expect a little performance degradation.
 
-diff --git a/tests/plugin/mem.c b/tests/plugin/mem.c
-index 878abf09d19..4725bd851d8 100644
---- a/tests/plugin/mem.c
-+++ b/tests/plugin/mem.c
-@@ -28,7 +28,7 @@ static void plugin_exit(qemu_plugin_id_t id, void *p)
+NB: In my testing gdb will silently squash a watchpoint like:
+
+  watch (char[0x7fffffffff]) *0x0
+
+to a 4 byte watchpoint. Practically it will limit the maximum size
+based on max-value-size. However given enough of a tweak the sky is
+the limit.
+
+Reported-by: Alexander Bulekov <alxndr@bu.edu>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+
+---
+v2
+  - use cleaner in_page = -(addr | TARGET_PAGE_MASK) logic per rth
+---
+ exec.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/exec.c b/exec.c
+index 3d4c94a9dc3..7cd45e94fce 100644
+--- a/exec.c
++++ b/exec.c
+@@ -1036,6 +1036,7 @@ int cpu_watchpoint_insert(CPUState *cpu, vaddr addr, vaddr len,
+                           int flags, CPUWatchpoint **watchpoint)
+ {
+     CPUWatchpoint *wp;
++    vaddr in_page;
  
-     g_string_printf(out, "mem accesses: %" PRIu64 "\n", mem_count);
-     if (do_haddr) {
--        g_string_append_printf(out, "io accesses: %" PRIu64 "\n", mem_count);
-+        g_string_append_printf(out, "io accesses: %" PRIu64 "\n", io_count);
+     /* forbid ranges which are empty or run off the end of the address space */
+     if (len == 0 || (addr + len - 1) < addr) {
+@@ -1056,7 +1057,12 @@ int cpu_watchpoint_insert(CPUState *cpu, vaddr addr, vaddr len,
+         QTAILQ_INSERT_TAIL(&cpu->watchpoints, wp, entry);
      }
-     qemu_plugin_outs(out->str);
- }
+ 
+-    tlb_flush_page(cpu, addr);
++    in_page = -(addr | TARGET_PAGE_MASK);
++    if (len <= in_page) {
++        tlb_flush_page(cpu, addr);
++    } else {
++        tlb_flush(cpu);
++    }
+ 
+     if (watchpoint)
+         *watchpoint = wp;
 -- 
 2.20.1
 
