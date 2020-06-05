@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E5751EF6DC
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 13:54:54 +0200 (CEST)
-Received: from localhost ([::1]:34190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE3201EF6BA
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 13:49:19 +0200 (CEST)
+Received: from localhost ([::1]:33752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jhAw1-0005fb-F2
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 07:54:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54858)
+	id 1jhAqc-00029H-Td
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 07:49:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jhAok-0008Jr-K9
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 07:47:24 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:60211)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jhAoi-0008HJ-OZ
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 07:47:20 -0400
+Received: from mout.kundenserver.de ([212.227.17.24]:41945)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jhAod-0006iH-US
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 07:47:22 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jhAoe-0006iE-1H
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 07:47:20 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1Mt7x1-1iofRv3XtB-00tTeI; Fri, 05 Jun 2020 13:47:11 +0200
+ id 1MxmFk-1ikWyf1nH4-00zHCb; Fri, 05 Jun 2020 13:47:11 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/19] tests/Makefile: Restrict some softmmu-only tests
-Date: Fri,  5 Jun 2020 13:46:51 +0200
-Message-Id: <20200605114700.1052050-11-laurent@vivier.eu>
+Subject: [PULL 11/19] util/Makefile: Reduce the user-mode object list
+Date: Fri,  5 Jun 2020 13:46:52 +0200
+Message-Id: <20200605114700.1052050-12-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200605114700.1052050-1-laurent@vivier.eu>
 References: <20200605114700.1052050-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:oQKwhrkEiFwCnvvwNMxzM/AINxfavth2I5iOWmIU9UYGXq027Rg
- bz87Ma6b6FDHxylZ1xiA4nk4jm5NIG/KaQjd+4wuWXJ45n++4Kj1G1TDbd0DqJaILbFZojU
- AeC6g2Xsx0jW94eJlvbdK+sEb6nD39nTPYKuZ+ciApvwwfnXi8matvnHbKzURXv7S+71SsI
- kaSUASLme2/utBytlg5vQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:MZgOMM32aWs=:rFnGVlxpTB8cJwSOPVuMyB
- HCEq/DNC3dq801aUxD4AgMEUJfw8vMZAfjM1V4y1fHizeP3rJxmnTWj/TCCnJnUUhRVYt1bHo
- k7OWN4thFwtzUFZlibgkWAdInMMA5cYXL9qsW5wkgu5bwngB7oVZSYlJvqbBxz7RUoOE9zlxa
- 76J6D4axzbds+h7kDIPZ4/Se6gMU388cjWoGIbRimlrRgE55GUjac1hu1YmWrxoEtYXXbQvFO
- ROwUqGFtBvrSo+JYTsKQKX7Ip21BQtox3Qcc6MHxbniqb1MQfdk8tok1Mc8+/eIoPEgUhD5mv
- Frqj12KQ+aJ7iSI+yfAYb0rEV4naZMkeOiOn44B2+J/CqYTqgnX3B3sMc3W3LKg1uH3+cWZHE
- gnvBPPm7Nt/2nyRmzRxhO5gt4uOa/5fMJKHqZaq5c2Bd/nkr8nEWFTjAIuGcUBEiMLr+vF1CR
- owxRcXt+TsvhC3jRchQs2kgfzcY46uQUSatN7tFyQlk611aemJ8/ZVSOHaRoO7EEKixgfr6Gu
- PqT6GjzQodCkVEuifb3QYXgUVYfsOHO31ZJXiPivCm9z2FIZ/FpUeyfGCd5BOA/DVWCd57eV1
- qtqGjewesO24WZe7fcAaFc4Omc3PBHmn5Y4N0HTYPcE1vwNq3juObnoogpsZIYmAcPvkv5xz1
- phyoNm85+yrMDTH5SYpUw7dsdSYGDWJrcu+W6URk/y7rc+DGvAJKKSvuzW86t8wmE86MH5ILB
- EE2Geh6eVIfQ6BPEyASwTwqRrRmJrYNdHdT/uWDQghbWdNEBA/UDaIaNpcF6DwhkleJ0nljpr
- glqOVZ+6T5qy2oaWXwgYWmCNJfqJazwxXbOF83eyG4nxjHcEK4WmTVfdDeQOk5dEzUMQDWx
-Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:9Ui39A+z0NfgPSmdfqmKFPgf8qRdfo8oQWFPB5rCOGQuFJ6qwSu
+ hSa9XboPjPT/8LdtnYehy8MbtiSTSJvSk/2HMmc5wA8Q0Q7kq5kaw9EmZGe2D3Ea0yHRuGa
+ CcYtIz+/CYNxcxCPMG4LQsuM/nq3x4PLqr6UJPfeDl3l8tpCTy7EFMbV69mEZfb6IqTk+6p
+ rGhI7K3DlHB5689ZgkA4A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:lsFFgbt69/g=:6vRmedFwgpAmjBNxXvIam3
+ bEnoKny8vqbGgetWsEj3ORFu6bNBaVNAZo3vrAVfreiTwgOm6LEMxoXq4s/R2V9LNPqOJpT9w
+ D9d51Hg5O4V8rPddcjFPGuqkjI4iCPb1oBjLU44QkJfWTpJcZJ7ZlCnlW1PptqtcdvgkPjk99
+ S3C0H6eeww5LN2v3Wz1XCLBzNXUOSZ/0wdTFfw5LY/9CNwBxM8jaBRwoZKszZyeMKOneYCwhG
+ wzSIktKFK3ZuC3rahH9gr/X9GZnNHyKCshOxEegZZqd3gAM1baqu2OCInBjngfjIW/kG8a2mA
+ mHdJqXnLgUzt8nI+VOu9s8FK9DoUt8VoCr+MCXgUoxOwDXRJnOmVUB7o3fXEAUYCNPUtSnHq4
+ TTxox0KhLCBWG10OMBw5Qji3Wz04iJGGDO0tsv2VdTMRrQQrYVIlkKSVjIdSdWxw234lG+CtF
+ VmyQ6fg5fBXkFCK3swjm6dCVPibSTneWqtWuNWFWrH2gBilG2owmINfLIlzYY9j3FuLhb7BUt
+ PG9cukIFfSklFczwadFWxFS+Xm+GAWN8Eo6NJKa5T/6oi1xZhDtA4gtOiOPUloBM10H3zGxyx
+ oVALu+x+QwZLTqlOpe86971WDzDLJ4Viadb065W7KAUfG0O5FMWKNV2cRZWbFHkjDhI/K20A6
+ dfNrbPSisNGt21vwOiqej+rzktHYRniwuqxgx/fXid4kWu/NKg71XjlJSmt00zVEH4QW6n2yT
+ KUtB6LyciC4BrNuE4rtMQv0wdwIG7Wa2uKn6ncf0PEYryCwOgKpyWF3DP8cX93rUf8JCvLgqT
+ SgjvCHAzfwMaSVExDX7orpwuIJqU4wg39uZky8G1qlihsDODgCpQS+/ae+UUwEamkw35rJH
+Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/05 07:46:13
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/05 07:47:04
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -78,115 +78,115 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-In the next commit we are going to remove some objects from the
-util-obj-y variable (objects which are not used by user-mode,
-when configured with --disable-system).
-Then some system-mode tests are going to fail, due to the missing
-objects:
-
-  $ make check-unit -k
-    LINK    tests/test-iov
-  /usr/bin/ld: tests/test-iov.o: in function `iov_from_buf':
-  include/qemu/iov.h:49: undefined reference to `iov_from_buf_full'
-  make: *** [rules.mak:124: tests/test-iov] Error 1
-    LINK    tests/test-timed-average
-  /usr/bin/ld: tests/test-timed-average.o: in function `account':
-  tests/test-timed-average.c:27: undefined reference to `timed_average_account'
-  make: *** [rules.mak:124: tests/test-timed-average] Error 1
-    LINK    tests/test-util-filemonitor
-  /usr/bin/ld: tests/test-util-filemonitor.o: in function `qemu_file_monitor_test_event_loop':
-  tests/test-util-filemonitor.c:83: undefined reference to `main_loop_wait'
-  make: *** [rules.mak:124: tests/test-util-filemonitor] Error 1
-    LINK    tests/test-util-sockets
-  /usr/bin/ld: tests/test-util-sockets.o: in function `test_socket_fd_pass_name_good':
-  tests/test-util-sockets.c:91: undefined reference to `socket_connect'
-  make: *** [rules.mak:124: tests/test-util-sockets] Error 1
-    LINK    tests/test-base64
-  /usr/bin/ld: tests/test-base64.o: in function `test_base64_good':
-  tests/test-base64.c:35: undefined reference to `qbase64_decode'
-  collect2: error: ld returned 1 exit status
-  make: *** [rules.mak:124: tests/test-base64] Error 1
-    LINK    tests/test-bufferiszero
-  /usr/bin/ld: tests/test-bufferiszero.o: in function `test_1':
-  tests/test-bufferiszero.c:31: undefined reference to `buffer_is_zero'
-  make: *** [rules.mak:124: tests/test-bufferiszero] Error 1
-  make: Target 'check-unit' not remade because of errors.
-
-Instead, restrict these tests to system-mode, by using the
-$(CONFIG_SOFTMMU) variable.
+These objects are not required when configured with --disable-system.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Tested-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 Tested-by: Laurent Vivier <laurent@vivier.eu>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200522172510.25784-5-philmd@redhat.com>
+Message-Id: <20200522172510.25784-6-philmd@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- tests/Makefile.include | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ util/Makefile.objs | 59 +++++++++++++++++++++++++++++-----------------
+ 1 file changed, 38 insertions(+), 21 deletions(-)
 
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index 6bc3d1096bc9..0cb58aad2685 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -66,14 +66,14 @@ check-unit-y += tests/check-qlit$(EXESUF)
- check-unit-y += tests/test-qobject-output-visitor$(EXESUF)
- check-unit-y += tests/test-clone-visitor$(EXESUF)
- check-unit-y += tests/test-qobject-input-visitor$(EXESUF)
--check-unit-y += tests/test-qmp-cmds$(EXESUF)
-+check-unit-$(CONFIG_SOFTMMU) += tests/test-qmp-cmds$(EXESUF)
- check-unit-y += tests/test-string-input-visitor$(EXESUF)
- check-unit-y += tests/test-string-output-visitor$(EXESUF)
- check-unit-y += tests/test-qmp-event$(EXESUF)
- check-unit-y += tests/test-opts-visitor$(EXESUF)
- check-unit-$(CONFIG_BLOCK) += tests/test-coroutine$(EXESUF)
- check-unit-y += tests/test-visitor-serialization$(EXESUF)
--check-unit-y += tests/test-iov$(EXESUF)
-+check-unit-$(CONFIG_SOFTMMU) += tests/test-iov$(EXESUF)
- check-unit-y += tests/test-bitmap$(EXESUF)
- check-unit-$(CONFIG_BLOCK) += tests/test-aio$(EXESUF)
- check-unit-$(CONFIG_BLOCK) += tests/test-aio-multithread$(EXESUF)
-@@ -108,7 +108,7 @@ check-unit-y += tests/test-qht$(EXESUF)
- check-unit-y += tests/test-qht-par$(EXESUF)
- check-unit-y += tests/test-bitops$(EXESUF)
- check-unit-y += tests/test-bitcnt$(EXESUF)
--check-unit-y += tests/test-qdev-global-props$(EXESUF)
-+check-unit-$(CONFIG_SOFTMMU) += tests/test-qdev-global-props$(EXESUF)
- check-unit-y += tests/check-qom-interface$(EXESUF)
- check-unit-y += tests/check-qom-proplist$(EXESUF)
- check-unit-y += tests/test-qemu-opts$(EXESUF)
-@@ -126,9 +126,9 @@ check-unit-$(call land,$(CONFIG_BLOCK),$(CONFIG_GNUTLS)) += tests/test-crypto-tl
- ifneq (,$(findstring qemu-ga,$(TOOLS)))
- check-unit-$(call land,$(CONFIG_LINUX),$(CONFIG_VIRTIO_SERIAL)) += tests/test-qga$(EXESUF)
- endif
--check-unit-y += tests/test-timed-average$(EXESUF)
--check-unit-$(CONFIG_INOTIFY1) += tests/test-util-filemonitor$(EXESUF)
--check-unit-y += tests/test-util-sockets$(EXESUF)
-+check-unit-$(CONFIG_SOFTMMU) += tests/test-timed-average$(EXESUF)
-+check-unit-$(call land,$(CONFIG_SOFTMMU),$(CONFIG_INOTIFY1)) += tests/test-util-filemonitor$(EXESUF)
-+check-unit-$(CONFIG_SOFTMMU) += tests/test-util-sockets$(EXESUF)
- check-unit-$(CONFIG_BLOCK) += tests/test-authz-simple$(EXESUF)
- check-unit-$(CONFIG_BLOCK) += tests/test-authz-list$(EXESUF)
- check-unit-$(CONFIG_BLOCK) += tests/test-authz-listfile$(EXESUF)
-@@ -139,7 +139,7 @@ check-unit-$(CONFIG_BLOCK) += tests/test-io-channel-file$(EXESUF)
- check-unit-$(call land,$(CONFIG_BLOCK),$(CONFIG_GNUTLS)) += tests/test-io-channel-tls$(EXESUF)
- check-unit-$(CONFIG_BLOCK) += tests/test-io-channel-command$(EXESUF)
- check-unit-$(CONFIG_BLOCK) += tests/test-io-channel-buffer$(EXESUF)
--check-unit-y += tests/test-base64$(EXESUF)
-+check-unit-$(CONFIG_SOFTMMU) += tests/test-base64$(EXESUF)
- check-unit-$(call land,$(CONFIG_BLOCK),$(if $(CONFIG_NETTLE),y,$(CONFIG_GCRYPT))) += tests/test-crypto-pbkdf$(EXESUF)
- check-unit-$(CONFIG_BLOCK) += tests/test-crypto-ivgen$(EXESUF)
- check-unit-$(CONFIG_BLOCK)  += tests/test-crypto-afsplit$(EXESUF)
-@@ -147,7 +147,7 @@ check-unit-$(call land,$(CONFIG_BLOCK),$(CONFIG_QEMU_PRIVATE_XTS)) += tests/test
- check-unit-$(CONFIG_BLOCK)  += tests/test-crypto-block$(EXESUF)
- check-unit-y += tests/test-logging$(EXESUF)
- check-unit-$(call land,$(CONFIG_BLOCK),$(CONFIG_REPLICATION)) += tests/test-replication$(EXESUF)
--check-unit-y += tests/test-bufferiszero$(EXESUF)
-+check-unit-$(CONFIG_SOFTMMU) += tests/test-bufferiszero$(EXESUF)
- check-unit-y += tests/test-uuid$(EXESUF)
- check-unit-y += tests/ptimer-test$(EXESUF)
- check-unit-y += tests/test-qapi-util$(EXESUF)
+diff --git a/util/Makefile.objs b/util/Makefile.objs
+index fe339c2636ba..cc5e37177afd 100644
+--- a/util/Makefile.objs
++++ b/util/Makefile.objs
+@@ -1,8 +1,4 @@
+ util-obj-y = osdep.o cutils.o unicode.o qemu-timer-common.o
+-util-obj-y += bufferiszero.o
+-util-obj-y += lockcnt.o
+-util-obj-y += aiocb.o async.o aio-wait.o thread-pool.o qemu-timer.o
+-util-obj-y += main-loop.o
+ util-obj-$(call lnot,$(CONFIG_ATOMIC64)) += atomic64.o
+ util-obj-$(CONFIG_POSIX) += aio-posix.o
+ util-obj-$(CONFIG_POSIX) += fdmon-poll.o
+@@ -21,31 +17,20 @@ util-obj-$(CONFIG_WIN32) += oslib-win32.o
+ util-obj-$(CONFIG_WIN32) += qemu-thread-win32.o
+ util-obj-y += envlist.o path.o module.o
+ util-obj-y += host-utils.o
+-util-obj-y += bitmap.o bitops.o hbitmap.o
++util-obj-y += bitmap.o bitops.o
+ util-obj-y += fifo8.o
+-util-obj-y += nvdimm-utils.o
+ util-obj-y += cacheinfo.o
+ util-obj-y += error.o qemu-error.o
+ util-obj-y += qemu-print.o
+ util-obj-y += id.o
+-util-obj-y += iov.o qemu-config.o qemu-sockets.o uri.o notify.o
++util-obj-y += qemu-config.o notify.o
+ util-obj-y += qemu-option.o qemu-progress.o
+ util-obj-y += keyval.o
+-util-obj-y += hexdump.o
+ util-obj-y += crc32c.o
+ util-obj-y += uuid.o
+-util-obj-y += throttle.o
+ util-obj-y += getauxval.o
+-util-obj-y += readline.o
+ util-obj-y += rcu.o
+ util-obj-$(CONFIG_MEMBARRIER) += sys_membarrier.o
+-util-obj-y += qemu-coroutine.o qemu-coroutine-lock.o qemu-coroutine-io.o
+-util-obj-y += qemu-coroutine-sleep.o
+-util-obj-y += qemu-co-shared-resource.o
+-util-obj-y += coroutine-$(CONFIG_COROUTINE_BACKEND).o
+-util-obj-y += buffer.o
+-util-obj-y += timed-average.o
+-util-obj-y += base64.o
+ util-obj-y += log.o
+ util-obj-y += pagesize.o
+ util-obj-y += qdist.o
+@@ -54,13 +39,45 @@ util-obj-y += qsp.o
+ util-obj-y += range.o
+ util-obj-y += stats64.o
+ util-obj-y += systemd.o
+-util-obj-y += iova-tree.o
+-util-obj-$(CONFIG_INOTIFY1) += filemonitor-inotify.o
+-util-obj-$(call lnot,$(CONFIG_INOTIFY1)) += filemonitor-stub.o
+-util-obj-$(CONFIG_LINUX) += vfio-helpers.o
+ util-obj-$(CONFIG_POSIX) += drm.o
+ util-obj-y += guest-random.o
+ util-obj-$(CONFIG_GIO) += dbus.o
+ dbus.o-cflags = $(GIO_CFLAGS)
+ dbus.o-libs = $(GIO_LIBS)
+ util-obj-$(CONFIG_USER_ONLY) += selfmap.o
++
++#######################################################################
++# code used by both qemu system emulation and qemu-img
++
++ifeq ($(call lor,$(CONFIG_SOFTMMU),$(CONFIG_TOOLS)),y)
++
++util-obj-y += aio-wait.o
++util-obj-y += aiocb.o
++util-obj-y += async.o
++util-obj-y += base64.o
++util-obj-y += buffer.o
++util-obj-y += bufferiszero.o
++util-obj-y += coroutine-$(CONFIG_COROUTINE_BACKEND).o
++util-obj-y += hexdump.o
++util-obj-y += lockcnt.o
++util-obj-y += iov.o
++util-obj-y += iova-tree.o
++util-obj-y += hbitmap.o
++util-obj-y += main-loop.o
++util-obj-y += nvdimm-utils.o
++util-obj-y += qemu-coroutine.o qemu-coroutine-lock.o qemu-coroutine-io.o
++util-obj-y += qemu-coroutine-sleep.o
++util-obj-y += qemu-co-shared-resource.o
++util-obj-y += qemu-sockets.o
++util-obj-y += qemu-timer.o
++util-obj-y += thread-pool.o
++util-obj-y += throttle.o
++util-obj-y += timed-average.o
++util-obj-y += uri.o
++
++util-obj-$(CONFIG_LINUX) += vfio-helpers.o
++util-obj-$(CONFIG_INOTIFY1) += filemonitor-inotify.o
++util-obj-$(call lnot,$(CONFIG_INOTIFY1)) += filemonitor-stub.o
++util-obj-$(CONFIG_BLOCK) += readline.o
++
++endif # CONFIG_SOFTMMU || CONFIG_TOOLS
 -- 
 2.26.2
 
