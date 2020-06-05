@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF5751EFCE0
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 17:45:34 +0200 (CEST)
-Received: from localhost ([::1]:37010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 222BB1EFCAA
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 17:40:04 +0200 (CEST)
+Received: from localhost ([::1]:44836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jhEXF-0007dq-SN
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 11:45:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56972)
+	id 1jhERv-0006yj-6L
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 11:40:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jhEQN-00053c-Gj
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 11:38:27 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:38165
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jhEQS-0005HD-TV
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 11:38:32 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:41918
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jhEQL-00023p-Us
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 11:38:27 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jhEQS-00025V-8z
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 11:38:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591371505;
+ s=mimecast20190719; t=1591371511;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wt2JUTvoueoZdvPbnPA4Ct7o+L86ia8vuOmb0LBw1Qw=;
- b=Tjhd1NKos5PS9N7iOmCPmETHYGV2RACU6vliM+9NzMj8oyXKYBcVYlLxinUG33bCMmD3x4
- Ro/kZ1/7T/qGNsEXbHOcNWh+3lW6FOvRsRmnx9BJRkemLeLGpLmtCfyAKcTLwZOK6uhwoB
- EFgOREBFHcV5vbey4l0C+uCHUgNxkF4=
+ bh=4CyAY6frRQbrMGHfD+FOKfMZ6ysesSwrNH3XlAy9ECc=;
+ b=SamyVJKMSqgJnQScjzQH/Hpaeo5wbEryl4V/fwHW04qbcBrF+oZGwLFZ/0L3/mDHl/2FTE
+ vQ9pnGQJfS3oWSeNZLeyKvLqjDpygYN6VXFf9QbI70ssWPWP+gK2QJyF6w9UfTJcjpJ1J8
+ em1cYNwGsgPHfaKOA7EFg4Mq00YJ8nM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-460-0qSEt2ZjPWy0RvXaYOEdHQ-1; Fri, 05 Jun 2020 11:38:22 -0400
-X-MC-Unique: 0qSEt2ZjPWy0RvXaYOEdHQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-200-iCdGy7cWPMeWahwl0oFCsw-1; Fri, 05 Jun 2020 11:38:27 -0400
+X-MC-Unique: iCdGy7cWPMeWahwl0oFCsw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BA7D0835B44;
- Fri,  5 Jun 2020 15:38:21 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5F03DA0C08;
+ Fri,  5 Jun 2020 15:38:26 +0000 (UTC)
 Received: from localhost (ovpn-113-2.ams2.redhat.com [10.36.113.2])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5B83460C47;
- Fri,  5 Jun 2020 15:38:21 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 89FE39CA0;
+ Fri,  5 Jun 2020 15:38:23 +0000 (UTC)
 From: Cornelia Huck <cohuck@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 08/10] target/s390x: Only compile decode_basedisp() on
- system-mode
-Date: Fri,  5 Jun 2020 17:37:54 +0200
-Message-Id: <20200605153756.392825-9-cohuck@redhat.com>
+Subject: [PULL 09/10] target/s390x/helper: Clean ifdef'ry
+Date: Fri,  5 Jun 2020 17:37:55 +0200
+Message-Id: <20200605153756.392825-10-cohuck@redhat.com>
 In-Reply-To: <20200605153756.392825-1-cohuck@redhat.com>
 References: <20200605153756.392825-1-cohuck@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/05 03:35:49
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/05 03:27:26
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,50 +77,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
- qemu-devel@nongnu.org,
+Cc: Cornelia Huck <cohuck@redhat.com>, qemu-s390x@nongnu.org,
+ David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-The decode_basedisp*() methods are only used in ioinst.c,
-which is only build in system-mode emulation.
-
-I/O instructions are privileged, and other S instructions
-are decoded elsewhere.
+All this code is guarded checking CONFIG_USER_ONLY definition.
+Drop the duplicated checks.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: David Hildenbrand <david@redhat.com>
 Reviewed-by: Cornelia Huck <cohuck@redhat.com>
-Message-Id: <20200526172427.17460-6-f4bug@amsat.org>
+Message-Id: <20200526172427.17460-7-f4bug@amsat.org>
 Signed-off-by: Cornelia Huck <cohuck@redhat.com>
 ---
- target/s390x/internal.h | 4 ++++
- 1 file changed, 4 insertions(+)
+ target/s390x/helper.c | 5 -----
+ 1 file changed, 5 deletions(-)
 
-diff --git a/target/s390x/internal.h b/target/s390x/internal.h
-index 8c95c734dbe9..c1678dc6bc8b 100644
---- a/target/s390x/internal.h
-+++ b/target/s390x/internal.h
-@@ -204,6 +204,8 @@ enum cc_op {
-     CC_OP_MAX
- };
- 
-+#ifndef CONFIG_USER_ONLY
-+
- static inline hwaddr decode_basedisp_s(CPUS390XState *env, uint32_t ipb,
-                                        uint8_t *ar)
+diff --git a/target/s390x/helper.c b/target/s390x/helper.c
+index 09f60406aa33..9257d388baed 100644
+--- a/target/s390x/helper.c
++++ b/target/s390x/helper.c
+@@ -42,9 +42,6 @@ void s390x_cpu_timer(void *opaque)
  {
-@@ -225,6 +227,8 @@ static inline hwaddr decode_basedisp_s(CPUS390XState *env, uint32_t ipb,
- /* Base/displacement are at the same locations. */
- #define decode_basedisp_rs decode_basedisp_s
+     cpu_inject_cpu_timer((S390CPU *) opaque);
+ }
+-#endif
+-
+-#ifndef CONFIG_USER_ONLY
  
-+#endif /* CONFIG_USER_ONLY */
-+
- /* arch_dump.c */
- int s390_cpu_write_elf64_note(WriteCoreDumpFunction f, CPUState *cs,
-                               int cpuid, void *opaque);
+ hwaddr s390_cpu_get_phys_page_debug(CPUState *cs, vaddr vaddr)
+ {
+@@ -98,14 +95,12 @@ void s390_handle_wait(S390CPU *cpu)
+     CPUState *cs = CPU(cpu);
+ 
+     if (s390_cpu_halt(cpu) == 0) {
+-#ifndef CONFIG_USER_ONLY
+         if (is_special_wait_psw(cpu->env.psw.addr)) {
+             qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
+         } else {
+             cpu->env.crash_reason = S390_CRASH_REASON_DISABLED_WAIT;
+             qemu_system_guest_panicked(cpu_get_crash_info(cs));
+         }
+-#endif
+     }
+ }
+ 
 -- 
 2.25.4
 
