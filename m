@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6A291EFC2C
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 17:07:34 +0200 (CEST)
-Received: from localhost ([::1]:39990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C9F11EFC1E
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 17:05:07 +0200 (CEST)
+Received: from localhost ([::1]:58998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jhDwT-0002uo-M2
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 11:07:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50912)
+	id 1jhDu6-0007QQ-4S
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 11:05:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jhDlu-0003zM-ST
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 10:56:38 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:46521
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jhDlw-00044C-Kf
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 10:56:40 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:35230
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jhDlo-0007TP-Iz
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 10:56:38 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jhDls-0007VV-4V
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 10:56:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591368991;
+ s=mimecast20190719; t=1591368995;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wBDV8kCAH2Cg6X+4+4UIcOzTx7aTxCARjiIJBHVEauY=;
- b=aRUYgLZtNX7PZ+S9XJpq5Cv9/3tcfoyqum2EXTeTVfhwJIrGwtukcfhUC/qRN8/D0TEwpx
- TCk6ryZkZsn7xNB1GCOeyMfpm0LM9H30p7BwcAOW6VbmLV/wHz2NvDeaP3EusTt1DRgwNt
- J5ldBCqJ3GKvteyfoItGmz22rYIJ5JY=
+ bh=cwucalj6hK2lz24dh0Q3MNFVkxaEqCo7beSnjy5uqM8=;
+ b=UVT/A9msmtkdLbxFt6UxMmpOl/d21T7rSLfgYYZXqs/OQFP+lN7o+7R7f5dlR42vuTAwnL
+ l3vRQHRi+topHRHuxVkZJVWHKhEx8oZ6mwB4EdHqZsDQA6NNL34G1DnmZWx9IcIABlXyrk
+ bD2BkaTIc/0rBzc1K+CZmqgKPALwtAU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-188-0TfuautKNxWqs6Hh1WRW7Q-1; Fri, 05 Jun 2020 10:56:30 -0400
-X-MC-Unique: 0TfuautKNxWqs6Hh1WRW7Q-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-277-mfcp4aGCN7u_1PWq54HCzg-1; Fri, 05 Jun 2020 10:56:33 -0400
+X-MC-Unique: mfcp4aGCN7u_1PWq54HCzg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 39159EC1AD;
- Fri,  5 Jun 2020 14:56:29 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4C1FAEC1A6;
+ Fri,  5 Jun 2020 14:56:32 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-121.ams2.redhat.com
  [10.36.112.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D39125C583;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F25A410013C0;
  Fri,  5 Jun 2020 14:56:28 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id BCA291138461; Fri,  5 Jun 2020 16:56:25 +0200 (CEST)
+ id CA0FB1138463; Fri,  5 Jun 2020 16:56:25 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 10/16] qdev: Improve netdev property override error a bit
-Date: Fri,  5 Jun 2020 16:56:19 +0200
-Message-Id: <20200605145625.2920920-11-armbru@redhat.com>
+Subject: [PATCH 12/16] qdev: Reject chardev property override
+Date: Fri,  5 Jun 2020 16:56:21 +0200
+Message-Id: <20200605145625.2920920-13-armbru@redhat.com>
 In-Reply-To: <20200605145625.2920920-1-armbru@redhat.com>
 References: <20200605145625.2920920-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/05 03:35:49
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/05 03:40:54
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,142 +81,61 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: kwolf@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
- qemu-block@nongnu.org, Jason Wang <jasowang@redhat.com>, mreitz@redhat.com,
+ qemu-block@nongnu.org, mreitz@redhat.com,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  pbonzini@redhat.com, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-qdev_prop_set_netdev() fails when the property already has a non-null
-value.  Seems to go back to commit 30c367ed44
-"qdev-properties-system.c: Allow vlan or netdev for -device, not
-both", v1.7.0.  Board code doesn't expect failure, and crashes:
+qdev_prop_set_chr() screws up when the property already has a non-null
+value: it neglects to release the old value.  Both the old and the new
+backend become attached to the same device.  Unlike for block devices
+(see previous commit), this can't be observed from the monitor (I
+think).
 
-    $ qemu-system-x86_64 --nodefaults -nic user -netdev user,id=nic0 -global e1000.netdev=nic0
-    Unexpected error in error_set_from_qdev_prop_error() at /work/armbru/qemu/hw/core/qdev-properties.c:1101:
-    qemu-system-x86_64: Property 'e1000.netdev' doesn't take value '__org.qemu.nic0
-    '
+Example: -serial null -chardev null,id=chr0 -global isa-serial.chardev=chr0
+
+Special case: attempting to use the same backend both times crashes:
+
+    $ qemu-system-x86_64 --nodefaults -serial null -global isa-serial.chardev=serial0
+    Unexpected error in qemu_chr_fe_init() at /work/armbru/qemu/chardev/char-fe.c:220:
+    qemu-system-x86_64: Device 'serial0' is in use
     Aborted (core dumped)
 
--device and device_add handle the failure:
+Yet another example: -device with multiple chardev=... (but not
+device_add, which silently drops all but the last duplicate property).
 
-    $ qemu-system-x86_64 -nodefaults -netdev user,id=net0 -netdev user,id=net1 -device e1000,netdev=net0,netdev=net1
-    qemu-system-x86_64: -device e1000,netdev=net0,netdev=net1: Property 'e1000.netdev' doesn't take value 'net1'
-    $ qemu-system-x86_64 -nodefaults -S -display none -monitor stdio -netdev user,id=net0 -netdev user,id=net1 -global e1000.netdev=net0
-    QEMU 5.0.50 monitor - type 'help' for more information
-    (qemu) qemu-system-x86_64: warning: netdev net0 has no peer
-    qemu-system-x86_64: warning: netdev net1 has no peer
-    device_add e1000,netdev=net1
-    Error: Property 'e1000.netdev' doesn't take value 'net1'
+Perhaps chardev property override could be made to work.  Perhaps it
+should.  I can't afford the time to figure this out now.  What I can
+do reject usage that leaves backends in unhealthy states.  For what
+it's worth, we've long done the same for netdev properties.
 
-Perhaps netdev property override could be made to work.  Perhaps it
-should.  I'm not the right guy to figure this out.  What I can do is
-improve the error message a bit:
-
-    (qemu) device_add e1000,netdev=net1
-    Error: -global e1000.netdev=... conflicts with netdev=net1
-
-Cc: Jason Wang <jasowang@redhat.com>
+Cc: Marc-André Lureau <marcandre.lureau@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- include/hw/qdev-properties.h     |  2 ++
- hw/core/qdev-properties-system.c | 30 +++++++++++++++++++++++++++---
- hw/core/qdev-properties.c        | 17 +++++++++++++++++
- 3 files changed, 46 insertions(+), 3 deletions(-)
+ hw/core/qdev-properties-system.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/include/hw/qdev-properties.h b/include/hw/qdev-properties.h
-index f161604fb6..566419f379 100644
---- a/include/hw/qdev-properties.h
-+++ b/include/hw/qdev-properties.h
-@@ -248,6 +248,8 @@ void qdev_prop_set_macaddr(DeviceState *dev, const char *name,
- void qdev_prop_set_enum(DeviceState *dev, const char *name, int value);
- 
- void qdev_prop_register_global(GlobalProperty *prop);
-+const GlobalProperty *qdev_find_global_prop(DeviceState *dev,
-+                                            const char *name);
- int qdev_prop_check_globals(void);
- void qdev_prop_set_globals(DeviceState *dev);
- void error_set_from_qdev_prop_error(Error **errp, int ret, DeviceState *dev,
 diff --git a/hw/core/qdev-properties-system.c b/hw/core/qdev-properties-system.c
-index 9aa80495ee..20fd58e8f9 100644
+index b22255000c..695ebfe8b9 100644
 --- a/hw/core/qdev-properties-system.c
 +++ b/hw/core/qdev-properties-system.c
-@@ -25,6 +25,28 @@
- #include "sysemu/iothread.h"
- #include "sysemu/tpm_backend.h"
- 
-+static bool check_non_null(DeviceState *dev, const char *name,
-+                           const void *old_val, const char *new_val,
-+                           Error **errp)
-+{
-+    const GlobalProperty *prop = qdev_find_global_prop(dev, name);
-+
-+    if (!old_val) {
-+        return true;
-+    }
-+
-+    if (prop) {
-+        error_setg(errp, "-global %s.%s=... conflicts with %s=%s",
-+                   prop->driver, prop->property, name, new_val);
-+    } else {
-+        /* Error message is vague, but a better one would be hard */
-+        error_setg(errp, "%s=%s conflicts, and override is not implemented",
-+                   name, new_val);
-+    }
-+    return false;
-+}
-+
-+
- /* --- drive --- */
- 
- static void get_drive(Object *obj, Visitor *v, const char *name, void *opaque,
-@@ -299,14 +321,16 @@ static void set_netdev(Object *obj, Visitor *v, const char *name,
+@@ -244,6 +244,14 @@ static void set_chr(Object *obj, Visitor *v, const char *name, void *opaque,
+         return;
      }
  
-     for (i = 0; i < queues; i++) {
--
-         if (peers[i]->peer) {
-             err = -EEXIST;
-             goto out;
-         }
- 
--        if (ncs[i]) {
--            err = -EINVAL;
-+        /*
-+         * TODO Should this really be an error?  If no, the old value
-+         * needs to be released before we store the new one.
-+         */
-+        if (!check_non_null(dev, name, ncs[i], str, errp)) {
-             goto out;
-         }
- 
-diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
-index cc924815da..8c8beb56b2 100644
---- a/hw/core/qdev-properties.c
-+++ b/hw/core/qdev-properties.c
-@@ -1181,6 +1181,23 @@ void qdev_prop_register_global(GlobalProperty *prop)
-     g_ptr_array_add(global_props(), prop);
- }
- 
-+const GlobalProperty *qdev_find_global_prop(DeviceState *dev,
-+                                            const char *name)
-+{
-+    GPtrArray *props = global_props();
-+    const GlobalProperty *p;
-+    int i;
-+
-+    for (i = 0; i < props->len; i++) {
-+        p = g_ptr_array_index(props, i);
-+        if (object_dynamic_cast(OBJECT(dev), p->driver)
-+            && !strcmp(p->property, name)) {
-+            return p;
-+        }
++    /*
++     * TODO Should this really be an error?  If no, the old value
++     * needs to be released before we store the new one.
++     */
++    if (!check_non_null(dev, name, be->chr, str, errp)) {
++        return;
 +    }
-+    return NULL;
-+}
 +
- int qdev_prop_check_globals(void)
- {
-     int i, ret = 0;
+     if (!*str) {
+         g_free(str);
+         be->chr = NULL;
 -- 
 2.26.2
 
