@@ -2,67 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC1201EF244
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 09:41:13 +0200 (CEST)
-Received: from localhost ([::1]:50750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFB341EF24D
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 09:43:02 +0200 (CEST)
+Received: from localhost ([::1]:59244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jh6yW-0002ke-PE
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 03:41:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54676)
+	id 1jh70H-0006D1-Um
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 03:43:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jh6xP-0001aX-0A
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 03:40:03 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:35238
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jh6xU-0001g7-Cl
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 03:40:08 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:36016
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jh6xN-0004uE-W6
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 03:40:02 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jh6xT-0004uq-ME
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 03:40:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591342801;
+ s=mimecast20190719; t=1591342806;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=kzQ2XLsOyf4iMsxSVCnnDwKiGVUnP3zEcfX0ALZZdkA=;
- b=ULJYZlGphXLfsnkQZbuzvIXVHmm5KNv1IbaumMN2k2UQTajnrgDPmGznYbLDcoeQOfWMO0
- 1nRqLR+9ggD2hCB57G8AN0hFfHGXB35b3v+jFGCKIHjmSHQIkp4YmLT7v0R4HmSyHLR0fb
- 61PpNatBmLgP6OG0nSp6aN85v0EXlCg=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-298-GFcuZLRzOeKjmRIZ-aWu0Q-1; Fri, 05 Jun 2020 03:39:57 -0400
-X-MC-Unique: GFcuZLRzOeKjmRIZ-aWu0Q-1
-Received: by mail-wm1-f69.google.com with SMTP id p24so2697566wmc.1
- for <qemu-devel@nongnu.org>; Fri, 05 Jun 2020 00:39:57 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ttjV0syfgjbLAzbS9wNPqlHp/5sYrehPP++5NBowujA=;
+ b=hwbXzoITTj8avz3pTq8iIJGwGYux/RyMY/hGwS8WlDq/MSwBCn9TBbnyjY0azSZxp+fHx5
+ Chh9qp6duTPuzBDJNVdOucVBEbWGznVoQPs27iGip4idiwUND4Ny0gPqHL/ncyAyAWsfcG
+ P615iYkW8p6O5jB0MdLSHrn52+iWHuw=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-190-Vkd872U-NzKQS0B_gTVbRQ-1; Fri, 05 Jun 2020 03:40:02 -0400
+X-MC-Unique: Vkd872U-NzKQS0B_gTVbRQ-1
+Received: by mail-wr1-f69.google.com with SMTP id a4so3415209wrp.5
+ for <qemu-devel@nongnu.org>; Fri, 05 Jun 2020 00:40:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=kzQ2XLsOyf4iMsxSVCnnDwKiGVUnP3zEcfX0ALZZdkA=;
- b=MYX+7J1ZAoUIG58YzjUaS+0YcZpwzgI9TU3UTuhKAizffG+JlQlM/2NKgleGlu9fS/
- BGWl2B2x4kAhso57G/u7uC8nBGpFfydTM0GExP5Al/8iOCSsAbLWN56PFo8+P6nhYD/r
- Hs3Lm9aIK03xwxN5MUZseQVHMT+1SsamuZHQ/dzpy6yuxfKlsUz5UAitbeG+UJgMMwug
- sGetj7A2AcHU658GX+5DtLU+/XCsRv3fI9MAS3Zowq1UJpq72/UPNZZ/7QSCE3v1N8y+
- /cJB2oUk7F9kZHWa3EeliXefVNJzGvy4smUkAlaFxkmht19juts+4XdSJhXS5FacT0p6
- /Nzg==
-X-Gm-Message-State: AOAM533zpF+cs7xBOekqNLc0njRKgicN5LYFWd6WiF/k2m0jfWaCJVwN
- ACHL5ooqh8Pei5i9WutT2jnKTyA0a3Ka2lYKCiFYEPl0pj5p0T2dizVmiBGz9OKrAfvdk4kxXrs
- jZYn44TNxPsnpIpE=
-X-Received: by 2002:a5d:6cc1:: with SMTP id c1mr8561593wrc.144.1591342796063; 
- Fri, 05 Jun 2020 00:39:56 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxGjWxNcaK2hn+IikrKebUYVEzflltIdgOdzBeF+BgTfVZv1mjf+Et+h25VD/8r2HzUD3+7pQ==
-X-Received: by 2002:a5d:6cc1:: with SMTP id c1mr8561577wrc.144.1591342795828; 
- Fri, 05 Jun 2020 00:39:55 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=ttjV0syfgjbLAzbS9wNPqlHp/5sYrehPP++5NBowujA=;
+ b=RECun9GwYdRCsrMVI+T50aKTg/e3LoDIdpRsd7jLNmcxNK15IOVEydzQ8ZpCpTP3CK
+ NDOxkYv6qLodr1ypRpPeSmO5hS5fxqDjTat20I8G86fCUm+s9OTuwLwST/U67cyJprSB
+ gRHChY62kBFipSRnNOiaUPPZC6aPkd7AYqoUzJEQWj7EyQPPCrM4Up8bUB+UQH8W+eeI
+ iYdvw7GTg5ykUzk2oYry6KQAJCDvLzMkEZ4ytCZ9ENbQCWuDh6vxMTun9SPWJm7RtE/p
+ +QLF4Pzg9Js+Rw8YC2U1wWdaEwFBOkQcektT2QlXuCNH9zhmwupjrCzHTeV4sXNSVGyq
+ EVJg==
+X-Gm-Message-State: AOAM5313zKJkvK/n0ptCIqDVOHVVMNP4eCW5pd/N9+ujLadUnqphSCPS
+ GQSz5xdfcNWuNIuK+CDE7jPEBxjEgYkfg0CUUR5evgtUGqj82iYF6VtlMcQ6O8iSCXMYRLxFh7u
+ g1scoKrYlySOv1sE=
+X-Received: by 2002:adf:fe07:: with SMTP id n7mr7940254wrr.240.1591342800968; 
+ Fri, 05 Jun 2020 00:40:00 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwSpkqZxtH9GgfG3xxOVwydp/+mRMQL4vPxGRIEfqWwqh90nEhYZvvVmoIHQqSNYHV3+dqDSQ==
+X-Received: by 2002:adf:fe07:: with SMTP id n7mr7940242wrr.240.1591342800825; 
+ Fri, 05 Jun 2020 00:40:00 -0700 (PDT)
 Received: from localhost.localdomain
  (181.red-88-10-103.dynamicip.rima-tde.net. [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id o20sm11512822wra.29.2020.06.05.00.39.54
+ by smtp.gmail.com with ESMTPSA id j5sm10886895wrq.39.2020.06.05.00.39.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Jun 2020 00:39:55 -0700 (PDT)
+ Fri, 05 Jun 2020 00:40:00 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 00/11] accel: Allow targets to use Kconfig
-Date: Fri,  5 Jun 2020 09:39:42 +0200
-Message-Id: <20200605073953.19268-1-philmd@redhat.com>
+Subject: [PATCH v5 01/11] MAINTAINERS: Fix KVM path expansion glob
+Date: Fri,  5 Jun 2020 09:39:43 +0200
+Message-Id: <20200605073953.19268-2-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
+In-Reply-To: <20200605073953.19268-1-philmd@redhat.com>
+References: <20200605073953.19268-1-philmd@redhat.com>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
@@ -92,68 +95,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Missing review:
-- 4/11 rules.mak: Add strequal() and startwith() and rules
-- 5/11 rules.mak: Add base-arch() rule
+The KVM files has been moved from target-ARCH to the target/ARCH/
+folder in commit fcf5ef2a. Fix the pathname expansion.
 
-This series include generic patches I took of the KVM/ARM
-specific series which will follow.
+Fixes: fcf5ef2a ("Move target-* CPU file into a target/ folder")
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ MAINTAINERS | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-- List orphan accelerators in MAINTAINERS
-- Add accel/Kconfig
-- Allow targets to use their how Kconfig
-
-Since v4:
-- Addressed rth review comments in rules.mak
-
-Since v3:
-- Fixed base-arch() rule (rth)
-- Dropped 'semihosting: Make the feature depend of TCG'
-
-Since v2:
-- Addressed Thomas review comments
-- Fixed problem when including TARGET instead of BASE_TARGET
-
-Since v1:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg689024.html
-- Drop HVF MAINTAINERS patch (merged elsewhere)
-- Kconfig-select SEMIHOSTING (bonzini)
-- Drop user-mode selection patches
-- consider m68k/nios2/xtensa/riscv (pm215)
-- reword Kconfig SEMIHOSTING description (pm215)
-- reset some of rth R-b tags
-
-Previous RFC for semihosting posted earlier:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg631218.html
-
-Philippe Mathieu-Daudé (11):
-  MAINTAINERS: Fix KVM path expansion glob
-  MAINTAINERS: Add an 'overall' entry for accelerators
-  MAINTAINERS: Add an entry for the HAX accelerator
-  rules.mak: Add strequal() and startwith() and rules
-  rules.mak: Add base-arch() rule
-  Makefile: Remove dangerous EOL trailing backslash
-  Makefile: Write MINIKCONF variables as one entry per line
-  accel/Kconfig: Extract accel selectors into their own config
-  accel/Kconfig: Add the TCG selector
-  Makefile: Allow target-specific optional Kconfig
-  accel/tcg: Add stub for probe_access()
-
- Makefile               | 15 +++++++++----
- rules.mak              | 49 ++++++++++++++++++++++++++++++++++++++++++
- accel/stubs/tcg-stub.c |  7 ++++++
- Kconfig.host           |  7 ------
- MAINTAINERS            | 19 +++++++++++++++-
- accel/Kconfig          |  9 ++++++++
- 6 files changed, 94 insertions(+), 12 deletions(-)
- create mode 100644 accel/Kconfig
-
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 3e7d9cb0a5..948790b433 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -361,7 +361,7 @@ Overall KVM CPUs
+ M: Paolo Bonzini <pbonzini@redhat.com>
+ L: kvm@vger.kernel.org
+ S: Supported
+-F: */kvm.*
++F: */*/kvm*
+ F: accel/kvm/
+ F: accel/stubs/kvm-stub.c
+ F: include/hw/kvm/
 -- 
 2.21.3
 
