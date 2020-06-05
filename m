@@ -2,73 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 213AD1EFFAD
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 20:10:48 +0200 (CEST)
-Received: from localhost ([::1]:33710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 035D51EFFB9
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 20:12:28 +0200 (CEST)
+Received: from localhost ([::1]:39470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jhGnn-0002f5-6O
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 14:10:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52080)
+	id 1jhGpP-0005K0-4W
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 14:12:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jhGmh-0002Ey-Pi
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 14:09:39 -0400
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:39626)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jhGmg-0002BJ-Of
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 14:09:39 -0400
-Received: by mail-oi1-x242.google.com with SMTP id d67so8986363oig.6
- for <qemu-devel@nongnu.org>; Fri, 05 Jun 2020 11:09:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=q4YC3wO915Po7XSyhexS+l59tp9txAcIDr7ZQ+wB1J4=;
- b=t5gWNuagxzXIfr6kPjDIY36QcowFBI3asGTC2g0FEkv6QH5joWnigxxPyrN4QgMVjS
- ti4EBYRs1EF25Azlp+jnzzVuUY49SgjBvcIFqqOB5VudzsEGHQgcxQfo7nexwA7GwoH6
- towAOyP8kUIiTtia6x1I8aLzu87d6ZnJNk0mbFtUKbWxeV6ZaaWqbzLWtw6UQzktOUfM
- 5LEQZgfnoW11DQDfmR5cGTqU/ncIKcIqG0fkqyOpglGOgqh6RsCkpmABSvBDPTA12+sK
- k0QHzzOHU5jAPF7CX4qkxttq1Dm3Hd87EY/dlkRAlss7JLq16IyEvRMqLYUA8+mpjnFk
- EKEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=q4YC3wO915Po7XSyhexS+l59tp9txAcIDr7ZQ+wB1J4=;
- b=doyvlXNqQOyffur2dIP06fAc6fgdif7jyx4iDu+W78jWPOQFYNI0TZ+6Vt/mYXYHh8
- jc9OTuiZPZjQ+MbSY57y/zMvP8BcTgKfnyH+q8fCGNpSRsZtCb2UeAp3OICls4Vl3IN5
- Eb8zzRaKY7995sxgeweaAvOMW9QggYm42xKRBmlsm3Z7jcTIZ44Zx0Gmk01aOPL4PleX
- JFm+tC2SiRxEwOkkzCqEAyg46quTXM/BWLJ1UP3gyS+J9VzKTKwbZaaGqAE233AiEKHo
- TvVbs7ACh8TodGTsld6bNAQD3uly4ufd1FSZXYMHNemTeZ+6/uK78BfDMGCbzMLF9hmb
- qLQQ==
-X-Gm-Message-State: AOAM533odmSV8hu1wDjvpBx3czcWOEuCAsf5624rnfcwplcA/f8sRiTz
- /NVmIlLH/DxQgNMsk//jPQC5zvDu3fDBOAQJ8jIrTw==
-X-Google-Smtp-Source: ABdhPJyb0HTrsQ7s4TUcgZtKpbOtTxSl4YUcHI2IQDcBD9akwHSwgcrDn5kje0BAFviCnKhsx70gw4m+kPehUVfeilo=
-X-Received: by 2002:aca:5152:: with SMTP id f79mr2587465oib.146.1591380577050; 
- Fri, 05 Jun 2020 11:09:37 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <andrzej.jakowski@linux.intel.com>)
+ id 1jhGnt-0003tl-VS; Fri, 05 Jun 2020 14:10:53 -0400
+Received: from mga07.intel.com ([134.134.136.100]:20704)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <andrzej.jakowski@linux.intel.com>)
+ id 1jhGnt-0002Cu-2B; Fri, 05 Jun 2020 14:10:53 -0400
+IronPort-SDR: 0yB8bz2bQc+QU6D8B8vo7FR6fM00a1cIyfGpAQCRYi8bSMCTkv2hE3YoD//FYjq8jKo/zOY6pM
+ Tp2T4s2hRW0w==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Jun 2020 11:09:49 -0700
+IronPort-SDR: zVIv3vpg18G7WUQjuSoWEguqU0tRAe1aVEwBmHqlHpu4uhCffUa060PnWaGoBppfaFsLOxuM2N
+ 47gliLGp6mAQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,477,1583222400"; d="scan'208";a="258094447"
+Received: from unknown (HELO localhost.ch.intel.com) ([10.2.28.117])
+ by fmsmga007.fm.intel.com with ESMTP; 05 Jun 2020 11:09:48 -0700
+From: Andrzej Jakowski <andrzej.jakowski@linux.intel.com>
+To: kbusch@kernel.org,
+	kwolf@redhat.com,
+	mreitz@redhat.com
+Subject: [PATCH v1] nvme: allow cmb and pmr emulation on same device
+Date: Fri,  5 Jun 2020 11:10:41 -0700
+Message-Id: <20200605181043.28782-1-andrzej.jakowski@linux.intel.com>
+X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
-References: <20200604034513.75103-1-richard.henderson@linaro.org>
- <87bllx4igz.fsf@linaro.org> <535cf85f-96d7-0e98-c69e-c09b976bc251@linaro.org>
-In-Reply-To: <535cf85f-96d7-0e98-c69e-c09b976bc251@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 5 Jun 2020 19:09:26 +0100
-Message-ID: <CAFEAcA88+W6PR2K5rmov7fM9+vyCuWW9u3mxg=61B1r9kYQT2g@mail.gmail.com>
-Subject: Re: [PATCH] configure: Disable -Wtautological-type-limit-compare
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::242;
- envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x242.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=134.134.136.100;
+ envelope-from=andrzej.jakowski@linux.intel.com; helo=mga07.intel.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/05 14:09:49
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9,
+ RCVD_IN_DNSWL_MED=-2.3 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,64 +61,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 5 Jun 2020 at 18:47, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 6/5/20 8:53 AM, Alex Benn=C3=A9e wrote:
-> >> --- a/configure
-> >> +++ b/configure
-> >> @@ -2009,6 +2009,8 @@ gcc_flags=3D"-Wno-missing-include-dirs -Wempty-b=
-ody -Wnested-externs $gcc_flags"
-> >>  gcc_flags=3D"-Wendif-labels -Wno-shift-negative-value $gcc_flags"
-> >>  gcc_flags=3D"-Wno-initializer-overrides -Wexpansion-to-defined $gcc_f=
-lags"
-> >>  gcc_flags=3D"-Wno-string-plus-int -Wno-typedef-redefinition $gcc_flag=
-s"
-> >> +gcc_flags=3D"$gcc_flags -Wno-tautological-type-limit-compare"
-> >> +
-> >
-> > nit: the pattern is reversed compared to the previous lines (foo $gcc_f=
-lags)
->
-> Not a nit.  The -Wno- must follow -Wtype-limit, or -Wtype-limit will turn=
- it
-> back on.
+This patch series does following:
+ - Fixes problem where CMBS bit was not set in controller capabilities
+   register, so support for CMB was not correctly advertised to guest.
+   This is resend of patch that has been submitted and reviewed by
+   Klaus [1]
+ - Introduces BAR4 sharing between MSI-X vectors and CMB. This allows
+   to have CMB and PMR emulated on the same device. This extension
+   was indicated by Keith [2]
 
-If there's an ordering requirement here we should make it clearer,
-or somebody is going to do the obvious "tidying up" at some point
-in the future.
+[1]: https://lore.kernel.org/qemu-devel/20200408055607.g2ii7gwqbnv6cd3w@apples.localdomain/
+[2]: https://lore.kernel.org/qemu-devel/20200330165518.GA8234@redsun51.ssa.fujisawa.hgst.com/
 
-Perhaps this whole set of lines should be rearranged, something like:
-
-# Enable these warnings if the compiler supports them:
-warn_flags=3D"-Wold-style-declaration -Wold-style-definition -Wtype-limits"
-warn_flags=3D"-Wformat-security -Wformat-y2k -Winit-self
--Wignored-qualifiers $warn_flags"
-warn_flags=3D"-Wno-missing-include-dirs -Wempty-body -Wnested-externs $warn=
-_flags"
-warn_flags=3D"-Wendif-labels -Wexpansion-to-defined $warn_flags"
-# Now disable sub-types of warning we don't want but which are
-# enabled by some of the warning flags we do want; these must come
-# later in the compiler command line than the enabling warning options.
-nowarn_flags=3D"-Wno-missing-include-dirs -Wno-shift-negative-value"
-nowarn_flags=3D"-Wno-initializer-overrides $nowarn_flags"
-nowarn_flags=3D"-Wno-string-plus-int -Wno-typedef-redefinition $nowarn_flag=
-s"
-warn_flags=3D"$warn_flags $nowarn_flags"
-
-(is there a nicer shell idiom for creating a variable that's
-a long string of stuff without having over-long lines?)
-
-It's also tempting to pull the handful of warning related
-options currently set directly in QEMU_CFLAGS (-Wall, etc) into
-this same set of variables.
-
-thanks
--- PMM
 
