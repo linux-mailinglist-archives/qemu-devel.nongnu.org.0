@@ -2,81 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A0DE1F02A9
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 23:53:56 +0200 (CEST)
-Received: from localhost ([::1]:44396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF6CA1F02AC
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 23:57:13 +0200 (CEST)
+Received: from localhost ([::1]:51128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jhKHi-0004ZB-BM
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 17:53:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50488)
+	id 1jhKKu-0007YR-QG
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 17:57:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50794)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jhKGI-0003EK-A2
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 17:52:26 -0400
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:33923)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jhKGH-0003iC-CY
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 17:52:26 -0400
-Received: by mail-pf1-x442.google.com with SMTP id z64so5587062pfb.1
- for <qemu-devel@nongnu.org>; Fri, 05 Jun 2020 14:52:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=zSLKXy5JsOmswRxzlrqRo9GPBriTWrISrI1Ld+8RN4E=;
- b=e4taX+HGmoQCAXlkq9+CGPtxB1wZpfKYrsShB+egZhzKBdUVjfIIlrB7F5YAIaxtU8
- R1dw8kqurn82vcH0SHk/Q0UkD625vrLjcPFeSHVgNT+FnBXCF8GLVPPpIU8I/ZFF6SvI
- SbCWNFkGdAkdH8Q39R5dKV3hTj4thlR887l2VohgzsYBsWXwMJeP5C4v5HlKw4I5LN/Y
- 1BsQZcl7WXryQq17Qcd/FfbRgw2vnobpUEb7XO0WLMt1P7d2gLd9LChGSBRz558X5PWQ
- Uku4/sURSrq0oaaKOxqs4FdRB+RY3Z0ErUm/VBE18/uqaq6dIP3l1ZffIfBKot19KYPG
- oVog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=zSLKXy5JsOmswRxzlrqRo9GPBriTWrISrI1Ld+8RN4E=;
- b=P3fYOX1+YsA/NpsC1I9H8xNoCJPaBQkqr6NHpYgNarbXug7upN2MH42X5RjJ0Kh2Uc
- 4aT5IC3fUtvkIOhXJ84u5SkSFq9TeVyvFNT6CnZvEVtiEvkePCn1zGafWPPvxY575sWS
- oSIxVvu3n+yQq8krN1Hj8r/ELkdpjjwknDk9aAadSR1oSK3wpObp9uqfVNQ6dykEgcHd
- aMI8RTTzWijcQMw6RDs+jk9RktsDM3sAS1orTIILL8NRzOwQMdNFiVd4EslPgWlO4BmR
- UtzyRtShRflrxaXCDMHnhRW9GH2+izdiUHCEeB/739zCSLFq09rKgdN8oA/sffb/M4P1
- iVZQ==
-X-Gm-Message-State: AOAM531IU4ITMIY/IZRaJ7IJcmUnVIbKsiJ8idVa+033az4TR1YfwuTx
- X4URVJPKfmlFLBCCrkASa2m6fHTPHUA=
-X-Google-Smtp-Source: ABdhPJwiEIi2AePoCuh4h0syP4gI9Asz62sT5oUbGWzq94tUis+ksbxqFdpKTkm9T6mLIt1goydf1g==
-X-Received: by 2002:a65:40c3:: with SMTP id u3mr11628989pgp.305.1591393944160; 
- Fri, 05 Jun 2020 14:52:24 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id i10sm403317pgq.36.2020.06.05.14.52.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 Jun 2020 14:52:23 -0700 (PDT)
-Subject: Re: [PATCH v7 06/11] Makefile: Remove dangerous EOL trailing backslash
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20200605175821.20926-1-philmd@redhat.com>
- <20200605175821.20926-7-philmd@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <ba1d8528-c7c9-c66e-79c1-8ca0431eb02f@linaro.org>
-Date: Fri, 5 Jun 2020 14:52:21 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jhKIn-0006BD-DA
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 17:55:01 -0400
+Resent-Date: Fri, 05 Jun 2020 17:55:01 -0400
+Resent-Message-Id: <E1jhKIn-0006BD-DA@lists.gnu.org>
+Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21776)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jhKIl-00044y-GE
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 17:55:00 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1591394086; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=beO2pELw0hiTujNnim9Br3zbgNfidhKBtBk/yNc9w4h/4/HWfEqK7+3Fo/AQsolxbF1nS5+Hx+9OTSr9NlbNNaFFXnb2gvn86oHXnW4E0tkLENB6FQqvZVTnxaNrEPwHysMEpmObQQso4hwV6IQBwfvb1Pd7nhQFN+RGOPJiBHQ=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1591394086;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=HH3P+Ed2GiftF8bi6rK3JYELNS5QsPYkfVVKhhlTfRQ=; 
+ b=ILxcOOyZQEaKFX1W8sF72m9MhC9nAhNf86yQuVz+MluCY4vEvlKVwIHJFZc8u39zh3WvzLB7MbjgHDxsYs9Okg2nPpFF7wq3pV+A7bp3djNWygmDLBPFPQGKzF9X8AXvED98hEtdBgI1O2Y9DTK+Jv6Je+tQtfdmD1gyjwY+piM=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1591394085133982.622363862526;
+ Fri, 5 Jun 2020 14:54:45 -0700 (PDT)
+Message-ID: <159139408374.19958.6107322213398196074@45ef0f9c86ae>
+In-Reply-To: <20200605175028.5626-1-alxndr@bu.edu>
+Subject: Re: [PATCH v2] fuzz: add oss-fuzz build.sh script
 MIME-Version: 1.0
-In-Reply-To: <20200605175821.20926-7-philmd@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::442;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x442.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: alxndr@bu.edu
+Date: Fri, 5 Jun 2020 14:54:45 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o57.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/05 16:47:30
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,27 +69,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Richard Henderson <rth@twiddle.net>
+Reply-To: qemu-devel@nongnu.org
+Cc: darren.kenny@oracle.com, qemu-devel@nongnu.org, f4bug@amsat.org,
+ alxndr@bu.edu, bsd@redhat.com, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/5/20 10:58 AM, Philippe Mathieu-Daudé wrote:
-> One might get caught trying to understand unexpected Makefile
-> behavior. Trailing backslash can help to split very long lines,
-> but are rather dangerous when nothing follow. Preserve other
-> developers debugging time by removing this one.
-> 
-> Reviewed-by: Thomas Huth <thuth@redhat.com>
-> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
->  Makefile | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-r~
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDYwNTE3NTAyOC41NjI2
+LTEtYWx4bmRyQGJ1LmVkdS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBoYXZlIHNvbWUg
+Y29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3JlIGluZm9ybWF0
+aW9uOgoKTWVzc2FnZS1pZDogMjAyMDA2MDUxNzUwMjguNTYyNi0xLWFseG5kckBidS5lZHUKU3Vi
+amVjdDogW1BBVENIIHYyXSBmdXp6OiBhZGQgb3NzLWZ1enogYnVpbGQuc2ggc2NyaXB0ClR5cGU6
+IHNlcmllcwoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBh
+cnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJl
+bmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25m
+aWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gu
+cGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KClVwZGF0aW5nIDNj
+OGNmNWE5YzIxZmY4NzgyMTY0ZDFkZWY3ZjQ0YmQ4ODg3MTMzODQKU3dpdGNoZWQgdG8gYSBuZXcg
+YnJhbmNoICd0ZXN0JwpjOWFkYTY3IGZ1eno6IGFkZCBvc3MtZnV6eiBidWlsZC5zaCBzY3JpcHQK
+Cj09PSBPVVRQVVQgQkVHSU4gPT09CldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZp
+bGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzE2OiAKbmV3IGZpbGUgbW9k
+ZSAxMDA3NTUKCkVSUk9SOiB0cmFpbGluZyB3aGl0ZXNwYWNlCiM0OTogRklMRTogc2NyaXB0cy9v
+c3MtZnV6ei9idWlsZC5zaDoyOToKK2ZvciBpIGluICQobGRkIC4vaTM4Ni1zb2Z0bW11L3FlbXUt
+ZnV6ei1pMzg2ICB8IGN1dCAtZjMgLWQnICcpOyBkbyAkCgp0b3RhbDogMSBlcnJvcnMsIDEgd2Fy
+bmluZ3MsIDUwIGxpbmVzIGNoZWNrZWQKCkNvbW1pdCBjOWFkYTY3MzgzMjUgKGZ1eno6IGFkZCBv
+c3MtZnV6eiBidWlsZC5zaCBzY3JpcHQpIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmll
+dy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhl
+bSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCj09PSBP
+VVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUgZnVs
+bCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjAwNjA1MTc1
+MDI4LjU2MjYtMS1hbHhuZHJAYnUuZWR1L3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1tZXNzYWdl
+LgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9w
+YXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxA
+cmVkaGF0LmNvbQ==
 
