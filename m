@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B4421EF6CE
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 13:52:19 +0200 (CEST)
-Received: from localhost ([::1]:49050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFB8E1EF6D6
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 13:53:40 +0200 (CEST)
+Received: from localhost ([::1]:55376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jhAtW-0008V7-FF
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 07:52:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54856)
+	id 1jhAup-0002cu-VM
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 07:53:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jhAok-0008Jl-2Y
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jhAom-0008KF-Oi
  for qemu-devel@nongnu.org; Fri, 05 Jun 2020 07:47:24 -0400
-Received: from mout.kundenserver.de ([212.227.17.24]:42855)
+Received: from mout.kundenserver.de ([217.72.192.73]:37489)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jhAoi-0006lQ-G0
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 07:47:21 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jhAok-0006m9-PW
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 07:47:23 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MdNHa-1j872y2HYG-00ZLOh; Fri, 05 Jun 2020 13:47:16 +0200
+ id 1MfZ9C-1j1VLZ0R8y-00fx6N; Fri, 05 Jun 2020 13:47:17 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 18/19] hw/core: Restrict CpuClass::get_crash_info() to
- system-mode
-Date: Fri,  5 Jun 2020 13:46:59 +0200
-Message-Id: <20200605114700.1052050-19-laurent@vivier.eu>
+Subject: [PULL 19/19] stubs: Restrict ui/win32-kbd-hook to system-mode
+Date: Fri,  5 Jun 2020 13:47:00 +0200
+Message-Id: <20200605114700.1052050-20-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200605114700.1052050-1-laurent@vivier.eu>
 References: <20200605114700.1052050-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:XKi7JayfZ4bIxgyCevFuE8LkpS48h36jMCNo6wIMbki2NLRjQ2e
- dEhXtm19lPVfUII39nWqvzWoGn2OzFqyPz64x/LuiaLrcoOYvKVrA1uNcCG4iUwwrOWncHH
- 6cBON7M8HLr0VKcH9T7MHz8qCAXGRAB3A9fNBuOMyS4Mc8qh5iTtmw+isyyN3276giA1VUV
- dfaH6afLBiYZEDp16kd8A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:xLyV42TbOaI=:zqSL0zpqLVK7m/z+HwG2hX
- lCBVKG8EYGAVN8wpMz8zuU54SYApinSxyq8+lyWcwhGPxIwGwmYAl/bRQ7d9XWr1+DM94n0Yh
- j5nhxg38EfxI07kr5ySKy9jOz0RLDrj8yyo+iLm2dJMOh0vdTAAATGQBNV+rq1xUrJTrRM33t
- PWm6o0RJLXpCW1G+vmP2mqfw79CTQEP38jBh1zkb09LWEOJoHqWVHmKxlT4EIap5Bd0uUqEX3
- 1oehMPQtY4JQYSyUnZryDqWj7VK6I6d//kn9W2L9mMhZHUE1AUFEZbrPc72mLv/1EISPkRyf7
- RqpBpoeeU8acqP+qQhBn84Wn6EHabZ8f2a8tdNvZNsK1RKqpJtlOQfQAZOQg7F8fJu16rWH/g
- qxv6ECMXLue9BkJmXwQrhKaBmLd0aLcmFTAc0YP8yfM4Wm94dljLqyzgw5AWuT/T2NtDRZkLY
- C0XMmX1NFHOYPldaCuK/YdMk6TvSOc7SUWEjt2YQ1D2OYvjdyhYW4OlhYC89Xr7pt9o9n3Aly
- gf9fStXAl59tNFClpmsaVjI0j1nABhtuvHlLvs386QRLKpM9pwgjLcZX4kT7RdRuN8Mf+rsm6
- bR1ff1h6s8OqrHZ/swVIDhD4Uztu9WtlvWLTg0VcDiRCfLyRx+DKG7SL6G0USkBOY7BriW/nN
- L04JJU8aJDKF+ROMzx9y8c4wdTXZLiYBo7teAVzpOWxzBL6gX/EIGPO8tLw36m70Gb896ldGG
- uu4uycxQykZA/GhdG+vbBd1uPb3evcQyqT/UvBplBAiSx8+gbzaPQ/VinYwI9xhDhVBsrPNq9
- VWhvgZUFIxGG6k/By/18fbcTvoujgNyeLqoPBKdCvzyCJH4yl9LsQdoFTeRQCE51bAMYLWU
-Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:RDG/fE4AoCovIdc/3QlTJBWThUPJnw6Nd9aJkQsgHQsFGNUGLuo
+ 3u02hH14ToPlsB2/0y0URZxD6ngsiG7qoq+WN/KKhYYWJnvUgyi+2nzMswc+6XS4UiTnFBG
+ cWNBWl9pBkaX7u62IgdtAVXJGEtn17aDwfkdF9vE1QUZJPiTVx97S5sTm3eAXEj8QrX3lTo
+ ArfWAZMbMlfF4LNbrmFRA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:OBvJW1pq640=:ZpDjUr/qHEPshW578NxROF
+ TtRTQN5hXfKu/sVJpKxj4quBaM4Goco02NIg10knSMkDcEiETOxii6PpUOcDRfRE1c09R+X6C
+ qc6j4lyN59W5Jdfg1RE9/Nh8ihdVCwD/JqeR4lgquPyN8cgFGl8YFjEIpE6DgkOZHMetN3rpu
+ hw1sQ4UCIAiz8IM4LwFedS6/PqzsOy1UTMIWN7wqeB9W4qLdsUdEoabsF3CiU2sHWfkn41eVk
+ nORWNcqZXjZ8syT62ny+it1IUC8RH8Pp5beM/nWocO4L07fzx6YqUwxWQctZTYMj0JgpKYMy3
+ nKbbQAFAr3d84jqPmbaNDwmghyWziBaq0LjrgSY5bCsiM456B2f8RMlVYVYIJvVxlX5t3K3gG
+ tCA+5cqHYYzicXNvvGBtyGC3fimhqMTtNbm+TFGMS/nb+TFVwv0Gry4DsWWCKk2lIJrCXbkv5
+ j4QVqTOJ4RMJRSvf26KdlHdPaSd9ZwYm6gPVe+JCEdccx0sON1pQc/q2T0Lwm5o1kuemjSqiH
+ ZhMUhX5i57za+PCmXFtXyR8dJq0/ZFAiVl73N9Ew5W2HMkfmOAxGdHJyJ8Hg2rbTLlVki6Nhd
+ xUF0FjOh9u593neT6GmnxvBUuJAOp82XXtq9U33saeHwQZx1BUFZd2tUaEvNXO73yQ6iCFeIw
+ DDE69MWubxYw7k68aoMhDXxg6K2MlX59XrVd69XGs9dpdjH1cQLDD+L2WnorDqTxiMR+iDc9I
+ zk11X4AUW24lmTon87U7obkLit3kCI51lls8gL48RNgZHqs5JZpORAlpkJCRsJ8VbwoYtm3rg
+ 0xx4Eu877bTrDAkvr9r0AQMbkVacrnYyk6mH1s3WlVKQxj5OVICH/h2IOrsSGy0O+darXDf
+Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/05 07:47:04
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/05 07:27:03
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -79,69 +78,39 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Tested-by: Laurent Vivier <laurent@vivier.eu>
+In Makefile.objs, the ui/ directory is restricted to system-mode:
+
+ 43 ifeq ($(CONFIG_SOFTMMU),y)
+ ...
+ 65 common-obj-y += ui/
+ 66 common-obj-m += ui/
+ ...
+ 82 endif # CONFIG_SOFTMMU
+
+Restrict the ui/ stub added in commit 2df9f5718df to only build
+it for system-mode emulation.
+
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200522172510.25784-13-philmd@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20200522172510.25784-14-philmd@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/core/cpu.c         | 2 ++
- include/hw/core/cpu.h | 7 ++++++-
- 2 files changed, 8 insertions(+), 1 deletion(-)
+ stubs/Makefile.objs | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/core/cpu.c b/hw/core/cpu.c
-index 5284d384fb6b..f31ec48ee61e 100644
---- a/hw/core/cpu.c
-+++ b/hw/core/cpu.c
-@@ -209,6 +209,7 @@ static bool cpu_common_exec_interrupt(CPUState *cpu, int int_req)
-     return false;
- }
+diff --git a/stubs/Makefile.objs b/stubs/Makefile.objs
+index f54125de317d..c1e43ac68f87 100644
+--- a/stubs/Makefile.objs
++++ b/stubs/Makefile.objs
+@@ -23,7 +23,7 @@ stub-obj-y += sysbus.o
+ stub-obj-y += tpm.o
+ stub-obj-y += trace-control.o
+ stub-obj-y += vmstate.o
+-stub-obj-y += win32-kbd-hook.o
++stub-obj-$(CONFIG_SOFTMMU) += win32-kbd-hook.o
  
-+#if !defined(CONFIG_USER_ONLY)
- GuestPanicInformation *cpu_get_crash_info(CPUState *cpu)
- {
-     CPUClass *cc = CPU_GET_CLASS(cpu);
-@@ -219,6 +220,7 @@ GuestPanicInformation *cpu_get_crash_info(CPUState *cpu)
-     }
-     return res;
- }
-+#endif
- 
- void cpu_dump_state(CPUState *cpu, FILE *f, int flags)
- {
-diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index 07f769815502..497600c49efa 100644
---- a/include/hw/core/cpu.h
-+++ b/include/hw/core/cpu.h
-@@ -490,6 +490,8 @@ bool cpu_paging_enabled(const CPUState *cpu);
- void cpu_get_memory_mapping(CPUState *cpu, MemoryMappingList *list,
-                             Error **errp);
- 
-+#if !defined(CONFIG_USER_ONLY)
-+
- /**
-  * cpu_write_elf64_note:
-  * @f: pointer to a function that writes memory to a file
-@@ -539,6 +541,8 @@ int cpu_write_elf32_qemunote(WriteCoreDumpFunction f, CPUState *cpu,
-  */
- GuestPanicInformation *cpu_get_crash_info(CPUState *cpu);
- 
-+#endif /* !CONFIG_USER_ONLY */
-+
- /**
-  * CPUDumpFlags:
-  * @CPU_DUMP_CODE:
-@@ -632,7 +636,8 @@ static inline int cpu_asidx_from_attrs(CPUState *cpu, MemTxAttrs attrs)
-     }
-     return ret;
- }
--#endif
-+
-+#endif /* CONFIG_USER_ONLY */
- 
- /**
-  * cpu_list_add:
+ #######################################################################
+ # code used by both qemu system emulation and qemu-img
 -- 
 2.26.2
 
