@@ -2,84 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3A791EF553
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 12:28:28 +0200 (CEST)
-Received: from localhost ([::1]:49156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D2BD1EF571
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 12:32:18 +0200 (CEST)
+Received: from localhost ([::1]:59834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jh9aN-0004MY-Sk
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 06:28:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45234)
+	id 1jh9e5-0000eF-CS
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 06:32:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44986)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jh9X8-0008SO-B5
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 06:25:06 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:45287)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jh9X5-0006ps-HJ
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 06:25:05 -0400
-Received: by mail-wr1-x444.google.com with SMTP id c3so9159766wru.12
- for <qemu-devel@nongnu.org>; Fri, 05 Jun 2020 03:25:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=3FD/zOHKmvX65oEOsFJTgPzFn5yTKCVq+fGQN8ygRsg=;
- b=Z/kS8PMkvCWdTxTzDifIoFhCMN/oyRYjDFNlVgpWdjK+lKE4BoGsH2HmbqC3Z11dFa
- eqesTwmsUe8VBKMGsxbrzD0BbdGF+32VT2niKtKcCLDXcK8P5YpzWWBeQpACn1sdBEVK
- 4mRck4z3pnC7Z+jnSR1iIopxDAdS4jrNRoUNl7v63mi2pfcn0Krvq1Ned8qCymMEdRRq
- 35Cd+LBHRxIOtlJYb6+kd3gkYQ4k0W2411Ig7CaHob9kvDoLU/hTavMbJ4k0vQ1Z9sG1
- 3UoyCGfqVcc+bL5kiKzxc08akDLpkTpDEtiUnAsIbNX59MXurLP4hKW/gZ8/Cnddrd18
- pHzg==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jh9VW-0004Tf-0g
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 06:23:26 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:44248
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jh9VT-0006ZZ-Th
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 06:23:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1591352603;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Gw1xw+LMpEmzRwp28aIuZw9IW5+ls2uZgRvm0cZFybM=;
+ b=frcI9FZwI+VQieHx7pWpMN+K9IrE3s9rTCHVTnXwNHtw5bw2Y9iSAWnc5DfCJvu8bULvme
+ 7+03SpK3IxQ4EABzJ8MdUEsNXY6r0ORPzVTdDCyYTRfQujeoqEepAbZAT35IX05hTz1/XP
+ oVx3WUp1hrXXy0dJf70JWNu1e07wkzw=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-134-xe56vpd0ONW8d0jHvz_18w-1; Fri, 05 Jun 2020 06:23:21 -0400
+X-MC-Unique: xe56vpd0ONW8d0jHvz_18w-1
+Received: by mail-wr1-f70.google.com with SMTP id j16so3564878wre.22
+ for <qemu-devel@nongnu.org>; Fri, 05 Jun 2020 03:23:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=3FD/zOHKmvX65oEOsFJTgPzFn5yTKCVq+fGQN8ygRsg=;
- b=Q9UFkZCEgqtlXDbY75WWNQvc3NUmhdBNOYDaOuPAdZ5n8A1QFo1Zx5n8lE3P7zWvoV
- S6ZSK4mTPKqFcCfJJZTKUi5T3QDLo7WhYbybkMUeZWPeeidtnfXnenNAIfX70RiAeoo9
- AKgNMjiwbQmHNV9ExHwivUb7ievM39/gz8YS0UYDfh2Wwe3nolAHvPYjdujyQkjutdLu
- y0vUgsXvTkf9ZhjFWpdCxnec9BGljaFMHaRPYRD9zVLbezS/JX1Vk3ciawze09LSh9z6
- Rx2rVQbkFGqHnTIuhOm5Ks/aVccS3vspE5dqiYVRIOnfC26OOxFg7ZDz1iMsuOpxuBfq
- l4eA==
-X-Gm-Message-State: AOAM531PQpALHdVCU3GMp7yEub9bLcGZlcCaacyO6cr4myWfXFolYRbc
- JBG/qT7rm9QxoNYhqOtALiKHTw==
-X-Google-Smtp-Source: ABdhPJx4FseI/kyqICyRgpEW0CFGwUWGXbdFDFhZGsa+TovM4XuSvO0YwRkKc1svh7k8o0wb0pVRlw==
-X-Received: by 2002:adf:bb4f:: with SMTP id x15mr8499930wrg.332.1591352701224; 
- Fri, 05 Jun 2020 03:25:01 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id u4sm11422002wmb.48.2020.06.05.03.24.59
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=Gw1xw+LMpEmzRwp28aIuZw9IW5+ls2uZgRvm0cZFybM=;
+ b=Gk9PTY+UR+y+fzGznDUfQenHVdlteOnUHwXaKhAZN3j214Rn6B7qEbjyemidoz5ktE
+ Rh99EoKkk7J7FoGc3uMXyDWywXKtLAj73kSRYNNN0tMTdn64SCTilZr9StrZ9hanrSWY
+ +2nGsz+/wbjXNow75WeMWd5YnlwOWaiCxq4AyEAnKeAgvni3k2GRJ62iWovkWL9Y2mo1
+ xvkmGNY5bn+jjU3pZVoqQk/npXD09Vxy+aFR5ntDrq3gye3+dMVtv/heot/KSSYmjD9z
+ zvAcQZ0wJUkphDMNfHGf8zsUDqs0jDp/fCMSn3kpn06fGqZk4J5k1eSky0/Trfyd8N+C
+ t6iQ==
+X-Gm-Message-State: AOAM532fivpTjwy5zzUVDV47UiRzTXkTnbmySZADKQm8g78RrdB6brSd
+ VLgNMrsJLt+ffCND14uQ/a1ItbQXc9LltgziYM4bEJZ5GFcX1X7c5GPhBBjsfvgPw8mVNgaxkql
+ Pa2gyS7tQECyfj9Y=
+X-Received: by 2002:a5d:4245:: with SMTP id s5mr8916871wrr.6.1591352600292;
+ Fri, 05 Jun 2020 03:23:20 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxHl4l4ZA1cP1cNZ19vVlA/aHSUlfwTwzKv0NYQRaZ9rTd/r32G0Q6YN8HBj8LQEbgJuaMZ5g==
+X-Received: by 2002:a5d:4245:: with SMTP id s5mr8916856wrr.6.1591352600113;
+ Fri, 05 Jun 2020 03:23:20 -0700 (PDT)
+Received: from localhost.localdomain
+ (181.red-88-10-103.dynamicip.rima-tde.net. [88.10.103.181])
+ by smtp.gmail.com with ESMTPSA id 138sm11300924wma.23.2020.06.05.03.23.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Jun 2020 03:24:59 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 155BD1FF7E;
- Fri,  5 Jun 2020 11:24:59 +0100 (BST)
-References: <20200527100546.29297-1-alex.bennee@linaro.org>
- <20200527100546.29297-3-alex.bennee@linaro.org>
- <355ff6ba-ed8a-bc1e-4b74-c87a532e47bd@linaro.org>
- <87tuzp4zhx.fsf@linaro.org>
-User-agent: mu4e 1.5.1; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v1 2/3] linux-user: deal with address wrap for
- ARM_COMMPAGE on 32 bit
-In-reply-to: <87tuzp4zhx.fsf@linaro.org>
-Date: Fri, 05 Jun 2020 11:24:59 +0100
-Message-ID: <87k10l4xok.fsf@linaro.org>
+ Fri, 05 Jun 2020 03:23:19 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 10/11] hw/sd/sdcard: Display offset in read/write_data()
+ trace events
+Date: Fri,  5 Jun 2020 12:22:29 +0200
+Message-Id: <20200605102230.21493-11-philmd@redhat.com>
+X-Mailer: git-send-email 2.21.3
+In-Reply-To: <20200605102230.21493-1-philmd@redhat.com>
+References: <20200605102230.21493-1-philmd@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x444.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8;
+	text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/05 03:27:26
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,67 +96,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Bug 1880225 <1880225@bugs.launchpad.net>, Riku Voipio <riku.voipio@iki.fi>,
- qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>, qemu-arm@nongnu.org
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
+Having 'base address' and 'relative offset' displayed
+separately is more helpful than the absolute address.
 
-> Richard Henderson <richard.henderson@linaro.org> writes:
->
->> On 5/27/20 3:05 AM, Alex Benn=C3=A9e wrote:
->>> @@ -2145,7 +2145,7 @@ static uintptr_t pgd_find_hole_fallback(uintptr_t=
- guest_size, uintptr_t brk, lon
->>>=20=20
->>>  /* Return value for guest_base, or -1 if no hole found. */
->>>  static uintptr_t pgb_find_hole(uintptr_t guest_loaddr, uintptr_t guest=
-_size,
->>> -                               long align)
->>> +                               long align, uintptr_t offset)
->>>  {
->>>      GSList *maps, *iter;
->>>      uintptr_t this_start, this_end, next_start, brk;
->>> @@ -2171,7 +2171,7 @@ static uintptr_t pgb_find_hole(uintptr_t guest_lo=
-addr, uintptr_t guest_size,
->>>=20=20
->>>          this_end =3D ((MapInfo *)iter->data)->start;
->>>          next_start =3D ((MapInfo *)iter->data)->end;
->>> -        align_start =3D ROUND_UP(this_start, align);
->>> +        align_start =3D ROUND_UP(this_start + offset, align);
->>>=20=20
->>>          /* Skip holes that are too small. */
->>
->> I suppose offset is supposed to mean we start from -offset?
->
-> Well guest_base will start higher meaning we have space for the
-> commpage beneath it.
->
->> You didn't update
->> pgb_find_hole_fallback.
->
-> Fixed.
->
->>
->>> -            loaddr =3D ARM_COMMPAGE & -align;
->>> +            offset =3D (128 * KiB);
->>
->> Why 128K?  Surely this should be an expression against ARM_COMMPAGE.
->
-> In theory:
->
->             offset =3D -(ARM_COMMPAGE & -align);
->
-> should do the trick but I found it failed every now and again.
-> Frustratingly putting printfs in made it go away so in frustration I
-> just upped the offset until it stopped happening.
->
-> I do kinda wish rr worked on i386 :-/
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ hw/sd/sd.c         | 8 ++++----
+ hw/sd/trace-events | 4 ++--
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
-Ahh all I needed was a MAP_FIXED for init_commpage
+diff --git a/hw/sd/sd.c b/hw/sd/sd.c
+index fad34ab184..a1b25ed36f 100644
+--- a/hw/sd/sd.c
++++ b/hw/sd/sd.c
+@@ -1824,8 +1824,8 @@ void sd_write_data(SDState *sd, uint8_t value)
+         return;
+ 
+     trace_sdcard_write_data(sd->proto_name,
+-                            sd_current_cmd_name(sd),
+-                            sd->current_cmd, value);
++                            sd_current_cmd_name(sd), sd->current_cmd,
++                            sd->data_start, sd->data_offset, value);
+     switch (sd->current_cmd) {
+     case 24:	/* CMD24:  WRITE_SINGLE_BLOCK */
+         sd->data[sd->data_offset ++] = value;
+@@ -1978,8 +1978,8 @@ uint8_t sd_read_data(SDState *sd)
+     io_len = (sd->ocr & (1 << 30)) ? 512 : sd->blk_len;
+ 
+     trace_sdcard_read_data(sd->proto_name,
+-                           sd_current_cmd_name(sd),
+-                           sd->current_cmd, io_len);
++                           sd_current_cmd_name(sd), sd->current_cmd,
++                           sd->data_start, sd->data_offset, io_len);
+     switch (sd->current_cmd) {
+     case 6:	/* CMD6:   SWITCH_FUNCTION */
+         ret = sd->data[sd->data_offset ++];
+diff --git a/hw/sd/trace-events b/hw/sd/trace-events
+index f892c05867..1529ad4c6d 100644
+--- a/hw/sd/trace-events
++++ b/hw/sd/trace-events
+@@ -51,8 +51,8 @@ sdcard_lock(void) ""
+ sdcard_unlock(void) ""
+ sdcard_read_block(uint64_t addr, uint32_t len) "addr 0x%" PRIx64 " size 0x%x"
+ sdcard_write_block(uint64_t addr, uint32_t len) "addr 0x%" PRIx64 " size 0x%x"
+-sdcard_write_data(const char *proto, const char *cmd_desc, uint8_t cmd, uint8_t value) "%s %20s/ CMD%02d value 0x%02x"
+-sdcard_read_data(const char *proto, const char *cmd_desc, uint8_t cmd, size_t length) "%s %20s/ CMD%02d len %zu"
++sdcard_write_data(const char *proto, const char *cmd_desc, uint8_t cmd, uint64_t address, uint32_t offset, uint8_t value) "%s %20s/ CMD%02d addr 0x%" PRIx64 " ofs 0x%" PRIx32 " val 0x%02x"
++sdcard_read_data(const char *proto, const char *cmd_desc, uint8_t cmd, uint64_t address, uint32_t offset, size_t length) "%s %20s/ CMD%02d addr 0x%" PRIx64 " ofs 0x%" PRIx32 " len %zu"
+ sdcard_set_voltage(uint16_t millivolts) "%u mV"
+ 
+ # milkymist-memcard.c
+-- 
+2.21.3
 
---=20
-Alex Benn=C3=A9e
 
