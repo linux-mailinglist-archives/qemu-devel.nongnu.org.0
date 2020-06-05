@@ -2,104 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 978781EF26F
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 09:49:11 +0200 (CEST)
-Received: from localhost ([::1]:57566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAEFB1EF271
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 09:50:24 +0200 (CEST)
+Received: from localhost ([::1]:33736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jh76E-0000iQ-MU
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 03:49:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54944)
+	id 1jh77P-0002XH-V0
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 03:50:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55138)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jh6za-0005qk-7D
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 03:42:18 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:33769
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jh72Z-0004I0-RW
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 03:45:23 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:38388
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jh6zV-00060A-8H
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 03:42:17 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jh72Y-0006Zb-Ke
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 03:45:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591342932;
+ s=mimecast20190719; t=1591343121;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=BjxyQplq0cq5ZVoWHTlMCaFVq2Lgyv4uaqDCPg0/OHQ=;
- b=gOkuYbjSbreV6GbNfweygtpXIoWN7FLe4Q9ojCEQYanJKrq0st1eACb2jjDXNedPuu9a8x
- XmtTsk14CnxY6nUkwVuLd4dQ8WcvarzMQR2TorTleC3mTViUsroWYPy+myAX0c4ONBKDHJ
- ZyOSXSjCRRhx1+GBWPaGuH6m7kmoCLM=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-191-8M9GWfvXOvmv6KsY9ckijg-1; Fri, 05 Jun 2020 03:42:11 -0400
-X-MC-Unique: 8M9GWfvXOvmv6KsY9ckijg-1
-Received: by mail-wm1-f70.google.com with SMTP id l26so2697161wmh.3
- for <qemu-devel@nongnu.org>; Fri, 05 Jun 2020 00:42:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=BjxyQplq0cq5ZVoWHTlMCaFVq2Lgyv4uaqDCPg0/OHQ=;
- b=MrLJYUL6lgtl1AqtKbqhT+Fqkbxs1WjzRf0FHjQN+0djQS/hwc0MAVhFmoZ6EUordu
- 4UQMGC3sjdlQPWtKAQKsQ+FD62m+YGITY0zOvgSVPhKowpDRmpcoX2oWhQztRmI5STpU
- ofCC8MXUByYOZlyU8rMWJ2dqDINVA9Ph+cLu3DX/46CZjuQlCaCKiEIjIfUA/Euor144
- XaM/u4BtDoVWPucxP4+gwqO2YUCLJiexO0m4BhR7sa96HKeIzXVAehINBNGyX2O42r2g
- Sj5COnlAFxmnXVgfC1uPbSqrZe5kq6MiYnEcFWPgvcLF7qUXKHBfyVJ3LnA/u0cVmoxf
- 7XOw==
-X-Gm-Message-State: AOAM530ZS5iIanBO6LEL67BbB0gdbr6XWusratAJzmOD65+iydU4XoKl
- SZPOWVxHe2uOkHJ3L9lgDy/Qz0229cBl42KQnkeROzp6pE/WabTccm+AcIBvNdTbCuuLgmMbNBW
- G3qU56M162syWtu4=
-X-Received: by 2002:adf:e84c:: with SMTP id d12mr8066898wrn.284.1591342929753; 
- Fri, 05 Jun 2020 00:42:09 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwMX+PnPHQQMHa8340EmjTn2Qkob+ESxZV4k5MFhvbI6p419tkE2wsvGl9Zuao8ppiMcrrSog==
-X-Received: by 2002:adf:e84c:: with SMTP id d12mr8066886wrn.284.1591342929530; 
- Fri, 05 Jun 2020 00:42:09 -0700 (PDT)
-Received: from [192.168.1.43] (181.red-88-10-103.dynamicip.rima-tde.net.
- [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id u7sm11203799wrm.23.2020.06.05.00.42.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 Jun 2020 00:42:09 -0700 (PDT)
-Subject: Re: [PATCH v5 04/11] rules.mak: Add strequal() and startwith() and
- rules
-To: qemu-devel@nongnu.org
+ bh=FCSIwk38/JwwJK5cnOf5jtW+S6MTQyS3zESBE7AVE1g=;
+ b=JD1/l/Ji/E2iAu/lrQG/1ZaAc9g85CMsBKaX9zVN1ZDYu9DYaPXSSbsUhfle4vhEoRrUhs
+ pcf0v4xM3PKCLB84AF5iY/16b/Gb7Lg/Dn60uoxLDV2S27VCHm3nKJe0jt0PYHlb/jaiA9
+ mTj9ITrgrrnvDVngOy5arf9aUBKIGUw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-129-rlmNPmmzO3Op4sbPbWu0Ww-1; Fri, 05 Jun 2020 03:45:18 -0400
+X-MC-Unique: rlmNPmmzO3Op4sbPbWu0Ww-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DC5B3800685;
+ Fri,  5 Jun 2020 07:45:16 +0000 (UTC)
+Received: from [10.36.114.72] (ovpn-114-72.ams2.redhat.com [10.36.114.72])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 219CA10013D2;
+ Fri,  5 Jun 2020 07:45:14 +0000 (UTC)
+Subject: Re: [PATCH v5 11/11] accel/tcg: Add stub for probe_access()
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
 References: <20200605073953.19268-1-philmd@redhat.com>
- <20200605073953.19268-5-philmd@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <c9d8b7dd-9c3f-a21a-aa82-c2346efb3474@redhat.com>
-Date: Fri, 5 Jun 2020 09:42:07 +0200
+ <20200605073953.19268-12-philmd@redhat.com>
+From: David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Organization: Red Hat GmbH
+Message-ID: <59a0262c-5080-e8f1-cdac-c0a2e7387b8b@redhat.com>
+Date: Fri, 5 Jun 2020 09:45:14 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200605073953.19268-5-philmd@redhat.com>
+In-Reply-To: <20200605073953.19268-12-philmd@redhat.com>
 Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=david@redhat.com;
  helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/05 03:07:04
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -122,49 +126,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ "Emilio G . Cota" <cota@braap.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Err extra 'and' in patch subject, should be:
-"rules.mak: Add strequal() and startwith() rules"
-
-I can respin the whole if it is easier for the maintainer.
-
-On 6/5/20 9:39 AM, Philippe Mathieu-Daudé wrote:
-> Add a rule to test if two strings are equal,
-> and another to test if a string starts with a substring,
+On 05.06.20 09:39, Philippe Mathieu-Daudé wrote:
+> From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> The TCG helpers where added in b92e5a22ec3 in softmmu_template.h.
+> probe_write() was added in there in 3b4afc9e75a to be moved out
+> to accel/tcg/cputlb.c in 3b08f0a9254, and was later refactored
+> as probe_access() in c25c283df0f.
+> Since it is a TCG specific helper, add a stub to avoid failures
+> when building without TCG, such:
+> 
+>   target/arm/helper.o: In function `probe_read':
+>   include/exec/exec-all.h:362: undefined reference to `probe_access'
+> 
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->  rules.mak | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
+> Cc: Richard Henderson <rth@twiddle.net>
+> Cc: Emilio G. Cota <cota@braap.org>
+> Cc: Alex Bennée <alex.bennee@linaro.org>
+> Cc: David Hildenbrand <david@redhat.com>
+> ---
+>  accel/stubs/tcg-stub.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
 > 
-> diff --git a/rules.mak b/rules.mak
-> index 694865b63e..ccc1c49604 100644
-> --- a/rules.mak
-> +++ b/rules.mak
-> @@ -191,6 +191,20 @@ ne = $(if $(subst $2,,$1)$(subst $1,,$2),y,n)
->  isempty = $(if $1,n,y)
->  notempty = $(if $1,y,n)
->  
-> +# strequal
-> +# Usage: $(call strequal, str1, str2)
-> +#
-> +# This macro returns a string (TRUE) when @str1 and @str2
-> +# are equal, else returns the empty string (FALSE)
-> +strequal = $(if $(subst $2,,$1)$(subst $1,,$2),,$1)
+> diff --git a/accel/stubs/tcg-stub.c b/accel/stubs/tcg-stub.c
+> index 677191a69c..e4bbf997aa 100644
+> --- a/accel/stubs/tcg-stub.c
+> +++ b/accel/stubs/tcg-stub.c
+> @@ -22,3 +22,10 @@ void tb_flush(CPUState *cpu)
+>  void tlb_set_dirty(CPUState *cpu, target_ulong vaddr)
+>  {
+>  }
 > +
-> +# startwith
-> +# Usage: $(call startwith, startstr, fullstr)
-> +#
-> +# This macro returns a string (TRUE) when @fullstr starts with
-> +# @startstr, else returns the empty string (FALSE)
-> +startwith = $(findstring :$1,:$2)
-> +
->  # Generate files with tracetool
->  TRACETOOL=$(PYTHON) $(SRC_PATH)/scripts/tracetool.py
->  
+> +void *probe_access(CPUArchState *env, target_ulong addr, int size,
+> +                   MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
+> +{
+> +     /* Handled by hardware accelerator. */
+> +     g_assert_not_reached();
+> +}
 > 
+
+Reviewed-by: David Hildenbrand <david@redhat.com>
+
+-- 
+Thanks,
+
+David / dhildenb
 
 
