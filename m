@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60B301EFF90
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 20:01:49 +0200 (CEST)
-Received: from localhost ([::1]:39460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2176F1EFF97
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 20:04:01 +0200 (CEST)
+Received: from localhost ([::1]:45844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jhGf6-0000J8-CJ
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 14:01:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50630)
+	id 1jhGhE-0003NX-6e
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 14:04:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jhGcC-00059i-A3
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 13:58:48 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:49154)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jhGcR-0005XM-MF
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 13:59:03 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:24125
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jhGcB-0000Ag-IK
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 13:58:48 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jhGcQ-0000Qi-HQ
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 13:59:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591379926;
+ s=mimecast20190719; t=1591379938;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=F4y5IQpGf/GV4LRRYiibUWruxkZPEhl4TqSSBLgIauk=;
- b=EL/SwIkwxW2YSlmVtG65NOhS/war7h5dyD6cfTgr/9guWNRHbSh7n32ObzRn9Dfb4u/bEv
- V0nx2487Xz6q7iFocSK1oDAA/JvsxocaUPYMrFMeVYgk3aUPtS4wqSrB0nM91MrEaJYMK3
- irNdPjTCnzlMTvwS+s54BP8XWGS12Yo=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-7-4kn5lVqfNz2JeRrA9yEd_g-1; Fri, 05 Jun 2020 13:58:45 -0400
-X-MC-Unique: 4kn5lVqfNz2JeRrA9yEd_g-1
-Received: by mail-wr1-f71.google.com with SMTP id f4so4069036wrp.21
- for <qemu-devel@nongnu.org>; Fri, 05 Jun 2020 10:58:45 -0700 (PDT)
+ bh=ndqFgBanjliYTdRp8N1sk+p/cY4owVogsc0x0ibf8Jw=;
+ b=AkcvFWB9MDj22uyzEJ+sxnbd9COoydaVpRXTqg4oLlBOOHd3ngoRXIRHgsz1ciIKEszudH
+ xmkwCF/cbhlEAu+CNAnoVhzbWEI5sLDgfwAr+RImqfbTPJSh3HhocKlZ+IqOailgQ/WIgP
+ SiIKhYXVxhQTz1Jx58wfqG+Fbb047iQ=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-303-XeVe_NVEMZuBXmNNaxjq2Q-1; Fri, 05 Jun 2020 13:58:55 -0400
+X-MC-Unique: XeVe_NVEMZuBXmNNaxjq2Q-1
+Received: by mail-wr1-f72.google.com with SMTP id z10so4099986wrs.2
+ for <qemu-devel@nongnu.org>; Fri, 05 Jun 2020 10:58:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=F4y5IQpGf/GV4LRRYiibUWruxkZPEhl4TqSSBLgIauk=;
- b=Z2Dxq5uKCIG7brtjPgqYf808Evu56EVSXW+9A5XGSW10v0Ff3l5cn/H6GJe4fb1YX5
- c0YfwJdm2LRsbB9r4UrvFTtT8AVuvg6geCULkQZ8LvX7SZh9mQS0XjMFsE/h8NB5Aqwm
- eoQY0qYNqm9ueNd5iiJzphijmpOOhmvAk/Cv8VLdHMuoILckhh+HvHuBDDVNx+Zf9JmB
- fbyH0bbfQDLwGfwl5Be0hocUnGFdx3Qs46Z+B1/aIla16V1gnu7ZysxGJ0WWwN3hmCK1
- mA+SdAF3NguuUIEP5MvJjudAZcB+Cvk8kTWAu4zl/1cHN51CjZbjlWXv/aHQ/UGRYJQV
- Foew==
-X-Gm-Message-State: AOAM531d1zC4jePu2KVcGqlKqdW32ZyDDHBNTJL7+gCnZvMeccici4Sc
- asp2pA9hEjmxDT0gtERNkpooYD1DyNIB3lxIy5v2YfPHzRiQqP4S8ncHdolyqIJI4G6/fFdgqcE
- c8AnU1U3oZuorihY=
-X-Received: by 2002:a5d:4204:: with SMTP id n4mr11439313wrq.247.1591379924140; 
- Fri, 05 Jun 2020 10:58:44 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz19FKuiuhZYJMF69Sb6ErmxI2bf7pEgOLXO1prxo62z+iTRkR48+IN2dIotDRzT669b1dwjw==
-X-Received: by 2002:a5d:4204:: with SMTP id n4mr11439299wrq.247.1591379923931; 
- Fri, 05 Jun 2020 10:58:43 -0700 (PDT)
+ bh=ndqFgBanjliYTdRp8N1sk+p/cY4owVogsc0x0ibf8Jw=;
+ b=kMWQnlpwkdNtjSNUI74vkcgA4hKL65HUxuE2dKvAqQI30NDqjNa6WX+kqBykDJw/QX
+ JYx+QOFkUOYb4a2jnc4HkfVf/fq2FSDPvOPxBbfhaAmMeEUD5V4ijh4mL5jw8FUl5QhY
+ ytRbRXFHt5nDj8b0AV2rpSREsUJ0rV96eGPfkre4PJvUSfyKM4t0DIUz36bYebD5WA29
+ y4+ngW0FJf73H1zZiLC+kxNDVTVootinwdOyAPN/ZU8M5XKNsYYDWbu+VER30xnROXuM
+ rfCpjMhE2cROakMChmNf45vJueLpibcd6CWcuQBEQspww6c5ZyEgPI0imZLdi8RCSVbP
+ VfPA==
+X-Gm-Message-State: AOAM531wXoh0e0Nxtz8bd5AnMvA1+HKXtRYcgdKjLsp9lPbj9bY55dPR
+ /Vz4hrrm9TdX7kRl3n+mJr83mqMPXP69FWem7rEvvsiLrma21cmmOe9Gk94byAnAtrG+jcCQkYs
+ D9x1zY/1oVHwZ+7o=
+X-Received: by 2002:a1c:22c1:: with SMTP id i184mr3696233wmi.187.1591379934251; 
+ Fri, 05 Jun 2020 10:58:54 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyphP3tvbKKjEqWCzPTuvVGfKyROiWnVNNYKxVcCCKIEFG3CTmiH1lJ1C8ZTX/tgVrThyhyBA==
+X-Received: by 2002:a1c:22c1:: with SMTP id i184mr3696224wmi.187.1591379934068; 
+ Fri, 05 Jun 2020 10:58:54 -0700 (PDT)
 Received: from localhost.localdomain
  (181.red-88-10-103.dynamicip.rima-tde.net. [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id v19sm11918990wml.26.2020.06.05.10.58.42
+ by smtp.gmail.com with ESMTPSA id j4sm12763041wma.7.2020.06.05.10.58.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Jun 2020 10:58:43 -0700 (PDT)
+ Fri, 05 Jun 2020 10:58:53 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 04/11] rules.mak: Add strequal() and startswith() rules
-Date: Fri,  5 Jun 2020 19:58:14 +0200
-Message-Id: <20200605175821.20926-5-philmd@redhat.com>
+Subject: [PATCH v7 06/11] Makefile: Remove dangerous EOL trailing backslash
+Date: Fri,  5 Jun 2020 19:58:16 +0200
+Message-Id: <20200605175821.20926-7-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200605175821.20926-1-philmd@redhat.com>
 References: <20200605175821.20926-1-philmd@redhat.com>
@@ -72,7 +73,7 @@ Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
+ helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/05 03:40:54
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
@@ -94,45 +95,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
  Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a rule to test if two strings are equal,
-and another to test if a string starts with a substring.
+One might get caught trying to understand unexpected Makefile
+behavior. Trailing backslash can help to split very long lines,
+but are rather dangerous when nothing follow. Preserve other
+developers debugging time by removing this one.
 
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- rules.mak | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/rules.mak b/rules.mak
-index 694865b63e..7b58a6b8c5 100644
---- a/rules.mak
-+++ b/rules.mak
-@@ -191,6 +191,20 @@ ne = $(if $(subst $2,,$1)$(subst $1,,$2),y,n)
- isempty = $(if $1,n,y)
- notempty = $(if $1,y,n)
+diff --git a/Makefile b/Makefile
+index 40e4f7677b..6c9d718b2c 100644
+--- a/Makefile
++++ b/Makefile
+@@ -420,7 +420,7 @@ MINIKCONF_ARGS = \
  
-+# strequal
-+# Usage: $(call strequal, str1, str2)
-+#
-+# This macro returns a string (TRUE) when @str1 and @str2
-+# are equal, else returns the empty string (FALSE)
-+strequal = $(if $(subst $2,,$1)$(subst $1,,$2),,$1)
-+
-+# startswith
-+# Usage: $(call startswith, startstr, fullstr)
-+#
-+# This macro returns a string (TRUE) when @fullstr starts with
-+# @startstr, else returns the empty string (FALSE)
-+startswith = $(findstring :$1,:$2)
-+
- # Generate files with tracetool
- TRACETOOL=$(PYTHON) $(SRC_PATH)/scripts/tracetool.py
+ MINIKCONF_INPUTS = $(SRC_PATH)/Kconfig.host $(SRC_PATH)/hw/Kconfig
+ MINIKCONF_DEPS = $(MINIKCONF_INPUTS) $(wildcard $(SRC_PATH)/hw/*/Kconfig)
+-MINIKCONF = $(PYTHON) $(SRC_PATH)/scripts/minikconf.py \
++MINIKCONF = $(PYTHON) $(SRC_PATH)/scripts/minikconf.py
  
+ $(SUBDIR_DEVICES_MAK): %/config-devices.mak: default-configs/%.mak $(MINIKCONF_DEPS) $(BUILD_DIR)/config-host.mak
+ 	$(call quiet-command, $(MINIKCONF) $(MINIKCONF_ARGS) > $@.tmp, "GEN", "$@.tmp")
 -- 
 2.21.3
 
