@@ -2,75 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 719F01EFD17
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 17:58:08 +0200 (CEST)
-Received: from localhost ([::1]:48320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 947501EFD2D
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 18:02:42 +0200 (CEST)
+Received: from localhost ([::1]:34234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jhEjP-0000sh-Hj
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 11:58:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58966)
+	id 1jhEno-0007Eq-VT
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 12:02:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jhEgI-0003wJ-UY
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 11:54:54 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:53293
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jhEgH-0004zQ-Go
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 11:54:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591372492;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VNA5BbRTwuJTsiVfhGA1Txb8W4yr50sFIpeSyUwMq6Y=;
- b=if3DQ27YgxZqXqw6RKIcbhQ8YXDDKd5UWLQn5VfYn6SAKWaLX4joUuXGpt0/IL0VgWAEu3
- 7AukHMnvLoPbjOS6TclPPaNrzMGqHKhonimX+356pQJVIUk4JYbCwDL7Vh0/a78hxbT/0D
- OhxXAd3JBTMdaG/5lqZ2VD/Ob5u8npU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-264-xr5F5JkFNdmb7YkCSJQ1yg-1; Fri, 05 Jun 2020 11:54:46 -0400
-X-MC-Unique: xr5F5JkFNdmb7YkCSJQ1yg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F79B107ACCA;
- Fri,  5 Jun 2020 15:54:45 +0000 (UTC)
-Received: from [10.3.113.22] (ovpn-113-22.phx2.redhat.com [10.3.113.22])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0969460BE2;
- Fri,  5 Jun 2020 15:54:44 +0000 (UTC)
-Subject: Re: [PATCH v1 00/14] various fixes for next PR (testing, vhost,
- guest_base fixes)
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20200605154929.26910-1-alex.bennee@linaro.org>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <80fa6131-51c1-eed5-f2a6-54ae60e71539@redhat.com>
-Date: Fri, 5 Jun 2020 10:54:44 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
-MIME-Version: 1.0
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jhEbT-0004DA-W4
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 11:49:56 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:46948)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jhEbS-0004Mu-R6
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 11:49:55 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id x6so10204776wrm.13
+ for <qemu-devel@nongnu.org>; Fri, 05 Jun 2020 08:49:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=tLxHap7xM5B8vl55s/tokESX8SHGpSJI34kzmwiZhNU=;
+ b=LOYNYH9I2iKw6nNgNjysiPqxByYjJnVAklQZ6pniu5QtKxa6nNkZmnGf66FP97i7/7
+ zcyIfKAaGXy0QCyPeVbqOyv3yAlf6ah4lP1nUiVeR73dJ+akwuBds+mtDqu4OQt916ff
+ 9dCEZi+qsed2c+acVXEP3gaC2BVWNFBNuI6K9hxBdp8hc+G022G7tNNmNCJPjH5a68Sq
+ J5yWMu/QuC7LYhDukiQfUZ6Rpej6HNEhwkuQUWCRbnMOgMIObG6IVtOVtMnT1ccJG2lr
+ yowDlWU9PKagobQ84hypwcT6cPLxnDrR+bUEpNqB77Ci+HQny/XETFqOZx8z0pLJNSib
+ 9Csw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=tLxHap7xM5B8vl55s/tokESX8SHGpSJI34kzmwiZhNU=;
+ b=cYmlC0n4dY7G/zzxFufO5gKwEmKwufPgsurq6guTox9DHlyIUNz1ckrR5ET4zf8B5h
+ bsjnMd08955zYZ8041ZB8JvTstbGvCA9mKRUMJSepSt84vN+JaaxauAQAJMhFb1X//cV
+ 1Ran0IEMsgewGcahzMhM6GND0rZzQdjQq4uWaPiO/0cuaEwLgAztrQr+ct22tXW8wmsW
+ 3DCP5sUGcG/sinMK/CFeE9F9+8khTGIPA+bq8PmiZwRvm117nXKoen73PP7Nr1EPdug2
+ wV1Qd8ijqAuF/CdIeFBjmRM/W4RqmmM793O+eM+mchA22RBVymn/v94mFKfrIUvCOn9u
+ 1Adg==
+X-Gm-Message-State: AOAM530V8THt0ehM3+HhRbXceF60nKtipxcc5uCC9QU/L6Ob7ODGEPON
+ 3IbgILaxZwJrVa4lsMhrIBAy0A==
+X-Google-Smtp-Source: ABdhPJxQZCsCHdPLUTntlu4UTpWg13bfaN2mpV37smMuocOB9/N49k0wfq/mNNc5z+7kdAMeTQzDtw==
+X-Received: by 2002:adf:fe07:: with SMTP id n7mr9911921wrr.240.1591372193368; 
+ Fri, 05 Jun 2020 08:49:53 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id j5sm12397481wrq.39.2020.06.05.08.49.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 05 Jun 2020 08:49:50 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id B67EE1FF93;
+ Fri,  5 Jun 2020 16:49:29 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v1 07/14] iotests: 194: wait migration completion on target too
+Date: Fri,  5 Jun 2020 16:49:22 +0100
+Message-Id: <20200605154929.26910-8-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200605154929.26910-1-alex.bennee@linaro.org>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+References: <20200605154929.26910-1-alex.bennee@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=eblake@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/05 03:27:26
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,46 +88,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "open list:Block layer core" <qemu-block@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/5/20 10:49 AM, Alex Bennée wrote:
-> Hi,
-> 
-> These are all the patches I've currently got which are ready for a
-> pull request next week. I've included some patches which are destined
-> to go in via other trees so I can keep the testing green on the CI.
-> 
-> In summary:
-> 
->   Some simple plugin cleanups (the reset remain in plugins/next)
->   Reliability fixes for travis/shippable
->   iotest 194 fix (going in via block tree?)
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-I've got that one queued for a PR Monday with some typo fixes included.
+It is possible, that shutdown on target occurs earlier than migration
+finish. In this case we crash in bdrv_release_dirty_bitmap_locked()
+on assertion "assert(!bdrv_dirty_bitmap_busy(bitmap));" as we do have
+busy bitmap, as bitmap migration is ongoing.
 
->   docker updates (ubuntu and tricore fix)
->   vhost-user and TCG fix
->   more linux-user guest_base fixes
-> 
-> I'll certainly include the testing stuff in my PR but if others are
-> happy for me to include bits touching their areas then shout and I'll
-> include them in the PR.
-> 
-> The following need review:
-> 
->   - linux-user: detect overflow of MAP_FIXED mmap
->   - linux-user: deal with address wrap for ARM_COMMPAGE on 32 bit
->   - linux-user: provide fallback pgd_find_hole for bare chroots
->   - tests/docker: fix pre-requisite for debian-tricore-cross
->   - hw/virtio/vhost: re-factor vhost-section and allow DIRTY_MEMORY_CODE
->   - .shippable: temporaily disable some cross builds
->   - exec: flush the whole TLB if a watchpoint crosses a page boundary
-> 
+We'll fix bitmap migration to gracefully cancel on early shutdown soon.
+Now let's fix iotest 194 to wait migration completion before shutdown.
 
+Note that in this test dest_vm.shutdown() is called implicitly, as vms
+used as context-providers, see __exit__() method of QEMUMachine class.
+
+Actually, not waiting migration finish is a wrong thing, but the test
+started to crash after commit ae00aa239847682
+"iotests: 194: test also migration of dirty bitmap", which added dirty
+bitmaps here. So, Fixes: tag won't hurt.
+
+Fixes: ae00aa2398476824f0eca80461da215e7cdc1c3b
+Reported-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Tested-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20200604083341.26978-1-vsementsov@virtuozzo.com>
+---
+ tests/qemu-iotests/194     | 10 ++++++++++
+ tests/qemu-iotests/194.out |  5 +++++
+ 2 files changed, 15 insertions(+)
+
+diff --git a/tests/qemu-iotests/194 b/tests/qemu-iotests/194
+index 3fad7c6c1ab..6dc2bc94d7e 100755
+--- a/tests/qemu-iotests/194
++++ b/tests/qemu-iotests/194
+@@ -87,4 +87,14 @@ with iotests.FilePath('source.img') as source_img_path, \
+             iotests.log(dest_vm.qmp('nbd-server-stop'))
+             break
+ 
++    iotests.log('Wait migration completion on target...')
++    migr_events = (('MIGRATION', {'data': {'status': 'completed'}}),
++                   ('MIGRATION', {'data': {'status': 'failed'}}))
++    event = dest_vm.events_wait(migr_events)
++    iotests.log(event, filters=[iotests.filter_qmp_event])
++
++    iotests.log('Check bitmaps on source:')
+     iotests.log(source_vm.qmp('query-block')['return'][0]['dirty-bitmaps'])
++
++    iotests.log('Check bitmaps on target:')
++    iotests.log(dest_vm.qmp('query-block')['return'][0]['dirty-bitmaps'])
+diff --git a/tests/qemu-iotests/194.out b/tests/qemu-iotests/194.out
+index dd60dcc14f1..f70cf7610e0 100644
+--- a/tests/qemu-iotests/194.out
++++ b/tests/qemu-iotests/194.out
+@@ -21,4 +21,9 @@ Gracefully ending the `drive-mirror` job on source...
+ {"data": {"device": "mirror-job0", "len": 1073741824, "offset": 1073741824, "speed": 0, "type": "mirror"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
+ Stopping the NBD server on destination...
+ {"return": {}}
++Wait migration completion on target...
++{"data": {"status": "completed"}, "event": "MIGRATION", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
++Check bitmaps on source:
++[{"busy": false, "count": 0, "granularity": 65536, "name": "bitmap0", "persistent": false, "recording": true, "status": "active"}]
++Check bitmaps on target:
+ [{"busy": false, "count": 0, "granularity": 65536, "name": "bitmap0", "persistent": false, "recording": true, "status": "active"}]
 -- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+2.20.1
 
 
