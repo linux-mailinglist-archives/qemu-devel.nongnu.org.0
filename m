@@ -2,87 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B1C21EFFDF
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 20:27:54 +0200 (CEST)
-Received: from localhost ([::1]:52228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FB731F0012
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 20:46:47 +0200 (CEST)
+Received: from localhost ([::1]:33972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jhH4L-0004G3-Dl
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 14:27:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54314)
+	id 1jhHMc-0002K0-8h
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 14:46:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jhH3Z-0003Aa-DH
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 14:27:05 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:37248)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jhHLc-0001tv-La
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 14:45:44 -0400
+Received: from indium.canonical.com ([91.189.90.7]:48810)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jhH3Y-0006lh-Pk
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 14:27:05 -0400
-Received: by mail-wm1-x343.google.com with SMTP id y20so2293490wmi.2
- for <qemu-devel@nongnu.org>; Fri, 05 Jun 2020 11:27:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=bTTh4EO+d/slPGFZnFe5fOHEsNGvl1Yatl7sm9mgRlk=;
- b=MyayfARcwnlywzdIIYYIN+m1L1/O09iZ9oG/5P3iBfnBSyl2K+cnCNYzxEUcLvl2Kl
- uPoWk3ny17IZ6Qv/OPDgVan9MDbMo9B6EqnPW44NaRprICGvv/EoJJuMREb2Xm4kFB/e
- pYCZom3/OwRwOQUrK9eDgEhoFIhhJVfLUdwSxaPu1eMsOMGZwhCWZSaFGBStR8MPUu7i
- HobnLzaLFI9JsBtYyAyKD5/TeThwfuqPVWVxFeJMWxDKqEOU3LkxSAkkRNCwRo0hyzJE
- D730mPTs5tO9js2sDtg3J3CYcI3uHwS06qFW+iBSIqAx5l1DRa+aT2bBLxftbsQpNHQw
- 6LXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=bTTh4EO+d/slPGFZnFe5fOHEsNGvl1Yatl7sm9mgRlk=;
- b=hsJ/jRyY8d46kHcM83F4y8odOf5aQ77ftIY6F2kYAVNqxcE61A6wi4iXLUEdLznrru
- wLSmfO/y42nKWw9ZN4i3+3GjjzkvE1odhu2zaZrKmMaBd7y67xPsZr6DI5rsLREk0KG7
- CyVnVX1uZCpvG1qy4Vm2MdmUKymvqgzLeIMf2Wd1R0geYF+akVXKhhpQcvGdkWPtdu4G
- jGek5G2XRrE68sHnGK46UlE7Ft20ujyeGCoEnEYdmN4EopvFjmhww4Amc6GuIGpWGZHi
- XUvRSs6hvqZ/7ki6b2JRMZpYJCxDjGicAvSl2qG+cpMR3snoPJwcvvkHXjqgpTPMyl4P
- fzOA==
-X-Gm-Message-State: AOAM533DZf3l/Vi/0pPpfL2slh5hZ4c9Eh5diQvZJ3QbU8zH6gkCbsNq
- H5hjrEDkJAq7p1h9yHmdAPk=
-X-Google-Smtp-Source: ABdhPJx+0oCChnAmo5XsZVczxokYaGrl9wSRIS2zFoxK6ytoD8zqGYnz1HPdbbAhniaUOG/GOzgtBg==
-X-Received: by 2002:a1c:3dd6:: with SMTP id k205mr3896711wma.87.1591381623125; 
- Fri, 05 Jun 2020 11:27:03 -0700 (PDT)
-Received: from [192.168.1.43] (181.red-88-10-103.dynamicip.rima-tde.net.
- [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id a14sm13693265wrv.20.2020.06.05.11.27.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 Jun 2020 11:27:02 -0700 (PDT)
-Subject: Re: [PATCH v2] fuzz: add oss-fuzz build.sh script
-To: Darren Kenny <darren.kenny@oracle.com>, Alexander Bulekov
- <alxndr@bu.edu>, qemu-devel@nongnu.org
-References: <20200605175028.5626-1-alxndr@bu.edu> <m2a71hv1gf.fsf@oracle.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <c2153590-e318-d232-e3fd-9a8028484762@amsat.org>
-Date: Fri, 5 Jun 2020 20:27:01 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jhHLb-0001z0-Mc
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 14:45:44 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jhHLZ-0000zT-K1
+ for <qemu-devel@nongnu.org>; Fri, 05 Jun 2020 18:45:41 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 94EC92E810A
+ for <qemu-devel@nongnu.org>; Fri,  5 Jun 2020 18:45:41 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <m2a71hv1gf.fsf@oracle.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 05 Jun 2020 18:38:43 -0000
+From: Roman Bolshakov <1827005@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: hvf
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: cuser2
+X-Launchpad-Bug-Reporter: Chen Zhang (cuser2)
+X-Launchpad-Bug-Modifier: Roman Bolshakov (roolebo)
+References: <155660771706.7289.11621855018434071577.malonedeb@chaenomeles.canonical.com>
+Message-Id: <159138232442.8765.368189202357349332.launchpad@wampee.canonical.com>
+Subject: [Bug 1827005] Re: hvf: ubuntu iso boot menu issue
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="ef9fc486e875d54078fa61cf91e898b895125d89";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 115aef9e1464e86442a88d62aad963eded19d3ed
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/05 14:45:41
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -91,39 +73,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: bsd@redhat.com, stefanha@redhat.com
+Reply-To: Bug 1827005 <1827005@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/5/20 7:58 PM, Darren Kenny wrote:
-> Hi Alex,
-> 
-> From looking at another OSS Fuzz project recently (a coincidence) I
-> wonder if we could make this script work so that it can be run outside
-> of the OSS-Fuzz environment?
+** Tags added: hvf
 
-Yes, we want to have this feature to reproduce/debug what oss-fuzz does.
+-- =
 
-> 
-> Specifically, for example, if $OUT is not set, then creating a subdir in
-> the build directory, and setting it to be that.
-> 
-> Similarly for some other things like $LIB_FUZZING_ENGINE?
-> 
-> I'm just thinking that it might help someone that is not familiar with
-> OSS-Fuzz to validate that the script still works without having to go
-> through setting up the containers, etc that would be required to
-> validate it.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1827005
 
-Exactly.
+Title:
+  hvf: ubuntu iso boot menu issue
 
-> 
-> Also, I would definitely recommend running ShellCheck against any script
-> to ensure that you're catching any mistakes that can so easily be put in
-> to shell scripts - speaking from experience here ;)
-> 
-> Thanks,
-> 
-> Darren.
-[...]
+Status in QEMU:
+  New
+
+Bug description:
+  With hvf acceleration on macOS, ubuntu server installation ISO boot
+  language menu shows fractured images.
+
+  To reproduce the issue:
+  ./x86_64-softmmu/qemu-system-x86_64 -m 800 -accel hvf -cdrom ~/ubuntu-16.=
+04.4-server-amd64.iso
+
+  Control:
+  ./x86_64-softmmu/qemu-system-x86_64 -m 800 -accel tcg -cdrom ~/ubuntu-16.=
+04.4-server-amd64.iso
+
+  Host: macOS Mojave 10.14.3
+  Guest: Ubuntu Server 16.04.4 ISO
+  QEMU: version 3.1.94 (v4.0.0-rc4)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1827005/+subscriptions
 
