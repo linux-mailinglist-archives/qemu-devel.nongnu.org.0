@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 369901EF6DE
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 13:56:14 +0200 (CEST)
-Received: from localhost ([::1]:40112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B022A1EF6E0
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 13:56:52 +0200 (CEST)
+Received: from localhost ([::1]:42178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jhAxJ-0008Lj-9o
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 07:56:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54888)
+	id 1jhAxv-0000kx-PA
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 07:56:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54894)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jhAoo-0008PT-RJ
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 07:47:26 -0400
-Received: from mout.kundenserver.de ([217.72.192.75]:58701)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jhAop-0008QG-LW
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 07:47:33 -0400
+Received: from mout.kundenserver.de ([217.72.192.73]:51925)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jhAon-0006mt-Rp
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 07:47:26 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jhAoo-0006n3-P3
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 07:47:27 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MadC8-1j5NE316hG-00c5UL; Fri, 05 Jun 2020 13:47:13 +0200
+ id 1MwPjf-1irxjw3h4v-00sOFW; Fri, 05 Jun 2020 13:47:14 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 14/19] exec: Assert CPU migration is not used on user-only build
-Date: Fri,  5 Jun 2020 13:46:55 +0200
-Message-Id: <20200605114700.1052050-15-laurent@vivier.eu>
+Subject: [PULL 15/19] arch_init: Remove unused 'qapi-commands-misc.h' include
+Date: Fri,  5 Jun 2020 13:46:56 +0200
+Message-Id: <20200605114700.1052050-16-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200605114700.1052050-1-laurent@vivier.eu>
 References: <20200605114700.1052050-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:VrTqMWubQsnZzaCalmzqi/8tWUxzEeChJ88aV28Bmryu8UD1IEt
- 6NLRMZP0XifqQboRqdz58fOUPJ/SEfSaW7FlPsTfaawp38sKvneqDCv6y1Q9JzjWrGuvOja
- CMyS/692yoFBrxyGn9wjHNKxb6lyOXWlsP5ek2fCvTcvVlffYp+S335bzBkz26GuFevlKpR
- oK6nZrGuNSPDQxSSgvQcw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:6zSDkmd6TR0=:hCwsosLIEsNMDOPlPmrNj9
- t0QrJ3W3UONvuau15X5GsokmbxExyzoDVJ/K1fzLJcRJIst6OCxSJh66IGAWeuz9crYymCUdt
- iRSsrExSs9JpxSGFGo/WxvFGaLxQPYVWFAqdu4o5OCwLiRkXwufE9oh3VoaCiKNuPRJaNKRvJ
- uoUO5/7dE6g2UzcqGwl8iBpfyomdgUNP2VljulYF0NF/r36lhnfrIN+CqGv8JXLl6eNtwpSha
- 0lugtZ+GwGtKWwFgdyR+gGlrrxIl/ZUUgDkEkeJK4aRZ07+CgkWLGmw6IFFTX8iA1fVTi5Jsc
- j0G10J1/6kvhtga5ROEaFOOdPLcfE0DJny+hSTcub05IUIjUx+a+t0qmox6k/6Oyzc9dsVuFv
- MZy42UIpIh0nmrTnOQ+5heegA9Z7GMhYs0NEaRKRzE/grS5PMvZOeYG+JfXvW255krYcDoLcs
- hLFyMjqLpUEklcn+bMp17t+m7Vk8+X5PWMsRV7Ds49G+bwPunR2Qqm8QrebY+7yQlaQAqnkk8
- BbrumSN0twP9xMFfFRvnJ+cxIs/TCrzwwhRvj+U4nkNdI1Tp2F25duAtI1l+KRaBxH0UunC4u
- P3YNPc7KeBpoq0ZH99+7vsTVtWVLVzwmCPx6SCOmcWHu6kb3kx8ZveiMHy6kzHiv2GN34RtIh
- q9JxpG8NAXl6NTRkXXVavGSqOe/7SLuun5z+5oYVxWTjlVOQJIp0WwvPr15GAW0Vf3H+rheP5
- JmCG709HYUP7WSAtNKnOfI9i8bTillubtdiooIKJbgAeWAErAl5iUsL8tXkVvb6HbDQ1B+7q5
- yp4GxQ1vDyl3cJ2XRVnY4pVhTUGlt7/JO9PQJZ3ButJFq/YZqkX+TER8hEDvyIVDy9ZGfeR
-Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:q7m76VL6Z1ABHzLX5U2AnBtPkTr5HEvLjtuX/ahHDj7T70wcjvc
+ Va4A10cEFQxtWFsZKFx7ZmsdjOw7/EcRKBQLPPs9Ll+a554whW/mmyCVyNhlxGM1jjS4uRV
+ IegJnzXQ+vRdysYBPmPZ9/fCcoSIzTc/NfVRl11rb3k9Muj61QG9jKQdcset7kcmtqvVJPM
+ lRqpuPAQ73UORNFytC4Vw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:YxWxEstQVpc=:J3CVIuToeBPHcQ5lDXBDVz
+ g3tKoDiC31FUa0WIbwp35coh6tkQmySQAk/E/e6pcGxpB4djf8E+MDnvaLVsygN0UZu4HQyBK
+ SXY3WMBM+Ow+FMz6OtmTwdWRQfpA1zg7S+UIo+pDRWSpK6JYmX/yUSeEwXz45/WKv0L4P37b5
+ +Be1/Bkom/oRWfLiqZzhL0m5I/q8glZeYd0eOD2fozDrPg6GAhWI4xMWD01BthHfTWnHLKcx9
+ k6eVdskmdrNgGn3ZVK40VXTNr0uk5P4dxuU4obHP6zAS7FLaUFQFS5TVIhPGVppjZHutle3kL
+ BSJN/QtIo5oiZG5K/gpzG9iAovw0FVY2xVayRTcbIpdbfynwWN+h1mCglwgwRw5utEfW3rA+V
+ kH7FZAOB9tRdovoJiRfsvZ2VDv+9ZTQAWeLlKPOtZE2MEZ+Ra5UJbX9Ofmva9THFNh9wwBgQ3
+ M+swiwtqSu4/tLY23k3E7yCoDUTHRu4V8eYMhkJev7qmwCVtsTgP9hcGmpv40DPeZZpAK/cjY
+ AXixCHb0lSpq8oSxgJkH3ww2FU+EyecjFTWJbzzaSMOrOR0c1HuX4RQsF6cM7/sD1AevpWC8l
+ QJk+Fsqo2ZvyFZVF3o6qNN554dJrTyfNHvfuqLHdHuxK5cOto9hTjAvL9onkzKRzQtTiEEwpv
+ q4r9ed5YR9Fb3W/WP0xITncGECpPkLZMNswV3JLJK+t/l73S4cC5DaG1wtLRVYHedPnteKPR1
+ c2xHsqKgLQ/Zt6E9B5YaiyfNlxkZ7BkDjat2hbHAC7+ttHyQO53/z8z+ZmMOfj6g5cC+nSODh
+ K9OsCy0j9RatiJmLsro9qSpfPA+xfDLzBOsJe4zK+MMUw4SC9T/YTyjI2TiFx9B+Xk0bBCd
+Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/05 07:47:15
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/05 07:27:03
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -69,8 +69,9 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Alistair Francis <alistair.francis@wdc.com>, Riku Voipio <riku.voipio@iki.fi>,
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Riku Voipio <riku.voipio@iki.fi>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
@@ -78,32 +79,32 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Commit ffaee83bcb2 moved qmp_query_target but forgot to remove
+this include.
+
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 Tested-by: Laurent Vivier <laurent@vivier.eu>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200522172510.25784-9-philmd@redhat.com>
+Message-Id: <20200522172510.25784-10-philmd@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- exec.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ arch_init.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/exec.c b/exec.c
-index 5162f0d12f99..6dfd314469de 100644
---- a/exec.c
-+++ b/exec.c
-@@ -946,7 +946,9 @@ void cpu_exec_realizefn(CPUState *cpu, Error **errp)
- 
-     qemu_plugin_vcpu_init_hook(cpu);
- 
--#ifndef CONFIG_USER_ONLY
-+#ifdef CONFIG_USER_ONLY
-+    assert(cc->vmsd == NULL);
-+#else /* !CONFIG_USER_ONLY */
-     if (qdev_get_vmsd(DEVICE(cpu)) == NULL) {
-         vmstate_register(NULL, cpu->cpu_index, &vmstate_cpu_common, cpu);
-     }
+diff --git a/arch_init.c b/arch_init.c
+index d9eb0ec1dd03..8afea4748bad 100644
+--- a/arch_init.c
++++ b/arch_init.c
+@@ -27,7 +27,6 @@
+ #include "sysemu/arch_init.h"
+ #include "hw/pci/pci.h"
+ #include "hw/audio/soundhw.h"
+-#include "qapi/qapi-commands-misc.h"
+ #include "qapi/error.h"
+ #include "qemu/config-file.h"
+ #include "qemu/error-report.h"
 -- 
 2.26.2
 
