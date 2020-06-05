@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A880A1EF55A
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 12:29:28 +0200 (CEST)
-Received: from localhost ([::1]:54504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 168181EF551
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 12:27:52 +0200 (CEST)
+Received: from localhost ([::1]:46402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jh9bL-0006eM-Pa
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 06:29:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44928)
+	id 1jh9Zn-0003CB-4F
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 06:27:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jh9VG-0003oE-Uo
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 06:23:10 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27616
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jh9VL-00040G-G5
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 06:23:15 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:25287
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jh9VG-0006R3-2D
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 06:23:10 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jh9VK-0006VE-F5
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 06:23:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591352589;
+ s=mimecast20190719; t=1591352593;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6lSSjLejiscLCvJVDaLCtQGkkV0h02Ah/YQj2aVjpKQ=;
- b=SWaTlEx7Pf1VQs+2iQSAsQENxhMTV8g4zla8yJmhkP8wHXRpTJ80kcDIpDVxxuSMhuwXs1
- AlB280qoZIdwhDWROi5iSnLC14W6ZTMf/0XX7ZtCJG4C0eu4DIAW1JbTpyiAdXXM1/9fue
- HhngMtcy37faIaLkh0xEU1YwLabvoT8=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-90-v8jD5gH4N42edEMQUh-FsA-1; Fri, 05 Jun 2020 06:23:07 -0400
-X-MC-Unique: v8jD5gH4N42edEMQUh-FsA-1
-Received: by mail-wm1-f72.google.com with SMTP id u11so2843268wmc.7
- for <qemu-devel@nongnu.org>; Fri, 05 Jun 2020 03:23:07 -0700 (PDT)
+ bh=c55q0J7grSSjYGaEHTw0pM5dKeE6x+GNtQxLVwkoJJw=;
+ b=UyAjKhtcJh+W9Dvmsjd0nSIOe/xHWBFrsabukkeYhQgZoTfToY3FMZZD3X7mwQjUHgbC3i
+ VlXgJEzaK558jMPOUoPwZ5epYpiKAgUMXE4bBJPqiKzhXNLVFeF77rcZ2YTFxqKgCmCtFW
+ jGfZxLogtCXCXo/6baMI3J/7sIyGHSE=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-406-buBY_I74OVuixVgsvDJs0w-1; Fri, 05 Jun 2020 06:23:12 -0400
+X-MC-Unique: buBY_I74OVuixVgsvDJs0w-1
+Received: by mail-wm1-f69.google.com with SMTP id h25so3689783wmb.0
+ for <qemu-devel@nongnu.org>; Fri, 05 Jun 2020 03:23:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=6lSSjLejiscLCvJVDaLCtQGkkV0h02Ah/YQj2aVjpKQ=;
- b=KjFMWTq/U+FTZfWQx5xwrbXNBCF+bLWF8CEfXc6mgPR2llkXOJSnjjcEdCUL2EhOst
- lAKd10IFgAIT3rCc1NMIFu71Chl14QShAYIdJ/dqDaSJWDyLuMwNAvwr3nTcXsx89Vsh
- z2BwQGj+fTXufh00G4JGaAJaFTG/k38ZYgn9WwR0GQy9PoNLIh2JrmGrjIMLPsYOc1ni
- 5gM7dp4YLgUf6NkfyYITnnQ1rDvr5SWq7Fxuhf1ow+T1auZfPCYJ06SdBaRR/kkjkhao
- wvwx9PudUvRNIfnbCPP9kNAr0ZgEEBhNC1J3+GuzIdRnzinTdC4ymP2epHFKbHXge++f
- Dg1g==
-X-Gm-Message-State: AOAM531TM5WhzIcroJehXLXcPnjoCmWWex2xDDw4quxykKZGAqxFHyJZ
- cCa106fKEyR4QVjmmg5QLS3LzjMnybV8fC64aSp3FN1W8AeIhswaPJxNMzuNWfazpghtln1LMvn
- stQ6CKRDbv2fu6x0=
-X-Received: by 2002:adf:ed4f:: with SMTP id u15mr8655713wro.126.1591352586305; 
- Fri, 05 Jun 2020 03:23:06 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx1/gm5RqSpGyRv3/h4o+yYzMBujqn1ZUWppyGY4JpNXUGRCiqMhWW2IMqzpAfhq0ntaLOWAA==
-X-Received: by 2002:adf:ed4f:: with SMTP id u15mr8655698wro.126.1591352586101; 
- Fri, 05 Jun 2020 03:23:06 -0700 (PDT)
+ bh=c55q0J7grSSjYGaEHTw0pM5dKeE6x+GNtQxLVwkoJJw=;
+ b=ASWB+sS+rnNi5ImT8wavz597x/gY0ux7dkA2ceZxlQ9x7LpUeFUOFyI5s45D+tvRUF
+ EEFFz6ajoyy3c50aN3XJxO7gTgk8qCNnYqwmo8luW9Zuec7B66SXaKrfdrg4KS9fHa5H
+ f9CZNpWF5em31n4FRNbe7lq6Bf0za2A1kuaQnGga1qD/OcS5daU7iPlgLlxQoBXKbcmF
+ TpcEYUHNjCO4cdIkWzvowcosTUsGn91PJPaWh2DauZaE0YoaZdIjHEVmGzSPN3BRnQBj
+ E4lZLRRVS4qkQTi+7CVA2uAvqw7zG50+cUyBseXHPl9IFANQZ27MkOrxaRjyH2yTAUgd
+ sLfg==
+X-Gm-Message-State: AOAM532D17eIWEXFQioKXsLYVzd3S2O+jyF8r2xIVui+8c0Yt6QbQOrh
+ xPnjBJv4egE/KZ0eFhLjNnpttxsubSoLqgjVEsxdMZ4SuUeqx+8UmkTKtxzGObVrrGAgPw6IKuB
+ me+Wiw0WLKzwh3Xs=
+X-Received: by 2002:a5d:4cc4:: with SMTP id c4mr8668453wrt.159.1591352590899; 
+ Fri, 05 Jun 2020 03:23:10 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwh0sdz05XiyWXEeqfM/DhSPFCg7uEnMuDCDKKe3XoASfRX39gCw+7Ne3Mm5rX7jWKGaijSjw==
+X-Received: by 2002:a5d:4cc4:: with SMTP id c4mr8668434wrt.159.1591352590693; 
+ Fri, 05 Jun 2020 03:23:10 -0700 (PDT)
 Received: from localhost.localdomain
  (181.red-88-10-103.dynamicip.rima-tde.net. [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id a3sm11303685wrp.91.2020.06.05.03.23.04
+ by smtp.gmail.com with ESMTPSA id e10sm11529733wrn.11.2020.06.05.03.23.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Jun 2020 03:23:05 -0700 (PDT)
+ Fri, 05 Jun 2020 03:23:10 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 07/11] hw/sd/sdcard: Constify sd_crc*()'s message argument
-Date: Fri,  5 Jun 2020 12:22:26 +0200
-Message-Id: <20200605102230.21493-8-philmd@redhat.com>
+Subject: [PATCH v3 08/11] hw/sd/sdcard: Make iolen unsigned
+Date: Fri,  5 Jun 2020 12:22:27 +0200
+Message-Id: <20200605102230.21493-9-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200605102230.21493-1-philmd@redhat.com>
 References: <20200605102230.21493-1-philmd@redhat.com>
@@ -82,7 +82,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,56 +95,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+I/O request length can not be negative.
 
-CRC functions don't modify the buffer argument,
-make it const.
-
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- hw/sd/sd.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ hw/sd/sd.c         | 2 +-
+ hw/sd/trace-events | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-index 7799a3c621..9d51138b11 100644
+index 9d51138b11..952be36399 100644
 --- a/hw/sd/sd.c
 +++ b/hw/sd/sd.c
-@@ -242,11 +242,11 @@ static const int sd_cmd_class[SDMMC_CMD_MAX] = {
-     7,  7, 10,  7,  9,  9,  9,  8,  8, 10,  8,  8,  8,  8,  8,  8,
- };
- 
--static uint8_t sd_crc7(void *message, size_t width)
-+static uint8_t sd_crc7(const void *message, size_t width)
+@@ -1950,7 +1950,7 @@ uint8_t sd_read_data(SDState *sd)
  {
-     int i, bit;
-     uint8_t shift_reg = 0x00;
--    uint8_t *msg = (uint8_t *) message;
-+    const uint8_t *msg = (const uint8_t *)message;
+     /* TODO: Append CRCs */
+     uint8_t ret;
+-    int io_len;
++    size_t io_len;
  
-     for (i = 0; i < width; i ++, msg ++)
-         for (bit = 7; bit >= 0; bit --) {
-@@ -258,11 +258,11 @@ static uint8_t sd_crc7(void *message, size_t width)
-     return shift_reg;
- }
+     if (!sd->blk || !blk_is_inserted(sd->blk) || !sd->enable)
+         return 0x00;
+diff --git a/hw/sd/trace-events b/hw/sd/trace-events
+index 5f09d32eb2..f892c05867 100644
+--- a/hw/sd/trace-events
++++ b/hw/sd/trace-events
+@@ -52,7 +52,7 @@ sdcard_unlock(void) ""
+ sdcard_read_block(uint64_t addr, uint32_t len) "addr 0x%" PRIx64 " size 0x%x"
+ sdcard_write_block(uint64_t addr, uint32_t len) "addr 0x%" PRIx64 " size 0x%x"
+ sdcard_write_data(const char *proto, const char *cmd_desc, uint8_t cmd, uint8_t value) "%s %20s/ CMD%02d value 0x%02x"
+-sdcard_read_data(const char *proto, const char *cmd_desc, uint8_t cmd, int length) "%s %20s/ CMD%02d len %d"
++sdcard_read_data(const char *proto, const char *cmd_desc, uint8_t cmd, size_t length) "%s %20s/ CMD%02d len %zu"
+ sdcard_set_voltage(uint16_t millivolts) "%u mV"
  
--static uint16_t sd_crc16(void *message, size_t width)
-+static uint16_t sd_crc16(const void *message, size_t width)
- {
-     int i, bit;
-     uint16_t shift_reg = 0x0000;
--    uint16_t *msg = (uint16_t *) message;
-+    const uint16_t *msg = (const uint16_t *)message;
-     width <<= 1;
- 
-     for (i = 0; i < width; i ++, msg ++)
+ # milkymist-memcard.c
 -- 
 2.21.3
 
