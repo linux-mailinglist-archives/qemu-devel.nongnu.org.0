@@ -2,112 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 809F71EF811
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 14:38:36 +0200 (CEST)
-Received: from localhost ([::1]:49970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B98961EF84E
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 14:49:29 +0200 (CEST)
+Received: from localhost ([::1]:60180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jhBcJ-0002uJ-KK
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 08:38:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33840)
+	id 1jhBmq-0008Px-Cm
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 08:49:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jhBaz-0002KE-Ah; Fri, 05 Jun 2020 08:37:13 -0400
-Received: from mail-eopbgr140137.outbound.protection.outlook.com
- ([40.107.14.137]:35906 helo=EUR01-VE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jhBax-0001gL-Qq; Fri, 05 Jun 2020 08:37:13 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Kca/2urShLnEnC8LMiJcfRiqSvoagkRcYvFZqA1FG4/4Pe8WrEZGnNlNLLVgljIywiP53UU60yq7o6OaxCfs1Xla1L1NEQ5dCB5LjMtMPs/RvbXTw+kMrxYxG7BQH8wiHqr7cewiaU/pQoXRwjGwrxrHS/KIV4oO6bFjS6RR7VNXbZ7NuyIbQ3yTyioTwcgWjh+AxD+YJpa4yx2RVv1jM0PIB6b6g2TkPPEjFiNQhOkQHyENxSG/7Qf5h6OqoiFvQHqWHHt6IDGCa28s+wQe22KeBZcaFl/S+OwIUP2dNpiUeUh7PJzDVG7wzVet6U5pv8Octi6EjYXNAaOhU2S8oA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2YlNY3tsCDqVNpxBHaqXjuUDzdujIm2byPxGfYPZSF4=;
- b=hxgXHGFyaEO5Dp5WyiXt7+0rQAkvoYuczYSnG8dE03j2dbkW4B14oFa5HXXHeUVGIjP5sNMkwSEdIcs65cxjsPJ/OdXb7gPiAHyY4nVJZCNzPUptiErHuXYAb1iZYcuPVA2HIApyMx+maetKUO/gVCGK/eDwSd2e1d66J7aMStIksLkr23p9smdTdUdkDOOsOcvRjaG0l0mOb23+H2kyzuB/IM+3xrI38Znf1af6kOlmrACedlvjYBTi4X+6i04GJ4/Y/V4LxS+7kU0YnAps3jSGg3SKF3AKU0jrhYF+zDrn4p3rent2UMMqvfesZsJKh2RVecODEhZLtw93NVodXA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2YlNY3tsCDqVNpxBHaqXjuUDzdujIm2byPxGfYPZSF4=;
- b=X2UQaYUeVSHtyRexisEMjH80MiCCgLtg3G17l/VoFtlcQNEQ1tww/R+AADHYkvSZTRAWNvREt73Mfy5GRzk8BLxCcJe0XsyjB3Sn3qcPkyJATjLRTMnLj5DSMLVR74gDre6Xg3X6Rj1myDmG0Yf0ZeE+glM03RWXON6u/tW1NLc=
-Authentication-Results: virtuozzo.com; dkim=none (message not signed)
- header.d=none;virtuozzo.com; dmarc=none action=none
- header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM7PR08MB5512.eurprd08.prod.outlook.com (2603:10a6:20b:de::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3066.18; Fri, 5 Jun
- 2020 12:37:09 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::a408:2f0f:bc6c:d312]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::a408:2f0f:bc6c:d312%3]) with mapi id 15.20.3066.018; Fri, 5 Jun 2020
- 12:37:09 +0000
-Subject: Re: [PATCH v4 07/12] qcow2_format.py: separate generic functionality
- of structure classes
-To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>
-References: <20200604174135.11042-1-vsementsov@virtuozzo.com>
- <20200604174135.11042-8-vsementsov@virtuozzo.com>
- <AM6PR08MB4070FDB41EB8996982EEAF1CF4860@AM6PR08MB4070.eurprd08.prod.outlook.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <c9514cbd-d09b-562c-4a9e-8b643a68a24e@virtuozzo.com>
-Date: Fri, 5 Jun 2020 15:37:07 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.1
-In-Reply-To: <AM6PR08MB4070FDB41EB8996982EEAF1CF4860@AM6PR08MB4070.eurprd08.prod.outlook.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: base64
-X-ClientProxiedBy: AM0P190CA0027.EURP190.PROD.OUTLOOK.COM
- (2603:10a6:208:190::37) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jhBlg-0007yT-Es
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 08:48:16 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:23622
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jhBle-00050c-Oi
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 08:48:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1591361289;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=wt6vWuNzLbwNPkjZe+fQZRTdJHXe1m4gHmuHX7KDIao=;
+ b=iEL7hLhkCvVU8armCwlGHR5kQn6mmapSGZbIbMhwuPpWMQU9isBSboZzTasQHTcUKO9MmA
+ BaZa0wF47EBS/LYjOSdKMQlL5qZxS3hvqKdGU6ghNxfRIQanSfrJjQGL1LxwiFj3CIFzp6
+ j4qlteJxFQdLFGiAvTg7jjiywDvN9cg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-39-12JDK_YCMpWCeW1_Cf28bg-1; Fri, 05 Jun 2020 08:48:07 -0400
+X-MC-Unique: 12JDK_YCMpWCeW1_Cf28bg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 28491107B288;
+ Fri,  5 Jun 2020 12:48:02 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-121.ams2.redhat.com
+ [10.36.112.121])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EB13A7B609;
+ Fri,  5 Jun 2020 12:48:01 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 64D6011385C2; Fri,  5 Jun 2020 14:48:00 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH v5 04/11] rules.mak: Add strequal() and startwith() and
+ rules
+References: <20200605073953.19268-1-philmd@redhat.com>
+ <20200605073953.19268-5-philmd@redhat.com>
+Date: Fri, 05 Jun 2020 14:48:00 +0200
+In-Reply-To: <20200605073953.19268-5-philmd@redhat.com> ("Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Fri, 5 Jun 2020 09:39:46
+ +0200")
+Message-ID: <87eeqt3chr.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.2] (185.215.60.160) by
- AM0P190CA0027.EURP190.PROD.OUTLOOK.COM (2603:10a6:208:190::37) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3066.18 via Frontend Transport; Fri, 5 Jun 2020 12:37:08 +0000
-X-Originating-IP: [185.215.60.160]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 1eed6e8d-af21-47ca-56a3-08d8094d299f
-X-MS-TrafficTypeDiagnostic: AM7PR08MB5512:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB5512795633B99BC95D3AD4E1C1860@AM7PR08MB5512.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2512;
-X-Forefront-PRVS: 0425A67DEF
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: XL7kGkkjPITSPgTyddXTlsPxtlZWw7lM2FYKiSEw4x8g8MB/TO+6wuNHEnzEPz0kqY1ezEYKRkdbs8CHEozN4FlPFM1MNm8rAkvgFUAdjQzQ8Fg8Hp39o+JFTMIEKpC660cRZiIxPHiG24tQWdz0F5G69qhm7t6sXMG234RtM3e8uDshkPmI2gHr6ZGpa/ZdZIftRcFIHKWfvjeoVmR58xHrw8joj6tAwoFPxeI2sYN8LhmZu4htc/sfrr4GOw8QUnEMcbsaEeshvpD7vBY2lWx4n/kUWOwLCHrLFcCM8QHkIwJAgkoSl6HwRBphNXsqPSe6z6HA560dMftKbduI3BOGzVO8xqeEURMTuPFqFlDOkh2EkQP2wADP8LNbDdQv2w/lBV2PIqPkFPEHddb0Ug==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(136003)(346002)(376002)(366004)(396003)(39850400004)(8676002)(86362001)(52116002)(31696002)(8936002)(83380400001)(66946007)(31686004)(66476007)(66556008)(54906003)(110136005)(2616005)(26005)(2906002)(107886003)(478600001)(36756003)(186003)(16526019)(4326008)(956004)(6486002)(16576012)(316002)(5660300002)(41533002)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: SXctIRS060hi2zjFTaCu9Wh7CvDLTZYWxw+XiAVtoLzTektrXyurVmu35pBqUQLwRB9int78HrG4YDvduuML7QIfrIT7amj+HvfhVqj9qOlbtAn/ZBgYD43jPPIZOVCn3fPT+R90SzjZXn/+5UW9ApSrpB0bycUEfDUVA+y3gWaxjsSAES+5T0YIdT1GJtRSssbffMh38nv/XFOvWglNhPoRk5CLgI2F8afvUDppmByyFvuYYkpUMT4+r/Ja7f8M+jSlkxFRDc8FVXg0oTMh5qZ8agd2w6cphItsApku59D13ptS1gINEZ5Bd8Vmh4ZsGKMJn28h48ZSL5s+FEvsgtjRA0XdSENZi0/MKYZZZanfz4Dz8e5j7oyJVLDWXMb/9xkmeZliSerlYaxfBSU7wlwBTHqkxclIof5udnNsYXhByrCXbMaHdV7OG8pWFbBRxXEPHzI1mU9y/VoIZ6EmfnR8Jc6sFptSeFNpyXhcEkotqPSz2nagLOIcgKUtIbZF
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1eed6e8d-af21-47ca-56a3-08d8094d299f
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jun 2020 12:37:08.9291 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: QADCh6QS1e0+WqpUUH8oLZGvzBYpTxKg/BR/PDGRw3DM5JiBur3M0TnuETrOlU3zg2iIV3s/VUipUiB0fRGJGNqdGmMHg+6cYie1CVotJIU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5512
-Received-SPF: pass client-ip=40.107.14.137;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR01-VE1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/05 08:37:09
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/05 03:40:54
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -120,58 +85,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "kwolf@redhat.com" <kwolf@redhat.com>, Denis Lunev <den@virtuozzo.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "mreitz@redhat.com" <mreitz@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MDUuMDYuMjAyMCAxNToyOSwgQW5kcmV5IFNoaW5rZXZpY2ggd3JvdGU6DQo+IFR3byBtb3JlIGlu
-dCB0eXBlcyBpbiB0aGUgY29tbWVudD8NCj4gDQo+IFJldmlld2VkLWJ5OiBBbmRyZXkgU2hpbmtl
-dmljaCA8YW5kcmV5LnNoaW5rZXZpY2hAdmlydHVvenpvLmNvbT4NCj4gDQo+IC0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLQ0KPiAqRnJvbToqIFZsYWRpbWlyIFNlbWVudHNvdi1PZ2lldnNraXkgPHZzZW1l
-bnRzb3ZAdmlydHVvenpvLmNvbT4NCj4gKlNlbnQ6KiBUaHVyc2RheSwgSnVuZSA0LCAyMDIwIDg6
-NDEgUE0NCj4gKlRvOiogcWVtdS1ibG9ja0Bub25nbnUub3JnIDxxZW11LWJsb2NrQG5vbmdudS5v
-cmc+DQo+ICpDYzoqIHFlbXUtZGV2ZWxAbm9uZ251Lm9yZyA8cWVtdS1kZXZlbEBub25nbnUub3Jn
-PjsgbXJlaXR6QHJlZGhhdC5jb20gPG1yZWl0ekByZWRoYXQuY29tPjsga3dvbGZAcmVkaGF0LmNv
-bSA8a3dvbGZAcmVkaGF0LmNvbT47IGVibGFrZUByZWRoYXQuY29tIDxlYmxha2VAcmVkaGF0LmNv
-bT47IERlbmlzIEx1bmV2IDxkZW5AdmlydHVvenpvLmNvbT47IFZsYWRpbWlyIFNlbWVudHNvdi1P
-Z2lldnNraXkgPHZzZW1lbnRzb3ZAdmlydHVvenpvLmNvbT47IEFuZHJleSBTaGlua2V2aWNoIDxh
-bmRyZXkuc2hpbmtldmljaEB2aXJ0dW96em8uY29tPg0KPiAqU3ViamVjdDoqIFtQQVRDSCB2NCAw
-Ny8xMl0gcWNvdzJfZm9ybWF0LnB5OiBzZXBhcmF0ZSBnZW5lcmljIGZ1bmN0aW9uYWxpdHkgb2Yg
-c3RydWN0dXJlIGNsYXNzZXMNCj4gV2UgYXJlIGdvaW5nIHRvIGludHJvZHVjZSBtb3JlIFFjb3cy
-IHN0cnVjdHVyZSB0eXBlcywgZGVmaW5lZCBsaWtlDQo+IFFjb3dIZWFkZXIuIE1vdmUgZ2VuZXJp
-YyBmdW5jdGlvbmFsaXR5IGludG8gYmFzZSBjbGFzcyB0byBiZSByZXVzZWQgZm9yDQo+IGZ1cnRo
-ZXIgc3RydWN0dXJlIGNsYXNzZXMuDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBWbGFkaW1pciBTZW1l
-bnRzb3YtT2dpZXZza2l5IDx2c2VtZW50c292QHZpcnR1b3p6by5jb20+DQo+IC0tLQ0KPiAgwqB0
-ZXN0cy9xZW11LWlvdGVzdHMvcWNvdzJfZm9ybWF0LnB5IHwgOTMgKysrKysrKysrKysrKysrKysr
-Ky0tLS0tLS0tLS0tDQo+ICDCoDEgZmlsZSBjaGFuZ2VkLCA1OCBpbnNlcnRpb25zKCspLCAzNSBk
-ZWxldGlvbnMoLSkNCj4gDQo+IGRpZmYgLS1naXQgYS90ZXN0cy9xZW11LWlvdGVzdHMvcWNvdzJf
-Zm9ybWF0LnB5IGIvdGVzdHMvcWVtdS1pb3Rlc3RzL3Fjb3cyX2Zvcm1hdC5weQ0KPiBpbmRleCAx
-ZmQ5NDczYjdmLi5kNzFmNTc4Mzc3IDEwMDY0NA0KPiAtLS0gYS90ZXN0cy9xZW11LWlvdGVzdHMv
-cWNvdzJfZm9ybWF0LnB5DQo+ICsrKyBiL3Rlc3RzL3FlbXUtaW90ZXN0cy9xY293Ml9mb3JtYXQu
-cHkNCj4gQEAgLTIsNiArMiw2MiBAQCBpbXBvcnQgc3RydWN0DQo+IA0KPiArDQo+ICtjbGFzcyBR
-Y293MlN0cnVjdChtZXRhY2xhc3M9UWNvdzJTdHJ1Y3RNZXRhKToNCj4gKw0KPiArwqDCoMKgICIi
-IlFjb3cyU3RydWN0OiBiYXNlIGNsYXNzIGZvciBxY293MiBkYXRhIHN0cnVjdHVyZXMNCj4gKw0K
-PiArwqDCoMKgIFN1Y2Nlc3NvcnMgc2hvdWxkIGRlZmluZSBmaWVsZHMgY2xhc3MgdmFyaWFibGUs
-IHdoaWNoIGlzOiBsaXN0IG9mIHR1cGxlcywNCj4gK8KgwqDCoCBlYWNoIG9mIHRocmVlIGVsZW1l
-bnRzOg0KPiArwqDCoMKgwqDCoMKgwqAgLSBjLXR5cGUgKG9uZSBvZiAndTMyJywgJ3U2NCcpDQo+
-IA0KPiB1OCwgdTE2ID8NCg0KeWVzDQoNCg0KLS0gDQpCZXN0IHJlZ2FyZHMsDQpWbGFkaW1pcg0K
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+
+> Add a rule to test if two strings are equal,
+> and another to test if a string starts with a substring,
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+>  rules.mak | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
+>
+> diff --git a/rules.mak b/rules.mak
+> index 694865b63e..ccc1c49604 100644
+> --- a/rules.mak
+> +++ b/rules.mak
+> @@ -191,6 +191,20 @@ ne =3D $(if $(subst $2,,$1)$(subst $1,,$2),y,n)
+>  isempty =3D $(if $1,n,y)
+>  notempty =3D $(if $1,y,n)
+> =20
+> +# strequal
+> +# Usage: $(call strequal, str1, str2)
+> +#
+> +# This macro returns a string (TRUE) when @str1 and @str2
+> +# are equal, else returns the empty string (FALSE)
+> +strequal =3D $(if $(subst $2,,$1)$(subst $1,,$2),,$1)
+> +
+> +# startwith
+> +# Usage: $(call startwith, startstr, fullstr)
+> +#
+> +# This macro returns a string (TRUE) when @fullstr starts with
+> +# @startstr, else returns the empty string (FALSE)
+> +startwith =3D $(findstring :$1,:$2)
+> +
+>  # Generate files with tracetool
+>  TRACETOOL=3D$(PYTHON) $(SRC_PATH)/scripts/tracetool.py
+
+Should this be spelled startswith?
+
 
