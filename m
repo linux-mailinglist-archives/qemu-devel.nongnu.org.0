@@ -2,50 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 317611EF6B5
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 13:49:09 +0200 (CEST)
-Received: from localhost ([::1]:32944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5786A1EF6B2
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 13:48:51 +0200 (CEST)
+Received: from localhost ([::1]:60576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jhAqS-0001os-7o
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 07:49:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54792)
+	id 1jhAqA-0001XO-Cs
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 07:48:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jhAod-0008Bj-N4
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 07:47:16 -0400
-Received: from mout.kundenserver.de ([212.227.17.24]:48323)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jhAoV-00084t-0M
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 07:47:07 -0400
+Received: from mout.kundenserver.de ([212.227.17.24]:41695)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jhAoZ-0006hT-AH
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 07:47:14 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jhAoT-0006fq-RN
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 07:47:06 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1Mjjzx-1jEPlO2aTb-00lC9s; Fri, 05 Jun 2020 13:47:01 +0200
+ id 1N4Q4m-1izu760FqI-011VBZ; Fri, 05 Jun 2020 13:47:02 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/19] Linux user for 5.1 patches
-Date: Fri,  5 Jun 2020 13:46:41 +0200
-Message-Id: <20200605114700.1052050-1-laurent@vivier.eu>
+Subject: [PULL 01/19] linux-user, alpha: fix oldumount syscall
+Date: Fri,  5 Jun 2020 13:46:42 +0200
+Message-Id: <20200605114700.1052050-2-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200605114700.1052050-1-laurent@vivier.eu>
+References: <20200605114700.1052050-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:t4uBhTMPbQWu+VVRMJs+Bw2KA+M7RwQc15IT/rcVxHiCCfiqTQ/
- N4DkKQR4k5tsHYLqMDVIzASHfEqVrVMMa/P+pvGuemnj7eZMr76gvjuFGE17BZ3ZtOg5dyY
- OkyZlsOdGY/CZGt4ggObadok2XtRADfQMdDgNwUB7pf5gqV1r+fheeRFZ+FjCAvSD+mL+8S
- RgTgQrrHzO+oLQfNK69hg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:gXaHuPO1Iuk=:TiBB9FT/be6KnhSMcVkwdq
- PliEblokvLfK/zasFUIDgfZYYbDRNmn/tL2BLDrkgwbphcy3mAqodWQHsjIIcAKQ4Y7EMoYWp
- /oCv8XFoFUi/w//Spg7iRXcu7BRUeeIfFbzWAW0wgkPNs4FKhDKXWlzQ1l8XgahlERotd8v+I
- SlZl3k366bWYmVPKlL9a0Eipp9NvetG0yPyUXoR1nW7vcck9f3gs+h/Mr2mFT+YK5Hj4GNPn3
- fHF9J1JEdKCyJG/Q9uzvfN8UXUTq4f73F+lAlU5PpizOxtKe4Jtw8IbDHU3AhAEF95xG4doKs
- myUIj3uIZaueAIcLp2k6KapalYVqttOubdsA1tL+chvx2CTD3rjA77ukOXBYLM6+DyMISn9GA
- qIC5ObJQ1kphJJq/sSFGZyQg+a6ynZhWjotdVvDIFkP0juoBjPP+tFEqH5GzOXOVOLm8fTX3d
- AGLI0g09UjihWegOoezy4CpqxS6b9vufw+/BDVxWiNnp07YS0yAUlvudpdNfPmHIQQ3epiCkZ
- Df0hmIOt8+iuzT/qE19qbjzSrY7FBAnyzbOK9MOuJJTcogJ6dyQyQazkBaXrVVTX8sqfraFBI
- VriFs1P/y07MzjGvBtqoBBj0gf/e6EzO/9CCtmjwxQjqo0HlJgkLLKdoCL91oWGQS8h43Dviw
- ZnVawDMtqy87eEf3LOOOmT/3Rmd/ep+P1dDwA+TPVTq8e4hic+OPU77b5g3Ar7gE2HFOf6zPP
- Cy7a5TEDLdWMvQwEsyoSkNuZ80nnGbm/bhjp/mknvEoGCN+p7pF8U/WIfUppNEytJFFe0Yejn
- mMDG1kMzglopVuWBg6dEnuiNncjE92F4vw9AJjb/ppXEjfyLvh1/U/TvgJJbzQDxvA9p7nH
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:2Oj8vDMsHbhMBr2a/7CtfQmxdmKX3CIUbJJJDHty0cknIcfUYGN
+ aDEsk+kW1oIGfyiVhzuNqNQ3l49hzITiruvVfVm3QZyVAkhO1HYqWYPcEeh2nZALfIibVBr
+ a+r6Gv+1rXBUGQZF7FPXc/Ad9Ru/W1volLqloclugUeUa9sIEYbiBDiHsYMOLQNleZnwwjS
+ RBq/No3Fxk4nLXeEpy7QA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:DPg8NX6s2yY=:+R6nJfAaOAJ5j3P9kkWkex
+ 2+WOYwy9hFF2HmhI4IJzCqYjDp7mqDalV32qEccMzCPxfGCQ3yaxiyfK0Y+dSpJ/ivgsxqGlr
+ srbCO9ny/hABwuYWJcL7MHJriKr4Kl5khcpH17QOaNNEk7uZ40az9os2xvb50hwDrF44pcDkN
+ r/TMFniaZYBvRaCJ97mjRZd8fDHGkYKfhpNAnQG24jcqagXBiEq2/eGcF8AANPxuqJNriWhaH
+ dQ3myUiezqKh7bS8WFsig896QlKjOeVozLJMuBtRkCZLy1e3mD68Xg5WjC2Mu8Ik5bJkW/KiK
+ OOfT4RQ3w9Exuti7S4LYNJeiyXlXYLZ862NxOyZBlClm0zXltKliX8MkHD4H6HBvjeWkl7fMY
+ FDuCO1nvii+6sfuJD1xPUnuAwlSu/NjReKR49vVqdD8wPTMuWMvoNHoipE5VxQQ1bDvr2Z2kr
+ iBCYUKUVX05ro4oaW0aObpTYsCZzs0i0/9F89fAmghX1Ok0V4hEkQznavwUuNoB8Y96c8wj7z
+ wXBnhP8X70oHXYst8XnqIduZZXAYmmKmko7gXl2qIjAJF/Dx1bywV5nXELgI5j3XYVosS+rPo
+ UXgUM+VTtZVjwjwo+SuySiiDJMHBYjTfjY2gYxUETKWbPftRCTB6MFbqUWIj4uj/CziPQnKqZ
+ 4tvyTQj5q527PyY4gAtfHPrdA33enHuCl8oa3e5EBkV0hBpZKq/9DBWmKCQ+8NTqDNKsUOUxE
+ Fa4OAHs9yOj2kJDIOvo+t/Z63h7epKHcMrMMAlfQKDMdPNTRSRYvUkLbFOXwEgAb+/BPiRvY9
+ CR9/uJcJ0Nz6GCCCA9H0OqkBK1npdXo47sZ6+lIl6eRnM4GlF+yKuQJHxKb8gtuHgGMfA1V
 Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/05 07:47:04
@@ -71,82 +72,57 @@ Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit ddc760832fa8cf5e93b9d9e6e854a5114ac63510=
-:=0D
-=0D
-  Merge remote-tracking branch 'remotes/gkurz/tags/9p-next-2020-05-26' into=
- s=3D=0D
-taging (2020-05-26 14:05:53 +0100)=0D
-=0D
-are available in the Git repository at:=0D
-=0D
-  git://github.com/vivier/qemu.git tags/linux-user-for-5.1-pull-request=0D
-=0D
-for you to fetch changes up to aa3d2045d4ca760bd8c22935a2d73ee4f3480bd5:=0D
-=0D
-  stubs: Restrict ui/win32-kbd-hook to system-mode (2020-06-05 11:36:00 +02=
-00)=0D
-=0D
-----------------------------------------------------------------=0D
-linux-user pull request 20200605=0D
-=0D
-Implement F_OFD_ fcntl() command, /proc/cpuinfo for hppa=0D
-Fix socket(), prnctl() error codes, underflow in target_mremap,=0D
-    epoll_create() strace, oldumount for alpha=0D
-User-mode build dependencies improvement=0D
-=0D
-----------------------------------------------------------------=0D
-=0D
-Andreas Schwab (1):=0D
-  linux-user: implement OFD locks=0D
-=0D
-Helge Deller (2):=0D
-  linux-user: return target error codes for socket() and prctl()=0D
-  linux-user: Add support for /proc/cpuinfo on hppa platform=0D
-=0D
-Jonathan Marler (1):=0D
-  linux-user/mmap.c: fix integer underflow in target_mremap=0D
-=0D
-Laurent Vivier (1):=0D
-  linux-user, alpha: fix oldumount syscall=0D
-=0D
-Philippe Mathieu-Daud=3DC3=3DA9 (13):=0D
-  Makefile: Only build virtiofsd if system-mode is enabled=0D
-  configure: Avoid building TCG when not needed=0D
-  tests/Makefile: Only display TCG-related tests when TCG is available=0D
-  tests/Makefile: Restrict some softmmu-only tests=0D
-  util/Makefile: Reduce the user-mode object list=0D
-  stubs/Makefile: Reduce the user-mode object list=0D
-  target/riscv/cpu: Restrict CPU migration to system-mode=0D
-  exec: Assert CPU migration is not used on user-only build=0D
-  arch_init: Remove unused 'qapi-commands-misc.h' include=0D
-  target/i386: Restrict CpuClass::get_crash_info() to system-mode=0D
-  target/s390x: Restrict CpuClass::get_crash_info() to system-mode=0D
-  hw/core: Restrict CpuClass::get_crash_info() to system-mode=0D
-  stubs: Restrict ui/win32-kbd-hook to system-mode=0D
-=0D
-Sergei Trofimovich (1):=0D
-  linux-user/strace.list: fix epoll_create{,1} -strace output=0D
-=0D
- Makefile                   |  2 +-=0D
- arch_init.c                |  1 -=0D
- configure                  |  4 +++=0D
- exec.c                     |  4 ++-=0D
- hw/core/cpu.c              |  2 ++=0D
- include/hw/core/cpu.h      |  7 ++++-=0D
- linux-user/generic/fcntl.h |  4 +++=0D
- linux-user/mmap.c          |  2 +-=0D
- linux-user/strace.list     |  4 +--=0D
- linux-user/syscall.c       | 31 +++++++++++++++++---=0D
- stubs/Makefile.objs        | 52 +++++++++++++++++++--------------=0D
- target/i386/cpu.c          |  6 +++-=0D
- target/riscv/cpu.c         |  6 ++--=0D
- target/s390x/cpu.c         | 12 ++++----=0D
- tests/Makefile.include     | 18 ++++++------=0D
- util/Makefile.objs         | 59 ++++++++++++++++++++++++--------------=0D
- 16 files changed, 142 insertions(+), 72 deletions(-)=0D
-=0D
---=3D20=0D
-2.26.2=0D
-=0D
+When we try to bootstrap debian/lenny for alpha, it fails because
+it cannot umount /.root directory:
+
+  ...
+  Setting up initscripts (2.86.ds1-61) ...
+  umount: /.root: Function not implemented
+  dpkg: error processing initscripts (--configure):
+   subprocess post-installation script returned error exit status 1
+  dpkg: sysvinit: dependency problems, but configuring anyway as you request:
+   sysvinit depends on initscripts; however:
+    Package initscripts is not configured yet.
+
+This is because, when we switched from syscall_nr.h to syscall.tbl,
+the syscall #321 has been renamed from umount to oldumount and
+syscall.c has not been updated to manage the new name.
+
+oldumount has been introduced in linux 2.1.116pre1 by:
+  7d32756b2 ("Import 2.1.116pre1")
+...
+ * We now support a flag for forced unmount like the other 'big iron'
+ * unixes. Our API is identical to OSF/1 to avoid making a mess of AMD
+...
+
+Fixes: 6116aea994 ("linux-user, alpha: add syscall table generation support")
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <20200502194642.32823-1-laurent@vivier.eu>
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+---
+ linux-user/syscall.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 05f03919ff07..e89b815ce983 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -8028,8 +8028,13 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+             }
+         }
+         return ret;
+-#ifdef TARGET_NR_umount
++#if defined(TARGET_NR_umount) || defined(TARGET_NR_oldumount)
++#if defined(TARGET_NR_umount)
+     case TARGET_NR_umount:
++#endif
++#if defined(TARGET_NR_oldumount)
++    case TARGET_NR_oldumount:
++#endif
+         if (!(p = lock_user_string(arg1)))
+             return -TARGET_EFAULT;
+         ret = get_errno(umount(p));
+-- 
+2.26.2
+
 
