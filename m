@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CD331EFE6C
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 19:02:12 +0200 (CEST)
-Received: from localhost ([::1]:47132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88A001EFE77
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 19:04:05 +0200 (CEST)
+Received: from localhost ([::1]:53484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jhFjP-000067-K1
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 13:02:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40652)
+	id 1jhFlE-0003PJ-K8
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 13:04:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jhFYJ-0002IU-Jl
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 12:50:43 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:36614)
+ id 1jhFYL-0002Mw-3X
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 12:50:45 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:45379)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jhFYI-0001mQ-Bm
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 12:50:43 -0400
-Received: by mail-wr1-x430.google.com with SMTP id q11so10461630wrp.3
- for <qemu-devel@nongnu.org>; Fri, 05 Jun 2020 09:50:41 -0700 (PDT)
+ id 1jhFYJ-0001o9-Lq
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 12:50:44 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id c3so10426169wru.12
+ for <qemu-devel@nongnu.org>; Fri, 05 Jun 2020 09:50:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=9TN4sbcbTxMvIH1FCQxNgvx2dUmaDvCRYjasHYVPdLo=;
- b=VSD+vz1ZzwDMZOVQovmjMVjoTk/+yb/FipzZf8T/RLE8MC9ILiBLVaAI4SjxoJkT0f
- mOHgte1dyla92If+Nvi8zWl/AM2TDkb+Qb6O+DX0KCIl5/GxoaR/2yk7BYc7xd66YZuq
- tikKL4K9Taevs1/IdIoLpPNUNonbDbMMHqzhqDSGLFfqgnp1qwFK4+e+4lABs2c6C4ac
- 0i8S4CcPH+KpvQQq3413H/izQKpkQSLBM1LjP+cifWvSJ8Hp6jMuvsmCTBuLkpvRsld+
- 7uYMviiHjknJvK7YouDoHVCPOdig8wK5oZ1fRu/r/QL1f5lBwMNcEVtF5wWQNvDS4RkF
- KJ6g==
+ bh=NcydEn5x6urWExYuIY1mQiFymhq7MqBYT7aFwZfapag=;
+ b=LlvlT0O5CwSmDPbfMF1w5M8JZneTf7hWfEEtzGwpaWMv+xlqAOZfwgMTPWaXc1q/6G
+ pWYQ/Nhbm1f/UkfFx1nk1v6Rt01kYk+QtN/rtnEJZNQnD+amFJa2Qb7BiMifYAa2Rogb
+ mfghqh1ckQTydk5/SMHTWsvy74lCUk7e+aJGO0cgKaDXv4OCm5q0Sdc7HHRyLaTS8Udx
+ 0Jlf4O6jjXdLWXmNrlgnQFDyx8/jO0go+gsYmDB3Kx2ktwfuKzLa9jhNj6ovRkXGiQN0
+ JqVRMboHqfCyTtHlv1fTOL4cneiugKZpX0T5QzcRQKvebCtnylx5ki37S8o86b7Vhsee
+ Jl7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9TN4sbcbTxMvIH1FCQxNgvx2dUmaDvCRYjasHYVPdLo=;
- b=Ct/hfLGcrPXPMPEokc86Pnp1hmNLuUrftibQVEGRTwTGHPyJvmxK8rpRpQxdgsLfNe
- 08p5lRrgSG1NvOBTLJUhRDieUVK5bTEsKhU2H1UWSlJBX/X6aqCLCmljpL8HelwKEzv1
- XwTdGz7ZQCsazI9BDRjM9wJJbrXahO7fhF1gpZYSsys3Bbw50b/rcF6qIEi/NImBVIrW
- IkA3bVlaDhZANn5W5Bv8x4keEjfOlHskT7MRgM8/LIlhOX3bJZ6fNLuif9+wJztoZXZy
- +3b8dco2I9wMqAlN1fNwIO4wb6MqUOUEtYxO1ZES85ptaEn4ohn2Y14SIVBvIySQ+XJI
- Z1ZA==
-X-Gm-Message-State: AOAM532GaGXRyjrQe8elDGSv84GePxLhzHppvGMxRSUL0S37um5ljGkK
- Xb2TuGbsKdQgFOvpdtsA/EbXSdPBWTUHcA==
-X-Google-Smtp-Source: ABdhPJz63A6mJUpCEVB66xPZbqAHTJ1zAogAjm4JngLqz10Uqip1FQQvh/+RmefFqyMeb7z7szXYuA==
-X-Received: by 2002:a5d:508e:: with SMTP id a14mr10048754wrt.335.1591375840581; 
- Fri, 05 Jun 2020 09:50:40 -0700 (PDT)
+ bh=NcydEn5x6urWExYuIY1mQiFymhq7MqBYT7aFwZfapag=;
+ b=B320uaDYSF34Bl4aiyIo5+Kh1UO2est0bwGTW5l+TF0VrjNTibaQi4cPrp/Y07Gz95
+ MTRBlVR/FVrIsDk6If6E8VF9V0i5eMGc8VFUgWgw+AST966aqmZZgpZ80xmIfHVV+I2P
+ l1yUVUT8uUIPtrbuewL+mzjbRVLY+2cGdvvbwoFwQ+VpL8vy/N55mnb3NBf6jco+yi6u
+ TRP6TVI2SjDB9cxYBwcj1fgdPoNI1/abvJcLuefLE/hxzwXVbyrRfpaOOTMIdEB+xZv/
+ axxbKtR7xU0B1c/iXvlJVl7BM3j7BvNCnxQkG3/WDVZMem6CO0NchnDReOl1iAjbtzan
+ hvZw==
+X-Gm-Message-State: AOAM532vJgVt0wL9XOdFNPMv7omD+F3ZzFXxrGnmCv33/V0PrNoBkJ3h
+ yrWOWhWmnO3UkhZPD957a9HZiOZHPPaG9g==
+X-Google-Smtp-Source: ABdhPJyX26xKqNb8mbLSPXZ6kAIr1ViK3HVH0iuk3rrLP4IYL7oNq1L1/y6quPB4+FdyygsebULZXQ==
+X-Received: by 2002:a05:6000:18c:: with SMTP id
+ p12mr11050397wrx.66.1591375841637; 
+ Fri, 05 Jun 2020 09:50:41 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id c140sm12272724wmd.18.2020.06.05.09.50.39
+ by smtp.gmail.com with ESMTPSA id c140sm12272724wmd.18.2020.06.05.09.50.40
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Jun 2020 09:50:39 -0700 (PDT)
+ Fri, 05 Jun 2020 09:50:41 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 28/29] target/arm: Convert VCVT fixed-point ops to decodetree
-Date: Fri,  5 Jun 2020 17:50:06 +0100
-Message-Id: <20200605165007.12095-29-peter.maydell@linaro.org>
+Subject: [PULL 29/29] target/arm: Convert Neon one-register-and-immediate
+ insns to decodetree
+Date: Fri,  5 Jun 2020 17:50:07 +0100
+Message-Id: <20200605165007.12095-30-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200605165007.12095-1-peter.maydell@linaro.org>
 References: <20200605165007.12095-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42d.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,72 +90,140 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Convert the VCVT fixed-point conversion operations in the
-Neon 2-regs-and-shift group to decodetree.
+Convert the insns in the one-register-and-immediate group to decodetree.
+
+In the new decode, our asimd_imm_const() function returns a 64-bit value
+rather than a 32-bit one, which means we don't need to treat cmode=14 op=1
+as a special case in the decoder (it is the only encoding where the two
+halves of the 64-bit value are different).
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200522145520.6778-9-peter.maydell@linaro.org
+Message-id: 20200522145520.6778-10-peter.maydell@linaro.org
 ---
- target/arm/neon-dp.decode       | 11 +++++
- target/arm/translate-neon.inc.c | 49 +++++++++++++++++++++
- target/arm/translate.c          | 75 +--------------------------------
- 3 files changed, 62 insertions(+), 73 deletions(-)
+ target/arm/neon-dp.decode       |  22 ++++++
+ target/arm/translate-neon.inc.c | 118 ++++++++++++++++++++++++++++++++
+ target/arm/translate.c          | 101 +--------------------------
+ 3 files changed, 142 insertions(+), 99 deletions(-)
 
 diff --git a/target/arm/neon-dp.decode b/target/arm/neon-dp.decode
-index 3dde699e97e..47a5c90b5d8 100644
+index 47a5c90b5d8..bd1b0e13f7d 100644
 --- a/target/arm/neon-dp.decode
 +++ b/target/arm/neon-dp.decode
-@@ -251,6 +251,10 @@ VMINNM_fp_3s     1111 001 1 0 . 1 . .... .... 1111 ... 1 .... @3same_fp
- @2reg_shll_b     .... ... . . . 001 shift:3  .... .... 0 . . . .... \
-                  &2reg_shift vm=%vm_dp vd=%vd_dp size=0 q=0
- 
-+# We use size=0 for fp32 and size=1 for fp16 to match the 3-same encodings.
-+@2reg_vcvt       .... ... . . . 1 ..... .... .... . q:1 . . .... \
-+                 &2reg_shift vm=%vm_dp vd=%vd_dp size=0 shift=%neon_rshift_i5
+@@ -375,3 +375,25 @@ VCVT_SF_2sh      1111 001 0 1 . ...... .... 1110 0 . . 1 .... @2reg_vcvt
+ VCVT_UF_2sh      1111 001 1 1 . ...... .... 1110 0 . . 1 .... @2reg_vcvt
+ VCVT_FS_2sh      1111 001 0 1 . ...... .... 1111 0 . . 1 .... @2reg_vcvt
+ VCVT_FU_2sh      1111 001 1 1 . ...... .... 1111 0 . . 1 .... @2reg_vcvt
 +
- VSHR_S_2sh       1111 001 0 1 . ...... .... 0000 . . . 1 .... @2reg_shr_d
- VSHR_S_2sh       1111 001 0 1 . ...... .... 0000 . . . 1 .... @2reg_shr_s
- VSHR_S_2sh       1111 001 0 1 . ...... .... 0000 . . . 1 .... @2reg_shr_h
-@@ -364,3 +368,10 @@ VSHLL_S_2sh      1111 001 0 1 . ...... .... 1010 . 0 . 1 .... @2reg_shll_b
- VSHLL_U_2sh      1111 001 1 1 . ...... .... 1010 . 0 . 1 .... @2reg_shll_s
- VSHLL_U_2sh      1111 001 1 1 . ...... .... 1010 . 0 . 1 .... @2reg_shll_h
- VSHLL_U_2sh      1111 001 1 1 . ...... .... 1010 . 0 . 1 .... @2reg_shll_b
++######################################################################
++# 1-reg-and-modified-immediate grouping:
++# 1111 001 i 1 D 000 imm:3 Vd:4 cmode:4 0 Q op 1 Vm:4
++######################################################################
 +
-+# VCVT fixed<->float conversions
-+# TODO: FP16 fixed<->float conversions are opc==0b1100 and 0b1101
-+VCVT_SF_2sh      1111 001 0 1 . ...... .... 1110 0 . . 1 .... @2reg_vcvt
-+VCVT_UF_2sh      1111 001 1 1 . ...... .... 1110 0 . . 1 .... @2reg_vcvt
-+VCVT_FS_2sh      1111 001 0 1 . ...... .... 1111 0 . . 1 .... @2reg_vcvt
-+VCVT_FU_2sh      1111 001 1 1 . ...... .... 1111 0 . . 1 .... @2reg_vcvt
++&1reg_imm        vd q imm cmode op
++
++%asimd_imm_value 24:1 16:3 0:4
++
++@1reg_imm        .... ... . . . ... ... .... .... . q:1 . . .... \
++                 &1reg_imm imm=%asimd_imm_value vd=%vd_dp
++
++# The cmode/op bits here decode VORR/VBIC/VMOV/VMNV, but
++# not in a way we can conveniently represent in decodetree without
++# a lot of repetition:
++# VORR: op=0, (cmode & 1) && cmode < 12
++# VBIC: op=1, (cmode & 1) && cmode < 12
++# VMOV: everything else
++# So we have a single decode line and check the cmode/op in the
++# trans function.
++Vimm_1r          1111 001 . 1 . 000 ... .... cmode:4 0 . op:1 1 .... @1reg_imm
 diff --git a/target/arm/translate-neon.inc.c b/target/arm/translate-neon.inc.c
-index 3d566044f3d..2a445c7589c 100644
+index 2a445c7589c..664d3612607 100644
 --- a/target/arm/translate-neon.inc.c
 +++ b/target/arm/translate-neon.inc.c
-@@ -1659,3 +1659,52 @@ static bool trans_VSHLL_U_2sh(DisasContext *s, arg_2reg_shift *a)
-     };
-     return do_vshll_2sh(s, a, widenfn[a->size], true);
- }
+@@ -1708,3 +1708,121 @@ DO_FP_2SH(VCVT_SF, gen_helper_vfp_sltos)
+ DO_FP_2SH(VCVT_UF, gen_helper_vfp_ultos)
+ DO_FP_2SH(VCVT_FS, gen_helper_vfp_tosls_round_to_zero)
+ DO_FP_2SH(VCVT_FU, gen_helper_vfp_touls_round_to_zero)
 +
-+static bool do_fp_2sh(DisasContext *s, arg_2reg_shift *a,
-+                      NeonGenTwoSingleOPFn *fn)
++static uint64_t asimd_imm_const(uint32_t imm, int cmode, int op)
 +{
-+    /* FP operations in 2-reg-and-shift group */
-+    TCGv_i32 tmp, shiftv;
-+    TCGv_ptr fpstatus;
-+    int pass;
++    /*
++     * Expand the encoded constant.
++     * Note that cmode = 2,3,4,5,6,7,10,11,12,13 imm=0 is UNPREDICTABLE.
++     * We choose to not special-case this and will behave as if a
++     * valid constant encoding of 0 had been given.
++     * cmode = 15 op = 1 must UNDEF; we assume decode has handled that.
++     */
++    switch (cmode) {
++    case 0: case 1:
++        /* no-op */
++        break;
++    case 2: case 3:
++        imm <<= 8;
++        break;
++    case 4: case 5:
++        imm <<= 16;
++        break;
++    case 6: case 7:
++        imm <<= 24;
++        break;
++    case 8: case 9:
++        imm |= imm << 16;
++        break;
++    case 10: case 11:
++        imm = (imm << 8) | (imm << 24);
++        break;
++    case 12:
++        imm = (imm << 8) | 0xff;
++        break;
++    case 13:
++        imm = (imm << 16) | 0xffff;
++        break;
++    case 14:
++        if (op) {
++            /*
++             * This is the only case where the top and bottom 32 bits
++             * of the encoded constant differ.
++             */
++            uint64_t imm64 = 0;
++            int n;
++
++            for (n = 0; n < 8; n++) {
++                if (imm & (1 << n)) {
++                    imm64 |= (0xffULL << (n * 8));
++                }
++            }
++            return imm64;
++        }
++        imm |= (imm << 8) | (imm << 16) | (imm << 24);
++        break;
++    case 15:
++        imm = ((imm & 0x80) << 24) | ((imm & 0x3f) << 19)
++            | ((imm & 0x40) ? (0x1f << 25) : (1 << 30));
++        break;
++    }
++    if (op) {
++        imm = ~imm;
++    }
++    return dup_const(MO_32, imm);
++}
++
++static bool do_1reg_imm(DisasContext *s, arg_1reg_imm *a,
++                        GVecGen2iFn *fn)
++{
++    uint64_t imm;
++    int reg_ofs, vec_size;
 +
 +    if (!arm_dc_feature(s, ARM_FEATURE_NEON)) {
 +        return false;
 +    }
 +
 +    /* UNDEF accesses to D16-D31 if they don't exist. */
-+    if (!dc_isar_feature(aa32_simd_r32, s) &&
-+        ((a->vd | a->vm) & 0x10)) {
++    if (!dc_isar_feature(aa32_simd_r32, s) && (a->vd & 0x10)) {
 +        return false;
 +    }
 +
-+    if ((a->vm | a->vd) & a->q) {
++    if (a->vd & a->q) {
 +        return false;
 +    }
 +
@@ -161,121 +231,149 @@ index 3d566044f3d..2a445c7589c 100644
 +        return true;
 +    }
 +
-+    fpstatus = get_fpstatus_ptr(1);
-+    shiftv = tcg_const_i32(a->shift);
-+    for (pass = 0; pass < (a->q ? 4 : 2); pass++) {
-+        tmp = neon_load_reg(a->vm, pass);
-+        fn(tmp, tmp, shiftv, fpstatus);
-+        neon_store_reg(a->vd, pass, tmp);
-+    }
-+    tcg_temp_free_ptr(fpstatus);
-+    tcg_temp_free_i32(shiftv);
++    reg_ofs = neon_reg_offset(a->vd, 0);
++    vec_size = a->q ? 16 : 8;
++    imm = asimd_imm_const(a->imm, a->cmode, a->op);
++
++    fn(MO_64, reg_ofs, reg_ofs, imm, vec_size, vec_size);
 +    return true;
 +}
 +
-+#define DO_FP_2SH(INSN, FUNC)                                           \
-+    static bool trans_##INSN##_2sh(DisasContext *s, arg_2reg_shift *a)  \
-+    {                                                                   \
-+        return do_fp_2sh(s, a, FUNC);                                   \
-+    }
++static void gen_VMOV_1r(unsigned vece, uint32_t dofs, uint32_t aofs,
++                        int64_t c, uint32_t oprsz, uint32_t maxsz)
++{
++    tcg_gen_gvec_dup_imm(MO_64, dofs, oprsz, maxsz, c);
++}
 +
-+DO_FP_2SH(VCVT_SF, gen_helper_vfp_sltos)
-+DO_FP_2SH(VCVT_UF, gen_helper_vfp_ultos)
-+DO_FP_2SH(VCVT_FS, gen_helper_vfp_tosls_round_to_zero)
-+DO_FP_2SH(VCVT_FU, gen_helper_vfp_touls_round_to_zero)
++static bool trans_Vimm_1r(DisasContext *s, arg_1reg_imm *a)
++{
++    /* Handle decode of cmode/op here between VORR/VBIC/VMOV */
++    GVecGen2iFn *fn;
++
++    if ((a->cmode & 1) && a->cmode < 12) {
++        /* for op=1, the imm will be inverted, so BIC becomes AND. */
++        fn = a->op ? tcg_gen_gvec_andi : tcg_gen_gvec_ori;
++    } else {
++        /* There is one unallocated cmode/op combination in this space */
++        if (a->cmode == 15 && a->op == 1) {
++            return false;
++        }
++        fn = gen_VMOV_1r;
++    }
++    return do_1reg_imm(s, a, fn);
++}
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index a9f52049e7c..166349ee203 100644
+index 166349ee203..bcdfec34d28 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -5193,7 +5193,6 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
-     int q;
-     int rd, rn, rm, rd_ofs, rn_ofs, rm_ofs;
-     int size;
--    int shift;
-     int pass;
-     int u;
-     int vec_size;
-@@ -5234,78 +5233,8 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
+@@ -5232,105 +5232,8 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
+         /* Three register same length: handled by decodetree */
          return 1;
      } else if (insn & (1 << 4)) {
-         if ((insn & 0x00380080) != 0) {
--            /* Two registers and shift.  */
--            op = (insn >> 8) & 0xf;
+-        if ((insn & 0x00380080) != 0) {
+-            /* Two registers and shift: handled by decodetree */
+-            return 1;
+-        } else { /* (insn & 0x00380080) == 0 */
+-            int invert, reg_ofs, vec_size;
 -
--            switch (op) {
--            case 0: /* VSHR */
--            case 1: /* VSRA */
--            case 2: /* VRSHR */
--            case 3: /* VRSRA */
--            case 4: /* VSRI */
--            case 5: /* VSHL, VSLI */
--            case 6: /* VQSHLU */
--            case 7: /* VQSHL */
--            case 8: /* VSHRN, VRSHRN, VQSHRUN, VQRSHRUN */
--            case 9: /* VQSHRN, VQRSHRN */
--            case 10: /* VSHLL, including VMOVL */
--                return 1; /* handled by decodetree */
--            default:
--                break;
--            }
--
--            if (insn & (1 << 7)) {
--                /* 64-bit shift. */
--                if (op > 7) {
--                    return 1;
--                }
--                size = 3;
--            } else {
--                size = 2;
--                while ((insn & (1 << (size + 19))) == 0)
--                    size--;
--            }
--            shift = (insn >> 16) & ((1 << (3 + size)) - 1);
--            if (op >= 14) {
--                /* VCVT fixed-point.  */
--                TCGv_ptr fpst;
--                TCGv_i32 shiftv;
--                VFPGenFixPointFn *fn;
--
--                if (!(insn & (1 << 21)) || (q && ((rd | rm) & 1))) {
--                    return 1;
--                }
--
--                if (!(op & 1)) {
--                    if (u) {
--                        fn = gen_helper_vfp_ultos;
--                    } else {
--                        fn = gen_helper_vfp_sltos;
--                    }
--                } else {
--                    if (u) {
--                        fn = gen_helper_vfp_touls_round_to_zero;
--                    } else {
--                        fn = gen_helper_vfp_tosls_round_to_zero;
--                    }
--                }
--
--                /* We have already masked out the must-be-1 top bit of imm6,
--                 * hence this 32-shift where the ARM ARM has 64-imm6.
--                 */
--                shift = 32 - shift;
--                fpst = get_fpstatus_ptr(1);
--                shiftv = tcg_const_i32(shift);
--                for (pass = 0; pass < (q ? 4 : 2); pass++) {
--                    TCGv_i32 tmpf = neon_load_reg(rm, pass);
--                    fn(tmpf, tmpf, shiftv, fpst);
--                    neon_store_reg(rd, pass, tmpf);
--                }
--                tcg_temp_free_ptr(fpst);
--                tcg_temp_free_i32(shiftv);
--            } else {
+-            if (q && (rd & 1)) {
 -                return 1;
 -            }
-+            /* Two registers and shift: handled by decodetree */
-+            return 1;
-         } else { /* (insn & 0x00380080) == 0 */
-             int invert, reg_ofs, vec_size;
- 
+-
+-            op = (insn >> 8) & 0xf;
+-            /* One register and immediate.  */
+-            imm = (u << 7) | ((insn >> 12) & 0x70) | (insn & 0xf);
+-            invert = (insn & (1 << 5)) != 0;
+-            /* Note that op = 2,3,4,5,6,7,10,11,12,13 imm=0 is UNPREDICTABLE.
+-             * We choose to not special-case this and will behave as if a
+-             * valid constant encoding of 0 had been given.
+-             */
+-            switch (op) {
+-            case 0: case 1:
+-                /* no-op */
+-                break;
+-            case 2: case 3:
+-                imm <<= 8;
+-                break;
+-            case 4: case 5:
+-                imm <<= 16;
+-                break;
+-            case 6: case 7:
+-                imm <<= 24;
+-                break;
+-            case 8: case 9:
+-                imm |= imm << 16;
+-                break;
+-            case 10: case 11:
+-                imm = (imm << 8) | (imm << 24);
+-                break;
+-            case 12:
+-                imm = (imm << 8) | 0xff;
+-                break;
+-            case 13:
+-                imm = (imm << 16) | 0xffff;
+-                break;
+-            case 14:
+-                imm |= (imm << 8) | (imm << 16) | (imm << 24);
+-                if (invert) {
+-                    imm = ~imm;
+-                }
+-                break;
+-            case 15:
+-                if (invert) {
+-                    return 1;
+-                }
+-                imm = ((imm & 0x80) << 24) | ((imm & 0x3f) << 19)
+-                      | ((imm & 0x40) ? (0x1f << 25) : (1 << 30));
+-                break;
+-            }
+-            if (invert) {
+-                imm = ~imm;
+-            }
+-
+-            reg_ofs = neon_reg_offset(rd, 0);
+-            vec_size = q ? 16 : 8;
+-
+-            if (op & 1 && op < 12) {
+-                if (invert) {
+-                    /* The immediate value has already been inverted,
+-                     * so BIC becomes AND.
+-                     */
+-                    tcg_gen_gvec_andi(MO_32, reg_ofs, reg_ofs, imm,
+-                                      vec_size, vec_size);
+-                } else {
+-                    tcg_gen_gvec_ori(MO_32, reg_ofs, reg_ofs, imm,
+-                                     vec_size, vec_size);
+-                }
+-            } else {
+-                /* VMOV, VMVN.  */
+-                if (op == 14 && invert) {
+-                    TCGv_i64 t64 = tcg_temp_new_i64();
+-
+-                    for (pass = 0; pass <= q; ++pass) {
+-                        uint64_t val = 0;
+-                        int n;
+-
+-                        for (n = 0; n < 8; n++) {
+-                            if (imm & (1 << (n + pass * 8))) {
+-                                val |= 0xffull << (n * 8);
+-                            }
+-                        }
+-                        tcg_gen_movi_i64(t64, val);
+-                        neon_store_reg64(t64, rd + pass);
+-                    }
+-                    tcg_temp_free_i64(t64);
+-                } else {
+-                    tcg_gen_gvec_dup_imm(MO_32, reg_ofs, vec_size,
+-                                         vec_size, imm);
+-                }
+-            }
+-        }
++        /* Two registers and shift or reg and imm: handled by decodetree */
++        return 1;
+     } else { /* (insn & 0x00800010 == 0x00800000) */
+         if (size != 3) {
+             op = (insn >> 8) & 0xf;
 -- 
 2.20.1
 
