@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC7E31F06C1
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 Jun 2020 15:26:48 +0200 (CEST)
-Received: from localhost ([::1]:47724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B81D81F06BD
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 Jun 2020 15:25:29 +0200 (CEST)
+Received: from localhost ([::1]:40128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jhYqV-0000tU-Q7
-	for lists+qemu-devel@lfdr.de; Sat, 06 Jun 2020 09:26:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39070)
+	id 1jhYpE-0006Bb-LL
+	for lists+qemu-devel@lfdr.de; Sat, 06 Jun 2020 09:25:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jhYgc-0007K6-AQ
- for qemu-devel@nongnu.org; Sat, 06 Jun 2020 09:16:34 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:41611)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jhYgX-0007Hg-J0
+ for qemu-devel@nongnu.org; Sat, 06 Jun 2020 09:16:29 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:48871)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jhYgX-0007fo-KR
- for qemu-devel@nongnu.org; Sat, 06 Jun 2020 09:16:33 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jhYgW-0007fc-CV
+ for qemu-devel@nongnu.org; Sat, 06 Jun 2020 09:16:29 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MHGPA-1jlyWl00sS-00DINq; Sat, 06 Jun 2020 15:16:23 +0200
+ id 1N8GdE-1iv6vP2Pdg-014A1G; Sat, 06 Jun 2020 15:16:23 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 17/19] target/s390x: Restrict CpuClass::get_crash_info() to
+Subject: [PULL v2 18/19] hw/core: Restrict CpuClass::get_crash_info() to
  system-mode
-Date: Sat,  6 Jun 2020 15:16:05 +0200
-Message-Id: <20200606131607.1250819-18-laurent@vivier.eu>
+Date: Sat,  6 Jun 2020 15:16:06 +0200
+Message-Id: <20200606131607.1250819-19-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200606131607.1250819-1-laurent@vivier.eu>
 References: <20200606131607.1250819-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:oVVlg+zAD4r3gNfcMirAhifpwGVg/NT5rl3BdmGJXi43bsT5oCk
- Eoik894KLLIjRJYd1WZnV2tHbWMt7ECxSYBbhzbGt/WrFSTL72r8mh8UwpCFX/m1x8MBEr7
- RbC5xxuMb9k5qgtip0koSuT4dm7GcIfI6Kwxhq9vkf8wOV4OLce6oJ8DxSdHJn1I4aVWFVY
- MM734jyASbLPqOuhmASuA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ezPdbSSDJUE=:ohDBTnCLNUNVKnqsGXAdyo
- xuVRKZlh3mZo4VsZxeHsUfupQRyKhmPBHITdZXyrex4jRlc20veKCUAHbfY5fPP9U6++O6wdl
- 1sQsDWJUvdjGtm7ks6Pxqb6hJY2df4fxJ424Lu3s+V6g4fJ4Qkt3PQEPOTJOuh7tFcRsmO1DD
- HlFvUx7YtyUoHFX9FfJWe2qT6vVRdKCoqn5nHfz37e23XZiT7rxp0MkVJyGImMNtl2RTEQS6J
- GqHpPmJvL115bjs47Pl5BESo7//yxcc9pnV/xDNF/3qdKeqiVqtUlmv9eN0/Wh845BEWBFwtV
- K8Bz1cfd48PqDLHWnsOjT97cy3joOYtbm7Lddh5Xlo/wda/sXPtMDgmNPonic/NKzIgjohZG0
- dsKmoovOX9I4u8J72OoldWzlLQ3kNsZnBBQBp3gZzxAswi6aJqcRjOHAWk8lrNXofUvbB/Tcy
- AV9Fh7EKlFy7ASyko4V/vnui7wLGEQPTkzqbCBOIKOjx6oCNbzJR6eFkRzuD1ol0HiyQF51Q+
- ady+WKy47MwIRaI0cTDTEXEAtp4jR+LdjK8gslgWIb1SjORVmOSvwgScV40z81vb3QWvq4gZf
- S+BXRGi46ZrSK5oGQTq0kFl550Ilq1d8qcUn508kdTRorPwNZECy4GYfBSBSMZQmp3waamLFy
- nVn2rw5gC56QPVYQjHmS/IFGRzg0Bk7DoAv0eXmwiE3AaBa64K8boirPoL6uRfTheCpgjs70l
- OKTUdzykEa610avDf1PJ05jqtszq8zIf+XyF4zq5niorKDtaX8Ec5Br3VadqyGUv2uhowXhCE
- RL87MgyLOH41wFDGHgRe8eblGkSuLmSYLYbiOjRnkK9rBkDskxx00Qwp+Ye/g8PFbM+dUBV
-Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:GZZSYLrSs7M0urx3dC04OAdGxc8HgaFQr1CphinUO/x2RDeOx0+
+ MkPLmNUo0Y/dy625VBsoMyasAAwcnWuTmmcwttTdtcZFeXumfB3wYbmW3JlFzPIwsk//40I
+ ZUUmDEuRzMgFNNFKrHveVQ/pFZgY96d0ngKNimcwI+BpmLdWHJGtKaZkvgPzqM7mSUJ6I1R
+ XJeesQzSpnXbF63sgSFqw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:XZdTX8sJvSs=:c4b8xpKfWx0os2crdNivhZ
+ lMVAIGkJT4EG7AdnDiLYyPAilzlovKSaaIqPJrduHwNOiVbVpGZp8qYcYT2ylvMFJK7SbAegk
+ duI6EPn1+wyKD46prq9N6ml07JXAWzOWehnRtUWJtjS6uHNpMIExwSx4iHmnW2YSFUiePsqB4
+ Ax73pa5qS1sRik34eg32AX9sRE39VgukKhvSTO9to06U+gBI1rn7JaGv0cbSHcdlQ9aNRLzvF
+ d7f88+Z8kPmyAfKkmCJao+KUWYNfx9F+cbcbOR3qug7vESU0xkpGbO9aCQs8On8UJGmXfuocu
+ /6rMyRmVw025W0sKByHwrSnHYy+0pfA+7VieyDI0xxUXcpodJHeooIp5LWUzd5BD+QrasdeU6
+ 9VKgDkMvFsNBpsIvQPd5YhUOSm30mvt7sQMC4YQWcL/3m7IWDcCBaQwQzr7DS+GMB+wlBiGtS
+ MoKwQB4hV5gYgYSFLxsawzQQu/USWH7L1vlUsk2fzDQCVyc5hp89om2swywpIr/nYXf9bUduW
+ KEOeKKOP9r02+q/VguVlNkMyfpSSEBnIun85VNdHqZaEL9HVhPGUwv6i78sLdsg7WJvYnDTvW
+ uBufT6UowOeGfsK2jPXqy4YJfB7ZKMYLPUsH6G2Rbc/faS/z0kimWWF53ieFIzsTTpeB9aofQ
+ tEIySvqiuqfUcQDmb3qt5Czroax3Cy3qK3ZGEWBc0vqGMFdLuzcOfaCipkadJlsbJG2yk/T9e
+ QbZzSKW5UhmxigvOur3oTrf51+mZOlujM4OHxRJy401Z6LqygMhGciGxFDWDMHxD1d0fdrAFU
+ 8kd1WwZw/2QuAisb1F9Lnlm53ITJDNm4PwiUhaZEPw8vD/sLbMf5N6/45OYVOwkoaqMM2OD
+Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/06 09:16:18
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/06 09:16:27
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -73,89 +73,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Richard Henderson <richard.henderson@linaro.org>,
  Riku Voipio <riku.voipio@iki.fi>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>, Cornelia Huck <cohuck@redhat.com>
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 Tested-by: Laurent Vivier <laurent@vivier.eu>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200522172510.25784-12-philmd@redhat.com>
+Message-Id: <20200522172510.25784-13-philmd@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- target/s390x/cpu.c | 12 +++++-------
- 1 file changed, 5 insertions(+), 7 deletions(-)
+ hw/core/cpu.c         | 2 ++
+ include/hw/core/cpu.h | 7 ++++++-
+ 2 files changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
-index ca50b7045198..08eb674d22b4 100644
---- a/target/s390x/cpu.c
-+++ b/target/s390x/cpu.c
-@@ -247,6 +247,7 @@ out:
-     error_propagate(errp, err);
+diff --git a/hw/core/cpu.c b/hw/core/cpu.c
+index 5284d384fb6b..f31ec48ee61e 100644
+--- a/hw/core/cpu.c
++++ b/hw/core/cpu.c
+@@ -209,6 +209,7 @@ static bool cpu_common_exec_interrupt(CPUState *cpu, int int_req)
+     return false;
  }
  
 +#if !defined(CONFIG_USER_ONLY)
- static GuestPanicInformation *s390_cpu_get_crash_info(CPUState *cs)
+ GuestPanicInformation *cpu_get_crash_info(CPUState *cpu)
  {
-     GuestPanicInformation *panic_info;
-@@ -256,11 +257,7 @@ static GuestPanicInformation *s390_cpu_get_crash_info(CPUState *cs)
-     panic_info = g_malloc0(sizeof(GuestPanicInformation));
- 
-     panic_info->type = GUEST_PANIC_INFORMATION_TYPE_S390;
--#if !defined(CONFIG_USER_ONLY)
-     panic_info->u.s390.core = cpu->env.core_id;
--#else
--    panic_info->u.s390.core = 0; /* sane default for non system emulation */
--#endif
-     panic_info->u.s390.psw_mask = cpu->env.psw.mask;
-     panic_info->u.s390.psw_addr = cpu->env.psw.addr;
-     panic_info->u.s390.reason = cpu->env.crash_reason;
-@@ -286,6 +283,7 @@ static void s390_cpu_get_crash_info_qom(Object *obj, Visitor *v,
-                                      errp);
-     qapi_free_GuestPanicInformation(panic_info);
+     CPUClass *cc = CPU_GET_CLASS(cpu);
+@@ -219,6 +220,7 @@ GuestPanicInformation *cpu_get_crash_info(CPUState *cpu)
+     }
+     return res;
  }
 +#endif
  
- static void s390_cpu_initfn(Object *obj)
+ void cpu_dump_state(CPUState *cpu, FILE *f, int flags)
  {
-@@ -295,16 +293,16 @@ static void s390_cpu_initfn(Object *obj)
-     cpu_set_cpustate_pointers(cpu);
-     cs->halted = 1;
-     cs->exception_index = EXCP_HLT;
-+#if !defined(CONFIG_USER_ONLY)
-     object_property_add(obj, "crash-information", "GuestPanicInformation",
-                         s390_cpu_get_crash_info_qom, NULL, NULL, NULL);
--    s390_cpu_model_register_props(obj);
--#if !defined(CONFIG_USER_ONLY)
-     cpu->env.tod_timer =
-         timer_new_ns(QEMU_CLOCK_VIRTUAL, s390x_tod_timer, cpu);
-     cpu->env.cpu_timer =
-         timer_new_ns(QEMU_CLOCK_VIRTUAL, s390x_cpu_timer, cpu);
-     s390_cpu_set_state(S390_CPU_STATE_STOPPED, cpu);
- #endif
-+    s390_cpu_model_register_props(obj);
- }
+diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+index 07f769815502..497600c49efa 100644
+--- a/include/hw/core/cpu.h
++++ b/include/hw/core/cpu.h
+@@ -490,6 +490,8 @@ bool cpu_paging_enabled(const CPUState *cpu);
+ void cpu_get_memory_mapping(CPUState *cpu, MemoryMappingList *list,
+                             Error **errp);
  
- static void s390_cpu_finalize(Object *obj)
-@@ -488,13 +486,13 @@ static void s390_cpu_class_init(ObjectClass *oc, void *data)
-     cc->do_interrupt = s390_cpu_do_interrupt;
- #endif
-     cc->dump_state = s390_cpu_dump_state;
--    cc->get_crash_info = s390_cpu_get_crash_info;
-     cc->set_pc = s390_cpu_set_pc;
-     cc->gdb_read_register = s390_cpu_gdb_read_register;
-     cc->gdb_write_register = s390_cpu_gdb_write_register;
- #ifndef CONFIG_USER_ONLY
-     cc->get_phys_page_debug = s390_cpu_get_phys_page_debug;
-     cc->vmsd = &vmstate_s390_cpu;
-+    cc->get_crash_info = s390_cpu_get_crash_info;
-     cc->write_elf64_note = s390_cpu_write_elf64_note;
- #ifdef CONFIG_TCG
-     cc->cpu_exec_interrupt = s390_cpu_exec_interrupt;
++#if !defined(CONFIG_USER_ONLY)
++
+ /**
+  * cpu_write_elf64_note:
+  * @f: pointer to a function that writes memory to a file
+@@ -539,6 +541,8 @@ int cpu_write_elf32_qemunote(WriteCoreDumpFunction f, CPUState *cpu,
+  */
+ GuestPanicInformation *cpu_get_crash_info(CPUState *cpu);
+ 
++#endif /* !CONFIG_USER_ONLY */
++
+ /**
+  * CPUDumpFlags:
+  * @CPU_DUMP_CODE:
+@@ -632,7 +636,8 @@ static inline int cpu_asidx_from_attrs(CPUState *cpu, MemTxAttrs attrs)
+     }
+     return ret;
+ }
+-#endif
++
++#endif /* CONFIG_USER_ONLY */
+ 
+ /**
+  * cpu_list_add:
 -- 
 2.26.2
 
