@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 411221F06BF
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 Jun 2020 15:26:15 +0200 (CEST)
-Received: from localhost ([::1]:45358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63B881F06C4
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 Jun 2020 15:28:40 +0200 (CEST)
+Received: from localhost ([::1]:54156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jhYpy-0008Mw-Bq
-	for lists+qemu-devel@lfdr.de; Sat, 06 Jun 2020 09:26:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39096)
+	id 1jhYsJ-0003Zd-F5
+	for lists+qemu-devel@lfdr.de; Sat, 06 Jun 2020 09:28:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jhYge-0007P4-Gx
- for qemu-devel@nongnu.org; Sat, 06 Jun 2020 09:16:36 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:45829)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jhYgd-0007Nd-Tp
+ for qemu-devel@nongnu.org; Sat, 06 Jun 2020 09:16:35 -0400
+Received: from mout.kundenserver.de ([212.227.126.187]:35329)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jhYgb-0007fx-Ut
- for qemu-devel@nongnu.org; Sat, 06 Jun 2020 09:16:36 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jhYgb-0007fs-T3
+ for qemu-devel@nongnu.org; Sat, 06 Jun 2020 09:16:35 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MWRmF-1jRQTL1J51-00XqCz; Sat, 06 Jun 2020 15:16:16 +0200
+ id 1MmUcL-1jGmVF3wzB-00iUPH; Sat, 06 Jun 2020 15:16:17 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 08/19] configure: Avoid building TCG when not needed
-Date: Sat,  6 Jun 2020 15:15:56 +0200
-Message-Id: <20200606131607.1250819-9-laurent@vivier.eu>
+Subject: [PULL v2 09/19] tests/Makefile: Only display TCG-related tests when
+ TCG is available
+Date: Sat,  6 Jun 2020 15:15:57 +0200
+Message-Id: <20200606131607.1250819-10-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200606131607.1250819-1-laurent@vivier.eu>
 References: <20200606131607.1250819-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:euRh+2bSeRHBL0yyFQR5Tn3qrNSUgtcO0BzEgWzoR3PFD5VIN2W
- Y2YCfjhUH8Uzp+9LI79M6AAHfVq4Zr4jTj6AKKIMM/a9qKbS+O2bbsWbPpFiimALZ2sR2up
- 6hfa8ZllXd52AE5OR79gTU8QJ93r6SilGsfvqxzGwx/2J2oeDyuf0ZW44JFBI7aS2BHuzR6
- 2tiR/U+DkZb+zyJ+PljKQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:iFs+jX96zEU=:szVbC4Jtsnaf49lrpV7DDv
- fttqqejwaLFLlHMYjooGD/Z5ukxhmdwzYfeGsYvnbDyrZT1I6keADM2/iLYmrk4wbPTyIpd99
- Y0VLFRgp4O7SoxygUqHMbecu9znNafKfOxT3smrgHeGITlY5Vjk0LK8DLzdIKA3q7rC2eCE8k
- bj6L0gwniGMJzfV2lzwteUFpWOMbZZMS5nCeONWaS5ztiKrfy1PhLjtUSI7vDYLEhUywaRL1Z
- pD/pbTbhzmjPCLi813aA60ZjsK+SEt027IVxRuvbMqtK1FXsl7GAXy0zbPck/eHMEUDOFZ7sP
- /w9n95W12L8d7ltvPwYWcLGKN6FqPMHwEE1PupXSVIMxyavPcXYB/jKnCZ0AfiO+lQHd4Rip0
- MM/12D3aUTp1bQfKBB41/DHJjrjAYw91XPhg6gRuyMqX0rsvM26rSy4Hjx5T8PU2EQJE1UV3s
- hOe8Fw2PTyjGteZBcMNyby8qBPSAK9FuQXRIHVY4Tm1FMk17/fz9J28eS8rSEq1A4b4QVCvXd
- aLwOjsGVsZ9TplwCwv+uvC3iOuTazyOx1i9pBV65M8Z3jJl5kvfnX6USNwbG2a2CynDduQ09E
- ZlMN8wntbjaw9hn1HCCjYsh+nfv/QWMkyr5ND43aDisT1JhZTfZMOoryKi+4qTbDjMIYW1Qv4
- T43RWKTI9WY33/ONKVRfdEZebdXmLYKXdkks3qurA9FEPEMnDzJAAi7wT6Vz6lPlouWEGjF4r
- hhgcrkoTNZkkIeK1KGs4k058tt9lqUL9rj5Xh3CsR/QHL3/Nz6a26rMeO3JJAwa/1GZdr7qPI
- 8wZENyE0JKyq/c1+mik8+qwaIj2RHt7hdFGbKoebVPRlRqLFkaip4luXO0wftTX8yPTFFtp
-Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:2CwXTbYR6vH8kFpUc7gS93fA+cfHFpzObB0sirNk3bTcC9GMQ6c
+ qdGNZ8W4vdClWcq562PneQZb0b4LH5jO0QenObAluog5+pcTWYlABJpHFTVXKoBwUAio8qh
+ 39Y8dAiduaiSX5Ng3QaTkdwjcANw+ahIT908h1pcPkR9nBfV2FDZH6mamfeByvFuwTr1eW7
+ 9VSm1RwAA7syT8Xt6rbrQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:pM38J6YeDW4=:XVA/q7ucK/yu/WH+dM2GCq
+ OKXTz/FC7c9LpKi34WMF7ywbSMHTxYyZtXfqiA5XCWrK+jE7yvQcyXRiw4/2hVi58WLTINVW6
+ n0wurbwfuQBcKo29pBhdXUXMt30g28XoVyIidwxa9HjEvyqUXtQF0sksi14HEmXM/XGqDDfus
+ VYxptAn3AXMayfKZ32qIkPk2UiOWIPgnfiIQFUsmYPnd93gwS9hqsWEWKYALUZO6O3FWYFcKE
+ F4cJ/2sz6El+C1kCjLCcJJ86J+oKno3TR3xeEWfG1xwvYVGRftPjrMsn58MSCan+C3Bv8xaR+
+ Xaf3ydR6pCLHbDGo3xH5bmmuIFJpupWBL/7yb5aUVnr1W981K5DxJND05EFVrEhIebp2RimaQ
+ IVPYvy41+3yfXs/LJ+3ploXHUrUth7ZX+DGHshzwjZJ+tiHPLX47oLk88tLxK/rtr9yO1O+1o
+ WNL9leBqcMxSZ4JOiTsdgFiEf8E44VWPSr7i0pR6zD1S9VcCNalyMzuD0taemf0FetDHBXpNK
+ KnQhsAdm0N+n3p2V074AcwGZb4tO2Zyqk+MKlcboD5z2S6rbD2evUKUThHEaqWlu9AGCPT5Jj
+ 8mC1xMWYqKbaTunpginXnU7818dGnoqseoEoUhQvH6NRvXLOd32zrfQWIWq7CuMYURKDXMQm7
+ 5Jl7ujpRYcCMHzzYwF+VGfLVKhglDhvscSs/m9/mDqlyvfY9nBzJjoZyJQ3LQNcBiIUbSIz1a
+ vmQ7psQi1mWHO24ltt/Vd7z89jU9qTPwgkJ/3eIn0uZ31ulAgv1WL8nSMvriM+0BIgBvlrjGL
+ utEgWc9QKKruk7GicTSczVtS/ztXYfw0eN33aZTrnhtjg89unLQ3DNezlMH2EuDeS2aSGB8
+Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/06 09:16:17
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
@@ -69,8 +70,9 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Alistair Francis <alistair.francis@wdc.com>, Riku Voipio <riku.voipio@iki.fi>,
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Riku Voipio <riku.voipio@iki.fi>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
@@ -78,39 +80,32 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Avoid building TCG when building only tools:
-
-  ./configure --enable-tools --disable-system --disable-user
-
-This saves us from running the soft-float tests enabled since
-commit 76170102508.
-
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 Tested-by: Laurent Vivier <laurent@vivier.eu>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200522172510.25784-3-philmd@redhat.com>
+Message-Id: <20200522172510.25784-4-philmd@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- configure | 4 ++++
- 1 file changed, 4 insertions(+)
+ tests/Makefile.include | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/configure b/configure
-index b969dee675bb..fccc56bd4d1f 100755
---- a/configure
-+++ b/configure
-@@ -1663,6 +1663,10 @@ if [ "$ARCH" = "unknown" ]; then
-   linux_user="no"
- fi
- 
-+if [ "$bsd_user" = "no" -a "$linux_user" = "no" -a "$softmmu" = "no" ] ; then
-+  tcg="no"
-+fi
-+
- default_target_list=""
- 
- mak_wilds=""
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index 03a74b60f6b2..6bc3d1096bc9 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -12,8 +12,10 @@ check-help:
+ 	@echo " $(MAKE) check-speed          Run qobject speed tests"
+ 	@echo " $(MAKE) check-qapi-schema    Run QAPI schema tests"
+ 	@echo " $(MAKE) check-block          Run block tests"
++ifeq ($(CONFIG_TCG),y)
+ 	@echo " $(MAKE) check-tcg            Run TCG tests"
+ 	@echo " $(MAKE) check-softfloat      Run FPU emulation tests"
++endif
+ 	@echo " $(MAKE) check-acceptance     Run all acceptance (functional) tests"
+ 	@echo
+ 	@echo " $(MAKE) check-report.tap     Generates an aggregated TAP test report"
 -- 
 2.26.2
 
