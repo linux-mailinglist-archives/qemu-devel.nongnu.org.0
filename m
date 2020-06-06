@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF27D1F06B2
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 Jun 2020 15:21:46 +0200 (CEST)
-Received: from localhost ([::1]:48330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3479D1F06C3
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 Jun 2020 15:28:09 +0200 (CEST)
+Received: from localhost ([::1]:51738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jhYle-0006OW-16
-	for lists+qemu-devel@lfdr.de; Sat, 06 Jun 2020 09:21:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39036)
+	id 1jhYro-0002XJ-Aj
+	for lists+qemu-devel@lfdr.de; Sat, 06 Jun 2020 09:28:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jhYgS-000756-BA
- for qemu-devel@nongnu.org; Sat, 06 Jun 2020 09:16:24 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:34975)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jhYgf-0007Qj-9W
+ for qemu-devel@nongnu.org; Sat, 06 Jun 2020 09:16:37 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:58377)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jhYgR-0007eo-80
- for qemu-devel@nongnu.org; Sat, 06 Jun 2020 09:16:24 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jhYgb-0007gK-UX
+ for qemu-devel@nongnu.org; Sat, 06 Jun 2020 09:16:36 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1Mj8a5-1j4ctz366X-00fFGl; Sat, 06 Jun 2020 15:16:18 +0200
+ id 1M9nlN-1jdxeY1SJJ-005uWB; Sat, 06 Jun 2020 15:16:19 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 12/19] stubs/Makefile: Reduce the user-mode object list
-Date: Sat,  6 Jun 2020 15:16:00 +0200
-Message-Id: <20200606131607.1250819-13-laurent@vivier.eu>
+Subject: [PULL v2 13/19] target/riscv/cpu: Restrict CPU migration to
+ system-mode
+Date: Sat,  6 Jun 2020 15:16:01 +0200
+Message-Id: <20200606131607.1250819-14-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200606131607.1250819-1-laurent@vivier.eu>
 References: <20200606131607.1250819-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:hmgqyD69i52pURRa8xNImRDVVBuhd7lG9woVIeaaiIQqDFNJ6zC
- o+a11w2E++oZB9atYkuLFhq5mU8k53aTQOpaNHGFC6mT2rMFSfgyG1+nC94dkGD8MiNRCPW
- sjo28eIOTZACwAgLPP/MXqXku871aKTqvWSKlqZpzgv4RDaX1NGdhYiyoa72SqoxuRLuCjx
- eT5HpfXWwMyfSRLE+imrA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:jbT4tsYpI/0=:GlKDOmhgrQxi1VZKmpMrxV
- jvRA2faz3C5wzPYrSkhJzsSjCKxc3d87kTV29h5cz6lOdccFleaDanpbrc/gXddpXfWUAHINC
- rgBYYgMp9+uloCMUXq31rGpQow2Bv+FxbyqAVE00pWJ5HzyeNZ0hyMNBArPYkkioikPtZVhfM
- zHZwz/7g+UZZQIoscuMSNC+Q7ExaO5uvSqw1s6dQJK9iS0RYxouy6PQ6n3d2k7PEiKEuv74gR
- s1795sw2lwOejUqh7ikFz2sww8B8qAOtSkHwNLC5kcpm/wVXlwt7SnnqWBu5R0gY0kWUTn2xK
- sUO866ykB8gAXDBJwNAGRt6Ha6dgccnSQeCpLqS6iVhcQUeJjkNsuq65kLWv+uj8uMa07tvlS
- wrkaWz4twH3l5ymalbb0JOLseib9I9RBRYXO6hTF9rT1n57ffGfavbbiy0J9W90H3/blB6efb
- dnZl5/Yq1mPXgg2dl15j2p0zPcy9zaraSUSpGJZfmDsdOe5urytdflBn/ZAHyNBM/jMQZHeyn
- 5DTCZ5D/4qom7V3xFFFrOclPIh6wBR/StIGUtOoprq0ROd8JyCuwmNN6CZ1GfpeLXi3Z/xMGh
- KVB8yPxGeCzdYjElH4YrH/xnXPo9OmuXhTw62i01FNBbkC46/UocBMYqiR3oNsWs/KWP6w800
- A13RE+5QafpLAXxe86aTBBSer9kuuBfN8YkvYyDb8Wv6aZHCH6RSdPAQP1D45mEgEQU28yg12
- jqVKjgKwUTYKSr2gTxKt9RNYthDFqvEdTgvlFVbxL7Y1AyylXgl3OQESSrHWnz2xmRwum/faX
- JbJAkjo4q0lIb89iOFCFPU82t1cWnHFbBYpGK3H6UtOZ0Dh2TZZIKi+p689oWf0+B50MGmm
-Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:9UhZ8rF6x9qroVqlPvbwJysM18+fds1WlEyFZVqCr530QxMHIFq
+ Gxj0XISe5+D5T1vvli5wQYsVCJ0g2jz3Zgzuy8HQN/X1ZCGOqtW4i+yQd07+8zLwAUr7lIO
+ u817uGTbdj3l1ptg3EcWy/kzs8b1y7RbjvJXqfhw3JVuMkvGh+HgxbriaHdNkF2QJ3x5Cei
+ goOi3SWwLJQIyV8zb/dhA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:5RhwfZ8yzgc=:EoEsZ34bgV1AgVlsWga0zT
+ st9WbcEeIot9eAmBUQNq/V5OC4JoLpeoiSyzjqOX4f+g2p1S6i7N0CW63ANOE70cB55PgohUs
+ nk/m/8dfesHUz/fsF/EKkZLD3XF+1tbRlU7XqZHRanVqmVLn5xroqeqyjxAF98RGOSYNW1pja
+ wyLiH9nlVeVBY9H6XQa7xT1zcnx/fq17FCOUwtERb0Q8VnwHLE3SDSdvgs/jOI3RItZBCkLkO
+ Ku2VZ8pQULbGEcLYxvnoFnqHufABr4dbRkTbdz8ZUuqXhT6p/bkVx/HmBRZ2m0J0d3B3K4w/r
+ tYf2kaTpZoe6XS6NzgxpaRY/60HO79ZF5/eZr6uI/SPGcqjqAfx1/hoT+gY2PckQU3f4i2GV1
+ nx3enDZqTz/2U0DaPFM6dl5F5RL0lD3DVmW6kbJNgPM4uMkFKNYia1UDNRw/A1UMFikLtOD4i
+ h0/x7PwIB/8eeh6gln9It86XxUU5AY7Qwsl+SuvbWPunhJLufLaerDVjXuQTowl53PWNUxcja
+ t4y1wJNlDVb7xB9vbq0uvB6gg9PE2AzKZsQRUrAeSHDGUp8ReydcKqUlTn09M8uYNsbsYkyTA
+ PmyYZ52V5x6ytvHYixJa91irZNTvhO1BPWdTxbJTj0CerJa1KCf/+nhsgaOm4TH28Wo65jvjL
+ 8yFf2hJ8UbRSnfkK60c4IVTMVv4coW7f5Sy4uUx7IzayHi7pO2B+wWaSOWiZzC46mvIwVyWi2
+ q1TIDES+vmpY+rhoZjHlcsqryKS0scaHFnPrxLVCzgOx6XMJpxG0KaQFK4vSKjn7WNolYKrAM
+ X/ZcXTC0bkDPA5199uLBppPc5gzNWFVIchAH+JiLj3t0Sck3dlzW0JT4IzVLk4Ku8Hai/R7
+Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/06 09:16:17
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
@@ -69,7 +70,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
  Riku Voipio <riku.voipio@iki.fi>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Laurent Vivier <laurent@vivier.eu>
@@ -78,99 +80,50 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-These stubs are not required when configured with --disable-system.
-
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 Tested-by: Laurent Vivier <laurent@vivier.eu>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200522172510.25784-7-philmd@redhat.com>
+Message-Id: <20200522172510.25784-8-philmd@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- stubs/Makefile.objs | 50 ++++++++++++++++++++++++++-------------------
- 1 file changed, 29 insertions(+), 21 deletions(-)
+ target/riscv/cpu.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/stubs/Makefile.objs b/stubs/Makefile.objs
-index 6a9e3135e8f9..f54125de317d 100644
---- a/stubs/Makefile.objs
-+++ b/stubs/Makefile.objs
-@@ -1,47 +1,55 @@
--stub-obj-y += arch_type.o
--stub-obj-y += bdrv-next-monitor-owned.o
- stub-obj-y += blk-commit-all.o
--stub-obj-y += blockdev-close-all-bdrv-states.o
--stub-obj-y += clock-warp.o
- stub-obj-y += cpu-get-clock.o
- stub-obj-y += cpu-get-icount.o
- stub-obj-y += dump.o
- stub-obj-y += error-printf.o
- stub-obj-y += fdset.o
- stub-obj-y += gdbstub.o
--stub-obj-y += get-vm-name.o
--stub-obj-y += iothread.o
- stub-obj-y += iothread-lock.o
- stub-obj-y += is-daemonized.o
- stub-obj-$(CONFIG_LINUX_AIO) += linux-aio.o
- stub-obj-$(CONFIG_LINUX_IO_URING) += io_uring.o
--stub-obj-y += machine-init-done.o
--stub-obj-y += migr-blocker.o
--stub-obj-y += change-state-handler.o
--stub-obj-y += monitor.o
- stub-obj-y += monitor-core.o
- stub-obj-y += notify-event.o
-+stub-obj-y += qmp_memory_device.o
- stub-obj-y += qtest.o
-+stub-obj-y += ramfb.o
- stub-obj-y += replay.o
--stub-obj-y += replay-user.o
- stub-obj-y += runstate-check.o
-+stub-obj-$(CONFIG_SOFTMMU) += semihost.o
- stub-obj-y += set-fd-handler.o
-+stub-obj-y += vmgenid.o
- stub-obj-y += sysbus.o
- stub-obj-y += tpm.o
- stub-obj-y += trace-control.o
--stub-obj-y += uuid.o
--stub-obj-y += vm-stop.o
- stub-obj-y += vmstate.o
- stub-obj-y += win32-kbd-hook.o
-+
-+#######################################################################
-+# code used by both qemu system emulation and qemu-img
-+
-+ifeq ($(call lor,$(CONFIG_SOFTMMU),$(CONFIG_TOOLS)),y)
-+
-+stub-obj-y += arch_type.o
-+stub-obj-y += bdrv-next-monitor-owned.o
-+stub-obj-y += blockdev-close-all-bdrv-states.o
-+stub-obj-y += change-state-handler.o
-+stub-obj-y += clock-warp.o
- stub-obj-y += fd-register.o
--stub-obj-y += qmp_memory_device.o
--stub-obj-y += target-monitor-defs.o
-+stub-obj-y += fw_cfg.o
-+stub-obj-y += get-vm-name.o
-+stub-obj-y += iothread.o
-+stub-obj-y += machine-init-done.o
-+stub-obj-y += migr-blocker.o
-+stub-obj-y += monitor.o
-+stub-obj-y += pci-host-piix.o
-+stub-obj-y += ram-block.o
-+stub-obj-y += replay-user.o
- stub-obj-y += target-get-monitor-def.o
--stub-obj-y += vmgenid.o
-+stub-obj-y += target-monitor-defs.o
-+stub-obj-y += uuid.o
-+stub-obj-y += vm-stop.o
- stub-obj-y += xen-common.o
- stub-obj-y += xen-hvm.o
--stub-obj-y += pci-host-piix.o
--stub-obj-y += ram-block.o
--stub-obj-y += ramfb.o
--stub-obj-y += fw_cfg.o
--stub-obj-$(CONFIG_SOFTMMU) += semihost.o
-+
-+endif # CONFIG_SOFTMMU || CONFIG_TOOLS
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 059d71f2c715..6c78337858ad 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -485,10 +485,12 @@ static void riscv_cpu_init(Object *obj)
+     cpu_set_cpustate_pointers(cpu);
+ }
+ 
++#ifndef CONFIG_USER_ONLY
+ static const VMStateDescription vmstate_riscv_cpu = {
+     .name = "cpu",
+     .unmigratable = 1,
+ };
++#endif
+ 
+ static Property riscv_cpu_properties[] = {
+     DEFINE_PROP_BOOL("i", RISCVCPU, cfg.ext_i, true),
+@@ -544,13 +546,13 @@ static void riscv_cpu_class_init(ObjectClass *c, void *data)
+     cc->do_transaction_failed = riscv_cpu_do_transaction_failed;
+     cc->do_unaligned_access = riscv_cpu_do_unaligned_access;
+     cc->get_phys_page_debug = riscv_cpu_get_phys_page_debug;
++    /* For now, mark unmigratable: */
++    cc->vmsd = &vmstate_riscv_cpu;
+ #endif
+ #ifdef CONFIG_TCG
+     cc->tcg_initialize = riscv_translate_init;
+     cc->tlb_fill = riscv_cpu_tlb_fill;
+ #endif
+-    /* For now, mark unmigratable: */
+-    cc->vmsd = &vmstate_riscv_cpu;
+     device_class_set_props(dc, riscv_cpu_properties);
+ }
+ 
 -- 
 2.26.2
 
