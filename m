@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80EB31F084E
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 Jun 2020 21:23:44 +0200 (CEST)
-Received: from localhost ([::1]:37658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2C3D1F0858
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 Jun 2020 21:29:01 +0200 (CEST)
+Received: from localhost ([::1]:49030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jhePv-0006jq-As
-	for lists+qemu-devel@lfdr.de; Sat, 06 Jun 2020 15:23:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40764)
+	id 1jheV2-0003J7-QF
+	for lists+qemu-devel@lfdr.de; Sat, 06 Jun 2020 15:29:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40786)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1jheKy-0004VY-Sp
- for qemu-devel@nongnu.org; Sat, 06 Jun 2020 15:18:37 -0400
-Received: from mout.web.de ([212.227.17.12]:40629)
+ id 1jheL0-0004XM-3k
+ for qemu-devel@nongnu.org; Sat, 06 Jun 2020 15:18:38 -0400
+Received: from mout.web.de ([212.227.15.4]:40259)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1jheKy-0005bY-0m
- for qemu-devel@nongnu.org; Sat, 06 Jun 2020 15:18:36 -0400
+ id 1jheKz-0005cA-6p
+ for qemu-devel@nongnu.org; Sat, 06 Jun 2020 15:18:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1591471078;
- bh=pt9EkwFNNdSEgpLYZHULMnvivuY+bmJWAt3j33lN1f4=;
+ s=dbaedf251592; t=1591471084;
+ bh=0U39OAVSTpeXgh0fl/DAwVKSc2A6a00gaGnzuby3zQE=;
  h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=eZ2v6eR/9uiUfkwXOhJkOs4fXeraBPUh8KJZW1pYbbsnlO2S8aki6u2pECTDVhKZC
- +zahAa9aZkDipPnYFIGmcjuZX7AAZY3cdfEouxoMQlUxUmk+0fYfR5ipmsZ8gmi3gw
- V3PCImcfDL2xX5EIMKh2S975l6V3IjDVlzP9lkgA=
+ b=cckZBGoj/TPhylmdUTHMIv8L5vVjtoaH+1hTXiSiPmD3hrtO4qi4GqU1kT2iU1gRi
+ mLcJix7+YFnQjfzeH1BvEuBN+VAQFRaFF71ICpDPE6JDS+qGB0jmftSqld6BMHCmdK
+ MhzMjUJ2uqnQe2diQ2JhgDMyrqdaYM8n4fNR1SQQ=
 X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from luklap ([87.123.206.73]) by smtp.web.de (mrweb102
- [213.165.67.124]) with ESMTPSA (Nemesis) id 0Mg7I1-1jMQYF2ITN-00NQvU; Sat, 06
- Jun 2020 21:17:58 +0200
-Date: Sat, 6 Jun 2020 21:17:57 +0200
+Received: from luklap ([87.123.206.73]) by smtp.web.de (mrweb002
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 0M8zdd-1jp2Ar1TRt-00CUIX; Sat, 06
+ Jun 2020 21:18:04 +0200
+Date: Sat, 6 Jun 2020 21:18:01 +0200
 From: Lukas Straub <lukasstraub2@web.de>
 To: qemu-devel <qemu-devel@nongnu.org>
-Subject: [PATCH v2 2/7] avocado_qemu: Introduce pick_qemu_util to pick qemu
- utility binaries
-Message-ID: <3bf59de49c6d97d457e9955efe401335cf28930a.1591456338.git.lukasstraub2@web.de>
+Subject: [PATCH v2 3/7] boot_linux.py: Use pick_qemu_util
+Message-ID: <f2ec23ad6b20679341a5811d6e09977cadc19c8b.1591456338.git.lukasstraub2@web.de>
 In-Reply-To: <cover.1591456338.git.lukasstraub2@web.de>
 References: <cover.1591456338.git.lukasstraub2@web.de>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/UOdQJT+xMKOZy/ZGHlT3gE_";
+Content-Type: multipart/signed; boundary="Sig_/e/=X.bfbwuHB/7/B5eifMbe";
  protocol="application/pgp-signature"; micalg=pgp-sha512
-X-Provags-ID: V03:K1:5v9ACSDUWM+V0dvUq18Xd/bgtoXuTBUBeOwhR5VnaSK1bapmP7i
- U0MVaxTplKQDDUSZQUEErbhuznjFFG83fPFLdODFsZ+TjRR5jJx6eS/4H4D2orEz02MBmri
- 4rziNL96p97ITuzAAjl+S27I3wBBmBk3HSbFNNE4+qJINukaJF5vNJKDpvRsJl1mLIfbl97
- xpQDeYTTivyM4kBpl9Zww==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:EVNUZvtHjJ4=:CUjtx16pwyq4UEU+6HLuVE
- UCZJYmG2Hpd+bhEOm1Fo4QaHq5x4ayaEt/iCtlD23pZbVMlRfCTVGa+ns9id/CGDoGqvEbNrp
- 3/+0d4/RVxXJNpAVi05lpKcGwXRTEbeCI3usoSsLlZpocH+v519hmgXH7ER2CrqSAtA9OA1To
- 6hdUuoEVJ7kec8k2wMBZn59wRO4BRDRcHmX7OS+FAckHFGfhkZMB8qnLT7KMhjc2bORAdwp7C
- 0ZzUpMcXFqa3MwzGW/p7lVDQTBbOL9zbRW450t8P53mxIOL1YdQzb7wepSqkBRvEFaBZnNzmq
- 0pCdq0G3+mk8ZEnX/C+rt7xwG5vdZbbR8837ck78ANYatWlXXdeXZUhnFq/cWK1i0sPUcq1+u
- 3pfrPBpkk5xu7wE9qi6oENlGGBS+YIF0dKgxPRECCBijLzT4IR1LrUEqEIqihteE+9f5/3w6U
- 4SEO2YFkE7lbw52t7Vd1ONVltYahljSsIyYqaYkxLW9NesqMtkBj+kWFDRgObZ+nxk8pDC1WV
- bcVuB/lxzgdnz1dafiNgsh7reXCqTJeA7vN2A5pfv21GM46Mitm3kgDwFu0zGn84FMi2iY+cp
- M1luwT/snv+PIasbMGWqM6DEBUw4mNS7xD4VqMB9/HPoZhcK7DNO8ybWijpcNNm2kOjkL/VPX
- 1SJdZ/qENaUCGO98xPt5+GA4Y0Fkc0ADmheDfkcofNs0MWR90/Bv9yr9PVunoyFhvs3O0JdyA
- MEUWjDxwF8MhZhgnMV4NdWyhTfexB+oa+7DpYdES+h4QpWGip59OuJ4OLg0efflRIEgjNeVwa
- /cCw7edl0zJ1XNr6qBcCn0ChddU5IKWcxNl4/glMVx4Svkgjp7zA6SkvKXc+mhooGlyN7CbEG
- rMeUT7H0duiTQvYXXnUJsAsksrtQ+NSoDMrULsgGieuV7LbP1NXgtcxvyM6XZodg5xF6Uu+v/
- gIPvfY1OtGskxUlwuh0+szAvV6IA9U2NmdteeEZgwNj6wCw1QyHIwGDmZA6apsgk3+SmERbI7
- 63KV35h02PQc6PAqWFMkNHGOZ/jw/OOlGz+0hI3Ig4UNrXYZ3RFoTcxY85DKzDFrFKYnTK9gF
- t8P/Dg9+fg3NL9Y4rVwfVwogsydS1KJi4vjPxNr3vJ2zU7sNxUdhyvJQFhEkpVhIijnN6ZcFb
- alnJnN/EFpfYQYx+Cs8tFTuybxYq9YBp0f75GRnh5thHRCenHNshvX2kbrl28Lng9JHQhbsU/
- ZY/DMae0CBlBrVJUv
-Received-SPF: pass client-ip=212.227.17.12; envelope-from=lukasstraub2@web.de;
+X-Provags-ID: V03:K1:Hcx8Dy03YirD70VwsHUFc/BZGxy7gkqrfgT7gcNvaQxkckUt4sn
+ kUevlGqfz0f26Um3nUQ82u2ogH9YSC7YsRYSUFehBosjlVIsQo+Wy/GCg2oCh3aAXS04cBv
+ 9vkecVhvy++wbNUiFZInBw1c71K60Sn3PLFGXp3Bu4OTBFKDhY4Vpn5n2Klf8v3NUbBD5FV
+ ZLsys/GEknHcFBMIUjpPg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:esxYdt/sE2A=:Tip+3Rhj6Uw7a7OvTSEy50
+ uQ4SxEXYT6jhB0+yLpIWeDbv4w5E4gWmEDDmPfhncq4UUCh4gAemevbYi8fGSeftAMnOH1mqN
+ rMAmvVu8sL8P2Y8TNK8L3xxC8bWaAaYWPkvQoXUupLs1g3AZHjJ7iQXOUou81TGg20kSXhqtl
+ RygF5pzKRj+uT/KIwqA9lJKzbsAA9RGCXY6HQSiNZ0EqWk0hnX441rHwRUnUKDTX7Ld6+uY/p
+ wGS0BQdvuusm1oldOnSE3p3ECkZRM/rvjDrSC8eNNJ2rI88bGIbK67CnAptBkrlojN+Dgeuxs
+ UntxwhgK+ezvVF3YbYh3GpYkZ9ytv7o7aXVHmopQ7Z42vn1kyZFYJseREzbJc5SzouMaG7b36
+ yda5DydGrn2jc8zkcMtrpVpsR9kT/BtsrU2WTUzUSJHrkP1Ta4m8jwJ2llumLkqx+vD/hNklr
+ yclJ7W2H13pJ7LVW1lFI9A86LSjbnhLoUIE0Frer7+R8GZZsxKy9+8drCwDRyaU/61vxQTjUE
+ JWsy8R4j98s7wL2bErPD8cTWUpXrYODMRTvF108jqlzHzU0mMi5RACxIZl2DobhIAVlfNkrIL
+ y9s9nIu0dgtcK64yPXXRuFyYudrQxg9SJ75QRFfmdeDeuNmEGTvPZ+Au46xa3Z9Vi/FR4w5co
+ npGmnSu1F9axg00qv5aaXHDnBQ8BAcp9ltmm+jpR2yjllUfmPK+DN2FUv5/01kfEOD58Y2Lhq
+ Ze+yOQQm91JtMUpSrpiVrS1ECcamMySaFHpPsUSGUS41Zp3kT7+zt9j402szWIoR2goNpFIpt
+ foRQuiVW7XPh1LCR5E3PM7QPidWXpusJkaF5/BulXIZnoT/djWvfS4I3Xt59QMFczvY0r9Pn9
+ wgZmmedJGFm0f6VkkshwBP6Tfj27kps3cjC6nBrDebz8wAtD2xcrsctq1CYsOMVGm9Jm0KyWV
+ tcHXLzfQXwtZvI5cZanIJBcgtLnHlaNRUQ0CeQadSz/EJvcvh65agn7gAy36D54MW0tjDv21K
+ X3aS+w1KHnjytJDDZVcl9ulBit8oPZigkrpq1jn1SAFv442U6ozTPJKWt2SqfZLfAaIYT7FZn
+ RjMePmuBQqD7DeaCaRg40h8yrAdlUSk7xX9CYyqfuoM8okZ0fIjpbVSqMgH0jxkV010tZB24X
+ OsRpjgwtFa36irfyNWJSB+2x4vKzgFqiMmZ0Qw/97w8P4ai1biqYyD5u4gd11WzpVqXgNtxQg
+ AiJ2eWADmfzl6HBzX
+Received-SPF: pass client-ip=212.227.15.4; envelope-from=lukasstraub2@web.de;
  helo=mout.web.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/06 15:18:34
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/06 15:18:36
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -24
 X-Spam_score: -2.5
@@ -74,8 +73,8 @@ X-Spam_bar: --
 X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,77 +96,63 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/UOdQJT+xMKOZy/ZGHlT3gE_
+--Sig_/e/=X.bfbwuHB/7/B5eifMbe
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-This introduces a generic function to pick qemu utility binaries
-from the build dir, system or via test parameter.
+Replace duplicate code with pick_qemu_util.
 
 Signed-off-by: Lukas Straub <lukasstraub2@web.de>
 ---
- tests/acceptance/avocado_qemu/__init__.py | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ tests/acceptance/boot_linux.py | 11 ++---------
+ 1 file changed, 2 insertions(+), 9 deletions(-)
 
-diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/a=
-vocado_qemu/__init__.py
-index 59e7b4f763..d0529dca6c 100644
---- a/tests/acceptance/avocado_qemu/__init__.py
-+++ b/tests/acceptance/avocado_qemu/__init__.py
-@@ -15,6 +15,7 @@ import uuid
- import tempfile
+diff --git a/tests/acceptance/boot_linux.py b/tests/acceptance/boot_linux.py
+index 075a386300..6b99112cad 100644
+--- a/tests/acceptance/boot_linux.py
++++ b/tests/acceptance/boot_linux.py
+@@ -44,15 +44,8 @@ class BootLinux(Test):
+     def prepare_boot(self):
+         self.log.debug('Looking for and selecting a qemu-img binary to be '
+                        'used to create the bootable snapshot image')
+-        # If qemu-img has been built, use it, otherwise the system wide one
+-        # will be used.  If none is available, the test will cancel.
+-        qemu_img =3D os.path.join(BUILD_DIR, 'qemu-img')
+-        if not os.path.exists(qemu_img):
+-            qemu_img =3D find_command('qemu-img', False)
+-        if qemu_img is False:
+-            self.cancel('Could not find "qemu-img", which is required to '
+-                        'create the bootable image')
+-        vmimage.QEMU_IMG =3D qemu_img
++
++        vmimage.QEMU_IMG =3D self.pick_qemu_util("qemu-img")
 
- import avocado
-+from avocado.utils.path import find_command
-
- #: The QEMU build root directory.  It may also be the source directory
- #: if building from the source dir, but it's safer to use BUILD_DIR for
-@@ -144,6 +145,20 @@ def exec_command_and_wait_for_pattern(test, command,
-     _console_interaction(test, success_message, failure_message, command +=
- '\r')
-
- class Test(avocado.Test):
-+    def pick_qemu_util(self, util):
-+        default =3D os.path.join(BUILD_DIR, util)
-+        if not os.path.exists(default):
-+            default =3D find_command(default, False)
-+            if not default:
-+                default =3D None
-+
-+        ret =3D self.params.get(util, default=3Ddefault)
-+
-+        if ret is None:
-+            self.cancel("Could not find \"%s\"" % util)
-+
-+        return ret
-+
-     def _get_unique_tag_val(self, tag_name):
-         """
-         Gets a tag value, if unique for a key
+         self.log.info('Downloading/preparing boot image')
+         # Fedora 31 only provides ppc64le images
 --
 2.20.1
 
 
---Sig_/UOdQJT+xMKOZy/ZGHlT3gE_
+--Sig_/e/=X.bfbwuHB/7/B5eifMbe
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl7b6+UACgkQNasLKJxd
-slhifA//Wf3rog2ZIq9cL4AlOFMW/uc8kWSEhboFwjZqtOPJ5qBsj82PAC/oexJW
-17THcdu4bFdO/GYsrqjfoWofg6ATSpwK8hBqIWaV0L7kFl5ARF+f05TgKGiW2rdh
-mgyh7twU6d6+jFF2RO6MR4WbDhgDlKrVQYiOg+7OVd7uBXjQ+AcOw13LshZ90L7J
-JuBgknMkVcf6D9qiBW2G7KsILAPUqw61qgFsaphv9ivCQYFWHmGAi3j6GBXWWi0T
-MmLJ5hqdP6pAMWdWB6DLSxzeevumKcKZSDIYSs5UkKiBLbPMdWxwWSPqe7tvMNkv
-ljhVFh4y7xn7fhCNtp1eRgHX9qmD8gE95bsGGPJ+1ka+uwVOESKXdb+Kzu8Kt9R4
-SXCyFo9XtuuzIjNTpkEZEEnbfQg2LrqFSSTnJo3OcZnUCUyuVv7pxy1p3ZH828oe
-91HCM9pH/FouF2f6/S9nY36XvsJA4wiQt2cFYvXsgLatVmE1YJWU3bvKuzQTNEN3
-3Lgqc2gEnIKuU+8IAJf5UW2BkDAnOAyICVvbldL4S7Ndmfq2J6jPe9AhOljdta1U
-utpwq83oLVYkCZFQhU16hmG0t+AFVE39lbLw2DLuuSdwyOBzV7HtqTPMYze0ErsV
-K/oMfmc5+z7dtKivZoSVp/E2v7p6De2Gkaftj92IGt6AP5XXbgQ=
-=tims
+iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl7b6+kACgkQNasLKJxd
+slghhw//S2SVzB2lFIybUSDnbYpv7i3wCAcROhQYs8RXbDl/GiezyNigFQb6S/hV
+4BuIEaRi5VHnVf6oKXa2tdZNw/3+N8nF7KouFsmBcGr7GlHTCY3i167bLV21Qmc8
+aWzaWxhuyGqXKQ40dVS8LcY3fxeEgiPWDtT07SOPgaWog6vhxB4Vyh7CadlB6ANS
+zCON3oJSjnOLGomWCNG0uzwH4gfFmDiAuqGfz9RFDmXWFTWOlHA5CeMKrExxMyvC
+uuz9tmpkT7H/H9p2moTJg7pgfKDvlH/3zlwbegU3nL/kksFuhrS8oBhOCNXtEB1q
+Qres8S5z/k4Itk3oJM9JK8KBwV+bHgoNg9wnZZ/xdJSW4fHCOwcfd9gidPOIoiQd
+arOt2ImqnU0Ixwrpxz3CNy27+G1SVwElIbz1flmgVQ6trDNTKYdLi+nzz0GC/8B1
+W3Pp/hXcuzhHm3HRh29UgVRvbhfS7RDW8u/G0J2Af870XLno4GgUZj1SVKj3jqc0
+sA632OjySLH7VOTlui8oVf0Ty6ilPqlBJePipgwxpwGQE7i8R68jfwemMj0I70GY
+XHhe/NDEy8QG/x+BgNt604MOK8FUCPmpZGI247xgw6JMPAbwyDUGrSmUaEaIDlkD
+vm1sCn6EDBi/WapQZFE0oK1HQTyQLk4z86pADjI7QoQlTkskqYQ=
+=w4F8
 -----END PGP SIGNATURE-----
 
---Sig_/UOdQJT+xMKOZy/ZGHlT3gE_--
+--Sig_/e/=X.bfbwuHB/7/B5eifMbe--
 
