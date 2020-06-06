@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C82151F06BA
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 Jun 2020 15:24:57 +0200 (CEST)
-Received: from localhost ([::1]:36870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 841F91F06B5
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 Jun 2020 15:23:23 +0200 (CEST)
+Received: from localhost ([::1]:56630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jhYoi-0004rc-Rf
-	for lists+qemu-devel@lfdr.de; Sat, 06 Jun 2020 09:24:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39048)
+	id 1jhYnC-0001K7-Di
+	for lists+qemu-devel@lfdr.de; Sat, 06 Jun 2020 09:23:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jhYgV-0007EA-W3; Sat, 06 Jun 2020 09:16:28 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:34749)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jhYgR-00073B-Hi
+ for qemu-devel@nongnu.org; Sat, 06 Jun 2020 09:16:23 -0400
+Received: from mout.kundenserver.de ([212.227.126.133]:41469)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jhYgU-0007fF-Qd; Sat, 06 Jun 2020 09:16:27 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jhYgQ-0007eb-FP
+ for qemu-devel@nongnu.org; Sat, 06 Jun 2020 09:16:23 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MnJQq-1jI9Yv2r3c-00jJkg; Sat, 06 Jun 2020 15:16:13 +0200
+ id 1MYvoW-1jURgM0mJM-00UpGg; Sat, 06 Jun 2020 15:16:14 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 04/19] linux-user/strace.list: fix epoll_create{,
- 1} -strace output
-Date: Sat,  6 Jun 2020 15:15:52 +0200
-Message-Id: <20200606131607.1250819-5-laurent@vivier.eu>
+Subject: [PULL v2 05/19] linux-user/mmap.c: fix integer underflow in
+ target_mremap
+Date: Sat,  6 Jun 2020 15:15:53 +0200
+Message-Id: <20200606131607.1250819-6-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200606131607.1250819-1-laurent@vivier.eu>
 References: <20200606131607.1250819-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:SBmLxARCpMkkme1rs+rXrj3ycndHosz/E65A48jUjsIk8xZVuTb
- hGoLqcJ90InbFK1IF/hN9weDpJfCbe4f2LlVMbdQRTDMC97Sdq3BowBWeK+t9iMNedARH3h
- EqnJ3+yTYt1bXKhUijwg4LqOxc1CZzwiq+tN23uWN6Plsf+GkUtUS8xpNJCAw147fcsvlZW
- lvFQJd0Tce1e5F52zV/YA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:5V+2sR6BH/w=:FwAWrkIhVbHT0E0a8PAVMB
- IMC450gHNB/4u1wIjJ4LOrN5FNpwoUOGRLSbQCToyfeBq7vUmXCSLxvLvpzXqqgHFQSQCXzo0
- 5wlPhmxV6ogvRSKVCMNJBcYKLnVrnal6Yo3VEY/z8DATwavxOwIu0mWR2uB4828DgFb3xLNfc
- 9nIXE9jk31uwPh68Xr3TIG+X5sngIL0ch2m2TTt6TwA8BAxGZf6OYOh57Sa2kFlpfBnZjydi9
- eWnY7TUxvZ6OCqVnuEMOgOFyPyTThGzzRPQiC8Ii/5h8O6MnT7g/Y5fZY7vh/LeyqFrCSjk6e
- 7u/rqfw7iojMlpmMCX4Ag85uglAHofRvo9Pp4dfcH+0akSJyWX9sbw4pVE3LLoLWzue5oXZdV
- 9972FTDrBENX5Zm8oz5WwRJXl2INDjs+2swrfPmwLmWN1vtPBwRV1TqPqL/ggBz0SZanbC5C3
- fDUzmw0U4uQBY1s2JU7aaDN9/elGVAvwGfoHfW0dgsOPPieMgmKulwK2b6YEgTFbvUk9WuQyi
- GBT+s6FUZVmLzs1MrwfVLFqMe8j+XOuZSUSwN6qlPDeL7ikxIWYZhvvfc8hpT6yoPt+ppjUkY
- fwLjMYr6YUdDycP/AXcSMXlzdThu6BrnW+hIrXiCDGr8nNzhbv8MLK/iwtx/Gk8AcV9qridGH
- bzaXcDKHPTGQoCCI9x85VDKV0uXoQApOGfUBLFNv96mlPdE9YLJq994hqwE5c2c5mBSUoo9kp
- 8mR0RMfHKGVXjinJTD57wa8xlsX5GSYHwFhT0+v7JWanCgFmpvxYr22je7JlwDVBXYV23tJtf
- IvafQYEHthT2o6Rglr9dulK0jiM0I+EjK/7iqzzX5DE8h601xnTJLEv8jwfErYY11IakPI+
+X-Provags-ID: V03:K1:5vJbdaOyDOX3IMuwj7hoM3dwXxGnuZNYnT2XOSsk1C9ZXpOPz9M
+ FCbrpW+c9RRCHL9YsReuoWlNznlvnesTC/otnrfqiPD2QMO2m+sehww62L8fdXlyeEAV3dc
+ agNzoqwe8i7NNkpXwuOBeTGpJpfjQJYUdrf/GZTZdL2ji+oJWezmj12fsAx+5RMl9N9U3VF
+ +Ajpgr+SPeR4mab4cwv8g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:fsqNGXrgIQs=:NH0NKH2RETzBlgDmx00wVf
+ DuxFiBNe2ZWOzxk+T67dNB+XilJGRAtjTxN8R/tQdsmBFjvQiPL0fcd1vxJClDH+XdCbeKaVB
+ VQyjC8GDZHcc4069n5F8t71fmwSw0Il4eJFJ9PSEMX0yBxUUiqfbDMDy3CEz/rLQAvrjykxiP
+ NamrY6YNL7mdn4LqDYo5mjbCJAzv7zy6F+IdF/QdpFHd9+rN7UkQasf3m73rUKUgjmlPP7Ow3
+ QhiegWrm7fJnn8g9h5gr7Pun6ifBOBRgmskoDaJXkNhRmyAneoxQf8ZqvBlaOSAoB+8K7YyU/
+ QGryAPFlnDr3baw3GAXrRN05eUcBx88+A7N1yQY5f0EhVbO18sLS/xzaqG9vAFaOi5cQBdYOP
+ 5ImU7TwyRahuHdSkvG85MF65JknkomtAVfPMBqt3tDbI8RRDIOBo/4q8XJYqY7xvlufoxDszq
+ EC8pWK6hErcoxmYufuwDrNgFvDi5ut13fpdVMz5Hcu8YVbLN7gd32pwmjr1oysvIGzdwzsbYX
+ BbzCVDQLpFHWjrhog8NgmsfsySTEaLQlicjq+9KPnJ02u7mtmrwZN4xJgDLjUtOUq2+ewEuJA
+ /9OGAsm2Tkjn8XNWVEP0mUHhm/YuddKK1agXsXzxT92u7kBtMnfVhePEkHQPKC11w6Gnd3lwr
+ rNwEl2HOkyOGdgCNJ6qoZwPUXNTXt3TJ81RRtIaz0ThuYhajZK+qEWuVW+TBhfV0zuKUtOanU
+ SIBCkt0dq0LdusPrx2135+1gCf0tbY28Vm4mVyh7XBbe/JAjJHiJGLTgSO+4z7DqJ6ejN8ABV
+ h1AMKv9HEitlNRsxbMxY8qaKYXX6sy6/qIqRHdtZYGyceP9RMlj0AN4RR01UDUksc+kmxMC
 Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/06 09:16:19
@@ -70,63 +69,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
- Sergei Trofimovich <slyfox@gentoo.org>, qemu-stable@nongnu.org
+Cc: Riku Voipio <riku.voipio@iki.fi>, Jonathan Marler <johnnymarler@gmail.com>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Sergei Trofimovich <slyfox@gentoo.org>
+From: Jonathan Marler <johnnymarler@gmail.com>
 
-Fix syscall name and parameters priinter.
+Fixes: https://bugs.launchpad.net/bugs/1876373
 
-Before the change:
+This code path in mmap occurs when a page size is decreased with mremap.  When a section of pages is shrunk, qemu calls mmap_reserve on the pages that were released.  However, it has the diff operation reversed, subtracting the larger old_size from the smaller new_size.  Instead, it should be subtracting the smaller new_size from the larger old_size.  You can also see in the previous line of the change that this mmap_reserve call only occurs when old_size > new_size.
 
-```
-$ alpha-linux-user/qemu-alpha -strace -L /usr/alpha-unknown-linux-gnu/ /tmp/a
-...
-1274697 %s(%d)(2097152,274903156744,274903156760,274905840712,274877908880,274903235616) = 3
-1274697 exit_group(0)
-```
-
-After the change:
-
-```
-$ alpha-linux-user/qemu-alpha -strace -L /usr/alpha-unknown-linux-gnu/ /tmp/a
-...
-1273719 epoll_create1(2097152) = 3
-1273719 exit_group(0)
-```
-
-Fixes: 9cbc0578cb6 ("Improve output of various syscalls")
-Signed-off-by: Sergei Trofimovich <slyfox@gentoo.org>
-CC: Riku Voipio <riku.voipio@iki.fi>
-CC: Laurent Vivier <laurent@vivier.eu>
-Cc: qemu-stable@nongnu.org
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20200416175957.1274882-1-slyfox@gentoo.org>
+Bug: https://bugs.launchpad.net/qemu/+bug/1876373
+Signed-off-by: Jonathan Marler <johnnymarler@gmail.com>
+Reviewded-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <20200502161225.14346-1-johnnymarler@gmail.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/strace.list | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ linux-user/mmap.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/linux-user/strace.list b/linux-user/strace.list
-index d49a1e92a80e..9281c0a75828 100644
---- a/linux-user/strace.list
-+++ b/linux-user/strace.list
-@@ -125,10 +125,10 @@
- { TARGET_NR_dup3, "dup3" , "%s(%d,%d,%d)", NULL, NULL },
- #endif
- #ifdef TARGET_NR_epoll_create
--{ TARGET_NR_epoll_create, "%s(%d)", NULL, NULL, NULL },
-+{ TARGET_NR_epoll_create, "epoll_create", "%s(%d)", NULL, NULL },
- #endif
- #ifdef TARGET_NR_epoll_create1
--{ TARGET_NR_epoll_create1, "%s(%d)", NULL, NULL, NULL },
-+{ TARGET_NR_epoll_create1, "epoll_create1", "%s(%d)", NULL, NULL },
- #endif
- #ifdef TARGET_NR_epoll_ctl
- { TARGET_NR_epoll_ctl, "epoll_ctl" , NULL, NULL, NULL },
+diff --git a/linux-user/mmap.c b/linux-user/mmap.c
+index e37803379747..caab62909eb1 100644
+--- a/linux-user/mmap.c
++++ b/linux-user/mmap.c
+@@ -708,7 +708,7 @@ abi_long target_mremap(abi_ulong old_addr, abi_ulong old_size,
+         if (prot == 0) {
+             host_addr = mremap(g2h(old_addr), old_size, new_size, flags);
+             if (host_addr != MAP_FAILED && reserved_va && old_size > new_size) {
+-                mmap_reserve(old_addr + old_size, new_size - old_size);
++                mmap_reserve(old_addr + old_size, old_size - new_size);
+             }
+         } else {
+             errno = ENOMEM;
 -- 
 2.26.2
 
