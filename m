@@ -2,77 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D12A41F0685
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 Jun 2020 14:40:10 +0200 (CEST)
-Received: from localhost ([::1]:46900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EEBE1F06A6
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 Jun 2020 15:17:33 +0200 (CEST)
+Received: from localhost ([::1]:59406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jhY7N-0007bY-GI
-	for lists+qemu-devel@lfdr.de; Sat, 06 Jun 2020 08:40:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36064)
+	id 1jhYhY-0007cc-Cl
+	for lists+qemu-devel@lfdr.de; Sat, 06 Jun 2020 09:17:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sameid@google.com>) id 1jhY5v-00075q-DT
- for qemu-devel@nongnu.org; Sat, 06 Jun 2020 08:38:39 -0400
-Received: from mail-qv1-xf44.google.com ([2607:f8b0:4864:20::f44]:35487)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <sameid@google.com>) id 1jhY5u-0001CR-0G
- for qemu-devel@nongnu.org; Sat, 06 Jun 2020 08:38:39 -0400
-Received: by mail-qv1-xf44.google.com with SMTP id j7so6118988qvp.2
- for <qemu-devel@nongnu.org>; Sat, 06 Jun 2020 05:38:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=PFstviHirXSBopAWpw5abR/A0+6XMKUCKhz/PuENjnI=;
- b=k8omzr/o25WO1GL8CVqNKtRZMxs7eYNAkcDADs2HsNgP1SJw9saOEencoRh+gHCQr9
- zQIGZwmF/KEgRAk1IjNUsjR7dzKTjpGW6+DkhVCpeVj8taq1IzcKbsYWhzCbpin5AmJY
- 7Hz2S09+YA0MGNlYAP7jOZ3SPR1TUt6uphGEf70H+LMtMd8AzpgzAGQD0iUdLWLqHDBU
- 7Rj0fxZmr1ikwlQDu8IaVo8BasvGUOuzqti0xuBvVLXnV2hCidcC/VJWNddbcDQKmfbC
- 1XlCM9Db1ZYKifY1B+KEpnvrH4rvLxoFCGZwGS/bYsQi1dO0SwdySqx5wAeUmOZ3A+XE
- y9rQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=PFstviHirXSBopAWpw5abR/A0+6XMKUCKhz/PuENjnI=;
- b=mUngez2XBsZ4nAmQTmApr9iU+AAvOo3XTjqRDQEGbszxklOQ0YsdytqY5K6b8aFL+r
- 29M6RXG4nIIRlmmZrYNOT+JjVpvnG/0R7HN7cKNdratejr0NO9P55zIoGH7ys9vI0m1T
- n/P7aSjts0aNHsD3j7dQ/h767bEtJLyOPNJYw5lXPMXjxAbmr24QtjnjexqB3s6OEgqa
- S3b0H9RzIO6dz1t23QDTxS1tQ+DHJKZO0/6lpDexgE368Se3t52uNmycaJ3AQ1FgPNqj
- Vg5nHvIvJPBQjdlmRq6/H+HIPgGdO9yAgOx7KSBOljwh0ZkS3m7cAGdQZ8qfJ8m41Ic5
- U0yQ==
-X-Gm-Message-State: AOAM530SaUI7qiu8OepBO5dhzPBwtIqbVNJjBDUyQYFlRYn9mRk5mHaQ
- CqieLoO7gAPsMAPn3wd54gO1eoR15gqYr/ypYTDiWQ==
-X-Google-Smtp-Source: ABdhPJyLqsMGQrq6zf0EEi5T6ZKOS7DvcqJquTPn1WTraoZRpTecPXpGZj39J58BafAbC7SEfBBWfgfaoAm8fk4YSLE=
-X-Received: by 2002:ad4:556b:: with SMTP id w11mr13835394qvy.171.1591447115187; 
- Sat, 06 Jun 2020 05:38:35 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jhYfc-00061k-3I
+ for qemu-devel@nongnu.org; Sat, 06 Jun 2020 09:15:32 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:45545)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jhYfa-0007Zx-Sa
+ for qemu-devel@nongnu.org; Sat, 06 Jun 2020 09:15:31 -0400
+Received: from localhost.localdomain ([82.252.135.106]) by
+ mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis)
+ id 1MSbp1-1jWOcz1wMr-00SxsR; Sat, 06 Jun 2020 15:15:20 +0200
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Subject: [PULL v2 00/19] Linux user for 5.1 patches
+Date: Sat,  6 Jun 2020 15:14:58 +0200
+Message-Id: <20200606131517.1250346-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-References: <20200528101039.24600-7-thuth@redhat.com>
- <20200606100632.26442-1-sameid@google.com>
- <87mu5gct2j.fsf@linaro.org>
-In-Reply-To: <87mu5gct2j.fsf@linaro.org>
-From: Sam Eiderman <sameid@google.com>
-Date: Sat, 6 Jun 2020 15:38:24 +0300
-Message-ID: <CAFr6bUnBLLdBK3Pxohynp6vp7qykbb_tNwq5-V6zu8B-vUUb+w@mail.gmail.com>
-Subject: Re: gitlab-ci: Do not use the standard container images from gitlab
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Cc: Thomas Huth <thuth@redhat.com>, crosa@redhat.com, 
- Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>, 
- qemu-devel@nongnu.org, wainersm@redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f44;
- envelope-from=sameid@google.com; helo=mail-qv1-xf44.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=_AUTOLEARN
+X-Provags-ID: V03:K1:q+Me6wAcjXbXZ4kpqYocGt7zMJVEc9yh3jP4+DMWhVMcXwRXP5e
+ P/HzWTDKkJt/oORhBXEEXV4um3P+3irBivX3CJ9M465pCBkjltaajOBvA8z+fbwNhIQgYXK
+ VWVIiPIQ63i+EOTTAvOKW9zOc0RfC5q2plbRJcV7hJLVjV14MTvYphH0GO9SvElutnwZt3d
+ gkzmtbPC/TV4xDZcemjTQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:nNkOCqJNcho=:gjNHru2yLe9jmdW3MBEtbO
+ DyTWF1ejGHR2P4TU12YYuaaPrj74eQl0tz9fE2NFlhPwVxTJbgE0KQ5RdNWqscxx/xf/oNmtk
+ +nI9gAz155Upu3BCiMmI4LXdEpohxZwQK+xtTtUcfPG30UMq7ND2Evj29Yv9j0xm8Po0wHe7b
+ KsfCry4F05NFUHgNcDiMqPy56H/8It7CSF4EZKecNO0jCl56Ju86nZ96Fxe9Bmx8Wdqqr8hHa
+ Xl8FBUyq3+CxfHDzWIsxA7/vJKEV8TUtr6TDHD81uRLLhLp6vZsBRFQM2vl8yFKN9dauJxTmL
+ wB2NC0Ea87cRBNB0hoHNyk3r/Q5YRvIG1FwwM35a7ZI/pS7EREGlgDV17dC/8QA2T3Qrauj0P
+ fhnxZld1OqOsC8g165lfG51aYKEN3MN2iLKCgu0CKuDk/fxnKtLbux+Y9gzZprG1gHr9aiLtb
+ VTpx9eRLors+61YECfp/PZmM6oFlD63gAXeGWd8PpVdGP+62Wo5puKwJWhw0YKAN9U//Bic86
+ 2udP0DRvP5BIJpKp1D81pbnpzUw6Zgd5+dDREiFxhDagl/BCF2eBUq65FGsJwXs7Wu+TiRgID
+ ZrakiidImgk/bkUNVC6KgsFnpdkQrydHzT392ddemc+LYiJjtVSJD0FWwUz+sXScpaIQc9L/D
+ IAWjoW7GUA7uQre7mDdM2iImG8p6gp+S5BTiOcs7b0A1NPlvOICunANs0ReRdDT7kgYwvxzyv
+ Qj0xgnWQHPHgu6QtfhN8uF4/9R2rBi/rmPtdrFK1xTqReR/OLHO4CWpEYRDpptE3xb1wPqVjj
+ 35xGlMZUpB5K/orG9PH1rnN2uCG4ki6Xeur4jtqk4VN1aATLZcXWHzwBysEfl3YeKfnZFBc
+Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/06 09:15:29
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,63 +67,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Thanks for the link
-
-I do believe that the correct approach for me is to rename
-BITS_PER_LONG to __BITS_PER_LONG (I just added a sed command in my
-Dockerfile) and move on with my particular usage, however I am just
-wondering whether dropping debian10/ubuntu20 in the official qemu ci/
-pipeline until it's fixed is the correct approach instead of keep
-failing it until the error resolves, in a way we want to always know
-on which OSs the compilation fails for visibility, no?
-
-Thanks again!
-
-
-On Sat, Jun 6, 2020 at 2:49 PM Alex Benn=C3=A9e <alex.bennee@linaro.org> wr=
-ote:
->
->
-> Sam Eiderman <sameid@google.com> writes:
->
-> > Hi,
-> >
-> > I am using debian 10 container to compile qemu too.
-> >
-> > I think that what happens here is that
-> >
-> >   /usr/include/linux/swab.h
-> >
-> > Uses BITS_PER_LONG instead of __BITS_PER_LONG which is actually defined=
- before
-> > in qemu at:
->
-> That is indeed the error - we are just waiting for Debian to update
-> linux-libc-dev with the fix to the kernel headers:
->
->   https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D960271
->
-> >
-> >   include/qemu/bitops.h:#define BITS_PER_LONG           (sizeof (unsign=
-ed long) * BITS_PER_BYTE)
-> >
-> > which injects this definition into the linux swab.h header.
-> >
-> > By changing BITS_PER_LONG to __BITS_PER_LONG in the linux headers, I ma=
-naged to
-> > successfully compile qemu.
-> >
-> > A different approach would be to move the linux header includes
-> > (#include <linux/cdrom.h>) in file-posix.c above all other includes - w=
-hich in
-> > some way makes more sense (since we probaly don't want qemu defines to =
-control
-> > linux headers) but it requires a more complex refactoring.
->
->
-> --
-> Alex Benn=C3=A9e
+The following changes since commit ddc760832fa8cf5e93b9d9e6e854a5114ac63510=
+:=0D
+=0D
+  Merge remote-tracking branch 'remotes/gkurz/tags/9p-next-2020-05-26' into=
+ s=3D=0D
+taging (2020-05-26 14:05:53 +0100)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  git://github.com/vivier/qemu.git tags/linux-user-for-5.1-pull-request=0D
+=0D
+for you to fetch changes up to 95722b27845b972250a7d4f93b693b01e2a0c3a1:=0D
+=0D
+  stubs: Restrict ui/win32-kbd-hook to system-mode (2020-06-05 21:23:22 +02=
+00)=0D
+=0D
+----------------------------------------------------------------=0D
+linux-user pull request 20200605-v2=0D
+=0D
+Implement F_OFD_ fcntl() command, /proc/cpuinfo for hppa=0D
+Fix socket(), prnctl() error codes, underflow in target_mremap,=0D
+    epoll_create() strace, oldumount for alpha=0D
+User-mode build dependencies improvement=0D
+=0D
+----------------------------------------------------------------=0D
+=0D
+Andreas Schwab (1):=0D
+  linux-user: implement OFD locks=0D
+=0D
+Helge Deller (2):=0D
+  linux-user: return target error codes for socket() and prctl()=0D
+  linux-user: Add support for /proc/cpuinfo on hppa platform=0D
+=0D
+Jonathan Marler (1):=0D
+  linux-user/mmap.c: fix integer underflow in target_mremap=0D
+=0D
+Laurent Vivier (1):=0D
+  linux-user, alpha: fix oldumount syscall=0D
+=0D
+Philippe Mathieu-Daud=3DC3=3DA9 (13):=0D
+  Makefile: Only build virtiofsd if system-mode is enabled=0D
+  configure: Avoid building TCG when not needed=0D
+  tests/Makefile: Only display TCG-related tests when TCG is available=0D
+  tests/Makefile: Restrict some softmmu-only tests=0D
+  util/Makefile: Reduce the user-mode object list=0D
+  stubs/Makefile: Reduce the user-mode object list=0D
+  target/riscv/cpu: Restrict CPU migration to system-mode=0D
+  exec: Assert CPU migration is not used on user-only build=0D
+  arch_init: Remove unused 'qapi-commands-misc.h' include=0D
+  target/i386: Restrict CpuClass::get_crash_info() to system-mode=0D
+  target/s390x: Restrict CpuClass::get_crash_info() to system-mode=0D
+  hw/core: Restrict CpuClass::get_crash_info() to system-mode=0D
+  stubs: Restrict ui/win32-kbd-hook to system-mode=0D
+=0D
+Sergei Trofimovich (1):=0D
+  linux-user/strace.list: fix epoll_create{,1} -strace output=0D
+=0D
+ Makefile                   |  2 +-=0D
+ arch_init.c                |  1 -=0D
+ configure                  |  4 +++=0D
+ exec.c                     |  4 ++-=0D
+ hw/core/cpu.c              |  2 ++=0D
+ include/hw/core/cpu.h      |  7 ++++-=0D
+ linux-user/generic/fcntl.h |  4 +++=0D
+ linux-user/mmap.c          |  2 +-=0D
+ linux-user/strace.list     |  4 +--=0D
+ linux-user/syscall.c       | 33 +++++++++++++++++----=0D
+ stubs/Makefile.objs        | 52 +++++++++++++++++++--------------=0D
+ target/i386/cpu.c          |  6 +++-=0D
+ target/riscv/cpu.c         |  6 ++--=0D
+ target/s390x/cpu.c         | 12 ++++----=0D
+ tests/Makefile.include     | 18 ++++++------=0D
+ util/Makefile.objs         | 59 ++++++++++++++++++++++++--------------=0D
+ 16 files changed, 143 insertions(+), 73 deletions(-)=0D
+=0D
+--=3D20=0D
+2.26.2=0D
+=0D
 
