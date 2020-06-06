@@ -2,79 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2389D1F085D
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 Jun 2020 21:34:02 +0200 (CEST)
-Received: from localhost ([::1]:56704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E68F1F0863
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 Jun 2020 21:44:29 +0200 (CEST)
+Received: from localhost ([::1]:39376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jheZt-0006pa-0q
-	for lists+qemu-devel@lfdr.de; Sat, 06 Jun 2020 15:34:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40834)
+	id 1jhek0-0003av-C7
+	for lists+qemu-devel@lfdr.de; Sat, 06 Jun 2020 15:44:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1jheL8-0004hq-V8
- for qemu-devel@nongnu.org; Sat, 06 Jun 2020 15:18:46 -0400
-Received: from mout.web.de ([212.227.17.12]:57427)
+ id 1jheLE-0004ov-GA
+ for qemu-devel@nongnu.org; Sat, 06 Jun 2020 15:18:56 -0400
+Received: from mout.web.de ([212.227.15.3]:45719)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1jheL7-0005do-No
- for qemu-devel@nongnu.org; Sat, 06 Jun 2020 15:18:46 -0400
+ id 1jheLD-0005gC-BL
+ for qemu-devel@nongnu.org; Sat, 06 Jun 2020 15:18:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1591471097;
- bh=M2wUbERBYXkG9+JKl52v0XU9Jkn+Ar+DrSWBvHw2TRs=;
+ s=dbaedf251592; t=1591471102;
+ bh=PCI9v1TIN9fslp7TWYM5Z1p4UyDjMOCaUMLRPqGUwLk=;
  h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=F1VWM23HU3KMePOYdou/mvm4D44+ZR1wLRyk9F1jz5gxR5yBmieMsAyrSrQBvtTSp
- LDlBY6KsArpAbUvEDyyQfneGdYnxZx5SRS0IAu0YWcrVq/dHk8RMG4C+c7ZUf6tBmA
- +w4SWlPXA0HCdXhRwQgBohsC/iG667zagQO1lTIc=
+ b=VHoP9c/EwsQbShI2m/encPh+84vTxDZMRIQqpXxVdROERLpBwOiIKvUPoA2UwBRoM
+ Trv6a0GUUojazmXKNbLo+WeEq60Ckx1OW0WF94OkMyrmH0RYayDOTTvmz3I2YuGMuf
+ mKNatYdq949xAQud/xVtXxyHHSHoE/1wbh8fZEyQ=
 X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from luklap ([87.123.206.73]) by smtp.web.de (mrweb103
- [213.165.67.124]) with ESMTPSA (Nemesis) id 0M57Vi-1ikbgt1x42-00zFj1; Sat, 06
- Jun 2020 21:18:17 +0200
-Date: Sat, 6 Jun 2020 21:18:16 +0200
+Received: from luklap ([87.123.206.73]) by smtp.web.de (mrweb004
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 0LbftD-1jE2fW4A6l-00lCC4; Sat, 06
+ Jun 2020 21:18:22 +0200
+Date: Sat, 6 Jun 2020 21:18:20 +0200
 From: Lukas Straub <lukasstraub2@web.de>
 To: qemu-devel <qemu-devel@nongnu.org>
-Subject: [PATCH v2 6/7] configure,Makefile: Install colo resource-agent
-Message-ID: <a1ec11b307ce158a6101c4fe30a9cb4591d29004.1591456338.git.lukasstraub2@web.de>
+Subject: [PATCH v2 7/7] MAINTAINERS: Add myself as maintainer for COLO
+ resource agent
+Message-ID: <daf68f77ba82cdaf8603de61bb0fdc0830f6c094.1591456338.git.lukasstraub2@web.de>
 In-Reply-To: <cover.1591456338.git.lukasstraub2@web.de>
 References: <cover.1591456338.git.lukasstraub2@web.de>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/C6NBoAG9r4uHDmHjzHFIVx0";
+Content-Type: multipart/signed; boundary="Sig_/2QZByna4AgwUQHdn4./osFb";
  protocol="application/pgp-signature"; micalg=pgp-sha512
-X-Provags-ID: V03:K1:O1sxOPo1cfXbWRMsgDzY+tHhX+15cbpW1Gp4bUWbhdG3VuFw6RC
- JFQpLwydxvmbHUi5NWaa/nt9f/wV3CmjBhGSo4ASUSz3Q+IMfkSDxvDS4rEBnReb/YHalLy
- vFanEkyb2CHwqxaJH6/T6aVM9KJuZ8TpPZbwXKoqVVu3Add9BTzOraPV53CO7U7uvOJE9Xt
- VhlKuCJBq3wIiVmcuvhqw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:7FYAYU9faS0=:pV857PrqQavR9e5dxCZhcT
- NFREqDqqK7ZB7zvZdjwbYSl+Ib8iwqofSGyF9Vt+tAjByV5tkRfwhXdSoALIYS5n826rjT4Jt
- aqxOtOgEILlRvgyKxQVvWAfnE9pNyvFl4KwANzhPhpWj+s7xRWCUCDSsxA4xiWQJuKNBj9aA0
- 6sAsmORWsITO/wB7hq1V6mbI6IY1eFCKCvnuk7+aDe8dXjKFeeWmwbat/BkSWN8OyWGoqoHVE
- H/5jEzsm+EHs6+BSERohAIJgWvg+F6bHXrL1BjOpb5cf38f7sQ0yewhZvSqSn43nnAfrFf7o/
- wzdIrh/F4OnLK29faLx1fV9kmkSexzOlRnhrOq5zb3Qm1Ursq9/iN9CeKms8nbb36Pytx8le3
- miKdk5IUNxG78NhUTOKadYl9dw1Juu2mLMezZyBq+pRRdIJKMg1Z6Ign6/Ub2JcSZeAlkebGb
- zPZYptJ9WXMC0t153fh7+OHH6ZScxdVXXiI0seuxcQzupNcPiFT2gHsGnjWhrKaxyR2nbhlvw
- Vgzomqjpgd4pcSr/GFs0I4fVrmOSHOQy7szcGroETU+VwW2ScEI62jjEiQ9rKyGOwY3awEffn
- 4yvW2LdgvUMFIy1eSKLPoGx6L1XWPoknsK1p0G83pgyPqLSEUZGLyPQ9GRHy5Oe8iAOYW+Lwo
- CBt7JyL/vif/OwKkZVaz9SHnFUpFpGgRONN7Ac06vW8B/77MgzD4WXtMqi+8salzrydIwe3gj
- 8Zu0DlH8MWzbagEC4qeBFjV3+ke7ayL7/b5HIBg4KITdZtpccUbIHT7ISm+0GBM8j3pVetj6A
- PbRj5cxhR6SVHkb41pXui28BTDXbUZ37wr1Sp9wYE0G59KjVLTVIsZevMNrbkK/LbYmDXxIXM
- Usl2lN1K1jhcrvgdrAwVhtyrEtTD6WuXRRnnf+YaE+NqnOdkMOL87HR/whggglf4lRPXNr4JF
- VHOID+tm/vsvEZbhv6mrHoU6FZw5scgfmrFaaul3T/5cYNqenQ2A916wdlnm6iZpyrWBpzzEh
- J+UEktjzV6sAExsV1aCKh+rLtONEA8XWlMFgTPrfOTLFCs4dKuCFBYY2e4TmlpP7S/wleTSu3
- d2zJFul3SjS+tJu406rKRZpY52VwPkaGCsB/MPzT3WkI0WQT6wFtg67Raq/QNvoB+/R5ImRu+
- hxrhvCtnoALdgM15b+SopjdEojKzy0IWXgAXJ/nnv0QSDlvsegh14IcTlbxDz31D25NBFXpoz
- qP854NvmJ61/d/FIc
-Received-SPF: pass client-ip=212.227.17.12; envelope-from=lukasstraub2@web.de;
+X-Provags-ID: V03:K1:2OeJiL3BWZAPzUk9ak7vxY4H/J9dGRdDz/EsfDEBVqf9t72Yzia
+ P6x/UzKSYnTMQ+flavZ78Mw8gUcenfkboNLPOZ4+llk4koabHkJDi+ykexoG5sbneNgbFYW
+ inyGCroKvQX5ZuapNikwbrB0n3Dbp+GCqGbuWSjJspt5rJ1zo75Y1dxcysiRTElOFAflh9O
+ IeEvxzFIRS0X6NdOFo/Tg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:BN8Za0EJlNM=:4CoCiVv7Oy66dS5ZlZkJBv
+ s43E37qnbvsgOyiLzrZeiZWCjU6M2m+VysykOG0nU03WbvI+RVLrcmrSgwuVT0BPa4DlQ+hLS
+ QPUA8L0u/ivUQ+XQd9Vrn3SmdSszi1+AAATWW2lz4rW9RiXlYJjvEjgWlpf1qycEuGlBHHbZN
+ te1rSa+Jv4XrJOOrTJRJfsIzzn5nR72Bgb/Njr0LrqSfvLFaHmd+N91dHYeLZc0xbHGgrF4Ax
+ w2EHMpLqlg1m1bUvVurEFwjsZFiEDsk2s/DpCa2DLiwjd/1TpyKg3ngbS8Ge3MZ414tjujDJD
+ CDFE35GEXtkPluL464ubm148mTu+b+OBAnvrZ+sAt56UnKH22hwHb693LIUYP4X4rSKdyLRRo
+ JaH4idPzwRdVSqV5eduag63Ybmv/f3MQ+titnUWFWBJxwgDxii4RucCqk8CEHpXnC+0PiQHt+
+ L/JI7c8WIPpZXTUDfspOrYGUxsWKjQ8o/uPsub4m2wo3FGjcPIBLTKSJUK0a0W+kXNGY7FswG
+ 2ChuCyu58b4PMqBSOQxSmO8dKdTC4uW9uGuGz2fNjplYFLmUYL+Ufee7kLxRHdQg/r5nVMvfs
+ N8N8dHlr56rGn/F4JgIC48KXL7zLk/fZO6SANu45Fjx4M75/aDrOcPHE9MdveMT+0NxdVNdl5
+ bQyAaIpHm1uRJj9daSEnYIg5B0QwKbPJ6pxBZLizJrAyuSITCOqZLzEcTDwjtjIKoXNXoLEX9
+ KtoPNMBvNw/XLlfgEZ8lhock2//7mQOYAJ0tSZcf49JqNQDjebBusMKoMYxIB+5dBShs0zEOZ
+ lZyIY2YLoabTKWHMQmSc6MMsqhRqAbO48W476eA8Ekr8mPRm0RXJ3KhvZD74yJAbB5Q7rOymD
+ KQU5v0zbnTDNPpFsoEr4K+XH1fJ4EeOEteJKAt//dRQk0ialWHWsYRXZbSu5E4cvr3qfXYM5F
+ Rz9Z9xVCmRZQ5txg81VzCYeS94KE4EDVwOaQTlTxjWRkAa/MwEEzABXbvOYSd58ZVCKdtjSi5
+ +fGwnxtp3XoAvOG/cvEiC5eyExgp8Q4bh1oWhxB9iaRrcqEH3SXm+Vsh74q1TXI8n1P4YtzZd
+ 38IfskUHHwA5YvgQyA0W9FPDBSztG/J0q1pPpU82hRmmn8CJzWgDpD5osCiYlOaH/sC8j7Ac1
+ 3U/27l7p0bdVBJtmtVy9rxydvue5CGLTEzUVtDEclWp3QrkDNCSk0PjSULtzP1QnKfq2e2s9c
+ FDZMUWay9j6l09sIy
+Received-SPF: pass client-ip=212.227.15.3; envelope-from=lukasstraub2@web.de;
  helo=mout.web.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/06 15:18:34
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/06 15:17:41
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
 X-Spam_score_int: -24
 X-Spam_score: -2.5
 X-Spam_bar: --
 X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,110 +97,58 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/C6NBoAG9r4uHDmHjzHFIVx0
+--Sig_/2QZByna4AgwUQHdn4./osFb
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-Optionally install the resouce-agent so it gets picked up by
-pacemaker.
+While I'm not going to have much time for this, I'll still
+try to test and review patches.
 
 Signed-off-by: Lukas Straub <lukasstraub2@web.de>
 ---
- Makefile  |  5 +++++
- configure | 10 ++++++++++
- 2 files changed, 15 insertions(+)
+ MAINTAINERS | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/Makefile b/Makefile
-index 8a9113e666..2ebffc4465 100644
---- a/Makefile
-+++ b/Makefile
-@@ -973,6 +973,11 @@ ifneq ($(DESCS),)
- 		$(INSTALL_DATA) "$$tmpf" \
- 			"$(DESTDIR)$(qemu_datadir)/firmware/$$x"; \
- 	done
-+endif
-+ifdef INSTALL_COLO_RA
-+	mkdir -p "$(DESTDIR)$(libdir)/ocf/resource.d/qemu"
-+	$(INSTALL_PROG) "scripts/colo-resource-agent/colo" \
-+		"$(DESTDIR)$(libdir)/ocf/resource.d/qemu/colo"
- endif
- 	for s in $(ICON_SIZES); do \
- 		mkdir -p "$(DESTDIR)$(qemu_icondir)/hicolor/$${s}/apps"; \
-diff --git a/configure b/configure
-index 23b5e93752..c9252030cf 100755
---- a/configure
-+++ b/configure
-@@ -430,6 +430,7 @@ softmmu=3D"yes"
- linux_user=3D"no"
- bsd_user=3D"no"
- blobs=3D"yes"
-+colo_ra=3D"no"
- edk2_blobs=3D"no"
- pkgversion=3D""
- pie=3D""
-@@ -1309,6 +1310,10 @@ for opt do
-   ;;
-   --disable-blobs) blobs=3D"no"
-   ;;
-+  --disable-colo-ra) colo_ra=3D"no"
-+  ;;
-+  --enable-colo-ra) colo_ra=3D"yes"
-+  ;;
-   --with-pkgversion=3D*) pkgversion=3D"$optarg"
-   ;;
-   --with-coroutine=3D*) coroutine=3D"$optarg"
-@@ -1776,6 +1781,7 @@ Advanced options (experts only):
-   --enable-gcov            enable test coverage analysis with gcov
-   --gcov=3DGCOV              use specified gcov [$gcov_tool]
-   --disable-blobs          disable installing provided firmware blobs
-+  --enable-colo-ra         enable installing the COLO resource agent for p=
-acemaker
-   --with-vss-sdk=3DSDK-path  enable Windows VSS support in QEMU Guest Agent
-   --with-win-sdk=3DSDK-path  path to Windows Platform SDK (to build VSS .t=
-lb)
-   --tls-priority           default TLS protocol/cipher priority string
-@@ -6647,6 +6653,7 @@ echo "Linux AIO support $linux_aio"
- echo "Linux io_uring support $linux_io_uring"
- echo "ATTR/XATTR support $attr"
- echo "Install blobs     $blobs"
-+echo "Install COLO resource agent $colo_ra"
- echo "KVM support       $kvm"
- echo "HAX support       $hax"
- echo "HVF support       $hvf"
-@@ -7188,6 +7195,9 @@ fi
- if test "$blobs" =3D "yes" ; then
-   echo "INSTALL_BLOBS=3Dyes" >> $config_host_mak
- fi
-+if test "$colo_ra" =3D "yes" ; then
-+  echo "INSTALL_COLO_RA=3Dyes" >> $config_host_mak
-+fi
- if test "$iovec" =3D "yes" ; then
-   echo "CONFIG_IOVEC=3Dy" >> $config_host_mak
- fi
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 8cbc1fac2b..4c623a96e1 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2466,6 +2466,12 @@ F: net/colo*
+ F: net/filter-rewriter.c
+ F: net/filter-mirror.c
+
++COLO resource agent and testing
++M: Lukas Straub <lukasstraub2@web.de>
++S: Odd fixes
++F: scripts/colo-resource-agent/*
++F: tests/acceptance/colo.py
++
+ Record/replay
+ M: Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>
+ R: Paolo Bonzini <pbonzini@redhat.com>
 --
 2.20.1
 
-
---Sig_/C6NBoAG9r4uHDmHjzHFIVx0
+--Sig_/2QZByna4AgwUQHdn4./osFb
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl7b6/gACgkQNasLKJxd
-slhIoQ//dLzLi8/Adnqd9wp7sxtQrOBotPXEaBg0ASiZ+MVF6pbvKR3XdSxL5FlC
-1Wze8gNizQwQfmJsthxd3ix0ugudjqy1u4qTj8HkGgxiW1XZDz/PPbBBGx50msaN
-ejlPesOIrc3+3see3VWXfvAza/8ktvu+A/SOkDeWtOaPf8ozfOsvzp+KMVWBKu3p
-987qMQVINPKa+W8xm+/arZeTp13YlBiwANfi/p7gdnGIEk9ZLfOokFNjZ2jBdjIQ
-iiuF/IIQdpbzPe1HhBk4Lkmu9sLWzo2bZXRNfaOxDgy4FFWdVPzebeePUC9ZUnqU
-gcZbIUlutU9uCLFLa6GzOpyxCZct5QT5Dr4QIGazgGGU2hPMlzPoyo3sJ1bm3+g/
-nUpGa8Ay9kWWdHNVdzf2nSZeQ/AukT+4j1eFA2IJszjK5ml9vDGlbaonOF0qJnF8
-Ql1kgBIRlQ27D+TPKKIMyVcPkCFXcHlyBSFPvPNeKuCeQp93I4IXQUOtx9jEGbya
-cHkKL0IKFPvyQ3E0TYmb/XUZbxQ05jfZN96gpBYACZ9Z8UwZxbIDaEx2jgj97kbT
-4GLfew+x7ZCOUhPS+e5LQljfIlIeVD4EKiJvxlba4qIHgf1gAfRJ998lzZpSLy+m
-BfRrTNERKbHKDaJhnVN8D6TRXdZ7ct8PsaaCLema4ptTEPljb8U=
-=JArT
+iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl7b6/wACgkQNasLKJxd
+slgv2g/+KRSPf+RMet1gNF/WR7Y2Bl24twc+JVoGGnvZwJZpqfDb8OCpvLBuLkHp
+Dm6FrTQeT90DD0S4+ujjN/Cr6I7jpWAlr+fQylRZ5nbwSwgYi/qe/ONHTcP3GWNe
+4g7VHZ/ZT8cpfdTKovxSGwXDE8rzVH2+yXKVn9AXYbxfHfbCuTQ9cq28klQrGbtt
+84eSvURyVUcIuny8HQiHR0uamLeYjInBfSjFCIp5wT6ulISc53eNq3ZYBOAgFVK+
+xUtr2Igw8gtvQKLnWs11t4az9uIFmCdb675vsQ740krLCpFKkaScrhoJM20SU1zX
+NDwGXzZJ2mAM4dUd/L8IQ2GmjeP9uDC61VT2Deo88nUSN29VVWjP2eefTmZF3+iw
+NPxl9lpjMVi66nX1aaIoUTxtPqhwdFic+OofdXvQgS6wX4tZ9i2/O1PAAdUwCw/1
+Dchvfn5kL6oKm9k5O2Ddydm8hEf/7LgBXAeaOa+EksSbhY2H/l2r1xVVRQYprFRs
++cSHUiN8t0M8n4Ze2XeaP7mIrWevTNRzdVOs2ulDoKIiH3AzIMs0iCKlyyl7x/f7
+/uVIffVmAWft8GM/AguCZlKPkDnDxZZU5h7PJjdyrkyLOgmarkk2l2HknSsWSWHN
+tYAAMKwiU4oaJeXTjbAGeJbURR4tmkCPppMGaHpFoEdu+UUjpr0=
+=vXPM
 -----END PGP SIGNATURE-----
 
---Sig_/C6NBoAG9r4uHDmHjzHFIVx0--
+--Sig_/2QZByna4AgwUQHdn4./osFb--
 
