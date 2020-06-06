@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 583511F06A9
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 Jun 2020 15:18:39 +0200 (CEST)
-Received: from localhost ([::1]:34098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 411221F06BF
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 Jun 2020 15:26:15 +0200 (CEST)
+Received: from localhost ([::1]:45358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jhYic-0000Ml-8A
-	for lists+qemu-devel@lfdr.de; Sat, 06 Jun 2020 09:18:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39020)
+	id 1jhYpy-0008Mw-Bq
+	for lists+qemu-devel@lfdr.de; Sat, 06 Jun 2020 09:26:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39096)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jhYgQ-0006zl-0E
- for qemu-devel@nongnu.org; Sat, 06 Jun 2020 09:16:22 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:51451)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jhYge-0007P4-Gx
+ for qemu-devel@nongnu.org; Sat, 06 Jun 2020 09:16:36 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:45829)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jhYgO-0007eL-Va
- for qemu-devel@nongnu.org; Sat, 06 Jun 2020 09:16:21 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jhYgb-0007fx-Ut
+ for qemu-devel@nongnu.org; Sat, 06 Jun 2020 09:16:36 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MuUza-1iq8qb25mU-00rWhI; Sat, 06 Jun 2020 15:16:15 +0200
+ id 1MWRmF-1jRQTL1J51-00XqCz; Sat, 06 Jun 2020 15:16:16 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 07/19] Makefile: Only build virtiofsd if system-mode is
- enabled
-Date: Sat,  6 Jun 2020 15:15:55 +0200
-Message-Id: <20200606131607.1250819-8-laurent@vivier.eu>
+Subject: [PULL v2 08/19] configure: Avoid building TCG when not needed
+Date: Sat,  6 Jun 2020 15:15:56 +0200
+Message-Id: <20200606131607.1250819-9-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200606131607.1250819-1-laurent@vivier.eu>
 References: <20200606131607.1250819-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:kR6Glro0iE2IiwhSW8XBSZzUErqBsgKd+ANlyyEybyGpVz9sqWM
- CrFh+lv6QonGpHAdkfCF3gdEnbi4i84lAMoTRigBGxqJSxLDsrX2Ksu01/2ZJziIkcouYG5
- 1t8hY3TE4gVhf4k9kHmHbDTNBU9XGJD0ggrpLFwiNzCbIdK10ZlA94ZjE0/3zJR35gPpvbL
- +BPE7T8KBBZH2BdZRbJgg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:YSsFSs0MX5o=:AQEftK5myj91suvnjLaBYe
- /WgqLm6MeKaeXH21ye7/3iCpph5h9cNl2NfmVdcbOEwXyRxD12vi03LrF6wIHeGotUurrykce
- dNMHPPefNa37vcWRTM1UOAUkkin3CxoLNZMxrnf07LzMJLr5XviPmNM8tFgmqb5Z3MRZRdQzM
- qy6lNyncBuURR9ovjiKBM0xNiBfC5a7nEBzcSRX4QBy7wgmUbzBk0LWo3Zy7/ayvKTMViFwaT
- Uog8CWmoiBl849s/fZI5I4aSAES4Usfv4ho9dTxycWXjA9/YGqAmqNAYVJ8c+htTNndC/rzMU
- 0kKy1CvYnIxC6jEIdA/GEASTRvmTtk4UAK8/i55ZHqabFYmeA45ceRH8aHQCmXsyLmPN4lnkf
- Tf3ooZLHhjrqnqQxQuKCPWnad2Bp7I1uIQ9A+S//IwqsZCaIqfyZzlubYotpB+9YgR+/3AfiL
- 2vVlMYkPNn7EOobSI/HIPFVRh/SCYLpXYknpxdDH9/aJsrAXB8/PPorzlwMDZJKNYe+jYr+WO
- yrTCnSDCOsvSWrdPrImM24SuRJCcNHkaovaqbohMlncMeffVs06eZhxc5yhpoP31caJDY55Pm
- hg1DhBxTCM6FlcbauSy8pSCS71VdAefMgwJZQiq1Kak920qPMgD84/Q6L04UM+I8PkXufXUpz
- Sarn91hBMWr22hnK8rABFDixgBOYnfaMPBLqsUaiunZ+QgfxeDOOEp7lcgGF2tacVOBygVL5L
- 6MWmp9+3/Ef5ZDBdjIchKQdExt8+6R7imS5PMRh0I1lK438l/PD8Nm4KnSJNfZ7Fzkt6zJziM
- eqOVM8ez9jcVtiNQ5NH4fEtAzij0ty3+lpjVSLpxl88RDVXJOp+d20xpLYA3E63lWjXuLd1
-Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:euRh+2bSeRHBL0yyFQR5Tn3qrNSUgtcO0BzEgWzoR3PFD5VIN2W
+ Y2YCfjhUH8Uzp+9LI79M6AAHfVq4Zr4jTj6AKKIMM/a9qKbS+O2bbsWbPpFiimALZ2sR2up
+ 6hfa8ZllXd52AE5OR79gTU8QJ93r6SilGsfvqxzGwx/2J2oeDyuf0ZW44JFBI7aS2BHuzR6
+ 2tiR/U+DkZb+zyJ+PljKQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:iFs+jX96zEU=:szVbC4Jtsnaf49lrpV7DDv
+ fttqqejwaLFLlHMYjooGD/Z5ukxhmdwzYfeGsYvnbDyrZT1I6keADM2/iLYmrk4wbPTyIpd99
+ Y0VLFRgp4O7SoxygUqHMbecu9znNafKfOxT3smrgHeGITlY5Vjk0LK8DLzdIKA3q7rC2eCE8k
+ bj6L0gwniGMJzfV2lzwteUFpWOMbZZMS5nCeONWaS5ztiKrfy1PhLjtUSI7vDYLEhUywaRL1Z
+ pD/pbTbhzmjPCLi813aA60ZjsK+SEt027IVxRuvbMqtK1FXsl7GAXy0zbPck/eHMEUDOFZ7sP
+ /w9n95W12L8d7ltvPwYWcLGKN6FqPMHwEE1PupXSVIMxyavPcXYB/jKnCZ0AfiO+lQHd4Rip0
+ MM/12D3aUTp1bQfKBB41/DHJjrjAYw91XPhg6gRuyMqX0rsvM26rSy4Hjx5T8PU2EQJE1UV3s
+ hOe8Fw2PTyjGteZBcMNyby8qBPSAK9FuQXRIHVY4Tm1FMk17/fz9J28eS8rSEq1A4b4QVCvXd
+ aLwOjsGVsZ9TplwCwv+uvC3iOuTazyOx1i9pBV65M8Z3jJl5kvfnX6USNwbG2a2CynDduQ09E
+ ZlMN8wntbjaw9hn1HCCjYsh+nfv/QWMkyr5ND43aDisT1JhZTfZMOoryKi+4qTbDjMIYW1Qv4
+ T43RWKTI9WY33/ONKVRfdEZebdXmLYKXdkks3qurA9FEPEMnDzJAAi7wT6Vz6lPlouWEGjF4r
+ hhgcrkoTNZkkIeK1KGs4k058tt9lqUL9rj5Xh3CsR/QHL3/Nz6a26rMeO3JJAwa/1GZdr7qPI
+ 8wZENyE0JKyq/c1+mik8+qwaIj2RHt7hdFGbKoebVPRlRqLFkaip4luXO0wftTX8yPTFFtp
+Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/06 09:16:19
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/06 09:16:17
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -71,42 +70,47 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Richard Henderson <richard.henderson@linaro.org>,
- Riku Voipio <riku.voipio@iki.fi>,
+ Alistair Francis <alistair.francis@wdc.com>, Riku Voipio <riku.voipio@iki.fi>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Do not build the virtiofsd helper when configured with
---disable-system.
+Avoid building TCG when building only tools:
+
+  ./configure --enable-tools --disable-system --disable-user
+
+This saves us from running the soft-float tests enabled since
+commit 76170102508.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 Tested-by: Laurent Vivier <laurent@vivier.eu>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200522172510.25784-2-philmd@redhat.com>
+Message-Id: <20200522172510.25784-3-philmd@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- Makefile | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ configure | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/Makefile b/Makefile
-index 40e4f7677bde..d1af126ea194 100644
---- a/Makefile
-+++ b/Makefile
-@@ -345,7 +345,7 @@ HELPERS-y += vhost-user-gpu$(EXESUF)
- vhost-user-json-y += contrib/vhost-user-gpu/50-qemu-gpu.json
- endif
+diff --git a/configure b/configure
+index b969dee675bb..fccc56bd4d1f 100755
+--- a/configure
++++ b/configure
+@@ -1663,6 +1663,10 @@ if [ "$ARCH" = "unknown" ]; then
+   linux_user="no"
+ fi
  
--ifeq ($(CONFIG_LINUX)$(CONFIG_SECCOMP)$(CONFIG_LIBCAP_NG),yyy)
-+ifeq ($(CONFIG_SOFTMMU)$(CONFIG_LINUX)$(CONFIG_SECCOMP)$(CONFIG_LIBCAP_NG),yyyy)
- HELPERS-y += virtiofsd$(EXESUF)
- vhost-user-json-y += tools/virtiofsd/50-qemu-virtiofsd.json
- endif
++if [ "$bsd_user" = "no" -a "$linux_user" = "no" -a "$softmmu" = "no" ] ; then
++  tcg="no"
++fi
++
+ default_target_list=""
+ 
+ mak_wilds=""
 -- 
 2.26.2
 
