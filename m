@@ -2,105 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B47C1F06BE
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 Jun 2020 15:25:33 +0200 (CEST)
-Received: from localhost ([::1]:40418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 118C81F080C
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 Jun 2020 19:46:22 +0200 (CEST)
+Received: from localhost ([::1]:49856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jhYpI-0006Ij-5p
-	for lists+qemu-devel@lfdr.de; Sat, 06 Jun 2020 09:25:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39422)
+	id 1jhctg-0001Z0-Ke
+	for lists+qemu-devel@lfdr.de; Sat, 06 Jun 2020 13:46:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jhYjX-0003Ws-NK
- for qemu-devel@nongnu.org; Sat, 06 Jun 2020 09:19:35 -0400
-Received: from mout.kundenserver.de ([217.72.192.73]:55557)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jhYjW-00083A-FQ
- for qemu-devel@nongnu.org; Sat, 06 Jun 2020 09:19:35 -0400
-Received: from [192.168.100.1] ([82.252.135.106]) by mrelayeu.kundenserver.de
- (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MvrVJ-1iqxbt13Nn-00svYT; Sat, 06 Jun 2020 15:19:26 +0200
-Subject: Re: [PULL v2 00/19] Linux user for 5.1 patches
-To: qemu-devel@nongnu.org
-References: <20200606131517.1250346-1-laurent@vivier.eu>
-From: Laurent Vivier <laurent@vivier.eu>
-Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <d76cc8d8-98c3-fee4-4b10-b271bd6bb37e@vivier.eu>
-Date: Sat, 6 Jun 2020 15:19:24 +0200
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jhcsM-0000kI-Ix
+ for qemu-devel@nongnu.org; Sat, 06 Jun 2020 13:44:58 -0400
+Received: from mail-pj1-x1043.google.com ([2607:f8b0:4864:20::1043]:40811)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jhcsL-0001m7-BF
+ for qemu-devel@nongnu.org; Sat, 06 Jun 2020 13:44:58 -0400
+Received: by mail-pj1-x1043.google.com with SMTP id s88so4194880pjb.5
+ for <qemu-devel@nongnu.org>; Sat, 06 Jun 2020 10:44:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=VI9oT2ndwF7VvgZj9Umnd1iY2byWKqjgY7WtOrfd8SM=;
+ b=dC38inu6DapJjYyPEYYMhvIRlba+XNVwBYB7O4orysqz7SyqXY+3i97y52yJAGUD5N
+ imqT+O2lGa7Yug/NEyypkQuOqfazk7dQ7yfmRI9+CfFqxITdJUWbJtzkE7kbNJWmvRD2
+ neYkAEVmo+sou/rw2w/p/xCOCgUf0d0oN7b5ePa/jXPPtJ8sw8eh3J/kE6pDwKus+Ful
+ oY3PiyMfm7QR5a/JB1NayBQecj1/J31Huo1WHmR7+6IvEpgjcufy/bS/vD2TvpE5DqfK
+ vTiduw6N9xvVnTpm/+K8JkNd18I9PehpyyC4q9IMi0C/7YxnlXPq5+PtT1dldlsqlsUV
+ 7eNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=VI9oT2ndwF7VvgZj9Umnd1iY2byWKqjgY7WtOrfd8SM=;
+ b=rHaPxqiRUiE85/3iP6GCec2AJduuP8fy7QoDuUisNku6Citbna4EsqcaFI52MDkYmx
+ cLsvIKYWTNvfegqOFa6W37PBdR/GJUgJCFQSNXwi1Xnm5O7C81icZmq8dYqHTzMyik1s
+ 3IelDEO8ziDRdzUPZtH7MbvpzdeBjQdXCIaPkjVWCTbBrxM1+hZk+cXUl6eUR50oxcVI
+ D9WQFJQmXAq6AEytmDv4W49URB98AP1Ji37Dt23dwDCtzjfp0TCE6Nug8YTbj4hDMJEv
+ wtPMq16ox3qNgQ4/fKgqj2XqWpnsdKm6ynbLc8A32owpNiTT26x0bqE5m5WOUI1KBqRP
+ L1sw==
+X-Gm-Message-State: AOAM5305AUHo5AACRpomx8L6o/6gs9mDC/DIqZ6enUZ9OeRow2W/ZfJw
+ WOHDc0fQhLTg4hmWgjPSnUDXhg==
+X-Google-Smtp-Source: ABdhPJyKroqHqXa4OrfFLCy7G8jYmn3XdAf3MK+XgYdYyOqHBFyKcXETnCQsgw/BZFZQkzeFYMHZGg==
+X-Received: by 2002:a17:90a:6f04:: with SMTP id
+ d4mr8324880pjk.134.1591465495624; 
+ Sat, 06 Jun 2020 10:44:55 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
+ by smtp.gmail.com with ESMTPSA id r1sm2377268pgb.37.2020.06.06.10.44.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 06 Jun 2020 10:44:54 -0700 (PDT)
+Subject: Re: [PATCH] hw/misc/auxbus: Use qemu_log_mask(UNIMP) instead of debug
+ printf
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20200606070216.30952-1-f4bug@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <94fe679f-b96c-92cb-e839-d9e68e03346c@linaro.org>
+Date: Sat, 6 Jun 2020 10:44:52 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200606131517.1250346-1-laurent@vivier.eu>
+In-Reply-To: <20200606070216.30952-1-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
-Content-Language: fr
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:w1ESaLDq4hF8D0STOzsMsFAmFfr5YhoTbdEe8saYZVTTAgsgow0
- A1kNRtduJokf4uACTpZ8Xl/F7oPjpXt6SobzhwAqNXxzc5DPw0qyjlD1JHEUoYUye0514z8
- S3ZQ/0RSFM6ogK+jpKcfjfxLbFyYyY2PLSUCt97oLMhFQtWUhPht0F4xOHJk8FFWJh5yn+d
- jG8ziI10RL8R/83KJINxQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:KLzzwLUJf0c=:Cipx1cwEhroSdySC84X9Ep
- 729wgaRf+ooFfU42a0KopVWvLNu7Yp5yeKLFxeO0yqn5qbJW9yECBNUsdgfyu64OSohxc+1Aq
- VZLZv9USvuAor2nwiLdV8uPa/hDuamtKzHdeLn0yzHezkgngEVesMlskboQJyRzkFgvudN+YA
- bnCaqcnG8QhNy2OHFnCKi8zZ7Fr+gmVu6yBo7glIruvEuG2KewXkKGf5PM42USy1NX7dP/YHb
- PjYqA3nrgW9Ehjn5F01yak1yfcg7/OfnWgCBOtsIUTxf8b4gVckfoUTMrav0n1oMD5Bg2e/zp
- +WO/ZBaSWZTazoLyCwiF1kXSdeO2I0RL8GPlPMg8jwCkMDE3RDXzNiU6pgb3vzLioqzhzM3sW
- Ht49d2sl3ZoVo4u8PCz3+F+Njnr3xwJisXDtX2OtOD7QYjWZUBv2rZd3pLAmb3uRU4LLrLo8O
- kC40nublRH2kRQaNlIb4i0DkA5m0lUBLbcsQzuZ/u3hx72O2qvvjgRBqCazjSw4//L0+DURY6
- A+WvlM+563X92WPDPchuwzmNIbbtm8oqCspbHdeogGZuHcEgRDjzbQ2FtSEqHNoA05Vdcs7o/
- S5kjo/nTduFavbMeZpz7zMUtFQU5bsdIUDLENA/Uw/Vb85Zy1dLZIp2ypn7L3RxTA8oJG0a38
- eOO5qA6n5jAMOHdIP7TptiX2mdl3g5h4H2GIgdfFRwUppWmTmQr0ZV4wIKjQwTihFCXsbTRVi
- ckImuKwNY+5JMdv+nwvXe6c6YavSZlzysg0Kut6rV1ExwimmcBGQIEwlECQIEyQ40mOE0f8m5
- w/ugdGWrt/7WTOFWW+X/yp2Fxe97/C7yMse0dtShkGlJ3nIQmcPTDqOsrW86defVi2ctu3I
-Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/06 09:15:24
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1043;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1043.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -113,90 +91,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>
+Cc: qemu-trivial@nongnu.org, Fred Konrad <konrad@adacore.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 06/06/2020 à 15:14, Laurent Vivier a écrit :
-> The following changes since commit ddc760832fa8cf5e93b9d9e6e854a5114ac63510:
+On 6/6/20 12:02 AM, Philippe Mathieu-Daudé wrote:
+> Replace a deprecated DPRINTF() call by qemu_log_mask(LOG_UNIMP).
 > 
->   Merge remote-tracking branch 'remotes/gkurz/tags/9p-next-2020-05-26' into s=
-> taging (2020-05-26 14:05:53 +0100)
-> 
-> are available in the Git repository at:
-> 
->   git://github.com/vivier/qemu.git tags/linux-user-for-5.1-pull-request
-> 
-> for you to fetch changes up to 95722b27845b972250a7d4f93b693b01e2a0c3a1:
-> 
->   stubs: Restrict ui/win32-kbd-hook to system-mode (2020-06-05 21:23:22 +0200)
-> 
-> ----------------------------------------------------------------
-> linux-user pull request 20200605-v2
-> 
-> Implement F_OFD_ fcntl() command, /proc/cpuinfo for hppa
-> Fix socket(), prnctl() error codes, underflow in target_mremap,
->     epoll_create() strace, oldumount for alpha
-> User-mode build dependencies improvement
-> 
-> ----------------------------------------------------------------
-> 
-> Andreas Schwab (1):
->   linux-user: implement OFD locks
-> 
-> Helge Deller (2):
->   linux-user: return target error codes for socket() and prctl()
->   linux-user: Add support for /proc/cpuinfo on hppa platform
-> 
-> Jonathan Marler (1):
->   linux-user/mmap.c: fix integer underflow in target_mremap
-> 
-> Laurent Vivier (1):
->   linux-user, alpha: fix oldumount syscall
-> 
-> Philippe Mathieu-Daud=C3=A9 (13):
->   Makefile: Only build virtiofsd if system-mode is enabled
->   configure: Avoid building TCG when not needed
->   tests/Makefile: Only display TCG-related tests when TCG is available
->   tests/Makefile: Restrict some softmmu-only tests
->   util/Makefile: Reduce the user-mode object list
->   stubs/Makefile: Reduce the user-mode object list
->   target/riscv/cpu: Restrict CPU migration to system-mode
->   exec: Assert CPU migration is not used on user-only build
->   arch_init: Remove unused 'qapi-commands-misc.h' include
->   target/i386: Restrict CpuClass::get_crash_info() to system-mode
->   target/s390x: Restrict CpuClass::get_crash_info() to system-mode
->   hw/core: Restrict CpuClass::get_crash_info() to system-mode
->   stubs: Restrict ui/win32-kbd-hook to system-mode
-> 
-> Sergei Trofimovich (1):
->   linux-user/strace.list: fix epoll_create{,1} -strace output
-> 
->  Makefile                   |  2 +-
->  arch_init.c                |  1 -
->  configure                  |  4 +++
->  exec.c                     |  4 ++-
->  hw/core/cpu.c              |  2 ++
->  include/hw/core/cpu.h      |  7 ++++-
->  linux-user/generic/fcntl.h |  4 +++
->  linux-user/mmap.c          |  2 +-
->  linux-user/strace.list     |  4 +--
->  linux-user/syscall.c       | 33 +++++++++++++++++----
->  stubs/Makefile.objs        | 52 +++++++++++++++++++--------------
->  target/i386/cpu.c          |  6 +++-
->  target/riscv/cpu.c         |  6 ++--
->  target/s390x/cpu.c         | 12 ++++----
->  tests/Makefile.include     | 18 ++++++------
->  util/Makefile.objs         | 59 ++++++++++++++++++++++++--------------
->  16 files changed, 143 insertions(+), 73 deletions(-)
-> 
-> --=20
-> 2.26.2
-> 
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>  hw/misc/auxbus.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-It has failed again on the PATCH 4/19. I think there is a problem with
-one of the cc. I re-sent the series again and it has worked this time.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Thanks,
-Laurent
+r~
 
