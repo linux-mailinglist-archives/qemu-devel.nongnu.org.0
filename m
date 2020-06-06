@@ -2,75 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAEF81F03AC
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 Jun 2020 01:53:41 +0200 (CEST)
-Received: from localhost ([::1]:40734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2C871F03B6
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 Jun 2020 02:11:07 +0200 (CEST)
+Received: from localhost ([::1]:49046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jhM9c-00033S-EY
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 19:53:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40696)
+	id 1jhMQV-0007tN-0P
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 20:11:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vishal.l.verma@intel.com>)
- id 1jhM8x-0002eJ-6M
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 19:52:59 -0400
-Received: from mga06.intel.com ([134.134.136.31]:46368)
+ id 1jhMOu-0005g6-MZ
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 20:09:28 -0400
+Received: from mga02.intel.com ([134.134.136.20]:45980)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vishal.l.verma@intel.com>)
- id 1jhM8v-0003HC-FD
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 19:52:58 -0400
-IronPort-SDR: ud3HoEryyMfOx4BVHF21QlYxGulSYdz80O0CsYCNpt9zcVhyCl7UyywPVPXRT0FBZSmaTkN6Z3
- wbKadchcGw9A==
+ id 1jhMOs-0006I0-PO
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 20:09:28 -0400
+IronPort-SDR: VvsDP6WlTcBgKEaONbxOLCJ/tKHrx5V8dubFCN1Sk77Ulbb5tfx9H0J/TTIaHbPKOVxQrWeg7w
+ lcWOxaDI256A==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jun 2020 16:52:49 -0700
-IronPort-SDR: Bd1vBLOnlsnctHM+2fypAlAw651OknfA/Yt30XYjVypNia7i99Nz9ZIqAAX6dnCc3iH0wYdznx
- X1wL7ZlqrIsA==
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Jun 2020 17:09:20 -0700
+IronPort-SDR: uflJW9EVAxMGMSPgzff8JQUfEqLY5seialgwVl4U1yNmr5XAg+Bk0Yf4l5Y10+jFh/BDicp8tg
+ HQRPnmxwqZWw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,478,1583222400"; d="scan'208";a="305223535"
-Received: from orsmsx109.amr.corp.intel.com ([10.22.240.7])
- by fmsmga002.fm.intel.com with ESMTP; 05 Jun 2020 16:52:49 -0700
-Received: from orsmsx159.amr.corp.intel.com (10.22.240.24) by
- ORSMSX109.amr.corp.intel.com (10.22.240.7) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Fri, 5 Jun 2020 16:52:48 -0700
-Received: from orsmsx121.amr.corp.intel.com ([169.254.10.222]) by
- ORSMSX159.amr.corp.intel.com ([169.254.11.6]) with mapi id 14.03.0439.000;
- Fri, 5 Jun 2020 16:52:48 -0700
-From: "Verma, Vishal L" <vishal.l.verma@intel.com>
-To: "imammedo@redhat.com" <imammedo@redhat.com>
-Subject: Re: [PATCH v4 2/3] hw/acpi/nvdimm: add a helper to augment SRAT
- generation
-Thread-Topic: [PATCH v4 2/3] hw/acpi/nvdimm: add a helper to augment SRAT
- generation
-Thread-Index: AQHWNUA2VG31lbrZsEq/gWF/hD043ajIwgEAgADwkICAAH2JgIABA5GA
-Date: Fri, 5 Jun 2020 23:52:48 +0000
-Message-ID: <8f0d9907c4e5f100465eb30c2eb7c9b395c23fa6.camel@intel.com>
-References: <20200528223437.12568-1-vishal.l.verma@intel.com>
- <20200528223437.12568-3-vishal.l.verma@intel.com>
- <20200604123326.38f7a368@redhat.com>
- <73b11cd452acffc18f7083f1ea7e5ca22cade31f.camel@intel.com>
- <20200605102345.52b2008a@redhat.com>
-In-Reply-To: <20200605102345.52b2008a@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.32.5 (3.32.5-1.fc30) 
-x-originating-ip: [10.18.116.7]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <D8C8ADA9B8A9D346A9895A428FD8D99B@intel.com>
-Content-Transfer-Encoding: base64
+X-IronPort-AV: E=Sophos;i="5.73,478,1583222400"; d="scan'208";a="294853310"
+Received: from vverma7-mobl4.lm.intel.com ([10.254.185.105])
+ by fmsmga004.fm.intel.com with ESMTP; 05 Jun 2020 17:09:19 -0700
+From: Vishal Verma <vishal.l.verma@intel.com>
+To: <qemu-devel@nongnu.org>
+Subject: [PATCH v5 0/3] account for NVDIMM nodes during SRAT generation
+Date: Fri,  5 Jun 2020 18:09:08 -0600
+Message-Id: <20200606000911.9896-1-vishal.l.verma@intel.com>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
-Received-SPF: pass client-ip=134.134.136.31;
- envelope-from=vishal.l.verma@intel.com; helo=mga06.intel.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/05 19:52:51
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=134.134.136.20;
+ envelope-from=vishal.l.verma@intel.com; helo=mga02.intel.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/05 20:09:20
 X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
 X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,43 +62,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "lvivier@redhat.com" <lvivier@redhat.com>,
- "thuth@redhat.com" <thuth@redhat.com>,
- "xiaoguangrong.eric@gmail.com" <xiaoguangrong.eric@gmail.com>,
- "mst@redhat.com" <mst@redhat.com>, "Liu, Jingqi" <jingqi.liu@intel.com>,
- "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "ehabkost@redhat.com" <ehabkost@redhat.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>, "Williams,
- Dan J" <dan.j.williams@intel.com>, "rth@twiddle.net" <rth@twiddle.net>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Xiao Guangrong <xiaoguangrong.eric@gmail.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, jingqi.liu@intel.com,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Vishal Verma <vishal.l.verma@intel.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Dan Williams <dan.j.williams@intel.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-T24gRnJpLCAyMDIwLTA2LTA1IGF0IDEwOjIzICswMjAwLCBJZ29yIE1hbW1lZG92IHdyb3RlOg0K
-DQo+ID4gPiA+IFRoZSByZWxldmFudCBjb21tYW5kIGxpbmUgb3B0aW9ucyB0byBleGVyY2lzZSB0
-aGlzIGFyZSBiZWxvdy4gTm9kZXMgMC0xDQo+ID4gPiA+IGNvbnRhaW4gQ1BVcyBhbmQgcmVndWxh
-ciBtZW1vcnksIGFuZCBub2RlcyAyLTMgYXJlIHRoZSBOVkRJTU0gYWRkcmVzcw0KPiA+ID4gPiBz
-cGFjZS4NCj4gPiA+ID4gDQo+ID4gPiA+ICAgLW51bWEgbm9kZSxub2RlaWQ9MCxtZW09MjA0OE0s
-DQo+ID4gPiA+ICAgLW51bWEgbm9kZSxub2RlaWQ9MSxtZW09MjA0OE0sICANCj4gPiA+IA0KPiA+
-ID4gcGxzIG5vdGUgdGhhdCAnbWVtJyBpcyBhYm91dCB0byBiZSBkaXNhYmxlZCBmb3IgbmV3IG1h
-Y2hpbmUgdHlwZXMgaW4gZmF2b3Igb2YgbWVtZGV2DQo+ID4gPiBzbyB0aGlzIENMSSB3b24ndCB3
-b3JrLg0KPiA+ID4gSXQgd291bGQgYmUgbmljZSB0byB1cGRhdGUgY29tbWl0IG1lc3NhZ2Ugd2l0
-aCBtZW1kZXYgdmFyaWFudCBvZiBDTEkgIA0KPiA+IA0KPiA+IEkgc2F3IHRoZSB3YXJuaW5ncyBw
-cmludGVkIC0gSSBkaWQgdHJ5IHRvIHVzZSBtZW1kZXZzLCBidXQgaXQgZGlkbid0DQo+ID4gcXVp
-dGUgd29yayB3aXRoIG15IHVzZSBjYXNlLiBJJ20gc3VwcGx5aW5nIG1lbT0wIGZvciB0aGUgcG1l
-bS9udmRpbW0NCj4gPiBkZXZpY2VzIHRoYXQgSSB3YW50IHRvIGdpdmUgYSBzcGVjaWZpYyBudW1h
-IG5vZGUsIGJ1dCBub3QgZ2l2ZSB0aGVtIGFueQ0KPiA+IG1vcmUgcmVndWxhciBtZW1vcnkgYXNp
-ZGUgZnJvbSB0aGUgbnZkaW1tIGl0c2VsZiAoc2VlIG5vZGVzIDQgYW5kIDUNCj4gPiBiZWxvdyku
-IEFuZCBmb3Igc29tZSByZWFzb24gSSBjb3VsZG4ndCBkbyB0aGF0IHdpdGggbWVtZGV2cy4NCj4g
-aXQgc2hvdWxkIHdvcmsgc2luY2UgNC4xDQo+IA0KPiBoZXJlIGlzIGV4YW1wbGUgDQo+IHFlbXUt
-c3lzdGVtLXg4Nl82NCAtb2JqZWN0IG1lbW9yeS1iYWNrZW5kLXJhbSxpZD1tZW0wLHNpemU9MUcg
-LW0gMUcgXA0KPiAgLW51bWEgbm9kZSxtZW1kZXY9bWVtMCAtbnVtYSBub2RlIC1tb25pdG9yIHN0
-ZGlvDQo+IA0KPiBRRU1VIDUuMC41MCBtb25pdG9yIC0gdHlwZSAnaGVscCcgZm9yIG1vcmUgaW5m
-b3JtYXRpb24NCj4gKHFlbXUpIFZOQyBzZXJ2ZXIgcnVubmluZyBvbiA6OjE6NTkwMA0KPiBpbmZv
-IG51bWENCj4gMiBub2Rlcw0KPiBub2RlIDAgY3B1czogMA0KPiBub2RlIDAgc2l6ZTogMTAyNCBN
-Qg0KPiBub2RlIDAgcGx1Z2dlZDogMCBNQg0KPiBub2RlIDEgY3B1czoNCj4gbm9kZSAxIHNpemU6
-IDAgTUINCj4gbm9kZSAxIHBsdWdnZWQ6IDAgTUINCj4gKHFlbXUpDQo+IA0KDQpQZXJmZWN0IGdv
-dCBpdCB3b3JraW5nLCBUaGFua3MgSWdvciENCg0KSSdsbCBzZW5kIGEgdjUgd2l0aCB0aGUgdXBk
-YXRlZCBjb21taXQgbWVzc2FnZSBhbmQgYWRkIHlvdXIgcmV2aWV3ZWQtYnkuDQoNCi1WaXNoYWwN
-Cg==
+Changes since v4 (no code changes):
+- Change the commit message in patch 2 to use memdev= instead of mem=
+   which is deprecated (Igor)
+- Add Igor's Reviewed-by
+
+Changes since v3:
+- Add the SRAT augmentation for ARM's virt-acpi-build as well (Igor)
+- Update patches 1 and 3 for the test binaries to include ARM tests.
+
+Changes since v2:
+- Change a repetitive OBJECT(dev) to a stored 'Object' (Igor)
+- No need to return 'numamem' back to build_srat (Igor)
+
+Changes since v1:
+- Use error_abort for getters (Igor)
+- Free the device list (Igor)
+- Refactor the NVDIMM related portion into hw/acpi/nvdimm.c (Igor)
+- Rebase onto latest master
+- Add Jingqi's Reviewed-by
+
+On the command line, one can specify a NUMA node for NVDIMM devices. If
+we set up the topology to give NVDIMMs their own nodes, i.e. not
+containing any CPUs or regular memory, qemu doesn't populate SRAT memory
+affinity structures for these nodes. However the NFIT does reference
+those proximity domains.
+
+As a result, Linux, while parsing the SRAT, fails to initialize node
+related structures for these nodes, and they never end up in the
+nodes_possible map. When these are onlined at a later point (via
+hotplug), this causes problems.
+
+I've followed the instructions in bios-tables-test.c to update the
+expected SRAT binary, and the tests (make check) pass. Patches 1 and 3
+are the relevant ones for the binary update.
+
+Patch 2 is the main patch which changes SRAT generation.
+
+
+Vishal Verma (3):
+  diffs-allowed: add the SRAT AML to diffs-allowed
+  hw/acpi/nvdimm: add a helper to augment SRAT generation
+  tests/acpi: update expected SRAT files
+
+ hw/acpi/nvdimm.c                 |  23 +++++++++++++++++++++++
+ hw/arm/virt-acpi-build.c         |   4 ++++
+ hw/i386/acpi-build.c             |   5 +++++
+ include/hw/mem/nvdimm.h          |   1 +
+ tests/data/acpi/pc/SRAT.dimmpxm  | Bin 392 -> 392 bytes
+ tests/data/acpi/q35/SRAT.dimmpxm | Bin 392 -> 392 bytes
+ tests/data/acpi/virt/SRAT.memhp  | Bin 186 -> 226 bytes
+ 7 files changed, 33 insertions(+)
+
+-- 
+2.26.2
+
 
