@@ -2,42 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F37E1F05D8
+	by mail.lfdr.de (Postfix) with ESMTPS id 204D21F05D7
 	for <lists+qemu-devel@lfdr.de>; Sat,  6 Jun 2020 10:48:00 +0200 (CEST)
-Received: from localhost ([::1]:51318 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:51258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jhUUh-0005My-9K
-	for lists+qemu-devel@lfdr.de; Sat, 06 Jun 2020 04:47:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45624)
+	id 1jhUUg-0005Lg-M8
+	for lists+qemu-devel@lfdr.de; Sat, 06 Jun 2020 04:47:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jhUSs-0003hO-QX; Sat, 06 Jun 2020 04:46:06 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:50209)
+ id 1jhUSs-0003hF-ES; Sat, 06 Jun 2020 04:46:06 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:46375 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jhUSp-0005F4-Lk; Sat, 06 Jun 2020 04:46:06 -0400
+ id 1jhUSp-0005F3-Op; Sat, 06 Jun 2020 04:46:06 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 49fClh5Xbfz9sRh; Sat,  6 Jun 2020 18:45:52 +1000 (AEST)
+ id 49fClj0HNYz9sSf; Sat,  6 Jun 2020 18:45:52 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1591433152;
- bh=MD9Vy9t80FMoa1MWr1bErDl8DYW9eXWurKymfv5V+hg=;
+ d=gibson.dropbear.id.au; s=201602; t=1591433153;
+ bh=Sd1rxSYGaP/J1oZ2u/d2cFpFgkmQrMVEQoAFgYu76HU=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Dj0x4Ld0zGOyYNvHNh34xSS4k7ShfK/bK0chdoJDc0pBfrqf+sCLBNp0gwHAaRaDr
- mWy4S0YAEaNqCSOohcM3XnZB2EwqoRv1iriIZGC+0b4erf2zuXdujnnHximcLEuO49
- HJMDjkcDf+UOA7pp3S2yyl7g8S/weSqIQBjTk6OY=
-Date: Sat, 6 Jun 2020 18:44:09 +1000
+ b=YpAscJI43jEHPiq4ciauynv+Q5emKXaXV6ZFjtWi3vePEyjmZOZ/g5tYnNO/Kg88p
+ D/jhV+qnPMCZtin2mFPEfIPL/5RRyAtY96iVVWkDZIgz5IWrtmH+UlJ397hGAE8/oy
+ P35K7WaCEn+hhFeknkNhuXahEMd223UntiqSxOto=
+Date: Sat, 6 Jun 2020 18:45:45 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Cornelia Huck <cohuck@redhat.com>
+To: Greg Kurz <groug@kaod.org>
 Subject: Re: [RFC v2 00/18] Refactor configuration of guest memory protection
-Message-ID: <20200606084409.GL228651@umbus.fritz.box>
+Message-ID: <20200606084545.GM228651@umbus.fritz.box>
 References: <20200521034304.340040-1-david@gibson.dropbear.id.au>
- <20200605125505.3fdd7de8.cohuck@redhat.com>
+ <87tuzr5ts5.fsf@morokweng.localdomain>
+ <20200604064414.GI228651@umbus.fritz.box>
+ <20200604105228.2cb311d3@kaod.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="vTUhhhdwRI43FzeR"
+ protocol="application/pgp-signature"; boundary="egxrhndXibJAPJ54"
 Content-Disposition: inline
-In-Reply-To: <20200605125505.3fdd7de8.cohuck@redhat.com>
+In-Reply-To: <20200604105228.2cb311d3@kaod.org>
 Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
@@ -62,68 +64,103 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: pair@us.ibm.com, brijesh.singh@amd.com, frankja@linux.ibm.com,
- kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>, cohuck@redhat.com,
  qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>,
  dgilbert@redhat.com, qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- mdroth@linux.vnet.ibm.com, Richard Henderson <rth@twiddle.net>
+ mdroth@linux.vnet.ibm.com, Thiago Jung Bauermann <bauerman@linux.ibm.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---vTUhhhdwRI43FzeR
+--egxrhndXibJAPJ54
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jun 05, 2020 at 12:55:05PM +0200, Cornelia Huck wrote:
-> On Thu, 21 May 2020 13:42:46 +1000
+On Thu, Jun 04, 2020 at 11:08:21AM +0200, Greg Kurz wrote:
+> On Thu, 4 Jun 2020 16:44:14 +1000
 > David Gibson <david@gibson.dropbear.id.au> wrote:
 >=20
-> > A number of hardware platforms are implementing mechanisms whereby the
-> > hypervisor does not have unfettered access to guest memory, in order
-> > to mitigate the security impact of a compromised hypervisor.
+> > On Thu, Jun 04, 2020 at 01:39:22AM -0300, Thiago Jung Bauermann wrote:
+> > >=20
+> > > Hello David,
+> > >=20
+> > > David Gibson <david@gibson.dropbear.id.au> writes:
+> > >=20
+> > > > A number of hardware platforms are implementing mechanisms whereby =
+the
+> > > > hypervisor does not have unfettered access to guest memory, in order
+> > > > to mitigate the security impact of a compromised hypervisor.
+> > > >
+> > > > AMD's SEV implements this with in-cpu memory encryption, and Intel =
+has
+> > > > its own memory encryption mechanism.  POWER has an upcoming mechani=
+sm
+> > > > to accomplish this in a different way, using a new memory protection
+> > > > level plus a small trusted ultravisor.  s390 also has a protected
+> > > > execution environment.
+> > > >
+> > > > The current code (committed or draft) for these features has each
+> > > > platform's version configured entirely differently.  That doesn't s=
+eem
+> > > > ideal for users, or particularly for management layers.
+> > > >
+> > > > AMD SEV introduces a notionally generic machine option
+> > > > "machine-encryption", but it doesn't actually cover any cases other
+> > > > than SEV.
+> > > >
+> > > > This series is a proposal to at least partially unify configuration
+> > > > for these mechanisms, by renaming and generalizing AMD's
+> > > > "memory-encryption" property.  It is replaced by a
+> > > > "guest-memory-protection" property pointing to a platform specific
+> > > > object which configures and manages the specific details.
+> > > >
+> > > > For now this series covers just AMD SEV and POWER PEF.  I'm hoping =
+it
+> > >=20
+> > > Thank you very much for this series! Using a machine property is a ni=
+ce
+> > > way of configuring this.
+> > >=20
+> > > >From an end-user perspective, `-M pseries,guest-memory-protection` in
+> > > the command line already expresses everything that QEMU needs to know,
+> > > so having to add `-object pef-guest,id=3Dpef0` seems a bit redundant.=
+ Is
+> > > it possible to make QEMU create the pef-guest object behind the scenes
+> > > when the guest-memory-protection property is specified?
+> > >=20
+> > > Regardless, I was able to successfuly launch POWER PEF guests using
+> > > these patches:
+> > >=20
+> > > Tested-by: Thiago Jung Bauermann <bauerman@linux.ibm.com>
+> > >=20
+> > > > can be extended to cover the Intel and s390 mechanisms as well,
+> > > > though.
+> > > >
+> > > > Note: I'm using the term "guest memory protection" throughout to re=
+fer
+> > > > to mechanisms like this.  I don't particular like the term, it's bo=
+th
+> > > > long and not really precise.  If someone can think of a succinct way
+> > > > of saying "a means of protecting guest memory from a possibly
+> > > > compromised hypervisor", I'd be grateful for the suggestion.
+> > >=20
+> > > Is "opaque guest memory" any better? It's slightly shorter, and sligh=
+tly
+> > > more precise about what the main characteristic this guest property c=
+onveys.
 > >=20
-> > AMD's SEV implements this with in-cpu memory encryption, and Intel has
-> > its own memory encryption mechanism.  POWER has an upcoming mechanism
-> > to accomplish this in a different way, using a new memory protection
-> > level plus a small trusted ultravisor.  s390 also has a protected
-> > execution environment.
-> >=20
-> > The current code (committed or draft) for these features has each
-> > platform's version configured entirely differently.  That doesn't seem
-> > ideal for users, or particularly for management layers.
-> >=20
-> > AMD SEV introduces a notionally generic machine option
-> > "machine-encryption", but it doesn't actually cover any cases other
-> > than SEV.
-> >=20
-> > This series is a proposal to at least partially unify configuration
-> > for these mechanisms, by renaming and generalizing AMD's
-> > "memory-encryption" property.  It is replaced by a
-> > "guest-memory-protection" property pointing to a platform specific
-> > object which configures and manages the specific details.
-> >=20
-> > For now this series covers just AMD SEV and POWER PEF.  I'm hoping it
-> > can be extended to cover the Intel and s390 mechanisms as well,
-> > though.
+> > That's not a bad one, but for now I'm going with "host trust
+> > limitation", since this might end up covering things other than just
+> > memory protection.
 >=20
-> For s390, there's the 'unpack' cpu facility bit, which is indicated iff
-> the kernel indicates availability of the feature (depending on hardware
-> support). If that cpu facility is available, a guest can choose to
-> transition into protected mode. The current state (protected mode or
-> not) is tracked in the s390 ccw machine.
->=20
-> If I understand the series here correctly (I only did a quick
-> read-through), the user has to instruct QEMU to make protection
-> available, via a new machine property that links to an object?
+> Any idea what these other things might be ? It seems a bit hard to
+> decide of a proper name without a broader picture at this point.
 
-Correct.  We used to have basically the same model for POWER - the
-guest just talks to the ultravisor to enter secure mode.  But we
-realized that model is broken.  You're effectively advertising
-availability of a guest hardware feature based on host kernel or
-hardware properties.  That means if you try to migrate from a host
-with the facility to one without, you won't know there's a problem
-until too late.
+Well, at the very least there needs to be protection of the guest's
+register state from the hypervisor (which may be indirectly implied by
+protection of memory).
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -131,25 +168,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---vTUhhhdwRI43FzeR
+--egxrhndXibJAPJ54
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl7bV1cACgkQbDjKyiDZ
-s5KuTxAAuHsZpdab6NhUviRv5pmLEZ0qSYnV6DIZFKYl6a6Uv5G7n/HFqTlvizXl
-IBnDK/W/fGxSjnmYel9i7aGptRKkli5Vuxg+Iafwn8oIu5RiIqUA0CmgWCdwC2ys
-6d4S3l4ZocqAAqFbDzjRW5FhyH0E09aCqn4dLUYDHkYZQYM+vq8kusMSGQ5v4rEr
-DgMbyDtV0AMlmqsfdVG7GPifQCY5s5Eo6SbdsQ2swY2Krt+p85+yt5KQYrdZGyxy
-37L/QlFjbFFiYYXJ19JuMHIdK86kIc9SaJEUcc282jCJuLCQHs0l4nsel4lOjhkB
-ud86lwTeR00ruFjnwH9VKHKc13V6EkY3VL8sTpb7Ckvz6AT5fum7QsayXC7P5ZNC
-tg/xbryLE36+J+bwT3/djtYcNUrDMhIgeVQNPfvDXfuPU2bajx6qsnsIub/8Adio
-4me8QeHyGOL6I0vrffMEfEAZIGGyEQhRFbhlRKorMzoKij8iv/eMcUVyJTzbqNDd
-vcF5KeoxglpeodzvmR60GfYgJLjpXh1S6fQL2kHAr+tbZaD9GVewhlKN0NUFQTCF
-t7ijyD3WKcBEWCVsqk9QtdvYLwCGxdXjOQmYJo4RceVoy6nQUs4xwBnnWT5ACvrZ
-qRCz7P8nWYrYtr1VVYdzv6IVAg9a0uGjHPkVO2DrNyGRnmqZh4A=
-=yDWK
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl7bV7kACgkQbDjKyiDZ
+s5LoOhAAzTkZg8vVkil2pKGjEcyQt9TxyqYc5VBTeUAd9jKS7wsD/03CgiFRu4iG
+fHf+0q0ric0CCUFs8U82v5mvAOZrcAmzGu1JgpPxa7qXWk/TBrd94jvTUgcX5lb9
+yJ4Mv5xLlFwaorVYywkKYP0Ry1VrQWQ0DbZ6T9wFTvjC49C0+quWb1IBJgyXR25j
+QZZV6RPGkW5WsEd/ixLXzNkU4DPIJlb8t+3RLe8EWCMZ1hExqTmHqsYMhzUJ3/or
+/DIyoLhrSyTQdIqIpgwH9BWJIK8/zpijho2wuVxzlh4EfGM6qLTVTapF1tW3OQBl
+QlPyYCl7wIOc0to+AuJgZgecm4f0m2JQdHj9h/hCrVgZr6SdLzfsCnhxnA1JaCkV
+j2cpyqNSeMcPr8ZHRAwsPZ4+DeP+fs1MBR/6cIzna8x1FUUekQP3xpHvAxYRjRUr
+iQ+i2BTf775684gk80bdbVf2JmhNt0DAdoSPtDQG0mkeDDNnvVexTeHY+DE7T0O4
+vjU8mjmhuWFnncOc2K6UpqE0iARBstto1QLgOdKM9jsPw2GzGyrNrbilDZrBciHY
+nvllZdfQlY9Rx8VTD625iMTSm/jKoEqu7VxeiyeyraZyqnBzTvIF7DWwJKRT8g+r
+75Uk6ebYh7TYPvKQOSa8bn4uqM2CYZJyu0LP73rQNIiJuoKGOyM=
+=0hIP
 -----END PGP SIGNATURE-----
 
---vTUhhhdwRI43FzeR--
+--egxrhndXibJAPJ54--
 
