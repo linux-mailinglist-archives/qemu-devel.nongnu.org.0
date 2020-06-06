@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44EC01F05B9
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 Jun 2020 10:21:40 +0200 (CEST)
-Received: from localhost ([::1]:51706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAD151F05BC
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 Jun 2020 10:23:11 +0200 (CEST)
+Received: from localhost ([::1]:58048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jhU5D-0000SY-AI
-	for lists+qemu-devel@lfdr.de; Sat, 06 Jun 2020 04:21:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43652)
+	id 1jhU6g-00032S-UT
+	for lists+qemu-devel@lfdr.de; Sat, 06 Jun 2020 04:23:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jhU2O-0003Kv-Q2; Sat, 06 Jun 2020 04:18:44 -0400
-Received: from mail-db8eur05on2120.outbound.protection.outlook.com
- ([40.107.20.120]:7488 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
+ id 1jhU2P-0003Mn-DK; Sat, 06 Jun 2020 04:18:45 -0400
+Received: from mail-eopbgr80098.outbound.protection.outlook.com
+ ([40.107.8.98]:10318 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jhU2N-0000Zf-TK; Sat, 06 Jun 2020 04:18:44 -0400
+ id 1jhU2O-0000aF-HI; Sat, 06 Jun 2020 04:18:45 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XUelm02PkAQpJXA0Nw7jacyxtzHCga8P2bCux602j5DfUy3v6gUhvPwBpb/f166wBx9fIbbPzuIKuvQ1fTBIVZqtW+B2IHQmrFURNElxd6F7k0HS4d1DDc+zAUOEoyKvry68PEc8Md7k0/jkhC5KYu8/KR/+sy9rUgxPsqxdkJjkU8SuJuNi0CiHyDoEHxN7uWrKNRBhdRCnvU3u9DcVGrXwfOtXFKS42kQ8GQioad/mMjEvER/runay/doIwq/sJsCYFdsperJqaxjnZ/R9zwCZpd5d/r/whTvxFmU7sa5vtBdfObyvF6PPKNQKO+klBFGMs6MnVrXXxC84GqJWeg==
+ b=SDTvQ6KHTJctrUSE5KtdsoMRBExO3cQWYJ0jmm5TY7vvBtUfdL1S6+d92y5JYlryDkToyScwSrarz+Jel5IjpOf2e42VpXuMnu8KN9/VsGqeFWh9cMAkYSCvtRcgz0/uv+OoaJzhoZ+eF74mfvdsqabdAHECmYHWhff1QPxqXNV16J5FqiPGofe4brrWQtCDckVt55jYvJyrkcBk/Lr/RW2YB4GSmhFdcs/ZM4V0GyKSGvKd0zs1IPv6r/83ZY7TVxfBN6sLBfvqRDOZsziWCaDjgXec2NtpEM0Lm4NprXBP5wz1KZaPUzcE8vrw5bbiPH+ijeda2eSsehQc0lOELA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dYdQPZ6ZDUQvSjgesCMJB1IHyF6PBVFhoX0n22pLP8I=;
- b=js+hOAR63CqhL8LAWPCR2bseU96lyxbhQ7x+NAazmzFghEOKCCnSHtvxNyh3dTKCqqW6hyiIWBBDqF5/SuLiWaA6JJA+pYUOu5jdV4vMpUSRNIV9ViRzmKhou7dFhXsgp3PZ3TuMTUDj7Ag82l7BnWY8r5LbA7Q1Akw2LIRgJ3Ld3/nmIZQNsPOl3vCXkA52UnacOYWbzTVzGY2UU2HbXoEgNkvCDb4mlkZE5iw+flLT+qpSD/9v4i8xO4CWAlSA9Y779YCDn+Fh5y1B8xNOI8TrCK0fmPERs04MVKZloBJoNMPDP6xxsgbPhzwC1WsNjl2vZKNQv9I77MNVLEzDRg==
+ bh=0sZqqV1iSKd1Sg26YcCLKy73hbqWBzNLdaeOWWyX6mE=;
+ b=Cth/njbb3UrVICVqz6ntNhCMaRzNXllV89tyt9XvllghAkABh1sks0e3tOqzuUDdISSciB7FMgO7swXvG1qFWmyhxC5j9eACcWrSydPed/5lUgLthhaFH/cesloE4FoKQzGNvmXQt5AEe+o2ScVLWoEvGKBmQRtTzzrh1I1Kj5C/MfS31fv4b88nXmwsm63Vg0gqfcPCL4c4BDf4mwMmo6mK1jAI7CYC4GUOUmgyVfpVh1KqxCDLhV+fsyyBQYc14kpQyFmp2sP94patcCCR0CD2C+vqvR7rw8QA6KfZbRRw0N7RanSMZKDqVLNU6r4c2k4InMs8TgiPr6yeg+V9zA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dYdQPZ6ZDUQvSjgesCMJB1IHyF6PBVFhoX0n22pLP8I=;
- b=SY6sg6BcDIlBV9R2oj3Nl5zd8VWy8KjUexeRNbBEAZ9mZFJ7qlulT06ryXekKgR3fN3aNTZ8GRNAC3btAJFNS5BoRCbFcHsBCVhWcI9ZwlcZhdwr/Nt2uWuOq6dqg7UslMSDXo8S+1NS9mmxD2QJYu8T+Trn8feAajGp6/wtSA4=
+ bh=0sZqqV1iSKd1Sg26YcCLKy73hbqWBzNLdaeOWWyX6mE=;
+ b=HlnXXobtHKLptkqzeiBPcNsJx/r/D4Ay4W+XQOG7Q4mPFDkca5yVO7Uj/0831icCBoQTcIqUPDRI0CGKUwj7ol4zt/9rN1dzwoRvb/8S/2TIsV8ANPl8hFQ39FAJPc49Jfdx8zdjI9y5A5Mow07ClIvHXWoOykGRdL3bpk2PSL8=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM7PR08MB5480.eurprd08.prod.outlook.com (2603:10a6:20b:de::11)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3066.18; Sat, 6 Jun
- 2020 08:18:29 +0000
+ 2020 08:18:30 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::a408:2f0f:bc6c:d312]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::a408:2f0f:bc6c:d312%3]) with mapi id 15.20.3066.023; Sat, 6 Jun 2020
- 08:18:29 +0000
+ 08:18:30 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v5 09/13] qcow2_format.py: add field-formatting class
-Date: Sat,  6 Jun 2020 11:18:02 +0300
-Message-Id: <20200606081806.23897-10-vsementsov@virtuozzo.com>
+Subject: [PATCH v5 10/13] qcow2_format.py: QcowHeaderExtension: add dump method
+Date: Sat,  6 Jun 2020 11:18:03 +0300
+Message-Id: <20200606081806.23897-11-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200606081806.23897-1-vsementsov@virtuozzo.com>
 References: <20200606081806.23897-1-vsementsov@virtuozzo.com>
@@ -62,37 +62,37 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from kvm.sw.ru (185.215.60.130) by
  FR2P281CA0036.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:14::23) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3066.18 via Frontend Transport; Sat, 6 Jun 2020 08:18:28 +0000
+ 15.20.3066.18 via Frontend Transport; Sat, 6 Jun 2020 08:18:29 +0000
 X-Mailer: git-send-email 2.21.0
 X-Originating-IP: [185.215.60.130]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: eca96768-f7df-4540-6b1e-08d809f231a5
+X-MS-Office365-Filtering-Correlation-Id: 6d4c8b91-f1a8-4601-fa6e-08d809f23210
 X-MS-TrafficTypeDiagnostic: AM7PR08MB5480:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB54802F12797894EDAEDA21BBC1870@AM7PR08MB5480.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2958;
+X-Microsoft-Antispam-PRVS: <AM7PR08MB5480429064DF5387F87DF8DFC1870@AM7PR08MB5480.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4303;
 X-Forefront-PRVS: 04267075BD
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 5Oy+mrVlxiAoj5NjT++8+fj0+wSn6MtAQvGjTNXnmHN+0Mb1m6WnaXZv2C9FrNy9/f5RTurBu1AIXHWGZBjBjbRRCvF81zQsuCGNFnNZZ36mikZRPQ2wervS7isx73GRgZceZrXfPwCZafkhYIZPT6FgQqTsQ3GPDI2Gwa4r1r5ANE23o/XzcmnV5YYY9zhHpHGWo2Xcw5mB3TRwV88nUQJXVOfTyG15TbxtNVptfQeqogfrTXmWYlc/bWOFsgv0+IZw6ahPC/ziZEjg4jq/zVEdU17Ew/yZn9vXZ9qpGWRCkmd77zHPrqvC+TIY+2FKJrYXxrc4nOC+40O7wne4IQ==
+X-Microsoft-Antispam-Message-Info: OCPllso8ukDqFhe5xlyYjOQdZexMsGz4oKFd+juRVD47E9orEYhq3RnKQzThayDI0rFM07zg0xrQypOaDrXqVjTP7+I2h4dHuqsIsP4GBF2Yeg3jEjXJwnyQoZmmmBgERXKnppZB8mrP3MmoHZiM71vRf67sGViaogJKDLIGjvkm5eUklcpgpBPaxLLvd8AF4TKXwfLbf6WIOq5cGkyemESxHFd2sEYzapZUISy8Sy5OAvCz/98yS1tOnjYe0BZDT/ek25DBFJD2ABbrkgzZsOicPQubahe3Tgx5E/mM1zBLq6FUU4EOjYu+sp1CCtrKp/KN9G1cobpXH31Keqab1w==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
  SFS:(4636009)(136003)(366004)(39830400003)(376002)(346002)(396003)(107886003)(1076003)(4326008)(2906002)(36756003)(6512007)(66946007)(66556008)(66476007)(6486002)(5660300002)(83380400001)(478600001)(86362001)(2616005)(956004)(316002)(26005)(6506007)(52116002)(6666004)(8936002)(6916009)(16526019)(186003)(8676002);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: oYpR/agEmUvwhNnBpnOEaGIOz5wuQyte4TOn43pHnpWylsudndY3srWNI1H3qyDBsdGq0HjAXz8DC1U0MuPItR4eO0kZWMDQmkuWpmd/vq/G7V8cnfg5fe+iytiyoZn53bI93B6pSG0KxX4FVpL3C/NmOXgFQIVr//2OcVfGxrCEZY5WfuSAs2p8U6tIdZS1VfZ6lDSJsQ7ydBEPaY/aI/1XI6nIsOpRGKQ6Aom8ksZPmY5/5PMqBFOhlBiS7wVtIall3+qnOd0Q8881aAoU1l81FvtvhDVy63rzo9tcJwZLXBong4jKpmaldhk+Ca3wzidsVAYdHkv9WNNwDhdYIJh89IMJ9nyzCEyI56wgj6nxyyzkklf4A33gBPYmIhyqrQl0kSR4V+bqowjjqLQfmW/siftMiegBtQPFXouqxMZxB/0NWIoFt7kv2Q6ZkbhEqYOeL36zU8UuArA0i1F8hwMZEW+nYPxuhIlaZJrOS0I=
+X-MS-Exchange-AntiSpam-MessageData: pPCgOV5l4fB3GD+YbWqtfvDxnA9eP9FrnJauQEPwAuPWClh9eYGPM0zqL+bWQMO10N22UkHYql3J9JM0MFygFEkOyK2qTQnetdyuVZgGVs7/pFhdr9zBXpf2hthWHxjlKMMxcsSDvk69Vr1zHYAT/Z26OOSI1HXKF+1lMajaxTY3vHp/x3sEceifeWwg1PPE3zyAZGpvNTV72YFQhO8oIRXk5i7b0jGfx4Tt4Q0BV1rvqhCtrgzqg6GbHAX8mjr3dijOAN78fD7617Ek4J6ndFrhR3TOMbs7t8fQodrYGlF7ei/jJXuRboOWJRfGc/N6iq4i437QPoVNln3Sle89BslAB03iiMdB/Ljsn8/WvSMaHqALwmQM/6dP4z0FWkegDxV6ijL3QwI1YsyzmLhNITGJWWU7CxzGxX4DwOCstkgZjyizaTlHZcRRoL+aOwZhIuY+Eui3U/xYlh+ZnqCrQwgrzSfIsE/rt2RGQOc+JQ0=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: eca96768-f7df-4540-6b1e-08d809f231a5
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jun 2020 08:18:29.3869 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6d4c8b91-f1a8-4601-fa6e-08d809f23210
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jun 2020 08:18:30.0749 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: nUEomgbhrkxrZ0U9lnrQMOfysxZJ1eoY8zNZzChOU2SVVYEDs9xsiAt9h/MUzcALju4gx02omqDCGxsX34mF66eCQs9un25bonoBTNXd2dc=
+X-MS-Exchange-CrossTenant-UserPrincipalName: saxgg0pFKA3OPy6jNM9lXMRzCg76EsxdE3aCb33XMTAVqzaIIIGArbMU5r48heaiDprMaZLlk1QIzI7EDuz3CGCbovQrB6uvvtSjVU+dNW0=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5480
-Received-SPF: pass client-ip=40.107.20.120;
+Received-SPF: pass client-ip=40.107.8.98;
  envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-DB8-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/06 04:18:29
+ helo=EUR04-VI1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/06 04:18:34
 X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -119,76 +119,54 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Allow formatter class in structure definition instead of hacking with
-'mask'. This will simplify further introduction of new formatters.
+Obviously, for-loop body in dump_extensions should be the dump method
+of extension.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 ---
- tests/qemu-iotests/qcow2_format.py | 35 +++++++++++++++++++++---------
- 1 file changed, 25 insertions(+), 10 deletions(-)
+ tests/qemu-iotests/qcow2_format.py | 22 ++++++++++++----------
+ 1 file changed, 12 insertions(+), 10 deletions(-)
 
 diff --git a/tests/qemu-iotests/qcow2_format.py b/tests/qemu-iotests/qcow2_format.py
-index 898d388b8a..74a82f9263 100644
+index 74a82f9263..d4ad5431b2 100644
 --- a/tests/qemu-iotests/qcow2_format.py
 +++ b/tests/qemu-iotests/qcow2_format.py
-@@ -20,6 +20,25 @@ import struct
- import string
+@@ -108,6 +108,17 @@ class QcowHeaderExtension:
+         self.length = length
+         self.data = data
  
++    def dump(self):
++        data = self.data[:self.length]
++        if all(c in string.printable.encode('ascii') for c in data):
++            data = f"'{ data.decode('ascii') }'"
++        else:
++            data = '<binary>'
++
++        print(f'{"magic":<25} {self.magic:#x}')
++        print(f'{"length":<25} {self.length}')
++        print(f'{"data":<25} {data}')
++
+     @classmethod
+     def create(cls, magic, data):
+         return QcowHeaderExtension(magic, len(data), data)
+@@ -210,15 +221,6 @@ class QcowHeader(Qcow2Struct):
  
-+class Qcow2Field:
-+
-+    def __init__(self, value):
-+        self.value = value
-+
-+    def __str__(self):
-+        return str(self.value)
-+
-+
-+class Flags64(Qcow2Field):
-+
-+    def __str__(self):
-+        bits = []
-+        for bit in range(64):
-+            if self.value & (1 << bit):
-+                bits.append(bit)
-+        return str(bits)
-+
-+
- class Qcow2StructMeta(type):
- 
-     # Mapping from c types to python struct format
-@@ -70,14 +89,10 @@ class Qcow2Struct(metaclass=Qcow2StructMeta):
-     def dump(self):
-         for f in self.fields:
-             value = self.__dict__[f[2]]
--            if f[1] == 'mask':
--                bits = []
--                for bit in range(64):
--                    if value & (1 << bit):
--                        bits.append(bit)
--                value_str = str(bits)
+     def dump_extensions(self):
+         for ex in self.extensions:
+-
+-            data = ex.data[:ex.length]
+-            if all(c in string.printable.encode('ascii') for c in data):
+-                data = f"'{ data.decode('ascii') }'"
 -            else:
-+            if isinstance(f[1], str):
-                 value_str = f[1].format(value)
-+            else:
-+                value_str = str(f[1](value))
- 
-             print('{:<25} {}'.format(f[2], value_str))
- 
-@@ -117,9 +132,9 @@ class QcowHeader(Qcow2Struct):
-         ('u64', '{:#x}', 'snapshot_offset'),
- 
-         # Version 3 header fields
--        ('u64', 'mask', 'incompatible_features'),
--        ('u64', 'mask', 'compatible_features'),
--        ('u64', 'mask', 'autoclear_features'),
-+        ('u64', Flags64, 'incompatible_features'),
-+        ('u64', Flags64, 'compatible_features'),
-+        ('u64', Flags64, 'autoclear_features'),
-         ('u32', '{}', 'refcount_order'),
-         ('u32', '{}', 'header_length'),
-     )
+-                data = '<binary>'
+-
+             print('Header extension:')
+-            print(f'{"magic":<25} {ex.magic:#x}')
+-            print(f'{"length":<25} {ex.length}')
+-            print(f'{"data":<25} {data}')
++            ex.dump()
+             print()
 -- 
 2.21.0
 
