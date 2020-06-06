@@ -2,102 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 567E41F05CF
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 Jun 2020 10:34:34 +0200 (CEST)
-Received: from localhost ([::1]:44424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4D241F05D9
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 Jun 2020 10:48:17 +0200 (CEST)
+Received: from localhost ([::1]:51904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jhUHh-0001I7-Ej
-	for lists+qemu-devel@lfdr.de; Sat, 06 Jun 2020 04:34:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44840)
+	id 1jhUUy-0005ed-Ng
+	for lists+qemu-devel@lfdr.de; Sat, 06 Jun 2020 04:48:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45622)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jhUGj-0000mO-1c; Sat, 06 Jun 2020 04:33:33 -0400
-Received: from mail-eopbgr70132.outbound.protection.outlook.com
- ([40.107.7.132]:33142 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1jhUSs-0003hN-PY; Sat, 06 Jun 2020 04:46:06 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:49283 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jhUGg-00032q-M0; Sat, 06 Jun 2020 04:33:31 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nDn7qHfXfkRvFqoeP2nVaT2LpO8iL1FWRycahr72A++MxEDELa1rixVN5QuWvB23WL3+yxW5jftAYzdiTkPmEejcPMpvNdRm0YXLm8KZCsCGg3OiCLb2wLHwR+jU3iyarz0/gAB3fu72HrCzyPLJ8O1sRdy1Zs22UN4n6vOFEL9dwxFGB7YyGe8F244NeLX6dv3q9R3iMVsQbkuW5wL6IFKIAmuES/t/s7NlOBekm4CFZHS5np+INuQPdsin0tH5knidzQC/7ECf6W4NI9wI2iv9qE+2ywv9uHjvYglkT/vhljmxG7sbH9UvYJswCKvEjTCUskxOhBcs6T+VV0PtxA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0KLx3IYZglnf8DFSVzWTGSx9hGu/9Tpkghsr1XZmQhs=;
- b=H8dUcSdWEQllh6tEOVwwvaSsDnilBVWL9tr8pxFgZPqx/CMU2x/O5mph2dqpU1BBWFz3MEls2h+UKtbgwUk1W7rEoW7eQ1X47/igGy14xv5hCtdaS09rGYHu7BdMqe+2gN9C1oH+t3YgbOyq5BQmHVSKntLa0pB+9rtJTeRj/zzfMvxmZMzHU5rOSoqCxoAxe+/VnB792brbqDSDSIPir9eHxv6KIpJyu7f8kNX9PfOrPuiwrpxgwEPubeFFpTK7fUK/3mr5cI/Q+EyKgfarNtKiL8/lGqVA55A/t5uYJNRB/TAR3ciB10UdZoI7Ittn8vm61B4JsoOUjwHm6r70IQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0KLx3IYZglnf8DFSVzWTGSx9hGu/9Tpkghsr1XZmQhs=;
- b=wXcmoiBJ7Ki5BPypQMO94c0SJoTr8JLA9khLOxVFXAWVGUgu+HXq5uklJHp9+EZl8YDNQepYR2ZSdrpRaJ7HMI99Lh/8mmXqDLVuWNPrca5QSwn+gJtYgPqcVrGcRTQW8KVtbhSKP4tTSY0Dki6CXcVW1MObG/U+3C8dKcNYfKw=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM7PR08MB5480.eurprd08.prod.outlook.com (2603:10a6:20b:de::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3066.18; Sat, 6 Jun
- 2020 08:18:22 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::a408:2f0f:bc6c:d312]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::a408:2f0f:bc6c:d312%3]) with mapi id 15.20.3066.023; Sat, 6 Jun 2020
- 08:18:22 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH v5 00/13] iotests: Dump QCOW2 dirty bitmaps metadata
-Date: Sat,  6 Jun 2020 11:17:53 +0300
-Message-Id: <20200606081806.23897-1-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.21.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: FR2P281CA0036.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:14::23) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1jhUSq-0005F5-1X; Sat, 06 Jun 2020 04:46:06 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 49fClh3xm1z9sSc; Sat,  6 Jun 2020 18:45:52 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1591433152;
+ bh=YoMdeniGBGn7TbfMONb8QyzbR+59Cq/gi2fKNL7nRBk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=AZlhhrLEwdJSBK46arLMA0LpVtzngJJQ+Doq0U1Fz+A7y0PoSsylrPH7nEDkieKkS
+ y3uxYbQKR17t4YdoDzNNzdl9JRYH8pTZAwX6Au9pB/spDiAkViWQ1uagufCwB643Zz
+ skLebW6XgA2iVdVLqTKfWkzkKJTJDj5RyXFDCxjI=
+Date: Sat, 6 Jun 2020 18:24:58 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Thiago Jung Bauermann <bauerman@linux.ibm.com>
+Subject: Re: [RFC v2 00/18] Refactor configuration of guest memory protection
+Message-ID: <20200606082458.GK228651@umbus.fritz.box>
+References: <20200521034304.340040-1-david@gibson.dropbear.id.au>
+ <87tuzr5ts5.fsf@morokweng.localdomain>
+ <20200604062124.GG228651@umbus.fritz.box>
+ <87r1uu1opr.fsf@morokweng.localdomain>
+ <dc56f533-f095-c0c0-0fc6-d4c5af5e51a7@redhat.com>
+ <87pnae1k99.fsf@morokweng.localdomain>
+ <ec71a816-b9e6-6f06-def6-73eb5164b0cc@redhat.com>
+ <87sgf9i8sy.fsf@morokweng.localdomain>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from kvm.sw.ru (185.215.60.130) by
- FR2P281CA0036.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:14::23) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3066.18 via Frontend Transport; Sat, 6 Jun 2020 08:18:22 +0000
-X-Mailer: git-send-email 2.21.0
-X-Originating-IP: [185.215.60.130]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 68196d7f-c47d-4fd7-cac7-08d809f22db6
-X-MS-TrafficTypeDiagnostic: AM7PR08MB5480:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB54800FD0E8E2DBBC5790A2E0C1870@AM7PR08MB5480.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:72;
-X-Forefront-PRVS: 04267075BD
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: skdAXjRM1Kbrdas1JyCXU/Y2mXQD/zyPPeP3D065oz88yzmeN+b/FnoiHZLpcvczZE7i5XNz+kOa9c4+8QpW1kZeOQGvpFAI9hnP4wCavubRs58Bo2N3aCA3S6mYsRrICE2EUuzz8zAku2GvOz/A+VcWeAt6vURmn6R4Nx8Oa9CTfefsw5xIBvv5er2UGfxsPalNc018t0iNZRdXeNx/G8pCqGn8+5M4xmNn4lKfgW6MVkAQMRagokDzNTqMr7xaDvph9vQ2r7N1QIoZ223scEfWYlXX83uXDOZugU4wF6JRAG2Lahyn77SeUDFIKIiUHy0Ffq05T9HI7bhEDZ02272CwP/w5vulFyVk/ZD8S16HpK6ckW8PXo8jQlFHK/qbWDxOYrUw6mY0bRUNMW/0+GttOsuCYJYHa6WfVqKFey/jQ0RtAQbrTiYKUyozZDcZj6iZfmFGqWIJd5BlKrR93g==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(136003)(366004)(39830400003)(376002)(346002)(396003)(107886003)(1076003)(4326008)(2906002)(36756003)(6512007)(966005)(66946007)(66556008)(66476007)(6486002)(5660300002)(83380400001)(478600001)(86362001)(2616005)(956004)(316002)(26005)(6506007)(52116002)(6666004)(8936002)(6916009)(16526019)(186003)(8676002)(14143004);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: ye3Q8tGtBCb4nDwdjt7LxUJMcEJERr/MHkQ+H9iMPSupIN2n5b2duJ41ngqqSsarkmZBVyO5eG1QkZ7OTGIjO24f98X2yK8J8UUNHnWf+gVxnmwJPqiaZGCBmNQnneRtMMEtFlSNenMdmMlkSL4D4H1T175Lc/PwVf59kQOf/C/QXeNbVqETw3w7TaVi4VYpjaaV820aCEZSQo2saUqnPkm201o2D12E7UykWwrsetNGhmgiVraN8zhbx7eq7VtRoEytFGDUsbWCj3D/thL2cU+ZMbO5ddbTSgZ6KCaPWl+P+aqna1QoYDD8EutEGDLhx12rWkI4Nwzyy5Eu+BEI5lJCE8qQBIM05DcwWdrgCIU0r8g0lagYB5x/bihGAof2FQMtxhX6Cbl5bCMtyFkenGPX3DUeuaXWx3CITefbmAoeyXSt4Kz5wPgJuNZgtVbXO75D0VLdejLhZM7RiyD6UqZk6EB3PbrgG9GbFWY6ZCGSaXD6yr7SEjFifoHkKevX
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 68196d7f-c47d-4fd7-cac7-08d809f22db6
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jun 2020 08:18:22.8128 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: DotxdXsGOkvJgRqMVx5TdeDDzmbYzTqdKfWzNirxG5E+gvV5jeUqC88NU6CA8uabxwdzs2iYWY+nLr0glDYLkRpBs+ioQI6s9oTT8oPP0A8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5480
-Received-SPF: pass client-ip=40.107.7.132;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR04-HE1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/06 04:33:27
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="Cy+5HEalSgyXkpVS"
+Content-Disposition: inline
+In-Reply-To: <87sgf9i8sy.fsf@morokweng.localdomain>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/06 04:45:54
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
  SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
@@ -112,73 +67,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-devel@nongnu.org,
- mreitz@redhat.com, andrey.shinkevich@virtuozzo.com, den@openvz.org
+Cc: pair@us.ibm.com, brijesh.singh@amd.com, frankja@linux.ibm.com,
+ kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>, cohuck@redhat.com,
+ dgilbert@redhat.com, qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ mdroth@linux.vnet.ibm.com, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all!
 
-Here is my suggestion to substitute only first three patches :) of
-Andrey's [PATCH v3 0/6] iotests: Dump QCOW2 dirty bitmaps metadata
+--Cy+5HEalSgyXkpVS
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-v5:
-01: - typo in commit message
-    - fix over-79 lines
-02: new, specify GPL license
-03: specify GPL license
-04-06: add Andrey's r-b
-07: - grammar in commit message
-    - add Andrey's r-b
-08: - add copyright
-    - note u8 and u16 in a comment
-    - add doc for __init__ of Qcow2Struct
-    - add Andrey's r-b
-09-10: add Andrey's r-b
-11: - note about current fd position in __init__ doc of
-      QcowHeaderExtension
-    - add Andrey's r-b
-12: - keep magic in hex
-    - use lower-case for magic constants
-13: add Andrey's r-b
+On Fri, Jun 05, 2020 at 05:01:07PM -0300, Thiago Jung Bauermann wrote:
+>=20
+> Paolo Bonzini <pbonzini@redhat.com> writes:
+>=20
+> > On 05/06/20 01:30, Thiago Jung Bauermann wrote:
+> >> Paolo Bonzini <pbonzini@redhat.com> writes:
+> >>> On 04/06/20 23:54, Thiago Jung Bauermann wrote:
+> >>>> QEMU could always create a PEF object, and if the command line defin=
+es
+> >>>> one, it will correspond to it. And if the command line doesn't defin=
+e one,
+> >>>> then it would also work because the PEF object is already there.
+> >>>
+> >>> How would you start a non-protected VM?
+> >>> Currently it's the "-machine"
+> >>> property that decides that, and the argument requires an id
+> >>> corresponding to "-object".
+> >>
+> >> If there's only one object, there's no need to specify its id.
+> >
+> > This answers my question.  However, the property is defined for all
+> > machines (it's in the "machine" class), so if it takes the id for one
+> > machine it does so for all of them.
+>=20
+> I don't understand much about QEMU internals, so perhaps it's not
+> practical to implement but from an end-user perspective I think this
+> logic can apply to all architectures (since my understanding is that all
+> of them use only one object): make the id optional. If it's not
+> specified, then there must be only one object, and the property will
+> implicitly refer to it.
+>=20
+> Then, if an architecture doesn't need to specify parameters at object
+> creation time, it can be implicitly created and the user doesn't have to
+> worry about this detail.
 
-Tags up-refactor-qcow2.py-v4 and up-refactor-qcow2.py-v4 may be found
-here: https://src.openvz.org/users/vsementsov/repos/qemu/browse
-(git remote: https://src.openvz.org/scm/~vsementsov/qemu.git)
+Seems overly complicated to me.  We could just have it always take an
+ID, but for platforms with no extra configuration make the
+pre-fabricated object available under a well-known name.
 
-Plan for continuation:
+That's essentially the same as the way you can add a device to the
+"pci.0" bus without having to instantiate and name that bus yourself.
 
-- add type hints
-- support compression_type field
-- dump more about bitmaps
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-Vladimir Sementsov-Ogievskiy (13):
-  qcow2.py: python style fixes
-  qcow2.py: add licensing blurb
-  qcow2.py: move qcow2 format classes to separate module
-  qcow2_format.py: drop new line printing at end of dump()
-  qcow2_format.py: use tuples instead of lists for fields
-  qcow2_format.py: use modern string formatting
-  qcow2_format.py: use strings to specify c-type of struct fields
-  qcow2_format.py: separate generic functionality of structure classes
-  qcow2_format.py: add field-formatting class
-  qcow2_format.py: QcowHeaderExtension: add dump method
-  qcow2_format: refactor QcowHeaderExtension as a subclass of
-    Qcow2Struct
-  qcow2: QcowHeaderExtension print names for extension magics
-  qcow2_format.py: dump bitmaps header extension
+--Cy+5HEalSgyXkpVS
+Content-Type: application/pgp-signature; name="signature.asc"
 
- tests/qemu-iotests/031.out         |  22 +--
- tests/qemu-iotests/036.out         |   4 +-
- tests/qemu-iotests/061.out         |  14 +-
- tests/qemu-iotests/291             |   4 +
- tests/qemu-iotests/291.out         |  33 ++++
- tests/qemu-iotests/qcow2.py        | 218 +++++-----------------
- tests/qemu-iotests/qcow2_format.py | 286 +++++++++++++++++++++++++++++
- 7 files changed, 393 insertions(+), 188 deletions(-)
- create mode 100644 tests/qemu-iotests/qcow2_format.py
+-----BEGIN PGP SIGNATURE-----
 
--- 
-2.21.0
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl7bUtcACgkQbDjKyiDZ
+s5KGWRAAx4ggMFCRE7+DfjUQOmDiAMZxpB19AEh1v3ohIYHDxx88pn0seVlvJqIx
+ujGOc891w1XcGHuw3Umye5OOB1KM+qgYFvMlBYkqj7IrRIcU87P8bVb8WKWuCSJc
+txUd2CYUHHWJpI8TRdKw/BzkflOF9NTQA51SFEzupj4mTpGDwnN9ZygS2Lxv+WbG
+CNz5MyU1fP5GA3hKBDhp6HN1CK0SPk85DPx4gRCSE7mj5BDA7kElB+dCwvvvAl18
+bD0UrVkpaENCNXLbPYTTRydi0OSF6NP6TWQ449dBHsjcOVOXhlwK+X5QtNYtFVzg
+k5xYV4Rluu4JsgNO3fZIleFcZn1145FWpEokUPwqnCVRPW84zeRI5AhHu8dTEL+v
+hgy/9cYZjPFWLBI8YPtdZxshUCFRHL0nNmPabxyO0xmg+kYaHuTasdS+nJMPSU/k
+c3hGWBCsEIGE19akQDCyd1/oFumZJyqZXPlDLoHMS4+lQSP8o30q8TZAKGGFr+2B
+FtjRYKIKltfAsapyXzHAIkEXy59anPnDMcFAG/xNh3P0WePC1p+CAjohfKK9oYG6
+TunO7a27yInF7NowUhfcAmtTyRyEXS57A0XVmrfLeW3gdsn+J+ts+H8PeM2Kb4vP
+ATwzQEghKh235o5aAQygw7QNi94VbS1mPHWa/kLnVHvxmFmKxcY=
+=1I5c
+-----END PGP SIGNATURE-----
 
+--Cy+5HEalSgyXkpVS--
 
