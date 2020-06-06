@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 366CB1F06AC
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 Jun 2020 15:20:05 +0200 (CEST)
-Received: from localhost ([::1]:39738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3DB71F06A7
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 Jun 2020 15:17:33 +0200 (CEST)
+Received: from localhost ([::1]:59480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jhYjz-0002iw-Ej
-	for lists+qemu-devel@lfdr.de; Sat, 06 Jun 2020 09:20:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38958)
+	id 1jhYhY-0007en-PH
+	for lists+qemu-devel@lfdr.de; Sat, 06 Jun 2020 09:17:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jhYfc-00061r-Q3
- for qemu-devel@nongnu.org; Sat, 06 Jun 2020 09:15:32 -0400
-Received: from mout.kundenserver.de ([217.72.192.75]:33563)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jhYfd-00062Y-GX
+ for qemu-devel@nongnu.org; Sat, 06 Jun 2020 09:15:33 -0400
+Received: from mout.kundenserver.de ([212.227.17.13]:57249)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jhYfa-0007Zw-UD
- for qemu-devel@nongnu.org; Sat, 06 Jun 2020 09:15:32 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jhYfZ-0007Zp-W7
+ for qemu-devel@nongnu.org; Sat, 06 Jun 2020 09:15:33 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MYNW8-1jTtOc45Uw-00VQi8; Sat, 06 Jun 2020 15:15:21 +0200
+ id 1Mk0FS-1jErg11vJo-00kMKw; Sat, 06 Jun 2020 15:15:21 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 01/19] linux-user, alpha: fix oldumount syscall
-Date: Sat,  6 Jun 2020 15:14:59 +0200
-Message-Id: <20200606131517.1250346-2-laurent@vivier.eu>
+Subject: [PULL v2 02/19] linux-user: return target error codes for socket()
+ and prctl()
+Date: Sat,  6 Jun 2020 15:15:00 +0200
+Message-Id: <20200606131517.1250346-3-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200606131517.1250346-1-laurent@vivier.eu>
 References: <20200606131517.1250346-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:fUnHutHA0ugdfgc+RZwN39djWZCuGpsPP7zroYTbwqqj5FZ9LfG
- GS4EVanCAXxKZqh4lPDwlPIEO2V6jsErmlm/pawQHqHK1szpu2IzKw4KNDLDc6EU5bhEl2B
- 2VF/mv6AUWDEhi7UJQD2lfLiZS6tO7kl5062MMal4VYcP4+tCLumsngdB00ROaRgQ892g9m
- cugiLJDBVcwLTt0ahbxaQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:N8hVkgN1z8c=:hXBNbTVBNBA9iEzMpsE5QY
- 3lCoAJ2IvLakYi3Pub+IP9ZxUkvrucORRDo+2QkNqm4YL3gjzO+SqCa4gxCLH3f5kdChnm0fQ
- C8N/+MangqBx/RKNbW6BvAF8kPv32imxo/eCXExHvbJK+qDLkJOlqebobaxIRQvibASCVngGP
- VYQCqOOHzzYEvSHNHtZjN0ElUaifE6DvKogWjhqPsCMahdyHpNsJCN1PPkCIzNCI+FOQveBcp
- e1OT82xuuhB6bx8K3eq1I/jQQpNOPAZuPdJM4K35P5l2uNu0upaNcnz07WJyx+qwilBZc9PKg
- hxTg5CTVHFvBrqzowC8nPnoL1WhfSsDkYlXwPxrp6eLyB2neIuaQVSMk/Q684DtGOCdNjdoGN
- e5yHdV9SQme+mvUka61m4AfWSN32NX7mCUP5JA2CENRYgj6kPrNALkNkc6iKRJ9PG9dmYsRsW
- H6ZTrYRdHI52xw39SKiv/TIOAjXei0EDE5NucEHIn7RHSWfDXs11BI9X2K6P1T5JztaTCVETI
- G+EEeTCvIHVbtof9uvbIsHTu1ik2Qc2xXvhTxPhVqiyCFhraKymN0LZeZyTRAVflQpZxQV19Z
- q0mkOJD0pSn36oBBL+MutQkeGReCUT/VHu9GlatveOPCLZR5VHgUwhD9QTylTukWVQBoFfQeG
- UNgFSX9vXdxUG/GPuQxnY66zRi4nRfjiAE60RCTAB/lzQk295+b/MgnuJDU64JbHJNvsdM2QT
- BhfQ2jezbyi6HpVOpP23LLextTOFzZA4or9ZHYn8XFTcVs94pvZKxCeAuNLTRgMCkZdvJyZvC
- Jz8zHEF2SwkTYRzOt++BKXRFsfsaixNwqMuUjK50Q5sFTZqolDmKlovU90xni6GyTUlpl1r
-Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:vSvE8yzZQ+/jhlqHLs9KtejW7Ampq8TfsPaedVkwpuOrylfQ2ER
+ rGdcECFpZX6PonpreSaje50d1d2A4WTu8o92o4Lv8XRKFe4RQxhoQXxUJ7rdJlhX92IhQ3b
+ l6I6BUtyuZGpSx8jPQvdd6IjKoRY2H+4qdF74hHTvm/4X2ckTfAQfLpQRaaQnHADkFCvkPZ
+ vo7x4MpBUxCS3WwG9xO8g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:TdF/lp0OqK0=:0m599vtsLyEnGmlf618jMb
+ bbdk49pW54bCL1VCs4H8GreIAMn3jBPesYGSRMTWcIhoS530hlQEJ+IZcoodKFDXu2DygsEGv
+ bMGeErVTADBvxkkjyP2cOebaod75iv/eWHJpNkPlntpZFd6MyZ++WucQeEQKO2WrOwpL1CEx3
+ kseDFIXOJbZ2E0k4Qh4EI7dYHdSJUdYa5H9nxgSgWjnZKZvQ1FWwklvzNUOdqpvyhX5uP/Gri
+ 3RHOt4nNfphToquST5KXSE0Sf+5QviTEPHPaAuQmQsUsrBwFWyaVqRBchAW4OfVPL6YdgoXWh
+ +ZLb5R6EV0t90Y8WiheVx5mBqs/7Pi81PdmqQkOsHvg8PUFBv59iqo0DLkb08+enQfU1qOBWf
+ 9mOYzt403yqdZ59QuyBEjFqZqF9VkOg0vlTXMBWgTI28b6SMN6xxXkObFh48zUt0pY6BSqJLe
+ okBuYPg7pUceo92UPpyIDDCKv7+Mmom2l848pbxfzYrdlI2PvcjvKmyxhXOCEGNxdbW3c6SZz
+ gligXTXOxn6XnvPtquUEdjH5FuUF4T0rOlndDZEoPMjqe1rmkhrJZHLjVYkr8qweHwwalXjrK
+ tPjeaONamBwIM+km3HnhfY4hTg1gs84SDXvJFsEAux+Iz7jWxgpYTp4duL6GZfWaTxd1dRvWr
+ 6iwSfX0sdmNFbYcI1DNTQPHttitDXw7qb7H/TupCW2+v2qVJjjmWpsdJ5whhWFSw2DQGaRM7g
+ fSaA+af2bicQ0jDHm7YXjVdkoTbMIl02uTvocQHx5UFIUzNJ9/tFjKwNxxDmUR01rQAzZYE9o
+ mRt78/clmgol9kMg2KN4P1YiuS6Ah8h+aXso2pN+9R/1uId9AFmMcFiOHOoLsh22fb4ZaCQ
+Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/06 09:15:29
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/06 09:15:28
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -68,60 +69,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>
+Cc: Helge Deller <deller@gmx.de>, Riku Voipio <riku.voipio@iki.fi>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When we try to bootstrap debian/lenny for alpha, it fails because
-it cannot umount /.root directory:
+From: Helge Deller <deller@gmx.de>
 
-  ...
-  Setting up initscripts (2.86.ds1-61) ...
-  umount: /.root: Function not implemented
-  dpkg: error processing initscripts (--configure):
-   subprocess post-installation script returned error exit status 1
-  dpkg: sysvinit: dependency problems, but configuring anyway as you request:
-   sysvinit depends on initscripts; however:
-    Package initscripts is not configured yet.
+Return target error codes instead of host error codes.
 
-This is because, when we switched from syscall_nr.h to syscall.tbl,
-the syscall #321 has been renamed from umount to oldumount and
-syscall.c has not been updated to manage the new name.
+Signed-off-by: Helge Deller <deller@gmx.de>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
-oldumount has been introduced in linux 2.1.116pre1 by:
-  7d32756b2 ("Import 2.1.116pre1")
-...
- * We now support a flag for forced unmount like the other 'big iron'
- * unixes. Our API is identical to OSF/1 to avoid making a mess of AMD
-...
-
-Fixes: 6116aea994 ("linux-user, alpha: add syscall table generation support")
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20200502194642.32823-1-laurent@vivier.eu>
+Message-Id: <20200424220033.GA28140@ls3530.fritz.box>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/syscall.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ linux-user/syscall.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 05f03919ff07..e89b815ce983 100644
+index e89b815ce983..fd5c4f1d73e6 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -8028,8 +8028,13 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-             }
-         }
-         return ret;
--#ifdef TARGET_NR_umount
-+#if defined(TARGET_NR_umount) || defined(TARGET_NR_oldumount)
-+#if defined(TARGET_NR_umount)
-     case TARGET_NR_umount:
-+#endif
-+#if defined(TARGET_NR_oldumount)
-+    case TARGET_NR_oldumount:
-+#endif
-         if (!(p = lock_user_string(arg1)))
-             return -TARGET_EFAULT;
-         ret = get_errno(umount(p));
+@@ -2987,7 +2987,7 @@ static abi_long do_socket(int domain, int type, int protocol)
+ #endif
+          protocol == NETLINK_KOBJECT_UEVENT ||
+          protocol == NETLINK_AUDIT)) {
+-        return -EPFNOSUPPORT;
++        return -TARGET_EPFNOSUPPORT;
+     }
+ 
+     if (domain == AF_PACKET ||
+@@ -5856,7 +5856,7 @@ static abi_long do_get_thread_area(CPUX86State *env, abi_ulong ptr)
+ 
+ abi_long do_arch_prctl(CPUX86State *env, int code, abi_ulong addr)
+ {
+-    return -ENOSYS;
++    return -TARGET_ENOSYS;
+ }
+ #else
+ abi_long do_arch_prctl(CPUX86State *env, int code, abi_ulong addr)
 -- 
 2.26.2
 
