@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A3911F0860
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 Jun 2020 21:38:00 +0200 (CEST)
-Received: from localhost ([::1]:34036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CFC31F0864
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 Jun 2020 21:51:12 +0200 (CEST)
+Received: from localhost ([::1]:43288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jhedj-00012H-4q
-	for lists+qemu-devel@lfdr.de; Sat, 06 Jun 2020 15:37:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42488)
+	id 1jheqU-0005nw-U7
+	for lists+qemu-devel@lfdr.de; Sat, 06 Jun 2020 15:51:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42978)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1jheWw-0005rD-3J; Sat, 06 Jun 2020 15:30:58 -0400
-Received: from mout.web.de ([212.227.15.3]:54339)
+ id 1jheao-0000Np-PX; Sat, 06 Jun 2020 15:34:58 -0400
+Received: from mout.web.de ([212.227.17.12]:35333)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1jheWu-0008DN-Ek; Sat, 06 Jun 2020 15:30:57 -0400
+ id 1jhean-0000Qh-8E; Sat, 06 Jun 2020 15:34:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1591471850;
- bh=kDEZLAKOUf0If1BbWR4LBOTYgfVm46p5/4qQjOPe/gY=;
+ s=dbaedf251592; t=1591472079;
+ bh=lKUg2PhSFx6sUFem2OVSuuT/pnnC9Z/U+JZQ9f2W1EY=;
  h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=S7BZ85SpmMe/TsN7qnasvC8k65CY7HUPludV85SpdYakckv3D8i4jBHVTu3tIl5jX
- fBv636fqralFr4wXMpXiYGK0PLbNL5CBQFafJQwvINPJo04eWF3eB2+cQm4pFIxvdO
- ubS1pyJni4taRnzemaTHqKQlTfH9NTHD3vE+XTrs=
+ b=JSjx9ofinJBv+SozHFfL4ZkwiOhDZ+taFFsMkB5z6y4OVKBC0Y7OjFEJqq/WHo0bG
+ bQXdHZtzTOhHh2RsxXB68bufGCwRKyhoVacORdj9gXbTHX8QRYJxhSCgXjkQbz7wY+
+ vcl9m58ZSTVEVfCAXYs7m3hZYgSEkQkA2+a7hcI4=
 X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from luklap ([87.123.206.73]) by smtp.web.de (mrweb002
- [213.165.67.108]) with ESMTPSA (Nemesis) id 0LtFAh-1iwNaT0gY7-012nJN; Sat, 06
- Jun 2020 21:30:50 +0200
-Date: Sat, 6 Jun 2020 21:30:38 +0200
+Received: from luklap ([87.123.206.73]) by smtp.web.de (mrweb106
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MPKB5-1jKDLv3JD3-00PpsX; Sat, 06
+ Jun 2020 21:34:38 +0200
+Date: Sat, 6 Jun 2020 21:34:35 +0200
 From: Lukas Straub <lukasstraub2@web.de>
-To: qemu-devel <qemu-devel@nongnu.org>
-Subject: Re: [PATCH v4 0/4] Introduce 'yank' oob qmp command to recover from
- hanging qemu
-Message-ID: <20200606213038.43538439@luklap>
-In-Reply-To: <cover.1590421341.git.lukasstraub2@web.de>
-References: <cover.1590421341.git.lukasstraub2@web.de>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH v3 08/20] migration/colo: Use ram_block_discard_disable()
+Message-ID: <20200606213435.664ca5e4@luklap>
+In-Reply-To: <20200603144914.41645-9-david@redhat.com>
+References: <20200603144914.41645-1-david@redhat.com>
+ <20200603144914.41645-9-david@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/rH/=5XBjEGqnFs1leRxwi5B";
+Content-Type: multipart/signed; boundary="Sig_/LYHMMuSwfzP+qx4=p_ni+M6";
  protocol="application/pgp-signature"; micalg=pgp-sha512
-X-Provags-ID: V03:K1:8ZCICRB+4qwNZiSJsnjnouQBNg2774xWPGhem/kc1DKTFvSQGmA
- w0dYVAeAvoPjBfeM9ojAm/8Ac2MlLmsko8YX1pI96KpMqbJLwydth9AgNXXWYvbu3JXZM6V
- BwslrmrkftCbw3OXNwNq32eZrD6DFg5JsevaqUSsH0IiSJSi6SRzmGpWEACnyZmlEye1/v6
- VuhrN/ERe+KAkWPGjUdlg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:l7BpF6YFkxA=:DaBjC9o/LXtaaFRDNuRiYI
- h2Cq86YFnZ2NGd1ZO7f6rkpZ4nnx5aqhfGmqPgiv/zA+cRqpIaypDDUQ97R765KgT/pSQROgM
- gUwCt3VjsTG/f1j78VGmZNQF2BxAepSMhVvbwtMeLrC2WU/6Jf+tC5gaPsRXOhe4uUZYc1Dgc
- fL71wxDI8LbYqSFP8c6rfTty/sUE2LlNHacXTZws6ZOpBRL8CzYS/XTM7l9qo9wY5PoIVNUwj
- aolkKm6gtFs4vsfQO0qronavX1kW5wXlHyRbJMOy0grcRnJx0aXFKTkfNVcNMU91ql6boTjq9
- dsvzdQuq1o7WRmIFQffLHNlTHcXWOGIo+td/PhaC6UtDSfNxw+4koCOLSp/HUkKMd5APoeWbv
- r6gvNAgckOudE0xV8orf+c4PTuzCYre0H8jdvj3TzT5+pojrQZhSIttLdzbTjU4A+56gBrNyJ
- em9SuRDX47o8J9AUsIHPIlRV7jpe/gYVHBwe/WCJGnBdD2pqUFa9HbRVFDhCOp48DlPFugcDj
- 0kzyU66q8ING+rD11k5rfdBXl1aEJPs7cJxtFltG7agpznU/QpTNUfUPxP1ps3HCheSOpePO6
- Vi44qGSaaRr2jpmduPzkFA3LorJyhgpZxX1Ei5TbdrRks/51fFeIqEnS+5YDEmh5sW7sTkBDR
- AfxXKzTuUNwJ/oM91CGBVKBOMNwVjYIzT9LuYClJIaWtoEGhwz0ezBI5ew3XRxGjNaw0Famia
- 7KvqX72m5WkPewdl6Zlq6CyK/bjVChaaeY9CaOrO3G4tsJ5qHYePEwe3BkwzhIMb+GI42Tr26
- Wx7MyZ6ZJCM4GEXzkOYkeezoDQYqgwp0ZnxIUCkYr7Og2XqdK85rJzUxO4QxcZXuLmNOPfUYV
- IJbuLF2A+WpA2c24TNUDyy6CevuHifOfz0gBe0y0aCetoxfOKUV1DMqRt2MNcTRmdjhOdxbEn
- RS+BZApCd9mr9Dro0udk4JVucNtv623/Q/+yIRg5bmoSpANA0eRWsFtEI7lcUREXSYe8k3FHF
- FFhrqUMQH145e04fCTbbZdyWZHW4/fatsHbASl2rx1TETLhO9nntkPIEBpKhrZJeA57LCeDvg
- 3bIY2LNwu2Jtr91GY5XG8cc9Ifj1a4RzoDUeeHMJI0Hq2FeGdEaJ6wJGhyR+5Sw0SthN5uQ5j
- HtkKoyraXhofY8+7itgNODNlRjrkOdkzZ/ZCXlh7eQ8IpqsuexV27jKptBM1Wqg4i9VFWUVxP
- 9OiGjivDCNo+ZPT9M
-Received-SPF: pass client-ip=212.227.15.3; envelope-from=lukasstraub2@web.de;
+X-Provags-ID: V03:K1:6/EiRazrWk4aoVSSJLHR/x+lzc9SP4jIhe6OtRGTKIE2vIIS39u
+ +9MU1wXuX5wMqOEr6M2hIwSDy5i5IOCKDIeu+A+Nj9tUGCoNZgcVl3jiNzI7Ferxjr8dOLk
+ XB8AkKuoreoVIu+lev4ShwOdWY4S8hU6envKebReReOdULc7uR8igOgVjgVSLwTbmJOV4Zq
+ KfCJkHVw+af7sX6qzECWQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:NlkEyiKaNyw=:pIc6AxLTI8LTPkTs9aVvWs
+ hyoadoiWE6feoptSNsvxry1/Xzwi/hYv/1bEtdfwTfIEoC5LIYq2T1042Suv02D4JnH+qHCC5
+ zJi/etzDrRHpqVcU1YsWOv+7edppI33pZOYydz2gnmWS94Vtb++meOfMhGTSczvr18KI0/UOT
+ t4s9o1xn9dBZNE1bjxvYHVmN+LCwcHbAd1xWG842s4EroTbvcpD/yE7zBSxGJN2uBnZRjtUrZ
+ Zhez/GVm7PPqceA8C7QzAZaAHCW15lWimFftGfzmZZEnRbl5iy0WHL+TUpXEwNS9+EhEhM6VM
+ N5iY2hOc3sQr4KHbHdyAuOp9TW6cWA4KYhtUfB8c4G2Vd3z0xhx9gecykCnvYrP61OWyNOjoA
+ RgZ2DymITWXSDojqaeOp6y83tmEmM1HuzCAL1/HdTQpK626kf91kKdm0LNvSRKC8whYgR0SPm
+ lsKo7X+fNHXO1x9rRv/yDxUljGiGQVGn4Y53XCjaz6JHDhhftj1OFAqqQa1SPUvF9Q4ZErQLk
+ xn2NkmSrxWLMtlCojYMlrWCU32ued6xY21gTlIO7HokoQJ1bXhlI3O1dswPAta1eMa7niTP2C
+ pQLE6xVeZsInaYBoZ8R6FTWvmkb3zMGAmuYgpglWxozDHznBQ91U/++5KJ9MC8TXJcGpzepmI
+ P8Sd0rSbY8KVqDpnqo7GzYUAxT4Nx7OItnHASrxcBJYv3RBNWy7/jvHd1INhnDLHJQPA6bXyy
+ ssOGf0sKjfbaMd9S8NZzKmva+zoqEWM0pbLBME/oLZkDT77rkVAemxpRvSExXnsCkYvKsOC6C
+ tKZoacES7u0TjiErd/mrB8KmZQXKNIndlapbL1jvkT8enX56dbPvsp0J942EyjjiBOJT2c0PS
+ wiiQXmkM+mESeKBMfwga15qmKfgls/nQpSLPqSXurJkgLcLfj086j2P9pNn8woSfSVem64YBP
+ MOdKGexIahoC6YhMz637Pg171Whhqxd7EylDBPp1KSvkqCa0dW4BgBTRmyPyGZGeQRZosXgyX
+ yJsVm9hWaNUkFdN9SkJMRYf7MRS3kHbgtvsWya6zyo87ZyhtCbbapiYI+JxJhmcv3l9CphJrq
+ kZusiFvnUjdQOoczAuziScWvrrjLYW1YChWAYrOcioTphWmkE5wyET+k/3imbdE3G8WInd/Ap
+ +yS21v6A1mrHsWYxZonGUAsHcHzwbc55ZsU9JgF96a9qoY1pYeMzJlmA6b+RsX8Idb/MOHYWv
+ 7WUw0hTP5UjkzPuia
+Received-SPF: pass client-ip=212.227.17.12; envelope-from=lukasstraub2@web.de;
  helo=mout.web.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/06 15:17:41
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/06 15:18:34
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -24
 X-Spam_score: -2.5
 X-Spam_bar: --
 X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,65 +86,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
- qemu-block <qemu-block@nongnu.org>, Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan
- Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRy?= =?UTF-8?B?w6k=?= Lureau <marcandre.lureau@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
+ Juan Quintela <quintela@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
+ qemu-s390x@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <rth@twiddle.net>,
+ Hailiang Zhang <zhang.zhanghailiang@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/rH/=5XBjEGqnFs1leRxwi5B
+--Sig_/LYHMMuSwfzP+qx4=p_ni+M6
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, 25 May 2020 17:44:12 +0200
-Lukas Straub <lukasstraub2@web.de> wrote:
+On Wed,  3 Jun 2020 16:49:02 +0200
+David Hildenbrand <david@redhat.com> wrote:
 
-> Hello Everyone,
-> In many cases, if qemu has a network connection (qmp, migration, chardev,=
- etc.)
-> to some other server and that server dies or hangs, qemu hangs too.
-> These patches introduce the new 'yank' out-of-band qmp command to recover=
- from
-> these kinds of hangs. The different subsystems register callbacks which g=
-et
-> executed with the yank command. For example the callback can shutdown() a
-> socket. This is intended for the colo use-case, but it can be used for ot=
-her
-> things too of course.
+> COLO will copy all memory in a RAM block, disable discarding of RAM.
 >=20
-> Regards,
-> Lukas Straub
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+> Cc: Hailiang Zhang <zhang.zhanghailiang@huawei.com>
+> Cc: Juan Quintela <quintela@redhat.com>
+> Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
 
-Hello Everyone,
-Can this be reviewed, it would be cool to have this in qemu 5.1.
+Hi,
+This works well in my colo tests.
+Tested-by: Lukas Straub <lukasstraub2@web.de>
 
 Regards,
 Lukas Straub
 
---Sig_/rH/=5XBjEGqnFs1leRxwi5B
+--Sig_/LYHMMuSwfzP+qx4=p_ni+M6
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl7b7t4ACgkQNasLKJxd
-sljpCxAAsNrfNMV/Zy4hrUb+FExpeGpOhFhcItzVDezbglbQs0CUehRJSRs9AdxU
-QuOUZWiqw4aE0z/w2TkOn49mKjrj4+8uiM0+KCcGUh5cvChksBWvv69jBjvX801u
-aGdzhS9GqXJEpkUZq7dU1OnV2M47dnal5t2Q7Xy/62TVLVpCnpOxIAQsg9zH4Ohl
-pYfD25e7fspgyrTtn3A8+KeHdd3QngAGndoYa1nayf5NkZS8zxk8XMFnM7ONsGc7
-7IpMMdFRHLVnCeyshO5qYlNKVue5uIGK4ce9ZK349LpwjutkdrUL222m0k1WnEpX
-d/+funF3hT17wA1rvhhpHh4XsPz6OmALBofIc9UQvygJwU7wR38CxJZJfTi/jFdG
-iY8mpOh16uJakB0Z5HYNWqUvHAQHjJKsBUIyvt/VxQhEWEBIeuV/IJ4SrwUW59xZ
-+dIom7f3ePfSQ+CUYt3+0SMHdhpnqlbxfko6S4OQ3Hy1bZN6BeqG/Y5C2dM4nVWB
-sv3/QOwnoY26hVVKNRTn9sPAulDe5SRMG6/9Zt8k+cZeygxuEFyX4IN18LHvrsms
-SjkSuRLuI93AF/puo5MMeOefkhZDH0uLsRPvei10bS2voLd0A/axRr1BvfiYcUNs
-UOXe9N2hn9ylaiwdOmwacHJrbhLSn7p3vy8+vuqwd0iGe6dvSbM=
-=xek4
+iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl7b78sACgkQNasLKJxd
+slgswQ/9HxF5Kde3XJ4TbdV2756BABKJDSIQxKbvLTFAVJ3J9uMZSP8lv0h1Yftc
+oMiKl1oKyeUDHZiwz+5MjCP6UZiIjl5UNqg4oJD7Tsl43aUYuxfBXhxtPGNVKFx1
+EJRphGSiZcd+kYFx5OUvzB+f/fNsu5n0YhJ+iyD54Ttj2NZgBgeTyQ2UCoGM2RQc
+kG8ZiUOGh6AEd/D5gRh5mbPToB9GVR54col2891RBBATA5gIfpxzRBY/gUoKCjKY
+t8aGiZ3NB9/Ekb4Zv0zpodsUPxfS4xfhJSFyU7DtNeF0PclVZDjhWKWpmoWUvo1P
+dhKCj7FtikfbuhRKbr5+myjYu+mZyK82+v7fR5KydmiAo5dL5x2uYD0sSKq/fZT9
+6xakcwHCi3h0438Pi7iIuH+COKw4IKIeF8Rt2UEz6pz+1xCGGfLi7M5MYl3qi4MI
+SQapHk1uruog/YLVK73H8KzqU7bc8qgKLOTqCcCdyWvhTf0t90J8k3fNQ8Fv62ej
+1Loyy/WOuaHfEO2ajYamJPCRbJm95echI6E4odyCLu2hAfQq1Z78+78EiXP9Cxnq
+rArF5n4vtGinKBLy4MDCByR/H0SYf2KAV0vSh9N82WhKHc3hNbN2jvijVK3CEn+E
+wc9Jyymae3vXdkU4CCZudCSwhuNX2w/eJ13WZVTWo9nftO8vJVE=
+=kqMZ
 -----END PGP SIGNATURE-----
 
---Sig_/rH/=5XBjEGqnFs1leRxwi5B--
+--Sig_/LYHMMuSwfzP+qx4=p_ni+M6--
 
