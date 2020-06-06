@@ -2,52 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4D241F05D9
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 Jun 2020 10:48:17 +0200 (CEST)
-Received: from localhost ([::1]:51904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F37E1F05D8
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 Jun 2020 10:48:00 +0200 (CEST)
+Received: from localhost ([::1]:51318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jhUUy-0005ed-Ng
-	for lists+qemu-devel@lfdr.de; Sat, 06 Jun 2020 04:48:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45622)
+	id 1jhUUh-0005My-9K
+	for lists+qemu-devel@lfdr.de; Sat, 06 Jun 2020 04:47:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jhUSs-0003hN-PY; Sat, 06 Jun 2020 04:46:06 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:49283 helo=ozlabs.org)
+ id 1jhUSs-0003hO-QX; Sat, 06 Jun 2020 04:46:06 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:50209)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jhUSq-0005F5-1X; Sat, 06 Jun 2020 04:46:06 -0400
+ id 1jhUSp-0005F4-Lk; Sat, 06 Jun 2020 04:46:06 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 49fClh3xm1z9sSc; Sat,  6 Jun 2020 18:45:52 +1000 (AEST)
+ id 49fClh5Xbfz9sRh; Sat,  6 Jun 2020 18:45:52 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1591433152;
- bh=YoMdeniGBGn7TbfMONb8QyzbR+59Cq/gi2fKNL7nRBk=;
+ bh=MD9Vy9t80FMoa1MWr1bErDl8DYW9eXWurKymfv5V+hg=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=AZlhhrLEwdJSBK46arLMA0LpVtzngJJQ+Doq0U1Fz+A7y0PoSsylrPH7nEDkieKkS
- y3uxYbQKR17t4YdoDzNNzdl9JRYH8pTZAwX6Au9pB/spDiAkViWQ1uagufCwB643Zz
- skLebW6XgA2iVdVLqTKfWkzkKJTJDj5RyXFDCxjI=
-Date: Sat, 6 Jun 2020 18:24:58 +1000
+ b=Dj0x4Ld0zGOyYNvHNh34xSS4k7ShfK/bK0chdoJDc0pBfrqf+sCLBNp0gwHAaRaDr
+ mWy4S0YAEaNqCSOohcM3XnZB2EwqoRv1iriIZGC+0b4erf2zuXdujnnHximcLEuO49
+ HJMDjkcDf+UOA7pp3S2yyl7g8S/weSqIQBjTk6OY=
+Date: Sat, 6 Jun 2020 18:44:09 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Thiago Jung Bauermann <bauerman@linux.ibm.com>
+To: Cornelia Huck <cohuck@redhat.com>
 Subject: Re: [RFC v2 00/18] Refactor configuration of guest memory protection
-Message-ID: <20200606082458.GK228651@umbus.fritz.box>
+Message-ID: <20200606084409.GL228651@umbus.fritz.box>
 References: <20200521034304.340040-1-david@gibson.dropbear.id.au>
- <87tuzr5ts5.fsf@morokweng.localdomain>
- <20200604062124.GG228651@umbus.fritz.box>
- <87r1uu1opr.fsf@morokweng.localdomain>
- <dc56f533-f095-c0c0-0fc6-d4c5af5e51a7@redhat.com>
- <87pnae1k99.fsf@morokweng.localdomain>
- <ec71a816-b9e6-6f06-def6-73eb5164b0cc@redhat.com>
- <87sgf9i8sy.fsf@morokweng.localdomain>
+ <20200605125505.3fdd7de8.cohuck@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Cy+5HEalSgyXkpVS"
+ protocol="application/pgp-signature"; boundary="vTUhhhdwRI43FzeR"
 Content-Disposition: inline
-In-Reply-To: <87sgf9i8sy.fsf@morokweng.localdomain>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+In-Reply-To: <20200605125505.3fdd7de8.cohuck@redhat.com>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/06 04:45:54
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -68,60 +62,68 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: pair@us.ibm.com, brijesh.singh@amd.com, frankja@linux.ibm.com,
- kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>, cohuck@redhat.com,
- dgilbert@redhat.com, qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
- mdroth@linux.vnet.ibm.com, Eduardo Habkost <ehabkost@redhat.com>
+ kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>,
+ dgilbert@redhat.com, qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ mdroth@linux.vnet.ibm.com, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---Cy+5HEalSgyXkpVS
+--vTUhhhdwRI43FzeR
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jun 05, 2020 at 05:01:07PM -0300, Thiago Jung Bauermann wrote:
+On Fri, Jun 05, 2020 at 12:55:05PM +0200, Cornelia Huck wrote:
+> On Thu, 21 May 2020 13:42:46 +1000
+> David Gibson <david@gibson.dropbear.id.au> wrote:
 >=20
-> Paolo Bonzini <pbonzini@redhat.com> writes:
+> > A number of hardware platforms are implementing mechanisms whereby the
+> > hypervisor does not have unfettered access to guest memory, in order
+> > to mitigate the security impact of a compromised hypervisor.
+> >=20
+> > AMD's SEV implements this with in-cpu memory encryption, and Intel has
+> > its own memory encryption mechanism.  POWER has an upcoming mechanism
+> > to accomplish this in a different way, using a new memory protection
+> > level plus a small trusted ultravisor.  s390 also has a protected
+> > execution environment.
+> >=20
+> > The current code (committed or draft) for these features has each
+> > platform's version configured entirely differently.  That doesn't seem
+> > ideal for users, or particularly for management layers.
+> >=20
+> > AMD SEV introduces a notionally generic machine option
+> > "machine-encryption", but it doesn't actually cover any cases other
+> > than SEV.
+> >=20
+> > This series is a proposal to at least partially unify configuration
+> > for these mechanisms, by renaming and generalizing AMD's
+> > "memory-encryption" property.  It is replaced by a
+> > "guest-memory-protection" property pointing to a platform specific
+> > object which configures and manages the specific details.
+> >=20
+> > For now this series covers just AMD SEV and POWER PEF.  I'm hoping it
+> > can be extended to cover the Intel and s390 mechanisms as well,
+> > though.
 >=20
-> > On 05/06/20 01:30, Thiago Jung Bauermann wrote:
-> >> Paolo Bonzini <pbonzini@redhat.com> writes:
-> >>> On 04/06/20 23:54, Thiago Jung Bauermann wrote:
-> >>>> QEMU could always create a PEF object, and if the command line defin=
-es
-> >>>> one, it will correspond to it. And if the command line doesn't defin=
-e one,
-> >>>> then it would also work because the PEF object is already there.
-> >>>
-> >>> How would you start a non-protected VM?
-> >>> Currently it's the "-machine"
-> >>> property that decides that, and the argument requires an id
-> >>> corresponding to "-object".
-> >>
-> >> If there's only one object, there's no need to specify its id.
-> >
-> > This answers my question.  However, the property is defined for all
-> > machines (it's in the "machine" class), so if it takes the id for one
-> > machine it does so for all of them.
+> For s390, there's the 'unpack' cpu facility bit, which is indicated iff
+> the kernel indicates availability of the feature (depending on hardware
+> support). If that cpu facility is available, a guest can choose to
+> transition into protected mode. The current state (protected mode or
+> not) is tracked in the s390 ccw machine.
 >=20
-> I don't understand much about QEMU internals, so perhaps it's not
-> practical to implement but from an end-user perspective I think this
-> logic can apply to all architectures (since my understanding is that all
-> of them use only one object): make the id optional. If it's not
-> specified, then there must be only one object, and the property will
-> implicitly refer to it.
->=20
-> Then, if an architecture doesn't need to specify parameters at object
-> creation time, it can be implicitly created and the user doesn't have to
-> worry about this detail.
+> If I understand the series here correctly (I only did a quick
+> read-through), the user has to instruct QEMU to make protection
+> available, via a new machine property that links to an object?
 
-Seems overly complicated to me.  We could just have it always take an
-ID, but for platforms with no extra configuration make the
-pre-fabricated object available under a well-known name.
-
-That's essentially the same as the way you can add a device to the
-"pci.0" bus without having to instantiate and name that bus yourself.
+Correct.  We used to have basically the same model for POWER - the
+guest just talks to the ultravisor to enter secure mode.  But we
+realized that model is broken.  You're effectively advertising
+availability of a guest hardware feature based on host kernel or
+hardware properties.  That means if you try to migrate from a host
+with the facility to one without, you won't know there's a problem
+until too late.
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -129,25 +131,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---Cy+5HEalSgyXkpVS
+--vTUhhhdwRI43FzeR
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl7bUtcACgkQbDjKyiDZ
-s5KGWRAAx4ggMFCRE7+DfjUQOmDiAMZxpB19AEh1v3ohIYHDxx88pn0seVlvJqIx
-ujGOc891w1XcGHuw3Umye5OOB1KM+qgYFvMlBYkqj7IrRIcU87P8bVb8WKWuCSJc
-txUd2CYUHHWJpI8TRdKw/BzkflOF9NTQA51SFEzupj4mTpGDwnN9ZygS2Lxv+WbG
-CNz5MyU1fP5GA3hKBDhp6HN1CK0SPk85DPx4gRCSE7mj5BDA7kElB+dCwvvvAl18
-bD0UrVkpaENCNXLbPYTTRydi0OSF6NP6TWQ449dBHsjcOVOXhlwK+X5QtNYtFVzg
-k5xYV4Rluu4JsgNO3fZIleFcZn1145FWpEokUPwqnCVRPW84zeRI5AhHu8dTEL+v
-hgy/9cYZjPFWLBI8YPtdZxshUCFRHL0nNmPabxyO0xmg+kYaHuTasdS+nJMPSU/k
-c3hGWBCsEIGE19akQDCyd1/oFumZJyqZXPlDLoHMS4+lQSP8o30q8TZAKGGFr+2B
-FtjRYKIKltfAsapyXzHAIkEXy59anPnDMcFAG/xNh3P0WePC1p+CAjohfKK9oYG6
-TunO7a27yInF7NowUhfcAmtTyRyEXS57A0XVmrfLeW3gdsn+J+ts+H8PeM2Kb4vP
-ATwzQEghKh235o5aAQygw7QNi94VbS1mPHWa/kLnVHvxmFmKxcY=
-=1I5c
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl7bV1cACgkQbDjKyiDZ
+s5KuTxAAuHsZpdab6NhUviRv5pmLEZ0qSYnV6DIZFKYl6a6Uv5G7n/HFqTlvizXl
+IBnDK/W/fGxSjnmYel9i7aGptRKkli5Vuxg+Iafwn8oIu5RiIqUA0CmgWCdwC2ys
+6d4S3l4ZocqAAqFbDzjRW5FhyH0E09aCqn4dLUYDHkYZQYM+vq8kusMSGQ5v4rEr
+DgMbyDtV0AMlmqsfdVG7GPifQCY5s5Eo6SbdsQ2swY2Krt+p85+yt5KQYrdZGyxy
+37L/QlFjbFFiYYXJ19JuMHIdK86kIc9SaJEUcc282jCJuLCQHs0l4nsel4lOjhkB
+ud86lwTeR00ruFjnwH9VKHKc13V6EkY3VL8sTpb7Ckvz6AT5fum7QsayXC7P5ZNC
+tg/xbryLE36+J+bwT3/djtYcNUrDMhIgeVQNPfvDXfuPU2bajx6qsnsIub/8Adio
+4me8QeHyGOL6I0vrffMEfEAZIGGyEQhRFbhlRKorMzoKij8iv/eMcUVyJTzbqNDd
+vcF5KeoxglpeodzvmR60GfYgJLjpXh1S6fQL2kHAr+tbZaD9GVewhlKN0NUFQTCF
+t7ijyD3WKcBEWCVsqk9QtdvYLwCGxdXjOQmYJo4RceVoy6nQUs4xwBnnWT5ACvrZ
+qRCz7P8nWYrYtr1VVYdzv6IVAg9a0uGjHPkVO2DrNyGRnmqZh4A=
+=yDWK
 -----END PGP SIGNATURE-----
 
---Cy+5HEalSgyXkpVS--
+--vTUhhhdwRI43FzeR--
 
