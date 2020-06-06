@@ -2,54 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 023281F06B6
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 Jun 2020 15:23:24 +0200 (CEST)
-Received: from localhost ([::1]:56770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 583511F06A9
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 Jun 2020 15:18:39 +0200 (CEST)
+Received: from localhost ([::1]:34098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jhYnD-0001Nd-0t
-	for lists+qemu-devel@lfdr.de; Sat, 06 Jun 2020 09:23:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39038)
+	id 1jhYic-0000Ml-8A
+	for lists+qemu-devel@lfdr.de; Sat, 06 Jun 2020 09:18:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jhYgT-00078Z-Lb
- for qemu-devel@nongnu.org; Sat, 06 Jun 2020 09:16:25 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:50593)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jhYgQ-0006zl-0E
+ for qemu-devel@nongnu.org; Sat, 06 Jun 2020 09:16:22 -0400
+Received: from mout.kundenserver.de ([212.227.126.133]:51451)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jhYgR-0007es-ET
- for qemu-devel@nongnu.org; Sat, 06 Jun 2020 09:16:25 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jhYgO-0007eL-Va
+ for qemu-devel@nongnu.org; Sat, 06 Jun 2020 09:16:21 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MUY5o-1jYrXC2vMu-00QPQM; Sat, 06 Jun 2020 15:16:14 +0200
+ id 1MuUza-1iq8qb25mU-00rWhI; Sat, 06 Jun 2020 15:16:15 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 06/19] linux-user: implement OFD locks
-Date: Sat,  6 Jun 2020 15:15:54 +0200
-Message-Id: <20200606131607.1250819-7-laurent@vivier.eu>
+Subject: [PULL v2 07/19] Makefile: Only build virtiofsd if system-mode is
+ enabled
+Date: Sat,  6 Jun 2020 15:15:55 +0200
+Message-Id: <20200606131607.1250819-8-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200606131607.1250819-1-laurent@vivier.eu>
 References: <20200606131607.1250819-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:BYn4zGr7uIuxM6JoSVqH3Eo2qGskmQRusG6ttdwoYfnGF9DvBR5
- 99j/xqQmlMjUNOvbX2no6gMQM8Dy7VNUOCHvNuzxVVAnZAm2fn7AlWwtqacX9SSRJZ1lXsi
- GDE4K4Lzg5f1tAOwftaKiUxRMiq0YPZ3X5EBLwuWm1x+k1Zbmb76aQ2AT0k1cUalB/a7Rr6
- eOWC0liWaHDuiHl2lPgtA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:7r44l3UW59g=:ZQeHtNmVezgTQbv65jocmK
- jVxPcEpMHcOlx2vDveBjV4numjLEZW+VDGtqdNOIPfxFna6HNudSoQf9hFp/Urlp6VCX0sABr
- gBiVhFPzKk9rKvYpUF3cv1NBVAXMoYUIzmoyw8f95e6U7PVtIrdC8IEPvI9T5jdDxWojmONBR
- S83yiPxJbrxXuIFU4D1KUV1ziZJ+gPBK6BAtvuFa3Qb6hSXCHBJS2MA8QGdGpPOVFgFdQc2yB
- XHT1agQlhXXKRjcBP5rdDa4fJTvFw3d6J0hSYG7FvCSmkn36PuDyWpHjHZdsHFo84tSCvs0a7
- pgqOLt+BxPJf9XTEOXAtvKCXB5W1zoxtiwLh2yrJ+1Cr82RoiTFfaP00WeiReKGABLkD96MRj
- sO38g3OUYbWytnhqYv/8rG+WaxIKvn1ZysmyPZqTygfdrbOtJhBXMXzImCqAnPwxU+B4yMz+u
- B6IU7g2UVCIygb38RVdtQ8kkEOcx2XRmvuY/bVKA025MstR0MSPobjooDY1xuLgALgHb9LW3q
- gY0V5BZByn4fZNfPDS4A1qNkKlhVGjI0PG50MBHjmQ7+w+QJHn/a4U/xAy1OeMpiiV1Yk/MUm
- q2Aj/XJO9ZRz/TMhrYCySgZFSod7PbsjAMe1lWsE3IE6+gJxNPKqGlwgZQVR0EONpggQ20WAr
- 07YnAg0tuf4jaZ5dzTPxgXEA1hFH0q+bNDp+A/iPGNkO/hl9FCQKOYI17ElVk8ThCDpKQFj8I
- XU5n7t2jZmlKjeMwZbtcLS8dUkfqqm2bVyOQhUXiAwgeTYnKZ3RdvVKcfH7+FVYVtzHEbf3pc
- JLXIxK1LWnKqs6J43RtMEtIIZY+6i2ONeoScELMG0AVPxJJ5e2OXi0p62/GbaCtyX6+LQVF
-Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:kR6Glro0iE2IiwhSW8XBSZzUErqBsgKd+ANlyyEybyGpVz9sqWM
+ CrFh+lv6QonGpHAdkfCF3gdEnbi4i84lAMoTRigBGxqJSxLDsrX2Ksu01/2ZJziIkcouYG5
+ 1t8hY3TE4gVhf4k9kHmHbDTNBU9XGJD0ggrpLFwiNzCbIdK10ZlA94ZjE0/3zJR35gPpvbL
+ +BPE7T8KBBZH2BdZRbJgg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:YSsFSs0MX5o=:AQEftK5myj91suvnjLaBYe
+ /WgqLm6MeKaeXH21ye7/3iCpph5h9cNl2NfmVdcbOEwXyRxD12vi03LrF6wIHeGotUurrykce
+ dNMHPPefNa37vcWRTM1UOAUkkin3CxoLNZMxrnf07LzMJLr5XviPmNM8tFgmqb5Z3MRZRdQzM
+ qy6lNyncBuURR9ovjiKBM0xNiBfC5a7nEBzcSRX4QBy7wgmUbzBk0LWo3Zy7/ayvKTMViFwaT
+ Uog8CWmoiBl849s/fZI5I4aSAES4Usfv4ho9dTxycWXjA9/YGqAmqNAYVJ8c+htTNndC/rzMU
+ 0kKy1CvYnIxC6jEIdA/GEASTRvmTtk4UAK8/i55ZHqabFYmeA45ceRH8aHQCmXsyLmPN4lnkf
+ Tf3ooZLHhjrqnqQxQuKCPWnad2Bp7I1uIQ9A+S//IwqsZCaIqfyZzlubYotpB+9YgR+/3AfiL
+ 2vVlMYkPNn7EOobSI/HIPFVRh/SCYLpXYknpxdDH9/aJsrAXB8/PPorzlwMDZJKNYe+jYr+WO
+ yrTCnSDCOsvSWrdPrImM24SuRJCcNHkaovaqbohMlncMeffVs06eZhxc5yhpoP31caJDY55Pm
+ hg1DhBxTCM6FlcbauSy8pSCS71VdAefMgwJZQiq1Kak920qPMgD84/Q6L04UM+I8PkXufXUpz
+ Sarn91hBMWr22hnK8rABFDixgBOYnfaMPBLqsUaiunZ+QgfxeDOOEp7lcgGF2tacVOBygVL5L
+ 6MWmp9+3/Ef5ZDBdjIchKQdExt8+6R7imS5PMRh0I1lK438l/PD8Nm4KnSJNfZ7Fzkt6zJziM
+ eqOVM8ez9jcVtiNQ5NH4fEtAzij0ty3+lpjVSLpxl88RDVXJOp+d20xpLYA3E63lWjXuLd1
+Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/06 09:16:17
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/06 09:16:19
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -68,68 +70,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andreas Schwab <schwab@suse.de>, Riku Voipio <riku.voipio@iki.fi>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Riku Voipio <riku.voipio@iki.fi>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Andreas Schwab <schwab@suse.de>
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Signed-off-by: Andreas Schwab <schwab@suse.de>
+Do not build the virtiofsd helper when configured with
+--disable-system.
+
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <mvm7dx0cun3.fsf@suse.de>
+Tested-by: Laurent Vivier <laurent@vivier.eu>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20200522172510.25784-2-philmd@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/generic/fcntl.h | 4 ++++
- linux-user/syscall.c       | 6 ++++++
- 2 files changed, 10 insertions(+)
+ Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/linux-user/generic/fcntl.h b/linux-user/generic/fcntl.h
-index 9f727d4df2c8..c85c5b9fed65 100644
---- a/linux-user/generic/fcntl.h
-+++ b/linux-user/generic/fcntl.h
-@@ -99,6 +99,10 @@
- #define TARGET_F_SETLKW64      14
- #endif
+diff --git a/Makefile b/Makefile
+index 40e4f7677bde..d1af126ea194 100644
+--- a/Makefile
++++ b/Makefile
+@@ -345,7 +345,7 @@ HELPERS-y += vhost-user-gpu$(EXESUF)
+ vhost-user-json-y += contrib/vhost-user-gpu/50-qemu-gpu.json
+ endif
  
-+#define TARGET_F_OFD_GETLK     36
-+#define TARGET_F_OFD_SETLK     37
-+#define TARGET_F_OFD_SETLKW    38
-+
- #ifndef TARGET_F_SETOWN_EX
- #define TARGET_F_SETOWN_EX     15
- #define TARGET_F_GETOWN_EX     16
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 9ac3af20c176..2d8125fa53c6 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -6098,6 +6098,9 @@ static int target_to_host_fcntl_cmd(int cmd)
-     case TARGET_F_SETFD:
-     case TARGET_F_GETFL:
-     case TARGET_F_SETFL:
-+    case TARGET_F_OFD_GETLK:
-+    case TARGET_F_OFD_SETLK:
-+    case TARGET_F_OFD_SETLKW:
-         ret = cmd;
-         break;
-     case TARGET_F_GETLK:
-@@ -6383,6 +6386,7 @@ static abi_long do_fcntl(int fd, int cmd, abi_ulong arg)
-         break;
- 
-     case TARGET_F_GETLK64:
-+    case TARGET_F_OFD_GETLK:
-         ret = copy_from_user_flock64(&fl64, arg);
-         if (ret) {
-             return ret;
-@@ -6394,6 +6398,8 @@ static abi_long do_fcntl(int fd, int cmd, abi_ulong arg)
-         break;
-     case TARGET_F_SETLK64:
-     case TARGET_F_SETLKW64:
-+    case TARGET_F_OFD_SETLK:
-+    case TARGET_F_OFD_SETLKW:
-         ret = copy_from_user_flock64(&fl64, arg);
-         if (ret) {
-             return ret;
+-ifeq ($(CONFIG_LINUX)$(CONFIG_SECCOMP)$(CONFIG_LIBCAP_NG),yyy)
++ifeq ($(CONFIG_SOFTMMU)$(CONFIG_LINUX)$(CONFIG_SECCOMP)$(CONFIG_LIBCAP_NG),yyyy)
+ HELPERS-y += virtiofsd$(EXESUF)
+ vhost-user-json-y += tools/virtiofsd/50-qemu-virtiofsd.json
+ endif
 -- 
 2.26.2
 
