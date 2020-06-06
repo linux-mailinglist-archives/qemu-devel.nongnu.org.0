@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D98571F0850
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 Jun 2020 21:24:07 +0200 (CEST)
-Received: from localhost ([::1]:40910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D02C1F0854
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 Jun 2020 21:25:58 +0200 (CEST)
+Received: from localhost ([::1]:45618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jheQI-0008AT-W8
-	for lists+qemu-devel@lfdr.de; Sat, 06 Jun 2020 15:24:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41282)
+	id 1jheS5-0001rH-FD
+	for lists+qemu-devel@lfdr.de; Sat, 06 Jun 2020 15:25:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jheP8-0007QN-Nk
- for qemu-devel@nongnu.org; Sat, 06 Jun 2020 15:22:54 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:30170)
+ id 1jheP9-0007RL-JF
+ for qemu-devel@nongnu.org; Sat, 06 Jun 2020 15:22:55 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:30190)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jheP7-0006H4-B9
- for qemu-devel@nongnu.org; Sat, 06 Jun 2020 15:22:54 -0400
+ id 1jheP7-0006H0-BP
+ for qemu-devel@nongnu.org; Sat, 06 Jun 2020 15:22:55 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id C773C748DCC;
- Sat,  6 Jun 2020 21:22:42 +0200 (CEST)
+ by localhost (Postfix) with SMTP id 05464746307;
+ Sat,  6 Jun 2020 21:22:43 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 8721A7482CE; Sat,  6 Jun 2020 21:22:42 +0200 (CEST)
-Message-Id: <9fab4fe6513fe8b921ce86a57f4ff7e0d5a3c3f9.1591471056.git.balaton@eik.bme.hu>
+ id 82CCC7482C8; Sat,  6 Jun 2020 21:22:42 +0200 (CEST)
+Message-Id: <b62681e58108651b2ca0d2fdbde8281e87185dbb.1591471056.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1591471056.git.balaton@eik.bme.hu>
 References: <cover.1591471056.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH 4/4] sm501: Optimise 1 pixel 2d ops
+Subject: [PATCH 3/4] sm501: Ignore no-op blits
 Date: Sat, 06 Jun 2020 21:17:36 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 To: qemu-devel@nongnu.org
 X-Spam-Probability: 8%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/06 15:22:43
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -63,72 +63,30 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some guests do 1x1 blits which is faster to do directly than calling a
-function for it so avoid overhead in this case.
+Some guests seem to try source copy blits with same source and dest
+which are no-op so avoid calling pixman for these.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 ---
- hw/display/sm501.c | 40 +++++++++++++++++++++++++++++++++++++---
- 1 file changed, 37 insertions(+), 3 deletions(-)
+ hw/display/sm501.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/hw/display/sm501.c b/hw/display/sm501.c
-index 3397ca9fbf..59693fbb5c 100644
+index 85d54b598f..3397ca9fbf 100644
 --- a/hw/display/sm501.c
 +++ b/hw/display/sm501.c
-@@ -793,6 +793,25 @@ static void sm501_2d_operation(SM501State *s)
-                 src_x == dst_x && src_y == dst_y) {
-                 break;
+@@ -788,6 +788,11 @@ static void sm501_2d_operation(SM501State *s)
+                               (rop2_source_is_pattern ?
+                                   " with pattern source" : ""));
              }
-+            /* Some clients also do 1 pixel blits, avoid overhead for these */
-+            if (width == 1 && height == 1) {
-+                unsigned int si = (src_x + src_y * src_pitch) * (1 << format);
-+                unsigned int di = (dst_x + dst_y * dst_pitch) * (1 << format);
-+                switch (format) {
-+                case 0:
-+                    s->local_mem[dst_base + di] = s->local_mem[src_base + si];
-+                    break;
-+                case 1:
-+                    *(uint16_t *)&s->local_mem[dst_base + di] =
-+                                    *(uint16_t *)&s->local_mem[src_base + si];
-+                    break;
-+                case 2:
-+                    *(uint32_t *)&s->local_mem[dst_base + di] =
-+                                    *(uint32_t *)&s->local_mem[src_base + si];
-+                    break;
-+                }
++            /* Ignore no-op blits, some guests seem to do this */
++            if (src_base == dst_base && src_pitch == dst_pitch &&
++                src_x == dst_x && src_y == dst_y) {
 +                break;
 +            }
              /* Check for overlaps, this could be made more exact */
              uint32_t sb, se, db, de;
              sb = src_base + src_x + src_y * (width + src_pitch);
-@@ -841,9 +860,24 @@ static void sm501_2d_operation(SM501State *s)
-             color = cpu_to_le16(color);
-         }
- 
--        pixman_fill((uint32_t *)&s->local_mem[dst_base],
--                    dst_pitch * (1 << format) / sizeof(uint32_t),
--                    8 * (1 << format), dst_x, dst_y, width, height, color);
-+        if (width == 1 && height == 1) {
-+            unsigned int i = (dst_x + dst_y * dst_pitch) * (1 << format);
-+            switch (format) {
-+            case 0:
-+                s->local_mem[dst_base + i] = color & 0xff;
-+                break;
-+            case 1:
-+                *(uint16_t *)&s->local_mem[dst_base + i] = color & 0xffff;
-+                break;
-+            case 2:
-+                *(uint32_t *)&s->local_mem[dst_base + i] = color;
-+                break;
-+            }
-+        } else {
-+            pixman_fill((uint32_t *)&s->local_mem[dst_base],
-+                        dst_pitch * (1 << format) / sizeof(uint32_t),
-+                        8 * (1 << format), dst_x, dst_y, width, height, color);
-+        }
-         break;
-     }
-     default:
 -- 
 2.21.3
 
