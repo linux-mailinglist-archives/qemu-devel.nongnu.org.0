@@ -2,62 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C898D1F0F42
-	for <lists+qemu-devel@lfdr.de>; Sun,  7 Jun 2020 21:49:23 +0200 (CEST)
-Received: from localhost ([::1]:59402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 676551F0F44
+	for <lists+qemu-devel@lfdr.de>; Sun,  7 Jun 2020 21:49:27 +0200 (CEST)
+Received: from localhost ([::1]:59692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ji1II-0005Z9-R2
-	for lists+qemu-devel@lfdr.de; Sun, 07 Jun 2020 15:49:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59818)
+	id 1ji1IM-0005gJ-De
+	for lists+qemu-devel@lfdr.de; Sun, 07 Jun 2020 15:49:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1ji1FV-0003oP-EN
- for qemu-devel@nongnu.org; Sun, 07 Jun 2020 15:46:29 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:34517)
+ id 1ji1FY-0003pq-6J
+ for qemu-devel@nongnu.org; Sun, 07 Jun 2020 15:46:32 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:56259)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1ji1FU-0004kP-Ck
- for qemu-devel@nongnu.org; Sun, 07 Jun 2020 15:46:29 -0400
-Received: by mail-wr1-x432.google.com with SMTP id r7so15171085wro.1
+ id 1ji1FU-0004kU-Oc
+ for qemu-devel@nongnu.org; Sun, 07 Jun 2020 15:46:31 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id c71so13281032wmd.5
  for <qemu-devel@nongnu.org>; Sun, 07 Jun 2020 12:46:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=kMOqrCKRdUKY+RqgLSNCHXhXWR/YTTo3Wqwst1bRs1M=;
- b=JMEb/p8Q6Hm/wqELl7dS68TV86p3TwpBtqvfgA7ZgQXylQuiKzyAD31a4659BEuY/c
- 4uVf9MOiQA1WIlm8lZSwJy1BHJXDkynZ7m/Y7fFYGfdCZVFK5PvflKqb+d9XCX2IyYX4
- m2EhVLKogUR6UeLRx5mbLnSdLdCktNFisludRe/TwvcDLD9GVMCEvG5cRmSg+gZ8eoyL
- OIDtGzcjRoQcZNyvHlkL562tHK+3ZJmQvHej0UuesX6x+YAhP3ptVhR4W0n+w5WvSjPi
- R7uMBgeAxdFcz9TL2omCZkOatYfztF/Ghu93GyjqlR4EWQVPfSP8qU4ycvF4pmP5izcC
- p6KA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=Gyc4jAqqb4iRdL2lJtXMg0ZbvCkpCJJT7AmeHRVjQIU=;
+ b=Oc/y/bf2YKbsou+FlECJQQaWRWfE/7OhJ/02ijQSogrkL+dUbvzNJUUYqc5nCju72I
+ eTq0dAS3izv3b0jJMTvhDX0fcSwBvUz7G0pm8iOxL6b3YxK7FMydc0InC8mRIto3OAng
+ 2s3lH+kJj2BWvEo3zMqxicvIYsUSAbQwfYHmUeuEOS21UV02bklR8Eh41Ql+LgGvsWgb
+ YEvq9IWm8++COw0cI5IlrSyY38+8xP8bX29RKXcEH6Cr8J3I4EPNJTL/IV54s+5suKQl
+ HQ2WaO3sflqnQkcLbqgdqYT9U/fqQc4MFVCM+y4DtAriE3XAo3MH3gV6glGoNtJzVNmp
+ UGXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=kMOqrCKRdUKY+RqgLSNCHXhXWR/YTTo3Wqwst1bRs1M=;
- b=OotdgO09dwBtD/GQg8WdkjZZu2w9TIQELJ52Ar2msaF2AKUaenWxwDlI+flVpDQF7r
- ArcFDbhG0EgOBpLRkSwBIPaLIQtHtGz6wOLYQorUF1mkWFeWc0BKzmGxVb33+wBUGNx6
- BW01nYnUmoD756RibqG9VamvaPYQy79y2BCwWgwAmNvePzTrriGvQCZv9E8O1AAPuzzc
- AN2Gf0kPrhMZKtnL2JKMVL9jX5oVgGmUQptEgUy3cAlqX8cwDZR24HIbpCLCxBUQwexU
- 2wk3kydO0JHv1AiktJhGu0Y21f2Mgnjot+mZZKmPTPHGN0a0dMsk0bVMPTKiAZvn0vwO
- ygHQ==
-X-Gm-Message-State: AOAM533vTQTtPAwskbm5tDKGhrl53/3bGj+RSeKg4oJ70R/WqT0SBw/o
- RhLIHlvRsPiCLZ0VhnJqQ9awWkp6
-X-Google-Smtp-Source: ABdhPJwvrHeIAQ/665A9GJM7GamIJ68H1etjiqSft6E5KHpNG9s/DWt3JcIh3pb+EJmHcuBOWCj0tA==
-X-Received: by 2002:a5d:55c2:: with SMTP id i2mr20231154wrw.225.1591559186476; 
- Sun, 07 Jun 2020 12:46:26 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=Gyc4jAqqb4iRdL2lJtXMg0ZbvCkpCJJT7AmeHRVjQIU=;
+ b=tuKrEOkAr509XlY21MWjoLByGTZIHRy7ie0diYoZ5ifyQOLKg+eEruq5LLv4iX3dJd
+ mYMO2BhhDcii8D3Kjhy6sg6dc4nMGuosyfMA59tgh4D/NAXlBHO+8EovGd6CAs+qK2dp
+ 6t229h0uBAb9d9erf+7DvmtR7/7gQfCT/jeiv1hdkQ+WdkcOT698ZWFWPS+8LyjO5iPo
+ OvpAzV8v9VUebNrQN9Q/cVxtwbGig73Y9MvW5oQ77gJ5Nuh7X1HOCuTsxAQVlrBRf5+k
+ idXpcSuHBlJ1lOz4e8tiyg7oQ05QuEYGKKgadRknS3emGnXssjT8Z8nMXw2WPUWQlXuC
+ UY3w==
+X-Gm-Message-State: AOAM533ZHVbBzK4iEgz8UKoFL5iPVOJwmLHz66FfgklDuXM7eZCb3Jab
+ HSTohsi2VgP7H4BydQ+vmo/D5YnR
+X-Google-Smtp-Source: ABdhPJyr3f5wRPm0XgYy715q3Ru7xWkQPHX73N4SznEciEeEX0OnYqUjkQZxXYIHtDgjMA5p88O2oA==
+X-Received: by 2002:a1c:810a:: with SMTP id c10mr13079865wmd.107.1591559187212; 
+ Sun, 07 Jun 2020 12:46:27 -0700 (PDT)
 Received: from rtrkw774-lin.syrmia.com ([46.240.135.226])
- by smtp.gmail.com with ESMTPSA id u130sm21091339wmg.32.2020.06.07.12.46.25
+ by smtp.gmail.com with ESMTPSA id u130sm21091339wmg.32.2020.06.07.12.46.26
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
  Sun, 07 Jun 2020 12:46:26 -0700 (PDT)
 From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PULL 00/21] MIPS queue for June 7th, 2020
-Date: Sun,  7 Jun 2020 21:46:04 +0200
-Message-Id: <1591559185-31287-1-git-send-email-aleksandar.qemu.devel@gmail.com>
+Subject: [PULL 01/21] mailmap: Change email address of Filip Bozuta
+Date: Sun,  7 Jun 2020 21:46:05 +0200
+Message-Id: <1591559185-31287-2-git-send-email-aleksandar.qemu.devel@gmail.com>
 X-Mailer: git-send-email 2.7.4
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-wr1-x432.google.com
+In-Reply-To: <1591559185-31287-1-git-send-email-aleksandar.qemu.devel@gmail.com>
+References: <1591559185-31287-1-git-send-email-aleksandar.qemu.devel@gmail.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-wm1-x32b.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -83,82 +86,29 @@ Cc: aleksandar.qemu.devel@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 175198ad91d8bac540159705873b4ffe4fb94eab:
+Filip Bozuta wants to use his new email address for his future
+work in QEMU.
 
-  Merge remote-tracking branch 'remotes/cohuck/tags/s390x-20200605' into staging (2020-06-05 17:45:59 +0100)
+CC: Filip Bozuta <filip.bozuta@syrmia.com>
+Signed-off-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+Reviewed-by: Filip Bozuta <filip.bozuta@syrmia.com>
+Message-Id: <20200602085215.12585-2-aleksandar.qemu.devel@gmail.com>
+---
+ .mailmap | 1 +
+ 1 file changed, 1 insertion(+)
 
-are available in the git repository at:
-
-  https://github.com/AMarkovic/qemu tags/mips-queue-june-07-2020
-
-for you to fetch changes up to ffbd8a88e8872d61fa5622a0075eddbe71951067:
-
-  target/mips: Enable hardware page table walker and CMGCR features for P5600 (2020-06-07 21:34:14 +0200)
-
-----------------------------------------------------------------
-
-MIPS queue for June 7th, 2020
-
-Highlights:
-
-  - Registring change of email address for two contributors
-  - Cleanup and improvements of FPU helpers
-  - Enabling some features of P5600
-  - Adding two Loongson-3A CPU definitions
-  - Moving futher towards Loongson-3A KVM support
-  - Two checkpatch warnings are known and should be ignored
-
-----------------------------------------------------------------
-
-
-Aleksandar Markovic (18):
-  mailmap: Change email address of Filip Bozuta
-  mailmap: Change email address of Stefan Brankovic
-  target/mips: fpu: Demacro ADD.<D|S|PS>
-  target/mips: fpu: Demacro SUB.<D|S|PS>
-  target/mips: fpu: Demacro MUL.<D|S|PS>
-  target/mips: fpu: Demacro DIV.<D|S|PS>
-  target/mips: fpu: Remove now unused macro FLOAT_BINOP
-  target/mips: fpu: Demacro MADD.<D|S|PS>
-  target/mips: fpu: Demacro MSUB.<D|S|PS>
-  target/mips: fpu: Demacro NMADD.<D|S|PS>
-  target/mips: fpu: Demacro NMSUB.<D|S|PS>
-  target/mips: fpu: Remove now unused UNFUSED_FMA and FLOAT_FMA macros
-  target/mips: fpu: Demacro CLASS.<D|S>
-  target/mips: fpu: Remove now unused FLOAT_CLASS macro
-  target/mips: fpu: Demacro RINT.<D|S>
-  target/mips: fpu: Remove now unused FLOAT_RINT macro
-  target/mips: fpu: Name better paired-single variables
-  target/mips: fpu: Refactor conversion from ieee to mips exception
-    flags
-
-Andrea Oliveri (1):
-  target/mips: Enable hardware page table walker and CMGCR features for
-    P5600
-
-Huacai Chen (2):
-  hw/mips: Implement the kvm_type() hook in MachineClass
-  target/mips: Add Loongson-3 CPU definition
-
- include/hw/mips/mips.h                      |   3 +
- target/mips/cpu.h                           |  32 +-
- target/mips/internal.h                      |   3 +-
- target/mips/mips-defs.h                     |  45 +-
- hw/core/null-machine.c                      |   4 +
- hw/mips/common.c                            |  55 +++
- target/mips/fpu_helper.c                    | 658 +++++++++++++++++++---------
- target/mips/{lmi_helper.c => lmmi_helper.c} |   0
- target/mips/msa_helper.c                    |  77 ++--
- target/mips/translate.c                     |   2 +
- target/mips/translate_init.inc.c            |  95 +++-
- .mailmap                                    |   2 +
- hw/core/Makefile.objs                       |   2 +-
- hw/mips/Makefile.objs                       |   2 +-
- target/mips/Makefile.objs                   |   2 +-
- 15 files changed, 722 insertions(+), 260 deletions(-)
- create mode 100644 hw/mips/common.c
- rename target/mips/{lmi_helper.c => lmmi_helper.c} (100%)
-
+diff --git a/.mailmap b/.mailmap
+index e3628c7..9f2a3a5 100644
+--- a/.mailmap
++++ b/.mailmap
+@@ -45,6 +45,7 @@ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com> <amarkovic@wavecomp.com>
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com> <arikalo@wavecomp.com>
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com> <aleksandar.rikalo@rt-rk.com>
+ Anthony Liguori <anthony@codemonkey.ws> Anthony Liguori <aliguori@us.ibm.com>
++Filip Bozuta <filip.bozuta@syrmia.com> <filip.bozuta@rt-rk.com.com>
+ James Hogan <jhogan@kernel.org> <james.hogan@imgtec.com>
+ Leif Lindholm <leif@nuviainc.com> <leif.lindholm@linaro.org>
+ Paul Burton <pburton@wavecomp.com> <paul.burton@mips.com>
 -- 
 2.7.4
 
