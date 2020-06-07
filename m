@@ -2,42 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 107331F0F70
-	for <lists+qemu-devel@lfdr.de>; Sun,  7 Jun 2020 22:08:59 +0200 (CEST)
-Received: from localhost ([::1]:57098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FDD81F0F69
+	for <lists+qemu-devel@lfdr.de>; Sun,  7 Jun 2020 22:02:19 +0200 (CEST)
+Received: from localhost ([::1]:43658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ji1bG-0003FL-58
-	for lists+qemu-devel@lfdr.de; Sun, 07 Jun 2020 16:08:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60866)
+	id 1ji1Uo-0005rY-1z
+	for lists+qemu-devel@lfdr.de; Sun, 07 Jun 2020 16:02:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1ji1Pt-0000go-4Y
- for qemu-devel@nongnu.org; Sun, 07 Jun 2020 15:57:13 -0400
-Received: from mga05.intel.com ([192.55.52.43]:14935)
+ id 1ji1Pv-0000lp-Hf
+ for qemu-devel@nongnu.org; Sun, 07 Jun 2020 15:57:15 -0400
+Received: from mga05.intel.com ([192.55.52.43]:14944)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1ji1Pr-0006UC-Pe
- for qemu-devel@nongnu.org; Sun, 07 Jun 2020 15:57:12 -0400
-IronPort-SDR: Gwzr64tGx5/83I3ZuV+WoKPkZvwi3aJNVzmdngLWMb/wiusuj4gus/rLo/hbhME8J4QsRKjfeW
- 0fBAYH0FAevg==
+ id 1ji1Pu-0006Uc-NN
+ for qemu-devel@nongnu.org; Sun, 07 Jun 2020 15:57:15 -0400
+IronPort-SDR: hSy4R+TIpphgrH5qLwb7HZPsHXP8fRjSSSMTRzbNLY9/3YzcIk7lwnH/El2gQroEtkdH4G2+lz
+ HJ5BqqV9eW6w==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jun 2020 12:57:11 -0700
-IronPort-SDR: TFtCqwJBNRIV+XFr2OfvjWmOJveDBwQuZJJOnGc2zgdULEoHGDLAT+hi//yW9Fa7g+eLjyyefH
- qILLjEmWHajQ==
+ 07 Jun 2020 12:57:12 -0700
+IronPort-SDR: yc+xQq563Rd0ooyLNDsYv/GcJ3bxMS1YloeXFuvGk+RuUmp2SYArOO3hES0Lh2sj40R02UBZW4
+ bj9Rvqbb8uRA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,485,1583222400"; d="scan'208";a="446509265"
+X-IronPort-AV: E=Sophos;i="5.73,485,1583222400"; d="scan'208";a="446509269"
 Received: from unknown (HELO localhost.localdomain) ([10.239.13.19])
- by orsmga005.jf.intel.com with ESMTP; 07 Jun 2020 12:57:09 -0700
+ by orsmga005.jf.intel.com with ESMTP; 07 Jun 2020 12:57:11 -0700
 From: Zhang Chen <chen.zhang@intel.com >
 To: "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
  qemu-dev <qemu-devel@nongnu.org>
-Subject: [PATCH V3 2/3] migration/colo: Update checkpoint time lately
-Date: Mon,  8 Jun 2020 03:46:10 +0800
-Message-Id: <20200607194611.24763-3-chen.zhang@intel.com>
+Subject: [PATCH V3 3/3] migration/migration.c: Remove MIGRATION_STATUS_ACTIVE
+ in migration_iteration_finish
+Date: Mon,  8 Jun 2020 03:46:11 +0800
+Message-Id: <20200607194611.24763-4-chen.zhang@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200607194611.24763-1-chen.zhang@intel.com>
 References: <20200607194611.24763-1-chen.zhang@intel.com>
@@ -72,40 +73,30 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Zhang Chen <chen.zhang@intel.com>
 
-Previous operation(like vm_start and replication_start_all) will consume
-extra time for first forced synchronization, so reduce it in this patch.
+MIGRATION_STATUS_ACTIVE is invalid here, handle it by default case.
 
+Suggested-by: Lukas Straub <lukasstraub2@web.de>
 Signed-off-by: Zhang Chen <chen.zhang@intel.com>
-Reviewed-by: zhanghailiang <zhang.zhanghailiang@huawei.com>
-Reviewed-by: Lukas Straub <lukasstraub2@web.de>
-Tested-by: Lukas Straub <lukasstraub2@web.de>
 ---
- migration/colo.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ migration/migration.c | 5 -----
+ 1 file changed, 5 deletions(-)
 
-diff --git a/migration/colo.c b/migration/colo.c
-index 91c76789fa..2b837e1255 100644
---- a/migration/colo.c
-+++ b/migration/colo.c
-@@ -532,7 +532,6 @@ static void colo_process_checkpoint(MigrationState *s)
- {
-     QIOChannelBuffer *bioc;
-     QEMUFile *fb = NULL;
--    int64_t current_time = qemu_clock_get_ms(QEMU_CLOCK_HOST);
-     Error *local_err = NULL;
-     int ret;
- 
-@@ -581,8 +580,8 @@ static void colo_process_checkpoint(MigrationState *s)
-     qemu_mutex_unlock_iothread();
-     trace_colo_vm_state_change("stop", "run");
- 
--    timer_mod(s->colo_delay_timer,
--            current_time + s->parameters.x_checkpoint_delay);
-+    timer_mod(s->colo_delay_timer, qemu_clock_get_ms(QEMU_CLOCK_HOST) +
-+              s->parameters.x_checkpoint_delay);
- 
-     while (s->state == MIGRATION_STATUS_COLO) {
-         if (failover_get_state() != FAILOVER_STATUS_NONE) {
+diff --git a/migration/migration.c b/migration/migration.c
+index 9059238e3d..9958b15202 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -3319,11 +3319,6 @@ static void migration_iteration_finish(MigrationState *s)
+          */
+         s->vm_was_running = true;
+         /* Fallthrough */
+-    case MIGRATION_STATUS_ACTIVE:
+-        /*
+-         * We should really assert here, but since it's during
+-         * migration, let's try to reduce the usage of assertions.
+-         */
+     case MIGRATION_STATUS_FAILED:
+     case MIGRATION_STATUS_CANCELLED:
+     case MIGRATION_STATUS_CANCELLING:
 -- 
 2.17.1
 
