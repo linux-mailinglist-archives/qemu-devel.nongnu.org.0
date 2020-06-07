@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D4A71F0F63
-	for <lists+qemu-devel@lfdr.de>; Sun,  7 Jun 2020 22:00:16 +0200 (CEST)
-Received: from localhost ([::1]:40808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DA101F0F51
+	for <lists+qemu-devel@lfdr.de>; Sun,  7 Jun 2020 21:57:12 +0200 (CEST)
+Received: from localhost ([::1]:57170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ji1Sp-0004U7-FT
-	for lists+qemu-devel@lfdr.de; Sun, 07 Jun 2020 16:00:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59880)
+	id 1ji1Pr-00085P-3j
+	for lists+qemu-devel@lfdr.de; Sun, 07 Jun 2020 15:57:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1ji1Fg-0003xI-6Q
- for qemu-devel@nongnu.org; Sun, 07 Jun 2020 15:46:40 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:34516)
+ id 1ji1Fj-0003yR-O4
+ for qemu-devel@nongnu.org; Sun, 07 Jun 2020 15:46:43 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:42415)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1ji1Fd-0004mg-VB
- for qemu-devel@nongnu.org; Sun, 07 Jun 2020 15:46:39 -0400
-Received: by mail-wr1-x430.google.com with SMTP id r7so15171309wro.1
- for <qemu-devel@nongnu.org>; Sun, 07 Jun 2020 12:46:37 -0700 (PDT)
+ id 1ji1Fg-0004nE-42
+ for qemu-devel@nongnu.org; Sun, 07 Jun 2020 15:46:43 -0400
+Received: by mail-wr1-x429.google.com with SMTP id p5so15127670wrw.9
+ for <qemu-devel@nongnu.org>; Sun, 07 Jun 2020 12:46:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=UQ2Sy3jjpiezdKYPxmeYXsC8SSB4J+vTd+4MX7GuzJY=;
- b=YT1jKlfy7wm6GkCP/0Ds4U7UKRMCivNXcFthrXyWnYRi7y68ZOz9/jHyW1I6anK7Il
- I0zr6z+mseKpsSHQcGUJP9sbM2mJ280jbIHd0ylxvZj1oHdbp7Srx0hsb7HYMXiq5FEs
- vob2UR8xL9Sp3ByKn1wqH2WvllVFVZy7jeT3/+QmlHR6XZtKDuOwomPBOH1xF8TsUSKx
- xoBZh4jAFFtuQln8upEjRAH7qFPy7BGx3uanldfC36ebcG+HZvxKLjNLqUmgmoljw7dd
- WScR0BzZE4OEMp0BXeidIYnkDs6JfpRqaScfauI5vZekiP4vfAXZa70Yeewvuu7HTOlE
- JnDQ==
+ bh=VcvK8/pVmCVF8v3SRJSD6aLnpQpjp2swimadybR8LKc=;
+ b=q88C4uq+vw7hfMSkedgglh6wElt4DR4RAr5n0P43GSfRW0DPHsdmZV6hjsG2zbCT5U
+ zNWBSthS5yLPIoKA9e4O3yWF9tVQGuaaoHeOakKBLIAA2yL/DWUdQKpREjuQ8hPcbMvT
+ sDzKA6IZ5tQH+GEnGOBhfZs18c85YcxiNDX9vejKoWhi0x6MtnT1Gsw6gzfI9BEUdX1P
+ yABS2nyWOoqN/xHFG/l4q4+R5Agqo+ViDEey3GtVFHN7DfAF19teMf7LY/fqPvhi6COd
+ Krt2aB7c1nu23vaFqMGJM0ZkBbOSx91ONM89pMMHtNOOc3KGzgusDEOmGydPiQozCw+Y
+ +HNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=UQ2Sy3jjpiezdKYPxmeYXsC8SSB4J+vTd+4MX7GuzJY=;
- b=XU2PM5bcXa0s0j/rcxTrO7ADIrQsj0uq4LMjceaDgnqdIoInvfzxrq6uu5FYjDnRds
- ZE5GIdDGijIVzjOoUX30rV5HcUqEv91d1G8Wfzic6SnCGLxcYJRQqtdJGV+iuIYYC1o5
- fg8SAO9UoKAuyJ7fMA5CLQydloxJevDd/hkbq/k9uQP8vfEGPdIrLr91V0XN3sn+hIAg
- lOgi3zekyGokq/Sllo6l4mbrlUAehSmXUS3EYXVRNaxHWlju7FSv+4TQY+ifNYw2SjNJ
- YKa8eVKE+FQctLNzjNdGbxKtyGeA7mV1v9ntJ3mEaWs2QM9OcwGuwFgZUQjh8hIFBKRb
- Mpcw==
-X-Gm-Message-State: AOAM531P37zr9el34kOnJRU/S09mO1p8S68xlgsWcQPU3DIc9IZEQSYd
- RmLbuEUEv1X01VPMSlqE/vTMVMuy
-X-Google-Smtp-Source: ABdhPJxQ0Icc7lJjrQ+r5Hyq4CTTdp28q2tolux0B3wQfVkMar1x+Dw0slOz867vyAWmH/vB7k/f8w==
-X-Received: by 2002:adf:ed4f:: with SMTP id u15mr19546263wro.126.1591559196519; 
- Sun, 07 Jun 2020 12:46:36 -0700 (PDT)
+ bh=VcvK8/pVmCVF8v3SRJSD6aLnpQpjp2swimadybR8LKc=;
+ b=WOn1ZgBZXKU+gOThy03BXJs5YzhehVqC7hxnODUJcXeAzI7esf1y3W8/PWWt/enSLe
+ BZ10OpHOogMnfOF0Cxyh3GJUEF+ZwvdWZxqcTEOKUlOQhTP0DKcjwcIof9Sp+5zhRZkk
+ ftCqGYSnzflMUJic7Vt2grwCwxDx/+l7j1L1zT0rkps9e2K3T4kMDN3Peh5K3EI3Xy8K
+ bIQAIyEJN3fLkollqk0ncAe4OdLaSbKR9XUf0z85shX4Tw3DyRgCKM73seqbM8MUtm9N
+ FoTbT+dzTHT4PB6s2ecQhELA8UhZIWtwHC/D11h84H+sHEU74W3NureUSnO/aq+U78Pi
+ QtMQ==
+X-Gm-Message-State: AOAM533CX/Rp4gpqK5ylQUnlxBh6qw+jhMqT1iHi5QCdgXQwQWD/B1Fs
+ 7Gbm3LtJNCBuDWtfhTNlYFtPxq1f
+X-Google-Smtp-Source: ABdhPJzHe0Dtcrwbqr4IPrfg4SctxBDIVyxAKnQTImKehx1thKwDvrGYZpiihmH+u7l1j6EYKq4Q0w==
+X-Received: by 2002:adf:f2c2:: with SMTP id d2mr19309993wrp.424.1591559198592; 
+ Sun, 07 Jun 2020 12:46:38 -0700 (PDT)
 Received: from rtrkw774-lin.syrmia.com ([46.240.135.226])
- by smtp.gmail.com with ESMTPSA id u130sm21091339wmg.32.2020.06.07.12.46.35
+ by smtp.gmail.com with ESMTPSA id u130sm21091339wmg.32.2020.06.07.12.46.38
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Sun, 07 Jun 2020 12:46:36 -0700 (PDT)
+ Sun, 07 Jun 2020 12:46:38 -0700 (PDT)
 From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PULL 14/21] target/mips: fpu: Remove now unused FLOAT_CLASS macro
-Date: Sun,  7 Jun 2020 21:46:18 +0200
-Message-Id: <1591559185-31287-15-git-send-email-aleksandar.qemu.devel@gmail.com>
+Subject: [PULL 17/21] target/mips: fpu: Name better paired-single variables
+Date: Sun,  7 Jun 2020 21:46:21 +0200
+Message-Id: <1591559185-31287-18-git-send-email-aleksandar.qemu.devel@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1591559185-31287-1-git-send-email-aleksandar.qemu.devel@gmail.com>
 References: <1591559185-31287-1-git-send-email-aleksandar.qemu.devel@gmail.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-wr1-x429.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -86,65 +86,153 @@ Cc: aleksandar.qemu.devel@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-After demacroing CLASS.<D|S>, this macro is not needed anymore.
+Use consistently 'l' and 'h' for low and high halves.
 
 Reviewed-by: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
 Signed-off-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Message-Id: <20200518200920.17344-13-aleksandar.qemu.devel@gmail.com>
+Message-Id: <20200518200920.17344-16-aleksandar.qemu.devel@gmail.com>
 ---
- target/mips/fpu_helper.c | 39 ---------------------------------------
- 1 file changed, 39 deletions(-)
+ target/mips/fpu_helper.c | 62 ++++++++++++++++++++++++------------------------
+ 1 file changed, 31 insertions(+), 31 deletions(-)
 
 diff --git a/target/mips/fpu_helper.c b/target/mips/fpu_helper.c
-index b3903f5..e227e53 100644
+index 56ba491..dbb8ca5 100644
 --- a/target/mips/fpu_helper.c
 +++ b/target/mips/fpu_helper.c
-@@ -1128,45 +1128,6 @@ FLOAT_RINT(rint_d, 64)
- #define FLOAT_CLASS_POSITIVE_SUBNORMAL 0x100
- #define FLOAT_CLASS_POSITIVE_ZERO      0x200
+@@ -1059,14 +1059,14 @@ uint32_t helper_float_recip1_s(CPUMIPSState *env, uint32_t fst0)
  
--#define FLOAT_CLASS(name, bits)                                      \
--uint ## bits ## _t float_ ## name(uint ## bits ## _t arg,            \
--                                  float_status *status)              \
--{                                                                    \
--    if (float ## bits ## _is_signaling_nan(arg, status)) {           \
--        return FLOAT_CLASS_SIGNALING_NAN;                            \
--    } else if (float ## bits ## _is_quiet_nan(arg, status)) {        \
--        return FLOAT_CLASS_QUIET_NAN;                                \
--    } else if (float ## bits ## _is_neg(arg)) {                      \
--        if (float ## bits ## _is_infinity(arg)) {                    \
--            return FLOAT_CLASS_NEGATIVE_INFINITY;                    \
--        } else if (float ## bits ## _is_zero(arg)) {                 \
--            return FLOAT_CLASS_NEGATIVE_ZERO;                        \
--        } else if (float ## bits ## _is_zero_or_denormal(arg)) {     \
--            return FLOAT_CLASS_NEGATIVE_SUBNORMAL;                   \
--        } else {                                                     \
--            return FLOAT_CLASS_NEGATIVE_NORMAL;                      \
--        }                                                            \
--    } else {                                                         \
--        if (float ## bits ## _is_infinity(arg)) {                    \
--            return FLOAT_CLASS_POSITIVE_INFINITY;                    \
--        } else if (float ## bits ## _is_zero(arg)) {                 \
--            return FLOAT_CLASS_POSITIVE_ZERO;                        \
--        } else if (float ## bits ## _is_zero_or_denormal(arg)) {     \
--            return FLOAT_CLASS_POSITIVE_SUBNORMAL;                   \
--        } else {                                                     \
--            return FLOAT_CLASS_POSITIVE_NORMAL;                      \
--        }                                                            \
--    }                                                                \
--}                                                                    \
--                                                                     \
--uint ## bits ## _t helper_float_ ## name(CPUMIPSState *env,          \
--                                         uint ## bits ## _t arg)     \
--{                                                                    \
--    return float_ ## name(arg, &env->active_fpu.fp_status);          \
--}
--
--#undef FLOAT_CLASS
--
- uint64_t float_class_d(uint64_t arg, float_status *status)
+ uint64_t helper_float_recip1_ps(CPUMIPSState *env, uint64_t fdt0)
  {
-     if (float64_is_signaling_nan(arg, status)) {
+-    uint32_t fst2;
++    uint32_t fstl2;
+     uint32_t fsth2;
+ 
+-    fst2 = float32_div(float32_one, fdt0 & 0XFFFFFFFF,
+-                       &env->active_fpu.fp_status);
++    fstl2 = float32_div(float32_one, fdt0 & 0XFFFFFFFF,
++                        &env->active_fpu.fp_status);
+     fsth2 = float32_div(float32_one, fdt0 >> 32, &env->active_fpu.fp_status);
+     update_fcr31(env, GETPC());
+-    return ((uint64_t)fsth2 << 32) | fst2;
++    return ((uint64_t)fsth2 << 32) | fstl2;
+ }
+ 
+ uint64_t helper_float_rsqrt1_d(CPUMIPSState *env, uint64_t fdt0)
+@@ -1091,15 +1091,15 @@ uint32_t helper_float_rsqrt1_s(CPUMIPSState *env, uint32_t fst0)
+ 
+ uint64_t helper_float_rsqrt1_ps(CPUMIPSState *env, uint64_t fdt0)
+ {
+-    uint32_t fst2;
++    uint32_t fstl2;
+     uint32_t fsth2;
+ 
+-    fst2 = float32_sqrt(fdt0 & 0XFFFFFFFF, &env->active_fpu.fp_status);
++    fstl2 = float32_sqrt(fdt0 & 0XFFFFFFFF, &env->active_fpu.fp_status);
+     fsth2 = float32_sqrt(fdt0 >> 32, &env->active_fpu.fp_status);
+-    fst2 = float32_div(float32_one, fst2, &env->active_fpu.fp_status);
++    fstl2 = float32_div(float32_one, fstl2, &env->active_fpu.fp_status);
+     fsth2 = float32_div(float32_one, fsth2, &env->active_fpu.fp_status);
+     update_fcr31(env, GETPC());
+-    return ((uint64_t)fsth2 << 32) | fst2;
++    return ((uint64_t)fsth2 << 32) | fstl2;
+ }
+ 
+ uint64_t helper_float_rint_d(CPUMIPSState *env, uint64_t fs)
+@@ -1367,19 +1367,19 @@ uint32_t helper_float_recip2_s(CPUMIPSState *env, uint32_t fst0, uint32_t fst2)
+ 
+ uint64_t helper_float_recip2_ps(CPUMIPSState *env, uint64_t fdt0, uint64_t fdt2)
+ {
+-    uint32_t fst0 = fdt0 & 0XFFFFFFFF;
++    uint32_t fstl0 = fdt0 & 0XFFFFFFFF;
+     uint32_t fsth0 = fdt0 >> 32;
+-    uint32_t fst2 = fdt2 & 0XFFFFFFFF;
++    uint32_t fstl2 = fdt2 & 0XFFFFFFFF;
+     uint32_t fsth2 = fdt2 >> 32;
+ 
+-    fst2 = float32_mul(fst0, fst2, &env->active_fpu.fp_status);
++    fstl2 = float32_mul(fstl0, fstl2, &env->active_fpu.fp_status);
+     fsth2 = float32_mul(fsth0, fsth2, &env->active_fpu.fp_status);
+-    fst2 = float32_chs(float32_sub(fst2, float32_one,
++    fstl2 = float32_chs(float32_sub(fstl2, float32_one,
+                                        &env->active_fpu.fp_status));
+     fsth2 = float32_chs(float32_sub(fsth2, float32_one,
+                                        &env->active_fpu.fp_status));
+     update_fcr31(env, GETPC());
+-    return ((uint64_t)fsth2 << 32) | fst2;
++    return ((uint64_t)fsth2 << 32) | fstl2;
+ }
+ 
+ uint64_t helper_float_rsqrt2_d(CPUMIPSState *env, uint64_t fdt0, uint64_t fdt2)
+@@ -1404,51 +1404,51 @@ uint32_t helper_float_rsqrt2_s(CPUMIPSState *env, uint32_t fst0, uint32_t fst2)
+ 
+ uint64_t helper_float_rsqrt2_ps(CPUMIPSState *env, uint64_t fdt0, uint64_t fdt2)
+ {
+-    uint32_t fst0 = fdt0 & 0XFFFFFFFF;
++    uint32_t fstl0 = fdt0 & 0XFFFFFFFF;
+     uint32_t fsth0 = fdt0 >> 32;
+-    uint32_t fst2 = fdt2 & 0XFFFFFFFF;
++    uint32_t fstl2 = fdt2 & 0XFFFFFFFF;
+     uint32_t fsth2 = fdt2 >> 32;
+ 
+-    fst2 = float32_mul(fst0, fst2, &env->active_fpu.fp_status);
++    fstl2 = float32_mul(fstl0, fstl2, &env->active_fpu.fp_status);
+     fsth2 = float32_mul(fsth0, fsth2, &env->active_fpu.fp_status);
+-    fst2 = float32_sub(fst2, float32_one, &env->active_fpu.fp_status);
++    fstl2 = float32_sub(fstl2, float32_one, &env->active_fpu.fp_status);
+     fsth2 = float32_sub(fsth2, float32_one, &env->active_fpu.fp_status);
+-    fst2 = float32_chs(float32_div(fst2, FLOAT_TWO32,
++    fstl2 = float32_chs(float32_div(fstl2, FLOAT_TWO32,
+                                        &env->active_fpu.fp_status));
+     fsth2 = float32_chs(float32_div(fsth2, FLOAT_TWO32,
+                                        &env->active_fpu.fp_status));
+     update_fcr31(env, GETPC());
+-    return ((uint64_t)fsth2 << 32) | fst2;
++    return ((uint64_t)fsth2 << 32) | fstl2;
+ }
+ 
+ uint64_t helper_float_addr_ps(CPUMIPSState *env, uint64_t fdt0, uint64_t fdt1)
+ {
+-    uint32_t fst0 = fdt0 & 0XFFFFFFFF;
++    uint32_t fstl0 = fdt0 & 0XFFFFFFFF;
+     uint32_t fsth0 = fdt0 >> 32;
+-    uint32_t fst1 = fdt1 & 0XFFFFFFFF;
++    uint32_t fstl1 = fdt1 & 0XFFFFFFFF;
+     uint32_t fsth1 = fdt1 >> 32;
+-    uint32_t fst2;
++    uint32_t fstl2;
+     uint32_t fsth2;
+ 
+-    fst2 = float32_add(fst0, fsth0, &env->active_fpu.fp_status);
+-    fsth2 = float32_add(fst1, fsth1, &env->active_fpu.fp_status);
++    fstl2 = float32_add(fstl0, fsth0, &env->active_fpu.fp_status);
++    fsth2 = float32_add(fstl1, fsth1, &env->active_fpu.fp_status);
+     update_fcr31(env, GETPC());
+-    return ((uint64_t)fsth2 << 32) | fst2;
++    return ((uint64_t)fsth2 << 32) | fstl2;
+ }
+ 
+ uint64_t helper_float_mulr_ps(CPUMIPSState *env, uint64_t fdt0, uint64_t fdt1)
+ {
+-    uint32_t fst0 = fdt0 & 0XFFFFFFFF;
++    uint32_t fstl0 = fdt0 & 0XFFFFFFFF;
+     uint32_t fsth0 = fdt0 >> 32;
+-    uint32_t fst1 = fdt1 & 0XFFFFFFFF;
++    uint32_t fstl1 = fdt1 & 0XFFFFFFFF;
+     uint32_t fsth1 = fdt1 >> 32;
+-    uint32_t fst2;
++    uint32_t fstl2;
+     uint32_t fsth2;
+ 
+-    fst2 = float32_mul(fst0, fsth0, &env->active_fpu.fp_status);
+-    fsth2 = float32_mul(fst1, fsth1, &env->active_fpu.fp_status);
++    fstl2 = float32_mul(fstl0, fsth0, &env->active_fpu.fp_status);
++    fsth2 = float32_mul(fstl1, fsth1, &env->active_fpu.fp_status);
+     update_fcr31(env, GETPC());
+-    return ((uint64_t)fsth2 << 32) | fst2;
++    return ((uint64_t)fsth2 << 32) | fstl2;
+ }
+ 
+ #define FLOAT_MINMAX(name, bits, minmaxfunc)                            \
 -- 
 2.7.4
 
