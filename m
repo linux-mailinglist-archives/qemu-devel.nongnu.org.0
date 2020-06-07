@@ -2,73 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F12C41F0F45
-	for <lists+qemu-devel@lfdr.de>; Sun,  7 Jun 2020 21:49:27 +0200 (CEST)
-Received: from localhost ([::1]:59746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EF901F0F5C
+	for <lists+qemu-devel@lfdr.de>; Sun,  7 Jun 2020 21:58:58 +0200 (CEST)
+Received: from localhost ([::1]:36092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ji1IM-0005hk-Ro
-	for lists+qemu-devel@lfdr.de; Sun, 07 Jun 2020 15:49:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59828)
+	id 1ji1RZ-0002ZL-3b
+	for lists+qemu-devel@lfdr.de; Sun, 07 Jun 2020 15:58:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1ji1FX-0003pT-QL
- for qemu-devel@nongnu.org; Sun, 07 Jun 2020 15:46:31 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:39101)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1ji1FW-0004kq-62
- for qemu-devel@nongnu.org; Sun, 07 Jun 2020 15:46:31 -0400
-Received: by mail-wr1-x436.google.com with SMTP id t18so15164222wru.6
- for <qemu-devel@nongnu.org>; Sun, 07 Jun 2020 12:46:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=GR4eimU9t63Pw1mCFxbwUNXUU4YvTN5YihjHWjA0XDI=;
- b=P3oruxSxyZp9KdYNDiwu+6cw6x/Wb7gc1UgYelJUWgDxdciMlwmaM2/OfTywZku/am
- MBU9/qm0zzN5se7wLYoI3z41j0DjPeYPAEFCSyNGRlhH85PhVdyhbFyonW1FT8MVE0SC
- lq37xRHz0Ysao9/mW/RZuGiYan7iv09IROFu8Wv/oq4xqthPPY1+Oul2oaOsofA1qJ96
- IxnR39HGs1f1YoqYtJnPXRAXgg75eirroV54xxTNM/DYSM/h66VDm1qaKWCdxZH+pPmM
- SP64lo7opD+ShdnTv9jzblukJMBCLU8dyklw+sjirQKRQRe3gsA1KRyW1Nx6RxmnINK5
- D/Uw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=GR4eimU9t63Pw1mCFxbwUNXUU4YvTN5YihjHWjA0XDI=;
- b=ipqRDF4MSPkNh0p0gc5x8Tc4RQh8Nx7WIyuZMy3Fhy3LWheAI8scDtRtIj7o4r99ad
- JJZe7kDINgKV4k8arF/U8SX3CTwsxrXnONAgPxrHGJSaEIeRAy0hhAZwXR+GSwlQzgk6
- n5CjrOUqOTVAwVavEpprLN/qVc3GUlzrbC8nrkSLRnPoH1QJFM0OOo3xf/GMM/OCIdHN
- BwO8LP2AI1i9MTH/+MeVQg9hitsLtTSqln4cQQZFtTVKmSahDpB5KW80L/vKEZ6C96Pt
- infw3zW8Mg3Ogu7aaNJOFCYuQvUJG/NcrRY1B0MjpwMi9zt4C0FjATqCpGiDm0HLYFfd
- OBAA==
-X-Gm-Message-State: AOAM533z1EET7+OS7GHR2gK/LZya1f8+7jos9n5K/Pa4t7nwYZjU4gR4
- YrSw8eplJVIFtSpd7zI6myc7pK4k
-X-Google-Smtp-Source: ABdhPJxzlRDsepqMVublejJlY7a8iW8/8sR/qn1HfxvabumaA6GIG+UJLdfEFbZmvjLx0Oe9X0q56A==
-X-Received: by 2002:a5d:654c:: with SMTP id z12mr19648203wrv.315.1591559188784; 
- Sun, 07 Jun 2020 12:46:28 -0700 (PDT)
-Received: from rtrkw774-lin.syrmia.com ([46.240.135.226])
- by smtp.gmail.com with ESMTPSA id u130sm21091339wmg.32.2020.06.07.12.46.28
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Sun, 07 Jun 2020 12:46:28 -0700 (PDT)
-From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-To: qemu-devel@nongnu.org,
-	peter.maydell@linaro.org
-Subject: [PULL 03/21] target/mips: fpu: Demacro ADD.<D|S|PS>
-Date: Sun,  7 Jun 2020 21:46:07 +0200
-Message-Id: <1591559185-31287-4-git-send-email-aleksandar.qemu.devel@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1591559185-31287-1-git-send-email-aleksandar.qemu.devel@gmail.com>
-References: <1591559185-31287-1-git-send-email-aleksandar.qemu.devel@gmail.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-wr1-x436.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
+ id 1ji1Pr-0000cR-Bp
+ for qemu-devel@nongnu.org; Sun, 07 Jun 2020 15:57:11 -0400
+Received: from mga05.intel.com ([192.55.52.43]:14935)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
+ id 1ji1Pp-0006UC-If
+ for qemu-devel@nongnu.org; Sun, 07 Jun 2020 15:57:10 -0400
+IronPort-SDR: rPU9y5NXlnZCw0rEdSqdCsQnDNsH9hIOvQsVtVZCWWbp14eGRCh346egbyW8MqaNhjCvnTCoAS
+ nYs3E7j7kvRQ==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jun 2020 12:57:07 -0700
+IronPort-SDR: +ascfTKsMeK+uEI5JKfBkgoB0QH5AnoblQh0u+iidQSRfGROoSnlVL2hJYWf6p5dTPyxGX7Xzj
+ StD0Y149nnog==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,485,1583222400"; d="scan'208";a="446509251"
+Received: from unknown (HELO localhost.localdomain) ([10.239.13.19])
+ by orsmga005.jf.intel.com with ESMTP; 07 Jun 2020 12:57:05 -0700
+From: Zhang Chen <chen.zhang@intel.com >
+To: "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ qemu-dev <qemu-devel@nongnu.org>
+Subject: [PATCH V3 0/3] migration/colo: Optimize COLO framework code
+Date: Mon,  8 Jun 2020 03:46:08 +0800
+Message-Id: <20200607194611.24763-1-chen.zhang@intel.com>
+X-Mailer: git-send-email 2.17.1
+Received-SPF: pass client-ip=192.55.52.43; envelope-from=chen.zhang@intel.com;
+ helo=mga05.intel.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/07 15:57:07
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -9
+X-Spam_score: -1.0
+X-Spam_bar: -
+X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, FROM_ADDR_WS=2.999,
+ FROM_WSP_TRAIL=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,75 +62,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aleksandar.qemu.devel@gmail.com
+Cc: Zhang Chen <chen.zhang@intel.com>,
+ Zhanghailiang <zhang.zhanghailiang@huawei.com>,
+ Zhang Chen <zhangckid@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is just a cosmetic change to enable tools like gcov, gdb,
-callgrind, etc. to better display involved source code.
+From: Zhang Chen <chen.zhang@intel.com>
 
-Reviewed-by: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
-Signed-off-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Message-Id: <20200518200920.17344-2-aleksandar.qemu.devel@gmail.com>
----
- target/mips/fpu_helper.c | 38 +++++++++++++++++++++++++++++++++++++-
- 1 file changed, 37 insertions(+), 1 deletion(-)
+This series optimize some code of COLO, please review.
 
-diff --git a/target/mips/fpu_helper.c b/target/mips/fpu_helper.c
-index 5287c86..984f3f4 100644
---- a/target/mips/fpu_helper.c
-+++ b/target/mips/fpu_helper.c
-@@ -1208,12 +1208,48 @@ uint64_t helper_float_ ## name ## _ps(CPUMIPSState *env,           \
-     return ((uint64_t)wth2 << 32) | wt2;                           \
- }
- 
--FLOAT_BINOP(add)
- FLOAT_BINOP(sub)
- FLOAT_BINOP(mul)
- FLOAT_BINOP(div)
- #undef FLOAT_BINOP
- 
-+uint64_t helper_float_add_d(CPUMIPSState *env,
-+                            uint64_t fdt0, uint64_t fdt1)
-+{
-+    uint64_t dt2;
-+
-+    dt2 = float64_add(fdt0, fdt1, &env->active_fpu.fp_status);
-+    update_fcr31(env, GETPC());
-+    return dt2;
-+}
-+
-+uint32_t helper_float_add_s(CPUMIPSState *env,
-+                            uint32_t fst0, uint32_t fst1)
-+{
-+    uint32_t wt2;
-+
-+    wt2 = float32_sub(fst0, fst1, &env->active_fpu.fp_status);
-+    update_fcr31(env, GETPC());
-+    return wt2;
-+}
-+
-+uint64_t helper_float_add_ps(CPUMIPSState *env,
-+                             uint64_t fdt0, uint64_t fdt1)
-+{
-+    uint32_t fstl0 = fdt0 & 0XFFFFFFFF;
-+    uint32_t fsth0 = fdt0 >> 32;
-+    uint32_t fstl1 = fdt1 & 0XFFFFFFFF;
-+    uint32_t fsth1 = fdt1 >> 32;
-+    uint32_t wtl2;
-+    uint32_t wth2;
-+
-+    wtl2 = float32_add(fstl0, fstl1, &env->active_fpu.fp_status);
-+    wth2 = float32_add(fsth0, fsth1, &env->active_fpu.fp_status);
-+    update_fcr31(env, GETPC());
-+    return ((uint64_t)wth2 << 32) | wtl2;
-+}
-+
-+
- /* MIPS specific binary operations */
- uint64_t helper_float_recip2_d(CPUMIPSState *env, uint64_t fdt0, uint64_t fdt2)
- {
+Zhang Chen (3):
+  migration/colo: Optimize COLO boot code path
+  migration/colo: Update checkpoint time lately
+  migration/migration.c: Remove MIGRATION_STATUS_ACTIVE in
+    migration_iteration_finish
+
+ migration/colo.c      |  7 ++-----
+ migration/migration.c | 12 +++++-------
+ 2 files changed, 7 insertions(+), 12 deletions(-)
+
 -- 
-2.7.4
+2.17.1
 
 
