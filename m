@@ -2,82 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 339651F1DE6
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 18:57:01 +0200 (CEST)
-Received: from localhost ([::1]:37796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 194C51F1DEE
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 18:58:42 +0200 (CEST)
+Received: from localhost ([::1]:45030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jiL52-0003Bi-6p
-	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 12:57:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45328)
+	id 1jiL6f-0006Ds-3O
+	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 12:58:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1jiL3G-0001Co-6O; Mon, 08 Jun 2020 12:55:10 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:35818)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1jiL32-0000ht-ND; Mon, 08 Jun 2020 12:55:09 -0400
-Received: by mail-wm1-x343.google.com with SMTP id q25so245584wmj.0;
- Mon, 08 Jun 2020 09:54:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:reply-to:to:cc:references:in-reply-to:subject:date:message-id
- :mime-version:content-transfer-encoding:content-language
- :thread-index; bh=oNB6pAr4fcRFpfN0vgO3R/SPq1U20RR7okPBo0+FgUE=;
- b=TAfmK0oQkeSGz62TuViy7NuLCNk1BF68l8xbAdU7an1ZC1hVV98IKOoRjmqyaTwVAN
- +in5sBo54K9vZ+PoT5Dju2DDOh9ml4x74mKWFDeR19EFjNT+Klc17086J5unyRp6crm0
- iX59NmiKjPexLajwu2LCbDjom1z4V5Ya7Tr/x9a2tD7WOo4+qq200GMJWH+At1YTWsbM
- +wJH2TSrIVK7d5tnTy4ZVb1OjT049f7NavDysekPgvsZp+8YL5JJqDIx0twx4zpgFLUZ
- BUPmA4rk/i0fKuA7MEpGHm8R9boPmkow/IyBFJZL0415yukucMZFCcEQRzyZerGGqu0H
- ++ow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:reply-to:to:cc:references:in-reply-to
- :subject:date:message-id:mime-version:content-transfer-encoding
- :content-language:thread-index;
- bh=oNB6pAr4fcRFpfN0vgO3R/SPq1U20RR7okPBo0+FgUE=;
- b=caPW/ILB+sQl1KTOUupbXUumWUywu9CuEMZrVwOpvGWFA5jRFMZIpznHcV/FTtC9Mq
- 7R/Q07s1zKhlm2jbf1g+jBb/khN/+Wvh9APuJfZ11pxqZVs5VzGiAS+Ue/VeCIFvz9wR
- GtOzketXZCmhArs6bfNxYTmVc8ThpwVJhZNHycypjY2Lue264BOWggxkKftIMpDTWA4i
- WHbnNn/FvPHMvzFNR76DCpUnlxOW2M488hGkweAR3jlzs2gG/Aq9kRU9IVES/hXM3Nj+
- VSP85ixUQGtFC+A4PfUnoxvZVoy1YCZb6Tc0S3RWz788GqiV5Hm4uaocdU9fU5o0y2VB
- wiwA==
-X-Gm-Message-State: AOAM532mzw7cf7+1a06FmRFd5ArI+74YoxKxUIdg7REWGV1FPOdnhiol
- rvDaDauNekHA3XzcOfgs3qU=
-X-Google-Smtp-Source: ABdhPJxYf2eoroXcg65HH/FtSRR8gJU7TD34bYCLjdlEtahbcmy4LN05uTpS+ECevCEPvzvZc0skGg==
-X-Received: by 2002:a1c:4e17:: with SMTP id g23mr274089wmh.38.1591635293576;
- Mon, 08 Jun 2020 09:54:53 -0700 (PDT)
-Received: from CBGR90WXYV0 ([54.239.6.185])
- by smtp.gmail.com with ESMTPSA id s72sm120153wme.35.2020.06.08.09.54.50
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 08 Jun 2020 09:54:52 -0700 (PDT)
-From: Paul Durrant <xadimgnik@gmail.com>
-X-Google-Original-From: "Paul Durrant" <paul@xen.org>
-To: =?utf-8?Q?'Philippe_Mathieu-Daud=C3=A9'?= <philmd@redhat.com>,
- <qemu-devel@nongnu.org>
-References: <20200608160044.15531-1-philmd@redhat.com>
- <20200608160044.15531-16-philmd@redhat.com>
-In-Reply-To: <20200608160044.15531-16-philmd@redhat.com>
-Subject: RE: [RFC PATCH 15/35] hw/i386/xen/xen-hvm: Emit warning when old code
- is used
-Date: Mon, 8 Jun 2020 17:54:49 +0100
-Message-ID: <004b01d63db5$87a83110$96f89330$@xen.org>
+ (Exim 4.90_1) (envelope-from <joseph_myers@mentor.com>)
+ id 1jiL3V-0001Yl-8k
+ for qemu-devel@nongnu.org; Mon, 08 Jun 2020 12:55:25 -0400
+Received: from esa4.mentor.iphmx.com ([68.232.137.252]:8930)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <joseph_myers@mentor.com>)
+ id 1jiL3Q-0000yK-GV
+ for qemu-devel@nongnu.org; Mon, 08 Jun 2020 12:55:24 -0400
+IronPort-SDR: Khmbr5fiZqI6t24vgc6puH3jNWBnRnTSx1gJfTQcMe9/CO+dqeqkI2fEK/2BaOMQnrkP3ambwc
+ eRPed7mxWkO587DYyl+eGoy/TKNAtURc5KsgkTwbrAviEkOdKDQUCu9LMm0wlPj40EEAanQHtk
+ ieUWPw64QTAC+9GtfCQGVCaj2mJlzHnYE/2cIDG8c0Oa83vTZ/jSq6lZpp7teT5b4Bn/WWL1bH
+ Pu3iU1djgpx6W5HYcGISEDsLYdmD1K9Rcqdu+Yzl0Bc7yih1CLKGYVRtAIMEdkf4Y4WMZzkIZb
+ 9lE=
+X-IronPort-AV: E=Sophos;i="5.73,487,1583222400"; d="scan'208";a="49689833"
+Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
+ by esa4.mentor.iphmx.com with ESMTP; 08 Jun 2020 08:55:17 -0800
+IronPort-SDR: fduFEj/KvJtcW19ZwVW2A2cJDBiphUnRo/1Adt8HUYpAEUvgwKDG7BAknr61WOtkXPEWQ3rYk8
+ UQ7+RuDzAfPU6YPd9Od0lAvtjnuQtMdt/6QMIubySVQkIBkJgZW4jlc073FPiRiJhistiQCdIi
+ SDr4suwAsbIEexOOyWN/RcF0w24jJEHegTPOoLWfTBZlE6qaeXOJxDX6opf4sSzses6x5W5S9Q
+ ArHJ3ykQfPhJ+M4coTI1o6V25GNqIhBLhY2xsmLBNUQPcimyD66r2hOaKn0g6RKmqD75bsed2Q
+ ZUs=
+Date: Mon, 8 Jun 2020 16:55:11 +0000
+From: Joseph Myers <joseph@codesourcery.com>
+X-X-Sender: jsm28@digraph.polyomino.org.uk
+To: <qemu-devel@nongnu.org>, <aurelien@aurel32.net>,
+ <peter.maydell@linaro.org>, <alex.bennee@linaro.org>, <laurent@vivier.eu>,
+ <pbonzini@redhat.com>, <rth@twiddle.net>, <ehabkost@redhat.com>
+Subject: [PATCH v2 1/6] softfloat: merge floatx80_mod and floatx80_rem
+In-Reply-To: <alpine.DEB.2.21.2006081653080.23637@digraph.polyomino.org.uk>
+Message-ID: <alpine.DEB.2.21.2006081654280.23637@digraph.polyomino.org.uk>
+References: <alpine.DEB.2.21.2006081653080.23637@digraph.polyomino.org.uk>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Mailer: Microsoft Outlook 16.0
-Content-Language: en-gb
-Thread-Index: AQFYw0U0oKWIX6kmOq5Lq1JhZGgcHAJ29BtBqbYsFpA=
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=xadimgnik@gmail.com; helo=mail-wm1-x343.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset="US-ASCII"
+X-Originating-IP: [137.202.0.90]
+X-ClientProxiedBy: SVR-IES-MBX-07.mgc.mentorg.com (139.181.222.7) To
+ svr-ies-mbx-02.mgc.mentorg.com (139.181.222.2)
+Received-SPF: pass client-ip=68.232.137.252;
+ envelope-from=joseph_myers@mentor.com; helo=esa4.mentor.iphmx.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/08 12:55:19
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -39
+X-Spam_score: -4.0
+X-Spam_bar: ----
+X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,110 +71,240 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: paul@xen.org
-Cc: 'Peter Maydell' <peter.maydell@linaro.org>,
- 'Sagar Karandikar' <sagark@eecs.berkeley.edu>,
- "'Michael S. Tsirkin'" <mst@redhat.com>,
- 'Mark Cave-Ayland' <mark.cave-ayland@ilande.co.uk>,
- 'Max Filippov' <jcmvbkbc@gmail.com>,
- 'Alistair Francis' <Alistair.Francis@wdc.com>,
- 'Gerd Hoffmann' <kraxel@redhat.com>,
- "'Edgar E. Iglesias'" <edgar.iglesias@gmail.com>,
- 'Stefano Stabellini' <sstabellini@kernel.org>,
- 'Magnus Damm' <magnus.damm@gmail.com>, 'Markus Armbruster' <armbru@redhat.com>,
- 'Anthony Perard' <anthony.perard@citrix.com>,
- =?utf-8?Q?'Marc-Andr=C3=A9_Lureau'?= <marcandre.lureau@redhat.com>,
- 'David Gibson' <david@gibson.dropbear.id.au>,
- 'Eduardo Habkost' <ehabkost@redhat.com>,
- 'Alistair Francis' <alistair@alistair23.me>, qemu-arm@nongnu.org,
- xen-devel@lists.xenproject.org, qemu-riscv@nongnu.org,
- 'Stafford Horne' <shorne@gmail.com>, 'Palmer Dabbelt' <palmer@dabbelt.com>,
- 'Richard Henderson' <rth@twiddle.net>,
- "'Daniel P . Berrange'" <berrange@redhat.com>,
- 'Thomas Huth' <huth@tuxfamily.org>,
- 'Bastian Koppelmann' <kbastian@mail.uni-paderborn.de>,
- 'Michael Walle' <michael@walle.cc>, qemu-ppc@nongnu.org,
- 'Paolo Bonzini' <pbonzini@redhat.com>, 'Aurelien Jarno' <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> -----Original Message-----
-> From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> Sent: 08 June 2020 17:00
-> To: qemu-devel@nongnu.org
-> Cc: qemu-arm@nongnu.org; Markus Armbruster <armbru@redhat.com>; Max =
-Filippov <jcmvbkbc@gmail.com>;
-> Marcel Apfelbaum <marcel.apfelbaum@gmail.com>; Peter Maydell =
-<peter.maydell@linaro.org>; Michael Walle
-> <michael@walle.cc>; Edgar E. Iglesias <edgar.iglesias@gmail.com>; =
-Aurelien Jarno
-> <aurelien@aurel32.net>; Gerd Hoffmann <kraxel@redhat.com>; Stafford =
-Horne <shorne@gmail.com>; Andrzej
-> Zaborowski <balrogg@gmail.com>; qemu-ppc@nongnu.org; Alistair Francis =
-<alistair@alistair23.me>;
-> Richard Henderson <rth@twiddle.net>; Mark Cave-Ayland =
-<mark.cave-ayland@ilande.co.uk>; Marc-Andr=C3=A9
-> Lureau <marcandre.lureau@redhat.com>; Daniel P . Berrange =
-<berrange@redhat.com>; qemu-
-> riscv@nongnu.org; Michael S. Tsirkin <mst@redhat.com>; =
-xen-devel@lists.xenproject.org; Sagar
-> Karandikar <sagark@eecs.berkeley.edu>; Anthony Perard =
-<anthony.perard@citrix.com>; Palmer Dabbelt
-> <palmer@dabbelt.com>; Stefano Stabellini <sstabellini@kernel.org>; =
-Paul Durrant <paul@xen.org>; Paolo
-> Bonzini <pbonzini@redhat.com>; Alistair Francis =
-<Alistair.Francis@wdc.com>; Eduardo Habkost
-> <ehabkost@redhat.com>; Thomas Huth <huth@tuxfamily.org>; Bastian =
-Koppelmann <kbastian@mail.uni-
-> paderborn.de>; David Gibson <david@gibson.dropbear.id.au>; Magnus Damm =
-<magnus.damm@gmail.com>;
-> Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> Subject: [RFC PATCH 15/35] hw/i386/xen/xen-hvm: Emit warning when old =
-code is used
->=20
-> This code hasn't been QOM'ified yet. Warn the user.
+The m68k-specific softfloat code includes a function floatx80_mod that
+is extremely similar to floatx80_rem, but computing the remainder
+based on truncating the quotient toward zero rather than rounding it
+to nearest integer.  This is also useful for emulating the x87 fprem
+and fprem1 instructions.  Change the floatx80_rem implementation into
+floatx80_modrem that can perform either operation, with both
+floatx80_rem and floatx80_mod as thin wrappers available for all
+targets.
 
-"Based on today's IRC chat, this is a trivial RFC series
-to anotate pre-qdev/QOM devices so developers using them
-without knowing they are not QOM'ified yet can realize
-it and convert them if they have time."
+There does not appear to be any use for the _mod operation for other
+floating-point formats in QEMU (the only other architectures using
+_rem at all are linux-user/arm/nwfpe, for FPA emulation, and openrisc,
+for instructions that have been removed in the latest version of the
+architecture), so no change is made to the code for other formats.
 
-So, how should this be coded then? The XenIOState doesn't really qualify =
-as a 'device', does it?
+Signed-off-by: Joseph Myers <joseph@codesourcery.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ fpu/softfloat.c         | 49 ++++++++++++++++++------
+ include/fpu/softfloat.h |  2 +
+ target/m68k/softfloat.c | 83 -----------------------------------------
+ target/m68k/softfloat.h |  1 -
+ 4 files changed, 40 insertions(+), 95 deletions(-)
 
-  Paul
+diff --git a/fpu/softfloat.c b/fpu/softfloat.c
+index 6c8f2d597a..7b1ce7664f 100644
+--- a/fpu/softfloat.c
++++ b/fpu/softfloat.c
+@@ -5682,10 +5682,13 @@ floatx80 floatx80_div(floatx80 a, floatx80 b, float_status *status)
+ /*----------------------------------------------------------------------------
+ | Returns the remainder of the extended double-precision floating-point value
+ | `a' with respect to the corresponding value `b'.  The operation is performed
+-| according to the IEC/IEEE Standard for Binary Floating-Point Arithmetic.
++| according to the IEC/IEEE Standard for Binary Floating-Point Arithmetic,
++| if 'mod' is false; if 'mod' is true, return the remainder based on truncating
++| the quotient toward zero instead.
+ *----------------------------------------------------------------------------*/
+ 
+-floatx80 floatx80_rem(floatx80 a, floatx80 b, float_status *status)
++floatx80 floatx80_modrem(floatx80 a, floatx80 b, bool mod,
++                         float_status *status)
+ {
+     bool aSign, zSign;
+     int32_t aExp, bExp, expDiff;
+@@ -5731,7 +5734,7 @@ floatx80 floatx80_rem(floatx80 a, floatx80 b, float_status *status)
+     expDiff = aExp - bExp;
+     aSig1 = 0;
+     if ( expDiff < 0 ) {
+-        if ( expDiff < -1 ) return a;
++        if ( mod || expDiff < -1 ) return a;
+         shift128Right( aSig0, 0, 1, &aSig0, &aSig1 );
+         expDiff = 0;
+     }
+@@ -5763,14 +5766,16 @@ floatx80 floatx80_rem(floatx80 a, floatx80 b, float_status *status)
+         term1 = 0;
+         term0 = bSig;
+     }
+-    sub128( term0, term1, aSig0, aSig1, &alternateASig0, &alternateASig1 );
+-    if (    lt128( alternateASig0, alternateASig1, aSig0, aSig1 )
+-         || (    eq128( alternateASig0, alternateASig1, aSig0, aSig1 )
+-              && ( q & 1 ) )
+-       ) {
+-        aSig0 = alternateASig0;
+-        aSig1 = alternateASig1;
+-        zSign = ! zSign;
++    if (!mod) {
++        sub128( term0, term1, aSig0, aSig1, &alternateASig0, &alternateASig1 );
++        if (    lt128( alternateASig0, alternateASig1, aSig0, aSig1 )
++                || (    eq128( alternateASig0, alternateASig1, aSig0, aSig1 )
++                        && ( q & 1 ) )
++            ) {
++            aSig0 = alternateASig0;
++            aSig1 = alternateASig1;
++            zSign = ! zSign;
++        }
+     }
+     return
+         normalizeRoundAndPackFloatx80(
+@@ -5778,6 +5783,28 @@ floatx80 floatx80_rem(floatx80 a, floatx80 b, float_status *status)
+ 
+ }
+ 
++/*----------------------------------------------------------------------------
++| Returns the remainder of the extended double-precision floating-point value
++| `a' with respect to the corresponding value `b'.  The operation is performed
++| according to the IEC/IEEE Standard for Binary Floating-Point Arithmetic.
++*----------------------------------------------------------------------------*/
++
++floatx80 floatx80_rem(floatx80 a, floatx80 b, float_status *status)
++{
++    return floatx80_modrem(a, b, false, status);
++}
++
++/*----------------------------------------------------------------------------
++| Returns the remainder of the extended double-precision floating-point value
++| `a' with respect to the corresponding value `b', with the quotient truncated
++| toward zero.
++*----------------------------------------------------------------------------*/
++
++floatx80 floatx80_mod(floatx80 a, floatx80 b, float_status *status)
++{
++    return floatx80_modrem(a, b, true, status);
++}
++
+ /*----------------------------------------------------------------------------
+ | Returns the square root of the extended double-precision floating-point
+ | value `a'.  The operation is performed according to the IEC/IEEE Standard
+diff --git a/include/fpu/softfloat.h b/include/fpu/softfloat.h
+index 16ca697a73..bff6934d09 100644
+--- a/include/fpu/softfloat.h
++++ b/include/fpu/softfloat.h
+@@ -687,6 +687,8 @@ floatx80 floatx80_add(floatx80, floatx80, float_status *status);
+ floatx80 floatx80_sub(floatx80, floatx80, float_status *status);
+ floatx80 floatx80_mul(floatx80, floatx80, float_status *status);
+ floatx80 floatx80_div(floatx80, floatx80, float_status *status);
++floatx80 floatx80_modrem(floatx80, floatx80, bool, float_status *status);
++floatx80 floatx80_mod(floatx80, floatx80, float_status *status);
+ floatx80 floatx80_rem(floatx80, floatx80, float_status *status);
+ floatx80 floatx80_sqrt(floatx80, float_status *status);
+ FloatRelation floatx80_compare(floatx80, floatx80, float_status *status);
+diff --git a/target/m68k/softfloat.c b/target/m68k/softfloat.c
+index 9f120cf15e..b6d0ed7acf 100644
+--- a/target/m68k/softfloat.c
++++ b/target/m68k/softfloat.c
+@@ -42,89 +42,6 @@ static floatx80 propagateFloatx80NaNOneArg(floatx80 a, float_status *status)
+     return a;
+ }
+ 
+-/*
+- * Returns the modulo remainder of the extended double-precision floating-point
+- * value `a' with respect to the corresponding value `b'.
+- */
+-
+-floatx80 floatx80_mod(floatx80 a, floatx80 b, float_status *status)
+-{
+-    bool aSign, zSign;
+-    int32_t aExp, bExp, expDiff;
+-    uint64_t aSig0, aSig1, bSig;
+-    uint64_t qTemp, term0, term1;
+-
+-    aSig0 = extractFloatx80Frac(a);
+-    aExp = extractFloatx80Exp(a);
+-    aSign = extractFloatx80Sign(a);
+-    bSig = extractFloatx80Frac(b);
+-    bExp = extractFloatx80Exp(b);
+-
+-    if (aExp == 0x7FFF) {
+-        if ((uint64_t) (aSig0 << 1)
+-            || ((bExp == 0x7FFF) && (uint64_t) (bSig << 1))) {
+-            return propagateFloatx80NaN(a, b, status);
+-        }
+-        goto invalid;
+-    }
+-    if (bExp == 0x7FFF) {
+-        if ((uint64_t) (bSig << 1)) {
+-            return propagateFloatx80NaN(a, b, status);
+-        }
+-        return a;
+-    }
+-    if (bExp == 0) {
+-        if (bSig == 0) {
+-        invalid:
+-            float_raise(float_flag_invalid, status);
+-            return floatx80_default_nan(status);
+-        }
+-        normalizeFloatx80Subnormal(bSig, &bExp, &bSig);
+-    }
+-    if (aExp == 0) {
+-        if ((uint64_t) (aSig0 << 1) == 0) {
+-            return a;
+-        }
+-        normalizeFloatx80Subnormal(aSig0, &aExp, &aSig0);
+-    }
+-    bSig |= UINT64_C(0x8000000000000000);
+-    zSign = aSign;
+-    expDiff = aExp - bExp;
+-    aSig1 = 0;
+-    if (expDiff < 0) {
+-        return a;
+-    }
+-    qTemp = (bSig <= aSig0);
+-    if (qTemp) {
+-        aSig0 -= bSig;
+-    }
+-    expDiff -= 64;
+-    while (0 < expDiff) {
+-        qTemp = estimateDiv128To64(aSig0, aSig1, bSig);
+-        qTemp = (2 < qTemp) ? qTemp - 2 : 0;
+-        mul64To128(bSig, qTemp, &term0, &term1);
+-        sub128(aSig0, aSig1, term0, term1, &aSig0, &aSig1);
+-        shortShift128Left(aSig0, aSig1, 62, &aSig0, &aSig1);
+-        expDiff -= 62;
+-    }
+-    expDiff += 64;
+-    if (0 < expDiff) {
+-        qTemp = estimateDiv128To64(aSig0, aSig1, bSig);
+-        qTemp = (2 < qTemp) ? qTemp - 2 : 0;
+-        qTemp >>= 64 - expDiff;
+-        mul64To128(bSig, qTemp << (64 - expDiff), &term0, &term1);
+-        sub128(aSig0, aSig1, term0, term1, &aSig0, &aSig1);
+-        shortShift128Left(0, bSig, 64 - expDiff, &term0, &term1);
+-        while (le128(term0, term1, aSig0, aSig1)) {
+-            ++qTemp;
+-            sub128(aSig0, aSig1, term0, term1, &aSig0, &aSig1);
+-        }
+-    }
+-    return
+-        normalizeRoundAndPackFloatx80(
+-            80, zSign, bExp + expDiff, aSig0, aSig1, status);
+-}
+-
+ /*
+  * Returns the mantissa of the extended double-precision floating-point
+  * value `a'.
+diff --git a/target/m68k/softfloat.h b/target/m68k/softfloat.h
+index 365ef6ac7a..4bb9567134 100644
+--- a/target/m68k/softfloat.h
++++ b/target/m68k/softfloat.h
+@@ -23,7 +23,6 @@
+ #define TARGET_M68K_SOFTFLOAT_H
+ #include "fpu/softfloat.h"
+ 
+-floatx80 floatx80_mod(floatx80 a, floatx80 b, float_status *status);
+ floatx80 floatx80_getman(floatx80 a, float_status *status);
+ floatx80 floatx80_getexp(floatx80 a, float_status *status);
+ floatx80 floatx80_scale(floatx80 a, floatx80 b, float_status *status);
+-- 
+2.17.1
 
->=20
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->  hw/i386/xen/xen-hvm.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->=20
-> diff --git a/hw/i386/xen/xen-hvm.c b/hw/i386/xen/xen-hvm.c
-> index 82ece6b9e7..a1163b1529 100644
-> --- a/hw/i386/xen/xen-hvm.c
-> +++ b/hw/i386/xen/xen-hvm.c
-> @@ -31,7 +31,7 @@
->  #include "sysemu/xen-mapcache.h"
->  #include "trace.h"
->  #include "exec/address-spaces.h"
-> -
-> +#include "hw/qdev-deprecated.h"
->  #include <xen/hvm/ioreq.h>
->  #include <xen/hvm/e820.h>
->=20
-> @@ -1401,6 +1401,8 @@ void xen_hvm_init(PCMachineState *pcms, =
-MemoryRegion **ram_memory)
->      xen_pfn_t ioreq_pfn;
->      XenIOState *state;
->=20
-> +    qdev_warn_deprecated_function_used();
-> +
->      state =3D g_malloc0(sizeof (XenIOState));
->=20
->      state->xce_handle =3D xenevtchn_open(NULL, 0);
-> --
-> 2.21.3
 
-
+-- 
+Joseph S. Myers
+joseph@codesourcery.com
 
