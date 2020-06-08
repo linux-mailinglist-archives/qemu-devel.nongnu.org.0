@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84ADD1F14EA
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 11:04:14 +0200 (CEST)
-Received: from localhost ([::1]:41804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C65271F14EE
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 11:04:52 +0200 (CEST)
+Received: from localhost ([::1]:43486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jiDhV-0006dI-8L
-	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 05:04:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45384)
+	id 1jiDi7-0007I0-RM
+	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 05:04:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45390)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jiDfG-0004qF-Dq; Mon, 08 Jun 2020 05:01:54 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:42843)
+ id 1jiDfH-0004s0-I4; Mon, 08 Jun 2020 05:01:55 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:36467)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jiDfF-0004IO-FG; Mon, 08 Jun 2020 05:01:54 -0400
-Received: by mail-wr1-x441.google.com with SMTP id p5so16469992wrw.9;
- Mon, 08 Jun 2020 02:01:52 -0700 (PDT)
+ id 1jiDfG-0004Im-OV; Mon, 08 Jun 2020 05:01:55 -0400
+Received: by mail-wr1-x441.google.com with SMTP id q11so16514197wrp.3;
+ Mon, 08 Jun 2020 02:01:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=PQjX/hJ8Xj+F0qXfJ1YqTt2l5LpKtjI08M8rVL/0QmY=;
- b=mJQHDLXvaoI8riHnsnlL/1FTHibwiM4bepiDpg4wXxyQjLeNeGoyWjCFimCBwgK/0P
- IotHKvtbeILYblRaNbtbPmiCyXtcHmTLs69Sri8m+8rKgR93StN302kNyXzkuXOInARO
- JYrABbr7GMuKXJO84wykYt/naenHc4lCWbh7VR/02+VaQM1PouJNOFPaC7RYXfp2Deay
- ylg5Z7ntFjz0hUCql397ZXSZlo3GbBr1F/ts6D5Iyuz8VUbkGYp9UY8vhAkzgP/FU13i
- s4MbRnpGiCjFh2zpEJqz1aMS1ycbtVb9vmjpSbarCR5TgLA2ekE1nkB658+uMLWBz4Aq
- AEuw==
+ bh=u9uKPWNzNLOY7VTU1g9/yQJr0QmghdK+v0pLVKAdyqA=;
+ b=bdS7zTCJVo2Fpi97pJ/a1kp2/MUtm/qcx88LDDB177sj1YJH66/o6fDRCv3xu07aCp
+ oEVQbBQb4/NjA7BY79e/+8vMhiCMecg8tN5uAOUUq1N56F63P6299NpoeV2q7CbKVQGG
+ yIcfRw16lDsHybX2iJyo8RaiL3461R/CTQ/vJi3dsXjxsKgJ3/PAsav/fwUTPEfLgtM9
+ WNyXUHUwqJ7FZ1ApjgBFs0m8Y1QuVMA36/ySmTlR+XueRrz+sVGVqnA/IcMROtGLAq8M
+ E8OLjMDsl2KIZcXeSHnO1ddaCooyhR9L907swt4moyW2xMlGnNGaL7DxaUiWJYzjLulz
+ c6mA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=PQjX/hJ8Xj+F0qXfJ1YqTt2l5LpKtjI08M8rVL/0QmY=;
- b=qGZum2npNd0Izb9lATEBfD3/qaQ5fFQ5KFHOv8fdbsDdSlx5HT1DHCbd0TEGqH9sgW
- rE0kF7mSkDlx7BIsDgEFKMHpczQcCyTiBFoDRm2GB89637StSmQ9E65r9XVZ8xzBlL9Y
- SJg7UAvu1hbi/Igrn3rcY7ZP9geL8SPQvW0SwjZs/KkrlsjhDrwwGc8Zhrkh+l9XJkeX
- tLSod6aq6ZHzr4Ei38TwZ23AoxyQXtZQOFZONcbL4mYC1hG3ESd/kDUFRPwdUY/VxKFc
- qutnxTEezg7ES7QlCMIWaRlaJdtyjCsyJcTTAuUzCYnwh825lWsLUch+ANYk/vloewBP
- gGBA==
-X-Gm-Message-State: AOAM533M0U8PngAOKY0Ph5JBbPKMAIzpmcxdt7S1+thsSDAA/PHxjhz4
- IxXpUokBCKJhpNLM2aybv8+FLlPu
-X-Google-Smtp-Source: ABdhPJy7omzwN2JjFfX54Zn9Q/u2CeHEpxxfTpNii8yzCvFn9uMQ3IpxmbnFzapXI8iqvbWRFKwFIQ==
-X-Received: by 2002:adf:a283:: with SMTP id s3mr21221673wra.147.1591606910756; 
- Mon, 08 Jun 2020 02:01:50 -0700 (PDT)
+ bh=u9uKPWNzNLOY7VTU1g9/yQJr0QmghdK+v0pLVKAdyqA=;
+ b=H8mH4piAKSauYxoQgYDYyonZxCLkZJTr5HlagG7DtprUPHl9dPiv2NQKJZlwhw+Q+b
+ oUCI6U7pNDobtfHsXHpp0cLg/MwITpVYMljkGcEDcb8SGbOfom5PMdBRPjhV6fM82AVK
+ O/NbC1bgLzjXdrri26kse+z8d1Fm/G4sBvjKaas+uzkdBO0MLsTwui1y8Js0uWGf5HfK
+ nNToesgAQMqPVFKevnGvN7wprTuH8k9Hleb4dfjAmrHhHHtLamcTF8z4f/hG7oBt1yAV
+ Nu9kAnNM40D7aq5BSPbQTvb9jIrFS7/u1X96j7oVSxbqTEuqct6qGAeVZX4tKmBet3bD
+ 1ngQ==
+X-Gm-Message-State: AOAM533+U0fUjThhI8oEoOmckdyLWSSx9yzsdTTNPGkBUVH4C4vIwiwH
+ vhvHmlTd/H1Xwz734rbh7p3XUg5z
+X-Google-Smtp-Source: ABdhPJw8CNZCF7ebhT/i5V+X1bVg2Y3MR0QPPhz3on6NToiZNyMKIyxTaFYearezr8WJANLwL+QymA==
+X-Received: by 2002:a5d:684d:: with SMTP id o13mr22295827wrw.364.1591606912395; 
+ Mon, 08 Jun 2020 02:01:52 -0700 (PDT)
 Received: from localhost.localdomain
  (181.red-88-10-103.dynamicip.rima-tde.net. [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id t8sm22192989wro.56.2020.06.08.02.01.49
+ by smtp.gmail.com with ESMTPSA id t8sm22192989wro.56.2020.06.08.02.01.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Jun 2020 02:01:49 -0700 (PDT)
+ Mon, 08 Jun 2020 02:01:51 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 3/8] MAINTAINERS: Mark SH4 TCG target orphan
-Date: Mon,  8 Jun 2020 11:01:37 +0200
-Message-Id: <20200608090142.6793-4-f4bug@amsat.org>
+Subject: [PATCH v2 4/8] hw/sh4: Use MemoryRegion typedef
+Date: Mon,  8 Jun 2020 11:01:38 +0200
+Message-Id: <20200608090142.6793-5-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200608090142.6793-1-f4bug@amsat.org>
 References: <20200608090142.6793-1-f4bug@amsat.org>
@@ -100,39 +100,40 @@ Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Aurelien Jarno expressed his desire to orphan the SH4 target [*]:
+Use the MemoryRegion type defined in "qemu/typedefs.h",
+to keep the repository style consistent.
 
-  I don't mind being [...] removed from there.
-  I do not really have time to work on that.
-
-Mark the SH4 TCG target orphan.
-
-Many thanks to Aurelien for his substantial contributions to QEMU,
-and for maintaining the SH4 TCG target for various years!
-
-[*] https://www.mail-archive.com/qemu-devel@nongnu.org/msg708400.html
-
-Message-Id: <20200601214125.GA1924990@aurel32.net>
-Acked-by: Aurelien Jarno <aurelien@aurel32.net>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20200504081653.14841-2-f4bug@amsat.org>
 ---
- MAINTAINERS | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ include/hw/sh4/sh.h | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index a012d9b74e..cd65bce72b 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -296,8 +296,7 @@ F: tests/tcg/s390x/
- L: qemu-s390x@nongnu.org
+diff --git a/include/hw/sh4/sh.h b/include/hw/sh4/sh.h
+index 767a2df7e2..fe773cb01d 100644
+--- a/include/hw/sh4/sh.h
++++ b/include/hw/sh4/sh.h
+@@ -10,9 +10,8 @@
  
- SH4 TCG CPUs
--M: Aurelien Jarno <aurelien@aurel32.net>
--S: Odd Fixes
-+S: Orphan
- F: target/sh4/
- F: disas/sh4.c
+ /* sh7750.c */
+ struct SH7750State;
+-struct MemoryRegion;
  
+-struct SH7750State *sh7750_init(SuperHCPU *cpu, struct MemoryRegion *sysmem);
++struct SH7750State *sh7750_init(SuperHCPU *cpu, MemoryRegion *sysmem);
+ 
+ typedef struct {
+     /* The callback will be triggered if any of the designated lines change */
+@@ -32,7 +31,7 @@ int sh7750_register_io_device(struct SH7750State *s,
+ #define TMU012_FEAT_TOCR   (1 << 0)
+ #define TMU012_FEAT_3CHAN  (1 << 1)
+ #define TMU012_FEAT_EXTCLK (1 << 2)
+-void tmu012_init(struct MemoryRegion *sysmem, hwaddr base,
++void tmu012_init(MemoryRegion *sysmem, hwaddr base,
+                  int feat, uint32_t freq,
+ 		 qemu_irq ch0_irq, qemu_irq ch1_irq,
+ 		 qemu_irq ch2_irq0, qemu_irq ch2_irq1);
 -- 
 2.21.3
 
