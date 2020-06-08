@@ -2,80 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DA1C1F1ACF
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 16:18:30 +0200 (CEST)
-Received: from localhost ([::1]:49712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 358751F1AD9
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 16:20:16 +0200 (CEST)
+Received: from localhost ([::1]:55068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jiIbc-0000ST-I6
-	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 10:18:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53196)
+	id 1jiIdL-0002m3-3g
+	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 10:20:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jiIZg-0007mR-0e; Mon, 08 Jun 2020 10:16:28 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:50987)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1jiIbU-00013Z-Qd; Mon, 08 Jun 2020 10:18:20 -0400
+Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:41452)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jiIZc-0004Je-4q; Mon, 08 Jun 2020 10:16:25 -0400
-Received: by mail-wm1-x343.google.com with SMTP id l17so4311099wmj.0;
- Mon, 08 Jun 2020 07:16:23 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1jiIbT-0004Te-5P; Mon, 08 Jun 2020 10:18:20 -0400
+Received: by mail-pg1-x532.google.com with SMTP id r10so8789295pgv.8;
+ Mon, 08 Jun 2020 07:18:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=nQPhz2+YJjCsPg8otnfDg7HceVgU+CdwJ3mFw2gnVCc=;
- b=Vn/bUxQ1xcQV7tS97fTg/0mPAIS8m/t/cEt9qQDqBg0wdQ8y0k/yPu9IVfuW26Xr43
- wpPjxjhfUWNWGr2jMTO/aZjVm8AFrFNhiT+QETES4XwJuKueJVlQYezCqWLlDuRT0+O4
- uHAueateN6Lc6H1rIC5p3TfEsoverMQ3cuqoHZu0MAQ1qAbANRzz962TIA6VzFnms/25
- gpSBm40EarVvNjmWJqGWYvbWIqKgRUrfwSQyU4Y5/cL25Vf9ftekfKFDXEMGtqfqkbHq
- WNM9BjSwTfhIhbN+7zCeRf+XVLlFITkIhR3IeTkYcJVTnjD74B8dGF8dnl+cv/SP/Kdk
- uNHA==
+ h=from:to:cc:subject:date:message-id;
+ bh=MPi6vTj4qaMjTAPVVPddeTzme+C9Ipmgwatea/EQioM=;
+ b=FCT0JH+XhC2zfKYSnkiswanmt0YIbA3C/MIlVXrJSK97VwKuVNFuM455HDOAQQqbFx
+ ulgPI3Lv8e+EchQFQTtiAd/IGydOfr/N5jkPDgRKkLmfkD5OUA/EeLqCu5/TzuOIUqLO
+ xwMp02qg0WYGDlcET7xePOFexSh5vjfg1QDzeKravePKSodPCHfjOebItwgJYShg7Zd9
+ 2rj9a552iy4fgKtV8i7rlNVSAG9ordBcB3NCW+iW+49wiGTOplhrsQpqiCNEeu+Efepk
+ esjWHYLYlMxYJkIYNd5+PFNSaV19+j5RpNzkUSlaePIXGmCGDBStzMbMyT0QLKMJ/oni
+ Ee0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=nQPhz2+YJjCsPg8otnfDg7HceVgU+CdwJ3mFw2gnVCc=;
- b=qCkx4j0m9cbmX9bhnm4Pz7VqF59OWoW9ij2QLbjuXmqzSav5SwHcuguXS71qQxYjpz
- hOYIC7DmEt1IOylzgcAlCCUbDDm119tSYqrRYnRfZTfFyRHAKtduQ7AyhNYt2mk01J+S
- vX/fOeum4fT1JsO/YeCaqAXwXNqLxLCY0fR8EHFs+YjNatpFuz9LysGJh5OrtWdGzJII
- 5tqO9AEFk5vh0flSbE9hKvMVH4ca3H3NX9P6Q5Dk79BeUNp2o38Zcf8xUWHHGMFT1kUM
- S7NH6Tv2b7ywNosjc0HxNyotbeBiFO/rGuA+8jHHsLT/sY+hQtflPuXJlpPU8VcREVUR
- U4vw==
-X-Gm-Message-State: AOAM530mftspJ7TKFaEiuw5qZvwd2Zlby8hfM0s1NJPE9Iw3td2sMmbP
- L9KcqSrimueK82UYCvQukKc=
-X-Google-Smtp-Source: ABdhPJwYlF0vPvTKeSACta2NaIpybHaUAKaUZEfn+Bi0azkkozPM8pvCZMkO93JHE3xtFSijqtS6XA==
-X-Received: by 2002:a1c:a74f:: with SMTP id q76mr17742538wme.65.1591625782334; 
- Mon, 08 Jun 2020 07:16:22 -0700 (PDT)
-Received: from [192.168.1.38] (181.red-88-10-103.dynamicip.rima-tde.net.
- [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id q8sm5290542wmq.1.2020.06.08.07.16.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 08 Jun 2020 07:16:21 -0700 (PDT)
-Subject: Re: [PATCH v2 02/24] display/xlnx_dp: Fix to realize "i2c-ddc" and
- "aux-to-i2c-bridge"
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <20200528110444.20456-1-armbru@redhat.com>
- <20200528110444.20456-3-armbru@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <a64bd91c-58b5-1438-a401-5d6c04441c67@amsat.org>
-Date: Mon, 8 Jun 2020 16:16:20 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
-MIME-Version: 1.0
-In-Reply-To: <20200528110444.20456-3-armbru@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=MPi6vTj4qaMjTAPVVPddeTzme+C9Ipmgwatea/EQioM=;
+ b=QjV5NwcyQcdeHInnURa7m02+OzJ+LDJtaa7GR2E0VwuzGyA0enc9Mzlg85ExQgJXOJ
+ 5uttf+1wk0sQRvfQHCO6adT9qYN30T3uOp4s818lM3iftL0HY47JW3bjDLpMLcs3lPfV
+ Eiw7BPFE9EYU+cbTgiYfJYPauF2rCbsRP7K4NqNho875P31HX28fvLgxojchSN+k2z0W
+ 4YCNupbLq674/CgWqZzvztqYwXXv8h/u7EjUscT/BIokK2PwtH/C6lsypf/NGIwXnVQZ
+ 61S6LY/XQh71F5KCkWnUSX0YwwsxIjPJaU1Qd46P1rNDiH9VbCmvGd/Sz09myWVEyfeg
+ lb6w==
+X-Gm-Message-State: AOAM531OTn43hx06+8ISCD0oukhKlib3WRsvC1UTsiFszaaeVN/JsIax
+ GNSadD2cVlUJ9vPXnywDMac=
+X-Google-Smtp-Source: ABdhPJxHA2QWIpl8P6p1cZ6m5j4ZizuOLOIwvtYa1jIVq8ueNU7O1IPYfgbjG68vicRUAhrHlHXKSA==
+X-Received: by 2002:a65:4908:: with SMTP id p8mr19994720pgs.214.1591625896731; 
+ Mon, 08 Jun 2020 07:18:16 -0700 (PDT)
+Received: from localhost.localdomain (unknown-224-80.windriver.com.
+ [147.11.224.80])
+ by smtp.gmail.com with ESMTPSA id b19sm7292575pft.74.2020.06.08.07.18.15
+ (version=TLS1 cipher=AES128-SHA bits=128/128);
+ Mon, 08 Jun 2020 07:18:16 -0700 (PDT)
+From: Bin Meng <bmeng.cn@gmail.com>
+To: Alistair Francis <Alistair.Francis@wdc.com>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Palmer Dabbelt <palmerdabbelt@google.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+Subject: [PATCH 00/15] hw/riscv: sifive_u: Add GPIO and Mode Select
+ (MSEL[3:0]) support
+Date: Mon,  8 Jun 2020 07:17:29 -0700
+Message-Id: <1591625864-31494-1-git-send-email-bmeng.cn@gmail.com>
+X-Mailer: git-send-email 1.7.1
+Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pg1-x532.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
@@ -90,70 +82,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>,
- Peter Maydell <peter.maydell@linaro.org>, berrange@redhat.com,
- ehabkost@redhat.com, Alistair Francis <alistair@alistair23.me>,
- qemu-arm@nongnu.org, Alistair Francis <alistair.francis@wdc.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, pbonzini@redhat.com,
- KONRAD Frederic <fred.konrad@greensocs.com>
+Cc: Bin Meng <bin.meng@windriver.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/28/20 1:04 PM, Markus Armbruster wrote:
-> xlnx_dp_init() creates these two devices, but they're never realized.
-> Affects machine xlnx-zcu102.
-> 
-> In theory, a device becomes real only on realize.  In practice, the
-> transition from unreal to real is a fuzzy one.  The work to make a
-> device real can be spread between realize methods (fine),
-> instance_init methods (wrong), and board code wiring up the device
-> (fine as long as it effectively happens on realize).  Depending on
-> what exactly is done where, a device can work even when we neglect to
-> realize it.
-> 
-> These two appear to work.  Nevertheless, it's a clear misuse of the
-> interface.  Even when it works today (more or less by chance), it can
-> break tomorrow.
-> 
-> Fix by realizing them in xlnx_dp_realize().
-> 
-> Fixes: 58ac482a66de09a7590f705e53fc6a3fb8a055e8
-> Cc: KONRAD Frederic <fred.konrad@greensocs.com>
-> Cc: Alistair Francis <alistair@alistair23.me>
-> Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-> Cc: Peter Maydell <peter.maydell@linaro.org>
-> Cc: qemu-arm@nongnu.org
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->  hw/display/xlnx_dp.c | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/hw/display/xlnx_dp.c b/hw/display/xlnx_dp.c
-> index 3e5fb44e06..bdc229a51e 100644
-> --- a/hw/display/xlnx_dp.c
-> +++ b/hw/display/xlnx_dp.c
-> @@ -1264,9 +1264,13 @@ static void xlnx_dp_realize(DeviceState *dev, Error **errp)
->      DisplaySurface *surface;
->      struct audsettings as;
->  
-> +    qdev_init_nofail(DEVICE(s->aux_bus->bridge));
+From: Bin Meng <bin.meng@windriver.com>
 
-Eh??? Why not realize the bridge in aux_init_bus()?
+This series updates the 'sifive_u' machine support:
 
-> +
->      qdev_init_nofail(DEVICE(s->dpcd));
->      aux_map_slave(AUX_SLAVE(s->dpcd), 0x0000);
->  
-> +    qdev_init_nofail(DEVICE(s->edid));
+- Add GPIO controller support
+- Support reboot functionality via GPIO pin#10
+- Change SiFive E/U series CPU reset vector to 0x1004
+- Support Mode Select (MSEL[3:0]) settings at 0x1000 via a new
+  "msel" machine property
+- Add a dummy DDR memory controller device
 
-This one is OK.
+The series also does some clean-ups to the existing codes.
 
-> +
->      s->console = graphic_console_init(dev, 0, &xlnx_dp_gfx_ops, s);
->      surface = qemu_console_surface(s->console);
->      xlnx_dpdma_set_host_data_location(s->dpdma, DP_GRAPHIC_DMA_CHANNEL,
-> 
+With this series, QEMU can boot U-Boot SPL built for SiFive FU540
+all the way up to loading U-Boot proper from MMC:
+
+$ qemu-system-riscv64 -nographic -M sifive_u,msel=6 -m 8G -bios u-boot-spl.bin
+
+U-Boot SPL 2020.07-rc3-00208-g88bd5b1 (Jun 08 2020 - 20:16:10 +0800)
+Trying to boot from MMC1
+Unhandled exception: Load access fault
+EPC: 0000000008009be6 TVAL: 0000000010050014
+
+The last big gap for the 'sifive_u' machine is the QSPI modeling.
+
+
+Bin Meng (15):
+  hw/riscv: sifive_e: Remove the riscv_ prefix of the machine* and soc*
+    functions
+  hw/riscv: opentitan: Remove the riscv_ prefix of the machine* and soc*
+    functions
+  hw/riscv: sifive_u: Simplify the GEM IRQ connect code a little bit
+  hw/riscv: sifive_u: Generate device tree node for OTP
+  hw/riscv: sifive_gpio: Clean up the codes
+  hw/riscv: sifive_gpio: Add a new 'ngpio' property
+  hw/riscv: sifive_u: Hook a GPIO controller
+  hw/riscv: sifive_gpio: Do not blindly trigger output IRQs
+  hw/riscv: sifive_u: Add reset functionality
+  hw/riscv: sifive_u: Rename serial property get/set functions to a
+    generic name
+  hw/riscv: sifive_u: Add a new property msel for MSEL pin state
+  hw/riscv: sifive: Change SiFive E/U CPU reset vector to 0x1004
+  hw/riscv: sifive_u: Support different boot source per MSEL pin state
+  hw/riscv: sifive_u: Sort the SoC memmap table entries
+  hw/riscv: sifive_u: Add a dummy DDR memory controller device
+
+ hw/riscv/opentitan.c           |  29 ++++----
+ hw/riscv/sifive_e.c            |  32 +++++----
+ hw/riscv/sifive_gpio.c         |  45 +++++++-----
+ hw/riscv/sifive_u.c            | 158 ++++++++++++++++++++++++++++++++++-------
+ include/hw/riscv/sifive_gpio.h |   8 ++-
+ include/hw/riscv/sifive_u.h    |  27 +++++++
+ target/riscv/cpu.c             |   4 +-
+ 7 files changed, 223 insertions(+), 80 deletions(-)
+
+-- 
+2.7.4
 
 
