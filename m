@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A7911F1F3B
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 20:46:00 +0200 (CEST)
-Received: from localhost ([::1]:36176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B40921F1F41
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 20:48:48 +0200 (CEST)
+Received: from localhost ([::1]:40534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jiMmV-0006jP-Jt
-	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 14:45:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57614)
+	id 1jiMpD-0000OH-QH
+	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 14:48:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jiMdx-0007if-Kx
- for qemu-devel@nongnu.org; Mon, 08 Jun 2020 14:37:09 -0400
-Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:35583)
+ id 1jiMdy-0007ky-Sd
+ for qemu-devel@nongnu.org; Mon, 08 Jun 2020 14:37:10 -0400
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:42444)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jiMdv-0001Wu-AY
- for qemu-devel@nongnu.org; Mon, 08 Jun 2020 14:37:09 -0400
-Received: by mail-pl1-x642.google.com with SMTP id q16so6998957plr.2
- for <qemu-devel@nongnu.org>; Mon, 08 Jun 2020 11:37:06 -0700 (PDT)
+ id 1jiMdw-0001XK-Q7
+ for qemu-devel@nongnu.org; Mon, 08 Jun 2020 14:37:10 -0400
+Received: by mail-pg1-x542.google.com with SMTP id e9so9116695pgo.9
+ for <qemu-devel@nongnu.org>; Mon, 08 Jun 2020 11:37:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=9kKsrc4DOI6Wr8yYNYKXoTwwxZi1qcG2sxUWYFambRA=;
- b=mJntbXWxehe4JtFVkEi4sAeIi3567M0Hro81iUzPO8W5llJit+EBmB9IDcY6/jswl8
- 2BL7t3/BoDNTu0rAUx7tFm3iuVHNtNWZFt+heVgLPKEHJ5/979xPv8mm+a+ldkmWRyWQ
- o3R0yfs7FyWNvGMX6zzDYSlMcWS1H2DqGZVTBshTzzxTLcBqa79Cb6GPSR/xrYno9noi
- MqsJshjAuK94KTE2zO9dx4T8MPBoHJSD6iVSlLzLdfH3bq+JiQrex7QgA4OMtpCQy6fq
- fVkp+2tJ1FRwrB9rHEK7DGkh7fxRulwVDOQJoO+5L1l+RpACksR6kYL3KlqJ7FDmZUBo
- Kfpw==
+ bh=8qc6oDN4Zl6MEuNRZIzxS7SMNWB7rYpnfgGgJ3Ds2L8=;
+ b=GVS1zey+JiL1DezhHOb5u5mzona8AwUJxPYKELcvwr+RlFs/gYu+4BrPnxh1KWT/NG
+ o1OepK57+v5GRiOwNTYfnmR2Xk7cKaxICELRh/EPSlR4YWwpBmFV9SMk9qxZjTTz0ljb
+ Ua43K6UQMIfuY8vizwrkWq1ZZEJvnl1rdmsU0VsWX79ACFSDvTqjJ8e4OxlvNtan4+ow
+ 77idhvmfENzlWeZMBkDM9pkf8+V6GasxrwCERR84iGbb2KnyDooo5FKH+eaCdovEBnVY
+ ixvvsaLdI8VSZdqS/Ymxnuxb852BAQ7u81Hp+ANMq9kM9ACxAEIYbuwSk0EX2dqxXBwC
+ l8Cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9kKsrc4DOI6Wr8yYNYKXoTwwxZi1qcG2sxUWYFambRA=;
- b=rnPTHf0GuA4cFazNk7+yQV05ZbC0jjTrN0A1QJg9S4THMJV1EI+dQSkJLAWeIiwRAh
- 0yX3Xr4IUaRgB2r7OPvuMAvbIDrbkjD1rKsnmMtgonFwOFVUTng7Xh04iLXOWAr6P6UM
- mrwxbt9JOFapb6EdR+Efv66IyFslD5aHpPYT2ByrnPoT4uJXuapHd2lqrsMIhoruMg3S
- kkzm5TVjf+aB/vI1DrhP69dGfgmtFNLuQwmP4U1NO2Hfr++FEfrkz0E24tpP3DoMO+c/
- 2KA+sGnKyPGwXtCqFDnM17W7nRmGrIrYI6Adirr+uAVyAksGX/blswdC7VefhMVak0ke
- fj4Q==
-X-Gm-Message-State: AOAM532jTKaI17M0tLwMSM3DSOQ8/mILMEdDmbPtWgdDUpLo40wbyMr7
- X9SZyvBRzZHwKLbiC5zWxoWT07bwaj4=
-X-Google-Smtp-Source: ABdhPJwnQFnTAB/e32oSRJGyEVOKigc5hyfThJSpVGu1NEUFRgRZrePU4Hkwsx21cW4wJpHVEhZDdw==
-X-Received: by 2002:a17:902:bb85:: with SMTP id m5mr128440pls.23.1591641425596; 
- Mon, 08 Jun 2020 11:37:05 -0700 (PDT)
+ bh=8qc6oDN4Zl6MEuNRZIzxS7SMNWB7rYpnfgGgJ3Ds2L8=;
+ b=Bf3ZLwj6yMkfsG52eXU5OyjmgNfcng6213TXUgFOYYlUnHJnazUx/TWcG2v2jLivJg
+ YFTafWFv8259zBdY6eD93V8co7HsqaILroQNRN/bBqnmhMP+rcTmTha9NQ36EGSsxJ9B
+ GTW2PbZXfHuyqoF+GkJS8oX8/r9xEtxvBXFYeTS/LhAnI0tbG5lnsATrgW2BpEdYDuSo
+ NZw2S+yonkPxT6MBZbvssXEh8zYe7a5KLvz3lX3ven7UfenKOt2ucGrKiZRe7D+NTG5M
+ 6r4cGEKdSIIg6XlPLIxX81rJ2D4xiGNVWF4/j0fMJ99A3S1zlXi1XBU0Rtziak0XcFW6
+ I++Q==
+X-Gm-Message-State: AOAM533K4b1z/Wa3/vCuUTEHQBr2Ir+NTZy5pQ/TShRRFyqxCs5OVmPV
+ IW+6ZATKEsl/kzwUeBQCGDZR6XEMLU0=
+X-Google-Smtp-Source: ABdhPJwsxJGeSo1UaST1KY4QTHnLdKlq7Zawhpl/iOtDdv+SB5G9anEMdepoJRot9cR8DAOMbz7KRw==
+X-Received: by 2002:a65:51c7:: with SMTP id i7mr21553265pgq.382.1591641427019; 
+ Mon, 08 Jun 2020 11:37:07 -0700 (PDT)
 Received: from localhost.localdomain (174-21-143-238.tukw.qwest.net.
  [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id i22sm7854235pfo.92.2020.06.08.11.37.04
+ by smtp.gmail.com with ESMTPSA id i22sm7854235pfo.92.2020.06.08.11.37.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Jun 2020 11:37:04 -0700 (PDT)
+ Mon, 08 Jun 2020 11:37:06 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 8/9] decodetree: Drop check for less than 2 patterns in a
- group
-Date: Mon,  8 Jun 2020 11:36:51 -0700
-Message-Id: <20200608183652.661386-9-richard.henderson@linaro.org>
+Subject: [PATCH v3 9/9] target/arm: Use a non-overlapping group for misc
+ control
+Date: Mon,  8 Jun 2020 11:36:52 -0700
+Message-Id: <20200608183652.661386-10-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200608183652.661386-1-richard.henderson@linaro.org>
 References: <20200608183652.661386-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::642;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x642.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::542;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x542.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -86,56 +87,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: peter.maydell@linaro.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-While it makes little sense for the end product to have a group
-containing only a single pattern, avoiding this case within an
-incremental patch set is troublesome.
+The miscellaneous control instructions are mutually exclusive
+within the t32 decode sub-group.
 
-Because this is expected to be a transient condition, do not
-bother "optimizing" this case, e.g. by folding away the group.
-
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tests/decode/succ_pattern_group_nest4.decode | 13 +++++++++++++
- scripts/decodetree.py                        |  2 --
- 2 files changed, 13 insertions(+), 2 deletions(-)
- create mode 100644 tests/decode/succ_pattern_group_nest4.decode
+ target/arm/t32.decode | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/tests/decode/succ_pattern_group_nest4.decode b/tests/decode/succ_pattern_group_nest4.decode
-new file mode 100644
-index 0000000000..dc54a1d285
---- /dev/null
-+++ b/tests/decode/succ_pattern_group_nest4.decode
-@@ -0,0 +1,13 @@
-+# This work is licensed under the terms of the GNU LGPL, version 2 or later.
-+# See the COPYING.LIB file in the top-level directory.
-+
-+# Verify deeper nesting, and a single element in the groups.
-+{
-+  [
-+    {
-+      [
-+        sub1  00000000 a:8 b:8 c:8
-+      ]
-+    }
-+  ]
-+}
-diff --git a/scripts/decodetree.py b/scripts/decodetree.py
-index 7e3b1d1399..530d41ca62 100755
---- a/scripts/decodetree.py
-+++ b/scripts/decodetree.py
-@@ -1024,8 +1024,6 @@ def parse_file(f, parent_pat):
-         if name == '}' or name == ']':
-             if len(toks) != 0:
-                 error(start_lineno, 'extra tokens after close brace')
--            if len(parent_pat.pats) < 2:
--                error(lineno, 'less than two patterns within braces')
+diff --git a/target/arm/t32.decode b/target/arm/t32.decode
+index c63082fc9c..c21a988f97 100644
+--- a/target/arm/t32.decode
++++ b/target/arm/t32.decode
+@@ -312,13 +312,13 @@ CLZ              1111 1010 1011 ---- 1111 .... 1000 ....      @rdm
+                  &cps
  
-             # Make sure { } and [ ] nest properly.
-             if (name == '}') != isinstance(parent_pat, IncMultiPattern):
+     # Miscellaneous control
+-    {
++    [
+       CLREX      1111 0011 1011 1111 1000 1111 0010 1111
+       DSB        1111 0011 1011 1111 1000 1111 0100 ----
+       DMB        1111 0011 1011 1111 1000 1111 0101 ----
+       ISB        1111 0011 1011 1111 1000 1111 0110 ----
+       SB         1111 0011 1011 1111 1000 1111 0111 0000
+-    }
++    ]
+ 
+     # Note that the v7m insn overlaps both the normal and banked insn.
+     {
 -- 
 2.25.1
 
