@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 217E81F1809
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 13:43:00 +0200 (CEST)
-Received: from localhost ([::1]:34580 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DCC21F1806
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 13:42:46 +0200 (CEST)
+Received: from localhost ([::1]:33930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jiGB9-0001nL-4R
-	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 07:42:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33532)
+	id 1jiGAu-0001XH-P8
+	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 07:42:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leif@nuviainc.com>) id 1jiG8p-00087y-2g
- for qemu-devel@nongnu.org; Mon, 08 Jun 2020 07:40:35 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:34099)
+ (Exim 4.90_1) (envelope-from <leif@nuviainc.com>) id 1jiG8q-0008A0-N5
+ for qemu-devel@nongnu.org; Mon, 08 Jun 2020 07:40:36 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:34832)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <leif@nuviainc.com>) id 1jiG8n-0003ch-2E
- for qemu-devel@nongnu.org; Mon, 08 Jun 2020 07:40:34 -0400
-Received: by mail-wr1-x441.google.com with SMTP id r7so17042793wro.1
- for <qemu-devel@nongnu.org>; Mon, 08 Jun 2020 04:40:32 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <leif@nuviainc.com>) id 1jiG8o-0003cp-2P
+ for qemu-devel@nongnu.org; Mon, 08 Jun 2020 07:40:36 -0400
+Received: by mail-wr1-x443.google.com with SMTP id x14so17035828wrp.2
+ for <qemu-devel@nongnu.org>; Mon, 08 Jun 2020 04:40:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=nuviainc-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=V2TSsHVRZv5n6nm4rd17wgB0vrMj5AgJjY7Tq8D4v7E=;
- b=XFg1V4fZYjjfguvr9MNLuyck1yG+0Hb7wzfa14c2/wyF9unIy2e0ghtwAIqhRhXXU2
- 43YKuKn+AcYawMqkdofiH/ykZYphdHN6Z4ZuRGdbVvQSIG5Y+Pdl34P0DODLQhn1tUSf
- pGk2hgUsHSmns/0lNL8jQXbbc0j2fUZXpTwZPhkjidrRCwjWZsrMcvuiB2sEGxH3/TQN
- reExKqBEptWPHiAOOcmgFYAnLHPOEU/d4kBDh/pSRoPL0ZTrtByNfzhwm1pxW4Omwc+o
- P6tXdS6v4k7yI8+7t/aRHiKdjamuNrvSaYy2d4o3BzYPwzu5fkAqDqB+kd732h8R4H53
- RRVg==
+ bh=SqEHPj5/7yKmZbglnKx9kFc1Hk0EXHLh/szKX1ymrZA=;
+ b=INroFdEcYSUiR+dSMOLntZ8DopUYVrXYTxuQE+FcN2BIhZgqb05AT2fSp6XiSHPdr9
+ GynAPqOJj8L2DgsVGaSST4WYF5XzuyD38hvnJ7aVQd6qrUF29E8h1lOwgdk/FYyrCdxS
+ 6PuIsoXJJ55ShroWq2gHIVZuQcHtOJ9w6YrTcN2nPZYNNE1cHnd4KVdXkEj7X2p0TpST
+ LpqnIK5XxeSsITXOSOBx1rx+tywnNSa2Jp8+PEMzEbRMT8W7tt8NtyMrRENXSnjqBgyf
+ VV8T77J26P3D8bhkThD4Imy8fsZRZ6JdcynuAcE/6TWETiM010/bZNbtGCOmpHWGiQio
+ rG/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=V2TSsHVRZv5n6nm4rd17wgB0vrMj5AgJjY7Tq8D4v7E=;
- b=TBYxXL0GQ89pX14qhRrUqOFmU7/PbWsTQzkX/rUw1vo9LofaY5kHyTsXDfM/nc1KSm
- fNEAKg08OAMNftgdPpdgoGb6XLFm/QrV3IqV/qxEyG3uLIxeD8P/bL9/UCyTLdfB0uei
- a1sshvwBhA6SaBTNIzgQll70RgqVU8fOwqZ3hAM3zrXP4fG4ZNSjLBoEATQymbhBwwJs
- kRdMM1A873De1AJmqT2hfRcbBzLOroxf/CyCuOmQMW4PnHUE46/G2kFAe1Kf2w8TP0ur
- zaXHU+tHPKsFSB2RGwB2UBbhzarbcpAXrdyBdKHnpANpLu14igcVxAUOo5wweJcpuW+Q
- raFA==
-X-Gm-Message-State: AOAM531bIgXmr3KHqJDUa8/0Itlz40t5CyquLgzO5aFmi9M9Optljyer
- ACES4cmJeWLK4Ri64K3pfjrUB1+KGoichuQcUqPc9BolbUOy3cvltf2ihGbQcdSfWUs1Dv9EPaP
- WTDv8RHBDwEVauEhUnsdqJ7aMwHRC8aLex9hYFs7Ee9qvmMiQwF5YlgAaTBqXyOLq
-X-Google-Smtp-Source: ABdhPJymsjJm917aEJtm9K5EcUiGiikvasFd5PKmpW40SN+naA031/zpsLD4uQI0LPb82odE+IPXFg==
-X-Received: by 2002:adf:de84:: with SMTP id w4mr23496358wrl.54.1591616431157; 
- Mon, 08 Jun 2020 04:40:31 -0700 (PDT)
+ bh=SqEHPj5/7yKmZbglnKx9kFc1Hk0EXHLh/szKX1ymrZA=;
+ b=lC+4te841sXh+iF9AcI9WP3IkR5EYacRTKhMWFSRB4mRQM/Jd2AMWAp0Fr8imeUXyo
+ qDtW6ORib4jb8QZRX4U5aup+T0lo3q7NC2cPJPyKirxRURC1KQ/McjEvBz4QaGFN5aYw
+ qCFlYGOBSytNp7AOEy7J82zGz3YhmpaVc7Whzpluwxr/jp1Rw0ZyZWdUdrAF8BqW+q13
+ 1kdffYdFyJK6ZCVSn+ZpSpeGVzrSUFJ3efIALHyr9MjX6NlcFMBRMAS/qLmbUWhFbIMp
+ XOBfkOTeM1+Uh4hWHWA50L6w7Osiu9m4+5TTNd6yoh5eOfipQt9zz12gKUxI/rP+Q65M
+ JHrQ==
+X-Gm-Message-State: AOAM530qoocB3I9M0yYHYWI7VbDSSppjbv3ADsVtjXyWg7sjh/rso3eK
+ ffRMPd+vseymt62wzKi+fgSNms4zinROXadPZNyuA/yBz3ZdHtQ6ml/nD4ioKWkhMXoXuZ/ykQ2
+ 2ufcvtxwuTimVpxtakbdo/hnAtGtZYet5AOtXUJUBhgrqW4CG1Gb8URYZeptgzkUy
+X-Google-Smtp-Source: ABdhPJxqRpqtIh+E2hxCOptwRaOcE3opQgJr1WxGGeNxJ8B3EeVZd/YcE+5edkmwCFyd+sHvlCoqtA==
+X-Received: by 2002:adf:fd4f:: with SMTP id h15mr22724826wrs.397.1591616432096; 
+ Mon, 08 Jun 2020 04:40:32 -0700 (PDT)
 Received: from vanye.hemma.eciton.net
  (cpc92302-cmbg19-2-0-cust304.5-4.cable.virginm.net. [82.1.209.49])
- by smtp.gmail.com with ESMTPSA id y5sm24225932wrs.63.2020.06.08.04.40.30
+ by smtp.gmail.com with ESMTPSA id y5sm24225932wrs.63.2020.06.08.04.40.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Jun 2020 04:40:30 -0700 (PDT)
+ Mon, 08 Jun 2020 04:40:31 -0700 (PDT)
 From: Leif Lindholm <leif@nuviainc.com>
 To: QEMU Developers <qemu-devel@nongnu.org>
-Subject: [RFC PATCH 1/3] target/arm: commonalize aarch64 cpu init
-Date: Mon,  8 Jun 2020 12:40:26 +0100
-Message-Id: <20200608114028.25345-2-leif@nuviainc.com>
+Subject: [RFC PATCH 2/3] target/arm: move cpu64 cortex processor common init
+ settings to function
+Date: Mon,  8 Jun 2020 12:40:27 +0100
+Message-Id: <20200608114028.25345-3-leif@nuviainc.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200608114028.25345-1-leif@nuviainc.com>
 References: <20200608114028.25345-1-leif@nuviainc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=leif@nuviainc.com; helo=mail-wr1-x441.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=leif@nuviainc.com; helo=mail-wr1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -18
@@ -89,125 +90,173 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some basic options will be set by all aarch64 platforms.
-Break those out into a separate aarch64_cpu_common_init function, which
-also takes implementer, partnum, variant, and revision as arguments to
-set up MIDR.
+Move the id register initializations identical between the platforms in
+this file into a standalone helper function, and change the cpu-specific
 
-Invoke this to remove duplication between a57/a53/a72 init.
+The value of mmfr0 set for a57 and a53 violates the ARM architecture
+reference manual, but matches the values set in actual hardware r1p0 a57
+and r0p4 a53. The function sets the architectually correct value, and the
+a57/a53 init functions override it after the fact.
 
 Signed-off-by: Leif Lindholm <leif@nuviainc.com>
 ---
- target/arm/cpu-qom.h |  3 +++
- target/arm/cpu64.c   | 46 ++++++++++++++++++++++++--------------------
- 2 files changed, 28 insertions(+), 21 deletions(-)
+ target/arm/cpu64.c | 107 ++++++++++++++-------------------------------
+ 1 file changed, 34 insertions(+), 73 deletions(-)
 
-diff --git a/target/arm/cpu-qom.h b/target/arm/cpu-qom.h
-index 56395b87f6..48f6303308 100644
---- a/target/arm/cpu-qom.h
-+++ b/target/arm/cpu-qom.h
-@@ -44,6 +44,9 @@ typedef struct ARMCPUInfo {
- void arm_cpu_register(const ARMCPUInfo *info);
- void aarch64_cpu_register(const ARMCPUInfo *info);
- 
-+void aarch64_cpu_common_init(Object *obj, uint8_t impl, uint16_t part,
-+                             uint8_t var, uint8_t rev);
-+
- /**
-  * ARMCPUClass:
-  * @parent_realize: The parent class' realize handler.
 diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index cbc5c3868f..79786e034f 100644
+index 79786e034f..9927c1f75d 100644
 --- a/target/arm/cpu64.c
 +++ b/target/arm/cpu64.c
-@@ -29,6 +29,8 @@
- #include "kvm_arm.h"
- #include "qapi/visitor.h"
- 
-+#define MIDR_IMPLEMENTER_ARM 0x41
-+
- #ifndef CONFIG_USER_ONLY
- static uint64_t a57_a53_l2ctlr_read(CPUARMState *env, const ARMCPRegInfo *ri)
- {
-@@ -86,11 +88,19 @@ static const ARMCPRegInfo cortex_a72_a57_a53_cp_reginfo[] = {
+@@ -88,6 +88,35 @@ static const ARMCPRegInfo cortex_a72_a57_a53_cp_reginfo[] = {
      REGINFO_SENTINEL
  };
  
--static void aarch64_a57_initfn(Object *obj)
-+void aarch64_cpu_common_init(Object *obj, uint8_t impl, uint16_t part,
-+                             uint8_t var, uint8_t rev)
- {
-     ARMCPU *cpu = ARM_CPU(obj);
-+    uint64_t t;
-+
-+    t = FIELD_DP64(0, MIDR_EL1, IMPLEMENTER, impl);
-+    t = FIELD_DP64(t, MIDR_EL1, ARCHITECTURE, 0xf);
-+    t = FIELD_DP64(t, MIDR_EL1, PARTNUM, part);
-+    t = FIELD_DP64(t, MIDR_EL1, VARIANT, var);
-+    t = FIELD_DP64(t, MIDR_EL1, REVISION, rev);
-+    cpu->midr = t;
- 
--    cpu->dtb_compatible = "arm,cortex-a57";
-     set_feature(&cpu->env, ARM_FEATURE_V8);
-     set_feature(&cpu->env, ARM_FEATURE_NEON);
-     set_feature(&cpu->env, ARM_FEATURE_GENERIC_TIMER);
-@@ -99,8 +109,16 @@ static void aarch64_a57_initfn(Object *obj)
-     set_feature(&cpu->env, ARM_FEATURE_EL2);
-     set_feature(&cpu->env, ARM_FEATURE_EL3);
-     set_feature(&cpu->env, ARM_FEATURE_PMU);
++static void cortex_a72_a57_a53_common_init(ARMCPU *cpu)
++{
++    cpu->revidr = 0x00000000;
++    cpu->isar.mvfr0 = 0x10110222;
++    cpu->isar.mvfr1 = 0x12111111;
++    cpu->isar.mvfr2 = 0x00000043;
++    cpu->reset_sctlr = 0x00c50838;
++    cpu->id_pfr0 = 0x00000131;
++    cpu->id_pfr1 = 0x00011011;
++    cpu->isar.id_dfr0 = 0x03010066;
++    cpu->id_afr0 = 0x00000000;
++    cpu->isar.id_mmfr0 = 0x10201105;
++    cpu->isar.id_mmfr1 = 0x40000000;
++    cpu->isar.id_mmfr2 = 0x01260000;
++    cpu->isar.id_mmfr3 = 0x02102211;
++    cpu->isar.id_isar0 = 0x02101110;
++    cpu->isar.id_isar1 = 0x13112111;
++    cpu->isar.id_isar2 = 0x21232042;
++    cpu->isar.id_isar3 = 0x01112131;
++    cpu->isar.id_isar4 = 0x00011142;
++    cpu->isar.id_isar5 = 0x00011121;
++    cpu->isar.id_isar6 = 0;
++    cpu->isar.id_aa64pfr0 = 0x00002222;
++    cpu->isar.id_aa64dfr0 = 0x10305106;
++    cpu->isar.id_aa64isar0 = 0x00011120;
++    cpu->isar.id_aa64mmfr0 = 0x00001124;
++    cpu->isar.dbgdidr = 0x3516d000;
 +}
 +
-+static void aarch64_a57_initfn(Object *obj)
-+{
-+    ARMCPU *cpu = ARM_CPU(obj);
-+
-+    aarch64_cpu_common_init(obj, MIDR_IMPLEMENTER_ARM, 0xd07, 1, 0);
-+
-+    cpu->dtb_compatible = "arm,cortex-a57";
+ void aarch64_cpu_common_init(Object *obj, uint8_t impl, uint16_t part,
+                              uint8_t var, uint8_t rev)
+ {
+@@ -116,36 +145,13 @@ static void aarch64_a57_initfn(Object *obj)
+     ARMCPU *cpu = ARM_CPU(obj);
+ 
+     aarch64_cpu_common_init(obj, MIDR_IMPLEMENTER_ARM, 0xd07, 1, 0);
++    cortex_a72_a57_a53_common_init(cpu);
+ 
+     cpu->dtb_compatible = "arm,cortex-a57";
      cpu->kvm_target = QEMU_KVM_ARM_TARGET_CORTEX_A57;
--    cpu->midr = 0x411fd070;
-     cpu->revidr = 0x00000000;
+-    cpu->revidr = 0x00000000;
      cpu->reset_fpsid = 0x41034070;
-     cpu->isar.mvfr0 = 0x10110222;
-@@ -143,17 +161,10 @@ static void aarch64_a53_initfn(Object *obj)
- {
+-    cpu->isar.mvfr0 = 0x10110222;
+-    cpu->isar.mvfr1 = 0x12111111;
+-    cpu->isar.mvfr2 = 0x00000043;
+     cpu->ctr = 0x8444c004;
+-    cpu->reset_sctlr = 0x00c50838;
+-    cpu->id_pfr0 = 0x00000131;
+-    cpu->id_pfr1 = 0x00011011;
+-    cpu->isar.id_dfr0 = 0x03010066;
+-    cpu->id_afr0 = 0x00000000;
+-    cpu->isar.id_mmfr0 = 0x10101105;
+-    cpu->isar.id_mmfr1 = 0x40000000;
+-    cpu->isar.id_mmfr2 = 0x01260000;
+-    cpu->isar.id_mmfr3 = 0x02102211;
+-    cpu->isar.id_isar0 = 0x02101110;
+-    cpu->isar.id_isar1 = 0x13112111;
+-    cpu->isar.id_isar2 = 0x21232042;
+-    cpu->isar.id_isar3 = 0x01112131;
+-    cpu->isar.id_isar4 = 0x00011142;
+-    cpu->isar.id_isar5 = 0x00011121;
+-    cpu->isar.id_isar6 = 0;
+-    cpu->isar.id_aa64pfr0 = 0x00002222;
+-    cpu->isar.id_aa64dfr0 = 0x10305106;
+-    cpu->isar.id_aa64isar0 = 0x00011120;
+-    cpu->isar.id_aa64mmfr0 = 0x00001124;
+-    cpu->isar.dbgdidr = 0x3516d000;
++    cpu->isar.id_mmfr0 = 0x10101105; /* Match documented value for r1p0 */
+     cpu->clidr = 0x0a200023;
+     cpu->ccsidr[0] = 0x701fe00a; /* 32KB L1 dcache */
+     cpu->ccsidr[1] = 0x201fe012; /* 48KB L1 icache */
+@@ -162,36 +168,14 @@ static void aarch64_a53_initfn(Object *obj)
      ARMCPU *cpu = ARM_CPU(obj);
  
-+    aarch64_cpu_common_init(obj, MIDR_IMPLEMENTER_ARM, 0xd03, 0, 4);
-+
+     aarch64_cpu_common_init(obj, MIDR_IMPLEMENTER_ARM, 0xd03, 0, 4);
++    cortex_a72_a57_a53_common_init(cpu);
+ 
      cpu->dtb_compatible = "arm,cortex-a53";
--    set_feature(&cpu->env, ARM_FEATURE_V8);
--    set_feature(&cpu->env, ARM_FEATURE_NEON);
--    set_feature(&cpu->env, ARM_FEATURE_GENERIC_TIMER);
--    set_feature(&cpu->env, ARM_FEATURE_AARCH64);
--    set_feature(&cpu->env, ARM_FEATURE_CBAR_RO);
--    set_feature(&cpu->env, ARM_FEATURE_EL2);
--    set_feature(&cpu->env, ARM_FEATURE_EL3);
--    set_feature(&cpu->env, ARM_FEATURE_PMU);
      cpu->kvm_target = QEMU_KVM_ARM_TARGET_CORTEX_A53;
--    cpu->midr = 0x410fd034;
-     cpu->revidr = 0x00000000;
+-    cpu->revidr = 0x00000000;
      cpu->reset_fpsid = 0x41034070;
-     cpu->isar.mvfr0 = 0x10110222;
-@@ -196,16 +207,9 @@ static void aarch64_a72_initfn(Object *obj)
- {
+-    cpu->isar.mvfr0 = 0x10110222;
+-    cpu->isar.mvfr1 = 0x12111111;
+-    cpu->isar.mvfr2 = 0x00000043;
+     cpu->ctr = 0x84448004; /* L1Ip = VIPT */
+-    cpu->reset_sctlr = 0x00c50838;
+-    cpu->id_pfr0 = 0x00000131;
+-    cpu->id_pfr1 = 0x00011011;
+-    cpu->isar.id_dfr0 = 0x03010066;
+-    cpu->id_afr0 = 0x00000000;
+-    cpu->isar.id_mmfr0 = 0x10101105;
+-    cpu->isar.id_mmfr1 = 0x40000000;
+-    cpu->isar.id_mmfr2 = 0x01260000;
+-    cpu->isar.id_mmfr3 = 0x02102211;
+-    cpu->isar.id_isar0 = 0x02101110;
+-    cpu->isar.id_isar1 = 0x13112111;
+-    cpu->isar.id_isar2 = 0x21232042;
+-    cpu->isar.id_isar3 = 0x01112131;
+-    cpu->isar.id_isar4 = 0x00011142;
+-    cpu->isar.id_isar5 = 0x00011121;
+-    cpu->isar.id_isar6 = 0;
+-    cpu->isar.id_aa64pfr0 = 0x00002222;
+-    cpu->isar.id_aa64dfr0 = 0x10305106;
+-    cpu->isar.id_aa64isar0 = 0x00011120;
++    cpu->isar.id_mmfr0 = 0x10101105; /* Match documented value for r0p4 */
+     cpu->isar.id_aa64mmfr0 = 0x00001122; /* 40 bit physical addr */
+-    cpu->isar.dbgdidr = 0x3516d000;
+     cpu->clidr = 0x0a200023;
+     cpu->ccsidr[0] = 0x700fe01a; /* 32KB L1 dcache */
+     cpu->ccsidr[1] = 0x201fe00a; /* 32KB L1 icache */
+@@ -208,34 +192,11 @@ static void aarch64_a72_initfn(Object *obj)
      ARMCPU *cpu = ARM_CPU(obj);
  
-+    aarch64_cpu_common_init(obj, MIDR_IMPLEMENTER_ARM, 0xd08, 0, 3);
-+
+     aarch64_cpu_common_init(obj, MIDR_IMPLEMENTER_ARM, 0xd08, 0, 3);
++    cortex_a72_a57_a53_common_init(cpu);
+ 
      cpu->dtb_compatible = "arm,cortex-a72";
--    set_feature(&cpu->env, ARM_FEATURE_V8);
--    set_feature(&cpu->env, ARM_FEATURE_NEON);
--    set_feature(&cpu->env, ARM_FEATURE_GENERIC_TIMER);
--    set_feature(&cpu->env, ARM_FEATURE_AARCH64);
--    set_feature(&cpu->env, ARM_FEATURE_CBAR_RO);
--    set_feature(&cpu->env, ARM_FEATURE_EL2);
--    set_feature(&cpu->env, ARM_FEATURE_EL3);
--    set_feature(&cpu->env, ARM_FEATURE_PMU);
--    cpu->midr = 0x410fd083;
-     cpu->revidr = 0x00000000;
+-    cpu->revidr = 0x00000000;
      cpu->reset_fpsid = 0x41034080;
-     cpu->isar.mvfr0 = 0x10110222;
+-    cpu->isar.mvfr0 = 0x10110222;
+-    cpu->isar.mvfr1 = 0x12111111;
+-    cpu->isar.mvfr2 = 0x00000043;
+     cpu->ctr = 0x8444c004;
+-    cpu->reset_sctlr = 0x00c50838;
+-    cpu->id_pfr0 = 0x00000131;
+-    cpu->id_pfr1 = 0x00011011;
+-    cpu->isar.id_dfr0 = 0x03010066;
+-    cpu->id_afr0 = 0x00000000;
+-    cpu->isar.id_mmfr0 = 0x10201105;
+-    cpu->isar.id_mmfr1 = 0x40000000;
+-    cpu->isar.id_mmfr2 = 0x01260000;
+-    cpu->isar.id_mmfr3 = 0x02102211;
+-    cpu->isar.id_isar0 = 0x02101110;
+-    cpu->isar.id_isar1 = 0x13112111;
+-    cpu->isar.id_isar2 = 0x21232042;
+-    cpu->isar.id_isar3 = 0x01112131;
+-    cpu->isar.id_isar4 = 0x00011142;
+-    cpu->isar.id_isar5 = 0x00011121;
+-    cpu->isar.id_aa64pfr0 = 0x00002222;
+-    cpu->isar.id_aa64dfr0 = 0x10305106;
+-    cpu->isar.id_aa64isar0 = 0x00011120;
+-    cpu->isar.id_aa64mmfr0 = 0x00001124;
+-    cpu->isar.dbgdidr = 0x3516d000;
+     cpu->clidr = 0x0a200023;
+     cpu->ccsidr[0] = 0x701fe00a; /* 32KB L1 dcache */
+     cpu->ccsidr[1] = 0x201fe012; /* 48KB L1 icache */
 -- 
 2.20.1
 
