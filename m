@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDC0C1F1CDD
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 18:06:29 +0200 (CEST)
-Received: from localhost ([::1]:53170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC2E01F1CFB
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 18:10:48 +0200 (CEST)
+Received: from localhost ([::1]:41340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jiKI8-0001WU-Cb
-	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 12:06:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37612)
+	id 1jiKMJ-000069-MR
+	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 12:10:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jiKCy-00060E-4T
- for qemu-devel@nongnu.org; Mon, 08 Jun 2020 12:01:10 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:41072
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jiKDF-00068t-Sn
+ for qemu-devel@nongnu.org; Mon, 08 Jun 2020 12:01:26 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:26205
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jiKCv-0007Sg-4B
- for qemu-devel@nongnu.org; Mon, 08 Jun 2020 12:01:07 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jiKDD-0007cS-RJ
+ for qemu-devel@nongnu.org; Mon, 08 Jun 2020 12:01:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591632062;
+ s=mimecast20190719; t=1591632082;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5qtqeym41wYPVUNcQP0hBuZd3ZN8CptiJr597zGfRw0=;
- b=ZJ1bmmLC8MzdFyhdJ/AYRnrDCyOMjqlp8Q3RNPHP7aw673+RFfO7MAjat4egBPWFlRoMh5
- KlHhjiLzfymReJojXx53IxMXyUGhDC0Q6sYBvyofF8yCZCYEuoHuDCuVigj6NumCRljMpS
- QBJbsDReAANM/DWECAyami/OuifkIMs=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-181-ejv9qRkTPNqTR5-ir2nueQ-1; Mon, 08 Jun 2020 12:01:00 -0400
-X-MC-Unique: ejv9qRkTPNqTR5-ir2nueQ-1
-Received: by mail-wr1-f69.google.com with SMTP id e1so7365935wrm.3
- for <qemu-devel@nongnu.org>; Mon, 08 Jun 2020 09:01:00 -0700 (PDT)
+ bh=zOI5VHRwzcrGr66pZ7m4z1ZrN3YJ34eLW3YDU+fnGv0=;
+ b=e8NN9Pp9FL6qNPJlJA+nTvNNKbAd0iIofbDtRX8XTSB4dql4SBLZ+Q5foHJF+VVcdn4mXC
+ bphf0u7jfPDj2DwXZhYk9ut/0k4oYmHMctDVRuBuy6O4k9HJgeBNl6oJSFSnwcVOh15Zmu
+ eUWZpFz4OgBjV/94ct++srHMKxguJhY=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-275-phweewcPMsa0DZJK4HwEXA-1; Mon, 08 Jun 2020 12:01:07 -0400
+X-MC-Unique: phweewcPMsa0DZJK4HwEXA-1
+Received: by mail-wr1-f70.google.com with SMTP id w16so7325429wru.18
+ for <qemu-devel@nongnu.org>; Mon, 08 Jun 2020 09:01:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=5qtqeym41wYPVUNcQP0hBuZd3ZN8CptiJr597zGfRw0=;
- b=l4oB4BjVI388rSNJWLyI0yKRGmPqxt1ZQJ/2SYEnk0gnirMMeGmECDpXxlyljoaJE5
- fLxqhiz1BjqIc2dlLdA5djfaooe1GoH0CZ22DGb9d17kARSrzSq+sz8NnhhohTwCGXiT
- 7ByukbZxGbMglwuHoBScJoOZDEXYV1PdtBIrEJjR7mHRvAVRcK5pdEP4j5sYnxkYqOYj
- ZolK5tkV/EpLIVElv7hg4wCtmEHw88lLaubcSMgN99OGhnpZOXhdbuy7wlmL4vaaEftX
- +a8dL2360R8iu1R1fsrHdqe1VF/mhD+MuR4DUdOAn8Rbkv7KlZiVGAuhf6drq+hW1Rm6
- 60jg==
-X-Gm-Message-State: AOAM531RmPCcg24GQEtEC6AiOiorI3KosdL0EWEF+4EjhxxtoPkba6z+
- BsBQ5e7Bxu2zitmINF1buHPOsS0Y1qcY4VLMu/OpYzlYC0tZ6T2XP6oyMawWRR+Omg7OCtYhBs9
- wHGy/FBOATDlEJ+U=
-X-Received: by 2002:adf:de0b:: with SMTP id b11mr24236302wrm.346.1591632059268; 
- Mon, 08 Jun 2020 09:00:59 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyCLkZjArfyp0BDfLlr7paJJyNdZb8aPEICM5cLMV+w6rNjL53A+D/YIALTIycqApB88KkdKg==
-X-Received: by 2002:adf:de0b:: with SMTP id b11mr24236267wrm.346.1591632059025; 
- Mon, 08 Jun 2020 09:00:59 -0700 (PDT)
+ bh=zOI5VHRwzcrGr66pZ7m4z1ZrN3YJ34eLW3YDU+fnGv0=;
+ b=tA1EcLJ4QKX/6av9vvC/rZsMQzLqhTZBb6U2ViPbb3DVoQKIQbqkGWSxfiTSdoJeWV
+ Gr/a0t20D0SzoxYjkQmzYmi3qrsuCNaRW0dE0lDmb6EytJNyhHIvUAXrcTQD2SteiDiX
+ 5O4cYRNCEFdp9GU/YwUb+CvFuz/jil5PUlRmEmdD4uuuEJzqXg/F/16JaWndWkl3Ob9p
+ IsDjwsr+IKV0HCf1HTXMA9jn7KeaO9cAc+hcrEgl90LDyK5o9JxEC/0qdEEezYkS+xoI
+ LQi6/NlYDJAJhahkdZ23Y+LjKQtSBBIIp0QqkAOuFgJ+45b/k3Q9A9+PFn2cQksjURZT
+ /asg==
+X-Gm-Message-State: AOAM532PnzsE79LhjjiE5dvLP4qHGQAMPqDNDS9hbAAEoJ/TWbECUivB
+ hDQzsSWw1umnVkZZG60meRwEAvOKJIsPss/VfGjFSQiyyNMSKBOwnfnN0P6wN4ml3ejF/D9WKIZ
+ HSzZY9NtxdMARz1M=
+X-Received: by 2002:a1c:c3d7:: with SMTP id t206mr32549wmf.69.1591632065215;
+ Mon, 08 Jun 2020 09:01:05 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJziXMXpu2PAmMIx7aoFkuYgVgPaKI7cmN6JuMa+/KlQ6vvO4eQND3agEj8WsVM887NYLfsrYQ==
+X-Received: by 2002:a1c:c3d7:: with SMTP id t206mr32465wmf.69.1591632064493;
+ Mon, 08 Jun 2020 09:01:04 -0700 (PDT)
 Received: from localhost.localdomain
  (181.red-88-10-103.dynamicip.rima-tde.net. [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id z12sm227313wrg.9.2020.06.08.09.00.57
+ by smtp.gmail.com with ESMTPSA id y5sm160041wrs.63.2020.06.08.09.01.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Jun 2020 09:00:58 -0700 (PDT)
+ Mon, 08 Jun 2020 09:01:03 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 02/35] hw/core/qdev: Add
- qdev_warn_deprecated_function_used() helper
-Date: Mon,  8 Jun 2020 18:00:11 +0200
-Message-Id: <20200608160044.15531-3-philmd@redhat.com>
+Subject: [RFC PATCH 03/35] hw/arm/omap: Emit warning when old code is used
+Date: Mon,  8 Jun 2020 18:00:12 +0200
+Message-Id: <20200608160044.15531-4-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200608160044.15531-1-philmd@redhat.com>
 References: <20200608160044.15531-1-philmd@redhat.com>
@@ -121,127 +120,224 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When built with --enable-qdev-deprecation-warning, calling
-qdev_warn_deprecated_function_used() will emit a warning such:
-
-  $ qemu-system-arm -M verdex ...
-  qemu-system-arm: warning: use of deprecated non-qdev/non-qom code in pxa2xx_lcdc_init()
-  qemu-system-arm: warning: use of deprecated non-qdev/non-qom code in pxa2xx_i2s_init()
-  qemu-system-arm: warning: use of deprecated non-qdev/non-qom code in pxa27x_keypad_init()
+This code hasn't been QOM'ified yet. Warn the user.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- configure                    |  8 ++++++++
- include/hw/qdev-deprecated.h | 26 ++++++++++++++++++++++++++
- hw/core/qdev.c               |  8 ++++++++
- 3 files changed, 42 insertions(+)
- create mode 100644 include/hw/qdev-deprecated.h
+ hw/arm/omap1.c            | 6 ++++++
+ hw/char/omap_uart.c       | 5 +++++
+ hw/misc/omap_gpmc.c       | 3 +++
+ hw/misc/omap_l4.c         | 3 +++
+ hw/misc/omap_sdrc.c       | 3 +++
+ hw/sd/omap_mmc.c          | 5 +++++
+ hw/ssi/omap_spi.c         | 3 +++
+ hw/timer/omap_synctimer.c | 4 ++++
+ 8 files changed, 32 insertions(+)
 
-diff --git a/configure b/configure
-index 597e909b53..9b7a8927c6 100755
---- a/configure
-+++ b/configure
-@@ -434,6 +434,7 @@ edk2_blobs="no"
- pkgversion=""
- pie=""
- qom_cast_debug="yes"
-+qdev_deprecation_warning="no"
- trace_backends="log"
- trace_file="trace"
- spice=""
-@@ -1114,6 +1115,8 @@ for opt do
-   ;;
-   --enable-qom-cast-debug) qom_cast_debug="yes"
-   ;;
-+  --enable-qdev-deprecation-warning) qdev_deprecation_warning="yes"
-+  ;;
-   --disable-virtfs) virtfs="no"
-   ;;
-   --enable-virtfs) virtfs="yes"
-@@ -1882,6 +1885,7 @@ disabled with --disable-FEATURE, default is enabled if available:
-   virglrenderer   virgl rendering support
-   xfsctl          xfsctl support
-   qom-cast-debug  cast debugging support
-+  qdev-deprecation-warning display qdev deprecation warnings
-   tools           build qemu-io, qemu-nbd and qemu-img tools
-   vxhs            Veritas HyperScale vDisk backend support
-   bochs           bochs image format support
-@@ -6723,6 +6727,7 @@ echo "gcov enabled      $gcov"
- echo "TPM support       $tpm"
- echo "libssh support    $libssh"
- echo "QOM debugging     $qom_cast_debug"
-+echo "QDEV deprecation warnings $qdev_deprecation_warning"
- echo "Live block migration $live_block_migration"
- echo "lzo support       $lzo"
- echo "snappy support    $snappy"
-@@ -7345,6 +7350,9 @@ fi
- if test "$qom_cast_debug" = "yes" ; then
-   echo "CONFIG_QOM_CAST_DEBUG=y" >> $config_host_mak
- fi
-+if test "$qdev_deprecation_warning" = "yes" ; then
-+  echo "CONFIG_QDEV_DEPRECATION_WARNING=y" >> $config_host_mak
-+fi
- if test "$rbd" = "yes" ; then
-   echo "CONFIG_RBD=m" >> $config_host_mak
-   echo "RBD_CFLAGS=$rbd_cflags" >> $config_host_mak
-diff --git a/include/hw/qdev-deprecated.h b/include/hw/qdev-deprecated.h
-new file mode 100644
-index 0000000000..b815f62dae
---- /dev/null
-+++ b/include/hw/qdev-deprecated.h
-@@ -0,0 +1,26 @@
-+/*
-+ * QEMU QOM qdev deprecation helpers
-+ *
-+ * Copyright (c) 2020 Red Hat, Inc.
-+ *
-+ * Author:
-+ *   Philippe Mathieu-Daudé <philmd@redhat.com>
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+#ifndef HW_QDEV_DEPRECATED_H
-+#define HW_QDEV_DEPRECATED_H
-+
-+/**
-+ * qdev_warn_deprecated_function_used:
-+ *
-+ * Display a warning that deprecated code is used.
-+ */
-+#define qdev_warn_deprecated_function_used() \
-+    qdev_warn_deprecated_function(__func__)
-+void qdev_warn_deprecated_function(const char *function);
-+
-+#endif
-diff --git a/hw/core/qdev.c b/hw/core/qdev.c
-index 9e5538aeae..901fa93657 100644
---- a/hw/core/qdev.c
-+++ b/hw/core/qdev.c
-@@ -35,6 +35,7 @@
- #include "hw/hotplug.h"
- #include "hw/irq.h"
- #include "hw/qdev-properties.h"
-+#include "hw/qdev-deprecated.h"
- #include "hw/boards.h"
+diff --git a/hw/arm/omap1.c b/hw/arm/omap1.c
+index 761cc17ea9..d7d6253be0 100644
+--- a/hw/arm/omap1.c
++++ b/hw/arm/omap1.c
+@@ -40,6 +40,7 @@
  #include "hw/sysbus.h"
- #include "hw/qdev-clock.h"
-@@ -819,6 +820,13 @@ void qdev_alias_all_properties(DeviceState *target, Object *source)
-     } while (class != object_class_by_name(TYPE_DEVICE));
- }
+ #include "qemu/cutils.h"
+ #include "qemu/bcd.h"
++#include "hw/qdev-deprecated.h"
  
-+void qdev_warn_deprecated_function(const char *function)
-+{
-+#ifdef CONFIG_QDEV_DEPRECATION_WARNING
-+    warn_report("use of deprecated non-qdev/non-qom code in %s()", function);
-+#endif
-+}
-+
- static bool device_get_realized(Object *obj, Error **errp)
+ static inline void omap_log_badwidth(const char *funcname, hwaddr addr, int sz)
  {
-     DeviceState *dev = DEVICE(obj);
+@@ -1451,6 +1452,7 @@ static struct dpll_ctl_s  *omap_dpll_init(MemoryRegion *memory,
+                            hwaddr base, omap_clk clk)
+ {
+     struct dpll_ctl_s *s = g_malloc0(sizeof(*s));
++    qdev_warn_deprecated_function_used();
+     memory_region_init_io(&s->iomem, NULL, &omap_dpll_ops, s, "omap-dpll", 0x100);
+ 
+     s->dpll = clk;
+@@ -2427,6 +2429,8 @@ static struct omap_pwl_s *omap_pwl_init(MemoryRegion *system_memory,
+ {
+     struct omap_pwl_s *s = g_malloc0(sizeof(*s));
+ 
++    qdev_warn_deprecated_function_used();
++
+     omap_pwl_reset(s);
+ 
+     memory_region_init_io(&s->iomem, NULL, &omap_pwl_ops, s,
+@@ -2534,6 +2538,8 @@ static struct omap_pwt_s *omap_pwt_init(MemoryRegion *system_memory,
+                                         omap_clk clk)
+ {
+     struct omap_pwt_s *s = g_malloc0(sizeof(*s));
++
++    qdev_warn_deprecated_function_used();
+     s->clk = clk;
+     omap_pwt_reset(s);
+ 
+diff --git a/hw/char/omap_uart.c b/hw/char/omap_uart.c
+index e8da933378..7e106772ce 100644
+--- a/hw/char/omap_uart.c
++++ b/hw/char/omap_uart.c
+@@ -22,6 +22,7 @@
+ #include "hw/arm/omap.h"
+ #include "hw/char/serial.h"
+ #include "exec/address-spaces.h"
++#include "hw/qdev-deprecated.h"
+ 
+ /* UARTs */
+ struct omap_uart_s {
+@@ -57,6 +58,8 @@ struct omap_uart_s *omap_uart_init(hwaddr base,
+ {
+     struct omap_uart_s *s = g_new0(struct omap_uart_s, 1);
+ 
++    qdev_warn_deprecated_function_used();
++
+     s->base = base;
+     s->fclk = fclk;
+     s->irq = irq;
+@@ -168,6 +171,8 @@ struct omap_uart_s *omap2_uart_init(MemoryRegion *sysmem,
+     struct omap_uart_s *s = omap_uart_init(base, irq,
+                     fclk, iclk, txdma, rxdma, label, chr);
+ 
++    qdev_warn_deprecated_function_used();
++
+     memory_region_init_io(&s->iomem, NULL, &omap_uart_ops, s, "omap.uart", 0x100);
+ 
+     s->ta = ta;
+diff --git a/hw/misc/omap_gpmc.c b/hw/misc/omap_gpmc.c
+index 10de7a5523..9e29d7a8bd 100644
+--- a/hw/misc/omap_gpmc.c
++++ b/hw/misc/omap_gpmc.c
+@@ -25,6 +25,7 @@
+ #include "hw/arm/omap.h"
+ #include "exec/memory.h"
+ #include "exec/address-spaces.h"
++#include "hw/qdev-deprecated.h"
+ 
+ /* General-Purpose Memory Controller */
+ struct omap_gpmc_s {
+@@ -830,6 +831,8 @@ struct omap_gpmc_s *omap_gpmc_init(struct omap_mpu_state_s *mpu,
+     int cs;
+     struct omap_gpmc_s *s = g_new0(struct omap_gpmc_s, 1);
+ 
++    qdev_warn_deprecated_function_used();
++
+     memory_region_init_io(&s->iomem, NULL, &omap_gpmc_ops, s, "omap-gpmc", 0x1000);
+     memory_region_add_subregion(get_system_memory(), base, &s->iomem);
+ 
+diff --git a/hw/misc/omap_l4.c b/hw/misc/omap_l4.c
+index 54aeaecd69..b412790c19 100644
+--- a/hw/misc/omap_l4.c
++++ b/hw/misc/omap_l4.c
+@@ -19,6 +19,7 @@
+  */
+ #include "qemu/osdep.h"
+ #include "hw/arm/omap.h"
++#include "hw/qdev-deprecated.h"
+ 
+ struct omap_l4_s {
+     MemoryRegion *address_space;
+@@ -33,6 +34,8 @@ struct omap_l4_s *omap_l4_init(MemoryRegion *address_space,
+     struct omap_l4_s *bus = g_malloc0(
+                     sizeof(*bus) + ta_num * sizeof(*bus->ta));
+ 
++    qdev_warn_deprecated_function_used();
++
+     bus->address_space = address_space;
+     bus->ta_num = ta_num;
+     bus->base = base;
+diff --git a/hw/misc/omap_sdrc.c b/hw/misc/omap_sdrc.c
+index f2f72f6810..4f8440ea56 100644
+--- a/hw/misc/omap_sdrc.c
++++ b/hw/misc/omap_sdrc.c
+@@ -19,6 +19,7 @@
+  */
+ #include "qemu/osdep.h"
+ #include "hw/arm/omap.h"
++#include "hw/qdev-deprecated.h"
+ 
+ /* SDRAM Controller Subsystem */
+ struct omap_sdrc_s {
+@@ -159,6 +160,8 @@ struct omap_sdrc_s *omap_sdrc_init(MemoryRegion *sysmem,
+ {
+     struct omap_sdrc_s *s = g_new0(struct omap_sdrc_s, 1);
+ 
++    qdev_warn_deprecated_function_used();
++
+     omap_sdrc_reset(s);
+ 
+     memory_region_init_io(&s->iomem, NULL, &omap_sdrc_ops, s, "omap.sdrc", 0x1000);
+diff --git a/hw/sd/omap_mmc.c b/hw/sd/omap_mmc.c
+index 4088a8a80b..88fd20e17a 100644
+--- a/hw/sd/omap_mmc.c
++++ b/hw/sd/omap_mmc.c
+@@ -24,6 +24,7 @@
+ #include "hw/irq.h"
+ #include "hw/arm/omap.h"
+ #include "hw/sd/sd.h"
++#include "hw/qdev-deprecated.h"
+ 
+ struct omap_mmc_s {
+     qemu_irq irq;
+@@ -599,6 +600,8 @@ struct omap_mmc_s *omap_mmc_init(hwaddr base,
+ {
+     struct omap_mmc_s *s = g_new0(struct omap_mmc_s, 1);
+ 
++    qdev_warn_deprecated_function_used();
++
+     s->irq = irq;
+     s->dma = dma;
+     s->clk = clk;
+@@ -625,6 +628,8 @@ struct omap_mmc_s *omap2_mmc_init(struct omap_target_agent_s *ta,
+ {
+     struct omap_mmc_s *s = g_new0(struct omap_mmc_s, 1);
+ 
++    qdev_warn_deprecated_function_used();
++
+     s->irq = irq;
+     s->dma = dma;
+     s->clk = fclk;
+diff --git a/hw/ssi/omap_spi.c b/hw/ssi/omap_spi.c
+index 7c7e689707..276f963ae2 100644
+--- a/hw/ssi/omap_spi.c
++++ b/hw/ssi/omap_spi.c
+@@ -25,6 +25,7 @@
+ #include "hw/hw.h"
+ #include "hw/irq.h"
+ #include "hw/arm/omap.h"
++#include "hw/qdev-deprecated.h"
+ 
+ /* Multichannel SPI */
+ struct omap_mcspi_s {
+@@ -353,6 +354,8 @@ struct omap_mcspi_s *omap_mcspi_init(struct omap_target_agent_s *ta, int chnum,
+     struct omap_mcspi_s *s = g_new0(struct omap_mcspi_s, 1);
+     struct omap_mcspi_ch_s *ch = s->ch;
+ 
++    qdev_warn_deprecated_function_used();
++
+     s->irq = irq;
+     s->chnum = chnum;
+     while (chnum --) {
+diff --git a/hw/timer/omap_synctimer.c b/hw/timer/omap_synctimer.c
+index 72b997939b..4be24e970e 100644
+--- a/hw/timer/omap_synctimer.c
++++ b/hw/timer/omap_synctimer.c
+@@ -20,6 +20,8 @@
+ #include "qemu/osdep.h"
+ #include "qemu/timer.h"
+ #include "hw/arm/omap.h"
++#include "hw/qdev-deprecated.h"
++
+ struct omap_synctimer_s {
+     MemoryRegion iomem;
+     uint32_t val;
+@@ -101,6 +103,8 @@ struct omap_synctimer_s *omap_synctimer_init(struct omap_target_agent_s *ta,
+ {
+     struct omap_synctimer_s *s = g_malloc0(sizeof(*s));
+ 
++    qdev_warn_deprecated_function_used();
++
+     omap_synctimer_reset(s);
+     memory_region_init_io(&s->iomem, NULL, &omap_synctimer_ops, s, "omap.synctimer",
+                           omap_l4_region_size(ta, 0));
 -- 
 2.21.3
 
