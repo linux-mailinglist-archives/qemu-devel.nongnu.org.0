@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B0B31F1B02
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 16:29:03 +0200 (CEST)
-Received: from localhost ([::1]:32868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FB7A1F1AF7
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 16:27:09 +0200 (CEST)
+Received: from localhost ([::1]:53084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jiIlq-0008Vr-6p
-	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 10:29:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53524)
+	id 1jiIk0-0005Bf-Kq
+	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 10:27:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53530)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1jiIbh-0001PE-U5; Mon, 08 Jun 2020 10:18:33 -0400
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:36041)
+ id 1jiIbi-0001QL-G4; Mon, 08 Jun 2020 10:18:34 -0400
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:38027)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1jiIbg-0004WE-QH; Mon, 08 Jun 2020 10:18:33 -0400
-Received: by mail-pl1-x644.google.com with SMTP id bg4so6721790plb.3;
- Mon, 08 Jun 2020 07:18:31 -0700 (PDT)
+ id 1jiIbh-0004WS-I3; Mon, 08 Jun 2020 10:18:34 -0400
+Received: by mail-pg1-x542.google.com with SMTP id u5so8816080pgn.5;
+ Mon, 08 Jun 2020 07:18:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=FHQ9AhCMfHdHOxLhqMzAe14kJHhPNfUz/e/XtuYi54A=;
- b=jw8t/eVvhojQH4+kouoFE7qizeykXEk3eGBcgfrtkBUJ9Sg69MEbqPpLlesm4YGvtT
- BFHCTqbFlqWti9uxQrbJmHG0SEAG2iylYTngB4A9W5/yNfwaIJqLrGzd642oHLNjUHy4
- JyrZCa4eHZdjH5NmMqej5q/cHwgiNZZtOH3CxGcGw8W3W4LIcQIZNsqi4l0fEZ/WQxXF
- 3+86GpALZhiMIymtbtcWZt/AqKzqy0YBVISI3/ZnSWEUcoJq/AT4rwi6olhPN+DdfQOL
- vNpz0bObMlCdedRGQM3ifYdfSuYNM/Lvtw7N9Cc9veEkX4YGelj1is7DYKoybyqwSeOg
- URJw==
+ bh=LHxwDr0kzk7/A3rA8MbAL70MOcYV99ZL1ednJrPZlKw=;
+ b=Al+XA779jimVcMocXb2e94/89jjJ95gaPWM+EsSN5fG/PL5PaD3hHMpY90fRkIGmMD
+ 5UpG8W24Vgk+Q3DfCLdr58HVkdE2oQM3dd/GpVJOVEHiW/WQIC7JfcfojiyyJqHNu1Kx
+ 5ERz561XN7Xi3bWEsBGyExwfz+ElU1o192gLbb9tgWn4Gvb2QbEPSDsvJ1udkvidR/ti
+ dwGt5PUwwVqXsh/SXAqBXYxGUgBj7t4E2X+qt9y4azWoaauKRuspqfq/hr819wsMvm8Y
+ QAfcutDh+mOrIfHsKFK1ersp20maKyiIflMGSdIPWm6WZmHyuw0F1MjSICLaddGLkfff
+ CfmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=FHQ9AhCMfHdHOxLhqMzAe14kJHhPNfUz/e/XtuYi54A=;
- b=PQB2oc1+JOr97l2SktT6qU3t8G9Jovx41wsOTggarCOi9ZFShWV1zK/9Wv0ZluRIua
- utz+eTYM1iCrib8P7vpPgQ27i3jt4GOY/vU1gQzZcD9mJJ31lblj27Ym2t9MMmc+U0mK
- EmjRvRRfY5gKpSwfcUWxlaQ5B3gQy14aPvTmzRmdN/xDxFsT/AqjrgjWqO+FDFcqdI6X
- yAXEvf4uwYNrl1MF9QKw9vvoCSyKkgIT13+GZy9+H3VR6SGQJ/Kb1H7uil31zx4hkecJ
- D6HlxujBDPIZXA0jna88OYi67Lypp5LsNmq/zm2pAIMYFliiVV5KwpoQpy0e38CFwvSO
- 409w==
-X-Gm-Message-State: AOAM531ey7JZtIUPf1bLXLhQ2gengH3dP0yG7XG7Nyl7FSMofpHL/1PH
- y9fmMo6X3lWz6D0tYbX7Pig=
-X-Google-Smtp-Source: ABdhPJw+pjdrzzK19a2YtS0Z2+EhgOepBGUs0keqCvo+xxEQmsthtT7kYImbKs0RydhveJEEinyNAw==
-X-Received: by 2002:a17:90b:e8f:: with SMTP id
- fv15mr11839458pjb.47.1591625911028; 
+ bh=LHxwDr0kzk7/A3rA8MbAL70MOcYV99ZL1ednJrPZlKw=;
+ b=YR3i4JENi69nPb20Bb0f7F2K4yp7EnOk3FYfWZMjD2QXqNY6jQt3GkDLpb2chF0xrx
+ 8FL4ylVhYDVQCWIQSGT1qqlq/7yaP3nA7lwLNMTaVrjjrGdHi2IedZVRzs8RY/juQEi5
+ Li4omqyuizC2YnbhwemRlis3bwpAlsXqBvdGvJDnV/zc4ja/18J8cLO3lAJhzFWw44zt
+ DxRWdCPGwAWuYlWoZjYJeiJXGP3luY8cdL0z/hSOXR2N+GnetoEe2Pxus9K3ZgW0vIi3
+ yu42gcQe/tZf9d9qmBlkJa4mhYjD3S/01XeAoEyFKWMbtWGJzSuJRGBLn5Nxy09wtDIN
+ 1E+g==
+X-Gm-Message-State: AOAM5313ls/cPdNTH0st4O2+FnN1fEKEw1PEAHK5y8l5BrFI2x6VlkKx
+ Io16JeMD6dasMLkPXPtvvLc=
+X-Google-Smtp-Source: ABdhPJzON1bA9vX5vXm53A2vaJ8y83QgISLMON/dMaYzpJN65f25cOLS5MEEiwCFuWsyxrV+rZ0+UQ==
+X-Received: by 2002:a62:cdc7:: with SMTP id
+ o190mr21272658pfg.292.1591625911944; 
  Mon, 08 Jun 2020 07:18:31 -0700 (PDT)
 Received: from localhost.localdomain (unknown-224-80.windriver.com.
  [147.11.224.80])
- by smtp.gmail.com with ESMTPSA id b19sm7292575pft.74.2020.06.08.07.18.30
+ by smtp.gmail.com with ESMTPSA id b19sm7292575pft.74.2020.06.08.07.18.31
  (version=TLS1 cipher=AES128-SHA bits=128/128);
- Mon, 08 Jun 2020 07:18:30 -0700 (PDT)
+ Mon, 08 Jun 2020 07:18:31 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: Alistair Francis <Alistair.Francis@wdc.com>,
  Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
  Palmer Dabbelt <palmerdabbelt@google.com>,
  Sagar Karandikar <sagark@eecs.berkeley.edu>, qemu-devel@nongnu.org,
  qemu-riscv@nongnu.org
-Subject: [PATCH 13/15] hw/riscv: sifive_u: Support different boot source per
- MSEL pin state
-Date: Mon,  8 Jun 2020 07:17:42 -0700
-Message-Id: <1591625864-31494-14-git-send-email-bmeng.cn@gmail.com>
+Subject: [PATCH 14/15] hw/riscv: sifive_u: Sort the SoC memmap table entries
+Date: Mon,  8 Jun 2020 07:17:43 -0700
+Message-Id: <1591625864-31494-15-git-send-email-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 1.7.1
 In-Reply-To: <1591625864-31494-1-git-send-email-bmeng.cn@gmail.com>
 References: <1591625864-31494-1-git-send-email-bmeng.cn@gmail.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::644;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x644.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::542;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pg1-x542.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -92,112 +91,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-SiFive FU540 SoC supports booting from several sources, which are
-controlled using the Mode Select (MSEL[3:0]) pins on the chip.
-Typically, the boot process runs through several stages before it
-begins execution of user-provided programs.
-
-The SoC supports booting from memory-mapped QSPI flash, which is
-how start_in_flash property is used for at present. This matches
-MSEL = 1 configuration (QSPI0).
-
-Typical booting flows involve the Zeroth Stage Boot Loader (ZSBL).
-It's not necessary for QEMU to implement the full ZSBL ROM codes,
-because we know ZSBL downloads the next stage program into the L2
-LIM at address 0x8000000 and executes from there. We can bypass
-the whole ZSBL execution and use "-bios" to load the next stage
-program directly if MSEL indicates a ZSBL booting flow.
+Move the flash and DRAM to the end of the SoC memmap table.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 ---
 
- hw/riscv/sifive_u.c         | 39 +++++++++++++++++++++++++++++++--------
- include/hw/riscv/sifive_u.h |  6 ++++++
- 2 files changed, 37 insertions(+), 8 deletions(-)
+ hw/riscv/sifive_u.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index 0a86ffc..f64aa52 100644
+index f64aa52..c94ff6f 100644
 --- a/hw/riscv/sifive_u.c
 +++ b/hw/riscv/sifive_u.c
-@@ -408,8 +408,34 @@ static void sifive_u_machine_init(MachineState *machine)
-     /* create device tree */
-     create_fdt(s, memmap, machine->ram_size, machine->kernel_cmdline);
- 
--    riscv_find_and_load_firmware(machine, BIOS_FILENAME,
--                                 memmap[SIFIVE_U_DRAM].base, NULL);
-+    if (s->start_in_flash) {
-+        /*
-+         * If start_in_flash property is given, assign s->msel to a value
-+         * that representing booting from QSPI0 memory-mapped flash.
-+         *
-+         * This also means that when both start_in_flash and msel properties
-+         * are given, start_in_flash takes the precedence over msel.
-+         *
-+         * Note this is to keep backward compatibility not to break existing
-+         * users that use start_in_flash property.
-+         */
-+        s->msel = MSEL_MEMMAP_QSPI0_FLASH;
-+    }
-+
-+    switch (s->msel) {
-+    case MSEL_MEMMAP_QSPI0_FLASH:
-+        start_addr = memmap[SIFIVE_U_FLASH0].base;
-+        break;
-+    case MSEL_L2LIM_QSPI0_FLASH:
-+    case MSEL_L2LIM_QSPI2_SD:
-+        start_addr = memmap[SIFIVE_U_L2LIM].base;
-+        break;
-+    default:
-+        start_addr = memmap[SIFIVE_U_DRAM].base;
-+        break;
-+    }
-+
-+    riscv_find_and_load_firmware(machine, BIOS_FILENAME, start_addr, NULL);
- 
-     if (machine->kernel_filename) {
-         uint64_t kernel_entry = riscv_load_kernel(machine->kernel_filename,
-@@ -427,13 +453,9 @@ static void sifive_u_machine_init(MachineState *machine)
-         }
-     }
- 
--    if (s->start_in_flash) {
--        start_addr = memmap[SIFIVE_U_FLASH0].base;
--    }
--
-     /* reset vector */
-     uint32_t reset_vec[8] = {
--        0x00000000,
-+        s->msel,                       /* MSEL pin state */
-         0x00000297,                    /* 1:  auipc  t0, %pcrel_hi(dtb) */
-         0x01c28593,                    /*     addi   a1, t0, %pcrel_lo(1b) */
-         0xf1402573,                    /*     csrr   a0, mhartid  */
-@@ -505,7 +527,8 @@ static void sifive_u_machine_instance_init(Object *obj)
-                              sifive_u_machine_set_start_in_flash);
-     object_property_set_description(obj, "start-in-flash",
-                                     "Set on to tell QEMU's ROM to jump to "
--                                    "flash. Otherwise QEMU will jump to DRAM");
-+                                    "flash. Otherwise QEMU will jump to DRAM "
-+                                    "or L2LIM depending on the msel value");
- 
-     s->msel = 0;
-     object_property_add(obj, "msel", "uint32",
-diff --git a/include/hw/riscv/sifive_u.h b/include/hw/riscv/sifive_u.h
-index d82cfe0..5d80f91 100644
---- a/include/hw/riscv/sifive_u.h
-+++ b/include/hw/riscv/sifive_u.h
-@@ -111,6 +111,12 @@ enum {
-     SIFIVE_U_RTCCLK_FREQ = 1000000
+@@ -80,10 +80,10 @@ static const struct MemmapEntry {
+     [SIFIVE_U_UART1] =    { 0x10011000,     0x1000 },
+     [SIFIVE_U_GPIO] =     { 0x10060000,     0x1000 },
+     [SIFIVE_U_OTP] =      { 0x10070000,     0x1000 },
+-    [SIFIVE_U_FLASH0] =   { 0x20000000, 0x10000000 },
+-    [SIFIVE_U_DRAM] =     { 0x80000000,        0x0 },
+     [SIFIVE_U_GEM] =      { 0x10090000,     0x2000 },
+     [SIFIVE_U_GEM_MGMT] = { 0x100a0000,     0x1000 },
++    [SIFIVE_U_FLASH0] =   { 0x20000000, 0x10000000 },
++    [SIFIVE_U_DRAM] =     { 0x80000000,        0x0 },
  };
  
-+enum {
-+    MSEL_MEMMAP_QSPI0_FLASH = 1,
-+    MSEL_L2LIM_QSPI0_FLASH = 6,
-+    MSEL_L2LIM_QSPI2_SD = 11
-+};
-+
- #define SIFIVE_U_MANAGEMENT_CPU_COUNT   1
- #define SIFIVE_U_COMPUTE_CPU_COUNT      4
- 
+ #define OTP_SERIAL          1
 -- 
 2.7.4
 
