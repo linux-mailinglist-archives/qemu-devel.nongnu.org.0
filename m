@@ -2,107 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBAF61F15E8
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 11:53:28 +0200 (CEST)
-Received: from localhost ([::1]:54092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDDE11F1624
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 12:01:44 +0200 (CEST)
+Received: from localhost ([::1]:36260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jiET9-0007Ab-RP
-	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 05:53:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51174)
+	id 1jiEb9-0003fo-8c
+	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 06:01:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jiERz-0006Et-V9; Mon, 08 Jun 2020 05:52:15 -0400
-Received: from mail-am6eur05on2091.outbound.protection.outlook.com
- ([40.107.22.91]:7840 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jiERx-00045z-G8; Mon, 08 Jun 2020 05:52:15 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hIdNsLJKCdmy1x5TZM6qXKOkPqsivHVW05yOgqcyR2w2Twxn7zHrx8GH1zVa3WIQjm6Y+NVJ4K9NFVCoLPwZqk8rDFTZthLfxWPjFdcO8mWjNNA3T9vzXAkOhJ8N7WCFO8wJFQx878uWO8ixotfEYj57bcW8ZcELDrdbqtOs8ZZomQXKkhLyZLAFweVzMtKeEg3AJcW/+CBPbdZU7YF9l0aS3T9X5CVECNQH5BdRVgril+w1vL48fKV2uX097oaHhECiQJCC39YsqXKI5CbkKhX1e8cihm2TQCNB7Ng2bkbRlI85O9KxB+2S+3XR4/BNCjD88Uq3vRpeSsrGxpLWqw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mpSQN3JrnibluVFYbzwfoDXAOxaxV+QNiP8hnWwGl8A=;
- b=XOd2euPGE1+AkoyZIX1wUhUPfZJVhMAS1R7T/9xdYxh10QzKg0nwqM/8ALy13Nma86oBemuSWfPy6GvUVG7CJ5LVVtyJ+laH6M4qPs/gFPfEwW28zYNxTvGIvaVlIqZBgm9+4Q44aWBIMQiqljWw1SGzUmvfZd37D8vThygPUOa8qYfCfDYiIpM8qrkaHwHQIIrkx/cV6iUNQVWOErCHk1+guvlNM/Ua24zNCD32aGQR2FaAmquLEk94qb3p75KMER+KMbvxmCfg6KNMQ6pC1KWTc30FDM37ducCz+5YY1pFXeujsxEVgxQc7C1UuDsdhiM/bwqvtiaHpWWpJs2fXg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mpSQN3JrnibluVFYbzwfoDXAOxaxV+QNiP8hnWwGl8A=;
- b=RZWN3lwUC2FazTStCrFtQWOmzROWO9k7ft0ZtZKXL/iRQq6k3O4QdcZp6v/pTM8EjDPJ/HioFqVlc7AzDKbcc5zhxWLs99tpNl2XFctwOHE0j1FOrbjDjucge62fh/SbKqkThoj3oF7j6aHW/xBxFg0iVO7SCg1Htxbm6LlcWBA=
-Received: from AM6PR08MB4070.eurprd08.prod.outlook.com (2603:10a6:20b:a3::25)
- by AM6PR08MB4469.eurprd08.prod.outlook.com (2603:10a6:20b:70::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3066.19; Mon, 8 Jun
- 2020 09:52:10 +0000
-Received: from AM6PR08MB4070.eurprd08.prod.outlook.com
- ([fe80::2122:8358:546a:adae]) by AM6PR08MB4070.eurprd08.prod.outlook.com
- ([fe80::2122:8358:546a:adae%3]) with mapi id 15.20.3066.023; Mon, 8 Jun 2020
- 09:52:10 +0000
-From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>
-Subject: Re: [PATCH v5 12/13] qcow2: QcowHeaderExtension print names for
- extension magics
-Thread-Topic: [PATCH v5 12/13] qcow2: QcowHeaderExtension print names for
- extension magics
-Thread-Index: AQHWO9sQh+oMXy2mWEmAdvXrPnkkoajOOAVtgABEitA=
-Date: Mon, 8 Jun 2020 09:52:10 +0000
-Message-ID: <AM6PR08MB4070ABE5DB45F47AB85D3716F4850@AM6PR08MB4070.eurprd08.prod.outlook.com>
-References: <20200606081806.23897-1-vsementsov@virtuozzo.com>,
- <20200606081806.23897-13-vsementsov@virtuozzo.com>,
- <AM6PR08MB407028BA3B40A5CAE37C21D6F4850@AM6PR08MB4070.eurprd08.prod.outlook.com>
-In-Reply-To: <AM6PR08MB407028BA3B40A5CAE37C21D6F4850@AM6PR08MB4070.eurprd08.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: virtuozzo.com; dkim=none (message not signed)
- header.d=none;virtuozzo.com; dmarc=none action=none
- header.from=virtuozzo.com;
-x-originating-ip: [109.252.114.191]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 05808213-fca4-48b5-47c0-08d80b919d00
-x-ms-traffictypediagnostic: AM6PR08MB4469:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <AM6PR08MB4469BEC8314F3702739A85B1F4850@AM6PR08MB4469.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:644;
-x-forefront-prvs: 042857DBB5
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 54PtskGVPiZnhHH9ODRaNh1h9OxZGtwhIpkr5uFCv5eWh4sRKEGEDQQsJijpGkNPOizBh1HjXTqKqqnAhOXuvSxwpZza472NWyA735Hhee1/IMBWCojyIgMBaNy8HWYleCLVY8H+eEJbW5Yb5PAzGvD17dibIckfBdpKDqbI2+sYGjaxdMDdvfdMoM9zdmfrwz2skfeFYBlDLks7Riw+liwEs6DknksSdAk+yweDgGwd3rdFmk48/tveUqhiVohG49VTjvlmdFZr7K2gmxNTmN/Oiib6O4SyuehvSqrx/fLG2mnqAcgX0IzSUWwGqnrr/u1DQoFdLk3oYDcfZBFS0g==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM6PR08MB4070.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(376002)(39840400004)(136003)(366004)(396003)(346002)(4326008)(2940100002)(52536014)(26005)(66446008)(7696005)(44832011)(2906002)(33656002)(9686003)(186003)(66476007)(8936002)(91956017)(53546011)(76116006)(86362001)(107886003)(66946007)(316002)(83380400001)(8676002)(6506007)(66556008)(110136005)(64756008)(54906003)(71200400001)(55016002)(5660300002)(478600001);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: 8qO73AiDF7A4QDiuEGO/9p1xO0dEcyeXLcGaq4jFLSwqO9P1ZuI7KlBXYhSLcjiWm6wzUOeS6iekY1HHXLv6MV/7l8uc/mG07KzntVVz05hL1YWf7WnCB9TvrjLYSu8rNTRgT/1LogMnSsWmR8W1kYVWgXEMMOU24xA/c5FYyqJiSjkwS5vZ7HV/oJ3s+W+PvxmiQpSxOhirmJKfe/k2xQfrYCCF7RGSRSDQnnv1nXXXlt5Mi+Gr9r5mO5axxhjxx7+G+QpHEFBMRgaZB6YW8i/AyQ6jQiSZPdIF6DAxAI3hvAq6/rrI2OCBO2l/01hyAYf9jEA20FHwWwJ5IYVWzVHnO9YsML2mDFg4SXPDAdEc7Sb1KRxbB8DBp8DX512fzd6vg5B4eGrvYyX0O7IgTH/aIE3kqhQwTDjzdvr3cHYuI8138GzBr/QBTBiuaTKm+SzGkjeufklRABjSJo0qCAw1LmVDcWaIIwG3xxLWA6qC8TP03rRuUI060cQ91PYj
-Content-Type: multipart/alternative;
- boundary="_000_AM6PR08MB4070ABE5DB45F47AB85D3716F4850AM6PR08MB4070eurp_"
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jiEZI-0002jd-5B
+ for qemu-devel@nongnu.org; Mon, 08 Jun 2020 05:59:48 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:37229)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jiEZG-00056Y-UH
+ for qemu-devel@nongnu.org; Mon, 08 Jun 2020 05:59:47 -0400
+Received: by mail-wm1-x343.google.com with SMTP id y20so8129054wmi.2
+ for <qemu-devel@nongnu.org>; Mon, 08 Jun 2020 02:59:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=q/AX4am+4p9ie6OugFVbW0SZFCmBFV+WzGlkO6Ds8vU=;
+ b=OsKxgN7xFp0+2wzM20yjUnNpm5D9jO5R7/95akAF5P69opTpKLOlGsWeMRX0f3XQ5d
+ 8Pxiyx/X8kKkRHpLxBWmtYREbp20vBT3OOQ0EebJV864HE3GNZfa81QhCkGMNOukkhPn
+ TI9pT/+BTPPu3EcrWa9bs6F8/LU5iq5h7P88TpF+IaAyjaCBNnRLGNiyEeDSJ78Yn9A2
+ 9lDIi0ORytKQnpmVWybU7uevS8+ON04tGnuOVn02usqocORHqI+MtZ6B9sSeqoxR9roE
+ cyuGYn1Rp/xWupPgfBVLs3sPLSIi5bksBQJ0oFQKKxukaFm2i+r3tBmM5WUTiYCp/Yxg
+ X1Ew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=q/AX4am+4p9ie6OugFVbW0SZFCmBFV+WzGlkO6Ds8vU=;
+ b=bWrsrFbsmrLN4awXWApqbJcytzh3n7ciWjtnts5iS5ZDOX8EzDfc5m6LKrNnYrHAtt
+ E6dgXxa3M/G0I5d5tQ/YMwo6MhmNN1koZx64ymthfvo5X7GNjKjd45CswFDyuIBLP6Pn
+ 4edCYvWnRGPCPZLCUpMOcbULICIqRnAZTZHrvS021RJF4OIHrJqNSEQ5b+iikFpO4fqr
+ qimPAbb0hgAKGCrCx0Oi+qY1KptAA3laAZQojM9CO2DFLCPzCUYlR8rEZfqwfcBBV5rN
+ LUYX2bRm9hpwZgPDkZk3rXTX3rTsbEhyAn5ub9vfAAdC2uEyM2fnX0uXOcFtib/oXt8M
+ VwHg==
+X-Gm-Message-State: AOAM533QJClNDZUWVA/BUlzXn2gBlcoETfnJsjf7V6UMcIazhHjXa2/m
+ Ja7BtEe91/uDYs/TrpebcpUptQ==
+X-Google-Smtp-Source: ABdhPJx3TPzxZtQqcKvm8uZiLOK86jlemuDhwbZhClKKKoAsmTrq+7S7SgHJ2cq6qyzy/5BqtqQGYQ==
+X-Received: by 2002:a1c:814c:: with SMTP id c73mr15376505wmd.140.1591610383034; 
+ Mon, 08 Jun 2020 02:59:43 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id s2sm21187613wmh.11.2020.06.08.02.59.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 08 Jun 2020 02:59:41 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id DB6D61FF7E;
+ Mon,  8 Jun 2020 10:59:40 +0100 (BST)
+References: <20200605093256.30351-1-philmd@redhat.com>
+ <20200605093256.30351-2-philmd@redhat.com>
+User-agent: mu4e 1.5.2; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH v6 01/11] MAINTAINERS: Fix KVM path expansion glob
+In-reply-to: <20200605093256.30351-2-philmd@redhat.com>
+Date: Mon, 08 Jun 2020 10:59:40 +0100
+Message-ID: <87wo4h7u9f.fsf@linaro.org>
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 05808213-fca4-48b5-47c0-08d80b919d00
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Jun 2020 09:52:10.0422 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 7wmwUaZqX/PkyBxXMNUsdVyjJlQEFxvPkDl7ohGHSsjD07WBzMsvyDe4YI0BWpDIPLSYUm7ksPM9ohlwcqqckrfBZcoFrgOPn+2D01pemc8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4469
-Received-SPF: pass client-ip=40.107.22.91;
- envelope-from=andrey.shinkevich@virtuozzo.com;
- helo=EUR05-AM6-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/08 05:52:11
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x343.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -115,177 +89,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "kwolf@redhat.com" <kwolf@redhat.com>, Denis Lunev <den@virtuozzo.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "mreitz@redhat.com" <mreitz@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---_000_AM6PR08MB4070ABE5DB45F47AB85D3716F4850AM6PR08MB4070eurp_
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+
+> The KVM files has been moved from target-ARCH to the target/ARCH/
+> folder in commit fcf5ef2a. Fix the pathname expansion.
+>
+> Fixes: fcf5ef2a ("Move target-* CPU file into a target/ folder")
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Reviewed-by: Thomas Huth <thuth@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+> ---
+>  MAINTAINERS | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 3e7d9cb0a5..948790b433 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -361,7 +361,7 @@ Overall KVM CPUs
+>  M: Paolo Bonzini <pbonzini@redhat.com>
+>  L: kvm@vger.kernel.org
+>  S: Supported
+> -F: */kvm.*
+> +F: */*/kvm*
+>  F: accel/kvm/
+>  F: accel/stubs/kvm-stub.c
+>  F: include/hw/kvm/
 
 
-
-________________________________
-From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-Sent: Monday, June 8, 2020 8:48 AM
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>; qemu-block@non=
-gnu.org <qemu-block@nongnu.org>
-Cc: qemu-devel@nongnu.org <qemu-devel@nongnu.org>; mreitz@redhat.com <mreit=
-z@redhat.com>; kwolf@redhat.com <kwolf@redhat.com>; eblake@redhat.com <ebla=
-ke@redhat.com>; Denis Lunev <den@virtuozzo.com>
-Subject: Re: [PATCH v5 12/13] qcow2: QcowHeaderExtension print names for ex=
-tension magics
-
-
-
-________________________________
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Sent: Saturday, June 6, 2020 11:18 AM
-To: qemu-block@nongnu.org <qemu-block@nongnu.org>
-Cc: qemu-devel@nongnu.org <qemu-devel@nongnu.org>; mreitz@redhat.com <mreit=
-z@redhat.com>; kwolf@redhat.com <kwolf@redhat.com>; eblake@redhat.com <ebla=
-ke@redhat.com>; Denis Lunev <den@virtuozzo.com>; Andrey Shinkevich <andrey.=
-shinkevich@virtuozzo.com>; Vladimir Sementsov-Ogievskiy <vsementsov@virtuoz=
-zo.com>
-Subject: [PATCH v5 12/13] qcow2: QcowHeaderExtension print names for extens=
-ion magics
-
-Suggested-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- tests/qemu-iotests/031.out         | 22 +++++++++++-----------
- tests/qemu-iotests/036.out         |  4 ++--
- tests/qemu-iotests/061.out         | 14 +++++++-------
- tests/qemu-iotests/qcow2_format.py | 17 ++++++++++++++++-
- 4 files changed, 36 insertions(+), 21 deletions(-)
-
-diff --git a/tests/qemu-iotests/qcow2_format.py b/tests/qemu-iotests/qcow2_=
-format.py
-index 32371e42da..40b5bf467b 100644
---- a/tests/qemu-iotests/qcow2_format.py
-+++ b/tests/qemu-iotests/qcow2_format.py
-@@ -39,6 +39,12 @@ class Flags64(Qcow2Field):
-         return str(bits)
-
-
-+class Enum(Qcow2Field):
-+
-+    def __str__(self):
-+        return f'{self.value:#x} ({self.mapping.get(self.value, "<unknown>=
-")})'
-
-I've got the error E0100: invalid syntax [pylama]
-
-Andrey
-
-The script itself works. Probably, my python syntax checker is obsolete.
-
-Andrey
-
-
---_000_AM6PR08MB4070ABE5DB45F47AB85D3716F4850AM6PR08MB4070eurp_
-Content-Type: text/html; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
-1">
-</head>
-<body>
-<div><br>
-</div>
-<div><br>
-</div>
-<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
-<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
-yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> Andrey Shinkevich &lt=
-;andrey.shinkevich@virtuozzo.com&gt;<br>
-<b>Sent:</b> Monday, June 8, 2020 8:48 AM<br>
-<b>To:</b> Vladimir Sementsov-Ogievskiy &lt;vsementsov@virtuozzo.com&gt;; q=
-emu-block@nongnu.org &lt;qemu-block@nongnu.org&gt;<br>
-<b>Cc:</b> qemu-devel@nongnu.org &lt;qemu-devel@nongnu.org&gt;; mreitz@redh=
-at.com &lt;mreitz@redhat.com&gt;; kwolf@redhat.com &lt;kwolf@redhat.com&gt;=
-; eblake@redhat.com &lt;eblake@redhat.com&gt;; Denis Lunev &lt;den@virtuozz=
-o.com&gt;<br>
-<b>Subject:</b> Re: [PATCH v5 12/13] qcow2: QcowHeaderExtension print names=
- for extension magics</font>
-<div>&nbsp;</div>
-</div>
-<div>
-<div><br>
-</div>
-<div><br>
-</div>
-<hr tabindex=3D"-1" style=3D"display:inline-block; width:98%">
-<div id=3D"x_divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" =
-color=3D"#000000" style=3D"font-size:11pt"><b>From:</b> Vladimir Sementsov-=
-Ogievskiy &lt;vsementsov@virtuozzo.com&gt;<br>
-<b>Sent:</b> Saturday, June 6, 2020 11:18 AM<br>
-<b>To:</b> qemu-block@nongnu.org &lt;qemu-block@nongnu.org&gt;<br>
-<b>Cc:</b> qemu-devel@nongnu.org &lt;qemu-devel@nongnu.org&gt;; mreitz@redh=
-at.com &lt;mreitz@redhat.com&gt;; kwolf@redhat.com &lt;kwolf@redhat.com&gt;=
-; eblake@redhat.com &lt;eblake@redhat.com&gt;; Denis Lunev &lt;den@virtuozz=
-o.com&gt;; Andrey Shinkevich &lt;andrey.shinkevich@virtuozzo.com&gt;;
- Vladimir Sementsov-Ogievskiy &lt;vsementsov@virtuozzo.com&gt;<br>
-<b>Subject:</b> [PATCH v5 12/13] qcow2: QcowHeaderExtension print names for=
- extension magics</font>
-<div>&nbsp;</div>
-</div>
-<div class=3D"x_BodyFragment"><font size=3D"2"><span style=3D"font-size:11p=
-t">
-<div class=3D"x_PlainText">Suggested-by: Andrey Shinkevich &lt;andrey.shink=
-evich@virtuozzo.com&gt;<br>
-Signed-off-by: Vladimir Sementsov-Ogievskiy &lt;vsementsov@virtuozzo.com&gt=
-;<br>
----<br>
-&nbsp;tests/qemu-iotests/031.out&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp; | 22 &#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;---------=
---<br>
-&nbsp;tests/qemu-iotests/036.out&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp; |&nbsp; 4 &#43;&#43;--<br>
-&nbsp;tests/qemu-iotests/061.out&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp; | 14 &#43;&#43;&#43;&#43;&#43;&#43;&#43;-------<br>
-&nbsp;tests/qemu-iotests/qcow2_format.py | 17 &#43;&#43;&#43;&#43;&#43;&#43=
-;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;-<br>
-&nbsp;4 files changed, 36 insertions(&#43;), 21 deletions(-)<br>
-&nbsp;<br>
-diff --git a/tests/qemu-iotests/qcow2_format.py b/tests/qemu-iotests/qcow2_=
-format.py<br>
-index 32371e42da..40b5bf467b 100644<br>
---- a/tests/qemu-iotests/qcow2_format.py<br>
-&#43;&#43;&#43; b/tests/qemu-iotests/qcow2_format.py<br>
-@@ -39,6 &#43;39,12 @@ class Flags64(Qcow2Field):<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return str(bits)<br>
-&nbsp;<br>
-&nbsp;<br>
-&#43;class Enum(Qcow2Field):<br>
-&#43;<br>
-&#43;&nbsp;&nbsp;&nbsp; def __str__(self):<br>
-&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return f'{self.value:#x} ({=
-self.mapping.get(self.value, &quot;&lt;unknown&gt;&quot;)})'</div>
-<div class=3D"x_PlainText"><br>
-</div>
-<div class=3D"x_PlainText">I've got the error E0100: invalid syntax [pylama=
-]</div>
-<div class=3D"x_PlainText"><br>
-</div>
-<div class=3D"x_PlainText">Andrey</div>
-<div class=3D"x_PlainText"><br>
-</div>
-<div class=3D"x_PlainText">The script itself works. Probably, my python syn=
-tax checker is obsolete.</div>
-<div class=3D"x_PlainText"><br>
-</div>
-<div class=3D"x_PlainText">Andrey&nbsp;<br>
-&nbsp;<br>
-</div>
-</span></font></div>
-</div>
-</body>
-</html>
-
---_000_AM6PR08MB4070ABE5DB45F47AB85D3716F4850AM6PR08MB4070eurp_--
+--=20
+Alex Benn=C3=A9e
 
