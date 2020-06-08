@@ -2,77 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAB611F1E4A
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 19:23:05 +0200 (CEST)
-Received: from localhost ([::1]:48008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE9A11F1E4C
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 19:24:28 +0200 (CEST)
+Received: from localhost ([::1]:52330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jiLUG-0004X4-9i
-	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 13:23:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49616)
+	id 1jiLVb-0006IC-OO
+	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 13:24:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jiLT2-0003jE-Gz
- for qemu-devel@nongnu.org; Mon, 08 Jun 2020 13:21:48 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:39521)
+ id 1jiLT6-0003ms-Tg
+ for qemu-devel@nongnu.org; Mon, 08 Jun 2020 13:21:52 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:40042)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jiLT1-0005qi-NH
- for qemu-devel@nongnu.org; Mon, 08 Jun 2020 13:21:48 -0400
-Received: by mail-wr1-x442.google.com with SMTP id t18so18286353wru.6
- for <qemu-devel@nongnu.org>; Mon, 08 Jun 2020 10:21:47 -0700 (PDT)
+ id 1jiLT5-0005sv-Sz
+ for qemu-devel@nongnu.org; Mon, 08 Jun 2020 13:21:52 -0400
+Received: by mail-wm1-x342.google.com with SMTP id r15so299360wmh.5
+ for <qemu-devel@nongnu.org>; Mon, 08 Jun 2020 10:21:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=utM+BoCjhmOMVexx0YBNeGuPgRXyfVF14tqXVwC/jek=;
- b=P1tK0UvDFVeB+keminTuP9JO2P0k0UlAXddZ5t/VtjAftIAcuvf2R8fNBjA3PboMPi
- Dq7dW3dntqPuLdr3qasJAlV/H81eQl0YndyB95Sp28JYsklnqnJ/HPW/GFM8l0fj5+Z4
- ydGIopXAKXjz4Q/jzUDggyJFtsASZQhoMM6pgKR1kTVMNm8hoHJKx91Our2/RBL0cTAV
- mSwXYU1Qvpj+5d/yKoyhZ57Fahtzpw8wR3koX1A2KzxBEMElN7c253DpXmGbDl2Am0vt
- w+X9DP8p0NID+g6DFPJ13hs7XDrIOAUd1NrVlaFXHy+iO233TMjGxHJgRTgC0+NnxKj6
- Uwfg==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=+fdixkd1kovppyuOu9Vk3C+grgh/kkvSWD8CAVFYEj0=;
+ b=mfff8J8hriNm6BZwxJb000itD+rK2zQDir548m/ad2toHrBb4LsMpNOT2UHkPfTVS5
+ Rv+srPo7b8sYY4UgsL5hPnRcbCLKwFTMRmCFmyFCsGrKA59lcZyh89JCfF9lR7Zzn/sh
+ Oeasal7CjESNTzyFghmsnc9t4haefBG6kJ71kGXcmjiTphlniPvXy4MWipbkuwkh0Up1
+ ehlZhJiFTBG3LkEgjxsR2BhLnX37geN+2exqkJr5NQuYU46Gzw4cjp8UdKESb/JmPXIK
+ 1uTWemjxV7C0GzMe4yNXhv0ePiYEq/uQzplA7bDLh8TmTwe7Y8PvQNkoAeNWYXxJsaEi
+ 4olQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=utM+BoCjhmOMVexx0YBNeGuPgRXyfVF14tqXVwC/jek=;
- b=UT4QmHqEI5FZssa+M+cW9hXO0DnRzplXSXZ0zp2YgLoJ0NO5Q7u7ffj3wYH+Yetxrr
- AHXahfROH0ekQNxc6NmNZd1/5jdReNUn90yeU1m5evC+SQ+iRMDQY93cyeQ1JVQaq6n/
- MSY+w/EvjAPeOC1GjlD2ow7eKxROWpDqyHS1aHjxIZ9FfgVRmsaS23fVlQ8XAXE13pLx
- HFrQZJpDc4uWU2bQy7kXmWmcgr6n7rODiAR6//XMDH8IeS8P1ojRXB6o91L+dh1kM7wH
- ZqH2mDXF/oIUITq1xIeNSAVcjIru8UkFBbTQFcfjADEQKa1IxHZOAZ7GV4BkW66sL7TY
- 4qvg==
-X-Gm-Message-State: AOAM533kTmXpMX35OQ5kn8E0RZn+rjk7G6MI0KdpRP18kAMyop1z2Nqh
- bWJM5EKHvfvNY+yybS+lKSa+EU71
-X-Google-Smtp-Source: ABdhPJxPyxQxTmUA7sf6Cij1gsKSEf08kYw60IqpnUvnCqWvxYDTpgTG/UcYbzNVXYNBMtqhfszdzA==
-X-Received: by 2002:adf:ed01:: with SMTP id a1mr26423503wro.271.1591636905987; 
- Mon, 08 Jun 2020 10:21:45 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=+fdixkd1kovppyuOu9Vk3C+grgh/kkvSWD8CAVFYEj0=;
+ b=TwfghAXaFP8JBC6RbkAEBds02YYCFOac8U3iuzDowF7gaugntmwMuxFwOiJQRsrJQ3
+ lGvn7nu2pjFO1D3YOxHHMMTa7DaEMTfYETuwF+0dp4tgjTQSfa2x79WKHGpgLn73J3Dd
+ VZRk5etDptfgHHcBgN5Tscdsm7ar2VpV2LQQOHdD7vPwzEJc0P04h7dHpQ2lkV18LPve
+ W72hpnf7majKC7vqIjTM+aY1yVvWjLmSPZl5ZlKN0GwA8Hk6WPUNB506ax+NJci0H9ll
+ U3bDlvTOXzeeMqJuMwzxssbDRz+XU62KZA7CY1tavPo2VHq6GlOYdIOA1pFq4u9xS+6X
+ RsKQ==
+X-Gm-Message-State: AOAM531Y1DGE1Tln3d1RZQviHsWMjiwL0D71EMqRZv5lcyDjy5K+pEzT
+ CKHmCP2EjSrQUyl0U4Ey+U+XY/dj
+X-Google-Smtp-Source: ABdhPJyQMhmq/Tp64NZrGmlpX8bBo7bMGcg2zblVSxIZ+iQpvYTd9wjsZbPQssd7sJ8pP6ONM3JSnA==
+X-Received: by 2002:a7b:c40e:: with SMTP id k14mr367222wmi.59.1591636907031;
+ Mon, 08 Jun 2020 10:21:47 -0700 (PDT)
 Received: from localhost.localdomain
  (181.red-88-10-103.dynamicip.rima-tde.net. [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id n23sm223618wmc.0.2020.06.08.10.21.44
+ by smtp.gmail.com with ESMTPSA id n23sm223618wmc.0.2020.06.08.10.21.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Jun 2020 10:21:45 -0700 (PDT)
+ Mon, 08 Jun 2020 10:21:46 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/3] hw/sparc: Map the UART devices unconditionally
-Date: Mon,  8 Jun 2020 19:21:41 +0200
-Message-Id: <20200608172144.20461-1-f4bug@amsat.org>
+Subject: [PATCH 1/3] hw/sparc/leon3: Map the UART device unconditionally
+Date: Mon,  8 Jun 2020 19:21:42 +0200
+Message-Id: <20200608172144.20461-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
+In-Reply-To: <20200608172144.20461-1-f4bug@amsat.org>
+References: <20200608172144.20461-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+X-Spam_score_int: -16
+X-Spam_score: -1.7
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
  FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,24 +95,43 @@ Cc: KONRAD Frederic <frederic.konrad@adacore.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Few more SPARC patches.
+The UART is present on the chipset regardless there is a
+character device connected to it. Map it unconditionally.
 
-Mark/Artyom/Frederic if you Ack them I'll simply add them
-to the current trivial SPARC patch queue I prepared.
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ hw/sparc/leon3.c | 18 ++++++++----------
+ 1 file changed, 8 insertions(+), 10 deletions(-)
 
-Regards,
-
-Phil.
-
-Philippe Mathieu-Daudé (3):
-  hw/sparc/leon3: Map the UART device unconditionally
-  hw/sparc64/niagara: Remove duplicated NIAGARA_UART_BASE definition
-  hw/sparc64/niagara: Map the UART device unconditionally
-
- hw/sparc/leon3.c     | 18 ++++++++----------
- hw/sparc64/niagara.c |  7 ++-----
- 2 files changed, 10 insertions(+), 15 deletions(-)
-
+diff --git a/hw/sparc/leon3.c b/hw/sparc/leon3.c
+index 8f024dab7b..cc55117dec 100644
+--- a/hw/sparc/leon3.c
++++ b/hw/sparc/leon3.c
+@@ -339,16 +339,14 @@ static void leon3_generic_hw_init(MachineState *machine)
+                             0, LEON3_TIMER_IRQ, GRLIB_APBIO_AREA);
+ 
+     /* Allocate uart */
+-    if (serial_hd(0)) {
+-        dev = qdev_create(NULL, TYPE_GRLIB_APB_UART);
+-        qdev_prop_set_chr(dev, "chrdev", serial_hd(0));
+-        qdev_init_nofail(dev);
+-        sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, LEON3_UART_OFFSET);
+-        sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0, cpu_irqs[LEON3_UART_IRQ]);
+-        grlib_apb_pnp_add_entry(apb_pnp, LEON3_UART_OFFSET, 0xFFF,
+-                                GRLIB_VENDOR_GAISLER, GRLIB_APBUART_DEV, 1,
+-                                LEON3_UART_IRQ, GRLIB_APBIO_AREA);
+-    }
++    dev = qdev_create(NULL, TYPE_GRLIB_APB_UART);
++    qdev_prop_set_chr(dev, "chrdev", serial_hd(0));
++    qdev_init_nofail(dev);
++    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, LEON3_UART_OFFSET);
++    sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0, cpu_irqs[LEON3_UART_IRQ]);
++    grlib_apb_pnp_add_entry(apb_pnp, LEON3_UART_OFFSET, 0xFFF,
++                            GRLIB_VENDOR_GAISLER, GRLIB_APBUART_DEV, 1,
++                            LEON3_UART_IRQ, GRLIB_APBIO_AREA);
+ }
+ 
+ static void leon3_generic_machine_init(MachineClass *mc)
 -- 
 2.21.3
 
