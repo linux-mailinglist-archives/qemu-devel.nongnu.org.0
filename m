@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 928581F1DF5
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 19:01:21 +0200 (CEST)
-Received: from localhost ([::1]:50874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68E7B1F1E1A
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 19:04:00 +0200 (CEST)
+Received: from localhost ([::1]:58974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jiL9E-0000Wf-Gl
-	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 13:01:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45782)
+	id 1jiLBm-0004FF-Sx
+	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 13:03:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45944)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <joseph_myers@mentor.com>)
- id 1jiL4z-00043B-1S
- for qemu-devel@nongnu.org; Mon, 08 Jun 2020 12:56:57 -0400
-Received: from esa3.mentor.iphmx.com ([68.232.137.180]:45679)
+ id 1jiL5R-0004sP-DY
+ for qemu-devel@nongnu.org; Mon, 08 Jun 2020 12:57:25 -0400
+Received: from esa4.mentor.iphmx.com ([68.232.137.252]:9046)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <joseph_myers@mentor.com>)
- id 1jiL4x-0001Os-1o
- for qemu-devel@nongnu.org; Mon, 08 Jun 2020 12:56:56 -0400
-IronPort-SDR: r2mWtAkwymmgt6cyHei4YDntnWQx26ProPtKOCoULTAjkhxKvZ1q60A7Cv062uvwUGdEcPDYrB
- jbXGkAzfm8XG+whRUMzzmybNmPxdV8ZUHvkUvyT3PFxtvP53hsuIMhbdZNOjySk9MipSV03fwS
- sUWmoG2gFms/LFJ+tH444l0NuvLCYoUyo4D3zYVG1cpuEOsPZNp5tywHwzr7NOxEvv82pQvz6X
- ngmEoKm8bAqkBGbgkQqRfW07Ky4eA9AUcXAKob155gHELwquSO4JpNqluvZFGpxuVxgFN1CrHV
- Ers=
-X-IronPort-AV: E=Sophos;i="5.73,487,1583222400"; d="scan'208";a="49617203"
+ id 1jiL5Q-0001VG-6K
+ for qemu-devel@nongnu.org; Mon, 08 Jun 2020 12:57:25 -0400
+IronPort-SDR: L4DFM5pBJVnOB5D7ux5GBWd1sfxK9BQH5qL2ZPXOUbi4Xn45Z3U+ABpXPs72FSnohYBVblpSvZ
+ b3r/wuigSkgehlKVJ3vZjH18QKypIYAvUxGIAxDq4qAbKw4htqlMw2IxDg8c8pWTosN5LxsqXj
+ zwWkSu2kyVO8uD2uDwtXVI0eJ4h/ujOCYs0fQqHOlrW5nFFx6n4oh7SrVGajornb8et66+r/zh
+ Yjxkzo7sH3Pqc88nr1uAm/UHR9x0gG+PIz0voFsXKxeiY/1/ezDVq/HOjr2xl2ZVJ/j5ViKZyV
+ nuo=
+X-IronPort-AV: E=Sophos;i="5.73,487,1583222400"; d="scan'208";a="49689901"
 Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
- by esa3.mentor.iphmx.com with ESMTP; 08 Jun 2020 08:56:53 -0800
-IronPort-SDR: VpGolUg+nL79sI7ZVR/jja5Ucoapp4Xzfme8IAxy1jrdJUwWa7a1OHw8TUdpDDy4ouwyr+RBVn
- f4ycK2EvPwTUNnuQTWBB+uNVxjqf6FU/va2ErU1o9Kwk/XxkTL1awuevt80n1paxhbA+bCAZkE
- pvf64vkPaWMhj5QIb6My2OTJszxo1lyb+PEZCOCllnP1cQagXH+6lhInjkYM6YnFXdmpHlP/bn
- 2RTrJ9YOZzim4psq7Qo0pIPhcU6BtHqgYQspuI4dK8qDHd8ryjazb4heHuC1enD3vt5ImkXRWj
- los=
-Date: Mon, 8 Jun 2020 16:56:47 +0000
+ by esa4.mentor.iphmx.com with ESMTP; 08 Jun 2020 08:57:22 -0800
+IronPort-SDR: jke4R6POX1Lkh23iXyL1UHrNr7WeIOj7VOuSqAsu+rgZJhvPd1lKb1T9K/IzZkt/4N+3x8dY2K
+ lGdRYAWTqol/lQe+lawd4N1QEsW9XuEeYUhMl4FIMekqMwSrWzpi+jqHEygtt1jIzpTDangcBH
+ s9n/SME9uOQMrjM6vHAeQMVDaftvTu6Ly8giqpg0ifaFKV6vIxSUpUAslsGGwVKPB+Y0LBlBRL
+ dMtaUIOXJq1TFj6Yrgd4UXIG96MPiWXAyAKb8IMeWftQte//hhR9WXcuDKKxbWfpy+a9GlIbaU
+ WO8=
+Date: Mon, 8 Jun 2020 16:57:16 +0000
 From: Joseph Myers <joseph@codesourcery.com>
 X-X-Sender: jsm28@digraph.polyomino.org.uk
 To: <qemu-devel@nongnu.org>, <aurelien@aurel32.net>,
  <peter.maydell@linaro.org>, <alex.bennee@linaro.org>, <laurent@vivier.eu>,
  <pbonzini@redhat.com>, <rth@twiddle.net>, <ehabkost@redhat.com>
-Subject: [PATCH v2 4/6] softfloat: do not set denominator high bit for floatx80
- remainder
+Subject: [PATCH v2 5/6] softfloat: return low bits of quotient from
+ floatx80_modrem
 In-Reply-To: <alpine.DEB.2.21.2006081653080.23637@digraph.polyomino.org.uk>
-Message-ID: <alpine.DEB.2.21.2006081656220.23637@digraph.polyomino.org.uk>
+Message-ID: <alpine.DEB.2.21.2006081656500.23637@digraph.polyomino.org.uk>
 References: <alpine.DEB.2.21.2006081653080.23637@digraph.polyomino.org.uk>
 User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="US-ASCII"
 X-Originating-IP: [137.202.0.90]
-X-ClientProxiedBy: SVR-IES-MBX-07.mgc.mentorg.com (139.181.222.7) To
+X-ClientProxiedBy: SVR-IES-MBX-04.mgc.mentorg.com (139.181.222.4) To
  svr-ies-mbx-02.mgc.mentorg.com (139.181.222.2)
-Received-SPF: pass client-ip=68.232.137.180;
- envelope-from=joseph_myers@mentor.com; helo=esa3.mentor.iphmx.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/08 12:54:23
+Received-SPF: pass client-ip=68.232.137.252;
+ envelope-from=joseph_myers@mentor.com; helo=esa4.mentor.iphmx.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/08 12:55:19
 X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
 X-Spam_score_int: -39
 X-Spam_score: -4.0
@@ -75,30 +75,125 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The floatx80 remainder implementation unnecessarily sets the high bit
-of bSig explicitly.  By that point in the function, arguments that are
-invalid, zero, infinity or NaN have already been handled and
-subnormals have been through normalizeFloatx80Subnormal, so the high
-bit will already be set.  Remove the unnecessary code.
+Both x87 and m68k need the low parts of the quotient for their
+remainder operations.  Arrange for floatx80_modrem to track those bits
+and return them via a pointer.
+
+The architectures using float32_rem and float64_rem do not appear to
+need this information, so the *_rem interface is left unchanged and
+the information returned only from floatx80_modrem.  The logic used to
+determine the low 7 bits of the quotient for m68k
+(target/m68k/fpu_helper.c:make_quotient) appears completely bogus (it
+looks at the result of converting the remainder to integer, the
+quotient having been discarded by that point); this patch does not
+change that, but the m68k maintainers may wish to do so.
 
 Signed-off-by: Joseph Myers <joseph@codesourcery.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- fpu/softfloat.c | 1 -
- 1 file changed, 1 deletion(-)
+ fpu/softfloat.c         | 23 ++++++++++++++++++-----
+ include/fpu/softfloat.h |  3 ++-
+ 2 files changed, 20 insertions(+), 6 deletions(-)
 
 diff --git a/fpu/softfloat.c b/fpu/softfloat.c
-index 9d43868e4c..1552241b5e 100644
+index 1552241b5e..72f45b0103 100644
 --- a/fpu/softfloat.c
 +++ b/fpu/softfloat.c
-@@ -5736,7 +5736,6 @@ floatx80 floatx80_modrem(floatx80 a, floatx80 b, bool mod,
-         if ( aSig0 == 0 ) return a;
-         normalizeFloatx80Subnormal( aSig0, &aExp, &aSig0 );
+@@ -5684,10 +5684,11 @@ floatx80 floatx80_div(floatx80 a, floatx80 b, float_status *status)
+ | `a' with respect to the corresponding value `b'.  The operation is performed
+ | according to the IEC/IEEE Standard for Binary Floating-Point Arithmetic,
+ | if 'mod' is false; if 'mod' is true, return the remainder based on truncating
+-| the quotient toward zero instead.
++| the quotient toward zero instead.  '*quotient' is set to the low 64 bits of
++| the absolute value of the integer quotient.
+ *----------------------------------------------------------------------------*/
+ 
+-floatx80 floatx80_modrem(floatx80 a, floatx80 b, bool mod,
++floatx80 floatx80_modrem(floatx80 a, floatx80 b, bool mod, uint64_t *quotient,
+                          float_status *status)
+ {
+     bool aSign, zSign;
+@@ -5695,6 +5696,7 @@ floatx80 floatx80_modrem(floatx80 a, floatx80 b, bool mod,
+     uint64_t aSig0, aSig1, bSig;
+     uint64_t q, term0, term1, alternateASig0, alternateASig1;
+ 
++    *quotient = 0;
+     if (floatx80_invalid_encoding(a) || floatx80_invalid_encoding(b)) {
+         float_raise(float_flag_invalid, status);
+         return floatx80_default_nan(status);
+@@ -5753,7 +5755,7 @@ floatx80 floatx80_modrem(floatx80 a, floatx80 b, bool mod,
+         shift128Right( aSig0, 0, 1, &aSig0, &aSig1 );
+         expDiff = 0;
      }
--    bSig |= UINT64_C(0x8000000000000000);
-     zSign = aSign;
-     expDiff = aExp - bExp;
-     aSig1 = 0;
+-    q = ( bSig <= aSig0 );
++    *quotient = q = ( bSig <= aSig0 );
+     if ( q ) aSig0 -= bSig;
+     expDiff -= 64;
+     while ( 0 < expDiff ) {
+@@ -5763,6 +5765,8 @@ floatx80 floatx80_modrem(floatx80 a, floatx80 b, bool mod,
+         sub128( aSig0, aSig1, term0, term1, &aSig0, &aSig1 );
+         shortShift128Left( aSig0, aSig1, 62, &aSig0, &aSig1 );
+         expDiff -= 62;
++        *quotient <<= 62;
++        *quotient += q;
+     }
+     expDiff += 64;
+     if ( 0 < expDiff ) {
+@@ -5776,6 +5780,12 @@ floatx80 floatx80_modrem(floatx80 a, floatx80 b, bool mod,
+             ++q;
+             sub128( aSig0, aSig1, term0, term1, &aSig0, &aSig1 );
+         }
++        if (expDiff < 64) {
++            *quotient <<= expDiff;
++        } else {
++            *quotient = 0;
++        }
++        *quotient += q;
+     }
+     else {
+         term1 = 0;
+@@ -5790,6 +5800,7 @@ floatx80 floatx80_modrem(floatx80 a, floatx80 b, bool mod,
+             aSig0 = alternateASig0;
+             aSig1 = alternateASig1;
+             zSign = ! zSign;
++            ++*quotient;
+         }
+     }
+     return
+@@ -5806,7 +5817,8 @@ floatx80 floatx80_modrem(floatx80 a, floatx80 b, bool mod,
+ 
+ floatx80 floatx80_rem(floatx80 a, floatx80 b, float_status *status)
+ {
+-    return floatx80_modrem(a, b, false, status);
++    uint64_t quotient;
++    return floatx80_modrem(a, b, false, &quotient, status);
+ }
+ 
+ /*----------------------------------------------------------------------------
+@@ -5817,7 +5829,8 @@ floatx80 floatx80_rem(floatx80 a, floatx80 b, float_status *status)
+ 
+ floatx80 floatx80_mod(floatx80 a, floatx80 b, float_status *status)
+ {
+-    return floatx80_modrem(a, b, true, status);
++    uint64_t quotient;
++    return floatx80_modrem(a, b, true, &quotient, status);
+ }
+ 
+ /*----------------------------------------------------------------------------
+diff --git a/include/fpu/softfloat.h b/include/fpu/softfloat.h
+index bff6934d09..ff4e2605b1 100644
+--- a/include/fpu/softfloat.h
++++ b/include/fpu/softfloat.h
+@@ -687,7 +687,8 @@ floatx80 floatx80_add(floatx80, floatx80, float_status *status);
+ floatx80 floatx80_sub(floatx80, floatx80, float_status *status);
+ floatx80 floatx80_mul(floatx80, floatx80, float_status *status);
+ floatx80 floatx80_div(floatx80, floatx80, float_status *status);
+-floatx80 floatx80_modrem(floatx80, floatx80, bool, float_status *status);
++floatx80 floatx80_modrem(floatx80, floatx80, bool, uint64_t *,
++                         float_status *status);
+ floatx80 floatx80_mod(floatx80, floatx80, float_status *status);
+ floatx80 floatx80_rem(floatx80, floatx80, float_status *status);
+ floatx80 floatx80_sqrt(floatx80, float_status *status);
 -- 
 2.17.1
 
