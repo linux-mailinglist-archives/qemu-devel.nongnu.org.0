@@ -2,112 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 060921F1D86
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 18:38:45 +0200 (CEST)
-Received: from localhost ([::1]:58884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DF291F1D88
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 18:39:49 +0200 (CEST)
+Received: from localhost ([::1]:35678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jiKnL-0001Ap-SV
-	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 12:38:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39734)
+	id 1jiKoO-0003H6-59
+	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 12:39:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40452)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jiKT5-0003Y1-Gd
- for qemu-devel@nongnu.org; Mon, 08 Jun 2020 12:17:47 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:26962
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jiKT4-0002f3-5I
- for qemu-devel@nongnu.org; Mon, 08 Jun 2020 12:17:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591633065;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=1jLMVbVyOeQVt3DxZyMkiZa3v5bA58Ubvf1vYrVyoKY=;
- b=JRcWnRERdA858LJdWhdyW/963/iUinf3bTRO/Rw/ewmQTBXoxSYMDveEn8Q6NiiyKseU9Z
- yNjvWHZMf+Smy3BK2A64FcPnNJhXdFj9N1V9m3qHQGkWtqTHBThgvfE16rBfFNW9A6G/EB
- MV5mwSMpzwST2Cx6q8tbjSNhNXjtSbo=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-222-YpS0c2V6My-PeKqLtt9eUA-1; Mon, 08 Jun 2020 12:17:43 -0400
-X-MC-Unique: YpS0c2V6My-PeKqLtt9eUA-1
-Received: by mail-wm1-f70.google.com with SMTP id s15so15676wmc.8
- for <qemu-devel@nongnu.org>; Mon, 08 Jun 2020 09:17:43 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jiKZX-0003eS-Mu
+ for qemu-devel@nongnu.org; Mon, 08 Jun 2020 12:24:27 -0400
+Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:36757)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jiKZW-0003kx-8F
+ for qemu-devel@nongnu.org; Mon, 08 Jun 2020 12:24:27 -0400
+Received: by mail-pl1-x644.google.com with SMTP id bg4so6855965plb.3
+ for <qemu-devel@nongnu.org>; Mon, 08 Jun 2020 09:24:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=0Y4xc6MxXnp/UCqE/q/3jGHzpymQf0UxdyiAr5tbJaA=;
+ b=Ewp95ZpdtMSe9pDrsaphR64wT8U01MhAeN/oW2zcbbi2G3GazFOWc/LJ8PhT45podS
+ TcGwPayqFo9paPVvQr9AIyHRf4tRXToWcHhP4YA9q0MUfSqnpYViqN4GTFfaWCV75q0q
+ VZp5oiGbHWQpyLOKQ8AE2e2zG2gZSSIDyRX+jzxTIlZPeKigxbs82eW06wtHK+QrsOcR
+ FGN/jo4dcjabBlu/SaKrodkHGTJqVcAq9IjGzLiAaszmAxJhth08mxHsgxsUGCtKqpBD
+ asGBRZa4lCqmkSYswdJpd9IaJepAUyb8D52TagPKsqEjbRJKgxo0CDlZpuwuakOMsk/3
+ lxwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=1jLMVbVyOeQVt3DxZyMkiZa3v5bA58Ubvf1vYrVyoKY=;
- b=XQJuDXqvBhlTdc/edZgDHO5T1TA4aADW5PWXUlmbRCubj8a+kehjSg7evyQo6r0v/Z
- /a9t15W/3che8n+mdPL5RqY3X541C4F5tMn2mLYr36zNx3cJC8tkUbO/jT/Rlw+1vqo0
- tKXmnSUspvGsaGM1hB3HvVOgNCS5pq9YBr2f3a/1XqfHNygmtbwyyQ9F6kocvl2sNfDa
- ok+v5DkafUaNAVgqXLKTbHjTa3VYIxJsAv5PHdnX5R2N1E4HoeCZRGagihmha3XMwSrY
- 7ZUdeFzTEOl9suasNCJL/6QB6S6WvUjctOCn35qieLFMhwWStviWtyV1n8SOmjQwa6r3
- InYw==
-X-Gm-Message-State: AOAM532EhK2NjaoPv55wVJq3Q2jfcePUMW/SoY4V6iyi/5hhKrI3e1/H
- IIS1UH9uKvY/MFPXz7WdfxyEPW6RTicxxO1dQW4hWg06aJEbf9akJKhAWUVy4+L0bYChHIJo3FK
- GXFNaG0SaXSYOryk=
-X-Received: by 2002:a1c:1f48:: with SMTP id f69mr104665wmf.67.1591633062283;
- Mon, 08 Jun 2020 09:17:42 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw3YBh9EGdDObAb79iv4SsIf8IFp5HSV9+Z1Ovy3h5MqXgC2dmwC/+3rmg10l/GT0TlOYJvaw==
-X-Received: by 2002:a1c:1f48:: with SMTP id f69mr104619wmf.67.1591633062031;
- Mon, 08 Jun 2020 09:17:42 -0700 (PDT)
-Received: from [192.168.1.38] (181.red-88-10-103.dynamicip.rima-tde.net.
- [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id k21sm247677wrd.24.2020.06.08.09.17.40
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=0Y4xc6MxXnp/UCqE/q/3jGHzpymQf0UxdyiAr5tbJaA=;
+ b=VqBS61ZLGt4R1y6WolRH0qXPi0NGp90m6mAPELM1pbSmOYVV+XTyw4VxW5MiTMFhAA
+ YZHXj1P7cQaDvCRiMsGvC571w3quzfzubYefmnsSk0Mw1bac6qUIuRkezxaSEvMVin4O
+ acid0g2PuvXYzFqFnCeryN4urt/7t07SaLg/xnUUnyKQC4ve4gKYhuEqrNZe12z708xv
+ efDPGWO9YXLtFwZ4ZRivVqApBR88GZ95Jz6RDJpZSnZWidvepC0Y/V+hhKZTXv9683Pe
+ x67zntA6ObVIrGb3FXpQE8WI8jJDiWZISz+4GAto8EglxsVLzd9VzjkGIFOkRN1E9XXx
+ ve0g==
+X-Gm-Message-State: AOAM533DBbBG0Vhg4JAx7XKTtFvqIV/AGp0lN7r3YzX959Cqs/ZGMR/Y
+ UTZCNfiOXN5bnHh7eMrhdpU1ig==
+X-Google-Smtp-Source: ABdhPJxzGmJZfW+lbewobue9y0vBeVjNRMguHbbGILdm/pMsmiwFoWt2zHt0OrfICGyj9iXiZyvYyw==
+X-Received: by 2002:a17:902:aa88:: with SMTP id
+ d8mr21429391plr.257.1591633464059; 
+ Mon, 08 Jun 2020 09:24:24 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
+ by smtp.gmail.com with ESMTPSA id a17sm7664085pfi.203.2020.06.08.09.24.22
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 08 Jun 2020 09:17:41 -0700 (PDT)
-Subject: Re: [RFC PATCH 00/35] hw/qdev: Warn when using pre-qdev/QOM devices
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20200608160044.15531-1-philmd@redhat.com>
- <CAFEAcA_Ni8=mvyfG=9Aa=ym-ae9HpP8J8B0ekm8=SN2WgZ6_vA@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <81653f82-484b-a04a-7b2c-1362a724d0e8@redhat.com>
-Date: Mon, 8 Jun 2020 18:17:39 +0200
+ Mon, 08 Jun 2020 09:24:23 -0700 (PDT)
+Subject: Re: [PATCH] migration: fix xbzrle encoding rate calculation
+To: Wei Wang <wei.w.wang@intel.com>, qemu-devel@nongnu.org, dgilbert@redhat.com
+References: <1591577607-13998-1-git-send-email-wei.w.wang@intel.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <c8f8a08a-7621-a170-d007-427ef7621dfb@linaro.org>
+Date: Mon, 8 Jun 2020 09:24:20 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_Ni8=mvyfG=9Aa=ym-ae9HpP8J8B0ekm8=SN2WgZ6_vA@mail.gmail.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <1591577607-13998-1-git-send-email-wei.w.wang@intel.com>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/08 11:58:00
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::644;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x644.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -120,45 +89,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sagar Karandikar <sagark@eecs.berkeley.edu>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- QEMU Developers <qemu-devel@nongnu.org>, Max Filippov <jcmvbkbc@gmail.com>,
- Alistair Francis <Alistair.Francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Stefano Stabellini <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>,
- Magnus Damm <magnus.damm@gmail.com>, Markus Armbruster <armbru@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Alistair Francis <alistair@alistair23.me>, qemu-arm <qemu-arm@nongnu.org>,
- "open list:X86" <xen-devel@lists.xenproject.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>, Stafford Horne <shorne@gmail.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Richard Henderson <rth@twiddle.net>,
- "Daniel P . Berrange" <berrange@redhat.com>, Thomas Huth <huth@tuxfamily.org>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Michael Walle <michael@walle.cc>, qemu-ppc <qemu-ppc@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: yi.y.sun@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/8/20 6:14 PM, Peter Maydell wrote:
-> On Mon, 8 Jun 2020 at 17:00, Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
->>
->> Based on today's IRC chat, this is a trivial RFC series
->> to anotate pre-qdev/QOM devices so developers using them
->> without knowing they are not QOM'ified yet can realize
->> it and convert them if they have time.
+On 6/7/20 5:53 PM, Wei Wang wrote:
+> It's reported an error of implicit conversion from "unsigned long" to
+> "double" when compiling with Clang 10. Simply make the encoding rate 0
+> when the encoded_size is 0.
 > 
-> What mechanism did you use for identifying non-QOM devices?
+> Fixes: e460a4b1a4
+> Reported-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Wei Wang <wei.w.wang@intel.com>
+> ---
+>  migration/ram.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
 
-I don't think this is the complete list, this is only all the one I
-could find with:
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-  $ git grep "g_new|g_malloc" hw/
 
-Then on each match I manually reviewed (so I might have incorrectly
-flagged code too).
-
+r~
 
