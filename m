@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 955F51F1C25
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 17:32:19 +0200 (CEST)
-Received: from localhost ([::1]:41984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D94A1F1C57
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 17:43:42 +0200 (CEST)
+Received: from localhost ([::1]:58296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jiJl4-000747-LT
-	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 11:32:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34458)
+	id 1jiJw5-0006Z5-Gs
+	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 11:43:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35586)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jiJjZ-0006XJ-Ul
- for qemu-devel@nongnu.org; Mon, 08 Jun 2020 11:30:48 -0400
-Received: from indium.canonical.com ([91.189.90.7]:40368)
+ id 1jiJtd-00049r-On
+ for qemu-devel@nongnu.org; Mon, 08 Jun 2020 11:41:10 -0400
+Received: from indium.canonical.com ([91.189.90.7]:44814)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jiJjY-0001c0-Lh
- for qemu-devel@nongnu.org; Mon, 08 Jun 2020 11:30:45 -0400
+ id 1jiJtc-0003j2-Ax
+ for qemu-devel@nongnu.org; Mon, 08 Jun 2020 11:41:09 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jiJjW-0001kr-Fk
- for <qemu-devel@nongnu.org>; Mon, 08 Jun 2020 15:30:42 +0000
+ id 1jiJta-0004Qd-Ei
+ for <qemu-devel@nongnu.org>; Mon, 08 Jun 2020 15:41:06 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 7626C2E80BA
- for <qemu-devel@nongnu.org>; Mon,  8 Jun 2020 15:30:42 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 6760C2E8105
+ for <qemu-devel@nongnu.org>; Mon,  8 Jun 2020 15:41:06 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 08 Jun 2020 15:23:10 -0000
-From: Eric Blake <1882350@bugs.launchpad.net>
+Date: Mon, 08 Jun 2020 15:33:24 -0000
+From: Eric Blake <1874073@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: ide-hd
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=philmd@redhat.com; 
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: eblake winndows
-X-Launchpad-Bug-Reporter: marshell (winndows)
+X-Launchpad-Bug-Commenters: eblake mliska philmd pmaydell
+X-Launchpad-Bug-Reporter: Martin Liska (mliska)
 X-Launchpad-Bug-Modifier: Eric Blake (eblake)
-References: <159144063074.3735.15991486640962003601.malonedeb@soybean.canonical.com>
-Message-Id: <c04b7074-85f5-d0c7-818c-69019d513192@redhat.com>
-Subject: Re: [Bug 1882350] [NEW] it always create sdx device when I configure
- ide device with hdx name
+References: <158747496330.1952.6391008472811579405.malonedeb@chaenomeles.canonical.com>
+ <20200608071409.17024-1-philmd@redhat.com>
+Message-Id: <95f1d638-3921-ffdf-8f07-2f077d1d0cc9@redhat.com>
+Subject: [Bug 1874073] Re: [PATCH] hw/openrisc/openrisc_sim: Add assertion to
+ silent GCC warning
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="ef9fc486e875d54078fa61cf91e898b895125d89";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 763e82637a94104e2e628cb48bccce6b8ce69614
+X-Launchpad-Hash: 9b336a1c57938e582a6fc0c6bd79410aa3d01d41
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/08 11:30:42
@@ -74,58 +75,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1882350 <1882350@bugs.launchpad.net>
+Reply-To: Bug 1874073 <1874073@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/6/20 5:50 AM, marshell wrote:
-> Public bug reported:
-> =
+On 6/8/20 2:14 AM, Philippe Mathieu-Daud=C3=A9 wrote:
+> When compiling with GCC 10 (Fedora 32) using CFLAGS=3D-O2 we get:
 
-> I have configured 2 ide disks with name starting with hd, but when the
-> vm boots up, it shows disks whose name starting with sd.
-
-This looks more like a libvirt question than a qemu one.
+In the subject: s/silent/silence/
 
 > =
 
-> 1. ide disks in vm xml:
+>      CC      or1k-softmmu/hw/openrisc/openrisc_sim.o
+>    hw/openrisc/openrisc_sim.c: In function =E2=80=98openrisc_sim_init=E2=
+=80=99:
+>    hw/openrisc/openrisc_sim.c:87:42: error: =E2=80=98cpu_irqs[0]=E2=80=99=
+ may be used uninitialized in this function [-Werror=3Dmaybe-uninitialized]
+>       87 |         sysbus_connect_irq(s, i, cpu_irqs[i][irq_pin]);
+>          |                                  ~~~~~~~~^~~
 > =
 
->      <disk type=3D'file' device=3D'disk'>
->        <driver name=3D'qemu' type=3D'raw'/>
->        <source file=3D'/data3_raw.qcow2'/>
->        <target dev=3D'hdc' bus=3D'ide'/>
->      </disk>
->      <disk type=3D'file' device=3D'disk'>
->        <driver name=3D'qemu' type=3D'qcow2'/>
->        <source file=3D'/data2.qcow2'/>
->        <target dev=3D'hdb' bus=3D'ide'/>
->      </disk>
-
-The name that libvirt chooses to identify disks from the host =
-
-perspective is independent...
-
+> While humans can tell smp_cpus will always be in the [1, 2] range,
+> (openrisc_sim_machine_init sets mc->max_cpus =3D 2), the compiler
+> can't.
 > =
 
+> Add an assertion to give the compiler a hint there's no use of
+> uninitialized data.
 > =
 
-> 2. in VM:
-> =
+> Buglink: https://bugs.launchpad.net/qemu/+bug/1874073
+> Reported-by: Martin Li=C5=A1ka <mliska@suse.cz>
+> Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+>   hw/openrisc/openrisc_sim.c | 1 +
+>   1 file changed, 1 insertion(+)
 
-> sda            8:0    0    2G  0 disk
-> sdb            8:16   0    1G  0 disk
+Tested-by: Eric Blake <eblake@redhat.com>
 
-...from what the guest OS chooses to use.  Although there are many =
-
-situations where a Linux guest will pick the same names as libvirt chose =
-
-on the host side based on the transport (such as SCSI or virtio), there =
-
-is no guarantee that this is always the case, nor that your guest is =
-
-always running Linux as its OS.
+With the typo fixed,
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
 -- =
 
@@ -137,58 +127,30 @@ Virtualization:  qemu.org | libvirt.org
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1882350
+https://bugs.launchpad.net/bugs/1874073
 
 Title:
-  it always create sdx device when I configure ide device with hdx name
+  openrisc_sim.c:87:42: error: 'cpu_irqs[0]' may be used uninitialized
+  in this function [-Werror=3Dmaybe-uninitialized]
 
 Status in QEMU:
-  New
+  Confirmed
 
 Bug description:
-  I have configured 2 ide disks with name starting with hd, but when the
-  vm boots up, it shows disks whose name starting with sd.
+  I see the warning since gcc10:
 
-  1. ide disks in vm xml:
-
-      <disk type=3D'file' device=3D'disk'>
-        <driver name=3D'qemu' type=3D'raw'/>
-        <source file=3D'/data3_raw.qcow2'/>
-        <target dev=3D'hdc' bus=3D'ide'/>
-      </disk>
-      <disk type=3D'file' device=3D'disk'>
-        <driver name=3D'qemu' type=3D'qcow2'/>
-        <source file=3D'/data2.qcow2'/>
-        <target dev=3D'hdb' bus=3D'ide'/>
-      </disk>
+  static void openrisc_sim_init(MachineState *machine):
+  ...
+      qemu_irq *cpu_irqs[2];
+  ...
 
   =
 
-  2. in VM:
+      serial_mm_init(get_system_memory(), 0x90000000, 0, serial_irq,
+                     115200, serial_hd(0), DEVICE_NATIVE_ENDIAN);
 
-  sda            8:0    0    2G  0 disk
-  sdb            8:16   0    1G  0 disk
-
-  =
-
-  3. from vm.log:
-
-  le=3D/data2.qcow2,format=3Dqcow2,if=3Dnone,id=3Ddrive-ide0-0-1 -device id=
-e-
-  hd,bus=3Dide.0,unit=3D1,drive=3Ddrive-ide0-0-1,id=3Dide0-0-1 -drive
-  file=3D/data3_raw.qcow2,format=3Draw,if=3Dnone,id=3Ddrive-ide0-1-0 -device
-  ide-hd,bus=3Dide.1,unit=3D0,drive=3Ddrive-ide0-1-0,id=3Dide0-1-0 -netdev t
-
-  =
-
-  4. rpm info: (I got the same issue on 2 diff envs)
-  (1) env1
-  qemu-kvm-1.5.3-105
-  libvirt-3.2.0-14.el7
-  (2) env2
-  libvirt-5.9.0-1.el8
-  qemu-4.1.0-1.el8
+  I would initialize cpu_irqs[2] with {}.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1882350/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1874073/+subscriptions
 
