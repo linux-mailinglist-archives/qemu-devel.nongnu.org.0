@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81DE11F1D01
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 18:13:46 +0200 (CEST)
-Received: from localhost ([::1]:51338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34CF41F1CFA
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 18:10:47 +0200 (CEST)
+Received: from localhost ([::1]:41272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jiKPB-0004T2-Dm
-	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 12:13:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37932)
+	id 1jiKMI-0008W1-0o
+	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 12:10:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jiKDt-0006a3-Hp
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jiKDu-0006aL-L7
  for qemu-devel@nongnu.org; Mon, 08 Jun 2020 12:02:06 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:46263
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:20326
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jiKDs-0007nk-LX
- for qemu-devel@nongnu.org; Mon, 08 Jun 2020 12:02:05 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jiKDs-0007nl-M0
+ for qemu-devel@nongnu.org; Mon, 08 Jun 2020 12:02:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1591632122;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=O7Ly94SWL+SMdJ3uuRJWrIP/iOhgME/DwBVu03IUalo=;
- b=O2MGImjetCECL2wa5Ku6+hnAon5vqvZVJiWJtvQvQndbqtu1eve1uSgbc2YvuKeJ8QFLaZ
- eEYYHC8dEeeWYfqwrbwm2Q0Can2GKhL7CbN6BSc5mQ4m+qF08lFA5+JVD/HMNxFdujQFeX
- 7OUT0+aUM3dGPBSNzjqZInXW9lfQ1R4=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-14-AMnnR6waPGu6eYyo5BR4YQ-1; Mon, 08 Jun 2020 12:01:13 -0400
-X-MC-Unique: AMnnR6waPGu6eYyo5BR4YQ-1
-Received: by mail-wm1-f70.google.com with SMTP id t145so10272wmt.2
- for <qemu-devel@nongnu.org>; Mon, 08 Jun 2020 09:01:13 -0700 (PDT)
+ bh=JPFQ0bX3Ul9NeHHcjGis7Hob0YUuGxD/aHEXimgfPe0=;
+ b=SNg3Vw1wOv3e531S7bQvEPa0ySxt/QmIxqGPmHm/U1zxU1WjNFWluxou2WsblLYn2lyaBM
+ tWW3Vjg0Ms+1vtmiSD1HfOBfIBEXNjXKjrV04oUxlAqtQaMwUvew9W0ltKOY5mwQYPF0DX
+ w8mMKJPlge1H2E7RMOkn/Rn4IoSse68=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-125-FyNBouKTN4mktMj7ZIca2Q-1; Mon, 08 Jun 2020 12:01:17 -0400
+X-MC-Unique: FyNBouKTN4mktMj7ZIca2Q-1
+Received: by mail-wr1-f69.google.com with SMTP id o1so7297819wrm.17
+ for <qemu-devel@nongnu.org>; Mon, 08 Jun 2020 09:01:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=O7Ly94SWL+SMdJ3uuRJWrIP/iOhgME/DwBVu03IUalo=;
- b=PBj+qbZu5LbUfs3cDa46aKuWChuVFyeDwlyGdOOaIpF9xFEMN16R7ZxNvivkP5+U4L
- Wet/ephx5qMtBKI5VujqmYs+GTbpvaEQIgydsJxMToYJ82qo0LcPMdawTzHLGTpapFDE
- 1Nrd+n6Z9WoSb/eRgi5gobqSU/AnEwoFYzCFhSXvh75MnDuC4PcD3hMrr+htT66Nv+Sg
- jU5hRloyxudlaGtZKBYFSXghvBTV7BydOuvVfWmfrrDbohthgZEkcoHvjwdxKhCVt5V6
- 8YYZLTkoMvbsdegQsqyYfEX8j4qJkHhBx2FZcrLaFqCPfn1S1jJrEt6aN+tHefua27kS
- gTmw==
-X-Gm-Message-State: AOAM530Wr3lxOkFWOjHVyXBIXAgVAixvY93ttGSw9/solm7U4/804oII
- A7A1fvCXViXHJ+R4oGKE9oJU7QySZdCKwDMqzmpKPSS7m/wHBRhbf+RngLMxxwDIgpuhCDrkzGH
- xBjRQ5SJouPHmrP0=
-X-Received: by 2002:a5d:6acf:: with SMTP id u15mr25749806wrw.277.1591632070235; 
- Mon, 08 Jun 2020 09:01:10 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzcPzEmUfH07HRp9H1Y3tf4BoKsOaXn7cpLkhpXaJ1S6O0iNu0DeeV5KKJL41RODtirsARieQ==
-X-Received: by 2002:a5d:6acf:: with SMTP id u15mr25749771wrw.277.1591632069976; 
- Mon, 08 Jun 2020 09:01:09 -0700 (PDT)
+ bh=JPFQ0bX3Ul9NeHHcjGis7Hob0YUuGxD/aHEXimgfPe0=;
+ b=fixB7ber7WOIzoc9MzwgOactTNSuf6YCBb85gK2rb3YAylSOeGsWyteMxCmcJ7Zj6q
+ YKyQGiI1Coxi+7h6Fveo3lKFsRrSUfQyzYaj4Z+xzmPyFK6sjlg9mSsWpUIO3UzFvK8a
+ YLGZw6Yx24TqKlc5d5tmnzZC7pIZYXTKUNECHIIH5GczJWGkz/UiqD1i74F4Nj9NxjxK
+ KHvIW0kpQnk81rwHNVlYwvQ+4ICBRc39hcQuStkO9BgMlPKEniBjFAChOWuChkPY4qNW
+ DUginuguCyMB9O8h1qVmT3zWUnb8CfuV8kUm6sWOqAnf/KAq9GmmZ1HBhqxUsoV13ZeB
+ mwjQ==
+X-Gm-Message-State: AOAM532XDPVqey6mulS6c1AzeitvDes5LYxYE4M2H3ELo2UM5Q8/XBzH
+ GjrphbKyJqD4W+8Rgp6926o50Lw1X3G6yhrSiKSGzLwc2gQogJz/9OVWQfVMoVV4sSh0sK5eBV5
+ utmBuFa57U2ejjtw=
+X-Received: by 2002:a1c:63c2:: with SMTP id x185mr71342wmb.68.1591632075685;
+ Mon, 08 Jun 2020 09:01:15 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwHSTbXCqkGc9kOsbxhlXHtghZhPx9xWZVb7ZeU/GWo7Q7cDZTZJUQ93U+AAUtsWNU3dUVBvg==
+X-Received: by 2002:a1c:63c2:: with SMTP id x185mr71295wmb.68.1591632075484;
+ Mon, 08 Jun 2020 09:01:15 -0700 (PDT)
 Received: from localhost.localdomain
  (181.red-88-10-103.dynamicip.rima-tde.net. [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id e12sm163622wro.52.2020.06.08.09.01.08
+ by smtp.gmail.com with ESMTPSA id h12sm145322wro.80.2020.06.08.09.01.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Jun 2020 09:01:09 -0700 (PDT)
+ Mon, 08 Jun 2020 09:01:14 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 04/35] hw/arm/pxa2xx: Emit warning when old code is used
-Date: Mon,  8 Jun 2020 18:00:13 +0200
-Message-Id: <20200608160044.15531-5-philmd@redhat.com>
+Subject: [RFC PATCH 05/35] hw/arm/nseries: Emit warning when old code is used
+Date: Mon,  8 Jun 2020 18:00:14 +0200
+Message-Id: <20200608160044.15531-6-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200608160044.15531-1-philmd@redhat.com>
 References: <20200608160044.15531-1-philmd@redhat.com>
@@ -123,73 +123,28 @@ This code hasn't been QOM'ified yet. Warn the user.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- hw/arm/pxa2xx.c          | 3 +++
- hw/display/pxa2xx_lcd.c  | 3 +++
- hw/input/pxa2xx_keypad.c | 3 +++
- 3 files changed, 9 insertions(+)
+ hw/arm/nseries.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/hw/arm/pxa2xx.c b/hw/arm/pxa2xx.c
-index e649f8930c..483003d161 100644
---- a/hw/arm/pxa2xx.c
-+++ b/hw/arm/pxa2xx.c
-@@ -27,6 +27,7 @@
- #include "sysemu/qtest.h"
- #include "qemu/cutils.h"
+diff --git a/hw/arm/nseries.c b/hw/arm/nseries.c
+index eae800b5c1..bd0c3f39a9 100644
+--- a/hw/arm/nseries.c
++++ b/hw/arm/nseries.c
+@@ -44,6 +44,7 @@
+ #include "hw/sysbus.h"
  #include "qemu/log.h"
+ #include "exec/address-spaces.h"
 +#include "hw/qdev-deprecated.h"
  
- static struct {
-     hwaddr io_base;
-@@ -1768,6 +1769,8 @@ static PXA2xxI2SState *pxa2xx_i2s_init(MemoryRegion *sysmem,
+ /* Nokia N8x0 support */
+ struct n800_s {
+@@ -703,6 +704,7 @@ static void *mipid_init(void)
  {
-     PXA2xxI2SState *s = g_new0(PXA2xxI2SState, 1);
+     struct mipid_s *s = (struct mipid_s *) g_malloc0(sizeof(*s));
  
 +    qdev_warn_deprecated_function_used();
-+
-     s->irq = irq;
-     s->rx_dma = rx_dma;
-     s->tx_dma = tx_dma;
-diff --git a/hw/display/pxa2xx_lcd.c b/hw/display/pxa2xx_lcd.c
-index ff90104b80..cf6241ff21 100644
---- a/hw/display/pxa2xx_lcd.c
-+++ b/hw/display/pxa2xx_lcd.c
-@@ -20,6 +20,7 @@
- /* FIXME: For graphic_rotate. Should probably be done in common code.  */
- #include "sysemu/sysemu.h"
- #include "framebuffer.h"
-+#include "hw/qdev-deprecated.h"
- 
- struct DMAChannel {
-     uint32_t branch;
-@@ -1011,6 +1012,8 @@ PXA2xxLCDState *pxa2xx_lcdc_init(MemoryRegion *sysmem,
-     PXA2xxLCDState *s;
-     DisplaySurface *surface;
- 
-+    qdev_warn_deprecated_function_used();
-+
-     s = (PXA2xxLCDState *) g_malloc0(sizeof(PXA2xxLCDState));
-     s->invalidated = 1;
-     s->irq = irq;
-diff --git a/hw/input/pxa2xx_keypad.c b/hw/input/pxa2xx_keypad.c
-index 62aa6f6b15..6de1e9e4bb 100644
---- a/hw/input/pxa2xx_keypad.c
-+++ b/hw/input/pxa2xx_keypad.c
-@@ -17,6 +17,7 @@
- #include "migration/vmstate.h"
- #include "hw/arm/pxa.h"
- #include "ui/console.h"
-+#include "hw/qdev-deprecated.h"
- 
- /*
-  * Keypad
-@@ -316,6 +317,8 @@ PXA2xxKeyPadState *pxa27x_keypad_init(MemoryRegion *sysmem,
- {
-     PXA2xxKeyPadState *s;
- 
-+    qdev_warn_deprecated_function_used();
-+
-     s = (PXA2xxKeyPadState *) g_malloc0(sizeof(PXA2xxKeyPadState));
-     s->irq = irq;
+     s->id = 0x838f03;
+     mipid_reset(s);
  
 -- 
 2.21.3
