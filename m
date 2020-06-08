@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B4E41F1DD3
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 18:52:24 +0200 (CEST)
-Received: from localhost ([::1]:50274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD91F1F1DDD
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 18:53:25 +0200 (CEST)
+Received: from localhost ([::1]:54920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jiL0Z-0004kn-6F
-	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 12:52:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43582)
+	id 1jiL1Y-0006gH-LQ
+	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 12:53:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Filip.Bozuta@syrmia.com>)
- id 1jiKsw-0003U3-WE
- for qemu-devel@nongnu.org; Mon, 08 Jun 2020 12:44:31 -0400
+ id 1jiKsy-0003Wn-DT
+ for qemu-devel@nongnu.org; Mon, 08 Jun 2020 12:44:32 -0400
 Received: from mail-eopbgr80091.outbound.protection.outlook.com
  ([40.107.8.91]:62103 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Filip.Bozuta@syrmia.com>)
- id 1jiKsv-0007Fd-Kp
- for qemu-devel@nongnu.org; Mon, 08 Jun 2020 12:44:30 -0400
+ id 1jiKsx-0007Fd-9u
+ for qemu-devel@nongnu.org; Mon, 08 Jun 2020 12:44:32 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OiEU9vyoSrcZ9ixI5XRnPM8nQxeuKxVLbVDcb+v8TOYED7MRWY/NvIzLRE50G8Tznoi07GFP1v05KtlKSYtaVQVicBth7jL0OmW23MkP+4bNCKByLC/oYzOzm8XTRaOAP2x60P3l3zcQtzJLPM8mJ30opkXxUmQ3bajnQoPoNI5rG6hn++OFE4vtEjkRBBeSPz54Pl+Ck40bEzyTlHEVfna98sJiRhZUU18bzhz/OFJ01ZUsyNXCOr421Wv7auTza5XG3ATMrCDHbiKcjI8JWCm/WN+RrFZbZVMD9DMZok+tRdULAtzhJfrxBhqx9+idkb/e/A8hc1plQAGn9lXh1w==
+ b=Ajus1o+YfWIC820IcIMyeG9lvJZf5P2CwQEyHKACEruk+sfZ/vkCIsGSk2ctrXxvMUa4BQ0JlSwV7wupa6/aHyDcfyeJVEp7jWgSQi5dRLsp1Ui06JESTD3CoU1FnhmK3aY2yfjsHotxlyWLh4V3oK1C7SZkQDUDX4WDGAebm9sdaFtM5j8QYq1hX2BRYL5V5jnyn3VV1+JeThJtj+lQk7U8NG73n3NDSuzpGdVvCOOgzVKNV/kreN8LwkEHduIDJcQy/emgAguQ6ZbZBRn0ml83dbyM5D3y3Ox+wtGps14UIUgw2br+Itjm8Zk/52E5DW0uVLl8XwIK9CgSopN/fA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zXWU+yTepNlGIC6dbCR9w9v+RvXWPj8e6rPijVzFTQU=;
- b=LnRS7NcZixtkUW0EK54d1QU6VFuclBSxtwUv3Ztq5H5pNZlh78f4X+Y+UpT9kLpDYXnCQ8MmcfpgzbwGTypC/4koNnDotAO4lGQuyQBEA6VoVLYtU4969ISvakT+kVXMMwldYfG9eW37EHDZRC6Nzp6WY/1ymcW7P27AP68fPHdta6nA4xjLkEZR/p4JwlvkrFYFWGV9vaWMGW368SaOo+7rgsTO50tsqL3FAOzryLOIvjkhRQMQLYCb/wPg5APn4BLu8AS41O6XMvmLLKKBDio+YcgzWRK/5VRp0+NYv+lQIziJ+tNR3BuE+D+XFliUfUpsEt5P7Sc+8xuyRZibCA==
+ bh=OTM2FEi0DCTCyUiXiXAthGGDDJJBNDxBaUN9ck30WCk=;
+ b=bcP5O8tl/51mQDKRujar5cmts6wFeteaWu0zXyeo20CafJudbKDoSz33GC0GSw9inG0ihj2AhN3VNVq86Q8gPUS/BtiimyzasqJronlnq2dUw8AUkzXLy4l19GTyMBIB7jOk277Crq7+nelNGGWjFO3PWubsyMRrJXBAudg+Cu818z/qbnZAgHnmgLoTPknkxWd6GBM8nureqirgAYhR//Cc6vTP50Ms6DJnd35ViA49C7lJ8tgZjPK+QfDP9EoWNNgM/WGIcjo1jxgyWan2l+ODPLY7w4T6p7cgsOpSQXXK7Tp9FweIlmaZFAVGIERwe1LnzgjbnZ23R2UkhcNPCQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=syrmia.com; dmarc=pass action=none header.from=syrmia.com;
  dkim=pass header.d=syrmia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=syrmia.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zXWU+yTepNlGIC6dbCR9w9v+RvXWPj8e6rPijVzFTQU=;
- b=rchFkiGdoKHcpuxvkF8uB4+rNrWU2D5U8r7/ZIJRWjaxV89Fva4daaR/o+PZPHHPvkGSJIL9YdBIJICXijpkFmV/Fcid7jDDDSASaoaouzG3rQ2a2+jTSjOB7vlSVbrrCM4zgGdekiXJsWo42iBPCNZle6b+ExJJvOWLVXzPqco=
+ bh=OTM2FEi0DCTCyUiXiXAthGGDDJJBNDxBaUN9ck30WCk=;
+ b=C4isYkX9Ol9QW9Anrk1sWQYX5xnnbKX/XaYAWHcP72jdt2Cd0M0trVNHVlWNo2+SqG3krhuXO67fGYKyQ6BhYeF8ZcAO5oNyrdUxVNrXSKOwKjULoT7AC6b+NFyUKwX6xyIfVTLXh/mODY496JpJgC3QDHTDwQccFL1cfoRGGUw=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=syrmia.com;
 Received: from AM6PR03MB5233.eurprd03.prod.outlook.com (2603:10a6:20b:d1::19)
@@ -48,10 +48,10 @@ Received: from AM6PR03MB5233.eurprd03.prod.outlook.com
  16:44:13 +0000
 From: Filip Bozuta <filip.bozuta@syrmia.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 5/6] linux-user: Add strace support for printing arguments
- of chown()/lchown()
-Date: Mon,  8 Jun 2020 18:43:56 +0200
-Message-Id: <20200608164357.25065-6-filip.bozuta@syrmia.com>
+Subject: [PATCH v2 6/6] linux-user: Add strace support for printing arguments
+ of fallocate()
+Date: Mon,  8 Jun 2020 18:43:57 +0200
+Message-Id: <20200608164357.25065-7-filip.bozuta@syrmia.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200608164357.25065-1-filip.bozuta@syrmia.com>
 References: <20200608164357.25065-1-filip.bozuta@syrmia.com>
@@ -64,31 +64,31 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from bozuta-ubuntu-18.syrmia.com (46.240.135.226) by
  ZR0P278CA0016.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:16::26) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3066.18 via Frontend Transport; Mon, 8 Jun 2020 16:44:12 +0000
+ 15.20.3066.18 via Frontend Transport; Mon, 8 Jun 2020 16:44:13 +0000
 X-Mailer: git-send-email 2.17.1
 X-Originating-IP: [46.240.135.226]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: cbe233a8-9420-4b9a-8f8e-08d80bcb2cbb
+X-MS-Office365-Filtering-Correlation-Id: 3943a50a-e9a0-4075-2ad6-08d80bcb2d0b
 X-MS-TrafficTypeDiagnostic: AM6PR03MB3798:
-X-Microsoft-Antispam-PRVS: <AM6PR03MB3798294015172DD3CC2AF5A8EB850@AM6PR03MB3798.eurprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5516;
+X-Microsoft-Antispam-PRVS: <AM6PR03MB3798AB481863CE12BC3697FEEB850@AM6PR03MB3798.eurprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
 X-Forefront-PRVS: 042857DBB5
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: odOrOp96GmqOtTbqdUWxw9XJ5BpdTE/3PpNG7WHxz+CuxpeGTPAWr0bD6YN6XyLfqSJiq1j5n3lLhi0xJQjFov2KCm/LpwISXqtHlbtKr/XLQvXpxgoKe0be8/OGdhmzDDW1sQgsvD3bHEidtF0ZvKAHyPOINKe8PX6ZzRvXLrM3p2vCHTBj/6zHuIT8PEyt4tx5LvVhXjmqdif3U98IZMZqqaVMCrKQQnJ4TEM2VoBq2VOC6BOVMTsYsJ771Bfhd/bh9gVVrMWY8V1nybHuL91t+Q26cDj8xA6STVD7W+PcimMAgPDBEvi23RFdGdX34539fgsSNwmRxH4b1xQBSrQ2Jz3RJXah0jkkllj1IApTFT/jLboBZuUyhblPW7s60XCFpaBBXHxepNpKx4wOzQ==
+X-Microsoft-Antispam-Message-Info: LVAbU/Yd2eKqWUoVGUtUHkg+oSfb4VkhtGhRNGK7MUch6rPHnREhHAuIjPjsMqIJs2BVB5jB7BcJ3FF3u3L172ZKt0oXsVuaCUjDcMo3EXW4le+yajbDiZQaJ7ZUSp4EUQfoQv1yfPy4GvUs+m/gb4hu/2Blq54byylR2WstojRfsKDyNHxGNoBixGnC1xYF83p8Oer1J5FGT7EKjh6m6GiB8uWy1a262AMkym9NCJn+cNo1WTLxC634j5KA/pvyYg64nIWlcO2jOjOun67FH2kHb6tYyUagCXPfwDXGiFh6+ggOnWALGdX1n26kNNEqX1Cy23mtk3URJ63btcooIWrHg6FqyUV/ZWfTWSkmwU8qjGS3/gzLSduuCAQSEwKOMouBB0ldIfj3pfsuuWTKyQrsZlMok6ay8YJADsWFC+dfbke/aB9BjwslX7n8zkVLFPPiHSCLBQGURx/G8FSaRQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM6PR03MB5233.eurprd03.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
- SFS:(39830400003)(376002)(396003)(346002)(136003)(366004)(508600001)(4326008)(8676002)(8936002)(966005)(1076003)(66556008)(6916009)(66476007)(5660300002)(66946007)(86362001)(316002)(36756003)(16526019)(26005)(2906002)(52116002)(83380400001)(2616005)(956004)(44832011)(6486002)(7696005)(186003)(6666004);
+ SFS:(39830400003)(376002)(396003)(346002)(136003)(366004)(508600001)(4326008)(8676002)(8936002)(966005)(1076003)(66556008)(6916009)(66476007)(5660300002)(66946007)(86362001)(316002)(36756003)(16526019)(26005)(2906002)(52116002)(83380400001)(2616005)(956004)(44832011)(6486002)(7696005)(186003)(6666004)(21314003);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: LrUoNcXA+xHDxqQLj0lJLxh6yzGt0JOkybohDzq6JP7xlXPST+FqLgw/DOhnZ9AjuF0jD1JfyrUdMSeirItEgebaPbdFvlpGaNg3CXG13geYXSlA1LcwkkdWZE8/tnMfoxWVBz3UDG+rCIfgg+c/pswnsDmiZX6VKXEY0tupltFw2jgWVrbY2b7MTZXm+stLEwkOlKBIBUGaabsS7UZbZuxyFIR0UUb7yDmPFehDD6sFQinx0joTrHfZpjYI29AYs+BRXPnSXLW24ergP01+lVCpkYc0pX2L4mx3/9ZMMgKj59odVtRI2aNimMQyWBY6X3pysuOcZUdhSkjLQujObSJ/RrdZNUo/WN+mSwt6/sxyyJAxsmJ76G76iBhFdOc7grw+S4lLiJ+fwgTseRC0jgaYmPPXwicwmY/xy2Sp+5dNLEpHu2njSXv5AF8mlmbQ5QREMBSar/7ON83ca+fN1jldIZd5xImReGhJXQfQChU=
+X-MS-Exchange-AntiSpam-MessageData: 07PQ8jdn0AgzqHzzlTIjI1HUTIPxGCYrm9cDvBplcCxZIXOUu0Cl6D5HftgxUtlyphdx5iUNwpH9SOOmxct5VuwxxAOOoroCkJSWQG2MeYbZLQTNP9fJSeNzB3d9xUSSXHsRVjz8IrxzK3Z41d+8iB/3OICxrUqFZ/H8b5IE6ocGTnGqwmf04JA2Tv0/2vX48mjO3QBATtxwEjiaolOSh8burBjqFmGKxS1hvxlLLkdcTI07EFFHoWlIvcKcYpcsbe1CD3/p7Wdq6K2fyg+VWiPk936jIDSQL8X3F4/n4EOHE3CD9Ekei5i3yXwiyjZ8LISi45L+uB0JMqc4m9Q1G45M+2jr7sqHItVmmwLs8QFQp7NLkRr+LdmROPu13P4j7NIx0PKx+traNBrnwFKzDiM26KscWLQ5KHlF+LFv7AREQNcLexSXzL2TtSDbSwpW77YQfQf/mSs9MpQApNruxOkdRABv5RrKONZphB4d/AU=
 X-OriginatorOrg: syrmia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cbe233a8-9420-4b9a-8f8e-08d80bcb2cbb
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jun 2020 16:44:13.1550 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3943a50a-e9a0-4075-2ad6-08d80bcb2d0b
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jun 2020 16:44:13.6617 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 19214a73-c1ab-4e19-8f59-14bdcb09a66e
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: iumBzLMB7d2bhefHKOrUXDyORhHkvZWxXWFLukRx4Zl3z1q051ehQjHYlkJGsiqOhqSY8bKL7Xjk62Gt0RSSIg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: EMswaa3yEt0zbu279Eh+jrBJQtNJ23QEZJzRg0T+ZJAMYo+J3tJLU+/TKCPxnMEreq0uNzIWqkKBVPlGsLxEwA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR03MB3798
 Received-SPF: pass client-ip=40.107.8.91; envelope-from=Filip.Bozuta@syrmia.com;
  helo=EUR04-VI1-obe.outbound.protection.outlook.com
@@ -120,79 +120,163 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Filip Bozuta <Filip.Bozuta@syrmia.com>
 
-This patch implements strace argument printing functionality for syscalls:
+This patch implements strace argument printing functionality for following syscall:
 
-    *chown, lchown - change ownership of a file
+    *fallocate - manipulate file space
 
-        int chown(const char *pathname, uid_t owner, gid_t group)
-        int lchown(const char *pathname, uid_t owner, gid_t group)
-        man page: https://www.man7.org/linux/man-pages/man2/lchown.2.html
+        int fallocate(int fd, int mode, off_t offset, off_t len)
+        man page: https://www.man7.org/linux/man-pages/man2/fallocate.2.html
 
 Implementation notes:
 
-    Both syscalls use strings as arguments and thus a separate
-    printing function was stated in "strace.list" for them.
-    Both syscalls share the same number and types of arguments
-    and thus share a same definition in file "syscall.c".
-    This defintion uses existing functions "print_string()" to
-    print the string argument and "print_raw_param()" to print
-    other two arguments that are of basic types.
+    This syscall's second argument "mode" is composed of predefined values
+    which represent flags that determine the type of operation that is
+    to be performed on the file space. For that reason, a printing
+    function "print_fallocate" was stated in file "strace.list". This printing
+    function uses an already existing function "print_flags()" to print flags of
+    the "mode" argument. These flags are stated inside an array "falloc_flags"
+    that contains values of type "struct flags". These values are instantiated
+    using an existing macro "FLAG_GENERIC()". Most of these flags are defined
+    after kernel version 3.0 which is why they are enwrapped in an #ifdef
+    directive.
+    The syscall's third ant fourth argument are of type "off_t" which can
+    cause variations between 32/64-bit architectures. To handle this variation,
+    function "target_offset64()" was copied from file "strace.c" and used in
+    "print_fallocate" to print "off_t" arguments for 32-bit architectures.
 
 Signed-off-by: Filip Bozuta <Filip.Bozuta@syrmia.com>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/strace.c    | 15 +++++++++++++++
- linux-user/strace.list |  4 ++--
- 2 files changed, 17 insertions(+), 2 deletions(-)
+ linux-user/qemu.h      | 16 ++++++++++++++++
+ linux-user/strace.c    | 40 ++++++++++++++++++++++++++++++++++++++++
+ linux-user/strace.list |  2 +-
+ linux-user/syscall.c   | 16 ----------------
+ 4 files changed, 57 insertions(+), 17 deletions(-)
 
+diff --git a/linux-user/qemu.h b/linux-user/qemu.h
+index 8f938b8105..be67391ba4 100644
+--- a/linux-user/qemu.h
++++ b/linux-user/qemu.h
+@@ -670,6 +670,22 @@ static inline int is_error(abi_long ret)
+     return (abi_ulong)ret >= (abi_ulong)(-4096);
+ }
+ 
++#if TARGET_ABI_BITS == 32
++static inline uint64_t target_offset64(uint32_t word0, uint32_t word1)
++{
++#ifdef TARGET_WORDS_BIGENDIAN
++    return ((uint64_t)word0 << 32) | word1;
++#else
++    return ((uint64_t)word1 << 32) | word0;
++#endif
++}
++#else /* TARGET_ABI_BITS == 32 */
++static inline uint64_t target_offset64(uint64_t word0, uint64_t word1)
++{
++    return word0;
++}
++#endif /* TARGET_ABI_BITS != 32 */
++
+ /**
+  * preexit_cleanup: housekeeping before the guest exits
+  *
 diff --git a/linux-user/strace.c b/linux-user/strace.c
-index adf9a47465..cd6a2b8e3f 100644
+index cd6a2b8e3f..3ef7f80cd7 100644
 --- a/linux-user/strace.c
 +++ b/linux-user/strace.c
-@@ -1461,6 +1461,21 @@ print_chmod(const struct syscallname *name,
+@@ -1144,6 +1144,26 @@ UNUSED static struct flags statx_mask[] = {
+     FLAG_END,
+ };
+ 
++UNUSED static struct flags falloc_flags[] = {
++    FLAG_GENERIC(FALLOC_FL_KEEP_SIZE),
++    FLAG_GENERIC(FALLOC_FL_PUNCH_HOLE),
++#ifdef FALLOC_FL_NO_HIDE_STALE
++    FLAG_GENERIC(FALLOC_FL_NO_HIDE_STALE),
++#endif
++#ifdef FALLOC_FL_COLLAPSE_RANGE
++    FLAG_GENERIC(FALLOC_FL_COLLAPSE_RANGE),
++#endif
++#ifdef FALLOC_FL_ZERO_RANGE
++    FLAG_GENERIC(FALLOC_FL_ZERO_RANGE),
++#endif
++#ifdef FALLOC_FL_INSERT_RANGE
++    FLAG_GENERIC(FALLOC_FL_INSERT_RANGE),
++#endif
++#ifdef FALLOC_FL_UNSHARE_RANGE
++    FLAG_GENERIC(FALLOC_FL_UNSHARE_RANGE),
++#endif
++};
++
+ /*
+  * print_xxx utility functions.  These are used to print syscall
+  * parameters in certain format.  All of these have parameter
+@@ -1561,6 +1581,26 @@ print_faccessat(const struct syscallname *name,
  }
  #endif
  
-+#if defined(TARGET_NR_chown) || defined(TARGET_NR_lchown)
++#ifdef TARGET_NR_fallocate
 +static void
-+print_chown(const struct syscallname *name,
++print_fallocate(const struct syscallname *name,
 +    abi_long arg0, abi_long arg1, abi_long arg2,
 +    abi_long arg3, abi_long arg4, abi_long arg5)
 +{
 +    print_syscall_prologue(name);
-+    print_string(arg0, 0);
-+    print_raw_param("%d", arg1, 0);
-+    print_raw_param("%d", arg2, 1);
++    print_raw_param("%d", arg0, 0);
++    print_flags(falloc_flags, arg1, 0);
++#if TARGET_ABI_BITS == 32
++    print_raw_param("%" PRIu64, target_offset64(arg2, arg3), 0);
++    print_raw_param("%" PRIu64, target_offset64(arg4, arg5), 1);
++#else
++    print_raw_param(TARGET_ABI_FMT_ld, arg2, 0);
++    print_raw_param(TARGET_ABI_FMT_ld, arg3, 1);
++#endif
 +    print_syscall_epilogue(name);
 +}
-+#define print_lchown     print_chown
 +#endif
 +
- #ifdef TARGET_NR_clock_adjtime
+ #ifdef TARGET_NR_fchmodat
  static void
- print_clock_adjtime(const struct syscallname *name,
+ print_fchmodat(const struct syscallname *name,
 diff --git a/linux-user/strace.list b/linux-user/strace.list
-index bd04596c50..44eb515ca4 100644
+index 44eb515ca4..a8d7cbe7a4 100644
 --- a/linux-user/strace.list
 +++ b/linux-user/strace.list
-@@ -71,7 +71,7 @@
- { TARGET_NR_chmod, "chmod" , NULL, print_chmod, NULL },
+@@ -182,7 +182,7 @@
+ { TARGET_NR_fadvise64_64, "fadvise64_64" , NULL, NULL, NULL },
  #endif
- #ifdef TARGET_NR_chown
--{ TARGET_NR_chown, "chown" , NULL, NULL, NULL },
-+{ TARGET_NR_chown, "chown" , NULL, print_chown, NULL },
+ #ifdef TARGET_NR_fallocate
+-{ TARGET_NR_fallocate, "fallocate" , NULL, NULL, NULL },
++{ TARGET_NR_fallocate, "fallocate" , NULL, print_fallocate, NULL },
  #endif
- #ifdef TARGET_NR_chown32
- { TARGET_NR_chown32, "chown32" , NULL, NULL, NULL },
-@@ -475,7 +475,7 @@
- { TARGET_NR_kill, "kill", NULL, print_kill, NULL },
- #endif
- #ifdef TARGET_NR_lchown
--{ TARGET_NR_lchown, "lchown" , NULL, NULL, NULL },
-+{ TARGET_NR_lchown, "lchown" , NULL, print_lchown, NULL },
- #endif
- #ifdef TARGET_NR_lchown32
- { TARGET_NR_lchown32, "lchown32" , NULL, NULL, NULL },
+ #ifdef TARGET_NR_fanotify_init
+ { TARGET_NR_fanotify_init, "fanotify_init" , NULL, NULL, NULL },
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 009bb67422..7cc5a65b4f 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -6608,22 +6608,6 @@ void syscall_init(void)
+     }
+ }
+ 
+-#if TARGET_ABI_BITS == 32
+-static inline uint64_t target_offset64(uint32_t word0, uint32_t word1)
+-{
+-#ifdef TARGET_WORDS_BIGENDIAN
+-    return ((uint64_t)word0 << 32) | word1;
+-#else
+-    return ((uint64_t)word1 << 32) | word0;
+-#endif
+-}
+-#else /* TARGET_ABI_BITS == 32 */
+-static inline uint64_t target_offset64(uint64_t word0, uint64_t word1)
+-{
+-    return word0;
+-}
+-#endif /* TARGET_ABI_BITS != 32 */
+-
+ #ifdef TARGET_NR_truncate64
+ static inline abi_long target_truncate64(void *cpu_env, const char *arg1,
+                                          abi_long arg2,
 -- 
 2.17.1
 
