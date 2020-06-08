@@ -2,78 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 163B11F1B03
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 16:29:27 +0200 (CEST)
-Received: from localhost ([::1]:34320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C375B1F1AEC
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 16:24:38 +0200 (CEST)
+Received: from localhost ([::1]:44678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jiImE-0000hF-68
-	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 10:29:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53532)
+	id 1jiIhZ-0001a7-75
+	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 10:24:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53888)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1jiIbj-0001RZ-9w; Mon, 08 Jun 2020 10:18:35 -0400
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:43510)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1jiIbi-0004Wg-9Z; Mon, 08 Jun 2020 10:18:34 -0400
-Received: by mail-pl1-x641.google.com with SMTP id g12so6712109pll.10;
- Mon, 08 Jun 2020 07:18:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=Nj6OhjWGxxBEnKG0HNnd5fIFBJbiq3a3JcYD2CxwjVc=;
- b=PQbdz0HHT8FYKBTGcaOht14eZo76lwv4fFuX4U+chb2+GnVw1hWuMC6cpI2D6KUo8+
- WJtI1Y0QzGlgL45gh5YNxdVChV+44zMJaD9G7tEYPln7QOSyIM2Qu0sVotvoam7xek22
- Bhp1LFXiMfymIwUx4rMH5qdbkVdCFFedaUEiGFpgeqsyMmGJS4S7yNqfm3l4BF4ONRQ8
- oxju2F8Oyrel4A7Yw1MlRoioPegeHOXJrMdUCtGcGZDJjyofcnUj6vr80RUg4SEbvGKp
- 2SJ5sptJS/gag66JttuL9DX5f82B5r5pU9acDAhUqy67ZB9ERYeEya29v/iwSi4iiesh
- z3Qw==
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jiIeM-0005Vw-IH
+ for qemu-devel@nongnu.org; Mon, 08 Jun 2020 10:21:18 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:43305
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jiIeL-00053z-LD
+ for qemu-devel@nongnu.org; Mon, 08 Jun 2020 10:21:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1591626076;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=i7WaGYc4YqMfv7zWQW/ryPvlzud45mNtQgivlhLwvUE=;
+ b=AB8FqotTMRvk+qqrSr3CB+2dLTifEWwLM4lgtowNkNbeokzqFJQM1JWUXjivl0w806BfkB
+ WDrcfqv+G0i2rSHAML4dFbIcJLFRlmFvfgv1pdGjckKzWr23gOQeRg66PdtNPEgdwsThhr
+ ugclUEFZ60kNNm7eJnCSHCSDnHeR6Gc=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-251-8Jx9EjjTPKW_2fd8l4-BDw-1; Mon, 08 Jun 2020 10:21:14 -0400
+X-MC-Unique: 8Jx9EjjTPKW_2fd8l4-BDw-1
+Received: by mail-ed1-f71.google.com with SMTP id n17so7018194eda.13
+ for <qemu-devel@nongnu.org>; Mon, 08 Jun 2020 07:21:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=Nj6OhjWGxxBEnKG0HNnd5fIFBJbiq3a3JcYD2CxwjVc=;
- b=LLzHmW3PWYBAxk4KqXSZ11Kfgjye6R5P/EvlvaeVGO+SK79rWmie6p5xRBESBub25U
- bmSBfQFVE+aiN6+TfsHwZ5XKdjfXpZWbZUAM/oAlK4ggXGv7AC7Bpjns8IHobrY3WSl7
- Pr8sgY4KIzYdKW05fxvnLpNzq79XBkM09ZL7sotnrMcxC4fkmMa2serQCTw3rJLssZFD
- xY1WlPBO7cpTDf+Mil6hFNP5GrWeDyScYqDb+2/sNk5DkLpNH1eccckukyBRTU+aEtY3
- iT/0Z2co5A31mjdaaBgB2rb2bRdhloBCX8ghqcEPZWOwmY6xcpsSFjZAOKrhIOEZ7ZyS
- iY7g==
-X-Gm-Message-State: AOAM531pQnC6zDd0E+7G4tRaH9/4Xo7bBNUG5OKWDQsps9Sr7KdRf6uq
- Fh9dZ7/wLzfaQn5QvYdYqp4=
-X-Google-Smtp-Source: ABdhPJxjz0WWUUl2PfQue0VmBShfFa00YnGv+eXV97uxxDJi16+H8X3/XwPkojhkuKTr0bBr3MTE9A==
-X-Received: by 2002:a17:90a:bf92:: with SMTP id
- d18mr17262350pjs.120.1591625912779; 
- Mon, 08 Jun 2020 07:18:32 -0700 (PDT)
-Received: from localhost.localdomain (unknown-224-80.windriver.com.
- [147.11.224.80])
- by smtp.gmail.com with ESMTPSA id b19sm7292575pft.74.2020.06.08.07.18.32
- (version=TLS1 cipher=AES128-SHA bits=128/128);
- Mon, 08 Jun 2020 07:18:32 -0700 (PDT)
-From: Bin Meng <bmeng.cn@gmail.com>
-To: Alistair Francis <Alistair.Francis@wdc.com>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Palmer Dabbelt <palmerdabbelt@google.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-Subject: [PATCH 15/15] hw/riscv: sifive_u: Add a dummy DDR memory controller
- device
-Date: Mon,  8 Jun 2020 07:17:44 -0700
-Message-Id: <1591625864-31494-16-git-send-email-bmeng.cn@gmail.com>
-X-Mailer: git-send-email 1.7.1
-In-Reply-To: <1591625864-31494-1-git-send-email-bmeng.cn@gmail.com>
-References: <1591625864-31494-1-git-send-email-bmeng.cn@gmail.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::641;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x641.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+ h=x-gm-message-state:content-transfer-encoding:from:mime-version
+ :subject:date:message-id:references:cc:in-reply-to:to;
+ bh=i7WaGYc4YqMfv7zWQW/ryPvlzud45mNtQgivlhLwvUE=;
+ b=bOB0XF0GgPnc3xRq477afv0LyJXwDYiEaevc6j/lD4KJ2zx73ad+wPGxj0q/9pEE4t
+ f4W0wn5zPczRM/nCD2ZBSJUz/slPyCVYyWOUDzIiZgQKAe87SR0HO4WQkjF+5n5KDRkh
+ uxuJqOd0mcJ3Cc/Gkv19WTE8WNE93IaZQzNoqqhBrLptnFajbays1kfoY+PiEYBLf+vy
+ aOez3cZ+WSlZACK7W66gNkKdRmFhfq1P2KKdwzh6acdspuMgLWI9a08dpc6d4IXk8JT5
+ hq5eMy1GHV2KNPy04s2wPDDuyXGLS+zOSS+FwlIm35Nadp4CBBJkDBBf/N3juDweh1qp
+ 9t+w==
+X-Gm-Message-State: AOAM530MyShgss6FKajhBvUsYwHrhXaEweYcBjZ+n2Gdv7HPutDJQaF7
+ avnlGwIAaQPSjZ8ktSKVwWxR8RlzXPmTPmKeVAbAwLed+uI8glze8rgBT4PiKB21ffyYF3RVjp0
+ s/vdKcX0mapM30tw=
+X-Received: by 2002:a17:906:971a:: with SMTP id
+ k26mr19596329ejx.230.1591626073717; 
+ Mon, 08 Jun 2020 07:21:13 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwjIQFNFvHnlHoCsLTh1Al//ia5VjFU83IDdns4CPjhtX68yvyrx00C7cOgxarUjMP7IlFUrQ==
+X-Received: by 2002:a17:906:971a:: with SMTP id
+ k26mr19596309ejx.230.1591626073533; 
+ Mon, 08 Jun 2020 07:21:13 -0700 (PDT)
+Received: from ?IPv6:2a01:598:898d:54fb:a5ae:42ea:c579:c82b?
+ ([2a01:598:898d:54fb:a5ae:42ea:c579:c82b])
+ by smtp.gmail.com with ESMTPSA id r1sm10731883eja.57.2020.06.08.07.21.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 08 Jun 2020 07:21:12 -0700 (PDT)
+From: David Hildenbrand <david@redhat.com>
+Mime-Version: 1.0 (1.0)
+Subject: Re: [PATCH v1] hmp: Make json format optional for qom-set
+Date: Mon, 8 Jun 2020 16:21:11 +0200
+Message-Id: <1B4C55FD-0356-4027-95ED-4A006004B94F@redhat.com>
+References: <652a6692-2ba4-94b0-503d-9cea876c859c@redhat.com>
+In-Reply-To: <652a6692-2ba4-94b0-503d-9cea876c859c@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+X-Mailer: iPhone Mail (17E262)
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/08 05:40:44
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,81 +96,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>
+Cc: "=?utf-8?Q? Daniel_P._Berrang=C3=A9 ?=" <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ =?utf-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bin Meng <bin.meng@windriver.com>
 
-It is enough to simply map the SiFive FU540 DDR memory controller
-into the MMIO space using create_unimplemented_device(), to make
-the upstream U-Boot v2020.07 DDR memory initialization codes happy.
 
-Note we do not generate device tree fragment for the DDR memory
-controller. Since the controller data in device tree consumes a
-very large space (see fu540-hifive-unleashed-a00-ddr.dtsi in the
-U-Boot source), and it is only needed by U-Boot SPL but not any
-operating system, we choose not to generate the fragment here.
-This also means when testing with U-Boot SPL, the device tree has
-to come from U-Boot SPL itself, but not the one generated by QEMU
-on the fly. The memory has to be set to 8GiB to match the real
-HiFive Unleashed board when invoking QEMU (-m 8G).
+> Am 08.06.2020 um 16:16 schrieb Paolo Bonzini <pbonzini@redhat.com>:
+>=20
+> =EF=BB=BFOn 08/06/20 16:06, David Hildenbrand wrote:
+>>     {
+>>         .name       =3D "qom-set",
+>> -        .args_type  =3D "path:s,property:s,value:S",
+>> -        .params     =3D "path property value",
+>> -        .help       =3D "set QOM property",
+>> +        .args_type  =3D "json:-j,path:s,property:s,value:s",
+>=20
+> I think this should remain an uppercase "S", so that it grabs the rest
+> of the input rather than stop at the first space.
+>=20
 
-With this commit, QEMU can boot U-Boot SPL built for SiFive FU540
-all the way up to loading U-Boot proper from MMC:
+Yes, changed by mistake (while working on a revert). Thanks!
 
-$ qemu-system-riscv64 -nographic -M sifive_u,msel=6 -m 8G -bios u-boot-spl.bin
-
-U-Boot SPL 2020.07-rc3-00208-g88bd5b1 (Jun 08 2020 - 20:16:10 +0800)
-Trying to boot from MMC1
-Unhandled exception: Load access fault
-EPC: 0000000008009be6 TVAL: 0000000010050014
-
-The above exception is expected because QSPI is unsupported yet.
-
-Signed-off-by: Bin Meng <bin.meng@windriver.com>
-
----
-
- hw/riscv/sifive_u.c         | 4 ++++
- include/hw/riscv/sifive_u.h | 1 +
- 2 files changed, 5 insertions(+)
-
-diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index c94ff6f..7923df4 100644
---- a/hw/riscv/sifive_u.c
-+++ b/hw/riscv/sifive_u.c
-@@ -82,6 +82,7 @@ static const struct MemmapEntry {
-     [SIFIVE_U_OTP] =      { 0x10070000,     0x1000 },
-     [SIFIVE_U_GEM] =      { 0x10090000,     0x2000 },
-     [SIFIVE_U_GEM_MGMT] = { 0x100a0000,     0x1000 },
-+    [SIFIVE_U_DMC] =      { 0x100b0000,    0x10000 },
-     [SIFIVE_U_FLASH0] =   { 0x20000000, 0x10000000 },
-     [SIFIVE_U_DRAM] =     { 0x80000000,        0x0 },
- };
-@@ -733,6 +734,9 @@ static void sifive_u_soc_realize(DeviceState *dev, Error **errp)
- 
-     create_unimplemented_device("riscv.sifive.u.gem-mgmt",
-         memmap[SIFIVE_U_GEM_MGMT].base, memmap[SIFIVE_U_GEM_MGMT].size);
-+
-+    create_unimplemented_device("riscv.sifive.u.dmc",
-+        memmap[SIFIVE_U_DMC].base, memmap[SIFIVE_U_DMC].size);
- }
- 
- static Property sifive_u_soc_props[] = {
-diff --git a/include/hw/riscv/sifive_u.h b/include/hw/riscv/sifive_u.h
-index 5d80f91..3e33646 100644
---- a/include/hw/riscv/sifive_u.h
-+++ b/include/hw/riscv/sifive_u.h
-@@ -78,6 +78,7 @@ enum {
-     SIFIVE_U_UART1,
-     SIFIVE_U_GPIO,
-     SIFIVE_U_OTP,
-+    SIFIVE_U_DMC,
-     SIFIVE_U_FLASH0,
-     SIFIVE_U_DRAM,
-     SIFIVE_U_GEM,
--- 
-2.7.4
+> Paolo
+>=20
+>> +        .params     =3D "[-j] path property value",
+>> +        .help       =3D "set QOM property.\n\t\t\t"
+>> +                      "-j: the property is specified in json format.",
+>>         .cmd        =3D hmp_qom_set,
+>>         .flags      =3D "p",
+>>     },
+>> diff --git a/qom/qom-hmp-cmds.c b/qom/qom-hmp-cmds.c
+>=20
 
 
