@@ -2,88 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA1CC1F1D6F
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 18:34:22 +0200 (CEST)
-Received: from localhost ([::1]:39400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B85CF1F1D79
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 18:36:16 +0200 (CEST)
+Received: from localhost ([::1]:47706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jiKj6-0001Nt-G0
-	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 12:34:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38876)
+	id 1jiKkx-0004wB-ME
+	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 12:36:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1jiKK5-0005oJ-Eq; Mon, 08 Jun 2020 12:08:29 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:45220
- helo=mail.default.ilande.uk0.bigv.io)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1jiKK3-0000iZ-37; Mon, 08 Jun 2020 12:08:28 -0400
-Received: from host109-147-121-67.range109-147.btcentralplus.com
- ([109.147.121.67] helo=[192.168.1.65])
- by mail.default.ilande.uk0.bigv.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1jiKJx-0006DU-2C; Mon, 08 Jun 2020 17:08:27 +0100
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, Artyom Tarasenko <atar4qemu@gmail.com>
-References: <20200331105048.27989-1-f4bug@amsat.org>
- <81737d76-06c6-4c83-1287-b0d14db4ce2f@amsat.org>
- <989bf2f5-0e23-f9c3-e9e1-0bd8c03f3231@adacore.com>
- <1b7a4c63-5a31-6efe-d807-7092e3ee0ffb@amsat.org>
- <230dbf6b-120a-f1f0-d48d-9fa4a04e05cd@adacore.com>
- <23588fda-b95b-45a9-b788-e846d26a3bc3@amsat.org>
- <7f673b61-7565-f79a-0ec6-043c44d1df77@amsat.org>
- <08b73f34-4cab-1133-e5e5-5b1e9fc7b5d0@adacore.com>
- <344c9260-e448-feea-3b37-7860dd09cd8a@amsat.org>
- <56e92e1c-6f89-5359-53bc-57c529743d5e@amsat.org>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
- mQENBFQJuzwBCADAYvxrwUh1p/PvUlNFwKosVtVHHplgWi5p29t58QlOUkceZG0DBYSNqk93
- 3JzBTbtd4JfFcSupo6MNNOrCzdCbCjZ64ik8ycaUOSzK2tKbeQLEXzXoaDL1Y7vuVO7nL9bG
- E5Ru3wkhCFc7SkoypIoAUqz8EtiB6T89/D9TDEyjdXUacc53R5gu8wEWiMg5MQQuGwzbQy9n
- PFI+mXC7AaEUqBVc2lBQVpAYXkN0EyqNNT12UfDLdxaxaFpUAE2pCa2LTyo5vn5hEW+i3VdN
- PkmjyPvL6DdY03fvC01PyY8zaw+UI94QqjlrDisHpUH40IUPpC/NB0LwzL2aQOMkzT2NABEB
- AAG0ME1hcmsgQ2F2ZS1BeWxhbmQgPG1hcmsuY2F2ZS1heWxhbmRAaWxhbmRlLmNvLnVrPokB
- OAQTAQIAIgUCVAm7PAIbAwYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQW8LFb64PMh9f
- NAgAuc3ObOEY8NbZko72AGrg2tWKdybcMVITxmcor4hb9155o/OWcA4IDbeATR6cfiDL/oxU
- mcmtXVgPqOwtW3NYAKr5g/FrZZ3uluQ2mtNYAyTFeALy8YF7N3yhs7LOcpbFP7tEbkSzoXNG
- z8iYMiYtKwttt40WaheWuRs0ZOLbs6yoczZBDhna3Nj0LA3GpeJKlaV03O4umjKJgACP1c/q
- T2Pkg+FCBHHFP454+waqojHp4OCBo6HyK+8I4wJRa9Z0EFqXIu8lTDYoggeX0Xd6bWeCFHK3
- DhD0/Xi/kegSW33unsp8oVcM4kcFxTkpBgj39dB4KwAUznhTJR0zUHf63LkBDQRUCbs8AQgA
- y7kyevA4bpetM/EjtuqQX4U05MBhEz/2SFkX6IaGtTG2NNw5wbcAfhOIuNNBYbw6ExuaJ3um
- 2uLseHnudmvN4VSJ5Hfbd8rhqoMmmO71szgT/ZD9MEe2KHzBdmhmhxJdp+zQNivy215j6H27
- 14mbC2dia7ktwP1rxPIX1OOfQwPuqlkmYPuVwZP19S4EYnCELOrnJ0m56tZLn5Zj+1jZX9Co
- YbNLMa28qsktYJ4oU4jtn6V79H+/zpERZAHmH40IRXdR3hA+Ye7iC/ZpWzT2VSDlPbGY9Yja
- Sp7w2347L5G+LLbAfaVoejHlfy/msPeehUcuKjAdBLoEhSPYzzdvEQARAQABiQEfBBgBAgAJ
- BQJUCbs8AhsMAAoJEFvCxW+uDzIfabYIAJXmBepHJpvCPiMNEQJNJ2ZSzSjhic84LTMWMbJ+
- opQgr5cb8SPQyyb508fc8b4uD8ejlF/cdbbBNktp3BXsHlO5BrmcABgxSP8HYYNsX0n9kERv
- NMToU0oiBuAaX7O/0K9+BW+3+PGMwiu5ml0cwDqljxfVN0dUBZnQ8kZpLsY+WDrIHmQWjtH+
- Ir6VauZs5Gp25XLrL6bh/SL8aK0BX6y79m5nhfKI1/6qtzHAjtMAjqy8ChPvOqVVVqmGUzFg
- KPsrrIoklWcYHXPyMLj9afispPVR8e0tMKvxzFBWzrWX1mzljbBlnV2n8BIwVXWNbgwpHSsj
- imgcU9TTGC5qd9g=
-Message-ID: <50daac46-54e2-8af0-37a8-f380f0a1cfb7@ilande.co.uk>
-Date: Mon, 8 Jun 2020 17:08:12 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jiKPz-00070x-C9
+ for qemu-devel@nongnu.org; Mon, 08 Jun 2020 12:14:35 -0400
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:39136)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jiKPy-00022A-1L
+ for qemu-devel@nongnu.org; Mon, 08 Jun 2020 12:14:34 -0400
+Received: by mail-oi1-x244.google.com with SMTP id d67so15807656oig.6
+ for <qemu-devel@nongnu.org>; Mon, 08 Jun 2020 09:14:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=/+4QjpT+tPPNmlVcx3DdQ4kyskVFCMtysHbcHTNYe74=;
+ b=kS58IrIM5lez6Lj5rtZnhJPFBV+K9srHQMqeFSm7Z+xDcxy5VB1+sG7mD7OgAU3Xlc
+ pqtBn6vqhsdiy+5UWO9tA5v94lie87F6qtEtU8Oox/I3ezGt7DNwpHBQTSE1GTX+xmXw
+ k3pbE1MrKcyt2zqAeLEsEhQOPlnINXANgWN9+eUAWrJHhjMAubtk/mMoq4Yz4NnaAb+E
+ qok7pIPLclNsBFO2iEIhsEcGPn4rTChUJWZlcplpcZ+BJti3DUIyDl7hvfGaH3LbrDMV
+ sQ7C65a11jICToH03NJRuGZhykKF9IAflFSwaOXhWoK0BC8Ws5uLBhYv++PjUzYGuCna
+ Iofw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=/+4QjpT+tPPNmlVcx3DdQ4kyskVFCMtysHbcHTNYe74=;
+ b=RTjKlMcRbMZjX7uwgsU//gqkZoaYTaf6nMjcgek8Owk4Gauh3CsvgZQ+2QJBsGZ/v0
+ sTgOVYdCQBbwnZ55CIJxQ9mIjytiqEKppO6stkowTdsU8O2zGuuMAL4A4BEu7KAVshy3
+ J7okjkBbkmG0GirYqZsjUflVUalQt9WHU4ydSAgUuKpBSmDW4nBAPTheVm9rbDeRuXo8
+ AGQSqDnj0W6pb4Z6lYvwI6imJKYHQ50U+GJ+pqb/+gXlmyboxcytAC0pSNhqcTUjGbCJ
+ cwOHSZUTh40TJcwVoRO1Yl9V8nBvbkA/hAzSl7oya7ayEUNclmaiG8sRx+8RU4tTLvKt
+ yO2Q==
+X-Gm-Message-State: AOAM5308JMKx1CDjjD6XF+XqaRYXiG594P8NMYLlymPzyvdBfbNcj155
+ F1bmQdzVE9Pb42r+ndy58azCKWFoyyG3x99U15XlVA==
+X-Google-Smtp-Source: ABdhPJxY837bRoD3+f6ZcPgGbh8vCM84Cl4LR/XbymbYhKCUqj4k8XH49NE9YAo4JBnuJUGXAVD6K2cFlG42HGdNVeI=
+X-Received: by 2002:aca:568c:: with SMTP id k134mr107477oib.48.1591632872829; 
+ Mon, 08 Jun 2020 09:14:32 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <56e92e1c-6f89-5359-53bc-57c529743d5e@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 109.147.121.67
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 0/7] hw/sparc/leon3: Few fixes and disable HelenOS test
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.uk0.bigv.io
+References: <20200608160044.15531-1-philmd@redhat.com>
+In-Reply-To: <20200608160044.15531-1-philmd@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 8 Jun 2020 17:14:21 +0100
+Message-ID: <CAFEAcA_Ni8=mvyfG=9Aa=ym-ae9HpP8J8B0ekm8=SN2WgZ6_vA@mail.gmail.com>
+Subject: Re: [RFC PATCH 00/35] hw/qdev: Warn when using pre-qdev/QOM devices
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::244;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x244.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_PASS=-0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,51 +80,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Trivial <qemu-trivial@nongnu.org>, Fabien Chouteau <chouteau@adacore.com>,
- KONRAD Frederic <frederic.konrad@adacore.com>,
- Fred Konrad <konrad@adacore.com>, Jiri Gaisler <jiri@gaisler.se>,
- Richard Henderson <rth@twiddle.net>
+Cc: Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ QEMU Developers <qemu-devel@nongnu.org>, Max Filippov <jcmvbkbc@gmail.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>,
+ Magnus Damm <magnus.damm@gmail.com>, Markus Armbruster <armbru@redhat.com>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>, qemu-arm <qemu-arm@nongnu.org>,
+ "open list:X86" <xen-devel@lists.xenproject.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>, Stafford Horne <shorne@gmail.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Richard Henderson <rth@twiddle.net>,
+ "Daniel P . Berrange" <berrange@redhat.com>, Thomas Huth <huth@tuxfamily.org>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Michael Walle <michael@walle.cc>, qemu-ppc <qemu-ppc@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 08/06/2020 16:20, Philippe Mathieu-Daudé wrote:
+On Mon, 8 Jun 2020 at 17:00, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com=
+> wrote:
+>
+> Based on today's IRC chat, this is a trivial RFC series
+> to anotate pre-qdev/QOM devices so developers using them
+> without knowing they are not QOM'ified yet can realize
+> it and convert them if they have time.
 
-> On 5/26/20 11:50 AM, Philippe Mathieu-Daudé wrote:
->> On 5/25/20 1:02 PM, Fred Konrad wrote:
->>> Sorry Philippe I missed that.
->>>
->>> Would be happy to do a PR if needed but:
->>>   * I never did that.
->>>   * Looking at https://wiki.qemu.org/Contribute/SubmitAPullRequest, I
->>> don't have
->>>     the signed GPG key either.
->>
->> Thanks Fred for following this series.
->>
->> I am not insisting for you to do the pull request, I was waiting for
->> Artyom (sparc32) and Mark (sparc64) who usually handle the pull requests.
->>
->> Artyom seems busy lately.
-> 
-> Artyom, if you agree I can send a pullreq with this series and the
-> empty_slot one.
-> 
->>
->> Mark, do you plan to send a hw/sparc* pull request soon? Do you prefer I
->> ask to trivial@ for this series?
->>
->> FYI there is another sparc32 candidate patch:
->> https://www.mail-archive.com/qemu-devel@nongnu.org/msg701850.html
+What mechanism did you use for identifying non-QOM devices?
 
-Apologies, it looks as if this one slipped under my radar. I don't have any SPARC
-patches queued at the moment, so if you have a series prepared with both these
-patches then I'm happy for you to include them. The bits of time I have had to work
-on QEMU this cycle have been spent looking at the QOM patches and some ADB fixes I
-hope to finish soon...
-
-
-ATB,
-
-Mark.
+thanks
+-- PMM
 
