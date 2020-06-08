@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC2E01F1CFB
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 18:10:48 +0200 (CEST)
-Received: from localhost ([::1]:41340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81DE11F1D01
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 18:13:46 +0200 (CEST)
+Received: from localhost ([::1]:51338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jiKMJ-000069-MR
-	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 12:10:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37694)
+	id 1jiKPB-0004T2-Dm
+	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 12:13:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37932)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jiKDF-00068t-Sn
- for qemu-devel@nongnu.org; Mon, 08 Jun 2020 12:01:26 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:26205
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jiKDt-0006a3-Hp
+ for qemu-devel@nongnu.org; Mon, 08 Jun 2020 12:02:06 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:46263
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jiKDD-0007cS-RJ
- for qemu-devel@nongnu.org; Mon, 08 Jun 2020 12:01:25 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jiKDs-0007nk-LX
+ for qemu-devel@nongnu.org; Mon, 08 Jun 2020 12:02:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591632082;
+ s=mimecast20190719; t=1591632122;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zOI5VHRwzcrGr66pZ7m4z1ZrN3YJ34eLW3YDU+fnGv0=;
- b=e8NN9Pp9FL6qNPJlJA+nTvNNKbAd0iIofbDtRX8XTSB4dql4SBLZ+Q5foHJF+VVcdn4mXC
- bphf0u7jfPDj2DwXZhYk9ut/0k4oYmHMctDVRuBuy6O4k9HJgeBNl6oJSFSnwcVOh15Zmu
- eUWZpFz4OgBjV/94ct++srHMKxguJhY=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-275-phweewcPMsa0DZJK4HwEXA-1; Mon, 08 Jun 2020 12:01:07 -0400
-X-MC-Unique: phweewcPMsa0DZJK4HwEXA-1
-Received: by mail-wr1-f70.google.com with SMTP id w16so7325429wru.18
- for <qemu-devel@nongnu.org>; Mon, 08 Jun 2020 09:01:07 -0700 (PDT)
+ bh=O7Ly94SWL+SMdJ3uuRJWrIP/iOhgME/DwBVu03IUalo=;
+ b=O2MGImjetCECL2wa5Ku6+hnAon5vqvZVJiWJtvQvQndbqtu1eve1uSgbc2YvuKeJ8QFLaZ
+ eEYYHC8dEeeWYfqwrbwm2Q0Can2GKhL7CbN6BSc5mQ4m+qF08lFA5+JVD/HMNxFdujQFeX
+ 7OUT0+aUM3dGPBSNzjqZInXW9lfQ1R4=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-14-AMnnR6waPGu6eYyo5BR4YQ-1; Mon, 08 Jun 2020 12:01:13 -0400
+X-MC-Unique: AMnnR6waPGu6eYyo5BR4YQ-1
+Received: by mail-wm1-f70.google.com with SMTP id t145so10272wmt.2
+ for <qemu-devel@nongnu.org>; Mon, 08 Jun 2020 09:01:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=zOI5VHRwzcrGr66pZ7m4z1ZrN3YJ34eLW3YDU+fnGv0=;
- b=tA1EcLJ4QKX/6av9vvC/rZsMQzLqhTZBb6U2ViPbb3DVoQKIQbqkGWSxfiTSdoJeWV
- Gr/a0t20D0SzoxYjkQmzYmi3qrsuCNaRW0dE0lDmb6EytJNyhHIvUAXrcTQD2SteiDiX
- 5O4cYRNCEFdp9GU/YwUb+CvFuz/jil5PUlRmEmdD4uuuEJzqXg/F/16JaWndWkl3Ob9p
- IsDjwsr+IKV0HCf1HTXMA9jn7KeaO9cAc+hcrEgl90LDyK5o9JxEC/0qdEEezYkS+xoI
- LQi6/NlYDJAJhahkdZ23Y+LjKQtSBBIIp0QqkAOuFgJ+45b/k3Q9A9+PFn2cQksjURZT
- /asg==
-X-Gm-Message-State: AOAM532PnzsE79LhjjiE5dvLP4qHGQAMPqDNDS9hbAAEoJ/TWbECUivB
- hDQzsSWw1umnVkZZG60meRwEAvOKJIsPss/VfGjFSQiyyNMSKBOwnfnN0P6wN4ml3ejF/D9WKIZ
- HSzZY9NtxdMARz1M=
-X-Received: by 2002:a1c:c3d7:: with SMTP id t206mr32549wmf.69.1591632065215;
- Mon, 08 Jun 2020 09:01:05 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJziXMXpu2PAmMIx7aoFkuYgVgPaKI7cmN6JuMa+/KlQ6vvO4eQND3agEj8WsVM887NYLfsrYQ==
-X-Received: by 2002:a1c:c3d7:: with SMTP id t206mr32465wmf.69.1591632064493;
- Mon, 08 Jun 2020 09:01:04 -0700 (PDT)
+ bh=O7Ly94SWL+SMdJ3uuRJWrIP/iOhgME/DwBVu03IUalo=;
+ b=PBj+qbZu5LbUfs3cDa46aKuWChuVFyeDwlyGdOOaIpF9xFEMN16R7ZxNvivkP5+U4L
+ Wet/ephx5qMtBKI5VujqmYs+GTbpvaEQIgydsJxMToYJ82qo0LcPMdawTzHLGTpapFDE
+ 1Nrd+n6Z9WoSb/eRgi5gobqSU/AnEwoFYzCFhSXvh75MnDuC4PcD3hMrr+htT66Nv+Sg
+ jU5hRloyxudlaGtZKBYFSXghvBTV7BydOuvVfWmfrrDbohthgZEkcoHvjwdxKhCVt5V6
+ 8YYZLTkoMvbsdegQsqyYfEX8j4qJkHhBx2FZcrLaFqCPfn1S1jJrEt6aN+tHefua27kS
+ gTmw==
+X-Gm-Message-State: AOAM530Wr3lxOkFWOjHVyXBIXAgVAixvY93ttGSw9/solm7U4/804oII
+ A7A1fvCXViXHJ+R4oGKE9oJU7QySZdCKwDMqzmpKPSS7m/wHBRhbf+RngLMxxwDIgpuhCDrkzGH
+ xBjRQ5SJouPHmrP0=
+X-Received: by 2002:a5d:6acf:: with SMTP id u15mr25749806wrw.277.1591632070235; 
+ Mon, 08 Jun 2020 09:01:10 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzcPzEmUfH07HRp9H1Y3tf4BoKsOaXn7cpLkhpXaJ1S6O0iNu0DeeV5KKJL41RODtirsARieQ==
+X-Received: by 2002:a5d:6acf:: with SMTP id u15mr25749771wrw.277.1591632069976; 
+ Mon, 08 Jun 2020 09:01:09 -0700 (PDT)
 Received: from localhost.localdomain
  (181.red-88-10-103.dynamicip.rima-tde.net. [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id y5sm160041wrs.63.2020.06.08.09.01.02
+ by smtp.gmail.com with ESMTPSA id e12sm163622wro.52.2020.06.08.09.01.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Jun 2020 09:01:03 -0700 (PDT)
+ Mon, 08 Jun 2020 09:01:09 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 03/35] hw/arm/omap: Emit warning when old code is used
-Date: Mon,  8 Jun 2020 18:00:12 +0200
-Message-Id: <20200608160044.15531-4-philmd@redhat.com>
+Subject: [RFC PATCH 04/35] hw/arm/pxa2xx: Emit warning when old code is used
+Date: Mon,  8 Jun 2020 18:00:13 +0200
+Message-Id: <20200608160044.15531-5-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200608160044.15531-1-philmd@redhat.com>
 References: <20200608160044.15531-1-philmd@redhat.com>
@@ -72,17 +72,16 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/08 05:40:56
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/08 11:58:00
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -124,220 +123,74 @@ This code hasn't been QOM'ified yet. Warn the user.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- hw/arm/omap1.c            | 6 ++++++
- hw/char/omap_uart.c       | 5 +++++
- hw/misc/omap_gpmc.c       | 3 +++
- hw/misc/omap_l4.c         | 3 +++
- hw/misc/omap_sdrc.c       | 3 +++
- hw/sd/omap_mmc.c          | 5 +++++
- hw/ssi/omap_spi.c         | 3 +++
- hw/timer/omap_synctimer.c | 4 ++++
- 8 files changed, 32 insertions(+)
+ hw/arm/pxa2xx.c          | 3 +++
+ hw/display/pxa2xx_lcd.c  | 3 +++
+ hw/input/pxa2xx_keypad.c | 3 +++
+ 3 files changed, 9 insertions(+)
 
-diff --git a/hw/arm/omap1.c b/hw/arm/omap1.c
-index 761cc17ea9..d7d6253be0 100644
---- a/hw/arm/omap1.c
-+++ b/hw/arm/omap1.c
-@@ -40,6 +40,7 @@
- #include "hw/sysbus.h"
+diff --git a/hw/arm/pxa2xx.c b/hw/arm/pxa2xx.c
+index e649f8930c..483003d161 100644
+--- a/hw/arm/pxa2xx.c
++++ b/hw/arm/pxa2xx.c
+@@ -27,6 +27,7 @@
+ #include "sysemu/qtest.h"
  #include "qemu/cutils.h"
- #include "qemu/bcd.h"
+ #include "qemu/log.h"
 +#include "hw/qdev-deprecated.h"
  
- static inline void omap_log_badwidth(const char *funcname, hwaddr addr, int sz)
+ static struct {
+     hwaddr io_base;
+@@ -1768,6 +1769,8 @@ static PXA2xxI2SState *pxa2xx_i2s_init(MemoryRegion *sysmem,
  {
-@@ -1451,6 +1452,7 @@ static struct dpll_ctl_s  *omap_dpll_init(MemoryRegion *memory,
-                            hwaddr base, omap_clk clk)
- {
-     struct dpll_ctl_s *s = g_malloc0(sizeof(*s));
-+    qdev_warn_deprecated_function_used();
-     memory_region_init_io(&s->iomem, NULL, &omap_dpll_ops, s, "omap-dpll", 0x100);
- 
-     s->dpll = clk;
-@@ -2427,6 +2429,8 @@ static struct omap_pwl_s *omap_pwl_init(MemoryRegion *system_memory,
- {
-     struct omap_pwl_s *s = g_malloc0(sizeof(*s));
- 
-+    qdev_warn_deprecated_function_used();
-+
-     omap_pwl_reset(s);
- 
-     memory_region_init_io(&s->iomem, NULL, &omap_pwl_ops, s,
-@@ -2534,6 +2538,8 @@ static struct omap_pwt_s *omap_pwt_init(MemoryRegion *system_memory,
-                                         omap_clk clk)
- {
-     struct omap_pwt_s *s = g_malloc0(sizeof(*s));
-+
-+    qdev_warn_deprecated_function_used();
-     s->clk = clk;
-     omap_pwt_reset(s);
- 
-diff --git a/hw/char/omap_uart.c b/hw/char/omap_uart.c
-index e8da933378..7e106772ce 100644
---- a/hw/char/omap_uart.c
-+++ b/hw/char/omap_uart.c
-@@ -22,6 +22,7 @@
- #include "hw/arm/omap.h"
- #include "hw/char/serial.h"
- #include "exec/address-spaces.h"
-+#include "hw/qdev-deprecated.h"
- 
- /* UARTs */
- struct omap_uart_s {
-@@ -57,6 +58,8 @@ struct omap_uart_s *omap_uart_init(hwaddr base,
- {
-     struct omap_uart_s *s = g_new0(struct omap_uart_s, 1);
- 
-+    qdev_warn_deprecated_function_used();
-+
-     s->base = base;
-     s->fclk = fclk;
-     s->irq = irq;
-@@ -168,6 +171,8 @@ struct omap_uart_s *omap2_uart_init(MemoryRegion *sysmem,
-     struct omap_uart_s *s = omap_uart_init(base, irq,
-                     fclk, iclk, txdma, rxdma, label, chr);
- 
-+    qdev_warn_deprecated_function_used();
-+
-     memory_region_init_io(&s->iomem, NULL, &omap_uart_ops, s, "omap.uart", 0x100);
- 
-     s->ta = ta;
-diff --git a/hw/misc/omap_gpmc.c b/hw/misc/omap_gpmc.c
-index 10de7a5523..9e29d7a8bd 100644
---- a/hw/misc/omap_gpmc.c
-+++ b/hw/misc/omap_gpmc.c
-@@ -25,6 +25,7 @@
- #include "hw/arm/omap.h"
- #include "exec/memory.h"
- #include "exec/address-spaces.h"
-+#include "hw/qdev-deprecated.h"
- 
- /* General-Purpose Memory Controller */
- struct omap_gpmc_s {
-@@ -830,6 +831,8 @@ struct omap_gpmc_s *omap_gpmc_init(struct omap_mpu_state_s *mpu,
-     int cs;
-     struct omap_gpmc_s *s = g_new0(struct omap_gpmc_s, 1);
- 
-+    qdev_warn_deprecated_function_used();
-+
-     memory_region_init_io(&s->iomem, NULL, &omap_gpmc_ops, s, "omap-gpmc", 0x1000);
-     memory_region_add_subregion(get_system_memory(), base, &s->iomem);
- 
-diff --git a/hw/misc/omap_l4.c b/hw/misc/omap_l4.c
-index 54aeaecd69..b412790c19 100644
---- a/hw/misc/omap_l4.c
-+++ b/hw/misc/omap_l4.c
-@@ -19,6 +19,7 @@
-  */
- #include "qemu/osdep.h"
- #include "hw/arm/omap.h"
-+#include "hw/qdev-deprecated.h"
- 
- struct omap_l4_s {
-     MemoryRegion *address_space;
-@@ -33,6 +34,8 @@ struct omap_l4_s *omap_l4_init(MemoryRegion *address_space,
-     struct omap_l4_s *bus = g_malloc0(
-                     sizeof(*bus) + ta_num * sizeof(*bus->ta));
- 
-+    qdev_warn_deprecated_function_used();
-+
-     bus->address_space = address_space;
-     bus->ta_num = ta_num;
-     bus->base = base;
-diff --git a/hw/misc/omap_sdrc.c b/hw/misc/omap_sdrc.c
-index f2f72f6810..4f8440ea56 100644
---- a/hw/misc/omap_sdrc.c
-+++ b/hw/misc/omap_sdrc.c
-@@ -19,6 +19,7 @@
-  */
- #include "qemu/osdep.h"
- #include "hw/arm/omap.h"
-+#include "hw/qdev-deprecated.h"
- 
- /* SDRAM Controller Subsystem */
- struct omap_sdrc_s {
-@@ -159,6 +160,8 @@ struct omap_sdrc_s *omap_sdrc_init(MemoryRegion *sysmem,
- {
-     struct omap_sdrc_s *s = g_new0(struct omap_sdrc_s, 1);
- 
-+    qdev_warn_deprecated_function_used();
-+
-     omap_sdrc_reset(s);
- 
-     memory_region_init_io(&s->iomem, NULL, &omap_sdrc_ops, s, "omap.sdrc", 0x1000);
-diff --git a/hw/sd/omap_mmc.c b/hw/sd/omap_mmc.c
-index 4088a8a80b..88fd20e17a 100644
---- a/hw/sd/omap_mmc.c
-+++ b/hw/sd/omap_mmc.c
-@@ -24,6 +24,7 @@
- #include "hw/irq.h"
- #include "hw/arm/omap.h"
- #include "hw/sd/sd.h"
-+#include "hw/qdev-deprecated.h"
- 
- struct omap_mmc_s {
-     qemu_irq irq;
-@@ -599,6 +600,8 @@ struct omap_mmc_s *omap_mmc_init(hwaddr base,
- {
-     struct omap_mmc_s *s = g_new0(struct omap_mmc_s, 1);
+     PXA2xxI2SState *s = g_new0(PXA2xxI2SState, 1);
  
 +    qdev_warn_deprecated_function_used();
 +
      s->irq = irq;
-     s->dma = dma;
-     s->clk = clk;
-@@ -625,6 +628,8 @@ struct omap_mmc_s *omap2_mmc_init(struct omap_target_agent_s *ta,
- {
-     struct omap_mmc_s *s = g_new0(struct omap_mmc_s, 1);
- 
-+    qdev_warn_deprecated_function_used();
-+
-     s->irq = irq;
-     s->dma = dma;
-     s->clk = fclk;
-diff --git a/hw/ssi/omap_spi.c b/hw/ssi/omap_spi.c
-index 7c7e689707..276f963ae2 100644
---- a/hw/ssi/omap_spi.c
-+++ b/hw/ssi/omap_spi.c
-@@ -25,6 +25,7 @@
- #include "hw/hw.h"
- #include "hw/irq.h"
- #include "hw/arm/omap.h"
+     s->rx_dma = rx_dma;
+     s->tx_dma = tx_dma;
+diff --git a/hw/display/pxa2xx_lcd.c b/hw/display/pxa2xx_lcd.c
+index ff90104b80..cf6241ff21 100644
+--- a/hw/display/pxa2xx_lcd.c
++++ b/hw/display/pxa2xx_lcd.c
+@@ -20,6 +20,7 @@
+ /* FIXME: For graphic_rotate. Should probably be done in common code.  */
+ #include "sysemu/sysemu.h"
+ #include "framebuffer.h"
 +#include "hw/qdev-deprecated.h"
  
- /* Multichannel SPI */
- struct omap_mcspi_s {
-@@ -353,6 +354,8 @@ struct omap_mcspi_s *omap_mcspi_init(struct omap_target_agent_s *ta, int chnum,
-     struct omap_mcspi_s *s = g_new0(struct omap_mcspi_s, 1);
-     struct omap_mcspi_ch_s *ch = s->ch;
+ struct DMAChannel {
+     uint32_t branch;
+@@ -1011,6 +1012,8 @@ PXA2xxLCDState *pxa2xx_lcdc_init(MemoryRegion *sysmem,
+     PXA2xxLCDState *s;
+     DisplaySurface *surface;
  
 +    qdev_warn_deprecated_function_used();
 +
+     s = (PXA2xxLCDState *) g_malloc0(sizeof(PXA2xxLCDState));
+     s->invalidated = 1;
      s->irq = irq;
-     s->chnum = chnum;
-     while (chnum --) {
-diff --git a/hw/timer/omap_synctimer.c b/hw/timer/omap_synctimer.c
-index 72b997939b..4be24e970e 100644
---- a/hw/timer/omap_synctimer.c
-+++ b/hw/timer/omap_synctimer.c
-@@ -20,6 +20,8 @@
- #include "qemu/osdep.h"
- #include "qemu/timer.h"
- #include "hw/arm/omap.h"
+diff --git a/hw/input/pxa2xx_keypad.c b/hw/input/pxa2xx_keypad.c
+index 62aa6f6b15..6de1e9e4bb 100644
+--- a/hw/input/pxa2xx_keypad.c
++++ b/hw/input/pxa2xx_keypad.c
+@@ -17,6 +17,7 @@
+ #include "migration/vmstate.h"
+ #include "hw/arm/pxa.h"
+ #include "ui/console.h"
 +#include "hw/qdev-deprecated.h"
-+
- struct omap_synctimer_s {
-     MemoryRegion iomem;
-     uint32_t val;
-@@ -101,6 +103,8 @@ struct omap_synctimer_s *omap_synctimer_init(struct omap_target_agent_s *ta,
+ 
+ /*
+  * Keypad
+@@ -316,6 +317,8 @@ PXA2xxKeyPadState *pxa27x_keypad_init(MemoryRegion *sysmem,
  {
-     struct omap_synctimer_s *s = g_malloc0(sizeof(*s));
+     PXA2xxKeyPadState *s;
  
 +    qdev_warn_deprecated_function_used();
 +
-     omap_synctimer_reset(s);
-     memory_region_init_io(&s->iomem, NULL, &omap_synctimer_ops, s, "omap.synctimer",
-                           omap_l4_region_size(ta, 0));
+     s = (PXA2xxKeyPadState *) g_malloc0(sizeof(PXA2xxKeyPadState));
+     s->irq = irq;
+ 
 -- 
 2.21.3
 
