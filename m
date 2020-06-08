@@ -2,76 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E85081F15E2
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 11:50:05 +0200 (CEST)
-Received: from localhost ([::1]:44074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 292D11F15EF
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 11:55:16 +0200 (CEST)
+Received: from localhost ([::1]:58574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jiEPs-0002tL-VY
-	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 05:50:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50908)
+	id 1jiEUt-0000bb-3J
+	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 05:55:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jiEOI-0001e7-4V
- for qemu-devel@nongnu.org; Mon, 08 Jun 2020 05:48:26 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:20140
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jiEOH-0003K0-1x
- for qemu-devel@nongnu.org; Mon, 08 Jun 2020 05:48:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591609703;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=4/W6HcO4458PVJW5JgST81/+vr1po3CnYyaz6iS9oKc=;
- b=dj96qdaEz+9xkMOVnAlZwQhCZ3BBJ38yx5PHRgzjArv+bO2KDc4j8qSuT/TGIlle7CAivk
- /zQiV0LYHMNOIYLKGjltagZ2/f2K9d6cFy+89iHJGMDm/9jsEDNmH0wIYZdX775tS8Xmfo
- k2URqDpZjV1m3NPltU6svjWgN40rbmc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-282-kp1iSBoxMe2UqRPmK4pR_g-1; Mon, 08 Jun 2020 05:48:20 -0400
-X-MC-Unique: kp1iSBoxMe2UqRPmK4pR_g-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DD694A0BD8;
- Mon,  8 Jun 2020 09:48:18 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-119.ams2.redhat.com [10.36.112.119])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9B30F5D9C9;
- Mon,  8 Jun 2020 09:48:14 +0000 (UTC)
-Subject: Re: [PATCH v2 2/8] MAINTAINERS: Mark SH4 based R2D & Shix machines
- orphan
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, Magnus Damm <magnus.damm@gmail.com>
-References: <20200608090142.6793-1-f4bug@amsat.org>
- <20200608090142.6793-3-f4bug@amsat.org>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <8f97580c-bf25-dd83-e23e-dcea1e6ce6b7@redhat.com>
-Date: Mon, 8 Jun 2020 11:48:12 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1jiES8-0006TA-4r
+ for qemu-devel@nongnu.org; Mon, 08 Jun 2020 05:52:24 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:44877 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1jiES5-00045y-Iv
+ for qemu-devel@nongnu.org; Mon, 08 Jun 2020 05:52:23 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 49gT7G5pWyz9sRR; Mon,  8 Jun 2020 19:52:10 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1591609930;
+ bh=3nftKjTSlR6yZLalgH0AP5LAfLkOWB0e+gKJpPTMjwI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=bZWIYQaPiNTpUl0mmDFKfUJxvf4N6kbg3/pwKtLlbkWhlELKdde7bQ/7XEhhhDiPF
+ ZlHb5Ly41otFxY7mmzjd05khBfRSxLdjtQv9nh4j736GOH5xdWIGRKq9Z3YbF6l07g
+ XKdPgXhDa53viKzqqXKLdC8XSGmipxwW1f7lToyw=
+Date: Mon, 8 Jun 2020 19:52:00 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH v5 0/2] Makefile: libfdt: build only the strict necessary
+Message-ID: <20200608095200.GC494336@umbus.fritz.box>
+References: <20200518160319.18861-1-cfontana@suse.de>
+ <1f70e2fb-a1f4-29af-c9e6-38b178fa26ca@suse.de>
+ <9f1d9711-c87d-f554-2718-f69b3babbf54@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200608090142.6793-3-f4bug@amsat.org>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=thuth@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/08 01:05:50
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="f0KYrhQ4vYSV2aJu"
+Content-Disposition: inline
+In-Reply-To: <9f1d9711-c87d-f554-2718-f69b3babbf54@redhat.com>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/08 05:52:11
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,58 +64,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Yoshinori Sato <ysato@users.sourceforge.jp>,
- qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
- Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>, Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ Philippe Mathieu-Daude <philmd@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
+ Markus Armbruster <armbru@redhat.com>, Claudio Fontana <cfontana@suse.de>,
+ David Gibson <dgibson@redhat.com>, Alex Bennee <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 08/06/2020 11.01, Philippe Mathieu-Daudé wrote:
-> Last commit from Magnus Damm is fc8e320ef583, which date is
-> Fri Nov 13 2009.  As nobody else seems to care about the patches
-> posted [*] related to the R2D and Shix machines, mark them orphan.
-> 
-> Many thanks to Magnus for his substantial contributions to QEMU,
-> and for introducing these SH4 based machine!
-> 
-> [*] https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg08519.html
-> 
-> Cc: Magnus Damm <magnus.damm@gmail.com>
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->  MAINTAINERS | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 49d90c70de..a012d9b74e 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1250,14 +1250,15 @@ SH4 Machines
->  ------------
->  R2D
->  M: Magnus Damm <magnus.damm@gmail.com>
-> -S: Maintained
-> +S: Orphan
->  F: hw/sh4/r2d.c
->  F: hw/intc/sh_intc.c
->  F: hw/timer/sh_timer.c
-> +F: include/hw/sh4/sh_intc.h
->  
->  Shix
->  M: Magnus Damm <magnus.damm@gmail.com>
-> -S: Odd Fixes
-> +S: Orphan
->  F: hw/sh4/shix.c
 
-Having both, an "M:" entry and "S: Orphan" in a section sounds weird.
-Magnus, are you still interested in these sections? If not, I think the
-"M:" line should be removed...?
+--f0KYrhQ4vYSV2aJu
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
- Thomas
+On Sun, Jun 07, 2020 at 08:53:52AM +0200, Thomas Huth wrote:
+>  Hi David,
+>=20
+> could you maybe take this through your ppc tree?
 
+Sounds reasonable, but this version doesn't seem to apply any more.
+
+>=20
+>  Thanks,
+>   Thomas
+>=20
+>=20
+> On 01/06/2020 13.28, Claudio Fontana wrote:
+> > Hello all,
+> >=20
+> > is this queued somewhere?
+> >=20
+> > Thanks,
+> >=20
+> > Claudio
+> >=20
+> > On 5/18/20 6:03 PM, Claudio Fontana wrote:
+> >> v4 -> v5:
+> >>
+> >> * include the dtc submodule update commit in the 1/2 patch
+> >>
+> >> v3 -> v4: NB! only useful when updating to latest dtc (not in QEMU yet)
+> >>
+> >> * changed the approach to leverage new upstream dtc Makefile,
+> >>   needs dtc submodule update to include upstream dtc commit
+> >>   85e5d839847af54efab170f2b1331b2a6421e647.
+> >>
+> >> * LIBFDT_srcdir does not exist anymore in upstream dtc: it is also
+> >>   not used anymore.
+> >>
+> >> * LIBFDT_lib: need to avoid building libfdt.so at least for now, so pa=
+ss as
+> >>   empty to avoid building the .so. This is to avoid breaking existing
+> >>   trees with objects already compiled without -fPIC.
+> >>
+> >> * clean: no need to make dtc clean target, every artifact is captured =
+by
+> >>   global clean rule
+> >>
+> >> v2 -> v3:
+> >>
+> >> * changed into a 2 patch series; in the second patch we remove the old
+> >>   compatibility gunks that were meant for removal some time after 4.1.
+> >>
+> >> * renamed the libfdt PHONY rule to dtc/all, with the intent to make
+> >>   existing working trees forward and backward compatible across the ch=
+ange.
+> >>
+> >> v1 -> v2:
+> >>
+> >> * fix error generated when running UNCHECKED_GOALS without prior confi=
+gure,
+> >>   for example during make docker-image-fedora. Without configure, DSOS=
+UF is
+> >>   empty, and the module pattern rule in rules.mak that uses this varia=
+ble
+> >>   can match too much; provide a default in the Makefile to avoid it.
+> >>
+> >> * only attempt to build the archive when there is a non-empty list of =
+objects.
+> >>   This could be done in general for the %.a: pattern in rules.mak, but=
+ maybe
+> >>   there are valid reasons to build an empty .a?
+> >>
+> >> * removed some intermediate variables that did not add much value
+> >>   (LIBFDT_srcdir, LIBFDT_archive)
+> >>
+> >> Tested locally with 3 VPATH configurations (no-, VPATH, VPATH in src s=
+ubdir),
+> >> and with docker-image-fedora, docker-test-debug@fedora that failed bef=
+ore.
+> >>
+> >> Claudio Fontana (2):
+> >>   Makefile: libfdt: build only the strict necessary
+> >>   Makefile: remove old compatibility gunks
+> >>
+> >>  Makefile  | 32 ++++++++++++++++----------------
+> >>  configure |  6 +-----
+> >>  rules.mak |  2 ++
+> >>  3 files changed, 19 insertions(+), 21 deletions(-)
+> >>
+> >=20
+> >=20
+>=20
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--f0KYrhQ4vYSV2aJu
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl7eCj0ACgkQbDjKyiDZ
+s5JUmRAAuVA0C3Yz4eDm5Vpxmer/FK+SgCE2mwNQOkS30m0VZCEWwg2dgBRW/AG7
+7yZntaMW0+6COOZ94xommRqg8X28muJGmZ0bt5dqZoJc499iUIeLNObidZYsyPKV
+vh+uElv0EKN9xLctPyGDq4kRuBB2T2bXKgkUHqaanE2IKppFSK1dmhqaVLUpME0B
+YicWeU9QVC4xtmAXIlzSTK16P7HoDqAgDcI+U1kRW8Z8jqPWgtdXbQ7LDudeNcA+
+Rq5Vd9+xRWnOD0wsbAzcC3iLJRamoR/9xuLJ5iht384JWd/3w7jWVxoqEav5sRw+
+hjz9DDzLuRqPkhhG3R7sRqyJRBHoBwHHqb/cAd6JWeIv8p4Ga0cprueosqBHJ2Al
+KoC0choBvE+QGejT0DxJX33/UhWbQrt7BnvN8F1/8u/BQ0hYTf+wCAwMaoDOR14Q
+EPzDK6iAXz/HWesL+FNy/Y5F7XEKHIHcM8BIkaSxpt9xAEjjp8Gtj9cYeRa7fZ1B
+ZpLibXcmPo7N8A9rJtJ5YO4GSOYaOQ8l3fIPyj3MH8Q5YT21li2+jxWJvMVTRNSv
+bwnUcBwM9QqeMBBOov7evTz1z9To2q4KJm/94SK8qDoOL7lPb1Babi1dsythyolm
+93E79ufL97kHZdRNF3RvuomFMzwfFZHtVE2SLdgcWt4FJFrHxXs=
+=6dIy
+-----END PGP SIGNATURE-----
+
+--f0KYrhQ4vYSV2aJu--
 
