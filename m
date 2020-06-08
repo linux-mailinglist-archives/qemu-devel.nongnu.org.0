@@ -2,60 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E77A51F14E9
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 11:04:01 +0200 (CEST)
-Received: from localhost ([::1]:41354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07F021F14FB
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 11:06:30 +0200 (CEST)
+Received: from localhost ([::1]:49938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jiDhI-0006SK-E8
-	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 05:04:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45352)
+	id 1jiDjh-0001f3-1K
+	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 05:06:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45358)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jiDfA-0004kr-Rj; Mon, 08 Jun 2020 05:01:48 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:33555)
+ id 1jiDfC-0004lA-Cf; Mon, 08 Jun 2020 05:01:50 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:39954)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jiDfA-0004Hk-0d; Mon, 08 Jun 2020 05:01:48 -0400
-Received: by mail-wr1-x442.google.com with SMTP id l11so16512839wru.0;
- Mon, 08 Jun 2020 02:01:47 -0700 (PDT)
+ id 1jiDfB-0004Hq-Dn; Mon, 08 Jun 2020 05:01:50 -0400
+Received: by mail-wr1-x442.google.com with SMTP id h5so16495531wrc.7;
+ Mon, 08 Jun 2020 02:01:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=p4fj+vZlsEne7bVXCC/b05m9A2rDYGSKfEhInSqyp8s=;
- b=M12w5rsDCEDQxUlsm21y/wDFfNaqL4eEokSUam4FNfAKvg7wMAZYF9xSCpX0aqWo7/
- GdrI15KYJ3OuKgKLZ0g+KutFs5UARbWMdhrAifzA3vvRr3Wo8lYUOI6H3GgygHlL0JBg
- 9+EnpKNOCS6f40ogsZjvpQh9VzbXU/wBsXCJ5Aj5QU8+MX1wGuH8l9Y04arFXInc2cSS
- JceWiqqFFAz0bthDxzpdbdeeh4Y7lxXIquQTK7K4z03FDgQoy4sSX9bWgvjz91qxBa2o
- Oohvy3+feYbmM6DZGwDj++7gBKhg5vejh5RfG3wAb97XF3M6T/hef67mA4etJiZI9D52
- bFZw==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=nzPqyG1e1Jsl3k+MmlRrYyDt080jPwPTNQkC1AKawm4=;
+ b=sOexADa+B84ABTbsr5jctxKfPv/J9Cn++yYlzYQWRZff7gLhDs/AbzL4rdDGOjl8ry
+ xvGNAEfcpG8X+LVzQ8I7Yql0hjkVh3whkjcbcnxsW4f0h10Xu+QFEGzLOl2P7QyIVmQO
+ 1SwoNOunreb0z19ziUQaysV5nyY+TXcjzdOjPKXuZ88jRKma6DxIidx/9iF0AMksaiWn
+ eNyH92wM3bWjI3c2HgpnaFlk8oQyHuP2Pz4Bluq7eEkDK+lMd8rvCf1+jaB2Izi75E1m
+ DX2M/tp53ZOhHotNP9w78OxtTya+DwGL2MYFNI1WjK2bP1ha2CvCy0a9dPWmjW8te9c0
+ TOsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=p4fj+vZlsEne7bVXCC/b05m9A2rDYGSKfEhInSqyp8s=;
- b=AcQIVTafzcunUlR4WOI56JmfjBQ4LiiyYbpWZmtjD4keGldyiZxHshQ1DMvCzZxOC+
- xfLfRmPMRKHffO0SWlTf/TM8l84rkBf8cxZ0nkeHaLDD8ZUwe72i5RW7bkH/hr9UsI9R
- A2xmJrz0dn1jc4TvGHrV0EX0XUGtMm96/ZTlL6Ckk+p0oD6LfYWjA2W0RpfMJEcxgrF8
- 0g7wzq/wvmtvoJg4mjP/jiKKni5TWbrXSlav4IyVhLgucNWnAHdEGOMwoVvmKVt1gC0c
- rICGLyav+QCQY6k+qLDwRz2080GZlp9aRMf8PVtTpm7Sza8BAKms3vOV1gNhNg7Fb3KJ
- qI5A==
-X-Gm-Message-State: AOAM530aGOt4kCOVG7WGjq6/7x1z4EUiuadLznuzU5Ok2vAC2UiE701d
- JPnktcbDuRZ/garXUYgV2aB7YJTT
-X-Google-Smtp-Source: ABdhPJziVOVbkkaSfFvvm2I4Lzp2+5sugmAgbrD+EvvTElZbb1QzZW/PfnmSmmjaO/APzHscyzU/1g==
-X-Received: by 2002:a5d:538e:: with SMTP id d14mr22115929wrv.174.1591606905595; 
- Mon, 08 Jun 2020 02:01:45 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=nzPqyG1e1Jsl3k+MmlRrYyDt080jPwPTNQkC1AKawm4=;
+ b=evCIp9zR7IYUI8rY0mjkLPmDXKbsroM5LGld8s0mCdTLQfWG5hSkKoagXoQtCjhiTS
+ MHWYHXfeJwJhkL7michfhUe/yvFfJXcecsJI/VxZSJ9OT0WIRq4P4IrmQ6zg1Ae5ooMw
+ gstrr52REhI4PcjdaqaPgS7nipLaJ6BorbGFOYfFXhRh6B6ip8ki90RiqphOMHQfimC/
+ veDC3RquKQ62R+FRaIzK/H2ghiOpL5jIvvXHcDVxr/K4VFGSidgcphfNl7whaRTOt/ni
+ BHeMAI/KWiUp2AZome9gDsTYolMCCQUAmMidsDCdTVsAtyddIbSSjATi4ZB5b6FJRPjv
+ xvqw==
+X-Gm-Message-State: AOAM531VvxCChNsmp5FnBtd2ffsqBdonxpSZ9sh7UupMtrFTfqtZhm+M
+ X7R4mbGWGtv0zGYKBoOaaVmkOSdr
+X-Google-Smtp-Source: ABdhPJyUYNqlDud4XxKo7sB6RD/HUaJraV0MQZcVTVBT5WVaAF1kVi9ecZHSnIWX6nPDU1U8fF9BGQ==
+X-Received: by 2002:a5d:4a8a:: with SMTP id o10mr22115684wrq.222.1591606907550; 
+ Mon, 08 Jun 2020 02:01:47 -0700 (PDT)
 Received: from localhost.localdomain
  (181.red-88-10-103.dynamicip.rima-tde.net. [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id t8sm22192989wro.56.2020.06.08.02.01.43
+ by smtp.gmail.com with ESMTPSA id t8sm22192989wro.56.2020.06.08.02.01.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Jun 2020 02:01:44 -0700 (PDT)
+ Mon, 08 Jun 2020 02:01:46 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/8] sh4: Mark it orphan in MAINTAINERS & trivial fixes
-Date: Mon,  8 Jun 2020 11:01:34 +0200
-Message-Id: <20200608090142.6793-1-f4bug@amsat.org>
+Subject: [PATCH v2 1/8] MAINTAINERS: Mark SH4 hardware orphan
+Date: Mon,  8 Jun 2020 11:01:35 +0200
+Message-Id: <20200608090142.6793-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
+In-Reply-To: <20200608090142.6793-1-f4bug@amsat.org>
+References: <20200608090142.6793-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
@@ -98,47 +100,54 @@ Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+Aurelien Jarno expressed his desire to orphan the SH4 hardware [*]:
 
-This series clarifies the situation of the SH4 TCG target
-and hardware (there are no active maintainers). From here
-it should be easier for volunteers to step it.
+  I don't mind being [...] removed from there.
+  I do not really have time to work on that.
 
-Maybe patches 7 & 8 can go via acceptance-next queue, and
-the rest via qemu-trivial@?
+Mark the SH4 emulated hardware orphan.
 
-Regards,
+Many thanks to Aurelien for his substantial contributions to QEMU,
+and for maintaining the SH4 hardware for various years!
 
-Phil.
+[*] https://www.mail-archive.com/qemu-devel@nongnu.org/msg708400.html
 
-CI report:
-https://travis-ci.org/github/philmd/qemu/builds/692828388
+Message-Id: <20200601214125.GA1924990@aurel32.net>
+Acked-by: Aurelien Jarno <aurelien@aurel32.net>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ MAINTAINERS | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-Supersedes: <20200530092306.26628-1-f4bug@amsat.org>
-Supersedes: <20200601092057.10555-1-f4bug@amsat.org>
-
-Philippe Mathieu-Daudé (6):
-  MAINTAINERS: Mark SH4 hardware orphan
-  MAINTAINERS: Mark SH4 based R2D & Shix machines orphan
-  MAINTAINERS: Mark SH4 TCG target orphan
-  hw/sh4: Use MemoryRegion typedef
-  hw/sh4: Extract timer definitions to 'hw/timer/tmu012.h'
-  hw/timer/sh_timer: Remove unused 'qemu/timer.h' include
-
-Thomas Huth (2):
-  tests/acceptance: Add boot tests for sh4 QEMU advent calendar image
-  .travis.yml: Test SH4 QEMU advent calendar image
-
- include/hw/sh4/sh.h                    | 12 +-----------
- include/hw/timer/tmu012.h              | 23 +++++++++++++++++++++++
- hw/sh4/sh7750.c                        |  1 +
- hw/timer/sh_timer.c                    |  3 ++-
- .travis.yml                            |  2 +-
- MAINTAINERS                            | 18 ++++++++++++------
- tests/acceptance/boot_linux_console.py | 13 +++++++++++--
- 7 files changed, 51 insertions(+), 21 deletions(-)
- create mode 100644 include/hw/timer/tmu012.h
-
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 6e7890ce82..49d90c70de 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -299,9 +299,7 @@ SH4 TCG CPUs
+ M: Aurelien Jarno <aurelien@aurel32.net>
+ S: Odd Fixes
+ F: target/sh4/
+-F: hw/sh4/
+ F: disas/sh4.c
+-F: include/hw/sh4/
+ 
+ SPARC TCG CPUs
+ M: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+@@ -1948,6 +1946,14 @@ F: hw/*/*xive*
+ F: include/hw/*/*xive*
+ F: docs/*/*xive*
+ 
++SH4 Hardware
++S: Orphan
++F: hw/sh4/
++F: hw/char/sh_serial.c
++F: hw/intc/sh_intc.c
++F: hw/timer/sh_timer.c
++F: include/hw/sh4/
++
+ Subsystems
+ ----------
+ Audio
 -- 
 2.21.3
 
