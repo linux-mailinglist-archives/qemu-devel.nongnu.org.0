@@ -2,106 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 026B71F209B
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 22:21:21 +0200 (CEST)
-Received: from localhost ([::1]:60140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A92C1F20BD
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 22:35:08 +0200 (CEST)
+Received: from localhost ([::1]:39938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jiOGl-0005Mw-IC
-	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 16:21:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40396)
+	id 1jiOU7-0001fV-4W
+	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 16:35:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Babu.Moger@amd.com>)
- id 1jiOEZ-0004CO-9f
- for qemu-devel@nongnu.org; Mon, 08 Jun 2020 16:19:03 -0400
-Received: from mail-eopbgr690087.outbound.protection.outlook.com
- ([40.107.69.87]:30852 helo=NAM04-CO1-obe.outbound.protection.outlook.com)
+ id 1jiOSu-0001BX-7r
+ for qemu-devel@nongnu.org; Mon, 08 Jun 2020 16:33:52 -0400
+Received: from mail-bn8nam11on2055.outbound.protection.outlook.com
+ ([40.107.236.55]:6034 helo=NAM11-BN8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Babu.Moger@amd.com>)
- id 1jiOEX-0001J4-TT
- for qemu-devel@nongnu.org; Mon, 08 Jun 2020 16:19:02 -0400
+ id 1jiOSs-0003eh-OY
+ for qemu-devel@nongnu.org; Mon, 08 Jun 2020 16:33:51 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LgmFWoWCL4MzRJgnrtloXpb+GBBuwWGYwZkuiQ4kog1igRhLFsYmhwT5ate4QGfJg9VQfK/cVFqDLtFaZlsFEYeqVcqJOpcLoKvkMlAJcB7437QzYOTFtoDo4Jl1fa/ciYWNedSz2pn6zvKkplYARHrICSprFeAqdYyW7d7vAIe8OVGW6i/Dvy6mz8MRox+JTgLvrrTcKcd5A7Arn7PQVTQkdatxyvQsCPozr1PaytxhIDPsvsqm61J3kuouuh2BiNL8XjHQKfSOX+yBffB2QSArWljZ4/U7mQpynqxV2eacMBJB09z5aXgAaP49ktZ8Zqy9vUuiCDRJKrYEECAPDw==
+ b=etSuQ0yNFZWj1Semb7vBvLVCAYhZ3kMGS9tPzJpZN0U3+xq+13tT85BoWsWD92s4MrmkCsvNo3tAtwBncD4jWu75zggIiT47xe7m45/aDhmObtjIR0o/FkqdsvECK5gdcIF0yzLixt5yqliOWK590Z7VWfRcob8gNUyVbTn4uybxi7ItjoEe7rBuWleO1xXhLWKh9Ghr1TLGnIs9qHBAh4O6iLnhpR2RLj/q5HHbRIZSzBGCzcIhEkQ+kROBUhbRPle1ANxvI1XCeYZVXWTqoRO8KjlizGRkFO6+Rv2PkfTaoxcWSe7TUxB6GbcZeA0OFUNHZ13bp11NrCaJUv79cg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mGushvHe+gd9cfDthHNWmccQxCFGWhsriOkhIQQb848=;
- b=KVwcjcBnlSYlQ3Ftes4UVTbLC8tZgA+AdGD6L81WpePxqRCQ1JbKYHyi3QAyU1LWUOau1pqWE+Zwibb6kkr5qPCemgkxBjYTBBY3OhTC0xHuYej5VS4wzj6jrlIR9I72cyRPGZ5nri5x6qMT87+qe9vOr8nk5VfnNph5FCx6ZXn+Blv6j5eKtTn6W/0k9XhDcxEL20xfjBwc5v9Cly6mN6IHjqfO0Navman9MuGaTj275NHACxCPiWFocuWm9Qe6z5bmwXt+tpxBcEuyoISiYhdTiHsCU/cU1GhSn6umn/irmChzAon7i+zk8Y3zKpy0IdFpE45+s241lzG/OeAb8g==
+ bh=LRAEjfjZ2Y2ag3aCGWfxHEIQI9Rg/dKws4LAl8pH4P0=;
+ b=UKJ1ZfCiV2dZy5esKOgNBKu5CANx7MAZHCYODy9o1nvCRG+17LFZ3QMush/VdItIcSJjtwdZYfZn6f0FS+B7nylMYS4iDkdZQdMmlQxQHs3xZDFF04aDirUgUscH1A4N6KTwSzsvrZuLWSlBnmrLUJVKmwcwhc9IiKTfAQa2NEHiZ9WVdfkgq3C46XUnEcka4D33Vh5seF95qmeMkj8qCHANBfzs2PIADrXXhpW0IUHmcJRfZclL3NbycyL3IZPR3rjAkUzHLYNhoOW0PDbLoB3cBjVyDSv8+UAS3l1HG7zEyxf+q97w1m0/VsBzM99gGEXKbuNSktWvsmygryzBEw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mGushvHe+gd9cfDthHNWmccQxCFGWhsriOkhIQQb848=;
- b=d51a74mXg0ac5bio215zAD/flEMwkBw7n3rI7qjsC2WwUhsyHowmx31M5fBd8Q9G9YsS2knIXYR4dkI9r6jewY9vM+NDV6tnAeMuOwWtzL5qGrhTRNTz9qiUm6cHj1g4dLhQ3IUkmeflWey5/CPyCYrPi3rG9w5CXrhDkvuDogc=
+ bh=LRAEjfjZ2Y2ag3aCGWfxHEIQI9Rg/dKws4LAl8pH4P0=;
+ b=S3IwZQPd15qFxbtOzfpMudKHxr6p6dRULF/g84Ex0AHDdzuFbQWEUmh8FOZjwAiVIFnnCW9Do/yyoMi9rRUyRruWCKD+OOKmjXS6itAm2G0BayXOsftwKmoKfW7qdp130Tqx0qF87L9ScXGjXdgLJNCf4UKfWdslo+jc+OAdM20=
 Authentication-Results: redhat.com; dkim=none (message not signed)
  header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
 Received: from SN1PR12MB2560.namprd12.prod.outlook.com (2603:10b6:802:26::19)
- by SN1PR12MB2558.namprd12.prod.outlook.com (2603:10b6:802:2b::18)
+ by SN1PR12MB2573.namprd12.prod.outlook.com (2603:10b6:802:2b::21)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3066.22; Mon, 8 Jun
- 2020 20:18:58 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3066.18; Mon, 8 Jun
+ 2020 20:18:45 +0000
 Received: from SN1PR12MB2560.namprd12.prod.outlook.com
  ([fe80::2102:cc6b:b2db:4c2]) by SN1PR12MB2560.namprd12.prod.outlook.com
  ([fe80::2102:cc6b:b2db:4c2%3]) with mapi id 15.20.3066.023; Mon, 8 Jun 2020
- 20:18:58 +0000
-Subject: [PATCH 2/2] i386: Simplify CPUID_8000_001E for AMD
+ 20:18:45 +0000
+Subject: [PATCH 0/2] Fix couple of issues with AMD topology
 From: Babu Moger <babu.moger@amd.com>
 To: pbonzini@redhat.com, rth@twiddle.net, ehabkost@redhat.com, mst@redhat.com, 
  marcel.apfelbaum@gmail.com
-Date: Mon, 08 Jun 2020 15:18:56 -0500
-Message-ID: <159164753686.20543.4158548114186964547.stgit@naples-babu.amd.com>
-In-Reply-To: <159164739269.20543.3074052993891532749.stgit@naples-babu.amd.com>
-References: <159164739269.20543.3074052993891532749.stgit@naples-babu.amd.com>
+Date: Mon, 08 Jun 2020 15:18:43 -0500
+Message-ID: <159164739269.20543.3074052993891532749.stgit@naples-babu.amd.com>
 User-Agent: StGit/unknown-version
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: DM6PR21CA0009.namprd21.prod.outlook.com
- (2603:10b6:5:174::19) To SN1PR12MB2560.namprd12.prod.outlook.com
+X-ClientProxiedBy: DM5PR10CA0024.namprd10.prod.outlook.com (2603:10b6:4:2::34)
+ To SN1PR12MB2560.namprd12.prod.outlook.com
  (2603:10b6:802:26::19)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from naples-babu.amd.com (165.204.78.2) by
- DM6PR21CA0009.namprd21.prod.outlook.com (2603:10b6:5:174::19) with Microsoft
+ DM5PR10CA0024.namprd10.prod.outlook.com (2603:10b6:4:2::34) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3109.0 via Frontend Transport; Mon, 8 Jun 2020 20:18:57 +0000
+ 15.20.3066.19 via Frontend Transport; Mon, 8 Jun 2020 20:18:44 +0000
 X-Originating-IP: [165.204.78.2]
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 7a37d0bf-4ecb-41a3-da3f-08d80be92d03
-X-MS-TrafficTypeDiagnostic: SN1PR12MB2558:
+X-MS-Office365-Filtering-Correlation-Id: 67fbfd4a-6231-45d7-cde4-08d80be924e6
+X-MS-TrafficTypeDiagnostic: SN1PR12MB2573:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SN1PR12MB2558DE674E274F8F2667C4CE95850@SN1PR12MB2558.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-Microsoft-Antispam-PRVS: <SN1PR12MB2573AEB5C151C62308049F2295850@SN1PR12MB2573.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5516;
 X-Forefront-PRVS: 042857DBB5
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 1QcUVjc2TnQgzqtuaNK0DPZR1zOoAioUndlbSBVQK7RUOA8xId5QpB7rnRFbB4wje9aSrP+vMlQzlUKTeBXKBDbHPAEmCImNakLusxx+8ps0Rp57raL4Zna53kJKDiqB1ysO+u45azpVi8JPVcwWX/ekVl0yfzImnx+Hkz+hIRDTFihkULJPpaj+caIXfLoI/oK5GGChO798KwI6/FkHu8ZHeJbThKJ4g0cEetV8xf2UqiC4EibqAFD4sbXm2P1mAAfpgEVH0hr5fHu61vW+KStaG8oI6UOFD2OHqveGdT8aqOa+t4vhONqdHOqZWqGZ/yPzgEkgO+zhcCYndkmxwX2ba2/b8J5F9unXV0mULSPTuJJ6hNHWKVktIi3NONW0z3kz7/IRS/tB3yNCfy/cmw==
+X-Microsoft-Antispam-Message-Info: 7cBe/48R79EVS6rJ7r1dw4D88Cw8Wt5Fg3RIwJ/l5crf9m40KDqjk5r5tY2gXd4qyw0dXowVlih5K5fnJeWqEf7Mdp0/dSm6+FfApxGJuVu53B13XmzHXsITPC+2iq4rmhEtH6phXdpG8ucEfSenHot5dJLlYWd5qpr+ilMOHjUGr4TKZYx83VzlkkF76UAnr0GFCqwSYiB+dpx54PutfZoDVXqpfCGKjgnBP3L+0J2hANvYeS9bXsxGaZ7IELQ9n3UdN9EviPGporr4wKXynGmUqHbjy0skLS1lQUq2Zjx9Y/OSEQGUNjwQIrm4dskwiUu4B5iq7GwVfCYd+Q0W0CxMdfqtT/HEC/6qYIXIPZTPTVw9t/FF+PbI1wPdso2H1V+FYZD1WAvji+aHMyAU1g==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:SN1PR12MB2560.namprd12.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
- SFS:(4636009)(136003)(366004)(39860400002)(396003)(346002)(376002)(5660300002)(44832011)(966005)(4326008)(55016002)(66476007)(66946007)(66556008)(86362001)(956004)(478600001)(103116003)(26005)(83380400001)(8676002)(8936002)(2906002)(7696005)(16526019)(316002)(186003)(52116002);
+ SFS:(4636009)(346002)(396003)(136003)(39860400002)(376002)(366004)(956004)(66556008)(26005)(8936002)(5660300002)(478600001)(4744005)(66476007)(52116002)(103116003)(4326008)(86362001)(8676002)(7696005)(44832011)(83380400001)(966005)(2906002)(16526019)(186003)(55016002)(66946007)(316002);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: y7hsf/mhsmIAsle4A1+mBxz/MzDf6mFykXbAu25hC2Kxfx+b06usIh5dU1N4rgLVs3YmBrmeLAH+IjxrXfBFIq2Ub7SXQt4gXpaWYGnuw0E7MP+EGgCbFoxHNX7kOO9rJvO25FWRNfHd4920KNOtq60Cq/lXhXHpQyNp/s4+dIXDV+dXh9li3YDFaCx535TW9ll8a1JXZhApKPaD6crlJxK/oA2Ayah+deVuYWbqsSSlSTCK1dbNyTorxii9G14yI6EtQpMclFNEYb/3qkpnQkGCha8pRQ83ddoE+SReGDoPUACDjOy59K0o8KP373LWOdVM7Q7V09sP0dtR7gd7QxGOGPR7xyuKCJDQUGoe0+RGwEOjv734sFstoTaysmsc0nORmseRqPX+y6rugAg7e+eawRVZF0NoT0diOMYreOVDxjAEB1Bf6tVNm3IReZj7HuvtO+u6FJF06Gc6KeEhCF7nRuEpJZElQ2ZefBRlpxY=
+X-MS-Exchange-AntiSpam-MessageData: aCTG8bmkx80Zr8YHj2awj7l7GczlvYEmgHqpqJrM1XygEETqbKdFESfGVj3Prj3jkdX9DBfhgDRsBz0HvFKe97nlCj0gxTqGXzdyT6SdkWDIW6Svu+Abk8hzswwMOlnHzBUmJ6C1b9s/RHyQFFvlSemkIQBLvESgwd2k7WYI6hC14RTkmpjpWY0xUTotPd+4kS0wClP655zlpXHmuBQOBstqywltTR2dZtMvSOTcMxgF3qE9mFar/1YDaBJEpzoMz4wGuZSsLPR4xSDekyJrPWt1Nx1coOb2oQhn16Edr0j9b2AC1A8bWGxt3pY5+o9yFjELIBP8oZO/4YsO/KbPk0tPXMM6w1t1yW7vD2naphuQb68DzPbBG48Clq0wu6LKv6L8e+tisJA/p8R3IlUqxoKdQdC0Cu2JRvw5QF2q4sKAkPGUjadE480b6e0pEUIQkyE2KVliNd4EQdQpVp784LmwTge+ZunGQCnN1Fod1Pw=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7a37d0bf-4ecb-41a3-da3f-08d80be92d03
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jun 2020 20:18:58.4817 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 67fbfd4a-6231-45d7-cde4-08d80be924e6
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jun 2020 20:18:44.8985 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: onGMyP733e4QtUypJI4+RIK4SZJvcOhJhqhT7SEJCatEFpu5fRjU0Jr2MrOYAxLK
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN1PR12MB2558
-Received-SPF: none client-ip=40.107.69.87; envelope-from=Babu.Moger@amd.com;
- helo=NAM04-CO1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/08 16:19:00
+X-MS-Exchange-CrossTenant-UserPrincipalName: vyfh4P6FZwMUtR+2iJDf3Qf+6UYl87lv5CNfF9x5hPkZk5vgUT1Bqmds3qm6N1R7
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN1PR12MB2573
+Received-SPF: none client-ip=40.107.236.55; envelope-from=Babu.Moger@amd.com;
+ helo=NAM11-BN8-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/08 16:33:49
 X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=0.001,
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, MSGID_FROM_MTA_HEADER=0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -119,122 +117,25 @@ Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-apic_id contains all the information required to build
-CPUID_8000_001E. core_id and node_id is already part of
-apic_id generated by x86_topo_ids_from_apicid_epyc.
-Also remove the restriction on number bits on core_id and
-node_id.
+This series fixes couple of issues with recent topology related code.
+1. Fix uninitialized memory with -device and CPU hotplug
+2. Simplify CPUID_8000_001E to generalize the support for higher
+   number of cores and nodes
 
-Remove all the hardcoded values and replace with generalized
-fields.
-
-Refer the Processor Programming Reference (PPR) documentation
-available from the bugzilla Link below.
-
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=206537
-Signed-off-by: Babu Moger <babu.moger@amd.com>
+Here are the threads discussing the issue.
+https://lore.kernel.org/qemu-devel/20200602175212.GH577771@habkost.net/
+https://lore.kernel.org/qemu-devel/20200602175212.GH577771@habkost.net/
 ---
- target/i386/cpu.c |   78 +++++++++++++++++++++++++----------------------------
- 1 file changed, 37 insertions(+), 41 deletions(-)
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 3733d9a279..166d2f2bde 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -388,57 +388,53 @@ static void encode_topo_cpuid8000001e(X86CPUTopoInfo *topo_info, X86CPU *cpu,
- {
-     X86CPUTopoIDs topo_ids = {0};
-     unsigned long nodes = MAX(topo_info->nodes_per_pkg, 1);
--    int shift;
- 
-     x86_topo_ids_from_apicid_epyc(cpu->apic_id, topo_info, &topo_ids);
- 
-     *eax = cpu->apic_id;
-+
-     /*
-+     * CPUID_Fn8000001E_EBX [Core Identifiers] (CoreId)
-+     * Read-only. Reset: 0000_XXXXh.
-+     * See Core::X86::Cpuid::ExtApicId.
-+     * Core::X86::Cpuid::CoreId_lthree[1:0]_core[3:0]_thread[1:0];
-      * CPUID_Fn8000001E_EBX
--     * 31:16 Reserved
--     * 15:8  Threads per core (The number of threads per core is
--     *       Threads per core + 1)
--     *  7:0  Core id (see bit decoding below)
--     *       SMT:
--     *           4:3 node id
--     *             2 Core complex id
--     *           1:0 Core id
--     *       Non SMT:
--     *           5:4 node id
--     *             3 Core complex id
--     *           1:0 Core id
-+     * Bits Description
-+     * 31:16 Reserved.
-+     * 15:8 ThreadsPerCore: threads per core. Read-only. Reset: XXh.
-+     *      The number of threads per core is ThreadsPerCore+1.
-+     *  7:0 CoreId: core ID. Read-only. Reset: XXh.
-+     *
-+     *  NOTE: CoreId is already part of apic_id. Just use it. We can
-+     *  use all the 8 bits to represent the core_id here.
-      */
--    *ebx = ((topo_info->threads_per_core - 1) << 8) | (topo_ids.node_id << 3) |
--            (topo_ids.core_id);
-+    *ebx = ((topo_info->threads_per_core - 1) << 8) | (topo_ids.core_id & 0xFF);
-+
-     /*
-+     * CPUID_Fn8000001E_ECX [Node Identifiers] (NodeId)
-+     * Read-only. Reset: 0000_0XXXh.
-+     * Core::X86::Cpuid::NodeId_lthree[1:0]_core[3:0]_thread[1:0];
-      * CPUID_Fn8000001E_ECX
--     * 31:11 Reserved
--     * 10:8  Nodes per processor (Nodes per processor is number of nodes + 1)
--     *  7:0  Node id (see bit decoding below)
--     *         2  Socket id
--     *       1:0  Node id
-+     * Bits Description
-+     * 31:11 Reserved.
-+     * 10:8 NodesPerProcessor: Node per processor. Read-only. Reset: XXXb.
-+     *      ValidValues:
-+     *      Value Description
-+     *      000b  1 node per processor.
-+     *      001b  2 nodes per processor.
-+     *      010b Reserved.
-+     *      011b 4 nodes per processor.
-+     *      111b-100b Reserved.
-+     *  7:0 NodeId: Node ID. Read-only. Reset: XXh.
-+     *
-+     * NOTE: Hardware reserves 3 bits for number of nodes per processor.
-+     * But users can create more nodes than the actual hardware can
-+     * support. To genaralize we can use all the upper 8 bits for nodes.
-+     * NodeId is combination of node and socket_id which is already decoded
-+     * in apic_id. Just use it by shifting.
-      */
--    if (nodes <= 4) {
--        *ecx = ((nodes - 1) << 8) | (topo_ids.pkg_id << 2) | topo_ids.node_id;
--    } else {
--        /*
--         * Node id fix up. Actual hardware supports up to 4 nodes. But with
--         * more than 32 cores, we may end up with more than 4 nodes.
--         * Node id is a combination of socket id and node id. Only requirement
--         * here is that this number should be unique accross the system.
--         * Shift the socket id to accommodate more nodes. We dont expect both
--         * socket id and node id to be big number at the same time. This is not
--         * an ideal config but we need to to support it. Max nodes we can have
--         * is 32 (255/8) with 8 cores per node and 255 max cores. We only need
--         * 5 bits for nodes. Find the left most set bit to represent the total
--         * number of nodes. find_last_bit returns last set bit(0 based). Left
--         * shift(+1) the socket id to represent all the nodes.
--         */
--        nodes -= 1;
--        shift = find_last_bit(&nodes, 8);
--        *ecx = (nodes << 8) | (topo_ids.pkg_id << (shift + 1)) |
--               topo_ids.node_id;
--    }
-+    *ecx = ((nodes - 1) << 8) |
-+            ((cpu->apic_id >> apicid_node_offset_epyc(topo_info)) & 0xFF);
-     *edx = 0;
- }
- 
+Babu Moger (2):
+      hw/386: Fix uninitialized memory with -device and CPU hotplug
+      i386: Simplify CPUID_8000_001E for AMD
 
+
+ hw/i386/pc.c               |    2 +
+ include/hw/i386/topology.h |   11 ++++++
+ target/i386/cpu.c          |   78 +++++++++++++++++++++-----------------------
+ 3 files changed, 50 insertions(+), 41 deletions(-)
+
+--
 
