@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4BAE1F138D
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 09:27:39 +0200 (CEST)
-Received: from localhost ([::1]:47080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F7651F139E
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 09:33:32 +0200 (CEST)
+Received: from localhost ([::1]:52336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jiCC2-0002Vj-UZ
-	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 03:27:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37302)
+	id 1jiCHj-0005JM-BZ
+	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 03:33:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37298)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jiCAA-0001aZ-QD
- for qemu-devel@nongnu.org; Mon, 08 Jun 2020 03:25:42 -0400
-Received: from indium.canonical.com ([91.189.90.7]:44418)
+ id 1jiCA9-0001aI-PH
+ for qemu-devel@nongnu.org; Mon, 08 Jun 2020 03:25:41 -0400
+Received: from indium.canonical.com ([91.189.90.7]:44364)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jiCA9-0006Wq-Se
- for qemu-devel@nongnu.org; Mon, 08 Jun 2020 03:25:42 -0400
+ id 1jiCA8-0006Uu-Cv
+ for qemu-devel@nongnu.org; Mon, 08 Jun 2020 03:25:41 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jiCA8-0004QE-O0
- for <qemu-devel@nongnu.org>; Mon, 08 Jun 2020 07:25:40 +0000
+ id 1jiCA6-0004Mc-JB
+ for <qemu-devel@nongnu.org>; Mon, 08 Jun 2020 07:25:38 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id AFEA42E80E7
- for <qemu-devel@nongnu.org>; Mon,  8 Jun 2020 07:25:40 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 8E9442E80E7
+ for <qemu-devel@nongnu.org>; Mon,  8 Jun 2020 07:25:38 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 08 Jun 2020 07:18:16 -0000
-From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1879672@bugs.launchpad.net>
+Date: Mon, 08 Jun 2020 07:17:17 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1881004@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Opinion; importance=Undecided;
+X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: windows
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: berrange philmd ubuntu-weilnetz
+X-Launchpad-Bug-Commenters: eblake philmd pmaydell
 X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
  =?utf-8?q?=29?=
 X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
  =?utf-8?q?=29?=
-References: <158996968484.21371.12685815665992748631.malonedeb@wampee.canonical.com>
-Message-Id: <159160069761.18068.16136717086456573577.launchpad@chaenomeles.canonical.com>
-Subject: [Bug 1879672] Re: QEMU installer with WHPX support
+References: <159060681483.5838.13632051970488338647.malonedeb@wampee.canonical.com>
+Message-Id: <159160063822.4473.9820392291334076630.launchpad@soybean.canonical.com>
+Subject: [Bug 1881004] Re: fpu/softfloat.c: error: bitwise negation of a
+ boolean expression
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="ef9fc486e875d54078fa61cf91e898b895125d89";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 8bc0f585e37f87cfe890303b497d07c1ba82e923
+X-Launchpad-Hash: 4af60a207bc94a05766b938c96e40728ba378930
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/08 02:30:56
@@ -76,40 +76,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1879672 <1879672@bugs.launchpad.net>
+Reply-To: Bug 1881004 <1881004@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 ** Changed in: qemu
-       Status: New =3D> Opinion
+       Status: New =3D> In Progress
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1879672
+https://bugs.launchpad.net/bugs/1881004
 
 Title:
-  QEMU installer with WHPX support
+  fpu/softfloat.c: error: bitwise negation of a boolean expression
 
 Status in QEMU:
-  Opinion
+  In Progress
 
 Bug description:
-  People often ask the community to add WHPX support to the QEMU installer =
-for Windows,
-  but it is impossible due to the license limitations of the WHPX SDK.
+  Last time I built QEMU was on commit d5c75ec500d96f1d93447f990cd5a4ef5ba2=
+7fae,
+  I just pulled to fea8f3ed739536fca027cf56af7f5576f37ef9cd and now get:
+   =
 
-  The WinHvEmulation.h and WinHvPlatform.h header files needed are "All
-  rights reserved".
+    CC      lm32-softmmu/fpu/softfloat.o
+  fpu/softfloat.c:3365:13: error: bitwise negation of a boolean expression;=
+ did you mean logical negation? [-Werror,-Wbool-operation]
+      absZ &=3D ~ ( ( ( roundBits ^ 0x40 ) =3D=3D 0 ) & roundNearestEven );
+              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              !
+  fpu/softfloat.c:3423:18: error: bitwise negation of a boolean expression;=
+ did you mean logical negation? [-Werror,-Wbool-operation]
+          absZ0 &=3D ~ ( ( (uint64_t) ( absZ1<<1 ) =3D=3D 0 ) & roundNeares=
+tEven );
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                   !
+  fpu/softfloat.c:3483:18: error: bitwise negation of a boolean expression;=
+ did you mean logical negation? [-Werror,-Wbool-operation]
+          absZ0 &=3D ~(((uint64_t)(absZ1<<1) =3D=3D 0) & roundNearestEven);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                   !
+  fpu/softfloat.c:3606:13: error: bitwise negation of a boolean expression;=
+ did you mean logical negation? [-Werror,-Wbool-operation]
+      zSig &=3D ~ ( ( ( roundBits ^ 0x40 ) =3D=3D 0 ) & roundNearestEven );
+              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              !
+  fpu/softfloat.c:3760:13: error: bitwise negation of a boolean expression;=
+ did you mean logical negation? [-Werror,-Wbool-operation]
+      zSig &=3D ~ ( ( ( roundBits ^ 0x200 ) =3D=3D 0 ) & roundNearestEven );
+              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              !
+  fpu/softfloat.c:3987:21: error: bitwise negation of a boolean expression;=
+ did you mean logical negation? [-Werror,-Wbool-operation]
+                      ~ ( ( (uint64_t) ( zSig1<<1 ) =3D=3D 0 ) & roundNeare=
+stEven );
+                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~
+                      !
+  fpu/softfloat.c:4003:22: error: bitwise negation of a boolean expression;=
+ did you mean logical negation? [-Werror,-Wbool-operation]
+              zSig0 &=3D ~ ( ( (uint64_t) ( zSig1<<1 ) =3D=3D 0 ) & roundNe=
+arestEven );
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~
+                       !
+  fpu/softfloat.c:4273:18: error: bitwise negation of a boolean expression;=
+ did you mean logical negation? [-Werror,-Wbool-operation]
+          zSig1 &=3D ~ ( ( zSig2 + zSig2 =3D=3D 0 ) & roundNearestEven );
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                   !
+  8 errors generated.
 
-  However these headers only contain struct definitions and integer constan=
-ts,
-  no functional code in macros or inline functions. See:
-  https://www.mail-archive.com/qemu-devel@nongnu.org/msg645815.html
-  It is questionable whether the headers alone can be considered copyrighta=
-ble material.
+  $ clang -v
+  clang version 10.0.0-4ubuntu1 =
+
+  Target: aarch64-unknown-linux-gnu
+
+  $ lsb_release -a
+  No LSB modules are available.
+  Distributor ID: Ubuntu
+  Description:    Ubuntu 20.04 LTS
+  Release:        20.04
+  Codename:       focal
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1879672/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1881004/+subscriptions
 
