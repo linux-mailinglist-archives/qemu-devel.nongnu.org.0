@@ -2,75 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 319D31F1DB2
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 18:46:06 +0200 (CEST)
-Received: from localhost ([::1]:57542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5D831F1DC1
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 18:50:24 +0200 (CEST)
+Received: from localhost ([::1]:41556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jiKuT-0004E7-4v
-	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 12:46:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42182)
+	id 1jiKyd-00011n-AH
+	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 12:50:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jiKny-0003es-7r
- for qemu-devel@nongnu.org; Mon, 08 Jun 2020 12:39:22 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:34490
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jiKop-0005Bb-O0
+ for qemu-devel@nongnu.org; Mon, 08 Jun 2020 12:40:15 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:60473
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jiKnx-000668-9a
- for qemu-devel@nongnu.org; Mon, 08 Jun 2020 12:39:21 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jiKoo-0006FL-LE
+ for qemu-devel@nongnu.org; Mon, 08 Jun 2020 12:40:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591634360;
+ s=mimecast20190719; t=1591634413;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LZewXF1iU0hhE4zzyWMCauxBy0zDRARovOReABXzSsI=;
- b=glE71eTaJ5qvbc53yHTWonMx46/hVw0dsKQXdl1pBrtJ88+8xY4Hn7md1KKEIFVWn1k02q
- gRRbim3yXe6AFHXFA68yLTsvvmQ++7I3yGC3K83kpxEi1gEZe7XldLhTS/mcyBgJsU9nQW
- FBOHPZw8YclZC+I/VWF9ocLFCMqX1Bw=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-388-3b9GCuffOiGLLU5qEFUejA-1; Mon, 08 Jun 2020 12:39:14 -0400
-X-MC-Unique: 3b9GCuffOiGLLU5qEFUejA-1
-Received: by mail-wm1-f70.google.com with SMTP id k185so24587wme.8
- for <qemu-devel@nongnu.org>; Mon, 08 Jun 2020 09:39:14 -0700 (PDT)
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=FoiIwNPkp80LUUKh8AkeJvZaq6vqghEwoJehkf1jmYY=;
+ b=e5I1EoJ3BXFZFb3ax7NYpJIWX45UttcTC9YTXRwNEVylGD20RiVMB6JziFnPC1MyY4zt/s
+ 0BPpYuXMGznKRFEcUR0cKqlluNCxWBxeUsOLT6xC0JC/7zsvtNyRiVAaVGWDnHCu1rUByr
+ ToZPxYTgG09rBaVBpu52Gr3hShKs6gg=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-331-Z8Ho6M08MCqV6wceIFH4qg-1; Mon, 08 Jun 2020 12:39:55 -0400
+X-MC-Unique: Z8Ho6M08MCqV6wceIFH4qg-1
+Received: by mail-wr1-f69.google.com with SMTP id z10so7433697wrs.2
+ for <qemu-devel@nongnu.org>; Mon, 08 Jun 2020 09:39:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=LZewXF1iU0hhE4zzyWMCauxBy0zDRARovOReABXzSsI=;
- b=c7tZ0pfPNLrwdCZhP6r1n62bdIj/56kPrJiY8tW92QgYevBDUSY8DhUC4GEjgNsBvC
- b38LNtHCtG9Zn/2ERV+Epv+TpfizjHiJeBunwJ+jVmRiU460PENtxp/NnHzgJH9cpZEs
- jAOsP4gDT6zyP+L1RPpd7EtaPwHOpqI4UBqQfbHoHC6s3F6ungcq/NmvjjTgDbhIB5S7
- AzgHjdZ7JIPBKGUGd1XRYRuwZVNa0isfJRrGhqXrnsZSpt3flc1wvfr530v+HDGJFnzF
- m7nc+x3ks2ShWK8a3PQbITfUy5onpK841BGr9GenMHn2pe/GlzvCsdFAgY+RyfXXGatT
- iEgw==
-X-Gm-Message-State: AOAM532R8qiF+E8kk2aGkx0ONF2Dq8CH2LwXR4wvMzf8aBfGg539FoSz
- GY9t/J6d7sX7dWUPsd+Ti2S5Kcl3n1TgF9WlsrN/eDE47HR9PhI4wNXPJtxcYZoxcQbLBKBMynd
- BE4rYYfzh3cfFfLQ=
-X-Received: by 2002:a1c:f003:: with SMTP id a3mr174347wmb.119.1591634352846;
- Mon, 08 Jun 2020 09:39:12 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxbG1h6iWbcMBRhnrPmAzYSd8xD4FLurVE0tLUFzGMSiTZrT8R05kLYa2YmKvk30sVb6EBHxQ==
-X-Received: by 2002:a1c:f003:: with SMTP id a3mr174333wmb.119.1591634352686;
- Mon, 08 Jun 2020 09:39:12 -0700 (PDT)
-Received: from localhost.localdomain
- (181.red-88-10-103.dynamicip.rima-tde.net. [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id s8sm250494wrm.96.2020.06.08.09.39.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Jun 2020 09:39:12 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=FoiIwNPkp80LUUKh8AkeJvZaq6vqghEwoJehkf1jmYY=;
+ b=tV1Y9jMZD0eEfWhtzzB//PEJPH5KECxqsAwWIeiPDOsa3EY7DjAAQ8+chpMGZ3SvqN
+ CxppVE59c1TdEc3+W0p6D6GIfSwspiHZedhrMfShR4uV7JAfBfxs9ce1fWu5ISohfA3e
+ 00aWIW+cJLfMbcbrBDH5MevfL17YBdM/2LbAD4cjraVdmsUt7LhXRNupDkFAPDjQ+B/A
+ WollDk0lu407jiz3PDmWtDYC99v9UdDhUJFMV4kCKHjSt/kaqF35OwqsSC7mx6wBHM6L
+ CE0evUX96ZO8CTHuhm/OFIohZ8aaQYp93xB9DjXOD7mQFu3jNRXNHtdE74W3YK2HgJRW
+ 1oNA==
+X-Gm-Message-State: AOAM533Egpar+MWwUGXTZJkAyJGTGDnXty3nVfo/TuoR6yQoGv6cfzge
+ 1sTuEeJG32v637lajGxnAjWmgwaQ63rbRqns6TOf1rgtaI3FQd5RbbIbDVETTpByMGNvCWQ0fv0
+ s9pod2kc3MJaPMa0=
+X-Received: by 2002:adf:f28f:: with SMTP id k15mr24047867wro.283.1591634394295; 
+ Mon, 08 Jun 2020 09:39:54 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyXUxtKdOPajzvoPqG+dgMOG/p5nfOhz00JLOAxzqFDD/t8wjOqNZE56TST24Qae5DL+ubZmA==
+X-Received: by 2002:adf:f28f:: with SMTP id k15mr24047847wro.283.1591634394140; 
+ Mon, 08 Jun 2020 09:39:54 -0700 (PDT)
+Received: from [192.168.1.38] (181.red-88-10-103.dynamicip.rima-tde.net.
+ [88.10.103.181])
+ by smtp.gmail.com with ESMTPSA id c5sm110445wma.20.2020.06.08.09.39.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 08 Jun 2020 09:39:53 -0700 (PDT)
+Subject: Re: [PATCH v8 05/10] Makefile: Remove dangerous EOL trailing backslash
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 10/10] accel/tcg: Add stub for probe_access()
-Date: Mon,  8 Jun 2020 18:38:23 +0200
-Message-Id: <20200608163823.8890-11-philmd@redhat.com>
-X-Mailer: git-send-email 2.21.3
-In-Reply-To: <20200608163823.8890-1-philmd@redhat.com>
 References: <20200608163823.8890-1-philmd@redhat.com>
+ <20200608163823.8890-6-philmd@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <011c2e71-6b60-7f0a-db6e-ed834ddd3d74@redhat.com>
+Date: Mon, 8 Jun 2020 18:39:52 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
+In-Reply-To: <20200608163823.8890-6-philmd@redhat.com>
+Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8;
-	text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
  helo=us-smtp-1.mimecast.com
@@ -95,51 +121,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Hildenbrand <david@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
  Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+On 6/8/20 6:38 PM, Philippe Mathieu-Daudé wrote:
+> One might get caught trying to understand unexpected Makefile
+> behavior. Trailing backslash can help to split very long lines,
+> but are rather dangerous when nothing follow. Preserve other
+> developers debugging time by removing this one.
+> 
+> Reviewed-by: Thomas Huth <thuth@redhat.com>
+> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-The TCG helpers where added in b92e5a22ec3 in softmmu_template.h.
-probe_write() was added in there in 3b4afc9e75a to be moved out
-to accel/tcg/cputlb.c in 3b08f0a9254, and was later refactored
-as probe_access() in c25c283df0f.
-Since it is a TCG specific helper, add a stub to avoid failures
-when building without TCG, such:
-
-  target/arm/helper.o: In function `probe_read':
-  include/exec/exec-all.h:362: undefined reference to `probe_access'
-
+I forgot here:
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: David Hildenbrand <david@redhat.com>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- accel/stubs/tcg-stub.c | 7 +++++++
- 1 file changed, 7 insertions(+)
 
-diff --git a/accel/stubs/tcg-stub.c b/accel/stubs/tcg-stub.c
-index 677191a69c..e4bbf997aa 100644
---- a/accel/stubs/tcg-stub.c
-+++ b/accel/stubs/tcg-stub.c
-@@ -22,3 +22,10 @@ void tb_flush(CPUState *cpu)
- void tlb_set_dirty(CPUState *cpu, target_ulong vaddr)
- {
- }
-+
-+void *probe_access(CPUArchState *env, target_ulong addr, int size,
-+                   MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
-+{
-+     /* Handled by hardware accelerator. */
-+     g_assert_not_reached();
-+}
--- 
-2.21.3
+> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+>  Makefile | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Makefile b/Makefile
+> index d1af126ea1..52956b16fd 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -420,7 +420,7 @@ MINIKCONF_ARGS = \
+>  
+>  MINIKCONF_INPUTS = $(SRC_PATH)/Kconfig.host $(SRC_PATH)/hw/Kconfig
+>  MINIKCONF_DEPS = $(MINIKCONF_INPUTS) $(wildcard $(SRC_PATH)/hw/*/Kconfig)
+> -MINIKCONF = $(PYTHON) $(SRC_PATH)/scripts/minikconf.py \
+> +MINIKCONF = $(PYTHON) $(SRC_PATH)/scripts/minikconf.py
+>  
+>  $(SUBDIR_DEVICES_MAK): %/config-devices.mak: default-configs/%.mak $(MINIKCONF_DEPS) $(BUILD_DIR)/config-host.mak
+>  	$(call quiet-command, $(MINIKCONF) $(MINIKCONF_ARGS) > $@.tmp, "GEN", "$@.tmp")
+> 
 
 
