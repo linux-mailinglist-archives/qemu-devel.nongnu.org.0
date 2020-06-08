@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07F021F14FB
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 11:06:30 +0200 (CEST)
-Received: from localhost ([::1]:49938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB7051F14EB
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 11:04:34 +0200 (CEST)
+Received: from localhost ([::1]:42572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jiDjh-0001f3-1K
-	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 05:06:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45358)
+	id 1jiDhp-0006vk-Qe
+	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 05:04:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jiDfC-0004lA-Cf; Mon, 08 Jun 2020 05:01:50 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:39954)
+ id 1jiDfD-0004mk-S4; Mon, 08 Jun 2020 05:01:51 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:43439)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jiDfB-0004Hq-Dn; Mon, 08 Jun 2020 05:01:50 -0400
-Received: by mail-wr1-x442.google.com with SMTP id h5so16495531wrc.7;
- Mon, 08 Jun 2020 02:01:48 -0700 (PDT)
+ id 1jiDfD-0004I3-0l; Mon, 08 Jun 2020 05:01:51 -0400
+Received: by mail-wr1-x442.google.com with SMTP id l10so16471837wrr.10;
+ Mon, 08 Jun 2020 02:01:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=nzPqyG1e1Jsl3k+MmlRrYyDt080jPwPTNQkC1AKawm4=;
- b=sOexADa+B84ABTbsr5jctxKfPv/J9Cn++yYlzYQWRZff7gLhDs/AbzL4rdDGOjl8ry
- xvGNAEfcpG8X+LVzQ8I7Yql0hjkVh3whkjcbcnxsW4f0h10Xu+QFEGzLOl2P7QyIVmQO
- 1SwoNOunreb0z19ziUQaysV5nyY+TXcjzdOjPKXuZ88jRKma6DxIidx/9iF0AMksaiWn
- eNyH92wM3bWjI3c2HgpnaFlk8oQyHuP2Pz4Bluq7eEkDK+lMd8rvCf1+jaB2Izi75E1m
- DX2M/tp53ZOhHotNP9w78OxtTya+DwGL2MYFNI1WjK2bP1ha2CvCy0a9dPWmjW8te9c0
- TOsw==
+ bh=DWv5RFKPzeQC/b6mqfO3apmE0DL5hQ60SIP+EzfSOBM=;
+ b=oXumBaXInvSsQGZqOhS6RdTIxHOmbpnYLU13QQXf9vgL8EjXzUbUaIecqrM3TyUnyR
+ 6vQ6WF1hrD0Jq2/mdebfgjchE2yAXZX1eUgcAuQ2oF8nKmM/1PnCTVRQpvsQNT9iAbno
+ NR074gUP6+2F+aENl4QaO0kX1hV9t/+MPr4b0qoHhZGOgbsFIfVwJ3gvUgMQnthPQstB
+ PSj7KScppT9TGSVhP8/yq8LoeSAplpMXXLJPpdUR5ru2CJgxgoE24BAzdMXK1oDdum7I
+ aUwgT7pfGuqKqWkytOukDosEwbZUDUP4tOpV4o5y0/v0phh6hG+t/pLnH4cbQPPP+Sxx
+ 6SeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=nzPqyG1e1Jsl3k+MmlRrYyDt080jPwPTNQkC1AKawm4=;
- b=evCIp9zR7IYUI8rY0mjkLPmDXKbsroM5LGld8s0mCdTLQfWG5hSkKoagXoQtCjhiTS
- MHWYHXfeJwJhkL7michfhUe/yvFfJXcecsJI/VxZSJ9OT0WIRq4P4IrmQ6zg1Ae5ooMw
- gstrr52REhI4PcjdaqaPgS7nipLaJ6BorbGFOYfFXhRh6B6ip8ki90RiqphOMHQfimC/
- veDC3RquKQ62R+FRaIzK/H2ghiOpL5jIvvXHcDVxr/K4VFGSidgcphfNl7whaRTOt/ni
- BHeMAI/KWiUp2AZome9gDsTYolMCCQUAmMidsDCdTVsAtyddIbSSjATi4ZB5b6FJRPjv
- xvqw==
-X-Gm-Message-State: AOAM531VvxCChNsmp5FnBtd2ffsqBdonxpSZ9sh7UupMtrFTfqtZhm+M
- X7R4mbGWGtv0zGYKBoOaaVmkOSdr
-X-Google-Smtp-Source: ABdhPJyUYNqlDud4XxKo7sB6RD/HUaJraV0MQZcVTVBT5WVaAF1kVi9ecZHSnIWX6nPDU1U8fF9BGQ==
-X-Received: by 2002:a5d:4a8a:: with SMTP id o10mr22115684wrq.222.1591606907550; 
- Mon, 08 Jun 2020 02:01:47 -0700 (PDT)
+ bh=DWv5RFKPzeQC/b6mqfO3apmE0DL5hQ60SIP+EzfSOBM=;
+ b=MFFg+CDmExX/LMEzyzwJH3/FEoq9pNvkaGYqQdRe1Ep0XyqgN4nQ738TNIO8aF8qlc
+ 4dJgNYRhGwiw1VYywQTCUFHkQrCMt3Vczq5RzIXs1pIOuxHMWmtphNEyGknMg/0Obrx9
+ WXATOATRY4HmWXpoRIYXjYJAxLhGcdMZbyVLhbOUUV70IRTGJxMMkcgrxdF2ed9GvN7W
+ IqVZS2qKYk7+DKXNCn4op+0Wlu/Z3Dq3wdqV5mGRQn7sC4hmtZZTwtmf/juRy1pyF4v5
+ 3Vk2ptsfGg39FPz+YNZ8clF0ZpaVdYrZMVG7fjlHuNXlEZDS7ycoO9hrXAdJSd0KmRGU
+ 3t2w==
+X-Gm-Message-State: AOAM532P5fLV09UF8Tgch4b2JH2NA6n1sJnGWJHw32QprwbmnKEr8Fw0
+ uml9lA1Mia164YLTWaPr29RDyWpU
+X-Google-Smtp-Source: ABdhPJxpGUivaiQnY6rtUvVaINKD7UCsyBkqd7jpeoFKZNjcjR24dcY39i70zqCXYt+5vQLYumKU/Q==
+X-Received: by 2002:a5d:4dc9:: with SMTP id f9mr22047593wru.407.1591606909040; 
+ Mon, 08 Jun 2020 02:01:49 -0700 (PDT)
 Received: from localhost.localdomain
  (181.red-88-10-103.dynamicip.rima-tde.net. [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id t8sm22192989wro.56.2020.06.08.02.01.45
+ by smtp.gmail.com with ESMTPSA id t8sm22192989wro.56.2020.06.08.02.01.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Jun 2020 02:01:46 -0700 (PDT)
+ Mon, 08 Jun 2020 02:01:48 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/8] MAINTAINERS: Mark SH4 hardware orphan
-Date: Mon,  8 Jun 2020 11:01:35 +0200
-Message-Id: <20200608090142.6793-2-f4bug@amsat.org>
+Subject: [PATCH v2 2/8] MAINTAINERS: Mark SH4 based R2D & Shix machines orphan
+Date: Mon,  8 Jun 2020 11:01:36 +0200
+Message-Id: <20200608090142.6793-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200608090142.6793-1-f4bug@amsat.org>
 References: <20200608090142.6793-1-f4bug@amsat.org>
@@ -100,54 +100,43 @@ Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Aurelien Jarno expressed his desire to orphan the SH4 hardware [*]:
+Last commit from Magnus Damm is fc8e320ef583, which date is
+Fri Nov 13 2009.  As nobody else seems to care about the patches
+posted [*] related to the R2D and Shix machines, mark them orphan.
 
-  I don't mind being [...] removed from there.
-  I do not really have time to work on that.
+Many thanks to Magnus for his substantial contributions to QEMU,
+and for introducing these SH4 based machine!
 
-Mark the SH4 emulated hardware orphan.
+[*] https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg08519.html
 
-Many thanks to Aurelien for his substantial contributions to QEMU,
-and for maintaining the SH4 hardware for various years!
-
-[*] https://www.mail-archive.com/qemu-devel@nongnu.org/msg708400.html
-
-Message-Id: <20200601214125.GA1924990@aurel32.net>
-Acked-by: Aurelien Jarno <aurelien@aurel32.net>
+Cc: Magnus Damm <magnus.damm@gmail.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- MAINTAINERS | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ MAINTAINERS | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 6e7890ce82..49d90c70de 100644
+index 49d90c70de..a012d9b74e 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -299,9 +299,7 @@ SH4 TCG CPUs
- M: Aurelien Jarno <aurelien@aurel32.net>
- S: Odd Fixes
- F: target/sh4/
--F: hw/sh4/
- F: disas/sh4.c
--F: include/hw/sh4/
- 
- SPARC TCG CPUs
- M: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-@@ -1948,6 +1946,14 @@ F: hw/*/*xive*
- F: include/hw/*/*xive*
- F: docs/*/*xive*
- 
-+SH4 Hardware
+@@ -1250,14 +1250,15 @@ SH4 Machines
+ ------------
+ R2D
+ M: Magnus Damm <magnus.damm@gmail.com>
+-S: Maintained
 +S: Orphan
-+F: hw/sh4/
-+F: hw/char/sh_serial.c
-+F: hw/intc/sh_intc.c
-+F: hw/timer/sh_timer.c
-+F: include/hw/sh4/
-+
- Subsystems
- ----------
- Audio
+ F: hw/sh4/r2d.c
+ F: hw/intc/sh_intc.c
+ F: hw/timer/sh_timer.c
++F: include/hw/sh4/sh_intc.h
+ 
+ Shix
+ M: Magnus Damm <magnus.damm@gmail.com>
+-S: Odd Fixes
++S: Orphan
+ F: hw/sh4/shix.c
+ 
+ SPARC Machines
 -- 
 2.21.3
 
