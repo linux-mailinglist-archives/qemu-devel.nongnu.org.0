@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2C0D1F210C
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 22:54:17 +0200 (CEST)
-Received: from localhost ([::1]:49196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 391641F212A
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 23:05:18 +0200 (CEST)
+Received: from localhost ([::1]:54572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jiOme-0006rT-Bh
-	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 16:54:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43640)
+	id 1jiOxI-0001QW-Hz
+	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 17:05:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45226)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jiOl7-0006Im-Rb
- for qemu-devel@nongnu.org; Mon, 08 Jun 2020 16:52:41 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:46760
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jiOu2-0000gc-Fz
+ for qemu-devel@nongnu.org; Mon, 08 Jun 2020 17:01:54 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:31159
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jiOl5-0006hb-Fq
- for qemu-devel@nongnu.org; Mon, 08 Jun 2020 16:52:41 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jiOu0-0008Uy-O1
+ for qemu-devel@nongnu.org; Mon, 08 Jun 2020 17:01:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591649558;
+ s=mimecast20190719; t=1591650110;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2ShSmqpPdjOwGT2Jg4seDbNP1GYXOnI+2q3F11WHisU=;
- b=a20z5yovwXMJA+qFqA2PhKh3DQOShtmrJivmhvn6Fe8Yj5QbTW/0/pMqahznn8qX+KzBv3
- A9U/+qqrlWj+NIXpWg7iIFCkmZfcRcuNn7Cml3CIl+hl1BlmrbaJ8DZWsP3aqm8eSwHuFq
- nOKLqI0TBpRWQ++lJ2CEgQlZuOvw3FU=
+ bh=Ve5hxuSZTi8WLtadxUsaCc9ttp96eonQYxMD85lEVPk=;
+ b=I6f+/tNUiL4bbO0/pz0zi/r9FHg5TuxFkQSEEa+OL90ZgZc2vv2c2/ym+RZfji2yKin71B
+ UJ+8bzdI3kdJDjuC1TVfmT0CBYCgtkZW7CYuQDVlIaJqAfh2RnWXCX7npImgYY0KKYnphc
+ 0nhOHMl5/XW/rkJShPB+qirPuEyc7Uw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-219-bvj4LtpKMd2U4_AiChlvNQ-1; Mon, 08 Jun 2020 16:52:34 -0400
-X-MC-Unique: bvj4LtpKMd2U4_AiChlvNQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-138-zMoEmiVSPZ2Q-RI1H7T6bg-1; Mon, 08 Jun 2020 17:01:32 -0400
+X-MC-Unique: zMoEmiVSPZ2Q-RI1H7T6bg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 364C6BFC1;
- Mon,  8 Jun 2020 20:52:33 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 85B9F1005510;
+ Mon,  8 Jun 2020 21:01:31 +0000 (UTC)
 Received: from [10.3.113.22] (ovpn-113-22.phx2.redhat.com [10.3.113.22])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 47D0E78FA9;
- Mon,  8 Jun 2020 20:52:32 +0000 (UTC)
-Subject: Re: [PATCH v5 01/13] qcow2.py: python style fixes
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AE3E81C8;
+ Mon,  8 Jun 2020 21:01:27 +0000 (UTC)
+Subject: Re: [PATCH v5 02/13] qcow2.py: add licensing blurb
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  qemu-block@nongnu.org
 References: <20200606081806.23897-1-vsementsov@virtuozzo.com>
- <20200606081806.23897-2-vsementsov@virtuozzo.com>
+ <20200606081806.23897-3-vsementsov@virtuozzo.com>
 From: Eric Blake <eblake@redhat.com>
 Organization: Red Hat, Inc.
-Message-ID: <90c13ff3-9951-a3d7-9b76-4fbc4ce1182a@redhat.com>
-Date: Mon, 8 Jun 2020 15:52:31 -0500
+Message-ID: <518f19e0-79d8-6d8a-ac83-28f4d724d9a0@redhat.com>
+Date: Mon, 8 Jun 2020 16:01:27 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200606081806.23897-2-vsementsov@virtuozzo.com>
+In-Reply-To: <20200606081806.23897-3-vsementsov@virtuozzo.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/08 05:40:44
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=eblake@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/08 01:05:50
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -83,28 +83,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, den@openvz.org, andrey.shinkevich@virtuozzo.com,
- qemu-devel@nongnu.org, mreitz@redhat.com
+Cc: kwolf@redhat.com, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-devel@nongnu.org, mreitz@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
+ "stefanha@redhat.com" <stefanha@redhat.com>, andrey.shinkevich@virtuozzo.com,
+ den@openvz.org, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 6/6/20 3:17 AM, Vladimir Sementsov-Ogievskiy wrote:
-> Fix flake8 complaints. Leave the only chunk of lines over 79 characters:
+> Add classic heading, which is missing here. Keep copyright place empty,
+> for anyone who have added (or will add) some intellectual property
+> here.
 
-Stale sentence since you fixed that; on my Fedora 32 machine, with 
-flake8 3.7.7, this patch silences all warnings.
+It's not so much intellectual property (since that term is at odds with 
+open source), but authorship rights.
 
-> initialization of cmds variable. Leave it for another day, when it
-> should be refactored to utilize argparse instead of hand-written
-> parsing.
+Looking at git history, the file has been touched by:
+
+Kevin Wolf
+Stefan Hajnoczi (while at IBM)
+Eduardo Habkost
+Max Reitz
+Philippe Mathieu-Daudé
+Paolo Bonzini
+
+where Stefan was the only contributor without a redhat.com address at 
+the time.  So if anything, a Red Hat copyright is most likely; but you 
+are also correct that it is incorrect to add a copyright line on someone 
+else's behalf without their permission.
+
 > 
 > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 > ---
->   tests/qemu-iotests/qcow2.py | 95 ++++++++++++++++++++++---------------
->   1 file changed, 56 insertions(+), 39 deletions(-)
+>   tests/qemu-iotests/qcow2.py | 16 ++++++++++++++++
+>   1 file changed, 16 insertions(+)
+> 
+> diff --git a/tests/qemu-iotests/qcow2.py b/tests/qemu-iotests/qcow2.py
+> index d99f4ee3e8..2da434a013 100755
+> --- a/tests/qemu-iotests/qcow2.py
+> +++ b/tests/qemu-iotests/qcow2.py
+> @@ -1,4 +1,20 @@
+>   #!/usr/bin/env python3
+> +#
+> +# Manipulations with qcow2 image
+> +#
+
+I've cc'd all prior authors; if Kevin agrees, and unless anyone speaks 
+up to the contrary, I'm willing to add:
+
+# Copyright (C) 2012 Red Hat, Inc.
+
+for Kevin's initial contribution, without worrying about subsequent 
+contributions.
+
+> +# This program is free software; you can redistribute it and/or modify
+> +# it under the terms of the GNU General Public License as published by
+> +# the Free Software Foundation; either version 2 of the License, or
+> +# (at your option) any later version.
+> +#
+> +# This program is distributed in the hope that it will be useful,
+> +# but WITHOUT ANY WARRANTY; without even the implied warranty of
+> +# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> +# GNU General Public License for more details.
+> +#
+> +# You should have received a copy of the GNU General Public License
+> +# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+> +#
+>   
+>   import sys
+>   import struct
+> 
+
+Adding a copyright line could be a followup patch, so in the meantime, 
+making what was previously an implicit license now explicit is fine even 
+if it is odd to assert GPL without also asserting Copyright.
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
-Tested-by: Eric Blake <eblake@redhat.com>
 
 -- 
 Eric Blake, Principal Software Engineer
