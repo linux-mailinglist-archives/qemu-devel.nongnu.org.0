@@ -2,65 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 358751F1AD9
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 16:20:16 +0200 (CEST)
-Received: from localhost ([::1]:55068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14C5E1F1ADC
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 16:21:36 +0200 (CEST)
+Received: from localhost ([::1]:59654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jiIdL-0002m3-3g
-	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 10:20:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53448)
+	id 1jiIed-0004gn-2j
+	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 10:21:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1jiIbU-00013Z-Qd; Mon, 08 Jun 2020 10:18:20 -0400
-Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:41452)
+ id 1jiIbV-00014Q-LX; Mon, 08 Jun 2020 10:18:21 -0400
+Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:37052)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1jiIbT-0004Te-5P; Mon, 08 Jun 2020 10:18:20 -0400
-Received: by mail-pg1-x532.google.com with SMTP id r10so8789295pgv.8;
- Mon, 08 Jun 2020 07:18:17 -0700 (PDT)
+ id 1jiIbT-0004Tm-OR; Mon, 08 Jun 2020 10:18:21 -0400
+Received: by mail-pl1-x641.google.com with SMTP id y18so6716032plr.4;
+ Mon, 08 Jun 2020 07:18:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=MPi6vTj4qaMjTAPVVPddeTzme+C9Ipmgwatea/EQioM=;
- b=FCT0JH+XhC2zfKYSnkiswanmt0YIbA3C/MIlVXrJSK97VwKuVNFuM455HDOAQQqbFx
- ulgPI3Lv8e+EchQFQTtiAd/IGydOfr/N5jkPDgRKkLmfkD5OUA/EeLqCu5/TzuOIUqLO
- xwMp02qg0WYGDlcET7xePOFexSh5vjfg1QDzeKravePKSodPCHfjOebItwgJYShg7Zd9
- 2rj9a552iy4fgKtV8i7rlNVSAG9ordBcB3NCW+iW+49wiGTOplhrsQpqiCNEeu+Efepk
- esjWHYLYlMxYJkIYNd5+PFNSaV19+j5RpNzkUSlaePIXGmCGDBStzMbMyT0QLKMJ/oni
- Ee0A==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=xcmBsgz0cKbUUsDwz8kNTZJo8dkNy8E2MfEzUiwRlrw=;
+ b=YWkI665KzMQVr6of+P6GyPne6R0gUR+Atw3VoQuw2ndNo6+Dt4cbmMLlJWGlPqdeSm
+ y0dzCSL6gQLrfZBYtPKjrc1sqxD/WWxTnnebNauwxzhsqRG204Tj3yZfWFLTJg/VXS8V
+ t8BHDQRIbG8Mht6SQQNfi8jE4xM2d5LFvJ/4eZZaStGdAjER1YcyTd47OpprhgOOlxJ8
+ JgrRI90ng2FGk/K6OY4LKjbi6iwMIEr1JiGFsRmc93coce+OIWEweFa8aEhpp7vczg/f
+ Zc+E/vKCQcKG3YTofQ5iGFJXxDylY9wbk1QcPFRhCdonmW/gKxKrZtIZUKKqAL8WU9JI
+ J1CA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=MPi6vTj4qaMjTAPVVPddeTzme+C9Ipmgwatea/EQioM=;
- b=QjV5NwcyQcdeHInnURa7m02+OzJ+LDJtaa7GR2E0VwuzGyA0enc9Mzlg85ExQgJXOJ
- 5uttf+1wk0sQRvfQHCO6adT9qYN30T3uOp4s818lM3iftL0HY47JW3bjDLpMLcs3lPfV
- Eiw7BPFE9EYU+cbTgiYfJYPauF2rCbsRP7K4NqNho875P31HX28fvLgxojchSN+k2z0W
- 4YCNupbLq674/CgWqZzvztqYwXXv8h/u7EjUscT/BIokK2PwtH/C6lsypf/NGIwXnVQZ
- 61S6LY/XQh71F5KCkWnUSX0YwwsxIjPJaU1Qd46P1rNDiH9VbCmvGd/Sz09myWVEyfeg
- lb6w==
-X-Gm-Message-State: AOAM531OTn43hx06+8ISCD0oukhKlib3WRsvC1UTsiFszaaeVN/JsIax
- GNSadD2cVlUJ9vPXnywDMac=
-X-Google-Smtp-Source: ABdhPJxHA2QWIpl8P6p1cZ6m5j4ZizuOLOIwvtYa1jIVq8ueNU7O1IPYfgbjG68vicRUAhrHlHXKSA==
-X-Received: by 2002:a65:4908:: with SMTP id p8mr19994720pgs.214.1591625896731; 
- Mon, 08 Jun 2020 07:18:16 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=xcmBsgz0cKbUUsDwz8kNTZJo8dkNy8E2MfEzUiwRlrw=;
+ b=tgR5YauexPQevKmlftl6kLmyUgSqbiZywmJKOW1ECd7xhFIvRJ0gMUXnUaHTQKwyA7
+ IFJhToIS2Io69o9uqivoFShecqavh6W5FLKORRo6XT2klRiahb2AwGbBptI/x4FKwPWl
+ q+H1HSHyHWi+V6Kuw2qtCWh+tkwXScPMqSqyVfbFBcWc4/lScJDZKhivLSXi6Iq+LfLl
+ eY9V+zq2TvJISeAs0cnoaEhZEMPcWHUyHqjmYK9xlbioHKIBeFXh82p/3cbNBxGDwQW2
+ 7VtuZ8Yhw2qtEnNsW9Ok85gBQuPcly9KV1j0RQBe8M8BgvdcyLNpVNYUNRVfFdpPW5YJ
+ cy3Q==
+X-Gm-Message-State: AOAM531j53N0EVMEt+XNQ77IIVO+UyLawapPjtLSh4hx7tdq68Dmx0oV
+ ssnoEB2Jo+ezfBsQ1Vrbq64=
+X-Google-Smtp-Source: ABdhPJw3VOoZ7Bw/WrMsKuZj3boX77j2iKp9zttQsTqmwEz9A+oWkAvkok/ur6VKg6kUQVNFrn8awA==
+X-Received: by 2002:a17:90a:bf92:: with SMTP id
+ d18mr17261342pjs.120.1591625897790; 
+ Mon, 08 Jun 2020 07:18:17 -0700 (PDT)
 Received: from localhost.localdomain (unknown-224-80.windriver.com.
  [147.11.224.80])
- by smtp.gmail.com with ESMTPSA id b19sm7292575pft.74.2020.06.08.07.18.15
+ by smtp.gmail.com with ESMTPSA id b19sm7292575pft.74.2020.06.08.07.18.16
  (version=TLS1 cipher=AES128-SHA bits=128/128);
- Mon, 08 Jun 2020 07:18:16 -0700 (PDT)
+ Mon, 08 Jun 2020 07:18:17 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: Alistair Francis <Alistair.Francis@wdc.com>,
  Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
  Palmer Dabbelt <palmerdabbelt@google.com>,
  Sagar Karandikar <sagark@eecs.berkeley.edu>, qemu-devel@nongnu.org,
  qemu-riscv@nongnu.org
-Subject: [PATCH 00/15] hw/riscv: sifive_u: Add GPIO and Mode Select
- (MSEL[3:0]) support
-Date: Mon,  8 Jun 2020 07:17:29 -0700
-Message-Id: <1591625864-31494-1-git-send-email-bmeng.cn@gmail.com>
+Subject: [PATCH 01/15] hw/riscv: sifive_e: Remove the riscv_ prefix of the
+ machine* and soc* functions
+Date: Mon,  8 Jun 2020 07:17:30 -0700
+Message-Id: <1591625864-31494-2-git-send-email-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 1.7.1
-Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pg1-x532.google.com
+In-Reply-To: <1591625864-31494-1-git-send-email-bmeng.cn@gmail.com>
+References: <1591625864-31494-1-git-send-email-bmeng.cn@gmail.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::641;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x641.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,59 +92,90 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-This series updates the 'sifive_u' machine support:
+This was done in the virt & sifive_u codes, but sifive_e codes were
+missed. Remove the riscv_ prefix of the machine* and soc* functions.
 
-- Add GPIO controller support
-- Support reboot functionality via GPIO pin#10
-- Change SiFive E/U series CPU reset vector to 0x1004
-- Support Mode Select (MSEL[3:0]) settings at 0x1000 via a new
-  "msel" machine property
-- Add a dummy DDR memory controller device
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
+---
 
-The series also does some clean-ups to the existing codes.
+ hw/riscv/sifive_e.c | 24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
 
-With this series, QEMU can boot U-Boot SPL built for SiFive FU540
-all the way up to loading U-Boot proper from MMC:
-
-$ qemu-system-riscv64 -nographic -M sifive_u,msel=6 -m 8G -bios u-boot-spl.bin
-
-U-Boot SPL 2020.07-rc3-00208-g88bd5b1 (Jun 08 2020 - 20:16:10 +0800)
-Trying to boot from MMC1
-Unhandled exception: Load access fault
-EPC: 0000000008009be6 TVAL: 0000000010050014
-
-The last big gap for the 'sifive_u' machine is the QSPI modeling.
-
-
-Bin Meng (15):
-  hw/riscv: sifive_e: Remove the riscv_ prefix of the machine* and soc*
-    functions
-  hw/riscv: opentitan: Remove the riscv_ prefix of the machine* and soc*
-    functions
-  hw/riscv: sifive_u: Simplify the GEM IRQ connect code a little bit
-  hw/riscv: sifive_u: Generate device tree node for OTP
-  hw/riscv: sifive_gpio: Clean up the codes
-  hw/riscv: sifive_gpio: Add a new 'ngpio' property
-  hw/riscv: sifive_u: Hook a GPIO controller
-  hw/riscv: sifive_gpio: Do not blindly trigger output IRQs
-  hw/riscv: sifive_u: Add reset functionality
-  hw/riscv: sifive_u: Rename serial property get/set functions to a
-    generic name
-  hw/riscv: sifive_u: Add a new property msel for MSEL pin state
-  hw/riscv: sifive: Change SiFive E/U CPU reset vector to 0x1004
-  hw/riscv: sifive_u: Support different boot source per MSEL pin state
-  hw/riscv: sifive_u: Sort the SoC memmap table entries
-  hw/riscv: sifive_u: Add a dummy DDR memory controller device
-
- hw/riscv/opentitan.c           |  29 ++++----
- hw/riscv/sifive_e.c            |  32 +++++----
- hw/riscv/sifive_gpio.c         |  45 +++++++-----
- hw/riscv/sifive_u.c            | 158 ++++++++++++++++++++++++++++++++++-------
- include/hw/riscv/sifive_gpio.h |   8 ++-
- include/hw/riscv/sifive_u.h    |  27 +++++++
- target/riscv/cpu.c             |   4 +-
- 7 files changed, 223 insertions(+), 80 deletions(-)
-
+diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
+index 472a989..8fab152 100644
+--- a/hw/riscv/sifive_e.c
++++ b/hw/riscv/sifive_e.c
+@@ -75,7 +75,7 @@ static const struct MemmapEntry {
+     [SIFIVE_E_DTIM] =     { 0x80000000,     0x4000 }
+ };
+ 
+-static void riscv_sifive_e_init(MachineState *machine)
++static void sifive_e_machine_init(MachineState *machine)
+ {
+     const struct MemmapEntry *memmap = sifive_e_memmap;
+ 
+@@ -124,7 +124,7 @@ static void sifive_e_machine_class_init(ObjectClass *oc, void *data)
+     MachineClass *mc = MACHINE_CLASS(oc);
+ 
+     mc->desc = "RISC-V Board compatible with SiFive E SDK";
+-    mc->init = riscv_sifive_e_init;
++    mc->init = sifive_e_machine_init;
+     mc->max_cpus = 1;
+     mc->default_cpu_type = SIFIVE_E_CPU;
+ }
+@@ -144,7 +144,7 @@ static void sifive_e_machine_init_register_types(void)
+ 
+ type_init(sifive_e_machine_init_register_types)
+ 
+-static void riscv_sifive_e_soc_init(Object *obj)
++static void sifive_e_soc_init(Object *obj)
+ {
+     MachineState *ms = MACHINE(qdev_get_machine());
+     SiFiveESoCState *s = RISCV_E_SOC(obj);
+@@ -159,7 +159,7 @@ static void riscv_sifive_e_soc_init(Object *obj)
+                           TYPE_SIFIVE_GPIO);
+ }
+ 
+-static void riscv_sifive_e_soc_realize(DeviceState *dev, Error **errp)
++static void sifive_e_soc_realize(DeviceState *dev, Error **errp)
+ {
+     MachineState *ms = MACHINE(qdev_get_machine());
+     const struct MemmapEntry *memmap = sifive_e_memmap;
+@@ -243,26 +243,26 @@ static void riscv_sifive_e_soc_realize(DeviceState *dev, Error **errp)
+         &s->xip_mem);
+ }
+ 
+-static void riscv_sifive_e_soc_class_init(ObjectClass *oc, void *data)
++static void sifive_e_soc_class_init(ObjectClass *oc, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(oc);
+ 
+-    dc->realize = riscv_sifive_e_soc_realize;
++    dc->realize = sifive_e_soc_realize;
+     /* Reason: Uses serial_hds in realize function, thus can't be used twice */
+     dc->user_creatable = false;
+ }
+ 
+-static const TypeInfo riscv_sifive_e_soc_type_info = {
++static const TypeInfo sifive_e_soc_type_info = {
+     .name = TYPE_RISCV_E_SOC,
+     .parent = TYPE_DEVICE,
+     .instance_size = sizeof(SiFiveESoCState),
+-    .instance_init = riscv_sifive_e_soc_init,
+-    .class_init = riscv_sifive_e_soc_class_init,
++    .instance_init = sifive_e_soc_init,
++    .class_init = sifive_e_soc_class_init,
+ };
+ 
+-static void riscv_sifive_e_soc_register_types(void)
++static void sifive_e_soc_register_types(void)
+ {
+-    type_register_static(&riscv_sifive_e_soc_type_info);
++    type_register_static(&sifive_e_soc_type_info);
+ }
+ 
+-type_init(riscv_sifive_e_soc_register_types)
++type_init(sifive_e_soc_register_types)
 -- 
 2.7.4
 
