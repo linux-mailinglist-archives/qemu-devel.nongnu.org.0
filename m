@@ -2,64 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CD941F18B8
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 14:28:13 +0200 (CEST)
-Received: from localhost ([::1]:35422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 957821F18D0
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 14:33:21 +0200 (CEST)
+Received: from localhost ([::1]:40326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jiGsu-0002vd-1W
-	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 08:28:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39500)
+	id 1jiGxs-0005ED-7m
+	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 08:33:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jiGrK-0001nC-OW
- for qemu-devel@nongnu.org; Mon, 08 Jun 2020 08:26:34 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:37990)
+ id 1jiGwk-0004oa-Ds
+ for qemu-devel@nongnu.org; Mon, 08 Jun 2020 08:32:10 -0400
+Received: from mail-oi1-x229.google.com ([2607:f8b0:4864:20::229]:43955)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jiGrK-000328-3W
- for qemu-devel@nongnu.org; Mon, 08 Jun 2020 08:26:34 -0400
-Received: by mail-ot1-x342.google.com with SMTP id n70so976267ota.5
- for <qemu-devel@nongnu.org>; Mon, 08 Jun 2020 05:26:33 -0700 (PDT)
+ id 1jiGwi-0003vH-DM
+ for qemu-devel@nongnu.org; Mon, 08 Jun 2020 08:32:09 -0400
+Received: by mail-oi1-x229.google.com with SMTP id j189so15075109oih.10
+ for <qemu-devel@nongnu.org>; Mon, 08 Jun 2020 05:32:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=h5roUSMtNRKPasYu9gHcSMFWr8D6wdYeu2hUrSBiw9E=;
- b=DzUpul/fzhinjZSjllkFwAGtaHoXPzwyWdQyVH8CzQl5SdW/B4A+2rB0vzy7R58Z1F
- p2fQeC3B9eBjVYjIT/3zwK7+sNIFGwUvl/g8KqVX0oBJiRw32ux36Dv28DZceVkcxwr5
- rUmEgNoRLDgk6krx7oE2o7daxe8GT64Uz0NRm9kDxVdzYVADU7xBitkqb2mrcsWV2qCe
- vl0LPLEe6gbUZ+yOYEbnOEPtFmWyooJk+iKfcLOeWy8HTAWU88oyIftMt1SUqHxzLbnF
- rZIZ7l3BgBNdOxM1wcpp3QSd1GiAlBjQ5NcUDiaX4S9a9Fk9Do9hg3or6TJfUBS+ypWc
- J2Cw==
+ :cc; bh=4+SWXOfwdeCUekvzA0kQiWKzgG+rcYlbXpHrrQKrmtg=;
+ b=gb0cXEX53GuBsDSanY9kuPUFj7nKhp30HDWPbKGmts6MCOHJJpTF8uL3NJzVALOQcB
+ 1W3iMW5YXwMrJWJqygtIQfLj1v+N3SGn/ThRymiwdHIiAgtzwFuiN4Y2s84vgHzgHfsp
+ rjfhbkmlMnNdgPL6jH1Hx6O1Aw3prCqiH+boV3SJ/fhNhoMsCLr0pqnPP5WVVHntmGwz
+ dE3rUv68tLkp2hoSFknYt616Jl4wwL6qFfRS4geuoJ/8O6D8zLxcI6P8qLIKKxj9DXIz
+ g+xV5o3yv2aeWTMOXNnRDy9Gh34H6/F+QH9UYlqI4b/V3hEk4VSV2ijp+9Idj7hESK/2
+ aeUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=h5roUSMtNRKPasYu9gHcSMFWr8D6wdYeu2hUrSBiw9E=;
- b=p3O7NI/y9m/V4CefRxUMTAmR3I/2J9TxbyCOI363s6YcpShqDEOf1yB344nhL2CzLv
- zFrL1vhmcQJPNag2t1LUyKyczH5OskXaH6hsoLRjcb5M3HrIdSwN1RcI1XiCt3PPwp8h
- ihMfyBw5EvK+oiOZw3z1pe8/IbTlPrw1eoipoMEGAwR8ixHZ1cb8v7Dv9NKb2gtDuC3U
- pZCARNUYDVRenHQFPWNFWwM9HnXWVRzjOgmhhUbJVAA0fCXvWwr9T7a+JSe9pL036MZ0
- A026htBaQn/VzcIVZRHZRt5kDRa7GvClnVmr/3nQkv9tASpV5fILw/d6L5r7ivwrp/h0
- Abpw==
-X-Gm-Message-State: AOAM5317SwONPZMWVGqwqAma3Nd3Co53XCrYy++ZYauZGuk2CK1wiOip
- IxETrxQrZevtDQbGxAh3rfSrL28xvmmAt+OVjRMNCQ==
-X-Google-Smtp-Source: ABdhPJwQQaggUmneiRdkHYPaFecYRtBMEOubQcShjsXIrYylf3jERdtHNwq6sQP4fnAYwv+tGnCwFqpjrMIlAPMSpeU=
-X-Received: by 2002:a05:6830:18da:: with SMTP id
- v26mr17842999ote.135.1591619192920; 
- Mon, 08 Jun 2020 05:26:32 -0700 (PDT)
+ bh=4+SWXOfwdeCUekvzA0kQiWKzgG+rcYlbXpHrrQKrmtg=;
+ b=ZLAX5T1gmyoQpxzgIyl6jnu8gYcUYW14f5DoDmSbu9+bdIh76g4wpBXLIGXB0EPqUH
+ aA+xQSRySvD6/4Dvrk11z48UpMniLCmtDWVCbJ22c/3JfYRWZ8JtV8w27049QwkWuPFi
+ 8w7TNiUXMNK2tM5EL7kNhsfo/b4VuMDGsGTPsKnlqXXB1OBig5Lhpsew7iXpIZv0vVof
+ Kw5n5mVXP6neD9lwDcCOFZP4PuSyAllrceBRTEATmKjZaOXOClZ7WWwuSfwvyizJkz6V
+ B3fCUIV3hGY58Xi9sC0xAa8N6Dp+yTnl/rataEgloYVyGbAjBhxo8yA0xZ7m8fmPWNug
+ K9VQ==
+X-Gm-Message-State: AOAM532ZSReLMn2Ic9PrUOqb2rdJx5hvq6gXslvVCOEnHIZOYck4YwjO
+ tJt7F3ZX0XB3Z39DQ081awyzcM0qByMUKjrTkYkdCQ==
+X-Google-Smtp-Source: ABdhPJzt+DHa1JxqObi6Lqej03bBHXlCD9F8ZB4Soe0B746zTadDo3PMD+yaDAbYhtrM29lKFu/e4gXrQFuuJJUa0QY=
+X-Received: by 2002:aca:1a07:: with SMTP id a7mr6042140oia.163.1591619525939; 
+ Mon, 08 Jun 2020 05:32:05 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200608114028.25345-1-leif@nuviainc.com>
- <20200608114028.25345-3-leif@nuviainc.com>
-In-Reply-To: <20200608114028.25345-3-leif@nuviainc.com>
+References: <20200606131607.1250819-1-laurent@vivier.eu>
+In-Reply-To: <20200606131607.1250819-1-laurent@vivier.eu>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 8 Jun 2020 13:26:22 +0100
-Message-ID: <CAFEAcA-a1U4AnMpN31Ea1TJsufexTGVtd2LoB-ZW+zgpwTYK9A@mail.gmail.com>
-Subject: Re: [RFC PATCH 2/3] target/arm: move cpu64 cortex processor common
- init settings to function
-To: Leif Lindholm <leif@nuviainc.com>
+Date: Mon, 8 Jun 2020 13:31:54 +0100
+Message-ID: <CAFEAcA_SkRPR+2heaTY9U=K-A4sSHAOHN7AUOT2dU0865vvmqw@mail.gmail.com>
+Subject: Re: [PULL v2 00/19] Linux user for 5.1 patches
+To: Laurent Vivier <laurent@vivier.eu>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x342.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::229;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x229.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -81,27 +78,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jones <drjones@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Riku Voipio <riku.voipio@iki.fi>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 8 Jun 2020 at 12:40, Leif Lindholm <leif@nuviainc.com> wrote:
+On Sat, 6 Jun 2020 at 14:19, Laurent Vivier <laurent@vivier.eu> wrote:
 >
-> Move the id register initializations identical between the platforms in
-> this file into a standalone helper function, and change the cpu-specific
+> The following changes since commit ddc760832fa8cf5e93b9d9e6e854a5114ac63510:
 >
-> The value of mmfr0 set for a57 and a53 violates the ARM architecture
-> reference manual, but matches the values set in actual hardware r1p0 a57
-> and r0p4 a53. The function sets the architectually correct value, and the
-> a57/a53 init functions override it after the fact.
+>   Merge remote-tracking branch 'remotes/gkurz/tags/9p-next-2020-05-26' into s=
+> taging (2020-05-26 14:05:53 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://github.com/vivier/qemu.git tags/linux-user-for-5.1-pull-request
+>
+> for you to fetch changes up to 95722b27845b972250a7d4f93b693b01e2a0c3a1:
+>
+>   stubs: Restrict ui/win32-kbd-hook to system-mode (2020-06-05 21:23:22 +0200)
+>
+> ----------------------------------------------------------------
+> linux-user pull request 20200605-v2
+>
+> Implement F_OFD_ fcntl() command, /proc/cpuinfo for hppa
+> Fix socket(), prnctl() error codes, underflow in target_mremap,
+>     epoll_create() strace, oldumount for alpha
+> User-mode build dependencies improvement
+>
 
-...and pulling out the ID register value settings into
-a common function is definitely not something we want to
-do. Any new CPU should set all the ID register values and
-we want to be able to easily compare those settings against
-the TRM.
 
-thanks
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.1
+for any user-visible changes.
+
 -- PMM
 
