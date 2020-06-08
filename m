@@ -2,54 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B89AD1F134E
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 09:11:44 +0200 (CEST)
-Received: from localhost ([::1]:38478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ED6F1F138E
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 09:27:48 +0200 (CEST)
+Received: from localhost ([::1]:47362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jiBwd-0006HR-BP
-	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 03:11:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36454)
+	id 1jiCCB-0002cb-4g
+	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 03:27:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37316)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jiBvk-0005ql-9T
- for qemu-devel@nongnu.org; Mon, 08 Jun 2020 03:10:48 -0400
-Received: from indium.canonical.com ([91.189.90.7]:41334)
+ id 1jiCAI-0001gV-72
+ for qemu-devel@nongnu.org; Mon, 08 Jun 2020 03:25:50 -0400
+Received: from indium.canonical.com ([91.189.90.7]:44712)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jiBvi-00044c-IM
- for qemu-devel@nongnu.org; Mon, 08 Jun 2020 03:10:47 -0400
+ id 1jiCAH-0006Xu-4T
+ for qemu-devel@nongnu.org; Mon, 08 Jun 2020 03:25:49 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jiBvg-0002cY-AT
- for <qemu-devel@nongnu.org>; Mon, 08 Jun 2020 07:10:44 +0000
+ id 1jiCAF-0004TI-MW
+ for <qemu-devel@nongnu.org>; Mon, 08 Jun 2020 07:25:47 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 13A802E80E7
- for <qemu-devel@nongnu.org>; Mon,  8 Jun 2020 07:10:44 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 9E3662E810B
+ for <qemu-devel@nongnu.org>; Mon,  8 Jun 2020 07:25:47 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 08 Jun 2020 07:01:46 -0000
-From: Adam Baxter <1882497@bugs.launchpad.net>
+Date: Mon, 08 Jun 2020 07:14:09 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1874073@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=philmd@redhat.com; 
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: voltagex
-X-Launchpad-Bug-Reporter: Adam Baxter (voltagex)
-X-Launchpad-Bug-Modifier: Adam Baxter (voltagex)
-Message-Id: <159159970619.31789.307920822254818587.malonedeb@gac.canonical.com>
-Subject: [Bug 1882497] [NEW] Missing 'cmp' utility makes build take 10 times
- as long
+X-Launchpad-Bug-Commenters: mliska philmd pmaydell
+X-Launchpad-Bug-Reporter: Martin Liska (mliska)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+References: <158747496330.1952.6391008472811579405.malonedeb@chaenomeles.canonical.com>
+Message-Id: <20200608071409.17024-1-philmd@redhat.com>
+Subject: [Bug 1874073] [PATCH] hw/openrisc/openrisc_sim: Add assertion to
+ silent GCC warning
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="ef9fc486e875d54078fa61cf91e898b895125d89";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 9be4efd1fb1e08cd5e0288dd566a2767d31e7d65
+X-Launchpad-Hash: 59ad661a87b98799f9633b4979b50ccd2e3388de
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/08 02:30:56
@@ -72,52 +75,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1882497 <1882497@bugs.launchpad.net>
+Reply-To: Bug 1874073 <1874073@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+When compiling with GCC 10 (Fedora 32) using CFLAGS=3D-O2 we get:
 
-I have been doing some work cross compiling qemu for Windows using a
-minimal Fedora container. Recently I started hitting some timeouts on
-the CI service and noticed a build of all targets was going over 1 hour.
+    CC      or1k-softmmu/hw/openrisc/openrisc_sim.o
+  hw/openrisc/openrisc_sim.c: In function =E2=80=98openrisc_sim_init=E2=80=
+=99:
+  hw/openrisc/openrisc_sim.c:87:42: error: =E2=80=98cpu_irqs[0]=E2=80=99 ma=
+y be used uninitialized in this function [-Werror=3Dmaybe-uninitialized]
+     87 |         sysbus_connect_irq(s, i, cpu_irqs[i][irq_pin]);
+        |                                  ~~~~~~~~^~~
 
-It seems like the 'cmp' utility from diffutils is used somewhere in the
-process and if it's missing, either a configure or a make gets run way
-too many times - I'll try to pull logs from the CI system at some stage
-soon.
+While humans can tell smp_cpus will always be in the [1, 2] range,
+(openrisc_sim_machine_init sets mc->max_cpus =3D 2), the compiler
+can't.
 
-Could a warning or error be added if cmp is missing?
+Add an assertion to give the compiler a hint there's no use of
+uninitialized data.
 
-** Affects: qemu
-     Importance: Undecided
-         Status: New
+Buglink: https://bugs.launchpad.net/qemu/+bug/1874073
+Reported-by: Martin Li=C5=A1ka <mliska@suse.cz>
+Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+---
+ hw/openrisc/openrisc_sim.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/hw/openrisc/openrisc_sim.c b/hw/openrisc/openrisc_sim.c
+index d08ce61811..02f5259e5e 100644
+--- a/hw/openrisc/openrisc_sim.c
++++ b/hw/openrisc/openrisc_sim.c
+@@ -134,6 +134,7 @@ static void openrisc_sim_init(MachineState *machine)
+     int n;
+     unsigned int smp_cpus =3D machine->smp.cpus;
+ =
+
++    assert(smp_cpus >=3D 1 && smp_cpus <=3D 2);
+     for (n =3D 0; n < smp_cpus; n++) {
+         cpu =3D OPENRISC_CPU(cpu_create(machine->cpu_type));
+         if (cpu =3D=3D NULL) {
+-- =
+
+2.21.3
+
+
+** Changed in: qemu
+     Assignee: (unassigned) =3D> Philippe Mathieu-Daud=C3=A9 (philmd)
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1882497
+https://bugs.launchpad.net/bugs/1874073
 
 Title:
-  Missing 'cmp' utility makes build take 10 times as long
+  openrisc_sim.c:87:42: error: 'cpu_irqs[0]' may be used uninitialized
+  in this function [-Werror=3Dmaybe-uninitialized]
 
 Status in QEMU:
-  New
+  Confirmed
 
 Bug description:
-  I have been doing some work cross compiling qemu for Windows using a
-  minimal Fedora container. Recently I started hitting some timeouts on
-  the CI service and noticed a build of all targets was going over 1
-  hour.
+  I see the warning since gcc10:
 
-  It seems like the 'cmp' utility from diffutils is used somewhere in
-  the process and if it's missing, either a configure or a make gets run
-  way too many times - I'll try to pull logs from the CI system at some
-  stage soon.
+  static void openrisc_sim_init(MachineState *machine):
+  ...
+      qemu_irq *cpu_irqs[2];
+  ...
 
-  Could a warning or error be added if cmp is missing?
+  =
+
+      serial_mm_init(get_system_memory(), 0x90000000, 0, serial_irq,
+                     115200, serial_hd(0), DEVICE_NATIVE_ENDIAN);
+
+  I would initialize cpu_irqs[2] with {}.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1882497/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1874073/+subscriptions
 
