@@ -2,79 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 549121F1C58
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 17:45:01 +0200 (CEST)
-Received: from localhost ([::1]:33318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BF351F1C6D
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 17:51:58 +0200 (CEST)
+Received: from localhost ([::1]:35734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jiJxM-0007xJ-Cx
-	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 11:45:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35910)
+	id 1jiK45-0001L4-Lh
+	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 11:51:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jiJwT-0007N7-7J
- for qemu-devel@nongnu.org; Mon, 08 Jun 2020 11:44:05 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:27159
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jiJwR-0004Tq-K7
- for qemu-devel@nongnu.org; Mon, 08 Jun 2020 11:44:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591631042;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=EvSYoXdzoLdCSX8de1LoyV3aVBmTk8/biD1L6amUE+Y=;
- b=I1TYV2SfmOELo0j9oRfl/bEAxQzJOwulyGdevIKT+UheDJzRNpKVCUWWAXhALRj5dDDEvG
- z5bFn1ok3pvITarCiSOhV/hd4NwxCalESmg9v2fqtzPx0H7FV/KTeoJPfEu+aBloX5qaNk
- wk5iowA5dCDtQ4aXZ8yCkzRMhONfh+E=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-187-u16TVxyNMt-SfOkuHel_RQ-1; Mon, 08 Jun 2020 11:43:53 -0400
-X-MC-Unique: u16TVxyNMt-SfOkuHel_RQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 448331B18BC0;
- Mon,  8 Jun 2020 15:43:52 +0000 (UTC)
-Received: from [10.3.113.22] (ovpn-113-22.phx2.redhat.com [10.3.113.22])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A4E2F60C47;
- Mon,  8 Jun 2020 15:43:48 +0000 (UTC)
-Subject: Re: [PATCH] or1k: Fix compilation hiccup
-To: Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-References: <20200526185132.1652355-1-eblake@redhat.com>
- <m1d06msod9.fsf@redhat.com>
- <CAFEAcA9Huery0AeUFsLVrcK4bUGibg1f-m8gMuMiJgnr+Hj7CA@mail.gmail.com>
- <87eeqx9alv.fsf@dusky.pond.sub.org> <873676ksbb.fsf@dusky.pond.sub.org>
- <09123e95-b1c1-be7b-1aa8-f68f99417b28@redhat.com>
- <87tuzlj4uk.fsf@dusky.pond.sub.org>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <dd80a666-7f4c-32bc-0b82-63ef921e670e@redhat.com>
-Date: Mon, 8 Jun 2020 10:43:48 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jiK30-0000oV-6o
+ for qemu-devel@nongnu.org; Mon, 08 Jun 2020 11:50:50 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:44754)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jiK2y-0005tw-7f
+ for qemu-devel@nongnu.org; Mon, 08 Jun 2020 11:50:49 -0400
+Received: by mail-wr1-x433.google.com with SMTP id y17so17932778wrn.11
+ for <qemu-devel@nongnu.org>; Mon, 08 Jun 2020 08:50:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=rpIxwQkCidHxn4hW3mOrkYqeO7ot24jezHwK2nQUd5w=;
+ b=WFojn92Q2qpYqIwzJ3ybwi37yQpj2ed2qAf73uCvsrHSZ9MGNK2sZA/ltsljYVl3W4
+ 5YpiT4axmbHfbbkaQosON9EyErf4kfl4PI2zXzZJjGJOgwExC8RI9X8UK6GmViJFpGz1
+ iCS4gEhjHCVO70mWXRytLbXAwAB8ELRXHfUmKfyJ25gVKIxdvR19Tg/+1fM/LjLyHTLo
+ ZengoSB5I3KCzGQ+Jql2ZwS5TJ6Lp0QuR27zxFMfmBAzezpSzNLdEAZxgzeRrH95b502
+ hSci6dpkcZrEDcZyrnuXYV07MdDy3kxn8XfzOtXKQRcQTe6PGsaTx53ikrPSDRydzk/V
+ ZDAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=rpIxwQkCidHxn4hW3mOrkYqeO7ot24jezHwK2nQUd5w=;
+ b=gDTKh0snePJSWt3ceA0G4begIKDgrXrUOnwiWzaDaaFyR2PX6DDfTpeAZWBGuxneoV
+ ckuFvzXAf7QrC0bVknqiIhiqiZNW4n/F4JXk/GFE+xBSUmTEO3gkwNDiTXGh8m0aFrEF
+ 8KkX65MFdp2+ADz9qctOVQ+ruRp/AQlq0PGQNTIaG9AFnIlaDtxhdGVfDgLCk9w1Tfwo
+ YdDKxi8DfXN6v9Nw+Dw3pyBOSaZaWUd/d+i/ouB7BKbSkZJGF0sH/lICg25C0zM7qjEg
+ 7c+nqYs3TMomg/WAHCKMb1N2g32Qpqfy5KzVLD1Je3h3JB/qsSHpuVK3hVSCmj0cCvFz
+ idgQ==
+X-Gm-Message-State: AOAM533WP0VrYOkHh8uI4c9aYDduDeV65hfQsdNQ6xfhaFvNIsYgP8vJ
+ e6vCMPWoZ/st8FcwisJVd5HEXw==
+X-Google-Smtp-Source: ABdhPJwZEPNt0GgS0FE3kLwHCBuGXWgBnke+ammSrPLaMCoeTtZJYTu1fHBIUyi+nOBsEauwneMkUw==
+X-Received: by 2002:a5d:628c:: with SMTP id k12mr24052499wru.211.1591631446665; 
+ Mon, 08 Jun 2020 08:50:46 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id g19sm2337355wmh.29.2020.06.08.08.50.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 08 Jun 2020 08:50:45 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 447E11FF7E;
+ Mon,  8 Jun 2020 16:50:44 +0100 (BST)
+References: <ea06c0c3-465e-34a5-5427-41ae6bf583dc@c-sky.com>
+User-agent: mu4e 1.5.2; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Subject: Re: fpu/softfloat: a question on BFloat 16 support on QEMU
+In-reply-to: <ea06c0c3-465e-34a5-5427-41ae6bf583dc@c-sky.com>
+Date: Mon, 08 Jun 2020 16:50:44 +0100
+Message-ID: <87img15zfv.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <87tuzlj4uk.fsf@dusky.pond.sub.org>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=eblake@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/08 05:40:56
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,39 +88,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Jia Liu <proljc@gmail.com>,
- QEMU Trivial <qemu-trivial@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Christophe de Dinechin <dinechin@redhat.com>,
- Stafford Horne <shorne@gmail.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/8/20 4:15 AM, Markus Armbruster wrote:
 
->>>>> Yes: openrisc_sim_machine_init() sets mc->max_cpus = 2.
->>>>> My suggestion of adding an assert() is essentially telling the
->>>>> compiler that indeed smp_cpus must always be in the range [1,2],
->>>>> which we can tell but it can't.
->>>>
->>>> Do we have a proper patch for this on the list?
->>>
->>> Apparently not.
->>>
->>> Philippe did try Peter's suggestion, found it works, but then posted it
->>> only to Launchpad.  Philippe, please post to the list, so we can finally
->>> get this fixed.
->>
->> Sorry since it was Eric finding, I didn't understood I had to post it.
->> Will do.
-> 
-> You didn't *have* to, but it'll help if you do :)
+LIU Zhiwei <zhiwei_liu@c-sky.com> writes:
 
-Now at https://lists.gnu.org/archive/html/qemu-devel/2020-06/msg01779.html
+> Hi Richard,
+>
+> I am doing bfloat16 support on QEMU.
+>
+> Once I tried to reuse float32 interface, but I couldn't properly process=
+=20
+> rounding in some insns like fadd.
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+What do you mean by re-use the float32 interface? Isn't bfloat16 going
+to be pretty much the same as float16 but with some slightly different
+float parameters for the different encoding?
 
+Like the float16 code it won't have to deal with any of the hardfloat
+wrappers so it should look pretty similar.
+
+>
+> What's your opinion about it? Should I expand the fpu/softfloat?
+
+bfloat16 is certainly going to become more common that we should have
+common softfloat code to handle it. It would be nice is TestFloat could
+exercise it as well.
+
+>
+> Best Regards,
+> Zhiwei
+
+
+--=20
+Alex Benn=C3=A9e
 
