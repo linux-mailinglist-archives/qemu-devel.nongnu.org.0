@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D32DE1F1A28
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 15:33:42 +0200 (CEST)
-Received: from localhost ([::1]:57902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BA7B1F1A2E
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 15:34:40 +0200 (CEST)
+Received: from localhost ([::1]:60542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jiHuH-00038F-Fq
-	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 09:33:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48802)
+	id 1jiHvD-0004Fc-A9
+	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 09:34:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jiHsd-0002Xd-6a
- for qemu-devel@nongnu.org; Mon, 08 Jun 2020 09:31:59 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:23398
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jiHtr-0003Qs-Vy
+ for qemu-devel@nongnu.org; Mon, 08 Jun 2020 09:33:15 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:24538
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jiHsb-0005g8-Jr
- for qemu-devel@nongnu.org; Mon, 08 Jun 2020 09:31:58 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jiHtq-0005sO-Ev
+ for qemu-devel@nongnu.org; Mon, 08 Jun 2020 09:33:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591623116;
+ s=mimecast20190719; t=1591623193;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=tPVzldjJJNnkRaNdn/VsItofhkeod9E0zRG0RaxQv2M=;
- b=b3iiiV0mv06NrJlbWe+KQC8XRvS+SwnU7suXgc8iO78D2AJdZTTmKPG4WaVcsC0u6J5avP
- nP7ktP5GLYkxQpwU0Fn7jDabq/HY/sJ9x4Mv3FAeg1/Fa87PIlfXOScFpTQQ8QIE2/oh/G
- CvdFeyekWg0y940A1wniLFsSjrt3DOc=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-330-QJZj0fJyP-a0AiEvHVLNbg-1; Mon, 08 Jun 2020 09:31:52 -0400
-X-MC-Unique: QJZj0fJyP-a0AiEvHVLNbg-1
-Received: by mail-wr1-f69.google.com with SMTP id o1so7113350wrm.17
- for <qemu-devel@nongnu.org>; Mon, 08 Jun 2020 06:31:52 -0700 (PDT)
+ bh=jy3UQ9TwolgMzcs+mF+EHL8I0EaYgGjLeRsKkZIF4Go=;
+ b=H/G8Z78IKWPNV7iFcjGRZocLlnMvtlCTI9kghA/U4vRsIlbc4c3A9OtOu+V90Ypu66VUMx
+ hgdy8uU6CXF7Ma+LxIolu/xKdzi8LL+f+jJrPpiqk2WkcirhvuwkwXTKSkN9sFhNDec8zy
+ WQ/NjWvIdxH8QsUdv0vWthEUjr7rRug=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-36-9Yx-z0cXMiqCIA0F31Mj4A-1; Mon, 08 Jun 2020 09:33:12 -0400
+X-MC-Unique: 9Yx-z0cXMiqCIA0F31Mj4A-1
+Received: by mail-wm1-f69.google.com with SMTP id s15so5245154wmc.8
+ for <qemu-devel@nongnu.org>; Mon, 08 Jun 2020 06:33:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=tPVzldjJJNnkRaNdn/VsItofhkeod9E0zRG0RaxQv2M=;
- b=WVuQ+0R6Gz9dXKU91gB4fNd6ZKBFPW2/VD2geTP0f3+0tIiwtldzDuO7RSLGiH8jOM
- M1pewqs+TWGru9DKYzmUObALNUhruEZ4ZNntvEgyKD0ClDE8G/7xpzcgz8fzfrBA15S1
- +f9z3XTLMRZZsltMnUMAsDDXwVVB+0pOydP2xhm6HUtlh5uxbp2tAfvnVSKubazXP/Xb
- r1RT2P/fkmU62kTvS08BGFXAuJQEZaCVQ/MNm4eu7w94Cg18U0n/J7/PnfnsTbxtYN0k
- /disJt5p/3FSJBsWjl/nBJ3Zr5t+eqItx4abaTgzILLMG8Gn0fj5HllTOuIvtqtPgvpx
- 11yA==
-X-Gm-Message-State: AOAM5329rOJPRvubdNCfVktctK9Wv8g1aK8GoCwGZCa7d6+69Km41tCM
- MmyFWGggS08+E5+KKK88anFObD80ndh+d1mBeh/hc6+epDP4IvqVRq7y50Sx35jH0T8aZkA3VCt
- ojAkqAER+GsmTidI=
-X-Received: by 2002:a1c:66d5:: with SMTP id
- a204mr16198846wmc.134.1591623111303; 
- Mon, 08 Jun 2020 06:31:51 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxA2HGg4NasaA8mCwPnDF9hNXQFQyNEekHr1Gs1mIC4JFKlyCAxU1yaGFm2tkHNCg14ZmLU4Q==
-X-Received: by 2002:a1c:66d5:: with SMTP id
- a204mr16198827wmc.134.1591623111104; 
- Mon, 08 Jun 2020 06:31:51 -0700 (PDT)
+ bh=jy3UQ9TwolgMzcs+mF+EHL8I0EaYgGjLeRsKkZIF4Go=;
+ b=gabSd8ZosbNErxrPoB+AYTk4kF5SEHYUg0mAWIegz5bCB+gskfeiNY70hjJQ0yKPtR
+ TGE0X4/JQFQQCJebuWBfD4NkLvmb0ZwmxlECUjsmgMLQaQnkx2pNkFyEi7d8hHmaiSXE
+ tl6RsqpTI+613QXKWAim+JzFTWvlg0BMRuFWHE8j+MEav2xT28K6wWu9fN4i0cUOXfSi
+ N8bbzomQtjoBbMaexI/n9647X/+2/pJphfJzAHA+NoBDhh0S8Kgp3uGQU8ZGFMR6Rkqk
+ DLETRb20OaTsxas0Tz4/ck53K6G6UKOPNHOh3j8BtYEASCoJ8IXLVtJFg5jGp3y/Zzyz
+ JKpA==
+X-Gm-Message-State: AOAM533r+n7DWg9kIoDIlRK4/knX1BFthVlol/6ODJqEPOZOcgkQNXgC
+ JwSLT44fWZZSOlj37yfOjcd22XcIfcSBOxfim+SakKm600viiRAGxDQnx1ONz+RDkzPmEc62IaJ
+ aprJrxv4MuShPM8Q=
+X-Received: by 2002:a7b:c18a:: with SMTP id y10mr17443039wmi.73.1591623190889; 
+ Mon, 08 Jun 2020 06:33:10 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz9bnbokhnVLN46q9sCb6V6ovAK9n5BS2Myq9eEvkQEpQdDlMBW6QLuyUv0QuXRGF4o3ryjhA==
+X-Received: by 2002:a7b:c18a:: with SMTP id y10mr17443008wmi.73.1591623190701; 
+ Mon, 08 Jun 2020 06:33:10 -0700 (PDT)
 Received: from redhat.com (bzq-109-64-41-91.red.bezeqint.net. [109.64.41.91])
  by smtp.gmail.com with ESMTPSA id
- j190sm22821770wmb.33.2020.06.08.06.31.49
+ 88sm25269941wre.45.2020.06.08.06.33.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Jun 2020 06:31:50 -0700 (PDT)
-Date: Mon, 8 Jun 2020 09:31:47 -0400
+ Mon, 08 Jun 2020 06:33:10 -0700 (PDT)
+Date: Mon, 8 Jun 2020 09:33:07 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v3 0/4] microvm: memory config tweaks
-Message-ID: <20200608093125-mutt-send-email-mst@kernel.org>
+Subject: Re: [PATCH v3 4/4] microvm: move virtio base to 0xfeb00000
+Message-ID: <20200608093247-mutt-send-email-mst@kernel.org>
 References: <20200529073957.8018-1-kraxel@redhat.com>
+ <20200529073957.8018-5-kraxel@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200529073957.8018-1-kraxel@redhat.com>
+In-Reply-To: <20200529073957.8018-5-kraxel@redhat.com>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
@@ -102,44 +101,33 @@ Cc: Stefano Stabellini <sstabellini@kernel.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, May 29, 2020 at 09:39:53AM +0200, Gerd Hoffmann wrote:
-> With more microvm memory config tweaks split this into its owns series,
-> the microvm acpi patch series is already big enough ...
-
-Looks sane:
-
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
-
-microvm things so should use that tree ...
-
-> v2:
->  - use 3G split.
->  - add patch to move virtio-mmio region.
->  - pick up acks & reviews.
-> v3:
->  - fix xen build.
->  - pick up acks & reviews.
+On Fri, May 29, 2020 at 09:39:57AM +0200, Gerd Hoffmann wrote:
+> Place virtio-mmio devices near the other mmio regions,
+> next ioapic is at @ 0xfec00000.
 > 
-> take care,
->   Gerd
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> ---
+>  include/hw/i386/microvm.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> Gerd Hoffmann (4):
->   microvm: use 3G split unconditionally
->   microvm: drop max-ram-below-4g support
->   x86: move max-ram-below-4g to pc
->   microvm: move virtio base to 0xfeb00000
-> 
->  include/hw/i386/microvm.h |  2 +-
->  include/hw/i386/pc.h      |  2 ++
->  include/hw/i386/x86.h     |  4 ----
->  hw/i386/microvm.c         | 35 +----------------------------
->  hw/i386/pc.c              | 46 +++++++++++++++++++++++++++++++++++++++
->  hw/i386/pc_piix.c         | 10 ++++-----
->  hw/i386/pc_q35.c          | 10 ++++-----
->  hw/i386/x86.c             | 46 ---------------------------------------
->  hw/i386/xen/xen-hvm.c     |  2 +-
->  9 files changed, 61 insertions(+), 96 deletions(-)
-> 
+> diff --git a/include/hw/i386/microvm.h b/include/hw/i386/microvm.h
+> index ba68d1f22bb3..fd34b78e0d2a 100644
+> --- a/include/hw/i386/microvm.h
+> +++ b/include/hw/i386/microvm.h
+> @@ -26,7 +26,7 @@
+>  #include "hw/i386/x86.h"
+>  
+>  /* Platform virtio definitions */
+> -#define VIRTIO_MMIO_BASE      0xc0000000
+> +#define VIRTIO_MMIO_BASE      0xfeb00000
+>  #define VIRTIO_IRQ_BASE       5
+>  #define VIRTIO_NUM_TRANSPORTS 8
+>  #define VIRTIO_CMDLINE_MAXLEN 64
+
+OK, and let's hope we don't need to move it again.
+
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+
 > -- 
 > 2.18.4
 
