@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 195CB1F1D43
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 18:26:58 +0200 (CEST)
-Received: from localhost ([::1]:40994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31BDA1F1D31
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 18:23:44 +0200 (CEST)
+Received: from localhost ([::1]:55038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jiKbx-00073h-2u
-	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 12:26:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38154)
+	id 1jiKYp-0001DI-7Z
+	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 12:23:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jiKEk-00078u-1X
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jiKEk-00079A-75
  for qemu-devel@nongnu.org; Mon, 08 Jun 2020 12:02:58 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:32053
- helo=us-smtp-delivery-1.mimecast.com)
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:31194
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jiKEi-0007vb-FO
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jiKEi-0007vM-H9
  for qemu-devel@nongnu.org; Mon, 08 Jun 2020 12:02:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591632172;
+ s=mimecast20190719; t=1591632170;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7Lcxf8cj+CxLJSf8aQEjLTWyUhOWt7SwLOi9PO4gCM4=;
- b=QQEcU9q05KiObLyNzcPOjqLxTuyITcFRNrwUzKbmyY8RyBAhlEqpsIgZ/yRYSRqEsHswAH
- u0eqYwf4DRfNv0xHwPzP683YC2PF7oGeqQvPFj3rDkW5pmUpWgrE7Qbu0eDSdnPVFTS2Oq
- XvRW+nSy4hdGHCtvBXLuOs9/E+j68WU=
+ bh=ERIE6m4jxrzYfG68k2WyVt3M0Z5JMhyFzvtHzf4SuG8=;
+ b=WJAxC2QJF/zyAyxD0CrYTv2vsEDSxyx1mw2ujtLCJ5L+7WRaJz7x8u0XTXVj5YgSJZOAnC
+ 0NhB5aLHKltVFfDeTo9+onLXg8n1Z5zjUe5ULDqc/xhlrdi7UFBzOfTil/NNeJZB/1D78r
+ d/qDdQTqBMrQiCQfL7FgHx9vlvc6KfU=
 Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
  [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-98-eh51a96WM7SIC5BX2WPqjw-1; Mon, 08 Jun 2020 12:02:46 -0400
-X-MC-Unique: eh51a96WM7SIC5BX2WPqjw-1
-Received: by mail-wr1-f69.google.com with SMTP id s17so7305989wrt.7
- for <qemu-devel@nongnu.org>; Mon, 08 Jun 2020 09:02:46 -0700 (PDT)
+ us-mta-301-POH4V-zrPwykkvRaKVvA-g-1; Mon, 08 Jun 2020 12:02:49 -0400
+X-MC-Unique: POH4V-zrPwykkvRaKVvA-g-1
+Received: by mail-wr1-f69.google.com with SMTP id c14so7328545wrm.15
+ for <qemu-devel@nongnu.org>; Mon, 08 Jun 2020 09:02:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=7Lcxf8cj+CxLJSf8aQEjLTWyUhOWt7SwLOi9PO4gCM4=;
- b=kVgjUNs4Uc9AFhlEhGAwIqhMguW8LdWR5Y7a1XLPFuMapIor7cZNCiXnKvN8AtT5QS
- wV5kG35WeMOmEAdhZWZ8f9kqnTR08CzaxF/f945QQntO9yFH35Mku31FVeqx8LIoX1jW
- JBZFDexAFeTzPRpRJaeAzDof3wRGf0PV2f/SfdcF276xLtcPga/EhmnljA/UuehRUm/o
- 7VOsQb8HvIoOlZ9N/HbNbCUqqTix5pYPSR9HkuH2tWgW9eiZR4DBVkN11gkN/nRfnKH9
- lV0RK8ASrXOz5hNBMvHoL8QcxHq0SH4sy0vJYgMSipLQv+mbsUVEHoaPSuSIoqg9UURA
- Z8aA==
-X-Gm-Message-State: AOAM533BzhLrc4AiI6hwM0huBjhLD9hgXOTufcYekjRSexCV8PAhn1tF
- hLlib4VHj1TIobWO6/Nqr4jaoeKWnhFap5Qrf5OIKfDHH5sWZ9cUP0l+vV05H1H8YsKNsL7YGpa
- 9tZFvBI39YFngCAQ=
-X-Received: by 2002:a1c:6056:: with SMTP id u83mr60178wmb.138.1591632161698;
- Mon, 08 Jun 2020 09:02:41 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJztIcOuKmMAnKpEQL/s7NO4XNCQYfWj4X6mQCPh85ejUPn/olQa6U5W1zctaCPlsras+JjNJA==
-X-Received: by 2002:a1c:6056:: with SMTP id u83mr60154wmb.138.1591632161497;
- Mon, 08 Jun 2020 09:02:41 -0700 (PDT)
+ bh=ERIE6m4jxrzYfG68k2WyVt3M0Z5JMhyFzvtHzf4SuG8=;
+ b=TSUNBBN6YdG91CWDOfxTYQzw21MkFREK13RkaP8j2f+9UyJleHkWBKlnLs5YuehNsF
+ aPpYYlWasg/+VYs4mLYYhm1t1fq10H4m6WZZZpX9RVolr7zMmERvSf4qj8a1QxCy6s1u
+ pggX9ZJQbqPtciiFz8NFjUbei8mMrloXAFNpmSTKD5+5acJ2QudSqXNE48B9YWk6X6ep
+ MmYpV27y30mV6qWHphsBwAZxfvlG633r3M0jFvBhqDNY50Tj1jDfwDbjAMHRSryL2X4w
+ iNEcu3uU1olsy/sSnXG4zkHLeYaPVJDjx9pswaFlgFb359X5YZwBWEY70stCuYlnKGiU
+ IxCg==
+X-Gm-Message-State: AOAM532r5H3atpAsXq3ovM7iow6xR+ZMnQL2XsHPDOd5TItViU85dhNN
+ JJ4hp8v609mSwGt8Ki9PvtUrLY5UiJiKkVFjQ8anACn5nLGPrc1CYFuh25vcrcUyxal1OURebrC
+ p/UBT/mOQUA6zCXU=
+X-Received: by 2002:adf:cf06:: with SMTP id o6mr23925412wrj.163.1591632168116; 
+ Mon, 08 Jun 2020 09:02:48 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxl0bue+F9URFV2MLoWaC0ni3jZ25V2PPkWtrtnwtHvWPF3nP5GuuAiBdquATZ2VeeHOXjWiw==
+X-Received: by 2002:adf:cf06:: with SMTP id o6mr23925378wrj.163.1591632167963; 
+ Mon, 08 Jun 2020 09:02:47 -0700 (PDT)
 Received: from localhost.localdomain
  (181.red-88-10-103.dynamicip.rima-tde.net. [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id a81sm19165wmd.25.2020.06.08.09.02.39
+ by smtp.gmail.com with ESMTPSA id z16sm155794wrm.70.2020.06.08.09.02.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Jun 2020 09:02:40 -0700 (PDT)
+ Mon, 08 Jun 2020 09:02:47 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 20/35] hw/intc/i8259: Emit warning when old code is used
-Date: Mon,  8 Jun 2020 18:00:29 +0200
-Message-Id: <20200608160044.15531-21-philmd@redhat.com>
+Subject: [RFC PATCH 21/35] hw/lm32/lm32_hwsetup: Emit warning when old code is
+ used
+Date: Mon,  8 Jun 2020 18:00:30 +0200
+Message-Id: <20200608160044.15531-22-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200608160044.15531-1-philmd@redhat.com>
 References: <20200608160044.15531-1-philmd@redhat.com>
@@ -72,16 +73,17 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/08 11:58:00
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/08 05:40:56
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -123,30 +125,30 @@ This code hasn't been QOM'ified yet. Warn the user.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- hw/intc/i8259.c | 3 +++
+ hw/lm32/lm32_hwsetup.h | 3 +++
  1 file changed, 3 insertions(+)
 
-diff --git a/hw/intc/i8259.c b/hw/intc/i8259.c
-index 51b27f6a34..9d9609cdab 100644
---- a/hw/intc/i8259.c
-+++ b/hw/intc/i8259.c
-@@ -30,6 +30,7 @@
- #include "qemu/log.h"
- #include "hw/isa/i8259_internal.h"
- #include "trace.h"
+diff --git a/hw/lm32/lm32_hwsetup.h b/hw/lm32/lm32_hwsetup.h
+index de94de177a..f4a4d8fe4b 100644
+--- a/hw/lm32/lm32_hwsetup.h
++++ b/hw/lm32/lm32_hwsetup.h
+@@ -27,6 +27,7 @@
+ 
+ #include "qemu/cutils.h"
+ #include "hw/loader.h"
 +#include "hw/qdev-deprecated.h"
  
- /* debug PIC */
- //#define DEBUG_PIC
-@@ -414,6 +415,8 @@ qemu_irq *i8259_init(ISABus *bus, qemu_irq parent_irq)
-     ISADevice *isadev;
-     int i;
+ typedef struct {
+     void *data;
+@@ -57,6 +58,8 @@ static inline HWSetup *hwsetup_init(void)
+ {
+     HWSetup *hw;
  
 +    qdev_warn_deprecated_function_used();
 +
-     irq_set = g_new0(qemu_irq, ISA_NUM_IRQS);
- 
-     isadev = i8259_init_chip(TYPE_I8259, bus, true);
+     hw = g_malloc(sizeof(HWSetup));
+     hw->data = g_malloc0(TARGET_PAGE_SIZE);
+     hw->ptr = hw->data;
 -- 
 2.21.3
 
