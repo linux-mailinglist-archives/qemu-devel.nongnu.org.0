@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 474911F1398
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 09:31:32 +0200 (CEST)
-Received: from localhost ([::1]:50140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 407B21F13AD
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 09:39:13 +0200 (CEST)
+Received: from localhost ([::1]:56698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jiCFn-0003wK-5B
-	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 03:31:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37280)
+	id 1jiCNE-0007Sk-07
+	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 03:39:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1jiC9y-0001Uz-4l
- for qemu-devel@nongnu.org; Mon, 08 Jun 2020 03:25:30 -0400
-Received: from mout.web.de ([212.227.17.12]:58753)
+ id 1jiCAl-0002C0-JD
+ for qemu-devel@nongnu.org; Mon, 08 Jun 2020 03:26:19 -0400
+Received: from mout.web.de ([212.227.15.4]:47777)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1jiC9w-0006QL-TU
- for qemu-devel@nongnu.org; Mon, 08 Jun 2020 03:25:29 -0400
+ id 1jiCAk-0006ag-LN
+ for qemu-devel@nongnu.org; Mon, 08 Jun 2020 03:26:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1591601107;
- bh=D9UR3BEqMEtA6GhskuqAb6KVGXWmPDi1Fno7xKcfTHM=;
+ s=dbaedf251592; t=1591601159;
+ bh=EwrajnihFv4N0DOK9TBmwzGJXHWCuX4MLcIThrINQxk=;
  h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=jyrfNEZSHS+Bt9vGddabDa3OEg81vkPD5nsFQWNL1MJ1PpqNb/zqZhGm0JKvxL07Q
- Ez98xJW8swserBe1rtj8H38EAyfdWMXXCU59FGGbmseHaouKhGRzZnTpcW+SoOY5+n
- EO99iujdyGtnv0LmX9SkiLKKKIVQEZHDDDTpG9LQ=
+ b=fPe2flbnQtUDoU8FiHroBb18WAM4B0w6xkN1Z57hQG73JhHYBlx4efMGhpoAuZH2t
+ kW6eVVDBGj4P3FOu3SCcOs/L/u1o3/6IeuFSWu3HVCdTNmE6ombpxdlDYBROAB2aoA
+ RMiusDPPgj4srDlDsFD03Dxd9CNZpw7BrzvVO9Nk=
 X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from luklap ([88.130.61.119]) by smtp.web.de (mrweb102
- [213.165.67.124]) with ESMTPSA (Nemesis) id 0Maayz-1jO3lz47kf-00K78W; Mon, 08
- Jun 2020 09:25:07 +0200
-Date: Mon, 8 Jun 2020 09:24:49 +0200
+Received: from luklap ([88.130.61.119]) by smtp.web.de (mrweb005
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1MECGX-1jpahG0URZ-00AHrp; Mon, 08
+ Jun 2020 09:25:59 +0200
+Date: Mon, 8 Jun 2020 09:25:57 +0200
 From: Lukas Straub <lukasstraub2@web.de>
 To: Zhang Chen <chen.zhang@intel.com >
-Subject: Re: [PATCH V3 1/3] migration/colo: Optimize COLO boot code path
-Message-ID: <20200608092449.6425c1f2@luklap>
-In-Reply-To: <20200607194611.24763-2-chen.zhang@intel.com>
+Subject: Re: [PATCH V3 3/3] migration/migration.c: Remove
+ MIGRATION_STATUS_ACTIVE in migration_iteration_finish
+Message-ID: <20200608092557.1d19d03f@luklap>
+In-Reply-To: <20200607194611.24763-4-chen.zhang@intel.com>
 References: <20200607194611.24763-1-chen.zhang@intel.com>
- <20200607194611.24763-2-chen.zhang@intel.com>
+ <20200607194611.24763-4-chen.zhang@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/vSj+b3Gkmn1bLuLPWS8DX68";
+Content-Type: multipart/signed; boundary="Sig_/NmNl.9bgpQh1fXf8pchyXay";
  protocol="application/pgp-signature"; micalg=pgp-sha512
-X-Provags-ID: V03:K1:IhGz2iFyTWSOKiPNm5qTF2C+M8vme3ppAt4ZFVdUjTNd7T/iX46
- 9j7GVS9dMd3kxtZhOXeoNrdEp24EiJy9hfcerLD147XdoaZ+pZp0SRKNGR57NiJZYisyp32
- ltJB9PyQHOW+Yvv0btqfrDT57ewREW3a+T5Fwi26lO117PkaQRFQtq3IHONFV8eKgcJGkrf
- OF6mTG3qbP/h24pPXT8Zw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:M1IkBjH3ouQ=:ybEzsntmqiOGJG9Agcwq6y
- iQAuUri2807I0ErjLrD0jtaxkUA/pbiSRAiAEfNSXrTN2SLFgUaFjqLSgamIhtXSY1wF/TKOc
- /maP4umozQDBdLsQvAjyRX/XG/O4IONAttK0gYIb+ih682JX/vERL03G9cSV8z7nJAD4zDhO0
- nXufqvDx0blaUt/ZWgWJcM2dW4Vy4E3H15MC1TI4aJtSSy/mLLcpFDS9p4fboNkz2YvoZSiJV
- EEHN02FrkkcInUXHnCt7yN7oE/Gcc+ROhuAgyJOBTLEDs54cQegh9U7hZNaou4ZbLxT02/PoY
- Q3F1oU4QFWjLbPz7m3s3JFkNcRCHnYikU267zGl0sM70t4+ehuXMBlGEhqZAO5UTOnV/aMkdx
- Th1GhypTSlsUtgH+jEWbPwjOLkXnaov76rhy+rU045XE1hzwHvzkih3qxVPh55tkjztAEyxrk
- afkRzDaPrywydMxDWLWnFr/jYD/5e2rldI792b8pmGBGNKbOwTdco8Frg2WVYCbvRR/0K6pMC
- zFQjtUZ1txzhTUviFMfLzU8UNuibDQo3nXj5g1LpTQglc3QqHEIDyNzMBAUsHYe0TtY0bq/m+
- BhxzACPmwZjCBiBZD66b9BKK4oWCn5OVncIhgc1mBflKTSFw3M8Kwz7UsY72/yEx2pd6A3rQV
- itoxUTiaQ1yfHPYu8SQ6xkkMqqZAw0Nc72bl9NE4l0Tb5mF0xYWuOebKEiX8w6j2X6tMLf2XG
- sh8dTGK/t8QlAq7L2Ql2pYN6IZyrsrt3NEuU8bW++TpD30v/m4hZv4hfypFao6GzYqYrnmPff
- ffEmYlcA2FWNy2OfobSWz3kf3oMWj9t0Vjk/8K3hTO9ltNvpw+7I1nAcJ70iaoAVTyK30XBMj
- g1kCdrHRY6sesrPo6Dhrh+apSspCVxW8mtyDHsE4P1803WBN2L2LSh2EO8wVIT0Y5Rqgw3Ot9
- OCf34ZehesBw2VApjaYIfzF/HXvyAj+9ZXpV7Kv55gPvyxViX+1whFgfkLTS8jkLvdPaMEvPd
- Cxx/PG2v7jBVY+mEHiw6gs3oUXTVQIeHg19h9fhOehdKyIXFoNwEfsNIA/w2Vg4E1Ji/kGj4t
- pmrOJ79n8wUaRhBcKfy1IGlxsF3zdlL14NXq4lWw1eTf0lAg2qLA8sOSiqMASk1UnAXf42KTI
- s0U24N4W2igX6LaTOuWbWm31k7YisdZoWBwVnWnRMNJZpoXBb80fhBcrEcjI0U/RzD48ed7Ja
- QhdIllAjZn4TcLoB/
-Received-SPF: pass client-ip=212.227.17.12; envelope-from=lukasstraub2@web.de;
+X-Provags-ID: V03:K1:ANp45kc7WvbNtHJ/eb4uwyvbe1WEWonLGnL+LvOxrVHH/UxYA3B
+ KS0C5BxBpYaOB071ibel8hqpjLfswDhl+tSe++FOv7nOhPDUhJ4sFSnMOgAzRO8dDA+CA8G
+ 5HbMT0myiyyD+VJ+DD0rR3t/bY8iciwwin8WhIwPGDzxeGLpPuFmZ2SWdTCPuDxcvvRxDEm
+ SlfzsOn3ZDsuNJCkpPXSw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:QW4jf/b5fAI=:ylKYcwQblDuNdwD/MwFvEU
+ nCVg6TgfzG2ryj9NuD2YILbvOsEgPoJ2iQhkp67cS72gBYP7e+8ePQoPHCOQ/Wgagv+yMif8F
+ GrtkUkqp5rmxchczOgnGy/8F4LKvYVF1UamwEPWCerq49Ix3AE36qvlkg9Hkk3TWu+P/QatVk
+ U8ttSMoVX61Ll8doZzJ3QkOKRDOLNvOvVpwb7ziDTEiuF9v/PJDYzeZM/nyJV1/SuP9TSIF6T
+ Z2JSGMAISCHU4d5Ku0tGJTQ0hS21VQ60ffcEmkDT+zGTzl/4iweyn1zFZr298LRe200HMTek6
+ AYIFTYWP9Aqv48tEvkUojjg8VDNk6o+cJdA9CcABctZnEx+IiqFMqghSktMQs1PdfbB5Q6jCK
+ ifznvlEQ2DjarZFRgeTymhGarF4voHZQD8yO1CfLqsw2N4tm9feYAANbaHqKKN10asjv7Dilk
+ iSLF/5/PHPIWpMVgmyK4ayKjpLk9NnQ08+DMl7NemH7cQGHxIStfDB0wlO46wFNCZRF0a5AE0
+ jeyNuKPbP5seNptrD75F6vTcLWi5mFP7Ffc1G6xXLz+eKYcNVFgrJ7LpRKIEG+qZnvHgSrufs
+ fgiZtnZ8fuUseCAChLZQ+Va3nIFWgamwa/KuniWiNS+NUXSqyuAU2f94y3D7VFXe8obqcudor
+ Q8WBs6OF4J0+klpwCL1lCz831ZdqVqd4Gb0l2u3Vimkxg7ZnzXbzcmiC95fGRuB6Isf0/+WoQ
+ IS6YqFJ7vn9xT792GahSsqow9vfjHieGjb8RXgcrYtB1rUpKuoVWTuRocgbIsixMsNAdyaRa9
+ SM0MoHp8hNW4Vj14VJePjBNhLuA9aArr9FLSeziutfmD0w3fLiZjXraHvCFQQSQ1ggWPmhBbg
+ xuX3rwP+PWY0BUzu391kuBjUZY22sE5aOuP7WMgsU0xRix1cXGHSFQyAU1jXXuaTgHRAdn9BG
+ 9/mvRXIptIfN2Tkiuq8momjrNBc4ruC6yp8PbV3h086Qjo0/mqaSlbVm5GSB9aUO62BBPnOhx
+ iN62YtCBh6rV7tV6my1+W5M9Bqin31kQtitljdhrWezuJnA8WYwSsDwNG50REAenf4fO1tfIL
+ K6k/H9p4Heos2i+yEx4HcluVM1OOVILGOUNvm+CAkai7CVN5wV/YlDDN/hXnofJacV9TsuFXy
+ YJOpJ8ImyrSCEu+mrKWW5ZwXV1KZAYiVOEgn3vZ7PuV/n6PEKBbl/nn/tU93RjCWKp+EK1wgo
+ vBal10ah0fDBQmu4I
+Received-SPF: pass client-ip=212.227.15.4; envelope-from=lukasstraub2@web.de;
  helo=mout.web.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/08 03:25:25
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/08 03:26:17
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -24
 X-Spam_score: -2.5
@@ -95,19 +96,19 @@ Cc: Zhanghailiang <zhang.zhanghailiang@huawei.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/vSj+b3Gkmn1bLuLPWS8DX68
+--Sig_/NmNl.9bgpQh1fXf8pchyXay
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-On Mon,  8 Jun 2020 03:46:09 +0800
+On Mon,  8 Jun 2020 03:46:11 +0800
 Zhang Chen <chen.zhang@intel.com > wrote:
 
 > From: Zhang Chen <chen.zhang@intel.com>
 >=20
-> No need to reuse MIGRATION_STATUS_ACTIVE boot COLO.
+> MIGRATION_STATUS_ACTIVE is invalid here, handle it by default case.
 >=20
+> Suggested-by: Lukas Straub <lukasstraub2@web.de>
 > Signed-off-by: Zhang Chen <chen.zhang@intel.com>
-> Reviewed-by: zhanghailiang <zhang.zhanghailiang@huawei.com>
 > ---
 
 Looks good and works well in my tests.
@@ -117,26 +118,26 @@ Tested-by: Lukas Straub <lukasstraub2@web.de>
 Regards,
 Lukas Straub
 
---Sig_/vSj+b3Gkmn1bLuLPWS8DX68
+--Sig_/NmNl.9bgpQh1fXf8pchyXay
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl7d58EACgkQNasLKJxd
-sliwpBAAuLYeDtH3SAYT+cDwK1ZW9bI9eU7VCIjU8y7lcOhMZ0AWs5Crg9vU/J85
-w5mzIk7wcA7KKAM45cqDF0da7ATnMDjoEPQKWS7aFXRdDf3MvCpVRVMI2xKyAHOK
-FGCmua1jQOH4sbDA2jsdxr7ixxss6H/nqVznk9mBr8SLF59YetvVO+/PW60IsTaT
-ECgSvbjy5ZMCQ0i6ErECAef/91AJ19ccgD+F2eLcgc148skIkeYPpq1xDi3ypCjk
-XF2ijtcKvASRoYJmcH95Pqepr6MDLgWWCkX2T72WHe9nTIleM8jxOtvOD00dGM2j
-WqLe8fR9XwgeAz2tm/5VADR3Lt7vlpELD+1bfwxwMQq6uG4MQMpUAiaVWI5cZZFY
-jVKU4BSYuu1oBDFPd/5nZqbotYfe5f/VA3c5xblN+7AiKhLUTkJZGauw0+XmG3RA
-wRsOJ1Y4Rxz2dU67TibZyTZA0fja/vybdFGvW+LWhTeQZr3ccxbV2xrk4GzJRsVz
-X5vPObSaT3oo98L+/ZqopLR6krzE2J9Uz2KIw29B6GHTQoc6p1rxwZQ5pWmVx0E2
-I4rVt7KkXBe+cr8fgKyxZ7ZkBniy+QbnFwag49uoiFTe5QL41gzR5DNnSaPUP/LL
-AhHSUNf2fKImK8oZ0JGgcnTpaxcr6Fnl4rhx2cwLxJy9zv8Fx5M=
-=hV8C
+iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl7d6AUACgkQNasLKJxd
+sljyyBAAgOmuYxkDkpjuxJ+Ll1PAhJuu9YyTMZqKyRO0TfEUceFBghYS8M+g1FgL
+7aMPvcKcR/XbR7gRgvllMr2xEtxlZu7oseABhiEUln37DvGqjuahJRl2kDO2rBsR
+fH6eX/a1wl+PtNokgUYfiPsCHP+QiCPwJpGRTPjZ/yZMz4+VqT7lhNcqvDkjBS9T
+xpdUTwLVpG8ywspWeuqMX7C0EYqvv5DnVrqLj4c/aAObNztUm3BYoOSADXtwZUKR
+i3SixpKnOk1KLE53Kgnhaw4/4Hx20hNTwS5EzqhCCY65Kt8frWxmO96/N3BP283f
+GTmTcx9a4nWE8U3YcQ/2hEyyflT6g0mhrh4S8gIGAHyEtvKTevzzzi854zhw8MU7
+AMnVi3MfigMaCabNMXLP5ppoCGQQsmM7Rhq435iNRUC43t1PYgTNat0P2G4LF3XM
+ppBMFQznuC+VkQglaCzuQGiZrohIg2gEoHPJ7C1QpTI9om9iSqAkE/2/6IK1Qc07
+CwmBemKpCNTYng8zhSfRFb5F+RT+Fc4usF8lX3p4rux+fCAZxhM7zZnljs6ddBrP
+/NBtKk8JswSb4GVQhQ7pqZghSAuhPR8aINKT2keKH8pm9ba/75f/BNNmDrmudZY/
+vPmkihdcgfQDn4qMVdSrl80uhtS+SZlD3VxEprrbps9NLMvP+Lk=
+=k87J
 -----END PGP SIGNATURE-----
 
---Sig_/vSj+b3Gkmn1bLuLPWS8DX68--
+--Sig_/NmNl.9bgpQh1fXf8pchyXay--
 
