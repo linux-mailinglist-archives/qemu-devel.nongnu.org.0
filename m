@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB0BB1F1E4D
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 19:24:30 +0200 (CEST)
-Received: from localhost ([::1]:52510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6DC31F1E4B
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 19:23:12 +0200 (CEST)
+Received: from localhost ([::1]:48228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jiLVd-0006Ml-V0
-	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 13:24:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49640)
+	id 1jiLUN-0004cd-R1
+	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 13:23:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49630)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jiLT7-0003nN-69
- for qemu-devel@nongnu.org; Mon, 08 Jun 2020 13:21:53 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:35062)
+ id 1jiLT5-0003lI-BB
+ for qemu-devel@nongnu.org; Mon, 08 Jun 2020 13:21:51 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:36722)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jiLT6-0005tb-Hg
- for qemu-devel@nongnu.org; Mon, 08 Jun 2020 13:21:52 -0400
-Received: by mail-wm1-x341.google.com with SMTP id q25so334642wmj.0
- for <qemu-devel@nongnu.org>; Mon, 08 Jun 2020 10:21:52 -0700 (PDT)
+ id 1jiLT4-0005rx-N1
+ for qemu-devel@nongnu.org; Mon, 08 Jun 2020 13:21:51 -0400
+Received: by mail-wm1-x341.google.com with SMTP id d128so327396wmc.1
+ for <qemu-devel@nongnu.org>; Mon, 08 Jun 2020 10:21:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ZfSjGus2sNx7q9JWi00W5AqjcdebVWjFBicMmlBzMgU=;
- b=d8E2hshr7l6Gmm891uDwew8CbNJdtDF4aECgFfOK5tpc+b4Yec3UEYKf0Mv9/jmzjQ
- eyINXz5sm0p/AaFLvViKgxSmFV4CNWzPUYRTZZ+XCe0q5SBAO0kvyU+CeZnjR/TdUTh3
- pK81YLIaEVMHBUGnsk3/5i69vb4Q09NAhq1ZUYTGZo8z2ns0cejea5gk7FdI51dTeO7w
- 2wQbSL0ldlotP08ei48Yf2uOYbgQeaH+eT4kI6YlkY53d+maiERYMEjwlovQjaKhTgtN
- leWCsY6z1YMqw4uFkjTJGbBRD4BtwEfdPHxayFwSJouM5UNJGhSZwKT7szqJh1SYhHTu
- nA0g==
+ bh=l3OsN3VBIWH0n5zIcjstWrd5n5XCWgTvFGwOC1jVbxI=;
+ b=cM0cBZBjzBaa73hwBeCtp7gFI4WxRVUI0ZKU/z8cDwsJRQDqZuU4FqUp6pXsUFpIZi
+ hLuFIiPKWBMmT0sLZAxIVQm+GfX/+TdvMsNNdTASl2U8BwrpBbqmJH1kJzmU3oU5KBiz
+ QB5DOoxwx5ziKZuHq1hqBwEIwZE9AGnb24QNEfmjhBYLyNgGBpaJ41tILSQfTRKQT5nb
+ FH8ikkBXlcry+QXWdWqE8oJmhgrd2Z7B5zg2aMcxre/9AruZxahtRowKex3t5s96/wbv
+ PE3zOg4xv8N1Q7WRJm71bkQ/MF2Ici+XSpp4pzZDR61fGR3iPCmXdaewJgjb1jXj0hIu
+ wssA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=ZfSjGus2sNx7q9JWi00W5AqjcdebVWjFBicMmlBzMgU=;
- b=sBQ6TQBjyU9NQnyUAv1LjijpAKeyaFcflfuuC14RpCrM0AhtvU9Tk/ds+akKOvcTL5
- bH9jA216Ql6ExGQCYTQ8/29Prz0rXT+8AivfjYyx6WhEjizsZs8fS0JvGtWn3DCm0EvG
- aBP8nQQf8MfFqgKYgZJb8+t+hW/mjaNve3SAKQjk11B+kRAAipMgmUS22swNbxKW/IK0
- 3gjmnjzLvFqvduRm1E2sI09w6D5Vy/05NogfEs5pKrD+lNBmnB7YoboN8cuKZo3W9KHj
- bA9HQdp+MzSa6LgrupWpFj7cBVchPHqGzn0X0tz6oaqAyebRBxFL6+xfKHiMSDXQ/TVo
- +n9Q==
-X-Gm-Message-State: AOAM532vPzsruJHJddHmDhMM/P2zw4RCY4F6bnSW/x9oqsByhU4FM/Sr
- xdFwOExgN7HhurLHpqaFdO8z37qm
-X-Google-Smtp-Source: ABdhPJwCjn2PG0SRz6eKF7xkT+Tz7hofdr+a2BpMIu+qj1MOak7ZV4drCMqFhd+UZYNlHollI0xRgQ==
-X-Received: by 2002:a05:600c:22c9:: with SMTP id 9mr411877wmg.68.1591636908008; 
- Mon, 08 Jun 2020 10:21:48 -0700 (PDT)
+ bh=l3OsN3VBIWH0n5zIcjstWrd5n5XCWgTvFGwOC1jVbxI=;
+ b=jffyhJH6Fg413ne7QlwQKxTH9i2pBZxWBuxUo3k+PvpGfs33vIkhIALeN67ko+uqRS
+ rKhK+XyD229w3NdZ48S13IfyvuA5Zzhr9zzf7q7H0ByrxlpzDBhHktliktelybbmmOQT
+ 1dDEtGnlh3+2XhUI5D6Eh72kHsYB/dOA2HyXJzWMM7kDaoSua449xgNRuBtMJTQ6uoyU
+ UlRWDGD3nMiZrx7cX0PLiqR2GXmZGW6+eCxTYhJ7lvu1xm2NQ5wn0vlNvztmMiUoRTYS
+ rcicC1oLZAR/37gANal4yBCuifZbu9UGxNecrcxxqTbi4Dw+VOfXPvFSdSKC2vTlTywA
+ VtDw==
+X-Gm-Message-State: AOAM531wQ9GXOhB/p47rrpVimmlYTF+gaWKFyK13CnT3SyuOvDhen8Gr
+ nZX04qeiLSABVDBPDSJ6FLHPur3Y
+X-Google-Smtp-Source: ABdhPJz1NLE8O+1HvA3RNz5C/WFFasAzKCC2DwHb0Tf8wFweN0EA6nA+SELXg25Y+gCpgDGrQO4ECA==
+X-Received: by 2002:a1c:dd44:: with SMTP id u65mr383461wmg.180.1591636909084; 
+ Mon, 08 Jun 2020 10:21:49 -0700 (PDT)
 Received: from localhost.localdomain
  (181.red-88-10-103.dynamicip.rima-tde.net. [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id n23sm223618wmc.0.2020.06.08.10.21.47
+ by smtp.gmail.com with ESMTPSA id n23sm223618wmc.0.2020.06.08.10.21.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Jun 2020 10:21:47 -0700 (PDT)
+ Mon, 08 Jun 2020 10:21:48 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/3] hw/sparc64/niagara: Remove duplicated NIAGARA_UART_BASE
- definition
-Date: Mon,  8 Jun 2020 19:21:43 +0200
-Message-Id: <20200608172144.20461-3-f4bug@amsat.org>
+Subject: [PATCH 3/3] hw/sparc64/niagara: Map the UART device unconditionally
+Date: Mon,  8 Jun 2020 19:21:44 +0200
+Message-Id: <20200608172144.20461-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200608172144.20461-1-f4bug@amsat.org>
 References: <20200608172144.20461-1-f4bug@amsat.org>
@@ -96,25 +95,31 @@ Cc: KONRAD Frederic <frederic.konrad@adacore.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-NIAGARA_UART_BASE is already defined few lines earlier.
+The UART is present on the machine regardless there is a
+character device connected to it. Map it unconditionally.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/sparc64/niagara.c | 1 -
- 1 file changed, 1 deletion(-)
+ hw/sparc64/niagara.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
 diff --git a/hw/sparc64/niagara.c b/hw/sparc64/niagara.c
-index ab5ef8c5b3..201fb05d50 100644
+index 201fb05d50..a87d55f6bb 100644
 --- a/hw/sparc64/niagara.c
 +++ b/hw/sparc64/niagara.c
-@@ -68,7 +68,6 @@ typedef struct NiagaraBoardState {
- 
- #define NIAGARA_VDISK_BASE  0x1f40000000ULL
- #define NIAGARA_RTC_BASE    0xfff0c1fff8ULL
--#define NIAGARA_UART_BASE   0x1f10000000ULL
- 
- /* Firmware layout
-  *
+@@ -151,10 +151,8 @@ static void niagara_init(MachineState *machine)
+             exit(1);
+         }
+     }
+-    if (serial_hd(0)) {
+-        serial_mm_init(sysmem, NIAGARA_UART_BASE, 0, NULL, 115200,
+-                       serial_hd(0), DEVICE_BIG_ENDIAN);
+-    }
++    serial_mm_init(sysmem, NIAGARA_UART_BASE, 0, NULL,
++                   115200, serial_hd(0), DEVICE_BIG_ENDIAN);
+     create_unimplemented_device("sun4v-iob", NIAGARA_IOBBASE, NIAGARA_IOBSIZE);
+     sun4v_rtc_init(NIAGARA_RTC_BASE);
+ }
 -- 
 2.21.3
 
