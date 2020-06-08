@@ -2,63 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BDEA1F1808
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 13:42:59 +0200 (CEST)
-Received: from localhost ([::1]:34788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CD721F1815
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 13:45:41 +0200 (CEST)
+Received: from localhost ([::1]:42490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jiGB6-0001sb-Mv
-	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 07:42:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33584)
+	id 1jiGDk-00058K-7a
+	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 07:45:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jiG9C-0000AK-Sv
- for qemu-devel@nongnu.org; Mon, 08 Jun 2020 07:40:58 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:30264
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jiG9B-0003jy-7n
- for qemu-devel@nongnu.org; Mon, 08 Jun 2020 07:40:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591616455;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type;
- bh=DyzvOCPihzQYQjCuD5MQ7+V/b+JSPZS8On1IUN+oCtQ=;
- b=HWJ17nelFff1cAjkgLt2QEhTp630OqgfNGd49z3ey0HwxSgRsfZeCKvHopmD1nKL2qmnt7
- LIY8OyTq9dntA2Avbr3DMEqZx8Hqk3qXfPZrkQqtSQi8Yzqu/Eewov7k3F+R69hensT3Zz
- MPB/QOdt5lNhJsMZevSY+irUbFkNMgQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-384-6dEjBNi_NEix6U6JezszMQ-1; Mon, 08 Jun 2020 07:40:54 -0400
-X-MC-Unique: 6dEjBNi_NEix6U6JezszMQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 32583801504;
- Mon,  8 Jun 2020 11:40:53 +0000 (UTC)
-Received: from thuth.com (ovpn-112-119.ams2.redhat.com [10.36.112.119])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 88BE610013D4;
- Mon,  8 Jun 2020 11:40:51 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Subject: [PATCH] travis.yml: Test also the other targets on s390x
-Date: Mon,  8 Jun 2020 13:40:49 +0200
-Message-Id: <20200608114049.4693-1-thuth@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=thuth@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/08 01:05:50
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1jiGCi-0004hd-5M
+ for qemu-devel@nongnu.org; Mon, 08 Jun 2020 07:44:36 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:44788
+ helo=mail.default.ilande.uk0.bigv.io)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1jiGCg-00048b-Ir
+ for qemu-devel@nongnu.org; Mon, 08 Jun 2020 07:44:35 -0400
+Received: from host109-147-121-67.range109-147.btcentralplus.com
+ ([109.147.121.67] helo=[192.168.1.65])
+ by mail.default.ilande.uk0.bigv.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1jiGCk-0004tX-L9; Mon, 08 Jun 2020 12:44:38 +0100
+To: Markus Armbruster <armbru@redhat.com>
+References: <20200528110444.20456-1-armbru@redhat.com>
+ <874krlvmqa.fsf@dusky.pond.sub.org>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
+ mQENBFQJuzwBCADAYvxrwUh1p/PvUlNFwKosVtVHHplgWi5p29t58QlOUkceZG0DBYSNqk93
+ 3JzBTbtd4JfFcSupo6MNNOrCzdCbCjZ64ik8ycaUOSzK2tKbeQLEXzXoaDL1Y7vuVO7nL9bG
+ E5Ru3wkhCFc7SkoypIoAUqz8EtiB6T89/D9TDEyjdXUacc53R5gu8wEWiMg5MQQuGwzbQy9n
+ PFI+mXC7AaEUqBVc2lBQVpAYXkN0EyqNNT12UfDLdxaxaFpUAE2pCa2LTyo5vn5hEW+i3VdN
+ PkmjyPvL6DdY03fvC01PyY8zaw+UI94QqjlrDisHpUH40IUPpC/NB0LwzL2aQOMkzT2NABEB
+ AAG0ME1hcmsgQ2F2ZS1BeWxhbmQgPG1hcmsuY2F2ZS1heWxhbmRAaWxhbmRlLmNvLnVrPokB
+ OAQTAQIAIgUCVAm7PAIbAwYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQW8LFb64PMh9f
+ NAgAuc3ObOEY8NbZko72AGrg2tWKdybcMVITxmcor4hb9155o/OWcA4IDbeATR6cfiDL/oxU
+ mcmtXVgPqOwtW3NYAKr5g/FrZZ3uluQ2mtNYAyTFeALy8YF7N3yhs7LOcpbFP7tEbkSzoXNG
+ z8iYMiYtKwttt40WaheWuRs0ZOLbs6yoczZBDhna3Nj0LA3GpeJKlaV03O4umjKJgACP1c/q
+ T2Pkg+FCBHHFP454+waqojHp4OCBo6HyK+8I4wJRa9Z0EFqXIu8lTDYoggeX0Xd6bWeCFHK3
+ DhD0/Xi/kegSW33unsp8oVcM4kcFxTkpBgj39dB4KwAUznhTJR0zUHf63LkBDQRUCbs8AQgA
+ y7kyevA4bpetM/EjtuqQX4U05MBhEz/2SFkX6IaGtTG2NNw5wbcAfhOIuNNBYbw6ExuaJ3um
+ 2uLseHnudmvN4VSJ5Hfbd8rhqoMmmO71szgT/ZD9MEe2KHzBdmhmhxJdp+zQNivy215j6H27
+ 14mbC2dia7ktwP1rxPIX1OOfQwPuqlkmYPuVwZP19S4EYnCELOrnJ0m56tZLn5Zj+1jZX9Co
+ YbNLMa28qsktYJ4oU4jtn6V79H+/zpERZAHmH40IRXdR3hA+Ye7iC/ZpWzT2VSDlPbGY9Yja
+ Sp7w2347L5G+LLbAfaVoejHlfy/msPeehUcuKjAdBLoEhSPYzzdvEQARAQABiQEfBBgBAgAJ
+ BQJUCbs8AhsMAAoJEFvCxW+uDzIfabYIAJXmBepHJpvCPiMNEQJNJ2ZSzSjhic84LTMWMbJ+
+ opQgr5cb8SPQyyb508fc8b4uD8ejlF/cdbbBNktp3BXsHlO5BrmcABgxSP8HYYNsX0n9kERv
+ NMToU0oiBuAaX7O/0K9+BW+3+PGMwiu5ml0cwDqljxfVN0dUBZnQ8kZpLsY+WDrIHmQWjtH+
+ Ir6VauZs5Gp25XLrL6bh/SL8aK0BX6y79m5nhfKI1/6qtzHAjtMAjqy8ChPvOqVVVqmGUzFg
+ KPsrrIoklWcYHXPyMLj9afispPVR8e0tMKvxzFBWzrWX1mzljbBlnV2n8BIwVXWNbgwpHSsj
+ imgcU9TTGC5qd9g=
+Message-ID: <3162851c-cdac-20ab-2688-b28bd90089d4@ilande.co.uk>
+Date: Mon, 8 Jun 2020 12:44:30 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
+MIME-Version: 1.0
+In-Reply-To: <874krlvmqa.fsf@dusky.pond.sub.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 109.147.121.67
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH v2 00/24] Fixes around device realization
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.uk0.bigv.io
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -72,72 +90,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, qemu-s390x@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, berrange@redhat.com,
+ ehabkost@redhat.com, qemu-devel@nongnu.org, pbonzini@redhat.com,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-s390x is our only big endian host in our CI, so building and testing QEMU
-there is quite valuable. Thus let's also test the other targets with
-additional jobs (also using different sets of pre-installed libraries to
-get a better coverage of the things that we test).
+On 08/06/2020 12:08, Markus Armbruster wrote:
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- .travis.yml | 39 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 39 insertions(+)
+> Markus Armbruster <armbru@redhat.com> writes:
+> 
+>> This fixes a bunch of bugs I ran into while reworking how qdevs plug
+>> into buses.
+>>
+>> I instrumented the code a bit to flush out instances of bug patterns.
+>> I posted these hacks separately as '[PATCH not-for-merge 0/5]
+>> Instrumentation for "Fixes around device realization"'.  PATCH 2/5
+>> since became "[PATCH 0/2] qom: Make "info qom-tree" show children
+>> sorted".  It should be applied first.
+>>
+>> v2:
+>> * Rebased
+>> * PATCH 01: Also fix MMIO addresses, with Alistair's help
+>> * PATCH 04+05: Replaced by better patches from Cédric
+>> * PATCH 01-03+06+08-11+18: Commit messages improved [Peter, Paolo]
+>> * PATCH 08+09+18: Avoid qdev_init_nofail() [Peter]
+>> * PATCH 22: Assertion simplified
+>>
+>> Based-on: Message-Id: <20200527084754.7531-1-armbru@redhat.com>
+> 
+> Peter, you commented on v1 of PATCH 06 and 09.  Please review v2.
+> 
+> Mark, you commented on v1 of PATCH 10.  Please review v2.
+> 
+> PATCH 18 needs review.  Philippe, perhaps?
 
-diff --git a/.travis.yml b/.travis.yml
-index 564be50a3c..41e97fb050 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -504,6 +504,45 @@ jobs:
-               $(exit $BUILD_RC);
-           fi
- 
-+    - name: "[s390x] GCC (other-softmmu)"
-+      arch: s390x
-+      dist: bionic
-+      addons:
-+        apt_packages:
-+          - libaio-dev
-+          - libattr1-dev
-+          - libcap-ng-dev
-+          - libgnutls28-dev
-+          - libiscsi-dev
-+          - liblttng-ust-dev
-+          - liblzo2-dev
-+          - libncurses-dev
-+          - libnfs-dev
-+          - libnss3-dev
-+          - libpixman-1-dev
-+          - libsdl2-dev
-+          - libsdl2-image-dev
-+          - libseccomp-dev
-+          - libsnappy-dev
-+          - libzstd-dev
-+          - nettle-dev
-+          - xfslibs-dev
-+          # Tests dependencies
-+          - genisoimage
-+      env:
-+        - CONFIG="--disable-containers --audio-drv-list=sdl --disable-user
-+                  --target-list-exclude=${MAIN_SOFTMMU_TARGETS}"
-+
-+    - name: "[s390x] GCC (user)"
-+      arch: s390x
-+      dist: bionic
-+      addons:
-+        apt_packages:
-+          - libgcrypt20-dev
-+          - libgnutls28-dev
-+      env:
-+        - CONFIG="--disable-containers --disable-system"
-+
-     - name: "[s390x] Clang (disable-tcg)"
-       arch: s390x
-       dist: bionic
--- 
-2.18.1
+Will do. It has been sat on my TODO list for a while, so I'll quickly have a look now.
 
+
+ATB,
+
+Mark.
 
