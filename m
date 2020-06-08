@@ -2,84 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 944D51F1726
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 13:01:42 +0200 (CEST)
-Received: from localhost ([::1]:54444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E3D81F1746
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 13:11:05 +0200 (CEST)
+Received: from localhost ([::1]:34680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jiFXB-0001Gu-CM
-	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 07:01:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57992)
+	id 1jiFgG-0005Mx-8V
+	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 07:11:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59018)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jiFVV-0000oM-Oo
- for qemu-devel@nongnu.org; Mon, 08 Jun 2020 06:59:57 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:24167
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jiFds-0002u0-EG
+ for qemu-devel@nongnu.org; Mon, 08 Jun 2020 07:08:36 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:21490
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jiFVV-0005pP-2n
- for qemu-devel@nongnu.org; Mon, 08 Jun 2020 06:59:57 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jiFdr-00070v-CY
+ for qemu-devel@nongnu.org; Mon, 08 Jun 2020 07:08:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591613995;
+ s=mimecast20190719; t=1591614514;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pRjrP0qzXMKFZl/S3aoIMD0vNRgGdXVCiZ6uxB8HkPw=;
- b=In8R++WwDnHEv9ppCrKKFLhnaOnU4m4fQgC3BReJL6j4uvdDAwkEkmazfyIezlEnPw7loj
- vTo0/00UACuwYRGWcf4bzB7bFxSI7twTJNuIDkHCFPY7saa0UCSaDOTQq2lim71sMur+OZ
- L6aqOEHHw2tVEYzbArRzr3SrTgTlVDs=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-2-T-2TAMzbMdysLIwuTGdKFA-1; Mon, 08 Jun 2020 06:59:54 -0400
-X-MC-Unique: T-2TAMzbMdysLIwuTGdKFA-1
-Received: by mail-wm1-f69.google.com with SMTP id p24so5120639wmc.1
- for <qemu-devel@nongnu.org>; Mon, 08 Jun 2020 03:59:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=pRjrP0qzXMKFZl/S3aoIMD0vNRgGdXVCiZ6uxB8HkPw=;
- b=oR3PawbI5IPzzN3xzLUn7mMwOzzKF0ZdgOayDKY2ZoWrHFDs1gsOobitev3PEE0/Ek
- JYc3jwZZfqFWg14xiF6wvjN/Yvd9EQv+HL8TYBO2njfBXWOEoS/wqI2o2T7eRU8ybPKS
- RqocDB4ZC+e1QEinhwMGBOclZODKQieGf++dgHXa9VUmDlMC4h7zCAQLbKERSkNdxN3X
- kym11tNsOp0uwd0mEtlMgUWA3vS4QNwdmQT9+VF10G65QopGzGjxCKdzwQoiEIrb/rCr
- mIRqWXXa+lLgOCPuOmDxpIz3cTL5TqrwujMymAp6mcnVymWeGgv2hFtcPCFPHE9Ksz1y
- hm3A==
-X-Gm-Message-State: AOAM532KBqdSsaJkcRwk/KFTxLQ/fZfsO3yzJ31kwl+ArqVSak2r3rda
- 7m8FcNskLTB7+KmUvjYLdD7P8hlRyGnVWSCSu684uRJDyKwF4somvK/TcIUYTADrziGV6IzsddB
- Btzgc3hYdS/+eOiw=
-X-Received: by 2002:adf:a350:: with SMTP id d16mr23708092wrb.237.1591613993094; 
- Mon, 08 Jun 2020 03:59:53 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyM7kuWFBkElNiu0kfqrAHdL+Unn1lvZYzSJp90BZaqoX17NojaGsXhYTnCzZEnVgLbTp9ayw==
-X-Received: by 2002:adf:a350:: with SMTP id d16mr23708072wrb.237.1591613992911; 
- Mon, 08 Jun 2020 03:59:52 -0700 (PDT)
-Received: from [192.168.178.58] ([151.30.87.23])
- by smtp.gmail.com with ESMTPSA id t188sm17837981wmt.27.2020.06.08.03.59.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 08 Jun 2020 03:59:52 -0700 (PDT)
-Subject: Re: [PATCH 00/55] qdev: Rework how we plug into the parent bus
+ bh=V7BpHoyI4HIE89IDMGhQo0ViZPrIctgET3NjdFf3t94=;
+ b=U8yMwzvrGNqwYZ7s3xd+dK4ZSYUc0NoAOP8I8tLnEK+paj2r0z3ZnHI4tvZm26cLM+zu91
+ cIiDOX6u0+NANw7knOmDXX4GCChU5I/fiwtI9Rge4en+kBaGsUjuEwkxO08J+A5f6pmUR6
+ evFjzcnkvOOl6Y5ya2ce86vFeXAcORg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-387-gCuBQhHTO_2aAFo1lOEzaA-1; Mon, 08 Jun 2020 07:08:32 -0400
+X-MC-Unique: gCuBQhHTO_2aAFo1lOEzaA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D2F81461;
+ Mon,  8 Jun 2020 11:08:30 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-121.ams2.redhat.com
+ [10.36.112.121])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7A78A5D9C9;
+ Mon,  8 Jun 2020 11:08:30 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 09DF611386A6; Mon,  8 Jun 2020 13:08:29 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>
-References: <20200519145551.22836-1-armbru@redhat.com>
- <5f7c749a-ccbe-5ff6-3889-696d5de05fc0@redhat.com>
- <878sgxvn9q.fsf@dusky.pond.sub.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <8393f947-6573-cfce-4f63-9c027ab7ff04@redhat.com>
-Date: Mon, 8 Jun 2020 12:59:51 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+Subject: Re: [PATCH v2 00/24] Fixes around device realization
+References: <20200528110444.20456-1-armbru@redhat.com>
+Date: Mon, 08 Jun 2020 13:08:29 +0200
+In-Reply-To: <20200528110444.20456-1-armbru@redhat.com> (Markus Armbruster's
+ message of "Thu, 28 May 2020 13:04:20 +0200")
+Message-ID: <874krlvmqa.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <878sgxvn9q.fsf@dusky.pond.sub.org>
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/08 01:05:50
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/08 05:40:44
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -100,22 +82,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, ehabkost@redhat.com,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Alistair Francis <alistair@alistair23.me>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>, David Gibson <david@gibson.dropbear.id.au>
+Cc: Peter Maydell <peter.maydell@linaro.org>, berrange@redhat.com,
+ ehabkost@redhat.com, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ qemu-devel@nongnu.org, pbonzini@redhat.com,
+ =?utf-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 08/06/20 12:56, Markus Armbruster wrote:
->> Great stuff, I only had some comments on the commit messages.  I still
->> have to review patches 47 and 48 more corefully.
-> Does this translate into any Reviewed-bys?  On v2, maybe?
-> 
+Markus Armbruster <armbru@redhat.com> writes:
 
-Yes, please add my Reviewed-by on v2.
+> This fixes a bunch of bugs I ran into while reworking how qdevs plug
+> into buses.
+>
+> I instrumented the code a bit to flush out instances of bug patterns.
+> I posted these hacks separately as '[PATCH not-for-merge 0/5]
+> Instrumentation for "Fixes around device realization"'.  PATCH 2/5
+> since became "[PATCH 0/2] qom: Make "info qom-tree" show children
+> sorted".  It should be applied first.
+>
+> v2:
+> * Rebased
+> * PATCH 01: Also fix MMIO addresses, with Alistair's help
+> * PATCH 04+05: Replaced by better patches from C=C3=A9dric
+> * PATCH 01-03+06+08-11+18: Commit messages improved [Peter, Paolo]
+> * PATCH 08+09+18: Avoid qdev_init_nofail() [Peter]
+> * PATCH 22: Assertion simplified
+>
+> Based-on: Message-Id: <20200527084754.7531-1-armbru@redhat.com>
 
-Paolo
+Peter, you commented on v1 of PATCH 06 and 09.  Please review v2.
+
+Mark, you commented on v1 of PATCH 10.  Please review v2.
+
+PATCH 18 needs review.  Philippe, perhaps?
 
 
