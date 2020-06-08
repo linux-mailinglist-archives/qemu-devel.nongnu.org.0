@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B49C01F1DBE
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 18:49:15 +0200 (CEST)
-Received: from localhost ([::1]:38480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A40E1F1DC6
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jun 2020 18:51:24 +0200 (CEST)
+Received: from localhost ([::1]:45232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jiKxW-00088f-KM
-	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 12:49:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43544)
+	id 1jiKzb-0002gP-Ei
+	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 12:51:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Filip.Bozuta@syrmia.com>)
- id 1jiKsn-00036z-0d
- for qemu-devel@nongnu.org; Mon, 08 Jun 2020 12:44:21 -0400
+ id 1jiKss-0003JU-F2
+ for qemu-devel@nongnu.org; Mon, 08 Jun 2020 12:44:26 -0400
 Received: from mail-eopbgr80091.outbound.protection.outlook.com
  ([40.107.8.91]:62103 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Filip.Bozuta@syrmia.com>)
- id 1jiKsl-0007Fd-9s
- for qemu-devel@nongnu.org; Mon, 08 Jun 2020 12:44:20 -0400
+ id 1jiKsn-0007Fd-57
+ for qemu-devel@nongnu.org; Mon, 08 Jun 2020 12:44:26 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bXM8pHz+0rYtJYDberp6+2wOSFETHsvR0bA+eGeTY4vcZpn6Sqb/4Vp7lZI3g5VeSY4OBfMArMjoRzj5MAOPQZPKS0bumU4KxuJPrp5HJW5TXDEx1WCO/36zCHr4tsYKuQN0po8XJwtVUIyychljDfYrTtNLYSMrTwvI6a3OqcnTzEGLGZBESv0zMLmceaJUTSjP7DyoiL9cm7TMEW0f5JUk07nfGJ307zaIrwyyhZtscBdaPe36Vn0IsQ51yNIj16s8J196DZocbDoJzCYfe7tEe51a6C3ZCnnGXIJtWQ5RAh5kY3Z9rEVGzXcQgKWnYaVNOY2EmC1p0DZt1B0yNA==
+ b=W/NgMz2nayRRtm3EwdDjtu7TADdIO8rmRaMRp9FIYeQQgsY2hgJkPrlGBw+gLn3Fubcb66Y9xledkMDAUewGRQ16/H9iRh49j8BUMyPcULIB6mUbES5WxrT57A8jwsOrsPkBuE7Vh6WZTycgXrP6r5sM1EPvWRuuhhupkCdnhw0+Bm0dgh4IWqvmnGgIxCBC2MDP6tyHBEZ2U5E/J2LDKP+Obqa9Ff+V3VOHq5EUOf/M/TqhO0S1L3ara/PEMa5Xtu8HccckYRJR/0yAOT8j+LSbhdhTg/K0lkLy0GrbaIh9DTFnnV5E81FxCGpgO6D5je22E4B+vSMrHHhjyD1X+g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6bJUNo3V/2/CnSclCnsosB4WCMATua32ydXnuSKw9Es=;
- b=USJXMAhfRrAMET3VTb4V11qEraV4+e4nCGUbYEmC3o6pxtdaTQhxi1UqsStKZHkvX6EZ7/dDSryEj29r+04GbDgAmiGRlnOxKd4X23zNyuZxe/t1EPIl6HCX1C9yP7BxWs3fup1NDwmTIfM0D1mdMqatF7Lvf9b6rjldYZYeEWCCU0iyb77b1OD/v3qnVO62fMe98SZAv5SCo+z8Co+AwraBOpTRxUUtLbZxAONBXMuALMJ+59/Ko5DW5NjhzTQxhO80mbEOLA1bucDK0sw0b55yCfC0rIbHGUtBV28pR06UF60qCfNYYopZLPoiPIC2SBHdWnCRb+7NpX08GFFAdw==
+ bh=ZcVTZUvvqIqsP7TudJ8lNe6q8zY42kdYNe2MTpViLIA=;
+ b=hBtR4qgr/RpL0R43UdUxe3pot9+M1HPhzsVmQ86Y0YY88kUT+wdYpbsFlG40ng+hk3qf6kytNp5Yc1V0qRsgRFHLfZTZ4PVhJsUB6jIPv4yggWWqFU35ID5WeeBz/yTIS6thOKnVDQqJZZlZva5omYDDjYs8bwRhQ0qKAFsv8tsBdoq6XdU4CI5th/LMEgeuC/N+jeiV3bZXZogpIGBQSTQJCHjrh9mlAK2MvBHchPkabGyW4dRJjEKh/+7jVrd4yGoj/5Ih2aQA5mDEElOPTYQ+qOlEvyjG2qR31uXU+IS2sLwU4fz8yzxQ0QIOwfGfuuVRpjRJKGAWU2aSjiSlkQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=syrmia.com; dmarc=pass action=none header.from=syrmia.com;
  dkim=pass header.d=syrmia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=syrmia.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6bJUNo3V/2/CnSclCnsosB4WCMATua32ydXnuSKw9Es=;
- b=KlZVmVrhnMLoesvM0dAgmoEWioKa+a1G2M2G/NRrvr6fx7m8NdM+QPtAMfJzIhTbii7aQ3YBB4my14tmxkVpCwdEv/F1DvXznmvOJwi7jF8gnVsIxTJLxX9b0dRrSULVr8jgVjQL7pl6+3eCi82d1Rqo17bFfg6AOgU1Jp2I8Tk=
+ bh=ZcVTZUvvqIqsP7TudJ8lNe6q8zY42kdYNe2MTpViLIA=;
+ b=LvVAaFoxZCBDgs0Rt00c0N6nlvKuilnn8eBZkX3rzjDGYF7HeljVqAbvIsgN1Fb6y60eHR7pVupiqhBud76T5Cn+fmLucEwf2FQKcBQz2Q5IVu08XHQEMsBgSpAMDwheyFk/c3uXvW88HKJGILSZOWW+xpjhk5nva/lgPQaoJjA=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=syrmia.com;
 Received: from AM6PR03MB5233.eurprd03.prod.outlook.com (2603:10a6:20b:d1::19)
@@ -48,10 +48,9 @@ Received: from AM6PR03MB5233.eurprd03.prod.outlook.com
  16:44:11 +0000
 From: Filip Bozuta <filip.bozuta@syrmia.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/6] linux-user: Extend strace support to enable argument
- printing after syscall execution
-Date: Mon,  8 Jun 2020 18:43:52 +0200
-Message-Id: <20200608164357.25065-2-filip.bozuta@syrmia.com>
+Subject: [PATCH v2 2/6] linux-user: Add strace support for a group of syscalls
+Date: Mon,  8 Jun 2020 18:43:53 +0200
+Message-Id: <20200608164357.25065-3-filip.bozuta@syrmia.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200608164357.25065-1-filip.bozuta@syrmia.com>
 References: <20200608164357.25065-1-filip.bozuta@syrmia.com>
@@ -64,31 +63,31 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from bozuta-ubuntu-18.syrmia.com (46.240.135.226) by
  ZR0P278CA0016.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:16::26) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3066.18 via Frontend Transport; Mon, 8 Jun 2020 16:44:10 +0000
+ 15.20.3066.18 via Frontend Transport; Mon, 8 Jun 2020 16:44:11 +0000
 X-Mailer: git-send-email 2.17.1
 X-Originating-IP: [46.240.135.226]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 3ae5f8b6-8195-43f2-0191-08d80bcb2b60
+X-MS-Office365-Filtering-Correlation-Id: 87949a6e-3221-4ea5-baf6-08d80bcb2bb3
 X-MS-TrafficTypeDiagnostic: AM6PR03MB3798:
-X-Microsoft-Antispam-PRVS: <AM6PR03MB37980FCDC7E18BFAC004319AEB850@AM6PR03MB3798.eurprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-Microsoft-Antispam-PRVS: <AM6PR03MB37989D35711DF46E8E77DFD0EB850@AM6PR03MB3798.eurprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:813;
 X-Forefront-PRVS: 042857DBB5
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: e6E09thjq32e1K8Mf6Kc/A4NYGQdHGWxs8NHqUGnHVVNDiE0be2o5XxHfMStOWHPbrwFUQdnVa65Bu6vFwGTmuKbX15JnV8+NguXfxERHZj7TccI1deYSoJqtcafAz8Es9+b3retO2DNvJG8dBMwz5EMVc0XhXf50yPidCotHBwYBCtV3tCbxN/3hxSYfazio0i+tNhuZyqZyPkpwe7BBhAQEFbdnuxxPTOzLuJ9eUIgl+rQwM5mQTHLd2meuTKoCUzhUm8rxlPmBr7u1aNb+OSbpeXDnrAvmS32/f5JzY0o9Nhg2G3dSscpnFuFrHAN
+X-Microsoft-Antispam-Message-Info: JkOcfvzhY1uX8CEvjpx93f13FK7pEv5g1RxeLCwP7XiXK1onlomEXpGvZHz3JU1T8pWQ7fHvIIx7G0AHiTV3F57zwfqD5PZzabV3CrBCS7+VL1t4SVnPRx5cImwxDyt2Q0DkvSbSZFTdHh+fE2PRu0/lRQdY8qXDxgSiq5bR5NSosoD+TftST49hMFDdEEOfWZsMLUXt2C1Sr8K+SehCK8istc43qGVnd2uKJsHUl3mJPnLx+TUDHIgrqnI2mwohIYE6WsVM6hSqfNucXtlFS2fE404NyUEa++bTe2XIiWJAkznNZlbJze2TP0ofP6xIpNfkIafj8DyWfp9sHG/8suKXOZhSOqRB/RV1IydOoDHy7FSdXj3v12aYZJi4RjTWZoaaSv0kU+Ckoow1hajz0Q==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM6PR03MB5233.eurprd03.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
- SFS:(39830400003)(376002)(396003)(346002)(136003)(366004)(508600001)(4326008)(8676002)(8936002)(1076003)(66556008)(6916009)(66476007)(5660300002)(66946007)(86362001)(316002)(36756003)(16526019)(26005)(2906002)(52116002)(83380400001)(2616005)(956004)(44832011)(6486002)(7696005)(186003)(6666004);
+ SFS:(39830400003)(376002)(396003)(346002)(136003)(366004)(508600001)(4326008)(8676002)(8936002)(966005)(1076003)(66556008)(6916009)(66476007)(5660300002)(66946007)(86362001)(316002)(36756003)(16526019)(26005)(2906002)(52116002)(83380400001)(2616005)(956004)(44832011)(6486002)(7696005)(186003)(6666004);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: mLx5vrDPfNCCPh/WAM/Uk7P3E7WDs/hE175jQJYL2EtZ9bd3jY++ivGuqx9F/Kp+7JzMFpNFjPZD64oZcocVwFRpTeohVWF0FMWXtwKoDUsevL7sOMADZVFOyEhrgRSi9g0FaheCzFkKzaJP3Po1f3nNNpg2F8BPxL1jroggjXomz74exTM7JOTnwoWWUozl8EMyTKz2w4fpzpvKyorjMmsNYjh0j8iGAdVHxrAkNWwZQiYYHg39BaeSK+MTue8dfw05jhsz4OdY2tI4DSqp1sq0CpHcYwatMUAdNEkg4uK6jDgH0llPjk6L+Mj4oQTC+jbIeB1CmlzLhbS+0pL52NZdAOZgrIqOU/1LYSyDxjagfloFOO9jxf6cFV9uYyPy/AxlwZX1687BA2sWQ8SmknwQHJJN+zS4/Ty+sDV0zDhH5g3YhJzhALG+JC9acvXecesKpmlEo//F7fUE2YMzWhh6IMByhnoPsshvq/9s0G0=
+X-MS-Exchange-AntiSpam-MessageData: +hTi77XScI3vimDB+i/cK4RoUa9W22Cm48kXfWX3ZEQmLb/tZAPDmHf0p7ETVHFVjocthEbEFsCD5r4AOh3OuDLoaBpbaJQxfIN+mSXzjqoG8t75I4SCVWxSNIiPsA6MncuEujzwCCnJZzV7KS3ROLx2KBq9CuWBEuD5YjH9TvtrY4h115teXomxXBYADbnpH4n85RhPVmS9Rl8JomOLnWNdETXGGyVk4H7zeQehZQuex2/CHMo9TUURzdHemE503KSzRQtok3aP2bH41K/0osUXLquV+Nx30eAd83vKSZTY7MJfSkOeFAtWN8FfKgFuQn8MCLxoJ4Vsats6eFO0fH0yaOgwrxabQpTpIPgxkyaqDThKScjgmt5xZWeMGmfxID66i9e9KvLY4aNBZXSflN45/atP+w68mzmTr1pcxftU/F2UQ/zOdAHuq8EtsVEZCDIY/9UJkEvqroVvadyfqR7KDs5Yn1oYPkVlNlFygO0=
 X-OriginatorOrg: syrmia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3ae5f8b6-8195-43f2-0191-08d80bcb2b60
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jun 2020 16:44:10.9062 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 87949a6e-3221-4ea5-baf6-08d80bcb2bb3
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jun 2020 16:44:11.4609 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 19214a73-c1ab-4e19-8f59-14bdcb09a66e
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Fni+/SOhP3ec5WOq4yWS3dHSTHQ1xoTyoHZNkn1fqXJLPYtMBlIBz5ZMABKyga2rkS2fAugsK7sPCUd6vghoqQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: TPzcWRp/uX0QObm1QpwFHvthACdm67wzcXLPhGTyup9Tvz6MEMlFlmLqn0WEtsJg99ZNwiSOokexFX4bEiYj2g==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR03MB3798
 Received-SPF: pass client-ip=40.107.8.91; envelope-from=Filip.Bozuta@syrmia.com;
  helo=EUR04-VI1-obe.outbound.protection.outlook.com
@@ -120,129 +119,112 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Filip Bozuta <Filip.Bozuta@syrmia.com>
 
-    Structure "struct syscallname" in file "strace.c" is used for "-strace"
-    to print arguments and return values of syscalls. The last field of
-    this structure "result" represents the calling function that prints the
-    return values. This field was extended in this patch so that this functions
-    takes all syscalls arguments beside the return value. In this way, it enables
-    "-strace" to print arguments of syscalls that have changed after the syscall
-    execution. This extension will be useful as there are many syscalls that
-    return values inside their arguments (i.e. listxattr() that returns the list
-    of extended attributes inside the "list" argument).
+This patch implements strace argument printing functionality for following syscalls:
+
+    *acct - switch process accounting on or off
+
+        int acct(const char *filename)
+        man page: https://www.man7.org/linux/man-pages/man2/acct.2.html
+
+    *fsync, fdatasync - synchronize a file's in-core state with storage device
+
+        int fsync(int fd)
+        int fdatasync(int fd)
+        man page: https://www.man7.org/linux/man-pages/man2/fsync.2.html
+
+    *listen - listen for connections on a socket
+
+        int listen(int sockfd, int backlog)
+        man page: https://www.man7.org/linux/man-pages/man2/listen.2.html
 
 Implementation notes:
 
-    Since there are already three existing "print_syscall_ret*" functions inside
-    "strace.c" ("print_syscall_ret_addr()", "print_syscall_ret_adjtimex()",
-    "print_syscall_ret_newselect()"), they were changed to have all syscall arguments
-    beside the return value. This was done so that these functions don't cause build
-    errors (even though syscall arguments are not used in these functions).
+    Syscall acct() takes string as its only argument and thus a separate
+    print function "print_acct" is stated in file "strace.list". This
+    function is defined and implemented in "strace.c" by using an
+    existing function used to print string arguments: "print_string()".
+    All the other syscalls have only primitive argument types, so the
+    rest of the implementation was handled by stating an appropriate
+    printing format in file "strace.list".
 
 Signed-off-by: Filip Bozuta <Filip.Bozuta@syrmia.com>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/qemu.h    |  4 +++-
- linux-user/strace.c  | 24 ++++++++++++++++++------
- linux-user/syscall.c |  2 +-
- 3 files changed, 22 insertions(+), 8 deletions(-)
+ linux-user/strace.c    | 13 ++++++++++++-
+ linux-user/strace.list |  8 ++++----
+ 2 files changed, 16 insertions(+), 5 deletions(-)
 
-diff --git a/linux-user/qemu.h b/linux-user/qemu.h
-index ce902f5132..8f938b8105 100644
---- a/linux-user/qemu.h
-+++ b/linux-user/qemu.h
-@@ -383,7 +383,9 @@ int host_to_target_waitstatus(int status);
- void print_syscall(int num,
-                    abi_long arg1, abi_long arg2, abi_long arg3,
-                    abi_long arg4, abi_long arg5, abi_long arg6);
--void print_syscall_ret(int num, abi_long arg1);
-+void print_syscall_ret(int num, abi_long ret,
-+                       abi_long arg1, abi_long arg2, abi_long arg3,
-+                       abi_long arg4, abi_long arg5, abi_long arg6);
- /**
-  * print_taken_signal:
-  * @target_signum: target signal being taken
 diff --git a/linux-user/strace.c b/linux-user/strace.c
-index 0d9095c674..23f7c386b5 100644
+index 23f7c386b5..f980451e3f 100644
 --- a/linux-user/strace.c
 +++ b/linux-user/strace.c
-@@ -19,7 +19,9 @@ struct syscallname {
-     void (*call)(const struct syscallname *,
-                  abi_long, abi_long, abi_long,
-                  abi_long, abi_long, abi_long);
--    void (*result)(const struct syscallname *, abi_long);
-+    void (*result)(const struct syscallname *, abi_long,
-+                   abi_long, abi_long, abi_long,
-+                   abi_long, abi_long, abi_long);
- };
+@@ -1361,6 +1361,18 @@ print_access(const struct syscallname *name,
+ }
+ #endif
  
- #ifdef __GNUC__
-@@ -736,7 +738,9 @@ print_ipc(const struct syscallname *name,
-  */
- 
++#ifdef TARGET_NR_acct
++static void
++print_acct(const struct syscallname *name,
++    abi_long arg0, abi_long arg1, abi_long arg2,
++    abi_long arg3, abi_long arg4, abi_long arg5)
++{
++    print_syscall_prologue(name);
++    print_string(arg0, 1);
++    print_syscall_epilogue(name);
++}
++#endif
++
+ #ifdef TARGET_NR_brk
  static void
--print_syscall_ret_addr(const struct syscallname *name, abi_long ret)
-+print_syscall_ret_addr(const struct syscallname *name, abi_long ret,
-+                       abi_long arg0, abi_long arg1, abi_long arg2,
-+                       abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     const char *errstr = NULL;
+ print_brk(const struct syscallname *name,
+@@ -1625,7 +1637,6 @@ print_fcntl(const struct syscallname *name,
+ #define print_fcntl64   print_fcntl
+ #endif
  
-@@ -760,7 +764,9 @@ print_syscall_ret_raw(struct syscallname *name, abi_long ret)
- 
- #ifdef TARGET_NR__newselect
+-
+ #ifdef TARGET_NR_futimesat
  static void
--print_syscall_ret_newselect(const struct syscallname *name, abi_long ret)
-+print_syscall_ret_newselect(const struct syscallname *name, abi_long ret,
-+                            abi_long arg0, abi_long arg1, abi_long arg2,
-+                            abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     qemu_log(" = 0x" TARGET_ABI_FMT_lx " (", ret);
-     print_fdset(newselect_arg1,newselect_arg2);
-@@ -783,7 +789,9 @@ print_syscall_ret_newselect(const struct syscallname *name, abi_long ret)
- #define TARGET_TIME_ERROR    5   /* clock not synchronized */
- #ifdef TARGET_NR_adjtimex
- static void
--print_syscall_ret_adjtimex(const struct syscallname *name, abi_long ret)
-+print_syscall_ret_adjtimex(const struct syscallname *name, abi_long ret,
-+                           abi_long arg0, abi_long arg1, abi_long arg2,
-+                           abi_long arg3, abi_long arg4, abi_long arg5)
- {
-     const char *errstr = NULL;
- 
-@@ -2847,7 +2855,9 @@ print_syscall(int num,
- 
- 
- void
--print_syscall_ret(int num, abi_long ret)
-+print_syscall_ret(int num, abi_long ret,
-+                  abi_long arg1, abi_long arg2, abi_long arg3,
-+                  abi_long arg4, abi_long arg5, abi_long arg6)
- {
-     int i;
-     const char *errstr = NULL;
-@@ -2855,7 +2865,9 @@ print_syscall_ret(int num, abi_long ret)
-     for(i=0;i<nsyscalls;i++)
-         if( scnames[i].nr == num ) {
-             if( scnames[i].result != NULL ) {
--                scnames[i].result(&scnames[i], ret);
-+                scnames[i].result(&scnames[i], ret,
-+                                  arg1, arg2, arg3,
-+                                  arg4, arg5, arg6);
-             } else {
-                 if (ret < 0) {
-                     errstr = target_strerror(-ret);
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 05f03919ff..009bb67422 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -12441,7 +12441,7 @@ abi_long do_syscall(void *cpu_env, int num, abi_long arg1,
-                       arg5, arg6, arg7, arg8);
- 
-     if (unlikely(qemu_loglevel_mask(LOG_STRACE))) {
--        print_syscall_ret(num, ret);
-+        print_syscall_ret(num, ret, arg1, arg2, arg3, arg4, arg5, arg6);
-     }
- 
-     record_syscall_return(cpu, num, ret);
+ print_futimesat(const struct syscallname *name,
+diff --git a/linux-user/strace.list b/linux-user/strace.list
+index d49a1e92a8..fb9799e7e6 100644
+--- a/linux-user/strace.list
++++ b/linux-user/strace.list
+@@ -13,7 +13,7 @@
+ { TARGET_NR_access, "access" , NULL, print_access, NULL },
+ #endif
+ #ifdef TARGET_NR_acct
+-{ TARGET_NR_acct, "acct" , NULL, NULL, NULL },
++{ TARGET_NR_acct, "acct" , NULL, print_acct, NULL },
+ #endif
+ #ifdef TARGET_NR_add_key
+ { TARGET_NR_add_key, "add_key" , NULL, NULL, NULL },
+@@ -215,7 +215,7 @@
+ { TARGET_NR_fcntl64, "fcntl64" , NULL, print_fcntl64, NULL },
+ #endif
+ #ifdef TARGET_NR_fdatasync
+-{ TARGET_NR_fdatasync, "fdatasync" , NULL, NULL, NULL },
++{ TARGET_NR_fdatasync, "fdatasync" , "%s(%d)", NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_fgetxattr
+ { TARGET_NR_fgetxattr, "fgetxattr" , NULL, NULL, NULL },
+@@ -251,7 +251,7 @@
+ { TARGET_NR_fstatfs64, "fstatfs64" , "%s(%d,%p)", NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_fsync
+-{ TARGET_NR_fsync, "fsync" , NULL, NULL, NULL },
++{ TARGET_NR_fsync, "fsync" , "%s(%d)", NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_ftime
+ { TARGET_NR_ftime, "ftime" , NULL, NULL, NULL },
+@@ -492,7 +492,7 @@
+ { TARGET_NR_Linux, "Linux" , NULL, NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_listen
+-{ TARGET_NR_listen, "listen" , NULL, NULL, NULL },
++{ TARGET_NR_listen, "listen" , "%s(%d,%d)", NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_listxattr
+ { TARGET_NR_listxattr, "listxattr" , NULL, NULL, NULL },
 -- 
 2.17.1
 
