@@ -2,93 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54B3C1F3967
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 13:18:31 +0200 (CEST)
-Received: from localhost ([::1]:40648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F7561F397B
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 13:20:54 +0200 (CEST)
+Received: from localhost ([::1]:47396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jicH0-0006ew-BH
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 07:18:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34738)
+	id 1jicJJ-000126-E6
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 07:20:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jicDU-0002i3-2K
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 07:14:52 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:55585
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jicDT-0002Mf-Dr
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 07:14:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591701290;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pM1sXV/7eH//dmNxCu9L646uRo7LpSiWcH+A4/9rq/Y=;
- b=H0ZSTLx0zfxYBqG/OMI/rc1TYe1D8+DXKhBpi/Z4aY05eEhm6eM/k6Lcn+iCyRmbAyvBHj
- itpPEtMVSApRQa7l2fs71YYlAxyVwoIXy0edmtcyLo/BhgZYsUJRA0is7DTgdE0AqN/6xn
- xI2nRDtqYUXxyVHsPX5FWFQa7Ztta7U=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-431-_2AyzRb-MiyxXVF-qeQ_Zg-1; Tue, 09 Jun 2020 07:14:47 -0400
-X-MC-Unique: _2AyzRb-MiyxXVF-qeQ_Zg-1
-Received: by mail-wm1-f69.google.com with SMTP id 11so528628wmj.6
- for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 04:14:47 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <christian.ehrhardt@canonical.com>)
+ id 1jicEf-0004MV-3x
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 07:16:06 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:52595)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_CBC_SHA1:128)
+ (Exim 4.90_1) (envelope-from <christian.ehrhardt@canonical.com>)
+ id 1jicEd-0002re-1y
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 07:16:04 -0400
+Received: from mail-ua1-f72.google.com ([209.85.222.72])
+ by youngberry.canonical.com with esmtps
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
+ (envelope-from <christian.ehrhardt@canonical.com>)
+ id 1jicEa-0005BP-7c
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 11:16:00 +0000
+Received: by mail-ua1-f72.google.com with SMTP id z22so7734838uam.19
+ for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 04:16:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=pM1sXV/7eH//dmNxCu9L646uRo7LpSiWcH+A4/9rq/Y=;
- b=iXNgMoW5eZpnSDvTIX/R22eL7Q/jDfqYq2RXh0T1hDz+0dv2Nil4/eloQy57oyqjkL
- u9g1uFeKj7UM5TJM7IRvVQUODnCvV4CcG6oqyZGbuMukrcCR/UUMT/O53C9qd/IM/INI
- bu2rs3NuJWoAvyvBaM7zrPDBJ5Fp/5vQ4BTo3LSLnavEbtw3GP3WXYaLkR92VhneBL1E
- ppT9ofxVG9vQIcOdY136vNS6aRgoKb6rrwtwXL70xq70PLTejCr6PTPRzp89fu9V1P6A
- ufNXvrp5GR6QQL9DsBGRtuYcgPJyGVo5KemhLCUxC9ffIajZF0gfYcrn1AJkpYCeHwB+
- PwDQ==
-X-Gm-Message-State: AOAM5335oJ8WhLNWUyhzkohW4RQfz+7hE2jTsdXJ5NYqKz6PGO6ghaUP
- oU85rDIL+ebRxiWgR085B8aM0P/GUiLekg2gugua0ta7y+XYxdo4+D/TmIb0rs4oMdO6/o4GnJw
- ngKCFzhn+tzviS0c=
-X-Received: by 2002:a5d:4e87:: with SMTP id e7mr3651913wru.427.1591701286134; 
- Tue, 09 Jun 2020 04:14:46 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzuPbVlBDSLtlTXx3ZWJ2E6euzR9/JzXQUGOR/hYo9mA/3HQUZQnicNKOucsXO2NrypVrU/9w==
-X-Received: by 2002:a5d:4e87:: with SMTP id e7mr3651896wru.427.1591701285907; 
- Tue, 09 Jun 2020 04:14:45 -0700 (PDT)
-Received: from [192.168.178.58] ([151.21.172.168])
- by smtp.gmail.com with ESMTPSA id f9sm3121051wrf.74.2020.06.09.04.14.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 Jun 2020 04:14:45 -0700 (PDT)
-Subject: Re: [RFC PATCH 00/35] hw/qdev: Warn when using pre-qdev/QOM devices
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20200608160044.15531-1-philmd@redhat.com>
- <CAFEAcA_Ni8=mvyfG=9Aa=ym-ae9HpP8J8B0ekm8=SN2WgZ6_vA@mail.gmail.com>
- <81653f82-484b-a04a-7b2c-1362a724d0e8@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <ea1a0932-aecf-3e88-1444-2f5ca369cc67@redhat.com>
-Date: Tue, 9 Jun 2020 13:14:43 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=oBhDRxmjvs3r+x2JBEPIEKih8R2LG/6YLL/TgHpysBo=;
+ b=J0TfZ/mpaiOvUzVHw4AR5VUl5gCx8bNHa6ClBZZf4lVhAIKGvBROQWcje8YWTkRAeV
+ ZQXDD3GV3uvGN6UWcdTaX0/2tu8XTIEa30f8BSbRp0lkK0vGZndLeiI7oKfey39ScHiB
+ zEljwMsapdtWUOU/KCXEVroBXL31MCxUpwH2c75KI67SqjMwEF7W7K4MOiPoX4fobb7D
+ hkSuYjUTNyPBJGT5PZLhXsS5pLI7opLdJYEyFNXMzVVouEhL7EFiC+Varj5u6BQa/tnW
+ 1B2b0SluPhFCD4L73+SYMdvVBlmjVcYf/4uqLxOMlwuoIVfvMYbouRZ1hAJHq/BBX4s6
+ VH2Q==
+X-Gm-Message-State: AOAM53375nu785Pmsvb0x2iZyo8QI1ORjmMnwE/A5qjHm18JZQFEfEH7
+ p3fESD23yvnW144OsVblYxIR+BxHOZOuCcw6MxLN4zp+gG6G91N3N75djsWs86LyPy92rqRJ8KO
+ vMq8bVA9T2FlTUhKOITVlWjepKUsSCDZpQC816NXzokD1y3jx
+X-Received: by 2002:a9f:3603:: with SMTP id r3mr2177768uad.102.1591701359307; 
+ Tue, 09 Jun 2020 04:15:59 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxmaGQFxOhx2Yn4JL5g8p7sivi95iRaCunk5hZ3CB0BeYUrBILM+ESNko7eTRcj30ZNE5FuqjbRjtkxkTiew9U=
+X-Received: by 2002:a9f:3603:: with SMTP id r3mr2177754uad.102.1591701358999; 
+ Tue, 09 Jun 2020 04:15:58 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <81653f82-484b-a04a-7b2c-1362a724d0e8@redhat.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 01:38:49
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+References: <20200604094425.63020-1-marcandre.lureau@redhat.com>
+ <CAATJJ0KpmbbdojFy5uHyh01VdidBEBMBtcmqrKnMyhzASrN2hw@mail.gmail.com>
+In-Reply-To: <CAATJJ0KpmbbdojFy5uHyh01VdidBEBMBtcmqrKnMyhzASrN2hw@mail.gmail.com>
+From: Christian Ehrhardt <christian.ehrhardt@canonical.com>
+Date: Tue, 9 Jun 2020 13:15:33 +0200
+Message-ID: <CAATJJ0+zTJBqNPV8e4A827Z-Hf0is1ocBFiZ3TmRb_2PV2HqQg@mail.gmail.com>
+Subject: Re: [PATCH] qga: fix assert regression on guest-shutdown
+To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Content-Type: multipart/alternative; boundary="00000000000017a5e305a7a4dabc"
+Received-SPF: none client-ip=91.189.89.112;
+ envelope-from=christian.ehrhardt@canonical.com; helo=youngberry.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 07:16:00
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,52 +78,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sagar Karandikar <sagark@eecs.berkeley.edu>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- QEMU Developers <qemu-devel@nongnu.org>, Max Filippov <jcmvbkbc@gmail.com>,
- Alistair Francis <Alistair.Francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Stefano Stabellini <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>,
- Magnus Damm <magnus.damm@gmail.com>, Markus Armbruster <armbru@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Alistair Francis <alistair@alistair23.me>, qemu-arm <qemu-arm@nongnu.org>,
- "open list:X86" <xen-devel@lists.xenproject.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>, Stafford Horne <shorne@gmail.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Richard Henderson <rth@twiddle.net>,
- "Daniel P . Berrange" <berrange@redhat.com>, Thomas Huth <huth@tuxfamily.org>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Michael Walle <michael@walle.cc>, qemu-ppc <qemu-ppc@nongnu.org>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: qemu-devel <qemu-devel@nongnu.org>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 08/06/20 18:17, Philippe Mathieu-Daudé wrote:
-> On 6/8/20 6:14 PM, Peter Maydell wrote:
->> On Mon, 8 Jun 2020 at 17:00, Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
->>>
->>> Based on today's IRC chat, this is a trivial RFC series
->>> to anotate pre-qdev/QOM devices so developers using them
->>> without knowing they are not QOM'ified yet can realize
->>> it and convert them if they have time.
+--00000000000017a5e305a7a4dabc
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Jun 4, 2020 at 3:43 PM Christian Ehrhardt <
+christian.ehrhardt@canonical.com> wrote:
+
+>
+>
+> On Thu, Jun 4, 2020 at 11:46 AM Marc-Andr=C3=A9 Lureau <
+> marcandre.lureau@redhat.com> wrote:
+>
+>> Since commit 781f2b3d1e ("qga: process_event() simplification"),
+>> send_response() is called unconditionally, but will assert when "rsp" is
+>> NULL. This may happen with QCO_NO_SUCCESS_RESP commands, such as
+>> "guest-shutdown".
 >>
->> What mechanism did you use for identifying non-QOM devices?
-> 
-> I don't think this is the complete list, this is only all the one I
-> could find with:
-> 
->   $ git grep "g_new|g_malloc" hw/
-> 
-> Then on each match I manually reviewed (so I might have incorrectly
-> flagged code too).
+>> Fixes: 781f2b3d1e5ef389b44016a897fd55e7a780bf35
+>> Cc: Michael Roth <mdroth@linux.vnet.ibm.com>
+>> Reported-by: Christian Ehrhardt <christian.ehrhardt@canonical.com>
+>> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>> ---
+>>  qga/main.c | 6 +++++-
+>>  1 file changed, 5 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/qga/main.c b/qga/main.c
+>> index f0e454f28d3..3febf3b0fdf 100644
+>> --- a/qga/main.c
+>> +++ b/qga/main.c
+>> @@ -531,7 +531,11 @@ static int send_response(GAState *s, const QDict
+>> *rsp)
+>>      QString *payload_qstr, *response_qstr;
+>>      GIOStatus status;
+>>
+>> -    g_assert(rsp && s->channel);
+>> +    g_assert(s->channel);
+>> +
+>> +    if (!rsp) {
+>> +        return 0;
+>> +    }
+>>
+>>
+>>
+> Thanks Marc-Andr=C3=A9,
+> LGTM and should fix the issues I was seeing.
+>
+> Reviewed-by: Christian Ehrhardt <christian.ehrhardt@canonical.com>
+>
 
-Yes, you did, but I guess for an RFC it was a good bang for the buck.  I
-went through the patch and noticed both a few false positives and a
-couple blatant violations in recent code.
+In the meantime I also got to test this against the initially reported
+issue, LGTM as well (ran as no-change backport onto 4.2).
 
-Paolo
+Tested-by: Christian Ehrhardt <christian.ehrhardt@canonical.com>
 
+--00000000000017a5e305a7a4dabc
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Jun 4, 2020 at 3:43 PM Christ=
+ian Ehrhardt &lt;<a href=3D"mailto:christian.ehrhardt@canonical.com">christ=
+ian.ehrhardt@canonical.com</a>&gt; wrote:<br></div><blockquote class=3D"gma=
+il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
+04,204);padding-left:1ex"><div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><=
+div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Jun=
+ 4, 2020 at 11:46 AM Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre=
+.lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt; w=
+rote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
+x 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Since comm=
+it 781f2b3d1e (&quot;qga: process_event() simplification&quot;),<br>
+send_response() is called unconditionally, but will assert when &quot;rsp&q=
+uot; is<br>
+NULL. This may happen with QCO_NO_SUCCESS_RESP commands, such as<br>
+&quot;guest-shutdown&quot;.<br>
+<br>
+Fixes: 781f2b3d1e5ef389b44016a897fd55e7a780bf35<br>
+Cc: Michael Roth &lt;<a href=3D"mailto:mdroth@linux.vnet.ibm.com" target=3D=
+"_blank">mdroth@linux.vnet.ibm.com</a>&gt;<br>
+Reported-by: Christian Ehrhardt &lt;<a href=3D"mailto:christian.ehrhardt@ca=
+nonical.com" target=3D"_blank">christian.ehrhardt@canonical.com</a>&gt;<br>
+Signed-off-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lurea=
+u@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
+---<br>
+=C2=A0qga/main.c | 6 +++++-<br>
+=C2=A01 file changed, 5 insertions(+), 1 deletion(-)<br>
+<br>
+diff --git a/qga/main.c b/qga/main.c<br>
+index f0e454f28d3..3febf3b0fdf 100644<br>
+--- a/qga/main.c<br>
++++ b/qga/main.c<br>
+@@ -531,7 +531,11 @@ static int send_response(GAState *s, const QDict *rsp)=
+<br>
+=C2=A0 =C2=A0 =C2=A0QString *payload_qstr, *response_qstr;<br>
+=C2=A0 =C2=A0 =C2=A0GIOStatus status;<br>
+<br>
+-=C2=A0 =C2=A0 g_assert(rsp &amp;&amp; s-&gt;channel);<br>
++=C2=A0 =C2=A0 g_assert(s-&gt;channel);<br>
++<br>
++=C2=A0 =C2=A0 if (!rsp) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return 0;<br>
++=C2=A0 =C2=A0 }<br>
+<br><br>
+</blockquote></div><div><br></div><div>Thanks Marc-Andr=C3=A9,</div><div>LG=
+TM and should fix the issues I was seeing.</div><br clear=3D"all"><div>Revi=
+ewed-by: Christian Ehrhardt &lt;<a href=3D"mailto:christian.ehrhardt@canoni=
+cal.com" target=3D"_blank">christian.ehrhardt@canonical.com</a>&gt;</div></=
+div></blockquote><div><br></div><div>In the meantime I also got to test thi=
+s against the initially reported issue, LGTM as well (ran as no-change back=
+port onto 4.2).</div><div><br></div><div>Tested-by: Christian Ehrhardt &lt;=
+<a href=3D"mailto:christian.ehrhardt@canonical.com" target=3D"_blank">chris=
+tian.ehrhardt@canonical.com</a>&gt;</div></div></div>
+
+--00000000000017a5e305a7a4dabc--
 
