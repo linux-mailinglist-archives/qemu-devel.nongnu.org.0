@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7285E1F3348
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 07:15:13 +0200 (CEST)
-Received: from localhost ([::1]:40024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A2031F334B
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 07:17:54 +0200 (CEST)
+Received: from localhost ([::1]:44212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jiWbP-0002gi-Sn
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 01:15:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55158)
+	id 1jiWe1-0004YI-JQ
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 01:17:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jiWaF-0002Ep-U6
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 01:13:59 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:36879)
+ id 1jiWau-0002eC-Bh
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 01:14:40 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:36171)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jiWaF-0001hX-3d
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 01:13:59 -0400
-Received: by mail-wm1-x342.google.com with SMTP id y20so1717883wmi.2
- for <qemu-devel@nongnu.org>; Mon, 08 Jun 2020 22:13:58 -0700 (PDT)
+ id 1jiWas-0001kW-Tn
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 01:14:40 -0400
+Received: by mail-wm1-x342.google.com with SMTP id d128so1721182wmc.1
+ for <qemu-devel@nongnu.org>; Mon, 08 Jun 2020 22:14:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=7r6Fu/4xAQnkABgqB82qx95ftnu/021paPN/zh1xp6g=;
- b=Q9PiRYWNmGMw57EhtDoOOqRqbzzYQbqbpuf9szOiPR6qVXalEYuBCTR31rN6Q7g8vo
- Rzo6/yUQ0BLabZ6jFnoYr1DMBzXxJEOehng12cd4q2MTu1Qf3OAae7P0RHyZ0+70BxUh
- 1EAWL3nqLCWoc732jBhWdYrvTwW0z6ggBAi5pMWKnIgjfyN8XiiYWXwUS7+Y4UIhFMMM
- aUwv3ME7qnroKaY9PkZqO4ooxL0xU12EX2mP2LnX4+WkqBP4CSjy8Naxd3854hEM+UyO
- b7qwsdSeQpV4YQbdfMoLAh6MWzH3u7igAL2SEkJB6OytrVC1djDK07YaJ7lokLi2SaJl
- IKeQ==
+ bh=prjhGMq0wkjij6IaSEwj1fgkvA3uV4TIbvQ0RSrjSVA=;
+ b=UHuqau1+gXECyK/9xQKGhL87wf75SMNxiWakYI9GKkBh1vfBeoSR3wg4ETG6KfYief
+ b4R0n31XctWtkmZ3fO+eGPnmy9Ui9wwREIuZTM4rqtYxKccpdCTTCxAQrvHit/3E3r+g
+ KsRjE9dv8yaHmodtN5pkNEJHfZtjEi8G7f4SLkDrIPUtxDbhbDwP07Lydo5mOu/xmfEP
+ +CGnwWm2PjBDXT2htejPxTvzeDdC5Ru5weC+JD99kERPlple+CDU0UDUp5HcTONl7CLx
+ L4MHLROkiwdOiouPndM6D6oc8PcNmUPmDWvD40yykPId5dxSCJZvzb3AU7vwrRsE99RL
+ kK6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=7r6Fu/4xAQnkABgqB82qx95ftnu/021paPN/zh1xp6g=;
- b=P58Qw2ddlAE15uLXbSfkI8NKCJikIao+QcJsjG9IjeEh3AiGeaqLncdmZgUvvrDCw0
- rvsI+PvVMU1ElbRdfqrwCzBLTd+vv+AaEB82u01BrtJ25IniZoDKZLqdsfFnMeKCpP4T
- yjw+wvt5udvKVYBqWGdnscZJESbPpPhKqFbN43eYdhS/30lAHfsytZoKZLr+X4yBB1M1
- 09yY6qqzTEdxBlNrOwFtTqkIRh4ZRFmPn7C/KQBf0Ln8NaTIDNa8i7nFKlQPlwRnXYg7
- Qk31/41k7QrNTuuesGRJisW+IohNswN89C/TQXWkKPJd6m3Rw3Qn0ArhGNpKRLLn1LUn
- 4GCg==
-X-Gm-Message-State: AOAM532Rzeh00Y7LiQzH41bKyDpEU5kKLzmjL6On51S71YBvmIFxrnj7
- px/C7+M6OHHtKZDtPvAKEYo=
-X-Google-Smtp-Source: ABdhPJyFzWdwkyVvyNiQv3pVJ+3Ch1iHC31aVlih/PhRiaKmPXpvk7/Z5fJGL2LdnXkVSzUrAqq3pQ==
-X-Received: by 2002:a1c:a444:: with SMTP id n65mr1981835wme.99.1591679636821; 
- Mon, 08 Jun 2020 22:13:56 -0700 (PDT)
+ bh=prjhGMq0wkjij6IaSEwj1fgkvA3uV4TIbvQ0RSrjSVA=;
+ b=irSOKEQTDV7zVwLhEUMxaZqZ84oOL+Hxz3bJtsvR5uy+AyVE4kyUv5iHdrICD+jaVd
+ 8DMfMwTVNgOm7NX37clN4Az4700/lNiqRcVfPY1nlJm5V5Gki2AHSsEYek/4o9saPx2w
+ ffF1Io4EyOqyZCmVfzt1nXcBgsfBlfwcj636h54bcniwpxND+V7qF7QLfECwjEQhoPt5
+ SiGc0HTgEVUzi3gFWG9zT4JTlOxFUgZKX8R4DwRJbpzswi549b574jqVl0b0R99MxLU1
+ 8m+Dl0m9zpyxpPUsn8f92aFkLPC1r4+kI1CsSQtT+jPYqS1hu9kCI8197gWa7yNFG64Q
+ X/QA==
+X-Gm-Message-State: AOAM532K+S0pxswvVcUrs0RuRy0dXRJddbgGEv16xPSoDP4jGw1hvRUY
+ /Njqno83zizCqhvFHWf98m5o+PBC
+X-Google-Smtp-Source: ABdhPJwt1U9qtq+ARC0VNcOTlR3IeCygtPM/xXTXQJ1ysqMDl4+74UhSYh5PVmXP9EE8kP3z/SXSKQ==
+X-Received: by 2002:a1c:808d:: with SMTP id b135mr2053545wmd.94.1591679677531; 
+ Mon, 08 Jun 2020 22:14:37 -0700 (PDT)
 Received: from [192.168.1.43] (181.red-88-10-103.dynamicip.rima-tde.net.
  [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id l2sm1908961wru.58.2020.06.08.22.13.55
+ by smtp.gmail.com with ESMTPSA id l2sm1910644wru.58.2020.06.08.22.14.36
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 08 Jun 2020 22:13:55 -0700 (PDT)
-Subject: Re: [PATCH 0/7] hw/misc/empty_slot: Spring cleaning
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20200510152840.13558-1-f4bug@amsat.org>
+ Mon, 08 Jun 2020 22:14:36 -0700 (PDT)
+Subject: Re: [PATCH 0/7] hw/sparc/leon3: Few fixes and disable HelenOS test
+To: qemu-devel@nongnu.org
+References: <20200331105048.27989-1-f4bug@amsat.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <80705ec9-312d-cd4d-f357-72ab4a323f0b@amsat.org>
-Date: Tue, 9 Jun 2020 07:13:54 +0200
+Message-ID: <51d3c469-3963-c242-7f98-f34f71fcafe4@amsat.org>
+Date: Tue, 9 Jun 2020 07:14:36 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200510152840.13558-1-f4bug@amsat.org>
+In-Reply-To: <20200331105048.27989-1-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -91,58 +90,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Fabien Chouteau <chouteau@adacore.com>,
+ KONRAD Frederic <frederic.konrad@adacore.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Jiri Gaisler <jiri@gaisler.se>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/10/20 5:28 PM, Philippe Mathieu-Daudé wrote:
-> New Spring, new opportunity to clean this device :)
-> (v1 was in 2018, v2 in 2019).
-> 
-> - lower device priority
-> - follow qdev model and use properties
-> - convert to trace events
-> - describe with slot name
-> - move under hw/misc/ and cover in MAINTAINERS
-> 
-> Peter, I hope you are OK adding it wit UNIMP device,
-> as both are very similar, and don't have much activity.
-> 
-> Only MIPS/SPARC32 targets use this device.
-> 
-> v2: https://www.mail-archive.com/qemu-devel@nongnu.org/msg626498.html
-> v1: https://www.mail-archive.com/qemu-devel@nongnu.org/msg564060.html
+On 3/31/20 12:50 PM, Philippe Mathieu-Daudé wrote:
+> The Leon3Machine.test_leon3_helenos_uimage has been running
+> erratically since some time now. Time to disable it (at least
+> until we make it reliable).
+> Few other patches added while tracking the issue.
 > 
 > Philippe Mathieu-Daudé (7):
->   hw/sparc/sun4m: Use UnimplementedDevice for I/O devices
->   hw/misc/empty_slot: Lower address space priority
->   hw/misc/empty_slot: Convert 'size' field as qdev property
->   hw/misc/empty_slot: Add a 'name' qdev property
->   hw/misc/empty_slot: Convert debug printf() to trace event
->   hw/misc/empty_slot: Move the 'hw/misc' and cover in MAINTAINERS
->   hw/misc/empty_slot: Name the slots when created
+>   tests/acceptance/machine_sparc_leon3: Disable HelenOS test
+>   hw/misc/grlib_ahb_apb_pnp: Avoid crash when writing to AHB PnP
+>     registers
+>   hw/misc/grlib_ahb_apb_pnp: Fix AHB PnP 8-bit accesses
+>   hw/misc/grlib_ahb_apb_pnp: Add trace events on read accesses
+>   hw/timer/grlib_gptimer: Display frequency in decimal
+>   target/sparc/int32_helper: Remove DEBUG_PCALL definition
+>   target/sparc/int32_helper: Extract and use excp_name_str()
 > 
->  include/hw/empty_slot.h        |  9 -------
->  include/hw/misc/empty_slot.h   | 19 ++++++++++++++
->  hw/mips/mips_malta.c           |  4 +--
->  hw/{core => misc}/empty_slot.c | 47 +++++++++++++++++++---------------
->  hw/sparc/sun4m.c               | 23 +++++++++++------
->  MAINTAINERS                    |  4 ++-
->  hw/core/Makefile.objs          |  1 -
->  hw/misc/Makefile.objs          |  1 +
->  hw/misc/trace-events           |  4 +++
->  9 files changed, 70 insertions(+), 42 deletions(-)
->  delete mode 100644 include/hw/empty_slot.h
->  create mode 100644 include/hw/misc/empty_slot.h
->  rename hw/{core => misc}/empty_slot.c (66%)
+>  hw/misc/grlib_ahb_apb_pnp.c             | 24 ++++++++++++++++++++++--
+>  target/sparc/int32_helper.c             | 23 ++++++++++++-----------
+>  hw/misc/trace-events                    |  4 ++++
+>  hw/timer/trace-events                   |  2 +-
+>  tests/acceptance/machine_sparc_leon3.py |  4 ++++
+>  5 files changed, 43 insertions(+), 14 deletions(-)
 > 
 
-Thanks - except the MAINTAINERS change (merging empty_slot with
-unimp device) which Peter did not ack - series applied to for
-the next (temporary) sparc-next pull request.
+Thanks, series applied to for the next (temporary) sparc-next pull request.
 
