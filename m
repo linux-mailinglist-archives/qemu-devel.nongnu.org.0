@@ -2,63 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FE451F4A12
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 01:24:50 +0200 (CEST)
-Received: from localhost ([::1]:37558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 163251F4A14
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 01:26:59 +0200 (CEST)
+Received: from localhost ([::1]:41816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jinbt-00028N-5H
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 19:24:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54786)
+	id 1jindy-00040B-5c
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 19:26:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jinas-0001QL-P3; Tue, 09 Jun 2020 19:23:46 -0400
-Received: from mail-il1-x143.google.com ([2607:f8b0:4864:20::143]:44635)
+ id 1jinco-000332-Ah; Tue, 09 Jun 2020 19:25:46 -0400
+Received: from mail-io1-xd44.google.com ([2607:f8b0:4864:20::d44]:41895)
  by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jinar-0007G7-Qn; Tue, 09 Jun 2020 19:23:46 -0400
-Received: by mail-il1-x143.google.com with SMTP id i1so124756ils.11;
- Tue, 09 Jun 2020 16:23:34 -0700 (PDT)
+ id 1jincn-0007sY-J3; Tue, 09 Jun 2020 19:25:46 -0400
+Received: by mail-io1-xd44.google.com with SMTP id o5so101195iow.8;
+ Tue, 09 Jun 2020 16:25:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=2xozlEa/iOiEIAWB56dhJk4Va5WuvxQHsknEvWaQjQM=;
- b=VzMpja2BdCmd/sBjK4m2yoL7xOfCW3ER0pEHIFvQrknWtE3D0p1x5H6AV3Rwv87/qi
- nq1fZW+xpk1vlQLEbK7g8Dz5H2FLu1aiLK0NtcFjiyE2Uv1t1SslmWVwoSWqCBtfCiZe
- WEgoZ3Ab0/orOSwwmLzzcWABVzRFdzmi5HgWW4BQPBxHtevwgaqr8KVEzL/zjbymuh+t
- QUPdYlxakLpdK92gYOJEcVO7wuiYYygC1oODQfRemgqXE5VAD0XMXlcb1HKNJhkKC2/Y
- QOr4SOT9rB1SFtXUinO+hhMnsz4Mtn3un/SItF38ZnuM2IstLfYuu9KHOhyyfGi3cH8C
- r/Ag==
+ :cc; bh=llzOn5SXmgPzBWcPwKF+7pAOepMVRqj/eYw9Sc0FgzE=;
+ b=Gpv1XzOYjgUVIWR8FDNJNpjvMsHQuf2bIi08heE3slfuDU2b53+Ui4HQ1ywO+FEK8F
+ vsPPTfNpehbOj3G4UVrCxrBBcTf5i6FSgnwx8fb2o9fJOQUJjjy8S5PmF6BKdygnrQHB
+ LtVHijeGRmpU1Qibvx59+b35eXbQmZOUMSLYdQ5g6stuwoEdc2N3LHuGD30ie7LVWlGs
+ 0RMbCwywZF72wOPX7ZNMuq2FnKOCgXga5WdE4Q1izOFkfuPjkUTX/s1JyZ3e7Ztv8Nle
+ OdhcuCbWExmHI7yuL1Joaa+LMekYJW8kWoaWznjpWDjtJG8G4ZvsD5xiwya5lkt8ux1l
+ 56YQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=2xozlEa/iOiEIAWB56dhJk4Va5WuvxQHsknEvWaQjQM=;
- b=IOad0Y5r3P42+C4SvrWPBTPFNwXPkZNCDGBmA6FZnsvJhLxZisxL/pU7oatS0UZBDQ
- nEyYMoHnUruvopyRtpe5MiSvXHCMIPQ4f/+TxhefH/vHrfQQG9voOGtRbMSIatFZAveM
- 53F3kEFD8vtSrSjDDNW8B16JIWfT2oaz33/uX/FKgWK4H0Ju8U/XVqBKSEunZ7tdKxAf
- J0ZqLEk9VM+bbRnfdZjLGZluO3DPveEm6i52F+yrq9ZrecMsEsPl91wlMMKhhWKFSQ2G
- +NRS5SstxcQwajsrVmM5WOutXab2EbYOwga4ORTZL6100tKrl1CWiJGelj7TbuRBUfd0
- IiFg==
-X-Gm-Message-State: AOAM531ame+I3ftso+flYUKUn1gqm0k37JAOAAMPzF/kg3jRHebVdfdR
- VzWXVKiMzhHIndynC9n5bY8y3/kbZ0IuV0VX81U=
-X-Google-Smtp-Source: ABdhPJwPEosiFGLCh1Om+iYYOIrm14s+jKGtC6pOIfj1UzMKhM2cbfSu1b3t5Ur8Oqq0A3qusW99WZHwLwnEWSFiFjI=
-X-Received: by 2002:a92:c94b:: with SMTP id i11mr400044ilq.177.1591745013439; 
- Tue, 09 Jun 2020 16:23:33 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=llzOn5SXmgPzBWcPwKF+7pAOepMVRqj/eYw9Sc0FgzE=;
+ b=XHOQhQtYoGfcfWghNSgmluSMhM4QhRMxKxWxa+ttHpX3RGYq6bqrnmh3+IcJbbkaDu
+ zbBnf8j+Bh85yraQIDDgn+dvtO+phROIxNWb1bBW2Wrjs89xdqbqgOH6Vo1YYm1pdyGc
+ k4vcYY0BTATzaFeDwzaOWvQVAlFd4KQNzZhx64pftWT3Vlsa0tsEGGSb9VPPcVa8FHti
+ yEzzR/aJ5BmQyPMEd39WqhE1jgnCymVsv4fYB3qozhoYmD4DZGCzb7AFgFT3UxToJ8Ob
+ CnV7zpNHtaMsfZTneMpD3ukLlR8JXn7KtmVmM9J17h+wrWe8Ppdkjf7WRkhzIT0QOVoX
+ QsFg==
+X-Gm-Message-State: AOAM533scmWKoO4qWP6h0GWxqRr0GEYNncmuDbjlToulrERPgO/YjS6q
+ DRVOn1rttBIJq7QgZJVOzU1OuCvrpEsCVImin+4=
+X-Google-Smtp-Source: ABdhPJw2pFQR0t/AsXHqvJegq3S5fWIiNjhub20/bp5lyca/B391uU6MEkMjbvWNyZNpHidS4YpS+cMaUCat4WftIcE=
+X-Received: by 2002:a6b:6a13:: with SMTP id x19mr494143iog.175.1591745134030; 
+ Tue, 09 Jun 2020 16:25:34 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200609122339.937862-1-armbru@redhat.com>
- <20200609122339.937862-2-armbru@redhat.com>
-In-Reply-To: <20200609122339.937862-2-armbru@redhat.com>
+References: <20200128003707.17028-1-ianjiang.ict@gmail.com>
+ <b14a65dd-b565-77ca-d479-f88e53ca0721@linaro.org>
+ <CAEiOBXXOA40F5kdttMby6eAfMGYVT0twZOhkojFK9qRDX1Xchw@mail.gmail.com>
+In-Reply-To: <CAEiOBXXOA40F5kdttMby6eAfMGYVT0twZOhkojFK9qRDX1Xchw@mail.gmail.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 9 Jun 2020 16:14:12 -0700
-Message-ID: <CAKmqyKPGBxODrm6vRLAYd_oFbeNsH3U_3qpS4O+w7m-YdgxLuQ@mail.gmail.com>
-Subject: Re: [PATCH v3 01/24] arm/stm32f405: Fix realization of
- "stm32f2xx-adc" devices
-To: Markus Armbruster <armbru@redhat.com>
+Date: Tue, 9 Jun 2020 16:16:13 -0700
+Message-ID: <CAKmqyKN50oAJjqUcXr8ze9zre04irjNxd9OxY5e_q7+r=sdTMw@mail.gmail.com>
+Subject: Re: [PATCH v2] riscv: Add helper to make NaN-boxing for FP register
+To: Chih-Min Chao <chihmin.chao@sifive.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::143;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x143.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d44;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd44.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -17
@@ -81,133 +79,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Alistair Francis <alistair@alistair23.me>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Richard Henderson <richard.henderson@linaro.org>,
  "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- qemu-arm <qemu-arm@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Ian Jiang <ianjiang.ict@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 9, 2020 at 5:24 AM Markus Armbruster <armbru@redhat.com> wrote:
+On Tue, Jun 9, 2020 at 3:08 AM Chih-Min Chao <chihmin.chao@sifive.com> wrote:
 >
-> stm32f405_soc_initfn() creates six such devices, but
-> stm32f405_soc_realize() realizes only one.  Affects machine
-> netduinoplus2.
->
-> In theory, a device becomes real only on realize.  In practice, the
-> transition from unreal to real is a fuzzy one.  The work to make a
-> device real can be spread between realize methods (fine),
-> instance_init methods (wrong), and board code wiring up the device
-> (fine as long as it effectively happens on realize).  Depending on
-> what exactly is done where, a device can work even when we neglect
-> to realize it.
->
-> The five unrealized devices appear to stay unreal: neither MMIO nor
-> IRQ get wired up.
->
-> Fix stm32f405_soc_realize() to realize and wire up all six.  Visible
-> in "info qtree":
->
->      bus: main-system-bus
->        type System
->        dev: stm32f405-soc, id ""
->          cpu-type =3D "cortex-m4-arm-cpu"
->        dev: stm32f2xx-adc, id ""
->          gpio-out "sysbus-irq" 1
->     -    mmio ffffffffffffffff/00000000000000ff
->     +    mmio 0000000040012000/00000000000000ff
->        dev: stm32f2xx-adc, id ""
->          gpio-out "sysbus-irq" 1
->     -    mmio ffffffffffffffff/00000000000000ff
->     +    mmio 0000000040012100/00000000000000ff
->        dev: stm32f2xx-adc, id ""
->          gpio-out "sysbus-irq" 1
->     -    mmio ffffffffffffffff/00000000000000ff
->     +    mmio 0000000040012200/00000000000000ff
->        dev: stm32f2xx-adc, id ""
->          gpio-out "sysbus-irq" 1
->     -    mmio ffffffffffffffff/00000000000000ff
->     +    mmio 0000000040012300/00000000000000ff
->        dev: stm32f2xx-adc, id ""
->          gpio-out "sysbus-irq" 1
->     -    mmio 0000000040012000/00000000000000ff
->     +    mmio 0000000040012400/00000000000000ff
->        dev: stm32f2xx-adc, id ""
->          gpio-out "sysbus-irq" 1
->     -    mmio ffffffffffffffff/00000000000000ff
->     +    mmio 0000000040012500/00000000000000ff
->        dev: armv7m, id ""
->
-> Fixes: 529fc5fd3e18ace8f739afd02dc0953354f39442
-> Cc: Alistair Francis <alistair@alistair23.me>
-> Cc: Peter Maydell <peter.maydell@linaro.org>
-> Cc: qemu-arm@nongnu.org
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ping ?  Could this be merged ?
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Applied to the RISC-V tree.
 
 Alistair
 
-> ---
->  hw/arm/stm32f405_soc.c | 23 +++++++++++++----------
->  1 file changed, 13 insertions(+), 10 deletions(-)
->
-> diff --git a/hw/arm/stm32f405_soc.c b/hw/arm/stm32f405_soc.c
-> index 4f10ce6176..c9a530eecf 100644
-> --- a/hw/arm/stm32f405_soc.c
-> +++ b/hw/arm/stm32f405_soc.c
-> @@ -37,7 +37,8 @@ static const uint32_t usart_addr[] =3D { 0x40011000, 0x=
-40004400, 0x40004800,
->  /* At the moment only Timer 2 to 5 are modelled */
->  static const uint32_t timer_addr[] =3D { 0x40000000, 0x40000400,
->                                         0x40000800, 0x40000C00 };
-> -#define ADC_ADDR                       0x40012000
-> +static const uint32_t adc_addr[] =3D { 0x40012000, 0x40012100, 0x4001220=
-0,
-> +                                     0x40012300, 0x40012400, 0x40012500 =
-};
->  static const uint32_t spi_addr[] =3D   { 0x40013000, 0x40003800, 0x40003=
-C00,
->                                         0x40013400, 0x40015000, 0x4001540=
-0 };
->  #define EXTI_ADDR                      0x40013C00
-> @@ -185,16 +186,18 @@ static void stm32f405_soc_realize(DeviceState *dev_=
-soc, Error **errp)
->      qdev_connect_gpio_out(DEVICE(&s->adc_irqs), 0,
->                            qdev_get_gpio_in(armv7m, ADC_IRQ));
->
-> -    dev =3D DEVICE(&(s->adc[i]));
-> -    object_property_set_bool(OBJECT(&s->adc[i]), true, "realized", &err)=
-;
-> -    if (err !=3D NULL) {
-> -        error_propagate(errp, err);
-> -        return;
-> +    for (i =3D 0; i < STM_NUM_ADCS; i++) {
-> +        dev =3D DEVICE(&(s->adc[i]));
-> +        object_property_set_bool(OBJECT(&s->adc[i]), true, "realized", &=
-err);
-> +        if (err !=3D NULL) {
-> +            error_propagate(errp, err);
-> +            return;
-> +        }
-> +        busdev =3D SYS_BUS_DEVICE(dev);
-> +        sysbus_mmio_map(busdev, 0, adc_addr[i]);
-> +        sysbus_connect_irq(busdev, 0,
-> +                           qdev_get_gpio_in(DEVICE(&s->adc_irqs), i));
->      }
-> -    busdev =3D SYS_BUS_DEVICE(dev);
-> -    sysbus_mmio_map(busdev, 0, ADC_ADDR);
-> -    sysbus_connect_irq(busdev, 0,
-> -                       qdev_get_gpio_in(DEVICE(&s->adc_irqs), i));
->
->      /* SPI devices */
->      for (i =3D 0; i < STM_NUM_SPIS; i++) {
-> --
-> 2.26.2
 >
 >
+> Chih-Min Chao
+>
+>
+>
+> On Wed, Jan 29, 2020 at 3:43 AM Richard Henderson <richard.henderson@linaro.org> wrote:
+>>
+>> On 1/27/20 4:37 PM, Ian Jiang wrote:
+>> > The function that makes NaN-boxing when a 32-bit value is assigned
+>> > to a 64-bit FP register is split out to a helper gen_nanbox_fpr().
+>> > Then it is applied in translating of the FLW instruction.
+>> >
+>> > Signed-off-by: Ian Jiang <ianjiang.ict@gmail.com>
+>> > ---
+>> >  target/riscv/insn_trans/trans_rvf.inc.c | 17 +++++++++++++++--
+>> >  1 file changed, 15 insertions(+), 2 deletions(-)
+>>
+>> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>>
+>>
+>> r~
+>>
 
