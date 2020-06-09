@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07C121F383D
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 12:42:03 +0200 (CEST)
-Received: from localhost ([::1]:42782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64FCE1F3867
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 12:47:08 +0200 (CEST)
+Received: from localhost ([::1]:57302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jibhg-0003yO-UA
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 06:42:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59294)
+	id 1jibmd-0001iR-9n
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 06:47:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jibeC-0007fp-5T
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 06:38:24 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:50812)
+ id 1jibeI-0007sI-U1
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 06:38:30 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:39982)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jibe7-0004Nm-SG
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 06:38:23 -0400
-Received: by mail-wm1-x336.google.com with SMTP id l17so2340115wmj.0
- for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 03:38:18 -0700 (PDT)
+ id 1jibeI-0004Q6-1b
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 06:38:30 -0400
+Received: by mail-wm1-x336.google.com with SMTP id r15so2557975wmh.5
+ for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 03:38:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=FCvzuxz79RDdPY0dCs+Wo9qWjxWoXIJFo/KmJobCbzg=;
- b=HO7zG6cv9qA9bgWA3Mx0IJvsWOK0Ljjjp2Zgg1J/SrNN/PTWimuPAkpUy159LZut81
- 5jFI+X1ZK2BgpiZgqHvGfdbgtcDp5NflTrm3FGn1tsciZREEsmiswq6IGR/gmHELJOq5
- ZTwAYaO1izBzzgvV+Nt0I5sEbwsRdDxzwUwI3yY/SCnCTIu99td1nCElMLgAsvm7V9op
- bmJ5qFQH+NIAFBn/BStaEgeRH8kkNsbIuPumzow6t0YivqLARmf0Lb4zkdkqnmqG2gdH
- ypWkUTkXyui2yBe6HSf9trDP7/u3Lk8okdq0iiPJXmKguORgPlqwI/FpkKu5UkYa1Cv7
- 1KpA==
+ bh=TdE0NVqFjv8C+w+EbnPrnutxQ+h9lo6aIv6K+mMS940=;
+ b=UZGqwHudciZm8hdnxZHYyLcY7jdL/PpjeSY8+MR7bC2ksVk6MedxdkK48qFxBEXgKe
+ vkK4J2eEu5EASVz1B5qipZu06QtPoKGLPGOnNkIwP8T/LMDRitiS32TwtPnfwdS8+P7I
+ 48UkqXGFbeyc3Akxdw528JLxG+pB4rziCRkQU9fhUoNGbY/8XWN4xkltX0YZoZrJdhIF
+ KmQX4AcZu/WOaBhkS8WQ0tWVN03iqeKONYDCCwoHnnUFHW+ur+xVcGQaVzNsr6XDJ/I4
+ GvpVwAIq79ZPDs6ZDRnrmZmSDkhjnBDZDZXETtIH6+5HN4oMWHEvW+2XgV/mH6lXGpqX
+ IXiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=FCvzuxz79RDdPY0dCs+Wo9qWjxWoXIJFo/KmJobCbzg=;
- b=bl45xla9tRKyXqT4sN7lYKeKvb10yr1k0AKRbqZ5WKoGNubHY8/AUeEYbs1ihDChLN
- X1rbZtxpV9KG8bYazkm4sZyUDomNtb7AKbXEPNQ9ojIZRM3PX9sRvZAWY60IXsCnfCZ6
- nS0QnSfKjlXJVGUejH+3N6Un02Oo2h7ZWlanpCGumvppxG8b6VQHcVKVSQ4Xrwhyrkwl
- nkCWmB1WxgImAp4YMh+Fe9KDp3NBKTIFjIFrvBsX24NHnHcbXKRGyBscixwOYPUD2FGy
- /5cDmJx2ks3rrb5hJPhYYIEU88ouZaWXYI3JZ2MTH7iXw2dlvt1SF+k4hILBLoJ2zm5k
- Cj6w==
-X-Gm-Message-State: AOAM532DLBMf7uVCA9UGqnOJ37CviMKxqURzfeDS9bCOj5whHhO7nd98
- zyw0hCWOF5NrbOkICs/lXwgZGw==
-X-Google-Smtp-Source: ABdhPJw0NzNHM2r60rDbPs5B3OZNaq3Vc1EYuk6cxZ+uSwXktCV0ydi0U37E99aI3yAcIPu0q5hpzg==
-X-Received: by 2002:a1c:4954:: with SMTP id w81mr3421321wma.86.1591699097710; 
- Tue, 09 Jun 2020 03:38:17 -0700 (PDT)
+ bh=TdE0NVqFjv8C+w+EbnPrnutxQ+h9lo6aIv6K+mMS940=;
+ b=i1G7GHyYFLZXVHz4xN4X9wuzDz6xrYsozi8FBEHZ1PbSSzkqPcT0Y14kztyTK4QXZK
+ edNIIpFxTAZBgWH6Ziqr5JQR5S17T+eXqN/Zuv9zl6ZfhYO+2yw92TE29DECaT8w6h/u
+ xPUzSFEXKZ377AFI8fVg6+WRgSsiAfi5lP1DOqUGyuj846nqZHuP1Z1h+eYRsGskE8uB
+ hdnGg+r9328aRzBBCC88S6njbQecT/EiPrfmxk2RGTEFnOHbkzFCwuTT0HSneVHf5LZT
+ 7c+4Qu0cTwGLv9rKN5pBxbQAKIPLQBrZj6GaJDa11GMaTTmFVTwToknAbZUxwcVTCfCc
+ A+aQ==
+X-Gm-Message-State: AOAM533c9TOjHeL3lVzEdd8PZDYtUNY3gMu4DPApISvm0CIrH7vHbcCw
+ 2oe9VxXF3wC3T19KqI7zvuX0Mw==
+X-Google-Smtp-Source: ABdhPJy5R5RPIffgGt7rbouGzV6mmylcK+77Iea4uB9dv38/DbQPnCgxlFthVn54Y90yhTxg5SKNXQ==
+X-Received: by 2002:a1c:66d5:: with SMTP id a204mr3278139wmc.134.1591699108754; 
+ Tue, 09 Jun 2020 03:38:28 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id t189sm2507096wma.4.2020.06.09.03.38.12
+ by smtp.gmail.com with ESMTPSA id y37sm3238863wrd.55.2020.06.09.03.38.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Jun 2020 03:38:13 -0700 (PDT)
+ Tue, 09 Jun 2020 03:38:19 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E1D631FF92;
- Tue,  9 Jun 2020 11:38:10 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 106881FF93;
+ Tue,  9 Jun 2020 11:38:11 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 06/17] .shippable: temporaily disable some cross builds
-Date: Tue,  9 Jun 2020 11:37:58 +0100
-Message-Id: <20200609103809.23443-7-alex.bennee@linaro.org>
+Subject: [PULL 07/17] tests/docker: fix pre-requisite for debian-tricore-cross
+Date: Tue,  9 Jun 2020 11:37:59 +0100
+Message-Id: <20200609103809.23443-8-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200609103809.23443-1-alex.bennee@linaro.org>
 References: <20200609103809.23443-1-alex.bennee@linaro.org>
@@ -89,50 +89,29 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These currently fail due to Debian bug #960271 as the
-linux-libc-library has a user-space build breaking symbol in it.
-
+Reported-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20200605154929.26910-7-alex.bennee@linaro.org>
+Message-Id: <20200605154929.26910-9-alex.bennee@linaro.org>
 
-diff --git a/.shippable.yml b/.shippable.yml
-index 2cce7b56890..10cf219bff4 100644
---- a/.shippable.yml
-+++ b/.shippable.yml
-@@ -5,8 +5,8 @@ env:
-   global:
-     - LC_ALL=C
-   matrix:
--    - IMAGE=debian-amd64
--      TARGET_LIST=x86_64-softmmu,x86_64-linux-user
-+    # - IMAGE=debian-amd64
-+    #   TARGET_LIST=x86_64-softmmu,x86_64-linux-user
-     - IMAGE=debian-win32-cross
-       TARGET_LIST=arm-softmmu,i386-softmmu,lm32-softmmu
-     - IMAGE=debian-win64-cross
-@@ -19,10 +19,10 @@ env:
-       TARGET_LIST=aarch64-softmmu,aarch64-linux-user
-     - IMAGE=debian-s390x-cross
-       TARGET_LIST=s390x-softmmu,s390x-linux-user
--    - IMAGE=debian-mips-cross
--      TARGET_LIST=mips-softmmu,mipsel-linux-user
--    - IMAGE=debian-mips64el-cross
--      TARGET_LIST=mips64el-softmmu,mips64el-linux-user
-+    # - IMAGE=debian-mips-cross
-+    #   TARGET_LIST=mips-softmmu,mipsel-linux-user
-+    # - IMAGE=debian-mips64el-cross
-+    #   TARGET_LIST=mips64el-softmmu,mips64el-linux-user
-     - IMAGE=debian-ppc64el-cross
-       TARGET_LIST=ppc64-softmmu,ppc64-linux-user,ppc64abi32-linux-user
- build:
+diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
+index ed46bd98eb5..981b7fcf2a5 100644
+--- a/tests/docker/Makefile.include
++++ b/tests/docker/Makefile.include
+@@ -130,7 +130,7 @@ docker-image-debian-sparc64-cross: docker-image-debian10
+ docker-image-travis: NOUSER=1
+ 
+ # Specialist build images, sometimes very limited tools
+-docker-image-tricore-cross: docker-image-debian9
++docker-image-debian-tricore-cross: docker-image-debian9
+ docker-image-debian-arm64-test-cross: docker-image-debian11
+ 
+ # These images may be good enough for building tests but not for test builds
 -- 
 2.20.1
 
