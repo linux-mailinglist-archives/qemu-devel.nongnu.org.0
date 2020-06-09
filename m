@@ -2,92 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F5AC1F390A
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 13:09:37 +0200 (CEST)
-Received: from localhost ([::1]:40646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C8011F3910
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 13:10:15 +0200 (CEST)
+Received: from localhost ([::1]:41704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jic8O-00032a-JC
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 07:09:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33994)
+	id 1jic90-0003Sz-2h
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 07:10:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34038)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jic78-0001oK-2c
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 07:08:18 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:23260
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jic76-0001D4-Qo
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 07:08:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591700896;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=nzIR+3VysZFR+NGFD1AmGomUUyfUE6amVvn/ew5M7nY=;
- b=OyHpAaQJdsGL8vfGCHtmjpueoLbhAJK2sr1+kK/qmR8exBExbEjBspXsgRjSYSLIGCKRzv
- 8JcSlpEse1zqhRa28Qc43TYvUVRHWmIy+wm59j6iebdRutiB0BfK1AZT9VXK8cI5CvlV1x
- DsQhHEX+8evJFuqO9aKNehlc2vTn2UE=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-205-SQKq2rSkNJ2GbKWyXZp56g-1; Tue, 09 Jun 2020 07:08:14 -0400
-X-MC-Unique: SQKq2rSkNJ2GbKWyXZp56g-1
-Received: by mail-wr1-f71.google.com with SMTP id p10so8487017wrn.19
- for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 04:08:14 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jic7K-0002AT-6S
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 07:08:30 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:33746)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jic7I-0001Gy-SN
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 07:08:29 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id l11so20826111wru.0
+ for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 04:08:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=g6Qq75Y4R9AmAiXFiyNALmpoQBF/WOdCpoY6VVwRMUk=;
+ b=G4E7Tb91aC29gHoJ9zbOe+LXKrGfIxfL8YEAibHOCHOeIC3O0+UuJXFOeCX6CvDMjS
+ 7w/b0hCWC7wYUPjj922+xVX5/5vTX+lveuMCTf5Ym3FuFnTF91x2pr3ZJij0ybn8EKV/
+ EUqli/vsjyutJeF7VN17LFQAOWVObpczCqYwQ6jbf1TAm9Ga/s7GhOBvTAHZtj+GI7em
+ eT63vlBjJIz2ht5X43Bfn48HYSS2pWmPDcK1rBrf+f6WNCzNsykjbMrCZ+FHpuwcF/Gx
+ itq0fjnWbkKB4BkyfQSkXCn8U30OR/Tx1IluLAGlOM4nx9sqA0VXHlRQ++3aUjxVhPbC
+ F3Hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=nzIR+3VysZFR+NGFD1AmGomUUyfUE6amVvn/ew5M7nY=;
- b=BQSI5JwxXyS5/SEibJFtxNd6CZ5DryljVUAet0KOhkL98DF6jWIx/TyaufYz6+whfi
- +/BTL2b0IrB0OlntVcj6kpye6wSmaRPOMESE4dRz/WhKPGier23nGxs4K+0rPBJ2tDEq
- yQb+x+aEaBBx1wipXHSMBTets1LR6pB6b8XiZzLVC6OjUgAlIlq1+t9e/Ys+78+99nxe
- WlVEQX5lk+T1ry9gm+gd4H8bZ5M45DzcpuuEomqQCC60aVyC39F5qhqBvFytKn1Bm9+r
- tLR7+cYQ5DbXFsbm5iA1bP0AofXXonF7pSYU2Iy4tfxRMMcklo36B+6u9OU93zFERYCH
- WszQ==
-X-Gm-Message-State: AOAM533WsJ3oxZSaXwmG46et6JPYC0PbQkihTGUd0q8v7gl/mJrZhsYf
- mbal7xZF9oZ6WCY2bYLeznWaTKWXTiiNGBr6t9Z46IRWCJEUrAzjdSn4PVLTX7BxjbqMBPRZMHs
- fuAHuYWsGtXAe5+M=
-X-Received: by 2002:a1c:7215:: with SMTP id n21mr3428451wmc.10.1591700893214; 
- Tue, 09 Jun 2020 04:08:13 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxdC3784/XM7YgW9UJ09UlWBbxHKdjVmbxcRKY6OuIHXNLH2XpKSYf455WgqT5IWKVna7+8aw==
-X-Received: by 2002:a1c:7215:: with SMTP id n21mr3428413wmc.10.1591700892989; 
- Tue, 09 Jun 2020 04:08:12 -0700 (PDT)
-Received: from [192.168.178.58] ([151.21.172.168])
- by smtp.gmail.com with ESMTPSA id r11sm3060354wre.25.2020.06.09.04.08.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 Jun 2020 04:08:12 -0700 (PDT)
-Subject: Re: [RFC PATCH 14/35] hw/i386/pc: Emit warning when old code is used
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20200608160044.15531-1-philmd@redhat.com>
- <20200608160044.15531-15-philmd@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <99a85bad-3197-6a74-5218-86f2326cd381@redhat.com>
-Date: Tue, 9 Jun 2020 13:08:10 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=g6Qq75Y4R9AmAiXFiyNALmpoQBF/WOdCpoY6VVwRMUk=;
+ b=FfPkvJvfgjS+AH/Kdwa6kLaRDocnUtlpilXdZiILoPrBP785hrR9QFaisC4pg2h4Ws
+ wi4Dns0nzGp0a4RIxUTydTzPOn/w5yDQVdyjIdfSw/ImQWvqOPhfr6Zhfev8bUyDpFR3
+ HYdV/Oetqu2pDL3+LL797jqDX4hm4zboZ3lZry3zIyrLRCgDTemFZ/351jkwwWjz2sUi
+ +zcmj3OsO+18e52JMqyezYCUezxGCjC8ff4e9sXODtpk5P1D7l+Fcormi6VP+zYbMMSR
+ SodLQosqiJDprEMDxcRAmrKMGG3iOszkoGDbMw7bzASZYwfXqWnsyq7J5g2974sBmpZl
+ cRcA==
+X-Gm-Message-State: AOAM5327HGZHO5/iqU9l0eGh28PIbju9nNUIH5Tm+x/6qzGKrYE+oH7q
+ KAzwOv3TJDsZXdrt0IAK77rrYQ==
+X-Google-Smtp-Source: ABdhPJy61g0tYYBsKqjAi28HP8CgXFskcyI2H6fGsDKwrS5AHJt7cQFGZorM6yhfuULn/2GCICVgLA==
+X-Received: by 2002:adf:ea8b:: with SMTP id s11mr3905958wrm.168.1591700907041; 
+ Tue, 09 Jun 2020 04:08:27 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id z8sm2985887wru.33.2020.06.09.04.08.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 09 Jun 2020 04:08:25 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 145361FF7E;
+ Tue,  9 Jun 2020 12:08:25 +0100 (BST)
+References: <20200609103809.23443-1-alex.bennee@linaro.org>
+ <20200609103809.23443-16-alex.bennee@linaro.org>
+ <4f27f12b-b2eb-9a63-c561-959059f1bb15@suse.de>
+User-agent: mu4e 1.5.2; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Claudio Fontana <cfontana@suse.de>
+Subject: Re: [PULL 15/17] tests/vm: Remove flex/bison packages
+In-reply-to: <4f27f12b-b2eb-9a63-c561-959059f1bb15@suse.de>
+Date: Tue, 09 Jun 2020 12:08:25 +0100
+Message-ID: <871rmo5weu.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20200608160044.15531-15-philmd@redhat.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/08 23:42:34
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,63 +90,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Max Filippov <jcmvbkbc@gmail.com>, Alistair Francis <Alistair.Francis@wdc.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Stefano Stabellini <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>,
- Magnus Damm <magnus.damm@gmail.com>, Markus Armbruster <armbru@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Alistair Francis <alistair@alistair23.me>, qemu-arm@nongnu.org,
- xen-devel@lists.xenproject.org, qemu-riscv@nongnu.org,
- Stafford Horne <shorne@gmail.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Richard Henderson <rth@twiddle.net>,
- "Daniel P . Berrange" <berrange@redhat.com>, Thomas Huth <huth@tuxfamily.org>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Michael Walle <michael@walle.cc>, qemu-ppc@nongnu.org,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Fam Zheng <fam@euphon.net>, peter.maydell@linaro.org,
+ Philippe =?utf-8?Q?Ma?= =?utf-8?Q?thieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 08/06/20 18:00, Philippe Mathieu-Daudé wrote:
-> This code hasn't been QOM'ified yet. Warn the user.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
->  hw/i386/pc.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-> index 2128f3d6fe..c71809fd28 100644
-> --- a/hw/i386/pc.c
-> +++ b/hw/i386/pc.c
-> @@ -94,6 +94,7 @@
->  #include "vmport.h"
->  #include "fw_cfg.h"
->  #include "trace.h"
-> +#include "hw/qdev-deprecated.h"
->  
->  GlobalProperty pc_compat_5_0[] = {};
->  const size_t pc_compat_5_0_len = G_N_ELEMENTS(pc_compat_5_0);
-> @@ -348,6 +349,8 @@ GSIState *pc_gsi_create(qemu_irq **irqs, bool pci_enabled)
->  {
->      GSIState *s;
->  
-> +    qdev_warn_deprecated_function_used();
-> +
->      s = g_new0(GSIState, 1);
->      if (kvm_ioapic_in_kernel()) {
->          kvm_pc_setup_irq_routing(pci_enabled);
-> 
 
-This one is okay, GSIState is just an array of qemu_irqs.
+Claudio Fontana <cfontana@suse.de> writes:
 
-Paolo
+> This series incidentally removes the build warnings when not having flex/=
+bison,
+>
+> could someone queue it?
+>
+> Thanks,
+>
+> Claudio
+>
+> https://lists.gnu.org/archive/html/qemu-devel/2020-06/msg01851.html
 
+If it is all reviewed I can pick it up in the next testing/next bits if
+no one else cares.
+
+>
+>
+> On 6/9/20 12:38 PM, Alex Benn=C3=A9e wrote:
+>> From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>>=20
+>> QEMU does not use flex/bison packages.
+>>=20
+>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>> Reviewed-by: Claudio Fontana <cfontana@suse.de>
+>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>> Message-Id: <20200515163029.12917-3-philmd@redhat.com>
+>>=20
+>> diff --git a/tests/vm/fedora b/tests/vm/fedora
+>> index bd9c6cf295c..a9195670f4b 100755
+>> --- a/tests/vm/fedora
+>> +++ b/tests/vm/fedora
+>> @@ -32,7 +32,6 @@ class FedoraVM(basevm.BaseVM):
+>>      pkgs =3D [
+>>          # tools
+>>          'git-core',
+>> -        'flex', 'bison',
+>>          'gcc', 'binutils', 'make',
+>>=20=20
+>>          # perl
+>> diff --git a/tests/vm/freebsd b/tests/vm/freebsd
+>> index 298967fe9cf..f87db2b126e 100755
+>> --- a/tests/vm/freebsd
+>> +++ b/tests/vm/freebsd
+>> @@ -38,7 +38,6 @@ class FreeBSDVM(basevm.BaseVM):
+>>          "bash",
+>>          "gmake",
+>>          "gsed",
+>> -        "flex", "bison",
+>>=20=20
+>>          # libs: crypto
+>>          "gnutls",
+>> diff --git a/tests/vm/netbsd b/tests/vm/netbsd
+>> index b10c9d429de..cdac502dad8 100755
+>> --- a/tests/vm/netbsd
+>> +++ b/tests/vm/netbsd
+>> @@ -36,7 +36,6 @@ class NetBSDVM(basevm.BaseVM):
+>>          "bash",
+>>          "gmake",
+>>          "gsed",
+>> -        "flex", "bison",
+>>=20=20
+>>          # libs: crypto
+>>          "gnutls",
+>> diff --git a/tests/vm/openbsd b/tests/vm/openbsd
+>> index 0b705f49452..13e7f9a6d56 100755
+>> --- a/tests/vm/openbsd
+>> +++ b/tests/vm/openbsd
+>> @@ -35,7 +35,6 @@ class OpenBSDVM(basevm.BaseVM):
+>>          "bash",
+>>          "gmake",
+>>          "gsed",
+>> -        "bison",
+>>=20=20
+>>          # libs: usb
+>>          "libusb1",
+>> diff --git a/tests/vm/ubuntu.i386 b/tests/vm/ubuntu.i386
+>> index 15707753353..24527cc78c7 100755
+>> --- a/tests/vm/ubuntu.i386
+>> +++ b/tests/vm/ubuntu.i386
+>> @@ -52,7 +52,7 @@ class UbuntuX86VM(basevm.BaseVM):
+>>          self.ssh_root_check("sed -ie s/^#\ deb-src/deb-src/g /etc/apt/s=
+ources.list")
+>>          self.ssh_root_check("apt-get update")
+>>          self.ssh_root_check("apt-get build-dep -y qemu")
+>> -        self.ssh_root_check("apt-get install -y libfdt-dev flex bison l=
+anguage-pack-en")
+>> +        self.ssh_root_check("apt-get install -y libfdt-dev language-pac=
+k-en")
+>>          self.ssh_root("poweroff")
+>>          self.wait()
+>>          os.rename(img_tmp, img)
+>>=20
+
+
+--=20
+Alex Benn=C3=A9e
 
