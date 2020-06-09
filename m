@@ -2,84 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E11E1F3873
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 12:48:31 +0200 (CEST)
-Received: from localhost ([::1]:34582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16C331F38B0
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 12:52:57 +0200 (CEST)
+Received: from localhost ([::1]:47790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jibny-0003yv-Js
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 06:48:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59572)
+	id 1jibsF-0001I6-SS
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 06:52:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60024)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jibjY-0007J1-P0
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 06:43:56 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:34658)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jibqB-0007gv-Vk
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 06:50:48 -0400
+Received: from indium.canonical.com ([91.189.90.7]:51456)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jibjX-0005Dg-Pn
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 06:43:56 -0400
-Received: by mail-wr1-x436.google.com with SMTP id r7so20762286wro.1
- for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 03:43:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=M9+zsJ7z9WwK/dGWrZodx5Civohk1cvnYUrMU7t5GYU=;
- b=SJygbJX6YYn+prddjMVYTxKJlIf8rtP7z2lxvk7p9BNuVujjGJ58ECBosu8w8qrkNd
- B7HKmnEunE1dpPjeIs/tRxzEmyRDxKFkZOoFBHkCa5AKm+4egXYhxWSMxOQkA904lJl0
- S/pEGJH/iLmhfYgnxlM8g5K8htI7oenhxWa/7JArmxl38AZ26ezhOi3YPNxT9uEDf3P6
- 3qHKP74V/aAIMr/QdYmeTj3MStZJp/Se2spWTxSoYBqCwwFHFYEbBZi1dSETi8Z+006p
- NSAoNa2hWMyRVvVRVp1X9wvOFq4UHfUZ5s0pI3LKgukTTeA/vlVl5hX1O/DssnW9RaC+
- nSyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=M9+zsJ7z9WwK/dGWrZodx5Civohk1cvnYUrMU7t5GYU=;
- b=tJM6xCxs89TpZVJEMm5CTh6yV6koyAau6xTIB8PqnclcY0Lebo5zFDWNAh4+pwKaPM
- w5hxj4XJTZW1AxB807Wogeu5iFpqSijG+2VXFW+eVm82T7TpWaR3fiB7HNvp7ke4rGV2
- FG4iYC2J2mmk0OnCn4LKcSoyrBIPbPuW1waOmmjbEXWqbSjbVfD8oAYUQzOlI1qb8qH2
- kxmMK4HWloIs3SNu7b068tse/k/RSeNelce8S0fLVnZpXUCUQKhMdb6fTvoOIXsQS8mM
- 9iipO+X/JYm/kpYSdxtoTVE5eS1McQe3VLqYYmueqmA5gXujq1tY/Ms/XqfFovJjibXG
- gG3w==
-X-Gm-Message-State: AOAM5303XAGLXFda4AHgaz4ReauiGz2yhXJsA9m9Wnktxw+R0/ssv6rH
- t04MIu1t+y9lKUNyJBba2dBY0w==
-X-Google-Smtp-Source: ABdhPJyOUGLUccKYFL312/tibawMXg0iqHSu64dzxSiiy4f3ynU7IREYr2iWF0sH5C15xD2ZR8yd8w==
-X-Received: by 2002:a5d:5483:: with SMTP id h3mr3865295wrv.10.1591699434395;
- Tue, 09 Jun 2020 03:43:54 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id a1sm2405807wmj.29.2020.06.09.03.43.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Jun 2020 03:43:51 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E57201FF9F;
- Tue,  9 Jun 2020 11:38:12 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: peter.maydell@linaro.org
-Subject: [PULL 17/17] scripts/coverity-scan: Remove flex/bison packages
-Date: Tue,  9 Jun 2020 11:38:09 +0100
-Message-Id: <20200609103809.23443-18-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200609103809.23443-1-alex.bennee@linaro.org>
-References: <20200609103809.23443-1-alex.bennee@linaro.org>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jibqA-0006HK-1Z
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 06:50:47 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jibq7-0007ZP-4p
+ for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 10:50:43 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 233E22E8053
+ for <qemu-devel@nongnu.org>; Tue,  9 Jun 2020 10:50:43 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 09 Jun 2020 10:42:45 -0000
+From: "Vladislav K. Valtchev" <1882671@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=New; importance=Undecided; assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: vvaltchev
+X-Launchpad-Bug-Reporter: Vladislav K. Valtchev (vvaltchev)
+X-Launchpad-Bug-Modifier: Vladislav K. Valtchev (vvaltchev)
+Message-Id: <159169936514.32294.8785049859239547612.malonedeb@gac.canonical.com>
+Subject: [Bug 1882671] [NEW] qemu-system-x86_64 (ver 4.2) stuck at boot with
+ OVMF bios
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="ef9fc486e875d54078fa61cf91e898b895125d89";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 1b79396fbf515530254a415b7bc9091c87255528
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 06:50:43
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -88,42 +74,183 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Claudio Fontana <cfontana@suse.de>
+Reply-To: Bug 1882671 <1882671@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+Public bug reported:
 
-QEMU does not use flex/bison packages.
+The version of QEMU (4.2.0) packaged for Ubuntu 20.04 hangs indefinitely
+at boot if an OVMF bios is used. This happens ONLY with qemu-system-
+x86_64. qemu-system-i386 works fine with the latest ia32 OVMF bios.
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Claudio Fontana <cfontana@suse.de>
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20200515163029.12917-6-philmd@redhat.com>
+NOTE[1]: the same identical OVMF bios works fine on QEMU 2.x packaged with =
+Ubuntu 18.04.
+NOTE[2]: reproducing the fatal bug requires *no* operating system:
 
-diff --git a/scripts/coverity-scan/coverity-scan.docker b/scripts/coverity-scan/coverity-scan.docker
-index a4f64d12834..ad4d64c0f81 100644
---- a/scripts/coverity-scan/coverity-scan.docker
-+++ b/scripts/coverity-scan/coverity-scan.docker
-@@ -19,7 +19,6 @@ FROM fedora:30
- ENV PACKAGES \
-     alsa-lib-devel \
-     bc \
--    bison \
-     brlapi-devel \
-     bzip2 \
-     bzip2-devel \
-@@ -30,7 +29,6 @@ ENV PACKAGES \
-     dbus-daemon \
-     device-mapper-multipath-devel \
-     findutils \
--    flex \
-     gcc \
-     gcc-c++ \
-     gettext \
--- 
-2.20.1
+   qemu-system-x86_64 -bios OVMF-pure-efi.fd
 
+On its window QEMU gets stuck at the very first stage:
+   "Guest has not initialized the display (yet)."
+
+NOTE[3]: QEMU gets stuck no matter if KVM is used or not.
+
+NOTE[4]: By adding the `-d int` option it is possible to observe that
+QEMU is, apparently, stuck in an endless loop of interrupts. For the
+first few seconds, registers' values vary quickly, but at some point
+they reach a final value, while the interrupt counter increments:
+
+  2568: v=3D68 e=3D0000 i=3D0 cpl=3D0 IP=3D0038:0000000007f1d225 pc=3D00000=
+00007f1d225 SP=3D0030:0000000007f0c8d0 env->regs[R_EAX]=3D0000000000000000
+RAX=3D0000000000000000 RBX=3D0000000007f0c920 RCX=3D0000000000000000 RDX=3D=
+0000000000000001
+RSI=3D0000000006d18798 RDI=3D0000000000008664 RBP=3D0000000000000000 RSP=3D=
+0000000007f0c8d0
+R8 =3D0000000000000001 R9 =3D0000000000000089 R10=3D0000000000000000 R11=3D=
+0000000007f2c987
+R12=3D0000000000000000 R13=3D0000000000000000 R14=3D0000000007087901 R15=3D=
+0000000000000000
+RIP=3D0000000007f1d225 RFL=3D00000246 [---Z-P-] CPL=3D0 II=3D0 A20=3D1 SMM=
+=3D0 HLT=3D0
+ES =3D0030 0000000000000000 ffffffff 00cf9300 DPL=3D0 DS   [-WA]
+CS =3D0038 0000000000000000 ffffffff 00af9a00 DPL=3D0 CS64 [-R-]
+SS =3D0030 0000000000000000 ffffffff 00cf9300 DPL=3D0 DS   [-WA]
+DS =3D0030 0000000000000000 ffffffff 00cf9300 DPL=3D0 DS   [-WA]
+FS =3D0030 0000000000000000 ffffffff 00cf9300 DPL=3D0 DS   [-WA]
+GS =3D0030 0000000000000000 ffffffff 00cf9300 DPL=3D0 DS   [-WA]
+LDT=3D0000 0000000000000000 0000ffff 00008200 DPL=3D0 LDT
+TR =3D0000 0000000000000000 0000ffff 00008b00 DPL=3D0 TSS64-busy
+GDT=3D     00000000079eea98 00000047
+IDT=3D     000000000758f018 00000fff
+CR0=3D80010033 CR2=3D0000000000000000 CR3=3D0000000007c01000 CR4=3D00000668
+DR0=3D0000000000000000 DR1=3D0000000000000000 DR2=3D0000000000000000 DR3=3D=
+0000000000000000 =
+
+DR6=3D00000000ffff0ff0 DR7=3D0000000000000400
+CCS=3D0000000000000044 CCD=3D0000000000000000 CCO=3DEFLAGS  =
+
+EFER=3D0000000000000d00
+
+
+NOTE[5]: Just to better help the investigation of the bug, I'd like to rema=
+rk that the issue is NOT caused by an endless loop of triple-faults. I trie=
+d with -d cpu_reset and there is NO such loop. No triple fault whatsoever.
+
+NOTE[6]: The OVMF version used for the test has been downloaded from:
+https://www.kraxel.org/repos/jenkins/edk2/edk2.git-ovmf-x64-0-20200515.1398=
+.g6ff7c838d0.noarch.rpm
+
+but the issue is the same with older OVMF versions as well.
+
+
+Please take a look at it, as the bug is NOT a corner case. QEMU 4.2.0 canno=
+t boot with an UEFI firmware (OVMF) while virtualizing a x86_64 machine AT =
+ALL.
+
+Thank you very much,
+Vladislav K. Valtchev
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+** Affects: qemu (Ubuntu)
+     Importance: Undecided
+         Status: New
+
+** Also affects: qemu (Ubuntu)
+   Importance: Undecided
+       Status: New
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1882671
+
+Title:
+  qemu-system-x86_64 (ver 4.2) stuck at boot with OVMF bios
+
+Status in QEMU:
+  New
+Status in qemu package in Ubuntu:
+  New
+
+Bug description:
+  The version of QEMU (4.2.0) packaged for Ubuntu 20.04 hangs
+  indefinitely at boot if an OVMF bios is used. This happens ONLY with
+  qemu-system-x86_64. qemu-system-i386 works fine with the latest ia32
+  OVMF bios.
+
+  NOTE[1]: the same identical OVMF bios works fine on QEMU 2.x packaged wit=
+h Ubuntu 18.04.
+  NOTE[2]: reproducing the fatal bug requires *no* operating system:
+
+     qemu-system-x86_64 -bios OVMF-pure-efi.fd
+
+  On its window QEMU gets stuck at the very first stage:
+     "Guest has not initialized the display (yet)."
+
+  NOTE[3]: QEMU gets stuck no matter if KVM is used or not.
+
+  NOTE[4]: By adding the `-d int` option it is possible to observe that
+  QEMU is, apparently, stuck in an endless loop of interrupts. For the
+  first few seconds, registers' values vary quickly, but at some point
+  they reach a final value, while the interrupt counter increments:
+
+    2568: v=3D68 e=3D0000 i=3D0 cpl=3D0 IP=3D0038:0000000007f1d225 pc=3D000=
+0000007f1d225 SP=3D0030:0000000007f0c8d0 env->regs[R_EAX]=3D0000000000000000
+  RAX=3D0000000000000000 RBX=3D0000000007f0c920 RCX=3D0000000000000000 RDX=
+=3D0000000000000001
+  RSI=3D0000000006d18798 RDI=3D0000000000008664 RBP=3D0000000000000000 RSP=
+=3D0000000007f0c8d0
+  R8 =3D0000000000000001 R9 =3D0000000000000089 R10=3D0000000000000000 R11=
+=3D0000000007f2c987
+  R12=3D0000000000000000 R13=3D0000000000000000 R14=3D0000000007087901 R15=
+=3D0000000000000000
+  RIP=3D0000000007f1d225 RFL=3D00000246 [---Z-P-] CPL=3D0 II=3D0 A20=3D1 SM=
+M=3D0 HLT=3D0
+  ES =3D0030 0000000000000000 ffffffff 00cf9300 DPL=3D0 DS   [-WA]
+  CS =3D0038 0000000000000000 ffffffff 00af9a00 DPL=3D0 CS64 [-R-]
+  SS =3D0030 0000000000000000 ffffffff 00cf9300 DPL=3D0 DS   [-WA]
+  DS =3D0030 0000000000000000 ffffffff 00cf9300 DPL=3D0 DS   [-WA]
+  FS =3D0030 0000000000000000 ffffffff 00cf9300 DPL=3D0 DS   [-WA]
+  GS =3D0030 0000000000000000 ffffffff 00cf9300 DPL=3D0 DS   [-WA]
+  LDT=3D0000 0000000000000000 0000ffff 00008200 DPL=3D0 LDT
+  TR =3D0000 0000000000000000 0000ffff 00008b00 DPL=3D0 TSS64-busy
+  GDT=3D     00000000079eea98 00000047
+  IDT=3D     000000000758f018 00000fff
+  CR0=3D80010033 CR2=3D0000000000000000 CR3=3D0000000007c01000 CR4=3D000006=
+68
+  DR0=3D0000000000000000 DR1=3D0000000000000000 DR2=3D0000000000000000 DR3=
+=3D0000000000000000 =
+
+  DR6=3D00000000ffff0ff0 DR7=3D0000000000000400
+  CCS=3D0000000000000044 CCD=3D0000000000000000 CCO=3DEFLAGS  =
+
+  EFER=3D0000000000000d00
+
+  =
+
+  NOTE[5]: Just to better help the investigation of the bug, I'd like to re=
+mark that the issue is NOT caused by an endless loop of triple-faults. I tr=
+ied with -d cpu_reset and there is NO such loop. No triple fault whatsoever.
+
+  NOTE[6]: The OVMF version used for the test has been downloaded from:
+  https://www.kraxel.org/repos/jenkins/edk2/edk2.git-ovmf-x64-0-20200515.13=
+98.g6ff7c838d0.noarch.rpm
+
+  but the issue is the same with older OVMF versions as well.
+
+  =
+
+  Please take a look at it, as the bug is NOT a corner case. QEMU 4.2.0 can=
+not boot with an UEFI firmware (OVMF) while virtualizing a x86_64 machine A=
+T ALL.
+
+  Thank you very much,
+  Vladislav K. Valtchev
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1882671/+subscriptions
 
