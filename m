@@ -2,31 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D1E71F46C9
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 21:08:38 +0200 (CEST)
-Received: from localhost ([::1]:35526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44FA91F46C5
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 21:06:31 +0200 (CEST)
+Received: from localhost ([::1]:54488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jijbw-0003Dk-Uz
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 15:08:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44592)
+	id 1jijZt-0007ss-HB
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 15:06:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1jijXF-0005xi-67; Tue, 09 Jun 2020 15:03:45 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:40178)
+ id 1jijXF-0005xm-B2; Tue, 09 Jun 2020 15:03:45 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:40188)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1jijXD-0006eQ-Dc; Tue, 09 Jun 2020 15:03:44 -0400
+ id 1jijXD-0006g6-Ez; Tue, 09 Jun 2020 15:03:44 -0400
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by charlie.dont.surf (Postfix) with ESMTPSA id 0A619BF533;
- Tue,  9 Jun 2020 19:03:39 +0000 (UTC)
+ by charlie.dont.surf (Postfix) with ESMTPSA id AF323BF7E0;
+ Tue,  9 Jun 2020 19:03:40 +0000 (UTC)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-block@nongnu.org
-Subject: [PATCH v7 00/22] nvme: small fixes, refactoring and cleanups
-Date: Tue,  9 Jun 2020 21:03:11 +0200
-Message-Id: <20200609190333.59390-1-its@irrelevant.dk>
+Subject: [PATCH v7 01/22] hw/block/nvme: fix pci doorbell size calculation
+Date: Tue,  9 Jun 2020 21:03:12 +0200
+Message-Id: <20200609190333.59390-2-its@irrelevant.dk>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20200609190333.59390-1-its@irrelevant.dk>
+References: <20200609190333.59390-1-its@irrelevant.dk>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -62,66 +64,56 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-Hi all,
+The size of the BAR is 0x1000 (main registers) + 8 bytes for each
+queue. Currently, the size of the BAR is calculated like so:
 
-As per our discussion about how to amend the bug I introduced in
-"hw/block/nvme: allow use of any valid msix vector", this is a respin
-without that patch.
+    n->reg_size = pow2ceil(0x1004 + 2 * (n->num_queues + 1) * 4);
 
-Kevin, it applies cleanly on top of your block tree with all current
-hw/block/bnvme patches removed.
+Since the 'num_queues' parameter already accounts for the admin queue,
+this should in any case not need to be incremented by one. Also, the
+size should be initialized to (0x1000).
 
+    n->reg_size = pow2ceil(0x1000 + 2 * n->num_queues * 4);
 
-Changes since v6
-~~~~~~~~~~~~~~~~
-* Dropped the goofed "hw/block/nvme: allow use of any valid msix vector"
-  patch.
+This, with the default value of num_queues (64), we will set aside room
+for 1 admin queue and 63 I/O queues (4 bytes per doorbell, 2 doorbells
+per queue).
 
-* Included Philippe's "hw/block/nvme: Verify msix_vector_use() returned
-  value" patch for posterity.
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
+Reviewed-by: Keith Busch <kbusch@kernel.org>
+Message-Id: <20200514044611.734782-2-its@irrelevant.dk>
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+---
+ hw/block/nvme.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-* Added two patches (requesting reviews):
-
-    1. hw/block/nvme: add msix_qsize parameter
-    2. hw/block/nvme: verify msix_init_exclusive_bar() return value
-
-  Kevin, it's up to you if you want to wait for reviews on these two or
-  just pick up the rest of the series. But let's see if we can get a
-  quick review on them.
-
-
-Klaus Jensen (21):
-  hw/block/nvme: fix pci doorbell size calculation
-  hw/block/nvme: rename trace events to pci_nvme
-  hw/block/nvme: remove superfluous breaks
-  hw/block/nvme: move device parameters to separate struct
-  hw/block/nvme: use constants in identify
-  hw/block/nvme: refactor nvme_addr_read
-  hw/block/nvme: fix pin-based interrupt behavior
-  hw/block/nvme: add max_ioqpairs device parameter
-  hw/block/nvme: remove redundant cmbloc/cmbsz members
-  hw/block/nvme: factor out property/constraint checks
-  hw/block/nvme: factor out device state setup
-  hw/block/nvme: factor out block backend setup
-  hw/block/nvme: add namespace helpers
-  hw/block/nvme: factor out namespace setup
-  hw/block/nvme: factor out pci setup
-  hw/block/nvme: factor out cmb setup
-  hw/block/nvme: factor out pmr setup
-  hw/block/nvme: do cmb/pmr init as part of pci init
-  hw/block/nvme: factor out controller identify setup
-  hw/block/nvme: add msix_qsize parameter
-  hw/block/nvme: verify msix_init_exclusive_bar() return value
-
-Philippe Mathieu-Daudé (1):
-  hw/block/nvme: Verify msix_vector_use() returned value
-
- hw/block/nvme.c       | 576 ++++++++++++++++++++++++------------------
- hw/block/nvme.h       |  34 ++-
- hw/block/trace-events | 180 ++++++-------
- include/block/nvme.h  |   8 +
- 4 files changed, 459 insertions(+), 339 deletions(-)
-
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index a21eeca2fbf9..c1476e8b2a60 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -53,6 +53,9 @@
+ #include "trace.h"
+ #include "nvme.h"
+ 
++#define NVME_REG_SIZE 0x1000
++#define NVME_DB_SIZE  4
++
+ #define NVME_GUEST_ERR(trace, fmt, ...) \
+     do { \
+         (trace_##trace)(__VA_ARGS__); \
+@@ -1401,7 +1404,9 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+     pcie_endpoint_cap_init(pci_dev, 0x80);
+ 
+     n->num_namespaces = 1;
+-    n->reg_size = pow2ceil(0x1004 + 2 * (n->num_queues + 1) * 4);
++
++    /* num_queues is really number of pairs, so each has two doorbells */
++    n->reg_size = pow2ceil(NVME_REG_SIZE + 2 * n->num_queues * NVME_DB_SIZE);
+     n->ns_size = bs_size / (uint64_t)n->num_namespaces;
+ 
+     n->namespaces = g_new0(NvmeNamespace, n->num_namespaces);
 -- 
 2.27.0
 
