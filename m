@@ -2,29 +2,29 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D81391F4286
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 19:37:53 +0200 (CEST)
-Received: from localhost ([::1]:34602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD6CF1F4282
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 19:37:11 +0200 (CEST)
+Received: from localhost ([::1]:60494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jiiC8-0003Ty-SQ
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 13:37:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52986)
+	id 1jiiBS-0002VL-Nu
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 13:37:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53616)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jihq8-0006PI-P2; Tue, 09 Jun 2020 13:15:08 -0400
-Received: from mout.kundenserver.de ([212.227.126.134]:51873)
+ id 1jihwZ-0006Yy-IO; Tue, 09 Jun 2020 13:21:47 -0400
+Received: from mout.kundenserver.de ([212.227.126.133]:54295)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jihq7-0000uK-AX; Tue, 09 Jun 2020 13:15:08 -0400
+ id 1jihwW-0002DP-CJ; Tue, 09 Jun 2020 13:21:47 -0400
 Received: from [192.168.100.1] ([82.252.135.106]) by mrelayeu.kundenserver.de
- (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MAwPZ-1jp4ZT4693-00BI1S; Tue, 09 Jun 2020 19:15:03 +0200
-Subject: Re: [PATCH] hw/misc/auxbus: Use qemu_log_mask(UNIMP) instead of debug
- printf
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20200606070216.30952-1-f4bug@amsat.org>
+ (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MElhb-1jk8yn0PWN-00GKcK; Tue, 09 Jun 2020 19:21:38 +0200
+Subject: Re: [PATCH] hw/pci: Fix crash when running QEMU with "-nic
+ model=rocker"
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>
+References: <20200527153152.9211-1-thuth@redhat.com>
 From: Laurent Vivier <laurent@vivier.eu>
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
@@ -68,35 +68,35 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <94267378-df63-6318-2d43-ff5c809445e8@vivier.eu>
-Date: Tue, 9 Jun 2020 19:15:01 +0200
+Message-ID: <bead355e-de7f-e584-53a7-34b2f1664be4@vivier.eu>
+Date: Tue, 9 Jun 2020 19:21:36 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200606070216.30952-1-f4bug@amsat.org>
+In-Reply-To: <20200527153152.9211-1-thuth@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:2DGS6JVeKuzdyoLHlIuh4reQOmix5Yq65dFPw8s/nlzvw/k79im
- gi4uVYESVYidF7G9pSKHJ7pcN5ymfEF4lpq1qvvW48a/V9OKQdqx+TWy3T/8DctDlgp7VkK
- wyKdqb46fh4vvEytD+YVVeUln6d5tO+mmg6EF1MjqVhjRi2YZFY0wcSvmYeM/KBr3yRLz/n
- a6fFAJhENMVofrOmdS8gQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:4oyQVjYWKEw=:9oJlC89RLnLI4fdadZnrsq
- drCI0JiGw6iwczxbnMWVO4YNxmLu59SBxo3hwiCvWjadDGnYo+WYaqsxUYaccAyFbJczhLkvV
- exoV1xi7AZ/HVFhugWxDKGh2IQSRYo46kpQOvn0/M03loX2sd25V9eSbP6RMxhrIz0bzqqWID
- HNN1Vk9dabZ1o4dZ8oujTSK2ibn/NhigZYOXa4QZ1+yxtx+LxEY5SZ87bIZ9CQyX4VAxw3u3r
- 3E1d8O1xjf6ToVyQku90fbdRBhyiWMqcU2x9ywDFzfjeiyDVlxasdP5Ce24nFyKIM3vYt00eP
- pwVTCxXyOSlehVOnCimR0DNbcFuPk/N5fTaFm7niMGeqcJz3R0Y45hmJvCHBzIrhsWzV5rt/2
- 69xR5kT2XuwMQqWrUlsWRH8xTh0bgUz/q2YRIJpi2vBGlvqsglk9dwJF0kutLJlAe/79Flf8o
- /zc/buH73BU7hy3FwdrW8Flxfpg9qVJOY3Dusd/Ao95+pJ3VfFI91yypqyMJ1CluFQJCIJCIo
- sCqLkt+Lz3DX/Y+PUG/wJJybSW0yHyuzsyaHWy7WZFXOs3gyAjCM+qN4/ChyqIhDz10Npfrg7
- wWaqeMK/wMZQGg8jNWd7O3OLVaYHlKuBocnJK9UMqqWO3fhL4aYc8z1UxGz6cI84gH832z3de
- a2N1p2s9190ez9cwRTfxcpkBwYohqr/X8o0pLJ+9NswfYSLkgaBXnOdoRfAOAdF+3ZupNmesd
- k1F5dj1Qjz+fHboMHyOaKdrYy8nQUOPcmrddeDwhfDISu1nDWOBQkJk+3OuDYJozQUx5nsCpg
- xvwYaCbO2WhBBMpeg6ZDk3Yy1/y+lAWD4gRqVjuxE9y6nb0JPiF6fHkfDUdrb2YIuRanFYy
-Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:Cr4O4wjTCWxiXehN4KFUgrEPZdF5b9kIEEC9P9ruNOvFo34thnN
+ hzy24dxq/VH9PILk8L4mAwCmZeBiPdseWP/cWiAkSA/IhfadtRX2PTGTar2rYoImOxADFmg
+ RlyijLzO/Fs7Mk8URelfm5xB8MEvW1vHPE7rZMDbEsCG6gdPeJke2lyx7VraineNSj0cWJj
+ r0Ywa1+U+t1i829tCgRvg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:vxMiUX4g/Pk=:0X8odmsggIcPCWFnPdnaOy
+ JwXBQbPpvjne5g7sG7RykDS9Q4tCaXN0R43dgfB2J58GqM7hERLxdDKefvntJj5+USaHeivgi
+ uYHUROrBV66SdoGUskI2trlwpMSRfMuRAAg1MUPPnBMsQEzJkPZzDuUgLcB5GS12Xy17ohr/c
+ qrD0ejAH66qm5US/3moRH0zRC80NmDure4yYm+G5yY+pOXPNg63zJteJ5tgIk2VCYKuWtlSHS
+ ixnIgrIYXDtoiO/xrU/zgS6LuJNeDeykDVDil4+bWKil00SduXgBT7PoBN3aFuvOA0L7XYyW9
+ oJ/p62LHuRTQKS5MxSwP+/OsRLiAUUw22QaDnlRUsUJlQpi02FLG6gDYOq3lZ+oOmPwgHB2B7
+ eFKF3mqZMrjeBNwOmOVHBloYNUBWjSdq4lLQhOA9aw7deLP6tzWjUuW+KTX9tRHNJpZwGzSwj
+ q+Q0PUnPWTzj82v8U+ZPVyTjFs9sl38QxopCj8IqfGYJkFlvhEQQHTREUC+g+0iXx9UCEy3HH
+ RABK1Z784r323vyWeO8sR2Bs7YHujfStkn6Mf0YZ+ptFtdpbtYj6RZTikoTZVCmiiPVibB80B
+ /03DlMnjgyBjI7utLxOfp1VYcbNdOfeXOkh6uM05KgaCKzCm7/3aV8YvWH+Ap3Z+I3tBmAjn2
+ FApG/lApxIDiz27Hb++Bw6V8Zrw2tU6+HQYxfjZl/V83v2RTQnC6gfVES1q3EzB+jGx3nics6
+ TClGpU48ScN26tVVeZE01b7r+kgzmxoeCa0pM/UYN78yyIaj0Jit8zOxKil2YSLZw6tIPMiWW
+ 6unF4rYu9D7nTGX3IxG7eWnDhkKT0T6XYwfNlitzuwQzz44FHJal9txz4XE1UxS1Udwj2HY
+Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 13:15:05
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 12:51:12
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -115,34 +115,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Fred Konrad <konrad@adacore.com>
+Cc: qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Michael Tokarev <mjt@tls.msk.ru>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 06/06/2020 à 09:02, Philippe Mathieu-Daudé a écrit :
-> Replace a deprecated DPRINTF() call by qemu_log_mask(LOG_UNIMP).
+Le 27/05/2020 à 17:31, Thomas Huth a écrit :
+> QEMU currently aborts when being started with "-nic model=rocker" or with
+> "-net nic,model=rocker". This happens because the "rocker" device is not
+> a normal NIC but a switch, which has different properties. Thus we should
+> only consider real NIC devices for "-nic" and "-net". These devices can
+> be identified by the "netdev" property, so check for this property before
+> adding the device to the list.
 > 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> Reported-by: Michael Tokarev <mjt@tls.msk.ru>
+> Fixes: 52310c3fa7dc854d ("net: allow using any PCI NICs in -net or -nic")
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 > ---
->  hw/misc/auxbus.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  hw/pci/pci.c | 13 ++++++++++++-
+>  1 file changed, 12 insertions(+), 1 deletion(-)
 > 
-> diff --git a/hw/misc/auxbus.c b/hw/misc/auxbus.c
-> index f8e7b97971..06aabf20c5 100644
-> --- a/hw/misc/auxbus.c
-> +++ b/hw/misc/auxbus.c
-> @@ -196,7 +196,7 @@ AUXReply aux_request(AUXBus *bus, AUXCommand cmd, uint32_t address,
+> diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+> index 70c66965f5..46214f8287 100644
+> --- a/hw/pci/pci.c
+> +++ b/hw/pci/pci.c
+> @@ -1887,7 +1887,18 @@ PCIDevice *pci_nic_init_nofail(NICInfo *nd, PCIBus *rootbus,
+>          if (test_bit(DEVICE_CATEGORY_NETWORK, dc->categories) &&
+>              dc->user_creatable) {
+>              const char *name = object_class_get_name(list->data);
+> -            g_ptr_array_add(pci_nic_models, (gpointer)name);
+> +            /*
+> +             * A network device might also be something else than a NIC, see
+> +             * e.g. the "rocker" device. Thus we have to look for the "netdev"
+> +             * property, too. Unfortunately, some devices like virtio-net only
+> +             * create this property during instance_init, so we have to create
+> +             * a temporary instance here to be able to check it.
+> +             */
+> +            Object *obj = object_new_with_class(OBJECT_CLASS(dc));
+> +            if (object_property_find(obj, "netdev", NULL)) {
+> +                g_ptr_array_add(pci_nic_models, (gpointer)name);
+> +            }
+> +            object_unref(obj);
 >          }
->          break;
->      default:
-> -        DPRINTF("Not implemented!\n");
-> +        qemu_log_mask(LOG_UNIMP, "AUX cmd=%u not implemented\n", cmd);
->          return AUX_NACK;
->      }
->  
+>          next = list->next;
+>          g_slist_free_1(list);
 > 
 
-Applied to my trivial-patches branch.
+Not really trivial, I will not pick up this patch via trivial-branch,
+unless PCI maintainers request it.
 
 Thanks,
 Laurent
