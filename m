@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7838B1F41BE
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 19:08:08 +0200 (CEST)
-Received: from localhost ([::1]:47164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60A401F41B3
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 19:05:42 +0200 (CEST)
+Received: from localhost ([::1]:36606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jihjL-0002hQ-H2
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 13:08:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48882)
+	id 1jihgz-0006Za-Cr
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 13:05:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jihI3-0004P4-8T
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 12:39:55 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:44421
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jihI1-0004M2-Qw
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 12:39:53 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:27537
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jihHw-0003Dc-Oa
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 12:39:54 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jihHw-0003Db-CV
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 12:39:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1591720782;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0uSbbrkYIbHdT4M5NbwKve6LKwSignSXpqv+lGxQxW4=;
- b=EtZX6ISCG2ssVrK4BdxJD2jgPFeKc9g+n3woKl8QAH+5SGQVp00Ep3xuQXrdEIX8mdcX9j
- qy8YPZx1IhU2kaqj6lUQcPLfNFS4kBMBEc5nhf8jU4vdijdB8aa4V4t1y4AYNe4BubFbv4
- Q48TubhRVZVLv2+FcbAa2DRWADmNG7A=
+ bh=9fUAOTJkobigbFrZ+jORnjnWiFaUvFGUlqBpIQndfuY=;
+ b=H2WzX285+JwEXl+F3988PBvH2QNAMMFWay1FPzjMT+qpELiI21Q5GsBqDCyUc4eBHiDV7o
+ hFWzQoPzyeusX2u+0QVQc7erkQh5Bx76H+LMni82YJ4waaVc3jPejN+ustYlwRaOebJzjI
+ rXWhD9+2+18DE6CBwVTBKczrraS5hi0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-235-3Zd5_PewNGquusc9aUne6A-1; Tue, 09 Jun 2020 12:39:40 -0400
-X-MC-Unique: 3Zd5_PewNGquusc9aUne6A-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-459-Bqn6Xb2RP5y_Ns-6eun56g-1; Tue, 09 Jun 2020 12:39:41 -0400
+X-MC-Unique: Bqn6Xb2RP5y_Ns-6eun56g-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1374418FE861
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 17E87805723
  for <qemu-devel@nongnu.org>; Tue,  9 Jun 2020 16:39:40 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-121.ams2.redhat.com
  [10.36.112.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D9DBB5D9E5;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DE4EE5C1C5;
  Tue,  9 Jun 2020 16:39:39 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 5F9761138477; Tue,  9 Jun 2020 18:39:33 +0200 (CEST)
+ id 66F0D1138478; Tue,  9 Jun 2020 18:39:33 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 33/39] auxbus: Convert a use of qdev_set_parent_bus()
-Date: Tue,  9 Jun 2020 18:39:26 +0200
-Message-Id: <20200609163932.1566209-34-armbru@redhat.com>
+Subject: [PATCH v3 34/39] auxbus: Eliminate aux_create_slave()
+Date: Tue,  9 Jun 2020 18:39:27 +0200
+Message-Id: <20200609163932.1566209-35-armbru@redhat.com>
 In-Reply-To: <20200609163932.1566209-1-armbru@redhat.com>
 References: <20200609163932.1566209-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
@@ -85,60 +85,69 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Convert qdev_set_parent_bus()/qdev_init_nofail() to qdev_realize();
-recent commit "qdev: New qdev_new(), qdev_realize(), etc." explains
-why.
+aux_create_slave() has become a trivial wrapper around qdev_new().
+There's just one user.  Eliminate.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/display/xlnx_dp.c | 2 +-
- hw/misc/auxbus.c     | 4 +---
- 2 files changed, 2 insertions(+), 4 deletions(-)
+ include/hw/misc/auxbus.h | 7 -------
+ hw/display/xlnx_dp.c     | 2 +-
+ hw/misc/auxbus.c         | 9 ---------
+ 3 files changed, 1 insertion(+), 17 deletions(-)
 
+diff --git a/include/hw/misc/auxbus.h b/include/hw/misc/auxbus.h
+index 0d849d9d89..15a8973517 100644
+--- a/include/hw/misc/auxbus.h
++++ b/include/hw/misc/auxbus.h
+@@ -131,13 +131,6 @@ I2CBus *aux_get_i2c_bus(AUXBus *bus);
+  */
+ void aux_init_mmio(AUXSlave *aux_slave, MemoryRegion *mmio);
+ 
+-/* aux_create_slave: Create a new device on an AUX bus
+- *
+- * @bus The AUX bus for the new device.
+- * @name The type of the device to be created.
+- */
+-DeviceState *aux_create_slave(AUXBus *bus, const char *name);
+-
+ /* aux_map_slave: Map the mmio for an AUX slave on the bus.
+  *
+  * @dev The AUX slave.
 diff --git a/hw/display/xlnx_dp.c b/hw/display/xlnx_dp.c
-index a714cf8a50..884d29c8ce 100644
+index 884d29c8ce..c56e6ec593 100644
 --- a/hw/display/xlnx_dp.c
 +++ b/hw/display/xlnx_dp.c
-@@ -1268,7 +1268,7 @@ static void xlnx_dp_realize(DeviceState *dev, Error **errp)
+@@ -1249,7 +1249,7 @@ static void xlnx_dp_init(Object *obj)
+     /*
+      * Initialize DPCD and EDID..
+      */
+-    s->dpcd = DPCD(aux_create_slave(s->aux_bus, "dpcd"));
++    s->dpcd = DPCD(qdev_new("dpcd"));
+     object_property_add_child(OBJECT(s), "dpcd", OBJECT(s->dpcd));
  
-     aux_bus_realize(s->aux_bus);
- 
--    qdev_init_nofail(DEVICE(s->dpcd));
-+    qdev_realize(DEVICE(s->dpcd), BUS(s->aux_bus), &error_fatal);
-     aux_map_slave(AUX_SLAVE(s->dpcd), 0x0000);
- 
-     qdev_realize_and_unref(DEVICE(s->edid), BUS(aux_get_i2c_bus(s->aux_bus)),
+     s->edid = I2CDDC(qdev_new("i2c-ddc"));
 diff --git a/hw/misc/auxbus.c b/hw/misc/auxbus.c
-index 113f4278aa..e7a5d26158 100644
+index e7a5d26158..d631266903 100644
 --- a/hw/misc/auxbus.c
 +++ b/hw/misc/auxbus.c
-@@ -70,7 +70,6 @@ AUXBus *aux_bus_init(DeviceState *parent, const char *name)
-     bus = AUX_BUS(qbus_create(TYPE_AUX_BUS, parent, name));
-     auxtoi2c = object_new_with_props(TYPE_AUXTOI2C, OBJECT(bus), "i2c",
-                                      &error_abort, NULL);
--    qdev_set_parent_bus(DEVICE(auxtoi2c), BUS(bus));
+@@ -273,15 +273,6 @@ static void aux_slave_dev_print(Monitor *mon, DeviceState *dev, int indent)
+                    memory_region_size(s->mmio));
+ }
  
-     bus->bridge = AUXTOI2C(auxtoi2c);
- 
-@@ -83,7 +82,7 @@ AUXBus *aux_bus_init(DeviceState *parent, const char *name)
- 
- void aux_bus_realize(AUXBus *bus)
+-DeviceState *aux_create_slave(AUXBus *bus, const char *type)
+-{
+-    DeviceState *dev;
+-
+-    dev = qdev_new(type);
+-    assert(dev);
+-    return dev;
+-}
+-
+ void aux_init_mmio(AUXSlave *aux_slave, MemoryRegion *mmio)
  {
--    qdev_init_nofail(DEVICE(bus->bridge));
-+    qdev_realize(DEVICE(bus->bridge), BUS(bus), &error_fatal);
- }
- 
- void aux_map_slave(AUXSlave *aux_dev, hwaddr addr)
-@@ -280,7 +279,6 @@ DeviceState *aux_create_slave(AUXBus *bus, const char *type)
- 
-     dev = qdev_new(type);
-     assert(dev);
--    qdev_set_parent_bus(dev, &bus->qbus);
-     return dev;
- }
- 
+     assert(!aux_slave->mmio);
 -- 
 2.26.2
 
