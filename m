@@ -2,106 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCBD91F4276
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 19:36:31 +0200 (CEST)
-Received: from localhost ([::1]:58502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C75F31F428A
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 19:39:20 +0200 (CEST)
+Received: from localhost ([::1]:38666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jiiAo-0001UO-Ny
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 13:36:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52046)
+	id 1jiiDX-0005Ce-Po
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 13:39:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52234)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jihh6-0008B1-8Q; Tue, 09 Jun 2020 13:05:48 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:39139)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jihh5-00081y-2n; Tue, 09 Jun 2020 13:05:47 -0400
-Received: from [192.168.100.1] ([82.252.135.106]) by mrelayeu.kundenserver.de
- (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1N4z2a-1izRI02cgm-010txN; Tue, 09 Jun 2020 19:05:40 +0200
-Subject: Re: [PATCH] hw/isa/apm: Convert debug printf()s to trace events
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20200524164806.12658-1-f4bug@amsat.org>
-From: Laurent Vivier <laurent@vivier.eu>
-Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <e0882e71-cc55-83be-930c-91cb384f0b73@vivier.eu>
-Date: Tue, 9 Jun 2020 19:05:39 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jihit-00035x-6p
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 13:07:40 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:27794
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jihir-0008OU-Dc
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 13:07:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1591722456;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=VZXf0Oku6s6cxv3JpR0warJ560x4jEaK0gVpAk5rV/E=;
+ b=U9rfgwyrLfncbSm+ROSX9eayirLuH7uD6DsnPGpoKpPFU+JBRiI2mp2IVZGNIl7Fge7nJe
+ Mjeg0P1AHsmFQwIf5Zo7+g3ORpxef+mRIxaNHlcpX8BBv9Ud6cKgWX10m26XQWT4rxXCiI
+ BQLkj2EazHc8MOznwSTB0IRpUO7n570=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-451-7B5L_5AHOGC10ENUuItZKA-1; Tue, 09 Jun 2020 13:07:30 -0400
+X-MC-Unique: 7B5L_5AHOGC10ENUuItZKA-1
+Received: by mail-wr1-f71.google.com with SMTP id w16so8831760wru.18
+ for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 10:07:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=VZXf0Oku6s6cxv3JpR0warJ560x4jEaK0gVpAk5rV/E=;
+ b=phfh8VYVLLcChp8w7OvA26vWk3G63Msd5YjpmaIHikFuqk+lk35xKRKuxUeJyBu7XI
+ mqM3NMMwS0HkvUyKeDqssWci3gLeNut80Y0xNavpu7XJa3BMYUlLR9tJ3TY6EJEn15du
+ 9ccAP6BQw52zv1b1L5FRhZQFjGRUmJ3xndbUBkDDoAFMlqe9dto1uRirZ38NC1cV8DU0
+ xJpCcIielReM94+uKjNDoRQakXYPdLtaDcvYTB86u27iF7aNc8imbTBuU63cpDDipog/
+ X1N6Y6mYQGPgxqp7xs+W5LwGNNostMTPagN9TfAFgNBMAXc6JiQ50Whznk/bJwSSDqjm
+ L3IQ==
+X-Gm-Message-State: AOAM5303iodfRW5V4uEodNk4dv4yMicUuXyZU4+kXZ3lrAImRHPYEg9D
+ Rgek6dg/8L4Gi4EYBhRiUNPmw91JR73wMY/Sp8rje6n6HydK5HioMe9sq9bDjXUVqi9BjL5YiL2
+ nYsohwhLE/NL1F1k=
+X-Received: by 2002:a5d:6b81:: with SMTP id n1mr5429291wrx.411.1591722449838; 
+ Tue, 09 Jun 2020 10:07:29 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzgnL5k2nOrkFpDjwOZkUV7qL2y61P+vVY1RHPZqnVGxw5GUJ70w/4hv4nmwJxXfD2nLW5UQg==
+X-Received: by 2002:a5d:6b81:: with SMTP id n1mr5429270wrx.411.1591722449669; 
+ Tue, 09 Jun 2020 10:07:29 -0700 (PDT)
+Received: from localhost.localdomain
+ (181.red-88-10-103.dynamicip.rima-tde.net. [88.10.103.181])
+ by smtp.gmail.com with ESMTPSA id n1sm4068361wrp.10.2020.06.09.10.07.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 09 Jun 2020 10:07:29 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>,
+	qemu-devel@nongnu.org
+Subject: [PATCH v8 0/5] fw_cfg: Add FW_CFG_DATA_GENERATOR;
+ crypto: Add tls-cipher-suites
+Date: Tue,  9 Jun 2020 19:07:22 +0200
+Message-Id: <20200609170727.9977-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
-In-Reply-To: <20200524164806.12658-1-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8;
+	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:LDQFKOAakAeOFdWIfS1aIDzXHiSh/ib1cqIABlblitv1bgUxkwq
- mkZstG5WYs1MC7TcpYhd86O9D6P48OoNmcbqaJX0LRcynmu+3TT4T6zhni4LEJufjmhs73+
- ja0Wr4oTV84e98XOB0lhBhrT5doRhOJ9cnIP3EoAkgC7hXbYWKDqAuoppOjGh3HvaB63FKY
- Io9tnHbmXW69usuB31LUg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:t4pmpHB1TXI=:FVJcwqBs678SPy5ixKg2rp
- iak1l3UnISpGvT/ocdh/c1+Ag8au/ucsDXfL95bBLw6LXcFxWA8knQDbBBLUgWTjeWFjwTOAe
- jlWGk5P7KkKeT1SneQ9Hlnpsk5vi9Hecr3CnRSppHMJe6ajYWxLj3gc3M0+H+l/jZyVugU270
- xljVccifRvXTs54uCUGdUh3sjqYoDxqu6Q5b5UgQgnykh7dmoZUs9ad9hLhBe/nyJ0rIJ0cxY
- qJRrApUXb6IoCLgaVgnb2YmNRIW9GG98+ta/dEnn6y+f9pS6Z5tUXyKd5voXE9F50EJ/10qLZ
- CJeofYF66q6RFhBBAp8oYwVC1NgmKebgACTPXOlXnC96wlDHz2pZwFGjCgYR8baAVTzVQXAmK
- E6GE66orDJ/zIV9EH6Yfh5RRwxNeEUUqtJlTaMZwTsi8gw0CLBJ7BmSOwRqbQSpmCcT3y+ChY
- nJe0b4g4zpuvqEJwBO05aU9SL5eZk5MzI8m3sR6LbhAI2F9j5apljkapF0ZvsNnu/aBzBfQPp
- h14/Zll4uiB6LQ4agex85qiQLKssm7DzH32DOs2B+Pu5JwBuJBssBJdkb/GoW5JKbODBG56lZ
- UcZkY5RUbLRKqeitqY73SsPMZ8ezqDwp7+pgxL4QY0/xX3J5/IYF4nhEPjoG2JwhGU18g6bOw
- WHG3tGb0pbW19CghRlP+9iio084jaztwXAqFv3F/Hh1Fzt9/EqsPEV8kWdlpHgDmgTGAed9iW
- YNdx/cPHy4NJtLvorMP8delMpQw6wuIt2kSfwuHUGldRo9Y8PV9bFkT2T2QWCrn9e9/rF2IpB
- Nwszxj94pFUavs/C2tPkz++zgVSknN1AZ3vaWTrebA9DnYydiiMzb2FWdU38ZNcCHAe5FzM
-Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 12:55:24
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/08 23:42:34
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -114,77 +94,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Laszlo Ersek <lersek@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 24/05/2020 à 18:48, Philippe Mathieu-Daudé a écrit :
-> Convert APM_DPRINTF() to trace events and remove ifdef'ry.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->  hw/isa/apm.c        | 15 +++++----------
->  hw/isa/trace-events |  4 ++++
->  2 files changed, 9 insertions(+), 10 deletions(-)
-> 
-> diff --git a/hw/isa/apm.c b/hw/isa/apm.c
-> index 6300b1ba7a..bce266b957 100644
-> --- a/hw/isa/apm.c
-> +++ b/hw/isa/apm.c
-> @@ -24,14 +24,8 @@
->  #include "hw/isa/apm.h"
->  #include "hw/pci/pci.h"
->  #include "migration/vmstate.h"
-> +#include "trace.h"
->  
-> -//#define DEBUG
-> -
-> -#ifdef DEBUG
-> -# define APM_DPRINTF(format, ...)       printf(format, ## __VA_ARGS__)
-> -#else
-> -# define APM_DPRINTF(format, ...)       do { } while (0)
-> -#endif
->  
->  /* fixed I/O location */
->  #define APM_STS_IOPORT  0xb3
-> @@ -41,8 +35,8 @@ static void apm_ioport_writeb(void *opaque, hwaddr addr, uint64_t val,
->  {
->      APMState *apm = opaque;
->      addr &= 1;
-> -    APM_DPRINTF("apm_ioport_writeb addr=0x%" HWADDR_PRIx
-> -                " val=0x%02" PRIx64 "\n", addr, val);
-> +
-> +    trace_apm_io_write(addr, val);
->      if (addr == 0) {
->          apm->apmc = val;
->  
-> @@ -65,7 +59,8 @@ static uint64_t apm_ioport_readb(void *opaque, hwaddr addr, unsigned size)
->      } else {
->          val = apm->apms;
->      }
-> -    APM_DPRINTF("apm_ioport_readb addr=0x%" HWADDR_PRIx " val=0x%02x\n", addr, val);
-> +    trace_apm_io_read(addr, val);
-> +
->      return val;
->  }
->  
-> diff --git a/hw/isa/trace-events b/hw/isa/trace-events
-> index 202f8938e7..3544c6213c 100644
-> --- a/hw/isa/trace-events
-> +++ b/hw/isa/trace-events
-> @@ -9,3 +9,7 @@ superio_create_ide(int id, uint16_t base, unsigned int irq) "id=%d, base 0x%03x,
->  # pc87312.c
->  pc87312_io_read(uint32_t addr, uint32_t val) "read addr=0x%x val=0x%x"
->  pc87312_io_write(uint32_t addr, uint32_t val) "write addr=0x%x val=0x%x"
-> +
-> +# apm.c
-> +apm_io_read(uint8_t addr, uint8_t val) "read addr=0x%x val=0x%02x"
-> +apm_io_write(uint8_t addr, uint8_t val) "write addr=0x%x val=0x%02x"
-> 
+Hi,
 
-Applied to my trivial-patches branch.
+This series has two parts:
 
-Thanks,
-Laurent
+- First we add the ability to QOM objects to produce data
+  consumable by the fw_cfg device,
+
+- Then we add the tls-cipher-suites object, and let it
+  implement the FW_CFG_DATA_GENERATOR interface.
+
+This is required by EDK2 'HTTPS Boot' feature [*] to tell
+the guest which TLS ciphers it can use.
+
+** Unresolved item: **
+- Should a generated fw_cfg entry use a specific global order?
+https://lists.gnu.org/archive/html/qemu-devel/2020-06/msg02309.html
+
+^ Gerd can you help?
+
+Since v7:
+- addressed Laszlo review comments
+  (changes describe in each patch).
+Since v6:
+- addressed Laszlo & Daniel review comments
+Since v5:
+- Complete rewrite after chatting with Daniel Berrangé
+Since v4:
+- Addressed Laszlo comments (see patch#1 description)
+Since v3:
+- Addressed Markus' comments (do not care about heap)
+Since v2:
+- Split of
+Since v1:
+- Addressed Michael and Laszlo comments.
+
+Please review,
+
+Phil.
+
+[*]: https://github.com/tianocore/edk2/blob/master/OvmfPkg/README
+v7: https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg08050.html
+v6: https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg05448.html
+v5: https://lists.gnu.org/archive/html/qemu-devel/2019-06/msg04525.html
+v4: https://lists.gnu.org/archive/html/qemu-devel/2019-03/msg04300.html
+v3: https://lists.gnu.org/archive/html/qemu-devel/2019-03/msg02965.html
+v2: https://lists.gnu.org/archive/html/qemu-devel/2019-03/msg02522.html
+v1: https://lists.gnu.org/archive/html/qemu-devel/2018-12/msg01598.html
+
+Philippe Mathieu-Daudé (5):
+  hw/nvram/fw_cfg: Add the FW_CFG_DATA_GENERATOR interface
+  softmmu/vl: Let -fw_cfg option take a 'gen_id' argument
+  softmmu/vl: Allow -fw_cfg 'gen_id' option to use the 'etc/' namespace
+  crypto: Add tls-cipher-suites object
+  crypto/tls-cipher-suites: Produce fw_cfg consumable blob
+
+ docs/specs/fw_cfg.txt              |  13 ++-
+ include/crypto/tls-cipher-suites.h |  38 ++++++++
+ include/hw/nvram/fw_cfg.h          |  52 ++++++++++
+ crypto/tls-cipher-suites.c         | 146 +++++++++++++++++++++++++++++
+ hw/nvram/fw_cfg.c                  |  36 +++++++
+ softmmu/vl.c                       |  33 +++++--
+ crypto/Makefile.objs               |   1 +
+ crypto/trace-events                |   5 +
+ qemu-options.hx                    |  38 ++++++++
+ 9 files changed, 352 insertions(+), 10 deletions(-)
+ create mode 100644 include/crypto/tls-cipher-suites.h
+ create mode 100644 crypto/tls-cipher-suites.c
+
+-- 
+2.21.3
 
 
