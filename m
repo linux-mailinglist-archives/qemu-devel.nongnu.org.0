@@ -2,29 +2,28 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD6CF1F4282
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 19:37:11 +0200 (CEST)
-Received: from localhost ([::1]:60494 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B026B1F42C1
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 19:47:28 +0200 (CEST)
+Received: from localhost ([::1]:59232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jiiBS-0002VL-Nu
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 13:37:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53616)
+	id 1jiiLP-00065r-LL
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 13:47:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jihwZ-0006Yy-IO; Tue, 09 Jun 2020 13:21:47 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:54295)
+ id 1jihyN-0000y4-K6; Tue, 09 Jun 2020 13:23:39 -0400
+Received: from mout.kundenserver.de ([212.227.126.133]:42999)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jihwW-0002DP-CJ; Tue, 09 Jun 2020 13:21:47 -0400
+ id 1jihyM-0002b2-Ir; Tue, 09 Jun 2020 13:23:39 -0400
 Received: from [192.168.100.1] ([82.252.135.106]) by mrelayeu.kundenserver.de
- (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MElhb-1jk8yn0PWN-00GKcK; Tue, 09 Jun 2020 19:21:38 +0200
-Subject: Re: [PATCH] hw/pci: Fix crash when running QEMU with "-nic
- model=rocker"
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>
-References: <20200527153152.9211-1-thuth@redhat.com>
+ (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MEFjJ-1jqA64230f-00AGpo; Tue, 09 Jun 2020 19:23:33 +0200
+Subject: Re: [PATCH v2] hw/vfio/common: Trace in which mode an IOMMU is opened
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20200527155555.6833-1-philmd@redhat.com>
 From: Laurent Vivier <laurent@vivier.eu>
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
@@ -68,32 +67,32 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <bead355e-de7f-e584-53a7-34b2f1664be4@vivier.eu>
-Date: Tue, 9 Jun 2020 19:21:36 +0200
+Message-ID: <b687dd06-490d-dde9-53cc-aa05f38f769e@vivier.eu>
+Date: Tue, 9 Jun 2020 19:23:32 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200527153152.9211-1-thuth@redhat.com>
+In-Reply-To: <20200527155555.6833-1-philmd@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Cr4O4wjTCWxiXehN4KFUgrEPZdF5b9kIEEC9P9ruNOvFo34thnN
- hzy24dxq/VH9PILk8L4mAwCmZeBiPdseWP/cWiAkSA/IhfadtRX2PTGTar2rYoImOxADFmg
- RlyijLzO/Fs7Mk8URelfm5xB8MEvW1vHPE7rZMDbEsCG6gdPeJke2lyx7VraineNSj0cWJj
- r0Ywa1+U+t1i829tCgRvg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:vxMiUX4g/Pk=:0X8odmsggIcPCWFnPdnaOy
- JwXBQbPpvjne5g7sG7RykDS9Q4tCaXN0R43dgfB2J58GqM7hERLxdDKefvntJj5+USaHeivgi
- uYHUROrBV66SdoGUskI2trlwpMSRfMuRAAg1MUPPnBMsQEzJkPZzDuUgLcB5GS12Xy17ohr/c
- qrD0ejAH66qm5US/3moRH0zRC80NmDure4yYm+G5yY+pOXPNg63zJteJ5tgIk2VCYKuWtlSHS
- ixnIgrIYXDtoiO/xrU/zgS6LuJNeDeykDVDil4+bWKil00SduXgBT7PoBN3aFuvOA0L7XYyW9
- oJ/p62LHuRTQKS5MxSwP+/OsRLiAUUw22QaDnlRUsUJlQpi02FLG6gDYOq3lZ+oOmPwgHB2B7
- eFKF3mqZMrjeBNwOmOVHBloYNUBWjSdq4lLQhOA9aw7deLP6tzWjUuW+KTX9tRHNJpZwGzSwj
- q+Q0PUnPWTzj82v8U+ZPVyTjFs9sl38QxopCj8IqfGYJkFlvhEQQHTREUC+g+0iXx9UCEy3HH
- RABK1Z784r323vyWeO8sR2Bs7YHujfStkn6Mf0YZ+ptFtdpbtYj6RZTikoTZVCmiiPVibB80B
- /03DlMnjgyBjI7utLxOfp1VYcbNdOfeXOkh6uM05KgaCKzCm7/3aV8YvWH+Ap3Z+I3tBmAjn2
- FApG/lApxIDiz27Hb++Bw6V8Zrw2tU6+HQYxfjZl/V83v2RTQnC6gfVES1q3EzB+jGx3nics6
- TClGpU48ScN26tVVeZE01b7r+kgzmxoeCa0pM/UYN78yyIaj0Jit8zOxKil2YSLZw6tIPMiWW
- 6unF4rYu9D7nTGX3IxG7eWnDhkKT0T6XYwfNlitzuwQzz44FHJal9txz4XE1UxS1Udwj2HY
+X-Provags-ID: V03:K1:vOC4ITaWNUpt1bVjt7zdlzwn3lgqIEqvuu9BaD/qFZMQll7fMep
+ ho0hjFdyeUJiAq8HrtgzFEgKajvB5cY7eTV4etNaXsc+Eu08+7dTH09YxbJpVehUq1Ij+kL
+ BWnIn4AOIzI3DexAl85FqAsziLxFwdYjKTqKxVnaEIa9od+CtKBTunodX+u3srFyYAk6sY1
+ 6T9bvJLRA5VNF5fZEVxJw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:g3b054NRtkY=:tVb0Q7lw2g4u8WvgnqTgYS
+ SYn0J7F95RWFF7WlRB2pDt2udDukXOfYDZwnyLjsrdhZX7vIc41db73jJZALdjm4fSkIvdsdZ
+ +sJoqeTunC9FeVn7XRTceB1pENb8Tod2IoRJQQHxtB0cTXt0YtWM0zAKVTSwjgqmid3KPV8tH
+ pMNM+ZzBDD+bkLR2sYiXwZMCfA3kNX0abER3SZ3VKvu56VSJ21UrIulgbFTF8EIhkdQmUvOca
+ kj87Kteh+NmvKL2S2DtYINfyUzmzhjfAL0zsd3l6A3gvTCy6ZvDWa1Ss8d0GHZCgKu40Y4wON
+ 586iwrLcEy0QsJ8gw3UFaIYSP8yF6lVHWKN//Q5weGDEvh4Cv5Xo2OoHAVBljvWuFDTRCLaeL
+ MSejOhxTTvrYwCIk7cyEYCisx/wujCY1c2VPOTAXKL4x03Zj1FoUV5x8B+zCXMWErnKA14u4j
+ iIs5BEgHRg85X80vRiY39eYkw9q/37Hf+0CxjiTvXHeJpAT8zE0rxKb2v1OKKsUDflkye7bky
+ GKErXOK0K/C0ipmkOT94FnaUP18nS7bVtD2mde/pDMtG7Lg27cxg1lO/HxZh3WlKKw/dhSmK7
+ zdzNOr9TE+TgfyCqaCK3WUxVrdqJLYyjfyXHQhlWcJ48VkiU7zegsSnGVCI+DG013FmpyZw3K
+ GgpUDCS55BPG/9RfZu5BmJdLvSdohfNMY5+2QkTyVXm1x3Mmfoh6TdRxRKVli0hdI26J4cIUQ
+ 7ZmK3cOkcPVFXGSzD4xsU5OjJFVLypVq+P4H/8BFSm9tFkwU7S4gChV5L9QPuZnsxKgOQ03Pd
+ kY3U34K1/1Lb2Xr4qsKdBvasQZYW2IFWan+NA76GTYdoKm2dNU7TOljxM6iIGcjbgR9QAQS
 Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 12:51:12
@@ -102,7 +101,7 @@ X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_MSPIKE_H2=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -115,54 +114,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Michael Tokarev <mjt@tls.msk.ru>
+Cc: qemu-trivial@nongnu.org, Eric Auger <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, Peter Xu <peterx@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 27/05/2020 à 17:31, Thomas Huth a écrit :
-> QEMU currently aborts when being started with "-nic model=rocker" or with
-> "-net nic,model=rocker". This happens because the "rocker" device is not
-> a normal NIC but a switch, which has different properties. Thus we should
-> only consider real NIC devices for "-nic" and "-net". These devices can
-> be identified by the "netdev" property, so check for this property before
-> adding the device to the list.
+Le 27/05/2020 à 17:55, Philippe Mathieu-Daudé a écrit :
+> One might want to check which IOMMU version the host kernel
+> provide. Add a trace event to see in which mode we opened
+> our container.
 > 
-> Reported-by: Michael Tokarev <mjt@tls.msk.ru>
-> Fixes: 52310c3fa7dc854d ("net: allow using any PCI NICs in -net or -nic")
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > ---
->  hw/pci/pci.c | 13 ++++++++++++-
->  1 file changed, 12 insertions(+), 1 deletion(-)
+> v2: Only display string description (Eric)
 > 
-> diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-> index 70c66965f5..46214f8287 100644
-> --- a/hw/pci/pci.c
-> +++ b/hw/pci/pci.c
-> @@ -1887,7 +1887,18 @@ PCIDevice *pci_nic_init_nofail(NICInfo *nd, PCIBus *rootbus,
->          if (test_bit(DEVICE_CATEGORY_NETWORK, dc->categories) &&
->              dc->user_creatable) {
->              const char *name = object_class_get_name(list->data);
-> -            g_ptr_array_add(pci_nic_models, (gpointer)name);
-> +            /*
-> +             * A network device might also be something else than a NIC, see
-> +             * e.g. the "rocker" device. Thus we have to look for the "netdev"
-> +             * property, too. Unfortunately, some devices like virtio-net only
-> +             * create this property during instance_init, so we have to create
-> +             * a temporary instance here to be able to check it.
-> +             */
-> +            Object *obj = object_new_with_class(OBJECT_CLASS(dc));
-> +            if (object_property_find(obj, "netdev", NULL)) {
-> +                g_ptr_array_add(pci_nic_models, (gpointer)name);
-> +            }
-> +            object_unref(obj);
+> Supersedes: <20200526173542.28710-1-philmd@redhat.com>
+> ---
+>  hw/vfio/common.c     | 19 ++++++++++++++-----
+>  hw/vfio/trace-events |  1 +
+>  2 files changed, 15 insertions(+), 5 deletions(-)
+> 
+> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+> index 0b3593b3c0..f24450472e 100644
+> --- a/hw/vfio/common.c
+> +++ b/hw/vfio/common.c
+> @@ -1157,15 +1157,24 @@ static void vfio_put_address_space(VFIOAddressSpace *space)
+>  static int vfio_get_iommu_type(VFIOContainer *container,
+>                                 Error **errp)
+>  {
+> -    int iommu_types[] = { VFIO_TYPE1v2_IOMMU, VFIO_TYPE1_IOMMU,
+> -                          VFIO_SPAPR_TCE_v2_IOMMU, VFIO_SPAPR_TCE_IOMMU };
+> +    static const struct {
+> +        int type;
+> +        const char *name;
+> +    } iommu[] = {
+> +        {VFIO_TYPE1v2_IOMMU, "Type1 (v2)"},
+> +        {VFIO_TYPE1_IOMMU, "Type1 (v1)"},
+> +        {VFIO_SPAPR_TCE_v2_IOMMU, "sPAPR TCE (v2)"},
+> +        {VFIO_SPAPR_TCE_IOMMU, "sPAPR TCE (v1)"}
+> +    };
+>      int i;
+>  
+> -    for (i = 0; i < ARRAY_SIZE(iommu_types); i++) {
+> -        if (ioctl(container->fd, VFIO_CHECK_EXTENSION, iommu_types[i])) {
+> -            return iommu_types[i];
+> +    for (i = 0; i < ARRAY_SIZE(iommu); i++) {
+> +        if (ioctl(container->fd, VFIO_CHECK_EXTENSION, iommu[i].type)) {
+> +            trace_vfio_get_iommu_type(iommu[i].name);
+> +            return iommu[i].type;
 >          }
->          next = list->next;
->          g_slist_free_1(list);
+>      }
+> +    trace_vfio_get_iommu_type("Not available or not supported");
+>      error_setg(errp, "No available IOMMU models");
+>      return -EINVAL;
+>  }
+> diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
+> index b1ef55a33f..d3f1e48618 100644
+> --- a/hw/vfio/trace-events
+> +++ b/hw/vfio/trace-events
+> @@ -115,6 +115,7 @@ vfio_region_sparse_mmap_header(const char *name, int index, int nr_areas) "Devic
+>  vfio_region_sparse_mmap_entry(int i, unsigned long start, unsigned long end) "sparse entry %d [0x%lx - 0x%lx]"
+>  vfio_get_dev_region(const char *name, int index, uint32_t type, uint32_t subtype) "%s index %d, %08x/%0x8"
+>  vfio_dma_unmap_overflow_workaround(void) ""
+> +vfio_get_iommu_type(const char *type) "IOMMU type: %s"
+>  
+>  # platform.c
+>  vfio_platform_base_device_init(char *name, int groupid) "%s belongs to group #%d"
 > 
 
-Not really trivial, I will not pick up this patch via trivial-branch,
-unless PCI maintainers request it.
+Applied to my trivial-patches branch.
 
 Thanks,
 Laurent
