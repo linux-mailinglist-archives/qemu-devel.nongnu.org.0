@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD0D81F3F6B
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 17:32:31 +0200 (CEST)
-Received: from localhost ([::1]:36272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 002BC1F3F78
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 17:36:36 +0200 (CEST)
+Received: from localhost ([::1]:41850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jigEo-0006LT-Q6
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 11:32:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36928)
+	id 1jigIm-0000YH-2k
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 11:36:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jigDD-0005EW-6t
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 11:30:52 -0400
-Received: from indium.canonical.com ([91.189.90.7]:50406)
+ id 1jigHj-0008SY-EK
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 11:35:31 -0400
+Received: from indium.canonical.com ([91.189.90.7]:50688)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jigD7-0005bm-A4
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 11:30:50 -0400
+ id 1jigHi-0006dp-Kp
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 11:35:31 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jigD4-0001hR-3A
- for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 15:30:42 +0000
+ id 1jigHh-00020m-Jp
+ for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 15:35:29 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id CD5B72E810A
- for <qemu-devel@nongnu.org>; Tue,  9 Jun 2020 15:30:41 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 6CBC42E8109
+ for <qemu-devel@nongnu.org>; Tue,  9 Jun 2020 15:35:29 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 09 Jun 2020 15:23:35 -0000
-From: Thomas Huth <1882784@bugs.launchpad.net>
+Date: Tue, 09 Jun 2020 15:25:47 -0000
+From: TheCatFelix <1882784@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
@@ -40,9 +40,9 @@ X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: sshaikh th-huth thecatfelix
 X-Launchpad-Bug-Reporter: Shak (sshaikh)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+X-Launchpad-Bug-Modifier: TheCatFelix (thecatfelix)
 References: <159171166832.31735.6432186230204851906.malonedeb@gac.canonical.com>
-Message-Id: <159171621553.17942.17392250118823720433.malone@chaenomeles.canonical.com>
+Message-Id: <159171634738.4024.16559222210290192094.malone@soybean.canonical.com>
 Subject: [Bug 1882784] Re: Legacy IGD passthrough in QEMU 5 disabled
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
@@ -50,7 +50,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="ef9fc486e875d54078fa61cf91e898b895125d89";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: e7aed9cc98c019e637ec71383a8fe4d1f67187e3
+X-Launchpad-Hash: f90e172a1a8371017461ca7350f8989c3682bf97
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 10:15:37
@@ -77,16 +77,7 @@ Reply-To: Bug 1882784 <1882784@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi! That info in kconfig.html is not up to date anymore, we are
-generating now #defines for the Kconfig switches. And in my build tree,
-I can see:
-
-$ grep CONFIG_VFIO_IGD *-softmmu/*.h
-x86_64-softmmu/config-devices.h:#define CONFIG_VFIO_IGD 1
-
-... what's missing in that file is simply a "#include "config-devices.h"
-... sorry, that fell somehow through the cracks. I'll prepare a patch
-for that.
+Looks similar to https://bugs.launchpad.net/qemu/+bug/1879175
 
 -- =
 
