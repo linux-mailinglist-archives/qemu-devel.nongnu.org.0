@@ -2,72 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 762A21F3C30
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 15:19:39 +0200 (CEST)
-Received: from localhost ([::1]:56402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 086971F3B6C
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 15:08:28 +0200 (CEST)
+Received: from localhost ([::1]:41400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jieAE-0001tE-I0
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 09:19:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42704)
+	id 1jidzO-0003bL-KN
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 09:08:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47084)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yilikernel@gmail.com>)
- id 1jiZ5n-0001VY-WE; Tue, 09 Jun 2020 03:54:44 -0400
-Received: from mail-yb1-xb44.google.com ([2607:f8b0:4864:20::b44]:44555)
+ (Exim 4.90_1) (envelope-from <atar4qemu@gmail.com>)
+ id 1jidyb-00039O-Py
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 09:07:37 -0400
+Received: from mail-il1-x143.google.com ([2607:f8b0:4864:20::143]:38573)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <yilikernel@gmail.com>)
- id 1jiZ5m-0002WX-NW; Tue, 09 Jun 2020 03:54:43 -0400
-Received: by mail-yb1-xb44.google.com with SMTP id n123so10642256ybf.11;
- Tue, 09 Jun 2020 00:54:41 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <atar4qemu@gmail.com>)
+ id 1jidya-0004n7-Od
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 09:07:37 -0400
+Received: by mail-il1-x143.google.com with SMTP id b5so20225217iln.5
+ for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 06:07:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:in-reply-to:references:from:date:message-id:subject:to
- :cc; bh=iHU/sJ5BGAr3m/MEqBDWJpJCGXIpf9YEa6LVNUn1BbY=;
- b=mkUkvy/42U5qAvLdwGHVQZ+CTE49HaudXSxj+oPQ23GupA5rbDxE3iAb9FbGMjJGCZ
- DnMYJeM7wCntM3LaqEP0SnKWXm4xwIXRLWrJCQnGs5lrZQ/fB/jaltJhpSWPmrpWMZaO
- b1J38aN8f9D6I4VAvT9UUS1/xKczd/t2NerQL6t50ylvRyAe8kzHmjj5sdmKnV9Nopnb
- NfYXMH9wLiEVUilL6n8l/O3uoLHHL8/JIRhKu0oydMAnRZZyYGhBi/mInOuGSkK6HH1n
- vMiQd9tBop2J01cZrPxw8/q3/YOMyVyuIUuLx2PkP2rAgKJZaZSedU1cRxdownPgBqJz
- wBZA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=pXFTLjYkOP1A0xWhzVRdBZjZMZodMb+7rQNJes+y4zU=;
+ b=hXVwpWqhy1l7F5QBWyz66qOo/0vWACpchYZ7c1no1QIuX9b4toYCcHT131T2Wr3NQg
+ eDMei9AaZSYIn8htOuTfao/WzIZzXdIZj+HTFQZxulWwC7R+bec/bcwfRWYRnb5LVWrN
+ PytKO8vIzBJdomm6pNcWPtFVM6dEpF2tm/ijR/QC920bKmAZHug72c21kVvI6+/cXJaa
+ Q+Vda0wtvR7ivqVZe1eY/I7ydFjXd0rd0HMjy4EnwFQXnK2irlxq05YvmZVomFnyC9jc
+ NrZXIKYaGVhQu8M6ZtS/4oNwwEWR5F+q/r4ZqiXgi6/vTSHrZGIseyPBIum6Bg0r+Ed7
+ 5ouA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:in-reply-to:references:from:date
- :message-id:subject:to:cc;
- bh=iHU/sJ5BGAr3m/MEqBDWJpJCGXIpf9YEa6LVNUn1BbY=;
- b=tMJaaE6HaTzaM3hEpDiiHhH4g2IBinqUlfK1NpA0yjPloOTqHeqhFPZX91z8JT2zTz
- gXP42Xgkc8O5rmlGQ/uLh+GkcE3a3TOBrJrMh/OMIw5KnZDHdtPB1zulpMkAY9m+fRB3
- q+v0FlvUCRiu5kO62PEBLCe8FA1pFZ20vCV7bRFeUr/GFZaT01CsGinY2oPjESoDhlLo
- dKteCFrOIV/KJgjEuSbBR0RV23yfo4xCJHcGkkuiJGh4X8Netook54s6EKb6DWkFFrsG
- 6StAhI0WHiVFWWNkLzsnvkHwQxs6rAvugIVswVeXrD9KLAmAb/HWZkmI4nkqwTlzfBiK
- 7mFA==
-X-Gm-Message-State: AOAM531aPKI0Zro7ZIVo4FB1WT9p8ekQgrL98YO0jcuiiW45Ue7fxHmP
- huYS33zMmQ4st20OI10lF0qfzLcdHg2kINktuRs=
-X-Google-Smtp-Source: ABdhPJwJs8EHFpw2tZF22ElbFZxkIUP4wstC51OWPcQK4FG0wSuk3LKVKDyh/ttVAS0rPsH/3JJSqBlQO3u/2g11EK8=
-X-Received: by 2002:a25:c1c5:: with SMTP id r188mr4310701ybf.240.1591689280602; 
- Tue, 09 Jun 2020 00:54:40 -0700 (PDT)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=pXFTLjYkOP1A0xWhzVRdBZjZMZodMb+7rQNJes+y4zU=;
+ b=JOO0GJDG+A5I74NLWQJFkQpXCkoSabJtB+yoHnj4cb3rpQKVsrKkZ8i5zjPCAvAETv
+ PLAavzKt/+NQg8Ko9udEvli1SIqxBdbFnWLZ57um7xn30M4CF61d98btkuySq1iRTLb8
+ a9laCVkkAIO7oRSxVEC+frQ8k02HLictq8etXUOcs9/OvxKlTmwr8Uja7Ix46TLI/+yy
+ OB6kF94WdkpoOtio2TlfEWSSQm+C7aO/jIbX9iNUyF85nk7RbpMh3/rdUNKb+T/SN9oP
+ HkcUyUysJ43tQ4T7+0sGb7KjHhrkOUt/4Skib993RW92e4ULM/v4scjEEaF+HtDItTZa
+ G/JQ==
+X-Gm-Message-State: AOAM530gQZoAJQTBP9pZyN6RcSAfRW4ZQNDMk25Y6KRH7gz/gNAXGgIe
+ n5nZuJkci1Vp885mZSffmoaEAJy7tlKBkSu5+8Q=
+X-Google-Smtp-Source: ABdhPJxJ797Ho0x36TQp9/mvxon6jsmJ2CEWWxJBLGIHbY62TRoXuobwfX7E1QxhXqYEKjMAZ81pZquZFPgB4EoFtOE=
+X-Received: by 2002:a92:a1c9:: with SMTP id b70mr27447402ill.198.1591708055341; 
+ Tue, 09 Jun 2020 06:07:35 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a5b:3ca:0:0:0:0:0 with HTTP;
- Tue, 9 Jun 2020 00:54:39 -0700 (PDT)
-In-Reply-To: <20200609073001.3668811-1-yili@winhong.com>
-References: <20200609073001.3668811-1-yili@winhong.com>
-From: =?UTF-8?B?5p2O5LmJ?= <yilikernel@gmail.com>
-Date: Tue, 9 Jun 2020 15:54:39 +0800
-Message-ID: <CAJfdMYC54tyd3Q2au8MDBNOrcC08CxtZDbTweSxZD=hx-MLmSQ@mail.gmail.com>
-Subject: Re: [PATCH] rbd: Use RBD fast-diff for querying actual allocation
-To: Yi Li <yili@winhong.com>, qemu-devel <qemu-devel@nongnu.org>
+References: <20200609122339.937862-1-armbru@redhat.com>
+ <20200609122339.937862-22-armbru@redhat.com>
+In-Reply-To: <20200609122339.937862-22-armbru@redhat.com>
+From: Artyom Tarasenko <atar4qemu@gmail.com>
+Date: Tue, 9 Jun 2020 15:07:23 +0200
+Message-ID: <CACXAS8CPhkjs8GDHm0c63C7JFBKtuVMZc9uJRL7Ykmfu42oXQA@mail.gmail.com>
+Subject: Re: [PATCH v3 21/24] sparc/leon3: Fix to put grlib,
+ * devices on sysbus
+To: Markus Armbruster <armbru@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b44;
- envelope-from=yilikernel@gmail.com; helo=mail-yb1-xb44.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::143;
+ envelope-from=atar4qemu@gmail.com; helo=mail-il1-x143.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- FROM_EXCESS_BASE64=0.979, RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
-X-Mailman-Approved-At: Tue, 09 Jun 2020 09:16:32 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,129 +82,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, dillaman@redhat.com, qemu-block@nongnu.org,
- mreitz@redhat.com
+Cc: berrange@redhat.com, Eduardo Habkost <ehabkost@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ qemu-devel <qemu-devel@nongnu.org>, Fabien Chouteau <chouteau@adacore.com>,
+ KONRAD Frederic <frederic.konrad@adacore.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-CC qemu-block and rbd maintainers
+On Tue, Jun 9, 2020 at 2:23 PM Markus Armbruster <armbru@redhat.com> wrote:
+>
+> leon3_generic_hw_init() creates a "grlib,ahbpnp" and a "grlib,apbpnp"
+> sysbus device in a way that leaves them unplugged.
+>
+> Create them the common way that puts them into the main system bus.
+> Affects machine leon3_generic.  Visible in "info qtree":
+>
+>      bus: main-system-bus
+>        type System
+>     +  dev: grlib,ahbpnp, id ""
+>     +    mmio 00000000fffff000/0000000000001000
+>     +  dev: grlib,apbpnp, id ""
+>     +    mmio 00000000800ff000/0000000000001000
+>        dev: grlib,irqmp, id ""
+>
+> Cc: Fabien Chouteau <chouteau@adacore.com>
+> Cc: KONRAD Frederic <frederic.konrad@adacore.com>
+> Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> Cc: Artyom Tarasenko <atar4qemu@gmail.com>
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> Reviewed-by: KONRAD Frederic <frederic.konrad@adacore.com>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-On 6/9/20, Yi Li <yili@winhong.com> wrote:
-> Since Ceph version Infernalis (9.2.0) the new fast-diff mechanism
-> of RBD allows for querying actual rbd image usage.
->
-> Prior to this version there was no easy and fast way to query how
-> much allocation a RBD image had inside a Ceph cluster.
->
-> To use the fast-diff feature it needs to be enabled per RBD image
-> and is only supported by Ceph cluster running version Infernalis
-> (9.2.0) or newer.
->
-> Without the fast-diff feature enabled qemu-img will report an allocation
-> identical to the image capacity.
->
-> 'qemu-img info rbd:cepharm/liyi-rbd' might output for example:
->
->   image: json:{"driver": "raw", "file": {"pool": "cepharm",
->   "image": "liyi-rbd", "driver": "rbd"}}
->   file format: raw
->   virtual size: 20 GiB (21474836480 bytes)
->   disk size: 0 B
->   cluster_size: 4194304
->
-> Newly created rbds will have the fast-diff feature enabled.
->
-> Signed-off-by: Yi Li <yili@winhong.com>
+Acked-by: Artyom Tarasenko <atar4qemu@gmail.com>
+
 > ---
->  block/rbd.c | 60 +++++++++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 60 insertions(+)
+>  hw/sparc/leon3.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/block/rbd.c b/block/rbd.c
-> index 617553b022..f231653f7b 100644
-> --- a/block/rbd.c
-> +++ b/block/rbd.c
-> @@ -1107,6 +1107,65 @@ static int64_t qemu_rbd_getlength(BlockDriverState
-> *bs)
->      return info.size;
->  }
+> diff --git a/hw/sparc/leon3.c b/hw/sparc/leon3.c
+> index 8f024dab7b..3facb8c2ae 100644
+> --- a/hw/sparc/leon3.c
+> +++ b/hw/sparc/leon3.c
+> @@ -213,14 +213,14 @@ static void leon3_generic_hw_init(MachineState *mac=
+hine)
+>      reset_info->sp    =3D LEON3_RAM_OFFSET + ram_size;
+>      qemu_register_reset(main_cpu_reset, reset_info);
 >
-> +#if LIBRBD_VERSION_CODE > 265
-> +static int disk_usage_callback(uint64_t offset, size_t len, int exists,
-> +                               void *arg)
-> +{
-> +  uint64_t *used_size = (uint64_t *)(arg);
-> +  if (exists) {
-> +    (*used_size) += len;
-> +  }
-> +  return 0;
-> +}
-> +#endif
-> +
-> +static int64_t qemu_rbd_allocated_file_size(BlockDriverState *bs)
-> +{
-> +    BDRVRBDState *s = bs->opaque;
-> +    rbd_image_info_t info;
-> +    int r;
-> +    uint64_t used_size = 0;
-> +    uint64_t features = 0;
-> +
-> +    r = rbd_stat(s->image, &info, sizeof(info));
-> +    if (r < 0) {
-> +        return r;
-> +    }
-> +
-> +    r = rbd_get_features(s->image, &features);
-> +    if (r < 0) {
-> +        return r;
-> +    }
-> +
-> +   /*
-> +    * rbd_diff_iterate2() is available in versions above Ceph 0.94
-> (Hammer)
-> +    * It uses a object map inside Ceph which is faster than
-> rbd_diff_iterate()
-> +    * which iterates all objects.
-> +    * LIBRBD_VERSION_CODE for Ceph 0.94 is 265. In 266 and upwards
-> diff_iterate2
-> +    * is available
-> +    */
-> +#if LIBRBD_VERSION_CODE > 265
-> +    if (features & RBD_FEATURE_FAST_DIFF) {
-> +
-> +        /*
-> +         * RBD image fast-diff feature enabled
-> +         * Querying for actual allocation.
-> +         */
-> +        r = rbd_diff_iterate2(s->image, NULL, 0, info.size, 0, 1,
-> +                              &disk_usage_callback,
-> +                              &used_size);
-> +        if (r < 0) {
-> +            return r;
-> +        }
-> +    } else {
-> +        used_size = info.size;
-> +    }
-> +#else
-> +    used_size = info.size;
-> +#endif
-> +    return used_size;
-> +}
-> +
->  static int coroutine_fn qemu_rbd_co_truncate(BlockDriverState *bs,
->                                               int64_t offset,
->                                               bool exact,
-> @@ -1316,6 +1375,7 @@ static BlockDriver bdrv_rbd = {
->      .bdrv_get_info          = qemu_rbd_getinfo,
->      .create_opts            = &qemu_rbd_create_opts,
->      .bdrv_getlength         = qemu_rbd_getlength,
-> +    .bdrv_get_allocated_file_size = qemu_rbd_allocated_file_size,
->      .bdrv_co_truncate       = qemu_rbd_co_truncate,
->      .protocol_name          = "rbd",
+> -    ahb_pnp =3D GRLIB_AHB_PNP(object_new(TYPE_GRLIB_AHB_PNP));
+> +    ahb_pnp =3D GRLIB_AHB_PNP(qdev_create(NULL, TYPE_GRLIB_AHB_PNP));
+>      object_property_set_bool(OBJECT(ahb_pnp), true, "realized", &error_f=
+atal);
+>      sysbus_mmio_map(SYS_BUS_DEVICE(ahb_pnp), 0, LEON3_AHB_PNP_OFFSET);
+>      grlib_ahb_pnp_add_entry(ahb_pnp, 0, 0, GRLIB_VENDOR_GAISLER,
+>                              GRLIB_LEON3_DEV, GRLIB_AHB_MASTER,
+>                              GRLIB_CPU_AREA);
 >
+> -    apb_pnp =3D GRLIB_APB_PNP(object_new(TYPE_GRLIB_APB_PNP));
+> +    apb_pnp =3D GRLIB_APB_PNP(qdev_create(NULL, TYPE_GRLIB_APB_PNP));
+>      object_property_set_bool(OBJECT(apb_pnp), true, "realized", &error_f=
+atal);
+>      sysbus_mmio_map(SYS_BUS_DEVICE(apb_pnp), 0, LEON3_APB_PNP_OFFSET);
+>      grlib_ahb_pnp_add_entry(ahb_pnp, LEON3_APB_PNP_OFFSET, 0xFFF,
 > --
-> 2.25.3
+> 2.26.2
 >
->
->
->
+
+
+--=20
+Regards,
+Artyom Tarasenko
+
+SPARC and PPC PReP under qemu blog: http://tyom.blogspot.com/search/label/q=
+emu
 
