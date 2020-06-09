@@ -2,70 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3DAE1F3AD4
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 14:45:04 +0200 (CEST)
-Received: from localhost ([::1]:37764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D9E21F3AD8
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 14:46:15 +0200 (CEST)
+Received: from localhost ([::1]:41508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jidcl-00064Q-U8
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 08:45:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42514)
+	id 1jiddu-0007bq-4P
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 08:46:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42966)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1jidQF-0005SH-Fz
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 08:32:09 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:34103
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1jidQB-0006jB-R9
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 08:32:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591705922;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=lBqJy4zmBPXwXfHybYGFIgtFGgcDei0T1Xpgi5s+mLo=;
- b=T6NWqLENYX9kc/9hEl32M+6iTgXBJaS94Gkrq201mzhrd/aQhKWjbfkKPEUfz8Rnk2KyYN
- hCcsPesgHauircPlbE2OrhDMbnnyKtB2bKSYk2ZrzyZ7D+0YsUalChFWoP7DCMbwwDKV4+
- nViGp1CnTULrvq++i/AGPRcza4YaE1I=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-72-qVCTdyp0OiG0DX7yPwRERw-1; Tue, 09 Jun 2020 08:32:00 -0400
-X-MC-Unique: qVCTdyp0OiG0DX7yPwRERw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5697918FE867;
- Tue,  9 Jun 2020 12:31:59 +0000 (UTC)
-Received: from horse.redhat.com (ovpn-115-136.rdu2.redhat.com [10.10.115.136])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7004A2B5B8;
- Tue,  9 Jun 2020 12:31:56 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id 066C12205BD; Tue,  9 Jun 2020 08:31:55 -0400 (EDT)
-Date: Tue, 9 Jun 2020 08:31:55 -0400
-From: Vivek Goyal <vgoyal@redhat.com>
-To: Max Reitz <mreitz@redhat.com>
-Subject: Re: [Virtio-fs] [PATCH] virtiofsd: Whitelist fchmod
-Message-ID: <20200609123155.GB211764@redhat.com>
-References: <20200608093111.14942-1-mreitz@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jidSj-0000Io-5M; Tue, 09 Jun 2020 08:34:41 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:46824)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jidSY-000749-To; Tue, 09 Jun 2020 08:34:40 -0400
+Received: by mail-wr1-x443.google.com with SMTP id x6so21053052wrm.13;
+ Tue, 09 Jun 2020 05:34:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=4vYBQ4QOoLJ0tWi1pnrplMJpUmOVbtMFmv0oacXtacU=;
+ b=glwBomo4hogbRJTESikWKaZdE/9Pss6V+ntW5JGrUihb260OeBiLq8tPVaV7WCekSt
+ qJYzKm9g6IZYFpAVQ57Yt0l4YCkjNDPzEIHXUTk3nV7RJI6sU45PhRlQE/5S2FmzsITI
+ ITX29OFSgmdU+AYbph7uefhB0rUzvjwhArze8O2ghbKvSNEpgGzBzoOVfGuVi1GYcdun
+ ytjEtuW3NhjFJXdHSYNCqvSjQ4Km/BjQjWqVg6mTJvHNuAEr4NGZkdUVgj6jxH9TgP9B
+ Uv6rtOitxzTEh/0P0HuSb9jpLD+OPzy114hpavzL5n2CZApowRMgWFKdfU7fwpGuDpXC
+ P3jQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=4vYBQ4QOoLJ0tWi1pnrplMJpUmOVbtMFmv0oacXtacU=;
+ b=IXT5Q3CBvxB5tDikBNYIMdtKSgHBKqm9WgZKU7Gj0Jno+QI/2itDqne2kfn2cuTgMu
+ 9oSur6fENSdiuKqAUhJlMLd679tBtMtPHPU4kDavHBL7r7Ig1SdfEsz0h1wEuapyDuNA
+ JHx32Vu4L32rYqsiYC+jqztQ2umuljTk75HsCE+EaZAwxJQiaSaEsMl9WWgFP+11UslH
+ O3EVRNdikvGzwZxSHYVWxAfVyttsiFQe8CWcBkWPIgPdjwDB/hMDYsiKlzGSiJui+pWM
+ u3evlrIAaTPPX7qCXyfrrqNibt/wAKj5gBBwsyy6P5hZ9Oh1htIt4mBvfVoy7ENnNSqi
+ YECA==
+X-Gm-Message-State: AOAM53052FzSjb8lU8JL+98RoIx8JL71wc1swFh93lOrFf9ZPv15j6Sm
+ /r+EaiPrE5xlfwX2divWPLOVPldx
+X-Google-Smtp-Source: ABdhPJxgydoyfpuuyi9Sr9NuKIO6xYmpr4HxNpY/iAA9lmjJ/v2uGoUJFix+h3eRW+nHqzP6g7M+dg==
+X-Received: by 2002:adf:82ab:: with SMTP id 40mr4021066wrc.85.1591706066909;
+ Tue, 09 Jun 2020 05:34:26 -0700 (PDT)
+Received: from localhost.localdomain
+ (181.red-88-10-103.dynamicip.rima-tde.net. [88.10.103.181])
+ by smtp.gmail.com with ESMTPSA id c81sm2920931wmd.42.2020.06.09.05.34.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 09 Jun 2020 05:34:26 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH 0/5] hw/misc: Add LED device
+Date: Tue,  9 Jun 2020 14:34:20 +0200
+Message-Id: <20200609123425.6921-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
-In-Reply-To: <20200608093111.14942-1-mreitz@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=vgoyal@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 02:41:53
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,76 +83,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org, qemu-stable@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Joaquin de Andres <me@xcancerberox.com.ar>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-arm@nongnu.org,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 08, 2020 at 11:31:11AM +0200, Max Reitz wrote:
-> lo_setattr() invokes fchmod() in a rarely used code path, so it should
-> be whitelisted or virtiofsd will crash with EBADSYS.
-> 
-> Said code path can be triggered for example as follows:
-> 
-> On the host, in the shared directory, create a file with the sticky bit
-> set and a security.capability xattr:
-> (1) # touch foo
-> (2) # chmod u+s foo
-> (3) # setcap '' foo
-> 
-> Then in the guest let some process truncate that file after it has
-> dropped all of its capabilities (at least CAP_FSETID):
-> 
-> int main(int argc, char *argv[])
-> {
->     capng_setpid(getpid());
->     capng_clear(CAPNG_SELECT_BOTH);
->     capng_updatev(CAPNG_ADD, CAPNG_PERMITTED | CAPNG_EFFECTIVE, 0);
->     capng_apply(CAPNG_SELECT_BOTH);
-> 
->     ftruncate(open(argv[1], O_RDWR), 0);
-> }
-> 
-> This will cause the guest kernel to drop the sticky bit (i.e. perform a
-> mode change) as part of the truncate (where FATTR_FH is set), and that
-> will cause virtiofsd to invoke fchmod() instead of fchmodat().
-> 
-> (A similar configuration exists further below with futimens() vs.
-> utimensat(), but the former is not a syscall but just a wrapper for the
-> latter, so no further whitelisting is required.)
-> 
-> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1842667
-> Reported-by: Qian Cai <caiqian@redhat.com>
-> Cc: qemu-stable@nongnu.org
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
+Hello,
 
-Nice catch. 
+These patches are part of the GSoC unselected 'QEMU visualizer'
+project.  As the AVR port is not merged, I switched to microbit
+to keep working on it.
 
-Reviewed-by: Vivek Goyal <vgoyal@redhat.com>
+This series presents a proof of concept of LED device that can
+be easily connected to a GPIO.
+The LED emit QMP events, so an external visualizer can display
+the LED events.
 
-Vivek
+If there is no negative opinion on this series, next step will
+be add Zephyr test for the microbit, then we'll work on LED
+array/matrix.
 
-> ---
->  tools/virtiofsd/seccomp.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/tools/virtiofsd/seccomp.c b/tools/virtiofsd/seccomp.c
-> index bd9e7b083c..3b1522acdd 100644
-> --- a/tools/virtiofsd/seccomp.c
-> +++ b/tools/virtiofsd/seccomp.c
-> @@ -42,6 +42,7 @@ static const int syscall_whitelist[] = {
->      SCMP_SYS(exit_group),
->      SCMP_SYS(fallocate),
->      SCMP_SYS(fchdir),
-> +    SCMP_SYS(fchmod),
->      SCMP_SYS(fchmodat),
->      SCMP_SYS(fchownat),
->      SCMP_SYS(fcntl),
-> -- 
-> 2.26.2
-> 
-> _______________________________________________
-> Virtio-fs mailing list
-> Virtio-fs@redhat.com
-> https://www.redhat.com/mailman/listinfo/virtio-fs
+Regards,
+
+Phil.
+
+Philippe Mathieu-Daudé (5):
+  hw/misc: Add a LED device
+  hw/misc/led: Add LED_STATUS_CHANGED QAPI event
+  hw/misc/led: Add create_led_by_gpio_id() helper
+  hw/arm/microbit: Add a fake LED to use as proof-of-concept with Zephyr
+  hw/arm/tosa: Use LED device for the Bluetooth led
+
+ qapi/led.json         |  47 ++++++++++++++++++
+ qapi/qapi-schema.json |   1 +
+ include/hw/misc/led.h |  44 +++++++++++++++++
+ hw/arm/microbit.c     |   3 ++
+ hw/arm/tosa.c         |   7 ++-
+ hw/misc/led.c         | 108 ++++++++++++++++++++++++++++++++++++++++++
+ MAINTAINERS           |   7 +++
+ hw/arm/Kconfig        |   2 +
+ hw/misc/Kconfig       |   3 ++
+ hw/misc/Makefile.objs |   1 +
+ hw/misc/trace-events  |   3 ++
+ qapi/Makefile.objs    |   2 +-
+ 12 files changed, 223 insertions(+), 5 deletions(-)
+ create mode 100644 qapi/led.json
+ create mode 100644 include/hw/misc/led.h
+ create mode 100644 hw/misc/led.c
+
+-- 
+2.21.3
 
 
