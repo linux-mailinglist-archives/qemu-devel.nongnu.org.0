@@ -2,74 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32C0D1F416B
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 18:53:27 +0200 (CEST)
-Received: from localhost ([::1]:52154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 158D51F417A
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 18:55:38 +0200 (CEST)
+Received: from localhost ([::1]:60610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jihV8-0005oE-21
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 12:53:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47544)
+	id 1jihXE-0000ry-N5
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 12:55:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47550)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jih7S-0006Nb-Qp
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 12:28:58 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:34139)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jih7Q-00019d-Nm
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 12:28:58 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id u26so2699305wmn.1
- for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 09:28:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=ujyzI6PK0Cj6j4urUhXNN+eZBMUkCinKRwasIhMry7Y=;
- b=tYBvI8NFC6+km618S04H3zY1pO0ZmBk4SSzPPG+mMKeaexAmOeGPobWr/hH5taea35
- Q1w2ughvbZ35l1Ks6LaolJ6GSlJ3qJ2m+SojEiK8ARbi7g80xxIKu3t56HiMF26RxwfF
- ZZxwT/fB2rVTT77iBKbNge3Gt4Pz0eHE53G7IIuv1A4FVTzoG1019nniyPGARxrg+V/m
- BNLl8txQXEhWn0UZvYuEPzf8OfzfTPJzJmRRS8wGU5VYFBmA0pr69zY/JHccn1zT4aLq
- 1sRXGujAIMbmkmiBCZkD3jLze4XvVjrgvgx5hAngOgwAGc6dGbGNBnEJmTqIDuZhuuqB
- 9N6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=ujyzI6PK0Cj6j4urUhXNN+eZBMUkCinKRwasIhMry7Y=;
- b=Zk0FC0HTuRz9jfeySrA29NrT+Hk04+LS3Rnni1U+J7EqXeuZEtvBJjEsigs9J+gI6Q
- b1q2Ha6OFY2BXtO2ERoTMoL60SMRo71zDzUr/UL1OKwdP3ihRb5EOt0/r7+bf8Zs16Ua
- 7F/F+fRg9V8KznnRmf5FJlfZ4OcNiWK8G5Git1O5GnqR3Qizs5JDvNhOKTls3zW3zv8g
- pNVO6O9IvLRdIcwh+3GIUvU3h3ozldkkV+f0LJQRnrZGyz+zwkNoVPhVnWfrGaoyl18u
- fcnygdjdMdmHfqTp/soOKVGQXufcs50Eu510l5PMj5miCTTweMq+kr5Qdz4Xzg6vm5kA
- hK1Q==
-X-Gm-Message-State: AOAM530mrOwBVW2SQQSBQvYfZAGxWImRYAOc7gSXc95tkuoczwHNoZIp
- q7SH39y1HdkniBGpFdtsw4T6V14y
-X-Google-Smtp-Source: ABdhPJx0R6EOXFDOMTxnCotQ8+Rap1fgOa2ArmV1pNmBEpyo3z8wCIlUVuAhTRpp7dfR9JxioHjpfQ==
-X-Received: by 2002:a1c:6243:: with SMTP id w64mr4778830wmb.162.1591720134255; 
- Tue, 09 Jun 2020 09:28:54 -0700 (PDT)
-Received: from rtrkw774-lin.syrmia.com ([46.240.135.226])
- by smtp.gmail.com with ESMTPSA id 23sm3643598wmo.18.2020.06.09.09.28.53
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 09 Jun 2020 09:28:53 -0700 (PDT)
-From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-To: qemu-devel@nongnu.org,
-	peter.maydell@linaro.org
-Subject: [PULL 20/20] target/mips: Enable hardware page table walker and CMGCR
- features for P5600
-Date: Tue,  9 Jun 2020 18:28:38 +0200
-Message-Id: <1591720118-7378-21-git-send-email-aleksandar.qemu.devel@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1591720118-7378-1-git-send-email-aleksandar.qemu.devel@gmail.com>
-References: <1591720118-7378-1-git-send-email-aleksandar.qemu.devel@gmail.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-wm1-x32b.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1jih7W-0006WH-Ln; Tue, 09 Jun 2020 12:29:02 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:31928
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1jih7U-0001AT-Vs; Tue, 09 Jun 2020 12:29:02 -0400
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 059G2gPO084329; Tue, 9 Jun 2020 12:28:53 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 31ja39rg95-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 09 Jun 2020 12:28:53 -0400
+Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 059G2nwP085059;
+ Tue, 9 Jun 2020 12:28:53 -0400
+Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.71])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 31ja39rg8j-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 09 Jun 2020 12:28:53 -0400
+Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
+ by ppma02fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 059GLI52006919;
+ Tue, 9 Jun 2020 16:28:51 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com
+ (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+ by ppma02fra.de.ibm.com with ESMTP id 31g2s82jxu-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 09 Jun 2020 16:28:51 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 059GSmEj37290082
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 9 Jun 2020 16:28:48 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 78DB911C05B;
+ Tue,  9 Jun 2020 16:28:48 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C002711C050;
+ Tue,  9 Jun 2020 16:28:47 +0000 (GMT)
+Received: from oc2783563651 (unknown [9.145.129.89])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Tue,  9 Jun 2020 16:28:47 +0000 (GMT)
+Date: Tue, 9 Jun 2020 18:28:39 +0200
+From: Halil Pasic <pasic@linux.ibm.com>
+To: Claudio Imbrenda <imbrenda@linux.ibm.com>
+Subject: Re: [PATCH v2 1/1] virtio-ccw: auto-manage VIRTIO_F_IOMMU_PLATFORM
+ if PV
+Message-ID: <20200609182839.7ac80938.pasic@linux.ibm.com>
+In-Reply-To: <20200609174747.4e300818@ibm-vm>
+References: <20200514221155.32079-1-pasic@linux.ibm.com>
+ <20200520121507-mutt-send-email-mst@kernel.org>
+ <20200606013217.2cffa3ed.pasic@linux.ibm.com>
+ <20200608181428.3c6f127c.cohuck@redhat.com>
+ <20200608190045.319dd68b.pasic@linux.ibm.com>
+ <20200609084402.35d317ec.cohuck@redhat.com>
+ <20200609114130.0ca9190b.pasic@linux.ibm.com>
+ <20200609174747.4e300818@ibm-vm>
+Organization: IBM
+X-Mailer: Claws Mail 3.11.1 (GTK+ 2.24.31; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.687
+ definitions=2020-06-09_09:2020-06-09,
+ 2020-06-09 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 mlxscore=0
+ suspectscore=0 priorityscore=1501 malwarescore=0 cotscore=-2147483648
+ spamscore=0 phishscore=0 clxscore=1015 adultscore=0 mlxlogscore=895
+ lowpriorityscore=0 impostorscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2004280000 definitions=main-2006090118
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pasic@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 11:42:10
+X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, KHOP_DYNAMIC=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,52 +108,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aleksandar.qemu.devel@gmail.com
+Cc: Thomas Huth <thuth@redhat.com>, Boris Fiuczynski <fiuczy@linux.ibm.com>,
+ Janosch Frank <frankja@linux.ibm.com>, Pierre Morel <pmorel@linux.ibm.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Viktor Mihajlovski <mihajlov@linux.ibm.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Andrea Oliveri <oliveriandrea@gmail.com>
+On Tue, 9 Jun 2020 17:47:47 +0200
+Claudio Imbrenda <imbrenda@linux.ibm.com> wrote:
 
-Enable hardware page table walker and CMGCR features for P5600 that
-supports both.
+> On Tue, 9 Jun 2020 11:41:30 +0200
+> Halil Pasic <pasic@linux.ibm.com> wrote:
+> 
+> [...]
+> 
+> > I don't know. Janosch could answer that, but he is on vacation. Adding
+> > Claudio maybe he can answer. My understanding is, that while it might
+> > be possible, it is ugly at best. The ability to do a transition is
+> > indicated by a CPU model feature. Indicating the feature to the guest
+> > and then failing the transition sounds wrong to me.
+> 
+> I agree. If the feature is advertised, then it has to work. I don't
+> think we even have an architected way to fail the transition for that
+> reason.
+> 
+> What __could__ be done is to prevent qemu from even starting if an
+> incompatible device is specified together with PV.
 
-Signed-off-by: Andrea Oliveri <oliveriandrea@gmail.com>
-Reviewed-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Signed-off-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Message-Id: <de5adcb9fd0dd607b98026f4bfb34205432b6002.camel@gmail.com>
----
- target/mips/translate_init.inc.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+AFAIU, the "specified together with PV" is the problem here. Currently
+we don't "specify PV" but PV is just a capability that is managed by the
+CPU model (like so many other). I.e. the fact that the
+visualization environment is capable providing PV (unpack facility
+available), and the fact, that the end user didn't fence the unpack
+facility, does not mean, the user is dead set to use PV.
 
-diff --git a/target/mips/translate_init.inc.c b/target/mips/translate_init.inc.c
-index ffae10d..637cacc 100644
---- a/target/mips/translate_init.inc.c
-+++ b/target/mips/translate_init.inc.c
-@@ -366,7 +366,7 @@ const mips_def_t mips_defs[] =
-     },
-     {
-         /* FIXME:
--         * Config3: CMGCR, PW, VZ, CTXTC, CDMM, TL
-+         * Config3: VZ, CTXTC, CDMM, TL
-          * Config4: MMUExtDef
-          * Config5: MRP
-          * FIR(FCR0): Has2008
-@@ -380,10 +380,11 @@ const mips_def_t mips_defs[] =
-                        (2 << CP0C1_DS) | (4 << CP0C1_DL) | (3 << CP0C1_DA) |
-                        (1 << CP0C1_PC) | (1 << CP0C1_FP),
-         .CP0_Config2 = MIPS_CONFIG2,
--        .CP0_Config3 = MIPS_CONFIG3 | (1U << CP0C3_M) | (1 << CP0C3_MSAP) |
-+        .CP0_Config3 = MIPS_CONFIG3 | (1U << CP0C3_M) |
-+                       (1 << CP0C3_CMGCR) | (1 << CP0C3_MSAP) |
-                        (1 << CP0C3_BP) | (1 << CP0C3_BI) | (1 << CP0C3_SC) |
--                       (1 << CP0C3_ULRI) | (1 << CP0C3_RXI) | (1 << CP0C3_LPA) |
--                       (1 << CP0C3_VInt),
-+                       (1 << CP0C3_PW) | (1 << CP0C3_ULRI) | (1 << CP0C3_RXI) |
-+                       (1 << CP0C3_LPA) | (1 << CP0C3_VInt),
-         .CP0_Config4 = MIPS_CONFIG4 | (1U << CP0C4_M) | (2 << CP0C4_IE) |
-                        (0x1c << CP0C4_KScrExist),
-         .CP0_Config4_rw_bitmask = 0,
--- 
-2.7.4
+My understanding is, that we want PV to just work, without having to
+put together a peculiar VM definition that says: this is going to be
+used as a PV VM.
+
+> 
+> Another option is to disable PV at the qemu level if an incompatible
+> device is present. This will have the effect that trying to boot a
+> secure guest will fail mysteriously, which is IMHO also not too great.
+> 
+
+This would contradict with if feature is advertised, then it has to work
+or?
+
+> do we really have that many incompatible devices?
+> 
+
 
 
