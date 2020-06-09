@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD0DE1F4349
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 19:52:45 +0200 (CEST)
-Received: from localhost ([::1]:47750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A3B41F4389
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 19:54:34 +0200 (CEST)
+Received: from localhost ([::1]:56040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jiiQW-0005Jh-QX
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 13:52:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57166)
+	id 1jiiSH-0000Gy-9s
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 13:54:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jiiOY-0003LH-Cq
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 13:50:42 -0400
-Received: from indium.canonical.com ([91.189.90.7]:51570)
+ id 1jiiOg-0003Uv-D4
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 13:50:50 -0400
+Received: from indium.canonical.com ([91.189.90.7]:51808)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jiiOW-00079i-M5
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 13:50:41 -0400
+ id 1jiiOc-0007Aj-BJ
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 13:50:49 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jiiOU-0003tX-5c
- for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 17:50:38 +0000
+ id 1jiiOZ-0003xM-0y
+ for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 17:50:43 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 12A052E810E
- for <qemu-devel@nongnu.org>; Tue,  9 Jun 2020 17:50:38 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id C6E452E810C
+ for <qemu-devel@nongnu.org>; Tue,  9 Jun 2020 17:50:42 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 09 Jun 2020 17:43:20 -0000
-From: "Laszlo Ersek \(Red Hat\)" <1882671@bugs.launchpad.net>
+Date: Tue, 09 Jun 2020 17:44:09 -0000
+From: Laurent Vivier <1874073@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
- status=New; importance=Undecided; assignee=None; 
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=philmd@redhat.com; 
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: lersek vvaltchev
-X-Launchpad-Bug-Reporter: Vladislav K. Valtchev (vvaltchev)
-X-Launchpad-Bug-Modifier: Laszlo Ersek (Red Hat) (lersek)
-References: <159169936514.32294.8785049859239547612.malonedeb@gac.canonical.com>
-Message-Id: <159172460084.4024.17968418670488378056.malone@soybean.canonical.com>
-Subject: [Bug 1882671] Re: qemu-system-x86_64 (ver 4.2) stuck at boot with
- OVMF bios
+X-Launchpad-Bug-Commenters: eblake laurent-vivier mliska philmd pmaydell
+X-Launchpad-Bug-Reporter: Martin Liska (mliska)
+X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
+References: <158747496330.1952.6391008472811579405.malonedeb@chaenomeles.canonical.com>
+ <20200608160611.16966-1-philmd@redhat.com>
+Message-Id: <667551f6-96fb-19a3-828c-c8d0e1c41fb9@vivier.eu>
+Subject: [Bug 1874073] Re: [PATCH v2] hw/openrisc/openrisc_sim: Add assertion
+ to silence GCC warning
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="ef9fc486e875d54078fa61cf91e898b895125d89";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 1082085017179b2509eeb7a6682f9a0d201de9d8
+X-Launchpad-Hash: 5c07896bee7c7960c41382de896f436806a71476
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 10:15:37
@@ -75,105 +75,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1882671 <1882671@bugs.launchpad.net>
+Reply-To: Bug 1874073 <1874073@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Please add
+Le 08/06/2020 =C3=A0 18:06, Philippe Mathieu-Daud=C3=A9 a =C3=A9crit=C2=A0:
+> When compiling with GCC 10 (Fedora 32) using CFLAGS=3D-O2 we get:
+> =
 
-  -debugcon file:debug.log -global isa-debugcon.iobase=3D0x402
+>     CC      or1k-softmmu/hw/openrisc/openrisc_sim.o
+>   hw/openrisc/openrisc_sim.c: In function =E2=80=98openrisc_sim_init=E2=
+=80=99:
+>   hw/openrisc/openrisc_sim.c:87:42: error: =E2=80=98cpu_irqs[0]=E2=80=99 =
+may be used uninitialized in this function [-Werror=3Dmaybe-uninitialized]
+>      87 |         sysbus_connect_irq(s, i, cpu_irqs[i][irq_pin]);
+>         |                                  ~~~~~~~~^~~
+> =
 
-to the QEMU cmdline, and attach "debug.log". Thanks.
+> While humans can tell smp_cpus will always be in the [1, 2] range,
+> (openrisc_sim_machine_init sets mc->max_cpus =3D 2), the compiler
+> can't.
+> =
+
+> Add an assertion to give the compiler a hint there's no use of
+> uninitialized data.
+> =
+
+> Buglink: https://bugs.launchpad.net/qemu/+bug/1874073
+> Reported-by: Martin Li=C5=A1ka <mliska@suse.cz>
+> Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+> Reviewed-by: Thomas Huth <thuth@redhat.com>
+> Tested-by: Eric Blake <eblake@redhat.com>
+> Reviewed-by: Eric Blake <eblake@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+> v2: Fixed typo in subject (eblake)
+> Supersedes: <20200608071409.17024-1-philmd@redhat.com>
+> ---
+>  hw/openrisc/openrisc_sim.c | 1 +
+>  1 file changed, 1 insertion(+)
+> =
+
+> diff --git a/hw/openrisc/openrisc_sim.c b/hw/openrisc/openrisc_sim.c
+> index d08ce61811..02f5259e5e 100644
+> --- a/hw/openrisc/openrisc_sim.c
+> +++ b/hw/openrisc/openrisc_sim.c
+> @@ -134,6 +134,7 @@ static void openrisc_sim_init(MachineState *machine)
+>      int n;
+>      unsigned int smp_cpus =3D machine->smp.cpus;
+>  =
+
+> +    assert(smp_cpus >=3D 1 && smp_cpus <=3D 2);
+>      for (n =3D 0; n < smp_cpus; n++) {
+>          cpu =3D OPENRISC_CPU(cpu_create(machine->cpu_type));
+>          if (cpu =3D=3D NULL) {
+> =
+
+
+Applied to my trivial-patches branch.
+
+Thanks,
+Laurent
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1882671
+https://bugs.launchpad.net/bugs/1874073
 
 Title:
-  qemu-system-x86_64 (ver 4.2) stuck at boot with OVMF bios
+  openrisc_sim.c:87:42: error: 'cpu_irqs[0]' may be used uninitialized
+  in this function [-Werror=3Dmaybe-uninitialized]
 
 Status in QEMU:
-  New
-Status in qemu package in Ubuntu:
-  New
+  Confirmed
 
 Bug description:
-  The version of QEMU (4.2.0) packaged for Ubuntu 20.04 hangs
-  indefinitely at boot if an OVMF bios is used. This happens ONLY with
-  qemu-system-x86_64. qemu-system-i386 works fine with the latest ia32
-  OVMF bios.
+  I see the warning since gcc10:
 
-  NOTE[1]: the same identical OVMF bios works fine on QEMU 2.x packaged wit=
-h Ubuntu 18.04.
-  NOTE[2]: reproducing the fatal bug requires *no* operating system:
-
-     qemu-system-x86_64 -bios OVMF-pure-efi.fd
-
-  On its window QEMU gets stuck at the very first stage:
-     "Guest has not initialized the display (yet)."
-
-  NOTE[3]: QEMU gets stuck no matter if KVM is used or not.
-
-  NOTE[4]: By adding the `-d int` option it is possible to observe that
-  QEMU is, apparently, stuck in an endless loop of interrupts. For the
-  first few seconds, registers' values vary quickly, but at some point
-  they reach a final value, while the interrupt counter increments:
-
-    2568: v=3D68 e=3D0000 i=3D0 cpl=3D0 IP=3D0038:0000000007f1d225 pc=3D000=
-0000007f1d225 SP=3D0030:0000000007f0c8d0 env->regs[R_EAX]=3D0000000000000000
-  RAX=3D0000000000000000 RBX=3D0000000007f0c920 RCX=3D0000000000000000 RDX=
-=3D0000000000000001
-  RSI=3D0000000006d18798 RDI=3D0000000000008664 RBP=3D0000000000000000 RSP=
-=3D0000000007f0c8d0
-  R8 =3D0000000000000001 R9 =3D0000000000000089 R10=3D0000000000000000 R11=
-=3D0000000007f2c987
-  R12=3D0000000000000000 R13=3D0000000000000000 R14=3D0000000007087901 R15=
-=3D0000000000000000
-  RIP=3D0000000007f1d225 RFL=3D00000246 [---Z-P-] CPL=3D0 II=3D0 A20=3D1 SM=
-M=3D0 HLT=3D0
-  ES =3D0030 0000000000000000 ffffffff 00cf9300 DPL=3D0 DS   [-WA]
-  CS =3D0038 0000000000000000 ffffffff 00af9a00 DPL=3D0 CS64 [-R-]
-  SS =3D0030 0000000000000000 ffffffff 00cf9300 DPL=3D0 DS   [-WA]
-  DS =3D0030 0000000000000000 ffffffff 00cf9300 DPL=3D0 DS   [-WA]
-  FS =3D0030 0000000000000000 ffffffff 00cf9300 DPL=3D0 DS   [-WA]
-  GS =3D0030 0000000000000000 ffffffff 00cf9300 DPL=3D0 DS   [-WA]
-  LDT=3D0000 0000000000000000 0000ffff 00008200 DPL=3D0 LDT
-  TR =3D0000 0000000000000000 0000ffff 00008b00 DPL=3D0 TSS64-busy
-  GDT=3D     00000000079eea98 00000047
-  IDT=3D     000000000758f018 00000fff
-  CR0=3D80010033 CR2=3D0000000000000000 CR3=3D0000000007c01000 CR4=3D000006=
-68
-  DR0=3D0000000000000000 DR1=3D0000000000000000 DR2=3D0000000000000000 DR3=
-=3D0000000000000000 =
-
-  DR6=3D00000000ffff0ff0 DR7=3D0000000000000400
-  CCS=3D0000000000000044 CCD=3D0000000000000000 CCO=3DEFLAGS  =
-
-  EFER=3D0000000000000d00
+  static void openrisc_sim_init(MachineState *machine):
+  ...
+      qemu_irq *cpu_irqs[2];
+  ...
 
   =
 
-  NOTE[5]: Just to better help the investigation of the bug, I'd like to re=
-mark that the issue is NOT caused by an endless loop of triple-faults. I tr=
-ied with -d cpu_reset and there is NO such loop. No triple fault whatsoever.
+      serial_mm_init(get_system_memory(), 0x90000000, 0, serial_irq,
+                     115200, serial_hd(0), DEVICE_NATIVE_ENDIAN);
 
-  NOTE[6]: The OVMF version used for the test has been downloaded from:
-  https://www.kraxel.org/repos/jenkins/edk2/edk2.git-ovmf-x64-0-20200515.13=
-98.g6ff7c838d0.noarch.rpm
-
-  but the issue is the same with older OVMF versions as well.
-
-  =
-
-  Please take a look at it, as the bug is NOT a corner case. QEMU 4.2.0 can=
-not boot with an UEFI firmware (OVMF) while virtualizing a x86_64 machine A=
-T ALL.
-
-  Thank you very much,
-  Vladislav K. Valtchev
+  I would initialize cpu_irqs[2] with {}.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1882671/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1874073/+subscriptions
 
