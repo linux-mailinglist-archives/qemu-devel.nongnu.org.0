@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2153A1F383E
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 12:42:04 +0200 (CEST)
-Received: from localhost ([::1]:42942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 605191F3845
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 12:44:13 +0200 (CEST)
+Received: from localhost ([::1]:49272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jibhj-00042E-51
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 06:42:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59308)
+	id 1jibjo-0006be-Dw
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 06:44:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jibeE-0007lI-K6
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 06:38:26 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:53351)
+ id 1jibeF-0007mK-7n
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 06:38:27 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:37662)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jibeD-0004PY-Ga
+ id 1jibeE-0004Pd-3l
  for qemu-devel@nongnu.org; Tue, 09 Jun 2020 06:38:26 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id l26so2322127wme.3
+Received: by mail-wm1-x342.google.com with SMTP id y20so2593618wmi.2
  for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 03:38:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=2ELcfDT80Dh4TpW73j2IcyKGQvBld3yZPEqT0DBBzd0=;
- b=AJwZJyU2gsqSDPrMFkk71y1yCCjistWBuBbIaYcPSrr1SLy61hOWwHn+oL0MScE1Md
- K8p48RL4mLQWhcK5Js+Hpv1wZ5O8Frbarb4z4RtNM6igfEY2REKvVapHijOHYPMtoxcs
- kE1xrehbj0ikPbrrBWi0CiVsxRN7aapDZ3HZAGZDaDmZqwW/bTPISDHaCyLBD3KONfsm
- 4GcMpVWM14xHN1p52C3li5elbbq+Zr+eXlxvtAAY9kvV6DH9MeF4fcbYTzf74A/BN5cN
- +x7evb/YosQpw8p3RHuEzddO5Eamwau/Uc+Tm7OD68dNKMCJRnUeXzvm+dNGrgImNK8J
- aczQ==
+ bh=YwfLakl/cuGc3cX6E72LnRG3LKOeHT2DnOthsE4iiK0=;
+ b=Zf9S30aM3qSl0o79RsehUHHNA9idMphGwXlCnmB4Hf9zb3pXy1ksVZ7T1jDT/2s51M
+ 5K4ZbtUQ/DjlUpx4/nCvczupno6WopEQHZhQaD7kpCdDwk5Hj7lZY7YfD2b2gIzTPnIf
+ 5fT46IfiZMbAveIMZmT69dGoSiyagBZbanVDHz9AKJxK35vwZr4Nf2Bqk2ebWiQOXaTm
+ DvprYuUUhNjUZw3JES0bX6OCL3a/kL1xAFhini8NaSzUK92dyYd5CpF3bheNDAnLSgtD
+ Do0itQbjhDl/sXgveWj03iabYVQmMzE9omk25mqXl68sNOdkpTNAfDALYWPrrUP8D5nP
+ crPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2ELcfDT80Dh4TpW73j2IcyKGQvBld3yZPEqT0DBBzd0=;
- b=SY1Mp4cGv6fyQ8s7PfN+EbmyB4ezwUEE6uujh+ySrQPXPzN29qdUTCVWI8YNJXgMxA
- 6wbGjRN/5PvjUgLTjrEVoKhEuykBS/aWLA/Ya8G6SiM10ZRfAS6zJL3qKxLqLwTwBsLp
- koAnWXSwSdXLYrFxuf2aAM5ZnIiAzDS3R2V5isesd1uue+Z2Pu3xCtjayeRa7pr8cl1y
- 4uzaLOaP9PC5GtgUIdoq+HwBWknWMc9lsuTZuUkkswN1CUdHK1A5XzW5bXCLRPOGXXGn
- oNdbRUwRleeZWqxzIAVRL4UmfQB/J4TOMFTSPGlJeI4yrE621jW9L53hoMQJawuXwHc4
- Ausg==
-X-Gm-Message-State: AOAM533ar6zYcpCk7+YqVl+00+zHwAsRymag8h7nwMRNgTUZ/WP2tGbQ
- zxJBfVnlv8jl5ccbp5fD17mpdA==
-X-Google-Smtp-Source: ABdhPJzWZnbbeNwd+ghFlHK1oMfQCFeUqTXKIgUYoPZKAuhlg73k2178d4MRZ0lB9ZZ9yOU4g4xoUQ==
-X-Received: by 2002:a1c:64d5:: with SMTP id y204mr3455213wmb.131.1591699103519; 
- Tue, 09 Jun 2020 03:38:23 -0700 (PDT)
+ bh=YwfLakl/cuGc3cX6E72LnRG3LKOeHT2DnOthsE4iiK0=;
+ b=qIMbmX15tMJUVvTixIypmYXe6WVS7UhgXo6oNlp4jX697Rv9bALfqojVIXG7cpWLvg
+ B0vOd1Gk2tt7Vyzw3C6D3CHnkd75U8p4Vew5Oo8xAkG2NJntUWOYDpj/NFg01xqU8nVq
+ 1SJnqrDb73XW6SuT1OM3i3s295P99gI9Vfc534Vdg6+6yp59vhfA4KscNFgEra/BZTd6
+ u7TAr+MGZV85Uy++zGL9tQ9xpxDD1728O3KT3djiUBxc9/DKhfHBWnyGaLIZ0N0QKCmT
+ S7RVlZnDdzYwyy93jBEbVw8CI8n1Sh14mXSmCwjll7o6bm17wMuin0S+2W33D/tts5ww
+ 2wig==
+X-Gm-Message-State: AOAM531Dhze8LL8mjDyTq8rHwb1jy2Y/ETNeYmBHGxtcSWP2JPZEgvvi
+ o1o9M7SBT76nlh3YYaBt6yQIkdbUQpA=
+X-Google-Smtp-Source: ABdhPJyfUmlqPxFhJ8tyXaQmFsxWPaS19+5bvEASPlG3nmgi+JoQqnyF1OM3czSyX4KhbaBGGnWYfw==
+X-Received: by 2002:a1c:7215:: with SMTP id n21mr3303172wmc.10.1591699104628; 
+ Tue, 09 Jun 2020 03:38:24 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id g82sm2513720wmf.1.2020.06.09.03.38.14
+ by smtp.gmail.com with ESMTPSA id l17sm2978481wrq.17.2020.06.09.03.38.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 09 Jun 2020 03:38:19 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 5E8B91FF98;
+ by zen.linaroharston (Postfix) with ESMTP id 84A781FF99;
  Tue,  9 Jun 2020 11:38:11 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 09/17] hw/virtio/vhost: re-factor vhost-section and allow
- DIRTY_MEMORY_CODE
-Date: Tue,  9 Jun 2020 11:38:01 +0100
-Message-Id: <20200609103809.23443-10-alex.bennee@linaro.org>
+Subject: [PULL 10/17] linux-user: provide fallback pgd_find_hole for bare
+ chroots
+Date: Tue,  9 Jun 2020 11:38:02 +0100
+Message-Id: <20200609103809.23443-11-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200609103809.23443-1-alex.bennee@linaro.org>
 References: <20200609103809.23443-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,128 +89,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S . Tsirkin" <mst@redhat.com>,
- Fabiano Rosas <farosas@linux.ibm.com>, qemu-devel@nongnu.org,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Riku Voipio <riku.voipio@iki.fi>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The purpose of vhost_section is to identify RAM regions that need to
-be made available to a vhost client. However when running under TCG
-all RAM sections have DIRTY_MEMORY_CODE set which leads to problems
-down the line.
+When running QEMU out of a chroot environment we may not have access
+to /proc/self/maps. As there is no other "official" way to introspect
+our memory map we need to fall back to the original technique of
+repeatedly trying to mmap an address range until we find one that
+works.
 
-Re-factor the code so:
+Fortunately it's not quite as ugly as the original code given we
+already re-factored the complications of dealing with the
+ARM_COMMPAGE. We do make an attempt to skip over brk() which is about
+the only concrete piece of information we have about the address map
+at this moment.
 
-  - steps are clearer to follow
-  - reason for rejection is recorded in the trace point
-  - we allow DIRTY_MEMORY_CODE
-
-We expand the comment to explain that kernel based vhost has specific
-support for migration tracking.
-
+Fixes: ee9474303
+Reported-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Tested-by: Fabiano Rosas <farosas@linux.ibm.com>
-Cc: Michael S. Tsirkin <mst@redhat.com>
-Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20200605154929.26910-11-alex.bennee@linaro.org>
+Message-Id: <20200605154929.26910-12-alex.bennee@linaro.org>
 
-diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-index aff98a0ede5..e3e21812905 100644
---- a/hw/virtio/vhost.c
-+++ b/hw/virtio/vhost.c
-@@ -27,6 +27,7 @@
- #include "migration/blocker.h"
- #include "migration/qemu-file-types.h"
- #include "sysemu/dma.h"
-+#include "sysemu/tcg.h"
- #include "trace.h"
- 
- /* enabled until disconnected backend stabilizes */
-@@ -403,26 +404,50 @@ static int vhost_verify_ring_mappings(struct vhost_dev *dev,
-     return r;
+diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+index ebc663ea0b3..475d243f3bd 100644
+--- a/linux-user/elfload.c
++++ b/linux-user/elfload.c
+@@ -2101,6 +2101,50 @@ static void pgb_have_guest_base(const char *image_name, abi_ulong guest_loaddr,
+     }
  }
  
-+/*
-+ * vhost_section: identify sections needed for vhost access
++/**
++ * pgd_find_hole_fallback: potential mmap address
++ * @guest_size: size of available space
++ * @brk: location of break
++ * @align: memory alignment
 + *
-+ * We only care about RAM sections here (where virtqueue and guest
-+ * internals accessed by virtio might live). If we find one we still
-+ * allow the backend to potentially filter it out of our list.
++ * This is a fallback method for finding a hole in the host address
++ * space if we don't have the benefit of being able to access
++ * /proc/self/map. It can potentially take a very long time as we can
++ * only dumbly iterate up the host address space seeing if the
++ * allocation would work.
 + */
- static bool vhost_section(struct vhost_dev *dev, MemoryRegionSection *section)
- {
--    bool result;
--    bool log_dirty = memory_region_get_dirty_log_mask(section->mr) &
--                     ~(1 << DIRTY_MEMORY_MIGRATION);
--    result = memory_region_is_ram(section->mr) &&
--        !memory_region_is_rom(section->mr);
--
--    /* Vhost doesn't handle any block which is doing dirty-tracking other
--     * than migration; this typically fires on VGA areas.
--     */
--    result &= !log_dirty;
-+    MemoryRegion *mr = section->mr;
++static uintptr_t pgd_find_hole_fallback(uintptr_t guest_size, uintptr_t brk, long align)
++{
++    uintptr_t base;
 +
-+    if (memory_region_is_ram(mr) && !memory_region_is_rom(mr)) {
-+        uint8_t dirty_mask = memory_region_get_dirty_log_mask(mr);
-+        uint8_t handled_dirty;
++    /* Start (aligned) at the bottom and work our way up */
++    base = ROUND_UP(mmap_min_addr, align);
 +
-+        /*
-+         * Kernel based vhost doesn't handle any block which is doing
-+         * dirty-tracking other than migration for which it has
-+         * specific logging support. However for TCG the kernel never
-+         * gets involved anyway so we can also ignore it's
-+         * self-modiying code detection flags. However a vhost-user
-+         * client could still confuse a TCG guest if it re-writes
-+         * executable memory that has already been translated.
-+         */
-+        handled_dirty = (1 << DIRTY_MEMORY_MIGRATION) |
-+            (1 << DIRTY_MEMORY_CODE);
- 
--    if (result && dev->vhost_ops->vhost_backend_mem_section_filter) {
--        result &=
--            dev->vhost_ops->vhost_backend_mem_section_filter(dev, section);
--    }
-+        if (dirty_mask & ~handled_dirty) {
-+            trace_vhost_reject_section(mr->name, 1);
-+            return false;
++    while (true) {
++        uintptr_t align_start, end;
++        align_start = ROUND_UP(base, align);
++        end = align_start + guest_size;
++
++        /* if brk is anywhere in the range give ourselves some room to grow. */
++        if (align_start <= brk && brk < end) {
++            base = brk + (16 * MiB);
++            continue;
++        } else if (align_start + guest_size < align_start) {
++            /* we have run out of space */
++            return -1;
++        } else {
++            int flags = MAP_ANONYMOUS | MAP_PRIVATE | MAP_NORESERVE | MAP_FIXED;
++            void * mmap_start = mmap((void *) align_start, guest_size,
++                                     PROT_NONE, flags, -1, 0);
++            if (mmap_start != MAP_FAILED) {
++                munmap((void *) align_start, guest_size);
++                return (uintptr_t) mmap_start;
++            }
++            base += qemu_host_page_size;
 +        }
-+
-+        if (dev->vhost_ops->vhost_backend_mem_section_filter &&
-+            !dev->vhost_ops->vhost_backend_mem_section_filter(dev, section)) {
-+            trace_vhost_reject_section(mr->name, 2);
-+            return false;
-+        }
- 
--    trace_vhost_section(section->mr->name, result);
--    return result;
-+        trace_vhost_section(mr->name);
-+        return true;
-+    } else {
-+        trace_vhost_reject_section(mr->name, 3);
-+        return false;
 +    }
- }
++}
++
+ /* Return value for guest_base, or -1 if no hole found. */
+ static uintptr_t pgb_find_hole(uintptr_t guest_loaddr, uintptr_t guest_size,
+                                long align)
+@@ -2116,6 +2160,10 @@ static uintptr_t pgb_find_hole(uintptr_t guest_loaddr, uintptr_t guest_size,
+     /* Read brk after we've read the maps, which will malloc. */
+     brk = (uintptr_t)sbrk(0);
  
- static void vhost_begin(MemoryListener *listener)
-diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
-index e83500bee92..6427a0047df 100644
---- a/hw/virtio/trace-events
-+++ b/hw/virtio/trace-events
-@@ -5,7 +5,8 @@ vhost_commit(bool started, bool changed) "Started: %d Changed: %d"
- vhost_region_add_section(const char *name, uint64_t gpa, uint64_t size, uint64_t host) "%s: 0x%"PRIx64"+0x%"PRIx64" @ 0x%"PRIx64
- vhost_region_add_section_merge(const char *name, uint64_t new_size, uint64_t gpa, uint64_t owr) "%s: size: 0x%"PRIx64 " gpa: 0x%"PRIx64 " owr: 0x%"PRIx64
- vhost_region_add_section_aligned(const char *name, uint64_t gpa, uint64_t size, uint64_t host) "%s: 0x%"PRIx64"+0x%"PRIx64" @ 0x%"PRIx64
--vhost_section(const char *name, int r) "%s:%d"
-+vhost_section(const char *name) "%s"
-+vhost_reject_section(const char *name, int d) "%s:%d"
- vhost_iotlb_miss(void *dev, int step) "%p step %d"
++    if (!maps) {
++        return pgd_find_hole_fallback(guest_size, brk, align);
++    }
++
+     /* The first hole is before the first map entry. */
+     this_start = mmap_min_addr;
  
- # vhost-user.c
 -- 
 2.20.1
 
