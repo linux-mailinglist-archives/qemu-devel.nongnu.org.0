@@ -2,82 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16B071F46B3
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 20:58:00 +0200 (CEST)
-Received: from localhost ([::1]:49190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D1E71F46C9
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 21:08:38 +0200 (CEST)
+Received: from localhost ([::1]:35526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jijRe-0004nB-MQ
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 14:57:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43702)
+	id 1jijbw-0003Dk-Uz
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 15:08:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44592)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jijQa-0004Ec-Ff
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 14:56:52 -0400
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:43858)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jijQZ-0005L6-An
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 14:56:52 -0400
-Received: by mail-pl1-x644.google.com with SMTP id g12so8390200pll.10
- for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 11:56:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=096eqWxL0XJqSGPkLl0rEVGBekBw/41/MfNnc40nJzQ=;
- b=hndLuWVZFsfYdn5ISengfI3Lea2VdRByxvQQMxvVD9+GuacOVdYTjfV64k8RuiVj71
- Gf32mYFunKfD2QbvBoirIm6+zbsbVyf4Tb0FU8TKs8hx2NmPgf+9fq6QjwtoKVLcOITU
- i4bfCGwQJRlD491PDIlk0QmIdUd56ud9PJOOwc7BkQylYjr6N4DT22y+fah+sHnh4nj8
- RmTrMhud/nPCEjqg3rD6dvV6EC8v5cWRUDxW+Fn0lDICX5LN8Lns/kVAnhHzyK5CDrpG
- RYvMgR3Na3mNW7qDnqeP6zygJb9XN5j0jp09uVZZ9kDUjjYC0kyMDUjsik/2T/USrUJQ
- Ufgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=096eqWxL0XJqSGPkLl0rEVGBekBw/41/MfNnc40nJzQ=;
- b=YdQ5r9Y/b6W2a6RpIe+503OjLOKLWpqdGalMr9LWuTcx5bQX8j0wn+kyE2aWw/R43I
- LE1qTgFM5d81cRgHtSV4CZpEl8nse081XICL93T3mrf3IOLb5wNGi36A1uKfatYYP4An
- 7/0mES73gXZcKD122Oszu+BOoLKbaimI7WXtPmfyrZH/qyeNMqtB2Bf3QnWHqFDSQOIE
- uqZMEj5Unlr+43aoFvep7MGEiX2gAZbF3+uLGliWOeM8+Q+SdEoIeoeLumGEMWPZE9Mx
- o4mdJKKwUI5AHIVY9F3rffDBlorNnyzdBtHqabvYbDaEKjapHBQHObivon/TZDkdwF3w
- nzmg==
-X-Gm-Message-State: AOAM532PaIOaUN4hK4FtlKpsmw8qiSYxVYpvkUvunDPRdgpruh8rJGtU
- gbbuz3XC0EI5JXAKHhWPnH65MARx3LY=
-X-Google-Smtp-Source: ABdhPJzqUWxVLyBmjunE9sFPOIFlCdFTC7YatU5FQAvl67IrFYZULPrv//MkX+aCdwrH0KVtevh8CQ==
-X-Received: by 2002:a17:902:c214:: with SMTP id
- 20mr4589314pll.193.1591729009580; 
- Tue, 09 Jun 2020 11:56:49 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id x11sm10502171pfm.196.2020.06.09.11.56.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 Jun 2020 11:56:48 -0700 (PDT)
-Subject: Re: [PATCH 7/7] target/arm: Convert Neon 3-reg-diff polynomial VMULL
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20200609160209.29960-1-peter.maydell@linaro.org>
- <20200609160209.29960-8-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <5682bf68-d7a4-0cfc-3017-2736c0a88f8e@linaro.org>
-Date: Tue, 9 Jun 2020 11:56:46 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1jijXF-0005xi-67; Tue, 09 Jun 2020 15:03:45 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:40178)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1jijXD-0006eQ-Dc; Tue, 09 Jun 2020 15:03:44 -0400
+Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by charlie.dont.surf (Postfix) with ESMTPSA id 0A619BF533;
+ Tue,  9 Jun 2020 19:03:39 +0000 (UTC)
+From: Klaus Jensen <its@irrelevant.dk>
+To: qemu-block@nongnu.org
+Subject: [PATCH v7 00/22] nvme: small fixes, refactoring and cleanups
+Date: Tue,  9 Jun 2020 21:03:11 +0200
+Message-Id: <20200609190333.59390-1-its@irrelevant.dk>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-In-Reply-To: <20200609160209.29960-8-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::644;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x644.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=128.199.63.193; envelope-from=its@irrelevant.dk;
+ helo=charlie.dont.surf
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 14:38:46
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,22 +51,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, Klaus Jensen <k.jensen@samsung.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Klaus Jensen <its@irrelevant.dk>, Keith Busch <kbusch@kernel.org>,
+ Javier Gonzalez <javier.gonz@samsung.com>,
+ Maxim Levitsky <mlevitsk@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/9/20 9:02 AM, Peter Maydell wrote:
-> Convert the Neon 3-reg-diff insn polynomial VMULL. This is the last
-> insn in this group to be converted.
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->  target/arm/neon-dp.decode       |  2 ++
->  target/arm/translate-neon.inc.c | 43 +++++++++++++++++++++++
->  target/arm/translate.c          | 60 ++-------------------------------
->  3 files changed, 48 insertions(+), 57 deletions(-)
+From: Klaus Jensen <k.jensen@samsung.com>
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Hi all,
+
+As per our discussion about how to amend the bug I introduced in
+"hw/block/nvme: allow use of any valid msix vector", this is a respin
+without that patch.
+
+Kevin, it applies cleanly on top of your block tree with all current
+hw/block/bnvme patches removed.
 
 
-r~
+Changes since v6
+~~~~~~~~~~~~~~~~
+* Dropped the goofed "hw/block/nvme: allow use of any valid msix vector"
+  patch.
+
+* Included Philippe's "hw/block/nvme: Verify msix_vector_use() returned
+  value" patch for posterity.
+
+* Added two patches (requesting reviews):
+
+    1. hw/block/nvme: add msix_qsize parameter
+    2. hw/block/nvme: verify msix_init_exclusive_bar() return value
+
+  Kevin, it's up to you if you want to wait for reviews on these two or
+  just pick up the rest of the series. But let's see if we can get a
+  quick review on them.
+
+
+Klaus Jensen (21):
+  hw/block/nvme: fix pci doorbell size calculation
+  hw/block/nvme: rename trace events to pci_nvme
+  hw/block/nvme: remove superfluous breaks
+  hw/block/nvme: move device parameters to separate struct
+  hw/block/nvme: use constants in identify
+  hw/block/nvme: refactor nvme_addr_read
+  hw/block/nvme: fix pin-based interrupt behavior
+  hw/block/nvme: add max_ioqpairs device parameter
+  hw/block/nvme: remove redundant cmbloc/cmbsz members
+  hw/block/nvme: factor out property/constraint checks
+  hw/block/nvme: factor out device state setup
+  hw/block/nvme: factor out block backend setup
+  hw/block/nvme: add namespace helpers
+  hw/block/nvme: factor out namespace setup
+  hw/block/nvme: factor out pci setup
+  hw/block/nvme: factor out cmb setup
+  hw/block/nvme: factor out pmr setup
+  hw/block/nvme: do cmb/pmr init as part of pci init
+  hw/block/nvme: factor out controller identify setup
+  hw/block/nvme: add msix_qsize parameter
+  hw/block/nvme: verify msix_init_exclusive_bar() return value
+
+Philippe Mathieu-Daudé (1):
+  hw/block/nvme: Verify msix_vector_use() returned value
+
+ hw/block/nvme.c       | 576 ++++++++++++++++++++++++------------------
+ hw/block/nvme.h       |  34 ++-
+ hw/block/trace-events | 180 ++++++-------
+ include/block/nvme.h  |   8 +
+ 4 files changed, 459 insertions(+), 339 deletions(-)
+
+-- 
+2.27.0
+
 
