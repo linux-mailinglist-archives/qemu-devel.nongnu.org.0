@@ -2,30 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E41DA1F3739
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 11:47:06 +0200 (CEST)
-Received: from localhost ([::1]:52532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02F1B1F373B
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 11:48:31 +0200 (CEST)
+Received: from localhost ([::1]:56074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jiaqX-00063G-V5
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 05:47:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54300)
+	id 1jiaru-0007WS-4A
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 05:48:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54304)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1jiaov-0004vV-Rd; Tue, 09 Jun 2020 05:45:25 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:39352)
+ id 1jiaow-0004vx-8Q; Tue, 09 Jun 2020 05:45:26 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:39360)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1jiaou-0004DV-CY; Tue, 09 Jun 2020 05:45:25 -0400
+ id 1jiaou-0004Di-87; Tue, 09 Jun 2020 05:45:25 -0400
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by charlie.dont.surf (Postfix) with ESMTPSA id 2D33ABF66F;
+ by charlie.dont.surf (Postfix) with ESMTPSA id B8F39BF74E;
  Tue,  9 Jun 2020 09:45:20 +0000 (UTC)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-block@nongnu.org
-Subject: [PATCH 1/2] hw/block/nvme: add msix_qsize parameter
-Date: Tue,  9 Jun 2020 11:45:07 +0200
-Message-Id: <20200609094508.32412-2-its@irrelevant.dk>
+Subject: [PATCH 2/2] hw/block/nvme: verify msix_init_exclusive_bar() return
+ value
+Date: Tue,  9 Jun 2020 11:45:08 +0200
+Message-Id: <20200609094508.32412-3-its@irrelevant.dk>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200609094508.32412-1-its@irrelevant.dk>
 References: <20200609094508.32412-1-its@irrelevant.dk>
@@ -63,101 +64,51 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-Commit 4eb9f5217a16 ("hw/block/nvme: allow use of any valid msix
-vector") erronously allows any valid MSI-X vector to be used when
-creating completion queues. This is bad because MSI-X is initialized
-with max_ioqpairs + 1 vectors, which defaults to 64 + 1. And since
-commit ccd579b2ed03 ("hw/block/nvme: Verify msix_vector_use() returned
-value"), this also causes an assert if the host creates a completion
-queue with an invalid vector.
+Pass an Error to msix_init_exclusive_bar() and check it.
 
-Fix this by decoupling the requested maximum number of ioqpairs (param
-max_ioqpairs) from the number of MSI-X interrupt vectors by introducing
-a new msix_qsize parameter and initialize MSI-X with that. This allows
-emulating a device that has fewer vectors than I/O queue pairs and also
-allows more than 2048 queue pairs. To get the same default behaviour as
-previously, msix_qsize defaults to 65 (max_ioqpairs default + 1).
-
-This decoupling was actually suggested by Maxim some time ago in a
-slightly different context, so adding a Suggested-by.
-
-Fixes: 4eb9f5217a16 ("hw/block/nvme: allow use of any valid msix vector")
-Suggested-by: Maxim Levitsky <mlevitsk@redhat.com>
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/block/nvme.c | 17 +++++++++++++----
- hw/block/nvme.h |  1 +
- 2 files changed, 14 insertions(+), 4 deletions(-)
+ hw/block/nvme.c | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 567bce75191a..acc6dbc900e2 100644
+index acc6dbc900e2..2a2e43f681f9 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -54,6 +54,7 @@
- #include "trace.h"
- #include "nvme.h"
+@@ -1522,7 +1522,7 @@ static void nvme_init_pmr(NvmeCtrl *n, PCIDevice *pci_dev)
+                      PCI_BASE_ADDRESS_MEM_PREFETCH, &n->pmrdev->mr);
+ }
  
-+#define NVME_MAX_IOQPAIRS 0xffff
- #define NVME_REG_SIZE 0x1000
- #define NVME_DB_SIZE  4
- #define NVME_CMB_BIR 2
-@@ -662,7 +663,7 @@ static uint16_t nvme_create_cq(NvmeCtrl *n, NvmeCmd *cmd)
-         trace_pci_nvme_err_invalid_create_cq_vector(vector);
-         return NVME_INVALID_IRQ_VECTOR | NVME_DNR;
-     }
--    if (unlikely(vector > PCI_MSIX_FLAGS_QSIZE)) {
-+    if (unlikely(vector >= n->params.msix_qsize)) {
-         trace_pci_nvme_err_invalid_create_cq_vector(vector);
-         return NVME_INVALID_IRQ_VECTOR | NVME_DNR;
-     }
-@@ -1371,9 +1372,16 @@ static void nvme_check_constraints(NvmeCtrl *n, Error **errp)
-     }
+-static void nvme_init_pci(NvmeCtrl *n, PCIDevice *pci_dev)
++static void nvme_init_pci(NvmeCtrl *n, PCIDevice *pci_dev, Error **errp)
+ {
+     uint8_t *pci_conf = pci_dev->config;
  
-     if (params->max_ioqpairs < 1 ||
--        params->max_ioqpairs > PCI_MSIX_FLAGS_QSIZE) {
-+        params->max_ioqpairs > NVME_MAX_IOQPAIRS) {
-         error_setg(errp, "max_ioqpairs must be between 1 and %d",
--                   PCI_MSIX_FLAGS_QSIZE);
-+                   NVME_MAX_IOQPAIRS);
-+        return;
-+    }
-+
-+    if (params->msix_qsize < 1 ||
-+        params->msix_qsize > PCI_MSIX_FLAGS_QSIZE + 1) {
-+        error_setg(errp, "msix_qsize must be between 1 and %d",
-+                   PCI_MSIX_FLAGS_QSIZE + 1);
-         return;
-     }
- 
-@@ -1527,7 +1535,7 @@ static void nvme_init_pci(NvmeCtrl *n, PCIDevice *pci_dev)
+@@ -1535,7 +1535,9 @@ static void nvme_init_pci(NvmeCtrl *n, PCIDevice *pci_dev)
                            n->reg_size);
      pci_register_bar(pci_dev, 0, PCI_BASE_ADDRESS_SPACE_MEMORY |
                       PCI_BASE_ADDRESS_MEM_TYPE_64, &n->iomem);
--    msix_init_exclusive_bar(pci_dev, n->params.max_ioqpairs + 1, 4, NULL);
-+    msix_init_exclusive_bar(pci_dev, n->params.msix_qsize, 4, NULL);
+-    msix_init_exclusive_bar(pci_dev, n->params.msix_qsize, 4, NULL);
++    if (msix_init_exclusive_bar(pci_dev, n->params.msix_qsize, 4, errp)) {
++        return;
++    }
  
      if (n->params.cmb_size_mb) {
          nvme_init_cmb(n, pci_dev);
-@@ -1634,6 +1642,7 @@ static Property nvme_props[] = {
-     DEFINE_PROP_UINT32("cmb_size_mb", NvmeCtrl, params.cmb_size_mb, 0),
-     DEFINE_PROP_UINT32("num_queues", NvmeCtrl, params.num_queues, 0),
-     DEFINE_PROP_UINT32("max_ioqpairs", NvmeCtrl, params.max_ioqpairs, 64),
-+    DEFINE_PROP_UINT16("msix_qsize", NvmeCtrl, params.msix_qsize, 65),
-     DEFINE_PROP_END_OF_LIST(),
- };
+@@ -1603,7 +1605,12 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+         return;
+     }
  
-diff --git a/hw/block/nvme.h b/hw/block/nvme.h
-index 61dd9b23b81d..1d30c0bca283 100644
---- a/hw/block/nvme.h
-+++ b/hw/block/nvme.h
-@@ -7,6 +7,7 @@ typedef struct NvmeParams {
-     char     *serial;
-     uint32_t num_queues; /* deprecated since 5.1 */
-     uint32_t max_ioqpairs;
-+    uint16_t msix_qsize;
-     uint32_t cmb_size_mb;
- } NvmeParams;
+-    nvme_init_pci(n, pci_dev);
++    nvme_init_pci(n, pci_dev, &local_err);
++    if (local_err) {
++        error_propagate(errp, local_err);
++        return;
++    }
++
+     nvme_init_ctrl(n, pci_dev);
  
+     for (i = 0; i < n->num_namespaces; i++) {
 -- 
 2.27.0
 
