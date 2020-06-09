@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A96741F46F8
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 21:21:14 +0200 (CEST)
-Received: from localhost ([::1]:46190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57AFB1F46CA
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 21:08:39 +0200 (CEST)
+Received: from localhost ([::1]:35672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jijo9-00033T-M2
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 15:21:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44702)
+	id 1jijby-0003HK-Ah
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 15:08:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44684)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1jijXg-0006Qi-L3; Tue, 09 Jun 2020 15:04:12 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:40272)
+ id 1jijXf-0006OR-82; Tue, 09 Jun 2020 15:04:11 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:40286)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1jijXd-0006iF-SU; Tue, 09 Jun 2020 15:04:12 -0400
+ id 1jijXd-0006iU-TD; Tue, 09 Jun 2020 15:04:10 -0400
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by charlie.dont.surf (Postfix) with ESMTPSA id C9B17BFA74;
- Tue,  9 Jun 2020 19:03:46 +0000 (UTC)
+ by charlie.dont.surf (Postfix) with ESMTPSA id 49AC3BF8E0;
+ Tue,  9 Jun 2020 19:03:47 +0000 (UTC)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-block@nongnu.org
-Subject: [PATCH v7 12/22] hw/block/nvme: factor out block backend setup
-Date: Tue,  9 Jun 2020 21:03:23 +0200
-Message-Id: <20200609190333.59390-13-its@irrelevant.dk>
+Subject: [PATCH v7 13/22] hw/block/nvme: add namespace helpers
+Date: Tue,  9 Jun 2020 21:03:24 +0200
+Message-Id: <20200609190333.59390-14-its@irrelevant.dk>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200609190333.59390-1-its@irrelevant.dk>
 References: <20200609190333.59390-1-its@irrelevant.dk>
@@ -64,47 +64,66 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
+Introduce some small helpers to make the next patches easier on the eye.
+
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 Reviewed-by: Keith Busch <kbusch@kernel.org>
-Message-Id: <20200514044611.734782-14-its@irrelevant.dk>
+Message-Id: <20200514044611.734782-15-its@irrelevant.dk>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- hw/block/nvme.c | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+ hw/block/nvme.c |  3 +--
+ hw/block/nvme.h | 17 +++++++++++++++++
+ 2 files changed, 18 insertions(+), 2 deletions(-)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index b721cab9b0fd..87f1f0d0d1a1 100644
+index 87f1f0d0d1a1..3f3db17231b3 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -1410,6 +1410,13 @@ static void nvme_init_state(NvmeCtrl *n)
-     n->cq = g_new0(NvmeCQueue *, n->params.max_ioqpairs + 1);
+@@ -1573,8 +1573,7 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+         id_ns->dps = 0;
+         id_ns->lbaf[0].ds = BDRV_SECTOR_BITS;
+         id_ns->ncap  = id_ns->nuse = id_ns->nsze =
+-            cpu_to_le64(n->ns_size >>
+-                id_ns->lbaf[NVME_ID_NS_FLBAS_INDEX(ns->id_ns.flbas)].ds);
++            cpu_to_le64(nvme_ns_nlbas(n, ns));
+     }
  }
  
-+static void nvme_init_blk(NvmeCtrl *n, Error **errp)
+diff --git a/hw/block/nvme.h b/hw/block/nvme.h
+index cedc8022dbb3..61dd9b23b81d 100644
+--- a/hw/block/nvme.h
++++ b/hw/block/nvme.h
+@@ -61,6 +61,17 @@ typedef struct NvmeNamespace {
+     NvmeIdNs        id_ns;
+ } NvmeNamespace;
+ 
++static inline NvmeLBAF *nvme_ns_lbaf(NvmeNamespace *ns)
 +{
-+    blkconf_blocksizes(&n->conf);
-+    blkconf_apply_backend_options(&n->conf, blk_is_read_only(n->conf.blk),
-+                                  false, errp);
++    NvmeIdNs *id_ns = &ns->id_ns;
++    return &id_ns->lbaf[NVME_ID_NS_FLBAS_INDEX(id_ns->flbas)];
 +}
 +
- static void nvme_realize(PCIDevice *pci_dev, Error **errp)
- {
-     NvmeCtrl *n = NVME(pci_dev);
-@@ -1434,9 +1441,9 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
-         return;
-     }
++static inline uint8_t nvme_ns_lbads(NvmeNamespace *ns)
++{
++    return nvme_ns_lbaf(ns)->ds;
++}
++
+ #define TYPE_NVME "nvme"
+ #define NVME(obj) \
+         OBJECT_CHECK(NvmeCtrl, (obj), TYPE_NVME)
+@@ -97,4 +108,10 @@ typedef struct NvmeCtrl {
+     NvmeIdCtrl      id_ctrl;
+ } NvmeCtrl;
  
--    blkconf_blocksizes(&n->conf);
--    if (!blkconf_apply_backend_options(&n->conf, blk_is_read_only(n->conf.blk),
--                                       false, errp)) {
-+    nvme_init_blk(n, &local_err);
-+    if (local_err) {
-+        error_propagate(errp, local_err);
-         return;
-     }
- 
++/* calculate the number of LBAs that the namespace can accomodate */
++static inline uint64_t nvme_ns_nlbas(NvmeCtrl *n, NvmeNamespace *ns)
++{
++    return n->ns_size >> nvme_ns_lbads(ns);
++}
++
+ #endif /* HW_NVME_H */
 -- 
 2.27.0
 
