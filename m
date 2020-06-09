@@ -2,68 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA3D31F4250
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 19:30:54 +0200 (CEST)
-Received: from localhost ([::1]:40440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D31B51F4296
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 19:43:03 +0200 (CEST)
+Received: from localhost ([::1]:47422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jii5N-00028R-OB
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 13:30:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52250)
+	id 1jiiH8-0000li-QQ
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 13:43:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52260)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jihiy-0003AE-It
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 13:07:45 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:50850
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jihj5-0003MQ-8G
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 13:07:51 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:34455
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jihix-0008Rr-0U
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 13:07:44 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jihj4-0008SL-BF
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 13:07:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591722462;
+ s=mimecast20190719; t=1591722469;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mqBM7dJvbQTnHVzVsKdI/Lb4gj8rQlPDWaHou14TEII=;
- b=Pzg8cSS6+pcb+B/lMDeqh7INYggUD3mkWih+1fvLCs4POruoWhkVulwFQPhPZCgZRll0wv
- VkiwWdOZ3CyuzQvk4jliI5d1tpdxcYXoxbYlkKpEa3QvcTe2MefYS7A1mlCV0xejvCd5lJ
- sBTWCxd1/AHDVOdtcocyCHdKwYN6rWs=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-431-tPL6HCHvPrSRSykmlXmi-Q-1; Tue, 09 Jun 2020 13:07:40 -0400
-X-MC-Unique: tPL6HCHvPrSRSykmlXmi-Q-1
-Received: by mail-wm1-f72.google.com with SMTP id t145so906170wmt.2
- for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 10:07:40 -0700 (PDT)
+ bh=tIQpxpe6DvDHHDTfBFm1CSFqq0qmGHboXIdj7jaU5XA=;
+ b=deINui02va/wQ6DNmn5cEmD3LnK1Gvkh9C73WZtNsTurfNTXFZ9NPpE0LcV9+uIlaJza3W
+ Lgm+drEecrXrxAORmGILoyFY5XzTty6sBDQlcIeE+/2k8goGIzz+FgRAdHWLDQ3tFo5rz1
+ OeQrYHNm2ZwTJzf5+eYZC5RY4tTzChs=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-406-xHMdnnktP4G9hn0jlng-iA-1; Tue, 09 Jun 2020 13:07:48 -0400
+X-MC-Unique: xHMdnnktP4G9hn0jlng-iA-1
+Received: by mail-wr1-f69.google.com with SMTP id w16so8832085wru.18
+ for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 10:07:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=mqBM7dJvbQTnHVzVsKdI/Lb4gj8rQlPDWaHou14TEII=;
- b=TrXO1irSPMe7U138ZC5lnslMYUfVh5GrOgEnlFGEaJIeorrBILAsAULhqV0K73dN0e
- AcV8CuaPKHWoiaCBRQYfpt3Bm59Q7aSVsonG4EIXrm5jgqMoUriLJnfNnLV+M5c9ClQM
- znVYK5IJfVHku+ET0RAlPmlI/8/CkqkfuBiqtyr4v8uX/PrC35A7suabLglcm7E+29MO
- DigYfK2OmlF+vU5sSyl0tI0th6JNJt0yNd9mDTxBa/WlQtFLY0OSU2ht6t4OkoleDmK6
- hHF69fW1fsbYP2ysz5mZLpEYR1LQ8FnKr83+hoByElRijU8rcbB6jHwPtjqgB5Mik6XR
- Kfdw==
-X-Gm-Message-State: AOAM530leSbk7AER1UCTWcGX6YyMaSnKgpOuHzFUv1BJ8MHKtAEUq6L2
- wDNK1JAe32NeRehlky+thdiHTSrYlYKY7V/caBpsMsSGn3w5VqI1CjikyuIyfw1kvJv3aoBTNm+
- pL1G0TXRqEpvDz+0=
-X-Received: by 2002:adf:e68a:: with SMTP id r10mr5485750wrm.384.1591722459380; 
- Tue, 09 Jun 2020 10:07:39 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzGlxN6h8eYyH7DxuWkELJ43EeLYvIviHghoFFDpLmPv992hNzdcHMJcYDL7oxvULPx9us7kQ==
-X-Received: by 2002:adf:e68a:: with SMTP id r10mr5485733wrm.384.1591722459176; 
- Tue, 09 Jun 2020 10:07:39 -0700 (PDT)
+ bh=tIQpxpe6DvDHHDTfBFm1CSFqq0qmGHboXIdj7jaU5XA=;
+ b=e4xBa2KwHuLEUkYTSXiLOxxDgOFCsq3/aN+c3mZ2lvQBDzIJEpSa0BBXf7xjTKkpnb
+ mi0vfDNzi4nSJTQZ0It4DC3YmpHnRf3iVd7l3CgdVtOMMU14kGZ8POr2NZILG9PRqPLR
+ j/7aAeXSQXJ/B4YhpAnmiejrJCvhDFlaeBgjYxaHbdu4DiR2KiKoMk4nsoifFnwtM2CN
+ aZ5IZFVCZEmn05iMFM7JmujLq6kFEhNnV6BXToJSAYurhnC52xKXBJCLu65XVEn3TRlE
+ QsgDJ9NowDWsxz1jX6snbXOsnGDuikySIHFgaRu2+BCRw98aSdlc4gPqVv+MGBmSD+G5
+ n4tg==
+X-Gm-Message-State: AOAM533capLz7iR2McnF3Z41U5Qllneo9zNFxme50dqQHtvkqJU6+dKZ
+ 1POiC+9tRKbCK2/a6lX0FyJ7NRknHNfc0/2WlY9Du+qihiAHbN/+yrVvLkgzCPfkZEFafqn3WvA
+ HXB6kFPmQey4RwcM=
+X-Received: by 2002:a05:600c:4146:: with SMTP id
+ h6mr5235206wmm.170.1591722464097; 
+ Tue, 09 Jun 2020 10:07:44 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyUVj2qwTgNC/gFCv1kkhHdULPNi+F0XiLJjN2AHnrEsGoQeBdeUcue2fX6xjF9pQntt7Ek/Q==
+X-Received: by 2002:a05:600c:4146:: with SMTP id
+ h6mr5235189wmm.170.1591722463865; 
+ Tue, 09 Jun 2020 10:07:43 -0700 (PDT)
 Received: from localhost.localdomain
  (181.red-88-10-103.dynamicip.rima-tde.net. [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id c5sm4442033wrb.72.2020.06.09.10.07.38
+ by smtp.gmail.com with ESMTPSA id z6sm3874975wrh.79.2020.06.09.10.07.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Jun 2020 10:07:38 -0700 (PDT)
+ Tue, 09 Jun 2020 10:07:43 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: Gerd Hoffmann <kraxel@redhat.com>,
 	qemu-devel@nongnu.org
-Subject: [PATCH v8 2/5] softmmu/vl: Let -fw_cfg option take a 'gen_id' argument
-Date: Tue,  9 Jun 2020 19:07:24 +0200
-Message-Id: <20200609170727.9977-3-philmd@redhat.com>
+Subject: [PATCH v8 3/5] softmmu/vl: Allow -fw_cfg 'gen_id' option to use the
+ 'etc/' namespace
+Date: Tue,  9 Jun 2020 19:07:25 +0200
+Message-Id: <20200609170727.9977-4-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200609170727.9977-1-philmd@redhat.com>
 References: <20200609170727.9977-1-philmd@redhat.com>
@@ -73,9 +76,9 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/08 23:42:34
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 02:44:16
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -102,77 +105,54 @@ Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The 'gen_id' argument refers to a QOM object able to produce
-data consumable by the fw_cfg device. The producer object must
-implement the FW_CFG_DATA_GENERATOR interface.
+Names of user-provided fw_cfg items are supposed to start
+with "opt/". However FW_CFG_DATA_GENERATOR items are generated
+by QEMU, so allow the "etc/" namespace in this specific case.
 
+Reviewed-by: Laszlo Ersek <lersek@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
 v8: addressed Laszlo's comments
-- fixed 2-space indent
-- do not return 0 on failure
+- reword commit description
+- invert nonempty_str() condition
+- new comment in docs/specs/fw_cfg.txt
 ---
- softmmu/vl.c | 25 +++++++++++++++++--------
- 1 file changed, 17 insertions(+), 8 deletions(-)
+ docs/specs/fw_cfg.txt | 4 ++++
+ softmmu/vl.c          | 8 +++++++-
+ 2 files changed, 11 insertions(+), 1 deletion(-)
 
+diff --git a/docs/specs/fw_cfg.txt b/docs/specs/fw_cfg.txt
+index bc16daa38a..3e6d586f66 100644
+--- a/docs/specs/fw_cfg.txt
++++ b/docs/specs/fw_cfg.txt
+@@ -258,4 +258,8 @@ Prefix "opt/org.qemu/" is reserved for QEMU itself.
+ Use of names not beginning with "opt/" is potentially dangerous and
+ entirely unsupported.  QEMU will warn if you try.
+ 
++Use of names not beginning with "opt/" is tolerated with 'gen_id' (that
++is, the warning is suppressed), but you must know exactly what you're
++doing.
++
+ All externally provided fw_cfg items are read-only to the guest.
 diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 05d1a4cb6b..a9bce2a1b1 100644
+index a9bce2a1b1..ff6732d1fb 100644
 --- a/softmmu/vl.c
 +++ b/softmmu/vl.c
-@@ -489,6 +489,11 @@ static QemuOptsList qemu_fw_cfg_opts = {
-             .name = "string",
-             .type = QEMU_OPT_STRING,
-             .help = "Sets content of the blob to be inserted from a string",
-+        }, {
-+            .name = "gen_id",
-+            .type = QEMU_OPT_STRING,
-+            .help = "Sets id of the object generating the fw_cfg blob "
-+                    "to be inserted",
-         },
-         { /* end of list */ }
-     },
-@@ -2020,7 +2025,7 @@ static int parse_fw_cfg(void *opaque, QemuOpts *opts, Error **errp)
- {
-     gchar *buf;
-     size_t size;
--    const char *name, *file, *str;
-+    const char *name, *file, *str, *gen_id;
-     FWCfgState *fw_cfg = (FWCfgState *) opaque;
- 
-     if (fw_cfg == NULL) {
-@@ -2030,14 +2035,13 @@ static int parse_fw_cfg(void *opaque, QemuOpts *opts, Error **errp)
-     name = qemu_opt_get(opts, "name");
-     file = qemu_opt_get(opts, "file");
-     str = qemu_opt_get(opts, "string");
-+    gen_id = qemu_opt_get(opts, "gen_id");
- 
--    /* we need name and either a file or the content string */
--    if (!(nonempty_str(name) && (nonempty_str(file) || nonempty_str(str)))) {
--        error_setg(errp, "invalid argument(s)");
--        return -1;
--    }
--    if (nonempty_str(file) && nonempty_str(str)) {
--        error_setg(errp, "file and string are mutually exclusive");
-+    /* we need the name, and exactly one of: file, content string, gen_id */
-+    if (!nonempty_str(name) ||
-+        nonempty_str(file) + nonempty_str(str) + nonempty_str(gen_id) != 1) {
-+        error_setg(errp, "name, plus exactly one of file,"
-+                         " string and gen_id, are needed");
+@@ -2049,7 +2049,13 @@ static int parse_fw_cfg(void *opaque, QemuOpts *opts, Error **errp)
+                    FW_CFG_MAX_FILE_PATH - 1);
          return -1;
      }
-     if (strlen(name) > FW_CFG_MAX_FILE_PATH - 1) {
-@@ -2052,6 +2056,11 @@ static int parse_fw_cfg(void *opaque, QemuOpts *opts, Error **errp)
-     if (nonempty_str(str)) {
-         size = strlen(str); /* NUL terminator NOT included in fw_cfg blob */
-         buf = g_memdup(str, size);
-+    } else if (nonempty_str(gen_id)) {
-+        size_t fw_cfg_size;
-+
-+        fw_cfg_size = fw_cfg_add_from_generator(fw_cfg, name, gen_id, errp);
-+        return (fw_cfg_size > 0) ? 0 : -1;
-     } else {
-         GError *err = NULL;
-         if (!g_file_get_contents(file, &buf, &size, &err)) {
+-    if (strncmp(name, "opt/", 4) != 0) {
++    if (nonempty_str(gen_id)) {
++        /*
++         * In this particular case where the content is populated
++         * internally, the "etc/" namespace protection is relaxed,
++         * so do not emit a warning.
++         */
++    } else if (strncmp(name, "opt/", 4) != 0) {
+         warn_report("externally provided fw_cfg item names "
+                     "should be prefixed with \"opt/\"");
+     }
 -- 
 2.21.3
 
