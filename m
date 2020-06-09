@@ -2,73 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA8231F4878
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 22:59:20 +0200 (CEST)
-Received: from localhost ([::1]:54236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84FC71F48A1
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 23:07:52 +0200 (CEST)
+Received: from localhost ([::1]:50198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jilL5-0002E2-SG
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 16:59:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36414)
+	id 1jilTL-0004J5-IW
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 17:07:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jilF0-0001qq-IJ
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 16:53:02 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:46807
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jilEz-0005dZ-D5
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 16:53:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591735980;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Fp46CHSLKGKWkUBAgicrH6jIF36/amsY7o6T2XaaBiQ=;
- b=DbH9RubCndeXdinIHASKEsxCJ6WnhV+6Jl+S3uvGLjQkoDPQZdEVGPv+qTxyvu+43kcnsn
- AowhNxwzxi8r8AEZibkW2/Pu+U8RswvCpCtslruLb7hWX6kAOcNgV0g9S1Af5VosZ7Rtxg
- 54jLubZJl9apVyLF5T9/ewNt6wTk3XA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-357-8uIUbHaCM3mSl36h7M9iFA-1; Tue, 09 Jun 2020 16:52:58 -0400
-X-MC-Unique: 8uIUbHaCM3mSl36h7M9iFA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5597019200C1;
- Tue,  9 Jun 2020 20:52:57 +0000 (UTC)
-Received: from blue.redhat.com (ovpn-113-22.phx2.redhat.com [10.3.113.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EA32A6116D;
- Tue,  9 Jun 2020 20:52:56 +0000 (UTC)
-From: Eric Blake <eblake@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 15/15] iotests: Fix 291 across more file systems
-Date: Tue,  9 Jun 2020 15:52:45 -0500
-Message-Id: <20200609205245.3548257-16-eblake@redhat.com>
-In-Reply-To: <20200609205245.3548257-1-eblake@redhat.com>
-References: <20200609205245.3548257-1-eblake@redhat.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jilHZ-0006YN-4f
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 16:55:41 -0400
+Received: from indium.canonical.com ([91.189.90.7]:57108)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jilHX-0006BG-S5
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 16:55:40 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jilHW-0000Ty-7f
+ for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 20:55:38 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 2E1682E8105
+ for <qemu-devel@nongnu.org>; Tue,  9 Jun 2020 20:55:38 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 16:46:48
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 09 Jun 2020 20:49:55 -0000
+From: Eric Blake <1874073@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=philmd@redhat.com; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: eblake laurent-vivier mliska philmd pmaydell
+X-Launchpad-Bug-Reporter: Martin Liska (mliska)
+X-Launchpad-Bug-Modifier: Eric Blake (eblake)
+References: <158747496330.1952.6391008472811579405.malonedeb@chaenomeles.canonical.com>
+Message-Id: <ddb9102f-19c1-fc48-8c94-608bcca86be9@redhat.com>
+Subject: [Bug 1874073] Re: [PATCH] hw/openrisc/openrisc_sim: Add assertion to
+ silent GCC warning
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="ef9fc486e875d54078fa61cf91e898b895125d89";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 773e053ff51fc4a35a06b863eb700d68a78189c8
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 10:15:37
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -77,74 +73,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- "open list:Block layer core" <qemu-block@nongnu.org>,
- Max Reitz <mreitz@redhat.com>
+Reply-To: Bug 1874073 <1874073@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Depending on the granularity of holes and amount of metadata consumed
-by a file, the 'disk size:' number of 'qemu-img info' is not reliable.
-Adjust our test to use a different set of filters to avoid spurious
-failures.
+On 6/9/20 3:42 PM, Stafford Horne wrote:
 
-Reported-by: Kevin Wolf <kwolf@redhat.com>
-Fixes: cf2d1203dc
-Signed-off-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20200608195629.3299649-1-eblake@redhat.com>
-Acked-by: Kevin Wolf <kwolf@redhat.com>
-[eblake: fix merge conflict]
-Signed-off-by: Eric Blake <eblake@redhat.com>
----
- tests/qemu-iotests/291     | 4 ++--
- tests/qemu-iotests/291.out | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+>>> While humans can tell smp_cpus will always be in the [1, 2] range,
+>>> (openrisc_sim_machine_init sets mc->max_cpus =3D 2), the compiler
+>>> can't.
+>>>
+>>> Add an assertion to give the compiler a hint there's no use of
+>>> uninitialized data.
+>>>
 
-diff --git a/tests/qemu-iotests/291 b/tests/qemu-iotests/291
-index e0cffc7cb119..404f8521f74a 100755
---- a/tests/qemu-iotests/291
-+++ b/tests/qemu-iotests/291
-@@ -79,7 +79,7 @@ echo
+> Acked-by: Stafford Horne <shorne@gmail.com>
+> =
 
- # Only bitmaps from the active layer are copied
- $QEMU_IMG convert --bitmaps -O qcow2 "$TEST_IMG.orig" "$TEST_IMG"
--$QEMU_IMG info "$TEST_IMG" | _filter_img_info --format-specific
-+_img_info --format-specific
- # But we can also merge in bitmaps from other layers.  This test is a bit
- # contrived to cover more code paths, in reality, you could merge directly
- # into b0 without going through tmp
-@@ -89,7 +89,7 @@ $QEMU_IMG bitmap --add --merge b0 -b "$TEST_IMG.base" -F $IMGFMT \
- $QEMU_IMG bitmap --merge tmp -f $IMGFMT "$TEST_IMG" b0
- $QEMU_IMG bitmap --remove --image-opts \
-     driver=$IMGFMT,file.driver=file,file.filename="$TEST_IMG" tmp
--$QEMU_IMG info "$TEST_IMG" | _filter_img_info --format-specific
-+_img_info --format-specific
- echo "Check resulting qcow2 header extensions:"
- $PYTHON qcow2.py "$TEST_IMG" dump-header-exts
+> I see there are now two patches for this, I kind of like this assert fix.
+> =
 
-diff --git a/tests/qemu-iotests/291.out b/tests/qemu-iotests/291.out
-index ccfcdc5e35ce..08bfaaaa6b7d 100644
---- a/tests/qemu-iotests/291.out
-+++ b/tests/qemu-iotests/291.out
-@@ -43,7 +43,7 @@ qemu-img: Format driver 'raw' does not support bitmaps
- image: TEST_DIR/t.IMGFMT
- file format: IMGFMT
- virtual size: 10 MiB (10485760 bytes)
--disk size: 4.39 MiB
-+cluster_size: 65536
- Format specific information:
-     compat: 1.1
-     compression type: zlib
-@@ -63,7 +63,7 @@ Format specific information:
- image: TEST_DIR/t.IMGFMT
- file format: IMGFMT
- virtual size: 10 MiB (10485760 bytes)
--disk size: 4.48 MiB
-+cluster_size: 65536
- Format specific information:
-     compat: 1.1
-     compression type: zlib
--- 
-2.27.0
+> Shall I queue it for OpenRISC pulling?  Or can someone else pick this up?
 
+Looks like Laurent already volunteered to queue it through the trivial =
+
+patches tree.
+
+-- =
+
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1874073
+
+Title:
+  openrisc_sim.c:87:42: error: 'cpu_irqs[0]' may be used uninitialized
+  in this function [-Werror=3Dmaybe-uninitialized]
+
+Status in QEMU:
+  Confirmed
+
+Bug description:
+  I see the warning since gcc10:
+
+  static void openrisc_sim_init(MachineState *machine):
+  ...
+      qemu_irq *cpu_irqs[2];
+  ...
+
+  =
+
+      serial_mm_init(get_system_memory(), 0x90000000, 0, serial_irq,
+                     115200, serial_hd(0), DEVICE_NATIVE_ENDIAN);
+
+  I would initialize cpu_irqs[2] with {}.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1874073/+subscriptions
 
