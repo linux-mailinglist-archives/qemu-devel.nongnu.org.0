@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0158A1F34E6
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 09:34:43 +0200 (CEST)
-Received: from localhost ([::1]:53428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C916B1F3504
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 09:36:47 +0200 (CEST)
+Received: from localhost ([::1]:59080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jiYmP-00070t-VH
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 03:34:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40314)
+	id 1jiYoQ-0000wd-Rq
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 03:36:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jiYkB-00044v-DT
+ id 1jiYkB-00044s-Bi
  for qemu-devel@nongnu.org; Tue, 09 Jun 2020 03:32:23 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:33138)
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:37466)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jiYkA-0007WI-Ey
+ id 1jiYkA-0007WK-Kw
  for qemu-devel@nongnu.org; Tue, 09 Jun 2020 03:32:23 -0400
-Received: by mail-wr1-x441.google.com with SMTP id l11so20080763wru.0
- for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 00:32:21 -0700 (PDT)
+Received: by mail-wr1-x42a.google.com with SMTP id x13so20071241wrv.4
+ for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 00:32:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=JSDexJUoRc6C2dBRPfkhG4h1BGjFFYK10Clp3IocDL8=;
- b=hfMJppeOHfs2XSDo401PBnMmW1ulSegyUL0Gb5YjynL0a1P1H8vRTP3d4ILbeLDZQm
- nzDykrSiuobROMTrr21CarIvcoOXOPZhltix+P318lUKddh5ugYAdZ4+7/BjuIzjHcom
- HZcL+IKO0rHmrfhIxVC6hD7XCOIgnRs88JijJAbur2Mj1MYkj4FHBHLvi/GYabdDGgPP
- oK/IYqSFGRSYZa8w7gfPwiRIdnIpDyudvVjIcAvoaYUDhPcjhLwoJA7inovTphwx2Znt
- cu9qYUiSP8GqRNbvbhcXiH0sH7DVwJNnqFfwV1a4Zt2KZFTdhhj4+FMItK1ufJEbi9xz
- 9CiA==
+ bh=ys/xyxuX8fMwGT919bDlpMl+pENH1CXUCrM9T9iwbXw=;
+ b=oeNn1QLxCWPC1oApF8dukZQFJLxTZ043I7lEHsc1mqAgmYh1ujfqS1cCrFDAkYPxNu
+ 4CXMRjt+F8opiMTeQJl65SOnshYTOAdh9ad70bZUY1VlAWgkKviQuVbVZEFNh1auIkzd
+ eEuBZJnGapljPh1EgUXjZoDnboND9kpGN+QiXjG0+t2zSU3SDunqr00cJcKy13F/5X/2
+ /dfz1SrUwnpF6y5ZkBGEtLUD60N8iiCD1A4MxyA4mqDzFglJuOCFDIVXrxuVNVhQvTCq
+ PiRkXCIcIfmhdpDznyJvnDnr/7aX2GnDiNr9LtT7Nk+0zPzGFN2wwk6QrRTRpGibdKF3
+ sEWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=JSDexJUoRc6C2dBRPfkhG4h1BGjFFYK10Clp3IocDL8=;
- b=qT9SDqJp13GHD0Y3G3+W5A53+d10ffyP9BfdpxiqyugqnDh7Ic3xYnavRCnyzpCTA3
- MwRXfLENH6CjIAJSWPHuJ6BwU4cSrMIL7tOBwUGM2Pqxl3SN1JksERd5xxAkCEPpxUS5
- 9vfqJ00NzfgD4YlQZKgiOz2b+gn/DGW9A00Sil5mLbjFhkZ/xW5EddKWiSsRwqzCTo14
- jmtA4eN0MlobKtWE5RUugncdJ3KsEUm4VtmImUunWtsMQW34JSaJQAgdT11+Idw2Zxyd
- NAnSE6+Ae3o7XkUqMzSIhFqHvXWHTYncFmM/z2Q1ulqK2KHI4kiL7LEZUNmsyRGlHtpj
- /Yag==
-X-Gm-Message-State: AOAM533ddQ2D/B2F+HhteJPVPGmxKQiFzMInEXJhMXEP4rUn865CgysT
- pAgJ1Akc5EqcneCfcCgj2PF1F5mO
-X-Google-Smtp-Source: ABdhPJy/Q+jV+z7FHe3WTmQZ7Z8YN7l/TTZKkWMkeIHxIusFi5cYikfKOP6MHIFHiKXZnVAwWE0LPQ==
-X-Received: by 2002:adf:e749:: with SMTP id c9mr3113129wrn.25.1591687939666;
- Tue, 09 Jun 2020 00:32:19 -0700 (PDT)
+ bh=ys/xyxuX8fMwGT919bDlpMl+pENH1CXUCrM9T9iwbXw=;
+ b=liIqZi2x/u3t3+6weIxP4G5WSBx+vfcw4sHwkt+yNJwaXWUU7jK67YwtQicJmhiG+x
+ ZRVKVxq4kucTIIK5EjmKVvxBSN4Ks96XSlBWRTSViChF4c/r9ti2nbv3VQB9JFm2LTGq
+ zSbQhmy2hI5XlQ4vFGJoos4i/XdnEhP2EXiIjr7156abgCTPclQs7+V2TmUBI1iS8SZB
+ sjs53g0Ny6wnzrvP/9KhzIHWprFXiZFBil1yHQ2bNRoO7Ho9GVSYLkex/LzFnOGhijYV
+ tca8I0zjG8tCtO84UR8WZ2VVR63TJVvsexRLqhcKpQk7yb11B329bWscyA6InpGrTyJT
+ eoCA==
+X-Gm-Message-State: AOAM5320M51wY8TLxviPGKUrOWySCXJBn/JtUgFxjwusB2wrVXmOxMTj
+ AuT0lPO3Ed70ATGjTnrm95X0wLGU
+X-Google-Smtp-Source: ABdhPJyocJu4bPvJg8ncPXYqIVmAMfqDx7bMGoMYAxuMVpNzD7NeqSiQ7nPwKCpvD1XkOSUV1hLlSA==
+X-Received: by 2002:a5d:4490:: with SMTP id j16mr3132758wrq.276.1591687940791; 
+ Tue, 09 Jun 2020 00:32:20 -0700 (PDT)
 Received: from localhost.localdomain
  (181.red-88-10-103.dynamicip.rima-tde.net. [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id m3sm2036192wmc.0.2020.06.09.00.32.18
+ by smtp.gmail.com with ESMTPSA id m3sm2036192wmc.0.2020.06.09.00.32.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Jun 2020 00:32:19 -0700 (PDT)
+ Tue, 09 Jun 2020 00:32:20 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/16] hw/misc/empty_slot: Convert 'size' field as qdev property
-Date: Tue,  9 Jun 2020 09:32:01 +0200
-Message-Id: <20200609073214.14079-4-f4bug@amsat.org>
+Subject: [PULL 04/16] hw/misc/empty_slot: Add a 'name' qdev property
+Date: Tue,  9 Jun 2020 09:32:02 +0200
+Message-Id: <20200609073214.14079-5-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200609073214.14079-1-f4bug@amsat.org>
 References: <20200609073214.14079-1-f4bug@amsat.org>
@@ -64,8 +64,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -100,63 +100,47 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Add a 'name' qdev property so when multiple slots are
+accessed, we can notice which one is accessed.
+
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Acked-by: Artyom Tarasenko <atar4qemu@gmail.com>
-Message-Id: <20200510152840.13558-4-f4bug@amsat.org>
+Message-Id: <20200510152840.13558-5-f4bug@amsat.org>
 ---
- hw/core/empty_slot.c | 15 +++++++++------
- 1 file changed, 9 insertions(+), 6 deletions(-)
+ hw/core/empty_slot.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
 diff --git a/hw/core/empty_slot.c b/hw/core/empty_slot.c
-index 5ab426e965..0df086fe98 100644
+index 0df086fe98..576b276c4b 100644
 --- a/hw/core/empty_slot.c
 +++ b/hw/core/empty_slot.c
-@@ -12,6 +12,7 @@
- #include "qemu/osdep.h"
- #include "hw/sysbus.h"
- #include "qemu/module.h"
-+#include "hw/qdev-properties.h"
- #include "hw/empty_slot.h"
+@@ -31,6 +31,7 @@ typedef struct EmptySlot {
+     SysBusDevice parent_obj;
  
- //#define DEBUG_EMPTY_SLOT
-@@ -57,17 +58,13 @@ void empty_slot_init(hwaddr addr, uint64_t slot_size)
-     if (slot_size > 0) {
-         /* Only empty slots larger than 0 byte need handling. */
-         DeviceState *dev;
--        SysBusDevice *s;
--        EmptySlot *e;
+     MemoryRegion iomem;
++    char *name;
+     uint64_t size;
+ } EmptySlot;
  
-         dev = qdev_create(NULL, TYPE_EMPTY_SLOT);
--        s = SYS_BUS_DEVICE(dev);
--        e = EMPTY_SLOT(dev);
--        e->size = slot_size;
+@@ -72,13 +73,17 @@ static void empty_slot_realize(DeviceState *dev, Error **errp)
+ {
+     EmptySlot *s = EMPTY_SLOT(dev);
  
-+        qdev_prop_set_uint64(dev, "size", slot_size);
-         qdev_init_nofail(dev);
- 
--        sysbus_mmio_map_overlap(s, 0, addr, -10000);
-+        sysbus_mmio_map_overlap(SYS_BUS_DEVICE(dev), 0, addr, -10000);
-     }
- }
- 
-@@ -80,11 +77,17 @@ static void empty_slot_realize(DeviceState *dev, Error **errp)
++    if (s->name == NULL) {
++        s->name = g_strdup("empty-slot");
++    }
+     memory_region_init_io(&s->iomem, OBJECT(s), &empty_slot_ops, s,
+-                          "empty-slot", s->size);
++                          s->name, s->size);
      sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->iomem);
  }
  
-+static Property empty_slot_properties[] = {
-+    DEFINE_PROP_UINT64("size", EmptySlot, size, 0),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
- static void empty_slot_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
+ static Property empty_slot_properties[] = {
+     DEFINE_PROP_UINT64("size", EmptySlot, size, 0),
++    DEFINE_PROP_STRING("name", EmptySlot, name),
+     DEFINE_PROP_END_OF_LIST(),
+ };
  
-     dc->realize = empty_slot_realize;
-+    device_class_set_props(dc, empty_slot_properties);
- }
- 
- static const TypeInfo empty_slot_info = {
 -- 
 2.21.3
 
