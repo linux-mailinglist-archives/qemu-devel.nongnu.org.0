@@ -2,67 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 774D81F34E2
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 09:34:02 +0200 (CEST)
-Received: from localhost ([::1]:50316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF3771F34E7
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 09:35:08 +0200 (CEST)
+Received: from localhost ([::1]:55048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jiYll-0005mM-DE
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 03:34:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40310)
+	id 1jiYmp-0007fL-Vi
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 03:35:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40304)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jiYkA-00044g-Ts
+ id 1jiYkA-00044d-Nz
  for qemu-devel@nongnu.org; Tue, 09 Jun 2020 03:32:23 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:36942)
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:33597)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jiYk9-0007W1-4P
+ id 1jiYk9-0007W4-92
  for qemu-devel@nongnu.org; Tue, 09 Jun 2020 03:32:22 -0400
-Received: by mail-wm1-x341.google.com with SMTP id y20so2032279wmi.2
- for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 00:32:17 -0700 (PDT)
+Received: by mail-wm1-x343.google.com with SMTP id j198so1627405wmj.0
+ for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 00:32:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=VOrlVFRoh2C3YjJ79R+iOKQZpTb+LxcCqo4tIiRo5Xw=;
- b=oLyeeso9B8VSIgRn4mGN4gjneNUVlrB5M2ajBJWyUy4owUDzIoctZ+X6c7vL6M5lcf
- uwU+MjoBn+fpJpHtr8LxH/yEnfO8G4UogsQrg75PTaiyeZgfXEPc8OyX/4TLECQHHHKZ
- GNYOKfGenCI5CGSoypFloJqeR9oMovk0+Ll404sDQDHEhqfxYMULdmCV0Yt5/8KSFfI3
- YEywzkAZFlMbqs9LkOxlabkysAYK3tgIRluKV09yVqvuQ2K39PLtZAvYk8et1as22jcL
- 4aL0MptPMOxl54JJDiFdbO0RmKo4pZNggvABZsKtYk4suOp1sGEaWkGpKbo6wXoXZGBa
- t2RA==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=JxuhWv9nXttnrpgLvIV7ogduNdbBfeeeDDN47mb5Gl0=;
+ b=BNlkJVAcy9QDjcpfKBwuM5HDZ1wqLj/PU5aemqJpOIA0MAi1G8peFA7U8ETWQLGJEF
+ gRw740JrKo/862lSfvGPxsBDREaFU1dN2E0bK6JNLIKaiLR9cJFO/UcyrKAWBNaL8Xcc
+ K6S+Wvhif9HW65++3qafkzAoH63pTNTjB4/d5c8BDDdan2A8DBp6ROeyuFxdZMtr0Yqp
+ sLr0/tnTvMiNqiPDY0ZKZHtQ2kp8oMrUmEms9OGO58M+nd2iLGxcWFzqDhCgB8CiKuyJ
+ 9c6k27+cmf90qszXHsvC+OmWW74TvFFOq94QGWdn5RK2edAf384Cbi03ddV+xBusJ/4s
+ oJbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=VOrlVFRoh2C3YjJ79R+iOKQZpTb+LxcCqo4tIiRo5Xw=;
- b=SluvKx80zosoJVzL5VxN2DKZStpPpMvQR7abmjVBAKg2B0Qfn/m9J6llRxNbjks1tn
- tynEiF3VrZ9UqFskSZovGDppwyVpXEBv2PPu5ofjezTATCHe/pHMGQ9bC+iMm18Bqe1n
- UAEEScEVa6vc9noKy4e0LelrldaZ36ck7ltVhdkMGAcmrlTvqrtR/paM3I0+clzQPwK0
- Qb/7p7+t68g8LK1Y72PQMQbHtYzucg1JR6J8f07S/8spbaWmUJxxQom/tmOKLJYZyn5e
- hpVgF1nHWlTc6Uwz4YqT/Mq70tzu2ApsWzk1hB0pjsGs5gtSLnVg8hjiqgoTnrMNwPwW
- /CMA==
-X-Gm-Message-State: AOAM5315NuL0q6h6QVrW97gVPyHPzNHP7sfb8q8U8GJjfa+xhGFvHDDg
- NbABPY2D2GFYGstg6twqupUMJW51
-X-Google-Smtp-Source: ABdhPJyo04RwBlCfR9BKergOcMSg+jmgLGQcczrs5G5dNjw1hfnNgi9w2+jQ+8IprW8QZg6/rZhCpQ==
-X-Received: by 2002:a1c:f00a:: with SMTP id a10mr2662274wmb.61.1591687936169; 
- Tue, 09 Jun 2020 00:32:16 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=JxuhWv9nXttnrpgLvIV7ogduNdbBfeeeDDN47mb5Gl0=;
+ b=edlI9XYWXvhKt/m2Xq0T875/jW/4FQBg32ONQGgQYFaBMDoq1iBmuxdr/g3XZhsagw
+ INz8fmb9FfoYSlv7AnovPIqMoLn2QNGQiLyUjDxI4kxWCq9rJujWUKjDboYqkCrIJVQF
+ 4CfgibAMZjgPa7P335CjX2p0Nr05HCe3DWASIHR/qwcfdZrKZu6C+2hH9mEwqh/8ZZvV
+ YYDs0AwnDEfC3A9X99spHkLmDs5IPx2REVtbEjnHwm86zz9jsUYlPC/wxlXtBTN+PeJY
+ xGdiUjSO4BTJ4yD6myKKs4T5M0b5sePUPhGaNtr3VkVqNqiLcG4N2aaoeud+iljexmbl
+ Tmsg==
+X-Gm-Message-State: AOAM530k4RUihNGX82VuGvDjZyTH4F9gMS5Nxg2mh5ZHmLPSlf1hwXP4
+ lGdTeZSjS1fyANx7KJHqyzmo8021
+X-Google-Smtp-Source: ABdhPJxVxBgChIBeV/o3pwdMWP2OoADwKmrY5OHvranrqwlsdxgcy6Mv9+W6ex7JRNSSlwLfPSOFUA==
+X-Received: by 2002:a1c:38c2:: with SMTP id f185mr2701861wma.79.1591687937323; 
+ Tue, 09 Jun 2020 00:32:17 -0700 (PDT)
 Received: from localhost.localdomain
  (181.red-88-10-103.dynamicip.rima-tde.net. [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id m3sm2036192wmc.0.2020.06.09.00.32.15
+ by smtp.gmail.com with ESMTPSA id m3sm2036192wmc.0.2020.06.09.00.32.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Jun 2020 00:32:15 -0700 (PDT)
+ Tue, 09 Jun 2020 00:32:16 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/16] SPARC patches for 2020-06-09
-Date: Tue,  9 Jun 2020 09:31:58 +0200
-Message-Id: <20200609073214.14079-1-f4bug@amsat.org>
+Subject: [PULL 01/16] hw/sparc/sun4m: Use UnimplementedDevice for I/O devices
+Date: Tue,  9 Jun 2020 09:31:59 +0200
+Message-Id: <20200609073214.14079-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
+In-Reply-To: <20200609073214.14079-1-f4bug@amsat.org>
+References: <20200609073214.14079-1-f4bug@amsat.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -97,90 +100,72 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Peter,
+These devices are not slots on a bus, but real I/O devices
+that we do not implement. As the ISDN ROM would be a ROMD
+device, also model it as UnimplementedDevice.
 
-These are the latest SPARC patches sent to the list.
+Reviewed-by: Artyom Tarasenko <atar4qemu@gmail.com>
+Message-Id: <20200510152840.13558-2-f4bug@amsat.org>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ hw/sparc/sun4m.c | 11 +++++++----
+ hw/sparc/Kconfig |  1 +
+ 2 files changed, 8 insertions(+), 4 deletions(-)
 
-This pull request is with authorization of Artyom and Mark:
-- https://www.mail-archive.com/qemu-devel@nongnu.org/msg710154.html
-- https://www.mail-archive.com/qemu-devel@nongnu.org/msg710156.html
-
-Frederic doesn't have his GPG key signed:
-- https://www.mail-archive.com/qemu-devel@nongnu.org/msg706509.html
-
-The following changes since commit 49ee11555262a256afec592dfed7c5902d5eefd2:
-
-  Merge remote-tracking branch 'remotes/vivier2/tags/linux-user-for-5.1-pull-=
-request' into staging (2020-06-08 11:04:57 +0100)
-
-are available in the Git repository at:
-
-  https://gitlab.com/philmd/qemu.git tags/sparc-next-20200609
-
-for you to fetch changes up to 86e8c353f705f14f2f2fd7a6195cefa431aa24d9:
-
-  target/sparc/int32_helper: Extract and use excp_name_str() (2020-06-09 09:2=
-1:10 +0200)
-
-----------------------------------------------------------------
-SPARC patches
-
-HW:
-- Use UNIMP device instead of EMPTY_SLOT
-- Make EMPTY_SLOT similar to UNIMP device
-- Map UART devices unconditionally
-- Pair of fixes for AHB PnP
-- Add trace events to AHB PnP
-
-TCG:
-- Improve exception logging
-
-CI:
-- https://gitlab.com/philmd/qemu/-/pipelines/154231191
-- https://travis-ci.org/github/philmd/qemu/builds/696321130
-
-----------------------------------------------------------------
-
-Philippe Mathieu-Daud=C3=A9 (16):
-  hw/sparc/sun4m: Use UnimplementedDevice for I/O devices
-  hw/misc/empty_slot: Lower address space priority
-  hw/misc/empty_slot: Convert 'size' field as qdev property
-  hw/misc/empty_slot: Add a 'name' qdev property
-  hw/misc/empty_slot: Convert debug printf() to trace event
-  hw/misc/empty_slot: Move the 'hw/misc' and cover in MAINTAINERS
-  hw/misc/empty_slot: Name the slots when created
-  hw/sparc/leon3: Map the UART device unconditionally
-  hw/sparc64/niagara: Map the UART device unconditionally
-  hw/sparc64/niagara: Remove duplicated NIAGARA_UART_BASE definition
-  hw/misc/grlib_ahb_apb_pnp: Avoid crash when writing to AHB PnP
-    registers
-  hw/misc/grlib_ahb_apb_pnp: Fix AHB PnP 8-bit accesses
-  hw/misc/grlib_ahb_apb_pnp: Add trace events on read accesses
-  hw/timer/grlib_gptimer: Display frequency in decimal
-  target/sparc/int32_helper: Remove DEBUG_PCALL definition
-  target/sparc/int32_helper: Extract and use excp_name_str()
-
- include/hw/empty_slot.h        |  9 -------
- include/hw/misc/empty_slot.h   | 19 ++++++++++++++
- hw/mips/malta.c                |  4 +--
- hw/{core =3D> misc}/empty_slot.c | 47 +++++++++++++++++++---------------
- hw/misc/grlib_ahb_apb_pnp.c    | 24 +++++++++++++++--
- hw/sparc/leon3.c               | 18 ++++++-------
- hw/sparc/sun4m.c               | 23 +++++++++++------
- hw/sparc64/niagara.c           |  7 ++---
- target/sparc/int32_helper.c    | 23 +++++++++--------
- MAINTAINERS                    |  7 +++++
- hw/core/Makefile.objs          |  1 -
- hw/misc/Makefile.objs          |  1 +
- hw/misc/trace-events           |  8 ++++++
- hw/sparc/Kconfig               |  1 +
- hw/timer/trace-events          |  2 +-
- 15 files changed, 124 insertions(+), 70 deletions(-)
- delete mode 100644 include/hw/empty_slot.h
- create mode 100644 include/hw/misc/empty_slot.h
- rename hw/{core =3D> misc}/empty_slot.c (66%)
-
---=20
+diff --git a/hw/sparc/sun4m.c b/hw/sparc/sun4m.c
+index 8dda3f7292..fa3dd7775f 100644
+--- a/hw/sparc/sun4m.c
++++ b/hw/sparc/sun4m.c
+@@ -47,6 +47,7 @@
+ #include "hw/nvram/fw_cfg.h"
+ #include "hw/char/escc.h"
+ #include "hw/empty_slot.h"
++#include "hw/misc/unimp.h"
+ #include "hw/irq.h"
+ #include "hw/loader.h"
+ #include "elf.h"
+@@ -968,7 +969,7 @@ static void sun4m_hw_init(const struct sun4m_hwdef *hwdef,
+     }
+ 
+     if (hwdef->sx_base) {
+-        empty_slot_init(hwdef->sx_base, 0x2000);
++        create_unimplemented_device("SUNW,sx", hwdef->sx_base, 0x2000);
+     }
+ 
+     nvram = m48t59_init(slavio_irq[0], hwdef->nvram_base, 0, 0x2000, 1968, 8);
+@@ -1031,14 +1032,16 @@ static void sun4m_hw_init(const struct sun4m_hwdef *hwdef,
+     if (hwdef->dbri_base) {
+         /* ISDN chip with attached CS4215 audio codec */
+         /* prom space */
+-        empty_slot_init(hwdef->dbri_base+0x1000, 0x30);
++        create_unimplemented_device("SUNW,DBRI.prom",
++                                    hwdef->dbri_base + 0x1000, 0x30);
+         /* reg space */
+-        empty_slot_init(hwdef->dbri_base+0x10000, 0x100);
++        create_unimplemented_device("SUNW,DBRI",
++                                    hwdef->dbri_base + 0x10000, 0x100);
+     }
+ 
+     if (hwdef->bpp_base) {
+         /* parallel port */
+-        empty_slot_init(hwdef->bpp_base, 0x20);
++        create_unimplemented_device("SUNW,bpp", hwdef->bpp_base, 0x20);
+     }
+ 
+     initrd_size = 0;
+diff --git a/hw/sparc/Kconfig b/hw/sparc/Kconfig
+index 22aff2f5b7..91805afab6 100644
+--- a/hw/sparc/Kconfig
++++ b/hw/sparc/Kconfig
+@@ -5,6 +5,7 @@ config SUN4M
+     select CS4231
+     select ECCMEMCTL
+     select EMPTY_SLOT
++    select UNIMP
+     select ESCC
+     select ESP
+     select FDC
+-- 
 2.21.3
 
 
