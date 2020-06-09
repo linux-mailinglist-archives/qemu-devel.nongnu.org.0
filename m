@@ -2,78 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E81BE1F3E14
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 16:26:31 +0200 (CEST)
-Received: from localhost ([::1]:49298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD21B1F3E21
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 16:31:21 +0200 (CEST)
+Received: from localhost ([::1]:33406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jifCw-00055A-Vd
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 10:26:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55996)
+	id 1jifHc-0001wH-8v
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 10:31:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56184)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1jifB4-0003aC-IH
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 10:24:34 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:47405
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1jifB3-0001IJ-I3
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 10:24:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591712672;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=y+Fw1Essfc+ljt+c7AIE86vlszCoGY2qlzITDZgrcrc=;
- b=Px1cP3hWWT5M/gHcFJsmM2vNOXx2SjCTSGTau+YFyd5Mf6MZeNn9oQ9pn0ImIO8AlBcSTV
- uNfPbnFEaY/xApldQzrhpbBuG2s+WLef3V+sCxol6jBHdgekgyF5ecCuQHKKFbs3Huk9/4
- t26MVxSCzMz2MEuKKSzvY6OafVruqkw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-273-4W8RgeuCO1ul7qZrrh6ieA-1; Tue, 09 Jun 2020 10:24:27 -0400
-X-MC-Unique: 4W8RgeuCO1ul7qZrrh6ieA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 854BC83DD19;
- Tue,  9 Jun 2020 14:24:25 +0000 (UTC)
-Received: from [10.36.114.197] (ovpn-114-197.ams2.redhat.com [10.36.114.197])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C4CBE61169;
- Tue,  9 Jun 2020 14:24:10 +0000 (UTC)
-Subject: Re: [PATCH v2 0/5] TPM-TIS bios-tables-test
-To: qemu-devel@nongnu.org, no-reply@patchew.org
-References: <159171124889.14379.10327774755780970706@45ef0f9c86ae>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <b7da908f-2632-fe87-fe24-302d0ba33480@redhat.com>
-Date: Tue, 9 Jun 2020 16:24:09 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jifC7-000585-4P
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 10:25:39 -0400
+Received: from indium.canonical.com ([91.189.90.7]:34524)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jifC5-0001ao-KX
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 10:25:38 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jifC3-0000CC-PJ
+ for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 14:25:35 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id B979D2E8106
+ for <qemu-devel@nongnu.org>; Tue,  9 Jun 2020 14:25:35 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <159171124889.14379.10327774755780970706@45ef0f9c86ae>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=eric.auger@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/08 23:42:34
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 09 Jun 2020 14:18:12 -0000
+From: malib69055 <1882787@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: audio subsystem voice
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: malib69055
+X-Launchpad-Bug-Reporter: malib69055 (malib69055)
+X-Launchpad-Bug-Modifier: malib69055 (malib69055)
+Message-Id: <159171229296.18905.15367974946504993001.malonedeb@chaenomeles.canonical.com>
+Subject: [Bug 1882787] [NEW] AUD_set_volume_out takes SWVoiceOut as parameter, 
+ but controls HWVoiceOut
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="ef9fc486e875d54078fa61cf91e898b895125d89";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 98d51e7e28caa108cffa56c955b720f196738f10
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 10:15:37
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -82,67 +72,191 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, drjones@redhat.com, mst@redhat.com,
- lersek@redhat.com, shannon.zhaosl@gmail.com, qemu-arm@nongnu.org,
- imammedo@redhat.com, marcandre.lureau@redhat.com, stefanb@linux.ibm.com,
- philmd@redhat.com, ardb@kernel.org, eric.auger.pro@gmail.com
+Reply-To: Bug 1882787 <1882787@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+Public bug reported:
 
-On 6/9/20 4:00 PM, no-reply@patchew.org wrote:
-> Patchew URL: https://patchew.org/QEMU/20200609125409.24179-1-eric.auger@redhat.com/
-> 
-> 
-> 
-> Hi,
-> 
-> This series failed the docker-quick@centos7 build test. Please find the testing commands and
-> their output below. If you have Docker installed, you can probably reproduce it
-> locally.
-time make docker-test-quick@centos7 SHOW_ENV=1 J=14 NETWORK=1
-runs fine on my side. I guess what is missing here is the dependency
-quoted in the cover letter:
-"acpi: tpm: Do not build TCPA table for TPM 2"
+There was a change in
+https://github.com/qemu/qemu/commit/571a8c522e0095239598347ac0add93337c1e0bf
+#diff-230ab01fa7fb1668a1e9183241115cb0R1852-R1853 (audio/audio.c) which
+breaks audio output on devices which have multiple software voices on
+the same hardware voice.
 
-Thanks
+When multiple software voices use the same hardware voice, then setting
+a volume / mute for any of the software voices, will affect all other
+software voices, too.
 
-Eric
+I'm not sure if such a use-case exists in QEMU; however, it does exist in m=
+y fork.
+It's also easy to see that this is a bug in the QEMU audio subsystem.
 
-> 
-> === TEST SCRIPT BEGIN ===
-> #!/bin/bash
-> make docker-image-centos7 V=1 NETWORK=1
-> time make docker-test-quick@centos7 SHOW_ENV=1 J=14 NETWORK=1
-> === TEST SCRIPT END ===
-> 
-> Looking for expected file 'tests/data/acpi/q35/TCPA.tis'
-> Looking for expected file 'tests/data/acpi/q35/TCPA'
-> **
-> ERROR:/tmp/qemu-test/src/tests/qtest/bios-tables-test.c:370:load_expected_aml: assertion failed: (exp_sdt.aml_file)
-> ERROR - Bail out! ERROR:/tmp/qemu-test/src/tests/qtest/bios-tables-test.c:370:load_expected_aml: assertion failed: (exp_sdt.aml_file)
-> make: *** [check-qtest-x86_64] Error 1
-> make: *** Waiting for unfinished jobs....
->   TEST    iotest-qcow2: 030
->   TEST    iotest-qcow2: 031
-> ---
->     raise CalledProcessError(retcode, cmd)
-> subprocess.CalledProcessError: Command '['sudo', '-n', 'docker', 'run', '--label', 'com.qemu.instance.uuid=71e400be07f14cd09538753c536cf099', '-u', '1001', '--security-opt', 'seccomp=unconfined', '--rm', '-e', 'TARGET_LIST=', '-e', 'EXTRA_CONFIGURE_OPTS=', '-e', 'V=', '-e', 'J=14', '-e', 'DEBUG=', '-e', 'SHOW_ENV=1', '-e', 'CCACHE_DIR=/var/tmp/ccache', '-v', '/home/patchew/.cache/qemu-docker-ccache:/var/tmp/ccache:z', '-v', '/var/tmp/patchew-tester-tmp-3bqmv5j2/src/docker-src.2020-06-09-09.46.26.7521:/var/tmp/qemu:z,ro', 'qemu:centos7', '/var/tmp/qemu/run', 'test-quick']' returned non-zero exit status 2.
-> filter=--filter=label=com.qemu.instance.uuid=71e400be07f14cd09538753c536cf099
-> make[1]: *** [docker-run] Error 1
-> make[1]: Leaving directory `/var/tmp/patchew-tester-tmp-3bqmv5j2/src'
-> make: *** [docker-run-test-quick@centos7] Error 2
-> 
-> real    14m23.108s
-> user    0m9.457s
-> 
-> 
-> The full log is available at
-> http://patchew.org/logs/20200609125409.24179-1-eric.auger@redhat.com/testing.docker-quick@centos7/?type=message.
-> ---
-> Email generated automatically by Patchew [https://patchew.org/].
-> Please send your feedback to patchew-devel@redhat.com
-> 
+The API (and broken function) for this is:
 
+```
+    void AUD_set_volume_out (SWVoiceOut *sw, int mute, uint8_t lvol, uint8_=
+t rvol)
+```
+
+So this is supposed to modify the SWVoiceOut.
+
+However, if the backend supports `pcm_ops->volume_out` this does not
+work as expected. It's always as if you had called:
+
+```
+    void AUD_set_volume_out (HWVoiceOut *hw, int mute, uint8_t lvol, uint8_=
+t rvol)
+```
+
+*(Note how this modifies the hardware voice)*
+
+
+In my specific use case, I have 2 outputs (digital and analog audio on AC97=
+), and I want to mute the digital audio output, but I still need to keep th=
+e voice activated for timing.
+However, if I mute the digital audio SWVoiceOut, it will also affect the ot=
+her SWVoiceOut (for analog audio) on the same HWVoiceOut.
+
+---
+
+Old code - if the hardware supports volume changes, it will receive the
+software voice which should be modified, so changes can be restricted to
+that one voice:
+
+```
+        HWVoiceOut *hw =3D sw->hw;
+        [...]
+        if (hw->pcm_ops->ctl_out) {
+            hw->pcm_ops->ctl_out (hw, VOICE_VOLUME, sw);
+        }
+```
+
+New code - the hardware backend will have no way to differentiate
+software voices; so any change will affect all voices. The volume which
+was set last on any sw voice will set a global volume / mute for all
+voices on the hardware backend:
+
+```
+        HWVoiceOut *hw =3D sw->hw;
+        [...]
+        if (hw->pcm_ops->volume_out) {
+            hw->pcm_ops->volume_out(hw, &sw->vol);
+        }
+```
+
+The old interface was already broken with some (all?) backends, because the=
+y ignored the software voice, but at least the design made sense.
+However, the new design is fundamentally broken because it doesn't even tel=
+l the backend which voice is supposed to be modified.
+
+---
+
+Bug was introduced in cecc1e79bf9ad9a0e2d3ce513d4f71792a0985f6
+The affected code was touched since then, but still remains in 49ee11555262=
+a256afec592dfed7c5902d5eefd2
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+
+** Tags: audio subsystem voice
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1882787
+
+Title:
+  AUD_set_volume_out takes SWVoiceOut as parameter, but controls
+  HWVoiceOut
+
+Status in QEMU:
+  New
+
+Bug description:
+  There was a change in
+  https://github.com/qemu/qemu/commit/571a8c522e0095239598347ac0add93337c1e=
+0bf
+  #diff-230ab01fa7fb1668a1e9183241115cb0R1852-R1853 (audio/audio.c)
+  which breaks audio output on devices which have multiple software
+  voices on the same hardware voice.
+
+  When multiple software voices use the same hardware voice, then
+  setting a volume / mute for any of the software voices, will affect
+  all other software voices, too.
+
+  I'm not sure if such a use-case exists in QEMU; however, it does exist in=
+ my fork.
+  It's also easy to see that this is a bug in the QEMU audio subsystem.
+
+  The API (and broken function) for this is:
+
+  ```
+      void AUD_set_volume_out (SWVoiceOut *sw, int mute, uint8_t lvol, uint=
+8_t rvol)
+  ```
+
+  So this is supposed to modify the SWVoiceOut.
+
+  However, if the backend supports `pcm_ops->volume_out` this does not
+  work as expected. It's always as if you had called:
+
+  ```
+      void AUD_set_volume_out (HWVoiceOut *hw, int mute, uint8_t lvol, uint=
+8_t rvol)
+  ```
+
+  *(Note how this modifies the hardware voice)*
+
+  =
+
+  In my specific use case, I have 2 outputs (digital and analog audio on AC=
+97), and I want to mute the digital audio output, but I still need to keep =
+the voice activated for timing.
+  However, if I mute the digital audio SWVoiceOut, it will also affect the =
+other SWVoiceOut (for analog audio) on the same HWVoiceOut.
+
+  ---
+
+  Old code - if the hardware supports volume changes, it will receive
+  the software voice which should be modified, so changes can be
+  restricted to that one voice:
+
+  ```
+          HWVoiceOut *hw =3D sw->hw;
+          [...]
+          if (hw->pcm_ops->ctl_out) {
+              hw->pcm_ops->ctl_out (hw, VOICE_VOLUME, sw);
+          }
+  ```
+
+  New code - the hardware backend will have no way to differentiate
+  software voices; so any change will affect all voices. The volume
+  which was set last on any sw voice will set a global volume / mute for
+  all voices on the hardware backend:
+
+  ```
+          HWVoiceOut *hw =3D sw->hw;
+          [...]
+          if (hw->pcm_ops->volume_out) {
+              hw->pcm_ops->volume_out(hw, &sw->vol);
+          }
+  ```
+
+  The old interface was already broken with some (all?) backends, because t=
+hey ignored the software voice, but at least the design made sense.
+  However, the new design is fundamentally broken because it doesn't even t=
+ell the backend which voice is supposed to be modified.
+
+  ---
+
+  Bug was introduced in cecc1e79bf9ad9a0e2d3ce513d4f71792a0985f6
+  The affected code was touched since then, but still remains in 49ee115552=
+62a256afec592dfed7c5902d5eefd2
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1882787/+subscriptions
 
