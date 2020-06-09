@@ -2,68 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9D451F3E04
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 16:24:34 +0200 (CEST)
-Received: from localhost ([::1]:43886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6ADE1F3DA8
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 16:10:49 +0200 (CEST)
+Received: from localhost ([::1]:38300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jifB3-0002pu-VB
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 10:24:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54854)
+	id 1jiexk-0004lC-Ml
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 10:10:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54230)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jif2S-00014p-7p
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 10:15:40 -0400
-Received: from indium.canonical.com ([91.189.90.7]:59920)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jif2Q-00080i-Gx
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 10:15:39 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jif2O-0006xy-NH
- for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 14:15:36 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id AE0122E802B
- for <qemu-devel@nongnu.org>; Tue,  9 Jun 2020 14:15:36 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jiewC-0003bh-Gd
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 10:09:12 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:32995
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jiewB-0006ni-QR
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 10:09:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1591711750;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=OSRdD0d6Yp4nIUq+zTQOlRcs3Bdzt2jY+nd3Dosbis8=;
+ b=bPjLollDIPpJwik7cLMYJBcZiqMZmBsojl8R+62Ri84OlBrMw8gyI3e0t0DLfmwONCXIio
+ dp1IykRHsgT2dYubN4ctrs4u+IP5EUcVwnxHQfeWqi7LU565CGvxZQ21sqScDLqj/LN9HM
+ bOMk/OTYf+q5ZNkIFucLxcD/EP8o/oE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-457-052ZW6kvPWuqWUfYoRBPUg-1; Tue, 09 Jun 2020 10:09:07 -0400
+X-MC-Unique: 052ZW6kvPWuqWUfYoRBPUg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DBD6018A8223;
+ Tue,  9 Jun 2020 14:09:05 +0000 (UTC)
+Received: from linux.fritz.box.com (ovpn-114-124.ams2.redhat.com
+ [10.36.114.124])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 735F79F77;
+ Tue,  9 Jun 2020 14:09:04 +0000 (UTC)
+From: Kevin Wolf <kwolf@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH] qcow2: Reduce write_zeroes size in handle_alloc_space()
+Date: Tue,  9 Jun 2020 16:08:59 +0200
+Message-Id: <20200609140859.142230-1-kwolf@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 09 Jun 2020 14:07:48 -0000
-From: Shak <1882784@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: assign igd quirk
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: sshaikh
-X-Launchpad-Bug-Reporter: Shak (sshaikh)
-X-Launchpad-Bug-Modifier: Shak (sshaikh)
-Message-Id: <159171166832.31735.6432186230204851906.malonedeb@gac.canonical.com>
-Subject: [Bug 1882784] [NEW] Legacy IGD passthrough in QEMU 5 disabled
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="ef9fc486e875d54078fa61cf91e898b895125d89";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: ea24773db87dd149b12a25855d75dc2077635c13
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 10:15:37
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 01:38:49
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,109 +75,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1882784 <1882784@bugs.launchpad.net>
+Cc: kwolf@redhat.com, anton.nefedov@virtuozzo.com, vsementsov@virtuozzo.com,
+ qemu-devel@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+Since commit c8bb23cbdbe, handle_alloc_space() is called for newly
+allocated clusters to efficiently initialise the COW areas with zeros if
+necessary. It skips the whole operation if both start_cow nor end_cow
+are empty. However, it requests zeroing the whole request size (possibly
+multiple megabytes) even if only one end of the request actually needs
+this.
 
-Bug with tag v5.0.0, or commit fdd76fecdde1ad444ff4deb7f1c4f7e4a1ef97d6
+This patch reduces the write_zeroes request size in this case so that we
+don't unnecessarily zero-initialise a region that we're going to
+overwrite immediately.
 
-As of QEMU 5 Legacy IGD PT is no longer working.
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+---
+ block/qcow2.c | 16 +++++++++++-----
+ 1 file changed, 11 insertions(+), 5 deletions(-)
 
-Host is a Xeon E3-1226 v3 and my method to test is to run the following:
+diff --git a/block/qcow2.c b/block/qcow2.c
+index 0cd2e6757e..77742877fb 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -2403,6 +2403,8 @@ static int handle_alloc_space(BlockDriverState *bs, QCowL2Meta *l2meta)
+     }
+ 
+     for (m = l2meta; m != NULL; m = m->next) {
++        uint64_t start = m->alloc_offset;
++        uint64_t len = m->nb_clusters * s->cluster_size;
+         int ret;
+ 
+         if (!m->cow_start.nb_bytes && !m->cow_end.nb_bytes) {
+@@ -2413,21 +2415,25 @@ static int handle_alloc_space(BlockDriverState *bs, QCowL2Meta *l2meta)
+             continue;
+         }
+ 
++        if (!m->cow_start.nb_bytes) {
++            start += m->cow_end.offset;
++            len -= m->cow_end.offset;
++        } else if (!m->cow_end.nb_bytes) {
++            len = m->cow_start.nb_bytes;
++        }
++
+         /*
+          * instead of writing zero COW buffers,
+          * efficiently zero out the whole clusters
+          */
+ 
+-        ret = qcow2_pre_write_overlap_check(bs, 0, m->alloc_offset,
+-                                            m->nb_clusters * s->cluster_size,
+-                                            true);
++        ret = qcow2_pre_write_overlap_check(bs, 0, start, len, true);
+         if (ret < 0) {
+             return ret;
+         }
+ 
+         BLKDBG_EVENT(bs->file, BLKDBG_CLUSTER_ALLOC_SPACE);
+-        ret = bdrv_co_pwrite_zeroes(s->data_file, m->alloc_offset,
+-                                    m->nb_clusters * s->cluster_size,
++        ret = bdrv_co_pwrite_zeroes(s->data_file, start, len,
+                                     BDRV_REQ_NO_FALLBACK);
+         if (ret < 0) {
+             if (ret != -ENOTSUP && ret != -EAGAIN) {
+-- 
+2.25.4
 
-./qemu-system-x86_64 \
-  -device 'pci-bridge,id=3Dpci.1,chassis_nr=3D1,bus=3Dpci.0,addr=3D0x1f' \
-  -device 'vfio-pci,host=3D00:02.0,addr=3D02.0' \
-  -L '/usr/share/kvm' \
-  -nographic \
-  -vga none \
-  -nodefaults
-
-in the hope of seeing a "IGD device 0000:00:02.0 cannot support legacy
-mode due to existing devices at address 1f.0" error.
-
-The culprit appears to be this commit:
-
-https://github.com/qemu/qemu/commit/29d62771c81d8fd244a67c14a1d968c268d3fb19
-
-Specifically the following block in pci-quirks.c:
-
-#ifdef CONFIG_VFIO_IGD
-    vfio_probe_igd_bar4_quirk(vdev, nr);
-#endif
-
-as the kconfig variable CONFIG_VFIO_IGD doesn't appear to be available
-outside of makefiles as described here:
-https://qemu.weilnetz.de/doc/devel/kconfig.html. I can confirm that the
-igd code is being pulled in as removing this check, as would defining
-the variable I presume, makes Legacy IGD PT work again (ie I see the
-expected "existing devices" error).
-
-I first spotted this in Proxmox, but have confirmed the bug by building
-QEMU sources.
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
-
-** Tags: assign igd quirk
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1882784
-
-Title:
-  Legacy IGD passthrough in QEMU 5 disabled
-
-Status in QEMU:
-  New
-
-Bug description:
-  Bug with tag v5.0.0, or commit
-  fdd76fecdde1ad444ff4deb7f1c4f7e4a1ef97d6
-
-  As of QEMU 5 Legacy IGD PT is no longer working.
-
-  Host is a Xeon E3-1226 v3 and my method to test is to run the
-  following:
-
-  ./qemu-system-x86_64 \
-    -device 'pci-bridge,id=3Dpci.1,chassis_nr=3D1,bus=3Dpci.0,addr=3D0x1f' \
-    -device 'vfio-pci,host=3D00:02.0,addr=3D02.0' \
-    -L '/usr/share/kvm' \
-    -nographic \
-    -vga none \
-    -nodefaults
-
-  in the hope of seeing a "IGD device 0000:00:02.0 cannot support legacy
-  mode due to existing devices at address 1f.0" error.
-
-  The culprit appears to be this commit:
-
-  https://github.com/qemu/qemu/commit/29d62771c81d8fd244a67c14a1d968c268d3f=
-b19
-
-  Specifically the following block in pci-quirks.c:
-
-  #ifdef CONFIG_VFIO_IGD
-      vfio_probe_igd_bar4_quirk(vdev, nr);
-  #endif
-
-  as the kconfig variable CONFIG_VFIO_IGD doesn't appear to be available
-  outside of makefiles as described here:
-  https://qemu.weilnetz.de/doc/devel/kconfig.html. I can confirm that
-  the igd code is being pulled in as removing this check, as would
-  defining the variable I presume, makes Legacy IGD PT work again (ie I
-  see the expected "existing devices" error).
-
-  I first spotted this in Proxmox, but have confirmed the bug by
-  building QEMU sources.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1882784/+subscriptions
 
