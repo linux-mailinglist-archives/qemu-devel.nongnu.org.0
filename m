@@ -2,80 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF28D1F4A13
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 01:26:37 +0200 (CEST)
-Received: from localhost ([::1]:40798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 640ED1F4A25
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 01:32:55 +0200 (CEST)
+Received: from localhost ([::1]:46544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jindc-0003Zg-Lu
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 19:26:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55034)
+	id 1jinji-0006a9-FP
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 19:32:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55914)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <coiby.xu@gmail.com>)
- id 1jincY-0002lZ-Le; Tue, 09 Jun 2020 19:25:30 -0400
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:42206)
- by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <coiby.xu@gmail.com>)
- id 1jincX-0007eX-Id; Tue, 09 Jun 2020 19:25:30 -0400
-Received: by mail-pf1-x441.google.com with SMTP id b5so239621pfp.9;
- Tue, 09 Jun 2020 16:25:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:date:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=b8SO35WiYUbBURYx7HNC6iiJvixKUGseKY9k9aG7Odw=;
- b=MKvw84szMo3ljOUtdzPiL6MW5QtjXjX9LXWqbfko2y4O9mDzsXWoMogNMbVFdqZxy8
- QSnNyOu51kGe/Dcy6TLmHYfWKP3KkzAKhLYNuYtIgizscL3YKHnqXnpeuQGMYJPRspEa
- 4voLVhbY5+XkpzpvpPUYqCk9sVdDRvbF8XGb0zxgxebrcfzK2VcW8AbbmVlJXbd4grnz
- cc60WWvdpH5WqOgTCKvTmnVOrgeJWEJVJfJmHWUaE3nFcTArJtC2aSbdKXYkRNtpNdqG
- jgzmLvEklNAIMstav8bNavg76I9N8Qj6i4qKrnL4MIIPXvcIv1e7P57WXv1KNHm2uqh5
- 5ELA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:date:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=b8SO35WiYUbBURYx7HNC6iiJvixKUGseKY9k9aG7Odw=;
- b=C3iahSo2KzE7JUTaRqU46Kwaj2OFxxtzdgUWwi6ajCUmO0f0EwGRBN1rsWDneLH9d8
- 1S7zxXR4v3mSvnm77UFGSztCg3m3z8WJve0LkzAt4054Cl/qBZOMB/V76KvWcxkj5qGR
- hl8zjlkIa/fy+xdSNxz22YwdLKZAbe7+wkvfoGmUduepPxmcfuNXpxbNr1Ou7Qb1spiC
- AvzsQZn7r4R9j12G0Y0IkcQhYBs6G7CinlyXhN/BoOHxB2JhfoxiIVwItfe030EcQ/Ds
- ABNr0znj2vITvRY/MOtBgubQJ2WIziQ286gVI2PCQuBMmCoaI9XCxHGnoZURV0zT2icd
- w2Yw==
-X-Gm-Message-State: AOAM532y8+/79pGaafa7Q/TbY9xGhigN9c+e6JAcJsJE6R7Sq1BH9gmS
- bzs9Ynf7pB91nrupB5uo5Sw=
-X-Google-Smtp-Source: ABdhPJza6G4Dz5ZqWXR3AHn+D1nsA++KoTfFIrd56VykM3pzDtOISs1BM8BUx9hP32H7VBwrAdIGMQ==
-X-Received: by 2002:a63:d04b:: with SMTP id s11mr305056pgi.384.1591745116664; 
- Tue, 09 Jun 2020 16:25:16 -0700 (PDT)
-Received: from localhost ([2001:e42:102:1532:160:16:113:140])
- by smtp.gmail.com with ESMTPSA id d5sm11055367pfd.124.2020.06.09.16.25.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Jun 2020 16:25:16 -0700 (PDT)
-From: Coiby Xu <coiby.xu@gmail.com>
-X-Google-Original-From: Coiby Xu <Coiby.Xu@gmail.com>
-Date: Wed, 10 Jun 2020 07:25:11 +0800
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH v2 08/20] qemu-storage-daemon: Add --object option
-Message-ID: <20200609232511.ucfrpj2ftfmbtfwf@r>
-References: <20200224143008.13362-1-kwolf@redhat.com>
- <20200224143008.13362-9-kwolf@redhat.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jinhh-0005WH-UX
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 19:30:49 -0400
+Received: from indium.canonical.com ([91.189.90.7]:34048)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jinhf-0000OT-Nv
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 19:30:49 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jinhd-0008IZ-Ij
+ for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 23:30:45 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 7BF5C2E810B
+ for <qemu-devel@nongnu.org>; Tue,  9 Jun 2020 23:30:45 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20200224143008.13362-9-kwolf@redhat.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::441;
- envelope-from=coiby.xu@gmail.com; helo=mail-pf1-x441.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 09 Jun 2020 23:20:37 -0000
+From: Diego Viola <1882851@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: diego-viola
+X-Launchpad-Bug-Reporter: Diego Viola (diego-viola)
+X-Launchpad-Bug-Modifier: Diego Viola (diego-viola)
+References: <159174217343.32241.17743917589333297614.malonedeb@gac.canonical.com>
+Message-Id: <159174483772.4133.17906529999716045859.malone@soybean.canonical.com>
+Subject: [Bug 1882851] Re: QEMU video freezes with "Guest disabled display"
+ (virtio driver)
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="ef9fc486e875d54078fa61cf91e898b895125d89";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 2141b1ac4e4ba01b1be65b7ec4fe9d66c604a4b8
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 10:15:37
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -84,92 +72,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, armbru@redhat.com,
- stefanha@redhat.com, mreitz@redhat.com
+Reply-To: Bug 1882851 <1882851@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Feb 24, 2020 at 03:29:56PM +0100, Kevin Wolf wrote:
->Add a command line option to create user-creatable QOM objects.
->
->Signed-off-by: Kevin Wolf <kwolf@redhat.com>
->---
-> qemu-storage-daemon.c | 47 +++++++++++++++++++++++++++++++++++++++++++
-> Makefile.objs         |  2 +-
-> qom/Makefile.objs     |  1 +
-> 3 files changed, 49 insertions(+), 1 deletion(-)
->
->diff --git a/qemu-storage-daemon.c b/qemu-storage-daemon.c
->index c30caaf59e..0cd8144c81 100644
->--- a/qemu-storage-daemon.c
->+++ b/qemu-storage-daemon.c
->@@ -33,15 +33,19 @@
-> #include "qapi/error.h"
-> #include "qapi/qapi-visit-block-core.h"
-> #include "qapi/qapi-commands-block-core.h"
->+#include "qapi/qmp/qdict.h"
-> #include "qapi/qobject-input-visitor.h"
->
-> #include "qemu-common.h"
-> #include "qemu-version.h"
-> #include "qemu/config-file.h"
-> #include "qemu/error-report.h"
->+#include "qemu/help_option.h"
-> #include "qemu/log.h"
-> #include "qemu/main-loop.h"
-> #include "qemu/module.h"
->+#include "qemu/option.h"
->+#include "qom/object_interfaces.h"
->
-> #include "trace/control.h"
->
->@@ -63,12 +67,31 @@ static void help(void)
-> "             [,driver specific parameters...]\n"
-> "                         configure a block backend\n"
-> "\n"
->+"  --object help          list object types that can be added\n"
->+"  --object <type>,help   list properties for the given object type\n"
->+"  --object <type>[,<property>=<value>...]\n"
->+"                         create a new object of type <type>, setting\n"
->+"                         properties in the order they are specified. Note\n"
->+"                         that the 'id' property must be set.\n"
->+"                         See the qemu(1) man page for documentation of the\n"
->+"                         objects that can be added.\n"
->+"\n"
-> QEMU_HELP_BOTTOM "\n",
->     error_get_progname());
-> }
->
-> enum {
->     OPTION_BLOCKDEV = 256,
->+    OPTION_OBJECT,
->+};
->+
->+static QemuOptsList qemu_object_opts = {
->+    .name = "object",
->+    .implied_opt_name = "qom-type",
->+    .head = QTAILQ_HEAD_INITIALIZER(qemu_object_opts.head),
->+    .desc = {
->+        { }
->+    },
-> };
->
-I'm not sure whether qemu-storage-daemon's QMP monitor is supposed to support
-`object-del` or not. If it's yes, we should add `qemu_add_opts(&qemu_object_opts);`,
-otherwise, qemu-storage-daemon will exit with the following error,
+OK, I found a workaround: sendkey ctrl-alt-f1 from the QEMU console
+(ctrl alt 2) then I can switch back to X and continue from where I left
+off.
 
+-- =
 
-    Unexpected error in find_list() at util/qemu-config.c:24:
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1882851
 
-The steps to reproduce this error,
+Title:
+  QEMU video freezes with "Guest disabled display" (virtio driver)
 
-   1. start qemu-storage-daemon
+Status in QEMU:
+  New
 
-     ./qemu-storage-daemon --object iothread,id=iothread0 --chardev socket,id=qmp,path=abc,server,nowait --monitor chardev=qmp
+Bug description:
+  I am using Arch Linux as my Guest and Host OS, after starting qemu
+  with the following command:
 
-   2. send object-del command
+    $ qemu-system-x86_64 -enable-kvm -hda arch-zoom.qcow2 -m 4G -vga
+  virtio
 
-     echo '{ "execute": "qmp_capabilities" }'\
-             '{ 'object-del', 'arguments': {'id': 'iothread0'} }'\
-             '{ "execute": "quit" } ' | socat - UNIX-CONNECT:abc
+  and waiting for a screen blank, I get this message:
+
+    Guest disabled display
+
+  And nothing happens after that, I can move the mouse or hit any key,
+  and the message is still there.
+
+  I can still reboot the VM but that's not optimal.
+
+  I can reproduce this with the latest QEMU release (5.0.0) or git master, =
+
+  I also tried this with older releases (4.0.0, 3.0.0) and the issue is sti=
+ll there.
+
+  I can't reproduce this with other video drivers (std, qxl).
+
+  With std/qxl the screen will blank a bit and then continue as normal.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1882851/+subscriptions
 
