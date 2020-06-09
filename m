@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B9C21F3838
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 12:40:24 +0200 (CEST)
-Received: from localhost ([::1]:36088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 522B71F3866
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 12:47:08 +0200 (CEST)
+Received: from localhost ([::1]:57288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jibg7-0001Ba-Jz
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 06:40:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59334)
+	id 1jibmd-0001i6-9T
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 06:47:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jibeK-0007uz-Hl
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 06:38:32 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:54590)
+ id 1jibjb-0007QE-3l
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 06:43:59 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:34399)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jibeJ-0004QF-CS
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 06:38:32 -0400
-Received: by mail-wm1-x331.google.com with SMTP id g10so2315606wmh.4
- for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 03:38:30 -0700 (PDT)
+ id 1jibja-0005E7-8D
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 06:43:58 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id u26so2002243wmn.1
+ for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 03:43:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=iLEYO586LN3lan1c/6dZyP5NhR1wfNmqNW/hILo90zI=;
- b=E05BfWmoqCNO58L5BPz1PwjV0obDMFC9J2pqtfcRk2LqJE/LjYYnC6qCd0WFy7CYT0
- WCLeBIJnJjFFoHbGKdWOO9jJXM14QCk1StPW9IHIvyZcZMqHgkqUBlslDfkU+vfwcTSM
- 7eN+4OnTEv3DCqCTvJn3a63j+HbVAGN+lPfL/OB0SZEO5LlQgERRiMW3+SDlCx15C4Is
- hCXLtoNOUl03J6dB0Nmohr3HH3cvtOvQrBP1x/yhh3BtWIFSyg25NLAKMEgUuLNjx6xF
- DSTU4DsaYQhAadvupRG1wCnQOJIN5d/7s3sz/7oN5Jz57Aiu58/P5bBll3IdHFLrRqSl
- oz7g==
+ bh=q/cIVEFMns0y995uacfy4Wuc44iRJxogb4f61BUR9ZE=;
+ b=G7hL/u46oa8A4ZPdPTwn1D6jleXAYWcexfpHDJcVqHn0w96Ts9UC7vdbsPhNvUHmSp
+ 0S7Cg0dPqxz/26Onpn56XNakQtzT73t5mRGFVk6f1kVDqSGW/Nre6oinjXIl3P4+7bYd
+ sx8vCyCarR3fSvk4eQW7QdtY+KWd4cGgqJWcmoMT7NLLsppIoSVYPny2XL+hxZsyvzdm
+ zPbF18S8gPqZY0Poizr2jTNyv//YdoU7lpT9sNYQja0gUAB6J9OPSRfrkr4649d2vWLg
+ OBNPzfGE5FW7YrMnz6YcPQM+NpsfHrJynfsBKTDEToRNYuPjf8PwbC9OkPFWzko/tASi
+ MtmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=iLEYO586LN3lan1c/6dZyP5NhR1wfNmqNW/hILo90zI=;
- b=dWbqqr+8p9tqleppXK/w0cMf5qW6tehe1BstYFcgoX9nuMc0I2SxChXkXOJvVxIMbJ
- Gb5Ov24N12jM38ZRSAN3th/TGyBmNc9M1/V12sKraPDVHcQEPSLjacxTWmcn6Qo15AEF
- AYGnK891crJVqN4WUFduWKrT90YWdAAZ8tj6/0XMA+e9TKRKkeaAtKFsr2+b4lM+Frq4
- 84w4emgCRx0RMh2pQUerWOK8lDgAp3HK3+cobXSZ3/tPNxY5/kRaF3/tZdf9eVqW1Th5
- 4TKNfgbhWSXBBjx5SZ42rWDwUdrg1vKLmEYNxjkhmN5CGhqlS+tllaME/grIM/57vP89
- TbNQ==
-X-Gm-Message-State: AOAM533tv/PtAxZVTkUy0AbJUPt1V99UkME6OzmutVy6xfWvlyj5mXkJ
- B/SKamXB74mRpOG8I6lVyza3QA==
-X-Google-Smtp-Source: ABdhPJx0Z7av3V2Qfb54yGI/xT5s8ORYmzKs035nNVg6GKKk1uKCHAJ4mTlTOLs7iuSQBTBzvYQZJQ==
-X-Received: by 2002:a7b:c8d6:: with SMTP id f22mr3216584wml.108.1591699110009; 
- Tue, 09 Jun 2020 03:38:30 -0700 (PDT)
+ bh=q/cIVEFMns0y995uacfy4Wuc44iRJxogb4f61BUR9ZE=;
+ b=plg9edsMwRAAB8OIAhOGc5lHDBwGeHkd87bSQuLKEfDUht3KXiv9nEKm411mK612jn
+ h5nY+6ZCiOSD++FjZpo1TY0jqUA73pMujTyD6L/0sOOslESqQxjZXaMFphoJbUTdJS+p
+ G8SJ8m4f4b8YJdlq1lmdB1nDXCTzXodo4YZAwqn5es+6NW9rbX8sUf7ilHlJ6pswpW0N
+ BO0U2F1hjdH7VPveOeuwRNLDjwxJsFjCYcSlO1JnXLvwYaXIgcwqUXoZ4PzO7C7yWhfc
+ oRNZLmRhvWVxUlG8AJExzBByh7VULfq+75uU1D1pc//3xc4NFl0Z83Jz3FW2iTa6yixP
+ 9c4w==
+X-Gm-Message-State: AOAM530gs+Od2FFKZ9U/Y+MmVjtKYXCQD4zL7fhqIf3UEJdplBvBl28I
+ Akqd1nacOU8GXX4PfAcKC6QRbQ==
+X-Google-Smtp-Source: ABdhPJx65YT1m3OsVV/+khmmnXacY9jrnz4bfcU14gSqDmFkcRmUIyJ/o66HpkMPb/husuVcAc4vMg==
+X-Received: by 2002:a7b:c761:: with SMTP id x1mr3531369wmk.90.1591699436920;
+ Tue, 09 Jun 2020 03:43:56 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id p1sm2795837wrx.44.2020.06.09.03.38.18
+ by smtp.gmail.com with ESMTPSA id u3sm2486289wmg.38.2020.06.09.03.43.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Jun 2020 03:38:19 -0700 (PDT)
+ Tue, 09 Jun 2020 03:43:52 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 9ACC51FF9D;
+ by zen.linaroharston (Postfix) with ESMTP id C48E11FF9E;
  Tue,  9 Jun 2020 11:38:12 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 15/17] tests/vm: Remove flex/bison packages
-Date: Tue,  9 Jun 2020 11:38:07 +0100
-Message-Id: <20200609103809.23443-16-alex.bennee@linaro.org>
+Subject: [PULL 16/17] cirrus-ci: Remove flex/bison packages
+Date: Tue,  9 Jun 2020 11:38:08 +0100
+Message-Id: <20200609103809.23443-17-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200609103809.23443-1-alex.bennee@linaro.org>
 References: <20200609103809.23443-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,10 +88,10 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Ed Maste <emaste@freebsd.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Claudio Fontana <cfontana@suse.de>
+ qemu-devel@nongnu.org, Li-Wen Hsu <lwhsu@freebsd.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -100,71 +100,23 @@ From: Philippe Mathieu-Daudé <philmd@redhat.com>
 QEMU does not use flex/bison packages.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Claudio Fontana <cfontana@suse.de>
+Reviewed-by: Li-Wen Hsu <lwhsu@freebsd.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20200515163029.12917-3-philmd@redhat.com>
+Message-Id: <20200515163029.12917-5-philmd@redhat.com>
 
-diff --git a/tests/vm/fedora b/tests/vm/fedora
-index bd9c6cf295c..a9195670f4b 100755
---- a/tests/vm/fedora
-+++ b/tests/vm/fedora
-@@ -32,7 +32,6 @@ class FedoraVM(basevm.BaseVM):
-     pkgs = [
-         # tools
-         'git-core',
--        'flex', 'bison',
-         'gcc', 'binutils', 'make',
- 
-         # perl
-diff --git a/tests/vm/freebsd b/tests/vm/freebsd
-index 298967fe9cf..f87db2b126e 100755
---- a/tests/vm/freebsd
-+++ b/tests/vm/freebsd
-@@ -38,7 +38,6 @@ class FreeBSDVM(basevm.BaseVM):
-         "bash",
-         "gmake",
-         "gsed",
--        "flex", "bison",
- 
-         # libs: crypto
-         "gnutls",
-diff --git a/tests/vm/netbsd b/tests/vm/netbsd
-index b10c9d429de..cdac502dad8 100755
---- a/tests/vm/netbsd
-+++ b/tests/vm/netbsd
-@@ -36,7 +36,6 @@ class NetBSDVM(basevm.BaseVM):
-         "bash",
-         "gmake",
-         "gsed",
--        "flex", "bison",
- 
-         # libs: crypto
-         "gnutls",
-diff --git a/tests/vm/openbsd b/tests/vm/openbsd
-index 0b705f49452..13e7f9a6d56 100755
---- a/tests/vm/openbsd
-+++ b/tests/vm/openbsd
-@@ -35,7 +35,6 @@ class OpenBSDVM(basevm.BaseVM):
-         "bash",
-         "gmake",
-         "gsed",
--        "bison",
- 
-         # libs: usb
-         "libusb1",
-diff --git a/tests/vm/ubuntu.i386 b/tests/vm/ubuntu.i386
-index 15707753353..24527cc78c7 100755
---- a/tests/vm/ubuntu.i386
-+++ b/tests/vm/ubuntu.i386
-@@ -52,7 +52,7 @@ class UbuntuX86VM(basevm.BaseVM):
-         self.ssh_root_check("sed -ie s/^#\ deb-src/deb-src/g /etc/apt/sources.list")
-         self.ssh_root_check("apt-get update")
-         self.ssh_root_check("apt-get build-dep -y qemu")
--        self.ssh_root_check("apt-get install -y libfdt-dev flex bison language-pack-en")
-+        self.ssh_root_check("apt-get install -y libfdt-dev language-pack-en")
-         self.ssh_root("poweroff")
-         self.wait()
-         os.rename(img_tmp, img)
+diff --git a/.cirrus.yml b/.cirrus.yml
+index de0727cb097..ce7850a320e 100644
+--- a/.cirrus.yml
++++ b/.cirrus.yml
+@@ -7,7 +7,7 @@ freebsd_12_task:
+     cpu: 8
+     memory: 8G
+   install_script: ASSUME_ALWAYS_YES=yes pkg bootstrap -f ; pkg install -y
+-    bash bison curl cyrus-sasl git glib gmake gnutls gsed
++    bash curl cyrus-sasl git glib gmake gnutls gsed
+     nettle perl5 pixman pkgconf png usbredir
+   script:
+     - mkdir build
 -- 
 2.20.1
 
