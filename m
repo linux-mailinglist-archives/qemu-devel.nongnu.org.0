@@ -2,89 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3674E1F4551
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 20:14:49 +0200 (CEST)
-Received: from localhost ([::1]:42674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5189B1F451B
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 20:12:19 +0200 (CEST)
+Received: from localhost ([::1]:35520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jiils-0002eN-7l
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 14:14:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34134)
+	id 1jiijS-00082E-Ba
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 14:12:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jiii8-0006ub-0A
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 14:10:56 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:29140
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jiii6-0003dH-So
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 14:10:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591726253;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=PRO3RJ8//ad3L7+cHhE1QpBAJL4ZvonlG7wq8Uwk88o=;
- b=a6KNlPldJfdGnnzjZVQjioXpx/8lFzLxEGT+RqLRekgmTVJoSXjDfmsjTj4hgVrNwmU9kZ
- O+zQQkJ4McFjxA7ZwTfR/2T1AE0k8xIPO0I20shTQtEXKPykFjfUEjV5NRxVS2LKmMbcU1
- W8hTVL2DD9t83AyUwQRz0us+8j1G1Jw=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-287-f6KzA5MvNkuBofg74l1zxg-1; Tue, 09 Jun 2020 14:10:52 -0400
-X-MC-Unique: f6KzA5MvNkuBofg74l1zxg-1
-Received: by mail-wr1-f71.google.com with SMTP id n6so8944830wrv.6
- for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 11:10:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=/sHXkGI8UwucoG4Qfr/gDTd9nQ+9Mczx7ITEFMiWIZ4=;
- b=IA+n1obCimrtiUEahVw0f1Hznlbxk1cu6AThOqQ8/wNc85NoMQG27trpEMxpG6yy4y
- B9XAO3yU8TACmjC9YzwU2hhKR7RzYX5gWg2KEQVg7WiAW2ZgPRT83IXepMtB1PNV+A4o
- wQ077NmhDdMT/yvm7cAex3o7JX0rm8wCLXblzi0gvG4KX16J7tgwt3M5MR3jiJMp1IU1
- 6zBECwl+0UJHx1/9sE9tZ9/AeFajs930NTI1vuI5Aur+2jsb1eDaxnTkgHZy4bAOwXFD
- x4IGXh3lYZWGZFXp4uiMjPfSuin9P8D8DEbMXE3HmBzkkyogHyhNK0KCSZHccSBytjCN
- d74g==
-X-Gm-Message-State: AOAM533pRH+hZ2Pdnv9w7PeWtyz+fPxBEuawXu/aaDWyWzB2QXQMq1aB
- mU9NRwoDU2Gjp0ZTUI/KxKqqW6mE5Aa1B7vabuGTIeHJy+wxxhViZiLVHFBDlmSUmmz27pF0ZiO
- Ek3K5Koi45fRH/I0=
-X-Received: by 2002:adf:fe07:: with SMTP id n7mr5646339wrr.240.1591726251185; 
- Tue, 09 Jun 2020 11:10:51 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJztMpaI1fKtcn5pGvvUdkMUsmXIRBqnEBBchG48hBjwn8Wcw+LY7OAXmpt9ITPAUnGeWD0rog==
-X-Received: by 2002:adf:fe07:: with SMTP id n7mr5646317wrr.240.1591726250950; 
- Tue, 09 Jun 2020 11:10:50 -0700 (PDT)
-Received: from redhat.com (bzq-79-181-55-232.red.bezeqint.net. [79.181.55.232])
- by smtp.gmail.com with ESMTPSA id u13sm3587091wmm.6.2020.06.09.11.10.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Jun 2020 11:10:50 -0700 (PDT)
-Date: Tue, 9 Jun 2020 14:10:48 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PULL 3/9] tests/migration: Reduce autoconverge initial bandwidth
-Message-ID: <20200609141005-mutt-send-email-mst@kernel.org>
-References: <20200325131632.311034-1-dgilbert@redhat.com>
- <20200325131632.311034-4-dgilbert@redhat.com>
- <20200609123323-mutt-send-email-mst@kernel.org>
- <20200609170017.GD2841@work-vm>
+ (Exim 4.90_1) (envelope-from <andrzej.jakowski@linux.intel.com>)
+ id 1jiihn-0006bf-NH; Tue, 09 Jun 2020 14:10:38 -0400
+Received: from mga04.intel.com ([192.55.52.120]:20082)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <andrzej.jakowski@linux.intel.com>)
+ id 1jiihk-0003Tr-Tc; Tue, 09 Jun 2020 14:10:35 -0400
+IronPort-SDR: rgSGiJSQb3lCSwQ+PDQgBZ45XA8l9fgqRPDjeAQMrIK7mZzAU5Ja4AwwDWs839QzBnKKi6aW3q
+ x2JnlJF5ZvBw==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jun 2020 11:10:30 -0700
+IronPort-SDR: uF/OldnBkkhEpu+VUcac+lVz022PM4h3vIoogB2y3KJ8DXaaGk06mwnF1XJbR2p6YlDP23y1UY
+ y+J/B94K/JNQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,492,1583222400"; d="scan'208";a="259883676"
+Received: from unknown (HELO localhost.ch.intel.com) ([10.2.28.117])
+ by orsmga007.jf.intel.com with ESMTP; 09 Jun 2020 11:10:29 -0700
+From: Andrzej Jakowski <andrzej.jakowski@linux.intel.com>
+To: kbusch@kernel.org,
+	kwolf@redhat.com,
+	mreitz@redhat.com
+Subject: [PATCH v2] nvme: allow cmb and pmr emulation on same device
+Date: Tue,  9 Jun 2020 11:11:28 -0700
+Message-Id: <20200609181130.20936-1-andrzej.jakowski@linux.intel.com>
+X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
-In-Reply-To: <20200609170017.GD2841@work-vm>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
 Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/08 23:42:34
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Received-SPF: none client-ip=192.55.52.120;
+ envelope-from=andrzej.jakowski@linux.intel.com; helo=mga04.intel.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 14:10:30
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9,
+ RCVD_IN_DNSWL_MED=-2.3 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,106 +61,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: vsementsov@virtuozzo.com, maozhongyi@cmss.chinamobile.com,
- pannengyuan@huawei.com, qemu-devel@nongnu.org, imammedo@redhat.com,
- philmd@redhat.com
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 09, 2020 at 06:00:17PM +0100, Dr. David Alan Gilbert wrote:
-> * Michael S. Tsirkin (mst@redhat.com) wrote:
-> > On Wed, Mar 25, 2020 at 01:16:26PM +0000, Dr. David Alan Gilbert (git) wrote:
-> > > From: Philippe Mathieu-DaudÃ© <philmd@redhat.com>
-> > > 
-> > > When using max-bandwidth=~100Mb/s, this test fails on Travis-CI
-> > > s390x when configured with --disable-tcg:
-> > > 
-> > >   $ make check-qtest
-> > >     TEST    check-qtest-s390x: tests/qtest/boot-serial-test
-> > >   qemu-system-s390x: -accel tcg: invalid accelerator tcg
-> > >   qemu-system-s390x: falling back to KVM
-> > >     TEST    check-qtest-s390x: tests/qtest/pxe-test
-> > >     TEST    check-qtest-s390x: tests/qtest/test-netfilter
-> > >     TEST    check-qtest-s390x: tests/qtest/test-filter-mirror
-> > >     TEST    check-qtest-s390x: tests/qtest/test-filter-redirector
-> > >     TEST    check-qtest-s390x: tests/qtest/drive_del-test
-> > >     TEST    check-qtest-s390x: tests/qtest/device-plug-test
-> > >     TEST    check-qtest-s390x: tests/qtest/virtio-ccw-test
-> > >     TEST    check-qtest-s390x: tests/qtest/cpu-plug-test
-> > >     TEST    check-qtest-s390x: tests/qtest/migration-test
-> > >   **
-> > >   ERROR:tests/qtest/migration-test.c:1229:test_migrate_auto_converge: 'got_stop' should be FALSE
-> > >   ERROR - Bail out! ERROR:tests/qtest/migration-test.c:1229:test_migrate_auto_converge: 'got_stop' should be FALSE
-> > >   make: *** [tests/Makefile.include:633: check-qtest-s390x] Error 1
-> > > 
-> > > Per David Gilbert, "it could just be the writing is slow on s390
-> > > and the migration thread fast; in which case the autocomplete
-> > > wouldn't be needed. Perhaps we just need to reduce the bandwidth
-> > > limit."
-> > > 
-> > > Tuning the threshold by reducing the initial bandwidth makes the
-> > > autoconverge test pass.
-> > > 
-> > > Suggested-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> > > Signed-off-by: Philippe Mathieu-DaudÃ© <philmd@redhat.com>
-> > > Message-Id: <20200323184015.11565-1-philmd@redhat.com>
-> > > Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> > > Tested-by: Alex BennÃ©e <alex.bennee@linaro.org>
-> > > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> > 
-> > 
-> > This slows make check down significantly for me, it stays
-> > at the migration test for minutes.
-> 
-> Is this on the s390x version or all of them?
+This patch series does following:
+ - Fixes problem where CMBS bit was not set in controller capabilities
+   register, so support for CMB was not correctly advertised to guest.
+   This is resend of patch that has been submitted and reviewed by
+   Klaus [1]
+ - Introduces BAR4 sharing between MSI-X vectors and CMB. This allows
+   to have CMB and PMR emulated on the same device. This extension
+   was indicated by Keith [2]
 
-x86 slows down for me.
+v2:
+ - rebase on Kevin's latest block branch (Klaus [3])
+ - improved comments section (Klaus [3])
+ - simplified calculation of BAR4 size (Klaus [4])
 
-> > I'm carrying a revert at top of my tree for now but I'd rather
-> > not need that.
-> > 
-> > 
-> > This seems like a fragile way to test things anyway.
-> > What happens if someone slows writing even more
-> > e.g. because it's running in a container or a VM?
-> > 
-> > How about detecting that migration finished too early
-> > and slowing it down until autocomplete triggers?
-> 
-> THe problem is you can't rely on any form of consistency in a heavily
-> contended container, so the fact that it took n-seconds to migrate at
-> this attempt means very little about what the next attempt will take.
-> 
-> Dave
+v1:
+ - initial push of the patch
 
-What I'm saying is try migrating quickly. If it's too quick
-try again ...
+[1]: https://lore.kernel.org/qemu-devel/20200408055607.g2ii7gwqbnv6cd3w@apples.localdomain/
+[2]: https://lore.kernel.org/qemu-devel/20200330165518.GA8234@redsun51.ssa.fujisawa.hgst.com/
+[3]: https://lore.kernel.org/qemu-devel/20200605181043.28782-1-andrzej.jakowski@linux.intel.com/a
 
-> > 
-> > 
-> > > ---
-> > >  tests/qtest/migration-test.c | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > 
-> > > diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-> > > index 3d6cc83b88..2568c9529c 100644
-> > > --- a/tests/qtest/migration-test.c
-> > > +++ b/tests/qtest/migration-test.c
-> > > @@ -1211,7 +1211,7 @@ static void test_migrate_auto_converge(void)
-> > >       * without throttling.
-> > >       */
-> > >      migrate_set_parameter_int(from, "downtime-limit", 1);
-> > > -    migrate_set_parameter_int(from, "max-bandwidth", 100000000); /* ~100Mb/s */
-> > > +    migrate_set_parameter_int(from, "max-bandwidth", 1000000); /* ~1Mb/s */
-> > >  
-> > >      /* To check remaining size after precopy */
-> > >      migrate_set_capability(from, "pause-before-switchover", true);
-> > > -- 
-> > > 2.25.1
-> > > 
-> > > 
-> > 
-> --
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
