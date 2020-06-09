@@ -2,106 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AE0B1F4232
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 19:28:26 +0200 (CEST)
-Received: from localhost ([::1]:33546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCF421F421F
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 19:24:58 +0200 (CEST)
+Received: from localhost ([::1]:48920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jii2x-0007Za-RI
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 13:28:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50782)
+	id 1jihzd-00024s-P9
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 13:24:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jihX5-0001tX-Cn; Tue, 09 Jun 2020 12:55:27 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:59853)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jihX3-0006F9-SV; Tue, 09 Jun 2020 12:55:27 -0400
-Received: from [192.168.100.1] ([82.252.135.106]) by mrelayeu.kundenserver.de
- (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MGzI3-1jmDtJ1RaN-00E6fM; Tue, 09 Jun 2020 18:55:22 +0200
-Subject: Re: [PATCH] .mailmap: Update Fred Konrad email address
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20200518103920.10699-1-f4bug@amsat.org>
-From: Laurent Vivier <laurent@vivier.eu>
-Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <559f4ab4-ec6b-3aa9-94c7-be0433c20ace@vivier.eu>
-Date: Tue, 9 Jun 2020 18:55:21 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1jihc0-0001Yp-D4
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 13:00:32 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:23666
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1jihby-0007CM-30
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 13:00:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1591722028;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Spz2f+SUk5AefDAFfHDgkwritikWtaoW508X2LhDCLA=;
+ b=DY+sBNxUyVcAUYcNqYadxCv1mOIxytbjpFai4OGkMoeVYDP06NmHWmVZaLVyNbnJQYX1sh
+ BujuA2O+HNybutPnBfuk6zbSBa1LYbh14Q9MjJ5UtpfoJVvXFpGXR4aGeAAgv79j+m8S9c
+ O2OIyDFiCmmb2SWcxE2ReOZMkAkeNJc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-454-DiGThF0CNKyGb-CR_Ei94Q-1; Tue, 09 Jun 2020 13:00:26 -0400
+X-MC-Unique: DiGThF0CNKyGb-CR_Ei94Q-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6F6D21800D42;
+ Tue,  9 Jun 2020 17:00:24 +0000 (UTC)
+Received: from work-vm (ovpn-115-12.ams2.redhat.com [10.36.115.12])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E501819D61;
+ Tue,  9 Jun 2020 17:00:20 +0000 (UTC)
+Date: Tue, 9 Jun 2020 18:00:17 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PULL 3/9] tests/migration: Reduce autoconverge initial bandwidth
+Message-ID: <20200609170017.GD2841@work-vm>
+References: <20200325131632.311034-1-dgilbert@redhat.com>
+ <20200325131632.311034-4-dgilbert@redhat.com>
+ <20200609123323-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20200518103920.10699-1-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
+In-Reply-To: <20200609123323-mutt-send-email-mst@kernel.org>
+User-Agent: Mutt/1.13.4 (2020-02-15)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:HQAuC6yjcN8gLeerFTALcyAjoaj4okRcd493+sIRuFyJxrkkoiP
- CuAodUaxGVWZzaPAF7dmSZVHuZPyPtr38TXEc8u1F2onVRmH+Oa/QalU/R8g3WaXfALVsPb
- CBz9c+/PEY4cQGMVt0O6bKOIVAdPhLtSBqkw4sxuDy2S4UWTcwmjhb0VjvXD79ZQvfThpqX
- dzmhj58NkQIm0+5XK8r9w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Erfvi4VlOGE=:y8qZqM/+7pU01szDpOXFc/
- a632Rct4LeOt8hDvReqFJb17puB2eaYF2UEZgPV7pDz3kUGG+wAIWkuvaoRVCYrrcwhhrtjSn
- QJvVps8ekUEFhQzcbgTX5vb3LZ7EEsEkaSNcrYZEtJtgl+RRqntzu/fcn//8cVfVQ6fmHs1pw
- MKjvKlynlu1jum3bJn5A9DxU12ecZCCZfFinVcDvfHraI6/obAoomYAaVBEoVXZ41PYW6R6xw
- wz7CDIvGmWofAaIY+lPDFR3HI7/QMv1NL+TxSr/RplnYbKkjlZ+vPneLKxY+gOxTuWAQdZem4
- RpiKMyKoinlYV9kqmBpPN+Z5lmSGKZqMEwp5J2iHiigHweoDy60U3qnM91MSlnn0qVwIcxbvT
- zGWfCHkPwWahz1DKFXBHoJ84NdFk6Nph1YDY3BvoDSonFpiQSJs7YFBC/l8fu0sw2QD351Bcv
- T0aovyYaTv4EJXI6Y2oI9sQOViles7B8R5Xbq7nLtS7Y1CWslZPwCA/bg8sU9Fzwkrp19hTxn
- vDpN+6rhcQana2QeUpiGj25RMo6hcGLKwZjkxvZYZ1fJwIsrj7OvfxkhTbAv4IzBmWSiYujd8
- ZuIMbOfsHNNP0iNadk6fqTkSwxcQnabdN9An/NnKeZ+JijFb2wYy+CmysVIvi/Wv4DaYPtxqu
- 67HDaCNid/pc4QzOABEKwBmKNnxo4AKn2vwsSvdgY22cKpyuiJ1UEo0sLiUtZVayWke1VW/oU
- BbtvH4oPEqXJFFDHjDpQoRbBNWc8ERsrHUKLYnznS82+zX5dzZtzIDP71vftnRR4GIrsazGVh
- C72uIM2Cj72Wo0+1pbAw44z/eycjhRnQUkmOYbMirqnI7B/Ik4XFfqX08mQBbAcPJoqE8a1
-Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 12:55:24
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 02:41:53
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001, T_HK_NAME_DR=0.01 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -114,35 +83,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Frederic Konrad <konrad@adacore.com>
+Cc: vsementsov@virtuozzo.com, maozhongyi@cmss.chinamobile.com,
+ pannengyuan@huawei.com, qemu-devel@nongnu.org, imammedo@redhat.com,
+ philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 18/05/2020 à 12:39, Philippe Mathieu-Daudé a écrit :
-> Update Fred Konrad email address to avoid emails bouncing.
+* Michael S. Tsirkin (mst@redhat.com) wrote:
+> On Wed, Mar 25, 2020 at 01:16:26PM +0000, Dr. David Alan Gilbert (git) wrote:
+> > From: Philippe Mathieu-DaudÃ© <philmd@redhat.com>
+> > 
+> > When using max-bandwidth=~100Mb/s, this test fails on Travis-CI
+> > s390x when configured with --disable-tcg:
+> > 
+> >   $ make check-qtest
+> >     TEST    check-qtest-s390x: tests/qtest/boot-serial-test
+> >   qemu-system-s390x: -accel tcg: invalid accelerator tcg
+> >   qemu-system-s390x: falling back to KVM
+> >     TEST    check-qtest-s390x: tests/qtest/pxe-test
+> >     TEST    check-qtest-s390x: tests/qtest/test-netfilter
+> >     TEST    check-qtest-s390x: tests/qtest/test-filter-mirror
+> >     TEST    check-qtest-s390x: tests/qtest/test-filter-redirector
+> >     TEST    check-qtest-s390x: tests/qtest/drive_del-test
+> >     TEST    check-qtest-s390x: tests/qtest/device-plug-test
+> >     TEST    check-qtest-s390x: tests/qtest/virtio-ccw-test
+> >     TEST    check-qtest-s390x: tests/qtest/cpu-plug-test
+> >     TEST    check-qtest-s390x: tests/qtest/migration-test
+> >   **
+> >   ERROR:tests/qtest/migration-test.c:1229:test_migrate_auto_converge: 'got_stop' should be FALSE
+> >   ERROR - Bail out! ERROR:tests/qtest/migration-test.c:1229:test_migrate_auto_converge: 'got_stop' should be FALSE
+> >   make: *** [tests/Makefile.include:633: check-qtest-s390x] Error 1
+> > 
+> > Per David Gilbert, "it could just be the writing is slow on s390
+> > and the migration thread fast; in which case the autocomplete
+> > wouldn't be needed. Perhaps we just need to reduce the bandwidth
+> > limit."
+> > 
+> > Tuning the threshold by reducing the initial bandwidth makes the
+> > autoconverge test pass.
+> > 
+> > Suggested-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> > Signed-off-by: Philippe Mathieu-DaudÃ© <philmd@redhat.com>
+> > Message-Id: <20200323184015.11565-1-philmd@redhat.com>
+> > Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> > Tested-by: Alex BennÃ©e <alex.bennee@linaro.org>
+> > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 > 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->  .mailmap | 1 +
->  1 file changed, 1 insertion(+)
 > 
-> diff --git a/.mailmap b/.mailmap
-> index 6412067bde..4c7f4b7d03 100644
-> --- a/.mailmap
-> +++ b/.mailmap
-> @@ -44,6 +44,7 @@ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com> <aleksandar.markovic@imgte
->  Aleksandar Markovic <aleksandar.qemu.devel@gmail.com> <amarkovic@wavecomp.com>
->  Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com> <arikalo@wavecomp.com>
->  Anthony Liguori <anthony@codemonkey.ws> Anthony Liguori <aliguori@us.ibm.com>
-> +Frederic Konrad <konrad@adacore.com> <fred.konrad@greensocs.com>
->  James Hogan <jhogan@kernel.org> <james.hogan@imgtec.com>
->  Leif Lindholm <leif@nuviainc.com> <leif.lindholm@linaro.org>
->  Paul Burton <pburton@wavecomp.com> <paul.burton@mips.com>
+> This slows make check down significantly for me, it stays
+> at the migration test for minutes.
+
+Is this on the s390x version or all of them?
+
+> I'm carrying a revert at top of my tree for now but I'd rather
+> not need that.
 > 
+> 
+> This seems like a fragile way to test things anyway.
+> What happens if someone slows writing even more
+> e.g. because it's running in a container or a VM?
+> 
+> How about detecting that migration finished too early
+> and slowing it down until autocomplete triggers?
 
+THe problem is you can't rely on any form of consistency in a heavily
+contended container, so the fact that it took n-seconds to migrate at
+this attempt means very little about what the next attempt will take.
 
-Applied to my trivial-patches branch.
+Dave
 
-Thanks,
-Laurent
+> 
+> 
+> > ---
+> >  tests/qtest/migration-test.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
+> > index 3d6cc83b88..2568c9529c 100644
+> > --- a/tests/qtest/migration-test.c
+> > +++ b/tests/qtest/migration-test.c
+> > @@ -1211,7 +1211,7 @@ static void test_migrate_auto_converge(void)
+> >       * without throttling.
+> >       */
+> >      migrate_set_parameter_int(from, "downtime-limit", 1);
+> > -    migrate_set_parameter_int(from, "max-bandwidth", 100000000); /* ~100Mb/s */
+> > +    migrate_set_parameter_int(from, "max-bandwidth", 1000000); /* ~1Mb/s */
+> >  
+> >      /* To check remaining size after precopy */
+> >      migrate_set_capability(from, "pause-before-switchover", true);
+> > -- 
+> > 2.25.1
+> > 
+> > 
+> 
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
