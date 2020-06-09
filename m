@@ -2,104 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5ECA1F3D93
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 16:06:10 +0200 (CEST)
-Received: from localhost ([::1]:33270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9D451F3E04
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 16:24:34 +0200 (CEST)
+Received: from localhost ([::1]:43886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jietF-0002U4-W1
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 10:06:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53778)
+	id 1jifB3-0002pu-VB
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 10:24:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1jies1-0001pR-9F; Tue, 09 Jun 2020 10:04:53 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:6706)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1jierz-00067g-72; Tue, 09 Jun 2020 10:04:52 -0400
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 059E3M6B147918; Tue, 9 Jun 2020 10:03:44 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 31j59ueacj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 09 Jun 2020 10:03:42 -0400
-Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 059E3SCc148144;
- Tue, 9 Jun 2020 10:03:29 -0400
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0a-001b2d01.pphosted.com with ESMTP id 31j59ue9ft-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 09 Jun 2020 10:03:29 -0400
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 059Downr025496;
- Tue, 9 Jun 2020 14:02:49 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma04ams.nl.ibm.com with ESMTP id 31g2s7x2qt-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 09 Jun 2020 14:02:49 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 059E2kB79372146
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 9 Jun 2020 14:02:46 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6D36A4C052;
- Tue,  9 Jun 2020 14:02:46 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D97034C04E;
- Tue,  9 Jun 2020 14:02:45 +0000 (GMT)
-Received: from oc3016276355.ibm.com (unknown [9.145.16.61])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Tue,  9 Jun 2020 14:02:45 +0000 (GMT)
-Subject: Re: [PATCH v2 1/1] virtio-ccw: auto-manage VIRTIO_F_IOMMU_PLATFORM if
- PV
-To: Halil Pasic <pasic@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>
-References: <20200514221155.32079-1-pasic@linux.ibm.com>
- <20200520121507-mutt-send-email-mst@kernel.org>
- <20200606013217.2cffa3ed.pasic@linux.ibm.com>
- <20200608181428.3c6f127c.cohuck@redhat.com>
- <20200608190045.319dd68b.pasic@linux.ibm.com>
- <20200609084402.35d317ec.cohuck@redhat.com>
- <20200609114130.0ca9190b.pasic@linux.ibm.com>
-From: Pierre Morel <pmorel@linux.ibm.com>
-Message-ID: <1d914b70-e30c-ea1f-3356-2fc53b63ce58@linux.ibm.com>
-Date: Tue, 9 Jun 2020 16:02:45 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jif2S-00014p-7p
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 10:15:40 -0400
+Received: from indium.canonical.com ([91.189.90.7]:59920)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jif2Q-00080i-Gx
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 10:15:39 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jif2O-0006xy-NH
+ for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 14:15:36 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id AE0122E802B
+ for <qemu-devel@nongnu.org>; Tue,  9 Jun 2020 14:15:36 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200609114130.0ca9190b.pasic@linux.ibm.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.687
- definitions=2020-06-09_06:2020-06-09,
- 2020-06-09 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1011
- lowpriorityscore=0 spamscore=0 impostorscore=0 priorityscore=1501
- malwarescore=0 adultscore=0 mlxscore=0 cotscore=-2147483648 phishscore=0
- mlxlogscore=999 bulkscore=0 suspectscore=0 classifier=spam adjust=0
- reason=mlx scancount=1 engine=8.12.0-2004280000
- definitions=main-2006090107
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 10:03:48
-X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, KHOP_DYNAMIC=0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 09 Jun 2020 14:07:48 -0000
+From: Shak <1882784@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: assign igd quirk
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: sshaikh
+X-Launchpad-Bug-Reporter: Shak (sshaikh)
+X-Launchpad-Bug-Modifier: Shak (sshaikh)
+Message-Id: <159171166832.31735.6432186230204851906.malonedeb@gac.canonical.com>
+Subject: [Bug 1882784] [NEW] Legacy IGD passthrough in QEMU 5 disabled
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="ef9fc486e875d54078fa61cf91e898b895125d89";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: ea24773db87dd149b12a25855d75dc2077635c13
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 10:15:37
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -108,49 +72,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Boris Fiuczynski <fiuczy@linux.ibm.com>,
- Janosch Frank <frankja@linux.ibm.com>, David Hildenbrand <david@redhat.com>,
- Claudio Imbrenda <imbrenda@linux.ibm.com>, Richard Henderson <rth@twiddle.net>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Viktor Mihajlovski <mihajlov@linux.ibm.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Reply-To: Bug 1882784 <1882784@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Public bug reported:
+
+Bug with tag v5.0.0, or commit fdd76fecdde1ad444ff4deb7f1c4f7e4a1ef97d6
+
+As of QEMU 5 Legacy IGD PT is no longer working.
+
+Host is a Xeon E3-1226 v3 and my method to test is to run the following:
+
+./qemu-system-x86_64 \
+  -device 'pci-bridge,id=3Dpci.1,chassis_nr=3D1,bus=3Dpci.0,addr=3D0x1f' \
+  -device 'vfio-pci,host=3D00:02.0,addr=3D02.0' \
+  -L '/usr/share/kvm' \
+  -nographic \
+  -vga none \
+  -nodefaults
+
+in the hope of seeing a "IGD device 0000:00:02.0 cannot support legacy
+mode due to existing devices at address 1f.0" error.
+
+The culprit appears to be this commit:
+
+https://github.com/qemu/qemu/commit/29d62771c81d8fd244a67c14a1d968c268d3fb19
+
+Specifically the following block in pci-quirks.c:
+
+#ifdef CONFIG_VFIO_IGD
+    vfio_probe_igd_bar4_quirk(vdev, nr);
+#endif
+
+as the kconfig variable CONFIG_VFIO_IGD doesn't appear to be available
+outside of makefiles as described here:
+https://qemu.weilnetz.de/doc/devel/kconfig.html. I can confirm that the
+igd code is being pulled in as removing this check, as would defining
+the variable I presume, makes Legacy IGD PT work again (ie I see the
+expected "existing devices" error).
+
+I first spotted this in Proxmox, but have confirmed the bug by building
+QEMU sources.
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
 
 
-On 2020-06-09 11:41, Halil Pasic wrote:
-> On Tue, 9 Jun 2020 08:44:02 +0200
-> Cornelia Huck <cohuck@redhat.com> wrote:
-> 
->> On Mon, 8 Jun 2020 19:00:45 +0200
->> Halil Pasic <pasic@linux.ibm.com> wrote:
->>
->>
+** Tags: assign igd quirk
 
-...snip...
+-- =
 
->>
->> I mean, can a virtio devices without IOMMU_PLATFORM act as a transition
->> blocker (i.e. an attempt by a guest to move to pv would fail?)
->>
-> 
-> I don't know. Janosch could answer that, but he is on vacation. Adding
-> Claudio maybe he can answer. My understanding is, that while it might be
-> possible, it is ugly at best. The ability to do a transition is
-> indicated by a CPU model feature. Indicating the feature to the guest and
-> then failing the transition sounds wrong to me.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1882784
 
+Title:
+  Legacy IGD passthrough in QEMU 5 disabled
 
-The guest image is encrypted and the transition to PV is done by the 
-stage 3 boot loader, part of the loaded image, before Linux is started.
-At this moment the guest is not aware of the virtio devices.
+Status in QEMU:
+  New
 
-Regards,
-Pierre
+Bug description:
+  Bug with tag v5.0.0, or commit
+  fdd76fecdde1ad444ff4deb7f1c4f7e4a1ef97d6
 
--- 
-Pierre Morel
-IBM Lab Boeblingen
+  As of QEMU 5 Legacy IGD PT is no longer working.
+
+  Host is a Xeon E3-1226 v3 and my method to test is to run the
+  following:
+
+  ./qemu-system-x86_64 \
+    -device 'pci-bridge,id=3Dpci.1,chassis_nr=3D1,bus=3Dpci.0,addr=3D0x1f' \
+    -device 'vfio-pci,host=3D00:02.0,addr=3D02.0' \
+    -L '/usr/share/kvm' \
+    -nographic \
+    -vga none \
+    -nodefaults
+
+  in the hope of seeing a "IGD device 0000:00:02.0 cannot support legacy
+  mode due to existing devices at address 1f.0" error.
+
+  The culprit appears to be this commit:
+
+  https://github.com/qemu/qemu/commit/29d62771c81d8fd244a67c14a1d968c268d3f=
+b19
+
+  Specifically the following block in pci-quirks.c:
+
+  #ifdef CONFIG_VFIO_IGD
+      vfio_probe_igd_bar4_quirk(vdev, nr);
+  #endif
+
+  as the kconfig variable CONFIG_VFIO_IGD doesn't appear to be available
+  outside of makefiles as described here:
+  https://qemu.weilnetz.de/doc/devel/kconfig.html. I can confirm that
+  the igd code is being pulled in as removing this check, as would
+  defining the variable I presume, makes Legacy IGD PT work again (ie I
+  see the expected "existing devices" error).
+
+  I first spotted this in Proxmox, but have confirmed the bug by
+  building QEMU sources.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1882784/+subscriptions
 
