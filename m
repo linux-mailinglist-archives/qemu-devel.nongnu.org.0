@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C47E81F41C6
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 19:09:41 +0200 (CEST)
-Received: from localhost ([::1]:53894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0710C1F41E8
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 19:15:09 +0200 (CEST)
+Received: from localhost ([::1]:44896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jihkq-0005ZM-PA
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 13:09:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48900)
+	id 1jihq7-00055h-UN
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 13:15:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jihIA-0004Y3-4J
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 12:40:06 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:58907
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jihIH-0004dT-Bo
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 12:40:09 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:47643
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jihHw-0003El-VL
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 12:40:01 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jihHx-0003F6-2a
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 12:40:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591720784;
+ s=mimecast20190719; t=1591720785;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sk+IHBZNBZT41ZdBhsjLSq4VX3bqOdd0SK81Z8x+BOo=;
- b=AAgiGR2MFjQwXpA4aghFhlHKsJW5k05lC4TrsUq5o2sN28cQOoHiwD24iwf1I1LyQx4Ur5
- siP4MgQRt7HiQXvZtGAH2Pc6fpM8yb+FstipdkV5DeXhdLXplmdu9wibJJ0FOfGYaa5Bsz
- f6tpFOpjZ/yMI+8ERZids77vPgnqXSA=
+ bh=soXhsD/2KeGI/aRQuZsVUlrlAICwJkQgVifUzeNFqLE=;
+ b=crKAAYW9mWQBDIQ02H1xHr1cCwEm5hLQ9yjiBZm/vcusqbrjWJGOgXbtv0DOquv0guxAMj
+ /xxwJXrzr+RbeYqBWfHbQ6aTMSPr61ZcRf9z5tx6hoN81JM8/ih33Nio/D9xcOHeSAIrWS
+ gf0OEgFL5i5ckFnl4+4BZWZqxIBsgIQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-397-I2rBPvkaPb-Ln7682yxM1w-1; Tue, 09 Jun 2020 12:39:43 -0400
-X-MC-Unique: I2rBPvkaPb-Ln7682yxM1w-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-102-mngYktvsMEeFSL9BXjs6iQ-1; Tue, 09 Jun 2020 12:39:43 -0400
+X-MC-Unique: mngYktvsMEeFSL9BXjs6iQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3F53C87308E
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 796FA1005512
  for <qemu-devel@nongnu.org>; Tue,  9 Jun 2020 16:39:42 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-121.ams2.redhat.com
  [10.36.112.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4A6066298C;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 81C3619D82;
  Tue,  9 Jun 2020 16:39:39 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 22FA11138470; Tue,  9 Jun 2020 18:39:33 +0200 (CEST)
+ id 2C6AF1138471; Tue,  9 Jun 2020 18:39:33 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 26/39] usb: New usb_new(), usb_realize_and_unref()
-Date: Tue,  9 Jun 2020 18:39:19 +0200
-Message-Id: <20200609163932.1566209-27-armbru@redhat.com>
+Subject: [PATCH v3 27/39] usb: Convert uses of usb_create()
+Date: Tue,  9 Jun 2020 18:39:20 +0200
+Message-Id: <20200609163932.1566209-28-armbru@redhat.com>
 In-Reply-To: <20200609163932.1566209-1-armbru@redhat.com>
 References: <20200609163932.1566209-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/08 23:42:34
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 02:44:16
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -80,65 +80,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I'm converting from qdev_create()/qdev_init_nofail() to
-qdev_new()/qdev_realize_and_unref(); recent commit "qdev: New
-qdev_new(), qdev_realize(), etc." explains why.
+Replace
 
-USB devices use qdev_create() through usb_create().
+    dev = usb_create(bus, type_name);
+    ...
+    object_property_set_bool(OBJECT(dev), true, "realized", &err);
 
-Provide usb_new() and usb_realize_and_unref() for converting USB
-devices.
+by
+
+    dev = isa_new(type_name);
+    ...
+    usb_realize_and_unref(dev, bus, &err);
+
+Recent commit "qdev: New qdev_new(), qdev_realize(), etc." explains
+why.
 
 Cc: Gerd Hoffmann <kraxel@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/hw/usb.h |  2 ++
- hw/usb/bus.c     | 10 ++++++++++
- 2 files changed, 12 insertions(+)
+ include/hw/usb.h    |  3 +--
+ hw/usb/bus.c        | 11 +++++------
+ hw/usb/dev-serial.c |  4 ++--
+ 3 files changed, 8 insertions(+), 10 deletions(-)
 
 diff --git a/include/hw/usb.h b/include/hw/usb.h
-index 1cf1cd9584..2d2730f161 100644
+index 2d2730f161..86093d941a 100644
 --- a/include/hw/usb.h
 +++ b/include/hw/usb.h
-@@ -534,6 +534,8 @@ USBBus *usb_bus_find(int busnr);
+@@ -532,8 +532,7 @@ void usb_bus_new(USBBus *bus, size_t bus_size,
+ void usb_bus_release(USBBus *bus);
+ USBBus *usb_bus_find(int busnr);
  void usb_legacy_register(const char *typename, const char *usbdevice_name,
-                          USBDevice *(*usbdevice_init)(USBBus *bus,
-                                                       const char *params));
-+USBDevice *usb_new(const char *name);
-+bool usb_realize_and_unref(USBDevice *dev, USBBus *bus, Error **errp);
+-                         USBDevice *(*usbdevice_init)(USBBus *bus,
+-                                                      const char *params));
++                         USBDevice *(*usbdevice_init)(const char *params));
+ USBDevice *usb_new(const char *name);
+ bool usb_realize_and_unref(USBDevice *dev, USBBus *bus, Error **errp);
  USBDevice *usb_create(USBBus *bus, const char *name);
- USBDevice *usb_create_simple(USBBus *bus, const char *name);
- USBDevice *usbdevice_create(const char *cmdline);
 diff --git a/hw/usb/bus.c b/hw/usb/bus.c
-index d28eff1b5c..6b0d9f9e4d 100644
+index 6b0d9f9e4d..da85b8b005 100644
 --- a/hw/usb/bus.c
 +++ b/hw/usb/bus.c
-@@ -314,6 +314,16 @@ void usb_legacy_register(const char *typename, const char *usbdevice_name,
+@@ -296,14 +296,13 @@ typedef struct LegacyUSBFactory
+ {
+     const char *name;
+     const char *usbdevice_name;
+-    USBDevice *(*usbdevice_init)(USBBus *bus, const char *params);
++    USBDevice *(*usbdevice_init)(const char *params);
+ } LegacyUSBFactory;
+ 
+ static GSList *legacy_usb_factory;
+ 
+ void usb_legacy_register(const char *typename, const char *usbdevice_name,
+-                         USBDevice *(*usbdevice_init)(USBBus *bus,
+-                                                      const char *params))
++                         USBDevice *(*usbdevice_init)(const char *params))
+ {
+     if (usbdevice_name) {
+         LegacyUSBFactory *f = g_malloc0(sizeof(*f));
+@@ -710,19 +709,19 @@ USBDevice *usbdevice_create(const char *cmdline)
      }
+ 
+     if (f->usbdevice_init) {
+-        dev = f->usbdevice_init(bus, params);
++        dev = f->usbdevice_init(params);
+     } else {
+         if (*params) {
+             error_report("usbdevice %s accepts no params", driver);
+             return NULL;
+         }
+-        dev = usb_create(bus, f->name);
++        dev = usb_new(f->name);
+     }
+     if (!dev) {
+         error_report("Failed to create USB device '%s'", f->name);
+         return NULL;
+     }
+-    object_property_set_bool(OBJECT(dev), true, "realized", &err);
++    usb_realize_and_unref(dev, bus, &err);
+     if (err) {
+         error_reportf_err(err, "Failed to initialize USB device '%s': ",
+                           f->name);
+diff --git a/hw/usb/dev-serial.c b/hw/usb/dev-serial.c
+index d2c03681b7..7e50e3ba47 100644
+--- a/hw/usb/dev-serial.c
++++ b/hw/usb/dev-serial.c
+@@ -542,7 +542,7 @@ static void usb_serial_realize(USBDevice *dev, Error **errp)
+     s->intr = usb_ep_get(dev, USB_TOKEN_IN, 1);
  }
  
-+USBDevice *usb_new(const char *name)
-+{
-+    return USB_DEVICE(qdev_new(name));
-+}
-+
-+bool usb_realize_and_unref(USBDevice *dev, USBBus *bus, Error **errp)
-+{
-+    return qdev_realize_and_unref(&dev->qdev, &bus->qbus, errp);
-+}
-+
- USBDevice *usb_create(USBBus *bus, const char *name)
+-static USBDevice *usb_braille_init(USBBus *bus, const char *unused)
++static USBDevice *usb_braille_init(const char *unused)
  {
-     DeviceState *dev;
+     USBDevice *dev;
+     Chardev *cdrv;
+@@ -551,7 +551,7 @@ static USBDevice *usb_braille_init(USBBus *bus, const char *unused)
+     if (!cdrv)
+         return NULL;
+ 
+-    dev = usb_create(bus, "usb-braille");
++    dev = usb_new("usb-braille");
+     qdev_prop_set_chr(&dev->qdev, "chardev", cdrv);
+     return dev;
+ }
 -- 
 2.26.2
 
