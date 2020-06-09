@@ -2,76 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D87561F3E23
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 16:31:46 +0200 (CEST)
-Received: from localhost ([::1]:35004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71BC61F3E48
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 16:34:24 +0200 (CEST)
+Received: from localhost ([::1]:44152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jifI1-0002l9-P1
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 10:31:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56690)
+	id 1jifKZ-0006cR-FD
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 10:34:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jifF5-0008QD-1B
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 10:28:43 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:39707
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jifFu-00015S-TZ
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 10:29:34 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:20629
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jifF3-00029J-JD
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 10:28:42 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jifFu-0002FL-10
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 10:29:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591712919;
+ s=mimecast20190719; t=1591712972;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=StRbbz8QSSbChcsm0dj0ZlPaoLySgYtZlFgY4dem344=;
- b=QBz83+l4KYJ9d0i86sned/2vP4WWl4Nna3J52uO+dtja/q+uDI8AAR6LsGYiQL9m3dNMT2
- G713YA0lYWxGolZ21bCubLuUlJQTXeFCpccuj0XcWlzueTY/8di+oODFgeHP0ytyfiqaKK
- jKAmZ00DfgUVKxmm2NWV3d+JNZnKvrE=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-74-dSihsurFNn2NcL4TEQEfVQ-1; Tue, 09 Jun 2020 10:28:38 -0400
-X-MC-Unique: dSihsurFNn2NcL4TEQEfVQ-1
-Received: by mail-wr1-f70.google.com with SMTP id s17so8642986wrt.7
- for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 07:28:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=StRbbz8QSSbChcsm0dj0ZlPaoLySgYtZlFgY4dem344=;
- b=Sil+cY+sP4biphBvrFSBnN/kkHcU6OM+RNVVO3RLKbA9uPzYMicG98bUvJuoKyKpuD
- ZYTaTWCrYxOf97DfaJSaRx6YA+mD7FuvwilxuPojqIcMAnuxs8yWiAkqn8kQUwlSARxQ
- AUX4K+NhIF3rmMj89iCQtXo7cnJua15bvHcq7Xy/MFamio7/Ofs2o7KQ4M7jKdWGJtlq
- fsS+fbqyIj1KW9EpP7KeVaGcn8xIae3F+Pn8lRfVAXobxI/x3Kwo9dGjB5ft9mbmvUu4
- fe0h+76Bv1Cl/lDUbdRG4tW5W6ztTp5cYT7AUKovByom5WpI4BoaJbwwzVujujv4qsjK
- UIwA==
-X-Gm-Message-State: AOAM532e87movWAy5/o1U659wy/E7a9Ar4ce1OHmDpfr96inANJlnRSc
- MHAJg2hiuh208mImjctlZ11rQo9MREizyktgBu0Hjwen6+cKBAb1790zEREiHBHwutNL/9dy1Yb
- vRBzQTXu719X/D8E=
-X-Received: by 2002:a1c:acc8:: with SMTP id v191mr4550499wme.154.1591712917004; 
- Tue, 09 Jun 2020 07:28:37 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwdKN2o/Yqs1p4I/jvInuRV1XCPUiaCqapMZZXEzGINcHL5yD6CPpr7HxisLMwPpEdmcv3llQ==
-X-Received: by 2002:a1c:acc8:: with SMTP id v191mr4550479wme.154.1591712916812; 
- Tue, 09 Jun 2020 07:28:36 -0700 (PDT)
-Received: from redhat.com (bzq-79-181-55-232.red.bezeqint.net. [79.181.55.232])
- by smtp.gmail.com with ESMTPSA id c81sm3213456wmd.42.2020.06.09.07.28.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Jun 2020 07:28:36 -0700 (PDT)
-Date: Tue, 9 Jun 2020 10:28:32 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v6 08/16] acpi: move aml builder code for floppy device
-Message-ID: <20200609102659-mutt-send-email-mst@kernel.org>
-References: <20200515150421.25479-1-kraxel@redhat.com>
- <20200515150421.25479-9-kraxel@redhat.com>
+ bh=uVeprVEMa7K6trnr6W3yRjhjoGokXnTT0tdSCYklKz4=;
+ b=Adu3+VH7FcZR7KWCRO2BUrEgtM5cGcp75aiTsGkjDHCAb1RmtU95sfuEhg38ejoH78UzRQ
+ h2SUCGXPxC42Rg2p1oKgqKoLYDftY8mpE5C5EDTtGCva74K4aR8oaAiYVZsn+8tD0GHlh1
+ 13z7Qy2OV/G0AHClbZx+pKtiZLamDgU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-80-0_tqHkheMZKd4ycDeKfQbQ-1; Tue, 09 Jun 2020 10:29:28 -0400
+X-MC-Unique: 0_tqHkheMZKd4ycDeKfQbQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5BC808014D9;
+ Tue,  9 Jun 2020 14:29:26 +0000 (UTC)
+Received: from [10.3.113.22] (ovpn-113-22.phx2.redhat.com [10.3.113.22])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 08CF65D9E5;
+ Tue,  9 Jun 2020 14:29:24 +0000 (UTC)
+Subject: Re: [RFC PATCH 2/5] hw/misc/led: Add LED_STATUS_CHANGED QAPI event
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20200609123425.6921-1-f4bug@amsat.org>
+ <20200609123425.6921-3-f4bug@amsat.org>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <8e5154ba-0d80-d6f3-0da0-c20072173d9a@redhat.com>
+Date: Tue, 9 Jun 2020 09:29:24 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200515150421.25479-9-kraxel@redhat.com>
+In-Reply-To: <20200609123425.6921-3-f4bug@amsat.org>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 02:41:53
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=eblake@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 02:44:16
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -79,7 +70,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,48 +83,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-block@nongnu.org, Igor Mammedov <imammedo@redhat.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- John Snow <jsnow@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Joaquin de Andres <me@xcancerberox.com.ar>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-arm@nongnu.org,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, May 15, 2020 at 05:04:13PM +0200, Gerd Hoffmann wrote:
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+On 6/9/20 7:34 AM, Philippe Mathieu-Daudé wrote:
+> Allow LED devices to emit STATUS_CHANGED events on a QMP chardev.
+> 
+> QMP event examples:
+> 
+> {
+>      "timestamp": {
+>          "seconds": 1591704274,
+>          "microseconds": 520850
+>      },
+>      "event": "LED_STATUS_CHANGED",
+>      "data": {
+>          "name": "Green LED #0",
+>          "status": "on"
+>      }
+> }
+> {
+>      "timestamp": {
+>          "seconds": 1591704275,
+>          "microseconds": 530912
+>      },
+>      "event": "LED_STATUS_CHANGED",
+>      "data": {
+>          "name": "Green LED #0",
+>          "status": "off"
+>      }
+> }
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->  hw/block/fdc.c       | 83 ++++++++++++++++++++++++++++++++++++++++++++
->  hw/i386/acpi-build.c | 83 --------------------------------------------
->  stubs/cmos.c         |  7 ++++
->  stubs/Makefile.objs  |  1 +
->  4 files changed, 91 insertions(+), 83 deletions(-)
->  create mode 100644 stubs/cmos.c
 
-...
+The QAPI addition looks reasonable, however,
 
-> diff --git a/stubs/Makefile.objs b/stubs/Makefile.objs
-> index 45be5dc0ed78..3cbe472d1c6c 100644
-> --- a/stubs/Makefile.objs
-> +++ b/stubs/Makefile.objs
-> @@ -3,6 +3,7 @@ stub-obj-y += bdrv-next-monitor-owned.o
->  stub-obj-y += blk-commit-all.o
->  stub-obj-y += blockdev-close-all-bdrv-states.o
->  stub-obj-y += clock-warp.o
-> +stub-obj-y += cmos.o
->  stub-obj-y += cpu-get-clock.o
->  stub-obj-y += cpu-get-icount.o
->  stub-obj-y += dump.o
+> +++ b/hw/misc/led.c
+> @@ -7,6 +7,7 @@
+>    */
+>   #include "qemu/osdep.h"
+>   #include "qapi/error.h"
+> +#include "qapi/qapi-events-led.h"
+>   #include "hw/qdev-properties.h"
+>   #include "hw/misc/led.h"
+>   #include "hw/irq.h"
+> @@ -19,6 +20,9 @@ static void led_set(void *opaque, int line, int new_state)
+>   
+>       trace_led_set(s->name, s->current_state, new_state);
+>   
+> +    /* FIXME QMP rate limite? */
 
+s/limite/limit/
 
-This seems to be based on some other tree.
-Can you post based on pci tree or master pls?
+Yes, this is under guest control, so you MUST rate limit to avoid the 
+guest being able to DoS qemu by changing the LED so frequently as to 
+overwhelm the QMP connection with events.
 
-
-> -- 
-> 2.18.4
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
