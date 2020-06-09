@@ -2,86 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 627F41F4269
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 19:34:55 +0200 (CEST)
-Received: from localhost ([::1]:54148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A39751F4298
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 19:43:05 +0200 (CEST)
+Received: from localhost ([::1]:47648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jii9G-00084e-88
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 13:34:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52478)
+	id 1jiiHA-0000rm-K5
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 13:43:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53496)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jihkv-0006xM-6q
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 13:09:45 -0400
-Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:39405)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jihvZ-0005Q1-Mt
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 13:20:45 -0400
+Received: from indium.canonical.com ([91.189.90.7]:46346)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jihku-0000DG-23
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 13:09:44 -0400
-Received: by mail-pl1-x642.google.com with SMTP id v24so8276955plo.6
- for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 10:09:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=Y1hvilM3ehM1O7SDVC1CgZ+cyVVAOKi+IJQuYCb5ono=;
- b=MQHPWlgk9QVf9bLJr0b517ZFhLMXtjgbE+yD+teVWxsByNmNVO3sd7B5JeylRRYXXf
- K/e6CXHSsM4Dw5Wyp0sOqmgV26Pbv2nGgNO7sNUG/gd1ygBdKITbT+XRpGHI7DxSUh+B
- GfS2xC69wwqtvCnpuJ/uUxujA9h6O7IoZumGKIWq12vmLGJgj0/hQqVhWr51yXaBf7J/
- RFi0c/j0chbs8GdWSTPrgTD4VI74TMQh9ehIF7PS6RP9kZll+5sfAk6Ja18N7r/9DMjY
- E0PfgmCqm2W4m9cTBNMk/ElO2eouz2MuPr3Dw40xincSQFht3haSIVFBUQV3Yzk1EuWK
- I5Jw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Y1hvilM3ehM1O7SDVC1CgZ+cyVVAOKi+IJQuYCb5ono=;
- b=DmYDbg9iuzE8juhMLC+hUAO7sYALGK2G3xumwI5ufENasrwxM/anfxkTjCOsXrvRKO
- +q9uhe8SGiHuQH5VeecXjYpuGFcK6+4c7/pI141drb7TwOEIHD0beUSo9m1F2HlW0cU2
- YoIB5sc1Zr1BfB04jN272ThwMpG+oc2gUkd1OB1s93lvC1J4wKwqhUey2hCgF8fxdM6i
- Fxow8sYZU5fD7IZtgCGBE341WUvzLsrnXTZVZMreXFwogwQNUJIuMAm/tYbYNsOijkKA
- psiLlv1hOVXFOuOFYHuZfyt3cwqnRvaZWCBKM/2vIqs4WlkZqmes74hM87p6XjuT04Bt
- /3mQ==
-X-Gm-Message-State: AOAM533PGxePZ8Sqwa34BZW4EWIoUTpw+0IQSZ4tYujJqKJSzrd7kYIE
- UupUFomYss09m4hQyDZMc+m4cpRyr8o=
-X-Google-Smtp-Source: ABdhPJxFZWS6/iR8QdBCSxw/iyC1xT4Zz3T+tJueFUM7eVr2gKjFVnrP1DlJ9oOy+7bp1Pr7kxSt+A==
-X-Received: by 2002:a17:90a:ad03:: with SMTP id
- r3mr6002420pjq.104.1591722582203; 
- Tue, 09 Jun 2020 10:09:42 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id w18sm10582175pfq.121.2020.06.09.10.09.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 Jun 2020 10:09:41 -0700 (PDT)
-Subject: Re: [PATCH 1/7] target/arm: Fix missing temp frees in do_vshll_2sh
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20200609160209.29960-1-peter.maydell@linaro.org>
- <20200609160209.29960-2-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <4cfdc2ae-4766-841c-5fe8-1b7c09ccbb34@linaro.org>
-Date: Tue, 9 Jun 2020 10:09:39 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jihvX-00022y-S0
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 13:20:45 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jihvV-0000HN-Pq
+ for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 17:20:41 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id C26AE2E8052
+ for <qemu-devel@nongnu.org>; Tue,  9 Jun 2020 17:20:41 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200609160209.29960-2-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::642;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x642.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 09 Jun 2020 17:10:54 -0000
+From: Artyom <1882817@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: theartlav
+X-Launchpad-Bug-Reporter: Artyom (theartlav)
+X-Launchpad-Bug-Modifier: Artyom (theartlav)
+Message-Id: <159172265471.31406.7196816329603804386.malonedeb@gac.canonical.com>
+Subject: [Bug 1882817] [NEW] Segfault in audio_pcm_sw_write with audio over VNC
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="ef9fc486e875d54078fa61cf91e898b895125d89";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 2673a57f7dc9e1cc841cf31f86c5d19aa8b9ac71
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 10:15:37
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -90,44 +70,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1882817 <1882817@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/9/20 9:02 AM, Peter Maydell wrote:
-> The widenfn() in do_vshll_2sh() does not free the input 32-bit
-> TCGv, so we need to do this in the calling code.
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Public bug reported:
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+QEMU 5.0.0, built with ./configure --target-list=3Dx86_64-softmmu
+--enable-debug --disable-strip --disable-docs --disable-sdl
 
+Running on a headless host (Ryzen 3600), Arch Linux, 64bit latest.
+Guest is also Arch Linux, 64bit.
 
-r~
+Started with qemu-system-x86_64 -vnc 0.0.0.0:0 -enable-kvm -m 4096 -cpu hos=
+t -smp cores=3D2,threads=3D1,sockets=3D1 -machine q35 -vga std -device
+ ich9-ahci,id=3Dahci -drive file=3Dvm0.qcow2,format=3Dqcow2,if=3Dnone,id=3D=
+dsk0 -device ide-hd,drive=3Ddsk0,bus=3Dahci.0 -soundhw hda
 
-> ---
->  target/arm/translate-neon.inc.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/target/arm/translate-neon.inc.c b/target/arm/translate-neon.inc.c
-> index 664d3612607..299a61f067b 100644
-> --- a/target/arm/translate-neon.inc.c
-> +++ b/target/arm/translate-neon.inc.c
-> @@ -1624,6 +1624,7 @@ static bool do_vshll_2sh(DisasContext *s, arg_2reg_shift *a,
->      tmp = tcg_temp_new_i64();
->  
->      widenfn(tmp, rm0);
-> +    tcg_temp_free_i32(rm0);
->      if (a->shift != 0) {
->          tcg_gen_shli_i64(tmp, tmp, a->shift);
->          tcg_gen_andi_i64(tmp, tmp, ~widen_mask);
-> @@ -1631,6 +1632,7 @@ static bool do_vshll_2sh(DisasContext *s, arg_2reg_shift *a,
->      neon_store_reg64(tmp, a->vd);
->  
->      widenfn(tmp, rm1);
-> +    tcg_temp_free_i32(rm1);
->      if (a->shift != 0) {
->          tcg_gen_shli_i64(tmp, tmp, a->shift);
->          tcg_gen_andi_i64(tmp, tmp, ~widen_mask);
-> 
+So, a headless VM is running on a server and is being connected to over
+VNC. The virtual sound card is detected and speaker test is running
+inside the VM. So far so good.
 
+Then, i tell the VNC client to enable audio (QEMU Audio Client Message,
+255,1,0). QEMU responds with a "stream is about to start" message (QEMU
+Audio Server Message, 255,1,1) and then promptly crashes without sending
+anything else.
+
+Running it in GDB produces a crash at audio/audio.c:739
+
+Thread 1 "qemu-system-x86" received signal SIGSEGV, Segmentation fault.
+audio_pcm_sw_write (sw=3D0x5555575bbf30, buf=3D0x0, size=3D1628) at audio/a=
+udio.c:739
+739             if (!sw->hw->pcm_ops->volume_out) {
+
+The exact sequence of events does not matter - i can enable sound before
+playing anything, and then it would say nothing and keep working, but
+crash with the same message once anything sound-playing is launched in
+the VM.
+
+Using different soundhw or adding various audiodev options does not seem
+to affect anything.
+
+I can't quite figure out if the QEMU Audio VNC extension is supposed to
+work at all or not, but it would be handy to me if it is.
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1882817
+
+Title:
+  Segfault in audio_pcm_sw_write with audio over VNC
+
+Status in QEMU:
+  New
+
+Bug description:
+  QEMU 5.0.0, built with ./configure --target-list=3Dx86_64-softmmu
+  --enable-debug --disable-strip --disable-docs --disable-sdl
+
+  Running on a headless host (Ryzen 3600), Arch Linux, 64bit latest.
+  Guest is also Arch Linux, 64bit.
+
+  Started with qemu-system-x86_64 -vnc 0.0.0.0:0 -enable-kvm -m 4096 -cpu h=
+ost -smp cores=3D2,threads=3D1,sockets=3D1 -machine q35 -vga std -device
+   ich9-ahci,id=3Dahci -drive file=3Dvm0.qcow2,format=3Dqcow2,if=3Dnone,id=
+=3Ddsk0 -device ide-hd,drive=3Ddsk0,bus=3Dahci.0 -soundhw hda
+
+  So, a headless VM is running on a server and is being connected to
+  over VNC. The virtual sound card is detected and speaker test is
+  running inside the VM. So far so good.
+
+  Then, i tell the VNC client to enable audio (QEMU Audio Client
+  Message, 255,1,0). QEMU responds with a "stream is about to start"
+  message (QEMU Audio Server Message, 255,1,1) and then promptly crashes
+  without sending anything else.
+
+  Running it in GDB produces a crash at audio/audio.c:739
+
+  Thread 1 "qemu-system-x86" received signal SIGSEGV, Segmentation fault.
+  audio_pcm_sw_write (sw=3D0x5555575bbf30, buf=3D0x0, size=3D1628) at audio=
+/audio.c:739
+  739             if (!sw->hw->pcm_ops->volume_out) {
+
+  The exact sequence of events does not matter - i can enable sound
+  before playing anything, and then it would say nothing and keep
+  working, but crash with the same message once anything sound-playing
+  is launched in the VM.
+
+  Using different soundhw or adding various audiodev options does not
+  seem to affect anything.
+
+  I can't quite figure out if the QEMU Audio VNC extension is supposed
+  to work at all or not, but it would be handy to me if it is.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1882817/+subscriptions
 
