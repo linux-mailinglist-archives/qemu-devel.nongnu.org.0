@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9571A1F3874
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 12:48:44 +0200 (CEST)
-Received: from localhost ([::1]:35352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 828831F3858
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 12:46:22 +0200 (CEST)
+Received: from localhost ([::1]:55106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jiboB-0004Ng-Kt
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 06:48:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59296)
+	id 1jiblt-0000iW-8W
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 06:46:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59570)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jibeC-0007hF-O3
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 06:38:24 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:42508)
+ id 1jibjY-0007HP-6L
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 06:43:56 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:51474)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jibeB-0004PH-Q2
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 06:38:24 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id p5so20691432wrw.9
- for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 03:38:23 -0700 (PDT)
+ id 1jibjX-0005DZ-3H
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 06:43:55 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id u13so2351129wml.1
+ for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 03:43:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zqNZ4K751oQ2ZBoxvFIb7mnLgW2GU7cthJBRS997X+A=;
- b=pm6rOszmuS2HUXo81SiwpNvH2vqZ3UntTQNbD5rNF+AVsuvhL/brLRSgDyfcwWtR4+
- oJEHihclBUgccAf9GJP1whkqqkkGh51Hi8mEj+eEJOevFY5u1S+vvpL48d86QJhben4r
- mIrCP/ki/5/apMvSxxtkpBskKsHf626odkRbnY/0JhBaeug4N4r++UycmkVBDGO8go99
- qKyDINCIgNvlM71S4duaaE0ZxBH1XEiPFM/ban2yfjMoRkJYG51L3f6xQZq+ytEKifOC
- 85su6JCJkM+YVpt1vbU/hF2XyvkCbJax5fTditZTr5a+6yNMPX5QC0h7ZJo4k4+DVaHU
- 3r5A==
+ bh=l8C2CxQk5isX6LgVBcCj8l8vwP2jRtWs9gzBWt30ZL0=;
+ b=L2XPNyqf2oO9DHglFSfCvQCs9Mra96UjWRRjHTcrsu4iADUPDR7GwQzy4HhDR0LFV4
+ +FfHvM3JT6qQPtvddPt/L2fYRHfcC91c9Uq3VwLBO3qi3Te2vYxLLiFUTkwZw4MU7t5H
+ FwzclMaaSTd/kxYYXzp90J3NljU8ITsJxRmUGz41HYK1+/pfIB1ydU4mLjYgaE78qO7b
+ uohj57SaWxEeAouYDXVRCdXiQ5OCa+8sCzaYfqPFlFhngtvKq5niMi6mjWU+myhzvWNV
+ uZ56sDEOVoa4knpjMJ69vgtlR7tc1IBzQ6gMajACLPpxgNKbLj/7zUvmVSUmIuaHoKR1
+ evoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=zqNZ4K751oQ2ZBoxvFIb7mnLgW2GU7cthJBRS997X+A=;
- b=bherYuy3dr9keBSRFlVCT4FCT0SQ+SnRu2DZLtSY4iiKN74eEHoXRUpGx5uzuifTaY
- SJuPKwUNTEAbzm4rb4FvNXnH6TGINPXHY62JG+6bGNK3Qc1aPO3P6C9RpT+beyGS5LWQ
- ojL5kd9Ij7/9A3Iz5YIu854f1rdpwAiVH6dopTrmzEX2WeZgVyO+FmEaCNK6DD2fuV4/
- JUsQq24zuLzDHEIditEN8eT7Z+r62j/Gj3QjL1Tw+I97VUB6PAy8bU+Ymbwu96BDhbZG
- 17KKtxSeKeTPgzrmeuvpYH0ZwsqWG+AZXFZEDi0osK/5Tx6tueOcthYP7y8QT32oQX6m
- TM0w==
-X-Gm-Message-State: AOAM533Atrtsuf82dugDqpflKroBke0NatQ4PRLJ4t3xHoWaaRgdLTB1
- +Uo4ehgnYP1DKXrfJdm/W9nzqGbKGVM=
-X-Google-Smtp-Source: ABdhPJzUmJRRS7Rpyr1lAZjvdmGl3SxlfN3h55jzQnJe6MwzTFXPJYgvbCpPMQIZqLGm+4TGnM9gQg==
-X-Received: by 2002:adf:dfcf:: with SMTP id q15mr3560955wrn.373.1591699102267; 
- Tue, 09 Jun 2020 03:38:22 -0700 (PDT)
+ bh=l8C2CxQk5isX6LgVBcCj8l8vwP2jRtWs9gzBWt30ZL0=;
+ b=Nosy6OiiHQSDou1Vs7RYUdz9hDBQ0ZW71NV0AEjOBmpBkkLPC5ZJhq3zxr0FGMH0Dv
+ Va6VGPs835YpUgGWvzICPOjVgXg4kClAttOJg30zPsG7CQ5wkqQui6v6WSjEstpJqtJp
+ hqnNhe+a4wgYQFOU46xfTRQ/vymIfkzX0taMBTqGDr6v58To6TmTDAjX2enrc0PycrUJ
+ eHSwN9OyBqGn7HaN3MMCKetMWwR+9G5dDnphof4widx+mcuTT38YQFN3Iy6h6lcT4JWC
+ a2ippbKodH4nLA14XWfD6MTCuva6DGzk6OWqk6LNRDW/blTsJ9CBbAdiCWiiQkbIzXIu
+ J33g==
+X-Gm-Message-State: AOAM531FhQO2Tx6wMDeJYPhOFJ89sjiiGhwWQ/8mOxbXBOvrFxjUq2OI
+ ycGN4r6lU0JPhkt/odxdzPEWXA==
+X-Google-Smtp-Source: ABdhPJyWogXUYadrmIYlTOVAmOiWCKvLf98ePUb9bk+eYAnEw0fu6gS+pqIh9UFUVKyW5djW+eF1tA==
+X-Received: by 2002:a1c:8048:: with SMTP id b69mr3221723wmd.169.1591699433292; 
+ Tue, 09 Jun 2020 03:43:53 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id h12sm2807281wro.80.2020.06.09.03.38.15
+ by smtp.gmail.com with ESMTPSA id u74sm2510677wmu.31.2020.06.09.03.43.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Jun 2020 03:38:19 -0700 (PDT)
+ Tue, 09 Jun 2020 03:43:51 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E55D61FF9B;
- Tue,  9 Jun 2020 11:38:11 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 1485A1FF7E;
+ Tue,  9 Jun 2020 11:38:12 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 12/17] tests/tcg: add simple commpage test case
-Date: Tue,  9 Jun 2020 11:38:04 +0100
-Message-Id: <20200609103809.23443-13-alex.bennee@linaro.org>
+Subject: [PULL 13/17] linux-user: detect overflow of MAP_FIXED mmap
+Date: Tue,  9 Jun 2020 11:38:05 +0100
+Message-Id: <20200609103809.23443-14-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200609103809.23443-1-alex.bennee@linaro.org>
 References: <20200609103809.23443-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,100 +88,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+Cc: Riku Voipio <riku.voipio@iki.fi>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The COMMPAGE are a number of kernel provided user-space routines for
-32 bit ARM systems. Add a basic series of smoke tests to ensure it is
-working as it should.
+Relaxing the restrictions on 64 bit guests leads to the user being
+able to attempt to map right at the edge of addressable memory. This
+in turn lead to address overflow tripping the assert in page_set_flags
+when the end address wrapped around.
 
+Detect the wrap earlier and correctly -ENOMEM the guest (in the
+reported case LTP mmap15).
+
+Fixes: 7d8cbbabcb
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200605154929.26910-14-alex.bennee@linaro.org>
+Reported-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <20200605154929.26910-15-alex.bennee@linaro.org>
 
-diff --git a/tests/tcg/arm/commpage.c b/tests/tcg/arm/commpage.c
-new file mode 100644
-index 00000000000..c76e70cb8bd
---- /dev/null
-+++ b/tests/tcg/arm/commpage.c
-@@ -0,0 +1,61 @@
-+/*
-+ * Verify the COMMPAGE emulation
-+ *
-+ * The ARM commpage is a set of user space helper functions provided
-+ * by the kernel in an effort to ease portability of user space code
-+ * between different CPUs with potentially different capabilities. It
-+ * is a 32 bit invention and similar to the vdso segment in many ways.
-+ *
-+ * The ABI is documented in the Linux kernel:
-+ *     Documentation/arm/kernel_userspace_helpers.rst
-+ *
-+ * Copyright (c) 2020 Linaro Ltd
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+
-+#include <stdlib.h>
-+#include <stdio.h>
-+#include <stdint.h>
-+
-+#define ARM_COMMPAGE      (0xffff0f00u)
-+#define ARM_KUSER_VERSION (*(int32_t *)(ARM_COMMPAGE + 0xfc))
-+typedef void * (get_tls_fn)(void);
-+#define ARM_KUSER_GET_TLS (*(get_tls_fn *)(ARM_COMMPAGE + 0xe0))
-+typedef int (cmpxchg_fn)(int oldval, int newval, volatile int *ptr);
-+#define ARM_KUSER_CMPXCHG (*(cmpxchg_fn *)(ARM_COMMPAGE + 0xc0))
-+typedef void (dmb_fn)(void);
-+#define ARM_KUSER_DMB (*(dmb_fn *)(ARM_COMMPAGE + 0xa0))
-+typedef int (cmpxchg64_fn)(const int64_t *oldval,
-+                           const int64_t *newval,
-+                           volatile int64_t *ptr);
-+#define ARM_KUSER_CMPXCHG64 (*(cmpxchg64_fn *)(ARM_COMMPAGE + 0x60))
-+
-+#define fail_unless(x)                                                  \
-+    do {                                                                \
-+        if (!(x)) {                                                     \
-+            fprintf(stderr, "FAILED at %s:%d\n", __FILE__, __LINE__);   \
-+            exit(EXIT_FAILURE);                                         \
-+        }                                                               \
-+    } while (0)
-+
-+
-+int main(int argc, char *argv[argc])
-+{
-+    void *kuser_tls;
-+    int val = 1;
-+    const int64_t oldval = 1, newval = 2;
-+    int64_t val64 = 1;
-+
-+    fail_unless(ARM_KUSER_VERSION == 0x5);
-+    kuser_tls = ARM_KUSER_GET_TLS();
-+    printf("TLS = %p\n", kuser_tls);
-+    fail_unless(kuser_tls != 0);
-+    fail_unless(ARM_KUSER_CMPXCHG(1, 2, &val) == 0);
-+    printf("val = %d\n", val);
-+    /* this is a crash test, not checking an actual barrier occurs */
-+    ARM_KUSER_DMB();
-+    fail_unless(ARM_KUSER_CMPXCHG64(&oldval, &newval, &val64) == 0);
-+    printf("val64 = %lld\n", val64);
-+    return 0;
-+}
-diff --git a/tests/tcg/arm/Makefile.target b/tests/tcg/arm/Makefile.target
-index 11c39c601ea..3da09a38be7 100644
---- a/tests/tcg/arm/Makefile.target
-+++ b/tests/tcg/arm/Makefile.target
-@@ -68,6 +68,8 @@ run-semiconsole-arm: semiconsole-arm
- run-plugin-semiconsole-arm-with-%:
- 	$(call skip-test, $<, "MANUAL ONLY")
- 
-+ARM_TESTS += commpage
-+
- TESTS += $(ARM_TESTS)
- 
- # On ARM Linux only supports 4k pages
+diff --git a/linux-user/mmap.c b/linux-user/mmap.c
+index caab62909eb..0019447892e 100644
+--- a/linux-user/mmap.c
++++ b/linux-user/mmap.c
+@@ -467,7 +467,7 @@ abi_long target_mmap(abi_ulong start, abi_ulong len, int prot,
+          * It can fail only on 64-bit host with 32-bit target.
+          * On any other target/host host mmap() handles this error correctly.
+          */
+-        if (!guest_range_valid(start, len)) {
++        if (end < start || !guest_range_valid(start, len)) {
+             errno = ENOMEM;
+             goto fail;
+         }
 -- 
 2.20.1
 
