@@ -2,87 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E9501F3970
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 13:19:32 +0200 (CEST)
-Received: from localhost ([::1]:43276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 236F51F3946
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 13:14:27 +0200 (CEST)
+Received: from localhost ([::1]:55558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jicHz-0007jd-Kj
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 07:19:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34426)
+	id 1jicD4-0000zS-4i
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 07:14:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34492)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jicB6-0007Ul-Vw
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 07:12:25 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:26017
+ id 1jicBQ-0007u5-Lm
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 07:12:44 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:28358
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jicB6-00029t-2z
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 07:12:24 -0400
+ id 1jicBP-0002C3-Vq
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 07:12:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591701143;
+ s=mimecast20190719; t=1591701163;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=l4X2TCEtUozOLaXo/L8sScbontTQvUPvWMYmEeL8dy0=;
- b=ZLI4a2aLt3CRTUxwrgbCbxqfQ+ezX64gtEFCWNJbZNJs0KZ7dlkF4ASVsXN0MFLQquTO3e
- ps+2ml6rPZTj/NU6M7NmzBfMW0RZ49EIZnqdiunJZ5SyXUYNaWJpd8IpJSjva09Hz+7PXZ
- 7QVbYJDBcXD3V24akhCKZYjVrxlCouE=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-271-ZE_YTduAMkWdXciefXnIoQ-1; Tue, 09 Jun 2020 07:12:19 -0400
-X-MC-Unique: ZE_YTduAMkWdXciefXnIoQ-1
-Received: by mail-wm1-f72.google.com with SMTP id h25so789195wmb.0
- for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 04:12:19 -0700 (PDT)
+ bh=6lAgcTDN/dV/f7SK/NrjUs5/i9Qjg44Eo04qPw3cNtk=;
+ b=Mz+fl3bQkC2GwzPhzDzAPlW0mcFnghKc2FTnQ6pT895aKpseCPHXf2DpXbmgmCMe2bkZxX
+ n8sG6pi1jkELTAt8I0m5qK4x9uGRO8Uy0Qiwr5sbH2KYBqOBFibYEOcLKP/F2zkh7aQj5C
+ 4B9YlvwXOI2wQHQ7354DUIM/ecRA4rw=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-108-6xRH__nnNgWxuEx-pVoSIQ-1; Tue, 09 Jun 2020 07:12:32 -0400
+X-MC-Unique: 6xRH__nnNgWxuEx-pVoSIQ-1
+Received: by mail-wm1-f70.google.com with SMTP id b65so605304wmb.5
+ for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 04:12:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=l4X2TCEtUozOLaXo/L8sScbontTQvUPvWMYmEeL8dy0=;
- b=sk3ydFFYxU2ldjdbOp7pUFfkiDyYglnbPwihORQHACn1gUPpgguvNWjzumDELDcVtz
- bBM3zf8PwOi8UGyb5yh2mtxoNZv4lAAeR3S30Jjqe34kTm/9S//IsmYm7nyYiTVemgdR
- bUVLyCBXn438dLPRbEiW7A67/nkRYYtsKadeUhfAR2FZh9T45+NZx07Nxo4I+B5V71WK
- PS4NS6pMZYQSH26Rk4CVgCG6Q5VkiupZNXtRk9jOkmClLWHWt/lG6Bo/HYL0PKU+0wF3
- 0Z6Ac0N8Hl6xJKtCXlBREekUz4HvXXvR5V9d3BXQnu7a9LHqDW+llpJAu7O4muho1wk9
- p//g==
-X-Gm-Message-State: AOAM532ttT4l4/SLb2fFMA6L5InWoL+JdW8L8i52dyQmatPtUBK80xHC
- PZLpdbS45E0MC7+nKumeLtB+dkw+U+l3sFRz8YAP4+ijqtPGvpLC7ELoZSJANh7CgWo3Cd2YAiN
- 2v+OdJEJs4UKWLtI=
-X-Received: by 2002:a05:600c:4102:: with SMTP id
- j2mr3433697wmi.48.1591701138456; 
- Tue, 09 Jun 2020 04:12:18 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy0awk5HkX0L04n6QbPdprXKsckBJOO0WwKyuM0S0l/M/wQqyP9e9ViVkr5nd7Ja+7n12153w==
-X-Received: by 2002:a05:600c:4102:: with SMTP id
- j2mr3433671wmi.48.1591701138230; 
- Tue, 09 Jun 2020 04:12:18 -0700 (PDT)
+ bh=6lAgcTDN/dV/f7SK/NrjUs5/i9Qjg44Eo04qPw3cNtk=;
+ b=fhaRcXDgXTor1ZbXpCFA8uL8otG7pT3VDCzxlmLT9DIEZGiemvet9EQ9LrjiUbxkoQ
+ MRabnR38yWNdGMkS+T+aHk+uayezMwtvOQIdvHNOhcHQIV7ZJrHLUBlVSZrttnSq/FPJ
+ XtPKPQ2qWuPqgmXwKOCdDCkTZgXU+7rycFBS/lMjY/mgHbC0SvCo/5PhxvGV+1XpGF44
+ J6AB8SoUid81RcUqp5cP5mW4wAlKpYTcQPdDPVCHYvvUTWtA0bcuoDHrY7j3vpbCHrHl
+ oLYjZmNT5QgkNwdTy+ThyfxxNk2raDUO/8qTU9vWz0NabnykPL4rsgMjbS3cSoxKadMJ
+ jNuA==
+X-Gm-Message-State: AOAM531gKELQ80dU/DLfMG1ymhYpJ/1BiRg+u+5mxYjvyrZ6J2Q3Ldor
+ aQP4bHH1pIjK1/Lrn1IVAhuZnjKdnZb4xY9KfwvSWt3G55Rc5JenCLpzeVildk4wBUl8cFd20x0
+ eVTlGbwB/yTGDfFQ=
+X-Received: by 2002:a1c:a7c3:: with SMTP id q186mr3257022wme.141.1591701150720; 
+ Tue, 09 Jun 2020 04:12:30 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwew58hVelVmOrF+efwHZuIRFPhx2tAfnSXNsxzJkV6M1Bdv9a4oEF967FsVILY6ztkPcXqaQ==
+X-Received: by 2002:a1c:a7c3:: with SMTP id q186mr3256994wme.141.1591701150493; 
+ Tue, 09 Jun 2020 04:12:30 -0700 (PDT)
 Received: from [192.168.178.58] ([151.21.172.168])
- by smtp.gmail.com with ESMTPSA id o18sm2614689wme.19.2020.06.09.04.12.16
+ by smtp.gmail.com with ESMTPSA id u130sm2587221wmg.32.2020.06.09.04.12.28
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 Jun 2020 04:12:17 -0700 (PDT)
-Subject: Re: [RFC PATCH 30/35] hw/ppc/virtex_ml507: Emit warning when old code
- is used
+ Tue, 09 Jun 2020 04:12:29 -0700 (PDT)
+Subject: Re: [RFC PATCH 29/35] hw/ppc/ppc_booke: Emit warning when old code is
+ used
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
 References: <20200608160044.15531-1-philmd@redhat.com>
- <20200608160044.15531-31-philmd@redhat.com>
+ <20200608160044.15531-30-philmd@redhat.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <85d75dcd-f08c-0506-46ee-97e2b5869e0b@redhat.com>
-Date: Tue, 9 Jun 2020 13:12:15 +0200
+Message-ID: <c932d51a-1b7d-bec3-5dfa-222c9ba5090e@redhat.com>
+Date: Tue, 9 Jun 2020 13:12:28 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <20200608160044.15531-31-philmd@redhat.com>
+In-Reply-To: <20200608160044.15531-30-philmd@redhat.com>
 Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/08 23:42:34
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 02:41:53
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -132,30 +130,30 @@ On 08/06/20 18:00, Philippe Mathieu-Daudé wrote:
 > 
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > ---
->  hw/ppc/virtex_ml507.c | 4 +++-
+>  hw/ppc/ppc_booke.c | 4 +++-
 >  1 file changed, 3 insertions(+), 1 deletion(-)
 > 
-> diff --git a/hw/ppc/virtex_ml507.c b/hw/ppc/virtex_ml507.c
-> index 0dacfcd236..17b8036c38 100644
-> --- a/hw/ppc/virtex_ml507.c
-> +++ b/hw/ppc/virtex_ml507.c
-> @@ -40,7 +40,7 @@
+> diff --git a/hw/ppc/ppc_booke.c b/hw/ppc/ppc_booke.c
+> index 652a21b806..a9e5e68578 100644
+> --- a/hw/ppc/ppc_booke.c
+> +++ b/hw/ppc/ppc_booke.c
+> @@ -31,7 +31,7 @@
 >  #include "qemu/log.h"
->  #include "qemu/option.h"
->  #include "exec/address-spaces.h"
+>  #include "hw/loader.h"
+>  #include "kvm_ppc.h"
 > -
 > +#include "hw/qdev-deprecated.h"
->  #include "hw/ppc/ppc.h"
->  #include "hw/ppc/ppc4xx.h"
->  #include "hw/qdev-properties.h"
-> @@ -95,6 +95,8 @@ static PowerPCCPU *ppc440_init_xilinx(const char *cpu_type, uint32_t sysclk)
->      CPUPPCState *env;
->      qemu_irq *irqs;
+>  
+>  /* Timer Control Register */
+>  
+> @@ -338,6 +338,8 @@ void ppc_booke_timers_init(PowerPCCPU *cpu, uint32_t freq, uint32_t flags)
+>      booke_timer_t *booke_timer;
+>      int ret = 0;
 >  
 > +    qdev_warn_deprecated_function_used();
 > +
->      cpu = POWERPC_CPU(cpu_create(cpu_type));
->      env = &cpu->env;
+>      tb_env      = g_malloc0(sizeof(ppc_tb_t));
+>      booke_timer = g_malloc0(sizeof(booke_timer_t));
 >  
 > 
 
