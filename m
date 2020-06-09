@@ -2,58 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D3FF1F320B
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 03:40:03 +0200 (CEST)
-Received: from localhost ([::1]:40304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A51EB1F3212
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 03:44:28 +0200 (CEST)
+Received: from localhost ([::1]:48610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jiTFB-0004vr-Ij
-	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 21:40:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39986)
+	id 1jiTJT-0000C2-Ko
+	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 21:44:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39996)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1jiTBf-00032G-QF; Mon, 08 Jun 2020 21:36:23 -0400
-Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:40174)
+ id 1jiTBl-00034l-9V; Mon, 08 Jun 2020 21:36:29 -0400
+Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:43188)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1jiTBd-00006V-J9; Mon, 08 Jun 2020 21:36:23 -0400
-Received: by mail-ej1-x641.google.com with SMTP id q19so20503310eja.7;
- Mon, 08 Jun 2020 18:36:20 -0700 (PDT)
+ id 1jiTBk-00006z-Lj; Mon, 08 Jun 2020 21:36:29 -0400
+Received: by mail-ej1-x642.google.com with SMTP id l12so16704694ejn.10;
+ Mon, 08 Jun 2020 18:36:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=BbNUu4Jc4lvGb9KgotfafO1lnmYANRJc+h+ReKwcTOg=;
- b=NHn2+CYBg4rakryj+pmovN9rmc3oq5puTOrBEa58Fqvj9lHVJQ+0vWxUtINpYp1WfP
- nGJcvKc/jHIYjwrXvYdW9L0A2DNHfAwJKdxH//RWBnCfPKrXYXRIFrSSqlwu2VR+dMaO
- dXXV65cUxCX3s0ZeCYzkMrR4TV1NUM5PJg1j8=
+ :cc; bh=KhvhSmf6bHsXItz7ZSJvhp4Th42f2tl5qO1RgZS7OsY=;
+ b=hWMWcBYy1DVfhC97tNo3P90gaAxEIrsttTfKaP3L/ZdUzUgxlxbPCy/9nk1Ur8bksm
+ aDVZ/zYlOMqfavhO6lQMPKb6itQpeuGqWM8N1Dyuvg4YwvyTlCkM/UAkDMU2VCTVb5aQ
+ jP1GA3J0yDPQMGSIFyrNDZWTvNBh/XJa+RLrc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=BbNUu4Jc4lvGb9KgotfafO1lnmYANRJc+h+ReKwcTOg=;
- b=m5PPLAVrW2WMHhONBCcqYpnmZCPHHLoEY8SrUmUmS6xIAZTJi53dANp6+rz+c0Dzn6
- FsRdtyn5ylvBuXXd/XJNru3T5oxSh76kxzQ+9x7xuvRrPiEWt0BCLa3naByiMHHCd0rp
- ExrA6fXar4pK//0zQUx3+EQLsddyAgGZmF6/7WuHB0Ws/3tvxPTin6ihTkQNmAjxTEgA
- Ol71NGzwMLZcNVVW+53JD2U6/lzaoZx/OUc1yuCndSgUGjbkNS7RQ+c+5A4X3x2FaMS5
- 6E6Tl+C6aO8k1z/wcHQvHK6GaXy12ZXQVkOHAiH7YGOxpfZCCacvvFz4yhUNiW7a2xEr
- sTmg==
-X-Gm-Message-State: AOAM530gsNerXoKyPzUO4yciILzRmt0KrjJqhDFbaDHTJiSQ4FJR4WNg
- PgFAaoyQTrMkF9FaC8b1nicpTCvkD00xo+KuOug=
-X-Google-Smtp-Source: ABdhPJyNTXp1/TAPjMfS6B0AD1gLkM3SH59bhAsvrjK+Brw9oud1gXrViXposa6k9vDUYglAj1odcviE6QHIk9oHnVg=
-X-Received: by 2002:a17:906:4350:: with SMTP id
- z16mr22830095ejm.139.1591666578876; 
- Mon, 08 Jun 2020 18:36:18 -0700 (PDT)
+ bh=KhvhSmf6bHsXItz7ZSJvhp4Th42f2tl5qO1RgZS7OsY=;
+ b=gD4SitNoZSfzTTejr3gjJqId78QkUa+M+VNFPuXnikjQ5n/nhqGQbU4W5z0+bV6B3o
+ M3A8vPLq+cK/+TXtJ7C8DFBtXbE74VPCG7xw9fW59cof5YUhkuMFIArFSiq++i5JwerY
+ cr4sbp7X38nrGsYrcma/ATAqVUHm4tseP/YiZL93vqyTt8HKdZu0CQFYYXbMUBmnIYEB
+ md0/un0fGiFYrn2vdBoTLcCM/HGVcl30mHUuX2rQi4ZOHv9XlGAtvuC7MQxjPNQfgW3r
+ 3dVvByt1ul+1M0fYFj3KPaK59ZPDhRB0+mggsFHk0WXhLDba7JWHD49N/5Pig9MI/K17
+ x2oA==
+X-Gm-Message-State: AOAM530MjlTrH7jTXxVFUr4UIa6a1e4hCH57tdcfh8AoILQfdBZcDiNL
+ T82YfbZlvTzAELKIFlB/Avu19OMPgDkjfoPuQDC1LGdP
+X-Google-Smtp-Source: ABdhPJxoXXRF43u2mZ/Yga6tUfXgWdi/Pic6NbHHSbqHSLnVcs/08qVhfsJv2G5aKAN+vYZkdN82+N4ku+OMipcALqA=
+X-Received: by 2002:a17:906:fcb7:: with SMTP id
+ qw23mr21981896ejb.229.1591666586645; 
+ Mon, 08 Jun 2020 18:36:26 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200521192133.127559-1-hskinnemoen@google.com>
- <20200521192133.127559-2-hskinnemoen@google.com>
-In-Reply-To: <20200521192133.127559-2-hskinnemoen@google.com>
+ <20200521192133.127559-3-hskinnemoen@google.com>
+In-Reply-To: <20200521192133.127559-3-hskinnemoen@google.com>
 From: Joel Stanley <joel@jms.id.au>
-Date: Tue, 9 Jun 2020 01:36:07 +0000
-Message-ID: <CACPK8Xe4BEXAhgKmxt4YZVm2ggOPZ4hFbyJP-8NxBDa7+NrdCA@mail.gmail.com>
-Subject: Re: [PATCH 1/6] npcm7xx: Add config symbol
+Date: Tue, 9 Jun 2020 01:36:14 +0000
+Message-ID: <CACPK8XcYNmBYb+OXKZP1sSHqC-1pTN4=S+B7TdOapYkmEC18SA@mail.gmail.com>
+Subject: Re: [PATCH 2/6] hw/misc: Add NPCM7xx System Global Control Registers
+ device model
 To: Havard Skinnemoen <hskinnemoen@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::641;
- envelope-from=joel.stan@gmail.com; helo=mail-ej1-x641.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::642;
+ envelope-from=joel.stan@gmail.com; helo=mail-ej1-x642.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -82,55 +83,21 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm <qemu-arm@nongnu.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 21 May 2020 at 20:39, Havard Skinnemoen <hskinnemoen@google.com> wrote:
+On Thu, 21 May 2020 at 20:40, Havard Skinnemoen <hskinnemoen@google.com> wrote:
 >
-> Add a config symbol for the NPCM7xx BMC SoC family that subsequent
-> patches can use in Makefiles.
+> Implement a device model for the System Global Control Registers in the
+> NPCM730 and NPCM750 BMC SoCs.
+>
+> This is primarily used to enable SMP boot (the boot ROM spins reading
+> the SCRPAD register); other registers are best effort for now.
+>
+> The reset values of the MDLR and PWRON registers are determined by the
+> SoC variant (730 vs 750) and board straps respectively.
 >
 > Reviewed-by: Tyrone Ting <kfting@nuvoton.com>
 > Signed-off-by: Havard Skinnemoen <hskinnemoen@google.com>
 
-Acked-by: Joel Stanley <joel@jms.id.au>
+This looks similar to the aspeed scu model :)
 
-
-> ---
->  default-configs/arm-softmmu.mak | 1 +
->  hw/arm/Kconfig                  | 8 ++++++++
->  2 files changed, 9 insertions(+)
->
-> diff --git a/default-configs/arm-softmmu.mak b/default-configs/arm-softmmu.mak
-> index 8fc09a4a51..9a94ebd0be 100644
-> --- a/default-configs/arm-softmmu.mak
-> +++ b/default-configs/arm-softmmu.mak
-> @@ -27,6 +27,7 @@ CONFIG_GUMSTIX=y
->  CONFIG_SPITZ=y
->  CONFIG_TOSA=y
->  CONFIG_Z2=y
-> +CONFIG_NPCM7XX=y
->  CONFIG_COLLIE=y
->  CONFIG_ASPEED_SOC=y
->  CONFIG_NETDUINO2=y
-> diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-> index 5364172537..47d0a3ca43 100644
-> --- a/hw/arm/Kconfig
-> +++ b/hw/arm/Kconfig
-> @@ -354,6 +354,14 @@ config XLNX_VERSAL
->      select VIRTIO_MMIO
->      select UNIMP
->
-> +config NPCM7XX
-> +    bool
-> +    select A9MPCORE
-> +    select ARM_GIC
-> +    select PL310  # cache controller
-> +    select SERIAL
-> +    select UNIMP
-> +
->  config FSL_IMX25
->      bool
->      select IMX
-> --
-> 2.27.0.rc0.183.gde8f92d652-goog
->
->
+Reviewed-by: Joel Stanley <joel@jms.id.au>
 
