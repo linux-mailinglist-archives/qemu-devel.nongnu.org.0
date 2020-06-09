@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A9D71F46E0
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 21:14:26 +0200 (CEST)
-Received: from localhost ([::1]:56506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A22D91F46CC
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 21:09:35 +0200 (CEST)
+Received: from localhost ([::1]:39646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jijhZ-0003aV-J5
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 15:14:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44674)
+	id 1jijcs-0004zy-L2
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 15:09:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1jijXe-0006N0-4L; Tue, 09 Jun 2020 15:04:10 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:40258)
+ id 1jijXe-0006NR-IZ; Tue, 09 Jun 2020 15:04:10 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:40270)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1jijXc-0006i2-0Q; Tue, 09 Jun 2020 15:04:09 -0400
+ id 1jijXc-0006i7-GR; Tue, 09 Jun 2020 15:04:10 -0400
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by charlie.dont.surf (Postfix) with ESMTPSA id D166DBF938;
- Tue,  9 Jun 2020 19:03:45 +0000 (UTC)
+ by charlie.dont.surf (Postfix) with ESMTPSA id 52E77BF98C;
+ Tue,  9 Jun 2020 19:03:46 +0000 (UTC)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-block@nongnu.org
-Subject: [PATCH v7 10/22] hw/block/nvme: factor out property/constraint checks
-Date: Tue,  9 Jun 2020 21:03:21 +0200
-Message-Id: <20200609190333.59390-11-its@irrelevant.dk>
+Subject: [PATCH v7 11/22] hw/block/nvme: factor out device state setup
+Date: Tue,  9 Jun 2020 21:03:22 +0200
+Message-Id: <20200609190333.59390-12-its@irrelevant.dk>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200609190333.59390-1-its@irrelevant.dk>
 References: <20200609190333.59390-1-its@irrelevant.dk>
@@ -68,92 +68,61 @@ Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 Reviewed-by: Keith Busch <kbusch@kernel.org>
-Message-Id: <20200514044611.734782-12-its@irrelevant.dk>
+Message-Id: <20200514044611.734782-13-its@irrelevant.dk>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- hw/block/nvme.c | 48 ++++++++++++++++++++++++++++++------------------
- 1 file changed, 30 insertions(+), 18 deletions(-)
+ hw/block/nvme.c | 22 +++++++++++++---------
+ 1 file changed, 13 insertions(+), 9 deletions(-)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 61447220a873..ee669ee8dc2d 100644
+index ee669ee8dc2d..b721cab9b0fd 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -1354,24 +1354,19 @@ static const MemoryRegionOps nvme_cmb_ops = {
-     },
- };
- 
--static void nvme_realize(PCIDevice *pci_dev, Error **errp)
-+static void nvme_check_constraints(NvmeCtrl *n, Error **errp)
- {
--    NvmeCtrl *n = NVME(pci_dev);
--    NvmeIdCtrl *id = &n->id_ctrl;
-+    NvmeParams *params = &n->params;
- 
--    int i;
--    int64_t bs_size;
--    uint8_t *pci_conf;
--
--    if (n->params.num_queues) {
-+    if (params->num_queues) {
-         warn_report("num_queues is deprecated; please use max_ioqpairs "
-                     "instead");
- 
--        n->params.max_ioqpairs = n->params.num_queues - 1;
-+        params->max_ioqpairs = params->num_queues - 1;
+@@ -1399,6 +1399,17 @@ static void nvme_check_constraints(NvmeCtrl *n, Error **errp)
      }
+ }
  
--    if (n->params.max_ioqpairs < 1 ||
--        n->params.max_ioqpairs > PCI_MSIX_FLAGS_QSIZE) {
-+    if (params->max_ioqpairs < 1 ||
-+        params->max_ioqpairs > PCI_MSIX_FLAGS_QSIZE) {
-         error_setg(errp, "max_ioqpairs must be between 1 and %d",
-                    PCI_MSIX_FLAGS_QSIZE);
-         return;
-@@ -1382,13 +1377,7 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
-         return;
-     }
- 
--    bs_size = blk_getlength(n->conf.blk);
--    if (bs_size < 0) {
--        error_setg(errp, "could not get backing file size");
--        return;
--    }
--
--    if (!n->params.serial) {
-+    if (!params->serial) {
-         error_setg(errp, "serial property not set");
-         return;
-     }
-@@ -1408,6 +1397,29 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
- 
-         host_memory_backend_set_mapped(n->pmrdev, true);
-     }
++static void nvme_init_state(NvmeCtrl *n)
++{
++    n->num_namespaces = 1;
++    /* add one to max_ioqpairs to account for the admin queue pair */
++    n->reg_size = pow2ceil(NVME_REG_SIZE +
++                           2 * (n->params.max_ioqpairs + 1) * NVME_DB_SIZE);
++    n->namespaces = g_new0(NvmeNamespace, n->num_namespaces);
++    n->sq = g_new0(NvmeSQueue *, n->params.max_ioqpairs + 1);
++    n->cq = g_new0(NvmeCQueue *, n->params.max_ioqpairs + 1);
 +}
 +
-+static void nvme_realize(PCIDevice *pci_dev, Error **errp)
-+{
-+    NvmeCtrl *n = NVME(pci_dev);
-+    NvmeIdCtrl *id = &n->id_ctrl;
-+    Error *local_err = NULL;
-+
-+    int i;
-+    int64_t bs_size;
-+    uint8_t *pci_conf;
-+
-+    nvme_check_constraints(n, &local_err);
-+    if (local_err) {
-+        error_propagate(errp, local_err);
-+        return;
-+    }
-+
-+    bs_size = blk_getlength(n->conf.blk);
-+    if (bs_size < 0) {
-+        error_setg(errp, "could not get backing file size");
-+        return;
-+    }
+ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+ {
+     NvmeCtrl *n = NVME(pci_dev);
+@@ -1415,6 +1426,8 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+         return;
+     }
  
-     blkconf_blocksizes(&n->conf);
-     if (!blkconf_apply_backend_options(&n->conf, blk_is_read_only(n->conf.blk),
++    nvme_init_state(n);
++
+     bs_size = blk_getlength(n->conf.blk);
+     if (bs_size < 0) {
+         error_setg(errp, "could not get backing file size");
+@@ -1433,17 +1446,8 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+     pci_config_set_class(pci_dev->config, PCI_CLASS_STORAGE_EXPRESS);
+     pcie_endpoint_cap_init(pci_dev, 0x80);
+ 
+-    n->num_namespaces = 1;
+-
+-    /* add one to max_ioqpairs to account for the admin queue pair */
+-    n->reg_size = pow2ceil(NVME_REG_SIZE +
+-                           2 * (n->params.max_ioqpairs + 1) * NVME_DB_SIZE);
+     n->ns_size = bs_size / (uint64_t)n->num_namespaces;
+ 
+-    n->namespaces = g_new0(NvmeNamespace, n->num_namespaces);
+-    n->sq = g_new0(NvmeSQueue *, n->params.max_ioqpairs + 1);
+-    n->cq = g_new0(NvmeCQueue *, n->params.max_ioqpairs + 1);
+-
+     memory_region_init_io(&n->iomem, OBJECT(n), &nvme_mmio_ops, n,
+                           "nvme", n->reg_size);
+     pci_register_bar(pci_dev, 0,
 -- 
 2.27.0
 
