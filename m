@@ -2,79 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 949241F4132
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 18:41:25 +0200 (CEST)
-Received: from localhost ([::1]:38704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60A931F4143
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 18:45:18 +0200 (CEST)
+Received: from localhost ([::1]:53840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jihJU-00045w-Ks
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 12:41:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48368)
+	id 1jihNF-0002YR-84
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 12:45:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48352)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hskinnemoen@google.com>)
- id 1jihEk-0007TX-43
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 12:36:30 -0400
-Received: from mail-vk1-xa43.google.com ([2607:f8b0:4864:20::a43]:40411)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <hskinnemoen@google.com>)
- id 1jihEi-0002R4-QH
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 12:36:29 -0400
-Received: by mail-vk1-xa43.google.com with SMTP id n22so5038432vkm.7
- for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 09:36:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=FoNMkAIk8t3qqx4O79gujhahy6TuXxWimzCUkwPAVzc=;
- b=KXGxiSoW5WkLQCjdaMu5wq2EUhK7e6UEDOYxw+oEU02Br07NGIkCJ7Cly6k0U5Mllx
- iq71MrQa8NHXO2A0KcN9IAsVgJHAgoPFADDwQCYvuCfLN8SgZ7sz6rPZdcq8LUnuQ188
- DRal8aCCPxVP33fXp8vdhiqV8HMbwMNPQ4QS5R2C0II/3HFppqMtUbNWgNhfygp4+pNn
- rvhirLmZsUKYm3K26/WPjS16ByzdLqenqVM7NZYlGAJM2kBZQ9om5+6u6EscNvFFRDiN
- M/LTeN8uobZBhFnlC1w8DdOjXSBugd4yNZo1Y0O4lsqyeTiGrG5aRlBX3hwr72iUnJE3
- CZkg==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jihEg-0007NK-Jv
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 12:36:26 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:45967
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jihEf-0002PZ-BH
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 12:36:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1591720584;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=spJYis+Y88w7NLVjXzarAKSj5ec5ikZqTT5JG/3zWOo=;
+ b=HsR6kaZ2BDYqGiipXaF2O4XLK/6jcCld6My0IYas2Oqo7xJg1CxfkwBrbMELwDOODc2DTS
+ fnG/g79EBuy5/bw78LpssqmWCC2vnsJWsPiJZt1OxuwIUWdQ75M9d6VGUO5tdgdKF8yt2W
+ BPz4RrtdkwBg8iibMbgYYWP9V44TaBw=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-206-q4paBCYqP0CyGJKdyVBm4w-1; Tue, 09 Jun 2020 12:36:22 -0400
+X-MC-Unique: q4paBCYqP0CyGJKdyVBm4w-1
+Received: by mail-wr1-f70.google.com with SMTP id a4so8807758wrp.5
+ for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 09:36:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=FoNMkAIk8t3qqx4O79gujhahy6TuXxWimzCUkwPAVzc=;
- b=dSO9oCE3fYRMsaDNiOeaiH2R4/hli8+RqyM2N/PNizMCQZqP/85PptApv3Zdx9mRQJ
- 25QbIqkS0DNk8oFMwbyo1Qw2hk28wSkI1o/jljseUgWbmGtSclazdot3XjegEAwq8smn
- DJi4097ipBDbAWXaF467MYS2lrnrk3NxDjNg1sA7d/n8zCe/x+7J5X9dXUFQqc8ERPlG
- 89GL36U93qtZskBFY6b/HZmA+y7L4DG1ERimHXHxqhaQPcwv4q4APeZyNc0ZzD3RKkVb
- Bp9FPUGbg9eXATWQBbFXu2b+ZouKqLsO9E84ViEGMC2khg0ndgrdk9VLr5pFEo6c1lN3
- 6ToQ==
-X-Gm-Message-State: AOAM531RIb81wYgUS+e/gVFTrdffkk9e0w3TeUGBzz4WlmX7ohCark+c
- RdrHRxsNyz/jGX9zgo7JgHoko965ElzCHoY5ow5V2Q==
-X-Google-Smtp-Source: ABdhPJxZrKf8DgJ2xH7xVODrffqP18PUEqziT4DNoUg3uenDi3VkGzxzTNbMj+4AqTFiKvOclq8268+VrsArpAYKbLk=
-X-Received: by 2002:a05:6122:130b:: with SMTP id
- e11mr4392441vkp.20.1591720587331; 
- Tue, 09 Jun 2020 09:36:27 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=IGJ2d4qtsL60d26Z346sjoVa9dEa9xwTrtzlnWl4VKk=;
+ b=qNQLc9hTdkNJE2rLcI8FEyL0b7DB3DijaVMxHrTUIwcg7ag7bnBwlxiINt4WESnmnP
+ j7ap/Tmxr5D70erEz4zMbDPEmEzr0/gqjv5BuT92EV+HjDFrPnmCmf7xwTZVpy2BpHcv
+ gtcW3+FUwQtiWUDbJFniHJ/UiSdXCv+c5iLIUIFVqpJdA+i5PU5R+y8xonmiTEOceZ4g
+ yoqpKV8z/D2km5RUzUBeg6NdUangEzrGNaJ7IowuK2+o8ojoPm4wSwG/Zm+VG+2i3XZV
+ ikmf5horlhsgxtwsHN4lVez1CdJ6NJfkEoEO30gEqSdn1vRHIUx/pmm6myLvfhOUxUu4
+ 8Cog==
+X-Gm-Message-State: AOAM531OILG1NxSWhuHM9teypElHQ4X36eMiAfd2kBkRnLt/RhEzxE69
+ zeYIh7RjRtxuyP8EzrNgqJJcbXgFyo4MYpC5POTgDJEe9umPtle6Vghv42WUSw/mSVJWcT/s+XN
+ Fd9SRfTelTgmJvMA=
+X-Received: by 2002:a1c:e0c3:: with SMTP id x186mr4773445wmg.17.1591720580132; 
+ Tue, 09 Jun 2020 09:36:20 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwzPC1gFkfSZSgVr4S4dvKC7Q/UBWa7BjFGYJ4UKC2SziaIfYQR/f0dbF5SvcbWApirFQY6+Q==
+X-Received: by 2002:a1c:e0c3:: with SMTP id x186mr4773419wmg.17.1591720579871; 
+ Tue, 09 Jun 2020 09:36:19 -0700 (PDT)
+Received: from redhat.com (bzq-79-181-55-232.red.bezeqint.net. [79.181.55.232])
+ by smtp.gmail.com with ESMTPSA id d17sm4399135wrg.75.2020.06.09.09.36.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 09 Jun 2020 09:36:19 -0700 (PDT)
+Date: Tue, 9 Jun 2020 12:36:16 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+Subject: Re: [PULL 3/9] tests/migration: Reduce autoconverge initial bandwidth
+Message-ID: <20200609123323-mutt-send-email-mst@kernel.org>
+References: <20200325131632.311034-1-dgilbert@redhat.com>
+ <20200325131632.311034-4-dgilbert@redhat.com>
 MIME-Version: 1.0
-References: <20200521192133.127559-1-hskinnemoen@google.com>
- <CAFQmdRYYhoWu7q350n0vNOE+pesp-UG975v1f1Yjwf9Ao0mjcg@mail.gmail.com>
- <CACPK8XfOtLSVR2u12qEYxB=ggKLD-NeK8BYMW3_uRo8ExnM6Ww@mail.gmail.com>
-In-Reply-To: <CACPK8XfOtLSVR2u12qEYxB=ggKLD-NeK8BYMW3_uRo8ExnM6Ww@mail.gmail.com>
-From: Havard Skinnemoen <hskinnemoen@google.com>
-Date: Tue, 9 Jun 2020 09:36:16 -0700
-Message-ID: <CAFQmdRZoc3VDqKdkwsPzSjt_Pc5vGM+YQFN4y8jAu5VF36S6SQ@mail.gmail.com>
-Subject: Re: [PATCH 0/6] Add Nuvoton NPCM730/NPCM750 SoCs and two BMC machines
-To: Joel Stanley <joel@jms.id.au>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm <qemu-arm@nongnu.org>, 
- QEMU Developers <qemu-devel@nongnu.org>,
- IS20 Avi Fishman <Avi.Fishman@nuvoton.com>, 
- CS20 KFTing <kfting@nuvoton.com>,
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
-Content-Type: multipart/alternative; boundary="0000000000003111c905a7a95405"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::a43;
- envelope-from=hskinnemoen@google.com; helo=mail-vk1-xa43.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=0.001,
+In-Reply-To: <20200325131632.311034-4-dgilbert@redhat.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: 8bit
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=mst@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 02:44:16
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,46 +95,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: vsementsov@virtuozzo.com, maozhongyi@cmss.chinamobile.com,
+ pannengyuan@huawei.com, qemu-devel@nongnu.org, imammedo@redhat.com,
+ philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000003111c905a7a95405
-Content-Type: text/plain; charset="UTF-8"
+On Wed, Mar 25, 2020 at 01:16:26PM +0000, Dr. David Alan Gilbert (git) wrote:
+> From: Philippe Mathieu-Daudé <philmd@redhat.com>
+> 
+> When using max-bandwidth=~100Mb/s, this test fails on Travis-CI
+> s390x when configured with --disable-tcg:
+> 
+>   $ make check-qtest
+>     TEST    check-qtest-s390x: tests/qtest/boot-serial-test
+>   qemu-system-s390x: -accel tcg: invalid accelerator tcg
+>   qemu-system-s390x: falling back to KVM
+>     TEST    check-qtest-s390x: tests/qtest/pxe-test
+>     TEST    check-qtest-s390x: tests/qtest/test-netfilter
+>     TEST    check-qtest-s390x: tests/qtest/test-filter-mirror
+>     TEST    check-qtest-s390x: tests/qtest/test-filter-redirector
+>     TEST    check-qtest-s390x: tests/qtest/drive_del-test
+>     TEST    check-qtest-s390x: tests/qtest/device-plug-test
+>     TEST    check-qtest-s390x: tests/qtest/virtio-ccw-test
+>     TEST    check-qtest-s390x: tests/qtest/cpu-plug-test
+>     TEST    check-qtest-s390x: tests/qtest/migration-test
+>   **
+>   ERROR:tests/qtest/migration-test.c:1229:test_migrate_auto_converge: 'got_stop' should be FALSE
+>   ERROR - Bail out! ERROR:tests/qtest/migration-test.c:1229:test_migrate_auto_converge: 'got_stop' should be FALSE
+>   make: *** [tests/Makefile.include:633: check-qtest-s390x] Error 1
+> 
+> Per David Gilbert, "it could just be the writing is slow on s390
+> and the migration thread fast; in which case the autocomplete
+> wouldn't be needed. Perhaps we just need to reduce the bandwidth
+> limit."
+> 
+> Tuning the threshold by reducing the initial bandwidth makes the
+> autoconverge test pass.
+> 
+> Suggested-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> Message-Id: <20200323184015.11565-1-philmd@redhat.com>
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Tested-by: Alex Bennée <alex.bennee@linaro.org>
+> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-On Mon, Jun 8, 2020 at 6:39 PM Joel Stanley <joel@jms.id.au> wrote:
 
-> I had a look and they appear good to me. Note that I'm less in to the
-> gory details of Qemu than some of our other reviewers, so you should
-> seek  a more detailed review from someone else.
->
-> I look forward further support so I can test the OpenBMC kernel
-> against Nuvoton boards in the same way as the Aspeed ones.
->
+This slows make check down significantly for me, it stays
+at the migration test for minutes.
 
-Great to hear that, and thanks for your review. I hope to post an updated
-patchset soon.
+I'm carrying a revert at top of my tree for now but I'd rather
+not need that.
 
-Havard
 
---0000000000003111c905a7a95405
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+This seems like a fragile way to test things anyway.
+What happens if someone slows writing even more
+e.g. because it's running in a container or a VM?
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Mon, Jun 8, 2020 at 6:39 PM Joel Stanl=
-ey &lt;<a href=3D"mailto:joel@jms.id.au" target=3D"_blank" class=3D"cremed"=
->joel@jms.id.au</a>&gt; wrote:</div><div class=3D"gmail_quote"><blockquote =
-class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px sol=
-id rgb(204,204,204);padding-left:1ex">
-I had a look and they appear good to me. Note that I&#39;m less in to the<b=
-r>
-gory details of Qemu than some of our other reviewers, so you should<br>
-seek=C2=A0 a more detailed review from someone else.<br>
-<br>
-I look forward further support so I can test the OpenBMC kernel<br>
-against Nuvoton boards in the same way as the Aspeed ones.<br></blockquote>=
-<div><br></div><div>Great to hear that, and thanks for your review. I hope =
-to post an updated patchset soon.</div><div><br></div><div>Havard</div></di=
-v></div>
+How about detecting that migration finished too early
+and slowing it down until autocomplete triggers?
 
---0000000000003111c905a7a95405--
+
+
+> ---
+>  tests/qtest/migration-test.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
+> index 3d6cc83b88..2568c9529c 100644
+> --- a/tests/qtest/migration-test.c
+> +++ b/tests/qtest/migration-test.c
+> @@ -1211,7 +1211,7 @@ static void test_migrate_auto_converge(void)
+>       * without throttling.
+>       */
+>      migrate_set_parameter_int(from, "downtime-limit", 1);
+> -    migrate_set_parameter_int(from, "max-bandwidth", 100000000); /* ~100Mb/s */
+> +    migrate_set_parameter_int(from, "max-bandwidth", 1000000); /* ~1Mb/s */
+>  
+>      /* To check remaining size after precopy */
+>      migrate_set_capability(from, "pause-before-switchover", true);
+> -- 
+> 2.25.1
+> 
+> 
+
 
