@@ -2,50 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3CEA1F488F
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 23:02:04 +0200 (CEST)
-Received: from localhost ([::1]:34486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5C311F4895
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 23:02:48 +0200 (CEST)
+Received: from localhost ([::1]:36914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jilNj-0005xC-BO
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 17:02:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36382)
+	id 1jilOR-0006wy-L8
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 17:02:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jilEz-0001ly-6j
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 16:53:01 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:55821
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jilF0-0001rE-Mg
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 16:53:02 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:31418
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jilEx-0005ce-2M
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 16:52:59 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jilEy-0005d7-8V
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 16:53:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591735978;
+ s=mimecast20190719; t=1591735979;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SmaP7JFguXSYIUjpk3oKNGUpu9UHziHLNUscAdqJ86Y=;
- b=Hn2NLAhKINuTW2OLES3ulTnEXydO8QSEC+ORX6Dx4eWjZliP+D139UD5hwdY2XfC2kVnpK
- 50LgJXD1j+KO1g+77d6wbwWBrbXlMDs9fIbAT9wWHqWFGn09E8cEidMy1HzkNlsvc+XnIP
- Dr8jl2w8nkwNqyHzoVlvSfv9k6JtyP8=
+ bh=9PmOd7xwEkBNsPkTefS2k9IpwawVFjlu2IH+kxt7Nxk=;
+ b=hQs/iJADU/3rt8J0dq3LzkiM5HOvZebRC1/7stU+0PMLErXAUiv4b1S4bmdx45BWhyQfFd
+ K3noMCh8QYwspO+Dh1H0b9un62+ySFn+JesjTzN26XSnan4p3FUpUYTPewIabsP2WGZBgd
+ 6bfng9ShTEE7fyDXB5ETOLRFA8ydwf8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-152-aLbHigi-P5uHEZcn-u2EEw-1; Tue, 09 Jun 2020 16:52:52 -0400
-X-MC-Unique: aLbHigi-P5uHEZcn-u2EEw-1
+ us-mta-182-3nvfOYgAMIOH8-ZCVXoV1w-1; Tue, 09 Jun 2020 16:52:53 -0400
+X-MC-Unique: 3nvfOYgAMIOH8-ZCVXoV1w-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 43B006A2BE;
- Tue,  9 Jun 2020 20:52:51 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9B2F719200C2;
+ Tue,  9 Jun 2020 20:52:52 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-113-22.phx2.redhat.com [10.3.113.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B8A066116D;
- Tue,  9 Jun 2020 20:52:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1F8B06116D;
+ Tue,  9 Jun 2020 20:52:52 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/15] qcow2_format.py: use tuples instead of lists for fields
-Date: Tue,  9 Jun 2020 15:52:36 -0500
-Message-Id: <20200609205245.3548257-7-eblake@redhat.com>
+Subject: [PULL 08/15] qcow2_format.py: use strings to specify c-type of struct
+ fields
+Date: Tue,  9 Jun 2020 15:52:38 -0500
+Message-Id: <20200609205245.3548257-9-eblake@redhat.com>
 In-Reply-To: <20200609205245.3548257-1-eblake@redhat.com>
 References: <20200609205245.3548257-1-eblake@redhat.com>
 MIME-Version: 1.0
@@ -54,9 +55,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=eblake@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 02:44:16
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 02:41:53
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -87,69 +88,90 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-No need in lists: it's a constant variable.
+We are going to move field-parsing to super-class, this will be simpler
+with simple string specifiers instead of variables.
+
+For some reason, python doesn't allow the definition of ctypes variable
+in the class alongside fields: it would not be available then for use
+by the 'for' operator. Don't worry: ctypes will be moved to metaclass
+soon.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-Message-Id: <20200606081806.23897-6-vsementsov@virtuozzo.com>
+Message-Id: <20200606081806.23897-8-vsementsov@virtuozzo.com>
 Signed-off-by: Eric Blake <eblake@redhat.com>
 ---
- tests/qemu-iotests/qcow2_format.py | 40 +++++++++++++++---------------
- 1 file changed, 20 insertions(+), 20 deletions(-)
+ tests/qemu-iotests/qcow2_format.py | 50 +++++++++++++++++-------------
+ 1 file changed, 28 insertions(+), 22 deletions(-)
 
 diff --git a/tests/qemu-iotests/qcow2_format.py b/tests/qemu-iotests/qcow2_format.py
-index 2b6c9612ae01..e2f08ed69194 100644
+index da66df340876..28f2bfa63bc7 100644
 --- a/tests/qemu-iotests/qcow2_format.py
 +++ b/tests/qemu-iotests/qcow2_format.py
-@@ -39,29 +39,29 @@ class QcowHeader:
-     uint32_t = 'I'
-     uint64_t = 'Q'
+@@ -34,36 +34,42 @@ class QcowHeaderExtension:
+         return QcowHeaderExtension(magic, len(data), data)
 
--    fields = [
-+    fields = (
+
++# Mapping from c types to python struct format
++ctypes = {
++    'u8': 'B',
++    'u16': 'H',
++    'u32': 'I',
++    'u64': 'Q'
++}
++
++
+ class QcowHeader:
+
+-    uint32_t = 'I'
+-    uint64_t = 'Q'
+-
+     fields = (
          # Version 2 header fields
--        [uint32_t, '%#x',  'magic'],
--        [uint32_t, '%d',   'version'],
--        [uint64_t, '%#x',  'backing_file_offset'],
--        [uint32_t, '%#x',  'backing_file_size'],
--        [uint32_t, '%d',   'cluster_bits'],
--        [uint64_t, '%d',   'size'],
--        [uint32_t, '%d',   'crypt_method'],
--        [uint32_t, '%d',   'l1_size'],
--        [uint64_t, '%#x',  'l1_table_offset'],
--        [uint64_t, '%#x',  'refcount_table_offset'],
--        [uint32_t, '%d',   'refcount_table_clusters'],
--        [uint32_t, '%d',   'nb_snapshots'],
--        [uint64_t, '%#x',  'snapshot_offset'],
-+        (uint32_t, '%#x',  'magic'),
-+        (uint32_t, '%d',   'version'),
-+        (uint64_t, '%#x',  'backing_file_offset'),
-+        (uint32_t, '%#x',  'backing_file_size'),
-+        (uint32_t, '%d',   'cluster_bits'),
-+        (uint64_t, '%d',   'size'),
-+        (uint32_t, '%d',   'crypt_method'),
-+        (uint32_t, '%d',   'l1_size'),
-+        (uint64_t, '%#x',  'l1_table_offset'),
-+        (uint64_t, '%#x',  'refcount_table_offset'),
-+        (uint32_t, '%d',   'refcount_table_clusters'),
-+        (uint32_t, '%d',   'nb_snapshots'),
-+        (uint64_t, '%#x',  'snapshot_offset'),
+-        (uint32_t, '{:#x}', 'magic'),
+-        (uint32_t, '{}', 'version'),
+-        (uint64_t, '{:#x}', 'backing_file_offset'),
+-        (uint32_t, '{:#x}', 'backing_file_size'),
+-        (uint32_t, '{}', 'cluster_bits'),
+-        (uint64_t, '{}', 'size'),
+-        (uint32_t, '{}', 'crypt_method'),
+-        (uint32_t, '{}', 'l1_size'),
+-        (uint64_t, '{:#x}', 'l1_table_offset'),
+-        (uint64_t, '{:#x}', 'refcount_table_offset'),
+-        (uint32_t, '{}', 'refcount_table_clusters'),
+-        (uint32_t, '{}', 'nb_snapshots'),
+-        (uint64_t, '{:#x}', 'snapshot_offset'),
++        ('u32', '{:#x}', 'magic'),
++        ('u32', '{}', 'version'),
++        ('u64', '{:#x}', 'backing_file_offset'),
++        ('u32', '{:#x}', 'backing_file_size'),
++        ('u32', '{}', 'cluster_bits'),
++        ('u64', '{}', 'size'),
++        ('u32', '{}', 'crypt_method'),
++        ('u32', '{}', 'l1_size'),
++        ('u64', '{:#x}', 'l1_table_offset'),
++        ('u64', '{:#x}', 'refcount_table_offset'),
++        ('u32', '{}', 'refcount_table_clusters'),
++        ('u32', '{}', 'nb_snapshots'),
++        ('u64', '{:#x}', 'snapshot_offset'),
 
          # Version 3 header fields
--        [uint64_t, 'mask', 'incompatible_features'],
--        [uint64_t, 'mask', 'compatible_features'],
--        [uint64_t, 'mask', 'autoclear_features'],
--        [uint32_t, '%d',   'refcount_order'],
--        [uint32_t, '%d',   'header_length'],
--    ]
-+        (uint64_t, 'mask', 'incompatible_features'),
-+        (uint64_t, 'mask', 'compatible_features'),
-+        (uint64_t, 'mask', 'autoclear_features'),
-+        (uint32_t, '%d',   'refcount_order'),
-+        (uint32_t, '%d',   'header_length'),
-+    )
+-        (uint64_t, 'mask', 'incompatible_features'),
+-        (uint64_t, 'mask', 'compatible_features'),
+-        (uint64_t, 'mask', 'autoclear_features'),
+-        (uint32_t, '{}', 'refcount_order'),
+-        (uint32_t, '{}', 'header_length'),
++        ('u64', 'mask', 'incompatible_features'),
++        ('u64', 'mask', 'compatible_features'),
++        ('u64', 'mask', 'autoclear_features'),
++        ('u32', '{}', 'refcount_order'),
++        ('u32', '{}', 'header_length'),
+     )
 
-     fmt = '>' + ''.join(field[0] for field in fields)
+-    fmt = '>' + ''.join(field[0] for field in fields)
++    fmt = '>' + ''.join(ctypes[f[0]] for f in fields)
+
+     def __init__(self, fd):
 
 -- 
 2.27.0
