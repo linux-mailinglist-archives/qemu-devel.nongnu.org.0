@@ -2,50 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4778E1F4879
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 22:59:23 +0200 (CEST)
-Received: from localhost ([::1]:54406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 086F71F4867
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 22:54:52 +0200 (CEST)
+Received: from localhost ([::1]:38934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jilL8-0002J5-AO
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 16:59:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36354)
+	id 1jilGl-0004He-26
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 16:54:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jilEv-0001gk-U2
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 16:52:57 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:31222
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jilEw-0001iC-Gn
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 16:52:58 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35399
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jilEu-0005be-Bm
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 16:52:57 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jilEv-0005c0-AO
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 16:52:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591735975;
+ s=mimecast20190719; t=1591735976;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=P+X2GehsEKSsVMlZEA77+G03NgvFhMOMVc9PxzTKk08=;
- b=Ou/j2lQUC8Rh3sE+7YoyrENTJLHKJsdfsARnXuopU1W7Kk67gHzV6eLFATjTrDfwiybU7i
- hxy5/s6glCRavsvpeKJsDopZyCaiDGgiWn97ftQRZO0BhMZHQefik4n/PbDNDBMKBTBUQ8
- dASrtM5VYlbNZaV0v9DY5bxeorWQSlg=
+ bh=2gkJQrcmtu07hJLZsxNO23mQmGAJYFCopm0+MuaUKqc=;
+ b=Usu1/nPwyYbGuyytT90DVsmfscEHol8W22WbBHRUJFD1Z2JsXU1kWHoZqFdumcIzPPDku9
+ 2Qv5sALQD/dnOxnvpDL0Rk+7ra+ewIoSgu2pusIRn1GqAhFtrS98KfckGq1qgbnBE8sfsA
+ pIbzVoa38hAUF3vtHk0s6YVZ4xhEdOE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-268-UM8EKLwRMXe9u39n6v5vAw-1; Tue, 09 Jun 2020 16:52:53 -0400
-X-MC-Unique: UM8EKLwRMXe9u39n6v5vAw-1
+ us-mta-474-MYBpZcgiMV2PJGRKG4T0cw-1; Tue, 09 Jun 2020 16:52:54 -0400
+X-MC-Unique: MYBpZcgiMV2PJGRKG4T0cw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ECEF51009613;
- Tue,  9 Jun 2020 20:52:51 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 53185835B44;
+ Tue,  9 Jun 2020 20:52:53 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-113-22.phx2.redhat.com [10.3.113.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6F9EF6116D;
- Tue,  9 Jun 2020 20:52:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C959C6116D;
+ Tue,  9 Jun 2020 20:52:52 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/15] qcow2_format.py: use modern string formatting
-Date: Tue,  9 Jun 2020 15:52:37 -0500
-Message-Id: <20200609205245.3548257-8-eblake@redhat.com>
+Subject: [PULL 09/15] qcow2_format.py: separate generic functionality of
+ structure classes
+Date: Tue,  9 Jun 2020 15:52:39 -0500
+Message-Id: <20200609205245.3548257-10-eblake@redhat.com>
 In-Reply-To: <20200609205245.3548257-1-eblake@redhat.com>
 References: <20200609205245.3548257-1-eblake@redhat.com>
 MIME-Version: 1.0
@@ -87,122 +88,158 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-Use .format and f-strings instead of old %style. Also, the file uses
-both '' and "" quotes, for consistency let's use '', except for cases
-when we need '' inside the string (use "" to avoid extra escaping).
+We are going to introduce more Qcow2 structure types, defined like
+QcowHeader. Move generic functionality into base class to be reused for
+further structure classes.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-Message-Id: <20200606081806.23897-7-vsementsov@virtuozzo.com>
+Message-Id: <20200606081806.23897-9-vsementsov@virtuozzo.com>
 Signed-off-by: Eric Blake <eblake@redhat.com>
 ---
- tests/qemu-iotests/qcow2_format.py | 54 +++++++++++++++---------------
- 1 file changed, 27 insertions(+), 27 deletions(-)
+ tests/qemu-iotests/qcow2_format.py | 101 +++++++++++++++++++----------
+ 1 file changed, 66 insertions(+), 35 deletions(-)
 
 diff --git a/tests/qemu-iotests/qcow2_format.py b/tests/qemu-iotests/qcow2_format.py
-index e2f08ed69194..da66df340876 100644
+index 28f2bfa63bc7..898d388b8adf 100644
 --- a/tests/qemu-iotests/qcow2_format.py
 +++ b/tests/qemu-iotests/qcow2_format.py
-@@ -23,7 +23,7 @@ class QcowHeaderExtension:
-     def __init__(self, magic, length, data):
-         if length % 8 != 0:
-             padding = 8 - (length % 8)
--            data += b"\0" * padding
-+            data += b'\0' * padding
+@@ -1,5 +1,7 @@
+ # Library for manipulations with qcow2 image
+ #
++# Copyright (c) 2020 Virtuozzo International GmbH.
++#
+ # This program is free software; you can redistribute it and/or modify
+ # it under the terms of the GNU General Public License as published by
+ # the Free Software Foundation; either version 2 of the License, or
+@@ -18,6 +20,68 @@ import struct
+ import string
 
-         self.magic = magic
-         self.length = length
-@@ -41,26 +41,26 @@ class QcowHeader:
+
++class Qcow2StructMeta(type):
++
++    # Mapping from c types to python struct format
++    ctypes = {
++        'u8': 'B',
++        'u16': 'H',
++        'u32': 'I',
++        'u64': 'Q'
++    }
++
++    def __init__(self, name, bases, attrs):
++        if 'fields' in attrs:
++            self.fmt = '>' + ''.join(self.ctypes[f[0]] for f in self.fields)
++
++
++class Qcow2Struct(metaclass=Qcow2StructMeta):
++
++    """Qcow2Struct: base class for qcow2 data structures
++
++    Successors should define fields class variable, which is: list of tuples,
++    each of three elements:
++        - c-type (one of 'u8', 'u16', 'u32', 'u64')
++        - format (format_spec to use with .format() when dump or 'mask' to dump
++                  bitmasks)
++        - field name
++    """
++
++    def __init__(self, fd=None, offset=None, data=None):
++        """
++        Two variants:
++            1. Specify data. fd and offset must be None.
++            2. Specify fd and offset, data must be None. offset may be omitted
++               in this case, than current position of fd is used.
++        """
++        if data is None:
++            assert fd is not None
++            buf_size = struct.calcsize(self.fmt)
++            if offset is not None:
++                fd.seek(offset)
++            data = fd.read(buf_size)
++        else:
++            assert fd is None and offset is None
++
++        values = struct.unpack(self.fmt, data)
++        self.__dict__ = dict((field[2], values[i])
++                             for i, field in enumerate(self.fields))
++
++    def dump(self):
++        for f in self.fields:
++            value = self.__dict__[f[2]]
++            if f[1] == 'mask':
++                bits = []
++                for bit in range(64):
++                    if value & (1 << bit):
++                        bits.append(bit)
++                value_str = str(bits)
++            else:
++                value_str = f[1].format(value)
++
++            print('{:<25} {}'.format(f[2], value_str))
++
++
+ class QcowHeaderExtension:
+
+     def __init__(self, magic, length, data):
+@@ -34,16 +98,7 @@ class QcowHeaderExtension:
+         return QcowHeaderExtension(magic, len(data), data)
+
+
+-# Mapping from c types to python struct format
+-ctypes = {
+-    'u8': 'B',
+-    'u16': 'H',
+-    'u32': 'I',
+-    'u64': 'Q'
+-}
+-
+-
+-class QcowHeader:
++class QcowHeader(Qcow2Struct):
 
      fields = (
          # Version 2 header fields
--        (uint32_t, '%#x',  'magic'),
--        (uint32_t, '%d',   'version'),
--        (uint64_t, '%#x',  'backing_file_offset'),
--        (uint32_t, '%#x',  'backing_file_size'),
--        (uint32_t, '%d',   'cluster_bits'),
--        (uint64_t, '%d',   'size'),
--        (uint32_t, '%d',   'crypt_method'),
--        (uint32_t, '%d',   'l1_size'),
--        (uint64_t, '%#x',  'l1_table_offset'),
--        (uint64_t, '%#x',  'refcount_table_offset'),
--        (uint32_t, '%d',   'refcount_table_clusters'),
--        (uint32_t, '%d',   'nb_snapshots'),
--        (uint64_t, '%#x',  'snapshot_offset'),
-+        (uint32_t, '{:#x}', 'magic'),
-+        (uint32_t, '{}', 'version'),
-+        (uint64_t, '{:#x}', 'backing_file_offset'),
-+        (uint32_t, '{:#x}', 'backing_file_size'),
-+        (uint32_t, '{}', 'cluster_bits'),
-+        (uint64_t, '{}', 'size'),
-+        (uint32_t, '{}', 'crypt_method'),
-+        (uint32_t, '{}', 'l1_size'),
-+        (uint64_t, '{:#x}', 'l1_table_offset'),
-+        (uint64_t, '{:#x}', 'refcount_table_offset'),
-+        (uint32_t, '{}', 'refcount_table_clusters'),
-+        (uint32_t, '{}', 'nb_snapshots'),
-+        (uint64_t, '{:#x}', 'snapshot_offset'),
-
-         # Version 3 header fields
-         (uint64_t, 'mask', 'incompatible_features'),
-         (uint64_t, 'mask', 'compatible_features'),
-         (uint64_t, 'mask', 'autoclear_features'),
--        (uint32_t, '%d',   'refcount_order'),
--        (uint32_t, '%d',   'header_length'),
-+        (uint32_t, '{}', 'refcount_order'),
-+        (uint32_t, '{}', 'header_length'),
+@@ -69,18 +124,8 @@ class QcowHeader:
+         ('u32', '{}', 'header_length'),
      )
 
-     fmt = '>' + ''.join(field[0] for field in fields)
-@@ -118,7 +118,7 @@ class QcowHeader:
+-    fmt = '>' + ''.join(ctypes[f[0]] for f in fields)
+-
+     def __init__(self, fd):
+-
+-        buf_size = struct.calcsize(QcowHeader.fmt)
+-
+-        fd.seek(0)
+-        buf = fd.read(buf_size)
+-
+-        header = struct.unpack(QcowHeader.fmt, buf)
+-        self.__dict__ = dict((field[2], header[i])
+-                             for i, field in enumerate(QcowHeader.fields))
++        super().__init__(fd=fd, offset=0)
 
-         fd.seek(self.header_length)
-         extensions = self.extensions
--        extensions.append(QcowHeaderExtension(0, 0, b""))
-+        extensions.append(QcowHeaderExtension(0, 0, b''))
-         for ex in extensions:
-             buf = struct.pack('>II', ex.magic, ex.length)
-             fd.write(buf)
-@@ -129,7 +129,7 @@ class QcowHeader:
-             fd.write(self.backing_file)
+         self.set_defaults()
+         self.cluster_size = 1 << self.cluster_bits
+@@ -148,20 +193,6 @@ class QcowHeader:
+         buf = buf[0:header_bytes-1]
+         fd.write(buf)
 
-         if fd.tell() > self.cluster_size:
--            raise Exception("I think I just broke the image...")
-+            raise Exception('I think I just broke the image...')
-
-     def update(self, fd):
-         header_bytes = self.header_length
-@@ -152,21 +152,21 @@ class QcowHeader:
-                         bits.append(bit)
-                 value_str = str(bits)
-             else:
--                value_str = f[1] % value
-+                value_str = f[1].format(value)
-
--            print("%-25s" % f[2], value_str)
-+            print(f'{f[2]:<25} {value_str}')
-
+-    def dump(self):
+-        for f in QcowHeader.fields:
+-            value = self.__dict__[f[2]]
+-            if f[1] == 'mask':
+-                bits = []
+-                for bit in range(64):
+-                    if value & (1 << bit):
+-                        bits.append(bit)
+-                value_str = str(bits)
+-            else:
+-                value_str = f[1].format(value)
+-
+-            print(f'{f[2]:<25} {value_str}')
+-
      def dump_extensions(self):
          for ex in self.extensions:
 
-             data = ex.data[:ex.length]
-             if all(c in string.printable.encode('ascii') for c in data):
--                data = "'%s'" % data.decode('ascii')
-+                data = f"'{ data.decode('ascii') }'"
-             else:
--                data = "<binary>"
-+                data = '<binary>'
-
--            print("Header extension:")
--            print("%-25s %#x" % ("magic", ex.magic))
--            print("%-25s %d" % ("length", ex.length))
--            print("%-25s %s" % ("data", data))
--            print("")
-+            print('Header extension:')
-+            print(f'{"magic":<25} {ex.magic:#x}')
-+            print(f'{"length":<25} {ex.length}')
-+            print(f'{"data":<25} {data}')
-+            print()
 -- 
 2.27.0
 
