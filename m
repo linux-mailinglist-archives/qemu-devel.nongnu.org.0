@@ -2,78 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC9411F3AD2
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 14:44:20 +0200 (CEST)
-Received: from localhost ([::1]:34888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C89A41F3AF9
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 14:47:36 +0200 (CEST)
+Received: from localhost ([::1]:46962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jidc3-0004u9-OU
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 08:44:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42980)
+	id 1jidfD-0001Tm-Sx
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 08:47:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43146)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jidSl-0000Kh-Cx; Tue, 09 Jun 2020 08:34:47 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:37768)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jidSe-00074q-JD; Tue, 09 Jun 2020 08:34:43 -0400
-Received: by mail-wm1-x342.google.com with SMTP id y20so2978780wmi.2;
- Tue, 09 Jun 2020 05:34:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=oEq0TkRWvRrnUcFx8Wkpo5gILqhLeSIEML9csKX17G0=;
- b=rvbccWKE3d+cDt/172b58PZ+gdd6E5JYTEQHgPimsvA4PwpQO8r7Vn5HvhUgvBM3bQ
- 4ppf/EBX3LqRCPMX335r4gQGV2286aKt+eFZbris7I1K+cPLsAseuUVGyx/rWMtiicvn
- AaZ8gMHJgypjDvqEcVuOtVFWCKNAiXI6/n7z28Yro48n4bJ6bQ2vPjbMGMcL09QJhSEC
- pXF+N/TfnG7N9JWLku0mUUQnDtDAMWSO6I1RM/YRFi9mlDukxQdr5OAEdY+D51yDaske
- iiNeNp4ZP7vtNV8MXw2lvThYup9RqB3Tr87jMtT8KJRVokfYzHv/JBjB555AcGAQpOUg
- 6ltw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=oEq0TkRWvRrnUcFx8Wkpo5gILqhLeSIEML9csKX17G0=;
- b=OJWGL8wURDEJlpuhSXVys44gZ2069JTuSCdi/6TK0FGQ0VkXzuvCikKIe73LZ26lKf
- bDf7xshINlw9c+GXfcCILNSyvPKknyrVb2OCNZYIre3exjB8U1x/3dSObK1QyEh4tJbl
- B+6W2Xzb4jzYyQ0ccAvN0A7GanRJIKKhl6/B6m01ATzNSLGZJOlevJeCq+hW2UecS5gW
- ypWzTvyzwnW5mJyFPf2et1p1dhTTtUNp3si7JVYIiariu5OmokcG+GEl/fllJOlTW9QM
- 1Z0a5pjW45IgmJqMIMjX2ylXDYQo/zMhMY/RE8F+q29GsWtTaSa9M0TlHVgvgbAPuHPp
- t/MA==
-X-Gm-Message-State: AOAM533l1s08hpTzu6AI1adZ03ym4okRi+Xy41fOz4R9TfKjXiEOMycj
- CHoJHp0/NVCRp33D4dmyg8iguzU3
-X-Google-Smtp-Source: ABdhPJzzwVjGOsXWe6jd7iSJe6Bqhpi5WsewuOtGikzvGcXBTE5aBzkGHFSoHWpK7L6kpgBWD9d2bw==
-X-Received: by 2002:a05:600c:287:: with SMTP id 7mr4013337wmk.91.1591706072771; 
- Tue, 09 Jun 2020 05:34:32 -0700 (PDT)
-Received: from localhost.localdomain
- (181.red-88-10-103.dynamicip.rima-tde.net. [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id c81sm2920931wmd.42.2020.06.09.05.34.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Jun 2020 05:34:32 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 5/5] hw/arm/tosa: Use LED device for the Bluetooth led
-Date: Tue,  9 Jun 2020 14:34:25 +0200
-Message-Id: <20200609123425.6921-6-f4bug@amsat.org>
-X-Mailer: git-send-email 2.21.3
-In-Reply-To: <20200609123425.6921-1-f4bug@amsat.org>
-References: <20200609123425.6921-1-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1jidTz-00022O-PU
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 08:35:59 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:59869
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1jidTy-0007Qn-RG
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 08:35:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1591706157;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=u15FCO2WNMuJNEoIbMKeZZKEjmpe932ErT4s57ea/3U=;
+ b=F1oeMYc6LViC8iiVkWZWmUx//Hx5oaee6Sy2GZUN75OVOiX9qOFADFypuebUQ1QrLsKH2e
+ IM1MxIY3CnhOezUShpoHjMqjf2IrpkHN+nhqaxpuxJ8YNDaIJu4HRscQEuVuzT618w/lKc
+ MUtmL0r2U5Ev5gMcgTLqC1Tvzhg2Qs8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-56-sGXVy6KbOraWGa-WAsXQow-1; Tue, 09 Jun 2020 08:35:55 -0400
+X-MC-Unique: sGXVy6KbOraWGa-WAsXQow-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7DE611009600;
+ Tue,  9 Jun 2020 12:35:54 +0000 (UTC)
+Received: from localhost (ovpn-115-52.ams2.redhat.com [10.36.115.52])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 365915D9C9;
+ Tue,  9 Jun 2020 12:35:51 +0000 (UTC)
+Date: Tue, 9 Jun 2020 13:35:49 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH] tests/qtest: Fix LGPL information in the file headers
+Message-ID: <20200609123549.GE92564@stefanha-x1.localdomain>
+References: <20200605100645.6506-1-thuth@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <20200605100645.6506-1-thuth@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="cYtjc4pxslFTELvY"
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 02:44:16
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,75 +79,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Joaquin de Andres <me@xcancerberox.com.ar>,
- Michael Roth <mdroth@linux.vnet.ibm.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-arm@nongnu.org,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Joel Stanley <joel@jms.id.au>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Emanuele Giuseppe Esposito <e.emanuelegiuseppe@gmail.com>,
+ qemu-devel@nongnu.org, Alexander Bulekov <alxndr@bu.edu>,
+ Bandan Das <bsd@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/arm/tosa.c  | 7 +++----
- hw/arm/Kconfig | 1 +
- 2 files changed, 4 insertions(+), 4 deletions(-)
+--cYtjc4pxslFTELvY
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/hw/arm/tosa.c b/hw/arm/tosa.c
-index 5dee2d76c6..86d7e0283a 100644
---- a/hw/arm/tosa.c
-+++ b/hw/arm/tosa.c
-@@ -24,6 +24,7 @@
- #include "hw/irq.h"
- #include "hw/ssi/ssi.h"
- #include "hw/sysbus.h"
-+#include "hw/misc/led.h"
- #include "exec/address-spaces.h"
- 
- #define TOSA_RAM    0x04000000
-@@ -68,9 +69,6 @@ static void tosa_microdrive_attach(PXA2xxState *cpu)
- static void tosa_out_switch(void *opaque, int line, int level)
- {
-     switch (line) {
--        case 0:
--            fprintf(stderr, "blue LED %s.\n", level ? "on" : "off");
--            break;
-         case 1:
-             fprintf(stderr, "green LED %s.\n", level ? "on" : "off");
-             break;
-@@ -119,7 +117,6 @@ static void tosa_gpio_setup(PXA2xxState *cpu,
-                         qdev_get_gpio_in(cpu->gpio, TOSA_GPIO_JC_CF_IRQ),
-                         NULL);
- 
--    qdev_connect_gpio_out(scp1, TOSA_GPIO_BT_LED, outsignals[0]);
-     qdev_connect_gpio_out(scp1, TOSA_GPIO_NOTE_LED, outsignals[1]);
-     qdev_connect_gpio_out(scp1, TOSA_GPIO_CHRG_ERR_LED, outsignals[2]);
-     qdev_connect_gpio_out(scp1, TOSA_GPIO_WLAN_LED, outsignals[3]);
-@@ -234,6 +231,8 @@ static void tosa_init(MachineState *machine)
- 
-     scp0 = sysbus_create_simple("scoop", 0x08800000, NULL);
-     scp1 = sysbus_create_simple("scoop", 0x14800040, NULL);
-+    create_led_by_gpio_id(OBJECT(machine), DEVICE(scp1),
-+                          TOSA_GPIO_BT_LED, "blue LED");
- 
-     tosa_gpio_setup(mpu, scp0, scp1, tmio);
- 
-diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-index 2afaa7c8e9..009336cac8 100644
---- a/hw/arm/Kconfig
-+++ b/hw/arm/Kconfig
-@@ -150,6 +150,7 @@ config TOSA
-     select ZAURUS  # scoop
-     select MICRODRIVE
-     select PXA2XX
-+    select LED
- 
- config SPITZ
-     bool
--- 
-2.21.3
+On Fri, Jun 05, 2020 at 12:06:45PM +0200, Thomas Huth wrote:
+> It's either "GNU *Library* General Public License version 2" or "GNU
+> Lesser General Public License version *2.1*", but there was no "version
+> 2.0" of the "Lesser" license. So assume that version 2.1 is meant here.
+>=20
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  tests/qtest/e1000e-test.c                        | 2 +-
+>  tests/qtest/fuzz/qos_fuzz.c                      | 2 +-
+>  tests/qtest/libqos/aarch64-xlnx-zcu102-machine.c | 2 +-
+>  tests/qtest/libqos/arm-imx25-pdk-machine.c       | 2 +-
+>  tests/qtest/libqos/arm-n800-machine.c            | 2 +-
+>  tests/qtest/libqos/arm-raspi2-machine.c          | 2 +-
+>  tests/qtest/libqos/arm-sabrelite-machine.c       | 2 +-
+>  tests/qtest/libqos/arm-smdkc210-machine.c        | 2 +-
+>  tests/qtest/libqos/arm-virt-machine.c            | 2 +-
+>  tests/qtest/libqos/arm-xilinx-zynq-a9-machine.c  | 2 +-
+>  tests/qtest/libqos/e1000e.c                      | 2 +-
+>  tests/qtest/libqos/e1000e.h                      | 2 +-
+>  tests/qtest/libqos/ppc64_pseries-machine.c       | 2 +-
+>  tests/qtest/libqos/qgraph.c                      | 2 +-
+>  tests/qtest/libqos/qgraph.h                      | 2 +-
+>  tests/qtest/libqos/qgraph_internal.h             | 2 +-
+>  tests/qtest/libqos/qos_external.c                | 2 +-
+>  tests/qtest/libqos/qos_external.h                | 2 +-
+>  tests/qtest/libqos/sdhci.c                       | 2 +-
+>  tests/qtest/libqos/sdhci.h                       | 2 +-
+>  tests/qtest/libqos/virtio-9p.c                   | 2 +-
+>  tests/qtest/libqos/virtio-9p.h                   | 2 +-
+>  tests/qtest/libqos/virtio-balloon.c              | 2 +-
+>  tests/qtest/libqos/virtio-balloon.h              | 2 +-
+>  tests/qtest/libqos/virtio-blk.c                  | 2 +-
+>  tests/qtest/libqos/virtio-blk.h                  | 2 +-
+>  tests/qtest/libqos/virtio-net.c                  | 2 +-
+>  tests/qtest/libqos/virtio-net.h                  | 2 +-
+>  tests/qtest/libqos/virtio-rng.c                  | 2 +-
+>  tests/qtest/libqos/virtio-rng.h                  | 2 +-
+>  tests/qtest/libqos/virtio-scsi.c                 | 2 +-
+>  tests/qtest/libqos/virtio-scsi.h                 | 2 +-
+>  tests/qtest/libqos/virtio-serial.c               | 2 +-
+>  tests/qtest/libqos/virtio-serial.h               | 2 +-
+>  tests/qtest/libqos/x86_64_pc-machine.c           | 2 +-
+>  tests/qtest/qos-test.c                           | 2 +-
+>  36 files changed, 36 insertions(+), 36 deletions(-)
+
+For anything I touched:
+
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+
+--cYtjc4pxslFTELvY
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl7fgiUACgkQnKSrs4Gr
+c8ghDgf/YToM+sDBF1+ETSZjj0Rmi2YDZgogciJOYkaLqfFz/+xLJFHVcwSSR0F0
+YoXCW5VqLw7UpjoMgSLrsOD1JhtMIKPC/EZYw7G+hxvV27H7izf3wMEE3viL+Exj
+W+ca4LPkWDuPeE2l/z117m8WZ8dh/G5IGWFtek/09R3vZM244AE+nuEq95I7qNHA
+ErAORu2x+gByECLkJ0CmmpBTkulswZU1tQlhd7MWAFFXGA8kENRJuAOKMMW0xGsK
+Ru0W5cT0BVyCKFO7aE3ZLT8nMaAFzF1lE2+rKUosLjVVuBNGmHJ2UgpafMRgnWl5
+mgmjAb6iZ0Kn9dMHYLX31Qn6W8fXxQ==
+=cVSb
+-----END PGP SIGNATURE-----
+
+--cYtjc4pxslFTELvY--
 
 
