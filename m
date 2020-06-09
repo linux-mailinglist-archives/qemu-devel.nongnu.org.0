@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA6871F4205
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 19:17:57 +0200 (CEST)
-Received: from localhost ([::1]:52910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83F301F41AD
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 19:03:38 +0200 (CEST)
+Received: from localhost ([::1]:58462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jihsq-0000IG-PL
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 13:17:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48918)
+	id 1jihez-0003ib-Fk
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 13:03:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48866)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jihII-0004fP-Mo
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 12:40:10 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:38021
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jihI0-0004Hx-63
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 12:39:52 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:41666
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jihHx-0003ES-6n
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 12:40:10 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jihHw-0003DH-6Q
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 12:39:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591720784;
+ s=mimecast20190719; t=1591720782;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XEbUxXtlak8PlFbd1O+GsorsG1R72gpuliA8h02ZDTk=;
- b=BhvNq+kthHJaPGC4hCT03cMZWKjmfmE5a7jYb9NuYFGCmcn72EQsBv6th7BHizvHhiupkJ
- cxgB6+w6iddKYLOeYqqXJy6hS8EYamfNaroVyTgFc4Y3eeBqH0jw77Qs4xCGuUOVzwcB7E
- zUzaQwlZUW33l3QAO2IEqYYUHtVmPdQ=
+ bh=uvtcmJhL+Fv9a9fpcc9/KYgV5i+CUCLGuiYqC0uxBX4=;
+ b=eqcZoFrngzBgExC1bIB7GcVEaCPUcTOXKaDX6frYV1rIfAnQCigDlNdB8YFfPp1pnRwwJq
+ +I27JS7MvacipM1Xefwi2EQRwdP2EdRRCN6gmvfuMmT5MubLW0I4OCaFuiBSqpbrhbTscP
+ WgKp1UWV/PZ53YeLUzmfZ501cgYOHpQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-441-E5G1vwlwNrKF3IsyW8XwAA-1; Tue, 09 Jun 2020 12:39:40 -0400
-X-MC-Unique: E5G1vwlwNrKF3IsyW8XwAA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-457-Ou4JDeexPJ25c16H6amzLw-1; Tue, 09 Jun 2020 12:39:40 -0400
+X-MC-Unique: Ou4JDeexPJ25c16H6amzLw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E5973100CCC0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E8704107ACF7
  for <qemu-devel@nongnu.org>; Tue,  9 Jun 2020 16:39:39 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-121.ams2.redhat.com
  [10.36.112.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B749A78FC5;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BA9435C1BD;
  Tue,  9 Jun 2020 16:39:39 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 512E61138475; Tue,  9 Jun 2020 18:39:33 +0200 (CEST)
+ id 589DE1138476; Tue,  9 Jun 2020 18:39:33 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 31/39] auxbus: Rename aux_init_bus() to aux_bus_init()
-Date: Tue,  9 Jun 2020 18:39:24 +0200
-Message-Id: <20200609163932.1566209-32-armbru@redhat.com>
+Subject: [PATCH v3 32/39] auxbus: New aux_bus_realize(),
+ pairing with aux_bus_init()
+Date: Tue,  9 Jun 2020 18:39:25 +0200
+Message-Id: <20200609163932.1566209-33-armbru@redhat.com>
 In-Reply-To: <20200609163932.1566209-1-armbru@redhat.com>
 References: <20200609163932.1566209-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
@@ -85,71 +86,67 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Suggested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+aux_bus_init() encapsulates the creation of an aux-bus and its
+aux-to-i2c-bridge device.
+
+Create aux_bus_realize() to similarly encapsulate their realization.
+
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/hw/misc/auxbus.h | 4 ++--
+ include/hw/misc/auxbus.h | 7 +++++++
  hw/display/xlnx_dp.c     | 2 +-
- hw/misc/auxbus.c         | 4 ++--
- 3 files changed, 5 insertions(+), 5 deletions(-)
+ hw/misc/auxbus.c         | 5 +++++
+ 3 files changed, 13 insertions(+), 1 deletion(-)
 
 diff --git a/include/hw/misc/auxbus.h b/include/hw/misc/auxbus.h
-index a539a98c4b..5cfd7a9284 100644
+index 5cfd7a9284..0d849d9d89 100644
 --- a/include/hw/misc/auxbus.h
 +++ b/include/hw/misc/auxbus.h
-@@ -84,14 +84,14 @@ struct AUXSlave {
- };
- 
- /**
-- * aux_init_bus: Initialize an AUX bus.
-+ * aux_bus_init: Initialize an AUX bus.
-  *
-  * Returns the new AUX bus created.
-  *
-  * @parent The device where this bus is located.
-  * @name The name of the bus.
+@@ -93,6 +93,13 @@ struct AUXSlave {
   */
--AUXBus *aux_init_bus(DeviceState *parent, const char *name);
-+AUXBus *aux_bus_init(DeviceState *parent, const char *name);
+ AUXBus *aux_bus_init(DeviceState *parent, const char *name);
  
++/**
++ * aux_bus_realize: Realize an AUX bus.
++ *
++ * @bus: The AUX bus.
++ */
++void aux_bus_realize(AUXBus *bus);
++
  /*
   * aux_request: Make a request on the bus.
+  *
 diff --git a/hw/display/xlnx_dp.c b/hw/display/xlnx_dp.c
-index 6e9793584a..31d0c5a101 100644
+index 31d0c5a101..a714cf8a50 100644
 --- a/hw/display/xlnx_dp.c
 +++ b/hw/display/xlnx_dp.c
-@@ -1244,7 +1244,7 @@ static void xlnx_dp_init(Object *obj)
-     /*
-      * Initialize AUX Bus.
-      */
--    s->aux_bus = aux_init_bus(DEVICE(obj), "aux");
-+    s->aux_bus = aux_bus_init(DEVICE(obj), "aux");
+@@ -1266,7 +1266,7 @@ static void xlnx_dp_realize(DeviceState *dev, Error **errp)
+     DisplaySurface *surface;
+     struct audsettings as;
  
-     /*
-      * Initialize DPCD and EDID..
+-    qdev_init_nofail(DEVICE(s->aux_bus->bridge));
++    aux_bus_realize(s->aux_bus);
+ 
+     qdev_init_nofail(DEVICE(s->dpcd));
+     aux_map_slave(AUX_SLAVE(s->dpcd), 0x0000);
 diff --git a/hw/misc/auxbus.c b/hw/misc/auxbus.c
-index 7fb020086f..2e1c27e842 100644
+index 2e1c27e842..113f4278aa 100644
 --- a/hw/misc/auxbus.c
 +++ b/hw/misc/auxbus.c
-@@ -62,7 +62,7 @@ static void aux_bus_class_init(ObjectClass *klass, void *data)
-     k->print_dev = aux_slave_dev_print;
+@@ -81,6 +81,11 @@ AUXBus *aux_bus_init(DeviceState *parent, const char *name)
+     return bus;
  }
  
--AUXBus *aux_init_bus(DeviceState *parent, const char *name)
-+AUXBus *aux_bus_init(DeviceState *parent, const char *name)
++void aux_bus_realize(AUXBus *bus)
++{
++    qdev_init_nofail(DEVICE(bus->bridge));
++}
++
+ void aux_map_slave(AUXSlave *aux_dev, hwaddr addr)
  {
-     AUXBus *bus;
-     Object *auxtoi2c;
-@@ -225,7 +225,7 @@ static void aux_bridge_class_init(ObjectClass *oc, void *data)
-     DeviceClass *dc = DEVICE_CLASS(oc);
- 
-     /* This device is private and is created only once for each
--     * aux-bus in aux_init_bus(..). So don't allow the user to add one.
-+     * aux-bus in aux_bus_init(..). So don't allow the user to add one.
-      */
-     dc->user_creatable = false;
- }
+     DeviceState *dev = DEVICE(aux_dev);
 -- 
 2.26.2
 
