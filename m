@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A93F1F40DC
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 18:29:43 +0200 (CEST)
-Received: from localhost ([::1]:33860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2F051F40D4
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 18:29:04 +0200 (CEST)
+Received: from localhost ([::1]:58664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jih8A-0006h5-7w
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 12:29:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47040)
+	id 1jih7X-0005ER-So
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 12:29:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47052)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jih3p-000070-Hx
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 12:25:13 -0400
-Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:40681)
+ id 1jih3q-00008q-JC
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 12:25:14 -0400
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:43848)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jih3o-0000TR-DX
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 12:25:13 -0400
-Received: by mail-pl1-x630.google.com with SMTP id t16so8229826plo.7
- for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 09:25:11 -0700 (PDT)
+ id 1jih3p-0000Ti-Ff
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 12:25:14 -0400
+Received: by mail-pl1-x631.google.com with SMTP id g12so8231369pll.10
+ for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 09:25:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Pya0L8DMOCjwgXBO0A8MFuLM5jSzTOZ88OjOprsge18=;
- b=U+VsWnueeL0xPWTjn43ahwwDTz7u5oyjiwYln2FVm5xQVoBGt8R1/d8um9leJGCLPs
- CWukIVh3WoKSaJ3FFOTTgIayzjglZ0Y3LnYy0mSyuXF9qlNX5/rkc9xZJqUeYyW3ey1T
- tYE4ZmSoqpJCWBp+KDJoQeRjVOXzEEU5/sxSLdKnfJnaO55kbWg+C12BUh//+blSvsyG
- 8fwf8sIQzCZKrgi1wCdinN1qt9HlvLCb6CsZZtOfrBl1r80SPdm/N/7P2whAAqrWK7Pk
- f+oFpvOMMQZFJ37qFoyWgkIYqykOID7axsdgFc1PGaacLbUcvXU4O3UaDccLk2Zno6FW
- 2uDw==
+ bh=D9iJwfXIlrrZhBoa0zYBpMpQDudGom24uMHOfJzYaos=;
+ b=SSKioLzg15b5lY0y9ok3Z8QBQAD9YoHL+TVOXRhHO6EAK9a7uTrCBthkJJNY4KeM7e
+ pZYIdtEzK8qAec+chAzKSWPEmBEl/0HeSn8rzn+CtZ2OrljPY2b+cKoSMWmY34vYUvnk
+ JUnE52lcSRxaHTsUbtqwbP70d65x2/g7U7gc5xwDAZxRreK0YFbULHxOijW40Uz4oybb
+ IXl4GYHLOz+HwSyUCY1pL06aNeoMc/WfiBcX02qNoqaJNyTDVpXbNSk15TxG3T64I2KG
+ aO1FrZ57E0A6SsG2AvjslfxpFAsdF/Tt/1fAg7MDbbQ33OUnrLefZXQfni5JANA4fNQF
+ Na+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Pya0L8DMOCjwgXBO0A8MFuLM5jSzTOZ88OjOprsge18=;
- b=CqIQYsWgkorh0U2E9DqFBpbxiLRUnwpz7DEwDyxfRYLBF/8LKjFtNz+vVi11ckbMU4
- v7RTUyto7Livvk7dfqk5yXCNftqNhdzzAZ9TpCozKJqWDVFNilmqTiWmS4R/xTlaUsZl
- fqSpdY/1bDTaiUN5g2xQf4SMhjFIvRlul950o4ULIeQ/pK/xKLYO13P34t3oyKWHznhw
- yP8p6h/v4gVInwxkcwUHuosvom8J5SSCt80xGQKzCqI4iZ8xSG1pdGlfovLEbLjDXWOE
- HmslglA2FkBI7/LvKMyz8H/2Ie/elOJ538qZQENXbDSLfvtkjGjFhd7/ZbeG8V934vA/
- 1vTg==
-X-Gm-Message-State: AOAM5304aChNTHBG8MraMA+oA4eDMbwOXlujotFh6xIqv3Y6Jd0k2ZBO
- lRShDMDG+ndRPlTR5gZKQvI7QYDt4N4=
-X-Google-Smtp-Source: ABdhPJxRW2VzbjbHy4poDF4Fn0PZoblwY9Or2ukbejwAEJLoDzuvdlHDCKPhlCn9/VwVpMq8rpY7Hg==
-X-Received: by 2002:a17:90b:283:: with SMTP id
- az3mr5760784pjb.232.1591719910441; 
- Tue, 09 Jun 2020 09:25:10 -0700 (PDT)
+ bh=D9iJwfXIlrrZhBoa0zYBpMpQDudGom24uMHOfJzYaos=;
+ b=IROX4cCbi8jK5lLW8yHfsT4iUuP/HvzBsW4I4GS5E+YQLzKI+CIRl+igAsX5Vanix4
+ zxWzpW2aqU+1MyucbH+iWvXwmhX00lYREN57RkqMkMRY4HCo4+28xBdj4ysMo3XxQieF
+ iwSsWvdg54LJhZwwMD7d0jnJ6euAeZDxHPZdhrTOMGhSW8KsYwfhp+wgy2Wb2P5TVHpI
+ LR3/8Yr7T+YeRiKWtdxQa/TtfdSpqDieVCEcCfrpaPdQc1SotRFjfSasLXHEhUWri7DF
+ K2GiQwznVRH+edy2BFi4RJ26VvuSa3rddoR7TpV6Ngn/HeL/q7+5f1gyvEJNT7MxJCzh
+ pG0Q==
+X-Gm-Message-State: AOAM5318FgmuKWFqkzmqiQ8uPavd7JA7yw5xgYeHFK4JWqMSLBfiGjtb
+ m6PX/oW8KCu6iPril4TYonZhRY7Al+M=
+X-Google-Smtp-Source: ABdhPJy866nI5xzvLPXeTBeVGR5GU0oLqSMp9L4gc89JGRd2Q7d41Mic9cHor0NitorHAolHXjDb7g==
+X-Received: by 2002:a17:90a:c293:: with SMTP id
+ f19mr5550170pjt.91.1591719911610; 
+ Tue, 09 Jun 2020 09:25:11 -0700 (PDT)
 Received: from localhost.localdomain (174-21-143-238.tukw.qwest.net.
  [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id s188sm7580101pfb.118.2020.06.09.09.25.09
+ by smtp.gmail.com with ESMTPSA id s188sm7580101pfb.118.2020.06.09.09.25.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Jun 2020 09:25:09 -0700 (PDT)
+ Tue, 09 Jun 2020 09:25:11 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 3/9] decodetree: Split out MultiPattern from IncMultiPattern
-Date: Tue,  9 Jun 2020 09:24:58 -0700
-Message-Id: <20200609162504.780080-4-richard.henderson@linaro.org>
+Subject: [PULL 4/9] decodetree: Allow group covering the entire insn space
+Date: Tue,  9 Jun 2020 09:24:59 -0700
+Message-Id: <20200609162504.780080-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200609162504.780080-1-richard.henderson@linaro.org>
 References: <20200609162504.780080-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -87,72 +86,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+This is an edge case for sure, but the logic that disallowed
+this case was faulty.  Further, a few fixes scattered about
+can allow this to work.
+
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- scripts/decodetree.py | 37 ++++++++++++++++++++++++++-----------
- 1 file changed, 26 insertions(+), 11 deletions(-)
+ ...est1.decode => succ_pattern_group_nest2.decode} |  2 +-
+ scripts/decodetree.py                              | 14 +++++++++++---
+ 2 files changed, 12 insertions(+), 4 deletions(-)
+ rename tests/decode/{err_pattern_group_nest1.decode => succ_pattern_group_nest2.decode} (85%)
 
+diff --git a/tests/decode/err_pattern_group_nest1.decode b/tests/decode/succ_pattern_group_nest2.decode
+similarity index 85%
+rename from tests/decode/err_pattern_group_nest1.decode
+rename to tests/decode/succ_pattern_group_nest2.decode
+index 92e971c3c5..8d5ab4b2d3 100644
+--- a/tests/decode/err_pattern_group_nest1.decode
++++ b/tests/decode/succ_pattern_group_nest2.decode
+@@ -6,7 +6,7 @@
+ %sub3 16:8
+ %sub4 24:8
+ 
+-# Groups with no overlap are supposed to fail
++# Group with complete overlap of the two patterns
+ {
+   top  00000000 00000000 00000000 00000000
+   sub4 ........ ........ ........ ........ %sub1 %sub2 %sub3 %sub4
 diff --git a/scripts/decodetree.py b/scripts/decodetree.py
-index 7af6b3056d..ea313bcdea 100755
+index ea313bcdea..3307c74c30 100755
 --- a/scripts/decodetree.py
 +++ b/scripts/decodetree.py
-@@ -371,7 +371,32 @@ class Pattern(General):
- # end Pattern
+@@ -124,6 +124,7 @@ def is_pow2(x):
+ 
+ def ctz(x):
+     """Return the number of times 2 factors into X."""
++    assert x != 0
+     r = 0
+     while ((x >> r) & 1) == 0:
+         r += 1
+@@ -131,6 +132,8 @@ def ctz(x):
  
  
--class IncMultiPattern(General):
-+class MultiPattern(General):
-+    """Class representing a set of instruction patterns"""
-+
-+    def __init__(self, lineno, pats):
-+        self.file = input_file
-+        self.lineno = lineno
-+        self.pats = pats
-+        self.base = None
-+        self.fixedbits = 0
-+        self.fixedmask = 0
-+        self.undefmask = 0
-+        self.width = None
-+
-+    def __str__(self):
-+        r = 'group'
-+        if self.fixedbits is not None:
-+            r += ' ' + str_match_bits(self.fixedbits, self.fixedmask)
-+        return r
-+
-+    def output_decl(self):
-+        for p in self.pats:
-+            p.output_decl()
-+# end MultiPattern
-+
-+
-+class IncMultiPattern(MultiPattern):
-     """Class representing an overlapping set of instruction patterns"""
+ def is_contiguous(bits):
++    if bits == 0:
++        return -1
+     shift = ctz(bits)
+     if is_pow2((bits >> shift) + 1):
+         return shift
+@@ -793,9 +796,8 @@ def build_incmulti_pattern(lineno, pats):
+             error(lineno, 'width mismatch in patterns within braces')
  
-     def __init__(self, lineno, pats, fixb, fixm, udfm, w):
-@@ -384,16 +409,6 @@ class IncMultiPattern(General):
-         self.undefmask = udfm
-         self.width = w
+     repeat = True
+-    while repeat:
+-        if fixedmask == 0:
+-            error(lineno, 'no overlap in patterns within braces')
++    fixedbits = 0
++    while repeat and fixedmask != 0:
+         fixedbits = None
+         for p in pats:
+             thisbits = p.fixedbits & fixedmask
+@@ -978,6 +980,12 @@ def build_tree(pats, outerbits, outermask):
+         innermask &= i.fixedmask
  
--    def __str__(self):
--        r = "{"
--        for p in self.pats:
--           r = r + ' ' + str(p)
--        return r + "}"
--
--    def output_decl(self):
--        for p in self.pats:
--            p.output_decl()
--
-     def output_code(self, i, extracted, outerbits, outermask):
-         global translate_prefix
-         ind = str_indent(i)
+     if innermask == 0:
++        # Edge condition: One pattern covers the entire insnmask
++        if len(pats) == 1:
++            t = Tree(outermask, innermask)
++            t.subs.append((0, pats[0]))
++            return t
++
+         text = 'overlapping patterns:'
+         for p in pats:
+             text += '\n' + p.file + ':' + str(p.lineno) + ': ' + str(p)
 -- 
 2.25.1
 
