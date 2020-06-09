@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C98841F3522
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 09:42:13 +0200 (CEST)
-Received: from localhost ([::1]:53210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 283661F3549
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 09:44:58 +0200 (CEST)
+Received: from localhost ([::1]:35956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jiYtg-0001py-Rw
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 03:42:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40356)
+	id 1jiYwL-0006M4-8G
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 03:44:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jiYkM-0004F9-RG
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 03:32:34 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:44821)
+ id 1jiYkN-0004Hf-V9
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 03:32:35 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:39490)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jiYkL-0007Xy-Vk
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 03:32:34 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id y17so20042787wrn.11
- for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 00:32:33 -0700 (PDT)
+ id 1jiYkN-0007YE-4X
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 03:32:35 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id t18so20073094wru.6
+ for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 00:32:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=vkDRcgvL+D9VvdrCQbP1oNaPKjBqDOyIV9cIwQ5Bh2E=;
- b=r9/htUarQjXUCye73m5T4O1iYdrevKTE3fpe8UDL8dg1uK5S2rRIAme+RaK7EKQq/L
- JFoRZvryJ1LHB3YhR3UdqBmt5cExy6rIaJXDmpbwip7wYIlPWxvBHfevNexU/MpSiVBd
- nnuEJBjtGw/zYLqyFmf/l4wVngKE2P+lEJ9CzI7kWU7ndqAbM2EgLV5Vc69hfm+lEG3T
- 9Nv4ExZ9U5PTkc9PI0pgDRsWl5jDO/0VymdBlP50qQEsX6c77VtCDAotyjp8xDE6hTKg
- Wx3/6IzhcWctjOXsDb8wB7h2LPYx+2Y4s91SS9rl9pRgELu8w6Zco4NPaD+soTQUAjrd
- lFMg==
+ bh=P/mKxtHL0UxIRvwcZTV/zvAsg90s7x/j5V+O3iTow44=;
+ b=W36hHERfCfDWWt1sq5dxY5LL6DlTu7P82yLIpAU4SenJ/pocvmhjz98MYSP2sVFoxW
+ jufy9jf2tJiq72dPWvkWCUdL/vjyRrxEYKDe2/8/ETxUbQutYfpHnzOjCj/KmXCDVUNZ
+ tjz4hYEPwdp1RfF+hMy/Upcw3at0T4ZRmJo4CcK0YHkeeZU1PtozQK164K/LxOJT8NI2
+ CZsqD3DLHhGjrsZYmzk2d90Csl7oBZXFhbIyxQRP4eKGWTgeNxdwi+I8gnSyHdnNpQgN
+ CRt1wyseVg/c0eRBpqT3sAZQ/kj2E5wbnoR2lkumyukb1QzkMaralkvJVQjLfJBMdl3V
+ XIBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=vkDRcgvL+D9VvdrCQbP1oNaPKjBqDOyIV9cIwQ5Bh2E=;
- b=VuASum0Pq2cDriHaUW81z3rx9Ja4yndMdOLDmQYiIcZQiy3M431s8y4zTGJNHaywQD
- QP8hOFxn5bXM47mPQAr4FIgoIEHF7z9j/8dXPxRKlgBiWddO6FEclBkjgwRq5xp82lil
- nDsCKfgN9NoW0TAHDPshYefrJ5i5P7ENhj5rx9d19OO4iQO7Cv3+gtrwnzQ8SAdo88iU
- HljWRSnJiIc7xyKbD+zr7S+wG2Ne7ciHAyg7VpX92erBDiokRFc9QyQbWA/Z6INvVmA4
- PgT99auqmRrxjvwQgiSqnruJ9GLOdnNhbc2S4HidOzZWBHafk5ppW8raDvQiGQHmSDhn
- qjwQ==
-X-Gm-Message-State: AOAM532Fi/+6azm0Eps5fhfzrjCJndKixoJHxA4T8sEMatW5aQouNpNv
- hxEIJFTBuIjJwXYZLLLmky8NySmi
-X-Google-Smtp-Source: ABdhPJy1fXTHwxCweDUDKIDIRWTpyljuvVJFozyQX++LgzWAkEKxIE14RFyUJlN+yho2e8MI3thEPg==
-X-Received: by 2002:adf:b348:: with SMTP id k8mr3168408wrd.157.1591687952391; 
- Tue, 09 Jun 2020 00:32:32 -0700 (PDT)
+ bh=P/mKxtHL0UxIRvwcZTV/zvAsg90s7x/j5V+O3iTow44=;
+ b=tZDzY++QT1shf85Bg1BtLMunyVxgRNR5wLBzhNfklndyvewIGERDfaLf+2rSE789RM
+ Vx7XZMVgCBqRM8YEhfLwQ4P+QJrgfXbG8zCfy13F3nVvNJviO9D0SUaszZIkq7VDy6sO
+ y/0i5WapG0IDdfxWAkkHNbQMNopc0mv/OlNp0SwJKzgeWnnozuTlEwOujMfIpYkWLxNT
+ Y44KtN2XKeG4Ko/iFdU5CwmjYSReW+hzYKemRqQkYT65564kL8EoR4ALydTY2vD7HGLx
+ XAux4+MtRhKWpcIDqv/h3Tz+V4fn+ZpOWH76mhsSvvByqcArA3YSlekOV7VNhroARf/L
+ 2RQg==
+X-Gm-Message-State: AOAM532gxvPjaDyfRlX+iJm9LbaXws1Y5j4ENl2ARG/PRU1XIAWGAOi3
+ zE5t4KLIRiuljzWsbTU0YbJPU4Av
+X-Google-Smtp-Source: ABdhPJxV6BT3PE+jmGctOwa//GP20bP8SyRTOlj7B8RaAU9l2+CImuPhKdfotkn9G+eRgNluhJ5bRA==
+X-Received: by 2002:a5d:4bcb:: with SMTP id l11mr3065533wrt.363.1591687953481; 
+ Tue, 09 Jun 2020 00:32:33 -0700 (PDT)
 Received: from localhost.localdomain
  (181.red-88-10-103.dynamicip.rima-tde.net. [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id m3sm2036192wmc.0.2020.06.09.00.32.31
+ by smtp.gmail.com with ESMTPSA id m3sm2036192wmc.0.2020.06.09.00.32.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Jun 2020 00:32:31 -0700 (PDT)
+ Tue, 09 Jun 2020 00:32:32 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 14/16] hw/timer/grlib_gptimer: Display frequency in decimal
-Date: Tue,  9 Jun 2020 09:32:12 +0200
-Message-Id: <20200609073214.14079-15-f4bug@amsat.org>
+Subject: [PULL 15/16] target/sparc/int32_helper: Remove DEBUG_PCALL definition
+Date: Tue,  9 Jun 2020 09:32:13 +0200
+Message-Id: <20200609073214.14079-16-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200609073214.14079-1-f4bug@amsat.org>
 References: <20200609073214.14079-1-f4bug@amsat.org>
@@ -64,8 +64,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42e.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -100,26 +100,54 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+We define DEBUG_PCALL since b884fc5e (2012-10-06).
+7.5 years later it is safe to assume we can remove it :)
+
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: KONRAD Frederic <frederic.konrad@adacore.com>
-Message-Id: <20200331105048.27989-6-f4bug@amsat.org>
+Message-Id: <20200331105048.27989-7-f4bug@amsat.org>
 ---
- hw/timer/trace-events | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/sparc/int32_helper.c | 5 -----
+ 1 file changed, 5 deletions(-)
 
-diff --git a/hw/timer/trace-events b/hw/timer/trace-events
-index 80ea197594..866c9f546a 100644
---- a/hw/timer/trace-events
-+++ b/hw/timer/trace-events
-@@ -19,7 +19,7 @@ slavio_timer_mem_writel_invalid(uint64_t addr) "invalid write address 0x%"PRIx64
- grlib_gptimer_enable(int id, uint32_t count) "timer:%d set count 0x%x and run"
- grlib_gptimer_disabled(int id, uint32_t config) "timer:%d Timer disable config 0x%x"
- grlib_gptimer_restart(int id, uint32_t reload) "timer:%d reload val: 0x%x"
--grlib_gptimer_set_scaler(uint32_t scaler, uint32_t freq) "scaler:0x%x freq: 0x%x"
-+grlib_gptimer_set_scaler(uint32_t scaler, uint32_t freq) "scaler:0x%x freq:%uHz"
- grlib_gptimer_hit(int id) "timer:%d HIT"
- grlib_gptimer_readl(int id, uint64_t addr, uint32_t val) "timer:%d addr 0x%"PRIx64" 0x%x"
- grlib_gptimer_writel(int id, uint64_t addr, uint32_t val) "timer:%d addr 0x%"PRIx64" 0x%x"
+diff --git a/target/sparc/int32_helper.c b/target/sparc/int32_helper.c
+index 813b47dbb2..c56dd3df18 100644
+--- a/target/sparc/int32_helper.c
++++ b/target/sparc/int32_helper.c
+@@ -23,9 +23,7 @@
+ #include "exec/log.h"
+ #include "sysemu/runstate.h"
+ 
+-#define DEBUG_PCALL
+ 
+-#ifdef DEBUG_PCALL
+ static const char * const excp_names[0x80] = {
+     [TT_TFAULT] = "Instruction Access Fault",
+     [TT_ILL_INSN] = "Illegal Instruction",
+@@ -58,7 +56,6 @@ static const char * const excp_names[0x80] = {
+     [TT_DIV_ZERO] = "Division By Zero",
+     [TT_NCP_INSN] = "Coprocessor Disabled",
+ };
+-#endif
+ 
+ void sparc_cpu_do_interrupt(CPUState *cs)
+ {
+@@ -71,7 +68,6 @@ void sparc_cpu_do_interrupt(CPUState *cs)
+         cpu_get_psr(env);
+     }
+ 
+-#ifdef DEBUG_PCALL
+     if (qemu_loglevel_mask(CPU_LOG_INT)) {
+         static int count;
+         const char *name;
+@@ -104,7 +100,6 @@ void sparc_cpu_do_interrupt(CPUState *cs)
+ #endif
+         count++;
+     }
+-#endif
+ #if !defined(CONFIG_USER_ONLY)
+     if (env->psret == 0) {
+         if (cs->exception_index == 0x80 &&
 -- 
 2.21.3
 
