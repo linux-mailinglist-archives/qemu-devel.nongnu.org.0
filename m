@@ -2,64 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BFC41F3928
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 13:12:03 +0200 (CEST)
-Received: from localhost ([::1]:48362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FDB81F3943
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 13:14:09 +0200 (CEST)
+Received: from localhost ([::1]:54408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jicAk-0006O5-8S
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 07:12:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34270)
+	id 1jicCm-0000WZ-1m
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 07:14:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1jic9d-0005Iq-Cn
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 07:10:53 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:39145
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jic9v-0005gh-2X
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 07:11:11 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:51343
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1jic9c-0001ob-Cr
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 07:10:53 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jic9u-00022r-6x
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 07:11:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591701051;
+ s=mimecast20190719; t=1591701069;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YaUc9EDOQ35mTac1f1OIkr0FAAbwhfJx7pPcCOjKLww=;
- b=AwCiJkbrsB69UnVLJB/En/wve/rZq7142qfoKYZs7cSXmIlzYXS3YDim4fLSwez9fMag6l
- 3F1oHxBPdTDr/eVjdcw7iVp9lvJbwE7AtSba1nh1k/VRANmvUXLved4Ps5CdsQojoCeHIb
- 5QP88cxhIPRH+q1sSO0ptWbBLDv8wRE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-240-lMt9fToYNNqA2nnPPaNbHA-1; Tue, 09 Jun 2020 07:10:49 -0400
-X-MC-Unique: lMt9fToYNNqA2nnPPaNbHA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 89A4C1005512;
- Tue,  9 Jun 2020 11:10:48 +0000 (UTC)
-Received: from localhost (ovpn-115-52.ams2.redhat.com [10.36.115.52])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5057C5D9C9;
- Tue,  9 Jun 2020 11:10:45 +0000 (UTC)
-Date: Tue, 9 Jun 2020 12:10:44 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-Subject: Re: [PATCH v2] hw/virtio/vhost: re-factor vhost-section and allow
- DIRTY_MEMORY_CODE
-Message-ID: <20200609111044.GD92564@stefanha-x1.localdomain>
-References: <20200604134022.10564-1-alex.bennee@linaro.org>
- <20200605090334.GB59930@stefanha-x1.localdomain>
- <87o8px4xxp.fsf@linaro.org>
+ bh=gC6WEmr69REgLn2lsRvv9NiGoR/bD5T6HVmJ4ITPF7o=;
+ b=MKUqEEYxr+tXS/WnVImsNVkESZCN52rzgnGVVqCOo47TU9mBwPU7xgPtfJqSU2yicTt/c0
+ kqm3UXwsk6R1nlldv+2Yuc8xZHoR2WQvCO8yBXP2Xfa60juhVkINNCJTJM+V+9qUIcS1bM
+ ejboYQ2UZdp6GUZ9WV8DPfS1HSPgFR8=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-302-BscNuXfWPEu63lrZVCSaiA-1; Tue, 09 Jun 2020 07:11:07 -0400
+X-MC-Unique: BscNuXfWPEu63lrZVCSaiA-1
+Received: by mail-wr1-f69.google.com with SMTP id i6so6868526wrr.23
+ for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 04:11:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=gC6WEmr69REgLn2lsRvv9NiGoR/bD5T6HVmJ4ITPF7o=;
+ b=jOqE9Q6kXX4XC3VEg7m+/vp0Qq/vff3dKcxOeUs6aiVIUkRSEhyEuzeBc4/TuoXSnq
+ ruVob3BXHB2iDhgFpLqFnoi8diIV7vz55cCW3ttxUHiVWvWqG7ROAljPQKgTMHHoFPeJ
+ nCOFxgf4G7P/hmmcOUXHBDx6dskZhHy9XDM5LhjXyjtMdGWYagqZowQqq2wRE071A+Kc
+ E72eLNh5kgMat+pzIxHev0oERlnsQ4qxqUBsRyGFp/1U6IjbMEU3EjD2eQ2z+O/UWK0e
+ Hy1f8esKRW0Mw01p8HIhBFv3+iO0y9h6zPEpqvT8HVPDW030DDr4Ne28HKAyY/L7jogc
+ 25DQ==
+X-Gm-Message-State: AOAM533ia7xefvQMkjrvxcuFEWDTyOKvNx0VE6uOmryMjn5Gy2MpLB4+
+ MlRszJNm9/zpwhmU9ZIMckKTGFrIbzdIhL2VwbdEHloLYrqYcWSmeKmNXS62RIFm9BP906ra/co
+ LdnMLKL+QW2PlfhU=
+X-Received: by 2002:a5d:628c:: with SMTP id k12mr3812479wru.211.1591701066334; 
+ Tue, 09 Jun 2020 04:11:06 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyY3Up1ym4TzRU1NS9l49R/XWUODvDMW5M2cEwgU3BofYT4BEs0ckiayOWBTvyLMfPr7vv94w==
+X-Received: by 2002:a5d:628c:: with SMTP id k12mr3812427wru.211.1591701066086; 
+ Tue, 09 Jun 2020 04:11:06 -0700 (PDT)
+Received: from [192.168.178.58] ([151.21.172.168])
+ by smtp.gmail.com with ESMTPSA id r12sm3176227wrc.22.2020.06.09.04.11.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 09 Jun 2020 04:11:05 -0700 (PDT)
+Subject: Re: [RFC PATCH 21/35] hw/lm32/lm32_hwsetup: Emit warning when old
+ code is used
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20200608160044.15531-1-philmd@redhat.com>
+ <20200608160044.15531-22-philmd@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <3e036ca7-753b-55fb-3a19-7d50f5b6fd19@redhat.com>
+Date: Tue, 9 Jun 2020 13:11:03 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <87o8px4xxp.fsf@linaro.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20200608160044.15531-22-philmd@redhat.com>
+Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="tNQTSEo8WG/FKZ8E"
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=stefanha@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 02:41:53
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -69,7 +88,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,147 +101,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Max Filippov <jcmvbkbc@gmail.com>, Alistair Francis <Alistair.Francis@wdc.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>,
+ Magnus Damm <magnus.damm@gmail.com>, Markus Armbruster <armbru@redhat.com>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>, qemu-arm@nongnu.org,
+ xen-devel@lists.xenproject.org, qemu-riscv@nongnu.org,
+ Stafford Horne <shorne@gmail.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Richard Henderson <rth@twiddle.net>,
+ "Daniel P . Berrange" <berrange@redhat.com>, Thomas Huth <huth@tuxfamily.org>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Michael Walle <michael@walle.cc>, qemu-ppc@nongnu.org,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---tNQTSEo8WG/FKZ8E
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 08/06/20 18:00, Philippe Mathieu-Daudé wrote:
+> This code hasn't been QOM'ified yet. Warn the user.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+>  hw/lm32/lm32_hwsetup.h | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/hw/lm32/lm32_hwsetup.h b/hw/lm32/lm32_hwsetup.h
+> index de94de177a..f4a4d8fe4b 100644
+> --- a/hw/lm32/lm32_hwsetup.h
+> +++ b/hw/lm32/lm32_hwsetup.h
+> @@ -27,6 +27,7 @@
+>  
+>  #include "qemu/cutils.h"
+>  #include "hw/loader.h"
+> +#include "hw/qdev-deprecated.h"
+>  
+>  typedef struct {
+>      void *data;
+> @@ -57,6 +58,8 @@ static inline HWSetup *hwsetup_init(void)
+>  {
+>      HWSetup *hw;
+>  
+> +    qdev_warn_deprecated_function_used();
+> +
+>      hw = g_malloc(sizeof(HWSetup));
+>      hw->data = g_malloc0(TARGET_PAGE_SIZE);
+>      hw->ptr = hw->data;
+> 
 
-On Fri, Jun 05, 2020 at 11:19:30AM +0100, Alex Benn=E9e wrote:
->=20
-> Stefan Hajnoczi <stefanha@redhat.com> writes:
->=20
-> > On Thu, Jun 04, 2020 at 02:40:22PM +0100, Alex Benn=E9e wrote:
-> >> The purpose of vhost_section is to identify RAM regions that need to
-> >> be made available to a vhost client. However when running under TCG
-> >> all RAM sections have DIRTY_MEMORY_CODE set which leads to problems
-> >> down the line.
-> >>=20
-> >> Re-factor the code so:
-> >>=20
-> >>   - steps are clearer to follow
-> >>   - reason for rejection is recorded in the trace point
-> >>   - we allow DIRTY_MEMORY_CODE when TCG is enabled
-> >>=20
-> >> We expand the comment to explain that kernel based vhost has specific
-> >> support for migration tracking.
-> >>=20
-> >> Signed-off-by: Alex Benn=E9e <alex.bennee@linaro.org>
-> >> Cc: Michael S. Tsirkin <mst@redhat.com>
-> >> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> >> Cc: Stefan Hajnoczi <stefanha@redhat.com>
-> >>=20
-> >> ---
-> >> v2
-> >>   - drop enum, add trace_vhost_reject_section
-> >>   - return false at any fail point
-> >>   - unconditionally add DIRTY_MEMORY_CODE to handled cases
-> >>   - slightly re-word the explanatory comment and commit message
-> >> ---
-> >>  hw/virtio/vhost.c      | 55 ++++++++++++++++++++++++++++++-----------=
--
-> >>  hw/virtio/trace-events |  3 ++-
-> >>  2 files changed, 41 insertions(+), 17 deletions(-)
-> >>=20
-> >> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-> >> index aff98a0ede5..120c0cc747b 100644
-> >> --- a/hw/virtio/vhost.c
-> >> +++ b/hw/virtio/vhost.c
-> >> @@ -27,6 +27,7 @@
-> >>  #include "migration/blocker.h"
-> >>  #include "migration/qemu-file-types.h"
-> >>  #include "sysemu/dma.h"
-> >> +#include "sysemu/tcg.h"
-> >>  #include "trace.h"
-> >> =20
-> >>  /* enabled until disconnected backend stabilizes */
-> >> @@ -403,26 +404,48 @@ static int vhost_verify_ring_mappings(struct vho=
-st_dev *dev,
-> >>      return r;
-> >>  }
-> >> =20
-> >> +/*
-> >> + * vhost_section: identify sections needed for vhost access
-> >> + *
-> >> + * We only care about RAM sections here (where virtqueue can live). I=
-f
-> >
-> > It's not just the virtqueue. Arbitrary guest RAM buffers can be placed
-> > into the virtqueue so we need to pass all guest RAM to the vhost device
-> > backend.
-> >
-> >> + * we find one we still allow the backend to potentially filter it ou=
-t
-> >> + * of our list.
-> >> + */
-> >>  static bool vhost_section(struct vhost_dev *dev, MemoryRegionSection =
-*section)
-> >>  {
-> >> -    bool result;
-> >> -    bool log_dirty =3D memory_region_get_dirty_log_mask(section->mr) =
-&
-> >> -                     ~(1 << DIRTY_MEMORY_MIGRATION);
-> >> -    result =3D memory_region_is_ram(section->mr) &&
-> >> -        !memory_region_is_rom(section->mr);
-> >> -
-> >> -    /* Vhost doesn't handle any block which is doing dirty-tracking o=
-ther
-> >> -     * than migration; this typically fires on VGA areas.
-> >> -     */
-> >> -    result &=3D !log_dirty;
-> >> +    MemoryRegion *mr =3D section->mr;
-> >> +
-> >> +    if (memory_region_is_ram(mr) && !memory_region_is_rom(mr)) {
-> >> +        uint8_t dirty_mask =3D memory_region_get_dirty_log_mask(mr);
-> >> +        uint8_t handled_dirty;
-> >> +
-> >> +        /*
-> >> +         * Kernel based vhost doesn't handle any block which is doing
-> >> +         * dirty-tracking other than migration for which it has
-> >> +         * specific logging support. However for TCG the kernel never
-> >> +         * gets involved anyway so we can also ignore it's
-> >> +         * self-modiying code detection flags.
-> >> +         */
-> >> +        handled_dirty =3D (1 << DIRTY_MEMORY_MIGRATION);
-> >> +        handled_dirty |=3D (1 << DIRTY_MEMORY_CODE);
-> >
-> > Wait, how is vhost going to support TCG self-modifying code detection?
-> >
-> > It seems like this change will allow vhost devices to run, but now QEMU
-> > will miss out on self-modifying code. Do we already enable vhost dirty
-> > memory logging for DIRTY_MEMORY_CODE memory somehwere?
->=20
-> Well any guest code running will still trigger the SMC detection. It's
-> true we currently don't have a mechanism if the vhost-user client
-> updates an executable page.
+This one is okay.
 
-Seems like a problem. If it didn't matter we could get rid of
-DIRTY_MEMORY_CODE entirely.
-
-If an exception is being made here because I/O devices aren't expected
-to trigger SMC in real-world guests, please document it.
-
-Stefan
-
---tNQTSEo8WG/FKZ8E
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl7fbjQACgkQnKSrs4Gr
-c8jGqwf/XNI4hxhwW6MnkmX6GEDdbiuauAdWALDza4HhC7ynuKaETVmX2Dh5jyFw
-tPkJ8fFqLpz0BIb/wWc/d7TMweb+fVCmlyV5T239sf14Cc5aNdcmr0ctS5sS5rBE
-MIrUxgtyOT42WAc8Hd3rxRXwpLemjnB2SWqfKjmT1ARyBOPqhHzwIJKDgMxH10nM
-mvrakWYVE/Ltoj+z6youPG3Fcb/Mx4+baW90pRon4F5iZmV492QnNlFU7y4SQso6
-eQia8HDTmUNi1Ka9+mrSil3HZ6tAi8Dkv8zF0kivzNSFFj/fi73ELOwFe3Y7HNG/
-3IAFh9Zv4k0ggu2IdriMkMLuU7DsBg==
-=ZsR5
------END PGP SIGNATURE-----
-
---tNQTSEo8WG/FKZ8E--
+Paolo
 
 
