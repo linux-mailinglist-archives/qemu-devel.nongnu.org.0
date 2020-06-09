@@ -2,82 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A1F51F43A5
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 19:56:28 +0200 (CEST)
-Received: from localhost ([::1]:34242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0A851F43BA
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 19:57:02 +0200 (CEST)
+Received: from localhost ([::1]:36904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jiiU7-000307-2d
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 13:56:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55942)
+	id 1jiiUf-00046m-KO
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 13:57:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jiiF4-00087r-IQ
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 13:40:54 -0400
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:33074)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jiiF2-0005Rq-TU
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 13:40:54 -0400
-Received: by mail-pf1-x441.google.com with SMTP id b201so10401286pfb.0
- for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 10:40:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=jBasq2HlXfK5voP01gxs0wtnR36LLYRt0XI1AqC9FVc=;
- b=EJzhe5i+zNgaON/3jcBQK00amcSerEcnunR0dlI7yf3Ou6SrJQUTsbnS5QQzTPvs6T
- iq5io3DM169jnUKB/G/TGZAgcFjMAoAYhH0J47hIMKxbUQ6Zeqh7bH/1sAOD+OJ6KyMB
- YyC2GhpnV0NtdsTbxwIdfmdiG+fLLvCGKDcwrTkQTWDgWWfMsHMaWj1fTRg+w/sVHrMM
- suWFC7SWaAPhFkv4Xln5tiWsML/8ArQmPVaYlrsbmzXvRtfaYbtMshyFSqywg7NGF5Ch
- JNRGy5EjpYltr6JXK4W/uhdTw1n1IE45jOajKtNnMtWvg5ba22hWYyHbg3mgvJ5tUNFV
- ZeSw==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jiiFq-0000iw-LD
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 13:41:42 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:46251
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jiiFo-0005Yx-AP
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 13:41:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1591724496;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ihmIiostKvdpw1r9iZpPNAlh9WuRRNQ2zRGcXyc1pUY=;
+ b=Xu7mCGFWafkoETULb/xly85hBfPeCKkqG4ob8iXXaNEE9F64e/JPpZjRiJl15x5PkL7QS2
+ aGLXY8u/Y68CfZqU37yK4pdVroxopCdcSoQ7U4bzk26/QFWIfrqBpsBCD/B4VfEZs0xeQD
+ 7iDpk4VriEU/OWTyq7FaaOepABSmjqg=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-98-yduFk-f6OfewPNpcOvoDTg-1; Tue, 09 Jun 2020 13:41:34 -0400
+X-MC-Unique: yduFk-f6OfewPNpcOvoDTg-1
+Received: by mail-wr1-f70.google.com with SMTP id a4so8882300wrp.5
+ for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 10:41:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=jBasq2HlXfK5voP01gxs0wtnR36LLYRt0XI1AqC9FVc=;
- b=BrA2wMAkB6Chx2HRD4QBbyxBngEa24NO+0Qe3eaT0h1Yrefw5g+D+5kf6s5eaT/8iv
- U/D+ZlrdhIXckaeXIrNhZ/DLCXf/a6RvXFT2s9halCmyAntxAjJ4wRAXy7HqdYvK8TVM
- rFex1l9mz5nsDCFZqH7hqo35bXP/XwglWAIAP2hPVwRhxk8pO1GN6A0NEBDQcUOhHhaP
- VhMQ8TYD1KFUOQBhdhKxaesPqICeqne2UM6Qoq1iE5vfo0WNmITggZ7hScZ/e+otsvl0
- Xu6CIY5H1KkbBw5CpVoEOOA28UIQiXukci8c4uYjEQ0kxsGbM9Zsvyq0ep+rKCcfDfaj
- xN0A==
-X-Gm-Message-State: AOAM533Oz+ByXd02J5HBZlA1J1rryCg9pyjIhfMH7M8vWBJRtP6zS/8k
- jrtdO3AYAWOg6KNpuSLO/2jz3aSL0nE=
-X-Google-Smtp-Source: ABdhPJw406KxQBYpSTWaJx0fUC+QfxuTEmIcri0RykJYbgl5TRxnKT1VtqKs5EyrojICrsjz6NCf5A==
-X-Received: by 2002:a63:40a:: with SMTP id 10mr26045995pge.310.1591724451050; 
- Tue, 09 Jun 2020 10:40:51 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id d189sm10563666pfc.51.2020.06.09.10.40.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 Jun 2020 10:40:50 -0700 (PDT)
-Subject: Re: [PATCH 3/7] target/arm: Convert Neon 3-reg-diff narrowing ops to
- decodetree
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20200609160209.29960-1-peter.maydell@linaro.org>
- <20200609160209.29960-4-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <0f7e4d90-e5e0-5b76-e801-4bc556036652@linaro.org>
-Date: Tue, 9 Jun 2020 10:40:48 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=AJKtT4l2MFAMGi/3mhANHfLaqRqaP5VrhgmxxaiqQUc=;
+ b=cSs8fuR54kP53G1xkaXepHCmaeZB8R50B5ja89xnVJvZbHLF8Nq8S5V75xU4D97WAC
+ Ty6mA4RHCBkoyZ3MQR2x8YkzjHLSLQ1cU3nDQ9++BODSEj0vQNwUrd+qnNrCZJEX2Tmr
+ 7p20+MLsBLrKHSGVk9N1hZHEFeidDZ+1d6tHOWJrfoewbVUBTJpWBVJ2j3aeImtgwFwD
+ i5wv5+bCg1Bjx3wRozgvgh/l1ccaUBvZWFqLWIIlvIgdkJ/dRPJ7BCC8P8opYxiF6LXP
+ Rrl61S/hCLsHQQQ6CKP4dMBjUY8ahD2DH2cyovxpaWkkRibpfWzs6YHPd926J0AIVXPm
+ Ad6A==
+X-Gm-Message-State: AOAM533bqwXTANLBs3Jxi7i8RzeNQb0mzQmSs9vg13ptBdWZfBM3Kf1g
+ AbJB4hTAz7wiTs+AY2dQE3/Q5+bh/NQ1HLJop3s1M8iRsMNbP+cXy/RJhELYHNjcAXYtTzmIBcL
+ LbLlwXXECsYWAy7I=
+X-Received: by 2002:a5d:4b85:: with SMTP id b5mr5633320wrt.8.1591724493372;
+ Tue, 09 Jun 2020 10:41:33 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyA56wFHTMub+p3FUiWNMRz2BM3jk3/EdANFyGcNswBCWfj2x4I/lpz0sI5Zl+JVnjqZtW77Q==
+X-Received: by 2002:a5d:4b85:: with SMTP id b5mr5633298wrt.8.1591724493084;
+ Tue, 09 Jun 2020 10:41:33 -0700 (PDT)
+Received: from redhat.com (bzq-79-181-55-232.red.bezeqint.net. [79.181.55.232])
+ by smtp.gmail.com with ESMTPSA id q128sm3660535wma.38.2020.06.09.10.41.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 09 Jun 2020 10:41:32 -0700 (PDT)
+Date: Tue, 9 Jun 2020 13:41:29 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH] hw/pci: Fix crash when running QEMU with "-nic
+ model=rocker"
+Message-ID: <20200609134118-mutt-send-email-mst@kernel.org>
+References: <20200527153152.9211-1-thuth@redhat.com>
+ <bead355e-de7f-e584-53a7-34b2f1664be4@vivier.eu>
+ <7e862bc4-0d5d-298e-0d1b-b8249100da9c@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200609160209.29960-4-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::441;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x441.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+In-Reply-To: <7e862bc4-0d5d-298e-0d1b-b8249100da9c@redhat.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: 8bit
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=mst@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 02:44:16
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,31 +97,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Thomas Huth <thuth@redhat.com>, qemu-trivial@nongnu.org,
+ Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/9/20 9:02 AM, Peter Maydell wrote:
-> +#define DO_NARROW_3D(INSN, OP, NARROWTYPE, EXTOP)                       \
-> +    static bool trans_##INSN##_3d(DisasContext *s, arg_3diff *a)        \
-> +    {                                                                   \
-> +        NeonGenTwo64OpFn *addfn[] = {                                   \
-> +            gen_helper_neon_##OP##l_u16,                                \
-> +            gen_helper_neon_##OP##l_u32,                                \
-> +            tcg_gen_##OP##_i64,                                         \
-> +            NULL,                                                       \
-> +        };                                                              \
-> +        NeonGenNarrowFn *narrowfn[] = {                                 \
-> +            gen_helper_neon_##NARROWTYPE##_high_u8,                     \
-> +            gen_helper_neon_##NARROWTYPE##_high_u16,                    \
-> +            EXTOP,                                                      \
-> +            NULL,                                                       \
-> +        };                                                              \
-> +        return do_narrow_3d(s, a, addfn[a->size], narrowfn[a->size]);   \
-> +    }
+On Tue, Jun 09, 2020 at 07:24:24PM +0200, Paolo Bonzini wrote:
+> On 09/06/20 19:21, Laurent Vivier wrote:
+> > Le 27/05/2020 à 17:31, Thomas Huth a écrit :
+> >> QEMU currently aborts when being started with "-nic model=rocker" or with
+> >> "-net nic,model=rocker". This happens because the "rocker" device is not
+> >> a normal NIC but a switch, which has different properties. Thus we should
+> >> only consider real NIC devices for "-nic" and "-net". These devices can
+> >> be identified by the "netdev" property, so check for this property before
+> >> adding the device to the list.
+> >>
+> >> Reported-by: Michael Tokarev <mjt@tls.msk.ru>
+> >> Fixes: 52310c3fa7dc854d ("net: allow using any PCI NICs in -net or -nic")
+> >> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> >> ---
+> >>  hw/pci/pci.c | 13 ++++++++++++-
+> >>  1 file changed, 12 insertions(+), 1 deletion(-)
+> >>
+> >> diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+> >> index 70c66965f5..46214f8287 100644
+> >> --- a/hw/pci/pci.c
+> >> +++ b/hw/pci/pci.c
+> >> @@ -1887,7 +1887,18 @@ PCIDevice *pci_nic_init_nofail(NICInfo *nd, PCIBus *rootbus,
+> >>          if (test_bit(DEVICE_CATEGORY_NETWORK, dc->categories) &&
+> >>              dc->user_creatable) {
+> >>              const char *name = object_class_get_name(list->data);
+> >> -            g_ptr_array_add(pci_nic_models, (gpointer)name);
+> >> +            /*
+> >> +             * A network device might also be something else than a NIC, see
+> >> +             * e.g. the "rocker" device. Thus we have to look for the "netdev"
+> >> +             * property, too. Unfortunately, some devices like virtio-net only
+> >> +             * create this property during instance_init, so we have to create
+> >> +             * a temporary instance here to be able to check it.
+> >> +             */
+> >> +            Object *obj = object_new_with_class(OBJECT_CLASS(dc));
+> >> +            if (object_property_find(obj, "netdev", NULL)) {
+> >> +                g_ptr_array_add(pci_nic_models, (gpointer)name);
+> >> +            }
+> >> +            object_unref(obj);
+> >>          }
+> >>          next = list->next;
+> >>          g_slist_free_1(list);
+> >>
+> > 
+> > Not really trivial, I will not pick up this patch via trivial-branch,
+> > unless PCI maintainers request it.
+> > 
+> > Thanks,
+> > Laurent
+> > 
+> 
+> I'll pick it up then.
+> 
+> Paolo
 
-Missing const again.  Otherwise,
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+I queued this already. Thanks!
 
+-- 
+MST
 
-r~
 
