@@ -2,100 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 158D51F417A
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 18:55:38 +0200 (CEST)
-Received: from localhost ([::1]:60610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62A131F4139
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 18:43:12 +0200 (CEST)
+Received: from localhost ([::1]:45040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jihXE-0000ry-N5
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 12:55:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47550)
+	id 1jihLD-0007KQ-Dg
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 12:43:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1jih7W-0006WH-Ln; Tue, 09 Jun 2020 12:29:02 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:31928
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1jih7U-0001AT-Vs; Tue, 09 Jun 2020 12:29:02 -0400
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 059G2gPO084329; Tue, 9 Jun 2020 12:28:53 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 31ja39rg95-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 09 Jun 2020 12:28:53 -0400
-Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 059G2nwP085059;
- Tue, 9 Jun 2020 12:28:53 -0400
-Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.71])
- by mx0b-001b2d01.pphosted.com with ESMTP id 31ja39rg8j-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 09 Jun 2020 12:28:53 -0400
-Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
- by ppma02fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 059GLI52006919;
- Tue, 9 Jun 2020 16:28:51 GMT
-Received: from b06cxnps3075.portsmouth.uk.ibm.com
- (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
- by ppma02fra.de.ibm.com with ESMTP id 31g2s82jxu-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 09 Jun 2020 16:28:51 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 059GSmEj37290082
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 9 Jun 2020 16:28:48 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 78DB911C05B;
- Tue,  9 Jun 2020 16:28:48 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C002711C050;
- Tue,  9 Jun 2020 16:28:47 +0000 (GMT)
-Received: from oc2783563651 (unknown [9.145.129.89])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Tue,  9 Jun 2020 16:28:47 +0000 (GMT)
-Date: Tue, 9 Jun 2020 18:28:39 +0200
-From: Halil Pasic <pasic@linux.ibm.com>
-To: Claudio Imbrenda <imbrenda@linux.ibm.com>
-Subject: Re: [PATCH v2 1/1] virtio-ccw: auto-manage VIRTIO_F_IOMMU_PLATFORM
- if PV
-Message-ID: <20200609182839.7ac80938.pasic@linux.ibm.com>
-In-Reply-To: <20200609174747.4e300818@ibm-vm>
-References: <20200514221155.32079-1-pasic@linux.ibm.com>
- <20200520121507-mutt-send-email-mst@kernel.org>
- <20200606013217.2cffa3ed.pasic@linux.ibm.com>
- <20200608181428.3c6f127c.cohuck@redhat.com>
- <20200608190045.319dd68b.pasic@linux.ibm.com>
- <20200609084402.35d317ec.cohuck@redhat.com>
- <20200609114130.0ca9190b.pasic@linux.ibm.com>
- <20200609174747.4e300818@ibm-vm>
-Organization: IBM
-X-Mailer: Claws Mail 3.11.1 (GTK+ 2.24.31; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <hskinnemoen@google.com>)
+ id 1jih8v-0000EP-CI
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 12:30:29 -0400
+Received: from mail-ua1-x943.google.com ([2607:f8b0:4864:20::943]:37413)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <hskinnemoen@google.com>)
+ id 1jih8u-0001Mc-9M
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 12:30:28 -0400
+Received: by mail-ua1-x943.google.com with SMTP id v25so7396938uau.4
+ for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 09:30:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=eEJNUFMdF6jpcDaL363IMPBony6nAHc9SzbCxKUDoKw=;
+ b=rLD8DozhN0P0qPeq4LQV7eikoPaBt2kNOv4nut5ga4j9hcqU8oCVFS9NaKldSnz4RD
+ 4rEqEhjK9Go4rpyTDzyavnn8yGqf7GTr6gdgeIVCyh0P3w+pqMEVqgNu/HkAiOmA6ABo
+ 7G8uxNFnh4t/5WVA8es9QeQxzAF03KjHeD+l5wAAzHkUH3z2k3p5JhacKNuYmlmCkZIL
+ kJB2zHQTzK9OG+crInJl/cTy7TSI6JBF6J2uXdJuy+XawC3lAUoedOpRA4vDNp7CgExD
+ V59+0BfJ9oZiIWStZGPEDXfaL46c/CEiDD8GNsGK54QZnz6nUOvLL8WZz7mCwCf9eFQh
+ OoPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=eEJNUFMdF6jpcDaL363IMPBony6nAHc9SzbCxKUDoKw=;
+ b=dNPccRfTJrfwfP1skMyQU4109jYYSudTHRvDLVvjU+y/m2jNaJOv4UK1o+FgzfJuip
+ h+sORMlos7Ib0hvBk+IWBlpkK5N4uVTblxQ8Y/hwZH/1ANOoodQDFwO1vUsrwrI0hHH7
+ lPsdLq6Xd/DOV5TQYO+iKiw/0g907gm3NuaxbbAtV9tcXiLGZU9z4svhtI+MntpPntgw
+ uTkJY/zc5oDTzJV8Xms1OBw8Yaht818adWuekIzppgddhp0jGcZSKVKzHzAV/l6nZ/X7
+ mZQKVdwW+1I9AZkshqeTJZAI4HMx3ouF37P3NncrbPQcqvkrH0w0ktelZvWUKkobWx1j
+ c10w==
+X-Gm-Message-State: AOAM533CaUhRxdWV0Cl1oj3sM2F2pJ63t7Me+nBCyvEJ+6hsu98rohnM
+ HjgkEE5ilLPMQH73SVhT+UJ8T5sQmaT6LXGouv/wFg==
+X-Google-Smtp-Source: ABdhPJxIRbW0hHqenZv0Ygm65EIKOTQt3K0m6T2+M8VnPtiKXZwVVtE4pzdwkBcMGuk0eTKad0RwM2IA+XI31O3b6Ro=
+X-Received: by 2002:ab0:70c9:: with SMTP id r9mr4018578ual.15.1591720226540;
+ Tue, 09 Jun 2020 09:30:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.687
- definitions=2020-06-09_09:2020-06-09,
- 2020-06-09 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 mlxscore=0
- suspectscore=0 priorityscore=1501 malwarescore=0 cotscore=-2147483648
- spamscore=0 phishscore=0 clxscore=1015 adultscore=0 mlxlogscore=895
- lowpriorityscore=0 impostorscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2004280000 definitions=main-2006090118
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pasic@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 11:42:10
-X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, KHOP_DYNAMIC=0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+References: <20200521192133.127559-1-hskinnemoen@google.com>
+ <CAFQmdRYYhoWu7q350n0vNOE+pesp-UG975v1f1Yjwf9Ao0mjcg@mail.gmail.com>
+ <60521645-6e85-cc59-7048-94db9634ad0a@kaod.org>
+ <CAFEAcA9ph6R1wmPps9BZ1aBvaiJ67AEVWN_URuYTKVCfCg1f5A@mail.gmail.com>
+In-Reply-To: <CAFEAcA9ph6R1wmPps9BZ1aBvaiJ67AEVWN_URuYTKVCfCg1f5A@mail.gmail.com>
+From: Havard Skinnemoen <hskinnemoen@google.com>
+Date: Tue, 9 Jun 2020 09:30:15 -0700
+Message-ID: <CAFQmdRYu6qPYv_eS_VCn9qercrEjPYBHmqKr4yoBhxQcSxZKvA@mail.gmail.com>
+Subject: Re: [PATCH 0/6] Add Nuvoton NPCM730/NPCM750 SoCs and two BMC machines
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, 
+ qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>, 
+ IS20 Avi Fishman <Avi.Fishman@nuvoton.com>, CS20 KFTing <kfting@nuvoton.com>
+Content-Type: multipart/alternative; boundary="000000000000afdba605a7a93e73"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::943;
+ envelope-from=hskinnemoen@google.com; helo=mail-ua1-x943.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -158
+X-Spam_score: -15.9
+X-Spam_bar: ---------------
+X-Spam_report: (-15.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001, URIBL_SBL=1.623, URIBL_SBL_A=0.1,
+ USER_IN_DEF_DKIM_WL=-7.5, USER_IN_DEF_SPF_WL=-7.5 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -108,60 +85,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Boris Fiuczynski <fiuczy@linux.ibm.com>,
- Janosch Frank <frankja@linux.ibm.com>, Pierre Morel <pmorel@linux.ibm.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>,
- Viktor Mihajlovski <mihajlov@linux.ibm.com>,
- Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 9 Jun 2020 17:47:47 +0200
-Claudio Imbrenda <imbrenda@linux.ibm.com> wrote:
+--000000000000afdba605a7a93e73
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> On Tue, 9 Jun 2020 11:41:30 +0200
-> Halil Pasic <pasic@linux.ibm.com> wrote:
-> 
-> [...]
-> 
-> > I don't know. Janosch could answer that, but he is on vacation. Adding
-> > Claudio maybe he can answer. My understanding is, that while it might
-> > be possible, it is ugly at best. The ability to do a transition is
-> > indicated by a CPU model feature. Indicating the feature to the guest
-> > and then failing the transition sounds wrong to me.
-> 
-> I agree. If the feature is advertised, then it has to work. I don't
-> think we even have an architected way to fail the transition for that
-> reason.
-> 
-> What __could__ be done is to prevent qemu from even starting if an
-> incompatible device is specified together with PV.
+On Tue, Jun 9, 2020 at 2:38 AM Peter Maydell <peter.maydell@linaro.org>
+wrote:
 
-AFAIU, the "specified together with PV" is the problem here. Currently
-we don't "specify PV" but PV is just a capability that is managed by the
-CPU model (like so many other). I.e. the fact that the
-visualization environment is capable providing PV (unpack facility
-available), and the fact, that the end user didn't fence the unpack
-facility, does not mean, the user is dead set to use PV.
+> On Tue, 9 Jun 2020 at 08:31, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+> > The first series was nicely presented I think, but you can extend it in
+> v2.
+> > Documentation needs an update in :
+> >
+> >   docs/system/target-arm.rst
+>
+> To expand on that: the new boards should have at least some basic
+> documentation in a new docs/system/arm/something.rst (we have
+> one .rst file usually for each "family" of boards which are
+> similar enough to make sense to document as a group), which is
+> added to the toctree in target-arm.rst (note that it is supposed
+> to be kept in alpha-order-of-document-title-text). aspeed.rst should
+> give an idea of what ought to be documented: a basic summary of
+> what the machine is, what is supported, what is not implemented,
+> any machine options that the board has, that sort of thing.
+>
 
-My understanding is, that we want PV to just work, without having to
-put together a peculiar VM definition that says: this is going to be
-used as a PV VM.
+Thanks for the feedback. I will include documentation in v2 of this
+patchset, and also address your other comments.
 
-> 
-> Another option is to disable PV at the qemu level if an incompatible
-> device is present. This will have the effect that trying to boot a
-> secure guest will fail mysteriously, which is IMHO also not too great.
-> 
+Havard
 
-This would contradict with if feature is advertised, then it has to work
-or?
+--000000000000afdba605a7a93e73
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> do we really have that many incompatible devices?
-> 
+<div dir=3D"ltr"><div dir=3D"ltr">On Tue, Jun 9, 2020 at 2:38 AM Peter Mayd=
+ell &lt;<a href=3D"mailto:peter.maydell@linaro.org">peter.maydell@linaro.or=
+g</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"g=
+mail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204=
+,204,204);padding-left:1ex">On Tue, 9 Jun 2020 at 08:31, C=C3=A9dric Le Goa=
+ter &lt;<a href=3D"mailto:clg@kaod.org" target=3D"_blank" class=3D"cremed">=
+clg@kaod.org</a>&gt; wrote:<br>
+&gt; The first series was nicely presented I think, but you can extend it i=
+n v2.<br>
+&gt; Documentation needs an update in :<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0docs/system/target-arm.rst<br>
+<br>
+To expand on that: the new boards should have at least some basic<br>
+documentation in a new docs/system/arm/something.rst (we have<br>
+one .rst file usually for each &quot;family&quot; of boards which are<br>
+similar enough to make sense to document as a group), which is<br>
+added to the toctree in target-arm.rst (note that it is supposed<br>
+to be kept in alpha-order-of-document-title-text). aspeed.rst should<br>
+give an idea of what ought to be documented: a basic summary of<br>
+what the machine is, what is supported, what is not implemented,<br>
+any machine options that the board has, that sort of thing.<br></blockquote=
+><div><br></div><div>Thanks for the feedback. I will include documentation =
+in v2 of this patchset, and also address your other comments.</div><div><br=
+></div><div>Havard</div></div></div>
 
-
+--000000000000afdba605a7a93e73--
 
