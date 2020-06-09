@@ -2,116 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 599AB1F3E16
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 16:27:58 +0200 (CEST)
-Received: from localhost ([::1]:51446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08ACF1F3DE8
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 16:21:44 +0200 (CEST)
+Received: from localhost ([::1]:33714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jifEL-00063R-CJ
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 10:27:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55200)
+	id 1jif8I-00075a-Vs
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 10:21:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55294)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jif5U-0004dq-Gk
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 10:18:48 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:42285
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jif69-0005Tp-LE
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 10:19:29 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:28081
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jif5T-0008Tp-KI
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 10:18:48 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jif68-00008J-Cc
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 10:19:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591712326;
+ s=mimecast20190719; t=1591712367;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=0ofLoj6IFVa5Sd46VtPUTRrrKQ+s71NsZoY7qElYny8=;
- b=Dkmkf3qNf3FVjK8vrnD3GFhjk8WaflYPKgKwnNvftomJbCWA7gwuPj7SxffLHtwu6sGrg+
- CkqEg/FXK9F5PsbfJq2LUjRZHBLWOHKmX68fI63d6N+kN877J0yGSVJJBcZlHERaPPDGQU
- xdwCfuwez3kqLtRxm0eht8s+4NmUYIA=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-360-5IA46SivMZazyxJr1lwJUQ-1; Tue, 09 Jun 2020 10:18:44 -0400
-X-MC-Unique: 5IA46SivMZazyxJr1lwJUQ-1
-Received: by mail-wr1-f70.google.com with SMTP id w16so8659887wru.18
- for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 07:18:44 -0700 (PDT)
+ in-reply-to:in-reply-to:references:references;
+ bh=lnSAfuKnJmXdY0VpCSldzjzzHRt5dNWkRuY7Yw1eVAo=;
+ b=cM3WfZU25hXPfZttqFaTvx+n8X4sK+NKf8jdrnGid2txhGc9ajYn7B1LwjdM/odBQIw/a7
+ BXqQIY9VHP2jmkv4XGmQRHRjwjnr45GNbxTs4LM8iwd+zb09MfP+Mgsg/8b9cHmPgJS+ro
+ shSDHtSWdzRBiDyqNkBjw3sUXXxeX8E=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-249-0ecUgO3pOoG3Bvw4tLAglA-1; Tue, 09 Jun 2020 10:19:19 -0400
+X-MC-Unique: 0ecUgO3pOoG3Bvw4tLAglA-1
+Received: by mail-wm1-f72.google.com with SMTP id c4so761414wmd.0
+ for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 07:19:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=0ofLoj6IFVa5Sd46VtPUTRrrKQ+s71NsZoY7qElYny8=;
- b=J9i7m/YkGuQVwY8Pwl1czhELUD31sY5axHpGz9t3p1cUPHJt0WxW154Z/UNRYDjGwW
- xXu+RwOUuTjtLiUy01PlW2vs//3ko8OxOZvrBU3lvTAg/e1oewzIz57bjlHYaPaYAUq3
- 8AaCk4RHLSzkODAq2BqxXg1w2zoRmEm4hddZW1mhoMuZ8ibVHYs56AdaPoly2ba9RGho
- 914uWK0N78VTIKMrSEAyudEJXHtoo6bmJr2vuwTDyNHS4zbhptsZl79YKrTbCYp06JY8
- HInIlUrbxRyJ01duE0sbIW5gDQ6mBOg4EhvXS/a4ZqRHM+7xuc5rhXerxP8tqJnCzmCr
- WbCw==
-X-Gm-Message-State: AOAM530jJaKgkFQHzv/jo9o2Uj+aUKrg7SGd53BTv2u9OsVTCdUl0e40
- AZocGii9lN6mx2KN7LlDx4nqSr6VcsXV4Q/hlFoP09E0BpBzd5acpmm0ssiBc0qxQHwOUJJyY2V
- Emj4NynDokD81ftw=
-X-Received: by 2002:adf:a306:: with SMTP id c6mr4744314wrb.122.1591712323608; 
- Tue, 09 Jun 2020 07:18:43 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzOGHOEJ0JJUuuPLPG6PokIaR4WBnfeKCjRWfSegrn5+ynZ4ydeGNuD2T3mbGvJBn3Au308nA==
-X-Received: by 2002:adf:a306:: with SMTP id c6mr4744289wrb.122.1591712323390; 
- Tue, 09 Jun 2020 07:18:43 -0700 (PDT)
-Received: from [192.168.1.38] (181.red-88-10-103.dynamicip.rima-tde.net.
- [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id y19sm2997370wmi.6.2020.06.09.07.18.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 Jun 2020 07:18:42 -0700 (PDT)
-Subject: Re: [PATCH 0/1] hw/block/nvme: fix assert on invalid irq vector
-To: Kevin Wolf <kwolf@redhat.com>, Klaus Jensen <its@irrelevant.dk>,
- Maxim Levitsky <mlevitsk@redhat.com>
-References: <20200609094508.32412-1-its@irrelevant.dk>
- <b445a413-598f-23a2-f094-8b68c60722f5@redhat.com>
- <20200609114633.yvwtt6swb47l27yd@apples.localdomain>
- <20200609141425.GC11003@linux.fritz.box>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <48537ee1-ed77-ffe6-66ba-d61838083069@redhat.com>
-Date: Tue, 9 Jun 2020 16:18:41 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=lnSAfuKnJmXdY0VpCSldzjzzHRt5dNWkRuY7Yw1eVAo=;
+ b=DSwV2XsSrfhitkFnsrfxyzNctl2ykMLxnkAex9zHXiy5BhhyHzAzSSbiPUN/Hv6JDa
+ 9vdxOt6XJihZE9RJHiRBd1W+z7uXzAHlZ4MfOhD8uKPqpdZ7S2l3MWo4+X/Gd52PvIkb
+ VVAd/ctOh1UHS+20hoVtK7oE/IhxJX8wGs8I0GJfIvjD9ag8MgY0nEEPAXuhdxXqvxq1
+ O/TAunZzn2QzZCClovGse68KZ5P4lxQ6EmZvsnJ8w6VoYBbGRVVw4R7zI2qJoUuy5ktk
+ fq5ELL3DGWXaO2AvG5COtDKi2pWSkNy+rs4z322X/Vhw/Xc/g6+LNPVOjjkFTofTNjjj
+ DkWw==
+X-Gm-Message-State: AOAM530DUMLQz5P5TCVfRW+si7Rxr57+Jp8RrKX4bec1EE3k/g2F5EBV
+ XTgFKywiAfDoj0/Dedh1DyoQOyvQKSc6N9Cdn7MfveqSpaStVqWRESLT5yHvcdoWiTeakxVSxnP
+ niATfOd2AwjKXgnM=
+X-Received: by 2002:a5d:4c87:: with SMTP id z7mr4717835wrs.100.1591712358420; 
+ Tue, 09 Jun 2020 07:19:18 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyeo86hKCUp0mtgXR98iiQ38LowH4pLLLTKhCxH99KW7pLOSf8fABOkUkEOy5Ctj0nZ0Ccz3Q==
+X-Received: by 2002:a5d:4c87:: with SMTP id z7mr4717801wrs.100.1591712358156; 
+ Tue, 09 Jun 2020 07:19:18 -0700 (PDT)
+Received: from redhat.com (bzq-79-181-55-232.red.bezeqint.net. [79.181.55.232])
+ by smtp.gmail.com with ESMTPSA id d16sm3046995wmd.42.2020.06.09.07.19.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 09 Jun 2020 07:19:17 -0700 (PDT)
+Date: Tue, 9 Jun 2020 10:19:14 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Vishal Verma <vishal.l.verma@intel.com>
+Subject: Re: [PATCH v5 3/3] tests/acpi: update expected SRAT files
+Message-ID: <20200609101341-mutt-send-email-mst@kernel.org>
+References: <20200606000911.9896-1-vishal.l.verma@intel.com>
+ <20200606000911.9896-4-vishal.l.verma@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20200609141425.GC11003@linux.fritz.box>
-Content-Language: en-US
+In-Reply-To: <20200606000911.9896-4-vishal.l.verma@intel.com>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 02:41:53
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=mst@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 01:38:49
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -124,50 +92,215 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Keith Busch <kbusch@kernel.org>, Javier Gonzalez <javier.gonz@samsung.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Xiao Guangrong <xiaoguangrong.eric@gmail.com>, jingqi.liu@intel.com,
+ Dave Hansen <dave.hansen@linux.intel.com>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Dan Williams <dan.j.williams@intel.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/9/20 4:14 PM, Kevin Wolf wrote:
-> Am 09.06.2020 um 13:46 hat Klaus Jensen geschrieben:
->> On Jun  9 13:17, Philippe Mathieu-DaudÃ© wrote:
->>> On 6/9/20 11:45 AM, Klaus Jensen wrote:
->>>> From: Klaus Jensen <k.jensen@samsung.com>
->>>>
->>>> I goofed up with commit c09794fe40e3 ("hw/block/nvme: allow use of any
->>>> valid msix vector").
->>>
->>> Kevin, since your queue isn't merged, can you directly squash the fix?
->>
->> The commit (c09794fe40e3) can just be dropped without conflicts, but it
->> leaves a use of n->params.num_queues in nvme_create_cq() which commit
->> cde74bfd4b87 ("hw/block/nvme: add max_ioqpairs device parameter") must
->> fix.
+On Fri, Jun 05, 2020 at 06:09:11PM -0600, Vishal Verma wrote:
+> Update expected SRAT files for the change to account for NVDIMM NUMA
+> nodes in the SRAT.
 > 
-> Hm, so it seems this isn't easy to squash in without conflicts (and I
-> would have to rewrite the whole commit message), so I think it's better
-> to just apply the series on top.
+> AML diffs:
 > 
-> One problem with the commit message is that it references commit IDs
-> which aren't stable yet. Maybe it's best if I apply these patches,
-> manually fix up the commit ID references and then immediately do a pull
-> request so that they become stable.
-
-This is the friendlier way.
-
-Less friendly way is to drop Klaus's patches and ask him to respin.
-While this is a valid outcome, if we can avoid it it will save all of us
-review time.
-
+> tests/data/acpi/pc/SRAT.dimmpxm:
+> --- /tmp/asl-3P2IL0.dsl	2020-05-28 15:11:02.326439263 -0600
+> +++ /tmp/asl-1N4IL0.dsl	2020-05-28 15:11:02.325439280 -0600
+> @@ -3,7 +3,7 @@
+>   * AML/ASL+ Disassembler version 20190509 (64-bit version)
+>   * Copyright (c) 2000 - 2019 Intel Corporation
+>   *
+> - * Disassembly of tests/data/acpi/pc/SRAT.dimmpxm, Thu May 28 15:11:02 2020
+> + * Disassembly of /tmp/aml-4D4IL0, Thu May 28 15:11:02 2020
+>   *
+>   * ACPI Data Table [SRAT]
+>   *
+> @@ -13,7 +13,7 @@
+>  [000h 0000   4]                    Signature : "SRAT"    [System Resource Affinity Table]
+>  [004h 0004   4]                 Table Length : 00000188
+>  [008h 0008   1]                     Revision : 01
+> -[009h 0009   1]                     Checksum : 80
+> +[009h 0009   1]                     Checksum : 68
+>  [00Ah 0010   6]                       Oem ID : "BOCHS "
+>  [010h 0016   8]                 Oem Table ID : "BXPCSRAT"
+>  [018h 0024   4]                 Oem Revision : 00000001
+> @@ -140,15 +140,15 @@
+>  [138h 0312   1]                Subtable Type : 01 [Memory Affinity]
+>  [139h 0313   1]                       Length : 28
 > 
-> It would be good to have at least one review, though.
-
-Maxim catched this issue, I'd feel safer if he acks your pre-merge queue.
-
+> -[13Ah 0314   4]             Proximity Domain : 00000000
+> +[13Ah 0314   4]             Proximity Domain : 00000002
+>  [13Eh 0318   2]                    Reserved1 : 0000
+> -[140h 0320   8]                 Base Address : 0000000000000000
+> -[148h 0328   8]               Address Length : 0000000000000000
+> +[140h 0320   8]                 Base Address : 0000000108000000
+> +[148h 0328   8]               Address Length : 0000000008000000
+>  [150h 0336   4]                    Reserved2 : 00000000
+> -[154h 0340   4]        Flags (decoded below) : 00000000
+> -                                     Enabled : 0
+> +[154h 0340   4]        Flags (decoded below) : 00000005
+> +                                     Enabled : 1
+>                                 Hot Pluggable : 0
+> -                                Non-Volatile : 0
+> +                                Non-Volatile : 1
+>  [158h 0344   8]                    Reserved3 : 0000000000000000
 > 
-> Kevin
+>  [160h 0352   1]                Subtable Type : 01 [Memory Affinity]
 > 
+> tests/data/acpi/q35/SRAT.dimmpxm:
+> --- /tmp/asl-HW2LL0.dsl	2020-05-28 15:11:05.446384514 -0600
+> +++ /tmp/asl-8MYLL0.dsl	2020-05-28 15:11:05.445384532 -0600
+> @@ -3,7 +3,7 @@
+>   * AML/ASL+ Disassembler version 20190509 (64-bit version)
+>   * Copyright (c) 2000 - 2019 Intel Corporation
+>   *
+> - * Disassembly of tests/data/acpi/q35/SRAT.dimmpxm, Thu May 28 15:11:05 2020
+> + * Disassembly of /tmp/aml-2CYLL0, Thu May 28 15:11:05 2020
+>   *
+>   * ACPI Data Table [SRAT]
+>   *
+> @@ -13,7 +13,7 @@
+>  [000h 0000   4]                    Signature : "SRAT"    [System Resource Affinity Table]
+>  [004h 0004   4]                 Table Length : 00000188
+>  [008h 0008   1]                     Revision : 01
+> -[009h 0009   1]                     Checksum : 80
+> +[009h 0009   1]                     Checksum : 68
+>  [00Ah 0010   6]                       Oem ID : "BOCHS "
+>  [010h 0016   8]                 Oem Table ID : "BXPCSRAT"
+>  [018h 0024   4]                 Oem Revision : 00000001
+> @@ -140,15 +140,15 @@
+>  [138h 0312   1]                Subtable Type : 01 [Memory Affinity]
+>  [139h 0313   1]                       Length : 28
+> 
+> -[13Ah 0314   4]             Proximity Domain : 00000000
+> +[13Ah 0314   4]             Proximity Domain : 00000002
+>  [13Eh 0318   2]                    Reserved1 : 0000
+> -[140h 0320   8]                 Base Address : 0000000000000000
+> -[148h 0328   8]               Address Length : 0000000000000000
+> +[140h 0320   8]                 Base Address : 0000000108000000
+> +[148h 0328   8]               Address Length : 0000000008000000
+>  [150h 0336   4]                    Reserved2 : 00000000
+> -[154h 0340   4]        Flags (decoded below) : 00000000
+> -                                     Enabled : 0
+> +[154h 0340   4]        Flags (decoded below) : 00000005
+> +                                     Enabled : 1
+>                                 Hot Pluggable : 0
+> -                                Non-Volatile : 0
+> +                                Non-Volatile : 1
+>  [158h 0344   8]                    Reserved3 : 0000000000000000
+> 
+>  [160h 0352   1]                Subtable Type : 01 [Memory Affinity]
+> 
+> tests/data/acpi/virt/SRAT.memhp:
+> --- /tmp/asl-E32WL0.dsl	2020-05-28 15:19:56.976095582 -0600
+> +++ /tmp/asl-Y69WL0.dsl	2020-05-28 15:19:56.974095617 -0600
+> @@ -3,7 +3,7 @@
+>   * AML/ASL+ Disassembler version 20190509 (64-bit version)
+>   * Copyright (c) 2000 - 2019 Intel Corporation
+>   *
+> - * Disassembly of tests/data/acpi/virt/SRAT.memhp, Thu May 28 15:19:56 2020
+> + * Disassembly of /tmp/aml-2CCXL0, Thu May 28 15:19:56 2020
+>   *
+>   * ACPI Data Table [SRAT]
+>   *
+> @@ -11,9 +11,9 @@
+>   */
+> 
+>  [000h 0000   4]                    Signature : "SRAT"    [System Resource Affinity Table]
+> -[004h 0004   4]                 Table Length : 000000BA
+> +[004h 0004   4]                 Table Length : 000000E2
+>  [008h 0008   1]                     Revision : 03
+> -[009h 0009   1]                     Checksum : 43
+> +[009h 0009   1]                     Checksum : 5C
+>  [00Ah 0010   6]                       Oem ID : "BOCHS "
+>  [010h 0016   8]                 Oem Table ID : "BXPCSRAT"
+>  [018h 0024   4]                 Oem Revision : 00000001
+> @@ -65,18 +65,32 @@
+> 
+>  [094h 0148   4]             Proximity Domain : 00000001
+>  [098h 0152   2]                    Reserved1 : 0000
+> -[09Ah 0154   8]                 Base Address : 0000000080000000
+> -[0A2h 0162   8]               Address Length : 00000000F0000000
+> +[09Ah 0154   8]                 Base Address : 0000000088000000
+> +[0A2h 0162   8]               Address Length : 0000000008000000
+>  [0AAh 0170   4]                    Reserved2 : 00000000
+> -[0AEh 0174   4]        Flags (decoded below) : 00000003
+> +[0AEh 0174   4]        Flags (decoded below) : 00000005
+> +                                     Enabled : 1
+> +                               Hot Pluggable : 0
+> +                                Non-Volatile : 1
+> +[0B2h 0178   8]                    Reserved3 : 0000000000000000
+> +
+> +[0BAh 0186   1]                Subtable Type : 01 [Memory Affinity]
+> +[0BBh 0187   1]                       Length : 28
+> +
+> +[0BCh 0188   4]             Proximity Domain : 00000001
+> +[0C0h 0192   2]                    Reserved1 : 0000
+> +[0C2h 0194   8]                 Base Address : 0000000080000000
+> +[0CAh 0202   8]               Address Length : 00000000F0000000
+> +[0D2h 0210   4]                    Reserved2 : 00000000
+> +[0D6h 0214   4]        Flags (decoded below) : 00000003
+>                                       Enabled : 1
+>                                 Hot Pluggable : 1
+>                                  Non-Volatile : 0
+> -[0B2h 0178   8]                    Reserved3 : 0000000000000000
+> +[0DAh 0218   8]                    Reserved3 : 0000000000000000
+> 
+> Signed-off-by: Vishal Verma <vishal.l.verma@intel.com>
+
+So I went to apply this and notices that virt tests
+did not seem to run. Igor did you notice this too?
+Anyway, not this patch's fault.
+
+
+> ---
+>  tests/data/acpi/pc/SRAT.dimmpxm             | Bin 392 -> 392 bytes
+>  tests/data/acpi/q35/SRAT.dimmpxm            | Bin 392 -> 392 bytes
+>  tests/data/acpi/virt/SRAT.memhp             | Bin 186 -> 226 bytes
+>  tests/qtest/bios-tables-test-allowed-diff.h |   3 ---
+>  4 files changed, 3 deletions(-)
+> 
+> diff --git a/tests/data/acpi/pc/SRAT.dimmpxm b/tests/data/acpi/pc/SRAT.dimmpxm
+> index f5c0267ea24bb404b6b4e687390140378fbdc3f1..5a13c61b9041c6045c29643bf93a111fb1c0c76a 100644
+> GIT binary patch
+> delta 51
+> scmeBR?qKE$4ss0XU}Rum%-G0fz$nec00kUCF%aN@Pz(&LlS3Je0lmQmhyVZp
+> 
+> delta 51
+> icmeBR?qKE$4ss0XU}RumY}m+Uz$ndt8%z#mGzI{_tp$hx
+> 
+> diff --git a/tests/data/acpi/q35/SRAT.dimmpxm b/tests/data/acpi/q35/SRAT.dimmpxm
+> index f5c0267ea24bb404b6b4e687390140378fbdc3f1..5a13c61b9041c6045c29643bf93a111fb1c0c76a 100644
+> GIT binary patch
+> delta 51
+> scmeBR?qKE$4ss0XU}Rum%-G0fz$nec00kUCF%aN@Pz(&LlS3Je0lmQmhyVZp
+> 
+> delta 51
+> icmeBR?qKE$4ss0XU}RumY}m+Uz$ndt8%z#mGzI{_tp$hx
+> 
+> diff --git a/tests/data/acpi/virt/SRAT.memhp b/tests/data/acpi/virt/SRAT.memhp
+> index 1b57db2072e7f7e2085c4a427aa31c7383851b71..9a35adb40c6f7cd822e5af37abba8aad033617cb 100644
+> GIT binary patch
+> delta 43
+> rcmdnR_=u4!ILI;N5d#AQbIe4p$wD1K76@=aC<X@BiSc3+=gI;A(y0ha
+> 
+> delta 21
+> dcmaFFxQmf1ILI+%7Xt$Wv-3o*$rF#t0suzv27~|r
+> 
+> diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+> index e8f2766a63..dfb8523c8b 100644
+> --- a/tests/qtest/bios-tables-test-allowed-diff.h
+> +++ b/tests/qtest/bios-tables-test-allowed-diff.h
+> @@ -1,4 +1 @@
+>  /* List of comma-separated changed AML files to ignore */
+> -"tests/data/acpi/pc/SRAT.dimmpxm",
+> -"tests/data/acpi/q35/SRAT.dimmpxm",
+> -"tests/data/acpi/virt/SRAT.memhp",
+> -- 
+> 2.26.2
 
 
