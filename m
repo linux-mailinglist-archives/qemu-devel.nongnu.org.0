@@ -2,30 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46B521F46E1
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 21:14:33 +0200 (CEST)
-Received: from localhost ([::1]:57290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A6C01F4706
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 21:23:07 +0200 (CEST)
+Received: from localhost ([::1]:52142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jijhg-0003uA-8H
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 15:14:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44720)
+	id 1jijpy-0005pv-Bl
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 15:23:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1jijXh-0006SA-Lt; Tue, 09 Jun 2020 15:04:13 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:40330)
+ id 1jijXi-0006TI-0Q; Tue, 09 Jun 2020 15:04:14 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:40338)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1jijXg-0006kX-76; Tue, 09 Jun 2020 15:04:13 -0400
+ id 1jijXg-0006lL-Qv; Tue, 09 Jun 2020 15:04:13 -0400
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by charlie.dont.surf (Postfix) with ESMTPSA id 31C84BF7E0;
+ by charlie.dont.surf (Postfix) with ESMTPSA id A7013BFAE7;
  Tue,  9 Jun 2020 19:03:50 +0000 (UTC)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-block@nongnu.org
-Subject: [PATCH v7 19/22] hw/block/nvme: factor out controller identify setup
-Date: Tue,  9 Jun 2020 21:03:30 +0200
-Message-Id: <20200609190333.59390-20-its@irrelevant.dk>
+Subject: [PATCH v7 20/22] hw/block/nvme: Verify msix_vector_use() returned
+ value
+Date: Tue,  9 Jun 2020 21:03:31 +0200
+Message-Id: <20200609190333.59390-21-its@irrelevant.dk>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200609190333.59390-1-its@irrelevant.dk>
 References: <20200609190333.59390-1-its@irrelevant.dk>
@@ -39,8 +40,8 @@ X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,88 +63,40 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Klaus Jensen <k.jensen@samsung.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Klaus Jensen <k.jensen@samsung.com>
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
-Reviewed-by: Keith Busch <kbusch@kernel.org>
-Message-Id: <20200514044611.734782-21-its@irrelevant.dk>
+msix_vector_use() returns -EINVAL on error. Assert it won't.
+
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20200602155709.9776-1-philmd@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- hw/block/nvme.c | 49 ++++++++++++++++++++++++++-----------------------
- 1 file changed, 26 insertions(+), 23 deletions(-)
+ hw/block/nvme.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 02a6a97df925..e10fc774fc34 100644
+index e10fc774fc34..fe17aa5d7041 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -1533,32 +1533,11 @@ static void nvme_init_pci(NvmeCtrl *n, PCIDevice *pci_dev)
-     }
- }
- 
--static void nvme_realize(PCIDevice *pci_dev, Error **errp)
-+static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
+@@ -615,6 +615,10 @@ static uint16_t nvme_del_cq(NvmeCtrl *n, NvmeCmd *cmd)
+ static void nvme_init_cq(NvmeCQueue *cq, NvmeCtrl *n, uint64_t dma_addr,
+     uint16_t cqid, uint16_t vector, uint16_t size, uint16_t irq_enabled)
  {
--    NvmeCtrl *n = NVME(pci_dev);
-     NvmeIdCtrl *id = &n->id_ctrl;
--    Error *local_err = NULL;
-+    uint8_t *pci_conf = pci_dev->config;
- 
--    int i;
--    uint8_t *pci_conf;
--
--    nvme_check_constraints(n, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
--        return;
--    }
--
--    nvme_init_state(n);
--
--    nvme_init_blk(n, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
--        return;
--    }
--
--    nvme_init_pci(n, pci_dev);
--
--    pci_conf = pci_dev->config;
-     id->vid = cpu_to_le16(pci_get_word(pci_conf + PCI_VENDOR_ID));
-     id->ssvid = cpu_to_le16(pci_get_word(pci_conf + PCI_SUBSYSTEM_VENDOR_ID));
-     strpadcpy((char *)id->mn, sizeof(id->mn), "QEMU NVMe Ctrl", ' ');
-@@ -1591,6 +1570,30 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
- 
-     n->bar.vs = 0x00010200;
-     n->bar.intmc = n->bar.intms = 0;
-+}
++    int ret;
 +
-+static void nvme_realize(PCIDevice *pci_dev, Error **errp)
-+{
-+    NvmeCtrl *n = NVME(pci_dev);
-+    Error *local_err = NULL;
-+
-+    int i;
-+
-+    nvme_check_constraints(n, &local_err);
-+    if (local_err) {
-+        error_propagate(errp, local_err);
-+        return;
-+    }
-+
-+    nvme_init_state(n);
-+    nvme_init_blk(n, &local_err);
-+    if (local_err) {
-+        error_propagate(errp, local_err);
-+        return;
-+    }
-+
-+    nvme_init_pci(n, pci_dev);
-+    nvme_init_ctrl(n, pci_dev);
- 
-     for (i = 0; i < n->num_namespaces; i++) {
-         nvme_init_namespace(n, &n->namespaces[i], &local_err);
++    ret = msix_vector_use(&n->parent_obj, vector);
++    assert(ret == 0);
+     cq->ctrl = n;
+     cq->cqid = cqid;
+     cq->size = size;
+@@ -625,7 +629,6 @@ static void nvme_init_cq(NvmeCQueue *cq, NvmeCtrl *n, uint64_t dma_addr,
+     cq->head = cq->tail = 0;
+     QTAILQ_INIT(&cq->req_list);
+     QTAILQ_INIT(&cq->sq_list);
+-    msix_vector_use(&n->parent_obj, cq->vector);
+     n->cq[cqid] = cq;
+     cq->timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, nvme_post_cqes, cq);
+ }
 -- 
 2.27.0
 
