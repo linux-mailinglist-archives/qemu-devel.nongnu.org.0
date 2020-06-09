@@ -2,84 +2,115 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CF8C1F3537
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 09:43:57 +0200 (CEST)
-Received: from localhost ([::1]:59086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2BEF1F3555
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 09:46:44 +0200 (CEST)
+Received: from localhost ([::1]:39400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jiYvM-0004D5-EW
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 03:43:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41252)
+	id 1jiYy3-0007qf-S3
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 03:46:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jiYtq-0002hb-42; Tue, 09 Jun 2020 03:42:22 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:33227)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jiYtp-0000cA-6p; Tue, 09 Jun 2020 03:42:21 -0400
-Received: by mail-wr1-x443.google.com with SMTP id l11so20109036wru.0;
- Tue, 09 Jun 2020 00:42:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=FjQKd7DqIqJWbaTyIFT4KcmgiVR0pp9EmiIfsTPjyYo=;
- b=T6/y6B41JPOvxeS9Pt8gW6bAGDBVrNAs6Az8s3Famdps8f6HwnHo+qHKI9zMvKk5DB
- zSuB8TlSmDZjgHLTEP1zA+d/DJjTO8ZgGh41Phi8cOprtZzj3KpPoGHFkh/LVK+9/5ye
- hCXJL+6ogHfRwBSHGWSScfYrVEfub/l6C29bMggnZeeho97qR+V2f/s01bar8+dwEicV
- oYwg2awybQblRXpSx4363k+uBTXpYDrLRiVeVCruCj+ThMuddx8Oh8zQgrsRML7rPRE/
- NsJpIwbUZ+jAhyRY0Q/mlUWfaLNyxThh40FnlY/4gMNdhLfWA2wFa7+WFaVPwpIALfL/
- h7TQ==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jiYws-0007DI-1q
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 03:45:30 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:33864
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jiYwq-000175-Pj
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 03:45:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1591688727;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=vCuAkp+C+C5abMD6FHAB/y2LMioAmuShj2pFy9CW50E=;
+ b=iWVHm/OQldSpoCMImAS6xIO/vrOKHJrtC7JCbUkSvIFYs6s1j2ZnYyiiAHjD2BF/YrX+RZ
+ Zs5o7RAHFk652xFNrKOpUN3CClLG6TyriHBnKbl8ahahY364JVCQGHLvRepmnWiC8Cf4Bq
+ zaZUY0rVbPI7ngH60sE2i+ojxCt5fZQ=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-242-PICC8AjkPJ2cOAa-St5xkw-1; Tue, 09 Jun 2020 03:45:25 -0400
+X-MC-Unique: PICC8AjkPJ2cOAa-St5xkw-1
+Received: by mail-wm1-f69.google.com with SMTP id 11so373304wmj.6
+ for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 00:45:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ h=x-gm-message-state:subject:to:references:from:autocrypt:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=FjQKd7DqIqJWbaTyIFT4KcmgiVR0pp9EmiIfsTPjyYo=;
- b=uJEErBmXpFV0/Ap/PvJoMBZBAQSMIiA7G+KzeqLrjSyBnv+NdW0y8/mpDH+AndBnzq
- +3E7kfT0GRmNohsN55Fo2dMnDDRyRe3YXOJ/J3dwbARCAtbY28X4BPC5bc7SvRGZw/wQ
- j43RlU4Sdy7uyVq6dEA1BQOnavTjHW9DMRNjddvPTvpRgcfUa28Ww2tOQkv1R5Swkj+H
- e3xm5mlUcXh+XpNoXh3llWVJqnL0eRMBE7ubRKpDKDZ1IhUwUUfm5KMXwp84jF+7HZ0Z
- pki9ijPJi4aJooJ7jbezzYAwlgI48Y2QtKZpXZesoOpf29IbodqUwcieU/bEUJMgZM37
- pQmw==
-X-Gm-Message-State: AOAM532pWikqLjl/ax47O2QtdtUZcZoSrsh0/zKHcqQbpHxTN8m5TsSd
- t/cUs6EE/qllH4G2JC1r68Y=
-X-Google-Smtp-Source: ABdhPJzzHrM4U46heXA/3oCDc5rULLpKzPLa7Ja9JohWlWmApNMlnu+Tb13MU1ss2/YO21RGR8gXlw==
-X-Received: by 2002:adf:9205:: with SMTP id 5mr2799942wrj.232.1591688538853;
- Tue, 09 Jun 2020 00:42:18 -0700 (PDT)
+ bh=vCuAkp+C+C5abMD6FHAB/y2LMioAmuShj2pFy9CW50E=;
+ b=bClmWekrOSM6mEV8nMebgbPgQyjObV4dvnYHZDq3dAP/r0kZZ8NZY9OvQ1ivCiUCit
+ WNccVUfyKcTyF4ddRlX95JV9YnD5Wf/sT0KLGuQiMKKN+TP9w8ROH6QkVmkln1i3UDm9
+ 4ZFctzrFRtdyh7fzGIzqXTa/bJNxqH5HnQQzvzTB72qx/sd/phYOwp29+s65xclqAmeb
+ veiJh+81uxRrp1mVkGIulpb9CA7k6YzTIVrYk5YJfBVLjC/IJ9pJ/3NpmK9FX9UYmT3Z
+ ZiLX/TvPcvKbA/KAJZrg4rhL8ZKPIvVl0pHVhN5a2A78rSb9pUodkzpwyMbXur7xDMEd
+ EKWg==
+X-Gm-Message-State: AOAM5324CiNFsQYuc9SK5OYzIR9ivjB1YzlP2pEN3Hvk9PnUTilj1MTh
+ d4BSgOsPbxDz7bk0t+x2I/4JHKjxPHLD50o2OStfeCFuu5aXPktgD3HDwx3ND3a7KOIDOG+D6wm
+ tTVjN2cih/pRGwvM=
+X-Received: by 2002:a05:600c:645:: with SMTP id
+ p5mr2594630wmm.156.1591688724265; 
+ Tue, 09 Jun 2020 00:45:24 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzZsoAaE7J+Jx1ymr67JO3axekVqCEbCol/UKkARpYKZbAnzzoUcjG1pxAE/ETIf9/+3sLK7Q==
+X-Received: by 2002:a05:600c:645:: with SMTP id
+ p5mr2594613wmm.156.1591688724082; 
+ Tue, 09 Jun 2020 00:45:24 -0700 (PDT)
 Received: from [192.168.1.38] (181.red-88-10-103.dynamicip.rima-tde.net.
  [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id x186sm2010030wmg.8.2020.06.09.00.42.17
+ by smtp.gmail.com with ESMTPSA id z22sm1974383wmf.9.2020.06.09.00.45.23
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 Jun 2020 00:42:18 -0700 (PDT)
-Subject: Re: [PATCH v2 02/24] display/xlnx_dp: Fix to realize "i2c-ddc" and
- "aux-to-i2c-bridge"
-To: Markus Armbruster <armbru@redhat.com>
-References: <20200528110444.20456-1-armbru@redhat.com>
- <20200528110444.20456-3-armbru@redhat.com>
- <a64bd91c-58b5-1438-a401-5d6c04441c67@amsat.org>
- <87tuzkssri.fsf@dusky.pond.sub.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <18c2da69-7d2b-59cb-619f-0f2d06cdedf4@amsat.org>
-Date: Tue, 9 Jun 2020 09:42:17 +0200
+ Tue, 09 Jun 2020 00:45:23 -0700 (PDT)
+Subject: Re: [PATCH v2 05/58] qdev: Put qdev_new() to use with Coccinelle
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20200529134523.8477-1-armbru@redhat.com>
+ <20200529134523.8477-6-armbru@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <7753f4bb-7627-2fcc-8a42-7fbafff9afb5@redhat.com>
+Date: Tue, 9 Jun 2020 09:45:22 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <87tuzkssri.fsf@dusky.pond.sub.org>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20200529134523.8477-6-armbru@redhat.com>
 Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 02:41:53
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,83 +123,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>,
- Peter Maydell <peter.maydell@linaro.org>, berrange@redhat.com,
- ehabkost@redhat.com, Alistair Francis <alistair@alistair23.me>,
- qemu-devel@nongnu.org, qemu-arm@nongnu.org,
- Alistair Francis <alistair.francis@wdc.com>, pbonzini@redhat.com,
- KONRAD Frederic <fred.konrad@greensocs.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/9/20 7:38 AM, Markus Armbruster wrote:
-> Philippe Mathieu-Daudé <f4bug@amsat.org> writes:
+On 5/29/20 3:44 PM, Markus Armbruster wrote:
+> Let's start simple and put qdev_new() to use.  Coccinelle script:
 > 
->> On 5/28/20 1:04 PM, Markus Armbruster wrote:
->>> xlnx_dp_init() creates these two devices, but they're never realized.
->>> Affects machine xlnx-zcu102.
->>>
->>> In theory, a device becomes real only on realize.  In practice, the
->>> transition from unreal to real is a fuzzy one.  The work to make a
->>> device real can be spread between realize methods (fine),
->>> instance_init methods (wrong), and board code wiring up the device
->>> (fine as long as it effectively happens on realize).  Depending on
->>> what exactly is done where, a device can work even when we neglect to
->>> realize it.
->>>
->>> These two appear to work.  Nevertheless, it's a clear misuse of the
->>> interface.  Even when it works today (more or less by chance), it can
->>> break tomorrow.
->>>
->>> Fix by realizing them in xlnx_dp_realize().
->>>
->>> Fixes: 58ac482a66de09a7590f705e53fc6a3fb8a055e8
->>> Cc: KONRAD Frederic <fred.konrad@greensocs.com>
->>> Cc: Alistair Francis <alistair@alistair23.me>
->>> Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
->>> Cc: Peter Maydell <peter.maydell@linaro.org>
->>> Cc: qemu-arm@nongnu.org
->>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
->>> Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
->>> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
->>> ---
->>>  hw/display/xlnx_dp.c | 4 ++++
->>>  1 file changed, 4 insertions(+)
->>>
->>> diff --git a/hw/display/xlnx_dp.c b/hw/display/xlnx_dp.c
->>> index 3e5fb44e06..bdc229a51e 100644
->>> --- a/hw/display/xlnx_dp.c
->>> +++ b/hw/display/xlnx_dp.c
->>> @@ -1264,9 +1264,13 @@ static void xlnx_dp_realize(DeviceState *dev, Error **errp)
->>>      DisplaySurface *surface;
->>>      struct audsettings as;
->>>  
->>> +    qdev_init_nofail(DEVICE(s->aux_bus->bridge));
->>
->> Eh??? Why not realize the bridge in aux_init_bus()?
+>     @ depends on !(file in "hw/core/qdev.c")@
+>     expression type_name;
+>     @@
+>     -    DEVICE(object_new(type_name))
+>     +    qdev_new(type_name)
 > 
-> Because then aux_init_bus() is no longer "init", but "init and realize".
-> Instead: "[PATCH v2 32/58] auxbus: New aux_bus_realize(), pairing with
-> aux_bus_init()".  Okay?
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
+>  hw/block/nand.c  | 2 +-
+>  hw/misc/auxbus.c | 2 +-
+>  qdev-monitor.c   | 2 +-
+>  3 files changed, 3 insertions(+), 3 deletions(-)
 
-It would be easier to follow having aux_bus_realize() introduced first,
-then used it directly here. Anyway it is reviewed so I don't have a
-problem if this patch goes as it. Thanks.
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-> 
->>> +
->>>      qdev_init_nofail(DEVICE(s->dpcd));
->>>      aux_map_slave(AUX_SLAVE(s->dpcd), 0x0000);
->>>  
->>> +    qdev_init_nofail(DEVICE(s->edid));
->>
->> This one is OK.
->>
->>> +
->>>      s->console = graphic_console_init(dev, 0, &xlnx_dp_gfx_ops, s);
->>>      surface = qemu_console_surface(s->console);
->>>      xlnx_dpdma_set_host_data_location(s->dpdma, DP_GRAPHIC_DMA_CHANNEL,
->>>
-> 
-> 
 
