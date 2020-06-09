@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C9CA1F3AB5
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 14:35:06 +0200 (CEST)
-Received: from localhost ([::1]:58078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3CC01F3AC1
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 14:37:44 +0200 (CEST)
+Received: from localhost ([::1]:41390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jidT7-0007qV-Mu
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 08:35:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41690)
+	id 1jidVf-0004Kb-VR
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 08:37:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jidIM-0003SB-HJ
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 08:23:58 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:31360
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jidIO-0003XN-JS
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 08:24:00 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:28198
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jidIG-0005RK-Lk
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 08:23:58 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jidIJ-0005SY-AP
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 08:24:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591705430;
+ s=mimecast20190719; t=1591705434;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=APOYbnMQJ7L/yaER4/kbgoneNALeasczqgA0S1yIkFw=;
- b=N7SHaPm7FgSA/Um4CWc5qfj+aIqzpJ2QvgXc6g4UgL+/CPzpFM9b/cnUB8bx3SY9ZRaLbm
- 78XblzSavrmGJj6bPJYRVVW5Bo9317/tzp/XWbjQc6msfsYve/Nmw1ce8xLIseBS6+75TJ
- MbK3C1pucTOvyIBtrr2fVBOSepyO1OM=
+ bh=h7Pi+HwemFMm/otKU4BBcmgFmF+eTZwgOUdsTAPzDxk=;
+ b=Sc88htq/L0aAuiKtsZawPBeo9A3iJZugCTRK6r91ebDDkAMEBbWgoKhuL/FRYYNQFqSYoN
+ 88awcy3iHpYwFb4Wr2ZWij+eXEYGpnd0G/UEbZAXlcybUZqivaMwG/HvrnY+TCxGtRaZXO
+ PxHeA8ctUThZ3lN33JITInDWb08qA2Y=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-462-rH1hRa1SPbKi10wZAXD6Eg-1; Tue, 09 Jun 2020 08:23:46 -0400
-X-MC-Unique: rH1hRa1SPbKi10wZAXD6Eg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-326-SW5M8HcIP4-V1dEYJ0ja4w-1; Tue, 09 Jun 2020 08:23:48 -0400
+X-MC-Unique: SW5M8HcIP4-V1dEYJ0ja4w-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5F18180B72F;
- Tue,  9 Jun 2020 12:23:45 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 868B0100726C;
+ Tue,  9 Jun 2020 12:23:47 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-121.ams2.redhat.com
  [10.36.112.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9580F5D9C9;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9768078FA9;
  Tue,  9 Jun 2020 12:23:44 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 246CC1138467; Tue,  9 Jun 2020 14:23:40 +0200 (CEST)
+ id 280D01138468; Tue,  9 Jun 2020 14:23:40 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 18/24] display/sm501 display/ati: Fix to realize "i2c-ddc"
-Date: Tue,  9 Jun 2020 14:23:33 +0200
-Message-Id: <20200609122339.937862-19-armbru@redhat.com>
+Subject: [PATCH v3 19/24] riscv: Fix to put "riscv.hart_array" devices on
+ sysbus
+Date: Tue,  9 Jun 2020 14:23:34 +0200
+Message-Id: <20200609122339.937862-20-armbru@redhat.com>
 In-Reply-To: <20200609122339.937862-1-armbru@redhat.com>
 References: <20200609122339.937862-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
  helo=us-smtp-1.mimecast.com
@@ -81,82 +82,139 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: berrange@redhat.com, ehabkost@redhat.com,
- Magnus Damm <magnus.damm@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>, qemu-ppc@nongnu.org,
- pbonzini@redhat.com
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Alistair Francis <alistair.francis@wdc.com>, qemu-riscv@nongnu.org,
+ pbonzini@redhat.com, Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-sm501_init() and ati_vga_realize() create an "i2c-ddc" device, but
-neglect to realize it.  Affects machines sam460ex, shix, r2d, and
-fulong2e.
+riscv_sifive_e_soc_init(), riscv_sifive_u_soc_init(),
+spike_board_init(), spike_v1_10_0_board_init(),
+spike_v1_09_1_board_init(), and riscv_virt_board_init() create
+"riscv-hart_array" sysbus devices in a way that leaves them unplugged.
 
-In theory, a device becomes real only on realize.  In practice, the
-transition from unreal to real is a fuzzy one.  The work to make a
-device real can be spread between realize methods (fine),
-instance_init methods (wrong), and board code wiring up the device
-(fine as long as it effectively happens on realize).  Depending on
-what exactly is done where, a device can work even when we neglect
-to realize it.
+Create them the common way that puts them into the main system bus.
+Affects machines sifive_e, sifive_u, spike, spike_v1.10, spike_v1.9.1,
+and virt.  Visible in "info qtree", here's the change for sifive_e:
 
-This one appears to work.  Nevertheless, it's a clear misuse of the
-interface.  Even when it works today (more or less by chance), it can
-break tomorrow.
+     bus: main-system-bus
+       type System
+    +  dev: riscv.hart_array, id ""
+    +    num-harts = 1 (0x1)
+    +    hartid-base = 0 (0x0)
+    +    cpu-type = "sifive-e31-riscv-cpu"
+       dev: sifive_soc.gpio, id ""
 
-Fix by realizing it right away.  Visible in "info qom-tree"; here's
-the change for sam460ex:
-
-     /machine (sam460ex-machine)
-       [...]
-       /unattached (container)
-         [...]
-    -    /device[14] (sii3112)
-    +    /device[14] (i2c-ddc)
-    +    /device[15] (sii3112)
-         [rest of device[*] renumbered...]
-
-Fixes: 4a1f253adb45ac6019971193d5077c4d5d55886a
-Fixes: c82c7336de58876862e6b4dccbda29e9240fd388
-Cc: BALATON Zoltan <balaton@eik.bme.hu>
-Cc: qemu-ppc@nongnu.org
-Cc: Magnus Damm <magnus.damm@gmail.com>
-Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Cc: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Alistair Francis <Alistair.Francis@wdc.com>
+Cc: Sagar Karandikar <sagark@eecs.berkeley.edu>
+Cc: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+Cc: qemu-riscv@nongnu.org
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Tested-by: BALATON Zoltan <balaton@eik.bme.hu>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- hw/display/ati.c   | 2 ++
- hw/display/sm501.c | 2 ++
- 2 files changed, 4 insertions(+)
+ hw/riscv/opentitan.c |  5 ++---
+ hw/riscv/sifive_e.c  |  5 ++---
+ hw/riscv/sifive_u.c  | 14 ++++++--------
+ hw/riscv/spike.c     |  4 ++--
+ hw/riscv/virt.c      |  4 ++--
+ 5 files changed, 14 insertions(+), 18 deletions(-)
 
-diff --git a/hw/display/ati.c b/hw/display/ati.c
-index 67604e68de..1d9df92b96 100644
---- a/hw/display/ati.c
-+++ b/hw/display/ati.c
-@@ -935,6 +935,8 @@ static void ati_vga_realize(PCIDevice *dev, Error **errp)
-     bitbang_i2c_init(&s->bbi2c, i2cbus);
-     I2CSlave *i2cddc = I2C_SLAVE(qdev_create(BUS(i2cbus), TYPE_I2CDDC));
-     i2c_set_slave_address(i2cddc, 0x50);
-+    object_property_set_bool(OBJECT(i2cddc), true, "realized",
-+                             &error_abort);
+diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
+index b4fb836466..29887fe363 100644
+--- a/hw/riscv/opentitan.c
++++ b/hw/riscv/opentitan.c
+@@ -94,9 +94,8 @@ static void riscv_lowrisc_ibex_soc_init(Object *obj)
+ {
+     LowRISCIbexSoCState *s = RISCV_IBEX_SOC(obj);
  
-     /* mmio register space */
-     memory_region_init_io(&s->mm, OBJECT(s), &ati_mm_ops, s,
-diff --git a/hw/display/sm501.c b/hw/display/sm501.c
-index edd8d24a76..fa23a78164 100644
---- a/hw/display/sm501.c
-+++ b/hw/display/sm501.c
-@@ -1833,6 +1833,8 @@ static void sm501_init(SM501State *s, DeviceState *dev,
-     /* ddc */
-     I2CDDCState *ddc = I2CDDC(qdev_create(BUS(s->i2c_bus), TYPE_I2CDDC));
-     i2c_set_slave_address(I2C_SLAVE(ddc), 0x50);
-+    object_property_set_bool(OBJECT(ddc), true, "realized",
-+                             &error_abort);
+-    object_initialize_child(obj, "cpus", &s->cpus,
+-                            sizeof(s->cpus), TYPE_RISCV_HART_ARRAY,
+-                            &error_abort, NULL);
++    sysbus_init_child_obj(obj, "cpus", &s->cpus,
++                          sizeof(s->cpus), TYPE_RISCV_HART_ARRAY);
+ }
  
-     /* mmio */
-     memory_region_init(&s->mmio_region, OBJECT(dev), "sm501.mmio", MMIO_SIZE);
+ static void riscv_lowrisc_ibex_soc_realize(DeviceState *dev_soc, Error **errp)
+diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
+index 472a98970b..d2e2350a4d 100644
+--- a/hw/riscv/sifive_e.c
++++ b/hw/riscv/sifive_e.c
+@@ -149,9 +149,8 @@ static void riscv_sifive_e_soc_init(Object *obj)
+     MachineState *ms = MACHINE(qdev_get_machine());
+     SiFiveESoCState *s = RISCV_E_SOC(obj);
+ 
+-    object_initialize_child(obj, "cpus", &s->cpus,
+-                            sizeof(s->cpus), TYPE_RISCV_HART_ARRAY,
+-                            &error_abort, NULL);
++    sysbus_init_child_obj(obj, "cpus", &s->cpus,
++                          sizeof(s->cpus), TYPE_RISCV_HART_ARRAY);
+     object_property_set_int(OBJECT(&s->cpus), ms->smp.cpus, "num-harts",
+                             &error_abort);
+     sysbus_init_child_obj(obj, "riscv.sifive.e.gpio0",
+diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+index f9fef2be91..d6c6364596 100644
+--- a/hw/riscv/sifive_u.c
++++ b/hw/riscv/sifive_u.c
+@@ -491,10 +491,9 @@ static void sifive_u_soc_instance_init(Object *obj)
+                             &error_abort, NULL);
+     qdev_prop_set_uint32(DEVICE(&s->e_cluster), "cluster-id", 0);
+ 
+-    object_initialize_child(OBJECT(&s->e_cluster), "e-cpus",
+-                            &s->e_cpus, sizeof(s->e_cpus),
+-                            TYPE_RISCV_HART_ARRAY, &error_abort,
+-                            NULL);
++    sysbus_init_child_obj(OBJECT(&s->e_cluster), "e-cpus",
++                          &s->e_cpus, sizeof(s->e_cpus),
++                          TYPE_RISCV_HART_ARRAY);
+     qdev_prop_set_uint32(DEVICE(&s->e_cpus), "num-harts", 1);
+     qdev_prop_set_uint32(DEVICE(&s->e_cpus), "hartid-base", 0);
+     qdev_prop_set_string(DEVICE(&s->e_cpus), "cpu-type", SIFIVE_E_CPU);
+@@ -504,10 +503,9 @@ static void sifive_u_soc_instance_init(Object *obj)
+                             &error_abort, NULL);
+     qdev_prop_set_uint32(DEVICE(&s->u_cluster), "cluster-id", 1);
+ 
+-    object_initialize_child(OBJECT(&s->u_cluster), "u-cpus",
+-                            &s->u_cpus, sizeof(s->u_cpus),
+-                            TYPE_RISCV_HART_ARRAY, &error_abort,
+-                            NULL);
++    sysbus_init_child_obj(OBJECT(&s->u_cluster), "u-cpus",
++                          &s->u_cpus, sizeof(s->u_cpus),
++                          TYPE_RISCV_HART_ARRAY);
+     qdev_prop_set_uint32(DEVICE(&s->u_cpus), "num-harts", ms->smp.cpus - 1);
+     qdev_prop_set_uint32(DEVICE(&s->u_cpus), "hartid-base", 1);
+     qdev_prop_set_string(DEVICE(&s->u_cpus), "cpu-type", SIFIVE_U_CPU);
+diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
+index 7bbbdb5036..7d1119dcb6 100644
+--- a/hw/riscv/spike.c
++++ b/hw/riscv/spike.c
+@@ -169,8 +169,8 @@ static void spike_board_init(MachineState *machine)
+     unsigned int smp_cpus = machine->smp.cpus;
+ 
+     /* Initialize SOC */
+-    object_initialize_child(OBJECT(machine), "soc", &s->soc, sizeof(s->soc),
+-                            TYPE_RISCV_HART_ARRAY, &error_abort, NULL);
++    sysbus_init_child_obj(OBJECT(machine), "soc", &s->soc, sizeof(s->soc),
++                          TYPE_RISCV_HART_ARRAY);
+     object_property_set_str(OBJECT(&s->soc), machine->cpu_type, "cpu-type",
+                             &error_abort);
+     object_property_set_int(OBJECT(&s->soc), smp_cpus, "num-harts",
+diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+index 4e4c494a70..d569b38d1b 100644
+--- a/hw/riscv/virt.c
++++ b/hw/riscv/virt.c
+@@ -485,8 +485,8 @@ static void virt_machine_init(MachineState *machine)
+     unsigned int smp_cpus = machine->smp.cpus;
+ 
+     /* Initialize SOC */
+-    object_initialize_child(OBJECT(machine), "soc", &s->soc, sizeof(s->soc),
+-                            TYPE_RISCV_HART_ARRAY, &error_abort, NULL);
++    sysbus_init_child_obj(OBJECT(machine), "soc", &s->soc, sizeof(s->soc),
++                          TYPE_RISCV_HART_ARRAY);
+     object_property_set_str(OBJECT(&s->soc), machine->cpu_type, "cpu-type",
+                             &error_abort);
+     object_property_set_int(OBJECT(&s->soc), smp_cpus, "num-harts",
 -- 
 2.26.2
 
