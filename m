@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C54D1F3260
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 04:48:57 +0200 (CEST)
-Received: from localhost ([::1]:33834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B01961F3277
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 05:04:09 +0200 (CEST)
+Received: from localhost ([::1]:37034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jiUJr-0002NJ-Uu
-	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 22:48:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45290)
+	id 1jiUYa-0004ny-Ab
+	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 23:04:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46396)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1jiUJ4-0001tn-UX
- for qemu-devel@nongnu.org; Mon, 08 Jun 2020 22:48:06 -0400
-Received: from vultr.net.flygoat.com
- ([2001:19f0:6001:3633:5400:2ff:fe8c:553]:38224)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1jiUXS-0004MB-Jl
+ for qemu-devel@nongnu.org; Mon, 08 Jun 2020 23:02:58 -0400
+Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:33914)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1jiUJ3-0002TE-Jq
- for qemu-devel@nongnu.org; Mon, 08 Jun 2020 22:48:06 -0400
-Received: from localhost.localdomain (unknown
- [IPv6:2001:da8:20f:4430:250:56ff:fe9a:7470])
- by vultr.net.flygoat.com (Postfix) with ESMTPSA id 6DC751FAF8;
- Tue,  9 Jun 2020 02:48:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=flygoat.com; s=vultr;
- t=1591670881; bh=veK+SR4g8Ulqn5TtYEUsTTTv/wHdxDcm2yT9dXEkZCg=;
- h=From:To:Cc:Subject:Date:From;
- b=FDS4Suupwu7WsVX/e2KdlRhIliQwLPI4jtj0HKzWtNtIwDewESh71/sx7PywONiQH
- +VBLWdprbLW3yCSye0ThXsneKFBfagOwHMKU/e01zTsoUXi9MOcvxKhqdXt7rCDzoI
- wUW0o2zmTN2Ft6pKOfW09XQbWcvmjsktk5/W/PDBlb4G083DEZMAk6R5is0KdpCI/4
- pIFGpg4LgD5QKT7wG/HuYQoks0oSUm372cmypCAFctk6tgOgkOuWhYVkm/B3bfebNq
- rvp6uR1nrsCyhb7Bpt/+k/MvUx8ZqZNhFAAw7N/CInz0rFyTYIDnfF9pPYnyI5Q952
- s3m3Csbl2RTRw==
-From: Jiaxun Yang <jiaxun.yang@flygoat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] target/mips: Fix PageMask with variable page size
-Date: Tue,  9 Jun 2020 10:47:46 +0800
-Message-Id: <20200609024746.2498909-1-jiaxun.yang@flygoat.com>
-X-Mailer: git-send-email 2.27.0.rc2
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1jiUXQ-0004dx-Mp
+ for qemu-devel@nongnu.org; Mon, 08 Jun 2020 23:02:58 -0400
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.1132894|-1; CH=green; DM=|CONTINUE|false|;
+ DS=CONTINUE|ham_enroll_verification|0.113611-0.0100673-0.876322;
+ FP=0|0|0|0|0|-1|-1|-1; HT=e02c03301; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS;
+ RN=3; RT=3; SR=0; TI=SMTPD_---.Hju-r8W_1591671764; 
+Received: from 30.225.208.60(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.Hju-r8W_1591671764)
+ by smtp.aliyun-inc.com(10.147.44.145);
+ Tue, 09 Jun 2020 11:02:44 +0800
+Subject: Re: fpu/softfloat: a question on BFloat 16 support on QEMU
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <ea06c0c3-465e-34a5-5427-41ae6bf583dc@c-sky.com>
+ <87img15zfv.fsf@linaro.org>
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Message-ID: <53bee901-6917-1783-6507-3fef6955cc49@c-sky.com>
+Date: Tue, 9 Jun 2020 11:02:44 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:19f0:6001:3633:5400:2ff:fe8c:553;
- envelope-from=jiaxun.yang@flygoat.com; helo=vultr.net.flygoat.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/08 22:48:01
-X-ACL-Warn: Detected OS   = ???
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <87img15zfv.fsf@linaro.org>
+Content-Type: multipart/alternative;
+ boundary="------------612A68BA5223D29ABD182D24"
+Content-Language: en-US
+Received-SPF: none client-ip=121.197.200.217;
+ envelope-from=zhiwei_liu@c-sky.com; helo=smtp2200-217.mail.aliyun.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/08 23:02:46
+X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ UNPARSEABLE_RELAY=0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,108 +62,147 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: chenhc@lemote.com, aleksandar.qemu.devel@gmail.com,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, aurelien@aurel32.net
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Our current code assumed the target page size is always 4k
-when handling PageMask and VPN2, however, variable page size
-was just added to mips target and that's nolonger true.
+This is a multi-part message in MIME format.
+--------------612A68BA5223D29ABD182D24
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-So we refined this piece of code to handle any target page size.
-Also added Big Page support defined by MIPS64 Release2.
 
-Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
----
- target/mips/cp0_helper.c | 48 ++++++++++++++++++++++++++++++----------
- target/mips/cpu.h        |  3 ++-
- 2 files changed, 38 insertions(+), 13 deletions(-)
 
-diff --git a/target/mips/cp0_helper.c b/target/mips/cp0_helper.c
-index bbf12e4a97..7a134085f7 100644
---- a/target/mips/cp0_helper.c
-+++ b/target/mips/cp0_helper.c
-@@ -872,20 +872,44 @@ void helper_mtc0_memorymapid(CPUMIPSState *env, target_ulong arg1)
-     }
- }
- 
--void update_pagemask(CPUMIPSState *env, target_ulong arg1, int32_t *pagemask)
-+void helper_mtc0_pagemask(CPUMIPSState *env, target_ulong arg1)
- {
--    uint64_t mask = arg1 >> (TARGET_PAGE_BITS + 1);
--    if (!(env->insn_flags & ISA_MIPS32R6) || (arg1 == ~0) ||
--        (mask == 0x0000 || mask == 0x0003 || mask == 0x000F ||
--         mask == 0x003F || mask == 0x00FF || mask == 0x03FF ||
--         mask == 0x0FFF || mask == 0x3FFF || mask == 0xFFFF)) {
--        env->CP0_PageMask = arg1 & (0x1FFFFFFF & (TARGET_PAGE_MASK << 1));
-+    uint64_t mask;
-+    int maxmaskbits, maskbits;
-+
-+    if (env->insn_flags & ISA_MIPS32R6) {
-+        return;
-     }
--}
- 
--void helper_mtc0_pagemask(CPUMIPSState *env, target_ulong arg1)
--{
--    update_pagemask(env, arg1, &env->CP0_PageMask);
-+    /* Don't care MASKX as we don't support 1KB page */
-+#ifdef TARGET_MIPS64
-+    if (env->CP0_Config3 & CP0C3_BPG) {
-+        maxmaskbits = 47;
-+    } else {
-+        maxmaskbits = 16;
-+    }
-+#else
-+    maxmaskbits = 16;
-+#endif
-+    mask = extract64((uint64_t)arg1, CP0PM_MASK, maxmaskbits);
-+
-+    maskbits = find_first_zero_bit(&mask, 64);
-+
-+    /* Ensure no more set bit after first zero */
-+    if (mask >> maskbits) {
-+        goto invalid;
-+    }
-+    /* We don't support VTLB entry smaller than target page */
-+    if ((maskbits + 12) < TARGET_PAGE_BITS) {
-+        goto invalid;
-+    }
-+    env->CP0_PageMask = mask << CP0PM_MASK;
-+
-+    return;
-+
-+invalid:
-+    maskbits = MIN(maxmaskbits, MAX(maskbits, TARGET_PAGE_BITS - 12));
-+    env->CP0_PageMask = ((1 << (maskbits + 1)) - 1) << CP0PM_MASK;
- }
- 
- void helper_mtc0_pagegrain(CPUMIPSState *env, target_ulong arg1)
-@@ -1111,7 +1135,7 @@ void helper_mthc0_saar(CPUMIPSState *env, target_ulong arg1)
- void helper_mtc0_entryhi(CPUMIPSState *env, target_ulong arg1)
- {
-     target_ulong old, val, mask;
--    mask = (TARGET_PAGE_MASK << 1) | env->CP0_EntryHi_ASID_mask;
-+    mask = ~((1 << 14) - 1) | env->CP0_EntryHi_ASID_mask;
-     if (((env->CP0_Config4 >> CP0C4_IE) & 0x3) >= 2) {
-         mask |= 1 << CP0EnHi_EHINV;
-     }
-diff --git a/target/mips/cpu.h b/target/mips/cpu.h
-index 0b3c987bb3..b69806792d 100644
---- a/target/mips/cpu.h
-+++ b/target/mips/cpu.h
-@@ -617,7 +617,8 @@ struct CPUMIPSState {
- /*
-  * CP0 Register 5
-  */
--    int32_t CP0_PageMask;
-+    target_ulong CP0_PageMask;
-+#define CP0PM_MASK 13
-     int32_t CP0_PageGrain_rw_bitmask;
-     int32_t CP0_PageGrain;
- #define CP0PG_RIE 31
--- 
-2.27.0.rc2
+On 2020/6/8 23:50, Alex Bennée wrote:
+> LIU Zhiwei <zhiwei_liu@c-sky.com> writes:
+>
+>> Hi Richard,
+>>
+>> I am doing bfloat16 support on QEMU.
+>>
+>> Once I tried to reuse float32 interface, but I couldn't properly process
+>> rounding in some insns like fadd.
+> What do you mean by re-use the float32 interface?
+Once I think bfloat16 can been converted to float32  by
 
+deposit32(0, 16, 16, bf16)
+
+Then do a bfloat16 op by float32 op.
+
+At last, get the bfloat16 result by right shift the float32 result 16 bits.
+> Isn't bfloat16 going
+> to be pretty much the same as float16 but with some slightly different
+> float parameters for the different encoding?
+Agree.
+> Like the float16 code it won't have to deal with any of the hardfloat
+> wrappers so it should look pretty similar.
+Good idea. I will list the float16 interfaces,  and try to emulate the 
+bfloat16 one by one.
+
+I list float16 interfaces in softfloat.c alone. It counts 67 interfaces.
+>> What's your opinion about it? Should I expand the fpu/softfloat?
+> bfloat16 is certainly going to become more common that we should have
+> common softfloat code to handle it. It would be nice is TestFloat could
+> exercise it as well.
+Thanks. I will try to use make check-softfloat to test bfloat16 interfaces.
+
+Best Regards,
+Zhiwei
+>> Best Regards,
+>> Zhiwei
+>
+
+
+--------------612A68BA5223D29ABD182D24
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <br>
+    <br>
+    <div class="moz-cite-prefix">On 2020/6/8 23:50, Alex Bennée wrote:<br>
+    </div>
+    <blockquote type="cite" cite="mid:87img15zfv.fsf@linaro.org">
+      <pre class="moz-quote-pre" wrap="">
+LIU Zhiwei <a class="moz-txt-link-rfc2396E" href="mailto:zhiwei_liu@c-sky.com">&lt;zhiwei_liu@c-sky.com&gt;</a> writes:
+
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">Hi Richard,
+
+I am doing bfloat16 support on QEMU.
+
+Once I tried to reuse float32 interface, but I couldn't properly process 
+rounding in some insns like fadd.
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+What do you mean by re-use the float32 interface? </pre>
+    </blockquote>
+    Once I think bfloat16 can been converted to float32  by<br>
+    <pre>deposit32(0, 16, 16, bf16)</pre>
+    Then do a bfloat16 op by float32 op.<br>
+    <br>
+    At last, get the bfloat16 result by right shift the float32 result
+    16 bits.<br>
+    <blockquote type="cite" cite="mid:87img15zfv.fsf@linaro.org">
+      <pre class="moz-quote-pre" wrap="">Isn't bfloat16 going
+to be pretty much the same as float16 but with some slightly different
+float parameters for the different encoding?
+</pre>
+    </blockquote>
+    Agree. <br>
+    <blockquote type="cite" cite="mid:87img15zfv.fsf@linaro.org">
+      <pre class="moz-quote-pre" wrap="">
+Like the float16 code it won't have to deal with any of the hardfloat
+wrappers so it should look pretty similar.
+</pre>
+    </blockquote>
+    Good idea. I will list the float16 interfaces,  and try to emulate
+    the bfloat16 one by one.<br>
+    <br>
+    I list float16 interfaces in softfloat.c alone. It counts 67
+    interfaces. <br>
+    <blockquote type="cite" cite="mid:87img15zfv.fsf@linaro.org">
+      <pre class="moz-quote-pre" wrap="">
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">
+What's your opinion about it? Should I expand the fpu/softfloat?
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+bfloat16 is certainly going to become more common that we should have
+common softfloat code to handle it. It would be nice is TestFloat could
+exercise it as well.
+</pre>
+    </blockquote>
+    Thanks. I will try to use make check-softfloat to test bfloat16
+    interfaces.<br>
+    <br>
+    Best Regards,<br>
+    Zhiwei<br>
+    <blockquote type="cite" cite="mid:87img15zfv.fsf@linaro.org">
+      <pre class="moz-quote-pre" wrap="">
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">
+Best Regards,
+Zhiwei
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+
+</pre>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------612A68BA5223D29ABD182D24--
 
