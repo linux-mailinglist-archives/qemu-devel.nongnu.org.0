@@ -2,66 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FF821F3213
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 03:45:26 +0200 (CEST)
-Received: from localhost ([::1]:49768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C54D1F3260
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 04:48:57 +0200 (CEST)
+Received: from localhost ([::1]:33834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jiTKP-0000lE-90
-	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 21:45:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40210)
+	id 1jiUJr-0002NJ-Uu
+	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 22:48:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1jiTEx-0005yb-O0; Mon, 08 Jun 2020 21:39:47 -0400
-Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:37643)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1jiTEx-0000Vn-2J; Mon, 08 Jun 2020 21:39:47 -0400
-Received: by mail-ed1-x541.google.com with SMTP id k8so15002342edq.4;
- Mon, 08 Jun 2020 18:39:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=nR8duXu/7i/owTQ/5PmEvOI0K8pxjyS17auW0MJccq8=;
- b=S6kBn+QOr3q38jWbuT9kbZVIAnqpYgcZNu3yYeCim6bpSZhC7WuWxqGUzbDMsNBq/e
- TSNtSLWWkKr5ZjB+MsPsgzP1Ls9HLHr/Xy5HCDAIjZJcOb9aMK8WoBQ9ZTp5Xnt/rIVe
- MY5e+pzjvKvKCBNSbH4ET6Xh7BldjLWgsoqGw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=nR8duXu/7i/owTQ/5PmEvOI0K8pxjyS17auW0MJccq8=;
- b=swQSiAeA3k7Q+YumbDRYCMPQ2yH/9+4QT8h1/qyOilJsSlyrxSScmpGYmo056UUUTI
- PMqG1XPym7ro/B77aKy1vBgXcEG3AaBtQs0TNF74kTgsOWvccrG8TZjOMiPljrpSUM9z
- obj0ciHkTmFZ4CUbnbJNQkWVgGUJ+JYWoNn0puQ4jOztLFkXlqkp+Rc49n3V0ClR8SWB
- qqNgUd78OqjZnJwGUFPflEciLEIpci3rLTNzmci/AFyh9+Zxe/1bBnO20mSA+wBJ2OC4
- WkB4uvt3OpyZk3CS4EJFAiv70KWx+mlvQsKvPXSVixdrFW9Z5xxi4+FcM2nMSco7Gb6T
- DdDw==
-X-Gm-Message-State: AOAM532ARnBoKMg5eEpldOIaO8yEMxd/Zqqz7a2ic5U1C1bMmV6rUDBb
- kG6K6spiKN23dZQd+dpLxaO6Y+dYHjn9hw1LbCp/HuaS
-X-Google-Smtp-Source: ABdhPJz2Ssmc1DgPOeJ20fagPYih3ljE0WhS/aV6l9plwevqV0fs1WxemrsfBHrmWA5n7a9oZoCRHRog+rqKTj7ckUs=
-X-Received: by 2002:a50:f094:: with SMTP id v20mr24308785edl.77.1591666785312; 
- Mon, 08 Jun 2020 18:39:45 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1jiUJ4-0001tn-UX
+ for qemu-devel@nongnu.org; Mon, 08 Jun 2020 22:48:06 -0400
+Received: from vultr.net.flygoat.com
+ ([2001:19f0:6001:3633:5400:2ff:fe8c:553]:38224)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1jiUJ3-0002TE-Jq
+ for qemu-devel@nongnu.org; Mon, 08 Jun 2020 22:48:06 -0400
+Received: from localhost.localdomain (unknown
+ [IPv6:2001:da8:20f:4430:250:56ff:fe9a:7470])
+ by vultr.net.flygoat.com (Postfix) with ESMTPSA id 6DC751FAF8;
+ Tue,  9 Jun 2020 02:48:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=flygoat.com; s=vultr;
+ t=1591670881; bh=veK+SR4g8Ulqn5TtYEUsTTTv/wHdxDcm2yT9dXEkZCg=;
+ h=From:To:Cc:Subject:Date:From;
+ b=FDS4Suupwu7WsVX/e2KdlRhIliQwLPI4jtj0HKzWtNtIwDewESh71/sx7PywONiQH
+ +VBLWdprbLW3yCSye0ThXsneKFBfagOwHMKU/e01zTsoUXi9MOcvxKhqdXt7rCDzoI
+ wUW0o2zmTN2Ft6pKOfW09XQbWcvmjsktk5/W/PDBlb4G083DEZMAk6R5is0KdpCI/4
+ pIFGpg4LgD5QKT7wG/HuYQoks0oSUm372cmypCAFctk6tgOgkOuWhYVkm/B3bfebNq
+ rvp6uR1nrsCyhb7Bpt/+k/MvUx8ZqZNhFAAw7N/CInz0rFyTYIDnfF9pPYnyI5Q952
+ s3m3Csbl2RTRw==
+From: Jiaxun Yang <jiaxun.yang@flygoat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] target/mips: Fix PageMask with variable page size
+Date: Tue,  9 Jun 2020 10:47:46 +0800
+Message-Id: <20200609024746.2498909-1-jiaxun.yang@flygoat.com>
+X-Mailer: git-send-email 2.27.0.rc2
 MIME-Version: 1.0
-References: <20200521192133.127559-1-hskinnemoen@google.com>
- <CAFQmdRYYhoWu7q350n0vNOE+pesp-UG975v1f1Yjwf9Ao0mjcg@mail.gmail.com>
-In-Reply-To: <CAFQmdRYYhoWu7q350n0vNOE+pesp-UG975v1f1Yjwf9Ao0mjcg@mail.gmail.com>
-From: Joel Stanley <joel@jms.id.au>
-Date: Tue, 9 Jun 2020 01:39:33 +0000
-Message-ID: <CACPK8XfOtLSVR2u12qEYxB=ggKLD-NeK8BYMW3_uRo8ExnM6Ww@mail.gmail.com>
-Subject: Re: [PATCH 0/6] Add Nuvoton NPCM730/NPCM750 SoCs and two BMC machines
-To: Havard Skinnemoen <hskinnemoen@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::541;
- envelope-from=joel.stan@gmail.com; helo=mail-ed1-x541.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2001:19f0:6001:3633:5400:2ff:fe8c:553;
+ envelope-from=jiaxun.yang@flygoat.com; helo=vultr.net.flygoat.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/08 22:48:01
+X-ACL-Warn: Detected OS   = ???
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,41 +63,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, CS20 KFTing <kfting@nuvoton.com>,
- qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
- IS20 Avi Fishman <Avi.Fishman@nuvoton.com>
+Cc: chenhc@lemote.com, aleksandar.qemu.devel@gmail.com,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 8 Jun 2020 at 22:15, Havard Skinnemoen <hskinnemoen@google.com> wrote:
->
-> On Thu, May 21, 2020 at 12:21 PM Havard Skinnemoen <hskinnemoen@google.com> wrote:
->>
->> This patch series models enough of the Nuvoton NPCM730 and NPCM750 SoCs to boot
->> a minimal Linux kernel. This includes device models for:
->
->
-> Does anyone have comments on this series? I'm currently finishing up a second patch series that adds flash support and a few other things so qemu can boot a full OpenBMC flash image built for npcm7xx.
+Our current code assumed the target page size is always 4k
+when handling PageMask and VPN2, however, variable page size
+was just added to mips target and that's nolonger true.
 
-I had a look and they appear good to me. Note that I'm less in to the
-gory details of Qemu than some of our other reviewers, so you should
-seek  a more detailed review from someone else.
+So we refined this piece of code to handle any target page size.
+Also added Big Page support defined by MIPS64 Release2.
 
-I look forward further support so I can test the OpenBMC kernel
-against Nuvoton boards in the same way as the Aspeed ones.
+Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+---
+ target/mips/cp0_helper.c | 48 ++++++++++++++++++++++++++++++----------
+ target/mips/cpu.h        |  3 ++-
+ 2 files changed, 38 insertions(+), 13 deletions(-)
 
-Cheers,
+diff --git a/target/mips/cp0_helper.c b/target/mips/cp0_helper.c
+index bbf12e4a97..7a134085f7 100644
+--- a/target/mips/cp0_helper.c
++++ b/target/mips/cp0_helper.c
+@@ -872,20 +872,44 @@ void helper_mtc0_memorymapid(CPUMIPSState *env, target_ulong arg1)
+     }
+ }
+ 
+-void update_pagemask(CPUMIPSState *env, target_ulong arg1, int32_t *pagemask)
++void helper_mtc0_pagemask(CPUMIPSState *env, target_ulong arg1)
+ {
+-    uint64_t mask = arg1 >> (TARGET_PAGE_BITS + 1);
+-    if (!(env->insn_flags & ISA_MIPS32R6) || (arg1 == ~0) ||
+-        (mask == 0x0000 || mask == 0x0003 || mask == 0x000F ||
+-         mask == 0x003F || mask == 0x00FF || mask == 0x03FF ||
+-         mask == 0x0FFF || mask == 0x3FFF || mask == 0xFFFF)) {
+-        env->CP0_PageMask = arg1 & (0x1FFFFFFF & (TARGET_PAGE_MASK << 1));
++    uint64_t mask;
++    int maxmaskbits, maskbits;
++
++    if (env->insn_flags & ISA_MIPS32R6) {
++        return;
+     }
+-}
+ 
+-void helper_mtc0_pagemask(CPUMIPSState *env, target_ulong arg1)
+-{
+-    update_pagemask(env, arg1, &env->CP0_PageMask);
++    /* Don't care MASKX as we don't support 1KB page */
++#ifdef TARGET_MIPS64
++    if (env->CP0_Config3 & CP0C3_BPG) {
++        maxmaskbits = 47;
++    } else {
++        maxmaskbits = 16;
++    }
++#else
++    maxmaskbits = 16;
++#endif
++    mask = extract64((uint64_t)arg1, CP0PM_MASK, maxmaskbits);
++
++    maskbits = find_first_zero_bit(&mask, 64);
++
++    /* Ensure no more set bit after first zero */
++    if (mask >> maskbits) {
++        goto invalid;
++    }
++    /* We don't support VTLB entry smaller than target page */
++    if ((maskbits + 12) < TARGET_PAGE_BITS) {
++        goto invalid;
++    }
++    env->CP0_PageMask = mask << CP0PM_MASK;
++
++    return;
++
++invalid:
++    maskbits = MIN(maxmaskbits, MAX(maskbits, TARGET_PAGE_BITS - 12));
++    env->CP0_PageMask = ((1 << (maskbits + 1)) - 1) << CP0PM_MASK;
+ }
+ 
+ void helper_mtc0_pagegrain(CPUMIPSState *env, target_ulong arg1)
+@@ -1111,7 +1135,7 @@ void helper_mthc0_saar(CPUMIPSState *env, target_ulong arg1)
+ void helper_mtc0_entryhi(CPUMIPSState *env, target_ulong arg1)
+ {
+     target_ulong old, val, mask;
+-    mask = (TARGET_PAGE_MASK << 1) | env->CP0_EntryHi_ASID_mask;
++    mask = ~((1 << 14) - 1) | env->CP0_EntryHi_ASID_mask;
+     if (((env->CP0_Config4 >> CP0C4_IE) & 0x3) >= 2) {
+         mask |= 1 << CP0EnHi_EHINV;
+     }
+diff --git a/target/mips/cpu.h b/target/mips/cpu.h
+index 0b3c987bb3..b69806792d 100644
+--- a/target/mips/cpu.h
++++ b/target/mips/cpu.h
+@@ -617,7 +617,8 @@ struct CPUMIPSState {
+ /*
+  * CP0 Register 5
+  */
+-    int32_t CP0_PageMask;
++    target_ulong CP0_PageMask;
++#define CP0PM_MASK 13
+     int32_t CP0_PageGrain_rw_bitmask;
+     int32_t CP0_PageGrain;
+ #define CP0PG_RIE 31
+-- 
+2.27.0.rc2
 
-Joel
-
->
-> If you prefer, I can combine them both into one series and send it to the list.
->
-> This series can be found here: https://patchwork.kernel.org/project/qemu-devel/list/?series=291809
->
-> Thanks,
->
-> Havard
 
