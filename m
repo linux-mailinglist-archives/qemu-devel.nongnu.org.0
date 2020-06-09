@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F6CF1F41BD
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 19:08:05 +0200 (CEST)
-Received: from localhost ([::1]:46826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E22E61F41AC
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 19:03:10 +0200 (CEST)
+Received: from localhost ([::1]:56278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jihjI-0002Z1-Fc
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 13:08:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48878)
+	id 1jiheX-0002iP-U0
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 13:03:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jihI2-0004NX-KT
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 12:39:54 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:44134
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jihI1-0004LW-Ku
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 12:39:53 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36315
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jihHw-0003E2-Lb
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 12:39:54 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jihHw-0003F5-Bk
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 12:39:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591720783;
+ s=mimecast20190719; t=1591720785;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=shnAdhJjmSfgzQchX5hCLAlhU/KwAp2h4j2pwnONVtE=;
- b=HtNh7fSDqp1cgkukgA93QlUp0L7/Qi2jSKd88Cd/GYiiEhLaOhM/c7mrMj1cbL3uo5QFqA
- sDnMvDHgeHKSMWbYMyCsNIVikXHyNZ0zN+jnDRtuu3O5bTEK5Cqc5CCPcwVRewKsrleEbw
- ciOS3RT8LP0diJYjFEqgLS6IV24POHk=
+ bh=QMNqSXNx4us/JNCxyd5YWOdv+mB/JgX/CHnODcMbFEc=;
+ b=clV5woc4Ux2On8WTgQlpu/2DCl/MvnB1ITw9oERwvVvHlYr5swJPzcV5Rdp2qDxTxmwjd2
+ HEntu0H3cON8q/dMSKODhUWIqS5mz/66cKTnAbm4fFOk14cZi6NBl6BaEPpOmlFGfVng7i
+ 4nvtbMvV6+j0s3Qr0ISpKx+qXz//6Xo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-135-65V3c3YpOFGQsCawsdz10Q-1; Tue, 09 Jun 2020 12:39:42 -0400
-X-MC-Unique: 65V3c3YpOFGQsCawsdz10Q-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-135-H0bEtejJNqym3Rmv0ri9vQ-1; Tue, 09 Jun 2020 12:39:42 -0400
+X-MC-Unique: H0bEtejJNqym3Rmv0ri9vQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D1C4E3643B;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E868A873092;
  Tue,  9 Jun 2020 16:39:40 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-121.ams2.redhat.com
  [10.36.112.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A130F89293;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B93005C1BD;
  Tue,  9 Jun 2020 16:39:40 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 7FA23113847B; Tue,  9 Jun 2020 18:39:33 +0200 (CEST)
+ id 86110113847C; Tue,  9 Jun 2020 18:39:33 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 37/39] macio: Convert use of qdev_set_parent_bus()
-Date: Tue,  9 Jun 2020 18:39:30 +0200
-Message-Id: <20200609163932.1566209-38-armbru@redhat.com>
+Subject: [PATCH v3 38/39] macio: Eliminate macio_init_child_obj()
+Date: Tue,  9 Jun 2020 18:39:31 +0200
+Message-Id: <20200609163932.1566209-39-armbru@redhat.com>
 In-Reply-To: <20200609163932.1566209-1-armbru@redhat.com>
 References: <20200609163932.1566209-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
  helo=us-smtp-1.mimecast.com
@@ -80,91 +80,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
  Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
  David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Convert qdev_set_parent_bus()/realize to qdev_realize(); recent commit
-"qdev: New qdev_new(), qdev_realize(), etc." explains why.
+macio_init_child_obj() has become a trivial wrapper around
+object_initialize_child_with_props().  Eliminate it, since the general
+convenience wrapper object_initialize_child() is just as convenient
+already.
 
 Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Cc: David Gibson <david@gibson.dropbear.id.au>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/misc/macio/macio.c | 13 ++++++-------
- 1 file changed, 6 insertions(+), 7 deletions(-)
+ hw/misc/macio/macio.c | 30 +++++++++---------------------
+ 1 file changed, 9 insertions(+), 21 deletions(-)
 
 diff --git a/hw/misc/macio/macio.c b/hw/misc/macio/macio.c
-index a2698e4a20..1a07ca2ca5 100644
+index 1a07ca2ca5..8ba7af073c 100644
 --- a/hw/misc/macio/macio.c
 +++ b/hw/misc/macio/macio.c
-@@ -100,7 +100,6 @@ static void macio_init_child_obj(MacIOState *s, const char *childname,
- {
-     object_initialize_child_with_props(OBJECT(s), childname, child, childsize,
-                                        childtype, &error_abort, NULL);
--    qdev_set_parent_bus(DEVICE(child), BUS(&s->macio_bus));
+@@ -94,14 +94,6 @@ static void macio_bar_setup(MacIOState *s)
+     macio_escc_legacy_setup(s);
  }
  
+-static void macio_init_child_obj(MacIOState *s, const char *childname,
+-                                 void *child, size_t childsize,
+-                                 const char *childtype)
+-{
+-    object_initialize_child_with_props(OBJECT(s), childname, child, childsize,
+-                                       childtype, &error_abort, NULL);
+-}
+-
  static void macio_common_realize(PCIDevice *d, Error **errp)
-@@ -109,7 +108,7 @@ static void macio_common_realize(PCIDevice *d, Error **errp)
-     SysBusDevice *sysbus_dev;
-     Error *err = NULL;
- 
--    object_property_set_bool(OBJECT(&s->dbdma), true, "realized", &err);
-+    qdev_realize(DEVICE(&s->dbdma), BUS(&s->macio_bus), &err);
-     if (err) {
-         error_propagate(errp, err);
-         return;
-@@ -125,7 +124,7 @@ static void macio_common_realize(PCIDevice *d, Error **errp)
-     qdev_prop_set_chr(DEVICE(&s->escc), "chrB", serial_hd(1));
-     qdev_prop_set_uint32(DEVICE(&s->escc), "chnBtype", escc_serial);
-     qdev_prop_set_uint32(DEVICE(&s->escc), "chnAtype", escc_serial);
--    object_property_set_bool(OBJECT(&s->escc), true, "realized", &err);
-+    qdev_realize(DEVICE(&s->escc), BUS(&s->macio_bus), &err);
-     if (err) {
-         error_propagate(errp, err);
-         return;
-@@ -148,7 +147,7 @@ static void macio_realize_ide(MacIOState *s, MACIOIDEState *ide,
-     object_property_set_link(OBJECT(ide), OBJECT(&s->dbdma), "dbdma", errp);
-     macio_ide_register_dma(ide);
- 
--    object_property_set_bool(OBJECT(ide), true, "realized", errp);
-+    qdev_realize(DEVICE(ide), BUS(&s->macio_bus), errp);
+ {
+     MacIOState *s = MACIO(d);
+@@ -218,13 +210,12 @@ static void macio_oldworld_realize(PCIDevice *d, Error **errp)
+     }
  }
  
- static void macio_oldworld_realize(PCIDevice *d, Error **errp)
-@@ -167,7 +166,7 @@ static void macio_oldworld_realize(PCIDevice *d, Error **errp)
+-static void macio_init_ide(MacIOState *s, MACIOIDEState *ide, size_t ide_size,
+-                           int index)
++static void macio_init_ide(MacIOState *s, MACIOIDEState *ide, int index)
+ {
+     gchar *name = g_strdup_printf("ide[%i]", index);
+     uint32_t addr = 0x1f000 + ((index + 1) * 0x1000);
  
-     qdev_prop_set_uint64(DEVICE(&s->cuda), "timebase-frequency",
-                          s->frequency);
--    object_property_set_bool(OBJECT(&s->cuda), true, "realized", &err);
-+    qdev_realize(DEVICE(&s->cuda), BUS(&s->macio_bus), &err);
-     if (err) {
-         error_propagate(errp, err);
-         return;
-@@ -184,7 +183,7 @@ static void macio_oldworld_realize(PCIDevice *d, Error **errp)
-     sysbus_connect_irq(sysbus_dev, 1, qdev_get_gpio_in(pic_dev,
-                                                        OLDWORLD_ESCCA_IRQ));
+-    macio_init_child_obj(s, name, ide, ide_size, TYPE_MACIO_IDE);
++    object_initialize_child(OBJECT(s), name, ide, TYPE_MACIO_IDE);
+     qdev_prop_set_uint32(DEVICE(ide), "addr", addr);
+     memory_region_add_subregion(&s->bar, addr, &ide->mem);
+     g_free(name);
+@@ -242,16 +233,15 @@ static void macio_oldworld_init(Object *obj)
+                              qdev_prop_allow_set_link_before_realize,
+                              0);
  
--    object_property_set_bool(OBJECT(&os->nvram), true, "realized", &err);
-+    qdev_realize(DEVICE(&os->nvram), BUS(&s->macio_bus), &err);
-     if (err) {
-         error_propagate(errp, err);
-         return;
-@@ -348,7 +347,7 @@ static void macio_newworld_realize(PCIDevice *d, Error **errp)
-                                  &error_abort);
-         memory_region_add_subregion(&s->bar, 0x50,
-                                     sysbus_mmio_get_region(sysbus_dev, 0));
--        object_property_set_bool(OBJECT(&ns->gpio), true, "realized", &err);
-+        qdev_realize(DEVICE(&ns->gpio), BUS(&s->macio_bus), &err);
+-    macio_init_child_obj(s, "cuda", &s->cuda, sizeof(s->cuda), TYPE_CUDA);
++    object_initialize_child(OBJECT(s), "cuda", &s->cuda, TYPE_CUDA);
  
-         /* PMU */
-         object_initialize_child(OBJECT(s), "pmu", &s->pmu, TYPE_VIA_PMU);
+-    macio_init_child_obj(s, "nvram", &os->nvram, sizeof(os->nvram),
+-                         TYPE_MACIO_NVRAM);
++    object_initialize_child(OBJECT(s), "nvram", &os->nvram, TYPE_MACIO_NVRAM);
+     dev = DEVICE(&os->nvram);
+     qdev_prop_set_uint32(dev, "size", 0x2000);
+     qdev_prop_set_uint32(dev, "it_shift", 4);
+ 
+     for (i = 0; i < 2; i++) {
+-        macio_init_ide(s, &os->ide[i], sizeof(os->ide[i]), i);
++        macio_init_ide(s, &os->ide[i], i);
+     }
+ }
+ 
+@@ -396,11 +386,10 @@ static void macio_newworld_init(Object *obj)
+                              qdev_prop_allow_set_link_before_realize,
+                              0);
+ 
+-    macio_init_child_obj(s, "gpio", &ns->gpio, sizeof(ns->gpio),
+-                         TYPE_MACIO_GPIO);
++    object_initialize_child(OBJECT(s), "gpio", &ns->gpio, TYPE_MACIO_GPIO);
+ 
+     for (i = 0; i < 2; i++) {
+-        macio_init_ide(s, &ns->ide[i], sizeof(ns->ide[i]), i);
++        macio_init_ide(s, &ns->ide[i], i);
+     }
+ }
+ 
+@@ -413,10 +402,9 @@ static void macio_instance_init(Object *obj)
+     qbus_create_inplace(&s->macio_bus, sizeof(s->macio_bus), TYPE_MACIO_BUS,
+                         DEVICE(obj), "macio.0");
+ 
+-    macio_init_child_obj(s, "dbdma", &s->dbdma, sizeof(s->dbdma),
+-                         TYPE_MAC_DBDMA);
++    object_initialize_child(OBJECT(s), "dbdma", &s->dbdma, TYPE_MAC_DBDMA);
+ 
+-    macio_init_child_obj(s, "escc", &s->escc, sizeof(s->escc), TYPE_ESCC);
++    object_initialize_child(OBJECT(s), "escc", &s->escc, TYPE_ESCC);
+ }
+ 
+ static const VMStateDescription vmstate_macio_oldworld = {
 -- 
 2.26.2
 
