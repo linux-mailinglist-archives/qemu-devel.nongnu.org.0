@@ -2,29 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 790191F437C
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 19:54:06 +0200 (CEST)
-Received: from localhost ([::1]:53578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DEFB1F4323
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 19:50:41 +0200 (CEST)
+Received: from localhost ([::1]:40602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jiiRp-0007jC-GG
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 13:54:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54716)
+	id 1jiiOW-0001wf-GC
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 13:50:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jii5F-0003Kp-Kw; Tue, 09 Jun 2020 13:30:45 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:44393)
+ id 1jii6q-0005Jx-Vm; Tue, 09 Jun 2020 13:32:24 -0400
+Received: from mout.kundenserver.de ([212.227.126.133]:55425)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jii5E-0003oA-Hq; Tue, 09 Jun 2020 13:30:45 -0400
+ id 1jii6o-0003uq-NP; Tue, 09 Jun 2020 13:32:24 -0400
 Received: from [192.168.100.1] ([82.252.135.106]) by mrelayeu.kundenserver.de
- (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MidPj-1j33nt0xi3-00fjqy; Tue, 09 Jun 2020 19:30:22 +0200
-Subject: Re: [PATCH v2 6/8] hw/hppa/dino: Use the IEC binary prefix definitions
+ (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1N5VPe-1itPo10Xxi-016yew; Tue, 09 Jun 2020 19:32:03 +0200
+Subject: Re: [PATCH v2 7/8] hw/i386/xen/xen-hvm: Use the IEC binary prefix
+ definitions
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20200601142930.29408-1-f4bug@amsat.org>
- <20200601142930.29408-7-f4bug@amsat.org>
+ <20200601142930.29408-8-f4bug@amsat.org>
 From: Laurent Vivier <laurent@vivier.eu>
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
@@ -68,36 +69,36 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <8fc68c5f-2e62-9466-a6d9-873d6e101286@vivier.eu>
-Date: Tue, 9 Jun 2020 19:30:17 +0200
+Message-ID: <2f517282-a950-7bb0-219b-87c843ba1aa9@vivier.eu>
+Date: Tue, 9 Jun 2020 19:31:59 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200601142930.29408-7-f4bug@amsat.org>
+In-Reply-To: <20200601142930.29408-8-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:kWoyWcZqYkxB7s/T0deiqxYb0mV6anwnErhNnJw54CTKcrEExq5
- Wy7WbIuWz8UHJEoQTXCFHlpBnHOFM1pW0qoRKo0dS9cHB/MtZOzHlLpUvQIDIHSNGyWE2lG
- we8YyRESfkZx/Jy8EBR+N9LwZ5nCp2PPkkTYLXv3W+lHEgcvQlg/mVZPbbMEkrwPpAxHYdA
- K+JIWSB51e8+BYwIJ1t+Q==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:LPtC63l6hr4=:5ncwvCU6J8Ds3BACsbmPUi
- jd7q7Ndin7jNNOluNsWo953J7uIhze2CX7FfiWSJ6rcUDUcMfEklKnN2LXhVTaALMLkaUk6am
- WaEKH7IayQPQTQrYNupFvtvKCebjhWgzaEBEHxMybSwEqA0v2Lxs92xDJLIjsKWSHi8p3P58M
- JZHaXForg7YWC3CbXOKarbV8qBwTgc+qTGZMoA9V4enq5BQGXPea0t4+/6hojLAGjgLs1WPaH
- ce8eobiQ6J3YyxG5Y1MJVl1HMTw7Fx1v2jPYoplGQYd/y281p8OZIC0JMB9v7JptZFKyEtoFK
- J8va5k11jdtHNrgB+tp/RqUqCYxMgoubhY50SWB/ibSc+OEh/iVNMAkP0ReXnOFPGhwMfD9sO
- E4/rf3Swmb/v5UGdIl0CkksjUg9XNzwdjzyBBTCr5AklKO92SuXyL/cbZdJP4p0EEbFI5SjoE
- E/zKXf/h8CbYhBcY8sl67Ld9y892W6KbUMHIJyOmWVQJxFHdUByQ6Z4Dwbl+dm9aPuCMmoJJc
- clt9wyg/n7nyn6C+VcoBnRpReZlqcNqalvAbmCsOeLekOZi05ZtWNKcrrfuPHq91XRdsc6CLV
- PrwwAsIgkzVCcIInV/BZMPZ0j4BXzWorzG50OYK2bf6NOd3eO5xswqND8tGX+lyATyRWus6u7
- t3VLSRllDFhfVfm0a/XyKDJ9hibl+maQb8q3ldn3PUlcAyK7s7Lr7JP5o0wnhJtwJ9UoDHIWJ
- iZwFbDefDxfCDLWaGEyDhfzE2mBt+Ww9wPNESIj7wjxtMDoANjRYR1pwHeWUJVNaTw7NYL5aZ
- dfDPp5T6SuLp7QZsjam16lPuAe/f9bd+Q2vY8CVzsskNOBzpVI=
-Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:iBNPhQQcrpUp/3RAl90FPZv091PWu/WsnYMgxRBZUgS/NpN9E+C
+ hZxv9XQwD3pvXNRszVBmOuyML7xIzkfIjDmnCak7jtmyRhsn3dZ+FABeocxGO22XD30Iug2
+ 2KpzFLsqT51SmDQGOSSyQL3TFg5cjFVrvR2uJ3OvVHP6vvsbqoH3O26u1u96CFJv2nlHiiZ
+ 8JJJhKp1SM7+GZbjvz0wA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:f0xq687f0Ww=:rmoSs+agvYGUQxwmVwBlzG
+ uJ00JCPeTiKSB6VJe8aFIHvejjF1nLIDFIhOy8/BxgRn4tcmimaGGWYuVSsLGimS1zZEYqH7a
+ hS/1q1JknS0LDzIXPDeciGCodKdrcKdkrOlr0Wj0N5jZe0CxFkIoxhEB31xhFd4RF4HBPGnj/
+ K8UCu/c/GcDdAY3iDVi00f8othPJcXVUIMGNX+GMbSGpSFSkhxcDtjtvuanRRS7xTXMsvKPzS
+ EFEeIobGXGwS5glc06/bSZuS480NTXr3coFiJzl3zRlcqTJvoMYkng/VYn3vrHdwnhouzXYxj
+ istZ7dmJpA4v/C7qd1CHIkz4G8+nyTsC+SA+HAhan0L1e4spAw7eOPpWnEumjILHnw9cb/8lH
+ /F3XGTbspZ7C/QtdKiZNRWQJZzu60q3i6oLOvMGKb/X0efRhylsZA5bY4f2PBvde0beFJX715
+ FyhSyZAtMZ3bSCr87PH1vdnB6uS8zBHHx+LVW2vFJjCVHwpIrc1fekNVy1+ydLDOilKQlZInS
+ wWgdSw+9HhAB88V+ZT0ItK/tRG9PiJBkEKoOQciDMFXp+yf0jk6BD8fCsuR7mh/kpNeDuISpl
+ S1v69XMQWtzBhHpJuRHfGYED1mPk/dvosk92PG3yZ7P/+/F5Y/5Hc94J8hly7PjfkqMslaqhW
+ tgIzGvwiMDajz22JOFSR+OafakXMheXLvwbmv9fy2XLkqnBN0uic57Po59R/Ef82WywX85Ift
+ WZ9EcE8/wLb4eOS83UeJS2ZywR5vjabl8J4pt2e8MAX6mQwtJnxpWuzHp053i1phlEMGvjSPv
+ IlkY22vAcvv6v51cXSZcAIYFfEAeBXpnNkpNz1n94K66tKGTvqIBx3+kdVByp/RAREhhqac
+Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 13:30:42
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 12:51:12
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -135,35 +136,35 @@ Le 01/06/2020 à 16:29, Philippe Mathieu-Daudé a écrit :
 > Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->  hw/hppa/dino.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  hw/i386/xen/xen-hvm.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 > 
-> diff --git a/hw/hppa/dino.c b/hw/hppa/dino.c
-> index 2b1b38c58a..7290f23962 100644
-> --- a/hw/hppa/dino.c
-> +++ b/hw/hppa/dino.c
-> @@ -542,7 +542,7 @@ PCIBus *dino_init(MemoryRegion *addr_space,
->                                  &s->parent_obj.data_mem);
+> diff --git a/hw/i386/xen/xen-hvm.c b/hw/i386/xen/xen-hvm.c
+> index 82ece6b9e7..94fe5d65e9 100644
+> --- a/hw/i386/xen/xen-hvm.c
+> +++ b/hw/i386/xen/xen-hvm.c
+> @@ -9,6 +9,7 @@
+>   */
 >  
->      /* Dino PCI bus memory.  */
-> -    memory_region_init(&s->pci_mem, OBJECT(s), "pci-memory", 1ull << 32);
-> +    memory_region_init(&s->pci_mem, OBJECT(s), "pci-memory", 4 * GiB);
+>  #include "qemu/osdep.h"
+> +#include "qemu/units.h"
 >  
->      b = pci_register_root_bus(dev, "pci", dino_set_irq, dino_pci_map_irq, s,
->                                &s->pci_mem, get_system_io(),
-> @@ -561,7 +561,7 @@ PCIBus *dino_init(MemoryRegion *addr_space,
+>  #include "cpu.h"
+>  #include "hw/pci/pci.h"
+> @@ -230,7 +231,7 @@ static void xen_ram_init(PCMachineState *pcms,
+>           * Xen does not allocate the memory continuously, it keeps a
+>           * hole of the size computed above or passed in.
+>           */
+> -        block_len = (1ULL << 32) + x86ms->above_4g_mem_size;
+> +        block_len = (4 * GiB) + x86ms->above_4g_mem_size;
 >      }
->  
->      /* Set up PCI view of memory: Bus master address space.  */
-> -    memory_region_init(&s->bm, OBJECT(s), "bm-dino", 1ull << 32);
-> +    memory_region_init(&s->bm, OBJECT(s), "bm-dino", 4 * GiB);
->      memory_region_init_alias(&s->bm_ram_alias, OBJECT(s),
->                               "bm-system", addr_space, 0,
->                               0xf0000000 + DINO_MEM_CHUNK_SIZE);
+>      memory_region_init_ram(&ram_memory, NULL, "xen.ram", block_len,
+>                             &error_fatal);
 > 
 
 Applied to my trivial-patches branch.
 
 Thanks,
 Laurent
+
 
