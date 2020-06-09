@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC8C11F408C
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 18:21:46 +0200 (CEST)
-Received: from localhost ([::1]:42196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99C871F40C0
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 18:27:04 +0200 (CEST)
+Received: from localhost ([::1]:50480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jih0T-0006Gk-TC
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 12:21:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46316)
+	id 1jih5b-0001of-Fm
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 12:27:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jigym-0005F5-LO
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 12:20:00 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:29853
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jigyl-0007ji-7c
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 12:20:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591719597;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SyhfPKerh7BFn3BTRSnCQaLrCiEcxl0Ns1kmXdVRSrg=;
- b=ADizKlDvzaYmDeAEL98yJU9nr7Ix/px1/WGT7Cl8gsx/QOS+f/PxJaprUFO9ClGvL8/cLX
- vmOmZXHPml1wnK4Q4CVUEWb1go/ERRX/WqJTZ+3xOEszZyMs8ZDSK3HnCxkVqL7YmxgVQg
- 4A4C7bf28yTUlk+3Z7DbcUBG4uiabAo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-220-KbuBlZEHN_CTJrRx1xXEHA-1; Tue, 09 Jun 2020 12:19:52 -0400
-X-MC-Unique: KbuBlZEHN_CTJrRx1xXEHA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 111BD1B18BC2;
- Tue,  9 Jun 2020 16:19:51 +0000 (UTC)
-Received: from [10.3.113.22] (ovpn-113-22.phx2.redhat.com [10.3.113.22])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 65E6310190A7;
- Tue,  9 Jun 2020 16:19:50 +0000 (UTC)
-Subject: Re: [PATCH] qcow2: Reduce write_zeroes size in handle_alloc_space()
-To: Kevin Wolf <kwolf@redhat.com>
-References: <20200609140859.142230-1-kwolf@redhat.com>
- <02e24dca-99da-873d-8425-09a07571e675@virtuozzo.com>
- <042f0b8f-dd51-acc3-8498-ac9a5532df15@redhat.com>
- <20200609151810.GD11003@linux.fritz.box>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <b2c59302-2c14-474b-3bb8-3b48806f2689@redhat.com>
-Date: Tue, 9 Jun 2020 11:19:49 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jih3n-000063-76
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 12:25:11 -0400
+Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:37122)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jih3l-0000Sa-E2
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 12:25:10 -0400
+Received: by mail-pf1-x42c.google.com with SMTP id j1so10128416pfe.4
+ for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 09:25:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=A8xa0HH5bE0G78/TNjauK05gt2+9cNe+UPKq7I1z8fQ=;
+ b=CCTwwwpvMbD2UqMR38nnMJm1j5R3oitczS7CcXmhXaYja2Zm3NoOAsWW2yrnCrZeYK
+ rchJdVSvRHcIHDuX8YzkDyG2IGrUHupbuG6OPVARY2zVh/tpldeqO5oS+ZP+2zsNfidV
+ augxmMUxG9cR8Mu4+sKrMvZU5tRUnIuVceWf7G8rv4NpXuTvUXTbbO2V2QlmQfSD2wtA
+ JFtrYqeuqo5KzW6aRz2/Of3tIphqhawb8P66E5MqASlcy1YISk3IiFl2NFTUXaAu8zQY
+ ++Gxj5pCYXU8F3xmQ2jqEj6T5S9uEbbrzVMtTTi3NgLk2n2RgMGOC2xeZhfhhzET06Fy
+ 1efQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=A8xa0HH5bE0G78/TNjauK05gt2+9cNe+UPKq7I1z8fQ=;
+ b=QLiP+gXpUCDkHCbl3JwDKHa6csMv5Ew1hsoX5q7mz21wpA1ts8VBdfTZfjOfFBJ07C
+ 7ZssNdnwx6mcZv4j+XhZcV8j1V6AW4HOy4ZTyjgfC03kkwIYFHTPHRh1u2t4FUUpi0J1
+ S116lwVvLhDEsqxmkPCK0QT5Pw590XodxTRgOeSpQMjeQ6T9wjNovOs1fpkz0YKdzgOC
+ yWH07sTofvmxGWKnB/+abvkjoSLW0gxuatIdjDDIrsEcy9l1TQpjnJtlreMyP1j1u7jI
+ INA78Flh0Ed7WedVAoyL80vQlEYmQidxloVaevBwB2O8NslV2i4AVHq3jhO5shxIYoFI
+ FQ8g==
+X-Gm-Message-State: AOAM531cDSAiDTuz84so1uAuvMHeM+Rzr15wCMk72NT1weuxo2CHoC3n
+ tFUy67cwclY+ynBAPRIlIdYOhExVNL0=
+X-Google-Smtp-Source: ABdhPJxB9aiKxM6bsSjb3k753k3XgAv3EjDxWsO2p+Y5vsJ16MECBcPUBNxqyMzekVNrwQ+U6eNZww==
+X-Received: by 2002:a63:6c8:: with SMTP id 191mr24499665pgg.22.1591719906354; 
+ Tue, 09 Jun 2020 09:25:06 -0700 (PDT)
+Received: from localhost.localdomain (174-21-143-238.tukw.qwest.net.
+ [174.21.143.238])
+ by smtp.gmail.com with ESMTPSA id s188sm7580101pfb.118.2020.06.09.09.25.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 09 Jun 2020 09:25:05 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/9] decodetree: Add non-overlapping groups
+Date: Tue,  9 Jun 2020 09:24:55 -0700
+Message-Id: <20200609162504.780080-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20200609151810.GD11003@linux.fritz.box>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 02:41:53
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42c.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,79 +84,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org, mreitz@redhat.com,
- anton.nefedov@virtuozzo.com, "Denis V. Lunev" <den@openvz.org>
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/9/20 10:18 AM, Kevin Wolf wrote:
+The following changes since commit 49ee11555262a256afec592dfed7c5902d5eefd2:
 
->>>> -        ret = bdrv_co_pwrite_zeroes(s->data_file, m->alloc_offset,
->>>> -                                    m->nb_clusters * s->cluster_size,
->>>> +        ret = bdrv_co_pwrite_zeroes(s->data_file, start, len,
->>>>                                        BDRV_REQ_NO_FALLBACK);
->>
->> Good point.  If we weren't using BDRV_REQ_NO_FALLBACK, then avoiding a
->> pre-zero pass over the middle is essential.  But since we are insisting that
->> the pre-zero pass be fast or else immediately fail, the time spent in
->> pre-zeroing should not be a concern.  Do you have benchmark numbers stating
->> otherwise?
-> 
-> I stumbled across this behaviour (write_zeros for 2 MB, then overwrite
-> almost everything) in the context of a different bug, and it just didn't
-> make much sense to me. Is there really a file system where fragmentation
-> is introduced by not zeroing the area first and then overwriting it?
-> 
-> I'm not insisting on making this change because the behaviour is
-> harmless if odd, but if we think that writing twice to some blocks is an
-> optimisation, maybe we should actually measure and document this.
-> 
-> 
-> Anyway, let's talk about the reported bug that made me look at the
-> strace that showed this behaviour because I feel it supports my last
-> point. It's a bit messy, but anyway:
-> 
->      https://bugzilla.redhat.com/show_bug.cgi?id=1666864
-> 
-> So initially, bad performance on a fragmented image file was reported.
-> Not much to do there, but then in comment 16, QA reported a performance
-> regression in this case between 4.0 and 4.2. And this change caused by
-> c8bb23cbdbe, i.e. the commit that introduced handle_alloc_space().
-> 
-> Turns out that BDRV_REQ_NO_FALLBACK doesn't always guarantee that it's
-> _really_ fast. fallocate(FALLOC_FL_ZERO_RANGE) causes some kind of flush
-> on XFS and buffered writes don't. So with the old code, qemu-img convert
-> to a file on a very full filesystem that will cause fragmentation, was
-> much faster with writing a zero buffer than with write_zeroes (because
-> it didn't flush the result).
+  Merge remote-tracking branch 'remotes/vivier2/tags/linux-user-for-5.1-pull-request' into staging (2020-06-08 11:04:57 +0100)
 
-Wow. That makes it sound like we should NOT attempt 
-fallocate(FALLOC_FL_ZERO_RANGE) on the fast path, because we don't have 
-guarantees that it is fast.
+are available in the Git repository at:
 
-I really wish the kernel would give us 
-fallocate(FALLOC_FL_ZERO_RANGE|FALLOC_FL_NO_FALLBACK) which would fail 
-fast rather than doing a flush or other slow fallback.
+  https://github.com/rth7680/qemu.git tags/pull-dt-20200609
 
-> 
-> I don't fully understand why this is and hope that XFS can do something
-> about it. I also don't really think we should revert the change in QEMU,
-> though I'm not completely sure. But I just wanted to share this to show
-> that "obvious" characteristics of certain types of requests aren't
-> always true and doing obscure optimisations based on what we think
-> filesystems may do can actually achieve the opposite in some cases.
+for you to fetch changes up to d6084fba47bb9aef79775c1102d4b647eb58c365:
 
-It also goes to show us that the kernel does NOT yet give us enough 
-fine-grained control over what we really want (which is: 'pre-zero this 
-if it is fast, but don't waste time if it is not).  Most of the kernel 
-interfaces end up being 'pre-zero this, and it might be fast, fail fast, 
-or even fall back to something safe but slow, and you can't tell the 
-difference short of trying'.
+  target/arm: Use a non-overlapping group for misc control (2020-06-09 09:21:19 -0700)
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+----------------------------------------------------------------
+Add non-overlapping groups
 
+----------------------------------------------------------------
+Richard Henderson (9):
+      decodetree: Tidy error_with_file
+      decodetree: Rename MultiPattern to IncMultiPattern
+      decodetree: Split out MultiPattern from IncMultiPattern
+      decodetree: Allow group covering the entire insn space
+      decodetree: Move semantic propagation into classes
+      decodetree: Implement non-overlapping groups
+      tests/decode: Test non-overlapping groups
+      decodetree: Drop check for less than 2 patterns in a group
+      target/arm: Use a non-overlapping group for misc control
+
+ target/arm/t32.decode                        |   4 +-
+ tests/decode/err_pattern_group_nest1.decode  |  11 +-
+ tests/decode/err_pattern_group_nest2.decode  |   6 +
+ tests/decode/err_pattern_group_nest3.decode  |  14 +
+ tests/decode/succ_pattern_group_nest2.decode |  13 +
+ tests/decode/succ_pattern_group_nest3.decode |  11 +
+ tests/decode/succ_pattern_group_nest4.decode |  13 +
+ scripts/decodetree.py                        | 513 +++++++++++++++------------
+ 8 files changed, 360 insertions(+), 225 deletions(-)
+ create mode 100644 tests/decode/err_pattern_group_nest2.decode
+ create mode 100644 tests/decode/err_pattern_group_nest3.decode
+ create mode 100644 tests/decode/succ_pattern_group_nest2.decode
+ create mode 100644 tests/decode/succ_pattern_group_nest3.decode
+ create mode 100644 tests/decode/succ_pattern_group_nest4.decode
 
