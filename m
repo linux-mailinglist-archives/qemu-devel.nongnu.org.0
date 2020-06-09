@@ -2,91 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB24E1F407C
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 18:17:26 +0200 (CEST)
-Received: from localhost ([::1]:36386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7834F1F408E
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 18:22:03 +0200 (CEST)
+Received: from localhost ([::1]:43580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jigwG-0003Kv-VV
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 12:17:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44848)
+	id 1jih0k-0006tq-IV
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 12:22:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1jigsi-0000h3-74
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 12:13:44 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:44615
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1jigz6-0005Zb-Dk
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 12:20:20 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:33675
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1jigsf-0005lc-Di
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 12:13:42 -0400
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1jigz5-0007Yo-J1
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 12:20:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591719219;
+ s=mimecast20190719; t=1591719558;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GPwOf/4bt1/9O35BGeywpEzk760Tv43YHQl3Y49qU5k=;
- b=NJAS0Ha5eK5FYYgRm8KbV9FRf9bWpPN8mw2jxaWT1cStTc9SJ5+DpAlxa5B9EhE2uWz2tu
- w8doqn6eCSdot8Bucq/25bDld4DmHdsnVbojtsKWWVSrqGKOclur1+2cBSycEe0g7ayQ27
- vNSVNv5CprS7Tp/opuFy+ucqyPTjjRo=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-277-sTd9fg2jO_WCrmZ23-jHoA-1; Tue, 09 Jun 2020 12:13:37 -0400
-X-MC-Unique: sTd9fg2jO_WCrmZ23-jHoA-1
-Received: by mail-qv1-f69.google.com with SMTP id w3so17104464qvl.9
- for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 09:13:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=GPwOf/4bt1/9O35BGeywpEzk760Tv43YHQl3Y49qU5k=;
- b=W0qxGbImFIr36XY1cMJ7Gq49stjFjY5FmrcXieScKHvmEdoXigmQK32kHTuElMFzJz
- kq6glsOvx9TNJH0qhiMuMFhnKA2kmb33YbxAK1xgT6pvkvSBK8s/Jk6vtWMCYjN1f/2O
- 52EWt1C2NEiUkJuhJyw3TpRYH6RLmChq/p8vYcORBbY/m5+PR3QN9Z/pzzybuVZibFts
- n9zo5O9qTzGcfqUiNRKfmyEmPZNtib2EX66vVFScUFLRBiaF8dqeaAz+uLJx0G4WbJkl
- MD7WiFle8Y6IVUodj2TPco3l1XTOzryVtOVt3VfZtsUG8BPmn9R1PkTiUQi9KakHm3NF
- Eu7w==
-X-Gm-Message-State: AOAM532fAa/1E/t0hE85TQdh5t1oBSThYR7wBDT2XRkvqK3FLAawJ5Bl
- AKlMrvV/0bVdDdqYi1pdLYQjGP/9vXtPxT0gEfgOcl6Gsafz2JHOj0yMEzrTCHEiicG+wz2GrK3
- x0sOHXT8rpHhhqpo=
-X-Received: by 2002:a05:620a:c0f:: with SMTP id
- l15mr27340830qki.175.1591719217033; 
- Tue, 09 Jun 2020 09:13:37 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwAFgHXKG1gxl1ky2XfQ10wqeAa56tMgNJEb/4w6bkjtFNzbyaWKsuy6MQN7U3cgQLpmCGyrA==
-X-Received: by 2002:a05:620a:c0f:: with SMTP id
- l15mr27340784qki.175.1591719216623; 
- Tue, 09 Jun 2020 09:13:36 -0700 (PDT)
-Received: from xz-x1 ([2607:9880:19c0:32::2])
- by smtp.gmail.com with ESMTPSA id 207sm9405944qki.134.2020.06.09.09.13.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Jun 2020 09:13:35 -0700 (PDT)
-Date: Tue, 9 Jun 2020 12:13:28 -0400
-From: Peter Xu <peterx@redhat.com>
+ bh=xIjfaioqmBdVChcuQCpcGGXIjUXo4w4gXfPUySK3fk8=;
+ b=QbHK2GE1gnIkXL59cGoVG247P1nlPgbSf8iSUBY3HWGsWzPYuDKJ9UFNtdcfdptfZfnWFd
+ 2Y8v35rLMEov8y8a4K9l2CyaVsL8Rg+XTT/oPvdCiWfSI3xhHtqWPCJcMrR/hwnvwvtrlI
+ CMTvNmZJNluRZcYS/FTPbjN4ZGkO980=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-485-FOFoOAkGP-mJYruZWnJrDw-1; Tue, 09 Jun 2020 12:19:08 -0400
+X-MC-Unique: FOFoOAkGP-mJYruZWnJrDw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 08210107AFB2;
+ Tue,  9 Jun 2020 16:18:56 +0000 (UTC)
+Received: from localhost (ovpn-113-3.phx2.redhat.com [10.3.113.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E37958FF9A;
+ Tue,  9 Jun 2020 16:18:14 +0000 (UTC)
+Date: Tue, 9 Jun 2020 12:18:14 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
 To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH] pci: Display PCI IRQ pin in "info pci"
-Message-ID: <20200609161328.GB3061@xz-x1>
-References: <20200317195908.283800-1-peterx@redhat.com>
- <6beb4b5d-91c6-2536-64ab-18217be71134@redhat.com>
- <20200317201153.GB233068@xz-x1>
- <2847e5da-4cc3-8273-f51f-86b0995943de@redhat.com>
- <20200609114913-mutt-send-email-mst@kernel.org>
+Subject: Re: [PATCH v3 00/20] virtio-mem: Paravirtualized memory hot(un)plug
+Message-ID: <20200609161814.GJ2366737@habkost.net>
+References: <20200603144914.41645-1-david@redhat.com>
+ <20200609091034-mutt-send-email-mst@kernel.org>
+ <08385823-d98f-fd9d-aa9d-bc1bd6747c29@redhat.com>
+ <20200609115814-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20200609114913-mutt-send-email-mst@kernel.org>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/08 23:42:34
+In-Reply-To: <20200609115814-mutt-send-email-mst@kernel.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 01:38:49
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,40 +79,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Julia Suvorova <jusual@redhat.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>,
+Cc: Peter Maydell <peter.maydell@linaro.org>, kvm@vger.kernel.org,
+ David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
+ teawater <teawaterz@linux.alibaba.com>,
+ Hailiang Zhang <zhang.zhanghailiang@huawei.com>,
+ Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Richard Henderson <rth@twiddle.net>, Eric Farman <farman@linux.ibm.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
  Alex Williamson <alex.williamson@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+ Paolo Bonzini <pbonzini@redhat.com>, Keith Busch <kbusch@kernel.org>,
+ Janosch Frank <frankja@linux.ibm.com>, Tony Krowiak <akrowiak@linux.ibm.com>,
+ Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
+ Pierre Morel <pmorel@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
+ qemu-s390x@nongnu.org, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 09, 2020 at 11:49:49AM -0400, Michael S. Tsirkin wrote:
-> > > > > @@ -417,8 +419,8 @@
-> > > > >    { 'struct': 'PciDeviceInfo',
-> > > > >      'data': {'bus': 'int', 'slot': 'int', 'function': 'int',
-> > > > >               'class_info': 'PciDeviceClass', 'id': 'PciDeviceId',
-> > > > > -           '*irq': 'int', 'qdev_id': 'str', '*pci_bridge': 'PciBridgeInfo',
-> > > > > -           'regions': ['PciMemoryRegion']} }
-> > > > > +           '*irq': 'int', 'irq_pin': 'int', 'qdev_id': 'str',
-> > > > > +           '*pci_bridge': 'PciBridgeInfo', 'regions': ['PciMemoryRegion'] }}
-> > > > 
-> > > > and the pre-existing pci_bridge is indeed the consistency issue.
+On Tue, Jun 09, 2020 at 11:59:04AM -0400, Michael S. Tsirkin wrote:
+> On Tue, Jun 09, 2020 at 03:26:08PM +0200, David Hildenbrand wrote:
+> > On 09.06.20 15:11, Michael S. Tsirkin wrote:
+> > > On Wed, Jun 03, 2020 at 04:48:54PM +0200, David Hildenbrand wrote:
+> > >> This is the very basic, initial version of virtio-mem. More info on
+> > >> virtio-mem in general can be found in the Linux kernel driver v2 posting
+> > >> [1] and in patch #10. The latest Linux driver v4 can be found at [2].
+> > >>
+> > >> This series is based on [3]:
+> > >>     "[PATCH v1] pc: Support coldplugging of virtio-pmem-pci devices on all
+> > >>      buses"
+> > >>
+> > >> The patches can be found at:
+> > >>     https://github.com/davidhildenbrand/qemu.git virtio-mem-v3
 > > > 
-> > > Yeh, actually every key in this struct. :)
+> > > So given we tweaked the config space a bit, this needs a respin.
 > > 
-> > Using 'irq-pin':
-> > Reviewed-by: Philippe Mathieu-DaudÃÂ© <philmd@redhat.com>
+> > Yeah, the virtio-mem-v4 branch already contains a fixed-up version. Will
+> > send during the next days.
 > 
-> 
-> Peter can you fix and repost pls?
+> BTW. People don't normally capitalize the letter after ":".
+> So a better subject is
+>   virtio-mem: paravirtualized memory hot(un)plug
 
-I still think irq_pin is better because as I mentioned previously all the
-existing keys are using underscores...  Phil?
+I'm not sure that's still the rule:
 
-Thanks,
+[qemu/(49ee115552...)]$ git log --oneline v4.0.0.. | egrep ': [A-Z]' | wc -l
+5261
+[qemu/(49ee115552...)]$ git log --oneline v4.0.0.. | egrep ': [a-z]' | wc -l
+2921
 
 -- 
-Peter Xu
+Eduardo
 
 
