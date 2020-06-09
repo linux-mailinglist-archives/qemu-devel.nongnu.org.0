@@ -2,113 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 301E21F396F
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 13:19:12 +0200 (CEST)
-Received: from localhost ([::1]:42174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E0F41F398D
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 13:23:16 +0200 (CEST)
+Received: from localhost ([::1]:52134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jicHf-0007Gq-5J
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 07:19:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35050)
+	id 1jicLb-00038f-6q
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 07:23:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jicFl-0005iq-4l
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 07:17:14 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:24518
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jicFk-0002yJ-DK
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 07:17:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591701431;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=VQFhY1ywxUvbHsUj8hkxzSoWdcGrvWuvSltH0l8Qus8=;
- b=KQtV5yCbMSv44Wq0ipK+Je3xzN0bv1kCMVQ4OcTVuciP03sHue6rXWWdHBNQ/UiqKf0g1h
- mC5yzH1yyXgE0JU0GsccxlsHRbsagVAAXKWaUp+PqpGLiJ/hvoaqzff76SqMIFnzg5ilPJ
- QU6kXZIZwG9FKxi69i0gJlpEqG+L+WU=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-241-uLFqWZPEOBCh8nxgyFTiwA-1; Tue, 09 Jun 2020 07:17:08 -0400
-X-MC-Unique: uLFqWZPEOBCh8nxgyFTiwA-1
-Received: by mail-wm1-f70.google.com with SMTP id a7so536102wmf.1
- for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 04:17:07 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jicGl-0007Bq-7Z
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 07:18:15 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:54417)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jicGj-00033D-Pn
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 07:18:14 -0400
+Received: by mail-wm1-x344.google.com with SMTP id g10so2431872wmh.4
+ for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 04:18:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=5mw9ZowY683CaPhjRf/2YZqKdcV7jOjuvNmtH/WJulA=;
+ b=w2yNi9zw+k3Ka9xA5MFh+gc2GGvAWql1qFu9IZdNwUp+2+7ONV0r9JBortLuvmXVo8
+ Oqxyi7zFhR+nWHoruR6KyUGhNJWaTdVic6rRFfxCRQjeYB82kaKENL0j/DjNO6UcQsPn
+ 3ntqrpIJKKkBmyF18A7ldR48Oxsnct/u+Sp1ZoiI1iYR3aaXxXgsT1VfqYJWb3z253JP
+ zxj6yiDR3kv4OSBlXpZB6aSzdiNDX8L5NpPPEXO4O1wX0Eylc/puboqBLdAWLrDHlLIf
+ 1rjeXnIHojLd84fZ3Avhk7MtRTw522yP77RsAmVYmPICkS4eb4RAloNxxRw92ayAKs5W
+ H1Sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=VQFhY1ywxUvbHsUj8hkxzSoWdcGrvWuvSltH0l8Qus8=;
- b=ef+jyNJoKt4M7FP51B6IPcpE4gvWlR6OqFCv5CZamFEAR9pUe2vH3vuTxvJIjuQqWr
- /OqBCmDIGKiNGc25REHNhpNhHcYQYwliBn+HfuZnH8gDl/BYkhRFHp52bSx5gV8oyRBO
- lmuOl61BntKNFR6226lesytne7uyudk19jYW9eKSgtmk5PrE1QSs7IMjXdjv8lW3sc6g
- PbxDuCBOEtgBqCczjDiYsbjU15rcZJRpkMJol/Sj8/Ic7uawKGetlxSUofsBm5ScbaxR
- 68p5Ay6j45ftDbn2wkWoYJHz+X1Cu6Jn3tqIkhCnC4JaFCJmiw1R33WDj9AsKubOLBO5
- pSMg==
-X-Gm-Message-State: AOAM531iLOAXF8koCF9jPmEkCCTpYuALlZzmEFE5jkpf3MSXLIZzLKxb
- wjOuIVUuU67EQd3o3FeYuBbErCujUn/shMgJbnTUqR+0+PIGMy6ge6LN1aIEzAQV3yGnGo7Fj0V
- g//z53zAesrBfU6g=
-X-Received: by 2002:adf:ed87:: with SMTP id c7mr3879887wro.108.1591701426970; 
- Tue, 09 Jun 2020 04:17:06 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz9ZFOiG/ntK9RYFDdmymTiobDhpH3WaQpTBmKths72d/+QFkE+wvCSR6xBL6slO5hhZvk1vA==
-X-Received: by 2002:adf:ed87:: with SMTP id c7mr3879859wro.108.1591701426751; 
- Tue, 09 Jun 2020 04:17:06 -0700 (PDT)
-Received: from [192.168.1.38] (181.red-88-10-103.dynamicip.rima-tde.net.
- [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id u12sm3047566wrq.90.2020.06.09.04.17.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 Jun 2020 04:17:05 -0700 (PDT)
-Subject: Re: [PATCH 0/1] hw/block/nvme: fix assert on invalid irq vector
-To: Klaus Jensen <its@irrelevant.dk>, qemu-block@nongnu.org,
- Kevin Wolf <kwolf@redhat.com>
-References: <20200609094508.32412-1-its@irrelevant.dk>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <b445a413-598f-23a2-f094-8b68c60722f5@redhat.com>
-Date: Tue, 9 Jun 2020 13:17:04 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=5mw9ZowY683CaPhjRf/2YZqKdcV7jOjuvNmtH/WJulA=;
+ b=ZDXEnw73oOQvEImYV5U3KLabAKori9dyYOMV25l2JTRNP8776bNyKAlLrCoGXJqbXX
+ xEpg+M3DD3zkmQRGIcFtkU4xnlaWls7GgLbE7OHtLPHGwf1SI1Pi0Z8Ywf/AQWLwdwiv
+ T8TljWT0xkW4V4y/c1uPpPd2esZXZ0AaiqjDyP71qaqecn+rh3ujRntLoHgVigxH2Nr0
+ k1RA3Lgzf9y8dPa7GzkT7PEwlpa3PfVs09rDt2IVFM7HD+mStbQwRY7B3i8SLV3oOxDR
+ SyXxm0KI5xdgeXDgiqx0NNwtm9datS4SV7GLNq5l8Uh6WbcZt6eb5KP27ij28YB9hDpJ
+ lkjg==
+X-Gm-Message-State: AOAM533tT9z5xmy2+pHlR3QXvKuStXP2TdU5PKXyGZ3lxSsIBFJviD0z
+ YB9kL/mjKNnUqXYzdaE+vdhAhr88ZK4=
+X-Google-Smtp-Source: ABdhPJw+YoD0xu+nWOSOL8BnMNbboX7BAC37JCNrpI0jMPGovYm2OvGLf6aV6rbImJ4o0HFZtw5snA==
+X-Received: by 2002:a05:600c:21d3:: with SMTP id
+ x19mr3747921wmj.137.1591701491098; 
+ Tue, 09 Jun 2020 04:18:11 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id k21sm3166053wrd.24.2020.06.09.04.18.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 09 Jun 2020 04:18:09 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id E7E311FF7E;
+ Tue,  9 Jun 2020 12:18:07 +0100 (BST)
+References: <20200604134022.10564-1-alex.bennee@linaro.org>
+ <20200605090334.GB59930@stefanha-x1.localdomain>
+ <87o8px4xxp.fsf@linaro.org>
+ <20200609111044.GD92564@stefanha-x1.localdomain>
+User-agent: mu4e 1.5.2; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH v2] hw/virtio/vhost: re-factor vhost-section and allow
+ DIRTY_MEMORY_CODE
+In-reply-to: <20200609111044.GD92564@stefanha-x1.localdomain>
+Date: Tue, 09 Jun 2020 12:18:07 +0100
+Message-ID: <87v9k04he8.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20200609094508.32412-1-its@irrelevant.dk>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/08 23:42:34
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x344.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -121,45 +93,130 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
- Maxim Levitsky <mlevitsk@redhat.com>, Keith Busch <kbusch@kernel.org>,
- Javier Gonzalez <javier.gonz@samsung.com>, Max Reitz <mreitz@redhat.com>
+Cc: qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/9/20 11:45 AM, Klaus Jensen wrote:
-> From: Klaus Jensen <k.jensen@samsung.com>
-> 
-> I goofed up with commit c09794fe40e3 ("hw/block/nvme: allow use of any
-> valid msix vector").
 
-Kevin, since your queue isn't merged, can you directly squash the fix?
+Stefan Hajnoczi <stefanha@redhat.com> writes:
 
-> 
-> This fixes the goof by adding a new msix_qsize parameter. As a nice
-> side-effect this allows a device with less interrupt vectors available
-> than supported queues. Also, improve the error handling in
-> nvme_init_pci().
-> 
-> Kevin, please consider picking this up for the block branch when
-> reviewed.
-> 
-> Cc: qemu-devel@nongnu.org
-> Cc: Keith Busch <kbusch@kernel.org>
-> Cc: Max Reitz <mreitz@redhat.com>
-> Cc: Kevin Wolf <kwolf@redhat.com>
-> Cc: Klaus Jensen <its@irrelevant.dk>
-> Cc: Javier Gonzalez <javier.gonz@samsung.com>
-> Cc: Maxim Levitsky <mlevitsk@redhat.com>
-> Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
-> 
-> Klaus Jensen (2):
->   hw/block/nvme: add msix_qsize parameter
->   hw/block/nvme: verify msix_init_exclusive_bar() return value
-> 
->  hw/block/nvme.c | 28 ++++++++++++++++++++++------
->  hw/block/nvme.h |  1 +
->  2 files changed, 23 insertions(+), 6 deletions(-)
-> 
+> On Fri, Jun 05, 2020 at 11:19:30AM +0100, Alex Benn=C3=A9e wrote:
+>>=20
+>> Stefan Hajnoczi <stefanha@redhat.com> writes:
+>>=20
+>> > On Thu, Jun 04, 2020 at 02:40:22PM +0100, Alex Benn=C3=A9e wrote:
+>> >> The purpose of vhost_section is to identify RAM regions that need to
+>> >> be made available to a vhost client. However when running under TCG
+>> >> all RAM sections have DIRTY_MEMORY_CODE set which leads to problems
+>> >> down the line.
+>> >>=20
+>> >> Re-factor the code so:
+>> >>=20
+>> >>   - steps are clearer to follow
+>> >>   - reason for rejection is recorded in the trace point
+>> >>   - we allow DIRTY_MEMORY_CODE when TCG is enabled
+>> >>=20
+>> >> We expand the comment to explain that kernel based vhost has specific
+>> >> support for migration tracking.
+>> >>=20
+>> >> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>> >> Cc: Michael S. Tsirkin <mst@redhat.com>
+>> >> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
+>> >> Cc: Stefan Hajnoczi <stefanha@redhat.com>
+>> >>=20
+>> >> ---
+>> >> v2
+>> >>   - drop enum, add trace_vhost_reject_section
+>> >>   - return false at any fail point
+>> >>   - unconditionally add DIRTY_MEMORY_CODE to handled cases
+>> >>   - slightly re-word the explanatory comment and commit message
+>> >> ---
+>> >>  hw/virtio/vhost.c      | 55 ++++++++++++++++++++++++++++++----------=
+--
+>> >>  hw/virtio/trace-events |  3 ++-
+>> >>  2 files changed, 41 insertions(+), 17 deletions(-)
+>> >>=20
+>> >> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+>> >> index aff98a0ede5..120c0cc747b 100644
+>> >> --- a/hw/virtio/vhost.c
+>> >> +++ b/hw/virtio/vhost.c
+>> >> @@ -27,6 +27,7 @@
+>> >>  #include "migration/blocker.h"
+>> >>  #include "migration/qemu-file-types.h"
+>> >>  #include "sysemu/dma.h"
+>> >> +#include "sysemu/tcg.h"
+>> >>  #include "trace.h"
+>> >>=20=20
+>> >>  /* enabled until disconnected backend stabilizes */
+>> >> @@ -403,26 +404,48 @@ static int vhost_verify_ring_mappings(struct vh=
+ost_dev *dev,
+>> >>      return r;
+>> >>  }
+>> >>=20=20
+>> >> +/*
+>> >> + * vhost_section: identify sections needed for vhost access
+>> >> + *
+>> >> + * We only care about RAM sections here (where virtqueue can live). =
+If
+>> >
+>> > It's not just the virtqueue. Arbitrary guest RAM buffers can be placed
+>> > into the virtqueue so we need to pass all guest RAM to the vhost device
+>> > backend.
+>> >
+>> >> + * we find one we still allow the backend to potentially filter it o=
+ut
+>> >> + * of our list.
+>> >> + */
+>> >>  static bool vhost_section(struct vhost_dev *dev, MemoryRegionSection=
+ *section)
+>> >>  {
+>> >> -    bool result;
+>> >> -    bool log_dirty =3D memory_region_get_dirty_log_mask(section->mr)=
+ &
+>> >> -                     ~(1 << DIRTY_MEMORY_MIGRATION);
+>> >> -    result =3D memory_region_is_ram(section->mr) &&
+>> >> -        !memory_region_is_rom(section->mr);
+>> >> -
+>> >> -    /* Vhost doesn't handle any block which is doing dirty-tracking =
+other
+>> >> -     * than migration; this typically fires on VGA areas.
+>> >> -     */
+>> >> -    result &=3D !log_dirty;
+>> >> +    MemoryRegion *mr =3D section->mr;
+>> >> +
+>> >> +    if (memory_region_is_ram(mr) && !memory_region_is_rom(mr)) {
+>> >> +        uint8_t dirty_mask =3D memory_region_get_dirty_log_mask(mr);
+>> >> +        uint8_t handled_dirty;
+>> >> +
+>> >> +        /*
+>> >> +         * Kernel based vhost doesn't handle any block which is doing
+>> >> +         * dirty-tracking other than migration for which it has
+>> >> +         * specific logging support. However for TCG the kernel never
+>> >> +         * gets involved anyway so we can also ignore it's
+>> >> +         * self-modiying code detection flags.
+>> >> +         */
+>> >> +        handled_dirty =3D (1 << DIRTY_MEMORY_MIGRATION);
+>> >> +        handled_dirty |=3D (1 << DIRTY_MEMORY_CODE);
+>> >
+>> > Wait, how is vhost going to support TCG self-modifying code detection?
+>> >
+>> > It seems like this change will allow vhost devices to run, but now QEMU
+>> > will miss out on self-modifying code. Do we already enable vhost dirty
+>> > memory logging for DIRTY_MEMORY_CODE memory somehwere?
+>>=20
+>> Well any guest code running will still trigger the SMC detection. It's
+>> true we currently don't have a mechanism if the vhost-user client
+>> updates an executable page.
+>
+> Seems like a problem. If it didn't matter we could get rid of
+> DIRTY_MEMORY_CODE entirely.
+>
+> If an exception is being made here because I/O devices aren't expected
+> to trigger SMC in real-world guests, please document it.
 
+In the comment here or somewhere in the docs?
+
+--=20
+Alex Benn=C3=A9e
 
