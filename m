@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4762A1F3AD0
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 14:43:59 +0200 (CEST)
-Received: from localhost ([::1]:33100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7FC21F3AF1
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 14:47:15 +0200 (CEST)
+Received: from localhost ([::1]:45026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jidbi-00049j-7S
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 08:43:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42964)
+	id 1jides-0000im-RL
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 08:47:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jidSj-0000Im-4F; Tue, 09 Jun 2020 08:34:41 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:35981)
+ id 1jidSp-0000L7-A7; Tue, 09 Jun 2020 08:34:47 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:51358)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jidSY-00074L-Sc; Tue, 09 Jun 2020 08:34:40 -0400
-Received: by mail-wr1-x443.google.com with SMTP id q11so21138761wrp.3;
- Tue, 09 Jun 2020 05:34:29 -0700 (PDT)
+ id 1jidSe-00074Q-Eu; Tue, 09 Jun 2020 08:34:43 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id u13so2681125wml.1;
+ Tue, 09 Jun 2020 05:34:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=0srfxT0e6nUZFR6Iq4rRmoV3V4fYm5JRcQS2tAU0vxw=;
- b=hBijAd/46i+x7ednlZBvGseJgaQjQRWhOSbsj0oI54n58nUqF2S530xr6+XpaaxarS
- bSRcSx05lnubiKRWMMivA6eVzr33/6btMppdsbdwV9SPavLLyhXN71v5RWvJAcucMmKc
- 1JzVJPalhJpkCLJwOJiRDoBvdWFZvnQuakM4NMjR39SX/ElSpjiYe1IL4BEemcUwbLup
- y7iyJO+d+cyBOyRjPKKbyGnOxiEJMYBP9tfT+C1S6rGmDhL5u3V+s/MDnY5i49TzERzx
- J/bYy6WCr/rWVGTVD+tSLOjvb67sphqTZyHta0/KKfmVjktOPuJVSSOoycQ0RofsWmHP
- 0+cw==
+ bh=rU9HLs+zXLkedYHMwBLBpdL3JHM8xoCUj3TGxvPYxeY=;
+ b=ajL9ik/U9YZSOAlRmrlwhxpXxQ8ivo/blxtiC5fH8rUlSHyKfOtLAoIkAMJkTYCCTW
+ v+35E+Y9OKM3BI/A84acaxg15TsHxDtvg/xSOZ5Oj8A+yYsNa86KuEedqtVfDBss5myS
+ o21TbkuwrmHqSQw5Vt/VY+5XLV68jiY1IAb7X5yFwOEi0alulJ+NG4KiqSIDvSvvCadF
+ tEE1cf7Nc4ICXaIWGDLaVd/CvdYIHCjijgCAz8fn3SYbWlu9T34x9OMsTeaVSODqFhcI
+ 6r8/G9j7IDluVSrNEvKs27YaIwzq3kxOZq1NP50bmCxtJMvaeIkW9KKs1Kdsu/hR+Ju1
+ IJMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=0srfxT0e6nUZFR6Iq4rRmoV3V4fYm5JRcQS2tAU0vxw=;
- b=nfq7/2pFUQvEYUbopx331ppKuebGJiil9Sv1XmEUlKskwHzf/OrvXAkHmz1Ek2SFoh
- Z/EzFO/qU10gc5smHvEirnjEMAoPgiDtvABgA1wRTrbLfvpIk5+0Y6/IC41E/PIxCB2a
- xMFWO1ezsTs2oILB0phf/2BpSoQMGCbh1KF5k+/NMlHBkt4YXZ+UUV+PkHLgnidAzDzF
- ILVuuCTQVs28rE0EW7knrwF6nsUe1BGuK0DPBY/t5cEcBaiblJ0oIYCZaWw5st8r0chJ
- KGmq2zXkt+XzSMQVcyO97Wp1nMbQD2wcmLz8eFWp7moDaEspRnm9hifCQsRHL/8JNadK
- n4XQ==
-X-Gm-Message-State: AOAM531Cg7J98a9ZZ2dAeGcNeBj5+x/bSCiDfyQmBDZPNwWz/2EhS0GQ
- Dd4W14/2SSFpZAWbRo3IpPETW5Um
-X-Google-Smtp-Source: ABdhPJy2WD9lDZkba//FSINYDayYvNVeUe+164Bn2+TAEAIOvjAyUjhRfNiYc3sWKed+xofFa7t8kQ==
-X-Received: by 2002:a5d:4c87:: with SMTP id z7mr4167824wrs.100.1591706068136; 
- Tue, 09 Jun 2020 05:34:28 -0700 (PDT)
+ bh=rU9HLs+zXLkedYHMwBLBpdL3JHM8xoCUj3TGxvPYxeY=;
+ b=LXYvwS+FPqoCdOCqYKTYCDcdIZs4mHO3doYeOaIl7PQYc1eTPmxtcvAFsotNxVK8t5
+ qFH8dCKpHjWEymjQQ2wQ62gjDLADd4R27NvfCmhOFooLWVAlcvegsLtWVzh+vqk0qlwo
+ +uaTQuNamyQq/jkkAHpUHY7aai16uLaWRdfrYD4tmlFXQrcJZgdveaybiFST/uV4SWPs
+ Cq6OUi2fstMy4Z5pgbfJdC2Kb6BMJfHIvnUrJULyVnZf5fXhQs9z3iRvcSAPzJYpXFET
+ isgLzOLWBEywBnQVkKV7DceeKoKnlnrLmFq6oSUWNQFmZyHrzHGOTi3RB9g1Kap8RXaP
+ Kv9A==
+X-Gm-Message-State: AOAM531+sQuvWnBY+FdErKFSOGK5BOcmlO8i7eejvgU1B9OZdeCyxzC/
+ pz+NdNX141npZb+/Z5th3jQDFP4t
+X-Google-Smtp-Source: ABdhPJwyFNfIA1BaqLFKvyBOElxlngjJS7o89XdbSemKmaZmdyNgP5WsfUKlAEq2G6QoqGT8EgHPSQ==
+X-Received: by 2002:a7b:cbce:: with SMTP id n14mr3978268wmi.66.1591706069364; 
+ Tue, 09 Jun 2020 05:34:29 -0700 (PDT)
 Received: from localhost.localdomain
  (181.red-88-10-103.dynamicip.rima-tde.net. [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id c81sm2920931wmd.42.2020.06.09.05.34.27
+ by smtp.gmail.com with ESMTPSA id c81sm2920931wmd.42.2020.06.09.05.34.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Jun 2020 05:34:27 -0700 (PDT)
+ Tue, 09 Jun 2020 05:34:28 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 1/5] hw/misc: Add a LED device
-Date: Tue,  9 Jun 2020 14:34:21 +0200
-Message-Id: <20200609123425.6921-2-f4bug@amsat.org>
+Subject: [RFC PATCH 2/5] hw/misc/led: Add LED_STATUS_CHANGED QAPI event
+Date: Tue,  9 Jun 2020 14:34:22 +0200
+Message-Id: <20200609123425.6921-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200609123425.6921-1-f4bug@amsat.org>
 References: <20200609123425.6921-1-f4bug@amsat.org>
@@ -62,8 +62,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -97,197 +97,152 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A LED device can be connected to a GPIO output.
+Allow LED devices to emit STATUS_CHANGED events on a QMP chardev.
+
+QMP event examples:
+
+{
+    "timestamp": {
+        "seconds": 1591704274,
+        "microseconds": 520850
+    },
+    "event": "LED_STATUS_CHANGED",
+    "data": {
+        "name": "Green LED #0",
+        "status": "on"
+    }
+}
+{
+    "timestamp": {
+        "seconds": 1591704275,
+        "microseconds": 530912
+    },
+    "event": "LED_STATUS_CHANGED",
+    "data": {
+        "name": "Green LED #0",
+        "status": "off"
+    }
+}
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/hw/misc/led.h | 30 ++++++++++++++++
- hw/misc/led.c         | 84 +++++++++++++++++++++++++++++++++++++++++++
- MAINTAINERS           |  6 ++++
- hw/misc/Kconfig       |  3 ++
- hw/misc/Makefile.objs |  1 +
- hw/misc/trace-events  |  3 ++
- 6 files changed, 127 insertions(+)
- create mode 100644 include/hw/misc/led.h
- create mode 100644 hw/misc/led.c
+ qapi/led.json         | 47 +++++++++++++++++++++++++++++++++++++++++++
+ qapi/qapi-schema.json |  1 +
+ hw/misc/led.c         |  4 ++++
+ MAINTAINERS           |  1 +
+ qapi/Makefile.objs    |  2 +-
+ 5 files changed, 54 insertions(+), 1 deletion(-)
+ create mode 100644 qapi/led.json
 
-diff --git a/include/hw/misc/led.h b/include/hw/misc/led.h
+diff --git a/qapi/led.json b/qapi/led.json
 new file mode 100644
-index 0000000000..427ca1418e
+index 0000000000..b6cef8a5dd
 --- /dev/null
-+++ b/include/hw/misc/led.h
-@@ -0,0 +1,30 @@
-+/*
-+ * QEMU single LED device
-+ *
-+ * Copyright (C) 2020 Philippe Mathieu-Daudé <f4bug@amsat.org>
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+#ifndef HW_MISC_LED_H
-+#define HW_MISC_LED_H
++++ b/qapi/led.json
+@@ -0,0 +1,47 @@
++# -*- Mode: Python -*-
++#
 +
-+#include "hw/qdev-core.h"
-+#include "hw/sysbus.h" /* FIXME remove */
++##
++# = LED device
++##
 +
-+#define TYPE_LED "led"
-+#define LED(obj) OBJECT_CHECK(LEDState, (obj), TYPE_LED)
++##
++# @LedState:
++#
++# Status of a LED
++#
++# @on: device is emitting
++#
++# @off: device is off
++#
++# Since: 5.1
++##
++{ 'enum': 'LedState', 'data': [ 'on', 'off' ] }
 +
-+typedef struct LEDState {
-+    /* Private */
-+    SysBusDevice parent_obj; /* FIXME DeviceState */
-+    /* Public */
-+
-+    qemu_irq irq;
-+    uint8_t current_state;
-+
-+    /* Properties */
-+    char *name;
-+    uint8_t reset_state; /* TODO [GPIO_ACTIVE_LOW, GPIO_ACTIVE_HIGH] */
-+} LEDState;
-+
-+#endif /* HW_MISC_LED_H */
++##
++# @LED_STATUS_CHANGED:
++#
++# Emitted when LED status changed
++#
++# @name: LED description
++#
++# @status: New status
++#
++# Since: 5.1
++#
++# Example:
++#
++# <- {"timestamp": {"seconds": 1541579657, "microseconds": 986760},
++#     "event": "LED_STATUS_CHANGED",
++#     "data":
++#         {"name": "Blue LED #3",
++#          "status": "on"
++#         }
++#    }
++#
++##
++{ 'event': 'LED_STATUS_CHANGED',
++  'data': { 'name'      : 'str',
++            'status'    : 'LedState'
++          }
++}
+diff --git a/qapi/qapi-schema.json b/qapi/qapi-schema.json
+index 43b0ba0dea..6f3ffc0ae1 100644
+--- a/qapi/qapi-schema.json
++++ b/qapi/qapi-schema.json
+@@ -84,3 +84,4 @@
+ { 'include': 'misc.json' }
+ { 'include': 'misc-target.json' }
+ { 'include': 'audio.json' }
++{ 'include': 'led.json' }
 diff --git a/hw/misc/led.c b/hw/misc/led.c
-new file mode 100644
-index 0000000000..dc61b11017
---- /dev/null
+index dc61b11017..233843f581 100644
+--- a/hw/misc/led.c
 +++ b/hw/misc/led.c
-@@ -0,0 +1,84 @@
-+/*
-+ * QEMU single LED device
-+ *
-+ * Copyright (C) 2020 Philippe Mathieu-Daudé <f4bug@amsat.org>
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+#include "qemu/osdep.h"
-+#include "qapi/error.h"
-+#include "hw/qdev-properties.h"
-+#include "hw/misc/led.h"
-+#include "hw/irq.h"
-+#include "migration/vmstate.h"
-+#include "trace.h"
-+
-+static void led_set(void *opaque, int line, int new_state)
-+{
-+    LEDState *s = LED(opaque);
-+
-+    trace_led_set(s->name, s->current_state, new_state);
-+
-+    s->current_state = new_state;
-+}
-+
-+static void led_reset(DeviceState *dev)
-+{
-+    LEDState *s = LED(dev);
-+
-+    s->current_state = s->reset_state;
-+}
-+
-+static const VMStateDescription vmstate_led = {
-+    .name = TYPE_LED,
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINT8(reset_state, LEDState),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
-+static void led_realize(DeviceState *dev, Error **errp)
-+{
-+    LEDState *s = LED(dev);
-+
-+    if (s->name == NULL) {
-+        error_setg(errp, "property 'name' not specified");
-+        return;
-+    }
-+
-+    qdev_init_gpio_in(DEVICE(s), led_set, 1);
-+}
-+
-+static Property led_properties[] = {
-+    DEFINE_PROP_STRING("name", LEDState, name),
-+    DEFINE_PROP_UINT8("reset_state", LEDState, reset_state, 0),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
-+static void led_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+
-+    dc->desc = "LED";
-+    dc->vmsd = &vmstate_led;
-+    dc->reset = led_reset;
-+    dc->realize = led_realize;
-+    set_bit(DEVICE_CATEGORY_DISPLAY, dc->categories);
-+    device_class_set_props(dc, led_properties);
-+}
-+
-+static const TypeInfo led_info = {
-+    .name = TYPE_LED,
-+    .parent = TYPE_SYS_BUS_DEVICE, /* FIXME TYPE_DEVICE */
-+    .instance_size = sizeof(LEDState),
-+    .class_init = led_class_init
-+};
-+
-+static void led_register_types(void)
-+{
-+    type_register_static(&led_info);
-+}
-+
-+type_init(led_register_types)
+@@ -7,6 +7,7 @@
+  */
+ #include "qemu/osdep.h"
+ #include "qapi/error.h"
++#include "qapi/qapi-events-led.h"
+ #include "hw/qdev-properties.h"
+ #include "hw/misc/led.h"
+ #include "hw/irq.h"
+@@ -19,6 +20,9 @@ static void led_set(void *opaque, int line, int new_state)
+ 
+     trace_led_set(s->name, s->current_state, new_state);
+ 
++    /* FIXME QMP rate limite? */
++    qapi_event_send_led_status_changed(s->name, new_state
++                                                ? LED_STATE_ON : LED_STATE_OFF);
+     s->current_state = new_state;
+ }
+ 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 6e7890ce82..f873f0b94a 100644
+index f873f0b94a..9ff84498fc 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -1864,6 +1864,12 @@ S: Maintained
- F: include/hw/misc/unimp.h
- F: hw/misc/unimp.c
- 
-+LED
-+M: Philippe Mathieu-Daudé <f4bug@amsat.org>
-+S: Maintained
-+F: include/hw/misc/led.h
-+F: hw/misc/led.c
-+
- Standard VGA
- M: Gerd Hoffmann <kraxel@redhat.com>
+@@ -1867,6 +1867,7 @@ F: hw/misc/unimp.c
+ LED
+ M: Philippe Mathieu-Daudé <f4bug@amsat.org>
  S: Maintained
-diff --git a/hw/misc/Kconfig b/hw/misc/Kconfig
-index bdd77d8020..f60dce694d 100644
---- a/hw/misc/Kconfig
-+++ b/hw/misc/Kconfig
-@@ -126,6 +126,9 @@ config AUX
- config UNIMP
-     bool
++F: qapi/led.json
+ F: include/hw/misc/led.h
+ F: hw/misc/led.c
  
-+config LED
-+    bool
-+
- config MAC_VIA
-     bool
-     select MOS6522
-diff --git a/hw/misc/Makefile.objs b/hw/misc/Makefile.objs
-index 60a9d80b74..aae07033f9 100644
---- a/hw/misc/Makefile.objs
-+++ b/hw/misc/Makefile.objs
-@@ -90,3 +90,4 @@ common-obj-$(CONFIG_NRF51_SOC) += nrf51_rng.o
- obj-$(CONFIG_MAC_VIA) += mac_via.o
+diff --git a/qapi/Makefile.objs b/qapi/Makefile.objs
+index 4673ab7490..e9f6570c32 100644
+--- a/qapi/Makefile.objs
++++ b/qapi/Makefile.objs
+@@ -6,7 +6,7 @@ util-obj-y += qmp-event.o
+ util-obj-y += qapi-util.o
  
- common-obj-$(CONFIG_GRLIB) += grlib_ahb_apb_pnp.o
-+common-obj-$(CONFIG_LED) += led.o
-diff --git a/hw/misc/trace-events b/hw/misc/trace-events
-index a5862b2bed..55d7143f23 100644
---- a/hw/misc/trace-events
-+++ b/hw/misc/trace-events
-@@ -198,3 +198,6 @@ via1_rtc_cmd_pram_read(int addr, int value) "addr=%u value=0x%02x"
- via1_rtc_cmd_pram_write(int addr, int value) "addr=%u value=0x%02x"
- via1_rtc_cmd_pram_sect_read(int sector, int offset, int addr, int value) "sector=%u offset=%u addr=%d value=0x%02x"
- via1_rtc_cmd_pram_sect_write(int sector, int offset, int addr, int value) "sector=%u offset=%u addr=%d value=0x%02x"
-+
-+# led.c
-+led_set(const char *name, uint8_t old_state, uint8_t new_state) "led name:'%s' state %d -> %d"
+ QAPI_COMMON_MODULES = audio authz block-core block char common control crypto
+-QAPI_COMMON_MODULES += dump error introspect job machine migration misc
++QAPI_COMMON_MODULES += dump error introspect job led machine migration misc
+ QAPI_COMMON_MODULES += net pragma qdev qom rdma rocker run-state sockets tpm
+ QAPI_COMMON_MODULES += trace transaction ui
+ QAPI_TARGET_MODULES = machine-target misc-target
 -- 
 2.21.3
 
