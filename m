@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01B751F3A99
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 14:26:22 +0200 (CEST)
-Received: from localhost ([::1]:59528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 379081F3A9B
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 14:27:14 +0200 (CEST)
+Received: from localhost ([::1]:34180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jidKe-000550-V9
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 08:26:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41562)
+	id 1jidLV-0006L6-7I
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 08:27:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41638)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jidIG-0003Eb-Nu
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 08:23:52 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:23408)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jidII-0003J2-Ta
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 08:23:55 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:40774
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jidI9-0005Oo-K6
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 08:23:47 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jidIA-0005Or-F0
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 08:23:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1591705424;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=a97wbzF8rIGQsC0Rq9NAGUWNPSYKmS8gW+odfXBMS+w=;
- b=INDEYzPgGKrPVxYz9+bvs7fMAQsQwsa1TAKnb/uHw4vKj60GRh9voIeDdKUENrTCkQaKdt
- +mRWTa9qFJY9qIcv0kMEqreNXChWDicf9kOOw+770X7l05PdL41GEdN6vTIogXyjwQP/pQ
- jK2yaJBgn/rZza0ShpUofYkJuud5eLM=
+ bh=96NSDVlLstzrc1zVcESoebf76Jshgi/HIVJtBXAA0ck=;
+ b=hgEEJJy+pYnUYyp8QZIjaQ+P+6XFwE56szRYiPjjfrIMF8CC4tgi4/v7HkguNerJEB4OwL
+ Q+IT6vPGNyV9mk5HBEa7qb5bIqrWhqzO6HlUMS6nOxfNxcRnLkk7Ex7bFX8QoFW3FbPXhb
+ hU37/GKb6rKwVMn/SSjFFe49dJzvsIQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-15-etibD4K3PmCRkfkJYt8eow-1; Tue, 09 Jun 2020 08:23:42 -0400
-X-MC-Unique: etibD4K3PmCRkfkJYt8eow-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-330-urMu2FYIPrGrtNde29_Tsg-1; Tue, 09 Jun 2020 08:23:42 -0400
+X-MC-Unique: urMu2FYIPrGrtNde29_Tsg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 960EA805721;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 94B3980B73A;
  Tue,  9 Jun 2020 12:23:41 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-121.ams2.redhat.com
  [10.36.112.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 614AF5D9E4;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 61C3C8926E;
  Tue,  9 Jun 2020 12:23:41 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id DCB7311385C2; Tue,  9 Jun 2020 14:23:39 +0200 (CEST)
+ id E3CF711385C8; Tue,  9 Jun 2020 14:23:39 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 01/24] arm/stm32f405: Fix realization of "stm32f2xx-adc"
- devices
-Date: Tue,  9 Jun 2020 14:23:16 +0200
-Message-Id: <20200609122339.937862-2-armbru@redhat.com>
+Subject: [PATCH v3 03/24] sd/pxa2xx_mmci: Fix to realize "pxa2xx-mmci" device
+Date: Tue,  9 Jun 2020 14:23:18 +0200
+Message-Id: <20200609122339.937862-4-armbru@redhat.com>
 In-Reply-To: <20200609122339.937862-1-armbru@redhat.com>
 References: <20200609122339.937862-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/08 23:42:34
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 02:44:16
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -81,15 +81,15 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>, berrange@redhat.com,
- ehabkost@redhat.com, Alistair Francis <alistair@alistair23.me>,
+ ehabkost@redhat.com,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  qemu-arm@nongnu.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-stm32f405_soc_initfn() creates six such devices, but
-stm32f405_soc_realize() realizes only one.  Affects machine
-netduinoplus2.
+pxa2xx_mmci_init() creates a "pxa2xx-mmci" device, but neglects to
+realize it.  Affects machines akita, borzoi, connex, mainstone, spitz,
+terrier, tosa, verdex, and z2.
 
 In theory, a device becomes real only on realize.  In practice, the
 transition from unreal to real is a fuzzy one.  The work to make a
@@ -99,94 +99,45 @@ instance_init methods (wrong), and board code wiring up the device
 what exactly is done where, a device can work even when we neglect
 to realize it.
 
-The five unrealized devices appear to stay unreal: neither MMIO nor
-IRQ get wired up.
+This one appears to work.  Nevertheless, it's a clear misuse of the
+interface.  Even when it works today (more or less by chance), it can
+break tomorrow.
 
-Fix stm32f405_soc_realize() to realize and wire up all six.  Visible
-in "info qtree":
+Fix by realizing it right away.  Visible in "info qom-tree"; here's
+the change for akita:
 
-     bus: main-system-bus
-       type System
-       dev: stm32f405-soc, id ""
-         cpu-type = "cortex-m4-arm-cpu"
-       dev: stm32f2xx-adc, id ""
-         gpio-out "sysbus-irq" 1
-    -    mmio ffffffffffffffff/00000000000000ff
-    +    mmio 0000000040012000/00000000000000ff
-       dev: stm32f2xx-adc, id ""
-         gpio-out "sysbus-irq" 1
-    -    mmio ffffffffffffffff/00000000000000ff
-    +    mmio 0000000040012100/00000000000000ff
-       dev: stm32f2xx-adc, id ""
-         gpio-out "sysbus-irq" 1
-    -    mmio ffffffffffffffff/00000000000000ff
-    +    mmio 0000000040012200/00000000000000ff
-       dev: stm32f2xx-adc, id ""
-         gpio-out "sysbus-irq" 1
-    -    mmio ffffffffffffffff/00000000000000ff
-    +    mmio 0000000040012300/00000000000000ff
-       dev: stm32f2xx-adc, id ""
-         gpio-out "sysbus-irq" 1
-    -    mmio 0000000040012000/00000000000000ff
-    +    mmio 0000000040012400/00000000000000ff
-       dev: stm32f2xx-adc, id ""
-         gpio-out "sysbus-irq" 1
-    -    mmio ffffffffffffffff/00000000000000ff
-    +    mmio 0000000040012500/00000000000000ff
-       dev: armv7m, id ""
+     /machine (akita-machine)
+       [...]
+       /unattached (container)
+         [...]
+    +    /device[5] (pxa2xx-mmci)
+    +      /pxa2xx-mmci[0] (qemu:memory-region)
+    +      /sd-bus (pxa2xx-mmci-bus)
+         [rest of device[*] renumbered...]
 
-Fixes: 529fc5fd3e18ace8f739afd02dc0953354f39442
-Cc: Alistair Francis <alistair@alistair23.me>
+Fixes: 7a9468c92517e19037bfe2272f64f5dadaf9db15
+Cc: Andrzej Zaborowski <balrogg@gmail.com>
 Cc: Peter Maydell <peter.maydell@linaro.org>
 Cc: qemu-arm@nongnu.org
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/arm/stm32f405_soc.c | 23 +++++++++++++----------
- 1 file changed, 13 insertions(+), 10 deletions(-)
+ hw/sd/pxa2xx_mmci.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/arm/stm32f405_soc.c b/hw/arm/stm32f405_soc.c
-index 4f10ce6176..c9a530eecf 100644
---- a/hw/arm/stm32f405_soc.c
-+++ b/hw/arm/stm32f405_soc.c
-@@ -37,7 +37,8 @@ static const uint32_t usart_addr[] = { 0x40011000, 0x40004400, 0x40004800,
- /* At the moment only Timer 2 to 5 are modelled */
- static const uint32_t timer_addr[] = { 0x40000000, 0x40000400,
-                                        0x40000800, 0x40000C00 };
--#define ADC_ADDR                       0x40012000
-+static const uint32_t adc_addr[] = { 0x40012000, 0x40012100, 0x40012200,
-+                                     0x40012300, 0x40012400, 0x40012500 };
- static const uint32_t spi_addr[] =   { 0x40013000, 0x40003800, 0x40003C00,
-                                        0x40013400, 0x40015000, 0x40015400 };
- #define EXTI_ADDR                      0x40013C00
-@@ -185,16 +186,18 @@ static void stm32f405_soc_realize(DeviceState *dev_soc, Error **errp)
-     qdev_connect_gpio_out(DEVICE(&s->adc_irqs), 0,
-                           qdev_get_gpio_in(armv7m, ADC_IRQ));
+diff --git a/hw/sd/pxa2xx_mmci.c b/hw/sd/pxa2xx_mmci.c
+index f9c50ddda5..c32df1b8f9 100644
+--- a/hw/sd/pxa2xx_mmci.c
++++ b/hw/sd/pxa2xx_mmci.c
+@@ -492,6 +492,7 @@ PXA2xxMMCIState *pxa2xx_mmci_init(MemoryRegion *sysmem,
+     sysbus_connect_irq(sbd, 0, irq);
+     qdev_connect_gpio_out_named(dev, "rx-dma", 0, rx_dma);
+     qdev_connect_gpio_out_named(dev, "tx-dma", 0, tx_dma);
++    qdev_init_nofail(dev);
  
--    dev = DEVICE(&(s->adc[i]));
--    object_property_set_bool(OBJECT(&s->adc[i]), true, "realized", &err);
--    if (err != NULL) {
--        error_propagate(errp, err);
--        return;
-+    for (i = 0; i < STM_NUM_ADCS; i++) {
-+        dev = DEVICE(&(s->adc[i]));
-+        object_property_set_bool(OBJECT(&s->adc[i]), true, "realized", &err);
-+        if (err != NULL) {
-+            error_propagate(errp, err);
-+            return;
-+        }
-+        busdev = SYS_BUS_DEVICE(dev);
-+        sysbus_mmio_map(busdev, 0, adc_addr[i]);
-+        sysbus_connect_irq(busdev, 0,
-+                           qdev_get_gpio_in(DEVICE(&s->adc_irqs), i));
-     }
--    busdev = SYS_BUS_DEVICE(dev);
--    sysbus_mmio_map(busdev, 0, ADC_ADDR);
--    sysbus_connect_irq(busdev, 0,
--                       qdev_get_gpio_in(DEVICE(&s->adc_irqs), i));
- 
-     /* SPI devices */
-     for (i = 0; i < STM_NUM_SPIS; i++) {
+     /* Create and plug in the sd card */
+     carddev = qdev_create(qdev_get_child_bus(dev, "sd-bus"), TYPE_SD_CARD);
 -- 
 2.26.2
 
