@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41AB61F486D
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 22:56:31 +0200 (CEST)
-Received: from localhost ([::1]:45104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4778E1F4879
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 22:59:23 +0200 (CEST)
+Received: from localhost ([::1]:54406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jilIM-0006ss-8T
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 16:56:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36328)
+	id 1jilL8-0002J5-AO
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 16:59:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36354)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jilEt-0001dy-Hz
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 16:52:55 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:58950
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jilEv-0001gk-U2
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 16:52:57 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:31222
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jilEs-0005bC-Pd
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 16:52:55 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jilEu-0005be-Bm
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 16:52:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591735974;
+ s=mimecast20190719; t=1591735975;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yIYNgS++0ipV/7NWq4e6Wzcx8dFefrKfc0qssI+fv9s=;
- b=ZVib56X4ckJDoMfKhN1yqG5E/eqvn6BawoVB9E/Zi5qIneKSxJ8Xy+xVzONRgRJXB1b5ZA
- YN3UJZVVKmfndD84HfB9Mi2w+UC4YU/VGCn+VpjHm5/QwKu51rVufPgV11aRC1zL+A4Yuo
- tjXELA7LA+equtPT88AT4JB+CPwY4wA=
+ bh=P+X2GehsEKSsVMlZEA77+G03NgvFhMOMVc9PxzTKk08=;
+ b=Ou/j2lQUC8Rh3sE+7YoyrENTJLHKJsdfsARnXuopU1W7Kk67gHzV6eLFATjTrDfwiybU7i
+ hxy5/s6glCRavsvpeKJsDopZyCaiDGgiWn97ftQRZO0BhMZHQefik4n/PbDNDBMKBTBUQ8
+ dASrtM5VYlbNZaV0v9DY5bxeorWQSlg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-222-yeoWBUMEO6yWMDSmbtehPQ-1; Tue, 09 Jun 2020 16:52:51 -0400
-X-MC-Unique: yeoWBUMEO6yWMDSmbtehPQ-1
+ us-mta-268-UM8EKLwRMXe9u39n6v5vAw-1; Tue, 09 Jun 2020 16:52:53 -0400
+X-MC-Unique: UM8EKLwRMXe9u39n6v5vAw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8F72464AEC;
- Tue,  9 Jun 2020 20:52:50 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ECEF51009613;
+ Tue,  9 Jun 2020 20:52:51 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-113-22.phx2.redhat.com [10.3.113.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 13E096116D;
- Tue,  9 Jun 2020 20:52:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6F9EF6116D;
+ Tue,  9 Jun 2020 20:52:51 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/15] qcow2_format.py: drop new line printing at end of dump()
-Date: Tue,  9 Jun 2020 15:52:35 -0500
-Message-Id: <20200609205245.3548257-6-eblake@redhat.com>
+Subject: [PULL 07/15] qcow2_format.py: use modern string formatting
+Date: Tue,  9 Jun 2020 15:52:37 -0500
+Message-Id: <20200609205245.3548257-8-eblake@redhat.com>
 In-Reply-To: <20200609205245.3548257-1-eblake@redhat.com>
 References: <20200609205245.3548257-1-eblake@redhat.com>
 MIME-Version: 1.0
@@ -54,9 +54,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 02:41:53
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=eblake@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 02:44:16
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -87,42 +87,122 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-This will simplify further conversion. To compensate, print this empty
-line directly in cmd_dump_header().
+Use .format and f-strings instead of old %style. Also, the file uses
+both '' and "" quotes, for consistency let's use '', except for cases
+when we need '' inside the string (use "" to avoid extra escaping).
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-Message-Id: <20200606081806.23897-5-vsementsov@virtuozzo.com>
+Message-Id: <20200606081806.23897-7-vsementsov@virtuozzo.com>
 Signed-off-by: Eric Blake <eblake@redhat.com>
 ---
- tests/qemu-iotests/qcow2.py        | 1 +
- tests/qemu-iotests/qcow2_format.py | 1 -
- 2 files changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/tests/qemu-iotests/qcow2.py b/tests/qemu-iotests/qcow2.py
-index e968869ea6b2..8c187e9a7292 100755
---- a/tests/qemu-iotests/qcow2.py
-+++ b/tests/qemu-iotests/qcow2.py
-@@ -27,6 +27,7 @@ from qcow2_format import (
- def cmd_dump_header(fd):
-     h = QcowHeader(fd)
-     h.dump()
-+    print()
-     h.dump_extensions()
-
+ tests/qemu-iotests/qcow2_format.py | 54 +++++++++++++++---------------
+ 1 file changed, 27 insertions(+), 27 deletions(-)
 
 diff --git a/tests/qemu-iotests/qcow2_format.py b/tests/qemu-iotests/qcow2_format.py
-index 0e517c1bbc5a..2b6c9612ae01 100644
+index e2f08ed69194..da66df340876 100644
 --- a/tests/qemu-iotests/qcow2_format.py
 +++ b/tests/qemu-iotests/qcow2_format.py
-@@ -155,7 +155,6 @@ class QcowHeader:
-                 value_str = f[1] % value
+@@ -23,7 +23,7 @@ class QcowHeaderExtension:
+     def __init__(self, magic, length, data):
+         if length % 8 != 0:
+             padding = 8 - (length % 8)
+-            data += b"\0" * padding
++            data += b'\0' * padding
 
-             print("%-25s" % f[2], value_str)
--        print("")
+         self.magic = magic
+         self.length = length
+@@ -41,26 +41,26 @@ class QcowHeader:
+
+     fields = (
+         # Version 2 header fields
+-        (uint32_t, '%#x',  'magic'),
+-        (uint32_t, '%d',   'version'),
+-        (uint64_t, '%#x',  'backing_file_offset'),
+-        (uint32_t, '%#x',  'backing_file_size'),
+-        (uint32_t, '%d',   'cluster_bits'),
+-        (uint64_t, '%d',   'size'),
+-        (uint32_t, '%d',   'crypt_method'),
+-        (uint32_t, '%d',   'l1_size'),
+-        (uint64_t, '%#x',  'l1_table_offset'),
+-        (uint64_t, '%#x',  'refcount_table_offset'),
+-        (uint32_t, '%d',   'refcount_table_clusters'),
+-        (uint32_t, '%d',   'nb_snapshots'),
+-        (uint64_t, '%#x',  'snapshot_offset'),
++        (uint32_t, '{:#x}', 'magic'),
++        (uint32_t, '{}', 'version'),
++        (uint64_t, '{:#x}', 'backing_file_offset'),
++        (uint32_t, '{:#x}', 'backing_file_size'),
++        (uint32_t, '{}', 'cluster_bits'),
++        (uint64_t, '{}', 'size'),
++        (uint32_t, '{}', 'crypt_method'),
++        (uint32_t, '{}', 'l1_size'),
++        (uint64_t, '{:#x}', 'l1_table_offset'),
++        (uint64_t, '{:#x}', 'refcount_table_offset'),
++        (uint32_t, '{}', 'refcount_table_clusters'),
++        (uint32_t, '{}', 'nb_snapshots'),
++        (uint64_t, '{:#x}', 'snapshot_offset'),
+
+         # Version 3 header fields
+         (uint64_t, 'mask', 'incompatible_features'),
+         (uint64_t, 'mask', 'compatible_features'),
+         (uint64_t, 'mask', 'autoclear_features'),
+-        (uint32_t, '%d',   'refcount_order'),
+-        (uint32_t, '%d',   'header_length'),
++        (uint32_t, '{}', 'refcount_order'),
++        (uint32_t, '{}', 'header_length'),
+     )
+
+     fmt = '>' + ''.join(field[0] for field in fields)
+@@ -118,7 +118,7 @@ class QcowHeader:
+
+         fd.seek(self.header_length)
+         extensions = self.extensions
+-        extensions.append(QcowHeaderExtension(0, 0, b""))
++        extensions.append(QcowHeaderExtension(0, 0, b''))
+         for ex in extensions:
+             buf = struct.pack('>II', ex.magic, ex.length)
+             fd.write(buf)
+@@ -129,7 +129,7 @@ class QcowHeader:
+             fd.write(self.backing_file)
+
+         if fd.tell() > self.cluster_size:
+-            raise Exception("I think I just broke the image...")
++            raise Exception('I think I just broke the image...')
+
+     def update(self, fd):
+         header_bytes = self.header_length
+@@ -152,21 +152,21 @@ class QcowHeader:
+                         bits.append(bit)
+                 value_str = str(bits)
+             else:
+-                value_str = f[1] % value
++                value_str = f[1].format(value)
+
+-            print("%-25s" % f[2], value_str)
++            print(f'{f[2]:<25} {value_str}')
 
      def dump_extensions(self):
          for ex in self.extensions:
+
+             data = ex.data[:ex.length]
+             if all(c in string.printable.encode('ascii') for c in data):
+-                data = "'%s'" % data.decode('ascii')
++                data = f"'{ data.decode('ascii') }'"
+             else:
+-                data = "<binary>"
++                data = '<binary>'
+
+-            print("Header extension:")
+-            print("%-25s %#x" % ("magic", ex.magic))
+-            print("%-25s %d" % ("length", ex.length))
+-            print("%-25s %s" % ("data", data))
+-            print("")
++            print('Header extension:')
++            print(f'{"magic":<25} {ex.magic:#x}')
++            print(f'{"length":<25} {ex.length}')
++            print(f'{"data":<25} {data}')
++            print()
 -- 
 2.27.0
 
