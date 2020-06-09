@@ -2,72 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADEB81F3E13
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 16:25:52 +0200 (CEST)
-Received: from localhost ([::1]:47474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B3E21F3DEE
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 16:22:25 +0200 (CEST)
+Received: from localhost ([::1]:36626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jifCI-0004Il-ME
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 10:25:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54748)
+	id 1jif8y-0008IN-Fz
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 10:22:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jif1P-00084T-4S
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 10:14:35 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:41520
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jif2G-0000mw-Ti; Tue, 09 Jun 2020 10:15:29 -0400
+Resent-Date: Tue, 09 Jun 2020 10:15:28 -0400
+Resent-Message-Id: <E1jif2G-0000mw-Ti@lists.gnu.org>
+Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21748)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jif1N-0007mU-R3
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 10:14:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591712073;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=MNIwianPSFqpLQfbkgbNEyR/uMiklhPkVKWtckjw9VM=;
- b=iIlWYQAvGtumJK/J9m574ruEEAiyj0pP0Ksu8S3OB5yFW69CAPdVJnF84TpIf3hsqN9VnL
- 1w2KhXJEjeS0ndv/gIFxROC+keqJjy5p+zY1PxlaPCeY0inJEyQd9P9vVzZEh7sjIg99V8
- 0xLKERe+TSMbeBwAaJbp6a+BN+O7XHg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-431-CdcVkegIMtuNSoszFNbVnw-1; Tue, 09 Jun 2020 10:14:31 -0400
-X-MC-Unique: CdcVkegIMtuNSoszFNbVnw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A7F4919200C2;
- Tue,  9 Jun 2020 14:14:29 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-114-124.ams2.redhat.com [10.36.114.124])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 991F75D9E4;
- Tue,  9 Jun 2020 14:14:27 +0000 (UTC)
-Date: Tue, 9 Jun 2020 16:14:25 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Klaus Jensen <its@irrelevant.dk>
-Subject: Re: [PATCH 0/1] hw/block/nvme: fix assert on invalid irq vector
-Message-ID: <20200609141425.GC11003@linux.fritz.box>
-References: <20200609094508.32412-1-its@irrelevant.dk>
- <b445a413-598f-23a2-f094-8b68c60722f5@redhat.com>
- <20200609114633.yvwtt6swb47l27yd@apples.localdomain>
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jif2D-0007zz-RY; Tue, 09 Jun 2020 10:15:28 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1591712103; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=V1knRpXtlhEU49M1/mWsidGkz61ESe+IFDpXmeI5aUOxkjA2VvIyNIBffvJkuwPszSI1YtBYnP5OeQYDvAERqSuHKJ9J4N5jlcg3XYOMt20oGj85QJA/ekwYrnj4OTOjAZaVFuq7k8e2a4Fh/4oIcnnoOF3PIx3JyhqFGwFLCjU=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1591712103;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=KN+9qKc3BUdcWOvFzY+vl/mFNOkGJ64DYLJYeyOH4Cc=; 
+ b=WvnAWGkuOPU/v8qRpLysZt+ICFlYTuL9HHbowxl8jkKOr0az0127/0lV8BsHoRjIHhk4FocLiuYEzgsB26i3OuNX53/if0xqS/Z6eGuvP8QHKzPfCB+mBQtngoTQskmXcGKjlEURb9kXYvJpOsZwYTe2K8Yl5fpgfDyvelTXdCQ=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1591712101642141.57590110144304;
+ Tue, 9 Jun 2020 07:15:01 -0700 (PDT)
+Message-ID: <159171209964.14379.13759350814032395535@45ef0f9c86ae>
+In-Reply-To: <20200609125409.24179-1-eric.auger@redhat.com>
+Subject: Re: [PATCH v2 0/5] TPM-TIS bios-tables-test
 MIME-Version: 1.0
-In-Reply-To: <20200609114633.yvwtt6swb47l27yd@apples.localdomain>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/08 23:42:34
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: eric.auger@redhat.com
+Date: Tue, 9 Jun 2020 07:15:01 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o57.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 10:01:59
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,40 +67,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Keith Busch <kbusch@kernel.org>, Javier Gonzalez <javier.gonz@samsung.com>,
- Maxim Levitsky <mlevitsk@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, drjones@redhat.com, mst@redhat.com,
+ philmd@redhat.com, shannon.zhaosl@gmail.com, qemu-devel@nongnu.org,
+ eric.auger@redhat.com, qemu-arm@nongnu.org, marcandre.lureau@redhat.com,
+ imammedo@redhat.com, eric.auger.pro@gmail.com, lersek@redhat.com,
+ ardb@kernel.org, stefanb@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 09.06.2020 um 13:46 hat Klaus Jensen geschrieben:
-> On Jun  9 13:17, Philippe Mathieu-Daudé wrote:
-> > On 6/9/20 11:45 AM, Klaus Jensen wrote:
-> > > From: Klaus Jensen <k.jensen@samsung.com>
-> > > 
-> > > I goofed up with commit c09794fe40e3 ("hw/block/nvme: allow use of any
-> > > valid msix vector").
-> > 
-> > Kevin, since your queue isn't merged, can you directly squash the fix?
-> 
-> The commit (c09794fe40e3) can just be dropped without conflicts, but it
-> leaves a use of n->params.num_queues in nvme_create_cq() which commit
-> cde74bfd4b87 ("hw/block/nvme: add max_ioqpairs device parameter") must
-> fix.
-
-Hm, so it seems this isn't easy to squash in without conflicts (and I
-would have to rewrite the whole commit message), so I think it's better
-to just apply the series on top.
-
-One problem with the commit message is that it references commit IDs
-which aren't stable yet. Maybe it's best if I apply these patches,
-manually fix up the commit ID references and then immediately do a pull
-request so that they become stable.
-
-It would be good to have at least one review, though.
-
-Kevin
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDYwOTEyNTQwOS4yNDE3
+OS0xLWVyaWMuYXVnZXJAcmVkaGF0LmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBo
+YXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3Jl
+IGluZm9ybWF0aW9uOgoKTWVzc2FnZS1pZDogMjAyMDA2MDkxMjU0MDkuMjQxNzktMS1lcmljLmF1
+Z2VyQHJlZGhhdC5jb20KU3ViamVjdDogW1BBVENIIHYyIDAvNV0gVFBNLVRJUyBiaW9zLXRhYmxl
+cy10ZXN0ClR5cGU6IHNlcmllcwoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFz
+aApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAwCmdpdCBjb25maWcgLS1s
+b2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBU
+cnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0b2dyYW0KLi9zY3JpcHRz
+L2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1QgU0NSSVBUIEVORCA9PT0K
+CkZyb20gaHR0cHM6Ly9naXRodWIuY29tL3BhdGNoZXctcHJvamVjdC9xZW11CiAqIFtuZXcgdGFn
+XSAgICAgICAgIHBhdGNoZXcvMjAyMDA2MDkxMjU0MDkuMjQxNzktMS1lcmljLmF1Z2VyQHJlZGhh
+dC5jb20gLT4gcGF0Y2hldy8yMDIwMDYwOTEyNTQwOS4yNDE3OS0xLWVyaWMuYXVnZXJAcmVkaGF0
+LmNvbQpTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCmU2YjIzNmMgYmlvcy10YWJsZXMt
+dGVzdDogR2VuZXJhdGUgcmVmZXJlbmNlIHRhYmxlcyBmb3IgUTM1L1RQTS1USVMKN2E0YjlmMiBi
+aW9zLXRhYmxlcy10ZXN0OiBBZGQgUTM1L1RQTS1USVMgdGVzdAo3ZmU3NmFhIHRlc3RzOiB0cG0t
+ZW11OiBSZW1vdmUgYXNzZXJ0IG9uIFRQTTJfU1RfTk9fU0VTU0lPTlMKN2EwMzBiZSB0ZXN0cy9h
+Y3BpOiBBZGQgdm9pZCB0YWJsZXMgZm9yIFEzNS9UUE0tVElTIGJpb3MtdGFibGVzLXRlc3QKNzYx
+MGZhZCB0ZXN0L3RwbS1lbXU6IGluY2x1ZGUgc29ja2V0cyBhbmQgY2hhbm5lbCBoZWFkZXJzIGlu
+IHRwbS1lbXUgaGVhZGVyCgo9PT0gT1VUUFVUIEJFR0lOID09PQoxLzUgQ2hlY2tpbmcgY29tbWl0
+IDc2MTBmYWQwZDlmOSAodGVzdC90cG0tZW11OiBpbmNsdWRlIHNvY2tldHMgYW5kIGNoYW5uZWwg
+aGVhZGVycyBpbiB0cG0tZW11IGhlYWRlcikKMi81IENoZWNraW5nIGNvbW1pdCA3YTAzMGJlMDhh
+NzggKHRlc3RzL2FjcGk6IEFkZCB2b2lkIHRhYmxlcyBmb3IgUTM1L1RQTS1USVMgYmlvcy10YWJs
+ZXMtdGVzdCkKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBN
+QUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojMTc6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKRVJS
+T1I6IERvIG5vdCBhZGQgZXhwZWN0ZWQgZmlsZXMgdG9nZXRoZXIgd2l0aCB0ZXN0cywgZm9sbG93
+IGluc3RydWN0aW9ucyBpbiB0ZXN0cy9xdGVzdC9iaW9zLXRhYmxlcy10ZXN0LmM6IGJvdGggdGVz
+dHMvZGF0YS9hY3BpL3EzNS9UUE0yLnRpcyBhbmQgdGVzdHMvcXRlc3QvYmlvcy10YWJsZXMtdGVz
+dC1hbGxvd2VkLWRpZmYuaCBmb3VuZAoKRVJST1I6IERvIG5vdCBhZGQgZXhwZWN0ZWQgZmlsZXMg
+dG9nZXRoZXIgd2l0aCB0ZXN0cywgZm9sbG93IGluc3RydWN0aW9ucyBpbiB0ZXN0cy9xdGVzdC9i
+aW9zLXRhYmxlcy10ZXN0LmM6IGJvdGggdGVzdHMvZGF0YS9hY3BpL3EzNS9UUE0yLnRpcyBhbmQg
+dGVzdHMvcXRlc3QvYmlvcy10YWJsZXMtdGVzdC1hbGxvd2VkLWRpZmYuaCBmb3VuZAoKdG90YWw6
+IDIgZXJyb3JzLCAxIHdhcm5pbmdzLCAzIGxpbmVzIGNoZWNrZWQKClBhdGNoIDIvNSBoYXMgc3R5
+bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBm
+YWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BB
+VENIIGluIE1BSU5UQUlORVJTLgoKMy81IENoZWNraW5nIGNvbW1pdCA3ZmU3NmFhZjhkNjggKHRl
+c3RzOiB0cG0tZW11OiBSZW1vdmUgYXNzZXJ0IG9uIFRQTTJfU1RfTk9fU0VTU0lPTlMpCjQvNSBD
+aGVja2luZyBjb21taXQgN2E0YjlmMjJkZGJkIChiaW9zLXRhYmxlcy10ZXN0OiBBZGQgUTM1L1RQ
+TS1USVMgdGVzdCkKNS81IENoZWNraW5nIGNvbW1pdCBlNmIyMzZjNDg4MDYgKGJpb3MtdGFibGVz
+LXRlc3Q6IEdlbmVyYXRlIHJlZmVyZW5jZSB0YWJsZXMgZm9yIFEzNS9UUE0tVElTKQpFUlJPUjog
+RG8gbm90IGFkZCBleHBlY3RlZCBmaWxlcyB0b2dldGhlciB3aXRoIHRlc3RzLCBmb2xsb3cgaW5z
+dHJ1Y3Rpb25zIGluIHRlc3RzL3F0ZXN0L2Jpb3MtdGFibGVzLXRlc3QuYzogYm90aCB0ZXN0cy9k
+YXRhL2FjcGkvcTM1L1RQTTIudGlzIGFuZCB0ZXN0cy9xdGVzdC9iaW9zLXRhYmxlcy10ZXN0LWFs
+bG93ZWQtZGlmZi5oIGZvdW5kCgpFUlJPUjogRG8gbm90IGFkZCBleHBlY3RlZCBmaWxlcyB0b2dl
+dGhlciB3aXRoIHRlc3RzLCBmb2xsb3cgaW5zdHJ1Y3Rpb25zIGluIHRlc3RzL3F0ZXN0L2Jpb3Mt
+dGFibGVzLXRlc3QuYzogYm90aCB0ZXN0cy9kYXRhL2FjcGkvcTM1L1RQTTIudGlzIGFuZCB0ZXN0
+cy9xdGVzdC9iaW9zLXRhYmxlcy10ZXN0LWFsbG93ZWQtZGlmZi5oIGZvdW5kCgp0b3RhbDogMiBl
+cnJvcnMsIDAgd2FybmluZ3MsIDEgbGluZXMgY2hlY2tlZAoKUGF0Y2ggNS81IGhhcyBzdHlsZSBw
+cm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNl
+IHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0gg
+aW4gTUFJTlRBSU5FUlMuCgo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29tbWFuZCBleGl0ZWQg
+d2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hl
+dy5vcmcvbG9ncy8yMDIwMDYwOTEyNTQwOS4yNDE3OS0xLWVyaWMuYXVnZXJAcmVkaGF0LmNvbS90
+ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRv
+bWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQg
+eW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
 
