@@ -2,58 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4E8C1F320F
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 03:41:39 +0200 (CEST)
-Received: from localhost ([::1]:42506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FF821F3213
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 03:45:26 +0200 (CEST)
+Received: from localhost ([::1]:49768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jiTGk-0005ri-Ne
-	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 21:41:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40060)
+	id 1jiTKP-0000lE-90
+	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 21:45:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1jiTCI-0003gd-BI; Mon, 08 Jun 2020 21:37:02 -0400
-Received: from mail-ed1-x543.google.com ([2a00:1450:4864:20::543]:44010)
+ id 1jiTEx-0005yb-O0; Mon, 08 Jun 2020 21:39:47 -0400
+Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:37643)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1jiTCG-000098-Ka; Mon, 08 Jun 2020 21:37:02 -0400
-Received: by mail-ed1-x543.google.com with SMTP id d15so2508718edm.10;
- Mon, 08 Jun 2020 18:36:59 -0700 (PDT)
+ id 1jiTEx-0000Vn-2J; Mon, 08 Jun 2020 21:39:47 -0400
+Received: by mail-ed1-x541.google.com with SMTP id k8so15002342edq.4;
+ Mon, 08 Jun 2020 18:39:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=JchWu3Nmpi3YL/W95vchMtR9JFZKQQTDuwnTA2bm/mI=;
- b=nJ/15e2mfWjXcC3thZV28PgfbUsNdP/02imftTMICW8kD52ZzFkI8sPKZkSuhKJEp1
- g8m3YorPUgFEy6Pcvb35JpPl4bwzNbhA6u3oNun1oa8REgaV0jUFysOoo2RAYCppLId4
- 3qkZDMdeNQ7TjoyIrmDnB25J2fwlvC7hJe9ms=
+ :cc; bh=nR8duXu/7i/owTQ/5PmEvOI0K8pxjyS17auW0MJccq8=;
+ b=S6kBn+QOr3q38jWbuT9kbZVIAnqpYgcZNu3yYeCim6bpSZhC7WuWxqGUzbDMsNBq/e
+ TSNtSLWWkKr5ZjB+MsPsgzP1Ls9HLHr/Xy5HCDAIjZJcOb9aMK8WoBQ9ZTp5Xnt/rIVe
+ MY5e+pzjvKvKCBNSbH4ET6Xh7BldjLWgsoqGw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=JchWu3Nmpi3YL/W95vchMtR9JFZKQQTDuwnTA2bm/mI=;
- b=sYYc1n/FAun/Vocz8SbO95xuyCcLxqc9LnFbYoTQvcZ+4ZNXd3zgICZgCKFlkp9JiC
- mUzI7lx8xysDXuQcrmlvmaSMlckUdSZkFUqskiSH49ZfRNmIeRHU8fWMbARlPVQjd/j7
- BQEwVE9no8dSBS+H2kRPY6MKLbGUSZ9zK01wAKJDjplkoN04dJU2e5RHmfr5UYPE5kbK
- WPEAY00Zd6oYizyR4x5LHSG2z9bM5jAbIJ57+D9ejdkICi+mP0FgsZfPOzokAPyWMR3Z
- uBA/5BcXVtWwWKR7sOi6ckGdjzSZgayVZWPbpT8AwrivsUbLDJiCYEi6YgGFfsl6m8K6
- 9W5A==
-X-Gm-Message-State: AOAM533U+eIc0Z7IbJzMj/FWGPICi3gXW97fxG7es84LOKmotHu5MNqP
- pPv+noo4enmAUknB/R/lnE6qxHXKLGTXEw4o4/Q=
-X-Google-Smtp-Source: ABdhPJy+e5qfIX84ib9plVC02PzZTkCnjbfDg5bPgHLpH6EcVyDvDNH9/y0jJ4sk6ONbS75s+oK0xTOx6mSDz2EOkQo=
-X-Received: by 2002:a05:6402:1750:: with SMTP id
- v16mr25353204edx.137.1591666618876; 
- Mon, 08 Jun 2020 18:36:58 -0700 (PDT)
+ bh=nR8duXu/7i/owTQ/5PmEvOI0K8pxjyS17auW0MJccq8=;
+ b=swQSiAeA3k7Q+YumbDRYCMPQ2yH/9+4QT8h1/qyOilJsSlyrxSScmpGYmo056UUUTI
+ PMqG1XPym7ro/B77aKy1vBgXcEG3AaBtQs0TNF74kTgsOWvccrG8TZjOMiPljrpSUM9z
+ obj0ciHkTmFZ4CUbnbJNQkWVgGUJ+JYWoNn0puQ4jOztLFkXlqkp+Rc49n3V0ClR8SWB
+ qqNgUd78OqjZnJwGUFPflEciLEIpci3rLTNzmci/AFyh9+Zxe/1bBnO20mSA+wBJ2OC4
+ WkB4uvt3OpyZk3CS4EJFAiv70KWx+mlvQsKvPXSVixdrFW9Z5xxi4+FcM2nMSco7Gb6T
+ DdDw==
+X-Gm-Message-State: AOAM532ARnBoKMg5eEpldOIaO8yEMxd/Zqqz7a2ic5U1C1bMmV6rUDBb
+ kG6K6spiKN23dZQd+dpLxaO6Y+dYHjn9hw1LbCp/HuaS
+X-Google-Smtp-Source: ABdhPJz2Ssmc1DgPOeJ20fagPYih3ljE0WhS/aV6l9plwevqV0fs1WxemrsfBHrmWA5n7a9oZoCRHRog+rqKTj7ckUs=
+X-Received: by 2002:a50:f094:: with SMTP id v20mr24308785edl.77.1591666785312; 
+ Mon, 08 Jun 2020 18:39:45 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200521192133.127559-1-hskinnemoen@google.com>
- <20200521192133.127559-7-hskinnemoen@google.com>
-In-Reply-To: <20200521192133.127559-7-hskinnemoen@google.com>
+ <CAFQmdRYYhoWu7q350n0vNOE+pesp-UG975v1f1Yjwf9Ao0mjcg@mail.gmail.com>
+In-Reply-To: <CAFQmdRYYhoWu7q350n0vNOE+pesp-UG975v1f1Yjwf9Ao0mjcg@mail.gmail.com>
 From: Joel Stanley <joel@jms.id.au>
-Date: Tue, 9 Jun 2020 01:36:47 +0000
-Message-ID: <CACPK8XeidP3PzyJcqvP3m8xjiH40r08x9MPsEaEvjLy2CLOzCA@mail.gmail.com>
-Subject: Re: [PATCH 6/6] hw/arm: Add two NPCM7xx-based machines
+Date: Tue, 9 Jun 2020 01:39:33 +0000
+Message-ID: <CACPK8XfOtLSVR2u12qEYxB=ggKLD-NeK8BYMW3_uRo8ExnM6Ww@mail.gmail.com>
+Subject: Re: [PATCH 0/6] Add Nuvoton NPCM730/NPCM750 SoCs and two BMC machines
 To: Havard Skinnemoen <hskinnemoen@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::543;
- envelope-from=joel.stan@gmail.com; helo=mail-ed1-x543.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::541;
+ envelope-from=joel.stan@gmail.com; helo=mail-ed1-x541.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -76,31 +75,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm <qemu-arm@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>, kfting@nuvoton.com,
- Avi Fishman <Avi.Fishman@nuvoton.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, CS20 KFTing <kfting@nuvoton.com>,
+ qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
+ IS20 Avi Fishman <Avi.Fishman@nuvoton.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 21 May 2020 at 20:39, Havard Skinnemoen <hskinnemoen@google.com> wrote:
+On Mon, 8 Jun 2020 at 22:15, Havard Skinnemoen <hskinnemoen@google.com> wrote:
 >
-> This adds two new machines:
+> On Thu, May 21, 2020 at 12:21 PM Havard Skinnemoen <hskinnemoen@google.com> wrote:
+>>
+>> This patch series models enough of the Nuvoton NPCM730 and NPCM750 SoCs to boot
+>> a minimal Linux kernel. This includes device models for:
 >
->   - npcm750-evb: Nuvoton NPCM750 Evaluation Board.
->   - quanta-gsj: A board with a NPCM730 chip.
+>
+> Does anyone have comments on this series? I'm currently finishing up a second patch series that adds flash support and a few other things so qemu can boot a full OpenBMC flash image built for npcm7xx.
 
-You could note that these are the two boards supported by OpenBMC.
+I had a look and they appear good to me. Note that I'm less in to the
+gory details of Qemu than some of our other reviewers, so you should
+seek  a more detailed review from someone else.
 
-> They rely on the NPCM7xx SoC device to do the heavy lifting. They are
-> almost completely identical at the moment, apart from the SoC type,
-> which currently only changes the reset contents of one register
-> (GCR.MDLR), but they might grow apart a bit more as more functionality
-> is added.
->
-> Both machines can boot the Linux kernel into /bin/sh.
->
-> Reviewed-by: Tyrone Ting <kfting@nuvoton.com>
-> Signed-off-by: Havard Skinnemoen <hskinnemoen@google.com>
+I look forward further support so I can test the OpenBMC kernel
+against Nuvoton boards in the same way as the Aspeed ones.
 
-Reviewed-by: Joel Stanley <joel@jms.id.au>
+Cheers,
+
+Joel
+
+>
+> If you prefer, I can combine them both into one series and send it to the list.
+>
+> This series can be found here: https://patchwork.kernel.org/project/qemu-devel/list/?series=291809
+>
+> Thanks,
+>
+> Havard
 
