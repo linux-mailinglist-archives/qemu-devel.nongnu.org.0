@@ -2,84 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C03501F3929
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 13:12:11 +0200 (CEST)
-Received: from localhost ([::1]:48894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 300521F3944
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 13:14:15 +0200 (CEST)
+Received: from localhost ([::1]:54880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jicAs-0006bK-Ra
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 07:12:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34180)
+	id 1jicCs-0000ii-5t
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 07:14:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jic8m-0004DR-QF
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 07:10:01 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:33444)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jic8l-0001ZH-Pf
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 07:10:00 -0400
-Received: by mail-wr1-x443.google.com with SMTP id l11so20831022wru.0
- for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 04:09:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=XJkEtaaLfEOVGgotb4bc0e25yEVnWj9eKM/Dme8rE1I=;
- b=GwXhLnjRwnkR91HSgcflinu+7qUmp1+MDgI8D5szpdqHaKH2In7RD06iuGbjKkoWgB
- VY+/k8dUBEt+mT5ddvrbSq4JzY1dN1aQ1y0tql6mOROReTq0EclwFBmP2yAwNrX5K9cM
- ObH12ybP5XDA6j7UuKQXMk4DEsC33jR9d57I1UgX9vhdZzlVHvTm27M8uJNlDMPuO/m5
- U54R/TYM6liixQGsGuDhjZmUJb4kBiiI+vzqUSDT4b1NjcWw3mdc8wytMo7V1c36L6ox
- QiquOwBDuf5YwtTC4LpPiEmd6Pj3EA6o0SF0M3Sqctu7swDk405/+qX8vgMXuMZ1LtSt
- AWRw==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jic94-0004Vm-5b
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 07:10:18 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:26638
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jic93-0001dB-9j
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 07:10:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1591701016;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=tZftxcB2LQwq4WRu0Cjx9f/yr0m/a27AoJYbbnSzCMU=;
+ b=IUtEUX9PAhCSJcmahcJ/4w1sbdQF3nspbEwgHY6JNdpfGYTp+0PrfvKPeqQUZp+BH+WHBw
+ K1GOhzHJf13KFyEpFrAKHOEppm1PTmSX1U1lTTzBu3XTDfuCOPVjyqjm5kqgU90P964IRF
+ lgfWWsyLs0N9INuMec9fvPHPlA5bEds=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-304-joQIPFFRMluESoljEtwwvw-1; Tue, 09 Jun 2020 07:10:14 -0400
+X-MC-Unique: joQIPFFRMluESoljEtwwvw-1
+Received: by mail-wm1-f70.google.com with SMTP id y15so532222wmi.0
+ for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 04:10:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=XJkEtaaLfEOVGgotb4bc0e25yEVnWj9eKM/Dme8rE1I=;
- b=aeL6fipZ1LCzDQVls96pbGgfTuDvakKnNnX+g0hlj5vdWJ6XwRC5erS6tBs0Fds55F
- n0BDwPVx5wNO0YB6HewA0JiYEjfilBr8dBdVyzUKfPwtVZqwnReHH049xL6e7Ub73BtW
- gedpUvfzNyGgURzifEduU0YHgtIFAE1tXw9pxtf0MVLCwcikm+tPFo/BxRb3IL20h9zZ
- sephJByimQg5k+tj4q16veh7Ymim/O45+YbpRCItZtl2BbPx1Ebbn2QDMcVjdhU5u55Z
- G1SIryw6YeoisW1etaE4i7Y3qz/0TuEmJDUO9n676OklIM/AUzC470l0VQxbkoq/TzX5
- GNAQ==
-X-Gm-Message-State: AOAM533dpfvqziqCjyGSjjrh3IlNKvpi/+OoOjZKp50aIRDVZfEJG2um
- p25NLAI3hwg6OGZKBbl45NqoVw==
-X-Google-Smtp-Source: ABdhPJxsp6/H0PG8ea9anWbAHxV2Knzcb0ZxBJFjn7nlBd1M3W9S6Ap4H05bYa3gI90AHksZ+qabzw==
-X-Received: by 2002:a05:6000:12c2:: with SMTP id
- l2mr3652885wrx.133.1591700996350; 
- Tue, 09 Jun 2020 04:09:56 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id b187sm2619092wmd.26.2020.06.09.04.09.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Jun 2020 04:09:54 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 394ED1FF7E;
- Tue,  9 Jun 2020 12:09:54 +0100 (BST)
-References: <20200602154624.4460-1-alex.bennee@linaro.org>
- <20200602154624.4460-8-alex.bennee@linaro.org>
- <20200608034504.GA3619843@sff> <87zh9e6kxy.fsf@linaro.org>
- <20200609040902.GA3724030@sff>
-User-agent: mu4e 1.5.2; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: "Emilio G. Cota" <cota@braap.org>
-Subject: Re: [PATCH v1 7/9] plugins: add API to return a name for a IO device
-In-reply-to: <20200609040902.GA3724030@sff>
-Date: Tue, 09 Jun 2020 12:09:54 +0100
-Message-ID: <87y2ow4hrx.fsf@linaro.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=tZftxcB2LQwq4WRu0Cjx9f/yr0m/a27AoJYbbnSzCMU=;
+ b=CEuRo3qoyOn69uMI7qNMMPbZ1pIXENmdfqmTm/jMVg6amsQtVx+Yzi2hxb3OXrLGKL
+ YlzYrhTZpnED2Bd/z1WbgvslpHYywYATnAjX312IOx9plyccfyJuAYM/crLfX/zW/4WS
+ bSeOrO1/vJVEhUYchAi+E4BEURLqGHS44YgBa4d8j28Lt0JDJt1/lgBl5SceSFIONU80
+ eVb/SniZEThhzOM8kvLStu+wbnHKzJNtm3D02spYYVSM/SL1tDsktAyBEHW5g0dK4VQz
+ V5id0IG+FDhG2j6yFN8q84wWl6j+pcrvt/FNv8Ds7jAjqJ/RhWU0J6dusCkeVmr4rUKy
+ ZGpg==
+X-Gm-Message-State: AOAM531btA3vFqHWn0vkkoq/RwzVjb1roMMTE8GZCHiTqR815rp2q6nA
+ 8GWHCRCb7RVS/9wRuG90UBcwikmCY9adM36DqmynCvBsnY04k2v0SPqxOEBxTG7FjzycoDjkGBo
+ cOMcesq+Fp1h9QV4=
+X-Received: by 2002:a1c:4e17:: with SMTP id g23mr3355948wmh.38.1591701013442; 
+ Tue, 09 Jun 2020 04:10:13 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzJZned0l+0SRbEeJRfGrfGSK0dv05DsTiejFW4ozxbhJOZqse/JM2i7IzQrf8+3BqinX/VGQ==
+X-Received: by 2002:a1c:4e17:: with SMTP id g23mr3355899wmh.38.1591701013164; 
+ Tue, 09 Jun 2020 04:10:13 -0700 (PDT)
+Received: from [192.168.178.58] ([151.21.172.168])
+ by smtp.gmail.com with ESMTPSA id b8sm2981236wrm.35.2020.06.09.04.10.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 09 Jun 2020 04:10:12 -0700 (PDT)
+Subject: Re: [RFC PATCH 06/35] hw/timer/arm_timer: Emit warning when old code
+ is used
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20200608160044.15531-1-philmd@redhat.com>
+ <20200608160044.15531-7-philmd@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <57ccbbbb-2462-7ae3-52f4-c209a21795cd@redhat.com>
+Date: Tue, 9 Jun 2020 13:10:10 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
+In-Reply-To: <20200608160044.15531-7-philmd@redhat.com>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x443.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 02:44:16
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,67 +101,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: robert.foley@linaro.org, qemu-devel@nongnu.org, robhenry@microsoft.com,
- aaron@os.amperecomputing.com, kuhn.chenqun@huawei.com, peter.puhov@linaro.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Max Filippov <jcmvbkbc@gmail.com>, Alistair Francis <Alistair.Francis@wdc.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>,
+ Magnus Damm <magnus.damm@gmail.com>, Markus Armbruster <armbru@redhat.com>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>, qemu-arm@nongnu.org,
+ xen-devel@lists.xenproject.org, qemu-riscv@nongnu.org,
+ Stafford Horne <shorne@gmail.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Richard Henderson <rth@twiddle.net>,
+ "Daniel P . Berrange" <berrange@redhat.com>, Thomas Huth <huth@tuxfamily.org>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Michael Walle <michael@walle.cc>, qemu-ppc@nongnu.org,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 08/06/20 18:00, Philippe Mathieu-Daudé wrote:
+> This code hasn't been QOM'ified yet. Warn the user.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+>  hw/timer/arm_timer.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/hw/timer/arm_timer.c b/hw/timer/arm_timer.c
+> index 9607366d78..e23e6b4b31 100644
+> --- a/hw/timer/arm_timer.c
+> +++ b/hw/timer/arm_timer.c
+> @@ -16,6 +16,7 @@
+>  #include "hw/qdev-properties.h"
+>  #include "qemu/module.h"
+>  #include "qemu/log.h"
+> +#include "hw/qdev-deprecated.h"
+>  
+>  /* Common timer implementation.  */
+>  
+> @@ -175,6 +176,8 @@ static arm_timer_state *arm_timer_init(uint32_t freq)
+>  {
+>      arm_timer_state *s;
+>  
+> +    qdev_warn_deprecated_function_used();
+> +
+>      s = (arm_timer_state *)g_malloc0(sizeof(arm_timer_state));
+>      s->freq = freq;
+>      s->control = TIMER_CTRL_IE;
+> 
 
-Emilio G. Cota <cota@braap.org> writes:
+This one is okay, the devices that use arm_timer_init are all QOM.
 
-> On Mon, Jun 08, 2020 at 09:06:17 +0100, Alex Benn=C3=A9e wrote:
->> Emilio G. Cota <cota@braap.org> writes:
->> > I'd rather use asprintf(3) and strdup(3) here, so that plugins don't
->> > have to worry about glib, and on the QEMU side we don't have to worry
->> > about plugins calling free() instead of g_free().
->>=20
->> AFAIK you can actually mix free/g_free because g_free is just a NULL
->> checking wrapper around free.
->
-> I was just going with the documentation, but you're right:
->
-> https://github.com/GNOME/glib/blob/mainline/glib/gmem.c#L196
->> void
->> g_free (gpointer mem)
->> {
->>   free (mem);
->>   TRACE(GLIB_MEM_FREE((void*) mem));
->> }
->
-> The NULL-pointer check is done by free(3), though.
->
->> However ideally I'd be passing a
->> non-freeable const char to the plugin but I didn't want to expose
->> pointers deep inside of QEMU's guts although maybe I'm just being
->> paranoid there given you can easily gdb the combined operation anyway.
->>
->> Perhaps there is a need for a separate memory region where we can store
->> copies of strings we have made for the plugins?
->
-> I agree with the idea of not exposing internal pointers to plugins
-> (e.g. we don't pass a CPUState *, only an opaque handle) so I'm OK
-> with returning a dup'ed string here.
+Paolo
 
-How about a g_intern_string() as a non-freeable const char that can also
-be treated as canonical?
-
->
-> (snip)
->> That said in another
->> thread Peter was uncomfortable about exposing this piece of information
->> to plugins. Maybe we should only expose something based on the optional
->> -device foo,id=3Dbar parameter?
->
-> I have no opinion on whether exposing this is a good idea. If it turns
-> out that it is, please have my
->
-> Reviewed-by: Emilio G. Cota <cota@braap.org>
->
-> Thanks,
->
-> 		Emilio
-
-
---=20
-Alex Benn=C3=A9e
 
