@@ -2,75 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 304741F40F9
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 18:33:38 +0200 (CEST)
-Received: from localhost ([::1]:43804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 949241F4132
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 18:41:25 +0200 (CEST)
+Received: from localhost ([::1]:38704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jihBx-0002cx-62
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 12:33:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47794)
+	id 1jihJU-00045w-Ks
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 12:41:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jih9X-0000pr-BW
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 12:31:07 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:59264
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jih9U-0001Y2-5N
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 12:31:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591720260;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VyJPrCMqBDayVHZfQPvyZc2QGuo6uiHPPf7W5spuERc=;
- b=M84Ji+Jmlwt1mAPrszwQt7XTqcBKc20tYBNJAmcfFZBX0jdj706iBM6UYGXBiVZep7f3DG
- scMBcDlvSj/nKqcFWOwUsy/Odns3EZX02Hz9jOGexmmFtSDr8ftYRNKYnyyTQDswn4bWYu
- zW/lrVJBjqnAxyqE5in6hAnXyyFHcEo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-289-tJLp6x1UOLGhxUD3Zprh6w-1; Tue, 09 Jun 2020 12:30:53 -0400
-X-MC-Unique: tJLp6x1UOLGhxUD3Zprh6w-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0FB2480B736;
- Tue,  9 Jun 2020 16:30:52 +0000 (UTC)
-Received: from [10.3.113.22] (ovpn-113-22.phx2.redhat.com [10.3.113.22])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6DE605C1BD;
- Tue,  9 Jun 2020 16:30:48 +0000 (UTC)
-Subject: Re: [PATCH v6 2/7] block/io: refactor coroutine wrappers
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20200609141329.3945-1-vsementsov@virtuozzo.com>
- <20200609141329.3945-3-vsementsov@virtuozzo.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <675cee98-45e8-85c7-631e-c7562e944acc@redhat.com>
-Date: Tue, 9 Jun 2020 11:30:47 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ (Exim 4.90_1) (envelope-from <hskinnemoen@google.com>)
+ id 1jihEk-0007TX-43
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 12:36:30 -0400
+Received: from mail-vk1-xa43.google.com ([2607:f8b0:4864:20::a43]:40411)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <hskinnemoen@google.com>)
+ id 1jihEi-0002R4-QH
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 12:36:29 -0400
+Received: by mail-vk1-xa43.google.com with SMTP id n22so5038432vkm.7
+ for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 09:36:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=FoNMkAIk8t3qqx4O79gujhahy6TuXxWimzCUkwPAVzc=;
+ b=KXGxiSoW5WkLQCjdaMu5wq2EUhK7e6UEDOYxw+oEU02Br07NGIkCJ7Cly6k0U5Mllx
+ iq71MrQa8NHXO2A0KcN9IAsVgJHAgoPFADDwQCYvuCfLN8SgZ7sz6rPZdcq8LUnuQ188
+ DRal8aCCPxVP33fXp8vdhiqV8HMbwMNPQ4QS5R2C0II/3HFppqMtUbNWgNhfygp4+pNn
+ rvhirLmZsUKYm3K26/WPjS16ByzdLqenqVM7NZYlGAJM2kBZQ9om5+6u6EscNvFFRDiN
+ M/LTeN8uobZBhFnlC1w8DdOjXSBugd4yNZo1Y0O4lsqyeTiGrG5aRlBX3hwr72iUnJE3
+ CZkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=FoNMkAIk8t3qqx4O79gujhahy6TuXxWimzCUkwPAVzc=;
+ b=dSO9oCE3fYRMsaDNiOeaiH2R4/hli8+RqyM2N/PNizMCQZqP/85PptApv3Zdx9mRQJ
+ 25QbIqkS0DNk8oFMwbyo1Qw2hk28wSkI1o/jljseUgWbmGtSclazdot3XjegEAwq8smn
+ DJi4097ipBDbAWXaF467MYS2lrnrk3NxDjNg1sA7d/n8zCe/x+7J5X9dXUFQqc8ERPlG
+ 89GL36U93qtZskBFY6b/HZmA+y7L4DG1ERimHXHxqhaQPcwv4q4APeZyNc0ZzD3RKkVb
+ Bp9FPUGbg9eXATWQBbFXu2b+ZouKqLsO9E84ViEGMC2khg0ndgrdk9VLr5pFEo6c1lN3
+ 6ToQ==
+X-Gm-Message-State: AOAM531RIb81wYgUS+e/gVFTrdffkk9e0w3TeUGBzz4WlmX7ohCark+c
+ RdrHRxsNyz/jGX9zgo7JgHoko965ElzCHoY5ow5V2Q==
+X-Google-Smtp-Source: ABdhPJxZrKf8DgJ2xH7xVODrffqP18PUEqziT4DNoUg3uenDi3VkGzxzTNbMj+4AqTFiKvOclq8268+VrsArpAYKbLk=
+X-Received: by 2002:a05:6122:130b:: with SMTP id
+ e11mr4392441vkp.20.1591720587331; 
+ Tue, 09 Jun 2020 09:36:27 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200609141329.3945-3-vsementsov@virtuozzo.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/08 23:42:34
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+References: <20200521192133.127559-1-hskinnemoen@google.com>
+ <CAFQmdRYYhoWu7q350n0vNOE+pesp-UG975v1f1Yjwf9Ao0mjcg@mail.gmail.com>
+ <CACPK8XfOtLSVR2u12qEYxB=ggKLD-NeK8BYMW3_uRo8ExnM6Ww@mail.gmail.com>
+In-Reply-To: <CACPK8XfOtLSVR2u12qEYxB=ggKLD-NeK8BYMW3_uRo8ExnM6Ww@mail.gmail.com>
+From: Havard Skinnemoen <hskinnemoen@google.com>
+Date: Tue, 9 Jun 2020 09:36:16 -0700
+Message-ID: <CAFQmdRZoc3VDqKdkwsPzSjt_Pc5vGM+YQFN4y8jAu5VF36S6SQ@mail.gmail.com>
+Subject: Re: [PATCH 0/6] Add Nuvoton NPCM730/NPCM750 SoCs and two BMC machines
+To: Joel Stanley <joel@jms.id.au>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm <qemu-arm@nongnu.org>, 
+ QEMU Developers <qemu-devel@nongnu.org>,
+ IS20 Avi Fishman <Avi.Fishman@nuvoton.com>, 
+ CS20 KFTing <kfting@nuvoton.com>,
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
+Content-Type: multipart/alternative; boundary="0000000000003111c905a7a95405"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::a43;
+ envelope-from=hskinnemoen@google.com; helo=mail-vk1-xa43.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,40 +87,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, ehabkost@redhat.com,
- qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com,
- crosa@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/9/20 9:13 AM, Vladimir Sementsov-Ogievskiy wrote:
-> Most of our coroutine wrappers already follow this convention:
-> 
-> We have 'coroutine_fn bdrv_co_<something>(<normal argument list>)' as
-> the core function, and a wrapper 'bdrv_<something>(<same argument
-> list>)' which does parameters packing and call bdrv_run_co().
-> 
-> The only outsiders are the bdrv_prwv_co and
-> bdrv_common_block_status_above wrappers. Let's refactor them to behave
-> as the others, it simplifies further conversion of coroutine wrappers.
-> 
-> This patch adds indirection layer, but it will be compensated by
-> further commit, which will drop bdrv_co_prwv together with is_write
-> logic, to keep read and write patch separate.
+--0000000000003111c905a7a95405
+Content-Type: text/plain; charset="UTF-8"
 
-s/patch/path/
+On Mon, Jun 8, 2020 at 6:39 PM Joel Stanley <joel@jms.id.au> wrote:
 
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->   block/io.c | 60 +++++++++++++++++++++++++++++-------------------------
->   1 file changed, 32 insertions(+), 28 deletions(-)
-> 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+> I had a look and they appear good to me. Note that I'm less in to the
+> gory details of Qemu than some of our other reviewers, so you should
+> seek  a more detailed review from someone else.
+>
+> I look forward further support so I can test the OpenBMC kernel
+> against Nuvoton boards in the same way as the Aspeed ones.
+>
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+Great to hear that, and thanks for your review. I hope to post an updated
+patchset soon.
 
+Havard
+
+--0000000000003111c905a7a95405
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Mon, Jun 8, 2020 at 6:39 PM Joel Stanl=
+ey &lt;<a href=3D"mailto:joel@jms.id.au" target=3D"_blank" class=3D"cremed"=
+>joel@jms.id.au</a>&gt; wrote:</div><div class=3D"gmail_quote"><blockquote =
+class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px sol=
+id rgb(204,204,204);padding-left:1ex">
+I had a look and they appear good to me. Note that I&#39;m less in to the<b=
+r>
+gory details of Qemu than some of our other reviewers, so you should<br>
+seek=C2=A0 a more detailed review from someone else.<br>
+<br>
+I look forward further support so I can test the OpenBMC kernel<br>
+against Nuvoton boards in the same way as the Aspeed ones.<br></blockquote>=
+<div><br></div><div>Great to hear that, and thanks for your review. I hope =
+to post an updated patchset soon.</div><div><br></div><div>Havard</div></di=
+v></div>
+
+--0000000000003111c905a7a95405--
 
