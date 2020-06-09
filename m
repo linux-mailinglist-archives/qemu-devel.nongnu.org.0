@@ -2,115 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C474C1F437B
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 19:54:05 +0200 (CEST)
-Received: from localhost ([::1]:53256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D02B31F42A7
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 19:46:15 +0200 (CEST)
+Received: from localhost ([::1]:57236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jiiRo-0007bG-Nf
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 13:54:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55166)
+	id 1jiiKE-00058p-Ay
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 13:46:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55304)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jii9K-00010r-No
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 13:34:58 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:23023
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jii9J-0004Nk-JO
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 13:34:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591724096;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=VQrdRpqLldViq3Wqb15KISCbf7wNxRDk8mCujYohA1I=;
- b=OGydzd5Gz6+9w2lonsoDoNfOFlETnVZYCeHQVs6wGdNj8w9XqcjUg9eUztLcPMY9pXW/yE
- dubSgj3B0OXR65XhebrKmhBvhmFFLhQNMptKzp2z4Ucl/wn8b7ME99duEHaXaQa4TVrK3W
- Wh21nq5BlDfhuLbKpLm0Dd1K5NifTPE=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-372-sp4rsLYQPuah4Wi4ulzBJg-1; Tue, 09 Jun 2020 13:34:54 -0400
-X-MC-Unique: sp4rsLYQPuah4Wi4ulzBJg-1
-Received: by mail-wr1-f71.google.com with SMTP id w16so8864025wru.18
- for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 10:34:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=VQrdRpqLldViq3Wqb15KISCbf7wNxRDk8mCujYohA1I=;
- b=lVCBxWaexArYjyHk7D9NYCgj14VStIGpgPE6H0kPDUoqSoDbO235SRYYcQ4dj/7tno
- MZLDTG4x5A5o/pjE9h6XXgQXk/o3ckw+kut+toXb3rzljqc6SJuiwfQGIeItCL4juX0s
- KlG1MxWnIL9iXEQKIJtgXf+hhBvyfwym885lSQFC1AGj4QX8YoQ2YUAmDTgNtulUL7yz
- YCHYXvxI/H1EzKDRICqn0WHDBVDs6xDqOO47n8JOZHOGrZXngF+bxUbneNs251vStbwa
- /vVPZ0PRl4jb4PBsdUxF5PmW6VTpw4/JIntaQ6fvHJcpuBTSBVvsrw5YwgMPafjgh2x8
- QGyQ==
-X-Gm-Message-State: AOAM530rFoU9vd2Lyu2WCZUCDlquY+9k7ltDfvc+ZSzGLYvJNRKlNM52
- uFifP4NO6Xlsh1jciuJ+eKAXuebEQHtebxz/yayhP8A9XJIVKPROwFH47ad16B7z/8m9M+nEvt7
- GJGYDxANqtL/0cPM=
-X-Received: by 2002:adf:ef47:: with SMTP id c7mr6117784wrp.57.1591724093480;
- Tue, 09 Jun 2020 10:34:53 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxq67DRkTegDF8ibezZuDgmxJOnSaFWmR/dw/lk3h9uKYhnGg7PugG640eWAuHAeP9nR0M29Q==
-X-Received: by 2002:adf:ef47:: with SMTP id c7mr6117758wrp.57.1591724093202;
- Tue, 09 Jun 2020 10:34:53 -0700 (PDT)
-Received: from [192.168.1.38] (181.red-88-10-103.dynamicip.rima-tde.net.
- [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id u9sm3778427wme.16.2020.06.09.10.34.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 Jun 2020 10:34:52 -0700 (PDT)
-Subject: Re: [PATCH v2] hw/vfio/common: Trace in which mode an IOMMU is opened
-To: Alex Williamson <alex.williamson@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>
-References: <20200527155555.6833-1-philmd@redhat.com>
- <b687dd06-490d-dde9-53cc-aa05f38f769e@vivier.eu>
- <20200609113326.100e74fe@w520.home>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <0f7cda31-1ca6-621f-10dc-9237fa952ec5@redhat.com>
-Date: Tue, 9 Jun 2020 19:34:51 +0200
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1jiiAk-0002o7-EB; Tue, 09 Jun 2020 13:36:26 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:46917)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1jiiAh-0004oF-Uc; Tue, 09 Jun 2020 13:36:26 -0400
+Received: from [192.168.100.1] ([82.252.135.106]) by mrelayeu.kundenserver.de
+ (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MLA6k-1jQUn91GOw-00IFqu; Tue, 09 Jun 2020 19:35:57 +0200
+Subject: Re: [PATCH 1/3] target/unicore32: Remove unused headers
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20200603123754.19059-1-f4bug@amsat.org>
+ <20200603123754.19059-2-f4bug@amsat.org>
+From: Laurent Vivier <laurent@vivier.eu>
+Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <2b6c62d2-4555-69da-5f7d-f9861babbb5b@vivier.eu>
+Date: Tue, 9 Jun 2020 19:35:54 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200609113326.100e74fe@w520.home>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20200603123754.19059-2-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
+Content-Language: fr
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 02:41:53
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Provags-ID: V03:K1:i7FGpEHe/DzdnMd67Fdu3ouNUY21HkRD/pL6gDAf+yjK5z1rt4v
+ 5JwCXjjYZw66eXIxux/2owMIi+7hn5N2PuQ+viwPxZqFCTEvkbP05JuEa+lY6hUq/UKYKGW
+ oFaAAJm/96ODBRGVvGDlSSODylur9n/ogm/wPC/W2Dzmu/96nvQYbruwtqqOZvChX0MW9/W
+ NdHpZmqciSiz5yAq+iRcQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:0KojbOiuxwY=:HLAv9BNDmz8Z5d6W4C/yr/
+ Pl0jFvgRW5FCya8I59e+q9cvUJ11h9daBQUH+gLlpLt2wHqyyKTuZ7SOjt+lFauy8LIggKeP7
+ Hd6Z3xVPfLx23CYA7uc/71Xo1GkNMk1Ha06K+hwhDTB+Xy3wiS1Qpubw1fLJpxvDCA+40k2mq
+ 6svPJX0wBvurxBlPBEpXfhfAVO0KfP3B3JzUVCwlGND+pq5kqsRvl+MoTE1f3PpCHgEyY5/HG
+ 2Ow1HEGahsOqkKin9w9+CbR0dyXaSKOG6yjoASj2jyxgkH/15yk5iPdzPYp+TeLN04QFsoiFC
+ F1vjyqrDH7Rwb7WfQ87VepyszZb37yS7iocpj66DQXSWr3fFe/LJf1Hkjn4Hd1zCtpBj3b/ck
+ zh2i7YC5i/qOY+7avKM09f/C80TkZKwpfd8PXT4NMmYt/xKae3vP4qz8cTGBwWKpf0tL0e9Ik
+ d/Fk7fG/Ld78VCm/MoPotuxQPcuN9k5qsUGvipUsGe+0zSZ/nwD9dXM8XfZF/LUq04YPdVNuk
+ N51z4CUV7vlkfu/iEkKYEx5f+ZVGjiNj/yvr00Pd1lXL4IffvlIbyWvJQ3MB0wSzxul3h9GJp
+ 5BncGL0pkeMJGpmlOsfoPjp0pqrVAt7z5BXiQccKKrtLUrtwf1HjATWz5Agu0yzxxD6MmctT4
+ JCmGwoGIho+JgHrzH9HKFBg+X75H2wL+ppZvAI8lIawPNV7odv8Kjxl80+2Lg9cosT+pTE8VC
+ gdiuCnQtWgwW9T35w34dMZgnvt+IeDZ/gqEc+jqOrCs9Dh5KMlGNSTEWj7M3Pa7Hj9iPVdatB
+ qm87jy8aB93FczaTHdgEAeRwbwSfq+pklEiUUzsDbu4ckb+nQo=
+Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 13:30:42
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -123,90 +115,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Eric Auger <eric.auger@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>
+Cc: qemu-trivial@nongnu.org, Thomas Huth <thuth@redhat.com>,
+ Guan Xuetao <gxt@mprc.pku.edu.cn>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/9/20 7:33 PM, Alex Williamson wrote:
-> On Tue, 9 Jun 2020 19:23:32 +0200
-> Laurent Vivier <laurent@vivier.eu> wrote:
+Le 03/06/2020 à 14:37, Philippe Mathieu-Daudé a écrit :
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>  target/unicore32/helper.c | 2 --
+>  1 file changed, 2 deletions(-)
 > 
->> Le 27/05/2020 à 17:55, Philippe Mathieu-Daudé a écrit :
->>> One might want to check which IOMMU version the host kernel
->>> provide. Add a trace event to see in which mode we opened
->>> our container.
->>>
->>> Reviewed-by: Cornelia Huck <cohuck@redhat.com>
->>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->>> ---
->>> v2: Only display string description (Eric)
->>>
->>> Supersedes: <20200526173542.28710-1-philmd@redhat.com>
->>> ---
->>>  hw/vfio/common.c     | 19 ++++++++++++++-----
->>>  hw/vfio/trace-events |  1 +
->>>  2 files changed, 15 insertions(+), 5 deletions(-)
->>>
->>> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
->>> index 0b3593b3c0..f24450472e 100644
->>> --- a/hw/vfio/common.c
->>> +++ b/hw/vfio/common.c
->>> @@ -1157,15 +1157,24 @@ static void vfio_put_address_space(VFIOAddressSpace *space)
->>>  static int vfio_get_iommu_type(VFIOContainer *container,
->>>                                 Error **errp)
->>>  {
->>> -    int iommu_types[] = { VFIO_TYPE1v2_IOMMU, VFIO_TYPE1_IOMMU,
->>> -                          VFIO_SPAPR_TCE_v2_IOMMU, VFIO_SPAPR_TCE_IOMMU };
->>> +    static const struct {
->>> +        int type;
->>> +        const char *name;
->>> +    } iommu[] = {
->>> +        {VFIO_TYPE1v2_IOMMU, "Type1 (v2)"},
->>> +        {VFIO_TYPE1_IOMMU, "Type1 (v1)"},
->>> +        {VFIO_SPAPR_TCE_v2_IOMMU, "sPAPR TCE (v2)"},
->>> +        {VFIO_SPAPR_TCE_IOMMU, "sPAPR TCE (v1)"}
->>> +    };
->>>      int i;
->>>  
->>> -    for (i = 0; i < ARRAY_SIZE(iommu_types); i++) {
->>> -        if (ioctl(container->fd, VFIO_CHECK_EXTENSION, iommu_types[i])) {
->>> -            return iommu_types[i];
->>> +    for (i = 0; i < ARRAY_SIZE(iommu); i++) {
->>> +        if (ioctl(container->fd, VFIO_CHECK_EXTENSION, iommu[i].type)) {
->>> +            trace_vfio_get_iommu_type(iommu[i].name);
->>> +            return iommu[i].type;
->>>          }
->>>      }
->>> +    trace_vfio_get_iommu_type("Not available or not supported");
->>>      error_setg(errp, "No available IOMMU models");
->>>      return -EINVAL;
->>>  }
->>> diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
->>> index b1ef55a33f..d3f1e48618 100644
->>> --- a/hw/vfio/trace-events
->>> +++ b/hw/vfio/trace-events
->>> @@ -115,6 +115,7 @@ vfio_region_sparse_mmap_header(const char *name, int index, int nr_areas) "Devic
->>>  vfio_region_sparse_mmap_entry(int i, unsigned long start, unsigned long end) "sparse entry %d [0x%lx - 0x%lx]"
->>>  vfio_get_dev_region(const char *name, int index, uint32_t type, uint32_t subtype) "%s index %d, %08x/%0x8"
->>>  vfio_dma_unmap_overflow_workaround(void) ""
->>> +vfio_get_iommu_type(const char *type) "IOMMU type: %s"
->>>  
->>>  # platform.c
->>>  vfio_platform_base_device_init(char *name, int groupid) "%s belongs to group #%d"
->>>   
->>
->> Applied to my trivial-patches branch.
+> diff --git a/target/unicore32/helper.c b/target/unicore32/helper.c
+> index 7d538e2144..53292ae311 100644
+> --- a/target/unicore32/helper.c
+> +++ b/target/unicore32/helper.c
+> @@ -12,9 +12,7 @@
+>  #include "qemu/osdep.h"
+>  #include "cpu.h"
+>  #include "exec/exec-all.h"
+> -#include "exec/gdbstub.h"
+>  #include "exec/helper-proto.h"
+> -#include "qemu/host-utils.h"
+>  #ifndef CONFIG_USER_ONLY
+>  #include "ui/console.h"
+>  #endif
 > 
-> I was not actually a fan of this patch:
-> 
-> https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg08144.html
-> 
-> I don't think the convenience to the trace user to avoid looking up the
-> type string in the header is worth the bloat to the non-trace user to
-> declare these strings in the code.  Thanks,
 
-Yep, planned to send simpler v3 but re-prioritize stuffs...
+Applied to my trivial-patches branch.
+
+Thanks,
+Laurent
 
 
