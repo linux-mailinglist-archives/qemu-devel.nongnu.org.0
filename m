@@ -2,108 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7260C1F3DF5
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 16:23:23 +0200 (CEST)
-Received: from localhost ([::1]:39902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E81BE1F3E14
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 16:26:31 +0200 (CEST)
+Received: from localhost ([::1]:49298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jif9u-0001Cg-H3
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 10:23:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55572)
+	id 1jifCw-00055A-Vd
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 10:26:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55996)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jif7v-0007uC-6o
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 10:21:19 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:47565
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1jifB4-0003aC-IH
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 10:24:34 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:47405
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jif7t-0000XE-96
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 10:21:17 -0400
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1jifB3-0001IJ-I3
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 10:24:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591712475;
+ s=mimecast20190719; t=1591712672;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=mKn89GE4yhBVAiE11TJdbe2i5inOVS2QTjmPTgDJ69s=;
- b=Rjn17yGguO1b9L/FmNyWWmyZcnqjaEGVgaq4933tyoZP7GWIdxv61iHBAr8zvtMuBBO52g
- MrtzQRzo6P2N5iZ1YicmITY/OmH32OoLo6NCdZv8RRrvfWRPJy5lxL2N9K/nZbfKRLcj+F
- CIpmP+AnVAdrJBLdzE40pEVnRzA9bMM=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-270-P5eu0ez7NU2Hi3nBCFjsuQ-1; Tue, 09 Jun 2020 10:21:11 -0400
-X-MC-Unique: P5eu0ez7NU2Hi3nBCFjsuQ-1
-Received: by mail-wm1-f71.google.com with SMTP id v24so760705wmh.3
- for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 07:21:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=mKn89GE4yhBVAiE11TJdbe2i5inOVS2QTjmPTgDJ69s=;
- b=ab0N7Cmsn3tleEIlBs6wYJSn7N7OT6YFGxo3/GCXawiwnDKevDH9hFvJZq7AWFdoN5
- FCpisynYp8cZR1wQw+PB6YBt+gDUQ7cRDuG5nCA+YxKw7hO1DSJ3oa4RV0I0V1DIzqho
- uxU/hbS0W7Fj7EXwIytO+43zwJ50zarJyUY8FFX5ofbIA7c5cRf8+a9NTvWfyDIl4Txt
- fjM9d5v/kLIsE6byLR2+HX89us74QdGLOTw6Fgfl45jyUevmpeLoTXaDctu1WPOvYvXD
- jvxYFyNpHRrcmvevjgBUva2gyiH0Vvy3yQ+Ou3r7BXWILyOt0KUFwfggFtR8tOqEDJn1
- p6ew==
-X-Gm-Message-State: AOAM530RjzzhuapchniIt5I/krQuQ5ilasxgQ+Nlb9TlISu9iXQo179c
- 1iF1uamDA/3BZc/FILaEaHJq+r2pxeLmqLaA8QldScXELwLmYrsLPPMTjiKBsF1DibOU8ragUmA
- M5UETUIQTlPijhlY=
-X-Received: by 2002:adf:f389:: with SMTP id m9mr4483916wro.195.1591712470764; 
- Tue, 09 Jun 2020 07:21:10 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxVSbQF2Okg6IZQv8DAmCHaZ1KMAa/+F0HdbTOCecz1JLAkgSyXikD/mTwnw2Q5EztnLZDanQ==
-X-Received: by 2002:adf:f389:: with SMTP id m9mr4483889wro.195.1591712470441; 
- Tue, 09 Jun 2020 07:21:10 -0700 (PDT)
-Received: from [192.168.1.38] (181.red-88-10-103.dynamicip.rima-tde.net.
- [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id l1sm3989652wrb.31.2020.06.09.07.21.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 Jun 2020 07:21:09 -0700 (PDT)
-Subject: Re: [PATCH v5 06/11] riscv: Initial commit of OpenTitan machine
-To: Damien Hedde <damien.hedde@greensocs.com>,
- Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-References: <cover.1590704015.git.alistair.francis@wdc.com>
- <0ab3cecbe801f9e14ad1a5447d02483b9008fdbb.1590704015.git.alistair.francis@wdc.com>
- <c3d7b26b-c55d-8ec5-3ee3-f197693b4378@greensocs.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <7bb1bc10-e986-dcbc-630d-99660517c11b@redhat.com>
-Date: Tue, 9 Jun 2020 16:21:09 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ in-reply-to:in-reply-to:references:references;
+ bh=y+Fw1Essfc+ljt+c7AIE86vlszCoGY2qlzITDZgrcrc=;
+ b=Px1cP3hWWT5M/gHcFJsmM2vNOXx2SjCTSGTau+YFyd5Mf6MZeNn9oQ9pn0ImIO8AlBcSTV
+ uNfPbnFEaY/xApldQzrhpbBuG2s+WLef3V+sCxol6jBHdgekgyF5ecCuQHKKFbs3Huk9/4
+ t26MVxSCzMz2MEuKKSzvY6OafVruqkw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-273-4W8RgeuCO1ul7qZrrh6ieA-1; Tue, 09 Jun 2020 10:24:27 -0400
+X-MC-Unique: 4W8RgeuCO1ul7qZrrh6ieA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 854BC83DD19;
+ Tue,  9 Jun 2020 14:24:25 +0000 (UTC)
+Received: from [10.36.114.197] (ovpn-114-197.ams2.redhat.com [10.36.114.197])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C4CBE61169;
+ Tue,  9 Jun 2020 14:24:10 +0000 (UTC)
+Subject: Re: [PATCH v2 0/5] TPM-TIS bios-tables-test
+To: qemu-devel@nongnu.org, no-reply@patchew.org
+References: <159171124889.14379.10327774755780970706@45ef0f9c86ae>
+From: Auger Eric <eric.auger@redhat.com>
+Message-ID: <b7da908f-2632-fe87-fe24-302d0ba33480@redhat.com>
+Date: Tue, 9 Jun 2020 16:24:09 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
 MIME-Version: 1.0
-In-Reply-To: <c3d7b26b-c55d-8ec5-3ee3-f197693b4378@greensocs.com>
+In-Reply-To: <159171124889.14379.10327774755780970706@45ef0f9c86ae>
 Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=eric.auger@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 02:41:53
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/08 23:42:34
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -124,53 +82,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, bmeng.cn@gmail.com, palmer@dabbelt.com
+Cc: peter.maydell@linaro.org, drjones@redhat.com, mst@redhat.com,
+ lersek@redhat.com, shannon.zhaosl@gmail.com, qemu-arm@nongnu.org,
+ imammedo@redhat.com, marcandre.lureau@redhat.com, stefanb@linux.ibm.com,
+ philmd@redhat.com, ardb@kernel.org, eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/9/20 3:48 PM, Damien Hedde wrote:
-> 
-> Hi Alistair,
-> 
-> On 5/29/20 12:14 AM, Alistair Francis wrote:
->> This adds a barebone OpenTitan machine to QEMU.
->>
->> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
->> Reviewed-by: Bin Meng <bin.meng@windriver.com>
->> ---
-> 
->> diff --git a/include/hw/riscv/opentitan.h b/include/hw/riscv/opentitan.h
->> new file mode 100644
->> index 0000000000..a4b6499444
->> --- /dev/null
->> +++ b/include/hw/riscv/opentitan.h
->> @@ -0,0 +1,68 @@
-> 
-> [...]
-> 
->> +
->> +static const struct MemmapEntry {
->> +    hwaddr base;
->> +    hwaddr size;
->> +} ibex_memmap[] = {
->> +    [IBEX_ROM] =            {  0x00008000,   0xc000 },
-> 
-> Shouldn't the ROM size be 0x4000 (which make the end of rom at 0xc000) ?
-> 
-> Not sure if that's exactly this platform you are modeling but the
-> following doc says the ROM size is 16kB (0x4000):
-> https://github.com/lowRISC/opentitan/blob/master/hw/top_earlgrey/doc/_index.md
+Hi,
 
-Good catch. This is why I prefer the IEC notation:
+On 6/9/20 4:00 PM, no-reply@patchew.org wrote:
+> Patchew URL: https://patchew.org/QEMU/20200609125409.24179-1-eric.auger@redhat.com/
+> 
+> 
+> 
+> Hi,
+> 
+> This series failed the docker-quick@centos7 build test. Please find the testing commands and
+> their output below. If you have Docker installed, you can probably reproduce it
+> locally.
+time make docker-test-quick@centos7 SHOW_ENV=1 J=14 NETWORK=1
+runs fine on my side. I guess what is missing here is the dependency
+quoted in the cover letter:
+"acpi: tpm: Do not build TCPA table for TPM 2"
 
-    [IBEX_ROM] =            {  0x00008000,   16 * KiB },
+Thanks
 
-You can then verify the mapping running 'info mtree' in the monitor.
+Eric
 
 > 
-> --
-> Damien
+> === TEST SCRIPT BEGIN ===
+> #!/bin/bash
+> make docker-image-centos7 V=1 NETWORK=1
+> time make docker-test-quick@centos7 SHOW_ENV=1 J=14 NETWORK=1
+> === TEST SCRIPT END ===
 > 
+> Looking for expected file 'tests/data/acpi/q35/TCPA.tis'
+> Looking for expected file 'tests/data/acpi/q35/TCPA'
+> **
+> ERROR:/tmp/qemu-test/src/tests/qtest/bios-tables-test.c:370:load_expected_aml: assertion failed: (exp_sdt.aml_file)
+> ERROR - Bail out! ERROR:/tmp/qemu-test/src/tests/qtest/bios-tables-test.c:370:load_expected_aml: assertion failed: (exp_sdt.aml_file)
+> make: *** [check-qtest-x86_64] Error 1
+> make: *** Waiting for unfinished jobs....
+>   TEST    iotest-qcow2: 030
+>   TEST    iotest-qcow2: 031
+> ---
+>     raise CalledProcessError(retcode, cmd)
+> subprocess.CalledProcessError: Command '['sudo', '-n', 'docker', 'run', '--label', 'com.qemu.instance.uuid=71e400be07f14cd09538753c536cf099', '-u', '1001', '--security-opt', 'seccomp=unconfined', '--rm', '-e', 'TARGET_LIST=', '-e', 'EXTRA_CONFIGURE_OPTS=', '-e', 'V=', '-e', 'J=14', '-e', 'DEBUG=', '-e', 'SHOW_ENV=1', '-e', 'CCACHE_DIR=/var/tmp/ccache', '-v', '/home/patchew/.cache/qemu-docker-ccache:/var/tmp/ccache:z', '-v', '/var/tmp/patchew-tester-tmp-3bqmv5j2/src/docker-src.2020-06-09-09.46.26.7521:/var/tmp/qemu:z,ro', 'qemu:centos7', '/var/tmp/qemu/run', 'test-quick']' returned non-zero exit status 2.
+> filter=--filter=label=com.qemu.instance.uuid=71e400be07f14cd09538753c536cf099
+> make[1]: *** [docker-run] Error 1
+> make[1]: Leaving directory `/var/tmp/patchew-tester-tmp-3bqmv5j2/src'
+> make: *** [docker-run-test-quick@centos7] Error 2
+> 
+> real    14m23.108s
+> user    0m9.457s
+> 
+> 
+> The full log is available at
+> http://patchew.org/logs/20200609125409.24179-1-eric.auger@redhat.com/testing.docker-quick@centos7/?type=message.
+> ---
+> Email generated automatically by Patchew [https://patchew.org/].
+> Please send your feedback to patchew-devel@redhat.com
 > 
 
 
