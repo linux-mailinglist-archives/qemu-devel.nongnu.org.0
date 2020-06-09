@@ -2,106 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65EF71F413C
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 18:43:37 +0200 (CEST)
-Received: from localhost ([::1]:47328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B73081F414B
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 18:46:23 +0200 (CEST)
+Received: from localhost ([::1]:56726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jihLc-0008GM-7s
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 12:43:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48508)
+	id 1jihOI-0003mt-OW
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 12:46:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48550)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jihGL-0001VD-TH; Tue, 09 Jun 2020 12:38:09 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:38215)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jihGK-0002my-Ld; Tue, 09 Jun 2020 12:38:09 -0400
-Received: from [192.168.100.1] ([82.252.135.106]) by mrelayeu.kundenserver.de
- (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MLAF0-1jQc951aRm-00ICEv; Tue, 09 Jun 2020 18:38:01 +0200
-Subject: Re: [PATCH v2] Fix parameter type in vhost migration log path
-To: Raphael Norwitz <raphael.s.norwitz@gmail.com>, eblake@redhat.com,
- mst@redhat.com
-References: <CAFubqFtqNZw=Y-ar3N=3zTQi6LkKg_G-7W7OOHHbE7Y1fV7HAQ@mail.gmail.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
- mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
- WoeuLWDmXE7A3oJoIsRecD6BXHTb0OYS20lS608anr3B0xn5g0BX7es9Mw+hV/pL+63EOCVm
- SUVTEQwbGQN62guOKnJJJfphbbv82glIC/Ei4Ky8BwZkUuXd7d5NFJKC9/GDrbWdj75cDNQx
- UZ9XXbXEKY9MHX83Uy7JFoiFDMOVHn55HnncflUncO0zDzY7CxFeQFwYRbsCXOUL9yBtqLer
- Ky8/yjBskIlNrp0uQSt9LMoMsdSjYLYhvk1StsNPg74+s4u0Q6z45+l8RAsgLw5OLtTa+ePM
- JyS7OIGNYxAX6eZk1+91a6tnqfyPcMbduxyBaYXn94HUG162BeuyBkbNoIDkB7pCByed1A7q
- q9/FbuTDwgVGVLYthYSfTtN0Y60OgNkWCMtFwKxRaXt1WFA5ceqinN/XkgA+vf2Ch72zBkJL
- RBIhfOPFv5f2Hkkj0MvsUXpOWaOjatiu0fpPo6Hw14UEpywke1zN4NKubApQOlNKZZC4hu6/
- 8pv2t4HRi7s0K88jQYBRPObjrN5+owtI51xMaYzvPitHQ2053LmgsOdN9EKOqZeHAYG2SmRW
- LOxYWKX14YkZI5j/TXfKlTpwSMvXho+efN4kgFvFmP6WT+tPnwARAQABtCJMYXVyZW50IFZp
- dmllciA8bGF1cmVudEB2aXZpZXIuZXU+iQI4BBMBAgAiBQJWBTDeAhsDBgsJCAcDAgYVCAIJ
- CgsEFgIDAQIeAQIXgAAKCRDzDDi9Py++PCEdD/oD8LD5UWxhQrMQCsUgLlXCSM7sxGLkwmmF
- ozqSSljEGRhffxZvO35wMFcdX9Z0QOabVoFTKrT04YmvbjsErh/dP5zeM/4EhUByeOS7s6Yl
- HubMXVQTkak9Wa9Eq6irYC6L41QNzz/oTwNEqL1weV1+XC3TNnht9B76lIaELyrJvRfgsp9M
- rE+PzGPo5h7QHWdL/Cmu8yOtPLa8Y6l/ywEJ040IoiAUfzRoaJs2csMXf0eU6gVBhCJ4bs91
- jtWTXhkzdl4tdV+NOwj3j0ukPy+RjqeL2Ej+bomnPTOW8nAZ32dapmu7Fj7VApuQO/BSIHyO
- NkowMMjB46yohEepJaJZkcgseaus0x960c4ua/SUm/Nm6vioRsxyUmWd2nG0m089pp8LPopq
- WfAk1l4GciiMepp1Cxn7cnn1kmG6fhzedXZ/8FzsKjvx/aVeZwoEmucA42uGJ3Vk9TiVdZes
- lqMITkHqDIpHjC79xzlWkXOsDbA2UY/P18AtgJEZQPXbcrRBtdSifCuXdDfHvI+3exIdTpvj
- BfbgZAar8x+lcsQBugvktlQWPfAXZu4Shobi3/mDYMEDOE92dnNRD2ChNXg2IuvAL4OW40wh
- gXlkHC1ZgToNGoYVvGcZFug1NI+vCeCFchX+L3bXyLMg3rAfWMFPAZLzn42plIDMsBs+x2yP
- +bkCDQRWBSYZARAAvFJBFuX9A6eayxUPFaEczlMbGXugs0mazbOYGlyaWsiyfyc3PStHLFPj
- rSTaeJpPCjBJErwpZUN4BbpkBpaJiMuVO6egrC8Xy8/cnJakHPR2JPEvmj7Gm/L9DphTcE15
- 92rxXLesWzGBbuYxKsj8LEnrrvLyi3kNW6B5LY3Id+ZmU8YTQ2zLuGV5tLiWKKxc6s3eMXNq
- wrJTCzdVd6ThXrmUfAHbcFXOycUyf9vD+s+WKpcZzCXwKgm7x1LKsJx3UhuzT8ier1L363RW
- ZaJBZ9CTPiu8R5NCSn9V+BnrP3wlFbtLqXp6imGhazT9nJF86b5BVKpF8Vl3F0/Y+UZ4gUwL
- d9cmDKBcmQU/JaRUSWvvolNu1IewZZu3rFSVgcpdaj7F/1aC0t5vLdx9KQRyEAKvEOtCmP4m
- 38kU/6r33t3JuTJnkigda4+Sfu5kYGsogeYG6dNyjX5wpK5GJIJikEhdkwcLM+BUOOTi+I9u
- tX03BGSZo7FW/J7S9y0l5a8nooDs2gBRGmUgYKqQJHCDQyYut+hmcr+BGpUn9/pp2FTWijrP
- inb/Pc96YDQLQA1q2AeAFv3Rx3XoBTGl0RCY4KZ02c0kX/dm3eKfMX40XMegzlXCrqtzUk+N
- 8LeipEsnOoAQcEONAWWo1HcgUIgCjhJhBEF0AcELOQzitbJGG5UAEQEAAYkCHwQYAQIACQUC
- VgUmGQIbDAAKCRDzDDi9Py++PCD3D/9VCtydWDdOyMTJvEMRQGbx0GacqpydMEWbE3kUW0ha
- US5jz5gyJZHKR3wuf1En/3z+CEAEfP1M3xNGjZvpaKZXrgWaVWfXtGLoWAVTfE231NMQKGoB
- w2Dzx5ivIqxikXB6AanBSVpRpoaHWb06tPNxDL6SVV9lZpUn03DSR6gZEZvyPheNWkvz7bE6
- FcqszV/PNvwm0C5Ju7NlJA8PBAQjkIorGnvN/vonbVh5GsRbhYPOc/JVwNNr63P76rZL8Gk/
- hb3xtcIEi5CCzab45+URG/lzc6OV2nTj9Lg0SNcRhFZ2ILE3txrmI+aXmAu26+EkxLLfqCVT
- ohb2SffQha5KgGlOSBXustQSGH0yzzZVZb+HZPEvx6d/HjQ+t9sO1bCpEgPdZjyMuuMp9N1H
- ctbwGdQM2Qb5zgXO+8ZSzwC+6rHHIdtcB8PH2j+Nd88dVGYlWFKZ36ELeZxD7iJflsE8E8yg
- OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
- JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
- ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <f63cec8d-80b3-cbd4-15e7-24a9ed0dfdea@vivier.eu>
-Date: Tue, 9 Jun 2020 18:38:00 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jihGj-00028P-Gt
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 12:38:33 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:46826
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jihGh-0002px-N3
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 12:38:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1591720710;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=jmQS4Awqs0tpfZnB1AcZyyXTBW2D7QIAYMLz9e7B0j4=;
+ b=X/AJIMjdgHMFMsdJTb0yQ5Fo2nTlivxWkT1JHIDlXoa8emcUlROmXIqisHBhQOX1OXuU7K
+ XA9SQto+Oia0YaB7aedpDu9mq/fQ8+Guoa0MOkbN8Ox9yXZTw9+++1tDke0S4lI654R/fl
+ w4KRwrjthQHe4Vzo5STZNkhOzy802Lk=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-34-iltg3GG3P2C83l49cM93Pw-1; Tue, 09 Jun 2020 12:38:13 -0400
+X-MC-Unique: iltg3GG3P2C83l49cM93Pw-1
+Received: by mail-wr1-f70.google.com with SMTP id l18so8879585wrm.0
+ for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 09:38:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=jmQS4Awqs0tpfZnB1AcZyyXTBW2D7QIAYMLz9e7B0j4=;
+ b=QaMFXGQvsyWwfrRuiyYOimosa5wXCa9/VJDIw0KuXTNhwotJVMk6hb4q2VyX7Xgkr/
+ fpACbbfjTD+EgiGhEBNErG3f2X7oag4DrJy7ctjemOYePS3/0tlxFrZdPHCUoELlREnz
+ AtuwvW1FsGq45gAt/M8kiQqkyOGx8m76OypGPoUTqf9oxM2F56BO1XFEX5QrCzoN+XmI
+ 6e/C9gqMs8hNK+E24hRPhjdt+WJ2SuSjPBcf12WYJsSaSV0DgTaZNBzfH1vu2vGgtpP/
+ oAay8ocpK1ljLoovEtNKLMoqp+X9CFX/18L02158Wb05z4bVYyeKVJAAc/y1rnxjc2Ir
+ cByQ==
+X-Gm-Message-State: AOAM533o9/uBfrc15AchEQ4YOvB1jyjOxG4Fs/jMEhq2kHuuPuE1uQbn
+ PVt6Ez9OAZPoNxMFhUEoYTqIfmOoJ6ulXGWZSekfqRFOGPqrIEzRngwuvpxus8lZTHAZQTw5qLx
+ 9kOrHwka0BKJ3XjA=
+X-Received: by 2002:adf:fd49:: with SMTP id h9mr5569335wrs.67.1591720691813;
+ Tue, 09 Jun 2020 09:38:11 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzha9qxqaFWvIZgLeU/9K9aUIsuXvB892m5yR+CrHTdBrxARxcqvhq3PQtmRkOXrdofzzPQBA==
+X-Received: by 2002:adf:fd49:: with SMTP id h9mr5569254wrs.67.1591720690651;
+ Tue, 09 Jun 2020 09:38:10 -0700 (PDT)
+Received: from redhat.com (bzq-79-181-55-232.red.bezeqint.net. [79.181.55.232])
+ by smtp.gmail.com with ESMTPSA id o8sm3561448wmb.20.2020.06.09.09.38.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 09 Jun 2020 09:38:10 -0700 (PDT)
+Date: Tue, 9 Jun 2020 12:38:07 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Yubo Miao <miaoyubo@huawei.com>
+Subject: Re: [PATCH v7 0/8] pci_expander_brdige:acpi: Support pxb-pcie for ARM
+Message-ID: <20200609123738-mutt-send-email-mst@kernel.org>
+References: <20200520093629.1495-1-miaoyubo@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFubqFtqNZw=Y-ar3N=3zTQi6LkKg_G-7W7OOHHbE7Y1fV7HAQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:IOE1BB0kmUXW2jrj/n3xHLQK8PdnOGdcM94Pfx7OiitTSbwWiQN
- pmYJkx5PsA3FEATPa+Zu7OTjdVY8mn5ARY83PralA1LA02JkTiImNphtWimhiNUd/Ehjyb7
- lhMGyP1RV6N5js3YTZN1X8baGOoBIDNONNLEoHBqyL/p/RMW4DmZdpl9KAGasmMwyRlMxrZ
- w2gB1FUhBv9sNFZ2e2Q/g==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:3W7vRih2VPs=:vIfh7h4pixWKFLTtJoZety
- wBU488wUWRY6LS12TU6xauaGQzfWBVG0BB08JKmqy0PDs9F3AMu5jBthF4J0ks2Zr64902PwB
- CR0aTmPICice3sXW7gLN/6mCyqcDGXCd8UCxhmDjdC6g040VVZaW+rZVMszwMndnoyvPucmlm
- 8Xjrnosd6J5Dc1Lt8/T5N3C2BWE0kX43QdAa/P/NuLKCglR8R7GD5eEVmQEBX0jV0SJJbCxFS
- ekxEaESoWSTRzQ+ChC492X3sNL8YGiTTq2+uwHLxUSYHFLuNERSSk4XmuicUDvlcj3ZgRpvNA
- KKLOJeaEiGko6jUI9vaBM8X2l4MpVNkgoRvAyq8LYKETO17ThNeADZONn9gJ/IBmsL6qvnxbt
- 0IXbKLH3ZvO+RCylfpx9XlSQspg0rx7bOrqFSdsEUXaKxZC29MQkAL95Y4Ov2gmoVx4I8Haua
- NOsJJxO32TsH0yoz37RsLHSOvGttJnWYtW8iPsS3I/miRwe2XfWUK6u9r1WVdj6pXFFAb0t1N
- leIz4okMlpsIWqJn8ogrxSbOVHuv1zWehuaPFPjFcxh4Pm7E0WpXYUct74UKWCohRe7Q/vn5s
- EZhSU1KoF5EGvqgMdzD7Qvu+vfPTZdyyw0AdQFb5HhHLvDbL3lNnbmsICRf6LbDfHkI7J75os
- nkAL3pWtVj8pLKqd8x9tpOb3lJJGzFduuoKUTrvUUBbj4aduPJcrR5TEN1fxKQchfG3ye7TJr
- ItscDr+6Kyd5W21/jnte1Chh1Yuz8kt4MoJSSd+K5mUeG2T9UoZlIOxdoiqcuinI7fjkXxvzX
- ZSsAjYBucndpJR0Md9BzrRkKHzz4G9mITsxFo6J65toRt9gLt97014eDIKlfwmMVTvSL0rl
-Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 12:38:05
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <20200520093629.1495-1-miaoyubo@huawei.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 02:41:53
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -114,46 +91,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, berrange@redhat.com, qemu-devel@nongnu.org,
+ xiexiangyou@huawei.com, shannon.zhaosl@gmail.com, imammedo@redhat.com,
+ lersek@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 07/05/2020 à 23:37, Raphael Norwitz a écrit :
-> The ‘enable’ parameter to the vhost_migraion_log() function is given as
-> an int, but "true"/"false" values are passed in wherever it is invoked.
-> Inside the function itself it is only ever compared with bool values.
-> Therefore the parameter value itself should be changed to bool.
+On Wed, May 20, 2020 at 05:36:21PM +0800, Yubo Miao wrote:
+> Changes with v6
+> v6->v7:
+> Refactor fw_cfg_write_extra_pci_roots
+> Add API PCI_GET_PCIE_HOST_STATE
+> Fix typos
 > 
-> Signed-off-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
-> ---
->  hw/virtio/vhost.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> I have one question for patch
+> [PATCH v7 8/8] unit-test: Add the binary file and clear diff.
 > 
-> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-> index aff98a0..aa06a36 100644
-> --- a/hw/virtio/vhost.c
-> +++ b/hw/virtio/vhost.c
-> @@ -809,12 +809,12 @@ err_features:
->      return r;
->  }
+> I followed instructions in tests/qtest/bios-tables-test.c
+> to updated golden master binaries and empty
+> tests/qtest/bios-tables-test-allowed-diff.h.
 > 
-> -static int vhost_migration_log(MemoryListener *listener, int enable)
-> +static int vhost_migration_log(MemoryListener *listener, bool enable)
->  {
->      struct vhost_dev *dev = container_of(listener, struct vhost_dev,
->                                           memory_listener);
->      int r;
-> -    if (!!enable == dev->log_enabled) {
-> +    if (enable == dev->log_enabled) {
->          return 0;
->      }
->      if (!dev->started) {
-> --
-> 1.8.3.1
+> However, checkpatch.pl would report the error
+> ERROR: Do not add expected files together with tests.
+> 
+> Does the error matters?
+
+It doesn't - should be fixed on master.
+But I see other checkpatch errors.
+Can you address them and repost pls?
+
+> Changes with v5
+> v5->v6: stat crs_range_insert in aml_build.h
+> 
+> Changes with v4
+> v4->v5: Not using specific resources for PXB.
+> Instead, the resources for pxb are composed of the bar space of the
+> pci-bridge/pcie-root-port behined it and the config space of devices
+> behind it.
+> 
+> Only if the bios(uefi for arm) support multiple roots,
+> configure space of devices behind pxbs could be obtained.
+> The uefi work is updated for discussion by the following link:
+> https://edk2.groups.io/g/devel/message/56901?p=,,,20,0,0,0::Created,,add+extra+roots+for+Arm,20,2,0,72723351
+> [PATCH] ArmVirtPkg/FdtPciHostBridgeLib: add extra roots for Arm.
+> 
+> Currently pxb-pcie is not supported by arm,
+> the reason for it is pxb-pcie is not described in DSDT table
+> and only one main host bridge is described in acpi tables,
+> which means it is not impossible to present different io numas
+> for different devices.
+> 
+> This series of patches make arm to support PXB-PCIE.
+> 
+> Users can configure pxb-pcie with certain numa, Example command
+> is:
+> 
+>    -device pxb-pcie,id=pci.7,bus_nr=128,numa_node=0,bus=pcie.0,addr=0x9
+> 
+> Yubo Miao (8):
+>   acpi: Extract two APIs from acpi_dsdt_add_pci
+>   fw_cfg: Write the extra roots into the fw_cfg
+>   acpi: Extract crs build form acpi_build.c
+>   acpi: Refactor the source of host bridge and build tables for pxb
+>   acpi: Align the size to 128k
+>   unit-test: The files changed.
+>   unit-test: Add testcase for pxb
+>   unit-test: Add the binary file and clear diff.h
+> 
+>  hw/acpi/aml-build.c            | 275 +++++++++++++++++++++++++++++++
+>  hw/arm/virt-acpi-build.c       | 249 +++++++++++++++++++++-------
+>  hw/arm/virt.c                  |   8 +
+>  hw/i386/acpi-build.c           | 285 ---------------------------------
+>  hw/i386/pc.c                   |  18 +--
+>  hw/nvram/fw_cfg.c              |  20 +++
+>  include/hw/acpi/aml-build.h    |  25 +++
+>  include/hw/nvram/fw_cfg.h      |   2 +
+>  include/hw/pci/pcie_host.h     |   4 +
+>  tests/data/acpi/virt/DSDT.pxb  | Bin 0 -> 7802 bytes
+>  tests/qtest/bios-tables-test.c |  58 ++++++-
+>  11 files changed, 579 insertions(+), 365 deletions(-)
+>  create mode 100644 tests/data/acpi/virt/DSDT.pxb
+> 
+> -- 
+> 2.19.1
 > 
 
-Applied to my trivial-patches branch.
-
-Thanks,
-Laurent
 
