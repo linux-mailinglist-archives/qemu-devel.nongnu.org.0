@@ -2,28 +2,28 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 292441F4221
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 19:26:07 +0200 (CEST)
-Received: from localhost ([::1]:52360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AE0B1F4232
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 19:28:26 +0200 (CEST)
+Received: from localhost ([::1]:33546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jii0k-0003aY-52
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 13:26:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50268)
+	id 1jii2x-0007Za-RI
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 13:28:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jihT2-0003HT-EG; Tue, 09 Jun 2020 12:51:16 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:52783)
+ id 1jihX5-0001tX-Cn; Tue, 09 Jun 2020 12:55:27 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:59853)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jihT0-0005da-NR; Tue, 09 Jun 2020 12:51:15 -0400
+ id 1jihX3-0006F9-SV; Tue, 09 Jun 2020 12:55:27 -0400
 Received: from [192.168.100.1] ([82.252.135.106]) by mrelayeu.kundenserver.de
  (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MpUEO-1jAOpd3CAu-00puBV; Tue, 09 Jun 2020 18:51:09 +0200
-Subject: Re: [PATCH] net: Do not include a newline in the id of -nic devices
-To: Thomas Huth <thuth@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ 1MGzI3-1jmDtJ1RaN-00E6fM; Tue, 09 Jun 2020 18:55:22 +0200
+Subject: Re: [PATCH] .mailmap: Update Fred Konrad email address
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
-References: <20200518074352.23125-1-thuth@redhat.com>
+References: <20200518103920.10699-1-f4bug@amsat.org>
 From: Laurent Vivier <laurent@vivier.eu>
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
@@ -67,41 +67,41 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <149a6716-f5ea-831d-e3a0-733c322f7482@vivier.eu>
-Date: Tue, 9 Jun 2020 18:51:08 +0200
+Message-ID: <559f4ab4-ec6b-3aa9-94c7-be0433c20ace@vivier.eu>
+Date: Tue, 9 Jun 2020 18:55:21 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200518074352.23125-1-thuth@redhat.com>
+In-Reply-To: <20200518103920.10699-1-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:X6vE5zD6C2w1Froi7jzuOl1uhMZ7Azl8G5nsEm4VEbeufi7hEic
- 6xXOj8AnlzueAXQ6y5h+WccotCQ9hsTNHKDj1LjdkaJNDZubWVExuxuKLA3IG4nrwSqacaZ
- embSI39zNZv6l2PtU8uYq2Jo79SW0NLhwdcJMLUvGV1HpJN6HDlp+3Dx4pF4nDZ6oZ7amHE
- 9OKTNRq+9DB1M23hiw/7Q==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Qq7b/7qgXNg=:Oj6iKpqvANguio6AQFazQk
- j0sC/uQ+PoUtosAr6p7O//HdRzwGbcUp40xrRP2hII+LC1VqbBzLjOG1hDZiWjxNR+Z/td6FK
- oGUNK8JiUe5xIYKTxTMAmho4Ktic6Id4gK4PbUr7Fs9lcHI1Vt6xmsiJKynuo7Xt1E1SQJfqa
- Yu9spZaBKprda1zhoJ3tmn/tBOLhKbW40h+6iGrQkUIW5GFIdLb3yrj+q+GPMFchMyC9LopT8
- 6hQ5hKB4bkkiDQN6m46tIXZZrGnC93mfxQ7tqgeI60e60Eo0anO/m+oku8HNnnVbjQ7muiwdY
- LZlSnmj+NH75Y25hxy0hYusuIVAYr8cucC6cWPtMCpJ+jnI/HUzWrYJIMzZkCxNjrpkj4igEk
- rn+je81pUTE2G9fLikC8l8vGlLxz+nWJKn8fdyH6Tnx8svi0YiKvYXXZrw3cwWBGTdUR5xOYz
- hB4dffMoECGm3b2DRrvMo4849jzQZBAGwCecgSX9csxVu127rEXNgV48G/x49Q3vj5rbOihDO
- pRAJAvY/6yvnZ9Vwu9/pJjqeiXMglxijoVbxMNf6Heaj+YzqJywGlxBPGaywQ+sg9+iHA3hJc
- rIkRbasw2f4b9wuaxzWdue2ENnGDtyHlbP7R4l7ixejKJYT3E9HFGeFHB8SbM34xcZWjCR/1V
- RRR1UisvcvAzEPakJMOOkLETxflHjuh5nLNR7yAsDrYu4H++Y02nvskdDobk5w7PINfQN51ox
- f0OtQLf13QoEPqnwfQlDBf5X/1PwgATCW7dzZhVXJng89h+YvYFIi40nX0/MhDg4LTownyTIY
- 8X2Snm1C1RU/dQlJp9On3xGU/cbwBCfFrwkRZkrmsH/+f5eNl3U+nRl+hXlPbpiuk07VbxV
-Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:HQAuC6yjcN8gLeerFTALcyAjoaj4okRcd493+sIRuFyJxrkkoiP
+ CuAodUaxGVWZzaPAF7dmSZVHuZPyPtr38TXEc8u1F2onVRmH+Oa/QalU/R8g3WaXfALVsPb
+ CBz9c+/PEY4cQGMVt0O6bKOIVAdPhLtSBqkw4sxuDy2S4UWTcwmjhb0VjvXD79ZQvfThpqX
+ dzmhj58NkQIm0+5XK8r9w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Erfvi4VlOGE=:y8qZqM/+7pU01szDpOXFc/
+ a632Rct4LeOt8hDvReqFJb17puB2eaYF2UEZgPV7pDz3kUGG+wAIWkuvaoRVCYrrcwhhrtjSn
+ QJvVps8ekUEFhQzcbgTX5vb3LZ7EEsEkaSNcrYZEtJtgl+RRqntzu/fcn//8cVfVQ6fmHs1pw
+ MKjvKlynlu1jum3bJn5A9DxU12ecZCCZfFinVcDvfHraI6/obAoomYAaVBEoVXZ41PYW6R6xw
+ wz7CDIvGmWofAaIY+lPDFR3HI7/QMv1NL+TxSr/RplnYbKkjlZ+vPneLKxY+gOxTuWAQdZem4
+ RpiKMyKoinlYV9kqmBpPN+Z5lmSGKZqMEwp5J2iHiigHweoDy60U3qnM91MSlnn0qVwIcxbvT
+ zGWfCHkPwWahz1DKFXBHoJ84NdFk6Nph1YDY3BvoDSonFpiQSJs7YFBC/l8fu0sw2QD351Bcv
+ T0aovyYaTv4EJXI6Y2oI9sQOViles7B8R5Xbq7nLtS7Y1CWslZPwCA/bg8sU9Fzwkrp19hTxn
+ vDpN+6rhcQana2QeUpiGj25RMo6hcGLKwZjkxvZYZ1fJwIsrj7OvfxkhTbAv4IzBmWSiYujd8
+ ZuIMbOfsHNNP0iNadk6fqTkSwxcQnabdN9An/NnKeZ+JijFb2wYy+CmysVIvi/Wv4DaYPtxqu
+ 67HDaCNid/pc4QzOABEKwBmKNnxo4AKn2vwsSvdgY22cKpyuiJ1UEo0sLiUtZVayWke1VW/oU
+ BbtvH4oPEqXJFFDHjDpQoRbBNWc8ERsrHUKLYnznS82+zX5dzZtzIDP71vftnRR4GIrsazGVh
+ C72uIM2Cj72Wo0+1pbAw44z/eycjhRnQUkmOYbMirqnI7B/Ik4XFfqX08mQBbAcPJoqE8a1
+Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 12:51:12
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 12:55:24
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_MSPIKE_H2=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -114,33 +114,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, qemu-stable@nongnu.org
+Cc: qemu-trivial@nongnu.org, Frederic Konrad <konrad@adacore.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 18/05/2020 à 09:43, Thomas Huth a écrit :
-> The '\n' sneaked in by accident here, an "id" string should really
-> not contain a newline character at the end.
+Le 18/05/2020 à 12:39, Philippe Mathieu-Daudé a écrit :
+> Update Fred Konrad email address to avoid emails bouncing.
 > 
-> Fixes: 78cd6f7bf6b ('net: Add a new convenience option "--nic" ...')
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->  net/net.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  .mailmap | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> diff --git a/net/net.c b/net/net.c
-> index 38778e831d..cbeeeadff8 100644
-> --- a/net/net.c
-> +++ b/net/net.c
-> @@ -1506,7 +1506,7 @@ static int net_param_nic(void *dummy, QemuOpts *opts, Error **errp)
->      /* Create an ID if the user did not specify one */
->      nd_id = g_strdup(qemu_opts_id(opts));
->      if (!nd_id) {
-> -        nd_id = g_strdup_printf("__org.qemu.nic%i\n", idx);
-> +        nd_id = g_strdup_printf("__org.qemu.nic%i", idx);
->          qemu_opts_set_id(opts, nd_id);
->      }
->  
+> diff --git a/.mailmap b/.mailmap
+> index 6412067bde..4c7f4b7d03 100644
+> --- a/.mailmap
+> +++ b/.mailmap
+> @@ -44,6 +44,7 @@ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com> <aleksandar.markovic@imgte
+>  Aleksandar Markovic <aleksandar.qemu.devel@gmail.com> <amarkovic@wavecomp.com>
+>  Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com> <arikalo@wavecomp.com>
+>  Anthony Liguori <anthony@codemonkey.ws> Anthony Liguori <aliguori@us.ibm.com>
+> +Frederic Konrad <konrad@adacore.com> <fred.konrad@greensocs.com>
+>  James Hogan <jhogan@kernel.org> <james.hogan@imgtec.com>
+>  Leif Lindholm <leif@nuviainc.com> <leif.lindholm@linaro.org>
+>  Paul Burton <pburton@wavecomp.com> <paul.burton@mips.com>
 > 
 
 
