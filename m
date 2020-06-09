@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C8011F3910
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 13:10:15 +0200 (CEST)
-Received: from localhost ([::1]:41704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C03501F3929
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 13:12:11 +0200 (CEST)
+Received: from localhost ([::1]:48894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jic90-0003Sz-2h
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 07:10:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34038)
+	id 1jicAs-0006bK-Ra
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 07:12:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34180)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jic7K-0002AT-6S
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 07:08:30 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:33746)
+ id 1jic8m-0004DR-QF
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 07:10:01 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:33444)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jic7I-0001Gy-SN
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 07:08:29 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id l11so20826111wru.0
- for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 04:08:28 -0700 (PDT)
+ id 1jic8l-0001ZH-Pf
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 07:10:00 -0400
+Received: by mail-wr1-x443.google.com with SMTP id l11so20831022wru.0
+ for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 04:09:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:in-reply-to:date
  :message-id:mime-version:content-transfer-encoding;
- bh=g6Qq75Y4R9AmAiXFiyNALmpoQBF/WOdCpoY6VVwRMUk=;
- b=G4E7Tb91aC29gHoJ9zbOe+LXKrGfIxfL8YEAibHOCHOeIC3O0+UuJXFOeCX6CvDMjS
- 7w/b0hCWC7wYUPjj922+xVX5/5vTX+lveuMCTf5Ym3FuFnTF91x2pr3ZJij0ybn8EKV/
- EUqli/vsjyutJeF7VN17LFQAOWVObpczCqYwQ6jbf1TAm9Ga/s7GhOBvTAHZtj+GI7em
- eT63vlBjJIz2ht5X43Bfn48HYSS2pWmPDcK1rBrf+f6WNCzNsykjbMrCZ+FHpuwcF/Gx
- itq0fjnWbkKB4BkyfQSkXCn8U30OR/Tx1IluLAGlOM4nx9sqA0VXHlRQ++3aUjxVhPbC
- F3Hg==
+ bh=XJkEtaaLfEOVGgotb4bc0e25yEVnWj9eKM/Dme8rE1I=;
+ b=GwXhLnjRwnkR91HSgcflinu+7qUmp1+MDgI8D5szpdqHaKH2In7RD06iuGbjKkoWgB
+ VY+/k8dUBEt+mT5ddvrbSq4JzY1dN1aQ1y0tql6mOROReTq0EclwFBmP2yAwNrX5K9cM
+ ObH12ybP5XDA6j7UuKQXMk4DEsC33jR9d57I1UgX9vhdZzlVHvTm27M8uJNlDMPuO/m5
+ U54R/TYM6liixQGsGuDhjZmUJb4kBiiI+vzqUSDT4b1NjcWw3mdc8wytMo7V1c36L6ox
+ QiquOwBDuf5YwtTC4LpPiEmd6Pj3EA6o0SF0M3Sqctu7swDk405/+qX8vgMXuMZ1LtSt
+ AWRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject
  :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=g6Qq75Y4R9AmAiXFiyNALmpoQBF/WOdCpoY6VVwRMUk=;
- b=FfPkvJvfgjS+AH/Kdwa6kLaRDocnUtlpilXdZiILoPrBP785hrR9QFaisC4pg2h4Ws
- wi4Dns0nzGp0a4RIxUTydTzPOn/w5yDQVdyjIdfSw/ImQWvqOPhfr6Zhfev8bUyDpFR3
- HYdV/Oetqu2pDL3+LL797jqDX4hm4zboZ3lZry3zIyrLRCgDTemFZ/351jkwwWjz2sUi
- +zcmj3OsO+18e52JMqyezYCUezxGCjC8ff4e9sXODtpk5P1D7l+Fcormi6VP+zYbMMSR
- SodLQosqiJDprEMDxcRAmrKMGG3iOszkoGDbMw7bzASZYwfXqWnsyq7J5g2974sBmpZl
- cRcA==
-X-Gm-Message-State: AOAM5327HGZHO5/iqU9l0eGh28PIbju9nNUIH5Tm+x/6qzGKrYE+oH7q
- KAzwOv3TJDsZXdrt0IAK77rrYQ==
-X-Google-Smtp-Source: ABdhPJy61g0tYYBsKqjAi28HP8CgXFskcyI2H6fGsDKwrS5AHJt7cQFGZorM6yhfuULn/2GCICVgLA==
-X-Received: by 2002:adf:ea8b:: with SMTP id s11mr3905958wrm.168.1591700907041; 
- Tue, 09 Jun 2020 04:08:27 -0700 (PDT)
+ bh=XJkEtaaLfEOVGgotb4bc0e25yEVnWj9eKM/Dme8rE1I=;
+ b=aeL6fipZ1LCzDQVls96pbGgfTuDvakKnNnX+g0hlj5vdWJ6XwRC5erS6tBs0Fds55F
+ n0BDwPVx5wNO0YB6HewA0JiYEjfilBr8dBdVyzUKfPwtVZqwnReHH049xL6e7Ub73BtW
+ gedpUvfzNyGgURzifEduU0YHgtIFAE1tXw9pxtf0MVLCwcikm+tPFo/BxRb3IL20h9zZ
+ sephJByimQg5k+tj4q16veh7Ymim/O45+YbpRCItZtl2BbPx1Ebbn2QDMcVjdhU5u55Z
+ G1SIryw6YeoisW1etaE4i7Y3qz/0TuEmJDUO9n676OklIM/AUzC470l0VQxbkoq/TzX5
+ GNAQ==
+X-Gm-Message-State: AOAM533dpfvqziqCjyGSjjrh3IlNKvpi/+OoOjZKp50aIRDVZfEJG2um
+ p25NLAI3hwg6OGZKBbl45NqoVw==
+X-Google-Smtp-Source: ABdhPJxsp6/H0PG8ea9anWbAHxV2Knzcb0ZxBJFjn7nlBd1M3W9S6Ap4H05bYa3gI90AHksZ+qabzw==
+X-Received: by 2002:a05:6000:12c2:: with SMTP id
+ l2mr3652885wrx.133.1591700996350; 
+ Tue, 09 Jun 2020 04:09:56 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id z8sm2985887wru.33.2020.06.09.04.08.25
+ by smtp.gmail.com with ESMTPSA id b187sm2619092wmd.26.2020.06.09.04.09.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Jun 2020 04:08:25 -0700 (PDT)
+ Tue, 09 Jun 2020 04:09:54 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 145361FF7E;
- Tue,  9 Jun 2020 12:08:25 +0100 (BST)
-References: <20200609103809.23443-1-alex.bennee@linaro.org>
- <20200609103809.23443-16-alex.bennee@linaro.org>
- <4f27f12b-b2eb-9a63-c561-959059f1bb15@suse.de>
+ by zen.linaroharston (Postfix) with ESMTP id 394ED1FF7E;
+ Tue,  9 Jun 2020 12:09:54 +0100 (BST)
+References: <20200602154624.4460-1-alex.bennee@linaro.org>
+ <20200602154624.4460-8-alex.bennee@linaro.org>
+ <20200608034504.GA3619843@sff> <87zh9e6kxy.fsf@linaro.org>
+ <20200609040902.GA3724030@sff>
 User-agent: mu4e 1.5.2; emacs 28.0.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Claudio Fontana <cfontana@suse.de>
-Subject: Re: [PULL 15/17] tests/vm: Remove flex/bison packages
-In-reply-to: <4f27f12b-b2eb-9a63-c561-959059f1bb15@suse.de>
-Date: Tue, 09 Jun 2020 12:08:25 +0100
-Message-ID: <871rmo5weu.fsf@linaro.org>
+To: "Emilio G. Cota" <cota@braap.org>
+Subject: Re: [PATCH v1 7/9] plugins: add API to return a name for a IO device
+In-reply-to: <20200609040902.GA3724030@sff>
+Date: Tue, 09 Jun 2020 12:09:54 +0100
+Message-ID: <87y2ow4hrx.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,106 +92,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, peter.maydell@linaro.org,
- Philippe =?utf-8?Q?Ma?= =?utf-8?Q?thieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
+Cc: robert.foley@linaro.org, qemu-devel@nongnu.org, robhenry@microsoft.com,
+ aaron@os.amperecomputing.com, kuhn.chenqun@huawei.com, peter.puhov@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-Claudio Fontana <cfontana@suse.de> writes:
+Emilio G. Cota <cota@braap.org> writes:
 
-> This series incidentally removes the build warnings when not having flex/=
-bison,
+> On Mon, Jun 08, 2020 at 09:06:17 +0100, Alex Benn=C3=A9e wrote:
+>> Emilio G. Cota <cota@braap.org> writes:
+>> > I'd rather use asprintf(3) and strdup(3) here, so that plugins don't
+>> > have to worry about glib, and on the QEMU side we don't have to worry
+>> > about plugins calling free() instead of g_free().
+>>=20
+>> AFAIK you can actually mix free/g_free because g_free is just a NULL
+>> checking wrapper around free.
 >
-> could someone queue it?
+> I was just going with the documentation, but you're right:
+>
+> https://github.com/GNOME/glib/blob/mainline/glib/gmem.c#L196
+>> void
+>> g_free (gpointer mem)
+>> {
+>>   free (mem);
+>>   TRACE(GLIB_MEM_FREE((void*) mem));
+>> }
+>
+> The NULL-pointer check is done by free(3), though.
+>
+>> However ideally I'd be passing a
+>> non-freeable const char to the plugin but I didn't want to expose
+>> pointers deep inside of QEMU's guts although maybe I'm just being
+>> paranoid there given you can easily gdb the combined operation anyway.
+>>
+>> Perhaps there is a need for a separate memory region where we can store
+>> copies of strings we have made for the plugins?
+>
+> I agree with the idea of not exposing internal pointers to plugins
+> (e.g. we don't pass a CPUState *, only an opaque handle) so I'm OK
+> with returning a dup'ed string here.
+
+How about a g_intern_string() as a non-freeable const char that can also
+be treated as canonical?
+
+>
+> (snip)
+>> That said in another
+>> thread Peter was uncomfortable about exposing this piece of information
+>> to plugins. Maybe we should only expose something based on the optional
+>> -device foo,id=3Dbar parameter?
+>
+> I have no opinion on whether exposing this is a good idea. If it turns
+> out that it is, please have my
+>
+> Reviewed-by: Emilio G. Cota <cota@braap.org>
 >
 > Thanks,
 >
-> Claudio
->
-> https://lists.gnu.org/archive/html/qemu-devel/2020-06/msg01851.html
-
-If it is all reviewed I can pick it up in the next testing/next bits if
-no one else cares.
-
->
->
-> On 6/9/20 12:38 PM, Alex Benn=C3=A9e wrote:
->> From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->>=20
->> QEMU does not use flex/bison packages.
->>=20
->> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->> Reviewed-by: Claudio Fontana <cfontana@suse.de>
->> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->> Message-Id: <20200515163029.12917-3-philmd@redhat.com>
->>=20
->> diff --git a/tests/vm/fedora b/tests/vm/fedora
->> index bd9c6cf295c..a9195670f4b 100755
->> --- a/tests/vm/fedora
->> +++ b/tests/vm/fedora
->> @@ -32,7 +32,6 @@ class FedoraVM(basevm.BaseVM):
->>      pkgs =3D [
->>          # tools
->>          'git-core',
->> -        'flex', 'bison',
->>          'gcc', 'binutils', 'make',
->>=20=20
->>          # perl
->> diff --git a/tests/vm/freebsd b/tests/vm/freebsd
->> index 298967fe9cf..f87db2b126e 100755
->> --- a/tests/vm/freebsd
->> +++ b/tests/vm/freebsd
->> @@ -38,7 +38,6 @@ class FreeBSDVM(basevm.BaseVM):
->>          "bash",
->>          "gmake",
->>          "gsed",
->> -        "flex", "bison",
->>=20=20
->>          # libs: crypto
->>          "gnutls",
->> diff --git a/tests/vm/netbsd b/tests/vm/netbsd
->> index b10c9d429de..cdac502dad8 100755
->> --- a/tests/vm/netbsd
->> +++ b/tests/vm/netbsd
->> @@ -36,7 +36,6 @@ class NetBSDVM(basevm.BaseVM):
->>          "bash",
->>          "gmake",
->>          "gsed",
->> -        "flex", "bison",
->>=20=20
->>          # libs: crypto
->>          "gnutls",
->> diff --git a/tests/vm/openbsd b/tests/vm/openbsd
->> index 0b705f49452..13e7f9a6d56 100755
->> --- a/tests/vm/openbsd
->> +++ b/tests/vm/openbsd
->> @@ -35,7 +35,6 @@ class OpenBSDVM(basevm.BaseVM):
->>          "bash",
->>          "gmake",
->>          "gsed",
->> -        "bison",
->>=20=20
->>          # libs: usb
->>          "libusb1",
->> diff --git a/tests/vm/ubuntu.i386 b/tests/vm/ubuntu.i386
->> index 15707753353..24527cc78c7 100755
->> --- a/tests/vm/ubuntu.i386
->> +++ b/tests/vm/ubuntu.i386
->> @@ -52,7 +52,7 @@ class UbuntuX86VM(basevm.BaseVM):
->>          self.ssh_root_check("sed -ie s/^#\ deb-src/deb-src/g /etc/apt/s=
-ources.list")
->>          self.ssh_root_check("apt-get update")
->>          self.ssh_root_check("apt-get build-dep -y qemu")
->> -        self.ssh_root_check("apt-get install -y libfdt-dev flex bison l=
-anguage-pack-en")
->> +        self.ssh_root_check("apt-get install -y libfdt-dev language-pac=
-k-en")
->>          self.ssh_root("poweroff")
->>          self.wait()
->>          os.rename(img_tmp, img)
->>=20
+> 		Emilio
 
 
 --=20
