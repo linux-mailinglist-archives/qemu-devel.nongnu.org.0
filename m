@@ -2,59 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A51EB1F3212
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 03:44:28 +0200 (CEST)
-Received: from localhost ([::1]:48610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91CEA1F320D
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 03:41:09 +0200 (CEST)
+Received: from localhost ([::1]:41618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jiTJT-0000C2-Ko
-	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 21:44:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39996)
+	id 1jiTGG-0005V1-Gt
+	for lists+qemu-devel@lfdr.de; Mon, 08 Jun 2020 21:41:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1jiTBl-00034l-9V; Mon, 08 Jun 2020 21:36:29 -0400
-Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:43188)
+ id 1jiTBs-0003BA-Bv; Mon, 08 Jun 2020 21:36:36 -0400
+Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:36824)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1jiTBk-00006z-Lj; Mon, 08 Jun 2020 21:36:29 -0400
-Received: by mail-ej1-x642.google.com with SMTP id l12so16704694ejn.10;
- Mon, 08 Jun 2020 18:36:27 -0700 (PDT)
+ id 1jiTBr-00007X-GV; Mon, 08 Jun 2020 21:36:36 -0400
+Received: by mail-ed1-x542.google.com with SMTP id q13so15022366edi.3;
+ Mon, 08 Jun 2020 18:36:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=KhvhSmf6bHsXItz7ZSJvhp4Th42f2tl5qO1RgZS7OsY=;
- b=hWMWcBYy1DVfhC97tNo3P90gaAxEIrsttTfKaP3L/ZdUzUgxlxbPCy/9nk1Ur8bksm
- aDVZ/zYlOMqfavhO6lQMPKb6itQpeuGqWM8N1Dyuvg4YwvyTlCkM/UAkDMU2VCTVb5aQ
- jP1GA3J0yDPQMGSIFyrNDZWTvNBh/XJa+RLrc=
+ :cc; bh=9aphTkaF/pTaor8lK4sJuIDAPhh8u4H3dPq8RbeFkUs=;
+ b=mFiX3UJ54eu6BnI1/r8+w/I3+LfY4V4759zcTa/LJxNgsrGz3cIf15h4SlEgRUGF5q
+ zJH+PMsA98cjQTYor5EZShsOsoq4BQmNlaqOucl0wEKZUwAbKOvenp3oib5GqRPxeBSc
+ BFvczSOhWwvGwl9nRohOEti7U1TvEB4Jt36rw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=KhvhSmf6bHsXItz7ZSJvhp4Th42f2tl5qO1RgZS7OsY=;
- b=gD4SitNoZSfzTTejr3gjJqId78QkUa+M+VNFPuXnikjQ5n/nhqGQbU4W5z0+bV6B3o
- M3A8vPLq+cK/+TXtJ7C8DFBtXbE74VPCG7xw9fW59cof5YUhkuMFIArFSiq++i5JwerY
- cr4sbp7X38nrGsYrcma/ATAqVUHm4tseP/YiZL93vqyTt8HKdZu0CQFYYXbMUBmnIYEB
- md0/un0fGiFYrn2vdBoTLcCM/HGVcl30mHUuX2rQi4ZOHv9XlGAtvuC7MQxjPNQfgW3r
- 3dVvByt1ul+1M0fYFj3KPaK59ZPDhRB0+mggsFHk0WXhLDba7JWHD49N/5Pig9MI/K17
- x2oA==
-X-Gm-Message-State: AOAM530MjlTrH7jTXxVFUr4UIa6a1e4hCH57tdcfh8AoILQfdBZcDiNL
- T82YfbZlvTzAELKIFlB/Avu19OMPgDkjfoPuQDC1LGdP
-X-Google-Smtp-Source: ABdhPJxoXXRF43u2mZ/Yga6tUfXgWdi/Pic6NbHHSbqHSLnVcs/08qVhfsJv2G5aKAN+vYZkdN82+N4ku+OMipcALqA=
-X-Received: by 2002:a17:906:fcb7:: with SMTP id
- qw23mr21981896ejb.229.1591666586645; 
- Mon, 08 Jun 2020 18:36:26 -0700 (PDT)
+ bh=9aphTkaF/pTaor8lK4sJuIDAPhh8u4H3dPq8RbeFkUs=;
+ b=JcBgt3+PLANont7hH+bFTDG/47SRd6Gm3Dx/0c5XSkWa730+GLmIT28Peqo9ed8ZGM
+ PH2d93KvrVg7OovSlT4axgZIdVEiteLR28ZrIeu+TlAIFYD8CSC6NR1MVRPSNjfSzMrR
+ bpIV9sLanleTcwdwmlKrQ2A2iNsBNOtAuepHA/CJoTt12uFbCxOsiJ9yUt+j54EYyjNY
+ Bv6pSblm7+iO3F9krDbDHlzeKc7Zq72qlWRuIjzxdHu+DFXcAlViW+4fR1edGVC7KV6r
+ qS9bg1QPz9UCTkO64/HjN1T9p4KhrPJGj2nBbygcjKKKjYUQ/o3WWs8A4VK3s0nni9AR
+ a1eQ==
+X-Gm-Message-State: AOAM532gn4b0JnyeZJvDLXSyvz7BErI8HfQ7WCChRYgZfKMaW/liMScE
+ lKRS+/Rlreu73heVxjmwfWEdNqVhGYLErAJAu/Lpt9Lk
+X-Google-Smtp-Source: ABdhPJzyMXi/Dnk+QC6eeJ1LR2Qoc9NmF6htb/odCdy1biO4X4d7DV5Sid3/gbONspMvVq+xsDLFddmBuB1hqo7bfTI=
+X-Received: by 2002:a05:6402:128b:: with SMTP id
+ w11mr18834455edv.377.1591666593791; 
+ Mon, 08 Jun 2020 18:36:33 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200521192133.127559-1-hskinnemoen@google.com>
- <20200521192133.127559-3-hskinnemoen@google.com>
-In-Reply-To: <20200521192133.127559-3-hskinnemoen@google.com>
+ <20200521192133.127559-4-hskinnemoen@google.com>
+In-Reply-To: <20200521192133.127559-4-hskinnemoen@google.com>
 From: Joel Stanley <joel@jms.id.au>
-Date: Tue, 9 Jun 2020 01:36:14 +0000
-Message-ID: <CACPK8XcYNmBYb+OXKZP1sSHqC-1pTN4=S+B7TdOapYkmEC18SA@mail.gmail.com>
-Subject: Re: [PATCH 2/6] hw/misc: Add NPCM7xx System Global Control Registers
- device model
+Date: Tue, 9 Jun 2020 01:36:22 +0000
+Message-ID: <CACPK8Xfz2izvKoh-eRK2-=Pm_HpndTR6Op2qUZu_1GmSt2ng4g@mail.gmail.com>
+Subject: Re: [PATCH 3/6] hw/misc: Add NPCM7xx Clock Controller device model
 To: Havard Skinnemoen <hskinnemoen@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::642;
- envelope-from=joel.stan@gmail.com; helo=mail-ej1-x642.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::542;
+ envelope-from=joel.stan@gmail.com; helo=mail-ed1-x542.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -83,21 +82,53 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm <qemu-arm@nongnu.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 21 May 2020 at 20:40, Havard Skinnemoen <hskinnemoen@google.com> wrote:
+On Thu, 21 May 2020 at 20:39, Havard Skinnemoen <hskinnemoen@google.com> wrote:
 >
-> Implement a device model for the System Global Control Registers in the
-> NPCM730 and NPCM750 BMC SoCs.
+> Enough functionality to boot the Linux kernel has been implemented. This
+> includes:
 >
-> This is primarily used to enable SMP boot (the boot ROM spins reading
-> the SCRPAD register); other registers are best effort for now.
+>   - Correct power-on reset values so the various clock rates can be
+>     accurately calculated.
+>   - Clock enables stick around when written.
 >
-> The reset values of the MDLR and PWRON registers are determined by the
-> SoC variant (730 vs 750) and board straps respectively.
+> In addition, a best effort attempt to implement SECCNT and CNTR25M was
+> made even though I don't think the kernel needs them.
 >
 > Reviewed-by: Tyrone Ting <kfting@nuvoton.com>
 > Signed-off-by: Havard Skinnemoen <hskinnemoen@google.com>
 
-This looks similar to the aspeed scu model :)
-
 Reviewed-by: Joel Stanley <joel@jms.id.au>
+
+> +++ b/hw/misc/npcm7xx_clk.c
+
+> +#define PLLCON_LOKI     BIT(31)
+> +#define PLLCON_LOKS     BIT(30)
+> +#define PLLCON_PWDEN    BIT(12)
+> +
+> +static const uint32_t cold_reset_values[NPCM7XX_CLK_NR_REGS] = {
+
+Can you add a comment to mention where these come from? If it's the
+data sheet, note which version you're using.
+
+
+> +    [NPCM7XX_CLK_CLKEN1]        = 0xffffffff,
+> +    [NPCM7XX_CLK_CLKSEL]        = 0x004aaaaa,
+> +    [NPCM7XX_CLK_CLKDIV1]       = 0x5413f855,
+> +    [NPCM7XX_CLK_PLLCON0]       = 0x00222101 | PLLCON_LOKI,
+> +    [NPCM7XX_CLK_PLLCON1]       = 0x00202101 | PLLCON_LOKI,
+> +    [NPCM7XX_CLK_IPSRST1]       = 0x00001000,
+> +    [NPCM7XX_CLK_IPSRST2]       = 0x80000000,
+> +    [NPCM7XX_CLK_CLKEN2]        = 0xffffffff,
+> +    [NPCM7XX_CLK_CLKDIV2]       = 0xaa4f8f9f,
+> +    [NPCM7XX_CLK_CLKEN3]        = 0xffffffff,
+> +    [NPCM7XX_CLK_IPSRST3]       = 0x03000000,
+> +    [NPCM7XX_CLK_WD0RCR]        = 0xffffffff,
+> +    [NPCM7XX_CLK_WD1RCR]        = 0xffffffff,
+> +    [NPCM7XX_CLK_WD2RCR]        = 0xffffffff,
+> +    [NPCM7XX_CLK_SWRSTC1]       = 0x00000003,
+> +    [NPCM7XX_CLK_PLLCON2]       = 0x00c02105 | PLLCON_LOKI,
+> +    [NPCM7XX_CLK_CORSTC]        = 0x04000003,
+> +    [NPCM7XX_CLK_PLLCONG]       = 0x01228606 | PLLCON_LOKI,
+> +    [NPCM7XX_CLK_AHBCKFI]       = 0x000000c8,
+> +};
 
