@@ -2,49 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 352D61F4117
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 18:39:19 +0200 (CEST)
-Received: from localhost ([::1]:33958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55E291F4138
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 18:42:39 +0200 (CEST)
+Received: from localhost ([::1]:42368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jihHS-00026v-5Y
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 12:39:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47440)
+	id 1jihKc-00069r-9I
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 12:42:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jih7D-0005sm-By
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 12:28:43 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:37424)
+ id 1jih7E-0005vr-Ql
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 12:28:44 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:46036)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jih7C-00016a-A6
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 12:28:42 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id x13so22026774wrv.4
+ id 1jih7C-00016m-Bj
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 12:28:44 -0400
+Received: by mail-wr1-x431.google.com with SMTP id c3so21991831wru.12
  for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 09:28:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=W5S0XVqm1PdZq+jzEv1zdBRtTT47fmJwTvAyXY5SRCE=;
- b=h2esih1jBICvdggU0ucVBLWLWHbwTra0WnalJpR13fCBXTM0kovEDQNjRVMqJmYsBB
- BWw/Ft3TRtz5o1HnLZYOhFEVRND18MwT8lQxnX6WCQP0fXJuqnIznq46tjDE8MZgG8oF
- 7w4qyulUYJ8c6Le2Lrj61BBBajhG0aIlUnniT1NK35nZH0wakBiWycbBrCmKOO4OZZFW
- cDvSxVBsNhkMsLFkRGZMvPdSkEkeLfKYnybx6e0B6f5+tfp14BsjuXirbqHhpTFpV3nu
- Z1WRS5eT63KRb85zdGRBe0ylPWRN1/IhRygEYv4/DSvwgvfF0850qNLcGP+WY4HD23Y/
- rx2Q==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=Gyc4jAqqb4iRdL2lJtXMg0ZbvCkpCJJT7AmeHRVjQIU=;
+ b=hKd8inpMobY7D1omGPcOVM9gONVV5VnVXqwIQa+X+IQe0VKzgtVvqVOvr15w2PudUP
+ i+rrEKDhKPC1/j7i/W5XjDUNRHj/CGVBg1Wo4khpX+tCKva6hU/qVif/ydcSNfriLjdt
+ RpAACZZmsJQhNjQpvT3/2rV7mmDf43DBg+YgRRI5XM2OYYfTDop37pYJ00gPCIswNMzn
+ s2HQ9q86VOxdMwwywDOUKLtBJ27vIn3MpqrDLvjvpGgIUbGP3EyZLkVxm0WJTNkf+x9a
+ gEWlV5yjNeQKnuE7Ub6egiHgDXEO6ifiYmtB88J59LgvQ2htDiy3kDmeJl7NOxyn2Iea
+ UXig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=W5S0XVqm1PdZq+jzEv1zdBRtTT47fmJwTvAyXY5SRCE=;
- b=DC6WvSGJ2M2HoVQ+pNyUWmlVE0IAQsuc2rLNkPKW61J3SpnEjAZUiPZ6f89Tmukmjp
- JTqJRNjXBSS/6EFGnjvPyNT5i/6E+0SARfk6JBffvYlP/a+6Hm8VdZ4W1n6eBW1bFqhj
- EklmG5IDFmYvzAFtRC2H5X3/fE1nmFWYYq9FCBmrNuNzQaKMyKsGTPFOATgCcVkC4MpR
- B1LnaI+0CXhmr1Yv0YISXDSvdMJbLkxYDbuiDh/0M8Oio2scEBAyh2nDKNMS5cbebJA1
- +9mGSD55ghk1GT4neOQ3rwfrLF676Y4LCTt02Zfe3Jad3Ief63HEw63BvPNTwAUivoGi
- k93g==
-X-Gm-Message-State: AOAM5325C++y+YmDqIMSdvClTxD+H9N5MDEbmCoTOkfRg4oasShgtQFq
- Ejadr6DnWAUiWLQy85Dr7U5IJORF
-X-Google-Smtp-Source: ABdhPJyuvsLaI/gZ/ovIJinYGP0Pgcjl4J+rhOMTlJiVCIxB56zssEM3w6TwqviLXslqWIKPjHRqCw==
-X-Received: by 2002:adf:b354:: with SMTP id k20mr5356090wrd.412.1591720119729; 
- Tue, 09 Jun 2020 09:28:39 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=Gyc4jAqqb4iRdL2lJtXMg0ZbvCkpCJJT7AmeHRVjQIU=;
+ b=oiPi/FOdfoRDzYrGzHULA/3QuIUCMoQlFOjuRjfvWo0GTGBa/VzHjCpm1tmdA3TZJ8
+ 2KW4XuwiPOYlL5vwAvQ/55Lgpb/8GJEjnrs9dz1jgf7NZxiYuREtLsAMCKZVfOGNXDup
+ pCcoflo1Q9qTE1DWv15u7m+yIMbmlkpQTleRE4VFOhI66V2ifqUBhzaux+jVci3EpegX
+ Dp4hbqPxu0KEE7hnu5pwloACvNJN5R+LH0rIY0YgyueNtLmeGrkZZrqmHvfRyWw/eRsD
+ 58z2fIKpsJk8kb6bHVQXY0ZDsDpQPUmFrzY9zDfLNZxvEpMGFHKszPOHDM/TBVFRug1Y
+ +LMg==
+X-Gm-Message-State: AOAM533c053l+qEmZIueLvRLkW0842lNDxMcDmCIsyQlxPdocAS8HDsr
+ ZInddHpELFE+BcySoxX1Z8Kyz8f/
+X-Google-Smtp-Source: ABdhPJwgvP9rapt/B6tE2xqR9Sh4o/A1PNBh869Q3npXC1BwRsrmf2LHgRTieaTRpVRuESETX6INpw==
+X-Received: by 2002:a05:6000:87:: with SMTP id
+ m7mr5469837wrx.306.1591720120424; 
+ Tue, 09 Jun 2020 09:28:40 -0700 (PDT)
 Received: from rtrkw774-lin.syrmia.com ([46.240.135.226])
  by smtp.gmail.com with ESMTPSA id 23sm3643598wmo.18.2020.06.09.09.28.39
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
@@ -52,12 +54,14 @@ Received: from rtrkw774-lin.syrmia.com ([46.240.135.226])
 From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PULL 00/20] MIPS queue for June 9th, 2020
-Date: Tue,  9 Jun 2020 18:28:18 +0200
-Message-Id: <1591720118-7378-1-git-send-email-aleksandar.qemu.devel@gmail.com>
+Subject: [PULL 01/20] mailmap: Change email address of Filip Bozuta
+Date: Tue,  9 Jun 2020 18:28:19 +0200
+Message-Id: <1591720118-7378-2-git-send-email-aleksandar.qemu.devel@gmail.com>
 X-Mailer: git-send-email 2.7.4
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-wr1-x42a.google.com
+In-Reply-To: <1591720118-7378-1-git-send-email-aleksandar.qemu.devel@gmail.com>
+References: <1591720118-7378-1-git-send-email-aleksandar.qemu.devel@gmail.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-wr1-x431.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -65,7 +69,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,73 +87,29 @@ Cc: aleksandar.qemu.devel@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 49ee11555262a256afec592dfed7c5902d5eefd2:
+Filip Bozuta wants to use his new email address for his future
+work in QEMU.
 
-  Merge remote-tracking branch 'remotes/vivier2/tags/linux-user-for-5.1-pull-request' into staging (2020-06-08 11:04:57 +0100)
+CC: Filip Bozuta <filip.bozuta@syrmia.com>
+Signed-off-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+Reviewed-by: Filip Bozuta <filip.bozuta@syrmia.com>
+Message-Id: <20200602085215.12585-2-aleksandar.qemu.devel@gmail.com>
+---
+ .mailmap | 1 +
+ 1 file changed, 1 insertion(+)
 
-are available in the git repository at:
-
-  https://github.com/AMarkovic/qemu tags/mips-queue-jun-09-2020
-
-for you to fetch changes up to 6db06115d246ea6d24755657a98c185ed2a50210:
-
-  target/mips: Enable hardware page table walker and CMGCR features for P5600 (2020-06-09 17:32:45 +0200)
-
-----------------------------------------------------------------
-
-MIPS queue for June 9th, 2020
-
-Highlights:
-
-  - Registring change of email address for two contributors
-  - Cleanup and improvements of FPU helpers
-  - Enabling some features of P5600
-  - Adding two Loongson-3A CPU definitions
-  - A checkpatch warning is known and should be ignored
-
-----------------------------------------------------------------
-
-Aleksandar Markovic (18):
-  mailmap: Change email address of Filip Bozuta
-  mailmap: Change email address of Stefan Brankovic
-  target/mips: fpu: Demacro ADD.<D|S|PS>
-  target/mips: fpu: Demacro SUB.<D|S|PS>
-  target/mips: fpu: Demacro MUL.<D|S|PS>
-  target/mips: fpu: Demacro DIV.<D|S|PS>
-  target/mips: fpu: Remove now unused macro FLOAT_BINOP
-  target/mips: fpu: Demacro MADD.<D|S|PS>
-  target/mips: fpu: Demacro MSUB.<D|S|PS>
-  target/mips: fpu: Demacro NMADD.<D|S|PS>
-  target/mips: fpu: Demacro NMSUB.<D|S|PS>
-  target/mips: fpu: Remove now unused UNFUSED_FMA and FLOAT_FMA macros
-  target/mips: fpu: Demacro CLASS.<D|S>
-  target/mips: fpu: Remove now unused FLOAT_CLASS macro
-  target/mips: fpu: Demacro RINT.<D|S>
-  target/mips: fpu: Remove now unused FLOAT_RINT macro
-  target/mips: fpu: Name better paired-single variables
-  target/mips: fpu: Refactor conversion from ieee to mips exception
-    flags
-
-Andrea Oliveri (1):
-  target/mips: Enable hardware page table walker and CMGCR features for
-    P5600
-
-Huacai Chen (1):
-  target/mips: Add Loongson-3 CPU definition
-
- target/mips/cpu.h                           |  32 +-
- target/mips/internal.h                      |   3 +-
- target/mips/mips-defs.h                     |  45 +-
- target/mips/fpu_helper.c                    | 658 +++++++++++++++++++---------
- target/mips/{lmi_helper.c => lmmi_helper.c} |   0
- target/mips/msa_helper.c                    |  77 ++--
- target/mips/translate.c                     |   2 +
- target/mips/translate_init.inc.c            |  95 +++-
- .mailmap                                    |   2 +
- target/mips/Makefile.objs                   |   2 +-
- 10 files changed, 658 insertions(+), 258 deletions(-)
- rename target/mips/{lmi_helper.c => lmmi_helper.c} (100%)
-
+diff --git a/.mailmap b/.mailmap
+index e3628c7..9f2a3a5 100644
+--- a/.mailmap
++++ b/.mailmap
+@@ -45,6 +45,7 @@ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com> <amarkovic@wavecomp.com>
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com> <arikalo@wavecomp.com>
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com> <aleksandar.rikalo@rt-rk.com>
+ Anthony Liguori <anthony@codemonkey.ws> Anthony Liguori <aliguori@us.ibm.com>
++Filip Bozuta <filip.bozuta@syrmia.com> <filip.bozuta@rt-rk.com.com>
+ James Hogan <jhogan@kernel.org> <james.hogan@imgtec.com>
+ Leif Lindholm <leif@nuviainc.com> <leif.lindholm@linaro.org>
+ Paul Burton <pburton@wavecomp.com> <paul.burton@mips.com>
 -- 
 2.7.4
 
