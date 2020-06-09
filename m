@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E94311F3AD5
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 14:45:43 +0200 (CEST)
-Received: from localhost ([::1]:40456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B7CB1F3ACE
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 14:43:19 +0200 (CEST)
+Received: from localhost ([::1]:59102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jiddO-0007BX-V6
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 08:45:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42984)
+	id 1jidb4-0003H6-7j
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 08:43:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jidSp-0000M5-KE; Tue, 09 Jun 2020 08:34:47 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:39003)
+ id 1jidSl-0000Ka-01; Tue, 09 Jun 2020 08:34:43 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:45091)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jidSe-00074i-Hm; Tue, 09 Jun 2020 08:34:43 -0400
-Received: by mail-wr1-x441.google.com with SMTP id t18so21115874wru.6;
- Tue, 09 Jun 2020 05:34:31 -0700 (PDT)
+ id 1jidSe-00074m-Hs; Tue, 09 Jun 2020 08:34:42 -0400
+Received: by mail-wr1-x443.google.com with SMTP id c3so21079926wru.12;
+ Tue, 09 Jun 2020 05:34:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=l+sqnGxutMS7S4hG3iKjsUBAXpEh0W5dJMui9M/7l+Q=;
- b=rNR3ApgveJWwvJDFhJ1IHBCPvRP2djQPNMMu/l2o5r+IK8aaHIOdsyVqZONAuAVG5n
- SSGV+hE3uNMDibES9uA7pDUmFkIQ3UYoA/4VyhHkCFoW/GnQ93fYz93FyIti9fcC6HtS
- OnuR2+f9+egw1CEK3SOwH9ftG6XhyWnbj3KfZVOlVjQdxyeUDhUbWrLnXTcf8IU55pSQ
- wsnvB0Iv3IChPzicuT8AJTmeW8IDi3kBXCS5lBiwVX0UBcSTaEFMBNxSMJp7oYwPoRb3
- im/ibldYmAcg0K9qcwnkOQifHbVNNyZI13vvbV72JFYc2u6qv8mjS16Oy7saA9q2u4yt
- nI8Q==
+ bh=Jpf6+q8OiuFmDbu8SbMqWnakxmwLS2sZMacUeOa9SzM=;
+ b=A+IwQqfzZ+5v2HFoHECHAYAzj7L02eM8u7Jm0dSoZuC8n1JM027M8u4oe2bzsVT8jS
+ gdLBfgknG6VLIfHQFO0J0L7XgVf+znqCjZzY8zDPUnoxLUhAwP/lhdv6xY9tg5UbYk7y
+ 2wsN55zcYtRU7imbsMniZa8MZbJOmgF9pYRDkAMaek87rN2+HjqVWFeV+Ivsz24UkcC6
+ MNweAGONHAzAobpasUjAHo/seL653m2OAWXm34UKM35rFt3/hFYy++je8R1gz4vzwvlW
+ UdDRUWTBdkGvQtqvGbAftWrCnH89nIlVHVUoT8vvVEPzYfKpsPKGUBi+zC4n2jhtuVln
+ 64Bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=l+sqnGxutMS7S4hG3iKjsUBAXpEh0W5dJMui9M/7l+Q=;
- b=fFkz4bdkNy25QLojLZUbgm8EYLpHQfivQjdK5ymUMRjkVOY8JbmejJYNnBXjcqHSwx
- +CtsI9qzMJXTcpxIFURXCta3KBIdzcSkFDRJ8z4c/jkqQEpPu9ZL647ZZKC5NJUUsOG/
- 9sHtDRSryh/mtNXYYOKIZfBGKZh0F+5agRZ/zDZNqT7n/ZLeOfbcN7aKdmKTnW8xU0r7
- HZOEZTq9PAkMpcozEYuajJmdC9iUmkjtcOTWHEXvYyW3JZuV2qK8CETnles5kQgRzGIf
- 4e/IIXuqCoDo6o3NKze8klgDNnMUZUr9k7tHBhSqXrSZNfcDkxKFixrNTIIYgdMjOOYU
- Ec/A==
-X-Gm-Message-State: AOAM532P3K4cIRHihJYTy5klrO1Lpku+5xrD8X1Ze92VRxXono0dfV7X
- 6MBG9+1FEoJJIfIP0vnJm0h7512h
-X-Google-Smtp-Source: ABdhPJxIkIw5hvZ5XCCJBD6CQvXERDw2Jdb6ATD6aCR/4WE7i65U1P0Uf2uRRIFXV3w1wsjCgdlCDg==
-X-Received: by 2002:adf:e887:: with SMTP id d7mr4148418wrm.62.1591706070498;
- Tue, 09 Jun 2020 05:34:30 -0700 (PDT)
+ bh=Jpf6+q8OiuFmDbu8SbMqWnakxmwLS2sZMacUeOa9SzM=;
+ b=DxCSGWKvHix0l7NVI0GMoCPW/ZS1502n9vYyUYmhKn43PhorlUbAr5y/8BHeJSojzP
+ zvVFHE3x+JxSdz1/1reVgz58OMFdH3M7EZDLTdv7Uml2w0AGzib7d8SEZBVlTXa6Nqdt
+ 8EW25/rJwkoVNtNfkmWhpRoarE+hrSdDP0Z4ZsqXrDGZJfLK4Ivu00eENFCyTWnRCSvC
+ SXAYg32GUXjhY1cCL7jlkcoUNp9IGp5xf1LUXWamWuPBUbwwAwlkdhoFUetUYZPi91Ap
+ eKmTOAHXfpw2AVxeXydrGPaCNJCw+gjPrOSUHkI4gvGeHZwX2XOgoQ3QAHcaLh2p8uvO
+ zgiA==
+X-Gm-Message-State: AOAM5323Rw+pPMeratNWPohTx01ao8IfDWoiL3BopPplEeGZIh/hJ2Ew
+ Z0d0Ro5HyMXju2qp6dqUYxN8FNo7
+X-Google-Smtp-Source: ABdhPJydAGElYgsGBepEtI/dotiHGsoXnC+EmKwiZ0oUOgGMlOwVP5jrNx6jKdpeW4DUUeL9cwa0Mg==
+X-Received: by 2002:a5d:5270:: with SMTP id l16mr4225546wrc.80.1591706071648; 
+ Tue, 09 Jun 2020 05:34:31 -0700 (PDT)
 Received: from localhost.localdomain
  (181.red-88-10-103.dynamicip.rima-tde.net. [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id c81sm2920931wmd.42.2020.06.09.05.34.29
+ by smtp.gmail.com with ESMTPSA id c81sm2920931wmd.42.2020.06.09.05.34.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Jun 2020 05:34:29 -0700 (PDT)
+ Tue, 09 Jun 2020 05:34:31 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 3/5] hw/misc/led: Add create_led_by_gpio_id() helper
-Date: Tue,  9 Jun 2020 14:34:23 +0200
-Message-Id: <20200609123425.6921-4-f4bug@amsat.org>
+Subject: [RFC PATCH 4/5] hw/arm/microbit: Add a fake LED to use as
+ proof-of-concept with Zephyr
+Date: Tue,  9 Jun 2020 14:34:24 +0200
+Message-Id: <20200609123425.6921-5-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200609123425.6921-1-f4bug@amsat.org>
 References: <20200609123425.6921-1-f4bug@amsat.org>
@@ -62,8 +63,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -97,66 +98,91 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add create_led_by_gpio_id() to easily connect a LED to
-a GPIO output.
+We were using an AVR based Arduino to use this device, but since
+the port is not merged, the microbit is the easiest board to use
+with Zephyr.
+Note the microbit doesn't have a such LED, this is simply a proof
+of concept.
+
+How to test:
+
+- Apply this patch on zephyr-v2.3.0
+
+  diff --git a/boards/arm/qemu_cortex_m0/qemu_cortex_m0.dts b/boards/arm/qemu_cortex_m0/qemu_cortex_m0.dts
+  index a1b3044275..61b39506b1 100644
+  --- a/boards/arm/qemu_cortex_m0/qemu_cortex_m0.dts
+  +++ b/boards/arm/qemu_cortex_m0/qemu_cortex_m0.dts
+  @@ -21,6 +21,18 @@
+                  zephyr,flash = &flash0;
+                  zephyr,code-partition = &slot0_partition;
+          };
+  +
+  +       leds {
+  +               compatible = "gpio-leds";
+  +               led0: led_0 {
+  +                       gpios = <&gpio0 21 GPIO_ACTIVE_LOW>;
+  +                       label = "Green LED 0";
+  +               };
+  +       };
+  +
+  +       aliases {
+  +               led0 = &led0;
+  +       };
+   };
+
+   &gpiote {
+
+- Build Zephyr blinky:
+
+  $ west build -b qemu_cortex_m0 samples/basic/blinky
+
+- Run QEMU
+
+  $ qemu-system-arm -M microbit -trace led\* \
+      -kernel ~/zephyrproject/zephyr/build/zephyr/zephyr.elf -trace led\*
+  2953@1591704866.319665:led_set led name:'Green LED #0' state 0 -> 0
+  2953@1591704867.329143:led_set led name:'Green LED #0' state 0 -> 1
+  2953@1591704868.332590:led_set led name:'Green LED #0' state 1 -> 0
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/hw/misc/led.h | 14 ++++++++++++++
- hw/misc/led.c         | 20 ++++++++++++++++++++
- 2 files changed, 34 insertions(+)
+ hw/arm/microbit.c | 3 +++
+ hw/arm/Kconfig    | 1 +
+ 2 files changed, 4 insertions(+)
 
-diff --git a/include/hw/misc/led.h b/include/hw/misc/led.h
-index 427ca1418e..58393c16de 100644
---- a/include/hw/misc/led.h
-+++ b/include/hw/misc/led.h
-@@ -27,4 +27,18 @@ typedef struct LEDState {
-     uint8_t reset_state; /* TODO [GPIO_ACTIVE_LOW, GPIO_ACTIVE_HIGH] */
- } LEDState;
+diff --git a/hw/arm/microbit.c b/hw/arm/microbit.c
+index ef213695bd..102661b66a 100644
+--- a/hw/arm/microbit.c
++++ b/hw/arm/microbit.c
+@@ -18,6 +18,7 @@
+ #include "hw/arm/nrf51_soc.h"
+ #include "hw/i2c/microbit_i2c.h"
+ #include "hw/qdev-properties.h"
++#include "hw/misc/led.h"
  
-+/**
-+ * create_led_by_gpio_id: create and LED device
-+ * @parent: the parent object
-+ * @gpio_dev: device exporting GPIOs
-+ * @gpio_id: GPIO ID of this LED
-+ * @name: name of the LED
-+ *
-+ * This utility function creates a LED and connects it to a
-+ * GPIO exported by another device.
-+ */
-+DeviceState *create_led_by_gpio_id(Object *parentobj,
-+                                   DeviceState *gpio_dev, unsigned gpio_id,
-+                                   const char *led_name);
+ typedef struct {
+     MachineState parent;
+@@ -58,6 +59,8 @@ static void microbit_init(MachineState *machine)
+     memory_region_add_subregion_overlap(&s->nrf51.container, NRF51_TWI_BASE,
+                                         mr, -1);
+ 
++    create_led_by_gpio_id(OBJECT(machine), DEVICE(soc), 21, "Green LED #0");
 +
- #endif /* HW_MISC_LED_H */
-diff --git a/hw/misc/led.c b/hw/misc/led.c
-index 233843f581..27882e2f9d 100644
---- a/hw/misc/led.c
-+++ b/hw/misc/led.c
-@@ -86,3 +86,23 @@ static void led_register_types(void)
+     armv7m_load_kernel(ARM_CPU(first_cpu), machine->kernel_filename,
+                        NRF51_SOC(soc)->flash_size);
  }
+diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+index 9afa6eee79..2afaa7c8e9 100644
+--- a/hw/arm/Kconfig
++++ b/hw/arm/Kconfig
+@@ -436,6 +436,7 @@ config FSL_IMX6UL
+ config MICROBIT
+     bool
+     select NRF51_SOC
++    select LED
  
- type_init(led_register_types)
-+
-+DeviceState *create_led_by_gpio_id(Object *parentobj,
-+                                   DeviceState *gpio_dev, unsigned gpio_id,
-+                                   const char *led_name)
-+{
-+    DeviceState *dev;
-+    char *name;
-+
-+    dev = qdev_create(NULL, TYPE_LED);
-+    /* TODO set "reset_state" */
-+    qdev_prop_set_string(dev, "name", led_name);
-+    name = g_ascii_strdown(led_name, -1);
-+    name = g_strdelimit(name, " #", '-');
-+    object_property_add_child(parentobj, name, OBJECT(dev));
-+    g_free(name);
-+    qdev_init_nofail(dev);
-+    qdev_connect_gpio_out(gpio_dev, gpio_id, qdev_get_gpio_in(dev, 0));
-+
-+    return dev;
-+}
+ config NRF51_SOC
+     bool
 -- 
 2.21.3
 
