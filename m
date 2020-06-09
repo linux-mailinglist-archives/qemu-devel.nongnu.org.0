@@ -2,88 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05D7C1F4240
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 19:29:47 +0200 (CEST)
-Received: from localhost ([::1]:37076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69F6D1F4254
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 19:31:43 +0200 (CEST)
+Received: from localhost ([::1]:43028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jii4I-0000jc-2J
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 13:29:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52290)
+	id 1jii6A-0003Hn-DR
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 13:31:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51616)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jihjC-0003cg-Q1
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 13:07:58 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:27148
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jihjA-0008T5-Vx
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 13:07:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591722476;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=bnuHye+9ACGI1Yv56xc1M8XlF7qOKtZ2bxHpIQ9SYnQ=;
- b=gLvr4g3A05KBW6sD0seu+PpUwoaWQkNYypTamKlRF1ukWNH7Gsqmg1pURSZUM/nRU6zyeW
- 2z4TDOGIekDx3778rpdOI29eILrtz17pYPc+XpRdN6WjdN5dk08ZQLlvvOHF5zIFWHjF3z
- LHmi6QpDSkDbSlzxSTwR2io0YkzeOjQ=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-272-8tIrTd-eO0eLIn6aJtg10Q-1; Tue, 09 Jun 2020 13:07:50 -0400
-X-MC-Unique: 8tIrTd-eO0eLIn6aJtg10Q-1
-Received: by mail-wr1-f72.google.com with SMTP id n6so8871223wrv.6
- for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 10:07:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=bnuHye+9ACGI1Yv56xc1M8XlF7qOKtZ2bxHpIQ9SYnQ=;
- b=gncS6UcQS5Ftnb0jyu7Lk29wQ2/M8lg9CLs0nNNKMwWBZZeuqSJto2J866PzYjboIs
- Hd733zyZ73fK+D/0s5Dz+4ZLdEqV0UtKECRLLLd3zhg9MUGPsnFWnmHC/f7o0VuX3VIb
- 1kWool/zHTbAuHdV4jKxa5NreSqWvLWXqFhyDTorrFzXEcj2h6zWZ9EbaBnlG6Ncfo7b
- GzdiJ43jkV+ULNLf3oF791XPQgZKUq9QuBlN//L3PHo3cdRkUJkoqmO+a3B5R+w0cXUf
- Co0XXW3b2p6SYAPLMdVHhrxc4rT/NLYZawZbK1vIVpNbSDwed2AWa3oj7yBEgEEkbTFy
- SS6A==
-X-Gm-Message-State: AOAM531JIdoscxwDUJB8DHg93QR5CFh8gSCd4ZP3Q8YJc6jzbe2WufrX
- UuJxMJY/9TdWK+EWxMd5Fq82bhfWFZTu1L9ma9kJwXChPWh92kVpXGiDVGEKNhET71RCPnaXjpo
- VYwtOHEse5mqKUQs=
-X-Received: by 2002:adf:9205:: with SMTP id 5mr5296664wrj.232.1591722468970;
- Tue, 09 Jun 2020 10:07:48 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxpOKtFJBeZwZCQRH+vWCbCGuP54Jw3oO8sTsozLsqw5XERFzlslXkgzC6JWonWxJ2BtsMrCw==
-X-Received: by 2002:adf:9205:: with SMTP id 5mr5296630wrj.232.1591722468554;
- Tue, 09 Jun 2020 10:07:48 -0700 (PDT)
-Received: from localhost.localdomain
- (181.red-88-10-103.dynamicip.rima-tde.net. [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id y14sm3523162wma.25.2020.06.09.10.07.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Jun 2020 10:07:48 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>,
-	qemu-devel@nongnu.org
-Subject: [PATCH v8 4/5] crypto: Add tls-cipher-suites object
-Date: Tue,  9 Jun 2020 19:07:26 +0200
-Message-Id: <20200609170727.9977-5-philmd@redhat.com>
-X-Mailer: git-send-email 2.21.3
-In-Reply-To: <20200609170727.9977-1-philmd@redhat.com>
-References: <20200609170727.9977-1-philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1jihdn-0003K6-L1; Tue, 09 Jun 2020 13:02:23 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:40819)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1jihdl-0007O6-IR; Tue, 09 Jun 2020 13:02:23 -0400
+Received: from [192.168.100.1] ([82.252.135.106]) by mrelayeu.kundenserver.de
+ (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1McpaE-1j8or81WXC-00a0wE; Tue, 09 Jun 2020 19:02:12 +0200
+Subject: Re: [PATCH] hw/unicore32/puv3: Use qemu_log_mask(ERROR) instead of
+ debug printf()
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20200524164503.11944-1-f4bug@amsat.org>
+From: Laurent Vivier <laurent@vivier.eu>
+Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <827c7ed6-6c1a-306b-a6e8-3e24c36fadc3@vivier.eu>
+Date: Tue, 9 Jun 2020 19:02:09 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8;
-	text/plain; charset="utf-8"
+In-Reply-To: <20200524164503.11944-1-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 02:41:53
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Provags-ID: V03:K1:Y3RSFJUWu65rM5DlPFpv8MohQAXk8B+Ajpr6wRviHNrgTNYvc9f
+ eyJR2WI07Te8eb+EftZAlTfsEXfa+dXT/zBclA30nrKmfS8RjvEXvWbWo6OuiMhL54NHSYJ
+ ymQcYYgooCMvjZl7f1uJ8TQojQDNH9u8p7J8OEtKX7Equ51ugZWF9daGi2Lti0tpkwg6u8K
+ fjyiNi8GDL1BLLpYbwKwQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:TWy+DFppmoM=:lYxcyeqIzUHrG3VC8JntGi
+ wUUFSHKce6fnxlnRu9DvKtL9nn6g125SWHv2JkEkjUKiUIvBVFKfc+mnNaGRcbHam0axBQxCr
+ z9O6gPDrs1U52xr7aGbsXLq4hFHKYZ3cyf0I4XL2EKIlvVZ4KxbDnAt629/ReW4bvpoOJEE5+
+ L5QeHygG1jTLKaSrdYN5DROXXPHqOfuHHBh1+vg2fVyz0dZFfKFADiEpe5RrRIFXoXhqxYBEp
+ ELDhndQn7+ZJs8SCu/UtXhci9e2k0HwbLPbfiJzD+B3bPIYUFYRlUIRrgzY6ztUoOXR2DF3Lw
+ 5y+TuspkmB3yD7PBiG2pqV5PfpWSPQV/lupB6CTnk9ypEvu6/8hh3ecjeF1XdRu5eyihUKdnk
+ Eys2zodssoUClB2q1APNCEK2hhKVdk5E5i+RpTsZEJ0cpPgxfqFYoxQaPEBM0+XBYpx8DKSN9
+ lNtUW3NYbOsA6VqMePmIpZYj6eRh0oO2NFpZbNW7ACmz2585SyZumsSPLZC2Q60BzqYH4LG1q
+ JxsTOOctC+KR9FIagmLf9DnwG8r/fH41V7fCEFqKjJo7I0bxOdvMEXZfXR6cOxhrUAzdbI7/L
+ lx1ubsFaRQFTaPJoQt01ksZHopO9H2bAwdcj544FZufcJSrOP19pu5dwHAq9ImR2eI5LETS+/
+ 47QsLph5rtdOtLqxtq+ovVnynV3RAuy6T3DliRybeCOukXO65Ss72q7yBgPjIDSAMjXDXunBM
+ YhFLH1v7uDZJOWRrB8YLxd5j48a1yeBztp6dUKMReNJsLA1xV2aNLmYAg9+9yanJCVDwA9Gbg
+ R36y7K23NqmnB7Xxe7DMO5r0Vq3PXVx6OKiYI5KLS7d9ACQF2OA7PvGduNu2wRVIJ/O+Oym
+Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 12:55:24
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,343 +115,230 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Laszlo Ersek <lersek@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-trivial@nongnu.org, Guan Xuetao <gxt@mprc.pku.edu.cn>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On the host OS, various aspects of TLS operation are configurable.
-In particular it is possible for the sysadmin to control the TLS
-cipher/protocol algorithms that applications are permitted to use.
+Le 24/05/2020 à 18:45, Philippe Mathieu-Daudé a écrit :
+> Replace some debug printf() calls by qemu_log_mask(LOG_GUEST_ERROR).
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>  hw/dma/puv3_dma.c   |  9 +++++++--
+>  hw/gpio/puv3_gpio.c | 15 +++++++++++----
+>  hw/intc/puv3_intc.c |  9 +++++++--
+>  hw/misc/puv3_pm.c   |  9 +++++++--
+>  hw/timer/puv3_ost.c |  9 +++++++--
+>  hw/unicore32/puv3.c |  2 --
+>  6 files changed, 39 insertions(+), 14 deletions(-)
+> 
+> diff --git a/hw/dma/puv3_dma.c b/hw/dma/puv3_dma.c
+> index 5488d388a9..7fa979180f 100644
+> --- a/hw/dma/puv3_dma.c
+> +++ b/hw/dma/puv3_dma.c
+> @@ -15,6 +15,7 @@
+>  #undef DEBUG_PUV3
+>  #include "hw/unicore32/puv3.h"
+>  #include "qemu/module.h"
+> +#include "qemu/log.h"
+>  
+>  #define PUV3_DMA_CH_NR          (6)
+>  #define PUV3_DMA_CH_MASK        (0xff)
+> @@ -43,7 +44,9 @@ static uint64_t puv3_dma_read(void *opaque, hwaddr offset,
+>          ret = s->reg_CFG[PUV3_DMA_CH(offset)];
+>          break;
+>      default:
+> -        DPRINTF("Bad offset 0x%x\n", offset);
+> +        qemu_log_mask(LOG_GUEST_ERROR,
+> +                      "%s: Bad read offset 0x%"HWADDR_PRIx"\n",
+> +                      __func__, offset);
+>      }
+>      DPRINTF("offset 0x%x, value 0x%x\n", offset, ret);
+>  
+> @@ -62,7 +65,9 @@ static void puv3_dma_write(void *opaque, hwaddr offset,
+>          s->reg_CFG[PUV3_DMA_CH(offset)] = value;
+>          break;
+>      default:
+> -        DPRINTF("Bad offset 0x%x\n", offset);
+> +        qemu_log_mask(LOG_GUEST_ERROR,
+> +                      "%s: Bad write offset 0x%"HWADDR_PRIx"\n",
+> +                      __func__, offset);
+>      }
+>      DPRINTF("offset 0x%x, value 0x%x\n", offset, value);
+>  }
+> diff --git a/hw/gpio/puv3_gpio.c b/hw/gpio/puv3_gpio.c
+> index d19e342514..7362b6715f 100644
+> --- a/hw/gpio/puv3_gpio.c
+> +++ b/hw/gpio/puv3_gpio.c
+> @@ -15,6 +15,7 @@
+>  #undef DEBUG_PUV3
+>  #include "hw/unicore32/puv3.h"
+>  #include "qemu/module.h"
+> +#include "qemu/log.h"
+>  
+>  #define TYPE_PUV3_GPIO "puv3_gpio"
+>  #define PUV3_GPIO(obj) OBJECT_CHECK(PUV3GPIOState, (obj), TYPE_PUV3_GPIO)
+> @@ -47,7 +48,9 @@ static uint64_t puv3_gpio_read(void *opaque, hwaddr offset,
+>          ret = s->reg_GPIR;
+>          break;
+>      default:
+> -        DPRINTF("Bad offset 0x%x\n", offset);
+> +        qemu_log_mask(LOG_GUEST_ERROR,
+> +                      "%s: Bad read offset 0x%"HWADDR_PRIx"\n",
+> +                      __func__, offset);
+>      }
+>      DPRINTF("offset 0x%x, value 0x%x\n", offset, ret);
+>  
+> @@ -68,14 +71,16 @@ static void puv3_gpio_write(void *opaque, hwaddr offset,
+>          if (s->reg_GPDR & value) {
+>              s->reg_GPLR |= value;
+>          } else {
+> -            DPRINTF("Write gpio input port error!");
+> +            qemu_log_mask(LOG_GUEST_ERROR, "%s: Write gpio input port\n",
+> +                          __func__);
+>          }
+>          break;
+>      case 0x0c:
+>          if (s->reg_GPDR & value) {
+>              s->reg_GPLR &= ~value;
+>          } else {
+> -            DPRINTF("Write gpio input port error!");
+> +            qemu_log_mask(LOG_GUEST_ERROR, "%s: Write gpio input port\n",
+> +                          __func__);
+>          }
+>          break;
+>      case 0x10: /* GRER */
+> @@ -86,7 +91,9 @@ static void puv3_gpio_write(void *opaque, hwaddr offset,
+>          s->reg_GPIR = value;
+>          break;
+>      default:
+> -        DPRINTF("Bad offset 0x%x\n", offset);
+> +        qemu_log_mask(LOG_GUEST_ERROR,
+> +                      "%s: Bad write offset 0x%"HWADDR_PRIx"\n",
+> +                      __func__, offset);
+>      }
+>  }
+>  
+> diff --git a/hw/intc/puv3_intc.c b/hw/intc/puv3_intc.c
+> index e018955ce8..090d4839d1 100644
+> --- a/hw/intc/puv3_intc.c
+> +++ b/hw/intc/puv3_intc.c
+> @@ -16,6 +16,7 @@
+>  #undef DEBUG_PUV3
+>  #include "hw/unicore32/puv3.h"
+>  #include "qemu/module.h"
+> +#include "qemu/log.h"
+>  
+>  #define TYPE_PUV3_INTC "puv3_intc"
+>  #define PUV3_INTC(obj) OBJECT_CHECK(PUV3INTCState, (obj), TYPE_PUV3_INTC)
+> @@ -68,7 +69,9 @@ static uint64_t puv3_intc_read(void *opaque, hwaddr offset,
+>          ret = s->reg_ICPR; /* the same value with ICPR */
+>          break;
+>      default:
+> -        DPRINTF("Bad offset %x\n", (int)offset);
+> +        qemu_log_mask(LOG_GUEST_ERROR,
+> +                      "%s: Bad read offset 0x%"HWADDR_PRIx"\n",
+> +                      __func__, offset);
+>      }
+>      DPRINTF("offset 0x%x, value 0x%x\n", offset, ret);
+>      return ret;
+> @@ -88,7 +91,9 @@ static void puv3_intc_write(void *opaque, hwaddr offset,
+>          s->reg_ICMR = value;
+>          break;
+>      default:
+> -        DPRINTF("Bad offset 0x%x\n", (int)offset);
+> +        qemu_log_mask(LOG_GUEST_ERROR,
+> +                      "%s: Bad write offset 0x%"HWADDR_PRIx"\n",
+> +                      __func__, offset);
+>          return;
+>      }
+>      puv3_intc_update(s);
+> diff --git a/hw/misc/puv3_pm.c b/hw/misc/puv3_pm.c
+> index c213500d9c..8989d363cd 100644
+> --- a/hw/misc/puv3_pm.c
+> +++ b/hw/misc/puv3_pm.c
+> @@ -15,6 +15,7 @@
+>  #undef DEBUG_PUV3
+>  #include "hw/unicore32/puv3.h"
+>  #include "qemu/module.h"
+> +#include "qemu/log.h"
+>  
+>  #define TYPE_PUV3_PM "puv3_pm"
+>  #define PUV3_PM(obj) OBJECT_CHECK(PUV3PMState, (obj), TYPE_PUV3_PM)
+> @@ -73,7 +74,9 @@ static uint64_t puv3_pm_read(void *opaque, hwaddr offset,
+>          ret = 0x7;
+>          break;
+>      default:
+> -        DPRINTF("Bad offset 0x%x\n", offset);
+> +        qemu_log_mask(LOG_GUEST_ERROR,
+> +                      "%s: Bad read offset 0x%"HWADDR_PRIx"\n",
+> +                      __func__, offset);
+>      }
+>      DPRINTF("offset 0x%x, value 0x%x\n", offset, ret);
+>  
+> @@ -105,7 +108,9 @@ static void puv3_pm_write(void *opaque, hwaddr offset,
+>      case 0x38:
+>          break;
+>      default:
+> -        DPRINTF("Bad offset 0x%x\n", offset);
+> +        qemu_log_mask(LOG_GUEST_ERROR,
+> +                      "%s: Bad write offset 0x%"HWADDR_PRIx"\n",
+> +                      __func__, offset);
+>      }
+>      DPRINTF("offset 0x%x, value 0x%x\n", offset, value);
+>  }
+> diff --git a/hw/timer/puv3_ost.c b/hw/timer/puv3_ost.c
+> index 697519593b..f76b0bb1ca 100644
+> --- a/hw/timer/puv3_ost.c
+> +++ b/hw/timer/puv3_ost.c
+> @@ -14,6 +14,7 @@
+>  #include "hw/irq.h"
+>  #include "hw/ptimer.h"
+>  #include "qemu/module.h"
+> +#include "qemu/log.h"
+>  
+>  #undef DEBUG_PUV3
+>  #include "hw/unicore32/puv3.h"
+> @@ -52,7 +53,9 @@ static uint64_t puv3_ost_read(void *opaque, hwaddr offset,
+>          ret = s->reg_OIER;
+>          break;
+>      default:
+> -        DPRINTF("Bad offset %x\n", (int)offset);
+> +        qemu_log_mask(LOG_GUEST_ERROR,
+> +                      "%s: Bad read offset 0x%"HWADDR_PRIx"\n",
+> +                      __func__, offset);
+>      }
+>      DPRINTF("offset 0x%x, value 0x%x\n", offset, ret);
+>      return ret;
+> @@ -88,7 +91,9 @@ static void puv3_ost_write(void *opaque, hwaddr offset,
+>          s->reg_OIER = value;
+>          break;
+>      default:
+> -        DPRINTF("Bad offset %x\n", (int)offset);
+> +        qemu_log_mask(LOG_GUEST_ERROR,
+> +                      "%s: Bad write offset 0x%"HWADDR_PRIx"\n",
+> +                      __func__, offset);
+>      }
+>  }
+>  
+> diff --git a/hw/unicore32/puv3.c b/hw/unicore32/puv3.c
+> index 7f9c0238fe..eacacb4249 100644
+> --- a/hw/unicore32/puv3.c
+> +++ b/hw/unicore32/puv3.c
+> @@ -16,8 +16,6 @@
+>  #include "hw/boards.h"
+>  #include "hw/loader.h"
+>  #include "sysemu/qtest.h"
+> -
+> -#undef DEBUG_PUV3
+>  #include "hw/unicore32/puv3.h"
+>  #include "hw/input/i8042.h"
+>  #include "hw/irq.h"
+> 
 
-* Any given crypto library has a built-in default priority list
-  defined by the distro maintainer of the library package (or by
-  upstream).
+Applied to my trivial-patches branch.
 
-* The "crypto-policies" RPM (or equivalent host OS package)
-  provides a config file such as "/etc/crypto-policies/config",
-  where the sysadmin can set a high level (library-independent)
-  policy.
-
-  The "update-crypto-policies --set" command (or equivalent) is
-  used to translate the global policy to individual library
-  representations, producing files such as
-  "/etc/crypto-policies/back-ends/*.config". The generated files,
-  if present, are loaded by the various crypto libraries to
-  override their own built-in defaults.
-
-  For example, the GNUTLS library may read
-  "/etc/crypto-policies/back-ends/gnutls.config".
-
-* A management application (or the QEMU user) may overide the
-  system-wide crypto-policies config via their own config, if
-  they need to diverge from the former.
-
-Thus the priority order is "QEMU user config" > "crypto-policies
-system config" > "library built-in config".
-
-Introduce the "tls-cipher-suites" object for exposing the ordered
-list of permitted TLS cipher suites from the host side to the
-guest firmware, via fw_cfg. The list is represented as an array
-of IANA_TLS_CIPHER objects. The firmware uses the IANA_TLS_CIPHER
-array for configuring guest-side TLS, for example in UEFI HTTPS
-Boot.
-
-The priority at which the host-side policy is retrieved is given
-by the "priority" property of the new object type. For example,
-"priority=@SYSTEM" may be used to refer to
-"/etc/crypto-policies/back-ends/gnutls.config" (given that QEMU
-uses GNUTLS).
-
-[Description from Daniel P. Berrangé, edited by Laszlo Ersek.]
-
-Example of use to dump the cipher suites:
-
-  $ qemu-system-x86_64 -S \
-    -object tls-cipher-suites,id=mysuite,priority=@SYSTEM \
-    -trace qcrypto\*
-  1590664444.197123:qcrypto_tls_cipher_suite_priority priority: @SYSTEM
-  1590664444.197219:qcrypto_tls_cipher_suite_info data=[0x13,0x02] version=TLS1.3 name=TLS_AES_256_GCM_SHA384
-  1590664444.197228:qcrypto_tls_cipher_suite_info data=[0x13,0x03] version=TLS1.3 name=TLS_CHACHA20_POLY1305_SHA256
-  1590664444.197233:qcrypto_tls_cipher_suite_info data=[0x13,0x01] version=TLS1.3 name=TLS_AES_128_GCM_SHA256
-  1590664444.197236:qcrypto_tls_cipher_suite_info data=[0x13,0x04] version=TLS1.3 name=TLS_AES_128_CCM_SHA256
-  1590664444.197240:qcrypto_tls_cipher_suite_info data=[0xc0,0x30] version=TLS1.2 name=TLS_ECDHE_RSA_AES_256_GCM_SHA384
-  1590664444.197245:qcrypto_tls_cipher_suite_info data=[0xcc,0xa8] version=TLS1.2 name=TLS_ECDHE_RSA_CHACHA20_POLY1305
-  1590664444.197250:qcrypto_tls_cipher_suite_info data=[0xc0,0x14] version=TLS1.0 name=TLS_ECDHE_RSA_AES_256_CBC_SHA1
-  1590664444.197254:qcrypto_tls_cipher_suite_info data=[0xc0,0x2f] version=TLS1.2 name=TLS_ECDHE_RSA_AES_128_GCM_SHA256
-  1590664444.197258:qcrypto_tls_cipher_suite_info data=[0xc0,0x13] version=TLS1.0 name=TLS_ECDHE_RSA_AES_128_CBC_SHA1
-  1590664444.197261:qcrypto_tls_cipher_suite_info data=[0xc0,0x2c] version=TLS1.2 name=TLS_ECDHE_ECDSA_AES_256_GCM_SHA384
-  1590664444.197266:qcrypto_tls_cipher_suite_info data=[0xcc,0xa9] version=TLS1.2 name=TLS_ECDHE_ECDSA_CHACHA20_POLY1305
-  1590664444.197270:qcrypto_tls_cipher_suite_info data=[0xc0,0xad] version=TLS1.2 name=TLS_ECDHE_ECDSA_AES_256_CCM
-  1590664444.197274:qcrypto_tls_cipher_suite_info data=[0xc0,0x0a] version=TLS1.0 name=TLS_ECDHE_ECDSA_AES_256_CBC_SHA1
-  1590664444.197278:qcrypto_tls_cipher_suite_info data=[0xc0,0x2b] version=TLS1.2 name=TLS_ECDHE_ECDSA_AES_128_GCM_SHA256
-  1590664444.197283:qcrypto_tls_cipher_suite_info data=[0xc0,0xac] version=TLS1.2 name=TLS_ECDHE_ECDSA_AES_128_CCM
-  1590664444.197287:qcrypto_tls_cipher_suite_info data=[0xc0,0x09] version=TLS1.0 name=TLS_ECDHE_ECDSA_AES_128_CBC_SHA1
-  1590664444.197291:qcrypto_tls_cipher_suite_info data=[0x00,0x9d] version=TLS1.2 name=TLS_RSA_AES_256_GCM_SHA384
-  1590664444.197296:qcrypto_tls_cipher_suite_info data=[0xc0,0x9d] version=TLS1.2 name=TLS_RSA_AES_256_CCM
-  1590664444.197300:qcrypto_tls_cipher_suite_info data=[0x00,0x35] version=TLS1.0 name=TLS_RSA_AES_256_CBC_SHA1
-  1590664444.197304:qcrypto_tls_cipher_suite_info data=[0x00,0x9c] version=TLS1.2 name=TLS_RSA_AES_128_GCM_SHA256
-  1590664444.197308:qcrypto_tls_cipher_suite_info data=[0xc0,0x9c] version=TLS1.2 name=TLS_RSA_AES_128_CCM
-  1590664444.197312:qcrypto_tls_cipher_suite_info data=[0x00,0x2f] version=TLS1.0 name=TLS_RSA_AES_128_CBC_SHA1
-  1590664444.197316:qcrypto_tls_cipher_suite_info data=[0x00,0x9f] version=TLS1.2 name=TLS_DHE_RSA_AES_256_GCM_SHA384
-  1590664444.197320:qcrypto_tls_cipher_suite_info data=[0xcc,0xaa] version=TLS1.2 name=TLS_DHE_RSA_CHACHA20_POLY1305
-  1590664444.197325:qcrypto_tls_cipher_suite_info data=[0xc0,0x9f] version=TLS1.2 name=TLS_DHE_RSA_AES_256_CCM
-  1590664444.197329:qcrypto_tls_cipher_suite_info data=[0x00,0x39] version=TLS1.0 name=TLS_DHE_RSA_AES_256_CBC_SHA1
-  1590664444.197333:qcrypto_tls_cipher_suite_info data=[0x00,0x9e] version=TLS1.2 name=TLS_DHE_RSA_AES_128_GCM_SHA256
-  1590664444.197337:qcrypto_tls_cipher_suite_info data=[0xc0,0x9e] version=TLS1.2 name=TLS_DHE_RSA_AES_128_CCM
-  1590664444.197341:qcrypto_tls_cipher_suite_info data=[0x00,0x33] version=TLS1.0 name=TLS_DHE_RSA_AES_128_CBC_SHA1
-  1590664444.197345:qcrypto_tls_cipher_suite_count count: 29
-
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
-v8: addressed Laszlo's comments
-- updated trace events format to match other crypto ones
-- inserted Daniel/Laszlo commit description
-- describe object in qemu-options.hx
----
- include/crypto/tls-cipher-suites.h |  38 +++++++++
- crypto/tls-cipher-suites.c         | 127 +++++++++++++++++++++++++++++
- crypto/Makefile.objs               |   1 +
- crypto/trace-events                |   5 ++
- qemu-options.hx                    |  19 +++++
- 5 files changed, 190 insertions(+)
- create mode 100644 include/crypto/tls-cipher-suites.h
- create mode 100644 crypto/tls-cipher-suites.c
-
-diff --git a/include/crypto/tls-cipher-suites.h b/include/crypto/tls-cipher-suites.h
-new file mode 100644
-index 0000000000..3848393a20
---- /dev/null
-+++ b/include/crypto/tls-cipher-suites.h
-@@ -0,0 +1,38 @@
-+/*
-+ * QEMU TLS Cipher Suites Registry (RFC8447)
-+ *
-+ * Copyright (c) 2019 Red Hat, Inc.
-+ *
-+ * Author: Philippe Mathieu-Daudé <philmd@redhat.com>
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+
-+#ifndef QCRYPTO_TLSCIPHERSUITES_H
-+#define QCRYPTO_TLSCIPHERSUITES_H
-+
-+#include "qom/object.h"
-+#include "crypto/tlscreds.h"
-+
-+#define TYPE_QCRYPTO_TLS_CIPHER_SUITES "tls-cipher-suites"
-+#define QCRYPTO_TLS_CIPHER_SUITES(obj) \
-+    OBJECT_CHECK(QCryptoTLSCipherSuites, (obj), TYPE_QCRYPTO_TLS_CIPHER_SUITES)
-+
-+/*
-+ * IANA registered TLS ciphers:
-+ * https://www.iana.org/assignments/tls-parameters/tls-parameters.xhtml#tls-parameters-4
-+ */
-+typedef struct {
-+    uint8_t data[2];
-+} QEMU_PACKED IANA_TLS_CIPHER;
-+
-+typedef struct QCryptoTLSCipherSuites {
-+    /* <private> */
-+    QCryptoTLSCreds parent_obj;
-+
-+    /* <public> */
-+    IANA_TLS_CIPHER *cipher_list;
-+    unsigned cipher_count;
-+} QCryptoTLSCipherSuites;
-+
-+#endif /* QCRYPTO_TLSCIPHERSUITES_H */
-diff --git a/crypto/tls-cipher-suites.c b/crypto/tls-cipher-suites.c
-new file mode 100644
-index 0000000000..f02a041f9a
---- /dev/null
-+++ b/crypto/tls-cipher-suites.c
-@@ -0,0 +1,127 @@
-+/*
-+ * QEMU TLS Cipher Suites
-+ *
-+ * Copyright (c) 2019 Red Hat, Inc.
-+ *
-+ * Author: Philippe Mathieu-Daudé <philmd@redhat.com>
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qapi/error.h"
-+#include "qom/object_interfaces.h"
-+#include "qemu/error-report.h"
-+#include "crypto/tlscreds.h"
-+#include "crypto/tls-cipher-suites.h"
-+#include "trace.h"
-+
-+static void parse_cipher_suites(QCryptoTLSCipherSuites *s,
-+                                const char *priority_name, Error **errp)
-+{
-+    int ret;
-+    const char *err;
-+    gnutls_priority_t pcache;
-+    enum { M_ENUMERATE, M_GENERATE, M_DONE } mode;
-+
-+    assert(priority_name);
-+    trace_qcrypto_tls_cipher_suite_priority(priority_name);
-+    ret = gnutls_priority_init(&pcache, priority_name, &err);
-+    if (ret < 0) {
-+        error_setg(errp, "Syntax error using priority '%s': %s",
-+                   priority_name, gnutls_strerror(ret));
-+        return;
-+    }
-+
-+    for (mode = M_ENUMERATE; mode < M_DONE; mode++) {
-+        size_t i;
-+
-+        for (i = 0;; i++) {
-+            int ret;
-+            unsigned idx;
-+            const char *name;
-+            IANA_TLS_CIPHER cipher;
-+            gnutls_protocol_t protocol;
-+
-+            ret = gnutls_priority_get_cipher_suite_index(pcache, i, &idx);
-+            if (ret == GNUTLS_E_REQUESTED_DATA_NOT_AVAILABLE) {
-+                break;
-+            }
-+            if (ret == GNUTLS_E_UNKNOWN_CIPHER_SUITE) {
-+                continue;
-+            }
-+
-+            name = gnutls_cipher_suite_info(idx, (unsigned char *)&cipher,
-+                                            NULL, NULL, NULL, &protocol);
-+            if (name == NULL) {
-+                continue;
-+            }
-+
-+            if (mode == M_GENERATE) {
-+                const char *version;
-+
-+                version = gnutls_protocol_get_name(protocol);
-+                trace_qcrypto_tls_cipher_suite_info(cipher.data[0],
-+                                                    cipher.data[1],
-+                                                    version, name);
-+                s->cipher_list[s->cipher_count] = cipher;
-+            }
-+            s->cipher_count++;
-+        }
-+
-+        if (mode == M_ENUMERATE) {
-+            if (s->cipher_count == 0) {
-+                break;
-+            }
-+            s->cipher_list = g_new(IANA_TLS_CIPHER, s->cipher_count);
-+            s->cipher_count = 0;
-+        }
-+    }
-+    trace_qcrypto_tls_cipher_suite_count(s->cipher_count);
-+    gnutls_priority_deinit(pcache);
-+}
-+
-+static void qcrypto_tls_cipher_suites_complete(UserCreatable *uc, Error **errp)
-+{
-+    QCryptoTLSCreds *s = QCRYPTO_TLS_CREDS(uc);
-+
-+    if (!s->priority) {
-+        error_setg(errp, "'priority' property is not set");
-+        return;
-+    }
-+    parse_cipher_suites(QCRYPTO_TLS_CIPHER_SUITES(s), s->priority, errp);
-+}
-+
-+static void qcrypto_tls_cipher_suites_finalize(Object *obj)
-+{
-+    QCryptoTLSCipherSuites *s = QCRYPTO_TLS_CIPHER_SUITES(obj);
-+
-+    g_free(s->cipher_list);
-+}
-+
-+static void qcrypto_tls_cipher_suites_class_init(ObjectClass *oc, void *data)
-+{
-+    UserCreatableClass *ucc = USER_CREATABLE_CLASS(oc);
-+
-+    ucc->complete = qcrypto_tls_cipher_suites_complete;
-+}
-+
-+static const TypeInfo qcrypto_tls_cipher_suites_info = {
-+    .parent = TYPE_QCRYPTO_TLS_CREDS,
-+    .name = TYPE_QCRYPTO_TLS_CIPHER_SUITES,
-+    .instance_size = sizeof(QCryptoTLSCipherSuites),
-+    .instance_finalize = qcrypto_tls_cipher_suites_finalize,
-+    .class_size = sizeof(QCryptoTLSCredsClass),
-+    .class_init = qcrypto_tls_cipher_suites_class_init,
-+    .interfaces = (InterfaceInfo[]) {
-+        { TYPE_USER_CREATABLE },
-+        { }
-+    }
-+};
-+
-+static void qcrypto_tls_cipher_suites_register_types(void)
-+{
-+    type_register_static(&qcrypto_tls_cipher_suites_info);
-+}
-+
-+type_init(qcrypto_tls_cipher_suites_register_types);
-diff --git a/crypto/Makefile.objs b/crypto/Makefile.objs
-index c2a371b0b4..1c1b5e21ff 100644
---- a/crypto/Makefile.objs
-+++ b/crypto/Makefile.objs
-@@ -13,6 +13,7 @@ crypto-obj-y += cipher.o
- crypto-obj-$(CONFIG_AF_ALG) += afalg.o
- crypto-obj-$(CONFIG_AF_ALG) += cipher-afalg.o
- crypto-obj-$(CONFIG_AF_ALG) += hash-afalg.o
-+crypto-obj-$(CONFIG_GNUTLS) += tls-cipher-suites.o
- crypto-obj-y += tlscreds.o
- crypto-obj-y += tlscredsanon.o
- crypto-obj-y += tlscredspsk.o
-diff --git a/crypto/trace-events b/crypto/trace-events
-index 9e594d30e8..798b6067ab 100644
---- a/crypto/trace-events
-+++ b/crypto/trace-events
-@@ -21,3 +21,8 @@ qcrypto_tls_creds_x509_load_cert_list(void *creds, const char *file) "TLS creds
- # tlssession.c
- qcrypto_tls_session_new(void *session, void *creds, const char *hostname, const char *authzid, int endpoint) "TLS session new session=%p creds=%p hostname=%s authzid=%s endpoint=%d"
- qcrypto_tls_session_check_creds(void *session, const char *status) "TLS session check creds session=%p status=%s"
-+
-+# tls-cipher-suites.c
-+qcrypto_tls_cipher_suite_priority(const char *name) "priority: %s"
-+qcrypto_tls_cipher_suite_info(uint8_t data0, uint8_t data1, const char *version, const char *name) "data=[0x%02x,0x%02x] version=%s name=%s"
-+qcrypto_tls_cipher_suite_count(unsigned count) "count: %u"
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 93bde2bbc8..c74366d7cc 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -4566,6 +4566,25 @@ SRST
-         string as described at
-         https://gnutls.org/manual/html_node/Priority-Strings.html.
- 
-+    ``-object tls-cipher-suites,id=id,priority=priority``
-+        Creates a TLS cipher suites object, which can be used to control
-+        the TLS cipher/protocol algorithms that applications are permitted
-+        to use.
-+
-+        The ``id`` parameter is a unique ID which backends will use to
-+        access the ordered list of permitted TLS cipher suites from the
-+        host.
-+
-+        The ``priority`` parameter allows to override the global default
-+        priority used by gnutls. This can be useful if the system
-+        administrator needs to use a weaker set of crypto priorities for
-+        QEMU without potentially forcing the weakness onto all
-+        applications. Or conversely if one wants wants a stronger
-+        default for QEMU than for all other applications, they can do
-+        this through this parameter. Its format is a gnutls priority
-+        string as described at
-+        https://gnutls.org/manual/html_node/Priority-Strings.html.
-+
-     ``-object filter-buffer,id=id,netdev=netdevid,interval=t[,queue=all|rx|tx][,status=on|off][,position=head|tail|id=<id>][,insert=behind|before]``
-         Interval t can't be 0, this filter batches the packet delivery:
-         all packets arriving in a given interval on netdev netdevid are
--- 
-2.21.3
+Thanks,
+Laurent
 
 
