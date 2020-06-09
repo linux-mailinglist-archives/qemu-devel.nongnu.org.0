@@ -2,21 +2,21 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A35C1F4898
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 23:05:32 +0200 (CEST)
-Received: from localhost ([::1]:43718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1AC51F4894
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jun 2020 23:02:47 +0200 (CEST)
+Received: from localhost ([::1]:36852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jilR5-0001PS-1V
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 17:05:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36436)
+	id 1jilOQ-0006vT-QU
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 17:02:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jilF2-0001vM-97
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 16:53:04 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:21692
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jilF1-0001uQ-Sw
+ for qemu-devel@nongnu.org; Tue, 09 Jun 2020 16:53:03 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:20377
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jilF0-0005du-Ct
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jilF0-0005e8-Qq
  for qemu-devel@nongnu.org; Tue, 09 Jun 2020 16:53:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1591735981;
@@ -24,29 +24,28 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aURE4gYYAYgiIkkGHgjWzEuuUfdhbMunL1QWTJ63vro=;
- b=QHIZiVHsOFSGQXsWutVrOxkvZcpD9X+vYeZVSX461VwGmCaoE3XHEENdTEt9Bu7wxoefhj
- ntEdOThFi8SlILPqj53+MAMIbNsadXxeNtlOTGGj9LpoZ1Xsyv+OACc3SZkEcHKrCboZ5Z
- sCUZT+HFyi8dkut9RSSMDsl58otqIn8=
+ bh=Vd5iKc9l3vMpfq7EOYBUtsqLeuqfAegPZm3hExgksoQ=;
+ b=Msv7N1Ogg9dBGOyaymXMBvgXeGwgT545VVITTZOTcwtPtnNehA40qrx02RAH5edPTxAmsz
+ KMP+uvp/0vAIeJB0ikAVOermYj2O3enCNH9pjYc/99JoMc6IUErFESvTcyDGEWc2jx++zQ
+ 4EGOT1Vfatxp2AdoYBcInxoM72NBD/s=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-191-phPRY5acP6u2AzWpf8CTcw-1; Tue, 09 Jun 2020 16:52:57 -0400
-X-MC-Unique: phPRY5acP6u2AzWpf8CTcw-1
+ us-mta-330-R2Q4JwMCNHaOSunymNcBpA-1; Tue, 09 Jun 2020 16:52:57 -0400
+X-MC-Unique: R2Q4JwMCNHaOSunymNcBpA-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0D70519200C4;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BBF898F4E5;
  Tue,  9 Jun 2020 20:52:56 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-113-22.phx2.redhat.com [10.3.113.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8591D61983;
- Tue,  9 Jun 2020 20:52:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3FCE860C80;
+ Tue,  9 Jun 2020 20:52:56 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/15] qcow2: QcowHeaderExtension print names for extension
- magics
-Date: Tue,  9 Jun 2020 15:52:43 -0500
-Message-Id: <20200609205245.3548257-14-eblake@redhat.com>
+Subject: [PULL 14/15] qcow2_format.py: dump bitmaps header extension
+Date: Tue,  9 Jun 2020 15:52:44 -0500
+Message-Id: <20200609205245.3548257-15-eblake@redhat.com>
 In-Reply-To: <20200609205245.3548257-1-eblake@redhat.com>
 References: <20200609205245.3548257-1-eblake@redhat.com>
 MIME-Version: 1.0
@@ -55,16 +54,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=eblake@redhat.com;
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=eblake@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 01:38:49
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 02:44:16
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,231 +87,172 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-Suggested-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+Add class for bitmap extension and dump its fields. Further work is to
+dump bitmap directory.
+
+Test new functionality inside 291 iotest.
+
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-Id: <20200606081806.23897-13-vsementsov@virtuozzo.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+Message-Id: <20200606081806.23897-14-vsementsov@virtuozzo.com>
+[eblake: fix iotest output]
 Signed-off-by: Eric Blake <eblake@redhat.com>
 ---
- tests/qemu-iotests/031.out         | 22 +++++++++++-----------
- tests/qemu-iotests/036.out         |  4 ++--
- tests/qemu-iotests/061.out         | 14 +++++++-------
- tests/qemu-iotests/qcow2_format.py | 17 ++++++++++++++++-
- 4 files changed, 36 insertions(+), 21 deletions(-)
+ tests/qemu-iotests/291             |  4 +++
+ tests/qemu-iotests/291.out         | 33 +++++++++++++++++++++++
+ tests/qemu-iotests/qcow2_format.py | 42 +++++++++++++++++++++++-------
+ 3 files changed, 70 insertions(+), 9 deletions(-)
 
-diff --git a/tests/qemu-iotests/031.out b/tests/qemu-iotests/031.out
-index 5a4beda6a23c..4b21d6a9ba18 100644
---- a/tests/qemu-iotests/031.out
-+++ b/tests/qemu-iotests/031.out
-@@ -25,7 +25,7 @@ refcount_order            4
- header_length             72
+diff --git a/tests/qemu-iotests/291 b/tests/qemu-iotests/291
+index 3ca83b9cd1f7..e0cffc7cb119 100755
+--- a/tests/qemu-iotests/291
++++ b/tests/qemu-iotests/291
+@@ -62,6 +62,8 @@ $QEMU_IO -c 'w 1M 1M' -f $IMGFMT "$TEST_IMG" | _filter_qemu_io
+ $QEMU_IMG bitmap --disable -f $IMGFMT "$TEST_IMG" b1
+ $QEMU_IMG bitmap --enable -f $IMGFMT "$TEST_IMG" b2
+ $QEMU_IO -c 'w 2M 1M' -f $IMGFMT "$TEST_IMG" | _filter_qemu_io
++echo "Check resulting qcow2 header extensions:"
++$PYTHON qcow2.py "$TEST_IMG" dump-header-exts
 
- Header extension:
--magic                     0x12345678
-+magic                     0x12345678 (<unknown>)
- length                    31
- data                      'This is a test header extension'
+ echo
+ echo "=== Bitmap preservation not possible to non-qcow2 ==="
+@@ -88,6 +90,8 @@ $QEMU_IMG bitmap --merge tmp -f $IMGFMT "$TEST_IMG" b0
+ $QEMU_IMG bitmap --remove --image-opts \
+     driver=$IMGFMT,file.driver=file,file.filename="$TEST_IMG" tmp
+ $QEMU_IMG info "$TEST_IMG" | _filter_img_info --format-specific
++echo "Check resulting qcow2 header extensions:"
++$PYTHON qcow2.py "$TEST_IMG" dump-header-exts
 
-@@ -53,7 +53,7 @@ refcount_order            4
- header_length             72
-
- Header extension:
--magic                     0x12345678
-+magic                     0x12345678 (<unknown>)
- length                    31
- data                      'This is a test header extension'
-
-@@ -81,12 +81,12 @@ refcount_order            4
- header_length             72
-
- Header extension:
--magic                     0xe2792aca
+ echo
+ echo "=== Check bitmap contents ==="
+diff --git a/tests/qemu-iotests/291.out b/tests/qemu-iotests/291.out
+index 8c62017567e9..ccfcdc5e35ce 100644
+--- a/tests/qemu-iotests/291.out
++++ b/tests/qemu-iotests/291.out
+@@ -14,6 +14,25 @@ wrote 1048576/1048576 bytes at offset 1048576
+ 1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ wrote 1048576/1048576 bytes at offset 2097152
+ 1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++Check resulting qcow2 header extensions:
++Header extension:
 +magic                     0xe2792aca (Backing format)
- length                    11
- data                      'host_device'
-
- Header extension:
--magic                     0x12345678
-+magic                     0x12345678 (<unknown>)
- length                    31
- data                      'This is a test header extension'
-
-@@ -116,12 +116,12 @@ refcount_order            4
- header_length             112
-
- Header extension:
--magic                     0x6803f857
++length                    5
++data                      'qcow2'
++
++Header extension:
 +magic                     0x6803f857 (Feature table)
- length                    336
- data                      <binary>
++length                    336
++data                      <binary>
++
++Header extension:
++magic                     0x23852875 (Bitmaps)
++length                    24
++nb_bitmaps                2
++reserved32                0
++bitmap_directory_size     0x40
++bitmap_directory_offset   0x510000
++
 
- Header extension:
--magic                     0x12345678
-+magic                     0x12345678 (<unknown>)
- length                    31
- data                      'This is a test header extension'
+ === Bitmap preservation not possible to non-qcow2 ===
 
-@@ -149,12 +149,12 @@ refcount_order            4
- header_length             112
-
- Header extension:
--magic                     0x6803f857
+@@ -65,6 +84,20 @@ Format specific information:
+             granularity: 65536
+     refcount bits: 16
+     corrupt: false
++Check resulting qcow2 header extensions:
++Header extension:
 +magic                     0x6803f857 (Feature table)
- length                    336
- data                      <binary>
++length                    336
++data                      <binary>
++
++Header extension:
++magic                     0x23852875 (Bitmaps)
++length                    24
++nb_bitmaps                3
++reserved32                0
++bitmap_directory_size     0x60
++bitmap_directory_offset   0x520000
++
 
- Header extension:
--magic                     0x12345678
-+magic                     0x12345678 (<unknown>)
- length                    31
- data                      'This is a test header extension'
-
-@@ -182,17 +182,17 @@ refcount_order            4
- header_length             112
-
- Header extension:
--magic                     0xe2792aca
-+magic                     0xe2792aca (Backing format)
- length                    11
- data                      'host_device'
-
- Header extension:
--magic                     0x6803f857
-+magic                     0x6803f857 (Feature table)
- length                    336
- data                      <binary>
-
- Header extension:
--magic                     0x12345678
-+magic                     0x12345678 (<unknown>)
- length                    31
- data                      'This is a test header extension'
-
-diff --git a/tests/qemu-iotests/036.out b/tests/qemu-iotests/036.out
-index e409acf60e2b..a9bed828e525 100644
---- a/tests/qemu-iotests/036.out
-+++ b/tests/qemu-iotests/036.out
-@@ -25,7 +25,7 @@ incompatible_features     []
- compatible_features       []
- autoclear_features        [63]
- Header extension:
--magic                     0x6803f857
-+magic                     0x6803f857 (Feature table)
- length                    336
- data                      <binary>
-
-@@ -37,7 +37,7 @@ incompatible_features     []
- compatible_features       []
- autoclear_features        []
- Header extension:
--magic                     0x6803f857
-+magic                     0x6803f857 (Feature table)
- length                    336
- data                      <binary>
-
-diff --git a/tests/qemu-iotests/061.out b/tests/qemu-iotests/061.out
-index a51ad1b5ba52..2f03cf045cce 100644
---- a/tests/qemu-iotests/061.out
-+++ b/tests/qemu-iotests/061.out
-@@ -25,7 +25,7 @@ refcount_order            4
- header_length             112
-
- Header extension:
--magic                     0x6803f857
-+magic                     0x6803f857 (Feature table)
- length                    336
- data                      <binary>
-
-@@ -83,7 +83,7 @@ refcount_order            4
- header_length             112
-
- Header extension:
--magic                     0x6803f857
-+magic                     0x6803f857 (Feature table)
- length                    336
- data                      <binary>
-
-@@ -139,7 +139,7 @@ refcount_order            4
- header_length             112
-
- Header extension:
--magic                     0x6803f857
-+magic                     0x6803f857 (Feature table)
- length                    336
- data                      <binary>
-
-@@ -194,7 +194,7 @@ refcount_order            4
- header_length             112
-
- Header extension:
--magic                     0x6803f857
-+magic                     0x6803f857 (Feature table)
- length                    336
- data                      <binary>
-
-@@ -263,7 +263,7 @@ refcount_order            4
- header_length             112
-
- Header extension:
--magic                     0x6803f857
-+magic                     0x6803f857 (Feature table)
- length                    336
- data                      <binary>
-
-@@ -325,7 +325,7 @@ refcount_order            4
- header_length             112
-
- Header extension:
--magic                     0x6803f857
-+magic                     0x6803f857 (Feature table)
- length                    336
- data                      <binary>
-
-@@ -354,7 +354,7 @@ refcount_order            4
- header_length             112
-
- Header extension:
--magic                     0x6803f857
-+magic                     0x6803f857 (Feature table)
- length                    336
- data                      <binary>
+ === Check bitmap contents ===
 
 diff --git a/tests/qemu-iotests/qcow2_format.py b/tests/qemu-iotests/qcow2_format.py
-index 32371e42da4e..40b5bf467b24 100644
+index 40b5bf467b24..0f65fd161d5b 100644
 --- a/tests/qemu-iotests/qcow2_format.py
 +++ b/tests/qemu-iotests/qcow2_format.py
-@@ -39,6 +39,12 @@ class Flags64(Qcow2Field):
-         return str(bits)
+@@ -103,6 +103,19 @@ class Qcow2Struct(metaclass=Qcow2StructMeta):
+             print('{:<25} {}'.format(f[2], value_str))
 
 
-+class Enum(Qcow2Field):
++class Qcow2BitmapExt(Qcow2Struct):
 +
-+    def __str__(self):
-+        return f'{self.value:#x} ({self.mapping.get(self.value, "<unknown>")})'
++    fields = (
++        ('u32', '{}', 'nb_bitmaps'),
++        ('u32', '{}', 'reserved32'),
++        ('u64', '{:#x}', 'bitmap_directory_size'),
++        ('u64', '{:#x}', 'bitmap_directory_offset')
++    )
 +
 +
- class Qcow2StructMeta(type):
-
-     # Mapping from c types to python struct format
-@@ -99,8 +105,17 @@ class Qcow2Struct(metaclass=Qcow2StructMeta):
-
++QCOW2_EXT_MAGIC_BITMAPS = 0x23852875
++
++
  class QcowHeaderExtension(Qcow2Struct):
 
-+    class Magic(Enum):
-+        mapping = {
-+            0xe2792aca: 'Backing format',
-+            0x6803f857: 'Feature table',
-+            0x0537be77: 'Crypto header',
-+            0x23852875: 'Bitmaps',
-+            0x44415441: 'Data file'
-+        }
+     class Magic(Enum):
+@@ -110,7 +123,7 @@ class QcowHeaderExtension(Qcow2Struct):
+             0xe2792aca: 'Backing format',
+             0x6803f857: 'Feature table',
+             0x0537be77: 'Crypto header',
+-            0x23852875: 'Bitmaps',
++            QCOW2_EXT_MAGIC_BITMAPS: 'Bitmaps',
+             0x44415441: 'Data file'
+         }
+
+@@ -130,8 +143,11 @@ class QcowHeaderExtension(Qcow2Struct):
+         This should be somehow refactored and functionality should be moved to
+         superclass (to allow creation of any qcow2 struct), but then, fields
+         of variable length (data here) should be supported in base class
+-        somehow. So, it's a TODO. We'll see how to properly refactor this when
+-        we have more qcow2 structures.
++        somehow. Note also, that we probably want to parse different
++        extensions. Should they be subclasses of this class, or how to do it
++        better? Should it be something like QAPI union with discriminator field
++        (magic here). So, it's a TODO. We'll see how to properly refactor this
++        when we have more qcow2 structures.
+         """
+         if fd is None:
+             assert all(v is not None for v in (magic, length, data))
+@@ -148,15 +164,23 @@ class QcowHeaderExtension(Qcow2Struct):
+             self.data = fd.read(padded)
+             assert self.data is not None
+
+-    def dump(self):
+-        data = self.data[:self.length]
+-        if all(c in string.printable.encode('ascii') for c in data):
+-            data = f"'{ data.decode('ascii') }'"
++        if self.magic == QCOW2_EXT_MAGIC_BITMAPS:
++            self.obj = Qcow2BitmapExt(data=self.data)
+         else:
+-            data = '<binary>'
++            self.obj = None
+
++    def dump(self):
+         super().dump()
+-        print(f'{"data":<25} {data}')
 +
-     fields = (
--        ('u32', '{:#x}', 'magic'),
-+        ('u32', Magic, 'magic'),
-         ('u32', '{}', 'length')
-         # length bytes of data follows
-         # then padding to next multiply of 8
++        if self.obj is None:
++            data = self.data[:self.length]
++            if all(c in string.printable.encode('ascii') for c in data):
++                data = f"'{ data.decode('ascii') }'"
++            else:
++                data = '<binary>'
++            print(f'{"data":<25} {data}')
++        else:
++            self.obj.dump()
+
+     @classmethod
+     def create(cls, magic, data):
 -- 
 2.27.0
 
