@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70F6A1F4C61
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 06:34:55 +0200 (CEST)
-Received: from localhost ([::1]:56864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 178751F4C96
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 06:49:51 +0200 (CEST)
+Received: from localhost ([::1]:51060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jisRy-0008NN-D1
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 00:34:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34106)
+	id 1jisgP-0004yd-Ud
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 00:49:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jisL0-00007s-8I
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 00:27:42 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:25668
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jisL2-0000D9-4o
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 00:27:44 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:58348
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jisKz-0008Ij-8v
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 00:27:41 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jisL1-0008J0-9W
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 00:27:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591763260;
+ s=mimecast20190719; t=1591763262;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aqpkevWS1bn14Aqbrax5GGDgUtTsP9lYBB9gZceP86Y=;
- b=RUYeVhsRbj6VLh+oCu/kGw5PyebDpwvmbOggo0LB1/MU7HK1RF9SL0hQ4AkYoAG43E7PuD
- yvRlKplKI4om9dszKnmxmdaukJkvdzTcxZXdV2QKJQzKIGa+5JuRXu5NSrFnExj96gWB46
- rA+maP22ddYySqc+ObKw6qBcTn01H2k=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-88-5mkY8ig_MqOfSWyM0ln2og-1; Wed, 10 Jun 2020 00:27:38 -0400
-X-MC-Unique: 5mkY8ig_MqOfSWyM0ln2og-1
-Received: by mail-wr1-f71.google.com with SMTP id e7so505452wrp.14
- for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 21:27:38 -0700 (PDT)
+ bh=10332xG/Et6G9yDWYNuu/GUK5CzyCJzNTiI8MGCB5RE=;
+ b=iL4E9pFb4tQZi7ZWGFdEzANnRhn7FtsZwL8MyjdaX4QQbTrBTpbwwcr1fqhu9/mezDWzkk
+ Yyngpgxd1lmfRFrV/5Lf1K6BfPUyYZJGPmcaQZt370UDZk22lp99ivRGydW0ftkJpY+OQa
+ gBvkpGeMLRdRM5r6k1ES+DxSlDsD/SQ=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-442-8y6WvEyrMxibuo3ewRfQwA-1; Wed, 10 Jun 2020 00:27:40 -0400
+X-MC-Unique: 8y6WvEyrMxibuo3ewRfQwA-1
+Received: by mail-wr1-f70.google.com with SMTP id p9so508526wrx.10
+ for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 21:27:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=aqpkevWS1bn14Aqbrax5GGDgUtTsP9lYBB9gZceP86Y=;
- b=EmPkAUQPbjmfjOxh6ZaD0Cc+CYELHIyIPfYeVJdYGZrgFeujvf8ohTtVVeQY3bOELl
- NxbsMZIgAL+FyCebTvIv97v78W2NXTAL8Z//rgV2ToeG4PCAnZdsl0tTl5itI+y/tHxP
- 9iXCDC4UQN6QZ+Vs+5ufN4fz3Q6+rwxztRl+1BsVHrOpUt6jxnNMKJIAnM8XW39hX0cY
- 4R29Xp0RdUN0ZeJ6GfWFEYAOmk3JDD9il6EqL4E86tlFtIkxkMh6W1m/e1iIcw8Peftq
- VFZzOCkzEkqqlmxR3FN+yFSlqrzzT+qil3IxgpO2UylT7a044MFjg0iYc48H/4bubNw2
- 0mGg==
-X-Gm-Message-State: AOAM530k43y3in2O1WWNM135hQxpQy0h3JNw+Sm6Zdo5Og8ZDcWv6Jow
- YtY2kfhulc/8U0swVGlDyJx69HzjG6KoWNhVz7+p/CB7MuwO2X2ShdfKTDmZvYr8uQB7oj7UTtw
- 9j2n5e2XDYlZ3Ac0=
-X-Received: by 2002:adf:ea11:: with SMTP id q17mr1278762wrm.75.1591763257253; 
- Tue, 09 Jun 2020 21:27:37 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxpPz0tfMBLH6Fu7SNnZXe6mCWlqP1HqueSMZMAnx8WcgFh1+rDA0oGXSmd6Uu3PCsPpkHibA==
-X-Received: by 2002:adf:ea11:: with SMTP id q17mr1278747wrm.75.1591763257026; 
- Tue, 09 Jun 2020 21:27:37 -0700 (PDT)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=10332xG/Et6G9yDWYNuu/GUK5CzyCJzNTiI8MGCB5RE=;
+ b=Uxzl6OggijUXEfY7P8rCX2mPdU8IURROWkpCBASaxDUcqaahf4Alk7gfqMfwmUL1eS
+ newO8oVT+SQj3FobgMggDkQJKttdoT7x+y5S4SCnBI5S0ercqUXZTMyYPivT/5GOGvJm
+ E/uz77EL86vTYaNi0tLFPf5hLZ6r+stMjGShytXUaRnoqHwYR5sYd0XGR/WGDV3jjInF
+ T4KCUZVcvaZQqW2svxWzZnKdLJ6VB+46ZnNTo91Ut9Dc9KNlMQNzp2SY4qTFP8DCsDb4
+ eG/+w+JnmROJhBWbq/nhLv9C7Nzqh4LckGbl8EP9OI++mYvqPMRvnrrucqu09WZsHN50
+ hShg==
+X-Gm-Message-State: AOAM533Q/KXicAriGaexj85GMNpgxm9LbHg7IK2xro2g0Xygy+Qo2r8s
+ s+c677yd6ESfR3akSpiDbMkYqDFkxHk/0SNQsc0jxtejoKu9+S+tg/er0GPjvUAVBZYLWlV+TSO
+ AqGAylxEzq92RT4k=
+X-Received: by 2002:a5d:400f:: with SMTP id n15mr1340341wrp.419.1591763259329; 
+ Tue, 09 Jun 2020 21:27:39 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxGLRyVGCdR8+ttsTV3QAuPfwNDTqlGm4Mk/ODjO6Ikpf97LPn0/6EUHmxrA2q7LYOXQ68Ekw==
+X-Received: by 2002:a5d:400f:: with SMTP id n15mr1340327wrp.419.1591763259130; 
+ Tue, 09 Jun 2020 21:27:39 -0700 (PDT)
 Received: from redhat.com (bzq-79-181-55-232.red.bezeqint.net. [79.181.55.232])
- by smtp.gmail.com with ESMTPSA id a3sm5964129wrp.91.2020.06.09.21.27.36
+ by smtp.gmail.com with ESMTPSA id l17sm5163022wmi.16.2020.06.09.21.27.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Jun 2020 21:27:36 -0700 (PDT)
-Date: Wed, 10 Jun 2020 00:27:35 -0400
+ Tue, 09 Jun 2020 21:27:38 -0700 (PDT)
+Date: Wed, 10 Jun 2020 00:27:37 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 28/56] hw/pci/pcie: Move hot plug capability check to pre_plug
- callback
-Message-ID: <20200610042613.1459309-29-mst@redhat.com>
+Subject: [PULL 29/56] pci: assert configuration access is within bounds
+Message-ID: <20200610042613.1459309-30-mst@redhat.com>
 References: <20200610042613.1459309-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200610042613.1459309-1-mst@redhat.com>
@@ -69,7 +70,8 @@ X-Mailer: git-send-email 2.24.1.751.gd10ce2899c
 X-Mutt-Fcc: =sent
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 Content-Disposition: inline
 Received-SPF: pass client-ip=205.139.110.61; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
@@ -95,77 +97,51 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Julia Suvorova <jusual@redhat.com>, Igor Mammedov <imammedo@redhat.com>
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Prasad J Pandit <pjp@fedoraproject.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Julia Suvorova <jusual@redhat.com>
+From: Prasad J Pandit <pjp@fedoraproject.org>
 
-Check for hot plug capability earlier to avoid removing devices attached
-during the initialization process.
+While accessing PCI configuration bytes, assert that
+'address + len' is within PCI configuration space.
 
-Run qemu with an unattached drive:
-  -drive file=$FILE,if=none,id=drive0 \
-  -device pcie-root-port,id=rp0,slot=3,bus=pcie.0,hotplug=off
-Hotplug a block device:
-  device_add virtio-blk-pci,id=blk0,drive=drive0,bus=rp0
-If hotplug fails on plug_cb, drive0 will be deleted.
+Generally it is within bounds. This is more of a defensive
+assert, in case a buggy device was to send 'address' which
+may go out of bounds.
 
-Fixes: 0501e1aa1d32a6 ("hw/pci/pcie: Forbid hot-plug if it's disabled on the slot")
-
-Acked-by: Igor Mammedov <imammedo@redhat.com>
-Signed-off-by: Julia Suvorova <jusual@redhat.com>
-Message-Id: <20200604125947.881210-1-jusual@redhat.com>
+Suggested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
+Message-Id: <20200604113525.58898-1-ppandit@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/pci/pcie.c | 19 +++++++++++--------
- 1 file changed, 11 insertions(+), 8 deletions(-)
+ hw/pci/pci.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
-index f50e10b8fb..5b9c022d91 100644
---- a/hw/pci/pcie.c
-+++ b/hw/pci/pcie.c
-@@ -407,6 +407,17 @@ static void pcie_cap_slot_plug_common(PCIDevice *hotplug_dev, DeviceState *dev,
- void pcie_cap_slot_pre_plug_cb(HotplugHandler *hotplug_dev, DeviceState *dev,
-                                Error **errp)
+diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+index 70c66965f5..7bf2ae6d92 100644
+--- a/hw/pci/pci.c
++++ b/hw/pci/pci.c
+@@ -1381,6 +1381,8 @@ uint32_t pci_default_read_config(PCIDevice *d,
  {
-+    PCIDevice *hotplug_pdev = PCI_DEVICE(hotplug_dev);
-+    uint8_t *exp_cap = hotplug_pdev->config + hotplug_pdev->exp.exp_cap;
-+    uint32_t sltcap = pci_get_word(exp_cap + PCI_EXP_SLTCAP);
+     uint32_t val = 0;
+ 
++    assert(address + len <= pci_config_size(d));
 +
-+    /* Check if hot-plug is disabled on the slot */
-+    if (dev->hotplugged && (sltcap & PCI_EXP_SLTCAP_HPC) == 0) {
-+        error_setg(errp, "Hot-plug failed: unsupported by the port device '%s'",
-+                         DEVICE(hotplug_pdev)->id);
-+        return;
-+    }
+     if (pci_is_express_downstream_port(d) &&
+         ranges_overlap(address, len, d->exp.exp_cap + PCI_EXP_LNKSTA, 2)) {
+         pcie_sync_bridge_lnk(d);
+@@ -1394,6 +1396,8 @@ void pci_default_write_config(PCIDevice *d, uint32_t addr, uint32_t val_in, int
+     int i, was_irq_disabled = pci_irq_disabled(d);
+     uint32_t val = val_in;
+ 
++    assert(addr + l <= pci_config_size(d));
 +
-     pcie_cap_slot_plug_common(PCI_DEVICE(hotplug_dev), dev, errp);
- }
- 
-@@ -415,7 +426,6 @@ void pcie_cap_slot_plug_cb(HotplugHandler *hotplug_dev, DeviceState *dev,
- {
-     PCIDevice *hotplug_pdev = PCI_DEVICE(hotplug_dev);
-     uint8_t *exp_cap = hotplug_pdev->config + hotplug_pdev->exp.exp_cap;
--    uint32_t sltcap = pci_get_word(exp_cap + PCI_EXP_SLTCAP);
-     PCIDevice *pci_dev = PCI_DEVICE(dev);
- 
-     /* Don't send event when device is enabled during qemu machine creation:
-@@ -431,13 +441,6 @@ void pcie_cap_slot_plug_cb(HotplugHandler *hotplug_dev, DeviceState *dev,
-         return;
-     }
- 
--    /* Check if hot-plug is disabled on the slot */
--    if ((sltcap & PCI_EXP_SLTCAP_HPC) == 0) {
--        error_setg(errp, "Hot-plug failed: unsupported by the port device '%s'",
--                         DEVICE(hotplug_pdev)->id);
--        return;
--    }
--
-     /* To enable multifunction hot-plug, we just ensure the function
-      * 0 added last. When function 0 is added, we set the sltsta and
-      * inform OS via event notification.
+     for (i = 0; i < l; val >>= 8, ++i) {
+         uint8_t wmask = d->wmask[addr + i];
+         uint8_t w1cmask = d->w1cmask[addr + i];
 -- 
 MST
 
