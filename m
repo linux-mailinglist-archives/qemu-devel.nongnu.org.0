@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34EF21F5599
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 15:21:23 +0200 (CEST)
-Received: from localhost ([::1]:35502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EA811F558B
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 15:15:39 +0200 (CEST)
+Received: from localhost ([::1]:46294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jj0fS-0005Sc-8t
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 09:21:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45180)
+	id 1jj0Zt-00062s-VZ
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 09:15:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45188)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jj0Ut-0007ox-5u; Wed, 10 Jun 2020 09:10:27 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:60575)
+ id 1jj0Ut-0007qf-Qn; Wed, 10 Jun 2020 09:10:27 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:45539)
  by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jj0Ur-0003gG-W3; Wed, 10 Jun 2020 09:10:26 -0400
+ id 1jj0Us-0003gq-HS; Wed, 10 Jun 2020 09:10:27 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MZkxj-1jOsnZ13xf-00WoKz; Wed, 10 Jun 2020 15:10:22 +0200
+ id 1MIdW9-1jg0D53fAz-00EahL; Wed, 10 Jun 2020 15:10:23 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 13/16] target/unicore32: Replace DPRINTF() by
- qemu_log_mask(GUEST_ERROR)
-Date: Wed, 10 Jun 2020 15:10:08 +0200
-Message-Id: <20200610131011.1941209-14-laurent@vivier.eu>
+Subject: [PULL v2 14/16] target/unicore32: Prefer qemu_semihosting_log_out()
+ over curses
+Date: Wed, 10 Jun 2020 15:10:09 +0200
+Message-Id: <20200610131011.1941209-15-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200610131011.1941209-1-laurent@vivier.eu>
 References: <20200610131011.1941209-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:9HfJrvfO+i3nrbxBCmnsBWWUGVvBPEiDsT6jc51M9j0dYoRioSV
- wbheNYm6h88m2fHXRE5tcAeFNXJglFSKVcqc47mJeuXM2x6p9G5ZIY03kTbOE+XbN3SsR0Q
- +8aTi7oc0qnVaX9TJ4bzJi5Tdo4eJXITW50UwiTkKp9kdQr6DXPbttl8mwZ8RsKVPgg1dSG
- gMltdRkAEkJm7WDn3ybiQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:R3QjNgjxlbI=:XPfO0DPGtJSmkOpd0xfsXf
- 1nmYZOqXdEzjXuIHf6X7AOl52UM3GEMgHLmqeuIsJ1aMghV7CgIuKCXR7UBDZ9rh/C8fYzkTn
- Kd1dRBV/OjUuQUXC6zSlHWMAjvKFnfn1aB/iDU8v8ivG5cI9ugubGn/k5iI8S7CJbspR+OuFM
- oGjg/fOTsHVqVzAJpNjo6F6k5NVYGsrMIIJI5bDHujU33ePLleYbkgqQDlHNn557qkPcxR5mS
- 3wTUHLhkFAC6UrfSotgBj5MeX/OJM7081ncRwkedj9dNbcpwctwQyBaeoMPDnYy6wpOzUVEN4
- hvZPmLEmoC5GjNSPyxe28uVgfl+hbye6BupYJlEWe+4PGoGCY/d5KN+hWYqySSdewLklhdrVi
- IFYuP64gZTKxe2NRFLq3gLQRa/iTFoiO7qHMwgvgv9l5p7JV5dMx93vGm/szxqN+4P907KH9O
- vM5pCk6+AwgB2dE9AchuRhNWWFJZQqDa80DDugnZjGV+VGn7qiqDUJ+s8S4t2IrgOZ7L/Gz/2
- 0JXuMq6wlajWp89EhyFUcleGqYKS9WrEdsCmYlV08nJKD2E2RVt3bodpqni/so4NyFs8ZjRhx
- EQ7ZpuXxcPc13R2fhsTREQSCbAxdZO+S0ReXfq3pV1LmMXm1smXFFkDc2MlREpxQGVPXW6nnd
- kfS/ruErvXURnXg7yQ3E/Rb84I/EzkUqUjN+0+KwKoLp62DvIv/hxQJPwplq+wRRKp/bUpgfW
- OKtQqNcZTQz3J0RnAH8ovueeTRoYl8/JUCk6VokU47IzErkAUSOglgJ4UJ5ZRqDNwpb1Isa7g
- 9ZHSP7yTrGsxySz4LMgRfbZGYA18lkvEEPgcb/049Zpqet9wJpDa5RQ6x8C/o+pIVR0JyNy
-Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:nujbTLVeKt9LpZQbtZRxvpwXyfbarq8r5Bk1K42Ndq6YN0OacSQ
+ RM56+kdZz5ysrbbSarasKGjY3EURD0bJo4Mz7hLzRHGQWNdyDGCLlx1Ocoa3hcs0OQ+B6n+
+ GXaSjO4a31/Yz+hUunQI2HM/axggTOjV3spR0vhJMZhCon2SHBQMfWw3oXq6W0tCSYf99WZ
+ maom1MPm1jNzid/hHLUxQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:31TZV5x5tDg=:XrbprX7eZQeHeu4ew2uE2e
+ NiKAqgGKP87b+jo8vIHXujuIXGkAEH6HZkkkdr/4VexALoV8uU9BA0T2eaIpTtQFg+6NbJeQQ
+ ssE+kug7hMqlS/P85p+Y8SYoTKmCuWf7TDzS81qHp8AB2yUVRsLviXUhsQbI4ncGolyRM+iDx
+ FESoMm7n9tw9ylLTCTNUi5cbZ7/HycYTENnVqgrwTdddoPIhaz79Y6jj0tiyNmpjMFUWtotAB
+ Na8azqLuZLq15zd//b5471kN5k9PwXQSPAUI8oNnOE400tQZwKTc/nmp5HyyatrzwaUT/jCNd
+ VwAYB4s2Jd3p/iE0goxtStM794sKKc0hj5APO0TH0ZnhqPObkaf9o5tCnJXXP8xkZo0gcr4k9
+ 8VTGpjWMGJSgHk/YBi3MHfQhXlnpqR46TCcdcXE5GNY3rb2KcM0L9tzv+GLQou7gbd7zHlIDu
+ l/TU6pOjaLqZoFd+hjZ5kjI42h8Ityz0mg4hTTMzzZ0C6Mi5XEe0ZTAiKPad/7q5DKTdIhdgN
+ pePwzIntf3XoDgCbQr+VDhJD3C20e1HkylQ4SYTqD2RArHbG8IwhkbUrjLupmgLKG9LO31pP5
+ ocl4vMCoCSfNGpidenuZxRPwIiQc1e5R7GByKe8TfhFdHdjyIDPFt7D+D6OP+1G7yxmNHzSrP
+ /0alf45SSeZbnNybSHQSkEsXQ5GN23f3O2+5L/4iEKHIOaIYSf43NQCUg+T6vMn343mTnLw8l
+ fRG2ict5eA8JYdLNIsf4VpvS6CJNaeILE40A4nFyN6+Byv5lpkGQBmJfCXsdn3i6Bgnn/lG0z
+ oB/fciBqwR38r9NsTCv58/6ulBoJKPqVRpHiRofMIg82ubJ06k=
+Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/10 09:10:24
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/10 09:10:20
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
@@ -78,52 +78,104 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Replace disabled DPRINTF() by qemu_log_mask(GUEST_ERROR).
+Use the common API for semihosting logging.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200603123754.19059-3-f4bug@amsat.org>
+Message-Id: <20200603123754.19059-4-f4bug@amsat.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- target/unicore32/helper.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+ default-configs/unicore32-softmmu.mak |  1 +
+ target/unicore32/helper.c             | 57 +++------------------------
+ 2 files changed, 6 insertions(+), 52 deletions(-)
 
+diff --git a/default-configs/unicore32-softmmu.mak b/default-configs/unicore32-softmmu.mak
+index 0bfce48c6da7..899288e3d715 100644
+--- a/default-configs/unicore32-softmmu.mak
++++ b/default-configs/unicore32-softmmu.mak
+@@ -3,3 +3,4 @@
+ # Boards:
+ #
+ CONFIG_PUV3=y
++CONFIG_SEMIHOSTING=y
 diff --git a/target/unicore32/helper.c b/target/unicore32/helper.c
-index 53292ae311c1..00371a7da660 100644
+index 00371a7da660..54c26871feab 100644
 --- a/target/unicore32/helper.c
 +++ b/target/unicore32/helper.c
-@@ -10,6 +10,7 @@
-  */
- 
- #include "qemu/osdep.h"
-+#include "qemu/log.h"
+@@ -14,9 +14,7 @@
  #include "cpu.h"
  #include "exec/exec-all.h"
  #include "exec/helper-proto.h"
-@@ -106,8 +107,9 @@ void helper_cp0_set(CPUUniCore32State *env, uint32_t val, uint32_t creg,
-     }
-     return;
- unrecognized:
--    DPRINTF("Wrong register (%d) or wrong operation (%d) in cp0_set!\n",
--            creg, cop);
-+    qemu_log_mask(LOG_GUEST_ERROR,
-+                  "Wrong register (%d) or wrong operation (%d) in cp0_set!\n",
-+                  creg, cop);
- }
+-#ifndef CONFIG_USER_ONLY
+-#include "ui/console.h"
+-#endif
++#include "hw/semihosting/console.h"
  
- uint32_t helper_cp0_get(CPUUniCore32State *env, uint32_t creg, uint32_t cop)
-@@ -153,8 +155,9 @@ uint32_t helper_cp0_get(CPUUniCore32State *env, uint32_t creg, uint32_t cop)
-         }
-         break;
-     }
--    DPRINTF("Wrong register (%d) or wrong operation (%d) in cp0_set!\n",
--            creg, cop);
-+    qemu_log_mask(LOG_GUEST_ERROR,
-+                  "Wrong register (%d) or wrong operation (%d) in cp0_set!\n",
-+                  creg, cop);
+ #undef DEBUG_UC32
+ 
+@@ -161,58 +159,13 @@ uint32_t helper_cp0_get(CPUUniCore32State *env, uint32_t creg, uint32_t cop)
      return 0;
  }
  
+-#ifdef CONFIG_CURSES
+-
+-/* KEY_EVENT is defined in wincon.h and in curses.h. Avoid redefinition. */
+-#undef KEY_EVENT
+-#include <curses.h>
+-#undef KEY_EVENT
+-
+-/*
+- * FIXME:
+- *     1. curses windows will be blank when switching back
+- *     2. backspace is not handled yet
+- */
+-static void putc_on_screen(unsigned char ch)
++void helper_cp1_putc(target_ulong regval)
+ {
+-    static WINDOW *localwin;
+-    static int init;
+-
+-    if (!init) {
+-        /* Assume 80 * 30 screen to minimize the implementation */
+-        localwin = newwin(30, 80, 0, 0);
+-        scrollok(localwin, TRUE);
+-        init = TRUE;
+-    }
++    const char c = regval;
+ 
+-    if (isprint(ch)) {
+-        wprintw(localwin, "%c", ch);
+-    } else {
+-        switch (ch) {
+-        case '\n':
+-            wprintw(localwin, "%c", ch);
+-            break;
+-        case '\r':
+-            /* If '\r' is put before '\n', the curses window will destroy the
+-             * last print line. And meanwhile, '\n' implifies '\r' inside. */
+-            break;
+-        default: /* Not handled, so just print it hex code */
+-            wprintw(localwin, "-- 0x%x --", ch);
+-        }
+-    }
+-
+-    wrefresh(localwin);
+-}
+-#else
+-#define putc_on_screen(c)               do { } while (0)
+-#endif
+-
+-void helper_cp1_putc(target_ulong x)
+-{
+-    putc_on_screen((unsigned char)x);   /* Output to screen */
+-    DPRINTF("%c", x);                   /* Output to stdout */
++    qemu_semihosting_log_out(&c, sizeof(c));
+ }
+-#endif
++#endif /* !CONFIG_USER_ONLY */
+ 
+ bool uc32_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+ {
 -- 
 2.26.2
 
