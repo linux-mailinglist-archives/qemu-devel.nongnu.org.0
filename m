@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B5031F54FF
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 14:38:14 +0200 (CEST)
-Received: from localhost ([::1]:46028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BD9B1F54DD
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 14:32:23 +0200 (CEST)
+Received: from localhost ([::1]:56812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jizzh-0006iK-6Q
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 08:38:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48506)
+	id 1jizu2-0007K5-I6
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 08:32:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48660)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sameid@google.com>) id 1jizi5-0003tO-I2
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 08:20:01 -0400
-Received: from mail-qv1-xf2b.google.com ([2607:f8b0:4864:20::f2b]:42547)
- by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <sameid@google.com>) id 1jizi0-0007nN-2m
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 08:20:01 -0400
-Received: by mail-qv1-xf2b.google.com with SMTP id p15so877374qvr.9
- for <qemu-devel@nongnu.org>; Wed, 10 Jun 2020 05:19:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=I27Gf9kjAaWqAWeTCSX0aZVa1pjrNkI2HruSIZfC1s4=;
- b=lwz4MM9lJSaPYaIAXkvnwNuhjDe1fD3yhqt/Qw7uVa3FKi2u2iIlF9CZRVy8FkAtgv
- sURfJlDt56SCYgnx9xqEb3V1yAyRJfsfY8Fdw1mnB5li2T+CSq6jck5jLQd6OUVCfd2N
- j6lZ83kBfDSpuwvR9BSE5pXPhtzYKxbf4kns8nHJCmtRWEHdrU/tmRjHTBij6/ECXxNN
- 5V2KB3cXDheSTtK9KSaebo2qe19fQABZF4nWpch3FFweK3BDGvGvgfUY65NxkdBEh3vX
- H1F/+StfbJD6kso7eQzQAWLDm6fBJYO5smv43+4lc21I1cxTmvil/p9+Jk16XIw41WS2
- sRCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=I27Gf9kjAaWqAWeTCSX0aZVa1pjrNkI2HruSIZfC1s4=;
- b=MX9fcEJbNkJL9cAUD8WiRN5sbZDcIKPuz99i6qR9djrt7+ptUwScJVvBIPHKxvRGti
- YMcgKUiks1abjhV8yL4JV0O0haYPKvwvKWh5xrxyyvu2bFmrQ93ByKgjp+Y+YPceBoV9
- 4hP2n8Gibe2epygtLL2hOy+5FhslVqc6K/51LQtncUl2IqFYv9L/c7qB4sDgg83bjsyT
- 4985o0Iow2ZLvoyRFJ1OAvVDjPOXI5iM5gAUULgga3kdvURrR0vkqVcTguWq3/orpSsx
- 7a3rpVd+yQbUPJ1yxAeZqK304/ZFxGp84tlQvnezHZC3xfmRgH0GYVZ22tOpiW0dNtoR
- 2WFQ==
-X-Gm-Message-State: AOAM532i12T0URaUttCyRImyO2CFjiYKDiIbXCbR1kmPoEsVPmhwudJB
- BqG1Sr70YkHgkiKqAyIA2DL9H86sPMm8JoVeOsTQDA==
-X-Google-Smtp-Source: ABdhPJzYpWGD5Pv4vqqBOQSfG4JeOr4SaQmWRqEw88awtBWaXSVw3ydPHzhZ1HQ4Ci7TwCPOdKp+4Qc3PSWYlbqgLF4=
-X-Received: by 2002:ad4:47aa:: with SMTP id a10mr2899047qvz.61.1591791589433; 
- Wed, 10 Jun 2020 05:19:49 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1jiziq-0004oV-N8
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 08:20:49 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36163
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1jizin-00082X-RL
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 08:20:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1591791644;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=6JmiVpP0lPe3b5F9EGqt2TvgR5UF5i1UayPu6VHkxqQ=;
+ b=B2PDAYe+KgCTeE4WFqosI01ppZ/Oj8bF3yGr5WFGt7dLW4UDMv7jp5mCXUjp3dqmfpVWcy
+ +I9UewFclVgPwISIUdQDnpcoEF87LOqsqIXL2vsYov0gZJZrfSctIeMynFhZxhujCHoNR1
+ NeJH7NdAzKt/F4ly+OrC4Fm09jdPDDI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-333-HEWF9EAlMgu5I18D3_Vw1A-1; Wed, 10 Jun 2020 08:20:41 -0400
+X-MC-Unique: HEWF9EAlMgu5I18D3_Vw1A-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9ECA0A0BEE;
+ Wed, 10 Jun 2020 12:20:34 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.64])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E3C538FF76;
+ Wed, 10 Jun 2020 12:20:21 +0000 (UTC)
+Date: Wed, 10 Jun 2020 14:20:18 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH v5 3/3] tests/acpi: update expected SRAT files
+Message-ID: <20200610142018.031539fc@redhat.com>
+In-Reply-To: <20200609101341-mutt-send-email-mst@kernel.org>
+References: <20200606000911.9896-1-vishal.l.verma@intel.com>
+ <20200606000911.9896-4-vishal.l.verma@intel.com>
+ <20200609101341-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-References: <CAFr6bU=LjeW5_eGtwL38cher2TM52skohuANNXN9EpO+mA-z8Q@mail.gmail.com>
- <m2imfz877v.fsf@dme.org>
-In-Reply-To: <m2imfz877v.fsf@dme.org>
-From: Sam Eiderman <sameid@google.com>
-Date: Wed, 10 Jun 2020 15:19:38 +0300
-Message-ID: <CAFr6bUk5LrEL8BPXYkNOqj_jsbxHBfbj_NYryUjszMtG89L+2w@mail.gmail.com>
-Subject: Re: Clarification regarding new qemu-img convert --target-is-zero flag
-To: David Edmondson <dme@dme.org>
-Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, 
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, eblake@redhat.com,
- Max Reitz <mreitz@redhat.com>, Tony Zhang <tzz@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f2b;
- envelope-from=sameid@google.com; helo=mail-qv1-xf2b.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -185
-X-Spam_score: -18.6
-X-Spam_bar: ------------------
-X-Spam_report: (-18.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-1,
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 21:17:20
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,64 +81,224 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Xiao Guangrong <xiaoguangrong.eric@gmail.com>,
+ Vishal Verma <vishal.l.verma@intel.com>,
+ Dave Hansen <dave.hansen@linux.intel.com>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>, jingqi.liu@intel.com,
+ Paolo Bonzini <pbonzini@redhat.com>, Dan Williams <dan.j.williams@intel.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Thanks David,
+On Tue, 9 Jun 2020 10:19:14 -0400
+"Michael S. Tsirkin" <mst@redhat.com> wrote:
 
-Yes, I imaging the following use case:
+> On Fri, Jun 05, 2020 at 06:09:11PM -0600, Vishal Verma wrote:
+> > Update expected SRAT files for the change to account for NVDIMM NUMA
+> > nodes in the SRAT.
+> > 
+> > AML diffs:
+> > 
+> > tests/data/acpi/pc/SRAT.dimmpxm:
+> > --- /tmp/asl-3P2IL0.dsl	2020-05-28 15:11:02.326439263 -0600
+> > +++ /tmp/asl-1N4IL0.dsl	2020-05-28 15:11:02.325439280 -0600
+> > @@ -3,7 +3,7 @@
+> >   * AML/ASL+ Disassembler version 20190509 (64-bit version)
+> >   * Copyright (c) 2000 - 2019 Intel Corporation
+> >   *
+> > - * Disassembly of tests/data/acpi/pc/SRAT.dimmpxm, Thu May 28 15:11:02 2020
+> > + * Disassembly of /tmp/aml-4D4IL0, Thu May 28 15:11:02 2020
+> >   *
+> >   * ACPI Data Table [SRAT]
+> >   *
+> > @@ -13,7 +13,7 @@
+> >  [000h 0000   4]                    Signature : "SRAT"    [System Resource Affinity Table]
+> >  [004h 0004   4]                 Table Length : 00000188
+> >  [008h 0008   1]                     Revision : 01
+> > -[009h 0009   1]                     Checksum : 80
+> > +[009h 0009   1]                     Checksum : 68
+> >  [00Ah 0010   6]                       Oem ID : "BOCHS "
+> >  [010h 0016   8]                 Oem Table ID : "BXPCSRAT"
+> >  [018h 0024   4]                 Oem Revision : 00000001
+> > @@ -140,15 +140,15 @@
+> >  [138h 0312   1]                Subtable Type : 01 [Memory Affinity]
+> >  [139h 0313   1]                       Length : 28
+> > 
+> > -[13Ah 0314   4]             Proximity Domain : 00000000
+> > +[13Ah 0314   4]             Proximity Domain : 00000002
+> >  [13Eh 0318   2]                    Reserved1 : 0000
+> > -[140h 0320   8]                 Base Address : 0000000000000000
+> > -[148h 0328   8]               Address Length : 0000000000000000
+> > +[140h 0320   8]                 Base Address : 0000000108000000
+> > +[148h 0328   8]               Address Length : 0000000008000000
+> >  [150h 0336   4]                    Reserved2 : 00000000
+> > -[154h 0340   4]        Flags (decoded below) : 00000000
+> > -                                     Enabled : 0
+> > +[154h 0340   4]        Flags (decoded below) : 00000005
+> > +                                     Enabled : 1
+> >                                 Hot Pluggable : 0
+> > -                                Non-Volatile : 0
+> > +                                Non-Volatile : 1
+> >  [158h 0344   8]                    Reserved3 : 0000000000000000
+> > 
+> >  [160h 0352   1]                Subtable Type : 01 [Memory Affinity]
+> > 
+> > tests/data/acpi/q35/SRAT.dimmpxm:
+> > --- /tmp/asl-HW2LL0.dsl	2020-05-28 15:11:05.446384514 -0600
+> > +++ /tmp/asl-8MYLL0.dsl	2020-05-28 15:11:05.445384532 -0600
+> > @@ -3,7 +3,7 @@
+> >   * AML/ASL+ Disassembler version 20190509 (64-bit version)
+> >   * Copyright (c) 2000 - 2019 Intel Corporation
+> >   *
+> > - * Disassembly of tests/data/acpi/q35/SRAT.dimmpxm, Thu May 28 15:11:05 2020
+> > + * Disassembly of /tmp/aml-2CYLL0, Thu May 28 15:11:05 2020
+> >   *
+> >   * ACPI Data Table [SRAT]
+> >   *
+> > @@ -13,7 +13,7 @@
+> >  [000h 0000   4]                    Signature : "SRAT"    [System Resource Affinity Table]
+> >  [004h 0004   4]                 Table Length : 00000188
+> >  [008h 0008   1]                     Revision : 01
+> > -[009h 0009   1]                     Checksum : 80
+> > +[009h 0009   1]                     Checksum : 68
+> >  [00Ah 0010   6]                       Oem ID : "BOCHS "
+> >  [010h 0016   8]                 Oem Table ID : "BXPCSRAT"
+> >  [018h 0024   4]                 Oem Revision : 00000001
+> > @@ -140,15 +140,15 @@
+> >  [138h 0312   1]                Subtable Type : 01 [Memory Affinity]
+> >  [139h 0313   1]                       Length : 28
+> > 
+> > -[13Ah 0314   4]             Proximity Domain : 00000000
+> > +[13Ah 0314   4]             Proximity Domain : 00000002
+> >  [13Eh 0318   2]                    Reserved1 : 0000
+> > -[140h 0320   8]                 Base Address : 0000000000000000
+> > -[148h 0328   8]               Address Length : 0000000000000000
+> > +[140h 0320   8]                 Base Address : 0000000108000000
+> > +[148h 0328   8]               Address Length : 0000000008000000
+> >  [150h 0336   4]                    Reserved2 : 00000000
+> > -[154h 0340   4]        Flags (decoded below) : 00000000
+> > -                                     Enabled : 0
+> > +[154h 0340   4]        Flags (decoded below) : 00000005
+> > +                                     Enabled : 1
+> >                                 Hot Pluggable : 0
+> > -                                Non-Volatile : 0
+> > +                                Non-Volatile : 1
+> >  [158h 0344   8]                    Reserved3 : 0000000000000000
+> > 
+> >  [160h 0352   1]                Subtable Type : 01 [Memory Affinity]
+> > 
+> > tests/data/acpi/virt/SRAT.memhp:
+> > --- /tmp/asl-E32WL0.dsl	2020-05-28 15:19:56.976095582 -0600
+> > +++ /tmp/asl-Y69WL0.dsl	2020-05-28 15:19:56.974095617 -0600
+> > @@ -3,7 +3,7 @@
+> >   * AML/ASL+ Disassembler version 20190509 (64-bit version)
+> >   * Copyright (c) 2000 - 2019 Intel Corporation
+> >   *
+> > - * Disassembly of tests/data/acpi/virt/SRAT.memhp, Thu May 28 15:19:56 2020
+> > + * Disassembly of /tmp/aml-2CCXL0, Thu May 28 15:19:56 2020
+> >   *
+> >   * ACPI Data Table [SRAT]
+> >   *
+> > @@ -11,9 +11,9 @@
+> >   */
+> > 
+> >  [000h 0000   4]                    Signature : "SRAT"    [System Resource Affinity Table]
+> > -[004h 0004   4]                 Table Length : 000000BA
+> > +[004h 0004   4]                 Table Length : 000000E2
+> >  [008h 0008   1]                     Revision : 03
+> > -[009h 0009   1]                     Checksum : 43
+> > +[009h 0009   1]                     Checksum : 5C
+> >  [00Ah 0010   6]                       Oem ID : "BOCHS "
+> >  [010h 0016   8]                 Oem Table ID : "BXPCSRAT"
+> >  [018h 0024   4]                 Oem Revision : 00000001
+> > @@ -65,18 +65,32 @@
+> > 
+> >  [094h 0148   4]             Proximity Domain : 00000001
+> >  [098h 0152   2]                    Reserved1 : 0000
+> > -[09Ah 0154   8]                 Base Address : 0000000080000000
+> > -[0A2h 0162   8]               Address Length : 00000000F0000000
+> > +[09Ah 0154   8]                 Base Address : 0000000088000000
+> > +[0A2h 0162   8]               Address Length : 0000000008000000
+> >  [0AAh 0170   4]                    Reserved2 : 00000000
+> > -[0AEh 0174   4]        Flags (decoded below) : 00000003
+> > +[0AEh 0174   4]        Flags (decoded below) : 00000005
+> > +                                     Enabled : 1
+> > +                               Hot Pluggable : 0
+> > +                                Non-Volatile : 1
+> > +[0B2h 0178   8]                    Reserved3 : 0000000000000000
+> > +
+> > +[0BAh 0186   1]                Subtable Type : 01 [Memory Affinity]
+> > +[0BBh 0187   1]                       Length : 28
+> > +
+> > +[0BCh 0188   4]             Proximity Domain : 00000001
+> > +[0C0h 0192   2]                    Reserved1 : 0000
+> > +[0C2h 0194   8]                 Base Address : 0000000080000000
+> > +[0CAh 0202   8]               Address Length : 00000000F0000000
+> > +[0D2h 0210   4]                    Reserved2 : 00000000
+> > +[0D6h 0214   4]        Flags (decoded below) : 00000003
+> >                                       Enabled : 1
+> >                                 Hot Pluggable : 1
+> >                                  Non-Volatile : 0
+> > -[0B2h 0178   8]                    Reserved3 : 0000000000000000
+> > +[0DAh 0218   8]                    Reserved3 : 0000000000000000
+> > 
+> > Signed-off-by: Vishal Verma <vishal.l.verma@intel.com>  
+> 
+> So I went to apply this and notices that virt tests
+> did not seem to run. Igor did you notice this too?
+> Anyway, not this patch's fault.
+> 
 
-disk.vmdk is a 50 GB disk that contains 12 MB binary of zeroes in its beginning.
-/dev/sda is a raw disk containing garbage
+It runs fine here on current master + patches 1-2
+3/3 doesn't apply cleanly anymore.
 
-I invoke:
-qemu-img convert disk.vmdk -O raw /dev/sda
+> 
+> > ---
+> >  tests/data/acpi/pc/SRAT.dimmpxm             | Bin 392 -> 392 bytes
+> >  tests/data/acpi/q35/SRAT.dimmpxm            | Bin 392 -> 392 bytes
+> >  tests/data/acpi/virt/SRAT.memhp             | Bin 186 -> 226 bytes
+> >  tests/qtest/bios-tables-test-allowed-diff.h |   3 ---
+> >  4 files changed, 3 deletions(-)
+> > 
+> > diff --git a/tests/data/acpi/pc/SRAT.dimmpxm b/tests/data/acpi/pc/SRAT.dimmpxm
+> > index f5c0267ea24bb404b6b4e687390140378fbdc3f1..5a13c61b9041c6045c29643bf93a111fb1c0c76a 100644
+> > GIT binary patch
+> > delta 51
+> > scmeBR?qKE$4ss0XU}Rum%-G0fz$nec00kUCF%aN@Pz(&LlS3Je0lmQmhyVZp
+> > 
+> > delta 51
+> > icmeBR?qKE$4ss0XU}RumY}m+Uz$ndt8%z#mGzI{_tp$hx
+> > 
+> > diff --git a/tests/data/acpi/q35/SRAT.dimmpxm b/tests/data/acpi/q35/SRAT.dimmpxm
+> > index f5c0267ea24bb404b6b4e687390140378fbdc3f1..5a13c61b9041c6045c29643bf93a111fb1c0c76a 100644
+> > GIT binary patch
+> > delta 51
+> > scmeBR?qKE$4ss0XU}Rum%-G0fz$nec00kUCF%aN@Pz(&LlS3Je0lmQmhyVZp
+> > 
+> > delta 51
+> > icmeBR?qKE$4ss0XU}RumY}m+Uz$ndt8%z#mGzI{_tp$hx
+> > 
+> > diff --git a/tests/data/acpi/virt/SRAT.memhp b/tests/data/acpi/virt/SRAT.memhp
+> > index 1b57db2072e7f7e2085c4a427aa31c7383851b71..9a35adb40c6f7cd822e5af37abba8aad033617cb 100644
+> > GIT binary patch
+> > delta 43
+> > rcmdnR_=u4!ILI;N5d#AQbIe4p$wD1K76@=aC<X@BiSc3+=gI;A(y0ha
+> > 
+> > delta 21
+> > dcmaFFxQmf1ILI+%7Xt$Wv-3o*$rF#t0suzv27~|r
+> > 
+> > diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+> > index e8f2766a63..dfb8523c8b 100644
+> > --- a/tests/qtest/bios-tables-test-allowed-diff.h
+> > +++ b/tests/qtest/bios-tables-test-allowed-diff.h
+> > @@ -1,4 +1 @@
+> >  /* List of comma-separated changed AML files to ignore */
+> > -"tests/data/acpi/pc/SRAT.dimmpxm",
+> > -"tests/data/acpi/q35/SRAT.dimmpxm",
+> > -"tests/data/acpi/virt/SRAT.memhp",
+> > -- 
+> > 2.26.2  
+> 
 
-Required output:
-The first 12 MB of /dev/sda contain zeros, the rest garbage, qemu-img
-finishes fast.
-
-Kevin, from what I understood from you, this is the default behavior.
-
-So if my VMDK is causing trouble (all virtual size is being written)
-this is probably since all the grains in the VMDK are zero allocated
-right?
-
-Thanks!
-
-On Wed, Jun 10, 2020 at 2:56 PM David Edmondson <dme@dme.org> wrote:
->
-> On Wednesday, 2020-06-10 at 08:28:29 +03, Sam Eiderman wrote:
->
-> > Hi,
-> >
-> > 168468fe19c8 ("qemu-img: Add --target-is-zero to convert") has added a
-> > nice functionality for cloud scenarios:
-> >
-> > * Create a virtual disk
-> > * Convert a sparse image (qcow2, vmdk) to the virtual disk using
-> > --target-is-zero
-> > * Use the virtual disk
-> >
-> > This saves many unnecessary writes - a qcow2 with 1MB of allocated
-> > data but with 100GB virtual size will be converted efficiently.
-> >
-> > However, does this pose a problem if the virtual disk is not zero initialized?
->
-> As Vladimir indicated, the intent of the flag is supposed to be clear
-> from the name :-) If your storage doesn't read zeroes absent any earlier
-> writes, you probably don't want to be using it.
->
-> > Theoretically - if all unallocated blocks contain garbage - this
-> > shouldn't matter, however what about allocated blocks of zero? Will
-> > convert skip copying allocated zero blocks in the source image to the
-> > target since it assumes that the target is zeroed out first thing?
->
-> So something like a "--no-need-to-zero" flag would do what you want,
-> presuming that it would write known zeroes but no longer clean the
-> device before use?
->
-> dme.
-> --
-> You can't hide from the flipside.
 
