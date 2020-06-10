@@ -2,106 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81AFC1F5B1F
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 20:28:02 +0200 (CEST)
-Received: from localhost ([::1]:57160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C733D1F5B25
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 20:28:43 +0200 (CEST)
+Received: from localhost ([::1]:60502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jj5SD-0007av-II
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 14:28:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48214)
+	id 1jj5Ss-0000eI-SS
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 14:28:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48352)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jj5No-00026K-RB; Wed, 10 Jun 2020 14:23:28 -0400
-Received: from mail-eopbgr30109.outbound.protection.outlook.com
- ([40.107.3.109]:7846 helo=EUR03-AM5-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jj5No-0006OY-1i; Wed, 10 Jun 2020 14:23:28 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=l1nF8LH47j16wqBikX67E+M6hz+BxBdhsSKsanSnOJ1E0qsGNs7531irS51oqZyJL9D0KwWQzkY41lLARpDAaf3tXGzZq7nU9ro7qda7+I7RApf2AMv4nTy0DDXmUDJ4IYxk66eV30ebidSl+NxKJQiftOwLBBp/0RG4Ib9T9c2IxvVqr78RuileHbbxYTW8s+/RNGbBo5YZadmZV+yTBgkcxRpir798gLviF/ejZd27dMrzOYgOzRXbfq0Rrk/hpDJO2XBGAaEEOLqL1FDr/YjpmA9i8TR8ISQMjRrWseh01Y1CfVG7GKaC+1R+7RM3BjaZHvVSQw5SA6zJNA18Kw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=peKo/CsEmyV7SKMrRVYNRaDGKEUjIuK8zHqtEPa9Cvg=;
- b=aRwrWFvSeBh+RvXLegvyuhCwSK0GeqTDvev/1SkMEciArCH7Iij5igwLNnZYXsUr3z+fn7VXB0+LIFMIQ18st4JOFcWfigl+O7foyaA7aPb/iziSWgXYUDBK0QXEpS+JbNs8MpdUEzeAuiLlbcp+Q6j579oUjaFkyUgHM3jM1mmsscyEBl1w3W4LQpAtjItn0FwiZCMuJo2NTMJfsAGhpph1Ga7d+DdEUQeVWTaTP+QK9toPnMX74yHJIgf/zIJ/1KqELMYD6wrqzdUliF6bielZcMrV6BWklFkRVeFmNPpl8YwHLYmVWTit8bb63s/AEtDVj6YASiJGk9tXU1fr2g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=peKo/CsEmyV7SKMrRVYNRaDGKEUjIuK8zHqtEPa9Cvg=;
- b=FkJHvuPdMTifK6z3BjIDoHqhQZbvMUnEBVXwRg8hC883JuQHIlHnqzvomXlRgiuael5LWGef0vNqI7r1nHhVXgTEeuG/tfOI9/iGmZHQg89KqEn3hoODWZJD828kQ8mMHJILaULGkKJRxSDvd2bt/QWE2JEFLAnEBcsiyD53K40=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM7PR08MB5350.eurprd08.prod.outlook.com (2603:10a6:20b:101::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3066.18; Wed, 10 Jun
- 2020 18:23:21 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::a408:2f0f:bc6c:d312]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::a408:2f0f:bc6c:d312%3]) with mapi id 15.20.3066.023; Wed, 10 Jun 2020
- 18:23:21 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH v3 4/4] block/io: auto-no-fallback for write-zeroes
-Date: Wed, 10 Jun 2020 21:23:05 +0300
-Message-Id: <20200610182305.3462-5-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20200610182305.3462-1-vsementsov@virtuozzo.com>
-References: <20200610182305.3462-1-vsementsov@virtuozzo.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: AM0PR06CA0138.eurprd06.prod.outlook.com
- (2603:10a6:208:ab::43) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jj5Ow-0004s7-DF; Wed, 10 Jun 2020 14:24:38 -0400
+Resent-Date: Wed, 10 Jun 2020 14:24:38 -0400
+Resent-Message-Id: <E1jj5Ow-0004s7-DF@lists.gnu.org>
+Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21713)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jj5Ou-0006TN-Ti; Wed, 10 Jun 2020 14:24:38 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1591813464; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=nERr9RB1PZ5GUVpniahBtzwB9D9yMLnTAt66MY94L8yPWbcm8vEjPeTSL6jl1RYqvqMjbXiWkTtAS1TivSC0O8uCSZeyJYv9gRhvI6qdzTyWxkMz897dMuqOmWeg2jDa52tdhTWEgCZtFS1dX0stTouAUApGM2n1OwNhOa7J9eI=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1591813464;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=vCCNr6hMRhfg2TnLL/ZKhYCx9revIvgL4x/Xn6AJC6c=; 
+ b=DvSiT2a9WETFFPAgYCorhxTVVbj0OhrgrJZ1jA1LB+UhV1K4g+penDB0o9IGI6uIKCEHcDHHNCoa3bPwiu1gHJU4Jj+dZZzY3PX8FjjoxkReoHieZ5GWCvRBdev99omKZcmGDx3lKvWzTTeL1teIAq12bUEEBN4x698adE9phgQ=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1591813462365206.32799210555925;
+ Wed, 10 Jun 2020 11:24:22 -0700 (PDT)
+Message-ID: <159181346094.21115.18138399616727000138@45ef0f9c86ae>
+In-Reply-To: <20200610144129.27659-1-den@openvz.org>
+Subject: Re: [PATCH 0/2] qcow2: seriously improve savevm performance
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from kvm.sw.ru (185.215.60.166) by
- AM0PR06CA0138.eurprd06.prod.outlook.com (2603:10a6:208:ab::43) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3088.21 via Frontend Transport; Wed, 10 Jun 2020 18:23:20 +0000
-X-Mailer: git-send-email 2.21.0
-X-Originating-IP: [185.215.60.166]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a94707e2-bc16-4822-dff9-08d80d6b5b2b
-X-MS-TrafficTypeDiagnostic: AM7PR08MB5350:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB535068AB020DA62915B82AB9C1830@AM7PR08MB5350.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:381;
-X-Forefront-PRVS: 0430FA5CB7
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 8Ii2WXcmBP7l4PW6JVJIzx70O9vrnWXPHcGMEcQnF9zWNyrbDU0i8/WKidTG+v5c9NKcwUEbbPMeUDDGlirgw9v2aB2sQt+Z0Sq6FYpWFtIBhPNGaXPNqLWyrpw3aAm433Ae2V9Jf9Z3bxLXJouCpSocxAFnScq/OgCzR257eZixaEBYd5fobJBVR0cZQ7nBAoTvkf64P4RrZVB3+POISMzlXYz1vxtq4o3TEtTIvMOHwferLQUVXp4veLzHBBy69cNe4swl4ddThSALWkcsPmtlfZ/nVOk2GBZ7QIF48mIJHUa/AxnFNsQk328hLStRuh4r8v1bONCTPLhIuHoHqg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(376002)(136003)(346002)(39850400004)(396003)(366004)(1076003)(956004)(8676002)(52116002)(8936002)(83380400001)(86362001)(4326008)(2616005)(478600001)(107886003)(6512007)(316002)(186003)(5660300002)(26005)(66946007)(2906002)(66556008)(16526019)(66476007)(6666004)(36756003)(6916009)(6506007)(6486002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: p9Jo6/BXAip1CKl6TIRa91GFf2rZZiq/26oAu9iojfEU9sRAWFAEivo4QNGAc5wC7e7o3gDAd7Y0j6t3VemjjV+IRalY8SXcX15OQsBWd72IdQw+AAgwJbyudqaQl5IbshQD8VXqhT+x9i9pD2G02hJfpyr5blvUSmAL1JvR2c6EyiEUQwQ8jg1xAz0mz0J/lYKVlZBb88gcpTKbR8cjegLMxfq5+Ktml3NkEbyreBQndNURKBpDuZVRRBbfVn/wRcE/claWuJc4LeI/EnDmnq6zZtuZvQ+zHiaZmEMhkXw6gYUnDKMn1DV333A6PHaqyODw0u0DZ4FFa5hHAPGiH+GfRHv14n2p55egp1kPtc/CCCweGYgVPwXJ4ly3nkNzD6POeQxkSi1Zbmtm0wAZb8J6/m2jr5ISiMsO517WWDY4jXHHFwenRAjQwJJxnESJOBPKGl/qy1sK9PxXI58qAYfVeuLCi1dkwyri8vqKuOk=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a94707e2-bc16-4822-dff9-08d80d6b5b2b
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jun 2020 18:23:21.6353 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: GshKsdKAP5cbhL0+TRaW/76XTZ3NwqBW3m6x4xvftxYpqJCRUgq655ry4JU2kFu8gJwvbjKFQHP9qhB0IWpSST4g9hUFmmtvgVkoetUASgo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5350
-Received-SPF: pass client-ip=40.107.3.109;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR03-AM5-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/10 14:23:19
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
- RCVD_IN_SBL_CSS=3.335, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: den@openvz.org
+Date: Wed, 10 Jun 2020 11:24:22 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o57.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/10 14:20:12
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -114,65 +67,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, fam@euphon.net, vsementsov@virtuozzo.com,
- qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com, den@openvz.org
+Reply-To: qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, mreitz@redhat.com, dplotnikov@virtuozzo.com,
+ den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When BDRV_REQ_NO_FALLBACK is supported, the NBD driver supports a
-larger request size.  Add code to try large zero requests with a
-NO_FALLBACK request prior to having to split a request into chunks
-according to max_pwrite_zeroes.
-
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- block/io.c | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
-
-diff --git a/block/io.c b/block/io.c
-index 3fae97da2d..9a6dabb595 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -1778,6 +1778,7 @@ static int coroutine_fn bdrv_co_do_pwrite_zeroes(BlockDriverState *bs,
-     int alignment = MAX(bs->bl.pwrite_zeroes_alignment,
-                         bs->bl.request_alignment);
-     int max_transfer = MIN_NON_ZERO(bs->bl.max_transfer, MAX_BOUNCE_BUFFER);
-+    bool auto_no_fallback;
- 
-     assert(alignment % bs->bl.request_alignment == 0);
- 
-@@ -1785,6 +1786,16 @@ static int coroutine_fn bdrv_co_do_pwrite_zeroes(BlockDriverState *bs,
-         return -ENOMEDIUM;
-     }
- 
-+    if (!(flags & BDRV_REQ_NO_FALLBACK) &&
-+        (bs->supported_zero_flags & BDRV_REQ_NO_FALLBACK) &&
-+        bs->bl.max_pwrite_zeroes && bs->bl.max_pwrite_zeroes < bytes &&
-+        bs->bl.max_pwrite_zeroes < bs->bl.max_pwrite_zeroes_fast)
-+    {
-+        assert(drv->bdrv_co_pwrite_zeroes);
-+        flags |= BDRV_REQ_NO_FALLBACK;
-+        auto_no_fallback = true;
-+    }
-+
-     if ((flags & ~bs->supported_zero_flags) & BDRV_REQ_NO_FALLBACK) {
-         return -ENOTSUP;
-     }
-@@ -1829,6 +1840,13 @@ static int coroutine_fn bdrv_co_do_pwrite_zeroes(BlockDriverState *bs,
-         if (drv->bdrv_co_pwrite_zeroes) {
-             ret = drv->bdrv_co_pwrite_zeroes(bs, offset, num,
-                                              flags & bs->supported_zero_flags);
-+            if (ret == -ENOTSUP && auto_no_fallback) {
-+                flags &= ~BDRV_REQ_NO_FALLBACK;
-+                max_write_zeroes =
-+                    QEMU_ALIGN_DOWN(MIN_NON_ZERO(bs->bl.max_pwrite_zeroes,
-+                                                 INT_MAX), alignment);
-+                continue;
-+            }
-             if (ret != -ENOTSUP && (flags & BDRV_REQ_FUA) &&
-                 !(bs->supported_zero_flags & BDRV_REQ_FUA)) {
-                 need_flush = true;
--- 
-2.21.0
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDYxMDE0NDEyOS4yNzY1
+OS0xLWRlbkBvcGVudnoub3JnLwoKCgpIaSwKClRoaXMgc2VyaWVzIGZhaWxlZCB0aGUgZG9ja2Vy
+LW1pbmd3QGZlZG9yYSBidWlsZCB0ZXN0LiBQbGVhc2UgZmluZCB0aGUgdGVzdGluZyBjb21tYW5k
+cyBhbmQKdGhlaXIgb3V0cHV0IGJlbG93LiBJZiB5b3UgaGF2ZSBEb2NrZXIgaW5zdGFsbGVkLCB5
+b3UgY2FuIHByb2JhYmx5IHJlcHJvZHVjZSBpdApsb2NhbGx5LgoKPT09IFRFU1QgU0NSSVBUIEJF
+R0lOID09PQojISAvYmluL2Jhc2gKZXhwb3J0IEFSQ0g9eDg2XzY0Cm1ha2UgZG9ja2VyLWltYWdl
+LWZlZG9yYSBWPTEgTkVUV09SSz0xCnRpbWUgbWFrZSBkb2NrZXItdGVzdC1taW5nd0BmZWRvcmEg
+Sj0xNCBORVRXT1JLPTEKPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCiAgQlVOWklQMiBwYy1iaW9z
+L2VkazItaTM4Ni1jb2RlLmZkLmJ6MgogIEJVTlpJUDIgcGMtYmlvcy9lZGsyLWFybS12YXJzLmZk
+LmJ6MgovdG1wL3FlbXUtdGVzdC9zcmMvYmxvY2svcWNvdzIuYzogSW4gZnVuY3Rpb24gJ3Fjb3cy
+X2NvX3Ztc3RhdGVfdGFza19lbnRyeSc6Ci90bXAvcWVtdS10ZXN0L3NyYy9ibG9jay9xY293Mi5j
+OjUxNDc6MTI6IGVycm9yOiAnZXJyJyBtYXkgYmUgdXNlZCB1bmluaXRpYWxpemVkIGluIHRoaXMg
+ZnVuY3Rpb24gWy1XZXJyb3I9bWF5YmUtdW5pbml0aWFsaXplZF0KICAgICByZXR1cm4gZXJyOwog
+ICAgICAgICAgICBefn4KY2MxOiBhbGwgd2FybmluZ3MgYmVpbmcgdHJlYXRlZCBhcyBlcnJvcnMK
+bWFrZTogKioqIFsvdG1wL3FlbXUtdGVzdC9zcmMvcnVsZXMubWFrOjY5OiBibG9jay9xY293Mi5v
+XSBFcnJvciAxCm1ha2U6ICoqKiBXYWl0aW5nIGZvciB1bmZpbmlzaGVkIGpvYnMuLi4uClRyYWNl
+YmFjayAobW9zdCByZWNlbnQgY2FsbCBsYXN0KToKICBGaWxlICIuL3Rlc3RzL2RvY2tlci9kb2Nr
+ZXIucHkiLCBsaW5lIDY2NSwgaW4gPG1vZHVsZT4KLS0tCiAgICByYWlzZSBDYWxsZWRQcm9jZXNz
+RXJyb3IocmV0Y29kZSwgY21kKQpzdWJwcm9jZXNzLkNhbGxlZFByb2Nlc3NFcnJvcjogQ29tbWFu
+ZCAnWydzdWRvJywgJy1uJywgJ2RvY2tlcicsICdydW4nLCAnLS1sYWJlbCcsICdjb20ucWVtdS5p
+bnN0YW5jZS51dWlkPWEwMzI3YWUyZWYzYzQxNjNiZGQzMDdiMzBiYzkwYTdjJywgJy11JywgJzEw
+MDMnLCAnLS1zZWN1cml0eS1vcHQnLCAnc2VjY29tcD11bmNvbmZpbmVkJywgJy0tcm0nLCAnLWUn
+LCAnVEFSR0VUX0xJU1Q9JywgJy1lJywgJ0VYVFJBX0NPTkZJR1VSRV9PUFRTPScsICctZScsICdW
+PScsICctZScsICdKPTE0JywgJy1lJywgJ0RFQlVHPScsICctZScsICdTSE9XX0VOVj0nLCAnLWUn
+LCAnQ0NBQ0hFX0RJUj0vdmFyL3RtcC9jY2FjaGUnLCAnLXYnLCAnL2hvbWUvcGF0Y2hldzIvLmNh
+Y2hlL3FlbXUtZG9ja2VyLWNjYWNoZTovdmFyL3RtcC9jY2FjaGU6eicsICctdicsICcvdmFyL3Rt
+cC9wYXRjaGV3LXRlc3Rlci10bXAtZmJ2cnRyNnUvc3JjL2RvY2tlci1zcmMuMjAyMC0wNi0xMC0x
+NC4yMi4wMS4yMTQ1MzovdmFyL3RtcC9xZW11Onoscm8nLCAncWVtdTpmZWRvcmEnLCAnL3Zhci90
+bXAvcWVtdS9ydW4nLCAndGVzdC1taW5ndyddJyByZXR1cm5lZCBub24temVybyBleGl0IHN0YXR1
+cyAyLgpmaWx0ZXI9LS1maWx0ZXI9bGFiZWw9Y29tLnFlbXUuaW5zdGFuY2UudXVpZD1hMDMyN2Fl
+MmVmM2M0MTYzYmRkMzA3YjMwYmM5MGE3YwptYWtlWzFdOiAqKiogW2RvY2tlci1ydW5dIEVycm9y
+IDEKbWFrZVsxXTogTGVhdmluZyBkaXJlY3RvcnkgYC92YXIvdG1wL3BhdGNoZXctdGVzdGVyLXRt
+cC1mYnZydHI2dS9zcmMnCm1ha2U6ICoqKiBbZG9ja2VyLXJ1bi10ZXN0LW1pbmd3QGZlZG9yYV0g
+RXJyb3IgMgoKcmVhbCAgICAybTIwLjc5MXMKdXNlciAgICAwbTguNDgzcwoKClRoZSBmdWxsIGxv
+ZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMDA2MTAxNDQxMjku
+Mjc2NTktMS1kZW5Ab3BlbnZ6Lm9yZy90ZXN0aW5nLmRvY2tlci1taW5nd0BmZWRvcmEvP3R5cGU9
+bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0
+dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3
+LWRldmVsQHJlZGhhdC5jb20=
 
