@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02CC01F5E2F
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 00:13:40 +0200 (CEST)
-Received: from localhost ([::1]:39544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C4141F5E40
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 00:20:07 +0200 (CEST)
+Received: from localhost ([::1]:57384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jj8yZ-0003Ml-0U
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 18:13:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39912)
+	id 1jj94o-0002jD-5U
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 18:20:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jj8uT-0005wi-BQ; Wed, 10 Jun 2020 18:09:25 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:52707)
+ id 1jj8uU-0005zW-JI; Wed, 10 Jun 2020 18:09:26 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:38213)
  by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jj8uS-0008IE-Hq; Wed, 10 Jun 2020 18:09:24 -0400
-Received: by mail-wm1-x344.google.com with SMTP id r9so3239103wmh.2;
- Wed, 10 Jun 2020 15:09:11 -0700 (PDT)
+ id 1jj8uT-0008IL-OD; Wed, 10 Jun 2020 18:09:26 -0400
+Received: by mail-wr1-x442.google.com with SMTP id e1so4054078wrt.5;
+ Wed, 10 Jun 2020 15:09:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=fCWXr6zHNQbQPJ8BLLwrAx76MymcZFD1NlfKOZXdkr4=;
- b=uZWKnxaRDpKGzUjo9WJF4UAfNQeHO8Pr6Nu3oUn/eU7p4YeGVkVwVh71HpuWF1AEJa
- BYWQ+lHAGNzmvyINp2MR+Ew/EJ8Kt/RQHSsBH/tXvwcRUTy4R+JLEpXO8oTGjOu807Rt
- Xx0RUavFJeGzcbbvIOFztOGEKLNahigIMPzyGjUx7r4YmVtcYEgg5dTMqZGqxZDTALG8
- kC7gelvuZ0oAg8WtAbFYgZwJTiGgLLGmNlW+QVMsQLCrw4pj8hc0/yfteibekUT9zq/+
- Jn0acq/ULpN9nugW/f6UVdG7T+6Mdv4kdys0pbA8/3A+GQ+eZK++OM1MLao97ZYpnX/t
- lweg==
+ bh=w8hUc/1TWyX+gQCAaNVvAefQWKI4RgRqWbvHS2ef4jA=;
+ b=QPGdw2OYaWjLZNm0hmBQtaR3QOGaPEDsFvhNy+EdrmbrGuAdoieVsToE5gvBORNXZp
+ qPXcucr8QN6tN0bADHgRb5EZ5Psxov+HgeZ+hhv864/s8LuQW20O1OnHuoD+B9aXZpI0
+ 7ZS2smE6ztXN8ods/Y7YCVQbiZyuzo9eVkok632fumLxy00pdkMriMrDsLuWtmjBJSB9
+ rF/QNEFJC9k9WaYYYxnYtao0olYi/9oU+JrjsZ3BUjIk29nMGo5Mq3cwU68p1acrcHW+
+ R+GtemHl57509r5JuZ+Gsc9YF1CZVSJBRAcVz4LLCAg+z+cyK2sWwSbb+35Fl9ojEvby
+ DNEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=fCWXr6zHNQbQPJ8BLLwrAx76MymcZFD1NlfKOZXdkr4=;
- b=E8lt/lC1ZfFy639x/5hp/2LxNqCcPmFNoMEmbuqPo7slHfBq1pw73cmPZbCFpJvhvV
- lmUYp8in8mWP8rO+NL6W9LZ5VJs0GFvSFaLPcVFzHvdnzeP6m3OTybqyk1FS96kUYWp1
- eliR0JBjADYi01fp2i1Qmeh2LDuSGNC74rM6H0pu6IL7n6X7+D5RyEiMVLDrR+pZpy9m
- FMKvvhl3ku2pXJIQrlA8bbKdDyJP9nPt/8urSGO/ArVePjhJp40FFeKza8jYRpM7MZnx
- 98/bd41hoRBV864OROPILz+osKBUnrW9ukg0nARuQMTwv4xctdtDfDHWbIx2wZiIZVCj
- FDKA==
-X-Gm-Message-State: AOAM531hcJ0z1pvvXa5LBKXgLRkl5iiaejcozEhwI7p0uCVKxhAQqiNH
- VSBRO3zzy6iTLrNQR5NQaEiGGYUv
-X-Google-Smtp-Source: ABdhPJwQx0tWiic5WPjQpeO61Qydwb9ShWvGEbP5yjG0ZsbvDXvSevcXlNSWgkKquz7g2Ph9LIlNzg==
-X-Received: by 2002:a1c:6244:: with SMTP id w65mr5031214wmb.82.1591826950036; 
- Wed, 10 Jun 2020 15:09:10 -0700 (PDT)
+ bh=w8hUc/1TWyX+gQCAaNVvAefQWKI4RgRqWbvHS2ef4jA=;
+ b=IhSXEwB8anNwGNFJsw76SCOQzUp63jNB6G1Q+asAVSelosbe3WAz7rba0zxWfmmo2L
+ l9xPRvh3lk3um9z80GiPzyYjC0yxKGQctR33W0KkSKGXvP/IeCFl+qAqix59H6peg5vj
+ P28kJhQ2/CVQwgERFF/7rKFILav0AolGMAGzfnmar/jNxBkKFIv6+/A+F9XKM1Nwck9n
+ qyMtkAI7I5qv6hFupLfLv5lDBvcdLH6NB/S+1J2G27kbr1njhJQFzUvh1xq7rmeg746V
+ uHJueSepaeO1JCQWsLzM02i6HOEV+YJ+rQLoYJjIpx+sKGlXfETM61KFw60P6/2TWGaT
+ Fkqw==
+X-Gm-Message-State: AOAM530wO9x/VeiQHJ3Ruj7CYD/s1wAKFtyqK7E8EUtbQNGbmyL/b/TZ
+ DF+uUscLoIhg5n1F7Rs2EjkzK5R6
+X-Google-Smtp-Source: ABdhPJyqujrpcZdf9sE1ZE4l53t92y3KJI54iiVaAPOL2qtj6NN4p5cC50dIVdl5GxClIVz1G5Eayw==
+X-Received: by 2002:a5d:6986:: with SMTP id g6mr6093091wru.27.1591826951876;
+ Wed, 10 Jun 2020 15:09:11 -0700 (PDT)
 Received: from x1w.redhat.com (181.red-88-10-103.dynamicip.rima-tde.net.
  [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id 40sm1819354wrc.15.2020.06.10.15.09.08
+ by smtp.gmail.com with ESMTPSA id 40sm1819354wrc.15.2020.06.10.15.09.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Jun 2020 15:09:09 -0700 (PDT)
+ Wed, 10 Jun 2020 15:09:10 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 09/11] hw/timer/sh_timer: Remove unused 'qemu/timer.h'
- include
-Date: Thu, 11 Jun 2020 00:08:51 +0200
-Message-Id: <20200610220853.8558-10-f4bug@amsat.org>
+Subject: [PATCH v3 10/11] tests/acceptance: Add boot tests for sh4 QEMU advent
+ calendar image
+Date: Thu, 11 Jun 2020 00:08:52 +0200
+Message-Id: <20200610220853.8558-11-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200610220853.8558-1-f4bug@amsat.org>
 References: <20200610220853.8558-1-f4bug@amsat.org>
@@ -63,8 +63,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x344.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -73,7 +73,7 @@ X-Spam_bar: /
 X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
  DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
  HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,31 +93,61 @@ Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
  Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Remove unused "qemu/timer.h" include.
+From: Thomas Huth <thuth@redhat.com>
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Now that we can select the second serial console in the acceptance tests
+(see commit 746f244d9720 "Allow to use other serial consoles than default"),
+we can also test the sh4 image from the QEMU advent calendar 2018.
+
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20200515164337.4899-1-thuth@redhat.com>
+[PMD: Split .travis.yml change in separate patch]
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/timer/sh_timer.c | 1 -
- 1 file changed, 1 deletion(-)
+ tests/acceptance/boot_linux_console.py | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
-diff --git a/hw/timer/sh_timer.c b/hw/timer/sh_timer.c
-index b9cbacf5d0..bb0e1c8ee5 100644
---- a/hw/timer/sh_timer.c
-+++ b/hw/timer/sh_timer.c
-@@ -13,7 +13,6 @@
- #include "hw/hw.h"
- #include "hw/irq.h"
- #include "hw/sh4/sh.h"
--#include "qemu/timer.h"
- #include "hw/timer/tmu012.h"
- #include "hw/ptimer.h"
+diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
+index 3f3aa0c854..3d02519660 100644
+--- a/tests/acceptance/boot_linux_console.py
++++ b/tests/acceptance/boot_linux_console.py
+@@ -858,12 +858,12 @@ def test_m68k_q800(self):
+         console_pattern = 'No filesystem could mount root'
+         self.wait_for_console_pattern(console_pattern)
  
+-    def do_test_advcal_2018(self, day, tar_hash, kernel_name):
++    def do_test_advcal_2018(self, day, tar_hash, kernel_name, console=0):
+         tar_url = ('https://www.qemu-advent-calendar.org'
+                    '/2018/download/day' + day + '.tar.xz')
+         file_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
+         archive.extract(file_path, self.workdir)
+-        self.vm.set_console()
++        self.vm.set_console(console_index=console)
+         self.vm.add_args('-kernel',
+                          self.workdir + '/day' + day + '/' + kernel_name)
+         self.vm.launch()
+@@ -937,6 +937,15 @@ def test_ppc_mac99(self):
+         self.vm.add_args('-M', 'graphics=off')
+         self.do_test_advcal_2018('15', tar_hash, 'invaders.elf')
+ 
++    def test_sh4_r2d(self):
++        """
++        :avocado: tags=arch:sh4
++        :avocado: tags=machine:r2d
++        """
++        tar_hash = 'fe06a4fd8ccbf2e27928d64472939d47829d4c7e'
++        self.vm.add_args('-append', 'console=ttySC1')
++        self.do_test_advcal_2018('09', tar_hash, 'zImage', console=1)
++
+     def test_sparc_ss20(self):
+         """
+         :avocado: tags=arch:sparc
 -- 
 2.21.3
 
