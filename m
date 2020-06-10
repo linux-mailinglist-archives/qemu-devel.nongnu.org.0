@@ -2,88 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 965651F4CAB
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 06:55:58 +0200 (CEST)
-Received: from localhost ([::1]:45972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C45D41F4CB4
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 06:59:55 +0200 (CEST)
+Received: from localhost ([::1]:33828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jismL-0006Uj-Fr
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 00:55:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34294)
+	id 1jisqA-00052I-Px
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 00:59:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37042)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jisM1-0002SF-NN
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 00:28:45 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:37616
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jisM0-0008Pz-Th
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 00:28:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591763324;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7i0b3GPG3H6Dh/tglQZmkCX3+dgrOP3sk2+xsAeedP8=;
- b=R62+4zvykcJMpr3jYpxoILi2trG2fwygE3j7PtIdiXYh1xbhqvxzA+yY3OAh5yVHQaD5uL
- X2PfJFOBeiGemjLizfZI7fJ9e281CR9JupPwYMMWiX94MmDHPGRZw9L3wkO0adJj98Rz9F
- 7FQsSYR9ueWN64nhKdMYnxLl8iooa14=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-242-sXEeM9VrN0q-CmoD4PXc5w-1; Wed, 10 Jun 2020 00:28:42 -0400
-X-MC-Unique: sXEeM9VrN0q-CmoD4PXc5w-1
-Received: by mail-wr1-f69.google.com with SMTP id j16so492396wre.22
- for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 21:28:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=7i0b3GPG3H6Dh/tglQZmkCX3+dgrOP3sk2+xsAeedP8=;
- b=QywDyd6N6XpdT6zqadMNgF4jUksCSgbVNwnF2dS7Pxlmxcvnt8bCuJPz61oalA8Cy1
- 5utSOs/Q78ISCWJYoKl5EubYNLwSwnrOJSEbMW6e7XvCL7mpXg5SGvhH86m21CR9eTRj
- 7zVpyUPgVjy+oG8l/B5q2pnSF9lAcsg9WKTwByttbEerk0o0iavPW4a7xoSFNK05qEkU
- iLxB+RdoI2Z1hzVqxTjiqOotGwmCvrMZXfJcoD5DYTnWR9eD5T6Vl6QYhlDHuYYIKKlE
- xgqlAx++Y20GqmacEL/2Z45pyaiFvCIU6ZLQ7wicJA3I2MZK/Pelg/Vr5kZ/IVmVR27X
- S+Fg==
-X-Gm-Message-State: AOAM533av5TgFsFmPJcv/odWR5UZvOcTxDIaAWuI7zxbqE05KsUJBUp3
- LlK/ovwatvInDoGjbfrmarMy96w2DPaeFnnUWYkTWnpcUWejEG9IUZo+sW5Q8GnsFMJazU3/IBK
- YabED/jD2NKBgcHE=
-X-Received: by 2002:a1c:f003:: with SMTP id a3mr1146350wmb.119.1591763320955; 
- Tue, 09 Jun 2020 21:28:40 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyrGKbufNYZ0ol2ZEBHR5d7tg6/WcEqRutvCmeGAM4c3L0DIOX8zJwCQoQhdsQp+C9QYgpztA==
-X-Received: by 2002:a1c:f003:: with SMTP id a3mr1146326wmb.119.1591763320684; 
- Tue, 09 Jun 2020 21:28:40 -0700 (PDT)
-Received: from redhat.com (bzq-79-181-55-232.red.bezeqint.net. [79.181.55.232])
- by smtp.gmail.com with ESMTPSA id u9sm5407664wme.16.2020.06.09.21.28.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Jun 2020 21:28:40 -0700 (PDT)
-Date: Wed, 10 Jun 2020 00:28:38 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 56/56] Fix parameter type in vhost migration log path
-Message-ID: <20200610042613.1459309-57-mst@redhat.com>
-References: <20200610042613.1459309-1-mst@redhat.com>
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1jisjK-0002cE-Qh; Wed, 10 Jun 2020 00:52:50 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:43345 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1jisjJ-0004eW-Pi; Wed, 10 Jun 2020 00:52:50 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 49hZFC2z6Gz9sSS; Wed, 10 Jun 2020 14:46:07 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1591764367;
+ bh=y7HlwqTKbDy59aiQWMeE2Z0qPBaYi75unrlWvGEsqHg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Vc/kRCQ9Y1JBpaPfWA5jpr+QYiND4ofQSVw9l6p3ciE2h3Ch6wn8wNVS3exmn9q1U
+ 3GaDHpvpS0zv42cFpTLpWknEvILdXpQA0o3Lf3GPv2lLJ0FNtme+1K1XZzYAG6DimK
+ ZAUHoKUE/0SJceZz8t7mCRZiZTrhJNk71eGRZAdA=
+Date: Wed, 10 Jun 2020 14:31:18 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH v2 1/1] virtio-ccw: auto-manage VIRTIO_F_IOMMU_PLATFORM
+ if PV
+Message-ID: <20200610043118.GF494336@umbus.fritz.box>
+References: <20200514221155.32079-1-pasic@linux.ibm.com>
+ <20200520121507-mutt-send-email-mst@kernel.org>
+ <20200606013217.2cffa3ed.pasic@linux.ibm.com>
+ <20200608181428.3c6f127c.cohuck@redhat.com>
+ <20200608190045.319dd68b.pasic@linux.ibm.com>
+ <20200609084402.35d317ec.cohuck@redhat.com>
+ <20200609114130.0ca9190b.pasic@linux.ibm.com>
+ <20200609174747.4e300818@ibm-vm>
+ <20200609182839.7ac80938.pasic@linux.ibm.com>
+ <20200609124155-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20200610042613.1459309-1-mst@redhat.com>
-X-Mailer: git-send-email 2.24.1.751.gd10ce2899c
-X-Mutt-Fcc: =sent
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="xaMk4Io5JJdpkLEb"
 Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=mst@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 23:51:15
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+In-Reply-To: <20200609124155-mutt-send-email-mst@kernel.org>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -9
+X-Spam_score: -1.0
+X-Spam_bar: -
+X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,48 +69,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Raphael Norwitz <raphael.s.norwitz@gmail.com>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>
+Cc: Viktor Mihajlovski <mihajlov@linux.ibm.com>, Thomas Huth <thuth@redhat.com>,
+ Boris Fiuczynski <fiuczy@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>,
+ Pierre Morel <pmorel@linux.ibm.com>, David Hildenbrand <david@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Claudio Imbrenda <imbrenda@linux.ibm.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Raphael Norwitz <raphael.s.norwitz@gmail.com>
 
-The ‘enable’ parameter to the vhost_migration_log() function is given as
-an int, but "true"/"false" values are passed in wherever it is invoked.
-Inside the function itself it is only ever compared with bool values.
-Therefore the parameter value itself should be changed to bool.
+--xaMk4Io5JJdpkLEb
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
-Message-Id: <CAFubqFtqNZw=Y-ar3N=3zTQi6LkKg_G-7W7OOHHbE7Y1fV7HAQ@mail.gmail.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
----
- hw/virtio/vhost.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On Tue, Jun 09, 2020 at 12:44:39PM -0400, Michael S. Tsirkin wrote:
+> On Tue, Jun 09, 2020 at 06:28:39PM +0200, Halil Pasic wrote:
+> > On Tue, 9 Jun 2020 17:47:47 +0200
+> > Claudio Imbrenda <imbrenda@linux.ibm.com> wrote:
+> >=20
+> > > On Tue, 9 Jun 2020 11:41:30 +0200
+> > > Halil Pasic <pasic@linux.ibm.com> wrote:
+> > >=20
+> > > [...]
+> > >=20
+> > > > I don't know. Janosch could answer that, but he is on vacation. Add=
+ing
+> > > > Claudio maybe he can answer. My understanding is, that while it mig=
+ht
+> > > > be possible, it is ugly at best. The ability to do a transition is
+> > > > indicated by a CPU model feature. Indicating the feature to the gue=
+st
+> > > > and then failing the transition sounds wrong to me.
+> > >=20
+> > > I agree. If the feature is advertised, then it has to work. I don't
+> > > think we even have an architected way to fail the transition for that
+> > > reason.
+> > >=20
+> > > What __could__ be done is to prevent qemu from even starting if an
+> > > incompatible device is specified together with PV.
+> >=20
+> > AFAIU, the "specified together with PV" is the problem here. Currently
+> > we don't "specify PV" but PV is just a capability that is managed by the
+> > CPU model (like so many other).
+>=20
+> So if we want to keep it user friendly, there could be
+> protection property with values on/off/auto, and auto
+> would poke at host capability to figure out whether
+> it's supported.
+>=20
+> Both virtio and CPU would inherit from that.
 
-diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-index aff98a0ede..aa06a36919 100644
---- a/hw/virtio/vhost.c
-+++ b/hw/virtio/vhost.c
-@@ -809,12 +809,12 @@ err_features:
-     return r;
- }
- 
--static int vhost_migration_log(MemoryListener *listener, int enable)
-+static int vhost_migration_log(MemoryListener *listener, bool enable)
- {
-     struct vhost_dev *dev = container_of(listener, struct vhost_dev,
-                                          memory_listener);
-     int r;
--    if (!!enable == dev->log_enabled) {
-+    if (enable == dev->log_enabled) {
-         return 0;
-     }
-     if (!dev->started) {
--- 
-MST
+Right, that's what I have in mind for my 'host-trust-limitation'
+property (a generalized version of the existing 'memory-encryption'
+machine option).  My draft patches already set virtio properties
+accordingly, it should be possible to set (default) cpu properties as
+well.
 
+> This will allow other useful features such as ability
+> to hide PV from guest, which could in turn be handy e.g.
+> to allow migration to hosts without PV support,
+> or if host wants to force ability to read guest memory
+> e.g. for security.
+>=20
+>=20
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--xaMk4Io5JJdpkLEb
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl7gYhYACgkQbDjKyiDZ
+s5JAFg//Q4OCfdVTh27/L1sMXc3cA5AqgdHQyrUNRYQo6Xl0uGJPAwqtmfNCjpX1
+zhaJIycD9kf1696M0hqSe77AfFa96QrahjWn1a6Uv8GymBD2GrscEXkOX0Fosen7
+OxKHlqLjXI5dejRX1IIP62C6/Xy3HxYkWKGzb1deHpciEuSnShUxqbW1blV6diaN
+5N9hAQZqeLtEB16y2ct5hh0AY4pujmoHrg51D0EfCrB99Rcfeo0OXvQu2FbPNm8D
+SjMmSQ2kWl+gp7yEmgDnQBVQ9824gkSbEl1v/BIWYxJ8r5KlPh4LGDu18gM6lw0j
+aJNbCZEjJ+czWnJD/HPWk+AoycXHlLuAx80ZKcuvSI3RoTWm8gSOqNa95Uccgdl0
+eHdKwfrmsox5BdOemZki5XQGibn0nze85zozRafqvwaqioTfFieqJWWbkOwCknqn
+Z9wM/x8TBc5Mr+i50LwixdCfSHeNCMJPFTUWQdEP0xtw+Cvc1vwS0MkLgCugbWIE
+D8lTdurYepitRZw7qHP5xbyquCHPOwlf5kRm8eA9oPvWxBfjgjfHqaeadRu10ywW
+eLvSyDtiFyAsZ1NVEO78MoCVAfz1KBxfESIZ/OSf4qAHb1XKBfG0XnFvDtFWIkM2
+H0A6//tIbswBJNBuBCAshpf1ZfPlrYO463XdVFmevfilTIfF7Kw=
+=zspb
+-----END PGP SIGNATURE-----
+
+--xaMk4Io5JJdpkLEb--
 
