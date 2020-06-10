@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86AAA1F4C72
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 06:43:02 +0200 (CEST)
-Received: from localhost ([::1]:60042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB00A1F4C95
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 06:49:33 +0200 (CEST)
+Received: from localhost ([::1]:49584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jisZp-0004qa-Iv
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 00:43:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34126)
+	id 1jisg8-0004Hh-NM
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 00:49:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34132)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jisL7-0000Ov-DQ
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 00:27:49 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:44157
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jisL8-0000Rd-G2
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 00:27:50 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:30840
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jisL5-0008JU-Ml
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 00:27:49 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jisL7-0008Jc-Gm
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 00:27:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591763267;
+ s=mimecast20190719; t=1591763268;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rgenchyFDewl0zzAhVvbXUqfOzcRf49oDVzgaZXFxPI=;
- b=KSgyCjCynbLpYWoCuIO3dFcK23eBO+0pHhNg3SojG/aOGvc/3WAcoHEiDSPHDl2BIvYnyv
- S6CLq1KPGvFQ5QCvqMHlkDYkPL3Qr+h9ixSGCfQRwWi3EGaGr1TWS/eoN0C7JGOuHJqxty
- Uw4RJ3A5RLtyIH5iM72KW1pfulcbEz8=
+ bh=nvCRpjAXKNglq8ahDk7GnS4mPNv6Reg8kx+iDjbF7Mk=;
+ b=CsST0nOtP5+odpqfQ5SIZ7qk4ARUgTuh3Xbapv7sqQ8uYotX+VRJ5fbB2Tq3WqVqOLarot
+ 0EMxgRdwhrUOT4MplTZ3w7cH4oGdKrbEzM01G6wFvDMrP+jQNHbst4my2MgLXO2JCMSQcy
+ 040Hqj4UMHKWqODLXClcID/jhGMb6TI=
 Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
  [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-148-8WAvIgAqN2qnWJmDqgmzYQ-1; Wed, 10 Jun 2020 00:27:44 -0400
-X-MC-Unique: 8WAvIgAqN2qnWJmDqgmzYQ-1
-Received: by mail-wr1-f72.google.com with SMTP id w4so506427wrl.13
- for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 21:27:44 -0700 (PDT)
+ us-mta-100-LAF8q0iBN-2wzaO4oK3kgg-1; Wed, 10 Jun 2020 00:27:47 -0400
+X-MC-Unique: LAF8q0iBN-2wzaO4oK3kgg-1
+Received: by mail-wr1-f72.google.com with SMTP id w16so499359wru.18
+ for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 21:27:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=rgenchyFDewl0zzAhVvbXUqfOzcRf49oDVzgaZXFxPI=;
- b=JJfkNrmFTDsM3L2HbduGy7Z/ZddccrPwYoaismQh2BoR0J3i0dK8+FgEEiDmq4KTTW
- EWCMDRIoXS7+ijGNuxxmmEjYjbLE81STuXziJToKuBMAb3N/xxF/dkUVYC9fNfdG0der
- W5zULjCrlwfUWZXNpDZIioZ6EVCjRtcsmhVabZejNxRgK76No+YRbB1OFCwHwhl6ak3o
- ZAcNMM4cD/SMQja1RuORDliBYHCdhIxX5dH87U4w4wGozl0lTY2HwlJQvdApZ6THBbV9
- N2vAjQwTIostQkEiKFu0WI1EuL9XvuKJk5JvK2CtKA7J2bMDZhD55WJRNDE6gUUPlWrT
- yEMw==
-X-Gm-Message-State: AOAM531Mnz07HUqEgo0GbsW39nHoxiH7XYsYlLBTCFpVH6EDg1ABf1Bz
- iUq2h1MkEHFUrALDrGNeQfxjMOiseJV3n8re4oxrvGl9NXOu1eryKB/69DHZyInufw1NTn2O2bV
- dw+yFwpWeapIXvTc=
-X-Received: by 2002:a1c:44c3:: with SMTP id r186mr1130137wma.67.1591763263551; 
- Tue, 09 Jun 2020 21:27:43 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJytjTTaUnMPnjI3Hxn7S9HFcpZphaw/Q8AIjXBDjzPuZ30s7TgYEFKc75cuxidzakykNyKYow==
-X-Received: by 2002:a1c:44c3:: with SMTP id r186mr1130126wma.67.1591763263357; 
- Tue, 09 Jun 2020 21:27:43 -0700 (PDT)
+ bh=nvCRpjAXKNglq8ahDk7GnS4mPNv6Reg8kx+iDjbF7Mk=;
+ b=A3TkPJmjFnsbZjJ0BJqsWLudh51KXGOrRYKLkCPPpZ+ofu35ii6PNfuTjSS6KUNlTK
+ IT66RQtTFUoWXRXv6/1ZpboWcfLEVGroudWXBTVNmr58xut3SEtrL44bI7PmJ0rQXAm4
+ pYLV6BBqOmmwDSyyLqlfVwbmsHyH2hWOQyFKb0aGarmvkfH5tTz43jE/ba8s9TTVEwtu
+ M/TefDfEEWKD4ZykKPWOB0k+XsN/VFZ+61tufA14VUHettAFoUg+RH5pjqEu+2hLmGUX
+ fobcuP5k1nnZSHVd7Jq9dNYZXIkkDHPtCx8FBrG0Zy40LyN0t3tjePiiPRyavbtr7nCF
+ m9Mw==
+X-Gm-Message-State: AOAM533RKoOj3qm3ay2Aofv2HoIKF89XXsim6De/7zt1KvuPOAj3TXgg
+ /WIhxQIaa+Hz17tndLeE8bCxWl2F4WzY52057VzF3wuT0VscjCRF2SMNm/R7ToVzrPBDOKCWbT9
+ ymGGwEcU1cuw/oHs=
+X-Received: by 2002:a5d:518b:: with SMTP id k11mr1435090wrv.58.1591763265615; 
+ Tue, 09 Jun 2020 21:27:45 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwnOOT/ar1qu/Xb9I1U+QX31bZm0gq2nN9JoCJxBM6PPnkQvULCtsM7Fy8InggzDOG1chmFKw==
+X-Received: by 2002:a5d:518b:: with SMTP id k11mr1435072wrv.58.1591763265410; 
+ Tue, 09 Jun 2020 21:27:45 -0700 (PDT)
 Received: from redhat.com (bzq-79-181-55-232.red.bezeqint.net. [79.181.55.232])
- by smtp.gmail.com with ESMTPSA id b18sm5885144wrn.88.2020.06.09.21.27.42
+ by smtp.gmail.com with ESMTPSA id s72sm4951248wme.35.2020.06.09.21.27.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Jun 2020 21:27:42 -0700 (PDT)
-Date: Wed, 10 Jun 2020 00:27:41 -0400
+ Tue, 09 Jun 2020 21:27:45 -0700 (PDT)
+Date: Wed, 10 Jun 2020 00:27:43 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 31/56] hw/pci/pci_bridge: Correct pci_bridge_io memory region
- size
-Message-ID: <20200610042613.1459309-32-mst@redhat.com>
+Subject: [PULL 32/56] hw/pci/pci_bridge: Use the IEC binary prefix definitions
+Message-ID: <20200610042613.1459309-33-mst@redhat.com>
 References: <20200610042613.1459309-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200610042613.1459309-1-mst@redhat.com>
@@ -74,8 +73,8 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=mst@redhat.com;
- helo=us-smtp-1.mimecast.com
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 23:51:15
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
@@ -105,61 +104,39 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-memory_region_set_size() handle the 16 Exabytes limit by
-special-casing the UINT64_MAX value. This is not a problem
-for the 32-bit maximum, 4 GiB.
-By using the UINT32_MAX value, the pci_bridge_io MemoryRegion
-ends up missing 1 byte:
-
-  (qemu) info mtree
-  memory-region: pci_bridge_io
-    0000000000000000-00000000fffffffe (prio 0, i/o): pci_bridge_io
-      0000000000000060-0000000000000060 (prio 0, i/o): i8042-data
-      0000000000000064-0000000000000064 (prio 0, i/o): i8042-cmd
-      00000000000001ce-00000000000001d1 (prio 0, i/o): vbe
-      0000000000000378-000000000000037f (prio 0, i/o): parallel
-      00000000000003b4-00000000000003b5 (prio 0, i/o): vga
-      ...
-
-Fix by using the correct value. We now have:
-
-  memory-region: pci_bridge_io
-    0000000000000000-00000000ffffffff (prio 0, i/o): pci_bridge_io
-      0000000000000060-0000000000000060 (prio 0, i/o): i8042-data
-      0000000000000064-0000000000000064 (prio 0, i/o): i8042-cmd
-      ...
+IEC binary prefixes ease code review: the unit is explicit.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20200601142930.29408-4-f4bug@amsat.org>
+Message-Id: <20200601142930.29408-5-f4bug@amsat.org>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- hw/pci/pci_bridge.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ hw/pci/pci_bridge.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/hw/pci/pci_bridge.c b/hw/pci/pci_bridge.c
-index 97967d12eb..3ba3203f72 100644
+index 3ba3203f72..3789c17edc 100644
 --- a/hw/pci/pci_bridge.c
 +++ b/hw/pci/pci_bridge.c
-@@ -30,6 +30,7 @@
-  */
+@@ -423,14 +423,14 @@ int pci_bridge_qemu_reserve_cap_init(PCIDevice *dev, int cap_offset,
+     }
  
- #include "qemu/osdep.h"
-+#include "qemu/units.h"
- #include "hw/pci/pci_bridge.h"
- #include "hw/pci/pci_bus.h"
- #include "qemu/module.h"
-@@ -381,7 +382,7 @@ void pci_bridge_initfn(PCIDevice *dev, const char *typename)
-     memory_region_init(&br->address_space_mem, OBJECT(br), "pci_bridge_pci", UINT64_MAX);
-     sec_bus->address_space_io = &br->address_space_io;
-     memory_region_init(&br->address_space_io, OBJECT(br), "pci_bridge_io",
--                       UINT32_MAX);
-+                       4 * GiB);
-     br->windows = pci_bridge_region_init(br);
-     QLIST_INIT(&sec_bus->child);
-     QLIST_INSERT_HEAD(&parent->child, sec_bus, sibling);
+     if (res_reserve.mem_non_pref != (uint64_t)-1 &&
+-        res_reserve.mem_non_pref >= (1ULL << 32)) {
++        res_reserve.mem_non_pref >= 4 * GiB) {
+         error_setg(errp,
+                    "PCI resource reserve cap: mem-reserve must be less than 4G");
+         return -EINVAL;
+     }
+ 
+     if (res_reserve.mem_pref_32 != (uint64_t)-1 &&
+-        res_reserve.mem_pref_32 >= (1ULL << 32)) {
++        res_reserve.mem_pref_32 >= 4 * GiB) {
+         error_setg(errp,
+                    "PCI resource reserve cap: pref32-reserve  must be less than 4G");
+         return -EINVAL;
 -- 
 MST
 
