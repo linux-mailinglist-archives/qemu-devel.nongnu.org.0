@@ -2,64 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E0651F4C75
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 06:43:56 +0200 (CEST)
-Received: from localhost ([::1]:35004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 137AD1F4CA9
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 06:55:30 +0200 (CEST)
+Received: from localhost ([::1]:44242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jisah-00069m-Dg
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 00:43:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34264)
+	id 1jislt-0005mu-2X
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 00:55:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jisLp-0001xo-1O
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 00:28:33 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:41120)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jisOI-0004h1-Cw
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 00:31:06 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:31265
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jisLn-0008NT-Uu
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 00:28:32 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jisOH-0000gl-3I
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 00:31:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591763311;
+ s=mimecast20190719; t=1591763464;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HeK33S58Y66BX2cfotuRkiKIabnRwY34GRnce15Fyy8=;
- b=gRfuM8PVFjVhNdXvWMoTwoUWyqy/iYC0Dy32djxybmoDEppKZCGZHI+kfZGTPT+p+MENyy
- r8jNfEyFCTkiDk3/zoGZzfU5OgUDIkQtTqSUBRc/nmulYKmz+LVp0GI3RZk4KQ6aPERWHm
- R9C7AYQy4NHE5IiBxU4q0zE0+pdJrvo=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-15-WJstFPWjMi66gL23PRzTbA-1; Wed, 10 Jun 2020 00:28:28 -0400
-X-MC-Unique: WJstFPWjMi66gL23PRzTbA-1
-Received: by mail-wm1-f72.google.com with SMTP id b65so87811wmb.5
- for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 21:28:28 -0700 (PDT)
+ bh=mpMbTsm6mehy6ISo1LlFq8k67fPnsrK8nRjA546c8Mw=;
+ b=RaM8Q0z1FpESSejNi0stSvUcMsp1mQrGtDQB6zT6R+kGRjqVKP3PyVYAXix47Jw+LUjPut
+ 8RIkHBuWAtCDV4VbYU3lFpE5ET2DfkJvKWSqyHCZ2UWp9q67ybobtk2BpWGb4W62PLYXKL
+ qoLS51gdDgi9rOWbo29m3R/risSDATo=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-306-0CexiNW0PuuGbPkb_RlSNA-1; Wed, 10 Jun 2020 00:28:36 -0400
+X-MC-Unique: 0CexiNW0PuuGbPkb_RlSNA-1
+Received: by mail-wr1-f71.google.com with SMTP id n6so513136wrv.6
+ for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 21:28:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=HeK33S58Y66BX2cfotuRkiKIabnRwY34GRnce15Fyy8=;
- b=uYZyEHOWrPr4qFaXyISSoThOcmRcABb+Rz2wvakwAJZ2uFuyQHA+d2tlaHtbxTqMFW
- UnPxQo+BjbMeNzLigde31TKh/wjlGBhJtRtXnKokVx5m50vZ+1QJP+HKnajXBLNGqK7t
- 330Y5jO6MFdEyHWkhRIKeiG6wwdRGt3h2IRrfKZITCr+ux0zAg9GyJUiJDrzC/xoEtX5
- v4VrwSIj6WzFESlixOPbhkwyc6suRjMD1kJdnYKTyZ95DYN+U4fUZwBdQYBz1FZe5fpO
- Y7JwbBScfDd3Bm+cC4CBwYMCH1f7lM7IS3Kers0AXTdr5e24mtAFVFQK1Uvyp6PaUJSr
- BvXA==
-X-Gm-Message-State: AOAM531FP7PwNp9dGpVXjSCkVFBT2nUL2LHv0OAfae19DPqYTfuTACP3
- 7PwQQPD9A8Gl4OHqT6LgS/MDlUCk5Iv3bVfzAMT1sFp4Hdzinfhf9SjXwPNZwl/+vDQytF6evx0
- EWpkQuyU7A+s+7ys=
-X-Received: by 2002:a1c:8049:: with SMTP id b70mr1187544wmd.145.1591763307596; 
- Tue, 09 Jun 2020 21:28:27 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw1VYC/sRqWkTiveY5/raDA1wRcKoaVOOQOGNUDlVimnMX5BZktgSj21ugaNN5ErqHJHyODfQ==
-X-Received: by 2002:a1c:8049:: with SMTP id b70mr1187527wmd.145.1591763307362; 
- Tue, 09 Jun 2020 21:28:27 -0700 (PDT)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=mpMbTsm6mehy6ISo1LlFq8k67fPnsrK8nRjA546c8Mw=;
+ b=oSX6+INU80mKeajPWc4s+19yE9uF6UBO1Nbc3Om2Qq6D40g1o7696xvb3dv4QH0xzl
+ rwnDSJ1ulmW6hbsq3NbdLH2pXNTXuojRqV1Wpfyhc8yzuZl0yIO+6wgzF4sO7idcNf/l
+ tUqorX+or6Hbw9VPfD3PLQlYhnPXk8acU4dtecD7ju5LT0de+fGx5sDNkz7PZaCnbwnX
+ u95EUxd8xCkY6fPU48K7kJSsPpJ7g3PNV0vkgMi++y21PU2YS8d1NYpXtQkX88P/6zlI
+ tFT/3ETHXRuEpkUbB9zJgverpCbM/hg9dZYrRqD6byJIxcK88bd30c77uMrAQbFduusg
+ RJyQ==
+X-Gm-Message-State: AOAM531yiwsJgyz1yw3G+/+H1QU3XbPbTS8g2tFKCmjLNDHyF8jzaOQ3
+ fmFUgDYExErxo4wGD31Aj6NKGCcI9TBGNdCdrsNVYUnN7yanCzHtrBSl+2WdT9oXq8by1It4dS5
+ IbWD86dHnrcoChD0=
+X-Received: by 2002:adf:a15c:: with SMTP id r28mr1236556wrr.337.1591763314759; 
+ Tue, 09 Jun 2020 21:28:34 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJydDYMB2bzOQ/aVCRVO6cOR7dg0Yx8FsEun+ZgY7V6amxQuoP4SOmbMpz7kSIn5UfJts3w3bQ==
+X-Received: by 2002:adf:a15c:: with SMTP id r28mr1236537wrr.337.1591763314559; 
+ Tue, 09 Jun 2020 21:28:34 -0700 (PDT)
 Received: from redhat.com (bzq-79-181-55-232.red.bezeqint.net. [79.181.55.232])
- by smtp.gmail.com with ESMTPSA id m3sm5351427wmc.0.2020.06.09.21.28.26
+ by smtp.gmail.com with ESMTPSA id u74sm5371491wmu.31.2020.06.09.21.28.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Jun 2020 21:28:26 -0700 (PDT)
-Date: Wed, 10 Jun 2020 00:28:25 -0400
+ Tue, 09 Jun 2020 21:28:34 -0700 (PDT)
+Date: Wed, 10 Jun 2020 00:28:32 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 50/56] virtio: add vhost-user-vsock-pci device
-Message-ID: <20200610042613.1459309-51-mst@redhat.com>
+Subject: [PULL 53/56] acpi: madt: skip pci override on pci-less systems.
+Message-ID: <20200610042613.1459309-54-mst@redhat.com>
 References: <20200610042613.1459309-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200610042613.1459309-1-mst@redhat.com>
@@ -67,11 +70,12 @@ X-Mailer: git-send-email 2.24.1.751.gd10ce2899c
 X-Mutt-Fcc: =sent
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=mst@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 23:22:15
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 23:51:15
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -93,131 +97,101 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Stefano Garzarella <sgarzare@redhat.com>
+ Eduardo Habkost <ehabkost@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefano Garzarella <sgarzare@redhat.com>
+From: Gerd Hoffmann <kraxel@redhat.com>
 
-Add the PCI version of vhost-user-vsock
+Needed for microvm.
 
-Launch QEMU like this:
-
-  qemu -chardev socket,path=/tmp/vm.vsock,id=chr0 \
-       -device vhost-user-vsock-pci,chardev=chr0
-
-Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
-Message-Id: <20200522122512.87413-4-sgarzare@redhat.com>
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20200520132003.9492-8-kraxel@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/virtio/vhost-user-vsock-pci.c | 84 ++++++++++++++++++++++++++++++++
- hw/virtio/Makefile.objs          |  1 +
- 2 files changed, 85 insertions(+)
- create mode 100644 hw/virtio/vhost-user-vsock-pci.c
+ hw/i386/acpi-common.h |  3 ++-
+ hw/i386/acpi-build.c  |  2 +-
+ hw/i386/acpi-common.c | 26 +++++++++++++++-----------
+ 3 files changed, 18 insertions(+), 13 deletions(-)
 
-diff --git a/hw/virtio/vhost-user-vsock-pci.c b/hw/virtio/vhost-user-vsock-pci.c
-new file mode 100644
-index 0000000000..0a6847e6fc
---- /dev/null
-+++ b/hw/virtio/vhost-user-vsock-pci.c
-@@ -0,0 +1,84 @@
-+/*
-+ * Vhost-user vsock PCI Bindings
-+ *
-+ * Copyright 2020 Red Hat, Inc.
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or
-+ * (at your option) any later version.  See the COPYING file in the
-+ * top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+
-+#include "virtio-pci.h"
-+#include "hw/qdev-properties.h"
-+#include "hw/virtio/vhost-user-vsock.h"
-+
-+typedef struct VHostUserVSockPCI VHostUserVSockPCI;
-+
-+/*
-+ * vhost-user-vsock-pci: This extends VirtioPCIProxy.
-+ */
-+#define TYPE_VHOST_USER_VSOCK_PCI "vhost-user-vsock-pci-base"
-+#define VHOST_USER_VSOCK_PCI(obj) \
-+        OBJECT_CHECK(VHostUserVSockPCI, (obj), TYPE_VHOST_USER_VSOCK_PCI)
-+
-+struct VHostUserVSockPCI {
-+    VirtIOPCIProxy parent_obj;
-+    VHostUserVSock vdev;
-+};
-+
-+/* vhost-user-vsock-pci */
-+
-+static Property vhost_user_vsock_pci_properties[] = {
-+    DEFINE_PROP_UINT32("vectors", VirtIOPCIProxy, nvectors, 3),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
-+static void vhost_user_vsock_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
-+{
-+    VHostUserVSockPCI *dev = VHOST_USER_VSOCK_PCI(vpci_dev);
-+    DeviceState *vdev = DEVICE(&dev->vdev);
-+
-+    qdev_set_parent_bus(vdev, BUS(&vpci_dev->bus));
-+    object_property_set_bool(OBJECT(vdev), true, "realized", errp);
-+}
-+
-+static void vhost_user_vsock_pci_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+    VirtioPCIClass *k = VIRTIO_PCI_CLASS(klass);
-+    PCIDeviceClass *pcidev_k = PCI_DEVICE_CLASS(klass);
-+    k->realize = vhost_user_vsock_pci_realize;
-+    set_bit(DEVICE_CATEGORY_MISC, dc->categories);
-+    device_class_set_props(dc, vhost_user_vsock_pci_properties);
-+    pcidev_k->vendor_id = PCI_VENDOR_ID_REDHAT_QUMRANET;
-+    pcidev_k->device_id = PCI_DEVICE_ID_VIRTIO_VSOCK;
-+    pcidev_k->revision = 0x00;
-+    pcidev_k->class_id = PCI_CLASS_COMMUNICATION_OTHER;
-+}
-+
-+static void vhost_user_vsock_pci_instance_init(Object *obj)
-+{
-+    VHostUserVSockPCI *dev = VHOST_USER_VSOCK_PCI(obj);
-+
-+    virtio_instance_init_common(obj, &dev->vdev, sizeof(dev->vdev),
-+                                TYPE_VHOST_USER_VSOCK);
-+}
-+
-+static const VirtioPCIDeviceTypeInfo vhost_user_vsock_pci_info = {
-+    .base_name             = TYPE_VHOST_USER_VSOCK_PCI,
-+    .generic_name          = "vhost-user-vsock-pci",
-+    .transitional_name     = "vhost-user-vsock-pci-transitional",
-+    .non_transitional_name = "vhost-user-vsock-pci-non-transitional",
-+    .instance_size = sizeof(VHostUserVSockPCI),
-+    .instance_init = vhost_user_vsock_pci_instance_init,
-+    .class_init    = vhost_user_vsock_pci_class_init,
-+};
-+
-+static void virtio_pci_vhost_register(void)
-+{
-+    virtio_pci_types_register(&vhost_user_vsock_pci_info);
-+}
-+
-+type_init(virtio_pci_vhost_register)
-diff --git a/hw/virtio/Makefile.objs b/hw/virtio/Makefile.objs
-index dd42daedb1..13e75f171f 100644
---- a/hw/virtio/Makefile.objs
-+++ b/hw/virtio/Makefile.objs
-@@ -22,6 +22,7 @@ obj-$(CONFIG_VHOST_USER_VSOCK) += vhost-vsock-common.o vhost-user-vsock.o
+diff --git a/hw/i386/acpi-common.h b/hw/i386/acpi-common.h
+index c30e461f18..9cac18dddf 100644
+--- a/hw/i386/acpi-common.h
++++ b/hw/i386/acpi-common.h
+@@ -9,6 +9,7 @@
+ #define ACPI_BUILD_IOAPIC_ID 0x0
  
- ifeq ($(CONFIG_VIRTIO_PCI),y)
- obj-$(CONFIG_VHOST_VSOCK) += vhost-vsock-pci.o
-+obj-$(CONFIG_VHOST_USER_VSOCK) += vhost-user-vsock-pci.o
- obj-$(CONFIG_VHOST_USER_BLK) += vhost-user-blk-pci.o
- obj-$(CONFIG_VHOST_USER_INPUT) += vhost-user-input-pci.o
- obj-$(CONFIG_VHOST_USER_SCSI) += vhost-user-scsi-pci.o
+ void acpi_build_madt(GArray *table_data, BIOSLinker *linker,
+-                     X86MachineState *x86ms, AcpiDeviceIf *adev);
++                     X86MachineState *x86ms, AcpiDeviceIf *adev,
++                     bool has_pci);
+ 
+ #endif
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index 26c0c8aefa..473cbdfffd 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -2588,7 +2588,7 @@ void acpi_build(AcpiBuildTables *tables, MachineState *machine)
+ 
+     acpi_add_table(table_offsets, tables_blob);
+     acpi_build_madt(tables_blob, tables->linker, x86ms,
+-                    ACPI_DEVICE_IF(pcms->acpi_dev));
++                    ACPI_DEVICE_IF(pcms->acpi_dev), true);
+ 
+     vmgenid_dev = find_vmgenid_dev();
+     if (vmgenid_dev) {
+diff --git a/hw/i386/acpi-common.c b/hw/i386/acpi-common.c
+index 5caca16a0b..ab9b00581a 100644
+--- a/hw/i386/acpi-common.c
++++ b/hw/i386/acpi-common.c
+@@ -72,7 +72,8 @@ void pc_madt_cpu_entry(AcpiDeviceIf *adev, int uid,
+ }
+ 
+ void acpi_build_madt(GArray *table_data, BIOSLinker *linker,
+-                     X86MachineState *x86ms, AcpiDeviceIf *adev)
++                     X86MachineState *x86ms, AcpiDeviceIf *adev,
++                     bool has_pci)
+ {
+     MachineClass *mc = MACHINE_GET_CLASS(x86ms);
+     const CPUArchIdList *apic_ids = mc->possible_cpu_arch_ids(MACHINE(x86ms));
+@@ -111,18 +112,21 @@ void acpi_build_madt(GArray *table_data, BIOSLinker *linker,
+         intsrcovr->gsi    = cpu_to_le32(2);
+         intsrcovr->flags  = cpu_to_le16(0); /* conforms to bus specifications */
+     }
+-    for (i = 1; i < 16; i++) {
++
++    if (has_pci) {
++        for (i = 1; i < 16; i++) {
+ #define ACPI_BUILD_PCI_IRQS ((1<<5) | (1<<9) | (1<<10) | (1<<11))
+-        if (!(ACPI_BUILD_PCI_IRQS & (1 << i))) {
+-            /* No need for a INT source override structure. */
+-            continue;
++            if (!(ACPI_BUILD_PCI_IRQS & (1 << i))) {
++                /* No need for a INT source override structure. */
++                continue;
++            }
++            intsrcovr = acpi_data_push(table_data, sizeof *intsrcovr);
++            intsrcovr->type   = ACPI_APIC_XRUPT_OVERRIDE;
++            intsrcovr->length = sizeof(*intsrcovr);
++            intsrcovr->source = i;
++            intsrcovr->gsi    = cpu_to_le32(i);
++            intsrcovr->flags  = cpu_to_le16(0xd); /* active high, level triggered */
+         }
+-        intsrcovr = acpi_data_push(table_data, sizeof *intsrcovr);
+-        intsrcovr->type   = ACPI_APIC_XRUPT_OVERRIDE;
+-        intsrcovr->length = sizeof(*intsrcovr);
+-        intsrcovr->source = i;
+-        intsrcovr->gsi    = cpu_to_le32(i);
+-        intsrcovr->flags  = cpu_to_le16(0xd); /* active high, level triggered */
+     }
+ 
+     if (x2apic_mode) {
 -- 
 MST
 
