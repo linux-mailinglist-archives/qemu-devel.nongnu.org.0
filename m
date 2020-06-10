@@ -2,109 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E5B61F571F
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 16:55:40 +0200 (CEST)
-Received: from localhost ([::1]:44652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A387F1F56EC
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 16:41:07 +0200 (CEST)
+Received: from localhost ([::1]:57422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jj28h-0007Fr-0t
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 10:55:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32904)
+	id 1jj1ub-0007It-GU
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 10:41:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57096)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <robhenry@microsoft.com>)
- id 1jj27V-0006Qh-7b
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 10:54:25 -0400
-Received: from mail-bn8nam12on2096.outbound.protection.outlook.com
- ([40.107.237.96]:18112 helo=NAM12-BN8-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jj1tU-0006QH-FC
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 10:39:56 -0400
+Received: from 4.mo178.mail-out.ovh.net ([46.105.49.171]:36101)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <robhenry@microsoft.com>)
- id 1jj27T-0004EA-A3
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 10:54:24 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dtforVTg4nQfGpnQX5ndlGu6oX7vBcuzL3IfDBdbWY095VpBbRaAduSS5d1J743YZBVQtOEo3EScM0bHDotElA80s+bQmaEgHuPCAdpqf9qPdwZGeUiOpIEWwCBUOnt2WiyWAbhxLoCjUqgQp0NoWfMjWdnbUeSL+tQUASMmBaNB+n6yXh204Ps0FzEXm6UiMm4/oeXQMBUkqx3HckaeVNX+a7NKrwulmcf3WidQiAcwakH6rlXJe6LPTeWCPTnLF/IilxHCD5cj0gS7MPi/eCX9eVKX5TOqHPjAqZ1m9MtNgJbQQi69KiFPzd33qv/dci7If/74Rjh5dYqrpzfQUg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dIC4n7bgVpVrs2g+TqVx5OE//E/H6ozu46j4BD/zN9U=;
- b=ZVQCZFLVVQUNG5c96v33fHxNaLpwVOH941N1BXCsZrmO1M35o8dI7UN+TlfxUtK1/tqc03JlFztZiH16OY1GfnVtgiiLXUN2DguRT6Cf8BL480dqvtr/8lVP7QfWCllhJ3Dy4eRIigwwRWcFXjldUMK7CwevDYa0bIak41UPBxG9I8tYe8/C4Cx1OdNtsitJC8Ajbzjt95sbU41R7HzOkkOTpR4imrQThdNbAYRz+9PzITxZWUn1ecQfSNMbtlbZZa3N3wRvhbZ3oB0LZxNprv5eSF0uBryanrgQBQcWa/K09IsxeQtIXqO5zTWerE6dIUWB3SWy060oLtoOKUmrmA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microsoft.com; dmarc=pass action=none
- header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dIC4n7bgVpVrs2g+TqVx5OE//E/H6ozu46j4BD/zN9U=;
- b=GDTKk+wkM5M378CuSeqelh1A59IHbQvG1ypruiDIf13op1hUX6iER3axb1cljMxjAsHyxKQZP5JXO3i6wNXpsdquy3qLra3oI/KzoOaK+C82JGJXc7UTdHyDO5VoxTvIVLkdL/ReabKCbJ2urx3h20Lga2Gtt2ml/aoZdBN3NKE=
-Received: from BL0PR2101MB1026.namprd21.prod.outlook.com
- (2603:10b6:207:30::21) by BL0PR2101MB0932.namprd21.prod.outlook.com
- (2603:10b6:207:30::20) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3109.4; Wed, 10 Jun
- 2020 14:39:18 +0000
-Received: from BL0PR2101MB1026.namprd21.prod.outlook.com
- ([fe80::bc6a:97fa:9127:9fc6]) by BL0PR2101MB1026.namprd21.prod.outlook.com
- ([fe80::bc6a:97fa:9127:9fc6%5]) with mapi id 15.20.3109.008; Wed, 10 Jun 2020
- 14:39:18 +0000
-From: Robert Henry <robhenry@microsoft.com>
-To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-CC: =?iso-8859-1?Q?Alex_Benn=E9e?= <alex.bennee@linaro.org>
-Subject: Failure of test 'basic gdbstub support'
-Thread-Topic: Failure of test 'basic gdbstub support'
-Thread-Index: AQHWPrExfndF6+xmVE6rVMzDsVBbjw==
-Date: Wed, 10 Jun 2020 14:39:18 +0000
-Message-ID: <BL0PR2101MB1026A0AC34665437F4B7D4FED6820@BL0PR2101MB1026.namprd21.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=True;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2020-06-10T14:39:18.111Z;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=General;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard; 
-authentication-results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=microsoft.com;
-x-originating-ip: [63.228.98.229]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 1fadd22c-b3c6-4d63-bac3-08d80d4c0e9e
-x-ms-traffictypediagnostic: BL0PR2101MB0932:
-x-microsoft-antispam-prvs: <BL0PR2101MB0932EABA112ED4ED0510324ED6830@BL0PR2101MB0932.namprd21.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8273;
-x-forefront-prvs: 0430FA5CB7
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 2Q9zd35ZTNNhn836lvOdglBuVyDR4j2zDY2C7trhEWm/cozOspGyFE5K2NPAobky4z5j0yidqj1p+hjFLlP3oamWGWICcpzkRM5JGt40/2zgs3EhK/g//GH1XTMAZnSU+q+dPrHFSlcb9HSgXfO2/EQF1XQ+saTNTjcmUg6e5KIpN8dfweFklY5hqzr8nme8l2LZoQLpc6qZiJq+8hb5XcgSaaY+2uUNEovIyZGUXlOaC4gEuefvOjEsz7GxM35RsDuzwjOFQWYUQpT54m/T2eiCAOXzHcFBvH1YHIB92T3v246MvuPMEmTc5+2biz9u2tCzSCawJ1rHV/HGpj/fOA==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BL0PR2101MB1026.namprd21.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(136003)(346002)(39860400002)(396003)(376002)(366004)(6506007)(86362001)(82960400001)(10290500003)(52536014)(8676002)(64756008)(316002)(66476007)(66946007)(4326008)(2906002)(66556008)(33656002)(5660300002)(478600001)(82950400001)(8990500004)(186003)(71200400001)(76116006)(26005)(83380400001)(8936002)(6916009)(66446008)(55016002)(7696005)(19627405001)(9686003);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: /0PO/+N9fUROA2I4yuLWTGogsIebspFr4/CuirocVxGNy9ncu1CwkfUaXbhg8mWwuvOSuX10ufkFDpoT2uZuTcmL89yDTCQCsW4VJy4XbdVk1W22VQH7q0xk+VS3niU1MQXZDIcPmptpo/0S6I/bnhn1O9xuBMsGEGWqnCPjaCNBgKmQp7+H/QumbOo67/q4E6UTrjznG2LAEPmUh3poieMOat6KXw4CeI6BjXYrDyZABilYjuPvIrie6IqlRP4B9MJt2Z/hQUgvk9XPdPpLLpSgXZoIZWUjov91nOyhX123Da5YJz+1nsyjgyVBO0gDF8mmJcc1i7nhjL48bdiCOFHXKi3keRqVxBAhwkJp6HNsr+repVtmhCG/qXrlFL/bqJEnMsuNLHodoap15YIV+qbCfllu/15nqc/yfZ9+C5hyX2lKzPWjWJeVvV+ladfdxLAjN14v1CjTV5+4hO6hZy+PFyE8u/mC+q4dQYbeVG8=
-x-ms-exchange-transport-forked: True
-Content-Type: multipart/alternative;
- boundary="_000_BL0PR2101MB1026A0AC34665437F4B7D4FED6820BL0PR2101MB1026_"
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jj1tS-0001AA-TG
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 10:39:56 -0400
+Received: from player159.ha.ovh.net (unknown [10.108.35.211])
+ by mo178.mail-out.ovh.net (Postfix) with ESMTP id 29E45A5BA0
+ for <qemu-devel@nongnu.org>; Wed, 10 Jun 2020 16:39:41 +0200 (CEST)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+ [82.253.208.248]) (Authenticated sender: groug@kaod.org)
+ by player159.ha.ovh.net (Postfix) with ESMTPSA id 2FAE61338D640;
+ Wed, 10 Jun 2020 14:39:22 +0000 (UTC)
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-103G00574e510ee-3009-4990-8158-7d496a54c194,22147FB2222D4A9FBAB43F4367B50A808946A5A0)
+ smtp.auth=groug@kaod.org
+Date: Wed, 10 Jun 2020 16:39:21 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v10 1/9] error: auto propagated local_err
+Message-ID: <20200610163921.28d824aa@bahia.lan>
+In-Reply-To: <20200317151625.20797-2-vsementsov@virtuozzo.com>
+References: <20200317151625.20797-1-vsementsov@virtuozzo.com>
+ <20200317151625.20797-2-vsementsov@virtuozzo.com>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1fadd22c-b3c6-4d63-bac3-08d80d4c0e9e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Jun 2020 14:39:18.5155 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: DGXIhl3EI6FfU/Kcqjfi/6CpNVXcto4yhips8bFFnvoRh0D3Vaz0TNzP93Fouh+6Z8eNwWmUuXrKOzQJtx5/pA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR2101MB0932
-Received-SPF: pass client-ip=40.107.237.96;
- envelope-from=robhenry@microsoft.com;
- helo=NAM12-BN8-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/10 10:54:21
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Ovh-Tracer-Id: 17342517742431344979
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduhedrudehiedgkedvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfesthhqredtredtjeenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepueekjeekiefffedtveeukedvteejgeeivefhgfejgfdtleduvdfgfeelkeeuveeunecukfhppedtrddtrddtrddtpdekvddrvdehfedrvddtkedrvdegkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhduheelrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
+Received-SPF: pass client-ip=46.105.49.171; envelope-from=groug@kaod.org;
+ helo=4.mo178.mail-out.ovh.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/10 10:39:42
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -117,137 +65,367 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
+ Laszlo Ersek <lersek@redhat.com>, qemu-block@nongnu.org,
+ Paul Durrant <paul@xen.org>, armbru@redhat.com,
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
+ Michael Roth <mdroth@linux.vnet.ibm.com>,
+ Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---_000_BL0PR2101MB1026A0AC34665437F4B7D4FED6820BL0PR2101MB1026_
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+On Tue, 17 Mar 2020 18:16:17 +0300
+Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> wrote:
 
-The newish test 'basic gdbstub support' fails for me on an out-of-the-box  =
-build on a host x86_64.  (See below for the config.log head.)
+> Introduce a new ERRP_AUTO_PROPAGATE macro, to be used at start of
+> functions with an errp OUT parameter.
+>=20
+> It has three goals:
+>=20
+> 1. Fix issue with error_fatal and error_prepend/error_append_hint: user
+> can't see this additional information, because exit() happens in
+> error_setg earlier than information is added. [Reported by Greg Kurz]
+>=20
 
-Is this failure expected?  If so, where can I see that in the various CI en=
-gines you have running them?
+I have more of these coming and I'd really like to use ERRP_AUTO_PROPAGATE.
 
-In digging through the test driver python code in tests/tcg/multiarch/gdbst=
-ub/sha1.py I see that the test assumes that a breakpoint on the function SH=
-A1Init is a breakpoint at the 1st assignment statement; the 1st next execut=
-es the 1st assignment statement, etc.
+It seems we have a consensus on the macro itself but this series is gated
+by the conversion of the existing code base.
 
-This is a very fragile assumption.  It depends on the compiler used to comp=
-ile sha1.c; it depends on the optimization level; it depends on the accurac=
-y of the pc mapping in the debug info; it depends on gdb.
+What about merging this patch separately so that people can start using
+it at least ?
 
-Better would be to change SHA1Init to do its work, and then call another no=
-n-inlined function taking a context pointer, and then examine context->stat=
-e[0] and context->state[1].
+> 2. Fix issue with error_abort and error_propagate: when we wrap
+> error_abort by local_err+error_propagate, the resulting coredump will
+> refer to error_propagate and not to the place where error happened.
+> (the macro itself doesn't fix the issue, but it allows us to [3.] drop
+> the local_err+error_propagate pattern, which will definitely fix the
+> issue) [Reported by Kevin Wolf]
+>=20
+> 3. Drop local_err+error_propagate pattern, which is used to workaround
+> void functions with errp parameter, when caller wants to know resulting
+> status. (Note: actually these functions could be merely updated to
+> return int error code).
+>=20
+> To achieve these goals, later patches will add invocations
+> of this macro at the start of functions with either use
+> error_prepend/error_append_hint (solving 1) or which use
+> local_err+error_propagate to check errors, switching those
+> functions to use *errp instead (solving 2 and 3).
+>=20
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> Reviewed-by: Paul Durrant <paul@xen.org>
+> Reviewed-by: Greg Kurz <groug@kaod.org>
+> Reviewed-by: Eric Blake <eblake@redhat.com>
+> ---
+>=20
+> Cc: Eric Blake <eblake@redhat.com>
+> Cc: Kevin Wolf <kwolf@redhat.com>
+> Cc: Max Reitz <mreitz@redhat.com>
+> Cc: Greg Kurz <groug@kaod.org>
+> Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> Cc: Stefan Hajnoczi <stefanha@redhat.com>
+> Cc: Stefano Stabellini <sstabellini@kernel.org>
+> Cc: Anthony Perard <anthony.perard@citrix.com>
+> Cc: Paul Durrant <paul@xen.org>
+> Cc: "Philippe Mathieu-Daud=C3=A9" <philmd@redhat.com>
+> Cc: Laszlo Ersek <lersek@redhat.com>
+> Cc: Gerd Hoffmann <kraxel@redhat.com>
+> Cc: Stefan Berger <stefanb@linux.ibm.com>
+> Cc: Markus Armbruster <armbru@redhat.com>
+> Cc: Michael Roth <mdroth@linux.vnet.ibm.com>
+> Cc: qemu-devel@nongnu.org
+> Cc: qemu-block@nongnu.org
+> Cc: xen-devel@lists.xenproject.org
+>=20
+>  include/qapi/error.h | 205 ++++++++++++++++++++++++++++++++++++-------
+>  1 file changed, 173 insertions(+), 32 deletions(-)
+>=20
+> diff --git a/include/qapi/error.h b/include/qapi/error.h
+> index ad5b6e896d..30140d9bfe 100644
+> --- a/include/qapi/error.h
+> +++ b/include/qapi/error.h
+> @@ -15,6 +15,8 @@
+>  /*
+>   * Error reporting system loosely patterned after Glib's GError.
+>   *
+> + * =3D Deal with Error object =3D
+> + *
+>   * Create an error:
+>   *     error_setg(&err, "situation normal, all fouled up");
+>   *
+> @@ -47,28 +49,91 @@
+>   * reporting it (primarily useful in testsuites):
+>   *     error_free_or_abort(&err);
+>   *
+> - * Pass an existing error to the caller:
+> - *     error_propagate(errp, err);
+> - * where Error **errp is a parameter, by convention the last one.
+> + * =3D Deal with Error ** function parameter =3D
+>   *
+> - * Pass an existing error to the caller with the message modified:
+> - *     error_propagate_prepend(errp, err);
+> + * A function may use the error system to return errors. In this case, t=
+he
+> + * function defines an Error **errp parameter, by convention the last on=
+e (with
+> + * exceptions for functions using ... or va_list).
+>   *
+> - * Avoid
+> - *     error_propagate(errp, err);
+> - *     error_prepend(errp, "Could not frobnicate '%s': ", name);
+> - * because this fails to prepend when @errp is &error_fatal.
+> + * The caller may then pass in the following errp values:
+>   *
+> - * Create a new error and pass it to the caller:
+> + * 1. &error_abort
+> + *    Any error will result in abort().
+> + * 2. &error_fatal
+> + *    Any error will result in exit() with a non-zero status.
+> + * 3. NULL
+> + *    No error reporting through errp parameter.
+> + * 4. The address of a NULL-initialized Error *err
+> + *    Any error will populate errp with an error object.
+> + *
+> + * The following rules then implement the correct semantics desired by t=
+he
+> + * caller.
+> + *
+> + * Create a new error to pass to the caller:
+>   *     error_setg(errp, "situation normal, all fouled up");
+>   *
+> - * Call a function and receive an error from it:
+> + * Calling another errp-based function:
+> + *     f(..., errp);
+> + *
+> + * =3D=3D Checking success of subcall =3D=3D
+> + *
+> + * If a function returns a value indicating an error in addition to sett=
+ing
+> + * errp (which is recommended), then you don't need any additional code,=
+ just
+> + * do:
+> + *
+> + *     int ret =3D f(..., errp);
+> + *     if (ret < 0) {
+> + *         ... handle error ...
+> + *         return ret;
+> + *     }
+> + *
+> + * If a function returns nothing (not recommended for new code), the onl=
+y way
+> + * to check success is by consulting errp; doing this safely requires th=
+e use
+> + * of the ERRP_AUTO_PROPAGATE macro, like this:
+> + *
+> + *     int our_func(..., Error **errp) {
+> + *         ERRP_AUTO_PROPAGATE();
+> + *         ...
+> + *         subcall(..., errp);
+> + *         if (*errp) {
+> + *             ...
+> + *             return -EINVAL;
+> + *         }
+> + *         ...
+> + *     }
+> + *
+> + * ERRP_AUTO_PROPAGATE takes care of wrapping the original errp as neede=
+d, so
+> + * that the rest of the function can directly use errp (including
+> + * dereferencing), where any errors will then be propagated on to the or=
+iginal
+> + * errp when leaving the function.
+> + *
+> + * In some cases, we need to check result of subcall, but do not want to
+> + * propagate the Error object to our caller. In such cases we don't need
+> + * ERRP_AUTO_PROPAGATE, but just a local Error object:
+> + *
+> + * Receive an error and not pass it:
+>   *     Error *err =3D NULL;
+> - *     foo(arg, &err);
+> + *     subcall(arg, &err);
+>   *     if (err) {
+>   *         handle the error...
+> + *         error_free(err);
+>   *     }
+>   *
+> + * Note that older code that did not use ERRP_AUTO_PROPAGATE would inste=
+ad need
+> + * a local Error * variable and the use of error_propagate() to properly=
+ handle
+> + * all possible caller values of errp. Now this is DEPRECATED* (see belo=
+w).
+> + *
+> + * Note that any function that wants to modify an error object, such as =
+by
+> + * calling error_append_hint or error_prepend, must use ERRP_AUTO_PROPAG=
+ATE, in
+> + * order for a caller's use of &error_fatal to see the additional inform=
+ation.
+> + *
+> + * In rare cases, we need to pass existing Error object to the caller by=
+ hand:
+> + *     error_propagate(errp, err);
+> + *
+> + * Pass an existing error to the caller with the message modified:
+> + *     error_propagate_prepend(errp, err);
+> + *
+> + *
+>   * Call a function ignoring errors:
+>   *     foo(arg, NULL);
+>   *
+> @@ -78,26 +143,6 @@
+>   * Call a function treating errors as fatal:
+>   *     foo(arg, &error_fatal);
+>   *
+> - * Receive an error and pass it on to the caller:
+> - *     Error *err =3D NULL;
+> - *     foo(arg, &err);
+> - *     if (err) {
+> - *         handle the error...
+> - *         error_propagate(errp, err);
+> - *     }
+> - * where Error **errp is a parameter, by convention the last one.
+> - *
+> - * Do *not* "optimize" this to
+> - *     foo(arg, errp);
+> - *     if (*errp) { // WRONG!
+> - *         handle the error...
+> - *     }
+> - * because errp may be NULL!
+> - *
+> - * But when all you do with the error is pass it on, please use
+> - *     foo(arg, errp);
+> - * for readability.
+> - *
+>   * Receive and accumulate multiple errors (first one wins):
+>   *     Error *err =3D NULL, *local_err =3D NULL;
+>   *     foo(arg, &err);
+> @@ -114,6 +159,61 @@
+>   *         handle the error...
+>   *     }
+>   * because this may pass a non-null err to bar().
+> + *
+> + * DEPRECATED*
+> + *
+> + * The following pattern of receiving, checking, and then forwarding an =
+error
+> + * to the caller by hand is now deprecated:
+> + *
+> + *     Error *err =3D NULL;
+> + *     foo(arg, &err);
+> + *     if (err) {
+> + *         handle the error...
+> + *         error_propagate(errp, err);
+> + *     }
+> + *
+> + * Instead, use ERRP_AUTO_PROPAGATE macro.
+> + *
+> + * The old pattern is deprecated because of two things:
+> + *
+> + * 1. Issue with error_abort and error_propagate: when we wrap error_abo=
+rt by
+> + * local_err+error_propagate, the resulting coredump will refer to
+> + * error_propagate and not to the place where error happened.
+> + *
+> + * 2. A lot of extra code of the same pattern
+> + *
+> + * How to update old code to use ERRP_AUTO_PROPAGATE?
+> + *
+> + * All you need is to add ERRP_AUTO_PROPAGATE() invocation at function s=
+tart,
+> + * than you may safely dereference errp to check errors and do not need =
+any
+> + * additional local Error variables or calls to error_propagate().
+> + *
+> + * Example:
+> + *
+> + * old code
+> + *
+> + *     void fn(..., Error **errp) {
+> + *         Error *err =3D NULL;
+> + *         foo(arg, &err);
+> + *         if (err) {
+> + *             handle the error...
+> + *             error_propagate(errp, err);
+> + *             return;
+> + *         }
+> + *         ...
+> + *     }
+> + *
+> + * updated code
+> + *
+> + *     void fn(..., Error **errp) {
+> + *         ERRP_AUTO_PROPAGATE();
+> + *         foo(arg, errp);
+> + *         if (*errp) {
+> + *             handle the error...
+> + *             return;
+> + *         }
+> + *         ...
+> + *     }
+>   */
+> =20
+>  #ifndef ERROR_H
+> @@ -322,6 +422,47 @@ void error_set_internal(Error **errp,
+>                          ErrorClass err_class, const char *fmt, ...)
+>      GCC_FMT_ATTR(6, 7);
+> =20
+> +typedef struct ErrorPropagator {
+> +    Error *local_err;
+> +    Error **errp;
+> +} ErrorPropagator;
+> +
+> +static inline void error_propagator_cleanup(ErrorPropagator *prop)
+> +{
+> +    error_propagate(prop->errp, prop->local_err);
+> +}
+> +
+> +G_DEFINE_AUTO_CLEANUP_CLEAR_FUNC(ErrorPropagator, error_propagator_clean=
+up);
+> +
+> +/*
+> + * ERRP_AUTO_PROPAGATE
+> + *
+> + * This macro exists to assist with proper error handling in a function =
+which
+> + * uses an Error **errp parameter.  It must be used as the first line of=
+ a
+> + * function which modifies an error (with error_prepend, error_append_hi=
+nt, or
+> + * similar) or which wants to dereference *errp.  It is still safe (but
+> + * useless) to use in other functions.
+> + *
+> + * If errp is NULL or points to error_fatal, it is rewritten to point to=
+ a
+> + * local Error object, which will be automatically propagated to the ori=
+ginal
+> + * errp on function exit (see error_propagator_cleanup).
+> + *
+> + * After invocation of this macro it is always safe to dereference errp
+> + * (as it's not NULL anymore) and to add information by error_prepend or
+> + * error_append_hint (as, if it was error_fatal, we swapped it with a
+> + * local_error to be propagated on cleanup).
+> + *
+> + * Note: we don't wrap the error_abort case, as we want resulting coredu=
+mp
+> + * to point to the place where the error happened, not to error_propagat=
+e.
+> + */
+> +#define ERRP_AUTO_PROPAGATE() \
+> +    g_auto(ErrorPropagator) _auto_errp_prop =3D {.errp =3D errp}; \
+> +    do { \
+> +        if (!errp || errp =3D=3D &error_fatal) { \
+> +            errp =3D &_auto_errp_prop.local_err; \
+> +        } \
+> +    } while (0)
+> +
+>  /*
+>   * Special error destination to abort on error.
+>   * See error_setg() and error_propagate() for details.
 
-Thanks in advance
-
-TEST    basic gdbstub support
-make[2]: *** [/mnt/robhenry/qemu_robhenry_amd64/qemu/tests/tcg/multiarch/Ma=
-kefile.target:51: run-gdbstub-sha1] Error 2
-
-
- QEMU configure log Tue 09 Jun 2020 02:45:06 PM PDT
-# Configured with: '../configure' '--disable-sdl' '--enable-gtk' '--extra-l=
-dflags=3D-L/usr/lib' '--enable-plugins' '--target-list=3Dx86_64-softmmu x86=
-_64-linux-user'
-
-
---_000_BL0PR2101MB1026A0AC34665437F4B7D4FED6820BL0PR2101MB1026_
-Content-Type: text/html; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
-1">
-<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
-ttom:0;} </style>
-</head>
-<body dir=3D"ltr">
-<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12p=
-t; color:rgb(0,0,0)">
-The newish test 'basic gdbstub support' fails for me on an out-of-the-box&n=
-bsp; build on a host x86_64.&nbsp; (See below for the config.log head.)</di=
-v>
-<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12p=
-t; color:rgb(0,0,0)">
-<br>
-</div>
-<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12p=
-t; color:rgb(0,0,0)">
-Is this failure expected?&nbsp; If so, where can I see that in the various =
-CI engines you have running them?</div>
-<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12p=
-t; color:rgb(0,0,0)">
-<br>
-</div>
-<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12p=
-t; color:rgb(0,0,0)">
-In digging through the test driver python code in&nbsp;tests/tcg/multiarch/=
-gdbstub/sha1.py I see that the test assumes that a breakpoint on the functi=
-on SHA1Init is a breakpoint at the 1st assignment statement; the 1st next e=
-xecutes the 1st assignment statement,
- etc.</div>
-<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12p=
-t; color:rgb(0,0,0)">
-<br>
-</div>
-<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12p=
-t; color:rgb(0,0,0)">
-This is a very fragile assumption.&nbsp; It depends on the compiler used to=
- compile sha1.c; it depends on the optimization level; it depends on the ac=
-curacy of the pc mapping in the debug info; it depends on gdb.</div>
-<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12p=
-t; color:rgb(0,0,0)">
-<br>
-</div>
-<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12p=
-t; color:rgb(0,0,0)">
-Better would be to change SHA1Init to do its work, and then call another no=
-n-inlined function taking a context pointer, and then examine context-&gt;s=
-tate[0] and context-&gt;state[1].</div>
-<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12p=
-t; color:rgb(0,0,0)">
-<br>
-</div>
-<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12p=
-t; color:rgb(0,0,0)">
-Thanks in advance</div>
-<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12p=
-t; color:rgb(0,0,0)">
-<br>
-</div>
-<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12p=
-t; color:rgb(0,0,0)">
-TEST &nbsp; &nbsp;basic gdbstub support<br>
-</div>
-<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12p=
-t; color:rgb(0,0,0)">
-<div>make[2]: *** [/mnt/robhenry/qemu_robhenry_amd64/qemu/tests/tcg/multiar=
-ch/Makefile.target:51: run-gdbstub-sha1] Error 2<br>
-</div>
-<span></span><br>
-</div>
-<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12p=
-t; color:rgb(0,0,0)">
-<br>
-</div>
-<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12p=
-t; color:rgb(0,0,0)">
-<span>&nbsp;QEMU configure log Tue 09 Jun 2020 02:45:06 PM PDT<br>
-</span>
-<div># Configured with: '../configure' '--disable-sdl' '--enable-gtk' '--ex=
-tra-ldflags=3D-L/usr/lib' '--enable-plugins' '--target-list=3Dx86_64-softmm=
-u x86_64-linux-user'<br>
-</div>
-<span></span><br>
-</div>
-</body>
-</html>
-
---_000_BL0PR2101MB1026A0AC34665437F4B7D4FED6820BL0PR2101MB1026_--
 
