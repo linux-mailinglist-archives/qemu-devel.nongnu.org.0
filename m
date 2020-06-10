@@ -2,68 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D1FA1F5507
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 14:40:01 +0200 (CEST)
-Received: from localhost ([::1]:51664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B5031F54FF
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 14:38:14 +0200 (CEST)
+Received: from localhost ([::1]:46028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jj01Q-0000lO-Dr
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 08:40:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48690)
+	id 1jizzh-0006iK-6Q
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 08:38:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jizj3-00050B-I1
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 08:21:01 -0400
-Received: from indium.canonical.com ([91.189.90.7]:40600)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jizj2-00083d-Az
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 08:21:01 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jizix-0004Tm-C1
- for <qemu-devel@nongnu.org>; Wed, 10 Jun 2020 12:20:55 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 40BB12E810A
- for <qemu-devel@nongnu.org>; Wed, 10 Jun 2020 12:20:55 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <sameid@google.com>) id 1jizi5-0003tO-I2
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 08:20:01 -0400
+Received: from mail-qv1-xf2b.google.com ([2607:f8b0:4864:20::f2b]:42547)
+ by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <sameid@google.com>) id 1jizi0-0007nN-2m
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 08:20:01 -0400
+Received: by mail-qv1-xf2b.google.com with SMTP id p15so877374qvr.9
+ for <qemu-devel@nongnu.org>; Wed, 10 Jun 2020 05:19:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=I27Gf9kjAaWqAWeTCSX0aZVa1pjrNkI2HruSIZfC1s4=;
+ b=lwz4MM9lJSaPYaIAXkvnwNuhjDe1fD3yhqt/Qw7uVa3FKi2u2iIlF9CZRVy8FkAtgv
+ sURfJlDt56SCYgnx9xqEb3V1yAyRJfsfY8Fdw1mnB5li2T+CSq6jck5jLQd6OUVCfd2N
+ j6lZ83kBfDSpuwvR9BSE5pXPhtzYKxbf4kns8nHJCmtRWEHdrU/tmRjHTBij6/ECXxNN
+ 5V2KB3cXDheSTtK9KSaebo2qe19fQABZF4nWpch3FFweK3BDGvGvgfUY65NxkdBEh3vX
+ H1F/+StfbJD6kso7eQzQAWLDm6fBJYO5smv43+4lc21I1cxTmvil/p9+Jk16XIw41WS2
+ sRCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=I27Gf9kjAaWqAWeTCSX0aZVa1pjrNkI2HruSIZfC1s4=;
+ b=MX9fcEJbNkJL9cAUD8WiRN5sbZDcIKPuz99i6qR9djrt7+ptUwScJVvBIPHKxvRGti
+ YMcgKUiks1abjhV8yL4JV0O0haYPKvwvKWh5xrxyyvu2bFmrQ93ByKgjp+Y+YPceBoV9
+ 4hP2n8Gibe2epygtLL2hOy+5FhslVqc6K/51LQtncUl2IqFYv9L/c7qB4sDgg83bjsyT
+ 4985o0Iow2ZLvoyRFJ1OAvVDjPOXI5iM5gAUULgga3kdvURrR0vkqVcTguWq3/orpSsx
+ 7a3rpVd+yQbUPJ1yxAeZqK304/ZFxGp84tlQvnezHZC3xfmRgH0GYVZ22tOpiW0dNtoR
+ 2WFQ==
+X-Gm-Message-State: AOAM532i12T0URaUttCyRImyO2CFjiYKDiIbXCbR1kmPoEsVPmhwudJB
+ BqG1Sr70YkHgkiKqAyIA2DL9H86sPMm8JoVeOsTQDA==
+X-Google-Smtp-Source: ABdhPJzYpWGD5Pv4vqqBOQSfG4JeOr4SaQmWRqEw88awtBWaXSVw3ydPHzhZ1HQ4Ci7TwCPOdKp+4Qc3PSWYlbqgLF4=
+X-Received: by 2002:ad4:47aa:: with SMTP id a10mr2899047qvz.61.1591791589433; 
+ Wed, 10 Jun 2020 05:19:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 10 Jun 2020 12:12:32 -0000
-From: r1ng0hacking <1858415@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
- assignee=samuel.thibault@ens-lyon.org; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: r1ng0hacking th-huth
-X-Launchpad-Bug-Reporter: r1ng0hacking (r1ng0hacking)
-X-Launchpad-Bug-Modifier: r1ng0hacking (r1ng0hacking)
-References: <157830904702.27324.6826841321216823570.malonedeb@chaenomeles.canonical.com>
-Message-Id: <159179115377.9600.15257820878115304726.launchpad@wampee.canonical.com>
-Subject: [Bug 1858415] Re: in tcp_emu function has OOB bug
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="ef9fc486e875d54078fa61cf91e898b895125d89";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 615c70980879adfac69c18ec5c3b28f6f066332a
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/10 06:30:56
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=_AUTOLEARN
+References: <CAFr6bU=LjeW5_eGtwL38cher2TM52skohuANNXN9EpO+mA-z8Q@mail.gmail.com>
+ <m2imfz877v.fsf@dme.org>
+In-Reply-To: <m2imfz877v.fsf@dme.org>
+From: Sam Eiderman <sameid@google.com>
+Date: Wed, 10 Jun 2020 15:19:38 +0300
+Message-ID: <CAFr6bUk5LrEL8BPXYkNOqj_jsbxHBfbj_NYryUjszMtG89L+2w@mail.gmail.com>
+Subject: Re: Clarification regarding new qemu-img convert --target-is-zero flag
+To: David Edmondson <dme@dme.org>
+Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, 
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, eblake@redhat.com,
+ Max Reitz <mreitz@redhat.com>, Tony Zhang <tzz@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f2b;
+ envelope-from=sameid@google.com; helo=mail-qv1-xf2b.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -185
+X-Spam_score: -18.6
+X-Spam_bar: ------------------
+X-Spam_report: (-18.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,50 +81,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1858415 <1858415@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Information type changed from Private Security to Public
+Thanks David,
 
--- =
+Yes, I imaging the following use case:
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1858415
+disk.vmdk is a 50 GB disk that contains 12 MB binary of zeroes in its beginning.
+/dev/sda is a raw disk containing garbage
 
-Title:
-  in tcp_emu function has OOB bug
+I invoke:
+qemu-img convert disk.vmdk -O raw /dev/sda
 
-Status in QEMU:
-  Fix Released
+Required output:
+The first 12 MB of /dev/sda contain zeros, the rest garbage, qemu-img
+finishes fast.
 
-Bug description:
-  qemu version: 4.1.0
+Kevin, from what I understood from you, this is the default behavior.
 
-  ```c
-  int tcp_emu(struct socket *so, struct mbuf *m){
-  ............
-  case EMU_REALAUDIO:
-  ............
-      while (bptr < m->m_data + m->m_len) {
-          case 6:
-  ............
-              lport =3D (((uint8_t *)bptr)[0] << 8) + ((uint8_t *)bptr)[1];
-  ............               =
+So if my VMDK is causing trouble (all virtual size is being written)
+this is probably since all the grains in the VMDK are zero allocated
+right?
 
-              *(uint8_t *)bptr++ =3D (p >> 8) & 0xff;
-              *(uint8_t *)bptr =3D p & 0xff;
-  ............
-      }
-  ............
-  ............
-  }
-  ```
+Thanks!
 
-  bptr)[1] and  bptr++ ,may make bptr =3D=3D  m->m_data + m->m_len,and cause
-  OOB=EF=BC=88out of bounds.=EF=BC=89
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1858415/+subscriptions
+On Wed, Jun 10, 2020 at 2:56 PM David Edmondson <dme@dme.org> wrote:
+>
+> On Wednesday, 2020-06-10 at 08:28:29 +03, Sam Eiderman wrote:
+>
+> > Hi,
+> >
+> > 168468fe19c8 ("qemu-img: Add --target-is-zero to convert") has added a
+> > nice functionality for cloud scenarios:
+> >
+> > * Create a virtual disk
+> > * Convert a sparse image (qcow2, vmdk) to the virtual disk using
+> > --target-is-zero
+> > * Use the virtual disk
+> >
+> > This saves many unnecessary writes - a qcow2 with 1MB of allocated
+> > data but with 100GB virtual size will be converted efficiently.
+> >
+> > However, does this pose a problem if the virtual disk is not zero initialized?
+>
+> As Vladimir indicated, the intent of the flag is supposed to be clear
+> from the name :-) If your storage doesn't read zeroes absent any earlier
+> writes, you probably don't want to be using it.
+>
+> > Theoretically - if all unallocated blocks contain garbage - this
+> > shouldn't matter, however what about allocated blocks of zero? Will
+> > convert skip copying allocated zero blocks in the source image to the
+> > target since it assumes that the target is zeroed out first thing?
+>
+> So something like a "--no-need-to-zero" flag would do what you want,
+> presuming that it would write known zeroes but no longer clean the
+> device before use?
+>
+> dme.
+> --
+> You can't hide from the flipside.
 
