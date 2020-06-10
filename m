@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A9AF1F5D51
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 22:42:22 +0200 (CEST)
-Received: from localhost ([::1]:39258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7875D1F5D53
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 22:42:43 +0200 (CEST)
+Received: from localhost ([::1]:40466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jj7YD-0005ZN-Cn
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 16:42:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49166)
+	id 1jj7YY-00064A-FC
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 16:42:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49324)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jj7Vt-0003Sz-4S
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 16:39:57 -0400
-Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:36774)
+ id 1jj7W1-0003k0-J1
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 16:40:05 -0400
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:41226)
  by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jj7Vs-0007hC-0k
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 16:39:56 -0400
-Received: by mail-pg1-x533.google.com with SMTP id t7so1504980pgt.3
- for <qemu-devel@nongnu.org>; Wed, 10 Jun 2020 13:39:49 -0700 (PDT)
+ id 1jj7Vw-0007hO-Ko
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 16:40:05 -0400
+Received: by mail-pg1-x543.google.com with SMTP id b5so548422pgm.8
+ for <qemu-devel@nongnu.org>; Wed, 10 Jun 2020 13:39:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=u1sk/YIU6t6fS+f6iDKix7y1NRK6wPD2A6SC61UJXGE=;
- b=QWdiry0JryBfLnFEa0ekOd2vxhlMwgTy6YsT8PomYJETDLv0RanM7JovtKNPpdn9+0
- 8bYdcIUGwkgsd2BSZO05zCpvVIG57bRUtryKcZUdFnzvQefmvcAOopXLGiehHkzkmVhw
- eJeRI18lLK3wdmEJ/WxlqhdRQNfT+ckyiCdhu5nDoUFeUkAfZQcDQXtOcBmC1jEA8hO8
- Zm71IEtHyB2zS1Cr5UOz7XjZen15BoNWyWtTlSMoi9EKLQUSJipKv+nBF3rbxW65VOPv
- QPNaZhraFX0J9rloHlPj3eA2djbGnBEJPk49phu67un8ALFxOz8iI+7K32vsPJ/xvEZ7
- VfYg==
+ bh=h9lWVjb7H1XkkBgxSVShhNTX95JNTaemDIvGHo4y1DI=;
+ b=EoPYiIoWDGbiFqh/gRr04SvwHczr8aOWHQSXCVs3lpJT8euZfREjYWmeWhpLGdGD43
+ HbOSpFwz9ZKoBnwl9yLtqxLub31SDpEALw/9xBmsG0jlBVzCzimefcFjorXbeIG/D2Gh
+ ldLPI6pnIQHvwfJfn/hNVeohpY/UDP+gUGsIu6oDFHSNqYoyv/JIcJ6//4DtrfjV5mL/
+ eINFuYMVw99Fmb9d90sm4ftZ3JtA2FgAbNVXSaIRwQJ32DVESVNZuyzxYCw3Nxye5Rt8
+ 4Gz4GGvVfcFlkKo0r26EIY1Xq/WdCDlkgQaXFAMFM1+nPyCbEv3OKhZm70UE3+lTM+Ro
+ cfMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=u1sk/YIU6t6fS+f6iDKix7y1NRK6wPD2A6SC61UJXGE=;
- b=n8eiP7uuB35NhXxf0/2sg4RsY8kZQBFLoWw0p2I9lOIKRF16gQSavc7EqgtWuEU/jL
- pv4aG+1Bw6zGLN6o3kHHSXuaCfNOWnLI/q+nj627y5h/gxcCAmmrGUnJtKaJ8WnKKX5E
- zTolixgj5dv/TZK6GDOY5UehUH6dWpDKenn58cnnvE1awJZlU/CR44k+bqtub9UMkxMr
- GR/XoAbEMHbsbhR8Uhv3oSTdHD0CXdmI+qA25s9Eo+R4XBx7hFoQ8LPjbmakEPto4USI
- pW1SjYoWor8DZ7IisIQX+3tS6xU9ogkPhlPrUfcYARpjc1FkuK8uxUP04MZvpO6UsuL5
- /0hw==
-X-Gm-Message-State: AOAM532pTljHw+RoydYZZdDSF7nnrg8KdKC9kdGus+bo1LglABOJ2mPg
- K6tnFc0IYB+srDbYxtKKv4cIE1Lacik=
-X-Google-Smtp-Source: ABdhPJydId79Xe6+7zkqyZfyKsajbpbAxEVgw0gYOg94jr06HDLTTmqnZPxzjrAAxuQ1ltMl7qTZQA==
-X-Received: by 2002:aa7:96b0:: with SMTP id g16mr4357312pfk.126.1591821587967; 
- Wed, 10 Jun 2020 13:39:47 -0700 (PDT)
+ bh=h9lWVjb7H1XkkBgxSVShhNTX95JNTaemDIvGHo4y1DI=;
+ b=hjPx0Tg86Z8xgtrTWEZHSTqwiKnDwbB+ydxryemf9d7dlwHZXs5qzwtf2NS5gmoybj
+ Bwkgs6X5duNWQoXmoYWkUa8xzWE0MaudFZzH+j05wIu5empB7xAyb2snaW21er8ISzYp
+ mDFiHKip4fJuqGURxwBOPym9j3rMFPXNQG5CLOHZSXk6kwOfAsoDKoNRdqpTnvtmVfwq
+ /l3CAe+yfWWG+ZI3Ku33fxLjbNt9EMAx8FDVF4usCjL8KHK15hdqWvtF9UbAYdlST4fV
+ XFP7DzR1SkeQMHSDLW/tLBo6luQkKp1IWPGBZNOJEVWxrB6mS8N5NzrIL/kUIWfFTDlE
+ MFHg==
+X-Gm-Message-State: AOAM531SQaK8JnEpp34zq4I3dHmUDKnOFNjFE5x5gF88l+NNfIxALvs+
+ fdtG12NlMS1wn091QoKBYpaRoBIx614=
+X-Google-Smtp-Source: ABdhPJzRp7vs2Ttfmt0fJuWYjfv/3JEr1MFGLJatG5fe+nzDLJ9x7cGh1XmBfeMALfW3KkkojHJniA==
+X-Received: by 2002:a62:1c46:: with SMTP id c67mr4162269pfc.170.1591821589289; 
+ Wed, 10 Jun 2020 13:39:49 -0700 (PDT)
 Received: from localhost.localdomain (174-21-143-238.tukw.qwest.net.
  [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id g6sm740648pfb.164.2020.06.10.13.39.46
+ by smtp.gmail.com with ESMTPSA id g6sm740648pfb.164.2020.06.10.13.39.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Jun 2020 13:39:47 -0700 (PDT)
+ Wed, 10 Jun 2020 13:39:48 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 3/5] configure: Clean up warning flag lists
-Date: Wed, 10 Jun 2020 13:39:40 -0700
-Message-Id: <20200610203942.887374-4-richard.henderson@linaro.org>
+Subject: [PATCH v2 4/5] configure: Disable -Wtautological-type-limit-compare
+Date: Wed, 10 Jun 2020 13:39:41 -0700
+Message-Id: <20200610203942.887374-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200610203942.887374-1-richard.henderson@linaro.org>
 References: <20200610203942.887374-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x533.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::543;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x543.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -85,77 +86,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use a helper function to tidy the assembly of gcc_flags.
-Separate flags that disable warnings from those that enable,
-and sort the disable warnings to the end.
+Clang 10 enables this by default with -Wtype-limit.
 
-Suggested-by: Eric Blake <eblake@redhat.com>
+All of the instances flagged by this Werror so far have been
+cases in which we really do want the compiler to optimize away
+the test completely.  Disabling the warning will avoid having
+to add ifdefs to work around this.
+
+Cc: Eric Blake <eblake@redhat.com>
+Fixes: https://bugs.launchpad.net/qemu/+bug/1878628
+Acked-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- configure | 40 ++++++++++++++++++++++++++++++----------
- 1 file changed, 30 insertions(+), 10 deletions(-)
+v2: Use the new add_to function.
+---
+ configure | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/configure b/configure
-index 597e909b53..464202e375 100755
+index 464202e375..8b33447048 100755
 --- a/configure
 +++ b/configure
-@@ -97,6 +97,11 @@ do_cxx() {
-     do_compiler "$cxx" "$@"
- }
+@@ -2035,6 +2035,7 @@ add_to nowarn_flags -Wno-missing-include-dirs
+ add_to nowarn_flags -Wno-shift-negative-value
+ add_to nowarn_flags -Wno-string-plus-int
+ add_to nowarn_flags -Wno-typedef-redefinition
++add_to nowarn_flags -Wno-tautological-type-limit-compare
  
-+# Append $2 to the variable named $1, with space separation
-+add_to() {
-+    eval $1=\${$1:+\"\$$1 \"}\$2
-+}
-+
- update_cxxflags() {
-     # Set QEMU_CXXFLAGS from QEMU_CFLAGS by filtering out those
-     # options which some versions of GCC's C++ compiler complain about
-@@ -2007,16 +2012,31 @@ if ! compile_prog "" "" ; then
-     error_exit "You need at least GCC v4.8 or Clang v3.4 (or XCode Clang v5.1)"
- fi
+ gcc_flags="$warn_flags $nowarn_flags"
  
--gcc_flags="-Wold-style-declaration -Wold-style-definition -Wtype-limits"
--gcc_flags="-Wformat-security -Wformat-y2k -Winit-self -Wignored-qualifiers $gcc_flags"
--gcc_flags="-Wno-missing-include-dirs -Wempty-body -Wnested-externs $gcc_flags"
--gcc_flags="-Wendif-labels -Wno-shift-negative-value $gcc_flags"
--gcc_flags="-Wno-initializer-overrides -Wexpansion-to-defined $gcc_flags"
--gcc_flags="-Wno-string-plus-int -Wno-typedef-redefinition $gcc_flags"
--# Note that we do not add -Werror to gcc_flags here, because that would
--# enable it for all configure tests. If a configure test failed due
--# to -Werror this would just silently disable some features,
--# so it's too error prone.
-+# Accumulate -Wfoo and -Wno-bar separately.
-+# We will list all of the enable flags first, and the disable flags second.
-+# Note that we do not add -Werror, because that would enable it for all
-+# configure tests. If a configure test failed due to -Werror this would
-+# just silently disable some features, so it's too error prone.
-+
-+add_to warn_flags -Wold-style-declaration
-+add_to warn_flags -Wold-style-definition
-+add_to warn_flags -Wtype-limits
-+add_to warn_flags -Wformat-security
-+add_to warn_flags -Wformat-y2k
-+add_to warn_flags -Winit-self
-+add_to warn_flags -Wignored-qualifiers
-+add_to warn_flags -Wempty-body
-+add_to warn_flags -Wnested-externs
-+add_to warn_flags -Wendif-labels
-+add_to warn_flags -Wno-initializer-overrides
-+add_to warn_flags -Wexpansion-to-defined
-+
-+add_to nowarn_flags -Wno-missing-include-dirs
-+add_to nowarn_flags -Wno-shift-negative-value
-+add_to nowarn_flags -Wno-string-plus-int
-+add_to nowarn_flags -Wno-typedef-redefinition
-+
-+gcc_flags="$warn_flags $nowarn_flags"
- 
- cc_has_warning_flag() {
-     write_c_skeleton;
 -- 
 2.25.1
 
