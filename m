@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E63661F4D1C
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 07:43:34 +0200 (CEST)
-Received: from localhost ([::1]:33908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F34301F4D2E
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 07:47:19 +0200 (CEST)
+Received: from localhost ([::1]:48266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jitWP-000231-TD
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 01:43:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42578)
+	id 1jita2-0008ED-Tx
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 01:47:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jitME-00053M-EP
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 01:33:02 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:30752
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jitMP-0005ER-9F
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 01:33:13 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:30285
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jitMA-0003pp-Oh
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 01:33:01 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jitMA-0003pu-Ox
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 01:33:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1591767177;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=O2EGvII9a8ywZHb8DbNUNZcnLOkq1u0F6R3GEOVtRlg=;
- b=XkKqBThfiqvWnlFMv2mffLpujEXlsafXhtHgYBJyRuEgclOBlPcHn2djeD1mXe4JHBt9o1
- 5Km1hHnSIAM8RnQZk6O7HP956gvQjeaAxuSEAJ2QOnrN9U8BB1LIosbmdx6bLZD3euOLz8
- OIdwpQyYKMRSxrkWRHfkXVn5A99obpE=
+ bh=XEbUxXtlak8PlFbd1O+GsorsG1R72gpuliA8h02ZDTk=;
+ b=Gx1kjtIoA8A8a435A9kNNMOjobueyhRrtISFs43Py1U8TFHPPLJbGogVMFrqtp7Fct7OvI
+ K5l4y9AKShJ587MA5c4+xC1b3OQs9+SKi9sSPMk9oTezmjpxbiq6Xu7ZjHnatWSPIhn1h8
+ i2R55pRsjUfYgRWRMHJVx2tjwxLP55U=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-94-_RtmzgjeNuGVy2LdnxuadA-1; Wed, 10 Jun 2020 01:32:56 -0400
-X-MC-Unique: _RtmzgjeNuGVy2LdnxuadA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-237-pql6b34nOUyt-zOeYhNQxw-1; Wed, 10 Jun 2020 01:32:56 -0400
+X-MC-Unique: pql6b34nOUyt-zOeYhNQxw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 77673A0BDC
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 85C258015CE
  for <qemu-devel@nongnu.org>; Wed, 10 Jun 2020 05:32:55 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-121.ams2.redhat.com
  [10.36.112.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 494A019D61;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 577217F0BE;
  Wed, 10 Jun 2020 05:32:55 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 6000F1138474; Wed, 10 Jun 2020 07:32:48 +0200 (CEST)
+ id 663321138475; Wed, 10 Jun 2020 07:32:48 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH RESEND v3 30/58] qdev: qdev_create(),
- qdev_try_create() are now unused, drop
-Date: Wed, 10 Jun 2020 07:32:19 +0200
-Message-Id: <20200610053247.1583243-31-armbru@redhat.com>
+Subject: [PATCH RESEND v3 31/58] auxbus: Rename aux_init_bus() to
+ aux_bus_init()
+Date: Wed, 10 Jun 2020 07:32:20 +0200
+Message-Id: <20200610053247.1583243-32-armbru@redhat.com>
 In-Reply-To: <20200610053247.1583243-1-armbru@redhat.com>
 References: <20200610053247.1583243-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 23:51:15
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 23:22:15
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -81,116 +81,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Suggested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/hw/qdev-core.h |  2 --
- hw/core/qdev.c         | 48 ------------------------------------------
- hw/core/sysbus.c       |  1 -
- migration/migration.c  |  2 +-
- 4 files changed, 1 insertion(+), 52 deletions(-)
+ include/hw/misc/auxbus.h | 4 ++--
+ hw/display/xlnx_dp.c     | 2 +-
+ hw/misc/auxbus.c         | 4 ++--
+ 3 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-index be6f7c4736..ef6137b6a8 100644
---- a/include/hw/qdev-core.h
-+++ b/include/hw/qdev-core.h
-@@ -320,8 +320,6 @@ compat_props_add(GPtrArray *arr,
- 
- /*** Board API.  This should go away once we have a machine config file.  ***/
- 
--DeviceState *qdev_create(BusState *bus, const char *name);
--DeviceState *qdev_try_create(BusState *bus, const char *name);
- DeviceState *qdev_new(const char *name);
- DeviceState *qdev_try_new(const char *name);
- void qdev_init_nofail(DeviceState *dev);
-diff --git a/hw/core/qdev.c b/hw/core/qdev.c
-index 4768244f31..a1fdebb3aa 100644
---- a/hw/core/qdev.c
-+++ b/hw/core/qdev.c
-@@ -128,54 +128,6 @@ void qdev_set_parent_bus(DeviceState *dev, BusState *bus)
-     }
- }
- 
--/* Create a new device.  This only initializes the device state
--   structure and allows properties to be set.  The device still needs
--   to be realized.  See qdev-core.h.  */
--DeviceState *qdev_create(BusState *bus, const char *name)
--{
--    DeviceState *dev;
--
--    dev = qdev_try_create(bus, name);
--    if (!dev) {
--        if (bus) {
--            error_report("Unknown device '%s' for bus '%s'", name,
--                         object_get_typename(OBJECT(bus)));
--        } else {
--            error_report("Unknown device '%s' for default sysbus", name);
--        }
--        abort();
--    }
--
--    return dev;
--}
--
--DeviceState *qdev_try_create(BusState *bus, const char *type)
--{
--    DeviceState *dev;
--
--    if (object_class_by_name(type) == NULL) {
--        return NULL;
--    }
--    dev = DEVICE(object_new(type));
--    if (!dev) {
--        return NULL;
--    }
--
--    if (!bus) {
--        /* Assert that the device really is a SysBusDevice before
--         * we put it onto the sysbus. Non-sysbus devices which aren't
--         * being put onto a bus should be created with object_new(TYPE_FOO),
--         * not qdev_create(NULL, TYPE_FOO).
--         */
--        g_assert(object_dynamic_cast(OBJECT(dev), TYPE_SYS_BUS_DEVICE));
--        bus = sysbus_get_default();
--    }
--
--    qdev_set_parent_bus(dev, bus);
--    object_unref(OBJECT(dev));
--    return dev;
--}
--
- /*
-  * Create a device on the heap.
-  * A type @name must exist.
-diff --git a/hw/core/sysbus.c b/hw/core/sysbus.c
-index b5db0d179f..7ff1b5f2de 100644
---- a/hw/core/sysbus.c
-+++ b/hw/core/sysbus.c
-@@ -325,7 +325,6 @@ static const TypeInfo sysbus_device_type_info = {
-     .class_init = sysbus_device_class_init,
+diff --git a/include/hw/misc/auxbus.h b/include/hw/misc/auxbus.h
+index a539a98c4b..5cfd7a9284 100644
+--- a/include/hw/misc/auxbus.h
++++ b/include/hw/misc/auxbus.h
+@@ -84,14 +84,14 @@ struct AUXSlave {
  };
  
--/* This is a nasty hack to allow passing a NULL bus to qdev_create.  */
- static BusState *main_system_bus;
+ /**
+- * aux_init_bus: Initialize an AUX bus.
++ * aux_bus_init: Initialize an AUX bus.
+  *
+  * Returns the new AUX bus created.
+  *
+  * @parent The device where this bus is located.
+  * @name The name of the bus.
+  */
+-AUXBus *aux_init_bus(DeviceState *parent, const char *name);
++AUXBus *aux_bus_init(DeviceState *parent, const char *name);
  
- static void main_system_bus_create(void)
-diff --git a/migration/migration.c b/migration/migration.c
-index b63ad91d34..481a590f72 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -3778,7 +3778,7 @@ static const TypeInfo migration_type = {
-     .name = TYPE_MIGRATION,
+ /*
+  * aux_request: Make a request on the bus.
+diff --git a/hw/display/xlnx_dp.c b/hw/display/xlnx_dp.c
+index 6e9793584a..31d0c5a101 100644
+--- a/hw/display/xlnx_dp.c
++++ b/hw/display/xlnx_dp.c
+@@ -1244,7 +1244,7 @@ static void xlnx_dp_init(Object *obj)
      /*
-      * NOTE: TYPE_MIGRATION is not really a device, as the object is
--     * not created using qdev_create(), it is not attached to the qdev
-+     * not created using qdev_new(), it is not attached to the qdev
-      * device tree, and it is never realized.
-      *
-      * TODO: Make this TYPE_OBJECT once QOM provides something like
+      * Initialize AUX Bus.
+      */
+-    s->aux_bus = aux_init_bus(DEVICE(obj), "aux");
++    s->aux_bus = aux_bus_init(DEVICE(obj), "aux");
+ 
+     /*
+      * Initialize DPCD and EDID..
+diff --git a/hw/misc/auxbus.c b/hw/misc/auxbus.c
+index 7fb020086f..2e1c27e842 100644
+--- a/hw/misc/auxbus.c
++++ b/hw/misc/auxbus.c
+@@ -62,7 +62,7 @@ static void aux_bus_class_init(ObjectClass *klass, void *data)
+     k->print_dev = aux_slave_dev_print;
+ }
+ 
+-AUXBus *aux_init_bus(DeviceState *parent, const char *name)
++AUXBus *aux_bus_init(DeviceState *parent, const char *name)
+ {
+     AUXBus *bus;
+     Object *auxtoi2c;
+@@ -225,7 +225,7 @@ static void aux_bridge_class_init(ObjectClass *oc, void *data)
+     DeviceClass *dc = DEVICE_CLASS(oc);
+ 
+     /* This device is private and is created only once for each
+-     * aux-bus in aux_init_bus(..). So don't allow the user to add one.
++     * aux-bus in aux_bus_init(..). So don't allow the user to add one.
+      */
+     dc->user_creatable = false;
+ }
 -- 
 2.26.2
 
