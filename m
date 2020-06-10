@@ -2,63 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4D381F5B20
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 20:28:02 +0200 (CEST)
-Received: from localhost ([::1]:57442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D0001F5B74
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 20:48:13 +0200 (CEST)
+Received: from localhost ([::1]:43812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jj5SD-0007iC-QJ
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 14:28:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48648)
+	id 1jj5lk-0000Gs-5K
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 14:48:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jj5PM-0005Fq-Do; Wed, 10 Jun 2020 14:25:04 -0400
-Resent-Date: Wed, 10 Jun 2020 14:25:04 -0400
-Resent-Message-Id: <E1jj5PM-0005Fq-Do@lists.gnu.org>
-Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21720)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jj5PK-0006We-Kv; Wed, 10 Jun 2020 14:25:04 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1591813491; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=XJzIP79JWqsxj8t0EGhvEIQadvx0TI3E8Y2yhb90MflhEpWFtpZYZXkiF4UTYLEgipEsSzBzmyx+X0CxR/wOfaEhoyuyLRu5ApD/fr/Ql/kNHOGOPp4VA0YDurg2jbZHZ2+Xlz5zY5/EQtxC3nxmbfTfc66gnwH83VVV2cIp87o=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1591813491;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=e97MUL3aNyR58j52ECn66dPUSyLslExuknjgqz+YdqI=; 
- b=I+VdyAtlCGmvHNFx9d7tGVyVWaXsQ/rVZR53INQAOnyPhJw7JpSsASSHMZ8TAJsy+/Ehwx9Iq3UsRKjFVWcLxRHxGrlfhQiKF6KbXN5kyx6JHm6Xy8i78jmZ81XmzAtHgp0/Ye+Hl2ZTNwL6btdvT+qjYLHThLBqnAkI9DNwyp4=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1591813488374647.7444244054805;
- Wed, 10 Jun 2020 11:24:48 -0700 (PDT)
-Message-ID: <159181348711.21115.11091430700411380327@45ef0f9c86ae>
-In-Reply-To: <20200610144129.27659-1-den@openvz.org>
-Subject: Re: [PATCH 0/2] qcow2: seriously improve savevm performance
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jj5k2-0007tU-NT
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 14:46:26 -0400
+Received: from indium.canonical.com ([91.189.90.7]:57886)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jj5k1-0002gQ-3y
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 14:46:26 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jj5jy-0002rE-3J
+ for <qemu-devel@nongnu.org>; Wed, 10 Jun 2020 18:46:22 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 626D72E8157
+ for <qemu-devel@nongnu.org>; Wed, 10 Jun 2020 18:46:20 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: den@openvz.org
-Date: Wed, 10 Jun 2020 11:24:48 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o57.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/10 14:20:12
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 10 Jun 2020 18:39:30 -0000
+From: "Vladislav K. Valtchev" <1882671@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=Confirmed; importance=Undecided; assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: janitor lersek vvaltchev
+X-Launchpad-Bug-Reporter: Vladislav K. Valtchev (vvaltchev)
+X-Launchpad-Bug-Modifier: Vladislav K. Valtchev (vvaltchev)
+References: <159169936514.32294.8785049859239547612.malonedeb@gac.canonical.com>
+Message-Id: <159181437049.5899.10450187231163077796.malone@chaenomeles.canonical.com>
+Subject: [Bug 1882671] Re: qemu-system-x86_64 (ver 4.2) stuck at boot with
+ OVMF bios
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="b190cebbf563f89e480a8b57f641753c8196bda0";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 28892c05208158c93fb8fcd882ce6e4c9a6c7409
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/10 11:11:22
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -67,51 +74,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, mreitz@redhat.com, dplotnikov@virtuozzo.com,
- den@openvz.org
+Reply-To: Bug 1882671 <1882671@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDYxMDE0NDEyOS4yNzY1
-OS0xLWRlbkBvcGVudnoub3JnLwoKCgpIaSwKClRoaXMgc2VyaWVzIGZhaWxlZCB0aGUgYXNhbiBi
-dWlsZCB0ZXN0LiBQbGVhc2UgZmluZCB0aGUgdGVzdGluZyBjb21tYW5kcyBhbmQKdGhlaXIgb3V0
-cHV0IGJlbG93LiBJZiB5b3UgaGF2ZSBEb2NrZXIgaW5zdGFsbGVkLCB5b3UgY2FuIHByb2JhYmx5
-IHJlcHJvZHVjZSBpdApsb2NhbGx5LgoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4v
-YmFzaApleHBvcnQgQVJDSD14ODZfNjQKbWFrZSBkb2NrZXItaW1hZ2UtZmVkb3JhIFY9MSBORVRX
-T1JLPTEKdGltZSBtYWtlIGRvY2tlci10ZXN0LWRlYnVnQGZlZG9yYSBUQVJHRVRfTElTVD14ODZf
-NjQtc29mdG1tdSBKPTE0IE5FVFdPUks9MQo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKICBDQyAg
-ICAgIGJsb2NrL2dsdXN0ZXIubwogIENDICAgICAgYmxvY2svc3NoLm8KICBDQyAgICAgIGJsb2Nr
-L2RtZy1iejIubwovdG1wL3FlbXUtdGVzdC9zcmMvYmxvY2svcWNvdzIuYzo1MTM5Ojk6IGVycm9y
-OiB2YXJpYWJsZSAnZXJyJyBpcyB1c2VkIHVuaW5pdGlhbGl6ZWQgd2hlbmV2ZXIgJ2lmJyBjb25k
-aXRpb24gaXMgZmFsc2UgWy1XZXJyb3IsLVdzb21ldGltZXMtdW5pbml0aWFsaXplZF0KICAgIGlm
-ICh0LT5ieXRlcyAhPSAwKSB7CiAgICAgICAgXn5+fn5+fn5+fn5+fgovdG1wL3FlbXUtdGVzdC9z
-cmMvYmxvY2svcWNvdzIuYzo1MTQ3OjEyOiBub3RlOiB1bmluaXRpYWxpemVkIHVzZSBvY2N1cnMg
-aGVyZQotLS0KICAgICAgICAgICBeCiAgICAgICAgICAgID0gMAoxIGVycm9yIGdlbmVyYXRlZC4K
-bWFrZTogKioqIFsvdG1wL3FlbXUtdGVzdC9zcmMvcnVsZXMubWFrOjY5OiBibG9jay9xY293Mi5v
-XSBFcnJvciAxCm1ha2U6ICoqKiBXYWl0aW5nIGZvciB1bmZpbmlzaGVkIGpvYnMuLi4uClRyYWNl
-YmFjayAobW9zdCByZWNlbnQgY2FsbCBsYXN0KToKICBGaWxlICIuL3Rlc3RzL2RvY2tlci9kb2Nr
-ZXIucHkiLCBsaW5lIDY2NSwgaW4gPG1vZHVsZT4KLS0tCiAgICByYWlzZSBDYWxsZWRQcm9jZXNz
-RXJyb3IocmV0Y29kZSwgY21kKQpzdWJwcm9jZXNzLkNhbGxlZFByb2Nlc3NFcnJvcjogQ29tbWFu
-ZCAnWydzdWRvJywgJy1uJywgJ2RvY2tlcicsICdydW4nLCAnLS1sYWJlbCcsICdjb20ucWVtdS5p
-bnN0YW5jZS51dWlkPTIxM2E4ZGE2OTA4MTQ1OWI5MWRiNjM4ODhlMWNjNmEwJywgJy11JywgJzEw
-MDEnLCAnLS1zZWN1cml0eS1vcHQnLCAnc2VjY29tcD11bmNvbmZpbmVkJywgJy0tcm0nLCAnLWUn
-LCAnVEFSR0VUX0xJU1Q9eDg2XzY0LXNvZnRtbXUnLCAnLWUnLCAnRVhUUkFfQ09ORklHVVJFX09Q
-VFM9JywgJy1lJywgJ1Y9JywgJy1lJywgJ0o9MTQnLCAnLWUnLCAnREVCVUc9JywgJy1lJywgJ1NI
-T1dfRU5WPScsICctZScsICdDQ0FDSEVfRElSPS92YXIvdG1wL2NjYWNoZScsICctdicsICcvaG9t
-ZS9wYXRjaGV3Ly5jYWNoZS9xZW11LWRvY2tlci1jY2FjaGU6L3Zhci90bXAvY2NhY2hlOnonLCAn
-LXYnLCAnL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLXY1NGhnaXkyL3NyYy9kb2NrZXItc3Jj
-LjIwMjAtMDYtMTAtMTQuMjAuMzkuMTkzMTU6L3Zhci90bXAvcWVtdTp6LHJvJywgJ3FlbXU6ZmVk
-b3JhJywgJy92YXIvdG1wL3FlbXUvcnVuJywgJ3Rlc3QtZGVidWcnXScgcmV0dXJuZWQgbm9uLXpl
-cm8gZXhpdCBzdGF0dXMgMi4KZmlsdGVyPS0tZmlsdGVyPWxhYmVsPWNvbS5xZW11Lmluc3RhbmNl
-LnV1aWQ9MjEzYThkYTY5MDgxNDU5YjkxZGI2Mzg4OGUxY2M2YTAKbWFrZVsxXTogKioqIFtkb2Nr
-ZXItcnVuXSBFcnJvciAxCm1ha2VbMV06IExlYXZpbmcgZGlyZWN0b3J5IGAvdmFyL3RtcC9wYXRj
-aGV3LXRlc3Rlci10bXAtdjU0aGdpeTIvc3JjJwptYWtlOiAqKiogW2RvY2tlci1ydW4tdGVzdC1k
-ZWJ1Z0BmZWRvcmFdIEVycm9yIDIKCnJlYWwgICAgNG04LjYwOXMKdXNlciAgICAwbTguOTE3cwoK
-ClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAy
-MDA2MTAxNDQxMjkuMjc2NTktMS1kZW5Ab3BlbnZ6Lm9yZy90ZXN0aW5nLmFzYW4vP3R5cGU9bWVz
-c2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBz
-Oi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRl
-dmVsQHJlZGhhdC5jb20=
+Hi Laszlo,
+thanks for investigating the problem so rapidly.
+
+So, I downgraded the ipxe-qemu package from
+1.0.0+git-20190109.133f4c4-0ubuntu3 (focal) to 1.0.0+git-20180124
+.fbe8c52d-0ubuntu2 (bionic) and the problem completely disappeared. Your
+theory looks absolutely correct to me.
+
+For what it's worth, I just discovered that, even with the buggy ipxe-
+qemu in Focal, the OVMF distributed with QEMU itself
+(/usr/share/qemu/OVMF.fd) worked, but ONLY with it. I tried with
+multiple other versions of OVMF and all of them caused QEMU to stuck at
+boot, probably because of that ASSERT in the 82540em.efi driver.
+
+Vlad
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1882671
+
+Title:
+  qemu-system-x86_64 (ver 4.2) stuck at boot with OVMF bios
+
+Status in QEMU:
+  New
+Status in qemu package in Ubuntu:
+  Confirmed
+
+Bug description:
+  The version of QEMU (4.2.0) packaged for Ubuntu 20.04 hangs
+  indefinitely at boot if an OVMF bios is used. This happens ONLY with
+  qemu-system-x86_64. qemu-system-i386 works fine with the latest ia32
+  OVMF bios.
+
+  NOTE[1]: the same identical OVMF bios works fine on QEMU 2.x packaged wit=
+h Ubuntu 18.04.
+  NOTE[2]: reproducing the fatal bug requires *no* operating system:
+
+     qemu-system-x86_64 -bios OVMF-pure-efi.fd
+
+  On its window QEMU gets stuck at the very first stage:
+     "Guest has not initialized the display (yet)."
+
+  NOTE[3]: QEMU gets stuck no matter if KVM is used or not.
+
+  NOTE[4]: By adding the `-d int` option it is possible to observe that
+  QEMU is, apparently, stuck in an endless loop of interrupts. For the
+  first few seconds, registers' values vary quickly, but at some point
+  they reach a final value, while the interrupt counter increments:
+
+    2568: v=3D68 e=3D0000 i=3D0 cpl=3D0 IP=3D0038:0000000007f1d225 pc=3D000=
+0000007f1d225 SP=3D0030:0000000007f0c8d0 env->regs[R_EAX]=3D0000000000000000
+  RAX=3D0000000000000000 RBX=3D0000000007f0c920 RCX=3D0000000000000000 RDX=
+=3D0000000000000001
+  RSI=3D0000000006d18798 RDI=3D0000000000008664 RBP=3D0000000000000000 RSP=
+=3D0000000007f0c8d0
+  R8 =3D0000000000000001 R9 =3D0000000000000089 R10=3D0000000000000000 R11=
+=3D0000000007f2c987
+  R12=3D0000000000000000 R13=3D0000000000000000 R14=3D0000000007087901 R15=
+=3D0000000000000000
+  RIP=3D0000000007f1d225 RFL=3D00000246 [---Z-P-] CPL=3D0 II=3D0 A20=3D1 SM=
+M=3D0 HLT=3D0
+  ES =3D0030 0000000000000000 ffffffff 00cf9300 DPL=3D0 DS   [-WA]
+  CS =3D0038 0000000000000000 ffffffff 00af9a00 DPL=3D0 CS64 [-R-]
+  SS =3D0030 0000000000000000 ffffffff 00cf9300 DPL=3D0 DS   [-WA]
+  DS =3D0030 0000000000000000 ffffffff 00cf9300 DPL=3D0 DS   [-WA]
+  FS =3D0030 0000000000000000 ffffffff 00cf9300 DPL=3D0 DS   [-WA]
+  GS =3D0030 0000000000000000 ffffffff 00cf9300 DPL=3D0 DS   [-WA]
+  LDT=3D0000 0000000000000000 0000ffff 00008200 DPL=3D0 LDT
+  TR =3D0000 0000000000000000 0000ffff 00008b00 DPL=3D0 TSS64-busy
+  GDT=3D     00000000079eea98 00000047
+  IDT=3D     000000000758f018 00000fff
+  CR0=3D80010033 CR2=3D0000000000000000 CR3=3D0000000007c01000 CR4=3D000006=
+68
+  DR0=3D0000000000000000 DR1=3D0000000000000000 DR2=3D0000000000000000 DR3=
+=3D0000000000000000 =
+
+  DR6=3D00000000ffff0ff0 DR7=3D0000000000000400
+  CCS=3D0000000000000044 CCD=3D0000000000000000 CCO=3DEFLAGS  =
+
+  EFER=3D0000000000000d00
+
+  =
+
+  NOTE[5]: Just to better help the investigation of the bug, I'd like to re=
+mark that the issue is NOT caused by an endless loop of triple-faults. I tr=
+ied with -d cpu_reset and there is NO such loop. No triple fault whatsoever.
+
+  NOTE[6]: The OVMF version used for the test has been downloaded from:
+  https://www.kraxel.org/repos/jenkins/edk2/edk2.git-ovmf-x64-0-20200515.13=
+98.g6ff7c838d0.noarch.rpm
+
+  but the issue is the same with older OVMF versions as well.
+
+  =
+
+  Please take a look at it, as the bug is NOT a corner case. QEMU 4.2.0 can=
+not boot with an UEFI firmware (OVMF) while virtualizing a x86_64 machine A=
+T ALL.
+
+  Thank you very much,
+  Vladislav K. Valtchev
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1882671/+subscriptions
 
