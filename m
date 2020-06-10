@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 837261F5594
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 15:18:35 +0200 (CEST)
-Received: from localhost ([::1]:54194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C91C1F557B
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 15:13:04 +0200 (CEST)
+Received: from localhost ([::1]:37770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jj0ck-0001Jd-Ha
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 09:18:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45154)
+	id 1jj0XO-0002Fw-SM
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 09:13:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45126)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jj0Ur-0007l7-0Y; Wed, 10 Jun 2020 09:10:25 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:46185)
+ id 1jj0Up-0007iM-8b; Wed, 10 Jun 2020 09:10:23 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:33379)
  by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jj0Up-0003cY-4z; Wed, 10 Jun 2020 09:10:24 -0400
+ id 1jj0Un-0003a7-V6; Wed, 10 Jun 2020 09:10:22 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1M6lxe-1jrEUa0Fag-008JRU; Wed, 10 Jun 2020 15:10:14 +0200
+ id 1N8GIa-1incZS2u0W-014Dwg; Wed, 10 Jun 2020 15:10:14 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 01/16] Fix parameter type in vhost migration log path
-Date: Wed, 10 Jun 2020 15:09:56 +0200
-Message-Id: <20200610131011.1941209-2-laurent@vivier.eu>
+Subject: [PULL v2 02/16] net: Do not include a newline in the id of -nic
+ devices
+Date: Wed, 10 Jun 2020 15:09:57 +0200
+Message-Id: <20200610131011.1941209-3-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200610131011.1941209-1-laurent@vivier.eu>
 References: <20200610131011.1941209-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:GC4QxVhoyRWPc2opmiANzOPcwFOhSvLfhoXfjQFiQAGmI5kg1fh
- ip2rXH5dOtjWESF9Z8A+xvyBu6sGdUETpHpTFL/RLAjZxhKnNnV1rHEBPkjLW9FarwC0Ze0
- osAGfGPjkmHPW9a1oYsUlqincWHaoSL/qs08z8FTFDdagrN/C2fa6cV0isCPITize/5JRNo
- eZDIIeoUSt35+5MvL+X9A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:/2BlOD/8RX0=:fiowDzPcbOKbIEeEYSVbNC
- eh66wg1Kpbpw92XQUGaHM3ByigAp7IPE3QCbPvLikJNZvrhbS6wbHcV/4MCVJYMix3/sHhgRl
- g/3KMh+gsf+c5H00Mv+VDuY07cE8eOxHIFR4p/Um3RyHZdvcdNy0aYsIuBhUthDuHNES3K/C2
- CXCfD3SO2Ogy6OOyYAb8nMUGltp3BBeCZwBNASeIfC4EQwoN6beb6FBOxpqGC4Vvk2TDV6Q4d
- XoSEA6AG1sPASRGw7K1dBmJsL7rNfy/UdaU2GBqullNepBA1rDkvZHqcz4w1HToD09HIha9Qe
- WtPrz3uRVZx1SHX8wA8ty69qM3nnSyX5Mo/uOGBRRcqkCM2x1Jw59g8BnolZvkLeKo/u9++92
- mFhiK6PPc7viYnAvx7pE/LsFtkZuqUCdsLFwpNt9zJfkwvv4UAZHcN2wG0DcaSivUxX+xRuXo
- WFSDtf7o6nnO5TqgZ51zxGRUqvuAqvUvc3ZHarJoCmO5j0FIJoIaklUQC2JhWFxjwKDQYGui7
- QruQXVbgeFoGitL76NimV0q2DQ1Knza+8jnvRQEhF2V3FxZq0AwPAzbnhv3QDKQs+0uD88ZsA
- k8Y3v0l/KZyRufkvYuW4IEvAvrjHPxI40v2uFuTwrrDY8G4Xa2H6aG/h+kInt6u69co1bympg
- AkUTvsMbW9EVyX+7yOKDBXYUYs6UFQe6prIx/TM6NPNvBAHsKDlgj1acopL2dT2dkIbGEy3QA
- E4j6TFcESqoJ/629RkhsLa7ZzLlEE/7Am2hfv64/AdI/u04WXzkSxLz2AdCNHD2QGO1MI6ip5
- k4d63rreD73W2SececyC6/MWysHgbRsdyV/SOmibp4hlif4qZdIBIzI0kq7bIyWzCwovQ7m
-Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:zW5agQm9+hnRkugX9dRv6OmtIMNVTi/qL7EpK+RoYDoTmod2A5g
+ lV3oXzwahxJw72SWY7LHB/N2bOdU23umLr+LEvpi11y/3ONei4iWPMrl3z5CERtEQWU+CDt
+ HXJBHVX1OKt3aXCWkDqGTUrP0MnnwkkhW+Oy6GvCTmC3hWStuH1nqFJZQqQCsbQhATAewh/
+ fKibQv8rovx2XdwjtMGCQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:5J5hcVjLmQQ=:zmL8+vTkzeBwOhQPCqsUl2
+ U2yAmhYHA3+LS5TeyXRziGo8+dAigCZtBLBwkOmUVAoRTZVl/edkJPn3GGPKFlBpIsICDvS4C
+ 1RMi3aRmomf8nZ1sh4wI1ybW8aM+ovj23SENpt1uFIj6lwmOhlc7DHm3Y6ogjQuDWY78kO74/
+ QqUzYGQpKc+fljJxU4023vA8F6om9bcPB9drenatls5sa2p+O8yNEpaT5VqdBAx1ORR6cdtUh
+ a5pkdbhDzpY19GuviVOFw6rni1dxUAbvXduivOKQVfBBqRPArxSqNTR8yNJ0qzAEVwgvh2t1/
+ u7Jr2U1HNak4DO0SDUePMcR2NX8ktKiqEHRt6jo0KUpWZwUEITme4tV8ixWYQtu6n71gp93RC
+ Cnb6PO32SZu6+bm5MAFvh6eQUEIK+gxsOgpQg0yTBzWkpBufdTZ9LufKMtrsz1/a26tsHhcgP
+ t4k2ZEmgpHIg0iDIJflypnL+wZpYiBs3jeJ3YNywgsuGd1D7X7k4VPFiTVodPTkjqhzDKEtDx
+ 1KIvXPqyrbQCAb9zxJbqN1uB0wMdulfhal2gGjqswQjTsZR8KrKpU8kkEpqwqv+V+5/dC2TSH
+ V7JR7skh+gKr4z9FLH/GdGSu+bXmWlaeRQxePacp9omTauw99xurwrjUtOMLycii4vZ1uYQFy
+ PyloLiwAqLb0rcChZLniuEfNqgWgYhtOb+QKzvrO7IIfHx/jD6Bs46OCvRJ4Y+9Pd5WO28w8d
+ MZtMe2nXDxPuoIm9e+U994JEtQdKYa/qXp+U4M6c9h7XmsJBSTzV3pdspCFrBQLrJHsZR83lN
+ 6wtARNCmuPe21+MRzTraG0Oy9nlEsjwmcHS/7F77YgJhCLy6Hk=
+Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/10 09:10:17
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/10 09:10:20
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
@@ -69,46 +70,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Raphael Norwitz <raphael.s.norwitz@gmail.com>, qemu-trivial@nongnu.org,
- Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>
+Cc: qemu-trivial@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Raphael Norwitz <raphael.s.norwitz@gmail.com>
+From: Thomas Huth <thuth@redhat.com>
 
-The ‘enable’ parameter to the vhost_migration_log() function is given as
-an int, but "true"/"false" values are passed in wherever it is invoked.
-Inside the function itself it is only ever compared with bool values.
-Therefore the parameter value itself should be changed to bool.
+The '\n' sneaked in by accident here, an "id" string should really
+not contain a newline character at the end.
 
-Signed-off-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Message-Id: <CAFubqFtqNZw=Y-ar3N=3zTQi6LkKg_G-7W7OOHHbE7Y1fV7HAQ@mail.gmail.com>
+Fixes: 78cd6f7bf6b ('net: Add a new convenience option "--nic" ...')
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20200518074352.23125-1-thuth@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/virtio/vhost.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ net/net.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-index aff98a0ede56..aa06a3691919 100644
---- a/hw/virtio/vhost.c
-+++ b/hw/virtio/vhost.c
-@@ -809,12 +809,12 @@ err_features:
-     return r;
- }
- 
--static int vhost_migration_log(MemoryListener *listener, int enable)
-+static int vhost_migration_log(MemoryListener *listener, bool enable)
- {
-     struct vhost_dev *dev = container_of(listener, struct vhost_dev,
-                                          memory_listener);
-     int r;
--    if (!!enable == dev->log_enabled) {
-+    if (enable == dev->log_enabled) {
-         return 0;
+diff --git a/net/net.c b/net/net.c
+index 38778e831da2..cbeeeadff8f8 100644
+--- a/net/net.c
++++ b/net/net.c
+@@ -1506,7 +1506,7 @@ static int net_param_nic(void *dummy, QemuOpts *opts, Error **errp)
+     /* Create an ID if the user did not specify one */
+     nd_id = g_strdup(qemu_opts_id(opts));
+     if (!nd_id) {
+-        nd_id = g_strdup_printf("__org.qemu.nic%i\n", idx);
++        nd_id = g_strdup_printf("__org.qemu.nic%i", idx);
+         qemu_opts_set_id(opts, nd_id);
      }
-     if (!dev->started) {
+ 
 -- 
 2.26.2
 
