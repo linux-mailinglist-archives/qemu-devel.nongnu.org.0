@@ -2,63 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CB0F1F5C6B
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 22:06:00 +0200 (CEST)
-Received: from localhost ([::1]:47906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A8291F5C65
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 22:05:22 +0200 (CEST)
+Received: from localhost ([::1]:46248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jj6z1-0005uD-IT
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 16:05:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40298)
+	id 1jj6yO-00057G-GQ
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 16:05:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jj6vZ-0002vg-14
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 16:02:25 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:26749
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jj6w5-0003UT-Fj
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 16:02:57 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27826
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jj6vX-0000CS-80
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 16:02:23 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jj6w4-0000PG-Ja
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 16:02:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591819342;
+ s=mimecast20190719; t=1591819375;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RjDaqfoc8uBUQyC6TA74CxQQrVEwQkkBfACH1VLW5mQ=;
- b=aFM8Uw5C0SFMug8YuqTm3ZkzKzwWp6Mb658fH6RblOYj6n2Cm4xr+Q+W5G86VbGKEABzhp
- olcC37QBMZlUdRwhB/IcmSuj0r+1VtpRPLmXGOXmLbJe0i3YLFFiaXjKEdkxVvrnWo3V5a
- F7VP1S8p1OSMheFKzxm6c1BIkN6oNi0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-340-hhgPWyOAMvKt5zxCdJdydg-1; Wed, 10 Jun 2020 16:02:20 -0400
-X-MC-Unique: hhgPWyOAMvKt5zxCdJdydg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C638C461;
- Wed, 10 Jun 2020 20:02:18 +0000 (UTC)
-Received: from [10.3.113.22] (ovpn-113-22.phx2.redhat.com [10.3.113.22])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6618C5D9D3;
- Wed, 10 Jun 2020 20:02:18 +0000 (UTC)
-Subject: Re: [PATCH] qcow2: Fix preallocation on images with unaligned sizes
-To: Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org
-References: <20200610094600.4029-1-berto@igalia.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <abffdc15-605b-6561-2df8-c6b38a8275c5@redhat.com>
-Date: Wed, 10 Jun 2020 15:02:17 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ content-transfer-encoding:content-transfer-encoding;
+ bh=5K+j86GjMZEuaRrMgXDXEmyE/N0J9a1V3v2/sTANT/0=;
+ b=Equ33pS1gabCXE631GXp2VEbK4HhMkdy80pN1DaNDs9ZMmI+ficktlDsEkdDfZ80ReYB92
+ xHHeyB3hTRM9H32m3fjCiFlCfCW6yYflqP9xlXxwKrOipQr6kwP/q6GWlDW7r1wBiZZPW5
+ qJfqfFPr1yehYcLYNZw5S36u6vgIVg4=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-210-B0xUrR1iM-293iNiDNPBtA-1; Wed, 10 Jun 2020 16:02:51 -0400
+X-MC-Unique: B0xUrR1iM-293iNiDNPBtA-1
+Received: by mail-wm1-f70.google.com with SMTP id r1so731204wmh.7
+ for <qemu-devel@nongnu.org>; Wed, 10 Jun 2020 13:02:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=5K+j86GjMZEuaRrMgXDXEmyE/N0J9a1V3v2/sTANT/0=;
+ b=dAnguWk49u2K3v0TABmpMSs3qw/pwBBgnZrIjNNm7m2JEKfjv7pNqprhgyaKyddvX0
+ QUt2wdqZ7FuY/QWMiLPnSesiiYt2JBPFpGkb/H1BdvGKizycJE1t1pxtthMI7kgB8HHD
+ FZoSH1QiJ+3oVfBvWsXuCZa22uqzCTMNwxfSeGa6/Xw0E1QxY/bGwHfM4vA4E21l8JuW
+ 3Ye39daPh+ELvHlbDQI3+HvlJ8GHpkiH9Lhv9kia0rpmpBYicHo14E0yqse71k9eTSZj
+ n4cTr7hIZZv5AplFz+tZ9e47EasDYKhllandQwrB0KnVklQXiFjWCx+gYU1j/RLe49K0
+ XfDg==
+X-Gm-Message-State: AOAM533EKCXxAIwtibEj54ta90UThEFtVAK9duecBWoQVgkaGdnzyYYA
+ uOQmlUs4EwgMLqbt/KafPFc+DYe0YeOSgrkvYRyMBYfGqwyEm7tiUV0lhJxxHLMbb2DLTvCzuRB
+ fAZcgmaqbtNHB2II=
+X-Received: by 2002:a1c:4d0a:: with SMTP id o10mr4792548wmh.150.1591819370259; 
+ Wed, 10 Jun 2020 13:02:50 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwRUmMn3+fjzcHkfEqPwArOGmQv0Gb9qXmUHK/bXOHIkkJMFd6XgVfRZym1fH5ewMlsrb7jkw==
+X-Received: by 2002:a1c:4d0a:: with SMTP id o10mr4792532wmh.150.1591819370032; 
+ Wed, 10 Jun 2020 13:02:50 -0700 (PDT)
+Received: from x1w.redhat.com (181.red-88-10-103.dynamicip.rima-tde.net.
+ [88.10.103.181])
+ by smtp.gmail.com with ESMTPSA id t188sm928311wmt.27.2020.06.10.13.02.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 10 Jun 2020 13:02:49 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/8] tpm: Split hw/ vs backends/
+Date: Wed, 10 Jun 2020 22:02:39 +0200
+Message-Id: <20200610200247.21378-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
-In-Reply-To: <20200610094600.4029-1-berto@igalia.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=eblake@redhat.com;
+Content-Type: text/plain; charset=UTF-8;
+	text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
  helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/10 15:44:05
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -81,43 +92,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Stefan Berger <stefanb@linux.ibm.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/10/20 4:46 AM, Alberto Garcia wrote:
-> When resizing an image with qcow2_co_truncate() using the falloc or
-> full preallocation modes the code assumes that both the old and new
-> sizes are cluster-aligned.
-> 
-> There are two problems with this:
-> 
->    1) The calculation of how many clusters are involved does not always
->       get the right result.
-> 
->       Example: creating a 60KB image and resizing it (with
->       preallocation=full) to 80KB won't allocate the second cluster.
-> 
->    2) No copy-on-write is performed, so in the previous example if
->       there is a backing file then the first 60KB of the first cluster
->       won't be filled with data from the backing file.
-> 
-> This patch fixes both issues.
-> 
-> Signed-off-by: Alberto Garcia <berto@igalia.com>
-> ---
->   block/qcow2.c              | 17 ++++++++++++++---
->   tests/qemu-iotests/125     | 21 +++++++++++++++++++++
->   tests/qemu-iotests/125.out |  9 +++++++++
->   3 files changed, 44 insertions(+), 3 deletions(-)
-> 
+Hi,
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+Today I started to review some vTPM patches and got very
+confused by the files under hw/tpm/. In particular after
+running:
+
+  $ git grep TYPE_TPM_BACKEND
+  backends/tpm.c:188:    .name = TYPE_TPM_BACKEND,
+  hw/tpm/tpm_emulator.c:985:    .parent = TYPE_TPM_BACKEND,
+  hw/tpm/tpm_passthrough.c:393:    .parent = TYPE_TPM_BACKEND,
+  include/sysemu/tpm_backend.h:21:#define TYPE_TPM_BACKEND "tpm-backend"
+
+As there is no particular reason to keep this mixed, clean it up.
+
+Philippe Mathieu-Daudé (8):
+  hw/tpm: Do not include 'qemu/osdep.h' in header
+  hw/tpm: Include missing 'qemu/option.h' header
+  hw/tpm: Move 'hw/acpi/tpm.h' inclusion from header to sources
+  hw/tpm: Remove unnecessary 'tpm_int.h' header inclusion
+  hw/tpm: Move few declarations from 'tpm_util.h' to 'tpm_int.h'
+  hw/tpm: Move DEFINE_PROP_TPMBE() macro to 'tmp_prop.h' local header
+  hw/tpm: Make 'tpm_util.h' publicly accessible as "sysemu/tpm_util.h"
+  tpm: Move backend code under the 'backends/' directory
+
+ Makefile                               |  2 +-
+ {hw/tpm => backends}/tpm_int.h         | 19 +++++++++++---
+ {hw/tpm => backends}/tpm_ioctl.h       |  0
+ hw/tpm/tpm_ppi.h                       |  1 -
+ hw/tpm/tpm_prop.h                      | 31 +++++++++++++++++++++++
+ hw/tpm/tpm_tis.h                       |  1 -
+ {hw/tpm => include/sysemu}/tpm_util.h  | 19 +++-----------
+ {hw/tpm => backends}/tpm_emulator.c    |  2 +-
+ {hw/tpm => backends}/tpm_passthrough.c |  2 +-
+ {hw/tpm => backends}/tpm_util.c        |  2 +-
+ hw/tpm/tpm_crb.c                       |  4 +--
+ hw/tpm/tpm_spapr.c                     |  4 +--
+ hw/tpm/tpm_tis_common.c                |  4 +--
+ hw/tpm/tpm_tis_isa.c                   |  3 ++-
+ hw/tpm/tpm_tis_sysbus.c                |  3 ++-
+ tests/qtest/tpm-emu.c                  |  2 +-
+ MAINTAINERS                            |  2 +-
+ backends/Kconfig                       | 14 +++++++++++
+ backends/Makefile.objs                 |  3 +++
+ backends/trace-events                  | 32 ++++++++++++++++++++++++
+ hw/tpm/Kconfig                         | 15 ------------
+ hw/tpm/Makefile.objs                   |  3 ---
+ hw/tpm/trace-events                    | 34 +-------------------------
+ 23 files changed, 116 insertions(+), 86 deletions(-)
+ rename {hw/tpm => backends}/tpm_int.h (81%)
+ rename {hw/tpm => backends}/tpm_ioctl.h (100%)
+ create mode 100644 hw/tpm/tpm_prop.h
+ rename {hw/tpm => include/sysemu}/tpm_util.h (80%)
+ rename {hw/tpm => backends}/tpm_emulator.c (99%)
+ rename {hw/tpm => backends}/tpm_passthrough.c (99%)
+ rename {hw/tpm => backends}/tpm_util.c (99%)
+ create mode 100644 backends/Kconfig
 
 -- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+2.21.3
 
 
