@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F0F21F53A6
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 13:40:17 +0200 (CEST)
-Received: from localhost ([::1]:35272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9D481F53B7
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 13:44:30 +0200 (CEST)
+Received: from localhost ([::1]:43816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jiz5c-0005ec-F1
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 07:40:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40714)
+	id 1jiz9h-0001BN-JG
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 07:44:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jiz3J-00046G-PO
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 07:37:53 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:31713
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1jiz5r-0006SC-EF
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 07:40:31 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:43757
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jiz3I-0006wP-7S
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 07:37:52 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1jiz5q-0007m9-6W
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 07:40:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591789070;
+ s=mimecast20190719; t=1591789229;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7uNNal8+pm0GW3Bju4cwHR+lAGH9Kh3rV4tnWZvlDLk=;
- b=PUztCxzhWhlug0Br5tYK4bmYQHhvswVWZY8a7ymuDMDkgUIL8ImCZZVkuSV6O2U6LVjJMd
- XT4wRgxBEfUZn8rpp0WnMvo0k1HNeVgvrZCoh8rqHs05CBMMkcUrHJF1VCuqA7XGMjy2n9
- epsDAgv+JNqga5FMPabump7Rix31sxQ=
+ bh=vG98CKn2i9hHu4AEPLVFbPkB6Jo7xpLDzPyLpTgx4Mw=;
+ b=P7TPhgvpPjUssObNNH33SP7wupRsJdSKBu3qgq7KxDJgZDICptZtx5jkM52m+4rTUBwF6M
+ FgPEOo5bfXp+VIqKencMR9rah73D0dr7Ieta2OSbeZk10Tlkay3SFxJZuk6B43eZxnMn+7
+ yaOxwt3BFT3Z5Q7XmW6zGd45Sfl8iRQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-285-6DdRQvAFM-ibMZG_Wu7F5A-1; Wed, 10 Jun 2020 07:37:46 -0400
-X-MC-Unique: 6DdRQvAFM-ibMZG_Wu7F5A-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-283-fZ_FfK6BOBqsxk44gXBlHQ-1; Wed, 10 Jun 2020 07:40:27 -0400
+X-MC-Unique: fZ_FfK6BOBqsxk44gXBlHQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 613E11005513;
- Wed, 10 Jun 2020 11:37:45 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-113-151.ams2.redhat.com [10.36.113.151])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A5F2F5D9D5;
- Wed, 10 Jun 2020 11:37:43 +0000 (UTC)
-Date: Wed, 10 Jun 2020 13:37:42 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Sam Eiderman <sameid@google.com>
-Subject: Re: Clarification regarding new qemu-img convert --target-is-zero flag
-Message-ID: <20200610113742.GC6947@linux.fritz.box>
-References: <CAFr6bU=LjeW5_eGtwL38cher2TM52skohuANNXN9EpO+mA-z8Q@mail.gmail.com>
- <f93b4d9a-4963-74e9-4f52-f95a187f6055@virtuozzo.com>
- <CAFr6bU=tzuQNQSm4AAdYHanmTDx6fpK64OvXST2MZ5s8LqhGMA@mail.gmail.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7CFC68018AB;
+ Wed, 10 Jun 2020 11:40:26 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.64])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D759F19D82;
+ Wed, 10 Jun 2020 11:40:06 +0000 (UTC)
+Date: Wed, 10 Jun 2020 13:40:02 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH v7 0/9] acpi: i386 tweaks
+Message-ID: <20200610134002.6461b40a@redhat.com>
+In-Reply-To: <20200610094131.13346-1-kraxel@redhat.com>
+References: <20200610094131.13346-1-kraxel@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFr6bU=tzuQNQSm4AAdYHanmTDx6fpK64OvXST2MZ5s8LqhGMA@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=kwolf@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 23:22:15
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -78,38 +79,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- david.edmondson@oracle.com, Tony Zhang <tzz@google.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRy?= =?UTF-8?B?w6k=?= Lureau <marcandre.lureau@redhat.com>,
+ John Snow <jsnow@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 10.06.2020 um 08:28 hat Sam Eiderman geschrieben:
-> Hi,
-> 
-> My target format is a Persistent Disk on GCP.
-> https://cloud.google.com/persistent-disk
-> 
-> And my use case is converting VMDKs to PDs so I'm just using qemu-img
-> for the conversion (not using qemu as a hypervisor).
-> 
-> Luckily PDs are zeroed out when allocated but I was asking to
-> understand the restrictions of qemu-img convert.
-> 
-> It could be useful for qemu-img convert to not zero out the disk, but
-> do write allocated zeroes, I'm imagining cloud scenarios where instead
-> of virtual disks the customer receives an attached physical SSD device
-> that is not zeroed out beforehand (only encryption key changed, for
-> privacy/security sake) so reads will return garbage.
+On Wed, 10 Jun 2020 11:41:22 +0200
+Gerd Hoffmann <kraxel@redhat.com> wrote:
 
-But that's the default mode? Zeroing out the whole disk upfront is an
-optimisation that we do if efficient zeroing is possible, but if we
-can't, we just write explicit zeros where needed.
+> First batch of microvm patches, some generic acpi stuff.
+> Split the acpi-build.c monster, specifically split the
+> pc and q35 and pci bits into a separate file which we
+> can skip building at some point in the future.
+> 
+It looks like series is missing patch to whitelist changed ACPI tables in
+bios-table-test.
 
---target-is-zero means that you promise that the target is already
-pre-zeroed so qemu-img can further optimise things. If you specify it
-and the target doesn't contain zeros, but random data, you get garbage.
+Do we already have test case for microvm in bios-table-test,
+if not it's probably time to add it.
 
-Kevin
+> v2 changes: leave acpi-build.c largely as-is, move useful
+> bits to other places to allow them being reused, specifically:
+> 
+>  * move isa device generator functions to individual isa devices.
+>  * move fw_cfg generator function to fw_cfg.c
+> 
+> v3 changes: fix rtc, support multiple lpt devices.
+> 
+> v4 changes:
+>  * drop merged patches.
+>  * split rtc crs change to separata patch.
+>  * added two cleanup patches.
+>  * picked up ack & review tags.
+> 
+> v5 changes:
+>  * add comment for rtc crs update.
+>  * add even more cleanup patches.
+>  * picked up ack & review tags.
+> 
+> v6 changes:
+>  * floppy: move cmos_get_fd_drive_type.
+>  * picked up ack & review tags.
+> 
+> v7 changes:
+>  * rebased to mst/pci branch, resolved stubs conflict.
+>  * dropped patches already queued up in mst/pci.
+>  * added missing sign-off.
+>  * picked up ack & review tags.
+> 
+> take care,
+>   Gerd
+> 
+> Gerd Hoffmann (9):
+>   acpi: move aml builder code for floppy device
+>   floppy: make isa_fdc_get_drive_max_chs static
+>   floppy: move cmos_get_fd_drive_type() from pc
+>   acpi: move aml builder code for i8042 (kbd+mouse) device
+>   acpi: factor out fw_cfg_add_acpi_dsdt()
+>   acpi: simplify build_isa_devices_aml()
+>   acpi: drop serial/parallel enable bits from dsdt
+>   acpi: drop build_piix4_pm()
+>   acpi: q35: drop _SB.PCI0.ISA.LPCD opregion.
+> 
+>  hw/i386/fw_cfg.h       |   1 +
+>  include/hw/block/fdc.h |   3 +-
+>  include/hw/i386/pc.h   |   1 -
+>  hw/block/fdc.c         | 111 +++++++++++++++++++++-
+>  hw/i386/acpi-build.c   | 211 ++---------------------------------------
+>  hw/i386/fw_cfg.c       |  28 ++++++
+>  hw/i386/pc.c           |  25 -----
+>  hw/input/pckbd.c       |  31 ++++++
+>  stubs/cmos.c           |   7 ++
+>  stubs/Makefile.objs    |   1 +
+>  10 files changed, 184 insertions(+), 235 deletions(-)
+>  create mode 100644 stubs/cmos.c
+> 
 
 
