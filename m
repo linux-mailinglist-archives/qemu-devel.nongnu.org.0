@@ -2,73 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D00401F55A7
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 15:22:07 +0200 (CEST)
-Received: from localhost ([::1]:39164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51F311F55D4
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 15:31:53 +0200 (CEST)
+Received: from localhost ([::1]:40190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jj0gA-0006zD-R2
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 09:22:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50716)
+	id 1jj0pc-0003xP-B2
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 09:31:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jj0cv-0002pf-1m
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 09:18:46 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:25676
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jj0cs-0006Dp-VP
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 09:18:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591795118;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5fjvibfpYl0DByW4nbgX6jNyorU03kRmHFCfX1t45I0=;
- b=NZAIZuGgzSp08YDdJ1yVnPGqWfA19N8wt69gHkrAejHalVHvXtTEhamJIpk5i6uOmqNE1w
- jwreBbooW0xq4LxwbXkDhAG8VGsdEYc/mFjZPMYtSchWVn7sqf8aDiG/mzoMCFBmGzFcQf
- 1gCUmwT3GdpxEY8gTxMnwLzpg1YQ2qg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-69-Ejw63EgRO6yWEUerfaCKfA-1; Wed, 10 Jun 2020 09:18:30 -0400
-X-MC-Unique: Ejw63EgRO6yWEUerfaCKfA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 10F4C19200C9
- for <qemu-devel@nongnu.org>; Wed, 10 Jun 2020 13:18:30 +0000 (UTC)
-Received: from [10.3.113.22] (ovpn-113-22.phx2.redhat.com [10.3.113.22])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E1F8F7BA10
- for <qemu-devel@nongnu.org>; Wed, 10 Jun 2020 13:18:29 +0000 (UTC)
-Subject: Re: [PULL 0/3] NBD patches through 2020-06-09
-From: Eric Blake <eblake@redhat.com>
-To: qemu-devel@nongnu.org
-References: <20200610011713.3687895-1-eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <0b58576a-593b-68ec-df80-26ad7dec4d42@redhat.com>
-Date: Wed, 10 Jun 2020 08:18:29 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1jj0bA-0000DR-P7; Wed, 10 Jun 2020 09:16:56 -0400
+Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:38257)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1jj0av-0005Ln-Ep; Wed, 10 Jun 2020 09:16:56 -0400
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.08845051|-1; CH=blue; DM=|OVERLOAD|false|;
+ DS=CONTINUE|ham_system_inform|0.0164755-7.95024e-05-0.983445;
+ FP=0|0|0|0|0|-1|-1|-1; HT=e02c03310; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS;
+ RN=8; RT=8; SR=0; TI=SMTPD_---.HkbK7rV_1591794995; 
+Received: from L-PF1D6DP4-1208.hz.ali.com(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.HkbK7rV_1591794995)
+ by smtp.aliyun-inc.com(10.147.42.22); Wed, 10 Jun 2020 21:16:35 +0800
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH v9 49/61] target/riscv: vector mask-register logical
+ instructions
+Date: Wed, 10 Jun 2020 19:37:36 +0800
+Message-Id: <20200610113748.4754-50-zhiwei_liu@c-sky.com>
+X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20200610113748.4754-1-zhiwei_liu@c-sky.com>
+References: <20200610113748.4754-1-zhiwei_liu@c-sky.com>
 MIME-Version: 1.0
-In-Reply-To: <20200610011713.3687895-1-eblake@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 23:22:15
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=121.197.200.217;
+ envelope-from=zhiwei_liu@c-sky.com; helo=smtp2200-217.mail.aliyun.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/10 07:37:52
+X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, UNPARSEABLE_RELAY=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,39 +57,149 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: richard.henderson@linaro.org, wxy194768@alibaba-inc.com,
+ wenmeng_zhang@c-sky.com, Alistair.Francis@wdc.com, palmer@dabbelt.com,
+ LIU Zhiwei <zhiwei_liu@c-sky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/9/20 8:17 PM, Eric Blake wrote:
-> The following changes since commit 31d321c2b3574dcc74e9f6411af06bca6b5d10f4:
-> 
->    Merge remote-tracking branch 'remotes/philmd-gitlab/tags/sparc-next-20200609' into staging (2020-06-09 17:29:47 +0100)
-> 
-> are available in the Git repository at:
-> 
->    https://repo.or.cz/qemu/ericb.git tags/pull-nbd-2020-06-09
-> 
-> for you to fetch changes up to 2886df0c75c1c5f6aed054c54f4ad48aeee04bfd:
-> 
->    block: Call attention to truncation of long NBD exports (2020-06-09 17:05:50 -0500)
-> 
-> ----------------------------------------------------------------
-> NBD patches for 2020-06-09
-> 
-> - fix iotest 194 race
-> - fix CVE-2020-10761: server DoS from assertion on long NBD error messages
-> 
-> ----------------------------------------------------------------
-> Eric Blake (2):
->        nbd/server: Avoid long error message assertions CVE-2020-10761
+Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/riscv/helper.h                   |  9 ++++++
+ target/riscv/insn32.decode              |  8 +++++
+ target/riscv/insn_trans/trans_rvv.inc.c | 35 ++++++++++++++++++++++
+ target/riscv/vector_helper.c            | 40 +++++++++++++++++++++++++
+ 4 files changed, 92 insertions(+)
 
-Vladimir raised a potential thread-safety issue in this patch. As it is 
-intended to fix a CVE, let's hold off on this pull request, and I'll 
-send a v2 once I have better review.
-
+diff --git a/target/riscv/helper.h b/target/riscv/helper.h
+index 6b932b444d..9bb4d8efd5 100644
+--- a/target/riscv/helper.h
++++ b/target/riscv/helper.h
+@@ -1086,3 +1086,12 @@ DEF_HELPER_6(vfredmin_vs_d, void, ptr, ptr, ptr, ptr, env, i32)
+ 
+ DEF_HELPER_6(vfwredsum_vs_h, void, ptr, ptr, ptr, ptr, env, i32)
+ DEF_HELPER_6(vfwredsum_vs_w, void, ptr, ptr, ptr, ptr, env, i32)
++
++DEF_HELPER_6(vmand_mm, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vmnand_mm, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vmandnot_mm, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vmxor_mm, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vmor_mm, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vmnor_mm, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vmornot_mm, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vmxnor_mm, void, ptr, ptr, ptr, ptr, env, i32)
+diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
+index 526a964d28..a4128c26a0 100644
+--- a/target/riscv/insn32.decode
++++ b/target/riscv/insn32.decode
+@@ -545,6 +545,14 @@ vfredmin_vs     000101 . ..... ..... 001 ..... 1010111 @r_vm
+ vfredmax_vs     000111 . ..... ..... 001 ..... 1010111 @r_vm
+ # Vector widening ordered and unordered float reduction sum
+ vfwredsum_vs    1100-1 . ..... ..... 001 ..... 1010111 @r_vm
++vmand_mm        011001 - ..... ..... 010 ..... 1010111 @r
++vmnand_mm       011101 - ..... ..... 010 ..... 1010111 @r
++vmandnot_mm     011000 - ..... ..... 010 ..... 1010111 @r
++vmxor_mm        011011 - ..... ..... 010 ..... 1010111 @r
++vmor_mm         011010 - ..... ..... 010 ..... 1010111 @r
++vmnor_mm        011110 - ..... ..... 010 ..... 1010111 @r
++vmornot_mm      011100 - ..... ..... 010 ..... 1010111 @r
++vmxnor_mm       011111 - ..... ..... 010 ..... 1010111 @r
+ 
+ vsetvli         0 ........... ..... 111 ..... 1010111  @r2_zimm
+ vsetvl          1000000 ..... ..... 111 ..... 1010111  @r
+diff --git a/target/riscv/insn_trans/trans_rvv.inc.c b/target/riscv/insn_trans/trans_rvv.inc.c
+index 1f1559b0bd..13e2c31421 100644
+--- a/target/riscv/insn_trans/trans_rvv.inc.c
++++ b/target/riscv/insn_trans/trans_rvv.inc.c
+@@ -2354,3 +2354,38 @@ GEN_OPFVV_TRANS(vfredmin_vs, reduction_check)
+ 
+ /* Vector Widening Floating-Point Reduction Instructions */
+ GEN_OPFVV_WIDEN_TRANS(vfwredsum_vs, reduction_check)
++
++/*
++ *** Vector Mask Operations
++ */
++
++/* Vector Mask-Register Logical Instructions */
++#define GEN_MM_TRANS(NAME)                                         \
++static bool trans_##NAME(DisasContext *s, arg_r *a)                \
++{                                                                  \
++    if (vext_check_isa_ill(s)) {                                   \
++        uint32_t data = 0;                                         \
++        gen_helper_gvec_4_ptr *fn = gen_helper_##NAME;             \
++        TCGLabel *over = gen_new_label();                          \
++        tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);          \
++                                                                   \
++        data = FIELD_DP32(data, VDATA, MLEN, s->mlen);             \
++        data = FIELD_DP32(data, VDATA, LMUL, s->lmul);             \
++        tcg_gen_gvec_4_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),     \
++                           vreg_ofs(s, a->rs1),                    \
++                           vreg_ofs(s, a->rs2), cpu_env, 0,        \
++                           s->vlen / 8, data, fn);                 \
++        gen_set_label(over);                                       \
++        return true;                                               \
++    }                                                              \
++    return false;                                                  \
++}
++
++GEN_MM_TRANS(vmand_mm)
++GEN_MM_TRANS(vmnand_mm)
++GEN_MM_TRANS(vmandnot_mm)
++GEN_MM_TRANS(vmxor_mm)
++GEN_MM_TRANS(vmor_mm)
++GEN_MM_TRANS(vmnor_mm)
++GEN_MM_TRANS(vmornot_mm)
++GEN_MM_TRANS(vmxnor_mm)
+diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
+index e30f8f83d3..54c1b2e739 100644
+--- a/target/riscv/vector_helper.c
++++ b/target/riscv/vector_helper.c
+@@ -4502,3 +4502,43 @@ void HELPER(vfwredsum_vs_w)(void *vd, void *v0, void *vs1,
+     *((uint64_t *)vd) = s1;
+     clearq(vd, 1, sizeof(uint64_t), tot);
+ }
++
++/*
++ *** Vector Mask Operations
++ */
++/* Vector Mask-Register Logical Instructions */
++#define GEN_VEXT_MASK_VV(NAME, OP)                        \
++void HELPER(NAME)(void *vd, void *v0, void *vs1,          \
++                  void *vs2, CPURISCVState *env,          \
++                  uint32_t desc)                          \
++{                                                         \
++    uint32_t mlen = vext_mlen(desc);                      \
++    uint32_t vlmax = env_archcpu(env)->cfg.vlen / mlen;   \
++    uint32_t vl = env->vl;                                \
++    uint32_t i;                                           \
++    int a, b;                                             \
++                                                          \
++    for (i = 0; i < vl; i++) {                            \
++        a = vext_elem_mask(vs1, mlen, i);                 \
++        b = vext_elem_mask(vs2, mlen, i);                 \
++        vext_set_elem_mask(vd, mlen, i, OP(b, a));        \
++    }                                                     \
++    for (; i < vlmax; i++) {                              \
++        vext_set_elem_mask(vd, mlen, i, 0);               \
++    }                                                     \
++}
++
++#define DO_NAND(N, M)  (!(N & M))
++#define DO_ANDNOT(N, M)  (N & !M)
++#define DO_NOR(N, M)  (!(N | M))
++#define DO_ORNOT(N, M)  (N | !M)
++#define DO_XNOR(N, M)  (!(N ^ M))
++
++GEN_VEXT_MASK_VV(vmand_mm, DO_AND)
++GEN_VEXT_MASK_VV(vmnand_mm, DO_NAND)
++GEN_VEXT_MASK_VV(vmandnot_mm, DO_ANDNOT)
++GEN_VEXT_MASK_VV(vmxor_mm, DO_XOR)
++GEN_VEXT_MASK_VV(vmor_mm, DO_OR)
++GEN_VEXT_MASK_VV(vmnor_mm, DO_NOR)
++GEN_VEXT_MASK_VV(vmornot_mm, DO_ORNOT)
++GEN_VEXT_MASK_VV(vmxnor_mm, DO_XNOR)
 -- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+2.23.0
 
 
