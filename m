@@ -2,110 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D03D41F506E
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 10:39:48 +0200 (CEST)
-Received: from localhost ([::1]:59920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC5A41F50A4
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 10:58:12 +0200 (CEST)
+Received: from localhost ([::1]:43014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jiwGx-0000GN-AC
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 04:39:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40048)
+	id 1jiwYl-0007K3-5V
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 04:58:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43084)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jiwFy-0008Gx-JY; Wed, 10 Jun 2020 04:38:46 -0400
-Received: from mail-eopbgr40103.outbound.protection.outlook.com
- ([40.107.4.103]:24046 helo=EUR03-DB5-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <vav@vav-lap.sysgo.cz>)
+ id 1jiwXe-0006Rm-3M; Wed, 10 Jun 2020 04:57:03 -0400
+Received: from mail.sysgo.com ([176.9.12.79]:38124)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jiwFw-0006GT-QL; Wed, 10 Jun 2020 04:38:45 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=S3GvAo+k8kQniIYru8hrJgALi156NwGx4uDuEq6Eqqj68GBpNOLcebELTUvDkPszAO+kIZsKLtvg7R2+u1V3QSnx6c+eeLPjEkdYmqvGVu+3avFwTDrl99x/wexNjKlE7GULQRxElf9SmRFdNmMVe2AcDwGPIux19jNIuC9NHgTPEXKg0iQsl9Z9Hm9LIoHISWZZA9FLaVSbLNycX2l0gbBj+mlogKd6NVQO10caO2Vs+Kzgj0A2HyI5LV2kE16Bb1lBpdpx1IAwDYCy/GKjWj0t1rn4BFvqLawu626GvrvlfzcDSlwNRJoZC364tZ1i7qJX4niL17Vi58L738i7hA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8RizIPGBcaWp5onlSl3XsqxrwsiAV6Px4vXd76N2wVc=;
- b=MJdCmQVBruy0NRWCYBBTzINqbpM5OpaYj15ARDZ8DMiuk60Rgue+czQFjOiql/ZFyQa78+OQ7r3pfIP8NK3uaz3wil9W+rXaechRmfjCz9zUn0dBuN5FaUDsBVDybeX7xGlJSI7eUoxy/HwJQIrx0EeN8nigOZ+TVSnvQa5kIQn3lXkx7nu7GTgTuHLfv4+MkACRLP0r4cCmJ3E6yzm/K/7Prx+4VrQ4J8ZhhHfOkaJOP5CwWITj2/EGb9l+JhIzVNmIjBTznedGDGJUPTpa1hkhGisw5MZ4BlaJ3lMYlaQ0VRuQPWt3iH7X4fV3n3yOLhtYOMApA6dx+86AXYg0KA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8RizIPGBcaWp5onlSl3XsqxrwsiAV6Px4vXd76N2wVc=;
- b=fVdXHGbvjRpboId3yiF4iqI/SMqkZUsfdiCxzV5h5pQ5f9fSw0UNpN67nKZpYXZuI1ZllTFZvUrZHN5Y70PuTyfzn1hSBb3OYtcY5mG5XnrXJK7/KwxN8jgSBrdJgGdCSxb4pnEUbcHe0eY50QZ5BPMYK0f0WBfu+GkRlWkJNvw=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM7PR08MB5319.eurprd08.prod.outlook.com (2603:10a6:20b:dc::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3088.18; Wed, 10 Jun
- 2020 08:38:41 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::a408:2f0f:bc6c:d312]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::a408:2f0f:bc6c:d312%3]) with mapi id 15.20.3066.023; Wed, 10 Jun 2020
- 08:38:41 +0000
-Subject: Re: [PATCH] qcow2: Reduce write_zeroes size in handle_alloc_space()
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: Kevin Wolf <kwolf@redhat.com>, Eric Blake <eblake@redhat.com>
-References: <20200609140859.142230-1-kwolf@redhat.com>
- <02e24dca-99da-873d-8425-09a07571e675@virtuozzo.com>
- <042f0b8f-dd51-acc3-8498-ac9a5532df15@redhat.com>
- <20200609151810.GD11003@linux.fritz.box>
- <177d9401-e040-13bd-2e77-26bfeda4a3d6@virtuozzo.com>
-Message-ID: <227358e7-baf1-67b8-e4d4-28786b670f89@virtuozzo.com>
-Date: Wed, 10 Jun 2020 11:38:39 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.1
-In-Reply-To: <177d9401-e040-13bd-2e77-26bfeda4a3d6@virtuozzo.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AM3PR04CA0142.eurprd04.prod.outlook.com (2603:10a6:207::26)
- To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <vav@vav-lap.sysgo.cz>)
+ id 1jiwXd-0000Tr-4P; Wed, 10 Jun 2020 04:57:01 -0400
+Received: from vav by vav-lap with local (Exim 4.92)
+ (envelope-from <vav@vav-lap.sysgo.cz>)
+ id 1jiwNa-0007Mi-5a; Wed, 10 Jun 2020 10:46:38 +0200
+From: Vaclav Vanc <vav@sysgo.com>
+To: 
+Subject: [PATCH] hw/timer/a9gtimer: Clear pending interrupt,
+ after the clear of Event flag
+Date: Wed, 10 Jun 2020 10:45:51 +0200
+Message-Id: <20200610084551.28222-1-vav@sysgo.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.2] (185.215.60.166) by
- AM3PR04CA0142.eurprd04.prod.outlook.com (2603:10a6:207::26) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3088.18 via Frontend Transport; Wed, 10 Jun 2020 08:38:40 +0000
-X-Originating-IP: [185.215.60.166]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 946d1253-ac15-4535-7c30-08d80d19adbc
-X-MS-TrafficTypeDiagnostic: AM7PR08MB5319:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB5319972D5A3448CBF41BE83DC1830@AM7PR08MB5319.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2201;
-X-Forefront-PRVS: 0430FA5CB7
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: kGpLru5wBC82zxSH0ER+TYsBif4UX9r2Hi5VdZcVRa424+Ts6qIDgkFUH5q3vWpvyRrbQEn0DQ5LcsJBpJcvXNprZSejRvGEEk7i0zKDE7A8H/sQP7f6N9LmAdQWkqfxII9zxi4uf+Pt/OwGy+4qGaX92avbI4elJLe/pfZ5AOoaxneQb9/1by1WBiV1uvqy7uKXDqiNESze4biBDoC9umUKBTMc6dA7CiXmsZbEFHdR1CHdyDEo83qgiiMqQ48PksW5nzq9vPl9reIk7f0rMI/fOB8dIT0PPie9GM0FjbzJPRqAogXFXyv1/B1sLQ7t/Hs0I/UaBzxMRfFTBfXZc7d9JFIRMHH1AhEJH5eqxkf98XbxEMzyTjjZi+ewVnIz
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:ro; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(376002)(366004)(396003)(39840400004)(136003)(346002)(956004)(86362001)(6486002)(83380400001)(26005)(4326008)(31686004)(52116002)(8936002)(2616005)(8676002)(31696002)(66946007)(66476007)(66556008)(186003)(36756003)(16576012)(110136005)(5660300002)(316002)(53546011)(2906002)(16526019)(478600001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: uZaSGIsHOiDLkoat4OGldmcmZGU+df19TgGV6dhnsgM8Zr4FBXXOkL1xiEG+cgKLcABLWvcqVDA+n+YljdSLa52xVEdeGBlMcPKgeMgvptfvi9K81ld5LNN16cNP7DC629iXxSMSxfDHU2kbu3Ixu3/b/hGHaYhESk/FzRdUh5i6YbVKQGo2odqG7E5UhYBsYpS3pJdqLSVFclKfn+onuW3fbNi97S1FXBPowJZDRua/3DJKpOjTEYOk2eqgiV64It6UR0YA74i+B6EgJwLKdpzyEgNAhOx50gmS651dRKDhK8Y5MqJ0RxRYgSoTrv+i+ygB5QRhzc250musrgszUG63eyyby0aO0XP7GwszokLi7R3JRHQ3PMIVqHORSPfplHqUgVGj82T6Hbch642PcxEvaB2eFTSsLryGaRbwRsJ3Lz/N/tVlsMc1r5rixYV2TKHpRM3iZPRXzKhMymIt5uGp0JWwYT5TmHNQG4rCrkyI0RyCxv6wsU1XspDcW+0C
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 946d1253-ac15-4535-7c30-08d80d19adbc
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jun 2020 08:38:41.4344 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: eVDoOaO45De9Xek3AB7qWwuMO2AMOglh87rxRuVz2A8RRZe2h0EWXmif9RLSfR/biKcIG5uAp96HW9O/0txl/hhMUG4qJwkGwWQk+46icvc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5319
-Received-SPF: pass client-ip=40.107.4.103;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR03-DB5-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/10 04:38:42
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=176.9.12.79; envelope-from=vav@vav-lap.sysgo.cz;
+ helo=mail.sysgo.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/10 04:46:39
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -8
+X-Spam_score: -0.9
+X-Spam_bar: /
+X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -118,78 +50,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Denis V. Lunev" <den@openvz.org>, anton.nefedov@virtuozzo.com,
- qemu-devel@nongnu.org, qemu-block@nongnu.org, mreitz@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "open list:ARM cores" <qemu-arm@nongnu.org>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>,
+ Vaclav Vanc <vav@sysgo.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-09.06.2020 18:29, Vladimir Sementsov-Ogievskiy wrote:
-> 09.06.2020 18:18, Kevin Wolf wrote:
->> Am 09.06.2020 um 16:46 hat Eric Blake geschrieben:
->>> On 6/9/20 9:28 AM, Vladimir Sementsov-Ogievskiy wrote:
->>>> 09.06.2020 17:08, Kevin Wolf wrote:
->>>>> Since commit c8bb23cbdbe, handle_alloc_space() is called for newly
->>>>> allocated clusters to efficiently initialise the COW areas with zeros if
->>>>> necessary. It skips the whole operation if both start_cow nor end_cow
->>>>> are empty. However, it requests zeroing the whole request size (possibly
->>>>> multiple megabytes) even if only one end of the request actually needs
->>>>> this.
->>>>>
->>>>> This patch reduces the write_zeroes request size in this case so that we
->>>>> don't unnecessarily zero-initialise a region that we're going to
->>>>> overwrite immediately.
->>>>>
->>>
->>>>
->>>> Hmm, I'm afraid, that this may make things worse in some cases, as with
->>>> one big write-zero request
->>>> we preallocate data-region in the protocol file, so we have better
->>>> locality for the clusters we
->>>> are going to write. And, in the same time, with BDRV_REQ_NO_FALLBACK
->>>> flag write-zero must be
->>>> fast anyway (especially in comparison with the following write request).
->>>>
->>>>> Â Â Â Â Â Â Â Â Â  /*
->>>>> Â Â Â Â Â Â Â Â Â Â  * instead of writing zero COW buffers,
->>>>> Â Â Â Â Â Â Â Â Â Â  * efficiently zero out the whole clusters
->>>>> Â Â Â Â Â Â Â Â Â Â  */
->>>>> -Â Â Â Â Â Â Â  ret = qcow2_pre_write_overlap_check(bs, 0, m->alloc_offset,
->>>>> -Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â  m->nb_clusters *
->>>>> s->cluster_size,
->>>>> -Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â  true);
->>>>> +Â Â Â Â Â Â Â  ret = qcow2_pre_write_overlap_check(bs, 0, start, len, true);
->>>>> Â Â Â Â Â Â Â Â Â  if (ret < 0) {
->>>>> Â Â Â Â Â Â Â Â Â Â Â Â Â  return ret;
->>>>> Â Â Â Â Â Â Â Â Â  }
->>>>> Â Â Â Â Â Â Â Â Â  BLKDBG_EVENT(bs->file, BLKDBG_CLUSTER_ALLOC_SPACE);
->>>>> -Â Â Â Â Â Â Â  ret = bdrv_co_pwrite_zeroes(s->data_file, m->alloc_offset,
->>>>> -Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â  m->nb_clusters * s->cluster_size,
->>>>> +Â Â Â Â Â Â Â  ret = bdrv_co_pwrite_zeroes(s->data_file, start, len,
->>>>> Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â  BDRV_REQ_NO_FALLBACK);
->>>
->>> Good point.  If we weren't using BDRV_REQ_NO_FALLBACK, then avoiding a
->>> pre-zero pass over the middle is essential.  But since we are insisting that
->>> the pre-zero pass be fast or else immediately fail, the time spent in
->>> pre-zeroing should not be a concern.  Do you have benchmark numbers stating
->>> otherwise?
->>
->> I stumbled across this behaviour (write_zeros for 2 MB, then overwrite
->> almost everything) in the context of a different bug, and it just didn't
->> make much sense to me. Is there really a file system where fragmentation
->> is introduced by not zeroing the area first and then overwriting it?
->>
->> I'm not insisting on making this change because the behaviour is
->> harmless if odd, but if we think that writing twice to some blocks is an
->> optimisation, maybe we should actually measure and document this.
-> 
-> Not to same blocks: first we do write-zeroes to the area aligned-up to cluster bound. So it's more probable that the resulting clusters would be contigous on file-system.. With your patch it may be split into two parts. (a bit too theoretical, I'd better prove it by example)
-> 
-> Also, we (Virtuozzo) have to support some custom distributed fs, where allocation itself is expensive, so the additional benefit of first (larger) write-zero request is that we have one allocation request instead of two (with your patch) or three (if we decide to make two write-zero opersions).
+A9 Global Timer is used with Edge triggered interrupts (This is true
+at least for Zynq and i.MX6 processors).
+When Event Flag is cleared in Interrupt Status Register and new interrupt
+was supposed to be scheduled, interrupt request is never cleared.
+Since interrupt in GIC is configured as Edge triggered, new interrupts
+are not registered (because interrupt is stuck at pending and GIC thinks
+it was already serviced). As a result interrupts from timer does not work
+anymore.
 
-Hmm, Denis Lunev said me that double allocation should not be a problem, as it is happening almost in the same time, fs should handle this. So probably my counter-arguments are wrong. Still, handle_alloc_space() attracts attention often, and some benchmark-tests around it will not hurt.
+Note: This happens only when interrupt was not serviced before the next
+interrupt is suppose to be scheduled. This happens for example during
+the increased load of the host system.
 
+Interrupt is now always cleared when Event Flag is cleared.
+This is in accordance to A9 Global Timer documentation.
 
+Signed-off-by: Vaclav Vanc <vav@sysgo.com>
+---
+ hw/timer/a9gtimer.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/hw/timer/a9gtimer.c b/hw/timer/a9gtimer.c
+index 7233068a37..732889105e 100644
+--- a/hw/timer/a9gtimer.c
++++ b/hw/timer/a9gtimer.c
+@@ -206,6 +206,9 @@ static void a9_gtimer_write(void *opaque, hwaddr addr, uint64_t value,
+     case R_INTERRUPT_STATUS:
+         a9_gtimer_update(s, false);
+         gtb->status &= ~value;
++        if (gtb->status == 0) {
++            qemu_set_irq(gtb->irq, 0);
++        }
+         break;
+     case R_COMPARATOR_HI:
+         shift = 32;
 -- 
-Best regards,
-Vladimir
+2.20.1
+
 
