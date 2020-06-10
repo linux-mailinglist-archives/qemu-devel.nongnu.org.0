@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EA811F558B
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 15:15:39 +0200 (CEST)
-Received: from localhost ([::1]:46294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE8D61F55B0
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 15:24:10 +0200 (CEST)
+Received: from localhost ([::1]:46092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jj0Zt-00062s-VZ
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 09:15:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45188)
+	id 1jj0i9-0001Wz-QM
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 09:24:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jj0Ut-0007qf-Qn; Wed, 10 Jun 2020 09:10:27 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:45539)
+ id 1jj0Uy-00081B-QI; Wed, 10 Jun 2020 09:10:32 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:56849)
  by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jj0Us-0003gq-HS; Wed, 10 Jun 2020 09:10:27 -0400
+ id 1jj0Ux-0003iZ-GY; Wed, 10 Jun 2020 09:10:32 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MIdW9-1jg0D53fAz-00EahL; Wed, 10 Jun 2020 15:10:23 +0200
+ id 1N5mOZ-1iqdNM3MqZ-017G53; Wed, 10 Jun 2020 15:10:24 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 14/16] target/unicore32: Prefer qemu_semihosting_log_out()
- over curses
-Date: Wed, 10 Jun 2020 15:10:09 +0200
-Message-Id: <20200610131011.1941209-15-laurent@vivier.eu>
+Subject: [PULL v2 15/16] hw/openrisc/openrisc_sim: Add assertion to silence
+ GCC warning
+Date: Wed, 10 Jun 2020 15:10:10 +0200
+Message-Id: <20200610131011.1941209-16-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200610131011.1941209-1-laurent@vivier.eu>
 References: <20200610131011.1941209-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:nujbTLVeKt9LpZQbtZRxvpwXyfbarq8r5Bk1K42Ndq6YN0OacSQ
- RM56+kdZz5ysrbbSarasKGjY3EURD0bJo4Mz7hLzRHGQWNdyDGCLlx1Ocoa3hcs0OQ+B6n+
- GXaSjO4a31/Yz+hUunQI2HM/axggTOjV3spR0vhJMZhCon2SHBQMfWw3oXq6W0tCSYf99WZ
- maom1MPm1jNzid/hHLUxQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:31TZV5x5tDg=:XrbprX7eZQeHeu4ew2uE2e
- NiKAqgGKP87b+jo8vIHXujuIXGkAEH6HZkkkdr/4VexALoV8uU9BA0T2eaIpTtQFg+6NbJeQQ
- ssE+kug7hMqlS/P85p+Y8SYoTKmCuWf7TDzS81qHp8AB2yUVRsLviXUhsQbI4ncGolyRM+iDx
- FESoMm7n9tw9ylLTCTNUi5cbZ7/HycYTENnVqgrwTdddoPIhaz79Y6jj0tiyNmpjMFUWtotAB
- Na8azqLuZLq15zd//b5471kN5k9PwXQSPAUI8oNnOE400tQZwKTc/nmp5HyyatrzwaUT/jCNd
- VwAYB4s2Jd3p/iE0goxtStM794sKKc0hj5APO0TH0ZnhqPObkaf9o5tCnJXXP8xkZo0gcr4k9
- 8VTGpjWMGJSgHk/YBi3MHfQhXlnpqR46TCcdcXE5GNY3rb2KcM0L9tzv+GLQou7gbd7zHlIDu
- l/TU6pOjaLqZoFd+hjZ5kjI42h8Ityz0mg4hTTMzzZ0C6Mi5XEe0ZTAiKPad/7q5DKTdIhdgN
- pePwzIntf3XoDgCbQr+VDhJD3C20e1HkylQ4SYTqD2RArHbG8IwhkbUrjLupmgLKG9LO31pP5
- ocl4vMCoCSfNGpidenuZxRPwIiQc1e5R7GByKe8TfhFdHdjyIDPFt7D+D6OP+1G7yxmNHzSrP
- /0alf45SSeZbnNybSHQSkEsXQ5GN23f3O2+5L/4iEKHIOaIYSf43NQCUg+T6vMn343mTnLw8l
- fRG2ict5eA8JYdLNIsf4VpvS6CJNaeILE40A4nFyN6+Byv5lpkGQBmJfCXsdn3i6Bgnn/lG0z
- oB/fciBqwR38r9NsTCv58/6ulBoJKPqVRpHiRofMIg82ubJ06k=
-Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:8hggNOYDOPfXdValh0/LtwKsrJvnZ4EGWVtbAUwp4s8OL/Fywjr
+ XM8ycjFTSCPGAN2lT70Si/9ZKlNzKz4q/t6UAuSq8IoixVgFpI9l3zb6Yv9nxbTdu7T4cw9
+ /QZ1kAQqEZfpoOKWn01BZtV70gNxTqFmEySF5H27YRkrwHpsP+mRxvZNVJrXZMiZtsk4SxM
+ INW3G9NIAo32IrI1A2ngw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ZQZSn2q+FiE=:utUpGYNOY2gkjdSNwg1Qdr
+ SuHTxbDfUhNJeHTex7w5KiKoeXtrpaPqRVRZxxYoqK+CR8u0z6oBT5s8HuuwpL7Q8LUb6sVun
+ yb3JTSV3ixfDOLK2slgywpc4e9A1tPCd5uZk4Ht/WE7FqZLlyqtfZWDVOeY8vpogUciuTk7v8
+ Wyl67YSXn2k3WxM2A8ejAHGyhsSR5kXnHWLADJ5IsifLok4RX8LHC8onEvFUqxaUxh777UmIj
+ HcAshB5/pfmTKejbNJmuQPSwPEyaXW0VnfZnO7MvHubSvZAIbsaLTjzL77xx5Qpr/DDgu5e62
+ 29O6pLA2RNzpm7ryrA/M1WeVFoVxXMZYffHXSznimV8LjI4kfg2d3M2X1P+3ehMtbWP6SiaW1
+ A38ePOtiKNCNPT5RMsczmXftCkYndT0oGoFlNLyLOsSDomjDvjXBLrswwwbfLSIwhkttN/I4W
+ YSHFocH4FCyYnnJbSH1Ie9EYhW3qJ3emBbY/pibenvOadoiq5qLjxFbdV50ML/1VXuj4vjwG6
+ SSxBmNaH6I6QgXdx12+IsNlmqgk3xXK1Yl8ev9OJL2W/3W2LS6jYZPJ40njrQIPT9+fZwLKJm
+ SRX/xLKfpdH+RiW0juQmdyLCg4AMDa8TG3JwopX/76KKZ+NYNY24DU47SbD8OoopC+zrx/lrC
+ R+rhM4+Xso7/tS7w70Y24poBpfks/gCILThahOZdEk/50OCQJpqqA6sHUPTFy0hu2qgsoI5la
+ fT1Ou/xEV521eoAxXP/3FvgXPd5JzCt7fa6FtcWpFei2fMR4iLOTb7PRVunH6IaFEqS5nn3SL
+ EkCvG2eciz2EfVaNkyfzeM4eDpHMcFu0Qu4npbjWfiOb+BCJ84XOmQfy3D1jhzdSsjC1CgV
+Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/10 09:10:20
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/10 08:14:00
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
@@ -70,112 +70,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ qemu-trivial@nongnu.org, =?UTF-8?q?Martin=20Li=C5=A1ka?= <mliska@suse.cz>,
  Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ Stafford Horne <shorne@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Use the common API for semihosting logging.
+When compiling with GCC 10 (Fedora 32) using CFLAGS=-O2 we get:
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+    CC      or1k-softmmu/hw/openrisc/openrisc_sim.o
+  hw/openrisc/openrisc_sim.c: In function ‘openrisc_sim_init’:
+  hw/openrisc/openrisc_sim.c:87:42: error: ‘cpu_irqs[0]’ may be used uninitialized in this function [-Werror=maybe-uninitialized]
+     87 |         sysbus_connect_irq(s, i, cpu_irqs[i][irq_pin]);
+        |                                  ~~~~~~~~^~~
+
+While humans can tell smp_cpus will always be in the [1, 2] range,
+(openrisc_sim_machine_init sets mc->max_cpus = 2), the compiler
+can't.
+
+Add an assertion to give the compiler a hint there's no use of
+uninitialized data.
+
+Buglink: https://bugs.launchpad.net/qemu/+bug/1874073
+Reported-by: Martin Liška <mliska@suse.cz>
+Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Tested-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200603123754.19059-4-f4bug@amsat.org>
+Acked-by: Stafford Horne <shorne@gmail.com>
+Message-Id: <20200608160611.16966-1-philmd@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- default-configs/unicore32-softmmu.mak |  1 +
- target/unicore32/helper.c             | 57 +++------------------------
- 2 files changed, 6 insertions(+), 52 deletions(-)
+ hw/openrisc/openrisc_sim.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/default-configs/unicore32-softmmu.mak b/default-configs/unicore32-softmmu.mak
-index 0bfce48c6da7..899288e3d715 100644
---- a/default-configs/unicore32-softmmu.mak
-+++ b/default-configs/unicore32-softmmu.mak
-@@ -3,3 +3,4 @@
- # Boards:
- #
- CONFIG_PUV3=y
-+CONFIG_SEMIHOSTING=y
-diff --git a/target/unicore32/helper.c b/target/unicore32/helper.c
-index 00371a7da660..54c26871feab 100644
---- a/target/unicore32/helper.c
-+++ b/target/unicore32/helper.c
-@@ -14,9 +14,7 @@
- #include "cpu.h"
- #include "exec/exec-all.h"
- #include "exec/helper-proto.h"
--#ifndef CONFIG_USER_ONLY
--#include "ui/console.h"
--#endif
-+#include "hw/semihosting/console.h"
+diff --git a/hw/openrisc/openrisc_sim.c b/hw/openrisc/openrisc_sim.c
+index d08ce6181199..02f5259e5e33 100644
+--- a/hw/openrisc/openrisc_sim.c
++++ b/hw/openrisc/openrisc_sim.c
+@@ -134,6 +134,7 @@ static void openrisc_sim_init(MachineState *machine)
+     int n;
+     unsigned int smp_cpus = machine->smp.cpus;
  
- #undef DEBUG_UC32
- 
-@@ -161,58 +159,13 @@ uint32_t helper_cp0_get(CPUUniCore32State *env, uint32_t creg, uint32_t cop)
-     return 0;
- }
- 
--#ifdef CONFIG_CURSES
--
--/* KEY_EVENT is defined in wincon.h and in curses.h. Avoid redefinition. */
--#undef KEY_EVENT
--#include <curses.h>
--#undef KEY_EVENT
--
--/*
-- * FIXME:
-- *     1. curses windows will be blank when switching back
-- *     2. backspace is not handled yet
-- */
--static void putc_on_screen(unsigned char ch)
-+void helper_cp1_putc(target_ulong regval)
- {
--    static WINDOW *localwin;
--    static int init;
--
--    if (!init) {
--        /* Assume 80 * 30 screen to minimize the implementation */
--        localwin = newwin(30, 80, 0, 0);
--        scrollok(localwin, TRUE);
--        init = TRUE;
--    }
-+    const char c = regval;
- 
--    if (isprint(ch)) {
--        wprintw(localwin, "%c", ch);
--    } else {
--        switch (ch) {
--        case '\n':
--            wprintw(localwin, "%c", ch);
--            break;
--        case '\r':
--            /* If '\r' is put before '\n', the curses window will destroy the
--             * last print line. And meanwhile, '\n' implifies '\r' inside. */
--            break;
--        default: /* Not handled, so just print it hex code */
--            wprintw(localwin, "-- 0x%x --", ch);
--        }
--    }
--
--    wrefresh(localwin);
--}
--#else
--#define putc_on_screen(c)               do { } while (0)
--#endif
--
--void helper_cp1_putc(target_ulong x)
--{
--    putc_on_screen((unsigned char)x);   /* Output to screen */
--    DPRINTF("%c", x);                   /* Output to stdout */
-+    qemu_semihosting_log_out(&c, sizeof(c));
- }
--#endif
-+#endif /* !CONFIG_USER_ONLY */
- 
- bool uc32_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
- {
++    assert(smp_cpus >= 1 && smp_cpus <= 2);
+     for (n = 0; n < smp_cpus; n++) {
+         cpu = OPENRISC_CPU(cpu_create(machine->cpu_type));
+         if (cpu == NULL) {
 -- 
 2.26.2
 
