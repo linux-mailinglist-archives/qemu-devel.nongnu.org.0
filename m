@@ -2,59 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BB9F1F5DDA
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 23:47:23 +0200 (CEST)
-Received: from localhost ([::1]:44482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AD1B1F5E2E
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 00:13:34 +0200 (CEST)
+Received: from localhost ([::1]:38990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jj8Z8-0005JQ-1W
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 17:47:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33662)
+	id 1jj8yT-00034l-0J
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 18:13:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jj8Xc-0004q6-IA; Wed, 10 Jun 2020 17:45:48 -0400
-Resent-Date: Wed, 10 Jun 2020 17:45:48 -0400
-Resent-Message-Id: <E1jj8Xc-0004q6-IA@lists.gnu.org>
-Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21723)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jj8Xa-0003Q0-OP; Wed, 10 Jun 2020 17:45:47 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1591825512; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=NL9EGRtMnBXXB/l7ouJiOsmSMZAhNl+jizlFw+0jRaULaVLWOpoEJTIKKOSdYQGvcnhUUN7YwB98zMlllcn0IaX5IL5FI3HuC/MPkw8jb3rVG1CBpm/ZjKWLBLBluKzBSVZ/T7vvhsai071EvphqpANj5jDtiOUGJ96OGOCnHhs=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1591825512;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=8mnqv85NzxmTpX+5mbp4duklVeHdvR1H/IxMUkULCpE=; 
- b=CEKALNcSIumTzCxG1LGuqX5pu76lQYen4E8V30TLRuzdw7vDRoKAAtP31vmLQBja5CTPwJRa+ckUfj273UIh0/WvMj8GrgA1ISUxSc8evOBGKZI+obnXdvIIBLN3sC7k6jThnt3Cxb9Sf8tdq6YNHGk/sicmJKZbQAR1ZlM2i/U=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 159182550897387.3303959993907;
- Wed, 10 Jun 2020 14:45:08 -0700 (PDT)
-Message-ID: <159182550752.21115.6563901076401435753@45ef0f9c86ae>
-In-Reply-To: <cover.1591801197.git.berto@igalia.com>
-Subject: Re: [PATCH v8 00/34] Add subcluster allocation to qcow2
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jj8uF-0005VS-52; Wed, 10 Jun 2020 18:09:11 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:40538)
+ by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jj8uE-0008Gz-8O; Wed, 10 Jun 2020 18:09:10 -0400
+Received: by mail-wr1-x441.google.com with SMTP id h5so4050487wrc.7;
+ Wed, 10 Jun 2020 15:08:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=cQ0XmULokqQYlerien+fx8lZLjfG5XkUh0x69SNt4xM=;
+ b=mBSPg/3kLHjzuQPAxyb1D3PCPLHnaPLGK0wm2XODn0uKvDqKUWBUICAbWdgDDxZFcc
+ 9P5JVElJpIm9/78RSbURfnecFL1Mh514K0jXRrrWrKSgFpZzNAMAI9us9qE/pII7D/6X
+ NT/3y5pLtkcjFh94naYn+nWsNyDBceIXLI6VzhpkPetrSdJ7hofR0XzCcbFpWyoaAKqr
+ WQ0bk7U6IF7Slo2mNlg8vKZ7F9R/CLY2fWBR9mhy0w8KXdagtIhxnaJE9QN+JYRsnFWS
+ FqkWwMveFP7TKOd0LCQpn9eq+R8O/B2Z2saJLTT0v7fPez81JbVOB/Nx7/S7LN/UnIo6
+ 5OOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=cQ0XmULokqQYlerien+fx8lZLjfG5XkUh0x69SNt4xM=;
+ b=DpBlre16VXfoM1qSY0dEsOYdzde3wJXllmBPmSZpYxmvyIJ5XpxXW5hN/PhkMWHl1x
+ SPWqqzFdkWLyxzCpcCVYOcccM2Jx/OymWGOSjgEyV8HnYRiLYPIoN0ZAWCSWEO87Eh3h
+ zKnIHDKawhxqBTMsVq9FWIxH3P0JMTFcAdC/vyIrCywpDO80nNHJLeWy8jJEY/I5td7v
+ lEKkcovi+uJK+sOCK9NkJ1BoLFCFZb7FKgdbSQIC0kUkAdYMmAZGH0knEENhOyWxTpJp
+ VCDo/2KnY5u7gt23mwCLJpXl1LFFF0bjRYbbVcuHtH5oZxjOI9neQuxV1WkPryiV7MrM
+ mX3Q==
+X-Gm-Message-State: AOAM531MrGe8mfsSEMbl+FAe7AuNslGgEmtvPBGv8MMj5MtTSylWOJpp
+ Ubj7YL/GRj+g56uXtQFhzf138X7A
+X-Google-Smtp-Source: ABdhPJyLcLWFRywgONF51gGWWKlqh3X1zAKvwORNcbYMcSa+65/tBODGJOItTnQG45NA8KQodYgIjg==
+X-Received: by 2002:adf:e387:: with SMTP id e7mr5858831wrm.70.1591826935564;
+ Wed, 10 Jun 2020 15:08:55 -0700 (PDT)
+Received: from x1w.redhat.com (181.red-88-10-103.dynamicip.rima-tde.net.
+ [88.10.103.181])
+ by smtp.gmail.com with ESMTPSA id 40sm1819354wrc.15.2020.06.10.15.08.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 10 Jun 2020 15:08:54 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 00/11] sh4: Update MAINTAINERS & trivial fixes
+Date: Thu, 11 Jun 2020 00:08:42 +0200
+Message-Id: <20200610220853.8558-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: berto@igalia.com
-Date: Wed, 10 Jun 2020 14:45:08 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o57.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/10 16:25:39
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,65 +83,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, berto@igalia.com,
- qemu-block@nongnu.org, dereksu@qnap.com, qemu-devel@nongnu.org,
- mreitz@redhat.com
+Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>, qemu-trivial@nongnu.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS9jb3Zlci4xNTkxODAxMTk3Lmdp
-dC5iZXJ0b0BpZ2FsaWEuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIGZhaWxlZCB0aGUgZG9ja2Vy
-LXF1aWNrQGNlbnRvczcgYnVpbGQgdGVzdC4gUGxlYXNlIGZpbmQgdGhlIHRlc3RpbmcgY29tbWFu
-ZHMgYW5kCnRoZWlyIG91dHB1dCBiZWxvdy4gSWYgeW91IGhhdmUgRG9ja2VyIGluc3RhbGxlZCwg
-eW91IGNhbiBwcm9iYWJseSByZXByb2R1Y2UgaXQKbG9jYWxseS4KCj09PSBURVNUIFNDUklQVCBC
-RUdJTiA9PT0KIyEvYmluL2Jhc2gKbWFrZSBkb2NrZXItaW1hZ2UtY2VudG9zNyBWPTEgTkVUV09S
-Sz0xCnRpbWUgbWFrZSBkb2NrZXItdGVzdC1xdWlja0BjZW50b3M3IFNIT1dfRU5WPTEgSj0xNCBO
-RVRXT1JLPTEKPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCiAgQ0MgICAgICBibG9jay92aGR4Lm8K
-ICBDQyAgICAgIGJsb2NrL3ZoZHgtZW5kaWFuLm8KL3RtcC9xZW11LXRlc3Qvc3JjL2Jsb2NrL3Fj
-b3cyLWNsdXN0ZXIuYzogSW4gZnVuY3Rpb24gJ3Fjb3cyX2dldF9ob3N0X29mZnNldCc6Ci90bXAv
-cWVtdS10ZXN0L3NyYy9ibG9jay9xY293Mi1jbHVzdGVyLmM6NDczOjE5OiBlcnJvcjogJ2V4cGVj
-dGVkX3R5cGUnIG1heSBiZSB1c2VkIHVuaW5pdGlhbGl6ZWQgaW4gdGhpcyBmdW5jdGlvbiBbLVdl
-cnJvcj1tYXliZS11bmluaXRpYWxpemVkXQogICAgICAgICB9IGVsc2UgaWYgKHR5cGUgIT0gZXhw
-ZWN0ZWRfdHlwZSkgewogICAgICAgICAgICAgICAgICAgXgovdG1wL3FlbXUtdGVzdC9zcmMvYmxv
-Y2svcWNvdzItY2x1c3Rlci5jOjQ0OToyNTogbm90ZTogJ2V4cGVjdGVkX3R5cGUnIHdhcyBkZWNs
-YXJlZCBoZXJlCiAgICAgUUNvdzJTdWJjbHVzdGVyVHlwZSBleHBlY3RlZF90eXBlLCB0eXBlOwog
-ICAgICAgICAgICAgICAgICAgICAgICAgXgovdG1wL3FlbXUtdGVzdC9zcmMvYmxvY2svcWNvdzIt
-Y2x1c3Rlci5jOjQ3NToxOTogZXJyb3I6ICdjaGVja19vZmZzZXQnIG1heSBiZSB1c2VkIHVuaW5p
-dGlhbGl6ZWQgaW4gdGhpcyBmdW5jdGlvbiBbLVdlcnJvcj1tYXliZS11bmluaXRpYWxpemVkXQog
-ICAgICAgICB9IGVsc2UgaWYgKGNoZWNrX29mZnNldCkgewogICAgICAgICAgICAgICAgICAgXgov
-dG1wL3FlbXUtdGVzdC9zcmMvYmxvY2svcWNvdzItY2x1c3Rlci5jOjQ0NzoxMDogbm90ZTogJ2No
-ZWNrX29mZnNldCcgd2FzIGRlY2xhcmVkIGhlcmUKICAgICBib29sIGNoZWNrX29mZnNldDsKICAg
-ICAgICAgIF4KL3RtcC9xZW11LXRlc3Qvc3JjL2Jsb2NrL3Fjb3cyLWNsdXN0ZXIuYzo0NzY6Mjk6
-IGVycm9yOiAnZXhwZWN0ZWRfb2Zmc2V0JyBtYXkgYmUgdXNlZCB1bmluaXRpYWxpemVkIGluIHRo
-aXMgZnVuY3Rpb24gWy1XZXJyb3I9bWF5YmUtdW5pbml0aWFsaXplZF0KICAgICAgICAgICAgIGV4
-cGVjdGVkX29mZnNldCArPSBzLT5jbHVzdGVyX3NpemU7CiAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgXgovdG1wL3FlbXUtdGVzdC9zcmMvYmxvY2svcWNvdzItY2x1c3Rlci5jOjQ0ODoxNDog
-bm90ZTogJ2V4cGVjdGVkX29mZnNldCcgd2FzIGRlY2xhcmVkIGhlcmUKICAgICB1aW50NjRfdCBl
-eHBlY3RlZF9vZmZzZXQ7CiAgICAgICAgICAgICAgXgpjYzE6IGFsbCB3YXJuaW5ncyBiZWluZyB0
-cmVhdGVkIGFzIGVycm9ycwptYWtlOiAqKiogW2Jsb2NrL3Fjb3cyLWNsdXN0ZXIub10gRXJyb3Ig
-MQptYWtlOiAqKiogV2FpdGluZyBmb3IgdW5maW5pc2hlZCBqb2JzLi4uLgpUcmFjZWJhY2sgKG1v
-c3QgcmVjZW50IGNhbGwgbGFzdCk6CiAgRmlsZSAiLi90ZXN0cy9kb2NrZXIvZG9ja2VyLnB5Iiwg
-bGluZSA2NjUsIGluIDxtb2R1bGU+Ci0tLQogICAgcmFpc2UgQ2FsbGVkUHJvY2Vzc0Vycm9yKHJl
-dGNvZGUsIGNtZCkKc3VicHJvY2Vzcy5DYWxsZWRQcm9jZXNzRXJyb3I6IENvbW1hbmQgJ1snc3Vk
-bycsICctbicsICdkb2NrZXInLCAncnVuJywgJy0tbGFiZWwnLCAnY29tLnFlbXUuaW5zdGFuY2Uu
-dXVpZD0wODA0NDdlMTYwNDc0NGZiOTM0YzZlOWEwMjEwZWQzNicsICctdScsICcxMDAzJywgJy0t
-c2VjdXJpdHktb3B0JywgJ3NlY2NvbXA9dW5jb25maW5lZCcsICctLXJtJywgJy1lJywgJ1RBUkdF
-VF9MSVNUPScsICctZScsICdFWFRSQV9DT05GSUdVUkVfT1BUUz0nLCAnLWUnLCAnVj0nLCAnLWUn
-LCAnSj0xNCcsICctZScsICdERUJVRz0nLCAnLWUnLCAnU0hPV19FTlY9MScsICctZScsICdDQ0FD
-SEVfRElSPS92YXIvdG1wL2NjYWNoZScsICctdicsICcvaG9tZS9wYXRjaGV3Mi8uY2FjaGUvcWVt
-dS1kb2NrZXItY2NhY2hlOi92YXIvdG1wL2NjYWNoZTp6JywgJy12JywgJy92YXIvdG1wL3BhdGNo
-ZXctdGVzdGVyLXRtcC15cnE5cDZici9zcmMvZG9ja2VyLXNyYy4yMDIwLTA2LTEwLTE3LjQyLjIw
-LjI0ODUwOi92YXIvdG1wL3FlbXU6eixybycsICdxZW11OmNlbnRvczcnLCAnL3Zhci90bXAvcWVt
-dS9ydW4nLCAndGVzdC1xdWljayddJyByZXR1cm5lZCBub24temVybyBleGl0IHN0YXR1cyAyLgpm
-aWx0ZXI9LS1maWx0ZXI9bGFiZWw9Y29tLnFlbXUuaW5zdGFuY2UudXVpZD0wODA0NDdlMTYwNDc0
-NGZiOTM0YzZlOWEwMjEwZWQzNgptYWtlWzFdOiAqKiogW2RvY2tlci1ydW5dIEVycm9yIDEKbWFr
-ZVsxXTogTGVhdmluZyBkaXJlY3RvcnkgYC92YXIvdG1wL3BhdGNoZXctdGVzdGVyLXRtcC15cnE5
-cDZici9zcmMnCm1ha2U6ICoqKiBbZG9ja2VyLXJ1bi10ZXN0LXF1aWNrQGNlbnRvczddIEVycm9y
-IDIKCnJlYWwgICAgMm00Ny42MDFzCnVzZXIgICAgMG04LjM4NHMKCgpUaGUgZnVsbCBsb2cgaXMg
-YXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzL2NvdmVyLjE1OTE4MDExOTcuZ2l0
-LmJlcnRvQGlnYWxpYS5jb20vdGVzdGluZy5kb2NrZXItcXVpY2tAY2VudG9zNy8/dHlwZT1tZXNz
-YWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6
-Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2
-ZWxAcmVkaGF0LmNvbQ==
+Hi,
+
+This series clarifies the situation of the SH4 TCG target
+and peripherals.
+
+Since v2:
+- Keep Magnus as maintainer:
+  https://www.mail-archive.com/qemu-devel@nongnu.org/msg710320.html
+Addressed Aleksandar review comments:
+- Split the MAINTAINER patch in various atomic units
+  https://www.mail-archive.com/qemu-devel@nongnu.org/msg710947.html
+- Add Yoshinori Sato as maintainer of SH4/RX peripherals
+  https://www.mail-archive.com/qemu-devel@nongnu.org/msg711008.html
+
+Aleksandar, I hope this is now fine for you and you can Ack the
+changes. If this is still not perfect enough, I suggest you send
+the perfect patches directly, because I can't spend more time on this.
+
+Maybe patches 7 & 8 can go via acceptance-next queue, and
+the rest via qemu-trivial@?
+
+Regards,
+
+Phil.
+
+CI report:
+https://travis-ci.org/github/philmd/qemu/builds/692828388
+
+Supersedes: <20200608090142.6793-1-f4bug@amsat.org>
+
+Philippe Mathieu-Daudé (9):
+  MAINTAINERS: Mark SH4 section orphan
+  MAINTAINERS: Mark SH4 based Shix machine orphan
+  MAINTAINERS: Demote SH4 based R2D machine to 'Odd Fixes'
+  MAINTAINERS: Cover 'hw/sh4/sh_intc.h' with the R2D machine
+  MAINTAINERS: Add an entry for common Renesas peripherals
+  MAINTAINERS: Add Yoshinori Sato as maintainer of Renesas peripherals
+  hw/sh4: Use MemoryRegion typedef
+  hw/sh4: Extract timer definitions to 'hw/timer/tmu012.h'
+  hw/timer/sh_timer: Remove unused 'qemu/timer.h' include
+
+Thomas Huth (2):
+  tests/acceptance: Add boot tests for sh4 QEMU advent calendar image
+  .travis.yml: Test SH4 QEMU advent calendar image
+
+ include/hw/sh4/sh.h                    | 12 +-----------
+ include/hw/timer/tmu012.h              | 23 +++++++++++++++++++++++
+ hw/sh4/sh7750.c                        |  1 +
+ hw/timer/sh_timer.c                    |  3 ++-
+ .travis.yml                            |  2 +-
+ MAINTAINERS                            | 16 ++++++++++------
+ tests/acceptance/boot_linux_console.py | 13 +++++++++++--
+ 7 files changed, 49 insertions(+), 21 deletions(-)
+ create mode 100644 include/hw/timer/tmu012.h
+
+-- 
+2.21.3
+
 
