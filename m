@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 559621F5874
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 17:57:28 +0200 (CEST)
-Received: from localhost ([::1]:37248 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2EB21F587A
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 17:59:24 +0200 (CEST)
+Received: from localhost ([::1]:44116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jj36V-0006Ga-8T
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 11:57:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55870)
+	id 1jj38N-00015e-M3
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 11:59:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jj34X-0003ca-3Y
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 11:55:25 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:51246)
+ id 1jj34a-0003gQ-2J
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 11:55:28 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:46903)
  by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jj34V-0005A0-Qq
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 11:55:24 -0400
-Received: by mail-wm1-x342.google.com with SMTP id u13so2305130wml.1
- for <qemu-devel@nongnu.org>; Wed, 10 Jun 2020 08:55:15 -0700 (PDT)
+ id 1jj34Y-0005Bd-Sg
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 11:55:27 -0400
+Received: by mail-wr1-x441.google.com with SMTP id x6so2827827wrm.13
+ for <qemu-devel@nongnu.org>; Wed, 10 Jun 2020 08:55:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=AKpSZsmxSDhJv+3Nh7RyP1/bV6hfWgn2W9oECqWqZTw=;
- b=ntxZaEryANx8smIzth6QaiD+zYPVcmqkRDEek3x85P0KKlD9el60DpgeYa81EvMsrt
- /YjlN8jnJG+nthU1BYgoBTG6uCloAcFS0NhNaXKQPBlHtET8LZGSX7v9S3P/YpBJJRbO
- 7cv/SPYELjLv0jwOgv9VLDUTkjs4UvQIMI6b0fFc6xAIzf0S/384I9UhQskg+7xvuNac
- mEZiR92hBMStF/OPES1FP2pP70nVVBb1tXXnG2i1kQC1uiS2opcoKI+fFCXSFNZZMEN9
- vPdsPrqTUzx+tcuoEmn8uVm1MpvfXLCS/6xnK38PXU+9qnDpIGSHbc5688YPGdjUGrab
- +bpQ==
+ bh=8k3vUvil4yeFEKEfxW7+SynAd8ccYx17gBmoCdQYV0E=;
+ b=BtEjoK65Y6qRjtdjZrvvJHACecKeP8hvyuOX4TEr+Iodlocidgsxd3UjNoRuahYMbY
+ 0Jv0jG3PlFUHNMxqJg05byDlVjTC5VGlqR+KlfKXtCWo8VBbILMCbnVOY73cGTzwncE1
+ 0r+T7aoGVx+oPq1GowNCUFNTXiuP2ClgFSos3Cne8gOI66XmSC0PCnYGzNhI6uyqgTS1
+ kCc6Jfraljn/MnPS5HldS3buvt6evoDWVtJxB254UehfjE4LE7qKYZVfb4GFkvmjTnd1
+ yCYyRMZYmaZ0U8Jy6prrTLcsDIBqU8cyBMiQhvCuFzy/YrVafukKKEqpPAZWsIiPzJbb
+ FbTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=AKpSZsmxSDhJv+3Nh7RyP1/bV6hfWgn2W9oECqWqZTw=;
- b=Km+z47fmekcWX1gI1UEB18ybw8VdPx3V7A5gkzWiYE+oMScyiKGS85+UwGNtEspfQ6
- GlnhsqVCYcBSnain+DjnX+m7Do0/dce/b5tOccYd+/mq7ohtoEwXFPoWCvXPKK27tvBq
- btaim8ZZJ2PElz7lvIQQ/PKEli8k5dnEQBjn10cwIxTLdIJupj8Q6QCzkD4hP0vmvPg7
- GgdCqbt4S95XCg3huu89cqwB3xZTN1bHXBBTjGD44YADD6jSolBi2/14G7sCr4pfOgG7
- mEEMYN6NVBTYfN2ouVynycjn5p6mT0jSI2S7A9yyTXPbLuwnOAJ3WHEbKVe6+QwPZZhA
- DcJw==
-X-Gm-Message-State: AOAM533wk9JDVsswFsH7tlnETrPsQo3F7iLDztCYvCz6n/Ra89Q/nwXt
- uMtKyD8iJCNgwOAq4zITgh6A/g==
-X-Google-Smtp-Source: ABdhPJzM+80i48OlN4jn6JWv874ZtEC0hbBYihU4fwCl9JD2kjjXPPbE19Nx8PzRrN8q8BPQqOc+Gw==
-X-Received: by 2002:a7b:c4cc:: with SMTP id g12mr3795348wmk.171.1591804514008; 
- Wed, 10 Jun 2020 08:55:14 -0700 (PDT)
+ bh=8k3vUvil4yeFEKEfxW7+SynAd8ccYx17gBmoCdQYV0E=;
+ b=pog3/8J+Qd3OthcjJgnEkVFp5tX/qhEAs5Fwvza9sIsoRkjgSbEeA+jXE74QxL2Zqx
+ UDVvEvjyUI/3ly8m4OpACQY2OzDlGgYPO05RxC6OU8Ew4/dnLlPivMJxAy/sfEOhixwo
+ TCFK7ZQDp6W+3WRYkbmC6+gTRn1EFnfX4RWhzU08to9j3Bb5Hv8rf2+2Q5fdgY13l7jU
+ rGouswoEYB5YgLDsHQ2OoeT0SjsOyBip/r4IMhSJ2MhKb7EdVroe/M4lpcOtTlnE/tIF
+ bbj4x3C/DyslgebGGL5MeapSsQbUM+BN3JtNfG2MlvUu3I1Etg2NgV8uXazOtq7OSorL
+ aFsg==
+X-Gm-Message-State: AOAM533/aqKTUqXkmqFHBysGumOztWwgMPQOv3wnvGH4uvpmW65m4FE3
+ wjYVfziKoPYJsyFK0FGYpCyysw==
+X-Google-Smtp-Source: ABdhPJxcxv4LZBu8h1sw2awG7E/3QOasCYNVRoESTXFUgKybSynCL/2H+ZYymYqlKzOtv1fwLjy0yg==
+X-Received: by 2002:a5d:6586:: with SMTP id q6mr4398832wru.319.1591804516736; 
+ Wed, 10 Jun 2020 08:55:16 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id w17sm276703wra.71.2020.06.10.08.55.11
+ by smtp.gmail.com with ESMTPSA id q128sm147184wma.38.2020.06.10.08.55.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 10 Jun 2020 08:55:11 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 352511FF8F;
+ by zen.linaroharston (Postfix) with ESMTP id 4B20B1FF90;
  Wed, 10 Jun 2020 16:55:10 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 3/6] cputlb: ensure we save the IOTLB data in case of reset
-Date: Wed, 10 Jun 2020 16:55:06 +0100
-Message-Id: <20200610155509.12850-4-alex.bennee@linaro.org>
+Subject: [PATCH v2 4/6] hw/virtio/pci: include vdev name in registered PCI
+ sections
+Date: Wed, 10 Jun 2020 16:55:07 +0100
+Message-Id: <20200610155509.12850-5-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200610155509.12850-1-alex.bennee@linaro.org>
 References: <20200610155509.12850-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x342.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,138 +89,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: robert.foley@linaro.org, Paolo Bonzini <pbonzini@redhat.com>,
+Cc: robert.foley@linaro.org, "Michael S . Tsirkin" <mst@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  robhenry@microsoft.com, aaron@os.amperecomputing.com, cota@braap.org,
  kuhn.chenqun@huawei.com, peter.puhov@linaro.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <rth@twiddle.net>
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Any write to a device might cause a re-arrangement of memory
-triggering a TLB flush and potential re-size of the TLB invalidating
-previous entries. This would cause users of qemu_plugin_get_hwaddr()
-to see the warning:
-
-  invalid use of qemu_plugin_get_hwaddr
-
-because of the failed tlb_lookup which should always succeed. To
-prevent this we save the IOTLB data in case it is later needed by a
-plugin doing a lookup.
+When viewing/debugging memory regions it is sometimes hard to figure
+out which PCI device something belongs to. Make the names unique by
+including the vdev name in the name string.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 
 ---
 v2
-  - save the entry instead of re-running the tlb_fill.
-
-squash! cputlb: ensure we save the IOTLB entry in case of reset
+  - swap ()'s for an extra -
 ---
- accel/tcg/cputlb.c | 63 ++++++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 61 insertions(+), 2 deletions(-)
+ hw/virtio/virtio-pci.c | 22 ++++++++++++++--------
+ 1 file changed, 14 insertions(+), 8 deletions(-)
 
-diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index eb2cf9de5e6..9bf9e479c7c 100644
---- a/accel/tcg/cputlb.c
-+++ b/accel/tcg/cputlb.c
-@@ -1058,6 +1058,47 @@ static uint64_t io_readx(CPUArchState *env, CPUIOTLBEntry *iotlbentry,
-     return val;
+diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+index d028c17c240..51ab67304bc 100644
+--- a/hw/virtio/virtio-pci.c
++++ b/hw/virtio/virtio-pci.c
+@@ -1390,7 +1390,8 @@ static void virtio_pci_device_write(void *opaque, hwaddr addr,
+     }
  }
  
-+#ifdef CONFIG_PLUGIN
-+
-+typedef struct SavedIOTLB {
-+    struct rcu_head rcu;
-+    struct SavedIOTLB **save_loc;
-+    MemoryRegionSection *section;
-+    hwaddr mr_offset;
-+} SavedIOTLB;
-+
-+static void clean_saved_entry(SavedIOTLB *s)
-+{
-+    atomic_rcu_set(s->save_loc, NULL);
-+    g_free(s);
-+}
-+
-+static __thread SavedIOTLB *saved_for_plugin;
-+
-+/*
-+ * Save a potentially trashed IOTLB entry for later lookup by plugin.
-+ *
-+ * We also need to track the thread storage address because the RCU
-+ * cleanup that runs when we leave the critical region (the current
-+ * execution) is actually in a different thread.
-+ */
-+static void save_iotlb_data(MemoryRegionSection *section, hwaddr mr_offset)
-+{
-+    SavedIOTLB *s = g_new(SavedIOTLB, 1);
-+    s->save_loc = &saved_for_plugin;
-+    s->section = section;
-+    s->mr_offset = mr_offset;
-+    atomic_rcu_set(&saved_for_plugin, s);
-+    call_rcu(s, clean_saved_entry, rcu);
-+}
-+
-+#else
-+static void save_iotlb_data(MemoryRegionSection *section, hwaddr mr_offset)
-+{
-+    /* do nothing */
-+}
-+#endif
-+
- static void io_writex(CPUArchState *env, CPUIOTLBEntry *iotlbentry,
-                       int mmu_idx, uint64_t val, target_ulong addr,
-                       uintptr_t retaddr, MemOp op)
-@@ -1077,6 +1118,12 @@ static void io_writex(CPUArchState *env, CPUIOTLBEntry *iotlbentry,
-     }
-     cpu->mem_io_pc = retaddr;
+-static void virtio_pci_modern_regions_init(VirtIOPCIProxy *proxy)
++static void virtio_pci_modern_regions_init(VirtIOPCIProxy *proxy,
++                                           const char *vdev_name)
+ {
+     static const MemoryRegionOps common_ops = {
+         .read = virtio_pci_common_read,
+@@ -1437,36 +1438,41 @@ static void virtio_pci_modern_regions_init(VirtIOPCIProxy *proxy)
+         },
+         .endianness = DEVICE_LITTLE_ENDIAN,
+     };
++    g_autoptr(GString) name = g_string_new(NULL);
  
-+    /*
-+     * The memory_region_dispatch may trigger a flush/resize
-+     * so for plugins we save the iotlb_data just in case.
-+     */
-+    save_iotlb_data(section, mr_offset);
-+
-     if (mr->global_locking && !qemu_mutex_iothread_locked()) {
-         qemu_mutex_lock_iothread();
-         locked = true;
-@@ -1091,6 +1138,7 @@ static void io_writex(CPUArchState *env, CPUIOTLBEntry *iotlbentry,
-                                MMU_DATA_STORE, mmu_idx, iotlbentry->attrs, r,
-                                retaddr);
-     }
-+
-     if (locked) {
-         qemu_mutex_unlock_iothread();
-     }
-@@ -1366,8 +1414,11 @@ void *tlb_vaddr_to_host(CPUArchState *env, abi_ptr addr,
-  * in the softmmu lookup code (or helper). We don't handle re-fills or
-  * checking the victim table. This is purely informational.
-  *
-- * This should never fail as the memory access being instrumented
-- * should have just filled the TLB.
-+ * This almost never fails as the memory access being instrumented
-+ * should have just filled the TLB. The one corner case is io_writex
-+ * which can cause TLB flushes and potential resizing of the TLBs
-+ * loosing the information we need. In those cases we need to recover
-+ * data from a thread local copy of the io_tlb entry.
-  */
+-
++    g_string_printf(name, "virtio-pci-common-%s", vdev_name);
+     memory_region_init_io(&proxy->common.mr, OBJECT(proxy),
+                           &common_ops,
+                           proxy,
+-                          "virtio-pci-common",
++                          name->str,
+                           proxy->common.size);
  
- bool tlb_plugin_lookup(CPUState *cpu, target_ulong addr, int mmu_idx,
-@@ -1391,6 +1442,14 @@ bool tlb_plugin_lookup(CPUState *cpu, target_ulong addr, int mmu_idx,
-             data->v.ram.hostaddr = addr + tlbe->addend;
-         }
-         return true;
-+    } else {
-+        SavedIOTLB *saved = atomic_rcu_read(&saved_for_plugin);
-+        if (saved) {
-+            data->is_io = true;
-+            data->v.io.section = saved->section;
-+            data->v.io.offset = saved->mr_offset;
-+            return true;
-+        }
-     }
-     return false;
++    g_string_printf(name, "virtio-pci-isr-%s", vdev_name);
+     memory_region_init_io(&proxy->isr.mr, OBJECT(proxy),
+                           &isr_ops,
+                           proxy,
+-                          "virtio-pci-isr",
++                          name->str,
+                           proxy->isr.size);
+ 
++    g_string_printf(name, "virtio-pci-device-%s", vdev_name);
+     memory_region_init_io(&proxy->device.mr, OBJECT(proxy),
+                           &device_ops,
+                           virtio_bus_get_device(&proxy->bus),
+-                          "virtio-pci-device",
++                          name->str,
+                           proxy->device.size);
+ 
++    g_string_printf(name, "virtio-pci-notify-%s", vdev_name);
+     memory_region_init_io(&proxy->notify.mr, OBJECT(proxy),
+                           &notify_ops,
+                           virtio_bus_get_device(&proxy->bus),
+-                          "virtio-pci-notify",
++                          name->str,
+                           proxy->notify.size);
+ 
++    g_string_printf(name, "virtio-pci-notify-pio-%s", vdev_name);
+     memory_region_init_io(&proxy->notify_pio.mr, OBJECT(proxy),
+                           &notify_pio_ops,
+                           virtio_bus_get_device(&proxy->bus),
+-                          "virtio-pci-notify-pio",
++                          name->str,
+                           proxy->notify_pio.size);
  }
+ 
+@@ -1607,7 +1613,7 @@ static void virtio_pci_device_plugged(DeviceState *d, Error **errp)
+ 
+         struct virtio_pci_cfg_cap *cfg_mask;
+ 
+-        virtio_pci_modern_regions_init(proxy);
++        virtio_pci_modern_regions_init(proxy, vdev->name);
+ 
+         virtio_pci_modern_mem_region_map(proxy, &proxy->common, &cap);
+         virtio_pci_modern_mem_region_map(proxy, &proxy->isr, &cap);
 -- 
 2.20.1
 
