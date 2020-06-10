@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06E391F556F
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 15:12:38 +0200 (CEST)
-Received: from localhost ([::1]:35698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFBD31F5595
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 15:18:35 +0200 (CEST)
+Received: from localhost ([::1]:54166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jj0Wy-0001E3-VM
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 09:12:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45118)
+	id 1jj0ck-0001Io-TZ
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 09:18:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45166)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jj0Un-0007gB-9w; Wed, 10 Jun 2020 09:10:21 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:57733)
+ id 1jj0Us-0007mr-1f; Wed, 10 Jun 2020 09:10:26 -0400
+Received: from mout.kundenserver.de ([212.227.126.134]:55147)
  by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jj0Um-0003Z9-5j; Wed, 10 Jun 2020 09:10:20 -0400
+ id 1jj0Uq-0003f8-Sq; Wed, 10 Jun 2020 09:10:25 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MStKw-1jMPxe2iS6-00UKQO; Wed, 10 Jun 2020 15:10:16 +0200
+ id 1MCsLo-1jaF3J1PaC-008nvu; Wed, 10 Jun 2020 15:10:17 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 05/16] hw/isa/apm: Convert debug printf()s to trace events
-Date: Wed, 10 Jun 2020 15:10:00 +0200
-Message-Id: <20200610131011.1941209-6-laurent@vivier.eu>
+Subject: [PULL v2 06/16] hw/misc/auxbus: Use qemu_log_mask(UNIMP) instead of
+ debug printf
+Date: Wed, 10 Jun 2020 15:10:01 +0200
+Message-Id: <20200610131011.1941209-7-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200610131011.1941209-1-laurent@vivier.eu>
 References: <20200610131011.1941209-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:BSGPFsbMSrJJdCEnLODi1H19zLMsYGbOkyF+y1Wm295AfJR35Be
- 8kS5Sux21+dUpwv6a1tCd5NHcMC3p3feZa/Z+4MMy63sLS/GQ5upeM/gRn9DI2pndz2J3vk
- 3A9iPIFjjG7dlTHAwlJEQ60DyczrD5XE+MKziiZ7drp0uDEN5RLf9OleO6R2NhlLzzpHs+D
- W6fgnlV4yELsSgaRG8Ghg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:lIGKMcqLdaw=:FlYsc7R6ktKHedypKWSwJQ
- ApYGKp9QN++nfazBcZ3D3wwwAc9hw5piRUdrJbSirnMq1GF7fY3o8z9MBRUBn7mcY1yXHNdmb
- VMaTZ9uZF4O7mgGL7fmM9eVFfjxrwb2eUJmJNyYW0y/0PwBWE9XPKOhRDPCEqU1dGQ/8psg7n
- g+BId/kN02a7lIhfS6wBmsyIiiBeeXmUAfv8QQhZPi87g3kNK9eofIUou26JnN9SyAFAH1FVS
- uReg/DBP45yqnZidSNl1NyusAJhV6YYUHV888TJ00IH13XF5TGS2sRHlldo/PGNZo365rXMd6
- uDLJ3ooi2aoFc/F9glZqClCH8cCL/Te1snP6aBPTwj9EJVv/5sHFaAt0T36OM+Y+lCZj8i9li
- D0ij1YV9IUqTP7glE1YrkG5XyVib0o/LmlqeVqsJxRHl6L4gH69J90RVSssC/JLnKuXXblXJa
- a/i4pvY3EmMdI+JDLHb0o1dGZZHP3ocVYH0oK63tmshMWHSGlakgbBeMgFeHhy7i4AokVh+NT
- 8Km/aVh14X2fEVz4IeeRveTEWRvZn88YWvcqP4grMYy8O72kFn+GGSCHmTNNvGwLhcWo5FCvp
- dvSjRbmMIaXBof2f5EPVMI/hzfPRMSmWOZNG6aE9kG0rzlkg7m/R91dYo4516XvAyt9wDdcKI
- ZMHiePHw5R3nKQ1cnCtQo385feDdtXqs6bF6AKaOpbyJOjQDTxFu9bPx/UN3hjqVP+nHZm8Fb
- OWZ4GBAfqidfq4a/JRYLys64SpxzU+PVtdl5bk23UPLovkfmgKfI/+KvbEUj4UMtqxYsU08cE
- r07JlIpXdefQkRomKK9KzyX1QRoyZ5th0c92EbtUjWhgVu3CkisUGA2597FsMhetQsgXmHW
-Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:f6tXZMwZDUbgrvEjnrqNSAxGAjaPzbZV3Tk/jRVBuao3Axji1JW
+ iMcdgfLsBJQn0KoAx/EV2dKJIUc2GRqsaO4VDvLDJInZYsMkXlN4ZEfPiNeSSEavMfRP+io
+ BTHcMLFyZjwApHoxVHGBrGX6vsjL8KPLT8uo9FmRPNil6K43vnmtfNVSmxq/E2gtyF0131s
+ 3pZtqv2KCoqAqEeAciDuA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:95eZisdeyBY=:83FmCVHX5OnDe1rohRwect
+ 2FTdWFWRbPFFZ9zEdLuVdCTBCNJpsQxZrbK+oiCx/pRjQbQK+YcnqCdiOM62+nXBuQOVzcL8t
+ NZ9B/keYw8nmaqoeI3e/MyBxFoF1x8qsbw2milId6RmT09qasAAZ5B1znMUE1y9vRGmdBgEBA
+ AmwgtqEAvj4pOmIatd6a/Q1B0n2U9BWTqEwOFvb3Y0dDT4Q0aXlVgMJKq0n9P7Op6SycayPtl
+ fNbecJec7WMbrrQoIW7BXrj/EXguHdLF1fZ4HTjZdVyQjJqsdlLKXduJNGWrnAGKQwPuhaj/7
+ 6Q3lVGlZupYS5uKIHFrIM8WeUm6PCK7Ec5AZR5R+u8TEB8do52S1RHk5pqNjwf8agfxErT9P/
+ KU2uzPj4/vQXjSJDvqzEsRIZwiHt+q4xEHA+DZrmPd3aUGnefgmSS6YfOi5kPo2QU1bTDkytr
+ 1Di95RjFa0Tp5BqIGbInIEdEPiYrrCOOQkb0V+xsZOzBAx4rfBh7FEJTsjz7PjplL7EuwP9yB
+ g6kbfcw3yurhnuQh9M7Z5xeakAxCLB4ThPKu0GLthrwR88jE51Gj0ra3T1RVLkDSARm8DIcxa
+ w9nO9UAwYkY/m3mG5OTZVsJoZjXnLCv3va3KpSywGky0vqLLACwQFAIqfJgrIK1U8GSEEh2De
+ 30oZZTaPdB6zlNzY8dMr8HBZ8WndugaImUtkpQ82QwOCDqs61bbqI5UHXJ/+vQNQVl/Da5Zi2
+ oznqZX3CicSGA6UaW3GZwmdUYHBNmoEux0Ingq5+d0Zj5+JaHzhUe6YKbfcXmoDTrh/xPuDON
+ FZTKMJfNDff29JOcrmzqy7+brJFXSMTEfapg9tHoLDCYPw8wl24LqIYhpA6xOhoqxZjc7dY
+Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/10 09:10:15
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/10 09:10:23
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -69,78 +70,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
+Cc: Thomas Huth <thuth@redhat.com>, qemu-trivial@nongnu.org,
+ Michael Tokarev <mjt@tls.msk.ru>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Convert APM_DPRINTF() to trace events and remove ifdef'ry.
+Replace a deprecated DPRINTF() call by qemu_log_mask(LOG_UNIMP).
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200524164806.12658-1-f4bug@amsat.org>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20200606070216.30952-1-f4bug@amsat.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/isa/apm.c        | 15 +++++----------
- hw/isa/trace-events |  4 ++++
- 2 files changed, 9 insertions(+), 10 deletions(-)
+ hw/misc/auxbus.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/isa/apm.c b/hw/isa/apm.c
-index 6300b1ba7ace..bce266b9574c 100644
---- a/hw/isa/apm.c
-+++ b/hw/isa/apm.c
-@@ -24,14 +24,8 @@
- #include "hw/isa/apm.h"
- #include "hw/pci/pci.h"
- #include "migration/vmstate.h"
-+#include "trace.h"
- 
--//#define DEBUG
--
--#ifdef DEBUG
--# define APM_DPRINTF(format, ...)       printf(format, ## __VA_ARGS__)
--#else
--# define APM_DPRINTF(format, ...)       do { } while (0)
--#endif
- 
- /* fixed I/O location */
- #define APM_STS_IOPORT  0xb3
-@@ -41,8 +35,8 @@ static void apm_ioport_writeb(void *opaque, hwaddr addr, uint64_t val,
- {
-     APMState *apm = opaque;
-     addr &= 1;
--    APM_DPRINTF("apm_ioport_writeb addr=0x%" HWADDR_PRIx
--                " val=0x%02" PRIx64 "\n", addr, val);
-+
-+    trace_apm_io_write(addr, val);
-     if (addr == 0) {
-         apm->apmc = val;
- 
-@@ -65,7 +59,8 @@ static uint64_t apm_ioport_readb(void *opaque, hwaddr addr, unsigned size)
-     } else {
-         val = apm->apms;
+diff --git a/hw/misc/auxbus.c b/hw/misc/auxbus.c
+index f8e7b9797125..06aabf20c59c 100644
+--- a/hw/misc/auxbus.c
++++ b/hw/misc/auxbus.c
+@@ -196,7 +196,7 @@ AUXReply aux_request(AUXBus *bus, AUXCommand cmd, uint32_t address,
+         }
+         break;
+     default:
+-        DPRINTF("Not implemented!\n");
++        qemu_log_mask(LOG_UNIMP, "AUX cmd=%u not implemented\n", cmd);
+         return AUX_NACK;
      }
--    APM_DPRINTF("apm_ioport_readb addr=0x%" HWADDR_PRIx " val=0x%02x\n", addr, val);
-+    trace_apm_io_read(addr, val);
-+
-     return val;
- }
  
-diff --git a/hw/isa/trace-events b/hw/isa/trace-events
-index 202f8938e7b8..3544c6213c39 100644
---- a/hw/isa/trace-events
-+++ b/hw/isa/trace-events
-@@ -9,3 +9,7 @@ superio_create_ide(int id, uint16_t base, unsigned int irq) "id=%d, base 0x%03x,
- # pc87312.c
- pc87312_io_read(uint32_t addr, uint32_t val) "read addr=0x%x val=0x%x"
- pc87312_io_write(uint32_t addr, uint32_t val) "write addr=0x%x val=0x%x"
-+
-+# apm.c
-+apm_io_read(uint8_t addr, uint8_t val) "read addr=0x%x val=0x%02x"
-+apm_io_write(uint8_t addr, uint8_t val) "write addr=0x%x val=0x%02x"
 -- 
 2.26.2
 
