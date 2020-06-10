@@ -2,38 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02D2C1F576F
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 17:14:20 +0200 (CEST)
-Received: from localhost ([::1]:50378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66F461F5742
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 17:06:59 +0200 (CEST)
+Received: from localhost ([::1]:52538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jj2Qg-0007QC-Rl
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 11:14:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35982)
+	id 1jj2Jd-0004lW-Rt
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 11:06:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1jj2Gf-0002Mq-JV; Wed, 10 Jun 2020 11:03:53 -0400
-Received: from fanzine.igalia.com ([178.60.130.6]:58129)
+ id 1jj2GZ-0002Gs-3X; Wed, 10 Jun 2020 11:03:47 -0400
+Received: from fanzine.igalia.com ([178.60.130.6]:58076)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1jj2GX-0006wG-Sw; Wed, 10 Jun 2020 11:03:52 -0400
+ id 1jj2GW-0006w1-SO; Wed, 10 Jun 2020 11:03:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  s=20170329; 
  h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From;
- bh=klQ45ryJ+cILygGi7eA01MXJRrciQEMWh7Cb8En30cg=; 
- b=NrPvu61klV2RbVLNd7/Sm2cyNItBUiVsvbWjV+3eXSFcfhqhg14eGNbsJ3V0Hdv6b7J5+F0Xd1JPjCnby3rAm6tQGsOAMUpQnCzVTF5heRIXoD2cIuCdKFIRvuKAGHvQKS2EHPKP/doeAFgWi5/sEtJp4ugy2PrZJamg8Ucr2sNJWf/H7CPQ8UtbkyprdddhVGjIWdEjJ6nbSeQmhnCJ9GaJL1mDOjcRH0F3WYOo2fXmZPl/W73H4NHtZew81VB9yQm9XOdsQmdN5y1pG76AazflyHd2eZNJnWhESPgwbUXOXox0gMx+cK6nt/wB7ratw0d1WgBxAjChCajEZbKtbw==;
+ bh=3TcxrFGVkCtUtsIcvfPDHVNJ3SGTTueaU2gMyJDgFo0=; 
+ b=hf0hgFPg4+cvB5RAm2eQIiOk7f/jreIuLu/HovOBI86dpmPewieRVJ+BNQzp1SSjqJFOMjci+xLXjfenCWhPJkeZ6ESFvKgCYyfTdz4Fbuy9rrASdAOXlsrFBZwkcUFP1adNvTuyio7S/soknyMZ7mN1FN2RbGFBlYvbeUm/UtamPeZRZ2GIW+KXLISjjXnXZEZqUZ/m+GxFIQzM77qrZy4XEF3wGKEjvTAP2xq8yEPGkxGsIolHH6YogQINeLjwmQ4VoGQosq4Wz37EkGAEQjedP6x+wGDqN/m2MDzg/FDE4e2Bq0h2ZK/GkiIhusiMKEXu8wIQ7+YJ2QZwUppA4Q==;
 Received: from [81.0.38.199] (helo=perseus.local)
  by fanzine.igalia.com with esmtpsa 
  (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1jj2GR-0007gs-Ju; Wed, 10 Jun 2020 17:03:39 +0200
+ id 1jj2GR-0007gt-CR; Wed, 10 Jun 2020 17:03:39 +0200
 Received: from berto by perseus.local with local (Exim 4.92)
  (envelope-from <berto@igalia.com>)
- id 1jj2GC-0007Mv-0a; Wed, 10 Jun 2020 17:03:24 +0200
+ id 1jj2GC-0007My-1f; Wed, 10 Jun 2020 17:03:24 +0200
 From: Alberto Garcia <berto@igalia.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 12/34] qcow2: Add l2_entry_size()
-Date: Wed, 10 Jun 2020 17:02:50 +0200
-Message-Id: <cbd8ffdad19657ca15bee42914d2f3502981b561.1591801197.git.berto@igalia.com>
+Subject: [PATCH v8 13/34] qcow2: Update get/set_l2_entry() and add
+ get/set_l2_bitmap()
+Date: Wed, 10 Jun 2020 17:02:51 +0200
+Message-Id: <5373a508b5a8b9a961d1aa79833de988dc370666.1591801197.git.berto@igalia.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1591801197.git.berto@igalia.com>
 References: <cover.1591801197.git.berto@igalia.com>
@@ -68,207 +69,65 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-qcow2 images with subclusters have 128-bit L2 entries. The first 64
-bits contain the same information as traditional images and the last
-64 bits form a bitmap with the status of each individual subcluster.
+Extended L2 entries are 128-bit wide: 64 bits for the entry itself and
+64 bits for the subcluster allocation bitmap.
 
-Because of that we cannot assume that L2 entries are sizeof(uint64_t)
-anymore. This function returns the proper value for the image.
+In order to support them correctly get/set_l2_entry() need to be
+updated so they take the entry width into account in order to
+calculate the correct offset.
+
+This patch also adds the get/set_l2_bitmap() functions that are
+used to access the bitmaps. For convenience we allow calling
+get_l2_bitmap() on images without subclusters. In this case the
+returned value is always 0 and has no meaning.
 
 Signed-off-by: Alberto Garcia <berto@igalia.com>
-Reviewed-by: Max Reitz <mreitz@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- block/qcow2.h          |  9 +++++++++
- block/qcow2-cluster.c  | 12 ++++++------
- block/qcow2-refcount.c | 14 ++++++++------
- block/qcow2.c          |  8 ++++----
- 4 files changed, 27 insertions(+), 16 deletions(-)
+ block/qcow2.h | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
 diff --git a/block/qcow2.h b/block/qcow2.h
-index 4fe31adfd3..46b351229a 100644
+index 46b351229a..82b86f6cec 100644
 --- a/block/qcow2.h
 +++ b/block/qcow2.h
-@@ -80,6 +80,10 @@
- 
- #define QCOW_EXTL2_SUBCLUSTERS_PER_CLUSTER 32
- 
-+/* Size of normal and extended L2 entries */
-+#define L2E_SIZE_NORMAL   (sizeof(uint64_t))
-+#define L2E_SIZE_EXTENDED (sizeof(uint64_t) * 2)
-+
- #define MIN_CLUSTER_BITS 9
- #define MAX_CLUSTER_BITS 21
- 
-@@ -521,6 +525,11 @@ static inline bool has_subclusters(BDRVQcow2State *s)
-     return false;
- }
- 
-+static inline size_t l2_entry_size(BDRVQcow2State *s)
-+{
-+    return has_subclusters(s) ? L2E_SIZE_EXTENDED : L2E_SIZE_NORMAL;
-+}
-+
+@@ -533,15 +533,36 @@ static inline size_t l2_entry_size(BDRVQcow2State *s)
  static inline uint64_t get_l2_entry(BDRVQcow2State *s, uint64_t *l2_slice,
                                      int idx)
  {
-diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
-index 76fd0f3cdb..8b2fc550b7 100644
---- a/block/qcow2-cluster.c
-+++ b/block/qcow2-cluster.c
-@@ -208,7 +208,7 @@ static int l2_load(BlockDriverState *bs, uint64_t offset,
-                    uint64_t l2_offset, uint64_t **l2_slice)
++    idx *= l2_entry_size(s) / sizeof(uint64_t);
+     return be64_to_cpu(l2_slice[idx]);
+ }
+ 
++static inline uint64_t get_l2_bitmap(BDRVQcow2State *s, uint64_t *l2_slice,
++                                     int idx)
++{
++    if (has_subclusters(s)) {
++        idx *= l2_entry_size(s) / sizeof(uint64_t);
++        return be64_to_cpu(l2_slice[idx + 1]);
++    } else {
++        return 0; /* For convenience only; this value has no meaning. */
++    }
++}
++
+ static inline void set_l2_entry(BDRVQcow2State *s, uint64_t *l2_slice,
+                                 int idx, uint64_t entry)
+ {
++    idx *= l2_entry_size(s) / sizeof(uint64_t);
+     l2_slice[idx] = cpu_to_be64(entry);
+ }
+ 
++static inline void set_l2_bitmap(BDRVQcow2State *s, uint64_t *l2_slice,
++                                 int idx, uint64_t bitmap)
++{
++    assert(has_subclusters(s));
++    idx *= l2_entry_size(s) / sizeof(uint64_t);
++    l2_slice[idx + 1] = cpu_to_be64(bitmap);
++}
++
+ static inline bool has_data_file(BlockDriverState *bs)
  {
      BDRVQcow2State *s = bs->opaque;
--    int start_of_slice = sizeof(uint64_t) *
-+    int start_of_slice = l2_entry_size(s) *
-         (offset_to_l2_index(s, offset) - offset_to_l2_slice_index(s, offset));
- 
-     return qcow2_cache_get(bs, s->l2_table_cache, l2_offset + start_of_slice,
-@@ -281,7 +281,7 @@ static int l2_allocate(BlockDriverState *bs, int l1_index)
- 
-     /* allocate a new l2 entry */
- 
--    l2_offset = qcow2_alloc_clusters(bs, s->l2_size * sizeof(uint64_t));
-+    l2_offset = qcow2_alloc_clusters(bs, s->l2_size * l2_entry_size(s));
-     if (l2_offset < 0) {
-         ret = l2_offset;
-         goto fail;
-@@ -305,7 +305,7 @@ static int l2_allocate(BlockDriverState *bs, int l1_index)
- 
-     /* allocate a new entry in the l2 cache */
- 
--    slice_size2 = s->l2_slice_size * sizeof(uint64_t);
-+    slice_size2 = s->l2_slice_size * l2_entry_size(s);
-     n_slices = s->cluster_size / slice_size2;
- 
-     trace_qcow2_l2_allocate_get_empty(bs, l1_index);
-@@ -369,7 +369,7 @@ fail:
-     }
-     s->l1_table[l1_index] = old_l2_offset;
-     if (l2_offset > 0) {
--        qcow2_free_clusters(bs, l2_offset, s->l2_size * sizeof(uint64_t),
-+        qcow2_free_clusters(bs, l2_offset, s->l2_size * l2_entry_size(s),
-                             QCOW2_DISCARD_ALWAYS);
-     }
-     return ret;
-@@ -716,7 +716,7 @@ static int get_cluster_table(BlockDriverState *bs, uint64_t offset,
- 
-         /* Then decrease the refcount of the old table */
-         if (l2_offset) {
--            qcow2_free_clusters(bs, l2_offset, s->l2_size * sizeof(uint64_t),
-+            qcow2_free_clusters(bs, l2_offset, s->l2_size * l2_entry_size(s),
-                                 QCOW2_DISCARD_OTHER);
-         }
- 
-@@ -1913,7 +1913,7 @@ static int expand_zero_clusters_in_l1(BlockDriverState *bs, uint64_t *l1_table,
-     int ret;
-     int i, j;
- 
--    slice_size2 = s->l2_slice_size * sizeof(uint64_t);
-+    slice_size2 = s->l2_slice_size * l2_entry_size(s);
-     n_slices = s->cluster_size / slice_size2;
- 
-     if (!is_active_l1) {
-diff --git a/block/qcow2-refcount.c b/block/qcow2-refcount.c
-index 04546838e8..770c5dbc83 100644
---- a/block/qcow2-refcount.c
-+++ b/block/qcow2-refcount.c
-@@ -1254,7 +1254,7 @@ int qcow2_update_snapshot_refcount(BlockDriverState *bs,
-     l2_slice = NULL;
-     l1_table = NULL;
-     l1_size2 = l1_size * sizeof(uint64_t);
--    slice_size2 = s->l2_slice_size * sizeof(uint64_t);
-+    slice_size2 = s->l2_slice_size * l2_entry_size(s);
-     n_slices = s->cluster_size / slice_size2;
- 
-     s->cache_discards = true;
-@@ -1605,7 +1605,7 @@ static int check_refcounts_l2(BlockDriverState *bs, BdrvCheckResult *res,
-     int i, l2_size, nb_csectors, ret;
- 
-     /* Read L2 table from disk */
--    l2_size = s->l2_size * sizeof(uint64_t);
-+    l2_size = s->l2_size * l2_entry_size(s);
-     l2_table = g_malloc(l2_size);
- 
-     ret = bdrv_pread(bs->file, l2_offset, l2_table, l2_size);
-@@ -1680,15 +1680,16 @@ static int check_refcounts_l2(BlockDriverState *bs, BdrvCheckResult *res,
-                             fix & BDRV_FIX_ERRORS ? "Repairing" : "ERROR",
-                             offset);
-                     if (fix & BDRV_FIX_ERRORS) {
-+                        int idx = i * (l2_entry_size(s) / sizeof(uint64_t));
-                         uint64_t l2e_offset =
--                            l2_offset + (uint64_t)i * sizeof(uint64_t);
-+                            l2_offset + (uint64_t)i * l2_entry_size(s);
-                         int ign = active ? QCOW2_OL_ACTIVE_L2 :
-                                            QCOW2_OL_INACTIVE_L2;
- 
-                         l2_entry = QCOW_OFLAG_ZERO;
-                         set_l2_entry(s, l2_table, i, l2_entry);
-                         ret = qcow2_pre_write_overlap_check(bs, ign,
--                                l2e_offset, sizeof(uint64_t), false);
-+                                l2e_offset, l2_entry_size(s), false);
-                         if (ret < 0) {
-                             fprintf(stderr, "ERROR: Overlap check failed\n");
-                             res->check_errors++;
-@@ -1698,7 +1699,8 @@ static int check_refcounts_l2(BlockDriverState *bs, BdrvCheckResult *res,
-                         }
- 
-                         ret = bdrv_pwrite_sync(bs->file, l2e_offset,
--                                               &l2_table[i], sizeof(uint64_t));
-+                                               &l2_table[idx],
-+                                               l2_entry_size(s));
-                         if (ret < 0) {
-                             fprintf(stderr, "ERROR: Failed to overwrite L2 "
-                                     "table entry: %s\n", strerror(-ret));
-@@ -1905,7 +1907,7 @@ static int check_oflag_copied(BlockDriverState *bs, BdrvCheckResult *res,
-         }
- 
-         ret = bdrv_pread(bs->file, l2_offset, l2_table,
--                         s->l2_size * sizeof(uint64_t));
-+                         s->l2_size * l2_entry_size(s));
-         if (ret < 0) {
-             fprintf(stderr, "ERROR: Could not read L2 table: %s\n",
-                     strerror(-ret));
-diff --git a/block/qcow2.c b/block/qcow2.c
-index 5c175a314c..7df55a88a8 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -870,7 +870,7 @@ static void read_cache_sizes(BlockDriverState *bs, QemuOpts *opts,
-     uint64_t max_l2_entries = DIV_ROUND_UP(virtual_disk_size, s->cluster_size);
-     /* An L2 table is always one cluster in size so the max cache size
-      * should be a multiple of the cluster size. */
--    uint64_t max_l2_cache = ROUND_UP(max_l2_entries * sizeof(uint64_t),
-+    uint64_t max_l2_cache = ROUND_UP(max_l2_entries * l2_entry_size(s),
-                                      s->cluster_size);
- 
-     combined_cache_size_set = qemu_opt_get(opts, QCOW2_OPT_CACHE_SIZE);
-@@ -1031,7 +1031,7 @@ static int qcow2_update_options_prepare(BlockDriverState *bs,
-         }
-     }
- 
--    r->l2_slice_size = l2_cache_entry_size / sizeof(uint64_t);
-+    r->l2_slice_size = l2_cache_entry_size / l2_entry_size(s);
-     r->l2_table_cache = qcow2_cache_create(bs, l2_cache_size,
-                                            l2_cache_entry_size);
-     r->refcount_block_cache = qcow2_cache_create(bs, refcount_cache_size,
-@@ -1478,7 +1478,7 @@ static int coroutine_fn qcow2_do_open(BlockDriverState *bs, QDict *options,
-         bs->encrypted = true;
-     }
- 
--    s->l2_bits = s->cluster_bits - 3; /* L2 is always one cluster */
-+    s->l2_bits = s->cluster_bits - ctz32(l2_entry_size(s));
-     s->l2_size = 1 << s->l2_bits;
-     /* 2^(s->refcount_order - 3) is the refcount width in bytes */
-     s->refcount_block_bits = s->cluster_bits - (s->refcount_order - 3);
-@@ -4245,7 +4245,7 @@ static int coroutine_fn qcow2_co_truncate(BlockDriverState *bs, int64_t offset,
-          *  preallocation. All that matters is that we will not have to allocate
-          *  new refcount structures for them.) */
-         nb_new_l2_tables = DIV_ROUND_UP(nb_new_data_clusters,
--                                        s->cluster_size / sizeof(uint64_t));
-+                                        s->cluster_size / l2_entry_size(s));
-         /* The cluster range may not be aligned to L2 boundaries, so add one L2
-          * table for a potential head/tail */
-         nb_new_l2_tables++;
 -- 
 2.20.1
 
