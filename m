@@ -2,65 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B82841F4C64
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 06:36:47 +0200 (CEST)
-Received: from localhost ([::1]:33986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FA421F4C93
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 06:48:37 +0200 (CEST)
+Received: from localhost ([::1]:47152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jisTm-0002Ff-OJ
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 00:36:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33990)
+	id 1jisfD-000343-QZ
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 00:48:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34630)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jisKL-00077y-Pl
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 00:27:01 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:48732
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jisNe-00041Y-43
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 00:30:26 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:23930
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jisKK-0008Dv-T6
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 00:27:01 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jisNb-00005q-V5
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 00:30:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591763220;
+ s=mimecast20190719; t=1591763404;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=eElz0rYHeKUNjkzhwC6MFQcNn/IDvjC4Rb+mBNhdY5E=;
- b=TtnE1ZYPMTiP8FrkDaGKChSQ8uKSg7JuWStU65OeRzue5jSfwd/JODtptTAimK23CxRhPe
- aaY6X3tRjubnY81peKpYZOyAQifl2RxNY3JrKoxKaWNODQES6X0No9gTsL6y0iWZFHnk2w
- XpmKt0pYvtNNEAV+NYd+MdBUFWbWHOE=
+ bh=KpsP6snzFwXir/Xzc+9Qv0RUmc46Jj6u+9GlR3QS4bo=;
+ b=P9VAV+jRPSsIxLbWqdGqRO4GDR9UDG619ix45JiQzRrwzTfTJS6gdsNWaftjeKjlrj/nsq
+ V30NLrpmUZS06xJAagdkagESK6UtD8G1SVO3uCocJhuNj/qobZ69GiOIFyvwcW25CSsMBz
+ 8sa624zmK8wBcjKi2+um3ZHK6hrWG4c=
 Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
  [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-364-pfS6R0ToMe-6Lzie4A7WAg-1; Wed, 10 Jun 2020 00:26:58 -0400
-X-MC-Unique: pfS6R0ToMe-6Lzie4A7WAg-1
-Received: by mail-wr1-f72.google.com with SMTP id d6so516117wrn.1
- for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 21:26:58 -0700 (PDT)
+ us-mta-407-bz6pGaWCOCmLzfrzmKel3w-1; Wed, 10 Jun 2020 00:27:00 -0400
+X-MC-Unique: bz6pGaWCOCmLzfrzmKel3w-1
+Received: by mail-wr1-f72.google.com with SMTP id s17so509131wrt.7
+ for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 21:27:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=eElz0rYHeKUNjkzhwC6MFQcNn/IDvjC4Rb+mBNhdY5E=;
- b=ailvlG6rWIcFxa6m/ZiZY8/LvY2icEuJ/nBVV/DBOCzyX+IGrfuWI4V/UoaiU6h6pG
- lUoYrlcXUGuyP6Prv7TCJZgvUnDDhL3W4hGrE60nxZ2VLhqpuFJe8dduXCPccihj5nHw
- hTsd4DeXpjZ8FS/N00vSFypASNgRkF1mvqa6myzwPulgnM2esl/WS+cDjPSvdVAH/QKK
- KHCjs6ns5WRxhGRU4dyls3xSZbxVPNpQH5AOkr6WEz4zLMNST59K1IWmCFgQ0A8NQHn1
- 6ckfXSV8e24D5/W9wb4cZNPq2mYd5o0gOZLFDoLUc5T13vcapqL8nKHtaiv4w4pLLbPD
- AKTA==
-X-Gm-Message-State: AOAM532mNSLGtCLkjx1wfPZ+U8EUZT1oUCIfdJb690jMRIqr47ftsgVb
- xZC5X/a4Jxvms4WKuY9ZGAdWt9bXcq1So4sEdGFKXFKwbv3vGGlvKpQqO5WzqAymZ842CVFLfM0
- NSqsE8Tr17q6qgEk=
-X-Received: by 2002:a7b:c0c8:: with SMTP id s8mr1217464wmh.134.1591763216881; 
- Tue, 09 Jun 2020 21:26:56 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyWF5VtKszEZibyhigUlBQmm1BdoCcAB2175i4AWIE5t23KWCA7rbZfUoxkRHf9m0j8z2F6kg==
-X-Received: by 2002:a7b:c0c8:: with SMTP id s8mr1217446wmh.134.1591763216650; 
- Tue, 09 Jun 2020 21:26:56 -0700 (PDT)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=KpsP6snzFwXir/Xzc+9Qv0RUmc46Jj6u+9GlR3QS4bo=;
+ b=OATKDZekG1M/Aq8riMGYDu3663pYVV/ceCvUoxzYfjznugkik5pjr7CwlOL3dt4KTY
+ nm6M/diEp8qL2q7xXWLMflpXxQuPO6K9wi7U8rY1Ov7GL9p5BBFLLzxgcJp1EfBfFGfd
+ 47k8JJKWCaB0cCgpkaxHHJSBBiq6GGsHvH4aLJx0bqAJGtSgoNndGoLx1BaZAQ8VAm53
+ ROkmIDPIu8p2OwkmYnGN/WVl9Tp8EbWLiFiep5AoLkt2ySl+wlwPIaTKybdp9Gf++eON
+ zfUF+4/xGJf7ERGqpyPbPVtWqmYruCWLzU4U9ZvQ5nO+TpAevlzXVILqVaz9anJPYC8W
+ EQ/A==
+X-Gm-Message-State: AOAM530M7s00V053LQ7qnlP5cbka9JCUbz9B6fc/5W0UlNBYLJu2FSZD
+ /i8eUKOfzS8m+mnFFm9bSjyjMX3fJU2XcQ8fZKHttVunSfyF/CXJ19Sfq1C543n9pknyJOKwJgS
+ nSE2dj57SipIgwlk=
+X-Received: by 2002:a05:600c:4102:: with SMTP id
+ j2mr1161429wmi.48.1591763219302; 
+ Tue, 09 Jun 2020 21:26:59 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz+P9LvctaFEEaesPYRV//eo6qXbENBwuie8d5WgqL5E6i9MHQiAUtnNtsQxQ8bb8dx1Z6D7Q==
+X-Received: by 2002:a05:600c:4102:: with SMTP id
+ j2mr1161417wmi.48.1591763219054; 
+ Tue, 09 Jun 2020 21:26:59 -0700 (PDT)
 Received: from redhat.com (bzq-79-181-55-232.red.bezeqint.net. [79.181.55.232])
- by smtp.gmail.com with ESMTPSA id y5sm6510379wrs.63.2020.06.09.21.26.55
+ by smtp.gmail.com with ESMTPSA id z206sm5397457wmg.30.2020.06.09.21.26.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Jun 2020 21:26:56 -0700 (PDT)
-Date: Wed, 10 Jun 2020 00:26:54 -0400
+ Tue, 09 Jun 2020 21:26:58 -0700 (PDT)
+Date: Wed, 10 Jun 2020 00:26:56 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/56] acpi: parallel: don't use _STA method
-Message-ID: <20200610042613.1459309-11-mst@redhat.com>
+Subject: [PULL 11/56] acpi: move aml builder code for parallel device
+Message-ID: <20200610042613.1459309-12-mst@redhat.com>
 References: <20200610042613.1459309-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200610042613.1459309-1-mst@redhat.com>
@@ -68,18 +72,19 @@ X-Mailer: git-send-email 2.24.1.751.gd10ce2899c
 X-Mutt-Fcc: =sent
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 23:51:15
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=mst@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 21:17:20
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,87 +99,116 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Gerd Hoffmann <kraxel@redhat.com>
 
-The _STA method dates back to the days where we had a static DSDT.  The
-device is listed in the DSDT table unconditionally and the _STA method
-checks a bit in the isa bridge pci config space to figure whenever a
-given is isa device is present or not, then evaluates to 0x0f (present)
-or 0x00 (absent).
-
-These days the DSDT is generated by qemu anyway, so if a device is not
-present we can simply drop it from the DSDT instead.
+Also adds support for multiple LPT devices.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20200515150421.25479-7-kraxel@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20200515150421.25479-8-kraxel@redhat.com>
 ---
- hw/i386/acpi-build.c | 29 ++++++++---------------------
- 1 file changed, 8 insertions(+), 21 deletions(-)
+ hw/char/parallel.c   | 22 ++++++++++++++++++++++
+ hw/i386/acpi-build.c | 23 -----------------------
+ 2 files changed, 22 insertions(+), 23 deletions(-)
 
+diff --git a/hw/char/parallel.c b/hw/char/parallel.c
+index 8dd67d1375..c0f34bf924 100644
+--- a/hw/char/parallel.c
++++ b/hw/char/parallel.c
+@@ -28,6 +28,7 @@
+ #include "qemu/module.h"
+ #include "chardev/char-parallel.h"
+ #include "chardev/char-fe.h"
++#include "hw/acpi/aml-build.h"
+ #include "hw/irq.h"
+ #include "hw/isa/isa.h"
+ #include "hw/qdev-properties.h"
+@@ -568,6 +569,25 @@ static void parallel_isa_realizefn(DeviceState *dev, Error **errp)
+                              s, "parallel");
+ }
+ 
++static void parallel_isa_build_aml(ISADevice *isadev, Aml *scope)
++{
++    ISAParallelState *isa = ISA_PARALLEL(isadev);
++    Aml *dev;
++    Aml *crs;
++
++    crs = aml_resource_template();
++    aml_append(crs, aml_io(AML_DECODE16, isa->iobase, isa->iobase, 0x08, 0x08));
++    aml_append(crs, aml_irq_no_flags(isa->isairq));
++
++    dev = aml_device("LPT%d", isa->index + 1);
++    aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0400")));
++    aml_append(dev, aml_name_decl("_UID", aml_int(isa->index + 1)));
++    aml_append(dev, aml_name_decl("_STA", aml_int(0xf)));
++    aml_append(dev, aml_name_decl("_CRS", crs));
++
++    aml_append(scope, dev);
++}
++
+ /* Memory mapped interface */
+ static uint64_t parallel_mm_readfn(void *opaque, hwaddr addr, unsigned size)
+ {
+@@ -624,9 +644,11 @@ static Property parallel_isa_properties[] = {
+ static void parallel_isa_class_initfn(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
++    ISADeviceClass *isa = ISA_DEVICE_CLASS(klass);
+ 
+     dc->realize = parallel_isa_realizefn;
+     dc->vmsd = &vmstate_parallel_isa;
++    isa->build_aml = parallel_isa_build_aml;
+     device_class_set_props(dc, parallel_isa_properties);
+     set_bit(DEVICE_CATEGORY_INPUT, dc->categories);
+ }
 diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 6de25f6484..2cafad03e2 100644
+index 2cafad03e2..58fe505fb6 100644
 --- a/hw/i386/acpi-build.c
 +++ b/hw/i386/acpi-build.c
-@@ -1173,39 +1173,26 @@ static Aml *build_mouse_device_aml(void)
+@@ -1173,28 +1173,6 @@ static Aml *build_mouse_device_aml(void)
      return dev;
  }
  
--static Aml *build_lpt_device_aml(void)
-+static void build_lpt_device_aml(Aml *scope)
- {
-     Aml *dev;
-     Aml *crs;
--    Aml *method;
--    Aml *if_ctx;
--    Aml *else_ctx;
--    Aml *zero = aml_int(0);
--    Aml *is_present = aml_local(0);
-+
-+    if (!memory_region_present(get_system_io(), 0x0378)) {
-+        return;
-+    }
- 
-     dev = aml_device("LPT");
-     aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0400")));
- 
--    method = aml_method("_STA", 0, AML_NOTSERIALIZED);
--    aml_append(method, aml_store(aml_name("LPEN"), is_present));
--    if_ctx = aml_if(aml_equal(is_present, zero));
--    {
--        aml_append(if_ctx, aml_return(aml_int(0x00)));
+-static void build_lpt_device_aml(Aml *scope)
+-{
+-    Aml *dev;
+-    Aml *crs;
+-
+-    if (!memory_region_present(get_system_io(), 0x0378)) {
+-        return;
 -    }
--    aml_append(method, if_ctx);
--    else_ctx = aml_else();
--    {
--        aml_append(else_ctx, aml_return(aml_int(0x0f)));
--    }
--    aml_append(method, else_ctx);
--    aml_append(dev, method);
-+    aml_append(dev, aml_name_decl("_STA", aml_int(0xf)));
- 
-     crs = aml_resource_template();
-     aml_append(crs, aml_io(AML_DECODE16, 0x0378, 0x0378, 0x08, 0x08));
-     aml_append(crs, aml_irq_no_flags(7));
-     aml_append(dev, aml_name_decl("_CRS", crs));
- 
--    return dev;
-+    aml_append(scope, dev);
- }
- 
+-
+-    dev = aml_device("LPT");
+-    aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0400")));
+-
+-    aml_append(dev, aml_name_decl("_STA", aml_int(0xf)));
+-
+-    crs = aml_resource_template();
+-    aml_append(crs, aml_io(AML_DECODE16, 0x0378, 0x0378, 0x08, 0x08));
+-    aml_append(crs, aml_irq_no_flags(7));
+-    aml_append(dev, aml_name_decl("_CRS", crs));
+-
+-    aml_append(scope, dev);
+-}
+-
  static void build_isa_devices_aml(Aml *table)
-@@ -1221,7 +1208,7 @@ static void build_isa_devices_aml(Aml *table)
+ {
+     ISADevice *fdc = pc_find_fdc0();
+@@ -1208,7 +1186,6 @@ static void build_isa_devices_aml(Aml *table)
      if (fdc) {
          aml_append(scope, build_fdc_device_aml(fdc));
      }
--    aml_append(scope, build_lpt_device_aml());
-+    build_lpt_device_aml(scope);
+-    build_lpt_device_aml(scope);
  
      if (ambiguous) {
          error_report("Multiple ISA busses, unable to define IPMI ACPI data");
