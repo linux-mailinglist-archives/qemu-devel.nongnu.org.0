@@ -2,53 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 393D61F556E
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 15:12:35 +0200 (CEST)
-Received: from localhost ([::1]:35444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 837261F5594
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 15:18:35 +0200 (CEST)
+Received: from localhost ([::1]:54194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jj0Ww-000173-6W
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 09:12:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45108)
+	id 1jj0ck-0001Jd-Ha
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 09:18:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jj0Ul-0007f6-KA; Wed, 10 Jun 2020 09:10:19 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:50445)
+ id 1jj0Ur-0007l7-0Y; Wed, 10 Jun 2020 09:10:25 -0400
+Received: from mout.kundenserver.de ([212.227.126.133]:46185)
  by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jj0Uk-0003XU-EL; Wed, 10 Jun 2020 09:10:19 -0400
+ id 1jj0Up-0003cY-4z; Wed, 10 Jun 2020 09:10:24 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1Mw9Lw-1it6lF1Vsy-00s8b8; Wed, 10 Jun 2020 15:10:13 +0200
+ id 1M6lxe-1jrEUa0Fag-008JRU; Wed, 10 Jun 2020 15:10:14 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 00/16] Trivial branch for 5.1 patches
-Date: Wed, 10 Jun 2020 15:09:55 +0200
-Message-Id: <20200610131011.1941209-1-laurent@vivier.eu>
+Subject: [PULL v2 01/16] Fix parameter type in vhost migration log path
+Date: Wed, 10 Jun 2020 15:09:56 +0200
+Message-Id: <20200610131011.1941209-2-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200610131011.1941209-1-laurent@vivier.eu>
+References: <20200610131011.1941209-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:HeTxU4aFpAXH1FbAg4OVCtd1XgyX0JfG5z82ZY2r87Hdkm6Q133
- uHba02HHxaAELdS7+roi/QTcz+C8r1IcEl//S+OaNiDFqhfNfbfEgegFiURqel5EhqANF0U
- 5cftHcQ7poKdaNoobFCbx66fPHP+F3edvqCU4iV1q7Xot2gdW+Ygeo8Ep1PxVwD/RBiIVPE
- NVMe5loz4sHkYTnBnunPg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:mGWbMxUzaRY=:oqjEl0bFLTOE5JoEJtiWqJ
- T/HkCGIfIBmCwfs5RieW1EtcEtnWtcgMhZHIjwxwvlZnRapy/cY1IEqmkQt+BuoJscQioWXE5
- u5nYogPqTj5XVyVaY3Vv6lte+OvXnc/jZTVhSW2zldH4z+SttdCZl/9IBVBRiOfqjRUvcSpEd
- 0/jsCU4sttBdo6rTL7xq1JFkkRGMLHpuH6eZqOWbo18vgOJxMtn/0ABBSOslqER8IoJQFjOIf
- nHk0LYbX9SJpRRgmiPtsXhWlypXufOD09kqX8rq4e9N+YdnkI7iuDU97B+gdHdchcq0YA9Mkw
- R7O9J8ii22YoB+SWvMZM+P0O8aC+fgUbzetbM3on0IX1oHVsyT+PDG8LJ4l+ukKwPBnIuO+Cp
- Rpw+Vmf+FfBjnwiXKmVz2mNbqppIefgqepnz8SwE2OTywFqfp4iFvRaPkNWgDNHI5wO2s62qY
- SbVVPWGtAP7ppLKv590e6BBtSBYEGbMAWgTCtwy33GygPgUPxSFWD0FEgcc6jvfqWtTcVvD5Z
- QW7+PwD05uTQKbNygvDZFGUvn0Q4UdYqzAqbj76RndCGUPWtmy8AvFqWRi9S33FtnNnHFy54z
- EVcBGTxSPG7EPC2A9RwWjhCl5cmliRSJAcEW84x6/DY7JE+MbWSBjXstu1pQ+8cL26sHrojpX
- 1WIapqZWSnjhYEMktKg8zPSn9HRJ75Vyx/RqXpMnlDbjTHMKxhTguWunDy5RrSUehIPF4EXY7
- GfHRfBok9CbWYPVrw4g//tjFvChRCcAP3NEW91KBBdRaOptmHoznnlhpFiPGO538AkM9Jic06
- 9WvL00veDx9+4YdbvynyA7rv05LSq3iRQzhq3p/CjOCrJmfFSLKkMsorgcY9jGqxYVE4X94
-Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:GC4QxVhoyRWPc2opmiANzOPcwFOhSvLfhoXfjQFiQAGmI5kg1fh
+ ip2rXH5dOtjWESF9Z8A+xvyBu6sGdUETpHpTFL/RLAjZxhKnNnV1rHEBPkjLW9FarwC0Ze0
+ osAGfGPjkmHPW9a1oYsUlqincWHaoSL/qs08z8FTFDdagrN/C2fa6cV0isCPITize/5JRNo
+ eZDIIeoUSt35+5MvL+X9A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:/2BlOD/8RX0=:fiowDzPcbOKbIEeEYSVbNC
+ eh66wg1Kpbpw92XQUGaHM3ByigAp7IPE3QCbPvLikJNZvrhbS6wbHcV/4MCVJYMix3/sHhgRl
+ g/3KMh+gsf+c5H00Mv+VDuY07cE8eOxHIFR4p/Um3RyHZdvcdNy0aYsIuBhUthDuHNES3K/C2
+ CXCfD3SO2Ogy6OOyYAb8nMUGltp3BBeCZwBNASeIfC4EQwoN6beb6FBOxpqGC4Vvk2TDV6Q4d
+ XoSEA6AG1sPASRGw7K1dBmJsL7rNfy/UdaU2GBqullNepBA1rDkvZHqcz4w1HToD09HIha9Qe
+ WtPrz3uRVZx1SHX8wA8ty69qM3nnSyX5Mo/uOGBRRcqkCM2x1Jw59g8BnolZvkLeKo/u9++92
+ mFhiK6PPc7viYnAvx7pE/LsFtkZuqUCdsLFwpNt9zJfkwvv4UAZHcN2wG0DcaSivUxX+xRuXo
+ WFSDtf7o6nnO5TqgZ51zxGRUqvuAqvUvc3ZHarJoCmO5j0FIJoIaklUQC2JhWFxjwKDQYGui7
+ QruQXVbgeFoGitL76NimV0q2DQ1Knza+8jnvRQEhF2V3FxZq0AwPAzbnhv3QDKQs+0uD88ZsA
+ k8Y3v0l/KZyRufkvYuW4IEvAvrjHPxI40v2uFuTwrrDY8G4Xa2H6aG/h+kInt6u69co1bympg
+ AkUTvsMbW9EVyX+7yOKDBXYUYs6UFQe6prIx/TM6NPNvBAHsKDlgj1acopL2dT2dkIbGEy3QA
+ E4j6TFcESqoJ/629RkhsLa7ZzLlEE/7Am2hfv64/AdI/u04WXzkSxLz2AdCNHD2QGO1MI6ip5
+ k4d63rreD73W2SececyC6/MWysHgbRsdyV/SOmibp4hlif4qZdIBIzI0kq7bIyWzCwovQ7m
+Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/10 09:10:15
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/10 09:10:17
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -67,89 +69,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: Raphael Norwitz <raphael.s.norwitz@gmail.com>, qemu-trivial@nongnu.org,
+ Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 49ee11555262a256afec592dfed7c5902d5eefd2=
-:=0D
-=0D
-  Merge remote-tracking branch 'remotes/vivier2/tags/linux-user-for-5.1-pul=
-l-=3D=0D
-request' into staging (2020-06-08 11:04:57 +0100)=0D
-=0D
-are available in the Git repository at:=0D
-=0D
-  git://github.com/vivier/qemu.git tags/trivial-branch-for-5.1-pull-request=
-=0D
-=0D
-for you to fetch changes up to fe18e6eecdd45d3dff0c8968cbb07c5e02fbe4c8:=0D
-=0D
-  semihosting: remove the pthread include which seems unused (2020-06-10 11=
-:2=3D=0D
-9:44 +0200)=0D
-=0D
-----------------------------------------------------------------=0D
-Trivial branch pull request 20200610=0D
-=0D
-Convert DPRINTF() to traces or qemu_logs=0D
-Use IEC binary prefix definitions=0D
-Use qemu_semihosting_log_out() in target/unicore32=0D
-Some code and doc cleanup=0D
-=0D
-----------------------------------------------------------------=0D
-=0D
-Eric Blake (1):=0D
-  qemu-img: Fix doc typo for 'bitmap' subcommand=0D
-=0D
-KONRAD Frederic (1):=0D
-  semihosting: remove the pthread include which seems unused=0D
-=0D
-Philippe Mathieu-Daud=3DC3=3DA9 (12):=0D
-  .mailmap: Update Fred Konrad email address=0D
-  hw/unicore32/puv3: Use qemu_log_mask(ERROR) instead of debug printf()=0D
-  hw/isa/apm: Convert debug printf()s to trace events=0D
-  hw/misc/auxbus: Use qemu_log_mask(UNIMP) instead of debug printf=0D
-  hw/arm/aspeed: Correct DRAM container region size=0D
-  hw/hppa/dino: Use the IEC binary prefix definitions=0D
-  hw/i386/xen/xen-hvm: Use the IEC binary prefix definitions=0D
-  target/i386/cpu: Use the IEC binary prefix definitions=0D
-  target/unicore32: Remove unused headers=0D
-  target/unicore32: Replace DPRINTF() by qemu_log_mask(GUEST_ERROR)=0D
-  target/unicore32: Prefer qemu_semihosting_log_out() over curses=0D
-  hw/openrisc/openrisc_sim: Add assertion to silence GCC warning=0D
-=0D
-Raphael Norwitz (1):=0D
-  Fix parameter type in vhost migration log path=0D
-=0D
-Thomas Huth (1):=0D
-  net: Do not include a newline in the id of -nic devices=0D
-=0D
- .mailmap                              |  1 +=0D
- default-configs/unicore32-softmmu.mak |  1 +=0D
- docs/tools/qemu-img.rst               |  2 +-=0D
- hw/arm/aspeed.c                       |  2 +-=0D
- hw/dma/puv3_dma.c                     |  9 +++-=0D
- hw/gpio/puv3_gpio.c                   | 15 ++++--=0D
- hw/hppa/dino.c                        |  4 +-=0D
- hw/i386/xen/xen-hvm.c                 |  3 +-=0D
- hw/intc/puv3_intc.c                   |  9 +++-=0D
- hw/isa/apm.c                          | 15 ++----=0D
- hw/isa/trace-events                   |  4 ++=0D
- hw/misc/auxbus.c                      |  2 +-=0D
- hw/misc/puv3_pm.c                     |  9 +++-=0D
- hw/openrisc/openrisc_sim.c            |  1 +=0D
- hw/semihosting/console.c              |  1 -=0D
- hw/timer/puv3_ost.c                   |  9 +++-=0D
- hw/unicore32/puv3.c                   |  2 -=0D
- hw/virtio/vhost.c                     |  4 +-=0D
- net/net.c                             |  2 +-=0D
- target/i386/cpu.c                     |  2 +-=0D
- target/unicore32/helper.c             | 70 +++++----------------------=0D
- 21 files changed, 74 insertions(+), 93 deletions(-)=0D
-=0D
---=3D20=0D
-2.26.2=0D
-=0D
+From: Raphael Norwitz <raphael.s.norwitz@gmail.com>
+
+The ‘enable’ parameter to the vhost_migration_log() function is given as
+an int, but "true"/"false" values are passed in wherever it is invoked.
+Inside the function itself it is only ever compared with bool values.
+Therefore the parameter value itself should be changed to bool.
+
+Signed-off-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Message-Id: <CAFubqFtqNZw=Y-ar3N=3zTQi6LkKg_G-7W7OOHHbE7Y1fV7HAQ@mail.gmail.com>
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+---
+ hw/virtio/vhost.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+index aff98a0ede56..aa06a3691919 100644
+--- a/hw/virtio/vhost.c
++++ b/hw/virtio/vhost.c
+@@ -809,12 +809,12 @@ err_features:
+     return r;
+ }
+ 
+-static int vhost_migration_log(MemoryListener *listener, int enable)
++static int vhost_migration_log(MemoryListener *listener, bool enable)
+ {
+     struct vhost_dev *dev = container_of(listener, struct vhost_dev,
+                                          memory_listener);
+     int r;
+-    if (!!enable == dev->log_enabled) {
++    if (enable == dev->log_enabled) {
+         return 0;
+     }
+     if (!dev->started) {
+-- 
+2.26.2
+
 
