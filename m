@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAFAE1F4CA6
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 06:53:53 +0200 (CEST)
-Received: from localhost ([::1]:38288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C44941F4C81
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 06:45:58 +0200 (CEST)
+Received: from localhost ([::1]:40298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jiskK-0003Ft-S9
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 00:53:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34164)
+	id 1jiscf-000055-MF
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 00:45:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jisLF-0000mk-Sk
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 00:27:57 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:58030
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jisLI-0000sX-5W
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 00:28:00 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:31234
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jisLE-0008KY-Vp
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 00:27:57 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jisLH-0008Kx-5S
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 00:27:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591763276;
+ s=mimecast20190719; t=1591763278;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2NYIzPHnTVGrlqldKcyFGJ1nv5lf4gt4t0AfJyHtJ8o=;
- b=KWTVAKb2E0ve1UY33bYS7S529sA9cHfhFg5jbFwjHAz8lg0SIAQgg/nAxwxqWti1KjwZoe
- MNX1jt+tG9pHb3FXe2lMPQlgz/ti6v7wiOf2GgfLy13B4hELMhkrzFQ2E6j0ZK0goajj9O
- 3r4DQnebOglK9YKq/qoC65X+jmdr87g=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-406-m8VbW_98MX2FcwVkd6YCbw-1; Wed, 10 Jun 2020 00:27:54 -0400
-X-MC-Unique: m8VbW_98MX2FcwVkd6YCbw-1
-Received: by mail-wr1-f70.google.com with SMTP id j16so491625wre.22
- for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 21:27:54 -0700 (PDT)
+ bh=MPP6uVIK/72gmaaGLDDvftHafSRk3w6HEMlvs19A15A=;
+ b=O8EoEE18eIiRoMAKuuArMGii/+43h7kBY9q80YrxRljguchpzMZAUH6VHoLqZv6heNNEmd
+ D6J1H3uxabMu9ovMEtw5ClLGUsACJZUKaoXUttYKiznaJlfaDRLoxzqqwoDhCyK9c45Dyh
+ +4YJNnc9SFQqG+Litu99XvEVajQ0UVA=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-170--TEWLSjTPQiV0v5JBs-aOA-1; Wed, 10 Jun 2020 00:27:56 -0400
+X-MC-Unique: -TEWLSjTPQiV0v5JBs-aOA-1
+Received: by mail-wm1-f70.google.com with SMTP id c4so89310wmd.0
+ for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 21:27:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=2NYIzPHnTVGrlqldKcyFGJ1nv5lf4gt4t0AfJyHtJ8o=;
- b=cuTm1tWWbJEwqGD231hD1Yrw+zpLjYVF2PaKrGGNU6xy2ORzjVTzNb4IO6+0TQDzZl
- ilbg5IvY1GMP0Mm5FSkN+GbKSvuRC3viCNeQxpuSeroKfLo0cfYR8gQ70/QHKEREl8dS
- XHa2MtK8u6oTyr5k5MGa5kLI9O+NrHx6lBs0WWIvvuUNRLaWj18niXH0B8//pzLYYto0
- yeISIjY+AyKa5fQofb23Zt8tEiH9N3jKGyVV4OnOie6MSIRGmcNo05MyIUx74akvRH7u
- MNVREp7iBzC2fY1v1L1tn78gR6dqfMaOVQMgJCXu3TlHrqkKTGCK9fm5ECgk2KDkeZZ6
- CF0w==
-X-Gm-Message-State: AOAM531RA29lOmE6h73tL2vMnEOVRTDorqFeFep8e9qKt6Jk24m/NsYQ
- Z9VxGV9O8i07o7zoSJoC/cqc2vaxmG69cex4O3uA6MnsKhPMqii8xQk6S5bc5bEHskpVP6VzWc1
- mdOCZJ969A4UsWrY=
-X-Received: by 2002:a5d:4a04:: with SMTP id m4mr1420691wrq.153.1591763273003; 
- Tue, 09 Jun 2020 21:27:53 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyZc8jeOXxopUdkJ1qo/UY+m1QqcYUQj4xgs5kIQURzApNLs95VedY0LOv+9cEzCHcw1Te6qg==
-X-Received: by 2002:a5d:4a04:: with SMTP id m4mr1420669wrq.153.1591763272813; 
- Tue, 09 Jun 2020 21:27:52 -0700 (PDT)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=MPP6uVIK/72gmaaGLDDvftHafSRk3w6HEMlvs19A15A=;
+ b=dkFVlnwayr62zvQVH4ZNQ2/yPYgwnQx08Kcltw7uuP2By8UFd0xnWJhegujRxCk1JL
+ HqL1PGH1m5ol666bzK/hdhQ011XHr5u3nqgoCt4YNIl4KXZYfqTFFxyB/VpIzGUGJkUi
+ t+k4vH5im5Ij4PTv9HazfgHi1eOZQMxKdaUDbPto0Y78RnXyVSIymBV8GGYILle183Xx
+ y5VxE8UiMUd8AIC0KA8Viko3Z12MzSnfunJD/zexDGUGx7eHasx6MyTTI+bzqmk2wr/f
+ OEcLz0E3SVLYd5FMgI8xGiJz/YNG8Hyo5RQw5HJU31veLRM58jb9Jo6m2jY1zIpsDfz8
+ 1mkw==
+X-Gm-Message-State: AOAM531ilW9zfgoHc3ueckhMk/GZkS3FcL1XonCIppeRMXzFapXCE6wl
+ hAesIxzoV29VypNr+QF8GnC9qJLHHRBxv2KfCMM640HGCRgATgL0pwoq+j/Sp9sQoqNYWAFk3jy
+ 9MczJipktKP6Qtd4=
+X-Received: by 2002:a7b:c5c7:: with SMTP id n7mr1157763wmk.77.1591763275070;
+ Tue, 09 Jun 2020 21:27:55 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJypcYA8eodf5m+YlI3N4wAqX3wCimLzryxQYTZMdDdu95iBB3Td0cXBS9D1YUmwJBYULy8OmQ==
+X-Received: by 2002:a7b:c5c7:: with SMTP id n7mr1157753wmk.77.1591763274876;
+ Tue, 09 Jun 2020 21:27:54 -0700 (PDT)
 Received: from redhat.com (bzq-79-181-55-232.red.bezeqint.net. [79.181.55.232])
- by smtp.gmail.com with ESMTPSA id w17sm6177997wra.71.2020.06.09.21.27.51
+ by smtp.gmail.com with ESMTPSA id a126sm5083019wme.28.2020.06.09.21.27.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Jun 2020 21:27:52 -0700 (PDT)
-Date: Wed, 10 Jun 2020 00:27:50 -0400
+ Tue, 09 Jun 2020 21:27:54 -0700 (PDT)
+Date: Wed, 10 Jun 2020 00:27:53 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 35/56] vhost-user-blk: delay vhost_user_blk_disconnect
-Message-ID: <20200610042613.1459309-36-mst@redhat.com>
+Subject: [PULL 36/56] Add helper to populate vhost-user message regions
+Message-ID: <20200610042613.1459309-37-mst@redhat.com>
 References: <20200610042613.1459309-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200610042613.1459309-1-mst@redhat.com>
@@ -68,7 +70,8 @@ X-Mailer: git-send-email 2.24.1.751.gd10ce2899c
 X-Mutt-Fcc: =sent
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 Content-Disposition: inline
 Received-SPF: pass client-ip=205.139.110.61; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
@@ -93,96 +96,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Li Feng <fengli@smartx.com>, Raphael Norwitz <raphael.norwitz@nutanix.com>,
- Dima Stepanov <dimastep@yandex-team.ru>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Dima Stepanov <dimastep@yandex-team.ru>
+From: Raphael Norwitz <raphael.norwitz@nutanix.com>
 
-A socket write during vhost-user communication may trigger a disconnect
-event, calling vhost_user_blk_disconnect() and clearing all the
-vhost_dev structures holding data that vhost-user functions expect to
-remain valid to roll back initialization correctly. Delay the cleanup to
-keep vhost_dev structure valid.
-There are two possible states to handle:
-1. RUN_STATE_PRELAUNCH: skip bh oneshot call and perform disconnect in
-the caller routine.
-2. RUN_STATE_RUNNING: delay by using bh
+When setting vhost-user memory tables, memory region descriptors must be
+copied from the vhost_dev struct to the vhost-user message. To avoid
+duplicating code in setting the memory tables, we should use a helper to
+populate this field. This change adds this helper.
 
-BH changes are based on the similar changes for the vhost-user-net
-device:
-  commit e7c83a885f865128ae3cf1946f8cb538b63cbfba
-  "vhost-user: delay vhost_user_stop"
-
-Signed-off-by: Dima Stepanov <dimastep@yandex-team.ru>
-Message-Id: <69b73b94dcd066065595266c852810e0863a0895.1590396396.git.dimastep@yandex-team.ru>
+Signed-off-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
+Message-Id: <1588533678-23450-2-git-send-email-raphael.norwitz@nutanix.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Li Feng <fengli@smartx.com>
-Reviewed-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- hw/block/vhost-user-blk.c | 38 +++++++++++++++++++++++++++++++++++++-
- 1 file changed, 37 insertions(+), 1 deletion(-)
+ hw/virtio/vhost-user.c | 18 ++++++++++++------
+ 1 file changed, 12 insertions(+), 6 deletions(-)
 
-diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
-index 9d8c0b3909..76838e76d3 100644
---- a/hw/block/vhost-user-blk.c
-+++ b/hw/block/vhost-user-blk.c
-@@ -349,6 +349,19 @@ static void vhost_user_blk_disconnect(DeviceState *dev)
-     vhost_dev_cleanup(&s->dev);
+diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+index ec21e8fbe8..2e0552dd74 100644
+--- a/hw/virtio/vhost-user.c
++++ b/hw/virtio/vhost-user.c
+@@ -407,6 +407,15 @@ static int vhost_user_set_log_base(struct vhost_dev *dev, uint64_t base,
+     return 0;
  }
  
-+static void vhost_user_blk_event(void *opaque, QEMUChrEvent event);
-+
-+static void vhost_user_blk_chr_closed_bh(void *opaque)
++static void vhost_user_fill_msg_region(VhostUserMemoryRegion *dst,
++                                       struct vhost_memory_region *src)
 +{
-+    DeviceState *dev = opaque;
-+    VirtIODevice *vdev = VIRTIO_DEVICE(dev);
-+    VHostUserBlk *s = VHOST_USER_BLK(vdev);
-+
-+    vhost_user_blk_disconnect(dev);
-+    qemu_chr_fe_set_handlers(&s->chardev, NULL, NULL, vhost_user_blk_event,
-+            NULL, opaque, NULL, true);
++    assert(src != NULL && dst != NULL);
++    dst->userspace_addr = src->userspace_addr;
++    dst->memory_size = src->memory_size;
++    dst->guest_phys_addr = src->guest_phys_addr;
 +}
 +
- static void vhost_user_blk_event(void *opaque, QEMUChrEvent event)
- {
-     DeviceState *dev = opaque;
-@@ -363,7 +376,30 @@ static void vhost_user_blk_event(void *opaque, QEMUChrEvent event)
-         }
-         break;
-     case CHR_EVENT_CLOSED:
--        vhost_user_blk_disconnect(dev);
-+        /*
-+         * A close event may happen during a read/write, but vhost
-+         * code assumes the vhost_dev remains setup, so delay the
-+         * stop & clear. There are two possible paths to hit this
-+         * disconnect event:
-+         * 1. When VM is in the RUN_STATE_PRELAUNCH state. The
-+         * vhost_user_blk_device_realize() is a caller.
-+         * 2. In tha main loop phase after VM start.
-+         *
-+         * For p2 the disconnect event will be delayed. We can't
-+         * do the same for p1, because we are not running the loop
-+         * at this moment. So just skip this step and perform
-+         * disconnect in the caller function.
-+         *
-+         * TODO: maybe it is a good idea to make the same fix
-+         * for other vhost-user devices.
-+         */
-+        if (runstate_is_running()) {
-+            AioContext *ctx = qemu_get_current_aio_context();
-+
-+            qemu_chr_fe_set_handlers(&s->chardev, NULL, NULL, NULL, NULL,
-+                    NULL, NULL, false);
-+            aio_bh_schedule_oneshot(ctx, vhost_user_blk_chr_closed_bh, opaque);
-+        }
-         break;
-     case CHR_EVENT_BREAK:
-     case CHR_EVENT_MUX_IN:
+ static int vhost_user_fill_set_mem_table_msg(struct vhost_user *u,
+                                              struct vhost_dev *dev,
+                                              VhostUserMsg *msg,
+@@ -417,6 +426,7 @@ static int vhost_user_fill_set_mem_table_msg(struct vhost_user *u,
+     ram_addr_t offset;
+     MemoryRegion *mr;
+     struct vhost_memory_region *reg;
++    VhostUserMemoryRegion region_buffer;
+ 
+     msg->hdr.request = VHOST_USER_SET_MEM_TABLE;
+ 
+@@ -441,12 +451,8 @@ static int vhost_user_fill_set_mem_table_msg(struct vhost_user *u,
+                 error_report("Failed preparing vhost-user memory table msg");
+                 return -1;
+             }
+-            msg->payload.memory.regions[*fd_num].userspace_addr =
+-                reg->userspace_addr;
+-            msg->payload.memory.regions[*fd_num].memory_size =
+-                reg->memory_size;
+-            msg->payload.memory.regions[*fd_num].guest_phys_addr =
+-                reg->guest_phys_addr;
++            vhost_user_fill_msg_region(&region_buffer, reg);
++            msg->payload.memory.regions[*fd_num] = region_buffer;
+             msg->payload.memory.regions[*fd_num].mmap_offset = offset;
+             fds[(*fd_num)++] = fd;
+         } else if (track_ramblocks) {
 -- 
 MST
 
