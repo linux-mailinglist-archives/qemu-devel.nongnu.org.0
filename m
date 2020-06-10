@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B44421F54D0
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 14:29:21 +0200 (CEST)
-Received: from localhost ([::1]:50104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08FE21F54A1
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 14:24:35 +0200 (CEST)
+Received: from localhost ([::1]:39898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jizr6-0004Kh-Oh
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 08:29:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44804)
+	id 1jizmU-0007z5-30
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 08:24:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jizTQ-0000JY-OP; Wed, 10 Jun 2020 08:04:52 -0400
+ id 1jizTS-0000NQ-H2; Wed, 10 Jun 2020 08:04:54 -0400
 Received: from mail-eopbgr150135.outbound.protection.outlook.com
  ([40.107.15.135]:4365 helo=EUR01-DB5-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jizTP-0004Tg-M6; Wed, 10 Jun 2020 08:04:52 -0400
+ id 1jizTR-0004Tg-D3; Wed, 10 Jun 2020 08:04:54 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KaWZB2ohCHSSryfQlsQSwA7e1lDcjS6lqQlkyTS+p+06npc7uqN7x69vsGMVrIDQuT9I7A9uNCaJN71Z3eoDP7f8pOVJMByPNcYb2RVWa9baX7UvowOu1bfld0cbgGgdMClNoJwJ4+w1SNwMofPk9oqQbXZjMVuDu40ZcVKW8KolTU2ED7KiR1gtxr5OAXAe43IvV8NaUOYVV7nNfenoPA66QuKWwp9CuJH4l1dARcurMpyNoQSIEnnm4cSDObQAbqe17Q0Y/9NjQi82To64EujUKCs77MeE4TtlaxfQvowA29Jm7UnQfIGIOVE1ZQrshevsEeQK/79pRe91mvJn2A==
+ b=CmtbU5dvy9OFZfppb+Z0w30YDFYr0Y9aXeMUe6WEMU1A0HHZsgj+/SqXdMVpO2IHeD8s/6nOzrGz3m60Y4js6AL6ve8CjiKAMWR6+GpRqCL9oIWZYIuVL2ViYYijJ8AkoUFCafJzP3I3oHgf3rXfIqZELcXZNXsDcBv/2QwELhnGWT96rqWgrhlA46Y1UdvRfn+CN0S4A5CI7o8YJA9WhRjhX9OShfdA+kCnvq7eXhZlUt8wTcPywS5uaeb7UwrPQqn6jj86cTBPVt22+bNN7FsH4Msu23WxbeJQCb/A2M0U2YmWhEWp/P6wzRp7xj08G7vLJjBR0eVRfDKFtGDIJg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pNhLCI1j5JoW/OXtyZ6Sg2hnJWRnqqxJ2k72egXH0ok=;
- b=VXEU81vRuonpBQxcBRfEKbjfjSVSsjmgUbMCSElXsiZ8LKtHR8rTbGLAiLn0MnI/5GNrsTUSt1SpxS/VCoqxiyAKxH9O11McsepsglGAXZbzL2YU5b3Xk7+eHuBpOsAeLlrhpXWMtd4btLG0TnDq/znW4GiiCJcDsXbNRhGpLYKMkhtsMP8k+4JWV/UQp+iYYr1mNjAV+nf2dhis3HDBCx5A4gTnutr15u1ESrSzk45d8yU7EYiuT8rKsstGMTOaHFQLS6rwrGNzulVX++oeDoWywWmUZmdVBgaL7lfzEw3s9XS9n2QSLsebfFil7lCD6ub1ENyzoUkZVVeVbfMSQw==
+ bh=KSj8xoV1LcSS7ZxgDpicM6VpZf77ntYQYfRR45t1Ap0=;
+ b=LbwFcXmUYeZFXbOgwu7+N/2PR4UNqL/3rPtiXQZqeKg70v+iez5l/uMhNkAjwz3ric1iip7rdx1SdUszuazqgcSfHIhbfavFOFA7U/DCIKiWPeoa6aYYTPbLKyRLEIULbTVvRcywljqbz30Q1lODZzs8/KI2LoqqaBmDp0Jk448hvGOZf6hKBwH7DUiBBt++hyekQEpH5a3vhEy79kLEpjELC4198IBNGO11s1CPOI6wkJUuoNNL8huWer8xQ4metttzuB1bQYmLXa88e3vWEJfefTOLzcRXQcU0tCUAjf4Z4ZWNRralUs73UOW4nRlOR7LEr4ssZDQ0fceFLhs2DQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pNhLCI1j5JoW/OXtyZ6Sg2hnJWRnqqxJ2k72egXH0ok=;
- b=B1qKWqkAeF3FaIm+x8kZ3q80RCWWcHh+fOfwiD/kVCvFlZfdutFgqYK07LtNflUTIPXuwcMleVRGb2FUID05SSMAshxLYafnpZkJLyoG3rjoU9Pcw+0Hg8g5+Xg35/CvM77rmw423RiWq/O220TZ4TMkqZuI3bpwaNmtqMKD8Pc=
+ bh=KSj8xoV1LcSS7ZxgDpicM6VpZf77ntYQYfRR45t1Ap0=;
+ b=B6Hjf9BcELZd4EKf+ScXAT/GiwG62G78W+Z49nfBhhBNdQHVb2rnPq3SHzf4Zavt+LA6GLCAw5kKB1lrcMu2gcUm5qLHe9L+hILLfddG/98HrMqiZgD9VSY3I5j3t+gmygnf8hcRiEGnxKFNwlvGhT+Y07IlwFT5gU6brQVHiy4=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM7PR08MB5495.eurprd08.prod.outlook.com (2603:10a6:20b:104::19)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3066.18; Wed, 10 Jun
- 2020 12:04:45 +0000
+ 2020 12:04:46 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::a408:2f0f:bc6c:d312]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::a408:2f0f:bc6c:d312%3]) with mapi id 15.20.3066.023; Wed, 10 Jun 2020
- 12:04:45 +0000
+ 12:04:46 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v5 4/5] block/io: fix bdrv_is_allocated_above
-Date: Wed, 10 Jun 2020 15:04:25 +0300
-Message-Id: <20200610120426.12826-5-vsementsov@virtuozzo.com>
+Subject: [PATCH v5 5/5] iotests: add commit top->base cases to 274
+Date: Wed, 10 Jun 2020 15:04:26 +0300
+Message-Id: <20200610120426.12826-6-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200610120426.12826-1-vsementsov@virtuozzo.com>
 References: <20200610120426.12826-1-vsementsov@virtuozzo.com>
@@ -62,32 +62,32 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from kvm.sw.ru (185.215.60.166) by
  AM3PR05CA0104.eurprd05.prod.outlook.com (2603:10a6:207:1::30) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3088.18 via Frontend Transport; Wed, 10 Jun 2020 12:04:44 +0000
+ 15.20.3088.18 via Frontend Transport; Wed, 10 Jun 2020 12:04:45 +0000
 X-Mailer: git-send-email 2.21.0
 X-Originating-IP: [185.215.60.166]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c6fcee0a-c646-47ae-15ae-08d80d367715
+X-MS-Office365-Filtering-Correlation-Id: d60cb39d-5430-4745-d39d-08d80d3677a2
 X-MS-TrafficTypeDiagnostic: AM7PR08MB5495:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB5495FA99FC325BCC4E07D734C1830@AM7PR08MB5495.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-Microsoft-Antispam-PRVS: <AM7PR08MB5495E7E3B98806CC636F96ADC1830@AM7PR08MB5495.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:61;
 X-Forefront-PRVS: 0430FA5CB7
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: dtwCR5vXQetVWm5VifGMHEcBBSdQ/LYCMuCU6pKP4cwd+Mu7AaQwHwS7PExyCDyHcbpzxIy8U/nmWwm4sJnocG/YCSRxCSqEQEkOcfiEI3EvfZKwzcOV0YFBxLZXCvJQEe2gHgZhhPVEXQxut48B8/wH4dPheYCecOTWq6lGN60q8bAfLu+IaNqJoXJ8QK8EhKtf4nhDRce68443AHdpUTIpLcfNwROKt9yXMns9vdu6XBT2t6CzQgoaNF9AGTBXfVgG0nyMQTXqZKBA8O5U1As4tTsLZRj9eA6pPt/04rChXBxXHHSvJwN+BuMwJDZK9s2Vy7X0wqMvN+wsHI/6DQ==
+X-Microsoft-Antispam-Message-Info: zoX53jjovMTvzwSJWr3YCmRulxcQJYpsGZ2MssQ/qhk64VwwfpC0dD144oV0Mu6T6nzTH2FXsG0ZBO0H6qizL+VNER53itgolrPF9PZ4F5C3zuUUHC8taIVduipZWMjXkG8ixljogBuE2XaOSUIQxvYKIEvMeIZqle0wn7WO40omjtfvwGNiap7LRaqP5d2mvIWsm/ZANgVwibNwwFDk2ZAWW9HoW9sDbAWefQDoHSE9oS94Nv8i1JTtZZ1BfiWsNMuDUvZXYr8sH6lPvGyU9S819yEJiP9CmjCdUxcNge7kIratr4EZTVd87n5u6b1yhzKbgT+nX5+9vInPrV9KJxQMUlkdRHNkfCuC89rPDUrOKAoQfc54TBVTt4atlqDi
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
- SFS:(4636009)(136003)(376002)(346002)(396003)(39840400004)(366004)(86362001)(8676002)(478600001)(2616005)(107886003)(8936002)(4326008)(956004)(52116002)(83380400001)(1076003)(36756003)(66476007)(5660300002)(6506007)(2906002)(316002)(26005)(6666004)(66946007)(16526019)(6486002)(66556008)(6512007)(6916009)(186003);
+ SFS:(4636009)(136003)(376002)(346002)(396003)(39840400004)(366004)(86362001)(8676002)(478600001)(2616005)(107886003)(8936002)(4326008)(956004)(52116002)(83380400001)(1076003)(36756003)(66476007)(5660300002)(6506007)(2906002)(316002)(26005)(6666004)(66946007)(16526019)(6486002)(66556008)(6512007)(6916009)(186003)(21314003);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: 41tj4T6R7RokW9sRLZWebQS5DtM+Knnwd0yT2hak6zYQtihtI2tmaFv8KFL7ioBTgt6UiG7xZPpXiqFJbjqoDxABBDjkrLr+fDn7/vtt3Se6FAa/+OML9Vm0De/g06jbn9SNNKGfr+NkIaOeRH9wSUxZr8xoUei0L5Ep+KBdrwklI4PFN0b9owXx/cYbEFS+Aa6tMHk2OF+i2an7fDe9N/ojbOjLK48lKJZv1hFtyLKorru1T5o2xeqkx6iVgLtrDoj/iLyb6IQaH6HqbMJwXiPgoSog+Ck119N1I2dqv7F1Fzt5VK/UyIh8JypbpAHXq9LWsMBir9BtZbCF0ST9V41hou61+gC/oh9HJGy57JCqzoBKt0ucIctb42CeD6VoGP4Jmhj5rlA7CJdvivukcMbf5K6eo9POOljFGtGXQo4BL85rwAn9mMBbuAPUbYFLmzV4ZvDcQQrDHmI3lRZeCcXmfu1GVwj+Abw+yjsB7D/gNl6P8c1jh0OVmiDDSlzx
+X-MS-Exchange-AntiSpam-MessageData: RPMR0OVa80ooSnMx1+H3B5FbJkuh0+7ynlmjBMm8Yf/AXe+DmhJ9nwexpwViXp03FuAE/4Eu2TKmImZ4ZIOVoNsbF/Hnm9rQyVfTvZ1AnswtHljRQypEveKQv5esJ8BT9xBWQ94+tHzSI4hTxCWdJgNcy8MktsowYZlFHkCVIxHzSFIEi89RL6nxKvJDWnDNGtC5sclovitfv8hyEwuBdR3Tj08+VORYbhoMdc0MuK0WTAiAixL3hRx/XLVGVbywWEe/ue8t3d9AfWfhu0rKz+xHjAR/+w/EAY1mdn2qOKJxjdm4Mi2evc8wbCzgZi+k+b+g12eGtViYZwn1jcgZXaSOfhKyg8ysIUmauWgwjVAV7gVMYeLNKmdbefI23t0Tg/fzKnzvL4WJKmvT5nu3TcKOOprwMTsTSIwkapSnroKa8PWww1uxvpNQufSRpz/AZ42Oyu8j1c44Gk8EyDEL0XZOMU8z95gBa9bkEeFEn/g=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c6fcee0a-c646-47ae-15ae-08d80d367715
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jun 2020 12:04:45.1962 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: d60cb39d-5430-4745-d39d-08d80d3677a2
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jun 2020 12:04:46.1361 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: CHJL3BWz6SGblfrRFYdtkCND2DXYdpYSTlBsdJX2wT8IVu5elwtJxn79t5LE/en+kQ7peZPQASPwp1jsauwXNDzLGOm0/vnLXERHZUJ8z9E=
+X-MS-Exchange-CrossTenant-UserPrincipalName: 1Mb2G5FGil4WDXOUsc34gSdfeN7kCccTnOsr8ECf2XC2vdAQTJacFbhlvVaegLFSy7Dz75cx0g1nPZT8ubVS6JF751XHJ0WIGJ1jX8L9aVk=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5495
 Received-SPF: pass client-ip=40.107.15.135;
  envelope-from=vsementsov@virtuozzo.com;
@@ -118,82 +118,123 @@ Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-bdrv_is_allocated_above wrongly handles short backing files: it reports
-after-EOF space as UNALLOCATED which is wrong, as on read the data is
-generated on the level of short backing file (if all overlays has
-unallocated area at that place).
-
-Reusing bdrv_common_block_status_above fixes the issue and unifies code
-path.
+These cases are fixed by previous patches around block_status and
+is_allocated.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- block/io.c | 43 +++++--------------------------------------
- 1 file changed, 5 insertions(+), 38 deletions(-)
+ tests/qemu-iotests/274     | 20 ++++++++++++
+ tests/qemu-iotests/274.out | 65 ++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 85 insertions(+)
 
-diff --git a/block/io.c b/block/io.c
-index 3df3a5b8ee..e80f7ad527 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -2471,52 +2471,19 @@ int coroutine_fn bdrv_is_allocated(BlockDriverState *bs, int64_t offset,
-  * at 'offset + *pnum' may return the same allocation status (in other
-  * words, the result is not necessarily the maximum possible range);
-  * but 'pnum' will only be 0 when end of file is reached.
-- *
-  */
- int bdrv_is_allocated_above(BlockDriverState *top,
-                             BlockDriverState *base,
-                             bool include_base, int64_t offset,
-                             int64_t bytes, int64_t *pnum)
- {
--    BlockDriverState *intermediate;
--    int ret;
--    int64_t n = bytes;
--
--    assert(base || !include_base);
--
--    intermediate = top;
--    while (include_base || intermediate != base) {
--        int64_t pnum_inter;
--        int64_t size_inter;
--
--        assert(intermediate);
--        ret = bdrv_is_allocated(intermediate, offset, bytes, &pnum_inter);
--        if (ret < 0) {
--            return ret;
--        }
--        if (ret) {
--            *pnum = pnum_inter;
--            return 1;
--        }
--
--        size_inter = bdrv_getlength(intermediate);
--        if (size_inter < 0) {
--            return size_inter;
--        }
--        if (n > pnum_inter &&
--            (intermediate == top || offset + pnum_inter < size_inter)) {
--            n = pnum_inter;
--        }
--
--        if (intermediate == base) {
--            break;
--        }
--
--        intermediate = backing_bs(intermediate);
-+    int ret = bdrv_common_block_status_above(top, base, include_base, false,
-+                                             offset, bytes, pnum, NULL, NULL);
-+    if (ret < 0) {
-+        return ret;
-     }
+diff --git a/tests/qemu-iotests/274 b/tests/qemu-iotests/274
+index 5d1bf34dff..e910455f13 100755
+--- a/tests/qemu-iotests/274
++++ b/tests/qemu-iotests/274
+@@ -115,6 +115,26 @@ with iotests.FilePath('base') as base, \
+     iotests.qemu_io_log('-c', 'read -P 1 0 %d' % size_short, mid)
+     iotests.qemu_io_log('-c', 'read -P 0 %d %d' % (size_short, size_diff), mid)
  
--    *pnum = n;
--    return 0;
-+    return !!(ret & BDRV_BLOCK_ALLOCATED);
- }
++    iotests.log('=== Testing qemu-img commit (top -> base) ===')
++
++    create_chain()
++    iotests.qemu_img_log('commit', '-b', base, top)
++    iotests.img_info_log(base)
++    iotests.qemu_io_log('-c', 'read -P 1 0 %d' % size_short, base)
++    iotests.qemu_io_log('-c', 'read -P 0 %d %d' % (size_short, size_diff), base)
++
++    iotests.log('=== Testing QMP active commit (top -> base) ===')
++
++    create_chain()
++    with create_vm() as vm:
++        vm.launch()
++        vm.qmp_log('block-commit', device='top', base_node='base',
++                   job_id='job0', auto_dismiss=False)
++        vm.run_job('job0', wait=5)
++
++    iotests.img_info_log(mid)
++    iotests.qemu_io_log('-c', 'read -P 1 0 %d' % size_short, base)
++    iotests.qemu_io_log('-c', 'read -P 0 %d %d' % (size_short, size_diff), base)
  
- int coroutine_fn
+     iotests.log('== Resize tests ==')
+ 
+diff --git a/tests/qemu-iotests/274.out b/tests/qemu-iotests/274.out
+index d24ff681af..9806dea8b6 100644
+--- a/tests/qemu-iotests/274.out
++++ b/tests/qemu-iotests/274.out
+@@ -129,6 +129,71 @@ read 1048576/1048576 bytes at offset 0
+ read 1048576/1048576 bytes at offset 1048576
+ 1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ 
++=== Testing qemu-img commit (top -> base) ===
++Formatting 'TEST_DIR/PID-base', fmt=qcow2 size=2097152 cluster_size=65536 lazy_refcounts=off refcount_bits=16 compression_type=zlib
++
++Formatting 'TEST_DIR/PID-mid', fmt=qcow2 size=1048576 backing_file=TEST_DIR/PID-base cluster_size=65536 lazy_refcounts=off refcount_bits=16 compression_type=zlib
++
++Formatting 'TEST_DIR/PID-top', fmt=qcow2 size=2097152 backing_file=TEST_DIR/PID-mid cluster_size=65536 lazy_refcounts=off refcount_bits=16 compression_type=zlib
++
++wrote 2097152/2097152 bytes at offset 0
++2 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++Image committed.
++
++image: TEST_IMG
++file format: IMGFMT
++virtual size: 2 MiB (2097152 bytes)
++cluster_size: 65536
++Format specific information:
++    compat: 1.1
++    compression type: zlib
++    lazy refcounts: false
++    refcount bits: 16
++    corrupt: false
++
++read 1048576/1048576 bytes at offset 0
++1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++read 1048576/1048576 bytes at offset 1048576
++1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++=== Testing QMP active commit (top -> base) ===
++Formatting 'TEST_DIR/PID-base', fmt=qcow2 size=2097152 cluster_size=65536 lazy_refcounts=off refcount_bits=16 compression_type=zlib
++
++Formatting 'TEST_DIR/PID-mid', fmt=qcow2 size=1048576 backing_file=TEST_DIR/PID-base cluster_size=65536 lazy_refcounts=off refcount_bits=16 compression_type=zlib
++
++Formatting 'TEST_DIR/PID-top', fmt=qcow2 size=2097152 backing_file=TEST_DIR/PID-mid cluster_size=65536 lazy_refcounts=off refcount_bits=16 compression_type=zlib
++
++wrote 2097152/2097152 bytes at offset 0
++2 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++{"execute": "block-commit", "arguments": {"auto-dismiss": false, "base-node": "base", "device": "top", "job-id": "job0"}}
++{"return": {}}
++{"execute": "job-complete", "arguments": {"id": "job0"}}
++{"return": {}}
++{"data": {"device": "job0", "len": 1048576, "offset": 1048576, "speed": 0, "type": "commit"}, "event": "BLOCK_JOB_READY", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
++{"data": {"device": "job0", "len": 1048576, "offset": 1048576, "speed": 0, "type": "commit"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
++{"execute": "job-dismiss", "arguments": {"id": "job0"}}
++{"return": {}}
++image: TEST_IMG
++file format: IMGFMT
++virtual size: 1 MiB (1048576 bytes)
++cluster_size: 65536
++backing file: TEST_DIR/PID-base
++Format specific information:
++    compat: 1.1
++    compression type: zlib
++    lazy refcounts: false
++    refcount bits: 16
++    corrupt: false
++
++read 1048576/1048576 bytes at offset 0
++1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++read 1048576/1048576 bytes at offset 1048576
++1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
+ == Resize tests ==
+ === preallocation=off ===
+ Formatting 'TEST_DIR/PID-base', fmt=qcow2 size=6442450944 cluster_size=65536 lazy_refcounts=off refcount_bits=16 compression_type=zlib
 -- 
 2.21.0
 
