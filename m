@@ -2,69 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A55401F4AC7
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 03:19:08 +0200 (CEST)
-Received: from localhost ([::1]:47952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4112D1F4AE8
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 03:33:53 +0200 (CEST)
+Received: from localhost ([::1]:54492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jipOV-0003XI-MF
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 21:19:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41870)
+	id 1jipcl-0007VG-PX
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jun 2020 21:33:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43556)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jipMs-0001jP-52
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 21:17:26 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:23002
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jipMo-00033E-HQ
- for qemu-devel@nongnu.org; Tue, 09 Jun 2020 21:17:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591751841;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Sbb5NIHlkIoe04XoUF9mQEBQAX1DqP/DIziu20cSf1E=;
- b=WuM52CfK6ltT6rKg8zpbS4tk1kJr4yZD4qNsM8GDNNTt729qhwqaplghY3TC/1jlEwr7LD
- 4LCiN2w8/W/3W5nT/YDIMC6tCorRzVcfZkhesaVsc0ezeeeUcRFSDWK5QLpKRLeY+7MDc1
- tvu+HXkH1gd9C/EjsEYJghK2l97fLGk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-33-9aEyk3D4MlGMaEACjAkCeg-1; Tue, 09 Jun 2020 21:17:20 -0400
-X-MC-Unique: 9aEyk3D4MlGMaEACjAkCeg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F39388014D9;
- Wed, 10 Jun 2020 01:17:18 +0000 (UTC)
-Received: from blue.redhat.com (ovpn-113-22.phx2.redhat.com [10.3.113.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 841545C1BD;
- Wed, 10 Jun 2020 01:17:18 +0000 (UTC)
-From: Eric Blake <eblake@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 3/3] block: Call attention to truncation of long NBD exports
-Date: Tue,  9 Jun 2020 20:17:13 -0500
-Message-Id: <20200610011713.3687895-4-eblake@redhat.com>
-In-Reply-To: <20200610011713.3687895-1-eblake@redhat.com>
-References: <20200610011713.3687895-1-eblake@redhat.com>
+ (Exim 4.90_1) (envelope-from <fangying1@huawei.com>)
+ id 1jipba-0006yU-95; Tue, 09 Jun 2020 21:32:38 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:53934 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <fangying1@huawei.com>)
+ id 1jipbY-0005FU-OS; Tue, 09 Jun 2020 21:32:37 -0400
+Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id BD15596D4D9D500F9BD3;
+ Wed, 10 Jun 2020 09:32:24 +0800 (CST)
+Received: from [10.173.222.233] (10.173.222.233) by
+ DGGEMS406-HUB.china.huawei.com (10.3.19.206) with Microsoft SMTP Server id
+ 14.3.487.0; Wed, 10 Jun 2020 09:32:17 +0800
+Subject: Re: [PATCH v3] target/arm/cpu: adjust virtual time for arm cpu
+To: Andrew Jones <drjones@redhat.com>
+References: <20200608121243.2076-1-fangying1@huawei.com>
+ <20200608124952.lwmko6hmtuckbnlw@kamzik.brq.redhat.com>
+From: Ying Fang <fangying1@huawei.com>
+Message-ID: <f9ddeb87-c91b-aeba-e376-9c185fe2264d@huawei.com>
+Date: Wed, 10 Jun 2020 09:32:06 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 21:17:21
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+In-Reply-To: <20200608124952.lwmko6hmtuckbnlw@kamzik.brq.redhat.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.173.222.233]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.35; envelope-from=fangying1@huawei.com;
+ helo=huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 21:32:25
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,97 +61,143 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Xueqiang Wei <xuwei@redhat.com>,
- "open list:Block layer core" <qemu-block@nongnu.org>,
- Max Reitz <mreitz@redhat.com>
+Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, qemu-devel@nongnu.org,
+ wu.wubin@huawei.com, zhang.zhanghailiang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit 93676c88 relaxed our NBD client code to request export names up
-to the NBD protocol maximum of 4096 bytes without NUL terminator, even
-though the block layer can't store anything longer than 4096 bytes
-including NUL terminator for display to the user.  Since this means
-there are some export names where we have to truncate things, we can
-at least try to make the truncation a bit more obvious for the user.
-Note that in spite of the truncated display name, we can still
-communicate with an NBD server using such a long export name; this was
-deemed nicer than refusing to even connect to such a server (since the
-server may not be under our control, and since determining our actual
-length limits gets tricky when nbd://host:port/export and
-nbd+unix:///export?socket=/path are themselves variable-length
-expansions beyond the export name but count towards the block layer
-name length).
 
-Reported-by: Xueqiang Wei <xuwei@redhat.com>
-Fixes: https://bugzilla.redhat.com/1843684
-Signed-off-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20200608182638.3256473-3-eblake@redhat.com>
----
- block.c     |  7 +++++--
- block/nbd.c | 21 +++++++++++++--------
- 2 files changed, 18 insertions(+), 10 deletions(-)
 
-diff --git a/block.c b/block.c
-index 8416376c9b71..6dbcb7e083ea 100644
---- a/block.c
-+++ b/block.c
-@@ -6809,8 +6809,11 @@ void bdrv_refresh_filename(BlockDriverState *bs)
-         pstrcpy(bs->filename, sizeof(bs->filename), bs->exact_filename);
-     } else {
-         QString *json = qobject_to_json(QOBJECT(bs->full_open_options));
--        snprintf(bs->filename, sizeof(bs->filename), "json:%s",
--                 qstring_get_str(json));
-+        if (snprintf(bs->filename, sizeof(bs->filename), "json:%s",
-+                     qstring_get_str(json)) >= sizeof(bs->filename)) {
-+            /* Give user a hint if we truncated things. */
-+            strcpy(bs->filename + sizeof(bs->filename) - 4, "...");
-+        }
-         qobject_unref(json);
-     }
- }
-diff --git a/block/nbd.c b/block/nbd.c
-index 4ac23c8f6299..eed160c5cda1 100644
---- a/block/nbd.c
-+++ b/block/nbd.c
-@@ -1984,6 +1984,7 @@ static void nbd_refresh_filename(BlockDriverState *bs)
- {
-     BDRVNBDState *s = bs->opaque;
-     const char *host = NULL, *port = NULL, *path = NULL;
-+    size_t len = 0;
+On 6/8/2020 8:49 PM, Andrew Jones wrote:
+> On Mon, Jun 08, 2020 at 08:12:43PM +0800, Ying Fang wrote:
+>> From: fangying <fangying1@huawei.com>
+>>
+>> Virtual time adjustment was implemented for virt-5.0 machine type,
+>> but the cpu property was enabled only for host-passthrough and
+>> max cpu model. Let's add it for arm cpu which has the generic timer
+>> feature enabled.
+>>
+>> Suggested-by: Andrew Jones <drjones@redhat.com>
+> 
+> This isn't true. I did suggest the way to arrange the code, after
+> Peter suggested to move the kvm_arm_add_vcpu_properties() call to
+> arm_cpu_post_init(), but I didn't suggest making this change in general,
+> which is what this tag means. In fact, I've argued that it's pretty
+I'm quite sorry for adding it here.
+> pointless to do this, since KVM users should be using '-cpu host' or
+> '-cpu max' anyway. Since I don't need credit for the code arranging,
+As discussed in thread [1], there is a situation where a 'custom' cpu 
+mode is needed for us to keep instruction set compatibility so that 
+migration can be done, just like x86 does. And we are planning to add 
+support for it if nobody is currently doing that.
 
-     if (s->saddr->type == SOCKET_ADDRESS_TYPE_INET) {
-         const InetSocketAddress *inet = &s->saddr->u.inet;
-@@ -1996,17 +1997,21 @@ static void nbd_refresh_filename(BlockDriverState *bs)
-     } /* else can't represent as pseudo-filename */
+Thanks.
+Ying
 
-     if (path && s->export) {
--        snprintf(bs->exact_filename, sizeof(bs->exact_filename),
--                 "nbd+unix:///%s?socket=%s", s->export, path);
-+        len = snprintf(bs->exact_filename, sizeof(bs->exact_filename),
-+                       "nbd+unix:///%s?socket=%s", s->export, path);
-     } else if (path && !s->export) {
--        snprintf(bs->exact_filename, sizeof(bs->exact_filename),
--                 "nbd+unix://?socket=%s", path);
-+        len = snprintf(bs->exact_filename, sizeof(bs->exact_filename),
-+                       "nbd+unix://?socket=%s", path);
-     } else if (host && s->export) {
--        snprintf(bs->exact_filename, sizeof(bs->exact_filename),
--                 "nbd://%s:%s/%s", host, port, s->export);
-+        len = snprintf(bs->exact_filename, sizeof(bs->exact_filename),
-+                       "nbd://%s:%s/%s", host, port, s->export);
-     } else if (host && !s->export) {
--        snprintf(bs->exact_filename, sizeof(bs->exact_filename),
--                 "nbd://%s:%s", host, port);
-+        len = snprintf(bs->exact_filename, sizeof(bs->exact_filename),
-+                       "nbd://%s:%s", host, port);
-+    }
-+    if (len > sizeof(bs->exact_filename)) {
-+        /* Name is too long to represent exactly, so leave it empty. */
-+        bs->exact_filename[0] = '\0';
-     }
- }
-
--- 
-2.27.0
-
+[1]: https://lists.gnu.org/archive/html/qemu-devel/2020-06/msg00022.html
+> please just drop the tag. Peter can maybe do that on merge though. Also,
+> despite not agreeing that we need this change today, as there's nothing
+> wrong with it and it looks good to me
+> 
+> Reviewed-by: Andrew Jones <drjones@redhat.com>
+> 
+> Thanks,
+> drew
+> 
+>> Signed-off-by: Ying Fang <fangying1@huawei.com>
+>>
+>> ---
+>> v3:
+>> - set kvm-no-adjvtime property in kvm_arm_add_vcpu_properties
+>>
+>> v2:
+>> - move kvm_arm_add_vcpu_properties into arm_cpu_post_init
+>>
+>> v1:
+>> - initial commit
+>> - https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg08518.html
+>>
+>> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+>> index 32bec156f2..5b7a36b5d7 100644
+>> --- a/target/arm/cpu.c
+>> +++ b/target/arm/cpu.c
+>> @@ -1245,6 +1245,10 @@ void arm_cpu_post_init(Object *obj)
+>>       if (arm_feature(&cpu->env, ARM_FEATURE_GENERIC_TIMER)) {
+>>           qdev_property_add_static(DEVICE(cpu), &arm_cpu_gt_cntfrq_property);
+>>       }
+>> +
+>> +    if (kvm_enabled()) {
+>> +        kvm_arm_add_vcpu_properties(obj);
+>> +    }
+>>   }
+>>   
+>>   static void arm_cpu_finalizefn(Object *obj)
+>> @@ -2029,7 +2033,6 @@ static void arm_max_initfn(Object *obj)
+>>   
+>>       if (kvm_enabled()) {
+>>           kvm_arm_set_cpu_features_from_host(cpu);
+>> -        kvm_arm_add_vcpu_properties(obj);
+>>       } else {
+>>           cortex_a15_initfn(obj);
+>>   
+>> @@ -2183,7 +2186,6 @@ static void arm_host_initfn(Object *obj)
+>>       if (arm_feature(&cpu->env, ARM_FEATURE_AARCH64)) {
+>>           aarch64_add_sve_properties(obj);
+>>       }
+>> -    kvm_arm_add_vcpu_properties(obj);
+>>       arm_cpu_post_init(obj);
+>>   }
+>>   
+>> diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+>> index cbc5c3868f..778cecc2e6 100644
+>> --- a/target/arm/cpu64.c
+>> +++ b/target/arm/cpu64.c
+>> @@ -592,7 +592,6 @@ static void aarch64_max_initfn(Object *obj)
+>>   
+>>       if (kvm_enabled()) {
+>>           kvm_arm_set_cpu_features_from_host(cpu);
+>> -        kvm_arm_add_vcpu_properties(obj);
+>>       } else {
+>>           uint64_t t;
+>>           uint32_t u;
+>> diff --git a/target/arm/kvm.c b/target/arm/kvm.c
+>> index 4bdbe6dcac..eef3bbd1cc 100644
+>> --- a/target/arm/kvm.c
+>> +++ b/target/arm/kvm.c
+>> @@ -194,17 +194,18 @@ static void kvm_no_adjvtime_set(Object *obj, bool value, Error **errp)
+>>   /* KVM VCPU properties should be prefixed with "kvm-". */
+>>   void kvm_arm_add_vcpu_properties(Object *obj)
+>>   {
+>> -    if (!kvm_enabled()) {
+>> -        return;
+>> -    }
+>> +    ARMCPU *cpu = ARM_CPU(obj);
+>> +    CPUARMState *env = &cpu->env;
+>>   
+>> -    ARM_CPU(obj)->kvm_adjvtime = true;
+>> -    object_property_add_bool(obj, "kvm-no-adjvtime", kvm_no_adjvtime_get,
+>> -                             kvm_no_adjvtime_set);
+>> -    object_property_set_description(obj, "kvm-no-adjvtime",
+>> -                                    "Set on to disable the adjustment of "
+>> -                                    "the virtual counter. VM stopped time "
+>> -                                    "will be counted.");
+>> +    if (arm_feature(env, ARM_FEATURE_GENERIC_TIMER)) {
+>> +        cpu->kvm_adjvtime = true;
+>> +        object_property_add_bool(obj, "kvm-no-adjvtime", kvm_no_adjvtime_get,
+>> +                                 kvm_no_adjvtime_set);
+>> +        object_property_set_description(obj, "kvm-no-adjvtime",
+>> +                                        "Set on to disable the adjustment of "
+>> +                                        "the virtual counter. VM stopped time "
+>> +                                        "will be counted.");
+>> +    }
+>>   }
+>>   
+>>   bool kvm_arm_pmu_supported(CPUState *cpu)
+>> -- 
+>> 2.23.0
+>>
+>>
+> 
+> .
+> 
 
