@@ -2,67 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23C591F4CB9
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 07:03:17 +0200 (CEST)
-Received: from localhost ([::1]:43450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 545AA1F4CB7
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 07:02:05 +0200 (CEST)
+Received: from localhost ([::1]:38654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jistP-0000rg-VS
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 01:03:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34384)
+	id 1jissG-0007GQ-BI
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 01:02:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jisMK-00033b-B3
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 00:29:04 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:24227
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jisOG-0004fg-Vk
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 00:31:05 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:25121
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jisMJ-0008R5-7s
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 00:29:04 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jisOE-0000gQ-TU
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 00:31:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591763342;
+ s=mimecast20190719; t=1591763462;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=ezVaZ39w/Zt6S04FtdW+skZfwDczX4yGiWwy5FV/qKo=;
- b=biNV0l2+tut26TPiQaLj+8Y2Kw1zJyfAq4KB0xlMQbDyYWJ7nY+4rxvye78RHCebfjaVl0
- rmuDtR+fTkVSKlS9lRPIo6KpwaJ/gjA6NxjODXzts2alKoMedGdaDo67Q53ii54f0KG+iY
- dHKPIl/YeraFWJb7U235fEVUHN+NcFI=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-105-6ZvlfmAQNTy2sywcJ0YtWg-1; Wed, 10 Jun 2020 00:26:42 -0400
-X-MC-Unique: 6ZvlfmAQNTy2sywcJ0YtWg-1
-Received: by mail-wm1-f71.google.com with SMTP id k185so71658wme.8
- for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 21:26:42 -0700 (PDT)
+ bh=afqjR/PPKF3RnnjVexEnd3gC/JLrRCP0cPSdSL7aizY=;
+ b=ZooXDSoOYIjJZteFJ2BpI/XurdS7IcbVmTuMu9lSEhmWrgNiZzmZd4DnmxCfntiUXUiqaA
+ C2wnzmUEVDRSR7vgkruEkGpVVbnT01S3xtOlTevltqRZwanem1LBav9TU9exXSXZzqaMDe
+ VQE0zqfZFG5qyf0AiaROvbSFbSgdKQo=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-234-AEzjcuTkObOlBeRTKKOxmw-1; Wed, 10 Jun 2020 00:28:12 -0400
+X-MC-Unique: AEzjcuTkObOlBeRTKKOxmw-1
+Received: by mail-wr1-f71.google.com with SMTP id c14so504031wrm.15
+ for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 21:28:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=ezVaZ39w/Zt6S04FtdW+skZfwDczX4yGiWwy5FV/qKo=;
- b=lbP6mIkJKW5c3rfadFemMynlCpSchbwGBwRU8beRUxhD1zMa4cphFgIbdGU5pGj19T
- VekuoCFMAJX40+xGYWaAV62guxy64/REFsp04s6MajEVV6PjmqKlw5umm3B9LshtNi1B
- 3pNfljJI+Xbgugd6uLud72hU4rR+TS58cVJZSlCv2niM2zLy1UvJ4s9GdSS4jh48IB0y
- PYdPQ7Q+/htUkVC0PANEmfpQ5p+d5CZaqwUChO4yqZ6o0pv5/o8dsclDfKncG+yagkzN
- s0qoqzRXAPr7Ka0I3E2kXgtjamxeNxYdI7GaAVhBnIrRV0hFXSImZDD0skOhlcV98CmB
- X55w==
-X-Gm-Message-State: AOAM530lWzed+BMTfVegLNT93qLclNCCbcSrKLUmtVsiFtq/YNq4E6g7
- ZPZp4ujLttO+ZVrxMDi9IYI/hKjj7G21Z10lziLX8cTs17HUBXqPqmqkmkPpCPHwQOxM6B8wh6I
- AkiWSwkbyK5dU11U=
-X-Received: by 2002:a05:600c:4146:: with SMTP id
- h6mr1215475wmm.170.1591763200933; 
- Tue, 09 Jun 2020 21:26:40 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyofEpXElg8NlowM0SEyetUOuo+nOZ+C+lItzmFu5Xl3xhKoiXyTwDjVTY2/81pmXvg1DYqHg==
-X-Received: by 2002:a05:600c:4146:: with SMTP id
- h6mr1215461wmm.170.1591763200675; 
- Tue, 09 Jun 2020 21:26:40 -0700 (PDT)
+ bh=afqjR/PPKF3RnnjVexEnd3gC/JLrRCP0cPSdSL7aizY=;
+ b=D+vZp/IR6HlAw+sf33/mr0xQnzRHkSL46oFAHGveCMcVSYT2ax9/mj+zLIwwtQf8I9
+ K6vkA5FY8QeIqHYRCFusL9vVmDYy2wuOVHu7jpQBzyznRnf2gMcIWsdNeiAUON/jCE7v
+ A3mF75VxCj56yKgpvQSzLgL6X6Jzz3d+rJzp2jkZr83IchA5bnDUJ7ivKAgMkhoEZNz3
+ A1urnTfor9vX4ghXogGzIFhBWOg1SBT4HKrmZnwTKyi4g8FyGcnHziGSCQI11B0BxvO+
+ UF8OTNmuISKyhmionDJgwWD91FfgX5sOfQQBOqLFX/r2VN+jc0zqBRHG3kNo3nGU8qje
+ guYg==
+X-Gm-Message-State: AOAM530lXOp0Oro3R6QsT6plfe1I8ev8rIsV1VVh2OVASQcyJm+lJlH7
+ DmRTTmrnWMMO2wjhc7Zd8SMyXHiWcQe4RPyNaP1DY0ZnRWVaDl3J+u29ALnTpwgnyo0s85JBiQk
+ bdDhmp/sM1DeqMEQ=
+X-Received: by 2002:a1c:740e:: with SMTP id p14mr1213644wmc.155.1591763291164; 
+ Tue, 09 Jun 2020 21:28:11 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy2b1ob3MWTUnE3xzOsTL37A8APxv75ijnGDpjwT0ROl8P1weELPpUiT69x03DTEaxIV4jJiw==
+X-Received: by 2002:a1c:740e:: with SMTP id p14mr1213630wmc.155.1591763290870; 
+ Tue, 09 Jun 2020 21:28:10 -0700 (PDT)
 Received: from redhat.com (bzq-79-181-55-232.red.bezeqint.net. [79.181.55.232])
- by smtp.gmail.com with ESMTPSA id d18sm6151824wrn.34.2020.06.09.21.26.39
+ by smtp.gmail.com with ESMTPSA id k21sm6517090wrd.24.2020.06.09.21.28.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Jun 2020 21:26:40 -0700 (PDT)
-Date: Wed, 10 Jun 2020 00:26:38 -0400
+ Tue, 09 Jun 2020 21:28:10 -0700 (PDT)
+Date: Wed, 10 Jun 2020 00:28:08 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/56] hw/acpi/nvdimm: add a helper to augment SRAT generation
-Message-ID: <20200610042613.1459309-4-mst@redhat.com>
+Subject: [PULL 43/56] Support adding individual regions in libvhost-user
+Message-ID: <20200610042613.1459309-44-mst@redhat.com>
 References: <20200610042613.1459309-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200610042613.1459309-1-mst@redhat.com>
@@ -72,16 +70,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 23:22:15
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=mst@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 21:17:20
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,144 +94,196 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Xiao Guangrong <xiaoguangrong.eric@gmail.com>,
- Jingqi Liu <jingqi.liu@intel.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Shannon Zhao <shannon.zhaosl@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Vishal Verma <vishal.l.verma@intel.com>, Igor Mammedov <imammedo@redhat.com>,
- qemu-arm@nongnu.org, Richard Henderson <rth@twiddle.net>
+ Johannes Berg <johannes.berg@intel.com>, David Hildenbrand <david@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vishal Verma <vishal.l.verma@intel.com>
+From: Raphael Norwitz <raphael.norwitz@nutanix.com>
 
-NVDIMMs can belong to their own proximity domains, as described by the
-NFIT. In such cases, the SRAT needs to have Memory Affinity structures
-in the SRAT for these NVDIMMs, otherwise Linux doesn't populate node
-data structures properly during NUMA initialization. See the following
-for an example failure case.
+When the VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS is enabled, qemu will
+transmit memory regions to a backend individually using the new message
+VHOST_USER_ADD_MEM_REG. With this change vhost-user backends built with
+libvhost-user can now map in new memory regions when VHOST_USER_ADD_MEM_REG
+messages are received.
 
-https://lore.kernel.org/linux-nvdimm/20200416225438.15208-1-vishal.l.verma@intel.com/
+Qemu only sends VHOST_USER_ADD_MEM_REG messages when the
+VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS feature is negotiated, and
+since it is not yet supported in libvhost-user, this new functionality
+is not yet used.
 
-Introduce a new helper, nvdimm_build_srat(), and call it for both the
-i386 and arm versions of 'build_srat()' to augment the SRAT with
-memory affinity information for NVDIMMs.
-
-The relevant command line options to exercise this are below. Nodes 0-1
-contain CPUs and regular memory, and nodes 2-3 are the NVDIMM address
-space.
-
-    -object memory-backend-ram,id=mem0,size=2048M
-    -numa node,nodeid=0,memdev=mem0,
-    -numa cpu,node-id=0,socket-id=0
-    -object memory-backend-ram,id=mem1,size=2048M
-    -numa node,nodeid=1,memdev=mem1,
-    -numa cpu,node-id=1,socket-id=1
-    -numa node,nodeid=2,
-    -object memory-backend-file,id=nvmem0,share,mem-path=nvdimm-0,size=16384M,align=1G
-    -device nvdimm,memdev=nvmem0,id=nv0,label-size=2M,node=2
-    -numa node,nodeid=3,
-    -object memory-backend-file,id=nvmem1,share,mem-path=nvdimm-1,size=16384M,align=1G
-    -device nvdimm,memdev=nvmem1,id=nv1,label-size=2M,node=3
-
-Cc: Jingqi Liu <jingqi.liu@intel.com>
-Cc: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Jingqi Liu <jingqi.liu@intel.com>
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-Signed-off-by: Vishal Verma <vishal.l.verma@intel.com>
-Message-Id: <20200606000911.9896-3-vishal.l.verma@intel.com>
+Signed-off-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
+Message-Id: <1588533678-23450-9-git-send-email-raphael.norwitz@nutanix.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/hw/mem/nvdimm.h  |  1 +
- hw/acpi/nvdimm.c         | 23 +++++++++++++++++++++++
- hw/arm/virt-acpi-build.c |  4 ++++
- hw/i386/acpi-build.c     |  5 +++++
- 4 files changed, 33 insertions(+)
+ contrib/libvhost-user/libvhost-user.h |   7 ++
+ contrib/libvhost-user/libvhost-user.c | 103 ++++++++++++++++++++++++++
+ 2 files changed, 110 insertions(+)
 
-diff --git a/include/hw/mem/nvdimm.h b/include/hw/mem/nvdimm.h
-index a3c08955e8..b67a1aedf6 100644
---- a/include/hw/mem/nvdimm.h
-+++ b/include/hw/mem/nvdimm.h
-@@ -155,6 +155,7 @@ typedef struct NVDIMMState NVDIMMState;
- void nvdimm_init_acpi_state(NVDIMMState *state, MemoryRegion *io,
-                             struct AcpiGenericAddress dsm_io,
-                             FWCfgState *fw_cfg, Object *owner);
-+void nvdimm_build_srat(GArray *table_data);
- void nvdimm_build_acpi(GArray *table_offsets, GArray *table_data,
-                        BIOSLinker *linker, NVDIMMState *state,
-                        uint32_t ram_slots);
-diff --git a/hw/acpi/nvdimm.c b/hw/acpi/nvdimm.c
-index 9316d12b70..8f7cc16add 100644
---- a/hw/acpi/nvdimm.c
-+++ b/hw/acpi/nvdimm.c
-@@ -28,6 +28,7 @@
+diff --git a/contrib/libvhost-user/libvhost-user.h b/contrib/libvhost-user/libvhost-user.h
+index 88ef40d26a..60ef7fd13e 100644
+--- a/contrib/libvhost-user/libvhost-user.h
++++ b/contrib/libvhost-user/libvhost-user.h
+@@ -98,6 +98,7 @@ typedef enum VhostUserRequest {
+     VHOST_USER_GPU_SET_SOCKET = 33,
+     VHOST_USER_VRING_KICK = 35,
+     VHOST_USER_GET_MAX_MEM_SLOTS = 36,
++    VHOST_USER_ADD_MEM_REG = 37,
+     VHOST_USER_MAX
+ } VhostUserRequest;
  
- #include "qemu/osdep.h"
- #include "qemu/uuid.h"
-+#include "qapi/error.h"
- #include "hw/acpi/acpi.h"
- #include "hw/acpi/aml-build.h"
- #include "hw/acpi/bios-linker-loader.h"
-@@ -1334,6 +1335,28 @@ static void nvdimm_build_ssdt(GArray *table_offsets, GArray *table_data,
-     free_aml_allocator();
+@@ -124,6 +125,11 @@ typedef struct VhostUserMemory {
+     VhostUserMemoryRegion regions[VHOST_MEMORY_MAX_NREGIONS];
+ } VhostUserMemory;
+ 
++typedef struct VhostUserMemRegMsg {
++    uint32_t padding;
++    VhostUserMemoryRegion region;
++} VhostUserMemRegMsg;
++
+ typedef struct VhostUserLog {
+     uint64_t mmap_size;
+     uint64_t mmap_offset;
+@@ -176,6 +182,7 @@ typedef struct VhostUserMsg {
+         struct vhost_vring_state state;
+         struct vhost_vring_addr addr;
+         VhostUserMemory memory;
++        VhostUserMemRegMsg memreg;
+         VhostUserLog log;
+         VhostUserConfig config;
+         VhostUserVringArea area;
+diff --git a/contrib/libvhost-user/libvhost-user.c b/contrib/libvhost-user/libvhost-user.c
+index 9f039b707e..d8ee7a23a3 100644
+--- a/contrib/libvhost-user/libvhost-user.c
++++ b/contrib/libvhost-user/libvhost-user.c
+@@ -138,6 +138,7 @@ vu_request_to_string(unsigned int req)
+         REQ(VHOST_USER_GPU_SET_SOCKET),
+         REQ(VHOST_USER_VRING_KICK),
+         REQ(VHOST_USER_GET_MAX_MEM_SLOTS),
++        REQ(VHOST_USER_ADD_MEM_REG),
+         REQ(VHOST_USER_MAX),
+     };
+ #undef REQ
+@@ -662,6 +663,106 @@ generate_faults(VuDev *dev) {
+     return true;
  }
  
-+void nvdimm_build_srat(GArray *table_data)
-+{
-+    GSList *device_list = nvdimm_get_device_list();
++static bool
++vu_add_mem_reg(VuDev *dev, VhostUserMsg *vmsg) {
++    int i;
++    bool track_ramblocks = dev->postcopy_listening;
++    VhostUserMemoryRegion m = vmsg->payload.memreg.region, *msg_region = &m;
++    VuDevRegion *dev_region = &dev->regions[dev->nregions];
++    void *mmap_addr;
 +
-+    for (; device_list; device_list = device_list->next) {
-+        AcpiSratMemoryAffinity *numamem = NULL;
-+        DeviceState *dev = device_list->data;
-+        Object *obj = OBJECT(dev);
-+        uint64_t addr, size;
-+        int node;
-+
-+        node = object_property_get_int(obj, PC_DIMM_NODE_PROP, &error_abort);
-+        addr = object_property_get_uint(obj, PC_DIMM_ADDR_PROP, &error_abort);
-+        size = object_property_get_uint(obj, PC_DIMM_SIZE_PROP, &error_abort);
-+
-+        numamem = acpi_data_push(table_data, sizeof *numamem);
-+        build_srat_memory(numamem, addr, size, node,
-+                          MEM_AFFINITY_ENABLED | MEM_AFFINITY_NON_VOLATILE);
++    /*
++     * If we are in postcopy mode and we receive a u64 payload with a 0 value
++     * we know all the postcopy client bases have been recieved, and we
++     * should start generating faults.
++     */
++    if (track_ramblocks &&
++        vmsg->size == sizeof(vmsg->payload.u64) &&
++        vmsg->payload.u64 == 0) {
++        (void)generate_faults(dev);
++        return false;
 +    }
-+    g_slist_free(device_list);
++
++    DPRINT("Adding region: %d\n", dev->nregions);
++    DPRINT("    guest_phys_addr: 0x%016"PRIx64"\n",
++           msg_region->guest_phys_addr);
++    DPRINT("    memory_size:     0x%016"PRIx64"\n",
++           msg_region->memory_size);
++    DPRINT("    userspace_addr   0x%016"PRIx64"\n",
++           msg_region->userspace_addr);
++    DPRINT("    mmap_offset      0x%016"PRIx64"\n",
++           msg_region->mmap_offset);
++
++    dev_region->gpa = msg_region->guest_phys_addr;
++    dev_region->size = msg_region->memory_size;
++    dev_region->qva = msg_region->userspace_addr;
++    dev_region->mmap_offset = msg_region->mmap_offset;
++
++    /*
++     * We don't use offset argument of mmap() since the
++     * mapped address has to be page aligned, and we use huge
++     * pages.
++     */
++    if (track_ramblocks) {
++        /*
++         * In postcopy we're using PROT_NONE here to catch anyone
++         * accessing it before we userfault.
++         */
++        mmap_addr = mmap(0, dev_region->size + dev_region->mmap_offset,
++                         PROT_NONE, MAP_SHARED,
++                         vmsg->fds[0], 0);
++    } else {
++        mmap_addr = mmap(0, dev_region->size + dev_region->mmap_offset,
++                         PROT_READ | PROT_WRITE, MAP_SHARED, vmsg->fds[0],
++                         0);
++    }
++
++    if (mmap_addr == MAP_FAILED) {
++        vu_panic(dev, "region mmap error: %s", strerror(errno));
++    } else {
++        dev_region->mmap_addr = (uint64_t)(uintptr_t)mmap_addr;
++        DPRINT("    mmap_addr:       0x%016"PRIx64"\n",
++               dev_region->mmap_addr);
++    }
++
++    close(vmsg->fds[0]);
++
++    if (track_ramblocks) {
++        /*
++         * Return the address to QEMU so that it can translate the ufd
++         * fault addresses back.
++         */
++        msg_region->userspace_addr = (uintptr_t)(mmap_addr +
++                                                 dev_region->mmap_offset);
++
++        /* Send the message back to qemu with the addresses filled in. */
++        vmsg->fd_num = 0;
++        if (!vu_send_reply(dev, dev->sock, vmsg)) {
++            vu_panic(dev, "failed to respond to add-mem-region for postcopy");
++            return false;
++        }
++
++        DPRINT("Successfully added new region in postcopy\n");
++        dev->nregions++;
++        return false;
++
++    } else {
++        for (i = 0; i < dev->max_queues; i++) {
++            if (dev->vq[i].vring.desc) {
++                if (map_ring(dev, &dev->vq[i])) {
++                    vu_panic(dev, "remapping queue %d for new memory region",
++                             i);
++                }
++            }
++        }
++
++        DPRINT("Successfully added new region\n");
++        dev->nregions++;
++        vmsg_set_reply_u64(vmsg, 0);
++        return true;
++    }
 +}
 +
- void nvdimm_build_acpi(GArray *table_offsets, GArray *table_data,
-                        BIOSLinker *linker, NVDIMMState *state,
-                        uint32_t ram_slots)
-diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-index 1b0a584c7b..2cbccd5fe2 100644
---- a/hw/arm/virt-acpi-build.c
-+++ b/hw/arm/virt-acpi-build.c
-@@ -539,6 +539,10 @@ build_srat(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
-         }
-     }
- 
-+    if (ms->nvdimms_state->is_enabled) {
-+        nvdimm_build_srat(table_data);
-+    }
-+
-     if (ms->device_memory) {
-         numamem = acpi_data_push(table_data, sizeof *numamem);
-         build_srat_memory(numamem, ms->device_memory->base,
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 2e15f6848e..d996525e2c 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -2428,6 +2428,11 @@ build_srat(GArray *table_data, BIOSLinker *linker, MachineState *machine)
-                               MEM_AFFINITY_ENABLED);
-         }
-     }
-+
-+    if (machine->nvdimms_state->is_enabled) {
-+        nvdimm_build_srat(table_data);
-+    }
-+
-     slots = (table_data->len - numa_start) / sizeof *numamem;
-     for (; slots < pcms->numa_nodes + 2; slots++) {
-         numamem = acpi_data_push(table_data, sizeof *numamem);
+ static bool
+ vu_set_mem_table_exec_postcopy(VuDev *dev, VhostUserMsg *vmsg)
+ {
+@@ -1668,6 +1769,8 @@ vu_process_message(VuDev *dev, VhostUserMsg *vmsg)
+         return vu_handle_vring_kick(dev, vmsg);
+     case VHOST_USER_GET_MAX_MEM_SLOTS:
+         return vu_handle_get_max_memslots(dev, vmsg);
++    case VHOST_USER_ADD_MEM_REG:
++        return vu_add_mem_reg(dev, vmsg);
+     default:
+         vmsg_close_fds(vmsg);
+         vu_panic(dev, "Unhandled request: %d", vmsg->request);
 -- 
 MST
 
