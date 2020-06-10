@@ -2,75 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EADE1F5096
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 10:50:44 +0200 (CEST)
-Received: from localhost ([::1]:38090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E9641F50A8
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 10:58:37 +0200 (CEST)
+Received: from localhost ([::1]:44756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jiwRX-0004Nw-7p
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 04:50:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41952)
+	id 1jiwZA-000815-Ap
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 04:58:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43108)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jiwQ0-0003Xf-1h
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 04:49:08 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:45802
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jiwPy-00083n-Bw
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 04:49:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591778944;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=QKVu7ZxADo1gAnMY/bxV17fSsYxogX6tQ4JdkA15wn8=;
- b=SeSL8vGl25YdvTeBb81bsaRUH+XdCx22SlqAatWAVoSk/lr1mnTrc724uloSUJ5S7rqtau
- pJyQ52jbd4Jxcw/jzvYG/uiJrJRb9hjOOswaUiBFHzlvVnOiPwvhLenxPdZGsfVyWd4YYP
- ESn8uJf1hAqUhrbh7XhKxBSf7ySx/GY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-320-MGqV5kenOn6Ifd6CWxZumQ-1; Wed, 10 Jun 2020 04:49:02 -0400
-X-MC-Unique: MGqV5kenOn6Ifd6CWxZumQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 49E35A0BD7;
- Wed, 10 Jun 2020 08:49:00 +0000 (UTC)
-Received: from gondolin (ovpn-112-196.ams2.redhat.com [10.36.112.196])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A4A8619D71;
- Wed, 10 Jun 2020 08:48:54 +0000 (UTC)
-Date: Wed, 10 Jun 2020 10:48:42 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [RFC v2 18/18] guest memory protection: Alter virtio default
- properties for protected guests
-Message-ID: <20200610104842.2687215a.cohuck@redhat.com>
-In-Reply-To: <20200610043922.GI494336@umbus.fritz.box>
-References: <20200521034304.340040-1-david@gibson.dropbear.id.au>
- <20200521034304.340040-19-david@gibson.dropbear.id.au>
- <20200606162014-mutt-send-email-mst@kernel.org>
- <20200607030735.GN228651@umbus.fritz.box>
- <20200609121641.5b3ffa48.cohuck@redhat.com>
- <20200610043922.GI494336@umbus.fritz.box>
-Organization: Red Hat GmbH
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jiwXv-0006Xt-JE; Wed, 10 Jun 2020 04:57:20 -0400
+Received: from mail-vi1eur05on2101.outbound.protection.outlook.com
+ ([40.107.21.101]:12993 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jiwXs-00015v-NA; Wed, 10 Jun 2020 04:57:18 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Fwr1yk5zXmUcWdwuKJe0cs5ltOMAocd80uM3qtr563qtkpuK+CrGu0KVmgvooz2SQAwfkR7stPprQBgzMkfR4ZY28qHn5OPQmMWWWh0eo0ApBtzH6HS+LuwqoAFIhVojPnroKrIix08fSOlvOKAFEgx8E5IshE+9f8xa+G7lyXQ86P3KZGbjv/ulisT7nE7QKDnv03YQZobUPYXcrw7C8o6k2P2I3SrgeRHxmLS+qJuqkCj8nQbfroNE6uoAeyurn+nVo08mZ7QTUUrIb5Bh0L6jZwEvuD2Cu/kKPZzbV0+lrrIGEjCpLWiBLr45K5p3uXoFe46FlrhYqo0NYHrzfw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2lcakvSja1iixC6QcrjO2CqtDd9DKXYhFLaaHbB06SA=;
+ b=XuHGMjFWqb/d7W/AaDsAhlgCux2DZNDc0NZUiu00J2s3xXqmiIplp8JXyOx0wcGOhsroMu5RwnKzDT6RJzSe1B1s+MHaUbMiTH0bzp1FO8bLxlwLlgXLwHLD8GSvf5VLFOpmeX8qststXBE40vz568cYO2Nfc3fY3xH+lAbVs/APrqRLg/cyTz7L9mPhrs/phjjlVKA8wFp5eiKO0+2D8SFJC7l05H+D2pfEX1PFjyq0l8BLB41qTwE4yKQXQ5LJzTfr03OjC4yBF+CLZ/IPr1Lt6iDkKg4uYHkU7RVuQX9iRRCNKLJhltRWXEW89VObT7P4sPpOGQgNQYXzOSTOwg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2lcakvSja1iixC6QcrjO2CqtDd9DKXYhFLaaHbB06SA=;
+ b=Wdnz8ViQ83fGDRWUxrLFVmL2dUdyRbOg4TXm/5sXE2PtAlfUs1Q+Al8Vu8rSn+hFvv2woRlBcGSeepaBA+KuOl+N/UICwgJb+w1fZjlYNeDn0WkvRUhp20SyvkGj/VkW+qIO6QcPl79Se9wQakvH/9d+kuCtpXRJBH0e4lw46a0=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM7PR08MB5381.eurprd08.prod.outlook.com (2603:10a6:20b:105::23)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3088.19; Wed, 10 Jun
+ 2020 08:57:11 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::a408:2f0f:bc6c:d312]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::a408:2f0f:bc6c:d312%3]) with mapi id 15.20.3066.023; Wed, 10 Jun 2020
+ 08:57:11 +0000
+Subject: Re: [PATCH 1/2] nbd/server: Avoid long error message assertions
+ CVE-2020-10761
+To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
+References: <20200608182638.3256473-1-eblake@redhat.com>
+ <20200608182638.3256473-2-eblake@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <678021fb-d34d-4067-31b3-f864efe13dbd@virtuozzo.com>
+Date: Wed, 10 Jun 2020 11:57:09 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.1
+In-Reply-To: <20200608182638.3256473-2-eblake@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM0PR07CA0024.eurprd07.prod.outlook.com
+ (2603:10a6:208:ac::37) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; boundary="Sig_/5mCuw9L7XD9E/ZA074aXWEx";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 23:51:15
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.2] (185.215.60.166) by
+ AM0PR07CA0024.eurprd07.prod.outlook.com (2603:10a6:208:ac::37) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3088.10 via Frontend Transport; Wed, 10 Jun 2020 08:57:10 +0000
+X-Originating-IP: [185.215.60.166]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 35a55914-9ac4-4948-4bf2-08d80d1c4370
+X-MS-TrafficTypeDiagnostic: AM7PR08MB5381:
+X-Microsoft-Antispam-PRVS: <AM7PR08MB538185AE8A16F369A47D3AC2C1830@AM7PR08MB5381.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
+X-Forefront-PRVS: 0430FA5CB7
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: WafBi4HOjvt3Bn461WOjLbSjEo7i2ku+ZVodcobIVqa5dMAqCZTp4rYUVbM1RmhK+WAeliLYeaVOQKA8GCewyefvmK9zRToqeyds58kndCcTo9R9462AMdjbTNb4WJ9bwfJfUK78+5atYXyLd/CqQ6aboZBwtpHohtm0H3AHF5MuBaXWxZ02IEWQ9S+EwN001frU7bL60m54NivXAL9MxUU5V0sZ4UI3m7Jylmj45r75hGWlRAOOMGh5wWp7FQmJhcMnw/lCjY3iwkjZtLB6zU0DtyoH1Tu+24846CfqvPYDPNilqzscCeBYcskAdJygmSpRTJMva9/bD9QftQpqBxjfxuRvxvMmyVaWo9NaDVzF7wAWOdKrHkMrSTAiMYjqt3epgsOBnJqGVZ4aDg0IbMok5/mpGKzYAWMBY6MZT66eI69Kydw9EvFTNq/UaFG9fsZzsSFRKlXM57jRTAKeAg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(346002)(376002)(366004)(39850400004)(136003)(396003)(8676002)(16576012)(5660300002)(316002)(66946007)(31696002)(4326008)(36756003)(52116002)(66476007)(966005)(26005)(6486002)(15650500001)(8936002)(54906003)(186003)(86362001)(478600001)(31686004)(66556008)(956004)(83380400001)(16526019)(2906002)(2616005)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: IhdFqeWa/VhT36KPZAMhl81by+ygs9fAIduLQWzFWYKymTw2zMzYW04fBq4fO2t8gHIe/8CQfHiWRnGMYTQwhq9aHI/OTtYOQN9tjPgjMe8Fm3HjUmCEOkcCdi08LqjIhloLlSYzWmD28Dm0KzIZlN082A0DXeZYQf6e3rzqXkNhqjqhq4R3tY95NklDBhapVsZCLuJ16KGZe7EZwX9tTXQl2mURbbKjaJyr7mUY/CmKepqj1iyroTX0pt8IZgS/dJHJb67eMQ4CELCYQsOvDHLEh7267hEZqYccp3MvI3SgDynYaW/qvBsAS9enjUSIHKBjYMqwzK2Ul9f89pD1NBOWnTHbrHX7k/7b3MZ0XmbVHWGoJ0ojcwX6EI9OevMrQZd0fypZJq2rLI7WMw0RJ8XcrN1dNQjTVJJmWIoLLqdHVV6UUI6g2nHalzKB0Oq4WT0uaIX/iu6fKXVSTbTMP6r5gD87CHCi3c/XCyKtnOxP3TMdTqGaDo+KzmnMWl9O
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 35a55914-9ac4-4948-4bf2-08d80d1c4370
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jun 2020 08:57:11.6116 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7sMi135gNy7ZPNTv5YQE5ArtUA8j0JhAPS4tDyCok8mSzjesr7KolT+vd/6M7mWq1DhO50LZ1TKKqkf+lgJywG8D4l9695wnvnI160LUe7Y=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5381
+Received-SPF: pass client-ip=40.107.21.101;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR05-VI1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/10 04:57:12
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -37
+X-Spam_score: -3.8
 X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,150 +115,177 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pair@us.ibm.com, brijesh.singh@amd.com, frankja@linux.ibm.com,
- kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>,
- dgilbert@redhat.com, Halil Pasic <pasic@linux.ibm.com>, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, mdroth@linux.vnet.ibm.com,
- Richard Henderson <rth@twiddle.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ qemu-stable@nongnu.org, Max Reitz <mreitz@redhat.com>, ppandit@redhat.com,
+ xuwei@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/5mCuw9L7XD9E/ZA074aXWEx
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+08.06.2020 21:26, Eric Blake wrote:
+> Ever since commit 36683283 (v2.8), the server code asserts that error
+> strings sent to the client are well-formed per the protocol by not
+> exceeding the maximum string length of 4096.  At the time the server
+> first started sending error messages, the assertion could not be
+> triggered, because messages were completely under our control.
+> However, over the years, we have added latent scenarios where a client
+> could trigger the server to attempt an error message that would
+> include the client's information if it passed other checks first:
+> 
+> - requesting NBD_OPT_INFO/GO on an export name that is not present
+>    (commit 0cfae925 in v2.12 echoes the name)
+> 
+> - requesting NBD_OPT_LIST/SET_META_CONTEXT on an export name that is
+>    not present (commit e7b1948d in v2.12 echoes the name)
+> 
+> At the time, those were still safe because we flagged names larger
+> than 256 bytes with a different message; but that changed in commit
+> 93676c88 (v4.2) when we raised the name limit to 4096 to match the NBD
+> string limit.  (That commit also failed to change the magic number
+> 4096 in nbd_negotiate_send_rep_err to the just-introduced named
+> constant.)  So with that commit, long client names appended to server
+> text can now trigger the assertion, and thus be used as a denial of
+> service attack against a server.  As a mitigating factor, if the
+> server requires TLS, the client cannot trigger the problematic paths
+> unless it first supplies TLS credentials, and such trusted clients are
+> less likely to try to intentionally crash the server.
+> 
+> Reported-by: Xueqiang Wei <xuwei@redhat.com>
+> CC: qemu-stable@nongnu.org
+> Fixes: https://bugzilla.redhat.com/1843684 CVE-2020-10761
+> Fixes: 93676c88d7
+> Signed-off-by: Eric Blake <eblake@redhat.com>
+> ---
+>   nbd/server.c               | 28 +++++++++++++++++++++++++---
+>   tests/qemu-iotests/143     |  4 ++++
+>   tests/qemu-iotests/143.out |  2 ++
+>   3 files changed, 31 insertions(+), 3 deletions(-)
+> 
+> diff --git a/nbd/server.c b/nbd/server.c
+> index 02b1ed080145..ec130303586d 100644
+> --- a/nbd/server.c
+> +++ b/nbd/server.c
+> @@ -217,7 +217,7 @@ nbd_negotiate_send_rep_verr(NBDClient *client, uint32_t type,
+> 
+>       msg = g_strdup_vprintf(fmt, va);
+>       len = strlen(msg);
+> -    assert(len < 4096);
+> +    assert(len < NBD_MAX_STRING_SIZE);
+>       trace_nbd_negotiate_send_rep_err(msg);
+>       ret = nbd_negotiate_send_rep_len(client, type, len, errp);
+>       if (ret < 0) {
+> @@ -231,6 +231,27 @@ nbd_negotiate_send_rep_verr(NBDClient *client, uint32_t type,
+>       return 0;
+>   }
+> 
+> +/*
+> + * Truncate a potentially-long user-supplied string into something
+> + * more suitable for an error reply.
+> + */
+> +static const char *
+> +nbd_truncate_name(const char *name)
+> +{
+> +#define SANE_LENGTH 80
+> +    static char buf[SANE_LENGTH + 3 + 1]; /* Trailing '...', NUL */
 
-On Wed, 10 Jun 2020 14:39:22 +1000
-David Gibson <david@gibson.dropbear.id.au> wrote:
+s/NUL/NULL/
 
-> On Tue, Jun 09, 2020 at 12:16:41PM +0200, Cornelia Huck wrote:
-> > On Sun, 7 Jun 2020 13:07:35 +1000
-> > David Gibson <david@gibson.dropbear.id.au> wrote:
-> >  =20
-> > > On Sat, Jun 06, 2020 at 04:21:31PM -0400, Michael S. Tsirkin wrote: =
-=20
-> > > > On Thu, May 21, 2020 at 01:43:04PM +1000, David Gibson wrote:   =20
-> > > > > The default behaviour for virtio devices is not to use the platfo=
-rms normal
-> > > > > DMA paths, but instead to use the fact that it's running in a hyp=
-ervisor
-> > > > > to directly access guest memory.  That doesn't work if the guest'=
-s memory
-> > > > > is protected from hypervisor access, such as with AMD's SEV or PO=
-WER's PEF.
-> > > > >=20
-> > > > > So, if a guest memory protection mechanism is enabled, then apply=
- the
-> > > > > iommu_platform=3Don option so it will go through normal DMA mecha=
-nisms.
-> > > > > Those will presumably have some way of marking memory as shared w=
-ith the
-> > > > > hypervisor or hardware so that DMA will work.
-> > > > >=20
-> > > > > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-> > > > > ---
-> > > > >  hw/core/machine.c | 11 +++++++++++
-> > > > >  1 file changed, 11 insertions(+)
-> > > > >=20
-> > > > > diff --git a/hw/core/machine.c b/hw/core/machine.c
-> > > > > index 88d699bceb..cb6580954e 100644
-> > > > > --- a/hw/core/machine.c
-> > > > > +++ b/hw/core/machine.c
-> > > > > @@ -28,6 +28,8 @@
-> > > > >  #include "hw/mem/nvdimm.h"
-> > > > >  #include "migration/vmstate.h"
-> > > > >  #include "exec/guest-memory-protection.h"
-> > > > > +#include "hw/virtio/virtio.h"
-> > > > > +#include "hw/virtio/virtio-pci.h"
-> > > > > =20
-> > > > >  GlobalProperty hw_compat_5_0[] =3D {};
-> > > > >  const size_t hw_compat_5_0_len =3D G_N_ELEMENTS(hw_compat_5_0);
-> > > > > @@ -1159,6 +1161,15 @@ void machine_run_board_init(MachineState *=
-machine)
-> > > > >           * areas.
-> > > > >           */
-> > > > >          machine_set_mem_merge(OBJECT(machine), false, &error_abo=
-rt);
-> > > > > +
-> > > > > +        /*
-> > > > > +         * Virtio devices can't count on directly accessing gues=
-t
-> > > > > +         * memory, so they need iommu_platform=3Don to use norma=
-l DMA
-> > > > > +         * mechanisms.  That requires disabling legacy virtio su=
-pport
-> > > > > +         * for virtio pci devices
-> > > > > +         */
-> > > > > +        object_register_sugar_prop(TYPE_VIRTIO_PCI, "disable-leg=
-acy", "on");
-> > > > > +        object_register_sugar_prop(TYPE_VIRTIO_DEVICE, "iommu_pl=
-atform", "on");
-> > > > >      }
-> > > > >     =20
-> > > >=20
-> > > > I think it's a reasonable way to address this overall.
-> > > > As Cornelia has commented, addressing ccw as well   =20
-> > >=20
-> > > Sure.  I was assuming somebody who actually knows ccw could do that a=
-s
-> > > a follow up. =20
-> >=20
-> > FWIW, I think we could simply enable iommu_platform for protected
-> > guests for ccw; no prereqs like pci's disable-legacy. =20
->=20
-> Right, and the code above should in fact already do so, since it
-> applies that to TYPE_VIRTIO_DEVICE, which is common.  The
-> disable-legacy part should be harmless for s390, since this is
-> effectively just setting a default, and we don't expect any
-> TYPE_VIRTIO_PCI devices to be instantiated on z.
+Hmm. It may break if we use it in parallel in two coroutines or threads.. Not sure, is it possible now, neither of course will it be possible in future.
 
-Well, virtio-pci is available on s390, so people could try to use it --
-however, forcing disable-legacy won't hurt in that case, as it won't
-make the situation worse (I don't expect virtio-pci to work on s390
-protected guests.)
+I'd avoid creating functions returning  instead use g_strdup_printf(), like
 
->=20
-> > > > as cases where user has
-> > > > specified the property manually could be worth-while.   =20
-> > >=20
-> > > I don't really see what's to be done there.  I'm assuming that if the
-> > > user specifies it, they know what they're doing - particularly with
-> > > nonstandard guests there are some odd edge cases where those
-> > > combinations might work, they're just not very likely. =20
-> >=20
-> > If I understood Halil correctly, devices without iommu_platform
-> > apparently can crash protected guests on s390. Is that supposed to be a
-> > "if it breaks, you get to keep the pieces" situation, or do we really
-> > want to enforce iommu_platform? =20
->=20
-> I actually think "if you broke it, keep the pieces" is an acceptable
-> approach here, but that doesn't preclude some further enforcement to
-> improve UX.
+char *tmp = g_strdup_printf("%.80s...", name);
 
-I'm worried about spreading dealing with this over too many code areas,
-though.
+   ( OR, if you want explicit constant: g_strdup_printf("%.*s...", SANE_LENGTH, name) )
 
---Sig_/5mCuw9L7XD9E/ZA074aXWEx
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+... report error ...
 
------BEGIN PGP SIGNATURE-----
+g_free(tmp)
 
-iQIzBAEBCAAdFiEEw9DWbcNiT/aowBjO3s9rk8bwL68FAl7gnmoACgkQ3s9rk8bw
-L6//GQ//bnJsYCKaP5H7gvnnm3QfOJ6l/xJixBZwXIAo2IdomMaKgvFq9pyeQycs
-6086cHGvkuelTwkEAnd976K8DEvD1w5ITOwdZsHQeQF1qw0OGIjaFtUSZaR5Te/I
-dciAAq8BxSjI/vof4bowyWxvEyFhU2NVYbKsCY3CVG12XvRm5wFhdeUmr2bEItSn
-6yhywUJ0XnoseIZUqGvhaRlHinhe+1XyVxg0FrKNFJXS6vSYAWPPMUltrv03lbRY
-UowGUb+lNjTHTa6bbyL+YwTzzFPymo/a9CVYWckCy2bZV6FglAJ35an42t8ihpNX
-YV9cL6+gYt6x/m1SwtQzYRM7mjXJ3SRb+Z6X0//IQtlY4hkC5uy4wN+tvrOj1geL
-C7pLFSpu2Y6opbennxD4TjR/Qk9VlXN7GDgO8m6FnPbonDuBw5v6ZpdrOR7GEGBj
-ZAJ4ZmZJhQiNFyfBsjkjUjN0tnIAPayfrdCmsoAA3qZNHueR6aMrlYieTtsYsL7J
-bBi1oumBh7milx85JDURBRlWLm0DJc1uScxJl+Tmrt7JBenmEenN0KwuDK2spOhx
-+tscrpiGhnZtbfW/uDgTx0aLjzz0PqyjQt0Ik0logINb9LGxWd4PJYPyYsVFNZFj
-bszoynyOXMh6xAR8IYAXDOU9oAIiIUbwpocRjsCwo0rxTUr8lHg=
-=PBGb
------END PGP SIGNATURE-----
+Using g_strdup_printf also is safer as we don't need to care about buf size.
 
---Sig_/5mCuw9L7XD9E/ZA074aXWEx--
+> +
+> +    if (strlen(name) < SANE_LENGTH) {
+> +        return name;
+> +    }
+> +    memcpy(buf, name, SANE_LENGTH);
+> +    buf[SANE_LENGTH] = '.';
+> +    buf[SANE_LENGTH + 1] = '.';
+> +    buf[SANE_LENGTH + 2] = '.';
+> +    buf[SANE_LENGTH + 3] = '\0';
 
+one-line suggestion:
+
+   sprintf(buf, "%.80s...", name);
+
+OR
+
+   sprintf(buf, "%.*s...", SANE_LENGTH, name);
+
+> +    return buf;
+> +}
+> +
+>   /* Send an error reply.
+>    * Return -errno on error, 0 on success. */
+>   static int GCC_FMT_ATTR(4, 5)
+> @@ -597,7 +618,7 @@ static int nbd_negotiate_handle_info(NBDClient *client, Error **errp)
+>       if (!exp) {
+>           return nbd_negotiate_send_rep_err(client, NBD_REP_ERR_UNKNOWN,
+>                                             errp, "export '%s' not present",
+> -                                          name);
+> +                                          nbd_truncate_name(name));
+>       }
+> 
+>       /* Don't bother sending NBD_INFO_NAME unless client requested it */
+> @@ -996,7 +1017,8 @@ static int nbd_negotiate_meta_queries(NBDClient *client,
+>       meta->exp = nbd_export_find(export_name);
+>       if (meta->exp == NULL) {
+>           return nbd_opt_drop(client, NBD_REP_ERR_UNKNOWN, errp,
+> -                            "export '%s' not present", export_name);
+> +                            "export '%s' not present",
+> +                            nbd_truncate_name(export_name));
+>       }
+> 
+
+Hmm, maybe instead of assertion, shrink message in nbd_negotiate_send_rep_verr() too?
+This will save us from forgotten (or future) uses of the function.
+
+Shrinking name is better, as it provides better message on result. But generally shrink
+all two long messages in nbd_negotiate_send_rep_verr() (maybe, together with error_report())
+seems a good thing for me.
+
+>       ret = nbd_opt_read(client, &nb_queries, sizeof(nb_queries), errp);
+> diff --git a/tests/qemu-iotests/143 b/tests/qemu-iotests/143
+> index f649b3619501..b0b1cff86cb6 100755
+> --- a/tests/qemu-iotests/143
+> +++ b/tests/qemu-iotests/143
+> @@ -58,6 +58,10 @@ _send_qemu_cmd $QEMU_HANDLE \
+>   $QEMU_IO_PROG -f raw -c quit \
+>       "nbd+unix:///no_such_export?socket=$SOCK_DIR/nbd" 2>&1 \
+>       | _filter_qemu_io | _filter_nbd
+> +# Likewise, with longest possible name permitted in NBD protocol
+> +$QEMU_IO_PROG -f raw -c quit \
+> +    "nbd+unix:///$(printf %4096d 1 | tr ' ' a)?socket=$SOCK_DIR/nbd" 2>&1 \
+> +    | _filter_qemu_io | _filter_nbd | sed 's/aa.*aa/aa...aa/'
+> 
+>   _send_qemu_cmd $QEMU_HANDLE \
+>       "{ 'execute': 'quit' }" \
+> diff --git a/tests/qemu-iotests/143.out b/tests/qemu-iotests/143.out
+> index 1f4001c60131..be1f3a625458 100644
+> --- a/tests/qemu-iotests/143.out
+> +++ b/tests/qemu-iotests/143.out
+> @@ -5,6 +5,8 @@ QA output created by 143
+>   {"return": {}}
+>   qemu-io: can't open device nbd+unix:///no_such_export?socket=SOCK_DIR/nbd: Requested export not available
+>   server reported: export 'no_such_export' not present
+> +qemu-io: can't open device nbd+unix:///aa...aa1?socket=SOCK_DIR/nbd: Requested export not available
+> +server reported: export 'aa...aa...' not present
+>   { 'execute': 'quit' }
+>   {"return": {}}
+>   {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "SHUTDOWN", "data": {"guest": false, "reason": "host-qmp-quit"}}
+> 
+
+
+-- 
+Best regards,
+Vladimir
 
