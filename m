@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 178751F4C96
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 06:49:51 +0200 (CEST)
-Received: from localhost ([::1]:51060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 430861F4CB3
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 06:59:52 +0200 (CEST)
+Received: from localhost ([::1]:33566 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jisgP-0004yd-Ud
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 00:49:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34110)
+	id 1jisq7-0004vp-8V
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 00:59:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jisL2-0000D9-4o
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 00:27:44 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:58348
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jisNd-00040S-HH
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 00:30:25 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:32491
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jisL1-0008J0-9W
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 00:27:43 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jisNc-00005k-4V
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 00:30:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591763262;
+ s=mimecast20190719; t=1591763403;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=10332xG/Et6G9yDWYNuu/GUK5CzyCJzNTiI8MGCB5RE=;
- b=iL4E9pFb4tQZi7ZWGFdEzANnRhn7FtsZwL8MyjdaX4QQbTrBTpbwwcr1fqhu9/mezDWzkk
- Yyngpgxd1lmfRFrV/5Lf1K6BfPUyYZJGPmcaQZt370UDZk22lp99ivRGydW0ftkJpY+OQa
- gBvkpGeMLRdRM5r6k1ES+DxSlDsD/SQ=
+ bh=S8oMz8cU0uw+UrewEP7VqnSORJBEZFEU72TWJXbPFmA=;
+ b=F04PfqU9goRTkKjLEYs+aVkvyPrAAF5TcMS7IVkMBZYBqE4lbQkISF2FiA1Ges8iRRRyI/
+ o1rZy8yiAMHRz401BesKI9cGQ3t/29aRXgnjJFsqx6jpS3yG0eyGq7bDqaePP99tbp9UCA
+ 31gTsqbpwPD9OGOYKqTpI4/oW5HRHQ0=
 Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
  [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-442-8y6WvEyrMxibuo3ewRfQwA-1; Wed, 10 Jun 2020 00:27:40 -0400
-X-MC-Unique: 8y6WvEyrMxibuo3ewRfQwA-1
-Received: by mail-wr1-f70.google.com with SMTP id p9so508526wrx.10
- for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 21:27:40 -0700 (PDT)
+ us-mta-63-4yD4eFIcPyycPi26c5kGQQ-1; Wed, 10 Jun 2020 00:27:42 -0400
+X-MC-Unique: 4yD4eFIcPyycPi26c5kGQQ-1
+Received: by mail-wr1-f70.google.com with SMTP id w4so506404wrl.13
+ for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 21:27:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=10332xG/Et6G9yDWYNuu/GUK5CzyCJzNTiI8MGCB5RE=;
- b=Uxzl6OggijUXEfY7P8rCX2mPdU8IURROWkpCBASaxDUcqaahf4Alk7gfqMfwmUL1eS
- newO8oVT+SQj3FobgMggDkQJKttdoT7x+y5S4SCnBI5S0ercqUXZTMyYPivT/5GOGvJm
- E/uz77EL86vTYaNi0tLFPf5hLZ6r+stMjGShytXUaRnoqHwYR5sYd0XGR/WGDV3jjInF
- T4KCUZVcvaZQqW2svxWzZnKdLJ6VB+46ZnNTo91Ut9Dc9KNlMQNzp2SY4qTFP8DCsDb4
- eG/+w+JnmROJhBWbq/nhLv9C7Nzqh4LckGbl8EP9OI++mYvqPMRvnrrucqu09WZsHN50
- hShg==
-X-Gm-Message-State: AOAM533Q/KXicAriGaexj85GMNpgxm9LbHg7IK2xro2g0Xygy+Qo2r8s
- s+c677yd6ESfR3akSpiDbMkYqDFkxHk/0SNQsc0jxtejoKu9+S+tg/er0GPjvUAVBZYLWlV+TSO
- AqGAylxEzq92RT4k=
-X-Received: by 2002:a5d:400f:: with SMTP id n15mr1340341wrp.419.1591763259329; 
- Tue, 09 Jun 2020 21:27:39 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxGLRyVGCdR8+ttsTV3QAuPfwNDTqlGm4Mk/ODjO6Ikpf97LPn0/6EUHmxrA2q7LYOXQ68Ekw==
-X-Received: by 2002:a5d:400f:: with SMTP id n15mr1340327wrp.419.1591763259130; 
- Tue, 09 Jun 2020 21:27:39 -0700 (PDT)
+ bh=S8oMz8cU0uw+UrewEP7VqnSORJBEZFEU72TWJXbPFmA=;
+ b=G+DZRlAO3j+TzpkZSd3FqPuk9TIJihG+oPNkZkgkQnJSnCvGBHzszxkiQlnycF6V2n
+ aeyiyWQEiJCUmAqyLlGyJI824nOf08J3+chC12bXLrvWHFn/aRIk0pYYj8qNHecxKYtJ
+ qD529nYjccVgyQbg13xwGJ49xlqAdax+63ApReNvpZ90u5KUzB5QBSYnC3/1N32Y8vqM
+ tD2nBbDNU4NcFuYVfZkUZcG8jYYLpKPocwMjdroLC+l1bJCXeXfoJHKh5gIja3r9AQ0d
+ CUsf+wvZsiyEEmGzp0fywyHq6qrTAFdNA5J/YAZp+YSCe1huvmSBOD5kVLc4g+AhsR7h
+ uZ6Q==
+X-Gm-Message-State: AOAM53029r6WSX4LbOAZOWeUAk5oDtiyoTqeNvyFQakZkehNpPvXnA7K
+ K1FFyo5cY0y3eukgRYdxJzv20WZK9Q4oeyPgbk5ERV9Z/7ZaFMB4Tw7mp8NyyYqk/Bg1JpRFlug
+ jVMChvLj/jgYT6x8=
+X-Received: by 2002:a7b:c0d9:: with SMTP id s25mr1204263wmh.175.1591763261610; 
+ Tue, 09 Jun 2020 21:27:41 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwGdyzCZdQd+PQD52Zml4SpSa2Q+/10LL4vMMT9e+C2hEBEqlMDn96B0RP19L/GdYoxvH6XCg==
+X-Received: by 2002:a7b:c0d9:: with SMTP id s25mr1204247wmh.175.1591763261392; 
+ Tue, 09 Jun 2020 21:27:41 -0700 (PDT)
 Received: from redhat.com (bzq-79-181-55-232.red.bezeqint.net. [79.181.55.232])
- by smtp.gmail.com with ESMTPSA id l17sm5163022wmi.16.2020.06.09.21.27.38
+ by smtp.gmail.com with ESMTPSA id b18sm5885041wrn.88.2020.06.09.21.27.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Jun 2020 21:27:38 -0700 (PDT)
-Date: Wed, 10 Jun 2020 00:27:37 -0400
+ Tue, 09 Jun 2020 21:27:40 -0700 (PDT)
+Date: Wed, 10 Jun 2020 00:27:39 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 29/56] pci: assert configuration access is within bounds
-Message-ID: <20200610042613.1459309-30-mst@redhat.com>
+Subject: [PULL 30/56] hw/pci-host/prep: Correct RAVEN bus bridge memory
+ region size
+Message-ID: <20200610042613.1459309-31-mst@redhat.com>
 References: <20200610042613.1459309-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200610042613.1459309-1-mst@redhat.com>
@@ -73,8 +74,8 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=mst@redhat.com;
+ helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 23:51:15
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
@@ -96,52 +97,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Prasad J Pandit <pjp@fedoraproject.org>
+Cc: qemu-ppc@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ =?utf-8?B?SGVydsOp?= Poussineau <hpoussin@reactos.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Prasad J Pandit <pjp@fedoraproject.org>
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-While accessing PCI configuration bytes, assert that
-'address + len' is within PCI configuration space.
+memory_region_set_size() handle the 16 Exabytes limit by
+special-casing the UINT64_MAX value. This is not a problem
+for the 32-bit maximum, 4 GiB.
+By using the UINT32_MAX value, the bm-raven MemoryRegion
+ends up missing 1 byte:
 
-Generally it is within bounds. This is more of a defensive
-assert, in case a buggy device was to send 'address' which
-may go out of bounds.
+  $ qemu-system-ppc -M prep -S -monitor stdio -usb
+  memory-region: bm-raven
+    0000000000000000-00000000fffffffe (prio 0, i/o): bm-raven
+      0000000000000000-000000003effffff (prio 0, i/o): alias bm-pci-memory @pci-memory 0000000000000000-000000003effffff
+      0000000080000000-00000000ffffffff (prio 0, i/o): alias bm-system @system 0000000000000000-000000007fffffff
 
-Suggested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
-Message-Id: <20200604113525.58898-1-ppandit@redhat.com>
+Fix by using the correct value. We now have:
+
+  memory-region: bm-raven
+    0000000000000000-00000000ffffffff (prio 0, i/o): bm-raven
+      0000000000000000-000000003effffff (prio 0, i/o): alias bm-pci-memory @pci-memory 0000000000000000-000000003effffff
+      0000000080000000-00000000ffffffff (prio 0, i/o): alias bm-system @system 0000000000000000-000000007fffffff
+
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20200601142930.29408-3-f4bug@amsat.org>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- hw/pci/pci.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ hw/pci-host/prep.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-index 70c66965f5..7bf2ae6d92 100644
---- a/hw/pci/pci.c
-+++ b/hw/pci/pci.c
-@@ -1381,6 +1381,8 @@ uint32_t pci_default_read_config(PCIDevice *d,
- {
-     uint32_t val = 0;
+diff --git a/hw/pci-host/prep.c b/hw/pci-host/prep.c
+index 1a02e9a670..88e2fc66a9 100644
+--- a/hw/pci-host/prep.c
++++ b/hw/pci-host/prep.c
+@@ -294,7 +294,7 @@ static void raven_pcihost_initfn(Object *obj)
+                              &s->pci_memory, &s->pci_io, 0, TYPE_PCI_BUS);
  
-+    assert(address + len <= pci_config_size(d));
-+
-     if (pci_is_express_downstream_port(d) &&
-         ranges_overlap(address, len, d->exp.exp_cap + PCI_EXP_LNKSTA, 2)) {
-         pcie_sync_bridge_lnk(d);
-@@ -1394,6 +1396,8 @@ void pci_default_write_config(PCIDevice *d, uint32_t addr, uint32_t val_in, int
-     int i, was_irq_disabled = pci_irq_disabled(d);
-     uint32_t val = val_in;
- 
-+    assert(addr + l <= pci_config_size(d));
-+
-     for (i = 0; i < l; val >>= 8, ++i) {
-         uint8_t wmask = d->wmask[addr + i];
-         uint8_t w1cmask = d->w1cmask[addr + i];
+     /* Bus master address space */
+-    memory_region_init(&s->bm, obj, "bm-raven", UINT32_MAX);
++    memory_region_init(&s->bm, obj, "bm-raven", 4 * GiB);
+     memory_region_init_alias(&s->bm_pci_memory_alias, obj, "bm-pci-memory",
+                              &s->pci_memory, 0,
+                              memory_region_size(&s->pci_memory));
 -- 
 MST
 
