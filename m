@@ -2,32 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE34D1F5BB3
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 21:00:42 +0200 (CEST)
-Received: from localhost ([::1]:49938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96C481F5BC2
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 21:07:19 +0200 (CEST)
+Received: from localhost ([::1]:36078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jj5xp-0004VK-Tz
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 15:00:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55766)
+	id 1jj64E-0003gS-Ip
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 15:07:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <den@openvz.org>)
- id 1jj5vx-0003An-BC; Wed, 10 Jun 2020 14:58:45 -0400
-Received: from relay.sw.ru ([185.231.240.75]:42058 helo=relay3.sw.ru)
+ id 1jj5yP-00064k-Ls; Wed, 10 Jun 2020 15:01:17 -0400
+Received: from relay.sw.ru ([185.231.240.75]:42682 helo=relay3.sw.ru)
  by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <den@openvz.org>)
- id 1jj5vq-0004re-M9; Wed, 10 Jun 2020 14:58:44 -0400
+ id 1jj5yA-0005PW-8k; Wed, 10 Jun 2020 15:01:17 -0400
 Received: from [192.168.15.9] (helo=iris.lishka.ru)
  by relay3.sw.ru with esmtp (Exim 4.93)
  (envelope-from <den@openvz.org>)
- id 1jj5vk-0007uZ-W8; Wed, 10 Jun 2020 21:58:33 +0300
+ id 1jj5y6-0007vZ-7m; Wed, 10 Jun 2020 22:00:58 +0300
 From: "Denis V. Lunev" <den@openvz.org>
 To: qemu-block@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 1/2] aio: allow to wait for coroutine pool from different
- coroutine
-Date: Wed, 10 Jun 2020 21:58:32 +0300
-Message-Id: <20200610185833.10665-1-den@openvz.org>
+Subject: [PATCH v2 0/2] qcow2: seriously improve savevm performance
+Date: Wed, 10 Jun 2020 22:00:56 +0300
+Message-Id: <20200610190058.10781-1-den@openvz.org>
 X-Mailer: git-send-email 2.17.1
 Received-SPF: pass client-ip=185.231.240.75; envelope-from=den@openvz.org;
  helo=relay3.sw.ru
@@ -50,83 +49,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, "Denis V. Lunev" <den@openvz.org>,
+Cc: Kevin Wolf <kwolf@redhat.com>, "Denis V . Lunev" <den@openvz.org>,
  Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  Denis Plotnikov <dplotnikov@virtuozzo.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The patch preserves the constraint that the only waiter is allowed.
+This series do standard basic things:
+- it creates intermediate buffer for all writes from QEMU migration code
+  to QCOW2 image,
+- this buffer is sent to disk asynchronously, allowing several writes to
+  run in parallel.
 
-The patch renames AioTaskPool->main_co to wake_co and removes
-AioTaskPool->waiting flag. wake_co keeps coroutine, which is
-waiting for wakeup on worker completion. Thus 'waiting' flag
-in this semantics is equivalent to 'wake_co != NULL'.
+In general, migration code is fantastically inefficent (by observation),
+buffers are not aligned and sent with arbitrary pieces, a lot of time
+less than 100 bytes at a chunk, which results in read-modify-write
+operations with non-cached operations. It should also be noted that all
+operations are performed into unallocated image blocks, which also suffer
+due to partial writes to such new clusters.
+
+This patch series is an implementation of idea discussed in the RFC
+posted by Denis
+https://lists.gnu.org/archive/html/qemu-devel/2020-04/msg01925.html
+Results with this series over NVME are better than original code
+                original     rfc    this
+cached:          1.79s      2.38s   1.27s
+non-cached:      3.29s      1.31s   0.81s
+
+Changes from v1:
+- patchew warning fixed
+- fixed validation that only 1 waiter is allowed in patch 1
 
 Signed-off-by: Denis V. Lunev <den@openvz.org>
 CC: Kevin Wolf <kwolf@redhat.com>
 CC: Max Reitz <mreitz@redhat.com>
 CC: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 CC: Denis Plotnikov <dplotnikov@virtuozzo.com>
----
- block/aio_task.c | 17 ++++++++---------
- 1 file changed, 8 insertions(+), 9 deletions(-)
-
-diff --git a/block/aio_task.c b/block/aio_task.c
-index 88989fa248..5183b0729d 100644
---- a/block/aio_task.c
-+++ b/block/aio_task.c
-@@ -27,11 +27,10 @@
- #include "block/aio_task.h"
- 
- struct AioTaskPool {
--    Coroutine *main_co;
-+    Coroutine *wake_co;
-     int status;
-     int max_busy_tasks;
-     int busy_tasks;
--    bool waiting;
- };
- 
- static void coroutine_fn aio_task_co(void *opaque)
-@@ -52,21 +51,21 @@ static void coroutine_fn aio_task_co(void *opaque)
- 
-     g_free(task);
- 
--    if (pool->waiting) {
--        pool->waiting = false;
--        aio_co_wake(pool->main_co);
-+    if (pool->wake_co != NULL) {
-+        aio_co_wake(pool->wake_co);
-+        pool->wake_co = NULL;
-     }
- }
- 
- void coroutine_fn aio_task_pool_wait_one(AioTaskPool *pool)
- {
-     assert(pool->busy_tasks > 0);
--    assert(qemu_coroutine_self() == pool->main_co);
-+    assert(pool->wake_co == NULL);
- 
--    pool->waiting = true;
-+    pool->wake_co = qemu_coroutine_self();
-     qemu_coroutine_yield();
- 
--    assert(!pool->waiting);
-+    assert(pool->wake_co == NULL);
-     assert(pool->busy_tasks < pool->max_busy_tasks);
- }
- 
-@@ -98,7 +97,7 @@ AioTaskPool *coroutine_fn aio_task_pool_new(int max_busy_tasks)
- {
-     AioTaskPool *pool = g_new0(AioTaskPool, 1);
- 
--    pool->main_co = qemu_coroutine_self();
-+    pool->wake_co = NULL;
-     pool->max_busy_tasks = max_busy_tasks;
- 
-     return pool;
--- 
-2.17.1
 
 
