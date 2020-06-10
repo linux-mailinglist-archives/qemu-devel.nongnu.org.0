@@ -2,81 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF8B81F5455
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 14:13:47 +0200 (CEST)
-Received: from localhost ([::1]:42150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9030C1F54DC
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 14:31:57 +0200 (CEST)
+Received: from localhost ([::1]:55422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jizc2-0004Kz-OO
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 08:13:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45086)
+	id 1jiztc-0006gy-DC
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 08:31:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46004)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jizUu-0002R0-4C; Wed, 10 Jun 2020 08:06:24 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:35693)
- by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jizUs-0004s3-UP; Wed, 10 Jun 2020 08:06:23 -0400
-Received: by mail-wm1-x341.google.com with SMTP id q25so1601258wmj.0;
- Wed, 10 Jun 2020 05:06:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=EYiwOCPGoH4QL4obrdsR0/VwwDZDDBEVLLPNRHJRRYk=;
- b=RqT+qYmVdEWSvhYLuuc0yogGzkbXfqiCrthkSFHzUnRtkfsasSQAP6uF+6gD9d7U1r
- pot9DHAhHEWFOafY9zFTW+4n9K1V+xAKBzHFyI2uNC59hzqTnc8dukX9j3Jd7SUZHcZi
- ksrDe94YTxjaZbDqxMIGcKBxnAJ3u9Oc9PdaO8JH+wHpeRHSmjvF4z9SuOquxUbCo9Op
- Yx3O23xnx7YRgo/rgY72nuL0k3nMwUlyuBI+nb8VrYU3msLdBxeIMKwRwV/Ci7i5/2nO
- ABhoauDSUa7cEdq2iZIlKs7aNl/lPosAq+IjbTaDGYhpSw4wuoQyXH4u1WRoxF4jPgJx
- 7KLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=EYiwOCPGoH4QL4obrdsR0/VwwDZDDBEVLLPNRHJRRYk=;
- b=aHMviyPbuy+vMsqRkjr8RAU4xyyv/kTb/c1o4LliyHM1vOOMrEESrhSki2Blx8FBLc
- EEPpna5wzrQAks1RDMCPLuJ0LERD5HVeXxanYJJ7GChP9yX6sJOtKolfHRxcGH/vN4Je
- ZmXl//AFtV/KSgxx2u2G2TcwfYuxmgUdzdHnB7gIUYHFGv0UeFqCtRRyUtejq/bvDBkY
- foiResGcLSZLFKHMerRhn2osc3/N+/TicUdyFyqusbV9+xJuVsqIjYnzkCj8J3xt53zC
- pAjWXFlPAmVudLwpU92bGLYGtbTXmIBIGAV/ADv1b0RJhrLfCGtmNtjwxLkc3KZenB8R
- 0DnA==
-X-Gm-Message-State: AOAM531H4HF7XZWWbqkbPuQBYelOmI/T0xoOzJjnQ8y5xnyVC9uVxfob
- QaTkFcXQzV8eti+G9nSPqDI=
-X-Google-Smtp-Source: ABdhPJzBGLW2YIicCwNMpYS8Uw5lsG/q8bRzyorlRAZNIR+gMnqNv0znJ+APqf8BiZVL4TwTsWm6HQ==
-X-Received: by 2002:a1c:1f4d:: with SMTP id f74mr2753607wmf.12.1591790769992; 
- Wed, 10 Jun 2020 05:06:09 -0700 (PDT)
-Received: from [192.168.1.38] (181.red-88-10-103.dynamicip.rima-tde.net.
- [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id d18sm7851366wrn.34.2020.06.10.05.06.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 Jun 2020 05:06:09 -0700 (PDT)
-Subject: Re: [PATCH v2 1/8] MAINTAINERS: Mark SH4 hardware orphan
-To: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-References: <20200608090142.6793-1-f4bug@amsat.org>
- <20200608090142.6793-2-f4bug@amsat.org>
- <CAHiYmc5UUaSKB6Ee0ds_hj0FBTzt0iLxzNWySt0mcZ9dvtZNyA@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <2503a468-d343-b40a-bf4e-628f3e8f56e3@amsat.org>
-Date: Wed, 10 Jun 2020 14:06:08 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1jizaV-0003Pj-MZ; Wed, 10 Jun 2020 08:12:11 -0400
+Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:49308)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1jizaT-0006EN-QE; Wed, 10 Jun 2020 08:12:11 -0400
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.0744886|-1; CH=green; DM=|CONTINUE|false|;
+ DS=CONTINUE|ham_system_inform|0.273484-0.00573218-0.720784;
+ FP=0|0|0|0|0|-1|-1|-1; HT=e02c03296; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS;
+ RN=9; RT=8; SR=0; TI=SMTPD_---.HkaOZ5J_1591791123; 
+Received: from L-PF1D6DP4-1208.hz.ali.com(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.HkaOZ5J_1591791123)
+ by smtp.aliyun-inc.com(10.147.44.129);
+ Wed, 10 Jun 2020 20:12:03 +0800
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH v9 17/61] target/riscv: vector integer min/max instructions
+Date: Wed, 10 Jun 2020 19:37:04 +0800
+Message-Id: <20200610113748.4754-18-zhiwei_liu@c-sky.com>
+X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20200610113748.4754-1-zhiwei_liu@c-sky.com>
+References: <20200610113748.4754-1-zhiwei_liu@c-sky.com>
 MIME-Version: 1.0
-In-Reply-To: <CAHiYmc5UUaSKB6Ee0ds_hj0FBTzt0iLxzNWySt0mcZ9dvtZNyA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Received-SPF: none client-ip=121.197.200.217;
+ envelope-from=zhiwei_liu@c-sky.com; helo=smtp2200-217.mail.aliyun.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/10 07:37:52
+X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, UNPARSEABLE_RELAY=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,181 +57,187 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
- Yoshinori Sato <ysato@users.sourceforge.jp>, qemu-trivial@nongnu.org,
- Michael Tokarev <mjt@tls.msk.ru>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Magnus Damm <magnus.damm@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Laurent Vivier <laurent@vivier.eu>, Aurelien Jarno <aurelien@aurel32.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Markus Armbruster <armbru@redhat.com>,
- Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Cc: richard.henderson@linaro.org, wxy194768@alibaba-inc.com,
+ wenmeng_zhang@c-sky.com, Alistair Francis <alistair.francis@wdc.com>,
+ palmer@dabbelt.com, LIU Zhiwei <zhiwei_liu@c-sky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/10/20 1:08 PM, Aleksandar Markovic wrote:
-> пон, 8. јун 2020. у 11:05 Philippe Mathieu-Daudé <f4bug@amsat.org> је
-> написао/ла:
->>
->> Aurelien Jarno expressed his desire to orphan the SH4 hardware [*]:
->>
->>   I don't mind being [...] removed from there.
->>   I do not really have time to work on that.
->>
->> Mark the SH4 emulated hardware orphan.
->>
->> Many thanks to Aurelien for his substantial contributions to QEMU,
->> and for maintaining the SH4 hardware for various years!
->>
->> [*] https://www.mail-archive.com/qemu-devel@nongnu.org/msg708400.html
->>
->> Message-Id: <20200601214125.GA1924990@aurel32.net>
->> Acked-by: Aurelien Jarno <aurelien@aurel32.net>
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> ---
-> 
-> The basic idea of the patch (as read from the title and the commit
-> message) is good and positive.
-> 
-> The problem is that the patch does something different than the commit
-> message says - pretending that it just orphans something. Which is not
-> good. Actually, very clumsy and bad.
+Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+---
+ target/riscv/helper.h                   | 33 ++++++++++++
+ target/riscv/insn32.decode              |  8 +++
+ target/riscv/insn_trans/trans_rvv.inc.c | 10 ++++
+ target/riscv/vector_helper.c            | 71 +++++++++++++++++++++++++
+ 4 files changed, 122 insertions(+)
 
-I can improve my English (actually I am trying, I started to take
-lessons 2 years ago). Remember it is not easy for non native English
-speaker to elaborate non-technical topics.
-As a side note, it is also hard sometimes to understand contributors who
-uses a very advanced English level with fancy words, as we have to take
-the time to translate to understand. Even if we learn new word, this is
-not often the best use of our time.
+diff --git a/target/riscv/helper.h b/target/riscv/helper.h
+index a1fc7cc53e..32f4c76b34 100644
+--- a/target/riscv/helper.h
++++ b/target/riscv/helper.h
+@@ -496,3 +496,36 @@ DEF_HELPER_6(vmsgt_vx_b, void, ptr, ptr, tl, ptr, env, i32)
+ DEF_HELPER_6(vmsgt_vx_h, void, ptr, ptr, tl, ptr, env, i32)
+ DEF_HELPER_6(vmsgt_vx_w, void, ptr, ptr, tl, ptr, env, i32)
+ DEF_HELPER_6(vmsgt_vx_d, void, ptr, ptr, tl, ptr, env, i32)
++
++DEF_HELPER_6(vminu_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vminu_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vminu_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vminu_vv_d, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vmin_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vmin_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vmin_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vmin_vv_d, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vmaxu_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vmaxu_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vmaxu_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vmaxu_vv_d, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vmax_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vmax_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vmax_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vmax_vv_d, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vminu_vx_b, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vminu_vx_h, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vminu_vx_w, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vminu_vx_d, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vmin_vx_b, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vmin_vx_h, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vmin_vx_w, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vmin_vx_d, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vmaxu_vx_b, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vmaxu_vx_h, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vmaxu_vx_w, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vmaxu_vx_d, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vmax_vx_b, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vmax_vx_h, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vmax_vx_w, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vmax_vx_d, void, ptr, ptr, tl, ptr, env, i32)
+diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
+index df6181980d..aafbdc6be7 100644
+--- a/target/riscv/insn32.decode
++++ b/target/riscv/insn32.decode
+@@ -355,6 +355,14 @@ vmsgtu_vx       011110 . ..... ..... 100 ..... 1010111 @r_vm
+ vmsgtu_vi       011110 . ..... ..... 011 ..... 1010111 @r_vm
+ vmsgt_vx        011111 . ..... ..... 100 ..... 1010111 @r_vm
+ vmsgt_vi        011111 . ..... ..... 011 ..... 1010111 @r_vm
++vminu_vv        000100 . ..... ..... 000 ..... 1010111 @r_vm
++vminu_vx        000100 . ..... ..... 100 ..... 1010111 @r_vm
++vmin_vv         000101 . ..... ..... 000 ..... 1010111 @r_vm
++vmin_vx         000101 . ..... ..... 100 ..... 1010111 @r_vm
++vmaxu_vv        000110 . ..... ..... 000 ..... 1010111 @r_vm
++vmaxu_vx        000110 . ..... ..... 100 ..... 1010111 @r_vm
++vmax_vv         000111 . ..... ..... 000 ..... 1010111 @r_vm
++vmax_vx         000111 . ..... ..... 100 ..... 1010111 @r_vm
+ 
+ vsetvli         0 ........... ..... 111 ..... 1010111  @r2_zimm
+ vsetvl          1000000 ..... ..... 111 ..... 1010111  @r
+diff --git a/target/riscv/insn_trans/trans_rvv.inc.c b/target/riscv/insn_trans/trans_rvv.inc.c
+index 8fa3d5ecb0..cbcb40e682 100644
+--- a/target/riscv/insn_trans/trans_rvv.inc.c
++++ b/target/riscv/insn_trans/trans_rvv.inc.c
+@@ -1561,3 +1561,13 @@ GEN_OPIVI_TRANS(vmsleu_vi, 1, vmsleu_vx, opivx_cmp_check)
+ GEN_OPIVI_TRANS(vmsle_vi, 0, vmsle_vx, opivx_cmp_check)
+ GEN_OPIVI_TRANS(vmsgtu_vi, 1, vmsgtu_vx, opivx_cmp_check)
+ GEN_OPIVI_TRANS(vmsgt_vi, 0, vmsgt_vx, opivx_cmp_check)
++
++/* Vector Integer Min/Max Instructions */
++GEN_OPIVV_GVEC_TRANS(vminu_vv, umin)
++GEN_OPIVV_GVEC_TRANS(vmin_vv,  smin)
++GEN_OPIVV_GVEC_TRANS(vmaxu_vv, umax)
++GEN_OPIVV_GVEC_TRANS(vmax_vv,  smax)
++GEN_OPIVX_TRANS(vminu_vx, opivx_check)
++GEN_OPIVX_TRANS(vmin_vx,  opivx_check)
++GEN_OPIVX_TRANS(vmaxu_vx, opivx_check)
++GEN_OPIVX_TRANS(vmax_vx,  opivx_check)
+diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
+index 07e474781c..cb41daa3ac 100644
+--- a/target/riscv/vector_helper.c
++++ b/target/riscv/vector_helper.c
+@@ -855,6 +855,10 @@ GEN_VEXT_AMO(vamomaxuw_v_w, uint32_t, uint32_t, idx_w, clearl)
+ #define OP_SSS_H int16_t, int16_t, int16_t, int16_t, int16_t
+ #define OP_SSS_W int32_t, int32_t, int32_t, int32_t, int32_t
+ #define OP_SSS_D int64_t, int64_t, int64_t, int64_t, int64_t
++#define OP_UUU_B uint8_t, uint8_t, uint8_t, uint8_t, uint8_t
++#define OP_UUU_H uint16_t, uint16_t, uint16_t, uint16_t, uint16_t
++#define OP_UUU_W uint32_t, uint32_t, uint32_t, uint32_t, uint32_t
++#define OP_UUU_D uint64_t, uint64_t, uint64_t, uint64_t, uint64_t
+ 
+ /* operation of two vector elements */
+ typedef void opivv2_fn(void *vd, void *vs1, void *vs2, int i);
+@@ -1532,3 +1536,70 @@ GEN_VEXT_CMP_VX(vmsgt_vx_b, int8_t,  H1, DO_MSGT)
+ GEN_VEXT_CMP_VX(vmsgt_vx_h, int16_t, H2, DO_MSGT)
+ GEN_VEXT_CMP_VX(vmsgt_vx_w, int32_t, H4, DO_MSGT)
+ GEN_VEXT_CMP_VX(vmsgt_vx_d, int64_t, H8, DO_MSGT)
++
++/* Vector Integer Min/Max Instructions */
++RVVCALL(OPIVV2, vminu_vv_b, OP_UUU_B, H1, H1, H1, DO_MIN)
++RVVCALL(OPIVV2, vminu_vv_h, OP_UUU_H, H2, H2, H2, DO_MIN)
++RVVCALL(OPIVV2, vminu_vv_w, OP_UUU_W, H4, H4, H4, DO_MIN)
++RVVCALL(OPIVV2, vminu_vv_d, OP_UUU_D, H8, H8, H8, DO_MIN)
++RVVCALL(OPIVV2, vmin_vv_b, OP_SSS_B, H1, H1, H1, DO_MIN)
++RVVCALL(OPIVV2, vmin_vv_h, OP_SSS_H, H2, H2, H2, DO_MIN)
++RVVCALL(OPIVV2, vmin_vv_w, OP_SSS_W, H4, H4, H4, DO_MIN)
++RVVCALL(OPIVV2, vmin_vv_d, OP_SSS_D, H8, H8, H8, DO_MIN)
++RVVCALL(OPIVV2, vmaxu_vv_b, OP_UUU_B, H1, H1, H1, DO_MAX)
++RVVCALL(OPIVV2, vmaxu_vv_h, OP_UUU_H, H2, H2, H2, DO_MAX)
++RVVCALL(OPIVV2, vmaxu_vv_w, OP_UUU_W, H4, H4, H4, DO_MAX)
++RVVCALL(OPIVV2, vmaxu_vv_d, OP_UUU_D, H8, H8, H8, DO_MAX)
++RVVCALL(OPIVV2, vmax_vv_b, OP_SSS_B, H1, H1, H1, DO_MAX)
++RVVCALL(OPIVV2, vmax_vv_h, OP_SSS_H, H2, H2, H2, DO_MAX)
++RVVCALL(OPIVV2, vmax_vv_w, OP_SSS_W, H4, H4, H4, DO_MAX)
++RVVCALL(OPIVV2, vmax_vv_d, OP_SSS_D, H8, H8, H8, DO_MAX)
++GEN_VEXT_VV(vminu_vv_b, 1, 1, clearb)
++GEN_VEXT_VV(vminu_vv_h, 2, 2, clearh)
++GEN_VEXT_VV(vminu_vv_w, 4, 4, clearl)
++GEN_VEXT_VV(vminu_vv_d, 8, 8, clearq)
++GEN_VEXT_VV(vmin_vv_b, 1, 1, clearb)
++GEN_VEXT_VV(vmin_vv_h, 2, 2, clearh)
++GEN_VEXT_VV(vmin_vv_w, 4, 4, clearl)
++GEN_VEXT_VV(vmin_vv_d, 8, 8, clearq)
++GEN_VEXT_VV(vmaxu_vv_b, 1, 1, clearb)
++GEN_VEXT_VV(vmaxu_vv_h, 2, 2, clearh)
++GEN_VEXT_VV(vmaxu_vv_w, 4, 4, clearl)
++GEN_VEXT_VV(vmaxu_vv_d, 8, 8, clearq)
++GEN_VEXT_VV(vmax_vv_b, 1, 1, clearb)
++GEN_VEXT_VV(vmax_vv_h, 2, 2, clearh)
++GEN_VEXT_VV(vmax_vv_w, 4, 4, clearl)
++GEN_VEXT_VV(vmax_vv_d, 8, 8, clearq)
++
++RVVCALL(OPIVX2, vminu_vx_b, OP_UUU_B, H1, H1, DO_MIN)
++RVVCALL(OPIVX2, vminu_vx_h, OP_UUU_H, H2, H2, DO_MIN)
++RVVCALL(OPIVX2, vminu_vx_w, OP_UUU_W, H4, H4, DO_MIN)
++RVVCALL(OPIVX2, vminu_vx_d, OP_UUU_D, H8, H8, DO_MIN)
++RVVCALL(OPIVX2, vmin_vx_b, OP_SSS_B, H1, H1, DO_MIN)
++RVVCALL(OPIVX2, vmin_vx_h, OP_SSS_H, H2, H2, DO_MIN)
++RVVCALL(OPIVX2, vmin_vx_w, OP_SSS_W, H4, H4, DO_MIN)
++RVVCALL(OPIVX2, vmin_vx_d, OP_SSS_D, H8, H8, DO_MIN)
++RVVCALL(OPIVX2, vmaxu_vx_b, OP_UUU_B, H1, H1, DO_MAX)
++RVVCALL(OPIVX2, vmaxu_vx_h, OP_UUU_H, H2, H2, DO_MAX)
++RVVCALL(OPIVX2, vmaxu_vx_w, OP_UUU_W, H4, H4, DO_MAX)
++RVVCALL(OPIVX2, vmaxu_vx_d, OP_UUU_D, H8, H8, DO_MAX)
++RVVCALL(OPIVX2, vmax_vx_b, OP_SSS_B, H1, H1, DO_MAX)
++RVVCALL(OPIVX2, vmax_vx_h, OP_SSS_H, H2, H2, DO_MAX)
++RVVCALL(OPIVX2, vmax_vx_w, OP_SSS_W, H4, H4, DO_MAX)
++RVVCALL(OPIVX2, vmax_vx_d, OP_SSS_D, H8, H8, DO_MAX)
++GEN_VEXT_VX(vminu_vx_b, 1, 1, clearb)
++GEN_VEXT_VX(vminu_vx_h, 2, 2, clearh)
++GEN_VEXT_VX(vminu_vx_w, 4, 4, clearl)
++GEN_VEXT_VX(vminu_vx_d, 8, 8, clearq)
++GEN_VEXT_VX(vmin_vx_b, 1, 1, clearb)
++GEN_VEXT_VX(vmin_vx_h, 2, 2, clearh)
++GEN_VEXT_VX(vmin_vx_w, 4, 4, clearl)
++GEN_VEXT_VX(vmin_vx_d, 8, 8, clearq)
++GEN_VEXT_VX(vmaxu_vx_b, 1, 1, clearb)
++GEN_VEXT_VX(vmaxu_vx_h, 2, 2, clearh)
++GEN_VEXT_VX(vmaxu_vx_w, 4, 4, clearl)
++GEN_VEXT_VX(vmaxu_vx_d, 8, 8,  clearq)
++GEN_VEXT_VX(vmax_vx_b, 1, 1, clearb)
++GEN_VEXT_VX(vmax_vx_h, 2, 2, clearh)
++GEN_VEXT_VX(vmax_vx_w, 4, 4, clearl)
++GEN_VEXT_VX(vmax_vx_d, 8, 8, clearq)
+-- 
+2.23.0
 
-> It creates a whole new subsection in MAINTAINERS file (not said in the
-> commit message), without any consistency with the current organization
-> in the file. That new subsection looks completely misplaced, living
-> with "TCG CPUs" neighbours. On top of that, it creates a new
-> precedent, leaving many unanswered questions, like: Should other
-> targets follow the same pattern?
-
-If you look at git-log history, you'll see at the beginning there
-were not much separations in directories. Everything was altogether.
-Adding a new machine meant add the TCG emulation code and the hardware.
-The contributor adding TCG emulation was doing the harder work,
-usually doing it for a particular machine (hardware). Then other
-contributors could add other machines, and were maintaining only
-their machines. See commit b6f97c14f59 importing the short
-MAINTAINERS from SVN. It was already split in 3 broad categories:
-- TCG cores
-- Machines / Hardware
-- Subsystems (the rest)
-
-In October 2010 (fd5d5c566af0) Anthony Liguori rewrote MAINTAINERS
-using Linux style tags.
-
-In January 2011 (42f5a7e9367) Aurelien Jarno clarified the
-difference between the TCG host part (backend, under the tcg/
-directory) VS the target part (frontend, under target/).
-
-Then the project grew, and eventually in May 2012 Paolo Bonzini
-started to clean, by moving files into "subsystem" directories
-(see 5e8861a0361..c353f261946). In March 2013 he followed by
-splitting various hardware files from the hw/ directory
-(see 0d09e41a51a..47b43a1f414).
-
-In November 2013 (f05b328c9d8) Stefan Hajnoczi clarified the
-importance of the 'block' subsystem (later completed in
-commit e7c6e631b1 in April 2015).
-
-2015 still, Paolo keeps cleaning (c17652ee409 cover the
-TCG backend disassembler, 062710000db introduce Peter
-Maydell for the ARM hardware).
-
-In October 2018 Thomas Huth added the target/ folder
-(commit fcf5ef2ab).
-
-Recently last year (6347e1f1cc7) Markus Armbruster tried
-to better describe the TCG frontend ("Overall TCG CPUs")
-and backend ("TCG target") differences.
-
-
-So while the difference between TCG emulation (or other
-accelerators, KVM, ...) versus the hardware emulation is
-not perfect, there is a separation (and the community
-failed at clarifying it).
-
-You can see when you were introduced as maintainer for the
-MIPS target (commit c92023bfd) you were also added as
-maintainer of the MIPSSIM and Fuloong 2E machines.
-
-In commit 485cd9820 you volunteered to maintain the Malta
-machine, so I believe you have a good understanding about
-the difference between target code and hardware code.
-
-> 
-> I personally think that creating a new subsection is just a code
-> churn, waste of everybody's time on unimportant things.
-
-Eh... I read that after spending 1h writing the previous
-paragraph. Yes, you are right.
-
-> 
-> Wouldn't it be simpler that you just changed statuses of all Aurelien
-> sh4 sections to "Orphaned", as he already said he approves, and leave
-> sh4 sections reorganization to a future maintainer?
-> 
-> If you really want to reorganize sh4 sections, these changes should be
-> in a separate patch. "Orphaning" patch should contain only changes of
-> statuses.
-
-Good idea! Maybe if you send a patch to show me how to do it, it
-will be easier to understand what you mean.
-
-Thanks for also caring about the SH4 hardware, the code was
-prone to bitrot and needed maintainer to look after it.
-
-Regards,
-
-Phil.
-
-> 
-> Regards,
-> Aleksandar
-> 
->>  MAINTAINERS | 10 ++++++++--
->>  1 file changed, 8 insertions(+), 2 deletions(-)
->>
->> diff --git a/MAINTAINERS b/MAINTAINERS
->> index 6e7890ce82..49d90c70de 100644
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -299,9 +299,7 @@ SH4 TCG CPUs
->>  M: Aurelien Jarno <aurelien@aurel32.net>
->>  S: Odd Fixes
->>  F: target/sh4/
->> -F: hw/sh4/
->>  F: disas/sh4.c
->> -F: include/hw/sh4/
->>
->>  SPARC TCG CPUs
->>  M: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->> @@ -1948,6 +1946,14 @@ F: hw/*/*xive*
->>  F: include/hw/*/*xive*
->>  F: docs/*/*xive*
->>
->> +SH4 Hardware
->> +S: Orphan
->> +F: hw/sh4/
->> +F: hw/char/sh_serial.c
->> +F: hw/intc/sh_intc.c
->> +F: hw/timer/sh_timer.c
->> +F: include/hw/sh4/
->> +
->>  Subsystems
->>  ----------
->>  Audio
->> --
->> 2.21.3
->>
->>
-> 
 
