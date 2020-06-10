@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87A811F4D6A
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 08:01:45 +0200 (CEST)
-Received: from localhost ([::1]:41278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 456DC1F4D85
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 08:03:59 +0200 (CEST)
+Received: from localhost ([::1]:49014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jito0-0003oa-GL
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 02:01:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42642)
+	id 1jitqA-00076h-C6
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 02:03:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jitMS-0005IE-9X
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jitMS-0005Ic-H2
  for qemu-devel@nongnu.org; Wed, 10 Jun 2020 01:33:16 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35128
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:24547
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jitMC-0003r8-VN
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 01:33:15 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jitMC-0003rA-UC
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 01:33:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1591767179;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QMNqSXNx4us/JNCxyd5YWOdv+mB/JgX/CHnODcMbFEc=;
- b=P+zClJyoNwVM5HkYpecXjrvdmEQaVxGH0iIuEQf1PvKffqeNsKyvu2MSuxvBDqXXJ7QjGD
- cUgkMLZFZgsDGWnXE2FZ3hgkbLADRQ+GP5qjDdJUvcvl/hVDg7c3VqLCNea/ELdU2hJN5v
- hF7PcS56t5sCU5qgdw92lDeNwqczVak=
+ bh=MGLA2gsRoCzJ7Ei2E6fyup82cKtao2wPX0pWPphN46E=;
+ b=dHLfqDV3c/wyJWm0oz/zz52w0L8jwlg+All33IuBIb6aCDodUCt1LqX/G1Df1UgIKUgMdd
+ wey3ViKEcXtv7VfbvsMed8OKbQsjHl8ba1eZS1mstELT7Sceu2Ml95npzCG1Hsaw/PGLDj
+ H1XZ5cpvDEK5vMX6iZ6AQg199hQmtAg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-198-ZRL-A3tfPEeZq13e6_q3oQ-1; Wed, 10 Jun 2020 01:32:57 -0400
-X-MC-Unique: ZRL-A3tfPEeZq13e6_q3oQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-173-QHzhir8bO0iFr00VeuWCiQ-1; Wed, 10 Jun 2020 01:32:57 -0400
+X-MC-Unique: QHzhir8bO0iFr00VeuWCiQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8BB27A0BD7;
- Wed, 10 Jun 2020 05:32:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 99AE8188360A
+ for <qemu-devel@nongnu.org>; Wed, 10 Jun 2020 05:32:56 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-121.ams2.redhat.com
  [10.36.112.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5C4EB5C1D2;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6B11460C84;
  Wed, 10 Jun 2020 05:32:56 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 9E325113847C; Wed, 10 Jun 2020 07:32:48 +0200 (CEST)
+ id AF7EB113847E; Wed, 10 Jun 2020 07:32:48 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH RESEND v3 38/58] macio: Eliminate macio_init_child_obj()
-Date: Wed, 10 Jun 2020 07:32:27 +0200
-Message-Id: <20200610053247.1583243-39-armbru@redhat.com>
+Subject: [PATCH RESEND v3 40/58] microbit: Tidy up sysbus_init_child_obj()
+ @child argument
+Date: Wed, 10 Jun 2020 07:32:29 +0200
+Message-Id: <20200610053247.1583243-41-armbru@redhat.com>
 In-Reply-To: <20200610053247.1583243-1-armbru@redhat.com>
 References: <20200610053247.1583243-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 23:51:15
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 21:17:20
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,106 +82,43 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- David Gibson <david@gibson.dropbear.id.au>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-macio_init_child_obj() has become a trivial wrapper around
-object_initialize_child_with_props().  Eliminate it, since the general
-convenience wrapper object_initialize_child() is just as convenient
-already.
+The callers of sysbus_init_child_obj() commonly pass either &child,
+sizeof(child), or pchild, sizeof(*pchild).  Tidy up two that don't,
+mostly to keep future commits simpler.
 
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Cc: David Gibson <david@gibson.dropbear.id.au>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/misc/macio/macio.c | 30 +++++++++---------------------
- 1 file changed, 9 insertions(+), 21 deletions(-)
+ hw/arm/microbit.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/misc/macio/macio.c b/hw/misc/macio/macio.c
-index 1a07ca2ca5..8ba7af073c 100644
---- a/hw/misc/macio/macio.c
-+++ b/hw/misc/macio/macio.c
-@@ -94,14 +94,6 @@ static void macio_bar_setup(MacIOState *s)
-     macio_escc_legacy_setup(s);
- }
+diff --git a/hw/arm/microbit.c b/hw/arm/microbit.c
+index ef213695bd..72fab429c4 100644
+--- a/hw/arm/microbit.c
++++ b/hw/arm/microbit.c
+@@ -39,7 +39,7 @@ static void microbit_init(MachineState *machine)
+     Object *soc = OBJECT(&s->nrf51);
+     Object *i2c = OBJECT(&s->i2c);
  
--static void macio_init_child_obj(MacIOState *s, const char *childname,
--                                 void *child, size_t childsize,
--                                 const char *childtype)
--{
--    object_initialize_child_with_props(OBJECT(s), childname, child, childsize,
--                                       childtype, &error_abort, NULL);
--}
--
- static void macio_common_realize(PCIDevice *d, Error **errp)
- {
-     MacIOState *s = MACIO(d);
-@@ -218,13 +210,12 @@ static void macio_oldworld_realize(PCIDevice *d, Error **errp)
-     }
- }
- 
--static void macio_init_ide(MacIOState *s, MACIOIDEState *ide, size_t ide_size,
--                           int index)
-+static void macio_init_ide(MacIOState *s, MACIOIDEState *ide, int index)
- {
-     gchar *name = g_strdup_printf("ide[%i]", index);
-     uint32_t addr = 0x1f000 + ((index + 1) * 0x1000);
- 
--    macio_init_child_obj(s, name, ide, ide_size, TYPE_MACIO_IDE);
-+    object_initialize_child(OBJECT(s), name, ide, TYPE_MACIO_IDE);
-     qdev_prop_set_uint32(DEVICE(ide), "addr", addr);
-     memory_region_add_subregion(&s->bar, addr, &ide->mem);
-     g_free(name);
-@@ -242,16 +233,15 @@ static void macio_oldworld_init(Object *obj)
-                              qdev_prop_allow_set_link_before_realize,
-                              0);
- 
--    macio_init_child_obj(s, "cuda", &s->cuda, sizeof(s->cuda), TYPE_CUDA);
-+    object_initialize_child(OBJECT(s), "cuda", &s->cuda, TYPE_CUDA);
- 
--    macio_init_child_obj(s, "nvram", &os->nvram, sizeof(os->nvram),
--                         TYPE_MACIO_NVRAM);
-+    object_initialize_child(OBJECT(s), "nvram", &os->nvram, TYPE_MACIO_NVRAM);
-     dev = DEVICE(&os->nvram);
-     qdev_prop_set_uint32(dev, "size", 0x2000);
-     qdev_prop_set_uint32(dev, "it_shift", 4);
- 
-     for (i = 0; i < 2; i++) {
--        macio_init_ide(s, &os->ide[i], sizeof(os->ide[i]), i);
-+        macio_init_ide(s, &os->ide[i], i);
-     }
- }
- 
-@@ -396,11 +386,10 @@ static void macio_newworld_init(Object *obj)
-                              qdev_prop_allow_set_link_before_realize,
-                              0);
- 
--    macio_init_child_obj(s, "gpio", &ns->gpio, sizeof(ns->gpio),
--                         TYPE_MACIO_GPIO);
-+    object_initialize_child(OBJECT(s), "gpio", &ns->gpio, TYPE_MACIO_GPIO);
- 
-     for (i = 0; i < 2; i++) {
--        macio_init_ide(s, &ns->ide[i], sizeof(ns->ide[i]), i);
-+        macio_init_ide(s, &ns->ide[i], i);
-     }
- }
- 
-@@ -413,10 +402,9 @@ static void macio_instance_init(Object *obj)
-     qbus_create_inplace(&s->macio_bus, sizeof(s->macio_bus), TYPE_MACIO_BUS,
-                         DEVICE(obj), "macio.0");
- 
--    macio_init_child_obj(s, "dbdma", &s->dbdma, sizeof(s->dbdma),
--                         TYPE_MAC_DBDMA);
-+    object_initialize_child(OBJECT(s), "dbdma", &s->dbdma, TYPE_MAC_DBDMA);
- 
--    macio_init_child_obj(s, "escc", &s->escc, sizeof(s->escc), TYPE_ESCC);
-+    object_initialize_child(OBJECT(s), "escc", &s->escc, TYPE_ESCC);
- }
- 
- static const VMStateDescription vmstate_macio_oldworld = {
+-    sysbus_init_child_obj(OBJECT(machine), "nrf51", soc, sizeof(s->nrf51),
++    sysbus_init_child_obj(OBJECT(machine), "nrf51", &s->nrf51, sizeof(s->nrf51),
+                           TYPE_NRF51_SOC);
+     qdev_prop_set_chr(DEVICE(&s->nrf51), "serial0", serial_hd(0));
+     object_property_set_link(soc, OBJECT(system_memory), "memory",
+@@ -51,7 +51,7 @@ static void microbit_init(MachineState *machine)
+      * hack until we implement the nRF51 TWI controller properly and the
+      * magnetometer/accelerometer devices.
+      */
+-    sysbus_init_child_obj(OBJECT(machine), "microbit.twi", i2c,
++    sysbus_init_child_obj(OBJECT(machine), "microbit.twi", &s->i2c,
+                           sizeof(s->i2c), TYPE_MICROBIT_I2C);
+     object_property_set_bool(i2c, true, "realized", &error_fatal);
+     mr = sysbus_mmio_get_region(SYS_BUS_DEVICE(i2c), 0);
 -- 
 2.26.2
 
