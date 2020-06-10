@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 612E11F5E26
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 00:11:28 +0200 (CEST)
-Received: from localhost ([::1]:59354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58E791F5E37
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 00:18:06 +0200 (CEST)
+Received: from localhost ([::1]:51820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jj8wR-0007qv-DA
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 18:11:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39872)
+	id 1jj92r-0000SC-BN
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 18:18:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39892)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jj8uP-0005mg-HE; Wed, 10 Jun 2020 18:09:21 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:43642)
+ id 1jj8uR-0005rs-HE; Wed, 10 Jun 2020 18:09:23 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:37859)
  by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jj8uO-0008Hs-Np; Wed, 10 Jun 2020 18:09:21 -0400
-Received: by mail-wr1-x442.google.com with SMTP id l10so4027320wrr.10;
- Wed, 10 Jun 2020 15:09:08 -0700 (PDT)
+ id 1jj8uQ-0008I3-OH; Wed, 10 Jun 2020 18:09:23 -0400
+Received: by mail-wm1-x341.google.com with SMTP id y20so3242443wmi.2;
+ Wed, 10 Jun 2020 15:09:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=B90u68HWanE8Ef/dq5GEfdfCsFqZeY71gyQo1Aa7Eho=;
- b=ivRNWkvY/CYg1r4+YE57MTF7jA6Debgfens3DLYERfxKda/1RWtGHBw0Ba9TLk2Fdf
- CFcAxqH5/EkF6RoF5OdVo7wclMmVgEKgJxxclNmlv3myFtepMnjF9YKZWvOE2DDWrfHb
- CIzyzJQmSmrcKzy7OVC03ObujXiD5OpwkBKq/kZZrF8eBNcgF6vCHJfsv+ZI15FYXPSt
- eL+k+oa7cvemhQYsFJTr6mVGV+Xe8FQu8oQu4+q6Z0UfrTHGnrZV/eGYlpjSm9Zx+Gf0
- EFP3iesTRXDdjhTkZ0gAIaQImCif1OsXxpM0Z65JmA1/IjRSGjtpdyxs9jnA+bhTFO3v
- PJTg==
+ bh=8b3HXRDRgYc7wWaPey7dft5cQmLY7o7QcJ77viT780g=;
+ b=R41BaKjvg004OQwwfq6Wfmg/PhLdfgNsE4DLN9moitPuqqOmVkQUNMeeLXIrq1ZVyt
+ XJfe16VgHJ+FmdnWdpzjEuipsVVHQt/Qu+WuwbOALkoWbe6IZbVIiZAJaF3LNGVfbyOk
+ qpLu452YauclYygLIA2pekMKeETe9gTkHU5Lp1sBrp6fJWpkRLg9ylbXe29dTISIa4uQ
+ v1XuQRqpnWMt+DQcjwnP2wqRU3RGCf4AP8yHMgoTkL9+tlWTJtBfbm5cepyBgZBwB8SE
+ CeGj3IktshR/vXiyMJ98ukiGYnkxtDlh/3uZA9ygM0Xar2Ipb53aAP+EvpscOuGzNa1P
+ 2+Og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=B90u68HWanE8Ef/dq5GEfdfCsFqZeY71gyQo1Aa7Eho=;
- b=rkbZG00kKfNCq1DJN5DoCrXIDUHdYvdUr3KWzEA8Z7CZttcO3Tlh93qE50aa/F/jwj
- kreC/68VgAZslyhdH5QmO0W6TZnscoDuk2mUxKSKPDsgJBWZKEXw86ltTHY5d4PmVr2b
- h66Yk1gcz+J1rv4hebMVuOsfzoIQSAvjmI8mWGdwNzGPmS/XkeiXW0xSp+vfp5ldszte
- sWEl75cqI1i3nDfoxwOEuKAiN0+nr1qq9Qc/Ni6iYM/VfFEHMOU3ngGaK4yEQQuNWecK
- +yl4bCx9OS0m6K8A3axhIyXeZDqxIPGDlWR56sb4KfgB3418c8EAXT2wGhB7QG4cZdQD
- CS1Q==
-X-Gm-Message-State: AOAM533EywxJeGDUw4B8Cg3ICl2iUOSbYZJJ59agpniXa2IEW9jMRDFy
- ZqX6/NLkD6P57RZw3muEUETp+GqD
-X-Google-Smtp-Source: ABdhPJzvKAg7UyXWh512AU932j5Nbpey0MOgBcSYCOTqSCInBdBdHBq5BQGY1LuEYwbEcHMHUMaj/Q==
-X-Received: by 2002:a5d:69cb:: with SMTP id s11mr5952217wrw.91.1591826946587; 
- Wed, 10 Jun 2020 15:09:06 -0700 (PDT)
+ bh=8b3HXRDRgYc7wWaPey7dft5cQmLY7o7QcJ77viT780g=;
+ b=j3x28MrTPerbxQuaoTpImCKPCDn3Igtp6Sxe5XeOkr5hJ3IUVvH7B0Wx1KZ5ZF3Nqb
+ CxxuD0DEKHnrbAuz8RJ3GrAOkpIF5yD4/zRpD/fGVZRTctM68f68LZMfpA4g7bSrHem7
+ u490iosOxw4LioqMKeSjndMdDP4/meLncgJusfHw3Io+2YvBv9bBkKnyhyNSWmAmFoiR
+ 7s75iZaWB6z3dDUfD8gcHDD56j1qOENk2BaRsmv8BYIQHOrwLz1ulMtcL14NNxHxY0N5
+ zTRMi6am/VaZgIFgWeyXnDnostVR2iGy5s1BLDxfFs6e/scRkDzjbZYTC4XQyy5VNhpj
+ RK3w==
+X-Gm-Message-State: AOAM533d25psIHuTrDy1u8pQlOT4niIV9IH9WBx3uwKvhbwfs9DQqif5
+ fgChB4V7mSIQc7BVDFu1ntKKrU8q
+X-Google-Smtp-Source: ABdhPJy/PXCVIXLyZ91JwPluaMDE1RpcYN7B5544kodAq1S9auUVfLDDk1aLaESgrAIG/BvYvvlMng==
+X-Received: by 2002:a1c:bc0a:: with SMTP id m10mr4925526wmf.173.1591826948426; 
+ Wed, 10 Jun 2020 15:09:08 -0700 (PDT)
 Received: from x1w.redhat.com (181.red-88-10-103.dynamicip.rima-tde.net.
  [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id 40sm1819354wrc.15.2020.06.10.15.09.05
+ by smtp.gmail.com with ESMTPSA id 40sm1819354wrc.15.2020.06.10.15.09.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Jun 2020 15:09:05 -0700 (PDT)
+ Wed, 10 Jun 2020 15:09:07 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 07/11] hw/sh4: Use MemoryRegion typedef
-Date: Thu, 11 Jun 2020 00:08:49 +0200
-Message-Id: <20200610220853.8558-8-f4bug@amsat.org>
+Subject: [PATCH v3 08/11] hw/sh4: Extract timer definitions to
+ 'hw/timer/tmu012.h'
+Date: Thu, 11 Jun 2020 00:08:50 +0200
+Message-Id: <20200610220853.8558-9-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200610220853.8558-1-f4bug@amsat.org>
 References: <20200610220853.8558-1-f4bug@amsat.org>
@@ -62,8 +63,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -97,40 +98,96 @@ Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use the MemoryRegion type defined in "qemu/typedefs.h",
-to keep the repository style consistent.
+Extract timer definitions to 'hw/timer/tmu012.h'.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/hw/sh4/sh.h | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ include/hw/sh4/sh.h       |  9 ---------
+ include/hw/timer/tmu012.h | 23 +++++++++++++++++++++++
+ hw/sh4/sh7750.c           |  1 +
+ hw/timer/sh_timer.c       |  2 ++
+ 4 files changed, 26 insertions(+), 9 deletions(-)
+ create mode 100644 include/hw/timer/tmu012.h
 
 diff --git a/include/hw/sh4/sh.h b/include/hw/sh4/sh.h
-index 767a2df7e2..fe773cb01d 100644
+index fe773cb01d..93f464bf4c 100644
 --- a/include/hw/sh4/sh.h
 +++ b/include/hw/sh4/sh.h
-@@ -10,9 +10,8 @@
+@@ -27,15 +27,6 @@ typedef struct {
  
- /* sh7750.c */
- struct SH7750State;
--struct MemoryRegion;
+ int sh7750_register_io_device(struct SH7750State *s,
+ 			      sh7750_io_device * device);
+-/* sh_timer.c */
+-#define TMU012_FEAT_TOCR   (1 << 0)
+-#define TMU012_FEAT_3CHAN  (1 << 1)
+-#define TMU012_FEAT_EXTCLK (1 << 2)
+-void tmu012_init(MemoryRegion *sysmem, hwaddr base,
+-                 int feat, uint32_t freq,
+-		 qemu_irq ch0_irq, qemu_irq ch1_irq,
+-		 qemu_irq ch2_irq0, qemu_irq ch2_irq1);
+-
  
--struct SH7750State *sh7750_init(SuperHCPU *cpu, struct MemoryRegion *sysmem);
-+struct SH7750State *sh7750_init(SuperHCPU *cpu, MemoryRegion *sysmem);
- 
- typedef struct {
-     /* The callback will be triggered if any of the designated lines change */
-@@ -32,7 +31,7 @@ int sh7750_register_io_device(struct SH7750State *s,
- #define TMU012_FEAT_TOCR   (1 << 0)
- #define TMU012_FEAT_3CHAN  (1 << 1)
- #define TMU012_FEAT_EXTCLK (1 << 2)
--void tmu012_init(struct MemoryRegion *sysmem, hwaddr base,
+ /* sh_serial.c */
+ #define SH_SERIAL_FEAT_SCIF (1 << 0)
+diff --git a/include/hw/timer/tmu012.h b/include/hw/timer/tmu012.h
+new file mode 100644
+index 0000000000..808ed8de1d
+--- /dev/null
++++ b/include/hw/timer/tmu012.h
+@@ -0,0 +1,23 @@
++/*
++ * SuperH Timer
++ *
++ * Copyright (c) 2007 Magnus Damm
++ *
++ * This code is licensed under the GPL.
++ */
++
++#ifndef HW_TIMER_TMU012_H
++#define HW_TIMER_TMU012_H
++
++#include "exec/hwaddr.h"
++
++#define TMU012_FEAT_TOCR   (1 << 0)
++#define TMU012_FEAT_3CHAN  (1 << 1)
++#define TMU012_FEAT_EXTCLK (1 << 2)
++
 +void tmu012_init(MemoryRegion *sysmem, hwaddr base,
-                  int feat, uint32_t freq,
- 		 qemu_irq ch0_irq, qemu_irq ch1_irq,
- 		 qemu_irq ch2_irq0, qemu_irq ch2_irq1);
++                 int feat, uint32_t freq,
++                 qemu_irq ch0_irq, qemu_irq ch1_irq,
++                 qemu_irq ch2_irq0, qemu_irq ch2_irq1);
++
++#endif
+diff --git a/hw/sh4/sh7750.c b/hw/sh4/sh7750.c
+index d660714443..f8ac3ec6e3 100644
+--- a/hw/sh4/sh7750.c
++++ b/hw/sh4/sh7750.c
+@@ -30,6 +30,7 @@
+ #include "sh7750_regs.h"
+ #include "sh7750_regnames.h"
+ #include "hw/sh4/sh_intc.h"
++#include "hw/timer/tmu012.h"
+ #include "cpu.h"
+ #include "exec/exec-all.h"
+ 
+diff --git a/hw/timer/sh_timer.c b/hw/timer/sh_timer.c
+index 13c4051808..b9cbacf5d0 100644
+--- a/hw/timer/sh_timer.c
++++ b/hw/timer/sh_timer.c
+@@ -9,10 +9,12 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "exec/memory.h"
+ #include "hw/hw.h"
+ #include "hw/irq.h"
+ #include "hw/sh4/sh.h"
+ #include "qemu/timer.h"
++#include "hw/timer/tmu012.h"
+ #include "hw/ptimer.h"
+ 
+ //#define DEBUG_TIMER
 -- 
 2.21.3
 
