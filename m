@@ -2,84 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE3E61F5720
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 16:55:54 +0200 (CEST)
-Received: from localhost ([::1]:45522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C1191F574E
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 17:09:05 +0200 (CEST)
+Received: from localhost ([::1]:33612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jj28v-0007cE-Ve
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 10:55:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32928)
+	id 1jj2Lg-000074-Gb
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 11:09:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jj27i-0006l4-Cj
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 10:54:38 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:50282
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jj27g-0004KP-2m
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 10:54:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591800873;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ZLvYu9oaecgm6Jt4z0aNArWvZ/BaFtIzBNLg848yg1w=;
- b=eQ8TmtEOQBxFZjeFcsda/mJ2f/GkQ9jH3r45kjsxhiyJtEzuMnAFxQu/4PSvX31bSNr7h6
- PJKfwZ6TS6Bb+iz1u5bDJKGUzx72WwV5qZS4yWbvtWmao7b9E456frvNcc5lcY7GKC1AXl
- vzt3HkTb5LQgPtvhwxifxR3t0QKHD5E=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-386-E9V14MJkNRW6GbfFVQ7NsA-1; Wed, 10 Jun 2020 10:54:32 -0400
-X-MC-Unique: E9V14MJkNRW6GbfFVQ7NsA-1
-Received: by mail-wr1-f72.google.com with SMTP id l18so1209044wrm.0
- for <qemu-devel@nongnu.org>; Wed, 10 Jun 2020 07:54:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=ZLvYu9oaecgm6Jt4z0aNArWvZ/BaFtIzBNLg848yg1w=;
- b=grcE91AJDk+oM0PcwuyMqRzsqjJtasQonHPhGZgNzdgaBjDbUjSauze1KnDEwml+xm
- MEu9/GUfyD55hvlznnZSwtDUFj6aigyGaoxQOy7J14HQ+KGKU8Onr4eN0yl8RKYtnujT
- ipY+iShyfsS864dYp1hujwDie2pHb1hgRKWeMCNs6S1GBXEgs/BXjBZhW1m7Ra+NMIAm
- fsLhjxBiV7q6zsAJfNw+otxS4TTEPKcMqd9H4gBwBvi1hEHbZYcnUSs6jq59/4LZNDIg
- nEA291GsBI3toazDmQBbAaIzqxbtV7YXFEJrnr8XLWsr1lPOA0mp44Ldu+Xpn9rUhXOO
- OVWw==
-X-Gm-Message-State: AOAM531OO8Ze9QWk90sPgNHESSnpIE2ieCj9y9TKBWQYz79+6/9CDX3P
- 7H6vyZ+vj2AThK0BLrX3+fJTHdDnhEBjrOuPnXe5DSobx5qOaScnBrqncnWk3m40YkuWl/6blKK
- i+brjPJiI5p2XtI0=
-X-Received: by 2002:adf:9507:: with SMTP id 7mr4167659wrs.63.1591800870950;
- Wed, 10 Jun 2020 07:54:30 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz6emzvCHe6nlVFXnhQfhyZp5fWS8zgms1FGzBN+9gHGm39kIXcLPL3UVo0cP2/l5e0PTTQCg==
-X-Received: by 2002:adf:9507:: with SMTP id 7mr4167632wrs.63.1591800870718;
- Wed, 10 Jun 2020 07:54:30 -0700 (PDT)
-Received: from redhat.com ([212.92.121.57])
- by smtp.gmail.com with ESMTPSA id q13sm30025wrn.84.2020.06.10.07.54.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Jun 2020 07:54:30 -0700 (PDT)
-Date: Wed, 10 Jun 2020 10:54:26 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH v7 0/9] acpi: i386 tweaks
-Message-ID: <20200610105405-mutt-send-email-mst@kernel.org>
-References: <20200610094131.13346-1-kraxel@redhat.com>
- <20200610134002.6461b40a@redhat.com>
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>)
+ id 1jj2Gf-0002Lc-EB; Wed, 10 Jun 2020 11:03:53 -0400
+Received: from fanzine.igalia.com ([178.60.130.6]:58017)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>)
+ id 1jj2GX-0006vt-PK; Wed, 10 Jun 2020 11:03:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From;
+ bh=lQ3bovAyFtHjaZFEaq0k6hBdSfIQPeMdTE7wL25voOI=; 
+ b=ntgM3cF4meWD+BEt6Qc9k5Cwvmovr3N/vgZDBzQRP3C3CJvW88SASfATXIJ/yiQZqg1oTbZuINoaij0QWdomcPEjXdHSuU503SVSEz8IdxFw1n28majDfjPYj0aMoOusfEyrt0oBr/Gw7idx7Og1yBOvkE/CbF5S9ZMFFx/bgF6X2r2luob6dDZTCFch7AL53TZLfDZmBZQ3U/1ZlKTgYtnzI9jfIbrAmZNPI249Qw0A92/3YyAxXJBwkVj1cJIo5hj3Bv8hKMZ+MyMx8TMw2FXppO/vqkxJ6NE9pcPmzY675Ek3BNvJiKI/IaL1zOks0ogvW2aU6D88ID695Ah9eA==;
+Received: from [81.0.38.199] (helo=perseus.local)
+ by fanzine.igalia.com with esmtpsa 
+ (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
+ id 1jj2GQ-0007ge-Sj; Wed, 10 Jun 2020 17:03:38 +0200
+Received: from berto by perseus.local with local (Exim 4.92)
+ (envelope-from <berto@igalia.com>)
+ id 1jj2GB-0007MS-KK; Wed, 10 Jun 2020 17:03:23 +0200
+From: Alberto Garcia <berto@igalia.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v8 00/34] Add subcluster allocation to qcow2
+Date: Wed, 10 Jun 2020 17:02:38 +0200
+Message-Id: <cover.1591801197.git.berto@igalia.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20200610134002.6461b40a@redhat.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 23:51:15
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
+ helo=fanzine.igalia.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/10 11:03:39
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,89 +59,165 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- John Snow <jsnow@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Alberto Garcia <berto@igalia.com>, qemu-block@nongnu.org,
+ Derek Su <dereksu@qnap.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 10, 2020 at 01:40:02PM +0200, Igor Mammedov wrote:
-> On Wed, 10 Jun 2020 11:41:22 +0200
-> Gerd Hoffmann <kraxel@redhat.com> wrote:
-> 
-> > First batch of microvm patches, some generic acpi stuff.
-> > Split the acpi-build.c monster, specifically split the
-> > pc and q35 and pci bits into a separate file which we
-> > can skip building at some point in the future.
-> > 
-> It looks like series is missing patch to whitelist changed ACPI tables in
-> bios-table-test.
+Hi,
 
-Right. Does it pass make check?
+here's the new version of the patches to add subcluster allocation
+support to qcow2.
 
-> Do we already have test case for microvm in bios-table-test,
-> if not it's probably time to add it.
+Please refer to the cover letter of the first version for a full
+description of the patches:
 
-Separately :)
+   https://lists.gnu.org/archive/html/qemu-block/2019-10/msg00983.html
 
-> > v2 changes: leave acpi-build.c largely as-is, move useful
-> > bits to other places to allow them being reused, specifically:
-> > 
-> >  * move isa device generator functions to individual isa devices.
-> >  * move fw_cfg generator function to fw_cfg.c
-> > 
-> > v3 changes: fix rtc, support multiple lpt devices.
-> > 
-> > v4 changes:
-> >  * drop merged patches.
-> >  * split rtc crs change to separata patch.
-> >  * added two cleanup patches.
-> >  * picked up ack & review tags.
-> > 
-> > v5 changes:
-> >  * add comment for rtc crs update.
-> >  * add even more cleanup patches.
-> >  * picked up ack & review tags.
-> > 
-> > v6 changes:
-> >  * floppy: move cmos_get_fd_drive_type.
-> >  * picked up ack & review tags.
-> > 
-> > v7 changes:
-> >  * rebased to mst/pci branch, resolved stubs conflict.
-> >  * dropped patches already queued up in mst/pci.
-> >  * added missing sign-off.
-> >  * picked up ack & review tags.
-> > 
-> > take care,
-> >   Gerd
-> > 
-> > Gerd Hoffmann (9):
-> >   acpi: move aml builder code for floppy device
-> >   floppy: make isa_fdc_get_drive_max_chs static
-> >   floppy: move cmos_get_fd_drive_type() from pc
-> >   acpi: move aml builder code for i8042 (kbd+mouse) device
-> >   acpi: factor out fw_cfg_add_acpi_dsdt()
-> >   acpi: simplify build_isa_devices_aml()
-> >   acpi: drop serial/parallel enable bits from dsdt
-> >   acpi: drop build_piix4_pm()
-> >   acpi: q35: drop _SB.PCI0.ISA.LPCD opregion.
-> > 
-> >  hw/i386/fw_cfg.h       |   1 +
-> >  include/hw/block/fdc.h |   3 +-
-> >  include/hw/i386/pc.h   |   1 -
-> >  hw/block/fdc.c         | 111 +++++++++++++++++++++-
-> >  hw/i386/acpi-build.c   | 211 ++---------------------------------------
-> >  hw/i386/fw_cfg.c       |  28 ++++++
-> >  hw/i386/pc.c           |  25 -----
-> >  hw/input/pckbd.c       |  31 ++++++
-> >  stubs/cmos.c           |   7 ++
-> >  stubs/Makefile.objs    |   1 +
-> >  10 files changed, 184 insertions(+), 235 deletions(-)
-> >  create mode 100644 stubs/cmos.c
-> > 
+The big change here is that now when an image is preallocated then the
+requested clusters are allocated but the L2 bitmap is left untouched.
+This makes it possible to preallocate an image that has a backing
+file.
+
+If you want to test this series make sure to apply this patch first:
+
+   https://lists.gnu.org/archive/html/qemu-block/2020-06/msg00504.html
+
+Berto
+
+v8:
+- Patch 30: New patch
+- Patch 31: Update test expectations after commit cf2d1203dc
+- Patch 32: New patch
+- Patch 34: New tests, fixes and general refactoring of the code
+
+v7: https://lists.gnu.org/archive/html/qemu-block/2020-05/msg01683.html
+v6: https://lists.gnu.org/archive/html/qemu-block/2020-05/msg01583.html
+v5: https://lists.gnu.org/archive/html/qemu-block/2020-05/msg00251.html
+v4: https://lists.gnu.org/archive/html/qemu-block/2020-03/msg00966.html
+v3: https://lists.gnu.org/archive/html/qemu-block/2019-12/msg00587.html
+v2: https://lists.gnu.org/archive/html/qemu-block/2019-10/msg01642.html
+v1: https://lists.gnu.org/archive/html/qemu-block/2019-10/msg00983.html
+
+Output of git backport-diff against v7:
+
+Key:
+[----] : patches are identical
+[####] : number of functional differences between upstream/downstream patch
+[down] : patch is downstream-only
+The flags [FC] indicate (F)unctional and (C)ontextual differences, respectively
+
+001/34:[----] [--] 'qcow2: Make Qcow2AioTask store the full host offset'
+002/34:[----] [--] 'qcow2: Convert qcow2_get_cluster_offset() into qcow2_get_host_offset()'
+003/34:[----] [--] 'qcow2: Add calculate_l2_meta()'
+004/34:[----] [--] 'qcow2: Split cluster_needs_cow() out of count_cow_clusters()'
+005/34:[----] [--] 'qcow2: Process QCOW2_CLUSTER_ZERO_ALLOC clusters in handle_copied()'
+006/34:[----] [--] 'qcow2: Add get_l2_entry() and set_l2_entry()'
+007/34:[----] [--] 'qcow2: Document the Extended L2 Entries feature'
+008/34:[----] [--] 'qcow2: Add dummy has_subclusters() function'
+009/34:[----] [--] 'qcow2: Add subcluster-related fields to BDRVQcow2State'
+010/34:[----] [--] 'qcow2: Add offset_to_sc_index()'
+011/34:[----] [--] 'qcow2: Add offset_into_subcluster() and size_to_subclusters()'
+012/34:[----] [--] 'qcow2: Add l2_entry_size()'
+013/34:[----] [--] 'qcow2: Update get/set_l2_entry() and add get/set_l2_bitmap()'
+014/34:[----] [--] 'qcow2: Add QCow2SubclusterType and qcow2_get_subcluster_type()'
+015/34:[----] [--] 'qcow2: Add qcow2_get_subcluster_range_type()'
+016/34:[----] [--] 'qcow2: Add qcow2_cluster_is_allocated()'
+017/34:[----] [--] 'qcow2: Add cluster type parameter to qcow2_get_host_offset()'
+018/34:[----] [--] 'qcow2: Replace QCOW2_CLUSTER_* with QCOW2_SUBCLUSTER_*'
+019/34:[----] [--] 'qcow2: Handle QCOW2_SUBCLUSTER_UNALLOCATED_ALLOC'
+020/34:[----] [--] 'qcow2: Add subcluster support to calculate_l2_meta()'
+021/34:[----] [--] 'qcow2: Add subcluster support to qcow2_get_host_offset()'
+022/34:[----] [--] 'qcow2: Add subcluster support to zero_in_l2_slice()'
+023/34:[----] [--] 'qcow2: Add subcluster support to discard_in_l2_slice()'
+024/34:[----] [--] 'qcow2: Add subcluster support to check_refcounts_l2()'
+025/34:[----] [--] 'qcow2: Update L2 bitmap in qcow2_alloc_cluster_link_l2()'
+026/34:[----] [--] 'qcow2: Clear the L2 bitmap when allocating a compressed cluster'
+027/34:[----] [--] 'qcow2: Add subcluster support to handle_alloc_space()'
+028/34:[----] [--] 'qcow2: Add subcluster support to qcow2_co_pwrite_zeroes()'
+029/34:[----] [-C] 'qcow2: Add subcluster support to qcow2_measure()'
+030/34:[down] 'qcow2: Add prealloc field to QCowL2Meta'
+031/34:[0002] [FC] 'qcow2: Add the 'extended_l2' option and the QCOW2_INCOMPAT_EXTL2 bit'
+032/34:[down] 'qcow2: Allow preallocation and backing files if extended_l2 is set'
+033/34:[----] [--] 'qcow2: Assert that expand_zero_clusters_in_l1() does not support subclusters'
+034/34:[0669] [FC] 'iotests: Add tests for qcow2 images with extended L2 entries'
+
+Alberto Garcia (34):
+  qcow2: Make Qcow2AioTask store the full host offset
+  qcow2: Convert qcow2_get_cluster_offset() into qcow2_get_host_offset()
+  qcow2: Add calculate_l2_meta()
+  qcow2: Split cluster_needs_cow() out of count_cow_clusters()
+  qcow2: Process QCOW2_CLUSTER_ZERO_ALLOC clusters in handle_copied()
+  qcow2: Add get_l2_entry() and set_l2_entry()
+  qcow2: Document the Extended L2 Entries feature
+  qcow2: Add dummy has_subclusters() function
+  qcow2: Add subcluster-related fields to BDRVQcow2State
+  qcow2: Add offset_to_sc_index()
+  qcow2: Add offset_into_subcluster() and size_to_subclusters()
+  qcow2: Add l2_entry_size()
+  qcow2: Update get/set_l2_entry() and add get/set_l2_bitmap()
+  qcow2: Add QCow2SubclusterType and qcow2_get_subcluster_type()
+  qcow2: Add qcow2_get_subcluster_range_type()
+  qcow2: Add qcow2_cluster_is_allocated()
+  qcow2: Add cluster type parameter to qcow2_get_host_offset()
+  qcow2: Replace QCOW2_CLUSTER_* with QCOW2_SUBCLUSTER_*
+  qcow2: Handle QCOW2_SUBCLUSTER_UNALLOCATED_ALLOC
+  qcow2: Add subcluster support to calculate_l2_meta()
+  qcow2: Add subcluster support to qcow2_get_host_offset()
+  qcow2: Add subcluster support to zero_in_l2_slice()
+  qcow2: Add subcluster support to discard_in_l2_slice()
+  qcow2: Add subcluster support to check_refcounts_l2()
+  qcow2: Update L2 bitmap in qcow2_alloc_cluster_link_l2()
+  qcow2: Clear the L2 bitmap when allocating a compressed cluster
+  qcow2: Add subcluster support to handle_alloc_space()
+  qcow2: Add subcluster support to qcow2_co_pwrite_zeroes()
+  qcow2: Add subcluster support to qcow2_measure()
+  qcow2: Add prealloc field to QCowL2Meta
+  qcow2: Add the 'extended_l2' option and the QCOW2_INCOMPAT_EXTL2 bit
+  qcow2: Allow preallocation and backing files if extended_l2 is set
+  qcow2: Assert that expand_zero_clusters_in_l1() does not support
+    subclusters
+  iotests: Add tests for qcow2 images with extended L2 entries
+
+ docs/interop/qcow2.txt           |  68 ++-
+ docs/qcow2-cache.txt             |  19 +-
+ qapi/block-core.json             |   7 +
+ block/qcow2.h                    | 211 ++++++-
+ include/block/block_int.h        |   1 +
+ block/qcow2-cluster.c            | 912 +++++++++++++++++++++----------
+ block/qcow2-refcount.c           |  38 +-
+ block/qcow2.c                    | 304 +++++++----
+ block/trace-events               |   2 +-
+ tests/qemu-iotests/031.out       |   8 +-
+ tests/qemu-iotests/036.out       |   4 +-
+ tests/qemu-iotests/049.out       | 102 ++--
+ tests/qemu-iotests/060.out       |   1 +
+ tests/qemu-iotests/061           |   6 +
+ tests/qemu-iotests/061.out       |  25 +-
+ tests/qemu-iotests/065           |  12 +-
+ tests/qemu-iotests/082.out       |  48 +-
+ tests/qemu-iotests/085.out       |  38 +-
+ tests/qemu-iotests/144.out       |   4 +-
+ tests/qemu-iotests/182.out       |   2 +-
+ tests/qemu-iotests/185.out       |   8 +-
+ tests/qemu-iotests/198.out       |   2 +
+ tests/qemu-iotests/206.out       |   6 +-
+ tests/qemu-iotests/242.out       |   5 +
+ tests/qemu-iotests/255.out       |   8 +-
+ tests/qemu-iotests/271           | 801 +++++++++++++++++++++++++++
+ tests/qemu-iotests/271.out       | 676 +++++++++++++++++++++++
+ tests/qemu-iotests/274.out       |  49 +-
+ tests/qemu-iotests/280.out       |   2 +-
+ tests/qemu-iotests/291.out       |   2 +
+ tests/qemu-iotests/common.filter |   1 +
+ tests/qemu-iotests/group         |   1 +
+ 32 files changed, 2807 insertions(+), 566 deletions(-)
+ create mode 100755 tests/qemu-iotests/271
+ create mode 100644 tests/qemu-iotests/271.out
+
+-- 
+2.20.1
 
 
