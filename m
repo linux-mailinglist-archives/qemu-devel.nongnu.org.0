@@ -2,61 +2,119 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4838B1F5218
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 12:17:55 +0200 (CEST)
-Received: from localhost ([::1]:47828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E93C1F51ED
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 12:10:43 +0200 (CEST)
+Received: from localhost ([::1]:42096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jixnu-0002nn-2r
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 06:17:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55828)
+	id 1jixgw-0007xA-CZ
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 06:10:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jixm2-0001fj-U1; Wed, 10 Jun 2020 06:15:59 -0400
-Received: from ozlabs.org ([203.11.71.1]:34081)
- by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jixm0-00083V-1S; Wed, 10 Jun 2020 06:15:58 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 49hjYT3Ldmz9sQx; Wed, 10 Jun 2020 20:15:41 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1591784141;
- bh=kbYY1DGFXehDXUZKCqytgYqkpJwAwWtz1LoghtEPn20=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=nmVwxz2beFE9nHWWdu1wACSCiyeApQbnTUnyl9nLUCCny+BnpOYRxQER9XosyJQ1w
- /UK8N5Q0bPwh+o9JMEcookzRDR9Tdn+Bh6MPzr1laSifySBAvVgaUQoVaWCOu5XadR
- Y46aypcTaM6+MgPYMZXPUKLjy6Pcf662XOjyOwR4=
-Date: Wed, 10 Jun 2020 20:07:56 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH v2 1/1] virtio-ccw: auto-manage VIRTIO_F_IOMMU_PLATFORM
- if PV
-Message-ID: <20200610100756.GO494336@umbus.fritz.box>
-References: <20200606013217.2cffa3ed.pasic@linux.ibm.com>
- <20200608181428.3c6f127c.cohuck@redhat.com>
- <20200608190045.319dd68b.pasic@linux.ibm.com>
- <20200609084402.35d317ec.cohuck@redhat.com>
- <20200609114130.0ca9190b.pasic@linux.ibm.com>
- <20200609174747.4e300818@ibm-vm>
- <20200609182839.7ac80938.pasic@linux.ibm.com>
- <20200609124155-mutt-send-email-mst@kernel.org>
- <20200610043118.GF494336@umbus.fritz.box>
- <4e5d62d8-9bfb-67d5-7398-2079729fd85e@redhat.com>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jixfN-0006Pe-85
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 06:09:05 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:28372
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jixfL-00070w-2p
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 06:09:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1591783741;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=hE9Oaz24ilg7T4209xNV9IatGJG7l+0xJeWoG28nb1E=;
+ b=XOcitUAhoVRuAcfzk/TubXA+/0MZBW+RztHyMuq4hTthpdVf0TkS+1nj25Ch5bOeZEXY8w
+ F/mmyRuFnoAeoUkgB/iWh9W0Xp/dCp2HIGnK1i0w/tdYsPJ/A4LqXFQarlF6p7c6AwF1zb
+ eiZ4sIxVstiO6HVC9kBO/D7t3JY2xS0=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-324-09BQLPDTNySQHNA5EB-lLg-1; Wed, 10 Jun 2020 06:08:58 -0400
+X-MC-Unique: 09BQLPDTNySQHNA5EB-lLg-1
+Received: by mail-wr1-f72.google.com with SMTP id j16so852013wre.22
+ for <qemu-devel@nongnu.org>; Wed, 10 Jun 2020 03:08:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=hE9Oaz24ilg7T4209xNV9IatGJG7l+0xJeWoG28nb1E=;
+ b=p2/LCTOrpB2tJEMlC2kiqw92sB3lGSnJOsMRGl5Wm4JYsRRbGNSFqAVFBJt1bNwa+h
+ vxZe9rL55crofmDwUO7snnMrRptwpLeK6HEcyj+PX94DDVtabKhCl6X9bMPCqajSRtAq
+ ZRsBXE60yWoY2ZPNgKHJAN+9xMfG40qmJuAKAhx4L3M+pM1FngUAZsDbi3i2WFPao+LN
+ d1atL+RTIz8+CHhmI2gKkfP1+czD/Y02dF59H19CuafI+mDsFdc7Qi4hJOJan/37hhjh
+ 357M/la6icq/xILhty9z0otXSOGFYnY/wsO3BmPcGeWMBqLg+Xm4AYBzzhBNBMmYb0hz
+ A8Xw==
+X-Gm-Message-State: AOAM533CQQQpg+FohAc5NLTW7vjMdrhY/gRr8HqjOQFec/AlD9pNDAXw
+ TIT1bRniMKtAoXDbaX0vutgE4tFHVxqWEbZVKz/OR/mjVv3px6aUdnJ/VN0KfYugVgeZrjyGEkV
+ AbvvDGtey2fWbtB8=
+X-Received: by 2002:adf:9544:: with SMTP id 62mr2745816wrs.32.1591783736854;
+ Wed, 10 Jun 2020 03:08:56 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwrsMtsRim5X/cGvZUX1UMfrqUDitqZ5vttqzCnfXftpeZa1hg/C4qf2zwuY8fO0E74o1f8Wg==
+X-Received: by 2002:adf:9544:: with SMTP id 62mr2745779wrs.32.1591783736494;
+ Wed, 10 Jun 2020 03:08:56 -0700 (PDT)
+Received: from [192.168.1.38] (181.red-88-10-103.dynamicip.rima-tde.net.
+ [88.10.103.181])
+ by smtp.gmail.com with ESMTPSA id z25sm6296656wmf.10.2020.06.10.03.08.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 10 Jun 2020 03:08:55 -0700 (PDT)
+Subject: Re: [PATCH] hw/vfio/pci-quirks: Fix broken legacy IGD passthrough
+To: Thomas Huth <thuth@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>, qemu-devel@nongnu.org
+References: <20200610035102.20192-1-thuth@redhat.com>
+ <706060db-46c4-2dee-d746-eba24e6b137d@redhat.com>
+ <a8195883-fb78-0cc1-5e15-e100dcb807de@redhat.com>
+ <fd82556f-297d-6634-1bb2-37c4da415a50@redhat.com>
+ <c3f40a57-e511-6b31-1a13-01acb38b0843@redhat.com>
+ <4bdc918a-a59c-a877-680a-2925c09fc736@redhat.com>
+ <04979308-3a35-4e40-35c7-836a36e47143@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <b771f418-64da-7922-923f-ae8cb62ce938@redhat.com>
+Date: Wed, 10 Jun 2020 12:08:54 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="jozmn01XJZjDjM3N"
-Content-Disposition: inline
-In-Reply-To: <4e5d62d8-9bfb-67d5-7398-2079729fd85e@redhat.com>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/10 06:15:42
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -9
-X-Spam_score: -1.0
-X-Spam_bar: -
-X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+In-Reply-To: <04979308-3a35-4e40-35c7-836a36e47143@redhat.com>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 23:51:15
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,97 +127,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Viktor Mihajlovski <mihajlov@linux.ibm.com>, Thomas Huth <thuth@redhat.com>,
- Boris Fiuczynski <fiuczy@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>,
- Pierre Morel <pmorel@linux.ibm.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Claudio Imbrenda <imbrenda@linux.ibm.com>, Richard Henderson <rth@twiddle.net>
+Cc: qemu-trivial@nongnu.org, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 6/10/20 11:03 AM, Thomas Huth wrote:
+> On 10/06/2020 10.25, Philippe Mathieu-Daudé wrote:
+>> On 6/10/20 9:59 AM, Thomas Huth wrote:
+>>> On 10/06/2020 09.53, Philippe Mathieu-Daudé wrote:
+>>>> On 6/10/20 9:50 AM, Thomas Huth wrote:
+>>>>> On 10/06/2020 09.31, Philippe Mathieu-Daudé wrote:
+>>>>>> On 6/10/20 5:51 AM, Thomas Huth wrote:
+>>>>>>> The #ifdef CONFIG_VFIO_IGD in pci-quirks.c is not working since the
+>>>>>>> required header config-devices.h is not included, so that the legacy
+>>>>>>> IGD passthrough is currently broken. Let's include the right header
+>>>>>>> to fix this issue.
+>>>>>>>
+>>>>>>> Buglink: https://bugs.launchpad.net/qemu/+bug/1882784
+>>>>>>> Fixes: 29d62771c81d8fd244a67c14a1d968c268d3fb19
+>>>>>>>        ("hw/vfio: Move the IGD quirk code to a separate file")
+>>>>>>
+>>>>>> What about shorter tag?
+>>>>>>
+>>>>>> Fixes: 29d62771c81 ("vfio: Move the IGD quirk code to a separate file")
+>>>>>
+>>>>> I always forget whether to use the short or the long version for
+>>>>> "Fixes:" ... this can hopefully be fixed (if necessary) when the patch
+>>>>> gets picked up.
+>>>>>
+>>>>>>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>>>>>>> ---
+>>>>>>>  hw/vfio/pci-quirks.c | 1 +
+>>>>>>>  1 file changed, 1 insertion(+)
+>>>>>>>
+>>>>>>> diff --git a/hw/vfio/pci-quirks.c b/hw/vfio/pci-quirks.c
+>>>>>>> index f2155ddb1d..3158390db1 100644
+>>>>>>> --- a/hw/vfio/pci-quirks.c
+>>>>>>> +++ b/hw/vfio/pci-quirks.c
+>>>>>>> @@ -11,6 +11,7 @@
+>>>>>>>   */
+>>>>>>>  
+>>>>>>>  #include "qemu/osdep.h"
+>>>>>>> +#include "config-devices.h"
+>>>>>>
+>>>>>> I've been wondering how we can avoid that mistake in the
+>>>>>> future, but can find anything beside human review.
+>>>>>
+>>>>> I think in the long term, we should include config-devices.h in osdep.h,
+>>>>> just like config-host.h and config-target.h is already included there.
+>>>>> Everything else is just too confusing. But then we should also add a
+>>>>> mechanism to poison the switches from config-devices.h in common code...
+>>>>
+>>>> We only need it for the files under hw/, right?
+>>>
+>>> qtest.c in the main directory includes it, too.
+>>
+>> hw/ and qtests could include "hw/hw.h" instead of affecting all the
+>> codebase via "qemu/osdep.h".
+> 
+> I don't think that's a good idea - in that case, you have to make sure
+> to include hw/hw.h everywhere again, so you don't gain that much
+> compared to including config-devices.h directly everywhere. osdep.h is
+> our header that has to be included everywhere, so if we want to make
+> sure that these defines are available everywhere, we have to include it
+> from osdep.h.
+> Apart from that, hw/hw.h just contains one more prototype - which likely
+> should be renamed to cpu_hw_error() and moved to a cpu header instead,
+> so that we can finally delete hw/hw.h completely.
 
---jozmn01XJZjDjM3N
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Yes, this discussion implied the "hw/hw.h" cleanup talked elsewhere is done.
 
-On Wed, Jun 10, 2020 at 09:22:45AM +0200, David Hildenbrand wrote:
-> On 10.06.20 06:31, David Gibson wrote:
-> > On Tue, Jun 09, 2020 at 12:44:39PM -0400, Michael S. Tsirkin wrote:
-> >> On Tue, Jun 09, 2020 at 06:28:39PM +0200, Halil Pasic wrote:
-> >>> On Tue, 9 Jun 2020 17:47:47 +0200
-> >>> Claudio Imbrenda <imbrenda@linux.ibm.com> wrote:
-> >>>
-> >>>> On Tue, 9 Jun 2020 11:41:30 +0200
-> >>>> Halil Pasic <pasic@linux.ibm.com> wrote:
-> >>>>
-> >>>> [...]
-> >>>>
-> >>>>> I don't know. Janosch could answer that, but he is on vacation. Add=
-ing
-> >>>>> Claudio maybe he can answer. My understanding is, that while it mig=
-ht
-> >>>>> be possible, it is ugly at best. The ability to do a transition is
-> >>>>> indicated by a CPU model feature. Indicating the feature to the gue=
-st
-> >>>>> and then failing the transition sounds wrong to me.
-> >>>>
-> >>>> I agree. If the feature is advertised, then it has to work. I don't
-> >>>> think we even have an architected way to fail the transition for that
-> >>>> reason.
-> >>>>
-> >>>> What __could__ be done is to prevent qemu from even starting if an
-> >>>> incompatible device is specified together with PV.
-> >>>
-> >>> AFAIU, the "specified together with PV" is the problem here. Currently
-> >>> we don't "specify PV" but PV is just a capability that is managed by =
-the
-> >>> CPU model (like so many other).
-> >>
-> >> So if we want to keep it user friendly, there could be
-> >> protection property with values on/off/auto, and auto
-> >> would poke at host capability to figure out whether
-> >> it's supported.
-> >>
-> >> Both virtio and CPU would inherit from that.
-> >=20
-> > Right, that's what I have in mind for my 'host-trust-limitation'
-> > property (a generalized version of the existing 'memory-encryption'
-> > machine option).  My draft patches already set virtio properties
-> > accordingly, it should be possible to set (default) cpu properties as
-> > well.
->=20
-> No crazy CPU model hacks please (at least speaking for the s390x).
-
-Uh... I'm not really sure what you have in mind here.
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---jozmn01XJZjDjM3N
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl7gsPwACgkQbDjKyiDZ
-s5L0sBAAx3ZTgpDbASeYbEurpTjq1D3wxIKbpNP9U5tWo2p+Pib5iDMCJ679kpoX
-Sc4IRQD2a1Wc4yFg2DKdtoC9fmEHpR/SqdtohEG24vs+EXLKUhwAzg5Gx+I/prWk
-EvDIqMJYip0WH5uvgv2MMz0NLLoXXeqUNenMci93QrwjpoPDP0/jh9A6dsZ3X9S5
-6EB8morrgCyQyX6GxRKm+zuM6YTEjz4MB4yWattbIihh4HHgIsDbSw37oYvVSPSo
-VrdPVGgcNCfF6vi0bu+QZDQEhwHOlcynMQNTMHn1aCFfgGcGh0qyRP+bPkPyMzIh
-1woOr+o0hlZDjZfb2sF7P+k1W1YQ1T7YdNAgX1hApdE/v+RY36b3tjappZs3nJi7
-ItaFU1Xg8lh5BQL5cbrTdAMYk7FJa2m7Et6u4N/eXUHq8lOScHVyTrircDFFlN/G
-7ZyBJueIZ6Lj7um2DZKOyi4UHiBf/u1FUgUFbOGAkyaBajXzQOBvoSrm9y+ktEYQ
-2/jqha4XwnLX08Ht3EkuRTFFFXPMRaPYPqYf88FiHfmjNq1+LqdX7hey5S9Dn69M
-ajHke3Dw17RhhpTqQvCcCP6M+jh4UCjqxXvR0q19EjMoS14jLqiK7BSpseVmScqp
-rsG8nRyIT6sLseThoRX9utyiSfAZ+KK4Wpf4ssGcc7HHE3plJkQ=
-=uDZn
------END PGP SIGNATURE-----
-
---jozmn01XJZjDjM3N--
 
