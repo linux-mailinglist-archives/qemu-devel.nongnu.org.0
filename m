@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 896351F4C97
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 06:51:20 +0200 (CEST)
-Received: from localhost ([::1]:55584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90F8A1F4C55
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 06:31:12 +0200 (CEST)
+Received: from localhost ([::1]:45340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jishr-0006qi-GY
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 00:51:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34632)
+	id 1jisOL-0003BA-Dr
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 00:31:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33954)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jisNe-00041r-9c
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 00:30:26 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:33981
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jisKD-0006vG-9h
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 00:26:53 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:60503
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jisNc-00005l-92
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 00:30:25 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jisKC-0008Cf-8P
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 00:26:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591763403;
+ s=mimecast20190719; t=1591763211;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tIipyy3cxji7TSg5TkYgKmMY4wP6xoAvP6GDwENCxXs=;
- b=EyY1cu0+3xIU/NMykOyvbAJGqHqUileY9L19eOfPW2udM6PR2qT1JdU8D+5m0EdzjodsNr
- f6V89TZogZRTozL5rL1zYk60x+RH6zaBI6Py8ssz5zMX4eIq7os+yfdnehBKOcdBFQz5OM
- kqTsyb3PjGdI71dbSPJZ+r2/qEUH9tU=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-71-kBnmDtfCMtexo2fsqYToyQ-1; Wed, 10 Jun 2020 00:26:45 -0400
-X-MC-Unique: kBnmDtfCMtexo2fsqYToyQ-1
-Received: by mail-wr1-f70.google.com with SMTP id e1so514510wrm.3
- for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 21:26:45 -0700 (PDT)
+ bh=vySMNxAYh/bFwZPNm+lRlFJjyR1SjtCLydsHIq5v2R0=;
+ b=R7tSxxKEmvVIIoE7N/kzjj3U4Y1c+NYI+JR9IdIbauAiOUtRBXWVVM7CJVKy111Kpey6uq
+ 18NtpuQSIBPHhSXzADVneIqtgtLtPlz683g0x+6FvUIurMvNzRZpR9wEw8UWkOLXV0/HCj
+ AnSNEHcMLpCHh7Pv4BkhNR4lbm6QOVE=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-177-hCA3aMPAP8mC4FiiercLhA-1; Wed, 10 Jun 2020 00:26:49 -0400
+X-MC-Unique: hCA3aMPAP8mC4FiiercLhA-1
+Received: by mail-wr1-f71.google.com with SMTP id l1so509409wrc.8
+ for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 21:26:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=tIipyy3cxji7TSg5TkYgKmMY4wP6xoAvP6GDwENCxXs=;
- b=DLs9JBhue+QOcD7DwYLV24x/f53chwJsbqGbLrMJpjSy17MgOqwx7gYjelx+d7H1OZ
- CyuMmroiYTCch/EQA9xOsVeli5QihOA/go23Wwxdf0MdYP3QW1gWadWzjJm2TK9IpL59
- XPj7TRSoMauPgRqYuVvQUbEDRPvTBQWADaKVQ4sQeBsnh7mdzmKSiOcYLoQb2Wd9AGoa
- jFQajJzebAmyKKZnVpCFY0RFQ+gHjx4kzzrqX4d5CnQQWyF5ikV8VEiVYJgiDvrrtBIG
- P8G/cwe6OV2PhGm2b/ymvl66h4ej2WirVI/PiVNbMfVe8n1XgUZm4TCoVx+MihVOmFLI
- pJDw==
-X-Gm-Message-State: AOAM530AUhaLd3mq0BDa3oEezxuXzKFz2FRwwNbJCdVQ1Rsfhe7/ovMA
- GUV6Esbs0lHnIsxTeJIys+fpjYywNDkxISUKpyOADuBCTVjVEp0+OsKQ9mNuLcR8NnwmIYv3PIL
- VBGKVtYy1hnyHeng=
-X-Received: by 2002:a5d:49c5:: with SMTP id t5mr1354101wrs.18.1591763204799;
- Tue, 09 Jun 2020 21:26:44 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwofrngvDI/YxgzblJK8T3STEFk+Ndr9320XBj4cKg4kPHwyASkuvXulyuNgYy8+2ebVQ5AhQ==
-X-Received: by 2002:a5d:49c5:: with SMTP id t5mr1354094wrs.18.1591763204647;
- Tue, 09 Jun 2020 21:26:44 -0700 (PDT)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=vySMNxAYh/bFwZPNm+lRlFJjyR1SjtCLydsHIq5v2R0=;
+ b=DrPYXX8RvuV+qTiTHz0wsMULN7NqzPG0FM7Gc4PwZRm7tVDQRIR55nBMvewfQmY+x0
+ 8adT/l5tsyOb24OWtqn5OZGInyKJIyv5FzXVi9p3itb1CFkPE0dROh4lZdPXQj7jZ6zy
+ z4km3uLsyaDMoUgaPyyRu+RhV+Jk3CGdGyd4Vm+3PwQaU5hUTymE8l9pjGcJ79mGX3mT
+ xd5lTGA3u4nQeDO1zmxMCQLHah1n8//qUxk3/gEE1xFcVjUD/fQ+9y9sSTVn4pmSPppw
+ 1r5/zLHt0Px+h5+nmvauON0KD31VFq94yuAo9MMBpuJCgQBjvx/U+sV9Skhn58ORDStr
+ A/jQ==
+X-Gm-Message-State: AOAM533PzQeUgPhAOOGSmQcmcqRdqeQNNNKJDCr4QaNj6esPsLgKZgdP
+ /3x7R3OxyR2MVxNHk2hMv9ycS2x8dnixDBsxvfjE+pBJ7NUdYAuM6WQENq+Cvd90yOZNQo6Vxrh
+ eD8SD/o4B3py7GQc=
+X-Received: by 2002:a5d:608d:: with SMTP id w13mr1305997wrt.298.1591763207743; 
+ Tue, 09 Jun 2020 21:26:47 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwZnvbIuMfpRndaKtrV+qb9eGbiuW4B2yeQqVBO23s0ILABxSLvENxqENxBpOP/4EEH3TDIXw==
+X-Received: by 2002:a5d:608d:: with SMTP id w13mr1305981wrt.298.1591763207570; 
+ Tue, 09 Jun 2020 21:26:47 -0700 (PDT)
 Received: from redhat.com (bzq-79-181-55-232.red.bezeqint.net. [79.181.55.232])
- by smtp.gmail.com with ESMTPSA id s8sm6442887wrg.50.2020.06.09.21.26.43
+ by smtp.gmail.com with ESMTPSA id k16sm6198770wrp.66.2020.06.09.21.26.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Jun 2020 21:26:44 -0700 (PDT)
-Date: Wed, 10 Jun 2020 00:26:43 -0400
+ Tue, 09 Jun 2020 21:26:47 -0700 (PDT)
+Date: Wed, 10 Jun 2020 00:26:45 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/56] qtest: allow DSDT acpi table changes
-Message-ID: <20200610042613.1459309-6-mst@redhat.com>
+Subject: [PULL 06/56] acpi: move aml builder code for rtc device
+Message-ID: <20200610042613.1459309-7-mst@redhat.com>
 References: <20200610042613.1459309-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200610042613.1459309-1-mst@redhat.com>
@@ -68,11 +70,12 @@ X-Mailer: git-send-email 2.24.1.751.gd10ce2899c
 X-Mutt-Fcc: =sent
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=mst@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 23:51:15
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 23:22:15
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -93,42 +96,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Gerd Hoffmann <kraxel@redhat.com>
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Message-Id: <20200515150421.25479-2-kraxel@redhat.com>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20200515150421.25479-3-kraxel@redhat.com>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+ hw/i386/acpi-build.c | 17 -----------------
+ hw/rtc/mc146818rtc.c | 22 ++++++++++++++++++++++
+ 2 files changed, 22 insertions(+), 17 deletions(-)
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dfb8523c8b..6a052c5044 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1 +1,18 @@
- /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/pc/DSDT",
-+"tests/data/acpi/pc/DSDT.acpihmat",
-+"tests/data/acpi/pc/DSDT.bridge",
-+"tests/data/acpi/pc/DSDT.cphp",
-+"tests/data/acpi/pc/DSDT.dimmpxm",
-+"tests/data/acpi/pc/DSDT.ipmikcs",
-+"tests/data/acpi/pc/DSDT.memhp",
-+"tests/data/acpi/pc/DSDT.numamem",
-+"tests/data/acpi/q35/DSDT",
-+"tests/data/acpi/q35/DSDT.acpihmat",
-+"tests/data/acpi/q35/DSDT.bridge",
-+"tests/data/acpi/q35/DSDT.cphp",
-+"tests/data/acpi/q35/DSDT.dimmpxm",
-+"tests/data/acpi/q35/DSDT.ipmibt",
-+"tests/data/acpi/q35/DSDT.memhp",
-+"tests/data/acpi/q35/DSDT.mmio64",
-+"tests/data/acpi/q35/DSDT.numamem",
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index d996525e2c..df5417c75f 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -1137,22 +1137,6 @@ static Aml *build_fdc_device_aml(ISADevice *fdc)
+     return dev;
+ }
+ 
+-static Aml *build_rtc_device_aml(void)
+-{
+-    Aml *dev;
+-    Aml *crs;
+-
+-    dev = aml_device("RTC");
+-    aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0B00")));
+-    crs = aml_resource_template();
+-    aml_append(crs, aml_io(AML_DECODE16, 0x0070, 0x0070, 0x10, 0x02));
+-    aml_append(crs, aml_irq_no_flags(8));
+-    aml_append(crs, aml_io(AML_DECODE16, 0x0072, 0x0072, 0x02, 0x06));
+-    aml_append(dev, aml_name_decl("_CRS", crs));
+-
+-    return dev;
+-}
+-
+ static Aml *build_kbd_device_aml(void)
+ {
+     Aml *dev;
+@@ -1278,7 +1262,6 @@ static void build_isa_devices_aml(Aml *table)
+     Aml *scope = aml_scope("_SB.PCI0.ISA");
+     Object *obj = object_resolve_path_type("", TYPE_ISA_BUS, &ambiguous);
+ 
+-    aml_append(scope, build_rtc_device_aml());
+     aml_append(scope, build_kbd_device_aml());
+     aml_append(scope, build_mouse_device_aml());
+     if (fdc) {
+diff --git a/hw/rtc/mc146818rtc.c b/hw/rtc/mc146818rtc.c
+index 9c30cbdcd7..fe05a4488e 100644
+--- a/hw/rtc/mc146818rtc.c
++++ b/hw/rtc/mc146818rtc.c
+@@ -27,6 +27,7 @@
+ #include "qemu/cutils.h"
+ #include "qemu/module.h"
+ #include "qemu/bcd.h"
++#include "hw/acpi/aml-build.h"
+ #include "hw/irq.h"
+ #include "hw/qdev-properties.h"
+ #include "qemu/timer.h"
+@@ -1007,13 +1008,34 @@ static void rtc_resetdev(DeviceState *d)
+     }
+ }
+ 
++static void rtc_build_aml(ISADevice *isadev, Aml *scope)
++{
++    Aml *dev;
++    Aml *crs;
++
++    crs = aml_resource_template();
++    aml_append(crs, aml_io(AML_DECODE16, RTC_ISA_BASE, RTC_ISA_BASE,
++                           0x10, 0x02));
++    aml_append(crs, aml_irq_no_flags(RTC_ISA_IRQ));
++    aml_append(crs, aml_io(AML_DECODE16, RTC_ISA_BASE + 2, RTC_ISA_BASE + 2,
++                           0x02, 0x06));
++
++    dev = aml_device("RTC");
++    aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0B00")));
++    aml_append(dev, aml_name_decl("_CRS", crs));
++
++    aml_append(scope, dev);
++}
++
+ static void rtc_class_initfn(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
++    ISADeviceClass *isa = ISA_DEVICE_CLASS(klass);
+ 
+     dc->realize = rtc_realizefn;
+     dc->reset = rtc_resetdev;
+     dc->vmsd = &vmstate_rtc;
++    isa->build_aml = rtc_build_aml;
+     device_class_set_props(dc, mc146818rtc_properties);
+ }
+ 
 -- 
 MST
 
