@@ -2,106 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 839A91F5BC3
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 21:07:20 +0200 (CEST)
-Received: from localhost ([::1]:35892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 236FA1F5BC8
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 21:09:24 +0200 (CEST)
+Received: from localhost ([::1]:40380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jj64F-0003bl-Ij
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 15:07:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56388)
+	id 1jj66F-0005y8-7B
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 15:09:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den@virtuozzo.com>)
- id 1jj5yz-00071d-6w; Wed, 10 Jun 2020 15:01:53 -0400
-Received: from mail-db8eur05on2119.outbound.protection.outlook.com
- ([40.107.20.119]:22675 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den@virtuozzo.com>)
- id 1jj5yx-0005a3-SY; Wed, 10 Jun 2020 15:01:52 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=O7/CqYnk/DrvHCNReqqamKdi+4L84JOs8XJKN7hIPlAAEmJ4q+D07O1bkP//t+8SkTC1QxzYD4lJT+8PVuwz1mZk/VsN45qgYvFclOtgAuxhfpVuwq58f1WAOPWBfAZX9vmEwoqXhVgTxEfS+0c2qq/mdJ+xKSExsTmcOHz21zCY80YfN1z2zKeRPzTcH8iFfCXsn9UwHdzffJ48J+iJguQvf+JGt2LjHnVs9AWhjyxTY48fcAfO4ZCW4UfUm1/YZk0ScEk7Q32qBceYhrYxyNWeeMFNPX2IuJwqZS08ynKX4SB4v45zVaZqamgoZqTIQu0c2SwnB7RtS7KudQYsbg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6LgXssEWVoYIjhe5OlZ7SI+3q2Jvn/d0hgCkSXoVxwg=;
- b=ZvTPUepoPKt8cfHuqspVTpW8iyHtMOkHjU75LhOaXbJqw7Bj8BUxCgXCAErzz6L4npcjvUMbsBxNr6aIlZiX0cSi/xsQfZPXynx2CcizAz1DJfy2I58mtXBTFUtUuHn5V4cqRL1MOV1+gvENSSaJivR9IAECewI+VxElXmhVXEal9Un12eU6/kKl0EDBP+Vq9jP+4bJogW0WzueTqB14CqU8tx2/cJZ9d9japIJfuD5peD8YWAjlKzWbRZjdg1wIZ/Nm/jKiva2yYmoXvgsJVKktr8rtfFF+Bvdo6e/yJQSbiettJYvthE/38xSJeDsGQufV+9E58OtEe//eEZxrUw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none header.from=openvz.org;
- dkim=pass header.d=openvz.org; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6LgXssEWVoYIjhe5OlZ7SI+3q2Jvn/d0hgCkSXoVxwg=;
- b=TWkpzh2CQ6Q5oV3JQRAsdMMVqQmh3BD56YZD8qm3ERb/8Jf5U2/s2BlgrOBytmvhJeumtMy7IjG5/qlJojdkHA4aAwdDIoRMIePFbEEcD1GPq7veI1uTl6zyhuxu0GURTSRzxdDzzhgcKOzTD8SvbQP6v3YSjxKHhcloMAKXdFA=
-Authentication-Results: virtuozzo.com; dkim=none (message not signed)
- header.d=none;virtuozzo.com; dmarc=none action=none header.from=openvz.org;
-Received: from AM6PR08MB4214.eurprd08.prod.outlook.com (2603:10a6:20b:8d::30)
- by AM6PR08MB4581.eurprd08.prod.outlook.com (2603:10a6:20b:83::25)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3088.18; Wed, 10 Jun
- 2020 19:01:49 +0000
-Received: from AM6PR08MB4214.eurprd08.prod.outlook.com
- ([fe80::821:7596:cf7f:68f8]) by AM6PR08MB4214.eurprd08.prod.outlook.com
- ([fe80::821:7596:cf7f:68f8%4]) with mapi id 15.20.3088.018; Wed, 10 Jun 2020
- 19:01:49 +0000
-Subject: Re: [PATCH 2/2] qcow2: improve savevm performance - please ignore
-To: qemu-block@nongnu.org, qemu-devel@nongnu.org
-References: <20200610185833.10665-1-den@openvz.org>
- <20200610185833.10665-2-den@openvz.org>
-From: "Denis V. Lunev" <den@openvz.org>
-Message-ID: <ab98d948-7fac-b30e-aed4-943caa14afeb@openvz.org>
-Date: Wed, 10 Jun 2020 22:01:46 +0300
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jj63F-0003Gx-K4
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 15:06:17 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:54327)
+ by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jj63D-0006XD-Al
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 15:06:17 -0400
+Received: from [192.168.100.1] ([82.252.135.106]) by mrelayeu.kundenserver.de
+ (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MpTpc-1j8uHg0TgS-00pwJ7; Wed, 10 Jun 2020 21:06:12 +0200
+To: Filip Bozuta <filip.bozuta@syrmia.com>, qemu-devel@nongnu.org
+References: <20200608164357.25065-1-filip.bozuta@syrmia.com>
+ <20200608164357.25065-4-filip.bozuta@syrmia.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
+ 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
+Subject: Re: [PATCH v2 3/6] linux-user: Add strace support for printing
+ argument of syscalls used for extended attributes
+Message-ID: <29e41cc8-ea01-daea-2599-7af138fb2be3@vivier.eu>
+Date: Wed, 10 Jun 2020 21:06:11 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
-In-Reply-To: <20200610185833.10665-2-den@openvz.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-ClientProxiedBy: HE1PR05CA0381.eurprd05.prod.outlook.com
- (2603:10a6:7:94::40) To AM6PR08MB4214.eurprd08.prod.outlook.com
- (2603:10a6:20b:8d::30)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.1.27] (31.148.204.195) by
- HE1PR05CA0381.eurprd05.prod.outlook.com (2603:10a6:7:94::40) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3088.18 via Frontend Transport; Wed, 10 Jun 2020 19:01:48 +0000
-X-Originating-IP: [31.148.204.195]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 59874d01-d4e5-4c22-8bb5-08d80d70ba7b
-X-MS-TrafficTypeDiagnostic: AM6PR08MB4581:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB45815DC2316DC05A60E8792CB6830@AM6PR08MB4581.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3173;
-X-Forefront-PRVS: 0430FA5CB7
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: rSrY2V+aBq672Jb3/Vn0sRCdK184kJhb67+JAKK/kqwwiJ2yYWp/fYGWwjnd0kgg/RvEVBzM3Cq5g0voLMvnP8qY/8nezxa2GeMr5sYtLpkcuPYt/62CgK+BSYHTq0JI8WySnBiACftIRVo6tAQ7+1nIeUoWCqMqzkaLcSITVlxsrfJlcnnNEEXUMzSedg4yXujmbBNTUyi53D4ju4qprGb3ZDOQgoWF+5AnxAPWbBB9d7QTwtE6eu7L5FDrPxSLtKrC3tntkdlDj6CJXtybglo3yum2Xy+0zYkgKViaxdhKBdXCgrWDVWe80DU+NJ8A00XgRqGzZ52YK2hzJ7rlFlkuD8NQxjPoz16Iv6gvTK7UTG+M+hvOdghDHw4a/WGA
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM6PR08MB4214.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(366004)(39850400004)(136003)(396003)(376002)(346002)(52116002)(66476007)(66946007)(42882007)(66556008)(53546011)(6486002)(2616005)(956004)(4326008)(2906002)(5660300002)(36756003)(19627235002)(478600001)(186003)(8676002)(107886003)(8936002)(83170400001)(316002)(54906003)(31686004)(16526019)(26005)(83380400001)(16576012)(31696002)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: r8TeSrPDGmzG3DYsip6dDaKjS4ckxTGFkVcu7At4k72KazczFYKy+gDev1sjx9mKRx8ESbDp2k7JlvqvkVv/FScccBXLyo7Fwl8Qeu/2+q7fFe2cV9EbozOCKZDlpCsxg7MyBID7PFOlQ+KXJQyfwN3DJ37DVMDnG/eojH5VxOg16VrExdQJI5JoET+Y+rdP21Q1rU6AaFeZemtb6yEuYeWohKL6PNWNS9Bcnt0ohdDY3zTsPvH0+uH47u+84g7lPabRsnKKEwOucrTib5TBnTYM/R4SJEiwMlnIsOJ+w7oB8502HwJZBwhdAZeRk0hBy/XjbYFshns7lM9kYR8DLo6NKZpGdxPKVWusdIBDBfZt6P56VFIvQuWOsHsb1UIAov3rN4tmJIm3xzOW5i7ozw8AyuI2YHjV1hy0Lf0sBCEd3b9ATVDloLiaGhl9640D1MWS2ugAM9XN4iVF6LOK+tzO1X0mWuanKVuWZa4TT7zmU4h6yZ4azrCr5FAPppLy
-X-OriginatorOrg: openvz.org
-X-MS-Exchange-CrossTenant-Network-Message-Id: 59874d01-d4e5-4c22-8bb5-08d80d70ba7b
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jun 2020 19:01:49.0441 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: fKDEtbJQ1frvtvauHKXjQAna4+IKDwsLaXV/zZGcRs++sgu/v15nuwWF31BsBenNaDzQPYnrASUcfPNzs+N7Nw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4581
-Received-SPF: pass client-ip=40.107.20.119; envelope-from=den@virtuozzo.com;
- helo=EUR05-DB8-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/10 15:01:49
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -26
-X-Spam_score: -2.7
+In-Reply-To: <20200608164357.25065-4-filip.bozuta@syrmia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:6hG1/pbQz/eusf0Oy/x7fJenFvlMDh2zm5Ih+1jCi4Lv6cDYFjS
+ rPd/jdCpoomXazmIMN4bX4PdRuwQIq+yud6D93Aed+nc0jZH17mONbJjh1twj6CAqhCkTxx
+ ZflU7+6+mdqviy9cDFfLLhi/g1b75gAu9KehMwWwvdnTQ0A7pU+8z3bWF2awqYyY7BO0o48
+ eMVBlD0C5q8HV8qdjl74Q==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:/g7/b2y4ioU=:UH1K2hcsngxQd/+e0f8Sfp
+ 5sCsAJDxYc29aWW+/0RWXC7UPSTbL7xsgeMbtK078rp3PGQjQPWWAZ2BbAe3/v+31zKMcXhR4
+ aPR6UfDS0A8BDqAYWwQunHOcFCO6t95lzxidNdR2hGrbIbptyIPDXeHyOLI9SHL9Unx/iREsO
+ lz3tvWD4/C5PVbkkQRvS2EHEkn1yxjBFI1TMEvAU3D1ojDcL+IdwDz8gane47mABpAIkEQsVp
+ LdbkajTN5o+LWcrZj/objwvZKMKx3dTXbn3k3j1/5mCJkoy2798cjPIsVEKcIWzp9pQ7qucit
+ 0WDGXgjZL6jbZjUAHB4+VjhOhAhfFBAe4/7+zdxhTCSxJEvz5n+GV9teiOu2IqmW/JSNlIHhS
+ hbHmwNDz4uFBNpb+L/5WdNF6951aH7dYY6I7O6DiCcBAzrvdFA7M76XBEQ9fqBnRG+bE8B5Xb
+ YM1spPSad1fibsbsiEtmoHJhz0kygiu0sAhYLD8tnk3t0gAmLPzDp9Wku3o/7M4Z3lEql0H4c
+ VdZ1S0RKnD3CnnhFriTB5J6KE7NEDU9o1FQUhyakUcj3RgCIuJHkUNErFGhutxgpqSHyCbbVO
+ B1rHM2T7V5ShUBU3jZ748djcxJu4urd6RFeTqT245bACk0yUIVp7GuTH77AVZnpsMh85/29YV
+ ollRuzAyUlENtySNhLl3XM/0ibMQ9RaxQoJe7s+KT3zX1BRCLsYBQ4njxjskDZY1azEUMAHzr
+ 6oeAuZUf3O72WOwarjwZyPvg9+oSUePr6CfC+PBpMXKePsMD6v6iQx8mojtut7rcyQA1Jm28V
+ bwZeeP6jYPkOaRm6BxDIyYzxOO890pOlWpFfgLwerEZwuObEcQ=
+Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/10 15:06:13
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -115,204 +116,310 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Denis Plotnikov <dplotnikov@virtuozzo.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/10/20 9:58 PM, Denis V. Lunev wrote:
-> This patch does 2 standard basic things:
-> - it creates intermediate buffer for all writes from QEMU migration code
->   to QCOW2 image,
-> - this buffer is sent to disk asynchronously, allowing several writes to
->   run in parallel.
->
-> In general, migration code is fantastically inefficent (by observation),
-> buffers are not aligned and sent with arbitrary pieces, a lot of time
-> less than 100 bytes at a chunk, which results in read-modify-write
-> operations with non-cached operations. It should also be noted that all
-> operations are performed into unallocated image blocks, which also suffer
-> due to partial writes to such new clusters.
->
-> Snapshot creation time (2 GB Fedora-31 VM running over NVME storage):
->                 original     fixed
-> cached:          1.79s       1.27s
-> non-cached:      3.29s       0.81s
->
-> The difference over HDD would be more significant :)
->
-> Signed-off-by: Denis V. Lunev <den@openvz.org>
-> CC: Kevin Wolf <kwolf@redhat.com>
-> CC: Max Reitz <mreitz@redhat.com>
-> CC: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> CC: Denis Plotnikov <dplotnikov@virtuozzo.com>
+Le 08/06/2020 à 18:43, Filip Bozuta a écrit :
+> From: Filip Bozuta <Filip.Bozuta@syrmia.com>
+> 
+> This patch implements strace argument printing functionality for following syscalls:
+> 
+>     *getxattr, lgetxattr, fgetxattr - retrieve an extended attribute value
+> 
+>         ssize_t getxattr(const char *path, const char *name, void *value, size_t size)
+>         ssize_t lgetxattr(const char *path, const char *name, void *value, size_t size)
+>         ssize_t fgetxattr(int fd, const char *name, void *value, size_t size)
+>         man page: https://www.man7.org/linux/man-pages/man2/getxattr.2.html
+> 
+>     *listxattr, llistxattr, flistxattr - list extended attribute names
+> 
+>         ssize_t listxattr(const char *path, char *list, size_t size)
+>         ssize_t llistxattr(const char *path, char *list, size_t size)
+>         ssize_t flistxattr(int fd, char *list, size_t size)
+>         man page: https://www.man7.org/linux/man-pages/man2/listxattr.2.html
+> 
+>     *removexattr, lremovexattr, fremovexattr - remove an extended attribute
+> 
+>          int removexattr(const char *path, const char *name)
+>          int lremovexattr(const char *path, const char *name)
+>          int fremovexattr(int fd, const char *name)
+>          man page: https://www.man7.org/linux/man-pages/man2/removexattr.2.html
+> 
+> Implementation notes:
+> 
+>     All of the syscalls have strings as argument types and thus a separate
+>     printing function was stated in file "strace.list" for every one of them.
+>     All of these printing functions were defined in "strace.c" using existing
+>     printing functions for appropriate argument types:
+>        "print_string()" - for (const char*) type
+>        "print_pointer()" - for (char*) and (void *) type
+>        "print_raw_param()" for (int) and (size_t) type
+>     Syscalls "getxattr()" and "lgetxattr()" have the same number and type of
+>     arguments and thus their print functions ("print_getxattr", "print_lgetxattr")
+>     share a same definition. The same statement applies to syscalls "listxattr()"
+>     and "llistxattr()".
+>     Function "print_syscall_ret_listxattr()" was added to print the returned list
+>     of extended attributes for syscalls and was listed as a "result" function in file
+>     "strace.list" for syscalls: "listxattr(), llistxattr(), flistxattr()".
+> 
+> Signed-off-by: Filip Bozuta <Filip.Bozuta@syrmia.com>
 > ---
->  block/qcow2.c | 111 +++++++++++++++++++++++++++++++++++++++++++++++++-
->  block/qcow2.h |   4 ++
->  2 files changed, 113 insertions(+), 2 deletions(-)
->
-> diff --git a/block/qcow2.c b/block/qcow2.c
-> index 0cd2e6757e..e6232f32e2 100644
-> --- a/block/qcow2.c
-> +++ b/block/qcow2.c
-> @@ -4797,11 +4797,43 @@ static int qcow2_make_empty(BlockDriverState *bs)
->      return ret;
+>  linux-user/strace.c    | 126 +++++++++++++++++++++++++++++++++++++++++
+>  linux-user/strace.list |  21 ++++---
+>  2 files changed, 138 insertions(+), 9 deletions(-)
+> 
+> diff --git a/linux-user/strace.c b/linux-user/strace.c
+> index f980451e3f..59fdb0a05f 100644
+> --- a/linux-user/strace.c
+> +++ b/linux-user/strace.c
+> @@ -830,6 +830,45 @@ print_syscall_ret_adjtimex(const struct syscallname *name, abi_long ret,
 >  }
+>  #endif
 >  
-> +
-> +typedef struct Qcow2VMStateTask {
-> +    AioTask task;
-> +
-> +    BlockDriverState *bs;
-> +    int64_t offset;
-> +    void *buf;
-> +    size_t bytes;
-> +} Qcow2VMStateTask;
-> +
-> +typedef struct Qcow2SaveVMState {
-> +    AioTaskPool *pool;
-> +    Qcow2VMStateTask *t;
-> +} Qcow2SaveVMState;
-> +
->  static coroutine_fn int qcow2_co_flush_to_os(BlockDriverState *bs)
->  {
->      BDRVQcow2State *s = bs->opaque;
-> +    Qcow2SaveVMState *state = s->savevm_state;
->      int ret;
->  
-> +    if (state != NULL) {
-> +        aio_task_pool_start_task(state->pool, &state->t->task);
-> +
-> +        aio_task_pool_wait_all(state->pool);
-> +        ret = aio_task_pool_status(state->pool);
-> +
-> +        aio_task_pool_free(state->pool);
-> +        g_free(state);
-> +
-> +        s->savevm_state = NULL;
-> +
-> +        if (ret < 0) {
-> +            return ret;
-> +        }
-> +    }
-> +
->      qemu_co_mutex_lock(&s->lock);
->      ret = qcow2_write_caches(bs);
->      qemu_co_mutex_unlock(&s->lock);
-> @@ -5098,14 +5130,89 @@ static int qcow2_has_zero_init(BlockDriverState *bs)
->      }
->  }
->  
-> +
-> +static coroutine_fn int qcow2_co_vmstate_task_entry(AioTask *task)
+> +#if defined(TARGET_NR_listxattr) || defined(TARGET_NR_llistxattr) \
+> + || defined(TARGGET_NR_flistxattr)
+> +static void
+> +print_syscall_ret_listxattr(const struct syscallname *name, abi_long ret,
+> +                            abi_long arg0, abi_long arg1, abi_long arg2,
+> +                            abi_long arg3, abi_long arg4, abi_long arg5)
 > +{
-> +    int err = 0;
-> +    Qcow2VMStateTask *t = container_of(task, Qcow2VMStateTask, task);
+> +    const char *errstr = NULL;
 > +
-> +    if (t->bytes != 0) {
-> +        QEMUIOVector local_qiov;
-> +        qemu_iovec_init_buf(&local_qiov, t->buf, t->bytes);
-> +        err = t->bs->drv->bdrv_co_pwritev_part(t->bs, t->offset, t->bytes,
-> +                                               &local_qiov, 0, 0);
-> +    }
-> +
-> +    qemu_vfree(t->buf);
-> +    return err;
-> +}
-> +
-> +static Qcow2VMStateTask *qcow2_vmstate_task_create(BlockDriverState *bs,
-> +                                                    int64_t pos, size_t size)
-> +{
-> +    BDRVQcow2State *s = bs->opaque;
-> +    Qcow2VMStateTask *t = g_new(Qcow2VMStateTask, 1);
-> +
-> +    *t = (Qcow2VMStateTask) {
-> +        .task.func = qcow2_co_vmstate_task_entry,
-> +        .buf = qemu_blockalign(bs, size),
-> +        .offset = qcow2_vm_state_offset(s) + pos,
-> +        .bs = bs,
-> +    };
-> +
-> +    return t;
-> +}
-> +
->  static int qcow2_save_vmstate(BlockDriverState *bs, QEMUIOVector *qiov,
->                                int64_t pos)
->  {
->      BDRVQcow2State *s = bs->opaque;
-> +    Qcow2SaveVMState *state = s->savevm_state;
-> +    Qcow2VMStateTask *t;
-> +    size_t buf_size = MAX(s->cluster_size, 1 * MiB);
-> +    size_t to_copy;
-> +    size_t off;
->  
->      BLKDBG_EVENT(bs->file, BLKDBG_VMSTATE_SAVE);
-> -    return bs->drv->bdrv_co_pwritev_part(bs, qcow2_vm_state_offset(s) + pos,
-> -                                         qiov->size, qiov, 0, 0);
-> +
-> +    if (state == NULL) {
-> +        state = g_new(Qcow2SaveVMState, 1);
-> +        *state = (Qcow2SaveVMState) {
-> +            .pool = aio_task_pool_new(QCOW2_MAX_WORKERS),
-> +            .t = qcow2_vmstate_task_create(bs, pos, buf_size),
-> +        };
-> +
-> +        s->savevm_state = state;
-> +    }
-> +
-> +    if (aio_task_pool_status(state->pool) != 0) {
-> +        return aio_task_pool_status(state->pool);
-> +    }
-> +
-> +    t = state->t;
-> +    if (t->offset + t->bytes != qcow2_vm_state_offset(s) + pos) {
-> +        /* Normally this branch is not reachable from migration */
-> +        return bs->drv->bdrv_co_pwritev_part(bs,
-> +                qcow2_vm_state_offset(s) + pos, qiov->size, qiov, 0, 0);
-> +    }
-> +
-> +    off = 0;
-> +    while (1) {
-> +        to_copy = MIN(qiov->size - off, buf_size - t->bytes);
-> +        qemu_iovec_to_buf(qiov, off, t->buf + t->bytes, to_copy);
-> +        t->bytes += to_copy;
-> +        if (t->bytes < buf_size) {
-> +            return 0;
+> +    qemu_log(" = ");
+> +    if (ret < 0) {
+> +        qemu_log("-1 errno=%d", errno);
+> +        errstr = target_strerror(-ret);
+> +        if (errstr) {
+> +            qemu_log(" (%s)", errstr);
 > +        }
-> +
-> +        aio_task_pool_start_task(state->pool, &t->task);
-> +
-> +        pos += to_copy;
-> +        off += to_copy;
-> +        state->t = t = qcow2_vmstate_task_create(bs, pos, buf_size);
+
+We have several time this kind of code in strace.c
+(print_syscall_ret_addr, print_syscall_ret_adjtimex, print_syscall_ret)
+perhaps it could be moved  to generic function (in a previous patch)?
+
+> +    } else {
+> +        qemu_log(TARGET_ABI_FMT_ld, ret);
+> +        qemu_log(" (list = ");
+> +        if (arg1 != 0) {
+> +            abi_long attr = arg1;
+> +            for (;;) {
+
+We should avoid an infinite loop, and it's easy as you now the size of
+the buffer (ret).
+
+> +                print_string(attr, 1);
+> +                attr += target_strlen(attr) + 1;
+> +                if (target_strlen(attr) == 0) {
+> +                    break;
+> +                }
+> +                qemu_log(",");
+> +            }
+> +        } else {
+> +            qemu_log("NULL");
+> +        }
+> +        qemu_log(")");
 > +    }
 > +
-> +    return 0;
->  }
->  
->  static int qcow2_load_vmstate(BlockDriverState *bs, QEMUIOVector *qiov,
-> diff --git a/block/qcow2.h b/block/qcow2.h
-> index 7ce2c23bdb..146cfed739 100644
-> --- a/block/qcow2.h
-> +++ b/block/qcow2.h
-> @@ -291,6 +291,8 @@ typedef struct Qcow2BitmapHeaderExt {
->  
->  #define QCOW2_MAX_THREADS 4
->  
-> +typedef struct Qcow2SaveVMState Qcow2SaveVMState;
+> +    qemu_log("\n");
+> +}
+
+You should do as for the entry functions, and define the ones for
+llistxattr and flistxattr:
+
+#define print_syscall_ret_flistxattr print_syscall_ret_listxattr
+#define print_syscall_ret_xlistxattr print_syscall_ret_listxattr
+
+I have no preference on that but it's to be homogeneous with the rest of
+the code.
+
+> +#endif
 > +
->  typedef struct BDRVQcow2State {
->      int cluster_bits;
->      int cluster_size;
-> @@ -384,6 +386,8 @@ typedef struct BDRVQcow2State {
->       * is to convert the image with the desired compression type set.
->       */
->      Qcow2CompressionType compression_type;
-> +
-> +    Qcow2SaveVMState *savevm_state;
->  } BDRVQcow2State;
+>  UNUSED static struct flags access_flags[] = {
+>      FLAG_GENERIC(F_OK),
+>      FLAG_GENERIC(R_OK),
+> @@ -1637,6 +1676,93 @@ print_fcntl(const struct syscallname *name,
+>  #define print_fcntl64   print_fcntl
+>  #endif
 >  
->  typedef struct Qcow2COWRegion {
-- please ignore
+> +#ifdef TARGET_NR_fgetxattr
+> +static void
+> +print_fgetxattr(const struct syscallname *name,
+> +    abi_long arg0, abi_long arg1, abi_long arg2,
+> +    abi_long arg3, abi_long arg4, abi_long arg5)
+> +{
+> +    print_syscall_prologue(name);
+> +    print_raw_param("%d", arg0, 0);
+> +    print_string(arg1, 0);
+> +    print_pointer(arg2, 0);
+> +    print_raw_param(TARGET_FMT_lu, arg3, 1);
+> +    print_syscall_epilogue(name);
+> +}
+> +#endif
+> +
+> +#ifdef TARGET_NR_flistxattr
+> +static void
+> +print_flistxattr(const struct syscallname *name,
+> +    abi_long arg0, abi_long arg1, abi_long arg2,
+> +    abi_long arg3, abi_long arg4, abi_long arg5)
+> +{
+> +    print_syscall_prologue(name);
+> +    print_raw_param("%d", arg0, 0);
+> +    print_pointer(arg1, 0);
+> +    print_raw_param(TARGET_FMT_lu, arg2, 1);
+> +    print_syscall_epilogue(name);
+> +}
+> +#endif
+> +
+> +#if defined(TARGET_NR_getxattr) || defined(TARGET_NR_lgetxattr)
+> +static void
+> +print_getxattr(const struct syscallname *name,
+> +    abi_long arg0, abi_long arg1, abi_long arg2,
+> +    abi_long arg3, abi_long arg4, abi_long arg5)
+> +{
+> +    print_syscall_prologue(name);
+> +    print_string(arg0, 0);
+> +    print_string(arg1, 0);
+> +    print_pointer(arg2, 0);
+> +    print_raw_param(TARGET_FMT_lu, arg3, 1);
+> +    print_syscall_epilogue(name);
+> +}
+> +#define print_lgetxattr     print_getxattr
+> +#endif
+> +
+> +#if defined(TARGET_NR_listxattr) || defined(TARGET_NR_llistxattr)
+> +static void
+> +print_listxattr(const struct syscallname *name,
+> +    abi_long arg0, abi_long arg1, abi_long arg2,
+> +    abi_long arg3, abi_long arg4, abi_long arg5)
+> +{
+> +    print_syscall_prologue(name);
+> +    print_string(arg0, 0);
+> +    print_pointer(arg1, 0);
+> +    print_raw_param(TARGET_FMT_lu, arg2, 1);
+> +    print_syscall_epilogue(name);
+> +}
+> +#define print_llistxattr     print_listxattr
+> +#endif
+> +
+> +#if defined(TARGET_NR_fremovexattr)
+> +static void
+> +print_fremovexattr(const struct syscallname *name,
+> +    abi_long arg0, abi_long arg1, abi_long arg2,
+> +    abi_long arg3, abi_long arg4, abi_long arg5)
+> +{
+> +    print_syscall_prologue(name);
+> +    print_raw_param("%d", arg0, 0);
+> +    print_string(arg1, 1);
+> +    print_syscall_epilogue(name);
+> +}
+> +#endif
+> +
+> +#if defined(TARGET_NR_removexattr) || defined(TARGET_NR_lremovexattr)
+> +static void
+> +print_removexattr(const struct syscallname *name,
+> +    abi_long arg0, abi_long arg1, abi_long arg2,
+> +    abi_long arg3, abi_long arg4, abi_long arg5)
+> +{
+> +    print_syscall_prologue(name);
+> +    print_string(arg0, 0);
+> +    print_string(arg1, 1);
+> +    print_syscall_epilogue(name);
+> +}
+> +#define print_lremovexattr     print_removexattr
+> +#endif
+> +
+>  #ifdef TARGET_NR_futimesat
+>  static void
+>  print_futimesat(const struct syscallname *name,
+> diff --git a/linux-user/strace.list b/linux-user/strace.list
+> index fb9799e7e6..05a72370c1 100644
+> --- a/linux-user/strace.list
+> +++ b/linux-user/strace.list
+> @@ -218,13 +218,14 @@
+>  { TARGET_NR_fdatasync, "fdatasync" , "%s(%d)", NULL, NULL },
+>  #endif
+>  #ifdef TARGET_NR_fgetxattr
+> -{ TARGET_NR_fgetxattr, "fgetxattr" , NULL, NULL, NULL },
+> +{ TARGET_NR_fgetxattr, "fgetxattr" , NULL, print_fgetxattr, NULL },
+>  #endif
+>  #ifdef TARGET_NR_finit_module
+>  { TARGET_NR_finit_module, "finit_module" , NULL, NULL, NULL },
+>  #endif
+>  #ifdef TARGET_NR_flistxattr
+> -{ TARGET_NR_flistxattr, "flistxattr" , NULL, NULL, NULL },
+> +{ TARGET_NR_flistxattr, "flistxattr" , NULL, print_flistxattr,
+> +                        print_syscall_ret_listxattr},
+
+print_syscall_ret_flistxattr
+
+>  #endif
+>  #ifdef TARGET_NR_flock
+>  { TARGET_NR_flock, "flock" , NULL, NULL, NULL },
+> @@ -233,7 +234,7 @@
+>  { TARGET_NR_fork, "fork" , "%s()", NULL, NULL },
+>  #endif
+>  #ifdef TARGET_NR_fremovexattr
+> -{ TARGET_NR_fremovexattr, "fremovexattr" , NULL, NULL, NULL },
+> +{ TARGET_NR_fremovexattr, "fremovexattr" , NULL, print_fremovexattr, NULL },
+>  #endif
+>  #ifdef TARGET_NR_fsetxattr
+>  { TARGET_NR_fsetxattr, "fsetxattr" , NULL, NULL, NULL },
+> @@ -396,7 +397,7 @@
+>  { TARGET_NR_getuid32, "getuid32" , NULL, NULL, NULL },
+>  #endif
+>  #ifdef TARGET_NR_getxattr
+> -{ TARGET_NR_getxattr, "getxattr" , NULL, NULL, NULL },
+> +{ TARGET_NR_getxattr, "getxattr" , NULL, print_getxattr, NULL },
+>  #endif
+>  #ifdef TARGET_NR_getxgid
+>  { TARGET_NR_getxgid, "getxgid" , NULL, NULL, NULL },
+> @@ -480,7 +481,7 @@
+>  { TARGET_NR_lchown32, "lchown32" , NULL, NULL, NULL },
+>  #endif
+>  #ifdef TARGET_NR_lgetxattr
+> -{ TARGET_NR_lgetxattr, "lgetxattr" , NULL, NULL, NULL },
+> +{ TARGET_NR_lgetxattr, "lgetxattr" , NULL, print_lgetxattr, NULL },
+>  #endif
+>  #ifdef TARGET_NR_link
+>  { TARGET_NR_link, "link" , NULL, print_link, NULL },
+> @@ -495,10 +496,12 @@
+>  { TARGET_NR_listen, "listen" , "%s(%d,%d)", NULL, NULL },
+>  #endif
+>  #ifdef TARGET_NR_listxattr
+> -{ TARGET_NR_listxattr, "listxattr" , NULL, NULL, NULL },
+> +{ TARGET_NR_listxattr, "listxattr" , NULL, print_listxattr,
+> +                       print_syscall_ret_listxattr},
+>  #endif
+>  #ifdef TARGET_NR_llistxattr
+> -{ TARGET_NR_llistxattr, "llistxattr" , NULL, NULL, NULL },
+> +{ TARGET_NR_llistxattr, "llistxattr" , NULL, print_llistxattr,
+> +                        print_syscall_ret_listxattr},
+
+print_syscall_ret_llistxattr
+
+>  #endif
+>  #ifdef TARGET_NR__llseek
+>  { TARGET_NR__llseek, "_llseek" , NULL, print__llseek, NULL },
+> @@ -510,7 +513,7 @@
+>  { TARGET_NR_lookup_dcookie, "lookup_dcookie" , NULL, NULL, NULL },
+>  #endif
+>  #ifdef TARGET_NR_lremovexattr
+> -{ TARGET_NR_lremovexattr, "lremovexattr" , NULL, NULL, NULL },
+> +{ TARGET_NR_lremovexattr, "lremovexattr" , NULL, print_lremovexattr, NULL },
+>  #endif
+>  #ifdef TARGET_NR_lseek
+>  { TARGET_NR_lseek, "lseek" , NULL, NULL, NULL },
+> @@ -1116,7 +1119,7 @@
+>  { TARGET_NR_remap_file_pages, "remap_file_pages" , NULL, NULL, NULL },
+>  #endif
+>  #ifdef TARGET_NR_removexattr
+> -{ TARGET_NR_removexattr, "removexattr" , NULL, NULL, NULL },
+> +{ TARGET_NR_removexattr, "removexattr" , NULL, print_removexattr, NULL },
+>  #endif
+>  #ifdef TARGET_NR_rename
+>  { TARGET_NR_rename, "rename" , NULL, print_rename, NULL },
+> 
+
+Thanks,
+Laurent
 
