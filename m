@@ -2,85 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA1A21F4CBB
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 07:03:51 +0200 (CEST)
-Received: from localhost ([::1]:45534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62C071F4CC4
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 07:08:26 +0200 (CEST)
+Received: from localhost ([::1]:36410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jisty-0001iG-Tz
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 01:03:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34862)
+	id 1jisyP-0001Wm-EK
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 01:08:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jisPD-0005Zn-OE
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 00:32:03 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:33301
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jisPC-0000k6-Px
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 00:32:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591763522;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=2tWNry73oPv2gQlztpgeBRBkHzYAUwx8arM+2V6vlZU=;
- b=Bd1MT3oUk38A/EFEMY7sLiouqHQxqcGXRhSx5fdgLVB4LWf+/INSf7WD/1NurHfYshT1ZJ
- IBMZvBZFqU6R2/UuI2NoU1fudS+WwP/hjXIb2c2muDIM1n6oXQtJtHXgouccfDe6hbhr82
- xqyYkoUvjxjuuCHjIDnMBtblARzVJyo=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-344-by6ql6GrPXmkQqHNt62bSQ-1; Wed, 10 Jun 2020 00:28:38 -0400
-X-MC-Unique: by6ql6GrPXmkQqHNt62bSQ-1
-Received: by mail-wm1-f72.google.com with SMTP id j128so87258wmj.6
- for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 21:28:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=2tWNry73oPv2gQlztpgeBRBkHzYAUwx8arM+2V6vlZU=;
- b=dg/eVHWCdpMWM+SHIpVIcJi4oUGtA6omoFK3otd/WX3cDVhr3z7/dO1kUJXnZYSYVj
- taxHW6AHy71V5hFlOpJnoNajwQ31uHsm1TJIbNTGXjxeS5hgkJwTbl51/iaSxgd/8tlP
- YnyKF+59bJz7jj5Ds5vuMwTKYuZBccD1rg3mnLYKJVhdNftQVRA0hWxMhuihRY+8l89o
- f85DF4BvQ8wPT3ow4bOqVZ8a4BficR0c+2yxTelus77njx0OUd3u0RENxgnvT9lqvk4l
- xQHy9tMjIxKVs5/76ChGSWZTIxIMKtjWMqlkmskPWrqb91z36g4TWNSw9Hga0L3EFGhh
- +mVA==
-X-Gm-Message-State: AOAM533rGttBcuSdjP7SuYEDMe6v9sTdWA8H5fc5JaxMJiwQ8wBVdAZM
- XXWN0pg9I9WOfSQqMa66G316xB4PG83X0uPTOk3aaCtF3TTFzPRGz8c87WvtdUaMmelBG1F7pDj
- HPysdlUvqt7NpzV8=
-X-Received: by 2002:a1c:7e41:: with SMTP id z62mr1096646wmc.113.1591763316720; 
- Tue, 09 Jun 2020 21:28:36 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxoRBMsoAlLRMxxflDDwWDOKBE+u/+3Whwk4ZwJ3SGYy4OmlXYI/g8YMta1SLCeS8cZUQeyCg==
-X-Received: by 2002:a1c:7e41:: with SMTP id z62mr1096638wmc.113.1591763316526; 
- Tue, 09 Jun 2020 21:28:36 -0700 (PDT)
-Received: from redhat.com (bzq-79-181-55-232.red.bezeqint.net. [79.181.55.232])
- by smtp.gmail.com with ESMTPSA id e10sm6210290wrn.11.2020.06.09.21.28.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Jun 2020 21:28:36 -0700 (PDT)
-Date: Wed, 10 Jun 2020 00:28:34 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 54/56] acpi: fadt: add hw-reduced sleep register support
-Message-ID: <20200610042613.1459309-55-mst@redhat.com>
-References: <20200610042613.1459309-1-mst@redhat.com>
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1jisjJ-0002YO-Ln; Wed, 10 Jun 2020 00:52:49 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:41619 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1jisjG-0004eU-Nx; Wed, 10 Jun 2020 00:52:49 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 49hZFC2R7Fz9sQx; Wed, 10 Jun 2020 14:46:07 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1591764367;
+ bh=ZG+dSKtYCs4GWV8rc0PS07x5YfO+R2meZ1M5/uNSHm4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=XzhPdfyZna8knULwR8dW3AxZ9yupXAterKxp1g8FBQxFilRqpBfNuA6h8NKlxZukD
+ 8AhBA+3rsr5+Z9Dawd/C0pDnukIxuIOXmqtdnbSh5Xx/Eo9+Yge2tl9Qia5XVPPngl
+ T42kjdNYONicLk2/QBhRTvEpz4E2AFJFV0q8ybKc=
+Date: Wed, 10 Jun 2020 14:29:29 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Halil Pasic <pasic@linux.ibm.com>
+Subject: Re: [PATCH v2 1/1] virtio-ccw: auto-manage VIRTIO_F_IOMMU_PLATFORM
+ if PV
+Message-ID: <20200610042929.GE494336@umbus.fritz.box>
+References: <20200514221155.32079-1-pasic@linux.ibm.com>
+ <20200520121507-mutt-send-email-mst@kernel.org>
+ <20200606013217.2cffa3ed.pasic@linux.ibm.com>
+ <20200608181428.3c6f127c.cohuck@redhat.com>
+ <20200608190045.319dd68b.pasic@linux.ibm.com>
+ <20200609084402.35d317ec.cohuck@redhat.com>
+ <20200609114130.0ca9190b.pasic@linux.ibm.com>
+ <20200609174747.4e300818@ibm-vm>
+ <20200609182839.7ac80938.pasic@linux.ibm.com>
 MIME-Version: 1.0
-In-Reply-To: <20200610042613.1459309-1-mst@redhat.com>
-X-Mailer: git-send-email 2.24.1.751.gd10ce2899c
-X-Mutt-Fcc: =sent
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="uCPdOCrL+PnN2Vxy"
 Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=mst@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 21:17:20
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+In-Reply-To: <20200609182839.7ac80938.pasic@linux.ibm.com>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -9
+X-Spam_score: -1.0
+X-Spam_bar: -
+X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,56 +68,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>
+Cc: Viktor Mihajlovski <mihajlov@linux.ibm.com>, Thomas Huth <thuth@redhat.com>,
+ Boris Fiuczynski <fiuczy@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>,
+ Pierre Morel <pmorel@linux.ibm.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, David Hildenbrand <david@redhat.com>,
+ qemu-devel@nongnu.org, Christian Borntraeger <borntraeger@de.ibm.com>,
+ qemu-s390x@nongnu.org, Claudio Imbrenda <imbrenda@linux.ibm.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Gerd Hoffmann <kraxel@redhat.com>
 
-Add fields to struct AcpiFadtData and update build_fadt() to properly
-generate sleep register entries.
+--uCPdOCrL+PnN2Vxy
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20200520132003.9492-9-kraxel@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
----
- include/hw/acpi/acpi-defs.h | 2 ++
- hw/acpi/aml-build.c         | 4 ++--
- 2 files changed, 4 insertions(+), 2 deletions(-)
+On Tue, Jun 09, 2020 at 06:28:39PM +0200, Halil Pasic wrote:
+> On Tue, 9 Jun 2020 17:47:47 +0200
+> Claudio Imbrenda <imbrenda@linux.ibm.com> wrote:
+>=20
+> > On Tue, 9 Jun 2020 11:41:30 +0200
+> > Halil Pasic <pasic@linux.ibm.com> wrote:
+> >=20
+> > [...]
+> >=20
+> > > I don't know. Janosch could answer that, but he is on vacation. Adding
+> > > Claudio maybe he can answer. My understanding is, that while it might
+> > > be possible, it is ugly at best. The ability to do a transition is
+> > > indicated by a CPU model feature. Indicating the feature to the guest
+> > > and then failing the transition sounds wrong to me.
+> >=20
+> > I agree. If the feature is advertised, then it has to work. I don't
+> > think we even have an architected way to fail the transition for that
+> > reason.
+> >=20
+> > What __could__ be done is to prevent qemu from even starting if an
+> > incompatible device is specified together with PV.
+>=20
+> AFAIU, the "specified together with PV" is the problem here. Currently
+> we don't "specify PV" but PV is just a capability that is managed by the
+> CPU model (like so many other). I.e. the fact that the
+> visualization environment is capable providing PV (unpack facility
+> available), and the fact, that the end user didn't fence the unpack
+> facility, does not mean, the user is dead set to use PV.
+>=20
+> My understanding is, that we want PV to just work, without having to
+> put together a peculiar VM definition that says: this is going to be
+> used as a PV VM.
 
-diff --git a/include/hw/acpi/acpi-defs.h b/include/hw/acpi/acpi-defs.h
-index c13327fa78..3be9ab5049 100644
---- a/include/hw/acpi/acpi-defs.h
-+++ b/include/hw/acpi/acpi-defs.h
-@@ -88,6 +88,8 @@ typedef struct AcpiFadtData {
-     struct AcpiGenericAddress pm_tmr;    /* PM_TMR_BLK */
-     struct AcpiGenericAddress gpe0_blk;  /* GPE0_BLK */
-     struct AcpiGenericAddress reset_reg; /* RESET_REG */
-+    struct AcpiGenericAddress sleep_ctl; /* SLEEP_CONTROL_REG */
-+    struct AcpiGenericAddress sleep_sts; /* SLEEP_STATUS_REG */
-     uint8_t reset_val;         /* RESET_VALUE */
-     uint8_t  rev;              /* Revision */
-     uint32_t flags;            /* Flags */
-diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
-index d24e9e6c3a..2cb7b991ef 100644
---- a/hw/acpi/aml-build.c
-+++ b/hw/acpi/aml-build.c
-@@ -1866,9 +1866,9 @@ void build_fadt(GArray *tbl, BIOSLinker *linker, const AcpiFadtData *f,
-     }
- 
-     /* SLEEP_CONTROL_REG */
--    build_append_gas(tbl, AML_AS_SYSTEM_MEMORY, 0 , 0, 0, 0);
-+    build_append_gas_from_struct(tbl, &f->sleep_ctl);
-     /* SLEEP_STATUS_REG */
--    build_append_gas(tbl, AML_AS_SYSTEM_MEMORY, 0 , 0, 0, 0);
-+    build_append_gas_from_struct(tbl, &f->sleep_sts);
- 
-     /* TODO: extra fields need to be added to support revisions above rev5 */
-     assert(f->rev == 5);
--- 
-MST
+Having had a similar discussion for POWER, I no longer think this is a
+wise model.  I think we want to have an explicit "allow PV" option -
+but we do want it to be a *single* option, rather than having to
+change configuration of a whole bunch of places.
 
+My intention is for my 'host-trust-limitation' series to accomplish
+that.
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--uCPdOCrL+PnN2Vxy
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl7gYakACgkQbDjKyiDZ
+s5KssBAAv3X5FqeJqLQeW/ZNYCqjJcTdXoC2k8qhTxQMwpbSV8bM0/1FASFNK02X
+bMXzdr7FcBc9wLyGBd75Bfga6jDgffWEMparTTNmaPBBiMG9neq/TVX34OlEipGW
+7MK8BSJbK9RIOUP7NNGnV9K5VDVMSoX8f1kIUmiOGAzyIyj8UNJfuL/16L/SG1W+
+xQQrV+LCu0BE03qEhVCEEIwZKtDTBMxT6iNmAPw4RKuRkgHOGX3q+hL8+7T/2vog
++B2d5nu00hJcIY7smT+R1PNyCAya+JeVLEW5cMwCx7VtRjmAeGLlHnNfAPOveGoG
+tvueN+IiiN7MhJmGMYOzVbWh6J4aeats47SevyVNwAS0C1X/prMLMRL1h9z+2xwu
+n64CZq+G+5awmuOwzbbxAyEyFdBOXiIpunO2PZk7bK8i4Q9bf60Mo3Tk/tujB8Uv
+2Yb7Dt1OBp7rxe0qOBeTpDIoE87qOaQMaFt3KJPcCwPPT6UPBsGTyaXgYLcZjAiP
+YHS7Kt2VWUIS78k7nUgxD5XA3ZJ1QCuW7hgpfMMscbXtbQgf7a7m71nc1KecldCp
+70zykGZO/P7xvDd75Shh1l+NNzO0lEUV7Y0w0QX6aPZR6DZnc+87pmqcRYMnKZM1
+KWv9xstukqQqu4HmiXujF39GRwL01pl9FPEbfTsyrBe0VKeiY+c=
+=lwkf
+-----END PGP SIGNATURE-----
+
+--uCPdOCrL+PnN2Vxy--
 
