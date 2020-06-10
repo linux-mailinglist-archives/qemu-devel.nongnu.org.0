@@ -2,92 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2BF91F4E24
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 08:25:12 +0200 (CEST)
-Received: from localhost ([::1]:44956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B41DF1F4E05
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 08:18:38 +0200 (CEST)
+Received: from localhost ([::1]:53992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jiuAh-0005AS-O0
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 02:25:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46844)
+	id 1jiu4L-0005J0-Ow
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 02:18:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jitxI-0007sX-8L
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 02:11:20 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:55552
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jitxH-000338-7M
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 02:11:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591769477;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7xVJbzgapHumTZzw41eLtnS/uNwrsbkLhVeL+Tlljxc=;
- b=MqowPk9orPTyIFlrvziRKAKvjbuAfx4oZCRztct7Y3bg+aZGpbBnG6ba815AUfxMZPDZKS
- PzQ+mlZ3vSf8z1BgeHOmSZvukb1f2YH1i5BhaweeB2+quTve/m/gxv4EThyx3Cra3ebq80
- 7uODuR+mkOGwri7OrGnDfCAB7XgcppI=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-89-8u7WKT51NOCpkLU8E5qxyw-1; Wed, 10 Jun 2020 02:11:14 -0400
-X-MC-Unique: 8u7WKT51NOCpkLU8E5qxyw-1
-Received: by mail-wm1-f71.google.com with SMTP id p24so141023wmc.1
- for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 23:11:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=7xVJbzgapHumTZzw41eLtnS/uNwrsbkLhVeL+Tlljxc=;
- b=XImczn9+kDnVeVgb4y+QgWCNLEL6fKh2gZcw/WRJJc/zLLfns6V1POJgMIMqKp1EeU
- C0dtHKKU1VqsjhTGehXfpgBewFnyX29C94vNRygIzOkZdUStJ5gts1n2dCAdZnyhmTiM
- svsUq5YcG4cPrRwR+w8szSYMDD0K6bsCy/6j9V/v4SO/S7U8SOim4+JYEjC5hCQDqV4e
- ZAjF8fl0B8x+qe/A/wNVGoei4TlS7ClDwgdcXEPkDDj2bN/lyEfJUnfXm5YCo7mA+dGa
- vSl2iFK1AX4sWxnjVtdECfjrHVL3mgq5/m8U8moWD2gy5fyVGimNCAUO6xDana3jojPa
- BH5w==
-X-Gm-Message-State: AOAM533dMol4JPvycwiPF0cpplpeC+FlP5YB0uuBHAuxNeRxFg9hv9DY
- VSU+lcCs7mrPOrrezc2VriPpmTbNOx3ElboE9CwgFG6qFLjVmuJbdOwMVIlF3DSfIOwcB6jNKz8
- wL26WCmKxFkGMfo8=
-X-Received: by 2002:adf:e749:: with SMTP id c9mr1835922wrn.25.1591769473074;
- Tue, 09 Jun 2020 23:11:13 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyyrXBK9iTGF63NevDsMQC2I1K2EbL01ghgD7FzaBVeUtAulUqB3HGqIIZsSi3JnxkR9sz5lw==
-X-Received: by 2002:adf:e749:: with SMTP id c9mr1835877wrn.25.1591769472711;
- Tue, 09 Jun 2020 23:11:12 -0700 (PDT)
-Received: from redhat.com (bzq-79-181-55-232.red.bezeqint.net. [79.181.55.232])
- by smtp.gmail.com with ESMTPSA id 30sm6615267wrd.47.2020.06.09.23.11.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Jun 2020 23:11:12 -0700 (PDT)
-Date: Wed, 10 Jun 2020 02:11:08 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Jason Wang <jasowang@redhat.com>
-Subject: Re: [PATCH v2 4/7] vhost: involve device backends in feature
- negotiation
-Message-ID: <20200610020908-mutt-send-email-mst@kernel.org>
-References: <20200609170218.246468-1-stefanha@redhat.com>
- <20200609170218.246468-5-stefanha@redhat.com>
- <20200609135007-mutt-send-email-mst@kernel.org>
- <37ac3fbb-9a9b-9290-abee-a8603c81925c@redhat.com>
- <20200610001156-mutt-send-email-mst@kernel.org>
- <1e503661-0652-b0dc-f900-8cd9aca2ccb8@redhat.com>
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jiu2X-0003vi-Ce; Wed, 10 Jun 2020 02:16:45 -0400
+Received: from mail-db8eur05on2103.outbound.protection.outlook.com
+ ([40.107.20.103]:10080 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jiu2V-0003zN-45; Wed, 10 Jun 2020 02:16:44 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Tn6qW3LoCtSNje5F4UAWaxUYl9Jqbbtz6+08gjcLJIHZg8KKh859x6bc8CdfmOahzYivuQwLH17IuPNuKPt3dkYZlWEoyZiCwCYCq/mB7kGhQM4HiduGZ2n3DinnvOwBhSJRJOdlR906QjI/oHGNK7uSxeyaxddi7IZnEWIU6ggeWwlXFoP1zTpCtRFfBm84s/HauUVmNq6eEYD27s+XOj+n+E/8wOu+cy7uKu5Owh1HdbDA/RKVD3Px4DeR8rTtOafyX61/JogX7w4+p6+a33dPjx/jIxAGDO8HgD+1K46LGZSTvueVR5srEBCTyXwe6dlJEc6nvS80TzsbDJtn/Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UAkTMRS+TfIWXPXlxOzyM2thV/jCgT4hlOPPUQGBkFg=;
+ b=kkVMLK/lGaHOQmIjTbEVP7nX8ZLNsA6A3BQC2hLCiA++ueOWQmJA8K3nYwiK7KGvIxz3cnvUE5si24I+Hzhu1lvg4NfmU4Dn/878BGO0pzhyHTnyt94rpTplMkY8/7jBxKLmfXIojCF6u2mRPchMgufe3ttc5KkZMGD93cdOAYSkBFrJUzHMn/JAxgN52VkUDYob1aIePBkt11P77sh08E24+3odNgBK8V1BW/Gq1ha8tXWVhv9YPdgbCgVo/9jbOCPSsYSemcQx9m3nFLsjeqeU6AHpnQOi3mmhx6TCyD3ILEO2XF+/I0QajYUKNLQHhLSNq5NtkmKSDb8g1oYaQw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UAkTMRS+TfIWXPXlxOzyM2thV/jCgT4hlOPPUQGBkFg=;
+ b=BkO6ZsPhJkpUBKLQb3m7XkdNor/5pL08QQVDPZNqXEReIuqHuLdId/oKNK60Ce++fm/wNWjrHNTv6MxhlxHGjS2T0EMLMNMqPGbpVaWuPzUPc4MC1EEYEI/krFv6PhMyYIkuyzhj614zfjiyXMSg7aZRoNjaaFDoYCiAxgJkWWE=
+Authentication-Results: google.com; dkim=none (message not signed)
+ header.d=none;google.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM7PR08MB5430.eurprd08.prod.outlook.com (2603:10a6:20b:106::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3066.18; Wed, 10 Jun
+ 2020 06:16:40 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::a408:2f0f:bc6c:d312]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::a408:2f0f:bc6c:d312%3]) with mapi id 15.20.3066.023; Wed, 10 Jun 2020
+ 06:16:40 +0000
+Subject: Re: Clarification regarding new qemu-img convert --target-is-zero flag
+To: Sam Eiderman <sameid@google.com>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, david.edmondson@oracle.com
+References: <CAFr6bU=LjeW5_eGtwL38cher2TM52skohuANNXN9EpO+mA-z8Q@mail.gmail.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <f93b4d9a-4963-74e9-4f52-f95a187f6055@virtuozzo.com>
+Date: Wed, 10 Jun 2020 09:16:38 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.1
+In-Reply-To: <CAFr6bU=LjeW5_eGtwL38cher2TM52skohuANNXN9EpO+mA-z8Q@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM0PR06CA0112.eurprd06.prod.outlook.com
+ (2603:10a6:208:ab::17) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-In-Reply-To: <1e503661-0652-b0dc-f900-8cd9aca2ccb8@redhat.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 23:22:15
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.2] (185.215.60.166) by
+ AM0PR06CA0112.eurprd06.prod.outlook.com (2603:10a6:208:ab::17) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3088.18 via Frontend Transport; Wed, 10 Jun 2020 06:16:39 +0000
+X-Originating-IP: [185.215.60.166]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: f0bece5d-24c7-4d95-23f4-08d80d05d68b
+X-MS-TrafficTypeDiagnostic: AM7PR08MB5430:
+X-Microsoft-Antispam-PRVS: <AM7PR08MB54300B9DA1777E14325A1383C1830@AM7PR08MB5430.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-Forefront-PRVS: 0430FA5CB7
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: NV5MmKokztGTMBpexO73IQ8/DBuSBv2Hg+vxFs3hcUsxZFstg6zlVw+lMSWb7YOoBmloHGMCXzyaW16bEynW4pb4rD7j2fKNIyi69UTmOHCTW7iyke0Wfy2KEr3uxqCxqL9p3bsfyA7CSGKDWFfeovNcXDyDSyDGmom+7DzSaRZOAS3E9Sp7ZSpDgWRZ4EhjikGRG9SKWtN9MrOb6WjrSztL5oUg3wqXXxE12ErqRwsSgx2RJT+9A8SMMKKdxaExUlrVcvwUF/iFWXWRNClmxOcnjhCEalVpCyVkca44VpsjapXI1IQ4WINQxWoC4uB2/wHEuYbhXt6skraK25Pe0SRZ6J7v00z6ndidgxKDlHpFYyhoZ/LASSsLeCKAJSQB
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(346002)(39840400004)(396003)(366004)(136003)(376002)(16526019)(31686004)(186003)(478600001)(36756003)(5660300002)(2906002)(26005)(4326008)(83380400001)(8676002)(86362001)(66476007)(66946007)(66556008)(16576012)(8936002)(316002)(6486002)(52116002)(2616005)(31696002)(956004)(54906003)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: CJPvk5eLPShqvB94Bo/zbCTj1zhNLwGW7vmJAkR4nApi+WakYhASkjJJd01KWq8uX2vuchn4c86Sz2FrNIE+YyOo3nErA+cQVz4GmYTZxPvRdBVmpzhShsBzA0qKRGR3HTskwsvNvzXKxCUEYk3IbFXHJJ084SUvxnQYtQkinguBOCXrj08RcMYehQWjKWmb533njnkP0mwp55TRhiXzxAoP5ohmjtDtylzsFQXjRowwCk017BSsTfciRmJwpgOb/Eoh1apkNSo4NVr/9K764+Pped6u0FRtmLfD+SfB+I/rTA/ObLo32KvTHeS2KT3acinnBUSTlbzT3iMP7XNAVTRUqNrAvOcaWv/QeZ9dw4hhmhfmprvMU790tJIznJBt3T6RrVjLTzv2cRtj4F8Q2dlqf8r6LRK8/kKB5jVHImyxqEqHXYq1WFwvoe+6ytJD2G3GkLoa3lDU9j+STzJUoD+sbLsCgHPbxLc44ThTH1fDsQ1TbOsf+cJefq0ysFM4
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f0bece5d-24c7-4d95-23f4-08d80d05d68b
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jun 2020 06:16:39.9341 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: F9f1hQdmCoLI0+PDstN3IuG4B7qX4MLcbCD3e873hLsKXuyaWjfujUpSwLZYquRUNQUqA6ptDGzCn/eVn5cRbsSPSMJOwfQwSwbh/ceis8M=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5430
+Received-SPF: pass client-ip=40.107.20.103;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR05-DB8-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/10 02:16:40
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -37
+X-Spam_score: -3.8
 X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,72 +114,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-block@nongnu.org, Laurent Vivier <lvivier@redhat.com>, cohuck@redhat.com,
- qemu-devel@nongnu.org, Raphael Norwitz <raphael.norwitz@nutanix.com>,
- "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Max Reitz <mreitz@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Tony Zhang <tzz@google.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 10, 2020 at 01:53:57PM +0800, Jason Wang wrote:
+Hi Sam!
+
+10.06.2020 08:28, Sam Eiderman wrote:
+> Hi,
 > 
-> On 2020/6/10 下午12:15, Michael S. Tsirkin wrote:
-> > On Wed, Jun 10, 2020 at 11:21:50AM +0800, Jason Wang wrote:
-> > > On 2020/6/10 上午2:07, Michael S. Tsirkin wrote:
-> > > > > +/*
-> > > > > + * Default vhost_get_features() feature bits for existing device types that do
-> > > > > + * not define their own.
-> > > > > + *
-> > > > > + * This is a workaround for existing device types, do not use this in new vhost
-> > > > > + * device types. Explicitly define a list of feature bits instead.
-> > > > > + *
-> > > > > + * The following feature bits are excluded because libvhost-user device
-> > > > > + * backends did not advertise them for a long time. Therefore we cannot detect
-> > > > > + * their presence. Instead we assume they are always supported by the device
-> > > > > + * backend:
-> > > > > + * VIRTIO_F_NOTIFY_ON_EMPTY
-> > > > > + * VIRTIO_F_ANY_LAYOUT
-> > > > > + * VIRTIO_F_VERSION_1
-> > > > > + * VIRTIO_RING_F_INDIRECT_DESC
-> > > > > + * VIRTIO_RING_F_EVENT_IDX
-> > > > Weird. I remember that it's common for vhost-user not to set
-> > > > VIRTIO_RING_F_INDIRECT_DESC - they have huge queues so
-> > > > don't need it and inline descriptors give them better
-> > > > performance.
-> > > > 
-> > > > So what's going on here?
-> > > 
-> > > I guess one reason is to support live migration between vhost-user and
-> > > vhost-net.
-> > > 
-> > > Thanks
-> > > 
-> > But how can we force-enable features backend doesn't want to enable?
+> 168468fe19c8 ("qemu-img: Add --target-is-zero to convert") has added a
+> nice functionality for cloud scenarios:
 > 
+> * Create a virtual disk
+
+What is the format of your target?
+
+> * Convert a sparse image (qcow2, vmdk) to the virtual disk using
+> --target-is-zero
+> * Use the virtual disk
 > 
-> We can't and the code just forces qemu to validate
-> VIRTIO_RING_F_INDIRECT_DESC for each vhost backends instead of assuming the
-> support silently.
+> This saves many unnecessary writes - a qcow2 with 1MB of allocated
+> data but with 100GB virtual size will be converted efficiently.
 > 
-> Thanks
-
-So why does the comment above say:
-
-     Instead we assume they are always supported by the device backend
-
-
-
-
+> However, does this pose a problem if the virtual disk is not zero initialized?
 > 
-> > This may or may not break backends ...
-> > I would rather just be strict and ask backends to fix their feature
-> > bits. See user_feature_bits in hw/net/vhost-net.c which supports
-> > all these features.
-> > 
+> Theoretically - if all unallocated blocks contain garbage - this
+> shouldn't matter, however what about allocated blocks of zero? Will
+> convert skip copying allocated zero blocks in the source image to the
+> target since it assumes that the target is zeroed out first thing?
+> 
 
+Yes, the feature is only for really zero-initialized target, it will skip "allocated" zeroes as well.
+
+What you want - copying only allocated blocks of backing-supporting format - looks like "top" mode of
+mirror and backup block jobs. Didn't you considered using qemu itself (in stopped mode, i.e. cpus are
+not running) or new qemu-storage-daemon instead of qemu-img? With this approach you'll have the whole
+power of QMP commands to manage block-layer, including block-jobs.
+
+-- 
+Best regards,
+Vladimir
 
