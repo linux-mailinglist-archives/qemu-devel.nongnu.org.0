@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 900771F5772
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 17:14:37 +0200 (CEST)
-Received: from localhost ([::1]:51170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D10B1F5792
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 17:18:31 +0200 (CEST)
+Received: from localhost ([::1]:36634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jj2Qz-0007lb-UR
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 11:14:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36134)
+	id 1jj2Uo-0005wA-3D
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 11:18:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36140)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1jj2Gu-0002f0-AL; Wed, 10 Jun 2020 11:04:08 -0400
-Received: from fanzine.igalia.com ([178.60.130.6]:58037)
+ id 1jj2Gv-0002g0-9q; Wed, 10 Jun 2020 11:04:09 -0400
+Received: from fanzine.igalia.com ([178.60.130.6]:58049)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1jj2Gr-0006vx-95; Wed, 10 Jun 2020 11:04:07 -0400
+ id 1jj2Gr-0006vy-AB; Wed, 10 Jun 2020 11:04:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  s=20170329; 
  h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From;
- bh=FDdJ3NUfcSN6UfYGz2xPvNrqQCi8ZzpI2orXDpb0voQ=; 
- b=dwgjedS1zFaXaok6qeivU/cPEzSZAkiU0pc9pr5MoOYfsxq9DGvo4UmELmOuK0fLQl92SqX2ELja8lm58kgUCVR1NweVTMYi4tZc5U11RHVxKISCZ1NVdD4RvJTY4Mq3AUpKrWAIAqCDzKV7YIbffwf77CkVFDz3+9WyRDe6HJSUcOHeRpxl+29YChA4XHxOlXYPpmLovL6JaOkUYOAaaX3xVcd9uDx2zKM5YLEqbx2cPF+6mV0WKjO+/HlNDl+FOz+0ipE6qnm9dOw0aTavBxy1pnYfHYGmrLI09dnCFRoE5w3DGWqHVTOSLvLtXtdSOdZEbAyFEv1neM02zi017g==;
+ bh=FLnW2yKPd876mhIBSmNOIZZESH7oUMAItbps7FGNKa4=; 
+ b=aGLP12Qr5492cCrhDe3LfjNDycEKGUjWlehspliefxHRaTEwUFdvHW4Fo0NRUcwjaSweMQO81zliNJssnmIhRxOgswfVdN2uZ3Y4NEh2Tuw/Zr+cUGliqiHt9VdnEwJ1ny/YsMuSStnEZ2NyyFGJTZKGqxQjVfLju0qQ9NYawM36IIxCkY5W33lH9lhg91n21ZtFntkZASGKZimjNNQsOuosb84IIUEiT9IRek7S4Yv0bzYKpT4EgUTtMlsY5i7oEWD0v9uTRvnPjHElRxWZtGRObNrhNGWC41dIvnSzBzECM6WQmHEoXx9Nm2e6XgWmpVVQVvAjDHptt3u78/BlPA==;
 Received: from [81.0.38.199] (helo=perseus.local)
  by fanzine.igalia.com with esmtpsa 
  (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1jj2GR-0007gm-87; Wed, 10 Jun 2020 17:03:39 +0200
+ id 1jj2GR-0007gl-Cb; Wed, 10 Jun 2020 17:03:39 +0200
 Received: from berto by perseus.local with local (Exim 4.92)
  (envelope-from <berto@igalia.com>)
- id 1jj2GB-0007Mg-Rt; Wed, 10 Jun 2020 17:03:23 +0200
+ id 1jj2GB-0007Mi-Ss; Wed, 10 Jun 2020 17:03:23 +0200
 From: Alberto Garcia <berto@igalia.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 07/34] qcow2: Document the Extended L2 Entries feature
-Date: Wed, 10 Jun 2020 17:02:45 +0200
-Message-Id: <64e1c0d0debf8f483c952ba9af9b2387667c4147.1591801197.git.berto@igalia.com>
+Subject: [PATCH v8 08/34] qcow2: Add dummy has_subclusters() function
+Date: Wed, 10 Jun 2020 17:02:46 +0200
+Message-Id: <773d28d4d2ff8c0cf3d724c53a06269b8d106766.1591801197.git.berto@igalia.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1591801197.git.berto@igalia.com>
 References: <cover.1591801197.git.berto@igalia.com>
@@ -68,168 +68,39 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Subcluster allocation in qcow2 is implemented by extending the
-existing L2 table entries and adding additional information to
-indicate the allocation status of each subcluster.
+This function will be used by the qcow2 code to check if an image has
+subclusters or not.
 
-This patch documents the changes to the qcow2 format and how they
-affect the calculation of the L2 cache size.
+At the moment this simply returns false. Once all patches needed for
+subcluster support are ready then QEMU will be able to create and
+read images with subclusters and this function will return the actual
+value.
 
 Signed-off-by: Alberto Garcia <berto@igalia.com>
-Reviewed-by: Max Reitz <mreitz@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- docs/interop/qcow2.txt | 68 ++++++++++++++++++++++++++++++++++++++++--
- docs/qcow2-cache.txt   | 19 +++++++++++-
- 2 files changed, 83 insertions(+), 4 deletions(-)
+ block/qcow2.h | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/docs/interop/qcow2.txt b/docs/interop/qcow2.txt
-index cb723463f2..64e9345fb4 100644
---- a/docs/interop/qcow2.txt
-+++ b/docs/interop/qcow2.txt
-@@ -42,6 +42,9 @@ The first cluster of a qcow2 image contains the file header:
-                     as the maximum cluster size and won't be able to open images
-                     with larger cluster sizes.
+diff --git a/block/qcow2.h b/block/qcow2.h
+index eecbadc4cb..2064dd3d85 100644
+--- a/block/qcow2.h
++++ b/block/qcow2.h
+@@ -510,6 +510,12 @@ typedef enum QCow2MetadataOverlap {
  
-+                    Note: if the image has Extended L2 Entries then cluster_bits
-+                    must be at least 14 (i.e. 16384 byte clusters).
-+
-          24 - 31:   size
-                     Virtual disk size in bytes.
+ #define INV_OFFSET (-1ULL)
  
-@@ -117,7 +120,12 @@ the next fields through header_length.
-                                 clusters. The compression_type field must be
-                                 present and not zero.
- 
--                    Bits 4-63:  Reserved (set to 0)
-+                    Bit 4:      Extended L2 Entries.  If this bit is set then
-+                                L2 table entries use an extended format that
-+                                allows subcluster-based allocation. See the
-+                                Extended L2 Entries section for more details.
++static inline bool has_subclusters(BDRVQcow2State *s)
++{
++    /* FIXME: Return false until this feature is complete */
++    return false;
++}
 +
-+                    Bits 5-63:  Reserved (set to 0)
- 
-          80 -  87:  compatible_features
-                     Bitmask of compatible features. An implementation can
-@@ -498,7 +506,7 @@ cannot be relaxed without an incompatible layout change).
- Given an offset into the virtual disk, the offset into the image file can be
- obtained as follows:
- 
--    l2_entries = (cluster_size / sizeof(uint64_t))
-+    l2_entries = (cluster_size / sizeof(uint64_t))        [*]
- 
-     l2_index = (offset / cluster_size) % l2_entries
-     l1_index = (offset / cluster_size) / l2_entries
-@@ -508,6 +516,8 @@ obtained as follows:
- 
-     return cluster_offset + (offset % cluster_size)
- 
-+    [*] this changes if Extended L2 Entries are enabled, see next section
-+
- L1 table entry:
- 
-     Bit  0 -  8:    Reserved (set to 0)
-@@ -548,7 +558,8 @@ Standard Cluster Descriptor:
-                     nor is data read from the backing file if the cluster is
-                     unallocated.
- 
--                    With version 2, this is always 0.
-+                    With version 2 or with extended L2 entries (see the next
-+                    section), this is always 0.
- 
-          1 -  8:    Reserved (set to 0)
- 
-@@ -585,6 +596,57 @@ file (except if bit 0 in the Standard Cluster Descriptor is set). If there is
- no backing file or the backing file is smaller than the image, they shall read
- zeros for all parts that are not covered by the backing file.
- 
-+== Extended L2 Entries ==
-+
-+An image uses Extended L2 Entries if bit 4 is set on the incompatible_features
-+field of the header.
-+
-+In these images standard data clusters are divided into 32 subclusters of the
-+same size. They are contiguous and start from the beginning of the cluster.
-+Subclusters can be allocated independently and the L2 entry contains information
-+indicating the status of each one of them. Compressed data clusters don't have
-+subclusters so they are treated the same as in images without this feature.
-+
-+The size of an extended L2 entry is 128 bits so the number of entries per table
-+is calculated using this formula:
-+
-+    l2_entries = (cluster_size / (2 * sizeof(uint64_t)))
-+
-+The first 64 bits have the same format as the standard L2 table entry described
-+in the previous section, with the exception of bit 0 of the standard cluster
-+descriptor.
-+
-+The last 64 bits contain a subcluster allocation bitmap with this format:
-+
-+Subcluster Allocation Bitmap (for standard clusters):
-+
-+    Bit  0 - 31:    Allocation status (one bit per subcluster)
-+
-+                    1: the subcluster is allocated. In this case the
-+                       host cluster offset field must contain a valid
-+                       offset.
-+                    0: the subcluster is not allocated. In this case
-+                       read requests shall go to the backing file or
-+                       return zeros if there is no backing file data.
-+
-+                    Bits are assigned starting from the least significant
-+                    one (i.e. bit x is used for subcluster x).
-+
-+        32 - 63     Subcluster reads as zeros (one bit per subcluster)
-+
-+                    1: the subcluster reads as zeros. In this case the
-+                       allocation status bit must be unset. The host
-+                       cluster offset field may or may not be set.
-+                    0: no effect.
-+
-+                    Bits are assigned starting from the least significant
-+                    one (i.e. bit x is used for subcluster x - 32).
-+
-+Subcluster Allocation Bitmap (for compressed clusters):
-+
-+    Bit  0 - 63:    Reserved (set to 0)
-+                    Compressed clusters don't have subclusters,
-+                    so this field is not used.
- 
- == Snapshots ==
- 
-diff --git a/docs/qcow2-cache.txt b/docs/qcow2-cache.txt
-index d57f409861..5f763aa6bb 100644
---- a/docs/qcow2-cache.txt
-+++ b/docs/qcow2-cache.txt
-@@ -1,6 +1,6 @@
- qcow2 L2/refcount cache configuration
- =====================================
--Copyright (C) 2015, 2018 Igalia, S.L.
-+Copyright (C) 2015, 2018-2020 Igalia, S.L.
- Author: Alberto Garcia <berto@igalia.com>
- 
- This work is licensed under the terms of the GNU GPL, version 2 or
-@@ -222,3 +222,20 @@ support this functionality, and is 0 (disabled) on other platforms.
- This functionality currently relies on the MADV_DONTNEED argument for
- madvise() to actually free the memory. This is a Linux-specific feature,
- so cache-clean-interval is not supported on other systems.
-+
-+
-+Extended L2 Entries
-+-------------------
-+All numbers shown in this document are valid for qcow2 images with normal
-+64-bit L2 entries.
-+
-+Images with extended L2 entries need twice as much L2 metadata, so the L2
-+cache size must be twice as large for the same disk space.
-+
-+   disk_size = l2_cache_size * cluster_size / 16
-+
-+i.e.
-+
-+   l2_cache_size = disk_size * 16 / cluster_size
-+
-+Refcount blocks are not affected by this.
+ static inline uint64_t get_l2_entry(BDRVQcow2State *s, uint64_t *l2_slice,
+                                     int idx)
+ {
 -- 
 2.20.1
 
