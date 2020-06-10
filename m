@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 333B81F4D22
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 07:44:43 +0200 (CEST)
-Received: from localhost ([::1]:39980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DB201F4D19
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 07:42:47 +0200 (CEST)
+Received: from localhost ([::1]:58892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jitXW-0004dP-81
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 01:44:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42614)
+	id 1jitVe-0000hS-Dh
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 01:42:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42514)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jitMO-0005DZ-O6
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 01:33:12 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:44678
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jitMB-0004zN-Pv
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 01:32:59 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:22011
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jitMC-0003ql-DJ
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 01:33:12 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jitM9-0003pH-Az
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 01:32:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591767178;
+ s=mimecast20190719; t=1591767176;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2UObykoq9TV3iiisuu0TD//n6coWTSPzTVvQxciC7ek=;
- b=O7IEJCIqNcHXvWksonFiSDXoen6rvzqp0/bmRIvvEalVvzzOKNVbdasWUG8BDFHVb08dVr
- vpDvVRjy/RCNwPo2guO5PvrEItptF9EdisDOqRn4SrjQ/+9EdoLXgMLT7mqYm7rrCl0l/+
- ly2wGKMHZZH4+QEVcnFqjE5+y8TGBfk=
+ bh=3CBXo0J+SCopIwTUlnz496gPT9YctBwP6l83TijFGok=;
+ b=JBHbTHQDz62l8BB9dllUdz0fKFHFyoFONGQ/EVos35Yu4ozKg07hQ3IY/SPGj4hCuqnvzP
+ LEvGlEu0eidD64XOyDNZHGoekET2qEfHxqB4ZK3rKLG3MHVP8Ks4S09dt6uDEu8svHcyfx
+ TQaxnW1RGbuzSLc3wc37xKJ7/f2jwaY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-162-JoTeQ7qKMmS8J_LvTBQLFQ-1; Wed, 10 Jun 2020 01:32:57 -0400
-X-MC-Unique: JoTeQ7qKMmS8J_LvTBQLFQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-478-4dhnzKBsMA-pmxlsN7NQZA-1; Wed, 10 Jun 2020 01:32:54 -0400
+X-MC-Unique: 4dhnzKBsMA-pmxlsN7NQZA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8CE7B8018AC;
- Wed, 10 Jun 2020 05:32:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E1A77A0BD9
+ for <qemu-devel@nongnu.org>; Wed, 10 Jun 2020 05:32:53 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-121.ams2.redhat.com
  [10.36.112.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A9D7119C71;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B277489295;
  Wed, 10 Jun 2020 05:32:53 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id F3BC81138466; Wed, 10 Jun 2020 07:32:47 +0200 (CEST)
+ id 059B71138467; Wed, 10 Jun 2020 07:32:48 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH RESEND v3 17/58] pci: pci_create(),
- pci_create_multifunction() are now unused, drop
-Date: Wed, 10 Jun 2020 07:32:06 +0200
-Message-Id: <20200610053247.1583243-18-armbru@redhat.com>
+Subject: [PATCH RESEND v3 18/58] isa: New isa_new(),
+ isa_realize_and_unref() etc.
+Date: Wed, 10 Jun 2020 07:32:07 +0200
+Message-Id: <20200610053247.1583243-19-armbru@redhat.com>
 In-Reply-To: <20200610053247.1583243-1-armbru@redhat.com>
 References: <20200610053247.1583243-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
  helo=us-smtp-1.mimecast.com
@@ -81,70 +81,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc: Michael S. Tsirkin <mst@redhat.com>
-Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+I'm converting from qdev_create()/qdev_init_nofail() to
+qdev_new()/qdev_realize_and_unref(); recent commit "qdev: New
+qdev_new(), qdev_realize(), etc." explains why.
+
+ISA devices use qdev_create() through isa_create() and
+isa_try_create().
+
+Provide isa_new(), isa_try_new(), and isa_realize_and_unref() for
+converting ISA devices.
+
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/hw/pci/pci.h |  3 ---
- hw/pci/pci.c         | 16 ----------------
- 2 files changed, 19 deletions(-)
+ include/hw/isa/isa.h |  3 +++
+ hw/isa/isa-bus.c     | 15 +++++++++++++++
+ 2 files changed, 18 insertions(+)
 
-diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-index 66f8ba519b..a4e9c33416 100644
---- a/include/hw/pci/pci.h
-+++ b/include/hw/pci/pci.h
-@@ -717,12 +717,9 @@ PCIDevice *pci_new_multifunction(int devfn, bool multifunction,
- PCIDevice *pci_new(int devfn, const char *name);
- bool pci_realize_and_unref(PCIDevice *dev, PCIBus *bus, Error **errp);
+diff --git a/include/hw/isa/isa.h b/include/hw/isa/isa.h
+index 02c2350274..3b6215fafe 100644
+--- a/include/hw/isa/isa.h
++++ b/include/hw/isa/isa.h
+@@ -105,6 +105,9 @@ MemoryRegion *isa_address_space(ISADevice *dev);
+ MemoryRegion *isa_address_space_io(ISADevice *dev);
+ ISADevice *isa_create(ISABus *bus, const char *name);
+ ISADevice *isa_try_create(ISABus *bus, const char *name);
++ISADevice *isa_new(const char *name);
++ISADevice *isa_try_new(const char *name);
++bool isa_realize_and_unref(ISADevice *dev, ISABus *bus, Error **errp);
+ ISADevice *isa_create_simple(ISABus *bus, const char *name);
  
--PCIDevice *pci_create_multifunction(PCIBus *bus, int devfn, bool multifunction,
--                                    const char *name);
- PCIDevice *pci_create_simple_multifunction(PCIBus *bus, int devfn,
-                                            bool multifunction,
-                                            const char *name);
--PCIDevice *pci_create(PCIBus *bus, int devfn, const char *name);
- PCIDevice *pci_create_simple(PCIBus *bus, int devfn, const char *name);
- 
- void lsi53c8xx_handle_legacy_cmdline(DeviceState *lsi_dev);
-diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-index ab8b71fe72..aaffbd7f94 100644
---- a/hw/pci/pci.c
-+++ b/hw/pci/pci.c
-@@ -2168,17 +2168,6 @@ bool pci_realize_and_unref(PCIDevice *dev, PCIBus *bus, Error **errp)
-     return qdev_realize_and_unref(&dev->qdev, &bus->qbus, errp);
+ ISADevice *isa_vga_init(ISABus *bus);
+diff --git a/hw/isa/isa-bus.c b/hw/isa/isa-bus.c
+index 1c9d7e19ab..e6412d39b4 100644
+--- a/hw/isa/isa-bus.c
++++ b/hw/isa/isa-bus.c
+@@ -176,6 +176,16 @@ ISADevice *isa_try_create(ISABus *bus, const char *name)
+     return ISA_DEVICE(dev);
  }
  
--PCIDevice *pci_create_multifunction(PCIBus *bus, int devfn, bool multifunction,
--                                    const char *name)
--{
--    DeviceState *dev;
--
--    dev = qdev_create(&bus->qbus, name);
--    qdev_prop_set_int32(dev, "addr", devfn);
--    qdev_prop_set_bit(dev, "multifunction", multifunction);
--    return PCI_DEVICE(dev);
--}
--
- PCIDevice *pci_create_simple_multifunction(PCIBus *bus, int devfn,
-                                            bool multifunction,
-                                            const char *name)
-@@ -2188,11 +2177,6 @@ PCIDevice *pci_create_simple_multifunction(PCIBus *bus, int devfn,
++ISADevice *isa_new(const char *name)
++{
++    return ISA_DEVICE(qdev_new(name));
++}
++
++ISADevice *isa_try_new(const char *name)
++{
++    return ISA_DEVICE(qdev_try_new(name));
++}
++
+ ISADevice *isa_create_simple(ISABus *bus, const char *name)
+ {
+     ISADevice *dev;
+@@ -185,6 +195,11 @@ ISADevice *isa_create_simple(ISABus *bus, const char *name)
      return dev;
  }
  
--PCIDevice *pci_create(PCIBus *bus, int devfn, const char *name)
--{
--    return pci_create_multifunction(bus, devfn, false, name);
--}
--
- PCIDevice *pci_create_simple(PCIBus *bus, int devfn, const char *name)
++bool isa_realize_and_unref(ISADevice *dev, ISABus *bus, Error **errp)
++{
++    return qdev_realize_and_unref(&dev->parent_obj, &bus->parent_obj, errp);
++}
++
+ ISADevice *isa_vga_init(ISABus *bus)
  {
-     return pci_create_simple_multifunction(bus, devfn, false, name);
+     switch (vga_interface_type) {
 -- 
 2.26.2
 
