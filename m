@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEA3F1F559B
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 15:21:44 +0200 (CEST)
-Received: from localhost ([::1]:37154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89A3E1F55B2
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 15:24:18 +0200 (CEST)
+Received: from localhost ([::1]:46670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jj0fn-00068t-Of
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 09:21:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45218)
+	id 1jj0iH-0001nH-JQ
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 09:24:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45204)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jj0Uw-0007vx-Oj; Wed, 10 Jun 2020 09:10:30 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:42261)
+ id 1jj0Uv-0007tu-2H; Wed, 10 Jun 2020 09:10:29 -0400
+Received: from mout.kundenserver.de ([212.227.126.134]:43593)
  by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jj0Ur-0003gU-W3; Wed, 10 Jun 2020 09:10:30 -0400
+ id 1jj0Uq-0003fA-SH; Wed, 10 Jun 2020 09:10:28 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1M7JvQ-1jqgWe1TJM-007lDC; Wed, 10 Jun 2020 15:10:20 +0200
+ id 1MNbtD-1jYjdW08gF-00P9u5; Wed, 10 Jun 2020 15:10:21 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 10/16] hw/i386/xen/xen-hvm: Use the IEC binary prefix
- definitions
-Date: Wed, 10 Jun 2020 15:10:05 +0200
-Message-Id: <20200610131011.1941209-11-laurent@vivier.eu>
+Subject: [PULL v2 11/16] target/i386/cpu: Use the IEC binary prefix definitions
+Date: Wed, 10 Jun 2020 15:10:06 +0200
+Message-Id: <20200610131011.1941209-12-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200610131011.1941209-1-laurent@vivier.eu>
 References: <20200610131011.1941209-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:IEDhWYW0eQduXnGN0tnW7BZO0Q+G0Yju7m2j6zdh416rKnGbwdZ
- ukI6dP2lbLLC8C2M/C8QSJvFq7tWCGMgZyIjPXy1kj7qQ7gfaO1MzjmttTeU9kEv7jvWL4C
- XC26sCiRAGHTdviQMkyxcMliHP1rfLcjH35q2L6EahyBFSyt5wk65t2Zb1ut1t5ZlUyM2M/
- z3YJzhlcnHBfpT8MWWbxw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:pKpmjdCHzV4=:EJ8YnXEuVca/8RsOmqNtG1
- UY/3dZwXsZZA7QBiBcbGAkbhsIYpJrl8U0MtZv5c1+Llnp8zFH40ZLSxIr+IfRKBgNgdhGYau
- 1RUudGneSMkiLchGB4mOPHOJX8O0agjS1T8X2OqfXKctqGM9BgNFHY6E+nT/uqDuxKwLdVoUx
- nwJ1WYqGrfLvjRl3BYADsIg9y8YWR5YjPjQ7Fa8V1AzbZHAm1EqL77VZZ1Fg9vs1qL7F9TwYb
- fiVVZBG90V/qm8TukXrvrNDnZ60TeJMcteOIUW35wV/6lUdkteDHbhgf3H03W/Ie7yES26oGV
- 7HCmjaFwyWSZ189c3A0HnXFzmDOmAzyVRJb5zCeeMiwtsQVhJgphpisZFkb3MoDHLndvDeEw4
- S68HrKzOtPRYUg2QrH9/VVa+T3VfPCKRilsez+OWWtOOuetH6Aq5zNUWGFcFl8G+TiGP3iIp6
- K+QkrRKTTYcNIL5KN20Jx3REdne1wrjaWdhUhY8ihT35g1NxRZoDrLLfKacGofp2ReUctSv97
- 733SQe3a0SY2V/OFYi3gDnlEjkYz1mfsXjZenFplwbIAm1iNyyJgt/1y0LxRO3ne7HQAb1oYD
- W6w8ry7xeQdwaP62WPilt1TN088yTVwWorukIhaqI3mgUHCOZ+ciS1NhxS/dVL9vZXwOZ8qi2
- 1XmAlTOsLgJXIP77l2ZpezjNt+eKMyn8m2Q+BB37pCtZ5TItq6pd5dcVnOeSCz18ym8V6TYi0
- +aBrQveygEV13avz1/olHgoS3cTl0+z4cFpz9D9K8fWegRj3IH3wcAgAT/bKohpx7doaG9HzP
- J9o1AIHO/3dI6OzJL1m1B9+GyGVOUrgh+PcGh3JPoLEgqOKtyhQ2XSJvQiKF/4hCfXOwUew
-Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:e6pNGKrZWZ3XWvCcug3ufm/XcEAN3JxTE4YulSlBdjBGInHKD7P
+ 8RG2mFa7x7rkNi32v3TUmQwZQAh8kuBq0LTxlOSZU+D7BqYUg72Q2/Q15glmrQgkRvsu20B
+ 8SNFU/QjZALKw32gkVISRkLI+fUEkRPTF5EEiKxG3F8YfMKaIROARMYRYYT8MuBZDfKNv7r
+ W/SihU0Jfqb9WtAx4jVDw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:S5j0pdZnetU=:efiwghLxEfLhyUpTEtenyG
+ os4RZcDi+sKn04oiYBBEY5IfBp4fOGxiN5hOLXl5nIoibKkhZq+BV2BZQTC+iZgknuNH8gkLq
+ wbRfwv16MF7bTFOJ932oj9kwp3prj+q6qG2DDYkoTK7+kzq4U6NmFTcDM0s60tB/huYOlFtGG
+ XD6Ah9ekk8jFvJHeinDyWfCLbmAQsGbbmyssim/yOiw9hj7WHC/zZ5Ow1LXJcZ0LmuVFBDCR3
+ 3/vfLuC7OcgBF5IG1nummaboCPOMpj7t9yiMUADuqWkImS1hRmS9y9fbVTqf8tJ6oB7kyPfBF
+ VqgG34Ew9iv1879ELILblaYMxUg3UDONcH8PK4PwEtF42YGum+d8C90HzbfPIZTXdoMs+n6TM
+ CWJfX4Ecx4UESeY51DdbDmzkw2s0WXntE5X43wvvEfe680/YwoJ5i3J6JUod1DoHzUsQu8TcS
+ wCwHVS4LdijbRfqoDs37EM6ZbGWCNq9Zx0iKMTA/1Z7zIb/LzpZw3ToY4UuauZ4Hw14dNP07V
+ XTUWrm5huYSQV7mklcBB3jYv2EfXhdklbftF145H2sW421KCs8Bk2ors7VRFyZxyxrvTpSirX
+ WGttVNXlXCh/WyfDctM/2LxggNPQxjYzwh0ggajZoLv1pa1R8fvbx4kU/rkTzm9oXzDfI5tlL
+ E9QSptVL+bn/PafWmVgruA1Czo99TUYwhySrglo3089XKplU4dbOYoAS9ziw1hIAq5ARzFL2W
+ ex+eaguJYsvO57OvNwkHrHNOLL8ZpafD8m+o+VZ9LBAkWkXCzFacGhywQmWSGVUOs9GDeOK9w
+ 99+HEOpvOC6h6//Coq5KMwrUJ+cmyPWS6UjCyibIVlF83LcNy92EJGGcuFh2haZT8uJu7EO
+Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/10 09:10:15
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/10 09:10:23
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -70,9 +69,10 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Paul Durrant <paul@xen.org>,
- qemu-trivial@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-trivial@nongnu.org,
+ Michael Tokarev <mjt@tls.msk.ru>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
@@ -83,35 +83,26 @@ IEC binary prefixes ease code review: the unit is explicit.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Paul Durrant <paul@xen.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200601142930.29408-8-f4bug@amsat.org>
+Message-Id: <20200601142930.29408-9-f4bug@amsat.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/i386/xen/xen-hvm.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ target/i386/cpu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/i386/xen/xen-hvm.c b/hw/i386/xen/xen-hvm.c
-index 82ece6b9e739..94fe5d65e9fd 100644
---- a/hw/i386/xen/xen-hvm.c
-+++ b/hw/i386/xen/xen-hvm.c
-@@ -9,6 +9,7 @@
-  */
- 
- #include "qemu/osdep.h"
-+#include "qemu/units.h"
- 
- #include "cpu.h"
- #include "hw/pci/pci.h"
-@@ -230,7 +231,7 @@ static void xen_ram_init(PCMachineState *pcms,
-          * Xen does not allocate the memory continuously, it keeps a
-          * hole of the size computed above or passed in.
-          */
--        block_len = (1ULL << 32) + x86ms->above_4g_mem_size;
-+        block_len = (4 * GiB) + x86ms->above_4g_mem_size;
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index ba05da3f2e7f..02065e35d435 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -6159,7 +6159,7 @@ static void x86_cpu_machine_done(Notifier *n, void *unused)
+     if (smram) {
+         cpu->smram = g_new(MemoryRegion, 1);
+         memory_region_init_alias(cpu->smram, OBJECT(cpu), "smram",
+-                                 smram, 0, 1ull << 32);
++                                 smram, 0, 4 * GiB);
+         memory_region_set_enabled(cpu->smram, true);
+         memory_region_add_subregion_overlap(cpu->cpu_as_root, 0, cpu->smram, 1);
      }
-     memory_region_init_ram(&ram_memory, NULL, "xen.ram", block_len,
-                            &error_fatal);
 -- 
 2.26.2
 
