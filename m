@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF67F1F5404
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 13:58:45 +0200 (CEST)
-Received: from localhost ([::1]:48492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58E611F5408
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 13:59:11 +0200 (CEST)
+Received: from localhost ([::1]:50288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jizNU-0007v2-P8
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 07:58:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43330)
+	id 1jizNt-0000Dk-UH
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 07:59:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jizJs-0002u7-PO
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 07:55:00 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:36834
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jizK4-0003CC-LA
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 07:55:12 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:39561
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jizJr-0001vn-1J
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 07:55:00 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jizK3-0001xb-TN
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 07:55:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591790098;
+ s=mimecast20190719; t=1591790111;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=q5ARNUWTcyRA1N5fC9aAjQ1xopL6Yzibnqxs9roC3AQ=;
- b=SNNNQXBC5roZw0bbXecZQiI4muJx6gKYsflwEZLsODh+k9/vYawQ0xKce51Kks4vAETzmg
- Ii/X9ieAKZ+0rWf1IyMY98KvLKq2nWzXduHAlO/a95jVN3Xl6XzoIoHqp4l4ObckwrkLm5
- yz9YHXpoHLD57v28nUwU0H+N6TV8KlI=
+ bh=/bRpzWo8mGWvq3enPFtqLN32egzNgjYQizck8xugJ+M=;
+ b=c8fEJXLguJXrmaV5V32A0rFBmkq81eRUOB4jKG/hqeNXxU8QTzj/AkCO5hHiCXoVnSPdrc
+ 5vpsUcVN9GTB5/7yOiw3171odUG64gxnvHXZ+ham9MJRbBbr5bos8BBO+udCgIzHTSqGVN
+ +MlClYt3y4yuAXC0+bodchkTqsC9xN0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-286-paF5wbtsPCaRfoUBu8jcBA-1; Wed, 10 Jun 2020 07:54:54 -0400
-X-MC-Unique: paF5wbtsPCaRfoUBu8jcBA-1
+ us-mta-502-DLX1pjx1OeOHbokAJF5eVg-1; Wed, 10 Jun 2020 07:55:07 -0400
+X-MC-Unique: DLX1pjx1OeOHbokAJF5eVg-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 80570A0BD7;
- Wed, 10 Jun 2020 11:54:53 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7E40A461;
+ Wed, 10 Jun 2020 11:55:06 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-114-42.ams2.redhat.com [10.36.114.42])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 963A15D9D3;
- Wed, 10 Jun 2020 11:54:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0AE695D9D3;
+ Wed, 10 Jun 2020 11:54:58 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 03/21] accel/kvm: Convert to ram_block_discard_disable()
-Date: Wed, 10 Jun 2020 13:54:01 +0200
-Message-Id: <20200610115419.51688-4-david@redhat.com>
+Subject: [PATCH v4 06/21] target/i386: sev: Use ram_block_discard_disable()
+Date: Wed, 10 Jun 2020 13:54:04 +0200
+Message-Id: <20200610115419.51688-7-david@redhat.com>
 In-Reply-To: <20200610115419.51688-1-david@redhat.com>
 References: <20200610115419.51688-1-david@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=david@redhat.com;
+ helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 23:51:15
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
@@ -81,38 +81,45 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Discarding memory does not work as expected. At the time this is called,
-we cannot have anyone active that relies on discards to work properly.
+AMD SEV will pin all guest memory, mark discarding of RAM broken. At the
+time this is called, we cannot have anyone active that relies on discards
+to work properly - let's still implement error handling.
 
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>
 Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Richard Henderson <rth@twiddle.net>
+Cc: Eduardo Habkost <ehabkost@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- accel/kvm/kvm-all.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ target/i386/sev.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index d06cc04079..fa18b2caae 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -40,7 +40,6 @@
- #include "trace.h"
- #include "hw/irq.h"
- #include "sysemu/sev.h"
--#include "sysemu/balloon.h"
- #include "qapi/visitor.h"
- #include "qapi/qapi-types-common.h"
- #include "qapi/qapi-visit-common.h"
-@@ -2143,7 +2142,8 @@ static int kvm_init(MachineState *ms)
+diff --git a/target/i386/sev.c b/target/i386/sev.c
+index 51cdbe5496..4a4863db28 100644
+--- a/target/i386/sev.c
++++ b/target/i386/sev.c
+@@ -649,6 +649,12 @@ sev_guest_init(const char *id)
+     uint32_t host_cbitpos;
+     struct sev_user_data_status status = {};
  
-     s->sync_mmu = !!kvm_vm_check_extension(kvm_state, KVM_CAP_SYNC_MMU);
-     if (!s->sync_mmu) {
--        qemu_balloon_inhibit(true);
-+        ret = ram_block_discard_disable(true);
-+        assert(!ret);
-     }
++    ret = ram_block_discard_disable(true);
++    if (ret) {
++        error_report("%s: cannot disable RAM discard", __func__);
++        return NULL;
++    }
++
+     sev_state = s = g_new0(SEVState, 1);
+     s->sev_info = lookup_sev_guest_info(id);
+     if (!s->sev_info) {
+@@ -724,6 +730,7 @@ sev_guest_init(const char *id)
+ err:
+     g_free(sev_state);
+     sev_state = NULL;
++    ram_block_discard_disable(false);
+     return NULL;
+ }
  
-     return 0;
 -- 
 2.26.2
 
