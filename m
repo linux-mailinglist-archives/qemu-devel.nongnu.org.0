@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B37291F5576
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 15:12:52 +0200 (CEST)
-Received: from localhost ([::1]:36716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34EF21F5599
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 15:21:23 +0200 (CEST)
+Received: from localhost ([::1]:35502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jj0XD-0001lk-MV
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 09:12:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45168)
+	id 1jj0fS-0005Sc-8t
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 09:21:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45180)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jj0Us-0007nS-ED; Wed, 10 Jun 2020 09:10:26 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:41229)
+ id 1jj0Ut-0007ox-5u; Wed, 10 Jun 2020 09:10:27 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:60575)
  by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jj0Ur-0003fl-53; Wed, 10 Jun 2020 09:10:25 -0400
+ id 1jj0Ur-0003gG-W3; Wed, 10 Jun 2020 09:10:26 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MAORn-1jdFrC2iR1-00Bq4H; Wed, 10 Jun 2020 15:10:21 +0200
+ id 1MZkxj-1jOsnZ13xf-00WoKz; Wed, 10 Jun 2020 15:10:22 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 12/16] target/unicore32: Remove unused headers
-Date: Wed, 10 Jun 2020 15:10:07 +0200
-Message-Id: <20200610131011.1941209-13-laurent@vivier.eu>
+Subject: [PULL v2 13/16] target/unicore32: Replace DPRINTF() by
+ qemu_log_mask(GUEST_ERROR)
+Date: Wed, 10 Jun 2020 15:10:08 +0200
+Message-Id: <20200610131011.1941209-14-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200610131011.1941209-1-laurent@vivier.eu>
 References: <20200610131011.1941209-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:KV/GpuEv2bzha1VAakez780Yu3jaoa0j//7HSGHhHonv2vRVczK
- sz1U3qYeCvrI0s1eRnk9X9UGWmlWfHZMhgo9e3Nk9UO3NDAMWL+ix2j2apjlrGHVpsnRb6F
- 9K70HzuymOvaNJyrz1sVOswnnOLzFU/WFoMs5j6DaSMCVhGT8DRtyIMoUBrzKGnem+hUPVF
- 75gzg2poGKe10xSXiCqwQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:7HBki9U8hgI=:CcuABUDAoiqp8IezzFCLT+
- cy8HqOJ2NKfm1y0xebgmfbbFi3oybTtVKNMQqmzyg9+cuMmDqg9Ke2Ob2ouHPtseQBrQTCQ4O
- 2Yy1LRFU5krjEMGzQbQhC06PsIu67qv1bbWn+GwVwZFpQvXKrCqzwuKpxvjzpswGHDpqA3CfB
- 0lGrlIklD6rQueQmgHRQySiMkSXrlJn2sZzCE00meJ82HyCoZ7tYNzuOCIQpS4GfWYJATo87y
- f5W9HPXoSThOJIKZy02+tPXuzB+PZDmk1Kh5DpuOXppCfxtBASCbLe/UK2HvjCkFKY/tbmmtj
- RZii2BuaQp4KEmQ+/Q8H1YpWka1+9XaAzny26Y5Apjz6xu9GCOx466/C781Urfu8jQB+uLkkF
- GKQ0fJZcdybyO/Kaw3h649f8A6XikIHxqqcsHQm88d7QuTWN9u1tGP+HQcm2wdXDyEvSDxbOs
- YcYfsoumTUWK6CxSgemXcukZrFd3WKfBmEyPH4JQtFFBlNkaLJU32E95sjpeJ6ma0g9RTY3fD
- Bq8mbKJ+YNKovRzOBZkMDd9yluAuwTKqj/6KYdtAvpHS+JwpMdp1VGYevxfcpzpq+XngmrTk/
- T5k2Vi+RMztikNl0FIC2hz4vYQLAGJU7jD4AXJlev3xo5vSVwbfmLXYlSl6vVy9S4OJvp9J1O
- +NG6DSnYEJ7vhmY6sbPJvpplNDJvDOdWoD8WcEykiq27VLh2LRKZX+ek5nL/Kr7MIMm1Jrg6q
- BvfAO999dmgRLak9sxIPu/HCoBMHOh+3pe7CDyI/AKJBeYNAr5pJQrem6gQRNR0rS3O68a9pw
- q4utcaYgisNw9T3v1TsGbAmHgQmF6PWr+AEy8gFDSNbn0hay4iWSMjajwWSFtT5z9bZCL2m
-Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:9HfJrvfO+i3nrbxBCmnsBWWUGVvBPEiDsT6jc51M9j0dYoRioSV
+ wbheNYm6h88m2fHXRE5tcAeFNXJglFSKVcqc47mJeuXM2x6p9G5ZIY03kTbOE+XbN3SsR0Q
+ +8aTi7oc0qnVaX9TJ4bzJi5Tdo4eJXITW50UwiTkKp9kdQr6DXPbttl8mwZ8RsKVPgg1dSG
+ gMltdRkAEkJm7WDn3ybiQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:R3QjNgjxlbI=:XPfO0DPGtJSmkOpd0xfsXf
+ 1nmYZOqXdEzjXuIHf6X7AOl52UM3GEMgHLmqeuIsJ1aMghV7CgIuKCXR7UBDZ9rh/C8fYzkTn
+ Kd1dRBV/OjUuQUXC6zSlHWMAjvKFnfn1aB/iDU8v8ivG5cI9ugubGn/k5iI8S7CJbspR+OuFM
+ oGjg/fOTsHVqVzAJpNjo6F6k5NVYGsrMIIJI5bDHujU33ePLleYbkgqQDlHNn557qkPcxR5mS
+ 3wTUHLhkFAC6UrfSotgBj5MeX/OJM7081ncRwkedj9dNbcpwctwQyBaeoMPDnYy6wpOzUVEN4
+ hvZPmLEmoC5GjNSPyxe28uVgfl+hbye6BupYJlEWe+4PGoGCY/d5KN+hWYqySSdewLklhdrVi
+ IFYuP64gZTKxe2NRFLq3gLQRa/iTFoiO7qHMwgvgv9l5p7JV5dMx93vGm/szxqN+4P907KH9O
+ vM5pCk6+AwgB2dE9AchuRhNWWFJZQqDa80DDugnZjGV+VGn7qiqDUJ+s8S4t2IrgOZ7L/Gz/2
+ 0JXuMq6wlajWp89EhyFUcleGqYKS9WrEdsCmYlV08nJKD2E2RVt3bodpqni/so4NyFs8ZjRhx
+ EQ7ZpuXxcPc13R2fhsTREQSCbAxdZO+S0ReXfq3pV1LmMXm1smXFFkDc2MlREpxQGVPXW6nnd
+ kfS/ruErvXURnXg7yQ3E/Rb84I/EzkUqUjN+0+KwKoLp62DvIv/hxQJPwplq+wRRKp/bUpgfW
+ OKtQqNcZTQz3J0RnAH8ovueeTRoYl8/JUCk6VokU47IzErkAUSOglgJ4UJ5ZRqDNwpb1Isa7g
+ 9ZHSP7yTrGsxySz4LMgRfbZGYA18lkvEEPgcb/049Zpqet9wJpDa5RQ6x8C/o+pIVR0JyNy
+Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/10 08:14:00
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/10 09:10:24
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -77,28 +78,52 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
+Replace disabled DPRINTF() by qemu_log_mask(GUEST_ERROR).
+
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200603123754.19059-2-f4bug@amsat.org>
+Message-Id: <20200603123754.19059-3-f4bug@amsat.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- target/unicore32/helper.c | 2 --
- 1 file changed, 2 deletions(-)
+ target/unicore32/helper.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
 diff --git a/target/unicore32/helper.c b/target/unicore32/helper.c
-index 7d538e2144dd..53292ae311c1 100644
+index 53292ae311c1..00371a7da660 100644
 --- a/target/unicore32/helper.c
 +++ b/target/unicore32/helper.c
-@@ -12,9 +12,7 @@
+@@ -10,6 +10,7 @@
+  */
+ 
  #include "qemu/osdep.h"
++#include "qemu/log.h"
  #include "cpu.h"
  #include "exec/exec-all.h"
--#include "exec/gdbstub.h"
  #include "exec/helper-proto.h"
--#include "qemu/host-utils.h"
- #ifndef CONFIG_USER_ONLY
- #include "ui/console.h"
- #endif
+@@ -106,8 +107,9 @@ void helper_cp0_set(CPUUniCore32State *env, uint32_t val, uint32_t creg,
+     }
+     return;
+ unrecognized:
+-    DPRINTF("Wrong register (%d) or wrong operation (%d) in cp0_set!\n",
+-            creg, cop);
++    qemu_log_mask(LOG_GUEST_ERROR,
++                  "Wrong register (%d) or wrong operation (%d) in cp0_set!\n",
++                  creg, cop);
+ }
+ 
+ uint32_t helper_cp0_get(CPUUniCore32State *env, uint32_t creg, uint32_t cop)
+@@ -153,8 +155,9 @@ uint32_t helper_cp0_get(CPUUniCore32State *env, uint32_t creg, uint32_t cop)
+         }
+         break;
+     }
+-    DPRINTF("Wrong register (%d) or wrong operation (%d) in cp0_set!\n",
+-            creg, cop);
++    qemu_log_mask(LOG_GUEST_ERROR,
++                  "Wrong register (%d) or wrong operation (%d) in cp0_set!\n",
++                  creg, cop);
+     return 0;
+ }
+ 
 -- 
 2.26.2
 
