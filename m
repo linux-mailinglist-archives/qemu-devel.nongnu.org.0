@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C1C51F5C68
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 22:05:44 +0200 (CEST)
-Received: from localhost ([::1]:47154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 240B11F5C71
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 22:07:32 +0200 (CEST)
+Received: from localhost ([::1]:53694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jj6yl-0005bQ-Bg
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 16:05:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40484)
+	id 1jj70V-0008Mu-63
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 16:07:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jj6wM-0003kn-W0
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 16:03:15 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:22443
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jj6wR-0003sV-Lp
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 16:03:19 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:21989
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jj6wM-0000VG-68
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 16:03:14 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jj6wQ-0000VV-M4
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 16:03:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591819393;
+ s=mimecast20190719; t=1591819397;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=e/EYPVDSq9o7kGYyx2YtJypw5YHd6D2ZQpFJlgHmrng=;
- b=V6mCcei9T1ahtv5v3BKvvxEh+qMNGHXj3iqJyfiD+7IS3zJ1wSWEeSkfQaFZhrExodQifw
- lXHbRSFxQSZrYScR1k0R7HSNmz8TZeQ7NmFx58n4EOBBcnEAK9CRW7XNleMJ3akXoU4Ee/
- 8rbcv4wF8souoOMxuvdEg8DGalRIGXw=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-201-TwcsvPSgMsOmwQnaKJQz7Q-1; Wed, 10 Jun 2020 16:03:11 -0400
-X-MC-Unique: TwcsvPSgMsOmwQnaKJQz7Q-1
-Received: by mail-wr1-f69.google.com with SMTP id i6so1520728wrr.23
- for <qemu-devel@nongnu.org>; Wed, 10 Jun 2020 13:03:11 -0700 (PDT)
+ bh=yTmKvMxsRg6TDo1ZOS8kS+0m6cLpvXXwMo5jtOpsK98=;
+ b=D+dSUKJYke0YGJ406Em5EYdkEoMQj6FP/lVILKHgii8rjY8GNPHo+GnASTfPnWp9t/0FiB
+ knvj3p9qrgnUIvwJDz+/wjFFtG85dJ6gw5W5eJI2MGMKNtlHgGvWJugBZzLR9V1U/NxnZN
+ bXjbImahVshXv/WJpsJg+WRCow2HY3E=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-123-CaMsqCKSO-6uZ_yVAlsw2w-1; Wed, 10 Jun 2020 16:03:16 -0400
+X-MC-Unique: CaMsqCKSO-6uZ_yVAlsw2w-1
+Received: by mail-wm1-f70.google.com with SMTP id p24so734912wmc.1
+ for <qemu-devel@nongnu.org>; Wed, 10 Jun 2020 13:03:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=e/EYPVDSq9o7kGYyx2YtJypw5YHd6D2ZQpFJlgHmrng=;
- b=L5Yx/Tet7SwgqDH4dXlTM8AYLI/ekZ9cBBlTNm2uK0LrzDJ9VepJIbCEg9lljPnRYM
- El14hGs4GMpt2mWpPBnXPkURs94E9vF8QZCjfiYK/i2v2dkpVpxjoOeoyPdsEC9gsgOH
- eFqiRgh7UkEfEVxJVb1Hp2J0UZpj9z2kHMDpK8KDHJFYfc2OpyW5F2tRu5i26XUFeY3q
- 4IgUn2i1m0nlT1LI0hlGLzuLBvaGmebxsNy3un6AvLgZr3QMcQP1lZiQBzSOCAe5xeBa
- M4gjzpqrkFLzRq//p3D5Pr76eMbw6Z6wKT2rpVOu+VLNDNQGXeZqKxx/lFq33MsRF2IN
- 6K+A==
-X-Gm-Message-State: AOAM530u016HndwLAQMw94t0OssPz1vdyu9zUDlCSgYVySvEkmAwD/7A
- w+k3ypbfjZJL1mCWxzZWG9x462nsXVoOwFoRmmWUf8J96Km1f6Rivt7PREq6RUvg9BgxGWF891o
- JrKMIW/LbaWXlVT4=
-X-Received: by 2002:adf:f512:: with SMTP id q18mr5947188wro.38.1591819390282; 
- Wed, 10 Jun 2020 13:03:10 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwvNmYO/WldNwwukngXC7JYTHy59oge5U+OTu+aPSbQql/XO4bcyXINRMJH9NRwrBX9Z9/UtA==
-X-Received: by 2002:adf:f512:: with SMTP id q18mr5947168wro.38.1591819390138; 
- Wed, 10 Jun 2020 13:03:10 -0700 (PDT)
+ bh=yTmKvMxsRg6TDo1ZOS8kS+0m6cLpvXXwMo5jtOpsK98=;
+ b=QbIrXGUhCwj1w2GbIO9p3uzR4i77A913QhZb8eai4SILX4qZMFhRBNQ1t9tdx1RkG/
+ stgOyuysyMPWFz/HlqkhawDc9MYIOuRV8v35ETttGqOXwp7MlWU7lM3WrglqW9adIfHf
+ MQ8aPkl2KHEYA/awZHJFN090HTOZ0kBfDALN/3/MWGo8uVw2nf1bix3sZBlF+NKc4U0u
+ VW9cU8pSXtZFuLFBbG9tvjjdRwylqn+XEElG8vwXGKZtDxRVtDskoljFx788WOOVy3bR
+ 2WbpqCQrNBC2Ao6lS41zeuwEcJcbhHnrrVNfsGt0XHU8BPCBLx+DYG004kwtaAEvIVOn
+ NTXg==
+X-Gm-Message-State: AOAM531AQbRK0cRrcwQa1gdNK6czCzv1I4Ntrl0NsEwXH9ysXBswHRwQ
+ 7vZwdgGyQ6CcTCr57XVApjbucdOERQTwQjpIKRNj2tnoXdS+K4siCn4PPEjNoZqLRLI2E/kCWX5
+ j4PRDd/JBESOetWA=
+X-Received: by 2002:a5d:4ec3:: with SMTP id s3mr5876517wrv.103.1591819395109; 
+ Wed, 10 Jun 2020 13:03:15 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwV7PU5Hok0cqrjyyL26FLB7N0HI1d3sRfeHGCP5fkiaDuIASYWGuckJO0jZ/GsbIxpZilkRQ==
+X-Received: by 2002:a5d:4ec3:: with SMTP id s3mr5876499wrv.103.1591819394890; 
+ Wed, 10 Jun 2020 13:03:14 -0700 (PDT)
 Received: from x1w.redhat.com (181.red-88-10-103.dynamicip.rima-tde.net.
  [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id o10sm1219017wrq.40.2020.06.10.13.03.09
+ by smtp.gmail.com with ESMTPSA id o18sm996955wme.19.2020.06.10.13.03.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Jun 2020 13:03:09 -0700 (PDT)
+ Wed, 10 Jun 2020 13:03:14 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/8] hw/tpm: Remove unnecessary 'tpm_int.h' header inclusion
-Date: Wed, 10 Jun 2020 22:02:43 +0200
-Message-Id: <20200610200247.21378-5-philmd@redhat.com>
+Subject: [PATCH 5/8] hw/tpm: Move few declarations from 'tpm_util.h' to
+ 'tpm_int.h'
+Date: Wed, 10 Jun 2020 22:02:44 +0200
+Message-Id: <20200610200247.21378-6-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200610200247.21378-1-philmd@redhat.com>
 References: <20200610200247.21378-1-philmd@redhat.com>
@@ -72,16 +73,16 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/10 15:37:38
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/10 15:37:41
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,49 +105,67 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+We are going to make "tpm_util.h" publicly accessible by
+moving it to the include/ directory in a pair of commits.
+Keep declarations internals to hw/tpm/ in "tpm_int.h".
+
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- hw/tpm/tpm_crb.c        | 1 -
- hw/tpm/tpm_spapr.c      | 1 -
- hw/tpm/tpm_tis_common.c | 1 -
- 3 files changed, 3 deletions(-)
+ hw/tpm/tpm_int.h  | 11 +++++++++++
+ hw/tpm/tpm_util.h | 10 ----------
+ 2 files changed, 11 insertions(+), 10 deletions(-)
 
-diff --git a/hw/tpm/tpm_crb.c b/hw/tpm/tpm_crb.c
-index cd004e7f8e..664ff70ef9 100644
---- a/hw/tpm/tpm_crb.c
-+++ b/hw/tpm/tpm_crb.c
-@@ -25,7 +25,6 @@
- #include "migration/vmstate.h"
- #include "sysemu/tpm_backend.h"
- #include "sysemu/reset.h"
--#include "tpm_int.h"
- #include "tpm_util.h"
- #include "tpm_ppi.h"
- #include "trace.h"
-diff --git a/hw/tpm/tpm_spapr.c b/hw/tpm/tpm_spapr.c
-index ce65eb2e45..ab1a86ad6e 100644
---- a/hw/tpm/tpm_spapr.c
-+++ b/hw/tpm/tpm_spapr.c
-@@ -20,7 +20,6 @@
- #include "migration/vmstate.h"
+diff --git a/hw/tpm/tpm_int.h b/hw/tpm/tpm_int.h
+index fd5ebc6489..9f72879d89 100644
+--- a/hw/tpm/tpm_int.h
++++ b/hw/tpm/tpm_int.h
+@@ -13,6 +13,7 @@
+ #define TPM_TPM_INT_H
  
- #include "sysemu/tpm_backend.h"
--#include "tpm_int.h"
- #include "tpm_util.h"
+ #include "qemu/option.h"
++#include "sysemu/tpm.h"
  
- #include "hw/ppc/spapr.h"
-diff --git a/hw/tpm/tpm_tis_common.c b/hw/tpm/tpm_tis_common.c
-index 1af4bce139..94704870f6 100644
---- a/hw/tpm/tpm_tis_common.c
-+++ b/hw/tpm/tpm_tis_common.c
-@@ -33,7 +33,6 @@
- #include "hw/qdev-properties.h"
- #include "migration/vmstate.h"
- #include "sysemu/tpm_backend.h"
--#include "tpm_int.h"
- #include "tpm_util.h"
- #include "tpm_ppi.h"
- #include "trace.h"
+ #define TPM_STANDARD_CMDLINE_OPTS \
+     { \
+@@ -74,4 +75,14 @@ struct tpm_resp_hdr {
+ #define TPM_RC_FAILURE            0x101
+ #define TPM_RC_LOCALITY           0x907
+ 
++int tpm_util_get_buffer_size(int tpm_fd, TPMVersion tpm_version,
++                             size_t *buffersize);
++
++typedef struct TPMSizedBuffer {
++    uint32_t size;
++    uint8_t  *buffer;
++} TPMSizedBuffer;
++
++void tpm_sized_buffer_reset(TPMSizedBuffer *tsb);
++
+ #endif /* TPM_TPM_INT_H */
+diff --git a/hw/tpm/tpm_util.h b/hw/tpm/tpm_util.h
+index 7889081fba..d524935576 100644
+--- a/hw/tpm/tpm_util.h
++++ b/hw/tpm/tpm_util.h
+@@ -66,19 +66,9 @@ static inline void tpm_cmd_set_error(void *b, uint32_t error)
+     stl_be_p(b + 6, error);
+ }
+ 
+-int tpm_util_get_buffer_size(int tpm_fd, TPMVersion tpm_version,
+-                             size_t *buffersize);
+-
+ #define DEFINE_PROP_TPMBE(_n, _s, _f)                     \
+     DEFINE_PROP(_n, _s, _f, qdev_prop_tpm, TPMBackend *)
+ 
+-typedef struct TPMSizedBuffer {
+-    uint32_t size;
+-    uint8_t  *buffer;
+-} TPMSizedBuffer;
+-
+-void tpm_sized_buffer_reset(TPMSizedBuffer *tsb);
+-
+ void tpm_util_show_buffer(const unsigned char *buffer,
+                           size_t buffer_size, const char *string);
+ 
 -- 
 2.21.3
 
