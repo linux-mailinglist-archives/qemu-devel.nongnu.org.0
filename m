@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A37C1F4C54
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 06:30:50 +0200 (CEST)
-Received: from localhost ([::1]:44924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D01061F4CA1
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 06:53:16 +0200 (CEST)
+Received: from localhost ([::1]:35978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jisO0-00030G-Oa
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 00:30:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33906)
+	id 1jisjj-0002Cq-PC
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 00:53:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jisK3-0006h2-7s
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 00:26:43 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:38788
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jisNe-00042T-Pa
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 00:30:26 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:36694
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jisK2-000861-H3
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 00:26:42 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jisNc-0000BL-3g
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 00:30:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591763201;
+ s=mimecast20190719; t=1591763418;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=kAMCwY6Ii66tK0+En6xfr/Bb9/oeXHnOnpsD9bdoRBE=;
- b=a1RI7aB/tJOlfQnnBXHEduIcK9qiTjWgAn7y2hZegsoy7nXywdVwCUli1soSaaHt2RWfnA
- u18U7XInxHcF6IeX5wo2klC1UxMMpdO8oSKyKQflvukiXtXnCFHtEmmLU1MnDGgf0pQKp/
- /7xCUPzMhBXHnhCKEkZ1C7EljuFy+Gw=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-468-BjeTEsDRP46juaoPMxZRNg-1; Wed, 10 Jun 2020 00:26:39 -0400
-X-MC-Unique: BjeTEsDRP46juaoPMxZRNg-1
-Received: by mail-wr1-f70.google.com with SMTP id a4so511375wrp.5
- for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 21:26:39 -0700 (PDT)
+ bh=0VpX9XjFjoE089UEoUCw+lrLKWRiMsf9KCnDg50S3IA=;
+ b=aASflvE2B/4xVSQw8whBW4U+S8Wy06Ub52N4ssxt1Gk8O3ZDRLSuwthW9mSnF28vjhQd3y
+ F5/vfky4y1MmflbxWPt7hgbhBYHe6B1z6WJz+oHPOMXzp00bhxpkW67hDuWq8o3QHeZePU
+ pRJZHx0Ci/VlfgJRcA3Z4ayefhq01Ok=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-317-D5k5FyhjOGStivvSyvMItg-1; Wed, 10 Jun 2020 00:26:44 -0400
+X-MC-Unique: D5k5FyhjOGStivvSyvMItg-1
+Received: by mail-wm1-f72.google.com with SMTP id t145so88433wmt.2
+ for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 21:26:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=kAMCwY6Ii66tK0+En6xfr/Bb9/oeXHnOnpsD9bdoRBE=;
- b=QDi0XnVrYiGi+V9r7A8bcWdTK+LQR9xT4M8jC8tuqtfwkNMwA0QXVvyidrk49rN9Nk
- yqfnjSXxrS34h+zM7FoFbWhz2SCORwkw7skva3IqOBNlDJ0F2b5aPxjBabooPwdUGZmZ
- +ipsVGlcgdO0A3Y6r9Jaab5Bq7opbUz8TN9LcdY08YCY5fnzXH3KLtYghiXDxZcJGCat
- hOJdV0gUOG4oK3mUn0expEx5DmnGbIlYBVz4tYHoJJsKENOJtXVHPvGLq5E+rnE1gEHX
- nS7ZBOlLr0HMGNC3tWgUaLRgf8G2GJxWIE77jEspN9UIpCtUQHkK3nQF76kCyi89OioG
- 6UYg==
-X-Gm-Message-State: AOAM5303H4r5jbusPE8elJtjtwxi3Fwv2xOCUQhnRYWO8w2CCP3YYu0S
- TQsxsAzrXQylOsUwKvZfo9B84PG86k7qotDkk2+W9ZAwUNLp3JV2EaBi8ikE1s72eIDs5RPt3yI
- 5+wel/7V1BUCo6VE=
-X-Received: by 2002:a1c:80d4:: with SMTP id b203mr1178105wmd.138.1591763198270; 
- Tue, 09 Jun 2020 21:26:38 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwxE+k/V767keuhJMpVDjKtFN8IN6kE2WOu7A38f/lGYQ+LmMaxK6YmOew4MpyLDj5EUCUNGg==
-X-Received: by 2002:a1c:80d4:: with SMTP id b203mr1178096wmd.138.1591763198011; 
- Tue, 09 Jun 2020 21:26:38 -0700 (PDT)
+ bh=0VpX9XjFjoE089UEoUCw+lrLKWRiMsf9KCnDg50S3IA=;
+ b=jMyfI9V7I2xM4yJvoZTdQbuzWqLavRUhS74a4P/Uj0wafTbe/df9jREqQp8JQv73nR
+ dpM23YRGLWR9Ql38BUoEwTyteXHlRlV2vTbgFgWZ+KbFl9zZRQz04RpLdV5vm82eRbKK
+ yw8cmL/64eR9rA7zMWeVFtPI4KwwEKlE1sj8vLCwS0VEOnqgMdtvsx5oRh7etPWzjSur
+ lc4a8O/OT8L0TqetGCpjxr6lScaplrBcsC0sh+KqrFynvHVkK7xOrLRtG55L3ekYYqfh
+ bOH1U+3i/I/JDL06MeWl4d4UFpxnc36kLpSZnY/y/5NTI52zxRkl/khqYLlqUHS8GCJc
+ n+9g==
+X-Gm-Message-State: AOAM531X8CoxRyREHK2a8zTFokfTUCri1yelQjJO+CXJM3xdVNGU8lrP
+ mwEhxWFdiW9ZDQYPKRPf5iyxYmUJfDzE3CzqW5uWBS7DFmXggn1aC/a82IrTZ3V6XxObO+06+uk
+ 7F3LWymyewFVafXw=
+X-Received: by 2002:a05:6000:d:: with SMTP id h13mr1264926wrx.17.1591763202845; 
+ Tue, 09 Jun 2020 21:26:42 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwzLfVU0IxGEZhmYSaWskJk35YdUABMRJPA4xA2mywOfYBAlAXVVEm7cVKxbU3PXWtPugCT4Q==
+X-Received: by 2002:a05:6000:d:: with SMTP id h13mr1264916wrx.17.1591763202698; 
+ Tue, 09 Jun 2020 21:26:42 -0700 (PDT)
 Received: from redhat.com (bzq-79-181-55-232.red.bezeqint.net. [79.181.55.232])
- by smtp.gmail.com with ESMTPSA id y5sm6509410wrs.63.2020.06.09.21.26.37
+ by smtp.gmail.com with ESMTPSA id y37sm7199995wrd.55.2020.06.09.21.26.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Jun 2020 21:26:37 -0700 (PDT)
-Date: Wed, 10 Jun 2020 00:26:36 -0400
+ Tue, 09 Jun 2020 21:26:42 -0700 (PDT)
+Date: Wed, 10 Jun 2020 00:26:41 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/56] diffs-allowed: add the SRAT AML to diffs-allowed
-Message-ID: <20200610042613.1459309-3-mst@redhat.com>
+Subject: [PULL 04/56] tests/acpi: update expected SRAT files
+Message-ID: <20200610042613.1459309-5-mst@redhat.com>
 References: <20200610042613.1459309-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200610042613.1459309-1-mst@redhat.com>
@@ -70,8 +70,8 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=mst@redhat.com;
- helo=us-smtp-1.mimecast.com
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 23:51:15
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
@@ -100,26 +100,58 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vishal Verma <vishal.l.verma@intel.com>
 
-In anticipation of a change to the SRAT generation in qemu, add the AML
-file to diffs-allowed.
+Update expected SRAT files for the change to account for NVDIMM NUMA
+nodes in the SRAT.
 
-Signed-off-by: Vishal Verma <vishal.l.verma@intel.com>
-Message-Id: <20200606000911.9896-2-vishal.l.verma@intel.com>
+AML diffs:
+
+tests/data/acpi/pc/SRAT.dimmpxm:
+Message-Id: <20200606000911.9896-4-vishal.l.verma@intel.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h | 3 +++
- 1 file changed, 3 insertions(+)
+ tests/qtest/bios-tables-test-allowed-diff.h |   3 ---
+ tests/data/acpi/pc/SRAT.dimmpxm             | Bin 392 -> 392 bytes
+ tests/data/acpi/q35/SRAT.dimmpxm            | Bin 392 -> 392 bytes
+ tests/data/acpi/virt/SRAT.memhp             | Bin 186 -> 226 bytes
+ 4 files changed, 3 deletions(-)
 
 diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dfb8523c8b..e8f2766a63 100644
+index e8f2766a63..dfb8523c8b 100644
 --- a/tests/qtest/bios-tables-test-allowed-diff.h
 +++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1 +1,4 @@
+@@ -1,4 +1 @@
  /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/pc/SRAT.dimmpxm",
-+"tests/data/acpi/q35/SRAT.dimmpxm",
-+"tests/data/acpi/virt/SRAT.memhp",
+-"tests/data/acpi/pc/SRAT.dimmpxm",
+-"tests/data/acpi/q35/SRAT.dimmpxm",
+-"tests/data/acpi/virt/SRAT.memhp",
+diff --git a/tests/data/acpi/pc/SRAT.dimmpxm b/tests/data/acpi/pc/SRAT.dimmpxm
+index f5c0267ea24bb404b6b4e687390140378fbdc3f1..5a13c61b9041c6045c29643bf93a111fb1c0c76a 100644
+GIT binary patch
+delta 51
+scmeBR?qKE$4ss0XU}Rum%-G0fz$nec00kUCF%aN@Pz(&LlS3Je0lmQmhyVZp
+
+delta 51
+icmeBR?qKE$4ss0XU}RumY}m+Uz$ndt8%z#mGzI{_tp$hx
+
+diff --git a/tests/data/acpi/q35/SRAT.dimmpxm b/tests/data/acpi/q35/SRAT.dimmpxm
+index f5c0267ea24bb404b6b4e687390140378fbdc3f1..5a13c61b9041c6045c29643bf93a111fb1c0c76a 100644
+GIT binary patch
+delta 51
+scmeBR?qKE$4ss0XU}Rum%-G0fz$nec00kUCF%aN@Pz(&LlS3Je0lmQmhyVZp
+
+delta 51
+icmeBR?qKE$4ss0XU}RumY}m+Uz$ndt8%z#mGzI{_tp$hx
+
+diff --git a/tests/data/acpi/virt/SRAT.memhp b/tests/data/acpi/virt/SRAT.memhp
+index 1b57db2072e7f7e2085c4a427aa31c7383851b71..9a35adb40c6f7cd822e5af37abba8aad033617cb 100644
+GIT binary patch
+delta 43
+rcmdnR_=u4!ILI;N5d#AQbIe4p$wD1K76@=aC<X@BiSc3+=gI;A(y0ha
+
+delta 21
+dcmaFFxQmf1ILI+%7Xt$Wv-3o*$rF#t0suzv27~|r
+
 -- 
 MST
 
