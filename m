@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F34301F4D2E
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 07:47:19 +0200 (CEST)
-Received: from localhost ([::1]:48266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15A461F4D65
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 07:58:53 +0200 (CEST)
+Received: from localhost ([::1]:32798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jita2-0008ED-Tx
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 01:47:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42618)
+	id 1jitlE-0000Jx-4Q
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 01:58:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42626)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jitMP-0005ER-9F
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 01:33:13 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:30285
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jitMP-0005F5-IT
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 01:33:14 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:53027
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jitMA-0003pu-Ox
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 01:33:12 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jitMB-0003qU-R0
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 01:33:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591767177;
+ s=mimecast20190719; t=1591767178;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XEbUxXtlak8PlFbd1O+GsorsG1R72gpuliA8h02ZDTk=;
- b=Gx1kjtIoA8A8a435A9kNNMOjobueyhRrtISFs43Py1U8TFHPPLJbGogVMFrqtp7Fct7OvI
- K5l4y9AKShJ587MA5c4+xC1b3OQs9+SKi9sSPMk9oTezmjpxbiq6Xu7ZjHnatWSPIhn1h8
- i2R55pRsjUfYgRWRMHJVx2tjwxLP55U=
+ bh=uvtcmJhL+Fv9a9fpcc9/KYgV5i+CUCLGuiYqC0uxBX4=;
+ b=C9RTPdZ7MgWsY1NBP3AgOInSdWiK9Yp28quX795EY+gdoQPxOIMzqY9I04SJkZWDnPEQSK
+ Dm38MjF45tTiV3AzbrXsqwnzmEMjN6hRZg3D5122dsAqSbWJh8obGiJ621cUjjncD3yqAS
+ BPfrgz5gpiquyqPIupDv4+P8Xbl5u/0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-237-pql6b34nOUyt-zOeYhNQxw-1; Wed, 10 Jun 2020 01:32:56 -0400
-X-MC-Unique: pql6b34nOUyt-zOeYhNQxw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-480-hdJcSe3pM3-8pB5zhyzifg-1; Wed, 10 Jun 2020 01:32:56 -0400
+X-MC-Unique: hdJcSe3pM3-8pB5zhyzifg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 85C258015CE
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 873208018AB
  for <qemu-devel@nongnu.org>; Wed, 10 Jun 2020 05:32:55 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-121.ams2.redhat.com
  [10.36.112.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 577217F0BE;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 597CA5C3FD;
  Wed, 10 Jun 2020 05:32:55 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 663321138475; Wed, 10 Jun 2020 07:32:48 +0200 (CEST)
+ id 6C65C1138476; Wed, 10 Jun 2020 07:32:48 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH RESEND v3 31/58] auxbus: Rename aux_init_bus() to
- aux_bus_init()
-Date: Wed, 10 Jun 2020 07:32:20 +0200
-Message-Id: <20200610053247.1583243-32-armbru@redhat.com>
+Subject: [PATCH RESEND v3 32/58] auxbus: New aux_bus_realize(),
+ pairing with aux_bus_init()
+Date: Wed, 10 Jun 2020 07:32:21 +0200
+Message-Id: <20200610053247.1583243-33-armbru@redhat.com>
 In-Reply-To: <20200610053247.1583243-1-armbru@redhat.com>
 References: <20200610053247.1583243-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 23:22:15
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 23:51:15
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -86,71 +86,67 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Suggested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+aux_bus_init() encapsulates the creation of an aux-bus and its
+aux-to-i2c-bridge device.
+
+Create aux_bus_realize() to similarly encapsulate their realization.
+
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/hw/misc/auxbus.h | 4 ++--
+ include/hw/misc/auxbus.h | 7 +++++++
  hw/display/xlnx_dp.c     | 2 +-
- hw/misc/auxbus.c         | 4 ++--
- 3 files changed, 5 insertions(+), 5 deletions(-)
+ hw/misc/auxbus.c         | 5 +++++
+ 3 files changed, 13 insertions(+), 1 deletion(-)
 
 diff --git a/include/hw/misc/auxbus.h b/include/hw/misc/auxbus.h
-index a539a98c4b..5cfd7a9284 100644
+index 5cfd7a9284..0d849d9d89 100644
 --- a/include/hw/misc/auxbus.h
 +++ b/include/hw/misc/auxbus.h
-@@ -84,14 +84,14 @@ struct AUXSlave {
- };
- 
- /**
-- * aux_init_bus: Initialize an AUX bus.
-+ * aux_bus_init: Initialize an AUX bus.
-  *
-  * Returns the new AUX bus created.
-  *
-  * @parent The device where this bus is located.
-  * @name The name of the bus.
+@@ -93,6 +93,13 @@ struct AUXSlave {
   */
--AUXBus *aux_init_bus(DeviceState *parent, const char *name);
-+AUXBus *aux_bus_init(DeviceState *parent, const char *name);
+ AUXBus *aux_bus_init(DeviceState *parent, const char *name);
  
++/**
++ * aux_bus_realize: Realize an AUX bus.
++ *
++ * @bus: The AUX bus.
++ */
++void aux_bus_realize(AUXBus *bus);
++
  /*
   * aux_request: Make a request on the bus.
+  *
 diff --git a/hw/display/xlnx_dp.c b/hw/display/xlnx_dp.c
-index 6e9793584a..31d0c5a101 100644
+index 31d0c5a101..a714cf8a50 100644
 --- a/hw/display/xlnx_dp.c
 +++ b/hw/display/xlnx_dp.c
-@@ -1244,7 +1244,7 @@ static void xlnx_dp_init(Object *obj)
-     /*
-      * Initialize AUX Bus.
-      */
--    s->aux_bus = aux_init_bus(DEVICE(obj), "aux");
-+    s->aux_bus = aux_bus_init(DEVICE(obj), "aux");
+@@ -1266,7 +1266,7 @@ static void xlnx_dp_realize(DeviceState *dev, Error **errp)
+     DisplaySurface *surface;
+     struct audsettings as;
  
-     /*
-      * Initialize DPCD and EDID..
+-    qdev_init_nofail(DEVICE(s->aux_bus->bridge));
++    aux_bus_realize(s->aux_bus);
+ 
+     qdev_init_nofail(DEVICE(s->dpcd));
+     aux_map_slave(AUX_SLAVE(s->dpcd), 0x0000);
 diff --git a/hw/misc/auxbus.c b/hw/misc/auxbus.c
-index 7fb020086f..2e1c27e842 100644
+index 2e1c27e842..113f4278aa 100644
 --- a/hw/misc/auxbus.c
 +++ b/hw/misc/auxbus.c
-@@ -62,7 +62,7 @@ static void aux_bus_class_init(ObjectClass *klass, void *data)
-     k->print_dev = aux_slave_dev_print;
+@@ -81,6 +81,11 @@ AUXBus *aux_bus_init(DeviceState *parent, const char *name)
+     return bus;
  }
  
--AUXBus *aux_init_bus(DeviceState *parent, const char *name)
-+AUXBus *aux_bus_init(DeviceState *parent, const char *name)
++void aux_bus_realize(AUXBus *bus)
++{
++    qdev_init_nofail(DEVICE(bus->bridge));
++}
++
+ void aux_map_slave(AUXSlave *aux_dev, hwaddr addr)
  {
-     AUXBus *bus;
-     Object *auxtoi2c;
-@@ -225,7 +225,7 @@ static void aux_bridge_class_init(ObjectClass *oc, void *data)
-     DeviceClass *dc = DEVICE_CLASS(oc);
- 
-     /* This device is private and is created only once for each
--     * aux-bus in aux_init_bus(..). So don't allow the user to add one.
-+     * aux-bus in aux_bus_init(..). So don't allow the user to add one.
-      */
-     dc->user_creatable = false;
- }
+     DeviceState *dev = DEVICE(aux_dev);
 -- 
 2.26.2
 
