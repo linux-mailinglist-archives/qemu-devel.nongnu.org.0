@@ -2,39 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C1191F574E
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 17:09:05 +0200 (CEST)
-Received: from localhost ([::1]:33612 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 615361F5759
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 17:11:54 +0200 (CEST)
+Received: from localhost ([::1]:41740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jj2Lg-000074-Gb
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 11:09:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35970)
+	id 1jj2OP-0003ZY-87
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 11:11:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1jj2Gf-0002Lc-EB; Wed, 10 Jun 2020 11:03:53 -0400
-Received: from fanzine.igalia.com ([178.60.130.6]:58017)
+ id 1jj2Gd-0002K5-7P; Wed, 10 Jun 2020 11:03:51 -0400
+Received: from fanzine.igalia.com ([178.60.130.6]:58020)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1jj2GX-0006vt-PK; Wed, 10 Jun 2020 11:03:51 -0400
+ id 1jj2GX-0006vq-IN; Wed, 10 Jun 2020 11:03:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  s=20170329; 
- h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From;
- bh=lQ3bovAyFtHjaZFEaq0k6hBdSfIQPeMdTE7wL25voOI=; 
- b=ntgM3cF4meWD+BEt6Qc9k5Cwvmovr3N/vgZDBzQRP3C3CJvW88SASfATXIJ/yiQZqg1oTbZuINoaij0QWdomcPEjXdHSuU503SVSEz8IdxFw1n28majDfjPYj0aMoOusfEyrt0oBr/Gw7idx7Og1yBOvkE/CbF5S9ZMFFx/bgF6X2r2luob6dDZTCFch7AL53TZLfDZmBZQ3U/1ZlKTgYtnzI9jfIbrAmZNPI249Qw0A92/3YyAxXJBwkVj1cJIo5hj3Bv8hKMZ+MyMx8TMw2FXppO/vqkxJ6NE9pcPmzY675Ek3BNvJiKI/IaL1zOks0ogvW2aU6D88ID695Ah9eA==;
+ h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From;
+ bh=KVge/m/XS0/yC+nhx3y/fBN7slj1cup5sV6LZnFJwfc=; 
+ b=VU0f95uCYpFcv+d4NWTjOyyFsWXBeYVpUxH7TpQXGRQEkp6Ytt096ozZbr1CDVl+uNMO9hhPaCh4WSGh5WwmQbQDEycllq8ER6JQyNRH+0MZazmO0ylIIh6kqJBuDchOZZAewOkjDJqOIKe3Y6TbPTlSChfQxdTvuYAE+Hqqh8SkiNXavxC70F2aRQx88FxgFU1qWsTlw7X1A+mIMkqI9NGHobU4BZa6oZFMQwGDOFXlG3UXhjFvwe1bbaCaD5SFxiE6/ZMPxRyEGY9OAmotSeMExUOhDu/yc+jv7UiUCkNROLC9eUl98pxLCOF66yTwqiDvMPgNUPfNsC8PizQd8A==;
 Received: from [81.0.38.199] (helo=perseus.local)
  by fanzine.igalia.com with esmtpsa 
  (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1jj2GQ-0007ge-Sj; Wed, 10 Jun 2020 17:03:38 +0200
+ id 1jj2GQ-0007gc-Lp; Wed, 10 Jun 2020 17:03:38 +0200
 Received: from berto by perseus.local with local (Exim 4.92)
  (envelope-from <berto@igalia.com>)
- id 1jj2GB-0007MS-KK; Wed, 10 Jun 2020 17:03:23 +0200
+ id 1jj2GB-0007MU-LX; Wed, 10 Jun 2020 17:03:23 +0200
 From: Alberto Garcia <berto@igalia.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 00/34] Add subcluster allocation to qcow2
-Date: Wed, 10 Jun 2020 17:02:38 +0200
-Message-Id: <cover.1591801197.git.berto@igalia.com>
+Subject: [PATCH v8 01/34] qcow2: Make Qcow2AioTask store the full host offset
+Date: Wed, 10 Jun 2020 17:02:39 +0200
+Message-Id: <2a4890c1157da363c419a8c90475dbe192cd9933.1591801197.git.berto@igalia.com>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <cover.1591801197.git.berto@igalia.com>
+References: <cover.1591801197.git.berto@igalia.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
@@ -66,157 +68,270 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+The file_cluster_offset field of Qcow2AioTask stores a cluster-aligned
+host offset. In practice this is not very useful because all users(*)
+of this structure need the final host offset into the cluster, which
+they calculate using
 
-here's the new version of the patches to add subcluster allocation
-support to qcow2.
+   host_offset = file_cluster_offset + offset_into_cluster(s, offset)
 
-Please refer to the cover letter of the first version for a full
-description of the patches:
+There is no reason why Qcow2AioTask cannot store host_offset directly
+and that is what this patch does.
 
-   https://lists.gnu.org/archive/html/qemu-block/2019-10/msg00983.html
+(*) compressed clusters are the exception: in this case what
+    file_cluster_offset was storing was the full compressed cluster
+    descriptor (offset + size). This does not change with this patch
+    but it is documented now.
 
-The big change here is that now when an image is preallocated then the
-requested clusters are allocated but the L2 bitmap is left untouched.
-This makes it possible to preallocate an image that has a backing
-file.
+Signed-off-by: Alberto Garcia <berto@igalia.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+---
+ block/qcow2.c      | 69 ++++++++++++++++++++++------------------------
+ block/trace-events |  2 +-
+ 2 files changed, 34 insertions(+), 37 deletions(-)
 
-If you want to test this series make sure to apply this patch first:
-
-   https://lists.gnu.org/archive/html/qemu-block/2020-06/msg00504.html
-
-Berto
-
-v8:
-- Patch 30: New patch
-- Patch 31: Update test expectations after commit cf2d1203dc
-- Patch 32: New patch
-- Patch 34: New tests, fixes and general refactoring of the code
-
-v7: https://lists.gnu.org/archive/html/qemu-block/2020-05/msg01683.html
-v6: https://lists.gnu.org/archive/html/qemu-block/2020-05/msg01583.html
-v5: https://lists.gnu.org/archive/html/qemu-block/2020-05/msg00251.html
-v4: https://lists.gnu.org/archive/html/qemu-block/2020-03/msg00966.html
-v3: https://lists.gnu.org/archive/html/qemu-block/2019-12/msg00587.html
-v2: https://lists.gnu.org/archive/html/qemu-block/2019-10/msg01642.html
-v1: https://lists.gnu.org/archive/html/qemu-block/2019-10/msg00983.html
-
-Output of git backport-diff against v7:
-
-Key:
-[----] : patches are identical
-[####] : number of functional differences between upstream/downstream patch
-[down] : patch is downstream-only
-The flags [FC] indicate (F)unctional and (C)ontextual differences, respectively
-
-001/34:[----] [--] 'qcow2: Make Qcow2AioTask store the full host offset'
-002/34:[----] [--] 'qcow2: Convert qcow2_get_cluster_offset() into qcow2_get_host_offset()'
-003/34:[----] [--] 'qcow2: Add calculate_l2_meta()'
-004/34:[----] [--] 'qcow2: Split cluster_needs_cow() out of count_cow_clusters()'
-005/34:[----] [--] 'qcow2: Process QCOW2_CLUSTER_ZERO_ALLOC clusters in handle_copied()'
-006/34:[----] [--] 'qcow2: Add get_l2_entry() and set_l2_entry()'
-007/34:[----] [--] 'qcow2: Document the Extended L2 Entries feature'
-008/34:[----] [--] 'qcow2: Add dummy has_subclusters() function'
-009/34:[----] [--] 'qcow2: Add subcluster-related fields to BDRVQcow2State'
-010/34:[----] [--] 'qcow2: Add offset_to_sc_index()'
-011/34:[----] [--] 'qcow2: Add offset_into_subcluster() and size_to_subclusters()'
-012/34:[----] [--] 'qcow2: Add l2_entry_size()'
-013/34:[----] [--] 'qcow2: Update get/set_l2_entry() and add get/set_l2_bitmap()'
-014/34:[----] [--] 'qcow2: Add QCow2SubclusterType and qcow2_get_subcluster_type()'
-015/34:[----] [--] 'qcow2: Add qcow2_get_subcluster_range_type()'
-016/34:[----] [--] 'qcow2: Add qcow2_cluster_is_allocated()'
-017/34:[----] [--] 'qcow2: Add cluster type parameter to qcow2_get_host_offset()'
-018/34:[----] [--] 'qcow2: Replace QCOW2_CLUSTER_* with QCOW2_SUBCLUSTER_*'
-019/34:[----] [--] 'qcow2: Handle QCOW2_SUBCLUSTER_UNALLOCATED_ALLOC'
-020/34:[----] [--] 'qcow2: Add subcluster support to calculate_l2_meta()'
-021/34:[----] [--] 'qcow2: Add subcluster support to qcow2_get_host_offset()'
-022/34:[----] [--] 'qcow2: Add subcluster support to zero_in_l2_slice()'
-023/34:[----] [--] 'qcow2: Add subcluster support to discard_in_l2_slice()'
-024/34:[----] [--] 'qcow2: Add subcluster support to check_refcounts_l2()'
-025/34:[----] [--] 'qcow2: Update L2 bitmap in qcow2_alloc_cluster_link_l2()'
-026/34:[----] [--] 'qcow2: Clear the L2 bitmap when allocating a compressed cluster'
-027/34:[----] [--] 'qcow2: Add subcluster support to handle_alloc_space()'
-028/34:[----] [--] 'qcow2: Add subcluster support to qcow2_co_pwrite_zeroes()'
-029/34:[----] [-C] 'qcow2: Add subcluster support to qcow2_measure()'
-030/34:[down] 'qcow2: Add prealloc field to QCowL2Meta'
-031/34:[0002] [FC] 'qcow2: Add the 'extended_l2' option and the QCOW2_INCOMPAT_EXTL2 bit'
-032/34:[down] 'qcow2: Allow preallocation and backing files if extended_l2 is set'
-033/34:[----] [--] 'qcow2: Assert that expand_zero_clusters_in_l1() does not support subclusters'
-034/34:[0669] [FC] 'iotests: Add tests for qcow2 images with extended L2 entries'
-
-Alberto Garcia (34):
-  qcow2: Make Qcow2AioTask store the full host offset
-  qcow2: Convert qcow2_get_cluster_offset() into qcow2_get_host_offset()
-  qcow2: Add calculate_l2_meta()
-  qcow2: Split cluster_needs_cow() out of count_cow_clusters()
-  qcow2: Process QCOW2_CLUSTER_ZERO_ALLOC clusters in handle_copied()
-  qcow2: Add get_l2_entry() and set_l2_entry()
-  qcow2: Document the Extended L2 Entries feature
-  qcow2: Add dummy has_subclusters() function
-  qcow2: Add subcluster-related fields to BDRVQcow2State
-  qcow2: Add offset_to_sc_index()
-  qcow2: Add offset_into_subcluster() and size_to_subclusters()
-  qcow2: Add l2_entry_size()
-  qcow2: Update get/set_l2_entry() and add get/set_l2_bitmap()
-  qcow2: Add QCow2SubclusterType and qcow2_get_subcluster_type()
-  qcow2: Add qcow2_get_subcluster_range_type()
-  qcow2: Add qcow2_cluster_is_allocated()
-  qcow2: Add cluster type parameter to qcow2_get_host_offset()
-  qcow2: Replace QCOW2_CLUSTER_* with QCOW2_SUBCLUSTER_*
-  qcow2: Handle QCOW2_SUBCLUSTER_UNALLOCATED_ALLOC
-  qcow2: Add subcluster support to calculate_l2_meta()
-  qcow2: Add subcluster support to qcow2_get_host_offset()
-  qcow2: Add subcluster support to zero_in_l2_slice()
-  qcow2: Add subcluster support to discard_in_l2_slice()
-  qcow2: Add subcluster support to check_refcounts_l2()
-  qcow2: Update L2 bitmap in qcow2_alloc_cluster_link_l2()
-  qcow2: Clear the L2 bitmap when allocating a compressed cluster
-  qcow2: Add subcluster support to handle_alloc_space()
-  qcow2: Add subcluster support to qcow2_co_pwrite_zeroes()
-  qcow2: Add subcluster support to qcow2_measure()
-  qcow2: Add prealloc field to QCowL2Meta
-  qcow2: Add the 'extended_l2' option and the QCOW2_INCOMPAT_EXTL2 bit
-  qcow2: Allow preallocation and backing files if extended_l2 is set
-  qcow2: Assert that expand_zero_clusters_in_l1() does not support
-    subclusters
-  iotests: Add tests for qcow2 images with extended L2 entries
-
- docs/interop/qcow2.txt           |  68 ++-
- docs/qcow2-cache.txt             |  19 +-
- qapi/block-core.json             |   7 +
- block/qcow2.h                    | 211 ++++++-
- include/block/block_int.h        |   1 +
- block/qcow2-cluster.c            | 912 +++++++++++++++++++++----------
- block/qcow2-refcount.c           |  38 +-
- block/qcow2.c                    | 304 +++++++----
- block/trace-events               |   2 +-
- tests/qemu-iotests/031.out       |   8 +-
- tests/qemu-iotests/036.out       |   4 +-
- tests/qemu-iotests/049.out       | 102 ++--
- tests/qemu-iotests/060.out       |   1 +
- tests/qemu-iotests/061           |   6 +
- tests/qemu-iotests/061.out       |  25 +-
- tests/qemu-iotests/065           |  12 +-
- tests/qemu-iotests/082.out       |  48 +-
- tests/qemu-iotests/085.out       |  38 +-
- tests/qemu-iotests/144.out       |   4 +-
- tests/qemu-iotests/182.out       |   2 +-
- tests/qemu-iotests/185.out       |   8 +-
- tests/qemu-iotests/198.out       |   2 +
- tests/qemu-iotests/206.out       |   6 +-
- tests/qemu-iotests/242.out       |   5 +
- tests/qemu-iotests/255.out       |   8 +-
- tests/qemu-iotests/271           | 801 +++++++++++++++++++++++++++
- tests/qemu-iotests/271.out       | 676 +++++++++++++++++++++++
- tests/qemu-iotests/274.out       |  49 +-
- tests/qemu-iotests/280.out       |   2 +-
- tests/qemu-iotests/291.out       |   2 +
- tests/qemu-iotests/common.filter |   1 +
- tests/qemu-iotests/group         |   1 +
- 32 files changed, 2807 insertions(+), 566 deletions(-)
- create mode 100755 tests/qemu-iotests/271
- create mode 100644 tests/qemu-iotests/271.out
-
+diff --git a/block/qcow2.c b/block/qcow2.c
+index e20590c3b7..d792137af6 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -74,7 +74,7 @@ typedef struct {
+ 
+ static int coroutine_fn
+ qcow2_co_preadv_compressed(BlockDriverState *bs,
+-                           uint64_t file_cluster_offset,
++                           uint64_t cluster_descriptor,
+                            uint64_t offset,
+                            uint64_t bytes,
+                            QEMUIOVector *qiov,
+@@ -2103,7 +2103,7 @@ out:
+ 
+ static coroutine_fn int
+ qcow2_co_preadv_encrypted(BlockDriverState *bs,
+-                           uint64_t file_cluster_offset,
++                           uint64_t host_offset,
+                            uint64_t offset,
+                            uint64_t bytes,
+                            QEMUIOVector *qiov,
+@@ -2130,16 +2130,12 @@ qcow2_co_preadv_encrypted(BlockDriverState *bs,
+     }
+ 
+     BLKDBG_EVENT(bs->file, BLKDBG_READ_AIO);
+-    ret = bdrv_co_pread(s->data_file,
+-                        file_cluster_offset + offset_into_cluster(s, offset),
+-                        bytes, buf, 0);
++    ret = bdrv_co_pread(s->data_file, host_offset, bytes, buf, 0);
+     if (ret < 0) {
+         goto fail;
+     }
+ 
+-    if (qcow2_co_decrypt(bs,
+-                         file_cluster_offset + offset_into_cluster(s, offset),
+-                         offset, buf, bytes) < 0)
++    if (qcow2_co_decrypt(bs, host_offset, offset, buf, bytes) < 0)
+     {
+         ret = -EIO;
+         goto fail;
+@@ -2157,7 +2153,7 @@ typedef struct Qcow2AioTask {
+ 
+     BlockDriverState *bs;
+     QCow2ClusterType cluster_type; /* only for read */
+-    uint64_t file_cluster_offset;
++    uint64_t host_offset; /* or full descriptor in compressed clusters */
+     uint64_t offset;
+     uint64_t bytes;
+     QEMUIOVector *qiov;
+@@ -2170,7 +2166,7 @@ static coroutine_fn int qcow2_add_task(BlockDriverState *bs,
+                                        AioTaskPool *pool,
+                                        AioTaskFunc func,
+                                        QCow2ClusterType cluster_type,
+-                                       uint64_t file_cluster_offset,
++                                       uint64_t host_offset,
+                                        uint64_t offset,
+                                        uint64_t bytes,
+                                        QEMUIOVector *qiov,
+@@ -2185,7 +2181,7 @@ static coroutine_fn int qcow2_add_task(BlockDriverState *bs,
+         .bs = bs,
+         .cluster_type = cluster_type,
+         .qiov = qiov,
+-        .file_cluster_offset = file_cluster_offset,
++        .host_offset = host_offset,
+         .offset = offset,
+         .bytes = bytes,
+         .qiov_offset = qiov_offset,
+@@ -2194,7 +2190,7 @@ static coroutine_fn int qcow2_add_task(BlockDriverState *bs,
+ 
+     trace_qcow2_add_task(qemu_coroutine_self(), bs, pool,
+                          func == qcow2_co_preadv_task_entry ? "read" : "write",
+-                         cluster_type, file_cluster_offset, offset, bytes,
++                         cluster_type, host_offset, offset, bytes,
+                          qiov, qiov_offset);
+ 
+     if (!pool) {
+@@ -2208,13 +2204,12 @@ static coroutine_fn int qcow2_add_task(BlockDriverState *bs,
+ 
+ static coroutine_fn int qcow2_co_preadv_task(BlockDriverState *bs,
+                                              QCow2ClusterType cluster_type,
+-                                             uint64_t file_cluster_offset,
++                                             uint64_t host_offset,
+                                              uint64_t offset, uint64_t bytes,
+                                              QEMUIOVector *qiov,
+                                              size_t qiov_offset)
+ {
+     BDRVQcow2State *s = bs->opaque;
+-    int offset_in_cluster = offset_into_cluster(s, offset);
+ 
+     switch (cluster_type) {
+     case QCOW2_CLUSTER_ZERO_PLAIN:
+@@ -2230,19 +2225,17 @@ static coroutine_fn int qcow2_co_preadv_task(BlockDriverState *bs,
+                                    qiov, qiov_offset, 0);
+ 
+     case QCOW2_CLUSTER_COMPRESSED:
+-        return qcow2_co_preadv_compressed(bs, file_cluster_offset,
++        return qcow2_co_preadv_compressed(bs, host_offset,
+                                           offset, bytes, qiov, qiov_offset);
+ 
+     case QCOW2_CLUSTER_NORMAL:
+-        assert(offset_into_cluster(s, file_cluster_offset) == 0);
+         if (bs->encrypted) {
+-            return qcow2_co_preadv_encrypted(bs, file_cluster_offset,
++            return qcow2_co_preadv_encrypted(bs, host_offset,
+                                              offset, bytes, qiov, qiov_offset);
+         }
+ 
+         BLKDBG_EVENT(bs->file, BLKDBG_READ_AIO);
+-        return bdrv_co_preadv_part(s->data_file,
+-                                   file_cluster_offset + offset_in_cluster,
++        return bdrv_co_preadv_part(s->data_file, host_offset,
+                                    bytes, qiov, qiov_offset, 0);
+ 
+     default:
+@@ -2258,7 +2251,7 @@ static coroutine_fn int qcow2_co_preadv_task_entry(AioTask *task)
+ 
+     assert(!t->l2meta);
+ 
+-    return qcow2_co_preadv_task(t->bs, t->cluster_type, t->file_cluster_offset,
++    return qcow2_co_preadv_task(t->bs, t->cluster_type, t->host_offset,
+                                 t->offset, t->bytes, t->qiov, t->qiov_offset);
+ }
+ 
+@@ -2294,11 +2287,20 @@ static coroutine_fn int qcow2_co_preadv_part(BlockDriverState *bs,
+         {
+             qemu_iovec_memset(qiov, qiov_offset, 0, cur_bytes);
+         } else {
++            /*
++             * For compressed clusters the variable cluster_offset
++             * does not actually store the offset but the full
++             * descriptor. We need to leave it unchanged because
++             * that's what qcow2_co_preadv_compressed() expects.
++             */
++            uint64_t host_offset = (ret == QCOW2_CLUSTER_COMPRESSED) ?
++                cluster_offset :
++                cluster_offset + offset_into_cluster(s, offset);
+             if (!aio && cur_bytes != bytes) {
+                 aio = aio_task_pool_new(QCOW2_MAX_WORKERS);
+             }
+             ret = qcow2_add_task(bs, aio, qcow2_co_preadv_task_entry, ret,
+-                                 cluster_offset, offset, cur_bytes,
++                                 host_offset, offset, cur_bytes,
+                                  qiov, qiov_offset, NULL);
+             if (ret < 0) {
+                 goto out;
+@@ -2449,7 +2451,7 @@ static int handle_alloc_space(BlockDriverState *bs, QCowL2Meta *l2meta)
+  *           not use it somehow after qcow2_co_pwritev_task() call
+  */
+ static coroutine_fn int qcow2_co_pwritev_task(BlockDriverState *bs,
+-                                              uint64_t file_cluster_offset,
++                                              uint64_t host_offset,
+                                               uint64_t offset, uint64_t bytes,
+                                               QEMUIOVector *qiov,
+                                               uint64_t qiov_offset,
+@@ -2458,7 +2460,6 @@ static coroutine_fn int qcow2_co_pwritev_task(BlockDriverState *bs,
+     int ret;
+     BDRVQcow2State *s = bs->opaque;
+     void *crypt_buf = NULL;
+-    int offset_in_cluster = offset_into_cluster(s, offset);
+     QEMUIOVector encrypted_qiov;
+ 
+     if (bs->encrypted) {
+@@ -2471,9 +2472,7 @@ static coroutine_fn int qcow2_co_pwritev_task(BlockDriverState *bs,
+         }
+         qemu_iovec_to_buf(qiov, qiov_offset, crypt_buf, bytes);
+ 
+-        if (qcow2_co_encrypt(bs, file_cluster_offset + offset_in_cluster,
+-                             offset, crypt_buf, bytes) < 0)
+-        {
++        if (qcow2_co_encrypt(bs, host_offset, offset, crypt_buf, bytes) < 0) {
+             ret = -EIO;
+             goto out_unlocked;
+         }
+@@ -2497,10 +2496,8 @@ static coroutine_fn int qcow2_co_pwritev_task(BlockDriverState *bs,
+      */
+     if (!merge_cow(offset, bytes, qiov, qiov_offset, l2meta)) {
+         BLKDBG_EVENT(bs->file, BLKDBG_WRITE_AIO);
+-        trace_qcow2_writev_data(qemu_coroutine_self(),
+-                                file_cluster_offset + offset_in_cluster);
+-        ret = bdrv_co_pwritev_part(s->data_file,
+-                                   file_cluster_offset + offset_in_cluster,
++        trace_qcow2_writev_data(qemu_coroutine_self(), host_offset);
++        ret = bdrv_co_pwritev_part(s->data_file, host_offset,
+                                    bytes, qiov, qiov_offset, 0);
+         if (ret < 0) {
+             goto out_unlocked;
+@@ -2530,7 +2527,7 @@ static coroutine_fn int qcow2_co_pwritev_task_entry(AioTask *task)
+ 
+     assert(!t->cluster_type);
+ 
+-    return qcow2_co_pwritev_task(t->bs, t->file_cluster_offset,
++    return qcow2_co_pwritev_task(t->bs, t->host_offset,
+                                  t->offset, t->bytes, t->qiov, t->qiov_offset,
+                                  t->l2meta);
+ }
+@@ -2585,8 +2582,8 @@ static coroutine_fn int qcow2_co_pwritev_part(
+             aio = aio_task_pool_new(QCOW2_MAX_WORKERS);
+         }
+         ret = qcow2_add_task(bs, aio, qcow2_co_pwritev_task_entry, 0,
+-                             cluster_offset, offset, cur_bytes,
+-                             qiov, qiov_offset, l2meta);
++                             cluster_offset + offset_in_cluster, offset,
++                             cur_bytes, qiov, qiov_offset, l2meta);
+         l2meta = NULL; /* l2meta is consumed by qcow2_co_pwritev_task() */
+         if (ret < 0) {
+             goto fail_nometa;
+@@ -4569,7 +4566,7 @@ qcow2_co_pwritev_compressed_part(BlockDriverState *bs,
+ 
+ static int coroutine_fn
+ qcow2_co_preadv_compressed(BlockDriverState *bs,
+-                           uint64_t file_cluster_offset,
++                           uint64_t cluster_descriptor,
+                            uint64_t offset,
+                            uint64_t bytes,
+                            QEMUIOVector *qiov,
+@@ -4581,8 +4578,8 @@ qcow2_co_preadv_compressed(BlockDriverState *bs,
+     uint8_t *buf, *out_buf;
+     int offset_in_cluster = offset_into_cluster(s, offset);
+ 
+-    coffset = file_cluster_offset & s->cluster_offset_mask;
+-    nb_csectors = ((file_cluster_offset >> s->csize_shift) & s->csize_mask) + 1;
++    coffset = cluster_descriptor & s->cluster_offset_mask;
++    nb_csectors = ((cluster_descriptor >> s->csize_shift) & s->csize_mask) + 1;
+     csize = nb_csectors * QCOW2_COMPRESSED_SECTOR_SIZE -
+         (coffset & ~QCOW2_COMPRESSED_SECTOR_MASK);
+ 
+diff --git a/block/trace-events b/block/trace-events
+index 29dff8881c..5c9b0769dc 100644
+--- a/block/trace-events
++++ b/block/trace-events
+@@ -77,7 +77,7 @@ luring_io_uring_submit(void *s, int ret) "LuringState %p ret %d"
+ luring_resubmit_short_read(void *s, void *luringcb, int nread) "LuringState %p luringcb %p nread %d"
+ 
+ # qcow2.c
+-qcow2_add_task(void *co, void *bs, void *pool, const char *action, int cluster_type, uint64_t file_cluster_offset, uint64_t offset, uint64_t bytes, void *qiov, size_t qiov_offset) "co %p bs %p pool %p: %s: cluster_type %d file_cluster_offset %" PRIu64 " offset %" PRIu64 " bytes %" PRIu64 " qiov %p qiov_offset %zu"
++qcow2_add_task(void *co, void *bs, void *pool, const char *action, int cluster_type, uint64_t host_offset, uint64_t offset, uint64_t bytes, void *qiov, size_t qiov_offset) "co %p bs %p pool %p: %s: cluster_type %d file_cluster_offset %" PRIu64 " offset %" PRIu64 " bytes %" PRIu64 " qiov %p qiov_offset %zu"
+ qcow2_writev_start_req(void *co, int64_t offset, int bytes) "co %p offset 0x%" PRIx64 " bytes %d"
+ qcow2_writev_done_req(void *co, int ret) "co %p ret %d"
+ qcow2_writev_start_part(void *co) "co %p"
 -- 
 2.20.1
 
