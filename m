@@ -2,109 +2,117 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E93C1F51ED
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 12:10:43 +0200 (CEST)
-Received: from localhost ([::1]:42096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 676891F5232
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 12:25:57 +0200 (CEST)
+Received: from localhost ([::1]:52822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jixgw-0007xA-CZ
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 06:10:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54868)
+	id 1jixvf-0005q5-Sl
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 06:25:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jixfN-0006Pe-85
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 06:09:05 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:28372
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jixuH-0005Or-V9
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 06:24:29 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:25762
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jixfL-00070w-2p
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 06:09:04 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jixuF-0001Ny-Ln
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 06:24:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591783741;
+ s=mimecast20190719; t=1591784666;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=hE9Oaz24ilg7T4209xNV9IatGJG7l+0xJeWoG28nb1E=;
- b=XOcitUAhoVRuAcfzk/TubXA+/0MZBW+RztHyMuq4hTthpdVf0TkS+1nj25Ch5bOeZEXY8w
- F/mmyRuFnoAeoUkgB/iWh9W0Xp/dCp2HIGnK1i0w/tdYsPJ/A4LqXFQarlF6p7c6AwF1zb
- eiZ4sIxVstiO6HVC9kBO/D7t3JY2xS0=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-324-09BQLPDTNySQHNA5EB-lLg-1; Wed, 10 Jun 2020 06:08:58 -0400
-X-MC-Unique: 09BQLPDTNySQHNA5EB-lLg-1
-Received: by mail-wr1-f72.google.com with SMTP id j16so852013wre.22
- for <qemu-devel@nongnu.org>; Wed, 10 Jun 2020 03:08:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=hE9Oaz24ilg7T4209xNV9IatGJG7l+0xJeWoG28nb1E=;
- b=p2/LCTOrpB2tJEMlC2kiqw92sB3lGSnJOsMRGl5Wm4JYsRRbGNSFqAVFBJt1bNwa+h
- vxZe9rL55crofmDwUO7snnMrRptwpLeK6HEcyj+PX94DDVtabKhCl6X9bMPCqajSRtAq
- ZRsBXE60yWoY2ZPNgKHJAN+9xMfG40qmJuAKAhx4L3M+pM1FngUAZsDbi3i2WFPao+LN
- d1atL+RTIz8+CHhmI2gKkfP1+czD/Y02dF59H19CuafI+mDsFdc7Qi4hJOJan/37hhjh
- 357M/la6icq/xILhty9z0otXSOGFYnY/wsO3BmPcGeWMBqLg+Xm4AYBzzhBNBMmYb0hz
- A8Xw==
-X-Gm-Message-State: AOAM533CQQQpg+FohAc5NLTW7vjMdrhY/gRr8HqjOQFec/AlD9pNDAXw
- TIT1bRniMKtAoXDbaX0vutgE4tFHVxqWEbZVKz/OR/mjVv3px6aUdnJ/VN0KfYugVgeZrjyGEkV
- AbvvDGtey2fWbtB8=
-X-Received: by 2002:adf:9544:: with SMTP id 62mr2745816wrs.32.1591783736854;
- Wed, 10 Jun 2020 03:08:56 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwrsMtsRim5X/cGvZUX1UMfrqUDitqZ5vttqzCnfXftpeZa1hg/C4qf2zwuY8fO0E74o1f8Wg==
-X-Received: by 2002:adf:9544:: with SMTP id 62mr2745779wrs.32.1591783736494;
- Wed, 10 Jun 2020 03:08:56 -0700 (PDT)
-Received: from [192.168.1.38] (181.red-88-10-103.dynamicip.rima-tde.net.
- [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id z25sm6296656wmf.10.2020.06.10.03.08.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 Jun 2020 03:08:55 -0700 (PDT)
-Subject: Re: [PATCH] hw/vfio/pci-quirks: Fix broken legacy IGD passthrough
-To: Thomas Huth <thuth@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>, qemu-devel@nongnu.org
-References: <20200610035102.20192-1-thuth@redhat.com>
- <706060db-46c4-2dee-d746-eba24e6b137d@redhat.com>
- <a8195883-fb78-0cc1-5e15-e100dcb807de@redhat.com>
- <fd82556f-297d-6634-1bb2-37c4da415a50@redhat.com>
- <c3f40a57-e511-6b31-1a13-01acb38b0843@redhat.com>
- <4bdc918a-a59c-a877-680a-2925c09fc736@redhat.com>
- <04979308-3a35-4e40-35c7-836a36e47143@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <b771f418-64da-7922-923f-ae8cb62ce938@redhat.com>
-Date: Wed, 10 Jun 2020 12:08:54 +0200
+ bh=bbVi9EiCPvHy7kj7gQp21m4j1wn5Qsmy3053UBPypOM=;
+ b=bBmm7Bze8aIv61mWAg1FR8r+ZVbSBsTPYQyxoPhQg291rxJBQDEdbfBi+DCZUDpbRcRRGX
+ 6pEXOPY9Avl16axYZO63yZE+ITZa0rp43dtZ79K5FABVk1RzQBbO8lblls5ess0HriVD3O
+ lH7FfyZPJwB70tho56+soHP0BdnX4EE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-354-w8IXE7kLPU6opOehTsJeww-1; Wed, 10 Jun 2020 06:24:22 -0400
+X-MC-Unique: w8IXE7kLPU6opOehTsJeww-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E34648014D4;
+ Wed, 10 Jun 2020 10:24:20 +0000 (UTC)
+Received: from [10.36.114.42] (ovpn-114-42.ams2.redhat.com [10.36.114.42])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 54C815D9D3;
+ Wed, 10 Jun 2020 10:24:15 +0000 (UTC)
+Subject: Re: [PATCH v2 1/1] virtio-ccw: auto-manage VIRTIO_F_IOMMU_PLATFORM if
+ PV
+To: David Gibson <david@gibson.dropbear.id.au>
+References: <20200606013217.2cffa3ed.pasic@linux.ibm.com>
+ <20200608181428.3c6f127c.cohuck@redhat.com>
+ <20200608190045.319dd68b.pasic@linux.ibm.com>
+ <20200609084402.35d317ec.cohuck@redhat.com>
+ <20200609114130.0ca9190b.pasic@linux.ibm.com>
+ <20200609174747.4e300818@ibm-vm>
+ <20200609182839.7ac80938.pasic@linux.ibm.com>
+ <20200609124155-mutt-send-email-mst@kernel.org>
+ <20200610043118.GF494336@umbus.fritz.box>
+ <4e5d62d8-9bfb-67d5-7398-2079729fd85e@redhat.com>
+ <20200610100756.GO494336@umbus.fritz.box>
+From: David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Organization: Red Hat GmbH
+Message-ID: <858e9554-a4c7-6487-121b-ac3eaa209cb7@redhat.com>
+Date: Wed, 10 Jun 2020 12:24:14 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <04979308-3a35-4e40-35c7-836a36e47143@redhat.com>
+In-Reply-To: <20200610100756.GO494336@umbus.fritz.box>
 Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=david@redhat.com;
  helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 23:51:15
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -127,74 +135,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, qemu-stable@nongnu.org
+Cc: Viktor Mihajlovski <mihajlov@linux.ibm.com>, Thomas Huth <thuth@redhat.com>,
+ Boris Fiuczynski <fiuczy@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>,
+ Pierre Morel <pmorel@linux.ibm.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Claudio Imbrenda <imbrenda@linux.ibm.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/10/20 11:03 AM, Thomas Huth wrote:
-> On 10/06/2020 10.25, Philippe Mathieu-Daudé wrote:
->> On 6/10/20 9:59 AM, Thomas Huth wrote:
->>> On 10/06/2020 09.53, Philippe Mathieu-Daudé wrote:
->>>> On 6/10/20 9:50 AM, Thomas Huth wrote:
->>>>> On 10/06/2020 09.31, Philippe Mathieu-Daudé wrote:
->>>>>> On 6/10/20 5:51 AM, Thomas Huth wrote:
->>>>>>> The #ifdef CONFIG_VFIO_IGD in pci-quirks.c is not working since the
->>>>>>> required header config-devices.h is not included, so that the legacy
->>>>>>> IGD passthrough is currently broken. Let's include the right header
->>>>>>> to fix this issue.
->>>>>>>
->>>>>>> Buglink: https://bugs.launchpad.net/qemu/+bug/1882784
->>>>>>> Fixes: 29d62771c81d8fd244a67c14a1d968c268d3fb19
->>>>>>>        ("hw/vfio: Move the IGD quirk code to a separate file")
->>>>>>
->>>>>> What about shorter tag?
->>>>>>
->>>>>> Fixes: 29d62771c81 ("vfio: Move the IGD quirk code to a separate file")
+On 10.06.20 12:07, David Gibson wrote:
+> On Wed, Jun 10, 2020 at 09:22:45AM +0200, David Hildenbrand wrote:
+>> On 10.06.20 06:31, David Gibson wrote:
+>>> On Tue, Jun 09, 2020 at 12:44:39PM -0400, Michael S. Tsirkin wrote:
+>>>> On Tue, Jun 09, 2020 at 06:28:39PM +0200, Halil Pasic wrote:
+>>>>> On Tue, 9 Jun 2020 17:47:47 +0200
+>>>>> Claudio Imbrenda <imbrenda@linux.ibm.com> wrote:
 >>>>>
->>>>> I always forget whether to use the short or the long version for
->>>>> "Fixes:" ... this can hopefully be fixed (if necessary) when the patch
->>>>> gets picked up.
->>>>>
->>>>>>> Signed-off-by: Thomas Huth <thuth@redhat.com>
->>>>>>> ---
->>>>>>>  hw/vfio/pci-quirks.c | 1 +
->>>>>>>  1 file changed, 1 insertion(+)
->>>>>>>
->>>>>>> diff --git a/hw/vfio/pci-quirks.c b/hw/vfio/pci-quirks.c
->>>>>>> index f2155ddb1d..3158390db1 100644
->>>>>>> --- a/hw/vfio/pci-quirks.c
->>>>>>> +++ b/hw/vfio/pci-quirks.c
->>>>>>> @@ -11,6 +11,7 @@
->>>>>>>   */
->>>>>>>  
->>>>>>>  #include "qemu/osdep.h"
->>>>>>> +#include "config-devices.h"
+>>>>>> On Tue, 9 Jun 2020 11:41:30 +0200
+>>>>>> Halil Pasic <pasic@linux.ibm.com> wrote:
 >>>>>>
->>>>>> I've been wondering how we can avoid that mistake in the
->>>>>> future, but can find anything beside human review.
+>>>>>> [...]
+>>>>>>
+>>>>>>> I don't know. Janosch could answer that, but he is on vacation. Adding
+>>>>>>> Claudio maybe he can answer. My understanding is, that while it might
+>>>>>>> be possible, it is ugly at best. The ability to do a transition is
+>>>>>>> indicated by a CPU model feature. Indicating the feature to the guest
+>>>>>>> and then failing the transition sounds wrong to me.
+>>>>>>
+>>>>>> I agree. If the feature is advertised, then it has to work. I don't
+>>>>>> think we even have an architected way to fail the transition for that
+>>>>>> reason.
+>>>>>>
+>>>>>> What __could__ be done is to prevent qemu from even starting if an
+>>>>>> incompatible device is specified together with PV.
 >>>>>
->>>>> I think in the long term, we should include config-devices.h in osdep.h,
->>>>> just like config-host.h and config-target.h is already included there.
->>>>> Everything else is just too confusing. But then we should also add a
->>>>> mechanism to poison the switches from config-devices.h in common code...
+>>>>> AFAIU, the "specified together with PV" is the problem here. Currently
+>>>>> we don't "specify PV" but PV is just a capability that is managed by the
+>>>>> CPU model (like so many other).
 >>>>
->>>> We only need it for the files under hw/, right?
+>>>> So if we want to keep it user friendly, there could be
+>>>> protection property with values on/off/auto, and auto
+>>>> would poke at host capability to figure out whether
+>>>> it's supported.
+>>>>
+>>>> Both virtio and CPU would inherit from that.
 >>>
->>> qtest.c in the main directory includes it, too.
+>>> Right, that's what I have in mind for my 'host-trust-limitation'
+>>> property (a generalized version of the existing 'memory-encryption'
+>>> machine option).  My draft patches already set virtio properties
+>>> accordingly, it should be possible to set (default) cpu properties as
+>>> well.
 >>
->> hw/ and qtests could include "hw/hw.h" instead of affecting all the
->> codebase via "qemu/osdep.h".
+>> No crazy CPU model hacks please (at least speaking for the s390x).
 > 
-> I don't think that's a good idea - in that case, you have to make sure
-> to include hw/hw.h everywhere again, so you don't gain that much
-> compared to including config-devices.h directly everywhere. osdep.h is
-> our header that has to be included everywhere, so if we want to make
-> sure that these defines are available everywhere, we have to include it
-> from osdep.h.
-> Apart from that, hw/hw.h just contains one more prototype - which likely
-> should be renamed to cpu_hw_error() and moved to a cpu header instead,
-> so that we can finally delete hw/hw.h completely.
+> Uh... I'm not really sure what you have in mind here.
+> 
 
-Yes, this discussion implied the "hw/hw.h" cleanup talked elsewhere is done.
+Reading along I got the impression that we want to glue the availability
+of CPU features to other QEMU cmdline parameters (besides the
+accelerator). ("to set (default) cpu properties as well"). If we are
+talking about other CPU properties not expressed as CPU features (e.g.,
+-cpu X,Y=on ...), then there is no issue.
+
+-- 
+Thanks,
+
+David / dhildenb
 
 
