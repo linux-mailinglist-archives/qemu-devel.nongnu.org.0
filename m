@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 789991F4C6E
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 06:40:25 +0200 (CEST)
-Received: from localhost ([::1]:47338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33FD81F4C74
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 06:43:46 +0200 (CEST)
+Received: from localhost ([::1]:34282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jisXI-0007sT-Db
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 00:40:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34074)
+	id 1jisaX-0005rW-6K
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 00:43:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jisKs-0008FA-2u
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 00:27:34 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:31841
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jisKu-0008KW-6b
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 00:27:36 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:56458
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jisKr-0008Gh-0W
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 00:27:33 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jisKt-0008I6-49
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 00:27:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591763252;
+ s=mimecast20190719; t=1591763254;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=faqMeqxMHWHCdUO54aiSA0UglN7d7KGvOFdxDmBlKuk=;
- b=UnG/xX/VpoSGNgGXhtbiUPiq65gddO5VYQbLehN+Bryhfb+ivehDhkeUccq3kUr1nKzM6Q
- uOD018N8+sZfGkralTTODgAzHiKR/V1B+w5fqaoSVmsFOtCnY65qDIOFdBA5r8hD6R11lH
- Q35u0n17EC5O44vedy5YrnipTO6r7BQ=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-220-kyyfFywaOOOG4PwSxXcfyA-1; Wed, 10 Jun 2020 00:27:30 -0400
-X-MC-Unique: kyyfFywaOOOG4PwSxXcfyA-1
-Received: by mail-wm1-f72.google.com with SMTP id b63so1446640wme.1
- for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 21:27:29 -0700 (PDT)
+ bh=aF0LKMRy71gHDwlhWXRGF209K2gRXN1ZQiFOzyLmj+Q=;
+ b=CleLf653Zk+ozlSL62BofSORpbx2PMe/D4i7uETsVLgMejtMFJZdOrqPClKNs+pI2e/OJF
+ eBw2FBrY0+Z6I2ZvJjtJQf2OVDtgUsta3oof0fGcYervCyGx3Gp07GxcW/BUn+kSj/zJK/
+ ghBNTMm1sztqziMUznzUd498S/d5nrE=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-240-tMn6HrtqMjaqQtA8uw2psQ-1; Wed, 10 Jun 2020 00:27:32 -0400
+X-MC-Unique: tMn6HrtqMjaqQtA8uw2psQ-1
+Received: by mail-wr1-f72.google.com with SMTP id j16so491285wre.22
+ for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 21:27:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=faqMeqxMHWHCdUO54aiSA0UglN7d7KGvOFdxDmBlKuk=;
- b=DthM6Z2rr4RAH0kXcB9q3BaTCatiWyTCNevmjNzdGMzcSgdaQ/OvanrXUSYH5ZIftH
- Z2EtaH1T8IXWQEEs02BQNsQ9LELNzgdJ7h1FndAKIJWZ+tnp3k6Uh/zNxpWdfsipTSxj
- 85RrE4stAwtrsnSLeM6Y0VivyUTlJq8/iumkSvzvo/cmZSBZ74cZKz6PVHH2IW4qx/x/
- wGhLdDQQLS8dCsRMqxIKyW9Y/kfozXbDNsAOF4SVrRI+mNcI0ptKicDUjS69jsJhf1bH
- r1aO83FlybbJ+p7m54X+KK6xME9Eq5rFLzwt58xKWKqVOhKEdOuJfus68BeaAlnsIpAJ
- 1mEw==
-X-Gm-Message-State: AOAM530V7Y8kYm3MnOoTjrwp/fzrn28UTSTY78rrIIXiOtIwKzlYqJ9L
- NWtE4dWCrNQBHPW6XAoEqgFNNq0XUBM/q7xDwIOcfcyELX/ha9Dtd6LOSWsWhrU+ceeN351KnQR
- HGjf6fgdV8402aYg=
-X-Received: by 2002:a7b:c8d6:: with SMTP id f22mr1185054wml.188.1591763248810; 
- Tue, 09 Jun 2020 21:27:28 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzbNJuPVgzkeH8IO/7ZK6UExSU3MCuj7E6d3ZbQ+GPZjnFBJDdC8rFiL6kQPOVwWQDgOJTCzA==
-X-Received: by 2002:a7b:c8d6:: with SMTP id f22mr1185042wml.188.1591763248645; 
- Tue, 09 Jun 2020 21:27:28 -0700 (PDT)
+ :mime-version:content-disposition:in-reply-to;
+ bh=aF0LKMRy71gHDwlhWXRGF209K2gRXN1ZQiFOzyLmj+Q=;
+ b=j549q8PEcbEEzr1GnX3o5eR8G8AWz0NejggWBvBYozDhhg8O/AJes+Wxt6g20Z5PDW
+ yxB/bVQ9BKYHBGU8jtYPWdUqyZqOnqu4JTfeiFtXucpx2DQQhzkwjmSxegCPQ6wdS9tg
+ LpSlQOtIXCqhWpeUzeORYo6CcTLP2vTNBAvtl+exzQbwcwZt591dnLngzl58hKgeb5qk
+ kRcqsOLRWzXc9019LNkJ3SvFIuuK+RnxXaqmQ+HloMdGNz0guqB5WLajnTYa46YEmFCO
+ G1uIhSdoHOWfkgPbCH6r3SamdIxfgfCS+tQFkjUkwa4WD7sRLTpUZYpHRCd5lh4OthdP
+ X5KA==
+X-Gm-Message-State: AOAM531nfKCs5n2MKn75bh82RgFtpqK6yIWo/vd9rZtdoeN5q+8qONxq
+ 7NFG+NvcwXY4mYn84L22xz0whfgk+It5FSinWqbuV5q0R2SeIsygnDnp37QYQc+4Y+W/G3XspUH
+ KUxgKaR4c73FcjlU=
+X-Received: by 2002:a5d:4390:: with SMTP id i16mr1267465wrq.186.1591763251018; 
+ Tue, 09 Jun 2020 21:27:31 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxtrO3caGyZ+O3UYtIGzUr32RvAJZ8nr7jIB1lDXHfW3cmaNChBAkIoe5a+yTr8rGIsyAUD/Q==
+X-Received: by 2002:a5d:4390:: with SMTP id i16mr1267450wrq.186.1591763250819; 
+ Tue, 09 Jun 2020 21:27:30 -0700 (PDT)
 Received: from redhat.com (bzq-79-181-55-232.red.bezeqint.net. [79.181.55.232])
- by smtp.gmail.com with ESMTPSA id c16sm6272609wrx.4.2020.06.09.21.27.27
+ by smtp.gmail.com with ESMTPSA id i10sm6030354wrw.51.2020.06.09.21.27.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Jun 2020 21:27:28 -0700 (PDT)
-Date: Wed, 10 Jun 2020 00:27:26 -0400
+ Tue, 09 Jun 2020 21:27:30 -0700 (PDT)
+Date: Wed, 10 Jun 2020 00:27:29 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 24/56] virtio-balloon: unref the iothread when unrealizing
-Message-ID: <20200610042613.1459309-25-mst@redhat.com>
+Subject: [PULL 25/56] virtio-balloon: Implement support for page poison
+ reporting feature
+Message-ID: <20200610042613.1459309-26-mst@redhat.com>
 References: <20200610042613.1459309-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200610042613.1459309-1-mst@redhat.com>
@@ -70,11 +69,10 @@ X-Mailer: git-send-email 2.24.1.751.gd10ce2899c
 X-Mutt-Fcc: =sent
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=mst@redhat.com;
+ helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 23:51:15
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
@@ -97,46 +95,147 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- David Hildenbrand <david@redhat.com>, qemu-stable@nongnu.org,
- Alexander Duyck <alexander.duyck@gmail.com>, Wei Wang <wei.w.wang@intel.com>,
  Alexander Duyck <alexander.h.duyck@linux.intel.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ Eduardo Habkost <ehabkost@redhat.com>, David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: David Hildenbrand <david@redhat.com>
+From: Alexander Duyck <alexander.h.duyck@linux.intel.com>
 
-We took a reference when realizing, so let's drop that reference when
-unrealizing.
+We need to make certain to advertise support for page poison reporting if
+we want to actually get data on if the guest will be poisoning pages.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Alexander Duyck <alexander.h.duyck@linux.intel.com>
-Fixes: c13c4153f76d ("virtio-balloon: VIRTIO_BALLOON_F_FREE_PAGE_HINT")
-Cc: qemu-stable@nongnu.org
-Cc: Wei Wang <wei.w.wang@intel.com>
-Cc: Alexander Duyck <alexander.duyck@gmail.com>
-Cc: Michael S. Tsirkin <mst@redhat.com>
-Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
-Signed-off-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20200520100439.19872-4-david@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Add a value for reporting the poison value being used if page poisoning is
+enabled in the guest. With this we can determine if we will need to skip
+free page reporting when it is enabled in the future.
+
+The value currently has no impact on existing balloon interfaces. In the
+case of existing balloon interfaces the onus is on the guest driver to
+reapply whatever poison is in place.
+
+When we add free page reporting the poison value is used to determine if
+we can perform in-place page reporting. The expectation is that a reported
+page will already contain the value specified by the poison, and the
+reporting of the page should not change that value.
+
+Acked-by: David Hildenbrand <david@redhat.com>
+Signed-off-by: Alexander Duyck <alexander.h.duyck@linux.intel.com>
+Message-Id: <20200527041400.12700.33251.stgit@localhost.localdomain>
 ---
- hw/virtio/virtio-balloon.c | 1 +
- 1 file changed, 1 insertion(+)
+ include/hw/virtio/virtio-balloon.h |  1 +
+ hw/core/machine.c                  |  4 +++-
+ hw/virtio/virtio-balloon.c         | 29 +++++++++++++++++++++++++++++
+ 3 files changed, 33 insertions(+), 1 deletion(-)
 
+diff --git a/include/hw/virtio/virtio-balloon.h b/include/hw/virtio/virtio-balloon.h
+index d1c968d237..7fe78e5c14 100644
+--- a/include/hw/virtio/virtio-balloon.h
++++ b/include/hw/virtio/virtio-balloon.h
+@@ -70,6 +70,7 @@ typedef struct VirtIOBalloon {
+     uint32_t host_features;
+ 
+     bool qemu_4_0_config_size;
++    uint32_t poison_val;
+ } VirtIOBalloon;
+ 
+ #endif
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index bb3a7b18b1..9eca7d8c9b 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -28,7 +28,9 @@
+ #include "hw/mem/nvdimm.h"
+ #include "migration/vmstate.h"
+ 
+-GlobalProperty hw_compat_5_0[] = {};
++GlobalProperty hw_compat_5_0[] = {
++    { "virtio-balloon-device", "page-poison", "false" },
++};
+ const size_t hw_compat_5_0_len = G_N_ELEMENTS(hw_compat_5_0);
+ 
+ GlobalProperty hw_compat_4_2[] = {
 diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
-index 32e9fe3f64..cff8eab6a1 100644
+index cff8eab6a1..31d3c88482 100644
 --- a/hw/virtio/virtio-balloon.c
 +++ b/hw/virtio/virtio-balloon.c
-@@ -820,6 +820,7 @@ static void virtio_balloon_device_unrealize(DeviceState *dev)
+@@ -634,6 +634,7 @@ static void virtio_balloon_get_config(VirtIODevice *vdev, uint8_t *config_data)
  
-     if (s->free_page_bh) {
-         qemu_bh_delete(s->free_page_bh);
-+        object_unref(OBJECT(s->iothread));
-         virtio_balloon_free_page_stop(s);
-         precopy_remove_notifier(&s->free_page_report_notify);
+     config.num_pages = cpu_to_le32(dev->num_pages);
+     config.actual = cpu_to_le32(dev->actual);
++    config.poison_val = cpu_to_le32(dev->poison_val);
+ 
+     if (dev->free_page_report_status == FREE_PAGE_REPORT_S_REQUESTED) {
+         config.free_page_report_cmd_id =
+@@ -683,6 +684,14 @@ static ram_addr_t get_current_ram_size(void)
+     return size;
+ }
+ 
++static bool virtio_balloon_page_poison_support(void *opaque)
++{
++    VirtIOBalloon *s = opaque;
++    VirtIODevice *vdev = VIRTIO_DEVICE(s);
++
++    return virtio_vdev_has_feature(vdev, VIRTIO_BALLOON_F_PAGE_POISON);
++}
++
+ static void virtio_balloon_set_config(VirtIODevice *vdev,
+                                       const uint8_t *config_data)
+ {
+@@ -697,6 +706,10 @@ static void virtio_balloon_set_config(VirtIODevice *vdev,
+         qapi_event_send_balloon_change(vm_ram_size -
+                         ((ram_addr_t) dev->actual << VIRTIO_BALLOON_PFN_SHIFT));
      }
++    dev->poison_val = 0;
++    if (virtio_balloon_page_poison_support(dev)) {
++        dev->poison_val = le32_to_cpu(config.poison_val);
++    }
+     trace_virtio_balloon_set_config(dev->actual, oldactual);
+ }
+ 
+@@ -755,6 +768,17 @@ static const VMStateDescription vmstate_virtio_balloon_free_page_report = {
+     }
+ };
+ 
++static const VMStateDescription vmstate_virtio_balloon_page_poison = {
++    .name = "vitio-balloon-device/page-poison",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .needed = virtio_balloon_page_poison_support,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINT32(poison_val, VirtIOBalloon),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
+ static const VMStateDescription vmstate_virtio_balloon_device = {
+     .name = "virtio-balloon-device",
+     .version_id = 1,
+@@ -767,6 +791,7 @@ static const VMStateDescription vmstate_virtio_balloon_device = {
+     },
+     .subsections = (const VMStateDescription * []) {
+         &vmstate_virtio_balloon_free_page_report,
++        &vmstate_virtio_balloon_page_poison,
+         NULL
+     }
+ };
+@@ -849,6 +874,8 @@ static void virtio_balloon_device_reset(VirtIODevice *vdev)
+         g_free(s->stats_vq_elem);
+         s->stats_vq_elem = NULL;
+     }
++
++    s->poison_val = 0;
+ }
+ 
+ static void virtio_balloon_set_status(VirtIODevice *vdev, uint8_t status)
+@@ -916,6 +943,8 @@ static Property virtio_balloon_properties[] = {
+                     VIRTIO_BALLOON_F_DEFLATE_ON_OOM, false),
+     DEFINE_PROP_BIT("free-page-hint", VirtIOBalloon, host_features,
+                     VIRTIO_BALLOON_F_FREE_PAGE_HINT, false),
++    DEFINE_PROP_BIT("page-poison", VirtIOBalloon, host_features,
++                    VIRTIO_BALLOON_F_PAGE_POISON, true),
+     /* QEMU 4.0 accidentally changed the config size even when free-page-hint
+      * is disabled, resulting in QEMU 3.1 migration incompatibility.  This
+      * property retains this quirk for QEMU 4.1 machine types.
 -- 
 MST
 
