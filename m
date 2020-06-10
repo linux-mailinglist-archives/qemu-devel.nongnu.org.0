@@ -2,148 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C97C31F56C0
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 16:26:18 +0200 (CEST)
-Received: from localhost ([::1]:47282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E5B61F571F
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 16:55:40 +0200 (CEST)
+Received: from localhost ([::1]:44652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jj1gH-0000Wf-Se
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 10:26:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53066)
+	id 1jj28h-0007Fr-0t
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 10:55:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jj1f9-0008L2-7n
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 10:25:07 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:26015
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jj1f7-0005Br-N4
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 10:25:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591799104;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=8CIxtV1Tg25iXJ85To2ArSrGACimGx9dIZ82s5AYtgs=;
- b=XHMnjAV5ulsjH+lCpdEzr34MKBJb1ZaR2G5x1f5dk09HoXlliLVzGAXQLaS3OCGEvHj/ND
- /ZuSt8mL3QTuHJO8Fm/O+UBhhV71MLdJedOkISoFsXXwuBQgqtGDxjKVmhSk2pctRWPYFV
- WAxs/pHhgWb3mBP5PoWcnsWrG4j2If8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-88-8xLKYqOMO_WxI-eGVdxqEg-1; Wed, 10 Jun 2020 10:25:02 -0400
-X-MC-Unique: 8xLKYqOMO_WxI-eGVdxqEg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 36F8D1005513;
- Wed, 10 Jun 2020 14:25:01 +0000 (UTC)
-Received: from [10.10.117.188] (ovpn-117-188.rdu2.redhat.com [10.10.117.188])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EB25B7BA19;
- Wed, 10 Jun 2020 14:24:59 +0000 (UTC)
-Subject: Re: [PATCH 06/16] fdc: Deprecate configuring floppies with -global
- isa-fdc
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <20200605145625.2920920-1-armbru@redhat.com>
- <20200605145625.2920920-7-armbru@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <0e81eced-3cca-d5b1-9b64-b55c3711e9ae@redhat.com>
-Date: Wed, 10 Jun 2020 10:24:59 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
-MIME-Version: 1.0
-In-Reply-To: <20200605145625.2920920-7-armbru@redhat.com>
+ (Exim 4.90_1) (envelope-from <robhenry@microsoft.com>)
+ id 1jj27V-0006Qh-7b
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 10:54:25 -0400
+Received: from mail-bn8nam12on2096.outbound.protection.outlook.com
+ ([40.107.237.96]:18112 helo=NAM12-BN8-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <robhenry@microsoft.com>)
+ id 1jj27T-0004EA-A3
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 10:54:24 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dtforVTg4nQfGpnQX5ndlGu6oX7vBcuzL3IfDBdbWY095VpBbRaAduSS5d1J743YZBVQtOEo3EScM0bHDotElA80s+bQmaEgHuPCAdpqf9qPdwZGeUiOpIEWwCBUOnt2WiyWAbhxLoCjUqgQp0NoWfMjWdnbUeSL+tQUASMmBaNB+n6yXh204Ps0FzEXm6UiMm4/oeXQMBUkqx3HckaeVNX+a7NKrwulmcf3WidQiAcwakH6rlXJe6LPTeWCPTnLF/IilxHCD5cj0gS7MPi/eCX9eVKX5TOqHPjAqZ1m9MtNgJbQQi69KiFPzd33qv/dci7If/74Rjh5dYqrpzfQUg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dIC4n7bgVpVrs2g+TqVx5OE//E/H6ozu46j4BD/zN9U=;
+ b=ZVQCZFLVVQUNG5c96v33fHxNaLpwVOH941N1BXCsZrmO1M35o8dI7UN+TlfxUtK1/tqc03JlFztZiH16OY1GfnVtgiiLXUN2DguRT6Cf8BL480dqvtr/8lVP7QfWCllhJ3Dy4eRIigwwRWcFXjldUMK7CwevDYa0bIak41UPBxG9I8tYe8/C4Cx1OdNtsitJC8Ajbzjt95sbU41R7HzOkkOTpR4imrQThdNbAYRz+9PzITxZWUn1ecQfSNMbtlbZZa3N3wRvhbZ3oB0LZxNprv5eSF0uBryanrgQBQcWa/K09IsxeQtIXqO5zTWerE6dIUWB3SWy060oLtoOKUmrmA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microsoft.com; dmarc=pass action=none
+ header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dIC4n7bgVpVrs2g+TqVx5OE//E/H6ozu46j4BD/zN9U=;
+ b=GDTKk+wkM5M378CuSeqelh1A59IHbQvG1ypruiDIf13op1hUX6iER3axb1cljMxjAsHyxKQZP5JXO3i6wNXpsdquy3qLra3oI/KzoOaK+C82JGJXc7UTdHyDO5VoxTvIVLkdL/ReabKCbJ2urx3h20Lga2Gtt2ml/aoZdBN3NKE=
+Received: from BL0PR2101MB1026.namprd21.prod.outlook.com
+ (2603:10b6:207:30::21) by BL0PR2101MB0932.namprd21.prod.outlook.com
+ (2603:10b6:207:30::20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3109.4; Wed, 10 Jun
+ 2020 14:39:18 +0000
+Received: from BL0PR2101MB1026.namprd21.prod.outlook.com
+ ([fe80::bc6a:97fa:9127:9fc6]) by BL0PR2101MB1026.namprd21.prod.outlook.com
+ ([fe80::bc6a:97fa:9127:9fc6%5]) with mapi id 15.20.3109.008; Wed, 10 Jun 2020
+ 14:39:18 +0000
+From: Robert Henry <robhenry@microsoft.com>
+To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+CC: =?iso-8859-1?Q?Alex_Benn=E9e?= <alex.bennee@linaro.org>
+Subject: Failure of test 'basic gdbstub support'
+Thread-Topic: Failure of test 'basic gdbstub support'
+Thread-Index: AQHWPrExfndF6+xmVE6rVMzDsVBbjw==
+Date: Wed, 10 Jun 2020 14:39:18 +0000
+Message-ID: <BL0PR2101MB1026A0AC34665437F4B7D4FED6820@BL0PR2101MB1026.namprd21.prod.outlook.com>
+Accept-Language: en-US
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=jsnow@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 23:51:15
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=True;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2020-06-10T14:39:18.111Z;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=General;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard; 
+authentication-results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=microsoft.com;
+x-originating-ip: [63.228.98.229]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 1fadd22c-b3c6-4d63-bac3-08d80d4c0e9e
+x-ms-traffictypediagnostic: BL0PR2101MB0932:
+x-microsoft-antispam-prvs: <BL0PR2101MB0932EABA112ED4ED0510324ED6830@BL0PR2101MB0932.namprd21.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8273;
+x-forefront-prvs: 0430FA5CB7
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 2Q9zd35ZTNNhn836lvOdglBuVyDR4j2zDY2C7trhEWm/cozOspGyFE5K2NPAobky4z5j0yidqj1p+hjFLlP3oamWGWICcpzkRM5JGt40/2zgs3EhK/g//GH1XTMAZnSU+q+dPrHFSlcb9HSgXfO2/EQF1XQ+saTNTjcmUg6e5KIpN8dfweFklY5hqzr8nme8l2LZoQLpc6qZiJq+8hb5XcgSaaY+2uUNEovIyZGUXlOaC4gEuefvOjEsz7GxM35RsDuzwjOFQWYUQpT54m/T2eiCAOXzHcFBvH1YHIB92T3v246MvuPMEmTc5+2biz9u2tCzSCawJ1rHV/HGpj/fOA==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BL0PR2101MB1026.namprd21.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(136003)(346002)(39860400002)(396003)(376002)(366004)(6506007)(86362001)(82960400001)(10290500003)(52536014)(8676002)(64756008)(316002)(66476007)(66946007)(4326008)(2906002)(66556008)(33656002)(5660300002)(478600001)(82950400001)(8990500004)(186003)(71200400001)(76116006)(26005)(83380400001)(8936002)(6916009)(66446008)(55016002)(7696005)(19627405001)(9686003);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: /0PO/+N9fUROA2I4yuLWTGogsIebspFr4/CuirocVxGNy9ncu1CwkfUaXbhg8mWwuvOSuX10ufkFDpoT2uZuTcmL89yDTCQCsW4VJy4XbdVk1W22VQH7q0xk+VS3niU1MQXZDIcPmptpo/0S6I/bnhn1O9xuBMsGEGWqnCPjaCNBgKmQp7+H/QumbOo67/q4E6UTrjznG2LAEPmUh3poieMOat6KXw4CeI6BjXYrDyZABilYjuPvIrie6IqlRP4B9MJt2Z/hQUgvk9XPdPpLLpSgXZoIZWUjov91nOyhX123Da5YJz+1nsyjgyVBO0gDF8mmJcc1i7nhjL48bdiCOFHXKi3keRqVxBAhwkJp6HNsr+repVtmhCG/qXrlFL/bqJEnMsuNLHodoap15YIV+qbCfllu/15nqc/yfZ9+C5hyX2lKzPWjWJeVvV+ladfdxLAjN14v1CjTV5+4hO6hZy+PFyE8u/mC+q4dQYbeVG8=
+x-ms-exchange-transport-forked: True
+Content-Type: multipart/alternative;
+ boundary="_000_BL0PR2101MB1026A0AC34665437F4B7D4FED6820BL0PR2101MB1026_"
+MIME-Version: 1.0
+X-OriginatorOrg: microsoft.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1fadd22c-b3c6-4d63-bac3-08d80d4c0e9e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Jun 2020 14:39:18.5155 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: DGXIhl3EI6FfU/Kcqjfi/6CpNVXcto4yhips8bFFnvoRh0D3Vaz0TNzP93Fouh+6Z8eNwWmUuXrKOzQJtx5/pA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR2101MB0932
+Received-SPF: pass client-ip=40.107.237.96;
+ envelope-from=robhenry@microsoft.com;
+ helo=NAM12-BN8-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/10 10:54:21
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -156,276 +117,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
- qemu-block@nongnu.org, mreitz@redhat.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--_000_BL0PR2101MB1026A0AC34665437F4B7D4FED6820BL0PR2101MB1026_
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+The newish test 'basic gdbstub support' fails for me on an out-of-the-box  =
+build on a host x86_64.  (See below for the config.log head.)
+
+Is this failure expected?  If so, where can I see that in the various CI en=
+gines you have running them?
+
+In digging through the test driver python code in tests/tcg/multiarch/gdbst=
+ub/sha1.py I see that the test assumes that a breakpoint on the function SH=
+A1Init is a breakpoint at the 1st assignment statement; the 1st next execut=
+es the 1st assignment statement, etc.
+
+This is a very fragile assumption.  It depends on the compiler used to comp=
+ile sha1.c; it depends on the optimization level; it depends on the accurac=
+y of the pc mapping in the debug info; it depends on gdb.
+
+Better would be to change SHA1Init to do its work, and then call another no=
+n-inlined function taking a context pointer, and then examine context->stat=
+e[0] and context->state[1].
+
+Thanks in advance
+
+TEST    basic gdbstub support
+make[2]: *** [/mnt/robhenry/qemu_robhenry_amd64/qemu/tests/tcg/multiarch/Ma=
+kefile.target:51: run-gdbstub-sha1] Error 2
 
 
-On 6/5/20 10:56 AM, Markus Armbruster wrote:
-> Deprecate
-> 
->     -global isa-fdc.driveA=...
->     -global isa-fdc.driveB=...
-> 
-> in favour of
-> 
->     -device floppy,unit=0,drive=...
->     -device floppy,unit=1,drive=...
-> 
-> Same for the other floppy controller devices.
-> 
+ QEMU configure log Tue 09 Jun 2020 02:45:06 PM PDT
+# Configured with: '../configure' '--disable-sdl' '--enable-gtk' '--extra-l=
+dflags=3D-L/usr/lib' '--enable-plugins' '--target-list=3Dx86_64-softmmu x86=
+_64-linux-user'
 
-If you're not aware of any reason for why we need to keep global, then
-neither am I.
 
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+--_000_BL0PR2101MB1026A0AC34665437F4B7D4FED6820BL0PR2101MB1026_
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-Acked-by: John Snow <jsnow@redhat.com>
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+1">
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12p=
+t; color:rgb(0,0,0)">
+The newish test 'basic gdbstub support' fails for me on an out-of-the-box&n=
+bsp; build on a host x86_64.&nbsp; (See below for the config.log head.)</di=
+v>
+<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12p=
+t; color:rgb(0,0,0)">
+<br>
+</div>
+<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12p=
+t; color:rgb(0,0,0)">
+Is this failure expected?&nbsp; If so, where can I see that in the various =
+CI engines you have running them?</div>
+<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12p=
+t; color:rgb(0,0,0)">
+<br>
+</div>
+<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12p=
+t; color:rgb(0,0,0)">
+In digging through the test driver python code in&nbsp;tests/tcg/multiarch/=
+gdbstub/sha1.py I see that the test assumes that a breakpoint on the functi=
+on SHA1Init is a breakpoint at the 1st assignment statement; the 1st next e=
+xecutes the 1st assignment statement,
+ etc.</div>
+<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12p=
+t; color:rgb(0,0,0)">
+<br>
+</div>
+<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12p=
+t; color:rgb(0,0,0)">
+This is a very fragile assumption.&nbsp; It depends on the compiler used to=
+ compile sha1.c; it depends on the optimization level; it depends on the ac=
+curacy of the pc mapping in the debug info; it depends on gdb.</div>
+<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12p=
+t; color:rgb(0,0,0)">
+<br>
+</div>
+<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12p=
+t; color:rgb(0,0,0)">
+Better would be to change SHA1Init to do its work, and then call another no=
+n-inlined function taking a context pointer, and then examine context-&gt;s=
+tate[0] and context-&gt;state[1].</div>
+<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12p=
+t; color:rgb(0,0,0)">
+<br>
+</div>
+<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12p=
+t; color:rgb(0,0,0)">
+Thanks in advance</div>
+<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12p=
+t; color:rgb(0,0,0)">
+<br>
+</div>
+<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12p=
+t; color:rgb(0,0,0)">
+TEST &nbsp; &nbsp;basic gdbstub support<br>
+</div>
+<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12p=
+t; color:rgb(0,0,0)">
+<div>make[2]: *** [/mnt/robhenry/qemu_robhenry_amd64/qemu/tests/tcg/multiar=
+ch/Makefile.target:51: run-gdbstub-sha1] Error 2<br>
+</div>
+<span></span><br>
+</div>
+<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12p=
+t; color:rgb(0,0,0)">
+<br>
+</div>
+<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12p=
+t; color:rgb(0,0,0)">
+<span>&nbsp;QEMU configure log Tue 09 Jun 2020 02:45:06 PM PDT<br>
+</span>
+<div># Configured with: '../configure' '--disable-sdl' '--enable-gtk' '--ex=
+tra-ldflags=3D-L/usr/lib' '--enable-plugins' '--target-list=3Dx86_64-softmm=
+u x86_64-linux-user'<br>
+</div>
+<span></span><br>
+</div>
+</body>
+</html>
 
-> ---
->  docs/qdev-device-use.txt   | 13 ++++---------
->  docs/system/deprecated.rst | 26 ++++++++++++++++++++++++++
->  hw/block/fdc.c             | 17 +++++++++++++++++
->  tests/qemu-iotests/172.out | 30 ++++++++++++++++++++++++++++++
->  4 files changed, 77 insertions(+), 9 deletions(-)
-> 
-> diff --git a/docs/qdev-device-use.txt b/docs/qdev-device-use.txt
-> index cc53e97dcd..3d781be547 100644
-> --- a/docs/qdev-device-use.txt
-> +++ b/docs/qdev-device-use.txt
-> @@ -104,15 +104,10 @@ The -device argument differs in detail for each type of drive:
->  
->  * if=floppy
->  
-> -  -global isa-fdc.driveA=DRIVE-ID
-> -  -global isa-fdc.driveB=DRIVE-ID
-> +  -device floppy,unit=UNIT,drive=DRIVE-ID
->  
-> -  This is -global instead of -device, because the floppy controller is
-> -  created automatically, and we want to configure that one, not create
-> -  a second one (which isn't possible anyway).
-> -
-> -  Without any -global isa-fdc,... you get an empty driveA and no
-> -  driveB.  You can use -nodefaults to suppress the default driveA, see
-> +  Without any -device floppy,... you get an empty unit 0 and no unit
-> +  1.  You can use -nodefaults to suppress the default unit 0, see
->    "Default Devices".
->  
->  * if=virtio
-> @@ -385,7 +380,7 @@ some DEVNAMEs:
->  
->      default device      suppressing DEVNAMEs
->      CD-ROM              ide-cd, ide-drive, ide-hd, scsi-cd, scsi-hd
-> -    isa-fdc's driveA    floppy, isa-fdc
-> +    floppy              floppy, isa-fdc
->      parallel            isa-parallel
->      serial              isa-serial
->      VGA                 VGA, cirrus-vga, isa-vga, isa-cirrus-vga,
-> diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-> index f0061f94aa..9bd11c1e95 100644
-> --- a/docs/system/deprecated.rst
-> +++ b/docs/system/deprecated.rst
-> @@ -172,6 +172,32 @@ previously available ``-tb-size`` option.
->  Use ``-display sdl,show-cursor=on`` or
->   ``-display gtk,show-cursor=on`` instead.
->  
-> +``Configuring floppies with ``-global``
-> +'''''''''''''''''''''''''''''''''''''''
-> +
-> +Use ``-device floppy,...`` instead:
-> +::
-> +
-> +    -global isa-fdc.driveA=...
-> +    -global sysbus-fdc.driveA=...
-> +    -global SUNW,fdtwo.drive=...
-> +
-> +become
-> +::
-> +
-> +    -device floppy,unit=0,drive=...
-> +
-> +and
-> +::
-> +
-> +    -global isa-fdc.driveB=...
-> +    -global sysbus-fdc.driveB=...
-> +
-> +become
-> +::
-> +
-> +    -device floppy,unit=1,drive=...
-> +
->  QEMU Machine Protocol (QMP) commands
->  ------------------------------------
->  
-> diff --git a/hw/block/fdc.c b/hw/block/fdc.c
-> index 35e734b6fb..4191d5b006 100644
-> --- a/hw/block/fdc.c
-> +++ b/hw/block/fdc.c
-> @@ -2525,6 +2525,7 @@ static void fdctrl_connect_drives(FDCtrl *fdctrl, DeviceState *fdc_dev,
->      DeviceState *dev;
->      BlockBackend *blk;
->      Error *local_err = NULL;
-> +    const char *fdc_name, *drive_suffix;
->  
->      for (i = 0; i < MAX_FD; i++) {
->          drive = &fdctrl->drives[i];
-> @@ -2539,10 +2540,26 @@ static void fdctrl_connect_drives(FDCtrl *fdctrl, DeviceState *fdc_dev,
->              continue;
->          }
->  
-> +        fdc_name = object_get_typename(OBJECT(fdc_dev));
-> +        drive_suffix = !strcmp(fdc_name, "SUNW,fdtwo") ? "" : i ? "B" : "A";
-> +        warn_report("warning: property %s.drive%s is deprecated",
-> +                    fdc_name, drive_suffix);
-> +        error_printf("Use -device floppy,unit=%d,drive=... instead.\n", i);
-> +
->          dev = qdev_new("floppy");
->          qdev_prop_set_uint32(dev, "unit", i);
->          qdev_prop_set_enum(dev, "drive-type", fdctrl->qdev_for_drives[i].type);
->  
-> +        /*
-> +         * Hack alert: we move the backend from the floppy controller
-> +         * device to the floppy device.  We first need to detach the
-> +         * controller, or else floppy_create()'s qdev_prop_set_drive()
-> +         * will die when it attaches floppy device.  We also need to
-> +         * take another reference so that blk_detach_dev() doesn't
-> +         * free blk while we still need it.
-> +         *
-> +         * The hack is probably a bad idea.
-> +         */
->          blk_ref(blk);
->          blk_detach_dev(blk, fdc_dev);
->          fdctrl->qdev_for_drives[i].blk = NULL;
-> diff --git a/tests/qemu-iotests/172.out b/tests/qemu-iotests/172.out
-> index ba15a85c88..253f35111d 100644
-> --- a/tests/qemu-iotests/172.out
-> +++ b/tests/qemu-iotests/172.out
-> @@ -383,6 +383,8 @@ sd0: [not inserted]
->  === Using -drive if=none and -global ===
->  
->  Testing: -drive if=none,file=TEST_DIR/t.qcow2 -global isa-fdc.driveA=none0
-> +QEMU_PROG: warning: warning: property isa-fdc.driveA is deprecated
-> +Use -device floppy,unit=0,drive=... instead.
->  
->            dev: isa-fdc, id ""
->              iobase = 1008 (0x3f0)
-> @@ -423,6 +425,8 @@ sd0: [not inserted]
->  
->  
->  Testing: -drive if=none,file=TEST_DIR/t.qcow2 -global isa-fdc.driveB=none0
-> +QEMU_PROG: warning: warning: property isa-fdc.driveB is deprecated
-> +Use -device floppy,unit=1,drive=... instead.
->  
->            dev: isa-fdc, id ""
->              iobase = 1008 (0x3f0)
-> @@ -463,6 +467,10 @@ sd0: [not inserted]
->  
->  
->  Testing: -drive if=none,file=TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -global isa-fdc.driveA=none0 -global isa-fdc.driveB=none1
-> +QEMU_PROG: warning: warning: property isa-fdc.driveA is deprecated
-> +Use -device floppy,unit=0,drive=... instead.
-> +QEMU_PROG: warning: warning: property isa-fdc.driveB is deprecated
-> +Use -device floppy,unit=1,drive=... instead.
->  
->            dev: isa-fdc, id ""
->              iobase = 1008 (0x3f0)
-> @@ -661,6 +669,8 @@ sd0: [not inserted]
->  === Mixing -fdX and -global ===
->  
->  Testing: -fda TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -global isa-fdc.driveB=none0
-> +QEMU_PROG: warning: warning: property isa-fdc.driveB is deprecated
-> +Use -device floppy,unit=1,drive=... instead.
->  
->            dev: isa-fdc, id ""
->              iobase = 1008 (0x3f0)
-> @@ -717,6 +727,8 @@ sd0: [not inserted]
->  
->  
->  Testing: -fdb TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -global isa-fdc.driveA=none0
-> +QEMU_PROG: warning: warning: property isa-fdc.driveA is deprecated
-> +Use -device floppy,unit=0,drive=... instead.
->  
->            dev: isa-fdc, id ""
->              iobase = 1008 (0x3f0)
-> @@ -773,9 +785,13 @@ sd0: [not inserted]
->  
->  
->  Testing: -fda TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -global isa-fdc.driveA=none0
-> +QEMU_PROG: warning: warning: property isa-fdc.driveA is deprecated
-> +Use -device floppy,unit=0,drive=... instead.
->  QEMU_PROG: Floppy unit 0 is in use
->  
->  Testing: -fdb TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -global isa-fdc.driveB=none0
-> +QEMU_PROG: warning: warning: property isa-fdc.driveB is deprecated
-> +Use -device floppy,unit=1,drive=... instead.
->  QEMU_PROG: Floppy unit 1 is in use
->  
->  Testing: -fda TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -global floppy.drive=none0
-> @@ -1177,6 +1193,8 @@ QEMU_PROG: -device floppy,drive=none0,unit=0: Floppy unit 0 is in use
->  === Mixing -global and -device ===
->  
->  Testing: -drive if=none,file=TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -global isa-fdc.driveA=none0 -device floppy,drive=none1
-> +QEMU_PROG: warning: warning: property isa-fdc.driveA is deprecated
-> +Use -device floppy,unit=0,drive=... instead.
->  
->            dev: isa-fdc, id ""
->              iobase = 1008 (0x3f0)
-> @@ -1233,6 +1251,8 @@ sd0: [not inserted]
->  
->  
->  Testing: -drive if=none,file=TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -global isa-fdc.driveA=none0 -device floppy,drive=none1,unit=1
-> +QEMU_PROG: warning: warning: property isa-fdc.driveA is deprecated
-> +Use -device floppy,unit=0,drive=... instead.
->  
->            dev: isa-fdc, id ""
->              iobase = 1008 (0x3f0)
-> @@ -1289,6 +1309,8 @@ sd0: [not inserted]
->  
->  
->  Testing: -drive if=none,file=TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -global isa-fdc.driveB=none0 -device floppy,drive=none1
-> +QEMU_PROG: warning: warning: property isa-fdc.driveB is deprecated
-> +Use -device floppy,unit=1,drive=... instead.
->  
->            dev: isa-fdc, id ""
->              iobase = 1008 (0x3f0)
-> @@ -1345,6 +1367,8 @@ sd0: [not inserted]
->  
->  
->  Testing: -drive if=none,file=TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -global isa-fdc.driveB=none0 -device floppy,drive=none1,unit=0
-> +QEMU_PROG: warning: warning: property isa-fdc.driveB is deprecated
-> +Use -device floppy,unit=1,drive=... instead.
->  
->            dev: isa-fdc, id ""
->              iobase = 1008 (0x3f0)
-> @@ -1441,9 +1465,13 @@ sd0: [not inserted]
->  
->  
->  Testing: -drive if=none,file=TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -global isa-fdc.driveA=none0 -device floppy,drive=none1,unit=0
-> +QEMU_PROG: warning: warning: property isa-fdc.driveA is deprecated
-> +Use -device floppy,unit=0,drive=... instead.
->  QEMU_PROG: -device floppy,drive=none1,unit=0: Floppy unit 0 is in use
->  
->  Testing: -drive if=none,file=TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -global isa-fdc.driveB=none0 -device floppy,drive=none1,unit=1
-> +QEMU_PROG: warning: warning: property isa-fdc.driveB is deprecated
-> +Use -device floppy,unit=1,drive=... instead.
->  QEMU_PROG: -device floppy,drive=none1,unit=1: Floppy unit 1 is in use
->  
->  Testing: -drive if=none,file=TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -global floppy.drive=none0 -device floppy,drive=none1,unit=0
-> @@ -1512,6 +1540,8 @@ QEMU_PROG: -device floppy,drive=floppy0: Property 'floppy.drive' can't find valu
->  === Too many floppy drives ===
->  
->  Testing: -drive if=floppy,file=TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -drive if=none,file=TEST_DIR/t.qcow2.3 -global isa-fdc.driveB=none0 -device floppy,drive=none1
-> +QEMU_PROG: warning: warning: property isa-fdc.driveB is deprecated
-> +Use -device floppy,unit=1,drive=... instead.
->  QEMU_PROG: -device floppy,drive=none1: Can't create floppy unit 2, bus supports only 2 units
->  
->  
-> 
-
--- 
-—js
-
+--_000_BL0PR2101MB1026A0AC34665437F4B7D4FED6820BL0PR2101MB1026_--
 
