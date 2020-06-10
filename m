@@ -2,57 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BED51F4CC5
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 07:08:49 +0200 (CEST)
-Received: from localhost ([::1]:37816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4957D1F4CBC
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 07:04:46 +0200 (CEST)
+Received: from localhost ([::1]:49260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jisym-0002J3-6q
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 01:08:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38712)
+	id 1jisur-0003GP-AR
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 01:04:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38642)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jisuW-0003xU-Fy
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 01:04:24 -0400
-Received: from ozlabs.org ([203.11.71.1]:54195)
- by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jisuV-0006qp-7N
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 01:04:24 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 49hZfB6d0kz9sSS; Wed, 10 Jun 2020 15:04:18 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1591765458;
- bh=qPUiaH9w2H1CGLrtL01FsBPRRImwRJC54PtlVwsph2s=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Tw3ij2b4FyJCjx4Gj/+xG5pGbjTmfv29Bqq4YOBM2viLQHpSe4P/hsXeg14bEpV/h
- 9RsBL1Pd9Tqr05fxMf9Kl9GswGIWv4fU+tRtv+naLy73geS/lgBUAlP/tXcJFKi+Np
- E9+HXBveHHZLPB3NXEDtA5pOFz8bnzeXsMbjQxHk=
-Date: Wed, 10 Jun 2020 15:02:49 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Claudio Fontana <cfontana@suse.de>
-Subject: Re: [PATCH v5 0/2] Makefile: libfdt: build only the strict necessary
-Message-ID: <20200610050249.GK494336@umbus.fritz.box>
-References: <20200518160319.18861-1-cfontana@suse.de>
- <1f70e2fb-a1f4-29af-c9e6-38b178fa26ca@suse.de>
- <9f1d9711-c87d-f554-2718-f69b3babbf54@redhat.com>
- <20200608095200.GC494336@umbus.fritz.box>
- <39261b0b-e256-0e47-3394-1a3c7838f650@suse.de>
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jistF-0001Yu-Pu
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 01:03:05 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:42817
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jistE-0006k5-RQ
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 01:03:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1591765384;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=T/upDCx01GdERUHpJlRe7Oz/0B2gBrBsEEG7dEJ+abI=;
+ b=QpXJBIhIbvjBEad60sWAJoOQfnHGLx2BCOHSnkJvPSjaRVmljWbAje8ttxjcRtU1vPqm87
+ 7siEmGk/u9FYUTqbV2MCwbQx93a2VGUHrbmwO4mG/1HDWLbRjE8bALexojPx2mShqW9Ker
+ bFE0fhrYtLH5ddRIAdG7jzQRqmjA6/c=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-149-CAYHDlnOMoCexgcomlm5GA-1; Wed, 10 Jun 2020 01:03:02 -0400
+X-MC-Unique: CAYHDlnOMoCexgcomlm5GA-1
+Received: by mail-wr1-f69.google.com with SMTP id o1so533348wrm.17
+ for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 22:03:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=8IcsRjtTdo74nCjrSCz2Nc6lJqJfiL9KrQ/X6w5Z0lY=;
+ b=anWAp0UnbWT3dTytcA0f2P7o5U8aSpAN9mxvg8fAoG9Kg8dGHwybV6gsZu+INWYHkv
+ shSZ6t/D0TAEfhjCMpoKQmVNXDPLbznPHgSm+9Vj0gMBfKJpRHRz8pW8/TLic3WUGqXv
+ S0wYAMNUV5f390Ssuaz1meV6wNkoXj8HFPDLJscw00LElcs6QB5fLwa6amrB6AsA90yh
+ JJ72ShAxXSE9UAzi9DvYx2eh+FH8jXgyeqzAkZuYMzNjHGtOO49IRWuVvIrng62oDgSE
+ jEvG/aR+bungzOOYafGzx05XGUdC3ypYh4hOiRQhnF0LK47HxSFDyfXs42H1A6pZ6YMw
+ ahCg==
+X-Gm-Message-State: AOAM531e683g5HJWprOYnWTA4oi6D5gAnLhub1RVaTIpbMwiEdgQ6rqn
+ fj9p/ojyYoW4xU/xhewB9jia9vhk92JZxet1+IDYKRJZqLaCo/+YxxNpQ6/WI7gBZ9B1jQIkT0t
+ Q0da13mjYcXkho8I=
+X-Received: by 2002:a5d:4bcb:: with SMTP id l11mr1488215wrt.363.1591765381520; 
+ Tue, 09 Jun 2020 22:03:01 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzPKp42yvyDvcG4pEoe05bFDis1ItREwXw/2pMArk7VQm3LA53rEKpiaqrdbj2x6oARuE33pQ==
+X-Received: by 2002:a5d:4bcb:: with SMTP id l11mr1488203wrt.363.1591765381314; 
+ Tue, 09 Jun 2020 22:03:01 -0700 (PDT)
+Received: from redhat.com (bzq-79-181-55-232.red.bezeqint.net. [79.181.55.232])
+ by smtp.gmail.com with ESMTPSA id j5sm6443977wrm.57.2020.06.09.22.02.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 09 Jun 2020 22:03:00 -0700 (PDT)
+Date: Wed, 10 Jun 2020 01:02:57 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH v2 0/7] virtio: enable VIRTIO_F_RING_PACKED for all devices
+Message-ID: <20200610010158-mutt-send-email-mst@kernel.org>
+References: <20200609170218.246468-1-stefanha@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="opg8F0UgoHELSI+9"
+In-Reply-To: <20200609170218.246468-1-stefanha@redhat.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: 8bit
 Content-Disposition: inline
-In-Reply-To: <39261b0b-e256-0e47-3394-1a3c7838f650@suse.de>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/10 00:46:07
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -9
-X-Spam_score: -1.0
-X-Spam_bar: -
-X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 23:22:15
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,161 +94,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- qemu-devel@nongnu.org, Philippe Mathieu-Daude <philmd@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>, Markus Armbruster <armbru@redhat.com>,
- David Gibson <dgibson@redhat.com>, Alex Bennee <alex.bennee@linaro.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-block@nongnu.org, Laurent Vivier <lvivier@redhat.com>,
+ jasowang@redhat.com, cohuck@redhat.com, qemu-devel@nongnu.org,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, Jun 09, 2020 at 06:02:11PM +0100, Stefan Hajnoczi wrote:
+> v2:
+>  * Add libvhost-user VHOST_USER_GET_FEATURES patch to start reporting feature
+>    bits correctly (already reviewed by Marc-André Lureau)
+>  * Rephrase doc comments and drop vhost_get_default_features() [Jason]
+>  * Simplify hw/core/machine.c compat props by setting packed=off on the
+>    virtio-dev base class [Jason]
+> 
+> The VIRTIO 1.1 packed virtqueue layout improves performance and guest driver
+> support has been available since Linux v5.0. virtio-blk benchmarks show it is
+> beneficial for non-net devices too so I wrote patches to enable it for all
+> devices.
 
---opg8F0UgoHELSI+9
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+It's exciting that it's widely useful!
+Could you include some numbers please though?
+No need to be exhaustive ...
 
-On Mon, Jun 08, 2020 at 01:14:31PM +0200, Claudio Fontana wrote:
-> On 6/8/20 11:52 AM, David Gibson wrote:
-> > On Sun, Jun 07, 2020 at 08:53:52AM +0200, Thomas Huth wrote:
-> >>  Hi David,
-> >>
-> >> could you maybe take this through your ppc tree?
-> >=20
-> > Sounds reasonable, but this version doesn't seem to apply any more.
->=20
-> Hi David,
->=20
-> which problem are you experiencing?
+> It turned out to be trickier than I expected because vhost feature negotiation
+> is currently not ready for new virtqueue feature bits like
+> VIRTIO_F_RING_PACKED.
+> 
+> Patch 1 fixes libqos. Patch 2 fixes libvhost-user. Patch 3 adds clarifications
+> to the vhost-user specification. Patches 4-6 solve the vhost feature issues in
+> QEMU. Finally, Patch 6 enables packed virtqueues.
+> 
+> Stefan Hajnoczi (7):
+>   tests/libqos: mask out VIRTIO_F_RING_PACKED for now
+>   libvhost-user: advertise vring features
+>   docs: document non-net VHOST_USER_GET_FEATURES behavior
+>   vhost: involve device backends in feature negotiation
+>   vhost-user-blk: add VIRTIO_F_RING_PACKED feature bit
+>   vhost-scsi: add VIRTIO_F_VERSION_1 and VIRTIO_F_RING_PACKED
+>   virtio: enable VIRTIO_F_RING_PACKED for all devices
+> 
+>  include/hw/virtio/vhost.h               |  1 +
+>  include/hw/virtio/virtio-gpu.h          |  2 ++
+>  include/hw/virtio/virtio.h              |  2 +-
+>  include/sysemu/cryptodev-vhost.h        | 11 +++++++++++
+>  backends/cryptodev-vhost.c              | 21 +++++++++++++++++++++
+>  contrib/libvhost-user/libvhost-user.c   | 10 ++++++++++
+>  contrib/vhost-user-blk/vhost-user-blk.c |  4 +---
+>  hw/block/vhost-user-blk.c               |  1 +
+>  hw/core/machine.c                       |  4 +++-
+>  hw/display/vhost-user-gpu.c             | 18 ++++++++++++++++++
+>  hw/display/virtio-gpu-base.c            |  2 +-
+>  hw/input/vhost-user-input.c             | 11 +++++++++++
+>  hw/scsi/vhost-scsi.c                    |  2 ++
+>  hw/scsi/vhost-user-scsi.c               |  2 ++
+>  hw/virtio/vhost-user-fs.c               |  6 ++++--
+>  hw/virtio/vhost-vsock.c                 |  7 +++++--
+>  hw/virtio/vhost.c                       | 24 ++++++++++++++++++++++++
+>  hw/virtio/virtio-crypto.c               |  3 ++-
+>  tests/qtest/libqos/virtio.c             |  3 ++-
+>  docs/interop/vhost-user.rst             | 21 +++++++++++++++++++++
+>  20 files changed, 143 insertions(+), 12 deletions(-)
+> 
+> -- 
+> 2.26.2
+> 
 
-Urgh, now I'm not sure what happened.  I seemed to get conflicts in
-the Makefile, but now I seem to have them committed ok to my tree
-after all.  I think I was just confused.
-
-Anyway, they should be in ppc-for-5.1 now.
-
-> I have applied the series to latest master without encountering problems =
-and pushed to:
->=20
-> https://github.com/hw-claudio/qemu.git "v5-Makefile-build-necessary"
->=20
-> Thanks,
->=20
-> Claudio
->=20
-> >=20
-> >>
-> >>  Thanks,
-> >>   Thomas
-> >>
-> >>
-> >> On 01/06/2020 13.28, Claudio Fontana wrote:
-> >>> Hello all,
-> >>>
-> >>> is this queued somewhere?
-> >>>
-> >>> Thanks,
-> >>>
-> >>> Claudio
-> >>>
-> >>> On 5/18/20 6:03 PM, Claudio Fontana wrote:
-> >>>> v4 -> v5:
-> >>>>
-> >>>> * include the dtc submodule update commit in the 1/2 patch
-> >>>>
-> >>>> v3 -> v4: NB! only useful when updating to latest dtc (not in QEMU y=
-et)
-> >>>>
-> >>>> * changed the approach to leverage new upstream dtc Makefile,
-> >>>>   needs dtc submodule update to include upstream dtc commit
-> >>>>   85e5d839847af54efab170f2b1331b2a6421e647.
-> >>>>
-> >>>> * LIBFDT_srcdir does not exist anymore in upstream dtc: it is also
-> >>>>   not used anymore.
-> >>>>
-> >>>> * LIBFDT_lib: need to avoid building libfdt.so at least for now, so =
-pass as
-> >>>>   empty to avoid building the .so. This is to avoid breaking existing
-> >>>>   trees with objects already compiled without -fPIC.
-> >>>>
-> >>>> * clean: no need to make dtc clean target, every artifact is capture=
-d by
-> >>>>   global clean rule
-> >>>>
-> >>>> v2 -> v3:
-> >>>>
-> >>>> * changed into a 2 patch series; in the second patch we remove the o=
-ld
-> >>>>   compatibility gunks that were meant for removal some time after 4.=
-1.
-> >>>>
-> >>>> * renamed the libfdt PHONY rule to dtc/all, with the intent to make
-> >>>>   existing working trees forward and backward compatible across the =
-change.
-> >>>>
-> >>>> v1 -> v2:
-> >>>>
-> >>>> * fix error generated when running UNCHECKED_GOALS without prior con=
-figure,
-> >>>>   for example during make docker-image-fedora. Without configure, DS=
-OSUF is
-> >>>>   empty, and the module pattern rule in rules.mak that uses this var=
-iable
-> >>>>   can match too much; provide a default in the Makefile to avoid it.
-> >>>>
-> >>>> * only attempt to build the archive when there is a non-empty list o=
-f objects.
-> >>>>   This could be done in general for the %.a: pattern in rules.mak, b=
-ut maybe
-> >>>>   there are valid reasons to build an empty .a?
-> >>>>
-> >>>> * removed some intermediate variables that did not add much value
-> >>>>   (LIBFDT_srcdir, LIBFDT_archive)
-> >>>>
-> >>>> Tested locally with 3 VPATH configurations (no-, VPATH, VPATH in src=
- subdir),
-> >>>> and with docker-image-fedora, docker-test-debug@fedora that failed b=
-efore.
-> >>>>
-> >>>> Claudio Fontana (2):
-> >>>>   Makefile: libfdt: build only the strict necessary
-> >>>>   Makefile: remove old compatibility gunks
-> >>>>
-> >>>>  Makefile  | 32 ++++++++++++++++----------------
-> >>>>  configure |  6 +-----
-> >>>>  rules.mak |  2 ++
-> >>>>  3 files changed, 19 insertions(+), 21 deletions(-)
-> >>>>
-> >>>
-> >>>
-> >>
-> >=20
->=20
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---opg8F0UgoHELSI+9
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl7gaXYACgkQbDjKyiDZ
-s5K/Bg/+L8hyoINx7W8HH0vbiQO5UDBCvnkGKjL7l9l5fQN3goIs7tg4O9xZqkYC
-jLkyNt3MqXrQa6Rl5LmL/kKXUnjqgl/9RKeE/IoBrQ8SEdfka+gTLlah2kggXUsd
-P0GvwhmO1WynVMnoz2yuAtCUa5qQ9IFmZTuNCo9ZxzGXLggZaictxyF+0P5M0w49
-wEZJvm34dUkr9jomndQFmRO6HG3Dt5AWDymYAcuPn1Gg/ZagQOFEJ7hb4bweGMKe
-nw5jUlJ0kLjZzdLG1txJpjffR2jd77nq2IKD/pBwk+9Vul8l+Wp/3zgDhadeOhRW
-d8NTYPAE4x72G7iIuewMcQ5FNKybsaOkka/Obw6NBP+N2iYayeQDw3FNuz6c3Vfc
-zkkFxtMc9SUSh4ihzmvD2+vooQLZBS8ajzzwOAG7twlp2X3h1rhHU/JvZXY97Pas
-9T9tALTlKdItYMRsuvVr5RBStlssKm5ZSBYtJVWQTIMjp2YCQ4A6twJhwhMRAbZ7
-9LWuhv0pX7YksO5odkf21Gih97Ea4896rQJ7ErgWY6vXXsBmdSXHNNH4fWJmoWwR
-NejHcFBvRPYtaADxwmU/UM501FogR472gIFISlVgk2Gr2AN09b0/h3U+TzgJwS4G
-4eVcpnp+OX0YJ/mRqrp8YiKyA+ZcuusLo7oGUJw3wBl6Q7vfuwI=
-=2Cx7
------END PGP SIGNATURE-----
-
---opg8F0UgoHELSI+9--
 
