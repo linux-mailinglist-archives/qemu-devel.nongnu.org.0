@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 240B11F5C71
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 22:07:32 +0200 (CEST)
-Received: from localhost ([::1]:53694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14F921F5C7A
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 22:12:26 +0200 (CEST)
+Received: from localhost ([::1]:42784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jj70V-0008Mu-63
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 16:07:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40510)
+	id 1jj75F-0007HO-2F
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 16:12:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jj6wR-0003sV-Lp
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 16:03:19 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:21989
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jj6wa-00048M-Na
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 16:03:28 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:44325
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jj6wQ-0000VV-M4
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 16:03:19 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jj6wZ-0000Yf-LD
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 16:03:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591819397;
+ s=mimecast20190719; t=1591819407;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yTmKvMxsRg6TDo1ZOS8kS+0m6cLpvXXwMo5jtOpsK98=;
- b=D+dSUKJYke0YGJ406Em5EYdkEoMQj6FP/lVILKHgii8rjY8GNPHo+GnASTfPnWp9t/0FiB
- knvj3p9qrgnUIvwJDz+/wjFFtG85dJ6gw5W5eJI2MGMKNtlHgGvWJugBZzLR9V1U/NxnZN
- bXjbImahVshXv/WJpsJg+WRCow2HY3E=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-123-CaMsqCKSO-6uZ_yVAlsw2w-1; Wed, 10 Jun 2020 16:03:16 -0400
-X-MC-Unique: CaMsqCKSO-6uZ_yVAlsw2w-1
-Received: by mail-wm1-f70.google.com with SMTP id p24so734912wmc.1
- for <qemu-devel@nongnu.org>; Wed, 10 Jun 2020 13:03:16 -0700 (PDT)
+ bh=3/5UhBc1iPrxzhHD36gZev3Sa1aP8yuUYEtevuhDJHg=;
+ b=BKYvIaB30kqCinn8E42y2iFRLJ0LsQre27OdpZ/x2kTl9iKyVnXP51+tV1nJM5BmwMgNZd
+ C4tOQP2/l+HKA2LQuXGNBTdeGx3eAT8GJ7ndd0u0CGlyKZfaJ24J+FvlQTEHd5aN27Bprs
+ O8iYEO2CtPODukWncUxnQNo9fgcLEUU=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-279-0tPdxLhzM8eujLQT5B19DA-1; Wed, 10 Jun 2020 16:03:21 -0400
+X-MC-Unique: 0tPdxLhzM8eujLQT5B19DA-1
+Received: by mail-wm1-f69.google.com with SMTP id j128so734140wmj.6
+ for <qemu-devel@nongnu.org>; Wed, 10 Jun 2020 13:03:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=yTmKvMxsRg6TDo1ZOS8kS+0m6cLpvXXwMo5jtOpsK98=;
- b=QbIrXGUhCwj1w2GbIO9p3uzR4i77A913QhZb8eai4SILX4qZMFhRBNQ1t9tdx1RkG/
- stgOyuysyMPWFz/HlqkhawDc9MYIOuRV8v35ETttGqOXwp7MlWU7lM3WrglqW9adIfHf
- MQ8aPkl2KHEYA/awZHJFN090HTOZ0kBfDALN/3/MWGo8uVw2nf1bix3sZBlF+NKc4U0u
- VW9cU8pSXtZFuLFBbG9tvjjdRwylqn+XEElG8vwXGKZtDxRVtDskoljFx788WOOVy3bR
- 2WbpqCQrNBC2Ao6lS41zeuwEcJcbhHnrrVNfsGt0XHU8BPCBLx+DYG004kwtaAEvIVOn
- NTXg==
-X-Gm-Message-State: AOAM531AQbRK0cRrcwQa1gdNK6czCzv1I4Ntrl0NsEwXH9ysXBswHRwQ
- 7vZwdgGyQ6CcTCr57XVApjbucdOERQTwQjpIKRNj2tnoXdS+K4siCn4PPEjNoZqLRLI2E/kCWX5
- j4PRDd/JBESOetWA=
-X-Received: by 2002:a5d:4ec3:: with SMTP id s3mr5876517wrv.103.1591819395109; 
- Wed, 10 Jun 2020 13:03:15 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwV7PU5Hok0cqrjyyL26FLB7N0HI1d3sRfeHGCP5fkiaDuIASYWGuckJO0jZ/GsbIxpZilkRQ==
-X-Received: by 2002:a5d:4ec3:: with SMTP id s3mr5876499wrv.103.1591819394890; 
- Wed, 10 Jun 2020 13:03:14 -0700 (PDT)
+ bh=3/5UhBc1iPrxzhHD36gZev3Sa1aP8yuUYEtevuhDJHg=;
+ b=kNrr/egqwGYyi3/RbjaiwvsBkfy67RcQCm4HF2vnDUBd1JLa0/ADzmDIYod2rc6BeM
+ QcnT/trHROX1GyG4d8zY/Vubevb8eLUWNJwNtPDCEHiTGPhL8hAFXr/cNI9Si8PkuCM+
+ ic/0iHOaorpVehcput9hmTtdIFTnBzs0D4RczyTfRDq51O9LVL6Cw0Q7M0wwbzKff/IV
+ V+i1pOJYYscgs0KtSflspi6I42sOBalJLG9XFZ97eCI14dBzgOTdNmkFFHNbdIQKbKPL
+ RiQVONaT7Rk3lC+6aXRMpbJci3BwPuD7NR19dJTdQMtawRxNCaM8iOgs4vlEHUOrFntc
+ GW8g==
+X-Gm-Message-State: AOAM5335qq/X4ibDpvp5q4KLqc1tfoYvOT0s8JTxhnI4JSnA1V8DVfqw
+ vyDzLP6e+i1mQYyS5ZTEPZf1fYP1Zu8J2aYORXvXWZnbrosSB9oa3+/1oEy6rVWOyfj6SEhvAz9
+ o0V6I2z+m4CpIiTM=
+X-Received: by 2002:adf:9205:: with SMTP id 5mr5246501wrj.232.1591819400007;
+ Wed, 10 Jun 2020 13:03:20 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyMs7oVP6rAs/70ZjLoyG8AlDe1sLXg1KFwZKoUgrozu0Z7A3jukcwIVib6hDvBzIH5DWpwZg==
+X-Received: by 2002:adf:9205:: with SMTP id 5mr5246479wrj.232.1591819399786;
+ Wed, 10 Jun 2020 13:03:19 -0700 (PDT)
 Received: from x1w.redhat.com (181.red-88-10-103.dynamicip.rima-tde.net.
  [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id o18sm996955wme.19.2020.06.10.13.03.13
+ by smtp.gmail.com with ESMTPSA id s8sm1317963wrg.50.2020.06.10.13.03.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Jun 2020 13:03:14 -0700 (PDT)
+ Wed, 10 Jun 2020 13:03:19 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 5/8] hw/tpm: Move few declarations from 'tpm_util.h' to
- 'tpm_int.h'
-Date: Wed, 10 Jun 2020 22:02:44 +0200
-Message-Id: <20200610200247.21378-6-philmd@redhat.com>
+Subject: [PATCH 6/8] hw/tpm: Move DEFINE_PROP_TPMBE() macro to 'tmp_prop.h'
+ local header
+Date: Wed, 10 Jun 2020 22:02:45 +0200
+Message-Id: <20200610200247.21378-7-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200610200247.21378-1-philmd@redhat.com>
 References: <20200610200247.21378-1-philmd@redhat.com>
@@ -106,65 +106,122 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 We are going to make "tpm_util.h" publicly accessible by
-moving it to the include/ directory in a pair of commits.
-Keep declarations internals to hw/tpm/ in "tpm_int.h".
+moving it to the include/ directory in the next commit.
+The DEFINE_PROP_TPMBE() macro is only meaningful for the
+TPM hardware files (in hw/tpm/), so keep this macro in a
+local header.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- hw/tpm/tpm_int.h  | 11 +++++++++++
- hw/tpm/tpm_util.h | 10 ----------
- 2 files changed, 11 insertions(+), 10 deletions(-)
+ hw/tpm/tpm_prop.h       | 31 +++++++++++++++++++++++++++++++
+ hw/tpm/tpm_util.h       |  3 ---
+ hw/tpm/tpm_crb.c        |  1 +
+ hw/tpm/tpm_spapr.c      |  1 +
+ hw/tpm/tpm_tis_isa.c    |  2 +-
+ hw/tpm/tpm_tis_sysbus.c |  2 +-
+ 6 files changed, 35 insertions(+), 5 deletions(-)
+ create mode 100644 hw/tpm/tpm_prop.h
 
-diff --git a/hw/tpm/tpm_int.h b/hw/tpm/tpm_int.h
-index fd5ebc6489..9f72879d89 100644
---- a/hw/tpm/tpm_int.h
-+++ b/hw/tpm/tpm_int.h
-@@ -13,6 +13,7 @@
- #define TPM_TPM_INT_H
- 
- #include "qemu/option.h"
-+#include "sysemu/tpm.h"
- 
- #define TPM_STANDARD_CMDLINE_OPTS \
-     { \
-@@ -74,4 +75,14 @@ struct tpm_resp_hdr {
- #define TPM_RC_FAILURE            0x101
- #define TPM_RC_LOCALITY           0x907
- 
-+int tpm_util_get_buffer_size(int tpm_fd, TPMVersion tpm_version,
-+                             size_t *buffersize);
+diff --git a/hw/tpm/tpm_prop.h b/hw/tpm/tpm_prop.h
+new file mode 100644
+index 0000000000..85e1ae5718
+--- /dev/null
++++ b/hw/tpm/tpm_prop.h
+@@ -0,0 +1,31 @@
++/*
++ * TPM utility functions
++ *
++ *  Copyright (c) 2010 - 2015 IBM Corporation
++ *  Authors:
++ *    Stefan Berger <stefanb@us.ibm.com>
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licenses/>
++ */
 +
-+typedef struct TPMSizedBuffer {
-+    uint32_t size;
-+    uint8_t  *buffer;
-+} TPMSizedBuffer;
++#ifndef HW_TPM_PROP_H
++#define HW_TPM_PROP_H
 +
-+void tpm_sized_buffer_reset(TPMSizedBuffer *tsb);
++#include "sysemu/tpm_backend.h"
++#include "hw/qdev-properties.h"
 +
- #endif /* TPM_TPM_INT_H */
++#define DEFINE_PROP_TPMBE(_n, _s, _f)                     \
++    DEFINE_PROP(_n, _s, _f, qdev_prop_tpm, TPMBackend *)
++
++#endif /* HW_TPM_PROP_H */
 diff --git a/hw/tpm/tpm_util.h b/hw/tpm/tpm_util.h
-index 7889081fba..d524935576 100644
+index d524935576..cf61d830d7 100644
 --- a/hw/tpm/tpm_util.h
 +++ b/hw/tpm/tpm_util.h
-@@ -66,19 +66,9 @@ static inline void tpm_cmd_set_error(void *b, uint32_t error)
+@@ -66,9 +66,6 @@ static inline void tpm_cmd_set_error(void *b, uint32_t error)
      stl_be_p(b + 6, error);
  }
  
--int tpm_util_get_buffer_size(int tpm_fd, TPMVersion tpm_version,
--                             size_t *buffersize);
--
- #define DEFINE_PROP_TPMBE(_n, _s, _f)                     \
-     DEFINE_PROP(_n, _s, _f, qdev_prop_tpm, TPMBackend *)
- 
--typedef struct TPMSizedBuffer {
--    uint32_t size;
--    uint8_t  *buffer;
--} TPMSizedBuffer;
--
--void tpm_sized_buffer_reset(TPMSizedBuffer *tsb);
+-#define DEFINE_PROP_TPMBE(_n, _s, _f)                     \
+-    DEFINE_PROP(_n, _s, _f, qdev_prop_tpm, TPMBackend *)
 -
  void tpm_util_show_buffer(const unsigned char *buffer,
                            size_t buffer_size, const char *string);
+ 
+diff --git a/hw/tpm/tpm_crb.c b/hw/tpm/tpm_crb.c
+index 664ff70ef9..1cac4d671d 100644
+--- a/hw/tpm/tpm_crb.c
++++ b/hw/tpm/tpm_crb.c
+@@ -25,6 +25,7 @@
+ #include "migration/vmstate.h"
+ #include "sysemu/tpm_backend.h"
+ #include "sysemu/reset.h"
++#include "tpm_prop.h"
+ #include "tpm_util.h"
+ #include "tpm_ppi.h"
+ #include "trace.h"
+diff --git a/hw/tpm/tpm_spapr.c b/hw/tpm/tpm_spapr.c
+index ab1a86ad6e..65672048c7 100644
+--- a/hw/tpm/tpm_spapr.c
++++ b/hw/tpm/tpm_spapr.c
+@@ -21,6 +21,7 @@
+ 
+ #include "sysemu/tpm_backend.h"
+ #include "tpm_util.h"
++#include "tpm_prop.h"
+ 
+ #include "hw/ppc/spapr.h"
+ #include "hw/ppc/spapr_vio.h"
+diff --git a/hw/tpm/tpm_tis_isa.c b/hw/tpm/tpm_tis_isa.c
+index 42f909ff1e..5faf6231c0 100644
+--- a/hw/tpm/tpm_tis_isa.c
++++ b/hw/tpm/tpm_tis_isa.c
+@@ -27,7 +27,7 @@
+ #include "hw/qdev-properties.h"
+ #include "migration/vmstate.h"
+ #include "hw/acpi/tpm.h"
+-#include "tpm_util.h"
++#include "tpm_prop.h"
+ #include "tpm_tis.h"
+ 
+ typedef struct TPMStateISA {
+diff --git a/hw/tpm/tpm_tis_sysbus.c b/hw/tpm/tpm_tis_sysbus.c
+index edca1dae0d..4a3bc70625 100644
+--- a/hw/tpm/tpm_tis_sysbus.c
++++ b/hw/tpm/tpm_tis_sysbus.c
+@@ -26,7 +26,7 @@
+ #include "hw/qdev-properties.h"
+ #include "migration/vmstate.h"
+ #include "hw/acpi/tpm.h"
+-#include "tpm_util.h"
++#include "tpm_prop.h"
+ #include "hw/sysbus.h"
+ #include "tpm_tis.h"
  
 -- 
 2.21.3
