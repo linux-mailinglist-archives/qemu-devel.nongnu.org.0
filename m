@@ -2,57 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B52A51F4CC7
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 07:09:33 +0200 (CEST)
-Received: from localhost ([::1]:41046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E2681F4CCA
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 07:11:28 +0200 (CEST)
+Received: from localhost ([::1]:46546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jiszU-0003cd-Ow
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 01:09:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37072)
+	id 1jit1L-0005ys-BP
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 01:11:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38458)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jisjP-0002mV-5H; Wed, 10 Jun 2020 00:52:55 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:50683 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jisjN-0004eX-Uw; Wed, 10 Jun 2020 00:52:54 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 49hZFC5NHsz9sSg; Wed, 10 Jun 2020 14:46:07 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1591764367;
- bh=/5pSOXrvZ6i5E74Zn/tFWRea/OFiqAbiiHNszmV9Rds=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=XCG37Mwk9GwPIXcdThk9hiA/ZXT/0Rtqf2MeWRK7cE56hrnaXwdy5WyPOdTcSSfTg
- h3ELhTWOQHBn4FDaaf3+VDdlMRbHApvoJxWWbuY8Lplf9tsfnpnfyYM8bH0WYFG/vr
- WRzwluuEAbCaouIndoYaRuEnQwBcRFscpounBIeI=
-Date: Wed, 10 Jun 2020 14:45:10 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Halil Pasic <pasic@linux.ibm.com>
-Subject: Re: [RFC v2 18/18] guest memory protection: Alter virtio default
- properties for protected guests
-Message-ID: <20200610044510.GJ494336@umbus.fritz.box>
-References: <20200521034304.340040-1-david@gibson.dropbear.id.au>
- <20200521034304.340040-19-david@gibson.dropbear.id.au>
- <20200606162014-mutt-send-email-mst@kernel.org>
- <20200607030735.GN228651@umbus.fritz.box>
- <20200609121641.5b3ffa48.cohuck@redhat.com>
- <20200609174046.0a0d83b9.pasic@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jisrs-0007rq-Nk
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 01:01:40 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:33112
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jisrr-0006JJ-8F
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 01:01:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1591765294;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=v2iir23r4lN4FNrToW1bee8KuY4+wfUm4/X3E1v3uAo=;
+ b=JQN96TWaGHbfEwV+7leYbOr8qY3HPYh3KKUFCEQy9syr0f9JN5+rzE4jjcQ4kavKH4IkbI
+ WeczzM5XFptF74ixQOx28q0D1w0tWwtuug8IuqTWVgn8mzHa4QJ86IqNniSeop6GDZA3E+
+ a25xID1zJc5LegBBtBX4eONuyeKPd08=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-495-quygeQbXP_GK5TdYfdXHxA-1; Wed, 10 Jun 2020 01:01:32 -0400
+X-MC-Unique: quygeQbXP_GK5TdYfdXHxA-1
+Received: by mail-wm1-f71.google.com with SMTP id b63so1461654wme.1
+ for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 22:01:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=v2iir23r4lN4FNrToW1bee8KuY4+wfUm4/X3E1v3uAo=;
+ b=EdX/Tadbz0JuMIXMU23rm9Y6YVN64fvmXNyOVdW3cYXrxd1HbApucP0T5AJ+/Hj7CA
+ SqtOJrMYWnqVCUnXb4nq4eVxqlU+AdprOUSXpOvBbhCtnIB+E0cJV85OyQnvsxlkdrQg
+ UAtPXUL67ubYWP9muDw4oFHqrqKgWORcrQIOf/2gh4TfatL4PddrLbhc8SLTCORoAlet
+ XedH1zb+yKtH5RvF+tzvEQEs6+fVPunLIskDnziLGCaxWYY/G5k1mXtPuGyZ5GlDHcbs
+ xrDQ2c4Wp618qB2sO8rIjoG09qdygWBU18ZAI9KDBc/71PajWqbHljQ2DAqyKNZaaVLX
+ aOsQ==
+X-Gm-Message-State: AOAM531Fu1Jj5RXsY5AKEE4voHq5qcE6rZOxnv892IE19ALIs3mQYEu5
+ mez37MgE3e6UWDSotgk3fDbHkO7vXOFST/yL9vPE4hIfmKtsOrLsJIOUdNH/qWqWm6JglVeDjMZ
+ wLWIHuRPhibUd+oQ=
+X-Received: by 2002:adf:d851:: with SMTP id k17mr1451908wrl.30.1591765290860; 
+ Tue, 09 Jun 2020 22:01:30 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxlWA5BpNOnAdVApfVfH7s2hGKWU3tHEFYVlwLXVMWnXBdZhkaqQSOZobxUwEj/wS4HjcF4lQ==
+X-Received: by 2002:adf:d851:: with SMTP id k17mr1451860wrl.30.1591765290490; 
+ Tue, 09 Jun 2020 22:01:30 -0700 (PDT)
+Received: from redhat.com (bzq-79-181-55-232.red.bezeqint.net. [79.181.55.232])
+ by smtp.gmail.com with ESMTPSA id u12sm6331970wrq.90.2020.06.09.22.01.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 09 Jun 2020 22:01:29 -0700 (PDT)
+Date: Wed, 10 Jun 2020 01:01:26 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH v2 3/7] docs: document non-net VHOST_USER_GET_FEATURES
+ behavior
+Message-ID: <20200610005129-mutt-send-email-mst@kernel.org>
+References: <20200609170218.246468-1-stefanha@redhat.com>
+ <20200609170218.246468-4-stefanha@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="4vpci17Ql0Nrbul2"
+In-Reply-To: <20200609170218.246468-4-stefanha@redhat.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200609174046.0a0d83b9.pasic@linux.ibm.com>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -9
-X-Spam_score: -1.0
-X-Spam_bar: -
-X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 23:22:15
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,172 +93,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pair@us.ibm.com, brijesh.singh@amd.com, frankja@linux.ibm.com,
- kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>, dgilbert@redhat.com,
- qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- mdroth@linux.vnet.ibm.com, Richard Henderson <rth@twiddle.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-block@nongnu.org, Laurent Vivier <lvivier@redhat.com>,
+ jasowang@redhat.com, cohuck@redhat.com, qemu-devel@nongnu.org,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ Ben Walker <benjamin.walker@intel.com>,
+ "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Sebastien Boeuf <sebastien.boeuf@intel.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, Jun 09, 2020 at 06:02:14PM +0100, Stefan Hajnoczi wrote:
+> QEMU enabled several feature bits for non-net devices without allowing
+> the device backend to control them. This only works when the device
+> backend implements support for those features. It won't work for new
+> features like the packed virtqueue layout, where proper feature
+> negotiation will be needed.
+> 
+> Document the legacy behavior and specify that device backends must
+> report features so that we can avoid problems in the future.
+> 
+> Cc: Ben Walker <benjamin.walker@intel.com>
+> Cc: Sebastien Boeuf <sebastien.boeuf@intel.com>
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+> CCing SPDK and cloud-hypervisor folks in case they are affected. DPDK
+> isn't affected since vhost-user-net performs full feature negotiation.
+> ---
+>  docs/interop/vhost-user.rst | 21 +++++++++++++++++++++
+>  1 file changed, 21 insertions(+)
+> 
+> diff --git a/docs/interop/vhost-user.rst b/docs/interop/vhost-user.rst
+> index 3b1b6602c7..dfadee411d 100644
+> --- a/docs/interop/vhost-user.rst
+> +++ b/docs/interop/vhost-user.rst
+> @@ -290,6 +290,27 @@ bit was dedicated for this purpose::
+>  
+>    #define VHOST_USER_F_PROTOCOL_FEATURES 30
+>  
+> +Feature negotiation
+> +-------------------
+> +The master fetches features from the backend using the
+> +``VHOST_USER_GET_FEATURES`` message. The feature bits correspond to those from
+> +the virtio specification, VHOST_F_LOG_ALL (26), and
+> +``VHOST_USER_F_PROTOCOL_FEATURES`` (30).
 
---4vpci17Ql0Nrbul2
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Jun 09, 2020 at 05:40:46PM +0200, Halil Pasic wrote:
-> On Tue, 9 Jun 2020 12:16:41 +0200
-> Cornelia Huck <cohuck@redhat.com> wrote:
->=20
-> > On Sun, 7 Jun 2020 13:07:35 +1000
-> > David Gibson <david@gibson.dropbear.id.au> wrote:
-> >=20
-> > > On Sat, Jun 06, 2020 at 04:21:31PM -0400, Michael S. Tsirkin wrote:
-> > > > On Thu, May 21, 2020 at 01:43:04PM +1000, David Gibson wrote: =20
-> > > > > The default behaviour for virtio devices is not to use the platfo=
-rms normal
-> > > > > DMA paths, but instead to use the fact that it's running in a hyp=
-ervisor
-> > > > > to directly access guest memory.  That doesn't work if the guest'=
-s memory
-> > > > > is protected from hypervisor access, such as with AMD's SEV or PO=
-WER's PEF.
-> > > > >=20
-> > > > > So, if a guest memory protection mechanism is enabled, then apply=
- the
-> > > > > iommu_platform=3Don option so it will go through normal DMA mecha=
-nisms.
-> > > > > Those will presumably have some way of marking memory as shared w=
-ith the
-> > > > > hypervisor or hardware so that DMA will work.
-> > > > >=20
-> > > > > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-> > > > > ---
-> > > > >  hw/core/machine.c | 11 +++++++++++
-> > > > >  1 file changed, 11 insertions(+)
-> > > > >=20
-> > > > > diff --git a/hw/core/machine.c b/hw/core/machine.c
-> > > > > index 88d699bceb..cb6580954e 100644
-> > > > > --- a/hw/core/machine.c
-> > > > > +++ b/hw/core/machine.c
-> > > > > @@ -28,6 +28,8 @@
-> > > > >  #include "hw/mem/nvdimm.h"
-> > > > >  #include "migration/vmstate.h"
-> > > > >  #include "exec/guest-memory-protection.h"
-> > > > > +#include "hw/virtio/virtio.h"
-> > > > > +#include "hw/virtio/virtio-pci.h"
-> > > > > =20
-> > > > >  GlobalProperty hw_compat_5_0[] =3D {};
-> > > > >  const size_t hw_compat_5_0_len =3D G_N_ELEMENTS(hw_compat_5_0);
-> > > > > @@ -1159,6 +1161,15 @@ void machine_run_board_init(MachineState *=
-machine)
-> > > > >           * areas.
-> > > > >           */
-> > > > >          machine_set_mem_merge(OBJECT(machine), false, &error_abo=
-rt);
-> > > > > +
-> > > > > +        /*
-> > > > > +         * Virtio devices can't count on directly accessing guest
-> > > > > +         * memory, so they need iommu_platform=3Don to use norma=
-l DMA
-> > > > > +         * mechanisms.  That requires disabling legacy virtio su=
-pport
-> > > > > +         * for virtio pci devices
-> > > > > +         */
-> > > > > +        object_register_sugar_prop(TYPE_VIRTIO_PCI, "disable-leg=
-acy", "on");
-> > > > > +        object_register_sugar_prop(TYPE_VIRTIO_DEVICE, "iommu_pl=
-atform", "on");
-> > > > >      }
-> > > > >   =20
-> > > >=20
-> > > > I think it's a reasonable way to address this overall.
-> > > > As Cornelia has commented, addressing ccw as well =20
-> > >=20
-> > > Sure.  I was assuming somebody who actually knows ccw could do that as
-> > > a follow up.
-> >=20
-> > FWIW, I think we could simply enable iommu_platform for protected
-> > guests for ccw; no prereqs like pci's disable-legacy.
->=20
-> For s390x having a memory-encryption object is not prereq for doing
-> protected virtualization, so the scheme does not work for us right now.
-
-That's basically true for POWER as well - in our case the "memory
-encrypt" object (called "host trust limitation" (HTL) object in the
-latest version) is basically just a dummy with no parameters.  The
-same should work for s390x.
-
-I am considering having the machine always create the HTL object with
-a well-known name (e.g. "pef0"), so you can just set the machine
-property to it to enable PEF.  Again, that could also be done on
-s390x.
-
-Note also that anything could in principle implement the HTL
-interface.  So you could have the machine object itelf, or the cpu
-implement the interface to avoid creating a dummy object, though that
-might get messier that just having a dummy in the long run.
-
-> I hope Jansoch will chime in after he is back from his vacation. IMHO
-> having a memory-protection object will come in handy for migration,
-> but the presence or absence of this object should be largely transparent
-> to the user (and not something that needs to be explicitly managed via
-> command line). AFAIU this object is in the end it is just QEMU plumbing.
-
-Yes.  However, if either POWER or z ever gets any configurable knobs
-for their protection systems, it does provide an obvious place that we
-can do that configuration.
-
-> > > > as cases where user has
-> > > > specified the property manually could be worth-while. =20
-> > >=20
-> > > I don't really see what's to be done there.  I'm assuming that if the
-> > > user specifies it, they know what they're doing - particularly with
-> > > nonstandard guests there are some odd edge cases where those
-> > > combinations might work, they're just not very likely.
-> >=20
-> > If I understood Halil correctly, devices without iommu_platform
-> > apparently can crash protected guests on s390. Is that supposed to be a
-> > "if it breaks, you get to keep the pieces" situation, or do we really
-> > want to enforce iommu_platform?
->=20
-> I strongly oppose to adopting the "if it breaks, you get to keep the
-> pieces" strategy here. It is borderline acceptable on startup, although
-> IMHO not preferable, but a device hotplug bringing down a guest that is
-> already running userspace is not acceptable at all.
->=20
-> Regards,
-> Halil
+Seems to partially duplicate the description of the message
+VHOST_USER_GET_FEATURES, except that is missing
+description of VHOST_F_LOG_ALL. How about tweaking that
+instead of adding more text? BTW description of VHOST_USER_GET_FEATURES
+has some typos worth fixing ...
 
 
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
 
---4vpci17Ql0Nrbul2
-Content-Type: application/pgp-signature; name="signature.asc"
+> +Backends must report all supported feature bits. If a feature bit is set then
+> +the master may set it in the ``VHOST_USER_SET_FEATURES`` message. If a feature
+> +bit is cleared then the master must not set it in the
+> +``VHOST_USER_SET_FEATURES`` message.
 
------BEGIN PGP SIGNATURE-----
+Again let's extend description of VHOST_USER_SET_FEATURES if that's
+unclear. BTW description of VHOST_USER_SET_FEATURES has
+some typos worth fixing ...
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl7gZVYACgkQbDjKyiDZ
-s5Ij7w//cdBg7Etb+XfkNEsZYjarhQpaYRLvcNsgzNwDKU4fOV4h1LFuwW7Tkikc
-Nu6Z7pJbDGZdVL1tG8IMbO31gQ1CzG+xxFam8onKohU6YwjeKvtlndlgK1Mpk3Zz
-9vg71viUt5HknR4LK27AVbOoUh0g7QQrCOMKSwtKHmiRpSk9wP4dhTXLYUxjNXka
-tcVlYyL1NFpXvU9xCr+1FZ96DliiuthzCt9xPFaTZbvA+/IN21Yjhsex7my8Khm8
-yFkzjAVs57hkxgn9hddrYEYNvRR4x2DeOQDnVO17oeHF5T+noUCFMTQIq2wANrde
-gRZDCW1gRWU4M91s8FAzcs9Kz3wSOpuBjVsBGRqCK3GHcl2J6+FVJA0vr3OJGcwg
-xqIgZGBDDpfaVaDgSOPRZlt6aLDVXzrmxw24J31FKO8M3gwut8UvnR8xPAjFroJP
-0TpUgVRQRhsHA5NvFcdegP0eWxWoZFwNyVcaigFOPbU7lxIWNpIVa/tg2yKRTizE
-sMOw9ez7MecwoHs4QeQcc1WgMNoPyCrTnV8rbWrJl1c2dZphKUl4EyN+Slf0wd8m
-yd/x7oaAypSGoPg/YJVsWmBNn352M7tumBjZCnNBv6cYk7nGSctw7nfQsQcVXhCm
-PmhhJdO43ntOxyUEqR5R2qjrv3LBjdPa/XUk0IyXxmOm13RHCzA=
-=sFmA
------END PGP SIGNATURE-----
+> +
+> +For devices other than the networking device, masters may assume the following
+> +feature bits are always set in ``VHOST_USER_GET_FEATURES`` for compatibility
+> +with legacy backend implementations that do not report them correctly:
+> +* ``VIRTIO_F_RING_INDIRECT_DESC``
+> +* ``VIRTIO_F_RING_EVENT_IDX``
+> +* ``VIRTIO_F_VERSION_1``
+> +* ``VIRTIO_F_NOTIFY_ON_EMPTY``
+> +* ``VIRTIO_F_ANY_LAYOUT``
+> +
+>  Starting and stopping rings
+>  ---------------------------
 
---4vpci17Ql0Nrbul2--
+How common are these backends? Anything shipped for a while?  IIUC we
+are not talking about years of history here, so I really think we should
+just enforce what spec always said, rather than work around some broken
+clients.
+
+> -- 
+> 2.26.2
+> 
+
 
