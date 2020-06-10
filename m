@@ -2,60 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 393B31F5596
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 15:20:05 +0200 (CEST)
-Received: from localhost ([::1]:58458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D00401F55A7
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 15:22:07 +0200 (CEST)
+Received: from localhost ([::1]:39164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jj0eC-00038s-9I
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 09:20:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50422)
+	id 1jj0gA-0006zD-R2
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 09:22:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
- id 1jj0c3-0001Id-B4
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 09:17:51 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:32916
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jj0cv-0002pf-1m
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 09:18:46 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:25676
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
- id 1jj0c0-0005bS-Ux
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 09:17:50 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jj0cs-0006Dp-VP
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 09:18:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591795067;
+ s=mimecast20190719; t=1591795118;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=bBwIlUJKvdI8mJIkr5f/ihhX536ZYcXtU9gYYsc6uaI=;
- b=D9eVVAL0G9N+9reupSdH7okn3dZTZcpANFVLZ7urfVdh7PG3hAaPyi2KuAbVvbVVEzCe3L
- xLPC3K7muvFa9uYCRqM3CeUKnPh+HFesy42bXWJEp8wPv9VsZqAGsv62GDdo4iHb1I1TV7
- fy6YXl1mzpGqhNgaG+viPOvsy1sZ2Fo=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5fjvibfpYl0DByW4nbgX6jNyorU03kRmHFCfX1t45I0=;
+ b=NZAIZuGgzSp08YDdJ1yVnPGqWfA19N8wt69gHkrAejHalVHvXtTEhamJIpk5i6uOmqNE1w
+ jwreBbooW0xq4LxwbXkDhAG8VGsdEYc/mFjZPMYtSchWVn7sqf8aDiG/mzoMCFBmGzFcQf
+ 1gCUmwT3GdpxEY8gTxMnwLzpg1YQ2qg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-4-hOFIcVPgMriET-n_0UXrvw-1; Wed, 10 Jun 2020 09:17:43 -0400
-X-MC-Unique: hOFIcVPgMriET-n_0UXrvw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-69-Ejw63EgRO6yWEUerfaCKfA-1; Wed, 10 Jun 2020 09:18:30 -0400
+X-MC-Unique: Ejw63EgRO6yWEUerfaCKfA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CAA6F107ACCA
- for <qemu-devel@nongnu.org>; Wed, 10 Jun 2020 13:17:42 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.40.195.12])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 498EC1025EB0
- for <qemu-devel@nongnu.org>; Wed, 10 Jun 2020 13:17:42 +0000 (UTC)
-From: Michal Privoznik <mprivozn@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 10F4C19200C9
+ for <qemu-devel@nongnu.org>; Wed, 10 Jun 2020 13:18:30 +0000 (UTC)
+Received: from [10.3.113.22] (ovpn-113-22.phx2.redhat.com [10.3.113.22])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E1F8F7BA10
+ for <qemu-devel@nongnu.org>; Wed, 10 Jun 2020 13:18:29 +0000 (UTC)
+Subject: Re: [PULL 0/3] NBD patches through 2020-06-09
+From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/2] A pair of HMAT docs fixes
-Date: Wed, 10 Jun 2020 15:17:33 +0200
-Message-Id: <cover.1591794890.git.mprivozn@redhat.com>
+References: <20200610011713.3687895-1-eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <0b58576a-593b-68ec-df80-26ad7dec4d42@redhat.com>
+Date: Wed, 10 Jun 2020 08:18:29 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20200610011713.3687895-1-eblake@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=mprivozn@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 23:51:15
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 23:22:15
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -79,21 +84,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Technically, this is a v2 of:
+On 6/9/20 8:17 PM, Eric Blake wrote:
+> The following changes since commit 31d321c2b3574dcc74e9f6411af06bca6b5d10f4:
+> 
+>    Merge remote-tracking branch 'remotes/philmd-gitlab/tags/sparc-next-20200609' into staging (2020-06-09 17:29:47 +0100)
+> 
+> are available in the Git repository at:
+> 
+>    https://repo.or.cz/qemu/ericb.git tags/pull-nbd-2020-06-09
+> 
+> for you to fetch changes up to 2886df0c75c1c5f6aed054c54f4ad48aeee04bfd:
+> 
+>    block: Call attention to truncation of long NBD exports (2020-06-09 17:05:50 -0500)
+> 
+> ----------------------------------------------------------------
+> NBD patches for 2020-06-09
+> 
+> - fix iotest 194 race
+> - fix CVE-2020-10761: server DoS from assertion on long NBD error messages
+> 
+> ----------------------------------------------------------------
+> Eric Blake (2):
+>        nbd/server: Avoid long error message assertions CVE-2020-10761
 
-https://lists.nongnu.org/archive/html/qemu-devel/2020-05/msg08316.html
-
-But as it turned out during the review of v1, we don't need to change
-the code rather than documentation.
-
-Michal Privoznik (2):
-  qemu-options.hx: Mark all hmat-cache attributes required
-  qemu-options.hx: Document hmat-lb and hmat-cache order
-
- qemu-options.hx | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+Vladimir raised a potential thread-safety issue in this patch. As it is 
+intended to fix a CVE, let's hold off on this pull request, and I'll 
+send a v2 once I have better review.
 
 -- 
-2.26.2
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
