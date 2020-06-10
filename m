@@ -2,71 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE6111F5C7C
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 22:12:46 +0200 (CEST)
-Received: from localhost ([::1]:44202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E71A1F5C78
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 22:11:42 +0200 (CEST)
+Received: from localhost ([::1]:39424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jj75Z-0007sY-Q6
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 16:12:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42004)
+	id 1jj74X-0005sd-2E
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 16:11:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42248)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1jj72O-0003Z3-20
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 16:09:28 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:51623)
- by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1jj72M-0001jc-UW
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 16:09:27 -0400
-Received: by mail-wm1-x341.google.com with SMTP id u13so3001060wml.1
- for <qemu-devel@nongnu.org>; Wed, 10 Jun 2020 13:09:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=OuImIXZfAqdri/39NYTHBQIUuRxN8apZAJQnIHXZMJk=;
- b=SCgEygny8psCnfEHp5lVGmp2Nw/P0KfNyglgkmZUW9al/3//dOsyIU/b4iCofsi9TL
- aAjo4E81eJoH+nGlmmOtnNXpZu0VIFFqMab1luSR+jrINAIhCEHc+c4ZMi5PfYH7BgG8
- Y8AdJears9z28TS1OcsJS4E6Lt4aZLJmm8gqTxd2qlk23Qc8DXwUJ9QtpkdL3rdf/YoS
- QUB8Ot2q/hO+5VU2M3ZdpLGYn8TIJ+3g25DpWZeqBCKX35mVoWG6fBVnlAoJockhGcYX
- zd6Bk/+7Rdr5+UQpCRWyOf2/PI3gYgtPP0NMdlE1NnjFgBWLrrVnxtgt2XJuh5MnBAqt
- 3h1Q==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jj735-0004Ur-4L
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 16:10:11 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:52436
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jj734-0001nB-67
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 16:10:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1591819809;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=6kXX9XcHSUq0Yc5kL9bLb+/VifdWxLkMzeoHH3wJ1l8=;
+ b=GsrHhrBy7yCnA0zCcxujawKbv/erHFNSeHxx01YyS2iNFubS9dEqg1px7BoMH0yo8vOk1J
+ GoVr0aSu5SNhAPlHt+kUH7+XiZ6Y1OxLrp9k1GgDdGgRgGTjEUwIbpCDVnPhHuaV4YLQ+r
+ LERStIijpfyYVPcldqqwhaxgVWlXCu0=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-108-LKndFYnzPrqBLFuNAt0joA-1; Wed, 10 Jun 2020 16:10:07 -0400
+X-MC-Unique: LKndFYnzPrqBLFuNAt0joA-1
+Received: by mail-wr1-f69.google.com with SMTP id r5so1547096wrt.9
+ for <qemu-devel@nongnu.org>; Wed, 10 Jun 2020 13:10:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=OuImIXZfAqdri/39NYTHBQIUuRxN8apZAJQnIHXZMJk=;
- b=j+Mn6C2D0lnbEAPAioftcRWBYVEGhC0+bdDtTJDte/ohrx+npQFzuii7OAGzZtIFSK
- oCzeMbvjvCPuFTEnuQHsMVwMQRY1ZPbJXygWus2UdnxCZ8z2QVSPvl9yMnnbR+wk5gM6
- Wj5mtDR4qeVAn5z0ffg1ngeQiSW/eVyXW0v/eHq67usb62meVBm84pMzjShxDYBuGgQI
- eDE4cdynPZWv2w1IkaW2+7WvFVqO6ShF5lmOvMDz2ofEFXf+FjWA1ixnvuIFW2McjQtw
- dUEdP81RgxY2jSTu453pv5Ey2yco2uw7EJ11tuY0RPHEBHU/cT79NWsOEcE0lDDiVIDy
- QeJA==
-X-Gm-Message-State: AOAM533P0tu5awMKev98McbVdfF0HNCQl9spKvJqFhnTWl+1GvZcRUuL
- EH9hLoOTelMQd3sAzZ0UD8IdrY9fiWUBvZPVTVM=
-X-Google-Smtp-Source: ABdhPJyVFVRKlAMqLHH3REmfpZrrqwem35qpSdBQsxJpK25omGBtHfYHEdEgZrMRydKohP/nz4yXS5JE4KQhV4uaeEA=
-X-Received: by 2002:a05:600c:2259:: with SMTP id
- a25mr4945467wmm.32.1591819759397; 
- Wed, 10 Jun 2020 13:09:19 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=6kXX9XcHSUq0Yc5kL9bLb+/VifdWxLkMzeoHH3wJ1l8=;
+ b=WpUq3JTm8fwR+CbTqiCUYR6gqVdATCaqFO9AOdrqxNSqjufH+yoL1K19zDBv3kYu72
+ LPx2LkLfVQnhzEOvepG3MV6lNRYBofyIfpkFUH+QC923iy9dpJcYy16B33d8MWLqmmU5
+ kFCi9+ewD9gMkUc0qynR41kKvF8bfhrLT+UrNpO1dhSEMCoH3sa31LiBtpri2Vu2hC+l
+ RyTKPugMlRCI+OLEDg7c03RduF20azpU4WgdVHzkEF0xvS7Cdwh+erOQVi98uSFEILQ1
+ x9wDh3lpsil8cPqibx255kB4lGBpuAIGRFiuzdfULmeqpVH9oX6M08MPMll8wWDaMog1
+ c/0Q==
+X-Gm-Message-State: AOAM530lboeYNgOt9Wqs0tOd+w7eqGnFFczlCSQDEFPCQjc81HsSBTCd
+ ae/1HPzBrV09ES5JqmEW41vL4OtpncIMqlWBgZ/jolW1HuYsDUZHp/io/o+/PV8hvJAignrQSmy
+ yTmJIyQAEea6Cijc=
+X-Received: by 2002:a5d:68cb:: with SMTP id p11mr5289080wrw.379.1591819806104; 
+ Wed, 10 Jun 2020 13:10:06 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw07RSkNA+82/zN/tCm9tvGf+UVFMrBsO4+7oJzGjV9lgQHeKMvYmf8JCwxkIWE7+XDN6FbLQ==
+X-Received: by 2002:a5d:68cb:: with SMTP id p11mr5289054wrw.379.1591819805863; 
+ Wed, 10 Jun 2020 13:10:05 -0700 (PDT)
+Received: from redhat.com ([212.92.121.57])
+ by smtp.gmail.com with ESMTPSA id h18sm1227509wru.7.2020.06.10.13.10.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 10 Jun 2020 13:10:05 -0700 (PDT)
+Date: Wed, 10 Jun 2020 16:10:01 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH v7 0/9] acpi: i386 tweaks
+Message-ID: <20200610160946-mutt-send-email-mst@kernel.org>
+References: <20200610094131.13346-1-kraxel@redhat.com>
+ <20200610134002.6461b40a@redhat.com>
+ <20200610105405-mutt-send-email-mst@kernel.org>
+ <20200610155346.qwqwxr6v22xi4wn5@sirius.home.kraxel.org>
 MIME-Version: 1.0
-References: <20200610200247.21378-1-philmd@redhat.com>
-In-Reply-To: <20200610200247.21378-1-philmd@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Thu, 11 Jun 2020 00:09:07 +0400
-Message-ID: <CAJ+F1CLwLqTCKbUw_xrVax1zctE3Q68ZbaM_Tydn7ZqELp8vnw@mail.gmail.com>
-Subject: Re: [PATCH 0/8] tpm: Split hw/ vs backends/
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000004e33b105a7c06b35"
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-wm1-x341.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+In-Reply-To: <20200610155346.qwqwxr6v22xi4wn5@sirius.home.kraxel.org>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=mst@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/10 15:44:05
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,199 +94,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- QEMU <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Stefan Berger <stefanb@linux.ibm.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Laurent Vivier <lvivier@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, John Snow <jsnow@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000004e33b105a7c06b35
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-On Thu, Jun 11, 2020 at 12:03 AM Philippe Mathieu-Daud=C3=A9 <philmd@redhat=
-.com>
-wrote:
-
-> Hi,
->
-> Today I started to review some vTPM patches and got very
-> confused by the files under hw/tpm/. In particular after
-> running:
->
->   $ git grep TYPE_TPM_BACKEND
->   backends/tpm.c:188:    .name =3D TYPE_TPM_BACKEND,
->   hw/tpm/tpm_emulator.c:985:    .parent =3D TYPE_TPM_BACKEND,
->   hw/tpm/tpm_passthrough.c:393:    .parent =3D TYPE_TPM_BACKEND,
->   include/sysemu/tpm_backend.h:21:#define TYPE_TPM_BACKEND "tpm-backend"
->
-> As there is no particular reason to keep this mixed, clean it up.
->
-
-While at it, why not start to organize backends/ ?  I would move that under
-backends/tpm/
+On Wed, Jun 10, 2020 at 05:53:46PM +0200, Gerd Hoffmann wrote:
+> On Wed, Jun 10, 2020 at 10:54:26AM -0400, Michael S. Tsirkin wrote:
+> > On Wed, Jun 10, 2020 at 01:40:02PM +0200, Igor Mammedov wrote:
+> > > On Wed, 10 Jun 2020 11:41:22 +0200
+> > > Gerd Hoffmann <kraxel@redhat.com> wrote:
+> > > 
+> > > > First batch of microvm patches, some generic acpi stuff.
+> > > > Split the acpi-build.c monster, specifically split the
+> > > > pc and q35 and pci bits into a separate file which we
+> > > > can skip building at some point in the future.
+> > > > 
+> > > It looks like series is missing patch to whitelist changed ACPI tables in
+> > > bios-table-test.
+> > 
+> > Right. Does it pass make check?
+> 
+> No, but after 'git cherry-pick 9b20a3365d73dad4ad144eab9c5827dbbb2e9f21' it does.
 
 
-> Philippe Mathieu-Daud=C3=A9 (8):
->   hw/tpm: Do not include 'qemu/osdep.h' in header
->   hw/tpm: Include missing 'qemu/option.h' header
->   hw/tpm: Move 'hw/acpi/tpm.h' inclusion from header to sources
->   hw/tpm: Remove unnecessary 'tpm_int.h' header inclusion
->   hw/tpm: Move few declarations from 'tpm_util.h' to 'tpm_int.h'
->   hw/tpm: Move DEFINE_PROP_TPMBE() macro to 'tmp_prop.h' local header
->   hw/tpm: Make 'tpm_util.h' publicly accessible as "sysemu/tpm_util.h"
->   tpm: Move backend code under the 'backends/' directory
->
->  Makefile                               |  2 +-
->  {hw/tpm =3D> backends}/tpm_int.h         | 19 +++++++++++---
->  {hw/tpm =3D> backends}/tpm_ioctl.h       |  0
->  hw/tpm/tpm_ppi.h                       |  1 -
->  hw/tpm/tpm_prop.h                      | 31 +++++++++++++++++++++++
->  hw/tpm/tpm_tis.h                       |  1 -
->  {hw/tpm =3D> include/sysemu}/tpm_util.h  | 19 +++-----------
->  {hw/tpm =3D> backends}/tpm_emulator.c    |  2 +-
->  {hw/tpm =3D> backends}/tpm_passthrough.c |  2 +-
->  {hw/tpm =3D> backends}/tpm_util.c        |  2 +-
->  hw/tpm/tpm_crb.c                       |  4 +--
->  hw/tpm/tpm_spapr.c                     |  4 +--
->  hw/tpm/tpm_tis_common.c                |  4 +--
->  hw/tpm/tpm_tis_isa.c                   |  3 ++-
->  hw/tpm/tpm_tis_sysbus.c                |  3 ++-
->  tests/qtest/tpm-emu.c                  |  2 +-
->  MAINTAINERS                            |  2 +-
->  backends/Kconfig                       | 14 +++++++++++
->  backends/Makefile.objs                 |  3 +++
->  backends/trace-events                  | 32 ++++++++++++++++++++++++
->  hw/tpm/Kconfig                         | 15 ------------
->  hw/tpm/Makefile.objs                   |  3 ---
->  hw/tpm/trace-events                    | 34 +-------------------------
->  23 files changed, 116 insertions(+), 86 deletions(-)
->  rename {hw/tpm =3D> backends}/tpm_int.h (81%)
->  rename {hw/tpm =3D> backends}/tpm_ioctl.h (100%)
->  create mode 100644 hw/tpm/tpm_prop.h
->  rename {hw/tpm =3D> include/sysemu}/tpm_util.h (80%)
->  rename {hw/tpm =3D> backends}/tpm_emulator.c (99%)
->  rename {hw/tpm =3D> backends}/tpm_passthrough.c (99%)
->  rename {hw/tpm =3D> backends}/tpm_util.c (99%)
->  create mode 100644 backends/Kconfig
->
-> --
-> 2.21.3
->
->
->
+OK pls post a complete series, ok?
 
---=20
-Marc-Andr=C3=A9 Lureau
+> > > Do we already have test case for microvm in bios-table-test,
+> > > if not it's probably time to add it.
+> > 
+> > Separately :)
+> 
+> Especially as this series is just preparing cleanups and doesn't
+> actually add acpi support to microvm yet.
+> 
+> But, yes, adding a testcase sounds useful.
+> 
+> take care,
+>   Gerd
 
---0000000000004e33b105a7c06b35
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Jun 11, 2020 at 12:03 AM Ph=
-ilippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@redhat.com">philmd@r=
-edhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">Hi,<br>
-<br>
-Today I started to review some vTPM patches and got very<br>
-confused by the files under hw/tpm/. In particular after<br>
-running:<br>
-<br>
-=C2=A0 $ git grep TYPE_TPM_BACKEND<br>
-=C2=A0 backends/tpm.c:188:=C2=A0 =C2=A0 .name =3D TYPE_TPM_BACKEND,<br>
-=C2=A0 hw/tpm/tpm_emulator.c:985:=C2=A0 =C2=A0 .parent =3D TYPE_TPM_BACKEND=
-,<br>
-=C2=A0 hw/tpm/tpm_passthrough.c:393:=C2=A0 =C2=A0 .parent =3D TYPE_TPM_BACK=
-END,<br>
-=C2=A0 include/sysemu/tpm_backend.h:21:#define TYPE_TPM_BACKEND &quot;tpm-b=
-ackend&quot;<br>
-<br>
-As there is no particular reason to keep this mixed, clean it up.<br></bloc=
-kquote><div><br></div><div>While at it, why not start to organize backends/=
- ?=C2=A0 I would move that under backends/tpm/</div><div><br></div><blockqu=
-ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px=
- solid rgb(204,204,204);padding-left:1ex">
-<br>
-Philippe Mathieu-Daud=C3=A9 (8):<br>
-=C2=A0 hw/tpm: Do not include &#39;qemu/osdep.h&#39; in header<br>
-=C2=A0 hw/tpm: Include missing &#39;qemu/option.h&#39; header<br>
-=C2=A0 hw/tpm: Move &#39;hw/acpi/tpm.h&#39; inclusion from header to source=
-s<br>
-=C2=A0 hw/tpm: Remove unnecessary &#39;tpm_int.h&#39; header inclusion<br>
-=C2=A0 hw/tpm: Move few declarations from &#39;tpm_util.h&#39; to &#39;tpm_=
-int.h&#39;<br>
-=C2=A0 hw/tpm: Move DEFINE_PROP_TPMBE() macro to &#39;tmp_prop.h&#39; local=
- header<br>
-=C2=A0 hw/tpm: Make &#39;tpm_util.h&#39; publicly accessible as &quot;sysem=
-u/tpm_util.h&quot;<br>
-=C2=A0 tpm: Move backend code under the &#39;backends/&#39; directory<br>
-<br>
-=C2=A0Makefile=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 2 +-<br>
-=C2=A0{hw/tpm =3D&gt; backends}/tpm_int.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-| 19 +++++++++++---<br>
-=C2=A0{hw/tpm =3D&gt; backends}/tpm_ioctl.h=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=
-=A0 0<br>
-=C2=A0hw/tpm/tpm_ppi.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 1 -<br>
-=C2=A0hw/tpm/tpm_prop.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 | 31 +++++++++++++++++++++++<br>
-=C2=A0hw/tpm/tpm_tis.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 1 -<br>
-=C2=A0{hw/tpm =3D&gt; include/sysemu}/tpm_util.h=C2=A0 | 19 +++-----------<=
-br>
-=C2=A0{hw/tpm =3D&gt; backends}/tpm_emulator.c=C2=A0 =C2=A0 |=C2=A0 2 +-<br=
->
-=C2=A0{hw/tpm =3D&gt; backends}/tpm_passthrough.c |=C2=A0 2 +-<br>
-=C2=A0{hw/tpm =3D&gt; backends}/tpm_util.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=
-=A0 2 +-<br>
-=C2=A0hw/tpm/tpm_crb.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 4 +--<br>
-=C2=A0hw/tpm/tpm_spapr.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 4 +--<br>
-=C2=A0hw/tpm/tpm_tis_common.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 |=C2=A0 4 +--<br>
-=C2=A0hw/tpm/tpm_tis_isa.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0|=C2=A0 3 ++-<br>
-=C2=A0hw/tpm/tpm_tis_sysbus.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 |=C2=A0 3 ++-<br>
-=C2=A0tests/qtest/tpm-emu.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 |=C2=A0 2 +-<br>
-=C2=A0MAINTAINERS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 2 +-<br>
-=C2=A0backends/Kconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 14 +++++++++++<br>
-=C2=A0backends/Makefile.objs=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0|=C2=A0 3 +++<br>
-=C2=A0backends/trace-events=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 | 32 ++++++++++++++++++++++++<br>
-=C2=A0hw/tpm/Kconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 15 ------------<br>
-=C2=A0hw/tpm/Makefile.objs=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0|=C2=A0 3 ---<br>
-=C2=A0hw/tpm/trace-events=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 | 34 +-------------------------<br>
-=C2=A023 files changed, 116 insertions(+), 86 deletions(-)<br>
-=C2=A0rename {hw/tpm =3D&gt; backends}/tpm_int.h (81%)<br>
-=C2=A0rename {hw/tpm =3D&gt; backends}/tpm_ioctl.h (100%)<br>
-=C2=A0create mode 100644 hw/tpm/tpm_prop.h<br>
-=C2=A0rename {hw/tpm =3D&gt; include/sysemu}/tpm_util.h (80%)<br>
-=C2=A0rename {hw/tpm =3D&gt; backends}/tpm_emulator.c (99%)<br>
-=C2=A0rename {hw/tpm =3D&gt; backends}/tpm_passthrough.c (99%)<br>
-=C2=A0rename {hw/tpm =3D&gt; backends}/tpm_util.c (99%)<br>
-=C2=A0create mode 100644 backends/Kconfig<br>
-<br>
--- <br>
-2.21.3<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
-
---0000000000004e33b105a7c06b35--
 
