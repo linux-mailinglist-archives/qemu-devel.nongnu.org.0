@@ -2,76 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F7441F4E0B
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 08:21:16 +0200 (CEST)
-Received: from localhost ([::1]:33034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2BF91F4E24
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 08:25:12 +0200 (CEST)
+Received: from localhost ([::1]:44956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jiu6t-0008UA-Ev
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 02:21:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45994)
+	id 1jiuAh-0005AS-O0
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 02:25:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jitno-0004mO-H2
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 02:01:32 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:33863
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jitxI-0007sX-8L
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 02:11:20 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:55552
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jitnm-0000iD-Su
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 02:01:32 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jitxH-000338-7M
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 02:11:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591768889;
+ s=mimecast20190719; t=1591769477;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ia+jvRh1EcqL1juwYoh5aQ//CUb4lfRirr977ZiPhWk=;
- b=CX77NC2wKO63qjupZa6BnT0LNWOMyuiwlpwTuBiM0rhbG5OMsr62y9O0PBGMYCUuvvFB3Z
- 1CdPhsk4bW3QhA+HaXLBNzE2c5KBL2pwjTjDz3SRvKgGpCWeWno6JEh+Fby6MSui9f8LLo
- clrdYp703vQ7t/aiYQjR4/JgznMAJjg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-209-cnMrL4BtNEu93IrFud8JPA-1; Wed, 10 Jun 2020 02:01:26 -0400
-X-MC-Unique: cnMrL4BtNEu93IrFud8JPA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4A134835B68;
- Wed, 10 Jun 2020 06:01:25 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-121.ams2.redhat.com
- [10.36.112.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DF4AA8928C;
- Wed, 10 Jun 2020 06:01:24 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 6F82211386A6; Wed, 10 Jun 2020 08:01:23 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH 10/16] qdev: Improve netdev property override error a bit
-References: <20200605145625.2920920-1-armbru@redhat.com>
- <20200605145625.2920920-11-armbru@redhat.com>
- <c405aa63-d4b6-741e-90e4-c7df80146d42@redhat.com>
-Date: Wed, 10 Jun 2020 08:01:23 +0200
-In-Reply-To: <c405aa63-d4b6-741e-90e4-c7df80146d42@redhat.com> ("Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Mon, 8 Jun 2020 08:06:08
- +0200")
-Message-ID: <87tuzjjw7g.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ bh=7xVJbzgapHumTZzw41eLtnS/uNwrsbkLhVeL+Tlljxc=;
+ b=MqowPk9orPTyIFlrvziRKAKvjbuAfx4oZCRztct7Y3bg+aZGpbBnG6ba815AUfxMZPDZKS
+ PzQ+mlZ3vSf8z1BgeHOmSZvukb1f2YH1i5BhaweeB2+quTve/m/gxv4EThyx3Cra3ebq80
+ 7uODuR+mkOGwri7OrGnDfCAB7XgcppI=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-89-8u7WKT51NOCpkLU8E5qxyw-1; Wed, 10 Jun 2020 02:11:14 -0400
+X-MC-Unique: 8u7WKT51NOCpkLU8E5qxyw-1
+Received: by mail-wm1-f71.google.com with SMTP id p24so141023wmc.1
+ for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 23:11:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=7xVJbzgapHumTZzw41eLtnS/uNwrsbkLhVeL+Tlljxc=;
+ b=XImczn9+kDnVeVgb4y+QgWCNLEL6fKh2gZcw/WRJJc/zLLfns6V1POJgMIMqKp1EeU
+ C0dtHKKU1VqsjhTGehXfpgBewFnyX29C94vNRygIzOkZdUStJ5gts1n2dCAdZnyhmTiM
+ svsUq5YcG4cPrRwR+w8szSYMDD0K6bsCy/6j9V/v4SO/S7U8SOim4+JYEjC5hCQDqV4e
+ ZAjF8fl0B8x+qe/A/wNVGoei4TlS7ClDwgdcXEPkDDj2bN/lyEfJUnfXm5YCo7mA+dGa
+ vSl2iFK1AX4sWxnjVtdECfjrHVL3mgq5/m8U8moWD2gy5fyVGimNCAUO6xDana3jojPa
+ BH5w==
+X-Gm-Message-State: AOAM533dMol4JPvycwiPF0cpplpeC+FlP5YB0uuBHAuxNeRxFg9hv9DY
+ VSU+lcCs7mrPOrrezc2VriPpmTbNOx3ElboE9CwgFG6qFLjVmuJbdOwMVIlF3DSfIOwcB6jNKz8
+ wL26WCmKxFkGMfo8=
+X-Received: by 2002:adf:e749:: with SMTP id c9mr1835922wrn.25.1591769473074;
+ Tue, 09 Jun 2020 23:11:13 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyyrXBK9iTGF63NevDsMQC2I1K2EbL01ghgD7FzaBVeUtAulUqB3HGqIIZsSi3JnxkR9sz5lw==
+X-Received: by 2002:adf:e749:: with SMTP id c9mr1835877wrn.25.1591769472711;
+ Tue, 09 Jun 2020 23:11:12 -0700 (PDT)
+Received: from redhat.com (bzq-79-181-55-232.red.bezeqint.net. [79.181.55.232])
+ by smtp.gmail.com with ESMTPSA id 30sm6615267wrd.47.2020.06.09.23.11.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 09 Jun 2020 23:11:12 -0700 (PDT)
+Date: Wed, 10 Jun 2020 02:11:08 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Jason Wang <jasowang@redhat.com>
+Subject: Re: [PATCH v2 4/7] vhost: involve device backends in feature
+ negotiation
+Message-ID: <20200610020908-mutt-send-email-mst@kernel.org>
+References: <20200609170218.246468-1-stefanha@redhat.com>
+ <20200609170218.246468-5-stefanha@redhat.com>
+ <20200609135007-mutt-send-email-mst@kernel.org>
+ <37ac3fbb-9a9b-9290-abee-a8603c81925c@redhat.com>
+ <20200610001156-mutt-send-email-mst@kernel.org>
+ <1e503661-0652-b0dc-f900-8cd9aca2ccb8@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <1e503661-0652-b0dc-f900-8cd9aca2ccb8@redhat.com>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 21:17:20
+Content-Transfer-Encoding: 8bit
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 23:22:15
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,251 +100,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
- qemu-block@nongnu.org, Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
- mreitz@redhat.com, pbonzini@redhat.com, jsnow@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-block@nongnu.org, Laurent Vivier <lvivier@redhat.com>, cohuck@redhat.com,
+ qemu-devel@nongnu.org, Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+On Wed, Jun 10, 2020 at 01:53:57PM +0800, Jason Wang wrote:
+> 
+> On 2020/6/10 下午12:15, Michael S. Tsirkin wrote:
+> > On Wed, Jun 10, 2020 at 11:21:50AM +0800, Jason Wang wrote:
+> > > On 2020/6/10 上午2:07, Michael S. Tsirkin wrote:
+> > > > > +/*
+> > > > > + * Default vhost_get_features() feature bits for existing device types that do
+> > > > > + * not define their own.
+> > > > > + *
+> > > > > + * This is a workaround for existing device types, do not use this in new vhost
+> > > > > + * device types. Explicitly define a list of feature bits instead.
+> > > > > + *
+> > > > > + * The following feature bits are excluded because libvhost-user device
+> > > > > + * backends did not advertise them for a long time. Therefore we cannot detect
+> > > > > + * their presence. Instead we assume they are always supported by the device
+> > > > > + * backend:
+> > > > > + * VIRTIO_F_NOTIFY_ON_EMPTY
+> > > > > + * VIRTIO_F_ANY_LAYOUT
+> > > > > + * VIRTIO_F_VERSION_1
+> > > > > + * VIRTIO_RING_F_INDIRECT_DESC
+> > > > > + * VIRTIO_RING_F_EVENT_IDX
+> > > > Weird. I remember that it's common for vhost-user not to set
+> > > > VIRTIO_RING_F_INDIRECT_DESC - they have huge queues so
+> > > > don't need it and inline descriptors give them better
+> > > > performance.
+> > > > 
+> > > > So what's going on here?
+> > > 
+> > > I guess one reason is to support live migration between vhost-user and
+> > > vhost-net.
+> > > 
+> > > Thanks
+> > > 
+> > But how can we force-enable features backend doesn't want to enable?
+> 
+> 
+> We can't and the code just forces qemu to validate
+> VIRTIO_RING_F_INDIRECT_DESC for each vhost backends instead of assuming the
+> support silently.
+> 
+> Thanks
 
-> On 6/5/20 4:56 PM, Markus Armbruster wrote:
->> qdev_prop_set_netdev() fails when the property already has a non-null
->> value.  Seems to go back to commit 30c367ed44
->> "qdev-properties-system.c: Allow vlan or netdev for -device, not
->> both", v1.7.0.  Board code doesn't expect failure, and crashes:
->>=20
->>     $ qemu-system-x86_64 --nodefaults -nic user -netdev user,id=3Dnic0 -=
-global e1000.netdev=3Dnic0
->>     Unexpected error in error_set_from_qdev_prop_error() at /work/armbru=
-/qemu/hw/core/qdev-properties.c:1101:
->>     qemu-system-x86_64: Property 'e1000.netdev' doesn't take value '__or=
-g.qemu.nic0
->>     '
->>     Aborted (core dumped)
->>=20
->> -device and device_add handle the failure:
->>=20
->>     $ qemu-system-x86_64 -nodefaults -netdev user,id=3Dnet0 -netdev user=
-,id=3Dnet1 -device e1000,netdev=3Dnet0,netdev=3Dnet1
->>     qemu-system-x86_64: -device e1000,netdev=3Dnet0,netdev=3Dnet1: Prope=
-rty 'e1000.netdev' doesn't take value 'net1'
->>     $ qemu-system-x86_64 -nodefaults -S -display none -monitor stdio -ne=
-tdev user,id=3Dnet0 -netdev user,id=3Dnet1 -global e1000.netdev=3Dnet0
->>     QEMU 5.0.50 monitor - type 'help' for more information
->>     (qemu) qemu-system-x86_64: warning: netdev net0 has no peer
->>     qemu-system-x86_64: warning: netdev net1 has no peer
->>     device_add e1000,netdev=3Dnet1
->>     Error: Property 'e1000.netdev' doesn't take value 'net1'
->
-> If patch accepted as it, might be worth Cc'ing qemu-stable@.
+So why does the comment above say:
 
-Not sure it's worthwhile.  It's just an error message, and nobody
-complained so far.
+     Instead we assume they are always supported by the device backend
 
->> Perhaps netdev property override could be made to work.  Perhaps it
->> should.  I'm not the right guy to figure this out.  What I can do is
->> improve the error message a bit:
->>=20
->>     (qemu) device_add e1000,netdev=3Dnet1
->>     Error: -global e1000.netdev=3D... conflicts with netdev=3Dnet1
->>=20
->> Cc: Jason Wang <jasowang@redhat.com>
->> Signed-off-by: Markus Armbruster <armbru@redhat.com>
->> ---
->>  include/hw/qdev-properties.h     |  2 ++
->>  hw/core/qdev-properties-system.c | 30 +++++++++++++++++++++++++++---
->>  hw/core/qdev-properties.c        | 17 +++++++++++++++++
->>  3 files changed, 46 insertions(+), 3 deletions(-)
->>=20
->> diff --git a/include/hw/qdev-properties.h b/include/hw/qdev-properties.h
->> index f161604fb6..566419f379 100644
->> --- a/include/hw/qdev-properties.h
->> +++ b/include/hw/qdev-properties.h
->> @@ -248,6 +248,8 @@ void qdev_prop_set_macaddr(DeviceState *dev, const c=
-har *name,
->>  void qdev_prop_set_enum(DeviceState *dev, const char *name, int value);
->> =20
->>  void qdev_prop_register_global(GlobalProperty *prop);
->> +const GlobalProperty *qdev_find_global_prop(DeviceState *dev,
->> +                                            const char *name);
->>  int qdev_prop_check_globals(void);
->>  void qdev_prop_set_globals(DeviceState *dev);
->>  void error_set_from_qdev_prop_error(Error **errp, int ret, DeviceState =
-*dev,
->> diff --git a/hw/core/qdev-properties-system.c b/hw/core/qdev-properties-=
-system.c
->> index 9aa80495ee..20fd58e8f9 100644
->> --- a/hw/core/qdev-properties-system.c
->> +++ b/hw/core/qdev-properties-system.c
->> @@ -25,6 +25,28 @@
->>  #include "sysemu/iothread.h"
->>  #include "sysemu/tpm_backend.h"
->> =20
->> +static bool check_non_null(DeviceState *dev, const char *name,
->
-> I see this is a static qdev function, but can we have a name that
-> better match the content? Maybe qdev_global_prop_exists()?
 
-Use of -global is one way to make it fail.  Another is duplicated key in
--device (but not device_add).  I believe no third way exists.  The
-function sets a specific error when it finds -global, else a vague
-error.
 
-check_prop_still_unset()?
 
->> +                           const void *old_val, const char *new_val,
->> +                           Error **errp)
->> +{
->> +    const GlobalProperty *prop =3D qdev_find_global_prop(dev, name);
->> +
->> +    if (!old_val) {
->> +        return true;
->> +    }
->> +
->> +    if (prop) {
->> +        error_setg(errp, "-global %s.%s=3D... conflicts with %s=3D%s",
->> +                   prop->driver, prop->property, name, new_val);
->> +    } else {
->> +        /* Error message is vague, but a better one would be hard */
->> +        error_setg(errp, "%s=3D%s conflicts, and override is not implem=
-ented",
->> +                   name, new_val);
->> +    }
->> +    return false;
->> +}
->> +
->> +
->>  /* --- drive --- */
->> =20
->>  static void get_drive(Object *obj, Visitor *v, const char *name, void *=
-opaque,
->> @@ -299,14 +321,16 @@ static void set_netdev(Object *obj, Visitor *v, co=
-nst char *name,
->>      }
->> =20
->>      for (i =3D 0; i < queues; i++) {
->> -
->>          if (peers[i]->peer) {
->>              err =3D -EEXIST;
->>              goto out;
->>          }
->> =20
->> -        if (ncs[i]) {
->> -            err =3D -EINVAL;
->> +        /*
->> +         * TODO Should this really be an error?  If no, the old value
->> +         * needs to be released before we store the new one.
->> +         */
->> +        if (!check_non_null(dev, name, ncs[i], str, errp)) {
->>              goto out;
->>          }
->> =20
->> diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
->> index cc924815da..8c8beb56b2 100644
->> --- a/hw/core/qdev-properties.c
->> +++ b/hw/core/qdev-properties.c
->> @@ -1181,6 +1181,23 @@ void qdev_prop_register_global(GlobalProperty *pr=
-op)
->>      g_ptr_array_add(global_props(), prop);
->>  }
->> =20
->> +const GlobalProperty *qdev_find_global_prop(DeviceState *dev,
->> +                                            const char *name)
->
-> Do you mind splitting this patch in 2? Adding qdev_find_global_prop
-> first, then using it to avoid the crash.
-
->
->> +{
->> +    GPtrArray *props =3D global_props();
->> +    const GlobalProperty *p;
->> +    int i;
->> +
->> +    for (i =3D 0; i < props->len; i++) {
->> +        p =3D g_ptr_array_index(props, i);
->> +        if (object_dynamic_cast(OBJECT(dev), p->driver)
->> +            && !strcmp(p->property, name)) {
->
-> Laszlo pointed out elsewhere this doesn't match our CODING_STYLE.rst:
->
-> Multiline Indent
-> ----------------
-  [...]
-  In case of if/else, while/for, align the secondary lines just after the
-  opening parenthesis of the first.
-
-> For example:
->
-> .. code-block:: c
->
->     if (a =3D=3D 1 &&
->         b =3D=3D 2) {
->
->     while (a =3D=3D 1 &&
->            b =3D=3D 2) {
-
-This is about how much to indent, not where to break the line.
-
-Existing practice is inconsistent.
-
-> I prefer the style you used, it looks safer. Eric once explained why
-> it is safer but I can't find his rationals anymore. I'll keep
-> searching to suggest a CODING_STYLE update.
-
-For what it's worth, Python's PEP 8:
-
-    Should a Line Break Before or After a Binary Operator?
-
-    For decades the recommended style was to break after binary
-    operators.  But this can hurt readability in two ways: the operators
-    tend to get scattered across different columns on the screen, and
-    each operator is moved away from its operand and onto the previous
-    line.  Here, the eye has to do extra work to tell which items are
-    added and which are subtracted:
-
-    # Wrong:
-    # operators sit far away from their operands
-    income =3D (gross_wages +
-              taxable_interest +
-              (dividends - qualified_dividends) -
-              ira_deduction -
-              student_loan_interest)
-
-    To solve this readability problem, mathematicians and their
-    publishers follow the opposite convention.  Donald Knuth explains
-    the traditional rule in his Computers and Typesetting series:
-    "Although formulas within a paragraph always break after binary
-    operations and relations, displayed formulas always break before
-    binary operations" [3].
-
-    Following the tradition from mathematics usually results in more
-    readable code:
-
-    # Correct:
-    # easy to match operators with operands
-    income =3D (gross_wages
-              + taxable_interest
-              + (dividends - qualified_dividends)
-              - ira_deduction
-              - student_loan_interest)
-
-    In Python code, it is permissible to break before or after a binary
-    operator, as long as the convention is consistent locally.  For new
-    code Knuth's style is suggested.
-
-https://www.python.org/dev/peps/pep-0008/#should-a-line-break-before-or-aft=
-er-a-binary-operator
-
->> +            return p;
->> +        }
->> +    }
->> +    return NULL;
->> +}
->> +
->>  int qdev_prop_check_globals(void)
->>  {
->>      int i, ret =3D 0;
->>=20
+> 
+> > This may or may not break backends ...
+> > I would rather just be strict and ask backends to fix their feature
+> > bits. See user_feature_bits in hw/net/vhost-net.c which supports
+> > all these features.
+> > 
 
 
