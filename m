@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8C361F5E46
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 00:21:46 +0200 (CEST)
-Received: from localhost ([::1]:60932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A627F1F5E4A
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 00:23:38 +0200 (CEST)
+Received: from localhost ([::1]:39860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jj96P-0004HH-NY
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 18:21:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39928)
+	id 1jj98D-0007Dt-Jc
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 18:23:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jj8uV-000627-PY; Wed, 10 Jun 2020 18:09:27 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:45380)
- by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jj8uU-0008IU-Sh; Wed, 10 Jun 2020 18:09:27 -0400
-Received: by mail-wr1-x444.google.com with SMTP id c3so4017611wru.12;
- Wed, 10 Jun 2020 15:09:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=RyB5laGZqcuqh7DkQBAguo9SE2App1lOHf/woViMpfs=;
- b=m6VDRoh24NuIfYk49TALjWMJFVIz2tQJV/MZC9AMKkW3Lwx7p+8BJPboXA+aeFMI+4
- mzlvdOn/HgKF3b1LtJ3V4NjXZeu5xRHLcANfORioMwadU5pC0PvUEiDcbF7ClzOsjmnI
- vD/agkF3oU8fnLPaRqnxz5OZDrGDOm46q0V5WXxnBcOlpc6EqDwhMhrx4tqsCbXcaxs1
- sSN8eUyKyE9msipA1aQTMyHyz6J/0yO+InBYotOx1oLi94BIIalRr5Qhvv4eM0IXaCNc
- Yk78A6wKNTYg/wrDw4X/xrFZGCRvX26qQC+z56s+X/fMPY4zeJDV+uWgYAulm9mQkQ4J
- yM9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=RyB5laGZqcuqh7DkQBAguo9SE2App1lOHf/woViMpfs=;
- b=VSyw+KMyfMiLD0ruoZASPD0NfWayLxZOuPat7Kt1RW9ix6R9AIc7pL/fkcSrjinPBC
- RtDpEiYvDoydEud+BLl5ScF91mgmrVZzbwckQVzj8rV53Wpah9n7rFBniam5huJ8sMeK
- tEswCNV5JgFD9CQyaJbOTxYnvublDG+vudq6T4wqVJL83hDwokbYAtD5O+Cw0SH4SkAu
- n7dflXB6uqA+YgEB6fI34rQ9vlkbP6/nxIoeYkL0vz3FTqQtBi9Wsw1aPLE0skDauiDD
- PgwHsbgNr8KgIPT1i5YWKsSThwEHYwfnTVtTaey+t97/laxHdgC7q9GhAWPSbLx1G+tX
- g+Rw==
-X-Gm-Message-State: AOAM532koU8ms52B4WhpnMx2n+6KE0mVkjXPW7EA1fxXoy7IBoc3dseZ
- BkVBTJ7qLijHudT2YtbyfrdV/61J
-X-Google-Smtp-Source: ABdhPJyhxn4FbSBu0/HOZzfQhjrkx/vXGESZAfcIkGgSlDavlKVPA/ybaDbB5zE+Z+AUrwLzWJxb0w==
-X-Received: by 2002:adf:f0c6:: with SMTP id x6mr6381188wro.301.1591826953292; 
- Wed, 10 Jun 2020 15:09:13 -0700 (PDT)
-Received: from x1w.redhat.com (181.red-88-10-103.dynamicip.rima-tde.net.
- [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id 40sm1819354wrc.15.2020.06.10.15.09.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Jun 2020 15:09:12 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 11/11] .travis.yml: Test SH4 QEMU advent calendar image
-Date: Thu, 11 Jun 2020 00:08:53 +0200
-Message-Id: <20200610220853.8558-12-f4bug@amsat.org>
-X-Mailer: git-send-email 2.21.3
-In-Reply-To: <20200610220853.8558-1-f4bug@amsat.org>
-References: <20200610220853.8558-1-f4bug@amsat.org>
+ (Exim 4.90_1)
+ (envelope-from <prvs=4234ccaf3=alistair.francis@wdc.com>)
+ id 1jj95u-0004Ki-0G; Wed, 10 Jun 2020 18:21:14 -0400
+Received: from esa1.hgst.iphmx.com ([68.232.141.245]:59124)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <prvs=4234ccaf3=alistair.francis@wdc.com>)
+ id 1jj95s-000237-5K; Wed, 10 Jun 2020 18:21:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1591827671; x=1623363671;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=9bD3QKWUr5LwbqJAQBdeqwpAm4nMqwx4Rcj7yirIh6Y=;
+ b=B2miHGniKtUzHgoa6rHxtlac8GKxZWv6pIV21zx9Zhc9lBodeC1rrQtC
+ dgOsAaChGLy0C1pEKpIKDYOSPf8YIrWUToTbf+EmKQluViWQ7nuUkScLZ
+ zGad+vDdNBxfquvXRCx1+z/8fTkcbKxG/g3n5sxqTNO+qkNLd7QbkflXA
+ NZ/B74sGAT9jg2QxaZ3qQHjZhMBep56m1FyRvFdY/dhjmzEUSdX4LdqpL
+ +D+IE5r8qVOG5POii/y96Xe1TtGT8MH6GW/4m3oeiUqwxY3FvHaLi8pyX
+ YTNqp96ltGE10ZaAxwI7iRtsy0s5pukv1+BRl+CAgV7o6WnrgW8Iot6uM w==;
+IronPort-SDR: WW8xMXxV6yB//Hr05R8Y/FdqdsQug6qQWGUgTudBTpCgqIeILhc+C7WpdkCDNm7eRHu70qidiv
+ luboDhnwWyljUAkGmczCf7pU9+Sy7Ehx5PbJFQS+/K8Q/JV1lcahwoM0nTrZjRbKRx1jew9Tyk
+ LYDKCmrwuTP5WQJI0rZQDBSFaIcvH68eM1Rj7W76pKifYIDVWM8rN3PhHWbiOxdKMP7kCiGDe5
+ 5FJnhkZ5pcCdmYSho5fh/nuM7O1md3rZrjnnrc12AuV0idE+voipjVUk8saLEtvKmJ+CsLI/+/
+ m5U=
+X-IronPort-AV: E=Sophos;i="5.73,497,1583164800"; d="scan'208";a="248819305"
+Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 11 Jun 2020 06:21:05 +0800
+IronPort-SDR: rojVYqLLuCpys4+s6mewY5hqayIiEwNJKLJikeQUlTpG+zglSDlnsEZgfDwh6K3o1vvbXSoCwu
+ +pGx9d4t1nrEMSxQrxDTqgQTLIB5eWTBg=
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Jun 2020 15:10:31 -0700
+IronPort-SDR: zp3Ed/5IYkYhE+L/rju4LJzXZm4JbNssRwmRIJxOk8/W/7vrxpl1ECNS3Ruoi1BoisXPYTH3IG
+ kJljxZ3MrJjQ==
+WDCIronportException: Internal
+Received: from us4qd5p12.ad.shared (HELO risc6-mainframe.hgst.com)
+ ([10.86.58.34])
+ by uls-op-cesaip02.wdc.com with ESMTP; 10 Jun 2020 15:21:05 -0700
+From: Alistair Francis <alistair.francis@wdc.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH v6 0/6]  RISC-V Add the OpenTitan Machine
+Date: Wed, 10 Jun 2020 15:12:08 -0700
+Message-Id: <cover.1591827110.git.alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Received-SPF: pass client-ip=68.232.141.245;
+ envelope-from=prvs=4234ccaf3=alistair.francis@wdc.com;
+ helo=esa1.hgst.iphmx.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/10 18:21:06
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,47 +85,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
- Magnus Damm <magnus.damm@gmail.com>,
- Yoshinori Sato <ysato@users.sourceforge.jp>, qemu-trivial@nongnu.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: alistair.francis@wdc.com, palmer@dabbelt.com, alistair23@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+OpenTitan is an open source silicon Root of Trust (RoT) project. This
+series adds initial support for the OpenTitan machine to QEMU.
 
-Now that we can select the second serial console in the acceptance tests
-(see commit 746f244d9720 "Allow to use other serial consoles than default"),
-we can also test the sh4 image from the QEMU advent calendar 2018.
+This series add the Ibex CPU to the QEMU RISC-V target. It then adds the
+OpenTitan machine, the Ibex UART and the Ibex PLIC.
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20200515164337.4899-1-thuth@redhat.com>
-[PMD: Split tests/acceptance/boot_linux_console.py in previous commit]
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- .travis.yml | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The UART has been tested sending and receiving data.
 
-diff --git a/.travis.yml b/.travis.yml
-index 564be50a3c..e2003565d8 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -293,7 +293,7 @@ jobs:
-     - name: "GCC check-acceptance"
-       dist: bionic
-       env:
--        - CONFIG="--enable-tools --target-list=aarch64-softmmu,alpha-softmmu,arm-softmmu,m68k-softmmu,microblaze-softmmu,mips-softmmu,mips64el-softmmu,nios2-softmmu,or1k-softmmu,ppc-softmmu,ppc64-softmmu,s390x-softmmu,sparc-softmmu,x86_64-softmmu,xtensa-softmmu"
-+        - CONFIG="--enable-tools --target-list=aarch64-softmmu,alpha-softmmu,arm-softmmu,m68k-softmmu,microblaze-softmmu,mips-softmmu,mips64el-softmmu,nios2-softmmu,or1k-softmmu,ppc-softmmu,ppc64-softmmu,s390x-softmmu,sh4-softmmu,sparc-softmmu,x86_64-softmmu,xtensa-softmmu"
-         - TEST_CMD="make check-acceptance"
-         - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-acceptance"
-       after_script:
+With this series QEMU can boot the OpenTitan ROM, Tock OS and a Tock
+userspace app.
+
+The Ibex PLIC is similar to the RISC-V PLIC (and is based on the QEMU
+implementation) with some differences. The hope is that the Ibex PLIC
+will converge to follow the RISC-V spec. As that happens I want to
+update the QEMU Ibex PLIC and hopefully eventually replace the current
+PLIC as the implementation is a little overlay complex.
+
+For more details on OpenTitan, see here: https://docs.opentitan.org/
+
+v6:
+ - Rebase on master (some patches applied)
+ - Fix the ROM address
+v5:
+ - Add some of the missing unimplemented devices
+ - Don't set PMP feature in init() function
+v4:
+ - Don't set the reset vector in realise
+ - Fix a bug where the MMU is always enabled
+ - Fixup the PMP/MMU size logic
+v3:
+ - Small fixes pointed out in review
+v2:
+ - Rebase on master
+ - Get uart receive working
+
+
+
+Alistair Francis (6):
+  riscv/opentitan: Fix the ROM size
+  hw/char: Initial commit of Ibex UART
+  hw/intc: Initial commit of lowRISC Ibex PLIC
+  riscv/opentitan: Connect the PLIC device
+  riscv/opentitan: Connect the UART device
+  target/riscv: Use a smaller guess size for no-MMU PMP
+
+ include/hw/char/ibex_uart.h  | 110 ++++++++
+ include/hw/intc/ibex_plic.h  |  63 +++++
+ include/hw/riscv/opentitan.h |  16 ++
+ hw/char/ibex_uart.c          | 492 +++++++++++++++++++++++++++++++++++
+ hw/intc/ibex_plic.c          | 261 +++++++++++++++++++
+ hw/riscv/opentitan.c         |  45 +++-
+ target/riscv/pmp.c           |  14 +-
+ MAINTAINERS                  |   4 +
+ hw/char/Makefile.objs        |   1 +
+ hw/intc/Makefile.objs        |   1 +
+ hw/riscv/Kconfig             |   4 +
+ 11 files changed, 1001 insertions(+), 10 deletions(-)
+ create mode 100644 include/hw/char/ibex_uart.h
+ create mode 100644 include/hw/intc/ibex_plic.h
+ create mode 100644 hw/char/ibex_uart.c
+ create mode 100644 hw/intc/ibex_plic.c
+
 -- 
-2.21.3
+2.26.2
 
 
