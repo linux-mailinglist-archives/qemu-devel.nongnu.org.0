@@ -2,80 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93B841F5879
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 17:59:04 +0200 (CEST)
-Received: from localhost ([::1]:42786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDFDE1F587B
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 17:59:34 +0200 (CEST)
+Received: from localhost ([::1]:44858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jj383-0000SY-Kl
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 11:59:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56004)
+	id 1jj38X-0001OR-Rm
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 11:59:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jj34d-0003mx-8J
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 11:55:31 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:37657)
+ (Exim 4.90_1) (envelope-from <dme@dme.org>) id 1jj36u-0008Mr-TB
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 11:57:52 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:38181)
  by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jj34b-0005E3-3A
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 11:55:30 -0400
-Received: by mail-wm1-x344.google.com with SMTP id y20so2304675wmi.2
- for <qemu-devel@nongnu.org>; Wed, 10 Jun 2020 08:55:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=K5O4iBO+Gb4CYP2dkK+QNloWbTQMSg+bPZS/dhOJAdk=;
- b=fygIBSJif8rAz2tfkD2LV5/qVawnF4VGcqNjenqgnS/2a7qqPnbdIo5OBvKTPVUdrx
- n/iPYFLHqbEkVnNO/foyYEccEnlZWyHrkS6EJtfqp9Ens/4wgfev2sami2BQCFj6eJzm
- VSkWeUeCDRVirJXPq4nE0NmkKu/fVj4IVKk1A9aajLghfiPlnjd+PNA9x2iSgJ0WRXRz
- zeIvoY/FkLi/Fmszloz1ReKBAqYMOplPVc92I75CVoVZu04P2tNDYMx/2F2vzFEaySe2
- UcQLg4eg7uI9iKlH2RUxB4Q5o6a2m4lcSm7dz7oLwSB6tT8LXnxTfb1dS2vNKHRjFUjf
- 9KIQ==
+ (Exim 4.90_1) (envelope-from <dme@dme.org>) id 1jj36q-0005nO-S6
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 11:57:52 -0400
+Received: by mail-wm1-x332.google.com with SMTP id f185so2307098wmf.3
+ for <qemu-devel@nongnu.org>; Wed, 10 Jun 2020 08:57:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=dme-org.20150623.gappssmtp.com; s=20150623;
+ h=to:cc:subject:in-reply-to:references:from:date:message-id
+ :mime-version; bh=4iHLLkaTMw+Fs7Tw3i/Ez9jjSoP1kgzn2esxGEAE0/M=;
+ b=dzt9HczAPIZW+kfU7QRkt/ZxbbbXZuAxnE/gApJRiHeRVIbeI5lthWmkDu54zIfdIv
+ eQ4zG47Wt5vOHxHDkU+/DKo0TPn+XRVnvuRTI+/NNmFFzgwkK0nJ41fG8rBKdd207Uns
+ iLav7Ehgkjvf/JUWHEiWFP4JAf/xMKHHZLcJsb3xXEyqrvNQvzjpPIRNYAuruKGp05Q6
+ 17ZnbHefgd3LI0qaOBs4TvPusy+lqtlSGMdzit8BSD03KjjAWsYRCa0CMoIyPK0toIRt
+ 0a6zfZclhW8L9iPqSxU6Gl7do03AHMVvKRmWDkgNXHwAH9M+CT7PPZnlgzqm4nzyqOLM
+ wXuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=K5O4iBO+Gb4CYP2dkK+QNloWbTQMSg+bPZS/dhOJAdk=;
- b=kHV3x10jW8Rj1qHBNRLLXLwlGk7uuujFCPkdJyUXwZHY/HRUn1+z+VBLL8+dedovNz
- 45o5gqOnoAmucMp9igmDn+RpLYbjVly9Km04L0WvnvJzvjWL2vVHgTmN51ygvZ2VQJxK
- oNJqpT2S/kKZIwS5w1g0gLG9rBT59XBBPKdjlWUe1K+JSRpkEFPY4ArpoKk9iQC98l7b
- wlUDzGbnmKkR7zCy9YiBTFJGiKa7t+Sla8CquYX53aQ41IV275hzRAw8T39Xg8zwDc5u
- sf8mq5zsrdeWjzd+us6+lgagFgZM/S8fgVuasWrwIqEiQMaMNUADYTTw6hi/cZZ939An
- p7oQ==
-X-Gm-Message-State: AOAM531A6TJAt15MEFFnh7ZBmqzzX4ENUYSbRjNE50XFiwmrwW4fsPHm
- GeDkFGaJoy46goOtxTYybCZKxsAiOUE=
-X-Google-Smtp-Source: ABdhPJwWEQcuBbKrM/5m0J8DW22Nsjvfy5FUKPZK1/uj2SmLgOUJ6oARcavZcYO9xqczuv8bjmMquA==
-X-Received: by 2002:a1c:5411:: with SMTP id i17mr3982718wmb.137.1591804519629; 
- Wed, 10 Jun 2020 08:55:19 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id o8sm182467wmb.20.2020.06.10.08.55.13
+ h=x-gm-message-state:to:cc:subject:in-reply-to:references:from:date
+ :message-id:mime-version;
+ bh=4iHLLkaTMw+Fs7Tw3i/Ez9jjSoP1kgzn2esxGEAE0/M=;
+ b=Xv3OII3Y04XdIyQQ02z2cRYATpaFxfXdKrSNQkGFDrQaJcNz8ynP3aCuKHzhg0n9TT
+ sugiPgggWDmjSsNr70ff27nfOgQtkB+AN+necAqtP6xUYWp1H8UJzqK2NN1lCrOa/3Sx
+ hiExgsjuRblmJJhG9MhHyaXAK2Dj2xIXC7jalC8i7tq1lBIJ5k979cr2lGxpOJL055k4
+ BGj2ewLvTekJzpvsZ92zorwRWidV1p15MynxldjlNFDVTb0pHQBMqafIIDXl8w6UXDB8
+ QwHWYZbnyrhg6TqUQW4aMe3J3YnHfC+aWWDLVeT/iGGsOyuFOCPESG5VED9N/uUEwP8L
+ /Pfw==
+X-Gm-Message-State: AOAM531VLTDPT9ofmuEFHmaG/oDcUSdI15QZsDMZ4NUA5OBkKe6iRn0A
+ YFeNggoiTp4KQCqhziz+i8mS9r2QxeDX7fvA
+X-Google-Smtp-Source: ABdhPJyXBvaaQ4sGafET9iJQ6aDXPN0RPVjRme3q8NuLYaciya5OinmCDC0ABWJwwNJeOj06lIhyOg==
+X-Received: by 2002:a1c:7517:: with SMTP id o23mr3722367wmc.7.1591804666952;
+ Wed, 10 Jun 2020 08:57:46 -0700 (PDT)
+Received: from disaster-area.hh.sledj.net (disaster-area.hh.sledj.net.
+ [2001:8b0:bb71:7140:64::1])
+ by smtp.gmail.com with ESMTPSA id p9sm140774wma.48.2020.06.10.08.57.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Jun 2020 08:55:18 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 62D901FF91;
- Wed, 10 Jun 2020 16:55:10 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH  v2 5/6] plugins: add API to return a name for a IO device
-Date: Wed, 10 Jun 2020 16:55:08 +0100
-Message-Id: <20200610155509.12850-6-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200610155509.12850-1-alex.bennee@linaro.org>
-References: <20200610155509.12850-1-alex.bennee@linaro.org>
+ Wed, 10 Jun 2020 08:57:46 -0700 (PDT)
+Received: from localhost (disaster-area.hh.sledj.net [local])
+ by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id 82013950;
+ Wed, 10 Jun 2020 15:57:45 +0000 (UTC)
+To: Eric Blake <eblake@redhat.com>, Sam Eiderman <sameid@google.com>, Kevin
+ Wolf <kwolf@redhat.com>
+Subject: Re: Clarification regarding new qemu-img convert --target-is-zero flag
+In-Reply-To: <999a1a74-d082-bcdb-e3f9-6c44b2526433@redhat.com>
+References: <CAFr6bU=LjeW5_eGtwL38cher2TM52skohuANNXN9EpO+mA-z8Q@mail.gmail.com>
+ <m2imfz877v.fsf@dme.org>
+ <CAFr6bUk5LrEL8BPXYkNOqj_jsbxHBfbj_NYryUjszMtG89L+2w@mail.gmail.com>
+ <20200610140620.GE6947@linux.fritz.box>
+ <CAFr6bU=aD=AXnoR-qSdQtQC690FYFqFsDRHHGxdUDkTh2ho1cA@mail.gmail.com>
+ <CAFr6bUksp1Nm4nL69na5WDj6A5iXzwcc4K3=JNnyP4xZ+HKJHA@mail.gmail.com>
+ <m2bllr7wrg.fsf@dme.org> <999a1a74-d082-bcdb-e3f9-6c44b2526433@redhat.com>
+X-HGTTG: heart-of-gold
+From: David Edmondson <dme@dme.org>
+Date: Wed, 10 Jun 2020 16:57:45 +0100
+Message-ID: <m28sgu9ame.fsf@dme.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x344.google.com
+Content-Type: text/plain
+Received-SPF: neutral client-ip=2a00:1450:4864:20::332;
+ envelope-from=dme@dme.org; helo=mail-wm1-x332.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ T_SPF_TEMPERROR=0.01, UNPARSEABLE_RELAY=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,78 +92,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: robert.foley@linaro.org, robhenry@microsoft.com,
- aaron@os.amperecomputing.com, cota@braap.org, kuhn.chenqun@huawei.com,
- peter.puhov@linaro.org, Clement Deschamps <clement.deschamps@greensocs.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Tony Zhang <tzz@google.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This may well end up being anonymous but it should always be unique.
+On Wednesday, 2020-06-10 at 10:48:52 -05, Eric Blake wrote:
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-[r-b provisional given change to g_intern_string]
-Reviewed-by: Clement Deschamps <clement.deschamps@greensocs.com>
-Reviewed-by: Emilio G. Cota <cota@braap.org>
+> On 6/10/20 10:42 AM, David Edmondson wrote:
+>> On Wednesday, 2020-06-10 at 18:29:33 +03, Sam Eiderman wrote:
+>> 
+>>> Excuse me,
+>>>
+>>> Vladimir already pointed out in the first comment that it will skip
+>>> writing real zeroes later.
+>> 
+>> Right. That's why you want something like "--no-need-to-zero-initialise"
+>> (the name keeps getting longer!), which would still write zeroes to the
+>> blocks that should contain zeroes, as opposed to writing zeroes to
+>> prepare the device.
+>
+> Or maybe something like:
+>
+> qemu-img convert --skip-unallocated
 
----
-v3
-  - return a non-freeable const g_intern_string()
-  - checkpatch cleanups
----
- include/qemu/qemu-plugin.h |  6 ++++++
- plugins/api.c              | 20 ++++++++++++++++++++
- 2 files changed, 26 insertions(+)
+This seems fine.
 
-diff --git a/include/qemu/qemu-plugin.h b/include/qemu/qemu-plugin.h
-index bab8b0d4b3a..c98c18d6b05 100644
---- a/include/qemu/qemu-plugin.h
-+++ b/include/qemu/qemu-plugin.h
-@@ -335,6 +335,12 @@ struct qemu_plugin_hwaddr *qemu_plugin_get_hwaddr(qemu_plugin_meminfo_t info,
- bool qemu_plugin_hwaddr_is_io(const struct qemu_plugin_hwaddr *haddr);
- uint64_t qemu_plugin_hwaddr_device_offset(const struct qemu_plugin_hwaddr *haddr);
- 
-+/*
-+ * Returns a string representing the device. The string is valid for
-+ * the lifetime of the plugin.
-+ */
-+const char *qemu_plugin_hwaddr_device_name(const struct qemu_plugin_hwaddr *h);
-+
- typedef void
- (*qemu_plugin_vcpu_mem_cb_t)(unsigned int vcpu_index,
-                              qemu_plugin_meminfo_t info, uint64_t vaddr,
-diff --git a/plugins/api.c b/plugins/api.c
-index bbdc5a4eb46..4304e63f0cf 100644
---- a/plugins/api.c
-+++ b/plugins/api.c
-@@ -303,6 +303,26 @@ uint64_t qemu_plugin_hwaddr_device_offset(const struct qemu_plugin_hwaddr *haddr
-     return 0;
- }
- 
-+const char *qemu_plugin_hwaddr_device_name(const struct qemu_plugin_hwaddr *h)
-+{
-+#ifdef CONFIG_SOFTMMU
-+    if (h && h->is_io) {
-+        MemoryRegionSection *mrs = h->v.io.section;
-+        if (!mrs->mr->name) {
-+            unsigned long maddr = 0xffffffff & (uintptr_t) mrs->mr;
-+            g_autofree char *temp = g_strdup_printf("anon%08lx", maddr);
-+            return g_intern_string(temp);
-+        } else {
-+            return g_intern_string(mrs->mr->name);
-+        }
-+    } else {
-+        return g_intern_string("RAM");
-+    }
-+#else
-+    return g_intern_string("Invalid");
-+#endif
-+}
-+
- /*
-  * Queries to the number and potential maximum number of vCPUs there
-  * will be. This helps the plugin dimension per-vcpu arrays.
+> which says that a pre-zeroing pass may be attempted, but it if fails, 
+
+This bit puzzles me. In what circumstances might we attempt but fail?
+Does it really mean "if it can be done instantly, it will be done, but
+not if it costs something"?
+
+I'd be more inclined to go for "unallocated blocks will not be written",
+without any attempts to pre-zero.
+
+> only the explicit zeroes need to be written rather than zeroes for all
+> unallocated areas in the source (so the resulting image will NOT be an
+> identical copy if there were any unallocated areas, but that the user
+> is okay with that).
+
+dme.
 -- 
-2.20.1
-
+Too much information, running through my brain.
 
