@@ -2,99 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8A9E1F55EF
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 15:39:20 +0200 (CEST)
-Received: from localhost ([::1]:59762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0E6E1F5607
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 15:42:14 +0200 (CEST)
+Received: from localhost ([::1]:41462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jj0wp-00055M-LS
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 09:39:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50960)
+	id 1jj0zd-0001MC-Li
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 09:42:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53012)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mihajlov@linux.ibm.com>)
- id 1jj0dq-00042a-O9; Wed, 10 Jun 2020 09:19:42 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:12574
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1jj0gy-0000w6-9Z; Wed, 10 Jun 2020 09:22:56 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:56544)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mihajlov@linux.ibm.com>)
- id 1jj0dp-0006Je-C0; Wed, 10 Jun 2020 09:19:42 -0400
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 05AD5Gox141896; Wed, 10 Jun 2020 09:19:31 -0400
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1jj0gw-0006xl-Fy; Wed, 10 Jun 2020 09:22:55 -0400
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 05AD2teK055896; Wed, 10 Jun 2020 09:22:48 -0400
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 31k03hrdfh-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 31k02b0rw0-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 10 Jun 2020 09:19:30 -0400
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 05AD67Ap143849;
- Wed, 10 Jun 2020 09:19:30 -0400
-Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.106])
- by mx0b-001b2d01.pphosted.com with ESMTP id 31k03hrdev-1
+ Wed, 10 Jun 2020 09:22:48 -0400
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 05AD3JVj059016;
+ Wed, 10 Jun 2020 09:22:47 -0400
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 31k02b0ruj-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 10 Jun 2020 09:19:30 -0400
-Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
- by ppma04fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 05ADGjD3031466;
- Wed, 10 Jun 2020 13:19:28 GMT
-Received: from b06cxnps4076.portsmouth.uk.ibm.com
- (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
- by ppma04fra.de.ibm.com with ESMTP id 31g2s7u59u-1
+ Wed, 10 Jun 2020 09:22:47 -0400
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 05ADFDft018008;
+ Wed, 10 Jun 2020 13:22:45 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma04ams.nl.ibm.com with ESMTP id 31g2s7yrqg-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 10 Jun 2020 13:19:28 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 05ADJPxP58589226
+ Wed, 10 Jun 2020 13:22:44 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
+ [9.149.105.60])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 05ADLQAj64028968
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 10 Jun 2020 13:19:25 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7D1B14C046;
- Wed, 10 Jun 2020 13:19:25 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 161EA4C04A;
- Wed, 10 Jun 2020 13:19:24 +0000 (GMT)
-Received: from oc6604088431.ibm.com (unknown [9.145.22.8])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed, 10 Jun 2020 13:19:24 +0000 (GMT)
-Subject: Re: [PATCH v2 1/1] virtio-ccw: auto-manage VIRTIO_F_IOMMU_PLATFORM if
- PV
-To: David Hildenbrand <david@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
-References: <20200606013217.2cffa3ed.pasic@linux.ibm.com>
- <20200608181428.3c6f127c.cohuck@redhat.com>
- <20200608190045.319dd68b.pasic@linux.ibm.com>
- <20200609084402.35d317ec.cohuck@redhat.com>
- <20200609114130.0ca9190b.pasic@linux.ibm.com>
- <20200609174747.4e300818@ibm-vm>
- <20200609182839.7ac80938.pasic@linux.ibm.com>
- <20200609124155-mutt-send-email-mst@kernel.org>
- <20200610043118.GF494336@umbus.fritz.box>
- <4e5d62d8-9bfb-67d5-7398-2079729fd85e@redhat.com>
- <20200610100756.GO494336@umbus.fritz.box>
- <858e9554-a4c7-6487-121b-ac3eaa209cb7@redhat.com>
-From: Viktor Mihajlovski <mihajlov@linux.ibm.com>
-Message-ID: <4738b708-9d19-beae-4345-b77453afc585@linux.ibm.com>
-Date: Wed, 10 Jun 2020 15:19:22 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ Wed, 10 Jun 2020 13:21:26 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 790C242049;
+ Wed, 10 Jun 2020 13:22:42 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id CE4244204F;
+ Wed, 10 Jun 2020 13:22:41 +0000 (GMT)
+Received: from oc2783563651 (unknown [9.145.127.50])
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed, 10 Jun 2020 13:22:41 +0000 (GMT)
+Date: Wed, 10 Jun 2020 15:21:59 +0200
+From: Halil Pasic <pasic@linux.ibm.com>
+To: Cornelia Huck <cohuck@redhat.com>
+Subject: Re: [RFC v2 18/18] guest memory protection: Alter virtio default
+ properties for protected guests
+Message-ID: <20200610152159.0b892016.pasic@linux.ibm.com>
+In-Reply-To: <20200610104842.2687215a.cohuck@redhat.com>
+References: <20200521034304.340040-1-david@gibson.dropbear.id.au>
+ <20200521034304.340040-19-david@gibson.dropbear.id.au>
+ <20200606162014-mutt-send-email-mst@kernel.org>
+ <20200607030735.GN228651@umbus.fritz.box>
+ <20200609121641.5b3ffa48.cohuck@redhat.com>
+ <20200610043922.GI494336@umbus.fritz.box>
+ <20200610104842.2687215a.cohuck@redhat.com>
+Organization: IBM
+X-Mailer: Claws Mail 3.11.1 (GTK+ 2.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <858e9554-a4c7-6487-121b-ac3eaa209cb7@redhat.com>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha1;
+ boundary="Sig_/4sqcT16HYh+2IUfpFzvYsKp"; protocol="application/pgp-signature"
 X-TM-AS-GCONF: 00
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.687
  definitions=2020-06-10_07:2020-06-10,
  2020-06-10 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1011 suspectscore=0
- priorityscore=1501 lowpriorityscore=0 mlxscore=0 adultscore=0 spamscore=0
- bulkscore=0 phishscore=0 mlxlogscore=999 malwarescore=0 impostorscore=0
- cotscore=-2147483648 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2004280000 definitions=main-2006100096
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=mihajlov@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/10 08:25:00
+ mlxscore=0 malwarescore=0
+ spamscore=0 adultscore=0 priorityscore=1501 impostorscore=0 clxscore=1015
+ lowpriorityscore=0 mlxlogscore=999 suspectscore=0 bulkscore=0
+ cotscore=-2147483648 phishscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2004280000 definitions=main-2006100096
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=pasic@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/10 09:16:22
 X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
@@ -114,83 +106,143 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Boris Fiuczynski <fiuczy@linux.ibm.com>,
- Janosch Frank <frankja@linux.ibm.com>, Pierre Morel <pmorel@linux.ibm.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- qemu-devel@nongnu.org, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Claudio Imbrenda <imbrenda@linux.ibm.com>, Richard Henderson <rth@twiddle.net>
+Cc: pair@us.ibm.com, brijesh.singh@amd.com, frankja@linux.ibm.com,
+ kvm@vger.kernel.org, "Michael
+ S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>, dgilbert@redhat.com,
+ qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <rth@twiddle.net>, mdroth@linux.vnet.ibm.com,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--Sig_/4sqcT16HYh+2IUfpFzvYsKp
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, 10 Jun 2020 10:48:42 +0200
+Cornelia Huck <cohuck@redhat.com> wrote:
+
+> On Wed, 10 Jun 2020 14:39:22 +1000
+> David Gibson <david@gibson.dropbear.id.au> wrote:
+>=20
+> > On Tue, Jun 09, 2020 at 12:16:41PM +0200, Cornelia Huck wrote:
+> > > On Sun, 7 Jun 2020 13:07:35 +1000
+> > > David Gibson <david@gibson.dropbear.id.au> wrote:
+> > >  =20
+> > > > On Sat, Jun 06, 2020 at 04:21:31PM -0400, Michael S. Tsirkin wrote:=
+ =20
+> > > > > On Thu, May 21, 2020 at 01:43:04PM +1000, David Gibson wrote:   =
+=20
+> > > > > > The default behaviour for virtio devices is not to use the plat=
+forms normal
+> > > > > > DMA paths, but instead to use the fact that it's running in a h=
+ypervisor
+> > > > > > to directly access guest memory.  That doesn't work if the gues=
+t's memory
+> > > > > > is protected from hypervisor access, such as with AMD's SEV or =
+POWER's PEF.
+> > > > > >=20
+> > > > > > So, if a guest memory protection mechanism is enabled, then app=
+ly the
+> > > > > > iommu_platform=3Don option so it will go through normal DMA mec=
+hanisms.
+> > > > > > Those will presumably have some way of marking memory as shared=
+ with the
+> > > > > > hypervisor or hardware so that DMA will work.
+> > > > > >=20
+> > > > > > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> > > > > > ---
+> > > > > >  hw/core/machine.c | 11 +++++++++++
+> > > > > >  1 file changed, 11 insertions(+)
+> > > > > >=20
+> > > > > > diff --git a/hw/core/machine.c b/hw/core/machine.c
+> > > > > > index 88d699bceb..cb6580954e 100644
+> > > > > > --- a/hw/core/machine.c
+> > > > > > +++ b/hw/core/machine.c
+> > > > > > @@ -28,6 +28,8 @@
+> > > > > >  #include "hw/mem/nvdimm.h"
+> > > > > >  #include "migration/vmstate.h"
+> > > > > >  #include "exec/guest-memory-protection.h"
+> > > > > > +#include "hw/virtio/virtio.h"
+> > > > > > +#include "hw/virtio/virtio-pci.h"
+> > > > > > =20
+> > > > > >  GlobalProperty hw_compat_5_0[] =3D {};
+> > > > > >  const size_t hw_compat_5_0_len =3D G_N_ELEMENTS(hw_compat_5_0);
+> > > > > > @@ -1159,6 +1161,15 @@ void machine_run_board_init(MachineState=
+ *machine)
+> > > > > >           * areas.
+> > > > > >           */
+> > > > > >          machine_set_mem_merge(OBJECT(machine), false, &error_a=
+bort);
+> > > > > > +
+> > > > > > +        /*
+> > > > > > +         * Virtio devices can't count on directly accessing gu=
+est
+> > > > > > +         * memory, so they need iommu_platform=3Don to use nor=
+mal DMA
+> > > > > > +         * mechanisms.  That requires disabling legacy virtio =
+support
+> > > > > > +         * for virtio pci devices
+> > > > > > +         */
+> > > > > > +        object_register_sugar_prop(TYPE_VIRTIO_PCI, "disable-l=
+egacy", "on");
+> > > > > > +        object_register_sugar_prop(TYPE_VIRTIO_DEVICE, "iommu_=
+platform", "on");
+> > > > > >      }
+> > > > > >     =20
+> > > > >=20
+> > > > > I think it's a reasonable way to address this overall.
+> > > > > As Cornelia has commented, addressing ccw as well   =20
+> > > >=20
+> > > > Sure.  I was assuming somebody who actually knows ccw could do that=
+ as
+> > > > a follow up. =20
+> > >=20
+> > > FWIW, I think we could simply enable iommu_platform for protected
+> > > guests for ccw; no prereqs like pci's disable-legacy. =20
+> >=20
+> > Right, and the code above should in fact already do so, since it
+> > applies that to TYPE_VIRTIO_DEVICE, which is common.  The
+> > disable-legacy part should be harmless for s390, since this is
+> > effectively just setting a default, and we don't expect any
+> > TYPE_VIRTIO_PCI devices to be instantiated on z.
+>=20
+> Well, virtio-pci is available on s390, so people could try to use it --
+> however, forcing disable-legacy won't hurt in that case, as it won't
+> make the situation worse (I don't expect virtio-pci to work on s390
+> protected guests.)
+
+Currently we don't have to worry about virtio-pci when running in
+protected mode, because PCI is not supported currently, and this is
+enforced by the ultravisor which would inject operation exceptions should
+a PV guest try to use our PCI instructions.
+
+[..]
 
 
-On 6/10/20 12:24 PM, David Hildenbrand wrote:
-> On 10.06.20 12:07, David Gibson wrote:
->> On Wed, Jun 10, 2020 at 09:22:45AM +0200, David Hildenbrand wrote:
->>> On 10.06.20 06:31, David Gibson wrote:
->>>> On Tue, Jun 09, 2020 at 12:44:39PM -0400, Michael S. Tsirkin wrote:
->>>>> On Tue, Jun 09, 2020 at 06:28:39PM +0200, Halil Pasic wrote:
->>>>>> On Tue, 9 Jun 2020 17:47:47 +0200
->>>>>> Claudio Imbrenda <imbrenda@linux.ibm.com> wrote:
->>>>>>
->>>>>>> On Tue, 9 Jun 2020 11:41:30 +0200
->>>>>>> Halil Pasic <pasic@linux.ibm.com> wrote:
->>>>>>>
->>>>>>> [...]
->>>>>>>
->>>>>>>> I don't know. Janosch could answer that, but he is on vacation. Adding
->>>>>>>> Claudio maybe he can answer. My understanding is, that while it might
->>>>>>>> be possible, it is ugly at best. The ability to do a transition is
->>>>>>>> indicated by a CPU model feature. Indicating the feature to the guest
->>>>>>>> and then failing the transition sounds wrong to me.
->>>>>>>
->>>>>>> I agree. If the feature is advertised, then it has to work. I don't
->>>>>>> think we even have an architected way to fail the transition for that
->>>>>>> reason.
->>>>>>>
->>>>>>> What __could__ be done is to prevent qemu from even starting if an
->>>>>>> incompatible device is specified together with PV.
->>>>>>
->>>>>> AFAIU, the "specified together with PV" is the problem here. Currently
->>>>>> we don't "specify PV" but PV is just a capability that is managed by the
->>>>>> CPU model (like so many other).
->>>>>
->>>>> So if we want to keep it user friendly, there could be
->>>>> protection property with values on/off/auto, and auto
->>>>> would poke at host capability to figure out whether
->>>>> it's supported.
->>>>>
->>>>> Both virtio and CPU would inherit from that.
->>>>
->>>> Right, that's what I have in mind for my 'host-trust-limitation'
->>>> property (a generalized version of the existing 'memory-encryption'
->>>> machine option).  My draft patches already set virtio properties
->>>> accordingly, it should be possible to set (default) cpu properties as
->>>> well.
->>>
->>> No crazy CPU model hacks please (at least speaking for the s390x).
->>
->> Uh... I'm not really sure what you have in mind here.
->>
-> 
-> Reading along I got the impression that we want to glue the availability
-> of CPU features to other QEMU cmdline parameters (besides the
-> accelerator). ("to set (default) cpu properties as well"). If we are
-> talking about other CPU properties not expressed as CPU features (e.g.,
-> -cpu X,Y=on ...), then there is no issue.
-> 
+--Sig_/4sqcT16HYh+2IUfpFzvYsKp
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-The reason that the capability to run in PV mode is expressed in the CPU
-model is that this capability *is* provided by the CPU in terms of
-available instructions. I wouldn't see a benefit in providing
-a meta-property that needs to be synced with the CPU model.
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
 
-So, if something has to be concluded from the fact that a VM
-could run in PV mode, that decision should be derived from the
-CPU model.
+iQIcBAEBAgAGBQJe4N6gAAoJEA0vhuyXGx0ACkgP/0IBF5+0fba4WXo3noX8v2eY
+MrkedmHTQZiMhFxu8lv3RNIYs5K0SYu1MVzzhIP8Iwm90LFMyT2qedMdG7lnY1gk
+h7MkxJeGi2+igKobGKaE4JUqA6jvPuwj7PS3i/RCak2/heB1Tr8gVyEfE4tEGgz+
+x/mo37Av8VrCosd/ct/SooJh0Zuz6MW6ZKAjwOm3ktpdhDrW/jINaw0JYBtGD31H
+bLyX3R37Iscmk7ml+nvug4W85Ak9bghuFR4Aa3IY0I/0dglmEpNZJXdA+Db/XRuF
+hsV2BhvHwElrqlOrhbIKuQYZhhjBdY0uExOmTQX+H3EjraaNBAzRHI9vs1Rgdxc/
+D9uvUYhj7Urrc+sR2reCjgali+nagdKJZ+Ihp6+j5L0DBqIlXgoGJZX7DHoNxwVm
+wjvH+lvIiTzKUoJYnanisrTsFkKJE9eW143+APonid/hiGqnXknEyULmrqQNthfa
+kWrxL/S1zQbpvZaal3mMoGgjGTAFuyeBI6fFDrCxWwMoUOxVjgqX6rsEAQRgAQ6f
+vLgpKTCFf9mB0Oxn/YWFYVl3CnSKQZ7Zzr5jewv2a+iih9AVtv925iNSibY2AC07
+YxUW6oj+7gzTjW8+J3IXpMiIcFUeaeisICnksoXoBpYrIKSk1jZWbvqpQfXhFO0b
+mPmejhBA4t++1dd30YwD
+=iOJD
+-----END PGP SIGNATURE-----
 
--- 
-Kind Regards,
-    Viktor
+--Sig_/4sqcT16HYh+2IUfpFzvYsKp--
+
 
