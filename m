@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F38141F4DDF
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 08:08:22 +0200 (CEST)
-Received: from localhost ([::1]:60230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E25F1F4DE5
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 08:10:25 +0200 (CEST)
+Received: from localhost ([::1]:38026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jituQ-0003li-1T
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 02:08:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42662)
+	id 1jitwO-0006WY-LY
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 02:10:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42678)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jitMV-0005PK-Tw
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 01:33:19 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:49245
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jitMZ-0005Vm-2w
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 01:33:23 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:22697
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jitME-0003sw-4G
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 01:33:19 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jitMH-0003wB-1i
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 01:33:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591767180;
+ s=mimecast20190719; t=1591767183;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XvNfw4PTHn/7A/4Y4gwhBundASmoUAZu6yT4CuAHBh8=;
- b=GErwj7cCt0LEWZ+hA5nE3ebOF6ozmF6KhpK/PtBGojg1xHpX2wM5iH9ZPrahQS9s3tKZS9
- y6tdtSGK3W7qeO3IsfG6cw2XaNlKalDYlIYihxFM+n1V4aemcpMciiRhd5UO6FmW9Xy5jb
- elVktWhnfmM+8kd3AYcDi2DfTEC8x5U=
+ bh=QkGtJhOd7iPacfWlGXhmecVYQPs15fYRgvL7b+y0JYQ=;
+ b=PIMitLBAj9mA79D2b6YoG4ASYI/QhH7BpFozL+0/MefxUgo0IYu2ceXRtexbt2+MHFEOKR
+ dtW4kKlO9z9lVoLM5yUWUK8KlqCQHg6+w458Wziw+fb/LdZ1b1dP4Mn9M3tnU75xEbc4uI
+ 6F+wVUQ7UFaqE8y6R6m+Tf/aVzfkHQ0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-73-o-LxayXMOQa08kXwTQKVhQ-1; Wed, 10 Jun 2020 01:32:58 -0400
-X-MC-Unique: o-LxayXMOQa08kXwTQKVhQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-2-d6Mn_IWVPUqvpedup-zLHg-1; Wed, 10 Jun 2020 01:32:58 -0400
+X-MC-Unique: d6Mn_IWVPUqvpedup-zLHg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 03C31A0BE1
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0474A801504
  for <qemu-devel@nongnu.org>; Wed, 10 Jun 2020 05:32:58 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-121.ams2.redhat.com
  [10.36.112.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CAC445C221;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CB4258929D;
  Wed, 10 Jun 2020 05:32:57 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 10E71113848C; Wed, 10 Jun 2020 07:32:49 +0200 (CEST)
+ id 15FFA113848D; Wed, 10 Jun 2020 07:32:49 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH RESEND v3 54/58] qdev: Make qdev_realize() support bus-less
- devices
-Date: Wed, 10 Jun 2020 07:32:43 +0200
-Message-Id: <20200610053247.1583243-55-armbru@redhat.com>
+Subject: [PATCH RESEND v3 55/58] qdev: Use qdev_realize() in qdev_device_add()
+Date: Wed, 10 Jun 2020 07:32:44 +0200
+Message-Id: <20200610053247.1583243-56-armbru@redhat.com>
 In-Reply-To: <20200610053247.1583243-1-armbru@redhat.com>
 References: <20200610053247.1583243-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 23:22:15
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 23:51:15
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -81,50 +80,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-So far, qdev_realize() supports only devices that plug into a bus:
-argument @bus cannot be null.  Extend it to support bus-less devices,
-too.
-
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/core/qdev.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ qdev-monitor.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/hw/core/qdev.c b/hw/core/qdev.c
-index 78a06db76e..50336168f2 100644
---- a/hw/core/qdev.c
-+++ b/hw/core/qdev.c
-@@ -408,7 +408,7 @@ void qdev_init_nofail(DeviceState *dev)
- /*
-  * Realize @dev.
-  * @dev must not be plugged into a bus.
-- * Plug @dev into @bus.  This takes a reference to @dev.
-+ * If @bus, plug @dev into @bus.  This takes a reference to @dev.
-  * If @dev has no QOM parent, make one up, taking another reference.
-  * On success, return true.
-  * On failure, store an error through @errp and return false.
-@@ -418,9 +418,12 @@ bool qdev_realize(DeviceState *dev, BusState *bus, Error **errp)
-     Error *err = NULL;
+diff --git a/qdev-monitor.c b/qdev-monitor.c
+index 20cfa7615b..22da107484 100644
+--- a/qdev-monitor.c
++++ b/qdev-monitor.c
+@@ -661,9 +661,7 @@ DeviceState *qdev_device_add(QemuOpts *opts, Error **errp)
+         goto err_del_dev;
+     }
  
-     assert(!dev->realized && !dev->parent_bus);
--    assert(bus);
+-    if (bus) {
+-        qdev_set_parent_bus(dev, bus);
+-    } else if (qdev_hotplug && !qdev_get_machine_hotplug_handler(dev)) {
++    if (!bus && qdev_hotplug && !qdev_get_machine_hotplug_handler(dev)) {
+         /* No bus, no machine hotplug handler --> device is not hotpluggable */
+         error_setg(&err, "Device '%s' can not be hotplugged on this machine",
+                    driver);
+@@ -678,7 +676,7 @@ DeviceState *qdev_device_add(QemuOpts *opts, Error **errp)
+     }
  
--    qdev_set_parent_bus(dev, bus);
-+    if (bus) {
-+        qdev_set_parent_bus(dev, bus);
-+    } else {
-+        assert(!DEVICE_GET_CLASS(dev)->bus_type);
-+    }
- 
-     object_property_set_bool(OBJECT(dev), true, "realized", &err);
-     if (err) {
+     dev->opts = opts;
+-    object_property_set_bool(OBJECT(dev), true, "realized", &err);
++    qdev_realize(DEVICE(dev), bus, &err);
+     if (err != NULL) {
+         dev->opts = NULL;
+         goto err_del_dev;
 -- 
 2.26.2
 
