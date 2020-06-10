@@ -2,67 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69B691F4C94
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 06:49:14 +0200 (CEST)
-Received: from localhost ([::1]:48632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5E261F4CAE
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 06:57:41 +0200 (CEST)
+Received: from localhost ([::1]:53264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jisfp-0003iQ-D9
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 00:49:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34204)
+	id 1jiso0-0001Ov-Tz
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 00:57:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34230)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jisLV-0001Kh-Mn
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 00:28:13 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36390
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jisLa-0001VH-A8
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 00:28:18 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:29997
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jisLU-0008M7-NE
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 00:28:13 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jisLZ-0008MU-6k
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 00:28:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591763292;
+ s=mimecast20190719; t=1591763296;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DbDRG1p4/X4N+xWJw2tEfw4K/ZQW4xdSXq7Ah8IdwPY=;
- b=VIpLvmanWFB4BVsP7IvN7kRR6PDaztm5INWFpm03jsfYqb3p+/NtcZ+37GcL9aVyBJAJaU
- VYuWbzKZQVmxOcCYg2HGKuhLG3oELu8tiRjBs/z185RM8pP9C+sHBRjlJUEoY2xsZjJfER
- 775ju1d4FS5IPPeqwkL1dSiQJOitnD4=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-327-ZPTqZacKPcSnFAUFhs0t1w-1; Wed, 10 Jun 2020 00:28:10 -0400
-X-MC-Unique: ZPTqZacKPcSnFAUFhs0t1w-1
-Received: by mail-wr1-f70.google.com with SMTP id a4so512772wrp.5
- for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 21:28:09 -0700 (PDT)
+ bh=/61PXreG9CtbL2ch+1GsTIa5m/Lv2qjj0nnVUy3KBs8=;
+ b=H4vzsjAWkp9pLihSuBvLjxg22JkPaEANj7d3cdyGYtHBzL2H5E8asIoR7O1KgFkD5i4D4L
+ PxJAc9g2M2BrGhlw2a3O2c6opXSoMBU3449cAp3isZMSQi51t2IJz8Pw/TK44jggQPfO8S
+ DIoYWVgYKvWQBqTUOZgELKES8i0OibQ=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-107-JkYzOIovP9-gMwoeiGeTEw-1; Wed, 10 Jun 2020 00:28:14 -0400
+X-MC-Unique: JkYzOIovP9-gMwoeiGeTEw-1
+Received: by mail-wm1-f70.google.com with SMTP id x6so86975wmj.9
+ for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 21:28:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=DbDRG1p4/X4N+xWJw2tEfw4K/ZQW4xdSXq7Ah8IdwPY=;
- b=gM20Ki+2lQYvRHeu/rvTZ8hHYxAe1ZrpYUUFc0wR/k+6ipGXl84F3J9y+pdkcRh3TO
- +RKG+v23I65cwBbE4Jsj9pgpk+mmO+LzB89ShhR17SQRk5Vskg+1g6HCtE4VGyIqANaB
- bsBQp3D+auzwJjevhqSc+msXgnMVZMUavDQxwKofKTYD/3+flznkiu7a8nJ+E4rEqlcE
- rgqukECyWtdynWsQnfH0GyUiSokpNRf65RMQht3z6PliGyrmL+kOIxpreJ0WtMr/WSDG
- jtAw84S4Y6thyMHHYWOd/ekg+8AGMEbXhrVQn4HGKnpjV3Z/rNvZb67Fi+dHmMjlHs2h
- czcw==
-X-Gm-Message-State: AOAM531BAclPpx2drgWtQNnDFWLE3l5ACOsfcNigQIFpISWnDSZaezZ0
- IwZx1x9Y2jaIOEwFrkryBOOZeTdyTh2R/5r5atJlNcNUdvL3+phqfJxOZFEkynodGbk0lGNBzeT
- X9JtKz/QGSHwXTCU=
-X-Received: by 2002:a5d:6944:: with SMTP id r4mr1280838wrw.169.1591763288747; 
- Tue, 09 Jun 2020 21:28:08 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzizWhudp2123aEsGVy0Jg4N+DhCMNrYF59+UYcws1ot5Xy472Udx9J/HZkmHssua7TaC9vKg==
-X-Received: by 2002:a5d:6944:: with SMTP id r4mr1280817wrw.169.1591763288524; 
- Tue, 09 Jun 2020 21:28:08 -0700 (PDT)
+ :mime-version:content-disposition:in-reply-to;
+ bh=/61PXreG9CtbL2ch+1GsTIa5m/Lv2qjj0nnVUy3KBs8=;
+ b=rYiZ9BL3NABuT58ugOIOFgyeqSEcZ2EE0oZIrHvyHNanV1URWZORQTkDZ6+iv6Op8e
+ vEPjABFz4+qI7qMCEdNPpyYjdWh/rY0RzQFa8LC9BnGzGrEf/SGCjkIYjVB2aCLHkNKF
+ xRdPXAKLqK7p1YB7ivYTUDYZEPUSbh6sJOoXLDe8xlRob4o42LGYYDChVRKvfgj31rrB
+ V6+U7S4sRnyWgjjfaq759cv8s0GkxLbP6LBVVbz95aYuGA4Hkv+c68jDPKSQfMlpom0I
+ nHxJjBZpURG2wts2B3mTDNCCUTrYPdCC6UMbK7G8ZE5zrXAYDist+VY+TXRoF92kAXhy
+ jAOA==
+X-Gm-Message-State: AOAM531Bv/qG6CDvRWwOvmBXDTwXcY9em5MgVcQdWdNTDpr/zzUCFMMK
+ KPvCZ+eDx5iP2H1CTKiWTA8cxF3P/GArvqAzccjp7hYB+nAjI3Vq6T7lUG43Ry05vq/IyfPXt3O
+ OIcww2Bjd0ollaxg=
+X-Received: by 2002:a5d:6a89:: with SMTP id s9mr1290959wru.15.1591763293290;
+ Tue, 09 Jun 2020 21:28:13 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzoI0BCIMIA7Qn+cDeCy+2+S6jfdff3ksThVNues6g7z4bsQeuWuKZkMfWUssb49z4e4xqUhQ==
+X-Received: by 2002:a5d:6a89:: with SMTP id s9mr1290940wru.15.1591763293093;
+ Tue, 09 Jun 2020 21:28:13 -0700 (PDT)
 Received: from redhat.com (bzq-79-181-55-232.red.bezeqint.net. [79.181.55.232])
- by smtp.gmail.com with ESMTPSA id u13sm6113674wrp.53.2020.06.09.21.28.07
+ by smtp.gmail.com with ESMTPSA id r2sm6307143wrg.68.2020.06.09.21.28.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Jun 2020 21:28:08 -0700 (PDT)
-Date: Wed, 10 Jun 2020 00:28:06 -0400
+ Tue, 09 Jun 2020 21:28:12 -0700 (PDT)
+Date: Wed, 10 Jun 2020 00:28:11 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 42/56] Support ram slot configuration in libvhost-user
-Message-ID: <20200610042613.1459309-43-mst@redhat.com>
+Subject: [PULL 44/56] Support individual region unmap in libvhost-user
+Message-ID: <20200610042613.1459309-45-mst@redhat.com>
 References: <20200610042613.1459309-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200610042613.1459309-1-mst@redhat.com>
@@ -70,19 +68,18 @@ X-Mailer: git-send-email 2.24.1.751.gd10ce2899c
 X-Mutt-Fcc: =sent
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=mst@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 21:17:20
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 23:22:15
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,7 +94,7 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Johannes Berg <johannes.berg@intel.com>,
+ Johannes Berg <johannes.berg@intel.com>, David Hildenbrand <david@redhat.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Raphael Norwitz <raphael.norwitz@nutanix.com>,
  Stefan Hajnoczi <stefanha@redhat.com>,
@@ -107,80 +104,124 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Raphael Norwitz <raphael.norwitz@nutanix.com>
 
-The VHOST_USER_GET_MAX_MEM_SLOTS message allows a vhost-user backend to
-specify a maximum number of ram slots it is willing to support. This
-change adds support for libvhost-user to process this message. For now
-the backend will reply with 8 as the maximum number of regions
-supported.
+When the VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS protocol feature is
+enabled, on memory hot-unplug qemu will transmit memory regions to
+remove individually using the new message VHOST_USER_REM_MEM_REG
+message. With this change, vhost-user backends build with libvhost-user
+can now unmap individual memory regions when receiving the
+VHOST_USER_REM_MEM_REG message.
 
-libvhost-user does not yet support the vhost-user protocol feature
-VHOST_USER_PROTOCOL_F_CONFIGIRE_MEM_SLOTS, so qemu should never
-send the VHOST_USER_GET_MAX_MEM_SLOTS message. Therefore this new
-functionality is not currently used.
+Qemu only sends VHOST_USER_REM_MEM_REG messages when the
+VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS feature is negotiated, and
+support for that feature has not yet been added in libvhost-user, this
+new functionality is not yet used.
 
 Signed-off-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
-Message-Id: <1588533678-23450-8-git-send-email-raphael.norwitz@nutanix.com>
+Message-Id: <1588533678-23450-10-git-send-email-raphael.norwitz@nutanix.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
  contrib/libvhost-user/libvhost-user.h |  1 +
- contrib/libvhost-user/libvhost-user.c | 19 +++++++++++++++++++
- 2 files changed, 20 insertions(+)
+ contrib/libvhost-user/libvhost-user.c | 63 +++++++++++++++++++++++++++
+ 2 files changed, 64 insertions(+)
 
 diff --git a/contrib/libvhost-user/libvhost-user.h b/contrib/libvhost-user/libvhost-user.h
-index f30394fab6..88ef40d26a 100644
+index 60ef7fd13e..f8439713a8 100644
 --- a/contrib/libvhost-user/libvhost-user.h
 +++ b/contrib/libvhost-user/libvhost-user.h
-@@ -97,6 +97,7 @@ typedef enum VhostUserRequest {
-     VHOST_USER_SET_INFLIGHT_FD = 32,
-     VHOST_USER_GPU_SET_SOCKET = 33,
+@@ -99,6 +99,7 @@ typedef enum VhostUserRequest {
      VHOST_USER_VRING_KICK = 35,
-+    VHOST_USER_GET_MAX_MEM_SLOTS = 36,
+     VHOST_USER_GET_MAX_MEM_SLOTS = 36,
+     VHOST_USER_ADD_MEM_REG = 37,
++    VHOST_USER_REM_MEM_REG = 38,
      VHOST_USER_MAX
  } VhostUserRequest;
  
 diff --git a/contrib/libvhost-user/libvhost-user.c b/contrib/libvhost-user/libvhost-user.c
-index cccfa22209..9f039b707e 100644
+index d8ee7a23a3..386449b697 100644
 --- a/contrib/libvhost-user/libvhost-user.c
 +++ b/contrib/libvhost-user/libvhost-user.c
-@@ -137,6 +137,7 @@ vu_request_to_string(unsigned int req)
-         REQ(VHOST_USER_SET_INFLIGHT_FD),
-         REQ(VHOST_USER_GPU_SET_SOCKET),
+@@ -139,6 +139,7 @@ vu_request_to_string(unsigned int req)
          REQ(VHOST_USER_VRING_KICK),
-+        REQ(VHOST_USER_GET_MAX_MEM_SLOTS),
+         REQ(VHOST_USER_GET_MAX_MEM_SLOTS),
+         REQ(VHOST_USER_ADD_MEM_REG),
++        REQ(VHOST_USER_REM_MEM_REG),
          REQ(VHOST_USER_MAX),
      };
  #undef REQ
-@@ -1565,6 +1566,22 @@ vu_handle_vring_kick(VuDev *dev, VhostUserMsg *vmsg)
-     return false;
+@@ -763,6 +764,66 @@ vu_add_mem_reg(VuDev *dev, VhostUserMsg *vmsg) {
+     }
  }
  
-+static bool vu_handle_get_max_memslots(VuDev *dev, VhostUserMsg *vmsg)
++static inline bool reg_equal(VuDevRegion *vudev_reg,
++                             VhostUserMemoryRegion *msg_reg)
 +{
-+    vmsg->flags = VHOST_USER_REPLY_MASK | VHOST_USER_VERSION;
-+    vmsg->size  = sizeof(vmsg->payload.u64);
-+    vmsg->payload.u64 = VHOST_MEMORY_MAX_NREGIONS;
-+    vmsg->fd_num = 0;
-+
-+    if (!vu_message_write(dev, dev->sock, vmsg)) {
-+        vu_panic(dev, "Failed to send max ram slots: %s\n", strerror(errno));
++    if (vudev_reg->gpa == msg_reg->guest_phys_addr &&
++        vudev_reg->qva == msg_reg->userspace_addr &&
++        vudev_reg->size == msg_reg->memory_size) {
++        return true;
 +    }
-+
-+    DPRINT("u64: 0x%016"PRIx64"\n", (uint64_t) VHOST_MEMORY_MAX_NREGIONS);
 +
 +    return false;
 +}
 +
++static bool
++vu_rem_mem_reg(VuDev *dev, VhostUserMsg *vmsg) {
++    int i, j;
++    bool found = false;
++    VuDevRegion shadow_regions[VHOST_MEMORY_MAX_NREGIONS] = {};
++    VhostUserMemoryRegion m = vmsg->payload.memreg.region, *msg_region = &m;
++
++    DPRINT("Removing region:\n");
++    DPRINT("    guest_phys_addr: 0x%016"PRIx64"\n",
++           msg_region->guest_phys_addr);
++    DPRINT("    memory_size:     0x%016"PRIx64"\n",
++           msg_region->memory_size);
++    DPRINT("    userspace_addr   0x%016"PRIx64"\n",
++           msg_region->userspace_addr);
++    DPRINT("    mmap_offset      0x%016"PRIx64"\n",
++           msg_region->mmap_offset);
++
++    for (i = 0, j = 0; i < dev->nregions; i++) {
++        if (!reg_equal(&dev->regions[i], msg_region)) {
++            shadow_regions[j].gpa = dev->regions[i].gpa;
++            shadow_regions[j].size = dev->regions[i].size;
++            shadow_regions[j].qva = dev->regions[i].qva;
++            shadow_regions[j].mmap_offset = dev->regions[i].mmap_offset;
++            j++;
++        } else {
++            found = true;
++            VuDevRegion *r = &dev->regions[i];
++            void *m = (void *) (uintptr_t) r->mmap_addr;
++
++            if (m) {
++                munmap(m, r->size + r->mmap_offset);
++            }
++        }
++    }
++
++    if (found) {
++        memcpy(dev->regions, shadow_regions,
++               sizeof(VuDevRegion) * VHOST_MEMORY_MAX_NREGIONS);
++        DPRINT("Successfully removed a region\n");
++        dev->nregions--;
++        vmsg_set_reply_u64(vmsg, 0);
++    } else {
++        vu_panic(dev, "Specified region not found\n");
++    }
++
++    return true;
++}
++
  static bool
- vu_process_message(VuDev *dev, VhostUserMsg *vmsg)
+ vu_set_mem_table_exec_postcopy(VuDev *dev, VhostUserMsg *vmsg)
  {
-@@ -1649,6 +1666,8 @@ vu_process_message(VuDev *dev, VhostUserMsg *vmsg)
-         return vu_set_inflight_fd(dev, vmsg);
-     case VHOST_USER_VRING_KICK:
-         return vu_handle_vring_kick(dev, vmsg);
-+    case VHOST_USER_GET_MAX_MEM_SLOTS:
-+        return vu_handle_get_max_memslots(dev, vmsg);
+@@ -1771,6 +1832,8 @@ vu_process_message(VuDev *dev, VhostUserMsg *vmsg)
+         return vu_handle_get_max_memslots(dev, vmsg);
+     case VHOST_USER_ADD_MEM_REG:
+         return vu_add_mem_reg(dev, vmsg);
++    case VHOST_USER_REM_MEM_REG:
++        return vu_rem_mem_reg(dev, vmsg);
      default:
          vmsg_close_fds(vmsg);
          vu_panic(dev, "Unhandled request: %d", vmsg->request);
