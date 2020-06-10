@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FC141F4D5B
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 07:55:56 +0200 (CEST)
-Received: from localhost ([::1]:52346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C24C1F4D06
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 07:36:45 +0200 (CEST)
+Received: from localhost ([::1]:42768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jitiM-0004wZ-WF
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 01:55:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42628)
+	id 1jitPo-00022k-AJ
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 01:36:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42492)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jitMP-0005FR-Lf
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 01:33:14 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:26912
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jitMA-0004wy-8A
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 01:32:58 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:37924
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jitMC-0003r0-MJ
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 01:33:13 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jitM8-0003p2-Sv
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 01:32:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591767179;
+ s=mimecast20190719; t=1591767176;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=okxGBk8PlN7HrILM599B1hF2I8fEO6HkadHoEsxHfC8=;
- b=BhjMuyRBhU5H2PgAXKOAL1d4vLOo3iLEeycBfhcCBXWTLg5StaUU18eWZnQiHfCy2Q9aev
- d0XTQeKLJNKQiaS8KfBLaSotBgvLJbxZdrhBTnI+htKJOuzu/WwPKrBA05s20GpgX095sC
- wd7cH4N3v1LxlB3vmWvQCkp+NSQgNbA=
+ bh=M6WeoxnivIxQ9XuQJlRGjsrwhnGrfJG3aBPYwXMTlso=;
+ b=aEeYdjFOABWCaTx36JCDb0XomxeXPQKD2HaeDFPUJ7JrdAuG3eSPO5ZqnKLxRxy8YFEPKG
+ oO7RAOhVo+oakz+r0izxVDYT8A+FiqcIi2Pph0JdhjWo+eUDR9Mp4GgmICTq4YoMSyV5mP
+ tb5u1gzdBQ97WqbkgCQSYpslg73o948=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-448-GYgmGM6oPuu_BT4C8J-cBQ-1; Wed, 10 Jun 2020 01:32:57 -0400
-X-MC-Unique: GYgmGM6oPuu_BT4C8J-cBQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-460-sb31mfI_OLOTNXatMWXr6w-1; Wed, 10 Jun 2020 01:32:54 -0400
+X-MC-Unique: sb31mfI_OLOTNXatMWXr6w-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 32A1D107ACF6;
- Wed, 10 Jun 2020 05:32:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 96DEE1005510
+ for <qemu-devel@nongnu.org>; Wed, 10 Jun 2020 05:32:53 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-121.ams2.redhat.com
  [10.36.112.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6540C5C1D2;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6596A19C71;
  Wed, 10 Jun 2020 05:32:53 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id DB6831138462; Wed, 10 Jun 2020 07:32:47 +0200 (CEST)
+ id DEDC51138463; Wed, 10 Jun 2020 07:32:47 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH RESEND v3 13/58] pci: New pci_new(),
- pci_realize_and_unref() etc.
-Date: Wed, 10 Jun 2020 07:32:02 +0200
-Message-Id: <20200610053247.1583243-14-armbru@redhat.com>
+Subject: [PATCH RESEND v3 14/58] hw/ppc: Eliminate two superfluous QOM casts
+Date: Wed, 10 Jun 2020 07:32:03 +0200
+Message-Id: <20200610053247.1583243-15-armbru@redhat.com>
 In-Reply-To: <20200610053247.1583243-1-armbru@redhat.com>
 References: <20200610053247.1583243-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
+ helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 23:51:15
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
@@ -81,77 +80,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I'm converting from qdev_create()/qdev_init_nofail() to
-qdev_new()/qdev_realize_and_unref(); recent commit "qdev: New
-qdev_new(), qdev_realize(), etc." explains why.
-
-PCI devices use qdev_create() through pci_create() and
-pci_create_multifunction().
-
-Provide pci_new(), pci_new_multifunction(), and
-pci_realize_and_unref() for converting PCI devices.
-
-Cc: Michael S. Tsirkin <mst@redhat.com>
-Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/hw/pci/pci.h |  5 +++++
- hw/pci/pci.c         | 21 +++++++++++++++++++++
- 2 files changed, 26 insertions(+)
+ hw/ppc/mac_newworld.c | 4 ++--
+ hw/ppc/mac_oldworld.c | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-index cfedf5a995..66f8ba519b 100644
---- a/include/hw/pci/pci.h
-+++ b/include/hw/pci/pci.h
-@@ -712,6 +712,11 @@ pci_get_quad_by_mask(uint8_t *config, uint64_t mask)
-     return (val & mask) >> ctz32(mask);
- }
+diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
+index 69281d7834..2d069dcc59 100644
+--- a/hw/ppc/mac_newworld.c
++++ b/hw/ppc/mac_newworld.c
+@@ -122,7 +122,7 @@ static void ppc_core99_init(MachineState *machine)
+     long kernel_size, initrd_size;
+     UNINHostState *uninorth_pci;
+     PCIBus *pci_bus;
+-    NewWorldMacIOState *macio;
++    PCIDevice *macio;
+     bool has_pmu, has_adb;
+     MACIOIDEState *macio_ide;
+     BusState *adb_bus;
+@@ -375,7 +375,7 @@ static void ppc_core99_init(MachineState *machine)
+     pci_bus = PCI_HOST_BRIDGE(uninorth_pci)->bus;
  
-+PCIDevice *pci_new_multifunction(int devfn, bool multifunction,
-+                                    const char *name);
-+PCIDevice *pci_new(int devfn, const char *name);
-+bool pci_realize_and_unref(PCIDevice *dev, PCIBus *bus, Error **errp);
-+
- PCIDevice *pci_create_multifunction(PCIBus *bus, int devfn, bool multifunction,
-                                     const char *name);
- PCIDevice *pci_create_simple_multifunction(PCIBus *bus, int devfn,
-diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-index 6947c741c3..92f3f0f134 100644
---- a/hw/pci/pci.c
-+++ b/hw/pci/pci.c
-@@ -2147,6 +2147,27 @@ static void pci_qdev_realize(DeviceState *qdev, Error **errp)
-     }
- }
+     /* MacIO */
+-    macio = NEWWORLD_MACIO(pci_create(pci_bus, -1, TYPE_NEWWORLD_MACIO));
++    macio = pci_create(pci_bus, -1, TYPE_NEWWORLD_MACIO);
+     dev = DEVICE(macio);
+     qdev_prop_set_uint64(dev, "frequency", tbfreq);
+     qdev_prop_set_bit(dev, "has-pmu", has_pmu);
+diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
+index cfc2eae1d9..f73ec5f3a9 100644
+--- a/hw/ppc/mac_oldworld.c
++++ b/hw/ppc/mac_oldworld.c
+@@ -94,7 +94,7 @@ static void ppc_heathrow_init(MachineState *machine)
+     uint32_t kernel_base, initrd_base, cmdline_base = 0;
+     int32_t kernel_size, initrd_size;
+     PCIBus *pci_bus;
+-    OldWorldMacIOState *macio;
++    PCIDevice *macio;
+     MACIOIDEState *macio_ide;
+     SysBusDevice *s;
+     DeviceState *dev, *pic_dev;
+@@ -278,7 +278,7 @@ static void ppc_heathrow_init(MachineState *machine)
+     ide_drive_get(hd, ARRAY_SIZE(hd));
  
-+PCIDevice *pci_new_multifunction(int devfn, bool multifunction,
-+                                 const char *name)
-+{
-+    DeviceState *dev;
-+
-+    dev = qdev_new(name);
-+    qdev_prop_set_int32(dev, "addr", devfn);
-+    qdev_prop_set_bit(dev, "multifunction", multifunction);
-+    return PCI_DEVICE(dev);
-+}
-+
-+PCIDevice *pci_new(int devfn, const char *name)
-+{
-+    return pci_new_multifunction(devfn, false, name);
-+}
-+
-+bool pci_realize_and_unref(PCIDevice *dev, PCIBus *bus, Error **errp)
-+{
-+    return qdev_realize_and_unref(&dev->qdev, &bus->qbus, errp);
-+}
-+
- PCIDevice *pci_create_multifunction(PCIBus *bus, int devfn, bool multifunction,
-                                     const char *name)
- {
+     /* MacIO */
+-    macio = OLDWORLD_MACIO(pci_create(pci_bus, -1, TYPE_OLDWORLD_MACIO));
++    macio = pci_create(pci_bus, -1, TYPE_OLDWORLD_MACIO);
+     dev = DEVICE(macio);
+     qdev_prop_set_uint64(dev, "frequency", tbfreq);
+     object_property_set_link(OBJECT(macio), OBJECT(pic_dev), "pic",
 -- 
 2.26.2
 
