@@ -2,69 +2,114 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C28321F57E9
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 17:34:08 +0200 (CEST)
-Received: from localhost ([::1]:57606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE6F61F57E0
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 17:32:09 +0200 (CEST)
+Received: from localhost ([::1]:51214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jj2jv-0003r8-OJ
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 11:34:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38058)
+	id 1jj2hz-0000IS-P6
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 11:32:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37558)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jj2Nx-0004gi-Pi
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 11:11:25 -0400
-Received: from indium.canonical.com ([91.189.90.7]:46410)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jj2Nw-0000r4-69
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 11:11:25 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jj2Nt-00032Y-NQ
- for <qemu-devel@nongnu.org>; Wed, 10 Jun 2020 15:11:21 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 5538A2E8149
- for <qemu-devel@nongnu.org>; Wed, 10 Jun 2020 15:11:19 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jj2NG-0003h9-Fh; Wed, 10 Jun 2020 11:10:42 -0400
+Received: from mail-eopbgr80120.outbound.protection.outlook.com
+ ([40.107.8.120]:27367 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jj2ND-0008PD-Ig; Wed, 10 Jun 2020 11:10:41 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=T7pDTjTQIriCv7eu5E+0TQaTsdoei78z3VVSfL6Zjdosrl939+Z/vk0nw4lLsZOkvKDRcuxAPcbyWcDb7mJ7qTtI2Z7IaJt7AnkifM2KleEABjAm7OgZ9LugxUiGBc8EwKFo6PVw6hCBi3LQujPOQ8oh8NvoLHLutmGQl/Ybi+QFn9AI6Hh6RDvIQsnODIccARgqOMTZsv437tzEk80UC4aKEQ4+WMcpe408EO5Qd6AatV2+BCecqpqcZHEyxWVVh59x5hF/ofMHm5LM4uUn/rHsYhb6gIr6atWbS0V4cLc8YSh7pAK65k5VqDb41XGEYDFoxL/j8b/eYzjyRWJQzg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Pfm33RwQ0/KqLiEnKPvKBk27o/tf8Bq3HxxD+bGh3x0=;
+ b=GQt1df5zFFhxkIMddfeEDVNaWZggG1DLStXlKywHxo8e6akwbRzaxKH1GTJr94/tJGBYFgZO+Wd8AIvitwkxxOCQ55f2be+c0uy9arJ/Ef4F9RHCCVq8T56qJeKn8Dwi793WwRVe2FlLKCI+hZIhGFhlYp9zEi+Iri0E3l9i+HCu2FXTcd2ybU3k+NstmHW9FmptIWHkDstrPDNGNfk5LPySwesXmFw+yctHlHOfYLJW1JV53QJZEnotr+I1XTdD5SdJAo0Ye7kYIEZUi1xt8ZSV4H2r5LVKxAT+Jx6FMHBOpHoQXnH7mIun1aPmG/1/2nq4aDh0WJ6j9Fxz0QK7jw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Pfm33RwQ0/KqLiEnKPvKBk27o/tf8Bq3HxxD+bGh3x0=;
+ b=BR0Z+FWuTrWcgf/30r1p/PDSoOaAW/BARpOs1CG5V/LvsLRNr5sI5uqMC0dyRwPDtIg5N84Hvx0RxBFyu/P5UZ5OL1AUTPkrPPWXS5xOKFusshC2ZpWomVbq0j8DxmZgEiF+oQIF1eYprdKsM7AmqEFa0ZOwGZnyKhXGQ1YiPxM=
+Authentication-Results: virtuozzo.com; dkim=none (message not signed)
+ header.d=none;virtuozzo.com; dmarc=none action=none
+ header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM7PR08MB5510.eurprd08.prod.outlook.com (2603:10a6:20b:109::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3066.18; Wed, 10 Jun
+ 2020 15:10:34 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::a408:2f0f:bc6c:d312]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::a408:2f0f:bc6c:d312%3]) with mapi id 15.20.3066.023; Wed, 10 Jun 2020
+ 15:10:34 +0000
+Subject: Re: [PATCH 1/2] aio: allow to wait for coroutine pool from different
+ coroutine
+To: "Denis V. Lunev" <den@openvz.org>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20200610144129.27659-1-den@openvz.org>
+ <20200610144129.27659-2-den@openvz.org>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <e2208bb0-fc7d-b97f-a4ae-d8e4b265db4d@virtuozzo.com>
+Date: Wed, 10 Jun 2020 18:10:33 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.1
+In-Reply-To: <20200610144129.27659-2-den@openvz.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM0PR03CA0028.eurprd03.prod.outlook.com
+ (2603:10a6:208:14::41) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 10 Jun 2020 14:57:48 -0000
-From: Thomas Huth <1674117@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: pulse-audio
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: hansp-schulz th-huth
-X-Launchpad-Bug-Reporter: 3vIL_VIrUs (hansp-schulz)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20170319163002.19988.72829.malonedeb@soybean.canonical.com>
-Message-Id: <159180106821.5951.6447097275257768151.malone@chaenomeles.canonical.com>
-Subject: [Bug 1674117] Re: Qemu VM start kills Pulseaudio
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="b190cebbf563f89e480a8b57f641753c8196bda0";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: b3b37a1d63434223cb3b45d0b51535061048bda9
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/10 11:11:22
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=_AUTOLEARN
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.2] (185.215.60.166) by
+ AM0PR03CA0028.eurprd03.prod.outlook.com (2603:10a6:208:14::41) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3088.18 via Frontend Transport; Wed, 10 Jun 2020 15:10:34 +0000
+X-Originating-IP: [185.215.60.166]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 24d8c58c-5540-4b13-5c84-08d80d506cc5
+X-MS-TrafficTypeDiagnostic: AM7PR08MB5510:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM7PR08MB5510C7C71ABA0F0BDA92B510C1830@AM7PR08MB5510.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4714;
+X-Forefront-PRVS: 0430FA5CB7
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: SC1CVBdKvPD/9KPn2VRyp8xZ0sU5mZEQk3BgcJTw+Lca8h4Hb7JnVsrDxhGazDXMhyEXS4O4U6CQ2DC9a6RtyIFTsehUi5B3O3ZYmv6Cvl7YLWo4yCJscbmxLO/3NruD7Bw1c+qNrUP/v4E6CypI5iVM1xNk0SC3UXC1dVsusaFXa2RvxWH0lTIEA79R1Ir0wTVNe5wkyXxS5Gl5geVj0coUBmDSvk1UThM0C8kuc21el5JCIOn9Uw+sVPz9cRyJ/f5dw1Z4OBPJeqyVZ8u0Kx8JX4XXlgb1YvzE1Xu2IOL0OHQXsv7+WNFBkYVN6SHaspmUZXbIWDJ7thix14Fy3IzpbeRlI3Gao7W2htMKj7SifA1kzId4Zkpz2PqxeS55
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(396003)(376002)(136003)(366004)(39850400004)(346002)(66946007)(16576012)(31696002)(2616005)(6486002)(66556008)(66476007)(54906003)(316002)(52116002)(956004)(16526019)(5660300002)(83380400001)(86362001)(8676002)(107886003)(31686004)(36756003)(4326008)(478600001)(186003)(8936002)(2906002)(26005)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: n+td0ZZA61GQOhgocLGrbH5h5dhqHpacsJBT/7nc3rXcoF4ofM4bPcXD8uP7+of1WEhrR2J3rXBeVw5d26fqOc6Hy8sv049o8+MB7R5y/LNocXV6gP6YwTZN8jxO5mdf6v8bPNjaaxNA12W0r/RZj9FGgMK9T8sxs8UVYt5t1E2r1cpABnlQ+QY2yI9VfB2/wSzl0+zoh4OVvtgAsF1gvlPzpZTHzH61NOKfq1kPLQNATxxRH2+9F5ZRcpEy1QBcZfhJNRJnDIKKLtvh9PFGUkshU1O0j4oqRBODjvSjcJI2lhNdlObxIVve6OIUfqaC/SYzKLwR0QD4Fu2hf01YiOazwSpzRR5E60IkfBrv0Bj2TDvPTFpfQzIRNMutTRqUJ4+ai6bhwSNFDwa5gSyj3/z5Cy99olcB6Biuh1dIvVvlkIGKG+AYDQRI1IJU0KXJZwGi/h1a9YhVAIElYrms/rngLvw3l8AUKALq7C0Xc745sM3QWwWn/UQStY323KVQ
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 24d8c58c-5540-4b13-5c84-08d80d506cc5
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jun 2020 15:10:34.7388 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 72B7QTzHEBPFhTIVrl8R6adL7kv7x+Y+bPaoMq76ac2AjBKe+u3FJ2At+A2+0/vGi09oPyjJIJHobGa1SQMazxY2iLZYm+4v5Nrtxc5MFDQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5510
+Received-SPF: pass client-ip=40.107.8.120;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR04-VI1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/10 11:10:35
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,128 +118,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1674117 <1674117@bugs.launchpad.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Denis Plotnikov <dplotnikov@virtuozzo.com>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Looking through old bug tickets... can you still reproduce this issue
-with the latest version of QEMU? Or could we close this ticket nowadays?
+10.06.2020 17:41, Denis V. Lunev wrote:
+> The patch preserves the constraint that the only waiter is allowed.
+> 
+> Signed-off-by: Denis V. Lunev <den@openvz.org>
+> CC: Kevin Wolf <kwolf@redhat.com>
+> CC: Max Reitz <mreitz@redhat.com>
+> CC: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> CC: Denis Plotnikov <dplotnikov@virtuozzo.com>
+> ---
+>   block/aio_task.c | 8 ++++----
+>   1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/block/aio_task.c b/block/aio_task.c
+> index 88989fa248..f338049147 100644
+> --- a/block/aio_task.c
+> +++ b/block/aio_task.c
+> @@ -27,7 +27,7 @@
+>   #include "block/aio_task.h"
+>   
+>   struct AioTaskPool {
+> -    Coroutine *main_co;
+> +    Coroutine *wake_co;
+>       int status;
+>       int max_busy_tasks;
+>       int busy_tasks;
+> @@ -54,15 +54,15 @@ static void coroutine_fn aio_task_co(void *opaque)
+>   
+>       if (pool->waiting) {
+>           pool->waiting = false;
+> -        aio_co_wake(pool->main_co);
+> +        aio_co_wake(pool->wake_co);
+>       }
+>   }
+>   
+>   void coroutine_fn aio_task_pool_wait_one(AioTaskPool *pool)
+>   {
+>       assert(pool->busy_tasks > 0);
+> -    assert(qemu_coroutine_self() == pool->main_co);
+>   
+> +    pool->wake_co = qemu_coroutine_self();
+>       pool->waiting = true;
+>       qemu_coroutine_yield();
+>   
+> @@ -98,7 +98,7 @@ AioTaskPool *coroutine_fn aio_task_pool_new(int max_busy_tasks)
+>   {
+>       AioTaskPool *pool = g_new0(AioTaskPool, 1);
+>   
+> -    pool->main_co = qemu_coroutine_self();
+> +    pool->wake_co = NULL;
+>       pool->max_busy_tasks = max_busy_tasks;
+>   
+>       return pool;
+> 
 
-** Changed in: qemu
-       Status: New =3D> Incomplete
+With such approach, if several coroutines will wait simultaneously, the only one will be finally woken and other will hang.
 
--- =
+I think, we should use CoQueue here: CoQueue instead of wake_co, qemu_co_queue_wait in wait_one, and qemu_co_queue_next instead of aio_co_wake.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1674117
 
-Title:
-  Qemu VM start kills Pulseaudio
-
-Status in QEMU:
-  Incomplete
-
-Bug description:
-  When I start a VM (start command below) in Qemu version >2.5, it kills Pu=
-lseaudio (paired with a huge lagspike) in ~4/5 cases. Using version 2.5 bui=
-ld from GIT, it works fine. This also happens when building from the curren=
-t GIT master (ebedf0f).
-  Host:
-    Freshly installed Antergos Arch Linux 4.10.3-1-ARCH
-    Intel I7-5930K
-    ASUS X99 Deluxe II latest UEFI
-    GTX 770
-
-  Guest:
-    Windows 10 x64
-    AMD RX480 via VFIO
-
-  This also happened on my last install (Ubuntu GNOME 16.10).
-
-  Start command:
-    QEMU_AUDIO_DRV=3Dpa \
-    QEMU_PA_SAMPLES=3D4096 \
-    qemu-system-x86_64 \
-      -serial none \
-      -parallel none \
-      -nodefconfig \
-      -nodefaults \
-      -name win10 \
-      -enable-kvm \
-      -cpu host,check,kvm=3Doff \
-      -smp 12,sockets=3D1,cores=3D6,threads=3D2 \
-      -m 16G \
-      -mem-prealloc \
-      -device nec-usb-xhci,id=3Dxhci \
-      -device usb-host,vendorid=3D0x05ac,productid=3D0x0205,bus=3Dxhci.0 \
-      -net nic,vlan=3D0,model=3Dvirtio \
-      -net bridge,vlan=3D0,br=3Dbridge0 \
-      -object iothread,id=3Diothread0 \
-      -device virtio-blk-pci,iothread=3Diothread0,drive=3Ddrive0 \
-      -drive file=3D"$DISK",format=3Draw,if=3Dnone,cache=3Dnone,aio=3Dnativ=
-e,id=3Ddrive0 \
-      -boot order=3Dc,menu=3Don \
-      -rtc base=3Dutc \
-      -nographic \
-      -k de \
-      -monitor stdio \
-      -soundhw hda \
-      -device vfio-pci,host=3D02:00.0,addr=3D09.0,multifunction=3Don,x-vga=
-=3Don \
-      -device vfio-pci,host=3D02:00.1,addr=3D09.1 \
-      -device vfio-pci,host=3D04:00.0,addr=3D07.0,multifunction=3Don,id=3Du=
-sbcontroller
-
-  When it kills Pulseaudio, I see these errors in the Qemu console:
-    pulseaudio: set_sink_input_volume() failed
-    pulseaudio: Reason: Bad state
-    pulseaudio: set_sink_input_mute() failed
-    pulseaudio: Reason: Bad state
-    pulseaudio: set_source_output_volume() failed
-    ... many more of these ...
-
-  The journal shows that PulseAudio is killed:
-    M=C3=A4r 19 13:12:42 hp-desktop systemd[530]: pulseaudio.service: Main =
-process exited, code=3Dkilled, status=3D9/KILL
-    M=C3=A4r 19 13:12:42 hp-desktop systemd[530]: pulseaudio.service: Unit =
-entered failed state.
-    M=C3=A4r 19 13:12:42 hp-desktop systemd[530]: pulseaudio.service: Faile=
-d with result 'signal'.
-    M=C3=A4r 19 13:12:42 hp-desktop systemd[530]: pulseaudio.service: Servi=
-ce hold-off time over, scheduling restart.
-    M=C3=A4r 19 13:12:42 hp-desktop systemd[530]: Stopped Sound Service.
-    M=C3=A4r 19 13:12:42 hp-desktop systemd[530]: Starting Sound Service...
-
-  I've also captured a PulseAudio debug log when this happens, but it
-  does not contain anything interesting (no warnings or errors), which
-  makes sense in case of SIGKILL.
-
-  In DMESG I get some errors too, but they seem to be just symptoms (but Im=
- just guessing...); 00:14.0 is the USB controller my DAC is connected to:
-    [ 4372.389051] usb 3-9.4: current rate 4500480 is different from the ru=
-ntime rate 44100
-    [ 4372.509163] usb 3-9.4: current rate 4500480 is different from the ru=
-ntime rate 44100
-    [ 4372.559104] usb 3-9.4: current rate 4500480 is different from the ru=
-ntime rate 44100
-    [ 4373.652557] xhci_hcd 0000:00:14.0: ERROR unknown event type 37
-    [ 4373.712382] xhci_hcd 0000:00:14.0: ERROR Transfer event TRB DMA ptr =
-not part of current TD ep_index 1 comp_code 36
-    [ 4373.715714] xhci_hcd 0000:00:14.0: Looking for event-dma 0000000745d=
-a7f00 trb-start 0000000745da7f10 trb-end 0000000745da7f10 seg-start 0000000=
-745da7000 seg-end 0000000745da7ff0
-    [ 4373.719055] xhci_hcd 0000:00:14.0: ERROR Transfer event TRB DMA ptr =
-not part of current TD ep_index 1 comp_code 1
-    [ 4373.722381] xhci_hcd 0000:00:14.0: Looking for event-dma 0000000745d=
-a7f00 trb-start 0000000745da7f10 trb-end 0000000745da7f10 seg-start 0000000=
-745da7000 seg-end 0000000745da7ff0
-    [ 4373.725753] xhci_hcd 0000:00:14.0: ERROR Transfer event TRB DMA ptr =
-not part of current TD ep_index 4 comp_code 13
-    [ 4373.725759] xhci_hcd 0000:00:14.0: Looking for event-dma 000000073c5=
-a51a0 trb-start 000000073c5a51b0 trb-end 000000073c5a51b0 seg-start 0000000=
-73c5a5000 seg-end 000000073c5a5ff0
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1674117/+subscriptions
+-- 
+Best regards,
+Vladimir
 
