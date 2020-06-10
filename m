@@ -2,103 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CB0C1F5623
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 15:48:46 +0200 (CEST)
-Received: from localhost ([::1]:32878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 341F21F55D3
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 15:31:35 +0200 (CEST)
+Received: from localhost ([::1]:39652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jj15x-0001xk-BX
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 09:48:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36448)
+	id 1jj0pK-0003eh-6D
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 09:31:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1jj12A-000772-Vb; Wed, 10 Jun 2020 09:44:50 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:50992)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1jj129-0003Nt-9X; Wed, 10 Jun 2020 09:44:50 -0400
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 05ACxCOt064679; Wed, 10 Jun 2020 09:01:43 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 31k00qr287-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 10 Jun 2020 09:01:42 -0400
-Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 05ACxMwF065202;
- Wed, 10 Jun 2020 09:01:29 -0400
-Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.106])
- by mx0a-001b2d01.pphosted.com with ESMTP id 31k00qr1xn-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 10 Jun 2020 09:01:27 -0400
-Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
- by ppma04fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 05AD0jXR019405;
- Wed, 10 Jun 2020 13:01:06 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma04fra.de.ibm.com with ESMTP id 31g2s7u4ww-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 10 Jun 2020 13:01:06 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 05AD13dd1638664
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 10 Jun 2020 13:01:03 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 68499AE056;
- Wed, 10 Jun 2020 13:01:03 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B65DCAE05A;
- Wed, 10 Jun 2020 13:01:02 +0000 (GMT)
-Received: from oc2783563651 (unknown [9.145.127.50])
- by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed, 10 Jun 2020 13:01:02 +0000 (GMT)
-Date: Wed, 10 Jun 2020 15:00:33 +0200
-From: Halil Pasic <pasic@linux.ibm.com>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH v2 1/1] virtio-ccw: auto-manage VIRTIO_F_IOMMU_PLATFORM
- if PV
-Message-ID: <20200610150033.5608ff95.pasic@linux.ibm.com>
-In-Reply-To: <858e9554-a4c7-6487-121b-ac3eaa209cb7@redhat.com>
-References: <20200606013217.2cffa3ed.pasic@linux.ibm.com>
- <20200608181428.3c6f127c.cohuck@redhat.com>
- <20200608190045.319dd68b.pasic@linux.ibm.com>
- <20200609084402.35d317ec.cohuck@redhat.com>
- <20200609114130.0ca9190b.pasic@linux.ibm.com>
- <20200609174747.4e300818@ibm-vm>
- <20200609182839.7ac80938.pasic@linux.ibm.com>
- <20200609124155-mutt-send-email-mst@kernel.org>
- <20200610043118.GF494336@umbus.fritz.box>
- <4e5d62d8-9bfb-67d5-7398-2079729fd85e@redhat.com>
- <20200610100756.GO494336@umbus.fritz.box>
- <858e9554-a4c7-6487-121b-ac3eaa209cb7@redhat.com>
-Organization: IBM
-X-Mailer: Claws Mail 3.11.1 (GTK+ 2.24.31; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
+ id 1jj0c1-0001HF-Sf
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 09:17:50 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:21065
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
+ id 1jj0c0-0005b8-1A
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 09:17:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1591795066;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=glj1UX0IRZ08E8I1uYNUtVXZVxJdi16Aw7I/UGOZ4Fk=;
+ b=IuxIFPyigVSQpBtV880CCDFksPEDd3wuOLcHh+GZoYCV1JyrF9zk6vTvlCyBGerb6eJ7g9
+ 6mckN5CBlN/M+M5UUFmbgUVJcpCzlw31OOF8d4Ju2xTb1FQGyCNLKPilzGCVgL4xWsuwzY
+ ZYJmtVkznW4MHR2s8TY6D+n5EbNxHgM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-167-QVh-Zd7jM2mC9HqkWbfZ4Q-1; Wed, 10 Jun 2020 09:17:44 -0400
+X-MC-Unique: QVh-Zd7jM2mC9HqkWbfZ4Q-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A767281A3FF
+ for <qemu-devel@nongnu.org>; Wed, 10 Jun 2020 13:17:43 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.40.195.12])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 26B32100238E
+ for <qemu-devel@nongnu.org>; Wed, 10 Jun 2020 13:17:42 +0000 (UTC)
+From: Michal Privoznik <mprivozn@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 1/2] qemu-options.hx: Mark all hmat-cache attributes
+ required
+Date: Wed, 10 Jun 2020 15:17:34 +0200
+Message-Id: <b6d3bc2ac8b38a419c98fb5eb1454ffbcb4fa172.1591794890.git.mprivozn@redhat.com>
+In-Reply-To: <cover.1591794890.git.mprivozn@redhat.com>
+References: <cover.1591794890.git.mprivozn@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.687
- definitions=2020-06-10_07:2020-06-10,
- 2020-06-10 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 suspectscore=0
- cotscore=-2147483648 mlxlogscore=999 clxscore=1015 malwarescore=0
- impostorscore=0 bulkscore=0 spamscore=0 lowpriorityscore=0 mlxscore=0
- priorityscore=1501 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2004280000 definitions=main-2006100095
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pasic@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/10 08:25:00
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -35
-X-Spam_score: -3.6
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=mprivozn@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/09 23:22:15
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
 X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -111,75 +80,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Boris Fiuczynski <fiuczy@linux.ibm.com>,
- Janosch Frank <frankja@linux.ibm.com>, Pierre Morel <pmorel@linux.ibm.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Claudio Imbrenda <imbrenda@linux.ibm.com>, Richard Henderson <rth@twiddle.net>,
- Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Viktor Mihajlovski <mihajlov@linux.ibm.com>,
- David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 10 Jun 2020 12:24:14 +0200
-David Hildenbrand <david@redhat.com> wrote:
+The documentation to `-numa hmat-cache` says that @node-id, @size
+and @level are the only required attributes. The rest
+(@associativity, @policy and @line) is optional. Well, not quite
+- if I try to start QEMU with only the three required attributes
+defined the QAPI code is complaining about associativity missing.
 
-> On 10.06.20 12:07, David Gibson wrote:
-> > On Wed, Jun 10, 2020 at 09:22:45AM +0200, David Hildenbrand wrote:
-> >> On 10.06.20 06:31, David Gibson wrote:
-> >>> On Tue, Jun 09, 2020 at 12:44:39PM -0400, Michael S. Tsirkin wrote:
-> >>>> On Tue, Jun 09, 2020 at 06:28:39PM +0200, Halil Pasic wrote:
-> >>>>> On Tue, 9 Jun 2020 17:47:47 +0200
-> >>>>> Claudio Imbrenda <imbrenda@linux.ibm.com> wrote:
-> >>>>>
-> >>>>>> On Tue, 9 Jun 2020 11:41:30 +0200
-> >>>>>> Halil Pasic <pasic@linux.ibm.com> wrote:
-> >>>>>>
-> >>>>>> [...]
-> >>>>>>
-> >>>>>>> I don't know. Janosch could answer that, but he is on vacation. Adding
-> >>>>>>> Claudio maybe he can answer. My understanding is, that while it might
-> >>>>>>> be possible, it is ugly at best. The ability to do a transition is
-> >>>>>>> indicated by a CPU model feature. Indicating the feature to the guest
-> >>>>>>> and then failing the transition sounds wrong to me.
-> >>>>>>
-> >>>>>> I agree. If the feature is advertised, then it has to work. I don't
-> >>>>>> think we even have an architected way to fail the transition for that
-> >>>>>> reason.
-> >>>>>>
-> >>>>>> What __could__ be done is to prevent qemu from even starting if an
-> >>>>>> incompatible device is specified together with PV.
-> >>>>>
-> >>>>> AFAIU, the "specified together with PV" is the problem here. Currently
-> >>>>> we don't "specify PV" but PV is just a capability that is managed by the
-> >>>>> CPU model (like so many other).
-> >>>>
-> >>>> So if we want to keep it user friendly, there could be
-> >>>> protection property with values on/off/auto, and auto
-> >>>> would poke at host capability to figure out whether
-> >>>> it's supported.
-> >>>>
-> >>>> Both virtio and CPU would inherit from that.
-> >>>
-> >>> Right, that's what I have in mind for my 'host-trust-limitation'
-> >>> property (a generalized version of the existing 'memory-encryption'
-> >>> machine option).  My draft patches already set virtio properties
-> >>> accordingly, it should be possible to set (default) cpu properties as
-> >>> well.
-> >>
-> >> No crazy CPU model hacks please (at least speaking for the s390x).
-> > 
-> > Uh... I'm not really sure what you have in mind here.
-> > 
-> 
-> Reading along I got the impression that we want to glue the availability
-> of CPU features to other QEMU cmdline parameters (besides the
-> accelerator). ("to set (default) cpu properties as well"). If we are
-> talking about other CPU properties not expressed as CPU features (e.g.,
-> -cpu X,Y=on ...), then there is no issue.
-> 
+According to QAPI all attributes are required. Make the docs
+reflect that.
 
-I share the concerns broght forward by David.
+Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
+---
+ qemu-options.hx | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 93bde2bbc8..b1a399079a 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -188,7 +188,7 @@ DEF("numa", HAS_ARG, QEMU_OPTION_numa,
+     "-numa dist,src=source,dst=destination,val=distance\n"
+     "-numa cpu,node-id=node[,socket-id=x][,core-id=y][,thread-id=z]\n"
+     "-numa hmat-lb,initiator=node,target=node,hierarchy=memory|first-level|second-level|third-level,data-type=access-latency|read-latency|write-latency[,latency=lat][,bandwidth=bw]\n"
+-    "-numa hmat-cache,node-id=node,size=size,level=level[,associativity=none|direct|complex][,policy=none|write-back|write-through][,line=size]\n",
++    "-numa hmat-cache,node-id=node,size=size,level=level,associativity=none|direct|complex,policy=none|write-back|write-through,line=size\n",
+     QEMU_ARCH_ALL)
+ SRST
+ ``-numa node[,mem=size][,cpus=firstcpu[-lastcpu]][,nodeid=node][,initiator=initiator]``
+@@ -201,7 +201,7 @@ SRST
+   \ 
+ ``-numa hmat-lb,initiator=node,target=node,hierarchy=hierarchy,data-type=tpye[,latency=lat][,bandwidth=bw]``
+   \ 
+-``-numa hmat-cache,node-id=node,size=size,level=level[,associativity=str][,policy=str][,line=size]``
++``-numa hmat-cache,node-id=node,size=size,level=level,associativity=str,policy=str,line=size``
+     Define a NUMA node and assign RAM and VCPUs to it. Set the NUMA
+     distance from a source node to a destination node. Set the ACPI
+     Heterogeneous Memory Attributes for the given nodes.
+-- 
+2.26.2
 
 
