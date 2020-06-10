@@ -2,70 +2,112 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 629AD1F59A3
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 19:02:28 +0200 (CEST)
-Received: from localhost ([::1]:59276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 151041F5A0E
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 19:20:04 +0200 (CEST)
+Received: from localhost ([::1]:46784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jj47O-0007Nj-Pz
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 13:02:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45920)
+	id 1jj4OQ-00010Q-Tx
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 13:20:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jj45y-0006nv-Jv
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 13:00:58 -0400
-Received: from indium.canonical.com ([91.189.90.7]:46684)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jj45x-0003yx-35
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 13:00:58 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jj45u-0006FC-NH
- for <qemu-devel@nongnu.org>; Wed, 10 Jun 2020 17:00:54 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id AAD2E2E8106
- for <qemu-devel@nongnu.org>; Wed, 10 Jun 2020 17:00:54 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jj4Lx-0006x7-0T; Wed, 10 Jun 2020 13:17:29 -0400
+Received: from mail-eopbgr80093.outbound.protection.outlook.com
+ ([40.107.8.93]:5628 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jj4Lu-0000Gk-42; Wed, 10 Jun 2020 13:17:27 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Ur/+l3foaW/EVs8AcsrYX+DUPzm4BcFywFdNP4GQZOuYdq3JxruxHhi+GGu95cxEInyL6qj2Ty3veKTk3nFaGVbb1DgvQg0kRd4pvOsxQBVz8yAeku75qCqaOYGgKMjVkaWGm7E5DlgmS7vvKJe3n7Hpks5Weg+K1zu+jQ8y5uxPHRSCOznL1ImIJiyh1P7iqZ267SQAvvsgaAaj9VMObBIVDcpNmjqL9B6SuZ2+5aop1PvJerVwq3ld9FSXnzlI591j/k+PgAjYMc6lUgdkMI6/etfAflWXCH/h8zDtONwbzCWtVg1876S+ZUE+wiU1bs/idD2d72HQ0oHcGPoHCg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=sZ63oaUq7OZzlGiKG6fNiSiugzcH3P65jPo8hOPEQNo=;
+ b=NCCnt+aKXIDdI549SimW28Iir0p2ZC/KTV1URwgGkGviX6XkmdJyaDoHbkf4O93HRQHdeL+K97NwH92QLQ/ZyPEHWGeS2JxPbvW6oK27L7q9D0jHd9pOp+B7IlPaUKuaEYXfGqNmuZI7RZYMuuCHrT770vnuJgYDKFjulNjCBYnYOk08jgrmcpn33UmlXpzE5LRf3pdR6nPDJt3d9gAvj6alZGqjbrzwV7UhtiStJGgET6f9qyPY9d28l2X4PgTsT2DkSFtVYkagIA4H7x7I49uAo6InnRgmmANk5g3Rc45TZZNRfYgYQphK8PUcMy4dKICahM/KlaZVFOa0HdO59A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=sZ63oaUq7OZzlGiKG6fNiSiugzcH3P65jPo8hOPEQNo=;
+ b=G0Jc3BbxCa2cDr9BAkHHSTPrR21VzBBJ7xWbpHnr/D94iwMoEGiIeXLfY/nuIQpiiTBx8vSa2xJO9KTVfb10STjwrSSGLm16uuHjFj0Ff1E/y9NIusHYX6wpe+kRyGoUu54CvkqeRkVDPm6XhUxXqACNE9ZvKaAe6JPmvTu3zFE=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM7PR08MB5462.eurprd08.prod.outlook.com (2603:10a6:20b:10b::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3088.18; Wed, 10 Jun
+ 2020 17:17:21 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::a408:2f0f:bc6c:d312]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::a408:2f0f:bc6c:d312%3]) with mapi id 15.20.3066.023; Wed, 10 Jun 2020
+ 17:17:21 +0000
+Subject: Re: [PATCH v2 1/2] nbd/server: Avoid long error message assertions
+ CVE-2020-10761
+To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
+References: <20200610163741.3745251-1-eblake@redhat.com>
+ <20200610163741.3745251-2-eblake@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <89b366a9-a7e0-c2a9-d1a0-636a353c13ad@virtuozzo.com>
+Date: Wed, 10 Jun 2020 20:17:19 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.1
+In-Reply-To: <20200610163741.3745251-2-eblake@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM4PR05CA0009.eurprd05.prod.outlook.com (2603:10a6:205::22)
+ To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 10 Jun 2020 16:53:54 -0000
-From: "Laszlo Ersek \(Red Hat\)" <1882671@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
- status=Confirmed; importance=Undecided; assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor lersek vvaltchev
-X-Launchpad-Bug-Reporter: Vladislav K. Valtchev (vvaltchev)
-X-Launchpad-Bug-Modifier: Laszlo Ersek (Red Hat) (lersek)
-References: <159169936514.32294.8785049859239547612.malonedeb@gac.canonical.com>
-Message-Id: <159180803476.8114.4541490092043850606.malone@gac.canonical.com>
-Subject: [Bug 1882671] Re: qemu-system-x86_64 (ver 4.2) stuck at boot with
- OVMF bios
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="b190cebbf563f89e480a8b57f641753c8196bda0";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: d7546103f60c2893fc8409b3d0eb2d6a0410f5e2
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/10 11:11:22
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.2] (185.215.60.166) by
+ AM4PR05CA0009.eurprd05.prod.outlook.com (2603:10a6:205::22) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3088.18 via Frontend Transport; Wed, 10 Jun 2020 17:17:21 +0000
+X-Originating-IP: [185.215.60.166]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 92159703-1cb4-4205-4ccb-08d80d6222e1
+X-MS-TrafficTypeDiagnostic: AM7PR08MB5462:
+X-Microsoft-Antispam-PRVS: <AM7PR08MB54623805F7BEB6525CAA4928C1830@AM7PR08MB5462.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
+X-Forefront-PRVS: 0430FA5CB7
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: s2TGy69ANvJlI2OhwtQK60y8ArEyWI0o5Q4EWRabdmliwpn+ANleiruc/L9abYzRvGLZt2lyRoBNMQSumnfuVsRmp97tdzseDM0pkREqNi9VmZcxL3d+2/kkmU4ypdrY77YSruvtUy5I18cl/rnS8oyDeOekVg8rdxRMQZc4RQIsCGVkRjZ+fTQMdZhzENeDmHbRHnnSkABghZJ/9GV+vbCg2NM+vHFr2rFt/RBJ8GRv19uVvfGf1j0SgvqjnXw55dBds3wAcibwe5I4SkHa/ncgUCotdwymIxSYMCAGdwYnW8EXFkN6jpCgL3DCjX+4pK7YGdvH/w6TndTJjqnobE2r0SebilIr3CCuGSiusfsRPU5UlamWUQeClEBofH1SVZcBVI6zDvy5BMuWhElLjenIa6V8OP5x+yZrenJkMU1XKa9BJe7YHyCfDu84zt5mOZPXwVvALorq9Ldiv4DaCVO+koCeu1tw/bvriLrzdSE=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(346002)(39850400004)(136003)(366004)(396003)(376002)(186003)(2616005)(36756003)(66946007)(66476007)(66556008)(2906002)(966005)(478600001)(16576012)(8676002)(316002)(16526019)(31696002)(5660300002)(54906003)(26005)(86362001)(956004)(83380400001)(8936002)(31686004)(15650500001)(52116002)(4326008)(6486002)(21314003)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: bPuipApCT3DAeOeQhI0aSHRbhgdljtvQrkJXmRGQrr9YGw/bm4ho+hpMvLU9YA0yK5wMLkdr8dEfgTeEi5gcjpesgJePqKZM0MoZMbpAMRQf0IgmfwIKS9X68ZxbkgEVhcWbOkddC9rppp86Q/r4pm4lPPmkNWtnFO4fGHayBIGTS0MruFG1WpWNtTbQ7WjlVAHXGjYh6fup0IOvbEZ3rrQm+tcju7FJaL6+SopTOtfcVWYycHSg1nClA3/IMAm1iAm14iAdm/kdXX+Ehj8qMB0+XEsFQC6Oj8Fhp1eWSdzXNJlhxNGlW4puoNUMVFh53NidlwS2sd1ma25g29tP4mDsnfM8Ez0h6OvJMV5j0pYPNNPvhbJ5OUp9tK1rAexOxqcmhYZf6LQ993q8rj8mGU8QyW8sOPTJcd1nysOATxoVAXn8xflDOztBw5Z736E39w3SprmVyd1633UoRBL96MtEqQ2Mei+c9Xm8GfIAlrc3AsI93QodVB/UwhGRGstC
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 92159703-1cb4-4205-4ccb-08d80d6222e1
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jun 2020 17:17:21.7306 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: GGYt3KzJkxpaDu18o0otuzIge+5MjjxqAe9fPnzdHjvr/3bP2/QpMye0GXcnW2D053oeLsdmxmHxvLXTqPyTXQDss1WOLZBAX2puY4sAyv4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5462
+Received-SPF: pass client-ip=40.107.8.93;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR04-VI1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/10 13:17:22
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -74,154 +116,164 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1882671 <1882671@bugs.launchpad.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ qemu-stable@nongnu.org, Max Reitz <mreitz@redhat.com>, ppandit@redhat.com,
+ xuwei@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Vladislav,
+10.06.2020 19:37, Eric Blake wrote:
+> Ever since commit 36683283 (v2.8), the server code asserts that error
+> strings sent to the client are well-formed per the protocol by not
+> exceeding the maximum string length of 4096.  At the time the server
+> first started sending error messages, the assertion could not be
+> triggered, because messages were completely under our control.
+> However, over the years, we have added latent scenarios where a client
+> could trigger the server to attempt an error message that would
+> include the client's information if it passed other checks first:
+> 
+> - requesting NBD_OPT_INFO/GO on an export name that is not present
+>    (commit 0cfae925 in v2.12 echoes the name)
+> 
+> - requesting NBD_OPT_LIST/SET_META_CONTEXT on an export name that is
+>    not present (commit e7b1948d in v2.12 echoes the name)
+> 
+> At the time, those were still safe because we flagged names larger
+> than 256 bytes with a different message; but that changed in commit
+> 93676c88 (v4.2) when we raised the name limit to 4096 to match the NBD
+> string limit.  (That commit also failed to change the magic number
+> 4096 in nbd_negotiate_send_rep_err to the just-introduced named
+> constant.)  So with that commit, long client names appended to server
+> text can now trigger the assertion, and thus be used as a denial of
+> service attack against a server.  As a mitigating factor, if the
+> server requires TLS, the client cannot trigger the problematic paths
+> unless it first supplies TLS credentials, and such trusted clients are
+> less likely to try to intentionally crash the server.
+> 
+> We may later want to further sanitize the user-supplied strings we
+> place into our error messages, such as scrubbing out control
+> characters, but that is less important to the CVE fix, so it can be a
+> later patch to the new nbd_sanitize_name.
+> 
+> Consideration was given to changing the assertion in
+> nbd_negotiate_send_rep_verr to instead merely log a server error and
+> truncate the message, to avoid leaving a latent path that could
+> trigger a future CVE DoS on any new error message.  However, this
+> merely complicates the code for something that is already (correctly)
+> flagging coding errors, and now that we are aware of the long message
+> pitfall, we are less likely to introduce such errors in the future,
+> which would make such error handling dead code.
+> 
+> Reported-by: Xueqiang Wei <xuwei@redhat.com>
+> CC: qemu-stable@nongnu.org
+> Fixes: https://bugzilla.redhat.com/1843684 CVE-2020-10761
+> Fixes: 93676c88d7
+> Signed-off-by: Eric Blake <eblake@redhat.com>
 
-The OVMF debug log ends like this (with UEFI protocol GUIDs decoded as
-their textual identifiers in edk2):
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-> [Security] 3rd party image[6D19D18] can be loaded after EndOfDxe: PciRoot=
-(0x0)/Pci(0x3,0x0)/Offset(0x16400,0x4B1FF).
-> InstallProtocolInterface: [EfiLoadedImageProtocol] 6D187C0
-> Loading driver at 0x00006B1F000 EntryPoint=3D0x00006B25497 82540em.efi
-> InstallProtocolInterface: [EfiLoadedImageDevicePathProtocol] 6D18498
-> ProtectUefiImageCommon - 0x6D187C0
->   - 0x0000000006B1F000 - 0x00000000000B6E60
-> InstallProtocolInterface: [EfiDriverBindingProtocol] 6B50C00
-> InstallProtocolInterface: [EfiComponentName2Protocol] 6B50BD0
-> ASSERT /home/jenkins/workspace/edk2/rpms/build/edk2-g6ff7c838d0/MdeModule=
-Pkg/Core/Dxe/Image/Image.c(1676): Image->Tpl =3D=3D gEfiCurrentTpl
+> ---
+>   nbd/server.c               | 23 ++++++++++++++++++++---
+>   tests/qemu-iotests/143     |  4 ++++
+>   tests/qemu-iotests/143.out |  2 ++
+>   3 files changed, 26 insertions(+), 3 deletions(-)
+> 
+> diff --git a/nbd/server.c b/nbd/server.c
+> index 02b1ed080145..20754e9ebc3c 100644
+> --- a/nbd/server.c
+> +++ b/nbd/server.c
+> @@ -217,7 +217,7 @@ nbd_negotiate_send_rep_verr(NBDClient *client, uint32_t type,
+> 
+>       msg = g_strdup_vprintf(fmt, va);
+>       len = strlen(msg);
+> -    assert(len < 4096);
+> +    assert(len < NBD_MAX_STRING_SIZE);
+>       trace_nbd_negotiate_send_rep_err(msg);
+>       ret = nbd_negotiate_send_rep_len(client, type, len, errp);
+>       if (ret < 0) {
+> @@ -231,6 +231,19 @@ nbd_negotiate_send_rep_verr(NBDClient *client, uint32_t type,
+>       return 0;
+>   }
+> 
+> +/*
+> + * Return a malloc'd copy of @name suitable for use in an error reply.
+> + */
+> +static char *
+> +nbd_sanitize_name(const char *name)
+> +{
+> +    if (strnlen(name, 80) < 80) {
+> +        return g_strdup(name);
+> +    }
+> +    /* XXX Should we also try to sanitize any control characters? */
+> +    return g_strdup_printf("%.80s...", name);
+> +}
+> +
+>   /* Send an error reply.
+>    * Return -errno on error, 0 on success. */
+>   static int GCC_FMT_ATTR(4, 5)
+> @@ -595,9 +608,11 @@ static int nbd_negotiate_handle_info(NBDClient *client, Error **errp)
+> 
+>       exp = nbd_export_find(name);
+>       if (!exp) {
+> +        g_autofree char *sane_name = nbd_sanitize_name(name);
 
-This final log snippet confirms that a UEFI device driver called
-"82540em.efi" is being loaded and started from the option ROM BAR of the
-PCI device that is at slot 3, function 0, of the root bridge.
+Cool! Somehow I forget about this feature, when writing my answer on v1.
 
-When this UEFI device driver is started, it trips an assert in the
-platform firmware. Namely, in the CoreStartImage() function in the
-"MdeModulePkg/Core/Dxe/Image/Image.c" source file of edk2:
+> +
+>           return nbd_negotiate_send_rep_err(client, NBD_REP_ERR_UNKNOWN,
+>                                             errp, "export '%s' not present",
+> -                                          name);
+> +                                          sane_name);
+>       }
+> 
+>       /* Don't bother sending NBD_INFO_NAME unless client requested it */
+> @@ -995,8 +1010,10 @@ static int nbd_negotiate_meta_queries(NBDClient *client,
+> 
+>       meta->exp = nbd_export_find(export_name);
+>       if (meta->exp == NULL) {
+> +        g_autofree char *sane_name = nbd_sanitize_name(export_name);
+> +
+>           return nbd_opt_drop(client, NBD_REP_ERR_UNKNOWN, errp,
+> -                            "export '%s' not present", export_name);
+> +                            "export '%s' not present", sane_name);
+>       }
+> 
+>       ret = nbd_opt_read(client, &nb_queries, sizeof(nb_queries), errp);
+> diff --git a/tests/qemu-iotests/143 b/tests/qemu-iotests/143
+> index f649b3619501..b4acc4372542 100755
+> --- a/tests/qemu-iotests/143
+> +++ b/tests/qemu-iotests/143
+> @@ -58,6 +58,10 @@ _send_qemu_cmd $QEMU_HANDLE \
+>   $QEMU_IO_PROG -f raw -c quit \
+>       "nbd+unix:///no_such_export?socket=$SOCK_DIR/nbd" 2>&1 \
+>       | _filter_qemu_io | _filter_nbd
+> +# Likewise, with longest possible name permitted in NBD protocol
+> +$QEMU_IO_PROG -f raw -c quit \
+> +    "nbd+unix:///$(printf %4096d 1 | tr ' ' a)?socket=$SOCK_DIR/nbd" 2>&1 \
+> +    | _filter_qemu_io | _filter_nbd | sed 's/aa.*aa/aa--aa/'
 
-  //
-  // Image has completed.  Verify the tpl is the same
-  //
-  ASSERT (Image->Tpl =3D=3D gEfiCurrentTpl);
+A bit more precise regexp: 's/a\{5,\}/aa--aa/'
 
-This suggests that the "82540em.efi" driver exits its entry point
-function after having raised, but not having restored, the TPL (Task
-Priority Level). In other words, the symptom indicates a bug in the UEFI
-driver.
+> 
+>   _send_qemu_cmd $QEMU_HANDLE \
+>       "{ 'execute': 'quit' }" \
+> diff --git a/tests/qemu-iotests/143.out b/tests/qemu-iotests/143.out
+> index 1f4001c60131..fc9c0a761fa1 100644
+> --- a/tests/qemu-iotests/143.out
+> +++ b/tests/qemu-iotests/143.out
+> @@ -5,6 +5,8 @@ QA output created by 143
+>   {"return": {}}
+>   qemu-io: can't open device nbd+unix:///no_such_export?socket=SOCK_DIR/nbd: Requested export not available
+>   server reported: export 'no_such_export' not present
+> +qemu-io: can't open device nbd+unix:///aa--aa1?socket=SOCK_DIR/nbd: Requested export not available
+> +server reported: export 'aa--aa...' not present
+>   { 'execute': 'quit' }
+>   {"return": {}}
+>   {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "SHUTDOWN", "data": {"guest": false, "reason": "host-qmp-quit"}}
+> 
 
-I *suspect* (but am not sure) that you are using an e1000 emulated NIC,
-and the "82540em.efi" driver exposed in its oprom comes from the iPXE
-project:
 
-src/drivers/net/intel.c:        PCI_ROM ( 0x8086, 0x100e, "82540em",
-"82540EM", 0 ),
-
-Therefore I suspect a bug in the iPXE version that the Ubuntu 20.04
-upgrade brought to you.
-
-(I can see a number of TPL-related patches in the iPXE git history,
-around Feb-Mar 2018. And QEMU loads the iPXE oprom into the emulated
-NICs ROM BAR.)
-
-Please try installing different versions of the iPXE package on your
-Ubuntu host, and re-run your test (without changing any other elements
-of your setup).
-
-Thanks.
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1882671
-
-Title:
-  qemu-system-x86_64 (ver 4.2) stuck at boot with OVMF bios
-
-Status in QEMU:
-  New
-Status in qemu package in Ubuntu:
-  Confirmed
-
-Bug description:
-  The version of QEMU (4.2.0) packaged for Ubuntu 20.04 hangs
-  indefinitely at boot if an OVMF bios is used. This happens ONLY with
-  qemu-system-x86_64. qemu-system-i386 works fine with the latest ia32
-  OVMF bios.
-
-  NOTE[1]: the same identical OVMF bios works fine on QEMU 2.x packaged wit=
-h Ubuntu 18.04.
-  NOTE[2]: reproducing the fatal bug requires *no* operating system:
-
-     qemu-system-x86_64 -bios OVMF-pure-efi.fd
-
-  On its window QEMU gets stuck at the very first stage:
-     "Guest has not initialized the display (yet)."
-
-  NOTE[3]: QEMU gets stuck no matter if KVM is used or not.
-
-  NOTE[4]: By adding the `-d int` option it is possible to observe that
-  QEMU is, apparently, stuck in an endless loop of interrupts. For the
-  first few seconds, registers' values vary quickly, but at some point
-  they reach a final value, while the interrupt counter increments:
-
-    2568: v=3D68 e=3D0000 i=3D0 cpl=3D0 IP=3D0038:0000000007f1d225 pc=3D000=
-0000007f1d225 SP=3D0030:0000000007f0c8d0 env->regs[R_EAX]=3D0000000000000000
-  RAX=3D0000000000000000 RBX=3D0000000007f0c920 RCX=3D0000000000000000 RDX=
-=3D0000000000000001
-  RSI=3D0000000006d18798 RDI=3D0000000000008664 RBP=3D0000000000000000 RSP=
-=3D0000000007f0c8d0
-  R8 =3D0000000000000001 R9 =3D0000000000000089 R10=3D0000000000000000 R11=
-=3D0000000007f2c987
-  R12=3D0000000000000000 R13=3D0000000000000000 R14=3D0000000007087901 R15=
-=3D0000000000000000
-  RIP=3D0000000007f1d225 RFL=3D00000246 [---Z-P-] CPL=3D0 II=3D0 A20=3D1 SM=
-M=3D0 HLT=3D0
-  ES =3D0030 0000000000000000 ffffffff 00cf9300 DPL=3D0 DS   [-WA]
-  CS =3D0038 0000000000000000 ffffffff 00af9a00 DPL=3D0 CS64 [-R-]
-  SS =3D0030 0000000000000000 ffffffff 00cf9300 DPL=3D0 DS   [-WA]
-  DS =3D0030 0000000000000000 ffffffff 00cf9300 DPL=3D0 DS   [-WA]
-  FS =3D0030 0000000000000000 ffffffff 00cf9300 DPL=3D0 DS   [-WA]
-  GS =3D0030 0000000000000000 ffffffff 00cf9300 DPL=3D0 DS   [-WA]
-  LDT=3D0000 0000000000000000 0000ffff 00008200 DPL=3D0 LDT
-  TR =3D0000 0000000000000000 0000ffff 00008b00 DPL=3D0 TSS64-busy
-  GDT=3D     00000000079eea98 00000047
-  IDT=3D     000000000758f018 00000fff
-  CR0=3D80010033 CR2=3D0000000000000000 CR3=3D0000000007c01000 CR4=3D000006=
-68
-  DR0=3D0000000000000000 DR1=3D0000000000000000 DR2=3D0000000000000000 DR3=
-=3D0000000000000000 =
-
-  DR6=3D00000000ffff0ff0 DR7=3D0000000000000400
-  CCS=3D0000000000000044 CCD=3D0000000000000000 CCO=3DEFLAGS  =
-
-  EFER=3D0000000000000d00
-
-  =
-
-  NOTE[5]: Just to better help the investigation of the bug, I'd like to re=
-mark that the issue is NOT caused by an endless loop of triple-faults. I tr=
-ied with -d cpu_reset and there is NO such loop. No triple fault whatsoever.
-
-  NOTE[6]: The OVMF version used for the test has been downloaded from:
-  https://www.kraxel.org/repos/jenkins/edk2/edk2.git-ovmf-x64-0-20200515.13=
-98.g6ff7c838d0.noarch.rpm
-
-  but the issue is the same with older OVMF versions as well.
-
-  =
-
-  Please take a look at it, as the bug is NOT a corner case. QEMU 4.2.0 can=
-not boot with an UEFI firmware (OVMF) while virtualizing a x86_64 machine A=
-T ALL.
-
-  Thank you very much,
-  Vladislav K. Valtchev
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1882671/+subscriptions
+-- 
+Best regards,
+Vladimir
 
