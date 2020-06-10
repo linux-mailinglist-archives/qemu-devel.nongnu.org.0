@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 137AD1F4CA9
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 06:55:30 +0200 (CEST)
-Received: from localhost ([::1]:44242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A6691F4CA2
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jun 2020 06:53:40 +0200 (CEST)
+Received: from localhost ([::1]:37354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jislt-0005mu-2X
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 00:55:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34770)
+	id 1jisk7-0002pC-0T
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jun 2020 00:53:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jisOI-0004h1-Cw
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 00:31:06 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:31265
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jisLz-0002NK-K1
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 00:28:43 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:41458
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jisOH-0000gl-3I
- for qemu-devel@nongnu.org; Wed, 10 Jun 2020 00:31:06 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jisLy-0008Pi-Lk
+ for qemu-devel@nongnu.org; Wed, 10 Jun 2020 00:28:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591763464;
+ s=mimecast20190719; t=1591763322;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mpMbTsm6mehy6ISo1LlFq8k67fPnsrK8nRjA546c8Mw=;
- b=RaM8Q0z1FpESSejNi0stSvUcMsp1mQrGtDQB6zT6R+kGRjqVKP3PyVYAXix47Jw+LUjPut
- 8RIkHBuWAtCDV4VbYU3lFpE5ET2DfkJvKWSqyHCZ2UWp9q67ybobtk2BpWGb4W62PLYXKL
- qoLS51gdDgi9rOWbo29m3R/risSDATo=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-306-0CexiNW0PuuGbPkb_RlSNA-1; Wed, 10 Jun 2020 00:28:36 -0400
-X-MC-Unique: 0CexiNW0PuuGbPkb_RlSNA-1
-Received: by mail-wr1-f71.google.com with SMTP id n6so513136wrv.6
- for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 21:28:35 -0700 (PDT)
+ bh=7szwIaLeQ8ZLnLw2poVLDcD+YJimMkOHW+I2Lu0XpBE=;
+ b=Wo1g1w4HfO1nwqeEuJP7KY3qU9510Whgd4GyLBXijW6o06ZAbuh92qOCLCTZMxeMGDNZlU
+ UJqd4J3KEtxDCJJedUY5mOIhLl9y7C3FCMKEFIVD9yyv8pu0dBxgOTa2BICe3Kjv1gMzuZ
+ HD0/cXutVnoso8HoNuEWzz6nKy7WqNY=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-240-StNkUxa3OKOCcHsB-q76rw-1; Wed, 10 Jun 2020 00:28:40 -0400
+X-MC-Unique: StNkUxa3OKOCcHsB-q76rw-1
+Received: by mail-wr1-f69.google.com with SMTP id j16so492362wre.22
+ for <qemu-devel@nongnu.org>; Tue, 09 Jun 2020 21:28:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=mpMbTsm6mehy6ISo1LlFq8k67fPnsrK8nRjA546c8Mw=;
- b=oSX6+INU80mKeajPWc4s+19yE9uF6UBO1Nbc3Om2Qq6D40g1o7696xvb3dv4QH0xzl
- rwnDSJ1ulmW6hbsq3NbdLH2pXNTXuojRqV1Wpfyhc8yzuZl0yIO+6wgzF4sO7idcNf/l
- tUqorX+or6Hbw9VPfD3PLQlYhnPXk8acU4dtecD7ju5LT0de+fGx5sDNkz7PZaCnbwnX
- u95EUxd8xCkY6fPU48K7kJSsPpJ7g3PNV0vkgMi++y21PU2YS8d1NYpXtQkX88P/6zlI
- tFT/3ETHXRuEpkUbB9zJgverpCbM/hg9dZYrRqD6byJIxcK88bd30c77uMrAQbFduusg
- RJyQ==
-X-Gm-Message-State: AOAM531yiwsJgyz1yw3G+/+H1QU3XbPbTS8g2tFKCmjLNDHyF8jzaOQ3
- fmFUgDYExErxo4wGD31Aj6NKGCcI9TBGNdCdrsNVYUnN7yanCzHtrBSl+2WdT9oXq8by1It4dS5
- IbWD86dHnrcoChD0=
-X-Received: by 2002:adf:a15c:: with SMTP id r28mr1236556wrr.337.1591763314759; 
- Tue, 09 Jun 2020 21:28:34 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJydDYMB2bzOQ/aVCRVO6cOR7dg0Yx8FsEun+ZgY7V6amxQuoP4SOmbMpz7kSIn5UfJts3w3bQ==
-X-Received: by 2002:adf:a15c:: with SMTP id r28mr1236537wrr.337.1591763314559; 
- Tue, 09 Jun 2020 21:28:34 -0700 (PDT)
+ bh=7szwIaLeQ8ZLnLw2poVLDcD+YJimMkOHW+I2Lu0XpBE=;
+ b=bYZro8xKEMc6ZifxMjNnyirEqqqTKmFRqq4o72/B4VydyY2vduAnvSl/5XgABnrhJs
+ LdQIV9VNZJjmbiLUwypRMl/3OHiskbXyWSSAxylgTp0I2PSI0UDZYKTvY0/5RMw3r9wB
+ 8BbZyLMRTqOIFhi32JWcGWUNoyFidf5dsNSYjPSEc3WMwe3lbKGqYHXCAUs7iHSj1vEx
+ H4wbys0+HBFfZCNEkbdYCVREaHqkoqoNoKPpUwnbnX+qX8BZeYB8bYrbdpidUB5sbkka
+ swMnMUEEM+ZITCHe2UNqIVeDk1+KcmyS3/kvOhzUQtT5UphHAlWuovX+X3ihZnXQD0PG
+ SzMw==
+X-Gm-Message-State: AOAM532umGoNfc5P4PX6DwmLE0QLKzAb6hK0nOd4He92Zbpt918XJGgP
+ BR/iVF/Kq3Y5xzXhtxhY/NzqhwwvOkdr/jyTIjvnYizrDn1z7FCWJH6uaVeJD63/D6XzpPar0zN
+ 50i1y3HTFyIAJSwQ=
+X-Received: by 2002:a5d:6789:: with SMTP id v9mr1424937wru.124.1591763318759; 
+ Tue, 09 Jun 2020 21:28:38 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxgQIPyIVId85yVuCOuShZRT5CBT60LaexPKRmminx3BoPijF7dKbSRONn3vHXZyIsvyLEMlA==
+X-Received: by 2002:a5d:6789:: with SMTP id v9mr1424920wru.124.1591763318588; 
+ Tue, 09 Jun 2020 21:28:38 -0700 (PDT)
 Received: from redhat.com (bzq-79-181-55-232.red.bezeqint.net. [79.181.55.232])
- by smtp.gmail.com with ESMTPSA id u74sm5371491wmu.31.2020.06.09.21.28.33
+ by smtp.gmail.com with ESMTPSA id l17sm4969576wmi.3.2020.06.09.21.28.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Jun 2020 21:28:34 -0700 (PDT)
-Date: Wed, 10 Jun 2020 00:28:32 -0400
+ Tue, 09 Jun 2020 21:28:38 -0700 (PDT)
+Date: Wed, 10 Jun 2020 00:28:36 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 53/56] acpi: madt: skip pci override on pci-less systems.
-Message-ID: <20200610042613.1459309-54-mst@redhat.com>
+Subject: [PULL 55/56] acpi: ged: rename event memory region
+Message-ID: <20200610042613.1459309-56-mst@redhat.com>
 References: <20200610042613.1459309-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200610042613.1459309-1-mst@redhat.com>
@@ -97,101 +97,85 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+ Gerd Hoffmann <kraxel@redhat.com>, Igor Mammedow <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Gerd Hoffmann <kraxel@redhat.com>
 
-Needed for microvm.
+Rename memory region and callbacks and ops to carry "evt" in the name
+because a second region will be added shortly.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+Message-Id: <20200520132003.9492-10-kraxel@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200520132003.9492-8-kraxel@redhat.com>
+Reviewed-by: Igor Mammedow <imammedo@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/i386/acpi-common.h |  3 ++-
- hw/i386/acpi-build.c  |  2 +-
- hw/i386/acpi-common.c | 26 +++++++++++++++-----------
- 3 files changed, 18 insertions(+), 13 deletions(-)
+ include/hw/acpi/generic_event_device.h |  2 +-
+ hw/acpi/generic_event_device.c         | 16 ++++++++--------
+ 2 files changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/hw/i386/acpi-common.h b/hw/i386/acpi-common.h
-index c30e461f18..9cac18dddf 100644
---- a/hw/i386/acpi-common.h
-+++ b/hw/i386/acpi-common.h
-@@ -9,6 +9,7 @@
- #define ACPI_BUILD_IOAPIC_ID 0x0
+diff --git a/include/hw/acpi/generic_event_device.h b/include/hw/acpi/generic_event_device.h
+index 83917de024..90a9180db5 100644
+--- a/include/hw/acpi/generic_event_device.h
++++ b/include/hw/acpi/generic_event_device.h
+@@ -86,7 +86,7 @@
+ #define ACPI_GED_NVDIMM_HOTPLUG_EVT 0x4
  
- void acpi_build_madt(GArray *table_data, BIOSLinker *linker,
--                     X86MachineState *x86ms, AcpiDeviceIf *adev);
-+                     X86MachineState *x86ms, AcpiDeviceIf *adev,
-+                     bool has_pci);
+ typedef struct GEDState {
+-    MemoryRegion io;
++    MemoryRegion evt;
+     uint32_t     sel;
+ } GEDState;
  
- #endif
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 26c0c8aefa..473cbdfffd 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -2588,7 +2588,7 @@ void acpi_build(AcpiBuildTables *tables, MachineState *machine)
- 
-     acpi_add_table(table_offsets, tables_blob);
-     acpi_build_madt(tables_blob, tables->linker, x86ms,
--                    ACPI_DEVICE_IF(pcms->acpi_dev));
-+                    ACPI_DEVICE_IF(pcms->acpi_dev), true);
- 
-     vmgenid_dev = find_vmgenid_dev();
-     if (vmgenid_dev) {
-diff --git a/hw/i386/acpi-common.c b/hw/i386/acpi-common.c
-index 5caca16a0b..ab9b00581a 100644
---- a/hw/i386/acpi-common.c
-+++ b/hw/i386/acpi-common.c
-@@ -72,7 +72,8 @@ void pc_madt_cpu_entry(AcpiDeviceIf *adev, int uid,
+diff --git a/hw/acpi/generic_event_device.c b/hw/acpi/generic_event_device.c
+index b1cbdd86b6..1cb34111e5 100644
+--- a/hw/acpi/generic_event_device.c
++++ b/hw/acpi/generic_event_device.c
+@@ -142,7 +142,7 @@ void build_ged_aml(Aml *table, const char *name, HotplugHandler *hotplug_dev,
  }
  
- void acpi_build_madt(GArray *table_data, BIOSLinker *linker,
--                     X86MachineState *x86ms, AcpiDeviceIf *adev)
-+                     X86MachineState *x86ms, AcpiDeviceIf *adev,
-+                     bool has_pci)
+ /* Memory read by the GED _EVT AML dynamic method */
+-static uint64_t ged_read(void *opaque, hwaddr addr, unsigned size)
++static uint64_t ged_evt_read(void *opaque, hwaddr addr, unsigned size)
  {
-     MachineClass *mc = MACHINE_GET_CLASS(x86ms);
-     const CPUArchIdList *apic_ids = mc->possible_cpu_arch_ids(MACHINE(x86ms));
-@@ -111,18 +112,21 @@ void acpi_build_madt(GArray *table_data, BIOSLinker *linker,
-         intsrcovr->gsi    = cpu_to_le32(2);
-         intsrcovr->flags  = cpu_to_le16(0); /* conforms to bus specifications */
-     }
--    for (i = 1; i < 16; i++) {
-+
-+    if (has_pci) {
-+        for (i = 1; i < 16; i++) {
- #define ACPI_BUILD_PCI_IRQS ((1<<5) | (1<<9) | (1<<10) | (1<<11))
--        if (!(ACPI_BUILD_PCI_IRQS & (1 << i))) {
--            /* No need for a INT source override structure. */
--            continue;
-+            if (!(ACPI_BUILD_PCI_IRQS & (1 << i))) {
-+                /* No need for a INT source override structure. */
-+                continue;
-+            }
-+            intsrcovr = acpi_data_push(table_data, sizeof *intsrcovr);
-+            intsrcovr->type   = ACPI_APIC_XRUPT_OVERRIDE;
-+            intsrcovr->length = sizeof(*intsrcovr);
-+            intsrcovr->source = i;
-+            intsrcovr->gsi    = cpu_to_le32(i);
-+            intsrcovr->flags  = cpu_to_le16(0xd); /* active high, level triggered */
-         }
--        intsrcovr = acpi_data_push(table_data, sizeof *intsrcovr);
--        intsrcovr->type   = ACPI_APIC_XRUPT_OVERRIDE;
--        intsrcovr->length = sizeof(*intsrcovr);
--        intsrcovr->source = i;
--        intsrcovr->gsi    = cpu_to_le32(i);
--        intsrcovr->flags  = cpu_to_le16(0xd); /* active high, level triggered */
-     }
+     uint64_t val = 0;
+     GEDState *ged_st = opaque;
+@@ -161,14 +161,14 @@ static uint64_t ged_read(void *opaque, hwaddr addr, unsigned size)
+ }
  
-     if (x2apic_mode) {
+ /* Nothing is expected to be written to the GED memory region */
+-static void ged_write(void *opaque, hwaddr addr, uint64_t data,
+-                      unsigned int size)
++static void ged_evt_write(void *opaque, hwaddr addr, uint64_t data,
++                          unsigned int size)
+ {
+ }
+ 
+-static const MemoryRegionOps ged_ops = {
+-    .read = ged_read,
+-    .write = ged_write,
++static const MemoryRegionOps ged_evt_ops = {
++    .read = ged_evt_read,
++    .write = ged_evt_write,
+     .endianness = DEVICE_LITTLE_ENDIAN,
+     .valid = {
+         .min_access_size = 4,
+@@ -287,9 +287,9 @@ static void acpi_ged_initfn(Object *obj)
+     SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
+     GEDState *ged_st = &s->ged_state;
+ 
+-    memory_region_init_io(&ged_st->io, obj, &ged_ops, ged_st,
++    memory_region_init_io(&ged_st->evt, obj, &ged_evt_ops, ged_st,
+                           TYPE_ACPI_GED, ACPI_GED_EVT_SEL_LEN);
+-    sysbus_init_mmio(sbd, &ged_st->io);
++    sysbus_init_mmio(sbd, &ged_st->evt);
+ 
+     sysbus_init_irq(sbd, &s->irq);
+ 
 -- 
 MST
 
