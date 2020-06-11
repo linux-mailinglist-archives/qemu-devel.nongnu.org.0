@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F8981F6725
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 13:49:10 +0200 (CEST)
-Received: from localhost ([::1]:39354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E53A1F6731
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 13:51:42 +0200 (CEST)
+Received: from localhost ([::1]:45282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjLhl-0000qd-Bw
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 07:49:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52110)
+	id 1jjLkD-0003ej-Ar
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 07:51:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jjLcU-00024b-Rm; Thu, 11 Jun 2020 07:43:42 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:38639)
+ id 1jjLcV-00026o-Sw; Thu, 11 Jun 2020 07:43:43 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:37797)
  by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jjLcT-0001sA-FU; Thu, 11 Jun 2020 07:43:42 -0400
-Received: by mail-wr1-x443.google.com with SMTP id e1so5818350wrt.5;
- Thu, 11 Jun 2020 04:43:30 -0700 (PDT)
+ id 1jjLcV-0001sQ-5d; Thu, 11 Jun 2020 07:43:43 -0400
+Received: by mail-wr1-x443.google.com with SMTP id x13so5824448wrv.4;
+ Thu, 11 Jun 2020 04:43:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=w8hUc/1TWyX+gQCAaNVvAefQWKI4RgRqWbvHS2ef4jA=;
- b=aHj0uPxZJDs49XH+xcXx/iLbO9Ht/88aOwL5hdo5+rINDauqz6od5xCx5cQmTXU2Gw
- o/xjCD8IbOY952Oy+DDnQbxYirJ6l/9hzdDhDzIwdLbApM1Sh+2VGPGVzWF5Z2TzPbpU
- OYmUjHdIFcW354YU092CNIynHGeB7pG55g+c/5MhpUkSmzyhOBQhOrX3eQhZFvpUmjwp
- 6VfRSZTysiBolw1JUcWU6WENs902FMmJhrMWTSUXHLVvIGRoXSIiB1iV7dW2jCZQdUoI
- ctNIsh4MfJwqBbGCrMtj2tezWc3QBN0G8UvXiHw83O/8S0UHh30XV11aTXZTvmET2Xpk
- +PRw==
+ bh=RyB5laGZqcuqh7DkQBAguo9SE2App1lOHf/woViMpfs=;
+ b=TiajQ8p5g4ekcdqLrLtXA9kOkwx4HuUpUq/eL0KJW66l44yEBBtgMpGbcTt2cPcH23
+ N3ORFAEO09JUF/aEMl+HtsHRggeWnqLICgOrfSlyydf/rIqzBC4V9dXJ59LZjqGRrzY3
+ HIe9G+/cg3v4FWJ1M55U6g/uYIOJb/Av6G96NllBYOit1chMvgdJY8JsSneyOsI5heNr
+ 3otvHjkqC2XYIrhAYNizl40eQnc+GrvQsguLNlmNQ7grw5VB6EYOQ3KSsqxlqLCIisCQ
+ BN2nppqKThdY8Xn8nSeUPbStfIDte+9gVx6wcwLkOQFJTgTBdiZmPVogFq8ns4F/1sbS
+ Om2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=w8hUc/1TWyX+gQCAaNVvAefQWKI4RgRqWbvHS2ef4jA=;
- b=pLSkizUd8AXIdkqAui1vQltkctGadaHBQvLM2ts6tZRnGU4Ar4ipFTU3CwsbLx/hwz
- MhfkoQZBP3kHr7JN2KSLaaciap94CIL9BB1UdLw/AJoUNjWaKhV6OkU13vGgZUP87Mt8
- LMdSTpcFii2ZTDovqTtTFUCI0wBbAajVCeWYU9MMeWXYc5qwbRHyi6ue3ZgJrE7juSfr
- 4aZR0TntNOrbh4Elh4whNjozTsrSoODiXWznx+XpUDI1pK6xk2n3bVyu8g6Ph0ZJie7y
- 6TT6JNNU4wlTwhMiygyqErHdxXs3oU/SqQIqEbWAjmOxkDNR9UuUs5Aqn1jQpgBLHp2e
- rKJA==
-X-Gm-Message-State: AOAM532jBCxVgZ//UL4pSj0Mur/o3R8Oet1U197oNKXGH96+bo3j/s3y
- bhovdmxtRcG5+OiHhQ3zv+nKQ/5+
-X-Google-Smtp-Source: ABdhPJzjKwDoNQlBzccHESMWkb2nPVkZvvdPYuIDeH+i23r4vQBKWb7RsrMVg+hkrisXd0t8ThbipQ==
-X-Received: by 2002:a5d:4ec3:: with SMTP id s3mr9746159wrv.103.1591875809199; 
- Thu, 11 Jun 2020 04:43:29 -0700 (PDT)
+ bh=RyB5laGZqcuqh7DkQBAguo9SE2App1lOHf/woViMpfs=;
+ b=N2L7vFRXK8Wi4ihrs0bmwAaag83cQvcq5zdN/A+QI8wIntIii9oqtYsDnQitLKA0U0
+ h0GFqcWvWVFLLlOp61mJA8yCxieK/SBGhpWc8KNte92es0G+FLVOvGaEiiW4UgMCRxjk
+ lsMQ9sfILX6R1i9gODSxQhvbxsDKCVmpl1TrP9cJmXwV/xTwecv2rb64u7RnZlu4QeEB
+ RgzskUsWy621lKbXrpYuLWrc6zgdmaRuzPwO/EApORg7qGCuY2V2/S+C80ibENIj0dgH
+ dMFfzDtCfF2EU5eXAcVXiLYu/J/CfGIhPctL2PYLMUyifZcX0iIFUemSbquiaG3ud7m9
+ 1btg==
+X-Gm-Message-State: AOAM530XEf2jh7gv0Tl85qiPoTh+aX1nBN7YTIucntTR0UfL4/t/RaiJ
+ 6DQKyr5UsFCfAF/aYEYCIFmyuB0o
+X-Google-Smtp-Source: ABdhPJwKbpviewOqD2a0GCbY/AYeAXqG4oT/K2w5dTDTYCEZHiyLF2pACckP8M6eEYlaaLR3TF5bBA==
+X-Received: by 2002:a05:6000:11cd:: with SMTP id
+ i13mr8700463wrx.141.1591875810723; 
+ Thu, 11 Jun 2020 04:43:30 -0700 (PDT)
 Received: from x1w.redhat.com (181.red-88-10-103.dynamicip.rima-tde.net.
  [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id h29sm4832863wrc.78.2020.06.11.04.43.27
+ by smtp.gmail.com with ESMTPSA id h29sm4832863wrc.78.2020.06.11.04.43.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Jun 2020 04:43:28 -0700 (PDT)
+ Thu, 11 Jun 2020 04:43:29 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 6/7] tests/acceptance: Add boot tests for sh4 QEMU advent
- calendar image
-Date: Thu, 11 Jun 2020 13:43:16 +0200
-Message-Id: <20200611114317.13044-7-f4bug@amsat.org>
+Subject: [PATCH v4 7/7] .travis.yml: Test SH4 QEMU advent calendar image
+Date: Thu, 11 Jun 2020 13:43:17 +0200
+Message-Id: <20200611114317.13044-8-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200611114317.13044-1-f4bug@amsat.org>
 References: <20200611114317.13044-1-f4bug@amsat.org>
@@ -73,7 +73,7 @@ X-Spam_bar: /
 X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
  DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
  HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -106,47 +106,25 @@ Signed-off-by: Thomas Huth <thuth@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Message-Id: <20200515164337.4899-1-thuth@redhat.com>
-[PMD: Split .travis.yml change in separate patch]
+[PMD: Split tests/acceptance/boot_linux_console.py in previous commit]
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- tests/acceptance/boot_linux_console.py | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
+ .travis.yml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
-index 3f3aa0c854..3d02519660 100644
---- a/tests/acceptance/boot_linux_console.py
-+++ b/tests/acceptance/boot_linux_console.py
-@@ -858,12 +858,12 @@ def test_m68k_q800(self):
-         console_pattern = 'No filesystem could mount root'
-         self.wait_for_console_pattern(console_pattern)
- 
--    def do_test_advcal_2018(self, day, tar_hash, kernel_name):
-+    def do_test_advcal_2018(self, day, tar_hash, kernel_name, console=0):
-         tar_url = ('https://www.qemu-advent-calendar.org'
-                    '/2018/download/day' + day + '.tar.xz')
-         file_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
-         archive.extract(file_path, self.workdir)
--        self.vm.set_console()
-+        self.vm.set_console(console_index=console)
-         self.vm.add_args('-kernel',
-                          self.workdir + '/day' + day + '/' + kernel_name)
-         self.vm.launch()
-@@ -937,6 +937,15 @@ def test_ppc_mac99(self):
-         self.vm.add_args('-M', 'graphics=off')
-         self.do_test_advcal_2018('15', tar_hash, 'invaders.elf')
- 
-+    def test_sh4_r2d(self):
-+        """
-+        :avocado: tags=arch:sh4
-+        :avocado: tags=machine:r2d
-+        """
-+        tar_hash = 'fe06a4fd8ccbf2e27928d64472939d47829d4c7e'
-+        self.vm.add_args('-append', 'console=ttySC1')
-+        self.do_test_advcal_2018('09', tar_hash, 'zImage', console=1)
-+
-     def test_sparc_ss20(self):
-         """
-         :avocado: tags=arch:sparc
+diff --git a/.travis.yml b/.travis.yml
+index 564be50a3c..e2003565d8 100644
+--- a/.travis.yml
++++ b/.travis.yml
+@@ -293,7 +293,7 @@ jobs:
+     - name: "GCC check-acceptance"
+       dist: bionic
+       env:
+-        - CONFIG="--enable-tools --target-list=aarch64-softmmu,alpha-softmmu,arm-softmmu,m68k-softmmu,microblaze-softmmu,mips-softmmu,mips64el-softmmu,nios2-softmmu,or1k-softmmu,ppc-softmmu,ppc64-softmmu,s390x-softmmu,sparc-softmmu,x86_64-softmmu,xtensa-softmmu"
++        - CONFIG="--enable-tools --target-list=aarch64-softmmu,alpha-softmmu,arm-softmmu,m68k-softmmu,microblaze-softmmu,mips-softmmu,mips64el-softmmu,nios2-softmmu,or1k-softmmu,ppc-softmmu,ppc64-softmmu,s390x-softmmu,sh4-softmmu,sparc-softmmu,x86_64-softmmu,xtensa-softmmu"
+         - TEST_CMD="make check-acceptance"
+         - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-acceptance"
+       after_script:
 -- 
 2.21.3
 
