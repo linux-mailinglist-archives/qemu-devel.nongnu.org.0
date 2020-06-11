@@ -2,72 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9840A1F6A5E
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 16:53:59 +0200 (CEST)
-Received: from localhost ([::1]:47542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEAEF1F6A70
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 16:58:16 +0200 (CEST)
+Received: from localhost ([::1]:58906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjOac-0003jx-FT
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 10:53:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42532)
+	id 1jjOel-0001Pe-NX
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 10:58:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jjOWj-0008JY-OV
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 10:50:01 -0400
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:33498)
- by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jjOWi-0004we-RZ
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 10:49:57 -0400
-Received: by mail-oi1-x242.google.com with SMTP id i74so5666168oib.0
- for <qemu-devel@nongnu.org>; Thu, 11 Jun 2020 07:49:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Vqu5v+04xAmiY3GyqEWU8iIcy1yQMMBtbQG4kjPVxCk=;
- b=kU7C5jTIEsayvv275hKBHZ3hoTFTEfjoITHwHBkSXlmej14vYlYYJhpfriz420ewxF
- HgPGr88BLybCkUhjPuZFbN0myrnIkzsEA+/3LI6aH04y+7ke69njg/Cm/793SW0LUtch
- c3CVgedhNLKVGtocMbaSQzEOgcqlXlF4CAGE1KVFohiEmL6xt2IMZtQSNUYRllmECfJC
- cLcICv6KEKehDcQBO5YoQgq2xVPEQgjyuYEvMxHIncd2NnpTlv5ub/7Ttlyl47PPzeuA
- bYPFJ9gDGMwL0OAoEpuZ4CZNdcaavdSOka56mNJeDdVwy0dfv3w8khzByKHw5Fh3/Ulw
- Er2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Vqu5v+04xAmiY3GyqEWU8iIcy1yQMMBtbQG4kjPVxCk=;
- b=qavr032PvaI7J9cbJHxxtpLKJd59GIt7O1YWAblvU0VlnjbJKNVKB4ZGBArcLA70bQ
- 9/zY8WJMnxw589n45D5j528/9G1nmz9MZi3Bjgx74uXK4u9QXE5qSP52uv93cBHcnQlv
- 35Tdpp0s9JdLiva6U+fRRFBlXgjR/d1XqRlIsFMcmcMFRYXi3Zsq3DQRaOI4JA2/wdun
- V02yxRdMboaofrQBe36pqDdiFEkJoaMllp/U63VOqE4mVO3OwOl+F48WRBTRdjNORugL
- YFid26vjeXLfb9ibpyBZYVbLViE6xvZndgB9KA0dszeD/PWIhBZyC8AF6vbJrT1Ui6gB
- FC0g==
-X-Gm-Message-State: AOAM530nF9EYZitvke3DtPqmgJ/vMhjM9zlJiSw1BxWwSiechI3xPfoY
- XbhOuTjiaFOv/vaFH+vt337W44aHT/7TwwbB14GogA==
-X-Google-Smtp-Source: ABdhPJxuLudISs4rrHP7yLlLe6AJgIPLOIqePPvZ19jLiqHpc5NbLhCcgB08BcAc0Xh/4plybblKUap7lLWVMJTj7vI=
-X-Received: by 2002:aca:568c:: with SMTP id k134mr6126532oib.48.1591886987634; 
- Thu, 11 Jun 2020 07:49:47 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1jjObP-00069V-6D
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 10:54:47 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:56949
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1jjObL-00061U-Ns
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 10:54:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1591887282;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=O76wbMtg4ieFnfz05YM9/fazyxOuvfNEeSKyik2p3AQ=;
+ b=ZNQVpCIkaKYoIu7+tqMRC1WIepd7wu6/+3TgrbkmjXDDEPGD8oPX0i95hnWg1PKyzawIge
+ weSTKka2bxpycdp8BSKQNElZ4uJvUMj30LNsYmMkWhT9qCo/R6aDRtfxUcrPhcDcs95pJF
+ /LAjqFtTATXvfaJOmzcRrR+wbN/j3Qc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-302-3pNF1nmBOc2TJpnxpEcYiA-1; Thu, 11 Jun 2020 10:54:40 -0400
+X-MC-Unique: 3pNF1nmBOc2TJpnxpEcYiA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0A6FD107ACF5;
+ Thu, 11 Jun 2020 14:54:39 +0000 (UTC)
+Received: from [10.36.114.197] (ovpn-114-197.ams2.redhat.com [10.36.114.197])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 699815D9DC;
+ Thu, 11 Jun 2020 14:54:30 +0000 (UTC)
+Subject: Re: [PATCH v4 1/5] acpi: Convert build_tpm2() to build_append* API
+To: Stefan Berger <stefanb@linux.ibm.com>, eric.auger.pro@gmail.com,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org, peter.maydell@linaro.org,
+ mst@redhat.com, shannon.zhaosl@gmail.com, imammedo@redhat.com
+References: <20200611135917.18300-1-eric.auger@redhat.com>
+ <20200611135917.18300-2-eric.auger@redhat.com>
+ <28121558-7a75-73da-6939-da0c0e776087@linux.ibm.com>
+From: Auger Eric <eric.auger@redhat.com>
+Message-ID: <47b20185-48a8-87d5-a492-9db37ba7ea9f@redhat.com>
+Date: Thu, 11 Jun 2020 16:54:28 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
 MIME-Version: 1.0
-References: <20200611144531.20142-1-alex.bennee@linaro.org>
-In-Reply-To: <20200611144531.20142-1-alex.bennee@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 11 Jun 2020 15:49:36 +0100
-Message-ID: <CAFEAcA_joU24OSa8fwbNFb1XMb-FKfcaY4xpjV9EHUdCbWZzwg@mail.gmail.com>
-Subject: Re: [RFC PATCH] logging: add a LOG_TCG_WARN for temp leaks
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::242;
- envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x242.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+In-Reply-To: <28121558-7a75-73da-6939-da0c0e776087@linux.ibm.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.120;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 03:29:33
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,46 +86,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Richard Henderson <rth@twiddle.net>
+Cc: marcandre.lureau@redhat.com, drjones@redhat.com, lersek@redhat.com,
+ ardb@kernel.org, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 11 Jun 2020 at 15:45, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
-te:
->
-> Pretty much all calls to qemu_log are either wrapped in some other
-> enabling check or only enabled with debug defines. Add a specific flag
-> for TCG warnings and expand the documentation of the qemu_log
-> function.
->
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Cc: Peter Maydell <peter.maydell@linaro.org>
-> ---
+Hi Stefan,
 
-> -/* main logging function */
-> +/**
-> + * qemu_log: main logging function
-> + *
-> + * Most users shouldn't be calling qemu_log unconditionally as it adds
-> + * noise to logging output. Either use qemu_log_mask() or wrap
-> + * successive log calls a qemu_loglevel_mask() check and
-"inside a"
+On 6/11/20 4:25 PM, Stefan Berger wrote:
+> On 6/11/20 9:59 AM, Eric Auger wrote:
+>> In preparation of its move to the generic acpi code,
+>> let's convert build_tpm2() to use build_append API. This
+>> latter now is prefered in place of direct ACPI struct field
+>> settings with manual endianness conversion.
+>>
+>> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+>>
+>> ---
+>>
+>> v3 -> v4:
+>> - Don't use Acpi20TPM2 *tpm2_ptr anymore
+>> - Use variables for control area start address and start method
+>> - Simplified arg values passed to bios_linker_loader_add_pointer
+>> - use g_assert_not_reached()
+>> ---
+>>   hw/i386/acpi-build.c | 49 +++++++++++++++++++++++++++++---------------
+>>   1 file changed, 33 insertions(+), 16 deletions(-)
+>>
+>> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+>> index b5669d6c65..f150d95ecc 100644
+>> --- a/hw/i386/acpi-build.c
+>> +++ b/hw/i386/acpi-build.c
+>> @@ -2298,35 +2298,52 @@ build_tpm_tcpa(GArray *table_data, BIOSLinker
+>> *linker, GArray *tcpalog)
+>>   static void
+>>   build_tpm2(GArray *table_data, BIOSLinker *linker, GArray *tcpalog)
+>>   {
+>> -    Acpi20TPM2 *tpm2_ptr = acpi_data_push(table_data, sizeof *tpm2_ptr);
+>> -    unsigned log_addr_size = sizeof(tpm2_ptr->log_area_start_address);
+>> -    unsigned log_addr_offset =
+>> -        (char *)&tpm2_ptr->log_area_start_address - table_data->data;
+>> +    uint8_t start_method_params[12] = {};
+>> +    unsigned log_addr_offset, tpm2_start;
+>> +    uint64_t control_area_start_address;
+>> +    uint32_t start_method;
+>> +    void *tpm2_ptr;
+>>   -    tpm2_ptr->platform_class = cpu_to_le16(TPM2_ACPI_CLASS_CLIENT);
+>> +    tpm2_start = table_data->len;
+>> +    tpm2_ptr = acpi_data_push(table_data, sizeof(AcpiTableHeader));
+>> +
+>> +    /* Platform Class */
+>> +    build_append_int_noprefix(table_data, TPM2_ACPI_CLASS_CLIENT, 2);
+>> +    /* Reserved */
+>> +    build_append_int_noprefix(table_data, 0, 2);
+>>       if (TPM_IS_TIS_ISA(tpm_find())) {
+>> -        tpm2_ptr->control_area_address = cpu_to_le64(0);
+>> -        tpm2_ptr->start_method = cpu_to_le32(TPM2_START_METHOD_MMIO);
+>> +        control_area_start_address = 0;
+>> +        start_method = TPM2_START_METHOD_MMIO;
+>>       } else if (TPM_IS_CRB(tpm_find())) {
+>> -        tpm2_ptr->control_area_address = cpu_to_le64(TPM_CRB_ADDR_CTRL);
+>> -        tpm2_ptr->start_method = cpu_to_le32(TPM2_START_METHOD_CRB);
+>> +        control_area_start_address = TPM_CRB_ADDR_CTRL;
+>> +        start_method = TPM2_START_METHOD_CRB;
+>>       } else {
+>> -        g_warn_if_reached();
+>> +        g_assert_not_reached();
+>>       }
+>> +    /* Address of Control Area */
+>> +    build_append_int_noprefix(table_data, control_area_start_address,
+>> 8);
+>> +    /* Start Method */
+>> +    build_append_int_noprefix(table_data, start_method, 4);
+>>   -    tpm2_ptr->log_area_minimum_length =
+>> -        cpu_to_le32(TPM_LOG_AREA_MINIMUM_SIZE);
+>> +    /* Platform Specific Parameters */
+>> +    g_array_append_vals(table_data, &start_method_params,
+>> +                        ARRAY_SIZE(start_method_params));
+>>   -    acpi_data_push(tcpalog,
+>> le32_to_cpu(tpm2_ptr->log_area_minimum_length));
+>> +    /* Log Area Minimum Length */
+>> +    build_append_int_noprefix(table_data, TPM_LOG_AREA_MINIMUM_SIZE, 4);
+> 
+> Here you push data related to TPM2 table...
+yes it was
+    tpm2_ptr->log_area_minimum_length =
+        cpu_to_le32(TPM_LOG_AREA_MINIMUM_SIZE);
+altering tpm2
+> 
+> 
+>> +
+>> +    acpi_data_push(tcpalog, TPM_LOG_AREA_MINIMUM_SIZE);
+> 
+> ... here you push log area memory ...
+in "acpi: tpm: Do not build TCPA table for TPM 2" there is
+acpi_data_push(tcpalog, le32_to_cpu(tpm2_ptr->log_area_minimum_length));
+bios_linker_loader_alloc(linker, ACPI_BUILD_TPMLOG_FILE, tcpalog, 1,
+                         false);
 
-> + * qemu_log_lock/unlock(). The tracing infrastructure does similar wrapp=
-ing.
-> + */
->  int GCC_FMT_ATTR(1, 2) qemu_log(const char *fmt, ...);
+So to me this matches
+> 
+> 
+>>       bios_linker_loader_alloc(linker, ACPI_BUILD_TPMLOG_FILE,
+>> tcpalog, 1,
+>>                                false);
+>>   -    /* log area start address to be filled by Guest linker */
+>> +    log_addr_offset = table_data->len;
+>> +    build_append_int_noprefix(table_data, 0, 8);
+> 
+> 
+> ... here you push TPM2 table related data again. Is this right or did we
+> just mess up the TPM 2 table?
+here I increment the table_data->len to take into account the last
+field, ie. log_addr_offset
+So I think it is correct.
+bios-tables-test pass so at least TPM2 ACPI tables shouldn't have veen
+altered.
 
-> +/* Additional TCG warnings */
-> +#define LOG_TCG_WARN       (1 << 20)
+Thanks
 
-I don't object to the new log group in principle, but it has exactly
-one warning in it. I feel we'd be better to check for all the current
-places that use qemu_log not inside a loglevel_mask condition (or
-which use fprintf, if we still have those) and then see what the
-most reasonable categorization is.
+Eric
+> 
+> 
+>> +    /* Log Area Start Address to be filled by Guest linker */
+>>       bios_linker_loader_add_pointer(linker, ACPI_BUILD_TABLE_FILE,
+>> -                                   log_addr_offset, log_addr_size,
+>> +                                   log_addr_offset, 8,
+>>                                      ACPI_BUILD_TPMLOG_FILE, 0);
+>>       build_header(linker, table_data,
+>> -                 (void *)tpm2_ptr, "TPM2", sizeof(*tpm2_ptr), 4,
+>> NULL, NULL);
+>> +                 tpm2_ptr, "TPM2", table_data->len - tpm2_start, 4,
+>> NULL, NULL);
+>>   }
+>>     #define HOLE_640K_START  (640 * KiB)
+> 
+> 
+> 
 
-thanks
--- PMM
 
