@@ -2,67 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAD291F6F3E
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 23:13:13 +0200 (CEST)
-Received: from localhost ([::1]:46252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 534751F6F4E
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 23:18:40 +0200 (CEST)
+Received: from localhost ([::1]:56690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjUVc-0003Eb-Nc
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 17:13:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41752)
+	id 1jjUat-0001jR-BL
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 17:18:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <devnexen@gmail.com>)
- id 1jjUTZ-00018P-IG; Thu, 11 Jun 2020 17:11:05 -0400
-Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:33944)
- by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <devnexen@gmail.com>)
- id 1jjUTY-0003GN-5f; Thu, 11 Jun 2020 17:11:05 -0400
-Received: by mail-ej1-x62d.google.com with SMTP id l27so7963185ejc.1;
- Thu, 11 Jun 2020 14:10:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to;
- bh=uqRkS+04znKDsw7rOy4FGLZ4dtAJHAdv4x6eVo3FtZQ=;
- b=FoIHQBDYczrL+czYzIaom7LOKvtqYd/K5ixr6/h7Yz1gCvt51KwjK7l7Uags38oA4B
- lTlH5k7n/hZ5+NXliI5V0ivLTtXVU0saEsXXIFrPGlaE2+VlA9/nylvnRp3G2D7h2WDJ
- 0vvTJlQz4cVYWVnbI85OYHct0jvCYHV1mEEkyjS7+wbcsMw5Xyk6TTKFTVvTB/ToKqzr
- +be5w8TM6xXF82CsbIoJKVJyEDL23Tv8vexA4LBkQXe5PDNEFMnovoNIv70Te4ds9bqs
- 3V17JRzLgnjH7/tGSCQtsaDQ/fUS5qkXvunkkZ9HhcDETisVryew3loMFv9TWOARq9aX
- VZUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=uqRkS+04znKDsw7rOy4FGLZ4dtAJHAdv4x6eVo3FtZQ=;
- b=Kz+NYtsbjEVbqD157dOGBj62jmEn4GShzwUz0eMUW5l67dmhx/JCcQf0cAegaX3lh4
- eRLclYfipZC+pZrziIOOCZyVUGewPcqp+rsKuO36ddR+K5IwLKSNJPlCZC3e4YA+SH4U
- BpiWqbRureIOErJh3b8J2EcpiwL60fbXpgMGIYqq4WOLWJecoXITJ0X9lYx5nH5xbRX7
- DpPrPSifi+4H7m8jp2iC136WtwfQsvqTc8yzg/lcDVu2ZcnT5ppRleYCVUmjbODkm9Bf
- opsx4z8LLf7BTxk3LGSSzZ4InH7s7sSKAXbf4coMUN9jQpBADUk6FiAt9k5wtDdShLKd
- esxw==
-X-Gm-Message-State: AOAM530Nb8e8DgTBVDAWolenmCd5F0h3wufOuIfkbH2YqnV3yGC0iEEi
- sXyCOeGC3+QORJgN99EXFntjXRTMK+qy8Z/UvEInA2vnf70=
-X-Google-Smtp-Source: ABdhPJzw8cnlZYYizgg3OBrN9zi4QYxb/3gYxagiS4jl+WXuiHUTenDw2xAZxE/oOLShUlw6py4VrNor2jBmF+tyLsI=
-X-Received: by 2002:a17:906:68ca:: with SMTP id
- y10mr9967077ejr.322.1591909850248; 
- Thu, 11 Jun 2020 14:10:50 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <jonathan.derrick@intel.com>)
+ id 1jjUZS-0000rF-8F
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 17:17:10 -0400
+Received: from mga14.intel.com ([192.55.52.115]:30352)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jonathan.derrick@intel.com>)
+ id 1jjUZO-0004S4-UL
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 17:17:09 -0400
+IronPort-SDR: sarjtd3cr70wHHCpiUI+qZKT3Rn6ZjQQsfpP/c72jW4Wl7x9V8ZYbhrwaqtVRSYVKPYdyMvu5k
+ cEGhPSD9qpmg==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Jun 2020 14:16:50 -0700
+IronPort-SDR: u+tXLqzRyd+zHsf/JJDI9ZiTv3gWJtMM94LaYd+rYqmUS7aSwvkPbOLyf5qfKTne2GAdAn7qNH
+ owA/ehE0GJWg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,501,1583222400"; d="scan'208";a="473962908"
+Received: from orsmsx104.amr.corp.intel.com ([10.22.225.131])
+ by fmsmga005.fm.intel.com with ESMTP; 11 Jun 2020 14:16:50 -0700
+Received: from orsmsx125.amr.corp.intel.com (10.22.240.125) by
+ ORSMSX104.amr.corp.intel.com (10.22.225.131) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Thu, 11 Jun 2020 14:16:49 -0700
+Received: from orsmsx101.amr.corp.intel.com ([169.254.8.250]) by
+ ORSMSX125.amr.corp.intel.com ([169.254.3.61]) with mapi id 14.03.0439.000;
+ Thu, 11 Jun 2020 14:16:49 -0700
+From: "Derrick, Jonathan" <jonathan.derrick@intel.com>
+To: "lorenzo.pieralisi@arm.com" <lorenzo.pieralisi@arm.com>
+Subject: Re: [PATCH v3 1/2] PCI: vmd: Filter resource type bits from shadow
+ register
+Thread-Topic: [PATCH v3 1/2] PCI: vmd: Filter resource type bits from shadow
+ register
+Thread-Index: AQHWNJ6/KA9BUx6s/UuCJV3Lsz6Rn6i/VTmAgABYZACAAAgMAIAUwX2A
+Date: Thu, 11 Jun 2020 21:16:48 +0000
+Message-ID: <f1d36b8fc4ab7aacf6efca19303b04a5b4f8189c.camel@intel.com>
+References: <20200528030240.16024-1-jonathan.derrick@intel.com>
+ <20200528030240.16024-3-jonathan.derrick@intel.com>
+ <20200529103315.GC12270@e121166-lin.cambridge.arm.com>
+ <163e8cb37ece0c8daa6d6e5fd7fcae47ba4fa437.camel@intel.com>
+ <20200529161824.GA17642@e121166-lin.cambridge.arm.com>
+In-Reply-To: <20200529161824.GA17642@e121166-lin.cambridge.arm.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.251.23.49]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <66D5545A7F2B504AB19EF890BBF933F1@intel.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-From: David CARLIER <devnexen@gmail.com>
-Date: Thu, 11 Jun 2020 22:10:39 +0100
-Message-ID: <CA+XhMqwHSBd_TSFqipO6bn=hVSV8+Mdm3y=_i6gQoGBxRsjS0g@mail.gmail.com>
-Subject: [PATCH 1/1] util/getauxval: Porting to FreeBSD getauxval feature
-To: qemu-trivial@nongnu.org, qemu-devel <qemu-devel@nongnu.org>, 
- Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: multipart/mixed; boundary="00000000000023a19605a7d56545"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
- envelope-from=devnexen@gmail.com; helo=mail-ej1-x62d.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- PYZOR_CHECK=1.392, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Received-SPF: pass client-ip=192.55.52.115;
+ envelope-from=jonathan.derrick@intel.com; helo=mga14.intel.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 17:16:50
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,45 +83,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
+ "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "virtualization@lists.linux-foundation.org"
+ <virtualization@lists.linux-foundation.org>,
+ "andrzej.jakowski@linux.intel.com" <andrzej.jakowski@linux.intel.com>,
+ "helgaas@kernel.org" <helgaas@kernel.org>, "hch@lst.de" <hch@lst.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000023a19605a7d56545
-Content-Type: text/plain; charset="UTF-8"
-
-
-
---00000000000023a19605a7d56545
-Content-Type: application/octet-stream; 
-	name="0001-util-getauxval-Porting-to-FreeBSD-the-getauxval-feat.patch"
-Content-Disposition: attachment; 
-	filename="0001-util-getauxval-Porting-to-FreeBSD-the-getauxval-feat.patch"
-Content-Transfer-Encoding: base64
-Content-ID: <f_kbb9ztph0>
-X-Attachment-Id: f_kbb9ztph0
-
-RnJvbSAzMTZjYmRlYTA0MzRhNTIzYzc4ZDNmMThmZTdlNjY5NzU3N2U0YWFlIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBEYXZpZCBDYXJsaWVyIDxkZXZuZXhlbkBnbWFpbC5jb20+CkRh
-dGU6IFR1ZSwgMjYgTWF5IDIwMjAgMDg6MzM6MTIgKzAxMDAKU3ViamVjdDogW1BBVENIXSB1dGls
-L2dldGF1eHZhbDogUG9ydGluZyB0byBGcmVlQlNEIHRoZSBnZXRhdXh2YWwgZmVhdHVyZQoKRnJl
-ZUJTRCBoYXMgYSBzaW1pbGFyIEFQSSBmb3IgYXV4aWxpYXJ5IHZlY3Rvci4KClNpZ25lZC1vZmYt
-Ynk6IERhdmlkIENhcmxpZXIgPGRldm5leGVuQGdtYWlsLmNvbT4KLS0tCiBjb25maWd1cmUgICAg
-ICAgIHwgNSArKysrKwogdXRpbC9nZXRhdXh2YWwuYyB8IDYgKysrKysrCiAyIGZpbGVzIGNoYW5n
-ZWQsIDExIGluc2VydGlvbnMoKykKCmRpZmYgLS1naXQgYS9jb25maWd1cmUgYi9jb25maWd1cmUK
-aW5kZXggMmZjMDVjNDQ2NS4uMmM5Mzg2NzA4MCAxMDA3NTUKLS0tIGEvY29uZmlndXJlCisrKyBi
-L2NvbmZpZ3VyZQpAQCAtNTgyNCw3ICs1ODI0LDEyIEBAIGdldGF1eHZhbD1ubwogY2F0ID4gJFRN
-UEMgPDwgRU9GCiAjaW5jbHVkZSA8c3lzL2F1eHYuaD4KIGludCBtYWluKHZvaWQpIHsKKyNpZiBk
-ZWZpbmVkKF9fRnJlZUJTRF9fKQorICB1bnNpZ25lZCBsb25nIGEgPSAwOworICByZXR1cm4gZWxm
-X2F1eF9pbmZvKEFUX0hXQ0FQLCAmYSwgc2l6ZW9mKGEpKSA9PSAwOworI2Vsc2UKICAgcmV0dXJu
-IGdldGF1eHZhbChBVF9IV0NBUCkgPT0gMDsKKyNlbmRpZgogfQogRU9GCiBpZiBjb21waWxlX3By
-b2cgIiIgIiIgOyB0aGVuCmRpZmYgLS1naXQgYS91dGlsL2dldGF1eHZhbC5jIGIvdXRpbC9nZXRh
-dXh2YWwuYwppbmRleCAzNmFmZGZiOWU2Li4zNzNlZDM4OTlmIDEwMDY0NAotLS0gYS91dGlsL2dl
-dGF1eHZhbC5jCisrKyBiL3V0aWwvZ2V0YXV4dmFsLmMKQEAgLTMzLDcgKzMzLDEzIEBACiAKIHVu
-c2lnbmVkIGxvbmcgcWVtdV9nZXRhdXh2YWwodW5zaWduZWQgbG9uZyBrZXkpCiB7CisjaWYgZGVm
-aW5lZChfX2xpbnV4X18pCiAgICAgcmV0dXJuIGdldGF1eHZhbChrZXkpOworI2VsaWYgZGVmaW5l
-ZChfX0ZyZWVCU0RfXykKKyAgICB1bnNpZ25lZCBsb25nIGF1eCA9IDA7CisgICAgZWxmX2F1eF9p
-bmZvKGtleSwgJmF1eCwgc2l6ZW9mKGF1eCkpOworICAgIHJldHVybiBhdXg7CisjZW5kaWYKIH0K
-ICNlbGlmIGRlZmluZWQoX19saW51eF9fKQogI2luY2x1ZGUgImVsZi5oIgotLSAKMi4yNy4wLnJj
-MAoK
---00000000000023a19605a7d56545--
+T24gRnJpLCAyMDIwLTA1LTI5IGF0IDE3OjE4ICswMTAwLCBMb3JlbnpvIFBpZXJhbGlzaSB3cm90
+ZToNCj4gT24gRnJpLCBNYXkgMjksIDIwMjAgYXQgMDM6NTM6MzdQTSArMDAwMCwgRGVycmljaywg
+Sm9uYXRoYW4gd3JvdGU6DQo+ID4gT24gRnJpLCAyMDIwLTA1LTI5IGF0IDExOjMzICswMTAwLCBM
+b3JlbnpvIFBpZXJhbGlzaSB3cm90ZToNCj4gPiA+IE9uIFdlZCwgTWF5IDI3LCAyMDIwIGF0IDEx
+OjAyOjM5UE0gLTA0MDAsIEpvbiBEZXJyaWNrIHdyb3RlOg0KPiA+ID4gPiBWZXJzaW9ucyBvZiBW
+TUQgd2l0aCB0aGUgSG9zdCBQaHlzaWNhbCBBZGRyZXNzIHNoYWRvdyByZWdpc3RlciB1c2UgdGhp
+cw0KPiA+ID4gPiByZWdpc3RlciB0byBjYWxjdWxhdGUgdGhlIGJ1cyBhZGRyZXNzIG9mZnNldCBu
+ZWVkZWQgdG8gZG8gZ3Vlc3QNCj4gPiA+ID4gcGFzc3Rocm91Z2ggb2YgdGhlIGRvbWFpbi4gVGhp
+cyByZWdpc3RlciBzaGFkb3dzIHRoZSBIb3N0IFBoeXNpY2FsDQo+ID4gPiA+IEFkZHJlc3MgcmVn
+aXN0ZXJzIGluY2x1ZGluZyB0aGUgcmVzb3VyY2UgdHlwZSBiaXRzLiBBZnRlciBjYWxjdWxhdGlu
+Zw0KPiA+ID4gPiB0aGUgb2Zmc2V0LCB0aGUgZXh0cmEgcmVzb3VyY2UgdHlwZSBiaXRzIGxlYWQg
+dG8gdGhlIFZNRCByZXNvdXJjZXMgYmVpbmcNCj4gPiA+ID4gb3Zlci1wcm92aXNpb25lZCBhdCB0
+aGUgZnJvbnQgYW5kIHVuZGVyLXByb3Zpc2lvbmVkIGF0IHRoZSBiYWNrLg0KPiA+ID4gPiANCj4g
+PiA+ID4gRXhhbXBsZToNCj4gPiA+ID4gcGNpIDEwMDAwOjgwOjAyLjA6IHJlZyAweDEwOiBbbWVt
+IDB4ZjgwMWZmZmMtMHhmODAzZmZmYiA2NGJpdF0NCj4gPiA+ID4gDQo+ID4gPiA+IEV4cGVjdGVk
+Og0KPiA+ID4gPiBwY2kgMTAwMDA6ODA6MDIuMDogcmVnIDB4MTA6IFttZW0gMHhmODAyMDAwMC0w
+eGY4MDNmZmZmIDY0Yml0XQ0KPiA+ID4gPiANCj4gPiA+ID4gSWYgb3RoZXIgZGV2aWNlcyBhcmUg
+bWFwcGVkIGluIHRoZSBvdmVyLXByb3Zpc2lvbmVkIGZyb250LCBpdCBjb3VsZCBsZWFkDQo+ID4g
+PiA+IHRvIHJlc291cmNlIGNvbmZsaWN0IGlzc3VlcyB3aXRoIFZNRCBvciB0aG9zZSBkZXZpY2Vz
+Lg0KPiA+ID4gPiANCj4gPiA+ID4gRml4ZXM6IGExYTMwMTcwMTM4YzkgKCJQQ0k6IHZtZDogRml4
+IHNoYWRvdyBvZmZzZXRzIHRvIHJlZmxlY3Qgc3BlYyBjaGFuZ2VzIikNCj4gPiA+ID4gU2lnbmVk
+LW9mZi1ieTogSm9uIERlcnJpY2sgPGpvbmF0aGFuLmRlcnJpY2tAaW50ZWwuY29tPg0KPiA+ID4g
+PiAtLS0NCj4gPiA+ID4gIGRyaXZlcnMvcGNpL2NvbnRyb2xsZXIvdm1kLmMgfCA2ICsrKystLQ0K
+PiA+ID4gPiAgMSBmaWxlIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkN
+Cj4gPiA+IA0KPiA+ID4gSGkgSm9uLA0KPiA+ID4gDQo+ID4gPiBpdCBsb29rcyBsaWtlIEkgY2Fu
+IHRha2UgdGhpcyBwYXRjaCBmb3IgdjUuOCB3aGVyZWFzIHBhdGNoIDIgZGVwZW5kcw0KPiA+ID4g
+b24gdGhlIFFFTVUgY2hhbmdlcyBhY2NlcHRhbmNlIGFuZCBzaG91bGQgcHJvYmFibHkgd2FpdC4N
+Cj4gPiA+IA0KPiA+ID4gUGxlYXNlIGxldCBtZSBrbm93IHlvdXIgdGhvdWdodHMgYXNhcCBhbmQg
+SSB3aWxsIHRyeSB0byBhdCBsZWFzdA0KPiA+ID4gc3F1ZWV6ZSB0aGlzIHBhdGNoIGluLg0KPiA+
+ID4gDQo+ID4gPiBMb3JlbnpvDQo+ID4gDQo+ID4gSGkgTG9yZW56bywNCj4gPiANCj4gPiBUaGlz
+IGlzIGZpbmUuIFBsZWFzZSB0YWtlIFBhdGNoIDEuDQo+ID4gUGF0Y2ggMiBpcyBoYXJtbGVzcyB3
+aXRob3V0IHRoZSBRRU1VIGNoYW5nZXMsIGJ1dCBtYXkgYWx3YXlzIG5lZWQgYQ0KPiA+IGRpZmZl
+cmVudCBhcHByb2FjaC4NCj4gDQo+IFB1bGxlZCBwYXRjaCAxIGludG8gcGNpL3ZtZCwgdGhhbmtz
+Lg0KPiANCj4gTG9yZW56bw0KDQpIaSBMb3JlbnpvLA0KDQpBbGV4IGhhcyBwci1lZCB0aGUgUUVN
+VSBwYXRjaCBbMV0NCklzIGl0IHRvbyBsYXRlIHRvIHB1bGwgcGF0Y2ggMi8yIGZvciB2NS44Pw0K
+DQpbMV0gDQpodHRwczovL2dpdGh1Yi5jb20vYXdpbGxpYW0vcWVtdS12ZmlvL3JlbGVhc2VzL3Rh
+Zy92ZmlvLXVwZGF0ZS0yMDIwMDYxMS4wDQo=
 
