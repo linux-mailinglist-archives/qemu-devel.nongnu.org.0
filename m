@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6ADE11F6EFC
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 22:49:20 +0200 (CEST)
-Received: from localhost ([::1]:35122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7F971F6F08
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 22:52:17 +0200 (CEST)
+Received: from localhost ([::1]:45026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjU8V-0003Ig-HJ
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 16:49:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55848)
+	id 1jjUBN-0008G8-1x
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 16:52:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jjTAE-0001XD-1H
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:47:02 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:48014
- helo=us-smtp-delivery-1.mimecast.com)
+ id 1jjTAt-0002Uk-IX
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:47:43 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:44702
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jjTAC-0001NM-4D
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:47:01 -0400
+ id 1jjTAn-0001Us-CE
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:47:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591904819;
+ s=mimecast20190719; t=1591904856;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LNt5J3B5SyxBKUNcwB+7h6Tk/wi7DwPIja8T9RRLV2s=;
- b=IuE+WBuSNoXOGDqIgTBfG2DQqT/lhjhbxbHjTj7gIvP1AXz6/0C9FJeGlV9tzujfS7gw0k
- BtdbwnfJ0IG74ndGpLxpkBWa+OxpfsrE8Gw3HkiHhgmAeUWKLUPltoWCli2xXvASLDir7q
- qCxuIlZPOsEq5T9XZxeyyGMeTE90ufQ=
+ bh=eYVHpNxxw7MWY152CHc9nNx671yGuicGgwNx49IwhrA=;
+ b=Gbjuw9o89FROTRw/vXHWEZ/yDpHG9SnJbyXi+/EuUEluByAA9J43cspADtOZp+Jjmj1P7W
+ I+fqsTY1wJxtrS62yHifCEPr76VtVIC2GizwIcnJpcP5YbBSEEs758vO9e0XWHRJGgIs/3
+ +Tdn08BYD5quiW/ZmNjrIfYVJLV/9w8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-486-fPdDTtdYMoS-3w7ak-akuQ-1; Thu, 11 Jun 2020 15:46:57 -0400
-X-MC-Unique: fPdDTtdYMoS-3w7ak-akuQ-1
+ us-mta-176-sKt29ZECPAS8MPB9SmrTjQ-1; Thu, 11 Jun 2020 15:46:57 -0400
+X-MC-Unique: sKt29ZECPAS8MPB9SmrTjQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0C9918B8C61;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DA6561005512;
  Thu, 11 Jun 2020 19:46:56 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 89F8060CC0;
- Thu, 11 Jun 2020 19:46:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2A0A560CC0;
+ Thu, 11 Jun 2020 19:46:56 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 085/115] sysemu/hvf: Only declare hvf_allowed when HVF is
- available
-Date: Thu, 11 Jun 2020 15:44:19 -0400
-Message-Id: <20200611194449.31468-86-pbonzini@redhat.com>
+Subject: [PULL 086/115] target/ppc: Restrict PPCVirtualHypervisorClass to
+ system-mode
+Date: Thu, 11 Jun 2020 15:44:20 -0400
+Message-Id: <20200611194449.31468-87-pbonzini@redhat.com>
 In-Reply-To: <20200611194449.31468-1-pbonzini@redhat.com>
 References: <20200611194449.31468-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -58,9 +58,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 14:57:53
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 14:52:10
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -81,53 +81,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Cornelia Huck <cohuck@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-When HVF is not available, the hvf_allowed variable does not exist.
+The code related to PPC Virtual Hypervisor is pointless in user-mode.
 
-Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+Acked-by: David Gibson <david@gibson.dropbear.id.au>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Roman Bolshakov <r.bolshakov@yadro.com>
-Message-Id: <20200526172427.17460-4-f4bug@amsat.org>
+Message-Id: <20200526172427.17460-5-f4bug@amsat.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/sysemu/hvf.h | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ target/ppc/cpu.h                |  4 ++--
+ target/ppc/kvm_ppc.h            | 22 +++++++++++-----------
+ target/ppc/translate_init.inc.c |  4 ++++
+ 3 files changed, 17 insertions(+), 13 deletions(-)
 
-diff --git a/include/sysemu/hvf.h b/include/sysemu/hvf.h
-index d211e808e9..fe95743124 100644
---- a/include/sysemu/hvf.h
-+++ b/include/sysemu/hvf.h
-@@ -18,7 +18,6 @@
- #include "exec/memory.h"
- #include "sysemu/accel.h"
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index 1988b436cb..e7d382ac10 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -1202,6 +1202,7 @@ PowerPCCPUClass *ppc_cpu_class_by_pvr(uint32_t pvr);
+ PowerPCCPUClass *ppc_cpu_class_by_pvr_mask(uint32_t pvr);
+ PowerPCCPUClass *ppc_cpu_get_family_class(PowerPCCPUClass *pcc);
  
--extern bool hvf_allowed;
- #ifdef CONFIG_HVF
- #include <Hypervisor/hv.h>
- #include <Hypervisor/hv_vmx.h>
-@@ -26,11 +25,12 @@ extern bool hvf_allowed;
- #include "target/i386/cpu.h"
- uint32_t hvf_get_supported_cpuid(uint32_t func, uint32_t idx,
-                                  int reg);
-+extern bool hvf_allowed;
- #define hvf_enabled() (hvf_allowed)
--#else
-+#else /* !CONFIG_HVF */
- #define hvf_enabled() 0
- #define hvf_get_supported_cpuid(func, idx, reg) 0
++#ifndef CONFIG_USER_ONLY
+ struct PPCVirtualHypervisorClass {
+     InterfaceClass parent;
+     void (*hypercall)(PPCVirtualHypervisor *vhyp, PowerPCCPU *cpu);
+@@ -1215,10 +1216,8 @@ struct PPCVirtualHypervisorClass {
+     void (*hpte_set_r)(PPCVirtualHypervisor *vhyp, hwaddr ptex, uint64_t pte1);
+     void (*get_pate)(PPCVirtualHypervisor *vhyp, ppc_v3_pate_t *entry);
+     target_ulong (*encode_hpt_for_kvm_pr)(PPCVirtualHypervisor *vhyp);
+-#ifndef CONFIG_USER_ONLY
+     void (*cpu_exec_enter)(PPCVirtualHypervisor *vhyp, PowerPCCPU *cpu);
+     void (*cpu_exec_exit)(PPCVirtualHypervisor *vhyp, PowerPCCPU *cpu);
 -#endif
-+#endif /* !CONFIG_HVF */
+ };
  
- /* hvf_slot flags */
- #define HVF_SLOT_LOG (1 << 0)
+ #define TYPE_PPC_VIRTUAL_HYPERVISOR "ppc-virtual-hypervisor"
+@@ -1230,6 +1229,7 @@ struct PPCVirtualHypervisorClass {
+ #define PPC_VIRTUAL_HYPERVISOR_GET_CLASS(obj) \
+     OBJECT_GET_CLASS(PPCVirtualHypervisorClass, (obj), \
+                      TYPE_PPC_VIRTUAL_HYPERVISOR)
++#endif /* CONFIG_USER_ONLY */
+ 
+ void ppc_cpu_do_interrupt(CPUState *cpu);
+ bool ppc_cpu_exec_interrupt(CPUState *cpu, int int_req);
+diff --git a/target/ppc/kvm_ppc.h b/target/ppc/kvm_ppc.h
+index fcaf745516..701c0c262b 100644
+--- a/target/ppc/kvm_ppc.h
++++ b/target/ppc/kvm_ppc.h
+@@ -280,6 +280,17 @@ static inline bool kvmppc_has_cap_spapr_vfio(void)
+     return false;
+ }
+ 
++static inline void kvmppc_read_hptes(ppc_hash_pte64_t *hptes,
++                                     hwaddr ptex, int n)
++{
++    abort();
++}
++
++static inline void kvmppc_write_hpte(hwaddr ptex, uint64_t pte0, uint64_t pte1)
++{
++    abort();
++}
++
+ #endif /* !CONFIG_USER_ONLY */
+ 
+ static inline bool kvmppc_has_cap_epr(void)
+@@ -310,17 +321,6 @@ static inline int kvmppc_load_htab_chunk(QEMUFile *f, int fd, uint32_t index,
+     abort();
+ }
+ 
+-static inline void kvmppc_read_hptes(ppc_hash_pte64_t *hptes,
+-                                     hwaddr ptex, int n)
+-{
+-    abort();
+-}
+-
+-static inline void kvmppc_write_hpte(hwaddr ptex, uint64_t pte0, uint64_t pte1)
+-{
+-    abort();
+-}
+-
+ static inline bool kvmppc_has_cap_fixup_hcalls(void)
+ {
+     abort();
+diff --git a/target/ppc/translate_init.inc.c b/target/ppc/translate_init.inc.c
+index 38cb773ab4..a40888411c 100644
+--- a/target/ppc/translate_init.inc.c
++++ b/target/ppc/translate_init.inc.c
+@@ -10942,16 +10942,20 @@ static const TypeInfo ppc_cpu_type_info = {
+     .class_init = ppc_cpu_class_init,
+ };
+ 
++#ifndef CONFIG_USER_ONLY
+ static const TypeInfo ppc_vhyp_type_info = {
+     .name = TYPE_PPC_VIRTUAL_HYPERVISOR,
+     .parent = TYPE_INTERFACE,
+     .class_size = sizeof(PPCVirtualHypervisorClass),
+ };
++#endif
+ 
+ static void ppc_cpu_register_types(void)
+ {
+     type_register_static(&ppc_cpu_type_info);
++#ifndef CONFIG_USER_ONLY
+     type_register_static(&ppc_vhyp_type_info);
++#endif
+ }
+ 
+ type_init(ppc_cpu_register_types)
 -- 
 2.26.2
 
