@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 214521F6E84
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 22:09:30 +0200 (CEST)
-Received: from localhost ([::1]:34952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F0481F6E69
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 22:02:53 +0200 (CEST)
+Received: from localhost ([::1]:40184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjTVw-0000Vk-W1
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 16:09:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55322)
+	id 1jjTPY-0007Sw-Jl
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 16:02:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54660)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jjT9R-0008M6-J3
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:46:13 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:21306
+ id 1jjT8n-0007oP-98
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:45:34 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:49768
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jjT9O-0001E9-H6
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:46:13 -0400
+ id 1jjT8i-0000zF-KH
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:45:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591904769;
+ s=mimecast20190719; t=1591904727;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=E9wtEOmw2FHl5lxP0ezQdM7JMQVoBoKAz0J5xFT9n+M=;
- b=fpB75O4PogkezHlzcuMVCyoVTgeOnntYxem9Xj1a6wNE04PtyzGpUKKYKaObk82KlF3ztj
- xPNjm0lH04YIbZcNw4Grdg79+GZ8vK4cw4FKd13h8ythdH2BDAVe0bPb8Wq+AqvWUsSjUi
- sQiY5oq5RoS5FUt8ANq8elGRyQ/B4M4=
+ bh=u8jpMjF43FJZaKogljDg+RI/ofGiOXOFtDoRiNOG8As=;
+ b=IRdbiikcUobsUCLUZ9Pd5xddixkyTmj8nC7Gk2e3xJA+ib/zczM2O9fcbnaqTX7Av8ahbH
+ DHZcMS9k6Wp5BmBduRIlXmFEadFdSSyJmH+ZctkmCtGK0Ir/RfJnuIMh2HgSzhzskcvZA5
+ SneEsre1TqOdGC7Lyi6vHqUYzHln1Ws=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-101-Dk3K1UVCOySfW6RZzIHlqQ-1; Thu, 11 Jun 2020 15:45:24 -0400
-X-MC-Unique: Dk3K1UVCOySfW6RZzIHlqQ-1
+ us-mta-103-sE76toboO7GlCGbnZQkMUA-1; Thu, 11 Jun 2020 15:45:24 -0400
+X-MC-Unique: sE76toboO7GlCGbnZQkMUA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 49C45461;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DD401A0C00;
  Thu, 11 Jun 2020 19:45:23 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CFEA25EE0E;
- Thu, 11 Jun 2020 19:45:22 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7011E5EE0E;
+ Thu, 11 Jun 2020 19:45:23 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 035/115] hw/i386/vmport: Allow x2apic without IR
-Date: Thu, 11 Jun 2020 15:43:29 -0400
-Message-Id: <20200611194449.31468-36-pbonzini@redhat.com>
+Subject: [PULL 036/115] i386/cpu: Store LAPIC bus frequency in CPU structure
+Date: Thu, 11 Jun 2020 15:43:30 -0400
+Message-Id: <20200611194449.31468-37-pbonzini@redhat.com>
 In-Reply-To: <20200611194449.31468-1-pbonzini@redhat.com>
 References: <20200611194449.31468-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -87,42 +87,65 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Liran Alon <liran.alon@oracle.com>
 
-Signal to guest that hypervisor supports x2apic without VT-d/IOMMU
-Interrupt-Remapping support. This allows guest to use x2apic in
-case all APIC IDs fits in 8-bit (i.e. Max APIC ID < 255).
-
-See Linux kernel commit 4cca6ea04d31 ("x86/apic: Allow x2apic
-without IR on VMware platform") and Linux try_to_enable_x2apic()
-function.
+No functional change.
+This information will be used by following patches.
 
 Reviewed-by: Nikita Leshenko <nikita.leshchenko@oracle.com>
 Signed-off-by: Liran Alon <liran.alon@oracle.com>
-Message-Id: <20200312165431.82118-14-liran.alon@oracle.com>
+Message-Id: <20200312165431.82118-15-liran.alon@oracle.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/i386/vmport.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ target/i386/cpu.h |  1 +
+ target/i386/kvm.c | 10 +++++++---
+ 2 files changed, 8 insertions(+), 3 deletions(-)
 
-diff --git a/hw/i386/vmport.c b/hw/i386/vmport.c
-index 942a0e94e3..21d4ff048a 100644
---- a/hw/i386/vmport.c
-+++ b/hw/i386/vmport.c
-@@ -176,7 +176,14 @@ static uint32_t vmport_cmd_ram_size(void *opaque, uint32_t addr)
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index 408392dbf6..00d1f4f013 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -1584,6 +1584,7 @@ typedef struct CPUX86State {
+     bool tsc_valid;
+     int64_t tsc_khz;
+     int64_t user_tsc_khz; /* for sanity check only */
++    uint64_t apic_bus_freq;
+ #if defined(CONFIG_KVM) || defined(CONFIG_HVF)
+     void *xsave_buf;
+ #endif
+diff --git a/target/i386/kvm.c b/target/i386/kvm.c
+index 34f838728d..95bbeb424b 100644
+--- a/target/i386/kvm.c
++++ b/target/i386/kvm.c
+@@ -59,6 +59,10 @@
+     do { } while (0)
+ #endif
  
- static uint32_t vmport_cmd_get_vcpu_info(void *opaque, uint32_t addr)
- {
--    return 1 << VCPU_INFO_RESERVED_BIT;
-+    X86CPU *cpu = X86_CPU(current_cpu);
-+    uint32_t ret = 0;
++/* From arch/x86/kvm/lapic.h */
++#define KVM_APIC_BUS_CYCLE_NS       1
++#define KVM_APIC_BUS_FREQUENCY      (1000000000ULL / KVM_APIC_BUS_CYCLE_NS)
 +
-+    if (cpu->env.features[FEAT_1_ECX] & CPUID_EXT_X2APIC) {
-+        ret |= 1 << VCPU_INFO_LEGACY_X2APIC_BIT;
-+    }
-+
-+    return ret;
- }
+ #define MSR_KVM_WALL_CLOCK  0x11
+ #define MSR_KVM_SYSTEM_TIME 0x12
  
- static const MemoryRegionOps vmport_ops = {
+@@ -1469,6 +1473,8 @@ int kvm_arch_init_vcpu(CPUState *cs)
+         }
+     }
+ 
++    env->apic_bus_freq = KVM_APIC_BUS_FREQUENCY;
++
+     /* Paravirtualization CPUIDs */
+     r = hyperv_handle_properties(cs, cpuid_data.entries);
+     if (r < 0) {
+@@ -1773,9 +1779,7 @@ int kvm_arch_init_vcpu(CPUState *cs)
+         c = &cpuid_data.entries[cpuid_i++];
+         c->function = KVM_CPUID_SIGNATURE | 0x10;
+         c->eax = env->tsc_khz;
+-        /* LAPIC resolution of 1ns (freq: 1GHz) is hardcoded in KVM's
+-         * APIC_BUS_CYCLE_NS */
+-        c->ebx = 1000000;
++        c->ebx = env->apic_bus_freq / 1000; /* Hz to KHz */
+         c->ecx = c->edx = 0;
+ 
+         c = cpuid_find_entry(&cpuid_data.cpuid, kvm_base, 0);
 -- 
 2.26.2
 
