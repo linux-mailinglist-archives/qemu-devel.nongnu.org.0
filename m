@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A9751F6C08
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 18:15:41 +0200 (CEST)
-Received: from localhost ([::1]:48878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18F541F6C0D
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 18:17:18 +0200 (CEST)
+Received: from localhost ([::1]:53834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjPrg-00082e-De
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 12:15:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48608)
+	id 1jjPtF-0001xO-38
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 12:17:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jjPlJ-00059v-9F
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 12:09:05 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:28403
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jjPmH-00078k-3C
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 12:10:05 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:30626
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jjPlH-0002BE-5t
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 12:09:04 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jjPmF-0002QE-7e
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 12:10:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591891741;
+ s=mimecast20190719; t=1591891801;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8lWB0Ui4g7romPhYjN7+fNOLPfWPt76YM8vzgCCtMno=;
- b=gwb0IxYj5TWBf4KsI3wfl/uc65N+1AnSekdSOxXojDFFc8qZSZ9XTluWx3+FLpAl+nkWbN
- KV3b69Z6J/LFhC8R21b20+svLIt9a27QSPcmj40Rj/9swpfcGTkY1bLydQfPfHWwztwwbO
- UZzgTsvnRR8mCDSonkNu5bKdtW7PmZU=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-262-a85W7eDBN8O4ZI2y4J6cYg-1; Thu, 11 Jun 2020 12:03:27 -0400
-X-MC-Unique: a85W7eDBN8O4ZI2y4J6cYg-1
-Received: by mail-wr1-f71.google.com with SMTP id p10so2723258wrn.19
- for <qemu-devel@nongnu.org>; Thu, 11 Jun 2020 09:03:27 -0700 (PDT)
+ bh=lg93mmx8nphNH1y4bYZrwT9M+1WJW6lG0NFyoN2HHMc=;
+ b=Zx1i/gNCgV7CDz7T/wT1W8BCSrVCR+Y6+a0pW3lw1VS8wffWYGEs8C3/Ha316M4hHRNgqQ
+ NOY7Cp0HRUGM9+xFIwTBEfcyfeVa+R2/HRnTX30lZBbPyUBFoRmOkTZud2ea12oTJYN/n4
+ kJwjU1YxqqlyhutBLqEAoHGM3He6Nts=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-284-9d_PgyNDPrWAaJLjzlMDKA-1; Thu, 11 Jun 2020 12:03:32 -0400
+X-MC-Unique: 9d_PgyNDPrWAaJLjzlMDKA-1
+Received: by mail-wm1-f69.google.com with SMTP id u15so1225473wmm.5
+ for <qemu-devel@nongnu.org>; Thu, 11 Jun 2020 09:03:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=8lWB0Ui4g7romPhYjN7+fNOLPfWPt76YM8vzgCCtMno=;
- b=lUPmbC/YixhFqPR+Y02yxvYEvqmV/gAmjppmH77zmuhPvAuhinahllVHzjdBxAEGgz
- kugWGbYEOw/zlEvfNuI4xLKb0415SXJxMs7RHG90Vc6QyQ9MkWggsVtkQPAIPp37Okno
- JyGXbfvHU6VMZw54g7bfvGi1a5IPoBjwQ0LKu5WoQvNmfZ1/OCfG1XmSCAO9phWkNTRs
- 8V1vSWfY+SprI5gQTrExqv+Kg+cx5YWEr+7Rq7wl8z4f3w4piwtrJlHLLm3aWWOP4tkJ
- v1OoJLs5Q7s4vg1iWpju3jS1V9y9kk4XDzFM2aCL/D9viV57Cfuyyx2FRAjt7spIMo5A
- 89Gw==
-X-Gm-Message-State: AOAM531ChYv4lGkA54FevzucHE0ezPP4I8FNNjv8t2Xur9r2Ul/CIJwy
- La2Gz+CZ48oCYuSKO7h4ncQv7EFOX76kflrTTZlZsnQ3jEJZhJfYGx2TcP09fByKSf6q8DDYG34
- 1VVLw/lmRHSZ62Rg=
-X-Received: by 2002:adf:e78a:: with SMTP id n10mr10677300wrm.114.1591891406198; 
- Thu, 11 Jun 2020 09:03:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJztQUYXO6NNQtaF8o4BnQnfggb8b2XxntyaTl90JbG0uqF9bBRx+torpCUTWf7j1IM777kLcQ==
-X-Received: by 2002:adf:e78a:: with SMTP id n10mr10677271wrm.114.1591891405969; 
- Thu, 11 Jun 2020 09:03:25 -0700 (PDT)
+ bh=lg93mmx8nphNH1y4bYZrwT9M+1WJW6lG0NFyoN2HHMc=;
+ b=uWvdA1SkLIBRu3oEKHUVAob11diVoUGDEqs+poSGvqLS5jCeAzwPw5BCwwTnUvgqBs
+ 9nYJvA6a4nl/XCdb9PwQBVDo8HE72UtRrSfrpeYbA36FbWD/qC93xxH3xY4xi2sURngT
+ hPSJ3geF7DZ9vphT5eEP/Zo1QAfMxVxxcSG2YuG/puUJP6HWs8XACGa2DoC+MdYz2+BG
+ jGXQFjm01Yy8jAKgbRlfarR6Cqc9g5y1kAv+b1Qma6ccFYXSeX7RTyRack5/MYKCW7lu
+ tXAlNoLj2hemXOWIflohB4XCoOiuc+8IAYni6HcQY7y4zHKZKRQT+1PcAWiYTb5cuVnX
+ fJIg==
+X-Gm-Message-State: AOAM533Q+SCx/FyBaHHG3T8yKheRAOby6sk/b8LwQwN7JDq/YVrMGaoS
+ rsBjCxJOYehYSW5rWJ6OGCELFOI78B4GxOPVMjxETC12X9GoUrlvsa+QCgWMeSiw9dcuVt25/Pk
+ xizGEAajVkohmIJM=
+X-Received: by 2002:adf:9286:: with SMTP id 6mr10379909wrn.361.1591891411094; 
+ Thu, 11 Jun 2020 09:03:31 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwqTesS7xm4yBhAQQ99I3Nma0bf65xYGUYytQg5xoJP5xIXklWHETgjuJ+4V87pgYtOfbZgxw==
+X-Received: by 2002:adf:9286:: with SMTP id 6mr10379891wrn.361.1591891410935; 
+ Thu, 11 Jun 2020 09:03:30 -0700 (PDT)
 Received: from x1w.redhat.com (181.red-88-10-103.dynamicip.rima-tde.net.
  [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id d2sm5880260wrs.95.2020.06.11.09.03.24
+ by smtp.gmail.com with ESMTPSA id a15sm5749589wra.86.2020.06.11.09.03.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Jun 2020 09:03:25 -0700 (PDT)
+ Thu, 11 Jun 2020 09:03:30 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 03/11] hw/tpm: Rename TPMDEV as TPM_BACKEND in Kconfig
-Date: Thu, 11 Jun 2020 18:02:58 +0200
-Message-Id: <20200611160306.2751-4-philmd@redhat.com>
+Subject: [PATCH v2 04/11] hw/tpm: Do not include 'qemu/osdep.h' in header
+Date: Thu, 11 Jun 2020 18:02:59 +0200
+Message-Id: <20200611160306.2751-5-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200611160306.2751-1-philmd@redhat.com>
 References: <20200611160306.2751-1-philmd@redhat.com>
@@ -104,56 +104,31 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The TPMDEV describe TPM backends. Use the TPM_BACKEND config
-name which is self-explicit.
+From CODING_STYLE.rst:
 
+  Do not include "qemu/osdep.h" from header files since the .c
+  file will have already included it.
+
+Remove "qemu/osdep.h" from "tpm_tis.h".
+
+Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- hw/tpm/Kconfig | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ hw/tpm/tpm_tis.h | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/hw/tpm/Kconfig b/hw/tpm/Kconfig
-index 4794e7fe28..5028fd8880 100644
---- a/hw/tpm/Kconfig
-+++ b/hw/tpm/Kconfig
-@@ -1,4 +1,4 @@
--config TPMDEV
-+config TPM_BACKEND
-     bool
-     depends on TPM
+diff --git a/hw/tpm/tpm_tis.h b/hw/tpm/tpm_tis.h
+index 5554989395..f6b5872ba6 100644
+--- a/hw/tpm/tpm_tis.h
++++ b/hw/tpm/tpm_tis.h
+@@ -24,7 +24,6 @@
+ #ifndef TPM_TPM_TIS_H
+ #define TPM_TPM_TIS_H
  
-@@ -15,26 +15,26 @@ config TPM_TIS_SYSBUS
- config TPM_TIS
-     bool
-     depends on TPM
--    select TPMDEV
-+    select TPM_BACKEND
+-#include "qemu/osdep.h"
+ #include "sysemu/tpm_backend.h"
+ #include "tpm_ppi.h"
  
- config TPM_CRB
-     bool
-     depends on TPM && PC
--    select TPMDEV
-+    select TPM_BACKEND
- 
- config TPM_PASSTHROUGH
-     bool
-     default y
-     # FIXME: should check for x86 host as well
--    depends on TPMDEV && LINUX
-+    depends on TPM_BACKEND && LINUX
- 
- config TPM_EMULATOR
-     bool
-     default y
--    depends on TPMDEV
-+    depends on TPM_BACKEND
- 
- config TPM_SPAPR
-     bool
-     default y
-     depends on TPM && PSERIES
--    select TPMDEV
-+    select TPM_BACKEND
 -- 
 2.21.3
 
