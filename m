@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7F971F6F08
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 22:52:17 +0200 (CEST)
-Received: from localhost ([::1]:45026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0DC31F6ED5
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 22:35:00 +0200 (CEST)
+Received: from localhost ([::1]:43648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjUBN-0008G8-1x
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 16:52:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56378)
+	id 1jjTud-0003Im-US
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 16:35:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56048)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jjTAt-0002Uk-IX
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:47:43 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:44702
- helo=us-smtp-1.mimecast.com)
+ id 1jjTAO-0001rS-BF
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:47:12 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:20514
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jjTAn-0001Us-CE
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:47:43 -0400
+ id 1jjTAM-0001Pq-5e
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:47:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591904856;
+ s=mimecast20190719; t=1591904829;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=eYVHpNxxw7MWY152CHc9nNx671yGuicGgwNx49IwhrA=;
- b=Gbjuw9o89FROTRw/vXHWEZ/yDpHG9SnJbyXi+/EuUEluByAA9J43cspADtOZp+Jjmj1P7W
- I+fqsTY1wJxtrS62yHifCEPr76VtVIC2GizwIcnJpcP5YbBSEEs758vO9e0XWHRJGgIs/3
- +Tdn08BYD5quiW/ZmNjrIfYVJLV/9w8=
+ bh=CqSVqjnl4aUpOYRqUchj6CeSEWEGszyemmeLF9cKaks=;
+ b=KZSpiFue4OZ7gIJHxlQwB2KIjgf2ZMuIe1oDQxUleJWtWK1MAsztNyB1lVoQLS43nD6i15
+ LlIt4SDfaUTzIAzgE/JN1BS4M2uC19XMGU69jqMyQBkWMpLJcgY8MGF5tQouogHBTIodJI
+ uIhGkmk9yZepJ+TcHqewzZZWPaJfW5k=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-176-sKt29ZECPAS8MPB9SmrTjQ-1; Thu, 11 Jun 2020 15:46:57 -0400
-X-MC-Unique: sKt29ZECPAS8MPB9SmrTjQ-1
+ us-mta-447-_u2DCYnkM8iXmsLkWI6ZNw-1; Thu, 11 Jun 2020 15:46:58 -0400
+X-MC-Unique: _u2DCYnkM8iXmsLkWI6ZNw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DA6561005512;
- Thu, 11 Jun 2020 19:46:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 49F84461;
+ Thu, 11 Jun 2020 19:46:57 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2A0A560CC0;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 03FF760CC0;
  Thu, 11 Jun 2020 19:46:56 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 086/115] target/ppc: Restrict PPCVirtualHypervisorClass to
- system-mode
-Date: Thu, 11 Jun 2020 15:44:20 -0400
-Message-Id: <20200611194449.31468-87-pbonzini@redhat.com>
+Subject: [PULL 087/115] i386: hvf: Move HVFState definition into hvf
+Date: Thu, 11 Jun 2020 15:44:21 -0400
+Message-Id: <20200611194449.31468-88-pbonzini@redhat.com>
 In-Reply-To: <20200611194449.31468-1-pbonzini@redhat.com>
 References: <20200611194449.31468-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 14:52:10
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 03:29:33
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -81,121 +80,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Roman Bolshakov <r.bolshakov@yadro.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Roman Bolshakov <r.bolshakov@yadro.com>
 
-The code related to PPC Virtual Hypervisor is pointless in user-mode.
+"sysemu/hvf.h" is intended for inclusion in generic code. However it
+also contains several hvf definitions and declarations, including
+HVFState that are used only inside "hvf.c". "hvf-i386.h" would be more
+appropriate place to define HVFState as it's only included by "hvf.c"
+and "x86_task.c".
 
-Acked-by: David Gibson <david@gibson.dropbear.id.au>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20200526172427.17460-5-f4bug@amsat.org>
+Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
+Message-Id: <20200528193758.51454-2-r.bolshakov@yadro.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/ppc/cpu.h                |  4 ++--
- target/ppc/kvm_ppc.h            | 22 +++++++++++-----------
- target/ppc/translate_init.inc.c |  4 ++++
- 3 files changed, 17 insertions(+), 13 deletions(-)
+ include/sysemu/hvf.h       | 37 -------------------------------------
+ target/i386/hvf/hvf-i386.h | 35 +++++++++++++++++++++++++++++++++++
+ 2 files changed, 35 insertions(+), 37 deletions(-)
 
-diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index 1988b436cb..e7d382ac10 100644
---- a/target/ppc/cpu.h
-+++ b/target/ppc/cpu.h
-@@ -1202,6 +1202,7 @@ PowerPCCPUClass *ppc_cpu_class_by_pvr(uint32_t pvr);
- PowerPCCPUClass *ppc_cpu_class_by_pvr_mask(uint32_t pvr);
- PowerPCCPUClass *ppc_cpu_get_family_class(PowerPCCPUClass *pcc);
+diff --git a/include/sysemu/hvf.h b/include/sysemu/hvf.h
+index fe95743124..644bdfc722 100644
+--- a/include/sysemu/hvf.h
++++ b/include/sysemu/hvf.h
+@@ -15,8 +15,6 @@
  
-+#ifndef CONFIG_USER_ONLY
- struct PPCVirtualHypervisorClass {
-     InterfaceClass parent;
-     void (*hypercall)(PPCVirtualHypervisor *vhyp, PowerPCCPU *cpu);
-@@ -1215,10 +1216,8 @@ struct PPCVirtualHypervisorClass {
-     void (*hpte_set_r)(PPCVirtualHypervisor *vhyp, hwaddr ptex, uint64_t pte1);
-     void (*get_pate)(PPCVirtualHypervisor *vhyp, ppc_v3_pate_t *entry);
-     target_ulong (*encode_hpt_for_kvm_pr)(PPCVirtualHypervisor *vhyp);
--#ifndef CONFIG_USER_ONLY
-     void (*cpu_exec_enter)(PPCVirtualHypervisor *vhyp, PowerPCCPU *cpu);
-     void (*cpu_exec_exit)(PPCVirtualHypervisor *vhyp, PowerPCCPU *cpu);
--#endif
- };
+ #include "cpu.h"
+ #include "qemu/bitops.h"
+-#include "exec/memory.h"
+-#include "sysemu/accel.h"
  
- #define TYPE_PPC_VIRTUAL_HYPERVISOR "ppc-virtual-hypervisor"
-@@ -1230,6 +1229,7 @@ struct PPCVirtualHypervisorClass {
- #define PPC_VIRTUAL_HYPERVISOR_GET_CLASS(obj) \
-     OBJECT_GET_CLASS(PPCVirtualHypervisorClass, (obj), \
-                      TYPE_PPC_VIRTUAL_HYPERVISOR)
-+#endif /* CONFIG_USER_ONLY */
+ #ifdef CONFIG_HVF
+ #include <Hypervisor/hv.h>
+@@ -32,41 +30,6 @@ extern bool hvf_allowed;
+ #define hvf_get_supported_cpuid(func, idx, reg) 0
+ #endif /* !CONFIG_HVF */
  
- void ppc_cpu_do_interrupt(CPUState *cpu);
- bool ppc_cpu_exec_interrupt(CPUState *cpu, int int_req);
-diff --git a/target/ppc/kvm_ppc.h b/target/ppc/kvm_ppc.h
-index fcaf745516..701c0c262b 100644
---- a/target/ppc/kvm_ppc.h
-+++ b/target/ppc/kvm_ppc.h
-@@ -280,6 +280,17 @@ static inline bool kvmppc_has_cap_spapr_vfio(void)
-     return false;
- }
- 
-+static inline void kvmppc_read_hptes(ppc_hash_pte64_t *hptes,
-+                                     hwaddr ptex, int n)
-+{
-+    abort();
-+}
-+
-+static inline void kvmppc_write_hpte(hwaddr ptex, uint64_t pte0, uint64_t pte1)
-+{
-+    abort();
-+}
-+
- #endif /* !CONFIG_USER_ONLY */
- 
- static inline bool kvmppc_has_cap_epr(void)
-@@ -310,17 +321,6 @@ static inline int kvmppc_load_htab_chunk(QEMUFile *f, int fd, uint32_t index,
-     abort();
- }
- 
--static inline void kvmppc_read_hptes(ppc_hash_pte64_t *hptes,
--                                     hwaddr ptex, int n)
--{
--    abort();
--}
+-/* hvf_slot flags */
+-#define HVF_SLOT_LOG (1 << 0)
 -
--static inline void kvmppc_write_hpte(hwaddr ptex, uint64_t pte0, uint64_t pte1)
--{
--    abort();
--}
+-typedef struct hvf_slot {
+-    uint64_t start;
+-    uint64_t size;
+-    uint8_t *mem;
+-    int slot_id;
+-    uint32_t flags;
+-    MemoryRegion *region;
+-} hvf_slot;
 -
- static inline bool kvmppc_has_cap_fixup_hcalls(void)
- {
-     abort();
-diff --git a/target/ppc/translate_init.inc.c b/target/ppc/translate_init.inc.c
-index 38cb773ab4..a40888411c 100644
---- a/target/ppc/translate_init.inc.c
-+++ b/target/ppc/translate_init.inc.c
-@@ -10942,16 +10942,20 @@ static const TypeInfo ppc_cpu_type_info = {
-     .class_init = ppc_cpu_class_init,
+-typedef struct hvf_vcpu_caps {
+-    uint64_t vmx_cap_pinbased;
+-    uint64_t vmx_cap_procbased;
+-    uint64_t vmx_cap_procbased2;
+-    uint64_t vmx_cap_entry;
+-    uint64_t vmx_cap_exit;
+-    uint64_t vmx_cap_preemption_timer;
+-} hvf_vcpu_caps;
+-
+-typedef struct HVFState {
+-    AccelState parent;
+-    hvf_slot slots[32];
+-    int num_slots;
+-
+-    hvf_vcpu_caps *hvf_caps;
+-} HVFState;
+-extern HVFState *hvf_state;
+-
+-void hvf_set_phys_mem(MemoryRegionSection *, bool);
+-void hvf_handle_io(CPUArchState *, uint16_t, void *,
+-                  int, int, int);
+-hvf_slot *hvf_find_overlap_slot(uint64_t, uint64_t);
+-
+ /* Disable HVF if |disable| is 1, otherwise, enable it iff it is supported by
+  * the host CPU. Use hvf_enabled() after this to get the result. */
+ void hvf_disable(int disable);
+diff --git a/target/i386/hvf/hvf-i386.h b/target/i386/hvf/hvf-i386.h
+index fbe4a350c5..ef20c73eca 100644
+--- a/target/i386/hvf/hvf-i386.h
++++ b/target/i386/hvf/hvf-i386.h
+@@ -16,6 +16,7 @@
+ #ifndef HVF_I386_H
+ #define HVF_I386_H
+ 
++#include "sysemu/accel.h"
+ #include "sysemu/hvf.h"
+ #include "cpu.h"
+ #include "x86.h"
+@@ -35,6 +36,40 @@ struct hvf_state {
+     uint64_t mem_quota;
  };
  
-+#ifndef CONFIG_USER_ONLY
- static const TypeInfo ppc_vhyp_type_info = {
-     .name = TYPE_PPC_VIRTUAL_HYPERVISOR,
-     .parent = TYPE_INTERFACE,
-     .class_size = sizeof(PPCVirtualHypervisorClass),
- };
-+#endif
++/* hvf_slot flags */
++#define HVF_SLOT_LOG (1 << 0)
++
++typedef struct hvf_slot {
++    uint64_t start;
++    uint64_t size;
++    uint8_t *mem;
++    int slot_id;
++    uint32_t flags;
++    MemoryRegion *region;
++} hvf_slot;
++
++typedef struct hvf_vcpu_caps {
++    uint64_t vmx_cap_pinbased;
++    uint64_t vmx_cap_procbased;
++    uint64_t vmx_cap_procbased2;
++    uint64_t vmx_cap_entry;
++    uint64_t vmx_cap_exit;
++    uint64_t vmx_cap_preemption_timer;
++} hvf_vcpu_caps;
++
++typedef struct HVFState {
++    AccelState parent;
++    hvf_slot slots[32];
++    int num_slots;
++
++    hvf_vcpu_caps *hvf_caps;
++} HVFState;
++extern HVFState *hvf_state;
++
++void hvf_set_phys_mem(MemoryRegionSection *, bool);
++void hvf_handle_io(CPUArchState *, uint16_t, void *, int, int, int);
++hvf_slot *hvf_find_overlap_slot(uint64_t, uint64_t);
++
+ #ifdef NEED_CPU_H
+ /* Functions exported to host specific mode */
  
- static void ppc_cpu_register_types(void)
- {
-     type_register_static(&ppc_cpu_type_info);
-+#ifndef CONFIG_USER_ONLY
-     type_register_static(&ppc_vhyp_type_info);
-+#endif
- }
- 
- type_init(ppc_cpu_register_types)
 -- 
 2.26.2
 
