@@ -2,23 +2,23 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C271D1F6EE9
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 22:42:26 +0200 (CEST)
-Received: from localhost ([::1]:41340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 029571F6EE1
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 22:39:41 +0200 (CEST)
+Received: from localhost ([::1]:33098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjU1p-0007qi-Ob
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 16:42:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56116)
+	id 1jjTzA-0003zk-1e
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 16:39:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jjTAR-0001yB-Dc
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:47:15 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:29240
+ id 1jjTAQ-0001xG-Uu
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:47:14 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:43153
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jjTAO-0001QP-1e
+ id 1jjTAO-0001QN-02
  for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:47:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1591904831;
@@ -26,29 +26,30 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=h8HdZFaM2mWIMMStldX3gYxAELTzDvL+kCBAAkvkGiU=;
- b=Paottn9J7o0cfOMeutD/jJwEE8gpENKlpbtQknjM6r8CtMgOH0KmadIfog4k5ObXeW6xCH
- 7qFAQafdiU+oyuZ8BwkrqSP3UqcbmJ7WzLwUVVag68vVpr5MPSigyEOe0M6viqb0fb7v5D
- HdgQi6ApZy2ExrTmOe6ilB4XBvFvhA0=
+ bh=81izy4+9EMYGX4ur7U9oBg5fWRzOwFW3sWwfve6UJ8w=;
+ b=EEU6JdrTVQO+lC8cCjb8+9id3jDvyy4y4WZQyYnK6yZFpnjmxyPLGkX1EHDbAOrDLLmtC4
+ D5vZEpDiAUMpZxqWHyICkpZj3+UB90BUMeOcdCZVb0/4ZDm1MY3MkIoTNe89DTjMYW624L
+ 3S7UlxlNou1ztMyytIpsYH/fZOyIjKA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-309---Fyvq-BPvCmIEh85Dr9TA-1; Thu, 11 Jun 2020 15:47:09 -0400
-X-MC-Unique: --Fyvq-BPvCmIEh85Dr9TA-1
+ us-mta-34-S4DT20YwORSQibEJzFNBPA-1; Thu, 11 Jun 2020 15:47:09 -0400
+X-MC-Unique: S4DT20YwORSQibEJzFNBPA-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 485F81940923;
- Thu, 11 Jun 2020 19:47:07 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 25DF3107ACF3;
+ Thu, 11 Jun 2020 19:47:08 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 56B8560CC0;
- Thu, 11 Jun 2020 19:47:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7946460CC0;
+ Thu, 11 Jun 2020 19:47:07 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 100/115] target/i386: sev: Remove unused QSevGuestInfoClass
-Date: Thu, 11 Jun 2020 15:44:34 -0400
-Message-Id: <20200611194449.31468-101-pbonzini@redhat.com>
+Subject: [PULL 101/115] target/i386: sev: Move local structure definitions
+ into .c file
+Date: Thu, 11 Jun 2020 15:44:35 -0400
+Message-Id: <20200611194449.31468-102-pbonzini@redhat.com>
 In-Reply-To: <20200611194449.31468-1-pbonzini@redhat.com>
 References: <20200611194449.31468-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -57,16 +58,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 08:37:10
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 14:52:10
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,54 +89,135 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: David Gibson <david@gibson.dropbear.id.au>
 
-This structure is nothing but an empty wrapper around the parent class,
-which by QOM conventions means we don't need it at all.
+Neither QSevGuestInfo nor SEVState (not to be confused with SevState) is
+used anywhere outside target/i386/sev.c, so they might as well live in
+there rather than in a (somewhat) exposed header.
 
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200604064219.436242-2-david@gibson.dropbear.id.au>
+Message-Id: <20200604064219.436242-3-david@gibson.dropbear.id.au>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/sev.c      | 1 -
- target/i386/sev_i386.h | 5 -----
- 2 files changed, 6 deletions(-)
+ target/i386/sev.c      | 44 ++++++++++++++++++++++++++++++++++++++++++
+ target/i386/sev_i386.h | 44 ------------------------------------------
+ 2 files changed, 44 insertions(+), 44 deletions(-)
 
 diff --git a/target/i386/sev.c b/target/i386/sev.c
-index 51cdbe5496..2312510cf2 100644
+index 2312510cf2..53def5f41a 100644
 --- a/target/i386/sev.c
 +++ b/target/i386/sev.c
-@@ -287,7 +287,6 @@ static const TypeInfo qsev_guest_info = {
-     .name = TYPE_QSEV_GUEST_INFO,
-     .instance_size = sizeof(QSevGuestInfo),
-     .instance_finalize = qsev_guest_finalize,
--    .class_size = sizeof(QSevGuestInfoClass),
-     .class_init = qsev_guest_class_init,
-     .instance_init = qsev_guest_init,
-     .interfaces = (InterfaceInfo[]) {
+@@ -29,6 +29,50 @@
+ #include "trace.h"
+ #include "migration/blocker.h"
+ 
++#define TYPE_QSEV_GUEST_INFO "sev-guest"
++#define QSEV_GUEST_INFO(obj)                  \
++    OBJECT_CHECK(QSevGuestInfo, (obj), TYPE_QSEV_GUEST_INFO)
++
++typedef struct QSevGuestInfo QSevGuestInfo;
++
++/**
++ * QSevGuestInfo:
++ *
++ * The QSevGuestInfo object is used for creating a SEV guest.
++ *
++ * # $QEMU \
++ *         -object sev-guest,id=sev0 \
++ *         -machine ...,memory-encryption=sev0
++ */
++struct QSevGuestInfo {
++    Object parent_obj;
++
++    char *sev_device;
++    uint32_t policy;
++    uint32_t handle;
++    char *dh_cert_file;
++    char *session_file;
++    uint32_t cbitpos;
++    uint32_t reduced_phys_bits;
++};
++
++struct SEVState {
++    QSevGuestInfo *sev_info;
++    uint8_t api_major;
++    uint8_t api_minor;
++    uint8_t build_id;
++    uint32_t policy;
++    uint64_t me_mask;
++    uint32_t cbitpos;
++    uint32_t reduced_phys_bits;
++    uint32_t handle;
++    int sev_fd;
++    SevState state;
++    gchar *measurement;
++};
++
++typedef struct SEVState SEVState;
++
+ #define DEFAULT_GUEST_POLICY    0x1 /* disable debug */
+ #define DEFAULT_SEV_DEVICE      "/dev/sev"
+ 
 diff --git a/target/i386/sev_i386.h b/target/i386/sev_i386.h
-index 8ada9d385d..4f193642ac 100644
+index 4f193642ac..8eb7de1bef 100644
 --- a/target/i386/sev_i386.h
 +++ b/target/i386/sev_i386.h
-@@ -41,7 +41,6 @@ extern char *sev_get_launch_measurement(void);
+@@ -28,10 +28,6 @@
+ #define SEV_POLICY_DOMAIN       0x10
+ #define SEV_POLICY_SEV          0x20
+ 
+-#define TYPE_QSEV_GUEST_INFO "sev-guest"
+-#define QSEV_GUEST_INFO(obj)                  \
+-    OBJECT_CHECK(QSevGuestInfo, (obj), TYPE_QSEV_GUEST_INFO)
+-
+ extern bool sev_enabled(void);
+ extern uint64_t sev_get_me_mask(void);
+ extern SevInfo *sev_get_info(void);
+@@ -40,44 +36,4 @@ extern uint32_t sev_get_reduced_phys_bits(void);
+ extern char *sev_get_launch_measurement(void);
  extern SevCapability *sev_get_capabilities(void);
  
- typedef struct QSevGuestInfo QSevGuestInfo;
--typedef struct QSevGuestInfoClass QSevGuestInfoClass;
- 
- /**
-  * QSevGuestInfo:
-@@ -64,10 +63,6 @@ struct QSevGuestInfo {
-     uint32_t reduced_phys_bits;
- };
- 
--struct QSevGuestInfoClass {
--    ObjectClass parent_class;
+-typedef struct QSevGuestInfo QSevGuestInfo;
+-
+-/**
+- * QSevGuestInfo:
+- *
+- * The QSevGuestInfo object is used for creating a SEV guest.
+- *
+- * # $QEMU \
+- *         -object sev-guest,id=sev0 \
+- *         -machine ...,memory-encryption=sev0
+- */
+-struct QSevGuestInfo {
+-    Object parent_obj;
+-
+-    char *sev_device;
+-    uint32_t policy;
+-    uint32_t handle;
+-    char *dh_cert_file;
+-    char *session_file;
+-    uint32_t cbitpos;
+-    uint32_t reduced_phys_bits;
 -};
 -
- struct SEVState {
-     QSevGuestInfo *sev_info;
-     uint8_t api_major;
+-struct SEVState {
+-    QSevGuestInfo *sev_info;
+-    uint8_t api_major;
+-    uint8_t api_minor;
+-    uint8_t build_id;
+-    uint32_t policy;
+-    uint64_t me_mask;
+-    uint32_t cbitpos;
+-    uint32_t reduced_phys_bits;
+-    uint32_t handle;
+-    int sev_fd;
+-    SevState state;
+-    gchar *measurement;
+-};
+-
+-typedef struct SEVState SEVState;
+-
+ #endif
 -- 
 2.26.2
 
