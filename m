@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E45E1F6CAA
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 19:13:31 +0200 (CEST)
-Received: from localhost ([::1]:34468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3DEE1F6CAD
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 19:16:02 +0200 (CEST)
+Received: from localhost ([::1]:43716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjQle-0007og-6m
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 13:13:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34002)
+	id 1jjQo5-0003JJ-Ud
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 13:16:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34044)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <den@openvz.org>)
- id 1jjQk5-0005Qn-1B; Thu, 11 Jun 2020 13:11:53 -0400
-Received: from relay.sw.ru ([185.231.240.75]:35190 helo=relay3.sw.ru)
+ id 1jjQk8-0005XS-2t; Thu, 11 Jun 2020 13:11:56 -0400
+Received: from relay.sw.ru ([185.231.240.75]:35188 helo=relay3.sw.ru)
  by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <den@openvz.org>)
- id 1jjQk2-0000qg-OH; Thu, 11 Jun 2020 13:11:52 -0400
+ id 1jjQk2-0000qi-OE; Thu, 11 Jun 2020 13:11:55 -0400
 Received: from [192.168.15.81] (helo=iris.sw.ru)
  by relay3.sw.ru with esmtp (Exim 4.93)
  (envelope-from <den@openvz.org>)
- id 1jjQjs-0000BN-Sx; Thu, 11 Jun 2020 20:11:40 +0300
+ id 1jjQjt-0000BN-0n; Thu, 11 Jun 2020 20:11:41 +0300
 From: "Denis V. Lunev" <den@openvz.org>
 To: qemu-block@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 2/4] block/aio_task: allow start/wait task from any coroutine
-Date: Thu, 11 Jun 2020 20:11:41 +0300
-Message-Id: <20200611171143.21589-3-den@openvz.org>
+Subject: [PATCH 3/4] block, migration: add bdrv_flush_vmstate helper
+Date: Thu, 11 Jun 2020 20:11:42 +0300
+Message-Id: <20200611171143.21589-4-den@openvz.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200611171143.21589-1-den@openvz.org>
 References: <20200611171143.21589-1-den@openvz.org>
@@ -56,17 +56,25 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
  Juan Quintela <quintela@redhat.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
  Denis Plotnikov <dplotnikov@virtuozzo.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, "Denis V . Lunev" <den@openvz.org>
+ Stefan Hajnoczi <stefanha@redhat.com>, "Denis V. Lunev" <den@openvz.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Right now bdrv_fclose() is just calling bdrv_flush().
 
-Currently, aio task pool assumes that there is a main coroutine, which
-creates tasks and wait for them. Let's remove the restriction by using
-CoQueue. Code becomes clearer, interface more obvious.
+The problem is that migration code is working inefficently from black
+layer terms and are frequently called for very small pieces of not
+properly aligned data. Block layer is capable to work this way, but
+this is very slow.
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+This patch is a preparation for the introduction of the intermediate
+buffer at block driver state. It would be beneficial to separate
+conventional bdrv_flush() from closing QEMU file from migration code.
+
+The patch also forces bdrv_flush_vmstate() operation inside
+synchronous blk_save_vmstate() operation. This helper is used from
+qemu-io only.
+
 Signed-off-by: Denis V. Lunev <den@openvz.org>
 CC: Kevin Wolf <kwolf@redhat.com>
 CC: Max Reitz <mreitz@redhat.com>
@@ -77,72 +85,112 @@ CC: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 CC: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 CC: Denis Plotnikov <dplotnikov@virtuozzo.com>
 ---
- block/aio_task.c | 21 ++++++---------------
- 1 file changed, 6 insertions(+), 15 deletions(-)
+ block/block-backend.c |  6 +++++-
+ block/io.c            | 39 +++++++++++++++++++++++++++++++++++++++
+ include/block/block.h |  1 +
+ migration/savevm.c    |  3 +++
+ 4 files changed, 48 insertions(+), 1 deletion(-)
 
-diff --git a/block/aio_task.c b/block/aio_task.c
-index 88989fa248..cf62e5c58b 100644
---- a/block/aio_task.c
-+++ b/block/aio_task.c
-@@ -27,11 +27,10 @@
- #include "block/aio_task.h"
- 
- struct AioTaskPool {
--    Coroutine *main_co;
-     int status;
-     int max_busy_tasks;
-     int busy_tasks;
--    bool waiting;
-+    CoQueue waiters;
- };
- 
- static void coroutine_fn aio_task_co(void *opaque)
-@@ -52,31 +51,23 @@ static void coroutine_fn aio_task_co(void *opaque)
- 
-     g_free(task);
- 
--    if (pool->waiting) {
--        pool->waiting = false;
--        aio_co_wake(pool->main_co);
--    }
-+    qemu_co_queue_restart_all(&pool->waiters);
- }
- 
- void coroutine_fn aio_task_pool_wait_one(AioTaskPool *pool)
+diff --git a/block/block-backend.c b/block/block-backend.c
+index 9342a475cb..2107ace699 100644
+--- a/block/block-backend.c
++++ b/block/block-backend.c
+@@ -2177,7 +2177,7 @@ int blk_truncate(BlockBackend *blk, int64_t offset, bool exact,
+ int blk_save_vmstate(BlockBackend *blk, const uint8_t *buf,
+                      int64_t pos, int size)
  {
-     assert(pool->busy_tasks > 0);
--    assert(qemu_coroutine_self() == pool->main_co);
+-    int ret;
++    int ret, ret2;
  
--    pool->waiting = true;
--    qemu_coroutine_yield();
-+    qemu_co_queue_wait(&pool->waiters, NULL);
- 
--    assert(!pool->waiting);
-     assert(pool->busy_tasks < pool->max_busy_tasks);
- }
- 
- void coroutine_fn aio_task_pool_wait_slot(AioTaskPool *pool)
- {
--    if (pool->busy_tasks < pool->max_busy_tasks) {
--        return;
-+    while (pool->busy_tasks >= pool->max_busy_tasks) {
-+        aio_task_pool_wait_one(pool);
+     if (!blk_is_available(blk)) {
+         return -ENOMEDIUM;
+@@ -2187,6 +2187,10 @@ int blk_save_vmstate(BlockBackend *blk, const uint8_t *buf,
+     if (ret < 0) {
+         return ret;
      }
--
--    aio_task_pool_wait_one(pool);
++    ret2 = bdrv_flush_vmstate(blk_bs(blk));
++    if (ret2 < 0) {
++        return ret;
++    }
+ 
+     if (ret == size && !blk->enable_write_cache) {
+         ret = bdrv_flush(blk_bs(blk));
+diff --git a/block/io.c b/block/io.c
+index 121ce17a49..fbf352f39d 100644
+--- a/block/io.c
++++ b/block/io.c
+@@ -2725,6 +2725,45 @@ int bdrv_readv_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos)
+     return bdrv_rw_vmstate(bs, qiov, pos, true);
  }
  
- void coroutine_fn aio_task_pool_wait_all(AioTaskPool *pool)
-@@ -98,8 +89,8 @@ AioTaskPool *coroutine_fn aio_task_pool_new(int max_busy_tasks)
++
++typedef struct FlushVMStateCo {
++    BlockDriverState *bs;
++    int ret;
++} FlushVMStateCo;
++
++static int coroutine_fn bdrv_co_flush_vmstate(BlockDriverState *bs)
++{
++    return 0;
++}
++
++static void coroutine_fn bdrv_flush_vmstate_co_entry(void *opaque)
++{
++    FlushVMStateCo *rwco = opaque;
++
++    rwco->ret = bdrv_co_flush_vmstate(rwco->bs);
++    aio_wait_kick();
++}
++
++int bdrv_flush_vmstate(BlockDriverState *bs)
++{
++    Coroutine *co;
++    FlushVMStateCo flush_co = {
++        .bs = bs,
++        .ret = NOT_DONE,
++    };
++
++    if (qemu_in_coroutine()) {
++        /* Fast-path if already in coroutine context */
++        bdrv_flush_vmstate_co_entry(&flush_co);
++    } else {
++        co = qemu_coroutine_create(bdrv_flush_vmstate_co_entry, &flush_co);
++        bdrv_coroutine_enter(bs, co);
++        BDRV_POLL_WHILE(bs, flush_co.ret == NOT_DONE);
++    }
++
++    return flush_co.ret;
++}
++
+ /**************************************************************/
+ /* async I/Os */
+ 
+diff --git a/include/block/block.h b/include/block/block.h
+index 25e299605e..024525b87d 100644
+--- a/include/block/block.h
++++ b/include/block/block.h
+@@ -572,6 +572,7 @@ int bdrv_save_vmstate(BlockDriverState *bs, const uint8_t *buf,
+ 
+ int bdrv_load_vmstate(BlockDriverState *bs, uint8_t *buf,
+                       int64_t pos, int size);
++int bdrv_flush_vmstate(BlockDriverState *bs);
+ 
+ void bdrv_img_create(const char *filename, const char *fmt,
+                      const char *base_filename, const char *base_fmt,
+diff --git a/migration/savevm.c b/migration/savevm.c
+index 0ff5bb40ed..9698c909d7 100644
+--- a/migration/savevm.c
++++ b/migration/savevm.c
+@@ -150,6 +150,9 @@ static ssize_t block_get_buffer(void *opaque, uint8_t *buf, int64_t pos,
+ 
+ static int bdrv_fclose(void *opaque, Error **errp)
  {
-     AioTaskPool *pool = g_new0(AioTaskPool, 1);
- 
--    pool->main_co = qemu_coroutine_self();
-     pool->max_busy_tasks = max_busy_tasks;
-+    qemu_co_queue_init(&pool->waiters);
- 
-     return pool;
++    int err = bdrv_flush_vmstate(opaque);
++    if (err < 0)
++        return err;
+     return bdrv_flush(opaque);
  }
+ 
 -- 
 2.17.1
 
