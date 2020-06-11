@@ -2,75 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBCB31F6699
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 13:28:12 +0200 (CEST)
-Received: from localhost ([::1]:37452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6073E1F66F2
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 13:44:08 +0200 (CEST)
+Received: from localhost ([::1]:51898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjLNT-0000Ne-RV
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 07:28:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45212)
+	id 1jjLct-0001kA-Az
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 07:44:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1jjLMD-0008PP-MR
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 07:26:53 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:37606)
- by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1jjLMC-000677-3R
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 07:26:53 -0400
-Received: by mail-wr1-x443.google.com with SMTP id x13so5773554wrv.4
- for <qemu-devel@nongnu.org>; Thu, 11 Jun 2020 04:26:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=KDM3lF1BPi8fNN741qGhpafup+jb+Ob5Ct/1qOrwuKk=;
- b=Z33hYi5uvVfqIc/NJgCQHNyj102vy7GHlEnXMz4v8rxFhljGcP7SRp0CPtm4AG/D+y
- aPSRgVH2bpCh7Mxbv4S30r0kl6RnBiFagveUy43YBrmDAYQ8aa4j5YlHSNOU6LhZKCkl
- mkQarurjeAiU8kq3gTnPHK3QjpJdbEQjCQmD4dZbZxZc79tyf/RpBrcP4HAGGBVrWt+A
- xMIjXDrF1ZXW7DgRsRmLSYUWnqLsJtv/xzTD8hUd/ZmuZ9AJYcK/7asZoDwoeGnBRIOu
- WYK+JmxyTAwoUGpQAhrxOPAcELy99LIDmU8N8byLqq9V3+Qd1jPJ5s6tWgK3ZGaumEtv
- n30w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=KDM3lF1BPi8fNN741qGhpafup+jb+Ob5Ct/1qOrwuKk=;
- b=ifkZmP9s0HAjNsHyeKKTaxf0GWObUXxQ8YvvJDDFoSvpCm9HZnHu+ZO+vbG8YIevns
- RhIZzebBo2LFYiFfvMiznYWCGPQTOBE0KbuibyWOV4aZLuT/a/bqXQ2wQqXbQUNpfBuO
- LhCYyKiAACCCuDoAbM+x4q34ggtLUC65iI4eSZ0hhpmvgDbNv2aW4n2Bxz2UGjc09V3D
- iqhWBMq+gLHtj/2eDUKDYtSydbRfylHn1s/f38yY7UmEJpM6kYvJ6r4rKR8yQWho0Uz9
- dC7tNFnmPMj8CH4ZcASXVxN6EF61jguBb8fXykMHf/+0hcmbDenSI/f2Fgw0tE1al3Hn
- nFVA==
-X-Gm-Message-State: AOAM533bOhVOLhQPh8qbh0LmNsZ/F6lMjr+HdV7CDPaLMHvprJxfAij3
- 6BKMkb9ZnKXhM4fJoki/d4ouFN0PW5sR2NVethI=
-X-Google-Smtp-Source: ABdhPJy8eod4+y9BVj/S4Md28axzIJYBMSg0HErsSzAtYW8VLlIFe9uwC90dUEP6isrL83011lqsejHi+M2I4Cn8/gs=
-X-Received: by 2002:adf:9544:: with SMTP id 62mr8818965wrs.32.1591874805318;
- Thu, 11 Jun 2020 04:26:45 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jjLbi-00016y-2u
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 07:42:54 -0400
+Received: from indium.canonical.com ([91.189.90.7]:44612)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jjLbg-0001f1-12
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 07:42:53 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jjLbd-0004T0-Cu
+ for <qemu-devel@nongnu.org>; Thu, 11 Jun 2020 11:42:49 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 293862E810D
+ for <qemu-devel@nongnu.org>; Thu, 11 Jun 2020 11:42:49 +0000 (UTC)
 MIME-Version: 1.0
-References: <20200604233538.256325-1-coiby.xu@gmail.com>
- <20200604233538.256325-2-coiby.xu@gmail.com>
-In-Reply-To: <20200604233538.256325-2-coiby.xu@gmail.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Thu, 11 Jun 2020 15:26:32 +0400
-Message-ID: <CAJ+F1CJuKhAxiWaBNWf4kaqyLur8nUm6SocvJ7EhEP6scWpdBQ@mail.gmail.com>
-Subject: Re: [PATCH v8 1/4] Allow vu_message_read to be replaced
-To: Coiby Xu <coiby.xu@gmail.com>
-Content-Type: multipart/alternative; boundary="0000000000004c497d05a7cd3c18"
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-wr1-x443.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 11 Jun 2020 11:29:01 -0000
+From: Kenneth Salerno <1829682@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=groug@kaod.org; 
+X-Launchpad-Bug-Tags: ppc64
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ivmn kennethsalerno
+X-Launchpad-Bug-Reporter: Ivan Warren (ivmn)
+X-Launchpad-Bug-Modifier: Kenneth Salerno (kennethsalerno)
+References: <155831074982.26912.13291059176555697592.malonedeb@soybean.canonical.com>
+Message-Id: <159187494122.13584.2455736246969595432.malone@wampee.canonical.com>
+Subject: [Bug 1829682] Re: QEMU PPC SYSTEM regression - 3.1.0 and GIT - Fail
+ to boot AIX
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="b190cebbf563f89e480a8b57f641753c8196bda0";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 961e74aefa603b6ef1195b141121dec3041354fb
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 04:11:21
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -79,480 +74,208 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, bharatlkmlkvm@gmail.com,
- QEMU <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Reply-To: Bug 1829682 <1829682@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000004c497d05a7cd3c18
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+I tried removing the H_HOME_NODE_ASSOCIATIVITY H-call from QEMU 4.2.0
+and git 5.0.50v5.0.0-997-g9e7f1469b9-dirty, but AIX 7.2 TL4 SP1 still
+won't boot for me. The last version of QEMU I got it to boot up
+completely in was 2.11.2 (the version I was able to install AIX).
 
-On Fri, Jun 5, 2020 at 3:36 AM Coiby Xu <coiby.xu@gmail.com> wrote:
+ERROR:/home/kens/tmp/qemu/cpus.c:1735:qemu_tcg_cpu_thread_fn: assertion
+failed: (cpu->halted)
 
-> Allow vu_message_read to be replaced by one which will make use of the
-> QIOChannel functions. Thus reading vhost-user message won't stall the
-> guest.
->
-> Signed-off-by: Coiby Xu <coiby.xu@gmail.com>
->
+If I disable SMP (single CPU) and switch to POWER7, it boots until IPL
+progress code 00c9/00c0 (dump) then it reboots. I had POWER9 SMP =3D 8
+working with 2.11.2.
 
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+-- =
 
----
->  contrib/libvhost-user/libvhost-user-glib.c |  2 +-
->  contrib/libvhost-user/libvhost-user.c      | 11 ++++++-----
->  contrib/libvhost-user/libvhost-user.h      | 21 +++++++++++++++++++++
->  tests/vhost-user-bridge.c                  |  2 ++
->  tools/virtiofsd/fuse_virtio.c              |  4 ++--
->  5 files changed, 32 insertions(+), 8 deletions(-)
->
-> diff --git a/contrib/libvhost-user/libvhost-user-glib.c
-> b/contrib/libvhost-user/libvhost-user-glib.c
-> index 53f1ca4cdd..0df2ec9271 100644
-> --- a/contrib/libvhost-user/libvhost-user-glib.c
-> +++ b/contrib/libvhost-user/libvhost-user-glib.c
-> @@ -147,7 +147,7 @@ vug_init(VugDev *dev, uint16_t max_queues, int socket=
-,
->      g_assert(dev);
->      g_assert(iface);
->
-> -    if (!vu_init(&dev->parent, max_queues, socket, panic, set_watch,
-> +    if (!vu_init(&dev->parent, max_queues, socket, panic, NULL, set_watc=
-h,
->                   remove_watch, iface)) {
->          return false;
->      }
-> diff --git a/contrib/libvhost-user/libvhost-user.c
-> b/contrib/libvhost-user/libvhost-user.c
-> index 3bca996c62..0c7368baa2 100644
-> --- a/contrib/libvhost-user/libvhost-user.c
-> +++ b/contrib/libvhost-user/libvhost-user.c
-> @@ -67,8 +67,6 @@
->  /* The version of inflight buffer */
->  #define INFLIGHT_VERSION 1
->
-> -#define VHOST_USER_HDR_SIZE offsetof(VhostUserMsg, payload.u64)
-> -
->  /* The version of the protocol we support */
->  #define VHOST_USER_VERSION 1
->  #define LIBVHOST_USER_DEBUG 0
-> @@ -412,7 +410,7 @@ vu_process_message_reply(VuDev *dev, const
-> VhostUserMsg *vmsg)
->          goto out;
->      }
->
-> -    if (!vu_message_read(dev, dev->slave_fd, &msg_reply)) {
-> +    if (!dev->read_msg(dev, dev->slave_fd, &msg_reply)) {
->          goto out;
->      }
->
-> @@ -647,7 +645,7 @@ vu_set_mem_table_exec_postcopy(VuDev *dev,
-> VhostUserMsg *vmsg)
->      /* Wait for QEMU to confirm that it's registered the handler for the
->       * faults.
->       */
-> -    if (!vu_message_read(dev, dev->sock, vmsg) ||
-> +    if (!dev->read_msg(dev, dev->sock, vmsg) ||
->          vmsg->size !=3D sizeof(vmsg->payload.u64) ||
->          vmsg->payload.u64 !=3D 0) {
->          vu_panic(dev, "failed to receive valid ack for postcopy
-> set-mem-table");
-> @@ -1653,7 +1651,7 @@ vu_dispatch(VuDev *dev)
->      int reply_requested;
->      bool need_reply, success =3D false;
->
-> -    if (!vu_message_read(dev, dev->sock, &vmsg)) {
-> +    if (!dev->read_msg(dev, dev->sock, &vmsg)) {
->          goto end;
->      }
->
-> @@ -1704,6 +1702,7 @@ vu_deinit(VuDev *dev)
->          }
->
->          if (vq->kick_fd !=3D -1) {
-> +            dev->remove_watch(dev, vq->kick_fd);
->              close(vq->kick_fd);
->              vq->kick_fd =3D -1;
->          }
-> @@ -1751,6 +1750,7 @@ vu_init(VuDev *dev,
->          uint16_t max_queues,
->          int socket,
->          vu_panic_cb panic,
-> +        vu_read_msg_cb read_msg,
->          vu_set_watch_cb set_watch,
->          vu_remove_watch_cb remove_watch,
->          const VuDevIface *iface)
-> @@ -1768,6 +1768,7 @@ vu_init(VuDev *dev,
->
->      dev->sock =3D socket;
->      dev->panic =3D panic;
-> +    dev->read_msg =3D read_msg ? read_msg : vu_message_read;
->      dev->set_watch =3D set_watch;
->      dev->remove_watch =3D remove_watch;
->      dev->iface =3D iface;
-> diff --git a/contrib/libvhost-user/libvhost-user.h
-> b/contrib/libvhost-user/libvhost-user.h
-> index f30394fab6..d756da8548 100644
-> --- a/contrib/libvhost-user/libvhost-user.h
-> +++ b/contrib/libvhost-user/libvhost-user.h
-> @@ -30,6 +30,8 @@
->
->  #define VHOST_MEMORY_MAX_NREGIONS 8
->
-> +#define VHOST_USER_HDR_SIZE offsetof(VhostUserMsg, payload.u64)
-> +
->  typedef enum VhostSetConfigType {
->      VHOST_SET_CONFIG_TYPE_MASTER =3D 0,
->      VHOST_SET_CONFIG_TYPE_MIGRATION =3D 1,
-> @@ -205,6 +207,7 @@ typedef uint64_t (*vu_get_features_cb) (VuDev *dev);
->  typedef void (*vu_set_features_cb) (VuDev *dev, uint64_t features);
->  typedef int (*vu_process_msg_cb) (VuDev *dev, VhostUserMsg *vmsg,
->                                    int *do_reply);
-> +typedef bool (*vu_read_msg_cb) (VuDev *dev, int sock, VhostUserMsg *vmsg=
-);
->  typedef void (*vu_queue_set_started_cb) (VuDev *dev, int qidx, bool
-> started);
->  typedef bool (*vu_queue_is_processed_in_order_cb) (VuDev *dev, int qidx)=
-;
->  typedef int (*vu_get_config_cb) (VuDev *dev, uint8_t *config, uint32_t
-> len);
-> @@ -373,6 +376,23 @@ struct VuDev {
->      bool broken;
->      uint16_t max_queues;
->
-> +    /* @read_msg: custom method to read vhost-user message
-> +     *
-> +     * Read data from vhost_user socket fd and fill up
-> +     * the passed VhostUserMsg *vmsg struct.
-> +     *
-> +     * If reading fails, it should close the received set of file
-> +     * descriptors as socket message's auxiliary data.
-> +     *
-> +     * For the details, please refer to vu_message_read in libvhost-user=
-.c
-> +     * which will be used by default if not custom method is provided wh=
-en
-> +     * calling vu_init
-> +     *
-> +     * Returns: true if vhost-user message successfully received,
-> +     *          otherwise return false.
-> +     *
-> +     */
-> +    vu_read_msg_cb read_msg;
->      /* @set_watch: add or update the given fd to the watch set,
->       * call cb when condition is met */
->      vu_set_watch_cb set_watch;
-> @@ -416,6 +436,7 @@ bool vu_init(VuDev *dev,
->               uint16_t max_queues,
->               int socket,
->               vu_panic_cb panic,
-> +             vu_read_msg_cb read_msg,
->               vu_set_watch_cb set_watch,
->               vu_remove_watch_cb remove_watch,
->               const VuDevIface *iface);
-> diff --git a/tests/vhost-user-bridge.c b/tests/vhost-user-bridge.c
-> index 6c3d490611..bd43607a4d 100644
-> --- a/tests/vhost-user-bridge.c
-> +++ b/tests/vhost-user-bridge.c
-> @@ -520,6 +520,7 @@ vubr_accept_cb(int sock, void *ctx)
->                   VHOST_USER_BRIDGE_MAX_QUEUES,
->                   conn_fd,
->                   vubr_panic,
-> +                 NULL,
->                   vubr_set_watch,
->                   vubr_remove_watch,
->                   &vuiface)) {
-> @@ -573,6 +574,7 @@ vubr_new(const char *path, bool client)
->                       VHOST_USER_BRIDGE_MAX_QUEUES,
->                       dev->sock,
->                       vubr_panic,
-> +                     NULL,
->                       vubr_set_watch,
->                       vubr_remove_watch,
->                       &vuiface)) {
-> diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.=
-c
-> index 3b6d16a041..666945c897 100644
-> --- a/tools/virtiofsd/fuse_virtio.c
-> +++ b/tools/virtiofsd/fuse_virtio.c
-> @@ -980,8 +980,8 @@ int virtio_session_mount(struct fuse_session *se)
->      se->vu_socketfd =3D data_sock;
->      se->virtio_dev->se =3D se;
->      pthread_rwlock_init(&se->virtio_dev->vu_dispatch_rwlock, NULL);
-> -    vu_init(&se->virtio_dev->dev, 2, se->vu_socketfd, fv_panic,
-> fv_set_watch,
-> -            fv_remove_watch, &fv_iface);
-> +    vu_init(&se->virtio_dev->dev, 2, se->vu_socketfd, fv_panic, NULL,
-> +            fv_set_watch, fv_remove_watch, &fv_iface);
->
->      return 0;
->  }
-> --
-> 2.26.2
->
->
->
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1829682
 
---=20
-Marc-Andr=C3=A9 Lureau
+Title:
+  QEMU PPC SYSTEM regression - 3.1.0 and GIT - Fail to boot AIX
 
---0000000000004c497d05a7cd3c18
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Status in QEMU:
+  Confirmed
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Jun 5, 2020 at 3:36 AM Coiby =
-Xu &lt;<a href=3D"mailto:coiby.xu@gmail.com">coiby.xu@gmail.com</a>&gt; wro=
-te:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
-0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Allow vu_mes=
-sage_read to be replaced by one which will make use of the<br>
-QIOChannel functions. Thus reading vhost-user message won&#39;t stall the<b=
-r>
-guest.<br>
-<br>
-Signed-off-by: Coiby Xu &lt;<a href=3D"mailto:coiby.xu@gmail.com" target=3D=
-"_blank">coiby.xu@gmail.com</a>&gt;<br></blockquote><div><br></div><div>Rev=
-iewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@red=
-hat.com">marcandre.lureau@redhat.com</a>&gt;</div><div> <br></div><blockquo=
-te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px =
-solid rgb(204,204,204);padding-left:1ex">
----<br>
-=C2=A0contrib/libvhost-user/libvhost-user-glib.c |=C2=A0 2 +-<br>
-=C2=A0contrib/libvhost-user/libvhost-user.c=C2=A0 =C2=A0 =C2=A0 | 11 ++++++=
------<br>
-=C2=A0contrib/libvhost-user/libvhost-user.h=C2=A0 =C2=A0 =C2=A0 | 21 ++++++=
-+++++++++++++++<br>
-=C2=A0tests/vhost-user-bridge.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 |=C2=A0 2 ++<br>
-=C2=A0tools/virtiofsd/fuse_virtio.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 |=C2=A0 4 ++--<br>
-=C2=A05 files changed, 32 insertions(+), 8 deletions(-)<br>
-<br>
-diff --git a/contrib/libvhost-user/libvhost-user-glib.c b/contrib/libvhost-=
-user/libvhost-user-glib.c<br>
-index 53f1ca4cdd..0df2ec9271 100644<br>
---- a/contrib/libvhost-user/libvhost-user-glib.c<br>
-+++ b/contrib/libvhost-user/libvhost-user-glib.c<br>
-@@ -147,7 +147,7 @@ vug_init(VugDev *dev, uint16_t max_queues, int socket,<=
-br>
-=C2=A0 =C2=A0 =C2=A0g_assert(dev);<br>
-=C2=A0 =C2=A0 =C2=A0g_assert(iface);<br>
-<br>
--=C2=A0 =C2=A0 if (!vu_init(&amp;dev-&gt;parent, max_queues, socket, panic,=
- set_watch,<br>
-+=C2=A0 =C2=A0 if (!vu_init(&amp;dev-&gt;parent, max_queues, socket, panic,=
- NULL, set_watch,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 remove_watch=
-, iface)) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return false;<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-diff --git a/contrib/libvhost-user/libvhost-user.c b/contrib/libvhost-user/=
-libvhost-user.c<br>
-index 3bca996c62..0c7368baa2 100644<br>
---- a/contrib/libvhost-user/libvhost-user.c<br>
-+++ b/contrib/libvhost-user/libvhost-user.c<br>
-@@ -67,8 +67,6 @@<br>
-=C2=A0/* The version of inflight buffer */<br>
-=C2=A0#define INFLIGHT_VERSION 1<br>
-<br>
--#define VHOST_USER_HDR_SIZE offsetof(VhostUserMsg, payload.u64)<br>
--<br>
-=C2=A0/* The version of the protocol we support */<br>
-=C2=A0#define VHOST_USER_VERSION 1<br>
-=C2=A0#define LIBVHOST_USER_DEBUG 0<br>
-@@ -412,7 +410,7 @@ vu_process_message_reply(VuDev *dev, const VhostUserMsg=
- *vmsg)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto out;<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-<br>
--=C2=A0 =C2=A0 if (!vu_message_read(dev, dev-&gt;slave_fd, &amp;msg_reply))=
- {<br>
-+=C2=A0 =C2=A0 if (!dev-&gt;read_msg(dev, dev-&gt;slave_fd, &amp;msg_reply)=
-) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto out;<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-<br>
-@@ -647,7 +645,7 @@ vu_set_mem_table_exec_postcopy(VuDev *dev, VhostUserMsg=
- *vmsg)<br>
-=C2=A0 =C2=A0 =C2=A0/* Wait for QEMU to confirm that it&#39;s registered th=
-e handler for the<br>
-=C2=A0 =C2=A0 =C2=A0 * faults.<br>
-=C2=A0 =C2=A0 =C2=A0 */<br>
--=C2=A0 =C2=A0 if (!vu_message_read(dev, dev-&gt;sock, vmsg) ||<br>
-+=C2=A0 =C2=A0 if (!dev-&gt;read_msg(dev, dev-&gt;sock, vmsg) ||<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vmsg-&gt;size !=3D sizeof(vmsg-&gt;payloa=
-d.u64) ||<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vmsg-&gt;payload.u64 !=3D 0) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vu_panic(dev, &quot;failed to receive val=
-id ack for postcopy set-mem-table&quot;);<br>
-@@ -1653,7 +1651,7 @@ vu_dispatch(VuDev *dev)<br>
-=C2=A0 =C2=A0 =C2=A0int reply_requested;<br>
-=C2=A0 =C2=A0 =C2=A0bool need_reply, success =3D false;<br>
-<br>
--=C2=A0 =C2=A0 if (!vu_message_read(dev, dev-&gt;sock, &amp;vmsg)) {<br>
-+=C2=A0 =C2=A0 if (!dev-&gt;read_msg(dev, dev-&gt;sock, &amp;vmsg)) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto end;<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-<br>
-@@ -1704,6 +1702,7 @@ vu_deinit(VuDev *dev)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (vq-&gt;kick_fd !=3D -1) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dev-&gt;remove_watch(dev, vq-&gt=
-;kick_fd);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0close(vq-&gt;kick_fd);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vq-&gt;kick_fd =3D -1;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-@@ -1751,6 +1750,7 @@ vu_init(VuDev *dev,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0uint16_t max_queues,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int socket,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vu_panic_cb panic,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 vu_read_msg_cb read_msg,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vu_set_watch_cb set_watch,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vu_remove_watch_cb remove_watch,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0const VuDevIface *iface)<br>
-@@ -1768,6 +1768,7 @@ vu_init(VuDev *dev,<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0dev-&gt;sock =3D socket;<br>
-=C2=A0 =C2=A0 =C2=A0dev-&gt;panic =3D panic;<br>
-+=C2=A0 =C2=A0 dev-&gt;read_msg =3D read_msg ? read_msg : vu_message_read;<=
-br>
-=C2=A0 =C2=A0 =C2=A0dev-&gt;set_watch =3D set_watch;<br>
-=C2=A0 =C2=A0 =C2=A0dev-&gt;remove_watch =3D remove_watch;<br>
-=C2=A0 =C2=A0 =C2=A0dev-&gt;iface =3D iface;<br>
-diff --git a/contrib/libvhost-user/libvhost-user.h b/contrib/libvhost-user/=
-libvhost-user.h<br>
-index f30394fab6..d756da8548 100644<br>
---- a/contrib/libvhost-user/libvhost-user.h<br>
-+++ b/contrib/libvhost-user/libvhost-user.h<br>
-@@ -30,6 +30,8 @@<br>
-<br>
-=C2=A0#define VHOST_MEMORY_MAX_NREGIONS 8<br>
-<br>
-+#define VHOST_USER_HDR_SIZE offsetof(VhostUserMsg, payload.u64)<br>
-+<br>
-=C2=A0typedef enum VhostSetConfigType {<br>
-=C2=A0 =C2=A0 =C2=A0VHOST_SET_CONFIG_TYPE_MASTER =3D 0,<br>
-=C2=A0 =C2=A0 =C2=A0VHOST_SET_CONFIG_TYPE_MIGRATION =3D 1,<br>
-@@ -205,6 +207,7 @@ typedef uint64_t (*vu_get_features_cb) (VuDev *dev);<br=
->
-=C2=A0typedef void (*vu_set_features_cb) (VuDev *dev, uint64_t features);<b=
-r>
-=C2=A0typedef int (*vu_process_msg_cb) (VuDev *dev, VhostUserMsg *vmsg,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int *do_reply);<br>
-+typedef bool (*vu_read_msg_cb) (VuDev *dev, int sock, VhostUserMsg *vmsg);=
-<br>
-=C2=A0typedef void (*vu_queue_set_started_cb) (VuDev *dev, int qidx, bool s=
-tarted);<br>
-=C2=A0typedef bool (*vu_queue_is_processed_in_order_cb) (VuDev *dev, int qi=
-dx);<br>
-=C2=A0typedef int (*vu_get_config_cb) (VuDev *dev, uint8_t *config, uint32_=
-t len);<br>
-@@ -373,6 +376,23 @@ struct VuDev {<br>
-=C2=A0 =C2=A0 =C2=A0bool broken;<br>
-=C2=A0 =C2=A0 =C2=A0uint16_t max_queues;<br>
-<br>
-+=C2=A0 =C2=A0 /* @read_msg: custom method to read vhost-user message<br>
-+=C2=A0 =C2=A0 =C2=A0*<br>
-+=C2=A0 =C2=A0 =C2=A0* Read data from vhost_user socket fd and fill up<br>
-+=C2=A0 =C2=A0 =C2=A0* the passed VhostUserMsg *vmsg struct.<br>
-+=C2=A0 =C2=A0 =C2=A0*<br>
-+=C2=A0 =C2=A0 =C2=A0* If reading fails, it should close the received set o=
-f file<br>
-+=C2=A0 =C2=A0 =C2=A0* descriptors as socket message&#39;s auxiliary data.<=
-br>
-+=C2=A0 =C2=A0 =C2=A0*<br>
-+=C2=A0 =C2=A0 =C2=A0* For the details, please refer to vu_message_read in =
-libvhost-user.c<br>
-+=C2=A0 =C2=A0 =C2=A0* which will be used by default if not custom method i=
-s provided when<br>
-+=C2=A0 =C2=A0 =C2=A0* calling vu_init<br>
-+=C2=A0 =C2=A0 =C2=A0*<br>
-+=C2=A0 =C2=A0 =C2=A0* Returns: true if vhost-user message successfully rec=
-eived,<br>
-+=C2=A0 =C2=A0 =C2=A0*=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 otherwise return f=
-alse.<br>
-+=C2=A0 =C2=A0 =C2=A0*<br>
-+=C2=A0 =C2=A0 =C2=A0*/<br>
-+=C2=A0 =C2=A0 vu_read_msg_cb read_msg;<br>
-=C2=A0 =C2=A0 =C2=A0/* @set_watch: add or update the given fd to the watch =
-set,<br>
-=C2=A0 =C2=A0 =C2=A0 * call cb when condition is met */<br>
-=C2=A0 =C2=A0 =C2=A0vu_set_watch_cb set_watch;<br>
-@@ -416,6 +436,7 @@ bool vu_init(VuDev *dev,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 uint16_t max_queues,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 int socket,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 vu_panic_cb panic,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vu_read_msg_cb read_msg,<b=
-r>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 vu_set_watch_cb set_watch,=
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 vu_remove_watch_cb remove_=
-watch,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 const VuDevIface *iface);<=
-br>
-diff --git a/tests/vhost-user-bridge.c b/tests/vhost-user-bridge.c<br>
-index 6c3d490611..bd43607a4d 100644<br>
---- a/tests/vhost-user-bridge.c<br>
-+++ b/tests/vhost-user-bridge.c<br>
-@@ -520,6 +520,7 @@ vubr_accept_cb(int sock, void *ctx)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 VHOST_USER_B=
-RIDGE_MAX_QUEUES,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 conn_fd,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 vubr_panic,<=
-br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0NULL,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 vubr_set_wat=
-ch,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 vubr_remove_=
-watch,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;vuiface=
-)) {<br>
-@@ -573,6 +574,7 @@ vubr_new(const char *path, bool client)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 VHOST_USER_BRIDGE_MAX_QUEUES,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 dev-&gt;sock,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 vubr_panic,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0NULL,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 vubr_set_watch,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 vubr_remove_watch,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 &amp;vuiface)) {<br>
-diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c<=
-br>
-index 3b6d16a041..666945c897 100644<br>
---- a/tools/virtiofsd/fuse_virtio.c<br>
-+++ b/tools/virtiofsd/fuse_virtio.c<br>
-@@ -980,8 +980,8 @@ int virtio_session_mount(struct fuse_session *se)<br>
-=C2=A0 =C2=A0 =C2=A0se-&gt;vu_socketfd =3D data_sock;<br>
-=C2=A0 =C2=A0 =C2=A0se-&gt;virtio_dev-&gt;se =3D se;<br>
-=C2=A0 =C2=A0 =C2=A0pthread_rwlock_init(&amp;se-&gt;virtio_dev-&gt;vu_dispa=
-tch_rwlock, NULL);<br>
--=C2=A0 =C2=A0 vu_init(&amp;se-&gt;virtio_dev-&gt;dev, 2, se-&gt;vu_socketf=
-d, fv_panic, fv_set_watch,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fv_remove_watch, &amp;fv_iface);=
-<br>
-+=C2=A0 =C2=A0 vu_init(&amp;se-&gt;virtio_dev-&gt;dev, 2, se-&gt;vu_socketf=
-d, fv_panic, NULL,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fv_set_watch, fv_remove_watch, &=
-amp;fv_iface);<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0return 0;<br>
-=C2=A0}<br>
--- <br>
-2.26.2<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+Bug description:
+  Built from source on a debian system
 
---0000000000004c497d05a7cd3c18--
+  Linux db08 4.9.0-8-amd64 #1 SMP Debian 4.9.130-2 (2018-10-27) x86_64 GNU/=
+Linux
+  gcc version 6.3.0 20170516 (Debian 6.3.0-18+deb9u1)
+
+  Last git commit (from queued gdibson repository)
+
+  starting AIX 7.2 TL 2 SP 2 with the following : (the install was done
+  under qemu 3.1.0)
+
+  qemu-system-ppc64 -M pseries \
+      -cpu power7 \
+      -cdrom AIX_v7.2_Install_7200-02-02-1806_DVD_1_of_2_32018.iso \
+      -net nic \
+      -net tap,ifname=3Dtap2,script=3Dno \
+      -drive file=3DDISK1.IMG,if=3Dnone,id=3Ddrive-virtio-disk0 \
+      -device virtio-scsi-pci,id=3Dscsi -device scsi-hd,drive=3Ddrive-virti=
+o-disk0 \
+      -m 4G \
+      -serial stdio \
+      -monitor unix:ms,server,nowait \
+      -accel tcg \
+      -k fr \
+      -nographic \
+      -prom-env input-device=3D/vdevice/vty@71000000 \
+      -prom-env output-device=3D/vdevice/vty@71000000 \
+      -prom-env diag-switch?=3Dfalse \
+      -prom-env boot-command=3D"boot /pci@800000020000000/scsi@2/disk@10000=
+0000000000 -s verbose"
+
+  Yields this :
+
+  =
+
+  ^M
+  SLOF^[[0m^[[?25l ********************************************************=
+**************^M
+  ^[[1mQEMU Starting^M
+  ^[[0m Build Date =3D Jan 14 2019 18:00:39^M
+   FW Version =3D git-a5b428e1c1eae703^M
+   Press "s" to enter Open Firmware.^M^M
+  ^M^M
+  ^[[0m^[[?25hC0000^MC0100^MC0120^MC0140^MC0200^MC0240^MC0260^MC02E0^MC0300=
+^MC0320^MC0340^MC0360^MC0370^MC0380^MC0371^MC0372^MC0373^MC0374^MC03F0^MC04=
+00^MC0480^MC04C0^MC04D0^MC0500^MPopulating /vdevice methods^M
+  Populating /vdevice/vty@71000000^M
+  Populating /vdevice/nvram@71000001^M
+  Populating /vdevice/l-lan@71000002^M
+  Populating /vdevice/v-scsi@71000003^M
+         SCSI: Looking for devices^M
+            8200000000000000 CD-ROM   : "QEMU     QEMU CD-ROM      2.5+"^M
+  C05A0^MPopulating /pci@800000020000000^M
+                       00 0000 (D) : 1234 1111    qemu vga^M
+                       00 0800 (D) : 1033 0194    serial bus [ usb-xhci ]^M
+                       00 1000 (D) : 1af4 1004    virtio [ scsi ]^M
+  Populating /pci@800000020000000/scsi@2^M
+         SCSI: Looking for devices^M
+            100000000000000 DISK     : "QEMU     QEMU HARDDISK    2.5+"^M
+  C0600^MC06C0^MC0700^MC0800^MC0880^MC0890^MC08A0^MC08A8^MInstalling QEMU f=
+b^M
+  ^M
+  ^M
+  ^M
+  C08B0^MScanning USB ^M
+    XHCI: Initializing^M
+      USB Keyboard ^M
+      USB mouse ^M
+  C08C0^MC08D0^MNo console specified using screen & keyboard^M
+  User selected input-device console: /vdevice/vty@71000000^M
+  User selected output-device console: /vdevice/vty@71000000^M
+  C08E0^MC08E8^MC08FF^M     ^M
+    Welcome to Open Firmware^M
+  ^M
+    Copyright (c) 2004, 2017 IBM Corporation All rights reserved.^M
+    This program and the accompanying materials are made available^M
+    under the terms of the BSD License available at^M
+    http://www.opensource.org/licenses/bsd-license.php^M
+  ^M
+  ^M
+  Trying to load: -s verbose from: /pci@800000020000000/scsi@2/disk@1000000=
+00000000 ...   Successfully loaded^M
+  ^M
+                          ---> qemu,pseries detected <---^M
+  ^M
+  ^M
+  ^M
+  ^M
+  ^M
+  ^M
+  ^M
+  -------------------------------------------------------------------------=
+------^M
+                                  Welcome to AIX.^M
+                     boot image timestamp: 05:56:13 04/20/2019^M
+          processor count: 1;  memory size: 4096MB;  kernel size: 38426884^M
+           boot device: /pci@800000020000000/scsi@2/disk@100000000000000^M
+  ^M
+  8000FFEC bytes of free memory remain at address 7FFF0014^M
+  load address: 0x00004000   aixmon size: 0x000D2C00   boot image size: 0x0=
+1A6B430^M
+  ^LAIX vm,uuid property contains invalid data^Mload address: 0x00004000   =
+aixmon size: 0x000D2C00   boot image size: 0x01A6B430^M
+  ^LAIX vm,uuid property contains invalid data^M
+  get_ppp return code: 0xFFFFFFFE^M
+  ^M
+  AKVM: hcall-multi-tce detected but overridden, allow with "multce" boot a=
+rgument^M
+  The temporary memory region list is at 1 percent capacity.^M
+  The temporary IPLCB is at 1 percent capacity.^M
+  The IPLCB address is 0x0FFF9000^M
+  name                 offset           size^M
+  ipl_cb_and_bit_map 00000000 ......00005958^M
+  bit_map........... 00000790 ......00000006^M
+  ipl_info.......... 000001C8 ......00000024^M
+  splpar_info....... 000001EC ......00000048^M
+  system_info....... 00000234 ......000000C4^M
+  processor_info.... 000002F8 ......00000148^M
+  lpar_id_info...... 00000440 ......00000088^M
+  dr_proc_info...... 000004C8 ......00000008^M
+  dr_mem_info....... 000004D0 ......00000028^M
+  lpar_info......... 000004F8 ......00000014^M
+  segment page...... 00000518 ......00000028^M
+  processor page.... 00000540 ......00000010^M
+  res_asso_id....... 00000550 ......00000050^M
+  res_asso_group.... 000005A0 ......00000048^M
+  asso_ref_pnt...... 000005E8 ......00000010^M
+  residual.......... 00000820 ......00005138^M
+  fwad_info......... 000005F8 ......00000040^M
+  contig mem rsv.... 00000738 ......00000058^M
+      region address      region length       attr  label^M
+  0   0x0000000000000000  0x000000000FFF7000  0x01  0x01^M
+  1   0x000000000FFF7000  0x0000000000002000  0x01  0x03^M
+  2   0x000000000FFF9000  0x0000000000006000  0x01  0x02^M
+  3   0x000000000FFFF000  0x0000000000000014  0x00  0x05^M
+  4   0x000000000FFFF014  0x00000000F0000FEC  0x01  0x01^M
+  5   0x0000000100000000  0xFFFFFFFF00000000  0x00  0x07^M
+  ----------------------------^M
+  ^M
+  0000012C bytes of free memory remain at address 00004000^M
+  compressed kernel addr: D6C00;  sz: 98CE33;  uncompressed kernel addr:  1=
+DB59600^M
+           name     source       dest       size   flags^M
+   0      .data   1e6f9840    2000000    12bdd20     1^M
+   1    basecfg    1b04000    fff5000       15d9     1^M
+   2      ramfs     a63a30    efe9000    100b82a     1^M
+   3      .text   1db59840      d6c00     ba0000     1^M
+   4       .ldr   1f9b7560     c77000      a9523     1^M
+   5     symtab   1fe0aaf4     d21000     1f4410     1^M
+   6  kern. hdr   1db59600          0        240     1^M
+   7       .bss          0    32bdd20    27222e0     2^M
+  free space between BSS and RAM filesystem: 09609000^M
+  ^M
+  entry_point: 0x000D6C28^M
+                         kernel debugger setting: enabled^M
+  -------------------------------------------------------------------------=
+------^M
+  ^LStarLED{A20}^M
+  Data Storage Interrupt - PROC^M
+  .dispatch+000098              lwz    r0,1830(r6)         r0=3D0,1830(r6)=
+=3DF00000002FF48E30^M
+  KDB(0)>
+
+  (apologies for all the ^M - they are emitted by qemu or AIX - not
+  sure)
+
+  Using the same command to boot AIX from 3.1.0 works (no DSI
+  Interrupt). - Other problems occur later, but no Kernel interrupt,
+  only user space problems - and that's another problem - but one at a
+  time !
+
+  --Ivan
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1829682/+subscriptions
 
