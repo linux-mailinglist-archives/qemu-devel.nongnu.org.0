@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3400F1F6EB0
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 22:25:47 +0200 (CEST)
-Received: from localhost ([::1]:39270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A186E1F6E91
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 22:14:06 +0200 (CEST)
+Received: from localhost ([::1]:52132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjTli-0005N0-59
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 16:25:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55608)
+	id 1jjTaP-0001VV-Ku
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 16:14:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55382)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jjT9x-000130-Jy
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:46:45 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:21617
+ id 1jjT9Y-0000Ap-QB
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:46:20 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:41476
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jjT9v-0001Jo-MQ
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:46:45 -0400
+ id 1jjT9W-0001FS-WE
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:46:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591904803;
+ s=mimecast20190719; t=1591904778;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=29AlYbIXVBIeOwrHqg3LZpvYsZ2xsGsqiqZLm2UcVxg=;
- b=egwZe2cPIgIfg72fpIYq+TLpgoDnCDjuPiJ3Zp0GJMU0InKwp7/QMwpIP0RvO7X0rjiOf1
- HyEdM3MLL/ymxqLbo/DYT0EBKrbKR6oR3DcVFxDSqyHQgG8Lr+lN3fgtKBIqey8uwPlkvG
- EZ/ZUR+co2Whc5kW6LvoHfHIHJXuVPs=
+ bh=4Mbj5vgjss3CvRpPXq7RdlTUMRKOXIk7ERJJk8CCfwI=;
+ b=ax4qgRZcff3poGzVeKIKqp3j5W6cCki1fV5nDu/MyI7Evf9/VXrPOJLbKw3BwfaSGt2ikb
+ KfJ88HcwGqxvundhtj7Wlp67QCRvWq1XmpSDe/3cFMVc7yFDKxsawtljdxFWEuKuMi7sNa
+ vCB4Mkg3xKXOr9TrnV2FgqSSmrz6yak=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-148-U950Cc47Mm2BJra5LfFzoA-1; Thu, 11 Jun 2020 15:45:31 -0400
-X-MC-Unique: U950Cc47Mm2BJra5LfFzoA-1
+ us-mta-275-6illYicoP4OvH4nl9KDMqA-1; Thu, 11 Jun 2020 15:45:32 -0400
+X-MC-Unique: 6illYicoP4OvH4nl9KDMqA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 102AC107ACCA;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BDE57107ACF3;
  Thu, 11 Jun 2020 19:45:30 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8DFD35C1B2;
- Thu, 11 Jun 2020 19:45:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2D1E45C1B2;
+ Thu, 11 Jun 2020 19:45:30 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 047/115] i386/kvm: fix a use-after-free when vcpu plug/unplug
-Date: Thu, 11 Jun 2020 15:43:41 -0400
-Message-Id: <20200611194449.31468-48-pbonzini@redhat.com>
+Subject: [PULL 048/115] megasas: use unsigned type for reply_queue_head and
+ check index
+Date: Thu, 11 Jun 2020 15:43:42 -0400
+Message-Id: <20200611194449.31468-49-pbonzini@redhat.com>
 In-Reply-To: <20200611194449.31468-1-pbonzini@redhat.com>
 References: <20200611194449.31468-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 14:57:53
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 03:29:33
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -80,84 +81,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Pan Nengyuan <pannengyuan@huawei.com>,
- Euler Robot <euler.robot@huawei.com>
+Cc: Ren Ding <rding@gatech.edu>, Alexander Bulekov <alxndr@bu.edu>,
+ Prasad J Pandit <pjp@fedoraproject.org>, Hanqing Zhao <hanqing@gatech.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Pan Nengyuan <pannengyuan@huawei.com>
+From: Prasad J Pandit <pjp@fedoraproject.org>
 
-When we hotplug vcpus, cpu_update_state is added to vm_change_state_head
-in kvm_arch_init_vcpu(). But it forgot to delete in kvm_arch_destroy_vcpu() after
-unplug. Then it will cause a use-after-free access. This patch delete it in
-kvm_arch_destroy_vcpu() to fix that.
+A guest user may set 'reply_queue_head' field of MegasasState to
+a negative value. Later in 'megasas_lookup_frame' it is used to
+index into s->frames[] array. Use unsigned type to avoid OOB
+access issue.
 
-Reproducer:
-    virsh setvcpus vm1 4 --live
-    virsh setvcpus vm1 2 --live
-    virsh suspend vm1
-    virsh resume vm1
+Also check that 'index' value stays within s->frames[] bounds
+through the while() loop in 'megasas_lookup_frame' to avoid OOB
+access.
 
-The UAF stack:
-==qemu-system-x86_64==28233==ERROR: AddressSanitizer: heap-use-after-free on address 0x62e00002e798 at pc 0x5573c6917d9e bp 0x7fff07139e50 sp 0x7fff07139e40
-WRITE of size 1 at 0x62e00002e798 thread T0
-    #0 0x5573c6917d9d in cpu_update_state /mnt/sdb/qemu/target/i386/kvm.c:742
-    #1 0x5573c699121a in vm_state_notify /mnt/sdb/qemu/vl.c:1290
-    #2 0x5573c636287e in vm_prepare_start /mnt/sdb/qemu/cpus.c:2144
-    #3 0x5573c6362927 in vm_start /mnt/sdb/qemu/cpus.c:2150
-    #4 0x5573c71e8304 in qmp_cont /mnt/sdb/qemu/monitor/qmp-cmds.c:173
-    #5 0x5573c727cb1e in qmp_marshal_cont qapi/qapi-commands-misc.c:835
-    #6 0x5573c7694c7a in do_qmp_dispatch /mnt/sdb/qemu/qapi/qmp-dispatch.c:132
-    #7 0x5573c7694c7a in qmp_dispatch /mnt/sdb/qemu/qapi/qmp-dispatch.c:175
-    #8 0x5573c71d9110 in monitor_qmp_dispatch /mnt/sdb/qemu/monitor/qmp.c:145
-    #9 0x5573c71dad4f in monitor_qmp_bh_dispatcher /mnt/sdb/qemu/monitor/qmp.c:234
-
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200513132630.13412-1-pannengyuan@huawei.com>
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+Reported-by: Ren Ding <rding@gatech.edu>
+Reported-by: Hanqing Zhao <hanqing@gatech.edu>
+Reported-by: Alexander Bulekov <alxndr@bu.edu>
+Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
+Acked-by: Alexander Bulekov <alxndr@bu.edu>
+Message-Id: <20200513192540.1583887-2-ppandit@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/cpu.h | 1 +
- target/i386/kvm.c | 4 +++-
- 2 files changed, 4 insertions(+), 1 deletion(-)
+ hw/scsi/megasas.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 00d1f4f013..37572bd437 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -1634,6 +1634,7 @@ struct X86CPU {
+diff --git a/hw/scsi/megasas.c b/hw/scsi/megasas.c
+index af18c88b65..6ce598cd69 100644
+--- a/hw/scsi/megasas.c
++++ b/hw/scsi/megasas.c
+@@ -112,7 +112,7 @@ typedef struct MegasasState {
+     uint64_t reply_queue_pa;
+     void *reply_queue;
+     int reply_queue_len;
+-    int reply_queue_head;
++    uint16_t reply_queue_head;
+     int reply_queue_tail;
+     uint64_t consumer_pa;
+     uint64_t producer_pa;
+@@ -445,7 +445,7 @@ static MegasasCmd *megasas_lookup_frame(MegasasState *s,
  
-     CPUNegativeOffsetState neg;
-     CPUX86State env;
-+    VMChangeStateEntry *vmsentry;
+     index = s->reply_queue_head;
  
-     uint64_t ucode_rev;
- 
-diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-index 95bbeb424b..ef2e0a81dd 100644
---- a/target/i386/kvm.c
-+++ b/target/i386/kvm.c
-@@ -1741,7 +1741,7 @@ int kvm_arch_init_vcpu(CPUState *cs)
-         }
-     }
- 
--    qemu_add_vm_change_state_handler(cpu_update_state, env);
-+    cpu->vmsentry = qemu_add_vm_change_state_handler(cpu_update_state, env);
- 
-     c = cpuid_find_entry(&cpuid_data.cpuid, 1, 0);
-     if (c) {
-@@ -1852,6 +1852,8 @@ int kvm_arch_destroy_vcpu(CPUState *cs)
-         env->nested_state = NULL;
-     }
- 
-+    qemu_del_vm_change_state_handler(cpu->vmsentry);
-+
-     return 0;
- }
- 
+-    while (num < s->fw_cmds) {
++    while (num < s->fw_cmds && index < MEGASAS_MAX_FRAMES) {
+         if (s->frames[index].pa && s->frames[index].pa == frame) {
+             cmd = &s->frames[index];
+             break;
 -- 
 2.26.2
 
