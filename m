@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F5C91F6B9F
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 17:53:09 +0200 (CEST)
-Received: from localhost ([::1]:53440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A61EC1F6BA6
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 17:54:54 +0200 (CEST)
+Received: from localhost ([::1]:59050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjPVs-0005uh-3G
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 11:53:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39160)
+	id 1jjPXZ-0000Sl-N3
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 11:54:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39200)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Filip.Bozuta@syrmia.com>)
- id 1jjPUP-0004WW-3q
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 11:51:37 -0400
+ id 1jjPUR-0004Ye-67
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 11:51:39 -0400
 Received: from mail-eopbgr60103.outbound.protection.outlook.com
  ([40.107.6.103]:37760 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Filip.Bozuta@syrmia.com>)
- id 1jjPUL-0005xt-Rm
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 11:51:36 -0400
+ id 1jjPUP-0005xt-D3
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 11:51:38 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EOd1z1mxykVk1NmozrTX88B4KrHpAdR0HQ3oRudQkCKqFvXp80BB3mRhSs0nhXXzh2tJBGTwRbEpHRiF6ENllvycv5DAWJXlQde0j+GHSQe9q28SUussGp3qQeeO9kywmi8A7nuWoD4Pa2kEdsghk1YPjYzWTm9Iar0b8RyLFtCVRlMOr+qKPz1TSDTplTSOwjQZKPAZYJWiGBRWZSz62e0dScurWSmEFxsll/tNqUfQ+YQ7X2EfXh73p7jj7g0lOCfINL2ZoYEJDiFmvcscB51Am6UUbfnJusMPmI2+zEeVHhXrtrWlA3FuIPxx9do6mp/gCerddVu64PS8hjAQLQ==
+ b=ch1xeJ4vQEZXERWIbKQFOSOqNRjSoRESAeB5gXOBv2dEtnA9chmDXF9YG5YQ3G9gUsrbisQ9oPnXqwwmUk8wwIYYenxPo89wzW5zFAtTS2Y9EJDWKob1TeFedUqJifOSrCqvZqNcRenf7K2nAbfaX0x3ucJm2P3IzAAhmXP9aKrrBGf7qnHwjwr1RLEjU9lYYiCU0Dz/vUkz6YnvOlM7PwnQvOfiLGR1Dg65VpKxR90Geq9N7yUyW1xoCz1t0PaRNXluog7lil4YN9iL5fCZlN2Wc8Diu5zocHgI0AE8UyJMc+8FEJ5EyKSHCQ2DIhLJcqkROrQIwO+LskYSQjB1Bg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7+un8hhiFpIgar7A2Cao7PdGEtRafIILDYCD1LiPvL0=;
- b=gVLG1ic2wm75fvMN2basRq9GdWthbyMnEhhYSgLn54EK1AJf1hgc4qhd/yGSEKZmvdQdtjiDf/DszZOmWSXJ0/tCIVF89JXtznIFWTRhJ3WJGcS/ttDuUr5oBhXL4dd/28/lHzqoBaa/62McCZBotTsY3IvhlSwakDQ7DBLC46y/3AHFjRJno9+nOhca8oFaWSWDNhY0rPcKnpyfSgbofYziCXI+zthXhKpEpBFZa0FdvGfBkjQoOGnuwtGH0eHUGrNokAtjnlIsJPnHNPlWZD7L/UZ9Z7jZ/vCJrVfVX5QUcZq3J2y3cqNYoguDidYQb1opEDHUHoJVTLYSlgV0kw==
+ bh=iJwOHN338pZzLJ05d1WjB1bWbrlpQSa4ZRzxeDnQWpc=;
+ b=WyXgl/iekV3lO+2a6pYL982W7xV2AmEkAhB/6lSt5DbrCXERf57O+BIH8IxurnKX7O7a3FklMpEuwNR1aPOPEI5bHRWUvhe/nhQPziElzlPCDNNVqxSYkhxxYajSCI7mUSa22i1Fl3w8JuJUEnfX8FD41PGPoAoZuPA57cEIHajrnaf6bS/fGChczw4rUDXeJMS4fmC8kbYPX/KzFRwrWAKXpy5ql2cQm+t6wf5dQDugQCl221uzuMxtEga3AN77Vrbw0xB7Ag7RchwDaByyuRjgCH+Ehojgya6OulcBaMmWqLpxvJp0LIauX4LUJXM3+TEhIYkB4bb1wNXVRJj/YQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=syrmia.com; dmarc=pass action=none header.from=syrmia.com;
  dkim=pass header.d=syrmia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=syrmia.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7+un8hhiFpIgar7A2Cao7PdGEtRafIILDYCD1LiPvL0=;
- b=w4PXkvJwp50N7d0Ai+z4fciSrotq+9p+HGpPiuHZIw4qwmgzUuQqsqx3hc1VSKDVDRgOWCH4vXUmdn7/twTOyxgbdyd51Gzv1tWsrWgkuaSrYzkfxN0fYyHtycZX04OKEhGF/avQxKow9DH/hcQoORXKXdmZXVDCAD5z+wfhW30=
+ bh=iJwOHN338pZzLJ05d1WjB1bWbrlpQSa4ZRzxeDnQWpc=;
+ b=K3KEcX2fAgCESBdUm4PhYqkhT3vsCEQuTsKgIRgIxEyX/8zRdSga3vzLHlNmRmgKGWu6FU/RkasI4UQ4ghW4qH44JwVt0QCN4JSBZcCCS8GyJ0S+0+vsFRH/uaQIAScbChpi7TIVmtlZJF4MFuOZ18l1UBTThy1yYu8RsqVbr+k=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=syrmia.com;
 Received: from AM6PR03MB5233.eurprd03.prod.outlook.com (2603:10a6:20b:d1::19)
@@ -48,10 +48,10 @@ Received: from AM6PR03MB5233.eurprd03.prod.outlook.com
  15:51:24 +0000
 From: Filip Bozuta <filip.bozuta@syrmia.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 3/6] linux-user: Add strace support for printing argument
- of syscalls used for extended attributes
-Date: Thu, 11 Jun 2020 17:51:06 +0200
-Message-Id: <20200611155109.3648-4-filip.bozuta@syrmia.com>
+Subject: [PATCH v3 4/6] linux-user: Add strace support for printing arguments
+ of lseek()
+Date: Thu, 11 Jun 2020 17:51:07 +0200
+Message-Id: <20200611155109.3648-5-filip.bozuta@syrmia.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200611155109.3648-1-filip.bozuta@syrmia.com>
 References: <20200611155109.3648-1-filip.bozuta@syrmia.com>
@@ -64,31 +64,31 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from bozuta-ubuntu-18.syrmia.com (46.240.135.226) by
  ZR0P278CA0031.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:1c::18) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3088.21 via Frontend Transport; Thu, 11 Jun 2020 15:51:23 +0000
+ 15.20.3088.21 via Frontend Transport; Thu, 11 Jun 2020 15:51:24 +0000
 X-Mailer: git-send-email 2.17.1
 X-Originating-IP: [46.240.135.226]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7c3a458e-e980-42f8-4681-08d80e1f4b07
+X-MS-Office365-Filtering-Correlation-Id: e24c7622-61ef-4d8f-ef70-08d80e1f4b50
 X-MS-TrafficTypeDiagnostic: AM6PR03MB6008:
-X-Microsoft-Antispam-PRVS: <AM6PR03MB600815390BE44019F1F5AF72EB800@AM6PR03MB6008.eurprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1332;
+X-Microsoft-Antispam-PRVS: <AM6PR03MB6008898E68F86C03398A35ECEB800@AM6PR03MB6008.eurprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
 X-Forefront-PRVS: 0431F981D8
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: kwTRdjGuSm4xzO8P35aOIe+jQb4Je8JpWOPXsEEUMpA/PTQ0h7qUuYQhAwRbPp8vjZZ4C0Ew7tmnACt4XE2rrHFTcjw/eOhY2lcoXydCKSeo4uo+30fXaiEY+XmV9RO7me6QuX8xVPhcYw16Khd+HCRcL9sH//J5DCssyYzHkh7ZGDyf8ubbfHVzj+KQtr9Iv2OjOTA2jek57mCKUymXn0Rcge6QqgeDGgZx2nL5gNHjOm17jOSVEjO82upibaXwhRdiMyDXDABoCfH48453INc//gfar/bkXLWmVV3AoMJ+OnIcdlHT7JFTo9Nzg4Hyjzo3XCqgdo/ltghj1faBBM0m0I1i8N4oATQ9Yd50b/E7Ye8casGkZ7+KONFmks+oF3oafPdSpvIfUcNZ2RTvtUehMpP/YSxMzXTqnobD1B7hbgRVShsky9TcLG8FWAUS78deJopo8nJ4ZlgqQPBQJQ==
+X-Microsoft-Antispam-Message-Info: GiKYCegFy91WrSCoKuaurMHVLmCxbvD7105vMq41nZ2btbJo4gWguro56iNlsx3rNHyMPxCX8IudDXUtkVjKwPUm7QQWKyH0NJ6yfspWqcjpqETP9DdpzPZYay6QRmUWJGuvLCj/GG4/2gTq5g+GY4bhNUI+VIU7u7RYoVPTyvTckIA3w8KaNWK1HZExWsqQ3pa5tMIlvn39/WKT5StVvdhBOwleWntjGO5bLLUR5TSkBOT0AjBX+TfrRaMzP0SDXTP3vYJzBcLrFA9JqAEPGNnlzSt0UTnLeHBJyY5/g0AKwj2ByRt1iLFmwkbcv8/aZwN+xvdRZZ6atGWAhHMLjOIB3OyldwUUCObQCwqE/1buuPZTpokl4vUmDGCjtMERs1GDyQiTyALNEbxNiq0nUA==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM6PR03MB5233.eurprd03.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
- SFS:(366004)(376002)(346002)(136003)(39830400003)(396003)(508600001)(7696005)(966005)(52116002)(316002)(83380400001)(8936002)(8676002)(956004)(2906002)(6916009)(6486002)(2616005)(4326008)(36756003)(186003)(44832011)(6666004)(16526019)(5660300002)(1076003)(86362001)(66556008)(66476007)(66946007)(26005)(334744003);
+ SFS:(366004)(376002)(346002)(136003)(39830400003)(396003)(508600001)(7696005)(966005)(52116002)(316002)(83380400001)(8936002)(8676002)(956004)(2906002)(6916009)(6486002)(2616005)(4326008)(36756003)(186003)(44832011)(6666004)(16526019)(5660300002)(1076003)(86362001)(66556008)(66476007)(66946007)(26005);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: WY+77hDnLNy17psNW4HAX9tJhMPLvERfRkPv5IqStWFIfZU5RCc8J7E8qrwZp7Qd8i1V24z2i0LlHWm1eb/dvQz8yZK4T+sSvAPOuwpy921XXvGOlJQnMUogZF5lzINzX7LDgURimd6eeJMJxVqFqAxXgPdGfpasQVbRLNvP9rkYMbSCFAhZ8ttzrwuVCUFAoz+l1MrPQKdOymyZd8jkj4VUcY1HQBG0oWYm3lruzY1mtviyFSuiVZYErG1OCxrx+aHZXpb/FXANjbGWyC43BpwPU1qNBdT3gfRHSayJJ6Pk335DaF76Xl1HoMnstzQ1WB0rZhAO+Pto1uMuo8/WPCJqfuBVvtPYHghauvFpLEC5wRs6+QeGFikzq05EAzCJz6Efv5f0Qkigkq95MgP37S39QPU8pr6lSydUKOurBsz3HLMl3QFoVPKTLeCOSXjR6guEvjHf4OmOIx6X8Izw73ZB6YRfaUckr9RvNExEMzc=
+X-MS-Exchange-AntiSpam-MessageData: qo+cwvyKl6U5pgW6eB11r2TynlnE8HH0LFQ3CF2n86tfjJrvuhrQjrVwv9iEfYHoC4EqnU7GNIjhBqhzzQvFE4FqrsVIXTSM5yr98hLsHxTeISyjYrxlM7oF2h0z5eONIJS/9sBzapxuheW5tzrxtD7boDhWYSRKjTVODPQW+MPmWOh/D1wyyv7VtIdta2M4GnTVIAJNXBCdtntPSDz/9Sl9Yweaqiz8bAtgDP2jzjSGwz35x04d4njl1zdrCdN9vb0EAneDVexNs5I8Zk2kNdK7vYdsOcsbw0wvHXPjrzVd099SRQzFPCN0S3NWjOyLMiBnaayStrDGfY2qQoeS6DbCIvKeKFLXsn0c53zXm75kdlzI8oJiJanjhMofD8dmq5ZQLe2/C8+CbpHToRG+39cKDp5XtA75V5ajf2yYxnfCkS0gJ4Gk03jk69Y7xlxs4Glb8bbyRDeZIrF0tc1EcX9Pz7RiUU8sVOOZ1hUmiNw=
 X-OriginatorOrg: syrmia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7c3a458e-e980-42f8-4681-08d80e1f4b07
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jun 2020 15:51:24.0197 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e24c7622-61ef-4d8f-ef70-08d80e1f4b50
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jun 2020 15:51:24.4744 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 19214a73-c1ab-4e19-8f59-14bdcb09a66e
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Oi1Vx880sPRvxluoIF/Us1+U7/RijebFTFXfzMxu0/5RObrRVna8fWoBId2CnMABknBbsayGm2p9y60S/f8TOg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: sDfYVjuncR370puZke7WWL912P056d+fgle0OW7joHr/D9+OGO/4nYs6i39OCB6zuM9Hq+rWYjgV58Hh5c6tpg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR03MB6008
 Received-SPF: pass client-ip=40.107.6.103;
  envelope-from=Filip.Bozuta@syrmia.com;
@@ -121,219 +121,88 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Filip Bozuta <Filip.Bozuta@syrmia.com>
 
-This patch implements strace argument printing functionality for following syscalls:
+This patch implements strace argument printing functionality for syscall:
 
-    *getxattr, lgetxattr, fgetxattr - retrieve an extended attribute value
+    *lseek - reposition read/write file offset
 
-        ssize_t getxattr(const char *path, const char *name, void *value, size_t size)
-        ssize_t lgetxattr(const char *path, const char *name, void *value, size_t size)
-        ssize_t fgetxattr(int fd, const char *name, void *value, size_t size)
-        man page: https://www.man7.org/linux/man-pages/man2/getxattr.2.html
-
-    *listxattr, llistxattr, flistxattr - list extended attribute names
-
-        ssize_t listxattr(const char *path, char *list, size_t size)
-        ssize_t llistxattr(const char *path, char *list, size_t size)
-        ssize_t flistxattr(int fd, char *list, size_t size)
-        man page: https://www.man7.org/linux/man-pages/man2/listxattr.2.html
-
-    *removexattr, lremovexattr, fremovexattr - remove an extended attribute
-
-         int removexattr(const char *path, const char *name)
-         int lremovexattr(const char *path, const char *name)
-         int fremovexattr(int fd, const char *name)
-         man page: https://www.man7.org/linux/man-pages/man2/removexattr.2.html
+         off_t lseek(int fd, off_t offset, int whence)
+         man page: https://www.man7.org/linux/man-pages/man2/lseek.2.html
 
 Implementation notes:
 
-    All of the syscalls have strings as argument types and thus a separate
-    printing function was stated in file "strace.list" for every one of them.
-    All of these printing functions were defined in "strace.c" using existing
-    printing functions for appropriate argument types:
-       "print_string()" - for (const char*) type
-       "print_pointer()" - for (char*) and (void *) type
-       "print_raw_param()" for (int) and (size_t) type
-    Syscalls "getxattr()" and "lgetxattr()" have the same number and type of
-    arguments and thus their print functions ("print_getxattr", "print_lgetxattr")
-    share a same definition. The same statement applies to syscalls "listxattr()"
-    and "llistxattr()".
-    Function "print_syscall_ret_listxattr()" was added to print the returned list
-    of extended attributes for syscalls "print_listxattr(), print_llistxattr() and
-    print_flistxattr()".
+    The syscall's third argument "whence" has predefined values:
+    "SEEK_SET","SEEK_CUR","SEEK_END","SEEK_DATA","SEEK_HOLE"
+    and thus a separate printing function "print_lseek" was stated
+    in file "strace.list". This function is defined in "strace.c"
+    by using an existing function "print_raw_param()" to print
+    the first and second argument and a switch(case) statement
+    for the predefined values of the third argument.
+    Values "SEEK_DATA" and "SEEK_HOLE" are defined in kernel version 3.1.
+    That is the reason why case statements for these values are
+    enwrapped in #ifdef directive.
 
 Signed-off-by: Filip Bozuta <Filip.Bozuta@syrmia.com>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/strace.c    | 95 ++++++++++++++++++++++++++++++++++++++++++
- linux-user/strace.list | 15 ++++---
- 2 files changed, 104 insertions(+), 6 deletions(-)
+ linux-user/strace.c    | 31 +++++++++++++++++++++++++++++++
+ linux-user/strace.list |  2 +-
+ 2 files changed, 32 insertions(+), 1 deletion(-)
 
 diff --git a/linux-user/strace.c b/linux-user/strace.c
-index 4f85606c19..a7c3ea8df3 100644
+index a7c3ea8df3..ee73ff575c 100644
 --- a/linux-user/strace.c
 +++ b/linux-user/strace.c
-@@ -834,6 +834,41 @@ print_syscall_ret_adjtimex(const struct syscallname *name, abi_long ret,
+@@ -1815,6 +1815,37 @@ print__llseek(const struct syscallname *name,
  }
  #endif
  
-+#if defined(TARGET_NR_listxattr) || defined(TARGET_NR_llistxattr) \
-+ || defined(TARGGET_NR_flistxattr)
++#ifdef TARGET_NR_lseek
 +static void
-+print_syscall_ret_listxattr(const struct syscallname *name, abi_long ret,
-+                            abi_long arg0, abi_long arg1, abi_long arg2,
-+                            abi_long arg3, abi_long arg4, abi_long arg5)
++print_lseek(const struct syscallname *name,
++    abi_long arg0, abi_long arg1, abi_long arg2,
++    abi_long arg3, abi_long arg4, abi_long arg5)
 +{
-+    const char *errstr = NULL;
-+
-+    SYSCALL_RET_ERR(ret, errstr);
-+
-+    if (ret >= 0) {
-+        qemu_log(TARGET_ABI_FMT_ld, ret);
-+        qemu_log(" (list = ");
-+        if (arg1 != 0) {
-+            abi_long attr = arg1;
-+            while (target_strlen(attr) != 0) {
-+                if (attr != arg1) {
-+                    qemu_log(",");
-+                }
-+                print_string(attr, 1);
-+                attr += target_strlen(attr) + 1;
-+            }
-+        } else {
-+            qemu_log("NULL");
-+        }
-+        qemu_log(")");
++    print_syscall_prologue(name);
++    print_raw_param("%d", arg0, 0);
++    print_raw_param(TARGET_ABI_FMT_ld, arg1, 0);
++    switch (arg2) {
++    case SEEK_SET:
++        qemu_log("SEEK_SET"); break;
++    case SEEK_CUR:
++        qemu_log("SEEK_CUR"); break;
++    case SEEK_END:
++        qemu_log("SEEK_END"); break;
++#ifdef SEEK_DATA
++    case SEEK_DATA:
++        qemu_log("SEEK_DATA"); break;
++#endif
++#ifdef SEEK_HOLE
++    case SEEK_HOLE:
++        qemu_log("SEEK_HOLE"); break;
++#endif
++    default:
++        print_raw_param("%#x", arg2, 1);
 +    }
-+
-+    qemu_log("\n");
-+}
-+#define print_syscall_ret_llistxattr     print_syscall_ret_listxattr
-+#define print_syscall_ret_flistxattr     print_syscall_ret_listxattr
-+#endif
-+
- UNUSED static struct flags access_flags[] = {
-     FLAG_GENERIC(F_OK),
-     FLAG_GENERIC(R_OK),
-@@ -1641,6 +1676,66 @@ print_fcntl(const struct syscallname *name,
- #define print_fcntl64   print_fcntl
- #endif
- 
-+#ifdef TARGET_NR_fgetxattr
-+static void
-+print_fgetxattr(const struct syscallname *name,
-+    abi_long arg0, abi_long arg1, abi_long arg2,
-+    abi_long arg3, abi_long arg4, abi_long arg5)
-+{
-+    print_syscall_prologue(name);
-+    print_raw_param("%d", arg0, 0);
-+    print_string(arg1, 0);
-+    print_pointer(arg2, 0);
-+    print_raw_param(TARGET_FMT_lu, arg3, 1);
 +    print_syscall_epilogue(name);
 +}
 +#endif
 +
-+#ifdef TARGET_NR_flistxattr
-+static void
-+print_flistxattr(const struct syscallname *name,
-+    abi_long arg0, abi_long arg1, abi_long arg2,
-+    abi_long arg3, abi_long arg4, abi_long arg5)
-+{
-+    print_syscall_prologue(name);
-+    print_raw_param("%d", arg0, 0);
-+    print_pointer(arg1, 0);
-+    print_raw_param(TARGET_FMT_lu, arg2, 1);
-+    print_syscall_epilogue(name);
-+}
-+#endif
-+
-+#if defined(TARGET_NR_getxattr) || defined(TARGET_NR_lgetxattr)
-+static void
-+print_getxattr(const struct syscallname *name,
-+    abi_long arg0, abi_long arg1, abi_long arg2,
-+    abi_long arg3, abi_long arg4, abi_long arg5)
-+{
-+    print_syscall_prologue(name);
-+    print_string(arg0, 0);
-+    print_string(arg1, 0);
-+    print_pointer(arg2, 0);
-+    print_raw_param(TARGET_FMT_lu, arg3, 1);
-+    print_syscall_epilogue(name);
-+}
-+#define print_lgetxattr     print_getxattr
-+#endif
-+
-+#if defined(TARGET_NR_listxattr) || defined(TARGET_NR_llistxattr)
-+static void
-+print_listxattr(const struct syscallname *name,
-+    abi_long arg0, abi_long arg1, abi_long arg2,
-+    abi_long arg3, abi_long arg4, abi_long arg5)
-+{
-+    print_syscall_prologue(name);
-+    print_string(arg0, 0);
-+    print_pointer(arg1, 0);
-+    print_raw_param(TARGET_FMT_lu, arg2, 1);
-+    print_syscall_epilogue(name);
-+}
-+#define print_llistxattr     print_listxattr
-+#endif
-+
- #ifdef TARGET_NR_futimesat
+ #if defined(TARGET_NR_socket)
  static void
- print_futimesat(const struct syscallname *name,
+ print_socket(const struct syscallname *name,
 diff --git a/linux-user/strace.list b/linux-user/strace.list
-index fb9799e7e6..35c66e9fc8 100644
+index 35c66e9fc8..63e150736e 100644
 --- a/linux-user/strace.list
 +++ b/linux-user/strace.list
-@@ -218,13 +218,14 @@
- { TARGET_NR_fdatasync, "fdatasync" , "%s(%d)", NULL, NULL },
+@@ -516,7 +516,7 @@
+ { TARGET_NR_lremovexattr, "lremovexattr" , NULL, NULL, NULL },
  #endif
- #ifdef TARGET_NR_fgetxattr
--{ TARGET_NR_fgetxattr, "fgetxattr" , NULL, NULL, NULL },
-+{ TARGET_NR_fgetxattr, "fgetxattr" , NULL, print_fgetxattr, NULL },
+ #ifdef TARGET_NR_lseek
+-{ TARGET_NR_lseek, "lseek" , NULL, NULL, NULL },
++{ TARGET_NR_lseek, "lseek" , NULL, print_lseek, NULL },
  #endif
- #ifdef TARGET_NR_finit_module
- { TARGET_NR_finit_module, "finit_module" , NULL, NULL, NULL },
- #endif
- #ifdef TARGET_NR_flistxattr
--{ TARGET_NR_flistxattr, "flistxattr" , NULL, NULL, NULL },
-+{ TARGET_NR_flistxattr, "flistxattr" , NULL, print_flistxattr,
-+                        print_syscall_ret_flistxattr},
- #endif
- #ifdef TARGET_NR_flock
- { TARGET_NR_flock, "flock" , NULL, NULL, NULL },
-@@ -396,7 +397,7 @@
- { TARGET_NR_getuid32, "getuid32" , NULL, NULL, NULL },
- #endif
- #ifdef TARGET_NR_getxattr
--{ TARGET_NR_getxattr, "getxattr" , NULL, NULL, NULL },
-+{ TARGET_NR_getxattr, "getxattr" , NULL, print_getxattr, NULL },
- #endif
- #ifdef TARGET_NR_getxgid
- { TARGET_NR_getxgid, "getxgid" , NULL, NULL, NULL },
-@@ -480,7 +481,7 @@
- { TARGET_NR_lchown32, "lchown32" , NULL, NULL, NULL },
- #endif
- #ifdef TARGET_NR_lgetxattr
--{ TARGET_NR_lgetxattr, "lgetxattr" , NULL, NULL, NULL },
-+{ TARGET_NR_lgetxattr, "lgetxattr" , NULL, print_lgetxattr, NULL },
- #endif
- #ifdef TARGET_NR_link
- { TARGET_NR_link, "link" , NULL, print_link, NULL },
-@@ -495,10 +496,12 @@
- { TARGET_NR_listen, "listen" , "%s(%d,%d)", NULL, NULL },
- #endif
- #ifdef TARGET_NR_listxattr
--{ TARGET_NR_listxattr, "listxattr" , NULL, NULL, NULL },
-+{ TARGET_NR_listxattr, "listxattr" , NULL, print_listxattr,
-+                       print_syscall_ret_listxattr},
- #endif
- #ifdef TARGET_NR_llistxattr
--{ TARGET_NR_llistxattr, "llistxattr" , NULL, NULL, NULL },
-+{ TARGET_NR_llistxattr, "llistxattr" , NULL, print_llistxattr,
-+                        print_syscall_ret_llistxattr},
- #endif
- #ifdef TARGET_NR__llseek
- { TARGET_NR__llseek, "_llseek" , NULL, print__llseek, NULL },
+ #ifdef TARGET_NR_lsetxattr
+ { TARGET_NR_lsetxattr, "lsetxattr" , NULL, NULL, NULL },
 -- 
 2.17.1
 
