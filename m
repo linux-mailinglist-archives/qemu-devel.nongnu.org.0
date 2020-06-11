@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FAB31F63BB
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 10:36:45 +0200 (CEST)
-Received: from localhost ([::1]:37438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85C5D1F63D5
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 10:42:25 +0200 (CEST)
+Received: from localhost ([::1]:41416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjIhY-0004X5-9k
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 04:36:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41768)
+	id 1jjIn2-0007DB-JH
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 04:42:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1jjIgV-0003Rl-G5
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 04:35:39 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:57115
+ id 1jjImG-0006mP-5Y
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 04:41:36 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:57651
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1jjIgU-0001Hz-6i
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 04:35:39 -0400
+ id 1jjImF-0002Ci-AG
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 04:41:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591864536;
+ s=mimecast20190719; t=1591864894;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=w7hbBl6s3qfWLQv61qjnP4XlBE3OOYV0TiYlDKseb2A=;
- b=Ej2EdO4131+FqLV1FX1h3ezukUtylSMc9nKJFX681yBoHTCcEFwu8Pd762Fbly+XJaMdJE
- VoGwOmSofidzGKlFcUrjJ6831N/1msU+n3Pflj+9ISUqVUQPImidTeY/Ou187s/YPk0m3q
- PqGil8MU18aGUMlFwspksmRjDCOvaOQ=
+ bh=0NwSdNxSwUtgReMB9EMxZ12JYsRcU4Dhe8zUlgL2/RI=;
+ b=cPq/w2NMqQ0SnB2WzrXKLAp5DYsKC1zUIVuYZflkJjUC7TezhwvUIY+I+mTAmaQts0ciiq
+ yppTVaGtGVoh/Kk2LwfOfilOeGwjWAj13VmQvtaTslxr2cSwUcOrO3fpSGzP5gJmAynChG
+ d2LEkS4UgRlSrR54jU5SsT56OdeFdlY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-299-WR-w2u49NRW7SDtIhR7J3A-1; Thu, 11 Jun 2020 04:35:32 -0400
-X-MC-Unique: WR-w2u49NRW7SDtIhR7J3A-1
+ us-mta-307-X0hw-npJOwi4u_ez2p0xFA-1; Thu, 11 Jun 2020 04:41:32 -0400
+X-MC-Unique: X0hw-npJOwi4u_ez2p0xFA-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 58D99100A61F;
- Thu, 11 Jun 2020 08:35:30 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 96B131009455
+ for <qemu-devel@nongnu.org>; Thu, 11 Jun 2020 08:41:31 +0000 (UTC)
 Received: from localhost (ovpn-114-102.ams2.redhat.com [10.36.114.102])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DFE5C7F4FD;
- Thu, 11 Jun 2020 08:35:29 +0000 (UTC)
-Date: Thu, 11 Jun 2020 09:35:28 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4D941512FE;
+ Thu, 11 Jun 2020 08:41:28 +0000 (UTC)
+Date: Thu, 11 Jun 2020 09:41:26 +0100
 From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH] iotests: Add copyright line in qcow2.py
-Message-ID: <20200611083528.GA22045@stefanha-x1.localdomain>
-References: <20200609205944.3549240-1-eblake@redhat.com>
+To: Jason Wang <jasowang@redhat.com>
+Subject: Re: [PATCH V2] virtio-pci: fix queue_enable write
+Message-ID: <20200611084126.GB22045@stefanha-x1.localdomain>
+References: <20200610054351.15811-1-jasowang@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200609205944.3549240-1-eblake@redhat.com>
+In-Reply-To: <20200610054351.15811-1-jasowang@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="PEIAKu/WMn1b1Hv9"
+ protocol="application/pgp-signature"; boundary="FkmkrVfFsRoUs1wW"
 Content-Disposition: inline
 Received-SPF: pass client-ip=207.211.31.120; envelope-from=stefanha@redhat.com;
  helo=us-smtp-1.mimecast.com
@@ -66,7 +66,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,69 +79,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
- Eduardo Habkost <ehabkost@redhat.com>,
- "open list:Block layer core" <qemu-block@nongnu.org>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Cc: qemu-devel@nongnu.org, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---PEIAKu/WMn1b1Hv9
-Content-Type: text/plain; charset=iso-8859-1
+--FkmkrVfFsRoUs1wW
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jun 09, 2020 at 03:59:44PM -0500, Eric Blake wrote:
-> The file qcow2.py was originally contributed in 2012 by Kevin Wolf,
-> but was not given traditional boilerplate headers at the time.  The
-> missing license was just rectified (commit 16306a7b39) using the
-> project-default GPLv2+, but as Vladimir is not at Red Hat, he did not
-> add a Copyright line.  All earlier contributions have come from CC'd
-> authors, where all but Stefan used a Red Hat address at the time of
-> the contribution, and that copyright carries over to the split to
-> qcow2_format.py (d5262c7124).
+On Wed, Jun 10, 2020 at 01:43:51PM +0800, Jason Wang wrote:
+> Spec said: The driver uses this to selectively prevent the device from
+> executing requests from this virtqueue. 1 - enabled; 0 - disabled.
 >=20
-> CC: Kevin Wolf <kwolf@redhat.com>
-> CC: Stefan Hajnoczi <stefanha@redhat.com>
-> CC: Eduardo Habkost <ehabkost@redhat.com>
-> CC: Max Reitz <mreitz@redhat.com>
-> CC: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
-> CC: Paolo Bonzini <pbonzini@redhat.com>
-> Signed-off-by: Eric Blake <eblake@redhat.com>
+> Though write 0 to queue_enable is forbidden by the spec, we should not
+> assume that the value is 1.
 >=20
+> Fix this by ignore the write value other than 1.
+>=20
+> Signed-off-by: Jason Wang <jasowang@redhat.com>
 > ---
-> Commit ids above assume my bitmaps pull request does not have to be respu=
-n...
-> Based-on: <20200609205245.3548257-1-eblake@redhat.com>
+> Changes from V1:
+> - fix typo
+> - warn wrong value through virtio_error
 > ---
->  tests/qemu-iotests/qcow2.py        | 2 ++
->  tests/qemu-iotests/qcow2_format.py | 1 +
->  2 files changed, 3 insertions(+)
+>  hw/virtio/virtio-pci.c | 12 ++++++++----
+>  1 file changed, 8 insertions(+), 4 deletions(-)
 
-The git history shows which lines were contributed by IBM and is more
-detailed than a single copyright line at the top of the file. It's also
-common to make smaller contributions, like the one I made here, without
-adding a copyright line. In light of this I see no issue with adding a
-Red Hat copyright line and there is no need to add one for IBM:
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-Acked-by: Stefan Hajnoczi <stefanha@redhat.com>
-
---PEIAKu/WMn1b1Hv9
+--FkmkrVfFsRoUs1wW
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl7h7M0ACgkQnKSrs4Gr
-c8h1WwgAoKBV2brEPJSAAgwwDyMP0ScmoQu4DZqRGT7GXR0DS294hts/cZfzfa8W
-9KMtt1OEw+Tgl4BM7mButk60E/nwXyU+diAQHLxwHpvWqbROakkO8iImA5V7cr6o
-Ta2ubulS3H7G1mTbE8+IOL5ss6K1fcU2bpZpr/rF5j5qkc69lkq2obNQaTFpytu4
-D6m0STF5xRacYeGuXJDGF1l0BZR0kQe+nMalhiRzaBdprpTj5Ng6gLWJ8hLmHSvP
-n29WaRS1FYRw6vv8zwuhmfWOIZ8w+M7fnmPBRSYlNPQd+Os0sYPOF1wGC0sA/MSd
-8EyQTuBsMbGmf52DYdVp/vPaMVHhPw==
-=colo
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl7h7jYACgkQnKSrs4Gr
+c8jO0Qf9GRg7BbCfa2DhrKxfBdWdYX0PSQe9DBGBFoBiMHEEocWpopRCA7Ic4G4V
++BmyjU5OrewptyNyXZ1yeCz0ljHRKCyh0VX7S+S5Rlt/ijKSKCIoO8RLp08ZlOSu
+e5F947uN7Ji2xpNKVqrJuyG6X8qe/1vWeRPBInV3feRfICEU7+kCmQcTpKErOO8g
+YkNEKhI8OP+jWHIqljGPqrg33opyAq+ff3QvzbmdGGLjsGD38NiPP2QbBlwRb4WU
+qy2ceYb+MKozx3eHSc9MH4AKkNnR9wb4GsxxM03+SwE5g9qF3che2bzAEc65N7P7
+Fa/zVKiL4lUuUZUDisrzQ4KcqMsDqw==
+=n5HM
 -----END PGP SIGNATURE-----
 
---PEIAKu/WMn1b1Hv9--
+--FkmkrVfFsRoUs1wW--
 
 
