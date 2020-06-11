@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E036E1F6719
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 13:46:57 +0200 (CEST)
-Received: from localhost ([::1]:59614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BE0A1F6700
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 13:45:57 +0200 (CEST)
+Received: from localhost ([::1]:56412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjLfc-0005fs-6i
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 07:46:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51934)
+	id 1jjLee-0004HJ-AL
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 07:45:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jjLcM-0001rQ-9s; Thu, 11 Jun 2020 07:43:34 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:35293)
+ id 1jjLcP-0001uT-3A; Thu, 11 Jun 2020 07:43:37 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:40763)
  by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jjLcL-0001ox-9W; Thu, 11 Jun 2020 07:43:33 -0400
-Received: by mail-wr1-x441.google.com with SMTP id x14so5823956wrp.2;
- Thu, 11 Jun 2020 04:43:22 -0700 (PDT)
+ id 1jjLcM-0001pV-S9; Thu, 11 Jun 2020 07:43:36 -0400
+Received: by mail-wm1-x342.google.com with SMTP id r15so4724578wmh.5;
+ Thu, 11 Jun 2020 04:43:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=cLk4hbroATYyQTs52uLWncPcCLvLtPOqAZ/aivyCI4k=;
- b=GMrB6O22/EHOOgasKeSfMqmBSzYjq3xvmnv34PUcZbTdwjRXWEjDRh1zaWfC8G3kHC
- +YG4v1BYYwuvJ2yGm0CFJYlPFHLhxE6YxVaJzwwPoFWtBFrA8d6cdmQVUoDHpqlH5Snt
- Dyf+j1QkMqoGAbvw4qfbOoE2pMdlcesKu9WqclawZnmlpOwvmrTKBKv/12SazODRvfIu
- 4dAU5M/XUKG06jaaqtmbGuhehCdVmPNYO1ohI0T5Ij06/+D8L0sO3KyZE0GAnBUTsLmc
- Cs+UQYQSatwzHRzDiDEUZ4hxfOU8dWwTShq4Uu/qJZTAOJuQKN9esM5QATGTLOgEKN1s
- LFSQ==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=80floXzvgIJhTS63719Lyq+p7spo/IICK3QTBWax2dQ=;
+ b=lfnfqaMCiRIzbgO7NXHPqomug6LPShyPgqR8Ygi/adgYrWU4e8JCx67CJZYDj2pPhM
+ KfQYSPY9DuZU7ZpKQwRblMiTTLPa9qnA50sjYMwMJ6CurjYSgmUoqSjM3h24IgwIKAAy
+ AWILwarJJZv6Yz0z9M/hceDT7tAqqh7YOQX4GaKTiVPpAiCJ1v5iUoQZP9HHH/W1yPn1
+ RgPmHznOFsDnlpfslc3OlBAYL7PUvouvIJtkyvJuQ6pLCUVYkK4VnvRflEoHqipw32xZ
+ 1ksvkOh5SZSy7tiSKW2kSMyunZnNzkBpyDebPX0xwpvzKuw//+awT/Djw3zXhrKNoQcO
+ UF0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=cLk4hbroATYyQTs52uLWncPcCLvLtPOqAZ/aivyCI4k=;
- b=lOm6OStVBZM1XrtSJ5YrArZmSYl+IN6YX8A+Sj3zVf0GfFwbLPF7QPCHIO9mPL3DJC
- Si7xDMC94VZ/r0WkWeKAODY8INsRVgIqTWL0i7RN2hc7tV5GchTtW1xXCHBe7rPZintA
- gNotgAVNbVWRWkjaF31/xCDGaXuns90rRA3cC+4jRgx/jZoqfoWk/9JGTzDjnKyS3mLl
- 8o46ynFoqMonbwF2+HWJQL1cz1A99J0SjVRQV5euiTJdLhc4SXPfbs1eyYFBqQfuE2um
- SzZgNvoB02tOM70c4kZsL5Yei/fbuvH/+3ilq29iun9cyG9Bx3NQKRYp+D89QONlqOQH
- Pg8A==
-X-Gm-Message-State: AOAM533Fy2exNHrgzsqsN5R1XYcESjY+qpooz73QzgoxIW3fOw2A4XfB
- UOsJKE9rUPRb5zF+fqLDRWL846WQ
-X-Google-Smtp-Source: ABdhPJyx5dmroxKiV///7TeGTUb4PUvwNxuyzuU4KTZDjjrtwlwztNnHbQm9l1m7NQ+OHulYS4FOEA==
-X-Received: by 2002:a5d:4701:: with SMTP id y1mr9042917wrq.310.1591875800375; 
- Thu, 11 Jun 2020 04:43:20 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=80floXzvgIJhTS63719Lyq+p7spo/IICK3QTBWax2dQ=;
+ b=MGoC4oGQt3f10d6qcU5KWEwo2AJuZRwUnb4uH1Cl+HuapRMc7ulN/UiqGB24yzaGOq
+ dBzYiTN9v+pByuaBm47wgfADX86dQNQqqF21YyuEBi/GmqDwz4akcl7d6LdmoGnsU7A5
+ QFehaLpBudAjcZIGsMpTTTMgRAQRjVjObVcT6yMNReEFxpOBdALHWvNZFxRW+RMeetJa
+ 7WEal2gkUwBHOkqMo32adyOogWqDs6c3KeZ8t/adzZ8kOg4yTTNyi2EypZWdmSYdt7NA
+ qN8Kmu+BvCKqGNAUBn6rvU/+hg7wdkO0cL2HRu1jBkIiW4UlDKUNvtojrCB2KZ71VeYa
+ VZsQ==
+X-Gm-Message-State: AOAM531aTbB8XoZkF9cleH3VXwDs/4XQv565mYOfmZzwrVOaT1cpaGmz
+ bLqUjwHlaCtrXjf8ZCJ6NIMP/Gnu
+X-Google-Smtp-Source: ABdhPJwjFomuE15rMOEiqO+H/XcwhbxpmXHH3qVCyeuW7ALKPfLyyniudI5iSTmNRPhMCc+sUL6IQA==
+X-Received: by 2002:a1c:a74f:: with SMTP id q76mr8244114wme.65.1591875802327; 
+ Thu, 11 Jun 2020 04:43:22 -0700 (PDT)
 Received: from x1w.redhat.com (181.red-88-10-103.dynamicip.rima-tde.net.
  [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id h29sm4832863wrc.78.2020.06.11.04.43.18
+ by smtp.gmail.com with ESMTPSA id h29sm4832863wrc.78.2020.06.11.04.43.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Jun 2020 04:43:18 -0700 (PDT)
+ Thu, 11 Jun 2020 04:43:21 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 0/7] sh4: Add 'Renesas peripherals' entry in MAINTAINERS +
- trivial fixes
-Date: Thu, 11 Jun 2020 13:43:10 +0200
-Message-Id: <20200611114317.13044-1-f4bug@amsat.org>
+Subject: [PATCH v4 1/7] MAINTAINERS: Cover 'hw/sh4/sh_intc.h' with the R2D
+ machine
+Date: Thu, 11 Jun 2020 13:43:11 +0200
+Message-Id: <20200611114317.13044-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
+In-Reply-To: <20200611114317.13044-1-f4bug@amsat.org>
+References: <20200611114317.13044-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -71,7 +73,7 @@ X-Spam_bar: /
 X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
  DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
  HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,58 +95,26 @@ Cc: Fam Zheng <fam@euphon.net>, Yoshinori Sato <ysato@users.sourceforge.jp>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+Commit 81527b94ad added hw/intc/sh_intc.c, complete by
+adding its corresponding header.
 
-This series include trivial fixes, and add a new 'Renesas
-peripherals' section in MAINTAINERS.
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ MAINTAINERS | 1 +
+ 1 file changed, 1 insertion(+)
 
-Since v3:
-- Rebased on Aleksandar's "Resolution of sh4 maintainership"
-  https://lists.gnu.org/archive/html/qemu-devel/2020-06/msg03183.html
-
-Since v2:
-- Keep Magnus as maintainer:
-  https://www.mail-archive.com/qemu-devel@nongnu.org/msg710320.html
-Addressed Aleksandar review comments:
-- Split the MAINTAINER patch in various atomic units
-  https://www.mail-archive.com/qemu-devel@nongnu.org/msg710947.html
-- Add Yoshinori Sato as maintainer of SH4/RX peripherals
-  https://www.mail-archive.com/qemu-devel@nongnu.org/msg711008.html
-
-Maybe patches 6 & 7 can go via acceptance-next queue, and
-the rest via qemu-trivial@?
-
-Regards,
-
-Phil.
-
-CI report:
-https://travis-ci.org/github/philmd/qemu/builds/692828388
-
-Supersedes: <20200610220853.8558-1-f4bug@amsat.org>
-Based-on: <20200611095316.10133-1-aleksandar.qemu.devel@gmail.com>
-
-Philippe Mathieu-Daudé (5):
-  MAINTAINERS: Cover 'hw/sh4/sh_intc.h' with the R2D machine
-  MAINTAINERS: Add an entry for common Renesas peripherals
-  hw/sh4: Use MemoryRegion typedef
-  hw/sh4: Extract timer definitions to 'hw/timer/tmu012.h'
-  hw/timer/sh_timer: Remove unused 'qemu/timer.h' include
-
-Thomas Huth (2):
-  tests/acceptance: Add boot tests for sh4 QEMU advent calendar image
-  .travis.yml: Test SH4 QEMU advent calendar image
-
- include/hw/sh4/sh.h                    | 12 +-----------
- include/hw/timer/tmu012.h              | 23 +++++++++++++++++++++++
- hw/sh4/sh7750.c                        |  1 +
- hw/timer/sh_timer.c                    |  3 ++-
- .travis.yml                            |  2 +-
- MAINTAINERS                            | 10 +++++++++-
- tests/acceptance/boot_linux_console.py | 13 +++++++++++--
- 7 files changed, 48 insertions(+), 16 deletions(-)
- create mode 100644 include/hw/timer/tmu012.h
-
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 13711aafe8..87ceca7ff1 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1257,6 +1257,7 @@ S: Maintained
+ F: hw/sh4/r2d.c
+ F: hw/intc/sh_intc.c
+ F: hw/timer/sh_timer.c
++F: include/hw/sh4/sh_intc.h
+ 
+ Shix
+ M: Yoshinori Sato <ysato@users.sourceforge.jp>
 -- 
 2.21.3
 
