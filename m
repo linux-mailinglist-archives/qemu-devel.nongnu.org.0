@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 382D61F6F01
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 22:50:28 +0200 (CEST)
-Received: from localhost ([::1]:38514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C271D1F6EE9
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 22:42:26 +0200 (CEST)
+Received: from localhost ([::1]:41340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjU9b-0005PT-8J
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 16:50:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56280)
+	id 1jjU1p-0007qi-Ob
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 16:42:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jjTAh-0002Ge-E2
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:47:31 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:53915
+ id 1jjTAR-0001yB-Dc
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:47:15 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:29240
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jjTAe-0001T3-Tw
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:47:30 -0400
+ id 1jjTAO-0001QP-1e
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:47:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591904844;
+ s=mimecast20190719; t=1591904831;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RGxMHpNptqdaZvQXjdJ5yya4fFnMAb6wlgy+j3rPvGE=;
- b=iJ08dnP0yLVeHMS5Sy9QSifoCmBhgwdqMcLPwSIt3AT1CXFlwH7OyLPj5CVUKO/mg6HwN3
- OzirjZ9BlQMtXrO3Ih76GQS7r2X2fVPdvXjeesjfKfkOU6Twvx8K0LSNF2xQThOuL9lmIJ
- kL3riZNmvyf1nkfbTO0aR3Y/DlgOpV8=
+ bh=h8HdZFaM2mWIMMStldX3gYxAELTzDvL+kCBAAkvkGiU=;
+ b=Paottn9J7o0cfOMeutD/jJwEE8gpENKlpbtQknjM6r8CtMgOH0KmadIfog4k5ObXeW6xCH
+ 7qFAQafdiU+oyuZ8BwkrqSP3UqcbmJ7WzLwUVVag68vVpr5MPSigyEOe0M6viqb0fb7v5D
+ HdgQi6ApZy2ExrTmOe6ilB4XBvFvhA0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-439-13IiX5iuNbKySQWiz3ccUw-1; Thu, 11 Jun 2020 15:47:09 -0400
-X-MC-Unique: 13IiX5iuNbKySQWiz3ccUw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-309---Fyvq-BPvCmIEh85Dr9TA-1; Thu, 11 Jun 2020 15:47:09 -0400
+X-MC-Unique: --Fyvq-BPvCmIEh85Dr9TA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A36361940920;
- Thu, 11 Jun 2020 19:47:05 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 485F81940923;
+ Thu, 11 Jun 2020 19:47:07 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 165EE10013D0;
- Thu, 11 Jun 2020 19:47:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 56B8560CC0;
+ Thu, 11 Jun 2020 19:47:06 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 099/115] xen: fix build without pci passthrough
-Date: Thu, 11 Jun 2020 15:44:33 -0400
-Message-Id: <20200611194449.31468-100-pbonzini@redhat.com>
+Subject: [PULL 100/115] target/i386: sev: Remove unused QSevGuestInfoClass
+Date: Thu, 11 Jun 2020 15:44:34 -0400
+Message-Id: <20200611194449.31468-101-pbonzini@redhat.com>
 In-Reply-To: <20200611194449.31468-1-pbonzini@redhat.com>
 References: <20200611194449.31468-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
@@ -80,178 +80,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Anthony PERARD <anthony.perard@citrix.com>,
- =?UTF-8?q?Roger=20Pau=20Monn=C3=A9?= <roger.pau@citrix.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Anthony PERARD <anthony.perard@citrix.com>
+From: David Gibson <david@gibson.dropbear.id.au>
 
-Xen PCI passthrough support may not be available and thus the global
-variable "has_igd_gfx_passthru" might be compiled out. Common code
-should not access it in that case.
+This structure is nothing but an empty wrapper around the parent class,
+which by QOM conventions means we don't need it at all.
 
-Unfortunately, we can't use CONFIG_XEN_PCI_PASSTHROUGH directly in
-xen-common.c so this patch instead move access to the
-has_igd_gfx_passthru variable via function and those functions are
-also implemented as stubs. The stubs will be used when QEMU is built
-without passthrough support.
-
-Now, when one will want to enable igd-passthru via the -machine
-property, they will get an error message if QEMU is built without
-passthrough support.
-
-Fixes: 46472d82322d0 ('xen: convert "-machine igd-passthru" to an accelerator property')
-Reported-by: Roger Pau Monné <roger.pau@citrix.com>
-Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
-Message-Id: <20200603160442.3151170-1-anthony.perard@citrix.com>
+Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20200604064219.436242-2-david@gibson.dropbear.id.au>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- accel/xen/xen-all.c  |  4 ++--
- hw/Makefile.objs     |  2 +-
- hw/i386/pc_piix.c    |  2 +-
- hw/xen/Makefile.objs |  3 ++-
- hw/xen/xen_pt.c      | 12 +++++++++++-
- hw/xen/xen_pt.h      |  6 ++++--
- hw/xen/xen_pt_stub.c | 22 ++++++++++++++++++++++
- 7 files changed, 43 insertions(+), 8 deletions(-)
- create mode 100644 hw/xen/xen_pt_stub.c
+ target/i386/sev.c      | 1 -
+ target/i386/sev_i386.h | 5 -----
+ 2 files changed, 6 deletions(-)
 
-diff --git a/accel/xen/xen-all.c b/accel/xen/xen-all.c
-index f3edc65ec9..0c24d4b191 100644
---- a/accel/xen/xen-all.c
-+++ b/accel/xen/xen-all.c
-@@ -137,12 +137,12 @@ static void xen_change_state_handler(void *opaque, int running,
+diff --git a/target/i386/sev.c b/target/i386/sev.c
+index 51cdbe5496..2312510cf2 100644
+--- a/target/i386/sev.c
++++ b/target/i386/sev.c
+@@ -287,7 +287,6 @@ static const TypeInfo qsev_guest_info = {
+     .name = TYPE_QSEV_GUEST_INFO,
+     .instance_size = sizeof(QSevGuestInfo),
+     .instance_finalize = qsev_guest_finalize,
+-    .class_size = sizeof(QSevGuestInfoClass),
+     .class_init = qsev_guest_class_init,
+     .instance_init = qsev_guest_init,
+     .interfaces = (InterfaceInfo[]) {
+diff --git a/target/i386/sev_i386.h b/target/i386/sev_i386.h
+index 8ada9d385d..4f193642ac 100644
+--- a/target/i386/sev_i386.h
++++ b/target/i386/sev_i386.h
+@@ -41,7 +41,6 @@ extern char *sev_get_launch_measurement(void);
+ extern SevCapability *sev_get_capabilities(void);
  
- static bool xen_get_igd_gfx_passthru(Object *obj, Error **errp)
- {
--    return has_igd_gfx_passthru;
-+    return xen_igd_gfx_pt_enabled();
- }
+ typedef struct QSevGuestInfo QSevGuestInfo;
+-typedef struct QSevGuestInfoClass QSevGuestInfoClass;
  
- static void xen_set_igd_gfx_passthru(Object *obj, bool value, Error **errp)
- {
--    has_igd_gfx_passthru = value;
-+    xen_igd_gfx_pt_set(value, errp);
- }
+ /**
+  * QSevGuestInfo:
+@@ -64,10 +63,6 @@ struct QSevGuestInfo {
+     uint32_t reduced_phys_bits;
+ };
  
- static void xen_setup_post(MachineState *ms, AccelState *accel)
-diff --git a/hw/Makefile.objs b/hw/Makefile.objs
-index 660e2b4373..4cbe5e4e57 100644
---- a/hw/Makefile.objs
-+++ b/hw/Makefile.objs
-@@ -35,7 +35,7 @@ devices-dirs-y += usb/
- devices-dirs-$(CONFIG_VFIO) += vfio/
- devices-dirs-y += virtio/
- devices-dirs-y += watchdog/
--devices-dirs-y += xen/
-+devices-dirs-$(CONFIG_XEN) += xen/
- devices-dirs-$(CONFIG_MEM_DEVICE) += mem/
- devices-dirs-$(CONFIG_NUBUS) += nubus/
- devices-dirs-y += semihosting/
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index eea964e72b..054d3aa9f7 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -377,7 +377,7 @@ static void pc_init_isa(MachineState *machine)
- #ifdef CONFIG_XEN
- static void pc_xen_hvm_init_pci(MachineState *machine)
- {
--    const char *pci_type = has_igd_gfx_passthru ?
-+    const char *pci_type = xen_igd_gfx_pt_enabled() ?
-                 TYPE_IGD_PASSTHROUGH_I440FX_PCI_DEVICE : TYPE_I440FX_PCI_DEVICE;
- 
-     pc_init1(machine,
-diff --git a/hw/xen/Makefile.objs b/hw/xen/Makefile.objs
-index 340b2c5096..3fc715e595 100644
---- a/hw/xen/Makefile.objs
-+++ b/hw/xen/Makefile.objs
-@@ -1,6 +1,7 @@
- # xen backend driver support
--common-obj-$(CONFIG_XEN) += xen-legacy-backend.o xen_devconfig.o xen_pvdev.o xen-bus.o xen-bus-helper.o xen-backend.o
-+common-obj-y += xen-legacy-backend.o xen_devconfig.o xen_pvdev.o xen-bus.o xen-bus-helper.o xen-backend.o
- 
- obj-$(CONFIG_XEN_PCI_PASSTHROUGH) += xen-host-pci-device.o
- obj-$(CONFIG_XEN_PCI_PASSTHROUGH) += xen_pt.o xen_pt_config_init.o xen_pt_graphics.o xen_pt_msi.o
- obj-$(CONFIG_XEN_PCI_PASSTHROUGH) += xen_pt_load_rom.o
-+obj-$(call $(lnot, $(CONFIG_XEN_PCI_PASSTHROUGH))) += xen_pt_stub.o
-diff --git a/hw/xen/xen_pt.c b/hw/xen/xen_pt.c
-index 81d5ad8da7..ab84443d5e 100644
---- a/hw/xen/xen_pt.c
-+++ b/hw/xen/xen_pt.c
-@@ -65,7 +65,17 @@
- #include "qemu/range.h"
- #include "exec/address-spaces.h"
- 
--bool has_igd_gfx_passthru;
-+static bool has_igd_gfx_passthru;
-+
-+bool xen_igd_gfx_pt_enabled(void)
-+{
-+    return has_igd_gfx_passthru;
-+}
-+
-+void xen_igd_gfx_pt_set(bool value, Error **errp)
-+{
-+    has_igd_gfx_passthru = value;
-+}
- 
- #define XEN_PT_NR_IRQS (256)
- static uint8_t xen_pt_mapped_machine_irq[XEN_PT_NR_IRQS] = {0};
-diff --git a/hw/xen/xen_pt.h b/hw/xen/xen_pt.h
-index 179775db7b..6e9cec95f3 100644
---- a/hw/xen/xen_pt.h
-+++ b/hw/xen/xen_pt.h
-@@ -5,6 +5,9 @@
- #include "hw/pci/pci.h"
- #include "xen-host-pci-device.h"
- 
-+bool xen_igd_gfx_pt_enabled(void);
-+void xen_igd_gfx_pt_set(bool value, Error **errp);
-+
- void xen_pt_log(const PCIDevice *d, const char *f, ...) GCC_FMT_ATTR(2, 3);
- 
- #define XEN_PT_ERR(d, _f, _a...) xen_pt_log(d, "%s: Error: "_f, __func__, ##_a)
-@@ -322,10 +325,9 @@ extern void *pci_assign_dev_load_option_rom(PCIDevice *dev,
-                                             unsigned int domain,
-                                             unsigned int bus, unsigned int slot,
-                                             unsigned int function);
--extern bool has_igd_gfx_passthru;
- static inline bool is_igd_vga_passthrough(XenHostPCIDevice *dev)
- {
--    return (has_igd_gfx_passthru
-+    return (xen_igd_gfx_pt_enabled()
-             && ((dev->class_code >> 0x8) == PCI_CLASS_DISPLAY_VGA));
- }
- int xen_pt_register_vga_regions(XenHostPCIDevice *dev);
-diff --git a/hw/xen/xen_pt_stub.c b/hw/xen/xen_pt_stub.c
-new file mode 100644
-index 0000000000..2d8cac8d54
---- /dev/null
-+++ b/hw/xen/xen_pt_stub.c
-@@ -0,0 +1,22 @@
-+/*
-+ * Copyright (C) 2020       Citrix Systems UK Ltd.
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "hw/xen/xen_pt.h"
-+#include "qapi/error.h"
-+
-+bool xen_igd_gfx_pt_enabled(void)
-+{
-+    return false;
-+}
-+
-+void xen_igd_gfx_pt_set(bool value, Error **errp)
-+{
-+    if (value) {
-+        error_setg(errp, "Xen PCI passthrough support not built in");
-+    }
-+}
+-struct QSevGuestInfoClass {
+-    ObjectClass parent_class;
+-};
+-
+ struct SEVState {
+     QSevGuestInfo *sev_info;
+     uint8_t api_major;
 -- 
 2.26.2
 
