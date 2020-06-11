@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A68A1F6E6D
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 22:04:58 +0200 (CEST)
-Received: from localhost ([::1]:45848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A0E71F6E66
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 22:01:49 +0200 (CEST)
+Received: from localhost ([::1]:36820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjTRZ-0001Nk-Eo
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 16:04:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54822)
+	id 1jjTOV-00051f-4g
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 16:01:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jjT8t-0007t0-9z
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:45:39 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:57705
- helo=us-smtp-delivery-1.mimecast.com)
+ id 1jjT8e-0007ct-3d
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:45:24 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:48467
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jjT8r-00011Y-0A
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:45:38 -0400
+ id 1jjT8a-0000wV-Ox
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:45:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591904735;
+ s=mimecast20190719; t=1591904719;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Vl9+4Ve7uqE2qdXwMEU88RpILo1l/1GNFgId+2u59oQ=;
- b=dHPXwr0Z5c1XBPRZLep+fM70MlfGEEBjfVyVxo41LiTdakcsEOfDy9C6oxxKQBLHOM/LcT
- M7/2wocw0pqGRVDk+jufo2gPOGa6/xC65L1BDMCMtZef/KZG+FL3C4ZLcc8yah4Bge6c59
- V2IHxLtXlmtBBFLjUKldbaG0EkDu8Zg=
+ bh=iwfsifuosc1Hr9eoc0Zlhiw1A6ToPZpXeqtV05HpnVc=;
+ b=hbjK0Qev6vMDj3c5qDC6q+CTfLo1xWtwKmHXafcKyOHhdoOW1Q6mqxVODBtG5a7HPD4iLL
+ 7z/wsjZoJM+fCIV+BKHvHtuImlloUOK6be0F4IbYr+ratjAi4HIxRoJIXxLYuPjbL1Qt+r
+ 5LRz8vXkP7B1RWczjX4LPX6Zd8aHWNk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-204-8A9stek-P3W2dtLqGztl8A-1; Thu, 11 Jun 2020 15:45:15 -0400
-X-MC-Unique: 8A9stek-P3W2dtLqGztl8A-1
+ us-mta-230-LQqjEWeDOKqLz0VMgejBEA-1; Thu, 11 Jun 2020 15:45:17 -0400
+X-MC-Unique: LQqjEWeDOKqLz0VMgejBEA-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D7E1E86ABD5;
- Thu, 11 Jun 2020 19:45:14 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 569A1A0C00;
+ Thu, 11 Jun 2020 19:45:16 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 713D65D9DC;
- Thu, 11 Jun 2020 19:45:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E53195D9DC;
+ Thu, 11 Jun 2020 19:45:15 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 026/115] hw/i386/vmport: Add device properties
-Date: Thu, 11 Jun 2020 15:43:20 -0400
-Message-Id: <20200611194449.31468-27-pbonzini@redhat.com>
+Subject: [PULL 029/115] hw/i386/vmport: Introduce vmware-vmx-version property
+Date: Thu, 11 Jun 2020 15:43:23 -0400
+Message-Id: <20200611194449.31468-30-pbonzini@redhat.com>
 In-Reply-To: <20200611194449.31468-1-pbonzini@redhat.com>
 References: <20200611194449.31468-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -57,9 +57,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 14:57:53
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 14:52:10
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -88,51 +88,60 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Liran Alon <liran.alon@oracle.com>
 
-No functional change.
+vmware-vmx-version is a number returned from CMD_GETVERSION which specifies
+to guest VMware Tools the the host VMX version. If the host reports a number
+that is different than what the guest VMware Tools expects, it may force
+guest to upgrade VMware Tools. (See comment above VERSION_MAGIC and
+VmCheck_IsVirtualWorld() function in open-vm-tools open-source code).
 
-This is done as a preparation for the following patches that will
-introduce several device properties.
+For better readability and allow maintaining compatability for guests
+which may expect different vmware-vmx-version, make vmware-vmx-version a
+VMPort object property. This would allow user to control it's value via
+"-global vmport.vmware-vmx-version=X".
 
 Reviewed-by: Nikita Leshenko <nikita.leshchenko@oracle.com>
 Signed-off-by: Liran Alon <liran.alon@oracle.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200312165431.82118-3-liran.alon@oracle.com>
+Message-Id: <20200312165431.82118-6-liran.alon@oracle.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/i386/vmport.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ hw/i386/vmport.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
 diff --git a/hw/i386/vmport.c b/hw/i386/vmport.c
-index fc0074608e..5985167dcf 100644
+index 730b61fcaa..dfebaf5b73 100644
 --- a/hw/i386/vmport.c
 +++ b/hw/i386/vmport.c
-@@ -30,6 +30,7 @@
+@@ -60,6 +60,8 @@ typedef struct VMPortState {
+     VMPortReadFunc *func[VMPORT_ENTRIES];
+     void *opaque[VMPORT_ENTRIES];
  
- #include "qemu/osdep.h"
- #include "hw/isa/isa.h"
-+#include "hw/qdev-properties.h"
- #include "sysemu/hw_accel.h"
- #include "qemu/log.h"
- #include "vmport.h"
-@@ -140,6 +141,10 @@ static void vmport_realizefn(DeviceState *dev, Error **errp)
-     vmport_register(VMPORT_CMD_GETRAMSIZE, vmport_cmd_ram_size, NULL);
- }
- 
-+static Property vmport_properties[] = {
-+    DEFINE_PROP_END_OF_LIST(),
-+};
++    uint32_t vmware_vmx_version;
 +
- static void vmport_class_initfn(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
-@@ -147,6 +152,7 @@ static void vmport_class_initfn(ObjectClass *klass, void *data)
-     dc->realize = vmport_realizefn;
-     /* Reason: realize sets global port_state */
-     dc->user_creatable = false;
-+    device_class_set_props(dc, vmport_properties);
+     uint32_t compat_flags;
+ } VMPortState;
+ 
+@@ -138,7 +140,7 @@ static uint32_t vmport_cmd_get_version(void *opaque, uint32_t addr)
+     X86CPU *cpu = X86_CPU(current_cpu);
+ 
+     cpu->env.regs[R_EBX] = VMPORT_MAGIC;
+-    return 6;
++    return port_state->vmware_vmx_version;
  }
  
- static const TypeInfo vmport_info = {
+ static uint32_t vmport_cmd_ram_size(void *opaque, uint32_t addr)
+@@ -179,6 +181,11 @@ static Property vmport_properties[] = {
+                     VMPORT_COMPAT_READ_SET_EAX_BIT, true),
+     DEFINE_PROP_BIT("x-signal-unsupported-cmd", VMPortState, compat_flags,
+                     VMPORT_COMPAT_SIGNAL_UNSUPPORTED_CMD_BIT, true),
++
++    /* Default value taken from open-vm-tools code VERSION_MAGIC definition */
++    DEFINE_PROP_UINT32("vmware-vmx-version", VMPortState,
++                       vmware_vmx_version, 6),
++
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
 -- 
 2.26.2
 
