@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F29A1F6E3D
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 21:49:12 +0200 (CEST)
-Received: from localhost ([::1]:54036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E01011F6E54
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 21:54:28 +0200 (CEST)
+Received: from localhost ([::1]:43034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjTCJ-0002nz-D2
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 15:49:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53770)
+	id 1jjTHP-00037q-SD
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 15:54:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53850)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jjT8H-0007CU-B4
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:45:01 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:44865
- helo=us-smtp-delivery-1.mimecast.com)
+ id 1jjT8J-0007Fe-Un
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:45:04 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:50367
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jjT8E-0000la-Ra
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:45:00 -0400
+ id 1jjT8E-0000lz-RD
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:45:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591904696;
+ s=mimecast20190719; t=1591904698;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wucDS0WDxIJnY572b6MT723ttGMTngApmYMEbO/keOQ=;
- b=E3bH486Fvq/dnPksZwaNG/qT9iax4tI6XSCNLCQxAmd723x1EqTXAzOfPndteyrhK42jMu
- lV+ANboYVwGvAEN1M0AQsCieu+9ZDCCB1CpaBW5OqO9c7tNIVXgK120RHYRoC/mJcmo2D3
- /OmSQDwGV8xwnXRbX+4fA8c/eYAhdbE=
+ bh=tJrxybmGdrfBbB987Z3tJ0S0qgwtOuPu1SkhX8bjTVs=;
+ b=egm/lZRIt4X+oRd6XAeR+V7CSSWjkiwsVOKSb0Y9zrmE9pZS84txwkTmyDfOjxTnlXJUFN
+ hyzEnYN1weJpJq2XQXuBdA2j6omrJN4j3lx+CgrVG1s1b9zpVZ8v78OXz9+SM+x1aVQs21
+ leHOp/68FF/1crSRUmIavZ6gwpTwvG4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-147-m8--x84JMI6-Gu2E76wGkA-1; Thu, 11 Jun 2020 15:44:52 -0400
-X-MC-Unique: m8--x84JMI6-Gu2E76wGkA-1
+ us-mta-138-YPubPvptM3etsUH0GYJGuQ-1; Thu, 11 Jun 2020 15:44:53 -0400
+X-MC-Unique: YPubPvptM3etsUH0GYJGuQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0BF57A0C00
- for <qemu-devel@nongnu.org>; Thu, 11 Jun 2020 19:44:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8B8CC1005513;
+ Thu, 11 Jun 2020 19:44:52 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A7A175EE0E;
- Thu, 11 Jun 2020 19:44:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 328817E587;
+ Thu, 11 Jun 2020 19:44:52 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 002/115] docker.py/build: support binary files in --extra-files
-Date: Thu, 11 Jun 2020 15:42:56 -0400
-Message-Id: <20200611194449.31468-3-pbonzini@redhat.com>
+Subject: [PULL 003/115] run-coverity-scan: get Coverity token and email from
+ special git config section
+Date: Thu, 11 Jun 2020 15:42:57 -0400
+Message-Id: <20200611194449.31468-4-pbonzini@redhat.com>
 In-Reply-To: <20200611194449.31468-1-pbonzini@redhat.com>
 References: <20200611194449.31468-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 03:29:33
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 14:52:10
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -80,44 +81,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Read the --extra-files in binary mode to avoid encoding errors.
+Support a [coverity] section in .git/config.  It can be used to retrieve the
+token and also, if it is different from user.email, the username of the
+submitter.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- tests/docker/docker.py | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ scripts/coverity-scan/run-coverity-scan | 24 +++++++++++++++---------
+ 1 file changed, 15 insertions(+), 9 deletions(-)
 
-diff --git a/tests/docker/docker.py b/tests/docker/docker.py
-index d96ccc9b19..e630aae108 100755
---- a/tests/docker/docker.py
-+++ b/tests/docker/docker.py
-@@ -56,15 +56,19 @@ class EngineEnum(enum.IntEnum):
+diff --git a/scripts/coverity-scan/run-coverity-scan b/scripts/coverity-scan/run-coverity-scan
+index 2e067ef5cf..990f75138d 100755
+--- a/scripts/coverity-scan/run-coverity-scan
++++ b/scripts/coverity-scan/run-coverity-scan
+@@ -41,9 +41,10 @@
+ #                   is intended mainly for internal use by the Docker support
+ #
+ # User-specifiable environment variables:
+-#  COVERITY_TOKEN -- Coverity token
++#  COVERITY_TOKEN -- Coverity token (default: looks at your
++#                    coverity.token config)
+ #  COVERITY_EMAIL -- the email address to use for uploads (default:
+-#                    looks at your git user.email config)
++#                    looks at your git coverity.email or user.email config)
+ #  COVERITY_BUILD_CMD -- make command (default: 'make -jN' where N is
+ #                    number of CPUs as determined by 'nproc')
+ #  COVERITY_TOOL_BASE -- set to directory to put coverity tools
+@@ -58,11 +59,11 @@ check_upload_permissions() {
+     # with status 1 if the check failed (usually a bad token);
+     # will exit the script with status 0 if the check indicated that we
+     # can't upload yet (ie we are at quota)
+-    # Assumes that PROJTOKEN, PROJNAME and DRYRUN have been initialized.
++    # Assumes that COVERITY_TOKEN, PROJNAME and DRYRUN have been initialized.
  
- USE_ENGINE = EngineEnum.AUTO
+     echo "Checking upload permissions..."
  
-+def _bytes_checksum(bytes):
-+    """Calculate a digest string unique to the text content"""
-+    return hashlib.sha1(bytes).hexdigest()
-+
- def _text_checksum(text):
-     """Calculate a digest string unique to the text content"""
--    return hashlib.sha1(text.encode('utf-8')).hexdigest()
-+    return _bytes_checksum(text.encode('utf-8'))
+-    if ! up_perm="$(wget https://scan.coverity.com/api/upload_permitted --post-data "token=$PROJTOKEN&project=$PROJNAME" -q -O -)"; then
++    if ! up_perm="$(wget https://scan.coverity.com/api/upload_permitted --post-data "token=$COVERITY_TOKEN&project=$PROJNAME" -q -O -)"; then
+         echo "Coverity Scan API access denied: bad token?"
+         exit 1
+     fi
+@@ -94,20 +95,20 @@ check_upload_permissions() {
+ update_coverity_tools () {
+     # Check for whether we need to download the Coverity tools
+     # (either because we don't have a copy, or because it's out of date)
+-    # Assumes that COVERITY_TOOL_BASE, PROJTOKEN and PROJNAME are set.
++    # Assumes that COVERITY_TOOL_BASE, COVERITY_TOKEN and PROJNAME are set.
  
- def _read_dockerfile(path):
-     return open(path, 'rt', encoding='utf-8').read()
+     mkdir -p "$COVERITY_TOOL_BASE"
+     cd "$COVERITY_TOOL_BASE"
  
- def _file_checksum(filename):
--    return _text_checksum(_read_dockerfile(filename))
-+    return _bytes_checksum(open(filename, 'rb').read())
+     echo "Checking for new version of coverity build tools..."
+-    wget https://scan.coverity.com/download/linux64 --post-data "token=$PROJTOKEN&project=$PROJNAME&md5=1" -O coverity_tool.md5.new
++    wget https://scan.coverity.com/download/linux64 --post-data "token=$COVERITY_TOKEN&project=$PROJNAME&md5=1" -O coverity_tool.md5.new
  
+     if ! cmp -s coverity_tool.md5 coverity_tool.md5.new; then
+         # out of date md5 or no md5: download new build tool
+         # blow away the old build tool
+         echo "Downloading coverity build tools..."
+         rm -rf coverity_tool coverity_tool.tgz
+-        wget https://scan.coverity.com/download/linux64 --post-data "token=$PROJTOKEN&project=$PROJNAME" -O coverity_tool.tgz
++        wget https://scan.coverity.com/download/linux64 --post-data "token=$COVERITY_TOKEN&project=$PROJNAME" -O coverity_tool.tgz
+         if ! (cat coverity_tool.md5.new; echo "  coverity_tool.tgz") | md5sum -c --status; then
+             echo "Downloaded tarball didn't match md5sum!"
+             exit 1
+@@ -205,6 +206,9 @@ while [ "$#" -ge 1 ]; do
+     esac
+ done
  
- def _guess_engine_command():
++if [ -z "$COVERITY_TOKEN" ]; then
++    COVERITY_TOKEN="$(git config coverity.token)"
++fi
+ if [ -z "$COVERITY_TOKEN" ]; then
+     echo "COVERITY_TOKEN environment variable not set"
+     exit 1
+@@ -225,7 +229,6 @@ if [ -z "$SRCDIR" ]; then
+     SRCDIR="$PWD"
+ fi
+ 
+-PROJTOKEN="$COVERITY_TOKEN"
+ PROJNAME=QEMU
+ TARBALL=cov-int.tar.xz
+ 
+@@ -268,6 +271,9 @@ if [ -z "$DESCRIPTION" ]; then
+     DESCRIPTION="$(git rev-parse HEAD)"
+ fi
+ 
++if [ -z "$COVERITY_EMAIL" ]; then
++    COVERITY_EMAIL="$(git config coverity.email)"
++fi
+ if [ -z "$COVERITY_EMAIL" ]; then
+     COVERITY_EMAIL="$(git config user.email)"
+ fi
+@@ -393,7 +399,7 @@ if [ "$DRYRUN" = yes ]; then
+     exit 0
+ fi
+ 
+-curl --form token="$PROJTOKEN" --form email="$COVERITY_EMAIL" \
++curl --form token="$COVERITY_TOKEN" --form email="$COVERITY_EMAIL" \
+      --form file=@"$TARBALL" --form version="$VERSION" \
+      --form description="$DESCRIPTION" \
+      https://scan.coverity.com/builds?project="$PROJNAME"
 -- 
 2.26.2
 
