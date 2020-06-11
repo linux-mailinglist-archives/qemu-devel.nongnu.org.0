@@ -2,81 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA8AC1F6A3B
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 16:43:47 +0200 (CEST)
-Received: from localhost ([::1]:50404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1596F1F6A50
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 16:51:41 +0200 (CEST)
+Received: from localhost ([::1]:40008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjOQk-0008OJ-8G
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 10:43:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39406)
+	id 1jjOYO-0000Rp-2Z
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 10:51:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41460)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
- id 1jjOPb-0007pq-3E
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 10:42:35 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:35029
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
- id 1jjOPY-0003Q2-MA
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 10:42:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591886549;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1Aj9yQ9oVDkmCnw6/U7oEkmz/bTO8fySLcwGI6Cf93Q=;
- b=Bt/q1Btb5Mi8Rwgh99Z3zW+0R1XNzvp9vvHsW0fkZZZuORjVNQYvAwLtQbQNiMAeVhbOwR
- eWb2XJfSCVsMUU3JsXMWDIWvGl/jSCe4dc/inux7/i+kW+prf5EvRI7GiS6icDk6sNKZTU
- xkBM/VfJCQEBz3RhDMYFg24PTtFvakM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-315-S2sZ4g-MMiGjFUXmtMO4og-1; Thu, 11 Jun 2020 10:42:24 -0400
-X-MC-Unique: S2sZ4g-MMiGjFUXmtMO4og-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8DC2981CBE1;
- Thu, 11 Jun 2020 14:42:23 +0000 (UTC)
-Received: from [10.40.193.30] (unknown [10.40.193.30])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4E3687E596;
- Thu, 11 Jun 2020 14:42:22 +0000 (UTC)
-Subject: Re: [PATCH 3/3] numa: Initialize node initiator with respect to
- .has_cpu
-To: Tao Xu <tao3.xu@intel.com>, Igor Mammedov <imammedo@redhat.com>
-References: <cover.1590753455.git.mprivozn@redhat.com>
- <d3039c47e4ce1118bc7c4d4f51da6412c6669339.1590753455.git.mprivozn@redhat.com>
- <20200529170948.5bdb3316@redhat.com>
- <d6c8e7c5-62c5-5ac5-0941-d28867761014@redhat.com>
- <4bde8796-7479-9fe0-20e4-6c173a865cec@intel.com>
- <33014889-a70e-3d5d-3138-0e0f72553477@redhat.com>
- <1b670edc-dd14-4e7e-34db-c1f2860297f0@intel.com>
-From: Michal Privoznik <mprivozn@redhat.com>
-Message-ID: <bb9d32bd-3273-542f-4451-2711cff481f3@redhat.com>
-Date: Thu, 11 Jun 2020 16:42:21 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jjOSo-0001Zw-Tv
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 10:45:55 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:39559)
+ by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jjOSb-0003lV-WF
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 10:45:54 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id k26so5311943wmi.4
+ for <qemu-devel@nongnu.org>; Thu, 11 Jun 2020 07:45:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=GPgXjokSL0nkYUP8XQBRLPlsmz7/i7RySDFmZrOiI4A=;
+ b=nOKWqBLHsMpmQGLC32xv5bKefbRn+lk/GsAKjxNDBUaBjLOgcQWX6IBe/XjdvSAWwk
+ 5tu8lB07rn5qKOJhc+q1EHS6jOnqCwPWczdUxTtAUxjUrKqFB94lGDa9hZsYVApcOirW
+ 4AyCfH8G2emb4pnkx8bTxbOWktegzd8I/7WAa8JhJLN0LJL0ZsFEgX8+mHl+WWTAo4o5
+ HU5Gl+UdF0pk8p1FwddyTt1E3ZvzHjCtYBxg9jOUSjErJ6X590HGsOz2M8THC0hRdVru
+ 4pY10zY5UAssRrUJ/bTYCU4uubtCfXYV3vbWOWhqBvOrJEDc6xKR/wqWxlFotqaJvJzt
+ M7vA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=GPgXjokSL0nkYUP8XQBRLPlsmz7/i7RySDFmZrOiI4A=;
+ b=gAIJxNaGxG1ic9wc0XvDYqPpJVusOJScaCd49R3Za4L3llBbMl7xWDLfMY/NVK1UEV
+ nwXbI2vesmi9fOOrTkGkGUpy56oY4TiS6iAFzP1yI4ntuj+DeND5OSW6C54jMO6JVVzj
+ nXFsDSCRURcTg5GLi5C3FOOnAd0Uaz/lMUN4LRbo9t7i8PLAJ5njtu8JlvVAVm5F8JwS
+ 2PAdvPyfjGpkM4rgxB6TeQ44kE6WJMUSQejMiBz1Dd/wv25epo0bpQv1QCd8kBaspGl/
+ OwgYI+0N9lAWH4Y9HeCTfBZvQAYagheKeX+U5qtQBtrnz6LyseeTMNBbkuJxN4eqq9ix
+ c+dQ==
+X-Gm-Message-State: AOAM530UNCJVuPCytm8X0xgV5oPTshye3+ib+igXB0qOs+CY7R38AGcT
+ 65QAvQYbDSp4K5e15sntfZNHVQ==
+X-Google-Smtp-Source: ABdhPJyZq1x4B8zIF6EQ0J/jYV59w+Xn+GPDPVXIAuF80leWW8ZWYQmnuMJJAxwbQwQAYntTe7mrSQ==
+X-Received: by 2002:a1c:cc12:: with SMTP id h18mr8210172wmb.3.1591886733452;
+ Thu, 11 Jun 2020 07:45:33 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id h18sm5271658wru.7.2020.06.11.07.45.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 11 Jun 2020 07:45:32 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH 00/10] target/arm: Convert 2-reg-scalar to decodetree
+Date: Thu, 11 Jun 2020 15:45:19 +0100
+Message-Id: <20200611144529.8873-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <1b670edc-dd14-4e7e-34db-c1f2860297f0@intel.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=mprivozn@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 03:29:33
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32a.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,87 +83,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Liu, Jingqi" <jingqi.liu@intel.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "ehabkost@redhat.com" <ehabkost@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/5/20 3:52 AM, Tao Xu wrote:
-> On 6/3/20 5:16 PM, Michal Privoznik wrote:
->> On 6/2/20 10:00 AM, Tao Xu wrote:
->>>
->>> On 6/1/2020 4:10 PM, Michal Privoznik wrote:
->>>> On 5/29/20 5:09 PM, Igor Mammedov wrote:
->>>>> On Fri, 29 May 2020 15:33:48 +0200
->>>>> Michal Privoznik <mprivozn@redhat.com> wrote:
->>>>>
->>>>>> The initiator attribute of a NUMA node is documented as the 'NUMA
->>>>>> node that has best performance to given NUMA node'. If a NUMA
->>>>>> node has at least one CPU there can hardly be a different node
->>>>>> with better performace and thus all NUMA nodes which have a CPU
->>>>>> are initiators to themselves. Reflect this fact when initializing
->>>>>> the attribute.
->>>>>
->>>>> It is not true in case of the node is memory-less
->>>>
->>>> Are you saying that if there's a memory-less NUMA node, then it 
->>>> needs to
->>>> have initiator set too? Asking mostly out of curiosity because we don't
->>>> allow memory-less NUMA nodes in Libvirt just yet. Nor cpu-less, but my
->>>> patches that I'm referring to in cover letter will allow at least
->>>> cpu-less nodes. Should I allow both?
->>> QEMU now is not support memory-less NUMA node, but in hardware may be
->>> supported. So we reserve this type of NUMA node for future usage. And
->>> QEMU now can support cpu-less NUMA node, for emulating some "slow"
->>> memory(like some NVDIMM).
->>
->> Oh yeah, I understand that. But it doesn't explain why initiator needs
->> to be specified for NUMA nodes with cpus and memory, or does it? Maybe
->> I'm still misunderstanding what the initiator is.
->>
-> 
-> Yes, the initiator NUMA nodes with cpus and memory should be itself. In 
-> ACPI 6.3 spec, initiator is defined as:
-> 
-> This field is valid only if the memory controller
-> responsible for satisfying the access to memory
-> belonging to the specified memory proximity
-> domain is directly attached to an initiator that
-> belongs to a proximity domain. In that case, this
-> field contains the integer that represents the
-> proximity domain to which the initiator (Generic
-> Initiator or Processor) belongs. This number shall
-> match the corresponding entry in the SRAT table’s
-> processor affinity structure (e.g., Processor Local
-> APIC/SAPIC Affinity Structure, Processor Local
-> x2APIC Affinity Structure, GICC Affinity Structure) if
-> the initiator is a processor, or the Generic Initiator
-> Affinity Structure if the initator is a generic
-> initiator.
-> Note: this field provides additional information as
-> to the initiator node that is closest (as in directly
-> attached) to the memory address ranges within
-> the specified memory proximity domain, and
-> therefore should provide the best performance.
-> 
-> And if in the future, there is a memory-less NUMA node. Because in HMAT 
-> we describe "Memory" Proximity Domain Attributes Structure, I think we 
-> should not add memory-less NUMA node into HMAT.
+This patchset converts the whole 2-reg-scalar group to decodetree,
+together with the VEXT, VTBL, VTBX, VDUP insns which don't fall
+into any particular group. The only remaining unconverted Neon
+insns are now the "2 registers misc" group.
 
-Then I guess something else must be broken. Because as reported here [1] 
-if I configure two numa nodes, both with two vCPUs and set initiators of 
-each node to itselfs I get the following error message:
+Based-on: 20200609160209.29960-1-peter.maydell@linaro.org
+("target/arm: Convert Neon 3-reg-diff to decodetree")
 
-qemu-system-x86_64: -numa 
-node,nodeid=1,cpus=2-3,initiator=1,memdev=ram-node1: The initiator of 
-CPU NUMA node 1 should be itself
+The first two patches fix minor bugs in earlier parts of the conversion
+that made it into master.
 
-Funny about this error message is how contradictory it is. The cmd line 
-showed in the error shows the initiator of the node 1 is indeed node 1.
+thanks
+-- PMM
 
-1: https://lists.nongnu.org/archive/html/qemu-devel/2020-06/msg00071.html
+Peter Maydell (10):
+  target/arm: Add 'static' and 'const' annotations to VSHLL function
+    arrays
+  target/arm: Add missing TCG temp free in do_2shift_env_64()
+  target/arm: Convert Neon 2-reg-scalar integer multiplies to decodetree
+  target/arm: Convert Neon 2-reg-scalar float multiplies to decodetree
+  target/arm: Convert Neon 2-reg-scalar VQDMULH, VQRDMULH to decodetree
+  target/arm: Convert Neon 2-reg-scalar VQRDMLAH, VQRDMLSH to decodetree
+  target/arm: Convert Neon 2-reg-scalar long multiplies to decodetree
+  target/arm: Convert Neon VEXT to decodetree
+  target/arm: Convert Neon VTBL, VTBX to decodetree
+  target/arm: Convert Neon VDUP (scalar) to decodetree
 
-Michal
+ target/arm/neon-dp.decode       |  60 ++-
+ target/arm/translate-neon.inc.c | 627 +++++++++++++++++++++++++++++++-
+ target/arm/translate.c          | 468 +-----------------------
+ 3 files changed, 694 insertions(+), 461 deletions(-)
+
+-- 
+2.20.1
 
 
