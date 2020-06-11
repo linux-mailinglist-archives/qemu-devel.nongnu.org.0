@@ -2,56 +2,111 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EBEE1F686A
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 14:57:48 +0200 (CEST)
-Received: from localhost ([::1]:46922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAACA1F687B
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 15:01:41 +0200 (CEST)
+Received: from localhost ([::1]:60938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjMmB-0001t3-7I
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 08:57:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46448)
+	id 1jjMpw-0007ru-O4
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 09:01:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yi.l.liu@intel.com>)
- id 1jjMd1-0002kl-B1
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 08:48:19 -0400
-Received: from mga14.intel.com ([192.55.52.115]:37653)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jjMgy-0002xn-L6; Thu, 11 Jun 2020 08:52:25 -0400
+Received: from mail-eopbgr80097.outbound.protection.outlook.com
+ ([40.107.8.97]:59611 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yi.l.liu@intel.com>)
- id 1jjMcz-00080N-US
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 08:48:18 -0400
-IronPort-SDR: WCTVxE1AXfb4i+85E1DoLdhevAkNkTq8/njxUX8VXwwK3N5JomPSNW2nXTv/yhMFYDNF4jDc7h
- LOjqxk2oYWjg==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jun 2020 05:48:01 -0700
-IronPort-SDR: o9S4E+u1oeN4GPUtbpTgYg0R3XV9MtZ8EnzcpUmbJVhjR6E/MgWd7lcY2QXqcC7n6qRvmrz8Qj
- 0XSQxmrovpAA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,499,1583222400"; d="scan'208";a="447911294"
-Received: from jacob-builder.jf.intel.com ([10.7.199.155])
- by orsmga005.jf.intel.com with ESMTP; 11 Jun 2020 05:48:00 -0700
-From: Liu Yi L <yi.l.liu@intel.com>
-To: qemu-devel@nongnu.org,
-	alex.williamson@redhat.com,
-	peterx@redhat.com
-Subject: [RFC v6 24/25] intel_iommu: process PASID-based Device-TLB
- invalidation
-Date: Thu, 11 Jun 2020 05:54:23 -0700
-Message-Id: <1591880064-30638-25-git-send-email-yi.l.liu@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1591880064-30638-1-git-send-email-yi.l.liu@intel.com>
-References: <1591880064-30638-1-git-send-email-yi.l.liu@intel.com>
-Received-SPF: pass client-ip=192.55.52.115; envelope-from=yi.l.liu@intel.com;
- helo=mga14.intel.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 08:48:00
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jjMgw-0000QR-2r; Thu, 11 Jun 2020 08:52:23 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bHkcNtXfgXwglstDNujAlDrCRX04tm40Y5HHMxiQ1mtokYLIJriK9f3j9U3D99VKaKVJlftTjPLHpAkX0iZ8w1rNeUNErrQv7Pmd5IQbL4SFWoecGBIGYzIUzWwhGT/D7dL6qHmxBTPRS96DUdsxK0MMARdcV5RJthW6xFsTh/hhs3PT2FFFWAeHmrFY4wZD70ONG6F9Nu2mP9i6fWzejdWQBZsmOy/XIzRjL2wIFDdaIv8buR4HqltoUNO+6xjpST28SbGG+5InLeo6sq9MYJPdt9/gDp/3M2T+4fEHvxR0Ens4/yh2FQ31TVrYO9kIK7BE7aHeXQsjmuq50LRL+Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=t3Fkyp5XNhWfJfTm0gk9TOA93VR/8uUlEm8nPZLINxI=;
+ b=WKAkdRNmwChWLy3i3TgDwxLUqXYhwYwc5AL3oWVy/9UmIFqINI62+1kqLRuX4HI9l2B20b2I2YeF3e2loHHdzz9QGBAuRUKZcSq6Ds6uwfwvngMPakPo5/2DnpE3THNz5zxUkmWzMi4OMxs6JQdb54D3rddxu2947KEK10Ncuqo93KfIqpq7WaF3saI6x7q4iDb7Q8AylkMPA1Uo5FUmNVhxxd2FLEiS+88XfwuN+5a0kiwCwNAjopHq1+InGhjYGkMOCKttX8CFTQi3ohxXxhOrAaZH9zCUhIadjUPef/6H7r70VXaJh/bN2bGgQcAYDidXIBP/qNOMKtBHsKR7yg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=t3Fkyp5XNhWfJfTm0gk9TOA93VR/8uUlEm8nPZLINxI=;
+ b=GMGRq9SGPmlmkOAYKOUEH1ft6ERiu+IyERWQwxpHJLURXfbm5IbWPouwv86Hz8rgcNlcJ8Wi2XLVv/dJD88FSAuIqN6eVTll5jqip8afIq6EJVGidrcZ7vbQYkoJJ7wgFF0hyW9hQ9/7P2OHeQTdKAbBKwarFmqLm2czCk8ApiU=
+Authentication-Results: virtuozzo.com; dkim=none (message not signed)
+ header.d=none;virtuozzo.com; dmarc=none action=none
+ header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM7PR08MB5448.eurprd08.prod.outlook.com (2603:10a6:20b:106::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3088.22; Thu, 11 Jun
+ 2020 12:52:19 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::a408:2f0f:bc6c:d312]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::a408:2f0f:bc6c:d312%3]) with mapi id 15.20.3088.022; Thu, 11 Jun 2020
+ 12:52:19 +0000
+Subject: Re: [PATCH] block/aio_task: allow start/wait task from any coroutine
+To: "Denis V. Lunev" <den@openvz.org>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20200610190058.10781-2-den@openvz.org>
+ <20200611073631.10817-1-vsementsov@virtuozzo.com>
+ <5904554c-4c12-7f59-00ec-f842aa813a12@openvz.org>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <a59a8a51-943f-9796-293d-138493acf469@virtuozzo.com>
+Date: Thu, 11 Jun 2020 15:52:17 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.1
+In-Reply-To: <5904554c-4c12-7f59-00ec-f842aa813a12@openvz.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM0PR10CA0132.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:208:e6::49) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.2] (185.215.60.159) by
+ AM0PR10CA0132.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:e6::49) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3088.18 via Frontend Transport; Thu, 11 Jun 2020 12:52:18 +0000
+X-Originating-IP: [185.215.60.159]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 05167434-119c-4326-bb70-08d80e06468c
+X-MS-TrafficTypeDiagnostic: AM7PR08MB5448:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM7PR08MB544806B866B0FF3B5DB8A6A8C1800@AM7PR08MB5448.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-Forefront-PRVS: 0431F981D8
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ou47Ham5JOLpgLj0I51q+/qrAi1IrNNFLsO0tOniMpIjtxbRiATDSwE8XDAc88/wlY69+6WL/+NulPBZc0kOVp1o6W2q3n7Czl2uIITKE7RCPz5+TvucOEmUw6KjycMXdZLLxdVX0HyWjMkx12uldQYqwBuaF+p3dkyDFJtSVMkPAKA0NEj0UYp+7PGalyGC595Lh522pKOWPOd3RUsPQPz6QpQ2Bdl+x0TZXYdhborv0RO1dSJ86StDR+48bTVp6OgQvBAbE/TUv+/wndiDbjKEolPBf66CFQ3Sl8NSAsWX00pAO2IOw8kPHe3ZM1fMlfmFyINJCX8rq0RIERHObxaPvPzIKf0kHiPaLVD1oHty6Nrlo9Zt34fGnJvj6itr
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(346002)(376002)(39840400004)(136003)(396003)(366004)(186003)(26005)(6486002)(2906002)(31696002)(478600001)(86362001)(4326008)(107886003)(16526019)(8676002)(2616005)(36756003)(8936002)(53546011)(956004)(31686004)(316002)(5660300002)(52116002)(66476007)(83380400001)(66556008)(16576012)(66946007)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: Bdy9BGEzY/Rl+ohuQ5tp/rPNeOQGsBP83GbXOP9d9gBpjU7GQmp5yAYNAQ3mOWTAweH98fbROxainTjQZ/DVQ9HWXBs0XcvRTSCVIIFKYtRaSL+XnPkoboplgVx8I0HNVrXoZ3Qb3YAJqCYFn42xSuUBnIshFj8uYJjaqaDtkUFWCoDQg0jFElBBhnOUi2ffHJ1tdvlweMrShI+8t41z7YjdHk7dUKqqL0/gezACWpx2uylEZFKhzSPze5PaIbDSiWIkebrZZ/W445HX9qRzvrveZ7KtbhtnlAWoKnWLpsrWbdUbjN3CP6rSfUtMl/9L4KO0sEQluXZKqLjdeR0j9XOU2R7GSS0+2IuwvEnUvXIJabb4TnJ2dnUnqVgu9HT8CY+uo257pTb1dJTkpEW3HNcCt5iYv8Ku0B6pDsQRQgvimE80c95TDyrALtPJrQl9AsqG9ZJOLqUHLAJLS5IwYjPLyqi0RoStmMsxIsXyBYH5/NyPkekKEFkOUeNMwreb
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 05167434-119c-4326-bb70-08d80e06468c
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jun 2020 12:52:19.0091 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: B3ZMVRbFLlKvXzu7Qb3OX0rzDqkYFM2MuE1ELPKvZFzvlKfxMMKz4dF1OWZEEIx4p82L1Sf4OXZ+6bkH0koA/jB2fBC7LLWq/Xw0vxQgz48=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5448
+Received-SPF: pass client-ip=40.107.8.97;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR04-VI1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 08:52:19
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,84 +119,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jean-philippe@linaro.org, kevin.tian@intel.com, yi.l.liu@intel.com,
- Yi Sun <yi.y.sun@linux.intel.com>, Eduardo Habkost <ehabkost@redhat.com>,
- kvm@vger.kernel.org, mst@redhat.com, jun.j.tian@intel.com,
- eric.auger@redhat.com, yi.y.sun@intel.com,
- Jacob Pan <jacob.jun.pan@linux.intel.com>, pbonzini@redhat.com,
- hao.wu@intel.com, Richard Henderson <rth@twiddle.net>,
- david@gibson.dropbear.id.au
+Cc: kwolf@redhat.com, dplotnikov@virtuozzo.com, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch adds an empty handling for PASID-based Device-TLB
-invalidation. For now it is enough as it is not necessary to
-propagate it to host for passthru device and also there is no
-emulated device has device tlb.
+11.06.2020 15:31, Denis V. Lunev wrote:
+> On 6/11/20 10:36 AM, Vladimir Sementsov-Ogievskiy wrote:
+>> Currently, aio task pool assumes that there is a main coroutine, which
+>> creates tasks and wait for them. Let's remove the restriction by using
+>> CoQueue. Code becomes clearer, interface more obvious.
+>>
+>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>> ---
+>>
+>> Hi! Here is my counter-propasal for
+>> "[PATCH 1/2] aio: allow to wait for coroutine pool from different coroutine"
+>> by Denis. I'm sure that if we are going to change something here, better
+>> is make the interface work from any coroutine without the restriction of
+>> only-on-waiter at the moment.
+>>
+>> (Note, that it is still not thread-safe)
+>>
+>>
+>>   block/aio_task.c | 15 ++++-----------
+>>   1 file changed, 4 insertions(+), 11 deletions(-)
+>>
+>> diff --git a/block/aio_task.c b/block/aio_task.c
+>> index 88989fa248..d48b29ff83 100644
+>> --- a/block/aio_task.c
+>> +++ b/block/aio_task.c
+>> @@ -27,11 +27,10 @@
+>>   #include "block/aio_task.h"
+>>   
+>>   struct AioTaskPool {
+>> -    Coroutine *main_co;
+>>       int status;
+>>       int max_busy_tasks;
+>>       int busy_tasks;
+>> -    bool waiting;
+>> +    CoQueue waiters;
+>>   };
+>>   
+>>   static void coroutine_fn aio_task_co(void *opaque)
+>> @@ -52,21 +51,15 @@ static void coroutine_fn aio_task_co(void *opaque)
+>>   
+>>       g_free(task);
+>>   
+>> -    if (pool->waiting) {
+>> -        pool->waiting = false;
+>> -        aio_co_wake(pool->main_co);
+>> -    }
+>> +    qemu_co_queue_next(&pool->waiters);
+> nope, this will wakeup only single waiter.
+> the code will deadlock If there are 2 waiters for the last
+> entry.
+> 
 
-Cc: Kevin Tian <kevin.tian@intel.com>
-Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
-Cc: Peter Xu <peterx@redhat.com>
-Cc: Yi Sun <yi.y.sun@linux.intel.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Richard Henderson <rth@twiddle.net>
-Cc: Eduardo Habkost <ehabkost@redhat.com>
-Reviewed-by: Peter Xu <peterx@redhat.com>
-Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
----
- hw/i386/intel_iommu.c          | 18 ++++++++++++++++++
- hw/i386/intel_iommu_internal.h |  1 +
- 2 files changed, 19 insertions(+)
+Hmm, right.
+The problem is that original design combines into one thing two different:
+  
+   1. wait for all tasks to complete
+   2. wait for a free slot, to start a new task
 
-diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-index 92a23ee..ef16f18 100644
---- a/hw/i386/intel_iommu.c
-+++ b/hw/i386/intel_iommu.c
-@@ -3211,6 +3211,17 @@ static bool vtd_process_inv_iec_desc(IntelIOMMUState *s,
-     return true;
- }
- 
-+static bool vtd_process_device_piotlb_desc(IntelIOMMUState *s,
-+                                           VTDInvDesc *inv_desc)
-+{
-+    /*
-+     * no need to handle it for passthru device, for emulated
-+     * devices with device tlb, it may be required, but for now,
-+     * return is enough
-+     */
-+    return true;
-+}
-+
- static bool vtd_process_device_iotlb_desc(IntelIOMMUState *s,
-                                           VTDInvDesc *inv_desc)
- {
-@@ -3332,6 +3343,13 @@ static bool vtd_process_inv_desc(IntelIOMMUState *s)
-         }
-         break;
- 
-+    case VTD_INV_DESC_DEV_PIOTLB:
-+        trace_vtd_inv_desc("device-piotlb", inv_desc.hi, inv_desc.lo);
-+        if (!vtd_process_device_piotlb_desc(s, &inv_desc)) {
-+            return false;
-+        }
-+        break;
-+
-     case VTD_INV_DESC_DEVICE:
-         trace_vtd_inv_desc("device", inv_desc.hi, inv_desc.lo);
-         if (!vtd_process_device_iotlb_desc(s, &inv_desc)) {
-diff --git a/hw/i386/intel_iommu_internal.h b/hw/i386/intel_iommu_internal.h
-index 4d0b0d1..9530e0d 100644
---- a/hw/i386/intel_iommu_internal.h
-+++ b/hw/i386/intel_iommu_internal.h
-@@ -391,6 +391,7 @@ typedef union VTDInvDesc VTDInvDesc;
- #define VTD_INV_DESC_WAIT               0x5 /* Invalidation Wait Descriptor */
- #define VTD_INV_DESC_PIOTLB             0x6 /* PASID-IOTLB Invalidate Desc */
- #define VTD_INV_DESC_PC                 0x7 /* PASID-cache Invalidate Desc */
-+#define VTD_INV_DESC_DEV_PIOTLB         0x8 /* PASID-based-DIOTLB inv_desc*/
- #define VTD_INV_DESC_NONE               0   /* Not an Invalidate Descriptor */
- 
- /* Masks for Invalidation Wait Descriptor*/
+2. should work as is, with qemu_co_queue_next() and co-queue, and for 1. we
+should have separate yield-point, to be waken up when busy_tasks becomes 0.
+
+I'll resend.
+
+
+
 -- 
-2.7.4
-
+Best regards,
+Vladimir
 
