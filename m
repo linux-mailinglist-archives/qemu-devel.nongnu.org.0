@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8234D1F6DB5
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 21:07:22 +0200 (CEST)
-Received: from localhost ([::1]:56754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF1561F6E4B
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 21:51:35 +0200 (CEST)
+Received: from localhost ([::1]:34368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjSXp-00061P-L2
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 15:07:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59660)
+	id 1jjTEc-0007GV-GS
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 15:51:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jjSWT-0004Uw-B9
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:05:57 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:24819
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jjT8I-0007DR-Fa
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:45:02 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:54321
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jjSWR-0000DE-LP
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:05:56 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jjT8E-0000ld-Qy
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:45:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591902354;
+ s=mimecast20190719; t=1591904696;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ulzwYtyxHadepsaREFFfmiWCaGMR27Q7uvA0kz5lPc0=;
- b=VHF8VIPCJWHq+ZnbkoJe2YHjA9m1QhOfgb/2kiRH+ikrK8snLVjn+oHFZPUFAxjPvR892v
- dBbm88nOR9BcD0qie/lu45t9MUWsfIJ5oPg62v3LAR3F9fN6soA4+Jji7JpMTHXVdgV0aB
- atIsVAbqbcTFCt3AGCktJYEizH2/zwQ=
+ bh=Zmvvk2TUZzoW34IK4IX2JCUHzVDf1ekb5o2RBZ/OgD8=;
+ b=Nq9rvy3q+5y/9KzzZqnhPVK+QFcMe7bBXuq5DSTbU1AKfxErfjNvKPONlZcIrrMMIszHX1
+ AdY9bjABUJf5C0aVcj0xwdb56H5AU47RaBppZWYNOY9coxvt21VTxUAzThu24enfdiqM2a
+ r7SUlON78X25sItBv9Uvs80cNez2s4M=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-289-4EmD5WGFOxeBJy0DL3sx-A-1; Thu, 11 Jun 2020 15:05:52 -0400
-X-MC-Unique: 4EmD5WGFOxeBJy0DL3sx-A-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-403-4XK3QQX1M2qRqAbViStqYw-1; Thu, 11 Jun 2020 15:44:52 -0400
+X-MC-Unique: 4XK3QQX1M2qRqAbViStqYw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E8B6B107ACCD;
- Thu, 11 Jun 2020 19:05:51 +0000 (UTC)
-Received: from work-vm (ovpn-114-116.ams2.redhat.com [10.36.114.116])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4413660BF4;
- Thu, 11 Jun 2020 19:05:51 +0000 (UTC)
-Date: Thu, 11 Jun 2020 20:05:48 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Mao Zhongyi <maozhongyi@cmss.chinamobile.com>
-Subject: Re: [PATCH 9/9] migration/ram: calculate un/encoded_size only when
- needed.
-Message-ID: <20200611190548.GE2969@work-vm>
-References: <20200603080904.997083-1-maozhongyi@cmss.chinamobile.com>
- <20200603080904.997083-10-maozhongyi@cmss.chinamobile.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 80BE91005512
+ for <qemu-devel@nongnu.org>; Thu, 11 Jun 2020 19:44:51 +0000 (UTC)
+Received: from virtlab701.virt.lab.eng.bos.redhat.com
+ (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 27FD45EE0E;
+ Thu, 11 Jun 2020 19:44:50 +0000 (UTC)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 001/115] docker.py/build: support -t and -f arguments
+Date: Thu, 11 Jun 2020 15:42:55 -0400
+Message-Id: <20200611194449.31468-2-pbonzini@redhat.com>
+In-Reply-To: <20200611194449.31468-1-pbonzini@redhat.com>
+References: <20200611194449.31468-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200603080904.997083-10-maozhongyi@cmss.chinamobile.com>
-User-Agent: Mutt/1.14.0 (2020-05-02)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=dgilbert@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 03:29:33
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -68,7 +67,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,53 +80,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Mao Zhongyi (maozhongyi@cmss.chinamobile.com) wrote:
-> Signed-off-by: Mao Zhongyi <maozhongyi@cmss.chinamobile.com>
-> ---
->  migration/ram.c | 9 +++++----
->  1 file changed, 5 insertions(+), 4 deletions(-)
-> 
-> diff --git a/migration/ram.c b/migration/ram.c
-> index 41cc530d9d..ca20030b64 100644
-> --- a/migration/ram.c
-> +++ b/migration/ram.c
-> @@ -910,14 +910,15 @@ static void migration_update_rates(RAMState *rs, int64_t end_time)
->          xbzrle_counters.cache_miss_rate = (double)(xbzrle_counters.cache_miss -
->              rs->xbzrle_cache_miss_prev) / page_count;
->          rs->xbzrle_cache_miss_prev = xbzrle_counters.cache_miss;
-> -        unencoded_size = (xbzrle_counters.pages - rs->xbzrle_pages_prev) *
-> -                         TARGET_PAGE_SIZE;
-> -        encoded_size = xbzrle_counters.bytes - rs->xbzrle_bytes_prev;
->          if (xbzrle_counters.pages == rs->xbzrle_pages_prev) {
->              xbzrle_counters.encoding_rate = 0;
-> -        } else if (!encoded_size) {
-> +        } else if (xbzrle_counters.bytes == rs->xbzrle_bytes_prev) {
+The docker.py command line is subtly different from docker and podman's,
+in that the tag and Dockerfile are passed via positional arguments.
+Remove this gratuitous difference and just parse -f and -t.
 
-No, I don't think this change is worth it - this is really just the same
-as 'encoded_size', and then we may as well keep the two together.
+-f was previously used by --extra-files, only keep the long option.
 
-Dave
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ tests/docker/Makefile.include | 2 +-
+ tests/docker/docker.py        | 6 +++---
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
->              xbzrle_counters.encoding_rate = UINT64_MAX;
->          } else {
-> +            unencoded_size = (xbzrle_counters.pages - rs->xbzrle_pages_prev) *
-> +                             TARGET_PAGE_SIZE;
-> +            encoded_size = xbzrle_counters.bytes - rs->xbzrle_bytes_prev;
-> +
->              xbzrle_counters.encoding_rate = unencoded_size / encoded_size;
->          }
->          rs->xbzrle_pages_prev = xbzrle_counters.pages;
-> -- 
-> 2.17.1
-> 
-> 
-> 
-> 
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
+index ed46bd98eb..f32a95b488 100644
+--- a/tests/docker/Makefile.include
++++ b/tests/docker/Makefile.include
+@@ -55,7 +55,7 @@ docker-image-%: $(DOCKER_FILES_DIR)/%.docker
+ else
+ docker-image-%: $(DOCKER_FILES_DIR)/%.docker
+ 	$(call quiet-command,\
+-		$(DOCKER_SCRIPT) build qemu:$* $< \
++		$(DOCKER_SCRIPT) build -t qemu:$* -f $< \
+ 		$(if $V,,--quiet) $(if $(NOCACHE),--no-cache) \
+ 		$(if $(NOUSER),,--add-current-user) \
+ 		$(if $(EXTRA_FILES),--extra-files $(EXTRA_FILES))\
+diff --git a/tests/docker/docker.py b/tests/docker/docker.py
+index 5a9735db78..d96ccc9b19 100755
+--- a/tests/docker/docker.py
++++ b/tests/docker/docker.py
+@@ -392,16 +392,16 @@ class BuildCommand(SubCommand):
+                             help="""Specify a binary that will be copied to the
+                             container together with all its dependent
+                             libraries""")
+-        parser.add_argument("--extra-files", "-f", nargs='*',
++        parser.add_argument("--extra-files", nargs='*',
+                             help="""Specify files that will be copied in the
+                             Docker image, fulfilling the ADD directive from the
+                             Dockerfile""")
+         parser.add_argument("--add-current-user", "-u", dest="user",
+                             action="store_true",
+                             help="Add the current user to image's passwd")
+-        parser.add_argument("tag",
++        parser.add_argument("-t", dest="tag",
+                             help="Image Tag")
+-        parser.add_argument("dockerfile",
++        parser.add_argument("-f", dest="dockerfile",
+                             help="Dockerfile name")
+ 
+     def run(self, args, argv):
+-- 
+2.26.2
+
 
 
