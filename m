@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4F3E1F6A44
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 16:48:13 +0200 (CEST)
-Received: from localhost ([::1]:56972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB9911F6A42
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 16:47:41 +0200 (CEST)
+Received: from localhost ([::1]:55982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjOV2-0003X9-DM
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 10:48:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41254)
+	id 1jjOUW-00038q-T0
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 10:47:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jjOSk-0001TE-8G
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 10:45:50 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:55160)
+ id 1jjOSh-0001RC-Jw
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 10:45:47 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:37017)
  by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jjOSe-0003mk-Te
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 10:45:49 -0400
-Received: by mail-wm1-x343.google.com with SMTP id g10so5204315wmh.4
+ id 1jjOSf-0003mo-4m
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 10:45:46 -0400
+Received: by mail-wm1-x342.google.com with SMTP id y20so5317861wmi.2
  for <qemu-devel@nongnu.org>; Thu, 11 Jun 2020 07:45:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=mYq1MqrdFl5JxHZzgiamWFM2bwNZOEqA/8m/GF3wHr8=;
- b=IROQ5XkqbQYzopH9egWOZ1AtCMddqDhN97eJ6lhyA5NBIAzmf/WtiFjGqD+Ykx3aJc
- CcCFdYy4SB83bEdAlB3201KVrUvJTN+ixiQUcpTWumSFy0VUL1sI9Bccpeczi4H68+KQ
- VgLbSpt7Crp3NO0FKszYsWuzuYvuJECw+SxiB+PC3q6A5DRsjRKxQuR2IhQtHDSrM8G/
- aEv95BK4qzq0Y0VOTGuICAiNYdC6WYJWHp0KLzDmGx10m2pGZVSw3LEctgO1ZwfXGMiZ
- QNbWKTCbR3IfQTmE8Jt6cCF0b81fKBm/WSNgbMHImS5Ztt+rH7I3Ozu0Y12H1V8aU8xV
- xgbA==
+ bh=uW0Xh6q78nHA2zqmzf0Ts38Qc+I7vV86qqdu/rr8SyE=;
+ b=pKurPBR40UGOpb+1bTEFRCTPXWqhiExC/+Nj7KYLdc13oxToyutDhqoOTW04mIT1+P
+ NAHsG+W7n+XB0OQB9ksDdj3fTvgDoE8ni+5zDPEZ10ukylksgIezIFhTYsy9aaCjflGm
+ N3bJGiOoZQ7rY4KHhfUnfeiDduEwZzDYGCAy/9zlh2oZFjFtACtGDEseTye51sWzIjd2
+ PnKWddmR3V3mHTv6gm/4zlBjsfpG3oigMrP2SZwkkbVv0VD6p+zDPVdFb1sHCPsduSUw
+ Tn2fB0nj76tttoiucNXbBJAKJ1iC/0gWRI7XH+sxquzoUEqUx/S7EMIaMerSlZYtg2Up
+ i3Fw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=mYq1MqrdFl5JxHZzgiamWFM2bwNZOEqA/8m/GF3wHr8=;
- b=qauaOXiqlZccw1uAWjuHWxuSU8Xm8M+asG+F+QtfXLbAL6cQQ+1wAeIe9fIH5Sf3iS
- Vzb8mu9Ft+NWz2O0STPBKpOTzb8VEV3HpVtjw4DNksopeFeA1pV/V7uiUYrn3uwXReSF
- aoWxfUeeFKkm/hMDrYlRJ/805TQT4iK64fXNmqficZ2aGJ4wxCYtNCTb1OB4wVQB4OUr
- r0lMUGeqFqpBzC8hChuWARcMbUMq1trNHwaysJkej8YGeyEd8PTVs3ZaRudIfLc5KWNq
- u3W9q8fWNn58FPMd9ZOs3sY3Udqdd6U1nW3UPu/WSxGlZYpJB/3y2fnxng/5iK69GKX+
- EsXA==
-X-Gm-Message-State: AOAM532uT/6/3Q2ZQteDdPiEmrQr+qO8iZPkhFxwmnyzlBSK5W3S6/MI
- wi7ZgRCvFPkW2pHnlHBVvu0bwQ==
-X-Google-Smtp-Source: ABdhPJzkeH32NeuhGksIFwDmRXVIZuKJbp5TFQzk9zyHPYUBcLsA5Tpu+xgQFtAweCPfKhoOFd8t7Q==
-X-Received: by 2002:a1c:4d11:: with SMTP id o17mr8298069wmh.37.1591886734428; 
- Thu, 11 Jun 2020 07:45:34 -0700 (PDT)
+ bh=uW0Xh6q78nHA2zqmzf0Ts38Qc+I7vV86qqdu/rr8SyE=;
+ b=kSwlr7kueqz0vRBOQZKaGs4SgCCkHgfg5CLt14GrE0ETs9FG7FWX9oxZPhpXzMHuAQ
+ XF9mhgDx+LB52uEKJ7A0Bmi5kUqi0O4kodn1HwSoOXRnr79DwzT/pSSSu+/zhuqA0ifD
+ zrp60r+zy8Ba54jNNtiSNbmaNEm7/6yO/EefdLNCaYMNBFfZBSJVm6Bp2kZLnntDn7tE
+ veWBfrUpbnVd0nj0RAPws2TvmxuyvZNJHIYlYRNSbyl92riDbyuVRd2/TcXouVO15ezT
+ inVQXNInemar7i1QvrJ9YGPq1lsK4s8m30txuaNadVOWoTKvbSHITF2JmNjvTnxjCBsT
+ jong==
+X-Gm-Message-State: AOAM5329j83bOHKPY+/4pTvpEpo0jc42Udg1o3rCUgYCREHAWSGGH1Ev
+ ro0KgbUforVivjd8U8in84466g==
+X-Google-Smtp-Source: ABdhPJyB1G/HqZfQZMJ/A3Ds8zU7Llfq+J0a2KjTX4N8hYFBi4xTKj071rK9hjs3j1PqadwOupOlYA==
+X-Received: by 2002:a1c:4189:: with SMTP id o131mr8155980wma.183.1591886735648; 
+ Thu, 11 Jun 2020 07:45:35 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id h18sm5271658wru.7.2020.06.11.07.45.33
+ by smtp.gmail.com with ESMTPSA id h18sm5271658wru.7.2020.06.11.07.45.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Jun 2020 07:45:33 -0700 (PDT)
+ Thu, 11 Jun 2020 07:45:34 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 01/10] target/arm: Add 'static' and 'const' annotations to
- VSHLL function arrays
-Date: Thu, 11 Jun 2020 15:45:20 +0100
-Message-Id: <20200611144529.8873-2-peter.maydell@linaro.org>
+Subject: [PATCH 02/10] target/arm: Add missing TCG temp free in
+ do_2shift_env_64()
+Date: Thu, 11 Jun 2020 15:45:21 +0100
+Message-Id: <20200611144529.8873-3-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200611144529.8873-1-peter.maydell@linaro.org>
 References: <20200611144529.8873-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x343.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,36 +90,31 @@ Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Mark the arrays of function pointers in trans_VSHLL_S_2sh() and
-trans_VSHLL_U_2sh() as both 'static' and 'const'.
+In commit 37bfce81b10450071 we accidentally introduced a leak of a TCG
+temporary in do_2shift_env_64(); free it.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/translate-neon.inc.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+My test setup wasn't looking for temporary-leak warnings (they are
+not as easy to get at as they used to be because they only appear
+if you enable qemu_log tracing for some other purpose). This is the
+only one that snuck through, though.
+---
+ target/arm/translate-neon.inc.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/target/arm/translate-neon.inc.c b/target/arm/translate-neon.inc.c
-index c2cc10913f8..7c4888a80c9 100644
+index 7c4888a80c9..f2c241a87e9 100644
 --- a/target/arm/translate-neon.inc.c
 +++ b/target/arm/translate-neon.inc.c
-@@ -1644,7 +1644,7 @@ static bool do_vshll_2sh(DisasContext *s, arg_2reg_shift *a,
- 
- static bool trans_VSHLL_S_2sh(DisasContext *s, arg_2reg_shift *a)
- {
--    NeonGenWidenFn *widenfn[] = {
-+    static NeonGenWidenFn * const widenfn[] = {
-         gen_helper_neon_widen_s8,
-         gen_helper_neon_widen_s16,
-         tcg_gen_ext_i32_i64,
-@@ -1654,7 +1654,7 @@ static bool trans_VSHLL_S_2sh(DisasContext *s, arg_2reg_shift *a)
- 
- static bool trans_VSHLL_U_2sh(DisasContext *s, arg_2reg_shift *a)
- {
--    NeonGenWidenFn *widenfn[] = {
-+    static NeonGenWidenFn * const widenfn[] = {
-         gen_helper_neon_widen_u8,
-         gen_helper_neon_widen_u16,
-         tcg_gen_extu_i32_i64,
+@@ -1329,6 +1329,7 @@ static bool do_2shift_env_64(DisasContext *s, arg_2reg_shift *a,
+         neon_load_reg64(tmp, a->vm + pass);
+         fn(tmp, cpu_env, tmp, constimm);
+         neon_store_reg64(tmp, a->vd + pass);
++        tcg_temp_free_i64(tmp);
+     }
+     tcg_temp_free_i64(constimm);
+     return true;
 -- 
 2.20.1
 
