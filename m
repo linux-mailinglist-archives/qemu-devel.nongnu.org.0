@@ -2,81 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76B8B1F6C2E
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 18:29:43 +0200 (CEST)
-Received: from localhost ([::1]:39114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6E5D1F6C3E
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 18:36:13 +0200 (CEST)
+Received: from localhost ([::1]:58170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjQ5G-0004Wv-Ef
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 12:29:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54630)
+	id 1jjQBY-00066z-LT
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 12:36:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jjPyS-0002FR-VQ
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 12:22:41 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:51301)
- by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jjPyR-0005Rf-6N
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 12:22:40 -0400
-Received: by mail-wm1-x344.google.com with SMTP id u13so5515198wml.1
- for <qemu-devel@nongnu.org>; Thu, 11 Jun 2020 09:22:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=O53+kYsYubNjtcguIdONU4ab0ohBhUukjtFA9Fp4sC0=;
- b=r3LQKrmzDjZmhJsVrXKIEbtvqLMxre6fpYezBTblnV5wvwj3yHtnflAfqPDqS6pVUx
- gkWUrmVcY1anKbbYRXdoQZ1zhvr2z+RO1pnLIkADPoZpcrGjFyNRE9ci4RnF4uutp2EO
- /iXhsT42hOtJRUTLw2kJpk7OYshejAtvMb3S5xuah2sb3MmtGVNM2eAvHKdrJqkOaxk6
- 5S+QmbAFVgw76VC6Z2325gCO5PEZoidoBR5GDmTw0i41KlZRwTFQ+va7+NdMw7mhkfD+
- b9TztMWNSlAiF5hRxeEcWyd2Wlu69e+AJiY8EjnfMKXKmuXWt2bIDNNgwgemt9yhF1DZ
- 8z3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=O53+kYsYubNjtcguIdONU4ab0ohBhUukjtFA9Fp4sC0=;
- b=dAec6duQmSpCyvakjmGLDLK+pmVYs+Z5h1yrdIA5T4GLBP5MtStPzPTa8BODD0uwtW
- slnsQmqMcgfj2JygBWerltO2cst7L3EHNQrZNnpiEnzalZHrKFE6Gg2nAju8CpuyTtLF
- FzlHS7Ik8wXXP4pBti+hkHzwne19gdDdiVMXkVe0On49NxJtaTgGMjM2iHNPfyu5h7kS
- es6tZrCEeKLXfFJFH+AT9Vbiq94ejru4tVOUlPyF+u40aR2ovyNVuBIJn0oV1USZgr8y
- vmetTeWboiMQu1Ygd6Pj6y4HGJ+Ofjq4ArGoz61rqQeJKtB1mWkBUxioDH3su9rtD4gW
- snKw==
-X-Gm-Message-State: AOAM532hzBtg8mzrpuSKCEhBCcFHuef20MWjqk4jnfz+D24kQNG6bTB6
- BlEcvJpv78cwBL6kdqzBzbDH0A==
-X-Google-Smtp-Source: ABdhPJzkJyG9aZtlmiVe1Z/H1qyTJbx3McoDEIo3k2pC4LWVm5mCOUIhqreZKd5PLGQNtG236yb5sw==
-X-Received: by 2002:a1c:e0c3:: with SMTP id x186mr8704254wmg.17.1591892548202; 
- Thu, 11 Jun 2020 09:22:28 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id x66sm4746786wmb.40.2020.06.11.09.22.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Jun 2020 09:22:26 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id F0D111FF7E;
- Thu, 11 Jun 2020 17:22:25 +0100 (BST)
-References: <20200611144531.20142-1-alex.bennee@linaro.org>
- <CAFEAcA_joU24OSa8fwbNFb1XMb-FKfcaY4xpjV9EHUdCbWZzwg@mail.gmail.com>
-User-agent: mu4e 1.5.2; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [RFC PATCH] logging: add a LOG_TCG_WARN for temp leaks
-In-reply-to: <CAFEAcA_joU24OSa8fwbNFb1XMb-FKfcaY4xpjV9EHUdCbWZzwg@mail.gmail.com>
-Date: Thu, 11 Jun 2020 17:22:25 +0100
-Message-ID: <87eeql4loe.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1jjPsQ-0002HX-VA
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 12:16:26 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:39255
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1jjPsL-0004EH-4o
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 12:16:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1591892180;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=b9hGE1kZUZvCbnSbzRYkY+Xwj8Z7keAHPfrl7Jr1YeY=;
+ b=D2fbtrNMOt8bYWpep6477EXLFJ5514MblM/sqUtf0DTSHD8JwxYradDez5aGxMkqsHEMvH
+ u5kcDLV0STpjQUmCs2+N9dkW7tI3u9YZIhk/vNQi8j6/IU1Yg6NTtMUIW4YyTjoA5LWps5
+ uXLvV21hibbRiZOuXmxNwXGgBIOKUS8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-122-p7YAsd7tMVeMvrFtBMYn0w-1; Thu, 11 Jun 2020 12:16:18 -0400
+X-MC-Unique: p7YAsd7tMVeMvrFtBMYn0w-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 49A301005512;
+ Thu, 11 Jun 2020 16:16:17 +0000 (UTC)
+Received: from laptop.redhat.com (ovpn-114-197.ams2.redhat.com [10.36.114.197])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BF11E10013C2;
+ Thu, 11 Jun 2020 16:16:05 +0000 (UTC)
+From: Eric Auger <eric.auger@redhat.com>
+To: eric.auger.pro@gmail.com, eric.auger@redhat.com, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org, peter.maydell@linaro.org, peterx@redhat.com
+Subject: [PATCH RESEND 9/9] hw/arm/smmuv3: Advertise SMMUv3.2 range
+ invalidation
+Date: Thu, 11 Jun 2020 18:15:00 +0200
+Message-Id: <20200611161500.23580-10-eric.auger@redhat.com>
+In-Reply-To: <20200611161500.23580-1-eric.auger@redhat.com>
+References: <20200611161500.23580-1-eric.auger@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x344.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.120;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 03:29:33
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,59 +81,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Richard Henderson <rth@twiddle.net>
+Cc: jean-philippe@linaro.org, robh@kernel.org, robin.murphy@arm.com,
+ mst@redhat.com, zhangfei.gao@foxmail.com, shameerali.kolothum.thodi@huawei.com,
+ will@kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Expose the RIL bit so that the guest driver uses range
+invalidation.
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+Signed-off-by: Eric Auger <eric.auger@redhat.com>
+---
+ hw/arm/smmuv3-internal.h | 1 +
+ hw/arm/smmuv3.c          | 2 ++
+ 2 files changed, 3 insertions(+)
 
-> On Thu, 11 Jun 2020 at 15:45, Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
-rote:
->>
->> Pretty much all calls to qemu_log are either wrapped in some other
->> enabling check or only enabled with debug defines. Add a specific flag
->> for TCG warnings and expand the documentation of the qemu_log
->> function.
->>
->> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->> Cc: Peter Maydell <peter.maydell@linaro.org>
->> ---
->
->> -/* main logging function */
->> +/**
->> + * qemu_log: main logging function
->> + *
->> + * Most users shouldn't be calling qemu_log unconditionally as it adds
->> + * noise to logging output. Either use qemu_log_mask() or wrap
->> + * successive log calls a qemu_loglevel_mask() check and
-> "inside a"
->
->> + * qemu_log_lock/unlock(). The tracing infrastructure does similar wrap=
-ping.
->> + */
->>  int GCC_FMT_ATTR(1, 2) qemu_log(const char *fmt, ...);
->
->> +/* Additional TCG warnings */
->> +#define LOG_TCG_WARN       (1 << 20)
->
-> I don't object to the new log group in principle, but it has exactly
-> one warning in it. I feel we'd be better to check for all the current
-> places that use qemu_log not inside a loglevel_mask condition (or
-> which use fprintf, if we still have those) and then see what the
-> most reasonable categorization is.
+diff --git a/hw/arm/smmuv3-internal.h b/hw/arm/smmuv3-internal.h
+index 5babf72f7d..4e7ec252ed 100644
+--- a/hw/arm/smmuv3-internal.h
++++ b/hw/arm/smmuv3-internal.h
+@@ -54,6 +54,7 @@ REG32(IDR1,                0x4)
+ 
+ REG32(IDR2,                0x8)
+ REG32(IDR3,                0xc)
++    FIELD(IDR3, RIL,          10, 1);
+ REG32(IDR4,                0x10)
+ REG32(IDR5,                0x14)
+      FIELD(IDR5, OAS,         0, 3);
+diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
+index 4dff438809..78920f5158 100644
+--- a/hw/arm/smmuv3.c
++++ b/hw/arm/smmuv3.c
+@@ -254,6 +254,8 @@ static void smmuv3_init_regs(SMMUv3State *s)
+     s->idr[1] = FIELD_DP32(s->idr[1], IDR1, EVENTQS, SMMU_EVENTQS);
+     s->idr[1] = FIELD_DP32(s->idr[1], IDR1, CMDQS,   SMMU_CMDQS);
+ 
++    s->idr[3] = FIELD_DP32(s->idr[3], IDR3, RIL, 1);
++
+    /* 4K and 64K granule support */
+     s->idr[5] = FIELD_DP32(s->idr[5], IDR5, GRAN4K, 1);
+     s->idr[5] = FIELD_DP32(s->idr[5], IDR5, GRAN64K, 1);
+-- 
+2.20.1
 
-I did a grep of qemu_log and fprintf cases in accel/tcg and tcg and this
-was the only one that wasn't:
-
-  - either wrapped by qemu_loglevel_mask()
-  - part of an abort/exit() path (which should arguably be converted to err=
-or_report/abort)
-
-In the wider code most of the the qemu_logs() I found where in D()
-functions in the various device emulations.
-
---=20
-Alex Benn=C3=A9e
 
