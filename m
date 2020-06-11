@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9677C1F6EA4
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 22:20:22 +0200 (CEST)
-Received: from localhost ([::1]:49334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 804761F6EBD
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 22:29:30 +0200 (CEST)
+Received: from localhost ([::1]:55098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjTgS-0004PH-FT
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 16:20:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55738)
+	id 1jjTpJ-0003sw-Hi
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 16:29:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jjTA9-0001PU-J9
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:46:57 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47704
- helo=us-smtp-1.mimecast.com)
+ id 1jjTAE-0001YI-Hx
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:47:02 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:29765
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jjTA7-0001M2-Ey
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:46:57 -0400
+ id 1jjTAC-0001Ne-NQ
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:47:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591904814;
+ s=mimecast20190719; t=1591904819;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Mg9ONK0InEVWqpvTKJWUqO2Fsf0hqgK0J0g+zDJ5GR8=;
- b=QgKEDzGhsC6eYEjVrQSRbcrUbgNUCq0Sd7kcnbSV1okIgRtCGKO2QmHirZdFMqP6fOQb5q
- b6a1JAQayLBjie3CmNf37FWPqUO24Z++iGoDKz0wu5iH1nRQAOY0pWg3o1v2Dd091gceDB
- khEe/GQ6snCqe1yCRTPWs4W7m8W9adE=
+ bh=0jZGAntJLVHn8I7RUPheuCFxoZHnkKpJXX7J1SFS5TQ=;
+ b=Ri4pwHIOIGruvFY0c6OVW/aIDU5whe3uB9Qot5K7V1ObiQCft+LF0BrOJf+IoP1DkvoJ7i
+ WaUxYDkwOWUuDA4XqsJibkPj2rplJtXe9gUN0WAuFcGhWRqk1cAqTDAIP7yidyG2bBrs3z
+ Zbu8i0C33ZYrzIC3COrSqA6zZMqkPIg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-27-RY5uj7VXOTuyZSA-2doIeg-1; Thu, 11 Jun 2020 15:46:52 -0400
-X-MC-Unique: RY5uj7VXOTuyZSA-2doIeg-1
+ us-mta-344-qKmKlUh4PNGXRaDQk-g0lw-1; Thu, 11 Jun 2020 15:46:56 -0400
+X-MC-Unique: qKmKlUh4PNGXRaDQk-g0lw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5AF1583DE6B;
- Thu, 11 Jun 2020 19:46:50 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DCDDC8B8C60;
+ Thu, 11 Jun 2020 19:46:54 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CB16860CD3;
- Thu, 11 Jun 2020 19:46:49 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4AE8960CC0;
+ Thu, 11 Jun 2020 19:46:52 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 079/115] configure: Do not ignore malloc value
-Date: Thu, 11 Jun 2020 15:44:13 -0400
-Message-Id: <20200611194449.31468-80-pbonzini@redhat.com>
+Subject: [PULL 083/115] sysemu/accel: Restrict machine methods to system-mode
+Date: Thu, 11 Jun 2020 15:44:17 -0400
+Message-Id: <20200611194449.31468-84-pbonzini@redhat.com>
 In-Reply-To: <20200611194449.31468-1-pbonzini@redhat.com>
 References: <20200611194449.31468-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -57,16 +57,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 08:37:10
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 14:57:53
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,72 +80,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Leonid Bloch <lbloch@janustech.com>, Leonid Bloch <lb.workbox@gmail.com>
+Cc: "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Cornelia Huck <cohuck@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Leonid Bloch <lbloch@janustech.com>
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Not checking the value of malloc will cause a warning with GCC 10.1,
-which may result in configuration failure, with the following line in
-config.log:
+Restrict init_machine(), setup_post() and has_memory()
+to system-mode.
 
-config-temp/qemu-conf.c:2:18: error: ignoring return value of â€˜mallocâ€™ declared with attribute â€˜warn_unused_resultâ€™ [-Werror=unused-result]
-    2 | int main(void) { malloc(1); return 0; }
-      |                  ^~~~~~~~~
-
-Signed-off-by: Leonid Bloch <lb.workbox@gmail.com>
-Message-Id: <20200524221204.9791-1-lb.workbox@gmail.com>
+Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Roman Bolshakov <r.bolshakov@yadro.com>
+Message-Id: <20200526172427.17460-2-f4bug@amsat.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure | 20 +++++++++++++++++---
- 1 file changed, 17 insertions(+), 3 deletions(-)
+ include/sysemu/accel.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/configure b/configure
-index 53a6dd0297..dbc16b5656 100755
---- a/configure
-+++ b/configure
-@@ -4587,7 +4587,13 @@ fi
- if test "$tcmalloc" = "yes" ; then
-   cat > $TMPC << EOF
- #include <stdlib.h>
--int main(void) { malloc(1); return 0; }
-+int main(void) {
-+    void *tmp = malloc(1);
-+    if (tmp != NULL) {
-+        return 0;
-+    }
-+    return 1;
-+}
- EOF
+diff --git a/include/sysemu/accel.h b/include/sysemu/accel.h
+index 47e5788530..e08b8ab8fa 100644
+--- a/include/sysemu/accel.h
++++ b/include/sysemu/accel.h
+@@ -37,10 +37,12 @@ typedef struct AccelClass {
+     /*< public >*/
  
-   if compile_prog "" "-ltcmalloc" ; then
-@@ -4603,7 +4609,13 @@ fi
- if test "$jemalloc" = "yes" ; then
-   cat > $TMPC << EOF
- #include <stdlib.h>
--int main(void) { malloc(1); return 0; }
-+int main(void) {
-+    void *tmp = malloc(1);
-+    if (tmp != NULL) {
-+        return 0;
-+    }
-+    return 1;
-+}
- EOF
- 
-   if compile_prog "" "-ljemalloc" ; then
-@@ -6164,7 +6176,9 @@ if test "$sanitizers" = "yes" ; then
- #include <stdlib.h>
- int main(void) {
-     void *tmp = malloc(10);
--    return *(int *)(tmp + 2);
-+    if (tmp != NULL) {
-+        return *(int *)(tmp + 2);
-+    }
- }
- EOF
-   if compile_prog "$CPU_CFLAGS -Werror -fsanitize=undefined" ""; then
+     const char *name;
++#ifndef CONFIG_USER_ONLY
+     int (*init_machine)(MachineState *ms);
+     void (*setup_post)(MachineState *ms, AccelState *accel);
+     bool (*has_memory)(MachineState *ms, AddressSpace *as,
+                        hwaddr start_addr, hwaddr size);
++#endif
+     bool *allowed;
+     /*
+      * Array of global properties that would be applied when specific
 -- 
 2.26.2
 
