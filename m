@@ -2,78 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEAEF1F6A70
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 16:58:16 +0200 (CEST)
-Received: from localhost ([::1]:58906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A1D11F6A9B
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 17:08:09 +0200 (CEST)
+Received: from localhost ([::1]:38970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjOel-0001Pe-NX
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 10:58:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44190)
+	id 1jjOoK-0007Hf-0l
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 11:08:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1jjObP-00069V-6D
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 10:54:47 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:56949
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1jjObL-00061U-Ns
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 10:54:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591887282;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=O76wbMtg4ieFnfz05YM9/fazyxOuvfNEeSKyik2p3AQ=;
- b=ZNQVpCIkaKYoIu7+tqMRC1WIepd7wu6/+3TgrbkmjXDDEPGD8oPX0i95hnWg1PKyzawIge
- weSTKka2bxpycdp8BSKQNElZ4uJvUMj30LNsYmMkWhT9qCo/R6aDRtfxUcrPhcDcs95pJF
- /LAjqFtTATXvfaJOmzcRrR+wbN/j3Qc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-302-3pNF1nmBOc2TJpnxpEcYiA-1; Thu, 11 Jun 2020 10:54:40 -0400
-X-MC-Unique: 3pNF1nmBOc2TJpnxpEcYiA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1jjOjH-0004x0-M1
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 11:02:55 -0400
+Received: from mta-02.yadro.com ([89.207.88.252]:40948 helo=mta-01.yadro.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1jjOj8-00083s-N6
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 11:02:55 -0400
+Received: from localhost (unknown [127.0.0.1])
+ by mta-01.yadro.com (Postfix) with ESMTP id 053AB4C893;
+ Thu, 11 Jun 2020 15:02:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
+ in-reply-to:content-disposition:content-type:content-type
+ :mime-version:references:message-id:subject:subject:from:from
+ :date:date:received:received:received; s=mta-01; t=1591887751;
+ x=1593702152; bh=sq8uhQ7nz1BvdO6/bUw8epsRxrpAmJ3guZV9S8Ws50E=; b=
+ Au3ymbl7nexfxJVxJSdWzTEmMOhsD1RwVMyf+E0Uitobkgx0jxLx1CngZ8FPFKxN
+ +sPOcSnhwYNzii7tavyendrqfuRCPDR5Alku0lDt29/FmeWTMmsm9H+YVNIFk2IT
+ 6UFCuUYYju4jE/uXhY+1g4i8lBpQjIfVeCX/2XvAUXk=
+X-Virus-Scanned: amavisd-new at yadro.com
+Received: from mta-01.yadro.com ([127.0.0.1])
+ by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id E3pORXTzJFjT; Thu, 11 Jun 2020 18:02:31 +0300 (MSK)
+Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
+ [172.17.10.102])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0A6FD107ACF5;
- Thu, 11 Jun 2020 14:54:39 +0000 (UTC)
-Received: from [10.36.114.197] (ovpn-114-197.ams2.redhat.com [10.36.114.197])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 699815D9DC;
- Thu, 11 Jun 2020 14:54:30 +0000 (UTC)
-Subject: Re: [PATCH v4 1/5] acpi: Convert build_tpm2() to build_append* API
-To: Stefan Berger <stefanb@linux.ibm.com>, eric.auger.pro@gmail.com,
- qemu-devel@nongnu.org, qemu-arm@nongnu.org, peter.maydell@linaro.org,
- mst@redhat.com, shannon.zhaosl@gmail.com, imammedo@redhat.com
-References: <20200611135917.18300-1-eric.auger@redhat.com>
- <20200611135917.18300-2-eric.auger@redhat.com>
- <28121558-7a75-73da-6939-da0c0e776087@linux.ibm.com>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <47b20185-48a8-87d5-a492-9db37ba7ea9f@redhat.com>
-Date: Thu, 11 Jun 2020 16:54:28 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
+ by mta-01.yadro.com (Postfix) with ESMTPS id 839B54C854;
+ Thu, 11 Jun 2020 18:02:28 +0300 (MSK)
+Received: from localhost (172.17.204.212) by T-EXCH-02.corp.yadro.com
+ (172.17.10.102) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Thu, 11
+ Jun 2020 18:02:28 +0300
+Date: Thu, 11 Jun 2020 18:02:27 +0300
+From: Roman Bolshakov <r.bolshakov@yadro.com>
+To: Claudio Fontana <cfontana@suse.de>
+Subject: Re: [PATCH 12/13] i386: hvf: Move mmio_buf into CPUX86State
+Message-ID: <20200611150227.GA76007@SPB-NB-133.local>
+References: <20200528193758.51454-1-r.bolshakov@yadro.com>
+ <20200528193758.51454-13-r.bolshakov@yadro.com>
+ <d57e48c6-574e-471c-78be-1245d62bc908@redhat.com>
+ <3101f615-e1c9-2cf4-7a7b-6e30c7942c53@suse.de>
 MIME-Version: 1.0
-In-Reply-To: <28121558-7a75-73da-6939-da0c0e776087@linux.ibm.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 03:29:33
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <3101f615-e1c9-2cf4-7a7b-6e30c7942c53@suse.de>
+X-Originating-IP: [172.17.204.212]
+X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
+ T-EXCH-02.corp.yadro.com (172.17.10.102)
+Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
+ helo=mta-01.yadro.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 11:02:33
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,142 +82,141 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, drjones@redhat.com, lersek@redhat.com,
- ardb@kernel.org, philmd@redhat.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ qemu-devel@nongnu.org, Cameron Esfahani <dirty@apple.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Stefan,
+On Thu, Jun 11, 2020 at 03:24:31PM +0200, Claudio Fontana wrote:
+> On 6/4/20 8:27 PM, Paolo Bonzini wrote:
+> > On 28/05/20 21:37, Roman Bolshakov wrote:
+> >> There's no similar field in CPUX86State, but it's needed for MMIO traps.
+> >>
+> >> Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
+> >> ---
+> >>  target/i386/cpu.h         |  1 +
+> >>  target/i386/hvf/hvf.c     |  5 +++++
+> >>  target/i386/hvf/x86.h     |  1 -
+> >>  target/i386/hvf/x86_emu.c | 12 ++++++------
+> >>  4 files changed, 12 insertions(+), 7 deletions(-)
+> >>
+> >> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+> >> index 7e6566565a..be44e19154 100644
+> >> --- a/target/i386/cpu.h
+> >> +++ b/target/i386/cpu.h
+> >> @@ -1593,6 +1593,7 @@ typedef struct CPUX86State {
+> >>  #endif
+> >>  #if defined(CONFIG_HVF)
+> >>      hvf_lazy_flags hvf_lflags;
+> >> +    void *hvf_mmio_buf;
+> >>      HVFX86EmulatorState *hvf_emul;
+> >>  #endif
+> >>  
+> >> diff --git a/target/i386/hvf/hvf.c b/target/i386/hvf/hvf.c
+> >> index 4cee496d71..57696c46c7 100644
+> >> --- a/target/i386/hvf/hvf.c
+> >> +++ b/target/i386/hvf/hvf.c
+> >> @@ -533,7 +533,11 @@ void hvf_reset_vcpu(CPUState *cpu) {
+> >>  
+> >>  void hvf_vcpu_destroy(CPUState *cpu)
+> >>  {
+> >> +    X86CPU *x86_cpu = X86_CPU(cpu);
+> >> +    CPUX86State *env = &x86_cpu->env;
+> >> +
+> >>      hv_return_t ret = hv_vcpu_destroy((hv_vcpuid_t)cpu->hvf_fd);
+> >> +    g_free(env->hvf_mmio_buf);
+> >>      assert_hvf_ok(ret);
+> >>  }
+> >>  
+> >> @@ -563,6 +567,7 @@ int hvf_init_vcpu(CPUState *cpu)
+> >>      init_decoder();
+> >>  
+> >>      hvf_state->hvf_caps = g_new0(struct hvf_vcpu_caps, 1);
+> >> +    env->hvf_mmio_buf = g_new(char, 4096);
+> >>      env->hvf_emul = g_new0(HVFX86EmulatorState, 1);
+> >>  
+> >>      r = hv_vcpu_create((hv_vcpuid_t *)&cpu->hvf_fd, HV_VCPU_DEFAULT);
+> >> diff --git a/target/i386/hvf/x86.h b/target/i386/hvf/x86.h
+> >> index 2363616c07..483fcea762 100644
+> >> --- a/target/i386/hvf/x86.h
+> >> +++ b/target/i386/hvf/x86.h
+> >> @@ -230,7 +230,6 @@ typedef struct x68_segment_selector {
+> >>  
+> >>  /* Definition of hvf_x86_state is here */
+> >>  struct HVFX86EmulatorState {
+> >> -    uint8_t mmio_buf[4096];
+> >>  };
+> >>  
+> >>  /* useful register access  macros */
+> >> diff --git a/target/i386/hvf/x86_emu.c b/target/i386/hvf/x86_emu.c
+> >> index 1ad2c30e16..d3e289ed87 100644
+> >> --- a/target/i386/hvf/x86_emu.c
+> >> +++ b/target/i386/hvf/x86_emu.c
+> >> @@ -187,8 +187,8 @@ void write_val_ext(struct CPUX86State *env, target_ulong ptr, target_ulong val,
+> >>  
+> >>  uint8_t *read_mmio(struct CPUX86State *env, target_ulong ptr, int bytes)
+> >>  {
+> >> -    vmx_read_mem(env_cpu(env), env->hvf_emul->mmio_buf, ptr, bytes);
+> >> -    return env->hvf_emul->mmio_buf;
+> >> +    vmx_read_mem(env_cpu(env), env->hvf_mmio_buf, ptr, bytes);
+> >> +    return env->hvf_mmio_buf;
+> >>  }
+> >>  
+> >>  
+> >> @@ -489,9 +489,9 @@ static void exec_ins_single(struct CPUX86State *env, struct x86_decode *decode)
+> >>      target_ulong addr = linear_addr_size(env_cpu(env), RDI(env),
+> >>                                           decode->addressing_size, R_ES);
+> >>  
+> >> -    hvf_handle_io(env_cpu(env), DX(env), env->hvf_emul->mmio_buf, 0,
+> >> +    hvf_handle_io(env_cpu(env), DX(env), env->hvf_mmio_buf, 0,
+> >>                    decode->operand_size, 1);
+> >> -    vmx_write_mem(env_cpu(env), addr, env->hvf_emul->mmio_buf,
+> >> +    vmx_write_mem(env_cpu(env), addr, env->hvf_mmio_buf,
+> >>                    decode->operand_size);
+> >>  
+> >>      string_increment_reg(env, R_EDI, decode);
+> >> @@ -512,9 +512,9 @@ static void exec_outs_single(struct CPUX86State *env, struct x86_decode *decode)
+> >>  {
+> >>      target_ulong addr = decode_linear_addr(env, decode, RSI(env), R_DS);
+> >>  
+> >> -    vmx_read_mem(env_cpu(env), env->hvf_emul->mmio_buf, addr,
+> >> +    vmx_read_mem(env_cpu(env), env->hvf_mmio_buf, addr,
+> >>                   decode->operand_size);
+> >> -    hvf_handle_io(env_cpu(env), DX(env), env->hvf_emul->mmio_buf, 1,
+> >> +    hvf_handle_io(env_cpu(env), DX(env), env->hvf_mmio_buf, 1,
+> >>                    decode->operand_size, 1);
+> >>  
+> >>      string_increment_reg(env, R_ESI, decode);
+> >>
+> > 
+> > It should be possible to get rid of the buffer altogether, but it's ok
+> > to do it separately.
+> > 
+> > I queued the series, thanks.
+> > 
+> > Paolo
+> > 
+> > 
+> 
+> Thanks Paolo, I am waiting for this (and maybe another series from Roman) to be able to do the cpus refactoring.
+> 
+> Incidentally, would it not be great to have some machinery that automatically tracks which series is already queued where?
+> Maybe there is already a mechanism I am unaware of?
+> 
+> Ciao,
+> 
+> Claudio
 
-On 6/11/20 4:25 PM, Stefan Berger wrote:
-> On 6/11/20 9:59 AM, Eric Auger wrote:
->> In preparation of its move to the generic acpi code,
->> let's convert build_tpm2() to use build_append API. This
->> latter now is prefered in place of direct ACPI struct field
->> settings with manual endianness conversion.
->>
->> Signed-off-by: Eric Auger <eric.auger@redhat.com>
->>
->> ---
->>
->> v3 -> v4:
->> - Don't use Acpi20TPM2 *tpm2_ptr anymore
->> - Use variables for control area start address and start method
->> - Simplified arg values passed to bios_linker_loader_add_pointer
->> - use g_assert_not_reached()
->> ---
->>   hw/i386/acpi-build.c | 49 +++++++++++++++++++++++++++++---------------
->>   1 file changed, 33 insertions(+), 16 deletions(-)
->>
->> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
->> index b5669d6c65..f150d95ecc 100644
->> --- a/hw/i386/acpi-build.c
->> +++ b/hw/i386/acpi-build.c
->> @@ -2298,35 +2298,52 @@ build_tpm_tcpa(GArray *table_data, BIOSLinker
->> *linker, GArray *tcpalog)
->>   static void
->>   build_tpm2(GArray *table_data, BIOSLinker *linker, GArray *tcpalog)
->>   {
->> -    Acpi20TPM2 *tpm2_ptr = acpi_data_push(table_data, sizeof *tpm2_ptr);
->> -    unsigned log_addr_size = sizeof(tpm2_ptr->log_area_start_address);
->> -    unsigned log_addr_offset =
->> -        (char *)&tpm2_ptr->log_area_start_address - table_data->data;
->> +    uint8_t start_method_params[12] = {};
->> +    unsigned log_addr_offset, tpm2_start;
->> +    uint64_t control_area_start_address;
->> +    uint32_t start_method;
->> +    void *tpm2_ptr;
->>   -    tpm2_ptr->platform_class = cpu_to_le16(TPM2_ACPI_CLASS_CLIENT);
->> +    tpm2_start = table_data->len;
->> +    tpm2_ptr = acpi_data_push(table_data, sizeof(AcpiTableHeader));
->> +
->> +    /* Platform Class */
->> +    build_append_int_noprefix(table_data, TPM2_ACPI_CLASS_CLIENT, 2);
->> +    /* Reserved */
->> +    build_append_int_noprefix(table_data, 0, 2);
->>       if (TPM_IS_TIS_ISA(tpm_find())) {
->> -        tpm2_ptr->control_area_address = cpu_to_le64(0);
->> -        tpm2_ptr->start_method = cpu_to_le32(TPM2_START_METHOD_MMIO);
->> +        control_area_start_address = 0;
->> +        start_method = TPM2_START_METHOD_MMIO;
->>       } else if (TPM_IS_CRB(tpm_find())) {
->> -        tpm2_ptr->control_area_address = cpu_to_le64(TPM_CRB_ADDR_CTRL);
->> -        tpm2_ptr->start_method = cpu_to_le32(TPM2_START_METHOD_CRB);
->> +        control_area_start_address = TPM_CRB_ADDR_CTRL;
->> +        start_method = TPM2_START_METHOD_CRB;
->>       } else {
->> -        g_warn_if_reached();
->> +        g_assert_not_reached();
->>       }
->> +    /* Address of Control Area */
->> +    build_append_int_noprefix(table_data, control_area_start_address,
->> 8);
->> +    /* Start Method */
->> +    build_append_int_noprefix(table_data, start_method, 4);
->>   -    tpm2_ptr->log_area_minimum_length =
->> -        cpu_to_le32(TPM_LOG_AREA_MINIMUM_SIZE);
->> +    /* Platform Specific Parameters */
->> +    g_array_append_vals(table_data, &start_method_params,
->> +                        ARRAY_SIZE(start_method_params));
->>   -    acpi_data_push(tcpalog,
->> le32_to_cpu(tpm2_ptr->log_area_minimum_length));
->> +    /* Log Area Minimum Length */
->> +    build_append_int_noprefix(table_data, TPM_LOG_AREA_MINIMUM_SIZE, 4);
-> 
-> Here you push data related to TPM2 table...
-yes it was
-    tpm2_ptr->log_area_minimum_length =
-        cpu_to_le32(TPM_LOG_AREA_MINIMUM_SIZE);
-altering tpm2
-> 
-> 
->> +
->> +    acpi_data_push(tcpalog, TPM_LOG_AREA_MINIMUM_SIZE);
-> 
-> ... here you push log area memory ...
-in "acpi: tpm: Do not build TCPA table for TPM 2" there is
-acpi_data_push(tcpalog, le32_to_cpu(tpm2_ptr->log_area_minimum_length));
-bios_linker_loader_alloc(linker, ACPI_BUILD_TPMLOG_FILE, tcpalog, 1,
-                         false);
+Hi Claudio,
 
-So to me this matches
-> 
-> 
->>       bios_linker_loader_alloc(linker, ACPI_BUILD_TPMLOG_FILE,
->> tcpalog, 1,
->>                                false);
->>   -    /* log area start address to be filled by Guest linker */
->> +    log_addr_offset = table_data->len;
->> +    build_append_int_noprefix(table_data, 0, 8);
-> 
-> 
-> ... here you push TPM2 table related data again. Is this right or did we
-> just mess up the TPM 2 table?
-here I increment the table_data->len to take into account the last
-field, ie. log_addr_offset
-So I think it is correct.
-bios-tables-test pass so at least TPM2 ACPI tables shouldn't have veen
-altered.
+I also had the same question earlier today on IRC but I've just recalled
+that PULL requests typically have a reference to the queue repo/branch:
 
-Thanks
+https://lists.gnu.org/archive/html/qemu-devel/2020-02/msg06825.html
 
-Eric
-> 
-> 
->> +    /* Log Area Start Address to be filled by Guest linker */
->>       bios_linker_loader_add_pointer(linker, ACPI_BUILD_TABLE_FILE,
->> -                                   log_addr_offset, log_addr_size,
->> +                                   log_addr_offset, 8,
->>                                      ACPI_BUILD_TPMLOG_FILE, 0);
->>       build_header(linker, table_data,
->> -                 (void *)tpm2_ptr, "TPM2", sizeof(*tpm2_ptr), 4,
->> NULL, NULL);
->> +                 tpm2_ptr, "TPM2", table_data->len - tpm2_start, 4,
->> NULL, NULL);
->>   }
->>     #define HOLE_640K_START  (640 * KiB)
-> 
-> 
-> 
+I'll rebase on it and prepare the series.
 
+Regards,
+Roman
 
