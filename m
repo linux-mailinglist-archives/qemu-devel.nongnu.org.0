@@ -2,51 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 656B11F6903
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 15:26:00 +0200 (CEST)
-Received: from localhost ([::1]:42104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5E1B1F6911
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 15:31:58 +0200 (CEST)
+Received: from localhost ([::1]:50428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjNDS-0003yS-T7
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 09:25:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33900)
+	id 1jjNJF-000054-D2
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 09:31:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1jjNCB-0002zZ-KJ
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 09:24:39 -0400
-Received: from mx2.suse.de ([195.135.220.15]:57592)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1jjNCA-0000OO-90
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 09:24:39 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 5E69FAF92;
- Thu, 11 Jun 2020 13:24:37 +0000 (UTC)
-Subject: Re: [PATCH 12/13] i386: hvf: Move mmio_buf into CPUX86State
-To: Paolo Bonzini <pbonzini@redhat.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, qemu-devel@nongnu.org
-References: <20200528193758.51454-1-r.bolshakov@yadro.com>
- <20200528193758.51454-13-r.bolshakov@yadro.com>
- <d57e48c6-574e-471c-78be-1245d62bc908@redhat.com>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <3101f615-e1c9-2cf4-7a7b-6e30c7942c53@suse.de>
-Date: Thu, 11 Jun 2020 15:24:31 +0200
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jjNHh-0007W0-PG
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 09:30:21 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:33078)
+ by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jjNHg-0002Q5-Pc
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 09:30:21 -0400
+Received: by mail-wm1-x341.google.com with SMTP id j198so6979404wmj.0
+ for <qemu-devel@nongnu.org>; Thu, 11 Jun 2020 06:30:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=kqYKbxGVd/v0esdzhHu/QIYmuJku+0ChCwQhvoX6nes=;
+ b=cAPSHOB9pmVhHeXy69FjOR6x0bRM5+CR9r9qBOIXSAUStE6JOsW/1JEeov99kXfHD/
+ vhnAsxSvAfIMIEFrlGYmp7g9okPbt4QN/3dU2wQjkhjhAu9CHRI9tAgz/ebwmVvgo/xI
+ 6ofbpgHU+HhA/VbT5mJMplW1FKNKwU1M5uaBBl4JILB97KKK23FZGTlRGqBnpDuiks/L
+ SGXTb/eglnm8i3jvDE52r037QEp87mO1irVA0NaKCbCLm5S6pZxIKJfMAjDw+sdSg1oh
+ z1HjD6G6Rb3atgdMWSpaz09rEr10/IkhfvvEMzzfJNYoGbm8XeZp9+mNq5THHSP3LRnd
+ 4ywA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=kqYKbxGVd/v0esdzhHu/QIYmuJku+0ChCwQhvoX6nes=;
+ b=fegK6sogp/b/ksDx9J1wy0zqe5gXKbHKn+EUm8WBcPlTmzl1I3JQajTQx8AZV9ZKrp
+ peBxQKMrlhk+mKqDHFjBTSiGLAQNfQi2RtOI9slpmuE9tvt68nVSMUzf8GegzEm1k8FF
+ rNANU8R+R89qzFfLHQu9ntx0CJRtX3KJGUkevo8BLK+aMWTRJ9x9MTQRMDoq4SU32WHC
+ Cxxr7HXPMVtOng1tiEAwWnqjeJ0pCIaIbit3/zPMiJJud7WoINFB/6OXHCkDymmCVgCT
+ udllwFDFFYCVZ4ywMFs5Mnr0fi698vatRphwVMdyCd0gBQWsUCv1qeu03fRwIzdLJpDc
+ CQug==
+X-Gm-Message-State: AOAM532nQOElzaWfbYWGSfBdNHB7dxtN+RoKVxC9Uvj7BDi5QRRHTEM2
+ 5DNgS/Iyxx20MSCO6asyQN4=
+X-Google-Smtp-Source: ABdhPJx6aPkrIBoL4yt0v18PoM699bP9DMImLT4vKKkZuHfNStiO55B7lkn3s58XC57NBrFfN/SyHQ==
+X-Received: by 2002:a7b:cf35:: with SMTP id m21mr8525625wmg.181.1591882213701; 
+ Thu, 11 Jun 2020 06:30:13 -0700 (PDT)
+Received: from [192.168.1.38] (181.red-88-10-103.dynamicip.rima-tde.net.
+ [88.10.103.181])
+ by smtp.gmail.com with ESMTPSA id n23sm4015660wmc.0.2020.06.11.06.30.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 11 Jun 2020 06:30:12 -0700 (PDT)
+Subject: Re: [PULL 00/16] SPARC patches for 2020-06-09
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
+References: <20200609073214.14079-1-f4bug@amsat.org>
+ <da5851a4-953b-8915-7bc8-37c20a23805f@ilande.co.uk>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <c2cfa843-ca76-8aa7-7b74-1ad261222c3e@amsat.org>
+Date: Thu, 11 Jun 2020 15:30:11 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <d57e48c6-574e-471c-78be-1245d62bc908@redhat.com>
+In-Reply-To: <da5851a4-953b-8915-7bc8-37c20a23805f@ilande.co.uk>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 00:13:26
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,127 +90,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Cameron Esfahani <dirty@apple.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Fabien Chouteau <chouteau@adacore.com>,
+ KONRAD Frederic <frederic.konrad@adacore.com>,
+ Aurelien Jarno <aurelien@aurel32.net>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/4/20 8:27 PM, Paolo Bonzini wrote:
-> On 28/05/20 21:37, Roman Bolshakov wrote:
->> There's no similar field in CPUX86State, but it's needed for MMIO traps.
+On 6/9/20 10:55 PM, Mark Cave-Ayland wrote:
+> On 09/06/2020 08:31, Philippe Mathieu-Daudé wrote:
+> 
+>> Hi Peter,
 >>
->> Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
->> ---
->>  target/i386/cpu.h         |  1 +
->>  target/i386/hvf/hvf.c     |  5 +++++
->>  target/i386/hvf/x86.h     |  1 -
->>  target/i386/hvf/x86_emu.c | 12 ++++++------
->>  4 files changed, 12 insertions(+), 7 deletions(-)
+>> These are the latest SPARC patches sent to the list.
 >>
->> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
->> index 7e6566565a..be44e19154 100644
->> --- a/target/i386/cpu.h
->> +++ b/target/i386/cpu.h
->> @@ -1593,6 +1593,7 @@ typedef struct CPUX86State {
->>  #endif
->>  #if defined(CONFIG_HVF)
->>      hvf_lazy_flags hvf_lflags;
->> +    void *hvf_mmio_buf;
->>      HVFX86EmulatorState *hvf_emul;
->>  #endif
->>  
->> diff --git a/target/i386/hvf/hvf.c b/target/i386/hvf/hvf.c
->> index 4cee496d71..57696c46c7 100644
->> --- a/target/i386/hvf/hvf.c
->> +++ b/target/i386/hvf/hvf.c
->> @@ -533,7 +533,11 @@ void hvf_reset_vcpu(CPUState *cpu) {
->>  
->>  void hvf_vcpu_destroy(CPUState *cpu)
->>  {
->> +    X86CPU *x86_cpu = X86_CPU(cpu);
->> +    CPUX86State *env = &x86_cpu->env;
->> +
->>      hv_return_t ret = hv_vcpu_destroy((hv_vcpuid_t)cpu->hvf_fd);
->> +    g_free(env->hvf_mmio_buf);
->>      assert_hvf_ok(ret);
->>  }
->>  
->> @@ -563,6 +567,7 @@ int hvf_init_vcpu(CPUState *cpu)
->>      init_decoder();
->>  
->>      hvf_state->hvf_caps = g_new0(struct hvf_vcpu_caps, 1);
->> +    env->hvf_mmio_buf = g_new(char, 4096);
->>      env->hvf_emul = g_new0(HVFX86EmulatorState, 1);
->>  
->>      r = hv_vcpu_create((hv_vcpuid_t *)&cpu->hvf_fd, HV_VCPU_DEFAULT);
->> diff --git a/target/i386/hvf/x86.h b/target/i386/hvf/x86.h
->> index 2363616c07..483fcea762 100644
->> --- a/target/i386/hvf/x86.h
->> +++ b/target/i386/hvf/x86.h
->> @@ -230,7 +230,6 @@ typedef struct x68_segment_selector {
->>  
->>  /* Definition of hvf_x86_state is here */
->>  struct HVFX86EmulatorState {
->> -    uint8_t mmio_buf[4096];
->>  };
->>  
->>  /* useful register access  macros */
->> diff --git a/target/i386/hvf/x86_emu.c b/target/i386/hvf/x86_emu.c
->> index 1ad2c30e16..d3e289ed87 100644
->> --- a/target/i386/hvf/x86_emu.c
->> +++ b/target/i386/hvf/x86_emu.c
->> @@ -187,8 +187,8 @@ void write_val_ext(struct CPUX86State *env, target_ulong ptr, target_ulong val,
->>  
->>  uint8_t *read_mmio(struct CPUX86State *env, target_ulong ptr, int bytes)
->>  {
->> -    vmx_read_mem(env_cpu(env), env->hvf_emul->mmio_buf, ptr, bytes);
->> -    return env->hvf_emul->mmio_buf;
->> +    vmx_read_mem(env_cpu(env), env->hvf_mmio_buf, ptr, bytes);
->> +    return env->hvf_mmio_buf;
->>  }
->>  
->>  
->> @@ -489,9 +489,9 @@ static void exec_ins_single(struct CPUX86State *env, struct x86_decode *decode)
->>      target_ulong addr = linear_addr_size(env_cpu(env), RDI(env),
->>                                           decode->addressing_size, R_ES);
->>  
->> -    hvf_handle_io(env_cpu(env), DX(env), env->hvf_emul->mmio_buf, 0,
->> +    hvf_handle_io(env_cpu(env), DX(env), env->hvf_mmio_buf, 0,
->>                    decode->operand_size, 1);
->> -    vmx_write_mem(env_cpu(env), addr, env->hvf_emul->mmio_buf,
->> +    vmx_write_mem(env_cpu(env), addr, env->hvf_mmio_buf,
->>                    decode->operand_size);
->>  
->>      string_increment_reg(env, R_EDI, decode);
->> @@ -512,9 +512,9 @@ static void exec_outs_single(struct CPUX86State *env, struct x86_decode *decode)
->>  {
->>      target_ulong addr = decode_linear_addr(env, decode, RSI(env), R_DS);
->>  
->> -    vmx_read_mem(env_cpu(env), env->hvf_emul->mmio_buf, addr,
->> +    vmx_read_mem(env_cpu(env), env->hvf_mmio_buf, addr,
->>                   decode->operand_size);
->> -    hvf_handle_io(env_cpu(env), DX(env), env->hvf_emul->mmio_buf, 1,
->> +    hvf_handle_io(env_cpu(env), DX(env), env->hvf_mmio_buf, 1,
->>                    decode->operand_size, 1);
->>  
->>      string_increment_reg(env, R_ESI, decode);
+>> This pull request is with authorization of Artyom and Mark:
+>> - https://www.mail-archive.com/qemu-devel@nongnu.org/msg710154.html
+>> - https://www.mail-archive.com/qemu-devel@nongnu.org/msg710156.html
 >>
+>> Frederic doesn't have his GPG key signed:
+>> - https://www.mail-archive.com/qemu-devel@nongnu.org/msg706509.html
+>>
+>> The following changes since commit 49ee11555262a256afec592dfed7c5902d5eefd2:
+>>
+>>   Merge remote-tracking branch 'remotes/vivier2/tags/linux-user-for-5.1-pull-=
+>> request' into staging (2020-06-08 11:04:57 +0100)
+>>
+>> are available in the Git repository at:
+>>
+>>   https://gitlab.com/philmd/qemu.git tags/sparc-next-20200609
+>>
+>> for you to fetch changes up to 86e8c353f705f14f2f2fd7a6195cefa431aa24d9:
+>>
+>>   target/sparc/int32_helper: Extract and use excp_name_str() (2020-06-09 09:2=
+>> 1:10 +0200)
+>>
+>> ----------------------------------------------------------------
+>> SPARC patches
+>>
+>> HW:
+>> - Use UNIMP device instead of EMPTY_SLOT
+>> - Make EMPTY_SLOT similar to UNIMP device
+>> - Map UART devices unconditionally
+>> - Pair of fixes for AHB PnP
+>> - Add trace events to AHB PnP
+>>
+>> TCG:
+>> - Improve exception logging
+>>
+>> CI:
+>> - https://gitlab.com/philmd/qemu/-/pipelines/154231191
+>> - https://travis-ci.org/github/philmd/qemu/builds/696321130
+>>
+>> ----------------------------------------------------------------
+>>
+>> Philippe Mathieu-Daud=C3=A9 (16):
+>>   hw/sparc/sun4m: Use UnimplementedDevice for I/O devices
+>>   hw/misc/empty_slot: Lower address space priority
+>>   hw/misc/empty_slot: Convert 'size' field as qdev property
+>>   hw/misc/empty_slot: Add a 'name' qdev property
+>>   hw/misc/empty_slot: Convert debug printf() to trace event
+>>   hw/misc/empty_slot: Move the 'hw/misc' and cover in MAINTAINERS
+>>   hw/misc/empty_slot: Name the slots when created
+>>   hw/sparc/leon3: Map the UART device unconditionally
+>>   hw/sparc64/niagara: Map the UART device unconditionally
+>>   hw/sparc64/niagara: Remove duplicated NIAGARA_UART_BASE definition
+>>   hw/misc/grlib_ahb_apb_pnp: Avoid crash when writing to AHB PnP
+>>     registers
+>>   hw/misc/grlib_ahb_apb_pnp: Fix AHB PnP 8-bit accesses
+>>   hw/misc/grlib_ahb_apb_pnp: Add trace events on read accesses
+>>   hw/timer/grlib_gptimer: Display frequency in decimal
+>>   target/sparc/int32_helper: Remove DEBUG_PCALL definition
+>>   target/sparc/int32_helper: Extract and use excp_name_str()
+>>
+>>  include/hw/empty_slot.h        |  9 -------
+>>  include/hw/misc/empty_slot.h   | 19 ++++++++++++++
+>>  hw/mips/malta.c                |  4 +--
+>>  hw/{core =3D> misc}/empty_slot.c | 47 +++++++++++++++++++---------------
+>>  hw/misc/grlib_ahb_apb_pnp.c    | 24 +++++++++++++++--
+>>  hw/sparc/leon3.c               | 18 ++++++-------
+>>  hw/sparc/sun4m.c               | 23 +++++++++++------
+>>  hw/sparc64/niagara.c           |  7 ++---
+>>  target/sparc/int32_helper.c    | 23 +++++++++--------
+>>  MAINTAINERS                    |  7 +++++
+>>  hw/core/Makefile.objs          |  1 -
+>>  hw/misc/Makefile.objs          |  1 +
+>>  hw/misc/trace-events           |  8 ++++++
+>>  hw/sparc/Kconfig               |  1 +
+>>  hw/timer/trace-events          |  2 +-
+>>  15 files changed, 124 insertions(+), 70 deletions(-)
+>>  delete mode 100644 include/hw/empty_slot.h
+>>  create mode 100644 include/hw/misc/empty_slot.h
+>>  rename hw/{core =3D> misc}/empty_slot.c (66%)
+>>
+>> --=20
+>> 2.21.3
 > 
-> It should be possible to get rid of the buffer altogether, but it's ok
-> to do it separately.
-> 
-> I queued the series, thanks.
-> 
-> Paolo
-> 
-> 
+> Philippe, thanks so much for handling this - things are really busy here at the
+> moment, so the help is greatly appreciated :)
 
-Thanks Paolo, I am waiting for this (and maybe another series from Roman) to be able to do the cpus refactoring.
+I know you were busy, and the patches are just cleanups, so no problem.
 
-Incidentally, would it not be great to have some machinery that automatically tracks which series is already queued where?
-Maybe there is already a mechanism I am unaware of?
+Before sending, I tested with all the images I could grab from
+https://wiki.qemu.org/Documentation/Platforms/SPARC
+and
+https://www.qemu.org/docs/master/system/target-sparc64.html
 
-Ciao,
+I might add more acceptance tests later to automate that.
 
-Claudio
+Regards,
+
+Phil.
 
