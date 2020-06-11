@@ -2,88 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 437041F6C29
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 18:27:32 +0200 (CEST)
-Received: from localhost ([::1]:60308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 291301F6C2F
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 18:30:00 +0200 (CEST)
+Received: from localhost ([::1]:40368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjQ39-0001UY-9f
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 12:27:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54126)
+	id 1jjQ5X-00051r-5f
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 12:29:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1jjPwx-0008PQ-9E
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 12:21:07 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:50926)
+ id 1jjPx3-000085-FZ
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 12:21:17 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:49994
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1jjPwc-0005BG-1I
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 12:21:06 -0400
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+ id 1jjPwX-0005B2-ST
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 12:21:13 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 05BG3ax2020452; Thu, 11 Jun 2020 12:20:41 -0400
+ 05BG3a4k089226; Thu, 11 Jun 2020 12:20:35 -0400
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 31kp0ycbtb-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 31kg2w7sce-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 11 Jun 2020 12:20:41 -0400
-Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 05BG3gv2021207;
- Thu, 11 Jun 2020 12:20:40 -0400
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
- [169.63.214.131])
- by mx0a-001b2d01.pphosted.com with ESMTP id 31kp0ycbsv-1
+ Thu, 11 Jun 2020 12:20:35 -0400
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 05BG3ohp091012;
+ Thu, 11 Jun 2020 12:20:34 -0400
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 31kg2w7sc1-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 11 Jun 2020 12:20:40 -0400
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 05BGJB6M017425;
- Thu, 11 Jun 2020 16:20:39 GMT
-Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
- [9.57.198.26]) by ppma01dal.us.ibm.com with ESMTP id 31hygyy4w6-1
+ Thu, 11 Jun 2020 12:20:34 -0400
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 05BGKUpa009053;
+ Thu, 11 Jun 2020 16:20:34 GMT
+Received: from b01cxnp22035.gho.pok.ibm.com (b01cxnp22035.gho.pok.ibm.com
+ [9.57.198.25]) by ppma04dal.us.ibm.com with ESMTP id 31g2sautq6-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 11 Jun 2020 16:20:39 +0000
+ Thu, 11 Jun 2020 16:20:34 +0000
 Received: from b01ledav004.gho.pok.ibm.com (b01ledav004.gho.pok.ibm.com
  [9.57.199.109])
- by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 05BGJcQs15598370
+ by b01cxnp22035.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 05BGKXdi45482442
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 11 Jun 2020 16:19:39 GMT
+ Thu, 11 Jun 2020 16:20:33 GMT
 Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E38CE112062;
- Thu, 11 Jun 2020 16:19:38 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 6333D112062;
+ Thu, 11 Jun 2020 16:20:33 +0000 (GMT)
 Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D0510112061;
- Thu, 11 Jun 2020 16:19:38 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 50EAB112061;
+ Thu, 11 Jun 2020 16:20:33 +0000 (GMT)
 Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
  by b01ledav004.gho.pok.ibm.com (Postfix) with ESMTP;
- Thu, 11 Jun 2020 16:19:38 +0000 (GMT)
-Subject: Re: [PATCH v2 01/11] docs/specs/tpm: Correct header path name
+ Thu, 11 Jun 2020 16:20:33 +0000 (GMT)
+Subject: Re: [PATCH v2 02/11] backends: Add TPM files into their own directory
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
 References: <20200611160306.2751-1-philmd@redhat.com>
- <20200611160306.2751-2-philmd@redhat.com>
+ <20200611160306.2751-3-philmd@redhat.com>
 From: Stefan Berger <stefanb@linux.ibm.com>
-Message-ID: <4ed28a4c-8679-75d8-1078-9dbd0f38a8ca@linux.ibm.com>
-Date: Thu, 11 Jun 2020 12:19:38 -0400
+Message-ID: <8adc54e8-2546-ced9-c22b-895c965e99c1@linux.ibm.com>
+Date: Thu, 11 Jun 2020 12:20:33 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200611160306.2751-2-philmd@redhat.com>
+In-Reply-To: <20200611160306.2751-3-philmd@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
 X-TM-AS-GCONF: 00
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.687
- definitions=2020-06-11_16:2020-06-11,
+ definitions=2020-06-11_15:2020-06-11,
  2020-06-11 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 adultscore=0
- mlxscore=0 cotscore=-2147483648 lowpriorityscore=0 malwarescore=0
- suspectscore=0 spamscore=0 impostorscore=0 priorityscore=1501 phishscore=0
- mlxlogscore=999 clxscore=1015 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2004280000 definitions=main-2006110126
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=stefanb@linux.ibm.com;
+ bulkscore=0 spamscore=0
+ impostorscore=0 lowpriorityscore=0 cotscore=-2147483648 clxscore=1015
+ suspectscore=0 mlxscore=0 malwarescore=0 adultscore=0 priorityscore=1501
+ mlxlogscore=999 phishscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2004280000 definitions=main-2006110122
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=stefanb@linux.ibm.com;
  helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 10:26:43
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 11:19:26
 X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
@@ -111,32 +112,61 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 6/11/20 12:02 PM, Philippe Mathieu-Daudé wrote:
-> Commit 8dc6701722 introduce the documentation but an
-> incorrect path name was used. Fix that.
+> As we will have various TPM backend files, it is cleaner
+> to use a single directory.
 >
+> Suggested-by: Stefan Berger <stefanb@linux.ibm.com>
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
 
 
 > ---
->   docs/specs/tpm.rst | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   backends/{tpm.c => tpm/tpm_backend.c} | 0
+>   MAINTAINERS                           | 2 +-
+>   backends/Makefile.objs                | 2 +-
+>   backends/tpm/Makefile.objs            | 1 +
+>   4 files changed, 3 insertions(+), 2 deletions(-)
+>   rename backends/{tpm.c => tpm/tpm_backend.c} (100%)
+>   create mode 100644 backends/tpm/Makefile.objs
 >
-> diff --git a/docs/specs/tpm.rst b/docs/specs/tpm.rst
-> index 5e61238bc5..9e48e3b981 100644
-> --- a/docs/specs/tpm.rst
-> +++ b/docs/specs/tpm.rst
-> @@ -199,8 +199,8 @@ to be used with the passthrough backend or the swtpm backend.
+> diff --git a/backends/tpm.c b/backends/tpm/tpm_backend.c
+> similarity index 100%
+> rename from backends/tpm.c
+> rename to backends/tpm/tpm_backend.c
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 3abe3faa4e..9deb15b268 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -2385,7 +2385,7 @@ F: hw/tpm/*
+>   F: include/hw/acpi/tpm.h
+>   F: include/sysemu/tpm*
+>   F: qapi/tpm.json
+> -F: backends/tpm.c
+> +F: backends/tpm/
+>   F: tests/qtest/*tpm*
+>   T: git https://github.com/stefanberger/qemu-tpm.git tpm-next
 >   
->   QEMU files related to TPM backends:
->    - ``backends/tpm.c``
-> + - ``include/sysemu/tpm.h``
->    - ``include/sysemu/tpm_backend.h``
-> - - ``include/sysemu/tpm_backend_int.h``
+> diff --git a/backends/Makefile.objs b/backends/Makefile.objs
+> index 28a847cd57..22d204cb48 100644
+> --- a/backends/Makefile.objs
+> +++ b/backends/Makefile.objs
+> @@ -1,7 +1,7 @@
+>   common-obj-y += rng.o rng-egd.o rng-builtin.o
+>   common-obj-$(CONFIG_POSIX) += rng-random.o
 >   
->   The QEMU TPM passthrough device
->   -------------------------------
+> -common-obj-$(CONFIG_TPM) += tpm.o
+> +common-obj-$(CONFIG_TPM) += tpm/
+>   
+>   common-obj-y += hostmem.o hostmem-ram.o
+>   common-obj-$(CONFIG_POSIX) += hostmem-file.o
+> diff --git a/backends/tpm/Makefile.objs b/backends/tpm/Makefile.objs
+> new file mode 100644
+> index 0000000000..8cf5772824
+> --- /dev/null
+> +++ b/backends/tpm/Makefile.objs
+> @@ -0,0 +1 @@
+> +common-obj-y += tpm_backend.o
 
 
 
