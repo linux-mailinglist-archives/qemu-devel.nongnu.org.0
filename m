@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 084521F6750
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 13:59:04 +0200 (CEST)
-Received: from localhost ([::1]:35364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61DD81F6762
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 14:02:37 +0200 (CEST)
+Received: from localhost ([::1]:42942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjLrL-00044w-2H
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 07:59:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57496)
+	id 1jjLum-0007vV-Ek
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 08:02:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1jjLqD-0002q4-H5
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 07:57:53 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:30706
+ id 1jjLtJ-0007L0-IK
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 08:01:05 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:36932
  helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1jjLqC-0005dR-IQ
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 07:57:53 -0400
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 05BBZJid132622; Thu, 11 Jun 2020 07:57:49 -0400
+ id 1jjLtF-0006MG-Lr
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 08:01:05 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 05BBY0RM167324; Thu, 11 Jun 2020 08:00:56 -0400
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 31kjks2krt-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 31kg2vygdp-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 11 Jun 2020 07:57:49 -0400
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 05BBaJhl135071;
- Thu, 11 Jun 2020 07:57:48 -0400
-Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
- [169.55.91.170])
- by mx0b-001b2d01.pphosted.com with ESMTP id 31kjks2kp9-1
+ Thu, 11 Jun 2020 08:00:56 -0400
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 05BBXx9x167301;
+ Thu, 11 Jun 2020 08:00:53 -0400
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.11])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 31kg2vygdb-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 11 Jun 2020 07:57:47 -0400
-Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
- by ppma02wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 05BBsujK023421;
- Thu, 11 Jun 2020 11:57:42 GMT
-Received: from b01cxnp22035.gho.pok.ibm.com (b01cxnp22035.gho.pok.ibm.com
- [9.57.198.25]) by ppma02wdc.us.ibm.com with ESMTP id 31g2s8v8a4-1
+ Thu, 11 Jun 2020 08:00:53 -0400
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+ by ppma03dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 05BBxIsM009464;
+ Thu, 11 Jun 2020 12:00:52 GMT
+Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
+ [9.57.198.26]) by ppma03dal.us.ibm.com with ESMTP id 31hw1c5wf0-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 11 Jun 2020 11:57:42 +0000
+ Thu, 11 Jun 2020 12:00:52 +0000
 Received: from b01ledav004.gho.pok.ibm.com (b01ledav004.gho.pok.ibm.com
  [9.57.199.109])
- by b01cxnp22035.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 05BBvgLw52756862
+ by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 05BC0qIh16188304
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 11 Jun 2020 11:57:42 GMT
+ Thu, 11 Jun 2020 12:00:52 GMT
 Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 18B27112062;
- Thu, 11 Jun 2020 11:57:42 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id E17F1112065;
+ Thu, 11 Jun 2020 12:00:51 +0000 (GMT)
 Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E253C112061;
- Thu, 11 Jun 2020 11:57:41 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id A7368112062;
+ Thu, 11 Jun 2020 12:00:51 +0000 (GMT)
 Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
  by b01ledav004.gho.pok.ibm.com (Postfix) with ESMTP;
- Thu, 11 Jun 2020 11:57:41 +0000 (GMT)
-Subject: Re: [PATCH 7/8] hw/tpm: Make 'tpm_util.h' publicly accessible as
- "sysemu/tpm_util.h"
+ Thu, 11 Jun 2020 12:00:51 +0000 (GMT)
+Subject: Re: [RFC PATCH 8/8] tpm: Move backend code under the 'backends/'
+ directory
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
 References: <20200610200247.21378-1-philmd@redhat.com>
- <20200610200247.21378-8-philmd@redhat.com>
+ <20200610200247.21378-9-philmd@redhat.com>
 From: Stefan Berger <stefanb@linux.ibm.com>
-Message-ID: <d7efa99f-f2b9-2a39-5a75-da339e1b5fcf@linux.ibm.com>
-Date: Thu, 11 Jun 2020 07:57:41 -0400
+Message-ID: <ed92c76e-c20c-1ac1-04c7-66cef6b3eabc@linux.ibm.com>
+Date: Thu, 11 Jun 2020 08:00:51 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200610200247.21378-8-philmd@redhat.com>
+In-Reply-To: <20200610200247.21378-9-philmd@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
@@ -78,12 +78,11 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.687
  definitions=2020-06-11_10:2020-06-10,
  2020-06-11 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 adultscore=0
- spamscore=0 impostorscore=0 clxscore=1015 mlxlogscore=999
- priorityscore=1501 mlxscore=0 lowpriorityscore=0 suspectscore=0
- cotscore=-2147483648 bulkscore=0 malwarescore=0 classifier=spam adjust=0
- reason=mlx scancount=1 engine=8.12.0-2004280000
- definitions=main-2006110087
+ bulkscore=0 spamscore=0
+ impostorscore=0 lowpriorityscore=0 cotscore=-2147483648 clxscore=1015
+ suspectscore=0 mlxscore=0 malwarescore=0 adultscore=0 priorityscore=1501
+ mlxlogscore=999 phishscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2004280000 definitions=main-2006110087
 Received-SPF: pass client-ip=148.163.158.5; envelope-from=stefanb@linux.ibm.com;
  helo=mx0a-001b2d01.pphosted.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 06:23:08
@@ -114,138 +113,28 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 6/10/20 4:02 PM, Philippe Mathieu-Daudé wrote:
-> We are going to split the TPM backends from the TPM emulated
-> hardware in the next commit. Make the TPM util helpers accessible
-> by moving local "tpm_util.h" to global "sysemu/tpm_util.h".
+> TPM subsytem is split into backends (see commit f4ede81eed2)
+> and frontends (see i.e. 3676bc69b35). Keep the emulated
+> hardware 'frontends' under hw/tpm/, but move the backends
+> in the backends/ directory.
 >
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-
-Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
-
-
 > ---
->   {hw/tpm => include/sysemu}/tpm_util.h | 6 +++---
->   hw/tpm/tpm_crb.c                      | 2 +-
->   hw/tpm/tpm_emulator.c                 | 2 +-
->   hw/tpm/tpm_passthrough.c              | 2 +-
->   hw/tpm/tpm_spapr.c                    | 2 +-
->   hw/tpm/tpm_tis_common.c               | 2 +-
->   hw/tpm/tpm_util.c                     | 2 +-
->   7 files changed, 9 insertions(+), 9 deletions(-)
->   rename {hw/tpm => include/sysemu}/tpm_util.h (95%)
->
-> diff --git a/hw/tpm/tpm_util.h b/include/sysemu/tpm_util.h
-> similarity index 95%
-> rename from hw/tpm/tpm_util.h
-> rename to include/sysemu/tpm_util.h
-> index cf61d830d7..63e872c3b2 100644
-> --- a/hw/tpm/tpm_util.h
-> +++ b/include/sysemu/tpm_util.h
-> @@ -19,8 +19,8 @@
->    * License along with this library; if not, see <http://www.gnu.org/licenses/>
->    */
->   
-> -#ifndef TPM_TPM_UTIL_H
-> -#define TPM_TPM_UTIL_H
-> +#ifndef SYSEMU_TPM_UTIL_H
-> +#define SYSEMU_TPM_UTIL_H
->   
->   #include "sysemu/tpm.h"
->   #include "qemu/bswap.h"
-> @@ -69,4 +69,4 @@ static inline void tpm_cmd_set_error(void *b, uint32_t error)
->   void tpm_util_show_buffer(const unsigned char *buffer,
->                             size_t buffer_size, const char *string);
->   
-> -#endif /* TPM_TPM_UTIL_H */
-> +#endif /* SYSEMU_TPM_UTIL_H */
-> diff --git a/hw/tpm/tpm_crb.c b/hw/tpm/tpm_crb.c
-> index 1cac4d671d..60247295d4 100644
-> --- a/hw/tpm/tpm_crb.c
-> +++ b/hw/tpm/tpm_crb.c
-> @@ -24,9 +24,9 @@
->   #include "hw/acpi/tpm.h"
->   #include "migration/vmstate.h"
->   #include "sysemu/tpm_backend.h"
-> +#include "sysemu/tpm_util.h"
->   #include "sysemu/reset.h"
->   #include "tpm_prop.h"
-> -#include "tpm_util.h"
->   #include "tpm_ppi.h"
->   #include "trace.h"
->   
-> diff --git a/hw/tpm/tpm_emulator.c b/hw/tpm/tpm_emulator.c
-> index 3a0fc442f3..9605339f93 100644
-> --- a/hw/tpm/tpm_emulator.c
-> +++ b/hw/tpm/tpm_emulator.c
-> @@ -32,8 +32,8 @@
->   #include "qemu/sockets.h"
->   #include "io/channel-socket.h"
->   #include "sysemu/tpm_backend.h"
-> +#include "sysemu/tpm_util.h"
->   #include "tpm_int.h"
-> -#include "tpm_util.h"
->   #include "tpm_ioctl.h"
->   #include "migration/blocker.h"
->   #include "migration/vmstate.h"
-> diff --git a/hw/tpm/tpm_passthrough.c b/hw/tpm/tpm_passthrough.c
-> index f67244b5d4..7403807ec4 100644
-> --- a/hw/tpm/tpm_passthrough.c
-> +++ b/hw/tpm/tpm_passthrough.c
-> @@ -28,10 +28,10 @@
->   #include "qemu/module.h"
->   #include "qemu/sockets.h"
->   #include "sysemu/tpm_backend.h"
-> +#include "sysemu/tpm_util.h"
->   #include "tpm_int.h"
->   #include "qapi/clone-visitor.h"
->   #include "qapi/qapi-visit-tpm.h"
-> -#include "tpm_util.h"
->   #include "trace.h"
->   
->   #define TYPE_TPM_PASSTHROUGH "tpm-passthrough"
-> diff --git a/hw/tpm/tpm_spapr.c b/hw/tpm/tpm_spapr.c
-> index 65672048c7..cb4dfd1e6a 100644
-> --- a/hw/tpm/tpm_spapr.c
-> +++ b/hw/tpm/tpm_spapr.c
-> @@ -20,7 +20,7 @@
->   #include "migration/vmstate.h"
->   
->   #include "sysemu/tpm_backend.h"
-> -#include "tpm_util.h"
-> +#include "sysemu/tpm_util.h"
->   #include "tpm_prop.h"
->   
->   #include "hw/ppc/spapr.h"
-> diff --git a/hw/tpm/tpm_tis_common.c b/hw/tpm/tpm_tis_common.c
-> index 94704870f6..64206a6a3b 100644
-> --- a/hw/tpm/tpm_tis_common.c
-> +++ b/hw/tpm/tpm_tis_common.c
-> @@ -33,7 +33,7 @@
->   #include "hw/qdev-properties.h"
->   #include "migration/vmstate.h"
->   #include "sysemu/tpm_backend.h"
-> -#include "tpm_util.h"
-> +#include "sysemu/tpm_util.h"
->   #include "tpm_ppi.h"
->   #include "trace.h"
->   
-> diff --git a/hw/tpm/tpm_util.c b/hw/tpm/tpm_util.c
-> index c0a0f3d71f..d0ec2a8235 100644
-> --- a/hw/tpm/tpm_util.c
-> +++ b/hw/tpm/tpm_util.c
-> @@ -23,11 +23,11 @@
->   #include "qemu/error-report.h"
->   #include "qapi/error.h"
->   #include "qapi/visitor.h"
-> -#include "tpm_util.h"
->   #include "tpm_int.h"
->   #include "exec/memory.h"
->   #include "hw/qdev-properties.h"
->   #include "sysemu/tpm_backend.h"
-> +#include "sysemu/tpm_util.h"
->   #include "trace.h"
->   
->   /* tpm backend property */
+> RFC due to a FIXME in tpm_tis_common.c, it uses
+> TRACE_TPM_UTIL_SHOW_BUFFER which is now generated
+> by backends/trace-events...
+> ---
+>   Makefile                               |  2 +-
+>   {hw/tpm => backends}/tpm_int.h         |  6 ++---
+>   {hw/tpm => backends}/tpm_ioctl.h       |  0
+>   {hw/tpm => backends}/tpm_emulator.c    |  0
+>   {hw/tpm => backends}/tpm_passthrough.c |  0
+>   {hw/tpm => backends}/tpm_util.c        |  0
+
+I don't understand this move. Why not keep everything TPM related in one 
+directory even though there may be a backend directory where 'nothing 
+else fits but the name.' All we need to remember is that 'emulator' and 
+'passthrough' are the backends.
 
 
 
