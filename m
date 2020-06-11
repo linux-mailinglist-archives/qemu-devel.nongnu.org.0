@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75C631F6E9E
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 22:18:06 +0200 (CEST)
-Received: from localhost ([::1]:40924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C7771F6EA8
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 22:22:40 +0200 (CEST)
+Received: from localhost ([::1]:57710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjTeH-0000mH-DD
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 16:18:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55674)
+	id 1jjTih-0000Pm-4t
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 16:22:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jjTA5-0001I5-OI
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:46:53 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:51571
+ id 1jjTAB-0001S8-3r
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:46:59 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:37690
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jjTA4-0001Lf-1H
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:46:53 -0400
+ id 1jjTA9-0001Mb-6r
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:46:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591904811;
+ s=mimecast20190719; t=1591904816;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Xt61GIgecUTg5KOIYFEDCp0QNh8YsQUdYP2PYETJViQ=;
- b=gNu9rwMddAPXsP/+URV6mizoo4ksg0rtZSli9borzoLUfs8u/EZKmNdXUXFxo3x/kslcGl
- WX3Kmkb+3M36ug50g5/u83OR2tcm876vTFG5RswTV5UW+eyFX/9uE8LGKf5WA0Ery7d+ZZ
- hoefsypeAuBas14gl+wOufu8WNoW6Tc=
+ bh=+2+m6rN7Zl+Pne0W6SURoqqxLTIDqqxuGgYBzulALHk=;
+ b=WSumNeU6PGAOzn3E+QXNMX7uZwX26vAyD3L5HWhxYIFxixynHOwVSQTI2j2dvPxDfaeRNp
+ 0gQoFnCtcwx5uGLttCrx27xq573IbRFVc1gx+Ra3kC/wpAAtHnC5MsgfnuaLqw/BAaAKkq
+ ywSG3aJIpugtz0v+DeLqiCLQ2N3FsYE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-158-JnQ-1lthMLeq4o3ODd1V7w-1; Thu, 11 Jun 2020 15:46:48 -0400
-X-MC-Unique: JnQ-1lthMLeq4o3ODd1V7w-1
+ us-mta-190-Ixpys1EpMiKFKZzLcUUF_w-1; Thu, 11 Jun 2020 15:46:52 -0400
+X-MC-Unique: Ixpys1EpMiKFKZzLcUUF_w-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7275887300F
- for <qemu-devel@nongnu.org>; Thu, 11 Jun 2020 19:46:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 47F8783DB79;
+ Thu, 11 Jun 2020 19:46:47 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 32E4160CD3;
- Thu, 11 Jun 2020 19:46:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E34C760CC0;
+ Thu, 11 Jun 2020 19:46:46 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 068/115] KVM: Pass EventNotifier into kvm_irqchip_assign_irqfd
-Date: Thu, 11 Jun 2020 15:44:02 -0400
-Message-Id: <20200611194449.31468-69-pbonzini@redhat.com>
+Subject: [PULL 074/115] i386: Remove unused define's from hax and hvf
+Date: Thu, 11 Jun 2020 15:44:08 -0400
+Message-Id: <20200611194449.31468-75-pbonzini@redhat.com>
 In-Reply-To: <20200611194449.31468-1-pbonzini@redhat.com>
 References: <20200611194449.31468-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -80,74 +80,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eric Auger <eric.auger@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>, Peter Xu <peterx@redhat.com>
+Cc: Julio Faracco <jcfaracco@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Peter Xu <peterx@redhat.com>
+From: Julio Faracco <jcfaracco@gmail.com>
 
-So that kvm_irqchip_assign_irqfd() can have access to the
-EventNotifiers, especially the resample event.  It is needed in follow
-up patch to cache and kick resamplefds from QEMU.
+Commit acb9f95a removed boundary checks for ID and VCPU ID. After that,
+the max definitions of that boundaries are not required anymore. This
+commit is only a code cleanup.
 
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
-Reviewed-by: Alex Williamson <alex.williamson@redhat.com>
-Signed-off-by: Peter Xu <peterx@redhat.com>
-Message-Id: <20200318145204.74483-4-peterx@redhat.com>
+Signed-off-by: Julio Faracco <jcfaracco@gmail.com>
+Message-Id: <20200323200538.202164-1-jcfaracco@gmail.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- accel/kvm/kvm-all.c | 16 ++++++++++------
- 1 file changed, 10 insertions(+), 6 deletions(-)
+ target/i386/hax-i386.h     | 2 --
+ target/i386/hvf/hvf-i386.h | 2 --
+ 2 files changed, 4 deletions(-)
 
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index d06cc04079..b048c10af9 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -1662,9 +1662,13 @@ int kvm_irqchip_update_msi_route(KVMState *s, int virq, MSIMessage msg,
-     return kvm_update_routing_entry(s, &kroute);
- }
+diff --git a/target/i386/hax-i386.h b/target/i386/hax-i386.h
+index 7d988f81da..ec28708185 100644
+--- a/target/i386/hax-i386.h
++++ b/target/i386/hax-i386.h
+@@ -41,8 +41,6 @@ struct hax_state {
+ };
  
--static int kvm_irqchip_assign_irqfd(KVMState *s, int fd, int rfd, int virq,
-+static int kvm_irqchip_assign_irqfd(KVMState *s, EventNotifier *event,
-+                                    EventNotifier *resample, int virq,
-                                     bool assign)
- {
-+    int fd = event_notifier_get_fd(event);
-+    int rfd = resample ? event_notifier_get_fd(resample) : -1;
-+
-     struct kvm_irqfd irqfd = {
-         .fd = fd,
-         .gsi = virq,
-@@ -1769,7 +1773,9 @@ int kvm_irqchip_add_hv_sint_route(KVMState *s, uint32_t vcpu, uint32_t sint)
-     return -ENOSYS;
- }
+ #define HAX_MAX_VCPU 0x10
+-#define MAX_VM_ID 0x40
+-#define MAX_VCPU_ID 0x40
  
--static int kvm_irqchip_assign_irqfd(KVMState *s, int fd, int virq, bool assign)
-+static int kvm_irqchip_assign_irqfd(KVMState *s, EventNotifier *event,
-+                                    EventNotifier *resample, int virq,
-+                                    bool assign)
- {
-     abort();
- }
-@@ -1783,15 +1789,13 @@ int kvm_irqchip_update_msi_route(KVMState *s, int virq, MSIMessage msg)
- int kvm_irqchip_add_irqfd_notifier_gsi(KVMState *s, EventNotifier *n,
-                                        EventNotifier *rn, int virq)
- {
--    return kvm_irqchip_assign_irqfd(s, event_notifier_get_fd(n),
--           rn ? event_notifier_get_fd(rn) : -1, virq, true);
-+    return kvm_irqchip_assign_irqfd(s, n, rn, virq, true);
- }
+ struct hax_vm {
+     hax_fd fd;
+diff --git a/target/i386/hvf/hvf-i386.h b/target/i386/hvf/hvf-i386.h
+index 15ee4835cf..fbe4a350c5 100644
+--- a/target/i386/hvf/hvf-i386.h
++++ b/target/i386/hvf/hvf-i386.h
+@@ -21,8 +21,6 @@
+ #include "x86.h"
  
- int kvm_irqchip_remove_irqfd_notifier_gsi(KVMState *s, EventNotifier *n,
-                                           int virq)
- {
--    return kvm_irqchip_assign_irqfd(s, event_notifier_get_fd(n), -1, virq,
--           false);
-+    return kvm_irqchip_assign_irqfd(s, n, NULL, virq, false);
- }
+ #define HVF_MAX_VCPU 0x10
+-#define MAX_VM_ID 0x40
+-#define MAX_VCPU_ID 0x40
  
- int kvm_irqchip_add_irqfd_notifier(KVMState *s, EventNotifier *n,
+ extern struct hvf_state hvf_global;
+ 
 -- 
 2.26.2
 
