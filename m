@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EF301F6F43
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 23:14:52 +0200 (CEST)
-Received: from localhost ([::1]:50932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C95D81F6F24
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 23:05:58 +0200 (CEST)
+Received: from localhost ([::1]:57270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjUXD-0006dD-Md
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 17:14:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56348)
+	id 1jjUOb-0001P7-OB
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 17:05:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jjTAl-0002Mu-ID
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:47:35 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:30043
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jjTAh-0001Tt-TN
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:47:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591904851;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jgOHUr86uk5iUKCM5k8xEVjPaQJOtuaVUYx5SmDOBNM=;
- b=DDCW8HBzixor83G59QYN6WWOWKtnqc67GfoMMk0xDt8s/Edr/KA7DI9ULyT2P7BxmqZlaK
- mQ8mZG77Bfm2vlG9CQQbcYG+PehuZSgXgFDmUgX7/2idpx63GIA4caym1BzDWq/7O27gzV
- J9mZxEADIdrd4qEGSoD63ETlKvX0CDE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-104-LwKVlOw4MaORwYjlyQus4g-1; Thu, 11 Jun 2020 15:47:29 -0400
-X-MC-Unique: LwKVlOw4MaORwYjlyQus4g-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ED25C835B41;
- Thu, 11 Jun 2020 19:47:27 +0000 (UTC)
-Received: from virtlab701.virt.lab.eng.bos.redhat.com
- (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7F0C98FF6A;
- Thu, 11 Jun 2020 19:47:27 +0000 (UTC)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 113/115] replay: fix replay shutdown for console mode
-Date: Thu, 11 Jun 2020 15:44:47 -0400
-Message-Id: <20200611194449.31468-114-pbonzini@redhat.com>
-In-Reply-To: <20200611194449.31468-1-pbonzini@redhat.com>
-References: <20200611194449.31468-1-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jjTfh-0004hX-MG
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 16:19:33 -0400
+Received: from mail-oi1-x236.google.com ([2607:f8b0:4864:20::236]:36754)
+ by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jjTff-0000P0-O9
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 16:19:33 -0400
+Received: by mail-oi1-x236.google.com with SMTP id a137so6639133oii.3
+ for <qemu-devel@nongnu.org>; Thu, 11 Jun 2020 13:19:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=UO9jNOJcrGLnu+xPTHjw7Zicxd2c3/XqSzYAC5XnoWw=;
+ b=MSj0SWr/OOt5XNgFLUvUPWp4S8wFozrxCwdAWVZ+QKo5ZXiJP4We0MPW5lz0Wlg2nT
+ Xx2tQ2qKKm8YnP+OdU1vr+frXjfTyVIAikx3nSBzuINEFb4h0wV7xYhXagyk0/4rjbPI
+ zfICrgWTYwtJpFlDtJKGBfbYj2f9TfqnecpF0joV/syGlcfU34fTqgfeYrVnKl09vDSf
+ I3TBtBxuqFwLX/vHKQCw9hh9X06Wh2ywwPG7wVsOc24v5Q4QoTqrcCUDxIAtPv8L7Je4
+ dETvBIWZKJC3gZ5piEXwAVK1W+71LTzwMPt59oUIXuXEkRBhY0ryYpQlOVYmk8WKIAmS
+ +YUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=UO9jNOJcrGLnu+xPTHjw7Zicxd2c3/XqSzYAC5XnoWw=;
+ b=RG1ReMX3HKom+K7BfrPQRqwUXvnC0E09i27/Gq9ZRQgwIY9rfcmwGjFXBEVi7cjYol
+ 2FFGxdVEy6WIoQJ0h63v/5vKgfPO3z687gRZFIfnwzND8+KsL9C9O7+RMY2WMtU3D/O6
+ S1dLN7HH9VEUrD/g0+VuK5rrqBvTcukpWp1uWxG7ok37hZ+4xC+YgEWR8xCD1nlRkj4j
+ yh1EHu7cY99ijt6o59KuYCWkbfvHXl/gjaW2fT2GtUUIwVOcpUcDTq8juRub+YqqRklG
+ oS5I2QX/wZNS3gCDfHJFqsjdbtxz1ZpjQEdV91w6Mj3bI7x6xJMzmn6fx8XWL5SnLxII
+ DXMg==
+X-Gm-Message-State: AOAM531YGWNwh6Z8MTCeHtVhkQlhNTZCeu0vL3rQQN3Kr5E3WBt3aDbv
+ 5BnbV4PN8HR5Fr//rsh5U3KokWgmoDeWLZ3+fPCIquSp5P8=
+X-Google-Smtp-Source: ABdhPJx0m7+dZFlC528Ymb3jrxHICqoq85DWCjkNpo1qhJVNgJhpZwcV6sYdV9uyf6RhhEcLemAgWwmgy8NpYmyRBww=
+X-Received: by 2002:aca:5152:: with SMTP id f79mr7464387oib.146.1591906762767; 
+ Thu, 11 Jun 2020 13:19:22 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 14:52:10
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+References: <20200610131011.1941209-1-laurent@vivier.eu>
+In-Reply-To: <20200610131011.1941209-1-laurent@vivier.eu>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 11 Jun 2020 21:19:11 +0100
+Message-ID: <CAFEAcA9TJAKR+FWNt6P3J9B70dK2LyhUY4m8dkvKz3LxGYAy5g@mail.gmail.com>
+Subject: Re: [PULL v2 00/16] Trivial branch for 5.1 patches
+To: Laurent Vivier <laurent@vivier.eu>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::236;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x236.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,46 +78,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Pavel Dovgalyuk <Pavel.Dovgaluk@gmail.com>,
- Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Michael Tokarev <mjt@tls.msk.ru>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Pavel Dovgalyuk <Pavel.Dovgaluk@gmail.com>
-
-When QEMU is used without any graphical window,
-QEMU execution is terminated with the signal (e.g., Ctrl-C).
-Signal processing in QEMU does not include
-qemu_system_shutdown_request call. That is why shutdown
-event is not recorded by record/replay in this case.
-This patch adds shutdown event to the end of the record log.
-Now every replay will shutdown the machine at the end.
-
-Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
-Message-Id: <159012995470.27967.18129611453659045726.stgit@pasha-ThinkPad-X280>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- replay/replay.c | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/replay/replay.c b/replay/replay.c
-index 706c7b4f4b..7d93746c73 100644
---- a/replay/replay.c
-+++ b/replay/replay.c
-@@ -366,6 +366,11 @@ void replay_finish(void)
-     /* finalize the file */
-     if (replay_file) {
-         if (replay_mode == REPLAY_MODE_RECORD) {
-+            /*
-+             * Can't do it in the signal handler, therefore
-+             * add shutdown event here for the case of Ctrl-C.
-+             */
-+            replay_shutdown_request(SHUTDOWN_CAUSE_HOST_SIGNAL);
-             /* write end event */
-             replay_put_event(EVENT_END);
- 
--- 
-2.26.2
+On Wed, 10 Jun 2020 at 14:12, Laurent Vivier <laurent@vivier.eu> wrote:
+>
+> The following changes since commit 49ee11555262a256afec592dfed7c5902d5eefd2:
+>
+>   Merge remote-tracking branch 'remotes/vivier2/tags/linux-user-for-5.1-pull-=
+> request' into staging (2020-06-08 11:04:57 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://github.com/vivier/qemu.git tags/trivial-branch-for-5.1-pull-request
+>
+> for you to fetch changes up to fe18e6eecdd45d3dff0c8968cbb07c5e02fbe4c8:
+>
+>   semihosting: remove the pthread include which seems unused (2020-06-10 11:2=
+> 9:44 +0200)
+>
+> ----------------------------------------------------------------
+> Trivial branch pull request 20200610
+>
+> Convert DPRINTF() to traces or qemu_logs
+> Use IEC binary prefix definitions
+> Use qemu_semihosting_log_out() in target/unicore32
+> Some code and doc cleanup
 
 
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.1
+for any user-visible changes.
+
+-- PMM
 
