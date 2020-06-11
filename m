@@ -2,61 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5315B1F6675
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 13:19:02 +0200 (CEST)
-Received: from localhost ([::1]:53888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BC961F667D
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 13:20:51 +0200 (CEST)
+Received: from localhost ([::1]:58952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjLEb-00034H-An
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 07:19:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42598)
+	id 1jjLGM-000587-2j
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 07:20:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jjLCr-0001l8-4x
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 07:17:13 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:22757
- helo=us-smtp-delivery-1.mimecast.com)
+ id 1jjLCu-0001nD-Vj
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 07:17:18 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:48956
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jjLCp-0003zR-7o
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 07:17:12 -0400
+ id 1jjLCs-0003zv-Qt
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 07:17:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591874230;
+ s=mimecast20190719; t=1591874233;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=6IXxP0qK4X80XIQsZDuejXNu76QU/50J1X5Sv3H+SKE=;
- b=Kd2mRUZjjIF88kOngD0XPX2P6pxzAxdHjrQSK/u2bNuNKDN+j+SNQoa4o31Mh3fMENyHA6
- SuUPIxr9ZtpOY4FbFUHne6wbqoS6NIadYTHj/W0TOOeX5RGcIcHnEgf5rOw0Kz8O1atMqU
- VdgPV/0uTk7/x58BF8W9GeXOezks360=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=JZUM30HithXix6eV/zUUUkvVwY9gnckp++ff4Je8OQs=;
+ b=FtlKd7LeEral8upcA1aAcIsg7AixxPbpf5f7vM8LyhCtTL0gwUXjh1Sg5C3ux2jOTO/vVv
+ LqoYyB5BP87HQ/DTMXmCcra0uHVwhXo8WLjdL3OH6NBngBPgulDq8bxHV5qjBF/t7/jsx9
+ lXv2q7huTQkvxga1JzOTwHEcV2aKT3o=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-447-UEZ0btzPNBiwS_SsoKfX6w-1; Thu, 11 Jun 2020 07:17:08 -0400
-X-MC-Unique: UEZ0btzPNBiwS_SsoKfX6w-1
+ us-mta-66-UmxToQNvOwy2iAuiSMW6jw-1; Thu, 11 Jun 2020 07:17:11 -0400
+X-MC-Unique: UmxToQNvOwy2iAuiSMW6jw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ABF79107ACCA
- for <qemu-devel@nongnu.org>; Thu, 11 Jun 2020 11:17:07 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0610B835B43
+ for <qemu-devel@nongnu.org>; Thu, 11 Jun 2020 11:17:11 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-114-116.ams2.redhat.com
  [10.36.114.116])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A774E60BF3;
- Thu, 11 Jun 2020 11:17:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 04A5D60BF3;
+ Thu, 11 Jun 2020 11:17:07 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, armbru@redhat.com, thuth@redhat.com,
  quintela@redhat.com
-Subject: [PATCH 0/2] monitor openfd commands
-Date: Thu, 11 Jun 2020 12:17:01 +0100
-Message-Id: <20200611111703.159590-1-dgilbert@redhat.com>
+Subject: [PATCH 1/2] qmp: Add 'openfd' command
+Date: Thu, 11 Jun 2020 12:17:02 +0100
+Message-Id: <20200611111703.159590-2-dgilbert@redhat.com>
+In-Reply-To: <20200611111703.159590-1-dgilbert@redhat.com>
+References: <20200611111703.159590-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 03:29:33
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
@@ -83,24 +86,138 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-The monitors currently have a 'getfd' command that lets you pass an fd
-via the monitor socket.  'openfd' is a new command that opens a file
-and puts the fd in the same fd pool.  The file is opened RW and created
-if it doesn't exist.
-It makes it easy to test migration to and from a file.
+The existing 'getfd' command imports an fd from the monitor via
+SCM rights.
+This command allows qemu to open the file for itself; this is convenient
+primarily in testing, or with simple QMP clients.
 
-Dr. David Alan Gilbert (2):
-  qmp: Add 'openfd' command
-  hmp: Add 'openfd' command
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+---
+ monitor/misc.c | 48 ++++++++++++++++++++++++++++++++++++++----------
+ qapi/misc.json | 23 ++++++++++++++++++++++-
+ 2 files changed, 60 insertions(+), 11 deletions(-)
 
- hmp-commands.hx        | 16 +++++++++++++-
- include/monitor/hmp.h  |  1 +
- monitor/hmp-cmds.c     | 10 +++++++++
- monitor/misc.c         | 48 +++++++++++++++++++++++++++++++++---------
- qapi/misc.json         | 23 +++++++++++++++++++-
- tests/qtest/test-hmp.c |  2 ++
- 6 files changed, 88 insertions(+), 12 deletions(-)
-
+diff --git a/monitor/misc.c b/monitor/misc.c
+index f5207cd242..d538af592a 100644
+--- a/monitor/misc.c
++++ b/monitor/misc.c
+@@ -1230,22 +1230,20 @@ static void hmp_acl_remove(Monitor *mon, const QDict *qdict)
+     }
+ }
+ 
+-void qmp_getfd(const char *fdname, Error **errp)
++/*
++ * Add a named fd to the monitor list.
++ * Returns true on success.
++ */
++static bool addfd(const char *fdname, int fd, Error **errp)
+ {
+     mon_fd_t *monfd;
+-    int fd, tmp_fd;
+-
+-    fd = qemu_chr_fe_get_msgfd(&cur_mon->chr);
+-    if (fd == -1) {
+-        error_setg(errp, QERR_FD_NOT_SUPPLIED);
+-        return;
+-    }
++    int tmp_fd;
+ 
+     if (qemu_isdigit(fdname[0])) {
+         close(fd);
+         error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "fdname",
+                    "a name not starting with a digit");
+-        return;
++        return false;
+     }
+ 
+     qemu_mutex_lock(&cur_mon->mon_lock);
+@@ -1259,7 +1257,7 @@ void qmp_getfd(const char *fdname, Error **errp)
+         qemu_mutex_unlock(&cur_mon->mon_lock);
+         /* Make sure close() is outside critical section */
+         close(tmp_fd);
+-        return;
++        return true;
+     }
+ 
+     monfd = g_malloc0(sizeof(mon_fd_t));
+@@ -1268,6 +1266,36 @@ void qmp_getfd(const char *fdname, Error **errp)
+ 
+     QLIST_INSERT_HEAD(&cur_mon->fds, monfd, next);
+     qemu_mutex_unlock(&cur_mon->mon_lock);
++
++    return true;
++}
++
++void qmp_getfd(const char *fdname, Error **errp)
++{
++    int fd = qemu_chr_fe_get_msgfd(&cur_mon->chr);
++    if (fd == -1) {
++        error_setg(errp, QERR_FD_NOT_SUPPLIED);
++        return;
++    }
++
++    if (!addfd(fdname, fd, errp)) {
++        close(fd);
++    }
++}
++
++void qmp_openfd(const char *fdname, const char *filename, Error **errp)
++{
++    int fd;
++
++    fd = open(filename, O_RDWR | O_CREAT, S_IRWXU);
++    if (fd == -1) {
++        error_setg_errno(errp, errno, "Cannot open file '%s'", filename);
++        return;
++    }
++
++    if (!addfd(fdname, fd, errp)) {
++        close(fd);
++    }
+ }
+ 
+ void qmp_closefd(const char *fdname, Error **errp)
+diff --git a/qapi/misc.json b/qapi/misc.json
+index 99b90ac80b..baec07358e 100644
+--- a/qapi/misc.json
++++ b/qapi/misc.json
+@@ -952,7 +952,7 @@
+ ##
+ # @closefd:
+ #
+-# Close a file descriptor previously passed via SCM rights
++# Close a named file descriptor
+ #
+ # @fdname: file descriptor name
+ #
+@@ -968,6 +968,27 @@
+ ##
+ { 'command': 'closefd', 'data': {'fdname': 'str'} }
+ 
++##
++# @openfd:
++#
++# Open a file descriptor.  The file is opened read-write.
++#
++# @fdname: file descriptor name
++# @filename: file name
++#
++# Returns: Nothing on success
++#
++# Since: 5.1
++#
++# Example:
++#
++# -> { "execute": "openfd", "arguments": { "fdname": "null",
++#                                          "filename": "/dev/null" } }
++# <- { "return": {} }
++#
++##
++{ 'command': 'openfd', 'data': {'fdname': 'str', 'filename': 'str'} }
++
+ ##
+ # @MemoryInfo:
+ #
 -- 
 2.26.2
 
