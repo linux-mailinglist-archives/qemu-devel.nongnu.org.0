@@ -2,74 +2,113 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A1D11F6A9B
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 17:08:09 +0200 (CEST)
-Received: from localhost ([::1]:38970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 709EB1F6ACB
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 17:20:10 +0200 (CEST)
+Received: from localhost ([::1]:60998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjOoK-0007Hf-0l
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 11:08:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47074)
+	id 1jjOzx-00034T-BT
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 11:20:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51324)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1jjOjH-0004x0-M1
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 11:02:55 -0400
-Received: from mta-02.yadro.com ([89.207.88.252]:40948 helo=mta-01.yadro.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1jjOj8-00083s-N6
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 11:02:55 -0400
-Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id 053AB4C893;
- Thu, 11 Jun 2020 15:02:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
- in-reply-to:content-disposition:content-type:content-type
- :mime-version:references:message-id:subject:subject:from:from
- :date:date:received:received:received; s=mta-01; t=1591887751;
- x=1593702152; bh=sq8uhQ7nz1BvdO6/bUw8epsRxrpAmJ3guZV9S8Ws50E=; b=
- Au3ymbl7nexfxJVxJSdWzTEmMOhsD1RwVMyf+E0Uitobkgx0jxLx1CngZ8FPFKxN
- +sPOcSnhwYNzii7tavyendrqfuRCPDR5Alku0lDt29/FmeWTMmsm9H+YVNIFk2IT
- 6UFCuUYYju4jE/uXhY+1g4i8lBpQjIfVeCX/2XvAUXk=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
- by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id E3pORXTzJFjT; Thu, 11 Jun 2020 18:02:31 +0300 (MSK)
-Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
- [172.17.10.102])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id 839B54C854;
- Thu, 11 Jun 2020 18:02:28 +0300 (MSK)
-Received: from localhost (172.17.204.212) by T-EXCH-02.corp.yadro.com
- (172.17.10.102) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Thu, 11
- Jun 2020 18:02:28 +0300
-Date: Thu, 11 Jun 2020 18:02:27 +0300
-From: Roman Bolshakov <r.bolshakov@yadro.com>
-To: Claudio Fontana <cfontana@suse.de>
-Subject: Re: [PATCH 12/13] i386: hvf: Move mmio_buf into CPUX86State
-Message-ID: <20200611150227.GA76007@SPB-NB-133.local>
-References: <20200528193758.51454-1-r.bolshakov@yadro.com>
- <20200528193758.51454-13-r.bolshakov@yadro.com>
- <d57e48c6-574e-471c-78be-1245d62bc908@redhat.com>
- <3101f615-e1c9-2cf4-7a7b-6e30c7942c53@suse.de>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jjOsQ-0004Wv-Qq
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 11:12:24 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:60368
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jjOsN-0003Lx-Hy
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 11:12:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1591888338;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=deFoKk7gNM/At55U2tuzz4P+LxVy3t7zfFh3JkK9FCM=;
+ b=J9hg7swhipwUC3/GHCoydI9hpQCiamBKxxQb48Wd3E+hxilOvhsHrZDy3aPu4sJGcTeNcm
+ UD/Zt85TMnH+makvdIXzGb5BD6yRH5JCh14iYHbs/sWsdEb5cBwKCnROWg4gIpjDzU0cGf
+ jW+m4PR+7rwEkVVF6fh0c7rPll+QSuk=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-486-YKmgSmR5OWKzB17r36ERcQ-1; Thu, 11 Jun 2020 11:12:06 -0400
+X-MC-Unique: YKmgSmR5OWKzB17r36ERcQ-1
+Received: by mail-wr1-f69.google.com with SMTP id p9so2679291wrx.10
+ for <qemu-devel@nongnu.org>; Thu, 11 Jun 2020 08:12:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=deFoKk7gNM/At55U2tuzz4P+LxVy3t7zfFh3JkK9FCM=;
+ b=ZiHPUdsweGgIKfwdOKft+leH4EHdMzs+wnmADKevRMBZlbXt5P9bDOS2EI48FCTLdL
+ os8bKxnAQdX1NeQEbLNec3u3HfCS0z3ZFik5wGASc3nnIV3bT9oMi+TslbVyFT732kUc
+ ZoJUTcA0UL/D2pmoAQdytBY34HZMDc+DBsPCy0YGAS5YzaWDA144/bH5xxxYvhLx0wEq
+ lRPT7wwci4vZi9BREQs+5nYCw/XZRUIdc+fvDKXrtebzxW8aBA6yhTOnxTDBlHcJOv4W
+ r5p/hKDQZ2B2Y47rC1QLBhC0nzLcyX8aIZncPMSaB5Og9lnwwOJ6p6YYah2iWF/GXiKY
+ no1w==
+X-Gm-Message-State: AOAM532vXpGQX8xm/hyga9txMWecAZhYToQkrsw0a+6BJ75cg3p3IynO
+ AgvFU2RfXA42gPEVlGbX0CClOzLQAZPeu/eYME7mbRq/oLLrHxlihGVx30mfixu8nTz5SPp5CIQ
+ RcHzGLR2viFt/Kg0=
+X-Received: by 2002:adf:f2c2:: with SMTP id d2mr9663095wrp.424.1591888324887; 
+ Thu, 11 Jun 2020 08:12:04 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyiK+zmnTnnd16SZ6xjRG8+5lUWRe/1R5JXhsronq6xUjdvqjq4d1Y7fSvEF6cGN5oKpr9QQg==
+X-Received: by 2002:adf:f2c2:: with SMTP id d2mr9663072wrp.424.1591888324630; 
+ Thu, 11 Jun 2020 08:12:04 -0700 (PDT)
+Received: from [192.168.1.38] (181.red-88-10-103.dynamicip.rima-tde.net.
+ [88.10.103.181])
+ by smtp.gmail.com with ESMTPSA id z22sm4603295wmf.9.2020.06.11.08.12.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 11 Jun 2020 08:12:04 -0700 (PDT)
+Subject: Re: [RFC PATCH] logging: add a LOG_TCG_WARN for temp leaks
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20200611144531.20142-1-alex.bennee@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <999a1545-48df-c6f7-cf37-6cd0c394da77@redhat.com>
+Date: Thu, 11 Jun 2020 17:12:02 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <3101f615-e1c9-2cf4-7a7b-6e30c7942c53@suse.de>
-X-Originating-IP: [172.17.204.212]
-X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
- T-EXCH-02.corp.yadro.com (172.17.10.102)
-Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
- helo=mta-01.yadro.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 11:02:33
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <20200611144531.20142-1-alex.bennee@linaro.org>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 03:29:33
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,141 +121,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
- qemu-devel@nongnu.org, Cameron Esfahani <dirty@apple.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <rth@twiddle.net>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 11, 2020 at 03:24:31PM +0200, Claudio Fontana wrote:
-> On 6/4/20 8:27 PM, Paolo Bonzini wrote:
-> > On 28/05/20 21:37, Roman Bolshakov wrote:
-> >> There's no similar field in CPUX86State, but it's needed for MMIO traps.
-> >>
-> >> Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
-> >> ---
-> >>  target/i386/cpu.h         |  1 +
-> >>  target/i386/hvf/hvf.c     |  5 +++++
-> >>  target/i386/hvf/x86.h     |  1 -
-> >>  target/i386/hvf/x86_emu.c | 12 ++++++------
-> >>  4 files changed, 12 insertions(+), 7 deletions(-)
-> >>
-> >> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-> >> index 7e6566565a..be44e19154 100644
-> >> --- a/target/i386/cpu.h
-> >> +++ b/target/i386/cpu.h
-> >> @@ -1593,6 +1593,7 @@ typedef struct CPUX86State {
-> >>  #endif
-> >>  #if defined(CONFIG_HVF)
-> >>      hvf_lazy_flags hvf_lflags;
-> >> +    void *hvf_mmio_buf;
-> >>      HVFX86EmulatorState *hvf_emul;
-> >>  #endif
-> >>  
-> >> diff --git a/target/i386/hvf/hvf.c b/target/i386/hvf/hvf.c
-> >> index 4cee496d71..57696c46c7 100644
-> >> --- a/target/i386/hvf/hvf.c
-> >> +++ b/target/i386/hvf/hvf.c
-> >> @@ -533,7 +533,11 @@ void hvf_reset_vcpu(CPUState *cpu) {
-> >>  
-> >>  void hvf_vcpu_destroy(CPUState *cpu)
-> >>  {
-> >> +    X86CPU *x86_cpu = X86_CPU(cpu);
-> >> +    CPUX86State *env = &x86_cpu->env;
-> >> +
-> >>      hv_return_t ret = hv_vcpu_destroy((hv_vcpuid_t)cpu->hvf_fd);
-> >> +    g_free(env->hvf_mmio_buf);
-> >>      assert_hvf_ok(ret);
-> >>  }
-> >>  
-> >> @@ -563,6 +567,7 @@ int hvf_init_vcpu(CPUState *cpu)
-> >>      init_decoder();
-> >>  
-> >>      hvf_state->hvf_caps = g_new0(struct hvf_vcpu_caps, 1);
-> >> +    env->hvf_mmio_buf = g_new(char, 4096);
-> >>      env->hvf_emul = g_new0(HVFX86EmulatorState, 1);
-> >>  
-> >>      r = hv_vcpu_create((hv_vcpuid_t *)&cpu->hvf_fd, HV_VCPU_DEFAULT);
-> >> diff --git a/target/i386/hvf/x86.h b/target/i386/hvf/x86.h
-> >> index 2363616c07..483fcea762 100644
-> >> --- a/target/i386/hvf/x86.h
-> >> +++ b/target/i386/hvf/x86.h
-> >> @@ -230,7 +230,6 @@ typedef struct x68_segment_selector {
-> >>  
-> >>  /* Definition of hvf_x86_state is here */
-> >>  struct HVFX86EmulatorState {
-> >> -    uint8_t mmio_buf[4096];
-> >>  };
-> >>  
-> >>  /* useful register access  macros */
-> >> diff --git a/target/i386/hvf/x86_emu.c b/target/i386/hvf/x86_emu.c
-> >> index 1ad2c30e16..d3e289ed87 100644
-> >> --- a/target/i386/hvf/x86_emu.c
-> >> +++ b/target/i386/hvf/x86_emu.c
-> >> @@ -187,8 +187,8 @@ void write_val_ext(struct CPUX86State *env, target_ulong ptr, target_ulong val,
-> >>  
-> >>  uint8_t *read_mmio(struct CPUX86State *env, target_ulong ptr, int bytes)
-> >>  {
-> >> -    vmx_read_mem(env_cpu(env), env->hvf_emul->mmio_buf, ptr, bytes);
-> >> -    return env->hvf_emul->mmio_buf;
-> >> +    vmx_read_mem(env_cpu(env), env->hvf_mmio_buf, ptr, bytes);
-> >> +    return env->hvf_mmio_buf;
-> >>  }
-> >>  
-> >>  
-> >> @@ -489,9 +489,9 @@ static void exec_ins_single(struct CPUX86State *env, struct x86_decode *decode)
-> >>      target_ulong addr = linear_addr_size(env_cpu(env), RDI(env),
-> >>                                           decode->addressing_size, R_ES);
-> >>  
-> >> -    hvf_handle_io(env_cpu(env), DX(env), env->hvf_emul->mmio_buf, 0,
-> >> +    hvf_handle_io(env_cpu(env), DX(env), env->hvf_mmio_buf, 0,
-> >>                    decode->operand_size, 1);
-> >> -    vmx_write_mem(env_cpu(env), addr, env->hvf_emul->mmio_buf,
-> >> +    vmx_write_mem(env_cpu(env), addr, env->hvf_mmio_buf,
-> >>                    decode->operand_size);
-> >>  
-> >>      string_increment_reg(env, R_EDI, decode);
-> >> @@ -512,9 +512,9 @@ static void exec_outs_single(struct CPUX86State *env, struct x86_decode *decode)
-> >>  {
-> >>      target_ulong addr = decode_linear_addr(env, decode, RSI(env), R_DS);
-> >>  
-> >> -    vmx_read_mem(env_cpu(env), env->hvf_emul->mmio_buf, addr,
-> >> +    vmx_read_mem(env_cpu(env), env->hvf_mmio_buf, addr,
-> >>                   decode->operand_size);
-> >> -    hvf_handle_io(env_cpu(env), DX(env), env->hvf_emul->mmio_buf, 1,
-> >> +    hvf_handle_io(env_cpu(env), DX(env), env->hvf_mmio_buf, 1,
-> >>                    decode->operand_size, 1);
-> >>  
-> >>      string_increment_reg(env, R_ESI, decode);
-> >>
-> > 
-> > It should be possible to get rid of the buffer altogether, but it's ok
-> > to do it separately.
-> > 
-> > I queued the series, thanks.
-> > 
-> > Paolo
-> > 
-> > 
+On 6/11/20 4:45 PM, Alex Bennée wrote:
+> Pretty much all calls to qemu_log are either wrapped in some other
+> enabling check or only enabled with debug defines. Add a specific flag
+> for TCG warnings and expand the documentation of the qemu_log
+> function.
 > 
-> Thanks Paolo, I am waiting for this (and maybe another series from Roman) to be able to do the cpus refactoring.
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Cc: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>  include/qemu/log-for-trace.h | 9 ++++++++-
+>  include/qemu/log.h           | 2 ++
+>  accel/tcg/translator.c       | 4 ++--
+>  util/log.c                   | 2 ++
+>  4 files changed, 14 insertions(+), 3 deletions(-)
 > 
-> Incidentally, would it not be great to have some machinery that automatically tracks which series is already queued where?
-> Maybe there is already a mechanism I am unaware of?
+> diff --git a/include/qemu/log-for-trace.h b/include/qemu/log-for-trace.h
+> index 2f0a5b080ea..521d7936243 100644
+> --- a/include/qemu/log-for-trace.h
+> +++ b/include/qemu/log-for-trace.h
+> @@ -29,7 +29,14 @@ static inline bool qemu_loglevel_mask(int mask)
+>      return (qemu_loglevel & mask) != 0;
+>  }
+>  
+> -/* main logging function */
+> +/**
+> + * qemu_log: main logging function
+> + *
+> + * Most users shouldn't be calling qemu_log unconditionally as it adds
+> + * noise to logging output. Either use qemu_log_mask() or wrap
+> + * successive log calls a qemu_loglevel_mask() check and
+> + * qemu_log_lock/unlock(). The tracing infrastructure does similar wrapping.
+> + */
+>  int GCC_FMT_ATTR(1, 2) qemu_log(const char *fmt, ...);
+>  
+>  #endif
+> diff --git a/include/qemu/log.h b/include/qemu/log.h
+> index f4724f73301..e1574ef7c14 100644
+> --- a/include/qemu/log.h
+> +++ b/include/qemu/log.h
+> @@ -64,6 +64,8 @@ static inline bool qemu_log_separate(void)
+>  #define CPU_LOG_PLUGIN     (1 << 18)
+>  /* LOG_STRACE is used for user-mode strace logging. */
+>  #define LOG_STRACE         (1 << 19)
+> +/* Additional TCG warnings */
+> +#define LOG_TCG_WARN       (1 << 20)
+>  
+>  /* Lock output for a series of related logs.  Since this is not needed
+>   * for a single qemu_log / qemu_log_mask / qemu_log_mask_and_addr, we
+> diff --git a/accel/tcg/translator.c b/accel/tcg/translator.c
+> index 603d17ff831..44396ccd7ad 100644
+> --- a/accel/tcg/translator.c
+> +++ b/accel/tcg/translator.c
+> @@ -26,8 +26,8 @@
+>  void translator_loop_temp_check(DisasContextBase *db)
+>  {
+>      if (tcg_check_temp_count()) {
+> -        qemu_log("warning: TCG temporary leaks before "
+> -                 TARGET_FMT_lx "\n", db->pc_next);
+> +        qemu_log_mask(LOG_TCG_WARN, "warning: TCG temporary leaks before "
+> +                      TARGET_FMT_lx "\n", db->pc_next);
+
+Why not replace by warn_report_once()?
+
+>      }
+>  }
+>  
+> diff --git a/util/log.c b/util/log.c
+> index bdb3d712e88..fad25d9317f 100644
+> --- a/util/log.c
+> +++ b/util/log.c
+> @@ -334,6 +334,8 @@ const QEMULogItem qemu_log_items[] = {
+>  #endif
+>      { LOG_STRACE, "strace",
+>        "log every user-mode syscall, its input, and its result" },
+> +    { LOG_TCG_WARN, "tcg",
+> +      "log TCG warnings useful to developers." },
+>      { 0, NULL, NULL },
+>  };
+>  
 > 
-> Ciao,
-> 
-> Claudio
 
-Hi Claudio,
-
-I also had the same question earlier today on IRC but I've just recalled
-that PULL requests typically have a reference to the queue repo/branch:
-
-https://lists.gnu.org/archive/html/qemu-devel/2020-02/msg06825.html
-
-I'll rebase on it and prepare the series.
-
-Regards,
-Roman
 
