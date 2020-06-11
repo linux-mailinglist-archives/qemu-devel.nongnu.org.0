@@ -2,98 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DE7C1F6AEE
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 17:26:19 +0200 (CEST)
-Received: from localhost ([::1]:44984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F12E21F6B2B
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 17:37:05 +0200 (CEST)
+Received: from localhost ([::1]:60044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjP5u-0001S0-H5
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 11:26:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51880)
+	id 1jjPGK-0000li-BM
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 11:37:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1jjOuN-0006KA-M4; Thu, 11 Jun 2020 11:14:23 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:60158)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1jjOuL-0003if-PQ; Thu, 11 Jun 2020 11:14:23 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 05BF41jN149616; Thu, 11 Jun 2020 11:14:18 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 31kdn6spaf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 11 Jun 2020 11:14:17 -0400
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 05BF4Ewc150462;
- Thu, 11 Jun 2020 11:14:16 -0400
-Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
- [169.55.91.170])
- by mx0a-001b2d01.pphosted.com with ESMTP id 31kdn6sp9t-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 11 Jun 2020 11:14:16 -0400
-Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
- by ppma02wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 05BFAt3O006648;
- Thu, 11 Jun 2020 15:14:15 GMT
-Received: from b01cxnp23034.gho.pok.ibm.com (b01cxnp23034.gho.pok.ibm.com
- [9.57.198.29]) by ppma02wdc.us.ibm.com with ESMTP id 31g2s8w2j4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 11 Jun 2020 15:14:15 +0000
-Received: from b01ledav004.gho.pok.ibm.com (b01ledav004.gho.pok.ibm.com
- [9.57.199.109])
- by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 05BFEE6v49807814
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 11 Jun 2020 15:14:15 GMT
-Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id DF35B112061;
- Thu, 11 Jun 2020 15:14:14 +0000 (GMT)
-Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id CC52E112066;
- Thu, 11 Jun 2020 15:14:14 +0000 (GMT)
-Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
- by b01ledav004.gho.pok.ibm.com (Postfix) with ESMTP;
- Thu, 11 Jun 2020 15:14:14 +0000 (GMT)
-Subject: Re: [PATCH v4 2/5] acpi: Move build_tpm2() in the generic part
-To: Eric Auger <eric.auger@redhat.com>, eric.auger.pro@gmail.com,
- qemu-devel@nongnu.org, qemu-arm@nongnu.org, peter.maydell@linaro.org,
- mst@redhat.com, shannon.zhaosl@gmail.com, imammedo@redhat.com
-References: <20200611135917.18300-1-eric.auger@redhat.com>
- <20200611135917.18300-3-eric.auger@redhat.com>
-From: Stefan Berger <stefanb@linux.ibm.com>
-Message-ID: <0c34a3c3-a5b0-15a1-e8e9-418d611a26f3@linux.ibm.com>
-Date: Thu, 11 Jun 2020 11:14:14 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jjP4Y-0000mm-Nc
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 11:24:54 -0400
+Received: from indium.canonical.com ([91.189.90.7]:44244)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jjP4X-0006Iw-HI
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 11:24:54 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jjP4V-0007AC-13
+ for <qemu-devel@nongnu.org>; Thu, 11 Jun 2020 15:24:51 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id D8F122E807E
+ for <qemu-devel@nongnu.org>; Thu, 11 Jun 2020 15:24:50 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200611135917.18300-3-eric.auger@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.687
- definitions=2020-06-11_15:2020-06-11,
- 2020-06-11 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 spamscore=0
- clxscore=1015 cotscore=-2147483648 malwarescore=0 mlxlogscore=999
- suspectscore=0 bulkscore=0 adultscore=0 mlxscore=0 priorityscore=1501
- lowpriorityscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2004280000 definitions=main-2006110115
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=stefanb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 10:26:43
-X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 11 Jun 2020 15:12:44 -0000
+From: Steve Dodd <1594394@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: anarchetic jrtc27 kb9vqf legoll pmaydell
+X-Launchpad-Bug-Reporter: Timothy Pearson (kb9vqf)
+X-Launchpad-Bug-Modifier: Steve Dodd (anarchetic)
+References: <20160620140124.12349.60184.malonedeb@wampee.canonical.com>
+Message-Id: <159188836413.11180.12689103050671525714.malone@soybean.canonical.com>
+Subject: [Bug 1594394] Re: Using setreuid / setegid crashes x86_64 user-mode
+ target
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="b190cebbf563f89e480a8b57f641753c8196bda0";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: ee52dee4c5ecc66909170cc029d92c45d0d0388d
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 11:24:51
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -102,172 +72,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, drjones@redhat.com, lersek@redhat.com,
- ardb@kernel.org, philmd@redhat.com
+Reply-To: Bug 1594394 <1594394@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/11/20 9:59 AM, Eric Auger wrote:
-> We plan to build the TPM2 table on ARM too. In order to reuse the
-> generation code, let's move build_tpm2() to aml-build.c.
->
-> No change in the implementation.
->
-> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+Did anything ever happen here? Trying to upgrade Ubuntu ARM container
+images using qemu-user on x86-64 from bionic to focal..
 
+-- =
 
-Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1594394
 
+Title:
+  Using setreuid / setegid crashes x86_64 user-mode target
 
-> ---
->   include/hw/acpi/aml-build.h |  2 ++
->   hw/acpi/aml-build.c         | 51 +++++++++++++++++++++++++++++++++++++
->   hw/i386/acpi-build.c        | 51 -------------------------------------
->   3 files changed, 53 insertions(+), 51 deletions(-)
->
-> diff --git a/include/hw/acpi/aml-build.h b/include/hw/acpi/aml-build.h
-> index ed7c89309e..d27da03d64 100644
-> --- a/include/hw/acpi/aml-build.h
-> +++ b/include/hw/acpi/aml-build.h
-> @@ -437,4 +437,6 @@ void build_slit(GArray *table_data, BIOSLinker *linker, MachineState *ms);
->   
->   void build_fadt(GArray *tbl, BIOSLinker *linker, const AcpiFadtData *f,
->                   const char *oem_id, const char *oem_table_id);
-> +
-> +void build_tpm2(GArray *table_data, BIOSLinker *linker, GArray *tcpalog);
->   #endif
-> diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
-> index 3681ec6e3d..2a1d9fc839 100644
-> --- a/hw/acpi/aml-build.c
-> +++ b/hw/acpi/aml-build.c
-> @@ -26,6 +26,7 @@
->   #include "qemu/bitops.h"
->   #include "sysemu/numa.h"
->   #include "hw/boards.h"
-> +#include "hw/acpi/tpm.h"
->   
->   static GArray *build_alloc_array(void)
->   {
-> @@ -1877,6 +1878,56 @@ build_hdr:
->                    "FACP", tbl->len - fadt_start, f->rev, oem_id, oem_table_id);
->   }
->   
-> +void build_tpm2(GArray *table_data, BIOSLinker *linker, GArray *tcpalog)
-> +{
-> +    uint8_t start_method_params[12] = {};
-> +    unsigned log_addr_offset, tpm2_start;
-> +    uint64_t control_area_start_address;
-> +    uint32_t start_method;
-> +    void *tpm2_ptr;
-> +
-> +    tpm2_start = table_data->len;
-> +    tpm2_ptr = acpi_data_push(table_data, sizeof(AcpiTableHeader));
-> +
-> +    /* Platform Class */
-> +    build_append_int_noprefix(table_data, TPM2_ACPI_CLASS_CLIENT, 2);
-> +    /* Reserved */
-> +    build_append_int_noprefix(table_data, 0, 2);
-> +    if (TPM_IS_TIS_ISA(tpm_find())) {
-> +        control_area_start_address = 0;
-> +        start_method = TPM2_START_METHOD_MMIO;
-> +    } else if (TPM_IS_CRB(tpm_find())) {
-> +        control_area_start_address = TPM_CRB_ADDR_CTRL;
-> +        start_method = TPM2_START_METHOD_CRB;
-> +    } else {
-> +        g_assert_not_reached();
-> +    }
-> +    /* Address of Control Area */
-> +    build_append_int_noprefix(table_data, control_area_start_address, 8);
-> +    /* Start Method */
-> +    build_append_int_noprefix(table_data, start_method, 4);
-> +
-> +    /* Platform Specific Parameters */
-> +    g_array_append_vals(table_data, &start_method_params,
-> +                        ARRAY_SIZE(start_method_params));
-> +
-> +    /* Log Area Minimum Length */
-> +    build_append_int_noprefix(table_data, TPM_LOG_AREA_MINIMUM_SIZE, 4);
-> +
-> +    acpi_data_push(tcpalog, TPM_LOG_AREA_MINIMUM_SIZE);
-> +    bios_linker_loader_alloc(linker, ACPI_BUILD_TPMLOG_FILE, tcpalog, 1,
-> +                             false);
-> +
-> +    log_addr_offset = table_data->len;
-> +    build_append_int_noprefix(table_data, 0, 8);
-> +    /* Log Area Start Address to be filled by Guest linker */
-> +    bios_linker_loader_add_pointer(linker, ACPI_BUILD_TABLE_FILE,
-> +                                   log_addr_offset, 8,
-> +                                   ACPI_BUILD_TPMLOG_FILE, 0);
-> +    build_header(linker, table_data,
-> +                 tpm2_ptr, "TPM2", table_data->len - tpm2_start, 4, NULL, NULL);
-> +}
-> +
->   /* ACPI 5.0: 6.4.3.8.2 Serial Bus Connection Descriptors */
->   static Aml *aml_serial_bus_device(uint8_t serial_bus_type, uint8_t flags,
->                                     uint16_t type_flags,
-> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> index f150d95ecc..b7c7583b5f 100644
-> --- a/hw/i386/acpi-build.c
-> +++ b/hw/i386/acpi-build.c
-> @@ -2295,57 +2295,6 @@ build_tpm_tcpa(GArray *table_data, BIOSLinker *linker, GArray *tcpalog)
->                    (void *)tcpa, "TCPA", sizeof(*tcpa), 2, NULL, NULL);
->   }
->   
-> -static void
-> -build_tpm2(GArray *table_data, BIOSLinker *linker, GArray *tcpalog)
-> -{
-> -    uint8_t start_method_params[12] = {};
-> -    unsigned log_addr_offset, tpm2_start;
-> -    uint64_t control_area_start_address;
-> -    uint32_t start_method;
-> -    void *tpm2_ptr;
-> -
-> -    tpm2_start = table_data->len;
-> -    tpm2_ptr = acpi_data_push(table_data, sizeof(AcpiTableHeader));
-> -
-> -    /* Platform Class */
-> -    build_append_int_noprefix(table_data, TPM2_ACPI_CLASS_CLIENT, 2);
-> -    /* Reserved */
-> -    build_append_int_noprefix(table_data, 0, 2);
-> -    if (TPM_IS_TIS_ISA(tpm_find())) {
-> -        control_area_start_address = 0;
-> -        start_method = TPM2_START_METHOD_MMIO;
-> -    } else if (TPM_IS_CRB(tpm_find())) {
-> -        control_area_start_address = TPM_CRB_ADDR_CTRL;
-> -        start_method = TPM2_START_METHOD_CRB;
-> -    } else {
-> -        g_assert_not_reached();
-> -    }
-> -    /* Address of Control Area */
-> -    build_append_int_noprefix(table_data, control_area_start_address, 8);
-> -    /* Start Method */
-> -    build_append_int_noprefix(table_data, start_method, 4);
-> -
-> -    /* Platform Specific Parameters */
-> -    g_array_append_vals(table_data, &start_method_params,
-> -                        ARRAY_SIZE(start_method_params));
-> -
-> -    /* Log Area Minimum Length */
-> -    build_append_int_noprefix(table_data, TPM_LOG_AREA_MINIMUM_SIZE, 4);
-> -
-> -    acpi_data_push(tcpalog, TPM_LOG_AREA_MINIMUM_SIZE);
-> -    bios_linker_loader_alloc(linker, ACPI_BUILD_TPMLOG_FILE, tcpalog, 1,
-> -                             false);
-> -
-> -    log_addr_offset = table_data->len;
-> -    build_append_int_noprefix(table_data, 0, 8);
-> -    /* Log Area Start Address to be filled by Guest linker */
-> -    bios_linker_loader_add_pointer(linker, ACPI_BUILD_TABLE_FILE,
-> -                                   log_addr_offset, 8,
-> -                                   ACPI_BUILD_TPMLOG_FILE, 0);
-> -    build_header(linker, table_data,
-> -                 tpm2_ptr, "TPM2", table_data->len - tpm2_start, 4, NULL, NULL);
-> -}
-> -
->   #define HOLE_640K_START  (640 * KiB)
->   #define HOLE_640K_END   (1 * MiB)
->   
+Status in QEMU:
+  New
 
+Bug description:
+  When setreuid() or setegid() are called from x86_64 target code in
+  user mode, qemu crashes inside the NPTL signal handlers.  x86 targets
+  do not directly use a syscall to handle setreuid() / setegid();
+  instead the x86 NPTL implementation sets up a temporary data region in
+  memory (__xidcmd) and issues a signal (SIGRT1) to all threads,
+  allowing the handler for that signal to issue the syscall.  Under
+  qemu, __xidcmd remains null (see variable display below backtrace).
 
+  Backtrace:
+  Program received signal SIGSEGV, Segmentation fault.
+  [Switching to Thread 0x3fff85c74fc0 (LWP 74517)]
+  0x000000006017491c in sighandler_setxid (sig=3D33, si=3D0x3fff85c72d08, c=
+tx=3D0x3fff85c71f90) at nptl-init.c:263
+  263     nptl-init.c: No such file or directory.
+  (gdb) thread apply all bt
 
+  Thread 3 (Thread 0x3fff87e8efc0 (LWP 74515)):
+  #0  0x00000000601cc430 in syscall ()
+  #1  0x0000000060109080 in futex_wait (val=3D<optimized out>, ev=3D<optimi=
+zed out>) at /build/qemu/util/qemu-thread-posix.c:292
+  #2  qemu_event_wait (ev=3D0x62367bb0 <rcu_call_ready_event>) at /build/qe=
+mu/util/qemu-thread-posix.c:399
+  #3  0x000000006010f73c in call_rcu_thread (opaque=3D<optimized out>) at /=
+build/qemu/util/rcu.c:250
+  #4  0x0000000060176f8c in start_thread (arg=3D0x3fff87e8efc0) at pthread_=
+create.c:336
+  #5  0x00000000601cebf4 in clone ()
+
+  Thread 2 (Thread 0x3fff85c74fc0 (LWP 74517)):
+  #0  0x000000006017491c in sighandler_setxid (sig=3D33, si=3D0x3fff85c72d0=
+8, ctx=3D0x3fff85c71f90) at nptl-init.c:263
+  #1  <signal handler called>
+  #2  0x00000000601cc42c in syscall ()
+  #3  0x0000000060044b08 in safe_futex (val3=3D<optimized out>, uaddr2=3D0x=
+0, timeout=3D<optimized out>, val=3D<optimized out>, op=3D128, uaddr=3D<opt=
+imized out>) at /build/qemu/linux-user/syscall.c:748
+  #4  do_futex (val3=3D<optimized out>, uaddr2=3D275186650880, timeout=3D0,=
+ val=3D1129, op=3D128, uaddr=3D275186651116) at /build/qemu/linux-user/sysc=
+all.c:6201
+  #5  do_syscall (cpu_env=3D0x1000abfd350, num=3D<optimized out>, arg1=3D27=
+5186651116, arg2=3D<optimized out>, arg3=3D1129, arg4=3D0, arg5=3D275186650=
+880, arg6=3D<optimized out>, arg7=3D0, arg8=3D0)
+      at /build/qemu/linux-user/syscall.c:10651
+  #6  0x00000000600347b8 in cpu_loop (env=3D0x1000abfd350) at /build/qemu/l=
+inux-user/main.c:317
+  #7  0x0000000060036ae0 in clone_func (arg=3D0x3fffc4c2ca38) at /build/qem=
+u/linux-user/syscall.c:5445
+  #8  0x0000000060176f8c in start_thread (arg=3D0x3fff85c74fc0) at pthread_=
+create.c:336
+  #9  0x00000000601cebf4 in clone ()
+
+  Thread 1 (Thread 0x1000aa05000 (LWP 74511)):
+  #0  0x00000000601cc430 in syscall ()
+  #1  0x0000000060044b08 in safe_futex (val3=3D<optimized out>, uaddr2=3D0x=
+0, timeout=3D<optimized out>, val=3D<optimized out>, op=3D128, uaddr=3D<opt=
+imized out>) at /build/qemu/linux-user/syscall.c:748
+  #2  do_futex (val3=3D<optimized out>, uaddr2=3D1, timeout=3D0, val=3D1, o=
+p=3D128, uaddr=3D275078324992) at /build/qemu/linux-user/syscall.c:6201
+  #3  do_syscall (cpu_env=3D0x1000aa23890, num=3D<optimized out>, arg1=3D27=
+5078324992, arg2=3D<optimized out>, arg3=3D1, arg4=3D0, arg5=3D1, arg6=3D<o=
+ptimized out>, arg7=3D0, arg8=3D0) at /build/qemu/linux-user/syscall.c:10651
+  #4  0x00000000600347b8 in cpu_loop (env=3D0x1000aa23890) at /build/qemu/l=
+inux-user/main.c:317
+  #5  0x00000000600020e4 in main (argc=3D<optimized out>, argv=3D<optimized=
+ out>, envp=3D<optimized out>) at /build/qemu/linux-user/main.c:4779
+  (gdb) p __xidcmd
+  $1 =3D (struct xid_command *) 0x0
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1594394/+subscriptions
 
