@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 470681F6ED9
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 22:37:02 +0200 (CEST)
-Received: from localhost ([::1]:50890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA6D61F6ED4
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 22:34:44 +0200 (CEST)
+Received: from localhost ([::1]:42666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjTwb-0007Bi-AT
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 16:37:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55796)
+	id 1jjTuN-0002kk-P1
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 16:34:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jjTAC-0001Ta-4A
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:47:00 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:52157
+ id 1jjTA3-0001F4-Lm
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:46:52 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:55704
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jjTAA-0001Mv-66
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:46:59 -0400
+ id 1jjTA1-0001LR-Si
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:46:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591904817;
+ s=mimecast20190719; t=1591904809;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LPB2CEdAH2eBhJn+rk8T9Y/aaFkfHqAa/A8gAWOEfA8=;
- b=f0MPSjWScjRbCquyCwLkzHcg/U+vT3lW/a6CKadKiUBruiUmEzq2BM0UmaTSJRvxOlYaG2
- Fx7D8dU+5OMMam+sGqCbd+IrLV0YHpeCDtmLrvhIZE3HLGg4Gc6WfvDD35WgVE+uehLoiM
- cwIMemjk1yR9fYEDQ2JUYo6im4PXyxE=
+ bh=F81J/ZRp0YOpkDwfZ6abXb/SMvXJi0mCgUnRO82JJ0A=;
+ b=aVXEa1wqKssPrZqFwBQ4HtqICC2MTefQ90TMBaA2XVy4FQTrgWu8eba9V6Xe+N4VPK1lZk
+ TuVjOy+pUGsn8Bmo/6lM1A6ET3ecT+Pbp84/LiTUEsNtqMUuMCJfSCUyelfZdG7SGzkjSH
+ 6kZtbZbg1/9YOUjByAYScujy9dPDcME=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-366-WzmfWEFUNim0xjBzJ0t_5w-1; Thu, 11 Jun 2020 15:46:53 -0400
-X-MC-Unique: WzmfWEFUNim0xjBzJ0t_5w-1
+ us-mta-301-n7l9T1rvOumJbNpS-2jgzw-1; Thu, 11 Jun 2020 15:46:47 -0400
+X-MC-Unique: n7l9T1rvOumJbNpS-2jgzw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 89FDC107ACF8;
- Thu, 11 Jun 2020 19:46:45 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1C9541005512;
+ Thu, 11 Jun 2020 19:46:46 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3094C60CC0;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B0D6660CC0;
  Thu, 11 Jun 2020 19:46:45 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 071/115] tests: machine-none-test: Enable MicroBlaze testing
-Date: Thu, 11 Jun 2020 15:44:05 -0400
-Message-Id: <20200611194449.31468-72-pbonzini@redhat.com>
+Subject: [PULL 072/115] hw/i386/amd_iommu: Fix the reserved bits definition of
+ IOMMU commands
+Date: Thu, 11 Jun 2020 15:44:06 -0400
+Message-Id: <20200611194449.31468-73-pbonzini@redhat.com>
 In-Reply-To: <20200611194449.31468-1-pbonzini@redhat.com>
 References: <20200611194449.31468-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -57,9 +58,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 14:57:53
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 03:29:33
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -80,49 +81,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
+Cc: Wei Huang <wei.huang2@amd.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
+From: Wei Huang <wei.huang2@amd.com>
 
-Enable MicroBlaze testing.
+Many reserved bits of amd_iommu commands are defined incorrectly in QEMU.
+Because of it, QEMU incorrectly injects lots of illegal commands into guest
+VM's IOMMU event log.
 
-Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-Message-Id: <20200416193303.23674-2-edgar.iglesias@gmail.com>
+Signed-off-by: Wei Huang <wei.huang2@amd.com>
+Message-Id: <20200418042845.596457-1-wei.huang2@amd.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- tests/qtest/machine-none-test.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+ hw/i386/amd_iommu.c | 19 ++++++++++---------
+ 1 file changed, 10 insertions(+), 9 deletions(-)
 
-diff --git a/tests/qtest/machine-none-test.c b/tests/qtest/machine-none-test.c
-index 10d8ec26a9..8b7abea8af 100644
---- a/tests/qtest/machine-none-test.c
-+++ b/tests/qtest/machine-none-test.c
-@@ -33,8 +33,8 @@ static struct arch2cpu cpus_map[] = {
-     { "cris", "crisv32" },
-     { "lm32", "lm32-full" },
-     { "m68k", "m5206" },
--    /* FIXME: { "microblaze", "any" }, doesn't work with -M none -cpu any */
--    /* FIXME: { "microblazeel", "any" }, doesn't work with -M none -cpu any */
-+    { "microblaze", "any" },
-+    { "microblazeel", "any" },
-     { "mips", "4Kc" },
-     { "mipsel", "I7200" },
-     { "mips64", "20Kc" },
-@@ -79,10 +79,8 @@ static void test_machine_cpu_cli(void)
-     QTestState *qts;
+diff --git a/hw/i386/amd_iommu.c b/hw/i386/amd_iommu.c
+index fd75cae024..4346060e62 100644
+--- a/hw/i386/amd_iommu.c
++++ b/hw/i386/amd_iommu.c
+@@ -370,7 +370,7 @@ static void amdvi_completion_wait(AMDVIState *s, uint64_t *cmd)
+     hwaddr addr = cpu_to_le64(extract64(cmd[0], 3, 49)) << 3;
+     uint64_t data = cpu_to_le64(cmd[1]);
  
-     if (!cpu_model) {
--        if (!(!strcmp(arch, "microblaze") || !strcmp(arch, "microblazeel"))) {
--            fprintf(stderr, "WARNING: cpu name for target '%s' isn't defined,"
--                    " add it to cpus_map\n", arch);
--        }
-+        fprintf(stderr, "WARNING: cpu name for target '%s' isn't defined,"
-+                " add it to cpus_map\n", arch);
-         return; /* TODO: die here to force all targets have a test */
+-    if (extract64(cmd[0], 51, 8)) {
++    if (extract64(cmd[0], 52, 8)) {
+         amdvi_log_illegalcom_error(s, extract64(cmd[0], 60, 4),
+                                    s->cmdbuf + s->cmdbuf_head);
      }
-     qts = qtest_initf("-machine none -cpu '%s'", cpu_model);
+@@ -395,7 +395,7 @@ static void amdvi_inval_devtab_entry(AMDVIState *s, uint64_t *cmd)
+     uint16_t devid = cpu_to_le16((uint16_t)extract64(cmd[0], 0, 16));
+ 
+     /* This command should invalidate internal caches of which there isn't */
+-    if (extract64(cmd[0], 15, 16) || cmd[1]) {
++    if (extract64(cmd[0], 16, 44) || cmd[1]) {
+         amdvi_log_illegalcom_error(s, extract64(cmd[0], 60, 4),
+                                    s->cmdbuf + s->cmdbuf_head);
+     }
+@@ -405,9 +405,9 @@ static void amdvi_inval_devtab_entry(AMDVIState *s, uint64_t *cmd)
+ 
+ static void amdvi_complete_ppr(AMDVIState *s, uint64_t *cmd)
+ {
+-    if (extract64(cmd[0], 15, 16) ||  extract64(cmd[0], 19, 8) ||
++    if (extract64(cmd[0], 16, 16) ||  extract64(cmd[0], 52, 8) ||
+         extract64(cmd[1], 0, 2) || extract64(cmd[1], 3, 29)
+-        || extract64(cmd[1], 47, 16)) {
++        || extract64(cmd[1], 48, 16)) {
+         amdvi_log_illegalcom_error(s, extract64(cmd[0], 60, 4),
+                                    s->cmdbuf + s->cmdbuf_head);
+     }
+@@ -438,8 +438,8 @@ static void amdvi_inval_pages(AMDVIState *s, uint64_t *cmd)
+ {
+     uint16_t domid = cpu_to_le16((uint16_t)extract64(cmd[0], 32, 16));
+ 
+-    if (extract64(cmd[0], 20, 12) || extract64(cmd[0], 16, 12) ||
+-        extract64(cmd[0], 3, 10)) {
++    if (extract64(cmd[0], 20, 12) || extract64(cmd[0], 48, 12) ||
++        extract64(cmd[1], 3, 9)) {
+         amdvi_log_illegalcom_error(s, extract64(cmd[0], 60, 4),
+                                    s->cmdbuf + s->cmdbuf_head);
+     }
+@@ -451,7 +451,7 @@ static void amdvi_inval_pages(AMDVIState *s, uint64_t *cmd)
+ 
+ static void amdvi_prefetch_pages(AMDVIState *s, uint64_t *cmd)
+ {
+-    if (extract64(cmd[0], 16, 8) || extract64(cmd[0], 20, 8) ||
++    if (extract64(cmd[0], 16, 8) || extract64(cmd[0], 52, 8) ||
+         extract64(cmd[1], 1, 1) || extract64(cmd[1], 3, 1) ||
+         extract64(cmd[1], 5, 7)) {
+         amdvi_log_illegalcom_error(s, extract64(cmd[0], 60, 4),
+@@ -463,7 +463,7 @@ static void amdvi_prefetch_pages(AMDVIState *s, uint64_t *cmd)
+ 
+ static void amdvi_inval_inttable(AMDVIState *s, uint64_t *cmd)
+ {
+-    if (extract64(cmd[0], 16, 16) || cmd[1]) {
++    if (extract64(cmd[0], 16, 44) || cmd[1]) {
+         amdvi_log_illegalcom_error(s, extract64(cmd[0], 60, 4),
+                                    s->cmdbuf + s->cmdbuf_head);
+         return;
+@@ -479,7 +479,8 @@ static void iommu_inval_iotlb(AMDVIState *s, uint64_t *cmd)
+ {
+ 
+     uint16_t devid = extract64(cmd[0], 0, 16);
+-    if (extract64(cmd[1], 1, 1) || extract64(cmd[1], 3, 9)) {
++    if (extract64(cmd[1], 1, 1) || extract64(cmd[1], 3, 1) ||
++        extract64(cmd[1], 6, 6)) {
+         amdvi_log_illegalcom_error(s, extract64(cmd[0], 60, 4),
+                                    s->cmdbuf + s->cmdbuf_head);
+         return;
 -- 
 2.26.2
 
