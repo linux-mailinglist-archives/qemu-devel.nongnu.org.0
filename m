@@ -2,64 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B4CC1F6B2E
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 17:38:54 +0200 (CEST)
-Received: from localhost ([::1]:37946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFA7C1F6B3C
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 17:42:48 +0200 (CEST)
+Received: from localhost ([::1]:44174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjPI5-0003Zf-CI
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 11:38:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33674)
+	id 1jjPLr-0006tX-Vy
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 11:42:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35550)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yili@winhong.com>) id 1jjPGM-0001we-Gw
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 11:37:06 -0400
-Received: from regular1.263xmail.com ([211.150.70.202]:46926)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yili@winhong.com>) id 1jjPGH-00011y-4Q
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 11:37:05 -0400
-Received: from localhost (unknown [192.168.167.235])
- by regular1.263xmail.com (Postfix) with ESMTP id 065D2365
- for <qemu-devel@nongnu.org>; Thu, 11 Jun 2020 23:36:45 +0800 (CST)
-X-MAIL-GRAY: 0
-X-MAIL-DELIVERY: 1
-X-ADDR-CHECKED4: 1
-X-ANTISPAM-LEVEL: 2
-X-SKE-CHECKED: 1
-X-ABS-CHECKED: 1
-Received: from localhost.localdomain (unknown [14.18.236.69])
- by smtp.263.net (postfix) whith ESMTP id
- P26196T139912978360064S1591889794553731_; 
- Thu, 11 Jun 2020 23:36:44 +0800 (CST)
-X-IP-DOMAINF: 1
-X-UNIQUE-TAG: <12afd76487c1deebccddf7540463572d>
-X-RL-SENDER: yili@winhong.com
-X-SENDER: yili@winhong.com
-X-LOGIN-NAME: yili@winhong.com
-X-FST-TO: jdillama@redhat.com
-X-SENDER-IP: 14.18.236.69
-X-ATTACHMENT-NUM: 0
-X-DNS-TYPE: 0
-X-System-Flag: 0
-From: Yi Li <yili@winhong.com>
-To: jdillama@redhat.com
-Subject: [PATCH v2] rbd: Use RBD fast-diff for querying actual allocation
-Date: Thu, 11 Jun 2020 23:36:23 +0800
-Message-Id: <20200611153623.1415001-1-yili@winhong.com>
-X-Mailer: git-send-email 2.25.3
-In-Reply-To: <CAJfdMYCS7SJ66K2F7a9qyKyP9f1Tmbe9N7qvshNe6jAZZtpWBg@mail.gmail.com>
-References: <CAJfdMYCS7SJ66K2F7a9qyKyP9f1Tmbe9N7qvshNe6jAZZtpWBg@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jjPKt-00068b-NU
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 11:41:49 -0400
+Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:39468)
+ by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jjPKr-00025W-KI
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 11:41:47 -0400
+Received: by mail-pl1-x644.google.com with SMTP id v24so2461946plo.6
+ for <qemu-devel@nongnu.org>; Thu, 11 Jun 2020 08:41:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=taWCnuUGc3aBjWxN8/zwY/zGugn1tYn2OOhu/tU0z0M=;
+ b=a6ywLGvFJR36HkUvHnxlGz6GiKxo03UcolEy3izkAdH8/Eob2aE9Mq77D55Sq2QxqO
+ NOIDuiAvOLv+2MldKGoyIVhhu4o0fcy24ZNhxGbCk6R8b68Vmx7jTB66vDmq/M61Eel7
+ inePlf5zJXumvB8jL3ASuCVK9X4eWVqz1ARKPV0HUVagoVMowd3Cf6WLqliF7pvST/Yb
+ sI+XveP1EfEGuqeAyE4Ll+cElCK/yZVH/ErqjiN1IRUu+1PUydjsyfaSIErV+4hgAsN7
+ oqkirSB3swx2VsswroIKSgJK0UZt/XJG0jA4Vp1qVzIU2u9DDdEuLqlTZGTJ1Ok3lhRO
+ tq5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=taWCnuUGc3aBjWxN8/zwY/zGugn1tYn2OOhu/tU0z0M=;
+ b=tZ3iOGlgvv24Y4kGPCRkZIFEdWc4mN5xjdpNt00EBiNOw0+xxW/I3VDHvay+mXENUH
+ aqAv8fyr0pNPHftBc+B6ZruuDaCKokiAUr/gWIjtLeRll0EgAjXNndaOOuL3DBIqCCol
+ XH/LSZCikeSvVfppNN2Bvne5zAnWlnzY6/Iu++sHeuO1Slv7QSg1ohY9DKOQjHhzoMqk
+ L8sKkwVvvVCYGZMp+AFNGMYKSps2/Uz/FZDqZXdzTkkiXBZxI+8Ncd3wRTpMEA/B6uiS
+ 5WQnytdzMYKX365WelQtPHLaYmQwLjpZOmKewkApRYPErrCR8tv2d9jJYziJDTEzOKSV
+ d4gg==
+X-Gm-Message-State: AOAM5301Ymkzk1kpt+lS75juTBrCU21A9BOn9QnboRUMSvBluhkQ9VU9
+ odq20ZmqFFIcoVuK2fWv66IbUjuXBK4=
+X-Google-Smtp-Source: ABdhPJwTdQI9BYok9VvHTgNuupRwWe+ESoS08BB4HRWqJ1Nwqt/PW/65FNxmS3LKvrKfAFa8MpVTxQ==
+X-Received: by 2002:a17:90a:e007:: with SMTP id
+ u7mr8760344pjy.208.1591890096198; 
+ Thu, 11 Jun 2020 08:41:36 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
+ by smtp.gmail.com with ESMTPSA id c2sm3537979pfi.71.2020.06.11.08.41.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 11 Jun 2020 08:41:35 -0700 (PDT)
+Subject: Re: [PATCH 01/10] target/arm: Add 'static' and 'const' annotations to
+ VSHLL function arrays
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20200611144529.8873-1-peter.maydell@linaro.org>
+ <20200611144529.8873-2-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <4f4808c3-c33d-55a3-6f80-6168c64979ae@linaro.org>
+Date: Thu, 11 Jun 2020 08:41:33 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
+In-Reply-To: <20200611144529.8873-2-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=211.150.70.202; envelope-from=yili@winhong.com;
- helo=regular1.263xmail.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 11:36:46
-X-ACL-Warn: Detected OS   = ???
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::644;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x644.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -73,163 +92,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yilikernel@gmail.com, qemu-devel@nongnu.org, yili@winhong.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since Ceph version Infernalis (9.2.0) the new fast-diff mechanism
-of RBD allows for querying actual rbd image usage.
+On 6/11/20 7:45 AM, Peter Maydell wrote:
+> Mark the arrays of function pointers in trans_VSHLL_S_2sh() and
+> trans_VSHLL_U_2sh() as both 'static' and 'const'.
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>  target/arm/translate-neon.inc.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 
-Prior to this version there was no easy and fast way to query how
-much allocation a RBD image had inside a Ceph cluster.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-To use the fast-diff feature it needs to be enabled per RBD image
-and is only supported by Ceph cluster running version Infernalis
-(9.2.0) or newer.
-
-The fast-diff feature disabled or fast-diff map is marked as invalid,
-qemu-img will report an allocation identical to the image capacity.
-
-'qemu-img info rbd:cepharm/liyi-rbd' might output for example:
-
-  image: json:{"driver": "raw", "file": {"pool": "cepharm",
-  "image": "liyi-rbd", "driver": "rbd"}}
-  file format: raw
-  virtual size: 20 GiB (21474836480 bytes)
-  disk size: 0 B
-  cluster_size: 4194304
-
-Newly created rbds will have the fast-diff feature enabled.
-
-Signed-off-by: Yi Li <yili@winhong.com>
----
- block/rbd.c | 103 ++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 103 insertions(+)
-
-diff --git a/block/rbd.c b/block/rbd.c
-index 617553b022..c1e68ff7e9 100644
---- a/block/rbd.c
-+++ b/block/rbd.c
-@@ -1107,6 +1107,108 @@ static int64_t qemu_rbd_getlength(BlockDriverState *bs)
-     return info.size;
- }
- 
-+#if LIBRBD_VERSION_CODE > 265
-+static int disk_usage_callback(uint64_t offset, size_t len, int exists,
-+                               void *arg)
-+{
-+  uint64_t *used_size = (uint64_t *)(arg);
-+  if (exists) {
-+    (*used_size) += len;
-+  }
-+  return 0;
-+}
-+
-+static int qemu_rbd_getflags(rbd_image_t image, uint64_t *flags)
-+{
-+    int r;
-+
-+    r = rbd_get_flags(image, flags);
-+    if (r < 0) {
-+        return r;
-+    }
-+    return 0;
-+}
-+
-+static bool qemu_rbd_use_fastdiff(uint64_t features, uint64_t flags)
-+{
-+    return (((features & RBD_FEATURE_FAST_DIFF) != 0ULL) &&
-+            ((flags & RBD_FLAG_FAST_DIFF_INVALID) == 0ULL));
-+}
-+
-+static int qemu_rbd_set_allocation(rbd_image_t image,
-+                                   rbd_image_info_t *info,
-+                                   uint64_t *used_size)
-+{
-+    int r;
-+    /*
-+     * RBD image fast-diff feature enabled
-+     * Querying for actual allocation.
-+     */
-+    r = rbd_diff_iterate2(image, NULL, 0, info->size, 0, 1,
-+                          &disk_usage_callback,
-+                          used_size);
-+    if (r < 0) {
-+        return r;
-+    }
-+    return 0;
-+}
-+
-+#else
-+static int qemu_rbd_getflags(rbd_image_t image G_GNUC_UNUSED, uint64_t *flags)
-+{
-+    *flags = 0;
-+    return 0;
-+}
-+
-+static bool qemu_rbd_use_fastdiff(uint64_t features G_GNUC_UNUSED,
-+                                  uint64_t feature_flags G_GNUC_UNUSED)
-+{
-+    return false;
-+}
-+
-+static int qemu_rbd_set_allocation(rbd_image_t image G_GNUC_UNUSED,
-+                                   rbd_image_info_t *info _GNUC_UNUSED,
-+                                   uint64_t *used_size _GNUC_UNUSED)
-+{
-+    return 0;
-+}
-+#endif
-+
-+static int64_t qemu_rbd_allocated_file_size(BlockDriverState *bs)
-+{
-+    BDRVRBDState *s = bs->opaque;
-+    rbd_image_info_t info;
-+    int r;
-+    uint64_t used_size = 0;
-+    uint64_t features = 0;
-+    uint64_t flags = 0;
-+
-+    r = rbd_stat(s->image, &info, sizeof(info));
-+    if (r < 0) {
-+        return r;
-+    }
-+
-+    r = rbd_get_features(s->image, &features);
-+    if (r < 0) {
-+        return r;
-+    }
-+
-+    r = qemu_rbd_getflags(s->image, &flags);
-+    if (r < 0) {
-+        return r;
-+    }
-+
-+    if (qemu_rbd_use_fastdiff(features, flags)) {
-+        r = qemu_rbd_set_allocation(s->image, &info, &used_size);
-+        if (r < 0) {
-+            return r;
-+        }
-+    } else {
-+        used_size = info.size;
-+    }
-+    return used_size;
-+}
-+
- static int coroutine_fn qemu_rbd_co_truncate(BlockDriverState *bs,
-                                              int64_t offset,
-                                              bool exact,
-@@ -1316,6 +1418,7 @@ static BlockDriver bdrv_rbd = {
-     .bdrv_get_info          = qemu_rbd_getinfo,
-     .create_opts            = &qemu_rbd_create_opts,
-     .bdrv_getlength         = qemu_rbd_getlength,
-+    .bdrv_get_allocated_file_size = qemu_rbd_allocated_file_size,
-     .bdrv_co_truncate       = qemu_rbd_co_truncate,
-     .protocol_name          = "rbd",
- 
--- 
-2.25.3
-
-
-
+r~
 
