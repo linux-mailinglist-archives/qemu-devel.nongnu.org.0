@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CECB1F6734
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 13:51:49 +0200 (CEST)
-Received: from localhost ([::1]:45666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7B6A1F6736
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 13:53:25 +0200 (CEST)
+Received: from localhost ([::1]:49832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjLkK-0003oT-3h
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 07:51:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53198)
+	id 1jjLls-00069F-Rv
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 07:53:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jjLeY-0005RJ-NS
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 07:45:50 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:37259)
+ id 1jjLel-0005jn-K6
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 07:46:03 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:37264)
  by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jjLeX-0002sS-Md
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 07:45:50 -0400
-Received: by mail-wm1-x332.google.com with SMTP id y20so4735998wmi.2
- for <qemu-devel@nongnu.org>; Thu, 11 Jun 2020 04:45:43 -0700 (PDT)
+ id 1jjLej-0002yZ-DD
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 07:46:02 -0400
+Received: by mail-wm1-x336.google.com with SMTP id y20so4736583wmi.2
+ for <qemu-devel@nongnu.org>; Thu, 11 Jun 2020 04:45:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=pC/1r6bLcbUYMgGYcCP74vPOzUsgfzpOLsAhOQZDN00=;
- b=Z4o5GJq+unFbSgKPhtn0x5pQUvYQBVWoZoxB00vbch/Gu2OStMbq5ZqBd6uO1Imgjd
- C4x06Bf8cSLyD2RzQvluycL/hq/wXchMXOcIJwd+bxbe/fO/t7V5BQJoXdENmzLgAu/U
- aOX5qro1KLxkf2WVDnlmm8Q6KDtStoW3AxitT0hdvaloXNRUfb5JiW97Xq1xLKWDSxAR
- 895VXvsCYf60enUpSyahvr8b3Le7lhdd7XhEXeDgDy2mJH1VZLX20Q+e18YW98Bxooag
- BLIfMs8kszlKpIiE/xadx+0z+rsB8wrnrDzhIE2WU0UtZTbCrVR6zUiKPD9rG1Ljp1o/
- uRLA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=xE8c8FfaektvQjlOylfBkEhJyY8TcI4rRTQe26NaWhQ=;
+ b=g57675sQhFq3sQGj/bpEw2i9NxLQvq3wu6X2dFys2YwnHqis3Bdf/jLhd0SFzY66db
+ eRau+AjAPSHj8CyW05esfOcJCPtPtir9gYUH4tVB6yGfjj2RGalb1ZuKpr3QmCS8G7WV
+ DGT/4cKgjqxkn+UoZOOxAJONxJdTGRFaOhxIiDA9vLOpkLM4suJoTAvSi0NKPvQIX0+V
+ iUN2bkbWEN2WWLueL12NIZRs8V/MROWoeBx7eRudr41saXssCyeJbIhLhUEjZ4+Deucq
+ Ant787S+qjGmhLDR97d1WjaTdUKr8+BPvB4BCUZqPL18zHqehBHDU8LdKebpIYKXXSU6
+ I57A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=pC/1r6bLcbUYMgGYcCP74vPOzUsgfzpOLsAhOQZDN00=;
- b=HckTVseFTPr4AcH9uJS41QeRxE8cT0L719LjQKsIJvjKTE9WhpXwyxLmydNmmRlniQ
- sk88Zvhvr2vfpaQSXljq3l+pzM7zjDN8YBgNgkaUCZyoeCjBwuVrz9TIRMuUxvfy7Iuc
- IPUC+ZjRJQSZEHL7vt04Y9LoibYoet8lUlKl30QskY+pTZlUK3GRGpeGrjNN+9pakLcY
- i9sqiRUW6jZQHmsSaDMeWK8IrxASseJWuySNGe3ELWH+HFV79QdXCLDdQ4TuCCQhWkZu
- 6s9xOB3xoJqakWDLLTMM9ydSaHVdU33mvamPSXpLSo7TQ+t8Wbcr0dKGzt3xiSxt2d3I
- JbJw==
-X-Gm-Message-State: AOAM533qtJXVHCRKDIRaji5Z7OF1iZFjDqlVpcDIhTpILikYiJN3NAiS
- 7WsR5XNsgR651BnSAaR0j9Kyj8in48o=
-X-Google-Smtp-Source: ABdhPJzeC+bKl0DEJVGdE18nAZdbd1uGvw/A3CESB6OW9YUzEv+LFCpkMB0McXMzSQIagsvfH+ODrg==
-X-Received: by 2002:a1c:451:: with SMTP id 78mr8263860wme.83.1591875941680;
- Thu, 11 Jun 2020 04:45:41 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=xE8c8FfaektvQjlOylfBkEhJyY8TcI4rRTQe26NaWhQ=;
+ b=qU/jf0wpXnJ6nzUVVMhpDqk6CoddeVMWZsN+xEQyKkoJxwk5UDC3tij0RAmFaXZqAa
+ ICyDcjzN0I7QdIoFv5meWMOlZVulmxB4/7P7ihHFoAWjtsJ1SPODMzjMCe5HgeL43FQN
+ IaVyKFo64J13O7fNz1Je6k76ywDZFdKBpjJPlDcw7eosQWXMo+akTh0/NDR9hyQnpOq8
+ 90uKkbWlrn5MxNT2vuF1Q0FaCaxWVAvPufnKzWRowhz7TF9DB8BqirXKzlJL8E9+rfwG
+ L7I3NrAaMsPBTr2Ih4ifWXjdIsFoZo5FnNgosxxYbHwXkaiL0ORTPPYmiV2O+cjwwDoJ
+ zuSA==
+X-Gm-Message-State: AOAM533l2CFT9a/MDieKeURdG2pKKgMmLNTflcwf9qexV8zm05SW18rA
+ 71am2wIaySz/ZNqvxedTSPm92xr0ffc=
+X-Google-Smtp-Source: ABdhPJyih606UCVQ3TZJfFzb35vLL7yTh5iVBOTm9ximtBfzHj0w1lsKUrz3wHFVkR9Ko1rGdxR7Xw==
+X-Received: by 2002:a1c:a74d:: with SMTP id q74mr7793678wme.177.1591875954076; 
+ Thu, 11 Jun 2020 04:45:54 -0700 (PDT)
 Received: from localhost.localdomain (net53-38-245-109.mbb.telenor.rs.
  [109.245.38.53])
- by smtp.gmail.com with ESMTPSA id g3sm5089107wrb.46.2020.06.11.04.45.38
+ by smtp.gmail.com with ESMTPSA id g3sm5089107wrb.46.2020.06.11.04.45.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Jun 2020 04:45:40 -0700 (PDT)
+ Thu, 11 Jun 2020 04:45:53 -0700 (PDT)
 From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/1] Add Swedish translations
-Date: Thu, 11 Jun 2020 13:45:22 +0200
-Message-Id: <20200611114523.15584-1-aleksandar.qemu.devel@gmail.com>
+Subject: [PATCH v2 1/1] translations: Add Swedish language
+Date: Thu, 11 Jun 2020 13:45:23 +0200
+Message-Id: <20200611114523.15584-2-aleksandar.qemu.devel@gmail.com>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200611114523.15584-1-aleksandar.qemu.devel@gmail.com>
+References: <20200611114523.15584-1-aleksandar.qemu.devel@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-wm1-x336.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -84,25 +87,103 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: peter.maydell@linaro.org,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Sebastian Rasmussen <sebras@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is just a reactivation of Sebastian's patch sent almost
-a year ago.
+From: Sebastian Rasmussen <sebras@gmail.com>
 
-v1->v2:
+This patch adds translation of QEMU to Swedish.
 
-  - simplified commit messages
-  - corrected overlapping hot keys
-
-Sebastian Rasmussen (1):
-  translations: Add Swedish language
-
+Signed-off-by: Sebastian Rasmussen <sebras@gmail.com>
+Signed-off-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+---
  po/sv.po | 75 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  1 file changed, 75 insertions(+)
  create mode 100644 po/sv.po
 
+diff --git a/po/sv.po b/po/sv.po
+new file mode 100644
+index 0000000000..1e430edd65
+--- /dev/null
++++ b/po/sv.po
+@@ -0,0 +1,75 @@
++# Swedish translation of qemu po-file.
++# This file is put in the public domain.
++# Sebastian Rasmussen <sebras@gmail.com>, 2019.
++#
++msgid ""
++msgstr ""
++"Project-Id-Version: QEMU 2.12.91\n"
++"Report-Msgid-Bugs-To: qemu-devel@nongnu.org\n"
++"POT-Creation-Date: 2018-07-18 07:56+0200\n"
++"PO-Revision-Date: 2019-08-16 21:19+0200\n"
++"Last-Translator: Sebastian Rasmussen <sebras@gmail.com>\n"
++"Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
++"Language: sv\n"
++"MIME-Version: 1.0\n"
++"Content-Type: text/plain; charset=UTF-8\n"
++"Content-Transfer-Encoding: 8bit\n"
++"Plural-Forms: nplurals=2; plural=(n != 1);\n"
++"X-Generator: Poedit 2.2.3\n"
++
++msgid " - Press Ctrl+Alt+G to release grab"
++msgstr " - Tryck Ctrl+Alt+G för att sluta fånga"
++
++msgid " [Paused]"
++msgstr " [Pausad]"
++
++msgid "_Pause"
++msgstr "_Paus"
++
++msgid "_Reset"
++msgstr "_Starta om"
++
++msgid "Power _Down"
++msgstr "Stäng _ner"
++
++msgid "_Quit"
++msgstr "_Avsluta"
++
++msgid "_Fullscreen"
++msgstr "_Helskärm"
++
++msgid "_Copy"
++msgstr "_Kopiera"
++
++msgid "Zoom _In"
++msgstr "Zooma _in"
++
++msgid "Zoom _Out"
++msgstr "Zooma _ut"
++
++msgid "Best _Fit"
++msgstr "Anpassad _storlek"
++
++msgid "Zoom To _Fit"
++msgstr "Zooma ti_ll anpassad storlek"
++
++msgid "Grab On _Hover"
++msgstr "Fånga vi_d hovring"
++
++msgid "_Grab Input"
++msgstr "Fån_ga inmatning"
++
++msgid "Show _Tabs"
++msgstr "Visa _flika"
++
++msgid "Detach Tab"
++msgstr "Frigör flik"
++
++msgid "Show Menubar"
++msgstr "Visa menyrad"
++
++msgid "_Machine"
++msgstr "_Maskin"
++
++msgid "_View"
++msgstr "_Visa"
 -- 
 2.20.1
 
