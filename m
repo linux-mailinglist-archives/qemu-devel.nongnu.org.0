@@ -2,69 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C95D81F6F24
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 23:05:58 +0200 (CEST)
-Received: from localhost ([::1]:57270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAD291F6F3E
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 23:13:13 +0200 (CEST)
+Received: from localhost ([::1]:46252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjUOb-0001P7-OB
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 17:05:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43340)
+	id 1jjUVc-0003Eb-Nc
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 17:13:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jjTfh-0004hX-MG
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 16:19:33 -0400
-Received: from mail-oi1-x236.google.com ([2607:f8b0:4864:20::236]:36754)
+ (Exim 4.90_1) (envelope-from <devnexen@gmail.com>)
+ id 1jjUTZ-00018P-IG; Thu, 11 Jun 2020 17:11:05 -0400
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:33944)
  by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jjTff-0000P0-O9
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 16:19:33 -0400
-Received: by mail-oi1-x236.google.com with SMTP id a137so6639133oii.3
- for <qemu-devel@nongnu.org>; Thu, 11 Jun 2020 13:19:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=UO9jNOJcrGLnu+xPTHjw7Zicxd2c3/XqSzYAC5XnoWw=;
- b=MSj0SWr/OOt5XNgFLUvUPWp4S8wFozrxCwdAWVZ+QKo5ZXiJP4We0MPW5lz0Wlg2nT
- Xx2tQ2qKKm8YnP+OdU1vr+frXjfTyVIAikx3nSBzuINEFb4h0wV7xYhXagyk0/4rjbPI
- zfICrgWTYwtJpFlDtJKGBfbYj2f9TfqnecpF0joV/syGlcfU34fTqgfeYrVnKl09vDSf
- I3TBtBxuqFwLX/vHKQCw9hh9X06Wh2ywwPG7wVsOc24v5Q4QoTqrcCUDxIAtPv8L7Je4
- dETvBIWZKJC3gZ5piEXwAVK1W+71LTzwMPt59oUIXuXEkRBhY0ryYpQlOVYmk8WKIAmS
- +YUw==
+ (Exim 4.90_1) (envelope-from <devnexen@gmail.com>)
+ id 1jjUTY-0003GN-5f; Thu, 11 Jun 2020 17:11:05 -0400
+Received: by mail-ej1-x62d.google.com with SMTP id l27so7963185ejc.1;
+ Thu, 11 Jun 2020 14:10:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=uqRkS+04znKDsw7rOy4FGLZ4dtAJHAdv4x6eVo3FtZQ=;
+ b=FoIHQBDYczrL+czYzIaom7LOKvtqYd/K5ixr6/h7Yz1gCvt51KwjK7l7Uags38oA4B
+ lTlH5k7n/hZ5+NXliI5V0ivLTtXVU0saEsXXIFrPGlaE2+VlA9/nylvnRp3G2D7h2WDJ
+ 0vvTJlQz4cVYWVnbI85OYHct0jvCYHV1mEEkyjS7+wbcsMw5Xyk6TTKFTVvTB/ToKqzr
+ +be5w8TM6xXF82CsbIoJKVJyEDL23Tv8vexA4LBkQXe5PDNEFMnovoNIv70Te4ds9bqs
+ 3V17JRzLgnjH7/tGSCQtsaDQ/fUS5qkXvunkkZ9HhcDETisVryew3loMFv9TWOARq9aX
+ VZUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=UO9jNOJcrGLnu+xPTHjw7Zicxd2c3/XqSzYAC5XnoWw=;
- b=RG1ReMX3HKom+K7BfrPQRqwUXvnC0E09i27/Gq9ZRQgwIY9rfcmwGjFXBEVi7cjYol
- 2FFGxdVEy6WIoQJ0h63v/5vKgfPO3z687gRZFIfnwzND8+KsL9C9O7+RMY2WMtU3D/O6
- S1dLN7HH9VEUrD/g0+VuK5rrqBvTcukpWp1uWxG7ok37hZ+4xC+YgEWR8xCD1nlRkj4j
- yh1EHu7cY99ijt6o59KuYCWkbfvHXl/gjaW2fT2GtUUIwVOcpUcDTq8juRub+YqqRklG
- oS5I2QX/wZNS3gCDfHJFqsjdbtxz1ZpjQEdV91w6Mj3bI7x6xJMzmn6fx8XWL5SnLxII
- DXMg==
-X-Gm-Message-State: AOAM531YGWNwh6Z8MTCeHtVhkQlhNTZCeu0vL3rQQN3Kr5E3WBt3aDbv
- 5BnbV4PN8HR5Fr//rsh5U3KokWgmoDeWLZ3+fPCIquSp5P8=
-X-Google-Smtp-Source: ABdhPJx0m7+dZFlC528Ymb3jrxHICqoq85DWCjkNpo1qhJVNgJhpZwcV6sYdV9uyf6RhhEcLemAgWwmgy8NpYmyRBww=
-X-Received: by 2002:aca:5152:: with SMTP id f79mr7464387oib.146.1591906762767; 
- Thu, 11 Jun 2020 13:19:22 -0700 (PDT)
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=uqRkS+04znKDsw7rOy4FGLZ4dtAJHAdv4x6eVo3FtZQ=;
+ b=Kz+NYtsbjEVbqD157dOGBj62jmEn4GShzwUz0eMUW5l67dmhx/JCcQf0cAegaX3lh4
+ eRLclYfipZC+pZrziIOOCZyVUGewPcqp+rsKuO36ddR+K5IwLKSNJPlCZC3e4YA+SH4U
+ BpiWqbRureIOErJh3b8J2EcpiwL60fbXpgMGIYqq4WOLWJecoXITJ0X9lYx5nH5xbRX7
+ DpPrPSifi+4H7m8jp2iC136WtwfQsvqTc8yzg/lcDVu2ZcnT5ppRleYCVUmjbODkm9Bf
+ opsx4z8LLf7BTxk3LGSSzZ4InH7s7sSKAXbf4coMUN9jQpBADUk6FiAt9k5wtDdShLKd
+ esxw==
+X-Gm-Message-State: AOAM530Nb8e8DgTBVDAWolenmCd5F0h3wufOuIfkbH2YqnV3yGC0iEEi
+ sXyCOeGC3+QORJgN99EXFntjXRTMK+qy8Z/UvEInA2vnf70=
+X-Google-Smtp-Source: ABdhPJzw8cnlZYYizgg3OBrN9zi4QYxb/3gYxagiS4jl+WXuiHUTenDw2xAZxE/oOLShUlw6py4VrNor2jBmF+tyLsI=
+X-Received: by 2002:a17:906:68ca:: with SMTP id
+ y10mr9967077ejr.322.1591909850248; 
+ Thu, 11 Jun 2020 14:10:50 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200610131011.1941209-1-laurent@vivier.eu>
-In-Reply-To: <20200610131011.1941209-1-laurent@vivier.eu>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 11 Jun 2020 21:19:11 +0100
-Message-ID: <CAFEAcA9TJAKR+FWNt6P3J9B70dK2LyhUY4m8dkvKz3LxGYAy5g@mail.gmail.com>
-Subject: Re: [PULL v2 00/16] Trivial branch for 5.1 patches
-To: Laurent Vivier <laurent@vivier.eu>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::236;
- envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x236.google.com
+From: David CARLIER <devnexen@gmail.com>
+Date: Thu, 11 Jun 2020 22:10:39 +0100
+Message-ID: <CA+XhMqwHSBd_TSFqipO6bn=hVSV8+Mdm3y=_i6gQoGBxRsjS0g@mail.gmail.com>
+Subject: [PATCH 1/1] util/getauxval: Porting to FreeBSD getauxval feature
+To: qemu-trivial@nongnu.org, qemu-devel <qemu-devel@nongnu.org>, 
+ Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: multipart/mixed; boundary="00000000000023a19605a7d56545"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=devnexen@gmail.com; helo=mail-ej1-x62d.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ PYZOR_CHECK=1.392, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,40 +75,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Michael Tokarev <mjt@tls.msk.ru>,
- QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 10 Jun 2020 at 14:12, Laurent Vivier <laurent@vivier.eu> wrote:
->
-> The following changes since commit 49ee11555262a256afec592dfed7c5902d5eefd2:
->
->   Merge remote-tracking branch 'remotes/vivier2/tags/linux-user-for-5.1-pull-=
-> request' into staging (2020-06-08 11:04:57 +0100)
->
-> are available in the Git repository at:
->
->   git://github.com/vivier/qemu.git tags/trivial-branch-for-5.1-pull-request
->
-> for you to fetch changes up to fe18e6eecdd45d3dff0c8968cbb07c5e02fbe4c8:
->
->   semihosting: remove the pthread include which seems unused (2020-06-10 11:2=
-> 9:44 +0200)
->
-> ----------------------------------------------------------------
-> Trivial branch pull request 20200610
->
-> Convert DPRINTF() to traces or qemu_logs
-> Use IEC binary prefix definitions
-> Use qemu_semihosting_log_out() in target/unicore32
-> Some code and doc cleanup
+--00000000000023a19605a7d56545
+Content-Type: text/plain; charset="UTF-8"
 
 
-Applied, thanks.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.1
-for any user-visible changes.
+--00000000000023a19605a7d56545
+Content-Type: application/octet-stream; 
+	name="0001-util-getauxval-Porting-to-FreeBSD-the-getauxval-feat.patch"
+Content-Disposition: attachment; 
+	filename="0001-util-getauxval-Porting-to-FreeBSD-the-getauxval-feat.patch"
+Content-Transfer-Encoding: base64
+Content-ID: <f_kbb9ztph0>
+X-Attachment-Id: f_kbb9ztph0
 
--- PMM
+RnJvbSAzMTZjYmRlYTA0MzRhNTIzYzc4ZDNmMThmZTdlNjY5NzU3N2U0YWFlIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBEYXZpZCBDYXJsaWVyIDxkZXZuZXhlbkBnbWFpbC5jb20+CkRh
+dGU6IFR1ZSwgMjYgTWF5IDIwMjAgMDg6MzM6MTIgKzAxMDAKU3ViamVjdDogW1BBVENIXSB1dGls
+L2dldGF1eHZhbDogUG9ydGluZyB0byBGcmVlQlNEIHRoZSBnZXRhdXh2YWwgZmVhdHVyZQoKRnJl
+ZUJTRCBoYXMgYSBzaW1pbGFyIEFQSSBmb3IgYXV4aWxpYXJ5IHZlY3Rvci4KClNpZ25lZC1vZmYt
+Ynk6IERhdmlkIENhcmxpZXIgPGRldm5leGVuQGdtYWlsLmNvbT4KLS0tCiBjb25maWd1cmUgICAg
+ICAgIHwgNSArKysrKwogdXRpbC9nZXRhdXh2YWwuYyB8IDYgKysrKysrCiAyIGZpbGVzIGNoYW5n
+ZWQsIDExIGluc2VydGlvbnMoKykKCmRpZmYgLS1naXQgYS9jb25maWd1cmUgYi9jb25maWd1cmUK
+aW5kZXggMmZjMDVjNDQ2NS4uMmM5Mzg2NzA4MCAxMDA3NTUKLS0tIGEvY29uZmlndXJlCisrKyBi
+L2NvbmZpZ3VyZQpAQCAtNTgyNCw3ICs1ODI0LDEyIEBAIGdldGF1eHZhbD1ubwogY2F0ID4gJFRN
+UEMgPDwgRU9GCiAjaW5jbHVkZSA8c3lzL2F1eHYuaD4KIGludCBtYWluKHZvaWQpIHsKKyNpZiBk
+ZWZpbmVkKF9fRnJlZUJTRF9fKQorICB1bnNpZ25lZCBsb25nIGEgPSAwOworICByZXR1cm4gZWxm
+X2F1eF9pbmZvKEFUX0hXQ0FQLCAmYSwgc2l6ZW9mKGEpKSA9PSAwOworI2Vsc2UKICAgcmV0dXJu
+IGdldGF1eHZhbChBVF9IV0NBUCkgPT0gMDsKKyNlbmRpZgogfQogRU9GCiBpZiBjb21waWxlX3By
+b2cgIiIgIiIgOyB0aGVuCmRpZmYgLS1naXQgYS91dGlsL2dldGF1eHZhbC5jIGIvdXRpbC9nZXRh
+dXh2YWwuYwppbmRleCAzNmFmZGZiOWU2Li4zNzNlZDM4OTlmIDEwMDY0NAotLS0gYS91dGlsL2dl
+dGF1eHZhbC5jCisrKyBiL3V0aWwvZ2V0YXV4dmFsLmMKQEAgLTMzLDcgKzMzLDEzIEBACiAKIHVu
+c2lnbmVkIGxvbmcgcWVtdV9nZXRhdXh2YWwodW5zaWduZWQgbG9uZyBrZXkpCiB7CisjaWYgZGVm
+aW5lZChfX2xpbnV4X18pCiAgICAgcmV0dXJuIGdldGF1eHZhbChrZXkpOworI2VsaWYgZGVmaW5l
+ZChfX0ZyZWVCU0RfXykKKyAgICB1bnNpZ25lZCBsb25nIGF1eCA9IDA7CisgICAgZWxmX2F1eF9p
+bmZvKGtleSwgJmF1eCwgc2l6ZW9mKGF1eCkpOworICAgIHJldHVybiBhdXg7CisjZW5kaWYKIH0K
+ICNlbGlmIGRlZmluZWQoX19saW51eF9fKQogI2luY2x1ZGUgImVsZi5oIgotLSAKMi4yNy4wLnJj
+MAoK
+--00000000000023a19605a7d56545--
 
