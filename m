@@ -2,73 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7BD21F6C90
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 19:06:56 +0200 (CEST)
-Received: from localhost ([::1]:53106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DADB1F6CAB
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 19:14:49 +0200 (CEST)
+Received: from localhost ([::1]:40794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjQfH-0001mI-Vm
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 13:06:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59328)
+	id 1jjQmu-0001yT-NC
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 13:14:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jjQdr-0000fx-Lo
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 13:05:27 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:42817)
- by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jjQdp-0007dq-US
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 13:05:27 -0400
-Received: by mail-ot1-x342.google.com with SMTP id t6so5085078otk.9
- for <qemu-devel@nongnu.org>; Thu, 11 Jun 2020 10:05:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=jnpMvxPIBKMFACOSSbza1pcMxQ8eGv/1PVQ9OlP6zUE=;
- b=mH2SaamNpLUO+M3uc1nUVlnL7aZb0A/2D1irhUXfqYlCSMPz64HKWTbdCnvido1Oq4
- sO1N901xFuCfR+7x8z7gMgTaG9XJ7gZRZuxov3sqsorlEc0KY7/tbX6ur9CyTmirIZGk
- 6CRzhByNoK4ycaZq4FJFoIRLKYYrN3fKh5ZvBYldPolbgGOy6yeIz0XzTbUEzUfjcoXo
- bWyFBnQUHXrsoRUHHOEImGV+90vECDqBYEEt4Mr9/Hjc+npQdTrmUa0uzHvE53NOGTY2
- tfmRvbdNkEXvi/mDinh6d7saOfqo4O0JFa0U3+pJOTz1BDUrGPYRyk1EOTly2OrgrNd4
- AVyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=jnpMvxPIBKMFACOSSbza1pcMxQ8eGv/1PVQ9OlP6zUE=;
- b=t+BOoQkGomv7N8cSox4AXORd5RYnPyUprjVE7p9CSR2mFJBPS5LKaegiOtczBqLU6X
- LOpJEVRdq1lcepu0X6l8tjX0FCanrjzMK3w8TTkn1QIcIY1IBBS2WOh6OsM/vtftP/uW
- B0fWftjEwtU3wfQNQJg6SGf/QXKxyBlT9WXHNaIhhah9SjU7VkeOu9fQmq0u/dlg5MuW
- HTJHzRP8PF6tDpMzqlKd3oDWFF780luc74qnHioUhWt5Z7cmKK4//S0oqgXD+j470edI
- Jtk4AZ9Ar7kdR6eaN2PiIBiK89U+3v/etTjzVKteSPmi2xI6+HQNFqUS/gdxdDVLuSIm
- R5kw==
-X-Gm-Message-State: AOAM533q/9STXjFlsFr1wEkwGfOWGGZyB5/vpT3FuzSpjxOW5QDuasJ7
- x3AG5av7thLvVqCRjQZ26xxAcRnxWFcxegiCeSyPHw==
-X-Google-Smtp-Source: ABdhPJzxdthIcgmguvMgqQcPH4quPdufa8IN00kieiiY7OoykdoJCoV6QxLOJdHzBc28FMpA/WqRblVOACnQ6wAjgGY=
-X-Received: by 2002:a05:6830:8d:: with SMTP id
- a13mr7366786oto.91.1591895117425; 
- Thu, 11 Jun 2020 10:05:17 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200611144529.8873-1-peter.maydell@linaro.org>
- <20200611144529.8873-3-peter.maydell@linaro.org>
- <d32b36c2-6662-91b1-5b18-ff7a56386cd8@linaro.org>
-In-Reply-To: <d32b36c2-6662-91b1-5b18-ff7a56386cd8@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 11 Jun 2020 18:05:06 +0100
-Message-ID: <CAFEAcA-xw6pHejLVjUze1UWwBpygNWjam_KNOCyfthL-3vYDBQ@mail.gmail.com>
-Subject: Re: [PATCH 02/10] target/arm: Add missing TCG temp free in
- do_2shift_env_64()
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x342.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ (Exim 4.90_1) (envelope-from <den@openvz.org>)
+ id 1jjQk6-0005TM-Oe; Thu, 11 Jun 2020 13:11:54 -0400
+Received: from relay.sw.ru ([185.231.240.75]:35186 helo=relay3.sw.ru)
+ by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <den@openvz.org>)
+ id 1jjQk3-0000qh-8R; Thu, 11 Jun 2020 13:11:54 -0400
+Received: from [192.168.15.81] (helo=iris.sw.ru)
+ by relay3.sw.ru with esmtp (Exim 4.93)
+ (envelope-from <den@openvz.org>)
+ id 1jjQjs-0000BN-Kl; Thu, 11 Jun 2020 20:11:40 +0300
+From: "Denis V. Lunev" <den@openvz.org>
+To: qemu-block@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH v3 0/4] block: seriously improve savevm performance
+Date: Thu, 11 Jun 2020 20:11:39 +0300
+Message-Id: <20200611171143.21589-1-den@openvz.org>
+X-Mailer: git-send-email 2.17.1
+Received-SPF: pass client-ip=185.231.240.75; envelope-from=den@openvz.org;
+ helo=relay3.sw.ru
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 13:11:47
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,48 +49,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Denis Plotnikov <dplotnikov@virtuozzo.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, "Denis V . Lunev" <den@openvz.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 11 Jun 2020 at 16:43, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 6/11/20 7:45 AM, Peter Maydell wrote:
-> > In commit 37bfce81b10450071 we accidentally introduced a leak of a TCG
-> > temporary in do_2shift_env_64(); free it.
-> >
-> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> > ---
-> > My test setup wasn't looking for temporary-leak warnings (they are
-> > not as easy to get at as they used to be because they only appear
-> > if you enable qemu_log tracing for some other purpose). This is the
-> > only one that snuck through, though.
-> > ---
-> >  target/arm/translate-neon.inc.c | 1 +
-> >  1 file changed, 1 insertion(+)
-> >
-> > diff --git a/target/arm/translate-neon.inc.c b/target/arm/translate-neon.inc.c
-> > index 7c4888a80c9..f2c241a87e9 100644
-> > --- a/target/arm/translate-neon.inc.c
-> > +++ b/target/arm/translate-neon.inc.c
-> > @@ -1329,6 +1329,7 @@ static bool do_2shift_env_64(DisasContext *s, arg_2reg_shift *a,
-> >          neon_load_reg64(tmp, a->vm + pass);
-> >          fn(tmp, cpu_env, tmp, constimm);
-> >          neon_store_reg64(tmp, a->vd + pass);
-> > +        tcg_temp_free_i64(tmp);
->
-> Huh.  I thought all the a32 stores magically freed their inputs.  I guess
-> that's just the general-purpose registers.
+This series do standard basic things:
+- it creates intermediate buffer for all writes from QEMU migration code
+  to QCOW2 image,
+- this buffer is sent to disk asynchronously, allowing several writes to
+  run in parallel.
 
-Confusingly, neon_load_reg()/neon_store_reg() do the "create
-new TCG temp for the load, free the store input" thing, but
-neon_load_reg64()/neon_store_reg64()/neon_load_reg32()/neon_store_reg32()
-do not. I'd kind of like to get rid of this weird proliferation
-of load and store functions, but neon_load_reg()/neon_store_reg() are
-also the only ones which take a (regno, pass) pair of inputs,
-so it's not a completely trivial substitution.
+In general, migration code is fantastically inefficent (by observation),
+buffers are not aligned and sent with arbitrary pieces, a lot of time
+less than 100 bytes at a chunk, which results in read-modify-write
+operations with non-cached operations. It should also be noted that all
+operations are performed into unallocated image blocks, which also suffer
+due to partial writes to such new clusters.
 
-thanks
--- PMM
+This patch series is an implementation of idea discussed in the RFC
+posted by Denis Plotnikov
+https://lists.gnu.org/archive/html/qemu-devel/2020-04/msg01925.html
+Results with this series over NVME are better than original code
+                original     rfc    this
+cached:          1.79s      2.38s   1.27s
+non-cached:      3.29s      1.31s   0.81s
+
+Changes from v2:
+- code moved from QCOW2 level to generic block level
+- created bdrv_flush_vmstate helper to fix 022, 029 tests
+- added recursive for bs->file in bdrv_co_flush_vmstate (fix 267)
+- fixed blk_save_vmstate helper
+- fixed coroutine wait as Vladimir suggested with waiting fixes from me
+
+Changes from v1:
+- patchew warning fixed
+- fixed validation that only 1 waiter is allowed in patch 1
+
+Signed-off-by: Denis V. Lunev <den@openvz.org>
+CC: Kevin Wolf <kwolf@redhat.com>
+CC: Max Reitz <mreitz@redhat.com>
+CC: Stefan Hajnoczi <stefanha@redhat.com>
+CC: Fam Zheng <fam@euphon.net>
+CC: Juan Quintela <quintela@redhat.com>
+CC: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+CC: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+CC: Denis Plotnikov <dplotnikov@virtuozzo.com>
+
+
 
