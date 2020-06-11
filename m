@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E06DE1F6ED6
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 22:35:12 +0200 (CEST)
-Received: from localhost ([::1]:44466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04EDF1F6EDB
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 22:37:23 +0200 (CEST)
+Received: from localhost ([::1]:52130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjTup-0003ke-R8
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 16:35:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56060)
+	id 1jjTww-000839-1O
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 16:37:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jjTAO-0001sT-Re
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:47:12 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:32584
+ id 1jjTAP-0001uf-SF
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:47:13 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:25832
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jjTAM-0001Ps-Ev
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:47:12 -0400
+ id 1jjTAN-0001QC-4c
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:47:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591904829;
+ s=mimecast20190719; t=1591904830;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lQvpU4B1D7EDUfj2jopXqI/yW1WBm3Uu35TpnhvGcVs=;
- b=ijrY6J/GEiN0NwjiXTBU4adP7Vfw4f4vYmNXrjSW5+bLSomjZlD52ehez/lEoaFAUHN1UX
- Zqenvlu/KRjTePq0C66uWM7MlXZS8JPxmDWt+iaHAWuSPnx8HQVOqtfD1gyCgzLusQ1CXN
- ZThta4VY9yo4TcDCMkJDNr5FG6igb8w=
+ bh=gQuqoF6ysfE+PJsNjiFp4bgJ5ewc0pmiCefhv+JlDGM=;
+ b=P8mzQ1MtqFAfyXXXUG6/9Key/ovmAnHSlmTPdvNKBN/JC2qrVu9EjPpuUWOUTK3VpEPbnc
+ RVd3ki/I33vRrBl5QlJRyyB6OrZ4MdpdQ3IeUw91M0RPo/ZgtWEGs2l8uLaU7f8X0ydsf3
+ +KYpz0zHS4T57YH/xkmmUALWHs6QAGk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-456-pNj9KBEBNty97rlrVSzOjQ-1; Thu, 11 Jun 2020 15:47:05 -0400
-X-MC-Unique: pNj9KBEBNty97rlrVSzOjQ-1
+ us-mta-281-hDbcjJ8aPoSTZN_bzTw1Kg-1; Thu, 11 Jun 2020 15:47:08 -0400
+X-MC-Unique: hDbcjJ8aPoSTZN_bzTw1Kg-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3BDDE8015CE;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D91E01005512;
  Thu, 11 Jun 2020 19:47:04 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C2FB110013D0;
- Thu, 11 Jun 2020 19:47:03 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6C91410013D0;
+ Thu, 11 Jun 2020 19:47:04 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 097/115] i386: hvf: Move mmio_buf into CPUX86State
-Date: Thu, 11 Jun 2020 15:44:31 -0400
-Message-Id: <20200611194449.31468-98-pbonzini@redhat.com>
+Subject: [PULL 098/115] i386: hvf: Drop HVFX86EmulatorState
+Date: Thu, 11 Jun 2020 15:44:32 -0400
+Message-Id: <20200611194449.31468-99-pbonzini@redhat.com>
 In-Reply-To: <20200611194449.31468-1-pbonzini@redhat.com>
 References: <20200611194449.31468-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -57,9 +57,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 14:57:53
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 03:29:33
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -86,105 +86,67 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Roman Bolshakov <r.bolshakov@yadro.com>
 
-There's no similar field in CPUX86State, but it's needed for MMIO traps.
-
 Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
-Message-Id: <20200528193758.51454-13-r.bolshakov@yadro.com>
+Message-Id: <20200528193758.51454-14-r.bolshakov@yadro.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/cpu.h         |  1 +
- target/i386/hvf/hvf.c     |  5 +++++
- target/i386/hvf/x86.h     |  1 -
- target/i386/hvf/x86_emu.c | 12 ++++++------
- 4 files changed, 12 insertions(+), 7 deletions(-)
+ include/qemu/typedefs.h | 1 -
+ target/i386/cpu.h       | 1 -
+ target/i386/hvf/hvf.c   | 1 -
+ target/i386/hvf/x86.h   | 4 ----
+ 4 files changed, 7 deletions(-)
 
+diff --git a/include/qemu/typedefs.h b/include/qemu/typedefs.h
+index de68d51d52..ce4a78b687 100644
+--- a/include/qemu/typedefs.h
++++ b/include/qemu/typedefs.h
+@@ -51,7 +51,6 @@ typedef struct FWCfgIoState FWCfgIoState;
+ typedef struct FWCfgMemState FWCfgMemState;
+ typedef struct FWCfgState FWCfgState;
+ typedef struct HostMemoryBackend HostMemoryBackend;
+-typedef struct HVFX86EmulatorState HVFX86EmulatorState;
+ typedef struct I2CBus I2CBus;
+ typedef struct I2SCodec I2SCodec;
+ typedef struct IOMMUMemoryRegion IOMMUMemoryRegion;
 diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 86f4da1b66..da511a23b3 100644
+index da511a23b3..c6f816c58d 100644
 --- a/target/i386/cpu.h
 +++ b/target/i386/cpu.h
-@@ -1599,6 +1599,7 @@ typedef struct CPUX86State {
- #endif
+@@ -1600,7 +1600,6 @@ typedef struct CPUX86State {
  #if defined(CONFIG_HVF)
      hvf_lazy_flags hvf_lflags;
-+    void *hvf_mmio_buf;
-     HVFX86EmulatorState *hvf_emul;
+     void *hvf_mmio_buf;
+-    HVFX86EmulatorState *hvf_emul;
  #endif
  
+     uint64_t mcg_cap;
 diff --git a/target/i386/hvf/hvf.c b/target/i386/hvf/hvf.c
-index 4cee496d71..57696c46c7 100644
+index 57696c46c7..be016b951a 100644
 --- a/target/i386/hvf/hvf.c
 +++ b/target/i386/hvf/hvf.c
-@@ -533,7 +533,11 @@ void hvf_reset_vcpu(CPUState *cpu) {
- 
- void hvf_vcpu_destroy(CPUState *cpu)
- {
-+    X86CPU *x86_cpu = X86_CPU(cpu);
-+    CPUX86State *env = &x86_cpu->env;
-+
-     hv_return_t ret = hv_vcpu_destroy((hv_vcpuid_t)cpu->hvf_fd);
-+    g_free(env->hvf_mmio_buf);
-     assert_hvf_ok(ret);
- }
- 
-@@ -563,6 +567,7 @@ int hvf_init_vcpu(CPUState *cpu)
-     init_decoder();
+@@ -568,7 +568,6 @@ int hvf_init_vcpu(CPUState *cpu)
  
      hvf_state->hvf_caps = g_new0(struct hvf_vcpu_caps, 1);
-+    env->hvf_mmio_buf = g_new(char, 4096);
-     env->hvf_emul = g_new0(HVFX86EmulatorState, 1);
+     env->hvf_mmio_buf = g_new(char, 4096);
+-    env->hvf_emul = g_new0(HVFX86EmulatorState, 1);
  
      r = hv_vcpu_create((hv_vcpuid_t *)&cpu->hvf_fd, HV_VCPU_DEFAULT);
+     cpu->vcpu_dirty = 1;
 diff --git a/target/i386/hvf/x86.h b/target/i386/hvf/x86.h
-index 2363616c07..483fcea762 100644
+index 483fcea762..bacade7b65 100644
 --- a/target/i386/hvf/x86.h
 +++ b/target/i386/hvf/x86.h
-@@ -230,7 +230,6 @@ typedef struct x68_segment_selector {
+@@ -228,10 +228,6 @@ typedef struct x68_segment_selector {
+     };
+ } __attribute__ ((__packed__)) x68_segment_selector;
  
- /* Definition of hvf_x86_state is here */
- struct HVFX86EmulatorState {
--    uint8_t mmio_buf[4096];
- };
- 
+-/* Definition of hvf_x86_state is here */
+-struct HVFX86EmulatorState {
+-};
+-
  /* useful register access  macros */
-diff --git a/target/i386/hvf/x86_emu.c b/target/i386/hvf/x86_emu.c
-index 1ad2c30e16..d3e289ed87 100644
---- a/target/i386/hvf/x86_emu.c
-+++ b/target/i386/hvf/x86_emu.c
-@@ -187,8 +187,8 @@ void write_val_ext(struct CPUX86State *env, target_ulong ptr, target_ulong val,
+ #define x86_reg(cpu, reg) ((x86_register *) &cpu->regs[reg])
  
- uint8_t *read_mmio(struct CPUX86State *env, target_ulong ptr, int bytes)
- {
--    vmx_read_mem(env_cpu(env), env->hvf_emul->mmio_buf, ptr, bytes);
--    return env->hvf_emul->mmio_buf;
-+    vmx_read_mem(env_cpu(env), env->hvf_mmio_buf, ptr, bytes);
-+    return env->hvf_mmio_buf;
- }
- 
- 
-@@ -489,9 +489,9 @@ static void exec_ins_single(struct CPUX86State *env, struct x86_decode *decode)
-     target_ulong addr = linear_addr_size(env_cpu(env), RDI(env),
-                                          decode->addressing_size, R_ES);
- 
--    hvf_handle_io(env_cpu(env), DX(env), env->hvf_emul->mmio_buf, 0,
-+    hvf_handle_io(env_cpu(env), DX(env), env->hvf_mmio_buf, 0,
-                   decode->operand_size, 1);
--    vmx_write_mem(env_cpu(env), addr, env->hvf_emul->mmio_buf,
-+    vmx_write_mem(env_cpu(env), addr, env->hvf_mmio_buf,
-                   decode->operand_size);
- 
-     string_increment_reg(env, R_EDI, decode);
-@@ -512,9 +512,9 @@ static void exec_outs_single(struct CPUX86State *env, struct x86_decode *decode)
- {
-     target_ulong addr = decode_linear_addr(env, decode, RSI(env), R_DS);
- 
--    vmx_read_mem(env_cpu(env), env->hvf_emul->mmio_buf, addr,
-+    vmx_read_mem(env_cpu(env), env->hvf_mmio_buf, addr,
-                  decode->operand_size);
--    hvf_handle_io(env_cpu(env), DX(env), env->hvf_emul->mmio_buf, 1,
-+    hvf_handle_io(env_cpu(env), DX(env), env->hvf_mmio_buf, 1,
-                   decode->operand_size, 1);
- 
-     string_increment_reg(env, R_ESI, decode);
 -- 
 2.26.2
 
