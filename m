@@ -2,73 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41AF11F6997
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 16:06:15 +0200 (CEST)
-Received: from localhost ([::1]:39558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 950BC1F69F0
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 16:28:18 +0200 (CEST)
+Received: from localhost ([::1]:58374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjNqQ-0000mg-AS
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 10:06:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52060)
+	id 1jjOBl-0004kR-MB
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 10:28:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1jjNkU-0002js-8Q
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 10:00:09 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:33990
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1jjNkT-0002Eg-CR
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 10:00:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591884004;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qDNBig6IWQiFeyOxhMViPcQxZlm7fNfvrCXicg2128w=;
- b=gxnfnRZr+DkezsBGlzzCmHoQlr2B1Ix12IZrJ+OH6324ZRMz0Kb12Gu+X48YU/HNIfZeGK
- 66NcJ4JiNMM8kq+tQkYKc54if+IR8cos2Ki3AlQapmuMCzlYZLCKGCeC1dgfZkug6lOK7h
- 1UdTC25HJ/kTqpB49sWjHqw9O9JrKQM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-67-Gi3LDhk_PUODY9vPMY3jeA-1; Thu, 11 Jun 2020 10:00:00 -0400
-X-MC-Unique: Gi3LDhk_PUODY9vPMY3jeA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6F4F3107ACCD;
- Thu, 11 Jun 2020 13:59:59 +0000 (UTC)
-Received: from laptop.redhat.com (ovpn-114-197.ams2.redhat.com [10.36.114.197])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5FAF35D9DC;
- Thu, 11 Jun 2020 13:59:56 +0000 (UTC)
-From: Eric Auger <eric.auger@redhat.com>
-To: eric.auger.pro@gmail.com, eric.auger@redhat.com, stefanb@linux.ibm.com,
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1jjOAI-0003cU-On; Thu, 11 Jun 2020 10:26:46 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:60956)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1jjOAH-0008Vf-Dy; Thu, 11 Jun 2020 10:26:46 -0400
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 05BE1p2W094426; Thu, 11 Jun 2020 10:26:42 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 31ka4j990t-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 11 Jun 2020 10:26:41 -0400
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 05BE1p8R094434;
+ Thu, 11 Jun 2020 10:26:41 -0400
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.11])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 31ka4j990d-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 11 Jun 2020 10:26:41 -0400
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+ by ppma03dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 05BELHMm003046;
+ Thu, 11 Jun 2020 14:26:39 GMT
+Received: from b01cxnp22035.gho.pok.ibm.com (b01cxnp22035.gho.pok.ibm.com
+ [9.57.198.25]) by ppma03dal.us.ibm.com with ESMTP id 31hw1c7e6x-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 11 Jun 2020 14:26:39 +0000
+Received: from b01ledav004.gho.pok.ibm.com (b01ledav004.gho.pok.ibm.com
+ [9.57.199.109])
+ by b01cxnp22035.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 05BEPcHS54460814
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 11 Jun 2020 14:25:38 GMT
+Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C3DEE112061;
+ Thu, 11 Jun 2020 14:25:38 +0000 (GMT)
+Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B10E5112064;
+ Thu, 11 Jun 2020 14:25:38 +0000 (GMT)
+Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
+ by b01ledav004.gho.pok.ibm.com (Postfix) with ESMTP;
+ Thu, 11 Jun 2020 14:25:38 +0000 (GMT)
+Subject: Re: [PATCH v4 1/5] acpi: Convert build_tpm2() to build_append* API
+To: Eric Auger <eric.auger@redhat.com>, eric.auger.pro@gmail.com,
  qemu-devel@nongnu.org, qemu-arm@nongnu.org, peter.maydell@linaro.org,
  mst@redhat.com, shannon.zhaosl@gmail.com, imammedo@redhat.com
-Subject: [PATCH v4 5/5] docs/specs/tpm: ACPI boot now supported for TPM/ARM
-Date: Thu, 11 Jun 2020 15:59:17 +0200
-Message-Id: <20200611135917.18300-6-eric.auger@redhat.com>
-In-Reply-To: <20200611135917.18300-1-eric.auger@redhat.com>
 References: <20200611135917.18300-1-eric.auger@redhat.com>
+ <20200611135917.18300-2-eric.auger@redhat.com>
+From: Stefan Berger <stefanb@linux.ibm.com>
+Message-ID: <28121558-7a75-73da-6939-da0c0e776087@linux.ibm.com>
+Date: Thu, 11 Jun 2020 10:25:38 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 08:37:10
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
+In-Reply-To: <20200611135917.18300-2-eric.auger@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.687
+ definitions=2020-06-11_14:2020-06-11,
+ 2020-06-11 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 adultscore=0
+ malwarescore=0 mlxlogscore=999 spamscore=0 phishscore=0 clxscore=1015
+ priorityscore=1501 bulkscore=0 suspectscore=0 impostorscore=0
+ lowpriorityscore=0 cotscore=-2147483648 classifier=spam adjust=0
+ reason=mlx scancount=1 engine=8.12.0-2004280000
+ definitions=main-2006110106
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=stefanb@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 10:26:43
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -35
+X-Spam_score: -3.6
 X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,28 +108,112 @@ Cc: marcandre.lureau@redhat.com, drjones@redhat.com, lersek@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-ACPI boot now is supported. Let's remove the comment
-saying it is not.
+On 6/11/20 9:59 AM, Eric Auger wrote:
+> In preparation of its move to the generic acpi code,
+> let's convert build_tpm2() to use build_append API. This
+> latter now is prefered in place of direct ACPI struct field
+> settings with manual endianness conversion.
+>
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+>
+> ---
+>
+> v3 -> v4:
+> - Don't use Acpi20TPM2 *tpm2_ptr anymore
+> - Use variables for control area start address and start method
+> - Simplified arg values passed to bios_linker_loader_add_pointer
+> - use g_assert_not_reached()
+> ---
+>   hw/i386/acpi-build.c | 49 +++++++++++++++++++++++++++++---------------
+>   1 file changed, 33 insertions(+), 16 deletions(-)
+>
+> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> index b5669d6c65..f150d95ecc 100644
+> --- a/hw/i386/acpi-build.c
+> +++ b/hw/i386/acpi-build.c
+> @@ -2298,35 +2298,52 @@ build_tpm_tcpa(GArray *table_data, BIOSLinker *linker, GArray *tcpalog)
+>   static void
+>   build_tpm2(GArray *table_data, BIOSLinker *linker, GArray *tcpalog)
+>   {
+> -    Acpi20TPM2 *tpm2_ptr = acpi_data_push(table_data, sizeof *tpm2_ptr);
+> -    unsigned log_addr_size = sizeof(tpm2_ptr->log_area_start_address);
+> -    unsigned log_addr_offset =
+> -        (char *)&tpm2_ptr->log_area_start_address - table_data->data;
+> +    uint8_t start_method_params[12] = {};
+> +    unsigned log_addr_offset, tpm2_start;
+> +    uint64_t control_area_start_address;
+> +    uint32_t start_method;
+> +    void *tpm2_ptr;
+>   
+> -    tpm2_ptr->platform_class = cpu_to_le16(TPM2_ACPI_CLASS_CLIENT);
+> +    tpm2_start = table_data->len;
+> +    tpm2_ptr = acpi_data_push(table_data, sizeof(AcpiTableHeader));
+> +
+> +    /* Platform Class */
+> +    build_append_int_noprefix(table_data, TPM2_ACPI_CLASS_CLIENT, 2);
+> +    /* Reserved */
+> +    build_append_int_noprefix(table_data, 0, 2);
+>       if (TPM_IS_TIS_ISA(tpm_find())) {
+> -        tpm2_ptr->control_area_address = cpu_to_le64(0);
+> -        tpm2_ptr->start_method = cpu_to_le32(TPM2_START_METHOD_MMIO);
+> +        control_area_start_address = 0;
+> +        start_method = TPM2_START_METHOD_MMIO;
+>       } else if (TPM_IS_CRB(tpm_find())) {
+> -        tpm2_ptr->control_area_address = cpu_to_le64(TPM_CRB_ADDR_CTRL);
+> -        tpm2_ptr->start_method = cpu_to_le32(TPM2_START_METHOD_CRB);
+> +        control_area_start_address = TPM_CRB_ADDR_CTRL;
+> +        start_method = TPM2_START_METHOD_CRB;
+>       } else {
+> -        g_warn_if_reached();
+> +        g_assert_not_reached();
+>       }
+> +    /* Address of Control Area */
+> +    build_append_int_noprefix(table_data, control_area_start_address, 8);
+> +    /* Start Method */
+> +    build_append_int_noprefix(table_data, start_method, 4);
+>   
+> -    tpm2_ptr->log_area_minimum_length =
+> -        cpu_to_le32(TPM_LOG_AREA_MINIMUM_SIZE);
+> +    /* Platform Specific Parameters */
+> +    g_array_append_vals(table_data, &start_method_params,
+> +                        ARRAY_SIZE(start_method_params));
+>   
+> -    acpi_data_push(tcpalog, le32_to_cpu(tpm2_ptr->log_area_minimum_length));
+> +    /* Log Area Minimum Length */
+> +    build_append_int_noprefix(table_data, TPM_LOG_AREA_MINIMUM_SIZE, 4);
 
-Signed-off-by: Eric Auger <eric.auger@redhat.com>
----
- docs/specs/tpm.rst | 2 --
- 1 file changed, 2 deletions(-)
+Here you push data related to TPM2 table...
 
-diff --git a/docs/specs/tpm.rst b/docs/specs/tpm.rst
-index 5e61238bc5..eeeb93730a 100644
---- a/docs/specs/tpm.rst
-+++ b/docs/specs/tpm.rst
-@@ -346,8 +346,6 @@ In case an Arm virt machine is emulated, use the following command line:
-     -drive if=pflash,format=raw,file=flash0.img,readonly \
-     -drive if=pflash,format=raw,file=flash1.img
- 
--  On Arm, ACPI boot with TPM is not yet supported.
--
- In case SeaBIOS is used as firmware, it should show the TPM menu item
- after entering the menu with 'ESC'.
- 
--- 
-2.20.1
+
+> +
+> +    acpi_data_push(tcpalog, TPM_LOG_AREA_MINIMUM_SIZE);
+
+... here you push log area memory ...
+
+
+>       bios_linker_loader_alloc(linker, ACPI_BUILD_TPMLOG_FILE, tcpalog, 1,
+>                                false);
+>   
+> -    /* log area start address to be filled by Guest linker */
+> +    log_addr_offset = table_data->len;
+> +    build_append_int_noprefix(table_data, 0, 8);
+
+
+... here you push TPM2 table related data again. Is this right or did we 
+just mess up the TPM 2 table?
+
+
+> +    /* Log Area Start Address to be filled by Guest linker */
+>       bios_linker_loader_add_pointer(linker, ACPI_BUILD_TABLE_FILE,
+> -                                   log_addr_offset, log_addr_size,
+> +                                   log_addr_offset, 8,
+>                                      ACPI_BUILD_TPMLOG_FILE, 0);
+>       build_header(linker, table_data,
+> -                 (void *)tpm2_ptr, "TPM2", sizeof(*tpm2_ptr), 4, NULL, NULL);
+> +                 tpm2_ptr, "TPM2", table_data->len - tpm2_start, 4, NULL, NULL);
+>   }
+>   
+>   #define HOLE_640K_START  (640 * KiB)
+
 
 
