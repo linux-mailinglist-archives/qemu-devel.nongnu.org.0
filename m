@@ -2,32 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0811B1F6CAF
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 19:17:16 +0200 (CEST)
-Received: from localhost ([::1]:47676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09E371F6CB1
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 19:19:03 +0200 (CEST)
+Received: from localhost ([::1]:51312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjQpH-00055C-2W
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 13:17:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36132)
+	id 1jjQr0-0006bc-3q
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 13:19:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36138)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <den@openvz.org>)
- id 1jjQoI-00040y-J3; Thu, 11 Jun 2020 13:16:14 -0400
-Received: from relay.sw.ru ([185.231.240.75]:36378 helo=relay3.sw.ru)
+ id 1jjQoJ-00042m-Hq; Thu, 11 Jun 2020 13:16:15 -0400
+Received: from relay.sw.ru ([185.231.240.75]:36384 helo=relay3.sw.ru)
  by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <den@openvz.org>)
- id 1jjQoF-0001g0-Om; Thu, 11 Jun 2020 13:16:14 -0400
+ id 1jjQoF-0001g1-Pt; Thu, 11 Jun 2020 13:16:15 -0400
 Received: from [192.168.15.81] (helo=iris.sw.ru)
  by relay3.sw.ru with esmtp (Exim 4.93)
  (envelope-from <den@openvz.org>)
- id 1jjQo9-0000E7-NL; Thu, 11 Jun 2020 20:16:05 +0300
+ id 1jjQo9-0000E7-RL; Thu, 11 Jun 2020 20:16:05 +0300
 From: "Denis V. Lunev" <den@openvz.org>
 To: qemu-block@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 1/2] block: propagate discard alignment from format drivers to
- the guest
-Date: Thu, 11 Jun 2020 20:16:07 +0300
-Message-Id: <20200611171608.22052-2-den@openvz.org>
+Subject: [PATCH 2/2] iotests: fix 172 test
+Date: Thu, 11 Jun 2020 20:16:08 +0300
+Message-Id: <20200611171608.22052-3-den@openvz.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200611171608.22052-1-den@openvz.org>
 References: <20200611171608.22052-1-den@openvz.org>
@@ -59,18 +58,7 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Nowaday SCSI drivers in guests are able to align UNMAP requests before
-sending to the device. Right now QEMU provides an ability to set
-this via "discard_granularity" property of the block device which could
-be used by management layer.
-
-Though, in particular, from the point of QEMU, there is
-pdiscard_granularity on the format driver level, f.e. on QCOW2 or iSCSI.
-It would be beneficial to pass this value as a default for this
-property.
-
-Technically this should reduce the amount of use less UNMAP requests
-from the guest to the host. Basic test confirms this.
+Default discard granularity is set to -2 now.
 
 Signed-off-by: Denis V. Lunev <den@openvz.org>
 CC: Kevin Wolf <kwolf@redhat.com>
@@ -81,143 +69,490 @@ CC: John Snow <jsnow@redhat.com>
 CC: Paolo Bonzini <pbonzini@redhat.com>
 CC: Fam Zheng <fam@euphon.net>
 ---
- block/block-backend.c          | 11 +++++++++++
- hw/core/machine.c              | 15 ++++++++++++++-
- hw/ide/qdev.c                  |  3 ++-
- hw/scsi/scsi-disk.c            |  5 ++++-
- include/hw/block/block.h       |  2 +-
- include/sysemu/block-backend.h |  6 ++++++
- 6 files changed, 38 insertions(+), 4 deletions(-)
+ tests/qemu-iotests/172.out | 106 ++++++++++++++++++-------------------
+ 1 file changed, 53 insertions(+), 53 deletions(-)
 
-diff --git a/block/block-backend.c b/block/block-backend.c
-index 6936b25c83..9342a475cb 100644
---- a/block/block-backend.c
-+++ b/block/block-backend.c
-@@ -2222,6 +2222,17 @@ int blk_probe_geometry(BlockBackend *blk, HDGeometry *geo)
-     return bdrv_probe_geometry(blk_bs(blk), geo);
- }
- 
-+int blk_discard_granularity(BlockBackend *blk)
-+{
-+    BlockDriverState *bs = blk_bs(blk);
-+
-+    if (bs == NULL) {
-+        return DEFAULT_DISCARD_GRANULARITY;
-+    }
-+
-+    return bs->bl.pdiscard_alignment;
-+}
-+
- /*
-  * Updates the BlockBackendRootState object with data from the currently
-  * attached BlockDriverState.
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index bb3a7b18b1..08a242d606 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -28,7 +28,20 @@
- #include "hw/mem/nvdimm.h"
- #include "migration/vmstate.h"
- 
--GlobalProperty hw_compat_5_0[] = {};
-+GlobalProperty hw_compat_5_0[] = {
-+    { "ide-cd", "discard_granularity", "0xffffffff" },
-+    { "ide-hd", "discard_granularity", "0xffffffff" },
-+    { "ide-drive", "discard_granularity", "0xffffffff" },
-+    { "scsi-hd", "discard_granularity", "0xffffffff" },
-+    { "scsi-cd", "discard_granularity", "0xffffffff" },
-+    { "scsi-disk", "discard_granularity", "0xffffffff" },
-+    { "virtio-blk-pci", "discard_granularity", "0xffffffff" },
-+    { "xen-block", "discard_granularity", "0xffffffff" },
-+    { "usb-storage", "discard_granularity", "0xffffffff" },
-+    { "swim-drive", "discard_granularity", "0xffffffff" },
-+    { "floppy", "discard_granularity", "0xffffffff" },
-+    { "nvme", "discard_granularity", "0xffffffff" },
-+};
- const size_t hw_compat_5_0_len = G_N_ELEMENTS(hw_compat_5_0);
- 
- GlobalProperty hw_compat_4_2[] = {
-diff --git a/hw/ide/qdev.c b/hw/ide/qdev.c
-index 06b11583f5..e515dbeb0e 100644
---- a/hw/ide/qdev.c
-+++ b/hw/ide/qdev.c
-@@ -179,7 +179,8 @@ static void ide_dev_initfn(IDEDevice *dev, IDEDriveKind kind, Error **errp)
-         }
-     }
- 
--    if (dev->conf.discard_granularity == -1) {
-+    if (dev->conf.discard_granularity == -1 ||
-+        dev->conf.discard_granularity == -2) {
-         dev->conf.discard_granularity = 512;
-     } else if (dev->conf.discard_granularity &&
-                dev->conf.discard_granularity != 512) {
-diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
-index 387503e11b..6b809608e4 100644
---- a/hw/scsi/scsi-disk.c
-+++ b/hw/scsi/scsi-disk.c
-@@ -48,7 +48,6 @@
- #define SCSI_MAX_INQUIRY_LEN        256
- #define SCSI_MAX_MODE_LEN           256
- 
--#define DEFAULT_DISCARD_GRANULARITY (4 * KiB)
- #define DEFAULT_MAX_UNMAP_SIZE      (1 * GiB)
- #define DEFAULT_MAX_IO_SIZE         INT_MAX     /* 2 GB - 1 block */
- 
-@@ -2381,6 +2380,10 @@ static void scsi_realize(SCSIDevice *dev, Error **errp)
-     if (s->qdev.conf.discard_granularity == -1) {
-         s->qdev.conf.discard_granularity =
-             MAX(s->qdev.conf.logical_block_size, DEFAULT_DISCARD_GRANULARITY);
-+    } else if (s->qdev.conf.discard_granularity == -2) {
-+        s->qdev.conf.discard_granularity =
-+            MAX(s->qdev.conf.logical_block_size,
-+                blk_discard_granularity(s->qdev.conf.blk));
-     }
- 
-     if (!s->version) {
-diff --git a/include/hw/block/block.h b/include/hw/block/block.h
-index d7246f3862..53d4a38044 100644
---- a/include/hw/block/block.h
-+++ b/include/hw/block/block.h
-@@ -54,7 +54,7 @@ static inline unsigned int get_physical_block_exp(BlockConf *conf)
-     DEFINE_PROP_UINT16("min_io_size", _state, _conf.min_io_size, 0),    \
-     DEFINE_PROP_UINT32("opt_io_size", _state, _conf.opt_io_size, 0),    \
-     DEFINE_PROP_UINT32("discard_granularity", _state,                   \
--                       _conf.discard_granularity, -1),                  \
-+                       _conf.discard_granularity, -2),                  \
-     DEFINE_PROP_ON_OFF_AUTO("write-cache", _state, _conf.wce,           \
-                             ON_OFF_AUTO_AUTO),                          \
-     DEFINE_PROP_BOOL("share-rw", _state, _conf.share_rw, false)
-diff --git a/include/sysemu/block-backend.h b/include/sysemu/block-backend.h
-index 8203d7f6f9..241a759432 100644
---- a/include/sysemu/block-backend.h
-+++ b/include/sysemu/block-backend.h
-@@ -13,6 +13,7 @@
- #ifndef BLOCK_BACKEND_H
- #define BLOCK_BACKEND_H
- 
-+#include "qemu/units.h"
- #include "qemu/iov.h"
- #include "block/throttle-groups.h"
- 
-@@ -25,6 +26,10 @@
-  */
- #include "block/block.h"
- 
-+
-+#define DEFAULT_DISCARD_GRANULARITY (4 * KiB)
-+
-+
- /* Callbacks for block device models */
- typedef struct BlockDevOps {
-     /*
-@@ -246,6 +251,7 @@ int blk_save_vmstate(BlockBackend *blk, const uint8_t *buf,
- int blk_load_vmstate(BlockBackend *blk, uint8_t *buf, int64_t pos, int size);
- int blk_probe_blocksizes(BlockBackend *blk, BlockSizes *bsz);
- int blk_probe_geometry(BlockBackend *blk, HDGeometry *geo);
-+int blk_discard_granularity(BlockBackend *blk);
- BlockAIOCB *blk_abort_aio_request(BlockBackend *blk,
-                                   BlockCompletionFunc *cb,
-                                   void *opaque, int ret);
+diff --git a/tests/qemu-iotests/172.out b/tests/qemu-iotests/172.out
+index 7abbe82427..fb6d3efe7b 100644
+--- a/tests/qemu-iotests/172.out
++++ b/tests/qemu-iotests/172.out
+@@ -28,7 +28,7 @@ Testing:
+                 physical_block_size = 512 (0x200)
+                 min_io_size = 0 (0x0)
+                 opt_io_size = 0 (0x0)
+-                discard_granularity = 4294967295 (0xffffffff)
++                discard_granularity = 4294967294 (0xfffffffe)
+                 write-cache = "auto"
+                 share-rw = false
+                 drive-type = "288"
+@@ -58,7 +58,7 @@ Testing: -fda TEST_DIR/t.qcow2
+                 physical_block_size = 512 (0x200)
+                 min_io_size = 0 (0x0)
+                 opt_io_size = 0 (0x0)
+-                discard_granularity = 4294967295 (0xffffffff)
++                discard_granularity = 4294967294 (0xfffffffe)
+                 write-cache = "auto"
+                 share-rw = false
+                 drive-type = "144"
+@@ -85,7 +85,7 @@ Testing: -fdb TEST_DIR/t.qcow2
+                 physical_block_size = 512 (0x200)
+                 min_io_size = 0 (0x0)
+                 opt_io_size = 0 (0x0)
+-                discard_granularity = 4294967295 (0xffffffff)
++                discard_granularity = 4294967294 (0xfffffffe)
+                 write-cache = "auto"
+                 share-rw = false
+                 drive-type = "144"
+@@ -96,7 +96,7 @@ Testing: -fdb TEST_DIR/t.qcow2
+                 physical_block_size = 512 (0x200)
+                 min_io_size = 0 (0x0)
+                 opt_io_size = 0 (0x0)
+-                discard_granularity = 4294967295 (0xffffffff)
++                discard_granularity = 4294967294 (0xfffffffe)
+                 write-cache = "auto"
+                 share-rw = false
+                 drive-type = "288"
+@@ -123,7 +123,7 @@ Testing: -fda TEST_DIR/t.qcow2 -fdb TEST_DIR/t.qcow2.2
+                 physical_block_size = 512 (0x200)
+                 min_io_size = 0 (0x0)
+                 opt_io_size = 0 (0x0)
+-                discard_granularity = 4294967295 (0xffffffff)
++                discard_granularity = 4294967294 (0xfffffffe)
+                 write-cache = "auto"
+                 share-rw = false
+                 drive-type = "144"
+@@ -134,7 +134,7 @@ Testing: -fda TEST_DIR/t.qcow2 -fdb TEST_DIR/t.qcow2.2
+                 physical_block_size = 512 (0x200)
+                 min_io_size = 0 (0x0)
+                 opt_io_size = 0 (0x0)
+-                discard_granularity = 4294967295 (0xffffffff)
++                discard_granularity = 4294967294 (0xfffffffe)
+                 write-cache = "auto"
+                 share-rw = false
+                 drive-type = "144"
+@@ -164,7 +164,7 @@ Testing: -drive if=floppy,file=TEST_DIR/t.qcow2
+                 physical_block_size = 512 (0x200)
+                 min_io_size = 0 (0x0)
+                 opt_io_size = 0 (0x0)
+-                discard_granularity = 4294967295 (0xffffffff)
++                discard_granularity = 4294967294 (0xfffffffe)
+                 write-cache = "auto"
+                 share-rw = false
+                 drive-type = "144"
+@@ -191,7 +191,7 @@ Testing: -drive if=floppy,file=TEST_DIR/t.qcow2,index=1
+                 physical_block_size = 512 (0x200)
+                 min_io_size = 0 (0x0)
+                 opt_io_size = 0 (0x0)
+-                discard_granularity = 4294967295 (0xffffffff)
++                discard_granularity = 4294967294 (0xfffffffe)
+                 write-cache = "auto"
+                 share-rw = false
+                 drive-type = "144"
+@@ -202,7 +202,7 @@ Testing: -drive if=floppy,file=TEST_DIR/t.qcow2,index=1
+                 physical_block_size = 512 (0x200)
+                 min_io_size = 0 (0x0)
+                 opt_io_size = 0 (0x0)
+-                discard_granularity = 4294967295 (0xffffffff)
++                discard_granularity = 4294967294 (0xfffffffe)
+                 write-cache = "auto"
+                 share-rw = false
+                 drive-type = "288"
+@@ -229,7 +229,7 @@ Testing: -drive if=floppy,file=TEST_DIR/t.qcow2 -drive if=floppy,file=TEST_DIR/t
+                 physical_block_size = 512 (0x200)
+                 min_io_size = 0 (0x0)
+                 opt_io_size = 0 (0x0)
+-                discard_granularity = 4294967295 (0xffffffff)
++                discard_granularity = 4294967294 (0xfffffffe)
+                 write-cache = "auto"
+                 share-rw = false
+                 drive-type = "144"
+@@ -240,7 +240,7 @@ Testing: -drive if=floppy,file=TEST_DIR/t.qcow2 -drive if=floppy,file=TEST_DIR/t
+                 physical_block_size = 512 (0x200)
+                 min_io_size = 0 (0x0)
+                 opt_io_size = 0 (0x0)
+-                discard_granularity = 4294967295 (0xffffffff)
++                discard_granularity = 4294967294 (0xfffffffe)
+                 write-cache = "auto"
+                 share-rw = false
+                 drive-type = "144"
+@@ -270,7 +270,7 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -global isa-fdc.driveA=none0
+                 physical_block_size = 512 (0x200)
+                 min_io_size = 0 (0x0)
+                 opt_io_size = 0 (0x0)
+-                discard_granularity = 4294967295 (0xffffffff)
++                discard_granularity = 4294967294 (0xfffffffe)
+                 write-cache = "auto"
+                 share-rw = false
+                 drive-type = "144"
+@@ -297,7 +297,7 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -global isa-fdc.driveB=none0
+                 physical_block_size = 512 (0x200)
+                 min_io_size = 0 (0x0)
+                 opt_io_size = 0 (0x0)
+-                discard_granularity = 4294967295 (0xffffffff)
++                discard_granularity = 4294967294 (0xfffffffe)
+                 write-cache = "auto"
+                 share-rw = false
+                 drive-type = "144"
+@@ -324,7 +324,7 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qco
+                 physical_block_size = 512 (0x200)
+                 min_io_size = 0 (0x0)
+                 opt_io_size = 0 (0x0)
+-                discard_granularity = 4294967295 (0xffffffff)
++                discard_granularity = 4294967294 (0xfffffffe)
+                 write-cache = "auto"
+                 share-rw = false
+                 drive-type = "144"
+@@ -335,7 +335,7 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qco
+                 physical_block_size = 512 (0x200)
+                 min_io_size = 0 (0x0)
+                 opt_io_size = 0 (0x0)
+-                discard_granularity = 4294967295 (0xffffffff)
++                discard_granularity = 4294967294 (0xfffffffe)
+                 write-cache = "auto"
+                 share-rw = false
+                 drive-type = "144"
+@@ -365,7 +365,7 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -device floppy,drive=none0
+                 physical_block_size = 512 (0x200)
+                 min_io_size = 0 (0x0)
+                 opt_io_size = 0 (0x0)
+-                discard_granularity = 4294967295 (0xffffffff)
++                discard_granularity = 4294967294 (0xfffffffe)
+                 write-cache = "auto"
+                 share-rw = false
+                 drive-type = "144"
+@@ -392,7 +392,7 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -device floppy,drive=none0,unit=1
+                 physical_block_size = 512 (0x200)
+                 min_io_size = 0 (0x0)
+                 opt_io_size = 0 (0x0)
+-                discard_granularity = 4294967295 (0xffffffff)
++                discard_granularity = 4294967294 (0xfffffffe)
+                 write-cache = "auto"
+                 share-rw = false
+                 drive-type = "144"
+@@ -419,7 +419,7 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qco
+                 physical_block_size = 512 (0x200)
+                 min_io_size = 0 (0x0)
+                 opt_io_size = 0 (0x0)
+-                discard_granularity = 4294967295 (0xffffffff)
++                discard_granularity = 4294967294 (0xfffffffe)
+                 write-cache = "auto"
+                 share-rw = false
+                 drive-type = "144"
+@@ -430,7 +430,7 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qco
+                 physical_block_size = 512 (0x200)
+                 min_io_size = 0 (0x0)
+                 opt_io_size = 0 (0x0)
+-                discard_granularity = 4294967295 (0xffffffff)
++                discard_granularity = 4294967294 (0xfffffffe)
+                 write-cache = "auto"
+                 share-rw = false
+                 drive-type = "144"
+@@ -460,7 +460,7 @@ Testing: -fda TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -global is
+                 physical_block_size = 512 (0x200)
+                 min_io_size = 0 (0x0)
+                 opt_io_size = 0 (0x0)
+-                discard_granularity = 4294967295 (0xffffffff)
++                discard_granularity = 4294967294 (0xfffffffe)
+                 write-cache = "auto"
+                 share-rw = false
+                 drive-type = "144"
+@@ -471,7 +471,7 @@ Testing: -fda TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -global is
+                 physical_block_size = 512 (0x200)
+                 min_io_size = 0 (0x0)
+                 opt_io_size = 0 (0x0)
+-                discard_granularity = 4294967295 (0xffffffff)
++                discard_granularity = 4294967294 (0xfffffffe)
+                 write-cache = "auto"
+                 share-rw = false
+                 drive-type = "144"
+@@ -498,7 +498,7 @@ Testing: -fdb TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -global is
+                 physical_block_size = 512 (0x200)
+                 min_io_size = 0 (0x0)
+                 opt_io_size = 0 (0x0)
+-                discard_granularity = 4294967295 (0xffffffff)
++                discard_granularity = 4294967294 (0xfffffffe)
+                 write-cache = "auto"
+                 share-rw = false
+                 drive-type = "144"
+@@ -509,7 +509,7 @@ Testing: -fdb TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -global is
+                 physical_block_size = 512 (0x200)
+                 min_io_size = 0 (0x0)
+                 opt_io_size = 0 (0x0)
+-                discard_granularity = 4294967295 (0xffffffff)
++                discard_granularity = 4294967294 (0xfffffffe)
+                 write-cache = "auto"
+                 share-rw = false
+                 drive-type = "144"
+@@ -536,7 +536,7 @@ Testing: -fda TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -global is
+                 physical_block_size = 512 (0x200)
+                 min_io_size = 0 (0x0)
+                 opt_io_size = 0 (0x0)
+-                discard_granularity = 4294967295 (0xffffffff)
++                discard_granularity = 4294967294 (0xfffffffe)
+                 write-cache = "auto"
+                 share-rw = false
+                 drive-type = "144"
+@@ -563,7 +563,7 @@ Testing: -fdb TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -global is
+                 physical_block_size = 512 (0x200)
+                 min_io_size = 0 (0x0)
+                 opt_io_size = 0 (0x0)
+-                discard_granularity = 4294967295 (0xffffffff)
++                discard_granularity = 4294967294 (0xfffffffe)
+                 write-cache = "auto"
+                 share-rw = false
+                 drive-type = "144"
+@@ -593,7 +593,7 @@ Testing: -fda TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -device fl
+                 physical_block_size = 512 (0x200)
+                 min_io_size = 0 (0x0)
+                 opt_io_size = 0 (0x0)
+-                discard_granularity = 4294967295 (0xffffffff)
++                discard_granularity = 4294967294 (0xfffffffe)
+                 write-cache = "auto"
+                 share-rw = false
+                 drive-type = "144"
+@@ -604,7 +604,7 @@ Testing: -fda TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -device fl
+                 physical_block_size = 512 (0x200)
+                 min_io_size = 0 (0x0)
+                 opt_io_size = 0 (0x0)
+-                discard_granularity = 4294967295 (0xffffffff)
++                discard_granularity = 4294967294 (0xfffffffe)
+                 write-cache = "auto"
+                 share-rw = false
+                 drive-type = "144"
+@@ -631,7 +631,7 @@ Testing: -fda TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -device fl
+                 physical_block_size = 512 (0x200)
+                 min_io_size = 0 (0x0)
+                 opt_io_size = 0 (0x0)
+-                discard_granularity = 4294967295 (0xffffffff)
++                discard_granularity = 4294967294 (0xfffffffe)
+                 write-cache = "auto"
+                 share-rw = false
+                 drive-type = "144"
+@@ -642,7 +642,7 @@ Testing: -fda TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -device fl
+                 physical_block_size = 512 (0x200)
+                 min_io_size = 0 (0x0)
+                 opt_io_size = 0 (0x0)
+-                discard_granularity = 4294967295 (0xffffffff)
++                discard_granularity = 4294967294 (0xfffffffe)
+                 write-cache = "auto"
+                 share-rw = false
+                 drive-type = "144"
+@@ -669,7 +669,7 @@ Testing: -fdb TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -device fl
+                 physical_block_size = 512 (0x200)
+                 min_io_size = 0 (0x0)
+                 opt_io_size = 0 (0x0)
+-                discard_granularity = 4294967295 (0xffffffff)
++                discard_granularity = 4294967294 (0xfffffffe)
+                 write-cache = "auto"
+                 share-rw = false
+                 drive-type = "144"
+@@ -680,7 +680,7 @@ Testing: -fdb TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -device fl
+                 physical_block_size = 512 (0x200)
+                 min_io_size = 0 (0x0)
+                 opt_io_size = 0 (0x0)
+-                discard_granularity = 4294967295 (0xffffffff)
++                discard_granularity = 4294967294 (0xfffffffe)
+                 write-cache = "auto"
+                 share-rw = false
+                 drive-type = "144"
+@@ -707,7 +707,7 @@ Testing: -fdb TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -device fl
+                 physical_block_size = 512 (0x200)
+                 min_io_size = 0 (0x0)
+                 opt_io_size = 0 (0x0)
+-                discard_granularity = 4294967295 (0xffffffff)
++                discard_granularity = 4294967294 (0xfffffffe)
+                 write-cache = "auto"
+                 share-rw = false
+                 drive-type = "144"
+@@ -718,7 +718,7 @@ Testing: -fdb TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -device fl
+                 physical_block_size = 512 (0x200)
+                 min_io_size = 0 (0x0)
+                 opt_io_size = 0 (0x0)
+-                discard_granularity = 4294967295 (0xffffffff)
++                discard_granularity = 4294967294 (0xfffffffe)
+                 write-cache = "auto"
+                 share-rw = false
+                 drive-type = "144"
+@@ -754,7 +754,7 @@ Testing: -drive if=floppy,file=TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.q
+                 physical_block_size = 512 (0x200)
+                 min_io_size = 0 (0x0)
+                 opt_io_size = 0 (0x0)
+-                discard_granularity = 4294967295 (0xffffffff)
++                discard_granularity = 4294967294 (0xfffffffe)
+                 write-cache = "auto"
+                 share-rw = false
+                 drive-type = "144"
+@@ -765,7 +765,7 @@ Testing: -drive if=floppy,file=TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.q
+                 physical_block_size = 512 (0x200)
+                 min_io_size = 0 (0x0)
+                 opt_io_size = 0 (0x0)
+-                discard_granularity = 4294967295 (0xffffffff)
++                discard_granularity = 4294967294 (0xfffffffe)
+                 write-cache = "auto"
+                 share-rw = false
+                 drive-type = "144"
+@@ -792,7 +792,7 @@ Testing: -drive if=floppy,file=TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.q
+                 physical_block_size = 512 (0x200)
+                 min_io_size = 0 (0x0)
+                 opt_io_size = 0 (0x0)
+-                discard_granularity = 4294967295 (0xffffffff)
++                discard_granularity = 4294967294 (0xfffffffe)
+                 write-cache = "auto"
+                 share-rw = false
+                 drive-type = "144"
+@@ -803,7 +803,7 @@ Testing: -drive if=floppy,file=TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.q
+                 physical_block_size = 512 (0x200)
+                 min_io_size = 0 (0x0)
+                 opt_io_size = 0 (0x0)
+-                discard_granularity = 4294967295 (0xffffffff)
++                discard_granularity = 4294967294 (0xfffffffe)
+                 write-cache = "auto"
+                 share-rw = false
+                 drive-type = "144"
+@@ -836,7 +836,7 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qco
+                 physical_block_size = 512 (0x200)
+                 min_io_size = 0 (0x0)
+                 opt_io_size = 0 (0x0)
+-                discard_granularity = 4294967295 (0xffffffff)
++                discard_granularity = 4294967294 (0xfffffffe)
+                 write-cache = "auto"
+                 share-rw = false
+                 drive-type = "144"
+@@ -847,7 +847,7 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qco
+                 physical_block_size = 512 (0x200)
+                 min_io_size = 0 (0x0)
+                 opt_io_size = 0 (0x0)
+-                discard_granularity = 4294967295 (0xffffffff)
++                discard_granularity = 4294967294 (0xfffffffe)
+                 write-cache = "auto"
+                 share-rw = false
+                 drive-type = "144"
+@@ -874,7 +874,7 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qco
+                 physical_block_size = 512 (0x200)
+                 min_io_size = 0 (0x0)
+                 opt_io_size = 0 (0x0)
+-                discard_granularity = 4294967295 (0xffffffff)
++                discard_granularity = 4294967294 (0xfffffffe)
+                 write-cache = "auto"
+                 share-rw = false
+                 drive-type = "144"
+@@ -885,7 +885,7 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qco
+                 physical_block_size = 512 (0x200)
+                 min_io_size = 0 (0x0)
+                 opt_io_size = 0 (0x0)
+-                discard_granularity = 4294967295 (0xffffffff)
++                discard_granularity = 4294967294 (0xfffffffe)
+                 write-cache = "auto"
+                 share-rw = false
+                 drive-type = "144"
+@@ -912,7 +912,7 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qco
+                 physical_block_size = 512 (0x200)
+                 min_io_size = 0 (0x0)
+                 opt_io_size = 0 (0x0)
+-                discard_granularity = 4294967295 (0xffffffff)
++                discard_granularity = 4294967294 (0xfffffffe)
+                 write-cache = "auto"
+                 share-rw = false
+                 drive-type = "144"
+@@ -923,7 +923,7 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qco
+                 physical_block_size = 512 (0x200)
+                 min_io_size = 0 (0x0)
+                 opt_io_size = 0 (0x0)
+-                discard_granularity = 4294967295 (0xffffffff)
++                discard_granularity = 4294967294 (0xfffffffe)
+                 write-cache = "auto"
+                 share-rw = false
+                 drive-type = "144"
+@@ -950,7 +950,7 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qco
+                 physical_block_size = 512 (0x200)
+                 min_io_size = 0 (0x0)
+                 opt_io_size = 0 (0x0)
+-                discard_granularity = 4294967295 (0xffffffff)
++                discard_granularity = 4294967294 (0xfffffffe)
+                 write-cache = "auto"
+                 share-rw = false
+                 drive-type = "144"
+@@ -961,7 +961,7 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qco
+                 physical_block_size = 512 (0x200)
+                 min_io_size = 0 (0x0)
+                 opt_io_size = 0 (0x0)
+-                discard_granularity = 4294967295 (0xffffffff)
++                discard_granularity = 4294967294 (0xfffffffe)
+                 write-cache = "auto"
+                 share-rw = false
+                 drive-type = "144"
+@@ -1003,7 +1003,7 @@ Testing: -device floppy
+                 physical_block_size = 512 (0x200)
+                 min_io_size = 0 (0x0)
+                 opt_io_size = 0 (0x0)
+-                discard_granularity = 4294967295 (0xffffffff)
++                discard_granularity = 4294967294 (0xfffffffe)
+                 write-cache = "auto"
+                 share-rw = false
+                 drive-type = "288"
+@@ -1030,7 +1030,7 @@ Testing: -device floppy,drive-type=120
+                 physical_block_size = 512 (0x200)
+                 min_io_size = 0 (0x0)
+                 opt_io_size = 0 (0x0)
+-                discard_granularity = 4294967295 (0xffffffff)
++                discard_granularity = 4294967294 (0xfffffffe)
+                 write-cache = "auto"
+                 share-rw = false
+                 drive-type = "120"
+@@ -1057,7 +1057,7 @@ Testing: -device floppy,drive-type=144
+                 physical_block_size = 512 (0x200)
+                 min_io_size = 0 (0x0)
+                 opt_io_size = 0 (0x0)
+-                discard_granularity = 4294967295 (0xffffffff)
++                discard_granularity = 4294967294 (0xfffffffe)
+                 write-cache = "auto"
+                 share-rw = false
+                 drive-type = "144"
+@@ -1084,7 +1084,7 @@ Testing: -device floppy,drive-type=288
+                 physical_block_size = 512 (0x200)
+                 min_io_size = 0 (0x0)
+                 opt_io_size = 0 (0x0)
+-                discard_granularity = 4294967295 (0xffffffff)
++                discard_granularity = 4294967294 (0xfffffffe)
+                 write-cache = "auto"
+                 share-rw = false
+                 drive-type = "288"
+@@ -1114,7 +1114,7 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -device floppy,drive=none0,drive-t
+                 physical_block_size = 512 (0x200)
+                 min_io_size = 0 (0x0)
+                 opt_io_size = 0 (0x0)
+-                discard_granularity = 4294967295 (0xffffffff)
++                discard_granularity = 4294967294 (0xfffffffe)
+                 write-cache = "auto"
+                 share-rw = false
+                 drive-type = "120"
+@@ -1141,7 +1141,7 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -device floppy,drive=none0,drive-t
+                 physical_block_size = 512 (0x200)
+                 min_io_size = 0 (0x0)
+                 opt_io_size = 0 (0x0)
+-                discard_granularity = 4294967295 (0xffffffff)
++                discard_granularity = 4294967294 (0xfffffffe)
+                 write-cache = "auto"
+                 share-rw = false
+                 drive-type = "288"
+@@ -1171,7 +1171,7 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -device floppy,drive=none0,logical
+                 physical_block_size = 512 (0x200)
+                 min_io_size = 0 (0x0)
+                 opt_io_size = 0 (0x0)
+-                discard_granularity = 4294967295 (0xffffffff)
++                discard_granularity = 4294967294 (0xfffffffe)
+                 write-cache = "auto"
+                 share-rw = false
+                 drive-type = "144"
+@@ -1198,7 +1198,7 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -device floppy,drive=none0,physica
+                 physical_block_size = 512 (0x200)
+                 min_io_size = 0 (0x0)
+                 opt_io_size = 0 (0x0)
+-                discard_granularity = 4294967295 (0xffffffff)
++                discard_granularity = 4294967294 (0xfffffffe)
+                 write-cache = "auto"
+                 share-rw = false
+                 drive-type = "144"
 -- 
 2.17.1
 
