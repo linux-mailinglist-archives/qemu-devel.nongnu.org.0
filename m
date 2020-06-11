@@ -2,63 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28D1A1F6678
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 13:19:17 +0200 (CEST)
-Received: from localhost ([::1]:54828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69F961F6688
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 13:22:11 +0200 (CEST)
+Received: from localhost ([::1]:32860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjLEq-0003RT-5i
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 07:19:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42628)
+	id 1jjLHe-0006gv-FT
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 07:22:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jjLCx-0001nd-2J
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 07:17:19 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:44584
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jjLGi-0006Gb-Bv
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 07:21:12 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:42909
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jjLCu-000406-KK
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 07:17:18 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jjLGh-0004z8-Kd
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 07:21:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591874235;
+ s=mimecast20190719; t=1591874470;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xBfgtz5cZqbDBoicdnCS+gGmYNw/8M9z8Tjjd4WiQSU=;
- b=MkezIBABelTvQ6WCorioz6h/2NgS48tujiv0eWaAittPTD1+XZkIj8WNGDfvzEuRUPZTeu
- MNZq0MoZLggIRdoAgKDHBkaH8xhsRTooJWy5mArlhtXUOnPp74ia8bQrHVZeNk5JgVaeOd
- Hjw1Hn1zi710ufFJ8h7aZ3yvvRgXRI4=
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=VHQurkvClWloURh9rAGwEs5jfTK7fvtnEdbi87ZzIyA=;
+ b=K2/OYMzrBh5ZCVo4HGWjea2Kfa8Pzte48PiTE5wtNotrxlQrsguyvVPf/+J+WX8ElGcTau
+ nmCL9RoVY1MssznNY7fA3tI7hvmbwhRt8sa1qy3ctfZyciczXbfsR7APUkBmBw1nTUW/xb
+ Ezwaphg3xNdgkBm3cOtOoPtOigFTxZQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-419-_59sli9GNLWTJnybuanikQ-1; Thu, 11 Jun 2020 07:17:13 -0400
-X-MC-Unique: _59sli9GNLWTJnybuanikQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-373-VGM3-SK6MSS77F-wMVs4gg-1; Thu, 11 Jun 2020 07:21:05 -0400
+X-MC-Unique: VGM3-SK6MSS77F-wMVs4gg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 54DFF80572E
- for <qemu-devel@nongnu.org>; Thu, 11 Jun 2020 11:17:12 +0000 (UTC)
-Received: from dgilbert-t580.localhost (ovpn-114-116.ams2.redhat.com
- [10.36.114.116])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5270960BF3;
- Thu, 11 Jun 2020 11:17:11 +0000 (UTC)
-From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org, armbru@redhat.com, thuth@redhat.com,
- quintela@redhat.com
-Subject: [PATCH 2/2] hmp: Add 'openfd' command
-Date: Thu, 11 Jun 2020 12:17:03 +0100
-Message-Id: <20200611111703.159590-3-dgilbert@redhat.com>
-In-Reply-To: <20200611111703.159590-1-dgilbert@redhat.com>
-References: <20200611111703.159590-1-dgilbert@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 57CA78015CB;
+ Thu, 11 Jun 2020 11:21:04 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-114-175.ams2.redhat.com [10.36.114.175])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8F0177F4FD;
+ Thu, 11 Jun 2020 11:21:01 +0000 (UTC)
+Subject: Re: [PATCH v1 9/9] .travis.yml: allow failure for unreliable hosts
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20200602154624.4460-1-alex.bennee@linaro.org>
+ <20200602154624.4460-10-alex.bennee@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <d1549705-7a52-8130-124a-83e435fb06c5@redhat.com>
+Date: Thu, 11 Jun 2020 13:20:59 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20200602154624.4460-10-alex.bennee@linaro.org>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 03:29:33
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -81,107 +83,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Fam Zheng <fam@euphon.net>, robert.foley@linaro.org, robhenry@microsoft.com,
+ aaron@os.amperecomputing.com, cota@braap.org, peter.puhov@linaro.org,
+ kuhn.chenqun@huawei.com,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+On 02/06/2020 17.46, Alex Bennée wrote:
+> They will still run but they won't get in the way of the result.
 
-Wire up the hmp 'openfd' to open a file and add it to the monitor's
-fd stash.
-Example usage:
+What does this exactly mean? Will we still get a notification e-mail
+when something went wrong during the test?
 
-(qemu) openfd mig "my.mig"
-(qemu) migrate -d "fd:mig"
-
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
----
- hmp-commands.hx        | 16 +++++++++++++++-
- include/monitor/hmp.h  |  1 +
- monitor/hmp-cmds.c     | 10 ++++++++++
- tests/qtest/test-hmp.c |  2 ++
- 4 files changed, 28 insertions(+), 1 deletion(-)
-
-diff --git a/hmp-commands.hx b/hmp-commands.hx
-index 28256209b5..c10d5b3668 100644
---- a/hmp-commands.hx
-+++ b/hmp-commands.hx
-@@ -1606,7 +1606,7 @@ ERST
-         .name       = "closefd",
-         .args_type  = "fdname:s",
-         .params     = "closefd name",
--        .help       = "close a file descriptor previously passed via SCM rights",
-+        .help       = "close a named file descriptor",
-         .cmd        = hmp_closefd,
-     },
- 
-@@ -1617,6 +1617,20 @@ SRST
-   used by another monitor command.
- ERST
- 
-+    {
-+        .name       = "openfd",
-+        .args_type  = "fdname:s,filename:s",
-+        .params     = "openfd name filename",
-+        .help       = "open the named file (read write) and assign it a name",
-+        .cmd        = hmp_openfd,
-+    },
-+
-+SRST
-+``openfd`` *fdname* *filename*
-+  Open the named file and store it using the name *fdname* for later use by
-+  other monitor comands.
-+ERST
-+
-     {
-         .name       = "block_passwd",
-         .args_type  = "device:B,password:s",
-diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
-index c986cfd28b..7beaf3eab7 100644
---- a/include/monitor/hmp.h
-+++ b/include/monitor/hmp.h
-@@ -83,6 +83,7 @@ void hmp_netdev_add(Monitor *mon, const QDict *qdict);
- void hmp_netdev_del(Monitor *mon, const QDict *qdict);
- void hmp_getfd(Monitor *mon, const QDict *qdict);
- void hmp_closefd(Monitor *mon, const QDict *qdict);
-+void hmp_openfd(Monitor *mon, const QDict *qdict);
- void hmp_sendkey(Monitor *mon, const QDict *qdict);
- void hmp_screendump(Monitor *mon, const QDict *qdict);
- void hmp_chardev_add(Monitor *mon, const QDict *qdict);
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index 9c61e769ca..62a3a8a514 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -1659,6 +1659,16 @@ void hmp_closefd(Monitor *mon, const QDict *qdict)
-     hmp_handle_error(mon, err);
- }
- 
-+void hmp_openfd(Monitor *mon, const QDict *qdict)
-+{
-+    const char *fdname = qdict_get_str(qdict, "fdname");
-+    const char *filename = qdict_get_str(qdict, "filename");
-+    Error *err = NULL;
-+
-+    qmp_openfd(fdname, filename, &err);
-+    hmp_handle_error(mon, err);
-+}
-+
- void hmp_sendkey(Monitor *mon, const QDict *qdict)
- {
-     const char *keys = qdict_get_str(qdict, "keys");
-diff --git a/tests/qtest/test-hmp.c b/tests/qtest/test-hmp.c
-index b8b1271b9e..66a4f34348 100644
---- a/tests/qtest/test-hmp.c
-+++ b/tests/qtest/test-hmp.c
-@@ -57,6 +57,8 @@ static const char *hmp_cmds[] = {
-     "o /w 0 0x1234",
-     "object_add memory-backend-ram,id=mem1,size=256M",
-     "object_del mem1",
-+    "openfd null \"/dev/null\"",
-+    "closefd null", /* purposely after openfd */
-     "pmemsave 0 4096 \"/dev/null\"",
-     "p $pc + 8",
-     "qom-list /",
--- 
-2.26.2
+ Thomas
 
 
