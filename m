@@ -2,106 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6F731F623B
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 09:25:36 +0200 (CEST)
-Received: from localhost ([::1]:58350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3F091F62A3
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 09:36:43 +0200 (CEST)
+Received: from localhost ([::1]:55004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjHah-0005kU-Ck
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 03:25:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50472)
+	id 1jjHlS-0000u0-RJ
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 03:36:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52064)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jjHZn-0005JZ-1l
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 03:24:39 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:54759)
- by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jjHZl-0003ji-Ex
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 03:24:38 -0400
-Received: from [192.168.100.1] ([82.252.135.106]) by mrelayeu.kundenserver.de
- (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MQdpG-1jXe4c3hqg-00NhA5; Thu, 11 Jun 2020 09:24:33 +0200
-Subject: Re: [PATCH] hw/m68k/mcf5206: Replace remaining hw_error()s by
- qemu_log_mask()
-To: Thomas Huth <huth@tuxfamily.org>, qemu-devel@nongnu.org
-References: <20200611055807.15921-1-huth@tuxfamily.org>
-From: Laurent Vivier <laurent@vivier.eu>
-Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <eb0ded56-836a-ef9d-42ed-5a02ca167233@vivier.eu>
-Date: Thu, 11 Jun 2020 09:24:31 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jjHee-0008Ej-MQ
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 03:29:40 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:51388
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jjHeZ-0004gJ-Fd
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 03:29:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1591860573;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=jUGKiDJUi1iBtZdOM/8i078NJrGdrDwZQzsM1sRFggs=;
+ b=GSDminyaudeTE93Dut0Y4wgMtLAzlB01/fogzIQHKSr8R7VvN4rtj0kQH15cVdcyH1Vd1t
+ EJSRCcPvj/TJ5cnjLEajnYcI2SETqD7MJavHl0qSNnhaUsnpUkzW6axAgvbELOQJrLEuzW
+ EvzDm6ZdbO931jNRJmlNH5YsDnq9UpY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-514-A0XpmEBFMCCJaIw7zka3iw-1; Thu, 11 Jun 2020 03:29:31 -0400
+X-MC-Unique: A0XpmEBFMCCJaIw7zka3iw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 15416801503;
+ Thu, 11 Jun 2020 07:29:30 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-113-50.ams2.redhat.com
+ [10.36.113.50])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C631D8929F;
+ Thu, 11 Jun 2020 07:29:20 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 9D14717477; Thu, 11 Jun 2020 09:29:19 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v8 00/10] acpi: i386 tweaks
+Date: Thu, 11 Jun 2020 09:29:09 +0200
+Message-Id: <20200611072919.16638-1-kraxel@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200611055807.15921-1-huth@tuxfamily.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:t4pSFIRXyzl5gKN/1ibN+zTVek/nIqZIVfSmCuTlCeDGkXGmWMb
- Yf7+8f/mROIZmPn4341BTw8EG96VHRY48xRZHu5riBCKXvQ32dj6OO0u4Q9qbHa89z7oFuO
- 3G9HypPblf40cNL+9CRI2K3hh8N5GSAaXye1y399yHAfGnnHPJ8pxTuYI5q/oWz8cmnbPlX
- N1Q4+JoYuXXaR+jhmJ1FA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:d+9zXpN9P4I=:XWzNihx4f+r6mJ2+fDrz7k
- iy4DBFuxALWFHlrk8UbmgHEpBRMN0b21WRVOs28xMfiOAn38vQl3Tbj8NojpPccugLNkWJv8E
- 7FOrYWblKssUTaohCI3WffhqZ37/REhbz4CXBd+haFQZN1GNJM8+NR1qxvlYTc8LdzZBbhC1i
- +DLY8wISEEGQ69p1IGJxzD/GWRMiSewfFLL4mCLxdTzdaJg9U/iaJOC7DKJCOw4Ftzwwq/JC4
- fjsKT077Fq4lM3YshASj7sAs2zwor7Qu9XmoHSryQry9gM3NYu5OuAPoGRKCqWBBlCPbqlJIc
- D62fRFM3sEsbVmoiCnEFv9r3ANUJqatyPAPgfZnXoR4qNB3jEuUFNU1QWal6Lt0Js+ivsfPNi
- uFgyZ/eRUXczOQQCJU3c4P8F6LIF3kBQCg/rBzYVQTZgDDzHRyqRMcWfY3kQCyA10rCrYCfuk
- V6kRnO7zFzoHVcsx4zkdRYkaAtjUmHuvHZWk6s5QS6lTCAejRE1nRc4AmY56dgdlhiY/P9eDK
- EpVoMx4XwDSOHAJG9kft78QXYr3N5z3R4yhVj+FJ/NoTM0S1HDVpGq4zetp4f0YgCIfIbiQAW
- KDpvhptcu/7q9KIYrbCHEHqbPaoJW9LQb50A3B6SPf0i8NvITV8NONwXqLYbuWXHWHtGSu9Qo
- qNjjuhLy2Dj/v6nLVXAzejW92QU5roO2bKBVgcwrIjk6Y9jrMun9lqNnKr2GGKCOvEEr3AvtJ
- pLfPJiqTVXIg9yfZzRvclrfNmw6V3G/4HtAmLcZ2AVPO5gEMkiOMPLQIGVVjJOUIYLINbuago
- B3qG3L78Q48v2T0PhPTpm0C1OGVD1LHtnGjiVTASSNv3zt+afm50ereAGgar1Y3K7QeHOaW
-Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 03:24:35
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 03:29:33
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_PASS=-0.001, T_SPF_HELO_TEMPERROR=0.01 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -114,22 +77,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Cc: Laurent Vivier <lvivier@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, John Snow <jsnow@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 11/06/2020 à 07:58, Thomas Huth a écrit :
-> hw_error() dumps the CPU state and exits QEMU. This is ok during initial
-> code development (to see where the guest code is currently executing),
-> but it is certainly not the desired behavior that we want to present to
-> normal users, and it can also cause trouble when e.g. fuzzing devices.
-> Thus let's replace these hw_error()s by qemu_log_mask()s instead.
-> 
-> Signed-off-by: Thomas Huth <thuth@tuxfamily.org>
-> ---
->  hw/m68k/mcf5206.c | 39 ++++++++++++++++++++++++++++-----------
->  1 file changed, 28 insertions(+), 11 deletions(-)
-> 
+First batch of microvm patches, some generic acpi stuff.
+Split the acpi-build.c monster, specifically split the
+pc and q35 and pci bits into a separate file which we
+can skip building at some point in the future.
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+v2 changes: leave acpi-build.c largely as-is, move useful
+bits to other places to allow them being reused, specifically:
+
+ * move isa device generator functions to individual isa devices.
+ * move fw_cfg generator function to fw_cfg.c
+
+v3 changes: fix rtc, support multiple lpt devices.
+
+v4 changes:
+ * drop merged patches.
+ * split rtc crs change to separata patch.
+ * added two cleanup patches.
+ * picked up ack & review tags.
+
+v5 changes:
+ * add comment for rtc crs update.
+ * add even more cleanup patches.
+ * picked up ack & review tags.
+
+v6 changes:
+ * floppy: move cmos_get_fd_drive_type.
+ * picked up ack & review tags.
+
+v7 changes:
+ * rebased to mst/pci branch, resolved stubs conflict.
+ * dropped patches already queued up in mst/pci.
+ * added missing sign-off.
+ * picked up ack & review tags.
+
+v8 changes:
+ * (re-)add patch to allow acpi table changes
+
+take care,
+  Gerd
+
+Gerd Hoffmann (10):
+  qtest: allow DSDT acpi table changes
+  acpi: move aml builder code for floppy device
+  floppy: make isa_fdc_get_drive_max_chs static
+  floppy: move cmos_get_fd_drive_type() from pc
+  acpi: move aml builder code for i8042 (kbd+mouse) device
+  acpi: factor out fw_cfg_add_acpi_dsdt()
+  acpi: simplify build_isa_devices_aml()
+  acpi: drop serial/parallel enable bits from dsdt
+  acpi: drop build_piix4_pm()
+  acpi: q35: drop _SB.PCI0.ISA.LPCD opregion.
+
+ hw/i386/fw_cfg.h                            |   1 +
+ include/hw/block/fdc.h                      |   3 +-
+ include/hw/i386/pc.h                        |   1 -
+ tests/qtest/bios-tables-test-allowed-diff.h |  17 ++
+ hw/block/fdc.c                              | 111 +++++++++-
+ hw/i386/acpi-build.c                        | 211 +-------------------
+ hw/i386/fw_cfg.c                            |  28 +++
+ hw/i386/pc.c                                |  25 ---
+ hw/input/pckbd.c                            |  31 +++
+ stubs/cmos.c                                |   7 +
+ stubs/Makefile.objs                         |   1 +
+ 11 files changed, 201 insertions(+), 235 deletions(-)
+ create mode 100644 stubs/cmos.c
+
+-- 
+2.18.4
+
 
