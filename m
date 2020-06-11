@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2131D1F6E7A
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 22:07:37 +0200 (CEST)
-Received: from localhost ([::1]:54668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E1EB1F6EAC
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 22:24:56 +0200 (CEST)
+Received: from localhost ([::1]:36818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjTU8-0005Pb-2r
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 16:07:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55188)
+	id 1jjTkt-0003Qg-JD
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 16:24:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jjT99-00086w-RO
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:45:55 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:56359
+ id 1jjT91-00085A-S1
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:45:48 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:52360
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jjT91-00019i-Pt
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:45:55 -0400
+ id 1jjT8w-00016F-Og
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:45:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591904746;
+ s=mimecast20190719; t=1591904741;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7oa8JasYJVEKYYlm2jMKtBXTwkbJOCM9mWA3N9ZVAqs=;
- b=XFZ85W0U3A2R37kJSqau6iTbIbtnCAA9YlzuKtyKVFLg0WgP3u7+kfOCV4gSOUowDF11SC
- bAVycRnqdMF+Gb35AiiZtUTjrndNpUKN1y2ia4ChRoCJfyiVDSO4wRy4RePeysaCDNCvQ4
- DiuTDg/XmhdAmZcpDeTJ4Glhr3uqn8w=
+ bh=FnVW+q5k7WUlLd05tyYL72pgIZMJJCUmWa0BR/hltaI=;
+ b=PwLAhIXD+gdW7+mBeYDtcaN3Eesv1fGpZoas6ReH+xpQikpXW8ikCqt44CuuNlQv9FlaiE
+ sFr5ps0Po8tijvIf5f3b8hjB9oQ+ML/Qeg/HFpcddFgmaQ/zvSarTItDm/KpMtl8r99OB3
+ bQE9hxwEVcblo3CXhNvybez3zvChgXY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-424-ahBkQjBcPNSjTb0R9ucxRQ-1; Thu, 11 Jun 2020 15:45:04 -0400
-X-MC-Unique: ahBkQjBcPNSjTb0R9ucxRQ-1
+ us-mta-349-sq-fFeQ_P-2D24g8a4vIsg-1; Thu, 11 Jun 2020 15:45:09 -0400
+X-MC-Unique: sq-fFeQ_P-2D24g8a4vIsg-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A0433A0C00;
- Thu, 11 Jun 2020 19:45:03 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A7719A0C00;
+ Thu, 11 Jun 2020 19:45:08 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3322860CC0;
- Thu, 11 Jun 2020 19:45:03 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3A4E660CD3;
+ Thu, 11 Jun 2020 19:45:08 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 014/115] qom/object: Move Object typedef to 'qemu/typedefs.h'
-Date: Thu, 11 Jun 2020 15:43:08 -0400
-Message-Id: <20200611194449.31468-15-pbonzini@redhat.com>
+Subject: [PULL 017/115] hyperv: expose API to determine if synic is enabled
+Date: Thu, 11 Jun 2020 15:43:11 -0400
+Message-Id: <20200611194449.31468-18-pbonzini@redhat.com>
 In-Reply-To: <20200611194449.31468-1-pbonzini@redhat.com>
 References: <20200611194449.31468-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 14:52:10
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 08:37:10
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,140 +80,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Jon Doron <arilou@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Jon Doron <arilou@gmail.com>
 
-We use the Object type all over the place.
-Forward declare it in "qemu/typedefs.h".
-
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20200504115656.6045-2-f4bug@amsat.org>
+Signed-off-by: Jon Doron <arilou@gmail.com>
+Message-Id: <20200424123444.3481728-2-arilou@gmail.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/block/vhost-user-blk.c | 1 -
- hw/pci-host/pam.c         | 1 -
- hw/scsi/vhost-user-scsi.c | 1 -
- include/hw/display/edid.h | 3 ---
- include/qemu/typedefs.h   | 1 +
- include/qom/object.h      | 2 --
- include/qom/qom-qobject.h | 2 --
- include/sysemu/sysemu.h   | 1 -
- stubs/qmp_memory_device.c | 1 -
- 9 files changed, 1 insertion(+), 12 deletions(-)
+ hw/hyperv/hyperv.c         | 8 ++++++++
+ include/hw/hyperv/hyperv.h | 1 +
+ 2 files changed, 9 insertions(+)
 
-diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
-index 9d8c0b3909..98941019a2 100644
---- a/hw/block/vhost-user-blk.c
-+++ b/hw/block/vhost-user-blk.c
-@@ -20,7 +20,6 @@
- #include "qapi/error.h"
- #include "qemu/error-report.h"
- #include "qemu/cutils.h"
--#include "qom/object.h"
- #include "hw/qdev-core.h"
- #include "hw/qdev-properties.h"
- #include "hw/virtio/vhost.h"
-diff --git a/hw/pci-host/pam.c b/hw/pci-host/pam.c
-index 45c4333cd3..a496205783 100644
---- a/hw/pci-host/pam.c
-+++ b/hw/pci-host/pam.c
-@@ -28,7 +28,6 @@
-  */
+diff --git a/hw/hyperv/hyperv.c b/hw/hyperv/hyperv.c
+index 4b11f7a76b..a3933c34c6 100644
+--- a/hw/hyperv/hyperv.c
++++ b/hw/hyperv/hyperv.c
+@@ -38,6 +38,13 @@ typedef struct SynICState {
+ #define TYPE_SYNIC "hyperv-synic"
+ #define SYNIC(obj) OBJECT_CHECK(SynICState, (obj), TYPE_SYNIC)
  
- #include "qemu/osdep.h"
--#include "qom/object.h"
- #include "hw/pci-host/pam.h"
++static bool synic_enabled;
++
++bool hyperv_is_synic_enabled(void)
++{
++    return synic_enabled;
++}
++
+ static SynICState *get_synic(CPUState *cs)
+ {
+     return SYNIC(object_resolve_path_component(OBJECT(cs), "synic"));
+@@ -134,6 +141,7 @@ void hyperv_synic_add(CPUState *cs)
+     object_property_add_child(OBJECT(cs), "synic", obj);
+     object_unref(obj);
+     object_property_set_bool(obj, true, "realized", &error_abort);
++    synic_enabled = true;
+ }
  
- void init_pam(DeviceState *dev, MemoryRegion *ram_memory,
-diff --git a/hw/scsi/vhost-user-scsi.c b/hw/scsi/vhost-user-scsi.c
-index cbb5d97599..f2e524438a 100644
---- a/hw/scsi/vhost-user-scsi.c
-+++ b/hw/scsi/vhost-user-scsi.c
-@@ -18,7 +18,6 @@
- #include "qemu/osdep.h"
- #include "qapi/error.h"
- #include "qemu/error-report.h"
--#include "qom/object.h"
- #include "hw/fw-path-provider.h"
- #include "hw/qdev-core.h"
- #include "hw/qdev-properties.h"
-diff --git a/include/hw/display/edid.h b/include/hw/display/edid.h
-index 23371ee82c..5b1de57f24 100644
---- a/include/hw/display/edid.h
-+++ b/include/hw/display/edid.h
-@@ -1,9 +1,6 @@
- #ifndef EDID_H
- #define EDID_H
+ void hyperv_synic_reset(CPUState *cs)
+diff --git a/include/hw/hyperv/hyperv.h b/include/hw/hyperv/hyperv.h
+index 597381cb01..a63ee0003c 100644
+--- a/include/hw/hyperv/hyperv.h
++++ b/include/hw/hyperv/hyperv.h
+@@ -79,5 +79,6 @@ void hyperv_synic_add(CPUState *cs);
+ void hyperv_synic_reset(CPUState *cs);
+ void hyperv_synic_update(CPUState *cs, bool enable,
+                          hwaddr msg_page_addr, hwaddr event_page_addr);
++bool hyperv_is_synic_enabled(void);
  
--#include "qom/object.h"
--#include "hw/qdev-properties.h"
--
- typedef struct qemu_edid_info {
-     const char *vendor; /* http://www.uefi.org/pnp_id_list */
-     const char *name;
-diff --git a/include/qemu/typedefs.h b/include/qemu/typedefs.h
-index ecf3cde26c..de68d51d52 100644
---- a/include/qemu/typedefs.h
-+++ b/include/qemu/typedefs.h
-@@ -76,6 +76,7 @@ typedef struct NetFilterState NetFilterState;
- typedef struct NICInfo NICInfo;
- typedef struct NodeInfo NodeInfo;
- typedef struct NumaNodeMem NumaNodeMem;
-+typedef struct Object Object;
- typedef struct ObjectClass ObjectClass;
- typedef struct PCIBridge PCIBridge;
- typedef struct PCIBus PCIBus;
-diff --git a/include/qom/object.h b/include/qom/object.h
-index fd453dc8d6..c7c97ead60 100644
---- a/include/qom/object.h
-+++ b/include/qom/object.h
-@@ -20,8 +20,6 @@
- struct TypeImpl;
- typedef struct TypeImpl *Type;
- 
--typedef struct Object Object;
--
- typedef struct TypeInfo TypeInfo;
- 
- typedef struct InterfaceClass InterfaceClass;
-diff --git a/include/qom/qom-qobject.h b/include/qom/qom-qobject.h
-index 77cd717e3f..82136e6e80 100644
---- a/include/qom/qom-qobject.h
-+++ b/include/qom/qom-qobject.h
-@@ -13,8 +13,6 @@
- #ifndef QEMU_QOM_QOBJECT_H
- #define QEMU_QOM_QOBJECT_H
- 
--#include "qom/object.h"
--
- /*
-  * object_property_get_qobject:
-  * @obj: the object
-diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
-index 3efccdba7e..4b6a5c459c 100644
---- a/include/sysemu/sysemu.h
-+++ b/include/sysemu/sysemu.h
-@@ -5,7 +5,6 @@
- #include "qemu/timer.h"
- #include "qemu/notify.h"
- #include "qemu/uuid.h"
--#include "qom/object.h"
- 
- /* vl.c */
- 
-diff --git a/stubs/qmp_memory_device.c b/stubs/qmp_memory_device.c
-index 85ff8f2d7e..e75cac62dc 100644
---- a/stubs/qmp_memory_device.c
-+++ b/stubs/qmp_memory_device.c
-@@ -1,5 +1,4 @@
- #include "qemu/osdep.h"
--#include "qom/object.h"
- #include "hw/mem/memory-device.h"
- 
- MemoryDeviceInfoList *qmp_memory_device_list(void)
+ #endif
 -- 
 2.26.2
 
