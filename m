@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B50331F6EBC
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 22:29:15 +0200 (CEST)
-Received: from localhost ([::1]:53830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2F0F1F6E96
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 22:15:38 +0200 (CEST)
+Received: from localhost ([::1]:57982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjTp4-0003MB-PP
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 16:29:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55130)
+	id 1jjTbt-0003s3-KB
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 16:15:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jjT92-00086h-UR
+ id 1jjT98-00086r-7B
  for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:45:55 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:49227
- helo=us-smtp-1.mimecast.com)
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:53081
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jjT8z-00018D-7i
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:45:48 -0400
+ id 1jjT8z-00018M-Ec
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:45:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1591904744;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fc5C2D8Qy2Ifc39GMfOK5qBTqHLI5bHmpAMB0Ujy/Lk=;
- b=B/kNrv1qN3Mh2rltT1RqWBhWl0vIFTRjjI151bqZuGUBFBSbT5tCUJh2yB4r91ZdhK056f
- myVna3pnUiXUtorH8j5pD1RReI6Ud4UuKiYNduv9ZavhEEqI8BQUbhTVOAN/Vl9AWFxVuA
- tbS/2PLfnCIGcu6cv+T1TMdjZ/amgZ4=
+ bh=R33mP9vMfsFFS6scj4tu07aOYyJWL6/9GYRUw28mqtE=;
+ b=BLBAGrptxMFJP24Hp4JZWoKIIqedRl2/qnzy/fIOqUgNLoZu7gApl0gHXTHvGygUaDCWGL
+ WzB2pqk6wjc0ts2Bp0U5+6Ihn6lsSReZl47f0NT0f4XDBSQgzdV2zGh38dyAFlzxkilkIY
+ paf8ovnpWxKENSya2XU1qpr4GLXRnAQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-179-nI6nhJbQOjut-Qr7L6Todg-1; Thu, 11 Jun 2020 15:45:42 -0400
-X-MC-Unique: nI6nhJbQOjut-Qr7L6Todg-1
+ us-mta-70-qoMAg_mFOWO0sd4z8b9jgw-1; Thu, 11 Jun 2020 15:45:42 -0400
+X-MC-Unique: qoMAg_mFOWO0sd4z8b9jgw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2744819067F2;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C4F0B846363;
  Thu, 11 Jun 2020 19:45:41 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AD8C662502;
- Thu, 11 Jun 2020 19:45:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5802F500D3;
+ Thu, 11 Jun 2020 19:45:41 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 063/115] target/i386: fix fbstp handling of out-of-range values
-Date: Thu, 11 Jun 2020 15:43:57 -0400
-Message-Id: <20200611194449.31468-64-pbonzini@redhat.com>
+Subject: [PULL 064/115] target/i386: fix fisttpl,
+ fisttpll handling of out-of-range values
+Date: Thu, 11 Jun 2020 15:43:58 -0400
+Message-Id: <20200611194449.31468-65-pbonzini@redhat.com>
 In-Reply-To: <20200611194449.31468-1-pbonzini@redhat.com>
 References: <20200611194449.31468-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -57,16 +58,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 08:37:10
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 14:57:53
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,177 +87,174 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Joseph Myers <joseph@codesourcery.com>
 
-The fbstp implementation fails to check for out-of-range and invalid
-values, instead just taking the result of conversion to int64_t and
-storing its sign and low 18 decimal digits.  Fix this by checking for
-an out-of-range result (invalid conversions always result in INT64_MAX
-or INT64_MIN from the softfloat code, which are large enough to be
-considered as out-of-range by this code) and storing the packed BCD
-indefinite encoding in that case.
+The fist / fistt family of instructions should all store the most
+negative integer in the destination format when the rounded /
+truncated integer result is out of range or the input is an invalid
+encoding, infinity or NaN.  The fisttpl and fisttpll implementations
+(32-bit and 64-bit results, truncate towards zero) failed to do this,
+producing the most positive integer in some cases instead.  Fix this
+by copying the code used to handle this issue for fistpl and fistpll,
+adjusted to use the _round_to_zero functions for the actual
+conversion (but without any other changes to that code).
 
 Signed-off-by: Joseph Myers <joseph@codesourcery.com>
-Message-Id: <alpine.DEB.2.21.2005132351110.11687@digraph.polyomino.org.uk>
+Message-Id: <alpine.DEB.2.21.2005152119160.3469@digraph.polyomino.org.uk>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/fpu_helper.c         |  10 +++
- tests/tcg/i386/test-i386-fbstp.c | 115 +++++++++++++++++++++++++++++++
- 2 files changed, 125 insertions(+)
+ target/i386/fpu_helper.c          |  28 ++++++++-
+ tests/tcg/i386/test-i386-fisttp.c | 100 ++++++++++++++++++++++++++++++
+ 2 files changed, 126 insertions(+), 2 deletions(-)
+ create mode 100644 tests/tcg/i386/test-i386-fisttp.c
 
 diff --git a/target/i386/fpu_helper.c b/target/i386/fpu_helper.c
-index f0a57099ca..41f6f391ca 100644
+index 41f6f391ca..9c93f385b1 100644
 --- a/target/i386/fpu_helper.c
 +++ b/target/i386/fpu_helper.c
-@@ -732,6 +732,16 @@ void helper_fbst_ST0(CPUX86State *env, target_ulong ptr)
+@@ -338,12 +338,36 @@ int32_t helper_fistt_ST0(CPUX86State *env)
  
-     val = floatx80_to_int64(ST0, &env->fp_status);
-     mem_ref = ptr;
-+    if (val >= 1000000000000000000LL || val <= -1000000000000000000LL) {
-+        float_raise(float_flag_invalid, &env->fp_status);
-+        while (mem_ref < ptr + 7) {
-+            cpu_stb_data_ra(env, mem_ref++, 0, GETPC());
-+        }
-+        cpu_stb_data_ra(env, mem_ref++, 0xc0, GETPC());
-+        cpu_stb_data_ra(env, mem_ref++, 0xff, GETPC());
-+        cpu_stb_data_ra(env, mem_ref++, 0xff, GETPC());
-+        return;
+ int32_t helper_fisttl_ST0(CPUX86State *env)
+ {
+-    return floatx80_to_int32_round_to_zero(ST0, &env->fp_status);
++    int32_t val;
++    signed char old_exp_flags;
++
++    old_exp_flags = get_float_exception_flags(&env->fp_status);
++    set_float_exception_flags(0, &env->fp_status);
++
++    val = floatx80_to_int32_round_to_zero(ST0, &env->fp_status);
++    if (get_float_exception_flags(&env->fp_status) & float_flag_invalid) {
++        val = 0x80000000;
 +    }
-     mem_end = mem_ref + 9;
-     if (SIGND(temp)) {
-         cpu_stb_data_ra(env, mem_end, 0x80, GETPC());
-diff --git a/tests/tcg/i386/test-i386-fbstp.c b/tests/tcg/i386/test-i386-fbstp.c
-index d368949188..73bf56b9dc 100644
---- a/tests/tcg/i386/test-i386-fbstp.c
-+++ b/tests/tcg/i386/test-i386-fbstp.c
-@@ -1,8 +1,19 @@
- /* Test fbstp instruction.  */
++    set_float_exception_flags(get_float_exception_flags(&env->fp_status)
++                                | old_exp_flags, &env->fp_status);
++    return val;
+ }
  
+ int64_t helper_fisttll_ST0(CPUX86State *env)
+ {
+-    return floatx80_to_int64_round_to_zero(ST0, &env->fp_status);
++    int64_t val;
++    signed char old_exp_flags;
++
++    old_exp_flags = get_float_exception_flags(&env->fp_status);
++    set_float_exception_flags(0, &env->fp_status);
++
++    val = floatx80_to_int64_round_to_zero(ST0, &env->fp_status);
++    if (get_float_exception_flags(&env->fp_status) & float_flag_invalid) {
++        val = 0x8000000000000000ULL;
++    }
++    set_float_exception_flags(get_float_exception_flags(&env->fp_status)
++                                | old_exp_flags, &env->fp_status);
++    return val;
+ }
+ 
+ void helper_fldt_ST0(CPUX86State *env, target_ulong ptr)
+diff --git a/tests/tcg/i386/test-i386-fisttp.c b/tests/tcg/i386/test-i386-fisttp.c
+new file mode 100644
+index 0000000000..16af59a774
+--- /dev/null
++++ b/tests/tcg/i386/test-i386-fisttp.c
+@@ -0,0 +1,100 @@
++/* Test fisttpl and fisttpll instructions.  */
++
 +#include <stdint.h>
- #include <stdio.h>
- #include <string.h>
- 
++#include <stdio.h>
++#include <string.h>
++
 +union u {
 +    struct { uint64_t sig; uint16_t sign_exp; } s;
 +    long double ld;
 +};
 +
 +volatile union u ld_invalid_1 = { .s = { 1, 1234 } };
-+volatile union u ld_invalid_2 = { .s = { 0, 1234 } };
-+volatile union u ld_invalid_3 = { .s = { 0, 0x7fff } };
-+volatile union u ld_invalid_4 = { .s = { (UINT64_C(1) << 63) - 1, 0x7fff } };
 +
- int main(void)
- {
-     int ret = 0;
-@@ -21,5 +32,109 @@ int main(void)
-         printf("FAIL: fbstp -0.1\n");
-         ret = 1;
-     }
-+    memset(out, 0x1f, sizeof out);
-+    __asm__ volatile ("fbstp %0" : "=m" (out) : "t" (-987654321987654321.0L) :
++int main(void)
++{
++    int ret = 0;
++    int32_t res_32;
++    int64_t res_64;
++    __asm__ volatile ("fisttpl %0" : "=m" (res_32) : "t" (0x1p100L) : "st");
++    if (res_32 != INT32_MIN) {
++        printf("FAIL: fisttpl 0x1p100\n");
++        ret = 1;
++    }
++    __asm__ volatile ("fisttpl %0" : "=m" (res_32) : "t" (-0x1p100L) : "st");
++    if (res_32 != INT32_MIN) {
++        printf("FAIL: fisttpl -0x1p100\n");
++        ret = 1;
++    }
++    __asm__ volatile ("fisttpl %0" : "=m" (res_32) : "t" (__builtin_infl()) :
 +                      "st");
-+    out[9] &= 0x80;
-+    if (memcmp(out, "\x21\x43\x65\x87\x19\x32\x54\x76\x98\x80",
-+               sizeof out) != 0) {
-+        printf("FAIL: fbstp -987654321987654321\n");
++    if (res_32 != INT32_MIN) {
++        printf("FAIL: fisttpl inf\n");
 +        ret = 1;
 +    }
-+    memset(out, 0x12, sizeof out);
-+    __asm__ volatile ("fbstp %0" : "=m" (out) : "t" (999999999999999999.5L) :
++    __asm__ volatile ("fisttpl %0" : "=m" (res_32) : "t" (-__builtin_infl()) :
 +                      "st");
-+    if (memcmp(out, "\0\0\0\0\0\0\0\xc0\xff\xff", sizeof out) != 0) {
-+        printf("FAIL: fbstp 999999999999999999.5\n");
++    if (res_32 != INT32_MIN) {
++        printf("FAIL: fisttpl -inf\n");
 +        ret = 1;
 +    }
-+    memset(out, 0x12, sizeof out);
-+    __asm__ volatile ("fbstp %0" : "=m" (out) : "t" (1000000000000000000.0L) :
++    __asm__ volatile ("fisttpl %0" : "=m" (res_32) : "t" (__builtin_nanl("")) :
 +                      "st");
-+    if (memcmp(out, "\0\0\0\0\0\0\0\xc0\xff\xff", sizeof out) != 0) {
-+        printf("FAIL: fbstp 1000000000000000000\n");
++    if (res_32 != INT32_MIN) {
++        printf("FAIL: fisttpl nan\n");
 +        ret = 1;
 +    }
-+    memset(out, 0x12, sizeof out);
-+    __asm__ volatile ("fbstp %0" : "=m" (out) : "t" (1e30L) : "st");
-+    if (memcmp(out, "\0\0\0\0\0\0\0\xc0\xff\xff", sizeof out) != 0) {
-+        printf("FAIL: fbstp 1e30\n");
++    __asm__ volatile ("fisttpl %0" : "=m" (res_32) :
++                      "t" (-__builtin_nanl("")) : "st");
++    if (res_32 != INT32_MIN) {
++        printf("FAIL: fisttpl -nan\n");
 +        ret = 1;
 +    }
-+    memset(out, 0x12, sizeof out);
-+    __asm__ volatile ("fbstp %0" : "=m" (out) : "t" (-999999999999999999.5L) :
++    __asm__ volatile ("fisttpl %0" : "=m" (res_32) : "t" (ld_invalid_1.ld) :
 +                      "st");
-+    if (memcmp(out, "\0\0\0\0\0\0\0\xc0\xff\xff", sizeof out) != 0) {
-+        printf("FAIL: fbstp -999999999999999999.5\n");
++    if (res_32 != INT32_MIN) {
++        printf("FAIL: fisttpl invalid\n");
 +        ret = 1;
 +    }
-+    memset(out, 0x12, sizeof out);
-+    __asm__ volatile ("fbstp %0" : "=m" (out) : "t" (-1000000000000000000.0L) :
++    __asm__ volatile ("fisttpll %0" : "=m" (res_64) : "t" (0x1p100L) : "st");
++    if (res_64 != INT64_MIN) {
++        printf("FAIL: fisttpll 0x1p100\n");
++        ret = 1;
++    }
++    __asm__ volatile ("fisttpll %0" : "=m" (res_64) : "t" (-0x1p100L) : "st");
++    if (res_64 != INT64_MIN) {
++        printf("FAIL: fisttpll -0x1p100\n");
++        ret = 1;
++    }
++    __asm__ volatile ("fisttpll %0" : "=m" (res_64) : "t" (__builtin_infl()) :
 +                      "st");
-+    if (memcmp(out, "\0\0\0\0\0\0\0\xc0\xff\xff", sizeof out) != 0) {
-+        printf("FAIL: fbstp -1000000000000000000\n");
++    if (res_64 != INT64_MIN) {
++        printf("FAIL: fisttpll inf\n");
 +        ret = 1;
 +    }
-+    memset(out, 0x12, sizeof out);
-+    __asm__ volatile ("fbstp %0" : "=m" (out) : "t" (-1e30L) : "st");
-+    if (memcmp(out, "\0\0\0\0\0\0\0\xc0\xff\xff", sizeof out) != 0) {
-+        printf("FAIL: fbstp -1e30\n");
-+        ret = 1;
-+    }
-+    memset(out, 0x12, sizeof out);
-+    __asm__ volatile ("fbstp %0" : "=m" (out) : "t" (__builtin_infl()) : "st");
-+    if (memcmp(out, "\0\0\0\0\0\0\0\xc0\xff\xff", sizeof out) != 0) {
-+        printf("FAIL: fbstp inf\n");
-+        ret = 1;
-+    }
-+    memset(out, 0x12, sizeof out);
-+    __asm__ volatile ("fbstp %0" : "=m" (out) : "t" (-__builtin_infl()) :
++    __asm__ volatile ("fisttpll %0" : "=m" (res_64) : "t" (-__builtin_infl()) :
 +                      "st");
-+    if (memcmp(out, "\0\0\0\0\0\0\0\xc0\xff\xff", sizeof out) != 0) {
-+        printf("FAIL: fbstp -inf\n");
++    if (res_64 != INT64_MIN) {
++        printf("FAIL: fisttpll -inf\n");
 +        ret = 1;
 +    }
-+    memset(out, 0x12, sizeof out);
-+    __asm__ volatile ("fbstp %0" : "=m" (out) : "t" (__builtin_nanl("")) :
++    __asm__ volatile ("fisttpll %0" : "=m" (res_64) :
++                      "t" (__builtin_nanl("")) : "st");
++    if (res_64 != INT64_MIN) {
++        printf("FAIL: fisttpll nan\n");
++        ret = 1;
++    }
++    __asm__ volatile ("fisttpll %0" : "=m" (res_64) :
++                      "t" (-__builtin_nanl("")) : "st");
++    if (res_64 != INT64_MIN) {
++        printf("FAIL: fisttpll -nan\n");
++        ret = 1;
++    }
++    __asm__ volatile ("fisttpll %0" : "=m" (res_64) : "t" (ld_invalid_1.ld) :
 +                      "st");
-+    if (memcmp(out, "\0\0\0\0\0\0\0\xc0\xff\xff", sizeof out) != 0) {
-+        printf("FAIL: fbstp nan\n");
++    if (res_64 != INT64_MIN) {
++        printf("FAIL: fisttpll invalid\n");
 +        ret = 1;
 +    }
-+    memset(out, 0x12, sizeof out);
-+    __asm__ volatile ("fbstp %0" : "=m" (out) : "t" (-__builtin_nanl("")) :
-+                      "st");
-+    if (memcmp(out, "\0\0\0\0\0\0\0\xc0\xff\xff", sizeof out) != 0) {
-+        printf("FAIL: fbstp -nan\n");
-+        ret = 1;
-+    }
-+    memset(out, 0x12, sizeof out);
-+    __asm__ volatile ("fbstp %0" : "=m" (out) : "t" (ld_invalid_1.ld) :
-+                      "st");
-+    if (memcmp(out, "\0\0\0\0\0\0\0\xc0\xff\xff", sizeof out) != 0) {
-+        printf("FAIL: fbstp invalid 1\n");
-+        ret = 1;
-+    }
-+    memset(out, 0x12, sizeof out);
-+    __asm__ volatile ("fbstp %0" : "=m" (out) : "t" (ld_invalid_2.ld) :
-+                      "st");
-+    if (memcmp(out, "\0\0\0\0\0\0\0\xc0\xff\xff", sizeof out) != 0) {
-+        printf("FAIL: fbstp invalid 2\n");
-+        ret = 1;
-+    }
-+    memset(out, 0x12, sizeof out);
-+    __asm__ volatile ("fbstp %0" : "=m" (out) : "t" (ld_invalid_3.ld) :
-+                      "st");
-+    if (memcmp(out, "\0\0\0\0\0\0\0\xc0\xff\xff", sizeof out) != 0) {
-+        printf("FAIL: fbstp invalid 3\n");
-+        ret = 1;
-+    }
-+    memset(out, 0x12, sizeof out);
-+    __asm__ volatile ("fbstp %0" : "=m" (out) : "t" (ld_invalid_4.ld) :
-+                      "st");
-+    if (memcmp(out, "\0\0\0\0\0\0\0\xc0\xff\xff", sizeof out) != 0) {
-+        printf("FAIL: fbstp invalid 4\n");
-+        ret = 1;
-+    }
-     return ret;
- }
++    return ret;
++}
 -- 
 2.26.2
 
