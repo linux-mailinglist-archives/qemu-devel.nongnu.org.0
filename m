@@ -2,84 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CFEF1F6C0B
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 18:16:15 +0200 (CEST)
-Received: from localhost ([::1]:50618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B3941F6C28
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 18:26:50 +0200 (CEST)
+Received: from localhost ([::1]:56224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjPsE-0000IE-4M
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 12:16:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51030)
+	id 1jjQ2T-0008Ep-IE
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 12:26:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jjPqT-00078c-C4
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 12:14:25 -0400
-Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:38808)
- by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jjPqR-0003Tm-Ja
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 12:14:25 -0400
-Received: by mail-pj1-x1042.google.com with SMTP id d6so2560538pjs.3
- for <qemu-devel@nongnu.org>; Thu, 11 Jun 2020 09:14:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=CESDvHLXTFEIdgM4Bo+zcARaWcWwGTL5Sr6D3wtiMyI=;
- b=kwepDbfmV2uYaLXSZkS23HGe3U2c/7XBHQtXjHEm01Ci9Lp00t0WHXjii16v256tiX
- Eg6trgfqsPeDarPNyw57xMnTLnf6VpjSTKWPBOFErJHflh+0NVIeIrwqxkse4OFD0iGF
- ySShbX667hMnil+azjslH2Tqd0qG4Pok+Pl29nWFmUOVlMkaRW7EnBPtmX7kyiecf8nb
- Ae5UqGKNk+ePFEbYTCqkNQCTrjmXhGKn6ZMmTDkPKsDLDSAYmRG1RWWxI4AYMEWX5WGP
- JbZhD20k0/sPD7Fu44Dcak24nGKaGcKHJX4zYybLDM4tAdeSp4eY+fkZWUvu/5cEbzG0
- NH2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=CESDvHLXTFEIdgM4Bo+zcARaWcWwGTL5Sr6D3wtiMyI=;
- b=jN/vZdgdbX7YvBJeezbd1kbXeOqmXVhymKiZPyeuD5mAzGdLj5IiqCWG/6RIGYXzpR
- ej9fP6fc4IOEXFoXPBAY8t1bHNo+K76XAWy8pjvCVHwF6b1nwuH5y8TfPB8mcGenczut
- v/CKnleFTYpRtQcGvkjEd4Q7+6KnuXTtA5UrNRmJsx/OxTjjO9ao87DUKvBj7Rw71t6/
- y5wY6264+4O8LPOwxrcrFKBDSxexsMpGhrbH+qjNxtxTenzDcL4QI9IyKf7/mz65Z/w+
- EQ47NCUMBMdr3TTwO86WIygA5b8o5LtJWv2D9Ai6HwTCai51cRrBD/RI4BZEHFYSBbtr
- 2hgg==
-X-Gm-Message-State: AOAM533rAJAM5QLUXa3/qbgfyODLm6tOyoeawn4/EPnyVklrJMMQZmLy
- Y2riSHi58PxQ8SgvoQwxbgAxLMQGjzA=
-X-Google-Smtp-Source: ABdhPJyBR+gJm/Cn/nVDrXbMzoCXWD2LZlJokTRgw32Lu8Eb+bgWkz7QD4TRm6GrUvkE8Kh2aKw2ew==
-X-Received: by 2002:a17:90a:d244:: with SMTP id
- o4mr8688976pjw.186.1591892055572; 
- Thu, 11 Jun 2020 09:14:15 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id x14sm3631062pfq.80.2020.06.11.09.14.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 11 Jun 2020 09:14:14 -0700 (PDT)
-Subject: Re: [PATCH 04/10] target/arm: Convert Neon 2-reg-scalar float
- multiplies to decodetree
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20200611144529.8873-1-peter.maydell@linaro.org>
- <20200611144529.8873-5-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <ade07aa7-fd46-8582-ac6a-6c8f771e4215@linaro.org>
-Date: Thu, 11 Jun 2020 09:14:12 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1jjPrP-0000Pf-6Z
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 12:15:23 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:22752
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1jjPrN-00040z-AK
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 12:15:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1591892120;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=vOZcCyG6+q6mpWKybdwSRlg7xtE0dYIf0cnK+vy6ob4=;
+ b=FAH2igFOVzJvgxXSmaxbXUmblfc5UmN1DCuMmaov0wfl9Bma/1RDtnlQmfHDu6fdjEXrLS
+ vIYPi+0+HiiF69RjDuBSjwataSLwhfqU4X8ousG+ub/CLaFNdL7bxkO8t0ooppjUio0Un6
+ AS2kAIwLOtk3URPebn8o5N69HGT9oDE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-12-iZ52zfHpMHiZbHQP_GDy0g-1; Thu, 11 Jun 2020 12:15:18 -0400
+X-MC-Unique: iZ52zfHpMHiZbHQP_GDy0g-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 139F61B18BC0;
+ Thu, 11 Jun 2020 16:15:17 +0000 (UTC)
+Received: from laptop.redhat.com (ovpn-114-197.ams2.redhat.com [10.36.114.197])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 474FB1024871;
+ Thu, 11 Jun 2020 16:15:03 +0000 (UTC)
+From: Eric Auger <eric.auger@redhat.com>
+To: eric.auger.pro@gmail.com, eric.auger@redhat.com, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org, peter.maydell@linaro.org, peterx@redhat.com
+Subject: [PATCH RESEND 0/9] SMMUv3.2 Range-based TLB Invalidation Support
+Date: Thu, 11 Jun 2020 18:14:51 +0200
+Message-Id: <20200611161500.23580-1-eric.auger@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200611144529.8873-5-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1042;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1042.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.120;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 03:29:33
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,21 +77,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: jean-philippe@linaro.org, robh@kernel.org, robin.murphy@arm.com,
+ mst@redhat.com, zhangfei.gao@foxmail.com, shameerali.kolothum.thodi@huawei.com,
+ will@kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/11/20 7:45 AM, Peter Maydell wrote:
-> Convert the float versions of VMLA, VMLS and VMUL in the Neon
-> 2-reg-scalar group to decodetree.
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
-> As noted in the comment on the WRAP_FP_FN macro, we could have
-> had a do_2scalar_fp() function, but for 3 insns it seemed
-> simpler to just do the wrapping to get hold of the fpstatus ptr.
-> (These are the only fp insns in the group.)
+SMMU3.2 brings the support of range-based TLB invalidation and
+level hint. When this feature is supported, the SMMUv3 driver
+is allowed to send TLB invalidations for a range of IOVAs instead
+of using page based invalidation.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Implementing this feature in the virtual SMMUv3 device is
+mandated for DPDK on guest use case: DPDK uses hugepage
+buffers and guest sends invalidations for blocks. Without
+this feature, a guest invalidation of a block of 1GB for instance
+translates into a storm of page invalidations. Each of them
+is trapped by the VMM and cascaded downto the physical IOMMU.
+This completely stalls the execution. This integration issue
+was initially reported in [1].
 
-r~
+Now SMMUv3.2 specifies additional parameters to NH_VA and NH_VAA
+stage 1 invalidation commands so we can support those extensions.
+
+patches [1, 3] are cleanup patches.
+patches [4, 6] changes the implementation of the VSMMUV3 IOTLB
+   This IOTLB is a minimalist IOTLB implementation that avoids to
+   do the page table walk in case we have an entry in the TLB.
+   Previously entries were page mappings only. Now they can be
+   blocks.
+patches [7, 9] bring support for range invalidation.
+
+Supporting block mappings in the IOTLB look sensible in terms of
+TLB entry consumption. However looking at virtio/vhost device usage,
+without block mapping and without range invalidation (< 5.7 kernels
+it may be less performant. However for recent guest kernels
+supporting range invalidations [2], the performance should be similar.
+
+Best Regards
+
+Eric
+
+This series can be found at:
+https://github.com/eauger/qemu.git
+branch: v5.0.0-smmuv3-ril-v1
+
+References:
+[1] [RFC v2 4/4] iommu/arm-smmu-v3: add CMD_TLBI_NH_VA_AM command
+for iova range invalidation
+(https://lists.linuxfoundation.org/pipermail/iommu/2017-August/023679.html
+
+[2] 5.7+ kernels featuring
+6a481a95d4c1 iommu/arm-smmu-v3: Add SMMUv3.2 range invalidation support
+
+Eric Auger (9):
+  hw/arm/smmu-common: Factorize some code in smmu_ptw_64()
+  hw/arm/smmu-common: Add IOTLB helpers
+  hw/arm/smmu: Simplify the IOTLB key format
+  hw/arm/smmu: Introduce SMMUTLBEntry for PTW and IOTLB value
+  hw/arm/smmuv3: Store the starting level in SMMUTransTableInfo
+  hw/arm/smmu-common: Manage IOTLB block entries
+  hw/arm/smmuv3: Introduce smmuv3_s1_range_inval() helper
+  hw/arm/smmuv3: Get prepared for range invalidation
+  hw/arm/smmuv3: Advertise SMMUv3.2 range invalidation
+
+ hw/arm/smmu-internal.h       |  14 +++
+ hw/arm/smmuv3-internal.h     |   5 +
+ include/hw/arm/smmu-common.h |  24 ++--
+ hw/arm/smmu-common.c         | 205 +++++++++++++++++++++++------------
+ hw/arm/smmuv3.c              | 142 ++++++++++++------------
+ hw/arm/trace-events          |  12 +-
+ 6 files changed, 246 insertions(+), 156 deletions(-)
+
+-- 
+2.20.1
+
 
