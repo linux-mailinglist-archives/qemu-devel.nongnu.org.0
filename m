@@ -2,54 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAE031F6E2B
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 21:48:22 +0200 (CEST)
-Received: from localhost ([::1]:51534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B78A1F6E5D
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 21:56:37 +0200 (CEST)
+Received: from localhost ([::1]:51486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjTBV-0001Wp-Hc
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 15:48:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53880)
+	id 1jjTJU-0006s4-CJ
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 15:56:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jjT8L-0007Gx-1F
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:45:05 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40749
- helo=us-smtp-1.mimecast.com)
+ id 1jjT8K-0007Gd-Np
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:45:04 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:39785
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jjT8J-0000nE-4b
+ id 1jjT8I-0000ms-JW
  for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:45:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591904702;
+ s=mimecast20190719; t=1591904701;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UT6Y/EMhcVfat9Z0INd94k9cWEH2ylW9qZ3/PBUOBs0=;
- b=RVqeGfy25Gr/GuvmVXkOkk3td0xu/lrFdAP5R0FOusWgaaLj60oFJFqnQiMm5rWn0ztjLF
- 5s895w89Nw+Cg4r/bP2UAq9KaHGcErfebz3Yq/IfbVH4SiK4/uA5iyNzwRkpaVBYlmYUCk
- 2ZyybqXE9ux0HMl7hphhaT+dKjoTD8s=
+ bh=cBKfrTprAHuwZsgp6tzfJ36X7teGtKYtH1MnqsWCe/k=;
+ b=eymHB0rv1xQktkDaioe3gSZjd7UKzsZyMQ6HWH2x53cWYsVTVK/nVHSyBXG9TMsxcOYnlz
+ abgzxU5Dfkbmi8YlbDEGxUrWFmyHdvcRxRnn2NvKu1trCL4i+kslgriifAT6yDqqykT11+
+ a6i1wgnhHLTGW7MOiZQOphxefE4Y9uA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-351-TNSKf_RrPmeHai9cqNh2dA-1; Thu, 11 Jun 2020 15:45:00 -0400
-X-MC-Unique: TNSKf_RrPmeHai9cqNh2dA-1
+ us-mta-196-EEG2IenhN_egTrkR8HK4xg-1; Thu, 11 Jun 2020 15:44:59 -0400
+X-MC-Unique: EEG2IenhN_egTrkR8HK4xg-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 23C0D107ACCA
- for <qemu-devel@nongnu.org>; Thu, 11 Jun 2020 19:44:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2CCB4100A68C;
+ Thu, 11 Jun 2020 19:44:58 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A96F860CC0;
- Thu, 11 Jun 2020 19:44:56 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5411360CC0;
+ Thu, 11 Jun 2020 19:44:57 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 010/115] numa: prevent usage of -M memory-backend and -numa
- memdev at the same time
-Date: Thu, 11 Jun 2020 15:43:04 -0400
-Message-Id: <20200611194449.31468-11-pbonzini@redhat.com>
+Subject: [PULL 011/115] icount: fix shift=auto for record/replay
+Date: Thu, 11 Jun 2020 15:43:05 -0400
+Message-Id: <20200611194449.31468-12-pbonzini@redhat.com>
 In-Reply-To: <20200611194449.31468-1-pbonzini@redhat.com>
 References: <20200611194449.31468-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -58,16 +57,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 08:37:10
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 14:57:53
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,58 +80,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>
+Cc: Pavel Dovgalyuk <Pavel.Dovgaluk@gmail.com>,
+ Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Igor Mammedov <imammedo@redhat.com>
+From: Pavel Dovgalyuk <Pavel.Dovgaluk@gmail.com>
 
-Options -M memory-backend and -numa memdev are mutually exclusive,
-and if used together, it might lead to a crash in the worst case.
-For example when the same backend is used with these options together:
-  -m 4G \
-  -object memory-backend-ram,id=mem0,size=4G \
-  -M pc,memory-backend=mem0 \
-  -numa node,memdev=mem0
-QEMU will abort with:
-   exec.c:2006: qemu_ram_set_idstr: Assertion `!new_block->idstr[0]' failed.
+This patch fixes shift=auto when record/replay is enabled.
+Now user does not need to guess the best shift value.
 
-and following backtrace:
-    abort ()
-    qemu_ram_set_idstr ()
-    vmstate_register_ram ()
-    vmstate_register_ram_global ()
-    machine_consume_memdev ()
-    numa_init_memdev_container ()
-    numa_complete_configuration ()
-    machine_run_board_init ()
+Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
 
-add a check to error out in case the user tries to use both options at
-the same time.
+--
 
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20200511141103.43768-3-imammedo@redhat.com>
+v2:
+  moved icount_time_shift to vmstate subsection
+Message-Id: <158988500050.15192.692077802469400393.stgit@pasha-ThinkPad-X280>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/core/numa.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ cpus.c | 20 +++++++++++++++++++-
+ 1 file changed, 19 insertions(+), 1 deletion(-)
 
-diff --git a/hw/core/numa.c b/hw/core/numa.c
-index 316bc50d75..5f81900f88 100644
---- a/hw/core/numa.c
-+++ b/hw/core/numa.c
-@@ -757,6 +757,11 @@ void numa_complete_configuration(MachineState *ms)
-         }
+diff --git a/cpus.c b/cpus.c
+index 5670c96bcf..7ce0d569b3 100644
+--- a/cpus.c
++++ b/cpus.c
+@@ -379,7 +379,8 @@ static void icount_adjust(void)
  
-         if (!numa_uses_legacy_mem() && mc->default_ram_id) {
-+            if (ms->ram_memdev_id) {
-+                error_report("'-machine memory-backend' and '-numa memdev'"
-+                             " properties are mutually exclusive");
-+                exit(1);
-+            }
-             ms->ram = g_new(MemoryRegion, 1);
-             memory_region_init(ms->ram, OBJECT(ms), mc->default_ram_id,
-                                ram_size);
+     seqlock_write_lock(&timers_state.vm_clock_seqlock,
+                        &timers_state.vm_clock_lock);
+-    cur_time = cpu_get_clock_locked();
++    cur_time = REPLAY_CLOCK_LOCKED(REPLAY_CLOCK_VIRTUAL_RT,
++                                   cpu_get_clock_locked());
+     cur_icount = cpu_get_icount_locked();
+ 
+     delta = cur_icount - cur_time;
+@@ -647,6 +648,11 @@ static bool adjust_timers_state_needed(void *opaque)
+     return s->icount_rt_timer != NULL;
+ }
+ 
++static bool shift_state_needed(void *opaque)
++{
++    return use_icount == 2;
++}
++
+ /*
+  * Subsection for warp timer migration is optional, because may not be created
+  */
+@@ -674,6 +680,17 @@ static const VMStateDescription icount_vmstate_adjust_timers = {
+     }
+ };
+ 
++static const VMStateDescription icount_vmstate_shift = {
++    .name = "timer/icount/shift",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .needed = shift_state_needed,
++    .fields = (VMStateField[]) {
++        VMSTATE_INT16(icount_time_shift, TimersState),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
+ /*
+  * This is a subsection for icount migration.
+  */
+@@ -690,6 +707,7 @@ static const VMStateDescription icount_vmstate_timers = {
+     .subsections = (const VMStateDescription*[]) {
+         &icount_vmstate_warp_timer,
+         &icount_vmstate_adjust_timers,
++        &icount_vmstate_shift,
+         NULL
+     }
+ };
 -- 
 2.26.2
 
