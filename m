@@ -2,74 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97AAF1F66E5
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 13:36:25 +0200 (CEST)
-Received: from localhost ([::1]:46992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E036E1F6719
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 13:46:57 +0200 (CEST)
+Received: from localhost ([::1]:59614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjLVQ-0006MH-NQ
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 07:36:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47882)
+	id 1jjLfc-0005fs-6i
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 07:46:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1jjLTy-0005jQ-2D
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 07:34:54 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:27010
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1jjLTx-0008EX-9I
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 07:34:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591875292;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2EgSaukMPDqu0A68Ka1hpSO9cIqoDZTymdK2c5WlzfM=;
- b=JjiVRLx/pwGtmPzm2+QJDridTkZUXkJZJ05N3TmLoKT0uBFw+COs0yEoDQ+z4/GRn9je2e
- DxjMXapuRjygpcn9BqaTWvicmpT+T6uy6MwmNosH9sH60K85qcMIDc0SWODd171Co7qeJJ
- CWZx2rYGOxL7ea+c64reJ0MqD1vSXYY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-474-XO-Qpd3FNfCgxn-MvxNOlA-1; Thu, 11 Jun 2020 07:34:50 -0400
-X-MC-Unique: XO-Qpd3FNfCgxn-MvxNOlA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DCA37107ACF2;
- Thu, 11 Jun 2020 11:34:49 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.75])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 02C3E8FF76;
- Thu, 11 Jun 2020 11:34:38 +0000 (UTC)
-Date: Thu, 11 Jun 2020 13:34:33 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v7 0/9] acpi: i386 tweaks
-Message-ID: <20200611133433.75996d47@redhat.com>
-In-Reply-To: <20200610155346.qwqwxr6v22xi4wn5@sirius.home.kraxel.org>
-References: <20200610094131.13346-1-kraxel@redhat.com>
- <20200610134002.6461b40a@redhat.com>
- <20200610105405-mutt-send-email-mst@kernel.org>
- <20200610155346.qwqwxr6v22xi4wn5@sirius.home.kraxel.org>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jjLcM-0001rQ-9s; Thu, 11 Jun 2020 07:43:34 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:35293)
+ by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jjLcL-0001ox-9W; Thu, 11 Jun 2020 07:43:33 -0400
+Received: by mail-wr1-x441.google.com with SMTP id x14so5823956wrp.2;
+ Thu, 11 Jun 2020 04:43:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=cLk4hbroATYyQTs52uLWncPcCLvLtPOqAZ/aivyCI4k=;
+ b=GMrB6O22/EHOOgasKeSfMqmBSzYjq3xvmnv34PUcZbTdwjRXWEjDRh1zaWfC8G3kHC
+ +YG4v1BYYwuvJ2yGm0CFJYlPFHLhxE6YxVaJzwwPoFWtBFrA8d6cdmQVUoDHpqlH5Snt
+ Dyf+j1QkMqoGAbvw4qfbOoE2pMdlcesKu9WqclawZnmlpOwvmrTKBKv/12SazODRvfIu
+ 4dAU5M/XUKG06jaaqtmbGuhehCdVmPNYO1ohI0T5Ij06/+D8L0sO3KyZE0GAnBUTsLmc
+ Cs+UQYQSatwzHRzDiDEUZ4hxfOU8dWwTShq4Uu/qJZTAOJuQKN9esM5QATGTLOgEKN1s
+ LFSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=cLk4hbroATYyQTs52uLWncPcCLvLtPOqAZ/aivyCI4k=;
+ b=lOm6OStVBZM1XrtSJ5YrArZmSYl+IN6YX8A+Sj3zVf0GfFwbLPF7QPCHIO9mPL3DJC
+ Si7xDMC94VZ/r0WkWeKAODY8INsRVgIqTWL0i7RN2hc7tV5GchTtW1xXCHBe7rPZintA
+ gNotgAVNbVWRWkjaF31/xCDGaXuns90rRA3cC+4jRgx/jZoqfoWk/9JGTzDjnKyS3mLl
+ 8o46ynFoqMonbwF2+HWJQL1cz1A99J0SjVRQV5euiTJdLhc4SXPfbs1eyYFBqQfuE2um
+ SzZgNvoB02tOM70c4kZsL5Yei/fbuvH/+3ilq29iun9cyG9Bx3NQKRYp+D89QONlqOQH
+ Pg8A==
+X-Gm-Message-State: AOAM533Fy2exNHrgzsqsN5R1XYcESjY+qpooz73QzgoxIW3fOw2A4XfB
+ UOsJKE9rUPRb5zF+fqLDRWL846WQ
+X-Google-Smtp-Source: ABdhPJyx5dmroxKiV///7TeGTUb4PUvwNxuyzuU4KTZDjjrtwlwztNnHbQm9l1m7NQ+OHulYS4FOEA==
+X-Received: by 2002:a5d:4701:: with SMTP id y1mr9042917wrq.310.1591875800375; 
+ Thu, 11 Jun 2020 04:43:20 -0700 (PDT)
+Received: from x1w.redhat.com (181.red-88-10-103.dynamicip.rima-tde.net.
+ [88.10.103.181])
+ by smtp.gmail.com with ESMTPSA id h29sm4832863wrc.78.2020.06.11.04.43.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 11 Jun 2020 04:43:18 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 0/7] sh4: Add 'Renesas peripherals' entry in MAINTAINERS +
+ trivial fixes
+Date: Thu, 11 Jun 2020 13:43:10 +0200
+Message-Id: <20200611114317.13044-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 03:29:33
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,50 +84,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?TWFyYy1B?= =?UTF-8?B?bmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
- John Snow <jsnow@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: Fam Zheng <fam@euphon.net>, Yoshinori Sato <ysato@users.sourceforge.jp>,
+ qemu-trivial@nongnu.org, Magnus Damm <magnus.damm@gmail.com>,
+ Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 10 Jun 2020 17:53:46 +0200
-Gerd Hoffmann <kraxel@redhat.com> wrote:
+Hi,
 
-> On Wed, Jun 10, 2020 at 10:54:26AM -0400, Michael S. Tsirkin wrote:
-> > On Wed, Jun 10, 2020 at 01:40:02PM +0200, Igor Mammedov wrote:  
-> > > On Wed, 10 Jun 2020 11:41:22 +0200
-> > > Gerd Hoffmann <kraxel@redhat.com> wrote:
-> > >   
-> > > > First batch of microvm patches, some generic acpi stuff.
-> > > > Split the acpi-build.c monster, specifically split the
-> > > > pc and q35 and pci bits into a separate file which we
-> > > > can skip building at some point in the future.
-> > > >   
-> > > It looks like series is missing patch to whitelist changed ACPI tables in
-> > > bios-table-test.  
-> > 
-> > Right. Does it pass make check?  
-> 
-> No, but after 'git cherry-pick 9b20a3365d73dad4ad144eab9c5827dbbb2e9f21' it does.
-> 
-> > > Do we already have test case for microvm in bios-table-test,
-> > > if not it's probably time to add it.  
-> > 
-> > Separately :)  
-> 
-> Especially as this series is just preparing cleanups and doesn't
-> actually add acpi support to microvm yet.
-> 
-> But, yes, adding a testcase sounds useful.
-Sorry for confusion, I didn't mean to do it within this series
+This series include trivial fixes, and add a new 'Renesas
+peripherals' section in MAINTAINERS.
 
-> 
-> take care,
->   Gerd
-> 
+Since v3:
+- Rebased on Aleksandar's "Resolution of sh4 maintainership"
+  https://lists.gnu.org/archive/html/qemu-devel/2020-06/msg03183.html
+
+Since v2:
+- Keep Magnus as maintainer:
+  https://www.mail-archive.com/qemu-devel@nongnu.org/msg710320.html
+Addressed Aleksandar review comments:
+- Split the MAINTAINER patch in various atomic units
+  https://www.mail-archive.com/qemu-devel@nongnu.org/msg710947.html
+- Add Yoshinori Sato as maintainer of SH4/RX peripherals
+  https://www.mail-archive.com/qemu-devel@nongnu.org/msg711008.html
+
+Maybe patches 6 & 7 can go via acceptance-next queue, and
+the rest via qemu-trivial@?
+
+Regards,
+
+Phil.
+
+CI report:
+https://travis-ci.org/github/philmd/qemu/builds/692828388
+
+Supersedes: <20200610220853.8558-1-f4bug@amsat.org>
+Based-on: <20200611095316.10133-1-aleksandar.qemu.devel@gmail.com>
+
+Philippe Mathieu-Daudé (5):
+  MAINTAINERS: Cover 'hw/sh4/sh_intc.h' with the R2D machine
+  MAINTAINERS: Add an entry for common Renesas peripherals
+  hw/sh4: Use MemoryRegion typedef
+  hw/sh4: Extract timer definitions to 'hw/timer/tmu012.h'
+  hw/timer/sh_timer: Remove unused 'qemu/timer.h' include
+
+Thomas Huth (2):
+  tests/acceptance: Add boot tests for sh4 QEMU advent calendar image
+  .travis.yml: Test SH4 QEMU advent calendar image
+
+ include/hw/sh4/sh.h                    | 12 +-----------
+ include/hw/timer/tmu012.h              | 23 +++++++++++++++++++++++
+ hw/sh4/sh7750.c                        |  1 +
+ hw/timer/sh_timer.c                    |  3 ++-
+ .travis.yml                            |  2 +-
+ MAINTAINERS                            | 10 +++++++++-
+ tests/acceptance/boot_linux_console.py | 13 +++++++++++--
+ 7 files changed, 48 insertions(+), 16 deletions(-)
+ create mode 100644 include/hw/timer/tmu012.h
+
+-- 
+2.21.3
 
 
