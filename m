@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 455C41F6BE7
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 18:12:45 +0200 (CEST)
-Received: from localhost ([::1]:36774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DC941F6BE2
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 18:12:16 +0200 (CEST)
+Received: from localhost ([::1]:34022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjPoq-0002Xv-8t
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 12:12:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45914)
+	id 1jjPoN-0000eg-7A
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 12:12:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jjPh2-0007HM-K5
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 12:04:40 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:43537
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jjPgY-0006mC-Re
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 12:04:10 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:46195
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jjPgv-00015U-H7
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 12:04:36 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jjPgU-0000wU-Dx
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 12:04:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591891472;
+ s=mimecast20190719; t=1591891445;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OEBGBSENtvQqVBtd9DaoSVHe6pzGLtI0FdTlX7YOxdE=;
- b=M1D5l6cKFrgGNWzeQOfq3Ctm34NLrAi/76kjhUV2A2R+AHKxN+Q20SjGkIBR1IJKl/slqw
- BVVIyQUKMQ89zd5rCmx/CjOy8r+CgthGQeQEDShD18j4CO39qWElvWeK7lko6WXqJTYqY1
- JC32hCjCw9DiToL3dpcAVXQCdNYL3MU=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-426-bIFoiYKlM_m4d-pGUhqaBQ-1; Thu, 11 Jun 2020 12:04:00 -0400
-X-MC-Unique: bIFoiYKlM_m4d-pGUhqaBQ-1
-Received: by mail-wr1-f72.google.com with SMTP id t5so2712736wro.20
- for <qemu-devel@nongnu.org>; Thu, 11 Jun 2020 09:03:59 -0700 (PDT)
+ bh=LEzGP/ZApkAb2DZHP89viWXOV6fIUAQzfhGOYXXmOvs=;
+ b=He4oEeTzc7yadVk8pvw6nhBi+a8N4OSYNceixEOvzyeSoErFk7bkEtWbLBZR3SYN2eEYJT
+ ubpMPT7kNhYfKPk0ESzALoWpD57WDfe4OarQ8P/um9YaGlg3DmE74Y/SzaUvmIFoy6Op/K
+ 5vVaGKPBAm06VSMZaU4VACKtJ0Ngqt0=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-419-rp4wuXG2MqWrubnld8rDUg-1; Thu, 11 Jun 2020 12:04:02 -0400
+X-MC-Unique: rp4wuXG2MqWrubnld8rDUg-1
+Received: by mail-wr1-f69.google.com with SMTP id c14so2717952wrm.15
+ for <qemu-devel@nongnu.org>; Thu, 11 Jun 2020 09:04:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=OEBGBSENtvQqVBtd9DaoSVHe6pzGLtI0FdTlX7YOxdE=;
- b=dsrU2hawzG3HQpQ15xXYmqlbzbQPRNgkPhnJPeW0v1+i+LlLPHLrKkaQf367n7iTKp
- SC2NoySginkrtixBMwvlpxKRuIcSwFQpXjz2RyNEm4VefamG/EOXoOAlXIp9Rcy7R13F
- 3neGLLKJBaPJb5I8EgC5bv1PTDz7ugd/vDn4M/EjAztIIWJ99YQIYO1mbw/dkefY2yoa
- 4ynYQkLaWpZ2CvihhiZnSgUVapZV/RG94Ta9z4p2cYAFF6NRWt5srSJyjspkMX9IaQTT
- 4wR0cu+s9oWRyp1ZBo+bnPs18BiDHncoFBw1h2EjiXIEksEsEoDYUKCZKjb3y25WuhdB
- 35sQ==
-X-Gm-Message-State: AOAM53283Fnr9Oe0D+zu3KM8YOuvNjn5TQ/GJgMXkORcPBfZi0wf6sM6
- M7FMHquNP/gbOLY6D+6NuLKnx3H3vKs8fDttveifRT57Qv++k9evq6hDkhfuOY2FmemSQClHC/M
- e37FI5Mp7+dSGm9w=
-X-Received: by 2002:a1c:e40a:: with SMTP id b10mr8578133wmh.41.1591891435611; 
- Thu, 11 Jun 2020 09:03:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJynp5Vfe+J/amzkiVBC5jheUTPpLuFTgZf1g1u8LUmc6MfUXOw/4NlKcngL6hJoiQq1LEEPcA==
-X-Received: by 2002:a1c:e40a:: with SMTP id b10mr8578112wmh.41.1591891435343; 
- Thu, 11 Jun 2020 09:03:55 -0700 (PDT)
+ bh=LEzGP/ZApkAb2DZHP89viWXOV6fIUAQzfhGOYXXmOvs=;
+ b=oYOPM1MGHysQrpWyM1SuJ1y+udDxZoABLxdnINNCqDesXyKQ94jIgrzpJJn8WyHaQ+
+ 8/6oUpRr1TSvE7fveX+V1bywYo6WqSba1IaYsVXcKNGnNaW01WU9GJGLHYsDJ4EwiVBb
+ iB/ZgPazi4qm/pdeiZ2OAYx+cAOfvBBFDxXpsddlD15xfQDcT2zWMUKlP94T4Ug++XdB
+ tvYDsV6HoU+cX6hZWLS9KdXHf1pwKLVg06GjkR8P9kfGfU3GZSiJ9hstsmtVUdfubqEG
+ isZyBX4p5hxtmoQzBM3Q1nyaJjco5Zrbdybwz+AoQbtsbqDYA85CJHTE4rg31LscutPU
+ xT8g==
+X-Gm-Message-State: AOAM5313Y6qCxqWlpuXd1cSQY3eazDCec/ijtOEf3QXV44m/8b580joa
+ KHSguWpc+2PTtD9sYMlQxn2GJIRID2Aisp1bmp5Kid8E0xjLC2hvEimb+mMNaN4uWG55plBlJvX
+ kSbMy7l6rU9hGfGE=
+X-Received: by 2002:adf:e592:: with SMTP id l18mr10885064wrm.175.1591891440570; 
+ Thu, 11 Jun 2020 09:04:00 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzr6hsSerWY3PPXj2dXIsrjsSKE/2HnUUReffRoeH4BpmSH+d6lxlEDiR1+vJ9Bv/TEyvV7qw==
+X-Received: by 2002:adf:e592:: with SMTP id l18mr10885029wrm.175.1591891440324; 
+ Thu, 11 Jun 2020 09:04:00 -0700 (PDT)
 Received: from x1w.redhat.com (181.red-88-10-103.dynamicip.rima-tde.net.
  [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id z206sm4990080wmg.30.2020.06.11.09.03.54
+ by smtp.gmail.com with ESMTPSA id r12sm5903519wrc.22.2020.06.11.09.03.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Jun 2020 09:03:54 -0700 (PDT)
+ Thu, 11 Jun 2020 09:03:59 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 09/11] hw/tpm: Move DEFINE_PROP_TPMBE() macro to
- 'tmp_prop.h' local header
-Date: Thu, 11 Jun 2020 18:03:04 +0200
-Message-Id: <20200611160306.2751-10-philmd@redhat.com>
+Subject: [PATCH v2 10/11] hw/tpm: Make 'tpm_util.h' publicly accessible as
+ "sysemu/tpm_util.h"
+Date: Thu, 11 Jun 2020 18:03:05 +0200
+Message-Id: <20200611160306.2751-11-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200611160306.2751-1-philmd@redhat.com>
 References: <20200611160306.2751-1-philmd@redhat.com>
@@ -73,8 +73,8 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 03:29:33
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
@@ -105,125 +105,158 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We are going to make "tpm_util.h" publicly accessible by
-moving it to the include/ directory in the next commit.
-The DEFINE_PROP_TPMBE() macro is only meaningful for the
-TPM hardware files (in hw/tpm/), so keep this macro in a
-local header.
+We are going to split the TPM backends from the TPM emulated
+hardware in the next commit. Make the TPM util helpers accessible
+by moving local "tpm_util.h" to global "sysemu/tpm_util.h".
 
 Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- hw/tpm/tpm_prop.h       | 31 +++++++++++++++++++++++++++++++
- hw/tpm/tpm_util.h       |  3 ---
- hw/tpm/tpm_crb.c        |  1 +
- hw/tpm/tpm_spapr.c      |  1 +
- hw/tpm/tpm_tis_isa.c    |  2 +-
- hw/tpm/tpm_tis_sysbus.c |  2 +-
- 6 files changed, 35 insertions(+), 5 deletions(-)
- create mode 100644 hw/tpm/tpm_prop.h
+ docs/specs/tpm.rst                    | 4 ++--
+ {hw/tpm => include/sysemu}/tpm_util.h | 6 +++---
+ hw/tpm/tpm_crb.c                      | 2 +-
+ hw/tpm/tpm_emulator.c                 | 2 +-
+ hw/tpm/tpm_passthrough.c              | 2 +-
+ hw/tpm/tpm_spapr.c                    | 2 +-
+ hw/tpm/tpm_tis_common.c               | 2 +-
+ hw/tpm/tpm_util.c                     | 2 +-
+ 8 files changed, 11 insertions(+), 11 deletions(-)
+ rename {hw/tpm => include/sysemu}/tpm_util.h (95%)
 
-diff --git a/hw/tpm/tpm_prop.h b/hw/tpm/tpm_prop.h
-new file mode 100644
-index 0000000000..85e1ae5718
---- /dev/null
-+++ b/hw/tpm/tpm_prop.h
-@@ -0,0 +1,31 @@
-+/*
-+ * TPM utility functions
-+ *
-+ *  Copyright (c) 2010 - 2015 IBM Corporation
-+ *  Authors:
-+ *    Stefan Berger <stefanb@us.ibm.com>
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>
-+ */
-+
-+#ifndef HW_TPM_PROP_H
-+#define HW_TPM_PROP_H
-+
-+#include "sysemu/tpm_backend.h"
-+#include "hw/qdev-properties.h"
-+
-+#define DEFINE_PROP_TPMBE(_n, _s, _f)                     \
-+    DEFINE_PROP(_n, _s, _f, qdev_prop_tpm, TPMBackend *)
-+
-+#endif /* HW_TPM_PROP_H */
-diff --git a/hw/tpm/tpm_util.h b/hw/tpm/tpm_util.h
-index d524935576..cf61d830d7 100644
---- a/hw/tpm/tpm_util.h
-+++ b/hw/tpm/tpm_util.h
-@@ -66,9 +66,6 @@ static inline void tpm_cmd_set_error(void *b, uint32_t error)
-     stl_be_p(b + 6, error);
- }
+diff --git a/docs/specs/tpm.rst b/docs/specs/tpm.rst
+index 9e48e3b981..0200fdac68 100644
+--- a/docs/specs/tpm.rst
++++ b/docs/specs/tpm.rst
+@@ -234,7 +234,7 @@ PCRs.
+ QEMU files related to the TPM passthrough device:
+  - ``hw/tpm/tpm_passthrough.c``
+  - ``hw/tpm/tpm_util.c``
+- - ``hw/tpm/tpm_util.h``
++ - ``include/sysemu/tpm_util.h``
  
--#define DEFINE_PROP_TPMBE(_n, _s, _f)                     \
--    DEFINE_PROP(_n, _s, _f, qdev_prop_tpm, TPMBackend *)
--
+ 
+ Command line to start QEMU with the TPM passthrough device using the host's
+@@ -294,7 +294,7 @@ command.
+ QEMU files related to the TPM emulator device:
+  - ``hw/tpm/tpm_emulator.c``
+  - ``hw/tpm/tpm_util.c``
+- - ``hw/tpm/tpm_util.h``
++ - ``include/sysemu/tpm_util.h``
+ 
+ The following commands start the swtpm with a UnixIO control channel over
+ a socket interface. They do not need to be run as root.
+diff --git a/hw/tpm/tpm_util.h b/include/sysemu/tpm_util.h
+similarity index 95%
+rename from hw/tpm/tpm_util.h
+rename to include/sysemu/tpm_util.h
+index cf61d830d7..63e872c3b2 100644
+--- a/hw/tpm/tpm_util.h
++++ b/include/sysemu/tpm_util.h
+@@ -19,8 +19,8 @@
+  * License along with this library; if not, see <http://www.gnu.org/licenses/>
+  */
+ 
+-#ifndef TPM_TPM_UTIL_H
+-#define TPM_TPM_UTIL_H
++#ifndef SYSEMU_TPM_UTIL_H
++#define SYSEMU_TPM_UTIL_H
+ 
+ #include "sysemu/tpm.h"
+ #include "qemu/bswap.h"
+@@ -69,4 +69,4 @@ static inline void tpm_cmd_set_error(void *b, uint32_t error)
  void tpm_util_show_buffer(const unsigned char *buffer,
                            size_t buffer_size, const char *string);
  
+-#endif /* TPM_TPM_UTIL_H */
++#endif /* SYSEMU_TPM_UTIL_H */
 diff --git a/hw/tpm/tpm_crb.c b/hw/tpm/tpm_crb.c
-index 664ff70ef9..1cac4d671d 100644
+index 1cac4d671d..60247295d4 100644
 --- a/hw/tpm/tpm_crb.c
 +++ b/hw/tpm/tpm_crb.c
-@@ -25,6 +25,7 @@
+@@ -24,9 +24,9 @@
+ #include "hw/acpi/tpm.h"
  #include "migration/vmstate.h"
  #include "sysemu/tpm_backend.h"
++#include "sysemu/tpm_util.h"
  #include "sysemu/reset.h"
-+#include "tpm_prop.h"
- #include "tpm_util.h"
+ #include "tpm_prop.h"
+-#include "tpm_util.h"
  #include "tpm_ppi.h"
  #include "trace.h"
+ 
+diff --git a/hw/tpm/tpm_emulator.c b/hw/tpm/tpm_emulator.c
+index 3a0fc442f3..9605339f93 100644
+--- a/hw/tpm/tpm_emulator.c
++++ b/hw/tpm/tpm_emulator.c
+@@ -32,8 +32,8 @@
+ #include "qemu/sockets.h"
+ #include "io/channel-socket.h"
+ #include "sysemu/tpm_backend.h"
++#include "sysemu/tpm_util.h"
+ #include "tpm_int.h"
+-#include "tpm_util.h"
+ #include "tpm_ioctl.h"
+ #include "migration/blocker.h"
+ #include "migration/vmstate.h"
+diff --git a/hw/tpm/tpm_passthrough.c b/hw/tpm/tpm_passthrough.c
+index f67244b5d4..7403807ec4 100644
+--- a/hw/tpm/tpm_passthrough.c
++++ b/hw/tpm/tpm_passthrough.c
+@@ -28,10 +28,10 @@
+ #include "qemu/module.h"
+ #include "qemu/sockets.h"
+ #include "sysemu/tpm_backend.h"
++#include "sysemu/tpm_util.h"
+ #include "tpm_int.h"
+ #include "qapi/clone-visitor.h"
+ #include "qapi/qapi-visit-tpm.h"
+-#include "tpm_util.h"
+ #include "trace.h"
+ 
+ #define TYPE_TPM_PASSTHROUGH "tpm-passthrough"
 diff --git a/hw/tpm/tpm_spapr.c b/hw/tpm/tpm_spapr.c
-index ab1a86ad6e..65672048c7 100644
+index 65672048c7..cb4dfd1e6a 100644
 --- a/hw/tpm/tpm_spapr.c
 +++ b/hw/tpm/tpm_spapr.c
-@@ -21,6 +21,7 @@
+@@ -20,7 +20,7 @@
+ #include "migration/vmstate.h"
  
  #include "sysemu/tpm_backend.h"
- #include "tpm_util.h"
-+#include "tpm_prop.h"
+-#include "tpm_util.h"
++#include "sysemu/tpm_util.h"
+ #include "tpm_prop.h"
  
  #include "hw/ppc/spapr.h"
- #include "hw/ppc/spapr_vio.h"
-diff --git a/hw/tpm/tpm_tis_isa.c b/hw/tpm/tpm_tis_isa.c
-index 42f909ff1e..5faf6231c0 100644
---- a/hw/tpm/tpm_tis_isa.c
-+++ b/hw/tpm/tpm_tis_isa.c
-@@ -27,7 +27,7 @@
+diff --git a/hw/tpm/tpm_tis_common.c b/hw/tpm/tpm_tis_common.c
+index 94704870f6..64206a6a3b 100644
+--- a/hw/tpm/tpm_tis_common.c
++++ b/hw/tpm/tpm_tis_common.c
+@@ -33,7 +33,7 @@
  #include "hw/qdev-properties.h"
  #include "migration/vmstate.h"
- #include "hw/acpi/tpm.h"
+ #include "sysemu/tpm_backend.h"
 -#include "tpm_util.h"
-+#include "tpm_prop.h"
- #include "tpm_tis.h"
++#include "sysemu/tpm_util.h"
+ #include "tpm_ppi.h"
+ #include "trace.h"
  
- typedef struct TPMStateISA {
-diff --git a/hw/tpm/tpm_tis_sysbus.c b/hw/tpm/tpm_tis_sysbus.c
-index edca1dae0d..4a3bc70625 100644
---- a/hw/tpm/tpm_tis_sysbus.c
-+++ b/hw/tpm/tpm_tis_sysbus.c
-@@ -26,7 +26,7 @@
+diff --git a/hw/tpm/tpm_util.c b/hw/tpm/tpm_util.c
+index c0a0f3d71f..d0ec2a8235 100644
+--- a/hw/tpm/tpm_util.c
++++ b/hw/tpm/tpm_util.c
+@@ -23,11 +23,11 @@
+ #include "qemu/error-report.h"
+ #include "qapi/error.h"
+ #include "qapi/visitor.h"
+-#include "tpm_util.h"
+ #include "tpm_int.h"
+ #include "exec/memory.h"
  #include "hw/qdev-properties.h"
- #include "migration/vmstate.h"
- #include "hw/acpi/tpm.h"
--#include "tpm_util.h"
-+#include "tpm_prop.h"
- #include "hw/sysbus.h"
- #include "tpm_tis.h"
+ #include "sysemu/tpm_backend.h"
++#include "sysemu/tpm_util.h"
+ #include "trace.h"
  
+ /* tpm backend property */
 -- 
 2.21.3
 
