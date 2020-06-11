@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07F9D1F6EF5
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 22:47:45 +0200 (CEST)
-Received: from localhost ([::1]:56948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 885231F6F00
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 22:49:58 +0200 (CEST)
+Received: from localhost ([::1]:37230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjU6y-0008P6-2Y
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 16:47:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56352)
+	id 1jjU97-0004hF-M6
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 16:49:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jjTAm-0002Ns-6P
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:47:36 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:24163
- helo=us-smtp-delivery-1.mimecast.com)
+ id 1jjTAj-0002Jq-PJ
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:47:33 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:25685
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jjTAk-0001UK-36
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:47:35 -0400
+ id 1jjTAh-0001Tq-M6
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:47:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591904853;
+ s=mimecast20190719; t=1591904850;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Teg1bboP42oJzk7SjLIm9ufOGo8EbIsWR0CxjrMPhm4=;
- b=ZNDNYQYdhE+tLxBCev4kBe7JfGqoLlmvJgcEqeGAENu7zcjXMCa/bpTrn6ioEej+BOC956
- K7O6mqnVE2FenjR3U9vN5rt1F9h08OPUtdofGAKl91Q4DxgHFgnBZh0k8Dn+TSKtbUMgjM
- 69ghaAeQWCsYQxFChY41Q+cmj+GIIw8=
+ bh=yY9bcvZJxaSJ41nPuQZaf5TvXFjXYQELBp993v3BvbI=;
+ b=F4xSkRqgegR9YAoqLU8HKjinG7zP8LG8lDStSYBtcP4v0fHJ/XL/Rsjw5p/aNyXuiiUNo4
+ 3ZQQzQ7GMn6yRNvS9d1M4+IZg95tQKQ3i1ysML+biJx03UvyO4s9xAmXrznMQsp/wReaoa
+ 63GOfEJyXuirG82YPjVzdzVpYBlR7Yg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-48-WJnJc3NLNBW7Axr37Oyczg-1; Thu, 11 Jun 2020 15:47:28 -0400
-X-MC-Unique: WJnJc3NLNBW7Axr37Oyczg-1
+ us-mta-185-EQSOtJP2NYKS-ygPgW6rHw-1; Thu, 11 Jun 2020 15:47:29 -0400
+X-MC-Unique: EQSOtJP2NYKS-ygPgW6rHw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 57D5C835B40;
- Thu, 11 Jun 2020 19:47:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 62AE5107ACF2
+ for <qemu-devel@nongnu.org>; Thu, 11 Jun 2020 19:47:28 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C96EF7CCE7;
- Thu, 11 Jun 2020 19:47:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1F439707C6
+ for <qemu-devel@nongnu.org>; Thu, 11 Jun 2020 19:47:28 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 112/115] exec/cpu-common: Move MUSB specific typedefs to
- 'hw/usb/hcd-musb.h'
-Date: Thu, 11 Jun 2020 15:44:46 -0400
-Message-Id: <20200611194449.31468-113-pbonzini@redhat.com>
+Subject: [PULL 114/115] stubs: move Xen stubs to accel/
+Date: Thu, 11 Jun 2020 15:44:48 -0400
+Message-Id: <20200611194449.31468-115-pbonzini@redhat.com>
 In-Reply-To: <20200611194449.31468-1-pbonzini@redhat.com>
 References: <20200611194449.31468-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 14:57:53
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 08:37:10
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,92 +80,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Keep them close to the other accelerator-dependent stubs, so as to remove
+stubs that are not needed by tools.
 
-The CPUReadMemoryFunc/CPUWriteMemoryFunc typedefs are legacy
-remnant from before the conversion to MemoryRegions.
-Since they are now only used in tusb6010.c and hcd-musb.c,
-move them to "hw/usb/musb.h" and rename them appropriately.
-
-Suggested-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200601141536.15192-4-f4bug@amsat.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/usb/hcd-musb.c         | 4 ++--
- include/exec/cpu-common.h | 3 ---
- include/hw/usb/hcd-musb.h | 9 +++++----
- 3 files changed, 7 insertions(+), 9 deletions(-)
+ accel/stubs/Makefile.objs                 |  1 +
+ stubs/xen-hvm.c => accel/stubs/xen-stub.c | 14 +++++++-------
+ stubs/Makefile.objs                       |  2 --
+ stubs/xen-common.c                        | 13 -------------
+ 4 files changed, 8 insertions(+), 22 deletions(-)
+ rename stubs/xen-hvm.c => accel/stubs/xen-stub.c (74%)
+ delete mode 100644 stubs/xen-common.c
 
-diff --git a/hw/usb/hcd-musb.c b/hw/usb/hcd-musb.c
-index 5ab13feb3a..85f5ff5bd4 100644
---- a/hw/usb/hcd-musb.c
-+++ b/hw/usb/hcd-musb.c
-@@ -1540,13 +1540,13 @@ static void musb_writew(void *opaque, hwaddr addr, uint32_t value)
-     };
- }
+diff --git a/accel/stubs/Makefile.objs b/accel/stubs/Makefile.objs
+index 3894caf95d..bbd14e71fb 100644
+--- a/accel/stubs/Makefile.objs
++++ b/accel/stubs/Makefile.objs
+@@ -3,3 +3,4 @@ obj-$(call lnot,$(CONFIG_HVF))  += hvf-stub.o
+ obj-$(call lnot,$(CONFIG_WHPX)) += whpx-stub.o
+ obj-$(call lnot,$(CONFIG_KVM))  += kvm-stub.o
+ obj-$(call lnot,$(CONFIG_TCG))  += tcg-stub.o
++obj-$(call lnot,$(CONFIG_XEN))  += xen-stub.o
+diff --git a/stubs/xen-hvm.c b/accel/stubs/xen-stub.c
+similarity index 74%
+rename from stubs/xen-hvm.c
+rename to accel/stubs/xen-stub.c
+index 6954a5b696..dcca4e678a 100644
+--- a/stubs/xen-hvm.c
++++ b/accel/stubs/xen-stub.c
+@@ -1,18 +1,18 @@
+ /*
+- * Copyright (C) 2010       Citrix Ltd.
++ * Copyright (C) 2014       Citrix Systems UK Ltd.
+  *
+- * This work is licensed under the terms of the GNU GPL, version 2.  See
+- * the COPYING file in the top-level directory.
+- *
+- * Contributions after 2012-01-13 are licensed under the terms of the
+- * GNU GPL, version 2 or (at your option) any later version.
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
+  */
  
--CPUReadMemoryFunc * const musb_read[] = {
-+MUSBReadFunc * const musb_read[] = {
-     musb_readb,
-     musb_readh,
-     musb_readw,
- };
+ #include "qemu/osdep.h"
+ #include "hw/xen/xen.h"
+-#include "exec/memory.h"
+ #include "qapi/qapi-commands-misc.h"
  
--CPUWriteMemoryFunc * const musb_write[] = {
-+MUSBWriteFunc * const musb_write[] = {
-     musb_writeb,
-     musb_writeh,
-     musb_writew,
-diff --git a/include/exec/cpu-common.h b/include/exec/cpu-common.h
-index b47e5630e7..d5e285d2b5 100644
---- a/include/exec/cpu-common.h
-+++ b/include/exec/cpu-common.h
-@@ -43,9 +43,6 @@ extern ram_addr_t ram_size;
++void xenstore_store_pv_console_info(int i, Chardev *chr)
++{
++}
++
+ int xen_pci_slot_get_pirq(PCIDevice *pci_dev, int irq_num)
+ {
+     return -1;
+diff --git a/stubs/Makefile.objs b/stubs/Makefile.objs
+index c1e43ac68f..28e48171d1 100644
+--- a/stubs/Makefile.objs
++++ b/stubs/Makefile.objs
+@@ -49,7 +49,5 @@ stub-obj-y += target-get-monitor-def.o
+ stub-obj-y += target-monitor-defs.o
+ stub-obj-y += uuid.o
+ stub-obj-y += vm-stop.o
+-stub-obj-y += xen-common.o
+-stub-obj-y += xen-hvm.o
  
- /* memory API */
- 
--typedef void CPUWriteMemoryFunc(void *opaque, hwaddr addr, uint32_t value);
--typedef uint32_t CPUReadMemoryFunc(void *opaque, hwaddr addr);
+ endif # CONFIG_SOFTMMU || CONFIG_TOOLS
+diff --git a/stubs/xen-common.c b/stubs/xen-common.c
+deleted file mode 100644
+index f5efcae362..0000000000
+--- a/stubs/xen-common.c
++++ /dev/null
+@@ -1,13 +0,0 @@
+-/*
+- * Copyright (C) 2014       Citrix Systems UK Ltd.
+- *
+- * This work is licensed under the terms of the GNU GPL, version 2 or later.
+- * See the COPYING file in the top-level directory.
+- */
 -
- void qemu_ram_remap(ram_addr_t addr, ram_addr_t length);
- /* This should not be used by devices.  */
- ram_addr_t qemu_ram_addr_from_host(void *ptr);
-diff --git a/include/hw/usb/hcd-musb.h b/include/hw/usb/hcd-musb.h
-index 26b50132ff..c874b9f292 100644
---- a/include/hw/usb/hcd-musb.h
-+++ b/include/hw/usb/hcd-musb.h
-@@ -13,8 +13,6 @@
- #ifndef HW_USB_MUSB_H
- #define HW_USB_MUSB_H
- 
--#include "exec/cpu-common.h"
+-#include "qemu/osdep.h"
+-#include "hw/xen/xen.h"
 -
- enum musb_irq_source_e {
-     musb_irq_suspend = 0,
-     musb_irq_resume,
-@@ -32,8 +30,11 @@ enum musb_irq_source_e {
-     musb_irq_max /* total number of interrupts defined */
- };
- 
--extern CPUReadMemoryFunc * const musb_read[];
--extern CPUWriteMemoryFunc * const musb_write[];
-+/* TODO convert hcd-musb to QOM/qdev and remove MUSBReadFunc/MUSBWriteFunc */
-+typedef void MUSBWriteFunc(void *opaque, hwaddr addr, uint32_t value);
-+typedef uint32_t MUSBReadFunc(void *opaque, hwaddr addr);
-+extern MUSBReadFunc * const musb_read[];
-+extern MUSBWriteFunc * const musb_write[];
- 
- typedef struct MUSBState MUSBState;
- 
+-void xenstore_store_pv_console_info(int i, Chardev *chr)
+-{
+-}
 -- 
 2.26.2
 
