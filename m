@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 603891F674D
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 13:58:52 +0200 (CEST)
-Received: from localhost ([::1]:34394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B9F31F6755
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 13:59:59 +0200 (CEST)
+Received: from localhost ([::1]:38654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjLr9-0003gl-EV
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 07:58:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57350)
+	id 1jjLsE-0005P9-GL
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 07:59:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1jjLpA-0001Bw-8O
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 07:56:49 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:40960)
+ id 1jjLqp-0003y0-8F
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 07:58:31 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:2450)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1jjLp9-0005X2-9y
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 07:56:47 -0400
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ id 1jjLqo-0005iq-6a
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 07:58:30 -0400
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 05BBWacP069035; Thu, 11 Jun 2020 07:56:42 -0400
+ 05BBXBNR053474; Thu, 11 Jun 2020 07:58:27 -0400
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 31kjdxbba2-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 31ka4j5n5n-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 11 Jun 2020 07:56:41 -0400
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 05BBbrLC096616;
- Thu, 11 Jun 2020 07:56:40 -0400
-Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
- [169.63.121.186])
- by mx0a-001b2d01.pphosted.com with ESMTP id 31kjdxbb94-1
+ Thu, 11 Jun 2020 07:58:26 -0400
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 05BBv1Sx148372;
+ Thu, 11 Jun 2020 07:58:25 -0400
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.11])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 31ka4j5n54-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 11 Jun 2020 07:56:40 -0400
-Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
- by ppma03wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 05BBtZel024603;
- Thu, 11 Jun 2020 11:56:38 GMT
-Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com
- [9.57.198.24]) by ppma03wdc.us.ibm.com with ESMTP id 31gxfkp661-1
+ Thu, 11 Jun 2020 07:58:25 -0400
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+ by ppma03dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 05BBtHJV000860;
+ Thu, 11 Jun 2020 11:58:23 GMT
+Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
+ [9.57.198.26]) by ppma03dal.us.ibm.com with ESMTP id 31hw1c5v9n-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 11 Jun 2020 11:56:38 +0000
+ Thu, 11 Jun 2020 11:58:23 +0000
 Received: from b01ledav004.gho.pok.ibm.com (b01ledav004.gho.pok.ibm.com
  [9.57.199.109])
- by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 05BBucwl47448474
+ by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 05BBvMO336504034
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 11 Jun 2020 11:56:38 GMT
+ Thu, 11 Jun 2020 11:57:22 GMT
 Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 550B2112063;
- Thu, 11 Jun 2020 11:56:38 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 6609F112065;
+ Thu, 11 Jun 2020 11:57:22 +0000 (GMT)
 Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3DD1A112064;
- Thu, 11 Jun 2020 11:56:38 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 51900112061;
+ Thu, 11 Jun 2020 11:57:22 +0000 (GMT)
 Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
  by b01ledav004.gho.pok.ibm.com (Postfix) with ESMTP;
- Thu, 11 Jun 2020 11:56:38 +0000 (GMT)
-Subject: Re: [PATCH 5/8] hw/tpm: Move few declarations from 'tpm_util.h' to
- 'tpm_int.h'
+ Thu, 11 Jun 2020 11:57:22 +0000 (GMT)
+Subject: Re: [PATCH 6/8] hw/tpm: Move DEFINE_PROP_TPMBE() macro to
+ 'tmp_prop.h' local header
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
 References: <20200610200247.21378-1-philmd@redhat.com>
- <20200610200247.21378-6-philmd@redhat.com>
+ <20200610200247.21378-7-philmd@redhat.com>
 From: Stefan Berger <stefanb@linux.ibm.com>
-Message-ID: <eec86086-837e-5db3-e4fc-433497ca9ea5@linux.ibm.com>
-Date: Thu, 11 Jun 2020 07:56:38 -0400
+Message-ID: <4c9361f0-b945-1065-e98f-32ec246e4abb@linux.ibm.com>
+Date: Thu, 11 Jun 2020 07:57:22 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200610200247.21378-6-philmd@redhat.com>
+In-Reply-To: <20200610200247.21378-7-philmd@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
@@ -77,15 +77,16 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.687
  definitions=2020-06-11_10:2020-06-10,
  2020-06-11 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 suspectscore=0
- impostorscore=0 phishscore=0 spamscore=0 cotscore=-2147483648 adultscore=0
- bulkscore=0 priorityscore=1501 mlxlogscore=999 lowpriorityscore=0
- mlxscore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2004280000 definitions=main-2006110087
+ mlxscore=0 adultscore=0
+ malwarescore=0 mlxlogscore=999 spamscore=0 phishscore=0 clxscore=1015
+ priorityscore=1501 bulkscore=0 suspectscore=0 impostorscore=0
+ lowpriorityscore=0 cotscore=-2147483648 classifier=spam adjust=0
+ reason=mlx scancount=1 engine=8.12.0-2004280000
+ definitions=main-2006110087
 Received-SPF: pass client-ip=148.163.156.1; envelope-from=stefanb@linux.ibm.com;
  helo=mx0a-001b2d01.pphosted.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 07:55:30
-X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
@@ -113,8 +114,10 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 6/10/20 4:02 PM, Philippe Mathieu-Daudé wrote:
 > We are going to make "tpm_util.h" publicly accessible by
-> moving it to the include/ directory in a pair of commits.
-> Keep declarations internals to hw/tpm/ in "tpm_int.h".
+> moving it to the include/ directory in the next commit.
+> The DEFINE_PROP_TPMBE() macro is only meaningful for the
+> TPM hardware files (in hw/tpm/), so keep this macro in a
+> local header.
 >
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
@@ -122,60 +125,115 @@ Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
 
 
 > ---
->   hw/tpm/tpm_int.h  | 11 +++++++++++
->   hw/tpm/tpm_util.h | 10 ----------
->   2 files changed, 11 insertions(+), 10 deletions(-)
+>   hw/tpm/tpm_prop.h       | 31 +++++++++++++++++++++++++++++++
+>   hw/tpm/tpm_util.h       |  3 ---
+>   hw/tpm/tpm_crb.c        |  1 +
+>   hw/tpm/tpm_spapr.c      |  1 +
+>   hw/tpm/tpm_tis_isa.c    |  2 +-
+>   hw/tpm/tpm_tis_sysbus.c |  2 +-
+>   6 files changed, 35 insertions(+), 5 deletions(-)
+>   create mode 100644 hw/tpm/tpm_prop.h
 >
-> diff --git a/hw/tpm/tpm_int.h b/hw/tpm/tpm_int.h
-> index fd5ebc6489..9f72879d89 100644
-> --- a/hw/tpm/tpm_int.h
-> +++ b/hw/tpm/tpm_int.h
-> @@ -13,6 +13,7 @@
->   #define TPM_TPM_INT_H
->   
->   #include "qemu/option.h"
-> +#include "sysemu/tpm.h"
->   
->   #define TPM_STANDARD_CMDLINE_OPTS \
->       { \
-> @@ -74,4 +75,14 @@ struct tpm_resp_hdr {
->   #define TPM_RC_FAILURE            0x101
->   #define TPM_RC_LOCALITY           0x907
->   
-> +int tpm_util_get_buffer_size(int tpm_fd, TPMVersion tpm_version,
-> +                             size_t *buffersize);
+> diff --git a/hw/tpm/tpm_prop.h b/hw/tpm/tpm_prop.h
+> new file mode 100644
+> index 0000000000..85e1ae5718
+> --- /dev/null
+> +++ b/hw/tpm/tpm_prop.h
+> @@ -0,0 +1,31 @@
+> +/*
+> + * TPM utility functions
+> + *
+> + *  Copyright (c) 2010 - 2015 IBM Corporation
+> + *  Authors:
+> + *    Stefan Berger <stefanb@us.ibm.com>
+> + *
+> + * This library is free software; you can redistribute it and/or
+> + * modify it under the terms of the GNU Lesser General Public
+> + * License as published by the Free Software Foundation; either
+> + * version 2 of the License, or (at your option) any later version.
+> + *
+> + * This library is distributed in the hope that it will be useful,
+> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+> + * Lesser General Public License for more details.
+> + *
+> + * You should have received a copy of the GNU Lesser General Public
+> + * License along with this library; if not, see <http://www.gnu.org/licenses/>
+> + */
 > +
-> +typedef struct TPMSizedBuffer {
-> +    uint32_t size;
-> +    uint8_t  *buffer;
-> +} TPMSizedBuffer;
+> +#ifndef HW_TPM_PROP_H
+> +#define HW_TPM_PROP_H
 > +
-> +void tpm_sized_buffer_reset(TPMSizedBuffer *tsb);
+> +#include "sysemu/tpm_backend.h"
+> +#include "hw/qdev-properties.h"
 > +
->   #endif /* TPM_TPM_INT_H */
+> +#define DEFINE_PROP_TPMBE(_n, _s, _f)                     \
+> +    DEFINE_PROP(_n, _s, _f, qdev_prop_tpm, TPMBackend *)
+> +
+> +#endif /* HW_TPM_PROP_H */
 > diff --git a/hw/tpm/tpm_util.h b/hw/tpm/tpm_util.h
-> index 7889081fba..d524935576 100644
+> index d524935576..cf61d830d7 100644
 > --- a/hw/tpm/tpm_util.h
 > +++ b/hw/tpm/tpm_util.h
-> @@ -66,19 +66,9 @@ static inline void tpm_cmd_set_error(void *b, uint32_t error)
+> @@ -66,9 +66,6 @@ static inline void tpm_cmd_set_error(void *b, uint32_t error)
 >       stl_be_p(b + 6, error);
 >   }
 >   
-> -int tpm_util_get_buffer_size(int tpm_fd, TPMVersion tpm_version,
-> -                             size_t *buffersize);
-> -
->   #define DEFINE_PROP_TPMBE(_n, _s, _f)                     \
->       DEFINE_PROP(_n, _s, _f, qdev_prop_tpm, TPMBackend *)
->   
-> -typedef struct TPMSizedBuffer {
-> -    uint32_t size;
-> -    uint8_t  *buffer;
-> -} TPMSizedBuffer;
-> -
-> -void tpm_sized_buffer_reset(TPMSizedBuffer *tsb);
+> -#define DEFINE_PROP_TPMBE(_n, _s, _f)                     \
+> -    DEFINE_PROP(_n, _s, _f, qdev_prop_tpm, TPMBackend *)
 > -
 >   void tpm_util_show_buffer(const unsigned char *buffer,
 >                             size_t buffer_size, const char *string);
+>   
+> diff --git a/hw/tpm/tpm_crb.c b/hw/tpm/tpm_crb.c
+> index 664ff70ef9..1cac4d671d 100644
+> --- a/hw/tpm/tpm_crb.c
+> +++ b/hw/tpm/tpm_crb.c
+> @@ -25,6 +25,7 @@
+>   #include "migration/vmstate.h"
+>   #include "sysemu/tpm_backend.h"
+>   #include "sysemu/reset.h"
+> +#include "tpm_prop.h"
+>   #include "tpm_util.h"
+>   #include "tpm_ppi.h"
+>   #include "trace.h"
+> diff --git a/hw/tpm/tpm_spapr.c b/hw/tpm/tpm_spapr.c
+> index ab1a86ad6e..65672048c7 100644
+> --- a/hw/tpm/tpm_spapr.c
+> +++ b/hw/tpm/tpm_spapr.c
+> @@ -21,6 +21,7 @@
+>   
+>   #include "sysemu/tpm_backend.h"
+>   #include "tpm_util.h"
+> +#include "tpm_prop.h"
+>   
+>   #include "hw/ppc/spapr.h"
+>   #include "hw/ppc/spapr_vio.h"
+> diff --git a/hw/tpm/tpm_tis_isa.c b/hw/tpm/tpm_tis_isa.c
+> index 42f909ff1e..5faf6231c0 100644
+> --- a/hw/tpm/tpm_tis_isa.c
+> +++ b/hw/tpm/tpm_tis_isa.c
+> @@ -27,7 +27,7 @@
+>   #include "hw/qdev-properties.h"
+>   #include "migration/vmstate.h"
+>   #include "hw/acpi/tpm.h"
+> -#include "tpm_util.h"
+> +#include "tpm_prop.h"
+>   #include "tpm_tis.h"
+>   
+>   typedef struct TPMStateISA {
+> diff --git a/hw/tpm/tpm_tis_sysbus.c b/hw/tpm/tpm_tis_sysbus.c
+> index edca1dae0d..4a3bc70625 100644
+> --- a/hw/tpm/tpm_tis_sysbus.c
+> +++ b/hw/tpm/tpm_tis_sysbus.c
+> @@ -26,7 +26,7 @@
+>   #include "hw/qdev-properties.h"
+>   #include "migration/vmstate.h"
+>   #include "hw/acpi/tpm.h"
+> -#include "tpm_util.h"
+> +#include "tpm_prop.h"
+>   #include "hw/sysbus.h"
+>   #include "tpm_tis.h"
 >   
 
 
