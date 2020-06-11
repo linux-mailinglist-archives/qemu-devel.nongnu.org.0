@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A2931F6ED0
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 22:33:14 +0200 (CEST)
-Received: from localhost ([::1]:36274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E06DE1F6ED6
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 22:35:12 +0200 (CEST)
+Received: from localhost ([::1]:44466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjTsv-0007ym-6X
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 16:33:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55978)
+	id 1jjTup-0003ke-R8
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 16:35:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jjTAK-0001k4-Gx
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:47:08 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58966
- helo=us-smtp-1.mimecast.com)
+ id 1jjTAO-0001sT-Re
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:47:12 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:32584
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jjTAI-0001PD-GL
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:47:08 -0400
+ id 1jjTAM-0001Ps-Ev
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:47:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591904825;
+ s=mimecast20190719; t=1591904829;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=g+uHjjnAp5c/+6ufY1U7RXcDnUhIgzyjschgUlhs8fQ=;
- b=Cc6y1+lO1ijn3qI1zkwIp5N2v+XVv/vUpI8C3GjlPfc8C6u8aOu4NcsFNMJVShRXe9FCZD
- +wK4BInnTxlkDdHlF//wQWjVl/ivb8HNfDBhCmQeDuSqZRayoM+EqnWI2C5+XEEIC6fYDq
- UFEb4kNDz1B/KrNbwDf3ikS1q4xjvY0=
+ bh=lQvpU4B1D7EDUfj2jopXqI/yW1WBm3Uu35TpnhvGcVs=;
+ b=ijrY6J/GEiN0NwjiXTBU4adP7Vfw4f4vYmNXrjSW5+bLSomjZlD52ehez/lEoaFAUHN1UX
+ Zqenvlu/KRjTePq0C66uWM7MlXZS8JPxmDWt+iaHAWuSPnx8HQVOqtfD1gyCgzLusQ1CXN
+ ZThta4VY9yo4TcDCMkJDNr5FG6igb8w=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-370-Us5AppWfPEOowKH2jjDaVg-1; Thu, 11 Jun 2020 15:47:03 -0400
-X-MC-Unique: Us5AppWfPEOowKH2jjDaVg-1
+ us-mta-456-pNj9KBEBNty97rlrVSzOjQ-1; Thu, 11 Jun 2020 15:47:05 -0400
+X-MC-Unique: pNj9KBEBNty97rlrVSzOjQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CD93584638F;
- Thu, 11 Jun 2020 19:47:02 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3BDDE8015CE;
+ Thu, 11 Jun 2020 19:47:04 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6056A10013D0;
- Thu, 11 Jun 2020 19:47:02 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C2FB110013D0;
+ Thu, 11 Jun 2020 19:47:03 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 095/115] i386: hvf: Drop regs in HVFX86EmulatorState
-Date: Thu, 11 Jun 2020 15:44:29 -0400
-Message-Id: <20200611194449.31468-96-pbonzini@redhat.com>
+Subject: [PULL 097/115] i386: hvf: Move mmio_buf into CPUX86State
+Date: Thu, 11 Jun 2020 15:44:31 -0400
+Message-Id: <20200611194449.31468-98-pbonzini@redhat.com>
 In-Reply-To: <20200611194449.31468-1-pbonzini@redhat.com>
 References: <20200611194449.31468-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -57,9 +57,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 14:52:10
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 14:57:53
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -86,124 +86,105 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Roman Bolshakov <r.bolshakov@yadro.com>
 
-HVFX86EmulatorState carries it's own copy of x86 registers. It can be
-dropped in favor of regs in generic CPUX86State.
+There's no similar field in CPUX86State, but it's needed for MMIO traps.
 
 Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
-Message-Id: <20200528193758.51454-11-r.bolshakov@yadro.com>
+Message-Id: <20200528193758.51454-13-r.bolshakov@yadro.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/hvf/x86.h     | 13 +++++++------
- target/i386/hvf/x86_emu.c | 18 +++++++++---------
- 2 files changed, 16 insertions(+), 15 deletions(-)
+ target/i386/cpu.h         |  1 +
+ target/i386/hvf/hvf.c     |  5 +++++
+ target/i386/hvf/x86.h     |  1 -
+ target/i386/hvf/x86_emu.c | 12 ++++++------
+ 4 files changed, 12 insertions(+), 7 deletions(-)
 
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index 86f4da1b66..da511a23b3 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -1599,6 +1599,7 @@ typedef struct CPUX86State {
+ #endif
+ #if defined(CONFIG_HVF)
+     hvf_lazy_flags hvf_lflags;
++    void *hvf_mmio_buf;
+     HVFX86EmulatorState *hvf_emul;
+ #endif
+ 
+diff --git a/target/i386/hvf/hvf.c b/target/i386/hvf/hvf.c
+index 4cee496d71..57696c46c7 100644
+--- a/target/i386/hvf/hvf.c
++++ b/target/i386/hvf/hvf.c
+@@ -533,7 +533,11 @@ void hvf_reset_vcpu(CPUState *cpu) {
+ 
+ void hvf_vcpu_destroy(CPUState *cpu)
+ {
++    X86CPU *x86_cpu = X86_CPU(cpu);
++    CPUX86State *env = &x86_cpu->env;
++
+     hv_return_t ret = hv_vcpu_destroy((hv_vcpuid_t)cpu->hvf_fd);
++    g_free(env->hvf_mmio_buf);
+     assert_hvf_ok(ret);
+ }
+ 
+@@ -563,6 +567,7 @@ int hvf_init_vcpu(CPUState *cpu)
+     init_decoder();
+ 
+     hvf_state->hvf_caps = g_new0(struct hvf_vcpu_caps, 1);
++    env->hvf_mmio_buf = g_new(char, 4096);
+     env->hvf_emul = g_new0(HVFX86EmulatorState, 1);
+ 
+     r = hv_vcpu_create((hv_vcpuid_t *)&cpu->hvf_fd, HV_VCPU_DEFAULT);
 diff --git a/target/i386/hvf/x86.h b/target/i386/hvf/x86.h
-index f0d03faff9..6048b5cc74 100644
+index 2363616c07..483fcea762 100644
 --- a/target/i386/hvf/x86.h
 +++ b/target/i386/hvf/x86.h
-@@ -235,13 +235,14 @@ typedef struct lazy_flags {
+@@ -230,7 +230,6 @@ typedef struct x68_segment_selector {
  
  /* Definition of hvf_x86_state is here */
  struct HVFX86EmulatorState {
--    struct x86_register regs[16];
-     struct lazy_flags   lflags;
-     uint8_t mmio_buf[4096];
+-    uint8_t mmio_buf[4096];
  };
  
  /* useful register access  macros */
--#define RRX(cpu, reg) (cpu->hvf_emul->regs[reg].rrx)
-+#define x86_reg(cpu, reg) ((x86_register *) &cpu->regs[reg])
-+
-+#define RRX(cpu, reg)   (x86_reg(cpu, reg)->rrx)
- #define RAX(cpu)        RRX(cpu, R_EAX)
- #define RCX(cpu)        RRX(cpu, R_ECX)
- #define RDX(cpu)        RRX(cpu, R_EDX)
-@@ -259,7 +260,7 @@ struct HVFX86EmulatorState {
- #define R14(cpu)        RRX(cpu, R_R14)
- #define R15(cpu)        RRX(cpu, R_R15)
- 
--#define ERX(cpu, reg)   (cpu->hvf_emul->regs[reg].erx)
-+#define ERX(cpu, reg)   (x86_reg(cpu, reg)->erx)
- #define EAX(cpu)        ERX(cpu, R_EAX)
- #define ECX(cpu)        ERX(cpu, R_ECX)
- #define EDX(cpu)        ERX(cpu, R_EDX)
-@@ -269,7 +270,7 @@ struct HVFX86EmulatorState {
- #define ESI(cpu)        ERX(cpu, R_ESI)
- #define EDI(cpu)        ERX(cpu, R_EDI)
- 
--#define RX(cpu, reg)   (cpu->hvf_emul->regs[reg].rx)
-+#define RX(cpu, reg)   (x86_reg(cpu, reg)->rx)
- #define AX(cpu)        RX(cpu, R_EAX)
- #define CX(cpu)        RX(cpu, R_ECX)
- #define DX(cpu)        RX(cpu, R_EDX)
-@@ -279,13 +280,13 @@ struct HVFX86EmulatorState {
- #define SI(cpu)        RX(cpu, R_ESI)
- #define DI(cpu)        RX(cpu, R_EDI)
- 
--#define RL(cpu, reg)   (cpu->hvf_emul->regs[reg].lx)
-+#define RL(cpu, reg)   (x86_reg(cpu, reg)->lx)
- #define AL(cpu)        RL(cpu, R_EAX)
- #define CL(cpu)        RL(cpu, R_ECX)
- #define DL(cpu)        RL(cpu, R_EDX)
- #define BL(cpu)        RL(cpu, R_EBX)
- 
--#define RH(cpu, reg)   (cpu->hvf_emul->regs[reg].hx)
-+#define RH(cpu, reg)   (x86_reg(cpu, reg)->hx)
- #define AH(cpu)        RH(cpu, R_EAX)
- #define CH(cpu)        RH(cpu, R_ECX)
- #define DH(cpu)        RH(cpu, R_EDX)
 diff --git a/target/i386/hvf/x86_emu.c b/target/i386/hvf/x86_emu.c
-index 04fac64e72..1ad2c30e16 100644
+index 1ad2c30e16..d3e289ed87 100644
 --- a/target/i386/hvf/x86_emu.c
 +++ b/target/i386/hvf/x86_emu.c
-@@ -95,13 +95,13 @@ target_ulong read_reg(CPUX86State *env, int reg, int size)
- {
-     switch (size) {
-     case 1:
--        return env->hvf_emul->regs[reg].lx;
-+        return x86_reg(env, reg)->lx;
-     case 2:
--        return env->hvf_emul->regs[reg].rx;
-+        return x86_reg(env, reg)->rx;
-     case 4:
--        return env->hvf_emul->regs[reg].erx;
-+        return x86_reg(env, reg)->erx;
-     case 8:
--        return env->hvf_emul->regs[reg].rrx;
-+        return x86_reg(env, reg)->rrx;
-     default:
-         abort();
-     }
-@@ -112,16 +112,16 @@ void write_reg(CPUX86State *env, int reg, target_ulong val, int size)
- {
-     switch (size) {
-     case 1:
--        env->hvf_emul->regs[reg].lx = val;
-+        x86_reg(env, reg)->lx = val;
-         break;
-     case 2:
--        env->hvf_emul->regs[reg].rx = val;
-+        x86_reg(env, reg)->rx = val;
-         break;
-     case 4:
--        env->hvf_emul->regs[reg].rrx = (uint32_t)val;
-+        x86_reg(env, reg)->rrx = (uint32_t)val;
-         break;
-     case 8:
--        env->hvf_emul->regs[reg].rrx = val;
-+        x86_reg(env, reg)->rrx = val;
-         break;
-     default:
-         abort();
-@@ -173,7 +173,7 @@ void write_val_to_reg(target_ulong reg_ptr, target_ulong val, int size)
+@@ -187,8 +187,8 @@ void write_val_ext(struct CPUX86State *env, target_ulong ptr, target_ulong val,
  
- static bool is_host_reg(struct CPUX86State *env, target_ulong ptr)
+ uint8_t *read_mmio(struct CPUX86State *env, target_ulong ptr, int bytes)
  {
--    return (ptr - (target_ulong)&env->hvf_emul->regs[0]) < sizeof(env->hvf_emul->regs);
-+    return (ptr - (target_ulong)&env->regs[0]) < sizeof(env->regs);
+-    vmx_read_mem(env_cpu(env), env->hvf_emul->mmio_buf, ptr, bytes);
+-    return env->hvf_emul->mmio_buf;
++    vmx_read_mem(env_cpu(env), env->hvf_mmio_buf, ptr, bytes);
++    return env->hvf_mmio_buf;
  }
  
- void write_val_ext(struct CPUX86State *env, target_ulong ptr, target_ulong val, int size)
+ 
+@@ -489,9 +489,9 @@ static void exec_ins_single(struct CPUX86State *env, struct x86_decode *decode)
+     target_ulong addr = linear_addr_size(env_cpu(env), RDI(env),
+                                          decode->addressing_size, R_ES);
+ 
+-    hvf_handle_io(env_cpu(env), DX(env), env->hvf_emul->mmio_buf, 0,
++    hvf_handle_io(env_cpu(env), DX(env), env->hvf_mmio_buf, 0,
+                   decode->operand_size, 1);
+-    vmx_write_mem(env_cpu(env), addr, env->hvf_emul->mmio_buf,
++    vmx_write_mem(env_cpu(env), addr, env->hvf_mmio_buf,
+                   decode->operand_size);
+ 
+     string_increment_reg(env, R_EDI, decode);
+@@ -512,9 +512,9 @@ static void exec_outs_single(struct CPUX86State *env, struct x86_decode *decode)
+ {
+     target_ulong addr = decode_linear_addr(env, decode, RSI(env), R_DS);
+ 
+-    vmx_read_mem(env_cpu(env), env->hvf_emul->mmio_buf, addr,
++    vmx_read_mem(env_cpu(env), env->hvf_mmio_buf, addr,
+                  decode->operand_size);
+-    hvf_handle_io(env_cpu(env), DX(env), env->hvf_emul->mmio_buf, 1,
++    hvf_handle_io(env_cpu(env), DX(env), env->hvf_mmio_buf, 1,
+                   decode->operand_size, 1);
+ 
+     string_increment_reg(env, R_ESI, decode);
 -- 
 2.26.2
 
