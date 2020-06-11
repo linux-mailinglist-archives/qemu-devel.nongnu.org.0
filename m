@@ -2,54 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 953351F6EB8
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 22:27:37 +0200 (CEST)
-Received: from localhost ([::1]:46620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9677C1F6EA4
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 22:20:22 +0200 (CEST)
+Received: from localhost ([::1]:49334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjTnU-000059-LK
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 16:27:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55820)
+	id 1jjTgS-0004PH-FT
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 16:20:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jjTAD-0001VQ-4V
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:47:01 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:44108
+ id 1jjTA9-0001PU-J9
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:46:57 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47704
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jjTAB-0001N5-8u
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:47:00 -0400
+ id 1jjTA7-0001M2-Ey
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:46:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591904818;
+ s=mimecast20190719; t=1591904814;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dvnqahXf1d5rfZTpxY9l3gz0FJxljM6WL4LK/RhTZRI=;
- b=N51qkyWAAeCe6+shJ95tQKPgs6e1BlJx7iN7D5GnUzpMmenjIN8uYaKXC0IsakWvMYLIQF
- iDsmubGd8z1TyjJcuNY3MnYBhpd4C6HwWlS0c17d1zzuA/lxZ/0ac3xJQwV9vD58AlA4m2
- DH+ks8tKjM8CBAYeTBVKW6Ctxwh2tLY=
+ bh=Mg9ONK0InEVWqpvTKJWUqO2Fsf0hqgK0J0g+zDJ5GR8=;
+ b=QgKEDzGhsC6eYEjVrQSRbcrUbgNUCq0Sd7kcnbSV1okIgRtCGKO2QmHirZdFMqP6fOQb5q
+ b6a1JAQayLBjie3CmNf37FWPqUO24Z++iGoDKz0wu5iH1nRQAOY0pWg3o1v2Dd091gceDB
+ khEe/GQ6snCqe1yCRTPWs4W7m8W9adE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-57-sXNSvTfgMBWdiur8bDxi7Q-1; Thu, 11 Jun 2020 15:46:53 -0400
-X-MC-Unique: sXNSvTfgMBWdiur8bDxi7Q-1
+ us-mta-27-RY5uj7VXOTuyZSA-2doIeg-1; Thu, 11 Jun 2020 15:46:52 -0400
+X-MC-Unique: RY5uj7VXOTuyZSA-2doIeg-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A492C8B8C64
- for <qemu-devel@nongnu.org>; Thu, 11 Jun 2020 19:46:49 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5AF1583DE6B;
+ Thu, 11 Jun 2020 19:46:50 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4AD0460CC0;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CB16860CD3;
  Thu, 11 Jun 2020 19:46:49 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 078/115] qemu/thread: Mark qemu_thread_exit() with 'noreturn'
- attribute
-Date: Thu, 11 Jun 2020 15:44:12 -0400
-Message-Id: <20200611194449.31468-79-pbonzini@redhat.com>
+Subject: [PULL 079/115] configure: Do not ignore malloc value
+Date: Thu, 11 Jun 2020 15:44:13 -0400
+Message-Id: <20200611194449.31468-80-pbonzini@redhat.com>
 In-Reply-To: <20200611194449.31468-1-pbonzini@redhat.com>
 References: <20200611194449.31468-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -81,41 +80,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Leonid Bloch <lbloch@janustech.com>, Leonid Bloch <lb.workbox@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+From: Leonid Bloch <lbloch@janustech.com>
 
-After upgrading to Ubuntu 20.04 LTS, GCC 9.3 complains:
+Not checking the value of malloc will cause a warning with GCC 10.1,
+which may result in configuration failure, with the following line in
+config.log:
 
-  util/qemu-thread-posix.c: In function ‘qemu_thread_exit’:
-  util/qemu-thread-posix.c:577:6: error: function might be candidate for attribute ‘noreturn’ [-Werror=suggest-attribute=noreturn]
-    577 | void qemu_thread_exit(void *retval)
-        |      ^~~~~~~~~~~~~~~~
+config-temp/qemu-conf.c:2:18: error: ignoring return value of â€˜mallocâ€™ declared with attribute â€˜warn_unused_resultâ€™ [-Werror=unused-result]
+    2 | int main(void) { malloc(1); return 0; }
+      |                  ^~~~~~~~~
 
-Fix by marking the qemu_thread_exit function with QEMU_NORETURN
-to set the 'noreturn' attribute.
-
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Leonid Bloch <lb.workbox@gmail.com>
+Message-Id: <20200524221204.9791-1-lb.workbox@gmail.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/qemu/thread.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ configure | 20 +++++++++++++++++---
+ 1 file changed, 17 insertions(+), 3 deletions(-)
 
-diff --git a/include/qemu/thread.h b/include/qemu/thread.h
-index d22848138e..06c058fb58 100644
---- a/include/qemu/thread.h
-+++ b/include/qemu/thread.h
-@@ -177,7 +177,7 @@ void qemu_thread_create(QemuThread *thread, const char *name,
- void *qemu_thread_join(QemuThread *thread);
- void qemu_thread_get_self(QemuThread *thread);
- bool qemu_thread_is_self(QemuThread *thread);
--void qemu_thread_exit(void *retval);
-+void qemu_thread_exit(void *retval) QEMU_NORETURN;
- void qemu_thread_naming(bool enable);
+diff --git a/configure b/configure
+index 53a6dd0297..dbc16b5656 100755
+--- a/configure
++++ b/configure
+@@ -4587,7 +4587,13 @@ fi
+ if test "$tcmalloc" = "yes" ; then
+   cat > $TMPC << EOF
+ #include <stdlib.h>
+-int main(void) { malloc(1); return 0; }
++int main(void) {
++    void *tmp = malloc(1);
++    if (tmp != NULL) {
++        return 0;
++    }
++    return 1;
++}
+ EOF
  
- struct Notifier;
+   if compile_prog "" "-ltcmalloc" ; then
+@@ -4603,7 +4609,13 @@ fi
+ if test "$jemalloc" = "yes" ; then
+   cat > $TMPC << EOF
+ #include <stdlib.h>
+-int main(void) { malloc(1); return 0; }
++int main(void) {
++    void *tmp = malloc(1);
++    if (tmp != NULL) {
++        return 0;
++    }
++    return 1;
++}
+ EOF
+ 
+   if compile_prog "" "-ljemalloc" ; then
+@@ -6164,7 +6176,9 @@ if test "$sanitizers" = "yes" ; then
+ #include <stdlib.h>
+ int main(void) {
+     void *tmp = malloc(10);
+-    return *(int *)(tmp + 2);
++    if (tmp != NULL) {
++        return *(int *)(tmp + 2);
++    }
+ }
+ EOF
+   if compile_prog "$CPU_CFLAGS -Werror -fsanitize=undefined" ""; then
 -- 
 2.26.2
 
