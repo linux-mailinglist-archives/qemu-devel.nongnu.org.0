@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDA3D1F698E
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 16:02:37 +0200 (CEST)
-Received: from localhost ([::1]:60106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A2EA1F6999
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 16:07:01 +0200 (CEST)
+Received: from localhost ([::1]:41500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjNmu-0004Di-QD
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 10:02:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51934)
+	id 1jjNrA-0001gc-9n
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 10:07:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52012)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1jjNkL-0002YB-IE
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 09:59:57 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:42053
+ id 1jjNkR-0002hY-KF
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 10:00:03 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:37758
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1jjNkK-0002Bi-1h
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 09:59:57 -0400
+ id 1jjNkQ-0002CB-AU
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 10:00:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591883995;
+ s=mimecast20190719; t=1591884001;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=l/tsqs0CV87SZ1ggKjgE+gFxoq7g2D7z8Ikszig2jYc=;
- b=BtMhGgC/SdQlBoSpOXzkhY73qRGaNihb11Cp7/wnn7yhuI9PoJsnkD1yo0JCnbXnq21Y3f
- OHuPnmkCEANr+pT+YzroJ3DbuH7hDJ8ga1QbaFYPdL0LGF69sX/LM5ojjuiOMX2/g4C7xy
- p0Ldq6rfEpu5Xd/cFguIC2RZ0wwI+Pw=
+ bh=ntfG//GL1YECO3Gr8H+WJTmhryn3WPZswXVXiuSUlM0=;
+ b=FjvYEXfsAZX0BiOUAi2987L8/AS+H77N5ziDMWE7d3UIhVoNpFWaUaLylFpaC/qFsYDiG7
+ +T7phkcnHjm2g1CZkNLdjSfWsu/Gt4u4XHWqxadJ4bDfNHg1KUwHr181Fi3EK17bWiZZbU
+ 64Zpha37AvFpWGyfvMvn5+NV9Kku/bI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-225-zQf7JofQNBSF6NrVhN50HQ-1; Thu, 11 Jun 2020 09:59:53 -0400
-X-MC-Unique: zQf7JofQNBSF6NrVhN50HQ-1
+ us-mta-420-51YW-kWENCm7rRCE0IqFGQ-1; Thu, 11 Jun 2020 09:59:57 -0400
+X-MC-Unique: 51YW-kWENCm7rRCE0IqFGQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8751D1005513;
- Thu, 11 Jun 2020 13:59:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 084EF801503;
+ Thu, 11 Jun 2020 13:59:56 +0000 (UTC)
 Received: from laptop.redhat.com (ovpn-114-197.ams2.redhat.com [10.36.114.197])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6A5785D9DC;
- Thu, 11 Jun 2020 13:59:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DE4205D9DC;
+ Thu, 11 Jun 2020 13:59:52 +0000 (UTC)
 From: Eric Auger <eric.auger@redhat.com>
 To: eric.auger.pro@gmail.com, eric.auger@redhat.com, stefanb@linux.ibm.com,
  qemu-devel@nongnu.org, qemu-arm@nongnu.org, peter.maydell@linaro.org,
  mst@redhat.com, shannon.zhaosl@gmail.com, imammedo@redhat.com
-Subject: [PATCH v4 3/5] arm/acpi: TPM2 ACPI table support
-Date: Thu, 11 Jun 2020 15:59:15 +0200
-Message-Id: <20200611135917.18300-4-eric.auger@redhat.com>
+Subject: [PATCH v4 4/5] arm/acpi: Add the TPM2.0 device under the DSDT
+Date: Thu, 11 Jun 2020 15:59:16 +0200
+Message-Id: <20200611135917.18300-5-eric.auger@redhat.com>
 In-Reply-To: <20200611135917.18300-1-eric.auger@redhat.com>
 References: <20200611135917.18300-1-eric.auger@redhat.com>
 MIME-Version: 1.0
@@ -58,8 +58,8 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=eric.auger@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
+Received-SPF: pass client-ip=205.139.110.61;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 03:29:33
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
@@ -86,94 +86,91 @@ Cc: marcandre.lureau@redhat.com, drjones@redhat.com, lersek@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a TPM2 ACPI table if a TPM2.0 sysbus device has been
-dynamically instantiated.
+In case it is dynamically instantiated, add the TPM 2.0 device object
+under the DSDT table in the ACPI namespace. Its HID is MSFT0101
+while its current resource settings (CRS) property is initialized
+with the guest physical address and MMIO size of the device.
 
 Signed-off-by: Eric Auger <eric.auger@redhat.com>
+Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
 
 ---
+
+v3 -> v4:
+- check the presence of the tpm in acpi_dsdt_add_tpm
+  as it was done in v2
 
 v2 -> v3:
-- do not to need to create the log area anymore
+- use SYS_BUS_DEVICE() instead of
+  (SysBusDevice *)object_dynamic_cast(OBJECT())
 
 v1 -> v2:
-- reuse generic build_tpm2() and alloc log area externally
-- call tpm_find() once in build_tpm2()
+- use memory_region_size
+- fix mingw compilation issue by casting to uint32_t
+- added Stefan's R-b
 ---
- include/sysemu/tpm.h     | 2 ++
- hw/acpi/aml-build.c      | 5 +++--
- hw/arm/virt-acpi-build.c | 7 +++++++
- 3 files changed, 12 insertions(+), 2 deletions(-)
+ hw/arm/virt-acpi-build.c | 34 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 34 insertions(+)
 
-diff --git a/include/sysemu/tpm.h b/include/sysemu/tpm.h
-index f37851b1aa..03fb25941c 100644
---- a/include/sysemu/tpm.h
-+++ b/include/sysemu/tpm.h
-@@ -50,6 +50,8 @@ typedef struct TPMIfClass {
- 
- #define TPM_IS_TIS_ISA(chr)                         \
-     object_dynamic_cast(OBJECT(chr), TYPE_TPM_TIS_ISA)
-+#define TPM_IS_TIS_SYSBUS(chr)                      \
-+    object_dynamic_cast(OBJECT(chr), TYPE_TPM_TIS_SYSBUS)
- #define TPM_IS_CRB(chr)                             \
-     object_dynamic_cast(OBJECT(chr), TYPE_TPM_CRB)
- #define TPM_IS_SPAPR(chr)                           \
-diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
-index 2a1d9fc839..a0c4d71fe9 100644
---- a/hw/acpi/aml-build.c
-+++ b/hw/acpi/aml-build.c
-@@ -1883,6 +1883,7 @@ void build_tpm2(GArray *table_data, BIOSLinker *linker, GArray *tcpalog)
-     uint8_t start_method_params[12] = {};
-     unsigned log_addr_offset, tpm2_start;
-     uint64_t control_area_start_address;
-+    TPMIf *tpmif = tpm_find();
-     uint32_t start_method;
-     void *tpm2_ptr;
- 
-@@ -1893,10 +1894,10 @@ void build_tpm2(GArray *table_data, BIOSLinker *linker, GArray *tcpalog)
-     build_append_int_noprefix(table_data, TPM2_ACPI_CLASS_CLIENT, 2);
-     /* Reserved */
-     build_append_int_noprefix(table_data, 0, 2);
--    if (TPM_IS_TIS_ISA(tpm_find())) {
-+    if (TPM_IS_TIS_ISA(tpmif) || TPM_IS_TIS_SYSBUS(tpmif)) {
-         control_area_start_address = 0;
-         start_method = TPM2_START_METHOD_MMIO;
--    } else if (TPM_IS_CRB(tpm_find())) {
-+    } else if (TPM_IS_CRB(tpmif)) {
-         control_area_start_address = TPM_CRB_ADDR_CTRL;
-         start_method = TPM2_START_METHOD_CRB;
-     } else {
 diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-index 1b0a584c7b..6d152ab481 100644
+index 6d152ab481..b7277233b3 100644
 --- a/hw/arm/virt-acpi-build.c
 +++ b/hw/arm/virt-acpi-build.c
-@@ -41,12 +41,14 @@
- #include "hw/acpi/pci.h"
- #include "hw/acpi/memory_hotplug.h"
- #include "hw/acpi/generic_event_device.h"
-+#include "hw/acpi/tpm.h"
- #include "hw/pci/pcie_host.h"
+@@ -46,6 +46,7 @@
  #include "hw/pci/pci.h"
  #include "hw/arm/virt.h"
  #include "hw/mem/nvdimm.h"
++#include "hw/platform-bus.h"
  #include "sysemu/numa.h"
  #include "sysemu/reset.h"
-+#include "sysemu/tpm.h"
- #include "kvm_arm.h"
- #include "migration/vmstate.h"
- #include "hw/acpi/ghes.h"
-@@ -844,6 +846,11 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
-         build_iort(tables_blob, tables->linker, vms);
-     }
+ #include "sysemu/tpm.h"
+@@ -364,6 +365,38 @@ static void acpi_dsdt_add_power_button(Aml *scope)
+     aml_append(scope, dev);
+ }
  
-+    if (tpm_get_version(tpm_find()) == TPM_VERSION_2_0) {
-+        acpi_add_table(table_offsets, tables_blob);
-+        build_tpm2(tables_blob, tables->linker, tables->tcpalog);
++static void acpi_dsdt_add_tpm(Aml *scope, VirtMachineState *vms)
++{
++    PlatformBusDevice *pbus = PLATFORM_BUS_DEVICE(vms->platform_bus_dev);
++    hwaddr pbus_base = vms->memmap[VIRT_PLATFORM_BUS].base;
++    SysBusDevice *sbdev = SYS_BUS_DEVICE(tpm_find());
++    MemoryRegion *sbdev_mr;
++    hwaddr tpm_base;
++
++    if (!sbdev) {
++        return;
 +    }
 +
-     /* XSDT is pointed to by RSDP */
-     xsdt = tables_blob->len;
-     build_xsdt(tables_blob, tables->linker, table_offsets, NULL, NULL);
++    tpm_base = platform_bus_get_mmio_addr(pbus, sbdev, 0);
++    assert(tpm_base != -1);
++
++    tpm_base += pbus_base;
++
++    sbdev_mr = sysbus_mmio_get_region(sbdev, 0);
++
++    Aml *dev = aml_device("TPM0");
++    aml_append(dev, aml_name_decl("_HID", aml_string("MSFT0101")));
++    aml_append(dev, aml_name_decl("_UID", aml_int(0)));
++
++    Aml *crs = aml_resource_template();
++    aml_append(crs,
++               aml_memory32_fixed(tpm_base,
++                                  (uint32_t)memory_region_size(sbdev_mr),
++                                  AML_READ_WRITE));
++    aml_append(dev, aml_name_decl("_CRS", crs));
++    aml_append(scope, dev);
++}
++
+ static void
+ build_iort(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+ {
+@@ -758,6 +791,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+     }
+ 
+     acpi_dsdt_add_power_button(scope);
++    acpi_dsdt_add_tpm(scope, vms);
+ 
+     aml_append(dsdt, scope);
+ 
 -- 
 2.20.1
 
