@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22D0C1F6EA7
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 22:22:23 +0200 (CEST)
-Received: from localhost ([::1]:56638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49C4A1F6EB7
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 22:27:13 +0200 (CEST)
+Received: from localhost ([::1]:45248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjTiQ-0008OF-4P
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 16:22:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55070)
+	id 1jjTn6-0007xS-9E
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 16:27:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jjT91-00083C-28
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:45:47 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:59228
- helo=us-smtp-delivery-1.mimecast.com)
+ id 1jjT92-000860-64
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:45:48 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:44893
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jjT8x-000174-MJ
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:45:46 -0400
+ id 1jjT8y-00017q-Hk
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:45:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591904742;
+ s=mimecast20190719; t=1591904743;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=m1RleRQIoquv/E3/k8PdDFQo2pginmbhyLe5m5S/H8I=;
- b=H1TtIVR+EmG2HVLYOBC6isVE2mPUCI0dF4k2e10xxSvJtXMnVeHPKYTxr8BH+XjiKX/Azz
- mcEaGKedt/9f4S759RFJQEFzXypAb5onLOicP4tpxcz5ItPl2V9/wObeO7vDYU1vvrYBx2
- vTg0898X077NR83XDo88KbhUvbXzRtQ=
+ bh=PixQXutwcGEY5jlx8dUr7LAWNxKmNvIVWkqYGwJzOgI=;
+ b=KW3y33LL9Yodz1KZb/Ks+Cjwft9TZ95PWZmoWDHUL8EPK3n3KoSSVDzLqoj8naT8lCHWSN
+ pNT47L1M3crl/bKnbseOYTX9XbX7mkAPJY4xTkjD0mwD4i0x4Szn7C4Q4aPjS+wgfoF5Gr
+ T2RNoKopQxtZ27PuQJbMz3hqFaS7imU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-307-FdaCB6zNO1iajbf3xzfpPQ-1; Thu, 11 Jun 2020 15:45:40 -0400
-X-MC-Unique: FdaCB6zNO1iajbf3xzfpPQ-1
+ us-mta-295-AUEd9WlAOrWLVLnWeRo31Q-1; Thu, 11 Jun 2020 15:45:41 -0400
+X-MC-Unique: AUEd9WlAOrWLVLnWeRo31Q-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D326F80B71E;
- Thu, 11 Jun 2020 19:45:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7CB191800D41;
+ Thu, 11 Jun 2020 19:45:40 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 664132AF4D;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0FCDB61169;
  Thu, 11 Jun 2020 19:45:39 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 061/115] target/i386: fix fxam handling of invalid encodings
-Date: Thu, 11 Jun 2020 15:43:55 -0400
-Message-Id: <20200611194449.31468-62-pbonzini@redhat.com>
+Subject: [PULL 062/115] target/i386: fix fbstp handling of negative zero
+Date: Thu, 11 Jun 2020 15:43:56 -0400
+Message-Id: <20200611194449.31468-63-pbonzini@redhat.com>
 In-Reply-To: <20200611194449.31468-1-pbonzini@redhat.com>
 References: <20200611194449.31468-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -57,16 +57,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 03:29:33
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 08:37:10
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,188 +86,66 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Joseph Myers <joseph@codesourcery.com>
 
-The fxam implementation does not check for invalid encodings, instead
-treating them like NaN or normal numbers depending on the exponent.
-Fix it to check that the high bit of the significand is set before
-treating an encoding as NaN or normal, thus resulting in correct
-handling (all of C0, C2 and C3 cleared) for invalid encodings.
+The fbstp implementation stores +0 when the rounded result should be
+-0 because it compares an integer value with 0 to determine the sign.
+Fix this by checking the sign bit of the operand instead.
 
 Signed-off-by: Joseph Myers <joseph@codesourcery.com>
-Message-Id: <alpine.DEB.2.21.2005132349311.11687@digraph.polyomino.org.uk>
+Message-Id: <alpine.DEB.2.21.2005132350230.11687@digraph.polyomino.org.uk>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/fpu_helper.c        |   4 +-
- tests/tcg/i386/test-i386-fxam.c | 143 ++++++++++++++++++++++++++++++++
- 2 files changed, 145 insertions(+), 2 deletions(-)
- create mode 100644 tests/tcg/i386/test-i386-fxam.c
+ target/i386/fpu_helper.c         |  5 ++++-
+ tests/tcg/i386/test-i386-fbstp.c | 25 +++++++++++++++++++++++++
+ 2 files changed, 29 insertions(+), 1 deletion(-)
+ create mode 100644 tests/tcg/i386/test-i386-fbstp.c
 
 diff --git a/target/i386/fpu_helper.c b/target/i386/fpu_helper.c
-index f0b9cb5de8..185493db8e 100644
+index 185493db8e..f0a57099ca 100644
 --- a/target/i386/fpu_helper.c
 +++ b/target/i386/fpu_helper.c
-@@ -1099,7 +1099,7 @@ void helper_fxam_ST0(CPUX86State *env)
-     if (expdif == MAXEXPD) {
-         if (MANTD(temp) == 0x8000000000000000ULL) {
-             env->fpus |= 0x500; /* Infinity */
--        } else {
-+        } else if (MANTD(temp) & 0x8000000000000000ULL) {
-             env->fpus |= 0x100; /* NaN */
-         }
-     } else if (expdif == 0) {
-@@ -1108,7 +1108,7 @@ void helper_fxam_ST0(CPUX86State *env)
-         } else {
-             env->fpus |= 0x4400; /* Denormal */
-         }
--    } else {
-+    } else if (MANTD(temp) & 0x8000000000000000ULL) {
-         env->fpus |= 0x400;
-     }
- }
-diff --git a/tests/tcg/i386/test-i386-fxam.c b/tests/tcg/i386/test-i386-fxam.c
+@@ -726,11 +726,14 @@ void helper_fbst_ST0(CPUX86State *env, target_ulong ptr)
+     int v;
+     target_ulong mem_ref, mem_end;
+     int64_t val;
++    CPU_LDoubleU temp;
++
++    temp.d = ST0;
+ 
+     val = floatx80_to_int64(ST0, &env->fp_status);
+     mem_ref = ptr;
+     mem_end = mem_ref + 9;
+-    if (val < 0) {
++    if (SIGND(temp)) {
+         cpu_stb_data_ra(env, mem_end, 0x80, GETPC());
+         val = -val;
+     } else {
+diff --git a/tests/tcg/i386/test-i386-fbstp.c b/tests/tcg/i386/test-i386-fbstp.c
 new file mode 100644
-index 0000000000..ddd76ca42d
+index 0000000000..d368949188
 --- /dev/null
-+++ b/tests/tcg/i386/test-i386-fxam.c
-@@ -0,0 +1,143 @@
-+/* Test fxam instruction.  */
++++ b/tests/tcg/i386/test-i386-fbstp.c
+@@ -0,0 +1,25 @@
++/* Test fbstp instruction.  */
 +
-+#include <stdint.h>
 +#include <stdio.h>
-+
-+union u {
-+    struct { uint64_t sig; uint16_t sign_exp; } s;
-+    long double ld;
-+};
-+
-+volatile union u ld_pseudo_m16382 = { .s = { UINT64_C(1) << 63, 0 } };
-+volatile union u ld_pseudo_nm16382 = { .s = { UINT64_C(1) << 63, 0x8000 } };
-+volatile union u ld_invalid_1 = { .s = { 1, 1234 } };
-+volatile union u ld_invalid_2 = { .s = { 0, 1234 } };
-+volatile union u ld_invalid_3 = { .s = { 0, 0x7fff } };
-+volatile union u ld_invalid_4 = { .s = { (UINT64_C(1) << 63) - 1, 0x7fff } };
-+volatile union u ld_invalid_n1 = { .s = { 1, 0x8123 } };
-+volatile union u ld_invalid_n2 = { .s = { 0, 0x8123 } };
-+volatile union u ld_invalid_n3 = { .s = { 0, 0xffff } };
-+volatile union u ld_invalid_n4 = { .s = { (UINT64_C(1) << 63) - 1, 0xffff } };
-+
-+#define C0 (1 << 8)
-+#define C1 (1 << 9)
-+#define C2 (1 << 10)
-+#define C3 (1 << 14)
-+#define FLAGS (C0 | C1 | C2 | C3)
++#include <string.h>
 +
 +int main(void)
 +{
-+    short sw;
 +    int ret = 0;
-+    __asm__ volatile ("fxam\nfnstsw" : "=a" (sw) : "t" (0.0L));
-+    if ((sw & FLAGS) != C3) {
-+        printf("FAIL: +0\n");
++    unsigned char out[10];
++    memset(out, 0xfe, sizeof out);
++    __asm__ volatile ("fbstp %0" : "=m" (out) : "t" (-0.0L) : "st");
++    out[9] &= 0x80;
++    if (memcmp(out, "\0\0\0\0\0\0\0\0\0\x80", sizeof out) != 0) {
++        printf("FAIL: fbstp -0\n");
 +        ret = 1;
 +    }
-+    __asm__ volatile ("fxam\nfnstsw" : "=a" (sw) : "t" (-0.0L));
-+    if ((sw & FLAGS) != (C3 | C1)) {
-+        printf("FAIL: -0\n");
-+        ret = 1;
-+    }
-+    __asm__ volatile ("fxam\nfnstsw" : "=a" (sw) : "t" (1.0L));
-+    if ((sw & FLAGS) != C2) {
-+        printf("FAIL: +normal\n");
-+        ret = 1;
-+    }
-+    __asm__ volatile ("fxam\nfnstsw" : "=a" (sw) : "t" (-1.0L));
-+    if ((sw & FLAGS) != (C2 | C1)) {
-+        printf("FAIL: -normal\n");
-+        ret = 1;
-+    }
-+    __asm__ volatile ("fxam\nfnstsw" : "=a" (sw) : "t" (__builtin_infl()));
-+    if ((sw & FLAGS) != (C2 | C0)) {
-+        printf("FAIL: +inf\n");
-+        ret = 1;
-+    }
-+    __asm__ volatile ("fxam\nfnstsw" : "=a" (sw) : "t" (-__builtin_infl()));
-+    if ((sw & FLAGS) != (C2 | C1 | C0)) {
-+        printf("FAIL: -inf\n");
-+        ret = 1;
-+    }
-+    __asm__ volatile ("fxam\nfnstsw" : "=a" (sw) : "t" (__builtin_nanl("")));
-+    if ((sw & FLAGS) != C0) {
-+        printf("FAIL: +nan\n");
-+        ret = 1;
-+    }
-+    __asm__ volatile ("fxam\nfnstsw" : "=a" (sw) : "t" (-__builtin_nanl("")));
-+    if ((sw & FLAGS) != (C1 | C0)) {
-+        printf("FAIL: -nan\n");
-+        ret = 1;
-+    }
-+    __asm__ volatile ("fxam\nfnstsw" : "=a" (sw) : "t" (__builtin_nansl("")));
-+    if ((sw & FLAGS) != C0) {
-+        printf("FAIL: +snan\n");
-+        ret = 1;
-+    }
-+    __asm__ volatile ("fxam\nfnstsw" : "=a" (sw) : "t" (-__builtin_nansl("")));
-+    if ((sw & FLAGS) != (C1 | C0)) {
-+        printf("FAIL: -snan\n");
-+        ret = 1;
-+    }
-+    __asm__ volatile ("fxam\nfnstsw" : "=a" (sw) : "t" (0x1p-16445L));
-+    if ((sw & FLAGS) != (C3 | C2)) {
-+        printf("FAIL: +denormal\n");
-+        ret = 1;
-+    }
-+    __asm__ volatile ("fxam\nfnstsw" : "=a" (sw) : "t" (-0x1p-16445L));
-+    if ((sw & FLAGS) != (C3 | C2 | C1)) {
-+        printf("FAIL: -denormal\n");
-+        ret = 1;
-+    }
-+    __asm__ volatile ("fxam\nfnstsw" : "=a" (sw) : "t" (ld_pseudo_m16382.ld));
-+    if ((sw & FLAGS) != (C3 | C2)) {
-+        printf("FAIL: +pseudo-denormal\n");
-+        ret = 1;
-+    }
-+    __asm__ volatile ("fxam\nfnstsw" : "=a" (sw) : "t" (ld_pseudo_nm16382.ld));
-+    if ((sw & FLAGS) != (C3 | C2 | C1)) {
-+        printf("FAIL: -pseudo-denormal\n");
-+        ret = 1;
-+    }
-+    __asm__ volatile ("fxam\nfnstsw" : "=a" (sw) : "t" (ld_invalid_1.ld));
-+    if ((sw & FLAGS) != 0) {
-+        printf("FAIL: +invalid 1\n");
-+        ret = 1;
-+    }
-+    __asm__ volatile ("fxam\nfnstsw" : "=a" (sw) : "t" (ld_invalid_n1.ld));
-+    if ((sw & FLAGS) != C1) {
-+        printf("FAIL: -invalid 1\n");
-+        ret = 1;
-+    }
-+    __asm__ volatile ("fxam\nfnstsw" : "=a" (sw) : "t" (ld_invalid_2.ld));
-+    if ((sw & FLAGS) != 0) {
-+        printf("FAIL: +invalid 2\n");
-+        ret = 1;
-+    }
-+    __asm__ volatile ("fxam\nfnstsw" : "=a" (sw) : "t" (ld_invalid_n2.ld));
-+    if ((sw & FLAGS) != C1) {
-+        printf("FAIL: -invalid 2\n");
-+        ret = 1;
-+    }
-+    __asm__ volatile ("fxam\nfnstsw" : "=a" (sw) : "t" (ld_invalid_3.ld));
-+    if ((sw & FLAGS) != 0) {
-+        printf("FAIL: +invalid 3\n");
-+        ret = 1;
-+    }
-+    __asm__ volatile ("fxam\nfnstsw" : "=a" (sw) : "t" (ld_invalid_n3.ld));
-+    if ((sw & FLAGS) != C1) {
-+        printf("FAIL: -invalid 3\n");
-+        ret = 1;
-+    }
-+    __asm__ volatile ("fxam\nfnstsw" : "=a" (sw) : "t" (ld_invalid_4.ld));
-+    if ((sw & FLAGS) != 0) {
-+        printf("FAIL: +invalid 4\n");
-+        ret = 1;
-+    }
-+    __asm__ volatile ("fxam\nfnstsw" : "=a" (sw) : "t" (ld_invalid_n4.ld));
-+    if ((sw & FLAGS) != C1) {
-+        printf("FAIL: -invalid 4\n");
++    memset(out, 0x12, sizeof out);
++    __asm__ volatile ("fbstp %0" : "=m" (out) : "t" (-0.1L) : "st");
++    out[9] &= 0x80;
++    if (memcmp(out, "\0\0\0\0\0\0\0\0\0\x80", sizeof out) != 0) {
++        printf("FAIL: fbstp -0.1\n");
 +        ret = 1;
 +    }
 +    return ret;
