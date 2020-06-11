@@ -2,54 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA6D61F6ED4
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 22:34:44 +0200 (CEST)
-Received: from localhost ([::1]:42666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CF651F6EE8
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 22:42:07 +0200 (CEST)
+Received: from localhost ([::1]:40424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjTuN-0002kk-P1
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 16:34:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55658)
+	id 1jjU1W-0007Q4-BN
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 16:42:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56208)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jjTA3-0001F4-Lm
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:46:52 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:55704
+ id 1jjTAX-00026x-55
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:47:21 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:51913
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jjTA1-0001LR-Si
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:46:51 -0400
+ id 1jjTAP-0001Qm-Tg
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:47:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591904809;
+ s=mimecast20190719; t=1591904833;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=F81J/ZRp0YOpkDwfZ6abXb/SMvXJi0mCgUnRO82JJ0A=;
- b=aVXEa1wqKssPrZqFwBQ4HtqICC2MTefQ90TMBaA2XVy4FQTrgWu8eba9V6Xe+N4VPK1lZk
- TuVjOy+pUGsn8Bmo/6lM1A6ET3ecT+Pbp84/LiTUEsNtqMUuMCJfSCUyelfZdG7SGzkjSH
- 6kZtbZbg1/9YOUjByAYScujy9dPDcME=
+ bh=zYBTb0M0ZA3DWZb/MQ7k4GbYqnZpIJsslP+QwLOSIHU=;
+ b=ipGBGsmvcklcMn56ay1qUKvZQXMoZUwLYMLPnS804DUtzJwITSnv2GTAeeGI0txel3oQST
+ qx0b0yzmQo0E0/dUszthJLarm+8yhzy+qb67iO2SCpH6ESXFIxgKipL9r7NShq1dXFXEY1
+ AXuI7UfrLxX/DcBYmh1AvfvslQYAf8Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-301-n7l9T1rvOumJbNpS-2jgzw-1; Thu, 11 Jun 2020 15:46:47 -0400
-X-MC-Unique: n7l9T1rvOumJbNpS-2jgzw-1
+ us-mta-43-HMnhUwunPMKZjlxQ9QCHJA-1; Thu, 11 Jun 2020 15:46:53 -0400
+X-MC-Unique: HMnhUwunPMKZjlxQ9QCHJA-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1C9541005512;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BC0E7107AD9A;
  Thu, 11 Jun 2020 19:46:46 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B0D6660CC0;
- Thu, 11 Jun 2020 19:46:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 43DA060CC0;
+ Thu, 11 Jun 2020 19:46:46 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 072/115] hw/i386/amd_iommu: Fix the reserved bits definition of
- IOMMU commands
-Date: Thu, 11 Jun 2020 15:44:06 -0400
-Message-Id: <20200611194449.31468-73-pbonzini@redhat.com>
+Subject: [PULL 073/115] replay: implement fair mutex
+Date: Thu, 11 Jun 2020 15:44:07 -0400
+Message-Id: <20200611194449.31468-74-pbonzini@redhat.com>
 In-Reply-To: <20200611194449.31468-1-pbonzini@redhat.com>
 References: <20200611194449.31468-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -81,96 +80,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Wei Huang <wei.huang2@amd.com>
+Cc: Pavel Dovgalyuk <Pavel.Dovgaluk@gmail.com>,
+ Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Wei Huang <wei.huang2@amd.com>
+From: Pavel Dovgalyuk <Pavel.Dovgaluk@gmail.com>
 
-Many reserved bits of amd_iommu commands are defined incorrectly in QEMU.
-Because of it, QEMU incorrectly injects lots of illegal commands into guest
-VM's IOMMU event log.
+In record/replay icount mode main loop thread and vCPU thread
+do not perform simultaneously. They take replay mutex to synchronize
+the actions. Sometimes vCPU thread waits for locking the mutex for
+very long time, because main loop releases the mutex and takes it
+back again. Standard qemu mutex do not provide the ordering
+capabilities.
 
-Signed-off-by: Wei Huang <wei.huang2@amd.com>
-Message-Id: <20200418042845.596457-1-wei.huang2@amd.com>
+This patch adds a "queue" for replay mutex. Therefore thread ordering
+becomes more "fair". Threads are executed in the same order as
+they are trying to take the mutex.
+
+Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
+Message-Id: <158823802979.28101.9340462887738957616.stgit@pasha-ThinkPad-X280>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/i386/amd_iommu.c | 19 ++++++++++---------
- 1 file changed, 10 insertions(+), 9 deletions(-)
+ replay/replay-internal.c | 15 ++++++++++++++-
+ 1 file changed, 14 insertions(+), 1 deletion(-)
 
-diff --git a/hw/i386/amd_iommu.c b/hw/i386/amd_iommu.c
-index fd75cae024..4346060e62 100644
---- a/hw/i386/amd_iommu.c
-+++ b/hw/i386/amd_iommu.c
-@@ -370,7 +370,7 @@ static void amdvi_completion_wait(AMDVIState *s, uint64_t *cmd)
-     hwaddr addr = cpu_to_le64(extract64(cmd[0], 3, 49)) << 3;
-     uint64_t data = cpu_to_le64(cmd[1]);
+diff --git a/replay/replay-internal.c b/replay/replay-internal.c
+index eba8246aae..2e8a3e947a 100644
+--- a/replay/replay-internal.c
++++ b/replay/replay-internal.c
+@@ -22,6 +22,9 @@
+    It also protects replay events queue which stores events to be
+    written or read to the log. */
+ static QemuMutex lock;
++/* Condition and queue for fair ordering of mutex lock requests. */
++static QemuCond mutex_cond;
++static unsigned long mutex_head, mutex_tail;
  
--    if (extract64(cmd[0], 51, 8)) {
-+    if (extract64(cmd[0], 52, 8)) {
-         amdvi_log_illegalcom_error(s, extract64(cmd[0], 60, 4),
-                                    s->cmdbuf + s->cmdbuf_head);
+ /* File for replay writing */
+ static bool write_error;
+@@ -197,9 +200,10 @@ static __thread bool replay_locked;
+ void replay_mutex_init(void)
+ {
+     qemu_mutex_init(&lock);
++    qemu_cond_init(&mutex_cond);
+     /* Hold the mutex while we start-up */
+-    qemu_mutex_lock(&lock);
+     replay_locked = true;
++    ++mutex_tail;
+ }
+ 
+ bool replay_mutex_locked(void)
+@@ -211,10 +215,16 @@ bool replay_mutex_locked(void)
+ void replay_mutex_lock(void)
+ {
+     if (replay_mode != REPLAY_MODE_NONE) {
++        unsigned long id;
+         g_assert(!qemu_mutex_iothread_locked());
+         g_assert(!replay_mutex_locked());
+         qemu_mutex_lock(&lock);
++        id = mutex_tail++;
++        while (id != mutex_head) {
++            qemu_cond_wait(&mutex_cond, &lock);
++        }
+         replay_locked = true;
++        qemu_mutex_unlock(&lock);
      }
-@@ -395,7 +395,7 @@ static void amdvi_inval_devtab_entry(AMDVIState *s, uint64_t *cmd)
-     uint16_t devid = cpu_to_le16((uint16_t)extract64(cmd[0], 0, 16));
+ }
  
-     /* This command should invalidate internal caches of which there isn't */
--    if (extract64(cmd[0], 15, 16) || cmd[1]) {
-+    if (extract64(cmd[0], 16, 44) || cmd[1]) {
-         amdvi_log_illegalcom_error(s, extract64(cmd[0], 60, 4),
-                                    s->cmdbuf + s->cmdbuf_head);
+@@ -222,7 +232,10 @@ void replay_mutex_unlock(void)
+ {
+     if (replay_mode != REPLAY_MODE_NONE) {
+         g_assert(replay_mutex_locked());
++        qemu_mutex_lock(&lock);
++        ++mutex_head;
+         replay_locked = false;
++        qemu_cond_broadcast(&mutex_cond);
+         qemu_mutex_unlock(&lock);
      }
-@@ -405,9 +405,9 @@ static void amdvi_inval_devtab_entry(AMDVIState *s, uint64_t *cmd)
- 
- static void amdvi_complete_ppr(AMDVIState *s, uint64_t *cmd)
- {
--    if (extract64(cmd[0], 15, 16) ||  extract64(cmd[0], 19, 8) ||
-+    if (extract64(cmd[0], 16, 16) ||  extract64(cmd[0], 52, 8) ||
-         extract64(cmd[1], 0, 2) || extract64(cmd[1], 3, 29)
--        || extract64(cmd[1], 47, 16)) {
-+        || extract64(cmd[1], 48, 16)) {
-         amdvi_log_illegalcom_error(s, extract64(cmd[0], 60, 4),
-                                    s->cmdbuf + s->cmdbuf_head);
-     }
-@@ -438,8 +438,8 @@ static void amdvi_inval_pages(AMDVIState *s, uint64_t *cmd)
- {
-     uint16_t domid = cpu_to_le16((uint16_t)extract64(cmd[0], 32, 16));
- 
--    if (extract64(cmd[0], 20, 12) || extract64(cmd[0], 16, 12) ||
--        extract64(cmd[0], 3, 10)) {
-+    if (extract64(cmd[0], 20, 12) || extract64(cmd[0], 48, 12) ||
-+        extract64(cmd[1], 3, 9)) {
-         amdvi_log_illegalcom_error(s, extract64(cmd[0], 60, 4),
-                                    s->cmdbuf + s->cmdbuf_head);
-     }
-@@ -451,7 +451,7 @@ static void amdvi_inval_pages(AMDVIState *s, uint64_t *cmd)
- 
- static void amdvi_prefetch_pages(AMDVIState *s, uint64_t *cmd)
- {
--    if (extract64(cmd[0], 16, 8) || extract64(cmd[0], 20, 8) ||
-+    if (extract64(cmd[0], 16, 8) || extract64(cmd[0], 52, 8) ||
-         extract64(cmd[1], 1, 1) || extract64(cmd[1], 3, 1) ||
-         extract64(cmd[1], 5, 7)) {
-         amdvi_log_illegalcom_error(s, extract64(cmd[0], 60, 4),
-@@ -463,7 +463,7 @@ static void amdvi_prefetch_pages(AMDVIState *s, uint64_t *cmd)
- 
- static void amdvi_inval_inttable(AMDVIState *s, uint64_t *cmd)
- {
--    if (extract64(cmd[0], 16, 16) || cmd[1]) {
-+    if (extract64(cmd[0], 16, 44) || cmd[1]) {
-         amdvi_log_illegalcom_error(s, extract64(cmd[0], 60, 4),
-                                    s->cmdbuf + s->cmdbuf_head);
-         return;
-@@ -479,7 +479,8 @@ static void iommu_inval_iotlb(AMDVIState *s, uint64_t *cmd)
- {
- 
-     uint16_t devid = extract64(cmd[0], 0, 16);
--    if (extract64(cmd[1], 1, 1) || extract64(cmd[1], 3, 9)) {
-+    if (extract64(cmd[1], 1, 1) || extract64(cmd[1], 3, 1) ||
-+        extract64(cmd[1], 6, 6)) {
-         amdvi_log_illegalcom_error(s, extract64(cmd[0], 60, 4),
-                                    s->cmdbuf + s->cmdbuf_head);
-         return;
+ }
 -- 
 2.26.2
 
