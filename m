@@ -2,54 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 176311F6ECB
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 22:32:15 +0200 (CEST)
-Received: from localhost ([::1]:59950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6595D1F6F13
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 22:57:15 +0200 (CEST)
+Received: from localhost ([::1]:34832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjTry-0005r4-2k
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 16:32:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55304)
+	id 1jjUG9-00009M-S3
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 16:57:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jjT9Q-0008I4-FJ
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:46:12 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:37355
+ id 1jjTAG-0001bt-RL
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:47:05 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:55700
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jjT9N-0001Dr-Qx
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:46:12 -0400
+ id 1jjTAE-0001OA-5l
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:47:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591904768;
+ s=mimecast20190719; t=1591904821;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KGJrn4mBcuuQPbf5h+fVCvjwwd4L5qQyUYwiSYCkEv4=;
- b=LBPM3JxvkpOACg5/0p3aBpb+McEX0j+U+5EWr64NaFqQVEIt39MNJ1SNqLV8ctU27E5khL
- xelqXUAjXzYTVOjVq8tfnCmX28YDPlp3e0Y2SL53YKYNM2c7zpnAVoM7LqFh3NDTxAOBzf
- hkwjpvCkJHFnVeRqiqAU45qY1Xa2p74=
+ bh=VOlDszRVFFz87rfQJWUx9nl1C9JGDSXdw5TCSqdQv1E=;
+ b=c+SJHO2FR9Sbh5pwQQDbofBXhBKWVKXHdUzKD3StfMBQhXX8p8aRaldighQ6HsZbnx+nrQ
+ XRsj++3VaGMg7oRNeZN2UUY9XmE9DeRY58hAZAqqKNL1ECDJ2Fxx1G09Ju+fEQIMJR78uT
+ fCL4dPhY8N7FnLM2nDOx5DE8z3MZzsQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-179-K9DwVHw_P-WDhLRWDaJKzg-1; Thu, 11 Jun 2020 15:46:06 -0400
-X-MC-Unique: K9DwVHw_P-WDhLRWDaJKzg-1
+ us-mta-269-nUN0LumTMj6ZOw1sSstVag-1; Thu, 11 Jun 2020 15:46:52 -0400
+X-MC-Unique: nUN0LumTMj6ZOw1sSstVag-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 02610107ACCA
- for <qemu-devel@nongnu.org>; Thu, 11 Jun 2020 19:46:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E4219107ACCA
+ for <qemu-devel@nongnu.org>; Thu, 11 Jun 2020 19:46:43 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4AC2051C50;
- Thu, 11 Jun 2020 19:45:43 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 86F236840E;
+ Thu, 11 Jun 2020 19:46:38 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 067/115] vfio/pci: Use kvm_irqchip_add_irqfd_notifier_gsi() for
- irqfds
-Date: Thu, 11 Jun 2020 15:44:01 -0400
-Message-Id: <20200611194449.31468-68-pbonzini@redhat.com>
+Subject: [PULL 069/115] KVM: Kick resamplefd for split kernel irqchip
+Date: Thu, 11 Jun 2020 15:44:03 -0400
+Message-Id: <20200611194449.31468-70-pbonzini@redhat.com>
 In-Reply-To: <20200611194449.31468-1-pbonzini@redhat.com>
 References: <20200611194449.31468-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -81,131 +80,207 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eric Auger <eric.auger@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, Peter Xu <peterx@redhat.com>
+Cc: Peter Xu <peterx@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Xu <peterx@redhat.com>
 
-VFIO is currently the only one left that is not using the generic
-function (kvm_irqchip_add_irqfd_notifier_gsi()) to register irqfds.
-Let VFIO use the common framework too.
+This is majorly only for X86 because that's the only one that supports
+split irqchip for now.
 
-Follow up patches will introduce extra features for kvm irqfd, so that
-VFIO can easily leverage that after the switch.
+When the irqchip is split, we face a dilemma that KVM irqfd will be
+enabled, however the slow irqchip is still running in the userspace.
+It means that the resamplefd in the kernel irqfds won't take any
+effect and it will miss to ack INTx interrupts on EOIs.
 
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
-Reviewed-by: Alex Williamson <alex.williamson@redhat.com>
-Acked-by: Alex Williamson <alex.williamson@redhat.com>
+One example is split irqchip with VFIO INTx, which will break if we
+use the VFIO INTx fast path.
+
+This patch can potentially supports the VFIO fast path again for INTx,
+that the IRQ delivery will still use the fast path, while we don't
+need to trap MMIOs in QEMU for the device to emulate the EIOs (see the
+callers of vfio_eoi() hook).  However the EOI of the INTx will still
+need to be done from the userspace by caching all the resamplefds in
+QEMU and kick properly for IOAPIC EOI broadcast.
+
+This is tricky because in this case the userspace ioapic irr &
+remote-irr will be bypassed.  However such a change will greatly boost
+performance for assigned devices using INTx irqs (TCP_RR boosts 46%
+after this patch applied).
+
+When the userspace is responsible for the resamplefd kickup, don't
+register it on the kvm_irqfd anymore, because on newer kernels (after
+commit 654f1f13ea56, 5.2+) the KVM_IRQFD will fail if with both split
+irqchip and resamplefd.  This will make sure that the fast path will
+work for all supported kernels.
+
+https://patchwork.kernel.org/patch/10738541/#22609933
+
+Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Peter Xu <peterx@redhat.com>
-Message-Id: <20200318145204.74483-3-peterx@redhat.com>
+Message-Id: <20200318145204.74483-5-peterx@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/vfio/pci.c | 37 +++++++++++++++----------------------
- 1 file changed, 15 insertions(+), 22 deletions(-)
+ accel/kvm/kvm-all.c    | 79 ++++++++++++++++++++++++++++++++++++++++--
+ accel/kvm/trace-events |  1 +
+ hw/intc/ioapic.c       | 19 ++++++++++
+ include/sysemu/kvm.h   |  4 +++
+ 4 files changed, 101 insertions(+), 2 deletions(-)
 
-diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-index 342dd6b912..6838bcc4b3 100644
---- a/hw/vfio/pci.c
-+++ b/hw/vfio/pci.c
-@@ -115,11 +115,7 @@ static void vfio_intx_eoi(VFIODevice *vbasedev)
- static void vfio_intx_enable_kvm(VFIOPCIDevice *vdev, Error **errp)
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index b048c10af9..f24d7da783 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -160,9 +160,59 @@ static const KVMCapabilityInfo kvm_required_capabilites[] = {
+ static NotifierList kvm_irqchip_change_notifiers =
+     NOTIFIER_LIST_INITIALIZER(kvm_irqchip_change_notifiers);
+ 
++struct KVMResampleFd {
++    int gsi;
++    EventNotifier *resample_event;
++    QLIST_ENTRY(KVMResampleFd) node;
++};
++typedef struct KVMResampleFd KVMResampleFd;
++
++/*
++ * Only used with split irqchip where we need to do the resample fd
++ * kick for the kernel from userspace.
++ */
++static QLIST_HEAD(, KVMResampleFd) kvm_resample_fd_list =
++    QLIST_HEAD_INITIALIZER(kvm_resample_fd_list);
++
+ #define kvm_slots_lock(kml)      qemu_mutex_lock(&(kml)->slots_lock)
+ #define kvm_slots_unlock(kml)    qemu_mutex_unlock(&(kml)->slots_lock)
+ 
++static inline void kvm_resample_fd_remove(int gsi)
++{
++    KVMResampleFd *rfd;
++
++    QLIST_FOREACH(rfd, &kvm_resample_fd_list, node) {
++        if (rfd->gsi == gsi) {
++            QLIST_REMOVE(rfd, node);
++            g_free(rfd);
++            break;
++        }
++    }
++}
++
++static inline void kvm_resample_fd_insert(int gsi, EventNotifier *event)
++{
++    KVMResampleFd *rfd = g_new0(KVMResampleFd, 1);
++
++    rfd->gsi = gsi;
++    rfd->resample_event = event;
++
++    QLIST_INSERT_HEAD(&kvm_resample_fd_list, rfd, node);
++}
++
++void kvm_resample_fd_notify(int gsi)
++{
++    KVMResampleFd *rfd;
++
++    QLIST_FOREACH(rfd, &kvm_resample_fd_list, node) {
++        if (rfd->gsi == gsi) {
++            event_notifier_set(rfd->resample_event);
++            trace_kvm_resample_fd_notify(gsi);
++            return;
++        }
++    }
++}
++
+ int kvm_get_max_memslots(void)
  {
- #ifdef CONFIG_KVM
--    struct kvm_irqfd irqfd = {
--        .fd = event_notifier_get_fd(&vdev->intx.interrupt),
--        .gsi = vdev->intx.route.irq,
--        .flags = KVM_IRQFD_FLAG_RESAMPLE,
--    };
-+    int irq_fd = event_notifier_get_fd(&vdev->intx.interrupt);
-     Error *err = NULL;
+     KVMState *s = KVM_STATE(current_accel());
+@@ -1676,8 +1726,33 @@ static int kvm_irqchip_assign_irqfd(KVMState *s, EventNotifier *event,
+     };
  
-     if (vdev->no_kvm_intx || !kvm_irqfds_enabled() ||
-@@ -129,7 +125,7 @@ static void vfio_intx_enable_kvm(VFIOPCIDevice *vdev, Error **errp)
+     if (rfd != -1) {
+-        irqfd.flags |= KVM_IRQFD_FLAG_RESAMPLE;
+-        irqfd.resamplefd = rfd;
++        assert(assign);
++        if (kvm_irqchip_is_split()) {
++            /*
++             * When the slow irqchip (e.g. IOAPIC) is in the
++             * userspace, KVM kernel resamplefd will not work because
++             * the EOI of the interrupt will be delivered to userspace
++             * instead, so the KVM kernel resamplefd kick will be
++             * skipped.  The userspace here mimics what the kernel
++             * provides with resamplefd, remember the resamplefd and
++             * kick it when we receive EOI of this IRQ.
++             *
++             * This is hackery because IOAPIC is mostly bypassed
++             * (except EOI broadcasts) when irqfd is used.  However
++             * this can bring much performance back for split irqchip
++             * with INTx IRQs (for VFIO, this gives 93% perf of the
++             * full fast path, which is 46% perf boost comparing to
++             * the INTx slow path).
++             */
++            kvm_resample_fd_insert(virq, resample);
++        } else {
++            irqfd.flags |= KVM_IRQFD_FLAG_RESAMPLE;
++            irqfd.resamplefd = rfd;
++        }
++    } else if (!assign) {
++        if (kvm_irqchip_is_split()) {
++            kvm_resample_fd_remove(virq);
++        }
      }
  
-     /* Get to a known interrupt state */
--    qemu_set_fd_handler(irqfd.fd, NULL, NULL, vdev);
-+    qemu_set_fd_handler(irq_fd, NULL, NULL, vdev);
-     vfio_mask_single_irqindex(&vdev->vbasedev, VFIO_PCI_INTX_IRQ_INDEX);
-     vdev->intx.pending = false;
-     pci_irq_deassert(&vdev->pdev);
-@@ -140,17 +136,18 @@ static void vfio_intx_enable_kvm(VFIOPCIDevice *vdev, Error **errp)
-         goto fail;
-     }
+     if (!kvm_irqfds_enabled()) {
+diff --git a/accel/kvm/trace-events b/accel/kvm/trace-events
+index 4fb6e59d19..a68eb66534 100644
+--- a/accel/kvm/trace-events
++++ b/accel/kvm/trace-events
+@@ -16,4 +16,5 @@ kvm_set_ioeventfd_mmio(int fd, uint64_t addr, uint32_t val, bool assign, uint32_
+ kvm_set_ioeventfd_pio(int fd, uint16_t addr, uint32_t val, bool assign, uint32_t size, bool datamatch) "fd: %d @0x%x val=0x%x assign: %d size: %d match: %d"
+ kvm_set_user_memory(uint32_t slot, uint32_t flags, uint64_t guest_phys_addr, uint64_t memory_size, uint64_t userspace_addr, int ret) "Slot#%d flags=0x%x gpa=0x%"PRIx64 " size=0x%"PRIx64 " ua=0x%"PRIx64 " ret=%d"
+ kvm_clear_dirty_log(uint32_t slot, uint64_t start, uint32_t size) "slot#%"PRId32" start 0x%"PRIx64" size 0x%"PRIx32
++kvm_resample_fd_notify(int gsi) "gsi %d"
  
--    /* KVM triggers it, VFIO listens for it */
--    irqfd.resamplefd = event_notifier_get_fd(&vdev->intx.unmask);
--
--    if (kvm_vm_ioctl(kvm_state, KVM_IRQFD, &irqfd)) {
-+    if (kvm_irqchip_add_irqfd_notifier_gsi(kvm_state,
-+                                           &vdev->intx.interrupt,
-+                                           &vdev->intx.unmask,
-+                                           vdev->intx.route.irq)) {
-         error_setg_errno(errp, errno, "failed to setup resample irqfd");
-         goto fail_irqfd;
-     }
+diff --git a/hw/intc/ioapic.c b/hw/intc/ioapic.c
+index ffe30dc457..bca71b5934 100644
+--- a/hw/intc/ioapic.c
++++ b/hw/intc/ioapic.c
+@@ -241,6 +241,25 @@ void ioapic_eoi_broadcast(int vector)
+                 continue;
+             }
  
-     if (vfio_set_irq_signaling(&vdev->vbasedev, VFIO_PCI_INTX_IRQ_INDEX, 0,
-                                VFIO_IRQ_SET_ACTION_UNMASK,
--                               irqfd.resamplefd, &err)) {
-+                               event_notifier_get_fd(&vdev->intx.unmask),
-+                               &err)) {
-         error_propagate(errp, err);
-         goto fail_vfio;
-     }
-@@ -165,12 +162,12 @@ static void vfio_intx_enable_kvm(VFIOPCIDevice *vdev, Error **errp)
-     return;
- 
- fail_vfio:
--    irqfd.flags = KVM_IRQFD_FLAG_DEASSIGN;
--    kvm_vm_ioctl(kvm_state, KVM_IRQFD, &irqfd);
-+    kvm_irqchip_remove_irqfd_notifier_gsi(kvm_state, &vdev->intx.interrupt,
-+                                          vdev->intx.route.irq);
- fail_irqfd:
-     event_notifier_cleanup(&vdev->intx.unmask);
- fail:
--    qemu_set_fd_handler(irqfd.fd, vfio_intx_interrupt, NULL, vdev);
-+    qemu_set_fd_handler(irq_fd, vfio_intx_interrupt, NULL, vdev);
-     vfio_unmask_single_irqindex(&vdev->vbasedev, VFIO_PCI_INTX_IRQ_INDEX);
++#ifdef CONFIG_KVM
++            /*
++             * When IOAPIC is in the userspace while APIC is still in
++             * the kernel (i.e., split irqchip), we have a trick to
++             * kick the resamplefd logic for registered irqfds from
++             * userspace to deactivate the IRQ.  When that happens, it
++             * means the irq bypassed userspace IOAPIC (so the irr and
++             * remote-irr of the table entry should be bypassed too
++             * even if interrupt come).  Still kick the resamplefds if
++             * they're bound to the IRQ, to make sure to EOI the
++             * interrupt for the hardware correctly.
++             *
++             * Note: We still need to go through the irr & remote-irr
++             * operations below because we don't know whether there're
++             * emulated devices that are using/sharing the same IRQ.
++             */
++            kvm_resample_fd_notify(n);
++#endif
++
+             if (!(entry & IOAPIC_LVT_REMOTE_IRR)) {
+                 continue;
+             }
+diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
+index 3b2250471c..b4174d941c 100644
+--- a/include/sysemu/kvm.h
++++ b/include/sysemu/kvm.h
+@@ -554,4 +554,8 @@ int kvm_set_one_reg(CPUState *cs, uint64_t id, void *source);
+ int kvm_get_one_reg(CPUState *cs, uint64_t id, void *target);
+ struct ppc_radix_page_info *kvm_get_radix_page_info(void);
+ int kvm_get_max_memslots(void);
++
++/* Notify resamplefd for EOI of specific interrupts. */
++void kvm_resample_fd_notify(int gsi);
++
  #endif
- }
-@@ -178,12 +175,6 @@ fail:
- static void vfio_intx_disable_kvm(VFIOPCIDevice *vdev)
- {
- #ifdef CONFIG_KVM
--    struct kvm_irqfd irqfd = {
--        .fd = event_notifier_get_fd(&vdev->intx.interrupt),
--        .gsi = vdev->intx.route.irq,
--        .flags = KVM_IRQFD_FLAG_DEASSIGN,
--    };
--
-     if (!vdev->intx.kvm_accel) {
-         return;
-     }
-@@ -197,7 +188,8 @@ static void vfio_intx_disable_kvm(VFIOPCIDevice *vdev)
-     pci_irq_deassert(&vdev->pdev);
- 
-     /* Tell KVM to stop listening for an INTx irqfd */
--    if (kvm_vm_ioctl(kvm_state, KVM_IRQFD, &irqfd)) {
-+    if (kvm_irqchip_remove_irqfd_notifier_gsi(kvm_state, &vdev->intx.interrupt,
-+                                              vdev->intx.route.irq)) {
-         error_report("vfio: Error: Failed to disable INTx irqfd: %m");
-     }
- 
-@@ -205,7 +197,8 @@ static void vfio_intx_disable_kvm(VFIOPCIDevice *vdev)
-     event_notifier_cleanup(&vdev->intx.unmask);
- 
-     /* QEMU starts listening for interrupt events. */
--    qemu_set_fd_handler(irqfd.fd, vfio_intx_interrupt, NULL, vdev);
-+    qemu_set_fd_handler(event_notifier_get_fd(&vdev->intx.interrupt),
-+                        vfio_intx_interrupt, NULL, vdev);
- 
-     vdev->intx.kvm_accel = false;
- 
 -- 
 2.26.2
 
