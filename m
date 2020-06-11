@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B4EB1F69E7
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 16:27:35 +0200 (CEST)
-Received: from localhost ([::1]:55254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21A1A1F6A19
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 16:35:08 +0200 (CEST)
+Received: from localhost ([::1]:35430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjOB3-0003R1-Qg
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 10:27:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34318)
+	id 1jjOIM-0000Tv-Hw
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 10:35:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36348)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jjO9O-0002yk-Ff
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 10:25:50 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:24869
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jjOGp-000827-Fp
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 10:33:31 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:42026
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jjO9L-0008Fu-UF
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 10:25:49 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jjOGo-0001CY-Ag
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 10:33:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591885545;
+ s=mimecast20190719; t=1591886008;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EHHdQXmdBCUgn4az2FgZq2kxcC2IyeSQjqW14EtMlSM=;
- b=TvuAs3sWEMU9vZiwYpIgWNKFwwRnS83a9al2Kmzkj3mVOZwp37U483sKuDqcQxtN+aeX9j
- pmm6HYh12PcruE3sElcEjJI6yCWhZblOvhQauhFWWTIWWkZBINdykXaJHu6FpuEq1UphQE
- 6kNM3u1INyWtD+0z6epzh+bhUD2Ar+8=
+ bh=GP5JW9xWQvedUO1sV4sAoR5F6LadVMmEcrROE0T7AXU=;
+ b=ikySVX+kzBPk78nXKj00A33GZmyjHINFzmHcUi7OFTOgyJRu7A9v6ABpMfda0/WSMihVug
+ Ulg9IrsknRbpZIpkq2PV4LX2vM14CPFtN63SeDAAtH3nWN6ycYMKntEqTdSA+yZgmBJyxd
+ yfJ/RMCF8ANh+uKwr72mrNn+VnWP46Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-62-ODSV_axGPKqdpiAD2upb6A-1; Thu, 11 Jun 2020 10:25:41 -0400
-X-MC-Unique: ODSV_axGPKqdpiAD2upb6A-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-160-V8sOaaJHPS-33sexL5RJMw-1; Thu, 11 Jun 2020 10:33:26 -0400
+X-MC-Unique: V8sOaaJHPS-33sexL5RJMw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0AADD1845167;
- Thu, 11 Jun 2020 14:25:41 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 566A0805DEE
+ for <qemu-devel@nongnu.org>; Thu, 11 Jun 2020 14:31:51 +0000 (UTC)
 Received: from [10.3.113.22] (ovpn-113-22.phx2.redhat.com [10.3.113.22])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C3F655C3F8;
- Thu, 11 Jun 2020 14:25:40 +0000 (UTC)
-Subject: Re: [PATCH v2 3/5] configure: Clean up warning flag lists
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20200610203942.887374-1-richard.henderson@linaro.org>
- <20200610203942.887374-4-richard.henderson@linaro.org>
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D88FC619C8;
+ Thu, 11 Jun 2020 14:31:50 +0000 (UTC)
+Subject: Re: [PATCH 0/2] monitor openfd commands
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>,
+ qemu-devel@nongnu.org, armbru@redhat.com, thuth@redhat.com,
+ quintela@redhat.com
+References: <20200611111703.159590-1-dgilbert@redhat.com>
 From: Eric Blake <eblake@redhat.com>
 Organization: Red Hat, Inc.
-Message-ID: <61557057-f4be-9a74-1422-3dee74be7f03@redhat.com>
-Date: Thu, 11 Jun 2020 09:25:40 -0500
+Message-ID: <cec98884-f2cd-02f3-1806-a6579ce68961@redhat.com>
+Date: Thu, 11 Jun 2020 09:31:50 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200610203942.887374-4-richard.henderson@linaro.org>
+In-Reply-To: <20200611111703.159590-1-dgilbert@redhat.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
@@ -85,54 +86,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/10/20 3:39 PM, Richard Henderson wrote:
-> Use a helper function to tidy the assembly of gcc_flags.
-> Separate flags that disable warnings from those that enable,
-> and sort the disable warnings to the end.
+On 6/11/20 6:17 AM, Dr. David Alan Gilbert (git) wrote:
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 > 
-> Suggested-by: Eric Blake <eblake@redhat.com>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   configure | 40 ++++++++++++++++++++++++++++++----------
->   1 file changed, 30 insertions(+), 10 deletions(-)
+> The monitors currently have a 'getfd' command that lets you pass an fd
+> via the monitor socket.  'openfd' is a new command that opens a file
+> and puts the fd in the same fd pool.  The file is opened RW and created
+> if it doesn't exist.
+> It makes it easy to test migration to and from a file.
+
+We have two fd-passing mechanisms: getfd and add-fd.  add-fd is newer, 
+and allows things like /dev/fdset/NNN to work anywhere a filename works. 
+  I'm guessing that the issue here is that migration hasn't been tweaked 
+to work nicely with the newer add-fd, but instead insists on the older 
+getfd interface (where you have to use getfd to associate an fd with a 
+name, then tell migration to use that special name, but the special name 
+is via a different parameter than the normal filename parameter).  At 
+which point openfd looks like it is just sugar to make getfd easier to use.
+
+Would it instead be worth modifying migration to work with add-fd?  Or 
+does add-fd need the same sort of sugar?
+
 > 
-
-> +# Accumulate -Wfoo and -Wno-bar separately.
-> +# We will list all of the enable flags first, and the disable flags second.
-> +# Note that we do not add -Werror, because that would enable it for all
-> +# configure tests. If a configure test failed due to -Werror this would
-> +# just silently disable some features, so it's too error prone.
-> +
-> +add_to warn_flags -Wold-style-declaration
-
-Hmm - should we add:
-warn_flags= nowarn_flags=
-prior to this line, to ensure that something inherited from the 
-environment doesn't mess us up.
-
-> +add_to warn_flags -Wold-style-definition
-> +add_to warn_flags -Wtype-limits
-> +add_to warn_flags -Wformat-security
-> +add_to warn_flags -Wformat-y2k
-> +add_to warn_flags -Winit-self
-> +add_to warn_flags -Wignored-qualifiers
-> +add_to warn_flags -Wempty-body
-> +add_to warn_flags -Wnested-externs
-> +add_to warn_flags -Wendif-labels
-> +add_to warn_flags -Wno-initializer-overrides
-
-wrong list
-
-> +add_to warn_flags -Wexpansion-to-defined
-> +
-> +add_to nowarn_flags -Wno-missing-include-dirs
-> +add_to nowarn_flags -Wno-shift-negative-value
-> +add_to nowarn_flags -Wno-string-plus-int
-> +add_to nowarn_flags -Wno-typedef-redefinition
-> +
-> +gcc_flags="$warn_flags $nowarn_flags"
-
-Otherwise looks sane.
+> Dr. David Alan Gilbert (2):
+>    qmp: Add 'openfd' command
+>    hmp: Add 'openfd' command
+> 
+>   hmp-commands.hx        | 16 +++++++++++++-
+>   include/monitor/hmp.h  |  1 +
+>   monitor/hmp-cmds.c     | 10 +++++++++
+>   monitor/misc.c         | 48 +++++++++++++++++++++++++++++++++---------
+>   qapi/misc.json         | 23 +++++++++++++++++++-
+>   tests/qtest/test-hmp.c |  2 ++
+>   6 files changed, 88 insertions(+), 12 deletions(-)
+> 
 
 -- 
 Eric Blake, Principal Software Engineer
