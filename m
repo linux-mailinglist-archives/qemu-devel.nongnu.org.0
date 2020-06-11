@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FAA11F6E8E
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 22:13:33 +0200 (CEST)
-Received: from localhost ([::1]:49418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 782101F6E9F
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 22:18:44 +0200 (CEST)
+Received: from localhost ([::1]:42850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjTZs-0000Op-68
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 16:13:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54938)
+	id 1jjTet-0001jY-Dx
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 16:18:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jjT8x-0007xb-7M
+ id 1jjT8x-0007xn-Ds
  for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:45:43 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:48332
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:34500
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jjT8t-00012O-Mp
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:45:42 -0400
+ id 1jjT8u-000143-PY
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:45:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591904738;
+ s=mimecast20190719; t=1591904740;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UDBHQtVitR2UF3gM0easaFDJXNK3KOw8227wlXl8uXk=;
- b=gGlsxl5U1NMMBvZiOpZ8qAhGx19aSQWwmAYZNwsVxHJmb+SsUkCCS/kaiUtOONKl/dY0SI
- OnqrfUJr35WT53kDbgJtutb2oOklBcageSX8U9VDPFxa/qK7Rhgxv6PA79p9yaVlaaF6Zt
- wa2y/G5BsN+ObJTUxUG3i+dQajGquuA=
+ bh=brEVr7KtuKLlpe5+wUf9WnJ4DGKm96Q7guN6CwOpo9A=;
+ b=DllIdsqWIH1VeCR/aHLdRY8fGZc+7XuMLUqNmMWx386Bs1zmWq/981+lqFqXUhS1Ry8fE3
+ r030SL79L8TrttX9zJlJDpMSlGAJ90QdFIeydhk6Oto5FwaXR145YuokMch/euR94bXVaq
+ UJu4agPp8Q8AnGzWhMh7ZFg5u8Qfgic=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-394-Chn9K9sdN4Cp-6v131tnIw-1; Thu, 11 Jun 2020 15:45:36 -0400
-X-MC-Unique: Chn9K9sdN4Cp-6v131tnIw-1
+ us-mta-35-AnpL-BUNMdyHwsxloCtnug-1; Thu, 11 Jun 2020 15:45:37 -0400
+X-MC-Unique: AnpL-BUNMdyHwsxloCtnug-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7CB078064DD;
- Thu, 11 Jun 2020 19:45:35 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 214A5801503;
+ Thu, 11 Jun 2020 19:45:36 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2053997B12;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A354A8FF91;
  Thu, 11 Jun 2020 19:45:35 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 055/115] target/i386: fix fscale handling of rounding precision
-Date: Thu, 11 Jun 2020 15:43:49 -0400
-Message-Id: <20200611194449.31468-56-pbonzini@redhat.com>
+Subject: [PULL 056/115] exec: Let address_space_read/write_cached() propagate
+ MemTxResult
+Date: Thu, 11 Jun 2020 15:43:50 -0400
+Message-Id: <20200611194449.31468-57-pbonzini@redhat.com>
 In-Reply-To: <20200611194449.31468-1-pbonzini@redhat.com>
 References: <20200611194449.31468-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 14:52:10
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 08:37:10
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,73 +81,129 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Joseph Myers <joseph@codesourcery.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Joseph Myers <joseph@codesourcery.com>
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-The fscale implementation uses floatx80_scalbn for the final scaling
-operation.  floatx80_scalbn ends up rounding the result using the
-dynamic rounding precision configured for the FPU.  But only a limited
-set of x87 floating-point instructions are supposed to respect the
-dynamic rounding precision, and fscale is not in that set.  Fix the
-implementation to save and restore the rounding precision around the
-call to floatx80_scalbn.
+Both address_space_read_cached_slow() and
+address_space_write_cached_slow() return a MemTxResult type.
+Do not discard it, return it to the caller.
 
-Signed-off-by: Joseph Myers <joseph@codesourcery.com>
-Message-Id: <alpine.DEB.2.21.2005070045430.18350@digraph.polyomino.org.uk>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/fpu_helper.c          |  3 +++
- tests/tcg/i386/test-i386-fscale.c | 13 +++++++++++++
- 2 files changed, 16 insertions(+)
+ exec.c                | 16 ++++++++--------
+ include/exec/memory.h | 19 +++++++++++--------
+ 2 files changed, 19 insertions(+), 16 deletions(-)
 
-diff --git a/target/i386/fpu_helper.c b/target/i386/fpu_helper.c
-index 72d1e77eb0..4d14c1ca24 100644
---- a/target/i386/fpu_helper.c
-+++ b/target/i386/fpu_helper.c
-@@ -1001,7 +1001,10 @@ void helper_fscale(CPUX86State *env)
-         }
+diff --git a/exec.c b/exec.c
+index be4be2df3a..0e197e53c2 100644
+--- a/exec.c
++++ b/exec.c
+@@ -3718,7 +3718,7 @@ static inline MemoryRegion *address_space_translate_cached(
+ /* Called from RCU critical section. address_space_read_cached uses this
+  * out of line function when the target is an MMIO or IOMMU region.
+  */
+-void
++MemTxResult
+ address_space_read_cached_slow(MemoryRegionCache *cache, hwaddr addr,
+                                    void *buf, hwaddr len)
+ {
+@@ -3728,15 +3728,15 @@ address_space_read_cached_slow(MemoryRegionCache *cache, hwaddr addr,
+     l = len;
+     mr = address_space_translate_cached(cache, addr, &addr1, &l, false,
+                                         MEMTXATTRS_UNSPECIFIED);
+-    flatview_read_continue(cache->fv,
+-                           addr, MEMTXATTRS_UNSPECIFIED, buf, len,
+-                           addr1, l, mr);
++    return flatview_read_continue(cache->fv,
++                                  addr, MEMTXATTRS_UNSPECIFIED, buf, len,
++                                  addr1, l, mr);
+ }
+ 
+ /* Called from RCU critical section. address_space_write_cached uses this
+  * out of line function when the target is an MMIO or IOMMU region.
+  */
+-void
++MemTxResult
+ address_space_write_cached_slow(MemoryRegionCache *cache, hwaddr addr,
+                                     const void *buf, hwaddr len)
+ {
+@@ -3746,9 +3746,9 @@ address_space_write_cached_slow(MemoryRegionCache *cache, hwaddr addr,
+     l = len;
+     mr = address_space_translate_cached(cache, addr, &addr1, &l, true,
+                                         MEMTXATTRS_UNSPECIFIED);
+-    flatview_write_continue(cache->fv,
+-                            addr, MEMTXATTRS_UNSPECIFIED, buf, len,
+-                            addr1, l, mr);
++    return flatview_write_continue(cache->fv,
++                                   addr, MEMTXATTRS_UNSPECIFIED, buf, len,
++                                   addr1, l, mr);
+ }
+ 
+ #define ARG1_DECL                MemoryRegionCache *cache
+diff --git a/include/exec/memory.h b/include/exec/memory.h
+index 3e00cdbbfa..48df5abe13 100644
+--- a/include/exec/memory.h
++++ b/include/exec/memory.h
+@@ -2354,10 +2354,11 @@ void *qemu_map_ram_ptr(RAMBlock *ram_block, ram_addr_t addr);
+ 
+ /* Internal functions, part of the implementation of address_space_read_cached
+  * and address_space_write_cached.  */
+-void address_space_read_cached_slow(MemoryRegionCache *cache,
+-                                    hwaddr addr, void *buf, hwaddr len);
+-void address_space_write_cached_slow(MemoryRegionCache *cache,
+-                                     hwaddr addr, const void *buf, hwaddr len);
++MemTxResult address_space_read_cached_slow(MemoryRegionCache *cache,
++                                           hwaddr addr, void *buf, hwaddr len);
++MemTxResult address_space_write_cached_slow(MemoryRegionCache *cache,
++                                            hwaddr addr, const void *buf,
++                                            hwaddr len);
+ 
+ static inline bool memory_access_is_direct(MemoryRegion *mr, bool is_write)
+ {
+@@ -2422,15 +2423,16 @@ MemTxResult address_space_read(AddressSpace *as, hwaddr addr,
+  * @buf: buffer with the data transferred
+  * @len: length of the data transferred
+  */
+-static inline void
++static inline MemTxResult
+ address_space_read_cached(MemoryRegionCache *cache, hwaddr addr,
+                           void *buf, hwaddr len)
+ {
+     assert(addr < cache->len && len <= cache->len - addr);
+     if (likely(cache->ptr)) {
+         memcpy(buf, cache->ptr + addr, len);
++        return MEMTX_OK;
      } else {
-         int n = floatx80_to_int32_round_to_zero(ST1, &env->fp_status);
-+        signed char save = env->fp_status.floatx80_rounding_precision;
-+        env->fp_status.floatx80_rounding_precision = 80;
-         ST0 = floatx80_scalbn(ST0, n, &env->fp_status);
-+        env->fp_status.floatx80_rounding_precision = save;
+-        address_space_read_cached_slow(cache, addr, buf, len);
++        return address_space_read_cached_slow(cache, addr, buf, len);
      }
  }
  
-diff --git a/tests/tcg/i386/test-i386-fscale.c b/tests/tcg/i386/test-i386-fscale.c
-index b953e7c563..d23b3cfeec 100644
---- a/tests/tcg/i386/test-i386-fscale.c
-+++ b/tests/tcg/i386/test-i386-fscale.c
-@@ -8,6 +8,8 @@ union u {
-     long double ld;
- };
- 
-+volatile long double ld_third = 1.0L / 3.0L;
-+volatile long double ld_four_thirds = 4.0L / 3.0L;
- volatile union u ld_invalid_1 = { .s = { 1, 1234 } };
- volatile union u ld_invalid_2 = { .s = { 0, 1234 } };
- volatile union u ld_invalid_3 = { .s = { 0, 0x7fff } };
-@@ -91,5 +93,16 @@ int main(void)
-         printf("FAIL: fscale finite down inf\n");
-         ret = 1;
+@@ -2442,15 +2444,16 @@ address_space_read_cached(MemoryRegionCache *cache, hwaddr addr,
+  * @buf: buffer with the data transferred
+  * @len: length of the data transferred
+  */
+-static inline void
++static inline MemTxResult
+ address_space_write_cached(MemoryRegionCache *cache, hwaddr addr,
+                            const void *buf, hwaddr len)
+ {
+     assert(addr < cache->len && len <= cache->len - addr);
+     if (likely(cache->ptr)) {
+         memcpy(cache->ptr + addr, buf, len);
++        return MEMTX_OK;
+     } else {
+-        address_space_write_cached_slow(cache, addr, buf, len);
++        return address_space_write_cached_slow(cache, addr, buf, len);
      }
-+    /* Set round-to-nearest with single-precision rounding.  */
-+    cw = cw & ~0xf00;
-+    __asm__ volatile ("fldcw %0" : : "m" (cw));
-+    __asm__ volatile ("fscale" : "=t" (ld_res) :
-+                      "0" (ld_third), "u" (2.0L));
-+    cw = cw | 0x300;
-+    __asm__ volatile ("fldcw %0" : : "m" (cw));
-+    if (ld_res != ld_four_thirds) {
-+        printf("FAIL: fscale single-precision\n");
-+        ret = 1;
-+    }
-     return ret;
  }
+ 
 -- 
 2.26.2
 
