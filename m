@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C78231F6B31
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 17:39:50 +0200 (CEST)
-Received: from localhost ([::1]:40778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C2F91F6B2D
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 17:38:25 +0200 (CEST)
+Received: from localhost ([::1]:35118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjPIz-0004iT-TT
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 11:39:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60242)
+	id 1jjPHc-0002L5-3j
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 11:38:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1jjPCz-0007nn-2O
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 11:33:37 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:26142
- helo=us-smtp-1.mimecast.com)
+ id 1jjPEj-0000km-9G
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 11:35:25 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:48136
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1jjPCw-000051-Ib
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 11:33:36 -0400
+ id 1jjPEg-0000iX-8N
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 11:35:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591889612;
+ s=mimecast20190719; t=1591889721;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=69JBfp9RlIw2/dfVQ72VGVWwXUMR+jkXfc92kGTFkGA=;
- b=dzW6oZ9qH+0jRAeJw/xdhEEmhAKIB85553JheOyicg1mkUIbi32H3qIJHc8Y6YJ1nuu2X3
- pductb6hA7VTUBeu5duGRr1GbWS8gaUskWqoLTjuRAKn7eC/QyAFUVywa30gF8TIh+zZnL
- O1qVgHnUpcCPLzTc+VKZB88dXiFnA6A=
+ bh=0grtCrzSuoQL1Coecvc369l20D9dWc9qNR8RdiqeFWY=;
+ b=N7t339Uz3p6s21GwJgKRHfVyGBg1T4oZmIMDU4+btxJZLC5jEo9tastSsFgNUMjVYNAOrP
+ eYVhNpzjvy1LhhUG8iElok3JlowTXFePADbnJuKipHGXCRGXBepM8ANtG8KIWh2FLiBRdi
+ LcpEQEwONVo38z61y5smpe9WNRU2HUM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-114-PGAg8xKxOk-fn5LtG4KoCQ-1; Thu, 11 Jun 2020 11:33:31 -0400
-X-MC-Unique: PGAg8xKxOk-fn5LtG4KoCQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-443-LDy1wrgoPUO7yW-Q7Y4XfQ-1; Thu, 11 Jun 2020 11:35:18 -0400
+X-MC-Unique: LDy1wrgoPUO7yW-Q7Y4XfQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D054A107B0EF;
- Thu, 11 Jun 2020 15:33:29 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BE4D5107ACCA;
+ Thu, 11 Jun 2020 15:35:16 +0000 (UTC)
 Received: from [10.36.113.1] (ovpn-113-1.ams2.redhat.com [10.36.113.1])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D6A875C28E;
- Thu, 11 Jun 2020 15:33:27 +0000 (UTC)
-Subject: Re: [PATCH v3 1/4] spapr: Simplify some warning printing paths in
- spapr_caps.c
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E921210013C1;
+ Thu, 11 Jun 2020 15:35:14 +0000 (UTC)
+Subject: Re: [PATCH v3 3/4] spapr: Use error_append_hint() in spapr_caps.c
 To: Greg Kurz <groug@kaod.org>, David Gibson <david@gibson.dropbear.id.au>
 References: <159188280345.70166.14940592691021389043.stgit@bahia.lan>
- <159188281098.70166.18387926536399257573.stgit@bahia.lan>
+ <159188282644.70166.8098075112034429343.stgit@bahia.lan>
 From: Laurent Vivier <lvivier@redhat.com>
 Autocrypt: addr=lvivier@redhat.com; prefer-encrypt=mutual; keydata=
  mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
@@ -103,20 +102,20 @@ Autocrypt: addr=lvivier@redhat.com; prefer-encrypt=mutual; keydata=
  pt0DCMMTbiYIUcrhX8eveCJtY7NGWNyxFCRkhxRuGcpwPmRVDwOl39MB3iTsRighiMnijkbL
  XiKoJ5CDVvX5yicNqYJPKh5MFXN1bvsBkmYiStMRbrD0HoY1kx5/VozBtc70OU0EB8Wrv9hZ
  D+Ofp0T3KOr1RUHvCZoLURfFhSQ=
-Message-ID: <83bd0a39-f9ca-665b-97d3-03a8bd586278@redhat.com>
-Date: Thu, 11 Jun 2020 17:33:26 +0200
+Message-ID: <349b059d-0482-0807-141e-8df0af0a7ae5@redhat.com>
+Date: Thu, 11 Jun 2020 17:35:14 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <159188281098.70166.18387926536399257573.stgit@bahia.lan>
+In-Reply-To: <159188282644.70166.8098075112034429343.stgit@bahia.lan>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=lvivier@redhat.com;
- helo=us-smtp-1.mimecast.com
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=lvivier@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 03:29:33
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
@@ -145,97 +144,267 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 11/06/2020 15:40, Greg Kurz wrote:
-> We obviously only want to print a warning in these cases, but this is done
-> in a rather convoluted manner. Just use warn_report() instead.
+> We have a dedicated error API for hints. Use it instead of embedding
+> the hint in the error message, as recommanded in the "qapi/error.h"
+> header file.
+> 
+> Since spapr_caps_apply() passes &error_fatal, all functions must
+> also call the ERRP_AUTO_PROPAGATE() macro for error_append_hint()
+> to be functional.
+> 
+> While here, have cap_fwnmi_apply(), which already uses error_append_hint(),
+> to call ERRP_AUTO_PROPAGATE() as well.
 > 
 > Signed-off-by: Greg Kurz <groug@kaod.org>
+> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 > ---
->  hw/ppc/spapr_caps.c |   28 ++++++----------------------
->  1 file changed, 6 insertions(+), 22 deletions(-)
+>  hw/ppc/spapr_caps.c |   89 +++++++++++++++++++++++++++++----------------------
+>  1 file changed, 50 insertions(+), 39 deletions(-)
 > 
 > diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
-> index efdc0dbbcfc0..0c2bc8e06e44 100644
+> index 0c2bc8e06e44..27cf2b38af27 100644
 > --- a/hw/ppc/spapr_caps.c
 > +++ b/hw/ppc/spapr_caps.c
-> @@ -248,23 +248,18 @@ SpaprCapPossible cap_cfpc_possible = {
+> @@ -189,24 +189,24 @@ static void spapr_cap_set_pagesize(Object *obj, Visitor *v, const char *name,
+>  
+>  static void cap_htm_apply(SpaprMachineState *spapr, uint8_t val, Error **errp)
+>  {
+> +    ERRP_AUTO_PROPAGATE();
+>      if (!val) {
+>          /* TODO: We don't support disabling htm yet */
+>          return;
+>      }
+>      if (tcg_enabled()) {
+> -        error_setg(errp,
+> -                   "No Transactional Memory support in TCG,"
+> -                   " try appending -machine cap-htm=off");
+> +        error_setg(errp, "No Transactional Memory support in TCG");
+> +        error_append_hint(errp, "Try appending -machine cap-htm=off\n");
+>      } else if (kvm_enabled() && !kvmppc_has_cap_htm()) {
+>          error_setg(errp,
+> -"KVM implementation does not support Transactional Memory,"
+> -                   " try appending -machine cap-htm=off"
+> -            );
+> +                   "KVM implementation does not support Transactional Memory");
+> +        error_append_hint(errp, "Try appending -machine cap-htm=off\n");
+>      }
+>  }
+>  
+>  static void cap_vsx_apply(SpaprMachineState *spapr, uint8_t val, Error **errp)
+>  {
+> +    ERRP_AUTO_PROPAGATE();
+>      PowerPCCPU *cpu = POWERPC_CPU(first_cpu);
+>      CPUPPCState *env = &cpu->env;
+>  
+> @@ -218,13 +218,14 @@ static void cap_vsx_apply(SpaprMachineState *spapr, uint8_t val, Error **errp)
+>       * rid of anything that doesn't do VMX */
+>      g_assert(env->insns_flags & PPC_ALTIVEC);
+>      if (!(env->insns_flags2 & PPC2_VSX)) {
+> -        error_setg(errp, "VSX support not available,"
+> -                   " try appending -machine cap-vsx=off");
+> +        error_setg(errp, "VSX support not available");
+> +        error_append_hint(errp, "Try appending -machine cap-vsx=off\n");
+>      }
+>  }
+>  
+>  static void cap_dfp_apply(SpaprMachineState *spapr, uint8_t val, Error **errp)
+>  {
+> +    ERRP_AUTO_PROPAGATE();
+>      PowerPCCPU *cpu = POWERPC_CPU(first_cpu);
+>      CPUPPCState *env = &cpu->env;
+>  
+> @@ -233,8 +234,8 @@ static void cap_dfp_apply(SpaprMachineState *spapr, uint8_t val, Error **errp)
+>          return;
+>      }
+>      if (!(env->insns_flags2 & PPC2_DFP)) {
+> -        error_setg(errp, "DFP support not available,"
+> -                   " try appending -machine cap-dfp=off");
+> +        error_setg(errp, "DFP support not available");
+> +        error_append_hint(errp, "Try appending -machine cap-dfp=off\n");
+>      }
+>  }
+>  
+> @@ -248,6 +249,7 @@ SpaprCapPossible cap_cfpc_possible = {
 >  static void cap_safe_cache_apply(SpaprMachineState *spapr, uint8_t val,
 >                                   Error **errp)
 >  {
-> -    Error *local_err = NULL;
+> +    ERRP_AUTO_PROPAGATE();
 >      uint8_t kvm_val =  kvmppc_get_cap_safe_cache();
 >  
 >      if (tcg_enabled() && val) {
->          /* TCG only supports broken, allow other values and print a warning */
-> -        error_setg(&local_err,
-> -                   "TCG doesn't support requested feature, cap-cfpc=%s",
-> -                   cap_cfpc_possible.vals[val]);
-> +        warn_report("TCG doesn't support requested feature, cap-cfpc=%s",
-> +                    cap_cfpc_possible.vals[val]);
+> @@ -256,9 +258,9 @@ static void cap_safe_cache_apply(SpaprMachineState *spapr, uint8_t val,
+>                      cap_cfpc_possible.vals[val]);
 >      } else if (kvm_enabled() && (val > kvm_val)) {
 >          error_setg(errp,
->                     "Requested safe cache capability level not supported by kvm,"
->                     " try appending -machine cap-cfpc=%s",
->                     cap_cfpc_possible.vals[kvm_val]);
+> -                   "Requested safe cache capability level not supported by kvm,"
+> -                   " try appending -machine cap-cfpc=%s",
+> -                   cap_cfpc_possible.vals[kvm_val]);
+> +                   "Requested safe cache capability level not supported by KVM");
+> +        error_append_hint(errp, "Try appending -machine cap-cfpc=%s\n",
+> +                          cap_cfpc_possible.vals[kvm_val]);
 >      }
-> -
-> -    if (local_err != NULL)
-> -        warn_report_err(local_err);
 >  }
 >  
->  SpaprCapPossible cap_sbbc_possible = {
-> @@ -277,23 +272,18 @@ SpaprCapPossible cap_sbbc_possible = {
+> @@ -272,6 +274,7 @@ SpaprCapPossible cap_sbbc_possible = {
 >  static void cap_safe_bounds_check_apply(SpaprMachineState *spapr, uint8_t val,
 >                                          Error **errp)
 >  {
-> -    Error *local_err = NULL;
+> +    ERRP_AUTO_PROPAGATE();
 >      uint8_t kvm_val =  kvmppc_get_cap_safe_bounds_check();
 >  
 >      if (tcg_enabled() && val) {
->          /* TCG only supports broken, allow other values and print a warning */
-> -        error_setg(&local_err,
-> -                   "TCG doesn't support requested feature, cap-sbbc=%s",
-> -                   cap_sbbc_possible.vals[val]);
-> +        warn_report("TCG doesn't support requested feature, cap-sbbc=%s",
-> +                    cap_sbbc_possible.vals[val]);
+> @@ -280,9 +283,9 @@ static void cap_safe_bounds_check_apply(SpaprMachineState *spapr, uint8_t val,
+>                      cap_sbbc_possible.vals[val]);
 >      } else if (kvm_enabled() && (val > kvm_val)) {
 >          error_setg(errp,
->  "Requested safe bounds check capability level not supported by kvm,"
->                     " try appending -machine cap-sbbc=%s",
->                     cap_sbbc_possible.vals[kvm_val]);
+> -"Requested safe bounds check capability level not supported by kvm,"
+> -                   " try appending -machine cap-sbbc=%s",
+> -                   cap_sbbc_possible.vals[kvm_val]);
+> +"Requested safe bounds check capability level not supported by KVM");
+> +        error_append_hint(errp, "Try appending -machine cap-sbbc=%s\n",
+> +                          cap_sbbc_possible.vals[kvm_val]);
 >      }
-> -
-> -    if (local_err != NULL)
-> -        warn_report_err(local_err);
 >  }
 >  
->  SpaprCapPossible cap_ibs_possible = {
-> @@ -309,24 +299,18 @@ SpaprCapPossible cap_ibs_possible = {
+> @@ -299,6 +302,7 @@ SpaprCapPossible cap_ibs_possible = {
 >  static void cap_safe_indirect_branch_apply(SpaprMachineState *spapr,
 >                                             uint8_t val, Error **errp)
 >  {
-> -    Error *local_err = NULL;
+> +    ERRP_AUTO_PROPAGATE();
 >      uint8_t kvm_val = kvmppc_get_cap_safe_indirect_branch();
 >  
 >      if (tcg_enabled() && val) {
->          /* TCG only supports broken, allow other values and print a warning */
-> -        error_setg(&local_err,
-> -                   "TCG doesn't support requested feature, cap-ibs=%s",
-> -                   cap_ibs_possible.vals[val]);
-> +        warn_report("TCG doesn't support requested feature, cap-ibs=%s",
-> +                    cap_ibs_possible.vals[val]);
+> @@ -307,9 +311,9 @@ static void cap_safe_indirect_branch_apply(SpaprMachineState *spapr,
+>                      cap_ibs_possible.vals[val]);
 >      } else if (kvm_enabled() && (val > kvm_val)) {
 >          error_setg(errp,
->  "Requested safe indirect branch capability level not supported by kvm,"
->                     " try appending -machine cap-ibs=%s",
->                     cap_ibs_possible.vals[kvm_val]);
+> -"Requested safe indirect branch capability level not supported by kvm,"
+> -                   " try appending -machine cap-ibs=%s",
+> -                   cap_ibs_possible.vals[kvm_val]);
+> +"Requested safe indirect branch capability level not supported by KVM");
+> +        error_append_hint(errp, "Try appending -machine cap-ibs=%s\n",
+> +                          cap_ibs_possible.vals[kvm_val]);
 >      }
-> -
-> -    if (local_err != NULL) {
-> -        warn_report_err(local_err);
-> -    }
 >  }
 >  
->  #define VALUE_DESC_TRISTATE     " (broken, workaround, fixed)"
+> @@ -386,23 +390,25 @@ static void cap_hpt_maxpagesize_cpu_apply(SpaprMachineState *spapr,
+>  static void cap_nested_kvm_hv_apply(SpaprMachineState *spapr,
+>                                      uint8_t val, Error **errp)
+>  {
+> +    ERRP_AUTO_PROPAGATE();
+>      if (!val) {
+>          /* capability disabled by default */
+>          return;
+>      }
+>  
+>      if (tcg_enabled()) {
+> -        error_setg(errp,
+> -                   "No Nested KVM-HV support in tcg,"
+> -                   " try appending -machine cap-nested-hv=off");
+> +        error_setg(errp, "No Nested KVM-HV support in TCG");
+> +        error_append_hint(errp, "Try appending -machine cap-nested-hv=off\n");
+>      } else if (kvm_enabled()) {
+>          if (!kvmppc_has_cap_nested_kvm_hv()) {
+>              error_setg(errp,
+> -"KVM implementation does not support Nested KVM-HV,"
+> -                       " try appending -machine cap-nested-hv=off");
+> +                       "KVM implementation does not support Nested KVM-HV");
+> +            error_append_hint(errp,
+> +                              "Try appending -machine cap-nested-hv=off\n");
+>          } else if (kvmppc_set_cap_nested_kvm_hv(val) < 0) {
+> -                error_setg(errp,
+> -"Error enabling cap-nested-hv with KVM, try cap-nested-hv=off");
+> +                error_setg(errp, "Error enabling cap-nested-hv with KVM");
+> +                error_append_hint(errp,
+> +                                  "Try appending -machine cap-nested-hv=off\n");
+>          }
+>      }
+>  }
+> @@ -410,6 +416,7 @@ static void cap_nested_kvm_hv_apply(SpaprMachineState *spapr,
+>  static void cap_large_decr_apply(SpaprMachineState *spapr,
+>                                   uint8_t val, Error **errp)
+>  {
+> +    ERRP_AUTO_PROPAGATE();
+>      PowerPCCPU *cpu = POWERPC_CPU(first_cpu);
+>      PowerPCCPUClass *pcc = POWERPC_CPU_GET_CLASS(cpu);
+>  
+> @@ -420,22 +427,23 @@ static void cap_large_decr_apply(SpaprMachineState *spapr,
+>      if (tcg_enabled()) {
+>          if (!ppc_check_compat(cpu, CPU_POWERPC_LOGICAL_3_00, 0,
+>                                spapr->max_compat_pvr)) {
+> -            error_setg(errp,
+> -                "Large decrementer only supported on POWER9, try -cpu POWER9");
+> +            error_setg(errp, "Large decrementer only supported on POWER9");
+> +            error_append_hint(errp, "Try -cpu POWER9\n");
+>              return;
+>          }
+>      } else if (kvm_enabled()) {
+>          int kvm_nr_bits = kvmppc_get_cap_large_decr();
+>  
+>          if (!kvm_nr_bits) {
+> -            error_setg(errp,
+> -                       "No large decrementer support,"
+> -                        " try appending -machine cap-large-decr=off");
+> +            error_setg(errp, "No large decrementer support");
+> +            error_append_hint(errp,
+> +                              "Try appending -machine cap-large-decr=off\n");
+>          } else if (pcc->lrg_decr_bits != kvm_nr_bits) {
+>              error_setg(errp,
+> -"KVM large decrementer size (%d) differs to model (%d),"
+> -                " try appending -machine cap-large-decr=off",
+> -                kvm_nr_bits, pcc->lrg_decr_bits);
+> +                       "KVM large decrementer size (%d) differs to model (%d)",
+> +                       kvm_nr_bits, pcc->lrg_decr_bits);
+> +            error_append_hint(errp,
+> +                              "Try appending -machine cap-large-decr=off\n");
+>          }
+>      }
+>  }
+> @@ -444,14 +452,15 @@ static void cap_large_decr_cpu_apply(SpaprMachineState *spapr,
+>                                       PowerPCCPU *cpu,
+>                                       uint8_t val, Error **errp)
+>  {
+> +    ERRP_AUTO_PROPAGATE();
+>      CPUPPCState *env = &cpu->env;
+>      target_ulong lpcr = env->spr[SPR_LPCR];
+>  
+>      if (kvm_enabled()) {
+>          if (kvmppc_enable_cap_large_decr(cpu, val)) {
+> -            error_setg(errp,
+> -                       "No large decrementer support,"
+> -                       " try appending -machine cap-large-decr=off");
+> +            error_setg(errp, "No large decrementer support");
+> +            error_append_hint(errp,
+> +                              "Try appending -machine cap-large-decr=off\n");
+>          }
+>      }
+>  
+> @@ -466,6 +475,7 @@ static void cap_large_decr_cpu_apply(SpaprMachineState *spapr,
+>  static void cap_ccf_assist_apply(SpaprMachineState *spapr, uint8_t val,
+>                                   Error **errp)
+>  {
+> +    ERRP_AUTO_PROPAGATE();
+>      uint8_t kvm_val = kvmppc_get_cap_count_cache_flush_assist();
+>  
+>      if (tcg_enabled() && val) {
+> @@ -488,14 +498,15 @@ static void cap_ccf_assist_apply(SpaprMachineState *spapr, uint8_t val,
+>              return;
+>          }
+>          error_setg(errp,
+> -"Requested count cache flush assist capability level not supported by kvm,"
+> -                   " try appending -machine cap-ccf-assist=off");
+> +                   "Requested count cache flush assist capability level not supported by KVM");
+> +        error_append_hint(errp, "Try appending -machine cap-ccf-assist=off\n");
+>      }
+>  }
+>  
+>  static void cap_fwnmi_apply(SpaprMachineState *spapr, uint8_t val,
+>                                  Error **errp)
+>  {
+> +    ERRP_AUTO_PROPAGATE();
+>      if (!val) {
+>          return; /* Disabled by default */
+>      }
 > 
 > 
 
