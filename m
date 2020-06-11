@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39B611F6E8D
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 22:12:50 +0200 (CEST)
-Received: from localhost ([::1]:45794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 214521F6E84
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 22:09:30 +0200 (CEST)
+Received: from localhost ([::1]:34952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjTZB-0006Ru-7O
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 16:12:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54848)
+	id 1jjTVw-0000Vk-W1
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 16:09:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55322)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jjT8u-0007tW-Ds
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:45:40 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:28695
+ id 1jjT9R-0008M6-J3
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:46:13 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:21306
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jjT8s-00011u-00
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:45:39 -0400
+ id 1jjT9O-0001E9-H6
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:46:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591904737;
+ s=mimecast20190719; t=1591904769;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bjlB80Koby3bUcNCP1SMMXQG/Rg7x+AxPJv8cE+Cwoo=;
- b=NSO+amRl1abcnZfhcVOC/mqrjOjKvLR7GFde+tdfyjiztw3YM1xpRx2M7f9mqTL02gzv+C
- m4LI5cVUjMn8IDcwas+gcomW88In8Aal2r1JXJJ+JydOrv6USb1oONUez0oMS6EGDxh4px
- /QDNsE+sYNl6+yppj3b4WCdX5bT6XO0=
+ bh=E9wtEOmw2FHl5lxP0ezQdM7JMQVoBoKAz0J5xFT9n+M=;
+ b=fpB75O4PogkezHlzcuMVCyoVTgeOnntYxem9Xj1a6wNE04PtyzGpUKKYKaObk82KlF3ztj
+ xPNjm0lH04YIbZcNw4Grdg79+GZ8vK4cw4FKd13h8ythdH2BDAVe0bPb8Wq+AqvWUsSjUi
+ sQiY5oq5RoS5FUt8ANq8elGRyQ/B4M4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-194-qN8xpH4gMai0TI1T3yAZPg-1; Thu, 11 Jun 2020 15:45:23 -0400
-X-MC-Unique: qN8xpH4gMai0TI1T3yAZPg-1
+ us-mta-101-Dk3K1UVCOySfW6RZzIHlqQ-1; Thu, 11 Jun 2020 15:45:24 -0400
+X-MC-Unique: Dk3K1UVCOySfW6RZzIHlqQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A945DA0C01;
- Thu, 11 Jun 2020 19:45:22 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 49C45461;
+ Thu, 11 Jun 2020 19:45:23 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3B53B7E589;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CFEA25EE0E;
  Thu, 11 Jun 2020 19:45:22 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 034/115] hw/i386/vmport: Add support for CMD_GET_VCPU_INFO
-Date: Thu, 11 Jun 2020 15:43:28 -0400
-Message-Id: <20200611194449.31468-35-pbonzini@redhat.com>
+Subject: [PULL 035/115] hw/i386/vmport: Allow x2apic without IR
+Date: Thu, 11 Jun 2020 15:43:29 -0400
+Message-Id: <20200611194449.31468-36-pbonzini@redhat.com>
 In-Reply-To: <20200611194449.31468-1-pbonzini@redhat.com>
 References: <20200611194449.31468-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -57,16 +57,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 14:52:10
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 08:37:10
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,72 +87,42 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Liran Alon <liran.alon@oracle.com>
 
-Command currently returns that it is unimplemented by setting
-the reserved-bit in it's return value.
+Signal to guest that hypervisor supports x2apic without VT-d/IOMMU
+Interrupt-Remapping support. This allows guest to use x2apic in
+case all APIC IDs fits in 8-bit (i.e. Max APIC ID < 255).
 
-Following patches will return various useful vCPU information
-to guest.
+See Linux kernel commit 4cca6ea04d31 ("x86/apic: Allow x2apic
+without IR on VMware platform") and Linux try_to_enable_x2apic()
+function.
 
 Reviewed-by: Nikita Leshenko <nikita.leshchenko@oracle.com>
 Signed-off-by: Liran Alon <liran.alon@oracle.com>
-Message-Id: <20200312165431.82118-13-liran.alon@oracle.com>
+Message-Id: <20200312165431.82118-14-liran.alon@oracle.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/i386/vmport.c         | 14 ++++++++++++++
- include/hw/i386/vmport.h |  1 +
- 2 files changed, 15 insertions(+)
+ hw/i386/vmport.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
 diff --git a/hw/i386/vmport.c b/hw/i386/vmport.c
-index 8006ff91d4..942a0e94e3 100644
+index 942a0e94e3..21d4ff048a 100644
 --- a/hw/i386/vmport.c
 +++ b/hw/i386/vmport.c
-@@ -54,6 +54,13 @@
- #define VMPORT_COMPAT_CMDS_V2                   \
-     (1 << VMPORT_COMPAT_CMDS_V2_BIT)
+@@ -176,7 +176,14 @@ static uint32_t vmport_cmd_ram_size(void *opaque, uint32_t addr)
  
-+/* vCPU features reported by CMD_GET_VCPU_INFO */
-+#define VCPU_INFO_SLC64_BIT             0
-+#define VCPU_INFO_SYNC_VTSCS_BIT        1
-+#define VCPU_INFO_HV_REPLAY_OK_BIT      2
-+#define VCPU_INFO_LEGACY_X2APIC_BIT     3
-+#define VCPU_INFO_RESERVED_BIT          31
+ static uint32_t vmport_cmd_get_vcpu_info(void *opaque, uint32_t addr)
+ {
+-    return 1 << VCPU_INFO_RESERVED_BIT;
++    X86CPU *cpu = X86_CPU(current_cpu);
++    uint32_t ret = 0;
 +
- #define VMPORT(obj) OBJECT_CHECK(VMPortState, (obj), TYPE_VMPORT)
- 
- typedef struct VMPortState {
-@@ -167,6 +174,11 @@ static uint32_t vmport_cmd_ram_size(void *opaque, uint32_t addr)
-     return ram_size;
++    if (cpu->env.features[FEAT_1_ECX] & CPUID_EXT_X2APIC) {
++        ret |= 1 << VCPU_INFO_LEGACY_X2APIC_BIT;
++    }
++
++    return ret;
  }
  
-+static uint32_t vmport_cmd_get_vcpu_info(void *opaque, uint32_t addr)
-+{
-+    return 1 << VCPU_INFO_RESERVED_BIT;
-+}
-+
  static const MemoryRegionOps vmport_ops = {
-     .read = vmport_ioport_read,
-     .write = vmport_ioport_write,
-@@ -192,6 +204,8 @@ static void vmport_realizefn(DeviceState *dev, Error **errp)
-     vmport_register(VMPORT_CMD_GETRAMSIZE, vmport_cmd_ram_size, NULL);
-     if (s->compat_flags & VMPORT_COMPAT_CMDS_V2) {
-         vmport_register(VMPORT_CMD_GETBIOSUUID, vmport_cmd_get_bios_uuid, NULL);
-+        vmport_register(VMPORT_CMD_GET_VCPU_INFO, vmport_cmd_get_vcpu_info,
-+                        NULL);
-     }
- }
- 
-diff --git a/include/hw/i386/vmport.h b/include/hw/i386/vmport.h
-index 7f566ccc02..7656432358 100644
---- a/include/hw/i386/vmport.h
-+++ b/include/hw/i386/vmport.h
-@@ -13,6 +13,7 @@ typedef enum {
-     VMPORT_CMD_VMMOUSE_DATA     = 39,
-     VMPORT_CMD_VMMOUSE_STATUS   = 40,
-     VMPORT_CMD_VMMOUSE_COMMAND  = 41,
-+    VMPORT_CMD_GET_VCPU_INFO    = 68,
-     VMPORT_ENTRIES
- } VMPortCommand;
- 
 -- 
 2.26.2
 
