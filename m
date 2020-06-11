@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 373741F6E9A
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 22:16:49 +0200 (CEST)
-Received: from localhost ([::1]:34358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B906C1F6E97
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 22:16:01 +0200 (CEST)
+Received: from localhost ([::1]:59386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjTd2-0005sd-4w
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 16:16:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54882)
+	id 1jjTcG-0004SQ-My
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 16:16:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jjT8v-0007uV-3x
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:45:41 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36463
- helo=us-smtp-1.mimecast.com)
+ id 1jjT8y-0007ys-3P
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:45:44 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:41655
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jjT8s-00011r-1L
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:45:40 -0400
+ id 1jjT8s-000123-Dq
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:45:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1591904737;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9MiZTuB1jn4OQN9DsLVSeuNz7XUvR6qH6PEUWfjPKZw=;
- b=TObTXdofZ5MKpmiRkQO9PkP3xszFjYMhP6HDIb4f9OVYz6JT1ntj3PmOxdLK7m55+JxIJR
- OVQxXv/g9wwXmENZNVr3pJO3jlWhKaRO5gDGHScAzidT6dmi8V+sSuayKedvDh3evLoR9S
- GJv4+B16HO+JUcXDq5D+MyvUpLWTh70=
+ bh=7pqCnSjTR2PzSL+AfGbFKdpToycd8SKN9cXtHQcKSko=;
+ b=U/akjp+YdMq2I6G/7AR9okt3hteO/0A2aZe6hpSz5HMuoC9qP5fF9ALZFBHRdc6CzL+ld5
+ 3ctO1Stx7fDzI93piTzvktyhtOnCoPjibVpu1PyyYqsO4O4/iS5yPCRWueFoaowFzpMZEb
+ 31LNWLR2DPcGaiXRQoRdhWeo9ZcKCJg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-329-YsuNxs3hM4e08-P8UdY26g-1; Thu, 11 Jun 2020 15:45:34 -0400
-X-MC-Unique: YsuNxs3hM4e08-P8UdY26g-1
+ us-mta-136-cUdRcWTjPWyjC3MWTIT2Kg-1; Thu, 11 Jun 2020 15:45:35 -0400
+X-MC-Unique: cUdRcWTjPWyjC3MWTIT2Kg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E0153A0C00;
- Thu, 11 Jun 2020 19:45:33 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6BFAE1800D41;
+ Thu, 11 Jun 2020 19:45:34 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 231B8707C6;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 12AD38FF88;
  Thu, 11 Jun 2020 19:45:33 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 052/115] target/i386: fix fscale handling of signaling NaN
-Date: Thu, 11 Jun 2020 15:43:46 -0400
-Message-Id: <20200611194449.31468-53-pbonzini@redhat.com>
+Subject: [PULL 053/115] target/i386: fix fscale handling of invalid exponent
+ encodings
+Date: Thu, 11 Jun 2020 15:43:47 -0400
+Message-Id: <20200611194449.31468-54-pbonzini@redhat.com>
 In-Reply-To: <20200611194449.31468-1-pbonzini@redhat.com>
 References: <20200611194449.31468-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -57,16 +58,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 08:37:10
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 14:57:53
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,77 +87,82 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Joseph Myers <joseph@codesourcery.com>
 
-The implementation of the fscale instruction returns a NaN exponent
-unchanged.  Fix it to return a quiet NaN when the provided exponent is
-a signaling NaN.
+The fscale implementation does not check for invalid encodings in the
+exponent operand, thus treating them like INT_MIN (the value returned
+for invalid encodings by floatx80_to_int32_round_to_zero).  Fix it to
+treat them similarly to signaling NaN exponents, thus generating a
+quiet NaN result.
 
 Signed-off-by: Joseph Myers <joseph@codesourcery.com>
-Message-Id: <alpine.DEB.2.21.2005070043330.18350@digraph.polyomino.org.uk>
+Message-Id: <alpine.DEB.2.21.2005070044190.18350@digraph.polyomino.org.uk>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/fpu_helper.c          |  4 ++++
- tests/tcg/i386/test-i386-fscale.c | 37 +++++++++++++++++++++++++++++++
- 2 files changed, 41 insertions(+)
- create mode 100644 tests/tcg/i386/test-i386-fscale.c
+ target/i386/fpu_helper.c          |  5 ++++-
+ tests/tcg/i386/test-i386-fscale.c | 29 +++++++++++++++++++++++++++++
+ 2 files changed, 33 insertions(+), 1 deletion(-)
 
 diff --git a/target/i386/fpu_helper.c b/target/i386/fpu_helper.c
-index 568bd3b359..0671de6952 100644
+index 0671de6952..10ff90370e 100644
 --- a/target/i386/fpu_helper.c
 +++ b/target/i386/fpu_helper.c
-@@ -970,6 +970,10 @@ void helper_fscale(CPUX86State *env)
+@@ -968,7 +968,10 @@ void helper_frndint(CPUX86State *env)
+ 
+ void helper_fscale(CPUX86State *env)
  {
-     if (floatx80_is_any_nan(ST1)) {
+-    if (floatx80_is_any_nan(ST1)) {
++    if (floatx80_invalid_encoding(ST1)) {
++        float_raise(float_flag_invalid, &env->fp_status);
++        ST0 = floatx80_default_nan(&env->fp_status);
++    } else if (floatx80_is_any_nan(ST1)) {
          ST0 = ST1;
-+        if (floatx80_is_signaling_nan(ST0, &env->fp_status)) {
-+            float_raise(float_flag_invalid, &env->fp_status);
-+            ST0 = floatx80_silence_nan(ST0, &env->fp_status);
-+        }
-     } else {
-         int n = floatx80_to_int32_round_to_zero(ST1, &env->fp_status);
-         ST0 = floatx80_scalbn(ST0, n, &env->fp_status);
+         if (floatx80_is_signaling_nan(ST0, &env->fp_status)) {
+             float_raise(float_flag_invalid, &env->fp_status);
 diff --git a/tests/tcg/i386/test-i386-fscale.c b/tests/tcg/i386/test-i386-fscale.c
-new file mode 100644
-index 0000000000..aecac5125f
---- /dev/null
+index aecac5125f..b65a055d0a 100644
+--- a/tests/tcg/i386/test-i386-fscale.c
 +++ b/tests/tcg/i386/test-i386-fscale.c
-@@ -0,0 +1,37 @@
-+/* Test fscale instruction.  */
+@@ -8,6 +8,11 @@ union u {
+     long double ld;
+ };
+ 
++volatile union u ld_invalid_1 = { .s = { 1, 1234 } };
++volatile union u ld_invalid_2 = { .s = { 0, 1234 } };
++volatile union u ld_invalid_3 = { .s = { 0, 0x7fff } };
++volatile union u ld_invalid_4 = { .s = { (UINT64_C(1) << 63) - 1, 0x7fff } };
 +
-+#include <stdint.h>
-+#include <stdio.h>
-+
-+union u {
-+    struct { uint64_t sig; uint16_t sign_exp; } s;
-+    long double ld;
-+};
-+
-+volatile long double ld_res;
-+
-+int isnan_ld(long double x)
-+{
-+  union u tmp = { .ld = x };
-+  return ((tmp.s.sign_exp & 0x7fff) == 0x7fff &&
-+          (tmp.s.sig >> 63) != 0 &&
-+          (tmp.s.sig << 1) != 0);
-+}
-+
-+int issignaling_ld(long double x)
-+{
-+    union u tmp = { .ld = x };
-+    return isnan_ld(x) && (tmp.s.sig & UINT64_C(0x4000000000000000)) == 0;
-+}
-+
-+int main(void)
-+{
-+    int ret = 0;
+ volatile long double ld_res;
+ 
+ int isnan_ld(long double x)
+@@ -33,5 +38,29 @@ int main(void)
+         printf("FAIL: fscale snan\n");
+         ret = 1;
+     }
 +    __asm__ volatile ("fscale" : "=t" (ld_res) :
-+                      "0" (2.5L), "u" (__builtin_nansl("")));
++                      "0" (2.5L), "u" (ld_invalid_1.ld));
 +    if (!isnan_ld(ld_res) || issignaling_ld(ld_res)) {
-+        printf("FAIL: fscale snan\n");
++        printf("FAIL: fscale invalid 1\n");
 +        ret = 1;
 +    }
-+    return ret;
-+}
++    __asm__ volatile ("fscale" : "=t" (ld_res) :
++                      "0" (2.5L), "u" (ld_invalid_2.ld));
++    if (!isnan_ld(ld_res) || issignaling_ld(ld_res)) {
++        printf("FAIL: fscale invalid 2\n");
++        ret = 1;
++    }
++    __asm__ volatile ("fscale" : "=t" (ld_res) :
++                      "0" (2.5L), "u" (ld_invalid_3.ld));
++    if (!isnan_ld(ld_res) || issignaling_ld(ld_res)) {
++        printf("FAIL: fscale invalid 3\n");
++        ret = 1;
++    }
++    __asm__ volatile ("fscale" : "=t" (ld_res) :
++                      "0" (2.5L), "u" (ld_invalid_4.ld));
++    if (!isnan_ld(ld_res) || issignaling_ld(ld_res)) {
++        printf("FAIL: fscale invalid 4\n");
++        ret = 1;
++    }
+     return ret;
+ }
 -- 
 2.26.2
 
