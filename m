@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF1561F6E4B
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 21:51:35 +0200 (CEST)
-Received: from localhost ([::1]:34368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F29A1F6E3D
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 21:49:12 +0200 (CEST)
+Received: from localhost ([::1]:54036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjTEc-0007GV-GS
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 15:51:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53804)
+	id 1jjTCJ-0002nz-D2
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 15:49:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jjT8I-0007DR-Fa
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:45:02 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:54321
+ id 1jjT8H-0007CU-B4
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:45:01 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:44865
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jjT8E-0000ld-Qy
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:45:01 -0400
+ id 1jjT8E-0000la-Ra
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:45:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1591904696;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Zmvvk2TUZzoW34IK4IX2JCUHzVDf1ekb5o2RBZ/OgD8=;
- b=Nq9rvy3q+5y/9KzzZqnhPVK+QFcMe7bBXuq5DSTbU1AKfxErfjNvKPONlZcIrrMMIszHX1
- AdY9bjABUJf5C0aVcj0xwdb56H5AU47RaBppZWYNOY9coxvt21VTxUAzThu24enfdiqM2a
- r7SUlON78X25sItBv9Uvs80cNez2s4M=
+ bh=wucDS0WDxIJnY572b6MT723ttGMTngApmYMEbO/keOQ=;
+ b=E3bH486Fvq/dnPksZwaNG/qT9iax4tI6XSCNLCQxAmd723x1EqTXAzOfPndteyrhK42jMu
+ lV+ANboYVwGvAEN1M0AQsCieu+9ZDCCB1CpaBW5OqO9c7tNIVXgK120RHYRoC/mJcmo2D3
+ /OmSQDwGV8xwnXRbX+4fA8c/eYAhdbE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-403-4XK3QQX1M2qRqAbViStqYw-1; Thu, 11 Jun 2020 15:44:52 -0400
-X-MC-Unique: 4XK3QQX1M2qRqAbViStqYw-1
+ us-mta-147-m8--x84JMI6-Gu2E76wGkA-1; Thu, 11 Jun 2020 15:44:52 -0400
+X-MC-Unique: m8--x84JMI6-Gu2E76wGkA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 80BE91005512
- for <qemu-devel@nongnu.org>; Thu, 11 Jun 2020 19:44:51 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0BF57A0C00
+ for <qemu-devel@nongnu.org>; Thu, 11 Jun 2020 19:44:52 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 27FD45EE0E;
- Thu, 11 Jun 2020 19:44:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A7A175EE0E;
+ Thu, 11 Jun 2020 19:44:51 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 001/115] docker.py/build: support -t and -f arguments
-Date: Thu, 11 Jun 2020 15:42:55 -0400
-Message-Id: <20200611194449.31468-2-pbonzini@redhat.com>
+Subject: [PULL 002/115] docker.py/build: support binary files in --extra-files
+Date: Thu, 11 Jun 2020 15:42:56 -0400
+Message-Id: <20200611194449.31468-3-pbonzini@redhat.com>
 In-Reply-To: <20200611194449.31468-1-pbonzini@redhat.com>
 References: <20200611194449.31468-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -84,56 +84,40 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The docker.py command line is subtly different from docker and podman's,
-in that the tag and Dockerfile are passed via positional arguments.
-Remove this gratuitous difference and just parse -f and -t.
-
--f was previously used by --extra-files, only keep the long option.
+Read the --extra-files in binary mode to avoid encoding errors.
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- tests/docker/Makefile.include | 2 +-
- tests/docker/docker.py        | 6 +++---
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ tests/docker/docker.py | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-index ed46bd98eb..f32a95b488 100644
---- a/tests/docker/Makefile.include
-+++ b/tests/docker/Makefile.include
-@@ -55,7 +55,7 @@ docker-image-%: $(DOCKER_FILES_DIR)/%.docker
- else
- docker-image-%: $(DOCKER_FILES_DIR)/%.docker
- 	$(call quiet-command,\
--		$(DOCKER_SCRIPT) build qemu:$* $< \
-+		$(DOCKER_SCRIPT) build -t qemu:$* -f $< \
- 		$(if $V,,--quiet) $(if $(NOCACHE),--no-cache) \
- 		$(if $(NOUSER),,--add-current-user) \
- 		$(if $(EXTRA_FILES),--extra-files $(EXTRA_FILES))\
 diff --git a/tests/docker/docker.py b/tests/docker/docker.py
-index 5a9735db78..d96ccc9b19 100755
+index d96ccc9b19..e630aae108 100755
 --- a/tests/docker/docker.py
 +++ b/tests/docker/docker.py
-@@ -392,16 +392,16 @@ class BuildCommand(SubCommand):
-                             help="""Specify a binary that will be copied to the
-                             container together with all its dependent
-                             libraries""")
--        parser.add_argument("--extra-files", "-f", nargs='*',
-+        parser.add_argument("--extra-files", nargs='*',
-                             help="""Specify files that will be copied in the
-                             Docker image, fulfilling the ADD directive from the
-                             Dockerfile""")
-         parser.add_argument("--add-current-user", "-u", dest="user",
-                             action="store_true",
-                             help="Add the current user to image's passwd")
--        parser.add_argument("tag",
-+        parser.add_argument("-t", dest="tag",
-                             help="Image Tag")
--        parser.add_argument("dockerfile",
-+        parser.add_argument("-f", dest="dockerfile",
-                             help="Dockerfile name")
+@@ -56,15 +56,19 @@ class EngineEnum(enum.IntEnum):
  
-     def run(self, args, argv):
+ USE_ENGINE = EngineEnum.AUTO
+ 
++def _bytes_checksum(bytes):
++    """Calculate a digest string unique to the text content"""
++    return hashlib.sha1(bytes).hexdigest()
++
+ def _text_checksum(text):
+     """Calculate a digest string unique to the text content"""
+-    return hashlib.sha1(text.encode('utf-8')).hexdigest()
++    return _bytes_checksum(text.encode('utf-8'))
+ 
+ def _read_dockerfile(path):
+     return open(path, 'rt', encoding='utf-8').read()
+ 
+ def _file_checksum(filename):
+-    return _text_checksum(_read_dockerfile(filename))
++    return _bytes_checksum(open(filename, 'rb').read())
+ 
+ 
+ def _guess_engine_command():
 -- 
 2.26.2
 
