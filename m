@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2C731F6E55
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 21:54:32 +0200 (CEST)
-Received: from localhost ([::1]:43292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B1081F6E4C
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 21:51:38 +0200 (CEST)
+Received: from localhost ([::1]:34716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjTHT-0003Gj-Og
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 15:54:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54092)
+	id 1jjTEf-0007P9-As
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 15:51:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jjT8V-0007VU-Bs
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:45:16 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:54826
- helo=us-smtp-1.mimecast.com)
+ id 1jjT8U-0007UB-67
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:45:14 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:26077
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jjT8T-0000qz-Er
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:45:15 -0400
+ id 1jjT8R-0000pO-H4
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:45:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591904712;
+ s=mimecast20190719; t=1591904710;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=k7arBjwywDdVge+nq40Wb/WPqdlhhkJBZ1JLGzgHBd0=;
- b=IQ9et49jR2K16v1eCW9XHEVVEdgLNBTcnkwTS3JRbhlDcDM8gtjYZhbawfuiZ4XCLLyQ7Y
- Yr6yM0AfjFkZtjHTiRZgZA4jHEVEkMCfXtWJu5kePKVg/nkap2Wdb7OvD2eRC5oESHq30a
- k79ZcrcSg4Bp9zTsHlHWU36F2brRCvg=
+ bh=e2SGOCNL6XL6xuFV5X4LrCpFwE7kT/D02iFNt5rRIl4=;
+ b=eJrbvtA49kKFQdj5gsQe7s4X8skeU6d5Qj/fMk2s1ddr+R1/SmcI+krAuPmzi9iLU098D9
+ OEgDF/TxlnJxpr00Wi+b67ymI9EWltwpHD/h0uXJgr9FNM05a7ciyNUWMfD5VWp7iGj0HL
+ HlEQOpi1N7byj9oaYqPXRRdprLuhaH8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-125-vYN2wNuUNW2ININfFuQ1Zw-1; Thu, 11 Jun 2020 15:45:05 -0400
-X-MC-Unique: vYN2wNuUNW2ININfFuQ1Zw-1
+ us-mta-90-ImVkDhkkPf6EDYP1B91sPw-1; Thu, 11 Jun 2020 15:45:08 -0400
+X-MC-Unique: ImVkDhkkPf6EDYP1B91sPw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 49244107ACCA;
- Thu, 11 Jun 2020 19:45:04 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 09F0C461
+ for <qemu-devel@nongnu.org>; Thu, 11 Jun 2020 19:45:08 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D0C5F60CC0;
- Thu, 11 Jun 2020 19:45:03 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7A27060CC0;
+ Thu, 11 Jun 2020 19:45:04 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 015/115] io/task: Move 'qom/object.h' header to source
-Date: Thu, 11 Jun 2020 15:43:09 -0400
-Message-Id: <20200611194449.31468-16-pbonzini@redhat.com>
+Subject: [PULL 016/115] Makefile: Let the 'help' target list the helper targets
+Date: Thu, 11 Jun 2020 15:43:10 -0400
+Message-Id: <20200611194449.31468-17-pbonzini@redhat.com>
 In-Reply-To: <20200611194449.31468-1-pbonzini@redhat.com>
 References: <20200611194449.31468-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -57,16 +57,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 08:37:10
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 14:57:53
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,61 +80,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-We need "qom/object.h" to call object_ref()/object_unref(),
-and to test the TYPE_DUMMY.
+List the name of the helper targets when calling 'make help',
+along with the tool targets:
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20200504115656.6045-3-f4bug@amsat.org>
+  $ make help
+  [...]
+
+  Helper targets:
+    fsdev/virtfs-proxy-helper      - Build virtfs-proxy-helper
+    scsi/qemu-pr-helper            - Build qemu-pr-helper
+    qemu-bridge-helper             - Build qemu-bridge-helper
+    vhost-user-gpu                 - Build vhost-user-gpu
+    virtiofsd                      - Build virtiofsd
+
+  Tools targets:
+    qemu-ga                        - Build qemu-ga tool
+    qemu-keymap                    - Build qemu-keymap tool
+    elf2dmp                        - Build elf2dmp tool
+    ivshmem-client                 - Build ivshmem-client tool
+    ivshmem-server                 - Build ivshmem-server tool
+    qemu-nbd                       - Build qemu-nbd tool
+    qemu-storage-daemon            - Build qemu-storage-daemon tool
+    qemu-img                       - Build qemu-img tool
+    qemu-io                        - Build qemu-io tool
+    qemu-edid                      - Build qemu-edid tool
+
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/io/task.h    | 2 --
- io/task.c            | 1 +
- tests/test-io-task.c | 1 +
- 3 files changed, 2 insertions(+), 2 deletions(-)
+ Makefile  | 9 +++++++--
+ configure | 5 +++--
+ 2 files changed, 10 insertions(+), 4 deletions(-)
 
-diff --git a/include/io/task.h b/include/io/task.h
-index 1abbfb8b65..6818dfedd0 100644
---- a/include/io/task.h
-+++ b/include/io/task.h
-@@ -21,8 +21,6 @@
- #ifndef QIO_TASK_H
- #define QIO_TASK_H
+diff --git a/Makefile b/Makefile
+index d1af126ea1..ed0ed93b2d 100644
+--- a/Makefile
++++ b/Makefile
+@@ -336,9 +336,9 @@ $(call set-vpath, $(SRC_PATH))
+ LIBS+=-lz $(LIBS_TOOLS)
  
--#include "qom/object.h"
--
- typedef struct QIOTask QIOTask;
+ vhost-user-json-y =
+-HELPERS-y =
++HELPERS-y = $(HELPERS)
  
- typedef void (*QIOTaskFunc)(QIOTask *task,
-diff --git a/io/task.c b/io/task.c
-index 1ae7b86488..53c0bed686 100644
---- a/io/task.c
-+++ b/io/task.c
-@@ -22,6 +22,7 @@
- #include "io/task.h"
- #include "qapi/error.h"
- #include "qemu/thread.h"
-+#include "qom/object.h"
- #include "trace.h"
+-HELPERS-$(call land,$(CONFIG_SOFTMMU),$(CONFIG_LINUX)) = qemu-bridge-helper$(EXESUF)
++HELPERS-$(call land,$(CONFIG_SOFTMMU),$(CONFIG_LINUX)) += qemu-bridge-helper$(EXESUF)
  
- struct QIOTaskThreadData {
-diff --git a/tests/test-io-task.c b/tests/test-io-task.c
-index aa8b653bfa..c8a3813d49 100644
---- a/tests/test-io-task.c
-+++ b/tests/test-io-task.c
-@@ -20,6 +20,7 @@
+ ifeq ($(CONFIG_LINUX)$(CONFIG_VIRGL)$(CONFIG_GBM)$(CONFIG_TOOLS),yyyy)
+ HELPERS-y += vhost-user-gpu$(EXESUF)
+@@ -1258,6 +1258,11 @@ endif
+ 				$(call print-help-run,$(t)/fuzz,Build fuzzer for $(t)); \
+ 		))) \
+ 		echo '')
++	@$(if $(HELPERS-y), \
++		echo 'Helper targets:'; \
++		$(foreach t, $(HELPERS-y), \
++		$(call print-help-run,$(t),Build $(shell basename $(t)));) \
++		echo '')
+ 	@$(if $(TOOLS), \
+ 		echo 'Tools targets:'; \
+ 		$(foreach t, $(TOOLS), \
+diff --git a/configure b/configure
+index 597e909b53..53a6dd0297 100755
+--- a/configure
++++ b/configure
+@@ -6394,7 +6394,7 @@ if test "$softmmu" = yes ; then
+   if test "$linux" = yes; then
+     if test "$virtfs" != no && test "$cap_ng" = yes && test "$attr" = yes ; then
+       virtfs=yes
+-      tools="$tools fsdev/virtfs-proxy-helper\$(EXESUF)"
++      helpers="$helpers fsdev/virtfs-proxy-helper\$(EXESUF)"
+     else
+       if test "$virtfs" = yes; then
+         error_exit "VirtFS requires libcap-ng devel and libattr devel"
+@@ -6409,7 +6409,7 @@ if test "$softmmu" = yes ; then
+       fi
+       mpath=no
+     fi
+-    tools="$tools scsi/qemu-pr-helper\$(EXESUF)"
++    helpers="$helpers scsi/qemu-pr-helper\$(EXESUF)"
+   else
+     if test "$virtfs" = yes; then
+       error_exit "VirtFS is supported only on Linux"
+@@ -7651,6 +7651,7 @@ else
+   QEMU_INCLUDES="-iquote \$(SRC_PATH)/tcg/\$(ARCH) $QEMU_INCLUDES"
+ fi
  
- #include "qemu/osdep.h"
- 
-+#include "qom/object.h"
- #include "io/task.h"
- #include "qapi/error.h"
- #include "qemu/module.h"
++echo "HELPERS=$helpers" >> $config_host_mak
+ echo "TOOLS=$tools" >> $config_host_mak
+ echo "ROMS=$roms" >> $config_host_mak
+ echo "MAKE=$make" >> $config_host_mak
 -- 
 2.26.2
 
