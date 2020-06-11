@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3DEE1F6CAD
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 19:16:02 +0200 (CEST)
-Received: from localhost ([::1]:43716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D84CC1F6CA9
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 19:13:29 +0200 (CEST)
+Received: from localhost ([::1]:34446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjQo5-0003JJ-Ud
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 13:16:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34044)
+	id 1jjQlc-0007o6-Sk
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 13:13:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34004)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <den@openvz.org>)
- id 1jjQk8-0005XS-2t; Thu, 11 Jun 2020 13:11:56 -0400
-Received: from relay.sw.ru ([185.231.240.75]:35188 helo=relay3.sw.ru)
+ id 1jjQk5-0005Qz-6d; Thu, 11 Jun 2020 13:11:53 -0400
+Received: from relay.sw.ru ([185.231.240.75]:35194 helo=relay3.sw.ru)
  by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <den@openvz.org>)
- id 1jjQk2-0000qi-OE; Thu, 11 Jun 2020 13:11:55 -0400
+ id 1jjQk2-0000qj-O4; Thu, 11 Jun 2020 13:11:52 -0400
 Received: from [192.168.15.81] (helo=iris.sw.ru)
  by relay3.sw.ru with esmtp (Exim 4.93)
  (envelope-from <den@openvz.org>)
- id 1jjQjt-0000BN-0n; Thu, 11 Jun 2020 20:11:41 +0300
+ id 1jjQjt-0000BN-4x; Thu, 11 Jun 2020 20:11:41 +0300
 From: "Denis V. Lunev" <den@openvz.org>
 To: qemu-block@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 3/4] block, migration: add bdrv_flush_vmstate helper
-Date: Thu, 11 Jun 2020 20:11:42 +0300
-Message-Id: <20200611171143.21589-4-den@openvz.org>
+Subject: [PATCH 4/4] block/io: improve savevm performance
+Date: Thu, 11 Jun 2020 20:11:43 +0300
+Message-Id: <20200611171143.21589-5-den@openvz.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200611171143.21589-1-den@openvz.org>
 References: <20200611171143.21589-1-den@openvz.org>
@@ -60,20 +60,29 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Right now bdrv_fclose() is just calling bdrv_flush().
+This patch does 2 standard basic things:
+- it creates intermediate buffer for all writes from QEMU migration code
+  to block driver,
+- this buffer is sent to disk asynchronously, allowing several writes to
+  run in parallel.
 
-The problem is that migration code is working inefficently from black
-layer terms and are frequently called for very small pieces of not
-properly aligned data. Block layer is capable to work this way, but
-this is very slow.
+Thus bdrv_vmstate_write() is becoming asynchronous. All pending operations
+completion are performed in newly invented bdrv_flush_vmstate().
 
-This patch is a preparation for the introduction of the intermediate
-buffer at block driver state. It would be beneficial to separate
-conventional bdrv_flush() from closing QEMU file from migration code.
+In general, migration code is fantastically inefficent (by observation),
+buffers are not aligned and sent with arbitrary pieces, a lot of time
+less than 100 bytes at a chunk, which results in read-modify-write
+operations if target file descriptor is opened with O_DIRECT. It should
+also be noted that all operations are performed into unallocated image
+blocks, which also suffer due to partial writes to such new clusters
+even on cached file descriptors.
 
-The patch also forces bdrv_flush_vmstate() operation inside
-synchronous blk_save_vmstate() operation. This helper is used from
-qemu-io only.
+Snapshot creation time (2 GB Fedora-31 VM running over NVME storage):
+                original     fixed
+cached:          1.79s       1.27s
+non-cached:      3.29s       0.81s
+
+The difference over HDD would be more significant :)
 
 Signed-off-by: Denis V. Lunev <den@openvz.org>
 CC: Kevin Wolf <kwolf@redhat.com>
@@ -85,112 +94,196 @@ CC: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 CC: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 CC: Denis Plotnikov <dplotnikov@virtuozzo.com>
 ---
- block/block-backend.c |  6 +++++-
- block/io.c            | 39 +++++++++++++++++++++++++++++++++++++++
- include/block/block.h |  1 +
- migration/savevm.c    |  3 +++
- 4 files changed, 48 insertions(+), 1 deletion(-)
+ block/io.c                | 121 +++++++++++++++++++++++++++++++++++++-
+ include/block/block_int.h |   8 +++
+ 2 files changed, 127 insertions(+), 2 deletions(-)
 
-diff --git a/block/block-backend.c b/block/block-backend.c
-index 9342a475cb..2107ace699 100644
---- a/block/block-backend.c
-+++ b/block/block-backend.c
-@@ -2177,7 +2177,7 @@ int blk_truncate(BlockBackend *blk, int64_t offset, bool exact,
- int blk_save_vmstate(BlockBackend *blk, const uint8_t *buf,
-                      int64_t pos, int size)
- {
--    int ret;
-+    int ret, ret2;
- 
-     if (!blk_is_available(blk)) {
-         return -ENOMEDIUM;
-@@ -2187,6 +2187,10 @@ int blk_save_vmstate(BlockBackend *blk, const uint8_t *buf,
-     if (ret < 0) {
-         return ret;
-     }
-+    ret2 = bdrv_flush_vmstate(blk_bs(blk));
-+    if (ret2 < 0) {
-+        return ret;
-+    }
- 
-     if (ret == size && !blk->enable_write_cache) {
-         ret = bdrv_flush(blk_bs(blk));
 diff --git a/block/io.c b/block/io.c
-index 121ce17a49..fbf352f39d 100644
+index fbf352f39d..698f1eef76 100644
 --- a/block/io.c
 +++ b/block/io.c
-@@ -2725,6 +2725,45 @@ int bdrv_readv_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos)
-     return bdrv_rw_vmstate(bs, qiov, pos, true);
- }
+@@ -26,6 +26,7 @@
+ #include "trace.h"
+ #include "sysemu/block-backend.h"
+ #include "block/aio-wait.h"
++#include "block/aio_task.h"
+ #include "block/blockjob.h"
+ #include "block/blockjob_int.h"
+ #include "block/block_int.h"
+@@ -2633,6 +2634,102 @@ typedef struct BdrvVmstateCo {
+     int                 ret;
+ } BdrvVmstateCo;
  
++typedef struct BdrvVMStateTask {
++    AioTask task;
 +
-+typedef struct FlushVMStateCo {
 +    BlockDriverState *bs;
-+    int ret;
-+} FlushVMStateCo;
++    int64_t offset;
++    void *buf;
++    size_t bytes;
++} BdrvVMStateTask;
 +
-+static int coroutine_fn bdrv_co_flush_vmstate(BlockDriverState *bs)
++typedef struct BdrvSaveVMState {
++    AioTaskPool *pool;
++    BdrvVMStateTask *t;
++} BdrvSaveVMState;
++
++
++static coroutine_fn int bdrv_co_vmstate_save_task_entry(AioTask *task)
 +{
-+    return 0;
-+}
++    int err = 0;
++    BdrvVMStateTask *t = container_of(task, BdrvVMStateTask, task);
 +
-+static void coroutine_fn bdrv_flush_vmstate_co_entry(void *opaque)
-+{
-+    FlushVMStateCo *rwco = opaque;
++    if (t->bytes != 0) {
++        QEMUIOVector local_qiov;
++        qemu_iovec_init_buf(&local_qiov, t->buf, t->bytes);
 +
-+    rwco->ret = bdrv_co_flush_vmstate(rwco->bs);
-+    aio_wait_kick();
-+}
-+
-+int bdrv_flush_vmstate(BlockDriverState *bs)
-+{
-+    Coroutine *co;
-+    FlushVMStateCo flush_co = {
-+        .bs = bs,
-+        .ret = NOT_DONE,
-+    };
-+
-+    if (qemu_in_coroutine()) {
-+        /* Fast-path if already in coroutine context */
-+        bdrv_flush_vmstate_co_entry(&flush_co);
-+    } else {
-+        co = qemu_coroutine_create(bdrv_flush_vmstate_co_entry, &flush_co);
-+        bdrv_coroutine_enter(bs, co);
-+        BDRV_POLL_WHILE(bs, flush_co.ret == NOT_DONE);
++        bdrv_inc_in_flight(t->bs);
++        err = t->bs->drv->bdrv_save_vmstate(t->bs, &local_qiov, t->offset);
++        bdrv_dec_in_flight(t->bs);
 +    }
 +
-+    return flush_co.ret;
++    qemu_vfree(t->buf);
++    return err;
 +}
 +
- /**************************************************************/
- /* async I/Os */
++static BdrvVMStateTask *bdrv_vmstate_task_create(BlockDriverState *bs,
++                                                 int64_t pos, size_t size)
++{
++    BdrvVMStateTask *t = g_new(BdrvVMStateTask, 1);
++
++    *t = (BdrvVMStateTask) {
++        .task.func = bdrv_co_vmstate_save_task_entry,
++        .buf = qemu_blockalign(bs, size),
++        .offset = pos,
++        .bs = bs,
++    };
++
++    return t;
++}
++
++static int bdrv_co_do_save_vmstate(BlockDriverState *bs, QEMUIOVector *qiov,
++                                   int64_t pos)
++{
++    BdrvSaveVMState *state = bs->savevm_state;
++    BdrvVMStateTask *t;
++    size_t buf_size = MAX(bdrv_get_cluster_size(bs), 1 * MiB);
++    size_t to_copy;
++    size_t off;
++
++    if (state == NULL) {
++        state = g_new(BdrvSaveVMState, 1);
++        *state = (BdrvSaveVMState) {
++            .pool = aio_task_pool_new(BDRV_VMSTATE_WORKERS_MAX),
++            .t = bdrv_vmstate_task_create(bs, pos, buf_size),
++        };
++
++        bs->savevm_state = state;
++    }
++
++    if (aio_task_pool_status(state->pool) < 0) {
++        return aio_task_pool_status(state->pool);
++    }
++
++    t = state->t;
++    if (t->offset + t->bytes != pos) {
++        /* Normally this branch is not reachable from migration */
++        return bs->drv->bdrv_save_vmstate(bs, qiov, pos);
++    }
++
++    off = 0;
++    while (1) {
++        to_copy = MIN(qiov->size - off, buf_size - t->bytes);
++        qemu_iovec_to_buf(qiov, off, t->buf + t->bytes, to_copy);
++        t->bytes += to_copy;
++        if (t->bytes < buf_size) {
++            return qiov->size;
++        }
++
++        aio_task_pool_start_task(state->pool, &t->task);
++
++        pos += to_copy;
++        off += to_copy;
++        state->t = t = bdrv_vmstate_task_create(bs, pos, buf_size);
++    }
++
++    return qiov->size;
++}
++
+ static int coroutine_fn
+ bdrv_co_rw_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos,
+                    bool is_read)
+@@ -2648,7 +2745,7 @@ bdrv_co_rw_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos,
+         if (is_read) {
+             ret = drv->bdrv_load_vmstate(bs, qiov, pos);
+         } else {
+-            ret = drv->bdrv_save_vmstate(bs, qiov, pos);
++            ret = bdrv_co_do_save_vmstate(bs, qiov, pos);
+         }
+     } else if (bs->file) {
+         ret = bdrv_co_rw_vmstate(bs->file->bs, qiov, pos, is_read);
+@@ -2733,7 +2830,27 @@ typedef struct FlushVMStateCo {
  
-diff --git a/include/block/block.h b/include/block/block.h
-index 25e299605e..024525b87d 100644
---- a/include/block/block.h
-+++ b/include/block/block.h
-@@ -572,6 +572,7 @@ int bdrv_save_vmstate(BlockDriverState *bs, const uint8_t *buf,
- 
- int bdrv_load_vmstate(BlockDriverState *bs, uint8_t *buf,
-                       int64_t pos, int size);
-+int bdrv_flush_vmstate(BlockDriverState *bs);
- 
- void bdrv_img_create(const char *filename, const char *fmt,
-                      const char *base_filename, const char *base_fmt,
-diff --git a/migration/savevm.c b/migration/savevm.c
-index 0ff5bb40ed..9698c909d7 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -150,6 +150,9 @@ static ssize_t block_get_buffer(void *opaque, uint8_t *buf, int64_t pos,
- 
- static int bdrv_fclose(void *opaque, Error **errp)
+ static int coroutine_fn bdrv_co_flush_vmstate(BlockDriverState *bs)
  {
-+    int err = bdrv_flush_vmstate(opaque);
-+    if (err < 0)
-+        return err;
-     return bdrv_flush(opaque);
+-    return 0;
++    int err;
++    BdrvSaveVMState *state = bs->savevm_state;
++
++    if (bs->drv->bdrv_save_vmstate == NULL && bs->file != NULL) {
++        return bdrv_co_flush_vmstate(bs->file->bs);
++    }
++    if (state == NULL) {
++        return 0;
++    }
++
++    aio_task_pool_start_task(state->pool, &state->t->task);
++
++    aio_task_pool_wait_all(state->pool);
++    err = aio_task_pool_status(state->pool);
++
++    aio_task_pool_free(state->pool);
++    g_free(state);
++
++    bs->savevm_state = NULL;
++
++    return err;
  }
  
+ static void coroutine_fn bdrv_flush_vmstate_co_entry(void *opaque)
+diff --git a/include/block/block_int.h b/include/block/block_int.h
+index 791de6a59c..f90f0e8b6a 100644
+--- a/include/block/block_int.h
++++ b/include/block/block_int.h
+@@ -61,6 +61,8 @@
+ 
+ #define BLOCK_PROBE_BUF_SIZE        512
+ 
++#define BDRV_VMSTATE_WORKERS_MAX    8
++
+ enum BdrvTrackedRequestType {
+     BDRV_TRACKED_READ,
+     BDRV_TRACKED_WRITE,
+@@ -784,6 +786,9 @@ struct BdrvChild {
+     QLIST_ENTRY(BdrvChild) next_parent;
+ };
+ 
++
++typedef struct BdrvSaveVMState BdrvSaveVMState;
++
+ /*
+  * Note: the function bdrv_append() copies and swaps contents of
+  * BlockDriverStates, so if you add new fields to this struct, please
+@@ -947,6 +952,9 @@ struct BlockDriverState {
+ 
+     /* BdrvChild links to this node may never be frozen */
+     bool never_freeze;
++
++    /* Intermediate buffer for VM state saving from snapshot creation code */
++    BdrvSaveVMState *savevm_state;
+ };
+ 
+ struct BlockBackendRootState {
 -- 
 2.17.1
 
