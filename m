@@ -2,43 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 910331F6F6B
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 23:24:22 +0200 (CEST)
-Received: from localhost ([::1]:44384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F6091F6F81
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 23:37:32 +0200 (CEST)
+Received: from localhost ([::1]:34360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjUgP-0000kL-IH
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 17:24:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46736)
+	id 1jjUt7-00041f-SC
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 17:37:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jjUbk-00037T-GR; Thu, 11 Jun 2020 17:19:32 -0400
-Received: from relay.sw.ru ([185.231.240.75]:40346 helo=relay3.sw.ru)
- by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jjUbf-00057l-6h; Thu, 11 Jun 2020 17:19:32 -0400
-Received: from [172.16.25.136] (helo=localhost.sw.ru)
- by relay3.sw.ru with esmtp (Exim 4.93)
- (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jjUbW-0001xE-VJ; Fri, 12 Jun 2020 00:19:18 +0300
-From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH v6 8/8] qcow2_format.py: support dumping metadata in JSON
- format
-Date: Fri, 12 Jun 2020 00:19:20 +0300
-Message-Id: <1591910360-867499-9-git-send-email-andrey.shinkevich@virtuozzo.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1591910360-867499-1-git-send-email-andrey.shinkevich@virtuozzo.com>
-References: <1591910360-867499-1-git-send-email-andrey.shinkevich@virtuozzo.com>
-Received-SPF: pass client-ip=185.231.240.75;
- envelope-from=andrey.shinkevich@virtuozzo.com; helo=relay3.sw.ru
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 17:19:22
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jjUsK-0003FA-Mg
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 17:36:40 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:41893)
+ by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jjUsH-0000si-6H
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 17:36:40 -0400
+Received: by mail-oi1-x243.google.com with SMTP id a21so6800930oic.8
+ for <qemu-devel@nongnu.org>; Thu, 11 Jun 2020 14:36:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=E1eqCW7j/+7Noy0U72Qn8+1vZb+2vI3zLsV2/THI5Ro=;
+ b=F7FwtG018mbzrhyHAErctFa164z+G1CUnbvZdHWpqxpEdjKeGYl3p4ESGnWE8sALEi
+ jcCvYO3Ae66SCfFhJVIOQg9Nd1nMKR8NFwOrwbDxymgxTsVQCZJ+pyqiUxa+013HxRO2
+ 9w65SUJzHKcxrk4rNpILY5bwFNvJDQj67DC0TeC29QMnj3CR5614Acfrye054y2zPzMg
+ O4W7tNYIWlBtMJ+PI4rMococT5M0Nuc7Gf8FNWfdxLFk55uisXmgyiDISyAjlHH2NrGA
+ VMxr4NK2hks4cs1nNXfoVyJmQpveBXuhf5JziJcbey81SYfYN5kG5bQSAprC/NDTAff3
+ NCMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=E1eqCW7j/+7Noy0U72Qn8+1vZb+2vI3zLsV2/THI5Ro=;
+ b=Ps1ufOFRsdsaWvFlb+OzPwlbjHP2gZSRL5emY+O5umpH+Ld6Z0gwuTY47SypOjx+kQ
+ fyovfkARLp70F1m3FXv7H0ix2UC/yBJe60c9r37qQUt+GBuD1B71OdK829+C5DnVbAQQ
+ iKeLNzMoxEpBSg17BxZ/KYJC3e+Soz98R3Z8675hLcwkkFC2H90bB9fOFrys/rxmXATq
+ o7iXHHeet6tf1j1l0CryV9mXbTd74fePVwJWM4exdh70qItMXaeknynYfLE6QeXnDz9R
+ 2H4bdOpnnhgSQHF7FGA0XjtYc3KMow5IpC0kWF6psEtwtHrvkvJGoNceY5S/LePnvSu2
+ xNdw==
+X-Gm-Message-State: AOAM533jdlaF9vTCvs37EAX6p2FL74laot/265qQ2NR/YTnnBvlEWGRw
+ zpckLQcDLmqNaIUG66/lygZ+AA+EeXPD42ZMxgtBag==
+X-Google-Smtp-Source: ABdhPJzwDMupT6dsy3F+XBjfrOYP0lrwMIR+YKGFP+50Eise97ypMZ5kZosiOXZL8hO9YQy2adT+lQo7laE11oG6eXc=
+X-Received: by 2002:aca:1a07:: with SMTP id a7mr7861127oia.163.1591911388577; 
+ Thu, 11 Jun 2020 14:36:28 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200610180514.3751958-1-eblake@redhat.com>
+In-Reply-To: <20200610180514.3751958-1-eblake@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 11 Jun 2020 22:36:17 +0100
+Message-ID: <CAFEAcA-MmkMNdLEp_qVOX=Br4TJ_xMPuVYtVYxY5oDE-W3QfGQ@mail.gmail.com>
+Subject: Re: [PULL v2 0/3] NBD patches through 2020-06-09
+To: Eric Blake <eblake@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x243.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -51,185 +78,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-devel@nongnu.org,
- mreitz@redhat.com, andrey.shinkevich@virtuozzo.com, den@openvz.org
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implementation of dumping QCOW2 image metadata.
-The sample output:
-{
-    "Header_extensions": [
-        {
-            "name": "Feature table",
-            "magic": 1745090647,
-            "length": 192,
-            "data_str": "<binary>"
-        },
-        {
-            "name": "Bitmaps",
-            "magic": 595929205,
-            "length": 24,
-            "data": {
-                "nb_bitmaps": 2,
-                "reserved32": 0,
-                "bitmap_directory_size": 64,
-                "bitmap_directory_offset": 1048576,
-                "entries": [
-                    {
-                        "name": "bitmap-1",
-                        "bitmap_table_offset": 589824,
-                        "bitmap_table_size": 1,
-                        "flags": [
-                            "auto"
-                        ],
-                        "type": 1,
-                        "granularity_bits": 16,
-                        "name_size": 8,
-                        "extra_data_size": 0,
-                        "bitmap_table": {
-                            "table_entries": [
-                                {
-                                    "type": "serialized",
-                                    "offset": 655360
-                                },
-                                ...
+On Wed, 10 Jun 2020 at 19:07, Eric Blake <eblake@redhat.com> wrote:
+>
+> The following changes since commit 31d321c2b3574dcc74e9f6411af06bca6b5d10f4:
+>
+>   Merge remote-tracking branch 'remotes/philmd-gitlab/tags/sparc-next-20200609' into staging (2020-06-09 17:29:47 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://repo.or.cz/qemu/ericb.git tags/pull-nbd-2020-06-09-v2
+>
+> for you to fetch changes up to 5c86bdf1208916ece0b87e1151c9b48ee54faa3e:
+>
+>   block: Call attention to truncation of long NBD exports (2020-06-10 12:58:59 -0500)
+>
+> In v2: patch 2 adjusted per review (only sending the changed patch)
+>
+> ----------------------------------------------------------------
+> NBD patches for 2020-06-09
+>
+> - fix iotest 194 race
+> - fix CVE-2020-10761: server DoS from assertion on long NBD error messages
+>
 
-Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
----
- tests/qemu-iotests/qcow2_format.py | 60 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 60 insertions(+)
 
-diff --git a/tests/qemu-iotests/qcow2_format.py b/tests/qemu-iotests/qcow2_format.py
-index bb2f13b..d87f8e0 100644
---- a/tests/qemu-iotests/qcow2_format.py
-+++ b/tests/qemu-iotests/qcow2_format.py
-@@ -18,6 +18,15 @@
- 
- import struct
- import string
-+import json
-+
-+
-+class ComplexEncoder(json.JSONEncoder):
-+    def default(self, obj):
-+        if hasattr(obj, 'get_fields_dict'):
-+            return obj.get_fields_dict()
-+        else:
-+            return json.JSONEncoder.default(self, obj)
- 
- 
- class Qcow2Field:
-@@ -95,6 +104,11 @@ class Qcow2Struct(metaclass=Qcow2StructMeta):
-         self.fields_dict = self.__dict__.copy()
- 
-     def dump(self, dump_json=None):
-+        if dump_json:
-+            print(json.dumps(self.get_fields_dict(), indent=4,
-+                             cls=ComplexEncoder))
-+            return
-+
-         for f in self.fields:
-             value = self.__dict__[f[2]]
-             if isinstance(f[1], str):
-@@ -150,6 +164,9 @@ class Qcow2BitmapExt(Qcow2Struct):
-         for bm in self.bitmaps:
-             bm.dump_bitmap_dir_entry(dump_json)
- 
-+    def get_fields_dict(self):
-+        return self.fields_dict
-+
- 
- BME_FLAG_IN_USE = 1 << 0
- BME_FLAG_AUTO = 1 << 1
-@@ -202,6 +219,12 @@ class Qcow2BitmapDirEntry(Qcow2Struct):
-         super().dump()
-         self.bitmap_table.print_bitmap_table(self.cluster_size)
- 
-+    def get_fields_dict(self):
-+        bmp_name = dict(name=self.name)
-+        bme_dict = {**bmp_name, **self.fields_dict}
-+        bme_dict['flags'] = self.bitmap_flags
-+        return bme_dict
-+
- 
- class Qcow2BitmapTableEntry:
- 
-@@ -218,6 +241,9 @@ class Qcow2BitmapTableEntry:
-         else:
-             self.type = 'all-zeroes'
- 
-+    def get_fields_dict(self):
-+        return dict(type=self.type, offset=self.offset)
-+
- 
- class Qcow2BitmapTable:
- 
-@@ -234,6 +260,18 @@ class Qcow2BitmapTable:
-                                              cluster_size))
-         print("")
- 
-+    def get_fields_dict(self):
-+        return dict(table_entries=self.entries)
-+
-+
-+class Qcow2HeaderExtensionsDoc:
-+
-+    def __init__(self, extensions):
-+        self.extensions = extensions
-+
-+    def get_fields_dict(self):
-+        return dict(Header_extensions=self.extensions)
-+
- 
- QCOW2_EXT_MAGIC_BITMAPS = 0x23852875
- 
-@@ -249,6 +287,9 @@ class QcowHeaderExtension(Qcow2Struct):
-             0x44415441: 'Data file'
-         }
- 
-+        def get_fields_dict(self):
-+            return self.mapping.get(self.value, "<unknown>")
-+
-     fields = (
-         ('u32', Magic, 'magic'),
-         ('u32', '{}', 'length')
-@@ -309,6 +350,16 @@ class QcowHeaderExtension(Qcow2Struct):
-         else:
-             self.obj.dump(dump_json)
- 
-+    def get_fields_dict(self):
-+        ext_name = dict(name=self.Magic(self.magic))
-+        he_dict = {**ext_name, **self.fields_dict}
-+        if self.obj is not None:
-+            he_dict.update(data=self.obj)
-+        else:
-+            he_dict.update(data_str=self.data_str)
-+
-+        return he_dict
-+
-     @classmethod
-     def create(cls, magic, data):
-         return QcowHeaderExtension(magic, len(data), data)
-@@ -411,7 +462,16 @@ class QcowHeader(Qcow2Struct):
-         fd.write(buf)
- 
-     def dump_extensions(self, dump_json=None):
-+        if dump_json:
-+            ext_doc = Qcow2HeaderExtensionsDoc(self.extensions)
-+            print(json.dumps(ext_doc.get_fields_dict(), indent=4,
-+                             cls=ComplexEncoder))
-+            return
-+
-         for ex in self.extensions:
-             print('Header extension:')
-             ex.dump(dump_json)
-             print()
-+
-+    def get_fields_dict(self):
-+        return self.fields_dict
--- 
-1.8.3.1
 
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.1
+for any user-visible changes.
+
+-- PMM
 
