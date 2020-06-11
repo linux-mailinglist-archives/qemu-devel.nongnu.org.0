@@ -2,62 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 288941F6F15
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 22:57:46 +0200 (CEST)
-Received: from localhost ([::1]:36368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50D331F6F1D
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 23:03:13 +0200 (CEST)
+Received: from localhost ([::1]:49674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjUGf-0000oj-7k
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 16:57:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33128)
+	id 1jjULv-0006ca-Gf
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 17:03:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jjTLi-0003kz-CA
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:58:54 -0400
-Resent-Date: Thu, 11 Jun 2020 15:58:54 -0400
-Resent-Message-Id: <E1jjTLi-0003kz-CA@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21384)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jjTAK-0001jV-AO
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:47:08 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:56276
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jjTLf-0003qf-NC
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:58:53 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1591905524; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=KCkepbiye3Ku6PYji+JZs99DmTsagtJVSBpb9s4buZxENMp3W/K2Dv5+y5fwZVtg07CmphYv+ejfYcEV7pqFbuOWnNEKUscxaulvfEbEqMHcbvNouduzgZhbkTAukjouwDXKwEQseoL7icVY4UG4TPKCdzMxJDkaFmT6l4Etgrc=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1591905524;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=7ZdqJiHVi2ZloZxWY4Ab4JKfr2yw1NfC0wk5p0j6aok=; 
- b=bGdznN1pO83kGgdgfmJHVu2oJfe0VQZaPj7aJM/oOa+qigmuy6A+9qWzYeTinuGwMRR9UlJOeXoTtfM0jRkKu43qnO/1nGgGslzzaBUGe2YPCcaF+TfpZfZS3kpxDOEq38UyEq8IpQNcDf4NA9YKZntbtvfjYTG0m3Rk4By3l5A=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1591905521126471.9547008095499;
- Thu, 11 Jun 2020 12:58:41 -0700 (PDT)
-Message-ID: <159190552015.1247.16865942639831593414@45ef0f9c86ae>
-In-Reply-To: <20200611155109.3648-1-filip.bozuta@syrmia.com>
-Subject: Re: [PATCH v3 0/6] Add strace support for printing arguments of
- selected syscalls
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jjTAI-0001P8-62
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:47:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1591904825;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=UMnr7zXWEWTvgAmjZlP3tjzkRRR2WfEvyUCiG7b0XSE=;
+ b=VTsoW1o7DGFSf1JU82O5DULgvWtUExSCuBc1kStl2LNdagDMqNZ2wcW4N7sqIwC2Cmb/Zs
+ 6EV4+Qq8JYnPjHoEEq32ZiJLqYHGKl1ztQNNVHcjBv9AZ4NC9aLSYtjTlgAO4QNz4KuKVF
+ n4uikH4ASKPOzYMXl52wZ2mnfNcAFFI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-337-8SVmjhpvNceigRB55tpB7g-1; Thu, 11 Jun 2020 15:47:03 -0400
+X-MC-Unique: 8SVmjhpvNceigRB55tpB7g-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2ED9C845F29;
+ Thu, 11 Jun 2020 19:47:02 +0000 (UTC)
+Received: from virtlab701.virt.lab.eng.bos.redhat.com
+ (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B63EE10013D7;
+ Thu, 11 Jun 2020 19:47:01 +0000 (UTC)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 094/115] i386: hvf: Drop copy of RFLAGS defines
+Date: Thu, 11 Jun 2020 15:44:28 -0400
+Message-Id: <20200611194449.31468-95-pbonzini@redhat.com>
+In-Reply-To: <20200611194449.31468-1-pbonzini@redhat.com>
+References: <20200611194449.31468-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: filip.bozuta@syrmia.com
-Date: Thu, 11 Jun 2020 12:58:41 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 15:58:49
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 08:37:10
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,54 +80,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: qemu-devel@nongnu.org, laurent@vivier.eu
+Cc: Roman Bolshakov <r.bolshakov@yadro.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDYxMTE1NTEwOS4zNjQ4
-LTEtZmlsaXAuYm96dXRhQHN5cm1pYS5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8g
-aGF2ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9y
-ZSBpbmZvcm1hdGlvbjoKCk1lc3NhZ2UtaWQ6IDIwMjAwNjExMTU1MTA5LjM2NDgtMS1maWxpcC5i
-b3p1dGFAc3lybWlhLmNvbQpTdWJqZWN0OiBbUEFUQ0ggdjMgMC82XSBBZGQgc3RyYWNlIHN1cHBv
-cnQgZm9yIHByaW50aW5nIGFyZ3VtZW50cyBvZiBzZWxlY3RlZCBzeXNjYWxscwpUeXBlOiBzZXJp
-ZXMKCj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBi
-YXNlID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVs
-aW1pdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0t
-bG9jYWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0t
-bWFpbGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpVcGRhdGluZyAzYzhjZjVh
-OWMyMWZmODc4MjE2NGQxZGVmN2Y0NGJkODg4NzEzMzg0ClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5j
-aCAndGVzdCcKMDEzZmQ1YiBsaW51eC11c2VyOiBBZGQgc3RyYWNlIHN1cHBvcnQgZm9yIHByaW50
-aW5nIGFyZ3VtZW50cyBvZiBmYWxsb2NhdGUoKQo1ZTZkYjFjIGxpbnV4LXVzZXI6IEFkZCBzdHJh
-Y2Ugc3VwcG9ydCBmb3IgcHJpbnRpbmcgYXJndW1lbnRzIG9mIGNob3duKCkvbGNob3duKCkKMWE2
-OGYwZCBsaW51eC11c2VyOiBBZGQgc3RyYWNlIHN1cHBvcnQgZm9yIHByaW50aW5nIGFyZ3VtZW50
-cyBvZiBsc2VlaygpCmY2Mjg3YTIgbGludXgtdXNlcjogQWRkIHN0cmFjZSBzdXBwb3J0IGZvciBw
-cmludGluZyBhcmd1bWVudCBvZiBzeXNjYWxscyB1c2VkIGZvciBleHRlbmRlZCBhdHRyaWJ1dGVz
-CmE2YmUwYjUgbGludXgtdXNlcjogQWRkIHN0cmFjZSBzdXBwb3J0IGZvciBhIGdyb3VwIG9mIHN5
-c2NhbGxzCjA2NWRlOTAgbGludXgtdXNlcjogRXh0ZW5kIHN0cmFjZSBzdXBwb3J0IHRvIGVuYWJs
-ZSBhcmd1bWVudCBwcmludGluZyBhZnRlciBzeXNjYWxsIGV4ZWN1dGlvbgoKPT09IE9VVFBVVCBC
-RUdJTiA9PT0KMS82IENoZWNraW5nIGNvbW1pdCAwNjVkZTkwMjgwNzMgKGxpbnV4LXVzZXI6IEV4
-dGVuZCBzdHJhY2Ugc3VwcG9ydCB0byBlbmFibGUgYXJndW1lbnQgcHJpbnRpbmcgYWZ0ZXIgc3lz
-Y2FsbCBleGVjdXRpb24pCjIvNiBDaGVja2luZyBjb21taXQgYTZiZTBiNTVlNmU1IChsaW51eC11
-c2VyOiBBZGQgc3RyYWNlIHN1cHBvcnQgZm9yIGEgZ3JvdXAgb2Ygc3lzY2FsbHMpCjMvNiBDaGVj
-a2luZyBjb21taXQgZjYyODdhMjM1MzdlIChsaW51eC11c2VyOiBBZGQgc3RyYWNlIHN1cHBvcnQg
-Zm9yIHByaW50aW5nIGFyZ3VtZW50IG9mIHN5c2NhbGxzIHVzZWQgZm9yIGV4dGVuZGVkIGF0dHJp
-YnV0ZXMpCjQvNiBDaGVja2luZyBjb21taXQgMWE2OGYwZGM5MWIzIChsaW51eC11c2VyOiBBZGQg
-c3RyYWNlIHN1cHBvcnQgZm9yIHByaW50aW5nIGFyZ3VtZW50cyBvZiBsc2VlaygpKQo1LzYgQ2hl
-Y2tpbmcgY29tbWl0IDVlNmRiMWNjYjY3YyAobGludXgtdXNlcjogQWRkIHN0cmFjZSBzdXBwb3J0
-IGZvciBwcmludGluZyBhcmd1bWVudHMgb2YgY2hvd24oKS9sY2hvd24oKSkKNi82IENoZWNraW5n
-IGNvbW1pdCAwMTNmZDViOGJlMmYgKGxpbnV4LXVzZXI6IEFkZCBzdHJhY2Ugc3VwcG9ydCBmb3Ig
-cHJpbnRpbmcgYXJndW1lbnRzIG9mIGZhbGxvY2F0ZSgpKQpFUlJPUjogc3RvcmFnZSBjbGFzcyBz
-aG91bGQgYmUgYXQgdGhlIGJlZ2lubmluZyBvZiB0aGUgZGVjbGFyYXRpb24KIzcwOiBGSUxFOiBs
-aW51eC11c2VyL3N0cmFjZS5jOjExNDc6CitVTlVTRUQgc3RhdGljIHN0cnVjdCBmbGFncyBmYWxs
-b2NfZmxhZ3NbXSA9IHsKCnRvdGFsOiAxIGVycm9ycywgMCB3YXJuaW5ncywgMTA0IGxpbmVzIGNo
-ZWNrZWQKClBhdGNoIDYvNiBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBh
-bnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhl
-IG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKPT09IE9VVFBVVCBF
-TkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBp
-cyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMDA2MTExNTUxMDkuMzY0
-OC0xLWZpbGlwLmJvenV0YUBzeXJtaWEuY29tL3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1tZXNz
-YWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6
-Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2
-ZWxAcmVkaGF0LmNvbQ==
+From: Roman Bolshakov <r.bolshakov@yadro.com>
+
+Use the ones provided in target/i386/cpu.h instead.
+
+Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
+Message-Id: <20200528193758.51454-10-r.bolshakov@yadro.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ target/i386/hvf/x86.c        |  2 +-
+ target/i386/hvf/x86.h        | 20 --------------------
+ target/i386/hvf/x86_decode.c | 16 +++++++---------
+ target/i386/hvf/x86_task.c   |  2 +-
+ 4 files changed, 9 insertions(+), 31 deletions(-)
+
+diff --git a/target/i386/hvf/x86.c b/target/i386/hvf/x86.c
+index 7ebb5b45bd..fdb11c8db9 100644
+--- a/target/i386/hvf/x86.c
++++ b/target/i386/hvf/x86.c
+@@ -131,7 +131,7 @@ bool x86_is_v8086(struct CPUState *cpu)
+ {
+     X86CPU *x86_cpu = X86_CPU(cpu);
+     CPUX86State *env = &x86_cpu->env;
+-    return x86_is_protected(cpu) && (env->eflags & RFLAGS_VM);
++    return x86_is_protected(cpu) && (env->eflags & VM_MASK);
+ }
+ 
+ bool x86_is_long_mode(struct CPUState *cpu)
+diff --git a/target/i386/hvf/x86.h b/target/i386/hvf/x86.h
+index e309b8f203..f0d03faff9 100644
+--- a/target/i386/hvf/x86.h
++++ b/target/i386/hvf/x86.h
+@@ -42,26 +42,6 @@ typedef struct x86_register {
+     };
+ } __attribute__ ((__packed__)) x86_register;
+ 
+-typedef enum x86_rflags {
+-    RFLAGS_CF       = (1L << 0),
+-    RFLAGS_PF       = (1L << 2),
+-    RFLAGS_AF       = (1L << 4),
+-    RFLAGS_ZF       = (1L << 6),
+-    RFLAGS_SF       = (1L << 7),
+-    RFLAGS_TF       = (1L << 8),
+-    RFLAGS_IF       = (1L << 9),
+-    RFLAGS_DF       = (1L << 10),
+-    RFLAGS_OF       = (1L << 11),
+-    RFLAGS_IOPL     = (3L << 12),
+-    RFLAGS_NT       = (1L << 14),
+-    RFLAGS_RF       = (1L << 16),
+-    RFLAGS_VM       = (1L << 17),
+-    RFLAGS_AC       = (1L << 18),
+-    RFLAGS_VIF      = (1L << 19),
+-    RFLAGS_VIP      = (1L << 20),
+-    RFLAGS_ID       = (1L << 21),
+-} x86_rflags;
+-
+ typedef enum x86_reg_cr0 {
+     CR0_PE =            (1L << 0),
+     CR0_MP =            (1L << 1),
+diff --git a/target/i386/hvf/x86_decode.c b/target/i386/hvf/x86_decode.c
+index d881542181..34c5e3006c 100644
+--- a/target/i386/hvf/x86_decode.c
++++ b/target/i386/hvf/x86_decode.c
+@@ -697,15 +697,13 @@ static void decode_db_4(CPUX86State *env, struct x86_decode *decode)
+ 
+ 
+ #define RFLAGS_MASK_NONE    0
+-#define RFLAGS_MASK_OSZAPC  (RFLAGS_OF | RFLAGS_SF | RFLAGS_ZF | RFLAGS_AF | \
+-                             RFLAGS_PF | RFLAGS_CF)
+-#define RFLAGS_MASK_LAHF    (RFLAGS_SF | RFLAGS_ZF | RFLAGS_AF | RFLAGS_PF | \
+-                             RFLAGS_CF)
+-#define RFLAGS_MASK_CF      (RFLAGS_CF)
+-#define RFLAGS_MASK_IF      (RFLAGS_IF)
+-#define RFLAGS_MASK_TF      (RFLAGS_TF)
+-#define RFLAGS_MASK_DF      (RFLAGS_DF)
+-#define RFLAGS_MASK_ZF      (RFLAGS_ZF)
++#define RFLAGS_MASK_OSZAPC  (CC_O | CC_S | CC_Z | CC_A | CC_P | CC_C)
++#define RFLAGS_MASK_LAHF    (CC_S | CC_Z | CC_A | CC_P | CC_C)
++#define RFLAGS_MASK_CF      (CC_C)
++#define RFLAGS_MASK_IF      (IF_MASK)
++#define RFLAGS_MASK_TF      (TF_MASK)
++#define RFLAGS_MASK_DF      (DF_MASK)
++#define RFLAGS_MASK_ZF      (CC_Z)
+ 
+ struct decode_tbl _1op_inst[] = {
+     {0x0, X86_DECODE_CMD_ADD, 1, true, decode_modrm_rm, decode_modrm_reg, NULL,
+diff --git a/target/i386/hvf/x86_task.c b/target/i386/hvf/x86_task.c
+index 6ea8508946..6f04478b3a 100644
+--- a/target/i386/hvf/x86_task.c
++++ b/target/i386/hvf/x86_task.c
+@@ -158,7 +158,7 @@ void vmx_handle_task_switch(CPUState *cpu, x68_segment_selector tss_sel, int rea
+     }
+ 
+     if (reason == TSR_IRET)
+-        env->eflags &= ~RFLAGS_NT;
++        env->eflags &= ~NT_MASK;
+ 
+     if (reason != TSR_CALL && reason != TSR_IDT_GATE)
+         old_tss_sel.sel = 0xffff;
+-- 
+2.26.2
+
+
 
