@@ -2,70 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7243C1F6C0A
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 18:15:58 +0200 (CEST)
-Received: from localhost ([::1]:49668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17B3E1F6BDA
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 18:09:56 +0200 (CEST)
+Received: from localhost ([::1]:55350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjPrw-0008Ly-57
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 12:15:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48242)
+	id 1jjPm6-0005KN-Vp
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 12:09:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jjPkE-0003GS-My; Thu, 11 Jun 2020 12:07:58 -0400
-Received: from mail-il1-x143.google.com ([2607:f8b0:4864:20::143]:43766)
- by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jjPkA-0001pz-Ui; Thu, 11 Jun 2020 12:07:58 -0400
-Received: by mail-il1-x143.google.com with SMTP id g3so5896076ilq.10;
- Thu, 11 Jun 2020 09:07:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=gBTuH6EAM+lMB7EkTRADdYlxqy3PAbX4mi45MI5BDx0=;
- b=Sdl794V9TvEMfBo3FVMuhWTTpCT9Vx5TEfFFiiMkDuQeqxqxY/mUfzRUb6MgJFuAya
- LZS4BuDUeGRgQZ2Lt4M1BwxiscthVH1bLPxcFPSr1r1c0zVPjZfMwMdW129SQaNGR+gB
- ljsdDgFNKVLCrr7/erERQRhz1aLuUrHkW4EanjFV6NCuTVOCDh2UmT9C9yvdcOJDczqM
- hldqiO3kU1/b/iIFa3okLWr0DNu6pE3LjVxCrXC2ltHgKIKOlxo7mx4H4+SnXaS6uzoW
- NLpa4DVtU8LuRcU6+W/Q11wWSatgI/cFG5oD5O50mqBsYESOmO1KosTEne7Rag8gnqew
- 5qKA==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jjPfn-0005fK-Vg
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 12:03:23 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35107
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jjPfl-0000SY-E4
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 12:03:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1591891392;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=dlPfoBkgj3244PT36ks5g/rODQHPFVhSdTxZisWUE2k=;
+ b=MvWz5QYqxRjdBN1uTO/bokEqzjbToSQky4KGlFeA8zWodTKLv8wxRzmjdHc13RH6wD+1GB
+ L0Ux4Fk6R9UudyqJol+0r4p5aq3x4RsXG36+l0KaESo0KKGyhe2nuMWvr/1ib6dZI6TH1X
+ 7tNO1SCWWTQ/blJzzZ1/EUpZPGQsdBE=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-82-AYH4h0hmO0ShgLI_ktVYfg-1; Thu, 11 Jun 2020 12:03:10 -0400
+X-MC-Unique: AYH4h0hmO0ShgLI_ktVYfg-1
+Received: by mail-wm1-f72.google.com with SMTP id q7so1225573wmj.9
+ for <qemu-devel@nongnu.org>; Thu, 11 Jun 2020 09:03:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=gBTuH6EAM+lMB7EkTRADdYlxqy3PAbX4mi45MI5BDx0=;
- b=OvYgCX4dPFihnV6eXSeJhIA6AJ5K7/Dhcf+cLQMSrj083SQixpeV0AksUr390H0PGk
- UUoXXHz3du/iY9ad6ayT1YnGW3VYsnVjaZ2kvqqsqmscwO4etbBDModg0kqsqh3ysSVa
- X4unzd7DE2r7agNDb4NjHV6GHZCqLCuZDxFJgDwBqwMBjtDE5yxcIDnoKv5Zfq7ysxKw
- +KYne2XqilndLIat26xxSQb/JgqT/RhSTPHTFtERuJOs10L/XF3n6FCmm0EE9y1e1HnG
- Dshh5wUDW5uSVEmq0v+3YomOCwZ7/Z98RfVwvLlinzKp0voxafLXPYl/w6fMyTNoG53R
- BvMg==
-X-Gm-Message-State: AOAM533HlHudqS6kgFYi0nGujM9boQkX9pGNlnfBqI2TGABjLVZzQwvk
- ttHvQgedVKSI8A7U1Z7y5MBghGI0/pNn2TzSoF8=
-X-Google-Smtp-Source: ABdhPJzVeDsw3cENC5kLricOgl6womJYp9UtBQ6Q50o9V/ab8DgZihmOneJlnR1zrXkst4JqZC10kpuTgqg4lqnactQ=
-X-Received: by 2002:a05:6e02:4d:: with SMTP id
- i13mr9148147ilr.227.1591891661383; 
- Thu, 11 Jun 2020 09:07:41 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=dlPfoBkgj3244PT36ks5g/rODQHPFVhSdTxZisWUE2k=;
+ b=WlT28mMc4aX36bXBwijq5m7EiGg2NgZpsys5YtOp6Zsmd8ahU5CNcRNDf9djAPuPXN
+ KSlKJK9U6/Pb15k6jsBis5qHc4clz1by4O9RXfu/6LrJlLf8np3sDKxU7YRe6PEDUhEi
+ yQKYk0HignwupjMlO+1OLqkPG3cD7p3j3pbx0h09NOZ8IP1q3Tbn+FrKSNBp6IA2jdA1
+ Z3Zd0YFt5otIiZlMynznc13y7oF4mA8gVrTCerKDSTwcK9BX3deSyxcvPsUUuISoXvtg
+ ET9VwSd0MuY/8zpzbsEYpxNm99vAvtDAhvY3FKjlM3XUH436qcadTW8kdGho2puNNsz9
+ TgxQ==
+X-Gm-Message-State: AOAM531Yw9fHJ7/+YWcmnDDAi/bRMXUgJ0I60FzmDIKeD29LZreBdEcR
+ AJzIkZEcfRJUunBEszcJK6Y4ltGbiXfMGRmOMYtHRL/s5KfulgP/B9rmVYqQyGrkQzwRHRczeIF
+ fqpcb0w7CfcOj4cU=
+X-Received: by 2002:a1c:6389:: with SMTP id x131mr8746872wmb.90.1591891389263; 
+ Thu, 11 Jun 2020 09:03:09 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxbv9a5Vd3rjD0fp04mKDR1/iavu5lmNT90ZBAbGMXgz1zRNePNfiN758I28J+m00lhl0XagQ==
+X-Received: by 2002:a1c:6389:: with SMTP id x131mr8746850wmb.90.1591891388998; 
+ Thu, 11 Jun 2020 09:03:08 -0700 (PDT)
+Received: from x1w.redhat.com (181.red-88-10-103.dynamicip.rima-tde.net.
+ [88.10.103.181])
+ by smtp.gmail.com with ESMTPSA id q11sm5599429wrv.67.2020.06.11.09.03.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 11 Jun 2020 09:03:08 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 00/11] tpm: Split hw/ vs backends/
+Date: Thu, 11 Jun 2020 18:02:55 +0200
+Message-Id: <20200611160306.2751-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
-References: <1591837729-27486-1-git-send-email-bmeng.cn@gmail.com>
-In-Reply-To: <1591837729-27486-1-git-send-email-bmeng.cn@gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 11 Jun 2020 08:58:17 -0700
-Message-ID: <CAKmqyKNdxrwKgaC+Bdff=sBCQc5VcrWHZ=haO1O3Es2io2FnGA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/4] riscv: Generalize CPU init routine for the base CPU
-To: Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::143;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x143.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8;
+	text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 03:29:33
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,94 +92,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Palmer Dabbelt <palmerdabbelt@google.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 10, 2020 at 6:09 PM Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> From: Bin Meng <bin.meng@windriver.com>
->
-> There is no need to have two functions that have exactly the same
-> codes for 32-bit and 64-bit base CPUs.
->
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Hi,
 
-Applied to riscv-to-apply branch.
+Yesterday I started to review some vTPM patches and got very
+confused by the files under hw/tpm/. In particular after
+running:
 
-Alistair
+  $ git grep TYPE_TPM_BACKEND
+  backends/tpm.c:188:    .name = TYPE_TPM_BACKEND,
+  hw/tpm/tpm_emulator.c:985:    .parent = TYPE_TPM_BACKEND,
+  hw/tpm/tpm_passthrough.c:393:    .parent = TYPE_TPM_BACKEND,
+  include/sysemu/tpm_backend.h:21:#define TYPE_TPM_BACKEND "tpm-backend"
 
-> ---
->
-> (no changes since v1)
->
->  target/riscv/cpu.c | 18 +++++-------------
->  1 file changed, 5 insertions(+), 13 deletions(-)
->
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index 3a6d202..81cdea8 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -126,9 +126,7 @@ static void riscv_any_cpu_init(Object *obj)
->      set_resetvec(env, DEFAULT_RSTVEC);
->  }
->
-> -#if defined(TARGET_RISCV32)
-> -
-> -static void riscv_base32_cpu_init(Object *obj)
-> +static void riscv_base_cpu_init(Object *obj)
->  {
->      CPURISCVState *env = &RISCV_CPU(obj)->env;
->      /* We set this in the realise function */
-> @@ -136,6 +134,8 @@ static void riscv_base32_cpu_init(Object *obj)
->      set_resetvec(env, DEFAULT_RSTVEC);
->  }
->
-> +#if defined(TARGET_RISCV32)
-> +
->  static void rv32gcsu_priv1_10_0_cpu_init(Object *obj)
->  {
->      CPURISCVState *env = &RISCV_CPU(obj)->env;
-> @@ -173,14 +173,6 @@ static void rv32imafcu_nommu_cpu_init(Object *obj)
->
->  #elif defined(TARGET_RISCV64)
->
-> -static void riscv_base64_cpu_init(Object *obj)
-> -{
-> -    CPURISCVState *env = &RISCV_CPU(obj)->env;
-> -    /* We set this in the realise function */
-> -    set_misa(env, 0);
-> -    set_resetvec(env, DEFAULT_RSTVEC);
-> -}
-> -
->  static void rv64gcsu_priv1_10_0_cpu_init(Object *obj)
->  {
->      CPURISCVState *env = &RISCV_CPU(obj)->env;
-> @@ -603,13 +595,13 @@ static const TypeInfo riscv_cpu_type_infos[] = {
->      },
->      DEFINE_CPU(TYPE_RISCV_CPU_ANY,              riscv_any_cpu_init),
->  #if defined(TARGET_RISCV32)
-> -    DEFINE_CPU(TYPE_RISCV_CPU_BASE32,           riscv_base32_cpu_init),
-> +    DEFINE_CPU(TYPE_RISCV_CPU_BASE32,           riscv_base_cpu_init),
->      DEFINE_CPU(TYPE_RISCV_CPU_IBEX,             rv32imcu_nommu_cpu_init),
->      DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E31,       rv32imacu_nommu_cpu_init),
->      DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E34,       rv32imafcu_nommu_cpu_init),
->      DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_U34,       rv32gcsu_priv1_10_0_cpu_init),
->  #elif defined(TARGET_RISCV64)
-> -    DEFINE_CPU(TYPE_RISCV_CPU_BASE64,           riscv_base64_cpu_init),
-> +    DEFINE_CPU(TYPE_RISCV_CPU_BASE64,           riscv_base_cpu_init),
->      DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E51,       rv64imacu_nommu_cpu_init),
->      DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_U54,       rv64gcsu_priv1_10_0_cpu_init),
->  #endif
-> --
-> 2.7.4
->
->
+As there is no particular reason to keep this mixed, clean it up.
+
+Since v1:
+- Amended docs/ changes
+- Renamed Kconfig TPM_BACKEND variable
+- Move backend files under backends/tpm/ (Marc-André & Stefan)
+- Fix x86-64 build error (patchew)
+
+Philippe Mathieu-Daudé (11):
+  docs/specs/tpm: Correct header path name
+  backends: Add TPM files into their own directory
+  hw/tpm: Rename TPMDEV as TPM_BACKEND in Kconfig
+  hw/tpm: Do not include 'qemu/osdep.h' in header
+  hw/tpm: Include missing 'qemu/option.h' header
+  hw/tpm: Move 'hw/acpi/tpm.h' inclusion from header to sources
+  hw/tpm: Remove unnecessary 'tpm_int.h' header inclusion
+  hw/tpm: Move few declarations from 'tpm_util.h' to 'tpm_int.h'
+  hw/tpm: Move DEFINE_PROP_TPMBE() macro to 'tmp_prop.h' local header
+  hw/tpm: Make 'tpm_util.h' publicly accessible as "sysemu/tpm_util.h"
+  tpm: Move backend code under the 'backends/' directory
+
+ docs/specs/tpm.rst                     | 14 +++++------
+ Makefile                               |  2 +-
+ Makefile.objs                          |  1 +
+ {hw => backends}/tpm/tpm_int.h         | 19 +++++++++++---
+ {hw => backends}/tpm/tpm_ioctl.h       |  0
+ hw/tpm/tpm_ppi.h                       |  1 -
+ hw/tpm/tpm_prop.h                      | 31 +++++++++++++++++++++++
+ hw/tpm/tpm_tis.h                       |  1 -
+ {hw/tpm => include/sysemu}/tpm_util.h  | 19 +++-----------
+ backends/{tpm.c => tpm/tpm_backend.c}  |  0
+ {hw => backends}/tpm/tpm_emulator.c    |  2 +-
+ {hw => backends}/tpm/tpm_passthrough.c |  2 +-
+ {hw => backends}/tpm/tpm_util.c        |  2 +-
+ hw/tpm/tpm_crb.c                       |  4 +--
+ hw/tpm/tpm_ppi.c                       |  1 +
+ hw/tpm/tpm_spapr.c                     |  4 +--
+ hw/tpm/tpm_tis_common.c                |  4 +--
+ hw/tpm/tpm_tis_isa.c                   |  3 ++-
+ hw/tpm/tpm_tis_sysbus.c                |  3 ++-
+ tests/qtest/tpm-emu.c                  |  2 +-
+ MAINTAINERS                            |  2 +-
+ backends/Kconfig                       |  1 +
+ backends/Makefile.objs                 |  2 +-
+ backends/tpm/Kconfig                   | 14 +++++++++++
+ backends/tpm/Makefile.objs             |  4 +++
+ backends/tpm/trace-events              | 33 +++++++++++++++++++++++++
+ hw/tpm/Kconfig                         | 21 +++-------------
+ hw/tpm/Makefile.objs                   |  3 ---
+ hw/tpm/trace-events                    | 34 +-------------------------
+ 29 files changed, 132 insertions(+), 97 deletions(-)
+ rename {hw => backends}/tpm/tpm_int.h (81%)
+ rename {hw => backends}/tpm/tpm_ioctl.h (100%)
+ create mode 100644 hw/tpm/tpm_prop.h
+ rename {hw/tpm => include/sysemu}/tpm_util.h (80%)
+ rename backends/{tpm.c => tpm/tpm_backend.c} (100%)
+ rename {hw => backends}/tpm/tpm_emulator.c (99%)
+ rename {hw => backends}/tpm/tpm_passthrough.c (99%)
+ rename {hw => backends}/tpm/tpm_util.c (99%)
+ create mode 100644 backends/Kconfig
+ create mode 100644 backends/tpm/Kconfig
+ create mode 100644 backends/tpm/Makefile.objs
+ create mode 100644 backends/tpm/trace-events
+
+-- 
+2.21.3
+
 
