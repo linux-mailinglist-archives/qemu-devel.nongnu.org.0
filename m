@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 017B21F6EEE
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 22:45:21 +0200 (CEST)
-Received: from localhost ([::1]:48680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9FD21F6EF6
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jun 2020 22:47:53 +0200 (CEST)
+Received: from localhost ([::1]:57612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjU4d-0003XX-PQ
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 16:45:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56212)
+	id 1jjU76-0000F0-Oo
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 16:47:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jjTAX-00027a-EE
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:47:21 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:36047
+ id 1jjTAi-0002IW-R5
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:47:32 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:50625
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jjTAT-0001Ra-0W
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:47:21 -0400
+ id 1jjTAg-0001TR-5M
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 15:47:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591904836;
+ s=mimecast20190719; t=1591904849;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZKJIvV9OiKDJs+uKZkXRizJk0uQGzPTTdysb8e5qLKM=;
- b=Ps9ME2MryqwwxGa7/F5qG7XEU8uJ2JoNoi5ZRwpVIc1i2tFFCHYmP7l87FdURX5eRR0WuD
- ypTd4VMM3ItFxO5O58XKJE/R6Jece8UHoHa+md+MR19qJyBswb1KMJd+G9ZiV5P2iN2Oh8
- tQkYCV/Oeo5vV+CMu8D4u8Ky43TyGGc=
+ bh=hAgpDV7ETO7HWYBmzxQHQly/laq7iYSgNQ/cLQz9mUo=;
+ b=GhWR/Kn0i0ZaOoU6pyPxdE20RxGP51PkoiNeZJfVBYj09C+iJKU1GkyODr3qLzZdp+iHTY
+ ffoPv2bnYTFy/8+VHI3ov2TXoniYXpKB5k0QiTbXHibL7WVBpAr6RhZFPz6y+48Wo5yJEJ
+ 1GkZHKDZRO9Fdm46ztf0R09UEFfjIpI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-182-ySrPJyMiMseRkM8Yjq81Nw-1; Thu, 11 Jun 2020 15:47:14 -0400
-X-MC-Unique: ySrPJyMiMseRkM8Yjq81Nw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-240-6gHnSJAUO-mlMCOVAUtcRA-1; Thu, 11 Jun 2020 15:47:27 -0400
+X-MC-Unique: 6gHnSJAUO-mlMCOVAUtcRA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 18AC9194092A;
- Thu, 11 Jun 2020 19:47:13 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EC96C107ACCD;
+ Thu, 11 Jun 2020 19:47:25 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8560060CC0;
- Thu, 11 Jun 2020 19:47:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 69CCF707C6;
+ Thu, 11 Jun 2020 19:47:25 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 107/115] target/i386: sev: Remove redundant handle field
-Date: Thu, 11 Jun 2020 15:44:41 -0400
-Message-Id: <20200611194449.31468-108-pbonzini@redhat.com>
+Subject: [PULL 110/115] exec/memory: Remove unused MemoryRegionMmio type
+Date: Thu, 11 Jun 2020 15:44:44 -0400
+Message-Id: <20200611194449.31468-111-pbonzini@redhat.com>
 In-Reply-To: <20200611194449.31468-1-pbonzini@redhat.com>
 References: <20200611194449.31468-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-1.mimecast.com
@@ -80,88 +80,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: David Gibson <david@gibson.dropbear.id.au>
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-The user can explicitly specify a handle via the "handle" property wired
-to SevGuestState::handle.  That gets passed to the KVM_SEV_LAUNCH_START
-ioctl() which may update it, the final value being copied back to both
-SevGuestState::handle and SEVState::handle.
+Since commit 62a0db942dec ('memory: Remove old_mmio accessors')
+this structure is unused. Remove it.
 
-AFAICT, nothing will be looking SEVState::handle before it and
-SevGuestState::handle have been updated from the ioctl().  So, remove the
-field and just use SevGuestState::handle directly.
-
-Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200604064219.436242-9-david@gibson.dropbear.id.au>
+Message-Id: <20200601141536.15192-2-f4bug@amsat.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/sev.c | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
+ include/exec/memory.h | 6 ------
+ 1 file changed, 6 deletions(-)
 
-diff --git a/target/i386/sev.c b/target/i386/sev.c
-index 4b261beaa7..24e2dea9b8 100644
---- a/target/i386/sev.c
-+++ b/target/i386/sev.c
-@@ -40,7 +40,6 @@ struct SEVState {
-     uint8_t api_minor;
-     uint8_t build_id;
-     uint64_t me_mask;
--    uint32_t handle;
-     int sev_fd;
-     SevState state;
-     gchar *measurement;
-@@ -64,13 +63,13 @@ struct SevGuestState {
-     /* configuration parameters */
-     char *sev_device;
-     uint32_t policy;
--    uint32_t handle;
-     char *dh_cert_file;
-     char *session_file;
-     uint32_t cbitpos;
-     uint32_t reduced_phys_bits;
+diff --git a/include/exec/memory.h b/include/exec/memory.h
+index af8ca7824e..7207025bd4 100644
+--- a/include/exec/memory.h
++++ b/include/exec/memory.h
+@@ -50,12 +50,6 @@
+ extern bool global_dirty_log;
  
-     /* runtime state */
-+    uint32_t handle;
-     SEVState state;
- };
+ typedef struct MemoryRegionOps MemoryRegionOps;
+-typedef struct MemoryRegionMmio MemoryRegionMmio;
+-
+-struct MemoryRegionMmio {
+-    CPUReadMemoryFunc *read[3];
+-    CPUWriteMemoryFunc *write[3];
+-};
  
-@@ -398,7 +397,7 @@ sev_get_info(void)
-         info->build_id = sev_guest->state.build_id;
-         info->policy = sev_guest->policy;
-         info->state = sev_guest->state.state;
--        info->handle = sev_guest->state.handle;
-+        info->handle = sev_guest->handle;
-     }
+ typedef struct IOMMUTLBEntry IOMMUTLBEntry;
  
-     return info;
-@@ -517,8 +516,7 @@ sev_launch_start(SevGuestState *sev)
- 
-     start = g_new0(struct kvm_sev_launch_start, 1);
- 
--    start->handle = object_property_get_int(OBJECT(sev), "handle",
--                                            &error_abort);
-+    start->handle = sev->handle;
-     start->policy = sev->policy;
-     if (sev->session_file) {
-         if (sev_read_file_base64(sev->session_file, &session, &sz) < 0) {
-@@ -544,10 +542,8 @@ sev_launch_start(SevGuestState *sev)
-         goto out;
-     }
- 
--    object_property_set_int(OBJECT(sev), start->handle, "handle",
--                            &error_abort);
-     sev_set_guest_state(sev, SEV_STATE_LAUNCH_UPDATE);
--    s->handle = start->handle;
-+    sev->handle = start->handle;
-     ret = 0;
- 
- out:
 -- 
 2.26.2
 
