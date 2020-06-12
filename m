@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5A5D1F7BBC
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 18:42:17 +0200 (CEST)
-Received: from localhost ([::1]:35482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D92931F7BD3
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 18:52:27 +0200 (CEST)
+Received: from localhost ([::1]:42704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjmky-0007aJ-RY
-	for lists+qemu-devel@lfdr.de; Fri, 12 Jun 2020 12:42:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49734)
+	id 1jjmuo-0005iu-Fc
+	for lists+qemu-devel@lfdr.de; Fri, 12 Jun 2020 12:52:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52382)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jjmju-0006kx-2o
- for qemu-devel@nongnu.org; Fri, 12 Jun 2020 12:41:10 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:20883
+ id 1jjmtq-0004hp-15
+ for qemu-devel@nongnu.org; Fri, 12 Jun 2020 12:51:26 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:46440
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jjmjs-0007mK-5l
- for qemu-devel@nongnu.org; Fri, 12 Jun 2020 12:41:09 -0400
+ id 1jjmto-0001FF-1S
+ for qemu-devel@nongnu.org; Fri, 12 Jun 2020 12:51:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591980067;
+ s=mimecast20190719; t=1591980683;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=x4xBB9UESeUa7inym1PxyNQUxva3dRzfQlnrXIl/x1I=;
- b=cpPWeVwGCdEplMJygD4Shw4zgx9ozXLPVVSnj0hCAv+wBdVuYnoTOWwN0ukom61NWlOO1h
- L25sLhQU/qR5DiHFGWFHWa7dXJH3K1uhr80uUgzmr8zpSrgTga3W0D1WhZUOfPw20dg2JE
- pdn9BLPIlhP3bzL9WtztRP9Eox8mgDU=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-475-JsXyLLC-P-CuXv-DPi0IdQ-1; Fri, 12 Jun 2020 12:41:05 -0400
-X-MC-Unique: JsXyLLC-P-CuXv-DPi0IdQ-1
-Received: by mail-wr1-f71.google.com with SMTP id e7so4242130wrp.14
- for <qemu-devel@nongnu.org>; Fri, 12 Jun 2020 09:41:05 -0700 (PDT)
+ bh=inZkYgaoyW3isg+zSESEgM4W8P7O5dxBLvKh1IPGeGM=;
+ b=cMgPSrW9642AUEsmupL4sw4ZMaSnpWSkjJUqaY5UQesdS8OCCsjjduKRbDysB3ytxHFAPK
+ nJykV0ANOS1fjY01qClwSrQXQB2KrYRLlfeOjhVdUxIah4QykDZFowUa8XEXi8eMEB7Fkl
+ cca05tRWUd0P9DZ7HUsvQ8MxROXkWq0=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-171-ES8qEk4HMICbvOC7sTV3TQ-1; Fri, 12 Jun 2020 12:51:21 -0400
+X-MC-Unique: ES8qEk4HMICbvOC7sTV3TQ-1
+Received: by mail-wr1-f70.google.com with SMTP id w16so4222633wru.18
+ for <qemu-devel@nongnu.org>; Fri, 12 Jun 2020 09:51:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=x4xBB9UESeUa7inym1PxyNQUxva3dRzfQlnrXIl/x1I=;
- b=JauyGJnyrw7xFBobzM+p+vCpxJ0R0d7niqNew5Rwz4EYblHw/1G4FGu/f1hcvGlCjK
- dK90UnCb6ZhTq4StfXPrsolMckVKx19RfvcgwMRWil3KmII8gC07MtJLpdE7IBrZcCBT
- jrUf97JpbH9I28fPNogrH983AoxP3ynQK+lK/64sjp27cQSIjG8LfsmvwiaVEZaU5272
- LmgR2j6aUZEDHFRu7HJhKsPmpzt+oM9Q6xZjGhT6tzWKTEK5iry4Qq8XmZiGqTMQJ6rw
- rzpX8Q97nuAHdQ5m/lULCRDXmiAMqKUy3tRt9Ohvx3bDGtDAaJqHOCSigfs8scTsp7Hk
- BBDw==
-X-Gm-Message-State: AOAM532CGoQKSV0T29coWAIXkAFBW3MfJj14c2PmnTjkc7GEFFV7O/Gs
- aRE7zybxCLCuMpl/2uVj0r1a0wi5K6ssrt/qldZlRYDJknKNGgvBMO05YD7l2sk4/F1miDyuwxD
- D7vFXA/zBZV0w2cM=
-X-Received: by 2002:adf:ef83:: with SMTP id d3mr15052085wro.145.1591980064055; 
- Fri, 12 Jun 2020 09:41:04 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzm6mo8cMyTI3N2evBuP3T64kHlurE+EnGChJr60rSXOTP2pluFKjeYO/+34Gh80oS4JBAarQ==
-X-Received: by 2002:adf:ef83:: with SMTP id d3mr15052056wro.145.1591980063709; 
- Fri, 12 Jun 2020 09:41:03 -0700 (PDT)
+ bh=inZkYgaoyW3isg+zSESEgM4W8P7O5dxBLvKh1IPGeGM=;
+ b=QjoLZ1aX8hX8xHTl5R/NZS5XvFDcFwZ9PuaxMBYzIUi25jjKVJig1NGxkO2Q2EpCfd
+ 0AcUnEzNZBS447FNOi7QaKBO/NhDUoKVlMpguqB6QPJIicwzuJ6N8piTghtLU7KwNAIm
+ uodNoff6ZK1yvIOpQKSDLgzNb1QIOCe09bd6/KgBueQh47SKlQE0xvpmWX39Y+EtMM4J
+ /NRHd4p/usfibK4E0jp9ELHvFIsygQFoEL0j+mLZjOwgHoReI+nnT8H7+ebgxOxR9a/e
+ DKYSoRvEUp3sYg5c+ivobiLZoJzY5jVi8R0ufpHG6ZBocRCrmYzsi2wCdSLhwqqIiQOq
+ 0Lxg==
+X-Gm-Message-State: AOAM530SS5AOt0G0NKfBS0y7H+n/RBoj9dTNpBU6ze7w0Q7eBeKB+L1Z
+ g/ztO4U8c1JzleOvkKnPixLSS1I8bmvnckcNnKSjjeafZZwp0b2xXSRvAKlcrLSUfHOcpRTwwuw
+ /FzpKHs9gmovqXec=
+X-Received: by 2002:a1c:4e17:: with SMTP id g23mr13771297wmh.38.1591980680446; 
+ Fri, 12 Jun 2020 09:51:20 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzRzJOWhgoDnzbmGb+RFa85zesvOTwsW6hY6BxbwZGdzhiXhsqHnU+cJXJGNpxemDl/KgB8yA==
+X-Received: by 2002:a1c:4e17:: with SMTP id g23mr13771277wmh.38.1591980680176; 
+ Fri, 12 Jun 2020 09:51:20 -0700 (PDT)
 Received: from ?IPv6:2001:b07:6468:f312:29ed:810e:962c:aa0d?
  ([2001:b07:6468:f312:29ed:810e:962c:aa0d])
- by smtp.gmail.com with ESMTPSA id z6sm10699672wrh.79.2020.06.12.09.41.02
+ by smtp.gmail.com with ESMTPSA id x18sm9252844wmi.35.2020.06.12.09.51.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 12 Jun 2020 09:41:03 -0700 (PDT)
-Subject: Re: [PATCH v2 0/6] softfloat, target/i386: fprem, fprem1 fixes
-To: Joseph Myers <joseph@codesourcery.com>, qemu-devel@nongnu.org,
- aurelien@aurel32.net, peter.maydell@linaro.org, alex.bennee@linaro.org,
- laurent@vivier.eu, rth@twiddle.net, ehabkost@redhat.com
-References: <alpine.DEB.2.21.2006081653080.23637@digraph.polyomino.org.uk>
+ Fri, 12 Jun 2020 09:51:19 -0700 (PDT)
+Subject: Re: [PATCH] memory: Revert "memory: accept mismatching sizes in
+ memory_region_access_valid"
+To: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org
+References: <20200610134731.1514409-1-mst@redhat.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <eb560234-5bdc-e78a-a9c0-c823839f2010@redhat.com>
-Date: Fri, 12 Jun 2020 18:41:02 +0200
+Message-ID: <3c7ba098-b059-c825-a46d-8ba1c7896eab@redhat.com>
+Date: Fri, 12 Jun 2020 18:51:19 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <alpine.DEB.2.21.2006081653080.23637@digraph.polyomino.org.uk>
+In-Reply-To: <20200610134731.1514409-1-mst@redhat.com>
 Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
@@ -101,87 +100,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-stable@nongnu.org, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 08/06/20 18:54, Joseph Myers wrote:
-> The x87 floating-point emulation of the fprem and fprem1 instructions
-> works via conversion to and from double.  This is inherently
-> unsuitable for a good emulation of any floatx80 operation.  This patch
-> series adapts the softfloat floatx80_rem implementation to be suitable
-> for these instructions and uses it to reimplement them.
+On 10/06/20 15:47, Michael S. Tsirkin wrote:
+> Memory API documentation documents valid .min_access_size and .max_access_size
+> fields and explains that any access outside these boundaries is blocked.
 > 
-> There is an existing test for these instructions, test-i386-fprem.c,
-> based on comparison of output.  It produces 1679695 lines of output,
-> and before this patch series 415422 of those lines are different on
-> hardware from the output produced by QEMU.  Some of those differences
-> are because QEMU's x87 emulation does not yet produce the "denormal
-> operand" exception; ignoring such differences (modifying the output
-> from a native run not to report that exception), there are still
-> 398833 different lines.  This patch series reduces that latter number
-> to 1 (that one difference being because of missing checks for
-> floating-point stack underflow, another global issue with the x87
-> emulation), or 35517 different lines without the correction for lack
-> of denormal operand exception support.
+> This is what devices seem to assume.
 > 
-> Several fixes to and new features in the softfloat support for this
-> operation are needed; floatx80_mod, previously present in the m68k
-> code only, is made generic and unified with floatx80_rem in a new
-> floatx80_modrem of which floatx80_mod and floatx80_rem are thin
-> wrappers.  The only architectures using float*_rem for other formats
-> are arm (FPA emulation) and openrisc (instructions that have been
-> removed in the latest architecture version); they do not appear to
-> need any of the new features, and all the bugs fixed are specific to
-> floatx80, so no changes are made to the remainder implementation for
-> those formats.
+> However this is not what the implementation does: it simply
+> ignores the boundaries unless there's an "accepts" callback.
 > 
-> A new feature added is returning the low bits of the quotient from
-> floatx80_modrem, as needed for both x87 and m68k.  The logic used to
-> determine the low 7 bits of the quotient for m68k
-> (target/m68k/fpu_helper.c:make_quotient) appears completely bogus (it
-> looks at the result of converting the remainder to integer, the
-> quotient having been discarded by that point); this patch series does
-> not change that to use the new interface, but the m68k maintainers may
-> wish to do so.
+> Naturally, this breaks a bunch of devices.
 > 
-> The Intel instruction set documentation leaves unspecified the exact
-> number of bits by which the remainder instructions reduce the operand
-> each time.  The AMD documentation gives a specific formula, which
-> empirically Intel processors follow as well, and that formula is
-> implemented in the code.  The AMD documentation also specifies that
-> flags other than C2 are cleared in the partial remainder case, whereas
-> the Intel manual is silent on that (but the processors do appear to
-> clear those flags); this patch implements that flag clearing, and
-> keeps the existing flag clearing in cases where the instructions raise
-> "invalid" (although it seems hardware in fact only clears some but not
-> all flags in that case, leaving other flags unchanged).
+> Revert to the documented behaviour.
 > 
-> The Intel manuals include an inaccurate table asserting that (finite
-> REM 0) should raise "divide by zero"; actually, in accordance with
-> IEEE semantics, it raises "invalid".  The AMD manuals inaccurately say
-> for both fprem and fprem1 that if the exponent difference is negative,
-> the numerator is returned unchanged, which is correct (apart from
-> normalizing pseudo-denormals) for fprem but not for fprem1 (and the
-> old QEMU code had an incorrect optimization following the AMD manuals
-> for fprem1).
+> Devices that want to allow any access can just drop the valid field,
+> or add the impl field to have accesses converted to appropriate
+> length.
 > 
-> Changes in version 2 of the patch series: fix comment formatting and
-> combine patches 6 and 7.
+> Cc: qemu-stable@nongnu.org
+> Reviewed-by: Richard Henderson <rth@twiddle.net>
+> Fixes: CVE-2020-13754
+> Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=1842363
+> Fixes: a014ed07bd5a ("memory: accept mismatching sizes in memory_region_access_valid")
+> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> ---
+>  memory.c | 29 +++++++++--------------------
+>  1 file changed, 9 insertions(+), 20 deletions(-)
 > 
-> Joseph Myers (6):
->   softfloat: merge floatx80_mod and floatx80_rem
->   softfloat: fix floatx80 remainder pseudo-denormal check for zero
->   softfloat: do not return pseudo-denormal from floatx80 remainder
->   softfloat: do not set denominator high bit for floatx80 remainder
->   softfloat: return low bits of quotient from floatx80_modrem
->   target/i386: reimplement fprem, fprem1 using floatx80 operations
-> 
->  fpu/softfloat.c          |  87 ++++++++++++++++++----
->  include/fpu/softfloat.h  |   3 +
->  target/i386/fpu_helper.c | 156 ++++++++++++---------------------------
->  target/m68k/softfloat.c  |  83 ---------------------
->  target/m68k/softfloat.h  |   1 -
->  5 files changed, 122 insertions(+), 208 deletions(-)
+> diff --git a/memory.c b/memory.c
+> index 91ceaf9fcf..3e9388fb74 100644
+> --- a/memory.c
+> +++ b/memory.c
+> @@ -1352,35 +1352,24 @@ bool memory_region_access_valid(MemoryRegion *mr,
+>                                  bool is_write,
+>                                  MemTxAttrs attrs)
+>  {
+> -    int access_size_min, access_size_max;
+> -    int access_size, i;
+> +    if (mr->ops->valid.accepts
+> +        && !mr->ops->valid.accepts(mr->opaque, addr, size, is_write, attrs)) {
+> +        return false;
+> +    }
+>  
+>      if (!mr->ops->valid.unaligned && (addr & (size - 1))) {
+>          return false;
+>      }
+>  
+> -    if (!mr->ops->valid.accepts) {
+> +    /* Treat zero as compatibility all valid */
+> +    if (!mr->ops->valid.max_access_size) {
+>          return true;
+>      }
+>  
+> -    access_size_min = mr->ops->valid.min_access_size;
+> -    if (!mr->ops->valid.min_access_size) {
+> -        access_size_min = 1;
+> +    if (size > mr->ops->valid.max_access_size
+> +        || size < mr->ops->valid.min_access_size) {
+> +        return false;
+>      }
+> -
+> -    access_size_max = mr->ops->valid.max_access_size;
+> -    if (!mr->ops->valid.max_access_size) {
+> -        access_size_max = 4;
+> -    }
+> -
+> -    access_size = MAX(MIN(size, access_size_max), access_size_min);
+> -    for (i = 0; i < size; i += access_size) {
+> -        if (!mr->ops->valid.accepts(mr->opaque, addr + i, access_size,
+> -                                    is_write, attrs)) {
+> -            return false;
+> -        }
+> -    }
+> -
+>      return true;
+>  }
+>  
 > 
 
 Queued, thanks.
