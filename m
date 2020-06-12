@@ -2,53 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 931051F7152
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 02:23:48 +0200 (CEST)
-Received: from localhost ([::1]:58764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CE951F71CD
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 03:47:55 +0200 (CEST)
+Received: from localhost ([::1]:52722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjXU3-0008Dz-KY
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 20:23:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40604)
+	id 1jjYnR-0002Gp-Mb
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 21:47:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <geoff@hostfission.com>)
- id 1jjXSu-0006zA-Gh
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 20:22:36 -0400
-Received: from mail1.hostfission.com ([139.99.139.48]:33202)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <geoff@hostfission.com>) id 1jjXSr-0001I4-LO
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 20:22:36 -0400
-Received: from moya.office.hostfission.com (office.hostfission.com
- [220.233.29.71])
- by mail1.hostfission.com (Postfix) with ESMTP id E65E1443B9;
- Fri, 12 Jun 2020 10:16:12 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=hostfission.com;
- s=mail; t=1591920972;
- bh=PPeacZfz0/H7c3zbFUwy7ib18/dqZAjQwotikYVk6OU=;
- h=From:Date:Subject:To:Cc:From;
- b=xvpa2yADJNtkypLulEBltwXyh6ek+eHC/Z0rbSTQScDS9zKpmJwg6zY8KSFoYARjk
- x5huGAi+uwAS3h4zGI0AKKo1dON1PWUSEcKh1hr9Ev6v6pBeNrrwY9o686RvPOP47+
- RWSXn7L5O70cDY3tNlvVxFitbDIcqA/xl8OLDU2U=
-Received: by moya.office.hostfission.com (Postfix, from userid 0)
- id B71663A0172; Fri, 12 Jun 2020 10:16:12 +1000 (AEST)
-From: Geoffrey McRae <geoff@hostfission.com>
-Date: Fri, 12 Jun 2020 10:12:37 +1000
-Subject: [PATCH 0/6] *** SUBJECT HERE ***
-To: <qemu-devel@nongnu.org>
-Cc: <kraxel@redhat.com>
-X-Mailer: mail (GNU Mailutils 3.5)
-Message-Id: <20200612001612.B71663A0172@moya.office.hostfission.com>
-Received-SPF: pass client-ip=139.99.139.48; envelope-from=geoff@hostfission.com;
- helo=mail1.hostfission.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 20:16:15
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- SUBJ_ALL_CAPS=0.5 autolearn=_AUTOLEARN
+ (Exim 4.90_1) (envelope-from
+ <3Yd7iXgMKCqYPQfMUUMRK.IUSWKSa-JKbKRTUTMTa.UXM@flex--jkz.bounces.google.com>)
+ id 1jjYlv-0000uM-IE
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 21:46:19 -0400
+Received: from mail-yb1-xb49.google.com ([2607:f8b0:4864:20::b49]:48198)
+ by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from
+ <3Yd7iXgMKCqYPQfMUUMRK.IUSWKSa-JKbKRTUTMTa.UXM@flex--jkz.bounces.google.com>)
+ id 1jjYlt-0001UY-Rd
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 21:46:19 -0400
+Received: by mail-yb1-xb49.google.com with SMTP id n11so8813474ybg.15
+ for <qemu-devel@nongnu.org>; Thu, 11 Jun 2020 18:46:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=date:message-id:mime-version:subject:from:to:cc;
+ bh=QhZG+MpGikP6aQB6hTKAfWvCLB9Uct4lEoyUeHJvUFs=;
+ b=MsADinCov1SVUD4h9FxITAW+5Gy+lolEWooH4pck1rySgoVucK6Q3UqSKxZGoz/9OU
+ uDAQijbyh86b+13psJ/vJMTVc6tEOE0yccSqJPzxmJjMWOfmmtGcTPT1VxwcblFuooCD
+ idZPRUEDDvoALuOaZMW8ZGkZDnchiMHUvf6QZ/IU7Ix+zbM4/zEIqZ5JoYi0QFiaEEh9
+ SHzR1am2TAkXhqD8dpuIyECHENlepoAFQ6jtB2WlYfuKbiDf+9bGUjRCWVU/zVwLSgiX
+ GVXxSAlFjiF7mdn3djSuFIyMkvs/gQaLF/racwh+f0+2p2/iAYiye9w0gnq5z3RbMGhx
+ AAlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+ bh=QhZG+MpGikP6aQB6hTKAfWvCLB9Uct4lEoyUeHJvUFs=;
+ b=KzZSjYm2XJOBpPQjvz7tUcFENc+RfnBJgiOvRYy95UgKWNmlDlcGoKNCYICOHZtWaB
+ bCWFBd/BzyznTuWE/2GhQb2WwWDYJY8VLgaHo9uT97WA1gt/choq7J1UwyZudkcZPfJa
+ WXVQkhRKBe5TsNmsPXqsSbkmaaS8VUuzhh/asRnJ0NvcCWttcLvE78hgAVBZKZhTdtzT
+ +nyYNcMsDYj+oHyBB/iAVrzYM4XswGsrH9hR6UuyEqVzwDf1z4tCPA7NsxQDPd041kFj
+ CzOItF6ScC4mB55xMoO0p90+wkYKJFNTAvsESOisdEZEOkxk4pdcgPuswDiBKWjgUEg1
+ kNAA==
+X-Gm-Message-State: AOAM530oTRiPDtCWV/a3aGhtUTtaQybOGVr9JnclHiorFvWtbWwt5g80
+ KVUvLMJZYYgh0cVdF0aox3k6wzDVgrmKRLbl8gmCw9WXx6RAlFGHF7DH+c2ayy8+uXH1pfzPJ+X
+ wbBRoJKwgcQOxPb/AJ3s/fnz762EeXK3S6NRLC8xMJgbibg3wQGGs
+X-Google-Smtp-Source: ABdhPJzwO/A/YEtvS70ak/u+y4ZpPh8mncSw6xBf0VC6N/i0U8v/lcKYw60Iczf2wquRWpTFjGUKzfU=
+X-Received: by 2002:a25:3ac6:: with SMTP id
+ h189mr17533884yba.281.1591926369554; 
+ Thu, 11 Jun 2020 18:46:09 -0700 (PDT)
+Date: Thu, 11 Jun 2020 18:46:01 -0700
+Message-Id: <20200612014606.147691-1-jkz@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.27.0.290.gba653c62da-goog
+Subject: [PATCH 0/5] linux-user: Support extended clone(CLONE_VM)
+From: Josh Kunz <jkz@google.com>
+To: qemu-devel@nongnu.org
+Cc: riku.voipio@iki.fi, laurent@vivier.eu, alex.bennee@linaro.org, 
+ Josh Kunz <jkz@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b49;
+ envelope-from=3Yd7iXgMKCqYPQfMUUMRK.IUSWKSa-JKbKRTUTMTa.UXM@flex--jkz.bounces.google.com;
+ helo=mail-yb1-xb49.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -105
+X-Spam_score: -10.6
+X-Spam_bar: ----------
+X-Spam_report: (-10.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,22 +86,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch set addresses several issues that cause inconsistent
-behaviour in the guest when the sound device is stopped and started or
-the JACK server stops responding on the host.
+This patch series implements extended support for the `clone` system
+call. As best I can tell, any option combination including `CLONE_VM`
+should be supported with the addition of this patch series. The
+implementation is described in greater detail in the patches themselves.
 
-Geoffrey McRae (6):
-  audio/jack: fix invalid minimum buffer size check
-  audio/jack: remove unused stopped state
-  audio/jack: remove invalid set of input support bool
-  audio/jack: do not remove ports when finishing
-  audio/jack: honour the enable state of the audio device
-  audio/jack: simplify the re-init code path
+Testing:
 
- audio/jackaudio.c | 73 ++++++++++++++++++++++++-----------------------
- 1 file changed, 38 insertions(+), 35 deletions(-)
+  * All targets built on x86_64.
+  * `make check` and `make check-tcg` are passing. Additional tests have
+    been added to `linux-test.c` to validate clone behavior.
+
+Caveats:
+
+  * This series touches, but does not fix, several bits of code that are
+    racey (namely the sigact table and the fd trans table).
+  * `exit_group` does not perform the appropriate cleanup for non-thread
+    children created with `CLONE_VM`. CPUs for such children are never
+    cleaned up. The correct implementation of exit-group is non-trivial
+    (since it also needs to track/handle cleanup for threads in the
+    clone'd child process). Also, I don't fully understand the
+    interaction between QOM<->linux-user. My naive implementation based
+    on the current implementation `exit(2)` was regularly crashing. If
+    maintainers have suggestions for better ways to handle exit_group,
+    they would be greatly appreciated. 
+  * execve does not clean up the CPUs of clone'd children, for the same
+    reasons as `exit_group`.
+
+Josh Kunz (5):
+  linux-user: Refactor do_fork to use new `qemu_clone`
+  linux-user: Make fd_trans task-specific.
+  linux-user: Make sigact_table part of the task state.
+  linux-user: Support CLONE_VM and extended clone options
+  linux-user: Add PDEATHSIG test for clone process hierarchy.
+
+ linux-user/Makefile.objs            |   2 +-
+ linux-user/clone.c                  | 565 ++++++++++++++++++++++++++++
+ linux-user/clone.h                  |  27 ++
+ linux-user/fd-trans-tbl.c           |  13 +
+ linux-user/fd-trans-type.h          |  17 +
+ linux-user/fd-trans.c               |   3 -
+ linux-user/fd-trans.h               |  75 ++--
+ linux-user/main.c                   |   1 +
+ linux-user/qemu.h                   |  49 +++
+ linux-user/signal.c                 |  84 ++++-
+ linux-user/syscall.c                | 452 ++++++++++++----------
+ tests/tcg/multiarch/Makefile.target |   3 +
+ tests/tcg/multiarch/linux-test.c    | 227 ++++++++++-
+ 13 files changed, 1264 insertions(+), 254 deletions(-)
+ create mode 100644 linux-user/clone.c
+ create mode 100644 linux-user/clone.h
+ create mode 100644 linux-user/fd-trans-tbl.c
+ create mode 100644 linux-user/fd-trans-type.h
 
 -- 
-2.20.1
+2.27.0.290.gba653c62da-goog
 
 
