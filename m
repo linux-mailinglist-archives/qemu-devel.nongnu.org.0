@@ -2,70 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E14051F7AD2
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 17:24:59 +0200 (CEST)
-Received: from localhost ([::1]:52298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C59C1F7A4F
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 17:05:52 +0200 (CEST)
+Received: from localhost ([::1]:57442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjlYA-0008P2-W3
-	for lists+qemu-devel@lfdr.de; Fri, 12 Jun 2020 11:24:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51664)
+	id 1jjlFf-0005RN-1P
+	for lists+qemu-devel@lfdr.de; Fri, 12 Jun 2020 11:05:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jjl5L-0004la-Qr
- for qemu-devel@nongnu.org; Fri, 12 Jun 2020 10:55:11 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:43024
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jjl2d-0007Zz-BB
+ for qemu-devel@nongnu.org; Fri, 12 Jun 2020 10:52:23 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:35597
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jjl5K-00024f-6W
- for qemu-devel@nongnu.org; Fri, 12 Jun 2020 10:55:11 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jjl2b-0001Um-IB
+ for qemu-devel@nongnu.org; Fri, 12 Jun 2020 10:52:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591973709;
+ s=mimecast20190719; t=1591973540;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nvCRpjAXKNglq8ahDk7GnS4mPNv6Reg8kx+iDjbF7Mk=;
- b=gi38VNZ2/YQUeZoTHd2Gq2dO2d5+3MjkVCNvc3/bZ+RxkT+7MniMTH0Qn4TO1c7OMn52YS
- qg277tLSZPSHwnIEzsibcH4WRxaceB5Mz6eXi6PEO+2SURMz2FiV6OX3coKtqGJulByvlw
- /Cnw9iQRzk/l6e+GsBgik47qEpFuRaE=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-197-Z6gOwRjLPk-jX-rQeytZCQ-1; Fri, 12 Jun 2020 10:52:16 -0400
-X-MC-Unique: Z6gOwRjLPk-jX-rQeytZCQ-1
-Received: by mail-wm1-f71.google.com with SMTP id r1so2544768wmh.7
- for <qemu-devel@nongnu.org>; Fri, 12 Jun 2020 07:52:16 -0700 (PDT)
+ bh=XYJWosKtNa0YrCdfi+nbmPQlsHhZsqpfDeFMOxFj1JA=;
+ b=WewJJ9+QoRES2Me9JANlanMZRywQo8/4+PscGEi8djqwzAftNf5ksz/88ql36iG0UEk9Jb
+ JmVPnLaJIzyTJS11eB+F026XyIYtFlSgJm2rgRuDvGVqYmv6K7FWq5wtHgcvumeInw+aQY
+ /7Ubx1VHMSFfXWsgKNrDQCo2HEpNQxw=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-289-mWhjM3pVNrabT2no1CwXkQ-1; Fri, 12 Jun 2020 10:52:19 -0400
+X-MC-Unique: mWhjM3pVNrabT2no1CwXkQ-1
+Received: by mail-wm1-f72.google.com with SMTP id t145so2546280wmt.2
+ for <qemu-devel@nongnu.org>; Fri, 12 Jun 2020 07:52:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=nvCRpjAXKNglq8ahDk7GnS4mPNv6Reg8kx+iDjbF7Mk=;
- b=mP4K8R4UC35TqqRsIIVOZwo1Jrk5RKlc5bUMWYLo0nSBDpMYqhMoZCq1cb4lV/upK9
- 7IJOA+DHCgOOZS3Ss7ZQIicB3f1kyFbgDk2utZbQr/yYwv9xcpo1PfMWKvCHV1Q8XJN4
- nh8RPW6q2ZxCRoP7tCiurmo2pZTPCwLHgDOdmN40XxH1fcSy7vZ7YY32tJUi5O/6dGm5
- UvLDnGk+yUnAMtItkuL1BQO4vmZeopU1MsKTjes/ZJqsc4l47p1MfAJmt/d6+wWqurIE
- A/zujTbtPnaxffMGoRRN/joshMHnjy+fRGYyTOZJZeyTt2/mONBJA9Ip49CFzpO8gqUF
- auGQ==
-X-Gm-Message-State: AOAM533+Nz5kB0mvds2nGLxG7smF8AkbfSohgajJU+ht/DqTxFh4B3wB
- Je3+SOpRwaIMF6Z9ybdUpCyLSjK5x29z/K4tYDrURiRN/f62vP+6lLhHVYotIbf/EKKOchBYI3Y
- JVRDX4XNO5Fokg7c=
-X-Received: by 2002:a05:6000:114e:: with SMTP id
- d14mr15050450wrx.110.1591973535485; 
- Fri, 12 Jun 2020 07:52:15 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwmtDwaN9rKU+LNvV0MzVfvIchwFtm/60SnVYrRVisFiJ+ASyKOW7oY3taajDa3CvXbkYkMuQ==
-X-Received: by 2002:a05:6000:114e:: with SMTP id
- d14mr15050442wrx.110.1591973535343; 
- Fri, 12 Jun 2020 07:52:15 -0700 (PDT)
+ bh=XYJWosKtNa0YrCdfi+nbmPQlsHhZsqpfDeFMOxFj1JA=;
+ b=k2uijgiO4oFzoG6p+0iwqGFXxB0v8LCUWC8UrjyWl6e9Y4wF/SbYfyHQSbVlerJ/0d
+ SiKVAcXrsIO7hlvQHw1a1Cl7sm3ux0RN7xRobjkd7mTBLuN5mh6HoU4NeayvROalXCur
+ HJFR5c8L6tx6YA9gZJ7yIPb/f23eVi5TUyXQ92ijvomZNMmuDr3fuJ2C+9Qsse5f1tQP
+ PY1kiVaRS6cwWSAES6W3gfq0BCriG18/ZvFGipODorqv4DutaP41TqGokeZ+PJ6gp+nk
+ 7aUzLTKsYBl3Ss+GwlO2zn8T87jDiEZCXifvnmqPneKx/qXsQ4c8br85uiAuHxLKN9qN
+ iC9g==
+X-Gm-Message-State: AOAM531l95cZlv0KoGqbJRrua4/TDVpYF6qp2h7WHokbl93EgvbZawvQ
+ KbXc0F1VGEvBy5UsUOX85TcRYivR9GjGcy46QKvnrS0zAz0MieR7Nv6T9m/VqybFf6AM4fZfyWt
+ 5+GnK2Mbb8ghFMhk=
+X-Received: by 2002:adf:fc4e:: with SMTP id e14mr15313516wrs.348.1591973537895; 
+ Fri, 12 Jun 2020 07:52:17 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyzR0j3QgiKw9ix9SXDk1SqR2xOa3qiy/u2bEGSFuXXqKMvXpTcEf/zzWvP/yEizLNKjqqwHQ==
+X-Received: by 2002:adf:fc4e:: with SMTP id e14mr15313498wrs.348.1591973537689; 
+ Fri, 12 Jun 2020 07:52:17 -0700 (PDT)
 Received: from redhat.com (bzq-79-178-18-124.red.bezeqint.net. [79.178.18.124])
- by smtp.gmail.com with ESMTPSA id j4sm10109783wma.7.2020.06.12.07.52.14
+ by smtp.gmail.com with ESMTPSA id k64sm9481743wmf.34.2020.06.12.07.52.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Jun 2020 07:52:14 -0700 (PDT)
-Date: Fri, 12 Jun 2020 10:52:13 -0400
+ Fri, 12 Jun 2020 07:52:17 -0700 (PDT)
+Date: Fri, 12 Jun 2020 10:52:15 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 32/58] hw/pci/pci_bridge: Use the IEC binary prefix
- definitions
-Message-ID: <20200612141917.9446-33-mst@redhat.com>
+Subject: [PULL v2 33/58] hw/pci-host: Use the IEC binary prefix definitions
+Message-ID: <20200612141917.9446-34-mst@redhat.com>
 References: <20200612141917.9446-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200612141917.9446-1-mst@redhat.com>
@@ -76,9 +73,9 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=mst@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/12 08:00:42
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/12 08:07:17
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -99,7 +96,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  Richard Henderson <richard.henderson@linaro.org>,
  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
@@ -111,35 +108,73 @@ IEC binary prefixes ease code review: the unit is explicit.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20200601142930.29408-5-f4bug@amsat.org>
+Message-Id: <20200601142930.29408-6-f4bug@amsat.org>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- hw/pci/pci_bridge.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/pci-host/i440fx.c    | 3 ++-
+ hw/pci-host/q35.c       | 2 +-
+ hw/pci-host/versatile.c | 5 +++--
+ 3 files changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/hw/pci/pci_bridge.c b/hw/pci/pci_bridge.c
-index 3ba3203f72..3789c17edc 100644
---- a/hw/pci/pci_bridge.c
-+++ b/hw/pci/pci_bridge.c
-@@ -423,14 +423,14 @@ int pci_bridge_qemu_reserve_cap_init(PCIDevice *dev, int cap_offset,
-     }
+diff --git a/hw/pci-host/i440fx.c b/hw/pci-host/i440fx.c
+index 0adbd77553..aefb416c8f 100644
+--- a/hw/pci-host/i440fx.c
++++ b/hw/pci-host/i440fx.c
+@@ -23,6 +23,7 @@
+  */
  
-     if (res_reserve.mem_non_pref != (uint64_t)-1 &&
--        res_reserve.mem_non_pref >= (1ULL << 32)) {
-+        res_reserve.mem_non_pref >= 4 * GiB) {
-         error_setg(errp,
-                    "PCI resource reserve cap: mem-reserve must be less than 4G");
-         return -EINVAL;
-     }
+ #include "qemu/osdep.h"
++#include "qemu/units.h"
+ #include "qemu/range.h"
+ #include "hw/i386/pc.h"
+ #include "hw/pci/pci.h"
+@@ -301,7 +302,7 @@ PCIBus *i440fx_init(const char *host_type, const char *pci_type,
+     memory_region_set_enabled(&f->smram_region, true);
  
-     if (res_reserve.mem_pref_32 != (uint64_t)-1 &&
--        res_reserve.mem_pref_32 >= (1ULL << 32)) {
-+        res_reserve.mem_pref_32 >= 4 * GiB) {
-         error_setg(errp,
-                    "PCI resource reserve cap: pref32-reserve  must be less than 4G");
-         return -EINVAL;
+     /* smram, as seen by SMM CPUs */
+-    memory_region_init(&f->smram, OBJECT(d), "smram", 1ull << 32);
++    memory_region_init(&f->smram, OBJECT(d), "smram", 4 * GiB);
+     memory_region_set_enabled(&f->smram, true);
+     memory_region_init_alias(&f->low_smram, OBJECT(d), "smram-low",
+                              f->ram_memory, 0xa0000, 0x20000);
+diff --git a/hw/pci-host/q35.c b/hw/pci-host/q35.c
+index 352aeecfa7..b788f17b2c 100644
+--- a/hw/pci-host/q35.c
++++ b/hw/pci-host/q35.c
+@@ -589,7 +589,7 @@ static void mch_realize(PCIDevice *d, Error **errp)
+     memory_region_set_enabled(&mch->open_high_smram, false);
+ 
+     /* smram, as seen by SMM CPUs */
+-    memory_region_init(&mch->smram, OBJECT(mch), "smram", 1ull << 32);
++    memory_region_init(&mch->smram, OBJECT(mch), "smram", 4 * GiB);
+     memory_region_set_enabled(&mch->smram, true);
+     memory_region_init_alias(&mch->low_smram, OBJECT(mch), "smram-low",
+                              mch->ram_memory, MCH_HOST_BRIDGE_SMRAM_C_BASE,
+diff --git a/hw/pci-host/versatile.c b/hw/pci-host/versatile.c
+index cfb9a78ea6..8ddfb8772a 100644
+--- a/hw/pci-host/versatile.c
++++ b/hw/pci-host/versatile.c
+@@ -8,6 +8,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu/units.h"
+ #include "hw/sysbus.h"
+ #include "migration/vmstate.h"
+ #include "hw/irq.h"
+@@ -399,8 +400,8 @@ static void pci_vpb_realize(DeviceState *dev, Error **errp)
+     pci_map_irq_fn mapfn;
+     int i;
+ 
+-    memory_region_init(&s->pci_io_space, OBJECT(s), "pci_io", 1ULL << 32);
+-    memory_region_init(&s->pci_mem_space, OBJECT(s), "pci_mem", 1ULL << 32);
++    memory_region_init(&s->pci_io_space, OBJECT(s), "pci_io", 4 * GiB);
++    memory_region_init(&s->pci_mem_space, OBJECT(s), "pci_mem", 4 * GiB);
+ 
+     pci_root_bus_new_inplace(&s->pci_bus, sizeof(s->pci_bus), dev, "pci",
+                              &s->pci_mem_space, &s->pci_io_space,
 -- 
 MST
 
