@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BF7A1F71D1
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 03:49:31 +0200 (CEST)
-Received: from localhost ([::1]:59644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 311931F71CE
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 03:48:03 +0200 (CEST)
+Received: from localhost ([::1]:53604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjYp0-0005sz-Hd
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 21:49:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51030)
+	id 1jjYna-0002cK-6q
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 21:48:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51052)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <3Zd7iXgMKCqoTUjQYYQVO.MYWaOWe-NOfOVXYXQXe.YbQ@flex--jkz.bounces.google.com>)
- id 1jjYlz-0000xD-Ds
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 21:46:23 -0400
-Received: from mail-qk1-x749.google.com ([2607:f8b0:4864:20::749]:44709)
+ <3Z97iXgMKCqwVWlSaaSXQ.OaYcQYg-PQhQXZaZSZg.adS@flex--jkz.bounces.google.com>)
+ id 1jjYm0-0000yt-FG
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 21:46:24 -0400
+Received: from mail-yb1-xb49.google.com ([2607:f8b0:4864:20::b49]:49577)
  by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from
- <3Zd7iXgMKCqoTUjQYYQVO.MYWaOWe-NOfOVXYXQXe.YbQ@flex--jkz.bounces.google.com>)
- id 1jjYlx-0001Up-C4
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 21:46:23 -0400
-Received: by mail-qk1-x749.google.com with SMTP id j16so6800262qka.11
- for <qemu-devel@nongnu.org>; Thu, 11 Jun 2020 18:46:14 -0700 (PDT)
+ <3Z97iXgMKCqwVWlSaaSXQ.OaYcQYg-PQhQXZaZSZg.adS@flex--jkz.bounces.google.com>)
+ id 1jjYly-0001V3-H0
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 21:46:24 -0400
+Received: by mail-yb1-xb49.google.com with SMTP id o140so8738216yba.16
+ for <qemu-devel@nongnu.org>; Thu, 11 Jun 2020 18:46:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
  h=date:in-reply-to:message-id:mime-version:references:subject:from:to
- :cc; bh=zrAZryzclMmQ2GnW3+4bij4G7St8PIqWiedWlSplzFg=;
- b=sh9rj0Ze7pugCxLZjpbqmMaoKlnzXdDEqx/0wdHHh9PVhw4JU8BVAU9wsvU9wzdJlS
- ePqKSE3IET/Y0oQuMhPvY+zLcJBGM+VmOFC0L+xzIYUtD91jkMN53kZ1q22nKXZR0X7C
- ckJMAcHT2f7K46LiAknyOzQnkRg0WrGvwRwWM7FpNOXDfsKFfQq61cB3AxUM/OUntXnz
- 3HRqfbv9yyC6eNrF6rg1krmH3bJBFbf6AuvXeWAXa487ExLV02Z0j4ZkOr2EQNtw6I8f
- vO5tFuFVza2sg2qWpJ+LZ2pCWyVv7Fo7dmTCSp25BvsW6H7LCErYb+7rz8pYmSiIna4f
- IYSA==
+ :cc; bh=DK7j++nEwmx0IXJsl6/327fR/1xlRgvEHDAk8673aKE=;
+ b=LF8mekIt78DHARO9lp2gqgy8Xomvq7GbJpzWLfpELWN/OOC8/kvZzUBesI9jwV2CX7
+ Zbw2i5xlfBEt2pm9rUkZZCfKBnED6jKUOp/aQnK5hzbO5YIsyZjxn7l/s3OfMMFZbsXG
+ eImFm2ZxFIZFN188f3uCNgwUw9doEkyt5wDxRkiLtw1J5f9Lm03qm4bw8QbcCaS5Du+R
+ sc81WFtlVAET/gXNGnYeUe1Fq/2yAmgr6kFV4V96AdayTHLgCDjuEGnoct0Wgwpneas9
+ Fjh0gbulpxyCCNT2xCayB6SbhlVGOkDGWZG4mkVnIil3H9oT7IGKb0ZrLI7BddbxZfBP
+ dCLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:in-reply-to:message-id:mime-version
  :references:subject:from:to:cc;
- bh=zrAZryzclMmQ2GnW3+4bij4G7St8PIqWiedWlSplzFg=;
- b=UMvV0cRJ3Z79iaQhocj7/K0aLJ7mnfO+ONFriCr3w8BKlKkCuG9906V6MNbO0XpmcX
- sItLpM5AIndpwIu64RLQy+uM+LwLg0odeDE8YjBbRuFcKJQVFSoEoJg5AQx0g3XQ4ftG
- 8Se68ngJB1tX9ViUppinEqlIH9a4iuJ6y8sVs9qTWB1uYekeiWAbVaiy3RLikXopUiMN
- VIssGI9q1BdYB/IFh9ygNz5oqW7T8Zz/7IgSK3mUKuKxTVdafy4Ivkpipz5Db135VfwF
- WqWKaZ/UA1ovVktZq8/NISPCSUb51tqh6KMfPzxTGnEjkeruwdoa1VSG4fmT3Nm6cb6Y
- jp2w==
-X-Gm-Message-State: AOAM530iRx0+dTNVNv/Xbdf/HplfmFjJe7Ig3BlXwX6lNk/J80i8hsRw
- L6Gw0/UB2mS11erji7FfiIjetdKckQU5+REmcWOcPzJHgIaZFOv/j03jO+KCPIlMtBmABqp38Kr
- 9HtTo42QDV7ywDsudHWj8LuxqP1q50XRzWQbh4tmMW+LGf2AHJnZl
-X-Google-Smtp-Source: ABdhPJzeAyJjF03I50ifR/5PtDnbCByuW3dr6mY5DWWXG5piARCTwYxjHYUyEDMxEGJFh1LCFlWtfWc=
-X-Received: by 2002:a05:6214:846:: with SMTP id
- dg6mr9942730qvb.210.1591926373252; 
- Thu, 11 Jun 2020 18:46:13 -0700 (PDT)
-Date: Thu, 11 Jun 2020 18:46:03 -0700
+ bh=DK7j++nEwmx0IXJsl6/327fR/1xlRgvEHDAk8673aKE=;
+ b=gGJREPnl7PrTn9TSTY9s/EUtWCeEoi7Ac8G+d8RubMSa4w6Zo8mmRoT9+UVdkpRDIE
+ TW29BznnzoMkOnsQivEJ7ljy4kQ9bXilq3scSVDYsUfTCKbi1xoWSY4Iy2vCEhx/m5uG
+ V4/dCfLLYhmkKeRR9pu52UvOlgtzdc7HG7HP1KoYifsp6ALzEK3XzLpZO2azqMg+fgV1
+ GpDouUhJMeJGqOYcfvTYVHP3YyjBaQaL/tdRUDzdBt2KP+eTaUie2PFQrVvgpDoOpP+5
+ 0zKRSjAgGZwoKp4Gt8kPV+sS5ZyqttILZiqPT5yJHE7q9GyRIqWVG+DBPhOVsDkWwWrn
+ 9e4Q==
+X-Gm-Message-State: AOAM5328TwGSobXFQF1PLBwY5NfKigqzJVLfDtytIQnxULmiPcbIcPHm
+ B6RTEO+NbNQG+JMKOh1x6ITu/KqbJDXUkKzwlHJcytr/4WKs3ZKnrvZ5RPDKAJ85HULvbqx4gFJ
+ ey/4xrxnrD3CfytL3xKamgsUQ5vlv8bgklaKM84hBAgCdvo7/qVlI
+X-Google-Smtp-Source: ABdhPJwEkT/xjV3Iu9ncqRphNSpQ+qOLGtX2ke72xAkTOx6Rp/bRLRcr9avVPGd4oQSr8BXgpHtRAks=
+X-Received: by 2002:a25:ec0d:: with SMTP id j13mr17129494ybh.364.1591926375093; 
+ Thu, 11 Jun 2020 18:46:15 -0700 (PDT)
+Date: Thu, 11 Jun 2020 18:46:04 -0700
 In-Reply-To: <20200612014606.147691-1-jkz@google.com>
-Message-Id: <20200612014606.147691-3-jkz@google.com>
+Message-Id: <20200612014606.147691-4-jkz@google.com>
 Mime-Version: 1.0
 References: <20200612014606.147691-1-jkz@google.com>
 X-Mailer: git-send-email 2.27.0.290.gba653c62da-goog
-Subject: [PATCH 2/5] linux-user: Make fd_trans task-specific.
+Subject: [PATCH 3/5] linux-user: Make sigact_table part of the task state.
 From: Josh Kunz <jkz@google.com>
 To: qemu-devel@nongnu.org
 Cc: riku.voipio@iki.fi, laurent@vivier.eu, alex.bennee@linaro.org, 
  Josh Kunz <jkz@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::749;
- envelope-from=3Zd7iXgMKCqoTUjQYYQVO.MYWaOWe-NOfOVXYXQXe.YbQ@flex--jkz.bounces.google.com;
- helo=mail-qk1-x749.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b49;
+ envelope-from=3Z97iXgMKCqwVWlSaaSXQ.OaYcQYg-PQhQXZaZSZg.adS@flex--jkz.bounces.google.com;
+ helo=mail-yb1-xb49.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -105
@@ -89,299 +88,184 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The file-descriptor translation subsystem used by QEMU uses some global
-variables to track file descriptors an their associated state. In the
-future (when clone is implemented) it may be possible to have two
-processes that share memory, but have a unique set of file descriptors.
-This change associates the file-descriptor translation table with the
-per-task TaskState structure. Since many tasks will share file
-descriptors (e.g., threads), a structure similar to the existing structure is
-used. Each task has a pointer to a global table. That table can be
-shared by multiple tasks, or changed if a task needs to use a different
-FD table.
+sigact_table stores the signal handlers for the given process. Once we
+support CLONE_VM, two tasks using the same virtual memory may need
+different signal handler tables (e.g., if CLONE_SIGHAND is not
+provided). Here we make sigact_table part of the TaskState, so it can be
+duplicated as needed when cloning children.
 
 Signed-off-by: Josh Kunz <jkz@google.com>
 ---
- linux-user/Makefile.objs   |  2 +-
- linux-user/fd-trans-tbl.c  | 13 +++++++
- linux-user/fd-trans-type.h | 17 +++++++++
- linux-user/fd-trans.c      |  3 --
- linux-user/fd-trans.h      | 75 ++++++++++++++++++++++++--------------
- linux-user/main.c          |  1 +
- linux-user/qemu.h          | 24 ++++++++++++
- linux-user/syscall.c       | 12 ++++++
- 8 files changed, 115 insertions(+), 32 deletions(-)
- create mode 100644 linux-user/fd-trans-tbl.c
- create mode 100644 linux-user/fd-trans-type.h
+ linux-user/qemu.h    |  8 ++++++++
+ linux-user/signal.c  | 35 +++++++++++++++++++++++++++--------
+ linux-user/syscall.c | 17 +++++++++++++++++
+ 3 files changed, 52 insertions(+), 8 deletions(-)
 
-diff --git a/linux-user/Makefile.objs b/linux-user/Makefile.objs
-index d6788f012c..d19102e244 100644
---- a/linux-user/Makefile.objs
-+++ b/linux-user/Makefile.objs
-@@ -1,7 +1,7 @@
- obj-y = main.o syscall.o strace.o mmap.o signal.o \
- 	elfload.o linuxload.o uaccess.o uname.o \
- 	safe-syscall.o $(TARGET_ABI_DIR)/signal.o \
--        $(TARGET_ABI_DIR)/cpu_loop.o exit.o fd-trans.o clone.o
-+        $(TARGET_ABI_DIR)/cpu_loop.o exit.o fd-trans.o clone.o fd-trans-tbl.o
- 
- obj-$(TARGET_HAS_BFLT) += flatload.o
- obj-$(TARGET_I386) += vm86.o
-diff --git a/linux-user/fd-trans-tbl.c b/linux-user/fd-trans-tbl.c
-new file mode 100644
-index 0000000000..6afe91096e
---- /dev/null
-+++ b/linux-user/fd-trans-tbl.c
-@@ -0,0 +1,13 @@
-+#include "qemu/osdep.h"
-+#include "fd-trans.h"
-+
-+struct fd_trans_table *fd_trans_table_clone(struct fd_trans_table *tbl)
-+{
-+    struct fd_trans_table *new_tbl = g_new0(struct fd_trans_table, 1);
-+    new_tbl->fd_max = tbl->fd_max;
-+    new_tbl->entries = g_new0(TargetFdTrans*, tbl->fd_max);
-+    memcpy(new_tbl->entries,
-+           tbl->entries,
-+           sizeof(*new_tbl->entries) * tbl->fd_max);
-+    return new_tbl;
-+}
-diff --git a/linux-user/fd-trans-type.h b/linux-user/fd-trans-type.h
-new file mode 100644
-index 0000000000..06c4427642
---- /dev/null
-+++ b/linux-user/fd-trans-type.h
-@@ -0,0 +1,17 @@
-+#ifndef FD_TRANS_TYPE_H
-+#define FD_TRANS_TYPE_H
-+
-+/*
-+ * Break out the TargetFdTrans typedefs into a separate file, to break
-+ * the circular dependency between qemu.h and fd-trans.h.
-+ */
-+
-+typedef abi_long (*TargetFdDataFunc)(void *, size_t);
-+typedef abi_long (*TargetFdAddrFunc)(void *, abi_ulong, socklen_t);
-+typedef struct TargetFdTrans {
-+    TargetFdDataFunc host_to_target_data;
-+    TargetFdDataFunc target_to_host_data;
-+    TargetFdAddrFunc target_to_host_addr;
-+} TargetFdTrans;
-+
-+#endif /* FD_TRANS_TYPE_H */
-diff --git a/linux-user/fd-trans.c b/linux-user/fd-trans.c
-index c0687c52e6..c552034a5e 100644
---- a/linux-user/fd-trans.c
-+++ b/linux-user/fd-trans.c
-@@ -261,9 +261,6 @@ enum {
-     QEMU___RTA_MAX
- };
- 
--TargetFdTrans **target_fd_trans;
--unsigned int target_fd_max;
--
- static void tswap_nlmsghdr(struct nlmsghdr *nlh)
- {
-     nlh->nlmsg_len = tswap32(nlh->nlmsg_len);
-diff --git a/linux-user/fd-trans.h b/linux-user/fd-trans.h
-index a3fcdaabc7..07ae04dad7 100644
---- a/linux-user/fd-trans.h
-+++ b/linux-user/fd-trans.h
-@@ -16,38 +16,45 @@
- #ifndef FD_TRANS_H
- #define FD_TRANS_H
- 
--typedef abi_long (*TargetFdDataFunc)(void *, size_t);
--typedef abi_long (*TargetFdAddrFunc)(void *, abi_ulong, socklen_t);
--typedef struct TargetFdTrans {
--    TargetFdDataFunc host_to_target_data;
--    TargetFdDataFunc target_to_host_data;
--    TargetFdAddrFunc target_to_host_addr;
--} TargetFdTrans;
-+#include "qemu.h"
-+#include "fd-trans-type.h"
- 
--extern TargetFdTrans **target_fd_trans;
--
--extern unsigned int target_fd_max;
-+/*
-+ * Return a duplicate of the given fd_trans_table. This function always
-+ * succeeds. Ownership of the pointed-to table is yielded to the caller. The
-+ * caller is responsible for freeing the table when it is no longer in-use.
-+ */
-+struct fd_trans_table *fd_trans_table_clone(struct fd_trans_table *tbl);
- 
- static inline TargetFdDataFunc fd_trans_target_to_host_data(int fd)
- {
--    if (fd >= 0 && fd < target_fd_max && target_fd_trans[fd]) {
--        return target_fd_trans[fd]->target_to_host_data;
-+    TaskState *ts = (TaskState *)thread_cpu->opaque;
-+    struct fd_trans_table *tbl = ts->fd_trans_tbl;
-+
-+    if (fd >= 0 && fd < tbl->fd_max && tbl->entries[fd]) {
-+        return tbl->entries[fd]->target_to_host_data;
-     }
-     return NULL;
- }
- 
- static inline TargetFdDataFunc fd_trans_host_to_target_data(int fd)
- {
--    if (fd >= 0 && fd < target_fd_max && target_fd_trans[fd]) {
--        return target_fd_trans[fd]->host_to_target_data;
-+    TaskState *ts = (TaskState *)thread_cpu->opaque;
-+    struct fd_trans_table *tbl = ts->fd_trans_tbl;
-+
-+    if (fd >= 0 && fd < tbl->fd_max && tbl->entries[fd]) {
-+        return tbl->entries[fd]->host_to_target_data;
-     }
-     return NULL;
- }
- 
- static inline TargetFdAddrFunc fd_trans_target_to_host_addr(int fd)
- {
--    if (fd >= 0 && fd < target_fd_max && target_fd_trans[fd]) {
--        return target_fd_trans[fd]->target_to_host_addr;
-+    TaskState *ts = (TaskState *)thread_cpu->opaque;
-+    struct fd_trans_table *tbl = ts->fd_trans_tbl;
-+
-+    if (fd >= 0 && fd < tbl->fd_max && tbl->entries[fd]) {
-+        return tbl->entries[fd]->target_to_host_addr;
-     }
-     return NULL;
- }
-@@ -56,29 +63,41 @@ static inline void fd_trans_register(int fd, TargetFdTrans *trans)
- {
-     unsigned int oldmax;
- 
--    if (fd >= target_fd_max) {
--        oldmax = target_fd_max;
--        target_fd_max = ((fd >> 6) + 1) << 6; /* by slice of 64 entries */
--        target_fd_trans = g_renew(TargetFdTrans *,
--                                  target_fd_trans, target_fd_max);
--        memset((void *)(target_fd_trans + oldmax), 0,
--               (target_fd_max - oldmax) * sizeof(TargetFdTrans *));
-+    TaskState *ts = (TaskState *)thread_cpu->opaque;
-+    struct fd_trans_table *tbl = ts->fd_trans_tbl;
-+
-+    /*
-+     * TODO: This is racy. Updates to tbl->entries should be guarded by
-+     * a lock.
-+     */
-+    if (fd >= tbl->fd_max) {
-+        oldmax = tbl->fd_max;
-+        tbl->fd_max = ((fd >> 6) + 1) << 6; /* by slice of 64 entries */
-+        tbl->entries = g_renew(TargetFdTrans *, tbl->entries, tbl->fd_max);
-+        memset((void *)(tbl->entries + oldmax), 0,
-+               (tbl->fd_max - oldmax) * sizeof(TargetFdTrans *));
-     }
--    target_fd_trans[fd] = trans;
-+    tbl->entries[fd] = trans;
- }
- 
- static inline void fd_trans_unregister(int fd)
- {
--    if (fd >= 0 && fd < target_fd_max) {
--        target_fd_trans[fd] = NULL;
-+    TaskState *ts = (TaskState *)thread_cpu->opaque;
-+    struct fd_trans_table *tbl = ts->fd_trans_tbl;
-+
-+    if (fd >= 0 && fd < tbl->fd_max) {
-+        tbl->entries[fd] = NULL;
-     }
- }
- 
- static inline void fd_trans_dup(int oldfd, int newfd)
- {
-+    TaskState *ts = (TaskState *)thread_cpu->opaque;
-+    struct fd_trans_table *tbl = ts->fd_trans_tbl;
-+
-     fd_trans_unregister(newfd);
--    if (oldfd < target_fd_max && target_fd_trans[oldfd]) {
--        fd_trans_register(newfd, target_fd_trans[oldfd]);
-+    if (oldfd >= 0 && oldfd < tbl->fd_max && tbl->entries[oldfd]) {
-+        fd_trans_register(newfd, tbl->entries[oldfd]);
-     }
- }
- 
-diff --git a/linux-user/main.c b/linux-user/main.c
-index 3597e99bb1..d1ed0f6120 100644
---- a/linux-user/main.c
-+++ b/linux-user/main.c
-@@ -796,6 +796,7 @@ int main(int argc, char **argv, char **envp)
-     ts->bprm = &bprm;
-     cpu->opaque = ts;
-     task_settid(ts);
-+    ts->fd_trans_tbl = g_new0(struct fd_trans_table, 1);
- 
-     ret = loader_exec(execfd, exec_path, target_argv, target_environ, regs,
-         info, &bprm);
 diff --git a/linux-user/qemu.h b/linux-user/qemu.h
-index ce902f5132..989e01ad8d 100644
+index 989e01ad8d..54bf4f47be 100644
 --- a/linux-user/qemu.h
 +++ b/linux-user/qemu.h
-@@ -5,6 +5,7 @@
- #include "cpu.h"
- #include "exec/exec-all.h"
- #include "exec/cpu_ldst.h"
-+#include "fd-trans-type.h"
- 
- #undef DEBUG_REMAP
- #ifdef DEBUG_REMAP
-@@ -96,6 +97,22 @@ struct emulated_sigtable {
-     target_siginfo_t info;
- };
- 
-+/*
-+ * The fd_trans_table is used the FD data translation subsystem to
-+ * find FD data translators (i.e. functions). `entries` is an array of pointers
-+ * with size `fd_max`, containing pointers to TargetFDTrans structs. A pointer
-+ * to a struct of this type is stored TaskState, which allows the struct itself
-+ * to be shared by all tasks (e.g., threads) that share a file descriptor
-+ * namespace. Storing a pointer to this table in the TaskState struct is needed
-+ * to support rare cases where tasks share an address space, but do not share
-+ * a set of file descriptors (e.g., after clone(CLONE_VM) when CLONE_FILES is
-+ * not set). See `fd-trans.h` for more info on the FD translation subsystem.
-+ */
-+struct fd_trans_table {
-+    uint64_t fd_max;
-+    TargetFdTrans **entries;
-+};
-+
- /* NOTE: we force a big alignment so that the stack stored after is
-    aligned too */
- typedef struct TaskState {
-@@ -153,6 +170,13 @@ typedef struct TaskState {
- 
-     /* This thread's sigaltstack, if it has one */
-     struct target_sigaltstack sigaltstack_used;
+@@ -177,6 +177,12 @@ typedef struct TaskState {
+      * the table itself should be guarded.
+      */
+     struct fd_trans_table *fd_trans_tbl;
 +
 +    /*
-+     * A pointer to the FD trans table to be used by this task. Note that the
-+     * task doesn't have exclusive control of the fd_trans_table so access to
-+     * the table itself should be guarded.
++     * A table containing signal actions for the target. It should have at
++     * least TARGET_NSIG entries
 +     */
-+    struct fd_trans_table *fd_trans_tbl;
++    struct target_sigaction *sigact_tbl;
  } __attribute__((aligned(16))) TaskState;
  
  extern char *exec_path;
+@@ -419,7 +425,9 @@ void print_syscall_ret(int num, abi_long arg1);
+  */
+ void print_taken_signal(int target_signum, const target_siginfo_t *tinfo);
+ 
++
+ /* signal.c */
++struct target_sigaction *sigact_table_clone(struct target_sigaction *orig);
+ void process_pending_signals(CPUArchState *cpu_env);
+ void signal_init(void);
+ int queue_signal(CPUArchState *env, int sig, int si_type,
+diff --git a/linux-user/signal.c b/linux-user/signal.c
+index 8cf51ffecd..dc98def6d1 100644
+--- a/linux-user/signal.c
++++ b/linux-user/signal.c
+@@ -25,7 +25,13 @@
+ #include "trace.h"
+ #include "signal-common.h"
+ 
+-static struct target_sigaction sigact_table[TARGET_NSIG];
++struct target_sigaltstack target_sigaltstack_used = {
++    .ss_sp = 0,
++    .ss_size = 0,
++    .ss_flags = TARGET_SS_DISABLE,
++};
++
++typedef struct target_sigaction sigact_table[TARGET_NSIG];
+ 
+ static void host_signal_handler(int host_signum, siginfo_t *info,
+                                 void *puc);
+@@ -542,6 +548,11 @@ static void signal_table_init(void)
+     }
+ }
+ 
++struct target_sigaction *sigact_table_clone(struct target_sigaction *orig)
++{
++    return memcpy(g_new(sigact_table, 1), orig, sizeof(sigact_table));
++}
++
+ void signal_init(void)
+ {
+     TaskState *ts = (TaskState *)thread_cpu->opaque;
+@@ -556,6 +567,12 @@ void signal_init(void)
+     /* Set the signal mask from the host mask. */
+     sigprocmask(0, 0, &ts->signal_mask);
+ 
++    /*
++     * Set all host signal handlers. ALL signals are blocked during
++     * the handlers to serialize them.
++     */
++    ts->sigact_tbl = (struct target_sigaction *) g_new0(sigact_table, 1);
++
+     sigfillset(&act.sa_mask);
+     act.sa_flags = SA_SIGINFO;
+     act.sa_sigaction = host_signal_handler;
+@@ -568,9 +585,9 @@ void signal_init(void)
+         host_sig = target_to_host_signal(i);
+         sigaction(host_sig, NULL, &oact);
+         if (oact.sa_sigaction == (void *)SIG_IGN) {
+-            sigact_table[i - 1]._sa_handler = TARGET_SIG_IGN;
++            ts->sigact_tbl[i - 1]._sa_handler = TARGET_SIG_IGN;
+         } else if (oact.sa_sigaction == (void *)SIG_DFL) {
+-            sigact_table[i - 1]._sa_handler = TARGET_SIG_DFL;
++            ts->sigact_tbl[i - 1]._sa_handler = TARGET_SIG_DFL;
+         }
+         /* If there's already a handler installed then something has
+            gone horribly wrong, so don't even try to handle that case.  */
+@@ -608,11 +625,12 @@ void force_sig(int sig)
+ #if !defined(TARGET_RISCV)
+ void force_sigsegv(int oldsig)
+ {
++    TaskState *ts = (TaskState *)thread_cpu->opaque;
+     if (oldsig == SIGSEGV) {
+         /* Make sure we don't try to deliver the signal again; this will
+          * end up with handle_pending_signal() calling dump_core_and_abort().
+          */
+-        sigact_table[oldsig - 1]._sa_handler = TARGET_SIG_DFL;
++        ts->sigact_tbl[oldsig - 1]._sa_handler = TARGET_SIG_DFL;
+     }
+     force_sig(TARGET_SIGSEGV);
+ }
+@@ -837,6 +855,7 @@ int do_sigaction(int sig, const struct target_sigaction *act,
+     struct sigaction act1;
+     int host_sig;
+     int ret = 0;
++    TaskState* ts = (TaskState *)thread_cpu->opaque;
+ 
+     trace_signal_do_sigaction_guest(sig, TARGET_NSIG);
+ 
+@@ -848,7 +867,7 @@ int do_sigaction(int sig, const struct target_sigaction *act,
+         return -TARGET_ERESTARTSYS;
+     }
+ 
+-    k = &sigact_table[sig - 1];
++    k = &ts->sigact_tbl[sig - 1];
+     if (oact) {
+         __put_user(k->_sa_handler, &oact->_sa_handler);
+         __put_user(k->sa_flags, &oact->sa_flags);
+@@ -930,7 +949,7 @@ static void handle_pending_signal(CPUArchState *cpu_env, int sig,
+         sa = NULL;
+         handler = TARGET_SIG_IGN;
+     } else {
+-        sa = &sigact_table[sig - 1];
++        sa = &ts->sigact_tbl[sig - 1];
+         handler = sa->_sa_handler;
+     }
+ 
+@@ -1022,9 +1041,9 @@ void process_pending_signals(CPUArchState *cpu_env)
+              * looping round and round indefinitely.
+              */
+             if (sigismember(&ts->signal_mask, target_to_host_signal_table[sig])
+-                || sigact_table[sig - 1]._sa_handler == TARGET_SIG_IGN) {
++                || ts->sigact_tbl[sig - 1]._sa_handler == TARGET_SIG_IGN) {
+                 sigdelset(&ts->signal_mask, target_to_host_signal_table[sig]);
+-                sigact_table[sig - 1]._sa_handler = TARGET_SIG_DFL;
++                ts->sigact_tbl[sig - 1]._sa_handler = TARGET_SIG_DFL;
+             }
+ 
+             handle_pending_signal(cpu_env, sig, &ts->sync_signal);
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 7ce021cea2..ff1d07871f 100644
+index ff1d07871f..838caf9c98 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -6013,6 +6013,18 @@ static int do_fork(CPUArchState *env, unsigned int flags, abi_ulong newsp,
-     ts->info = parent_ts->info;
-     ts->signal_mask = parent_ts->signal_mask;
+@@ -5989,6 +5989,17 @@ static int do_fork(CPUArchState *env, unsigned int flags, abi_ulong newsp,
+         return -TARGET_EINVAL;
+     }
  
-+    if (flags & CLONE_FILES) {
-+        ts->fd_trans_tbl = parent_ts->fd_trans_tbl;
-+    } else {
++    if ((flags & CLONE_SIGHAND) && !(flags & CLONE_VM)) {
 +        /*
-+         * When CLONE_FILES is not set, the parent and child will have
-+         * different file descriptor tables, so we need a new
-+         * fd_trans_tbl. Clone from parent_ts, since child inherits all our
-+         * file descriptors.
++         * Like CLONE_FILES, this flag combination is unsupported. If
++         * CLONE_SIGHAND is specified without CLONE_VM, then we need to keep
++         * the sigact table in-sync across virtual memory boundaries, which is
++         * substantially more complicated.
 +         */
-+        ts->fd_trans_tbl = fd_trans_table_clone(parent_ts->fd_trans_tbl);
++        qemu_log_mask(LOG_UNIMP, "CLONE_SIGHAND only supported with CLONE_VM");
++        return -TARGET_EINVAL;
++    }
++
+     pthread_mutex_init(&info.mutex, NULL);
+     pthread_mutex_lock(&info.mutex);
+     pthread_cond_init(&info.cond, NULL);
+@@ -6025,6 +6036,12 @@ static int do_fork(CPUArchState *env, unsigned int flags, abi_ulong newsp,
+         ts->fd_trans_tbl = fd_trans_table_clone(parent_ts->fd_trans_tbl);
+     }
+ 
++    if (flags & CLONE_SIGHAND) {
++        ts->sigact_tbl = parent_ts->sigact_tbl;
++    } else {
++        ts->sigact_tbl = sigact_table_clone(parent_ts->sigact_tbl);
 +    }
 +
      if (flags & CLONE_CHILD_CLEARTID) {
