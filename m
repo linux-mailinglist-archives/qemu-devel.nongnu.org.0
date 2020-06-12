@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 052501F7D6E
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 21:15:55 +0200 (CEST)
-Received: from localhost ([::1]:58004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D06C1F7D6A
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 21:13:52 +0200 (CEST)
+Received: from localhost ([::1]:51066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjp9e-0005a0-2u
-	for lists+qemu-devel@lfdr.de; Fri, 12 Jun 2020 15:15:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54998)
+	id 1jjp7f-0001mZ-1w
+	for lists+qemu-devel@lfdr.de; Fri, 12 Jun 2020 15:13:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56478)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jjoxU-00013V-3B
- for qemu-devel@nongnu.org; Fri, 12 Jun 2020 15:03:20 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:35740)
+ id 1jjp2O-0001wx-Hu
+ for qemu-devel@nongnu.org; Fri, 12 Jun 2020 15:08:24 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:37045)
  by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jjoxS-0006vd-Eo
- for qemu-devel@nongnu.org; Fri, 12 Jun 2020 15:03:19 -0400
-Received: by mail-wr1-x444.google.com with SMTP id x14so10821941wrp.2
- for <qemu-devel@nongnu.org>; Fri, 12 Jun 2020 12:03:02 -0700 (PDT)
+ id 1jjp2M-0007av-NM
+ for qemu-devel@nongnu.org; Fri, 12 Jun 2020 15:08:24 -0400
+Received: by mail-wr1-x441.google.com with SMTP id x13so10850039wrv.4
+ for <qemu-devel@nongnu.org>; Fri, 12 Jun 2020 12:08:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=TVkmiGx2GSH0speASlWaGVuivqVtJrK614sZoAezQaY=;
- b=jbfiRuW76O2HMBDL4roJyZJ+RjZb4r/s6nKMsWDHOlbb5+Skva9mnLXTk7tzNFJITG
- 5H5PnJnaXpERvv0Z61wiao6iKNoPl+i2um/xKCg3Ca4/haf3+TQmHjO38PLNi+2ybu9H
- CiKpF8dQqyE3KvgU1Y67FT9CV4AKqsnfiiITGyjOFNmj2iHD4PAhp0HDR/uF9mPHXdnp
- Fd1KopHuG3CNi1ohkz3gbv7sO1M/wXteGVo+qbcmlPTLe5m08GQapDwVjvTgW8s2coOv
- l1OeZnO8oSoJzqZ0TKBsvYjNu2bzyT1Ia1qQtZgBHOaPGhMdUj4ErT3nOHsbzQdb5+R5
- ASSw==
+ bh=fmvqRWXA4S4s+D50fC0aMio8k7PyGt04LZMtINTzwxg=;
+ b=YwX0qdCFw6656yVdn3ZuyHcLqiRMU51QcNhqDIMoiW9IhsTqc3+PsAx6UA/yrCrtlB
+ d1gV+2B8vmfYTGeS9vutWssVF54vXC96F1yh6+P33kap8H3386GDbuol1K61l1/7Qmpx
+ D6JLw7p/CGuDTzsWQ2QNGi/Zurd470JSlGfPGXDhARZOexw30Vwx1yDr8mTUbPbkhH5X
+ PyLzzddcDN0EShGWXKfVoRn6tDttssoSG+DXtbkyYhDpw41WRt9AcREnVrYsc97QyL9l
+ 0/Oo1mofTHCbjWCBBbt1YENlsK2INOnz8RyiywKtJsWQNQrD2gtb0sgg6ECY42A/gvSX
+ OxEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=TVkmiGx2GSH0speASlWaGVuivqVtJrK614sZoAezQaY=;
- b=SgIh63WMdZTwx07Cx56CDobqvqeEbHsm8Gylk8Vgn2hv1dfhMUmdsQn6VxOmvyO2j0
- 9CDDWarA0SJJHRk4vfleNsjCx367UUbAypYh6YnN3h7nwDUA0e/ob5nnM5co90d2ueXr
- UHfKaI1KRwtRh9yLLZMEHYK1fG1GXFCM9OheInzbiM5aPv1qgcNJ22mWv65m5nPW1IKA
- 6P/BEQ3wDqUxCyWuaTN9LwpdNP5aGQC212YTBtnTWBPslzKifhVVDJDeouas0xF/MdJs
- e4/szRZceGifZ2f38e+Cm3SATOJS3ONvO1XbvUBKm5Wzw8iSqJmS896M39cimk+Qf+UV
- 8RNg==
-X-Gm-Message-State: AOAM533dwK748JaEPuf1zKMzFDD7Ce1X2c+m8xlatKjhWkyJ5T+4qxkZ
- yiBEFQbXJyuNvse8fRfIVFlZSQ==
-X-Google-Smtp-Source: ABdhPJyHEOOzLRaFm4n/BvBnkv73QDKuKq95vcPWpIU3q6JddILl5xMOaGY+JDg44Qr2I3Lf/OOPkw==
-X-Received: by 2002:a05:6000:104f:: with SMTP id
- c15mr16279897wrx.391.1591988581155; 
- Fri, 12 Jun 2020 12:03:01 -0700 (PDT)
+ bh=fmvqRWXA4S4s+D50fC0aMio8k7PyGt04LZMtINTzwxg=;
+ b=T93+gsjKKvpNwTgdnHnJYuRSgnG6zrChH8ep6sYWXGgFlyVINhCkNiItjzjztN2FdF
+ 8QlY2tM7JUD5I0lrSVQ5r/cOsL7zDrX3Gglm3n7/uA1DUPxWsAp9PqzBWDzZ2+O00Rlw
+ +1L27g9jk6jln5dHYmRmxZapQAFP/nEXkPQaVRH4p04ybsOpX4XLOIQHzRVhFONejF/v
+ XqD4ZoAWDUYAjQoFPUyX1Fh/rEmX9Y7LKEMTYgOglvQid0+xirF2Swe+9W2D1wFJff4K
+ XPj0EtqlSqFdoUNYy/78RtXfR4uDvjSWOOgrWWw6mhLr+6YjkH1XuTClVYbvsrw0cHvD
+ QImg==
+X-Gm-Message-State: AOAM533dc9rtLwUCUmg4C7Wi8BXw81Img7vVUid8dKdmSxP94FhCz+J3
+ NNEPDb71n03wUAC+fYGZnPbmGQ==
+X-Google-Smtp-Source: ABdhPJxRgb6U+Z7/oI7B8osdf9PMWNgqUljz6rHEAW5mhKk1MJd82eyRY1NVuMPU5NFpcSmSuvIwGw==
+X-Received: by 2002:a5d:4c45:: with SMTP id n5mr16558362wrt.341.1591988893816; 
+ Fri, 12 Jun 2020 12:08:13 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id x186sm10255201wmg.8.2020.06.12.12.02.46
+ by smtp.gmail.com with ESMTPSA id d11sm11503801wrm.64.2020.06.12.12.08.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Jun 2020 12:02:53 -0700 (PDT)
+ Fri, 12 Jun 2020 12:08:08 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 56EAF1FF9C;
+ by zen.linaroharston (Postfix) with ESMTP id 7DE441FF9D;
  Fri, 12 Jun 2020 20:02:40 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 14/18] util: Added tsan annotate for thread name.
-Date: Fri, 12 Jun 2020 20:02:33 +0100
-Message-Id: <20200612190237.30436-15-alex.bennee@linaro.org>
+Subject: [PATCH  v1 15/18] docs: Added details on TSan to testing.rst
+Date: Fri, 12 Jun 2020 20:02:34 +0100
+Message-Id: <20200612190237.30436-16-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200612190237.30436-1-alex.bennee@linaro.org>
 References: <20200612190237.30436-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x444.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -92,45 +91,144 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: fam@euphon.net, berrange@redhat.com, Robert Foley <robert.foley@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  richard.henderson@linaro.org, f4bug@amsat.org, cota@braap.org,
- Paolo Bonzini <pbonzini@redhat.com>, aurelien@aurel32.net
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Robert Foley <robert.foley@linaro.org>
 
-This allows us to see the name of the thread in tsan
-warning reports such as this:
-
-  Thread T7 'CPU 1/TCG' (tid=24317, running) created by main thread at:
+Adds TSan details to testing.rst.
+This includes background and reference details on TSan,
+and details on how to build and test with TSan
+both with and without docker.
 
 Signed-off-by: Robert Foley <robert.foley@linaro.org>
 Reviewed-by: Emilio G. Cota <cota@braap.org>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20200609200738.445-12-robert.foley@linaro.org>
+Message-Id: <20200609200738.445-13-robert.foley@linaro.org>
 ---
- util/qemu-thread-posix.c | 2 ++
- 1 file changed, 2 insertions(+)
+ docs/devel/testing.rst | 107 +++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 107 insertions(+)
 
-diff --git a/util/qemu-thread-posix.c b/util/qemu-thread-posix.c
-index 838980aaa55..b4c2359272a 100644
---- a/util/qemu-thread-posix.c
-+++ b/util/qemu-thread-posix.c
-@@ -15,6 +15,7 @@
- #include "qemu/atomic.h"
- #include "qemu/notify.h"
- #include "qemu-thread-common.h"
-+#include "qemu/tsan.h"
+diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
+index 770a987ea42..c1ff24370bf 100644
+--- a/docs/devel/testing.rst
++++ b/docs/devel/testing.rst
+@@ -397,6 +397,113 @@ list is in the ``make docker`` help text. The frequently used ones are:
+ * ``DEBUG=1``: enables debug. See the previous "Debugging a Docker test
+   failure" section.
  
- static bool name_threads;
++Thread Sanitizer
++================
++
++Thread Sanitizer (TSan) is a tool which can detect data races.  QEMU supports
++building and testing with this tool.
++
++For more information on TSan:
++
++https://github.com/google/sanitizers/wiki/ThreadSanitizerCppManual
++
++Thread Sanitizer in Docker
++---------------------------
++TSan is currently supported in the ubuntu2004 docker.
++
++The test-tsan test will build using TSan and then run make check.
++
++.. code::
++
++  make docker-test-tsan@ubuntu2004
++
++TSan warnings under docker are placed in files located at build/tsan/.
++
++We recommend using DEBUG=1 to allow launching the test from inside the docker,
++and to allow review of the warnings generated by TSan.
++
++Building and Testing with TSan
++------------------------------
++
++It is possible to build and test with TSan, with a few additional steps.
++These steps are normally done automatically in the docker.
++
++There is a one time patch needed in clang-9 or clang-10 at this time:
++
++.. code::
++
++  sed -i 's/^const/static const/g' \
++      /usr/lib/llvm-10/lib/clang/10.0.0/include/sanitizer/tsan_interface.h
++
++To configure the build for TSan:
++
++.. code::
++
++  ../configure --enable-tsan --cc=clang-10 --cxx=clang++-10 \
++               --disable-werror --extra-cflags="-O0"
++
++The runtime behavior of TSAN is controlled by the TSAN_OPTIONS environment
++variable.
++
++More information on the TSAN_OPTIONS can be found here:
++
++https://github.com/google/sanitizers/wiki/ThreadSanitizerFlags
++
++For example:
++
++.. code::
++
++  export TSAN_OPTIONS=suppressions=<path to qemu>/tests/tsan/suppressions.tsan \
++                      detect_deadlocks=false history_size=7 exitcode=0 \
++                      log_path=<build path>/tsan/tsan_warning
++
++The above exitcode=0 has TSan continue without error if any warnings are found.
++This allows for running the test and then checking the warnings afterwards.
++If you want TSan to stop and exit with error on warnings, use exitcode=66.
++
++TSan Suppressions
++-----------------
++Keep in mind that for any data race warning, although there might be a data race
++detected by TSan, there might be no actual bug here.  TSan provides several
++different mechanisms for suppressing warnings.  In general it is recommended
++to fix the code if possible to eliminate the data race rather than suppress
++the warning.
++
++A few important files for suppressing warnings are:
++
++tests/tsan/suppressions.tsan - Has TSan warnings we wish to suppress at runtime.
++The comment on each supression will typically indicate why we are
++suppressing it.  More information on the file format can be found here:
++
++https://github.com/google/sanitizers/wiki/ThreadSanitizerSuppressions
++
++tests/tsan/blacklist.tsan - Has TSan warnings we wish to disable
++at compile time for test or debug.
++Add flags to configure to enable:
++
++"--extra-cflags=-fsanitize-blacklist=<src path>/tests/tsan/blacklist.tsan"
++
++More information on the file format can be found here under "Blacklist Format":
++
++https://github.com/google/sanitizers/wiki/ThreadSanitizerFlags
++
++TSan Annotations
++----------------
++include/qemu/tsan.h defines annotations.  See this file for more descriptions
++of the annotations themselves.  Annotations can be used to suppress
++TSan warnings or give TSan more information so that it can detect proper
++relationships between accesses of data.
++
++Annotation examples can be found here:
++
++https://github.com/llvm/llvm-project/tree/master/compiler-rt/test/tsan/
++
++Good files to start with are: annotate_happens_before.cpp and ignore_race.cpp
++
++The full set of annotations can be found here:
++
++https://github.com/llvm/llvm-project/blob/master/compiler-rt/lib/tsan/rtl/tsan_interface_ann.cpp
++
+ VM testing
+ ==========
  
-@@ -513,6 +514,7 @@ static void *qemu_thread_start(void *args)
- # endif
-     }
- #endif
-+    QEMU_TSAN_ANNOTATE_THREAD_NAME(qemu_thread_args->name);
-     g_free(qemu_thread_args->name);
-     g_free(qemu_thread_args);
-     pthread_cleanup_push(qemu_thread_atexit_notify, NULL);
 -- 
 2.20.1
 
