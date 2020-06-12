@@ -2,56 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1604A1F7934
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 15:59:30 +0200 (CEST)
-Received: from localhost ([::1]:38750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BBF31F7945
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 16:05:12 +0200 (CEST)
+Received: from localhost ([::1]:41550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjkDQ-0004ZE-Cr
-	for lists+qemu-devel@lfdr.de; Fri, 12 Jun 2020 09:59:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47666)
+	id 1jjkIw-0007Mu-I6
+	for lists+qemu-devel@lfdr.de; Fri, 12 Jun 2020 10:05:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lorenzo.pieralisi@arm.com>)
- id 1jjk97-0002yL-8v
- for qemu-devel@nongnu.org; Fri, 12 Jun 2020 09:55:01 -0400
-Received: from foss.arm.com ([217.140.110.172]:57452)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lorenzo.pieralisi@arm.com>) id 1jjk94-0007c9-Ai
- for qemu-devel@nongnu.org; Fri, 12 Jun 2020 09:55:00 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 41E5F31B;
- Fri, 12 Jun 2020 06:54:55 -0700 (PDT)
-Received: from e121166-lin.cambridge.arm.com (e121166-lin.cambridge.arm.com
- [10.1.196.255])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DEF303F6CF;
- Fri, 12 Jun 2020 06:54:53 -0700 (PDT)
-Date: Fri, 12 Jun 2020 14:54:43 +0100
-From: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-To: "Derrick, Jonathan" <jonathan.derrick@intel.com>,
- Bjorn Helgaas <bhelgaas@google.com>
-Subject: Re: [PATCH v3 1/2] PCI: vmd: Filter resource type bits from shadow
- register
-Message-ID: <20200612135443.GA25653@e121166-lin.cambridge.arm.com>
-References: <20200528030240.16024-1-jonathan.derrick@intel.com>
- <20200528030240.16024-3-jonathan.derrick@intel.com>
- <20200529103315.GC12270@e121166-lin.cambridge.arm.com>
- <163e8cb37ece0c8daa6d6e5fd7fcae47ba4fa437.camel@intel.com>
- <20200529161824.GA17642@e121166-lin.cambridge.arm.com>
- <f1d36b8fc4ab7aacf6efca19303b04a5b4f8189c.camel@intel.com>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jjkIA-0006wq-FZ
+ for qemu-devel@nongnu.org; Fri, 12 Jun 2020 10:04:22 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:39461)
+ by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jjkI8-0000y4-ME
+ for qemu-devel@nongnu.org; Fri, 12 Jun 2020 10:04:22 -0400
+Received: from localhost.localdomain ([82.252.135.106]) by
+ mrelayeu.kundenserver.de (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis)
+ id 1Myb09-1j0JhZ1My5-00yxJY; Fri, 12 Jun 2020 16:04:04 +0200
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] softfloat,m68k: disable floatx80_invalid_encoding() for m68k
+Date: Fri, 12 Jun 2020 16:04:00 +0200
+Message-Id: <20200612140400.2130118-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f1d36b8fc4ab7aacf6efca19303b04a5b4f8189c.camel@intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Received-SPF: pass client-ip=217.140.110.172;
- envelope-from=lorenzo.pieralisi@arm.com; helo=foss.arm.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/12 09:54:55
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:a9jKNi+yn8udGdyoILk5oiydQ93tYVinB3TssE+G77Eh+uueACy
+ oJm1XFIzfYCgy4XaxQx0pFoZbwXsJd8ZIcP05K8hgaF9rhLg7UhilLoeiCrmrVceWVWa98x
+ aJu2sBOMeYY51a6xM0scNIdQiDz9zrbqPkFxhRjZbfJ7JsbktNcrDqEaAAJIXo/5nvAQgYc
+ NNDo5FJ574ez7buOjm79Q==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:etJL1QB3ZMc=:i2aAXrN8fQqVSxDflPZx69
+ fCarQhzoIEj3ePYG85Zwg+iDXf/6bpD0rvNm+J6EIHyIwKCDVsZvIlSWaxg+43h5AkGRjtHWN
+ kqGVKUnEEnfqKeDAsmoKWBH2jJWaXYwdBEMEZIugFFeG+qW7V/1Sx35u+PDIH+rD692JKUNJF
+ /EvmZheKNAMAbRt8FAfsefNRvhSA048/NXiNiplZBp69yT3u2ZPvSiPYDUW9vjQcKmxg3dZhR
+ DfXGEF6b/98GvLoXYo39lFnaFWqUmGR3r7QmtP0LPgD3TDsM426g2EZgnybiHpqw1TJkMZ7Az
+ TfWVZNSLwwOpBFfzk+QbxXVpoPpJmOKLE5cffo1KZY6q3LzAiQePIK6xQ7xCxZKGt8IkbzAeK
+ g5UjIwZgPbU8mIMEIzMYw1hf1yh6OsgTCGtVeqfI4UbLWy/lfpUb01y9e9+FPS1QC6u5E+8h1
+ mcfKIhUJRsGJNcN5cBHCww9PxS8eyLq6g4bCkpGpMADcKtoEqhW2NkCRVlnIhUeEABHNpogqx
+ KUe52wJBIAxE05yple6YyNziuPBQkZ79OKrNMizSUZ8SFwBKSAXSUcncU1WRv1ExlDyfGgmEi
+ kCzyPspwpGL9W4PNSz50mvetjwD+bQsmEWO3ln52UD/3jAFcnsfO6KU4563QzTknNMFwJKb8x
+ hDLsr6WoYhjyl7cd4kzq8uZOy23mqsbNyqqCPXNuzk/jRCkhR/NwLqJFiWfwFYr4sMLzUBDMF
+ 0P8eW1OwSMKXUVGVZTydrv+kZ0eo4eMtTjTHVGC+kaJ2eJJk2tGcnZK+4K5GNbHpzz1E4/tei
+ EOPf1EBAqaugSJXJEccQlJsNVDrpptLsKe4PtkP4VSIo5OEkY0wnzpiQvCvven8IfRSVGLD
+Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/12 10:04:18
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,51 +67,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
- "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "virtualization@lists.linux-foundation.org"
- <virtualization@lists.linux-foundation.org>,
- "andrzej.jakowski@linux.intel.com" <andrzej.jakowski@linux.intel.com>,
- "helgaas@kernel.org" <helgaas@kernel.org>, "hch@lst.de" <hch@lst.de>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>,
+ KONRAD Frederic <frederic.konrad@adacore.com>,
+ Pierre Muller <pierre@freepascal.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 11, 2020 at 09:16:48PM +0000, Derrick, Jonathan wrote:
+According to the comment, this definition of invalid encoding is given
+by intel developer's manual, and doesn't comply with 680x0 FPU.
 
-[...]
+With m68k, the explicit integer bit can be zero in the case of:
+ - zeros                (exp == 0, mantissa == 0)
+ - denormalized numbers (exp == 0, mantissa != 0)
+ - unnormalized numbers (exp != 0, exp < 0x7FFF)
+ - infinities           (exp == 0x7FFF, mantissa == 0)
+ - not-a-numbers        (exp == 0x7FFF, mantissa != 0)
 
-> > > > Hi Jon,
-> > > > 
-> > > > it looks like I can take this patch for v5.8 whereas patch 2 depends
-> > > > on the QEMU changes acceptance and should probably wait.
-> > > > 
-> > > > Please let me know your thoughts asap and I will try to at least
-> > > > squeeze this patch in.
-> > > > 
-> > > > Lorenzo
-> > > 
-> > > Hi Lorenzo,
-> > > 
-> > > This is fine. Please take Patch 1.
-> > > Patch 2 is harmless without the QEMU changes, but may always need a
-> > > different approach.
-> > 
-> > Pulled patch 1 into pci/vmd, thanks.
-> > 
-> > Lorenzo
-> 
-> Hi Lorenzo,
-> 
-> Alex has pr-ed the QEMU patch [1]
-> Is it too late to pull patch 2/2 for v5.8?
+For infinities and NaNs, the explicit integer bit can be either one or
+zero.
 
-I think it is - I don't know if Bjorn planned a second PR for this
-merge window, if not it is v5.9 material I am afraid.
+The IEEE 754 standard does not define a zero integer bit. Such a number
+is an unnormalized number. Hardware does not directly support
+denormalized and unnormalized numbers, but implicitly supports them by
+trapping them as unimplemented data types, allowing efficient conversion
+in software.
 
-Thanks,
-Lorenzo
+See "M68000 FAMILY PROGRAMMER’S REFERENCE MANUAL",
+    "1.6 FLOATING-POINT DATA TYPES"
 
-> [1] 
-> https://github.com/awilliam/qemu-vfio/releases/tag/vfio-update-20200611.0
+We will implement in the m68k TCG emulator the FP_UNIMP exception to
+trap into the kernel to normalize the number. In case of linux-user,
+the number will be normalized by QEMU.
+
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+---
+ include/fpu/softfloat.h | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
+
+diff --git a/include/fpu/softfloat.h b/include/fpu/softfloat.h
+index 16ca697a73b7..f6eda4ca8e6c 100644
+--- a/include/fpu/softfloat.h
++++ b/include/fpu/softfloat.h
+@@ -791,7 +791,31 @@ static inline bool floatx80_unordered_quiet(floatx80 a, floatx80 b,
+ *----------------------------------------------------------------------------*/
+ static inline bool floatx80_invalid_encoding(floatx80 a)
+ {
++#if defined(TARGET_M68K)
++    /*-------------------------------------------------------------------------
++    | With m68k, the explicit integer bit can be zero in the case of:
++    | - zeros                (exp == 0, mantissa == 0)
++    | - denormalized numbers (exp == 0, mantissa != 0)
++    | - unnormalized numbers (exp != 0, exp < 0x7FFF)
++    | - infinities           (exp == 0x7FFF, mantissa == 0)
++    | - not-a-numbers        (exp == 0x7FFF, mantissa != 0)
++    |
++    | For infinities and NaNs, the explicit integer bit can be either one or
++    | zero.
++    |
++    | The IEEE 754 standard does not define a zero integer bit. Such a number
++    | is an unnormalized number. Hardware does not directly support
++    | denormalized and unnormalized numbers, but implicitly supports them by
++    | trapping them as unimplemented data types, allowing efficient conversion
++    | in software.
++    |
++    | See "M68000 FAMILY PROGRAMMER’S REFERENCE MANUAL",
++    |     "1.6 FLOATING-POINT DATA TYPES"
++    *------------------------------------------------------------------------*/
++    return false;
++#else
+     return (a.low & (1ULL << 63)) == 0 && (a.high & 0x7FFF) != 0;
++#endif
+ }
+ 
+ #define floatx80_zero make_floatx80(0x0000, 0x0000000000000000LL)
+-- 
+2.26.2
+
 
