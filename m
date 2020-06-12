@@ -2,68 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D16091F7A3A
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 16:59:29 +0200 (CEST)
-Received: from localhost ([::1]:36420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C9D41F7AA0
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 17:20:22 +0200 (CEST)
+Received: from localhost ([::1]:60162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjl9U-0002qJ-Rw
-	for lists+qemu-devel@lfdr.de; Fri, 12 Jun 2020 10:59:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50062)
+	id 1jjlTh-0008Bo-Hn
+	for lists+qemu-devel@lfdr.de; Fri, 12 Jun 2020 11:20:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jjl2J-0006lM-7r
- for qemu-devel@nongnu.org; Fri, 12 Jun 2020 10:52:03 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:32829
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jjl4O-00031E-SF
+ for qemu-devel@nongnu.org; Fri, 12 Jun 2020 10:54:12 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:39361
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jjl2H-0001SZ-Lo
- for qemu-devel@nongnu.org; Fri, 12 Jun 2020 10:52:02 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jjl4L-0001qM-Bw
+ for qemu-devel@nongnu.org; Fri, 12 Jun 2020 10:54:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591973521;
+ s=mimecast20190719; t=1591973648;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IWR60ercXQZVd22zZQp4vrHc0/weVq8wSWjY7Go6ogE=;
- b=HFluY8ZARDoMUe0RcVyzi/3zAerUygUtxyv4o5PmHTSZF4dzz2MbXzfI/3Ovl/eA1nBMpE
- vT4LxuUoHY0m739zy/UPXuX4A9xkUEEovf2yBFu2s7Db5xpow/qOanOIReMt05O5WDTPDo
- MD5nYPJVESLG3v+DcBTCaGrR0L+NlFY=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-253-WGJQsmkFNrWpb-q3VnQyAg-1; Fri, 12 Jun 2020 10:51:57 -0400
-X-MC-Unique: WGJQsmkFNrWpb-q3VnQyAg-1
-Received: by mail-wr1-f70.google.com with SMTP id p9so3999992wrx.10
- for <qemu-devel@nongnu.org>; Fri, 12 Jun 2020 07:51:56 -0700 (PDT)
+ bh=kAMCwY6Ii66tK0+En6xfr/Bb9/oeXHnOnpsD9bdoRBE=;
+ b=WdOH7hVHgOMP3BZKyoW2QxkNbfsnn3pS8zpY9w1gGMKTIOLzfXXTKEJtebPmOf2bgbh+PA
+ t2Ume63wxjvehOJzVQt43zRNtW6JDgHk1V5gnBy2pjNwu3UECEHR4NfpBK12G0nH+vvaQV
+ Rlo/whCfuUwYPSAje8Qpf6S/dq3R4qY=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-32-Mq-_R6AQOmuj616quP0hUQ-1; Fri, 12 Jun 2020 10:51:08 -0400
+X-MC-Unique: Mq-_R6AQOmuj616quP0hUQ-1
+Received: by mail-wm1-f69.google.com with SMTP id 14so2514374wmi.8
+ for <qemu-devel@nongnu.org>; Fri, 12 Jun 2020 07:51:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=IWR60ercXQZVd22zZQp4vrHc0/weVq8wSWjY7Go6ogE=;
- b=akNU12vKYGVRMtoIesqmOrJJGrJ2uZaX0YWp293I2t8opLs5rhecKcmCAo0JMkaGed
- bhng+Zrp9v8l7amznsKI9yaIUe1J6fPzfXVQ6Ch21jiW7XLLjRuevfjIeGJDP1Oc4m6I
- EB/R6MxW+R+roF+1bC0YViheER2rh+RDnpmNAvR53VEFKFP28pl8myGxI6sQmd5ITcjM
- OsnwDRSpgt1Y9BoHSSi+s0ft/+rC3XjyoVkDs1wU80PJgptiWJ81a+X1iEvgrEqWXcWu
- h2hdswikfL3298VONHZfj3N9dWURoOYCdNO75JUHcHZzBuhMGPeWUTq1WOqxSj9B2lcB
- RmGw==
-X-Gm-Message-State: AOAM531cSDEZuamovin3a402ENdWJhPJ7A4tgMzC6cxczBFSX6TEegIx
- qhJAmgzm1OLkWdfTA2LL37pMFC8NPfl09uinafMoUmY1GrONw4cifP8rYnPWxG/SubYFBRAOcRI
- WxiqWnjhL43OXPCk=
-X-Received: by 2002:adf:f507:: with SMTP id q7mr15102989wro.353.1591973515954; 
- Fri, 12 Jun 2020 07:51:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy9aYbpLDGlpygvbyw4emBwQrJQ6UUxUvE8vn4WScLdcWYfa1YnBBAE0JoVm8dT86pZTFsegQ==
-X-Received: by 2002:adf:f507:: with SMTP id q7mr15102966wro.353.1591973515749; 
- Fri, 12 Jun 2020 07:51:55 -0700 (PDT)
+ :mime-version:content-disposition:in-reply-to;
+ bh=kAMCwY6Ii66tK0+En6xfr/Bb9/oeXHnOnpsD9bdoRBE=;
+ b=RS31XClJksoXok4zWF04mG7M+/uBliU6+IXV8cSMSDghHCWmfBxJOXitRP3ggOj7o1
+ JxhV9MYboT0snw7qX3gMDzaTlaMNWre1lSfnOXsJIO9xYRkpHPXGAveGjAJbYLVR6cJW
+ Q5XFD/1M+RIy0kqClIGJF9fEaHQFDQ7wuorA5OAWh9MurGWpgMCDjU1Ml8uN69WB/M1S
+ sS42GN/J+eSdfzgF6rtjWWDQsPeSzM4ORoF4oX/YdwaO/ceXB/NujJEcMgoAJvtiyovR
+ wMxvrr0HvLtpDotFjuyUZF9hslDDn81UIosJxGzy1Z0t532s9E3ulsXN9/yUmWrc4ogC
+ a4AA==
+X-Gm-Message-State: AOAM531oWTURTO8eqb2gsbo8T+tNTB6EdNVtlZJPG7SVA9cZIFEEUZbs
+ 2a0CEbHXe9C3KOkHeCNNuNs2KgPCjkzTzhNqYHMCiTyGNMGYtqLmLRTrmofFMvsxFArfTtk6XAI
+ zsOiQXU8XeiZwBqU=
+X-Received: by 2002:a7b:cd06:: with SMTP id f6mr13653110wmj.8.1591973466926;
+ Fri, 12 Jun 2020 07:51:06 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxPXfXfB2hD4f9KCExUVh69jj9NTS6oEjhg0FSx7DpxEgZeRUv4OhDvqW4bHksYZYUVgLjrQw==
+X-Received: by 2002:a7b:cd06:: with SMTP id f6mr13653092wmj.8.1591973466723;
+ Fri, 12 Jun 2020 07:51:06 -0700 (PDT)
 Received: from redhat.com (bzq-79-178-18-124.red.bezeqint.net. [79.178.18.124])
- by smtp.gmail.com with ESMTPSA id a16sm10113673wrx.8.2020.06.12.07.51.54
+ by smtp.gmail.com with ESMTPSA id o10sm10407217wrq.40.2020.06.12.07.51.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Jun 2020 07:51:55 -0700 (PDT)
-Date: Fri, 12 Jun 2020 10:51:53 -0400
+ Fri, 12 Jun 2020 07:51:06 -0700 (PDT)
+Date: Fri, 12 Jun 2020 10:51:04 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 23/58] virtio-balloon: fix free page hinting check on
- unrealize
-Message-ID: <20200612141917.9446-24-mst@redhat.com>
+Subject: [PULL v2 02/58] diffs-allowed: add the SRAT AML to diffs-allowed
+Message-ID: <20200612141917.9446-3-mst@redhat.com>
 References: <20200612141917.9446-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200612141917.9446-1-mst@redhat.com>
@@ -71,12 +68,11 @@ X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=mst@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/12 08:07:26
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/12 09:30:54
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -98,48 +94,32 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- David Hildenbrand <david@redhat.com>, qemu-stable@nongnu.org,
- Alexander Duyck <alexander.duyck@gmail.com>, Wei Wang <wei.w.wang@intel.com>,
- Alexander Duyck <alexander.h.duyck@linux.intel.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ Igor Mammedov <imammedo@redhat.com>, Vishal Verma <vishal.l.verma@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: David Hildenbrand <david@redhat.com>
+From: Vishal Verma <vishal.l.verma@intel.com>
 
-Checking against guest features is wrong. We allocated data structures
-based on host features. We can rely on "free_page_bh" as an indicator
-whether to un-do stuff instead.
+In anticipation of a change to the SRAT generation in qemu, add the AML
+file to diffs-allowed.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Alexander Duyck <alexander.h.duyck@linux.intel.com>
-Fixes: c13c4153f76d ("virtio-balloon: VIRTIO_BALLOON_F_FREE_PAGE_HINT")
-Cc: qemu-stable@nongnu.org
-Cc: Wei Wang <wei.w.wang@intel.com>
-Cc: Michael S. Tsirkin <mst@redhat.com>
-Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
-Cc: Alexander Duyck <alexander.duyck@gmail.com>
-Signed-off-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20200520100439.19872-3-david@redhat.com>
+Signed-off-by: Vishal Verma <vishal.l.verma@intel.com>
+Message-Id: <20200606000911.9896-2-vishal.l.verma@intel.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/virtio/virtio-balloon.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/qtest/bios-tables-test-allowed-diff.h | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
-index 7ff6a7aa7c..32e9fe3f64 100644
---- a/hw/virtio/virtio-balloon.c
-+++ b/hw/virtio/virtio-balloon.c
-@@ -818,7 +818,7 @@ static void virtio_balloon_device_unrealize(DeviceState *dev)
-     VirtIODevice *vdev = VIRTIO_DEVICE(dev);
-     VirtIOBalloon *s = VIRTIO_BALLOON(dev);
- 
--    if (virtio_balloon_free_page_support(s)) {
-+    if (s->free_page_bh) {
-         qemu_bh_delete(s->free_page_bh);
-         virtio_balloon_free_page_stop(s);
-         precopy_remove_notifier(&s->free_page_report_notify);
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index dfb8523c8b..e8f2766a63 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1 +1,4 @@
+ /* List of comma-separated changed AML files to ignore */
++"tests/data/acpi/pc/SRAT.dimmpxm",
++"tests/data/acpi/q35/SRAT.dimmpxm",
++"tests/data/acpi/virt/SRAT.memhp",
 -- 
 MST
 
