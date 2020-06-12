@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D89F1F7C87
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 19:36:22 +0200 (CEST)
-Received: from localhost ([::1]:57834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7499B1F7C99
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 19:46:59 +0200 (CEST)
+Received: from localhost ([::1]:34136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjnbJ-0004H9-0t
-	for lists+qemu-devel@lfdr.de; Fri, 12 Jun 2020 13:36:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40370)
+	id 1jjnla-0001oI-5L
+	for lists+qemu-devel@lfdr.de; Fri, 12 Jun 2020 13:46:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jjnaW-0003om-82
- for qemu-devel@nongnu.org; Fri, 12 Jun 2020 13:35:32 -0400
-Received: from indium.canonical.com ([91.189.90.7]:56170)
+ id 1jjnkQ-0001L6-Nh
+ for qemu-devel@nongnu.org; Fri, 12 Jun 2020 13:45:46 -0400
+Received: from indium.canonical.com ([91.189.90.7]:57852)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jjnaU-0000Oy-3R
- for qemu-devel@nongnu.org; Fri, 12 Jun 2020 13:35:31 -0400
+ id 1jjnkM-0002SE-UT
+ for qemu-devel@nongnu.org; Fri, 12 Jun 2020 13:45:46 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jjnaS-0000ga-CP
- for <qemu-devel@nongnu.org>; Fri, 12 Jun 2020 17:35:28 +0000
+ id 1jjnkK-000264-F7
+ for <qemu-devel@nongnu.org>; Fri, 12 Jun 2020 17:45:40 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 39BB62E810B
- for <qemu-devel@nongnu.org>; Fri, 12 Jun 2020 17:35:28 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 6D4792E8050
+ for <qemu-devel@nongnu.org>; Fri, 12 Jun 2020 17:45:40 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 12 Jun 2020 17:26:08 -0000
-From: Diego Viola <1882851@bugs.launchpad.net>
+Date: Fri, 12 Jun 2020 17:36:47 -0000
+From: =?utf-8?q?Alex_Benn=C3=A9e?= <1883268@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: arm testcase
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: diego-viola kraxel-redhat
-X-Launchpad-Bug-Reporter: Diego Viola (diego-viola)
-X-Launchpad-Bug-Modifier: Diego Viola (diego-viola)
-References: <159174217343.32241.17743917589333297614.malonedeb@gac.canonical.com>
-Message-Id: <159198276812.7435.17445523809325550648.malone@gac.canonical.com>
-Subject: [Bug 1882851] Re: QEMU video freezes with "Guest disabled display"
- (virtio driver)
+X-Launchpad-Bug-Commenters: christophe-lyon
+X-Launchpad-Bug-Reporter: Christophe Lyon (christophe-lyon)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
+References: <159197267869.7647.15246075911938911102.malonedeb@gac.canonical.com>
+Message-Id: <159198340771.7893.3089877324736465012.launchpad@gac.canonical.com>
+Subject: [Bug 1883268] Re: random errors on aarch64 when executing
+ __aarch64_cas8_acq_rel
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="b190cebbf563f89e480a8b57f641753c8196bda0";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: cc86d59e38b4139d10c5dcbec2f24867af297b29
+X-Launchpad-Hash: b58afc5dbad3aaac991f195a3a45aa19d8625507
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/12 13:35:28
@@ -72,59 +73,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1882851 <1882851@bugs.launchpad.net>
+Reply-To: Bug 1883268 <1883268@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It looks like sway requires swayidle to wake up from sleep[1].
-
-This works:
-
-swayidle timeout 2 'swaymsg "output * dpms off"' resume 'swaymsg "output
-* dpms on"'
-
-1. https://github.com/swaywm/sway/issues/2914
-
-** Bug watch added: github.com/swaywm/sway/issues #2914
-   https://github.com/swaywm/sway/issues/2914
+** Tags added: arm testcase
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1882851
+https://bugs.launchpad.net/bugs/1883268
 
 Title:
-  QEMU video freezes with "Guest disabled display" (virtio driver)
+  random errors on aarch64 when executing __aarch64_cas8_acq_rel
 
 Status in QEMU:
   New
 
 Bug description:
-  I am using Arch Linux as my Guest and Host OS, after starting qemu
-  with the following command:
+  Hello,
 
-    $ qemu-system-x86_64 -enable-kvm -hda arch-zoom.qcow2 -m 4G -vga
-  virtio
+  Since I upgraded to qemu-5.0 when executing the GCC testsuite,
+  I've noticed random failures of g++.dg/ext/sync-4.C.
 
-  and waiting for a screen blank, I get this message:
+  I'm attaching the source of the testcase, the binary executable and
+  the qemu traces (huge, 111MB!) starting at main (with qemu-aarch64
+  -cpu cortex-a57 -R 0 -d
+  in_asm,int,exec,cpu,unimp,guest_errors,nochain)
 
-    Guest disabled display
+  The traces where generated by a CI build, I built the executable
+  manually but I expect it to be the same as the one executed by CI.
 
-  And nothing happens after that, I can move the mouse or hit any key,
-  and the message is still there.
+  In seems the problem occurs in f13, which leads to a call to abort()
 
-  I can still reboot the VM but that's not optimal.
+  The preprocessed version of f13/t13 are as follows:
+  static bool f13 (void *p) __attribute__ ((noinline));
+  static bool f13 (void *p)
+  {
+    return (__sync_bool_compare_and_swap((ditype*)p, 1, 2));
+  }
+  static void t13 ()
+  {
+    try {
+      f13(0);
+    }
+    catch (...) {
+      return;
+    }
+    abort();
+  }
 
-  I can reproduce this with the latest QEMU release (5.0.0) or git master, =
+  =
 
-  I also tried this with older releases (4.0.0, 3.0.0) and the issue is sti=
-ll there.
+  When looking at the execution traces at address 0x00400c9c, main calls f1=
+3, which in turn calls __aarch64_cas8_acq_rel (at 0x00401084)
+  __aarch64_cas8_acq_rel returns to f13 (address 0x0040113c), then f13 retu=
+rns to main (0x0040108c) which then calls abort (0x00400ca0)
 
-  I can't reproduce this with other video drivers (std, qxl).
+  I'm not quite sure what's wrong :-(
 
-  With std/qxl the screen will blank a bit and then continue as normal.
+  I've not noticed such random problems with native aarch64 hardware.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1882851/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1883268/+subscriptions
 
