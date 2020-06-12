@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D11B1F7599
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 10:59:41 +0200 (CEST)
-Received: from localhost ([::1]:51044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F72E1F758E
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 10:58:37 +0200 (CEST)
+Received: from localhost ([::1]:45128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjfXI-0005bq-G6
-	for lists+qemu-devel@lfdr.de; Fri, 12 Jun 2020 04:59:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52798)
+	id 1jjfWG-0003Fq-F4
+	for lists+qemu-devel@lfdr.de; Fri, 12 Jun 2020 04:58:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jjfTG-0005s1-WC
- for qemu-devel@nongnu.org; Fri, 12 Jun 2020 04:55:31 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:56692)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jjfTN-00066y-9B
+ for qemu-devel@nongnu.org; Fri, 12 Jun 2020 04:55:37 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:51785
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jjfTF-00072c-Fd
- for qemu-devel@nongnu.org; Fri, 12 Jun 2020 04:55:30 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jjfTL-00075R-N1
+ for qemu-devel@nongnu.org; Fri, 12 Jun 2020 04:55:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591952128;
+ s=mimecast20190719; t=1591952135;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ux4aj329B1BwmC7nDJ/LNHc4D/BIeJqak7rhlE6WHSo=;
- b=XJM6GPY7PGeb21RWpU0FH80kqbNx50CPDAfiK3GQ7vxMCfEUqWo3+s55jpm+yQwUjvIdFi
- XnAKupLPWe1CatDEQpSLaQstqQdOGDEkh7grWbFof+adIp1VyH7uQi/Dn9ZSgSOm4aqbJR
- CvCE5IedmhGO+fidajhgh32rqtcPuuQ=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-22-Dj3fb3Z9M8GwDrsLrOR37A-1; Fri, 12 Jun 2020 04:55:27 -0400
-X-MC-Unique: Dj3fb3Z9M8GwDrsLrOR37A-1
-Received: by mail-wr1-f72.google.com with SMTP id z10so3673439wrs.2
- for <qemu-devel@nongnu.org>; Fri, 12 Jun 2020 01:55:26 -0700 (PDT)
+ bh=ivyv44xux+7XXoWqIGIFlp2J/zNwQnYxF0RJgaexm5s=;
+ b=QxlE1exBbi3UXCL/peQ9FpQ87b4HhP5Tnfi5yLRNeW/0QYujX6xbKNc0v/gxAPRV8fuKqT
+ V7FpGWZZ1c2NP8BjAskYXttblB3ZWvrPtdLCxadTwUtIVn6INWPM6/cApJatEGBCRp9s+I
+ gUaRVLDyvED0HXfx9ZKTzyLv7zVaDDM=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-431-snoDi3QrOqS8XAUIdZvv-Q-1; Fri, 12 Jun 2020 04:55:32 -0400
+X-MC-Unique: snoDi3QrOqS8XAUIdZvv-Q-1
+Received: by mail-wr1-f69.google.com with SMTP id m14so3643282wrj.12
+ for <qemu-devel@nongnu.org>; Fri, 12 Jun 2020 01:55:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Ux4aj329B1BwmC7nDJ/LNHc4D/BIeJqak7rhlE6WHSo=;
- b=QnOxOk8o23ALZ12/oHMApn7oa/aXVKfg4pqC+67HR9ONBdUdv70KXkld3kLfjM0ymb
- jJykOm/exmjwaavTNRzP7ibw4qdHdeVPcQ1JpRxiJrg0KNvheeNlwUqaZUGfBMIOa9LH
- V0xpnHF2n7Tfqo8gr0/Ng52m08LNnfvv3zi8NdLrKA3JEsPk3Sj5opHd+gaCQvPKf1co
- jpubEc+5zID1g5fDBOXHQJlEHLy2RO+K3M2M/Ei0IwWFg3zzONunbWE53kM9pSLGv/Er
- psDBUcVGdrYFMCi4EFZUmOHa7Efn9w5YL/r0rVYqOTWpnxlmRkOLQYiRWU89dhku9EO8
- PLQg==
-X-Gm-Message-State: AOAM532aswN5DbOmYQtAYvui0dyEuh/p/WzMiunU6m8KrcmpVNEr83xH
- 8WhBNL1x0K3usZHfpjp8RUG9yqL81ZTBRnhEgStdblcRGnHDOmINziAT7SpbZUC1c3ba6YEgl5G
- qnNhN6nq0bs59L9s=
-X-Received: by 2002:a1c:4d14:: with SMTP id o20mr11816641wmh.164.1591952125589; 
- Fri, 12 Jun 2020 01:55:25 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzn4AIarmHlyTc0Co/D9RI+jVWPhzNCDsweBrdQ5el+bccYOS/5OVfdrqjwdTAd0n0gryIEqQ==
-X-Received: by 2002:a1c:4d14:: with SMTP id o20mr11816624wmh.164.1591952125402; 
- Fri, 12 Jun 2020 01:55:25 -0700 (PDT)
+ bh=ivyv44xux+7XXoWqIGIFlp2J/zNwQnYxF0RJgaexm5s=;
+ b=ePIORhNKAoKwzqS50jVmM1X6x71OjTI6OvGjgIzGtp8nr8AIk3SYQpjp0LYrK6CKLv
+ 7dxE7njaPfAzcc1HwRHrbTEh7EMNqCPe9kR25pzVM+P+FdOybnWZNDHnZr1WHkksBFOz
+ tLQBuyXYt4zUsrvyoQQ+3niByHtuELHh3RKA/Qec/C0GywIzEaQWdekl11MCqU88fBS2
+ MtW//Wnz3V+26pZSD4cv/RbQOd4ruQ8rIed3haniCsVXyn6e6eRBLzcW33SEirzhxwCy
+ fY81RqQLepJoVFQwqU0f7VY4SX+uG1OOeiKmsJHzNTTAA9foBHOc3iY4htDaUGbFlUfh
+ aErg==
+X-Gm-Message-State: AOAM530QFx8XaG3Bb3mSS6B3OX4UbqEu3GM2zllQ4k9AweKGM4EncXyI
+ a6ps3eqw6KQp9bIIUANH4jypq/ATWJo5oEWXeMnpzECCd98HTZNjDLi8qk9P5YFGT7WRWaDEQob
+ TbusqXQw+TD27EbU=
+X-Received: by 2002:adf:f4d0:: with SMTP id h16mr13808627wrp.230.1591952130949; 
+ Fri, 12 Jun 2020 01:55:30 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz/1j0Bdv+A/TBhB2J0XdCQJgpvvavymbtOLMXW8kG62ErUOnyusHhs9y/pOUKVjBRcpwunrw==
+X-Received: by 2002:adf:f4d0:: with SMTP id h16mr13808601wrp.230.1591952130723; 
+ Fri, 12 Jun 2020 01:55:30 -0700 (PDT)
 Received: from localhost.localdomain
  (181.red-88-10-103.dynamicip.rima-tde.net. [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id w1sm7799805wmi.13.2020.06.12.01.55.24
+ by smtp.gmail.com with ESMTPSA id b81sm8394553wmc.5.2020.06.12.01.55.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Jun 2020 01:55:24 -0700 (PDT)
+ Fri, 12 Jun 2020 01:55:30 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 07/12] hw/tpm: Remove unnecessary 'tpm_int.h' header
- inclusion
-Date: Fri, 12 Jun 2020 10:54:39 +0200
-Message-Id: <20200612085444.8362-8-philmd@redhat.com>
+Subject: [PATCH v3 08/12] hw/tpm: Make TRACE_TPM_UTIL_SHOW_BUFFER check local
+ to tpm_util.c
+Date: Fri, 12 Jun 2020 10:54:40 +0200
+Message-Id: <20200612085444.8362-9-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200612085444.8362-1-philmd@redhat.com>
 References: <20200612085444.8362-1-philmd@redhat.com>
@@ -72,16 +73,16 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/12 04:55:28
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/12 04:55:01
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,52 +104,59 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Remove unnecessary 'tpm_int.h' header inclusion.
+The trace_event_get_state_backends() call is useful to avoid
+making extensive calls (usually preparing arguments passed to
+the tracing framework. In this case, the extensive work is
+done in tpm_util_show_buffer(), and the arguments used to
+call it don't involve extra processing. Simplify by moving
+the TRACE_TPM_UTIL_SHOW_BUFFER check to tpm_util_show_buffer.
 
-Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- hw/tpm/tpm_crb.c        | 1 -
- hw/tpm/tpm_spapr.c      | 1 -
- hw/tpm/tpm_tis_common.c | 1 -
- 3 files changed, 3 deletions(-)
+ hw/tpm/tpm_tis_common.c | 8 ++------
+ hw/tpm/tpm_util.c       | 3 +++
+ 2 files changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/hw/tpm/tpm_crb.c b/hw/tpm/tpm_crb.c
-index cd004e7f8e..664ff70ef9 100644
---- a/hw/tpm/tpm_crb.c
-+++ b/hw/tpm/tpm_crb.c
-@@ -25,7 +25,6 @@
- #include "migration/vmstate.h"
- #include "sysemu/tpm_backend.h"
- #include "sysemu/reset.h"
--#include "tpm_int.h"
- #include "tpm_util.h"
- #include "tpm_ppi.h"
- #include "trace.h"
-diff --git a/hw/tpm/tpm_spapr.c b/hw/tpm/tpm_spapr.c
-index ce65eb2e45..ab1a86ad6e 100644
---- a/hw/tpm/tpm_spapr.c
-+++ b/hw/tpm/tpm_spapr.c
-@@ -20,7 +20,6 @@
- #include "migration/vmstate.h"
- 
- #include "sysemu/tpm_backend.h"
--#include "tpm_int.h"
- #include "tpm_util.h"
- 
- #include "hw/ppc/spapr.h"
 diff --git a/hw/tpm/tpm_tis_common.c b/hw/tpm/tpm_tis_common.c
-index 1af4bce139..94704870f6 100644
+index 94704870f6..1779b4fc1e 100644
 --- a/hw/tpm/tpm_tis_common.c
 +++ b/hw/tpm/tpm_tis_common.c
-@@ -33,7 +33,6 @@
- #include "hw/qdev-properties.h"
- #include "migration/vmstate.h"
- #include "sysemu/tpm_backend.h"
--#include "tpm_int.h"
- #include "tpm_util.h"
- #include "tpm_ppi.h"
- #include "trace.h"
+@@ -78,9 +78,7 @@ static void tpm_tis_sts_set(TPMLocality *l, uint32_t flags)
+  */
+ static void tpm_tis_tpm_send(TPMState *s, uint8_t locty)
+ {
+-    if (trace_event_get_state_backends(TRACE_TPM_UTIL_SHOW_BUFFER)) {
+-        tpm_util_show_buffer(s->buffer, s->be_buffer_size, "To TPM");
+-    }
++    tpm_util_show_buffer(s->buffer, s->be_buffer_size, "To TPM");
+ 
+     /*
+      * rw_offset serves as length indicator for length of data;
+@@ -246,9 +244,7 @@ void tpm_tis_request_completed(TPMState *s, int ret)
+     s->loc[locty].state = TPM_TIS_STATE_COMPLETION;
+     s->rw_offset = 0;
+ 
+-    if (trace_event_get_state_backends(TRACE_TPM_UTIL_SHOW_BUFFER)) {
+-        tpm_util_show_buffer(s->buffer, s->be_buffer_size, "From TPM");
+-    }
++    tpm_util_show_buffer(s->buffer, s->be_buffer_size, "From TPM");
+ 
+     if (TPM_TIS_IS_VALID_LOCTY(s->next_locty)) {
+         tpm_tis_abort(s);
+diff --git a/hw/tpm/tpm_util.c b/hw/tpm/tpm_util.c
+index c0a0f3d71f..12f19465c5 100644
+--- a/hw/tpm/tpm_util.c
++++ b/hw/tpm/tpm_util.c
+@@ -357,6 +357,9 @@ void tpm_util_show_buffer(const unsigned char *buffer,
+     size_t len, i;
+     char *line_buffer, *p;
+ 
++    if (!trace_event_get_state_backends(TRACE_TPM_UTIL_SHOW_BUFFER)) {
++        return;
++    }
+     len = MIN(tpm_cmd_get_size(buffer), buffer_size);
+ 
+     /*
 -- 
 2.21.3
 
