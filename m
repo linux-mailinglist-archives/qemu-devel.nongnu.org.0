@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68CA21F7A76
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 17:12:27 +0200 (CEST)
-Received: from localhost ([::1]:58044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDA661F7A82
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 17:14:46 +0200 (CEST)
+Received: from localhost ([::1]:38096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjlM2-0002NO-FJ
-	for lists+qemu-devel@lfdr.de; Fri, 12 Jun 2020 11:12:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50510)
+	id 1jjlOH-00076h-Rw
+	for lists+qemu-devel@lfdr.de; Fri, 12 Jun 2020 11:14:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jjl37-0000Vl-UG
- for qemu-devel@nongnu.org; Fri, 12 Jun 2020 10:52:53 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:49237
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jjl38-0000WO-8D
+ for qemu-devel@nongnu.org; Fri, 12 Jun 2020 10:52:54 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:42277
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jjl35-0001a8-AD
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jjl35-0001aS-Tz
  for qemu-devel@nongnu.org; Fri, 12 Jun 2020 10:52:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591973570;
+ s=mimecast20190719; t=1591973571;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kF29j1OTXstILIv0rMUhyWfGCjzS5Fq6k2w7s6M2f5A=;
- b=HPul0GmaX72Pez3lHY7zmKKQws9thWrFvSCXY3Ls2UZQYMeoecx63UQHnY1RC0TGF6fUq1
- qc7TwAd7iRFncdg5zfAnAQkFiSG4+GkoQ5SCy/oL4q/4C/ofwN2034Nr4C2GeGML9SCgbs
- Rycq5Xhf7L7Pl/krKoC6zB/JEYqKQ6c=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-326-GeWjsw_VNry1kdInVepOeQ-1; Fri, 12 Jun 2020 10:52:47 -0400
-X-MC-Unique: GeWjsw_VNry1kdInVepOeQ-1
-Received: by mail-wr1-f69.google.com with SMTP id n6so3999847wrv.6
- for <qemu-devel@nongnu.org>; Fri, 12 Jun 2020 07:52:47 -0700 (PDT)
+ bh=2UE9wdKZP6GU89BTo6VTTIYbzUF0RJkP16ivEbUjuuA=;
+ b=AaXPTsXlNd1IzM8ahfawdObPbfgyCtFoXePUUAPxWFEg4YWo+Hin1vF22Jpy0pwAaTcRPz
+ /kkM3ubS3dE4ldVt9FfZkiFCfJQhOkRclsl8YB8QUS0dclJVh+qiXsNPDzF+EMMCuOYNTQ
+ /mXnQp+FKeyEebWzCZr2csypSBF6EhQ=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-155-KWVTdW7nNQuChF4PgqDi8g-1; Fri, 12 Jun 2020 10:52:49 -0400
+X-MC-Unique: KWVTdW7nNQuChF4PgqDi8g-1
+Received: by mail-wm1-f69.google.com with SMTP id h6so2036195wmb.7
+ for <qemu-devel@nongnu.org>; Fri, 12 Jun 2020 07:52:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=kF29j1OTXstILIv0rMUhyWfGCjzS5Fq6k2w7s6M2f5A=;
- b=F/wdDSQY4tRxCgLubccSrp/lFQBxpH9EKd1hYk2GUBvz3UramCFAa08xfGC5X9a3EI
- zNeC04F1+xmiL7+uPTBhYy5+4n18gO6w8+VNmCE2M84TvdjNj7iaLqfIQ82x0SmVkqDv
- u9vfqQl2IzRfK3Q29lyX0M8w1SUFW29a6HXCqUn2iP5UhyCM0KEttR48iBNXDo6JIrx6
- 2zxEj3kt9weFR+nnWXrXU9cATJUteDQosy8MEveReyxKGWOsCYBprzzpSMyXkEV93EpX
- YdNSOhEhPTK49dpadEmheYC9xfhEzPunmS8i880XYOTRqQVeJFBY18vBQoFTa8wbl298
- jxkw==
-X-Gm-Message-State: AOAM533jdSlJko87YAgb+X7Ya292ttNXJICIRfj/bzPuEbSz34/bsCa9
- xT4ZMd2+4vRv7AZmypDcWXN0ebrSZn+qFYOo9mReNcNaRA7PuweiQggs2Is/h/LVmmPQGuTii7F
- fPE3oB57nQUTXgME=
-X-Received: by 2002:a1c:3c6:: with SMTP id 189mr13554781wmd.81.1591973566077; 
- Fri, 12 Jun 2020 07:52:46 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzIUN24kRkXTK+qkh9f3ZqA2ipoAKt+lZuazLbr/C1qQRIoO4wwxn/5EVh3B0bqkDcgaC/18g==
-X-Received: by 2002:a1c:3c6:: with SMTP id 189mr13554762wmd.81.1591973565845; 
- Fri, 12 Jun 2020 07:52:45 -0700 (PDT)
+ :mime-version:content-disposition:in-reply-to;
+ bh=2UE9wdKZP6GU89BTo6VTTIYbzUF0RJkP16ivEbUjuuA=;
+ b=YagvGUylD/wNTzhp4qL413ZLj3zfHMtQ5MNWMhdycfs4LjVuDMFMAMLxGeoCZNANRY
+ gKQc0jGehchAC+uRwJ7BwcPAHh3HaWth928IJjiNqzFcO9KqJL4b1i7iNX1UD/5bQZQI
+ VwOdjF7e+X2/itdFopq7cXCXfSRvtzoqzmsY1MHr4BXsd5ZZUtZxYil9RUOWeGgj5FD6
+ wreIFp4L2bsCcu1V9dwR5COoRo+VmMHHIh28HtikJNVpDXHbGrM5HTQIBzIwcNcTEc6h
+ id1d2Mp8WwExMGwRZdXIEcz6RJiseeQqiTBEVVExByLdjfefGmEm6Fkhps0k6m4kkgFg
+ iGMA==
+X-Gm-Message-State: AOAM533AkGRCDCMscw3nW/YY+e0SIRXYw6NlGtWM1fzbRjTGdcmCSxJJ
+ QtP72NIhMTtkbqa3pmed1JCQTH+8pK1hm7l3T3XZeekGjdAQSaURBTTptuuwIYavIUh/dh+ckfC
+ WTVBrufNni8or/m0=
+X-Received: by 2002:a5d:4204:: with SMTP id n4mr16273471wrq.247.1591973568206; 
+ Fri, 12 Jun 2020 07:52:48 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyZlkO4kO5MY1FZomgO4/NlH1Ek4W1n/n3KbFkeQy9NdcJqYFtZVERHzn89w/5ZN7DOejcnvw==
+X-Received: by 2002:a5d:4204:: with SMTP id n4mr16273441wrq.247.1591973567887; 
+ Fri, 12 Jun 2020 07:52:47 -0700 (PDT)
 Received: from redhat.com (bzq-79-178-18-124.red.bezeqint.net. [79.178.18.124])
- by smtp.gmail.com with ESMTPSA id d17sm11158256wrg.75.2020.06.12.07.52.44
+ by smtp.gmail.com with ESMTPSA id b18sm10084354wrn.88.2020.06.12.07.52.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Jun 2020 07:52:45 -0700 (PDT)
-Date: Fri, 12 Jun 2020 10:52:44 -0400
+ Fri, 12 Jun 2020 07:52:47 -0700 (PDT)
+Date: Fri, 12 Jun 2020 10:52:46 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 46/58] libvhost-user: advertise vring features
-Message-ID: <20200612141917.9446-47-mst@redhat.com>
+Subject: [PULL v2 47/58] hw/pci: Fix crash when running QEMU with "-nic
+ model=rocker"
+Message-ID: <20200612141917.9446-48-mst@redhat.com>
 References: <20200612141917.9446-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200612141917.9446-1-mst@redhat.com>
@@ -70,19 +69,18 @@ X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/12 09:30:54
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/12 08:07:17
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,80 +94,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Michael Tokarev <mjt@tls.msk.ru>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Hajnoczi <stefanha@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
 
-libvhost-user implements several vring features without advertising
-them. There is no way for the vhost-user master to detect support for
-these features.
+QEMU currently aborts when being started with "-nic model=rocker" or with
+"-net nic,model=rocker". This happens because the "rocker" device is not
+a normal NIC but a switch, which has different properties. Thus we should
+only consider real NIC devices for "-nic" and "-net". These devices can
+be identified by the "netdev" property, so check for this property before
+adding the device to the list.
 
-Things more or less work today because QEMU assumes the vhost-user
-backend always implements certain feature bits like
-VIRTIO_RING_F_EVENT_IDX. This is not documented anywhere.
-
-This patch explicitly advertises features implemented in libvhost-user
-so that the vhost-user master does not need to make undocumented
-assumptions.
-
-Feature bits that libvhost-user now advertises can be removed from
-vhost-user-blk.c. Devices should not be responsible for advertising
-vring feature bits, that is libvhost-user's job.
-
-Cc: Marc-André Lureau <marcandre.lureau@redhat.com>
-Cc: Jason Wang <jasowang@redhat.com>
-Cc: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20200529161338.456017-1-stefanha@redhat.com>
+Reported-by: Michael Tokarev <mjt@tls.msk.ru>
+Fixes: 52310c3fa7dc854d ("net: allow using any PCI NICs in -net or -nic")
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20200527153152.9211-1-thuth@redhat.com>
+Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- contrib/libvhost-user/libvhost-user.c   | 10 ++++++++++
- contrib/vhost-user-blk/vhost-user-blk.c |  4 +---
- 2 files changed, 11 insertions(+), 3 deletions(-)
+ hw/pci/pci.c | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
-diff --git a/contrib/libvhost-user/libvhost-user.c b/contrib/libvhost-user/libvhost-user.c
-index b1e607298c..d315db1396 100644
---- a/contrib/libvhost-user/libvhost-user.c
-+++ b/contrib/libvhost-user/libvhost-user.c
-@@ -498,6 +498,16 @@ static bool
- vu_get_features_exec(VuDev *dev, VhostUserMsg *vmsg)
- {
-     vmsg->payload.u64 =
-+        /*
-+         * The following VIRTIO feature bits are supported by our virtqueue
-+         * implementation:
-+         */
-+        1ULL << VIRTIO_F_NOTIFY_ON_EMPTY |
-+        1ULL << VIRTIO_RING_F_INDIRECT_DESC |
-+        1ULL << VIRTIO_RING_F_EVENT_IDX |
-+        1ULL << VIRTIO_F_VERSION_1 |
-+
-+        /* vhost-user feature bits */
-         1ULL << VHOST_F_LOG_ALL |
-         1ULL << VHOST_USER_F_PROTOCOL_FEATURES;
- 
-diff --git a/contrib/vhost-user-blk/vhost-user-blk.c b/contrib/vhost-user-blk/vhost-user-blk.c
-index 6fd91c7e99..25eccd02b5 100644
---- a/contrib/vhost-user-blk/vhost-user-blk.c
-+++ b/contrib/vhost-user-blk/vhost-user-blk.c
-@@ -382,9 +382,7 @@ vub_get_features(VuDev *dev)
-                1ull << VIRTIO_BLK_F_DISCARD |
-                1ull << VIRTIO_BLK_F_WRITE_ZEROES |
-                #endif
--               1ull << VIRTIO_BLK_F_CONFIG_WCE |
--               1ull << VIRTIO_F_VERSION_1 |
--               1ull << VHOST_USER_F_PROTOCOL_FEATURES;
-+               1ull << VIRTIO_BLK_F_CONFIG_WCE;
- 
-     if (vdev_blk->enable_ro) {
-         features |= 1ull << VIRTIO_BLK_F_RO;
+diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+index 7bf2ae6d92..1b88a32cf7 100644
+--- a/hw/pci/pci.c
++++ b/hw/pci/pci.c
+@@ -1891,7 +1891,18 @@ PCIDevice *pci_nic_init_nofail(NICInfo *nd, PCIBus *rootbus,
+         if (test_bit(DEVICE_CATEGORY_NETWORK, dc->categories) &&
+             dc->user_creatable) {
+             const char *name = object_class_get_name(list->data);
+-            g_ptr_array_add(pci_nic_models, (gpointer)name);
++            /*
++             * A network device might also be something else than a NIC, see
++             * e.g. the "rocker" device. Thus we have to look for the "netdev"
++             * property, too. Unfortunately, some devices like virtio-net only
++             * create this property during instance_init, so we have to create
++             * a temporary instance here to be able to check it.
++             */
++            Object *obj = object_new_with_class(OBJECT_CLASS(dc));
++            if (object_property_find(obj, "netdev", NULL)) {
++                g_ptr_array_add(pci_nic_models, (gpointer)name);
++            }
++            object_unref(obj);
+         }
+         next = list->next;
+         g_slist_free_1(list);
 -- 
 MST
 
