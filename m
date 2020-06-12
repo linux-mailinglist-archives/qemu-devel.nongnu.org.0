@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A0FF1F79FC
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 16:47:41 +0200 (CEST)
-Received: from localhost ([::1]:54984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 890C91F7A14
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 16:49:10 +0200 (CEST)
+Received: from localhost ([::1]:58506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjky3-0001DU-Kt
-	for lists+qemu-devel@lfdr.de; Fri, 12 Jun 2020 10:47:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47704)
+	id 1jjkzV-0003gT-Kx
+	for lists+qemu-devel@lfdr.de; Fri, 12 Jun 2020 10:49:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47714)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jjkw9-0008Oq-T9
- for qemu-devel@nongnu.org; Fri, 12 Jun 2020 10:45:41 -0400
-Received: from indium.canonical.com ([91.189.90.7]:38536)
+ id 1jjkwB-0008Oz-6T
+ for qemu-devel@nongnu.org; Fri, 12 Jun 2020 10:45:43 -0400
+Received: from indium.canonical.com ([91.189.90.7]:38560)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jjkw7-0000PJ-SV
- for qemu-devel@nongnu.org; Fri, 12 Jun 2020 10:45:41 -0400
+ id 1jjkw8-0000PP-13
+ for qemu-devel@nongnu.org; Fri, 12 Jun 2020 10:45:42 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jjkw6-0000Lp-Ft
- for <qemu-devel@nongnu.org>; Fri, 12 Jun 2020 14:45:38 +0000
+ id 1jjkw7-0000Lv-0V
+ for <qemu-devel@nongnu.org>; Fri, 12 Jun 2020 14:45:39 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 772E32E8025
- for <qemu-devel@nongnu.org>; Fri, 12 Jun 2020 14:45:38 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 028D12E8025
+ for <qemu-devel@nongnu.org>; Fri, 12 Jun 2020 14:45:39 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 12 Jun 2020 14:38:18 -0000
+Date: Fri, 12 Jun 2020 14:38:36 -0000
 From: Christophe Lyon <1883268@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -41,7 +41,7 @@ X-Launchpad-Bug-Commenters: christophe-lyon
 X-Launchpad-Bug-Reporter: Christophe Lyon (christophe-lyon)
 X-Launchpad-Bug-Modifier: Christophe Lyon (christophe-lyon)
 References: <159197267869.7647.15246075911938911102.malonedeb@gac.canonical.com>
-Message-Id: <159197269832.5453.12699045239215110244.malone@chaenomeles.canonical.com>
+Message-Id: <159197271670.5951.7768509761376511070.malone@chaenomeles.canonical.com>
 Subject: [Bug 1883268] Re: random errors on aarch64 when executing
  __aarch64_cas8_acq_rel
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -50,7 +50,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="b190cebbf563f89e480a8b57f641753c8196bda0";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 07cfb13d8ac307396306b5c6b5aa6d06ccae0187
+X-Launchpad-Hash: c44ddfe0c8f7ed232e646c609074f936d2dc4b38
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/12 10:45:37
@@ -76,9 +76,9 @@ Reply-To: Bug 1883268 <1883268@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Attachment added: "Binary"
-   https://bugs.launchpad.net/qemu/+bug/1883268/+attachment/5383273/+files/=
-sync-4.exe
+** Attachment added: "QEMU traces"
+   https://bugs.launchpad.net/qemu/+bug/1883268/+attachment/5383274/+files/=
+sync-4.qemu.log.xz
 
 -- =
 
