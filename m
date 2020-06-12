@@ -2,92 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D92931F7BD3
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 18:52:27 +0200 (CEST)
-Received: from localhost ([::1]:42704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD2771F7BE7
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 19:00:47 +0200 (CEST)
+Received: from localhost ([::1]:49490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjmuo-0005iu-Fc
-	for lists+qemu-devel@lfdr.de; Fri, 12 Jun 2020 12:52:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52382)
+	id 1jjn2s-0002su-Rw
+	for lists+qemu-devel@lfdr.de; Fri, 12 Jun 2020 13:00:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jjmtq-0004hp-15
- for qemu-devel@nongnu.org; Fri, 12 Jun 2020 12:51:26 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:46440
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jjmto-0001FF-1S
- for qemu-devel@nongnu.org; Fri, 12 Jun 2020 12:51:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591980683;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=inZkYgaoyW3isg+zSESEgM4W8P7O5dxBLvKh1IPGeGM=;
- b=cMgPSrW9642AUEsmupL4sw4ZMaSnpWSkjJUqaY5UQesdS8OCCsjjduKRbDysB3ytxHFAPK
- nJykV0ANOS1fjY01qClwSrQXQB2KrYRLlfeOjhVdUxIah4QykDZFowUa8XEXi8eMEB7Fkl
- cca05tRWUd0P9DZ7HUsvQ8MxROXkWq0=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-171-ES8qEk4HMICbvOC7sTV3TQ-1; Fri, 12 Jun 2020 12:51:21 -0400
-X-MC-Unique: ES8qEk4HMICbvOC7sTV3TQ-1
-Received: by mail-wr1-f70.google.com with SMTP id w16so4222633wru.18
- for <qemu-devel@nongnu.org>; Fri, 12 Jun 2020 09:51:21 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
+ id 1jjn1m-0001h2-7Y
+ for qemu-devel@nongnu.org; Fri, 12 Jun 2020 12:59:38 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:36454)
+ by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
+ id 1jjn1k-0002f4-Ls
+ for qemu-devel@nongnu.org; Fri, 12 Jun 2020 12:59:37 -0400
+Received: by mail-wr1-x443.google.com with SMTP id q11so10452805wrp.3
+ for <qemu-devel@nongnu.org>; Fri, 12 Jun 2020 09:59:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=puTi/7vq4TT1JtKetAWdWS2wv74I0+t22zdHuQTlX2A=;
+ b=b5LCyTN9JcEJgGGt0LkFeUIi7CxlSENFlSCb6EU/OVHxg4FgFMH0iPo1ekTTsip6S3
+ 3/Bf7895hVUlfEP0zwTE/iDs9liHrWPbcJKnCLpYP+9R1+1R3a0oxzTztPH5nWIQjki0
+ VhX465evEtVeLR9W5rUtfwi+x3r6NnDzcajTjGJagbb/RPTb1akK6Vt9ohoQ5sjFBTHq
+ hMbbGI0tEm+xpH6XIR3qqaUs3alt3Z9SEFHe4ylaKSY4KDZR/lng8vUSDSnMgG6Y1qZN
+ SHrJWvVUaVi2P9zdNlodloDKhyxJ+fZUzUCSl769SgrM20HEDyeMVBdzfphnMASumzNg
+ I5Cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=inZkYgaoyW3isg+zSESEgM4W8P7O5dxBLvKh1IPGeGM=;
- b=QjoLZ1aX8hX8xHTl5R/NZS5XvFDcFwZ9PuaxMBYzIUi25jjKVJig1NGxkO2Q2EpCfd
- 0AcUnEzNZBS447FNOi7QaKBO/NhDUoKVlMpguqB6QPJIicwzuJ6N8piTghtLU7KwNAIm
- uodNoff6ZK1yvIOpQKSDLgzNb1QIOCe09bd6/KgBueQh47SKlQE0xvpmWX39Y+EtMM4J
- /NRHd4p/usfibK4E0jp9ELHvFIsygQFoEL0j+mLZjOwgHoReI+nnT8H7+ebgxOxR9a/e
- DKYSoRvEUp3sYg5c+ivobiLZoJzY5jVi8R0ufpHG6ZBocRCrmYzsi2wCdSLhwqqIiQOq
- 0Lxg==
-X-Gm-Message-State: AOAM530SS5AOt0G0NKfBS0y7H+n/RBoj9dTNpBU6ze7w0Q7eBeKB+L1Z
- g/ztO4U8c1JzleOvkKnPixLSS1I8bmvnckcNnKSjjeafZZwp0b2xXSRvAKlcrLSUfHOcpRTwwuw
- /FzpKHs9gmovqXec=
-X-Received: by 2002:a1c:4e17:: with SMTP id g23mr13771297wmh.38.1591980680446; 
- Fri, 12 Jun 2020 09:51:20 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzRzJOWhgoDnzbmGb+RFa85zesvOTwsW6hY6BxbwZGdzhiXhsqHnU+cJXJGNpxemDl/KgB8yA==
-X-Received: by 2002:a1c:4e17:: with SMTP id g23mr13771277wmh.38.1591980680176; 
- Fri, 12 Jun 2020 09:51:20 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:29ed:810e:962c:aa0d?
- ([2001:b07:6468:f312:29ed:810e:962c:aa0d])
- by smtp.gmail.com with ESMTPSA id x18sm9252844wmi.35.2020.06.12.09.51.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 12 Jun 2020 09:51:19 -0700 (PDT)
-Subject: Re: [PATCH] memory: Revert "memory: accept mismatching sizes in
- memory_region_access_valid"
-To: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org
-References: <20200610134731.1514409-1-mst@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <3c7ba098-b059-c825-a46d-8ba1c7896eab@redhat.com>
-Date: Fri, 12 Jun 2020 18:51:19 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ bh=puTi/7vq4TT1JtKetAWdWS2wv74I0+t22zdHuQTlX2A=;
+ b=F+ojKwB4IkFHzQBFkkBTW11zhN9RLkxNKkkrjq/Vw4CsGawRxxukSqMWT6XK1NLPzA
+ kP2EqZBj1SxnNH6ViVTnUIix4ABaORvu4bFW78D6fXN/ktCnOpSsVbQ7fmvuJ28dlAja
+ 9nCMYwmElNW6cFFf+DEoAuuFe75Qsc7SQI8r7Q8pYtN2/79TktBWLmK1TuPcU6UwzQpL
+ 5f+9/XrwZbM+sldTtrDd0McYrP9CFxESp9TSVqGm4ivffhM37Sz9YtywZFIVvW3kxcHI
+ RsN7IP45WRPt1E5piQ1sZ68Debm0e2FeiKqwbfpACg/D+MS7T7+mauk6W7M4xu/YADqW
+ us4Q==
+X-Gm-Message-State: AOAM5326l6SDb38d5tb3jT5KugE3M1M2TjHhFcWDKretOvn3A9uaIlZr
+ 2gvvPnKWmaFyHmnAIXEcPOKiFZV20YE=
+X-Google-Smtp-Source: ABdhPJzuNG1QH6eQJ2KRDYftqBffNVShtwlzFLdNZnulh9GUfhOjm9q6MCnlKPH2xXgXJmRjp8BNHA==
+X-Received: by 2002:adf:ff8a:: with SMTP id j10mr15685625wrr.405.1591981168487; 
+ Fri, 12 Jun 2020 09:59:28 -0700 (PDT)
+Received: from localhost.localdomain (net212-32-245-109.mbb.telenor.rs.
+ [109.245.32.212])
+ by smtp.gmail.com with ESMTPSA id f185sm9923653wmf.43.2020.06.12.09.59.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 12 Jun 2020 09:59:28 -0700 (PDT)
+From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v7 0/8] target/mips: MSA,
+ FPU and other cleanups and improvements
+Date: Fri, 12 Jun 2020 18:58:59 +0200
+Message-Id: <20200612165907.1272-1-aleksandar.qemu.devel@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20200610134731.1514409-1-mst@redhat.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/12 08:07:17
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-wr1-x443.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,90 +84,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-stable@nongnu.org, Richard Henderson <rth@twiddle.net>
+Cc: aleksandar.rikalo@syrmia.com,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/06/20 15:47, Michael S. Tsirkin wrote:
-> Memory API documentation documents valid .min_access_size and .max_access_size
-> fields and explains that any access outside these boundaries is blocked.
-> 
-> This is what devices seem to assume.
-> 
-> However this is not what the implementation does: it simply
-> ignores the boundaries unless there's an "accepts" callback.
-> 
-> Naturally, this breaks a bunch of devices.
-> 
-> Revert to the documented behaviour.
-> 
-> Devices that want to allow any access can just drop the valid field,
-> or add the impl field to have accesses converted to appropriate
-> length.
-> 
-> Cc: qemu-stable@nongnu.org
-> Reviewed-by: Richard Henderson <rth@twiddle.net>
-> Fixes: CVE-2020-13754
-> Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=1842363
-> Fixes: a014ed07bd5a ("memory: accept mismatching sizes in memory_region_access_valid")
-> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> ---
->  memory.c | 29 +++++++++--------------------
->  1 file changed, 9 insertions(+), 20 deletions(-)
-> 
-> diff --git a/memory.c b/memory.c
-> index 91ceaf9fcf..3e9388fb74 100644
-> --- a/memory.c
-> +++ b/memory.c
-> @@ -1352,35 +1352,24 @@ bool memory_region_access_valid(MemoryRegion *mr,
->                                  bool is_write,
->                                  MemTxAttrs attrs)
->  {
-> -    int access_size_min, access_size_max;
-> -    int access_size, i;
-> +    if (mr->ops->valid.accepts
-> +        && !mr->ops->valid.accepts(mr->opaque, addr, size, is_write, attrs)) {
-> +        return false;
-> +    }
->  
->      if (!mr->ops->valid.unaligned && (addr & (size - 1))) {
->          return false;
->      }
->  
-> -    if (!mr->ops->valid.accepts) {
-> +    /* Treat zero as compatibility all valid */
-> +    if (!mr->ops->valid.max_access_size) {
->          return true;
->      }
->  
-> -    access_size_min = mr->ops->valid.min_access_size;
-> -    if (!mr->ops->valid.min_access_size) {
-> -        access_size_min = 1;
-> +    if (size > mr->ops->valid.max_access_size
-> +        || size < mr->ops->valid.min_access_size) {
-> +        return false;
->      }
-> -
-> -    access_size_max = mr->ops->valid.max_access_size;
-> -    if (!mr->ops->valid.max_access_size) {
-> -        access_size_max = 4;
-> -    }
-> -
-> -    access_size = MAX(MIN(size, access_size_max), access_size_min);
-> -    for (i = 0; i < size; i += access_size) {
-> -        if (!mr->ops->valid.accepts(mr->opaque, addr + i, access_size,
-> -                                    is_write, attrs)) {
-> -            return false;
-> -        }
-> -    }
-> -
->      return true;
->  }
->  
-> 
+This series contains some patches that split heprers in msa_helper.c.
+It will make easier for debugging tools to display involved source
+code, and also introduces some modest performance improvements gains
+for all involved MSA instructions.
 
-Queued, thanks.
+v6->v7:
 
-Paolo
+  - excluded patches that have been already upstreamed
+  - added six new demacroing patches
+
+v5->v6:
+
+  - excluded a patch that was included by mistake
+
+v4->v5:
+
+  - corrected some spelling and style mistakes in commit messages
+  - added changing MAINTAINERS too while renaming files
+  - added two patches on splitting helpers in msa_helper.c
+
+v3->v4:
+
+  - corrected some spelling and style mistakes in commit messages
+  - added a patch on renaming some files in hw/mips
+
+v2->v3:
+
+  - changed Malta patch to perform logging
+  - added change of Aleksandar Rikalo's email
+
+v1->v2:
+
+  - added more demacroing
+
+Aleksandar Markovic (8):
+  target/mips: msa: Split helpers for MADDV.<B|H|W|D>
+  target/mips: msa: Split helpers for MSUBV.<B|H|W|D>
+  target/mips: msa: Split helpers for DPADD_S.<H|W|D>
+  target/mips: msa: Split helpers for DPADD_U.<H|W|D>
+  target/mips: msa: Split helpers for DPSUB_S.<H|W|D>
+  target/mips: msa: Split helpers for DPSUB_U.<H|W|D>
+  target/mips: msa: Split helpers for DOTP_S.<H|W|D>
+  target/mips: msa: Split helpers for DOTP_U.<H|W|D>
+
+ target/mips/helper.h     |  37 ++-
+ target/mips/msa_helper.c | 580 ++++++++++++++++++++++++++++++++-------
+ target/mips/translate.c  | 110 +++++++-
+ 3 files changed, 603 insertions(+), 124 deletions(-)
+
+-- 
+2.20.1
 
 
