@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01E8C1F720E
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 04:08:36 +0200 (CEST)
-Received: from localhost ([::1]:52678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEE0D1F7206
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 04:05:14 +0200 (CEST)
+Received: from localhost ([::1]:40286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjZ7T-0003I4-3O
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 22:08:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57622)
+	id 1jjZ4D-0006MK-S8
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 22:05:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57066)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <geoff@hostfission.com>)
- id 1jjZ4D-0007NM-2s
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 22:05:13 -0400
-Received: from mail1.hostfission.com ([139.99.139.48]:34066)
+ id 1jjZ38-0004jw-VA
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 22:04:06 -0400
+Received: from mail1.hostfission.com ([139.99.139.48]:34028)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <geoff@hostfission.com>) id 1jjZ4B-00059J-G0
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 22:05:12 -0400
+ (envelope-from <geoff@hostfission.com>) id 1jjZ37-0004rC-6U
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 22:04:06 -0400
 Received: from moya.office.hostfission.com (office.hostfission.com
  [220.233.29.71])
- by mail1.hostfission.com (Postfix) with ESMTP id 1A1CC443E9;
- Fri, 12 Jun 2020 12:05:09 +1000 (AEST)
+ by mail1.hostfission.com (Postfix) with ESMTP id C19A6443E9;
+ Fri, 12 Jun 2020 12:04:00 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=hostfission.com;
- s=mail; t=1591927509;
- bh=4mBB536DbAS9sE4vqkezGeotRfzVhV6sbOAIDj85Mv8=;
+ s=mail; t=1591927440;
+ bh=5cIedYJIDnW25HPepE48iAyANy2QrrzppiFXCkgZfaA=;
  h=From:Date:Subject:To:Cc:From;
- b=uFn2Qe/9gLqm6qaeZXE/EFboG1BPIayYqG9ST40e+AxzDZKc86fRldlo9o7bEpCR5
- 1ol8dHhU2Lye1BlIPw8r5XIyy/pdJ4+f0FHuMV2TCwOBNmlHyQZ7qgvS/19GKPCV5D
- omaja6lYqS011/avh9fSk8EYOrOY+ygEoV8JndC8=
+ b=r5rBPkWu7FcFok6UvjmWYiEeQBFsZyaezQJr8o6+creGaaPRBhTZ8oQ3ASL2lTi2K
+ 3E2On3hXhnTx8IYVZQp9zuysqu57qnpWgolSOpa+TzplpUHIOI9tYGuyLuOMpHuzsI
+ XqmhrukH6TnwANWEfKjJPMKzxFHsUMQbik5oJ8jI=
 Received: by moya.office.hostfission.com (Postfix, from userid 0)
- id F32E63A0172; Fri, 12 Jun 2020 12:05:08 +1000 (AEST)
+ id 989D93A0172; Fri, 12 Jun 2020 12:04:00 +1000 (AEST)
 From: Geoffrey McRae <geoff@hostfission.com>
-Date: Fri, 12 Jun 2020 01:25:16 +1000
-Subject: [PATCH 6/6] audio/jack: simplify the re-init code path
+Date: Fri, 12 Jun 2020 10:12:37 +1000
+Subject: [PATCH 0/6] audio/jack: fixes to overall jack behaviour
 To: <qemu-devel@nongnu.org>
 Cc: <kraxel@redhat.com>
 X-Mailer: mail (GNU Mailutils 3.5)
-Message-Id: <20200612020508.F32E63A0172@moya.office.hostfission.com>
+Message-Id: <20200612020400.989D93A0172@moya.office.hostfission.com>
 Received-SPF: pass client-ip=139.99.139.48; envelope-from=geoff@hostfission.com;
  helo=mail1.hostfission.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 20:16:15
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_06_12=1.543,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
@@ -64,48 +64,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Geoffrey McRae <geoff@hostfission.com>
----
- audio/jackaudio.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+Sorry for the spam, resubmitted due to missing subject on this cover
+letter. Seems patchew.org can't find the associated patches without it.
 
-diff --git a/audio/jackaudio.c b/audio/jackaudio.c
-index b2b53985ae..72ed7c4929 100644
---- a/audio/jackaudio.c
-+++ b/audio/jackaudio.c
-@@ -395,6 +395,10 @@ static int qjack_client_init(QJackClient *c)
-     char client_name[jack_client_name_size()];
-     jack_options_t options = JackNullOption;
- 
-+    if (c->state == QJACK_STATE_RUNNING) {
-+        return 0;
-+    }
-+
-     c->connect_ports = true;
- 
-     snprintf(client_name, sizeof(client_name), "%s-%s",
-@@ -485,9 +489,7 @@ static int qjack_init_out(HWVoiceOut *hw, struct audsettings *as,
-     QJackOut *jo  = (QJackOut *)hw;
-     Audiodev *dev = (Audiodev *)drv_opaque;
- 
--    if (jo->c.state != QJACK_STATE_DISCONNECTED) {
--        return 0;
--    }
-+    qjack_client_fini(&jo->c);
- 
-     jo->c.out       = true;
-     jo->c.enabled   = false;
-@@ -523,9 +525,7 @@ static int qjack_init_in(HWVoiceIn *hw, struct audsettings *as,
-     QJackIn  *ji  = (QJackIn *)hw;
-     Audiodev *dev = (Audiodev *)drv_opaque;
- 
--    if (ji->c.state != QJACK_STATE_DISCONNECTED) {
--        return 0;
--    }
-+    qjack_client_fini(&ji->c);
- 
-     ji->c.out       = false;
-     ji->c.enabled   = false;
+This patch set addresses several issues that cause inconsistent
+behaviour in the guest when the sound device is stopped and started or
+the JACK server stops responding on the host.
+
+Geoffrey McRae (6):
+  audio/jack: fix invalid minimum buffer size check
+  audio/jack: remove unused stopped state
+  audio/jack: remove invalid set of input support bool
+  audio/jack: do not remove ports when finishing
+  audio/jack: honour the enable state of the audio device
+  audio/jack: simplify the re-init code path
+
+ audio/jackaudio.c | 73 ++++++++++++++++++++++++-----------------------
+ 1 file changed, 38 insertions(+), 35 deletions(-)
+
 -- 
 2.20.1
 
