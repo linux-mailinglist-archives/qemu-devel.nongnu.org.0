@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6D4D1F7ABE
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 17:23:57 +0200 (CEST)
-Received: from localhost ([::1]:48200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEDFC1F7AA6
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 17:21:51 +0200 (CEST)
+Received: from localhost ([::1]:40526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjlXA-0006fQ-N7
-	for lists+qemu-devel@lfdr.de; Fri, 12 Jun 2020 11:23:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51704)
+	id 1jjlV8-0003RF-PS
+	for lists+qemu-devel@lfdr.de; Fri, 12 Jun 2020 11:21:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51622)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jjl5Q-0004vp-DA
- for qemu-devel@nongnu.org; Fri, 12 Jun 2020 10:55:16 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:60541
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jjl5I-0004eQ-Mr
+ for qemu-devel@nongnu.org; Fri, 12 Jun 2020 10:55:08 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:23394
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jjl5O-00028k-NL
- for qemu-devel@nongnu.org; Fri, 12 Jun 2020 10:55:16 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jjl5D-00020w-Fx
+ for qemu-devel@nongnu.org; Fri, 12 Jun 2020 10:55:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591973714;
+ s=mimecast20190719; t=1591973702;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=m70XDKVx5FpSNAmS9FGjLCI+V05BcMupEqmlBSYDPOk=;
- b=NDCepfP0ROoV/mXfUeJQC7HVb7wya67D4bYZqLU2WmZK8uXd080R9vKz8o1UFoSl0zCcW2
- E49JGXw1goyEnwN2pFnG3XcPrDUfw/vv49XFOSyZawQ8YTvSnMrgUNd+2g7E563NyzrF7U
- ZCsIthSzPryS40ykBjffqaaM5J0CPVM=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-227-Vtqtt5jeNAqx1Z82JIupxQ-1; Fri, 12 Jun 2020 10:51:42 -0400
-X-MC-Unique: Vtqtt5jeNAqx1Z82JIupxQ-1
-Received: by mail-wm1-f71.google.com with SMTP id t145so2545589wmt.2
- for <qemu-devel@nongnu.org>; Fri, 12 Jun 2020 07:51:42 -0700 (PDT)
+ bh=/K+BMGp/Z1Mf6jaoeVGFnEXmqbuskYzi+ydMa9DJuV0=;
+ b=P3m1zRuqsX3CMTZpWRu8biragqinceCzNWZKJF0EFXmFN2zlTAAO8ZVvRUY7T0d+9o1mG2
+ wFer3e4zr0yW0MJOdCOX830tJOKiS6c89+Uaq+ogqbKZbJxFvol757e8/0D3/rpDAEiHlL
+ r58SFMr2wO2S3Zitwe9DfHqtNW8swQs=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-423-ZFTMeIxGNTSWS03sAW8ftA-1; Fri, 12 Jun 2020 10:51:45 -0400
+X-MC-Unique: ZFTMeIxGNTSWS03sAW8ftA-1
+Received: by mail-wm1-f69.google.com with SMTP id j128so2546124wmj.6
+ for <qemu-devel@nongnu.org>; Fri, 12 Jun 2020 07:51:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=m70XDKVx5FpSNAmS9FGjLCI+V05BcMupEqmlBSYDPOk=;
- b=Nk5tBCrAS4Jckq2UoQ2dreUyZhwvw8oicqtXK0DIyM1FeXVs00Wpm2OVE1f3nvJXgv
- WUXygn0Rav4qkJUd4lHlF2sKoBzRtLLMgF6YbMRtcClj0eyV8Bj5rup0FZcneUZOazUR
- V6+3y/ofoZ1mR8pD6vyd6yza7K7sjFBQIq/xUt/cFN35Z+uPYXDqsyIqUo0gZVUu6If9
- 4fdB+ExI3T6DaqgtMeFAI+5u78Tohs/mZnIsGGnjxBrtOrFUaGfLYK8glZ8SMVDF3nqV
- mZJ8sQosz2qY4RFPGb/yVuS3v1eJT3mA/xiW6VdhYwNVx5ik5vJQqMB2BvtqvNVrr0G7
- sv7w==
-X-Gm-Message-State: AOAM5323A3oejSvoKqZWc2I4RJr9AMeeNIDKh43xHP9DYI4TWCZnzyb5
- hHYW93AGMSQ/8iR23CQJECuOKrPJ4hwyWlHf07OmjkzHR9WCeVsoGY2/o8rix6ebVQG+jeF2OSO
- hBh6bm0IbGw9I3Ko=
-X-Received: by 2002:a5d:4490:: with SMTP id j16mr16683019wrq.276.1591973501698; 
- Fri, 12 Jun 2020 07:51:41 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx231ZEhbrTsyz0l2P+lW3nSQj/sZnaC/ZBlLB/1jvAXnpEnzsMOpmRrYAMXbDKg1z7QngRtw==
-X-Received: by 2002:a5d:4490:: with SMTP id j16mr16682996wrq.276.1591973501496; 
- Fri, 12 Jun 2020 07:51:41 -0700 (PDT)
+ bh=/K+BMGp/Z1Mf6jaoeVGFnEXmqbuskYzi+ydMa9DJuV0=;
+ b=tu5JFRgnX2Ds0CZbLIMitI+hXoiBVgaCMYBKKg0JZ/nYetGaV4CpnoGmOfz6r2Lhnv
+ aayrmA0GeMCQfDtkNt6See/WZA61sX0lmP8YKpNyoiN4y1m9puTqhaxu66wQezRGkdXa
+ /m8xjPZoR+KpbQa7ICDOHZBTq0I6xvdAQrScugGvSdagAzEjvO71EFAwvnnbAHGkVhjJ
+ Hy3+vZHgfxIxTN/YOEOGYU4CqjKRUSVyyMDC7TszdJeORueQOpYRK5sR94pssIAY1cSs
+ XIdRJtlxhPUIXVi0o+ILKkmqezuQqjtOm0ntnDS7tszf4Oh/0HlDOEbH95Z5UhMsDEvW
+ Vz0A==
+X-Gm-Message-State: AOAM532F0UCHdeGN2avefJccuQ21tBlilexz2HI9FEBwWHvQu4XBVPMY
+ a8Gicy7r8ekpx4xI8gAxPu7R/Lh7IQEBZIkugn7j88eKPcHH+c4V3wNxoM1DrXLKybhHpImbjJm
+ VhP3yDf/kpWKujrE=
+X-Received: by 2002:a5d:52c6:: with SMTP id r6mr15035364wrv.74.1591973503830; 
+ Fri, 12 Jun 2020 07:51:43 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw7pp74lkH56Ds7sode03UAtMq11m8YKrtc5MkzNWuHu7qWDgs5qCKoyQ0P7V5jDThZnoiVkA==
+X-Received: by 2002:a5d:52c6:: with SMTP id r6mr15035345wrv.74.1591973503624; 
+ Fri, 12 Jun 2020 07:51:43 -0700 (PDT)
 Received: from redhat.com (bzq-79-178-18-124.red.bezeqint.net. [79.178.18.124])
- by smtp.gmail.com with ESMTPSA id g187sm9833498wma.17.2020.06.12.07.51.40
+ by smtp.gmail.com with ESMTPSA id b201sm9004424wmb.36.2020.06.12.07.51.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Jun 2020 07:51:41 -0700 (PDT)
-Date: Fri, 12 Jun 2020 10:51:39 -0400
+ Fri, 12 Jun 2020 07:51:43 -0700 (PDT)
+Date: Fri, 12 Jun 2020 10:51:41 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 17/58] test/tpm-emu: include sockets and channel headers in
- tpm-emu header
-Message-ID: <20200612141917.9446-18-mst@redhat.com>
+Subject: [PULL v2 18/58] tests/acpi: Add void tables for Q35/TPM-TIS
+ bios-tables-test
+Message-ID: <20200612141917.9446-19-mst@redhat.com>
 References: <20200612141917.9446-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200612141917.9446-1-mst@redhat.com>
@@ -94,39 +94,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Eric Auger <eric.auger@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Stefan Berger <stefanb@linux.ibm.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Igor Mammedov <imammedo@redhat.com>, Stefan Berger <stefanb@linux.ibm.com>,
+ Eric Auger <eric.auger@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Eric Auger <eric.auger@redhat.com>
 
-Include sockets and channel headers to that the header is
-self-contained.
+Add placeholders for TPM and DSDT reference tables for
+Q35 TPM-TIS tests and ignore them for the time being.
 
 Signed-off-by: Eric Auger <eric.auger@redhat.com>
 Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
-Message-Id: <20200609125409.24179-2-eric.auger@redhat.com>
----
- tests/qtest/tpm-emu.h | 3 +++
- 1 file changed, 3 insertions(+)
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 
-diff --git a/tests/qtest/tpm-emu.h b/tests/qtest/tpm-emu.h
-index a4f1d64226..73f3bed0c4 100644
---- a/tests/qtest/tpm-emu.h
-+++ b/tests/qtest/tpm-emu.h
-@@ -16,6 +16,9 @@
- #define TPM_RC_FAILURE 0x101
- #define TPM2_ST_NO_SESSIONS 0x8001
- 
-+#include "qemu/sockets.h"
-+#include "io/channel.h"
-+
- struct tpm_hdr {
-     uint16_t tag;
-     uint32_t len;
+Message-Id: <20200609125409.24179-3-eric.auger@redhat.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+---
+ tests/qtest/bios-tables-test-allowed-diff.h | 2 ++
+ tests/data/acpi/q35/DSDT.tis                | 0
+ tests/data/acpi/q35/TPM2.tis                | 0
+ 3 files changed, 2 insertions(+)
+ create mode 100644 tests/data/acpi/q35/DSDT.tis
+ create mode 100644 tests/data/acpi/q35/TPM2.tis
+
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index dfb8523c8b..a2a45d1d31 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1 +1,3 @@
+ /* List of comma-separated changed AML files to ignore */
++"tests/data/acpi/q35/DSDT.tis",
++"tests/data/acpi/q35/TPM2.tis",
+diff --git a/tests/data/acpi/q35/DSDT.tis b/tests/data/acpi/q35/DSDT.tis
+new file mode 100644
+index 0000000000..e69de29bb2
+diff --git a/tests/data/acpi/q35/TPM2.tis b/tests/data/acpi/q35/TPM2.tis
+new file mode 100644
+index 0000000000..e69de29bb2
 -- 
 MST
 
