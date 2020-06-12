@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D1D71F7D65
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 21:11:28 +0200 (CEST)
-Received: from localhost ([::1]:44528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A6C31F7D5D
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 21:08:54 +0200 (CEST)
+Received: from localhost ([::1]:34212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjp5L-0006YW-5f
-	for lists+qemu-devel@lfdr.de; Fri, 12 Jun 2020 15:11:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54888)
+	id 1jjp2r-0001qh-7r
+	for lists+qemu-devel@lfdr.de; Fri, 12 Jun 2020 15:08:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jjoxJ-0000tQ-GK
- for qemu-devel@nongnu.org; Fri, 12 Jun 2020 15:03:10 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:44163)
+ id 1jjoxP-0000ud-6x
+ for qemu-devel@nongnu.org; Fri, 12 Jun 2020 15:03:15 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:45111)
  by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jjoxB-0006tX-Up
- for qemu-devel@nongnu.org; Fri, 12 Jun 2020 15:03:06 -0400
-Received: by mail-wr1-x443.google.com with SMTP id y17so10787999wrn.11
- for <qemu-devel@nongnu.org>; Fri, 12 Jun 2020 12:02:54 -0700 (PDT)
+ id 1jjoxI-0006vM-6H
+ for qemu-devel@nongnu.org; Fri, 12 Jun 2020 15:03:14 -0400
+Received: by mail-wr1-x443.google.com with SMTP id c3so10772680wru.12
+ for <qemu-devel@nongnu.org>; Fri, 12 Jun 2020 12:02:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=t1DzA5iDyLs/5vA/dSSrknurXA9OGsEodwES5eqKbfo=;
- b=AvJlJwP0BMGgDZT8NzZAJAkZ+u4AnNlhfuBbkvi5n4UzHfcc7nVScb1wYiz8V/nCE5
- hQI421AbkaflY8zXSrPP2CoC5N9KlWjY/Sv9sMC0UL9qeU4ITx3aEc+3flVgZTZB9fwI
- bWgDcWJvz6u24QNkGV/sXx9FEIMV+0usJl202sT5doGVzpqtN8+Ksw8ZWmN9GqCTCS8O
- 4tT8RPT73cay7LpJ/bglefM6nGDTTBakPUz7dXGDCc4IXZFcO6jzGvz5AxksoF2O3SZl
- YBXaaWUP2W2bSEr/fSjpsoPW3uI5McOCy9tqoRxeBzNteuIr+yvY4/bve7ELXRSdoUCf
- GyvQ==
+ bh=57l/aMK2332ZDMnrCc3giHMMSaLKEjqCHI6rtSAmCoo=;
+ b=jlCKW9jsfwHQxeVIuK1Q5z+xzq4Hno/PT1Pc/u+MchoSQDMSD6a06hJNwyhcPbfyd1
+ 4Hi+ZAtp6A8r/4WVrZisDcDpvrVl8oLJf3AMgjsYrpO0rcicYqYP8XUpxXu0q+uJdfq4
+ cgrRrqPf2ehlAh0cZWxPfdMIQzG8hKWyq9YXNl6ZcGtPFr5jhqhPadrfOF5MCj8gjC78
+ /7h4gUgdTcFOE21oAHtNKxV1Ar1ia7q2qpPsxCsAipidzurLzK8gQSW8NLFx0LTTCsmZ
+ VDUVunOoNxe/GROrgH965Qr5+9rv4WFYVw45qaVDNndy6IcevSDJaQWbVoIl14UAUv1+
+ pTTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=t1DzA5iDyLs/5vA/dSSrknurXA9OGsEodwES5eqKbfo=;
- b=oMFXRPniU94SK6TfB/dkDfP3+ySelh8aDf4FX6TiyaDETvHEuMND2CfzxPsAiHOgmX
- 46qR9b9fGwIss6ANgTY6gTm7RE3Cja7LF9kdxZMDpw8n3xNWmd149/yBjwVW73rU7Jf/
- M3DXzGSDxWC62wdrKRZ+MR41XKPifybbWJV0wSEK9Nls+ef7nMt/JBlixjnO7OtxHIKC
- 5hlcOC3RRR3ij+2sFuoWB6xaAUaCXCvqllof6CitP1iGe0+aWj/OlGzQFVa6yVUzV/du
- nzjNl5EvhIRH+PPcNdkOYrczHhI3e4boyKqNzbfoUB7w15x41WI/zhWUtKx8lbrRBwrb
- FTWA==
-X-Gm-Message-State: AOAM530utdCxtsk0RNVF1Zn2c2g4lM2YFvQusv/+hozqvj77O/Lajsd7
- U5pnGlzg0tcz6nDUn3/eibfE5Q==
-X-Google-Smtp-Source: ABdhPJyY+0m2mV472ZKLTV5IR1zJvY9D73iMG4FNbaC7hL33D+ybtXFH7FfmOuo0DXIiwsCvxXBgCQ==
-X-Received: by 2002:a5d:4c4b:: with SMTP id n11mr15528607wrt.381.1591988573274; 
- Fri, 12 Jun 2020 12:02:53 -0700 (PDT)
+ bh=57l/aMK2332ZDMnrCc3giHMMSaLKEjqCHI6rtSAmCoo=;
+ b=GpePqHKMu0ruGHPUxGTxrYOsPQYOZU9oVdVad16opEnt7fdAB8RfSCvLIssNd36nQZ
+ N1EAcbpBaIGMr9sv5USBqK/mBp6AhcKGWT1X4QQiHJNkaB9iS8014vztyENXpRABpvLO
+ XntTsMDdv2J006Vgou4oygkOfP0vin4pCjIQ6JFiPeoLzWmu9sFVc7EunEkGCNCauRX3
+ H8+AuBhU0HAO4VVtttnuETmPuvcyEutAVHbMTclwMIz26PN3AA7FALYYPoyjymPvK5M0
+ FScptiASSCb6cXpiG3R98Ea3OnbMWktem8hlKTsA/gN0bcwGN+NhYFyuLD/N1yi6cEOH
+ zJaQ==
+X-Gm-Message-State: AOAM530LfIcM52tgk9nHCTtjwlUEGXZeShcSxOJFfrQshOkSS+LTJAOj
+ OlRpoJe74juBhGsGHOFS9xETxGH46hg=
+X-Google-Smtp-Source: ABdhPJz/eIoi9K8q2nD7TN18OD8kbF4JriC+3UGu1gOVUe74e1ovukhsCMXGssWCZ45IpluCG/og3g==
+X-Received: by 2002:a7b:cd06:: with SMTP id f6mr379029wmj.8.1591988579061;
+ Fri, 12 Jun 2020 12:02:59 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id a15sm11458909wra.86.2020.06.12.12.02.42
+ by smtp.gmail.com with ESMTPSA id b8sm11216298wrm.35.2020.06.12.12.02.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Jun 2020 12:02:46 -0700 (PDT)
+ Fri, 12 Jun 2020 12:02:50 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 58AF21FF96;
+ by zen.linaroharston (Postfix) with ESMTP id 92C981FF98;
  Fri, 12 Jun 2020 20:02:39 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 08/18] qht: call qemu_spin_destroy for head buckets
-Date: Fri, 12 Jun 2020 20:02:27 +0100
-Message-Id: <20200612190237.30436-9-alex.bennee@linaro.org>
+Subject: [PATCH  v1 09/18] tcg: call qemu_spin_destroy for tb->jmp_lock
+Date: Fri, 12 Jun 2020 20:02:28 +0100
+Message-Id: <20200612190237.30436-10-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200612190237.30436-1-alex.bennee@linaro.org>
 References: <20200612190237.30436-1-alex.bennee@linaro.org>
@@ -91,32 +91,103 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: fam@euphon.net, berrange@redhat.com, Robert Foley <robert.foley@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  richard.henderson@linaro.org, f4bug@amsat.org, cota@braap.org,
- aurelien@aurel32.net
+ Paolo Bonzini <pbonzini@redhat.com>, aurelien@aurel32.net,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Emilio G. Cota" <cota@braap.org>
 
+Signed-off-by: Emilio G. Cota <cota@braap.org>
 Signed-off-by: Robert Foley <robert.foley@linaro.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20200609200738.445-6-robert.foley@linaro.org>
+[RF: minor changes + remove tb_destroy_func]
+Message-Id: <20200609200738.445-7-robert.foley@linaro.org>
 ---
- util/qht.c | 1 +
- 1 file changed, 1 insertion(+)
+ include/tcg/tcg.h         | 1 +
+ accel/tcg/translate-all.c | 8 ++++++++
+ tcg/tcg.c                 | 9 +++++++++
+ 3 files changed, 18 insertions(+)
 
-diff --git a/util/qht.c b/util/qht.c
-index aa51be3c52f..67e5d5b9163 100644
---- a/util/qht.c
-+++ b/util/qht.c
-@@ -348,6 +348,7 @@ static inline void qht_chain_destroy(const struct qht_bucket *head)
-     struct qht_bucket *curr = head->next;
-     struct qht_bucket *prev;
+diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
+index 380014ed805..e63450a8936 100644
+--- a/include/tcg/tcg.h
++++ b/include/tcg/tcg.h
+@@ -819,6 +819,7 @@ void tcg_pool_reset(TCGContext *s);
+ TranslationBlock *tcg_tb_alloc(TCGContext *s);
  
-+    qemu_spin_destroy(&head->lock);
-     while (curr) {
-         prev = curr;
-         curr = curr->next;
+ void tcg_region_init(void);
++void tb_destroy(TranslationBlock *tb);
+ void tcg_region_reset_all(void);
+ 
+ size_t tcg_code_size(void);
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index 42ce1dfcff7..c937210e217 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -384,6 +384,11 @@ static int cpu_restore_state_from_tb(CPUState *cpu, TranslationBlock *tb,
+     return 0;
+ }
+ 
++void tb_destroy(TranslationBlock *tb)
++{
++    qemu_spin_destroy(&tb->jmp_lock);
++}
++
+ bool cpu_restore_state(CPUState *cpu, uintptr_t host_pc, bool will_exit)
+ {
+     TranslationBlock *tb;
+@@ -413,6 +418,7 @@ bool cpu_restore_state(CPUState *cpu, uintptr_t host_pc, bool will_exit)
+                 /* one-shot translation, invalidate it immediately */
+                 tb_phys_invalidate(tb, -1);
+                 tcg_tb_remove(tb);
++                tb_destroy(tb);
+             }
+             r = true;
+         }
+@@ -1886,6 +1892,7 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+ 
+         orig_aligned -= ROUND_UP(sizeof(*tb), qemu_icache_linesize);
+         atomic_set(&tcg_ctx->code_gen_ptr, (void *)orig_aligned);
++        tb_destroy(tb);
+         return existing_tb;
+     }
+     tcg_tb_insert(tb);
+@@ -2235,6 +2242,7 @@ void cpu_io_recompile(CPUState *cpu, uintptr_t retaddr)
+             tb_phys_invalidate(tb->orig_tb, -1);
+         }
+         tcg_tb_remove(tb);
++        tb_destroy(tb);
+     }
+ 
+     /* TODO: If env->pc != tb->pc (i.e. the faulting instruction was not
+diff --git a/tcg/tcg.c b/tcg/tcg.c
+index 1aa6cb47f29..1362bc61017 100644
+--- a/tcg/tcg.c
++++ b/tcg/tcg.c
+@@ -502,6 +502,14 @@ size_t tcg_nb_tbs(void)
+     return nb_tbs;
+ }
+ 
++static gboolean tcg_region_tree_traverse(gpointer k, gpointer v, gpointer data)
++{
++    TranslationBlock *tb = v;
++
++    tb_destroy(tb);
++    return FALSE;
++}
++
+ static void tcg_region_tree_reset_all(void)
+ {
+     size_t i;
+@@ -510,6 +518,7 @@ static void tcg_region_tree_reset_all(void)
+     for (i = 0; i < region.n; i++) {
+         struct tcg_region_tree *rt = region_trees + i * tree_size;
+ 
++        g_tree_foreach(rt->tree, tcg_region_tree_traverse, NULL);
+         /* Increment the refcount first so that destroy acts as a reset */
+         g_tree_ref(rt->tree);
+         g_tree_destroy(rt->tree);
 -- 
 2.20.1
 
