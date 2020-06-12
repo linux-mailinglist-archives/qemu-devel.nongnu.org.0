@@ -2,85 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 675FB1F7AA4
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 17:20:57 +0200 (CEST)
-Received: from localhost ([::1]:35222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC5E91F7A93
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 17:19:26 +0200 (CEST)
+Received: from localhost ([::1]:54990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjlUG-0001AP-BE
-	for lists+qemu-devel@lfdr.de; Fri, 12 Jun 2020 11:20:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51988)
+	id 1jjlSn-00066C-Oi
+	for lists+qemu-devel@lfdr.de; Fri, 12 Jun 2020 11:19:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jjl6C-0006hu-DP
- for qemu-devel@nongnu.org; Fri, 12 Jun 2020 10:56:04 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:49452
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jjl6A-0002LA-PQ
- for qemu-devel@nongnu.org; Fri, 12 Jun 2020 10:56:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591973762;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Md6vo2LrasxyjY0uRkbE4pzqGEK/9UBJvsNzXykdtFE=;
- b=gtQISJIX+3lzCx26qokseUq0rbXohoUPy2A7ygR8zol7eFAZCmdOX2zY6wSljK7Myb9X05
- 62izJR4uDcDczh90/mrbD0vmLmXnHtpJ+qPTJ+0t8/aWQi5RiweEVTgn+FI+JNiTsLUPif
- v0aUNEki5C/Xtmn7rH7cwVGkElWM0VE=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-27-uch6L2XQPhi-fGOtkIgs0g-1; Fri, 12 Jun 2020 10:53:12 -0400
-X-MC-Unique: uch6L2XQPhi-fGOtkIgs0g-1
-Received: by mail-wm1-f70.google.com with SMTP id u15so2036260wmm.5
- for <qemu-devel@nongnu.org>; Fri, 12 Jun 2020 07:53:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=Md6vo2LrasxyjY0uRkbE4pzqGEK/9UBJvsNzXykdtFE=;
- b=etyRBP0BapybySLTIDI3OcxLSBOoDjnjf9WmHDt/dkVKrPpOns6rSVUxYlZmGPJkxi
- TvPn4RRFvXeVWijr40rVAlggJygZTv0IPB3THreMw313oXB0CFrCWtg0TYWPVJS1WGBI
- iwPSBpio+ZD+VV/HHUI2DHqTWsciowht3gMI81dXktiQyHU2MZoPtAeME/Ne9rYgKPvM
- XsqGHrCdnMxaH0UMpiszX0FgRUMAXDfrlhm4L1f0KbD2RJD2PU88cBdkiMv/W0dpBwc2
- ZHePOBwOCxIPgf1epj9dVdyELWn2+HucdmP2hmicG4Mu1nI1b0BiGq4y2PKKqA6Red86
- 41ag==
-X-Gm-Message-State: AOAM532LhA7mnEGhyARWcOqNkAUtmXe5ZhI2/gzAUunl0rx6blz8CMhu
- +PQXSHQlKh/pUiMFk90cso/AZj8nYfpuyDXZdNzVGz9tqFyCekhgHDUaZd3aY5qb8vuaqIhS6YE
- Bo3StWfLxMSN/yJ0=
-X-Received: by 2002:adf:f446:: with SMTP id f6mr15327333wrp.59.1591973591416; 
- Fri, 12 Jun 2020 07:53:11 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzs2YowVJuuMs2q+eclSLwCdMPq59T7t941tTR+bwRmytba306Tyz9E/yYc/f+V6GG3C5oX7g==
-X-Received: by 2002:adf:f446:: with SMTP id f6mr15327314wrp.59.1591973591228; 
- Fri, 12 Jun 2020 07:53:11 -0700 (PDT)
-Received: from redhat.com (bzq-79-178-18-124.red.bezeqint.net. [79.178.18.124])
- by smtp.gmail.com with ESMTPSA id 23sm9695058wmo.18.2020.06.12.07.53.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Jun 2020 07:53:10 -0700 (PDT)
-Date: Fri, 12 Jun 2020 10:53:09 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL v2 58/58] virtio-pci: fix queue_enable write
-Message-ID: <20200612141917.9446-59-mst@redhat.com>
-References: <20200612141917.9446-1-mst@redhat.com>
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1jjl4L-0002yN-Af
+ for qemu-devel@nongnu.org; Fri, 12 Jun 2020 10:54:09 -0400
+Received: from mta-02.yadro.com ([89.207.88.252]:45450 helo=mta-01.yadro.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1jjl4E-0001pm-Jj
+ for qemu-devel@nongnu.org; Fri, 12 Jun 2020 10:54:08 -0400
+Received: from localhost (unknown [127.0.0.1])
+ by mta-01.yadro.com (Postfix) with ESMTP id 743F84C8B1;
+ Fri, 12 Jun 2020 14:54:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
+ in-reply-to:content-disposition:content-type:content-type
+ :mime-version:references:message-id:subject:subject:from:from
+ :date:date:received:received:received; s=mta-01; t=1591973638;
+ x=1593788039; bh=kHKE8/vGWplHmamSiOvrKdeoMqtHMvqSpZ88Sz7fEFs=; b=
+ YMoCArPQAtQkoGB0+JDsabeSaJ9xXsExkx8RQnsqM54mNN52F/iZslbPvcKvztJ6
+ jJrn11ZQTZSbdfWtBeYnkHcaN7lBi3AwM9gxKkhn7RJrtkbTPZIPEj+uLVetPXFD
+ vu4DV7rATEwR5wcPmJeVndf4Q8QLCXuC1B9WcBqQ3/Q=
+X-Virus-Scanned: amavisd-new at yadro.com
+Received: from mta-01.yadro.com ([127.0.0.1])
+ by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 3gBtRw_Mx6Ee; Fri, 12 Jun 2020 17:53:58 +0300 (MSK)
+Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
+ [172.17.10.102])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mta-01.yadro.com (Postfix) with ESMTPS id 0AC894C896;
+ Fri, 12 Jun 2020 17:53:58 +0300 (MSK)
+Received: from localhost (172.17.204.212) by T-EXCH-02.corp.yadro.com
+ (172.17.10.102) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Fri, 12
+ Jun 2020 17:53:57 +0300
+Date: Fri, 12 Jun 2020 17:53:57 +0300
+From: Roman Bolshakov <r.bolshakov@yadro.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PULL 000/115] Huge miscellaneous pull request for 2020-06-11
+Message-ID: <20200612145357.GC76007@SPB-NB-133.local>
+References: <20200611194449.31468-1-pbonzini@redhat.com>
+ <CAFEAcA-qrxBdn5aA0kaituroTX8c1yFGdRux0_X1Y+W5_s-WHA@mail.gmail.com>
+ <6e1f1fa5-2a23-b586-a3b4-1394c82794d7@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200612141917.9446-1-mst@redhat.com>
-X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
-X-Mutt-Fcc: =sent
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/12 08:07:17
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+In-Reply-To: <6e1f1fa5-2a23-b586-a3b4-1394c82794d7@redhat.com>
+X-Originating-IP: [172.17.204.212]
+X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
+ T-EXCH-02.corp.yadro.com (172.17.10.102)
+Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
+ helo=mta-01.yadro.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/12 09:46:08
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,64 +81,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ "Joseph S. Myers" <joseph@codesourcery.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jason Wang <jasowang@redhat.com>
+On Fri, Jun 12, 2020 at 03:33:38PM +0200, Paolo Bonzini wrote:
+> On 12/06/20 15:09, Peter Maydell wrote:
+> > Hi; I'm afraid this fails to build on OSX, and has a check-tcg
+> > failure on x86-64 Linux.
+> > 
+> > OSX:
+> > 
+> > In file included from /Users/pm215/src/qemu-for-merges/target/i386/hvf/hvf.c:53:
+> > In file included from /Users/pm215/src/qemu-for-merges/include/sysemu/hvf.h:16:
+> > /Users/pm215/src/qemu-for-merges/target/i386/cpu.h:1601:5: error:
+> > unknown type name 'hvf_lazy_flags'
+> >     hvf_lazy_flags hvf_lflags;
+> >     ^
+> > In file included from /Users/pm215/src/qemu-for-merges/target/i386/hvf/hvf.c:53:
+> > In file included from /Users/pm215/src/qemu-for-merges/include/sysemu/hvf.h:16:
+> > In file included from /Users/pm215/src/qemu-for-merges/target/i386/cpu.h:2021:
+> > /Users/pm215/src/qemu-for-merges/include/exec/cpu-all.h:442:12: error:
+> > returning 'void' from a function with incompatible result type
+> > 'ArchCPU *' (aka 'struct X86CPU *')
+> >     return container_of(env, ArchCPU, env);
+> >            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > /Users/pm215/src/qemu-for-merges/include/qemu/compiler.h:56:41: note:
+> > expanded from macro 'container_of'
+> > #define container_of(ptr, type, member) ({                      \
+> >                                         ^~~~~~~~~~~~~~~~~~~~~~~~~
+> > In file included from /Users/pm215/src/qemu-for-merges/target/i386/hvf/hvf.c:53:
+> > In file included from /Users/pm215/src/qemu-for-merges/include/sysemu/hvf.h:16:
+> > In file included from /Users/pm215/src/qemu-for-merges/target/i386/cpu.h:2021:
+> > /Users/pm215/src/qemu-for-merges/include/exec/cpu-all.h:464:14: error:
+> > initializing 'ArchCPU *' (aka 'struct X86CPU *') with an expression of
+> > incompatible type 'void'
+> >     ArchCPU *arch_cpu = container_of(env, ArchCPU, env);
+> >              ^          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > 3 errors generated.
+> > 
+> > 
+> > On x86-64 Linux host, running the check-tcg tests on the static
+> > linux-user build:
+> > 
+> >   BUILD   i386-linux-user guest-tests with docker qemu:fedora-i386-cross
+> > /home/petmay01/linaro/qemu-for-merges/tests/tcg/i386/test-i386-pcmpistri.c:
+> > In function 'main':
+> > /home/petmay01/linaro/qemu-for-merges/tests/tcg/i386/test-i386-pcmpistri.c:28:15:
+> > warning: left-hand operand of comma expression has no effect
+> > [-Wunused-value]
+> >    28 |     if ("%d\n", _mm_cmpistri(s1.x, s3.x, 0x4c) != 16) {
+> >       |               ^
+> > 
+> > (only a warning because we don't seem to be using -Werror here?)
+> > 
+> > and then the test crashed at runtime:
+> > 
+> >   TEST    test-i386-pcmpistri on i386
+> > qemu: uncaught target signal 4 (Illegal instruction) - core dumped
+> > timeout: the monitored command dumped core
+> > Illegal instruction
+> > ../Makefile.target:151: recipe for target 'run-test-i386-pcmpistri' failed
+> 
+> I'll resend without the offending patch.  Roman, Joseph, please take a
+> look and (especially for the OS X) please check if your series need a
+> rebase.
+> 
+> Thanks,
+> 
+> Paolo
+> 
 
-Spec said: The driver uses this to selectively prevent the device from
-executing requests from this virtqueue. 1 - enabled; 0 - disabled.
+It seems rebase is not needed. The queue doesn't include the patch:
+https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg08076.html
 
-Though write 0 to queue_enable is forbidden by the spec, we should not
-assume that the value is 1.
-
-Fix this by ignore the write value other than 1.
-
-Signed-off-by: Jason Wang <jasowang@redhat.com>
-Message-Id: <20200610054351.15811-1-jasowang@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
----
- hw/virtio/virtio-pci.c | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
-
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index d028c17c24..7bc8c1c056 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -1273,16 +1273,20 @@ static void virtio_pci_common_write(void *opaque, hwaddr addr,
-         virtio_queue_set_vector(vdev, vdev->queue_sel, val);
-         break;
-     case VIRTIO_PCI_COMMON_Q_ENABLE:
--        virtio_queue_set_num(vdev, vdev->queue_sel,
--                             proxy->vqs[vdev->queue_sel].num);
--        virtio_queue_set_rings(vdev, vdev->queue_sel,
-+        if (val == 1) {
-+            virtio_queue_set_num(vdev, vdev->queue_sel,
-+                                 proxy->vqs[vdev->queue_sel].num);
-+            virtio_queue_set_rings(vdev, vdev->queue_sel,
-                        ((uint64_t)proxy->vqs[vdev->queue_sel].desc[1]) << 32 |
-                        proxy->vqs[vdev->queue_sel].desc[0],
-                        ((uint64_t)proxy->vqs[vdev->queue_sel].avail[1]) << 32 |
-                        proxy->vqs[vdev->queue_sel].avail[0],
-                        ((uint64_t)proxy->vqs[vdev->queue_sel].used[1]) << 32 |
-                        proxy->vqs[vdev->queue_sel].used[0]);
--        proxy->vqs[vdev->queue_sel].enabled = 1;
-+            proxy->vqs[vdev->queue_sel].enabled = 1;
-+        } else {
-+            virtio_error(vdev, "wrong value for queue_enable %"PRIx64, val);
-+        }
-         break;
-     case VIRTIO_PCI_COMMON_Q_DESCLO:
-         proxy->vqs[vdev->queue_sel].desc[0] = val;
--- 
-MST
-
+Regards,
+Roman
 
