@@ -2,86 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A07901F7B7C
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 18:14:02 +0200 (CEST)
-Received: from localhost ([::1]:38540 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5681F1F7B95
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 18:24:56 +0200 (CEST)
+Received: from localhost ([::1]:49448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjmJd-00049q-74
-	for lists+qemu-devel@lfdr.de; Fri, 12 Jun 2020 12:14:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59610)
+	id 1jjmUA-0003mv-VM
+	for lists+qemu-devel@lfdr.de; Fri, 12 Jun 2020 12:24:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jjmI2-000295-1T
- for qemu-devel@nongnu.org; Fri, 12 Jun 2020 12:12:22 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:46516
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jjmI0-0002CO-8S
- for qemu-devel@nongnu.org; Fri, 12 Jun 2020 12:12:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591978338;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=/zajgHfeGGUTjGNPtfTDYhnjhMRAXOh06gflXef/o0s=;
- b=TkP0DaHOBqfQ1bFePi0x9XQQArv/twT03ZaEZoFxyuje50KHvvtR06uOVZVv8tu8ms5Qcv
- rWL34ituEjw0vS9x8WD8NnIFUZyXN2UyYbbA8E856nDi0eMNa9cPfq1r4GHpj373aa/wJG
- z3VTmMO0D9szDp3FlIEvK79plp14Y7M=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-312-EcB6zIlcM8K4la79_T-Azg-1; Fri, 12 Jun 2020 12:12:12 -0400
-X-MC-Unique: EcB6zIlcM8K4la79_T-Azg-1
-Received: by mail-wr1-f71.google.com with SMTP id o1so4035115wrm.17
- for <qemu-devel@nongnu.org>; Fri, 12 Jun 2020 09:12:11 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <hskinnemoen@google.com>)
+ id 1jjmTK-0003Fc-4U
+ for qemu-devel@nongnu.org; Fri, 12 Jun 2020 12:24:02 -0400
+Received: from mail-vk1-xa2d.google.com ([2607:f8b0:4864:20::a2d]:37211)
+ by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <hskinnemoen@google.com>)
+ id 1jjmTI-0004EG-FX
+ for qemu-devel@nongnu.org; Fri, 12 Jun 2020 12:24:01 -0400
+Received: by mail-vk1-xa2d.google.com with SMTP id q10so2388594vka.4
+ for <qemu-devel@nongnu.org>; Fri, 12 Jun 2020 09:23:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ZBdoNOBMEF0YZONd1lNj5Y/k6+JiQQJ7kERWF7pOyRo=;
+ b=dTAKQ73cyoPelcj13qBIZ3juj/RHD2H/2mggfRq4VMTW4ecN7iiZ3rURe0hhe0hDJ3
+ 6OQ7vlOi527ln3w2zfMo7AfPu1wewgNOgSnAInTqJIDOm6ROlGAMzloO1/MNHKUX6kby
+ pgePyH8jmxBc8DcCxsQMaPfKAMIdL82cT1BlPSj2U4Wl4sXrY/oti/dHUpWyeg8huaJO
+ 2Gt6oPeAKo3KYC4lBjgcJJvvD6KGL295pitW8iBLF3Kl+lhZCgq0w7Oud/aZl3eATszT
+ 1vNe206I/FyyRHzZMWEE3q9aj7AiMr8QdMg+8KYCgloPxoACRdg/l/kJFhWDw91b/7TY
+ KRfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=/zajgHfeGGUTjGNPtfTDYhnjhMRAXOh06gflXef/o0s=;
- b=crGsUJAUhTeV4uXOTCF2hMrRfyVf4urxSRICl9tEgOTYC9+U/aRrZZ1wE/GF+LulnX
- 7Zbo2yCTV/Xl7CjLHFxqIxsRF0MFfTmPXBHa9vo6HeCJHEMGjNUg8Rty6CEXyqGMr6Pg
- UQc0bs/jKMYkveMBGORsJUlkSk9yCx6P7/0aqhygs2udHJNUadY7r0C+V4d5YfX6+ycL
- 60roqMkNIxI6Dt5Sux4kTcgQYaESQjZtwaMivlfZJksSseXSUCf83CRBSuCHMVWL8QHf
- QgaToA7bblf3LTSehDwiYeaCv7ADmHbxCL1msNurJKN574brkCZm0si2JsWl5yp8HRGf
- bq4A==
-X-Gm-Message-State: AOAM530Bg1Euw1B2jVcYtsdliFAlczjX1rQ4cANcE05xNmkW8//LB4Ye
- so5ljUq7T+uECZt3i6WWEQdrUpHTdz7HeUaQu1LLyTxG9IRb5jzC7RRY8qg5ql1jyzC3nNRv2n9
- RIEdplDKHkVN2pzY=
-X-Received: by 2002:a05:600c:218b:: with SMTP id
- e11mr14115475wme.162.1591978330865; 
- Fri, 12 Jun 2020 09:12:10 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwicCHffeicuyWsGuQO4n16sKx0up0C2BbdwUQFFOs0wcxHJVhVawsoZY/UyQoVrIhiUUvvPQ==
-X-Received: by 2002:a05:600c:218b:: with SMTP id
- e11mr14115458wme.162.1591978330599; 
- Fri, 12 Jun 2020 09:12:10 -0700 (PDT)
-Received: from redhat.com (bzq-79-178-18-124.red.bezeqint.net. [79.178.18.124])
- by smtp.gmail.com with ESMTPSA id v28sm12209311wra.77.2020.06.12.09.12.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Jun 2020 09:12:10 -0700 (PDT)
-Date: Fri, 12 Jun 2020 12:12:08 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PULL 00/56] virtio,acpi,pci: features, fixes, cleanups, tests
-Message-ID: <20200612121155-mutt-send-email-mst@kernel.org>
-References: <20200610042613.1459309-1-mst@redhat.com>
- <CAFEAcA-5yy9Gs57Cc7A8QJ=oSuUDaja+sBWt2miM5QiX65pOtA@mail.gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ZBdoNOBMEF0YZONd1lNj5Y/k6+JiQQJ7kERWF7pOyRo=;
+ b=j42APafhxEvFbOrdKl4BJxsdA2nfebOW5taPK+hVncaD26Mi1hcdorb/SBDuJEvgbP
+ k1qE7G4/6+/S/iV2iz05/JAUxy/9L0yp+Jlqv3Z+MqgDViRWoR93F/rGZhfM90ZWz128
+ MM/p88y4XPI694l4M8HB3j8DlbMgASHxMtTsbmcUeUeE39N+KyN9JNWBspMW7i//n0bQ
+ IQYJYatKclh2ggtS6CLJLajDnpALjKWjCekzXew8+Bkn8Aj49SGrKj1RAMkpTZc7VUUX
+ ur1HWhSgDJZNpchTtUfoirfa2P2lnkJYoZOOPK6fCRLB8xKXg9giwF2vZq2SwhnI/d96
+ KQUA==
+X-Gm-Message-State: AOAM531mmPR7yESoI+miiPMQ5WYSLNtqmLMAzou8zKHA+UZMshDpZpm6
+ hskzN0VBOKtji24bvnzB+3hNrFusrtpSByZLNd4eOA==
+X-Google-Smtp-Source: ABdhPJzFzVh29/H+2EbkfDiGK9ywjy2+c4yY7w37zmhtYDNr6NMA6DmQdlWoazfZSV+4gE0+tZZ9OXXsALI0J7wU/t0=
+X-Received: by 2002:a05:6122:130b:: with SMTP id
+ e11mr11914299vkp.20.1591979032700; 
+ Fri, 12 Jun 2020 09:23:52 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-5yy9Gs57Cc7A8QJ=oSuUDaja+sBWt2miM5QiX65pOtA@mail.gmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=mst@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/12 08:00:42
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+References: <20200611223016.259837-1-hskinnemoen@google.com>
+ <20200611223016.259837-2-hskinnemoen@google.com>
+ <c16e1f35-ec5b-d479-16b4-944a4567a453@redhat.com>
+In-Reply-To: <c16e1f35-ec5b-d479-16b4-944a4567a453@redhat.com>
+From: Havard Skinnemoen <hskinnemoen@google.com>
+Date: Fri, 12 Jun 2020 09:23:41 -0700
+Message-ID: <CAFQmdRarCC=Etq2baN9UsTBWXxJPSNcA3CKi19P6asJjLevzzw@mail.gmail.com>
+Subject: Re: [PATCH v2 01/12] npcm7xx: Add config symbol
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, 
+ Joel Stanley <joel@jms.id.au>, qemu-arm <qemu-arm@nongnu.org>, 
+ QEMU Developers <qemu-devel@nongnu.org>,
+ IS20 Avi Fishman <Avi.Fishman@nuvoton.com>, 
+ CS20 KFTing <kfting@nuvoton.com>
+Content-Type: multipart/alternative; boundary="000000000000bcd78905a7e580e3"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::a2d;
+ envelope-from=hskinnemoen@google.com; helo=mail-vk1-xa2d.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -185
+X-Spam_score: -18.6
+X-Spam_bar: ------------------
+X-Spam_report: (-18.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,66 +88,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 11, 2020 at 07:13:35PM +0100, Peter Maydell wrote:
-> On Wed, 10 Jun 2020 at 05:26, Michael S. Tsirkin <mst@redhat.com> wrote:
-> >
-> > The following changes since commit 49ee11555262a256afec592dfed7c5902d5eefd2:
-> >/tmp/par8snSu.par
-> 
-> >   Merge remote-tracking branch 'remotes/vivier2/tags/linux-user-for-5.1-pull-request' into staging (2020-06-08 11:04:57 +0100)
-> >
-> > are available in the Git repository at:
-> >
-> >   git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
-> >
-> > for you to fetch changes up to 23fe04b63b412276c7c2f67c550961af9d0b4e1e:
-> >
-> >   Fix parameter type in vhost migration log path (2020-06-09 14:18:04 -0400)
-> >
-> > ----------------------------------------------------------------
-> > virtio,acpi,pci: features, fixes, cleanups, tests
-> >
-> > Max slots negotiation for vhost-user.
-> > Free page reporting for balloon.
-> > Partial TPM2 ACPI support for ARM.
-> > Support for NVDIMMs having their own proximity domains.
-> > New vhost-user-vsock device.
-> >
-> > Fixes, cleanups in ACPI, PCI, virtio.
-> > New tests for TPM ACPI.
-> >
-> > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> 
-> Hi; I'm afraid this has format string issues:
-> 
-> /Users/pm215/src/qemu-for-merges/hw/virtio/vhost-user.c:759:51: error:
-> format specifies type 'unsigned long' but the argument has type
-> 'uint64_t' (aka 'unsigned long long') [-Werror,-Wformat]
->                                  "%lX", __func__, reply_gpa,
->                                                   ^~~~~~~~~
-> /Users/pm215/src/qemu-for-merges/hw/virtio/vhost-user.c:760:34: error:
-> format specifies type 'unsigned long' but the argument has type
-> 'uint64_t' (aka 'unsigned long long') [-Werror,-Wformat]
->                                  dev->mem->regions[reg_idx].guest_phys_addr);
->                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> /Users/pm215/src/qemu-for-merges/hw/virtio/vhost-user.c:1876:67:
-> error: format specifies type 'unsigned long' but the argument has type
-> 'uint64_t' (aka 'unsigned long long') [-Werror,-Wformat]
->                              "This limit should never decrease.", ram_slots,
->                                                                   ^~~~~~~~~
-> 
-> (repros on OSX, OpenBSD, and 32-bit hosts)
-> 
-> thanks
-> -- PMM
+--000000000000bcd78905a7e580e3
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Fixed and sent v2, thanks!
+Hi Philippe,
 
--- 
-MST
+On Fri, Jun 12, 2020 at 6:35 AM Philippe Mathieu-Daud=C3=A9 <philmd@redhat.=
+com>
+wrote:
 
+> Hi Havard
+>
+> On 6/12/20 12:30 AM, Havard Skinnemoen wrote:
+> > Add a config symbol for the NPCM7xx BMC SoC family that subsequent
+> > patches can use in Makefiles.
+> >
+> > Change-Id: I6e4d5c58716cb6fe4ea5d06f148beeafda55f9a5
+>
+> What it this Change-Id tag used for?
+>
+
+It's used by Gerrit code review, which we use for reviews internally
+(between Google and Nuvoton). I meant to remove it before mailing the
+patches, sorry.
+
+--000000000000bcd78905a7e580e3
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hi Philippe,</div><div><br></div><div dir=3D"ltr">On =
+Fri, Jun 12, 2020 at 6:35 AM Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mai=
+lto:philmd@redhat.com">philmd@redhat.com</a>&gt; wrote:<br></div><div class=
+=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Hi Havar=
+d<br>
+<br>
+On 6/12/20 12:30 AM, Havard Skinnemoen wrote:<br>
+&gt; Add a config symbol for the NPCM7xx BMC SoC family that subsequent<br>
+&gt; patches can use in Makefiles.<br>
+&gt; <br>
+&gt; Change-Id: I6e4d5c58716cb6fe4ea5d06f148beeafda55f9a5<br>
+<br>
+What it this Change-Id tag used for?<br></blockquote><div><br></div><div>It=
+&#39;s used by Gerrit code review,=C2=A0which we use for reviews internally=
+ (between Google and Nuvoton). I meant to remove it before mailing the patc=
+hes, sorry.</div></div></div>
+
+--000000000000bcd78905a7e580e3--
 
