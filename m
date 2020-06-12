@@ -2,71 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE0651F7B6F
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 18:09:23 +0200 (CEST)
-Received: from localhost ([::1]:53194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53F891F7B80
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 18:16:00 +0200 (CEST)
+Received: from localhost ([::1]:40932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjmF6-0006bx-Ch
-	for lists+qemu-devel@lfdr.de; Fri, 12 Jun 2020 12:09:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58518)
+	id 1jjmLX-0005Ws-Bc
+	for lists+qemu-devel@lfdr.de; Fri, 12 Jun 2020 12:15:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jjmDv-0005L0-LQ
- for qemu-devel@nongnu.org; Fri, 12 Jun 2020 12:08:07 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:38122
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jjmKh-00056E-91
+ for qemu-devel@nongnu.org; Fri, 12 Jun 2020 12:15:07 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35122
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jjmDs-00013P-Ec
- for qemu-devel@nongnu.org; Fri, 12 Jun 2020 12:08:06 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jjmKe-0002gu-IA
+ for qemu-devel@nongnu.org; Fri, 12 Jun 2020 12:15:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591978083;
+ s=mimecast20190719; t=1591978503;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OJ5QpuHxGC44PNW734u7oiMMHq6LfU6fDDTfKL7vXIs=;
- b=AHonzAQxeaYMa2OVJ30zhD44AcdOJnkMB+MIBSgHoGvravzap9/mTOvSfqz6UfH/YsBZ+A
- dzpTVhv7hoYlcMMK1f6sXrRLrkxwXyt9k2JhvfUu8fiIkawCDyIMHuuAPKf26LmfE4UJIF
- dxi0fujyFOBwAojwctPh7ELWOxyFFlM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-231-RPGPZLbJMQSYOeqZAwo1Fg-1; Fri, 12 Jun 2020 12:08:01 -0400
-X-MC-Unique: RPGPZLbJMQSYOeqZAwo1Fg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 718A1872FE0;
- Fri, 12 Jun 2020 16:08:00 +0000 (UTC)
-Received: from virtlab701.virt.lab.eng.bos.redhat.com
- (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 052088FF91;
- Fri, 12 Jun 2020 16:07:59 +0000 (UTC)
-From: Paolo Bonzini <pbonzini@redhat.com>
+ bh=7U1BQCzJR+OvRN7i4AWbk+G7QzZalmOt34EdX7HznFo=;
+ b=ebv7NWYBNHgF8QsFTNcOYSOmd+6UE/XDWrCNszNyVNVWiSpyf07gS0pvQKvYnUDdt7sTwr
+ gcT9WewVzwynTXub5Hbp8zst0APil5M4mXNwb02ZqDwHq1J/HrhSdgoyhwizyI7FBBdv7e
+ BOXu6AZkLFgJHcrLIjlB6IzgFFHJvQ4=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-122-Lx2ng53qN66mTRRYVSM6aQ-1; Fri, 12 Jun 2020 12:11:38 -0400
+X-MC-Unique: Lx2ng53qN66mTRRYVSM6aQ-1
+Received: by mail-wr1-f71.google.com with SMTP id l18so4096854wrm.0
+ for <qemu-devel@nongnu.org>; Fri, 12 Jun 2020 09:11:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=7U1BQCzJR+OvRN7i4AWbk+G7QzZalmOt34EdX7HznFo=;
+ b=t3zlZF25j8XH0vno7OYDiQlE6ufsEdfhCwfQXOnQFSURcmf5NJSMpNqkQK03elQmAJ
+ WM57RglxaUt/TTwGXYynIVMfoQ/yfxO4+13kJOgYNY3G28YsoZKLDTwoU1L8PnOi8Knc
+ ovEs2bICAjH7438nMXcE0GJ7KeAijBZqFfzJu8AExNdEYB3AMbiFfpAVK5YlQZPx4sjd
+ Bct4OnXxu/hLO2yW+9oqAH3D0XQ+pB9v1QeBg0uiTDUd5pXFhoCvLBGewq20iBGB+8ve
+ IUJaEDMtymezfXU8NYscqMbm1AIeT465veS+7HU8zW+BvmeYE1X2TZJ6Gh205bmV8REK
+ yNSw==
+X-Gm-Message-State: AOAM530Dgs/4+HBBBSfqewolO6RXhqf90HCUJSsks1y1BtKQkSdFvnHA
+ SRDMtanEGzSsZGj9OZjP01brb8B9L7PnENvBhWdKxVZbK1wc555QfTorz2xXp6UY9nIH4dpinyY
+ PAI5IxiJ91CVdnho=
+X-Received: by 2002:a1c:544d:: with SMTP id p13mr14952582wmi.25.1591978296850; 
+ Fri, 12 Jun 2020 09:11:36 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz5qT7utu9k1msJTpvOP+WHuvGSNn/lKxo05YOmJwGujH50iDsh8w6+AwFQdDaCGTaKlPQ7bg==
+X-Received: by 2002:a1c:544d:: with SMTP id p13mr14952558wmi.25.1591978296538; 
+ Fri, 12 Jun 2020 09:11:36 -0700 (PDT)
+Received: from redhat.com (bzq-79-178-18-124.red.bezeqint.net. [79.178.18.124])
+ by smtp.gmail.com with ESMTPSA id r5sm10677655wrq.0.2020.06.12.09.11.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 12 Jun 2020 09:11:35 -0700 (PDT)
+Date: Fri, 12 Jun 2020 12:11:33 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 098/116] i386: hvf: Move mmio_buf into CPUX86State
-Date: Fri, 12 Jun 2020 12:07:55 -0400
-Message-Id: <20200612160755.9597-5-pbonzini@redhat.com>
-In-Reply-To: <20200612160755.9597-1-pbonzini@redhat.com>
-References: <20200612160755.9597-1-pbonzini@redhat.com>
+Subject: Re: [PULL v2 00/58] virtio, acpi, pci: features, fixes, cleanups,
+ tests
+Message-ID: <20200612120750-mutt-send-email-mst@kernel.org>
+References: <20200612141917.9446-1-mst@redhat.com>
+ <159197710509.1247.17471146455948380339@45ef0f9c86ae>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <159197710509.1247.17471146455948380339@45ef0f9c86ae>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=mst@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/12 08:07:26
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/12 08:00:42
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,112 +93,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Roman Bolshakov <r.bolshakov@yadro.com>
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Roman Bolshakov <r.bolshakov@yadro.com>
+On Fri, Jun 12, 2020 at 08:51:46AM -0700, no-reply@patchew.org wrote:
+> Patchew URL: https://patchew.org/QEMU/20200612141917.9446-1-mst@redhat.com/
+> 
+> 
+> 
+> Hi,
+> 
+> This series seems to have some coding style problems. See output below for
+> more information:
+> 
+> Message-id: 20200612141917.9446-1-mst@redhat.com
+> Subject: [PULL v2 00/58] virtio,acpi,pci: features, fixes, cleanups, tests
+> Type: series
+> 
+> === TEST SCRIPT BEGIN ===
+> #!/bin/bash
+> git rev-parse base > /dev/null || exit 0
+> git config --local diff.renamelimit 0
+> git config --local diff.renames True
+> git config --local diff.algorithm histogram
+> ./scripts/checkpatch.pl --mailback base..
+> === TEST SCRIPT END ===
+> 
+> Updating 3c8cf5a9c21ff8782164d1def7f44bd888713384
+> Switched to a new branch 'test'
+> 46dd9b7 virtio-pci: fix queue_enable write
+> d9d64b5 pci: Display PCI IRQ pin in "info pci"
+> d784b45 acpi: ged: rename event memory region
+> 31f9185 acpi: fadt: add hw-reduced sleep register support
+> 7ea0b6d acpi: madt: skip pci override on pci-less systems.
+> c105d68 acpi: create acpi-common.c and move madt code
+> e5065df acpi: make build_madt() more generic.
+> 984d983 virtio: add vhost-user-vsock-pci device
+> 9da4528 virtio: add vhost-user-vsock base device
+> 65280b9 vhost-vsock: add vhost-vsock-common abstraction
+> 938682f hw/pci: Fix crash when running QEMU with "-nic model=rocker"
+> dc89e8a libvhost-user: advertise vring features
+> 91ccf2f Lift max ram slots limit in libvhost-user
+> 2d95eb8 Support individual region unmap in libvhost-user
+> 5965847 Support adding individual regions in libvhost-user
+> 4cbf181 Support ram slot configuration in libvhost-user
+> df71a7d Refactor out libvhost-user fault generation logic
+> c26fd6d Lift max memory slots limit imposed by vhost-user
+> 2c027ae Transmit vhost-user memory regions individually
+> 31f458e Add VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS
+> a498834 Add vhost-user helper to get MemoryRegion data
+> 0b879bd Add helper to populate vhost-user message regions
+> aeb2dd3 vhost-user-blk: delay vhost_user_blk_disconnect
+> 2764cfd char-socket: return -1 in case of disconnect during tcp_chr_write
+> 8094f71 hw/pci-host: Use the IEC binary prefix definitions
+> 2182c70 hw/pci/pci_bridge: Use the IEC binary prefix definitions
+> c2a6ce2 hw/pci/pci_bridge: Correct pci_bridge_io memory region size
+> 55e9447 hw/pci-host/prep: Correct RAVEN bus bridge memory region size
+> 9b4b0a1 pci: assert configuration access is within bounds
+> f5161c8 hw/pci/pcie: Move hot plug capability check to pre_plug callback
+> 61e916f MAINTAINERS: Fix the classification of bios-tables-test-allowed-diff.h
+> 8c4d9bc virtio-balloon: Provide an interface for free page reporting
+> 1f62891 virtio-balloon: Implement support for page poison reporting feature
+> a186c69 virtio-balloon: unref the iothread when unrealizing
+> f995a73 virtio-balloon: fix free page hinting check on unrealize
+> 1ae2534 virtio-balloon: fix free page hinting without an iothread
+> 23ca28d bios-tables-test: Generate reference tables for Q35/TPM-TIS
+> 681761b bios-tables-test: Add Q35/TPM-TIS test
+> 55dc15d tests: tpm-emu: Remove assert on TPM2_ST_NO_SESSIONS
+> d156ed4 tests/acpi: Add void tables for Q35/TPM-TIS bios-tables-test
+> 1f7f0ed test/tpm-emu: include sockets and channel headers in tpm-emu header
+> 1d4ccd1 arm/acpi: TPM2 ACPI table support
+> 05d06ef acpi: Move build_tpm2() in the generic part
+> b3d7639 acpi: Convert build_tpm2() to build_append* API
+> c83165b acpi: tpm: Do not build TCPA table for TPM 2
+> d5513c9 tests/acpi: update DSDT expected files
+> fd8fce1 acpi: move aml builder code for parallel device
+> ef1eb92 acpi: parallel: don't use _STA method
+> 7dd4ccf acpi: move aml builder code for serial device
+> bae880e acpi: serial: don't use _STA method
+> 97466cf acpi: rtc: use a single crs range
+> 74ad15b acpi: move aml builder code for rtc device
+> 7168264 qtest: allow DSDT acpi table changes
+> f0b0e85 tests/acpi: update expected SRAT files
+> cc03da0 hw/acpi/nvdimm: add a helper to augment SRAT generation
+> c864987 diffs-allowed: add the SRAT AML to diffs-allowed
+> 2029ad3 msix: allow qword MSI-X table accesses
+> 
+> === OUTPUT BEGIN ===
+> 1/57 Checking commit 2029ad30a9a4 (msix: allow qword MSI-X table accesses)
+> 2/57 Checking commit c8649877f7aa (diffs-allowed: add the SRAT AML to diffs-allowed)
+> 3/57 Checking commit cc03da0d8b45 (hw/acpi/nvdimm: add a helper to augment SRAT generation)
+> 4/57 Checking commit f0b0e85de3ba (tests/acpi: update expected SRAT files)
+> ERROR: Do not add expected files together with tests, follow instructions in tests/qtest/bios-tables-test.c: both tests/data/acpi/virt/SRAT.memhp and tests/qtest/bios-tables-test-allowed-diff.h found
+> 
+> ERROR: Do not add expected files together with tests, follow instructions in tests/qtest/bios-tables-test.c: both tests/data/acpi/virt/SRAT.memhp and tests/qtest/bios-tables-test-allowed-diff.h found
 
-There's no similar field in CPUX86State, but it's needed for MMIO traps.
+The checkpatch fix isn't merged yet...
 
-Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
-Message-Id: <20200528193758.51454-13-r.bolshakov@yadro.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- target/i386/cpu.h         |  1 +
- target/i386/hvf/hvf.c     |  5 +++++
- target/i386/hvf/x86.h     |  1 -
- target/i386/hvf/x86_emu.c | 12 ++++++------
- 4 files changed, 12 insertions(+), 7 deletions(-)
-
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index f742ba933f..25a2f4c0c3 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -1603,6 +1603,7 @@ typedef struct CPUX86State {
- #endif
- #if defined(CONFIG_HVF)
-     HVFX86LazyFlags hvf_lflags;
-+    void *hvf_mmio_buf;
-     HVFX86EmulatorState *hvf_emul;
- #endif
- 
-diff --git a/target/i386/hvf/hvf.c b/target/i386/hvf/hvf.c
-index 4cee496d71..57696c46c7 100644
---- a/target/i386/hvf/hvf.c
-+++ b/target/i386/hvf/hvf.c
-@@ -533,7 +533,11 @@ void hvf_reset_vcpu(CPUState *cpu) {
- 
- void hvf_vcpu_destroy(CPUState *cpu)
- {
-+    X86CPU *x86_cpu = X86_CPU(cpu);
-+    CPUX86State *env = &x86_cpu->env;
-+
-     hv_return_t ret = hv_vcpu_destroy((hv_vcpuid_t)cpu->hvf_fd);
-+    g_free(env->hvf_mmio_buf);
-     assert_hvf_ok(ret);
- }
- 
-@@ -563,6 +567,7 @@ int hvf_init_vcpu(CPUState *cpu)
-     init_decoder();
- 
-     hvf_state->hvf_caps = g_new0(struct hvf_vcpu_caps, 1);
-+    env->hvf_mmio_buf = g_new(char, 4096);
-     env->hvf_emul = g_new0(HVFX86EmulatorState, 1);
- 
-     r = hv_vcpu_create((hv_vcpuid_t *)&cpu->hvf_fd, HV_VCPU_DEFAULT);
-diff --git a/target/i386/hvf/x86.h b/target/i386/hvf/x86.h
-index 2363616c07..483fcea762 100644
---- a/target/i386/hvf/x86.h
-+++ b/target/i386/hvf/x86.h
-@@ -230,7 +230,6 @@ typedef struct x68_segment_selector {
- 
- /* Definition of hvf_x86_state is here */
- struct HVFX86EmulatorState {
--    uint8_t mmio_buf[4096];
- };
- 
- /* useful register access  macros */
-diff --git a/target/i386/hvf/x86_emu.c b/target/i386/hvf/x86_emu.c
-index 1ad2c30e16..d3e289ed87 100644
---- a/target/i386/hvf/x86_emu.c
-+++ b/target/i386/hvf/x86_emu.c
-@@ -187,8 +187,8 @@ void write_val_ext(struct CPUX86State *env, target_ulong ptr, target_ulong val,
- 
- uint8_t *read_mmio(struct CPUX86State *env, target_ulong ptr, int bytes)
- {
--    vmx_read_mem(env_cpu(env), env->hvf_emul->mmio_buf, ptr, bytes);
--    return env->hvf_emul->mmio_buf;
-+    vmx_read_mem(env_cpu(env), env->hvf_mmio_buf, ptr, bytes);
-+    return env->hvf_mmio_buf;
- }
- 
- 
-@@ -489,9 +489,9 @@ static void exec_ins_single(struct CPUX86State *env, struct x86_decode *decode)
-     target_ulong addr = linear_addr_size(env_cpu(env), RDI(env),
-                                          decode->addressing_size, R_ES);
- 
--    hvf_handle_io(env_cpu(env), DX(env), env->hvf_emul->mmio_buf, 0,
-+    hvf_handle_io(env_cpu(env), DX(env), env->hvf_mmio_buf, 0,
-                   decode->operand_size, 1);
--    vmx_write_mem(env_cpu(env), addr, env->hvf_emul->mmio_buf,
-+    vmx_write_mem(env_cpu(env), addr, env->hvf_mmio_buf,
-                   decode->operand_size);
- 
-     string_increment_reg(env, R_EDI, decode);
-@@ -512,9 +512,9 @@ static void exec_outs_single(struct CPUX86State *env, struct x86_decode *decode)
- {
-     target_ulong addr = decode_linear_addr(env, decode, RSI(env), R_DS);
- 
--    vmx_read_mem(env_cpu(env), env->hvf_emul->mmio_buf, addr,
-+    vmx_read_mem(env_cpu(env), env->hvf_mmio_buf, addr,
-                  decode->operand_size);
--    hvf_handle_io(env_cpu(env), DX(env), env->hvf_emul->mmio_buf, 1,
-+    hvf_handle_io(env_cpu(env), DX(env), env->hvf_mmio_buf, 1,
-                   decode->operand_size, 1);
- 
-     string_increment_reg(env, R_ESI, decode);
 -- 
-2.26.2
+MST
 
 
