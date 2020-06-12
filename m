@@ -2,92 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F72E1F758E
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 10:58:37 +0200 (CEST)
-Received: from localhost ([::1]:45128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 836741F75A2
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 11:03:01 +0200 (CEST)
+Received: from localhost ([::1]:56434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjfWG-0003Fq-F4
-	for lists+qemu-devel@lfdr.de; Fri, 12 Jun 2020 04:58:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52840)
+	id 1jjfaW-0000Vb-J9
+	for lists+qemu-devel@lfdr.de; Fri, 12 Jun 2020 05:03:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jjfTN-00066y-9B
- for qemu-devel@nongnu.org; Fri, 12 Jun 2020 04:55:37 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:51785
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jjfTL-00075R-N1
- for qemu-devel@nongnu.org; Fri, 12 Jun 2020 04:55:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591952135;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ivyv44xux+7XXoWqIGIFlp2J/zNwQnYxF0RJgaexm5s=;
- b=QxlE1exBbi3UXCL/peQ9FpQ87b4HhP5Tnfi5yLRNeW/0QYujX6xbKNc0v/gxAPRV8fuKqT
- V7FpGWZZ1c2NP8BjAskYXttblB3ZWvrPtdLCxadTwUtIVn6INWPM6/cApJatEGBCRp9s+I
- gUaRVLDyvED0HXfx9ZKTzyLv7zVaDDM=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-431-snoDi3QrOqS8XAUIdZvv-Q-1; Fri, 12 Jun 2020 04:55:32 -0400
-X-MC-Unique: snoDi3QrOqS8XAUIdZvv-Q-1
-Received: by mail-wr1-f69.google.com with SMTP id m14so3643282wrj.12
- for <qemu-devel@nongnu.org>; Fri, 12 Jun 2020 01:55:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=ivyv44xux+7XXoWqIGIFlp2J/zNwQnYxF0RJgaexm5s=;
- b=ePIORhNKAoKwzqS50jVmM1X6x71OjTI6OvGjgIzGtp8nr8AIk3SYQpjp0LYrK6CKLv
- 7dxE7njaPfAzcc1HwRHrbTEh7EMNqCPe9kR25pzVM+P+FdOybnWZNDHnZr1WHkksBFOz
- tLQBuyXYt4zUsrvyoQQ+3niByHtuELHh3RKA/Qec/C0GywIzEaQWdekl11MCqU88fBS2
- MtW//Wnz3V+26pZSD4cv/RbQOd4ruQ8rIed3haniCsVXyn6e6eRBLzcW33SEirzhxwCy
- fY81RqQLepJoVFQwqU0f7VY4SX+uG1OOeiKmsJHzNTTAA9foBHOc3iY4htDaUGbFlUfh
- aErg==
-X-Gm-Message-State: AOAM530QFx8XaG3Bb3mSS6B3OX4UbqEu3GM2zllQ4k9AweKGM4EncXyI
- a6ps3eqw6KQp9bIIUANH4jypq/ATWJo5oEWXeMnpzECCd98HTZNjDLi8qk9P5YFGT7WRWaDEQob
- TbusqXQw+TD27EbU=
-X-Received: by 2002:adf:f4d0:: with SMTP id h16mr13808627wrp.230.1591952130949; 
- Fri, 12 Jun 2020 01:55:30 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz/1j0Bdv+A/TBhB2J0XdCQJgpvvavymbtOLMXW8kG62ErUOnyusHhs9y/pOUKVjBRcpwunrw==
-X-Received: by 2002:adf:f4d0:: with SMTP id h16mr13808601wrp.230.1591952130723; 
- Fri, 12 Jun 2020 01:55:30 -0700 (PDT)
-Received: from localhost.localdomain
- (181.red-88-10-103.dynamicip.rima-tde.net. [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id b81sm8394553wmc.5.2020.06.12.01.55.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Jun 2020 01:55:30 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 08/12] hw/tpm: Make TRACE_TPM_UTIL_SHOW_BUFFER check local
- to tpm_util.c
-Date: Fri, 12 Jun 2020 10:54:40 +0200
-Message-Id: <20200612085444.8362-9-philmd@redhat.com>
-X-Mailer: git-send-email 2.21.3
-In-Reply-To: <20200612085444.8362-1-philmd@redhat.com>
-References: <20200612085444.8362-1-philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jjfYm-00085P-5K
+ for qemu-devel@nongnu.org; Fri, 12 Jun 2020 05:01:12 -0400
+Received: from indium.canonical.com ([91.189.90.7]:36400)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jjfYi-000827-PQ
+ for qemu-devel@nongnu.org; Fri, 12 Jun 2020 05:01:11 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jjfYg-0006Vu-Rr
+ for <qemu-devel@nongnu.org>; Fri, 12 Jun 2020 09:01:06 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id CFCB12E8023
+ for <qemu-devel@nongnu.org>; Fri, 12 Jun 2020 09:01:06 +0000 (UTC)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8;
-	text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/12 04:55:01
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 12 Jun 2020 08:53:16 -0000
+From: Jan Klos <1856335@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: babumoger djdatte h-sieger janklos
+X-Launchpad-Bug-Reporter: Damir (djdatte)
+X-Launchpad-Bug-Modifier: Jan Klos (janklos)
+References: <157625616239.22064.10423897892496347105.malonedeb@gac.canonical.com>
+Message-Id: <159195199690.5608.16213263197131540255.malone@chaenomeles.canonical.com>
+Subject: [Bug 1856335] Re: Cache Layout wrong on many Zen Arch CPUs
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="b190cebbf563f89e480a8b57f641753c8196bda0";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 8e5bca8b5183952a779368a7feb16d5557c185ae
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/12 04:25:51
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -96,68 +71,154 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Stefan Berger <stefanb@linux.ibm.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Reply-To: Bug 1856335 <1856335@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The trace_event_get_state_backends() call is useful to avoid
-making extensive calls (usually preparing arguments passed to
-the tracing framework. In this case, the extensive work is
-done in tpm_util_show_buffer(), and the arguments used to
-call it don't involve extra processing. Simplify by moving
-the TRACE_TPM_UTIL_SHOW_BUFFER check to tpm_util_show_buffer.
+The problem is caused by the fact that with Ryzen CPUs with disabled
+cores, the APIC IDs are not sequential on host - in order for cache
+topology to be configured properly, there is a 'hole' in APIC ID and
+core ID numbering (I have added full output of cpuid for my 3900X).
+Unfortunately, adding holes to the numbering is the only way to achieve
+what is needed for 3 cores per CCX as CPUID Fn8000_001D_EAX
+NumSharingCache parameter rounds to  powers of two (for Ryzen 3100 with
+2 cores per CCX, lowering NumSharingCache should also work, correctly
+setting the L3 cache cores with their IDs still being sequential).
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- hw/tpm/tpm_tis_common.c | 8 ++------
- hw/tpm/tpm_util.c       | 3 +++
- 2 files changed, 5 insertions(+), 6 deletions(-)
+A small hack in x86_apicid_from_topo_ids() in include/hw/i386/topology.h
+can introduce a correct numbering (at least if you do not have epyc set
+as your cpu, then _epyc variant of the functions are used). But to fix
+this properly will probably require some thought - maybe introduce the
+ability to assign APIC IDs directly somehow? Or the ability to specify
+the 'holes' somehow in the -smt param, or maybe -cpu host,topoext=3Don
+should do this automatically? I don't know...
 
-diff --git a/hw/tpm/tpm_tis_common.c b/hw/tpm/tpm_tis_common.c
-index 94704870f6..1779b4fc1e 100644
---- a/hw/tpm/tpm_tis_common.c
-+++ b/hw/tpm/tpm_tis_common.c
-@@ -78,9 +78,7 @@ static void tpm_tis_sts_set(TPMLocality *l, uint32_t flags)
-  */
- static void tpm_tis_tpm_send(TPMState *s, uint8_t locty)
- {
--    if (trace_event_get_state_backends(TRACE_TPM_UTIL_SHOW_BUFFER)) {
--        tpm_util_show_buffer(s->buffer, s->be_buffer_size, "To TPM");
--    }
-+    tpm_util_show_buffer(s->buffer, s->be_buffer_size, "To TPM");
- 
-     /*
-      * rw_offset serves as length indicator for length of data;
-@@ -246,9 +244,7 @@ void tpm_tis_request_completed(TPMState *s, int ret)
-     s->loc[locty].state = TPM_TIS_STATE_COMPLETION;
-     s->rw_offset = 0;
- 
--    if (trace_event_get_state_backends(TRACE_TPM_UTIL_SHOW_BUFFER)) {
--        tpm_util_show_buffer(s->buffer, s->be_buffer_size, "From TPM");
--    }
-+    tpm_util_show_buffer(s->buffer, s->be_buffer_size, "From TPM");
- 
-     if (TPM_TIS_IS_VALID_LOCTY(s->next_locty)) {
-         tpm_tis_abort(s);
-diff --git a/hw/tpm/tpm_util.c b/hw/tpm/tpm_util.c
-index c0a0f3d71f..12f19465c5 100644
---- a/hw/tpm/tpm_util.c
-+++ b/hw/tpm/tpm_util.c
-@@ -357,6 +357,9 @@ void tpm_util_show_buffer(const unsigned char *buffer,
-     size_t len, i;
-     char *line_buffer, *p;
- 
-+    if (!trace_event_get_state_backends(TRACE_TPM_UTIL_SHOW_BUFFER)) {
-+        return;
-+    }
-     len = MIN(tpm_cmd_get_size(buffer), buffer_size);
- 
-     /*
--- 
-2.21.3
+e.g. For 3 core per CCX CPUs, to fix this, at
+include/hw/i386/topology.h:220 change:
 
+(topo_ids->core_id << apicid_core_offset(topo_info)) |
+
+to
+
+((topo_ids->core_id + (topo_ids->core_id / 3)) <<
+apicid_core_offset(topo_info)) |
+
+
+The cache topology is now correct (-cpu host,topoext=3Don,hv-time,hv-relaxe=
+d,hv-vapic,hv-spinlocks=3D0x1fff,host-cache-info=3Don -smp 18,sockets=3D1,d=
+ies=3D1,cores=3D9,threads=3D2), even in Windows:
+
+Logical Processor to Cache Map:
+**----------------  Data Cache          0, Level 1,   32 KB, Assoc   8, Lin=
+eSize  64
+**----------------  Instruction Cache   0, Level 1,   32 KB, Assoc   8, Lin=
+eSize  64
+**----------------  Unified Cache       0, Level 2,  512 KB, Assoc   8, Lin=
+eSize  64
+******------------  Unified Cache       1, Level 3,   16 MB, Assoc  16, Lin=
+eSize  64
+--**--------------  Data Cache          1, Level 1,   32 KB, Assoc   8, Lin=
+eSize  64
+--**--------------  Instruction Cache   1, Level 1,   32 KB, Assoc   8, Lin=
+eSize  64
+--**--------------  Unified Cache       2, Level 2,  512 KB, Assoc   8, Lin=
+eSize  64
+----**------------  Data Cache          2, Level 1,   32 KB, Assoc   8, Lin=
+eSize  64
+----**------------  Instruction Cache   2, Level 1,   32 KB, Assoc   8, Lin=
+eSize  64
+----**------------  Unified Cache       3, Level 2,  512 KB, Assoc   8, Lin=
+eSize  64
+------**----------  Data Cache          3, Level 1,   32 KB, Assoc   8, Lin=
+eSize  64
+------**----------  Instruction Cache   3, Level 1,   32 KB, Assoc   8, Lin=
+eSize  64
+------**----------  Unified Cache       4, Level 2,  512 KB, Assoc   8, Lin=
+eSize  64
+------******------  Unified Cache       5, Level 3,   16 MB, Assoc  16, Lin=
+eSize  64
+--------**--------  Data Cache          4, Level 1,   32 KB, Assoc   8, Lin=
+eSize  64
+--------**--------  Instruction Cache   4, Level 1,   32 KB, Assoc   8, Lin=
+eSize  64
+--------**--------  Unified Cache       6, Level 2,  512 KB, Assoc   8, Lin=
+eSize  64
+----------**------  Data Cache          5, Level 1,   32 KB, Assoc   8, Lin=
+eSize  64
+----------**------  Instruction Cache   5, Level 1,   32 KB, Assoc   8, Lin=
+eSize  64
+----------**------  Unified Cache       7, Level 2,  512 KB, Assoc   8, Lin=
+eSize  64
+------------**----  Data Cache          6, Level 1,   32 KB, Assoc   8, Lin=
+eSize  64
+------------**----  Instruction Cache   6, Level 1,   32 KB, Assoc   8, Lin=
+eSize  64
+------------**----  Unified Cache       8, Level 2,  512 KB, Assoc   8, Lin=
+eSize  64
+------------******  Unified Cache       9, Level 3,   16 MB, Assoc  16, Lin=
+eSize  64
+
+
+** Attachment added: "cpuid.txt"
+   https://bugs.launchpad.net/qemu/+bug/1856335/+attachment/5383184/+files/=
+cpuid.txt
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1856335
+
+Title:
+  Cache Layout wrong on many Zen Arch CPUs
+
+Status in QEMU:
+  New
+
+Bug description:
+  AMD CPUs have L3 cache per 2, 3 or 4 cores. Currently, TOPOEXT seems
+  to always map Cache ass if it was an 4-Core per CCX CPU, which is
+  incorrect, and costs upwards 30% performance (more realistically 10%)
+  in L3 Cache Layout aware applications.
+
+  Example on a 4-CCX CPU (1950X /w 8 Cores and no SMT):
+
+  =C2=A0=C2=A0<cpu mode=3D'custom' match=3D'exact' check=3D'full'>
+  =C2=A0=C2=A0=C2=A0=C2=A0<model fallback=3D'forbid'>EPYC-IBPB</model>
+  =C2=A0=C2=A0=C2=A0=C2=A0<vendor>AMD</vendor>
+  =C2=A0=C2=A0=C2=A0=C2=A0<topology sockets=3D'1' cores=3D'8' threads=3D'1'=
+/>
+
+  In windows, coreinfo reports correctly:
+
+  ****----  Unified Cache 1, Level 3,    8 MB, Assoc  16, LineSize  64
+  ----****  Unified Cache 6, Level 3,    8 MB, Assoc  16, LineSize  64
+
+  On a 3-CCX CPU (3960X /w 6 cores and no SMT):
+
+  =C2=A0<cpu mode=3D'custom' match=3D'exact' check=3D'full'>
+  =C2=A0=C2=A0=C2=A0=C2=A0<model fallback=3D'forbid'>EPYC-IBPB</model>
+  =C2=A0=C2=A0=C2=A0=C2=A0<vendor>AMD</vendor>
+  =C2=A0=C2=A0=C2=A0=C2=A0<topology sockets=3D'1' cores=3D'6' threads=3D'1'=
+/>
+
+  in windows, coreinfo reports incorrectly:
+
+  ****--  Unified Cache  1, Level 3,    8 MB, Assoc  16, LineSize  64
+  ----**  Unified Cache  6, Level 3,    8 MB, Assoc  16, LineSize  64
+
+  Validated against 3.0, 3.1, 4.1 and 4.2 versions of qemu-kvm.
+
+  With newer Qemu there is a fix (that does behave correctly) in using the =
+dies parameter:
+  =C2=A0<qemu:arg value=3D'cores=3D3,threads=3D1,dies=3D2,sockets=3D1'/>
+
+  The problem is that the dies are exposed differently than how AMD does
+  it natively, they are exposed to Windows as sockets, which means, that
+  if you are nto a business user, you can't ever have a machine with
+  more than two CCX (6 cores) as consumer versions of Windows only
+  supports two sockets. (Should this be reported as a separate bug?)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1856335/+subscriptions
 
