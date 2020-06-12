@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A24E71F758A
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 10:58:20 +0200 (CEST)
-Received: from localhost ([::1]:44074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E0651F7595
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 10:58:54 +0200 (CEST)
+Received: from localhost ([::1]:46546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjfVz-0002pG-OA
-	for lists+qemu-devel@lfdr.de; Fri, 12 Jun 2020 04:58:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52764)
+	id 1jjfWX-0003od-CG
+	for lists+qemu-devel@lfdr.de; Fri, 12 Jun 2020 04:58:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52786)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jjfT7-0005ZS-Ex
- for qemu-devel@nongnu.org; Fri, 12 Jun 2020 04:55:21 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:59864
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jjfTB-0005hL-Lw
+ for qemu-devel@nongnu.org; Fri, 12 Jun 2020 04:55:26 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:39754
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jjfT5-0006z6-Cj
- for qemu-devel@nongnu.org; Fri, 12 Jun 2020 04:55:21 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jjfTA-0006zZ-5c
+ for qemu-devel@nongnu.org; Fri, 12 Jun 2020 04:55:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591952118;
+ s=mimecast20190719; t=1591952123;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GhYz6sKF2bPYiUHoKS1Jnt6TjZbsEwWbEop5lmusuaY=;
- b=g1IpwiPXFF8hb4Vu2zJHUFApjKYhm5Tm4R6P1VPeo8PcLuzA4kV3hYZt+MCaO4SV/6C5q5
- o1wcYIvr7Fi/lAKwn/qruf+sF9xig4YYxudIPmod6wmyx+xjN3czklpeFY57irgt7YnD/9
- MXh3SeuMqjHxNSbtLSSsniHs069l6Kw=
+ bh=D2Oz/tFoTbJgZ+hpQsGEbztQQnHjY/PR/LdJBtph6qw=;
+ b=DA3iewRt4nme0elNNPvNt2fQkhFuSSGJG+USUXkbL/TWyhqFPn8huOzN/8qVwZEi9JGkC9
+ wCT4AJg7EYCwpqZfzQXeVkK8u3IWjl4Jq6Lei9Af9Gn22ZnwpvHKVu4JIE+t9HoNNCF7VX
+ fcyBu1TKzCt2OoKRp9dMeV2ZMIBu2dM=
 Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
  [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-447-0R3-TkmqOf-zmOvWSxEcjg-1; Fri, 12 Jun 2020 04:55:16 -0400
-X-MC-Unique: 0R3-TkmqOf-zmOvWSxEcjg-1
-Received: by mail-wm1-f71.google.com with SMTP id h25so3585359wmb.0
- for <qemu-devel@nongnu.org>; Fri, 12 Jun 2020 01:55:16 -0700 (PDT)
+ us-mta-308-AH0Gpw2gMiCgLqv2OfgvmA-1; Fri, 12 Jun 2020 04:55:21 -0400
+X-MC-Unique: AH0Gpw2gMiCgLqv2OfgvmA-1
+Received: by mail-wm1-f71.google.com with SMTP id 11so1679300wmj.6
+ for <qemu-devel@nongnu.org>; Fri, 12 Jun 2020 01:55:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=GhYz6sKF2bPYiUHoKS1Jnt6TjZbsEwWbEop5lmusuaY=;
- b=MXdQzj2C1f7LhL5TTzN5V2vF4HSESq5DsOqNyFRJMh3KsSo1HYRTUMepZP+AIIQXo+
- Sji1dRYf5izGe9MU196eVo3jr5bjV8gp50xvNMPHtT5rLt6XkvAIhePo0MAMao9szMrI
- KHid4zNUcBZCXEFZG66eOt90t1xPhwa3maan7j9JaESL+wL6TrxrfWsVJSkycyDmG1fa
- aZoDJUOTsoZTzfPXCk5TEarz/ynYMFyFnz5Xkanibj3ihawGANZJ8whC0TTBWQ/s6+MD
- ol9ItC7qqYjPhNc/vic1V0lfRTnX+HbXh1Z3Rpl5WaDB8rvpH0Yf+qKA9msMzLuIZm1+
- g8pQ==
-X-Gm-Message-State: AOAM532ISJaNGrwa/7ODarafnlorFLpvc9KIIuMUYtNOMEothi2PFzzp
- JJscrv/vv8VKI/NBQeB2GKXw37kX4YhlPWtxX4G19TKeDqRgaWu8qbw0CzpSpeA7pd6ZJfjZVwQ
- 5N4EVatcOxfKQ/84=
-X-Received: by 2002:a7b:cd95:: with SMTP id y21mr11574009wmj.147.1591952114995; 
- Fri, 12 Jun 2020 01:55:14 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxUvjv2ITtyGVOuRQGlp5Dy5oc6bi81ezaxeL9w6O2df3WzesCaq1aOnUAJafAqdYdFKVZI5w==
-X-Received: by 2002:a7b:cd95:: with SMTP id y21mr11573989wmj.147.1591952114785; 
- Fri, 12 Jun 2020 01:55:14 -0700 (PDT)
+ bh=D2Oz/tFoTbJgZ+hpQsGEbztQQnHjY/PR/LdJBtph6qw=;
+ b=sHriVZCHHr+KF792JZfr/Zrp6NPcgux5Y5puhNcuGC1ot7R48+OYJpQrlSgtyXiM9A
+ ufp9scJdlJ/htO7grnbV/54qMU529iI09MBOir037FvGDtkNRCazWT/6tXEMl1KMt1be
+ Xw3W8nQiDIl6r8WSb8S1OUYsdG5ExoloH3/wOECmjlCLAtGYCdxZIUJMA4SrN/4AyI7Y
+ uFRVl1UP+TQE6ATinLcO+0H8Ji5Qa9tLRr7lVbGT7NfKsoRE5LTJGs9+Wy5VihT/83mK
+ Os5JeygzGERYLz8gfLPA77/1Hhw2QbweZE5r2H3o9FryNRZHB3jd2Y0D5qCVOfrU+x/I
+ 1yVA==
+X-Gm-Message-State: AOAM530tB+F+o+lbD+zs00b8LlHkPOZpfSbrl5OFECetQwqzU39XtEYC
+ HvjLq6Hf1wvomaIbYUdRYod/tMI70elwyN9Z+JLa4hTc7BtXFYZZtBDBGr4io8rL5VUmqnF+KKv
+ x+0A0N5aPsXrY828=
+X-Received: by 2002:adf:e78a:: with SMTP id n10mr14398809wrm.114.1591952120151; 
+ Fri, 12 Jun 2020 01:55:20 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxnvjuTk03GTBGqHJhBe5MexDr/FYhNrw/G/+3BZOUOL1xtoOARpcs73NL/JfjjwO4rMvTZ9w==
+X-Received: by 2002:adf:e78a:: with SMTP id n10mr14398795wrm.114.1591952119928; 
+ Fri, 12 Jun 2020 01:55:19 -0700 (PDT)
 Received: from localhost.localdomain
  (181.red-88-10-103.dynamicip.rima-tde.net. [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id i10sm8920420wrw.51.2020.06.12.01.55.13
+ by smtp.gmail.com with ESMTPSA id t7sm8396164wrq.41.2020.06.12.01.55.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Jun 2020 01:55:14 -0700 (PDT)
+ Fri, 12 Jun 2020 01:55:19 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 05/12] hw/tpm: Include missing 'qemu/option.h' header
-Date: Fri, 12 Jun 2020 10:54:37 +0200
-Message-Id: <20200612085444.8362-6-philmd@redhat.com>
+Subject: [PATCH v3 06/12] hw/tpm: Move 'hw/acpi/tpm.h' inclusion from header
+ to sources
+Date: Fri, 12 Jun 2020 10:54:38 +0200
+Message-Id: <20200612085444.8362-7-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200612085444.8362-1-philmd@redhat.com>
 References: <20200612085444.8362-1-philmd@redhat.com>
@@ -72,9 +73,9 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/12 04:55:01
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/12 04:54:57
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -103,29 +104,66 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Files using the TPM_STANDARD_CMDLINE_OPTS macro declared in
-"tpm_int.h" will use QEMU_OPT_STRING definition declared in
-"qemu/option.h".
+Nothing in "tpm_ppi.h" require declarations from "hw/acpi/tpm.h".
+Reduce dependencies and include it only in the files requiring it.
 
 Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- hw/tpm/tpm_int.h | 2 ++
- 1 file changed, 2 insertions(+)
+ hw/tpm/tpm_ppi.h        | 1 -
+ hw/tpm/tpm_ppi.c        | 1 +
+ hw/tpm/tpm_tis_isa.c    | 1 +
+ hw/tpm/tpm_tis_sysbus.c | 1 +
+ 4 files changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/hw/tpm/tpm_int.h b/hw/tpm/tpm_int.h
-index 3fb28a9d6c..fd5ebc6489 100644
---- a/hw/tpm/tpm_int.h
-+++ b/hw/tpm/tpm_int.h
-@@ -12,6 +12,8 @@
- #ifndef TPM_TPM_INT_H
- #define TPM_TPM_INT_H
+diff --git a/hw/tpm/tpm_ppi.h b/hw/tpm/tpm_ppi.h
+index d33ef27de6..6f773c25a0 100644
+--- a/hw/tpm/tpm_ppi.h
++++ b/hw/tpm/tpm_ppi.h
+@@ -12,7 +12,6 @@
+ #ifndef TPM_TPM_PPI_H
+ #define TPM_TPM_PPI_H
  
-+#include "qemu/option.h"
-+
- #define TPM_STANDARD_CMDLINE_OPTS \
-     { \
-         .name = "type", \
+-#include "hw/acpi/tpm.h"
+ #include "exec/address-spaces.h"
+ 
+ typedef struct TPMPPI {
+diff --git a/hw/tpm/tpm_ppi.c b/hw/tpm/tpm_ppi.c
+index 6d9c1a3e40..72d7a3d926 100644
+--- a/hw/tpm/tpm_ppi.c
++++ b/hw/tpm/tpm_ppi.c
+@@ -17,6 +17,7 @@
+ #include "cpu.h"
+ #include "sysemu/memory_mapping.h"
+ #include "migration/vmstate.h"
++#include "hw/acpi/tpm.h"
+ #include "tpm_ppi.h"
+ #include "trace.h"
+ 
+diff --git a/hw/tpm/tpm_tis_isa.c b/hw/tpm/tpm_tis_isa.c
+index 30ba37079d..42f909ff1e 100644
+--- a/hw/tpm/tpm_tis_isa.c
++++ b/hw/tpm/tpm_tis_isa.c
+@@ -26,6 +26,7 @@
+ #include "hw/isa/isa.h"
+ #include "hw/qdev-properties.h"
+ #include "migration/vmstate.h"
++#include "hw/acpi/tpm.h"
+ #include "tpm_util.h"
+ #include "tpm_tis.h"
+ 
+diff --git a/hw/tpm/tpm_tis_sysbus.c b/hw/tpm/tpm_tis_sysbus.c
+index eced1fc843..edca1dae0d 100644
+--- a/hw/tpm/tpm_tis_sysbus.c
++++ b/hw/tpm/tpm_tis_sysbus.c
+@@ -25,6 +25,7 @@
+ #include "qemu/osdep.h"
+ #include "hw/qdev-properties.h"
+ #include "migration/vmstate.h"
++#include "hw/acpi/tpm.h"
+ #include "tpm_util.h"
+ #include "hw/sysbus.h"
+ #include "tpm_tis.h"
 -- 
 2.21.3
 
