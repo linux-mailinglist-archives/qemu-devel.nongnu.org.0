@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7C431F7A70
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 17:11:28 +0200 (CEST)
-Received: from localhost ([::1]:52368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68CA21F7A76
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 17:12:27 +0200 (CEST)
+Received: from localhost ([::1]:58044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjlL5-0008Bf-Qh
-	for lists+qemu-devel@lfdr.de; Fri, 12 Jun 2020 11:11:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50502)
+	id 1jjlM2-0002NO-FJ
+	for lists+qemu-devel@lfdr.de; Fri, 12 Jun 2020 11:12:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jjl37-0000TQ-By
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jjl37-0000Vl-UG
  for qemu-devel@nongnu.org; Fri, 12 Jun 2020 10:52:53 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:58242
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:49237
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jjl35-0001Zz-8O
- for qemu-devel@nongnu.org; Fri, 12 Jun 2020 10:52:52 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jjl35-0001a8-AD
+ for qemu-devel@nongnu.org; Fri, 12 Jun 2020 10:52:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591973568;
+ s=mimecast20190719; t=1591973570;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/ZfvYRjYmGPxNT0fOPfO9sBNQzeK+Gxo9SoF7dTSLww=;
- b=i6MtViu3aH1bdqI++M2fTrcfwYFqmTsMFHtmlBTl3UCvxX0NtXtfsq2NRDMsGdI2TkQVb+
- R0Ld+/MUOlnftKh9u2TU0DCR61shtHSmkgKR2mbfqtBYFPcm4o4W8jLapcrs7JovHrR8LW
- zlKQTE72tXXieEc5JWiOrFdPwQcwfwQ=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-451-vXICXpsROg-EMQxw7jBclA-1; Fri, 12 Jun 2020 10:52:45 -0400
-X-MC-Unique: vXICXpsROg-EMQxw7jBclA-1
-Received: by mail-wm1-f71.google.com with SMTP id b63so3878202wme.1
- for <qemu-devel@nongnu.org>; Fri, 12 Jun 2020 07:52:45 -0700 (PDT)
+ bh=kF29j1OTXstILIv0rMUhyWfGCjzS5Fq6k2w7s6M2f5A=;
+ b=HPul0GmaX72Pez3lHY7zmKKQws9thWrFvSCXY3Ls2UZQYMeoecx63UQHnY1RC0TGF6fUq1
+ qc7TwAd7iRFncdg5zfAnAQkFiSG4+GkoQ5SCy/oL4q/4C/ofwN2034Nr4C2GeGML9SCgbs
+ Rycq5Xhf7L7Pl/krKoC6zB/JEYqKQ6c=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-326-GeWjsw_VNry1kdInVepOeQ-1; Fri, 12 Jun 2020 10:52:47 -0400
+X-MC-Unique: GeWjsw_VNry1kdInVepOeQ-1
+Received: by mail-wr1-f69.google.com with SMTP id n6so3999847wrv.6
+ for <qemu-devel@nongnu.org>; Fri, 12 Jun 2020 07:52:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=/ZfvYRjYmGPxNT0fOPfO9sBNQzeK+Gxo9SoF7dTSLww=;
- b=ZErFvFglDjC8Od+IKbFwpbm2rydDnrP/u6oVT3AvMYOKJeZaAXFB9m7cFBERmYw6P+
- qGRjbITKnfIbOtc9BwChsxT4p0H+lry4OTgf/eOrlw5GzcW8vDL+Za7wJVGiDVVQBk5X
- 9iuga/BJ3J89sGicAVjY878drCOcz8jAjAo1vBDpoO5YNi4X2wgxTofEZm4O7oNwLHH8
- hmDMLga3QeYGy/h0W00fYZO2nukI7L2qQeu0UW+xUtuCb6UjfP5Y+tUxCvez8i3KqeNN
- 8biBsP7VGg2GojaCywjQerW2vl4Fkce3rVFwb5aRMCDvM5se4xW3g15i8wXYTdqlwFpt
- tEIQ==
-X-Gm-Message-State: AOAM530GPcUkwwPtfCWqYiw6ltfcNNgXNcp4Qmv6uxXAvNRoSaQ45Jp7
- 2ZEBKUeb6K4riZnnK7cNZmzdGhI0gNf+6LeQPUzm75RiJPES1Jd4ckl1C4xcjQ8F3HwYoQMpVKl
- dfBKtfJuy9u+CbM0=
-X-Received: by 2002:a1c:4009:: with SMTP id n9mr13904814wma.104.1591973563889; 
- Fri, 12 Jun 2020 07:52:43 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzjLc0FcSoGpqNZ+8JaAgf5fjgVSv9uitAS1v95SMV89ijiX3CU2GAltlksjBA6mWZD5jhPDg==
-X-Received: by 2002:a1c:4009:: with SMTP id n9mr13904795wma.104.1591973563664; 
- Fri, 12 Jun 2020 07:52:43 -0700 (PDT)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=kF29j1OTXstILIv0rMUhyWfGCjzS5Fq6k2w7s6M2f5A=;
+ b=F/wdDSQY4tRxCgLubccSrp/lFQBxpH9EKd1hYk2GUBvz3UramCFAa08xfGC5X9a3EI
+ zNeC04F1+xmiL7+uPTBhYy5+4n18gO6w8+VNmCE2M84TvdjNj7iaLqfIQ82x0SmVkqDv
+ u9vfqQl2IzRfK3Q29lyX0M8w1SUFW29a6HXCqUn2iP5UhyCM0KEttR48iBNXDo6JIrx6
+ 2zxEj3kt9weFR+nnWXrXU9cATJUteDQosy8MEveReyxKGWOsCYBprzzpSMyXkEV93EpX
+ YdNSOhEhPTK49dpadEmheYC9xfhEzPunmS8i880XYOTRqQVeJFBY18vBQoFTa8wbl298
+ jxkw==
+X-Gm-Message-State: AOAM533jdSlJko87YAgb+X7Ya292ttNXJICIRfj/bzPuEbSz34/bsCa9
+ xT4ZMd2+4vRv7AZmypDcWXN0ebrSZn+qFYOo9mReNcNaRA7PuweiQggs2Is/h/LVmmPQGuTii7F
+ fPE3oB57nQUTXgME=
+X-Received: by 2002:a1c:3c6:: with SMTP id 189mr13554781wmd.81.1591973566077; 
+ Fri, 12 Jun 2020 07:52:46 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzIUN24kRkXTK+qkh9f3ZqA2ipoAKt+lZuazLbr/C1qQRIoO4wwxn/5EVh3B0bqkDcgaC/18g==
+X-Received: by 2002:a1c:3c6:: with SMTP id 189mr13554762wmd.81.1591973565845; 
+ Fri, 12 Jun 2020 07:52:45 -0700 (PDT)
 Received: from redhat.com (bzq-79-178-18-124.red.bezeqint.net. [79.178.18.124])
- by smtp.gmail.com with ESMTPSA id b81sm9781926wmc.5.2020.06.12.07.52.42
+ by smtp.gmail.com with ESMTPSA id d17sm11158256wrg.75.2020.06.12.07.52.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Jun 2020 07:52:43 -0700 (PDT)
-Date: Fri, 12 Jun 2020 10:52:41 -0400
+ Fri, 12 Jun 2020 07:52:45 -0700 (PDT)
+Date: Fri, 12 Jun 2020 10:52:44 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 45/58] Lift max ram slots limit in libvhost-user
-Message-ID: <20200612141917.9446-46-mst@redhat.com>
+Subject: [PULL v2 46/58] libvhost-user: advertise vring features
+Message-ID: <20200612141917.9446-47-mst@redhat.com>
 References: <20200612141917.9446-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200612141917.9446-1-mst@redhat.com>
@@ -68,18 +70,19 @@ X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/12 08:07:17
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/12 09:30:54
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,169 +96,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Johannes Berg <johannes.berg@intel.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
  Raphael Norwitz <raphael.norwitz@nutanix.com>,
  Stefan Hajnoczi <stefanha@redhat.com>,
  =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Raphael Norwitz <raphael.norwitz@nutanix.com>
+From: Stefan Hajnoczi <stefanha@redhat.com>
 
-Historically, VMs with vhost-user devices could hot-add memory a maximum
-of 8 times. Now that the VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS
-protocol feature has been added, VMs with vhost-user backends which
-support this new feature can support a configurable number of ram slots
-up to the maximum supported by the target platform.
+libvhost-user implements several vring features without advertising
+them. There is no way for the vhost-user master to detect support for
+these features.
 
-This change adds VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS support for
-backends built with libvhost-user, and increases the number of supported
-ram slots from 8 to 32.
+Things more or less work today because QEMU assumes the vhost-user
+backend always implements certain feature bits like
+VIRTIO_RING_F_EVENT_IDX. This is not documented anywhere.
 
-Memory hot-add, hot-remove and postcopy migration were tested with
-the vhost-user-bridge sample.
+This patch explicitly advertises features implemented in libvhost-user
+so that the vhost-user master does not need to make undocumented
+assumptions.
 
-Signed-off-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
-Message-Id: <1588533678-23450-11-git-send-email-raphael.norwitz@nutanix.com>
+Feature bits that libvhost-user now advertises can be removed from
+vhost-user-blk.c. Devices should not be responsible for advertising
+vring feature bits, that is libvhost-user's job.
+
+Cc: Marc-André Lureau <marcandre.lureau@redhat.com>
+Cc: Jason Wang <jasowang@redhat.com>
+Cc: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+Message-Id: <20200529161338.456017-1-stefanha@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- contrib/libvhost-user/libvhost-user.h | 15 +++++++++++----
- contrib/libvhost-user/libvhost-user.c | 17 +++++++++--------
- 2 files changed, 20 insertions(+), 12 deletions(-)
+ contrib/libvhost-user/libvhost-user.c   | 10 ++++++++++
+ contrib/vhost-user-blk/vhost-user-blk.c |  4 +---
+ 2 files changed, 11 insertions(+), 3 deletions(-)
 
-diff --git a/contrib/libvhost-user/libvhost-user.h b/contrib/libvhost-user/libvhost-user.h
-index f8439713a8..844c37c648 100644
---- a/contrib/libvhost-user/libvhost-user.h
-+++ b/contrib/libvhost-user/libvhost-user.h
-@@ -28,7 +28,13 @@
- 
- #define VIRTQUEUE_MAX_SIZE 1024
- 
--#define VHOST_MEMORY_MAX_NREGIONS 8
-+#define VHOST_MEMORY_BASELINE_NREGIONS 8
-+
-+/*
-+ * Set a reasonable maximum number of ram slots, which will be supported by
-+ * any architecture.
-+ */
-+#define VHOST_USER_MAX_RAM_SLOTS 32
- 
- typedef enum VhostSetConfigType {
-     VHOST_SET_CONFIG_TYPE_MASTER = 0,
-@@ -55,6 +61,7 @@ enum VhostUserProtocolFeature {
-     VHOST_USER_PROTOCOL_F_HOST_NOTIFIER = 11,
-     VHOST_USER_PROTOCOL_F_INFLIGHT_SHMFD = 12,
-     VHOST_USER_PROTOCOL_F_INBAND_NOTIFICATIONS = 14,
-+    VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS = 15,
- 
-     VHOST_USER_PROTOCOL_F_MAX
- };
-@@ -123,7 +130,7 @@ typedef struct VhostUserMemoryRegion {
- typedef struct VhostUserMemory {
-     uint32_t nregions;
-     uint32_t padding;
--    VhostUserMemoryRegion regions[VHOST_MEMORY_MAX_NREGIONS];
-+    VhostUserMemoryRegion regions[VHOST_MEMORY_BASELINE_NREGIONS];
- } VhostUserMemory;
- 
- typedef struct VhostUserMemRegMsg {
-@@ -190,7 +197,7 @@ typedef struct VhostUserMsg {
-         VhostUserInflight inflight;
-     } payload;
- 
--    int fds[VHOST_MEMORY_MAX_NREGIONS];
-+    int fds[VHOST_MEMORY_BASELINE_NREGIONS];
-     int fd_num;
-     uint8_t *data;
- } VU_PACKED VhostUserMsg;
-@@ -368,7 +375,7 @@ typedef struct VuDevInflightInfo {
- struct VuDev {
-     int sock;
-     uint32_t nregions;
--    VuDevRegion regions[VHOST_MEMORY_MAX_NREGIONS];
-+    VuDevRegion regions[VHOST_USER_MAX_RAM_SLOTS];
-     VuVirtq *vq;
-     VuDevInflightInfo inflight_info;
-     int log_call_fd;
 diff --git a/contrib/libvhost-user/libvhost-user.c b/contrib/libvhost-user/libvhost-user.c
-index 386449b697..b1e607298c 100644
+index b1e607298c..d315db1396 100644
 --- a/contrib/libvhost-user/libvhost-user.c
 +++ b/contrib/libvhost-user/libvhost-user.c
-@@ -269,7 +269,7 @@ have_userfault(void)
- static bool
- vu_message_read(VuDev *dev, int conn_fd, VhostUserMsg *vmsg)
+@@ -498,6 +498,16 @@ static bool
+ vu_get_features_exec(VuDev *dev, VhostUserMsg *vmsg)
  {
--    char control[CMSG_SPACE(VHOST_MEMORY_MAX_NREGIONS * sizeof(int))] = { };
-+    char control[CMSG_SPACE(VHOST_MEMORY_BASELINE_NREGIONS * sizeof(int))] = {};
-     struct iovec iov = {
-         .iov_base = (char *)vmsg,
-         .iov_len = VHOST_USER_HDR_SIZE,
-@@ -340,7 +340,7 @@ vu_message_write(VuDev *dev, int conn_fd, VhostUserMsg *vmsg)
- {
-     int rc;
-     uint8_t *p = (uint8_t *)vmsg;
--    char control[CMSG_SPACE(VHOST_MEMORY_MAX_NREGIONS * sizeof(int))] = { };
-+    char control[CMSG_SPACE(VHOST_MEMORY_BASELINE_NREGIONS * sizeof(int))] = {};
-     struct iovec iov = {
-         .iov_base = (char *)vmsg,
-         .iov_len = VHOST_USER_HDR_SIZE,
-@@ -353,7 +353,7 @@ vu_message_write(VuDev *dev, int conn_fd, VhostUserMsg *vmsg)
-     struct cmsghdr *cmsg;
+     vmsg->payload.u64 =
++        /*
++         * The following VIRTIO feature bits are supported by our virtqueue
++         * implementation:
++         */
++        1ULL << VIRTIO_F_NOTIFY_ON_EMPTY |
++        1ULL << VIRTIO_RING_F_INDIRECT_DESC |
++        1ULL << VIRTIO_RING_F_EVENT_IDX |
++        1ULL << VIRTIO_F_VERSION_1 |
++
++        /* vhost-user feature bits */
+         1ULL << VHOST_F_LOG_ALL |
+         1ULL << VHOST_USER_F_PROTOCOL_FEATURES;
  
-     memset(control, 0, sizeof(control));
--    assert(vmsg->fd_num <= VHOST_MEMORY_MAX_NREGIONS);
-+    assert(vmsg->fd_num <= VHOST_MEMORY_BASELINE_NREGIONS);
-     if (vmsg->fd_num > 0) {
-         size_t fdsize = vmsg->fd_num * sizeof(int);
-         msg.msg_controllen = CMSG_SPACE(fdsize);
-@@ -780,7 +780,7 @@ static bool
- vu_rem_mem_reg(VuDev *dev, VhostUserMsg *vmsg) {
-     int i, j;
-     bool found = false;
--    VuDevRegion shadow_regions[VHOST_MEMORY_MAX_NREGIONS] = {};
-+    VuDevRegion shadow_regions[VHOST_USER_MAX_RAM_SLOTS] = {};
-     VhostUserMemoryRegion m = vmsg->payload.memreg.region, *msg_region = &m;
+diff --git a/contrib/vhost-user-blk/vhost-user-blk.c b/contrib/vhost-user-blk/vhost-user-blk.c
+index 6fd91c7e99..25eccd02b5 100644
+--- a/contrib/vhost-user-blk/vhost-user-blk.c
++++ b/contrib/vhost-user-blk/vhost-user-blk.c
+@@ -382,9 +382,7 @@ vub_get_features(VuDev *dev)
+                1ull << VIRTIO_BLK_F_DISCARD |
+                1ull << VIRTIO_BLK_F_WRITE_ZEROES |
+                #endif
+-               1ull << VIRTIO_BLK_F_CONFIG_WCE |
+-               1ull << VIRTIO_F_VERSION_1 |
+-               1ull << VHOST_USER_F_PROTOCOL_FEATURES;
++               1ull << VIRTIO_BLK_F_CONFIG_WCE;
  
-     DPRINT("Removing region:\n");
-@@ -813,7 +813,7 @@ vu_rem_mem_reg(VuDev *dev, VhostUserMsg *vmsg) {
- 
-     if (found) {
-         memcpy(dev->regions, shadow_regions,
--               sizeof(VuDevRegion) * VHOST_MEMORY_MAX_NREGIONS);
-+               sizeof(VuDevRegion) * VHOST_USER_MAX_RAM_SLOTS);
-         DPRINT("Successfully removed a region\n");
-         dev->nregions--;
-         vmsg_set_reply_u64(vmsg, 0);
-@@ -1394,7 +1394,8 @@ vu_get_protocol_features_exec(VuDev *dev, VhostUserMsg *vmsg)
-                         1ULL << VHOST_USER_PROTOCOL_F_SLAVE_REQ |
-                         1ULL << VHOST_USER_PROTOCOL_F_HOST_NOTIFIER |
-                         1ULL << VHOST_USER_PROTOCOL_F_SLAVE_SEND_FD |
--                        1ULL << VHOST_USER_PROTOCOL_F_REPLY_ACK;
-+                        1ULL << VHOST_USER_PROTOCOL_F_REPLY_ACK |
-+                        1ULL << VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS;
- 
-     if (have_userfault()) {
-         features |= 1ULL << VHOST_USER_PROTOCOL_F_PAGEFAULT;
-@@ -1732,14 +1733,14 @@ static bool vu_handle_get_max_memslots(VuDev *dev, VhostUserMsg *vmsg)
- {
-     vmsg->flags = VHOST_USER_REPLY_MASK | VHOST_USER_VERSION;
-     vmsg->size  = sizeof(vmsg->payload.u64);
--    vmsg->payload.u64 = VHOST_MEMORY_MAX_NREGIONS;
-+    vmsg->payload.u64 = VHOST_USER_MAX_RAM_SLOTS;
-     vmsg->fd_num = 0;
- 
-     if (!vu_message_write(dev, dev->sock, vmsg)) {
-         vu_panic(dev, "Failed to send max ram slots: %s\n", strerror(errno));
-     }
- 
--    DPRINT("u64: 0x%016"PRIx64"\n", (uint64_t) VHOST_MEMORY_MAX_NREGIONS);
-+    DPRINT("u64: 0x%016"PRIx64"\n", (uint64_t) VHOST_USER_MAX_RAM_SLOTS);
- 
-     return false;
- }
+     if (vdev_blk->enable_ro) {
+         features |= 1ull << VIRTIO_BLK_F_RO;
 -- 
 MST
 
