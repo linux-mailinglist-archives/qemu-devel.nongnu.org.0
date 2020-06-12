@@ -2,43 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08A6A1F712F
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 02:09:21 +0200 (CEST)
-Received: from localhost ([::1]:48044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 931051F7152
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 02:23:48 +0200 (CEST)
+Received: from localhost ([::1]:58764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjXG4-00078L-1u
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 20:09:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56672)
+	id 1jjXU3-0008Dz-KY
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 20:23:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jjXC5-0008Qj-73; Thu, 11 Jun 2020 20:05:13 -0400
-Received: from relay.sw.ru ([185.231.240.75]:52874 helo=relay3.sw.ru)
- by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jjXBy-0006IG-Ln; Thu, 11 Jun 2020 20:05:12 -0400
-Received: from [172.16.25.136] (helo=localhost.sw.ru)
- by relay3.sw.ru with esmtp (Exim 4.93)
- (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jjXBr-0002Yd-QV; Fri, 12 Jun 2020 03:04:59 +0300
-From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH v7 9/9] qcow2_format.py: support dumping metadata in JSON
- format
-Date: Fri, 12 Jun 2020 03:05:02 +0300
-Message-Id: <1591920302-1002219-10-git-send-email-andrey.shinkevich@virtuozzo.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1591920302-1002219-1-git-send-email-andrey.shinkevich@virtuozzo.com>
-References: <1591920302-1002219-1-git-send-email-andrey.shinkevich@virtuozzo.com>
-Received-SPF: pass client-ip=185.231.240.75;
- envelope-from=andrey.shinkevich@virtuozzo.com; helo=relay3.sw.ru
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 20:05:03
+ (Exim 4.90_1) (envelope-from <geoff@hostfission.com>)
+ id 1jjXSu-0006zA-Gh
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 20:22:36 -0400
+Received: from mail1.hostfission.com ([139.99.139.48]:33202)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <geoff@hostfission.com>) id 1jjXSr-0001I4-LO
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 20:22:36 -0400
+Received: from moya.office.hostfission.com (office.hostfission.com
+ [220.233.29.71])
+ by mail1.hostfission.com (Postfix) with ESMTP id E65E1443B9;
+ Fri, 12 Jun 2020 10:16:12 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=hostfission.com;
+ s=mail; t=1591920972;
+ bh=PPeacZfz0/H7c3zbFUwy7ib18/dqZAjQwotikYVk6OU=;
+ h=From:Date:Subject:To:Cc:From;
+ b=xvpa2yADJNtkypLulEBltwXyh6ek+eHC/Z0rbSTQScDS9zKpmJwg6zY8KSFoYARjk
+ x5huGAi+uwAS3h4zGI0AKKo1dON1PWUSEcKh1hr9Ev6v6pBeNrrwY9o686RvPOP47+
+ RWSXn7L5O70cDY3tNlvVxFitbDIcqA/xl8OLDU2U=
+Received: by moya.office.hostfission.com (Postfix, from userid 0)
+ id B71663A0172; Fri, 12 Jun 2020 10:16:12 +1000 (AEST)
+From: Geoffrey McRae <geoff@hostfission.com>
+Date: Fri, 12 Jun 2020 10:12:37 +1000
+Subject: [PATCH 0/6] *** SUBJECT HERE ***
+To: <qemu-devel@nongnu.org>
+Cc: <kraxel@redhat.com>
+X-Mailer: mail (GNU Mailutils 3.5)
+Message-Id: <20200612001612.B71663A0172@moya.office.hostfission.com>
+Received-SPF: pass client-ip=139.99.139.48; envelope-from=geoff@hostfission.com;
+ helo=mail1.hostfission.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 20:16:15
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ SUBJ_ALL_CAPS=0.5 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -51,185 +61,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-devel@nongnu.org,
- mreitz@redhat.com, andrey.shinkevich@virtuozzo.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implementation of dumping QCOW2 image metadata.
-The sample output:
-{
-    "Header_extensions": [
-        {
-            "name": "Feature table",
-            "magic": 1745090647,
-            "length": 192,
-            "data_str": "<binary>"
-        },
-        {
-            "name": "Bitmaps",
-            "magic": 595929205,
-            "length": 24,
-            "data": {
-                "nb_bitmaps": 2,
-                "reserved32": 0,
-                "bitmap_directory_size": 64,
-                "bitmap_directory_offset": 1048576,
-                "entries": [
-                    {
-                        "name": "bitmap-1",
-                        "bitmap_table_offset": 589824,
-                        "bitmap_table_size": 1,
-                        "flags": [
-                            "auto"
-                        ],
-                        "type": 1,
-                        "granularity_bits": 16,
-                        "name_size": 8,
-                        "extra_data_size": 0,
-                        "bitmap_table": {
-                            "table_entries": [
-                                {
-                                    "type": "serialized",
-                                    "offset": 655360
-                                },
-                                ...
+This patch set addresses several issues that cause inconsistent
+behaviour in the guest when the sound device is stopped and started or
+the JACK server stops responding on the host.
 
-Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
----
- tests/qemu-iotests/qcow2_format.py | 60 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 60 insertions(+)
+Geoffrey McRae (6):
+  audio/jack: fix invalid minimum buffer size check
+  audio/jack: remove unused stopped state
+  audio/jack: remove invalid set of input support bool
+  audio/jack: do not remove ports when finishing
+  audio/jack: honour the enable state of the audio device
+  audio/jack: simplify the re-init code path
 
-diff --git a/tests/qemu-iotests/qcow2_format.py b/tests/qemu-iotests/qcow2_format.py
-index bdd5f68..35daec9 100644
---- a/tests/qemu-iotests/qcow2_format.py
-+++ b/tests/qemu-iotests/qcow2_format.py
-@@ -18,6 +18,15 @@
- 
- import struct
- import string
-+import json
-+
-+
-+class ComplexEncoder(json.JSONEncoder):
-+    def default(self, obj):
-+        if hasattr(obj, 'get_fields_dict'):
-+            return obj.get_fields_dict()
-+        else:
-+            return json.JSONEncoder.default(self, obj)
- 
- 
- class Qcow2Field:
-@@ -95,6 +104,11 @@ class Qcow2Struct(metaclass=Qcow2StructMeta):
-         self.fields_dict = self.__dict__.copy()
- 
-     def dump(self, dump_json=None):
-+        if dump_json:
-+            print(json.dumps(self.get_fields_dict(), indent=4,
-+                             cls=ComplexEncoder))
-+            return
-+
-         for f in self.fields:
-             value = self.__dict__[f[2]]
-             if isinstance(f[1], str):
-@@ -150,6 +164,9 @@ class Qcow2BitmapExt(Qcow2Struct):
-         for bm in self.bitmaps:
-             bm.dump_bitmap_dir_entry(dump_json)
- 
-+    def get_fields_dict(self):
-+        return self.fields_dict
-+
- 
- BME_FLAG_IN_USE = 1 << 0
- BME_FLAG_AUTO = 1 << 1
-@@ -202,6 +219,12 @@ class Qcow2BitmapDirEntry(Qcow2Struct):
-         super().dump()
-         self.bitmap_table.print_bitmap_table(self.cluster_size)
- 
-+    def get_fields_dict(self):
-+        bmp_name = dict(name=self.name)
-+        bme_dict = {**bmp_name, **self.fields_dict}
-+        bme_dict['flags'] = self.bitmap_flags
-+        return bme_dict
-+
- 
- class Qcow2BitmapTableEntry:
- 
-@@ -217,6 +240,9 @@ class Qcow2BitmapTableEntry:
-         else:
-             self.type = 'all-zeroes'
- 
-+    def get_fields_dict(self):
-+        return dict(type=self.type, offset=self.offset)
-+
- 
- class Qcow2BitmapTable:
- 
-@@ -232,6 +258,18 @@ class Qcow2BitmapTable:
-             print(f'{i:<14} {entry.type:<15} {entry.offset:<24} {cluster_size}')
-         print("")
- 
-+    def get_fields_dict(self):
-+        return dict(table_entries=self.entries)
-+
-+
-+class Qcow2HeaderExtensionsDoc:
-+
-+    def __init__(self, extensions):
-+        self.extensions = extensions
-+
-+    def get_fields_dict(self):
-+        return dict(Header_extensions=self.extensions)
-+
- 
- QCOW2_EXT_MAGIC_BITMAPS = 0x23852875
- 
-@@ -247,6 +285,9 @@ class QcowHeaderExtension(Qcow2Struct):
-             0x44415441: 'Data file'
-         }
- 
-+        def get_fields_dict(self):
-+            return self.mapping.get(self.value, "<unknown>")
-+
-     fields = (
-         ('u32', Magic, 'magic'),
-         ('u32', '{}', 'length')
-@@ -307,6 +348,16 @@ class QcowHeaderExtension(Qcow2Struct):
-         else:
-             self.obj.dump(dump_json)
- 
-+    def get_fields_dict(self):
-+        ext_name = dict(name=self.Magic(self.magic))
-+        he_dict = {**ext_name, **self.fields_dict}
-+        if self.obj is not None:
-+            he_dict.update(data=self.obj)
-+        else:
-+            he_dict.update(data_str=self.data_str)
-+
-+        return he_dict
-+
-     @classmethod
-     def create(cls, magic, data):
-         return QcowHeaderExtension(magic, len(data), data)
-@@ -409,7 +460,16 @@ class QcowHeader(Qcow2Struct):
-         fd.write(buf)
- 
-     def dump_extensions(self, dump_json=None):
-+        if dump_json:
-+            ext_doc = Qcow2HeaderExtensionsDoc(self.extensions)
-+            print(json.dumps(ext_doc.get_fields_dict(), indent=4,
-+                             cls=ComplexEncoder))
-+            return
-+
-         for ex in self.extensions:
-             print('Header extension:')
-             ex.dump(dump_json)
-             print()
-+
-+    def get_fields_dict(self):
-+        return self.fields_dict
+ audio/jackaudio.c | 73 ++++++++++++++++++++++++-----------------------
+ 1 file changed, 38 insertions(+), 35 deletions(-)
+
 -- 
-1.8.3.1
+2.20.1
 
 
