@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC8B11F7D5A
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 21:07:01 +0200 (CEST)
-Received: from localhost ([::1]:54202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2C041F7D5E
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 21:09:40 +0200 (CEST)
+Received: from localhost ([::1]:37418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjp12-0006MX-Rm
-	for lists+qemu-devel@lfdr.de; Fri, 12 Jun 2020 15:07:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54924)
+	id 1jjp3b-0003BM-Tp
+	for lists+qemu-devel@lfdr.de; Fri, 12 Jun 2020 15:09:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jjoxM-0000tZ-KZ
- for qemu-devel@nongnu.org; Fri, 12 Jun 2020 15:03:14 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:42919)
+ id 1jjp2M-0001rk-2C
+ for qemu-devel@nongnu.org; Fri, 12 Jun 2020 15:08:22 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:43566)
  by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jjoxF-0006uE-M6
- for qemu-devel@nongnu.org; Fri, 12 Jun 2020 15:03:10 -0400
-Received: by mail-wr1-x442.google.com with SMTP id p5so10789184wrw.9
- for <qemu-devel@nongnu.org>; Fri, 12 Jun 2020 12:02:57 -0700 (PDT)
+ id 1jjp2K-0007ar-04
+ for qemu-devel@nongnu.org; Fri, 12 Jun 2020 15:08:21 -0400
+Received: by mail-wr1-x442.google.com with SMTP id l10so10819431wrr.10
+ for <qemu-devel@nongnu.org>; Fri, 12 Jun 2020 12:08:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+fhzkIekd9HvnT+zTrzjSgSzaU+uY2T8F/QfwK7CaNs=;
- b=iYv3bZyw/geh4bQygkWEEWtIFxDK1MAoKBbcs8sOzuLIV/3IjPeNPPWjaYpKEiKN+z
- QLJt1jGexa7UG/nFpb260hJLzs9zE6NeMFFQB7qOjVnPTziWlMASLEp0OmWkq3kUgwFe
- CiQYWGFaiYH/TddVQ1KhUNbsCG4FDA2ovA+zDmlQ5JNJaHjH51d/RB7pgAMcWZ/yD0RK
- rbwLIIuByprx5/sXgwYsPONWatRGoxqjGulS1/P2L/r5ZoD3iUzLXipniWpdU2I0XhzX
- b9XQwJqe6kMRO8BvqmXYXg/VitfB6Fx/lzLpAFyQ7JiXnSFHwc4rp9kCIgd8BW+5ytvL
- rlvw==
+ bh=pOTNVC0J3mJ6YGdmpXPCtwPf6rnAZM/12o6pgw/fmt0=;
+ b=HIeWdS5NVdv+L1Z4u3dquqHJUxFGe0J8Dh2e8RJec6ngzTPqhlFa98nZDgpt4gjIkz
+ Zu6ePg4OdKWN2rFNJcWotJ8y8v13bqilhoz1o1YIQvPfTG02MvvwPLxJetenVKlHMWDe
+ +Ab08U3FEDN8tSFEySsXqZn0ARvQnYsNm1wX8/UrrFccqcGrjVUV6S2vqZ7uDirzYaf6
+ qHk7TRj78abemoYuVv6c0U19NILudt9REeB3YHGRGjYPNCJsZkBsfRqdcW4TDabX/4fx
+ 6QtPrFyHTtgUWHtUx4QePgKMrVWcqExOWt56oRhtT35G8Nn+M62oehbpn0XTVJJXXY2g
+ 2uwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=+fhzkIekd9HvnT+zTrzjSgSzaU+uY2T8F/QfwK7CaNs=;
- b=a28pTYSKzON0PEkHtXC56Ep9P1jfH5PUtLC84F8lguraGdRdwiRZhYPGDfOIU6uFNe
- Y4gpYxkHSvYGXVnSmplsPRyn4Imbeg7yLLXv2B6ui+rNq6qBIsvr6/wue/9xhkJUXc/q
- 2IYE6yx70esQ8pPRuysEBZL0MtSLUB9H8fbOxzXQc8djfaVMhAREQpFe9GEzG4HxcOk6
- nfij+CzyXJ661MpW4uNrvh98bONp6cLrT99qlEOR44dgxpvDak+M4qOCtV5VhMAVu1Ax
- Jkx1i6pNYAe2bzfSZOJ/RAwiPyON4w2jcI2Je67wOAIlYXQYBru5+qbRMVZjRWYKd9Nq
- 1jeQ==
-X-Gm-Message-State: AOAM530yudXFgp95FUR49HnrKY9zgbLmU6pnv1rVmORTqdWpfJytIvTo
- ZyYoF4j4cmbGeVUL9Ms0BGZ06A==
-X-Google-Smtp-Source: ABdhPJw1I9l+miBAX2Ua4EFDzaMZje2W1e0snsvlg/QhmEb0tEdMnaKmOfHTgox15WHz3wo/zMfGbw==
-X-Received: by 2002:adf:f812:: with SMTP id s18mr15692418wrp.28.1591988576758; 
- Fri, 12 Jun 2020 12:02:56 -0700 (PDT)
+ bh=pOTNVC0J3mJ6YGdmpXPCtwPf6rnAZM/12o6pgw/fmt0=;
+ b=UGjwQLDc8eJnRshFFEcBqVXC58LTHfAieX+uRKMhcpdNN05vgtym1+q6zWjLigome7
+ sye2EIijiLj1Hp81dPsbrelKbgjlDax1tO5qCP1z25xFsOXq7x+7APTXzA5iX7eKxzTQ
+ l8ARuPrNnzmCyuDZCYHnxAyPaVqWwuCgD9s9aBkrpoQgjricM/x7ccUrxbRomIdCCqm4
+ XlYeA3LLLiduK7c7BxaOUF4KftplqNZv034LX/7YGt87Fclb/mZoO9kDZ14JoU+/R6l/
+ vKrz3D3NHxgiOvItTnHiLjXkfruTDFgkNhheSkvmEaQ2cGNB8kUodfX4MMHvIIneUJgm
+ VQnQ==
+X-Gm-Message-State: AOAM5302Yb2bpbe6+ZA8Et3EYibcsV3LvALFcd49/7b2oUYMhZ5DynXp
+ 0aA/EJl7ahSKSfdT1TdG+d0jew==
+X-Google-Smtp-Source: ABdhPJzrfm1v1HeA7iW5y8bdM/qd9XhJ+XaSPpmfOOm4KwmzETxjNGTyuIelAW/m9/5oDhogHeTXhQ==
+X-Received: by 2002:adf:eec2:: with SMTP id a2mr15690114wrp.136.1591988892483; 
+ Fri, 12 Jun 2020 12:08:12 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id 23sm9723140wmg.10.2020.06.12.12.02.45
+ by smtp.gmail.com with ESMTPSA id a1sm10293830wmd.28.2020.06.12.12.08.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Jun 2020 12:02:50 -0700 (PDT)
+ Fri, 12 Jun 2020 12:08:08 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 16A5E1FF7E;
+ by zen.linaroharston (Postfix) with ESMTP id 396C31FF9B;
  Fri, 12 Jun 2020 20:02:40 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 12/18] tests/docker: Added docker build support for TSan.
-Date: Fri, 12 Jun 2020 20:02:31 +0100
-Message-Id: <20200612190237.30436-13-alex.bennee@linaro.org>
+Subject: [PATCH  v1 13/18] include/qemu: Added tsan.h for annotations.
+Date: Fri, 12 Jun 2020 20:02:32 +0100
+Message-Id: <20200612190237.30436-14-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200612190237.30436-1-alex.bennee@linaro.org>
 References: <20200612190237.30436-1-alex.bennee@linaro.org>
@@ -89,200 +89,108 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: fam@euphon.net, berrange@redhat.com, Robert Foley <robert.foley@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- richard.henderson@linaro.org, f4bug@amsat.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, cota@braap.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ richard.henderson@linaro.org, f4bug@amsat.org, cota@braap.org,
  aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Robert Foley <robert.foley@linaro.org>
 
-Added a new docker for ubuntu 20.04.
-This docker has support for Thread Sanitizer
-including one patch we need in one of the header files.
-https://github.com/llvm/llvm-project/commit/a72dc86cd
+These annotations will allow us to give tsan
+additional hints.  For example, we can inform
+tsan about reads/writes to ignore to silence certain
+classes of warnings.
+We can also annotate threads so that the proper thread
+naming shows up in tsan warning results.
 
-This command will build with tsan enabled:
-make docker-test-tsan-ubuntu2004 V=1
-
-Also added the TSAN suppresion file to disable certain
-cases of TSAN warnings.
-
-Cc: Fam Zheng <fam@euphon.net>
-Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Robert Foley <robert.foley@linaro.org>
+Reviewed-by: Emilio G. Cota <cota@braap.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20200609200738.445-10-robert.foley@linaro.org>
+Message-Id: <20200609200738.445-11-robert.foley@linaro.org>
 ---
- tests/docker/dockerfiles/ubuntu2004.docker | 65 ++++++++++++++++++++++
- tests/docker/test-tsan                     | 44 +++++++++++++++
- tests/tsan/blacklist.tsan                  | 10 ++++
- tests/tsan/suppressions.tsan               | 14 +++++
- 4 files changed, 133 insertions(+)
- create mode 100644 tests/docker/dockerfiles/ubuntu2004.docker
- create mode 100755 tests/docker/test-tsan
- create mode 100644 tests/tsan/blacklist.tsan
- create mode 100644 tests/tsan/suppressions.tsan
+ include/qemu/tsan.h | 71 +++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 71 insertions(+)
+ create mode 100644 include/qemu/tsan.h
 
-diff --git a/tests/docker/dockerfiles/ubuntu2004.docker b/tests/docker/dockerfiles/ubuntu2004.docker
+diff --git a/include/qemu/tsan.h b/include/qemu/tsan.h
 new file mode 100644
-index 00000000000..6050ce7e8a8
+index 00000000000..09cc665f91d
 --- /dev/null
-+++ b/tests/docker/dockerfiles/ubuntu2004.docker
-@@ -0,0 +1,65 @@
-+FROM ubuntu:20.04
-+ENV PACKAGES flex bison \
-+    ccache \
-+    clang-10\
-+    gcc \
-+    gettext \
-+    git \
-+    glusterfs-common \
-+    libaio-dev \
-+    libattr1-dev \
-+    libbrlapi-dev \
-+    libbz2-dev \
-+    libcacard-dev \
-+    libcap-ng-dev \
-+    libcurl4-gnutls-dev \
-+    libdrm-dev \
-+    libepoxy-dev \
-+    libfdt-dev \
-+    libgbm-dev \
-+    libgtk-3-dev \
-+    libibverbs-dev \
-+    libiscsi-dev \
-+    libjemalloc-dev \
-+    libjpeg-turbo8-dev \
-+    liblzo2-dev \
-+    libncurses5-dev \
-+    libncursesw5-dev \
-+    libnfs-dev \
-+    libnss3-dev \
-+    libnuma-dev \
-+    libpixman-1-dev \
-+    librados-dev \
-+    librbd-dev \
-+    librdmacm-dev \
-+    libsasl2-dev \
-+    libsdl2-dev \
-+    libseccomp-dev \
-+    libsnappy-dev \
-+    libspice-protocol-dev \
-+    libspice-server-dev \
-+    libssh-dev \
-+    libusb-1.0-0-dev \
-+    libusbredirhost-dev \
-+    libvdeplug-dev \
-+    libvte-2.91-dev \
-+    libxen-dev \
-+    libzstd-dev \
-+    make \
-+    python3-yaml \
-+    python3-sphinx \
-+    sparse \
-+    texinfo \
-+    xfslibs-dev\
-+    vim
-+RUN apt-get update && \
-+    DEBIAN_FRONTEND=noninteractive apt-get -y install $PACKAGES
-+RUN dpkg -l $PACKAGES | sort > /packages.txt
-+ENV FEATURES clang tsan pyyaml sdl2
++++ b/include/qemu/tsan.h
+@@ -0,0 +1,71 @@
++#ifndef QEMU_TSAN_H
++#define QEMU_TSAN_H
++/*
++ * tsan.h
++ *
++ * This file defines macros used to give ThreadSanitizer
++ * additional information to help suppress warnings.
++ * This is necessary since TSan does not provide a header file
++ * for these annotations.  The standard way to include these
++ * is via the below macros.
++ *
++ * Annotation examples can be found here:
++ *  https://github.com/llvm/llvm-project/tree/master/compiler-rt/test/tsan
++ * annotate_happens_before.cpp or ignore_race.cpp are good places to start.
++ *
++ * The full set of annotations can be found here in tsan_interface_ann.cpp.
++ *  https://github.com/llvm/llvm-project/blob/master/compiler-rt/lib/tsan/rtl/
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ */
 +
-+# https://bugs.launchpad.net/qemu/+bug/1838763
-+ENV QEMU_CONFIGURE_OPTS --disable-libssh
++#ifdef CONFIG_TSAN
++/*
++ * Informs TSan of a happens before/after relationship.
++ */
++#define QEMU_TSAN_ANNOTATE_HAPPENS_BEFORE(addr) \
++    AnnotateHappensBefore(__FILE__, __LINE__, (void *)(addr))
++#define QEMU_TSAN_ANNOTATE_HAPPENS_AFTER(addr) \
++    AnnotateHappensAfter(__FILE__, __LINE__, (void *)(addr))
++/*
++ * Gives TSan more information about thread names it can report the
++ * name of the thread in the warning report.
++ */
++#define QEMU_TSAN_ANNOTATE_THREAD_NAME(name) \
++    AnnotateThreadName(__FILE__, __LINE__, (void *)(name))
++/*
++ * Allows defining a region of code on which TSan will not record memory READS.
++ * This has the effect of disabling race detection for this section of code.
++ */
++#define QEMU_TSAN_ANNOTATE_IGNORE_READS_BEGIN() \
++    AnnotateIgnoreReadsBegin(__FILE__, __LINE__)
++#define QEMU_TSAN_ANNOTATE_IGNORE_READS_END() \
++    AnnotateIgnoreReadsEnd(__FILE__, __LINE__)
++/*
++ * Allows defining a region of code on which TSan will not record memory
++ * WRITES.  This has the effect of disabling race detection for this
++ * section of code.
++ */
++#define QEMU_TSAN_ANNOTATE_IGNORE_WRITES_BEGIN() \
++    AnnotateIgnoreWritesBegin(__FILE__, __LINE__)
++#define QEMU_TSAN_ANNOTATE_IGNORE_WRITES_END() \
++    AnnotateIgnoreWritesEnd(__FILE__, __LINE__)
++#else
++#define QEMU_TSAN_ANNOTATE_HAPPENS_BEFORE(addr)
++#define QEMU_TSAN_ANNOTATE_HAPPENS_AFTER(addr)
++#define QEMU_TSAN_ANNOTATE_THREAD_NAME(name)
++#define QEMU_TSAN_ANNOTATE_IGNORE_READS_BEGIN()
++#define QEMU_TSAN_ANNOTATE_IGNORE_READS_END()
++#define QEMU_TSAN_ANNOTATE_IGNORE_WRITES_BEGIN()
++#define QEMU_TSAN_ANNOTATE_IGNORE_WRITES_END()
++#endif
 +
-+# Apply patch https://reviews.llvm.org/D75820
-+# This is required for TSan in clang-10 to compile with QEMU.
-+RUN sed -i 's/^const/static const/g' /usr/lib/llvm-10/lib/clang/10.0.0/include/sanitizer/tsan_interface.h
-diff --git a/tests/docker/test-tsan b/tests/docker/test-tsan
-new file mode 100755
-index 00000000000..eb40ac45b7a
---- /dev/null
-+++ b/tests/docker/test-tsan
-@@ -0,0 +1,44 @@
-+#!/bin/bash -e
-+#
-+# This test will use TSan as part of a build and a make check.
-+#
-+# Copyright (c) 2020 Linaro
-+# Copyright (c) 2016 Red Hat Inc.
-+#
-+# Authors:
-+#  Robert Foley <robert.foley@linaro.org>
-+#  Originally based on test-quick from Fam Zheng <famz@redhat.com>
-+#
-+# This work is licensed under the terms of the GNU GPL, version 2
-+# or (at your option) any later version. See the COPYING file in
-+# the top-level directory.
-+
-+. common.rc
-+
-+setup_tsan()
-+{
-+    requires clang tsan
-+    tsan_log_dir="/tmp/qemu-test/build/tsan"
-+    mkdir -p $tsan_log_dir > /dev/null || true
-+    EXTRA_CONFIGURE_OPTS="${EXTRA_CONFIGURE_OPTS} --enable-tsan \
-+                          --cc=clang-10 --cxx=clang++-10 \
-+                          --disable-werror --extra-cflags=-O0"
-+    # detect deadlocks is false currently simply because
-+    # TSan crashes immediately with deadlock detector enabled.
-+    # We have maxed out the history size to get the best chance of finding
-+    # warnings during testing.
-+    # Note, to get TSan to fail on warning, use exitcode=66 below.
-+    tsan_opts="suppressions=/tmp/qemu-test/src/tests/tsan/suppressions.tsan\
-+               detect_deadlocks=false history_size=7\
-+               halt_on_error=0 exitcode=0 verbose=5\
-+               log_path=$tsan_log_dir/tsan_warning"
-+    export TSAN_OPTIONS="$tsan_opts"
-+}
-+
-+cd "$BUILD_DIR"
-+
-+TARGET_LIST=${TARGET_LIST:-$DEF_TARGET_LIST} \
-+setup_tsan
-+build_qemu
-+check_qemu
-+install_qemu
-diff --git a/tests/tsan/blacklist.tsan b/tests/tsan/blacklist.tsan
-new file mode 100644
-index 00000000000..75e444f5dc6
---- /dev/null
-+++ b/tests/tsan/blacklist.tsan
-@@ -0,0 +1,10 @@
-+# This is an example blacklist.
-+# To enable use of the blacklist add this to configure:
-+# "--extra-cflags=-fsanitize-blacklist=<src path>/tests/tsan/blacklist.tsan"
-+# The eventual goal would be to fix these warnings.
-+
-+# TSan is not happy about setting/getting of dirty bits,
-+# for example, cpu_physical_memory_set_dirty_range,
-+# and cpu_physical_memory_get_dirty.
-+src:bitops.c
-+src:bitmap.c
-diff --git a/tests/tsan/suppressions.tsan b/tests/tsan/suppressions.tsan
-new file mode 100644
-index 00000000000..73414b9ebd9
---- /dev/null
-+++ b/tests/tsan/suppressions.tsan
-@@ -0,0 +1,14 @@
-+# This is the set of runtime suppressions of TSan warnings.
-+# The goal would be to have here only items we do not
-+# plan to fix, and to explain why for each item.
-+
-+# TSan reports a double lock on RECURSIVE mutexes.
-+# Since the recursive lock is intentional, we choose to ignore it.
-+mutex:aio_context_acquire
-+mutex:pthread_mutex_lock
-+
-+# TSan reports a race betwen pthread_mutex_init() and
-+# pthread_mutex_lock().  Since this is outside of QEMU,
-+# we choose to ignore it.
-+race:pthread_mutex_init
-+race:pthread_mutex_lock
++void AnnotateHappensBefore(const char *f, int l, void *addr);
++void AnnotateHappensAfter(const char *f, int l, void *addr);
++void AnnotateThreadName(const char *f, int l, char *name);
++void AnnotateIgnoreReadsBegin(const char *f, int l);
++void AnnotateIgnoreReadsEnd(const char *f, int l);
++void AnnotateIgnoreWritesBegin(const char *f, int l);
++void AnnotateIgnoreWritesEnd(const char *f, int l);
++#endif
 -- 
 2.20.1
 
