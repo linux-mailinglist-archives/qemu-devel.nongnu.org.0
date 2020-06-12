@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D81C1F7A91
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 17:18:46 +0200 (CEST)
-Received: from localhost ([::1]:52624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF5021F7A47
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 17:02:18 +0200 (CEST)
+Received: from localhost ([::1]:43138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjlS9-00059L-5o
-	for lists+qemu-devel@lfdr.de; Fri, 12 Jun 2020 11:18:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51666)
+	id 1jjlCD-0006Tv-Md
+	for lists+qemu-devel@lfdr.de; Fri, 12 Jun 2020 11:02:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jjl5M-0004mJ-5o
- for qemu-devel@nongnu.org; Fri, 12 Jun 2020 10:55:12 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:26887
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jjl1z-0006AH-CP
+ for qemu-devel@nongnu.org; Fri, 12 Jun 2020 10:51:43 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27002
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jjl5K-00024e-7t
- for qemu-devel@nongnu.org; Fri, 12 Jun 2020 10:55:11 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jjl1x-0001PK-Iy
+ for qemu-devel@nongnu.org; Fri, 12 Jun 2020 10:51:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591973709;
+ s=mimecast20190719; t=1591973500;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=wz4LYmJYkwD0FRusftg9gxDl1X3bD+K8dONSs5X0hnA=;
- b=jFzDa4h44CmSMJlaEX1daVQPaI2ZSsFwrKYS4kptmvFvVil5pG1M4mcu20phZIitnVcQwH
- 5rSZIWBQ53fGeBh0Nff3+x7Gf7EnXmCUEvJny4JuAXT1f+aX/nIrN2Sw8rGBoV1q/O/lj4
- OvY/KVxzrdvd1booNpF1l4rP5ALd7tg=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-151-gSN03lqiOw-5IBA1fUHXyg-1; Fri, 12 Jun 2020 10:51:36 -0400
-X-MC-Unique: gSN03lqiOw-5IBA1fUHXyg-1
-Received: by mail-wr1-f69.google.com with SMTP id t5so3974008wro.20
- for <qemu-devel@nongnu.org>; Fri, 12 Jun 2020 07:51:36 -0700 (PDT)
+ bh=0ulyJw62AwRxsch849W7FmGdBygZ/68I8k1w2QUFSjE=;
+ b=M3FRfJJ5qvJWEJ3jcmLHRX0wwUKF4NArovtrZJonKBm4RQ57iBeh0J1g5RPrIUTwa7Bu8Z
+ Qa0ooKYKfXXO9oohle3UUgc4RqQi8eSpU4acvNROeqG9q2ZrkreIeGQP3rg7HnEGfQ4Vgp
+ SYBjECFfg4qJ3A24S+SYFr0VdJuSs4I=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-456-P2qesqbcMXiDGN_hLhMHqQ-1; Fri, 12 Jun 2020 10:51:38 -0400
+X-MC-Unique: P2qesqbcMXiDGN_hLhMHqQ-1
+Received: by mail-wm1-f71.google.com with SMTP id k185so2032801wme.8
+ for <qemu-devel@nongnu.org>; Fri, 12 Jun 2020 07:51:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=wz4LYmJYkwD0FRusftg9gxDl1X3bD+K8dONSs5X0hnA=;
- b=aaPAOvQarcSlAcz+Sk59rjMSK1db6L+QJuD3HZw0m4aopWvhRpH1PkQ+QrszsFh0C0
- F0BJ6k4VsZjnSzmKgnMVSmEdtP3015ica8uPirgO6PSkmRlu62RW56q+tJYlBEuSyIzV
- SNBBNjiO5Pz68U73qCJYsAwBSive8mQRKXkU5MS4GURcrbP/iogg3VJOdYx5Xj0696u0
- ai1b2iy8eFg9YLV1nnM/CIvd8uvCdZAyts5y3psRgENNjBZK/w873Nq7OTlHrDc/DqOe
- b5EtfVKPv1gMsMKrk7wpdUw34pALOxGqAKJc5ZlsMnhvJsfXPshO2MPRRipTqPa3PA/y
- OCVw==
-X-Gm-Message-State: AOAM532rkCJPUCMZcKzNdU6xVkgupoMnXz6AYHHWTO2cqVfd2gJgOOor
- 3CiouJe+RKMB6TJ+IPoG4QJ5zKe/O2JHLWAb27yiHsFLYxMqzkVcze44tsfOCBlOgdM1SvCWJZ1
- iWKd3ak6KFnsOMFg=
-X-Received: by 2002:adf:dec5:: with SMTP id i5mr16213545wrn.16.1591973495028; 
- Fri, 12 Jun 2020 07:51:35 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyrq48yz7GKmE8biEtjLjKte04AD/V185NMosqi+HXXu1HIpVy8uQ1w6+MVMJsd+zzNXqKLTA==
-X-Received: by 2002:adf:dec5:: with SMTP id i5mr16213512wrn.16.1591973494718; 
- Fri, 12 Jun 2020 07:51:34 -0700 (PDT)
+ bh=0ulyJw62AwRxsch849W7FmGdBygZ/68I8k1w2QUFSjE=;
+ b=nZeIEV7Q6x9cMPoqYe3utRxmaUO9OH9iso9HNFJQJD8E/vEQ7DKKiHARZPhCRUtiTr
+ Zw/MWFkTbQrxxMBLdHnBFnA1hcOMSct8oyiLBkTWKV+KD9D07tS6gekDvN4UO8t2Xv50
+ vsuYtRxaP7RtB8brzd1K/DHtHZLq05fzANyaEX6ZjAThywJbDby3qk/oIcdgaSHiw7vK
+ 6+/Ejd+gYoSzRIkXljIUJg/UpR8/444TFTfvlvVPlB+/bCNwAzJglvZiZXG2GgcRahko
+ HCsdoATunGLaCeq1w+9ecz9mVADdByxmDvUWTb5yYLRaSuOPiolxNxxYb13VWS5eb6Je
+ cFsg==
+X-Gm-Message-State: AOAM532QWWragMqz3PeI+ss19hR+dlrA+q/2brH75T4nJGtXQO7pprpX
+ +DMUDzW5+pA+Rlj7EW2+ZOXUJXRgErV/dhjde+fd87aVIzCjhW6Nf0DN8R48vKsddjxOIP0+8T2
+ Etnw6p2GfljKykRA=
+X-Received: by 2002:a7b:c249:: with SMTP id b9mr12879258wmj.143.1591973497171; 
+ Fri, 12 Jun 2020 07:51:37 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz4wVUFmwddd7D6Rd3u1AM2TgAl6djaNmKqlO3avddnj0DCrRcehX2zUu1BN6Sn+fV2qYfJOg==
+X-Received: by 2002:a7b:c249:: with SMTP id b9mr12879242wmj.143.1591973496975; 
+ Fri, 12 Jun 2020 07:51:36 -0700 (PDT)
 Received: from redhat.com (bzq-79-178-18-124.red.bezeqint.net. [79.178.18.124])
- by smtp.gmail.com with ESMTPSA id s72sm8916007wme.35.2020.06.12.07.51.33
+ by smtp.gmail.com with ESMTPSA id j5sm10806252wrm.57.2020.06.12.07.51.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Jun 2020 07:51:34 -0700 (PDT)
-Date: Fri, 12 Jun 2020 10:51:32 -0400
+ Fri, 12 Jun 2020 07:51:36 -0700 (PDT)
+Date: Fri, 12 Jun 2020 10:51:35 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 14/58] acpi: Convert build_tpm2() to build_append* API
-Message-ID: <20200612141917.9446-15-mst@redhat.com>
+Subject: [PULL v2 15/58] acpi: Move build_tpm2() in the generic part
+Message-ID: <20200612141917.9446-16-mst@redhat.com>
 References: <20200612141917.9446-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200612141917.9446-1-mst@redhat.com>
@@ -70,16 +70,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/12 09:30:54
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=mst@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/12 08:00:42
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,73 +102,149 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Eric Auger <eric.auger@redhat.com>
 
-In preparation of its move to the generic acpi code,
-let's convert build_tpm2() to use build_append API. This
-latter now is prefered in place of direct ACPI struct field
-settings with manual endianness conversion.
+We plan to build the TPM2 table on ARM too. In order to reuse the
+generation code, let's move build_tpm2() to aml-build.c.
+
+No change in the implementation.
 
 Signed-off-by: Eric Auger <eric.auger@redhat.com>
-Message-Id: <20200601095737.32671-2-eric.auger@redhat.com>
+Message-Id: <20200601095737.32671-3-eric.auger@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/i386/acpi-build.c | 28 +++++++++++++++++++---------
- 1 file changed, 19 insertions(+), 9 deletions(-)
+ include/hw/acpi/aml-build.h |  2 ++
+ hw/acpi/aml-build.c         | 44 +++++++++++++++++++++++++++++++++++++
+ hw/i386/acpi-build.c        | 44 -------------------------------------
+ 3 files changed, 46 insertions(+), 44 deletions(-)
 
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index d05d010f77..8d93a2d339 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -2197,30 +2197,40 @@ build_tpm_tcpa(GArray *table_data, BIOSLinker *linker, GArray *tcpalog)
- static void
- build_tpm2(GArray *table_data, BIOSLinker *linker, GArray *tcpalog)
- {
--    Acpi20TPM2 *tpm2_ptr = acpi_data_push(table_data, sizeof *tpm2_ptr);
-+    Acpi20TPM2 *tpm2_ptr = acpi_data_push(table_data, sizeof(AcpiTableHeader));
-     unsigned log_addr_size = sizeof(tpm2_ptr->log_area_start_address);
-     unsigned log_addr_offset =
-         (char *)&tpm2_ptr->log_area_start_address - table_data->data;
-+    uint8_t start_method_params[12] = {};
+diff --git a/include/hw/acpi/aml-build.h b/include/hw/acpi/aml-build.h
+index ed7c89309e..d27da03d64 100644
+--- a/include/hw/acpi/aml-build.h
++++ b/include/hw/acpi/aml-build.h
+@@ -437,4 +437,6 @@ void build_slit(GArray *table_data, BIOSLinker *linker, MachineState *ms);
  
--    tpm2_ptr->platform_class = cpu_to_le16(TPM2_ACPI_CLASS_CLIENT);
+ void build_fadt(GArray *tbl, BIOSLinker *linker, const AcpiFadtData *f,
+                 const char *oem_id, const char *oem_table_id);
++
++void build_tpm2(GArray *table_data, BIOSLinker *linker, GArray *tcpalog);
+ #endif
+diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
+index 3681ec6e3d..b37052c1b4 100644
+--- a/hw/acpi/aml-build.c
++++ b/hw/acpi/aml-build.c
+@@ -26,6 +26,7 @@
+ #include "qemu/bitops.h"
+ #include "sysemu/numa.h"
+ #include "hw/boards.h"
++#include "hw/acpi/tpm.h"
+ 
+ static GArray *build_alloc_array(void)
+ {
+@@ -1877,6 +1878,49 @@ build_hdr:
+                  "FACP", tbl->len - fadt_start, f->rev, oem_id, oem_table_id);
+ }
+ 
++void build_tpm2(GArray *table_data, BIOSLinker *linker, GArray *tcpalog)
++{
++    Acpi20TPM2 *tpm2_ptr = acpi_data_push(table_data, sizeof(AcpiTableHeader));
++    unsigned log_addr_size = sizeof(tpm2_ptr->log_area_start_address);
++    unsigned log_addr_offset =
++        (char *)&tpm2_ptr->log_area_start_address - table_data->data;
++    uint8_t start_method_params[12] = {};
++
 +    /* platform class */
 +    build_append_int_noprefix(table_data, TPM2_ACPI_CLASS_CLIENT, 2);
 +    /* reserved */
 +    build_append_int_noprefix(table_data, 0, 2);
-     if (TPM_IS_TIS_ISA(tpm_find())) {
--        tpm2_ptr->control_area_address = cpu_to_le64(0);
--        tpm2_ptr->start_method = cpu_to_le32(TPM2_START_METHOD_MMIO);
++    if (TPM_IS_TIS_ISA(tpm_find())) {
 +        /* address of control area */
 +        build_append_int_noprefix(table_data, 0, 8);
 +        /* start method */
 +        build_append_int_noprefix(table_data, TPM2_START_METHOD_MMIO, 4);
-     } else if (TPM_IS_CRB(tpm_find())) {
--        tpm2_ptr->control_area_address = cpu_to_le64(TPM_CRB_ADDR_CTRL);
--        tpm2_ptr->start_method = cpu_to_le32(TPM2_START_METHOD_CRB);
++    } else if (TPM_IS_CRB(tpm_find())) {
 +        build_append_int_noprefix(table_data, TPM_CRB_ADDR_CTRL, 8);
 +        build_append_int_noprefix(table_data, TPM2_START_METHOD_CRB, 4);
-     } else {
-         g_warn_if_reached();
-     }
- 
--    tpm2_ptr->log_area_minimum_length =
--        cpu_to_le32(TPM_LOG_AREA_MINIMUM_SIZE);
++    } else {
++        g_warn_if_reached();
++    }
++
 +    /* platform specific parameters */
 +    g_array_append_vals(table_data, &start_method_params, 12);
- 
--    acpi_data_push(tcpalog, le32_to_cpu(tpm2_ptr->log_area_minimum_length));
++
 +    /* log area minimum length */
 +    build_append_int_noprefix(table_data, TPM_LOG_AREA_MINIMUM_SIZE, 4);
 +
 +    acpi_data_push(tcpalog, TPM_LOG_AREA_MINIMUM_SIZE);
-     bios_linker_loader_alloc(linker, ACPI_BUILD_TPMLOG_FILE, tcpalog, 1,
-                              false);
- 
-     /* log area start address to be filled by Guest linker */
++    bios_linker_loader_alloc(linker, ACPI_BUILD_TPMLOG_FILE, tcpalog, 1,
++                             false);
++
++    /* log area start address to be filled by Guest linker */
 +    build_append_int_noprefix(table_data, 0, 8);
-     bios_linker_loader_add_pointer(linker, ACPI_BUILD_TABLE_FILE,
-                                    log_addr_offset, log_addr_size,
-                                    ACPI_BUILD_TPMLOG_FILE, 0);
++    bios_linker_loader_add_pointer(linker, ACPI_BUILD_TABLE_FILE,
++                                   log_addr_offset, log_addr_size,
++                                   ACPI_BUILD_TPMLOG_FILE, 0);
++    build_header(linker, table_data,
++                 (void *)tpm2_ptr, "TPM2", sizeof(*tpm2_ptr), 4, NULL, NULL);
++}
++
+ /* ACPI 5.0: 6.4.3.8.2 Serial Bus Connection Descriptors */
+ static Aml *aml_serial_bus_device(uint8_t serial_bus_type, uint8_t flags,
+                                   uint16_t type_flags,
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index 8d93a2d339..1ecb68f45f 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -2194,50 +2194,6 @@ build_tpm_tcpa(GArray *table_data, BIOSLinker *linker, GArray *tcpalog)
+                  (void *)tcpa, "TCPA", sizeof(*tcpa), 2, NULL, NULL);
+ }
+ 
+-static void
+-build_tpm2(GArray *table_data, BIOSLinker *linker, GArray *tcpalog)
+-{
+-    Acpi20TPM2 *tpm2_ptr = acpi_data_push(table_data, sizeof(AcpiTableHeader));
+-    unsigned log_addr_size = sizeof(tpm2_ptr->log_area_start_address);
+-    unsigned log_addr_offset =
+-        (char *)&tpm2_ptr->log_area_start_address - table_data->data;
+-    uint8_t start_method_params[12] = {};
+-
+-    /* platform class */
+-    build_append_int_noprefix(table_data, TPM2_ACPI_CLASS_CLIENT, 2);
+-    /* reserved */
+-    build_append_int_noprefix(table_data, 0, 2);
+-    if (TPM_IS_TIS_ISA(tpm_find())) {
+-        /* address of control area */
+-        build_append_int_noprefix(table_data, 0, 8);
+-        /* start method */
+-        build_append_int_noprefix(table_data, TPM2_START_METHOD_MMIO, 4);
+-    } else if (TPM_IS_CRB(tpm_find())) {
+-        build_append_int_noprefix(table_data, TPM_CRB_ADDR_CTRL, 8);
+-        build_append_int_noprefix(table_data, TPM2_START_METHOD_CRB, 4);
+-    } else {
+-        g_warn_if_reached();
+-    }
+-
+-    /* platform specific parameters */
+-    g_array_append_vals(table_data, &start_method_params, 12);
+-
+-    /* log area minimum length */
+-    build_append_int_noprefix(table_data, TPM_LOG_AREA_MINIMUM_SIZE, 4);
+-
+-    acpi_data_push(tcpalog, TPM_LOG_AREA_MINIMUM_SIZE);
+-    bios_linker_loader_alloc(linker, ACPI_BUILD_TPMLOG_FILE, tcpalog, 1,
+-                             false);
+-
+-    /* log area start address to be filled by Guest linker */
+-    build_append_int_noprefix(table_data, 0, 8);
+-    bios_linker_loader_add_pointer(linker, ACPI_BUILD_TABLE_FILE,
+-                                   log_addr_offset, log_addr_size,
+-                                   ACPI_BUILD_TPMLOG_FILE, 0);
+-    build_header(linker, table_data,
+-                 (void *)tpm2_ptr, "TPM2", sizeof(*tpm2_ptr), 4, NULL, NULL);
+-}
+-
+ #define HOLE_640K_START  (640 * KiB)
+ #define HOLE_640K_END   (1 * MiB)
+ 
 -- 
 MST
 
