@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F1DB1F7A50
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 17:06:35 +0200 (CEST)
-Received: from localhost ([::1]:60910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E05D51F7A54
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 17:08:48 +0200 (CEST)
+Received: from localhost ([::1]:41048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjlGM-0007GV-46
-	for lists+qemu-devel@lfdr.de; Fri, 12 Jun 2020 11:06:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50280)
+	id 1jjlIU-0002Rf-Jy
+	for lists+qemu-devel@lfdr.de; Fri, 12 Jun 2020 11:08:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50294)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jjl2m-0007uI-9H
- for qemu-devel@nongnu.org; Fri, 12 Jun 2020 10:52:32 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:22857
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jjl2o-0007zz-0X
+ for qemu-devel@nongnu.org; Fri, 12 Jun 2020 10:52:34 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:35627
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jjl2k-0001Ve-L6
- for qemu-devel@nongnu.org; Fri, 12 Jun 2020 10:52:31 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jjl2l-0001Vn-Ud
+ for qemu-devel@nongnu.org; Fri, 12 Jun 2020 10:52:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591973549;
+ s=mimecast20190719; t=1591973551;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3WoW/5GHRqsRNTQHlFF254BVJ0vB+TltSYwqwpwCDlQ=;
- b=BdUL9nULWzAiRJXizhpE3oP2yu21zoJ/VUq6QKllZe89buoG7Rklu177hMwQjXtDeIdUXG
- xojXOndQsLRa4pMZeSXsCxWDZ/sDVUHFdmNFE3B2d1laBK270Qm4PjAtJrN84j1wFnAeNZ
- vx61uWXVQ9PzIlG/L2Awenisg9bNAdU=
+ bh=+aLUVA3adcXUxq1ShODevbUsMtd3Sih4ZUcM3DuoFkA=;
+ b=ObdioC+zuZHuN2fHNPKz+4tqmMe2ZZO9kyNx716SrOAJvhp56a8/OjbwAZqm8QXC1vACdn
+ rG1o/ThzJCBXRlJ6dwWC3zFqhDX9xhUzDzqUYuV7IruCCm02qjbv9TYMQg+LSuNxM6U8Ot
+ 0BcGty5Y8Pov3U42uzVhaZmC7ZxmEwY=
 Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
  [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-187-OglCgHjMNQ6-md1eA2VVpg-1; Fri, 12 Jun 2020 10:52:27 -0400
-X-MC-Unique: OglCgHjMNQ6-md1eA2VVpg-1
-Received: by mail-wr1-f69.google.com with SMTP id i6so3973297wrr.23
- for <qemu-devel@nongnu.org>; Fri, 12 Jun 2020 07:52:27 -0700 (PDT)
+ us-mta-326-Kwtxg-LuNaq3Aa1TaDs4TA-1; Fri, 12 Jun 2020 10:52:29 -0400
+X-MC-Unique: Kwtxg-LuNaq3Aa1TaDs4TA-1
+Received: by mail-wr1-f69.google.com with SMTP id m14so3985652wrj.12
+ for <qemu-devel@nongnu.org>; Fri, 12 Jun 2020 07:52:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=3WoW/5GHRqsRNTQHlFF254BVJ0vB+TltSYwqwpwCDlQ=;
- b=QWAM02TIgqDAlW1egoPpx0da3JL1861y+2Ktfp4RSoRgr7Lj2ypR/ZlbHxHB7lo8Mv
- W+G7va1q0hXLxaFs2l/ZlhVHop7MGbVsj+ITbY/TIKz7C3Bi72uChdYakWIMjq908OUY
- icmAUPnKDv1UlY4ou7m+e1k/IfOSp5s9kVNI6RlxXFMEbq68rGya7KeRDkLqLBTnEd+6
- YzLdhw1jnTJ4U7DKaLzFEfV67M0lpOOV/uK0OccgvmehtDP1OuClVtfz9k4zpoZxvf3s
- xVMidY+MAqQ/4y2P0hQtuDiA6NO5Pnh1dxkG1UFlS0V8ZKNqISfCaRtiLI5X7rPfOZwK
- y1Mg==
-X-Gm-Message-State: AOAM530n+W99aM7vdf13u2GUk7XisK3oFDnqQTJc4impXBSMxg4gCpIh
- dHp9MXOevio2XH7XqVRtC6dAc4uTt2J1Qe9vrtf2sbIWicDAlA62Esz/KL48IMQv2JoykNUlrck
- /qvcp6mrqlV3OF/I=
-X-Received: by 2002:adf:b697:: with SMTP id j23mr16478858wre.201.1591973546032; 
- Fri, 12 Jun 2020 07:52:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxBBuhp/l7oF8mpQgRAFj2CSxb0uUngr3AF5CJIx6l+qihZ57OVYTRlSDKGAMaaNn8hSbz8bQ==
-X-Received: by 2002:adf:b697:: with SMTP id j23mr16478844wre.201.1591973545856; 
- Fri, 12 Jun 2020 07:52:25 -0700 (PDT)
+ bh=+aLUVA3adcXUxq1ShODevbUsMtd3Sih4ZUcM3DuoFkA=;
+ b=p1OKxm9SrzW1cbJVA2owQG5bM7dLZHkB3Xtz2yWtKfQg3/tndJ2vAn+KFvg6crfHhz
+ j3/U9tynTvbnEaY31d2SfIId1MqZJ0k//vuwEp3G7BN2oWik6iOo0F73B6eLwcJrh/IK
+ kRqV2xy8XOq97z8GO4PYMZCA45I9jsiRXE0TbaHieLedsIdxkIaXjkfBvGu/UuOxYnbE
+ ad2JllRTQ++TeF0UwlapnWv21cc/dSGtUSgflqpM3aNvg51PN+oiJNTZuDXV3ZLOdO1V
+ zj9L5U0gqQfQoZ9dLNMSXfJJktgeoIffSQ/22GQp2RL7IekCl6Lfm75Rd2pbb04EeNoT
+ kSxQ==
+X-Gm-Message-State: AOAM5331vUsekfFu+dHNY9X08LvqwalF7CeOwWVYsCnOOc7WJLQsaLKy
+ X6sext+kIE0R64lfopLKpA/xixRjMxBR2+PpoVFkeVqnv17l5ckJ5YAiumgv79ViepJ5SrswWKr
+ hQCmdy1ZWygieNw4=
+X-Received: by 2002:adf:ab09:: with SMTP id q9mr15005450wrc.79.1591973548153; 
+ Fri, 12 Jun 2020 07:52:28 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxcn/Utj4mwHjBsXZx3+DhKEeYYealrBacPcTwDrSaBp3dVkRfdma9HFprFzikq1AFPYkgAIw==
+X-Received: by 2002:adf:ab09:: with SMTP id q9mr15005429wrc.79.1591973547916; 
+ Fri, 12 Jun 2020 07:52:27 -0700 (PDT)
 Received: from redhat.com (bzq-79-178-18-124.red.bezeqint.net. [79.178.18.124])
- by smtp.gmail.com with ESMTPSA id d24sm9030077wmb.45.2020.06.12.07.52.24
+ by smtp.gmail.com with ESMTPSA id e10sm10348694wrn.11.2020.06.12.07.52.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Jun 2020 07:52:25 -0700 (PDT)
-Date: Fri, 12 Jun 2020 10:52:24 -0400
+ Fri, 12 Jun 2020 07:52:27 -0700 (PDT)
+Date: Fri, 12 Jun 2020 10:52:26 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 37/58] Add vhost-user helper to get MemoryRegion data
-Message-ID: <20200612141917.9446-38-mst@redhat.com>
+Subject: [PULL v2 38/58] Add VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS
+Message-ID: <20200612141917.9446-39-mst@redhat.com>
 References: <20200612141917.9446-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200612141917.9446-1-mst@redhat.com>
@@ -73,9 +73,9 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=mst@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/12 08:07:26
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/12 09:30:54
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -98,84 +98,184 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Peter Turschmid <peter.turschm@nutanix.com>,
  Raphael Norwitz <raphael.norwitz@nutanix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Raphael Norwitz <raphael.norwitz@nutanix.com>
 
-When setting the memory tables, qemu uses a memory region's userspace
-address to look up the region's MemoryRegion struct. Among other things,
-the MemoryRegion contains the region's offset and associated file
-descriptor, all of which need to be sent to the backend.
+This change introduces a new feature to the vhost-user protocol allowing
+a backend device to specify the maximum number of ram slots it supports.
 
-With VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS, this logic will be
-needed in multiple places, so before feature support is added it
-should be moved to a helper function.
+At this point, the value returned by the backend will be capped at the
+maximum number of ram slots which can be supported by vhost-user, which
+is currently set to 8 because of underlying protocol limitations.
 
-This helper is also used to simplify the vhost_user_can_merge()
-function.
+The returned value will be stored inside the VhostUserState struct so
+that on device reconnect we can verify that the ram slot limitation
+has not decreased since the last time the device connected.
 
 Signed-off-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
-Message-Id: <1588533678-23450-3-git-send-email-raphael.norwitz@nutanix.com>
+Signed-off-by: Peter Turschmid <peter.turschm@nutanix.com>
+Message-Id: <1588533678-23450-4-git-send-email-raphael.norwitz@nutanix.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- hw/virtio/vhost-user.c | 25 +++++++++++++++----------
- 1 file changed, 15 insertions(+), 10 deletions(-)
+ include/hw/virtio/vhost-user.h |  1 +
+ hw/virtio/vhost-user.c         | 49 ++++++++++++++++++++++++++++++++--
+ docs/interop/vhost-user.rst    | 16 +++++++++++
+ 3 files changed, 64 insertions(+), 2 deletions(-)
 
+diff --git a/include/hw/virtio/vhost-user.h b/include/hw/virtio/vhost-user.h
+index 811e325f42..a9abca3288 100644
+--- a/include/hw/virtio/vhost-user.h
++++ b/include/hw/virtio/vhost-user.h
+@@ -20,6 +20,7 @@ typedef struct VhostUserHostNotifier {
+ typedef struct VhostUserState {
+     CharBackend *chr;
+     VhostUserHostNotifier notifier[VIRTIO_QUEUE_MAX];
++    int memory_slots;
+ } VhostUserState;
+ 
+ bool vhost_user_init(VhostUserState *user, CharBackend *chr, Error **errp);
 diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-index 2e0552dd74..442b0d650a 100644
+index 442b0d650a..754ad885cf 100644
 --- a/hw/virtio/vhost-user.c
 +++ b/hw/virtio/vhost-user.c
-@@ -407,6 +407,18 @@ static int vhost_user_set_log_base(struct vhost_dev *dev, uint64_t base,
+@@ -59,6 +59,8 @@ enum VhostUserProtocolFeature {
+     VHOST_USER_PROTOCOL_F_HOST_NOTIFIER = 11,
+     VHOST_USER_PROTOCOL_F_INFLIGHT_SHMFD = 12,
+     VHOST_USER_PROTOCOL_F_RESET_DEVICE = 13,
++    /* Feature 14 reserved for VHOST_USER_PROTOCOL_F_INBAND_NOTIFICATIONS. */
++    VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS = 15,
+     VHOST_USER_PROTOCOL_F_MAX
+ };
+ 
+@@ -100,6 +102,8 @@ typedef enum VhostUserRequest {
+     VHOST_USER_SET_INFLIGHT_FD = 32,
+     VHOST_USER_GPU_SET_SOCKET = 33,
+     VHOST_USER_RESET_DEVICE = 34,
++    /* Message number 35 reserved for VHOST_USER_VRING_KICK. */
++    VHOST_USER_GET_MAX_MEM_SLOTS = 36,
+     VHOST_USER_MAX
+ } VhostUserRequest;
+ 
+@@ -895,6 +899,23 @@ static int vhost_user_set_owner(struct vhost_dev *dev)
      return 0;
  }
  
-+static MemoryRegion *vhost_user_get_mr_data(uint64_t addr, ram_addr_t *offset,
-+                                            int *fd)
++static int vhost_user_get_max_memslots(struct vhost_dev *dev,
++                                       uint64_t *max_memslots)
 +{
-+    MemoryRegion *mr;
++    uint64_t backend_max_memslots;
++    int err;
 +
-+    assert((uintptr_t)addr == addr);
-+    mr = memory_region_from_host((void *)(uintptr_t)addr, offset);
-+    *fd = memory_region_get_fd(mr);
++    err = vhost_user_get_u64(dev, VHOST_USER_GET_MAX_MEM_SLOTS,
++                             &backend_max_memslots);
++    if (err < 0) {
++        return err;
++    }
 +
-+    return mr;
++    *max_memslots = backend_max_memslots;
++
++    return 0;
 +}
 +
- static void vhost_user_fill_msg_region(VhostUserMemoryRegion *dst,
-                                        struct vhost_memory_region *src)
+ static int vhost_user_reset_device(struct vhost_dev *dev)
  {
-@@ -433,10 +445,7 @@ static int vhost_user_fill_set_mem_table_msg(struct vhost_user *u,
-     for (i = 0; i < dev->mem->nregions; ++i) {
-         reg = dev->mem->regions + i;
+     VhostUserMsg msg = {
+@@ -1392,7 +1413,7 @@ static int vhost_user_postcopy_notifier(NotifierWithReturn *notifier,
  
--        assert((uintptr_t)reg->userspace_addr == reg->userspace_addr);
--        mr = memory_region_from_host((void *)(uintptr_t)reg->userspace_addr,
--                                     &offset);
--        fd = memory_region_get_fd(mr);
-+        mr = vhost_user_get_mr_data(reg->userspace_addr, &offset, &fd);
-         if (fd > 0) {
-             if (track_ramblocks) {
-                 assert(*fd_num < VHOST_MEMORY_MAX_NREGIONS);
-@@ -1551,13 +1560,9 @@ static bool vhost_user_can_merge(struct vhost_dev *dev,
+ static int vhost_user_backend_init(struct vhost_dev *dev, void *opaque)
  {
-     ram_addr_t offset;
-     int mfd, rfd;
--    MemoryRegion *mr;
+-    uint64_t features, protocol_features;
++    uint64_t features, protocol_features, ram_slots;
+     struct vhost_user *u;
+     int err;
  
--    mr = memory_region_from_host((void *)(uintptr_t)start1, &offset);
--    mfd = memory_region_get_fd(mr);
--
--    mr = memory_region_from_host((void *)(uintptr_t)start2, &offset);
--    rfd = memory_region_get_fd(mr);
-+    (void)vhost_user_get_mr_data(start1, &offset, &mfd);
-+    (void)vhost_user_get_mr_data(start2, &offset, &rfd);
+@@ -1454,6 +1475,27 @@ static int vhost_user_backend_init(struct vhost_dev *dev, void *opaque)
+                          "slave-req protocol features.");
+             return -1;
+         }
++
++        /* get max memory regions if backend supports configurable RAM slots */
++        if (!virtio_has_feature(dev->protocol_features,
++                                VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS)) {
++            u->user->memory_slots = VHOST_MEMORY_MAX_NREGIONS;
++        } else {
++            err = vhost_user_get_max_memslots(dev, &ram_slots);
++            if (err < 0) {
++                return err;
++            }
++
++            if (ram_slots < u->user->memory_slots) {
++                error_report("The backend specified a max ram slots limit "
++                             "of %" PRIu64", when the prior validated limit was %d. "
++                             "This limit should never decrease.", ram_slots,
++                             u->user->memory_slots);
++                return -1;
++            }
++
++            u->user->memory_slots = MIN(ram_slots, VHOST_MEMORY_MAX_NREGIONS);
++        }
+     }
  
-     return mfd == rfd;
+     if (dev->migration_blocker == NULL &&
+@@ -1519,7 +1561,9 @@ static int vhost_user_get_vq_index(struct vhost_dev *dev, int idx)
+ 
+ static int vhost_user_memslots_limit(struct vhost_dev *dev)
+ {
+-    return VHOST_MEMORY_MAX_NREGIONS;
++    struct vhost_user *u = dev->opaque;
++
++    return u->user->memory_slots;
  }
+ 
+ static bool vhost_user_requires_shm_log(struct vhost_dev *dev)
+@@ -1904,6 +1948,7 @@ bool vhost_user_init(VhostUserState *user, CharBackend *chr, Error **errp)
+         return false;
+     }
+     user->chr = chr;
++    user->memory_slots = 0;
+     return true;
+ }
+ 
+diff --git a/docs/interop/vhost-user.rst b/docs/interop/vhost-user.rst
+index 3b1b6602c7..b3cf5c3cb5 100644
+--- a/docs/interop/vhost-user.rst
++++ b/docs/interop/vhost-user.rst
+@@ -815,6 +815,7 @@ Protocol features
+   #define VHOST_USER_PROTOCOL_F_INFLIGHT_SHMFD       12
+   #define VHOST_USER_PROTOCOL_F_RESET_DEVICE         13
+   #define VHOST_USER_PROTOCOL_F_INBAND_NOTIFICATIONS 14
++  #define VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS  15
+ 
+ Master message types
+ --------------------
+@@ -1263,6 +1264,21 @@ Master message types
+ 
+   The state.num field is currently reserved and must be set to 0.
+ 
++``VHOST_USER_GET_MAX_MEM_SLOTS``
++  :id: 36
++  :equivalent ioctl: N/A
++  :slave payload: u64
++
++  When the ``VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS`` protocol
++  feature has been successfully negotiated, this message is submitted
++  by master to the slave. The slave should return the message with a
++  u64 payload containing the maximum number of memory slots for
++  QEMU to expose to the guest. At this point, the value returned
++  by the backend will be capped at the maximum number of ram slots
++  which can be supported by vhost-user. Currently that limit is set
++  at VHOST_USER_MAX_RAM_SLOTS = 8 because of underlying protocol
++  limitations.
++
+ Slave message types
+ -------------------
+ 
 -- 
 MST
 
