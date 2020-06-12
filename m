@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC1A81F71CF
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 03:48:03 +0200 (CEST)
-Received: from localhost ([::1]:53444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BF7A1F71D1
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 03:49:31 +0200 (CEST)
+Received: from localhost ([::1]:59644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjYna-0002YV-JP
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 21:48:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51008)
+	id 1jjYp0-0005sz-Hd
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 21:49:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <3Y97iXgMKCqgRShOWWOTM.KWUYMUc-LMdMTVWVOVc.WZO@flex--jkz.bounces.google.com>)
- id 1jjYly-0000w9-DO
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 21:46:22 -0400
-Received: from mail-yb1-xb4a.google.com ([2607:f8b0:4864:20::b4a]:54976)
+ <3Zd7iXgMKCqoTUjQYYQVO.MYWaOWe-NOfOVXYXQXe.YbQ@flex--jkz.bounces.google.com>)
+ id 1jjYlz-0000xD-Ds
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 21:46:23 -0400
+Received: from mail-qk1-x749.google.com ([2607:f8b0:4864:20::749]:44709)
  by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from
- <3Y97iXgMKCqgRShOWWOTM.KWUYMUc-LMdMTVWVOVc.WZO@flex--jkz.bounces.google.com>)
- id 1jjYlv-0001Ul-Kd
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 21:46:22 -0400
-Received: by mail-yb1-xb4a.google.com with SMTP id p22so8734099ybg.21
- for <qemu-devel@nongnu.org>; Thu, 11 Jun 2020 18:46:12 -0700 (PDT)
+ <3Zd7iXgMKCqoTUjQYYQVO.MYWaOWe-NOfOVXYXQXe.YbQ@flex--jkz.bounces.google.com>)
+ id 1jjYlx-0001Up-C4
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 21:46:23 -0400
+Received: by mail-qk1-x749.google.com with SMTP id j16so6800262qka.11
+ for <qemu-devel@nongnu.org>; Thu, 11 Jun 2020 18:46:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
  h=date:in-reply-to:message-id:mime-version:references:subject:from:to
- :cc; bh=gapAc62Y0td/O+BfFuvMHL0I99L+MBv6AKtq97q67nA=;
- b=UNZManRrcIOG3hz2BSX5qgzphaRjWDLtbBPKQ+Dz7cDgkGoScO52FB+IEPRLQkPs53
- krBkpS0JR92U9mZNSJn3992tk6usaMBxwYr5vSqtom4WBY0pKEQ51vikRjdMhqi/xIbZ
- hfdYBrmCxCA1HeBzyDmk7nVQv5KVgU12csdfPJ1qKqCHT6pZJeazX4DU5FR8CNh55oyS
- ChjhTZCur2mMHy4VbhHB2idTuQemYRRUVnHXWUc1a66ASR31DmISGom/AQ4V8IH5VgvB
- C4PM8mrmV9MwQzEqgKWOuuYMhQOFuVpTbt2vEv1zixw8bRstvD3D/7XEU/3hIH3RQl+i
- ++5g==
+ :cc; bh=zrAZryzclMmQ2GnW3+4bij4G7St8PIqWiedWlSplzFg=;
+ b=sh9rj0Ze7pugCxLZjpbqmMaoKlnzXdDEqx/0wdHHh9PVhw4JU8BVAU9wsvU9wzdJlS
+ ePqKSE3IET/Y0oQuMhPvY+zLcJBGM+VmOFC0L+xzIYUtD91jkMN53kZ1q22nKXZR0X7C
+ ckJMAcHT2f7K46LiAknyOzQnkRg0WrGvwRwWM7FpNOXDfsKFfQq61cB3AxUM/OUntXnz
+ 3HRqfbv9yyC6eNrF6rg1krmH3bJBFbf6AuvXeWAXa487ExLV02Z0j4ZkOr2EQNtw6I8f
+ vO5tFuFVza2sg2qWpJ+LZ2pCWyVv7Fo7dmTCSp25BvsW6H7LCErYb+7rz8pYmSiIna4f
+ IYSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:in-reply-to:message-id:mime-version
  :references:subject:from:to:cc;
- bh=gapAc62Y0td/O+BfFuvMHL0I99L+MBv6AKtq97q67nA=;
- b=D7bT7nOFAG/MqoNm0eXykyvTSgB8Uvt69Mo/EwoWXxpWMyh5gpR3scQI2by/NWWt0L
- jERyv9Xf+fN0foz/KYEpvKiZ7N0uXv5gtONkh9nUWa+qO1T2nXyJlp8TV8+4TUlWwLwn
- 6uskHONXOLaAvb2/jqzyimT/esZTR+ITGKOkHiIegdg6BuzRi9d0ToQyhIYXZoFaTV6I
- LX3v9EMTJoDyWDIJZUlz7gVnEky5DRrIvhFPhKFGC3wWI6iryi1/bq80brHj3Wjm9QN6
- yI7Au+6b+PwRQYCQsiMXZlmdBSRdhpAz1OIb8d7utPc61I9ritvrzMbS7IOzrEDnKHP3
- ZLYA==
-X-Gm-Message-State: AOAM531ZgxFbCOe/fCkPbUeqtfMIDcPXmj4mFQABDvmiXhf3JEwu2XYK
- ucX6P5hjNcwKA4AsmpgiSF7l4k/EldLVcTQYibt3YbQgMkrNnBgOxYr9pMGvh3E2l21IkfLHoYj
- xuB3CuIaNp6DFPII1VPwVpC7xT4k/Xi7ME8glUmZUwQCgOsjSq0/y
-X-Google-Smtp-Source: ABdhPJxNNBIu+raP6oEUgHk2C3aGta4khQdCFs5N8n4PqFrlqFzvKTWB6xf1e77zu07PmR2iYtVOkv4=
-X-Received: by 2002:a25:bc81:: with SMTP id e1mr7623586ybk.375.1591926371420; 
- Thu, 11 Jun 2020 18:46:11 -0700 (PDT)
-Date: Thu, 11 Jun 2020 18:46:02 -0700
+ bh=zrAZryzclMmQ2GnW3+4bij4G7St8PIqWiedWlSplzFg=;
+ b=UMvV0cRJ3Z79iaQhocj7/K0aLJ7mnfO+ONFriCr3w8BKlKkCuG9906V6MNbO0XpmcX
+ sItLpM5AIndpwIu64RLQy+uM+LwLg0odeDE8YjBbRuFcKJQVFSoEoJg5AQx0g3XQ4ftG
+ 8Se68ngJB1tX9ViUppinEqlIH9a4iuJ6y8sVs9qTWB1uYekeiWAbVaiy3RLikXopUiMN
+ VIssGI9q1BdYB/IFh9ygNz5oqW7T8Zz/7IgSK3mUKuKxTVdafy4Ivkpipz5Db135VfwF
+ WqWKaZ/UA1ovVktZq8/NISPCSUb51tqh6KMfPzxTGnEjkeruwdoa1VSG4fmT3Nm6cb6Y
+ jp2w==
+X-Gm-Message-State: AOAM530iRx0+dTNVNv/Xbdf/HplfmFjJe7Ig3BlXwX6lNk/J80i8hsRw
+ L6Gw0/UB2mS11erji7FfiIjetdKckQU5+REmcWOcPzJHgIaZFOv/j03jO+KCPIlMtBmABqp38Kr
+ 9HtTo42QDV7ywDsudHWj8LuxqP1q50XRzWQbh4tmMW+LGf2AHJnZl
+X-Google-Smtp-Source: ABdhPJzeAyJjF03I50ifR/5PtDnbCByuW3dr6mY5DWWXG5piARCTwYxjHYUyEDMxEGJFh1LCFlWtfWc=
+X-Received: by 2002:a05:6214:846:: with SMTP id
+ dg6mr9942730qvb.210.1591926373252; 
+ Thu, 11 Jun 2020 18:46:13 -0700 (PDT)
+Date: Thu, 11 Jun 2020 18:46:03 -0700
 In-Reply-To: <20200612014606.147691-1-jkz@google.com>
-Message-Id: <20200612014606.147691-2-jkz@google.com>
+Message-Id: <20200612014606.147691-3-jkz@google.com>
 Mime-Version: 1.0
 References: <20200612014606.147691-1-jkz@google.com>
 X-Mailer: git-send-email 2.27.0.290.gba653c62da-goog
-Subject: [PATCH 1/5] linux-user: Refactor do_fork to use new `qemu_clone`
+Subject: [PATCH 2/5] linux-user: Make fd_trans task-specific.
 From: Josh Kunz <jkz@google.com>
 To: qemu-devel@nongnu.org
 Cc: riku.voipio@iki.fi, laurent@vivier.eu, alex.bennee@linaro.org, 
  Josh Kunz <jkz@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b4a;
- envelope-from=3Y97iXgMKCqgRShOWWOTM.KWUYMUc-LMdMTVWVOVc.WZO@flex--jkz.bounces.google.com;
- helo=mail-yb1-xb4a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::749;
+ envelope-from=3Zd7iXgMKCqoTUjQYYQVO.MYWaOWe-NOfOVXYXQXe.YbQ@flex--jkz.bounces.google.com;
+ helo=mail-qk1-x749.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -105
@@ -88,777 +89,304 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is pre-work for adding full support for the `CLONE_VM` `clone`
-flag. In a follow-up patch, we'll add support to `clone.c` for
-`clone_vm`-type clones beyond threads. CLONE_VM support is more
-complicated, so first we're splitting existing clone mechanisms
-(pthread_create, and fork) into a separate file.
+The file-descriptor translation subsystem used by QEMU uses some global
+variables to track file descriptors an their associated state. In the
+future (when clone is implemented) it may be possible to have two
+processes that share memory, but have a unique set of file descriptors.
+This change associates the file-descriptor translation table with the
+per-task TaskState structure. Since many tasks will share file
+descriptors (e.g., threads), a structure similar to the existing structure is
+used. Each task has a pointer to a global table. That table can be
+shared by multiple tasks, or changed if a task needs to use a different
+FD table.
 
 Signed-off-by: Josh Kunz <jkz@google.com>
 ---
- linux-user/Makefile.objs |   2 +-
- linux-user/clone.c       | 152 ++++++++++++++++
- linux-user/clone.h       |  27 +++
- linux-user/syscall.c     | 376 +++++++++++++++++++--------------------
- 4 files changed, 365 insertions(+), 192 deletions(-)
- create mode 100644 linux-user/clone.c
- create mode 100644 linux-user/clone.h
+ linux-user/Makefile.objs   |  2 +-
+ linux-user/fd-trans-tbl.c  | 13 +++++++
+ linux-user/fd-trans-type.h | 17 +++++++++
+ linux-user/fd-trans.c      |  3 --
+ linux-user/fd-trans.h      | 75 ++++++++++++++++++++++++--------------
+ linux-user/main.c          |  1 +
+ linux-user/qemu.h          | 24 ++++++++++++
+ linux-user/syscall.c       | 12 ++++++
+ 8 files changed, 115 insertions(+), 32 deletions(-)
+ create mode 100644 linux-user/fd-trans-tbl.c
+ create mode 100644 linux-user/fd-trans-type.h
 
 diff --git a/linux-user/Makefile.objs b/linux-user/Makefile.objs
-index 1940910a73..d6788f012c 100644
+index d6788f012c..d19102e244 100644
 --- a/linux-user/Makefile.objs
 +++ b/linux-user/Makefile.objs
 @@ -1,7 +1,7 @@
  obj-y = main.o syscall.o strace.o mmap.o signal.o \
  	elfload.o linuxload.o uaccess.o uname.o \
  	safe-syscall.o $(TARGET_ABI_DIR)/signal.o \
--        $(TARGET_ABI_DIR)/cpu_loop.o exit.o fd-trans.o
-+        $(TARGET_ABI_DIR)/cpu_loop.o exit.o fd-trans.o clone.o
+-        $(TARGET_ABI_DIR)/cpu_loop.o exit.o fd-trans.o clone.o
++        $(TARGET_ABI_DIR)/cpu_loop.o exit.o fd-trans.o clone.o fd-trans-tbl.o
  
  obj-$(TARGET_HAS_BFLT) += flatload.o
  obj-$(TARGET_I386) += vm86.o
-diff --git a/linux-user/clone.c b/linux-user/clone.c
+diff --git a/linux-user/fd-trans-tbl.c b/linux-user/fd-trans-tbl.c
 new file mode 100644
-index 0000000000..f02ae8c464
+index 0000000000..6afe91096e
 --- /dev/null
-+++ b/linux-user/clone.c
-@@ -0,0 +1,152 @@
++++ b/linux-user/fd-trans-tbl.c
+@@ -0,0 +1,13 @@
 +#include "qemu/osdep.h"
++#include "fd-trans.h"
++
++struct fd_trans_table *fd_trans_table_clone(struct fd_trans_table *tbl)
++{
++    struct fd_trans_table *new_tbl = g_new0(struct fd_trans_table, 1);
++    new_tbl->fd_max = tbl->fd_max;
++    new_tbl->entries = g_new0(TargetFdTrans*, tbl->fd_max);
++    memcpy(new_tbl->entries,
++           tbl->entries,
++           sizeof(*new_tbl->entries) * tbl->fd_max);
++    return new_tbl;
++}
+diff --git a/linux-user/fd-trans-type.h b/linux-user/fd-trans-type.h
+new file mode 100644
+index 0000000000..06c4427642
+--- /dev/null
++++ b/linux-user/fd-trans-type.h
+@@ -0,0 +1,17 @@
++#ifndef FD_TRANS_TYPE_H
++#define FD_TRANS_TYPE_H
++
++/*
++ * Break out the TargetFdTrans typedefs into a separate file, to break
++ * the circular dependency between qemu.h and fd-trans.h.
++ */
++
++typedef abi_long (*TargetFdDataFunc)(void *, size_t);
++typedef abi_long (*TargetFdAddrFunc)(void *, abi_ulong, socklen_t);
++typedef struct TargetFdTrans {
++    TargetFdDataFunc host_to_target_data;
++    TargetFdDataFunc target_to_host_data;
++    TargetFdAddrFunc target_to_host_addr;
++} TargetFdTrans;
++
++#endif /* FD_TRANS_TYPE_H */
+diff --git a/linux-user/fd-trans.c b/linux-user/fd-trans.c
+index c0687c52e6..c552034a5e 100644
+--- a/linux-user/fd-trans.c
++++ b/linux-user/fd-trans.c
+@@ -261,9 +261,6 @@ enum {
+     QEMU___RTA_MAX
+ };
+ 
+-TargetFdTrans **target_fd_trans;
+-unsigned int target_fd_max;
+-
+ static void tswap_nlmsghdr(struct nlmsghdr *nlh)
+ {
+     nlh->nlmsg_len = tswap32(nlh->nlmsg_len);
+diff --git a/linux-user/fd-trans.h b/linux-user/fd-trans.h
+index a3fcdaabc7..07ae04dad7 100644
+--- a/linux-user/fd-trans.h
++++ b/linux-user/fd-trans.h
+@@ -16,38 +16,45 @@
+ #ifndef FD_TRANS_H
+ #define FD_TRANS_H
+ 
+-typedef abi_long (*TargetFdDataFunc)(void *, size_t);
+-typedef abi_long (*TargetFdAddrFunc)(void *, abi_ulong, socklen_t);
+-typedef struct TargetFdTrans {
+-    TargetFdDataFunc host_to_target_data;
+-    TargetFdDataFunc target_to_host_data;
+-    TargetFdAddrFunc target_to_host_addr;
+-} TargetFdTrans;
 +#include "qemu.h"
-+#include "clone.h"
-+#include <pthread.h>
-+#include <sched.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <sys/syscall.h>
-+#include <sys/types.h>
-+#include <sys/wait.h>
-+#include <unistd.h>
-+#include <stdbool.h>
-+#include <assert.h>
-+
-+static const unsigned long NEW_STACK_SIZE = 0x40000UL;
-+
++#include "fd-trans-type.h"
+ 
+-extern TargetFdTrans **target_fd_trans;
+-
+-extern unsigned int target_fd_max;
 +/*
-+ * A completion tracks an event that can be completed. It's based on the
-+ * kernel concept with the same name, but implemented with userspace locks.
++ * Return a duplicate of the given fd_trans_table. This function always
++ * succeeds. Ownership of the pointed-to table is yielded to the caller. The
++ * caller is responsible for freeing the table when it is no longer in-use.
 + */
-+struct completion {
-+    /* done is set once this completion has been completed. */
-+    bool done;
-+    /* mu syncronizes access to this completion. */
-+    pthread_mutex_t mu;
-+    /* cond is used to broadcast completion status to awaiting threads. */
-+    pthread_cond_t cond;
-+};
++struct fd_trans_table *fd_trans_table_clone(struct fd_trans_table *tbl);
+ 
+ static inline TargetFdDataFunc fd_trans_target_to_host_data(int fd)
+ {
+-    if (fd >= 0 && fd < target_fd_max && target_fd_trans[fd]) {
+-        return target_fd_trans[fd]->target_to_host_data;
++    TaskState *ts = (TaskState *)thread_cpu->opaque;
++    struct fd_trans_table *tbl = ts->fd_trans_tbl;
 +
-+static void completion_init(struct completion *c)
-+{
-+    c->done = false;
-+    pthread_mutex_init(&c->mu, NULL);
-+    pthread_cond_init(&c->cond, NULL);
-+}
++    if (fd >= 0 && fd < tbl->fd_max && tbl->entries[fd]) {
++        return tbl->entries[fd]->target_to_host_data;
+     }
+     return NULL;
+ }
+ 
+ static inline TargetFdDataFunc fd_trans_host_to_target_data(int fd)
+ {
+-    if (fd >= 0 && fd < target_fd_max && target_fd_trans[fd]) {
+-        return target_fd_trans[fd]->host_to_target_data;
++    TaskState *ts = (TaskState *)thread_cpu->opaque;
++    struct fd_trans_table *tbl = ts->fd_trans_tbl;
 +
-+/*
-+ * Block until the given completion finishes. Returns immediately if the
-+ * completion has already finished.
-+ */
-+static void completion_await(struct completion *c)
-+{
-+    pthread_mutex_lock(&c->mu);
-+    if (c->done) {
-+        pthread_mutex_unlock(&c->mu);
-+        return;
-+    }
-+    pthread_cond_wait(&c->cond, &c->mu);
-+    assert(c->done && "returned from cond wait without being marked as done");
-+    pthread_mutex_unlock(&c->mu);
-+}
++    if (fd >= 0 && fd < tbl->fd_max && tbl->entries[fd]) {
++        return tbl->entries[fd]->host_to_target_data;
+     }
+     return NULL;
+ }
+ 
+ static inline TargetFdAddrFunc fd_trans_target_to_host_addr(int fd)
+ {
+-    if (fd >= 0 && fd < target_fd_max && target_fd_trans[fd]) {
+-        return target_fd_trans[fd]->target_to_host_addr;
++    TaskState *ts = (TaskState *)thread_cpu->opaque;
++    struct fd_trans_table *tbl = ts->fd_trans_tbl;
 +
-+/*
-+ * Finish the completion. Unblocks all awaiters.
-+ */
-+static void completion_finish(struct completion *c)
-+{
-+    pthread_mutex_lock(&c->mu);
-+    assert(!c->done && "trying to finish an already finished completion");
-+    c->done = true;
-+    pthread_cond_broadcast(&c->cond);
-+    pthread_mutex_unlock(&c->mu);
-+}
-+
-+struct clone_thread_info {
-+    struct completion running;
-+    int tid;
-+    int (*callback)(void *);
-+    void *payload;
-+};
-+
-+static void *clone_thread_run(void *raw_info)
-+{
-+    struct clone_thread_info *info = (struct clone_thread_info *) raw_info;
-+    info->tid = syscall(SYS_gettid);
++    if (fd >= 0 && fd < tbl->fd_max && tbl->entries[fd]) {
++        return tbl->entries[fd]->target_to_host_addr;
+     }
+     return NULL;
+ }
+@@ -56,29 +63,41 @@ static inline void fd_trans_register(int fd, TargetFdTrans *trans)
+ {
+     unsigned int oldmax;
+ 
+-    if (fd >= target_fd_max) {
+-        oldmax = target_fd_max;
+-        target_fd_max = ((fd >> 6) + 1) << 6; /* by slice of 64 entries */
+-        target_fd_trans = g_renew(TargetFdTrans *,
+-                                  target_fd_trans, target_fd_max);
+-        memset((void *)(target_fd_trans + oldmax), 0,
+-               (target_fd_max - oldmax) * sizeof(TargetFdTrans *));
++    TaskState *ts = (TaskState *)thread_cpu->opaque;
++    struct fd_trans_table *tbl = ts->fd_trans_tbl;
 +
 +    /*
-+     * Save out callback/payload since lifetime of info is only guaranteed
-+     * until we finish the completion.
++     * TODO: This is racy. Updates to tbl->entries should be guarded by
++     * a lock.
 +     */
-+    int (*callback)(void *) = info->callback;
-+    void *payload = info->payload;
-+    completion_finish(&info->running);
++    if (fd >= tbl->fd_max) {
++        oldmax = tbl->fd_max;
++        tbl->fd_max = ((fd >> 6) + 1) << 6; /* by slice of 64 entries */
++        tbl->entries = g_renew(TargetFdTrans *, tbl->entries, tbl->fd_max);
++        memset((void *)(tbl->entries + oldmax), 0,
++               (tbl->fd_max - oldmax) * sizeof(TargetFdTrans *));
+     }
+-    target_fd_trans[fd] = trans;
++    tbl->entries[fd] = trans;
+ }
+ 
+ static inline void fd_trans_unregister(int fd)
+ {
+-    if (fd >= 0 && fd < target_fd_max) {
+-        target_fd_trans[fd] = NULL;
++    TaskState *ts = (TaskState *)thread_cpu->opaque;
++    struct fd_trans_table *tbl = ts->fd_trans_tbl;
 +
-+    _exit(callback(payload));
-+}
++    if (fd >= 0 && fd < tbl->fd_max) {
++        tbl->entries[fd] = NULL;
+     }
+ }
+ 
+ static inline void fd_trans_dup(int oldfd, int newfd)
+ {
++    TaskState *ts = (TaskState *)thread_cpu->opaque;
++    struct fd_trans_table *tbl = ts->fd_trans_tbl;
 +
-+static int clone_thread(int flags, int (*callback)(void *), void *payload)
-+{
-+    struct clone_thread_info info;
-+    pthread_attr_t attr;
-+    int ret;
-+    pthread_t thread_unused;
-+
-+    memset(&info, 0, sizeof(info));
-+
-+    completion_init(&info.running);
-+    info.callback = callback;
-+    info.payload = payload;
-+
-+    (void)pthread_attr_init(&attr);
-+    (void)pthread_attr_setstacksize(&attr, NEW_STACK_SIZE);
-+    (void)pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_DETACHED);
-+
-+    ret = pthread_create(&thread_unused, &attr, clone_thread_run, (void *) &info);
-+    /* pthread_create returns errors directly, instead of via errno. */
-+    if (ret != 0) {
-+        errno = ret;
-+        ret = -1;
-+    } else {
-+        completion_await(&info.running);
-+        ret = info.tid;
-+    }
-+
-+    pthread_attr_destroy(&attr);
-+    return ret;
-+}
-+
-+int qemu_clone(int flags, int (*callback)(void *), void *payload)
-+{
-+    int ret;
-+
-+    if (clone_flags_are_thread(flags)) {
-+        /*
-+         * The new process uses the same flags as pthread_create, so we can
-+         * use pthread_create directly. This is an optimization.
-+         */
-+        return clone_thread(flags, callback, payload);
-+    }
-+
-+    if (clone_flags_are_fork(flags)) {
-+        /*
-+         * Special case a true `fork` clone call. This is so we can take
-+         * advantage of special pthread_atfork handlers in libraries we
-+         * depend on (e.g., glibc). Without this, existing users of `fork`
-+         * in multi-threaded environments will likely get new flaky
-+         * deadlocks.
-+         */
-+        fork_start();
-+        ret = fork();
-+        if (ret == 0) {
-+            fork_end(1);
-+            _exit(callback(payload));
-+        }
-+        fork_end(0);
-+        return ret;
-+    }
-+
-+    /* !fork && !thread */
-+    errno = EINVAL;
-+    return -1;
-+}
-diff --git a/linux-user/clone.h b/linux-user/clone.h
-new file mode 100644
-index 0000000000..34ae9b3780
---- /dev/null
-+++ b/linux-user/clone.h
-@@ -0,0 +1,27 @@
-+#ifndef CLONE_H
-+#define CLONE_H
-+
+     fd_trans_unregister(newfd);
+-    if (oldfd < target_fd_max && target_fd_trans[oldfd]) {
+-        fd_trans_register(newfd, target_fd_trans[oldfd]);
++    if (oldfd >= 0 && oldfd < tbl->fd_max && tbl->entries[oldfd]) {
++        fd_trans_register(newfd, tbl->entries[oldfd]);
+     }
+ }
+ 
+diff --git a/linux-user/main.c b/linux-user/main.c
+index 3597e99bb1..d1ed0f6120 100644
+--- a/linux-user/main.c
++++ b/linux-user/main.c
+@@ -796,6 +796,7 @@ int main(int argc, char **argv, char **envp)
+     ts->bprm = &bprm;
+     cpu->opaque = ts;
+     task_settid(ts);
++    ts->fd_trans_tbl = g_new0(struct fd_trans_table, 1);
+ 
+     ret = loader_exec(execfd, exec_path, target_argv, target_environ, regs,
+         info, &bprm);
+diff --git a/linux-user/qemu.h b/linux-user/qemu.h
+index ce902f5132..989e01ad8d 100644
+--- a/linux-user/qemu.h
++++ b/linux-user/qemu.h
+@@ -5,6 +5,7 @@
+ #include "cpu.h"
+ #include "exec/exec-all.h"
+ #include "exec/cpu_ldst.h"
++#include "fd-trans-type.h"
+ 
+ #undef DEBUG_REMAP
+ #ifdef DEBUG_REMAP
+@@ -96,6 +97,22 @@ struct emulated_sigtable {
+     target_siginfo_t info;
+ };
+ 
 +/*
-+ * qemu_clone executes the given `callback`, with the given payload as the
-+ * first argument, in a new process created with the given flags. Some clone
-+ * flags, such as *SETTLS, *CLEARTID are not supported. The child thread ID is
-+ * returned on success, otherwise negative errno is returned on clone failure.
++ * The fd_trans_table is used the FD data translation subsystem to
++ * find FD data translators (i.e. functions). `entries` is an array of pointers
++ * with size `fd_max`, containing pointers to TargetFDTrans structs. A pointer
++ * to a struct of this type is stored TaskState, which allows the struct itself
++ * to be shared by all tasks (e.g., threads) that share a file descriptor
++ * namespace. Storing a pointer to this table in the TaskState struct is needed
++ * to support rare cases where tasks share an address space, but do not share
++ * a set of file descriptors (e.g., after clone(CLONE_VM) when CLONE_FILES is
++ * not set). See `fd-trans.h` for more info on the FD translation subsystem.
 + */
-+int qemu_clone(int flags, int (*callback)(void *), void *payload);
++struct fd_trans_table {
++    uint64_t fd_max;
++    TargetFdTrans **entries;
++};
 +
-+/* Returns true if the given clone flags can be emulated with libc fork. */
-+static bool clone_flags_are_fork(unsigned int flags)
-+{
-+    return flags == SIGCHLD;
-+}
+ /* NOTE: we force a big alignment so that the stack stored after is
+    aligned too */
+ typedef struct TaskState {
+@@ -153,6 +170,13 @@ typedef struct TaskState {
+ 
+     /* This thread's sigaltstack, if it has one */
+     struct target_sigaltstack sigaltstack_used;
 +
-+/* Returns true if the given clone flags can be emulated with pthread_create. */
-+static bool clone_flags_are_thread(unsigned int flags)
-+{
-+    return flags == (
-+        CLONE_VM | CLONE_FS | CLONE_FILES |
-+        CLONE_SIGHAND | CLONE_THREAD | CLONE_SYSVSEM
-+    );
-+}
-+
-+#endif /* CLONE_H */
++    /*
++     * A pointer to the FD trans table to be used by this task. Note that the
++     * task doesn't have exclusive control of the fd_trans_table so access to
++     * the table itself should be guarded.
++     */
++    struct fd_trans_table *fd_trans_tbl;
+ } __attribute__((aligned(16))) TaskState;
+ 
+ extern char *exec_path;
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 97de9fb5c9..7ce021cea2 100644
+index 7ce021cea2..ff1d07871f 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -122,6 +122,7 @@
- #include "qapi/error.h"
- #include "fd-trans.h"
- #include "tcg/tcg.h"
-+#include "clone.h"
+@@ -6013,6 +6013,18 @@ static int do_fork(CPUArchState *env, unsigned int flags, abi_ulong newsp,
+     ts->info = parent_ts->info;
+     ts->signal_mask = parent_ts->signal_mask;
  
- #ifndef CLONE_IO
- #define CLONE_IO                0x80000000      /* Clone io context */
-@@ -135,12 +136,6 @@
-  *  * flags we can implement within QEMU itself
-  *  * flags we can't support and will return an error for
-  */
--/* For thread creation, all these flags must be present; for
-- * fork, none must be present.
-- */
--#define CLONE_THREAD_FLAGS                              \
--    (CLONE_VM | CLONE_FS | CLONE_FILES |                \
--     CLONE_SIGHAND | CLONE_THREAD | CLONE_SYSVSEM)
- 
- /* These flags are ignored:
-  * CLONE_DETACHED is now ignored by the kernel;
-@@ -150,30 +145,10 @@
-     (CLONE_DETACHED | CLONE_IO)
- 
- /* Flags for fork which we can implement within QEMU itself */
--#define CLONE_OPTIONAL_FORK_FLAGS               \
-+#define CLONE_EMULATED_FLAGS               \
-     (CLONE_SETTLS | CLONE_PARENT_SETTID |       \
-      CLONE_CHILD_CLEARTID | CLONE_CHILD_SETTID)
- 
--/* Flags for thread creation which we can implement within QEMU itself */
--#define CLONE_OPTIONAL_THREAD_FLAGS                             \
--    (CLONE_SETTLS | CLONE_PARENT_SETTID |                       \
--     CLONE_CHILD_CLEARTID | CLONE_CHILD_SETTID | CLONE_PARENT)
--
--#define CLONE_INVALID_FORK_FLAGS                                        \
--    (~(CSIGNAL | CLONE_OPTIONAL_FORK_FLAGS | CLONE_IGNORED_FLAGS))
--
--#define CLONE_INVALID_THREAD_FLAGS                                      \
--    (~(CSIGNAL | CLONE_THREAD_FLAGS | CLONE_OPTIONAL_THREAD_FLAGS |     \
--       CLONE_IGNORED_FLAGS))
--
--/* CLONE_VFORK is special cased early in do_fork(). The other flag bits
-- * have almost all been allocated. We cannot support any of
-- * CLONE_NEWNS, CLONE_NEWCGROUP, CLONE_NEWUTS, CLONE_NEWIPC,
-- * CLONE_NEWUSER, CLONE_NEWPID, CLONE_NEWNET, CLONE_PTRACE, CLONE_UNTRACED.
-- * The checks against the invalid thread masks above will catch these.
-- * (The one remaining unallocated bit is 0x1000 which used to be CLONE_PID.)
-- */
--
- /* Define DEBUG_ERESTARTSYS to force every syscall to be restarted
-  * once. This exercises the codepaths for restart.
-  */
-@@ -1104,7 +1079,7 @@ static inline rlim_t target_to_host_rlim(abi_ulong target_rlim)
- {
-     abi_ulong target_rlim_swap;
-     rlim_t result;
--    
-+
-     target_rlim_swap = tswapal(target_rlim);
-     if (target_rlim_swap == TARGET_RLIM_INFINITY)
-         return RLIM_INFINITY;
-@@ -1112,7 +1087,7 @@ static inline rlim_t target_to_host_rlim(abi_ulong target_rlim)
-     result = target_rlim_swap;
-     if (target_rlim_swap != (rlim_t)result)
-         return RLIM_INFINITY;
--    
-+
-     return result;
- }
- #endif
-@@ -1122,13 +1097,13 @@ static inline abi_ulong host_to_target_rlim(rlim_t rlim)
- {
-     abi_ulong target_rlim_swap;
-     abi_ulong result;
--    
-+
-     if (rlim == RLIM_INFINITY || rlim != (abi_long)rlim)
-         target_rlim_swap = TARGET_RLIM_INFINITY;
-     else
-         target_rlim_swap = rlim;
-     result = tswapal(target_rlim_swap);
--    
-+
-     return result;
- }
- #endif
-@@ -1615,10 +1590,11 @@ static inline abi_long target_to_host_cmsg(struct msghdr *msgh,
-     abi_ulong target_cmsg_addr;
-     struct target_cmsghdr *target_cmsg, *target_cmsg_start;
-     socklen_t space = 0;
--    
-+
-     msg_controllen = tswapal(target_msgh->msg_controllen);
--    if (msg_controllen < sizeof (struct target_cmsghdr)) 
-+    if (msg_controllen < sizeof(struct target_cmsghdr)) {
-         goto the_end;
++    if (flags & CLONE_FILES) {
++        ts->fd_trans_tbl = parent_ts->fd_trans_tbl;
++    } else {
++        /*
++         * When CLONE_FILES is not set, the parent and child will have
++         * different file descriptor tables, so we need a new
++         * fd_trans_tbl. Clone from parent_ts, since child inherits all our
++         * file descriptors.
++         */
++        ts->fd_trans_tbl = fd_trans_table_clone(parent_ts->fd_trans_tbl);
 +    }
-     target_cmsg_addr = tswapal(target_msgh->msg_control);
-     target_cmsg = lock_user(VERIFY_READ, target_cmsg_addr, msg_controllen, 1);
-     target_cmsg_start = target_cmsg;
-@@ -1703,8 +1679,9 @@ static inline abi_long host_to_target_cmsg(struct target_msghdr *target_msgh,
-     socklen_t space = 0;
- 
-     msg_controllen = tswapal(target_msgh->msg_controllen);
--    if (msg_controllen < sizeof (struct target_cmsghdr)) 
-+    if (msg_controllen < sizeof(struct target_cmsghdr)) {
-         goto the_end;
-+    }
-     target_cmsg_addr = tswapal(target_msgh->msg_control);
-     target_cmsg = lock_user(VERIFY_WRITE, target_cmsg_addr, msg_controllen, 0);
-     target_cmsg_start = target_cmsg;
-@@ -5750,9 +5727,10 @@ abi_long do_set_thread_area(CPUX86State *env, abi_ulong ptr)
++
+     if (flags & CLONE_CHILD_CLEARTID) {
+         ts->child_tidptr = child_tidptr;
      }
-     unlock_user_struct(target_ldt_info, ptr, 1);
- 
--    if (ldt_info.entry_number < TARGET_GDT_ENTRY_TLS_MIN || 
--        ldt_info.entry_number > TARGET_GDT_ENTRY_TLS_MAX)
--           return -TARGET_EINVAL;
-+    if (ldt_info.entry_number < TARGET_GDT_ENTRY_TLS_MIN ||
-+        ldt_info.entry_number > TARGET_GDT_ENTRY_TLS_MAX) {
-+        return -TARGET_EINVAL;
-+    }
-     seg_32bit = ldt_info.flags & 1;
-     contents = (ldt_info.flags >> 1) & 3;
-     read_exec_only = (ldt_info.flags >> 3) & 1;
-@@ -5828,7 +5806,7 @@ static abi_long do_get_thread_area(CPUX86State *env, abi_ulong ptr)
-     lp = (uint32_t *)(gdt_table + idx);
-     entry_1 = tswap32(lp[0]);
-     entry_2 = tswap32(lp[1]);
--    
-+
-     read_exec_only = ((entry_2 >> 9) & 1) ^ 1;
-     contents = (entry_2 >> 10) & 3;
-     seg_not_present = ((entry_2 >> 15) & 1) ^ 1;
-@@ -5844,8 +5822,8 @@ static abi_long do_get_thread_area(CPUX86State *env, abi_ulong ptr)
-         (read_exec_only << 3) | (limit_in_pages << 4) |
-         (seg_not_present << 5) | (useable << 6) | (lm << 7);
-     limit = (entry_1 & 0xffff) | (entry_2  & 0xf0000);
--    base_addr = (entry_1 >> 16) | 
--        (entry_2 & 0xff000000) | 
-+    base_addr = (entry_1 >> 16) |
-+        (entry_2 & 0xff000000) |
-         ((entry_2 & 0xff) << 16);
-     target_ldt_info->base_addr = tswapal(base_addr);
-     target_ldt_info->limit = tswap32(limit);
-@@ -5895,53 +5873,71 @@ abi_long do_arch_prctl(CPUX86State *env, int code, abi_ulong addr)
- 
- #endif /* defined(TARGET_I386) */
- 
--#define NEW_STACK_SIZE 0x40000
--
--
- static pthread_mutex_t clone_lock = PTHREAD_MUTEX_INITIALIZER;
- typedef struct {
--    CPUArchState *env;
-+    /* Used to synchronize thread/process creation between parent and child. */
-     pthread_mutex_t mutex;
-     pthread_cond_t cond;
--    pthread_t thread;
--    uint32_t tid;
-+    /*
-+     * Guest pointers for implementing CLONE_PARENT_SETTID
-+     * and CLONE_CHILD_SETTID.
-+     */
-     abi_ulong child_tidptr;
-     abi_ulong parent_tidptr;
--    sigset_t sigmask;
--} new_thread_info;
-+    struct {
-+        sigset_t sigmask;
-+        CPUArchState *env;
-+        bool register_thread;
-+        bool signal_setup;
-+    } child;
-+} clone_info;
- 
--static void *clone_func(void *arg)
-+static int clone_run(void *arg)
- {
--    new_thread_info *info = arg;
-+    clone_info *info = (clone_info *) arg;
-     CPUArchState *env;
-     CPUState *cpu;
-     TaskState *ts;
-+    uint32_t tid;
- 
--    rcu_register_thread();
--    tcg_register_thread();
--    env = info->env;
-+    if (info->child.register_thread) {
-+        rcu_register_thread();
-+        tcg_register_thread();
-+    }
-+
-+    env = info->child.env;
-     cpu = env_cpu(env);
-     thread_cpu = cpu;
-     ts = (TaskState *)cpu->opaque;
--    info->tid = sys_gettid();
-+    tid = sys_gettid();
-     task_settid(ts);
--    if (info->child_tidptr)
--        put_user_u32(info->tid, info->child_tidptr);
--    if (info->parent_tidptr)
--        put_user_u32(info->tid, info->parent_tidptr);
-+
-     qemu_guest_random_seed_thread_part2(cpu->random_seed);
--    /* Enable signals.  */
--    sigprocmask(SIG_SETMASK, &info->sigmask, NULL);
--    /* Signal to the parent that we're ready.  */
--    pthread_mutex_lock(&info->mutex);
--    pthread_cond_broadcast(&info->cond);
--    pthread_mutex_unlock(&info->mutex);
--    /* Wait until the parent has finished initializing the tls state.  */
--    pthread_mutex_lock(&clone_lock);
--    pthread_mutex_unlock(&clone_lock);
-+
-+    if (info->parent_tidptr) {
-+        /*
-+         * Even when memory is not shared, parent_tidptr is set before the
-+         * process copy, so we need to set it in the child.
-+         */
-+        put_user_u32(tid, info->parent_tidptr);
-+    }
-+
-+    if (info->child_tidptr) {
-+        put_user_u32(tid, info->child_tidptr);
-+    }
-+
-+    /* Enable signals. */
-+    sigprocmask(SIG_SETMASK, &info->child.sigmask, NULL);
-+
-+    if (info->child.signal_setup) {
-+        pthread_mutex_lock(&info->mutex);
-+        pthread_cond_broadcast(&info->cond);
-+        pthread_mutex_unlock(&info->mutex);
-+    }
-+
-     cpu_loop(env);
-     /* never exits */
--    return NULL;
-+    _exit(1);  /* avoid compiler warning. */
- }
- 
- /* do_fork() Must return host values and target errnos (unlike most
-@@ -5951,139 +5947,131 @@ static int do_fork(CPUArchState *env, unsigned int flags, abi_ulong newsp,
-                    abi_ulong child_tidptr)
- {
-     CPUState *cpu = env_cpu(env);
--    int ret;
-+    int proc_flags, host_sig, ret;
-     TaskState *ts;
-     CPUState *new_cpu;
--    CPUArchState *new_env;
--    sigset_t sigmask;
-+    sigset_t block_sigmask;
-+    sigset_t orig_sigmask;
-+    clone_info info;
-+    TaskState *parent_ts = (TaskState *)cpu->opaque;
- 
--    flags &= ~CLONE_IGNORED_FLAGS;
-+    memset(&info, 0, sizeof(info));
-+
-+    /*
-+     * When cloning the actual subprocess, we don't need to worry about any
-+     * flags that can be ignored, or emulated in QEMU. proc_flags holds only
-+     * the flags that need to be passed to `clone` itself.
-+     */
-+    proc_flags = flags & ~(CLONE_EMULATED_FLAGS | CLONE_IGNORED_FLAGS);
-+
-+    /*
-+     * The exit signal is included in the flags. That signal needs to be mapped
-+     * to the appropriate host signal, and we need to check if that signal is
-+     * supported.
-+     */
-+    host_sig = target_to_host_signal(proc_flags & CSIGNAL);
-+    if (host_sig > SIGRTMAX) {
-+        qemu_log_mask(LOG_UNIMP,
-+                      "guest signal %d not supported for exit_signal",
-+                      proc_flags & CSIGNAL);
-+        return -TARGET_EINVAL;
-+    }
-+    proc_flags = (proc_flags & ~CSIGNAL) | host_sig;
- 
-     /* Emulate vfork() with fork() */
--    if (flags & CLONE_VFORK)
--        flags &= ~(CLONE_VFORK | CLONE_VM);
-+    if (proc_flags & CLONE_VFORK) {
-+        proc_flags &= ~(CLONE_VFORK | CLONE_VM);
-+    }
- 
--    if (flags & CLONE_VM) {
--        TaskState *parent_ts = (TaskState *)cpu->opaque;
--        new_thread_info info;
--        pthread_attr_t attr;
-+    if (!clone_flags_are_fork(proc_flags) &&
-+        !clone_flags_are_thread(proc_flags)) {
-+        qemu_log_mask(LOG_UNIMP, "unsupported clone flags");
-+        return -TARGET_EINVAL;
-+    }
- 
--        if (((flags & CLONE_THREAD_FLAGS) != CLONE_THREAD_FLAGS) ||
--            (flags & CLONE_INVALID_THREAD_FLAGS)) {
--            return -TARGET_EINVAL;
--        }
-+    pthread_mutex_init(&info.mutex, NULL);
-+    pthread_mutex_lock(&info.mutex);
-+    pthread_cond_init(&info.cond, NULL);
- 
--        ts = g_new0(TaskState, 1);
--        init_task_state(ts);
-+    ts = g_new0(TaskState, 1);
-+    init_task_state(ts);
- 
--        /* Grab a mutex so that thread setup appears atomic.  */
--        pthread_mutex_lock(&clone_lock);
-+    /* Guard CPU copy. It is not thread-safe. */
-+    pthread_mutex_lock(&clone_lock);
-+    info.child.env = cpu_copy(env);
-+    pthread_mutex_unlock(&clone_lock);
-+    /* Init regs that differ from the parent.  */
-+    cpu_clone_regs_child(info.child.env, newsp, flags);
- 
--        /* we create a new CPU instance. */
--        new_env = cpu_copy(env);
--        /* Init regs that differ from the parent.  */
--        cpu_clone_regs_child(new_env, newsp, flags);
-+    if (flags & CLONE_SETTLS) {
-+        cpu_set_tls(info.child.env, newtls);
-+    }
-+
-+    new_cpu = env_cpu(info.child.env);
-+    new_cpu->opaque = ts;
-+    ts->bprm = parent_ts->bprm;
-+    ts->info = parent_ts->info;
-+    ts->signal_mask = parent_ts->signal_mask;
-+
-+    if (flags & CLONE_CHILD_CLEARTID) {
-+        ts->child_tidptr = child_tidptr;
-+    }
-+
-+    if (flags & CLONE_CHILD_SETTID) {
-+        info.child_tidptr = child_tidptr;
-+    }
-+    if (flags & CLONE_PARENT_SETTID) {
-+        info.parent_tidptr = parent_tidptr;
-+    }
-+
-+    /*
-+     * If the child process is going to share memory, and this is our first
-+     * such child process or thread, we need to ensure we generate code for
-+     * parallel execution and flush old translations.
-+     */
-+    if (!parallel_cpus && (proc_flags & CLONE_VM)) {
-+        parallel_cpus = true;
-+        tb_flush(cpu);
-+    }
-+
-+    if (proc_flags & CLONE_VM) {
-+        info.child.register_thread = true;
-+        info.child.signal_setup = true;
-+    }
-+
-+    /*
-+     * It is not safe to deliver signals until the child has finished
-+     * initializing, so temporarily block all signals.
-+     */
-+    sigfillset(&block_sigmask);
-+    sigprocmask(SIG_BLOCK, &block_sigmask, &orig_sigmask);
-+    info.child.sigmask = orig_sigmask;
-+
-+    ret = get_errno(qemu_clone(proc_flags, clone_run, (void *) &info));
-+
-+    if (ret >= 0 && (proc_flags & CLONE_VM)) {
-+        /*
-+         * Wait for the child to finish setup if the child is running in the
-+         * same VM.
-+         */
-+        pthread_cond_wait(&info.cond, &info.mutex);
-+    }
-+
-+    sigprocmask(SIG_SETMASK, &orig_sigmask, NULL);
-+
-+    pthread_mutex_unlock(&info.mutex);
-+    pthread_cond_destroy(&info.cond);
-+    pthread_mutex_destroy(&info.mutex);
-+
-+    if (ret >= 0 && !(proc_flags & CLONE_VM)) {
-+        /*
-+         * If !CLONE_VM, then we need to set parent_tidptr, since the child
-+         * won't set it for us. Should always be safe to set it here anyways.
-+         */
-+        put_user_u32(ret, info.parent_tidptr);
-         cpu_clone_regs_parent(env, flags);
--        new_cpu = env_cpu(new_env);
--        new_cpu->opaque = ts;
--        ts->bprm = parent_ts->bprm;
--        ts->info = parent_ts->info;
--        ts->signal_mask = parent_ts->signal_mask;
--
--        if (flags & CLONE_CHILD_CLEARTID) {
--            ts->child_tidptr = child_tidptr;
--        }
--
--        if (flags & CLONE_SETTLS) {
--            cpu_set_tls (new_env, newtls);
--        }
--
--        memset(&info, 0, sizeof(info));
--        pthread_mutex_init(&info.mutex, NULL);
--        pthread_mutex_lock(&info.mutex);
--        pthread_cond_init(&info.cond, NULL);
--        info.env = new_env;
--        if (flags & CLONE_CHILD_SETTID) {
--            info.child_tidptr = child_tidptr;
--        }
--        if (flags & CLONE_PARENT_SETTID) {
--            info.parent_tidptr = parent_tidptr;
--        }
--
--        ret = pthread_attr_init(&attr);
--        ret = pthread_attr_setstacksize(&attr, NEW_STACK_SIZE);
--        ret = pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_DETACHED);
--        /* It is not safe to deliver signals until the child has finished
--           initializing, so temporarily block all signals.  */
--        sigfillset(&sigmask);
--        sigprocmask(SIG_BLOCK, &sigmask, &info.sigmask);
--        cpu->random_seed = qemu_guest_random_seed_thread_part1();
--
--        /* If this is our first additional thread, we need to ensure we
--         * generate code for parallel execution and flush old translations.
--         */
--        if (!parallel_cpus) {
--            parallel_cpus = true;
--            tb_flush(cpu);
--        }
--
--        ret = pthread_create(&info.thread, &attr, clone_func, &info);
--        /* TODO: Free new CPU state if thread creation failed.  */
--
--        sigprocmask(SIG_SETMASK, &info.sigmask, NULL);
--        pthread_attr_destroy(&attr);
--        if (ret == 0) {
--            /* Wait for the child to initialize.  */
--            pthread_cond_wait(&info.cond, &info.mutex);
--            ret = info.tid;
--        } else {
--            ret = -1;
--        }
--        pthread_mutex_unlock(&info.mutex);
--        pthread_cond_destroy(&info.cond);
--        pthread_mutex_destroy(&info.mutex);
--        pthread_mutex_unlock(&clone_lock);
--    } else {
--        /* if no CLONE_VM, we consider it is a fork */
--        if (flags & CLONE_INVALID_FORK_FLAGS) {
--            return -TARGET_EINVAL;
--        }
--
--        /* We can't support custom termination signals */
--        if ((flags & CSIGNAL) != TARGET_SIGCHLD) {
--            return -TARGET_EINVAL;
--        }
--
--        if (block_signals()) {
--            return -TARGET_ERESTARTSYS;
--        }
--
--        fork_start();
--        ret = fork();
--        if (ret == 0) {
--            /* Child Process.  */
--            cpu_clone_regs_child(env, newsp, flags);
--            fork_end(1);
--            /* There is a race condition here.  The parent process could
--               theoretically read the TID in the child process before the child
--               tid is set.  This would require using either ptrace
--               (not implemented) or having *_tidptr to point at a shared memory
--               mapping.  We can't repeat the spinlock hack used above because
--               the child process gets its own copy of the lock.  */
--            if (flags & CLONE_CHILD_SETTID)
--                put_user_u32(sys_gettid(), child_tidptr);
--            if (flags & CLONE_PARENT_SETTID)
--                put_user_u32(sys_gettid(), parent_tidptr);
--            ts = (TaskState *)cpu->opaque;
--            if (flags & CLONE_SETTLS)
--                cpu_set_tls (env, newtls);
--            if (flags & CLONE_CHILD_CLEARTID)
--                ts->child_tidptr = child_tidptr;
--        } else {
--            cpu_clone_regs_parent(env, flags);
--            fork_end(0);
--        }
-     }
-+
-     return ret;
- }
- 
-@@ -7644,6 +7632,7 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
- 
-     switch(num) {
-     case TARGET_NR_exit:
-+    {
-         /* In old applications this may be used to implement _exit(2).
-            However in threaded applictions it is used for thread termination,
-            and _exit_group is used for application termination.
-@@ -7673,6 +7662,7 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-                 do_sys_futex(g2h(ts->child_tidptr), FUTEX_WAKE, INT_MAX,
-                           NULL, NULL, 0);
-             }
-+
-             thread_cpu = NULL;
-             g_free(ts);
-             rcu_unregister_thread();
-@@ -7683,6 +7673,7 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-         preexit_cleanup(cpu_env, arg1);
-         _exit(arg1);
-         return 0; /* avoid warning */
-+    }
-     case TARGET_NR_read:
-         if (arg2 == 0 && arg3 == 0) {
-             return get_errno(safe_read(arg1, 0, 0));
-@@ -9679,9 +9670,10 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-         return ret;
- #ifdef __NR_exit_group
-         /* new thread calls */
--    case TARGET_NR_exit_group:
-+    case TARGET_NR_exit_group: {
-         preexit_cleanup(cpu_env, arg1);
-         return get_errno(exit_group(arg1));
-+    }
- #endif
-     case TARGET_NR_setdomainname:
-         if (!(p = lock_user_string(arg1)))
-@@ -10873,8 +10865,10 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-         return get_errno(fchown(arg1, low2highuid(arg2), low2highgid(arg3)));
- #if defined(TARGET_NR_fchownat)
-     case TARGET_NR_fchownat:
--        if (!(p = lock_user_string(arg2))) 
-+        p = lock_user_string(arg2)
-+        if (!p) {
-             return -TARGET_EFAULT;
-+        }
-         ret = get_errno(fchownat(arg1, p, low2highuid(arg3),
-                                  low2highgid(arg4), arg5));
-         unlock_user(p, arg2, 0);
 -- 
 2.27.0.290.gba653c62da-goog
 
