@@ -2,73 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 201E21F762F
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 11:48:14 +0200 (CEST)
-Received: from localhost ([::1]:56050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D23B61F769C
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 12:17:43 +0200 (CEST)
+Received: from localhost ([::1]:35560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjgIH-0008SM-8E
-	for lists+qemu-devel@lfdr.de; Fri, 12 Jun 2020 05:48:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49054)
+	id 1jjgko-00047u-El
+	for lists+qemu-devel@lfdr.de; Fri, 12 Jun 2020 06:17:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56338)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jjgHD-00083b-PD
- for qemu-devel@nongnu.org; Fri, 12 Jun 2020 05:47:07 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:59853
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jjgHC-0007oU-Al
- for qemu-devel@nongnu.org; Fri, 12 Jun 2020 05:47:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591955224;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=tneUlKlgJfocc9MnBOZhigMz/GVwRXdqSKPBKUUjZP0=;
- b=NlM1CQe2252IhqRNvgzuXy6+77NlUysreRTNoHftbKM6rl0geLFYXhhjwwi5Vl15/cQ9X6
- U5/UvH5Qv0Ja7YeQJDudDt9kEQTCvRrQNmxX2IqemJRAsqS0EapNCLtzZLP5qQkFW/ynb4
- 0kJ81vGYFbja+DrQxhzn3enepyVf6t8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-235-tMqDFib5PweK6vCTcVzBCg-1; Fri, 12 Jun 2020 05:46:57 -0400
-X-MC-Unique: tMqDFib5PweK6vCTcVzBCg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D19EF835B46;
- Fri, 12 Jun 2020 09:46:56 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-67.ams2.redhat.com
- [10.36.112.67])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8C99D7A8B5;
- Fri, 12 Jun 2020 09:46:56 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 67C7316E16; Fri, 12 Jun 2020 11:46:55 +0200 (CEST)
-Date: Fri, 12 Jun 2020 11:46:55 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Geoffrey McRae <geoff@hostfission.com>
-Subject: Re: [PATCH 0/6] audio/jack: fixes to overall jack behaviour
-Message-ID: <20200612094655.ytxsb2rydvcek5yj@sirius.home.kraxel.org>
-References: <20200612020400.989D93A0172@moya.office.hostfission.com>
- <20200612071137.6sjvpemuxzqzxgsn@sirius.home.kraxel.org>
- <b56d7398cac7d42cccfdf3d6bf50b631@hostfission.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jjgjs-0003iE-Dj
+ for qemu-devel@nongnu.org; Fri, 12 Jun 2020 06:16:44 -0400
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:34979)
+ by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jjgjq-0003nh-FN
+ for qemu-devel@nongnu.org; Fri, 12 Jun 2020 06:16:44 -0400
+Received: by mail-oi1-x241.google.com with SMTP id k4so8208664oik.2
+ for <qemu-devel@nongnu.org>; Fri, 12 Jun 2020 03:16:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=X5ZOolZkD3TRJB3LinnATQSz7CpGg17Ou/RxfFKZjfs=;
+ b=WTOak7rjwX798iSvL9pchPBXseN1ISnUC94RZQCUWEu36j3HbHAhVV25pGXWQDep2l
+ iFvFeMHoNm8hH6nMrMk2o6yhKuWKQiK9G46iFcyHNXbn2qAUV9wJludcOIMbe/5sReIb
+ 2BWxXDQm7kEJBpYLj6OHqgWbCTgzeOlxCTfDauuXFdbJ4/n9LeCO4u0NtUqeH1w+gQBs
+ LAnBxEndgZcd12W2ApY5udNXjTbYfvWrebMRX96R+rljEMaOjiciP9Ler25y515gECcP
+ CXRMYtMuVmDPcsc+AiWzNFLdyTyy0osXi9d5zBL2UrGcZk4zu9WfuZiPczGdJhGfjL7G
+ wBxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=X5ZOolZkD3TRJB3LinnATQSz7CpGg17Ou/RxfFKZjfs=;
+ b=iozpLUMnXY5R/qzVJ2fGQ5JlyBPW/0eiCZwMhrWZy0Vxc0QbUGagh1M8vJMRmZZIug
+ PHlqE17fs8rhPyLbWzUc+dhDLSZajI2NInpchjCBG5KCPdNoqXtXtaEhz1acjU3JUFPJ
+ en/EC1bnS5YDq6aDnb+dbL0dFwnQduS4SHUdiHMBFGt7CRiTReYE1fbeZKzDdRjHyc5S
+ /noEJGTiGnWNV3t5gVXGjjytEWsWeZaaHzvY5r+5X2wdokpXMzKeT97ydoJq5+Ryx+Wh
+ ywS1WUb7bFDxWpXFGZCbBc/U5QTKnKfpVnzCNwHM/FcU1bxtRK8ryTQbZmC9pluS/xhf
+ YWqw==
+X-Gm-Message-State: AOAM532T5CvKpYofCBgoCS7QGWfhL3YUuXO5oiqkLFCV5W8M4mhTOvW8
+ bnL5KGubbkenaWv5QhO+RDospJ6TV1czXqm0x1Eakg==
+X-Google-Smtp-Source: ABdhPJzy+rQZsRGCZrwFfz1gl8wc4XosktP16acejhGZi8MNcaO+BTOg8ZH+Xr5iZR56ecxypgymIvyLPMEOEbtdFu0=
+X-Received: by 2002:aca:1a07:: with SMTP id a7mr1550445oia.163.1591956993623; 
+ Fri, 12 Jun 2020 03:16:33 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <b56d7398cac7d42cccfdf3d6bf50b631@hostfission.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/12 04:55:01
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+References: <159190218710.22110.16614504111613456036.stgit@gimli.home>
+In-Reply-To: <159190218710.22110.16614504111613456036.stgit@gimli.home>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 12 Jun 2020 11:16:22 +0100
+Message-ID: <CAFEAcA_xzEzTfvZvypkqHKGOE3CzZ6bBEnXF-BaEeCM3yBdS+w@mail.gmail.com>
+Subject: Re: [PULL 0/2] VFIO update 2020-06-11
+To: Alex Williamson <alex.williamson@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::241;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x241.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,22 +78,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Jon Derrick <jonathan.derrick@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jun 12, 2020 at 06:05:48PM +1000, Geoffrey McRae wrote:
-> Thanks, still learning how best to submit these things :)
-> Is it worth re-sending this again as per the below?
+On Thu, 11 Jun 2020 at 20:06, Alex Williamson
+<alex.williamson@redhat.com> wrote:
+>
+> The following changes since commit 3666f684761a3cccd86d13c752273be207ecade4:
+>
+>   Merge remote-tracking branch 'remotes/ericb/tags/pull-bitmaps-2020-06-09' into staging (2020-06-11 15:35:44 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://github.com/awilliam/qemu-vfio.git tags/vfio-update-20200611.0
+>
+> for you to fetch changes up to 643a4eacef87a318cf71800a4fb2ae1f78c4b245:
+>
+>   hw/vfio/pci-quirks: Fix broken legacy IGD passthrough (2020-06-11 11:36:40 -0600)
+>
+> ----------------------------------------------------------------
+> VFIO update 2020-06-11
+>
+>  - Fix IGD split, include header to honor Kconfig (Thomas Huth)
+>
+>  - New VMD device paravirt quirk (Jon Derrick)
+>
 
-Most commit messages are rather brief (just the subject line).
 
-For really simple changes ("remove unused state") this is fine,
-but for most patches I'd appreciate a more verbose description.
+Applied, thanks.
 
-So, yes, please adjust commit messages and resend as thread.
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.1
+for any user-visible changes.
 
-thanks,
-  Gerd
-
+-- PMM
 
