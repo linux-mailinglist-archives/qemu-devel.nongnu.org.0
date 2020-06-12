@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA55E1F7A7F
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 17:13:42 +0200 (CEST)
-Received: from localhost ([::1]:34822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69A011F7AA1
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 17:20:28 +0200 (CEST)
+Received: from localhost ([::1]:60716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjlNF-0005eD-M9
-	for lists+qemu-devel@lfdr.de; Fri, 12 Jun 2020 11:13:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50758)
+	id 1jjlTn-0008Pe-Dk
+	for lists+qemu-devel@lfdr.de; Fri, 12 Jun 2020 11:20:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jjl3b-0001jc-S1
- for qemu-devel@nongnu.org; Fri, 12 Jun 2020 10:53:27 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:54142
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jjl3Y-0001l1-FH
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jjl3a-0001i6-9a
  for qemu-devel@nongnu.org; Fri, 12 Jun 2020 10:53:22 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:56642
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jjl3Y-0001l3-FI
+ for qemu-devel@nongnu.org; Fri, 12 Jun 2020 10:53:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1591973599;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7i0b3GPG3H6Dh/tglQZmkCX3+dgrOP3sk2+xsAeedP8=;
- b=PCvT0JDduVIqXsksRvoevv4Bqn3mTkPBVUbmUmRR/SNJ8guUQu4y/R+nIlqaCNhRORUE3d
- iIWU52NgtnMitO7puwo8ULJs9u1EsQbJ7/8QWwCdUsIMCv6MwvEW105WmxDPpyFG+I/FFr
- 7RpZgYCozVTCr7nPkh+mxFrPKS7B5yY=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-408-LnAI_Ao5PF-fraJ4Fk8wkA-1; Fri, 12 Jun 2020 10:53:08 -0400
-X-MC-Unique: LnAI_Ao5PF-fraJ4Fk8wkA-1
-Received: by mail-wm1-f70.google.com with SMTP id g84so2545837wmf.4
- for <qemu-devel@nongnu.org>; Fri, 12 Jun 2020 07:53:07 -0700 (PDT)
+ bh=D/GZNs5L1C46gfOzGMxtE23sRQlVqpPh51YO3SQfyZM=;
+ b=DtKPh3/jHpHpknEgQxeWeFj1fQc5Wr7iTrSqsTgYlgExbCSN7zNLO15ez3RXX1NfoHYR6f
+ soNCiCs67tC2JwSgG/UiNt5g315WgCpJM05EfHvzq76ZEWivvGj77NhknNPO0F/MlQ8iB2
+ vCyaYggVfPTRrinuZ1XJ6DzbEaguSV8=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-218--s92U7c-PS25Tu2R-BKSDQ-1; Fri, 12 Jun 2020 10:53:10 -0400
+X-MC-Unique: -s92U7c-PS25Tu2R-BKSDQ-1
+Received: by mail-wr1-f72.google.com with SMTP id w16so3977463wru.18
+ for <qemu-devel@nongnu.org>; Fri, 12 Jun 2020 07:53:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=7i0b3GPG3H6Dh/tglQZmkCX3+dgrOP3sk2+xsAeedP8=;
- b=F/vQUhTkonhA0RN2QFl8PcMV8oi78h4GS1kiZxZPbFRfHMhjRyuYFAsBJ4ngsNWnqz
- zxObz3Ljz+qrxCL1tgfl3EHpoCk5JqY6CsEqiNvL3AVXN/3j3+bjIKr5q6B97rmvJPom
- Pxx2RlHYN7STyyX1BFdHHyxI6g62oyWkunB0mW+Ume+AAGLAr2cBBY5r/0YGsJvFIMAx
- HW8zkUXJj5+rTeeX4+5dwpuDhXwYds7wyZ8O67dDM6y6fNH+iTKxlOlxl+YOGRNpdK4H
- RLWT5ZAQuTEl0l6NfcJEHe4z5hY4lpcJTFqja9iMkwLrBLJ/Ivp5KRtDLAPkls5z7mc7
- pzIw==
-X-Gm-Message-State: AOAM532z6nzsPU58D5daOlZgpAdsBgsK0QbwKNdVoYLas+O7Ebvogng1
- N4nE828o5Pi+4oINxOE2rZo0fRHIuPsBdXwUiQgH2MbuvzUue1QMKf/hvJTOAEifjzVeRdj2WOi
- TJoOE7vC6yDByft8=
-X-Received: by 2002:a7b:c201:: with SMTP id x1mr13553733wmi.58.1591973586894; 
- Fri, 12 Jun 2020 07:53:06 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxO0ZurgxOIxY6Ld7PFyu/GlaMEhzw3p051F3sGqjFh+91rkas+F1m5zD1X+zowEIEz5GUQ/A==
-X-Received: by 2002:a7b:c201:: with SMTP id x1mr13553712wmi.58.1591973586655; 
- Fri, 12 Jun 2020 07:53:06 -0700 (PDT)
+ bh=D/GZNs5L1C46gfOzGMxtE23sRQlVqpPh51YO3SQfyZM=;
+ b=JsXkkIrA1r6+TS0bZafStIocTwy07j1KSlV4NKqWh5gBGyrG1h2oyNHsgusol8gdIY
+ 8aiyFeRLfnip0a/zl7DS10WsY9aGNNquPbnSUezd5tcM/RsuhKIYOknD3R2MgbRV6BsO
+ dkDfSfwpx5wP6IEhTGri14ILmFYzw4kHehOvJ5YbvmQiPF2J0/BSXvS2QQToM/IuXkhP
+ +OF1/sHVUDg78O8eDETpuUwXFsnDKmF1QK/ZDDgULO8EADyCslAxhP9MVNpa9nW86RPq
+ oxD6yu7AIbieplZgIrzOU13JSq3SZaLHTkuT6PWzIqM+1hcJoiJshAnkgPjFg7UlcRGj
+ oP+g==
+X-Gm-Message-State: AOAM533kHxxdIhYJOvcGq2L27fHE/eKm9f5ahSfgVY7LQ+EfNM5bHUlD
+ FG+U7qCytc/MyWlU6NP9Qiv4or1597Vz6BIb6iu4+4wNbWuxp2DMgoiV2VIbYIjoRvfNJFfR5bx
+ cS5UQNfv1/PZeyEg=
+X-Received: by 2002:a7b:cf02:: with SMTP id l2mr13811840wmg.136.1591973589411; 
+ Fri, 12 Jun 2020 07:53:09 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx7xp0gcKJKKCkJffaHQnlVl4YAOFuhnq+k1Wmzpgw6wmORfyYY30TGsbE2HiW0+cao2ZIpXA==
+X-Received: by 2002:a7b:cf02:: with SMTP id l2mr13811811wmg.136.1591973589172; 
+ Fri, 12 Jun 2020 07:53:09 -0700 (PDT)
 Received: from redhat.com (bzq-79-178-18-124.red.bezeqint.net. [79.178.18.124])
- by smtp.gmail.com with ESMTPSA id z12sm11412692wrg.9.2020.06.12.07.53.05
+ by smtp.gmail.com with ESMTPSA id d9sm10286957wre.28.2020.06.12.07.53.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Jun 2020 07:53:06 -0700 (PDT)
-Date: Fri, 12 Jun 2020 10:53:04 -0400
+ Fri, 12 Jun 2020 07:53:08 -0700 (PDT)
+Date: Fri, 12 Jun 2020 10:53:07 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 56/58] Fix parameter type in vhost migration log path
-Message-ID: <20200612141917.9446-57-mst@redhat.com>
+Subject: [PULL v2 57/58] pci: Display PCI IRQ pin in "info pci"
+Message-ID: <20200612141917.9446-58-mst@redhat.com>
 References: <20200612141917.9446-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200612141917.9446-1-mst@redhat.com>
@@ -73,16 +73,16 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=mst@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/12 08:00:42
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/12 09:30:54
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,46 +97,91 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Raphael Norwitz <raphael.s.norwitz@gmail.com>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>
+ Julia Suvorova <jusual@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Raphael Norwitz <raphael.s.norwitz@gmail.com>
+From: Peter Xu <peterx@redhat.com>
 
-The ‘enable’ parameter to the vhost_migration_log() function is given as
-an int, but "true"/"false" values are passed in wherever it is invoked.
-Inside the function itself it is only ever compared with bool values.
-Therefore the parameter value itself should be changed to bool.
+Sometimes it would be good to be able to read the pin number along
+with the IRQ number allocated.  Since we'll dump the IRQ number, no
+reason to not dump the pin information.  For example, the vfio-pci
+device will overwrite the pin with the hardware pin number.  It would
+be nice to know the pin number of one assigned device from QMP/HMP.
 
-Signed-off-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
-Message-Id: <CAFubqFtqNZw=Y-ar3N=3zTQi6LkKg_G-7W7OOHHbE7Y1fV7HAQ@mail.gmail.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
+CC: Dr. David Alan Gilbert <dgilbert@redhat.com>
+CC: Alex Williamson <alex.williamson@redhat.com>
+CC: Michael S. Tsirkin <mst@redhat.com>
+CC: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+CC: Julia Suvorova <jusual@redhat.com>
+CC: Markus Armbruster <armbru@redhat.com>
+Signed-off-by: Peter Xu <peterx@redhat.com>
+Message-Id: <20200317195908.283800-1-peterx@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Acked-by: Markus Armbruster <armbru@redhat.com>
 ---
- hw/virtio/vhost.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ qapi/misc.json     | 6 ++++--
+ hw/pci/pci.c       | 1 +
+ monitor/hmp-cmds.c | 3 ++-
+ 3 files changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-index aff98a0ede..aa06a36919 100644
---- a/hw/virtio/vhost.c
-+++ b/hw/virtio/vhost.c
-@@ -809,12 +809,12 @@ err_features:
-     return r;
- }
+diff --git a/qapi/misc.json b/qapi/misc.json
+index 99b90ac80b..a5a0beb902 100644
+--- a/qapi/misc.json
++++ b/qapi/misc.json
+@@ -403,6 +403,8 @@
+ #
+ # @irq: if an IRQ is assigned to the device, the IRQ number
+ #
++# @irq_pin: the IRQ pin, zero means no IRQ (since 5.1)
++#
+ # @qdev_id: the device name of the PCI device
+ #
+ # @pci_bridge: if the device is a PCI bridge, the bridge information
+@@ -417,8 +419,8 @@
+ { 'struct': 'PciDeviceInfo',
+   'data': {'bus': 'int', 'slot': 'int', 'function': 'int',
+            'class_info': 'PciDeviceClass', 'id': 'PciDeviceId',
+-           '*irq': 'int', 'qdev_id': 'str', '*pci_bridge': 'PciBridgeInfo',
+-           'regions': ['PciMemoryRegion']} }
++           '*irq': 'int', 'irq_pin': 'int', 'qdev_id': 'str',
++           '*pci_bridge': 'PciBridgeInfo', 'regions': ['PciMemoryRegion'] }}
  
--static int vhost_migration_log(MemoryListener *listener, int enable)
-+static int vhost_migration_log(MemoryListener *listener, bool enable)
- {
-     struct vhost_dev *dev = container_of(listener, struct vhost_dev,
-                                          memory_listener);
-     int r;
--    if (!!enable == dev->log_enabled) {
-+    if (enable == dev->log_enabled) {
-         return 0;
+ ##
+ # @PciInfo:
+diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+index 1b88a32cf7..a60cf3ae3b 100644
+--- a/hw/pci/pci.c
++++ b/hw/pci/pci.c
+@@ -1776,6 +1776,7 @@ static PciDeviceInfo *qmp_query_pci_device(PCIDevice *dev, PCIBus *bus,
+     info->regions = qmp_query_pci_regions(dev);
+     info->qdev_id = g_strdup(dev->qdev.id ? dev->qdev.id : "");
+ 
++    info->irq_pin = dev->config[PCI_INTERRUPT_PIN];
+     if (dev->config[PCI_INTERRUPT_PIN] != 0) {
+         info->has_irq = true;
+         info->irq = dev->config[PCI_INTERRUPT_LINE];
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index 9c61e769ca..e03adf0d4d 100644
+--- a/monitor/hmp-cmds.c
++++ b/monitor/hmp-cmds.c
+@@ -688,7 +688,8 @@ static void hmp_info_pci_device(Monitor *mon, const PciDeviceInfo *dev)
      }
-     if (!dev->started) {
+ 
+     if (dev->has_irq) {
+-        monitor_printf(mon, "      IRQ %" PRId64 ".\n", dev->irq);
++        monitor_printf(mon, "      IRQ %" PRId64 ", pin %c\n",
++                       dev->irq, (char)('A' + dev->irq_pin - 1));
+     }
+ 
+     if (dev->has_pci_bridge) {
 -- 
 MST
 
