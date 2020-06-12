@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B39F71F7584
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 10:56:27 +0200 (CEST)
-Received: from localhost ([::1]:35828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 011B51F758B
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 10:58:23 +0200 (CEST)
+Received: from localhost ([::1]:44260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjfUA-0006yF-Or
-	for lists+qemu-devel@lfdr.de; Fri, 12 Jun 2020 04:56:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52518)
+	id 1jjfW2-0002ta-27
+	for lists+qemu-devel@lfdr.de; Fri, 12 Jun 2020 04:58:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52748)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jjfSs-0005FK-W3
- for qemu-devel@nongnu.org; Fri, 12 Jun 2020 04:55:07 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:52600
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jjfT5-0005Xu-Ky
+ for qemu-devel@nongnu.org; Fri, 12 Jun 2020 04:55:19 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:43034
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jjfSr-0006xw-C8
- for qemu-devel@nongnu.org; Fri, 12 Jun 2020 04:55:06 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jjfT3-0006yu-Vv
+ for qemu-devel@nongnu.org; Fri, 12 Jun 2020 04:55:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591952104;
+ s=mimecast20190719; t=1591952117;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9HZwOVjviVKxzbK+VbediPY+NgHJde8KRqV1RN+ZuZw=;
- b=Dpu2OZTvLfsApo1gjQkwQRBcvH368HU6X8hgQ7rHFlv9hWdgW4FZYenblAjUNMGJnQz2f1
- cIhlaJD5r9rGfPfTQtq43dOlcSrSVN4yCqsTjNTyPqNOJpuzTYDjtL/rShM3wFa/r+s3s6
- a+RI12xKTk5Y97Tm08TWYB44w1hsZHM=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-481-XJSfQGbANOyx9HpZ48J8RQ-1; Fri, 12 Jun 2020 04:55:00 -0400
-X-MC-Unique: XJSfQGbANOyx9HpZ48J8RQ-1
-Received: by mail-wr1-f72.google.com with SMTP id z10so3672975wrs.2
- for <qemu-devel@nongnu.org>; Fri, 12 Jun 2020 01:55:00 -0700 (PDT)
+ bh=ShKU7OwwvJdTi39LcBZXKgzHPvYAnCTLu/v0xUKYxK8=;
+ b=DI7o7Cpt2CkQ9VrpZM8BCGX4Z3ly6N3NahPWU3cNTje5kAe1kt5G+fJSm/tX71CSUiC19k
+ drr+6aHgJN8VI+PXwKlJG9tpK2k/2Gr+eLUkY3ZoKWFhaq1VfovzpVQ0KJOkCSPSLSEW53
+ FuNRPmE0nxxgcpHgVitM16VMySKP/aw=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-37-0kPVnHzDNaiJVwXQxbQHlQ-1; Fri, 12 Jun 2020 04:55:05 -0400
+X-MC-Unique: 0kPVnHzDNaiJVwXQxbQHlQ-1
+Received: by mail-wm1-f69.google.com with SMTP id j128so2182099wmj.6
+ for <qemu-devel@nongnu.org>; Fri, 12 Jun 2020 01:55:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9HZwOVjviVKxzbK+VbediPY+NgHJde8KRqV1RN+ZuZw=;
- b=tpnSxeD04wEl6rc/8fbSQ33k2MNBHlAGpQYCOVZpF+EgC+NPcC7ppvKsN3aR/Ji7VX
- WlPM36v8TiBOWXUiMMPPxDvZEKl7EyH6l1adDlayj1M6ya63SAEA8mvO9jpnjPeDPrEu
- UPEjzl9qz5OQf3OSqHgzOmXH0bjBlenyVKPQ4Lrj5IHOZmvNw0H0j73pBst2eA/DGCxC
- 9tQZtICOUDwuaxWO9xoragdaTPrUqSrRqEx3A+aT2P7QutAHV8Jffcb3FS36yVbK8vWY
- 9T5o0dSKg8n64G/TbdYQ2LwjoYoMkZPf5IM25XrGUCUc/NkikSB2VQ92UzMrQ62Kfk2+
- +YWw==
-X-Gm-Message-State: AOAM530kBzPm8yG4hkiOEOKxVKMWbxWLAiGug2OTu0w2G/ICNj+3mgi/
- rN8XayvWEXHIj7aVwgzGGlnW1aMKes4jKP9G4XAO+mp7GG/A5IemKXZVWw7PrT0Z7Npq60puGJr
- +9Z8Zbx8lwLWvXf8=
-X-Received: by 2002:adf:ea11:: with SMTP id q17mr13541994wrm.75.1591952098921; 
- Fri, 12 Jun 2020 01:54:58 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzypUxkHZiHxvLSd0Z0xmZvOr972OBgBBoBhRTFdhRv7hwjhCCqy5/zIFhAd9NZ15WgI+eSpw==
-X-Received: by 2002:adf:ea11:: with SMTP id q17mr13541979wrm.75.1591952098726; 
- Fri, 12 Jun 2020 01:54:58 -0700 (PDT)
+ bh=ShKU7OwwvJdTi39LcBZXKgzHPvYAnCTLu/v0xUKYxK8=;
+ b=ixeLRhkLuC3Rig8GUvMCo668maEsWuORzDNJ8IxxL+ayUGyB59lnwCcsBPSlT3roel
+ 3bRp6vrxKA0HrbFUuZjH3hwbbPRz5Hha/wDtxLTEU3GlC0fq6nNxWiCtOe/+HQ4mUTIJ
+ 1PGQDs3IBSHjAc1bTa72FJnxqx9KN1tUDl7rgczNeUI62A0Y0pQNazy+5fQKiGivkTqf
+ BBUORW0nrn3d3nJZPUCd8Rp/OddTHS7Eqpni17o93IZSN8s3DL4aDaQs+KQKBP+tG18H
+ ttvsm+l7MNr1+9BxpywadHWc1bhwHrvV+Fy6ELUcJQYYdYGuE0iZS515ItG4wAzIMk42
+ WhBg==
+X-Gm-Message-State: AOAM530p4LWz6uYQERWlPQlYCWwxEX4CRGyKK95JHHNmwGsbowJyzjL2
+ nBqiH46JWq5hKPEiT+wGoLni3CjGzXPmheDXS8SPu0CJ1m0WjlutiltKsn7XL7169n5dnAAEwfU
+ C9UajKcAx02SZ3IA=
+X-Received: by 2002:adf:f5ca:: with SMTP id k10mr13496655wrp.305.1591952104495; 
+ Fri, 12 Jun 2020 01:55:04 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJylG+S1WFf1YotXIn5EIY1fJ+xMXDJu8slr1UYOL/LUsGasKeBIXqJKMQkdL9JVpNqL5eRC9w==
+X-Received: by 2002:adf:f5ca:: with SMTP id k10mr13496640wrp.305.1591952104280; 
+ Fri, 12 Jun 2020 01:55:04 -0700 (PDT)
 Received: from localhost.localdomain
  (181.red-88-10-103.dynamicip.rima-tde.net. [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id c65sm8393188wme.8.2020.06.12.01.54.57
+ by smtp.gmail.com with ESMTPSA id l204sm8372355wmf.19.2020.06.12.01.55.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Jun 2020 01:54:58 -0700 (PDT)
+ Fri, 12 Jun 2020 01:55:03 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 02/12] backends: Add TPM files into their own directory
-Date: Fri, 12 Jun 2020 10:54:34 +0200
-Message-Id: <20200612085444.8362-3-philmd@redhat.com>
+Subject: [PATCH v3 03/12] hw/tpm: Rename TPMDEV as TPM_BACKEND in Kconfig
+Date: Fri, 12 Jun 2020 10:54:35 +0200
+Message-Id: <20200612085444.8362-4-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200612085444.8362-1-philmd@redhat.com>
 References: <20200612085444.8362-1-philmd@redhat.com>
@@ -103,58 +103,57 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As we will have various TPM backend files, it is cleaner
-to use a single directory.
+The TPMDEV describe TPM backends. Use the TPM_BACKEND config
+name which is self-explicit.
 
-Suggested-by: Stefan Berger <stefanb@linux.ibm.com>
 Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- backends/{tpm.c => tpm/tpm_backend.c} | 0
- MAINTAINERS                           | 2 +-
- backends/Makefile.objs                | 2 +-
- backends/tpm/Makefile.objs            | 1 +
- 4 files changed, 3 insertions(+), 2 deletions(-)
- rename backends/{tpm.c => tpm/tpm_backend.c} (100%)
- create mode 100644 backends/tpm/Makefile.objs
+ hw/tpm/Kconfig | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/backends/tpm.c b/backends/tpm/tpm_backend.c
-similarity index 100%
-rename from backends/tpm.c
-rename to backends/tpm/tpm_backend.c
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 3abe3faa4e..9deb15b268 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2385,7 +2385,7 @@ F: hw/tpm/*
- F: include/hw/acpi/tpm.h
- F: include/sysemu/tpm*
- F: qapi/tpm.json
--F: backends/tpm.c
-+F: backends/tpm/
- F: tests/qtest/*tpm*
- T: git https://github.com/stefanberger/qemu-tpm.git tpm-next
+diff --git a/hw/tpm/Kconfig b/hw/tpm/Kconfig
+index 4794e7fe28..5028fd8880 100644
+--- a/hw/tpm/Kconfig
++++ b/hw/tpm/Kconfig
+@@ -1,4 +1,4 @@
+-config TPMDEV
++config TPM_BACKEND
+     bool
+     depends on TPM
  
-diff --git a/backends/Makefile.objs b/backends/Makefile.objs
-index 28a847cd57..22d204cb48 100644
---- a/backends/Makefile.objs
-+++ b/backends/Makefile.objs
-@@ -1,7 +1,7 @@
- common-obj-y += rng.o rng-egd.o rng-builtin.o
- common-obj-$(CONFIG_POSIX) += rng-random.o
+@@ -15,26 +15,26 @@ config TPM_TIS_SYSBUS
+ config TPM_TIS
+     bool
+     depends on TPM
+-    select TPMDEV
++    select TPM_BACKEND
  
--common-obj-$(CONFIG_TPM) += tpm.o
-+common-obj-$(CONFIG_TPM) += tpm/
+ config TPM_CRB
+     bool
+     depends on TPM && PC
+-    select TPMDEV
++    select TPM_BACKEND
  
- common-obj-y += hostmem.o hostmem-ram.o
- common-obj-$(CONFIG_POSIX) += hostmem-file.o
-diff --git a/backends/tpm/Makefile.objs b/backends/tpm/Makefile.objs
-new file mode 100644
-index 0000000000..8cf5772824
---- /dev/null
-+++ b/backends/tpm/Makefile.objs
-@@ -0,0 +1 @@
-+common-obj-y += tpm_backend.o
+ config TPM_PASSTHROUGH
+     bool
+     default y
+     # FIXME: should check for x86 host as well
+-    depends on TPMDEV && LINUX
++    depends on TPM_BACKEND && LINUX
+ 
+ config TPM_EMULATOR
+     bool
+     default y
+-    depends on TPMDEV
++    depends on TPM_BACKEND
+ 
+ config TPM_SPAPR
+     bool
+     default y
+     depends on TPM && PSERIES
+-    select TPMDEV
++    select TPM_BACKEND
 -- 
 2.21.3
 
