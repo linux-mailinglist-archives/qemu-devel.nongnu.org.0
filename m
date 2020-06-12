@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CFA91F7A71
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 17:11:51 +0200 (CEST)
-Received: from localhost ([::1]:54574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C1621F7A5C
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 17:10:00 +0200 (CEST)
+Received: from localhost ([::1]:46170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjlLS-0000pG-0z
-	for lists+qemu-devel@lfdr.de; Fri, 12 Jun 2020 11:11:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50688)
+	id 1jjlJf-0005Pc-5c
+	for lists+qemu-devel@lfdr.de; Fri, 12 Jun 2020 11:09:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jjl3S-0001Mo-36
- for qemu-devel@nongnu.org; Fri, 12 Jun 2020 10:53:14 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:46175
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jjl3Q-0001Ig-KK
+ for qemu-devel@nongnu.org; Fri, 12 Jun 2020 10:53:12 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:53133
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jjl3O-0001eu-Qt
- for qemu-devel@nongnu.org; Fri, 12 Jun 2020 10:53:13 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jjl3O-0001f7-R9
+ for qemu-devel@nongnu.org; Fri, 12 Jun 2020 10:53:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591973586;
+ s=mimecast20190719; t=1591973588;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2tWNry73oPv2gQlztpgeBRBkHzYAUwx8arM+2V6vlZU=;
- b=DmOH+ahSsMnKTXheLuE6MZSgEWE7gYa53qkIb+0G8WtMMDg9e8GZ8NVEa4z1xTFnVQJ7yP
- vl8Ckj19BzsqYH8Vx/69mKvuLhi3x9Y6vvnUK1PkoaLvHxZkzij0vEcuehqvNVimOycVjT
- ZOTk64/Nz/fuuH+DP1e8AJaRoE8EJEo=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-114-FR1BFfhUNRaFgbS2hdUC8g-1; Fri, 12 Jun 2020 10:53:04 -0400
-X-MC-Unique: FR1BFfhUNRaFgbS2hdUC8g-1
-Received: by mail-wr1-f71.google.com with SMTP id h6so4019293wrx.4
- for <qemu-devel@nongnu.org>; Fri, 12 Jun 2020 07:53:04 -0700 (PDT)
+ bh=7szwIaLeQ8ZLnLw2poVLDcD+YJimMkOHW+I2Lu0XpBE=;
+ b=eHyzHfaomNKNSea+mS256znwoBANxtHjBmRNURL87NsH9rKpB7p68c0RikHdeMWjDauPCS
+ t5f1it00gTvs+7sDtYdbZTCQEjK9T5A4fnIwZhawiLsoGvjIyT7grrOtXm+3XcdSCjuYtL
+ aCvtAex8LiNAtOCB9pyqgWipXHeVmbg=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-423-efcmvOAJPoOZPhFmxCrVVw-1; Fri, 12 Jun 2020 10:53:06 -0400
+X-MC-Unique: efcmvOAJPoOZPhFmxCrVVw-1
+Received: by mail-wm1-f69.google.com with SMTP id b63so3878452wme.1
+ for <qemu-devel@nongnu.org>; Fri, 12 Jun 2020 07:53:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=2tWNry73oPv2gQlztpgeBRBkHzYAUwx8arM+2V6vlZU=;
- b=mafemCS7uQy6wq/S/hjWS24gfEn8+7pVd3ZlMm/pBgmE+8O8txUsEpDwcZyeWm1RnW
- KCZery8Pyz97ORntwT4bM7wfwHP+XSgtmEZS5HXYsbpJ/bE2cThDZgBBMp1fVgwvOEKs
- uKPwTnFB/BNJTt4STSJSqQ3cNDe5x6Z4cmNoN+SPRxGac9y25qiJULI1awCwgzqdfTD4
- gSZkI5wi+6NVY1VPy7rSLikhU8F+tXA/VAJbw7+YQ9qdhW1SBST8KMAQesUadnk/WLnP
- Z29/bUqcN4apczmgaB2XNOtAwn3LUsgVJ9IWD/YmdCsW5pGurfk62+Z74umOx5yAyp9u
- 8cAg==
-X-Gm-Message-State: AOAM532h0TvH7LrMDfv60W+Z0v8sND4a1PnEbkMi/Qapokf/NxTAf6bH
- oyMdIM6v87Oiw3XzY2Jw47RAqB+4Y4n5A9KGU7+RgpERT7d+rXndO3ztvERgtRSj2wA+so1Pst4
- ApssxA/FIz/PZ6ZY=
-X-Received: by 2002:adf:f205:: with SMTP id p5mr16382959wro.302.1591973582837; 
- Fri, 12 Jun 2020 07:53:02 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwc14BKPyIKhs1OuKJ3EPlYFqZ34/1iXfmlY2UBj3gIzeZrcVhR636cIWmvK342Y0PkeO4PBg==
-X-Received: by 2002:adf:f205:: with SMTP id p5mr16382934wro.302.1591973582620; 
- Fri, 12 Jun 2020 07:53:02 -0700 (PDT)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=7szwIaLeQ8ZLnLw2poVLDcD+YJimMkOHW+I2Lu0XpBE=;
+ b=qVqW2KLnc29+2q3FhffjWD1p2ohvN7pfb8TqCl5Wqsr2IVwacLyLsmKJYS0StIqhB6
+ UJJ7X9qat63zRGhE4O9HJnZNlFU6rvoA/x1AXN5Pa7SvZ1IR0cpoWRQRvkg4D6GgEx0A
+ lGVqQrvjeAaL6RhSZjvb1k7Cr3D/qAFcz1KkdGh9Y1F9bEge1qno461WzI3juGlOhNdY
+ xg4zSMtWRq0UQN5c13VAaSC7xA5jC4izoFulwwmcBj1CqM9Bd+jmgQrEpsbexbbVf5hI
+ 3uQlzZTVl+L8dDgUvclB7Z9spdJWrtS7FFdjvmiMNKSqijwuUjifvwzdmnFbLX8WoODO
+ O41w==
+X-Gm-Message-State: AOAM530Ixbz0XIHvNbtKRCNeWmrCb7yQ1doVdID6KCGAy01fDz1iqaCN
+ fLwGb41ZS6QWRMl+XyH4GZ9hQh/9VHI5z7BjCmObTn+O+E/yqdo1uf4u1DGBjQD/SUTPKP88s/I
+ EZWi3QWuu9Mfc1ao=
+X-Received: by 2002:a5d:5092:: with SMTP id a18mr15274568wrt.42.1591973584872; 
+ Fri, 12 Jun 2020 07:53:04 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxa3FKBi+axwSWX+7/7m/yG2Mi06qHbaqCZm9dtzjBWj4ZkG396bwtpb9ll+MDJe6bFWblv/Q==
+X-Received: by 2002:a5d:5092:: with SMTP id a18mr15274549wrt.42.1591973584698; 
+ Fri, 12 Jun 2020 07:53:04 -0700 (PDT)
 Received: from redhat.com (bzq-79-178-18-124.red.bezeqint.net. [79.178.18.124])
- by smtp.gmail.com with ESMTPSA id z206sm9561863wmg.30.2020.06.12.07.53.01
+ by smtp.gmail.com with ESMTPSA id 5sm14513623wrr.5.2020.06.12.07.53.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Jun 2020 07:53:02 -0700 (PDT)
-Date: Fri, 12 Jun 2020 10:53:00 -0400
+ Fri, 12 Jun 2020 07:53:04 -0700 (PDT)
+Date: Fri, 12 Jun 2020 10:53:02 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 54/58] acpi: fadt: add hw-reduced sleep register support
-Message-ID: <20200612141917.9446-55-mst@redhat.com>
+Subject: [PULL v2 55/58] acpi: ged: rename event memory region
+Message-ID: <20200612141917.9446-56-mst@redhat.com>
 References: <20200612141917.9446-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200612141917.9446-1-mst@redhat.com>
@@ -68,11 +70,12 @@ X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/12 09:30:54
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=mst@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/12 08:07:26
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -93,55 +96,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Igor Mammedow <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Gerd Hoffmann <kraxel@redhat.com>
 
-Add fields to struct AcpiFadtData and update build_fadt() to properly
-generate sleep register entries.
+Rename memory region and callbacks and ops to carry "evt" in the name
+because a second region will be added shortly.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20200520132003.9492-9-kraxel@redhat.com>
+Message-Id: <20200520132003.9492-10-kraxel@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Igor Mammedow <imammedo@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/hw/acpi/acpi-defs.h | 2 ++
- hw/acpi/aml-build.c         | 4 ++--
- 2 files changed, 4 insertions(+), 2 deletions(-)
+ include/hw/acpi/generic_event_device.h |  2 +-
+ hw/acpi/generic_event_device.c         | 16 ++++++++--------
+ 2 files changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/include/hw/acpi/acpi-defs.h b/include/hw/acpi/acpi-defs.h
-index c13327fa78..3be9ab5049 100644
---- a/include/hw/acpi/acpi-defs.h
-+++ b/include/hw/acpi/acpi-defs.h
-@@ -88,6 +88,8 @@ typedef struct AcpiFadtData {
-     struct AcpiGenericAddress pm_tmr;    /* PM_TMR_BLK */
-     struct AcpiGenericAddress gpe0_blk;  /* GPE0_BLK */
-     struct AcpiGenericAddress reset_reg; /* RESET_REG */
-+    struct AcpiGenericAddress sleep_ctl; /* SLEEP_CONTROL_REG */
-+    struct AcpiGenericAddress sleep_sts; /* SLEEP_STATUS_REG */
-     uint8_t reset_val;         /* RESET_VALUE */
-     uint8_t  rev;              /* Revision */
-     uint32_t flags;            /* Flags */
-diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
-index d24e9e6c3a..2cb7b991ef 100644
---- a/hw/acpi/aml-build.c
-+++ b/hw/acpi/aml-build.c
-@@ -1866,9 +1866,9 @@ void build_fadt(GArray *tbl, BIOSLinker *linker, const AcpiFadtData *f,
-     }
+diff --git a/include/hw/acpi/generic_event_device.h b/include/hw/acpi/generic_event_device.h
+index 83917de024..90a9180db5 100644
+--- a/include/hw/acpi/generic_event_device.h
++++ b/include/hw/acpi/generic_event_device.h
+@@ -86,7 +86,7 @@
+ #define ACPI_GED_NVDIMM_HOTPLUG_EVT 0x4
  
-     /* SLEEP_CONTROL_REG */
--    build_append_gas(tbl, AML_AS_SYSTEM_MEMORY, 0 , 0, 0, 0);
-+    build_append_gas_from_struct(tbl, &f->sleep_ctl);
-     /* SLEEP_STATUS_REG */
--    build_append_gas(tbl, AML_AS_SYSTEM_MEMORY, 0 , 0, 0, 0);
-+    build_append_gas_from_struct(tbl, &f->sleep_sts);
+ typedef struct GEDState {
+-    MemoryRegion io;
++    MemoryRegion evt;
+     uint32_t     sel;
+ } GEDState;
  
-     /* TODO: extra fields need to be added to support revisions above rev5 */
-     assert(f->rev == 5);
+diff --git a/hw/acpi/generic_event_device.c b/hw/acpi/generic_event_device.c
+index b1cbdd86b6..1cb34111e5 100644
+--- a/hw/acpi/generic_event_device.c
++++ b/hw/acpi/generic_event_device.c
+@@ -142,7 +142,7 @@ void build_ged_aml(Aml *table, const char *name, HotplugHandler *hotplug_dev,
+ }
+ 
+ /* Memory read by the GED _EVT AML dynamic method */
+-static uint64_t ged_read(void *opaque, hwaddr addr, unsigned size)
++static uint64_t ged_evt_read(void *opaque, hwaddr addr, unsigned size)
+ {
+     uint64_t val = 0;
+     GEDState *ged_st = opaque;
+@@ -161,14 +161,14 @@ static uint64_t ged_read(void *opaque, hwaddr addr, unsigned size)
+ }
+ 
+ /* Nothing is expected to be written to the GED memory region */
+-static void ged_write(void *opaque, hwaddr addr, uint64_t data,
+-                      unsigned int size)
++static void ged_evt_write(void *opaque, hwaddr addr, uint64_t data,
++                          unsigned int size)
+ {
+ }
+ 
+-static const MemoryRegionOps ged_ops = {
+-    .read = ged_read,
+-    .write = ged_write,
++static const MemoryRegionOps ged_evt_ops = {
++    .read = ged_evt_read,
++    .write = ged_evt_write,
+     .endianness = DEVICE_LITTLE_ENDIAN,
+     .valid = {
+         .min_access_size = 4,
+@@ -287,9 +287,9 @@ static void acpi_ged_initfn(Object *obj)
+     SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
+     GEDState *ged_st = &s->ged_state;
+ 
+-    memory_region_init_io(&ged_st->io, obj, &ged_ops, ged_st,
++    memory_region_init_io(&ged_st->evt, obj, &ged_evt_ops, ged_st,
+                           TYPE_ACPI_GED, ACPI_GED_EVT_SEL_LEN);
+-    sysbus_init_mmio(sbd, &ged_st->io);
++    sysbus_init_mmio(sbd, &ged_st->evt);
+ 
+     sysbus_init_irq(sbd, &s->irq);
+ 
 -- 
 MST
 
