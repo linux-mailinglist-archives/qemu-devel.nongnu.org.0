@@ -2,30 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBAA71F712B
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 02:09:10 +0200 (CEST)
-Received: from localhost ([::1]:46776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 754EA1F7127
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 02:07:16 +0200 (CEST)
+Received: from localhost ([::1]:38184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjXFu-0006ZB-1Z
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 20:09:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56638)
+	id 1jjXE3-0002Z3-F7
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 20:07:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jjXC3-0008Mw-Hy; Thu, 11 Jun 2020 20:05:11 -0400
-Received: from relay.sw.ru ([185.231.240.75]:52848 helo=relay3.sw.ru)
+ id 1jjXC3-0008MK-4e; Thu, 11 Jun 2020 20:05:11 -0400
+Received: from relay.sw.ru ([185.231.240.75]:52854 helo=relay3.sw.ru)
  by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jjXBy-0006I9-Oh; Thu, 11 Jun 2020 20:05:11 -0400
+ id 1jjXBy-0006IF-JM; Thu, 11 Jun 2020 20:05:10 -0400
 Received: from [172.16.25.136] (helo=localhost.sw.ru)
  by relay3.sw.ru with esmtp (Exim 4.93)
  (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jjXBr-0002Yd-IP; Fri, 12 Jun 2020 03:04:59 +0300
+ id 1jjXBr-0002Yd-JZ; Fri, 12 Jun 2020 03:04:59 +0300
 From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v7 2/9] qcow2: Fix capitalization of header extension constant.
-Date: Fri, 12 Jun 2020 03:04:55 +0300
-Message-Id: <1591920302-1002219-3-git-send-email-andrey.shinkevich@virtuozzo.com>
+Subject: [PATCH v7 3/9] qcow2_format.py: make printable data an extension
+ class member
+Date: Fri, 12 Jun 2020 03:04:56 +0300
+Message-Id: <1591920302-1002219-4-git-send-email-andrey.shinkevich@virtuozzo.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1591920302-1002219-1-git-send-email-andrey.shinkevich@virtuozzo.com>
 References: <1591920302-1002219-1-git-send-email-andrey.shinkevich@virtuozzo.com>
@@ -55,42 +56,48 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Make the capitalization of the hexadecimal numbers consistent for the
-QCOW2 header extension constants in docs/interop/qcow2.txt.
+Let us differ binary data type from string one for the extension data
+variable and keep the string as the QcowHeaderExtension class member.
 
-Suggested-by: Eric Blake <eblake@redhat.com>
 Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block/qcow2.c          | 2 +-
- docs/interop/qcow2.txt | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ tests/qemu-iotests/qcow2_format.py | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
 
-diff --git a/block/qcow2.c b/block/qcow2.c
-index 0cd2e67..80dfe5f 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -66,7 +66,7 @@ typedef struct {
- } QEMU_PACKED QCowExtension;
+diff --git a/tests/qemu-iotests/qcow2_format.py b/tests/qemu-iotests/qcow2_format.py
+index 0f65fd1..d4f0000 100644
+--- a/tests/qemu-iotests/qcow2_format.py
++++ b/tests/qemu-iotests/qcow2_format.py
+@@ -164,6 +164,13 @@ class QcowHeaderExtension(Qcow2Struct):
+             self.data = fd.read(padded)
+             assert self.data is not None
  
- #define  QCOW2_EXT_MAGIC_END 0
--#define  QCOW2_EXT_MAGIC_BACKING_FORMAT 0xE2792ACA
-+#define  QCOW2_EXT_MAGIC_BACKING_FORMAT 0xe2792aca
- #define  QCOW2_EXT_MAGIC_FEATURE_TABLE 0x6803f857
- #define  QCOW2_EXT_MAGIC_CRYPTO_HEADER 0x0537be77
- #define  QCOW2_EXT_MAGIC_BITMAPS 0x23852875
-diff --git a/docs/interop/qcow2.txt b/docs/interop/qcow2.txt
-index cb72346..f072e27 100644
---- a/docs/interop/qcow2.txt
-+++ b/docs/interop/qcow2.txt
-@@ -231,7 +231,7 @@ be stored. Each extension has a structure like the following:
++        data_str = self.data[:self.length]
++        if all(c in string.printable.encode('ascii') for c in data_str):
++            data_str = f"'{ data_str.decode('ascii') }'"
++        else:
++            data_str = '<binary>'
++        self.data_str = data_str
++
+         if self.magic == QCOW2_EXT_MAGIC_BITMAPS:
+             self.obj = Qcow2BitmapExt(data=self.data)
+         else:
+@@ -173,12 +180,7 @@ class QcowHeaderExtension(Qcow2Struct):
+         super().dump()
  
-     Byte  0 -  3:   Header extension type:
-                         0x00000000 - End of the header extension area
--                        0xE2792ACA - Backing file format name string
-+                        0xe2792aca - Backing file format name string
-                         0x6803f857 - Feature name table
-                         0x23852875 - Bitmaps extension
-                         0x0537be77 - Full disk encryption header pointer
+         if self.obj is None:
+-            data = self.data[:self.length]
+-            if all(c in string.printable.encode('ascii') for c in data):
+-                data = f"'{ data.decode('ascii') }'"
+-            else:
+-                data = '<binary>'
+-            print(f'{"data":<25} {data}')
++            print(f'{"data":<25} {self.data_str}')
+         else:
+             self.obj.dump()
+ 
 -- 
 1.8.3.1
 
