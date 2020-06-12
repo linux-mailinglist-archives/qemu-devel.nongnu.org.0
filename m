@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A6C31F7D5D
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 21:08:54 +0200 (CEST)
-Received: from localhost ([::1]:34212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CFE71F7D5B
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 21:07:36 +0200 (CEST)
+Received: from localhost ([::1]:57320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjp2r-0001qh-7r
-	for lists+qemu-devel@lfdr.de; Fri, 12 Jun 2020 15:08:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54946)
+	id 1jjp1b-0007zv-Hm
+	for lists+qemu-devel@lfdr.de; Fri, 12 Jun 2020 15:07:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jjoxP-0000ud-6x
- for qemu-devel@nongnu.org; Fri, 12 Jun 2020 15:03:15 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:45111)
+ id 1jjoxK-0000tW-Pr
+ for qemu-devel@nongnu.org; Fri, 12 Jun 2020 15:03:14 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:34194)
  by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jjoxI-0006vM-6H
- for qemu-devel@nongnu.org; Fri, 12 Jun 2020 15:03:14 -0400
-Received: by mail-wr1-x443.google.com with SMTP id c3so10772680wru.12
- for <qemu-devel@nongnu.org>; Fri, 12 Jun 2020 12:02:59 -0700 (PDT)
+ id 1jjoxE-0006to-QX
+ for qemu-devel@nongnu.org; Fri, 12 Jun 2020 15:03:08 -0400
+Received: by mail-wr1-x441.google.com with SMTP id r7so10846718wro.1
+ for <qemu-devel@nongnu.org>; Fri, 12 Jun 2020 12:02:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=57l/aMK2332ZDMnrCc3giHMMSaLKEjqCHI6rtSAmCoo=;
- b=jlCKW9jsfwHQxeVIuK1Q5z+xzq4Hno/PT1Pc/u+MchoSQDMSD6a06hJNwyhcPbfyd1
- 4Hi+ZAtp6A8r/4WVrZisDcDpvrVl8oLJf3AMgjsYrpO0rcicYqYP8XUpxXu0q+uJdfq4
- cgrRrqPf2ehlAh0cZWxPfdMIQzG8hKWyq9YXNl6ZcGtPFr5jhqhPadrfOF5MCj8gjC78
- /7h4gUgdTcFOE21oAHtNKxV1Ar1ia7q2qpPsxCsAipidzurLzK8gQSW8NLFx0LTTCsmZ
- VDUVunOoNxe/GROrgH965Qr5+9rv4WFYVw45qaVDNndy6IcevSDJaQWbVoIl14UAUv1+
- pTTQ==
+ bh=wncxlPgJ5yWTGynznYgamvSG3vnXu4D4fFkpbE/UPyQ=;
+ b=nZpMozKFkYag2fraf+i1bA0R+qJ2XaaRga7vV2cGh5higPCt6Vk+gm7H1Qzrd/lefR
+ pO86QWNbOKEioYrCv1t0k1Gf+om4t5wQU5+zcxN/4MGVgq30ZZxCFeScjXY1q/L/nkI+
+ ZaoK1UMymuL+oMUsgsyhyDQI6AhX/ECYavMDQaIYVG7dgDZvd3I/12zVIXoBQwh3WAlK
+ zIDU3Fd5AR8XR+0Vk3qTEodfdgfUXt+gf1onbGm6DJvH1qFnSjdARiQzAQM7jzeW+zSG
+ tyOrN+g+1cZVmg4dX8zvTO9qx/ZnTrI31RMMQcX9MS47hgRwKBLQvFl0y0pdOp2Hw6Ow
+ tqUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=57l/aMK2332ZDMnrCc3giHMMSaLKEjqCHI6rtSAmCoo=;
- b=GpePqHKMu0ruGHPUxGTxrYOsPQYOZU9oVdVad16opEnt7fdAB8RfSCvLIssNd36nQZ
- N1EAcbpBaIGMr9sv5USBqK/mBp6AhcKGWT1X4QQiHJNkaB9iS8014vztyENXpRABpvLO
- XntTsMDdv2J006Vgou4oygkOfP0vin4pCjIQ6JFiPeoLzWmu9sFVc7EunEkGCNCauRX3
- H8+AuBhU0HAO4VVtttnuETmPuvcyEutAVHbMTclwMIz26PN3AA7FALYYPoyjymPvK5M0
- FScptiASSCb6cXpiG3R98Ea3OnbMWktem8hlKTsA/gN0bcwGN+NhYFyuLD/N1yi6cEOH
- zJaQ==
-X-Gm-Message-State: AOAM530LfIcM52tgk9nHCTtjwlUEGXZeShcSxOJFfrQshOkSS+LTJAOj
- OlRpoJe74juBhGsGHOFS9xETxGH46hg=
-X-Google-Smtp-Source: ABdhPJz/eIoi9K8q2nD7TN18OD8kbF4JriC+3UGu1gOVUe74e1ovukhsCMXGssWCZ45IpluCG/og3g==
-X-Received: by 2002:a7b:cd06:: with SMTP id f6mr379029wmj.8.1591988579061;
- Fri, 12 Jun 2020 12:02:59 -0700 (PDT)
+ bh=wncxlPgJ5yWTGynznYgamvSG3vnXu4D4fFkpbE/UPyQ=;
+ b=JkTWX6Iqxuxu8WEhtdWDMLD5UAtKMS1h7M2E/86WU6gJ0MzQJwLENoGpjwHu7ogBO8
+ 3obgTAcwCgQA3D8IcgNvqy/gNQr6TJXGtv6gxqWK/u1BgmgXzXfigWHPA60wrAM4u7FE
+ Ea79P+niV8UFakkW7uq/8tPWPuZZYeGZ6YP/ynq3tMuOt2uqf/KdErsOafiLrzmvaTRz
+ qRU7yM5A7gjlQ1QMFKwmcj08qNo2oPaX+xsfDY/jPVyV6yfn7+vuzDjURiJF00OW5nPl
+ ZTb/d8hQFJn3vtIm8zYYr1dXpq92FHNlLmkVbuWMMSZFCKM4RuottiIQwwavK7z5F4Lk
+ GZ1A==
+X-Gm-Message-State: AOAM530xS0nqZzk9fBbL+AZ8IVo6uC6RrOZu+6d5AO9/OFGhP5Z39JKy
+ hVG7NvRRPG7vjZpKpsi46HUKVQ==
+X-Google-Smtp-Source: ABdhPJwq29mwAnOZnCNNCXFPw1I3gqVZhCCPF93fHYKGARaAYVnXBYGpdrAOjdubuX2sZM0yUACJVQ==
+X-Received: by 2002:a05:600c:1403:: with SMTP id
+ g3mr344714wmi.136.1591988575687; 
+ Fri, 12 Jun 2020 12:02:55 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id b8sm11216298wrm.35.2020.06.12.12.02.44
+ by smtp.gmail.com with ESMTPSA id s18sm13233513wra.85.2020.06.12.12.02.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 12 Jun 2020 12:02:50 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 92C981FF98;
+ by zen.linaroharston (Postfix) with ESMTP id B0AC01FF99;
  Fri, 12 Jun 2020 20:02:39 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 09/18] tcg: call qemu_spin_destroy for tb->jmp_lock
-Date: Fri, 12 Jun 2020 20:02:28 +0100
-Message-Id: <20200612190237.30436-10-alex.bennee@linaro.org>
+Subject: [PATCH  v1 10/18] translate-all: call qemu_spin_destroy for PageDesc
+Date: Fri, 12 Jun 2020 20:02:29 +0100
+Message-Id: <20200612190237.30436-11-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200612190237.30436-1-alex.bennee@linaro.org>
 References: <20200612190237.30436-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x443.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -98,96 +99,38 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Emilio G. Cota" <cota@braap.org>
 
+The radix tree is append-only, but we can fail to insert
+a PageDesc if the insertion races with another thread.
+
 Signed-off-by: Emilio G. Cota <cota@braap.org>
 Signed-off-by: Robert Foley <robert.foley@linaro.org>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-[RF: minor changes + remove tb_destroy_func]
-Message-Id: <20200609200738.445-7-robert.foley@linaro.org>
+Message-Id: <20200609200738.445-8-robert.foley@linaro.org>
 ---
- include/tcg/tcg.h         | 1 +
- accel/tcg/translate-all.c | 8 ++++++++
- tcg/tcg.c                 | 9 +++++++++
- 3 files changed, 18 insertions(+)
+ accel/tcg/translate-all.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
-index 380014ed805..e63450a8936 100644
---- a/include/tcg/tcg.h
-+++ b/include/tcg/tcg.h
-@@ -819,6 +819,7 @@ void tcg_pool_reset(TCGContext *s);
- TranslationBlock *tcg_tb_alloc(TCGContext *s);
- 
- void tcg_region_init(void);
-+void tb_destroy(TranslationBlock *tb);
- void tcg_region_reset_all(void);
- 
- size_t tcg_code_size(void);
 diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index 42ce1dfcff7..c937210e217 100644
+index c937210e217..c3d37058a17 100644
 --- a/accel/tcg/translate-all.c
 +++ b/accel/tcg/translate-all.c
-@@ -384,6 +384,11 @@ static int cpu_restore_state_from_tb(CPUState *cpu, TranslationBlock *tb,
-     return 0;
- }
- 
-+void tb_destroy(TranslationBlock *tb)
-+{
-+    qemu_spin_destroy(&tb->jmp_lock);
-+}
+@@ -547,6 +547,15 @@ static PageDesc *page_find_alloc(tb_page_addr_t index, int alloc)
+ #endif
+         existing = atomic_cmpxchg(lp, NULL, pd);
+         if (unlikely(existing)) {
++#ifndef CONFIG_USER_ONLY
++            {
++                int i;
 +
- bool cpu_restore_state(CPUState *cpu, uintptr_t host_pc, bool will_exit)
- {
-     TranslationBlock *tb;
-@@ -413,6 +418,7 @@ bool cpu_restore_state(CPUState *cpu, uintptr_t host_pc, bool will_exit)
-                 /* one-shot translation, invalidate it immediately */
-                 tb_phys_invalidate(tb, -1);
-                 tcg_tb_remove(tb);
-+                tb_destroy(tb);
-             }
-             r = true;
++                for (i = 0; i < V_L2_SIZE; i++) {
++                    qemu_spin_destroy(&pd[i].lock);
++                }
++            }
++#endif
+             g_free(pd);
+             pd = existing;
          }
-@@ -1886,6 +1892,7 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
- 
-         orig_aligned -= ROUND_UP(sizeof(*tb), qemu_icache_linesize);
-         atomic_set(&tcg_ctx->code_gen_ptr, (void *)orig_aligned);
-+        tb_destroy(tb);
-         return existing_tb;
-     }
-     tcg_tb_insert(tb);
-@@ -2235,6 +2242,7 @@ void cpu_io_recompile(CPUState *cpu, uintptr_t retaddr)
-             tb_phys_invalidate(tb->orig_tb, -1);
-         }
-         tcg_tb_remove(tb);
-+        tb_destroy(tb);
-     }
- 
-     /* TODO: If env->pc != tb->pc (i.e. the faulting instruction was not
-diff --git a/tcg/tcg.c b/tcg/tcg.c
-index 1aa6cb47f29..1362bc61017 100644
---- a/tcg/tcg.c
-+++ b/tcg/tcg.c
-@@ -502,6 +502,14 @@ size_t tcg_nb_tbs(void)
-     return nb_tbs;
- }
- 
-+static gboolean tcg_region_tree_traverse(gpointer k, gpointer v, gpointer data)
-+{
-+    TranslationBlock *tb = v;
-+
-+    tb_destroy(tb);
-+    return FALSE;
-+}
-+
- static void tcg_region_tree_reset_all(void)
- {
-     size_t i;
-@@ -510,6 +518,7 @@ static void tcg_region_tree_reset_all(void)
-     for (i = 0; i < region.n; i++) {
-         struct tcg_region_tree *rt = region_trees + i * tree_size;
- 
-+        g_tree_foreach(rt->tree, tcg_region_tree_traverse, NULL);
-         /* Increment the refcount first so that destroy acts as a reset */
-         g_tree_ref(rt->tree);
-         g_tree_destroy(rt->tree);
 -- 
 2.20.1
 
