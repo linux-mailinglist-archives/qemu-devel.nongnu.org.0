@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 272961F7BD8
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 18:56:17 +0200 (CEST)
-Received: from localhost ([::1]:45352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86B9E1F7BBB
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 18:42:03 +0200 (CEST)
+Received: from localhost ([::1]:34536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjmyW-00080z-7O
-	for lists+qemu-devel@lfdr.de; Fri, 12 Jun 2020 12:56:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54112)
+	id 1jjmkk-0007BQ-KL
+	for lists+qemu-devel@lfdr.de; Fri, 12 Jun 2020 12:42:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49668)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Filip.Bozuta@syrmia.com>)
- id 1jjmxh-0007XL-IG
- for qemu-devel@nongnu.org; Fri, 12 Jun 2020 12:55:25 -0400
-Received: from mail-eopbgr80101.outbound.protection.outlook.com
- ([40.107.8.101]:40421 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
+ id 1jjmjf-0006Wd-Ij
+ for qemu-devel@nongnu.org; Fri, 12 Jun 2020 12:40:55 -0400
+Received: from mail-eopbgr50134.outbound.protection.outlook.com
+ ([40.107.5.134]:25837 helo=EUR03-VE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Filip.Bozuta@syrmia.com>)
- id 1jjmxf-000233-9W
- for qemu-devel@nongnu.org; Fri, 12 Jun 2020 12:55:24 -0400
+ id 1jjmjd-0007g9-DW
+ for qemu-devel@nongnu.org; Fri, 12 Jun 2020 12:40:55 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JyblTCyQrA9dxJojmezpOpidJgG+S3YJgpdHnU3edvYyivmoar23DZv6awxuP/RuaSoCBLxtrri364R7Ar1VHQYBx7/IyblxPk+4pMRjDPJuq1QR+1c7ypBr3UlmIID6IHEjnQCCpwcoMnOk2EKUTrzL1pBEQwx87eiAuP06heMZ1V3OYfq3qgEULVCRudc8q8aEenDBgQWKV3avCIl6U9ULq1i/lBPEFk6iw3o4fbdMM8Emt2ory6Xpdfp7AU6Pem4FACJilxb/ihwayq/oce7u0fldA2YPEXi8jWwVtjp5jEaqaLA1560iNo51f/cdrn+G0XcV4W4uahPToWj2BQ==
+ b=Ibt6+y7fGF+s+wxGr+bOPyxLQTXDb00EBrjdDPv1/z8niR6bAlwIVlP1NxgCfNCFARBLZE7Jtf31VTLD7CQ8e3tAT5aMtDA3XsDXoDVmJokB0SHFHXXBwuC9zJSMzOJCjQwdSdVAL4lZ7CgtN8/R6fsnJvE1E1aRMOwB4idbT9hEosxuA8NM6nRu2yV2egAaTjxltwD0nG6wwNNe/nXlYOmpznhXh6NqvgkUaPHkt2Dj2yeQsIxiU069bOBqC6dG04xACxvb55btbeD+GjsLyPuDtNs9u9881Kf3z8+QOSil7n6Ypxgm8FNXyckTVC2m2DZhBJm4/XBD/Jqb5BZitQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gbfC3BkN1KWSMpaxGR9TmWS3Y9sUyZJXbIadp9uYdFQ=;
- b=IBjJ7PpfYfqRlKU703PDfOosSEhgyJbgZWzanoARfFAmzG/2o2LbZBXQEskiDJ1/mGE1aICdwzQ/BjKf9K5bGnM5i4ln68T9MufZV4Q3tg0BDHhJYh41EVaHmnWd4SSVoQVV3+1yu53K4ASTbhlUf2bkVTu/IAwPrYyWptLkq6VMoEHzr9gTD5Z3nqgLYbW+bYcGxAKDvtB5cd29kQwzzqO82iVxplAOSf3UtZzPXN7IzT2MGa4Ud0zab0DYvEeth5eE8r27+fxQGxMHtPZnecsIiVcG+90dlfBYOP/PBl16RBqHYI67ewftbRJlFas0EhR6ECyyH10LRCEsQbKtcA==
+ bh=O/D83u8MP/6De2mojCuZdYBZpjqTWXoK/aHqMgf0uR4=;
+ b=HXYXBMAkzBbudRn1NkfPE/BlE4SgdDBN/fPjVlBiegipyrzvjMN+RhUol4GZUb1H9ghJlqigu0dImoCfqgvg4mUWtGcH6cx5HuPETRPOkp0NZIQYfm8Wib3r+UkaJE9zpLwCf8pNvaaXMpS/KKx7pUNaif/NUCD4CBxlkuk+iuOnZK6lGjHIA4gt1qf7db/M75R2jV7SN//d44Dt7yfu7JcHv//Lt6gEUjouqmH6hcX+jPvfQQ62p+ADAl1VMDn8VJ5mZbAILanfOSXkmzcGZOuPPcGvjlzsY4N0Iu/NyqIC+HAUudf9KWalKJAP8xMOXaA9BW6cjZ+XRxein32wRQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=syrmia.com; dmarc=pass action=none header.from=syrmia.com;
  dkim=pass header.d=syrmia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=syrmia.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gbfC3BkN1KWSMpaxGR9TmWS3Y9sUyZJXbIadp9uYdFQ=;
- b=mRtCx0NmeH0237DJtlLBhXs9DKCXvPAf76977AJ211NFPCfTkHJOfmJ83TgYL5J9LqtlU52QEoqcqTvfNyhWOwzyORLHXL11AbCPO+p+L3FKHkRrjJy0C0meABxVMy2pTm7cXYyH1YH9xiR0Yec4oySeJ/OUGi6jwnWYRcT6h5Q=
+ bh=O/D83u8MP/6De2mojCuZdYBZpjqTWXoK/aHqMgf0uR4=;
+ b=QnU/K7TJAD5PRasD5ArtrlwBa+UcGAZg/BZOyj5AClW6DObeovBONBYErQijoS6qPD7pobAyBihZuAOmNVu6utssd3BmWmIYtQmPCugkAssTuceyEcS0zLnYOAcUD9iTQwCHlzHusSPsJAP84TRNV45nP1Qqh4ru2VCyVkpZhGk=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=syrmia.com;
 Received: from AM6PR03MB5233.eurprd03.prod.outlook.com (2603:10a6:20b:d1::19)
@@ -48,10 +48,13 @@ Received: from AM6PR03MB5233.eurprd03.prod.outlook.com
  16:40:16 +0000
 From: Filip Bozuta <filip.bozuta@syrmia.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/2] Add strace support for printing arguments for ioctls
-Date: Fri, 12 Jun 2020 18:39:59 +0200
-Message-Id: <20200612164001.27405-1-filip.bozuta@syrmia.com>
+Subject: [PATCH 1/2] linux-user: Add thunk argument types for SIOCGSTAMP and
+ SIOCGSTAMPNS
+Date: Fri, 12 Jun 2020 18:40:00 +0200
+Message-Id: <20200612164001.27405-2-filip.bozuta@syrmia.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200612164001.27405-1-filip.bozuta@syrmia.com>
+References: <20200612164001.27405-1-filip.bozuta@syrmia.com>
 Content-Type: text/plain
 X-ClientProxiedBy: LO2P265CA0444.GBRP265.PROD.OUTLOOK.COM
  (2603:10a6:600:e::24) To AM6PR03MB5233.eurprd03.prod.outlook.com
@@ -61,36 +64,36 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from bozuta-ubuntu-18.syrmia.com (46.240.135.226) by
  LO2P265CA0444.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:e::24) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3088.18 via Frontend Transport; Fri, 12 Jun 2020 16:40:15 +0000
+ 15.20.3088.18 via Frontend Transport; Fri, 12 Jun 2020 16:40:16 +0000
 X-Mailer: git-send-email 2.17.1
 X-Originating-IP: [46.240.135.226]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 2de6f8aa-a7b3-495a-8dbf-08d80eef4908
+X-MS-Office365-Filtering-Correlation-Id: 45a63c1f-4eb5-438b-773d-08d80eef4958
 X-MS-TrafficTypeDiagnostic: AM6PR03MB4072:
-X-Microsoft-Antispam-PRVS: <AM6PR03MB4072F7DB92FC7F4FCFA8874AEB810@AM6PR03MB4072.eurprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:313;
+X-Microsoft-Antispam-PRVS: <AM6PR03MB407223BE18C5352E13E9EAF4EB810@AM6PR03MB4072.eurprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
 X-Forefront-PRVS: 0432A04947
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: JLWNUTbAENfoHEclNiXXM7eK40wVJueskt8aiFsdniJxz8pUc16OLAeZ8zG0+RYgbOS597v71yaEa9F4z3truBtQf7zyTgy8F0ir2bvfwavbxHzrql+M7ItMq58A9YrMIx43j/oZgJOJg7KXaFosfBrNBU09iF7RwUQyVTEs2+/a/SPXi55soLtSSHqWeMQDr6QOT9rhySuoSX2IYVA8pUx1XGSvRBSb5I7VdOfoBoZkxMU9a9K99zyGgyaSbdgBZSuGqmWDbCvB7kjH0oW8p5uq31dFg4YZkaRPn3DfbYAQR1Ulx2GdiumpUg6rT9eG
+X-Microsoft-Antispam-Message-Info: K9/VE7EInpfMqNNTFfMpy/EPpoGTbIC8u/yLcpFyrao4s3cOrvkbYCAb3Q4r+XBSGuAdKE82tKQoPdt1Te6x2yJzAlSBW2mE35IrbqqzvBg2NkdfRMWlVhC7wpL7aUS64yDPoictPiSO1UfPlMbf1Qfs1yLlSkwmf3JSccS5LMpJU1B0Qian3Gpx6+uMyv/XT5yoWiuiU5gth2WZTwvKOjaZn+pUqHZ+5AnkOnMqGiMsUhLvluwK69vCRfTXFPJvyl4xMZPHEsXmFKQ0apQaw0pZOhixYtjErdY3TSTBUVL737KZ1PAoTTWfIGJqtzjmf8Shejfwv4aLioRzKSdSbg==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM6PR03MB5233.eurprd03.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
  SFS:(136003)(346002)(39830400003)(376002)(396003)(366004)(8936002)(66476007)(86362001)(2616005)(52116002)(66556008)(956004)(66946007)(36756003)(26005)(6666004)(83380400001)(508600001)(44832011)(186003)(16526019)(7696005)(316002)(4326008)(5660300002)(8676002)(2906002)(6916009)(6486002)(1076003);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: oTGGR2+SgT5oAM7osNNMgkExe079QDcEKRHX/BBvTgR9cbuSdvkkr+nJs0WZJZr6yX1HIMKXmbkIiHefgxTtnNv6hl/0pwPuVhOyyrCZg6Vl6e3MlMiJLZl/e/8j68q5oP7SBAbSNj/x511QDoi6ICWTKnceA6akdZO2YmvsxZ00I/1KPoyWSoWJN7DEprFxxlKckJdfZgTq+kJey0RKu4RxT2uUIqdqjB56Bb5Jev73vjOWn0gYKml2MLuJYyaTctxFdbNB2OoJbCzeNlEU+zn5CrrtzAtWyvKSmntQyF80eGitTlT6kGAfGmgnL5065B2Jky5l13KROjEG9J2O2PGtHGzmOp1aWIveL+am+Fd+kyFAfAHNZt8+kxKWJ4EUuxaHtCzsG622m1LnRz8ZNYSRyw0fetZh6R/30zQRsQyqIBx64o5doIwCqq0p6nMpeYmbDz/+gCUOZLI3hi5krbIsIM8WYYMN2nlMHQyj2LI=
+X-MS-Exchange-AntiSpam-MessageData: 79qzpJ6So8l1RxkK/lIIK1G4xHTyrhIVLpznupsNlAOn7RDERXTYAHTdu+we6uwEUksT/7ZozPiYba1NpcbGMpYcz2F3fafUa0nR2MJgADrzTJ/4vQQTfHSJ92tB56nupWmnzpBVnI0T0ifhaynnS5G7PpS+ZHhwnLHTcj0PYiZnT/utQtvNk6jyTUy0FlzDCbOAZ9DnBbJxWWB829peXDU+xRxYKmS3XT4kRvgftSPu1ZnNTUK+8GqwIUqiGgGX/vKmrxCmFdR7fseFpFaaosZEsu+sEKkgLcBngJkUzjSu8D/V9C518rxDSIfpoo2GeGeR5tnIvK8WyBQ/NMcBRVtLJHr30sB4WXY+DD67tIeTYIT70bfgUVWs3yilKwPI74xq7t7IiQHemsgpY4lANx013gwaLhUDVonRXmHLk7EZsFFHpfqpvPyrKZewpNGktJorow8ao8CDLRAOPeXZYxarb4ULJiSSccN/KeOOekw=
 X-OriginatorOrg: syrmia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2de6f8aa-a7b3-495a-8dbf-08d80eef4908
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jun 2020 16:40:15.9634 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 45a63c1f-4eb5-438b-773d-08d80eef4958
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jun 2020 16:40:16.5041 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 19214a73-c1ab-4e19-8f59-14bdcb09a66e
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ysW3DpZbSBzP2PQHHdrofOi81eDWSmSUbCxJ2zLN2hAxXAxDjR8PCvCX2MWOzG7Q+ORDSXXluEJBDD8vkoA3ZA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: RUhUuHAJm4V0EGIqUsLdpVDkx+Ah4YxjMPNnvPSGIbBOEBYDEQFTUEqx2U7bhWHmDL/A7Glk8sGBAPyPXH2Oag==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR03MB4072
-Received-SPF: pass client-ip=40.107.8.101;
+Received-SPF: pass client-ip=40.107.5.134;
  envelope-from=Filip.Bozuta@syrmia.com;
- helo=EUR04-VI1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/12 12:55:20
+ helo=EUR03-VE1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/12 12:40:51
 X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
 X-Spam_score_int: -37
 X-Spam_score: -3.8
@@ -117,61 +120,86 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Filip Bozuta <Filip.Bozuta@syrmia.com>
 
-This series introduces the functionality in strace to print arguments for
-ioctls. This is gonna be a useful adittion as it indroduces a good debugging
-and diagnostic mechanism for user programs cross compiled for different
-architectures.
+Socket ioctls SIOCGSTAMP and SIOCGSTAMPNS, used for timestamping the socket
+connection, are defined in file "ioctls.h" differently from other ioctls.
+The reason for this difference is explained in the comments above their definition.
+These ioctls didn't have defined thunk argument types before changes from this
+patch. They have special handling functions ("do_ioctl_SIOCGSTAMP" and
+"do_ioctl_SIOCGSTAMPNS") that take care of setting values for approppriate argument
+types (struct timeval and struct timespec) and thus no thunk argument types were
+needed for their implementation. But this patch adds those argument type definitions
+in file "syscall_types.h" and "ioctls.h" as it is needed for printing arguments
+of these ioctls with strace.
 
-The first patch in the series introduces missing thunk argument types for ioctls
-SIOCGSTAMP and SIOCGSTAMPNS needed for strace argument printing. The second patch
-introduces the argument printing functionality. The implementation details are
-described in the patch commit messages.
+Implementation notes:
 
-Testing method:
+    There are two variants of these ioctls: SIOCGSTAMP_OLD/SIOCGSTAM_NEW and
+    SIOCGSTAMPNS_OLD/SIOCGSTAMPNS_NEW. One is the old existing definition and the
+    other is the 2038 safe variant used for 32-bit architectures. These variants
+    use types "struct timeval/timeval64" and "struct timespec/timespec64" respectively.
+    That is the reason why corresponding structure definitions were added in file
+    "syscall_types.h". STRUCT_timeval definition was already inside the file as
+    it is used by another implemented ioctl.
 
-    Mini test programs were written that run ioctls that are implemented in qemu.
-    These programs covered different varieties of ioctls. Some covered rtc ioctls
-    with both basic argument types (like RTC_IRQP_SET and RTC_IRQP_READ) and
-    structure types (like RTC_RD_TIME and RTC_SET_TIME). Some covered loop ioctls
-    LOOP_SET_STATUS and LOOP_GET_STATUS that use "struct loop_info" which contain
-    special types olddev_t (in qemu presented as OLDDEV_T). Some covered alsa timer
-    ioctls like SNDRV_TIMER_IOCTL_GSTATUS, SDNRV_TIMER_IOCTL_STATUS which contain
-    complex third argument types (structures that contain other structures and strings
-    as fields).
+Signed-off-by: Filip Bozuta <Filip.Bozuta@syrmia.com>
+---
+ linux-user/ioctls.h        | 12 ++++++++----
+ linux-user/syscall_types.h | 12 ++++++++++++
+ 2 files changed, 20 insertions(+), 4 deletions(-)
 
-    Programs were compiled (sometimes using cross-compilers) for the following
-    architectures:
-
-        * Intel 64-bit (little endian) (gcc)
-        * Power pc 32-bit (big endian) (powerpc-linux-gnu-gcc)
-        * Power pc 64-bit (big endian) (powerpc64-linux-gnu-gcc)
-        * Mips 32-bit (little endian) (mipsel-linux-gnu-gcc)
-        * Mips 64-bit (little endian) (mips64el-linux-gnuabi64-gcc)
-
-    All applicable compiled programs were in turn executed with "-strace"
-    through QEMU and the strace printing results obtained were the same
-    ones gotten for native execution.
-
-Implementation limitation:
-
-    The field names of the structure argument types cannot be
-    printed as there is not enough information in thunk data
-    (inside StructEntry) to do that.
-
-Filip Bozuta (2):
-  linux-user: Add thunk argument types for SIOCGSTAMP and SIOCGSTAMPNS
-  linux-user: Add strace support for printing arguments of ioctl()
-
- include/exec/user/thunk.h  |   1 +
- linux-user/ioctls.h        |  12 ++-
- linux-user/qemu.h          |  20 +++++
- linux-user/strace.c        | 120 +++++++++++++++++++++++++++++
- linux-user/strace.list     |   3 +-
- linux-user/syscall.c       |  20 +----
- linux-user/syscall_types.h |  12 +++
- thunk.c                    | 154 +++++++++++++++++++++++++++++++++++++
- 8 files changed, 318 insertions(+), 24 deletions(-)
-
+diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
+index 0defa1d8c1..68d43f71cc 100644
+--- a/linux-user/ioctls.h
++++ b/linux-user/ioctls.h
+@@ -279,13 +279,17 @@
+    * FIXME: create a macro to define this kind of entry
+    */
+   { TARGET_SIOCGSTAMP_OLD, TARGET_SIOCGSTAMP_OLD,
+-    "SIOCGSTAMP_OLD", IOC_R, do_ioctl_SIOCGSTAMP },
++    "SIOCGSTAMP_OLD", IOC_R, do_ioctl_SIOCGSTAMP,
++    { MK_PTR(MK_STRUCT(STRUCT_timeval)) } },
+   { TARGET_SIOCGSTAMPNS_OLD, TARGET_SIOCGSTAMPNS_OLD,
+-    "SIOCGSTAMPNS_OLD", IOC_R, do_ioctl_SIOCGSTAMPNS },
++    "SIOCGSTAMPNS_OLD", IOC_R, do_ioctl_SIOCGSTAMPNS,
++    { MK_PTR(MK_STRUCT(STRUCT_timespec)) } },
+   { TARGET_SIOCGSTAMP_NEW, TARGET_SIOCGSTAMP_NEW,
+-    "SIOCGSTAMP_NEW", IOC_R, do_ioctl_SIOCGSTAMP },
++    "SIOCGSTAMP_NEW", IOC_R, do_ioctl_SIOCGSTAMP,
++    { MK_PTR(MK_STRUCT(STRUCT_timeval64)) } },
+   { TARGET_SIOCGSTAMPNS_NEW, TARGET_SIOCGSTAMPNS_NEW,
+-    "SIOCGSTAMPNS_NEW", IOC_R, do_ioctl_SIOCGSTAMPNS },
++    "SIOCGSTAMPNS_NEW", IOC_R, do_ioctl_SIOCGSTAMPNS,
++    { MK_PTR(MK_STRUCT(STRUCT_timespec64)) } },
+ 
+   IOCTL(RNDGETENTCNT, IOC_R, MK_PTR(TYPE_INT))
+   IOCTL(RNDADDTOENTCNT, IOC_W, MK_PTR(TYPE_INT))
+diff --git a/linux-user/syscall_types.h b/linux-user/syscall_types.h
+index 4e12c1661e..a5ad5a9ddc 100644
+--- a/linux-user/syscall_types.h
++++ b/linux-user/syscall_types.h
+@@ -137,10 +137,22 @@ STRUCT(snd_timer_params,
+        TYPE_INT, /* filter */
+        MK_ARRAY(TYPE_CHAR, 60)) /* reserved */
+ 
++STRUCT(timeval,
++       TYPE_LONG, /* tv_sec */
++       TYPE_LONG) /* tv_usec */
++
++STRUCT(timeval64,
++       TYPE_LONGLONG, /* tv_sec */
++       TYPE_LONGLONG) /* tv_usec */
++
+ STRUCT(timespec,
+        TYPE_LONG, /* tv_sec */
+        TYPE_LONG) /* tv_nsec */
+ 
++STRUCT(timespec64,
++       TYPE_LONGLONG, /* tv_sec */
++       TYPE_LONGLONG) /* tv_nsec */
++
+ STRUCT(snd_timer_status,
+        MK_STRUCT(STRUCT_timespec), /* tstamp */
+        TYPE_INT, /* resolution */
 -- 
 2.17.1
 
