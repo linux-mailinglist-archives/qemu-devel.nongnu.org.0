@@ -2,67 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 833291F7A90
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 17:18:42 +0200 (CEST)
-Received: from localhost ([::1]:52234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CFA91F7A71
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 17:11:51 +0200 (CEST)
+Received: from localhost ([::1]:54574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjlS5-0004zv-Eq
-	for lists+qemu-devel@lfdr.de; Fri, 12 Jun 2020 11:18:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50696)
+	id 1jjlLS-0000pG-0z
+	for lists+qemu-devel@lfdr.de; Fri, 12 Jun 2020 11:11:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50688)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jjl3S-0001PO-Rr
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jjl3S-0001Mo-36
  for qemu-devel@nongnu.org; Fri, 12 Jun 2020 10:53:14 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:57120
- helo=us-smtp-1.mimecast.com)
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:46175
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jjl3Q-0001fv-VA
- for qemu-devel@nongnu.org; Fri, 12 Jun 2020 10:53:14 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jjl3O-0001eu-Qt
+ for qemu-devel@nongnu.org; Fri, 12 Jun 2020 10:53:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591973592;
+ s=mimecast20190719; t=1591973586;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mpMbTsm6mehy6ISo1LlFq8k67fPnsrK8nRjA546c8Mw=;
- b=YGd6U0FA36KHrmzNmroz8bK3ILxnidepYa67GFJR5UQvwJxju7ZlLUjQW5w3T9p7Q5J6c4
- G8AOS34ciKf5mAvrJ39qCPtskpyLHoHgtRpLLwskILvnSDR9zZUAP57sWt8SvukakhF5bz
- o6OQMvX/153Cs9orp6aPjS/yb1FKf+c=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-91-Xx4QqlyTOnKrf6Rd1cL4cw-1; Fri, 12 Jun 2020 10:53:02 -0400
-X-MC-Unique: Xx4QqlyTOnKrf6Rd1cL4cw-1
-Received: by mail-wr1-f69.google.com with SMTP id a4so3987681wrp.5
- for <qemu-devel@nongnu.org>; Fri, 12 Jun 2020 07:53:01 -0700 (PDT)
+ bh=2tWNry73oPv2gQlztpgeBRBkHzYAUwx8arM+2V6vlZU=;
+ b=DmOH+ahSsMnKTXheLuE6MZSgEWE7gYa53qkIb+0G8WtMMDg9e8GZ8NVEa4z1xTFnVQJ7yP
+ vl8Ckj19BzsqYH8Vx/69mKvuLhi3x9Y6vvnUK1PkoaLvHxZkzij0vEcuehqvNVimOycVjT
+ ZOTk64/Nz/fuuH+DP1e8AJaRoE8EJEo=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-114-FR1BFfhUNRaFgbS2hdUC8g-1; Fri, 12 Jun 2020 10:53:04 -0400
+X-MC-Unique: FR1BFfhUNRaFgbS2hdUC8g-1
+Received: by mail-wr1-f71.google.com with SMTP id h6so4019293wrx.4
+ for <qemu-devel@nongnu.org>; Fri, 12 Jun 2020 07:53:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=mpMbTsm6mehy6ISo1LlFq8k67fPnsrK8nRjA546c8Mw=;
- b=RrUYxo7eTnOP7inY/6dTvspy2XH+ZLRl51mzoI6Xt2gjFMkgoLKXz9VxUDc37LIaH0
- eSFanLw2HIYC/kLmSlg6rhfYmXy7dgrRAoze0q6Y/GJXe1wiCqE7AeLFh1ZIZeeAs/FE
- NUdOQL5Ogy6HauzuVDHbb/B1Kt+1vgyx2l56fECqpHwewnon3jBqtY2Kxe9UcsB5d3FA
- JLSGjsZUcYQpQ7VHNU4zjBYxAdJQ5sPPMdpfqn203QOax5OHkH5nYdPPaRR4gRxh5YAE
- QJefhiHQdMNxDPpcNkvNzI9e+0AcKR07Q7mbo4v6NBJYsLv3KG7m1rngD25dmsgiyQDl
- RHqw==
-X-Gm-Message-State: AOAM530e0fUk1sL6ywmX+AGOcHUL34frTFD/mjRAFLP2vBOQSI9BnVzb
- WvyfMCN4b0MQQW8mWRfxp6gkl2Oek0ShuxoZA4YDSGIQn1JQAV2ReGHoRx10pjRUXU/jUnTaFJB
- tLJqrzE360PKzvko=
-X-Received: by 2002:adf:ed49:: with SMTP id u9mr15156118wro.414.1591973580856; 
- Fri, 12 Jun 2020 07:53:00 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw7+/EmDs+esUL55nYkNA2YVXft42CQkYXR+sgSma7tjR34v7bHmuj5fEugK3MYizzds3BhdA==
-X-Received: by 2002:adf:ed49:: with SMTP id u9mr15156092wro.414.1591973580663; 
- Fri, 12 Jun 2020 07:53:00 -0700 (PDT)
+ :mime-version:content-disposition:in-reply-to;
+ bh=2tWNry73oPv2gQlztpgeBRBkHzYAUwx8arM+2V6vlZU=;
+ b=mafemCS7uQy6wq/S/hjWS24gfEn8+7pVd3ZlMm/pBgmE+8O8txUsEpDwcZyeWm1RnW
+ KCZery8Pyz97ORntwT4bM7wfwHP+XSgtmEZS5HXYsbpJ/bE2cThDZgBBMp1fVgwvOEKs
+ uKPwTnFB/BNJTt4STSJSqQ3cNDe5x6Z4cmNoN+SPRxGac9y25qiJULI1awCwgzqdfTD4
+ gSZkI5wi+6NVY1VPy7rSLikhU8F+tXA/VAJbw7+YQ9qdhW1SBST8KMAQesUadnk/WLnP
+ Z29/bUqcN4apczmgaB2XNOtAwn3LUsgVJ9IWD/YmdCsW5pGurfk62+Z74umOx5yAyp9u
+ 8cAg==
+X-Gm-Message-State: AOAM532h0TvH7LrMDfv60W+Z0v8sND4a1PnEbkMi/Qapokf/NxTAf6bH
+ oyMdIM6v87Oiw3XzY2Jw47RAqB+4Y4n5A9KGU7+RgpERT7d+rXndO3ztvERgtRSj2wA+so1Pst4
+ ApssxA/FIz/PZ6ZY=
+X-Received: by 2002:adf:f205:: with SMTP id p5mr16382959wro.302.1591973582837; 
+ Fri, 12 Jun 2020 07:53:02 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwc14BKPyIKhs1OuKJ3EPlYFqZ34/1iXfmlY2UBj3gIzeZrcVhR636cIWmvK342Y0PkeO4PBg==
+X-Received: by 2002:adf:f205:: with SMTP id p5mr16382934wro.302.1591973582620; 
+ Fri, 12 Jun 2020 07:53:02 -0700 (PDT)
 Received: from redhat.com (bzq-79-178-18-124.red.bezeqint.net. [79.178.18.124])
- by smtp.gmail.com with ESMTPSA id h27sm12294814wrb.18.2020.06.12.07.52.59
+ by smtp.gmail.com with ESMTPSA id z206sm9561863wmg.30.2020.06.12.07.53.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Jun 2020 07:53:00 -0700 (PDT)
-Date: Fri, 12 Jun 2020 10:52:58 -0400
+ Fri, 12 Jun 2020 07:53:02 -0700 (PDT)
+Date: Fri, 12 Jun 2020 10:53:00 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 53/58] acpi: madt: skip pci override on pci-less systems.
-Message-ID: <20200612141917.9446-54-mst@redhat.com>
+Subject: [PULL v2 54/58] acpi: fadt: add hw-reduced sleep register support
+Message-ID: <20200612141917.9446-55-mst@redhat.com>
 References: <20200612141917.9446-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200612141917.9446-1-mst@redhat.com>
@@ -70,12 +68,11 @@ X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=mst@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/12 08:07:26
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/12 09:30:54
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -96,102 +93,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Gerd Hoffmann <kraxel@redhat.com>
 
-Needed for microvm.
+Add fields to struct AcpiFadtData and update build_fadt() to properly
+generate sleep register entries.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200520132003.9492-8-kraxel@redhat.com>
+Message-Id: <20200520132003.9492-9-kraxel@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/i386/acpi-common.h |  3 ++-
- hw/i386/acpi-build.c  |  2 +-
- hw/i386/acpi-common.c | 26 +++++++++++++++-----------
- 3 files changed, 18 insertions(+), 13 deletions(-)
+ include/hw/acpi/acpi-defs.h | 2 ++
+ hw/acpi/aml-build.c         | 4 ++--
+ 2 files changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/hw/i386/acpi-common.h b/hw/i386/acpi-common.h
-index c30e461f18..9cac18dddf 100644
---- a/hw/i386/acpi-common.h
-+++ b/hw/i386/acpi-common.h
-@@ -9,6 +9,7 @@
- #define ACPI_BUILD_IOAPIC_ID 0x0
- 
- void acpi_build_madt(GArray *table_data, BIOSLinker *linker,
--                     X86MachineState *x86ms, AcpiDeviceIf *adev);
-+                     X86MachineState *x86ms, AcpiDeviceIf *adev,
-+                     bool has_pci);
- 
- #endif
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 26c0c8aefa..473cbdfffd 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -2588,7 +2588,7 @@ void acpi_build(AcpiBuildTables *tables, MachineState *machine)
- 
-     acpi_add_table(table_offsets, tables_blob);
-     acpi_build_madt(tables_blob, tables->linker, x86ms,
--                    ACPI_DEVICE_IF(pcms->acpi_dev));
-+                    ACPI_DEVICE_IF(pcms->acpi_dev), true);
- 
-     vmgenid_dev = find_vmgenid_dev();
-     if (vmgenid_dev) {
-diff --git a/hw/i386/acpi-common.c b/hw/i386/acpi-common.c
-index 5caca16a0b..ab9b00581a 100644
---- a/hw/i386/acpi-common.c
-+++ b/hw/i386/acpi-common.c
-@@ -72,7 +72,8 @@ void pc_madt_cpu_entry(AcpiDeviceIf *adev, int uid,
- }
- 
- void acpi_build_madt(GArray *table_data, BIOSLinker *linker,
--                     X86MachineState *x86ms, AcpiDeviceIf *adev)
-+                     X86MachineState *x86ms, AcpiDeviceIf *adev,
-+                     bool has_pci)
- {
-     MachineClass *mc = MACHINE_GET_CLASS(x86ms);
-     const CPUArchIdList *apic_ids = mc->possible_cpu_arch_ids(MACHINE(x86ms));
-@@ -111,18 +112,21 @@ void acpi_build_madt(GArray *table_data, BIOSLinker *linker,
-         intsrcovr->gsi    = cpu_to_le32(2);
-         intsrcovr->flags  = cpu_to_le16(0); /* conforms to bus specifications */
-     }
--    for (i = 1; i < 16; i++) {
-+
-+    if (has_pci) {
-+        for (i = 1; i < 16; i++) {
- #define ACPI_BUILD_PCI_IRQS ((1<<5) | (1<<9) | (1<<10) | (1<<11))
--        if (!(ACPI_BUILD_PCI_IRQS & (1 << i))) {
--            /* No need for a INT source override structure. */
--            continue;
-+            if (!(ACPI_BUILD_PCI_IRQS & (1 << i))) {
-+                /* No need for a INT source override structure. */
-+                continue;
-+            }
-+            intsrcovr = acpi_data_push(table_data, sizeof *intsrcovr);
-+            intsrcovr->type   = ACPI_APIC_XRUPT_OVERRIDE;
-+            intsrcovr->length = sizeof(*intsrcovr);
-+            intsrcovr->source = i;
-+            intsrcovr->gsi    = cpu_to_le32(i);
-+            intsrcovr->flags  = cpu_to_le16(0xd); /* active high, level triggered */
-         }
--        intsrcovr = acpi_data_push(table_data, sizeof *intsrcovr);
--        intsrcovr->type   = ACPI_APIC_XRUPT_OVERRIDE;
--        intsrcovr->length = sizeof(*intsrcovr);
--        intsrcovr->source = i;
--        intsrcovr->gsi    = cpu_to_le32(i);
--        intsrcovr->flags  = cpu_to_le16(0xd); /* active high, level triggered */
+diff --git a/include/hw/acpi/acpi-defs.h b/include/hw/acpi/acpi-defs.h
+index c13327fa78..3be9ab5049 100644
+--- a/include/hw/acpi/acpi-defs.h
++++ b/include/hw/acpi/acpi-defs.h
+@@ -88,6 +88,8 @@ typedef struct AcpiFadtData {
+     struct AcpiGenericAddress pm_tmr;    /* PM_TMR_BLK */
+     struct AcpiGenericAddress gpe0_blk;  /* GPE0_BLK */
+     struct AcpiGenericAddress reset_reg; /* RESET_REG */
++    struct AcpiGenericAddress sleep_ctl; /* SLEEP_CONTROL_REG */
++    struct AcpiGenericAddress sleep_sts; /* SLEEP_STATUS_REG */
+     uint8_t reset_val;         /* RESET_VALUE */
+     uint8_t  rev;              /* Revision */
+     uint32_t flags;            /* Flags */
+diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
+index d24e9e6c3a..2cb7b991ef 100644
+--- a/hw/acpi/aml-build.c
++++ b/hw/acpi/aml-build.c
+@@ -1866,9 +1866,9 @@ void build_fadt(GArray *tbl, BIOSLinker *linker, const AcpiFadtData *f,
      }
  
-     if (x2apic_mode) {
+     /* SLEEP_CONTROL_REG */
+-    build_append_gas(tbl, AML_AS_SYSTEM_MEMORY, 0 , 0, 0, 0);
++    build_append_gas_from_struct(tbl, &f->sleep_ctl);
+     /* SLEEP_STATUS_REG */
+-    build_append_gas(tbl, AML_AS_SYSTEM_MEMORY, 0 , 0, 0, 0);
++    build_append_gas_from_struct(tbl, &f->sleep_sts);
+ 
+     /* TODO: extra fields need to be added to support revisions above rev5 */
+     assert(f->rev == 5);
 -- 
 MST
 
