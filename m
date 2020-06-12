@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D06C1F7D6A
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 21:13:52 +0200 (CEST)
-Received: from localhost ([::1]:51066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1DCA1F7D6D
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 21:15:07 +0200 (CEST)
+Received: from localhost ([::1]:55362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjp7f-0001mZ-1w
-	for lists+qemu-devel@lfdr.de; Fri, 12 Jun 2020 15:13:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56478)
+	id 1jjp8s-00045A-Mv
+	for lists+qemu-devel@lfdr.de; Fri, 12 Jun 2020 15:15:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56494)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jjp2O-0001wx-Hu
- for qemu-devel@nongnu.org; Fri, 12 Jun 2020 15:08:24 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:37045)
+ id 1jjp2P-000206-R7
+ for qemu-devel@nongnu.org; Fri, 12 Jun 2020 15:08:25 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:43566)
  by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jjp2M-0007av-NM
- for qemu-devel@nongnu.org; Fri, 12 Jun 2020 15:08:24 -0400
-Received: by mail-wr1-x441.google.com with SMTP id x13so10850039wrv.4
- for <qemu-devel@nongnu.org>; Fri, 12 Jun 2020 12:08:14 -0700 (PDT)
+ id 1jjp2O-0007b5-0S
+ for qemu-devel@nongnu.org; Fri, 12 Jun 2020 15:08:25 -0400
+Received: by mail-wr1-x441.google.com with SMTP id l10so10819609wrr.10
+ for <qemu-devel@nongnu.org>; Fri, 12 Jun 2020 12:08:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=fmvqRWXA4S4s+D50fC0aMio8k7PyGt04LZMtINTzwxg=;
- b=YwX0qdCFw6656yVdn3ZuyHcLqiRMU51QcNhqDIMoiW9IhsTqc3+PsAx6UA/yrCrtlB
- d1gV+2B8vmfYTGeS9vutWssVF54vXC96F1yh6+P33kap8H3386GDbuol1K61l1/7Qmpx
- D6JLw7p/CGuDTzsWQ2QNGi/Zurd470JSlGfPGXDhARZOexw30Vwx1yDr8mTUbPbkhH5X
- PyLzzddcDN0EShGWXKfVoRn6tDttssoSG+DXtbkyYhDpw41WRt9AcREnVrYsc97QyL9l
- 0/Oo1mofTHCbjWCBBbt1YENlsK2INOnz8RyiywKtJsWQNQrD2gtb0sgg6ECY42A/gvSX
- OxEg==
+ bh=wXhgANSUKYnCKXs8uV1uCQPeeFPmHlGq9ilbgO5w6iI=;
+ b=JO8Lq9UsZykrE9C0WuOwWC7dTAuP6f71RCn6aB0JBn5ZM0zkG5R76Umi5/NK6RN98t
+ yEgqFveLHYJDzTIHiMp6NpuiGObJQr8ZjfCy5tmUwjR7Cx7UubM1EWjhirPv2s9Gh01P
+ FO5j8akPAT2aSu2inJBdc7gOLQdqeyZRSSpaC1zzlr3DEHTJzRphtoAmnYqx9dyCcc+r
+ gX7Fa8mctv2bJuZujX2aJdfDDiB7zeDmv/rGpiEWoptyuBhbnqNCVTslLr7GVDkCOwoT
+ a5Ee4LLozPKMElnRNEEsi029cGN3eoLQMJvMe7TbDK/5tWHWGcdVktSEQzG4BO7Sk8uz
+ fo2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=fmvqRWXA4S4s+D50fC0aMio8k7PyGt04LZMtINTzwxg=;
- b=T93+gsjKKvpNwTgdnHnJYuRSgnG6zrChH8ep6sYWXGgFlyVINhCkNiItjzjztN2FdF
- 8QlY2tM7JUD5I0lrSVQ5r/cOsL7zDrX3Gglm3n7/uA1DUPxWsAp9PqzBWDzZ2+O00Rlw
- +1L27g9jk6jln5dHYmRmxZapQAFP/nEXkPQaVRH4p04ybsOpX4XLOIQHzRVhFONejF/v
- XqD4ZoAWDUYAjQoFPUyX1Fh/rEmX9Y7LKEMTYgOglvQid0+xirF2Swe+9W2D1wFJff4K
- XPj0EtqlSqFdoUNYy/78RtXfR4uDvjSWOOgrWWw6mhLr+6YjkH1XuTClVYbvsrw0cHvD
- QImg==
-X-Gm-Message-State: AOAM533dc9rtLwUCUmg4C7Wi8BXw81Img7vVUid8dKdmSxP94FhCz+J3
- NNEPDb71n03wUAC+fYGZnPbmGQ==
-X-Google-Smtp-Source: ABdhPJxRgb6U+Z7/oI7B8osdf9PMWNgqUljz6rHEAW5mhKk1MJd82eyRY1NVuMPU5NFpcSmSuvIwGw==
-X-Received: by 2002:a5d:4c45:: with SMTP id n5mr16558362wrt.341.1591988893816; 
- Fri, 12 Jun 2020 12:08:13 -0700 (PDT)
+ bh=wXhgANSUKYnCKXs8uV1uCQPeeFPmHlGq9ilbgO5w6iI=;
+ b=bca1aEgQ/G8HvIDaO3NmnoEyNromEonQ2W8VplYZNiGJyG3og+01l3i5qJPI68cmyc
+ 6uwpHtKkkshLcYL0LzLWZDBiwJrczI5A6GyALygLMTtkeYtSOjL14B5OX8jZB5EMA+IN
+ ZYWUancc3hpnaiRXn9/WanXreLIBUZ4Bb85X6D8JPpDuuTEm+jv7aRIfZomJxyWHRTCQ
+ 17Xguf8SrifdyGWFS3D8DcMq6IuIPeJfAiX4TWAz30V9DTdKthF3bIQOn+5QNj22LFZV
+ VV/MbPGLT0Zk8nr/jbEHclp4MZWApLxhEY/cin4n4jv6+Ycy1UZO5xImVOeogAXbyccS
+ +VKQ==
+X-Gm-Message-State: AOAM531tP3Soa4vAw0hb8snDrPs1c6hX++PS18wOhq/I1txFSXgDn0yl
+ 43HSxTwzOEa/qVrcMxpMPyUwfg==
+X-Google-Smtp-Source: ABdhPJybUlFo7xQDhVy73X0+AJpszwm4nXLyGjmqxvjoVQvDAU51wAhC6jc4FKGbOX7/LRzIPs4gvw==
+X-Received: by 2002:a1c:bd86:: with SMTP id n128mr390249wmf.5.1591988894976;
+ Fri, 12 Jun 2020 12:08:14 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id d11sm11503801wrm.64.2020.06.12.12.08.08
+ by smtp.gmail.com with ESMTPSA id y66sm10497582wmy.24.2020.06.12.12.08.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 12 Jun 2020 12:08:08 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 7DE441FF9D;
+ by zen.linaroharston (Postfix) with ESMTP id AB00D1FF9E;
  Fri, 12 Jun 2020 20:02:40 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 15/18] docs: Added details on TSan to testing.rst
-Date: Fri, 12 Jun 2020 20:02:34 +0100
-Message-Id: <20200612190237.30436-16-alex.bennee@linaro.org>
+Subject: [PATCH  v1 16/18] tests: Disable select tests under TSan,
+ which hit TSan issue.
+Date: Fri, 12 Jun 2020 20:02:35 +0100
+Message-Id: <20200612190237.30436-17-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200612190237.30436-1-alex.bennee@linaro.org>
 References: <20200612190237.30436-1-alex.bennee@linaro.org>
@@ -88,147 +89,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, Robert Foley <robert.foley@linaro.org>,
+Cc: fam@euphon.net, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
+ Robert Foley <robert.foley@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  richard.henderson@linaro.org, f4bug@amsat.org, cota@braap.org,
- aurelien@aurel32.net
+ Paolo Bonzini <pbonzini@redhat.com>, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Robert Foley <robert.foley@linaro.org>
 
-Adds TSan details to testing.rst.
-This includes background and reference details on TSan,
-and details on how to build and test with TSan
-both with and without docker.
+Disable a few tests under CONFIG_TSAN, which
+run into a known TSan issue that results in a hang.
+https://github.com/google/sanitizers/issues/1116
+
+The disabled tests under TSan include all the qtests as well as
+the test-char, test-qga, and test-qdev-global-props.
 
 Signed-off-by: Robert Foley <robert.foley@linaro.org>
 Reviewed-by: Emilio G. Cota <cota@braap.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20200609200738.445-13-robert.foley@linaro.org>
+Message-Id: <20200609200738.445-14-robert.foley@linaro.org>
 ---
- docs/devel/testing.rst | 107 +++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 107 insertions(+)
+ tests/Makefile.include       | 9 +++++++--
+ tests/qtest/Makefile.include | 7 +++++--
+ 2 files changed, 12 insertions(+), 4 deletions(-)
 
-diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
-index 770a987ea42..c1ff24370bf 100644
---- a/docs/devel/testing.rst
-+++ b/docs/devel/testing.rst
-@@ -397,6 +397,113 @@ list is in the ``make docker`` help text. The frequently used ones are:
- * ``DEBUG=1``: enables debug. See the previous "Debugging a Docker test
-   failure" section.
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index c2397de8ed6..8d82c24d835 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -55,7 +55,6 @@ SYSEMU_TARGET_LIST := $(subst -softmmu.mak,,$(notdir \
  
-+Thread Sanitizer
-+================
-+
-+Thread Sanitizer (TSan) is a tool which can detect data races.  QEMU supports
-+building and testing with this tool.
-+
-+For more information on TSan:
-+
-+https://github.com/google/sanitizers/wiki/ThreadSanitizerCppManual
-+
-+Thread Sanitizer in Docker
-+---------------------------
-+TSan is currently supported in the ubuntu2004 docker.
-+
-+The test-tsan test will build using TSan and then run make check.
-+
-+.. code::
-+
-+  make docker-test-tsan@ubuntu2004
-+
-+TSan warnings under docker are placed in files located at build/tsan/.
-+
-+We recommend using DEBUG=1 to allow launching the test from inside the docker,
-+and to allow review of the warnings generated by TSan.
-+
-+Building and Testing with TSan
-+------------------------------
-+
-+It is possible to build and test with TSan, with a few additional steps.
-+These steps are normally done automatically in the docker.
-+
-+There is a one time patch needed in clang-9 or clang-10 at this time:
-+
-+.. code::
-+
-+  sed -i 's/^const/static const/g' \
-+      /usr/lib/llvm-10/lib/clang/10.0.0/include/sanitizer/tsan_interface.h
-+
-+To configure the build for TSan:
-+
-+.. code::
-+
-+  ../configure --enable-tsan --cc=clang-10 --cxx=clang++-10 \
-+               --disable-werror --extra-cflags="-O0"
-+
-+The runtime behavior of TSAN is controlled by the TSAN_OPTIONS environment
-+variable.
-+
-+More information on the TSAN_OPTIONS can be found here:
-+
-+https://github.com/google/sanitizers/wiki/ThreadSanitizerFlags
-+
-+For example:
-+
-+.. code::
-+
-+  export TSAN_OPTIONS=suppressions=<path to qemu>/tests/tsan/suppressions.tsan \
-+                      detect_deadlocks=false history_size=7 exitcode=0 \
-+                      log_path=<build path>/tsan/tsan_warning
-+
-+The above exitcode=0 has TSan continue without error if any warnings are found.
-+This allows for running the test and then checking the warnings afterwards.
-+If you want TSan to stop and exit with error on warnings, use exitcode=66.
-+
-+TSan Suppressions
-+-----------------
-+Keep in mind that for any data race warning, although there might be a data race
-+detected by TSan, there might be no actual bug here.  TSan provides several
-+different mechanisms for suppressing warnings.  In general it is recommended
-+to fix the code if possible to eliminate the data race rather than suppress
-+the warning.
-+
-+A few important files for suppressing warnings are:
-+
-+tests/tsan/suppressions.tsan - Has TSan warnings we wish to suppress at runtime.
-+The comment on each supression will typically indicate why we are
-+suppressing it.  More information on the file format can be found here:
-+
-+https://github.com/google/sanitizers/wiki/ThreadSanitizerSuppressions
-+
-+tests/tsan/blacklist.tsan - Has TSan warnings we wish to disable
-+at compile time for test or debug.
-+Add flags to configure to enable:
-+
-+"--extra-cflags=-fsanitize-blacklist=<src path>/tests/tsan/blacklist.tsan"
-+
-+More information on the file format can be found here under "Blacklist Format":
-+
-+https://github.com/google/sanitizers/wiki/ThreadSanitizerFlags
-+
-+TSan Annotations
-+----------------
-+include/qemu/tsan.h defines annotations.  See this file for more descriptions
-+of the annotations themselves.  Annotations can be used to suppress
-+TSan warnings or give TSan more information so that it can detect proper
-+relationships between accesses of data.
-+
-+Annotation examples can be found here:
-+
-+https://github.com/llvm/llvm-project/tree/master/compiler-rt/test/tsan/
-+
-+Good files to start with are: annotate_happens_before.cpp and ignore_race.cpp
-+
-+The full set of annotations can be found here:
-+
-+https://github.com/llvm/llvm-project/blob/master/compiler-rt/lib/tsan/rtl/tsan_interface_ann.cpp
-+
- VM testing
- ==========
+ check-unit-y += tests/check-qdict$(EXESUF)
+ check-unit-y += tests/check-block-qdict$(EXESUF)
+-check-unit-$(CONFIG_SOFTMMU) += tests/test-char$(EXESUF)
+ check-unit-y += tests/check-qnum$(EXESUF)
+ check-unit-y += tests/check-qstring$(EXESUF)
+ check-unit-y += tests/check-qlist$(EXESUF)
+@@ -108,7 +107,6 @@ check-unit-y += tests/test-qht$(EXESUF)
+ check-unit-y += tests/test-qht-par$(EXESUF)
+ check-unit-y += tests/test-bitops$(EXESUF)
+ check-unit-y += tests/test-bitcnt$(EXESUF)
+-check-unit-$(CONFIG_SOFTMMU) += tests/test-qdev-global-props$(EXESUF)
+ check-unit-y += tests/check-qom-interface$(EXESUF)
+ check-unit-y += tests/check-qom-proplist$(EXESUF)
+ check-unit-y += tests/test-qemu-opts$(EXESUF)
+@@ -123,9 +121,16 @@ check-speed-$(CONFIG_BLOCK) += tests/benchmark-crypto-cipher$(EXESUF)
+ check-unit-$(CONFIG_BLOCK) += tests/test-crypto-secret$(EXESUF)
+ check-unit-$(call land,$(CONFIG_BLOCK),$(CONFIG_GNUTLS)) += tests/test-crypto-tlscredsx509$(EXESUF)
+ check-unit-$(call land,$(CONFIG_BLOCK),$(CONFIG_GNUTLS)) += tests/test-crypto-tlssession$(EXESUF)
++ifndef CONFIG_TSAN
++# Some tests: test-char, test-qdev-global-props, and test-qga,
++# are not runnable under TSan due to a known issue.
++# https://github.com/google/sanitizers/issues/1116
++check-unit-$(CONFIG_SOFTMMU) += tests/test-char$(EXESUF)
++check-unit-$(CONFIG_SOFTMMU) += tests/test-qdev-global-props$(EXESUF)
+ ifneq (,$(findstring qemu-ga,$(TOOLS)))
+ check-unit-$(call land,$(CONFIG_LINUX),$(CONFIG_VIRTIO_SERIAL)) += tests/test-qga$(EXESUF)
+ endif
++endif
+ check-unit-$(CONFIG_SOFTMMU) += tests/test-timed-average$(EXESUF)
+ check-unit-$(call land,$(CONFIG_SOFTMMU),$(CONFIG_INOTIFY1)) += tests/test-util-filemonitor$(EXESUF)
+ check-unit-$(CONFIG_SOFTMMU) += tests/test-util-sockets$(EXESUF)
+diff --git a/tests/qtest/Makefile.include b/tests/qtest/Makefile.include
+index 9e5a51d033a..71fd714a2a9 100644
+--- a/tests/qtest/Makefile.include
++++ b/tests/qtest/Makefile.include
+@@ -313,12 +313,15 @@ tests/qtest/tpm-tis-device-test$(EXESUF): tests/qtest/tpm-tis-device-test.o test
+ # QTest rules
  
+ TARGETS=$(patsubst %-softmmu,%, $(filter %-softmmu,$(TARGET_DIRS)))
++QTEST_TARGETS =
++# The qtests are not runnable (yet) under TSan due to a known issue.
++# https://github.com/google/sanitizers/issues/1116
++ifndef CONFIG_TSAN
+ ifeq ($(CONFIG_POSIX),y)
+ QTEST_TARGETS = $(TARGETS)
+ check-qtest-y=$(foreach TARGET,$(TARGETS), $(check-qtest-$(TARGET)-y:%=tests/qtest/%$(EXESUF)))
+ check-qtest-y += $(check-qtest-generic-y:%=tests/qtest/%$(EXESUF))
+-else
+-QTEST_TARGETS =
++endif
+ endif
+ 
+ qtest-obj-y = tests/qtest/libqtest.o $(test-util-obj-y)
 -- 
 2.20.1
 
