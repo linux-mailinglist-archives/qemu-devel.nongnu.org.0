@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E1831F7D55
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 21:05:22 +0200 (CEST)
-Received: from localhost ([::1]:45746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 890041F7D5C
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 21:08:20 +0200 (CEST)
+Received: from localhost ([::1]:60778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjozR-0002p2-Fs
-	for lists+qemu-devel@lfdr.de; Fri, 12 Jun 2020 15:05:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54650)
+	id 1jjp2J-0000x0-Kp
+	for lists+qemu-devel@lfdr.de; Fri, 12 Jun 2020 15:08:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54688)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jjox5-0000oV-UQ
- for qemu-devel@nongnu.org; Fri, 12 Jun 2020 15:02:55 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:37918)
+ id 1jjox7-0000q7-QJ
+ for qemu-devel@nongnu.org; Fri, 12 Jun 2020 15:03:00 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:37917)
  by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jjox3-0006sk-Vd
- for qemu-devel@nongnu.org; Fri, 12 Jun 2020 15:02:55 -0400
-Received: by mail-wr1-x443.google.com with SMTP id e1so10830680wrt.5
- for <qemu-devel@nongnu.org>; Fri, 12 Jun 2020 12:02:46 -0700 (PDT)
+ id 1jjox5-0006sq-JH
+ for qemu-devel@nongnu.org; Fri, 12 Jun 2020 15:02:57 -0400
+Received: by mail-wr1-x441.google.com with SMTP id e1so10830804wrt.5
+ for <qemu-devel@nongnu.org>; Fri, 12 Jun 2020 12:02:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=OWM6z37V43sNWJfaIriZyMnMn9bapISVtQNxM8oRL7o=;
- b=ppZPh3k3Qp8LHCkmeJxvF1AnZPH2I1BJz2okR/I2Q8Cczc7h1zXZrA81syI+BTkjXz
- 2fDIa70+FGYn8lPnzwVlITnRt1EcdCkeARM1SZknSWU0WQE9pQkwGe9NVyXKQ8wDanyN
- MJkdI8hgFJZTh1EquNtx6ngW27YDw7AFM5iuwYpTg18CTHVPTmWa05Ja4LDy7L+v6SbL
- E34RpKWYRxusrwvG7HyuDIQkQveJSDciWF2MrAEoDIfq4SObs80Ipnk0cE7TrvnqGNXh
- zPu8DAZuojEF9ZbnZyDQyAAQz3Bsv4PWGh3GVAP5CbpUQrBM2Q4mZj7Bdeuz0Swo+1gL
- yFLw==
+ bh=QbPd3c5nq0iqQGGp+VQI0AU24TYH55OhmLcysF1VGuo=;
+ b=g7Dioscget7717CInBFzsAqoBMsuDd445fJOwF9Z+TwxG7GLpopbFDw39YOj4aYRnD
+ eDKd8qMKfpFKZRKetm1LFCmhYiuAhvPeh0o2BsJEsKOZGELnaMxcvexG5BtmAuSTtmNc
+ +mNut2g1w3ecWQJGyPPXwzTLGhrsMKlOG+5Bj8GFf8nSyoLBRstKhPtXp8krh7J0HlMJ
+ yRtCw5aonGQGcD+CJKV5edVgv7ypyEevYbGBhJrc3Cmy7HKVmlRoCMiRFNoL1tmya33C
+ aeu5jzowTOPj6o6DbHyIj+GM0R96w1LQmeLaaje3pZcbdyZwAEfOo6ns466lIMSmLAio
+ u6dA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=OWM6z37V43sNWJfaIriZyMnMn9bapISVtQNxM8oRL7o=;
- b=CyNDy6tI/xvXJfTR3mcI8lUTee3pBWDz1ucNCRxEguWAgZxGq/KheFbQC/A1uFlW8l
- Z+q6E8bf2yFJmY6OvO10FSS65tl44Zw+60Djm3vA6eWYZjcQsxhfK2rFSMPI8QvgHPrM
- V1S4N/PnTr/7M6S3XBhOdNP3wvE/pWh/rN5K4gwa/ZWPEmqQ28cyibwLMR14xFCuTIIQ
- 1wpzmNewseGnDMjyqPuI37x/n+fKJ1BA/i+D2licPFIoI2WFWvgv70GKrgXI0KRR9I12
- YoKytb3aiX1reQYa1xRkfQ3SSBmmW22sXTMzj3sh1e7XG/aBF27SqNVBTbFo8fnnAkeU
- oFMQ==
-X-Gm-Message-State: AOAM531XIf8pTkEOdgX43Flrjw6Xq2kvjPdh/Y/EjppYDQR0hIjyBgQm
- GWD3AhHonAy4PDjb/YjoQMkRdQ==
-X-Google-Smtp-Source: ABdhPJysIpBUY5h3O60gPGuj1iQ1YKVz4fNeyuD85SbAvvHHHidIyKKBP/95BmU1gqNfZcrXpVSFlw==
-X-Received: by 2002:a5d:628c:: with SMTP id k12mr16303446wru.211.1591988565304; 
- Fri, 12 Jun 2020 12:02:45 -0700 (PDT)
+ bh=QbPd3c5nq0iqQGGp+VQI0AU24TYH55OhmLcysF1VGuo=;
+ b=AjpFlc+La0G7cvs5xjRpD1u4ZjzAsin0LP7VFaffwdMVRovEezpWZ3FO5wPqeeJeRl
+ yY5SIE3bSKqutHH0ots6DcUPoImeFkgojqXGbqjZQlvBTNAt3IXNCVQTeNThJlcnH4JL
+ m3Qb1nSVhJ/ZHQsN8O3Wg7d6Abt5sEk/msZz/2TX+Q7E2ySBg236r7rqTUANCipy3TcV
+ HJzx8q5csbm/5CzLfPhNCmXVpNznU9uhIlZIJ9VwjZtB1MtCUaa+kPmRxxfU115g0pfj
+ jy+1fWQ5p6YNnfEiFa1gKSDj7ek44OtUJK0J6gcb0LyNdI8oqqJTpHmDSq4b2o1bP1MZ
+ /aow==
+X-Gm-Message-State: AOAM533psYlSgTXXPzhuBj4CqSMrICBZjoEzllPug7qDmOfPUr7fZb5U
+ N7cntj4FiidRvzJavoOimSAnDg==
+X-Google-Smtp-Source: ABdhPJxHQddljtycKOMyhgk2Zp01quys3q6t5Zc9LofsNdR7C5IfSOjZqEY7su5z9AII+41jgzMPyA==
+X-Received: by 2002:a05:600c:4152:: with SMTP id
+ h18mr332272wmm.189.1591988566352; 
+ Fri, 12 Jun 2020 12:02:46 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id f71sm9278533wmf.22.2020.06.12.12.02.38
+ by smtp.gmail.com with ESMTPSA id h27sm13313085wrb.18.2020.06.12.12.02.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 12 Jun 2020 12:02:41 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 55C321FF8F;
+ by zen.linaroharston (Postfix) with ESMTP id 86E2A1FF90;
  Fri, 12 Jun 2020 20:02:38 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 03/18] Makefile: remove old compatibility gunks
-Date: Fri, 12 Jun 2020 20:02:22 +0100
-Message-Id: <20200612190237.30436-4-alex.bennee@linaro.org>
+Subject: [PATCH v1 04/18] configure: add --enable-tsan flag + fiber
+ annotations for coroutine-ucontext
+Date: Fri, 12 Jun 2020 20:02:23 +0100
+Message-Id: <20200612190237.30436-5-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200612190237.30436-1-alex.bennee@linaro.org>
 References: <20200612190237.30436-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x443.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,43 +90,277 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- richard.henderson@linaro.org, f4bug@amsat.org,
- Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, cota@braap.org,
- Claudio Fontana <cfontana@suse.de>, aurelien@aurel32.net
+Cc: fam@euphon.net, Kevin Wolf <kwolf@redhat.com>, berrange@redhat.com,
+ Robert Foley <robert.foley@linaro.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ richard.henderson@linaro.org, f4bug@amsat.org, cota@braap.org,
+ Stefan Hajnoczi <stefanha@redhat.com>, Lingfeng Yang <lfy@google.com>,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Claudio Fontana <cfontana@suse.de>
+From: Lingfeng Yang <lfy@google.com>
 
-Signed-off-by: Claudio Fontana <cfontana@suse.de>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+We tried running QEMU under tsan in 2016, but tsan's lack of support for
+longjmp-based fibers was a blocker:
+  https://groups.google.com/forum/#!topic/thread-sanitizer/se0YuzfWazw
+
+Fortunately, thread sanitizer gained fiber support in early 2019:
+  https://reviews.llvm.org/D54889
+
+This patch brings tsan support upstream by importing the patch that annotated
+QEMU's coroutines as tsan fibers in Android's QEMU fork:
+  https://android-review.googlesource.com/c/platform/external/qemu/+/844675
+
+Tested with '--enable-tsan --cc=clang-9 --cxx=clang++-9 --disable-werror'
+configure flags.
+
+Signed-off-by: Lingfeng Yang <lfy@google.com>
+Signed-off-by: Emilio G. Cota <cota@braap.org>
+[cota: minor modifications + configure changes]
+Signed-off-by: Robert Foley <robert.foley@linaro.org>
+[RF: configure changes, coroutine fix + minor modifications]
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20200518160319.18861-3-cfontana@suse.de>
+Message-Id: <20200609200738.445-2-robert.foley@linaro.org>
 ---
- Makefile | 6 ------
- 1 file changed, 6 deletions(-)
+ configure                 | 47 +++++++++++++++++++++++++++-
+ util/coroutine-ucontext.c | 66 +++++++++++++++++++++++++++++++++------
+ 2 files changed, 103 insertions(+), 10 deletions(-)
 
-diff --git a/Makefile b/Makefile
-index 9385c2e653b..57b83521b18 100644
---- a/Makefile
-+++ b/Makefile
-@@ -562,12 +562,6 @@ slirp/all: .git-submodule-status
- 		CC="$(CC)" AR="$(AR)" 	LD="$(LD)" RANLIB="$(RANLIB)"	\
- 		CFLAGS="$(QEMU_CFLAGS) $(CFLAGS)" LDFLAGS="$(QEMU_LDFLAGS)")
+diff --git a/configure b/configure
+index af5d7aa57a1..860f4c63647 100755
+--- a/configure
++++ b/configure
+@@ -395,6 +395,7 @@ gprof="no"
+ debug_tcg="no"
+ debug="no"
+ sanitizers="no"
++tsan="no"
+ fortify_source=""
+ strip_opt="yes"
+ tcg_interpreter="no"
+@@ -1150,6 +1151,10 @@ for opt do
+   ;;
+   --disable-sanitizers) sanitizers="no"
+   ;;
++  --enable-tsan) tsan="yes"
++  ;;
++  --disable-tsan) tsan="no"
++  ;;
+   --enable-sparse) sparse="yes"
+   ;;
+   --disable-sparse) sparse="no"
+@@ -1754,6 +1759,7 @@ Advanced options (experts only):
+   --with-pkgversion=VERS   use specified string as sub-version of the package
+   --enable-debug           enable common debug build options
+   --enable-sanitizers      enable default sanitizers
++  --enable-tsan            enable thread sanitizer
+   --disable-strip          disable stripping binaries
+   --disable-werror         disable compilation abort on warning
+   --disable-stack-protector disable compiler-provided stack protection
+@@ -6195,6 +6201,30 @@ if test "$fuzzing" = "yes" ; then
+   fi
+ fi
  
--# Compatibility gunk to keep make working across the rename of targets
--# for recursion, to be removed some time after 4.1.
--subdir-dtc: dtc/all
--subdir-capstone: capstone/all
--subdir-slirp: slirp/all
--
- $(filter %/all, $(TARGET_DIRS_RULES)): libqemuutil.a $(common-obj-y) \
- 	$(qom-obj-y)
++# Thread sanitizer is, for now, much noisier than the other sanitizers;
++# keep it separate until that is not the case.
++if test "$tsan" = "yes" && test "$sanitizers" = "yes"; then
++  error_exit "TSAN is not supported with other sanitiziers."
++fi
++have_tsan=no
++have_tsan_iface_fiber=no
++if test "$tsan" = "yes" ; then
++  write_c_skeleton
++  if compile_prog "$CPU_CFLAGS -Werror -fsanitize=thread" "" ; then
++      have_tsan=yes
++  fi
++  cat > $TMPC << EOF
++#include <sanitizer/tsan_interface.h>
++int main(void) {
++  __tsan_create_fiber(0);
++  return 0;
++}
++EOF
++  if compile_prog "$CPU_CFLAGS -Werror -fsanitize=thread" "" ; then
++      have_tsan_iface_fiber=yes
++  fi
++fi
++
+ ##########################################
+ # check for libpmem
+ 
+@@ -6296,6 +6326,16 @@ if test "$have_asan" = "yes"; then
+            "Without code annotation, the report may be inferior."
+   fi
+ fi
++if test "$have_tsan" = "yes" ; then
++  if test "$have_tsan_iface_fiber" = "yes" ; then
++    QEMU_CFLAGS="-fsanitize=thread $QEMU_CFLAGS"
++    QEMU_LDFLAGS="-fsanitize=thread $QEMU_LDFLAGS"
++  else
++    error_exit "Cannot enable TSAN due to missing fiber annotation interface."
++  fi
++elif test "$tsan" = "yes" ; then
++  error_exit "Cannot enable TSAN due to missing sanitize thread interface."
++fi
+ if test "$have_ubsan" = "yes"; then
+   QEMU_CFLAGS="-fsanitize=undefined $QEMU_CFLAGS"
+   QEMU_LDFLAGS="-fsanitize=undefined $QEMU_LDFLAGS"
+@@ -6331,7 +6371,8 @@ if test "$werror" = "yes"; then
+     QEMU_CFLAGS="-Werror $QEMU_CFLAGS"
+ fi
+ 
+-if test "$solaris" = "no" ; then
++# Exclude --warn-common with TSan to suppress warnings from the TSan libraries.
++if test "$solaris" = "no" && test "$tsan" = "no"; then
+     if $ld --version 2>/dev/null | grep "GNU ld" >/dev/null 2>/dev/null ; then
+         QEMU_LDFLAGS="-Wl,--warn-common $QEMU_LDFLAGS"
+     fi
+@@ -7385,6 +7426,10 @@ if test "$have_asan_iface_fiber" = "yes" ; then
+     echo "CONFIG_ASAN_IFACE_FIBER=y" >> $config_host_mak
+ fi
+ 
++if test "$have_tsan" = "yes" && test "$have_tsan_iface_fiber" = "yes" ; then
++    echo "CONFIG_TSAN=y" >> $config_host_mak
++fi
++
+ if test "$has_environ" = "yes" ; then
+   echo "CONFIG_HAS_ENVIRON=y" >> $config_host_mak
+ fi
+diff --git a/util/coroutine-ucontext.c b/util/coroutine-ucontext.c
+index bd593e61bc0..613f4c118e4 100644
+--- a/util/coroutine-ucontext.c
++++ b/util/coroutine-ucontext.c
+@@ -37,12 +37,19 @@
+ #endif
+ #endif
+ 
++#ifdef CONFIG_TSAN
++#include <sanitizer/tsan_interface.h>
++#endif
++
+ typedef struct {
+     Coroutine base;
+     void *stack;
+     size_t stack_size;
+     sigjmp_buf env;
+ 
++    void *tsan_co_fiber;
++    void *tsan_caller_fiber;
++
+ #ifdef CONFIG_VALGRIND_H
+     unsigned int valgrind_stack_id;
+ #endif
+@@ -65,7 +72,18 @@ union cc_arg {
+     int i[2];
+ };
+ 
+-static void finish_switch_fiber(void *fake_stack_save)
++/* QEMU_ALWAYS_INLINE only does so if __OPTIMIZE__, so we cannot use it. */
++static inline __attribute__((always_inline))
++void on_new_fiber(CoroutineUContext *co)
++{
++#ifdef CONFIG_TSAN
++    co->tsan_co_fiber = __tsan_create_fiber(0); /* flags: sync on switch */
++    co->tsan_caller_fiber = __tsan_get_current_fiber();
++#endif
++}
++
++static inline __attribute__((always_inline))
++void finish_switch_fiber(void *fake_stack_save)
+ {
+ #ifdef CONFIG_ASAN
+     const void *bottom_old;
+@@ -78,13 +96,30 @@ static void finish_switch_fiber(void *fake_stack_save)
+         leader.stack_size = size_old;
+     }
+ #endif
++#ifdef CONFIG_TSAN
++    if (fake_stack_save) {
++        __tsan_release(fake_stack_save);
++        __tsan_switch_to_fiber(fake_stack_save, 0);  /* 0=synchronize */
++    }
++#endif
+ }
+ 
+-static void start_switch_fiber(void **fake_stack_save,
+-                               const void *bottom, size_t size)
++static inline __attribute__((always_inline)) void start_switch_fiber(
++    CoroutineAction action, void **fake_stack_save,
++    const void *bottom, size_t size, void *new_fiber)
+ {
+ #ifdef CONFIG_ASAN
+-    __sanitizer_start_switch_fiber(fake_stack_save, bottom, size);
++    __sanitizer_start_switch_fiber(
++            action == COROUTINE_TERMINATE ? NULL : fake_stack_save,
++            bottom, size);
++#endif
++#ifdef CONFIG_TSAN
++    void *curr_fiber =
++        __tsan_get_current_fiber();
++    __tsan_acquire(curr_fiber);
++
++    *fake_stack_save = curr_fiber;
++    __tsan_switch_to_fiber(new_fiber, 0);  /* 0=synchronize */
+ #endif
+ }
+ 
+@@ -104,8 +139,12 @@ static void coroutine_trampoline(int i0, int i1)
+ 
+     /* Initialize longjmp environment and switch back the caller */
+     if (!sigsetjmp(self->env, 0)) {
+-        start_switch_fiber(&fake_stack_save,
+-                           leader.stack, leader.stack_size);
++        start_switch_fiber(
++            COROUTINE_YIELD,
++            &fake_stack_save,
++            leader.stack,
++            leader.stack_size,
++            self->tsan_caller_fiber);
+         siglongjmp(*(sigjmp_buf *)co->entry_arg, 1);
+     }
+ 
+@@ -154,12 +193,16 @@ Coroutine *qemu_coroutine_new(void)
+ 
+     arg.p = co;
+ 
++    on_new_fiber(co);
+     makecontext(&uc, (void (*)(void))coroutine_trampoline,
+                 2, arg.i[0], arg.i[1]);
+ 
+     /* swapcontext() in, siglongjmp() back out */
+     if (!sigsetjmp(old_env, 0)) {
+-        start_switch_fiber(&fake_stack_save, co->stack, co->stack_size);
++        start_switch_fiber(
++            COROUTINE_YIELD,
++            &fake_stack_save,
++            co->stack, co->stack_size, co->tsan_co_fiber);
+         swapcontext(&old_uc, &uc);
+     }
+ 
+@@ -216,8 +259,8 @@ qemu_coroutine_switch(Coroutine *from_, Coroutine *to_,
+ 
+     ret = sigsetjmp(from->env, 0);
+     if (ret == 0) {
+-        start_switch_fiber(action == COROUTINE_TERMINATE ?
+-                           NULL : &fake_stack_save, to->stack, to->stack_size);
++        start_switch_fiber(action, &fake_stack_save,
++                           to->stack, to->stack_size, to->tsan_co_fiber);
+         siglongjmp(to->env, action);
+     }
+ 
+@@ -231,6 +274,11 @@ Coroutine *qemu_coroutine_self(void)
+     if (!current) {
+         current = &leader.base;
+     }
++#ifdef CONFIG_TSAN
++    if (!leader.tsan_co_fiber) {
++        leader.tsan_co_fiber = __tsan_get_current_fiber();
++    }
++#endif
+     return current;
+ }
  
 -- 
 2.20.1
