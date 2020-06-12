@@ -2,53 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7810E1F7151
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 02:23:48 +0200 (CEST)
-Received: from localhost ([::1]:58790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCE841F7120
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jun 2020 02:02:56 +0200 (CEST)
+Received: from localhost ([::1]:58244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjXU3-0008EZ-Hv
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 20:23:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40602)
+	id 1jjX9r-000768-G9
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jun 2020 20:02:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <geoff@hostfission.com>)
- id 1jjXSu-0006yy-9r
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 20:22:36 -0400
-Received: from mail1.hostfission.com ([139.99.139.48]:33206)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <geoff@hostfission.com>) id 1jjXSr-0001I8-LP
- for qemu-devel@nongnu.org; Thu, 11 Jun 2020 20:22:36 -0400
-Received: from moya.office.hostfission.com (office.hostfission.com
- [220.233.29.71])
- by mail1.hostfission.com (Postfix) with ESMTP id 18B39444F3;
- Fri, 12 Jun 2020 10:16:13 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=hostfission.com;
- s=mail; t=1591920973;
- bh=4mBB536DbAS9sE4vqkezGeotRfzVhV6sbOAIDj85Mv8=;
- h=From:Date:Subject:To:Cc:From;
- b=c8XyFkDeNelzVT9lickZk8+qtF4bLp/GbNEuWVCViYxRYb6EHtXvv9pcfuxgS7Sox
- C1nd6CwM3RH2dAnscdv5gy8Y880y5IahiD+U9/QUw2VNtp3jUWg+Sp1Q3As+wiaIlr
- UjMqWhhk/mecRAGbALnwlcWXs5bVLdNGVCZd5ZIc=
-Received: by moya.office.hostfission.com (Postfix, from userid 0)
- id EE1AF3A06BF; Fri, 12 Jun 2020 10:16:12 +1000 (AEST)
-From: Geoffrey McRae <geoff@hostfission.com>
-Date: Fri, 12 Jun 2020 01:25:16 +1000
-Subject: [PATCH 6/6] audio/jack: simplify the re-init code path
-To: <qemu-devel@nongnu.org>
-Cc: <kraxel@redhat.com>
-X-Mailer: mail (GNU Mailutils 3.5)
-Message-Id: <20200612001612.EE1AF3A06BF@moya.office.hostfission.com>
-Received-SPF: pass client-ip=139.99.139.48; envelope-from=geoff@hostfission.com;
- helo=mail1.hostfission.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 20:16:15
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -12
-X-Spam_score: -1.3
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jjX8z-0006gG-94
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 20:02:01 -0400
+Resent-Date: Thu, 11 Jun 2020 20:02:01 -0400
+Resent-Message-Id: <E1jjX8z-0006gG-94@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21340)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jjX8w-0005de-Uq
+ for qemu-devel@nongnu.org; Thu, 11 Jun 2020 20:02:00 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1591920110; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=ExvQDYhg/AdGDFT9GPWKVVeTZrsvYsBhpA1SvHk4OOnGrbIyDB17Obecy55Q5VNU+6XpQFjsE4RqmuI6sQsAkkREIl1J88Us8XROX1LkZ4srhtO0tYVMaoyduF6PVEwKJW4p/SY32SfcpHN/TpugCXoe0NH1D1ITb5DcQ4WFPaQ=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1591920110;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=KGrJZYSSejqzSAWzW6C1mOOlDWq62bhNdg02j7y4YP4=; 
+ b=IIvvN0FPC8zv9EhBER8N7LYm83a66wlE+oq06pt3Nw6hJR6h3FID4yZnqf74FTT4+5v5sCb/1wzqOiMnk0zGsblwab9Lrr0XECm0Cn3lBAmMJFmNWvrjIyUBIHsEr1anVNncN3PSUOJtvWe/osF9fVMdpdjcCNSx2LxHy8KnEVw=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1591920109024709.779771451084;
+ Thu, 11 Jun 2020 17:01:49 -0700 (PDT)
+Message-ID: <159192010800.1247.9525195647123498948@45ef0f9c86ae>
+In-Reply-To: <20200611165112.30979-1-mst@redhat.com>
+Subject: Re: [PATCH] tests: disassemble-asm.sh: generate AML in readable format
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: mst@redhat.com
+Date: Thu, 11 Jun 2020 17:01:49 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/11 19:16:13
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_06_12=1.543,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,52 +69,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: qemu-devel@nongnu.org
+Cc: imammedo@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Geoffrey McRae <geoff@hostfission.com>
----
- audio/jackaudio.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
-
-diff --git a/audio/jackaudio.c b/audio/jackaudio.c
-index b2b53985ae..72ed7c4929 100644
---- a/audio/jackaudio.c
-+++ b/audio/jackaudio.c
-@@ -395,6 +395,10 @@ static int qjack_client_init(QJackClient *c)
-     char client_name[jack_client_name_size()];
-     jack_options_t options = JackNullOption;
- 
-+    if (c->state == QJACK_STATE_RUNNING) {
-+        return 0;
-+    }
-+
-     c->connect_ports = true;
- 
-     snprintf(client_name, sizeof(client_name), "%s-%s",
-@@ -485,9 +489,7 @@ static int qjack_init_out(HWVoiceOut *hw, struct audsettings *as,
-     QJackOut *jo  = (QJackOut *)hw;
-     Audiodev *dev = (Audiodev *)drv_opaque;
- 
--    if (jo->c.state != QJACK_STATE_DISCONNECTED) {
--        return 0;
--    }
-+    qjack_client_fini(&jo->c);
- 
-     jo->c.out       = true;
-     jo->c.enabled   = false;
-@@ -523,9 +525,7 @@ static int qjack_init_in(HWVoiceIn *hw, struct audsettings *as,
-     QJackIn  *ji  = (QJackIn *)hw;
-     Audiodev *dev = (Audiodev *)drv_opaque;
- 
--    if (ji->c.state != QJACK_STATE_DISCONNECTED) {
--        return 0;
--    }
-+    qjack_client_fini(&ji->c);
- 
-     ji->c.out       = false;
-     ji->c.enabled   = false;
--- 
-2.20.1
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDYxMTE2NTExMi4zMDk3
+OS0xLW1zdEByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhhdmUgc29t
+ZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUgaW5mb3Jt
+YXRpb246CgpNZXNzYWdlLWlkOiAyMDIwMDYxMTE2NTExMi4zMDk3OS0xLW1zdEByZWRoYXQuY29t
+ClN1YmplY3Q6IFtQQVRDSF0gdGVzdHM6IGRpc2Fzc2VtYmxlLWFzbS5zaDogZ2VuZXJhdGUgQU1M
+IGluIHJlYWRhYmxlIGZvcm1hdApUeXBlOiBzZXJpZXMKCj09PSBURVNUIFNDUklQVCBCRUdJTiA9
+PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4aXQgMApn
+aXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25maWcgLS1sb2NhbCBk
+aWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdvcml0aG0gaGlzdG9n
+cmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4uCj09PSBURVNUIFND
+UklQVCBFTkQgPT09CgpVcGRhdGluZyAzYzhjZjVhOWMyMWZmODc4MjE2NGQxZGVmN2Y0NGJkODg4
+NzEzMzg0ClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKOTY1NzFlNiB0ZXN0czogZGlz
+YXNzZW1ibGUtYXNtLnNoOiBnZW5lcmF0ZSBBTUwgaW4gcmVhZGFibGUgZm9ybWF0Cgo9PT0gT1VU
+UFVUIEJFR0lOID09PQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBk
+b2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiMxNjogCm5ldyBmaWxlIG1vZGUgMTAwNzU1
+CgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojMzA6IEZJTEU6IHRlc3RzL2RhdGEv
+YWNwaS9kaXNhc3NlbWxlLWFtbC5zaDoxMDoKKyAgICAgICAgZWNobyAiVXNhZ2U6IC4vdGVzdHMv
+ZGF0YS9hY3BpL2Rpc2Fzc2VtbGUtYW1sLnNoIFstbyA8b3V0cHV0LWRpcmVjdG9yeT5dIgoKRVJS
+T1I6IHRyYWlsaW5nIHdoaXRlc3BhY2UKIzMzOiBGSUxFOiB0ZXN0cy9kYXRhL2FjcGkvZGlzYXNz
+ZW1sZS1hbWwuc2g6MTM6CisgICAgJAoKRVJST1I6IHRyYWlsaW5nIHdoaXRlc3BhY2UKIzcwOiBG
+SUxFOiB0ZXN0cy9kYXRhL2FjcGkvZGlzYXNzZW1sZS1hbWwuc2g6NTA6CisgICAgICAgIGlhc2wg
+LWQgLXAgJHthc2x9ICR7ZXh0cmF9ICR7YW1sfSAkCgp0b3RhbDogMiBlcnJvcnMsIDIgd2Fybmlu
+Z3MsIDUyIGxpbmVzIGNoZWNrZWQKCkNvbW1pdCA5NjU3MWU2MzFiZmIgKHRlc3RzOiBkaXNhc3Nl
+bWJsZS1hc20uc2g6IGdlbmVyYXRlIEFNTCBpbiByZWFkYWJsZSBmb3JtYXQpIGhhcyBzdHlsZSBw
+cm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNl
+IHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0gg
+aW4gTUFJTlRBSU5FUlMuCj09PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3
+aXRoIGNvZGU6IDEKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3
+Lm9yZy9sb2dzLzIwMjAwNjExMTY1MTEyLjMwOTc5LTEtbXN0QHJlZGhhdC5jb20vdGVzdGluZy5j
+aGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxs
+eSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVl
+ZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
 
