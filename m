@@ -2,58 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C58D61F80D3
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Jun 2020 06:24:00 +0200 (CEST)
-Received: from localhost ([::1]:60378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDEEB1F80CC
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Jun 2020 06:22:08 +0200 (CEST)
+Received: from localhost ([::1]:51206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjxi3-0005Do-SF
-	for lists+qemu-devel@lfdr.de; Sat, 13 Jun 2020 00:23:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40386)
+	id 1jjxgF-0001Zf-RN
+	for lists+qemu-devel@lfdr.de; Sat, 13 Jun 2020 00:22:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ljp@linux.ibm.com>)
- id 1jjxep-0008M0-NH; Sat, 13 Jun 2020 00:20:39 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:34528)
+ id 1jjxes-0008Ma-Ck; Sat, 13 Jun 2020 00:20:42 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:8432)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ljp@linux.ibm.com>)
- id 1jjxem-0007oZ-3W; Sat, 13 Jun 2020 00:20:39 -0400
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+ id 1jjxeq-0007pZ-7j; Sat, 13 Jun 2020 00:20:41 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 05D4K1vs057731; Sat, 13 Jun 2020 00:20:33 -0400
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
- [169.63.214.131])
- by mx0a-001b2d01.pphosted.com with ESMTP id 31mqpar0ck-1
+ 05D48iPJ076010; Sat, 13 Jun 2020 00:20:39 -0400
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 31mn8bjw26-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 13 Jun 2020 00:20:32 -0400
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 05D4JIcn005754;
+ Sat, 13 Jun 2020 00:20:39 -0400
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 05D4AcPI031644;
  Sat, 13 Jun 2020 04:20:32 GMT
-Received: from b03cxnp07028.gho.boulder.ibm.com
- (b03cxnp07028.gho.boulder.ibm.com [9.17.130.15])
- by ppma01dal.us.ibm.com with ESMTP id 31mpe88pd3-1
+Received: from b03cxnp08026.gho.boulder.ibm.com
+ (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
+ by ppma04dal.us.ibm.com with ESMTP id 31mpe80p5y-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Sat, 13 Jun 2020 04:20:32 +0000
 Received: from b03ledav005.gho.boulder.ibm.com
  (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
- by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 05D4KUvx33423810
+ by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 05D4KTDl31916490
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Sat, 13 Jun 2020 04:20:30 GMT
+ Sat, 13 Jun 2020 04:20:29 GMT
 Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3325FBE051;
+ by IMSVA (Postfix) with ESMTP id 00094BE056;
  Sat, 13 Jun 2020 04:20:30 +0000 (GMT)
 Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A0D82BE04F;
- Sat, 13 Jun 2020 04:20:29 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 6CCE7BE051;
+ Sat, 13 Jun 2020 04:20:30 +0000 (GMT)
 Received: from pompom.ibm.com (unknown [9.65.217.131])
  by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
- Sat, 13 Jun 2020 04:20:29 +0000 (GMT)
+ Sat, 13 Jun 2020 04:20:30 +0000 (GMT)
 From: Lijun Pan <ljp@linux.ibm.com>
 To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
-Subject: [PATCH 0/6] Add several Power ISA 3.1 32/64-bit vector instructions
-Date: Fri, 12 Jun 2020 23:20:23 -0500
-Message-Id: <20200613042029.22321-1-ljp@linux.ibm.com>
+Subject: [PATCH 1/6] target/ppc: add byte-reverse br[dwh] instructions
+Date: Fri, 12 Jun 2020 23:20:24 -0500
+Message-Id: <20200613042029.22321-2-ljp@linux.ibm.com>
 X-Mailer: git-send-email 2.22.0
+In-Reply-To: <20200613042029.22321-1-ljp@linux.ibm.com>
+References: <20200613042029.22321-1-ljp@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
@@ -61,15 +63,15 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.687
  definitions=2020-06-13_01:2020-06-12,
  2020-06-13 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=679 phishscore=0
- lowpriorityscore=0 malwarescore=0 suspectscore=0 spamscore=0 mlxscore=0
- adultscore=0 bulkscore=0 clxscore=1015 priorityscore=1501 impostorscore=0
- cotscore=-2147483648 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2004280000 definitions=main-2006130032
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=ljp@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/12 23:56:50
-X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
+ clxscore=1015 mlxlogscore=804
+ cotscore=-2147483648 lowpriorityscore=0 phishscore=0 impostorscore=0
+ mlxscore=0 suspectscore=2 malwarescore=0 spamscore=0 adultscore=0
+ bulkscore=0 priorityscore=1501 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2004280000 definitions=main-2006130032
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=ljp@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/13 00:20:34
+X-ACL-Warn: Detected OS   = Linux 3.x [generic]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
@@ -92,30 +94,90 @@ Cc: Lijun Pan <ljp@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch series add several newly introduced 32/64-bit vector
-instructions in Power ISA 3.1. The newly added instructions are
-flagged as ISA300 temporarily in vmx-ops.inc.c and vmx-impl.inc.c
-to make them compile and function since Power ISA 3.1, together
-with next generation processor, has not been fully enabled in QEMU
-yet. When Power ISA 3.1 and next generation processor are fully
-supported, the flags should be changed.
+POWER ISA 3.1 introduces following byte-reverse instructions:
+brd: Byte-Reverse Doubleword X-form
+brw: Byte-Reverse Word X-form
+brh: Byte-Reverse Halfword X-form
 
-Lijun Pan (6):
-  target/ppc: add byte-reverse br[dwh] instructions
-  target/ppc: add vmulld instruction
-  targetc/ppc: add vmulh{su}w instructions
-  target/ppc: add vmulh{su}d instructions
-  fix the prototype of muls64/mulu64
-  target/ppc: add vdiv{su}{wd} vmod{su}{wd} instructions
+Signed-off-by: Lijun Pan <ljp@linux.ibm.com>
+---
+ target/ppc/translate.c | 62 ++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 62 insertions(+)
 
- include/qemu/host-utils.h           |  4 +-
- target/ppc/helper.h                 | 13 ++++++
- target/ppc/int_helper.c             | 58 +++++++++++++++++++++++++
- target/ppc/translate.c              | 65 +++++++++++++++++++++++++++++
- target/ppc/translate/vmx-impl.inc.c | 24 +++++++++++
- target/ppc/translate/vmx-ops.inc.c  | 22 ++++++++--
- 6 files changed, 180 insertions(+), 6 deletions(-)
-
+diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+index 4ce3d664b5..2d48fbc8db 100644
+--- a/target/ppc/translate.c
++++ b/target/ppc/translate.c
+@@ -6971,7 +6971,69 @@ static void gen_dform3D(DisasContext *ctx)
+     return gen_invalid(ctx);
+ }
+ 
++/* brd */
++static void gen_brd(DisasContext *ctx)
++{
++	TCGv_i64 temp = tcg_temp_new_i64();
++
++	tcg_gen_bswap64_i64(temp, cpu_gpr[rS(ctx->opcode)]);
++	tcg_gen_st_i64(temp, cpu_env, offsetof(CPUPPCState, gpr[rA(ctx->opcode)]));
++
++	tcg_temp_free_i64(temp);
++}
++
++/* brw */
++static void gen_brw(DisasContext *ctx)
++{
++	TCGv_i64 temp = tcg_temp_new_i64();
++	TCGv_i64 lsb = tcg_temp_new_i64();
++	TCGv_i64 msb = tcg_temp_new_i64();
++
++	tcg_gen_movi_i64(lsb, 0x00000000ffffffffull);
++	tcg_gen_and_i64(temp, lsb, cpu_gpr[rS(ctx->opcode)]);
++	tcg_gen_bswap32_i64(lsb, temp);
++	
++	tcg_gen_shri_i64(msb, cpu_gpr[rS(ctx->opcode)], 32);
++	tcg_gen_bswap32_i64(temp, msb);
++	tcg_gen_shli_i64(msb, temp, 32);
++	
++	tcg_gen_or_i64(temp, lsb, msb);
++
++	tcg_gen_st_i64(temp, cpu_env, offsetof(CPUPPCState, gpr[rA(ctx->opcode)]));
++
++	tcg_temp_free_i64(temp);
++	tcg_temp_free_i64(lsb);
++	tcg_temp_free_i64(msb);
++}
++
++/* brh */
++static void gen_brh(DisasContext *ctx)
++{
++	TCGv_i64 temp = tcg_temp_new_i64();
++	TCGv_i64 t0 = tcg_temp_new_i64();
++	TCGv_i64 t1 = tcg_temp_new_i64();
++	TCGv_i64 t2 = tcg_temp_new_i64();
++	TCGv_i64 t3 = tcg_temp_new_i64();
++
++	tcg_gen_movi_i64(t0, 0x00ff00ff00ff00ffull);
++	tcg_gen_shri_i64(t1, cpu_gpr[rS(ctx->opcode)], 8);
++	tcg_gen_and_i64(t2, t1, t0);
++	tcg_gen_and_i64(t1, cpu_gpr[rS(ctx->opcode)], t0);
++	tcg_gen_shli_i64(t1, t1, 8);
++	tcg_gen_or_i64(temp, t1, t2);
++	tcg_gen_st_i64(temp, cpu_env, offsetof(CPUPPCState, gpr[rA(ctx->opcode)]));
++
++	tcg_temp_free_i64(temp);
++	tcg_temp_free_i64(t0);
++	tcg_temp_free_i64(t1);
++	tcg_temp_free_i64(t2);
++	tcg_temp_free_i64(t3);
++}
++
+ static opcode_t opcodes[] = {
++GEN_HANDLER_E(brd, 0x1F, 0x1B, 0x05, 0x0000F801, PPC_NONE, PPC2_ISA300),
++GEN_HANDLER_E(brw, 0x1F, 0x1B, 0x04, 0x0000F801, PPC_NONE, PPC2_ISA300),
++GEN_HANDLER_E(brh, 0x1F, 0x1B, 0x06, 0x0000F801, PPC_NONE, PPC2_ISA300),
+ GEN_HANDLER(invalid, 0x00, 0x00, 0x00, 0xFFFFFFFF, PPC_NONE),
+ GEN_HANDLER(cmp, 0x1F, 0x00, 0x00, 0x00400000, PPC_INTEGER),
+ GEN_HANDLER(cmpi, 0x0B, 0xFF, 0xFF, 0x00400000, PPC_INTEGER),
 -- 
 2.23.0
 
