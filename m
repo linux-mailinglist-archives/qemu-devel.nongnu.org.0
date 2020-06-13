@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB68A1F844A
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Jun 2020 18:30:23 +0200 (CEST)
-Received: from localhost ([::1]:55274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C183D1F8464
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Jun 2020 19:09:44 +0200 (CEST)
+Received: from localhost ([::1]:47774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jk930-000755-Ad
-	for lists+qemu-devel@lfdr.de; Sat, 13 Jun 2020 12:30:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52220)
+	id 1jk9f5-0003DY-A4
+	for lists+qemu-devel@lfdr.de; Sat, 13 Jun 2020 13:09:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1jk921-0006L9-RB; Sat, 13 Jun 2020 12:29:21 -0400
-Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:33661)
+ (Exim 4.90_1) (envelope-from <nirsof@gmail.com>)
+ id 1jk9e9-0002jD-1R; Sat, 13 Jun 2020 13:08:45 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:44164)
  by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1jk920-00072H-03; Sat, 13 Jun 2020 12:29:21 -0400
-Received: by mail-ej1-x642.google.com with SMTP id n24so13139421ejd.0;
- Sat, 13 Jun 2020 09:29:09 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <nirsof@gmail.com>)
+ id 1jk9e7-00067g-EU; Sat, 13 Jun 2020 13:08:44 -0400
+Received: by mail-wr1-x443.google.com with SMTP id y17so12924089wrn.11;
+ Sat, 13 Jun 2020 10:08:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=uatsu9mHhKIA6c1jG2JglrXLJNvoevvsx4EjKK88bwk=;
- b=Lud70OFlbpOekQ/1akd3CXKPJz0G5qaa6+lTl014vN0sY29e1Jl+KxqzIR6nAsV99j
- QE9Sd33TmnaShKIzarYqHWuI2UaTRZzaKcHseKb/2sKFmhn4ctYvVZOs97W+PPdj9sRh
- 751jTrWNng0j3i/cPobbqKEE+W1+D+DNt3DCQ9t9i43QnCNuwJHSFC/lmzG7+9pueIzO
- 9t8RE1RzQx/YdSM7QtFmCyTgnXUBQM13d84EsZqLGnbn/qukCebkHeSSGmvj4Zfr1SUD
- 71S5dUvffqMtZgqMz9ioi40Q4i9FZOruW15Pa1e/sD7O17TSgK11YEYAZi3xfzhIN/gJ
- y8mQ==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=SG++uslznfXy99uBvdaKG+V9ElifBR7IePN6lVFVf+I=;
+ b=JfISI6HSXlxERtSsyxVVpkxYuhQcM8YPJ3nnkh9ujrLHieCMQrPqO7IgoZeeGs0QEN
+ IyvHekl9CZecN+j6NTyP85fK4Yh5hdGx9dNLTuCnPLYW6IanrPgK6NM8uZ14iswoA0KN
+ NZfh6q6DHnENkbeThmAdft75Dx+9VZENKLOKwdrjEsHFfJZYipb/U9iRPxyc16le+URE
+ r64lgqw/FQPzep9lv/XVfy+AvXUhp/PnagxLpMwWkbMow4xLyBlrBBUoh5yGdRnDnhyC
+ mwIDQx7BigXZOgmSPrvkKL6kkR8aXMVz0pB35RJtiqa7SsrN1xKSmHuuJKQU2ab3W3nv
+ R4Yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=uatsu9mHhKIA6c1jG2JglrXLJNvoevvsx4EjKK88bwk=;
- b=fEewMO5kdGhI7cAXM2zMnDK7EWWaTrMlKvccpI71MKrWFTdVp74KX2vRtPb/kvfsBZ
- dnopumEzBvVcAi1jujVvDobTLZINkUJfxkKiMXMq3nfpDdXOZXRodtu6na9L0VtlpVSr
- 923oeN8CBTzqB8+xfzjGnNPfxq9INtStjoxdthwlVu2s/b29x6gR3L8uXJWX4qzYEPbL
- i3nEzY8R77V6Cqmbeuja/8QIz3tOlIoJo1Frr2SkW9dANECUdM5R6/O5IUX0K7TFFOG6
- 3qxergfxlFCrMaYSfL5C3OjQ2kNjmmmHCI4C3l3ZxE1tGhYEet5wRS2v6Xihx4pFDkQh
- zT+A==
-X-Gm-Message-State: AOAM530BjraqA23PmnF0TPImkmvDt1wv4sWPgwVBCA3DAZ+N5vw1SsnZ
- dZSoFjgEwkkDiJpNJX2OoPNovF5LCAeafepbLws=
-X-Google-Smtp-Source: ABdhPJwV2lTazTeL2QN3zm0QY0DkgwcDT7DZSBX1j5XGsGa+0miKCrWJDajQ/YdPnYcg39R3yu6/jyexYhWs9ZnCpKU=
-X-Received: by 2002:a17:906:e47:: with SMTP id
- q7mr18293279eji.279.1592065748002; 
- Sat, 13 Jun 2020 09:29:08 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=SG++uslznfXy99uBvdaKG+V9ElifBR7IePN6lVFVf+I=;
+ b=NAjnSQckxtPsX9PtbfhOSWmibnKPIBYega0uNynvfpplayqIjkgZ0P33GSTcfFTNeS
+ AYi1dHOFD2krfY3R2PwfeqZ+Yk8RKarFvtexE5yQjwK4Iakvx2kIcO/jzOSCjezR56I/
+ 99aJnBFvU3p3xtbeB2Avp6ysFuRt050fTJLGiJ2+NjzJZvKRxFwa/ie2JVxb33458eAI
+ y7tkOJ7xBZxp0B7kk1loRTQmSinL4Ib8l+dX0rvwWSvTWWz3R+UhRsF/Ft3Cnzsq44WM
+ VqJ4mytQxcaOS2HAlsG1gG+uFkz7IfGVCr+4IYbXDm2ALdyxYGFnph/wu4mlZf8wCfJl
+ pS2g==
+X-Gm-Message-State: AOAM530vDB9PVfCeDEFk1jb4zkfUDHBJShxWSZaWrylRzTgMVF521ERE
+ XFkkxHlcVPFc2cpYS3Ol9wFHujRha/E=
+X-Google-Smtp-Source: ABdhPJxM15yp5nII159qaWT5DEF1g5STvlwSQYp+XcBs1l/yszs817vx0BJevipodCp3I5KKGLZUAg==
+X-Received: by 2002:a5d:5601:: with SMTP id l1mr21941168wrv.254.1592068109666; 
+ Sat, 13 Jun 2020 10:08:29 -0700 (PDT)
+Received: from localhost.localdomain (89-138-226-152.bb.netvision.net.il.
+ [89.138.226.152])
+ by smtp.gmail.com with ESMTPSA id d18sm15352555wrn.34.2020.06.13.10.08.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 13 Jun 2020 10:08:28 -0700 (PDT)
+From: Nir Soffer <nirsof@gmail.com>
+X-Google-Original-From: Nir Soffer <nsoffer@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH] block: file-posix: Fail unmap with NO_FALLBACK on block device
+Date: Sat, 13 Jun 2020 20:08:26 +0300
+Message-Id: <20200613170826.354270-1-nsoffer@redhat.com>
+X-Mailer: git-send-email 2.25.4
 MIME-Version: 1.0
-References: <20191008082815.8267-1-thuth@redhat.com>
- <CAL1e-=gYkhM99Ee0LxZJ5dCjeEdC08G4_Tm3WCZpCSWvJ=b26Q@mail.gmail.com>
- <4bfea125-eb63-f4a2-bca0-bce462f73d89@redhat.com>
- <CAFEAcA_+V7SNsxPSgsd04s8f7PnP3qdyXMp6NvS2inHjE08pJw@mail.gmail.com>
-In-Reply-To: <CAFEAcA_+V7SNsxPSgsd04s8f7PnP3qdyXMp6NvS2inHjE08pJw@mail.gmail.com>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Sat, 13 Jun 2020 18:28:55 +0200
-Message-ID: <CAL1e-=ijjbTG19NHnsDrcJdb7kajBdcndMT8JXymqC6UViiitQ@mail.gmail.com>
-Subject: Re: [PATCH v2] Makefile: Remove generated files when doing
- 'distclean' (and 'clean')
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::642;
- envelope-from=aleksandar.m.mail@gmail.com; helo=mail-ej1-x642.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=nirsof@gmail.com; helo=mail-wr1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -81,47 +82,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Nir Soffer <nsoffer@redhat.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 8, 2019 at 2:41 PM Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> On Tue, 8 Oct 2019 at 13:37, Thomas Huth <thuth@redhat.com> wrote:
-> >
-> > On 08/10/2019 14.18, Aleksandar Markovic wrote:
-> > > If I remember well, QAPI-related c files are generated while doing
-> > > 'make'. If that is true, these files should be deleted by 'make clean',
-> > > shouldn't they?
-> >
-> > I think that's a philosophical question. Should "make clean" delete all
-> > files that have been generated by a Makefile (i.e. not by "configure"),
-> > or rather mainly the binary files?
->
-> https://www.gnu.org/software/automake/manual/html_node/Clean.html
->
-> The autoconf manual suggests some heuristics:
->  - If make built it, and it is commonly something that one would want
->    to rebuild (for instance, a .o file), then mostlyclean should delete it.
->  - Otherwise, if make built it, then clean should delete it.
->  - If configure built it, then distclean should delete it.
->  - If the maintainer built it (for instance, a .info file), then
->    maintainer-clean should delete it. However maintainer-clean should
->    not delete anything that needs to exist in order to run
-> './configure && make'.
->
+Punching holes on block device uses blkdev_issue_zeroout() with
+BLKDEV_ZERO_NOFALLBACK but there is no guarantee that this is fast
+enough for pre-zeroing an entire device.
 
-Thomas, can we reincarnate this patch? It needs only fairly simple
-corrections, as said by Peter above. It would be nice to have at least
-one release of QEMU with clean clean and distclean.
+Zeroing block device can be slow as writing zeroes or 100 times faster,
+depending on the storage. There is no way to tell if zeroing it fast
+enough.  The kernel BLKDEV_ZERO_NOFALLBACK flag does not mean that the
+operation is fast; it just means that the kernel will not fall back to
+manual zeroing.
 
-Yours,
-Aleksandar
-> Not all of that applies for QEMU, but it seems like a reasonable
-> set of ideas.
->
-> thanks
-> -- PMM
+Here is an example converting 10g image with 8g of data to block device:
+
+$ ./qemu-img info test.img
+image: test.img
+file format: raw
+virtual size: 10 GiB (10737418240 bytes)
+disk size: 8 GiB
+
+$ time ./qemu-img convert -f raw -O raw -t none -T none -W test.img /dev/test/lv1
+
+Before:
+
+real    1m20.483s
+user    0m0.490s
+sys     0m0.739s
+
+After:
+
+real    0m55.831s
+user    0m0.610s
+sys     0m0.956s
+
+Signed-off-by: Nir Soffer <nsoffer@redhat.com>
+---
+ block/file-posix.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/block/file-posix.c b/block/file-posix.c
+index 3ab8f5a0fa..cd2e409184 100644
+--- a/block/file-posix.c
++++ b/block/file-posix.c
+@@ -1621,6 +1621,16 @@ static int handle_aiocb_write_zeroes_unmap(void *opaque)
+     /* First try to write zeros and unmap at the same time */
+ 
+ #ifdef CONFIG_FALLOCATE_PUNCH_HOLE
++    /*
++     * The block device fallocate() implementation in the kernel does set
++     * BLKDEV_ZERO_NOFALLBACK, but it does not guarantee that the operation is
++     * fast so we can't call this if we have to avoid slow fallbacks.
++     */
++    if (aiocb->aio_type & QEMU_AIO_BLKDEV &&
++        aiocb->aio_type & QEMU_AIO_NO_FALLBACK) {
++        return -ENOTSUP;
++    }
++
+     int ret = do_fallocate(s->fd, FALLOC_FL_PUNCH_HOLE | FALLOC_FL_KEEP_SIZE,
+                            aiocb->aio_offset, aiocb->aio_nbytes);
+     if (ret != -ENOTSUP) {
+-- 
+2.25.4
+
 
