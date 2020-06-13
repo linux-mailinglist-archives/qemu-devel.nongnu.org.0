@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18C3E1F86BE
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Jun 2020 06:43:55 +0200 (CEST)
-Received: from localhost ([::1]:41486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30B571F86C3
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Jun 2020 06:45:47 +0200 (CEST)
+Received: from localhost ([::1]:48204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jkKUr-0006KN-JD
-	for lists+qemu-devel@lfdr.de; Sun, 14 Jun 2020 00:43:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35804)
+	id 1jkKWg-0000eX-6Y
+	for lists+qemu-devel@lfdr.de; Sun, 14 Jun 2020 00:45:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35884)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <root@moya.office.hostfission.com>)
- id 1jkKTc-0004j2-GE
- for qemu-devel@nongnu.org; Sun, 14 Jun 2020 00:42:36 -0400
-Received: from mail1.hostfission.com ([139.99.139.48]:57376)
+ id 1jkKTf-0004ks-33
+ for qemu-devel@nongnu.org; Sun, 14 Jun 2020 00:42:39 -0400
+Received: from mail1.hostfission.com ([139.99.139.48]:57382)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <root@moya.office.hostfission.com>)
- id 1jkKTa-0005As-Ov
- for qemu-devel@nongnu.org; Sun, 14 Jun 2020 00:42:36 -0400
+ id 1jkKTd-0005Bi-Cw
+ for qemu-devel@nongnu.org; Sun, 14 Jun 2020 00:42:38 -0400
 Received: from moya.office.hostfission.com (office.hostfission.com
  [220.233.29.71])
- by mail1.hostfission.com (Postfix) with ESMTP id D50C3445DD;
- Sat, 13 Jun 2020 14:06:01 +1000 (AEST)
+ by mail1.hostfission.com (Postfix) with ESMTP id 80F88445E4;
+ Sat, 13 Jun 2020 14:06:02 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=hostfission.com;
- s=mail; t=1592021161;
- bh=RNNL30Zvo3TCBbXKHnWUPwoWE8O3KEkEzYlBipDJ+Zw=;
+ s=mail; t=1592021162;
+ bh=YjpDIb+GSt+1KuwILel96z/UXUtCWDBmh9vU9ioxDXc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=on3PYVEVAu5AvnuL0SrDm27Nzum/TTWZBatLSVgZg7D4tOFOt84+zS8ORpyrxVHL2
- hBksDefPBsbbO0N+tyuB79rFTGPl3AGgg3Wfb4C01JX+fTA2HqA/dcnZpybh/uU3aX
- w5e5s1TD/9VdYUDtPQdH5eDUbut82Q+tK7Kn/QWU=
+ b=hmvWmZCOqNdqi4z7Bd3w0E5UfMmuaso3kkhFuZKchKSiqALiEy4o0i/foc8OTBb85
+ KQgKp9ulqXCvrqQl8nQiex2yL8/wECF6Tpakhi5Vaps9j3iedYX2JnNAndn+X8Wi08
+ 3Dj73pfb4/BhxaZMYDYEKOwIizcLQ0wgbHedt8Mw=
 Received: by moya.office.hostfission.com (Postfix, from userid 0)
- id BFBF83A0506; Sat, 13 Jun 2020 14:06:01 +1000 (AEST)
+ id 6A1A33A0958; Sat, 13 Jun 2020 14:06:02 +1000 (AEST)
 From: Geoffrey McRae <geoff@hostfission.com>
 To: qemu-devel@nongnu.org
 Cc: kraxel@redhat.com,
 	geoff@hostfission.com
-Subject: [PATCH 2/6] audio/jack: remove unused stopped state
-Date: Sat, 13 Jun 2020 14:05:14 +1000
-Message-Id: <20200613040518.38172-3-geoff@hostfission.com>
+Subject: [PATCH 3/6] audio/jack: remove invalid set of input support bool
+Date: Sat, 13 Jun 2020 14:05:15 +1000
+Message-Id: <20200613040518.38172-4-geoff@hostfission.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200613040518.38172-1-geoff@hostfission.com>
 References: <20200613040518.38172-1-geoff@hostfission.com>
@@ -70,33 +70,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Initial code for JACK did not support audio input and as such this
+boolean was set to let QEMU know, however JACK ended up including input
+support making this invalid. Further investigation shows it was invalid
+to set it in the first instance anyway due to a failure on my part
+understand properly what this was for when the audodev was initially
+developed.
+
 Signed-off-by: Geoffrey McRae <geoff@hostfission.com>
 ---
- audio/jackaudio.c | 4 ----
- 1 file changed, 4 deletions(-)
+ audio/jackaudio.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
 diff --git a/audio/jackaudio.c b/audio/jackaudio.c
-index d0b6f748f2..fb8efd7af7 100644
+index fb8efd7af7..58c7344497 100644
 --- a/audio/jackaudio.c
 +++ b/audio/jackaudio.c
-@@ -38,7 +38,6 @@ struct QJack;
- 
- typedef enum QJackState {
-     QJACK_STATE_DISCONNECTED,
--    QJACK_STATE_STOPPED,
-     QJACK_STATE_RUNNING,
-     QJACK_STATE_SHUTDOWN
- }
-@@ -549,9 +548,6 @@ static void qjack_client_fini(QJackClient *c)
+@@ -607,9 +607,6 @@ static int qjack_thread_creator(jack_native_thread_t *thread,
+ static void *qjack_init(Audiodev *dev)
  {
-     switch (c->state) {
-     case QJACK_STATE_RUNNING:
--        /* fallthrough */
+     assert(dev->driver == AUDIODEV_DRIVER_JACK);
 -
--    case QJACK_STATE_STOPPED:
-         for (int i = 0; i < c->nchannels; ++i) {
-             jack_port_unregister(c->client, c->port[i]);
-         }
+-    dev->u.jack.has_in = false;
+-
+     return dev;
+ }
+ 
 -- 
 2.20.1
 
