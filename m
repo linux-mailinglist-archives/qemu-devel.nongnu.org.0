@@ -2,58 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 946D11F821C
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Jun 2020 10:44:23 +0200 (CEST)
-Received: from localhost ([::1]:56158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B2AF1F8248
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Jun 2020 11:46:44 +0200 (CEST)
+Received: from localhost ([::1]:49324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jk1m2-0007SS-5i
-	for lists+qemu-devel@lfdr.de; Sat, 13 Jun 2020 04:44:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46726)
+	id 1jk2kN-0004Qy-3N
+	for lists+qemu-devel@lfdr.de; Sat, 13 Jun 2020 05:46:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jk1kj-0006cq-6V; Sat, 13 Jun 2020 04:43:01 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:54467 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jk1kf-0004oY-Gv; Sat, 13 Jun 2020 04:43:00 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 49kWLq4sNYz9sQx; Sat, 13 Jun 2020 18:42:43 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1592037763;
- bh=3SkkT5xIWqvrx0DJZE/d6sSWye0aU/8fRZv8vyOcIjc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=fD4d35XCOpgFyTHh5Qtkj5GZ4QKKNZbHhmXz7AxH4MoFPQcmb308uLMUeGJpg13Gj
- GXTBBji6wGfBE9Jwj3JP6a3HAVMUL0iWshoFozPcAf4nQPENfF2hrdhVvjRmm9tfu0
- 9s/9+MNO9d0jyRJcLsPe6h7hKkDb6k1q2xu91W14=
-Date: Sat, 13 Jun 2020 17:18:04 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH v3 4/4] spapr: Forbid nested KVM-HV in pre-power9 compat
- mode
-Message-ID: <20200613071804.GE5861@umbus.fritz.box>
-References: <159188280345.70166.14940592691021389043.stgit@bahia.lan>
- <159188283391.70166.16995399489383620172.stgit@bahia.lan>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jk2jS-0003pt-NN
+ for qemu-devel@nongnu.org; Sat, 13 Jun 2020 05:45:46 -0400
+Received: from indium.canonical.com ([91.189.90.7]:52508)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jk2jQ-00064B-Jx
+ for qemu-devel@nongnu.org; Sat, 13 Jun 2020 05:45:46 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jk2jO-0005oL-3d
+ for <qemu-devel@nongnu.org>; Sat, 13 Jun 2020 09:45:42 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 177CD2E8109
+ for <qemu-devel@nongnu.org>; Sat, 13 Jun 2020 09:45:42 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="MIdTMoZhcV1D07fI"
-Content-Disposition: inline
-In-Reply-To: <159188283391.70166.16995399489383620172.stgit@bahia.lan>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -9
-X-Spam_score: -1.0
-X-Spam_bar: -
-X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 13 Jun 2020 09:36:58 -0000
+From: Thomas Huth <1882065@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: r1ng0hacking th-huth
+X-Launchpad-Bug-Reporter: r1ng0hacking (r1ng0hacking)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <159126616614.13200.9922024695272390145.malonedeb@soybean.canonical.com>
+Message-Id: <159204101872.12407.1180341870816313413.malone@soybean.canonical.com>
+Subject: [Bug 1882065] Re: Could this cause OOB bug ?
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="b190cebbf563f89e480a8b57f641753c8196bda0";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 6cdc33754ff1f15af6c793b7fc43a9a0584162fc
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/13 05:45:42
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -62,102 +71,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
+Reply-To: Bug 1882065 <1882065@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+I think we should fix this anyway, even if it can only be triggered when
+trace functions are enabled
 
---MIdTMoZhcV1D07fI
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+** Description changed:
 
-On Thu, Jun 11, 2020 at 03:40:33PM +0200, Greg Kurz wrote:
-> Nested KVM-HV only works on POWER9.
->=20
-> Signed-off-by: Greg Kurz <groug@kaod.org>
-> Reviewed-by: Laurent Vivier <lvivier@redhat.com>
+- close!!!!!
++ =
 
-Hrm.  I have mixed feelings about this.  It does bring forward an
-error that we'd otherwise only discover when we try to load the kvm
-module in the guest.
++ In function megasas_handle_scsi(hw/scsi/megasas.c):
++ =
 
-On the other hand, it's kind of a layering violation - really it's
-KVM's business to report what it can and can't do, rather than having
-qemu anticipate it.
++ ```c
++ static int megasas_handle_scsi(MegasasState *s, MegasasCmd *cmd,
++                                int frame_cmd)
++ {
++     .....................................................................=
+.......
++     cdb =3D cmd->frame->pass.cdb;
++     target_id =3D cmd->frame->header.target_id;
++     lun_id =3D cmd->frame->header.lun_id;
++     cdb_len =3D cmd->frame->header.cdb_len;
++     .....................................................................=
+.......
++     if (cdb_len > 16) {
++         trace_megasas_scsi_invalid_cdb_len(
++                 mfi_frame_desc[frame_cmd], is_logical,
++                 target_id, lun_id, cdb_len);
++         megasas_write_sense(cmd, SENSE_CODE(INVALID_OPCODE));
++         cmd->frame->header.scsi_status =3D CHECK_CONDITION;
++         s->event_count++;
++         return MFI_STAT_SCSI_DONE_WITH_ERROR;
++     }
++ }
++ ```
++ =
 
-Allowing POWER8 compat for an L2 is something we hope to have in the
-fairly near future.  Allowing POWER8 compat for L1, which is what this
-covers, is, I'll admit, likely to never happen.
++ Two variables, frame_cmd and cdb_len, can be controlled by guest os. So
++ can mfi_frame_desc[frame_cmd] cause OOB bug ?
 
+-- =
 
-> ---
->  HW/ppc/spapr_caps.c |   10 ++++++++++
->  1 file changed, 10 insertions(+)
->=20
-> diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
-> index 27cf2b38af27..dfe3b419daaa 100644
-> --- a/hw/ppc/spapr_caps.c
-> +++ b/hw/ppc/spapr_caps.c
-> @@ -391,6 +391,8 @@ static void cap_nested_kvm_hv_apply(SpaprMachineState=
- *spapr,
->                                      uint8_t val, Error **errp)
->  {
->      ERRP_AUTO_PROPAGATE();
-> +    PowerPCCPU *cpu =3D POWERPC_CPU(first_cpu);
-> +
->      if (!val) {
->          /* capability disabled by default */
->          return;
-> @@ -400,6 +402,14 @@ static void cap_nested_kvm_hv_apply(SpaprMachineStat=
-e *spapr,
->          error_setg(errp, "No Nested KVM-HV support in TCG");
->          error_append_hint(errp, "Try appending -machine cap-nested-hv=3D=
-off\n");
->      } else if (kvm_enabled()) {
-> +        if (!ppc_check_compat(cpu, CPU_POWERPC_LOGICAL_3_00, 0,
-> +                              spapr->max_compat_pvr)) {
-> +            error_setg(errp, "Nested KVM-HV only supported on POWER9");
-> +            error_append_hint(errp,
-> +                              "Try appending -machine max-cpu-compat=3Dp=
-ower9\n");
-> +            return;
-> +        }
-> +
->          if (!kvmppc_has_cap_nested_kvm_hv()) {
->              error_setg(errp,
->                         "KVM implementation does not support Nested KVM-H=
-V");
->=20
->=20
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1882065
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+Title:
+  Could this cause OOB bug ?
 
---MIdTMoZhcV1D07fI
-Content-Type: application/pgp-signature; name="signature.asc"
+Status in QEMU:
+  New
 
------BEGIN PGP SIGNATURE-----
+Bug description:
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl7kfawACgkQbDjKyiDZ
-s5Liwg//czMZl9qI2uLH009zUxPGNLKe9oAWFVlG6yBoTLiEoROmHwfasz7HF5RE
-B1+2hORMhC787J44qTQZM9TCwd32g112XVUWulc6aQCUaA2cph55bPH8VPWIoaM6
-5oE0GU8alsuWXgzdvVvSY7RSsGM7OjyRyW6V7vRg45OM5Z+oQc+VHaE+Aj86asoB
-Ce0tZHT8HLCkyGfDLubHMZ1r4cELx5BtZBQ5fDxkRYPj8TYP9xGPMgdxPBrQcrfg
-BzTsDcRvMzr3sIPdO40Cs5IrhKXMDWazDlK7zjU5VMgyTml4+fc8Xk0M92G0DIMt
-PyV3Rbm9ah0TtmtjCUt2KJ0/w5Jpz5lug3KTtMYicrrXelLugfQ6Q+7z1LTWvb9o
-Ui2kNtfSzkGorHMVQZMTnpsBBCS5NLKhzbr+2ACR/lpydmiVvGFlszYt3yGEBqBd
-hy5g7CRHXu4dPrAA52WP6CEoDKAWDLAEezyePM4Y0Mwz1dji65oDXg8li/T8m85B
-1S+1/7aNau+QmvrUxOe88UyaAelK75zA4NDeY2VLUnTlEvpEkzDNNXg19hRFNflW
-CMj4eZ88fy891l1neBaJGifZ6/+h+3fFTkaQd6eMrYaFuEKHLRHmyRPDsI9wW5Lr
-5oM6MDaquPS/KOy5s9ZX3/pUCXfGSHmGqtfuShoEM76OXE49aPc=
-=IrUQ
------END PGP SIGNATURE-----
+  In function megasas_handle_scsi(hw/scsi/megasas.c):
 
---MIdTMoZhcV1D07fI--
+  ```c
+  static int megasas_handle_scsi(MegasasState *s, MegasasCmd *cmd,
+                                 int frame_cmd)
+  {
+      .....................................................................=
+.......
+      cdb =3D cmd->frame->pass.cdb;
+      target_id =3D cmd->frame->header.target_id;
+      lun_id =3D cmd->frame->header.lun_id;
+      cdb_len =3D cmd->frame->header.cdb_len;
+      .....................................................................=
+.......
+      if (cdb_len > 16) {
+          trace_megasas_scsi_invalid_cdb_len(
+                  mfi_frame_desc[frame_cmd], is_logical,
+                  target_id, lun_id, cdb_len);
+          megasas_write_sense(cmd, SENSE_CODE(INVALID_OPCODE));
+          cmd->frame->header.scsi_status =3D CHECK_CONDITION;
+          s->event_count++;
+          return MFI_STAT_SCSI_DONE_WITH_ERROR;
+      }
+  }
+  ```
+
+  Two variables, frame_cmd and cdb_len, can be controlled by guest os.
+  So can mfi_frame_desc[frame_cmd] cause OOB bug ?
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1882065/+subscriptions
 
