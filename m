@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15FDC1F8576
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Jun 2020 23:48:38 +0200 (CEST)
-Received: from localhost ([::1]:38828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B61CE1F8571
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Jun 2020 23:46:23 +0200 (CEST)
+Received: from localhost ([::1]:58656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jkE0z-0001w9-21
-	for lists+qemu-devel@lfdr.de; Sat, 13 Jun 2020 17:48:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59076)
+	id 1jkDyo-0006np-Og
+	for lists+qemu-devel@lfdr.de; Sat, 13 Jun 2020 17:46:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <salil.mehta@huawei.com>)
- id 1jkDx5-00058v-LT; Sat, 13 Jun 2020 17:44:35 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:60464 helo=huawei.com)
+ id 1jkDx6-0005A1-JT; Sat, 13 Jun 2020 17:44:36 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:3706 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <salil.mehta@huawei.com>)
- id 1jkDx3-00035a-Qu; Sat, 13 Jun 2020 17:44:35 -0400
-Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id 2414FF40CEBE9F8A1DDE;
- Sun, 14 Jun 2020 05:44:25 +0800 (CST)
+ id 1jkDx4-00036A-F1; Sat, 13 Jun 2020 17:44:36 -0400
+Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id 3046C9153F694E10A53E;
+ Sun, 14 Jun 2020 05:44:30 +0800 (CST)
 Received: from A190218597.china.huawei.com (10.47.30.60) by
  DGGEMS406-HUB.china.huawei.com (10.3.19.206) with Microsoft SMTP Server id
- 14.3.487.0; Sun, 14 Jun 2020 05:44:17 +0800
+ 14.3.487.0; Sun, 14 Jun 2020 05:44:23 +0800
 From: Salil Mehta <salil.mehta@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>
-Subject: [PATCH RFC 01/22] arm/cpuhp: Add QMP vcpu params validation support
-Date: Sat, 13 Jun 2020 22:36:08 +0100
-Message-ID: <20200613213629.21984-2-salil.mehta@huawei.com>
+Subject: [PATCH RFC 02/22] arm/cpuhp: Add new ARMCPU core-id property
+Date: Sat, 13 Jun 2020 22:36:09 +0100
+Message-ID: <20200613213629.21984-3-salil.mehta@huawei.com>
 X-Mailer: git-send-email 2.8.3
 In-Reply-To: <20200613213629.21984-1-salil.mehta@huawei.com>
 References: <20200613213629.21984-1-salil.mehta@huawei.com>
@@ -35,9 +35,9 @@ MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.47.30.60]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.35;
+Received-SPF: pass client-ip=45.249.212.190;
  envelope-from=salil.mehta@huawei.com; helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/13 17:44:26
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/13 17:44:30
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
 X-Spam_score_int: -41
 X-Spam_score: -4.2
@@ -68,77 +68,96 @@ Cc: peter.maydell@linaro.org, drjones@redhat.com, sudeep.holla@arm.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For now, vcpu hotplug is only supported with single socket single thread,
-single die. NUMA is not supported either and everthing falls into single
-node. Work to properly support these could be taken later once community
-agrees with the base framework changes being presented to support ARM vcpu
-hotplug in QEMU. Hence, these checks.
+This shall be used to store user specified core index and shall be directly
+used as slot-index during hot{plug|unplug} of vcpu.
+
+For now, we are not taking into account of other topology info like thread-id,
+socket-id to derive mp-affinity. Host KVM uses vcpu-id to derive the mpidr for
+the vcpu of the guest. This is not in exact corroboration with the ARM spec
+view of the MPIDR. Hence, the concept of threads or SMT bit present as part of
+the MPIDR_EL1 also gets lost.
+
+Also, we need ACPI PPTT Table support in QEMU to be able to export this
+topology info to the guest VM and the info should be consistent with what host
+cpu supports if accel=kvm is being used.
+
+Perhaps some comments on this will help? @Andrew/drjones@redhat.com
 
 Co-developed-by: Keqian Zhu <zhukeqian1@huawei.com>
 Signed-off-by: Salil Mehta <salil.mehta@huawei.com>
 ---
- hw/arm/virt.c | 41 +++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 41 insertions(+)
+ hw/arm/virt.c    | 5 +++++
+ target/arm/cpu.c | 5 +++++
+ target/arm/cpu.h | 1 +
+ 3 files changed, 11 insertions(+)
 
 diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 37462a6f78..5d1afdd031 100644
+index 5d1afdd031..c4ed955776 100644
 --- a/hw/arm/virt.c
 +++ b/hw/arm/virt.c
-@@ -2201,6 +2201,46 @@ static HotplugHandler *virt_machine_get_hotplug_handler(MachineState *machine,
-     return NULL;
- }
+@@ -1778,6 +1778,7 @@ static void machvirt_init(MachineState *machine)
+                           &error_fatal);
  
-+static void virt_smp_parse(MachineState *ms, QemuOpts *opts)
-+{
-+    if (opts) {
-+        unsigned cpus    = qemu_opt_get_number(opts, "cpus", 1);
-+        unsigned sockets = qemu_opt_get_number(opts, "sockets", 1);
-+        unsigned cores   = qemu_opt_get_number(opts, "cores", cpus);
-+        unsigned threads = qemu_opt_get_number(opts, "threads", 1);
-+        unsigned int max_cpus;
-+
-+        if (sockets > 1 || threads > 1) {
-+            error_report("does not support more than one socket or thread");
-+            exit(1);
-+        }
-+
-+        if (cores != cpus) {
-+            error_report("cpu topology: "
-+                         "sockets (%u) * cores (%u) * threads (%u) < "
-+                         "smp_cpus (%u)",
-+                         sockets, cores, threads, cpus);
-+            exit(1);
-+        }
-+
-+        max_cpus = qemu_opt_get_number(opts, "maxcpus", cpus);
-+        if (sockets * cores * threads > max_cpus) {
-+            error_report("cpu topology: "
-+                         "sockets (%u) * cores (%u) * threads (%u) > "
-+                         "maxcpus (%u)",
-+                         sockets, cores, threads,
-+                         max_cpus);
-+            exit(1);
-+        }
-+
-+        ms->smp.max_cpus = max_cpus;
-+        ms->smp.sockets = sockets;
-+        ms->smp.cpus = cpus;
-+        ms->smp.cores = cores;
-+        ms->smp.threads = threads;
-+    }
-+}
-+
- /*
-  * for arm64 kvm_type [7-0] encodes the requested number of bits
-  * in the IPA address space
-@@ -2266,6 +2306,7 @@ static void virt_machine_class_init(ObjectClass *oc, void *data)
-     mc->nvdimm_supported = true;
-     mc->auto_enable_numa_with_memhp = true;
-     mc->default_ram_id = "mach-virt.ram";
-+    mc->smp_parse = virt_smp_parse;
+         aarch64 &= object_property_get_bool(cpuobj, "aarch64", NULL);
++        object_property_set_int(cpuobj, n, "core-id", NULL);
  
-     object_class_property_add(oc, "acpi", "OnOffAuto",
-         virt_get_acpi, virt_set_acpi,
+         if (!vms->secure) {
+             object_property_set_bool(cpuobj, false, "has_el3", NULL);
+@@ -2081,6 +2082,7 @@ static const CPUArchIdList *virt_possible_cpu_arch_ids(MachineState *ms)
+ {
+     int n;
+     unsigned int max_cpus = ms->smp.max_cpus;
++    unsigned int smp_threads = ms->smp.threads;
+     VirtMachineState *vms = VIRT_MACHINE(ms);
+ 
+     if (ms->possible_cpus) {
+@@ -2093,8 +2095,11 @@ static const CPUArchIdList *virt_possible_cpu_arch_ids(MachineState *ms)
+     ms->possible_cpus->len = max_cpus;
+     for (n = 0; n < ms->possible_cpus->len; n++) {
+         ms->possible_cpus->cpus[n].type = ms->cpu_type;
++        ms->possible_cpus->cpus[n].vcpus_count = smp_threads;
+         ms->possible_cpus->cpus[n].arch_id =
+             virt_cpu_mp_affinity(vms, n);
++        ms->possible_cpus->cpus[n].props.has_core_id = true;
++        ms->possible_cpus->cpus[n].props.core_id = n;
+         ms->possible_cpus->cpus[n].props.has_thread_id = true;
+         ms->possible_cpus->cpus[n].props.thread_id = n;
+     }
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 32bec156f2..33a58086a9 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -1086,6 +1086,9 @@ static Property arm_cpu_has_dsp_property =
+ static Property arm_cpu_has_mpu_property =
+             DEFINE_PROP_BOOL("has-mpu", ARMCPU, has_mpu, true);
+ 
++static Property arm_cpu_coreid_property =
++            DEFINE_PROP_INT32("core-id", ARMCPU, core_id, -1);
++
+ /* This is like DEFINE_PROP_UINT32 but it doesn't set the default value,
+  * because the CPU initfn will have already set cpu->pmsav7_dregion to
+  * the right value for that particular CPU type, and we don't want
+@@ -1168,6 +1171,8 @@ void arm_cpu_post_init(Object *obj)
+         qdev_property_add_static(DEVICE(obj), &arm_cpu_rvbar_property);
+     }
+ 
++    qdev_property_add_static(DEVICE(obj), &arm_cpu_coreid_property);
++
+ #ifndef CONFIG_USER_ONLY
+     if (arm_feature(&cpu->env, ARM_FEATURE_EL3)) {
+         /* Add the has_el3 state CPU property only if EL3 is allowed.  This will
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 677584e5da..5c4991156e 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -949,6 +949,7 @@ struct ARMCPU {
+     QLIST_HEAD(, ARMELChangeHook) el_change_hooks;
+ 
+     int32_t node_id; /* NUMA node this CPU belongs to */
++    int32_t core_id; /* core-id of this ARM VCPU */
+ 
+     /* Used to synchronize KVM and QEMU in-kernel device levels */
+     uint8_t device_irq_level;
 -- 
 2.17.1
 
