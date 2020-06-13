@@ -2,31 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 877B11F8020
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Jun 2020 03:11:30 +0200 (CEST)
-Received: from localhost ([::1]:51086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE4C31F8022
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Jun 2020 03:11:32 +0200 (CEST)
+Received: from localhost ([::1]:51370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjuhl-0007qr-CH
-	for lists+qemu-devel@lfdr.de; Fri, 12 Jun 2020 21:11:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60994)
+	id 1jjuhn-0007yy-Qr
+	for lists+qemu-devel@lfdr.de; Fri, 12 Jun 2020 21:11:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32768)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jjugX-0006eO-1W
- for qemu-devel@nongnu.org; Fri, 12 Jun 2020 21:10:13 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:45859)
+ id 1jjugY-0006eU-Dh
+ for qemu-devel@nongnu.org; Fri, 12 Jun 2020 21:10:14 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:45861)
  by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jjugT-0001cD-Vi
- for qemu-devel@nongnu.org; Fri, 12 Jun 2020 21:10:12 -0400
+ id 1jjugT-0001cE-Vr
+ for qemu-devel@nongnu.org; Fri, 12 Jun 2020 21:10:14 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 3D685748DD1;
+ by localhost (Postfix) with SMTP id 8AF2B748DD8;
  Sat, 13 Jun 2020 03:10:03 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 139D574633F; Sat, 13 Jun 2020 03:10:03 +0200 (CEST)
-Message-Id: <cover.1592009699.git.balaton@eik.bme.hu>
+ id 187A77482C8; Sat, 13 Jun 2020 03:10:03 +0200 (CEST)
+Message-Id: <4a304a01a87fc8154023bc8f48e22811d7cfcaf0.1592009699.git.balaton@eik.bme.hu>
+In-Reply-To: <cover.1592009699.git.balaton@eik.bme.hu>
+References: <cover.1592009699.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH 0/2] Mac Old World ROM experiment
+Subject: [PATCH 1/2] mac_oldworld: Allow loading binary ROM image
 Date: Sat, 13 Jun 2020 02:54:59 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -34,14 +36,14 @@ Content-Transfer-Encoding: 8bit
 To: qemu-devel@nongnu.org,
     qemu-ppc@nongnu.org
 X-Spam-Probability: 8%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/12 21:10:03
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -61,129 +63,66 @@ Cc: Howard Spoelstra <hsp.cat7@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Based on https://github.com/dingusdev/dingusppc this series allows
-experimenting with binary ROM image from a G3 beige machine. It does
-not get very far though. Running with
+The G3 beige machine has a 4MB firmware ROM. Fix the size of the rom
+region and allow loading a binary image with -bios. This makes it
+possible to test emulation with a ROM image from real hardware.
 
--bios 78F57389.rom -d unimp,guest_errors -trace enable="pci*" | uniq -c
+Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+---
+ hw/ppc/mac_oldworld.c | 24 +++++++++++++++---------
+ 1 file changed, 15 insertions(+), 9 deletions(-)
 
-I get the logs below and hangs reading the last reg. It seems to
-expect macio to be mapped at 0xf3000000 (also confirmed by comments in
-https://github.com/dingusdev/dingusppc/blob/master/devices/macio.h and
-some logs I've found on-line) but I don't see where it would set this
-up so maybe this needs to be mapped by default there?
-
-Regards,
-BALATON Zoltan
-
-      1 pci_cfg_read grackle 00:0 @0x0 -> 0x21057
-      1 pci_cfg_read grackle 00:0 @0xa8 -> 0x0
-      1 pci_cfg_write grackle 00:0 @0xa8 <- 0x40e0c
-      1 pci_cfg_read grackle 00:0 @0xac -> 0x0
-      1 pci_cfg_write grackle 00:0 @0xac <- 0x12000000
-      1 pci_cfg_read grackle 00:0 @0xac -> 0x12000000
-      1 pci_cfg_write grackle 00:0 @0xac <- 0x2000000
-      1 pci_cfg_read grackle 00:0 @0x70 -> 0x0
-      1 pci_cfg_write grackle 00:0 @0x70 <- 0x11000000
-      1 machine_id_read(0, 2)
-      1 pci_cfg_read grackle 00:0 @0x8 -> 0x6000140
-      1 pci_cfg_read grackle 00:0 @0xf0 -> 0x0
-      1 pci_cfg_write grackle 00:0 @0xf0 <- 0x12900000
-      1 Unassigned mem write 00000000f3000024 = 0x80000000
-      1 Unassigned mem write 00000000f3000028 = 0xffffffff
-      1 Unassigned mem write 00000000f3000038 = 0x33eff3a
-      1 Unassigned mem write 00000000f3000038 = 0x1befffa
-      1 machine_id_read(0, 2)
-      1 Unassigned mem read 00000000f3000038
-      1 Unassigned mem write 00000000f3000038 = 0xc000010
-      1 Unassigned mem write 00000000f3017e00 = 0x10
-      1 Unassigned mem write 00000000f3016600 = 0x58
-      1 Unassigned mem write 00000000f3016000 = 0x38
-      1 Unassigned mem write 00000000f3016400 = 0x30
-      1 Unassigned mem write 00000000f3017800 = 0x0
-      1 Unassigned mem write 00000000f3017600 = 0x1c
-      1 Unassigned mem write 00000000f3017c00 = 0x7f
-      1 Unassigned mem read 00000000f3017600
-      1 Unassigned mem write 00000000f3017600 = 0x0
-      1 Unassigned mem write 00000000f3017c00 = 0x84
-      1 Unassigned mem read 00000000f3016000
-      1 Unassigned mem write 00000000f3016000 = 0x30
-   3138 Unassigned mem read 00000000f3016000
-   6627 Unassigned mem read 00000000f3017a00
-      1 Unassigned mem read 00000000f3016000
-      1 Unassigned mem write 00000000f3016000 = 0x10
-   6681 Unassigned mem read 00000000f3016000
-   6710 Unassigned mem read 00000000f3017a00
-   6710 Unassigned mem read 00000000f3016000
-   6600 Unassigned mem read 00000000f3017a00
-   5543 Unassigned mem read 00000000f3016000
-      1 Unassigned mem read 00000000f3000034
-      1 Unassigned mem read 00000000f3016000
-      1 Unassigned mem write 00000000f3016000 = 0x30
-   1234 Unassigned mem read 00000000f3016000
-   1195 Unassigned mem read 00000000f3017a00
-      1 Unassigned mem read 00000000f3017400
-      1 Unassigned mem read 00000000f3016000
-      1 Unassigned mem write 00000000f3016000 = 0x0
-      1 Unassigned mem read 00000000f3016000
-   5441 Unassigned mem read 00000000f3017a00
-   6820 Unassigned mem read 00000000f3016000
-   6710 Unassigned mem read 00000000f3017a00
-   5439 Unassigned mem read 00000000f3016000
-      1 pci_cfg_write grackle 00:0 @0x80 <- 0xffffffff
-      1 pci_cfg_write grackle 00:0 @0x88 <- 0xffffffff
-      1 pci_cfg_write grackle 00:0 @0x90 <- 0xffffffff
-      1 pci_cfg_write grackle 00:0 @0x98 <- 0xffffffff
-      1 pci_cfg_write grackle 00:0 @0x84 <- 0xffffffff
-      1 pci_cfg_write grackle 00:0 @0x8c <- 0xffffffff
-      1 pci_cfg_write grackle 00:0 @0x94 <- 0xffffffff
-      1 pci_cfg_write grackle 00:0 @0x9c <- 0xffffffff
-      1 pci_cfg_write grackle 00:0 @0xa0 <- 0x0
-      1 pci_cfg_read grackle 00:0 @0xf0 -> 0x12900000
-      1 pci_cfg_write grackle 00:0 @0xf0 <- 0x12900000
-      1 machine_id_read(0, 2)
-      1 pci_cfg_read grackle 00:0 @0x8 -> 0x6000140
-      1 pci_cfg_read grackle 00:0 @0xf0 -> 0x12900000
-      1 pci_cfg_write grackle 00:0 @0xf0 <- 0x12940000
-      1 pci_cfg_write grackle 00:0 @0xf0 <- 0x12940000
-      1 pci_cfg_write grackle 00:0 @0xf4 <- 0x40010fe4
-      1 pci_cfg_write grackle 00:0 @0xf8 <- 0x7302293
-      1 pci_cfg_write grackle 00:0 @0xfc <- 0x25302220
-      1 pci_cfg_read grackle 00:0 @0xa0 -> 0x0
-      1 pci_cfg_write grackle 00:0 @0xa0 <- 0x67000000
-      1 pci_cfg_read grackle 00:0 @0xf0 -> 0x12940000
-      1 pci_cfg_write grackle 00:0 @0xf0 <- 0x129c0000
- 545701 Unassigned mem read 00000000f3014020
-      1 Unassigned mem write 00000000f30723f0 = 0x1c
-      1 Unassigned mem write 00000000f30723e0 = 0x42
-      1 Unassigned mem write 00000000f30723d0 = 0xf0
-      1 Unassigned mem write 00000000f30723c0 = 0xff
-      1 Unassigned mem write 00000000f3013020 = 0x9
-      1 Unassigned mem write 00000000f3013020 = 0xc0
-      1 Unassigned mem write 00000000f3013020 = 0xd
-      1 Unassigned mem write 00000000f3013020 = 0x0
-      1 Unassigned mem write 00000000f3013020 = 0xc
-      1 Unassigned mem write 00000000f3013020 = 0xa
-      1 Unassigned mem write 00000000f3013020 = 0xe
-      1 Unassigned mem write 00000000f3013020 = 0x1
-      1 Unassigned mem write 00000000f3013020 = 0xb
-      1 Unassigned mem write 00000000f3013020 = 0x50
-      1 Unassigned mem write 00000000f3013020 = 0x5
-      1 Unassigned mem write 00000000f3013020 = 0xea
-      1 Unassigned mem write 00000000f3013020 = 0x4
-      1 Unassigned mem write 00000000f3013020 = 0x44
-      1 Unassigned mem write 00000000f3013020 = 0x3
-      1 Unassigned mem write 00000000f3013020 = 0xc1
- 806156 Unassigned mem read 00000000f3013020
-
-
-BALATON Zoltan (2):
-  mac_oldworld: Allow loading binary ROM image
-  mac_oldworld: Add machine ID register
-
- hw/ppc/mac_oldworld.c | 38 +++++++++++++++++++++++++++++---------
- 1 file changed, 29 insertions(+), 9 deletions(-)
-
+diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
+index 0b4c1c6373..3812adc441 100644
+--- a/hw/ppc/mac_oldworld.c
++++ b/hw/ppc/mac_oldworld.c
+@@ -59,6 +59,8 @@
+ #define NDRV_VGA_FILENAME "qemu_vga.ndrv"
+ 
+ #define GRACKLE_BASE 0xfec00000
++#define PROM_BASE 0xffc00000
++#define PROM_SIZE (4 * MiB)
+ 
+ static void fw_cfg_boot_set(void *opaque, const char *boot_device,
+                             Error **errp)
+@@ -127,24 +129,28 @@ static void ppc_heathrow_init(MachineState *machine)
+ 
+     memory_region_add_subregion(sysmem, 0, machine->ram);
+ 
+-    /* allocate and load BIOS */
+-    memory_region_init_rom(bios, NULL, "ppc_heathrow.bios", BIOS_SIZE,
++    /* allocate and load firmware ROM */
++    memory_region_init_rom(bios, NULL, "ppc_heathrow.bios", PROM_SIZE,
+                            &error_fatal);
++    memory_region_add_subregion(sysmem, PROM_BASE, bios);
+ 
+-    if (bios_name == NULL)
++    if (!bios_name) {
+         bios_name = PROM_FILENAME;
++    }
+     filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, bios_name);
+-    memory_region_add_subregion(sysmem, PROM_ADDR, bios);
+-
+-    /* Load OpenBIOS (ELF) */
+     if (filename) {
+-        bios_size = load_elf(filename, NULL, 0, NULL, NULL, NULL, NULL, NULL,
+-                             1, PPC_ELF_MACHINE, 0, 0);
++        /* Load OpenBIOS (ELF) */
++        bios_size = load_elf(filename, NULL, NULL, NULL, NULL, NULL, NULL,
++                             NULL, 1, PPC_ELF_MACHINE, 0, 0);
++        if (bios_size <= 0) {
++            /* or load binary ROM image */
++            bios_size = load_image_targphys(filename, PROM_BASE, PROM_SIZE);
++        }
+         g_free(filename);
+     } else {
+         bios_size = -1;
+     }
+-    if (bios_size < 0 || bios_size > BIOS_SIZE) {
++    if (bios_size < 0 || bios_size > PROM_SIZE) {
+         error_report("could not load PowerPC bios '%s'", bios_name);
+         exit(1);
+     }
 -- 
 2.21.3
 
