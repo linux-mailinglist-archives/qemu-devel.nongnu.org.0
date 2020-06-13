@@ -2,31 +2,29 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 520EE1F838E
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Jun 2020 15:49:32 +0200 (CEST)
-Received: from localhost ([::1]:42946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF5131F8389
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Jun 2020 15:47:20 +0200 (CEST)
+Received: from localhost ([::1]:36440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jk6XL-0007f9-Eg
-	for lists+qemu-devel@lfdr.de; Sat, 13 Jun 2020 09:49:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37888)
+	id 1jk6VD-0004I8-SF
+	for lists+qemu-devel@lfdr.de; Sat, 13 Jun 2020 09:47:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37894)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jk6TG-0002Um-Lu; Sat, 13 Jun 2020 09:45:18 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:47669)
+ id 1jk6TH-0002Vq-V7; Sat, 13 Jun 2020 09:45:19 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:47662)
  by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jk6TD-0002T0-AZ; Sat, 13 Jun 2020 09:45:18 -0400
+ id 1jk6TD-0002Sx-Af; Sat, 13 Jun 2020 09:45:19 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 9E27F748DDD;
+ by localhost (Postfix) with SMTP id 461D1748DDB;
  Sat, 13 Jun 2020 15:45:00 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 2499574633D; Sat, 13 Jun 2020 15:45:00 +0200 (CEST)
-Message-Id: <4a304a01a87fc8154023bc8f48e22811d7cfcaf0.1592055375.git.balaton@eik.bme.hu>
-In-Reply-To: <cover.1592055375.git.balaton@eik.bme.hu>
-References: <cover.1592055375.git.balaton@eik.bme.hu>
+ id 20435745702; Sat, 13 Jun 2020 15:45:00 +0200 (CEST)
+Message-Id: <cover.1592055375.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v2 1/5] mac_oldworld: Allow loading binary ROM image
+Subject: [PATCH v2 0/5] Mac Old World ROM experiment
 Date: Sat, 13 Jun 2020 15:36:15 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -34,14 +32,14 @@ Content-Transfer-Encoding: 8bit
 To: qemu-devel@nongnu.org,
     qemu-ppc@nongnu.org
 X-Spam-Probability: 8%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/13 09:45:00
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -61,66 +59,96 @@ Cc: Howard Spoelstra <hsp.cat7@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The G3 beige machine has a 4MB firmware ROM. Fix the size of the rom
-region and allow loading a binary image with -bios. This makes it
-possible to test emulation with a ROM image from real hardware.
+Version 2 with some more tweaks this now starts but drops in a Serial
+Test Manager (see below) presumably because some POST step is failing,
+I let others who know more about this machine figure out what's
+missing from here.
 
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
----
- hw/ppc/mac_oldworld.c | 24 +++++++++++++++---------
- 1 file changed, 15 insertions(+), 9 deletions(-)
+Regards,
+BALATON Zoltan
 
-diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
-index 0b4c1c6373..3812adc441 100644
---- a/hw/ppc/mac_oldworld.c
-+++ b/hw/ppc/mac_oldworld.c
-@@ -59,6 +59,8 @@
- #define NDRV_VGA_FILENAME "qemu_vga.ndrv"
- 
- #define GRACKLE_BASE 0xfec00000
-+#define PROM_BASE 0xffc00000
-+#define PROM_SIZE (4 * MiB)
- 
- static void fw_cfg_boot_set(void *opaque, const char *boot_device,
-                             Error **errp)
-@@ -127,24 +129,28 @@ static void ppc_heathrow_init(MachineState *machine)
- 
-     memory_region_add_subregion(sysmem, 0, machine->ram);
- 
--    /* allocate and load BIOS */
--    memory_region_init_rom(bios, NULL, "ppc_heathrow.bios", BIOS_SIZE,
-+    /* allocate and load firmware ROM */
-+    memory_region_init_rom(bios, NULL, "ppc_heathrow.bios", PROM_SIZE,
-                            &error_fatal);
-+    memory_region_add_subregion(sysmem, PROM_BASE, bios);
- 
--    if (bios_name == NULL)
-+    if (!bios_name) {
-         bios_name = PROM_FILENAME;
-+    }
-     filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, bios_name);
--    memory_region_add_subregion(sysmem, PROM_ADDR, bios);
--
--    /* Load OpenBIOS (ELF) */
-     if (filename) {
--        bios_size = load_elf(filename, NULL, 0, NULL, NULL, NULL, NULL, NULL,
--                             1, PPC_ELF_MACHINE, 0, 0);
-+        /* Load OpenBIOS (ELF) */
-+        bios_size = load_elf(filename, NULL, NULL, NULL, NULL, NULL, NULL,
-+                             NULL, 1, PPC_ELF_MACHINE, 0, 0);
-+        if (bios_size <= 0) {
-+            /* or load binary ROM image */
-+            bios_size = load_image_targphys(filename, PROM_BASE, PROM_SIZE);
-+        }
-         g_free(filename);
-     } else {
-         bios_size = -1;
-     }
--    if (bios_size < 0 || bios_size > BIOS_SIZE) {
-+    if (bios_size < 0 || bios_size > PROM_SIZE) {
-         error_report("could not load PowerPC bios '%s'", bios_name);
-         exit(1);
-     }
+
+      1 :pci_update_mappings_add d=0x55a1bb6254a0 00:01.0 0,0xf3000000+0x80000
+      1 pci_cfg_read grackle 00:0 @0x0 -> 0x21057
+      1 pci_cfg_read grackle 00:0 @0xa8 -> 0x0
+      1 pci_cfg_write grackle 00:0 @0xa8 <- 0x40e0c
+      1 pci_cfg_read grackle 00:0 @0xac -> 0x0
+      1 pci_cfg_write grackle 00:0 @0xac <- 0x12000000
+      1 pci_cfg_read grackle 00:0 @0xac -> 0x12000000
+      1 pci_cfg_write grackle 00:0 @0xac <- 0x2000000
+      1 pci_cfg_read grackle 00:0 @0x70 -> 0x0
+      1 pci_cfg_write grackle 00:0 @0x70 <- 0x11000000
+      1 machine_id_read(0, 2)
+      1 pci_cfg_read grackle 00:0 @0x8 -> 0x6000140
+      1 pci_cfg_read grackle 00:0 @0xf0 -> 0x0
+      1 pci_cfg_write grackle 00:0 @0xf0 <- 0x12900000
+      1 machine_id_read(0, 2)
+      1 portA_write unimplemented
+      1 CUDA: unknown command 0x22
+      1 CUDA: unknown command 0x26
+      3 CUDA: unknown command 0x25
+      1 pci_cfg_write grackle 00:0 @0x80 <- 0xffffffff
+      1 pci_cfg_write grackle 00:0 @0x88 <- 0xffffffff
+      1 pci_cfg_write grackle 00:0 @0x90 <- 0xffffffff
+      1 pci_cfg_write grackle 00:0 @0x98 <- 0xffffffff
+      1 pci_cfg_write grackle 00:0 @0x84 <- 0xffffffff
+      1 pci_cfg_write grackle 00:0 @0x8c <- 0xffffffff
+      1 pci_cfg_write grackle 00:0 @0x94 <- 0xffffffff
+      1 pci_cfg_write grackle 00:0 @0x9c <- 0xffffffff
+      1 pci_cfg_write grackle 00:0 @0xa0 <- 0x0
+      1 pci_cfg_read grackle 00:0 @0xf0 -> 0x12900000
+      1 pci_cfg_write grackle 00:0 @0xf0 <- 0x12900000
+      1 machine_id_read(0, 2)
+      1 pci_cfg_read grackle 00:0 @0x8 -> 0x6000140
+      1 pci_cfg_read grackle 00:0 @0xf0 -> 0x12900000
+      1 pci_cfg_write grackle 00:0 @0xf0 <- 0x12940000
+      1 pci_cfg_write grackle 00:0 @0xf0 <- 0x12940000
+      1 pci_cfg_write grackle 00:0 @0xf4 <- 0x40010fe4
+      1 pci_cfg_write grackle 00:0 @0xf8 <- 0x7302293
+      1 pci_cfg_write grackle 00:0 @0xfc <- 0x25302220
+      1 pci_cfg_read grackle 00:0 @0xa0 -> 0x0
+      1 pci_cfg_write grackle 00:0 @0xa0 <- 0x67000000
+      1 pci_cfg_read grackle 00:0 @0xf0 -> 0x12940000
+      1 pci_cfg_write grackle 00:0 @0xf0 <- 0x129c0000
+ 550755 Unassigned mem read 00000000f3014020
+      1 
+      1 >?
+      1 ***************************************
+      1 *                                     *
+      1 *         Serial Test Manager         *
+      1 *                                     *
+      1 ***************************************
+      1 
+      1 T)  Execute a test, single test number follows command
+      1 T0) Run ROM Checksum Test
+      1 T1) Run Address Line Test
+      1 T2) Run Data Line Test
+      1 T3) Run Simple RAM Test
+      1 T4) Run Mod3 Forward Test
+      1 T5) Run Mod3 Reverse Test
+      1 T6) Run NVRAM Test
+      1 T8) Run AddrPattern Test
+      1 T9) Run NTAWord Test
+      1 A)  Execute all ROM-based tests
+      1 Q)  Quick test
+      1 X)  Exit STM (Continue booting)
+      1 ?)  Print this menu
+      1 
+      1 >
+
+BALATON Zoltan (5):
+  mac_oldworld: Allow loading binary ROM image
+  mac_oldworld: Add machine ID register
+  grackle: Set revision in PCI config to match hardware
+  mac_oldworld: Rename ppc_heathrow_reset reset to
+    ppc_heathrow_cpu_reset
+  mac_oldworld: Map macio to expected address at reset
+
+ hw/pci-host/grackle.c |  2 +-
+ hw/ppc/mac.h          | 12 +++++++++
+ hw/ppc/mac_oldworld.c | 59 +++++++++++++++++++++++++++++++++----------
+ 3 files changed, 59 insertions(+), 14 deletions(-)
+
 -- 
 2.21.3
 
