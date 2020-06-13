@@ -2,32 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C712A1F8583
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Jun 2020 23:55:18 +0200 (CEST)
-Received: from localhost ([::1]:40082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06D891F8585
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Jun 2020 23:57:02 +0200 (CEST)
+Received: from localhost ([::1]:44616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jkE7R-0006HN-TB
-	for lists+qemu-devel@lfdr.de; Sat, 13 Jun 2020 17:55:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60088)
+	id 1jkE97-0000FI-3D
+	for lists+qemu-devel@lfdr.de; Sat, 13 Jun 2020 17:57:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <salil.mehta@huawei.com>)
- id 1jkDyC-0007A9-4b; Sat, 13 Jun 2020 17:45:45 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:33284 helo=huawei.com)
+ id 1jkDyF-0007EN-71; Sat, 13 Jun 2020 17:45:47 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:3777 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <salil.mehta@huawei.com>)
- id 1jkDy7-0003L7-PR; Sat, 13 Jun 2020 17:45:43 -0400
-Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 2238FFF1004DFACDB16F;
- Sun, 14 Jun 2020 05:45:36 +0800 (CST)
+ id 1jkDyD-0003Lc-39; Sat, 13 Jun 2020 17:45:46 -0400
+Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 3739E75CD75FBCF2EC6D;
+ Sun, 14 Jun 2020 05:45:41 +0800 (CST)
 Received: from A190218597.china.huawei.com (10.47.30.60) by
  DGGEMS406-HUB.china.huawei.com (10.3.19.206) with Microsoft SMTP Server id
- 14.3.487.0; Sun, 14 Jun 2020 05:45:29 +0800
+ 14.3.487.0; Sun, 14 Jun 2020 05:45:34 +0800
 From: Salil Mehta <salil.mehta@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>
-Subject: [PATCH RFC 13/22] arm/cpuhp: Add ACPI _MAT entry for Processor object
-Date: Sat, 13 Jun 2020 22:36:20 +0100
-Message-ID: <20200613213629.21984-14-salil.mehta@huawei.com>
+Subject: [PATCH RFC 14/22] arm/cpuhp: Release objects for *disabled* possible
+ vcpus after init
+Date: Sat, 13 Jun 2020 22:36:21 +0100
+Message-ID: <20200613213629.21984-15-salil.mehta@huawei.com>
 X-Mailer: git-send-email 2.8.3
 In-Reply-To: <20200613213629.21984-1-salil.mehta@huawei.com>
 References: <20200613213629.21984-1-salil.mehta@huawei.com>
@@ -35,9 +36,9 @@ MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.47.30.60]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.35;
+Received-SPF: pass client-ip=45.249.212.191;
  envelope-from=salil.mehta@huawei.com; helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/13 17:44:26
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/13 17:44:35
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
 X-Spam_score_int: -41
 X-Spam_score: -4.2
@@ -68,87 +69,82 @@ Cc: peter.maydell@linaro.org, drjones@redhat.com, sudeep.holla@arm.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Adds a function which builds the ACPI _MAT entry for processor objects. This
-shall be called from the cpus AML for all possible vcpus.
+During machvirt_init(), ARMCPU objects are pre-created along with the
+corresponding KVM vcpus in the host. Disabled possible KVM vcpus are then
+parked at the per-virt-machine list "kvm_parked_vcpus".
 
-The entry is passed to the guest kernel with ACPI_MADT_GICC_ENABLED flag when
-it evaluates _MAT object. OSPM evaluates _MAT object in context to the cpu
-hotplug event.
+Prime purpose to pre-create ARMCPU objects for the disabled vcpus is to
+facilitate the GIC initialization (pre-sized with possible vcpus). GIC
+requires all vcpus corresponding to its GICC(GIC CPU Interface) to be
+initialized and present during its own initialization.
+
+After initialization of the machine is complete we release the ARMCPU objects
+for the disabled vcpus(which shall be re-created at the time when vcpu is hot
+plugged again. This newly created ARMCPU object is then attached with
+corresponding parked KVM VCPU).
+
+We have few options after the machine init where the disabled ARMCPU object
+could be released:
+1. Release in context to the virt_machine_done() notifier.(This is also our
+   current approach)
+2. Defer the release till a new vcpu object is hot plugged. Then release the
+   object in context to the pre_plug() phase.
+3. Never release and keep on reusing them and release once at VM exit. This
+   will require some modifications within the interface of qdevice_add() to
+   get old ARMCPU object instead of creating a new one for the hotplug request.
+
+Each of the above approaches come with their own pros and cons. This prototype
+uses the 1st approach.(suggestions are welcome!)
 
 Co-developed-by: Keqian Zhu <zhukeqian1@huawei.com>
 Signed-off-by: Salil Mehta <salil.mehta@huawei.com>
 ---
- hw/acpi/cpu.c            |  5 +++++
- hw/arm/virt-acpi-build.c | 20 ++++++++++++++++++++
- include/hw/arm/virt.h    |  1 +
- 3 files changed, 26 insertions(+)
+ hw/arm/virt.c | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
-diff --git a/hw/acpi/cpu.c b/hw/acpi/cpu.c
-index 867fdd6993..a79dc65120 100644
---- a/hw/acpi/cpu.c
-+++ b/hw/acpi/cpu.c
-@@ -565,6 +565,11 @@ void build_cpus_aml(Aml *table, MachineState *machine, CPUHotplugFeatures opts,
-                 apic->flags = cpu_to_le32(1);
-                 break;
-             }
-+            case ACPI_APIC_GENERIC_CPU_INTERFACE: {
-+                AcpiMadtGenericCpuInterface *gicc = (void *)madt_buf->data;
-+                gicc->flags = cpu_to_le32(1);
-+                break;
-+            }
-             default:
-                 assert(0);
-             }
-diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-index c654e2c9a3..354fd775f9 100644
---- a/hw/arm/virt-acpi-build.c
-+++ b/hw/arm/virt-acpi-build.c
-@@ -593,6 +593,22 @@ build_gtdt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index e9ead0e2dd..0faf54aa8f 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -1403,6 +1403,28 @@ static void create_secure_ram(VirtMachineState *vms,
+     g_free(nodename);
  }
  
- /* MADT */
-+static void
-+build_mat_entry(AcpiDeviceIf *adev, int uid, const CPUArchIdList *arch_ids,
-+                    GArray *entry)
++static void virt_remove_disabled_cpus(VirtMachineState *vms)
 +{
-+    AcpiMadtGenericCpuInterface *gicc = acpi_data_push(entry,sizeof(*gicc));
-+    MachineState *ms = MACHINE(qdev_get_machine());
-+    CPUArchIdList *possible_cpus = ms->possible_cpus;
++    MachineState *ms = MACHINE(vms);
++    int n;
 +
-+    /* fill the relevant fields of _MAT entry for GICC */
-+    gicc->type = ACPI_APIC_GENERIC_CPU_INTERFACE;
-+    gicc->length = sizeof(*gicc);
-+    gicc->cpu_interface_number = cpu_to_le32(uid);
-+    gicc->arm_mpidr = possible_cpus->cpus[uid].arch_id;
-+    gicc->uid = cpu_to_le32(uid);
++    /*
++     * RFC: Question: Other approach could have been to keep them forever
++     * and release it only once when qemu exits as part o finalize or when
++     * new vcpu is hotplugged. In the later old could be released for the
++     * newly created object for the same vcpu?
++     */
++    for (n = vms->smp_cpus; n < vms->max_cpus; n++) {
++        CPUState *cs = qemu_get_possible_cpu(n);
++        if (!qemu_present_cpu(cs)) {
++            CPUArchId *cpu_slot;
++            cpu_slot = virt_find_cpu_slot(ms, cs->cpu_index);
++            cpu_slot->cpu = NULL;
++            object_unref(OBJECT(cs));
++        }
++    }
 +}
 +
- static void
- build_madt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+ static bool virt_pmu_init(VirtMachineState *vms)
  {
-@@ -741,6 +757,10 @@ build_dsdt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
-              .acpi_1_compatible = false,
-              .has_legacy_cphp = false
-         };
-+        AcpiDeviceIfClass *adevc;
-+        /* _MAT entry shall be used within cpus aml */
-+        adevc = ACPI_DEVICE_IF_CLASS(DEVICE_GET_CLASS(vms->acpi_dev));
-+        adevc->madt_cpu = build_mat_entry;
+     CPUArchIdList *possible_cpus = vms->parent.possible_cpus;
+@@ -1500,6 +1522,9 @@ void virt_machine_done(Notifier *notifier, void *data)
  
-         build_cpus_aml(scope, ms, opts, memmap[VIRT_CPUHP_ACPI].base,
-                        "\\_SB", NULL, AML_SYSTEM_MEMORY);
-diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
-index e0bd9df69d..e8468d8cf6 100644
---- a/include/hw/arm/virt.h
-+++ b/include/hw/arm/virt.h
-@@ -37,6 +37,7 @@
- #include "hw/block/flash.h"
- #include "sysemu/kvm.h"
- #include "hw/intc/arm_gicv3_common.h"
-+#include "hw/acpi/acpi_dev_interface.h"
+     virt_acpi_setup(vms);
+     virt_build_smbios(vms);
++
++    /* release the disabled ARMCPU objects used during init for pre-sizing */
++     virt_remove_disabled_cpus(vms);
+ }
  
- #define NUM_GICV2M_SPIS       64
- #define NUM_VIRTIO_TRANSPORTS 32
+ static uint64_t virt_cpu_mp_affinity(VirtMachineState *vms, int idx)
 -- 
 2.17.1
 
