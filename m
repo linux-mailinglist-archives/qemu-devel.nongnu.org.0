@@ -2,33 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37E4E1F857C
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Jun 2020 23:52:09 +0200 (CEST)
-Received: from localhost ([::1]:51946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C712A1F8583
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Jun 2020 23:55:18 +0200 (CEST)
+Received: from localhost ([::1]:40082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jkE4O-0007hU-8i
-	for lists+qemu-devel@lfdr.de; Sat, 13 Jun 2020 17:52:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59976)
+	id 1jkE7R-0006HN-TB
+	for lists+qemu-devel@lfdr.de; Sat, 13 Jun 2020 17:55:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <salil.mehta@huawei.com>)
- id 1jkDy4-000757-NM; Sat, 13 Jun 2020 17:45:36 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:44024 helo=huawei.com)
+ id 1jkDyC-0007A9-4b; Sat, 13 Jun 2020 17:45:45 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:33284 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <salil.mehta@huawei.com>)
- id 1jkDy1-0003KL-LS; Sat, 13 Jun 2020 17:45:36 -0400
-Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id 0C2ED2A45448682DC913;
- Sun, 14 Jun 2020 05:45:31 +0800 (CST)
+ id 1jkDy7-0003L7-PR; Sat, 13 Jun 2020 17:45:43 -0400
+Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id 2238FFF1004DFACDB16F;
+ Sun, 14 Jun 2020 05:45:36 +0800 (CST)
 Received: from A190218597.china.huawei.com (10.47.30.60) by
  DGGEMS406-HUB.china.huawei.com (10.3.19.206) with Microsoft SMTP Server id
- 14.3.487.0; Sun, 14 Jun 2020 05:45:23 +0800
+ 14.3.487.0; Sun, 14 Jun 2020 05:45:29 +0800
 From: Salil Mehta <salil.mehta@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>
-Subject: [PATCH RFC 12/22] arm/cpuhp: MADT Tbl change to size the guest with
- possible vcpus
-Date: Sat, 13 Jun 2020 22:36:19 +0100
-Message-ID: <20200613213629.21984-13-salil.mehta@huawei.com>
+Subject: [PATCH RFC 13/22] arm/cpuhp: Add ACPI _MAT entry for Processor object
+Date: Sat, 13 Jun 2020 22:36:20 +0100
+Message-ID: <20200613213629.21984-14-salil.mehta@huawei.com>
 X-Mailer: git-send-email 2.8.3
 In-Reply-To: <20200613213629.21984-1-salil.mehta@huawei.com>
 References: <20200613213629.21984-1-salil.mehta@huawei.com>
@@ -36,9 +35,9 @@ MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.47.30.60]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.32;
+Received-SPF: pass client-ip=45.249.212.35;
  envelope-from=salil.mehta@huawei.com; helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/13 17:44:20
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/13 17:44:26
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
 X-Spam_score_int: -41
 X-Spam_score: -4.2
@@ -69,63 +68,87 @@ Cc: peter.maydell@linaro.org, drjones@redhat.com, sudeep.holla@arm.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Changes required during building of MADT Table by QEMU to accomodate disabled
-possible vcpus. This info shall be used by the guest kernel to size up its
-resources during boot time. This pre-sizing of the guest kernel done on
-possible vcpus will facilitate hotplug of the disabled vcpus.
+Adds a function which builds the ACPI _MAT entry for processor objects. This
+shall be called from the cpus AML for all possible vcpus.
+
+The entry is passed to the guest kernel with ACPI_MADT_GICC_ENABLED flag when
+it evaluates _MAT object. OSPM evaluates _MAT object in context to the cpu
+hotplug event.
 
 Co-developed-by: Keqian Zhu <zhukeqian1@huawei.com>
 Signed-off-by: Salil Mehta <salil.mehta@huawei.com>
 ---
- hw/arm/virt-acpi-build.c | 18 +++++++++++-------
- 1 file changed, 11 insertions(+), 7 deletions(-)
+ hw/acpi/cpu.c            |  5 +++++
+ hw/arm/virt-acpi-build.c | 20 ++++++++++++++++++++
+ include/hw/arm/virt.h    |  1 +
+ 3 files changed, 26 insertions(+)
 
+diff --git a/hw/acpi/cpu.c b/hw/acpi/cpu.c
+index 867fdd6993..a79dc65120 100644
+--- a/hw/acpi/cpu.c
++++ b/hw/acpi/cpu.c
+@@ -565,6 +565,11 @@ void build_cpus_aml(Aml *table, MachineState *machine, CPUHotplugFeatures opts,
+                 apic->flags = cpu_to_le32(1);
+                 break;
+             }
++            case ACPI_APIC_GENERIC_CPU_INTERFACE: {
++                AcpiMadtGenericCpuInterface *gicc = (void *)madt_buf->data;
++                gicc->flags = cpu_to_le32(1);
++                break;
++            }
+             default:
+                 assert(0);
+             }
 diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-index d40540db61..c654e2c9a3 100644
+index c654e2c9a3..354fd775f9 100644
 --- a/hw/arm/virt-acpi-build.c
 +++ b/hw/arm/virt-acpi-build.c
-@@ -603,6 +603,8 @@ build_madt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
-     AcpiMultipleApicTable *madt;
-     AcpiMadtGenericDistributor *gicd;
-     AcpiMadtGenericMsiFrame *gic_msi;
-+    MachineState *ms = &vms->parent;
+@@ -593,6 +593,22 @@ build_gtdt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+ }
+ 
+ /* MADT */
++static void
++build_mat_entry(AcpiDeviceIf *adev, int uid, const CPUArchIdList *arch_ids,
++                    GArray *entry)
++{
++    AcpiMadtGenericCpuInterface *gicc = acpi_data_push(entry,sizeof(*gicc));
++    MachineState *ms = MACHINE(qdev_get_machine());
 +    CPUArchIdList *possible_cpus = ms->possible_cpus;
-     int i;
++
++    /* fill the relevant fields of _MAT entry for GICC */
++    gicc->type = ACPI_APIC_GENERIC_CPU_INTERFACE;
++    gicc->length = sizeof(*gicc);
++    gicc->cpu_interface_number = cpu_to_le32(uid);
++    gicc->arm_mpidr = possible_cpus->cpus[uid].arch_id;
++    gicc->uid = cpu_to_le32(uid);
++}
++
+ static void
+ build_madt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+ {
+@@ -741,6 +757,10 @@ build_dsdt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+              .acpi_1_compatible = false,
+              .has_legacy_cphp = false
+         };
++        AcpiDeviceIfClass *adevc;
++        /* _MAT entry shall be used within cpus aml */
++        adevc = ACPI_DEVICE_IF_CLASS(DEVICE_GET_CLASS(vms->acpi_dev));
++        adevc->madt_cpu = build_mat_entry;
  
-     madt = acpi_data_push(table_data, sizeof *madt);
-@@ -613,11 +615,10 @@ build_madt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
-     gicd->base_address = cpu_to_le64(memmap[VIRT_GIC_DIST].base);
-     gicd->version = vms->gic_version;
+         build_cpus_aml(scope, ms, opts, memmap[VIRT_CPUHP_ACPI].base,
+                        "\\_SB", NULL, AML_SYSTEM_MEMORY);
+diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
+index e0bd9df69d..e8468d8cf6 100644
+--- a/include/hw/arm/virt.h
++++ b/include/hw/arm/virt.h
+@@ -37,6 +37,7 @@
+ #include "hw/block/flash.h"
+ #include "sysemu/kvm.h"
+ #include "hw/intc/arm_gicv3_common.h"
++#include "hw/acpi/acpi_dev_interface.h"
  
--    for (i = 0; i < vms->smp_cpus; i++) {
-+    for (i = 0; i < vms->max_cpus; i++) {
-         AcpiMadtGenericCpuInterface *gicc = acpi_data_push(table_data,
-                                                            sizeof(*gicc));
--        ARMCPU *armcpu = ARM_CPU(qemu_get_cpu(i));
--
-+        ARMCPU *cpu = ARM_CPU(qemu_get_possible_cpu(i));
-         gicc->type = ACPI_APIC_GENERIC_CPU_INTERFACE;
-         gicc->length = sizeof(*gicc);
-         if (vms->gic_version == 2) {
-@@ -626,11 +627,14 @@ build_madt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
-             gicc->gicv_base_address = cpu_to_le64(memmap[VIRT_GIC_VCPU].base);
-         }
-         gicc->cpu_interface_number = cpu_to_le32(i);
--        gicc->arm_mpidr = cpu_to_le64(armcpu->mp_affinity);
-+        gicc->arm_mpidr = possible_cpus->cpus[i].arch_id;
-         gicc->uid = cpu_to_le32(i);
--        gicc->flags = cpu_to_le32(ACPI_MADT_GICC_ENABLED);
--
--        if (arm_feature(&armcpu->env, ARM_FEATURE_PMU)) {
-+        if ( i < vms->smp_cpus ) {
-+            gicc->flags = cpu_to_le32(ACPI_MADT_GICC_ENABLED);
-+        } else {
-+            gicc->flags = cpu_to_le32(0);
-+        }
-+        if ((cpu && arm_feature(&cpu->env, ARM_FEATURE_PMU)) || vms->pmu) {
-             gicc->performance_interrupt = cpu_to_le32(PPI(VIRTUAL_PMU_IRQ));
-         }
-         if (vms->virt) {
+ #define NUM_GICV2M_SPIS       64
+ #define NUM_VIRTIO_TRANSPORTS 32
 -- 
 2.17.1
 
