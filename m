@@ -2,33 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 156D31F8023
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Jun 2020 03:11:34 +0200 (CEST)
-Received: from localhost ([::1]:51476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 877B11F8020
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Jun 2020 03:11:30 +0200 (CEST)
+Received: from localhost ([::1]:51086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jjuhp-00081U-40
-	for lists+qemu-devel@lfdr.de; Fri, 12 Jun 2020 21:11:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32804)
+	id 1jjuhl-0007qr-CH
+	for lists+qemu-devel@lfdr.de; Fri, 12 Jun 2020 21:11:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jjugc-0006he-VT
- for qemu-devel@nongnu.org; Fri, 12 Jun 2020 21:10:19 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:45866)
+ id 1jjugX-0006eO-1W
+ for qemu-devel@nongnu.org; Fri, 12 Jun 2020 21:10:13 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:45859)
  by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jjugb-0001cq-8V
- for qemu-devel@nongnu.org; Fri, 12 Jun 2020 21:10:18 -0400
+ id 1jjugT-0001cD-Vi
+ for qemu-devel@nongnu.org; Fri, 12 Jun 2020 21:10:12 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 75EDA748DDA;
- Sat, 13 Jun 2020 03:10:11 +0200 (CEST)
+ by localhost (Postfix) with SMTP id 3D685748DD1;
+ Sat, 13 Jun 2020 03:10:03 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 1CAA0748DD0; Sat, 13 Jun 2020 03:10:03 +0200 (CEST)
-Message-Id: <ec667da39b204cecd641456dbe486480e7ba2bd0.1592009699.git.balaton@eik.bme.hu>
-In-Reply-To: <cover.1592009699.git.balaton@eik.bme.hu>
-References: <cover.1592009699.git.balaton@eik.bme.hu>
+ id 139D574633F; Sat, 13 Jun 2020 03:10:03 +0200 (CEST)
+Message-Id: <cover.1592009699.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH 2/2] mac_oldworld: Add machine ID register
+Subject: [PATCH 0/2] Mac Old World ROM experiment
 Date: Sat, 13 Jun 2020 02:54:59 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -36,14 +34,14 @@ Content-Transfer-Encoding: 8bit
 To: qemu-devel@nongnu.org,
     qemu-ppc@nongnu.org
 X-Spam-Probability: 8%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/12 21:10:03
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -63,53 +61,129 @@ Cc: Howard Spoelstra <hsp.cat7@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The G3 beige machine has a machine ID register that is accessed by the
-firmware to deternine the board config. Add basic emulation of it.
+Based on https://github.com/dingusdev/dingusppc this series allows
+experimenting with binary ROM image from a G3 beige machine. It does
+not get very far though. Running with
 
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
----
- hw/ppc/mac_oldworld.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+-bios 78F57389.rom -d unimp,guest_errors -trace enable="pci*" | uniq -c
 
-diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
-index 3812adc441..4dd872c1a3 100644
---- a/hw/ppc/mac_oldworld.c
-+++ b/hw/ppc/mac_oldworld.c
-@@ -80,6 +80,15 @@ static void ppc_heathrow_reset(void *opaque)
-     cpu_reset(CPU(cpu));
- }
- 
-+static uint64_t machine_id_read(void *opaque, hwaddr addr, unsigned size)
-+{
-+    return (addr == 0 && size == 2 ? 0x3d8c : 0);
-+}
-+
-+const MemoryRegionOps machine_id_reg_ops = {
-+    .read = machine_id_read,
-+};
-+
- static void ppc_heathrow_init(MachineState *machine)
- {
-     ram_addr_t ram_size = machine->ram_size;
-@@ -93,6 +102,7 @@ static void ppc_heathrow_init(MachineState *machine)
-     char *filename;
-     int linux_boot, i;
-     MemoryRegion *bios = g_new(MemoryRegion, 1);
-+    MemoryRegion *machine_id = g_new(MemoryRegion, 1);
-     uint32_t kernel_base, initrd_base, cmdline_base = 0;
-     int32_t kernel_size, initrd_size;
-     PCIBus *pci_bus;
-@@ -227,6 +237,10 @@ static void ppc_heathrow_init(MachineState *machine)
-         }
-     }
- 
-+    memory_region_init_io(machine_id, OBJECT(machine), &machine_id_reg_ops,
-+                          NULL, "machine_id", 2);
-+    memory_region_add_subregion(get_system_memory(), 0xff000004, machine_id);
-+
-     /* XXX: we register only 1 output pin for heathrow PIC */
-     pic_dev = qdev_create(NULL, TYPE_HEATHROW);
-     qdev_init_nofail(pic_dev);
+I get the logs below and hangs reading the last reg. It seems to
+expect macio to be mapped at 0xf3000000 (also confirmed by comments in
+https://github.com/dingusdev/dingusppc/blob/master/devices/macio.h and
+some logs I've found on-line) but I don't see where it would set this
+up so maybe this needs to be mapped by default there?
+
+Regards,
+BALATON Zoltan
+
+      1 pci_cfg_read grackle 00:0 @0x0 -> 0x21057
+      1 pci_cfg_read grackle 00:0 @0xa8 -> 0x0
+      1 pci_cfg_write grackle 00:0 @0xa8 <- 0x40e0c
+      1 pci_cfg_read grackle 00:0 @0xac -> 0x0
+      1 pci_cfg_write grackle 00:0 @0xac <- 0x12000000
+      1 pci_cfg_read grackle 00:0 @0xac -> 0x12000000
+      1 pci_cfg_write grackle 00:0 @0xac <- 0x2000000
+      1 pci_cfg_read grackle 00:0 @0x70 -> 0x0
+      1 pci_cfg_write grackle 00:0 @0x70 <- 0x11000000
+      1 machine_id_read(0, 2)
+      1 pci_cfg_read grackle 00:0 @0x8 -> 0x6000140
+      1 pci_cfg_read grackle 00:0 @0xf0 -> 0x0
+      1 pci_cfg_write grackle 00:0 @0xf0 <- 0x12900000
+      1 Unassigned mem write 00000000f3000024 = 0x80000000
+      1 Unassigned mem write 00000000f3000028 = 0xffffffff
+      1 Unassigned mem write 00000000f3000038 = 0x33eff3a
+      1 Unassigned mem write 00000000f3000038 = 0x1befffa
+      1 machine_id_read(0, 2)
+      1 Unassigned mem read 00000000f3000038
+      1 Unassigned mem write 00000000f3000038 = 0xc000010
+      1 Unassigned mem write 00000000f3017e00 = 0x10
+      1 Unassigned mem write 00000000f3016600 = 0x58
+      1 Unassigned mem write 00000000f3016000 = 0x38
+      1 Unassigned mem write 00000000f3016400 = 0x30
+      1 Unassigned mem write 00000000f3017800 = 0x0
+      1 Unassigned mem write 00000000f3017600 = 0x1c
+      1 Unassigned mem write 00000000f3017c00 = 0x7f
+      1 Unassigned mem read 00000000f3017600
+      1 Unassigned mem write 00000000f3017600 = 0x0
+      1 Unassigned mem write 00000000f3017c00 = 0x84
+      1 Unassigned mem read 00000000f3016000
+      1 Unassigned mem write 00000000f3016000 = 0x30
+   3138 Unassigned mem read 00000000f3016000
+   6627 Unassigned mem read 00000000f3017a00
+      1 Unassigned mem read 00000000f3016000
+      1 Unassigned mem write 00000000f3016000 = 0x10
+   6681 Unassigned mem read 00000000f3016000
+   6710 Unassigned mem read 00000000f3017a00
+   6710 Unassigned mem read 00000000f3016000
+   6600 Unassigned mem read 00000000f3017a00
+   5543 Unassigned mem read 00000000f3016000
+      1 Unassigned mem read 00000000f3000034
+      1 Unassigned mem read 00000000f3016000
+      1 Unassigned mem write 00000000f3016000 = 0x30
+   1234 Unassigned mem read 00000000f3016000
+   1195 Unassigned mem read 00000000f3017a00
+      1 Unassigned mem read 00000000f3017400
+      1 Unassigned mem read 00000000f3016000
+      1 Unassigned mem write 00000000f3016000 = 0x0
+      1 Unassigned mem read 00000000f3016000
+   5441 Unassigned mem read 00000000f3017a00
+   6820 Unassigned mem read 00000000f3016000
+   6710 Unassigned mem read 00000000f3017a00
+   5439 Unassigned mem read 00000000f3016000
+      1 pci_cfg_write grackle 00:0 @0x80 <- 0xffffffff
+      1 pci_cfg_write grackle 00:0 @0x88 <- 0xffffffff
+      1 pci_cfg_write grackle 00:0 @0x90 <- 0xffffffff
+      1 pci_cfg_write grackle 00:0 @0x98 <- 0xffffffff
+      1 pci_cfg_write grackle 00:0 @0x84 <- 0xffffffff
+      1 pci_cfg_write grackle 00:0 @0x8c <- 0xffffffff
+      1 pci_cfg_write grackle 00:0 @0x94 <- 0xffffffff
+      1 pci_cfg_write grackle 00:0 @0x9c <- 0xffffffff
+      1 pci_cfg_write grackle 00:0 @0xa0 <- 0x0
+      1 pci_cfg_read grackle 00:0 @0xf0 -> 0x12900000
+      1 pci_cfg_write grackle 00:0 @0xf0 <- 0x12900000
+      1 machine_id_read(0, 2)
+      1 pci_cfg_read grackle 00:0 @0x8 -> 0x6000140
+      1 pci_cfg_read grackle 00:0 @0xf0 -> 0x12900000
+      1 pci_cfg_write grackle 00:0 @0xf0 <- 0x12940000
+      1 pci_cfg_write grackle 00:0 @0xf0 <- 0x12940000
+      1 pci_cfg_write grackle 00:0 @0xf4 <- 0x40010fe4
+      1 pci_cfg_write grackle 00:0 @0xf8 <- 0x7302293
+      1 pci_cfg_write grackle 00:0 @0xfc <- 0x25302220
+      1 pci_cfg_read grackle 00:0 @0xa0 -> 0x0
+      1 pci_cfg_write grackle 00:0 @0xa0 <- 0x67000000
+      1 pci_cfg_read grackle 00:0 @0xf0 -> 0x12940000
+      1 pci_cfg_write grackle 00:0 @0xf0 <- 0x129c0000
+ 545701 Unassigned mem read 00000000f3014020
+      1 Unassigned mem write 00000000f30723f0 = 0x1c
+      1 Unassigned mem write 00000000f30723e0 = 0x42
+      1 Unassigned mem write 00000000f30723d0 = 0xf0
+      1 Unassigned mem write 00000000f30723c0 = 0xff
+      1 Unassigned mem write 00000000f3013020 = 0x9
+      1 Unassigned mem write 00000000f3013020 = 0xc0
+      1 Unassigned mem write 00000000f3013020 = 0xd
+      1 Unassigned mem write 00000000f3013020 = 0x0
+      1 Unassigned mem write 00000000f3013020 = 0xc
+      1 Unassigned mem write 00000000f3013020 = 0xa
+      1 Unassigned mem write 00000000f3013020 = 0xe
+      1 Unassigned mem write 00000000f3013020 = 0x1
+      1 Unassigned mem write 00000000f3013020 = 0xb
+      1 Unassigned mem write 00000000f3013020 = 0x50
+      1 Unassigned mem write 00000000f3013020 = 0x5
+      1 Unassigned mem write 00000000f3013020 = 0xea
+      1 Unassigned mem write 00000000f3013020 = 0x4
+      1 Unassigned mem write 00000000f3013020 = 0x44
+      1 Unassigned mem write 00000000f3013020 = 0x3
+      1 Unassigned mem write 00000000f3013020 = 0xc1
+ 806156 Unassigned mem read 00000000f3013020
+
+
+BALATON Zoltan (2):
+  mac_oldworld: Allow loading binary ROM image
+  mac_oldworld: Add machine ID register
+
+ hw/ppc/mac_oldworld.c | 38 +++++++++++++++++++++++++++++---------
+ 1 file changed, 29 insertions(+), 9 deletions(-)
+
 -- 
 2.21.3
 
