@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F3C01F86BF
+	by mail.lfdr.de (Postfix) with ESMTPS id 18C3E1F86BE
 	for <lists+qemu-devel@lfdr.de>; Sun, 14 Jun 2020 06:43:55 +0200 (CEST)
-Received: from localhost ([::1]:41636 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:41486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jkKUr-0006Nx-Qw
+	id 1jkKUr-0006KN-JD
 	for lists+qemu-devel@lfdr.de; Sun, 14 Jun 2020 00:43:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35842)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <root@moya.office.hostfission.com>)
- id 1jkKTd-0004jC-B0
- for qemu-devel@nongnu.org; Sun, 14 Jun 2020 00:42:37 -0400
-Received: from mail1.hostfission.com ([139.99.139.48]:57380)
+ id 1jkKTc-0004j2-GE
+ for qemu-devel@nongnu.org; Sun, 14 Jun 2020 00:42:36 -0400
+Received: from mail1.hostfission.com ([139.99.139.48]:57376)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <root@moya.office.hostfission.com>)
- id 1jkKTa-0005Av-OZ
- for qemu-devel@nongnu.org; Sun, 14 Jun 2020 00:42:37 -0400
+ id 1jkKTa-0005As-Ov
+ for qemu-devel@nongnu.org; Sun, 14 Jun 2020 00:42:36 -0400
 Received: from moya.office.hostfission.com (office.hostfission.com
  [220.233.29.71])
- by mail1.hostfission.com (Postfix) with ESMTP id 46503445D3;
+ by mail1.hostfission.com (Postfix) with ESMTP id D50C3445DD;
  Sat, 13 Jun 2020 14:06:01 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=hostfission.com;
  s=mail; t=1592021161;
- bh=4UNyzqKwA72Hv2rXe7+67R0tuH+ZT6vZbiRtOXthWWA=;
+ bh=RNNL30Zvo3TCBbXKHnWUPwoWE8O3KEkEzYlBipDJ+Zw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ES+GokTHDTwJo8TsehcaBH4pYPjLkE0pnv2y4ByexEJa6bSLzqVcEFVDNv+s9GyJS
- OTuF9/h5/CYbAJvkbTJww1e2W+biI6DQW0ZZn8wizZkN5JpptibPNyF1GCXEm6DYXc
- 3wNravGdQjJtaXtD0h8Ocn6B8XEcuBOFdk0rHyBQ=
+ b=on3PYVEVAu5AvnuL0SrDm27Nzum/TTWZBatLSVgZg7D4tOFOt84+zS8ORpyrxVHL2
+ hBksDefPBsbbO0N+tyuB79rFTGPl3AGgg3Wfb4C01JX+fTA2HqA/dcnZpybh/uU3aX
+ w5e5s1TD/9VdYUDtPQdH5eDUbut82Q+tK7Kn/QWU=
 Received: by moya.office.hostfission.com (Postfix, from userid 0)
- id 2EA0F3A0506; Sat, 13 Jun 2020 14:06:00 +1000 (AEST)
+ id BFBF83A0506; Sat, 13 Jun 2020 14:06:01 +1000 (AEST)
 From: Geoffrey McRae <geoff@hostfission.com>
 To: qemu-devel@nongnu.org
 Cc: kraxel@redhat.com,
 	geoff@hostfission.com
-Subject: [PATCH 1/6] audio/jack: fix invalid minimum buffer size check
-Date: Sat, 13 Jun 2020 14:05:13 +1000
-Message-Id: <20200613040518.38172-2-geoff@hostfission.com>
+Subject: [PATCH 2/6] audio/jack: remove unused stopped state
+Date: Sat, 13 Jun 2020 14:05:14 +1000
+Message-Id: <20200613040518.38172-3-geoff@hostfission.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200613040518.38172-1-geoff@hostfission.com>
 References: <20200613040518.38172-1-geoff@hostfission.com>
@@ -70,56 +70,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-JACK does not provide us with the configured buffer size until after
-activiation which was overriding this minimum value. JACK itself doesn't
-have this minimum limitation, but the QEMU virtual hardware and as such
-it must be enforced, failure to do so results in audio discontinuities.
-
 Signed-off-by: Geoffrey McRae <geoff@hostfission.com>
 ---
- audio/jackaudio.c | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
+ audio/jackaudio.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
 diff --git a/audio/jackaudio.c b/audio/jackaudio.c
-index 722ddb1dfe..d0b6f748f2 100644
+index d0b6f748f2..fb8efd7af7 100644
 --- a/audio/jackaudio.c
 +++ b/audio/jackaudio.c
-@@ -434,17 +434,6 @@ static int qjack_client_init(QJackClient *c)
-     jack_set_xrun_callback(c->client, qjack_xrun, c);
-     jack_on_shutdown(c->client, qjack_shutdown, c);
+@@ -38,7 +38,6 @@ struct QJack;
  
--    /*
--     * ensure the buffersize is no smaller then 512 samples, some (all?) qemu
--     * virtual devices do not work correctly otherwise
--     */
--    if (c->buffersize < 512) {
--        c->buffersize = 512;
--    }
+ typedef enum QJackState {
+     QJACK_STATE_DISCONNECTED,
+-    QJACK_STATE_STOPPED,
+     QJACK_STATE_RUNNING,
+     QJACK_STATE_SHUTDOWN
+ }
+@@ -549,9 +548,6 @@ static void qjack_client_fini(QJackClient *c)
+ {
+     switch (c->state) {
+     case QJACK_STATE_RUNNING:
+-        /* fallthrough */
 -
--    /* create a 2 period buffer */
--    qjack_buffer_create(&c->fifo, c->nchannels, c->buffersize * 2);
--
-     /* allocate and register the ports */
-     c->port = g_malloc(sizeof(jack_port_t *) * c->nchannels);
-     for (int i = 0; i < c->nchannels; ++i) {
-@@ -468,6 +457,17 @@ static int qjack_client_init(QJackClient *c)
-     jack_activate(c->client);
-     c->buffersize = jack_get_buffer_size(c->client);
- 
-+    /*
-+     * ensure the buffersize is no smaller then 512 samples, some (all?) qemu
-+     * virtual devices do not work correctly otherwise
-+     */
-+    if (c->buffersize < 512) {
-+        c->buffersize = 512;
-+    }
-+
-+    /* create a 2 period buffer */
-+    qjack_buffer_create(&c->fifo, c->nchannels, c->buffersize * 2);
-+
-     qjack_client_connect_ports(c);
-     c->state = QJACK_STATE_RUNNING;
-     return 0;
+-    case QJACK_STATE_STOPPED:
+         for (int i = 0; i < c->nchannels; ++i) {
+             jack_port_unregister(c->client, c->port[i]);
+         }
 -- 
 2.20.1
 
