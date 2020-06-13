@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2065D1F86C2
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Jun 2020 06:45:45 +0200 (CEST)
-Received: from localhost ([::1]:48132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 939CB1F86C0
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Jun 2020 06:43:55 +0200 (CEST)
+Received: from localhost ([::1]:41618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jkKWd-0000cn-VL
-	for lists+qemu-devel@lfdr.de; Sun, 14 Jun 2020 00:45:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35854)
+	id 1jkKUs-0006NV-Ks
+	for lists+qemu-devel@lfdr.de; Sun, 14 Jun 2020 00:43:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <root@moya.office.hostfission.com>)
- id 1jkKTd-0004jM-PU
+ id 1jkKTd-0004jI-LP
  for qemu-devel@nongnu.org; Sun, 14 Jun 2020 00:42:37 -0400
-Received: from mail1.hostfission.com ([139.99.139.48]:57378)
+Received: from mail1.hostfission.com ([139.99.139.48]:57372)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <root@moya.office.hostfission.com>)
- id 1jkKTa-0005Au-OZ
+ id 1jkKTa-0005At-Ov
  for qemu-devel@nongnu.org; Sun, 14 Jun 2020 00:42:37 -0400
 Received: from moya.office.hostfission.com (office.hostfission.com
  [220.233.29.71])
- by mail1.hostfission.com (Postfix) with ESMTP id 27335445EF;
- Sat, 13 Jun 2020 14:06:03 +1000 (AEST)
+ by mail1.hostfission.com (Postfix) with ESMTP id DF8ED445F6;
+ Sat, 13 Jun 2020 14:06:04 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=hostfission.com;
- s=mail; t=1592021163;
- bh=6tPvqap7tT2aocp2OkZ9oQ/4cf6bTw2xy8Xzm+gjYkU=;
+ s=mail; t=1592021164;
+ bh=QxgI9gPW5oZsvfCtNVXMOw4HIOXfaMXfBHFgy7Qiw1k=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=f4DOmMYExs6g7qBsDLdi/6ucmbXUWi+K8v+TlYbMKcOMkDbPjQUEJdd6Lk6/o2JQu
- d7b6fXZLwLWJSWPFxGJqNE5y7gLv/V3JD4J64F4Z3QK1b528hBb3izbiIP49oZeeb/
- NjNoQJYoavxXJ5Z4QUCeeK0g+1RP95qH4n8nc8TA=
+ b=ttbpSoyw36xcSp/O8HxzCHK0KaV40vPbT9FFMZPYb89dwCurXYjD+fiMkkpzpYJpq
+ p/ZUw/z7fZOdM48cwsC4JHOGCD62OTUgBMGMeuyvqcK4Ftp4KzLqjiXY08jZ1wq+U+
+ dPOkG2nPXZF74vLZRlHiNFmRMEDkTzuWh14IG5Hc=
 Received: by moya.office.hostfission.com (Postfix, from userid 0)
- id 123763A0A09; Sat, 13 Jun 2020 14:06:03 +1000 (AEST)
+ id C04453A0A92; Sat, 13 Jun 2020 14:06:04 +1000 (AEST)
 From: Geoffrey McRae <geoff@hostfission.com>
 To: qemu-devel@nongnu.org
 Cc: kraxel@redhat.com,
 	geoff@hostfission.com
-Subject: [PATCH 4/6] audio/jack: do not remove ports when finishing
-Date: Sat, 13 Jun 2020 14:05:16 +1000
-Message-Id: <20200613040518.38172-5-geoff@hostfission.com>
+Subject: [PATCH 6/6] audio/jack: simplify the re-init code path
+Date: Sat, 13 Jun 2020 14:05:18 +1000
+Message-Id: <20200613040518.38172-7-geoff@hostfission.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200613040518.38172-1-geoff@hostfission.com>
 References: <20200613040518.38172-1-geoff@hostfission.com>
@@ -70,32 +70,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This fixes a hang when there is a communications issue with the JACK
-server. Simply closing the connection is enough to completely clean up
-and as such we do not need to remove the ports first. As JACK uses a
-socket based protocol that relies on the `select` call, if there is a
-communication breakdown with the server the client library waits
-forever for a response to the unregister request.
+Instead of checking for the audodev state in each code path, centralize
+the check into the initialize function itself to make it safe to call it
+at any time.
 
 Signed-off-by: Geoffrey McRae <geoff@hostfission.com>
 ---
- audio/jackaudio.c | 3 ---
- 1 file changed, 3 deletions(-)
+ audio/jackaudio.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/audio/jackaudio.c b/audio/jackaudio.c
-index 58c7344497..249cbd3265 100644
+index b2b53985ae..72ed7c4929 100644
 --- a/audio/jackaudio.c
 +++ b/audio/jackaudio.c
-@@ -548,9 +548,6 @@ static void qjack_client_fini(QJackClient *c)
- {
-     switch (c->state) {
-     case QJACK_STATE_RUNNING:
--        for (int i = 0; i < c->nchannels; ++i) {
--            jack_port_unregister(c->client, c->port[i]);
--        }
-         jack_deactivate(c->client);
-         /* fallthrough */
+@@ -395,6 +395,10 @@ static int qjack_client_init(QJackClient *c)
+     char client_name[jack_client_name_size()];
+     jack_options_t options = JackNullOption;
  
++    if (c->state == QJACK_STATE_RUNNING) {
++        return 0;
++    }
++
+     c->connect_ports = true;
+ 
+     snprintf(client_name, sizeof(client_name), "%s-%s",
+@@ -485,9 +489,7 @@ static int qjack_init_out(HWVoiceOut *hw, struct audsettings *as,
+     QJackOut *jo  = (QJackOut *)hw;
+     Audiodev *dev = (Audiodev *)drv_opaque;
+ 
+-    if (jo->c.state != QJACK_STATE_DISCONNECTED) {
+-        return 0;
+-    }
++    qjack_client_fini(&jo->c);
+ 
+     jo->c.out       = true;
+     jo->c.enabled   = false;
+@@ -523,9 +525,7 @@ static int qjack_init_in(HWVoiceIn *hw, struct audsettings *as,
+     QJackIn  *ji  = (QJackIn *)hw;
+     Audiodev *dev = (Audiodev *)drv_opaque;
+ 
+-    if (ji->c.state != QJACK_STATE_DISCONNECTED) {
+-        return 0;
+-    }
++    qjack_client_fini(&ji->c);
+ 
+     ji->c.out       = false;
+     ji->c.enabled   = false;
 -- 
 2.20.1
 
