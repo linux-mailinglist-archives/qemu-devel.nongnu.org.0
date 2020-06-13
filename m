@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F28BA1F8581
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Jun 2020 23:54:09 +0200 (CEST)
-Received: from localhost ([::1]:34136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B25C1F858B
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Jun 2020 23:59:59 +0200 (CEST)
+Received: from localhost ([::1]:52456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jkE6L-0003oW-07
-	for lists+qemu-devel@lfdr.de; Sat, 13 Jun 2020 17:54:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60688)
+	id 1jkEBy-0003WL-IC
+	for lists+qemu-devel@lfdr.de; Sat, 13 Jun 2020 17:59:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60914)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <salil.mehta@huawei.com>)
- id 1jkDyn-00085c-6h; Sat, 13 Jun 2020 17:46:21 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:3780 helo=huawei.com)
+ id 1jkDz3-0000IX-H9; Sat, 13 Jun 2020 17:46:37 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:3711 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <salil.mehta@huawei.com>)
- id 1jkDyl-0003Uq-7x; Sat, 13 Jun 2020 17:46:20 -0400
+ id 1jkDz0-0003ZU-Mh; Sat, 13 Jun 2020 17:46:37 -0400
 Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id AC81130E46CC7F90ACB7;
- Sun, 14 Jun 2020 05:46:16 +0800 (CST)
+ by Forcepoint Email with ESMTP id DF420C054C62182343E8;
+ Sun, 14 Jun 2020 05:46:31 +0800 (CST)
 Received: from A190218597.china.huawei.com (10.47.30.60) by
  DGGEMS406-HUB.china.huawei.com (10.3.19.206) with Microsoft SMTP Server id
- 14.3.487.0; Sun, 14 Jun 2020 05:46:10 +0800
+ 14.3.487.0; Sun, 14 Jun 2020 05:46:22 +0800
 From: Salil Mehta <salil.mehta@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>
-Subject: [PATCH RFC 20/22] arm/cpuhp: Update the guest(via GED) about cpu
- hot-(un)plug events
-Date: Sat, 13 Jun 2020 22:36:27 +0100
-Message-ID: <20200613213629.21984-21-salil.mehta@huawei.com>
+Subject: [PATCH RFC 22/22] arm/cpuhp: Add support of *unrealize* ARMCPU during
+ vcpu hot-unplug
+Date: Sat, 13 Jun 2020 22:36:29 +0100
+Message-ID: <20200613213629.21984-23-salil.mehta@huawei.com>
 X-Mailer: git-send-email 2.8.3
 In-Reply-To: <20200613213629.21984-1-salil.mehta@huawei.com>
 References: <20200613213629.21984-1-salil.mehta@huawei.com>
@@ -36,9 +36,9 @@ MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.47.30.60]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.191;
+Received-SPF: pass client-ip=45.249.212.190;
  envelope-from=salil.mehta@huawei.com; helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/13 17:44:35
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/13 17:44:30
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
 X-Spam_score_int: -41
 X-Spam_score: -4.2
@@ -69,115 +69,411 @@ Cc: peter.maydell@linaro.org, drjones@redhat.com, sudeep.holla@arm.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-During any vcpu hot-(un)plug, running guest VM needs to be intimated about the
-new vcpu being added or request the deletion of the vcpu which is already part
-of the guest VM. This is done using the ACPI GED event which eventually gets
-demultiplexed to a CPU hotplug event and further to specific hot-(un)plug event
-of a particular vcpu.
+During vcpu hot-unplug ARM cpu unrealization shall happen which should do away
+with all the vcpu thread creations, allocations, registrations which happened
+as part of the realization process of the ARM cpu. This change introduces the
+ARM cpu unrealize function taking care of exactly that.
 
-This change adds the ACPI calls to the existing hot-(un)plug hooks to trigger
-ACPI GED events from QEMU to guest VM.
+Note, initialized vcpus are not destroyed at host KVM but are rather parked in
+the QEMU/KVM layer. These are later reused once vcpu is hotplugged again.
 
 Co-developed-by: Keqian Zhu <zhukeqian1@huawei.com>
 Signed-off-by: Salil Mehta <salil.mehta@huawei.com>
 ---
- hw/arm/virt.c | 32 +++++++++++++++++++++++++++++---
- 1 file changed, 29 insertions(+), 3 deletions(-)
+ exec.c                  | 24 ++++++++++++
+ gdbstub.c               | 13 +++++++
+ include/exec/exec-all.h |  8 ++++
+ include/exec/gdbstub.h  |  1 +
+ include/hw/core/cpu.h   |  2 +
+ target/arm/cpu-qom.h    |  3 ++
+ target/arm/cpu.c        | 86 +++++++++++++++++++++++++++++++++++++++++
+ target/arm/cpu.h        | 13 +++++++
+ target/arm/helper.c     | 31 +++++++++++++++
+ target/arm/internals.h  |  1 +
+ target/arm/kvm64.c      |  7 +++-
+ 11 files changed, 188 insertions(+), 1 deletion(-)
 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index b4cfd53a59..db7eca1b84 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -2451,6 +2451,7 @@ static void virt_cpu_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
-     MachineState *ms = MACHINE(hotplug_dev);
-     ARMCPU *cpu = ARM_CPU(dev);
-     CPUState *cs = CPU(dev);
-+    Error *local_err = NULL;
-     CPUArchId *cpu_slot;
+diff --git a/exec.c b/exec.c
+index a0bf9d61c8..7e808affdf 100644
+--- a/exec.c
++++ b/exec.c
+@@ -869,6 +869,7 @@ void cpu_address_space_init(CPUState *cpu, int asidx,
  
-     /* insert the cold/hot-plugged vcpu in the slot */
-@@ -2458,20 +2459,31 @@ static void virt_cpu_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
-     cpu_slot->cpu = OBJECT(dev);
- 
-     if (dev->hotplugged) {
-+        HotplugHandlerClass *hhc;
-+
-         wire_gic_cpu_irqs(vms, cs);
--        /* TODO: update acpi hotplug state and send cpu hotplug event to guest */
-+
-+        /* update acpi hotplug state and send cpu hotplug event to guest */
-+        hhc = HOTPLUG_HANDLER_GET_CLASS(vms->acpi_dev);
-+        hhc->plug(HOTPLUG_HANDLER(vms->acpi_dev), dev, &local_err);
-+        if (local_err)
-+            goto fail;
-         /* TODO: register this cpu for reset & update F/W info for the next boot */
+     if (!cpu->cpu_ases) {
+         cpu->cpu_ases = g_new0(CPUAddressSpace, cpu->num_ases);
++        cpu->cpu_ases_ref_count = cpu->num_ases;
      }
  
-     cs->disabled = false;
-     return;
-+fail:
-+    error_propagate(errp, local_err);
+     newas = &cpu->cpu_ases[asidx];
+@@ -881,6 +882,29 @@ void cpu_address_space_init(CPUState *cpu, int asidx,
+     }
  }
  
- static void virt_cpu_unplug_request(HotplugHandler *hotplug_dev,
-                                     DeviceState *dev, Error **errp)
++void cpu_address_space_destroy(CPUState *cpu, int asidx)
++{
++    CPUAddressSpace *cpuas;
++
++    assert(asidx < cpu->num_ases);
++    assert(asidx == 0 || !kvm_enabled());
++    assert(cpu->cpu_ases);
++
++    cpuas = &cpu->cpu_ases[asidx];
++    if (tcg_enabled()) {
++        memory_listener_unregister(&cpuas->tcg_as_listener);
++    }
++
++    address_space_destroy(cpuas->as);
++
++    if(cpu->cpu_ases_ref_count == 1) {
++        g_free(cpu->cpu_ases);
++        cpu->cpu_ases = NULL;
++    }
++
++    cpu->cpu_ases_ref_count--;
++}
++
+ AddressSpace *cpu_get_address_space(CPUState *cpu, int asidx)
  {
-     VirtMachineState *vms = VIRT_MACHINE(hotplug_dev);
-+    HotplugHandlerClass *hhc;
-     CPUState *cs = CPU(dev);
-+    Error *local_err = NULL;
+     /* Return the AddressSpace corresponding to the specified index */
+diff --git a/gdbstub.c b/gdbstub.c
+index 6950fd243f..e960268d15 100644
+--- a/gdbstub.c
++++ b/gdbstub.c
+@@ -982,6 +982,19 @@ void gdb_register_coprocessor(CPUState *cpu,
+     }
+ }
  
-     if (!vms->acpi_dev || !dev->realized) {
-         error_setg(errp, "GED does not exists or device is not realized!");
-@@ -2491,9 +2503,15 @@ static void virt_cpu_unplug_request(HotplugHandler *hotplug_dev,
-         return;
++void gdb_unregister_coprocessor_all(CPUState *cpu)
++{
++    GDBRegisterState *s, *p;
++
++    p = cpu->gdb_regs;
++    while (p) {
++        s = p;
++        p = p->next;
++        g_free(s);
++    }
++    cpu->gdb_regs = NULL;
++}
++
+ #ifndef CONFIG_USER_ONLY
+ /* Translate GDB watchpoint type to a flags value for cpu_watchpoint_* */
+ static inline int xlat_gdb_type(CPUState *cpu, int gdbtype)
+diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+index 8792bea07a..44420c144d 100644
+--- a/include/exec/exec-all.h
++++ b/include/exec/exec-all.h
+@@ -115,6 +115,14 @@ void cpu_reloading_memory_map(void);
+  */
+ void cpu_address_space_init(CPUState *cpu, int asidx,
+                             const char *prefix, MemoryRegion *mr);
++/**
++ * cpu_address_space_destroy:
++ * @cpu: CPU for which address space needs to be destroyed
++ * @asidx: integer index of this address space
++ *
++ * Note that with KVM only one address space is supported.
++ */
++void cpu_address_space_destroy(CPUState *cpu, int asidx);
+ #endif
+ 
+ #if !defined(CONFIG_USER_ONLY) && defined(CONFIG_TCG)
+diff --git a/include/exec/gdbstub.h b/include/exec/gdbstub.h
+index 94d8f83e92..db2336d0df 100644
+--- a/include/exec/gdbstub.h
++++ b/include/exec/gdbstub.h
+@@ -73,6 +73,7 @@ typedef int (*gdb_set_reg_cb)(CPUArchState *env, uint8_t *buf, int reg);
+ void gdb_register_coprocessor(CPUState *cpu,
+                               gdb_get_reg_cb get_reg, gdb_set_reg_cb set_reg,
+                               int num_regs, const char *xml, int g_pos);
++void gdb_unregister_coprocessor_all(CPUState *cpu);
+ 
+ /*
+  * The GDB remote protocol transfers values in target byte order. As
+diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+index d9cae71ea5..851f03dd83 100644
+--- a/include/hw/core/cpu.h
++++ b/include/hw/core/cpu.h
+@@ -379,6 +379,7 @@ struct CPUState {
+     struct qemu_work_item *queued_work_first, *queued_work_last;
+ 
+     CPUAddressSpace *cpu_ases;
++    int cpu_ases_ref_count;
+     int num_ases;
+     AddressSpace *as;
+     MemoryRegion *memory;
+@@ -410,6 +411,7 @@ struct CPUState {
+     int kvm_fd;
+     struct KVMState *kvm_state;
+     struct kvm_run *kvm_run;
++    VMChangeStateEntry *vmcse;
+ 
+     /* Used for events with 'vcpu' and *without* the 'disabled' properties */
+     DECLARE_BITMAP(trace_dstate_delayed, CPU_TRACE_DSTATE_MAX_EVENTS);
+diff --git a/target/arm/cpu-qom.h b/target/arm/cpu-qom.h
+index 56395b87f6..d943683551 100644
+--- a/target/arm/cpu-qom.h
++++ b/target/arm/cpu-qom.h
+@@ -58,6 +58,7 @@ typedef struct ARMCPUClass {
+ 
+     const ARMCPUInfo *info;
+     DeviceRealize parent_realize;
++    DeviceUnrealize parent_unrealize;
+     DeviceReset parent_reset;
+ } ARMCPUClass;
+ 
+@@ -76,7 +77,9 @@ typedef struct AArch64CPUClass {
+ } AArch64CPUClass;
+ 
+ void register_cp_regs_for_features(ARMCPU *cpu);
++void unregister_cp_regs_for_features(ARMCPU *cpu);
+ void init_cpreg_list(ARMCPU *cpu);
++void destroy_cpreg_list(ARMCPU *cpu);
+ 
+ /* Callback functions for the generic timer's timers. */
+ void arm_gt_ptimer_cb(void *opaque);
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 0c9f5f970e..dac42c418d 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -92,6 +92,16 @@ void arm_register_pre_el_change_hook(ARMCPU *cpu, ARMELChangeHookFn *hook,
+     QLIST_INSERT_HEAD(&cpu->pre_el_change_hooks, entry, node);
+ }
+ 
++void arm_unregister_pre_el_change_hooks(ARMCPU *cpu)
++{
++    ARMELChangeHook *entry, *next;
++
++    QLIST_FOREACH_SAFE(entry, &cpu->pre_el_change_hooks, node, next) {
++        QLIST_REMOVE(entry, node);
++        g_free(entry);
++    }
++}
++
+ void arm_register_el_change_hook(ARMCPU *cpu, ARMELChangeHookFn *hook,
+                                  void *opaque)
+ {
+@@ -103,6 +113,16 @@ void arm_register_el_change_hook(ARMCPU *cpu, ARMELChangeHookFn *hook,
+     QLIST_INSERT_HEAD(&cpu->el_change_hooks, entry, node);
+ }
+ 
++void arm_unregister_el_change_hooks(ARMCPU *cpu)
++{
++    ARMELChangeHook *entry, *next;
++
++    QLIST_FOREACH_SAFE(entry, &cpu->el_change_hooks, node, next) {
++        QLIST_REMOVE(entry, node);
++        g_free(entry);
++    }
++}
++
+ static void cp_reg_reset(gpointer key, gpointer value, gpointer opaque)
+ {
+     /* Reset a single ARMCPRegInfo register */
+@@ -1765,6 +1785,70 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
+     acc->parent_realize(dev, errp);
+ }
+ 
++static void arm_cpu_unrealizefn(DeviceState *dev)
++{
++    ARMCPUClass *acc = ARM_CPU_GET_CLASS(dev);
++    ARMCPU *cpu = ARM_CPU(dev);
++    CPUARMState *env = &cpu->env;
++    CPUState *cs = CPU(dev);
++
++    /* rock 'n' un-roll, whatever happened in the arm_cpu_realizefn cleanly */
++    if (cpu->has_el3 || arm_feature(env, ARM_FEATURE_M_SECURITY)) {
++        cpu_address_space_destroy(cs, ARMASIdx_S);
++    }
++    cpu_address_space_destroy(cs, ARMASIdx_NS);
++
++    destroy_cpreg_list(cpu);
++    arm_cpu_unregister_gdb_regs(cpu);
++    unregister_cp_regs_for_features(cpu);
++
++    if (cpu->sau_sregion && arm_feature(env, ARM_FEATURE_M_SECURITY)) {
++           g_free(env->sau.rbar);
++           g_free(env->sau.rlar);
++    }
++
++    if (arm_feature(env, ARM_FEATURE_PMSA) &&
++        arm_feature(env, ARM_FEATURE_V7) &&
++        cpu->pmsav7_dregion) {
++        if (arm_feature(env, ARM_FEATURE_V8)) {
++            g_free(env->pmsav8.rbar[M_REG_NS]);
++            g_free(env->pmsav8.rlar[M_REG_NS]);
++            if (arm_feature(env, ARM_FEATURE_M_SECURITY)) {
++                g_free(env->pmsav8.rbar[M_REG_S]);
++                g_free(env->pmsav8.rlar[M_REG_S]);
++            }
++        } else {
++            g_free(env->pmsav7.drbar);
++            g_free(env->pmsav7.drsr);
++            g_free(env->pmsav7.dracr);
++        }
++    }
++
++    if (arm_feature(env, ARM_FEATURE_PMU)) {
++        if (!kvm_enabled()) {
++            arm_unregister_pre_el_change_hooks(cpu);
++            arm_unregister_el_change_hooks(cpu);
++        }
++
++#ifndef CONFIG_USER_ONLY
++        if (cpu->pmu_timer) {
++            timer_del(cpu->pmu_timer);
++        }
++#endif
++    }
++
++    cpu_remove_sync(CPU(dev));
++    acc->parent_unrealize(dev);
++
++#ifndef CONFIG_USER_ONLY
++    timer_del(cpu->gt_timer[GTIMER_PHYS]);
++    timer_del(cpu->gt_timer[GTIMER_VIRT]);
++    timer_del(cpu->gt_timer[GTIMER_HYP]);
++    timer_del(cpu->gt_timer[GTIMER_SEC]);
++    timer_del(cpu->gt_timer[GTIMER_HYPVIRT]);
++#endif
++}
++
+ static ObjectClass *arm_cpu_class_by_name(const char *cpu_model)
+ {
+     ObjectClass *oc;
+@@ -2145,6 +2229,8 @@ static void arm_cpu_class_init(ObjectClass *oc, void *data)
+ 
+     device_class_set_parent_realize(dc, arm_cpu_realizefn,
+                                     &acc->parent_realize);
++    device_class_set_parent_unrealize(dc, arm_cpu_unrealizefn,
++				      &acc->parent_unrealize);
+ 
+     device_class_set_props(dc, arm_cpu_properties);
+     device_class_set_parent_reset(dc, arm_cpu_reset, &acc->parent_reset);
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 5c4991156e..a8e7cb9fb1 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -3337,6 +3337,13 @@ static inline AddressSpace *arm_addressspace(CPUState *cs, MemTxAttrs attrs)
+  */
+ void arm_register_pre_el_change_hook(ARMCPU *cpu, ARMELChangeHookFn *hook,
+                                  void *opaque);
++/**
++ * arm_unregister_pre_el_change_hook:
++ * unregister all pre EL change hook functions. Generally called during
++ * unrealize'ing leg
++ */
++void arm_unregister_pre_el_change_hooks(ARMCPU *cpu);
++
+ /**
+  * arm_register_el_change_hook:
+  * Register a hook function which will be called immediately after this
+@@ -3349,6 +3356,12 @@ void arm_register_pre_el_change_hook(ARMCPU *cpu, ARMELChangeHookFn *hook,
+  */
+ void arm_register_el_change_hook(ARMCPU *cpu, ARMELChangeHookFn *hook, void
+         *opaque);
++/**
++ * arm_unregister_el_change_hook:
++ * unregister all EL change hook functions.  Generally called during
++ * unrealize'ing leg
++ */
++void arm_unregister_el_change_hooks(ARMCPU *cpu);
+ 
+ /**
+  * arm_rebuild_hflags:
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 972a766730..dc4100ea89 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -502,6 +502,19 @@ void init_cpreg_list(ARMCPU *cpu)
+     g_list_free(keys);
+ }
+ 
++void destroy_cpreg_list(ARMCPU *cpu)
++{
++    assert(cpu->cpreg_indexes);
++    assert(cpu->cpreg_values);
++    assert(cpu->cpreg_vmstate_indexes);
++    assert(cpu->cpreg_vmstate_values);
++
++    g_free(cpu->cpreg_indexes);
++    g_free(cpu->cpreg_values);
++    g_free(cpu->cpreg_vmstate_indexes);
++    g_free(cpu->cpreg_vmstate_values);
++}
++
+ /*
+  * Some registers are not accessible from AArch32 EL3 if SCR.NS == 0.
+  */
+@@ -7981,6 +7994,18 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+ #endif
+ }
+ 
++void unregister_cp_regs_for_features(ARMCPU *cpu)
++{
++    CPUARMState *env = &cpu->env;
++    if (arm_feature(env, ARM_FEATURE_M)) {
++        /* M profile has no coprocessor registers */
++        return;
++    }
++
++    /* empty it all. unregister all the coprocessor registers */
++    g_hash_table_remove_all(cpu->cp_regs);
++}
++
+ void arm_cpu_register_gdb_regs_for_features(ARMCPU *cpu)
+ {
+     CPUState *cs = CPU(cpu);
+@@ -8019,6 +8044,12 @@ void arm_cpu_register_gdb_regs_for_features(ARMCPU *cpu)
+ 
+ }
+ 
++void arm_cpu_unregister_gdb_regs(ARMCPU *cpu)
++{
++    CPUState *cs = CPU(cpu);
++    gdb_unregister_coprocessor_all(cs);
++}
++
+ /* Sort alphabetically by type name, except for "any". */
+ static gint arm_cpu_list_compare(gconstpointer a, gconstpointer b)
+ {
+diff --git a/target/arm/internals.h b/target/arm/internals.h
+index 4bdbc3a8ac..8ece9e09f5 100644
+--- a/target/arm/internals.h
++++ b/target/arm/internals.h
+@@ -169,6 +169,7 @@ static inline int r14_bank_number(int mode)
+ }
+ 
+ void arm_cpu_register_gdb_regs_for_features(ARMCPU *cpu);
++void arm_cpu_unregister_gdb_regs(ARMCPU *cpu);
+ void arm_translate_init(void);
+ 
+ enum arm_fprounding {
+diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
+index f09ed9f4df..b6df17912e 100644
+--- a/target/arm/kvm64.c
++++ b/target/arm/kvm64.c
+@@ -775,7 +775,9 @@ int kvm_arch_init_vcpu(CPUState *cs)
+         return -EINVAL;
      }
  
--    /* TODO: request cpu hotplug from guest */
-+    /* request cpu hotplug from guest */
-+    hhc = HOTPLUG_HANDLER_GET_CLASS(vms->acpi_dev);
-+    hhc->unplug_request(HOTPLUG_HANDLER(vms->acpi_dev), dev, &local_err);
-+    if (local_err)
-+        goto fail;
+-    qemu_add_vm_change_state_handler(kvm_arm_vm_state_change, cs);
++    if (qemu_present_cpu(cs))
++        cs->vmcse = qemu_add_vm_change_state_handler(kvm_arm_vm_state_change,
++                                                     cs);
  
-     return;
-+fail:
-+    error_propagate(errp, local_err);
- }
+     /* Determine init features for this CPU */
+     memset(cpu->kvm_init_features, 0, sizeof(cpu->kvm_init_features));
+@@ -840,6 +842,9 @@ int kvm_arch_init_vcpu(CPUState *cs)
  
- static void virt_cpu_unplug(HotplugHandler *hotplug_dev, DeviceState *dev,
-@@ -2501,7 +2519,9 @@ static void virt_cpu_unplug(HotplugHandler *hotplug_dev, DeviceState *dev,
+ int kvm_arch_destroy_vcpu(CPUState *cs)
  {
-     VirtMachineState *vms = VIRT_MACHINE(hotplug_dev);
-     MachineState *ms = MACHINE(hotplug_dev);
-+    HotplugHandlerClass *hhc;
-     CPUState *cs = CPU(dev);
-+    Error *local_err = NULL;
-     CPUArchId *cpu_slot;
- 
-     if (!vms->acpi_dev || !dev->realized) {
-@@ -2511,7 +2531,11 @@ static void virt_cpu_unplug(HotplugHandler *hotplug_dev, DeviceState *dev,
- 
-     cpu_slot = virt_find_cpu_slot(ms, ARM_CPU(cs)->core_id);
- 
--    /* TODO: update the acpi cpu hotplug state for cpu hot-unplug */
-+    /* update the acpi cpu hotplug state for cpu hot-unplug */
-+    hhc = HOTPLUG_HANDLER_GET_CLASS(vms->acpi_dev);
-+    hhc->unplug(HOTPLUG_HANDLER(vms->acpi_dev), dev, &local_err);
-+    if (local_err)
-+        goto fail;
- 
-     unwire_gic_cpu_irqs(vms, cs);
-     virt_update_gic(vms, cs);
-@@ -2524,6 +2548,8 @@ static void virt_cpu_unplug(HotplugHandler *hotplug_dev, DeviceState *dev,
-     cpu_slot->cpu = NULL;
-     cs->disabled = true;
-     return;
-+fail:
-+    error_propagate(errp, local_err);
++    if (qemu_present_cpu(cs))
++        qemu_del_vm_change_state_handler(cs->vmcse);
++
+     return 0;
  }
  
- static void virt_machine_device_pre_plug_cb(HotplugHandler *hotplug_dev,
 -- 
 2.17.1
 
