@@ -2,63 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 340DC1F879E
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Jun 2020 10:08:48 +0200 (CEST)
-Received: from localhost ([::1]:34448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CE121F87B0
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Jun 2020 10:43:46 +0200 (CEST)
+Received: from localhost ([::1]:46002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jkNh9-0006yN-9S
-	for lists+qemu-devel@lfdr.de; Sun, 14 Jun 2020 04:08:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34390)
+	id 1jkOEy-0001AN-U6
+	for lists+qemu-devel@lfdr.de; Sun, 14 Jun 2020 04:43:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jkNgI-0006BG-2v
- for qemu-devel@nongnu.org; Sun, 14 Jun 2020 04:07:54 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:53762)
+ id 1jkOEC-0000hX-AQ
+ for qemu-devel@nongnu.org; Sun, 14 Jun 2020 04:42:56 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:37504)
  by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jkNgF-0005Ss-HP
- for qemu-devel@nongnu.org; Sun, 14 Jun 2020 04:07:53 -0400
-Received: by mail-wm1-x343.google.com with SMTP id l26so11654727wme.3
- for <qemu-devel@nongnu.org>; Sun, 14 Jun 2020 01:07:45 -0700 (PDT)
+ id 1jkOEA-00032D-7g
+ for qemu-devel@nongnu.org; Sun, 14 Jun 2020 04:42:56 -0400
+Received: by mail-wm1-x341.google.com with SMTP id y20so11842788wmi.2
+ for <qemu-devel@nongnu.org>; Sun, 14 Jun 2020 01:42:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=C/Bmw1BGuyqQxgNN8Ms3pL/9R54rw2XAZ9xRqqJEE1I=;
- b=iubXcnrl+lPdB6H7dH/4sODWFGacONPXk40OLLZQAUHu4WeztE5KpQgF9weVRp2oOp
- FBUkoxqZeQvsFJao9s9UaEfsbIDv7bYpa0UZLjj6m8eaMcApp+cUFlaX6DsONKrgIfem
- nG9gquvDwmprWZcCncZHq/CzYjTO+89PEqUNXHLjWVJoVbWQENTnT46S+TEx0NztkA6S
- GeAZ+ZLlQm0/UXxZUPE72wC/hG54fsY3t37ILCfz7cfwxcFpl9ss6aQ6/Ac2xX1eK+Lj
- Xr3tM9Bty3IGeLcXwalRHfhwPX2FA2EVKbAPptrYebOlFLBN/sKnG2eA1mAEYiF+GBXI
- p08A==
+ :cc:content-transfer-encoding;
+ bh=zqP1AXG0VVOb1WbYskiDLfkoVHUMuZp2YS5bto0j4EE=;
+ b=pgcUYg1MBVZN1Ma0TLRLIZaKbIKytfevY4pjr1wBRq6q9Qr4O3ULN7Hryb+cPNF3F2
+ Oifq1Fh1SS/WTXIX8MO2SQlRnMZeF3PXVFP6ZLloxIvtt9JMNOWFCOIpfS9tZ4lxX55H
+ uJRvb990jLRXRVzt3zvr9VGpdbAgIomE4wQUxIUh1HXUwXiwTAM7RE69nqH45ewEN0jg
+ 8ljEdXXozo3+OoGbFov9ox2YJnkDbsnGXoboxKvVstXudI94VDmnjhIpHZKyysTmL+rh
+ mqeq1ZdUhw1DKUu2JvUXdeHZpXaW2zSCqBLFTpMbV9FWjX0h1WxM+95lHPvluoOHgmLn
+ G/HQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=C/Bmw1BGuyqQxgNN8Ms3pL/9R54rw2XAZ9xRqqJEE1I=;
- b=Onzo6Rj1xhGDu2n9uaBedmRirsP6EoxWRJb9ntw4Qcp3VaLq1Rmm9Zew5qrldv4G44
- broi/wRUM2iqZui0hcfhWoTv2OAXoK//0/oAULMt9GBIAui1HJ2jcCrco1lemhEX1YPx
- e6VRDWFTQQ0Rp8GJj0ASl3f1umlP7uK/Dwm9yUNT2E6ncY/NF8JR/JnlBSAyXG5lxKHH
- mKV+STVurQ9Jwzrd9tIoVG+eiDgKTWGbhnuGFM20J+uc5fAPrSYq3rOkGF+akFNESOJY
- PcBCMWApfXNlxCe8oJj98E760Zo8Q0zjUFoxyfAJTGtm6hDI/8qQ0MoQSsvtCaQ6oa2b
- 1syw==
-X-Gm-Message-State: AOAM533xW26pF3dv8stJcRYmIDCYa6Ts2UidTEa5e5BpQvS593m0NW0X
- 04UK1PdPKG+HJEx56HW1tSoEujCzHl44rri2wwM=
-X-Google-Smtp-Source: ABdhPJxWwzwlIAZN6dSqglKWSlEps+QW3BuuWe8GWVeJS4CFfbOX+ba0P6jvU+iJuALd11+NwU2CQubxu+tBTEOv08Q=
-X-Received: by 2002:a1c:cc0d:: with SMTP id h13mr7845556wmb.168.1592122064491; 
- Sun, 14 Jun 2020 01:07:44 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=zqP1AXG0VVOb1WbYskiDLfkoVHUMuZp2YS5bto0j4EE=;
+ b=swIh0z+uUGrqBLFe/stO0ae5dL3BWp55YcytuMzW+wr8kd6uUCQ+r+gz0gpmpwsJQl
+ E97RsYfkVLbfStacB9zUFujgXGH/LwvujmHTUPmowqV555JsBwUqWMo2AY70ramRMlSz
+ tHDvvLrzvFy0YabCTXV4LzFJ6sVbuiWGXYsd5dqPjy2xuY64F5k1nPFnCuicFbQ1OpPM
+ S0qjMvW74/ewJ/RZo4S0ApUZAnqb8M4Z5HpUPv4GmMgibTjAWZAjuZCpIRbo+qZFk1MP
+ hx/Ty5mptjL2QdA1KOkdemJm5miD5mgLkNWjslxUBcPbQ6cxhDjwCej+9v8I6XVbHKum
+ 1o+w==
+X-Gm-Message-State: AOAM53136xN0UstWkSsUryoGLQBRPXiQpZ8LeDC1NkC2sxKqKTsu/CFX
+ ZmZZKPy1tcS9zLbAK/9fBxAq269bya4Oeff5No0=
+X-Google-Smtp-Source: ABdhPJziwD4eWGvANE106pMEyAFPhru+DT3CA00dNuDz8n5EK2albDpE2SBo7ZqtMNHRhJlCeFmNPlNbLHqATnRGSTU=
+X-Received: by 2002:a05:600c:22c1:: with SMTP id
+ 1mr7776567wmg.50.1592124166606; 
+ Sun, 14 Jun 2020 01:42:46 -0700 (PDT)
 MIME-Version: 1.0
-References: <1591065557-9174-1-git-send-email-chenhc@lemote.com>
- <1591065557-9174-2-git-send-email-chenhc@lemote.com>
-In-Reply-To: <1591065557-9174-2-git-send-email-chenhc@lemote.com>
+References: <20200614080049.31134-1-jiaxun.yang@flygoat.com>
+ <20200614080049.31134-2-jiaxun.yang@flygoat.com>
+In-Reply-To: <20200614080049.31134-2-jiaxun.yang@flygoat.com>
 From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Date: Sun, 14 Jun 2020 10:07:31 +0200
-Message-ID: <CAHiYmc5o3GdzEeCm5KGM0kDJcGXbJ=syd9sFEg1AqLOirFNg-Q@mail.gmail.com>
-Subject: Re: [PATCH for-5.1 V4 1/4] hw/mips: Implement the kvm_type() hook in
- MachineClass
-To: Huacai Chen <zltjiangshi@gmail.com>
-Content-Type: multipart/alternative; boundary="00000000000017d87805a806ceda"
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-wm1-x343.google.com
+Date: Sun, 14 Jun 2020 10:42:33 +0200
+Message-ID: <CAHiYmc4WMeHODfEKHeKsucqqB5a2vEcGdO4F=g-nsS+C0zsH1Q@mail.gmail.com>
+Subject: Re: [PATCH 1/4] target/mips: Legalize Loongson insn flags
+To: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-wm1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -66,7 +68,7 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,258 +82,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Huacai Chen <chenhuacai@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Huacai Chen <chenhc@lemote.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000017d87805a806ceda
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-=D1=83=D1=82=D0=BE, 2. =D1=98=D1=83=D0=BD 2020. =D1=83 04:38 Huacai Chen <z=
-ltjiangshi@gmail.com> =D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=
-=BE/=D0=BB=D0=B0:
+=D0=BD=D0=B5=D0=B4, 14. =D1=98=D1=83=D0=BD 2020. =D1=83 10:03 Jiaxun Yang <=
+jiaxun.yang@flygoat.com> =D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=
+=D0=BE/=D0=BB=D0=B0:
 >
-> MIPS has two types of KVM: TE & VZ, and TE is the default type. Now we
-> can't create a VZ guest in QEMU because it lacks the kvm_type() hook in
-> MachineClass. Besides, libvirt uses a null-machine to detect the kvm
-> capability, so by default it will return "KVM not supported" on a VZ
-> platform. Thus, null-machine also need the kvm_type() hook.
+> To match the actual status of Loongson insn, we split flags
+> for LMMI and LEXT from INSN_LOONGSON2F.
 >
-> Reviewed-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-> Signed-off-by: Huacai Chen <chenhc@lemote.com>
-> Co-developed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+> As Loongson-2F only implemented interger part of LEXT, we'll
+> not enable LEXT for the processor, but instead we're still using
+> INSN_LOONGSON2F as switch flag of these instructions.
+>
+> All multimedia instructions have been moved to LMMI flag. Loongson-2F
+> and Loongson-3A are sharing these instructions.
+>
+> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 > ---
 
-Huacai,
+Reviewed-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
 
-Please take a look at Peter's remarks at:
+Applied to the next mips queue.
 
-https://lists.gnu.org/archive/html/qemu-devel/2020-06/msg01878.html
-
-...and refactor this patch for v5. My general advice: The simpler, the
-batter.
-
-Best wishes,
-Aleksandar
-
->  hw/core/Makefile.objs  |  2 +-
->  hw/core/null-machine.c |  4 ++++
->  hw/mips/Makefile.objs  |  2 +-
->  hw/mips/common.c       | 42 ++++++++++++++++++++++++++++++++++++++++++
->  include/hw/mips/mips.h |  3 +++
->  5 files changed, 51 insertions(+), 2 deletions(-)
->  create mode 100644 hw/mips/common.c
+>  target/mips/mips-defs.h |  4 ++--
+>  target/mips/translate.c | 13 +++++++------
+>  2 files changed, 9 insertions(+), 8 deletions(-)
 >
-> diff --git a/hw/core/Makefile.objs b/hw/core/Makefile.objs
-> index 1d540ed..b5672f4 100644
-> --- a/hw/core/Makefile.objs
-> +++ b/hw/core/Makefile.objs
-> @@ -17,11 +17,11 @@ common-obj-$(CONFIG_SOFTMMU) +=3D
-vm-change-state-handler.o
->  common-obj-$(CONFIG_SOFTMMU) +=3D qdev-properties-system.o
->  common-obj-$(CONFIG_SOFTMMU) +=3D sysbus.o
->  common-obj-$(CONFIG_SOFTMMU) +=3D machine.o
-> -common-obj-$(CONFIG_SOFTMMU) +=3D null-machine.o
->  common-obj-$(CONFIG_SOFTMMU) +=3D loader.o
->  common-obj-$(CONFIG_SOFTMMU) +=3D machine-hmp-cmds.o
->  common-obj-$(CONFIG_SOFTMMU) +=3D numa.o
->  common-obj-$(CONFIG_SOFTMMU) +=3D clock-vmstate.o
-> +obj-$(CONFIG_SOFTMMU) +=3D null-machine.o
->  obj-$(CONFIG_SOFTMMU) +=3D machine-qmp-cmds.o
+> diff --git a/target/mips/mips-defs.h b/target/mips/mips-defs.h
+> index 0c129106c8..f1b833f947 100644
+> --- a/target/mips/mips-defs.h
+> +++ b/target/mips/mips-defs.h
+> @@ -70,7 +70,7 @@
+>  #define CPU_VR54XX      (CPU_MIPS4 | INSN_VR54XX)
+>  #define CPU_R5900       (CPU_MIPS3 | INSN_R5900)
+>  #define CPU_LOONGSON2E  (CPU_MIPS3 | INSN_LOONGSON2E)
+> -#define CPU_LOONGSON2F  (CPU_MIPS3 | INSN_LOONGSON2F)
+> +#define CPU_LOONGSON2F  (CPU_MIPS3 | INSN_LOONGSON2F | ASE_LMMI)
 >
->  common-obj-$(CONFIG_EMPTY_SLOT) +=3D empty_slot.o
-> diff --git a/hw/core/null-machine.c b/hw/core/null-machine.c
-> index cb47d9d..94a36f9 100644
-> --- a/hw/core/null-machine.c
-> +++ b/hw/core/null-machine.c
-> @@ -17,6 +17,7 @@
->  #include "sysemu/sysemu.h"
->  #include "exec/address-spaces.h"
->  #include "hw/core/cpu.h"
-> +#include "hw/mips/mips.h"
+>  #define CPU_MIPS5       (CPU_MIPS4 | ISA_MIPS5)
 >
->  static void machine_none_init(MachineState *mch)
->  {
-> @@ -50,6 +51,9 @@ static void machine_none_machine_init(MachineClass *mc)
->      mc->max_cpus =3D 1;
->      mc->default_ram_size =3D 0;
->      mc->default_ram_id =3D "ram";
-> +#ifdef TARGET_MIPS
-> +    mc->kvm_type =3D mips_kvm_type;
-> +#endif
->  }
+> @@ -97,7 +97,7 @@
+>  /* Wave Computing: "nanoMIPS" */
+>  #define CPU_NANOMIPS32  (CPU_MIPS32R6 | ISA_NANOMIPS32)
 >
->  DEFINE_MACHINE("none", machine_none_machine_init)
-> diff --git a/hw/mips/Makefile.objs b/hw/mips/Makefile.objs
-> index 739e2b7..3b3e6ea 100644
-> --- a/hw/mips/Makefile.objs
-> +++ b/hw/mips/Makefile.objs
-> @@ -1,4 +1,4 @@
-> -obj-y +=3D addr.o mips_int.o
-> +obj-y +=3D addr.o common.o mips_int.o
->  obj-$(CONFIG_R4K) +=3D r4k.o
->  obj-$(CONFIG_MALTA) +=3D gt64xxx_pci.o malta.o
->  obj-$(CONFIG_MIPSSIM) +=3D mipssim.o
-> diff --git a/hw/mips/common.c b/hw/mips/common.c
-> new file mode 100644
-> index 0000000..4d8e141
-> --- /dev/null
-> +++ b/hw/mips/common.c
-> @@ -0,0 +1,42 @@
-> +/*
-> + * Common MIPS routines
-> + *
-> + * Copyright (c) 2020 Huacai Chen (chenhc@lemote.com)
-> + * This code is licensed under the GNU GPL v2.
-> + */
-> +
-> +#include <linux/kvm.h>
-> +#include "qemu/osdep.h"
-> +#include "qemu-common.h"
-> +#include "hw/boards.h"
-> +#include "hw/mips/mips.h"
-> +#include "sysemu/kvm_int.h"
-> +
-> +#ifndef CONFIG_KVM
-> +
-> +int mips_kvm_type(MachineState *machine, const char *vm_type)
-> +{
-> +    return 0;
-> +}
-> +
-> +#else
-> +
-> +int mips_kvm_type(MachineState *machine, const char *vm_type)
-> +{
-> +    int r;
-> +    KVMState *s =3D KVM_STATE(machine->accelerator);
-> +
-> +    r =3D kvm_check_extension(s, KVM_CAP_MIPS_VZ);
-> +    if (r > 0) {
-> +        return KVM_VM_MIPS_VZ;
-> +    }
-> +
-> +    r =3D kvm_check_extension(s, KVM_CAP_MIPS_TE);
-> +    if (r > 0) {
-> +        return KVM_VM_MIPS_TE;
-> +    }
-> +
-> +    return -1;
-> +}
-> +
-> +#endif
-> diff --git a/include/hw/mips/mips.h b/include/hw/mips/mips.h
-> index 0af4c3d..2ac0580 100644
-> --- a/include/hw/mips/mips.h
-> +++ b/include/hw/mips/mips.h
-> @@ -20,4 +20,7 @@ void rc4030_dma_write(void *dma, uint8_t *buf, int len)=
-;
+> -#define CPU_LOONGSON3A  (CPU_MIPS64R2 | INSN_LOONGSON3A)
+> +#define CPU_LOONGSON3A  (CPU_MIPS64R2 | INSN_LOONGSON3A | ASE_LMMI | ASE=
+_LEXT)
 >
->  DeviceState *rc4030_init(rc4030_dma **dmas, IOMMUMemoryRegion **dma_mr);
+>  /*
+>   * Strictly follow the architecture standard:
+> diff --git a/target/mips/translate.c b/target/mips/translate.c
+> index 2caf4cba5a..e49f32f6ae 100644
+> --- a/target/mips/translate.c
+> +++ b/target/mips/translate.c
+> @@ -1046,7 +1046,7 @@ enum {
+>      OPC_BC2NEZ  =3D (0x0D << 21) | OPC_CP2,
+>  };
 >
-> +/* common.c */
-> +int mips_kvm_type(MachineState *machine, const char *vm_type);
-> +
+> -#define MASK_LMI(op)    (MASK_OP_MAJOR(op) | (op & (0x1F << 21)) | (op &=
+ 0x1F))
+> +#define MASK_LMMI(op)    (MASK_OP_MAJOR(op) | (op & (0x1F << 21)) | (op =
+& 0x1F))
+>
+>  enum {
+>      OPC_PADDSH      =3D (24 << 21) | (0x00) | OPC_CP2,
+> @@ -3421,7 +3421,8 @@ static void gen_ld(DisasContext *ctx, uint32_t opc,
+>      TCGv t0, t1, t2;
+>      int mem_idx =3D ctx->mem_idx;
+>
+> -    if (rt =3D=3D 0 && ctx->insn_flags & (INSN_LOONGSON2E | INSN_LOONGSO=
+N2F)) {
+> +    if (rt =3D=3D 0 && ctx->insn_flags & (INSN_LOONGSON2E | INSN_LOONGSO=
+N2F |
+> +                                      INSN_LOONGSON3A)) {
+>          /*
+>           * Loongson CPU uses a load to zero register for prefetch.
+>           * We emulate it as a NOP. On other CPU we must perform the
+> @@ -5531,7 +5532,7 @@ static void gen_loongson_multimedia(DisasContext *c=
+tx, int rd, int rs, int rt)
+>      TCGv_i64 t0, t1;
+>      TCGCond cond;
+>
+> -    opc =3D MASK_LMI(ctx->opcode);
+> +    opc =3D MASK_LMMI(ctx->opcode);
+>      switch (opc) {
+>      case OPC_ADD_CP2:
+>      case OPC_SUB_CP2:
+> @@ -27161,7 +27162,7 @@ static void decode_opc_special2_legacy(CPUMIPSSta=
+te *env, DisasContext *ctx)
+>      case OPC_MULTU_G_2F:
+>      case OPC_MOD_G_2F:
+>      case OPC_MODU_G_2F:
+> -        check_insn(ctx, INSN_LOONGSON2F);
+> +        check_insn(ctx, INSN_LOONGSON2F | ASE_LEXT);
+>          gen_loongson_integer(ctx, op1, rd, rs, rt);
+>          break;
+>      case OPC_CLO:
+> @@ -27194,7 +27195,7 @@ static void decode_opc_special2_legacy(CPUMIPSSta=
+te *env, DisasContext *ctx)
+>      case OPC_DDIVU_G_2F:
+>      case OPC_DMOD_G_2F:
+>      case OPC_DMODU_G_2F:
+> -        check_insn(ctx, INSN_LOONGSON2F);
+> +        check_insn(ctx, INSN_LOONGSON2F | ASE_LEXT);
+>          gen_loongson_integer(ctx, op1, rd, rs, rt);
+>          break;
 >  #endif
+> @@ -30641,7 +30642,7 @@ static void decode_opc(CPUMIPSState *env, DisasCo=
+ntext *ctx)
+>          }
+>          break;
+>      case OPC_CP2:
+> -        check_insn(ctx, INSN_LOONGSON2F);
+> +        check_insn(ctx, ASE_LMMI);
+>          /* Note that these instructions use different fields.  */
+>          gen_loongson_multimedia(ctx, sa, rd, rt);
+>          break;
 > --
-> 2.7.0
->
-
---00000000000017d87805a806ceda
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><br><br>=D1=83=D1=82=D0=BE, 2. =D1=98=D1=83=D0=BD 2020. =
-=D1=83 04:38 Huacai Chen &lt;<a href=3D"mailto:zltjiangshi@gmail.com">zltji=
-angshi@gmail.com</a>&gt; =D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=
-=D0=BE/=D0=BB=D0=B0:<br>&gt;<br>&gt; MIPS has two types of KVM: TE &amp; VZ=
-, and TE is the default type. Now we<br>&gt; can&#39;t create a VZ guest in=
- QEMU because it lacks the kvm_type() hook in<br>&gt; MachineClass. Besides=
-, libvirt uses a null-machine to detect the kvm<br>&gt; capability, so by d=
-efault it will return &quot;KVM not supported&quot; on a VZ<br>&gt; platfor=
-m. Thus, null-machine also need the kvm_type() hook.<br>&gt;<br>&gt; Review=
-ed-by: Aleksandar Markovic &lt;<a href=3D"mailto:aleksandar.qemu.devel@gmai=
-l.com">aleksandar.qemu.devel@gmail.com</a>&gt;<br>&gt; Signed-off-by: Huaca=
-i Chen &lt;<a href=3D"mailto:chenhc@lemote.com">chenhc@lemote.com</a>&gt;<b=
-r>&gt; Co-developed-by: Jiaxun Yang &lt;<a href=3D"mailto:jiaxun.yang@flygo=
-at.com">jiaxun.yang@flygoat.com</a>&gt;<br><div>&gt; ---</div><div><br></di=
-v><div>Huacai,</div><div><br></div><div>Please take a look at Peter&#39;s r=
-emarks at:</div><div><br></div><div><a href=3D"https://lists.gnu.org/archiv=
-e/html/qemu-devel/2020-06/msg01878.html">https://lists.gnu.org/archive/html=
-/qemu-devel/2020-06/msg01878.html</a></div><div><br></div><div>...and refac=
-tor this patch for v5. My general advice: The simpler, the batter.</div><di=
-v><br></div><div>Best wishes,</div><div>Aleksandar<br></div><br>&gt; =C2=A0=
-hw/core/Makefile.objs =C2=A0| =C2=A02 +-<br>&gt; =C2=A0hw/core/null-machine=
-.c | =C2=A04 ++++<br>&gt; =C2=A0hw/mips/Makefile.objs =C2=A0| =C2=A02 +-<br=
->&gt; =C2=A0hw/mips/common.c =C2=A0 =C2=A0 =C2=A0 | 42 ++++++++++++++++++++=
-++++++++++++++++++++++<br>&gt; =C2=A0include/hw/mips/mips.h | =C2=A03 +++<b=
-r>&gt; =C2=A05 files changed, 51 insertions(+), 2 deletions(-)<br>&gt; =C2=
-=A0create mode 100644 hw/mips/common.c<br>&gt;<br>&gt; diff --git a/hw/core=
-/Makefile.objs b/hw/core/Makefile.objs<br>&gt; index 1d540ed..b5672f4 10064=
-4<br>&gt; --- a/hw/core/Makefile.objs<br>&gt; +++ b/hw/core/Makefile.objs<b=
-r>&gt; @@ -17,11 +17,11 @@ common-obj-$(CONFIG_SOFTMMU) +=3D vm-change-stat=
-e-handler.o<br>&gt; =C2=A0common-obj-$(CONFIG_SOFTMMU) +=3D qdev-properties=
--system.o<br>&gt; =C2=A0common-obj-$(CONFIG_SOFTMMU) +=3D sysbus.o<br>&gt; =
-=C2=A0common-obj-$(CONFIG_SOFTMMU) +=3D machine.o<br>&gt; -common-obj-$(CON=
-FIG_SOFTMMU) +=3D null-machine.o<br>&gt; =C2=A0common-obj-$(CONFIG_SOFTMMU)=
- +=3D loader.o<br>&gt; =C2=A0common-obj-$(CONFIG_SOFTMMU) +=3D machine-hmp-=
-cmds.o<br>&gt; =C2=A0common-obj-$(CONFIG_SOFTMMU) +=3D numa.o<br>&gt; =C2=
-=A0common-obj-$(CONFIG_SOFTMMU) +=3D clock-vmstate.o<br>&gt; +obj-$(CONFIG_=
-SOFTMMU) +=3D null-machine.o<br>&gt; =C2=A0obj-$(CONFIG_SOFTMMU) +=3D machi=
-ne-qmp-cmds.o<br>&gt;<br>&gt; =C2=A0common-obj-$(CONFIG_EMPTY_SLOT) +=3D em=
-pty_slot.o<br>&gt; diff --git a/hw/core/null-machine.c b/hw/core/null-machi=
-ne.c<br>&gt; index cb47d9d..94a36f9 100644<br>&gt; --- a/hw/core/null-machi=
-ne.c<br>&gt; +++ b/hw/core/null-machine.c<br>&gt; @@ -17,6 +17,7 @@<br>&gt;=
- =C2=A0#include &quot;sysemu/sysemu.h&quot;<br>&gt; =C2=A0#include &quot;ex=
-ec/address-spaces.h&quot;<br>&gt; =C2=A0#include &quot;hw/core/cpu.h&quot;<=
-br>&gt; +#include &quot;hw/mips/mips.h&quot;<br>&gt;<br>&gt; =C2=A0static v=
-oid machine_none_init(MachineState *mch)<br>&gt; =C2=A0{<br>&gt; @@ -50,6 +=
-51,9 @@ static void machine_none_machine_init(MachineClass *mc)<br>&gt; =C2=
-=A0 =C2=A0 =C2=A0mc-&gt;max_cpus =3D 1;<br>&gt; =C2=A0 =C2=A0 =C2=A0mc-&gt;=
-default_ram_size =3D 0;<br>&gt; =C2=A0 =C2=A0 =C2=A0mc-&gt;default_ram_id =
-=3D &quot;ram&quot;;<br>&gt; +#ifdef TARGET_MIPS<br>&gt; + =C2=A0 =C2=A0mc-=
-&gt;kvm_type =3D mips_kvm_type;<br>&gt; +#endif<br>&gt; =C2=A0}<br>&gt;<br>=
-&gt; =C2=A0DEFINE_MACHINE(&quot;none&quot;, machine_none_machine_init)<br>&=
-gt; diff --git a/hw/mips/Makefile.objs b/hw/mips/Makefile.objs<br>&gt; inde=
-x 739e2b7..3b3e6ea 100644<br>&gt; --- a/hw/mips/Makefile.objs<br>&gt; +++ b=
-/hw/mips/Makefile.objs<br>&gt; @@ -1,4 +1,4 @@<br>&gt; -obj-y +=3D addr.o m=
-ips_int.o<br>&gt; +obj-y +=3D addr.o common.o mips_int.o<br>&gt; =C2=A0obj-=
-$(CONFIG_R4K) +=3D r4k.o<br>&gt; =C2=A0obj-$(CONFIG_MALTA) +=3D gt64xxx_pci=
-.o malta.o<br>&gt; =C2=A0obj-$(CONFIG_MIPSSIM) +=3D mipssim.o<br>&gt; diff =
---git a/hw/mips/common.c b/hw/mips/common.c<br>&gt; new file mode 100644<br=
->&gt; index 0000000..4d8e141<br>&gt; --- /dev/null<br>&gt; +++ b/hw/mips/co=
-mmon.c<br>&gt; @@ -0,0 +1,42 @@<br>&gt; +/*<br>&gt; + * Common MIPS routine=
-s<br>&gt; + *<br>&gt; + * Copyright (c) 2020 Huacai Chen (<a href=3D"mailto=
-:chenhc@lemote.com">chenhc@lemote.com</a>)<br>&gt; + * This code is license=
-d under the GNU GPL v2.<br>&gt; + */<br>&gt; +<br>&gt; +#include &lt;linux/=
-kvm.h&gt;<br>&gt; +#include &quot;qemu/osdep.h&quot;<br>&gt; +#include &quo=
-t;qemu-common.h&quot;<br>&gt; +#include &quot;hw/boards.h&quot;<br>&gt; +#i=
-nclude &quot;hw/mips/mips.h&quot;<br>&gt; +#include &quot;sysemu/kvm_int.h&=
-quot;<br>&gt; +<br>&gt; +#ifndef CONFIG_KVM<br>&gt; +<br>&gt; +int mips_kvm=
-_type(MachineState *machine, const char *vm_type)<br>&gt; +{<br>&gt; + =C2=
-=A0 =C2=A0return 0;<br>&gt; +}<br>&gt; +<br>&gt; +#else<br>&gt; +<br>&gt; +=
-int mips_kvm_type(MachineState *machine, const char *vm_type)<br>&gt; +{<br=
->&gt; + =C2=A0 =C2=A0int r;<br>&gt; + =C2=A0 =C2=A0KVMState *s =3D KVM_STAT=
-E(machine-&gt;accelerator);<br>&gt; +<br>&gt; + =C2=A0 =C2=A0r =3D kvm_chec=
-k_extension(s, KVM_CAP_MIPS_VZ);<br>&gt; + =C2=A0 =C2=A0if (r &gt; 0) {<br>=
-&gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0return KVM_VM_MIPS_VZ;<br>&gt; + =C2=A0 =
-=C2=A0}<br>&gt; +<br>&gt; + =C2=A0 =C2=A0r =3D kvm_check_extension(s, KVM_C=
-AP_MIPS_TE);<br>&gt; + =C2=A0 =C2=A0if (r &gt; 0) {<br>&gt; + =C2=A0 =C2=A0=
- =C2=A0 =C2=A0return KVM_VM_MIPS_TE;<br>&gt; + =C2=A0 =C2=A0}<br>&gt; +<br>=
-&gt; + =C2=A0 =C2=A0return -1;<br>&gt; +}<br>&gt; +<br>&gt; +#endif<br>&gt;=
- diff --git a/include/hw/mips/mips.h b/include/hw/mips/mips.h<br>&gt; index=
- 0af4c3d..2ac0580 100644<br>&gt; --- a/include/hw/mips/mips.h<br>&gt; +++ b=
-/include/hw/mips/mips.h<br>&gt; @@ -20,4 +20,7 @@ void rc4030_dma_write(voi=
-d *dma, uint8_t *buf, int len);<br>&gt;<br>&gt; =C2=A0DeviceState *rc4030_i=
-nit(rc4030_dma **dmas, IOMMUMemoryRegion **dma_mr);<br>&gt;<br>&gt; +/* com=
-mon.c */<br>&gt; +int mips_kvm_type(MachineState *machine, const char *vm_t=
-ype);<br>&gt; +<br>&gt; =C2=A0#endif<br>&gt; --<br>&gt; 2.7.0<br>&gt;<br></=
-div>
-
---00000000000017d87805a806ceda--
+> 2.27.0
 
