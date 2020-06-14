@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F6D31F8A18
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Jun 2020 20:30:40 +0200 (CEST)
-Received: from localhost ([::1]:55364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE4CE1F8A1B
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Jun 2020 20:33:17 +0200 (CEST)
+Received: from localhost ([::1]:34286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jkXOw-0000ll-Ph
-	for lists+qemu-devel@lfdr.de; Sun, 14 Jun 2020 14:30:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48820)
+	id 1jkXRU-0003sq-Nb
+	for lists+qemu-devel@lfdr.de; Sun, 14 Jun 2020 14:33:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jkXLS-0004Fo-Eh; Sun, 14 Jun 2020 14:27:02 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:52080)
+ id 1jkXLQ-0004Cw-VM; Sun, 14 Jun 2020 14:27:00 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:52079)
  by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jkXLQ-0007gy-D4; Sun, 14 Jun 2020 14:27:02 -0400
+ id 1jkXLP-0007ga-0t; Sun, 14 Jun 2020 14:27:00 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 6C198748DDD;
- Sun, 14 Jun 2020 20:26:44 +0200 (CEST)
+ by localhost (Postfix) with SMTP id C9189748DD0;
+ Sun, 14 Jun 2020 20:26:51 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id C44E2748DDB; Sun, 14 Jun 2020 20:26:43 +0200 (CEST)
-Message-Id: <b6cbd6aefffb0d60938ebc6ee442b2f3eb671b47.1592158400.git.balaton@eik.bme.hu>
+ id A7C337475FA; Sun, 14 Jun 2020 20:26:43 +0200 (CEST)
+Message-Id: <076b37ab493049ef05fdeb2b7c0833375833b370.1592158400.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1592158400.git.balaton@eik.bme.hu>
 References: <cover.1592158400.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v4 9/9] mac_oldworld: Add SPD data to cover RAM
+Subject: [PATCH v4 2/9] mac_newworld: Allow loading binary ROM image
 Date: Sun, 14 Jun 2020 20:13:19 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -34,14 +34,14 @@ Content-Transfer-Encoding: 8bit
 To: qemu-devel@nongnu.org,
     qemu-ppc@nongnu.org
 X-Spam-Probability: 8%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/14 14:26:44
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -61,68 +61,100 @@ Cc: Howard Spoelstra <hsp.cat7@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-OpenBIOS gets RAM size via fw_cfg but rhe original board firmware
-detects RAM using SPD data so generate and add SDP eeproms to cover as
-much RAM as possible to describe with SPD (this may be less than the
-actual ram_size due to SDRAM size constraints).
+Fall back to load binary ROM image if loading ELF fails. This also
+moves PROM_BASE and PROM_SIZE defines to board as these are matching
+the ROM size and address on this board.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 ---
- hw/ppc/mac_oldworld.c | 19 ++++++++++++++++++-
- 1 file changed, 18 insertions(+), 1 deletion(-)
+Notes:
+    Unlike mac_oldworld where the openbios-ppc image loads at end of ROM
+    region here we only check size and assume ELF image is loaded from
+    PROM_BASE, Checking the load addr here is tricky because this board is
+    also be compiled both 64 and 32 bit and load_elf seems to always
+    return 64 bit value so handling that could become a mess. If this is a
+    problem then it's a preexisting one so should be fixed in a separate
+    patch. This one just allows loading ROM binary too otherwise
+    preserving previous behaviour.
 
-diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
-index 53615af6b1..1f85859034 100644
---- a/hw/ppc/mac_oldworld.c
-+++ b/hw/ppc/mac_oldworld.c
-@@ -34,6 +34,7 @@
- #include "hw/input/adb.h"
- #include "sysemu/sysemu.h"
- #include "net/net.h"
-+#include "hw/i2c/smbus_eeprom.h"
- #include "hw/isa/isa.h"
- #include "hw/pci/pci.h"
- #include "hw/pci/pci_host.h"
-@@ -137,6 +138,8 @@ static void ppc_heathrow_init(MachineState *machine)
-     DriveInfo *hd[MAX_IDE_BUS * MAX_IDE_DEVS];
-     void *fw_cfg;
-     uint64_t tbfreq;
-+    uint8_t *spd_data[3] = {};
-+    I2CBus *i2c_bus;
+ hw/ppc/mac.h          |  2 --
+ hw/ppc/mac_newworld.c | 22 ++++++++++++++--------
+ 2 files changed, 14 insertions(+), 10 deletions(-)
+
+diff --git a/hw/ppc/mac.h b/hw/ppc/mac.h
+index 6af87d1fa0..a0d9e47031 100644
+--- a/hw/ppc/mac.h
++++ b/hw/ppc/mac.h
+@@ -38,10 +38,8 @@
+ /* SMP is not enabled, for now */
+ #define MAX_CPUS 1
  
-     linux_boot = (kernel_filename != NULL);
+-#define BIOS_SIZE        (1 * MiB)
+ #define NVRAM_SIZE        0x2000
+ #define PROM_FILENAME    "openbios-ppc"
+-#define PROM_ADDR         0xfff00000
  
-@@ -156,8 +159,16 @@ static void ppc_heathrow_init(MachineState *machine)
-                      "maximum 2047 MB", ram_size / MiB);
+ #define KERNEL_LOAD_ADDR 0x01000000
+ #define KERNEL_GAP       0x00100000
+diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
+index 3507f26f6e..5c8a625276 100644
+--- a/hw/ppc/mac_newworld.c
++++ b/hw/ppc/mac_newworld.c
+@@ -82,6 +82,8 @@
+ 
+ #define NDRV_VGA_FILENAME "qemu_vga.ndrv"
+ 
++#define PROM_BASE 0xfff00000
++#define PROM_SIZE (1 * MiB)
+ 
+ static void fw_cfg_boot_set(void *opaque, const char *boot_device,
+                             Error **errp)
+@@ -100,7 +102,7 @@ static void ppc_core99_reset(void *opaque)
+ 
+     cpu_reset(CPU(cpu));
+     /* 970 CPUs want to get their initial IP as part of their boot protocol */
+-    cpu->env.nip = PROM_ADDR + 0x100;
++    cpu->env.nip = PROM_BASE + 0x100;
+ }
+ 
+ /* PowerPC Mac99 hardware initialisation */
+@@ -153,25 +155,29 @@ static void ppc_core99_init(MachineState *machine)
+     /* allocate RAM */
+     memory_region_add_subregion(get_system_memory(), 0, machine->ram);
+ 
+-    /* allocate and load BIOS */
+-    memory_region_init_rom(bios, NULL, "ppc_core99.bios", BIOS_SIZE,
++    /* allocate and load firmware ROM */
++    memory_region_init_rom(bios, NULL, "ppc_core99.bios", PROM_SIZE,
+                            &error_fatal);
++    memory_region_add_subregion(get_system_memory(), PROM_BASE, bios);
+ 
+-    if (bios_name == NULL)
++    if (!bios_name) {
+         bios_name = PROM_FILENAME;
++    }
+     filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, bios_name);
+-    memory_region_add_subregion(get_system_memory(), PROM_ADDR, bios);
+-
+-    /* Load OpenBIOS (ELF) */
+     if (filename) {
++        /* Load OpenBIOS (ELF) */
+         bios_size = load_elf(filename, NULL, NULL, NULL, NULL,
+                              NULL, NULL, NULL, 1, PPC_ELF_MACHINE, 0, 0);
+ 
++        if (bios_size <= 0) {
++            /* or load binary ROM image */
++            bios_size = load_image_targphys(filename, PROM_BASE, PROM_SIZE);
++        }
+         g_free(filename);
+     } else {
+         bios_size = -1;
+     }
+-    if (bios_size < 0 || bios_size > BIOS_SIZE) {
++    if (bios_size < 0 || bios_size > PROM_SIZE) {
+         error_report("could not load PowerPC bios '%s'", bios_name);
          exit(1);
      }
--
-     memory_region_add_subregion(sysmem, 0, machine->ram);
-+    for (i = 0; i < 3; i++) {
-+        int size_left = ram_size - i * 512 * MiB;
-+        if (size_left > 0) {
-+            uint32_t s = size_left / MiB;
-+            s = (s > 512 ? 512 : s);
-+            s = 1U << (31 - clz32(s));
-+            spd_data[i] = spd_data_generate(SDR, s * MiB);
-+        }
-+    }
- 
-     /* allocate and load firmware ROM */
-     memory_region_init_rom(bios, NULL, "ppc_heathrow.bios", PROM_SIZE,
-@@ -340,6 +351,12 @@ static void ppc_heathrow_init(MachineState *machine)
-     macio_ide_init_drives(macio_ide, &hd[MAX_IDE_DEVS]);
- 
-     dev = DEVICE(object_resolve_path_component(OBJECT(macio), "cuda"));
-+    i2c_bus = I2C_BUS(qdev_get_child_bus(dev, "i2c"));
-+    for (i = 0; i < 3; i++) {
-+        if (spd_data[i]) {
-+            smbus_eeprom_init_one(i2c_bus, 0x50 + i, spd_data[i]);
-+        }
-+    }
-     adb_bus = qdev_get_child_bus(dev, "adb.0");
-     dev = qdev_create(adb_bus, TYPE_ADB_KEYBOARD);
-     qdev_init_nofail(dev);
 -- 
 2.21.3
 
