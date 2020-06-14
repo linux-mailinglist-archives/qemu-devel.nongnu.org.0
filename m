@@ -2,32 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F38A01F8A1A
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Jun 2020 20:32:58 +0200 (CEST)
-Received: from localhost ([::1]:33254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B7431F8A1E
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Jun 2020 20:34:42 +0200 (CEST)
+Received: from localhost ([::1]:37936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jkXRC-0003PW-2c
-	for lists+qemu-devel@lfdr.de; Sun, 14 Jun 2020 14:32:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48742)
+	id 1jkXSr-0005Q7-NQ
+	for lists+qemu-devel@lfdr.de; Sun, 14 Jun 2020 14:34:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48818)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jkXLN-00043f-66; Sun, 14 Jun 2020 14:26:57 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:52043)
+ id 1jkXLR-0004Eg-Sh; Sun, 14 Jun 2020 14:27:01 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:52077)
  by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jkXLJ-0007dv-E7; Sun, 14 Jun 2020 14:26:56 -0400
+ id 1jkXLQ-0007gh-2A; Sun, 14 Jun 2020 14:27:01 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id D96057456F8;
- Sun, 14 Jun 2020 20:26:43 +0200 (CEST)
+ by localhost (Postfix) with SMTP id 641637482C8;
+ Sun, 14 Jun 2020 20:26:44 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id B007B748DD0; Sun, 14 Jun 2020 20:26:43 +0200 (CEST)
-Message-Id: <42a58a0aa1a9e55cf558933b8efeb21071f50363.1592158400.git.balaton@eik.bme.hu>
+ id C06B1748DDA; Sun, 14 Jun 2020 20:26:43 +0200 (CEST)
+Message-Id: <71dbf049654ff55cba40e7b92b73674479223009.1592158400.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1592158400.git.balaton@eik.bme.hu>
 References: <cover.1592158400.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v4 4/9] mac_oldworld: Rename ppc_heathrow_reset to
- ppc_heathrow_cpu_reset
+Subject: [PATCH v4 8/9] WIP RFC macio/cuda: Attempt to add i2c support
 Date: Sun, 14 Jun 2020 20:13:19 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -62,37 +61,136 @@ Cc: Howard Spoelstra <hsp.cat7@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This function resets a CPU not the whole machine so reflect that in
-its name.
+This is a non-working RFC patch attempt to implement i2c bus in CUDA
+needed for firmware to access SPD data of installed RAM. The skeleton
+is there but actual operation fails because I don't know how this is
+supposed to work and the i2c bus state becomes invalid quickly. Also
+sending back results may be missing or wrong. Help fixing and
+finishing this is welcome, I don't plan to spend more time with this
+so just submitted it for whoever picks this up.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/ppc/mac_oldworld.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/misc/macio/cuda.c         | 65 +++++++++++++++++++++++++++++++++++-
+ include/hw/misc/macio/cuda.h |  1 +
+ 2 files changed, 65 insertions(+), 1 deletion(-)
 
-diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
-index 33421c28c4..2afdef55aa 100644
---- a/hw/ppc/mac_oldworld.c
-+++ b/hw/ppc/mac_oldworld.c
-@@ -73,7 +73,7 @@ static uint64_t translate_kernel_address(void *opaque, uint64_t addr)
-     return (addr & 0x0fffffff) + KERNEL_LOAD_ADDR;
+diff --git a/hw/misc/macio/cuda.c b/hw/misc/macio/cuda.c
+index e0cc0aac5d..9609828091 100644
+--- a/hw/misc/macio/cuda.c
++++ b/hw/misc/macio/cuda.c
+@@ -28,6 +28,7 @@
+ #include "hw/ppc/mac.h"
+ #include "hw/qdev-properties.h"
+ #include "migration/vmstate.h"
++#include "hw/i2c/i2c.h"
+ #include "hw/input/adb.h"
+ #include "hw/misc/mos6522.h"
+ #include "hw/misc/macio/cuda.h"
+@@ -369,6 +370,64 @@ static bool cuda_cmd_set_time(CUDAState *s,
+     return true;
  }
  
--static void ppc_heathrow_reset(void *opaque)
-+static void ppc_heathrow_cpu_reset(void *opaque)
++static bool cuda_cmd_get_set_iic(CUDAState *s,
++                                 const uint8_t *in_data, int in_len,
++                                 uint8_t *out_data, int *out_len)
++{
++    int i;
++
++    qemu_log_mask(LOG_UNIMP, "CUDA: unimplemented GET_SET_IIC %s 0x%x %d\n",
++                  (in_data[0] & 1 ? "read" : "write"), in_data[0] >> 1,
++                  in_len);
++    if (i2c_start_transfer(s->i2c_bus, in_data[0] >> 1, in_data[0] & 1)) {
++        return false;
++    }
++    for (i = 0; i < in_len - 3; i++) {
++        if (i2c_send(s->i2c_bus, in_data[i])) {
++            i2c_end_transfer(s->i2c_bus);
++            return false;
++        }
++    }
++    return true;
++}
++
++static bool cuda_cmd_combined_iic(CUDAState *s,
++                                  const uint8_t *in_data, int in_len,
++                                  uint8_t *out_data, int *out_len)
++{
++    int i;
++
++    if (in_len < 3) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "CUDA: COMBINED_FORMAT_IIC too few input bytes\n");
++        return false;
++    }
++    if ((in_data[0] & 0xfe) != (in_data[2] & 0xfe)) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "CUDA: COMBINED_FORMAT_IIC address mismatch\n");
++        return false;
++    }
++
++    uint8_t addr = in_data[0] >> 1;
++    int recv = in_data[0] & 1;
++
++    uint8_t data = in_data[1];
++    if (i2c_start_transfer(s->i2c_bus, in_data[0] >> 1, in_data[0] & 1) ||
++        i2c_send_recv(s->i2c_bus, &data, in_data[0] & 1)) {
++        return false;
++    } else {
++        for (i = 0; i < in_len - 3; i++) {
++            data = in_data[3 + i];
++            if (i2c_send_recv(s->i2c_bus, (in_data[2] & 1 ? &out_data[i] :
++                              &data), in_data[2] & 1)) {
++                i2c_end_transfer(s->i2c_bus);
++                return false;
++            }
++        }
++    }
++    return true;
++}
++
+ static const CudaCommand handlers[] = {
+     { CUDA_AUTOPOLL, "AUTOPOLL", cuda_cmd_autopoll },
+     { CUDA_SET_AUTO_RATE, "SET_AUTO_RATE",  cuda_cmd_set_autorate },
+@@ -381,6 +440,8 @@ static const CudaCommand handlers[] = {
+       cuda_cmd_set_power_message },
+     { CUDA_GET_TIME, "GET_TIME", cuda_cmd_get_time },
+     { CUDA_SET_TIME, "SET_TIME", cuda_cmd_set_time },
++    { CUDA_GET_SET_IIC, "GET_SET_IIC", cuda_cmd_get_set_iic },
++    { CUDA_COMBINED_FORMAT_IIC, "COMBINED_FORMAT_IIC", cuda_cmd_combined_iic },
+ };
+ 
+ static void cuda_receive_packet(CUDAState *s,
+@@ -548,6 +609,7 @@ static void cuda_init(Object *obj)
  {
-     PowerPCCPU *cpu = opaque;
+     CUDAState *s = CUDA(obj);
+     SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
++    DeviceState *dev = DEVICE(obj);
  
-@@ -118,7 +118,7 @@ static void ppc_heathrow_init(MachineState *machine)
+     sysbus_init_child_obj(obj, "mos6522-cuda", &s->mos6522_cuda,
+                           sizeof(s->mos6522_cuda), TYPE_MOS6522_CUDA);
+@@ -556,7 +618,8 @@ static void cuda_init(Object *obj)
+     sysbus_init_mmio(sbd, &s->mem);
  
-         /* Set time-base frequency to 16.6 Mhz */
-         cpu_ppc_tb_init(env,  TBFREQ);
--        qemu_register_reset(ppc_heathrow_reset, cpu);
-+        qemu_register_reset(ppc_heathrow_cpu_reset, cpu);
-     }
+     qbus_create_inplace(&s->adb_bus, sizeof(s->adb_bus), TYPE_ADB_BUS,
+-                        DEVICE(obj), "adb.0");
++                        dev, "adb.0");
++    s->i2c_bus = i2c_init_bus(dev, "i2c");
+ }
  
-     /* allocate RAM */
+ static Property cuda_properties[] = {
+diff --git a/include/hw/misc/macio/cuda.h b/include/hw/misc/macio/cuda.h
+index 5768075ac5..0c798100dc 100644
+--- a/include/hw/misc/macio/cuda.h
++++ b/include/hw/misc/macio/cuda.h
+@@ -79,6 +79,7 @@ typedef struct CUDAState {
+ 
+     ADBBusState adb_bus;
+     MOS6522CUDAState mos6522_cuda;
++    I2CBus *i2c_bus;
+ 
+     uint32_t tick_offset;
+     uint64_t tb_frequency;
 -- 
 2.21.3
 
