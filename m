@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ADCC1F8A11
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Jun 2020 20:28:06 +0200 (CEST)
-Received: from localhost ([::1]:47592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E41C1F8A13
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Jun 2020 20:28:13 +0200 (CEST)
+Received: from localhost ([::1]:48264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jkXMS-0005PH-Jt
-	for lists+qemu-devel@lfdr.de; Sun, 14 Jun 2020 14:28:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48720)
+	id 1jkXMa-0005gt-Gm
+	for lists+qemu-devel@lfdr.de; Sun, 14 Jun 2020 14:28:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48684)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jkXLL-00042p-AP; Sun, 14 Jun 2020 14:26:55 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:52051)
+ id 1jkXLL-00042n-9f; Sun, 14 Jun 2020 14:26:55 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:52054)
  by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jkXLI-0007dx-6O; Sun, 14 Jun 2020 14:26:54 -0400
+ id 1jkXLI-0007dE-7g; Sun, 14 Jun 2020 14:26:54 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 2C8A7746307;
+ by localhost (Postfix) with SMTP id 3D2A474633E;
  Sun, 14 Jun 2020 20:26:44 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id A40A0746331; Sun, 14 Jun 2020 20:26:43 +0200 (CEST)
-Message-Id: <0b594026c77bfe3e5f2c7dc3ad4fa1effa651294.1592158400.git.balaton@eik.bme.hu>
+ id B8186748DCF; Sun, 14 Jun 2020 20:26:43 +0200 (CEST)
+Message-Id: <ad34eb7a1be18eede263335634bf7de3e78daf1b.1592158400.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1592158400.git.balaton@eik.bme.hu>
 References: <cover.1592158400.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v4 1/9] mac_oldworld: Allow loading binary ROM image
+Subject: [PATCH v4 6/9] mac_oldworld: Add machine ID register
 Date: Sun, 14 Jun 2020 20:13:19 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -61,81 +61,78 @@ Cc: Howard Spoelstra <hsp.cat7@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The beige G3 Power Macintosh has a 4MB firmware ROM. Fix the size of
-the rom region and fall back to loading a binary image with -bios if
-loading ELF image failed. This allows testing emulation with a ROM
-image from real hardware as well as using an ELF OpenBIOS image.
+The G3 beige machine has a machine ID register that is accessed by the
+firmware to deternine the board config. Add basic emulation of it.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 ---
-v4: use load address from ELF to check if ROM is too big
+v4: Move MermoryRegion to MachineState, use constants
 
- hw/ppc/mac_oldworld.c | 29 ++++++++++++++++++++---------
- 1 file changed, 20 insertions(+), 9 deletions(-)
+ hw/ppc/mac.h          |  1 +
+ hw/ppc/mac_oldworld.c | 24 ++++++++++++++++++++++++
+ 2 files changed, 25 insertions(+)
 
+diff --git a/hw/ppc/mac.h b/hw/ppc/mac.h
+index e04288ddfd..f4e1d5c758 100644
+--- a/hw/ppc/mac.h
++++ b/hw/ppc/mac.h
+@@ -64,6 +64,7 @@ typedef struct HeathrowMachineState {
+     /*< private >*/
+     MachineState parent;
+ 
++    MemoryRegion machine_id;
+     PCIDevice *macio_pci;
+ } HeathrowMachineState;
+ 
 diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
-index 0b4c1c6373..33421c28c4 100644
+index cb4a0f3211..53615af6b1 100644
 --- a/hw/ppc/mac_oldworld.c
 +++ b/hw/ppc/mac_oldworld.c
-@@ -59,6 +59,8 @@
- #define NDRV_VGA_FILENAME "qemu_vga.ndrv"
+@@ -52,6 +52,9 @@
  
- #define GRACKLE_BASE 0xfec00000
-+#define PROM_BASE 0xffc00000
-+#define PROM_SIZE (4 * MiB)
+ #define MAX_IDE_BUS 2
+ #define CFG_ADDR 0xf0000510
++#define MACHINE_ID_ADDR 0xff000004
++#define MACHINE_ID_VAL 0x3d8c
++
+ #define TBFREQ 16600000UL
+ #define CLOCKFREQ 266000000UL
+ #define BUSFREQ 66000000UL
+@@ -89,6 +92,22 @@ static void ppc_heathrow_cpu_reset(void *opaque)
+     cpu_reset(CPU(cpu));
+ }
  
- static void fw_cfg_boot_set(void *opaque, const char *boot_device,
-                             Error **errp)
-@@ -99,6 +101,7 @@ static void ppc_heathrow_init(MachineState *machine)
-     SysBusDevice *s;
-     DeviceState *dev, *pic_dev;
-     BusState *adb_bus;
-+    uint64_t bios_addr;
-     int bios_size;
-     unsigned int smp_cpus = machine->smp.cpus;
-     uint16_t ppc_boot_device;
-@@ -127,24 +130,32 @@ static void ppc_heathrow_init(MachineState *machine)
- 
-     memory_region_add_subregion(sysmem, 0, machine->ram);
- 
--    /* allocate and load BIOS */
--    memory_region_init_rom(bios, NULL, "ppc_heathrow.bios", BIOS_SIZE,
-+    /* allocate and load firmware ROM */
-+    memory_region_init_rom(bios, NULL, "ppc_heathrow.bios", PROM_SIZE,
-                            &error_fatal);
-+    memory_region_add_subregion(sysmem, PROM_BASE, bios);
- 
--    if (bios_name == NULL)
-+    if (!bios_name) {
-         bios_name = PROM_FILENAME;
-+    }
-     filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, bios_name);
--    memory_region_add_subregion(sysmem, PROM_ADDR, bios);
--
--    /* Load OpenBIOS (ELF) */
-     if (filename) {
--        bios_size = load_elf(filename, NULL, 0, NULL, NULL, NULL, NULL, NULL,
--                             1, PPC_ELF_MACHINE, 0, 0);
-+        /* Load OpenBIOS (ELF) */
-+        bios_size = load_elf(filename, NULL, NULL, NULL, NULL, &bios_addr,
-+                             NULL, NULL, 1, PPC_ELF_MACHINE, 0, 0);
-+        if (bios_size <= 0) {
-+            /* or load binary ROM image */
-+            bios_size = load_image_targphys(filename, PROM_BASE, PROM_SIZE);
-+            bios_addr = PROM_BASE;
-+        } else {
-+            /* load_elf sets high 32 bits for some reason, strip those */
-+            bios_addr &= 0xffffffffULL;
-+        }
-         g_free(filename);
-     } else {
-         bios_size = -1;
++static uint64_t machine_id_read(void *opaque, hwaddr addr, unsigned size)
++{
++    return (addr == 0 && size == 2 ? MACHINE_ID_VAL : 0);
++}
++
++static void machine_id_write(void *opaque, hwaddr addr,
++                             uint64_t val, unsigned size)
++{
++    return;
++}
++
++const MemoryRegionOps machine_id_reg_ops = {
++    .read = machine_id_read,
++    .write = machine_id_write,
++};
++
+ static void ppc_heathrow_init(MachineState *machine)
+ {
+     HeathrowMachineState *hm = HEATHROW_MACHINE(machine);
+@@ -242,6 +261,11 @@ static void ppc_heathrow_init(MachineState *machine)
+         }
      }
--    if (bios_size < 0 || bios_size > BIOS_SIZE) {
-+    if (bios_size < 0 || bios_addr - PROM_BASE + bios_size > PROM_SIZE) {
-         error_report("could not load PowerPC bios '%s'", bios_name);
-         exit(1);
-     }
+ 
++    memory_region_init_io(&hm->machine_id, OBJECT(machine),
++                          &machine_id_reg_ops, NULL, "machine_id", 2);
++    memory_region_add_subregion(get_system_memory(), MACHINE_ID_ADDR,
++                                &hm->machine_id);
++
+     /* XXX: we register only 1 output pin for heathrow PIC */
+     pic_dev = qdev_create(NULL, TYPE_HEATHROW);
+     qdev_init_nofail(pic_dev);
 -- 
 2.21.3
 
