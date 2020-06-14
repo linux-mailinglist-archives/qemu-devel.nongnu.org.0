@@ -2,31 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E41C1F8A13
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Jun 2020 20:28:13 +0200 (CEST)
-Received: from localhost ([::1]:48264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F38A01F8A1A
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Jun 2020 20:32:58 +0200 (CEST)
+Received: from localhost ([::1]:33254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jkXMa-0005gt-Gm
-	for lists+qemu-devel@lfdr.de; Sun, 14 Jun 2020 14:28:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48684)
+	id 1jkXRC-0003PW-2c
+	for lists+qemu-devel@lfdr.de; Sun, 14 Jun 2020 14:32:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jkXLL-00042n-9f; Sun, 14 Jun 2020 14:26:55 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:52054)
+ id 1jkXLN-00043f-66; Sun, 14 Jun 2020 14:26:57 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:52043)
  by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jkXLI-0007dE-7g; Sun, 14 Jun 2020 14:26:54 -0400
+ id 1jkXLJ-0007dv-E7; Sun, 14 Jun 2020 14:26:56 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 3D2A474633E;
- Sun, 14 Jun 2020 20:26:44 +0200 (CEST)
+ by localhost (Postfix) with SMTP id D96057456F8;
+ Sun, 14 Jun 2020 20:26:43 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id B8186748DCF; Sun, 14 Jun 2020 20:26:43 +0200 (CEST)
-Message-Id: <ad34eb7a1be18eede263335634bf7de3e78daf1b.1592158400.git.balaton@eik.bme.hu>
+ id B007B748DD0; Sun, 14 Jun 2020 20:26:43 +0200 (CEST)
+Message-Id: <42a58a0aa1a9e55cf558933b8efeb21071f50363.1592158400.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1592158400.git.balaton@eik.bme.hu>
 References: <cover.1592158400.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v4 6/9] mac_oldworld: Add machine ID register
+Subject: [PATCH v4 4/9] mac_oldworld: Rename ppc_heathrow_reset to
+ ppc_heathrow_cpu_reset
 Date: Sun, 14 Jun 2020 20:13:19 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -61,78 +62,37 @@ Cc: Howard Spoelstra <hsp.cat7@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The G3 beige machine has a machine ID register that is accessed by the
-firmware to deternine the board config. Add basic emulation of it.
+This function resets a CPU not the whole machine so reflect that in
+its name.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
-v4: Move MermoryRegion to MachineState, use constants
+ hw/ppc/mac_oldworld.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
- hw/ppc/mac.h          |  1 +
- hw/ppc/mac_oldworld.c | 24 ++++++++++++++++++++++++
- 2 files changed, 25 insertions(+)
-
-diff --git a/hw/ppc/mac.h b/hw/ppc/mac.h
-index e04288ddfd..f4e1d5c758 100644
---- a/hw/ppc/mac.h
-+++ b/hw/ppc/mac.h
-@@ -64,6 +64,7 @@ typedef struct HeathrowMachineState {
-     /*< private >*/
-     MachineState parent;
- 
-+    MemoryRegion machine_id;
-     PCIDevice *macio_pci;
- } HeathrowMachineState;
- 
 diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
-index cb4a0f3211..53615af6b1 100644
+index 33421c28c4..2afdef55aa 100644
 --- a/hw/ppc/mac_oldworld.c
 +++ b/hw/ppc/mac_oldworld.c
-@@ -52,6 +52,9 @@
- 
- #define MAX_IDE_BUS 2
- #define CFG_ADDR 0xf0000510
-+#define MACHINE_ID_ADDR 0xff000004
-+#define MACHINE_ID_VAL 0x3d8c
-+
- #define TBFREQ 16600000UL
- #define CLOCKFREQ 266000000UL
- #define BUSFREQ 66000000UL
-@@ -89,6 +92,22 @@ static void ppc_heathrow_cpu_reset(void *opaque)
-     cpu_reset(CPU(cpu));
+@@ -73,7 +73,7 @@ static uint64_t translate_kernel_address(void *opaque, uint64_t addr)
+     return (addr & 0x0fffffff) + KERNEL_LOAD_ADDR;
  }
  
-+static uint64_t machine_id_read(void *opaque, hwaddr addr, unsigned size)
-+{
-+    return (addr == 0 && size == 2 ? MACHINE_ID_VAL : 0);
-+}
-+
-+static void machine_id_write(void *opaque, hwaddr addr,
-+                             uint64_t val, unsigned size)
-+{
-+    return;
-+}
-+
-+const MemoryRegionOps machine_id_reg_ops = {
-+    .read = machine_id_read,
-+    .write = machine_id_write,
-+};
-+
- static void ppc_heathrow_init(MachineState *machine)
+-static void ppc_heathrow_reset(void *opaque)
++static void ppc_heathrow_cpu_reset(void *opaque)
  {
-     HeathrowMachineState *hm = HEATHROW_MACHINE(machine);
-@@ -242,6 +261,11 @@ static void ppc_heathrow_init(MachineState *machine)
-         }
+     PowerPCCPU *cpu = opaque;
+ 
+@@ -118,7 +118,7 @@ static void ppc_heathrow_init(MachineState *machine)
+ 
+         /* Set time-base frequency to 16.6 Mhz */
+         cpu_ppc_tb_init(env,  TBFREQ);
+-        qemu_register_reset(ppc_heathrow_reset, cpu);
++        qemu_register_reset(ppc_heathrow_cpu_reset, cpu);
      }
  
-+    memory_region_init_io(&hm->machine_id, OBJECT(machine),
-+                          &machine_id_reg_ops, NULL, "machine_id", 2);
-+    memory_region_add_subregion(get_system_memory(), MACHINE_ID_ADDR,
-+                                &hm->machine_id);
-+
-     /* XXX: we register only 1 output pin for heathrow PIC */
-     pic_dev = qdev_create(NULL, TYPE_HEATHROW);
-     qdev_init_nofail(pic_dev);
+     /* allocate RAM */
 -- 
 2.21.3
 
