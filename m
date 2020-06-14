@@ -2,47 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34D261F8A17
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Jun 2020 20:30:40 +0200 (CEST)
-Received: from localhost ([::1]:55384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51B821F8A27
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Jun 2020 20:41:00 +0200 (CEST)
+Received: from localhost ([::1]:43748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jkXOx-0000mC-23
-	for lists+qemu-devel@lfdr.de; Sun, 14 Jun 2020 14:30:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48728)
+	id 1jkXYx-0001cu-AQ
+	for lists+qemu-devel@lfdr.de; Sun, 14 Jun 2020 14:40:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jkXLM-000439-0h; Sun, 14 Jun 2020 14:26:56 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:52047)
- by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jkXLI-0007dC-SF; Sun, 14 Jun 2020 14:26:55 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 1F66A745702;
- Sun, 14 Jun 2020 20:26:44 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id B3EDF748DD8; Sun, 14 Jun 2020 20:26:43 +0200 (CEST)
-Message-Id: <3d8c105ee2234d003dc65e25a07f568510829d0c.1592158400.git.balaton@eik.bme.hu>
-In-Reply-To: <cover.1592158400.git.balaton@eik.bme.hu>
-References: <cover.1592158400.git.balaton@eik.bme.hu>
-From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v4 5/9] mac_oldworld: Map macio to expected address at reset
-Date: Sun, 14 Jun 2020 20:13:19 +0200
+ (Exim 4.90_1) (envelope-from <coiby.xu@gmail.com>)
+ id 1jkXXa-0008Nq-OV
+ for qemu-devel@nongnu.org; Sun, 14 Jun 2020 14:39:34 -0400
+Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:40874)
+ by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <coiby.xu@gmail.com>)
+ id 1jkXXZ-00018S-02
+ for qemu-devel@nongnu.org; Sun, 14 Jun 2020 14:39:34 -0400
+Received: by mail-pl1-x635.google.com with SMTP id x11so458181plo.7
+ for <qemu-devel@nongnu.org>; Sun, 14 Jun 2020 11:39:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=rR5kBv+59SfrMrzSBIEu8BBGx+ri0RLQeo4FKt0fUkM=;
+ b=LH6fxtzzAtr0BRO+MvGHvmuSyX0Z0PDd8YbW05GKZLt1JYwUB9NbVetEEBDaMRcLwn
+ ZMIQxPhkn7PJJmWi7jTvfFCYvU/VpUsHipzRDrv8jiXqQFSuPw1cvOQ40Vel332LQbKh
+ uN42WAXrhdhLWKquc5CjtKnV8mmEZIcHv6HJH6ShvBksFG0zNqX2QbQfmsRdhsdthMxv
+ h3I85JyBhuN+N3WJwbRoipiv3KyiqHuNuXF1jLkKa5injZJOHlqtqOAPDje+FBkYboI1
+ RQD6utSTnCEHhSPrMV87q9W2M6REz0r5SwxLUDC5GH77WcamTff1kWBLVtCXv5b/d+Ln
+ rZ+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=rR5kBv+59SfrMrzSBIEu8BBGx+ri0RLQeo4FKt0fUkM=;
+ b=PjFU0X1I5QEwCp3qlWOsRnjKDaJQqZ6fug5UWa2IsO6kh5t7OBCiC5qeLLzqNVQ1L9
+ rWO7OUq5jtSUdcMDvlY2/w53Cs4Ic6DM8cHbthOk6oPwCtusJXBokXrllLhRAb3lJhZL
+ E9G96+cbFwqR3n7gNTto6bhvme/fQitM6Gbn7IS6RbQhyx9uGUJ2i/Xlq7guhZnXutAq
+ ylRDbtd9jGtofw2xUfVyOBJyB5qEFAg0jPvLkQfySbuE2ZJiXHJWmhWLg+D/j17qylx1
+ QtJeV+fT2RkmCcHVZxDUIK52ytmbswyohGmLlRT5iC0U0lwHx/jjumYZsEByVWgNRWSL
+ N+6A==
+X-Gm-Message-State: AOAM533FIgSYkvqCOouWdBpSoUaks2mr3V4v3RWP3qlyU19n+kCePaAn
+ O5WVsYSN1jhK4CY5YC4wgQ1iiEjDbLEHIQ==
+X-Google-Smtp-Source: ABdhPJwhk75BTrfS4tWmGLVzAS9kjyPEBw90Ua2Uw9vz+IsM5hlFafVF2VvXpDK1WhXt8ji3xNd89A==
+X-Received: by 2002:a17:90a:36aa:: with SMTP id
+ t39mr7930591pjb.185.1592159965887; 
+ Sun, 14 Jun 2020 11:39:25 -0700 (PDT)
+Received: from localhost ([2001:e42:102:1532:160:16:113:140])
+ by smtp.gmail.com with ESMTPSA id h12sm10156595pgj.71.2020.06.14.11.39.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 14 Jun 2020 11:39:25 -0700 (PDT)
+From: Coiby Xu <coiby.xu@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v9 0/5] vhost-user block device backend implementation
+Date: Mon, 15 Jun 2020 02:39:02 +0800
+Message-Id: <20200614183907.514282-1-coiby.xu@gmail.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-To: qemu-devel@nongnu.org,
-    qemu-ppc@nongnu.org
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/14 14:26:44
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
+ envelope-from=coiby.xu@gmail.com; helo=mail-pl1-x635.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -55,103 +83,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Howard Spoelstra <hsp.cat7@gmail.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: kwolf@redhat.com, bharatlkmlkvm@gmail.com, Coiby Xu <coiby.xu@gmail.com>,
+ stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a reset function that maps macio to the address expected by the
-firmware of the board at startup.
+v9
+ - move logical block size check function to a utility function
+ - fix issues regarding license, coding style, memory deallocation, etc.
 
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
----
- hw/ppc/mac.h          | 12 ++++++++++++
- hw/ppc/mac_oldworld.c | 17 +++++++++++++++--
- 2 files changed, 27 insertions(+), 2 deletions(-)
+v8
+ - re-try connecting to socket server to fix asan error
+ - fix license naming issue
 
-diff --git a/hw/ppc/mac.h b/hw/ppc/mac.h
-index a0d9e47031..e04288ddfd 100644
---- a/hw/ppc/mac.h
-+++ b/hw/ppc/mac.h
-@@ -55,6 +55,18 @@
- #define OLDWORLD_IDE1_IRQ      0xe
- #define OLDWORLD_IDE1_DMA_IRQ  0x3
- 
-+/* g3beige machine */
-+#define TYPE_HEATHROW_MACHINE MACHINE_TYPE_NAME("g3beige")
-+#define HEATHROW_MACHINE(obj) OBJECT_CHECK(HeathrowMachineState, (obj), \
-+                                           TYPE_HEATHROW_MACHINE)
-+
-+typedef struct HeathrowMachineState {
-+    /*< private >*/
-+    MachineState parent;
-+
-+    PCIDevice *macio_pci;
-+} HeathrowMachineState;
-+
- /* New World IRQs */
- #define NEWWORLD_CUDA_IRQ      0x19
- #define NEWWORLD_PMU_IRQ       0x19
-diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
-index 2afdef55aa..cb4a0f3211 100644
---- a/hw/ppc/mac_oldworld.c
-+++ b/hw/ppc/mac_oldworld.c
-@@ -73,6 +73,15 @@ static uint64_t translate_kernel_address(void *opaque, uint64_t addr)
-     return (addr & 0x0fffffff) + KERNEL_LOAD_ADDR;
- }
- 
-+static void ppc_heathrow_reset(MachineState *machine)
-+{
-+    HeathrowMachineState *m = HEATHROW_MACHINE(machine);
-+
-+    qemu_devices_reset();
-+    pci_default_write_config(m->macio_pci, PCI_COMMAND, PCI_COMMAND_MEMORY, 2);
-+    pci_default_write_config(m->macio_pci, PCI_BASE_ADDRESS_0, 0xf3000000, 4);
-+}
-+
- static void ppc_heathrow_cpu_reset(void *opaque)
- {
-     PowerPCCPU *cpu = opaque;
-@@ -82,6 +91,7 @@ static void ppc_heathrow_cpu_reset(void *opaque)
- 
- static void ppc_heathrow_init(MachineState *machine)
- {
-+    HeathrowMachineState *hm = HEATHROW_MACHINE(machine);
-     ram_addr_t ram_size = machine->ram_size;
-     const char *kernel_filename = machine->kernel_filename;
-     const char *kernel_cmdline = machine->kernel_cmdline;
-@@ -289,7 +299,8 @@ static void ppc_heathrow_init(MachineState *machine)
-     ide_drive_get(hd, ARRAY_SIZE(hd));
- 
-     /* MacIO */
--    macio = OLDWORLD_MACIO(pci_create(pci_bus, -1, TYPE_OLDWORLD_MACIO));
-+    hm->macio_pci = pci_create(pci_bus, -1, TYPE_OLDWORLD_MACIO);
-+    macio = OLDWORLD_MACIO(hm->macio_pci);
-     dev = DEVICE(macio);
-     qdev_prop_set_uint64(dev, "frequency", tbfreq);
-     object_property_set_link(OBJECT(macio), OBJECT(pic_dev), "pic",
-@@ -441,6 +452,7 @@ static void heathrow_class_init(ObjectClass *oc, void *data)
- 
-     mc->desc = "Heathrow based PowerMAC";
-     mc->init = ppc_heathrow_init;
-+    mc->reset = ppc_heathrow_reset;
-     mc->block_default_type = IF_IDE;
-     mc->max_cpus = MAX_CPUS;
- #ifndef TARGET_PPC64
-@@ -457,9 +469,10 @@ static void heathrow_class_init(ObjectClass *oc, void *data)
- }
- 
- static const TypeInfo ppc_heathrow_machine_info = {
--    .name          = MACHINE_TYPE_NAME("g3beige"),
-+    .name          = TYPE_HEATHROW_MACHINE,
-     .parent        = TYPE_MACHINE,
-     .class_init    = heathrow_class_init,
-+    .instance_size = sizeof(HeathrowMachineState),
-     .interfaces = (InterfaceInfo[]) {
-         { TYPE_FW_PATH_PROVIDER },
-         { }
--- 
-2.21.3
+v7
+ - fix docker-test-debug@fedora errors by freeing malloced memory
+
+v6
+ - add missing license header and include guard
+ - vhost-user server only serve one client one time
+ - fix a bug in custom vu_message_read
+ - using qemu-storage-daemon to start vhost-user-blk-server
+ - a bug fix to pass docker-test-clang@ubuntu
+
+v5:
+ * re-use vu_kick_cb in libvhost-user
+ * keeping processing VhostUserMsg in the same coroutine until there is
+   detachment/attachment of AIOContext
+ * Spawn separate coroutine for each VuVirtqElement
+ * Other changes including relocating vhost-user-blk-server.c, coding
+   style etc.
+
+v4:
+ * add object properties in class_init
+ * relocate vhost-user-blk-test
+ * other changes including using SocketAddress, coding style, etc.
+
+v3:
+ * separate generic vhost-user-server code from vhost-user-blk-server
+   code
+ * re-write vu_message_read and kick hander function as coroutines to
+   directly call blk_co_preadv, blk_co_pwritev, etc.
+ * add aio_context notifier functions to support multi-threading model
+ * other fixes regarding coding style, warning report, etc.
+
+v2:
+ * Only enable this feature for Linux because eventfd is a Linux-specific
+   feature
+
+
+This patch series is an implementation of vhost-user block device
+backend server, thanks to Stefan and Kevin's guidance.
+
+Vhost-user block device backend server is a UserCreatable object and can be
+started using object_add,
+
+ (qemu) object_add vhost-user-blk-server,id=ID,unix-socket=/tmp/vhost-user-blk_vhost.socket,node-name=DRIVE_NAME,writable=off,logical-block-size=512
+ (qemu) object_del ID
+
+or appending the "-object" option when starting QEMU,
+
+  $ -object vhost-user-blk-server,id=disk,unix-socket=/tmp/vhost-user-blk_vhost.socket,node-name=DRIVE_NAME,writable=off,logical-block-size=512
+
+Then vhost-user client can connect to the server backend.
+For example, QEMU could act as a client,
+
+  $ -m 256 -object memory-backend-memfd,id=mem,size=256M,share=on -numa node,memdev=mem -chardev socket,id=char1,path=/tmp/vhost-user-blk_vhost.socket -device vhost-user-blk-pci,id=blk0,chardev=char1
+
+And guest OS could access this vhost-user block device after mounting it.
+
+
+Coiby Xu (5):
+  Allow vu_message_read to be replaced
+  generic vhost user server
+  move logical block size check function to a common utility function
+  vhost-user block device backend server
+  new qTest case to test the vhost-user-blk-server
+
+ block/Makefile.objs                        |   1 +
+ block/export/vhost-user-blk-server.c       | 669 +++++++++++++++++++
+ block/export/vhost-user-blk-server.h       |  35 +
+ contrib/libvhost-user/libvhost-user-glib.c |   2 +-
+ contrib/libvhost-user/libvhost-user.c      |  11 +-
+ contrib/libvhost-user/libvhost-user.h      |  21 +
+ hw/core/qdev-properties.c                  |  18 +-
+ softmmu/vl.c                               |   4 +
+ tests/Makefile.include                     |   3 +-
+ tests/qtest/Makefile.include               |   2 +
+ tests/qtest/libqos/vhost-user-blk.c        | 130 ++++
+ tests/qtest/libqos/vhost-user-blk.h        |  48 ++
+ tests/qtest/libqtest.c                     |  35 +-
+ tests/qtest/libqtest.h                     |  17 +
+ tests/qtest/vhost-user-blk-test.c          | 739 +++++++++++++++++++++
+ tests/vhost-user-bridge.c                  |   2 +
+ tools/virtiofsd/fuse_virtio.c              |   4 +-
+ util/Makefile.objs                         |   2 +
+ util/block-helpers.c                       |  46 ++
+ util/block-helpers.h                       |   7 +
+ util/vhost-user-server.c                   | 400 +++++++++++
+ util/vhost-user-server.h                   |  61 ++
+ 22 files changed, 2231 insertions(+), 26 deletions(-)
+ create mode 100644 block/export/vhost-user-blk-server.c
+ create mode 100644 block/export/vhost-user-blk-server.h
+ create mode 100644 tests/qtest/libqos/vhost-user-blk.c
+ create mode 100644 tests/qtest/libqos/vhost-user-blk.h
+ create mode 100644 tests/qtest/vhost-user-blk-test.c
+ create mode 100644 util/block-helpers.c
+ create mode 100644 util/block-helpers.h
+ create mode 100644 util/vhost-user-server.c
+ create mode 100644 util/vhost-user-server.h
+
+--
+2.27.0
 
 
