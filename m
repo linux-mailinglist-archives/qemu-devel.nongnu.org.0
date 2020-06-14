@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9ECEB1F893C
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Jun 2020 16:31:48 +0200 (CEST)
-Received: from localhost ([::1]:57830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F7231F8953
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Jun 2020 16:38:57 +0200 (CEST)
+Received: from localhost ([::1]:57350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jkTfn-0008Q5-Mi
-	for lists+qemu-devel@lfdr.de; Sun, 14 Jun 2020 10:31:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51648)
+	id 1jkTmi-0004L1-El
+	for lists+qemu-devel@lfdr.de; Sun, 14 Jun 2020 10:38:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1jkTdn-0006bz-T7; Sun, 14 Jun 2020 10:29:43 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:38388
+ id 1jkTdq-0006jp-Ux; Sun, 14 Jun 2020 10:29:46 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:38396
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1jkTdm-0005Do-1O; Sun, 14 Jun 2020 10:29:43 -0400
+ id 1jkTdp-0005E2-5o; Sun, 14 Jun 2020 10:29:46 -0400
 Received: from host217-39-64-113.range217-39.btcentralplus.com
  ([217.39.64.113] helo=kentang.home)
  by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1jkTdf-0006Hv-Kz; Sun, 14 Jun 2020 15:29:40 +0100
+ id 1jkTdk-0006Hv-67; Sun, 14 Jun 2020 15:29:43 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, laurent@vivier.eu,
  fthain@telegraphics.com.au
-Date: Sun, 14 Jun 2020 15:28:26 +0100
-Message-Id: <20200614142840.10245-9-mark.cave-ayland@ilande.co.uk>
+Date: Sun, 14 Jun 2020 15:28:27 +0100
+Message-Id: <20200614142840.10245-10-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200614142840.10245-1-mark.cave-ayland@ilande.co.uk>
 References: <20200614142840.10245-1-mark.cave-ayland@ilande.co.uk>
@@ -36,7 +36,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 217.39.64.113
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH 08/22] cuda: convert to use ADBBusState internal autopoll
+Subject: [PATCH 09/22] pmu: convert to use ADBBusState internal autopoll
  variables
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
@@ -67,146 +67,114 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/misc/macio/cuda.c         | 56 +++++++++++++++---------------------
- include/hw/misc/macio/cuda.h |  4 ---
- 2 files changed, 23 insertions(+), 37 deletions(-)
+ hw/misc/macio/pmu.c         | 39 ++++++++++++++-----------------------
+ include/hw/misc/macio/pmu.h |  3 ---
+ 2 files changed, 15 insertions(+), 27 deletions(-)
 
-diff --git a/hw/misc/macio/cuda.c b/hw/misc/macio/cuda.c
-index a407f2abc8..716866ea34 100644
---- a/hw/misc/macio/cuda.c
-+++ b/hw/misc/macio/cuda.c
-@@ -199,18 +199,16 @@ static void cuda_send_packet_to_host(CUDAState *s,
- static void cuda_adb_poll(void *opaque)
+diff --git a/hw/misc/macio/pmu.c b/hw/misc/macio/pmu.c
+index edb061e417..e2291cc9f6 100644
+--- a/hw/misc/macio/pmu.c
++++ b/hw/misc/macio/pmu.c
+@@ -90,10 +90,11 @@ static void pmu_update_extirq(PMUState *s)
+ static void pmu_adb_poll(void *opaque)
  {
-     CUDAState *s = opaque;
+     PMUState *s = opaque;
 +    ADBBusState *adb_bus = &s->adb_bus;
-     uint8_t obuf[ADB_MAX_OUT_LEN + 2];
      int olen;
  
--    olen = adb_poll(&s->adb_bus, obuf + 2, s->adb_poll_mask);
-+    olen = adb_poll(adb_bus, obuf + 2, adb_bus->autopoll_mask);
-     if (olen > 0) {
-         obuf[0] = ADB_PACKET;
-         obuf[1] = 0x40; /* polled data */
-         cuda_send_packet_to_host(s, obuf, olen + 2);
+     if (!(s->intbits & PMU_INT_ADB)) {
+-        olen = adb_poll(&s->adb_bus, s->adb_reply, s->adb_poll_mask);
++        olen = adb_poll(adb_bus, s->adb_reply, adb_bus->autopoll_mask);
+         trace_pmu_adb_poll(olen);
+ 
+         if (olen > 0) {
+@@ -102,9 +103,6 @@ static void pmu_adb_poll(void *opaque)
+             pmu_update_extirq(s);
+         }
      }
 -
--    timer_mod(s->adb_poll_timer, qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) +
--              s->autopoll_rate_ms);
+-    timer_mod(s->adb_poll_timer,
+-              qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) + s->autopoll_rate_ms);
  }
  
- /* description of commands */
-@@ -226,23 +224,16 @@ static bool cuda_cmd_autopoll(CUDAState *s,
-                               const uint8_t *in_data, int in_len,
-                               uint8_t *out_data, int *out_len)
+ static void pmu_one_sec_timer(void *opaque)
+@@ -171,18 +169,15 @@ static void pmu_cmd_set_int_mask(PMUState *s,
+ 
+ static void pmu_cmd_set_adb_autopoll(PMUState *s, uint16_t mask)
  {
--    int autopoll;
+-    trace_pmu_cmd_set_adb_autopoll(mask);
 +    ADBBusState *adb_bus = &s->adb_bus;
-+    bool autopoll;
  
-     if (in_len != 1) {
-         return false;
-     }
- 
--    autopoll = (in_data[0] != 0);
--    if (autopoll != s->autopoll) {
--        s->autopoll = autopoll;
--        if (autopoll) {
--            timer_mod(s->adb_poll_timer,
--                      qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) +
--                      s->autopoll_rate_ms);
--        } else {
--            timer_del(s->adb_poll_timer);
--        }
+-    if (s->adb_poll_mask == mask) {
+-        return;
 -    }
-+    autopoll = (in_data[0] != 0) ? true : false;
-+
-+    adb_set_autopoll_enabled(adb_bus, autopoll);
-     return true;
- }
++    trace_pmu_cmd_set_adb_autopoll(mask);
  
-@@ -250,6 +241,8 @@ static bool cuda_cmd_set_autorate(CUDAState *s,
-                                   const uint8_t *in_data, int in_len,
-                                   uint8_t *out_data, int *out_len)
- {
-+    ADBBusState *adb_bus = &s->adb_bus;
-+
-     if (in_len != 1) {
-         return false;
-     }
-@@ -260,12 +253,7 @@ static bool cuda_cmd_set_autorate(CUDAState *s,
-         return false;
-     }
- 
--    s->autopoll_rate_ms = in_data[0];
--    if (s->autopoll) {
+-    s->adb_poll_mask = mask;
+     if (mask) {
 -        timer_mod(s->adb_poll_timer,
--                  qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) +
--                  s->autopoll_rate_ms);
--    }
-+    adb_set_autopoll_rate_ms(adb_bus, in_data[0]);
-     return true;
+-                  qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) + s->autopoll_rate_ms);
++        adb_set_autopoll_mask(adb_bus, mask);
++        adb_set_autopoll_enabled(adb_bus, true);
+     } else {
+-        timer_del(s->adb_poll_timer);
++        adb_set_autopoll_enabled(adb_bus, false);
+     }
  }
  
-@@ -273,11 +261,16 @@ static bool cuda_cmd_set_device_list(CUDAState *s,
-                                      const uint8_t *in_data, int in_len,
-                                      uint8_t *out_data, int *out_len)
+@@ -265,6 +260,8 @@ static void pmu_cmd_adb_poll_off(PMUState *s,
+                                  const uint8_t *in_data, uint8_t in_len,
+                                  uint8_t *out_data, uint8_t *out_len)
  {
 +    ADBBusState *adb_bus = &s->adb_bus;
-+    uint16_t mask;
 +
-     if (in_len != 2) {
-         return false;
+     if (in_len != 0) {
+         qemu_log_mask(LOG_GUEST_ERROR,
+                       "PMU: ADB POLL OFF command, invalid len: %d want: 0\n",
+@@ -272,9 +269,8 @@ static void pmu_cmd_adb_poll_off(PMUState *s,
+         return;
      }
  
--    s->adb_poll_mask = (((uint16_t)in_data[0]) << 8) | in_data[1];
-+    mask = (((uint16_t)in_data[0]) << 8) | in_data[1];
-+
-+    adb_set_autopoll_mask(adb_bus, mask);
-     return true;
+-    if (s->has_adb && s->adb_poll_mask) {
+-        timer_del(s->adb_poll_timer);
+-        s->adb_poll_mask = 0;
++    if (s->has_adb) {
++        adb_set_autopoll_enabled(adb_bus, false);
+     }
  }
  
-@@ -488,8 +481,8 @@ static const MemoryRegionOps mos6522_cuda_ops = {
+@@ -682,12 +678,10 @@ static bool pmu_adb_state_needed(void *opaque)
  
- static const VMStateDescription vmstate_cuda = {
-     .name = "cuda",
--    .version_id = 5,
--    .minimum_version_id = 5,
-+    .version_id = 6,
-+    .minimum_version_id = 6,
+ static const VMStateDescription vmstate_pmu_adb = {
+     .name = "pmu/adb",
+-    .version_id = 0,
+-    .minimum_version_id = 0,
++    .version_id = 1,
++    .minimum_version_id = 1,
+     .needed = pmu_adb_state_needed,
      .fields = (VMStateField[]) {
-         VMSTATE_STRUCT(mos6522_cuda.parent_obj, CUDAState, 0, vmstate_mos6522,
-                        MOS6522State),
-@@ -498,13 +491,9 @@ static const VMStateDescription vmstate_cuda = {
-         VMSTATE_INT32(data_in_size, CUDAState),
-         VMSTATE_INT32(data_in_index, CUDAState),
-         VMSTATE_INT32(data_out_index, CUDAState),
--        VMSTATE_UINT8(autopoll, CUDAState),
--        VMSTATE_UINT8(autopoll_rate_ms, CUDAState),
--        VMSTATE_UINT16(adb_poll_mask, CUDAState),
-         VMSTATE_BUFFER(data_in, CUDAState),
-         VMSTATE_BUFFER(data_out, CUDAState),
-         VMSTATE_UINT32(tick_offset, CUDAState),
--        VMSTATE_TIMER_PTR(adb_poll_timer, CUDAState),
-         VMSTATE_TIMER_PTR(sr_delay_timer, CUDAState),
+-        VMSTATE_UINT16(adb_poll_mask, PMUState),
+-        VMSTATE_TIMER_PTR(adb_poll_timer, PMUState),
+         VMSTATE_UINT8(adb_reply_size, PMUState),
+         VMSTATE_BUFFER(adb_reply, PMUState),
          VMSTATE_END_OF_LIST()
-     }
-@@ -513,11 +502,13 @@ static const VMStateDescription vmstate_cuda = {
- static void cuda_reset(DeviceState *dev)
- {
-     CUDAState *s = CUDA(dev);
-+    ADBBusState *adb_bus = &s->adb_bus;
+@@ -712,7 +706,6 @@ static const VMStateDescription vmstate_pmu = {
+         VMSTATE_BUFFER(cmd_rsp, PMUState),
+         VMSTATE_UINT8(intbits, PMUState),
+         VMSTATE_UINT8(intmask, PMUState),
+-        VMSTATE_UINT8(autopoll_rate_ms, PMUState),
+         VMSTATE_UINT32(tick_offset, PMUState),
+         VMSTATE_TIMER_PTR(one_sec_timer, PMUState),
+         VMSTATE_INT64(one_sec_target, PMUState),
+@@ -732,7 +725,6 @@ static void pmu_reset(DeviceState *dev)
+     s->intbits = 0;
  
-     s->data_in_size = 0;
-     s->data_in_index = 0;
-     s->data_out_index = 0;
--    s->autopoll = 0;
-+
-+    adb_set_autopoll_enabled(adb_bus, false);
+     s->cmd_state = pmu_state_idle;
+-    s->adb_poll_mask = 0;
  }
  
- static void cuda_realize(DeviceState *dev, Error **errp)
-@@ -526,6 +517,7 @@ static void cuda_realize(DeviceState *dev, Error **errp)
+ static void pmu_realize(DeviceState *dev, Error **errp)
+@@ -741,6 +733,7 @@ static void pmu_realize(DeviceState *dev, Error **errp)
      SysBusDevice *sbd;
      MOS6522State *ms;
      DeviceState *d;
@@ -214,34 +182,31 @@ index a407f2abc8..716866ea34 100644
      struct tm tm;
  
      /* Pass IRQ from 6522 */
-@@ -540,9 +532,7 @@ static void cuda_realize(DeviceState *dev, Error **errp)
-     s->sr_delay_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, cuda_set_sr_int, s);
-     s->sr_delay_ns = 20 * SCALE_US;
- 
--    s->adb_poll_timer = timer_new_ms(QEMU_CLOCK_VIRTUAL, cuda_adb_poll, s);
--    s->adb_poll_mask = 0xffff;
--    s->autopoll_rate_ms = 20;
-+    adb_register_autopoll_callback(adb_bus, cuda_adb_poll, s);
+@@ -758,9 +751,7 @@ static void pmu_realize(DeviceState *dev, Error **errp)
+     if (s->has_adb) {
+         qbus_create_inplace(&s->adb_bus, sizeof(s->adb_bus), TYPE_ADB_BUS,
+                             dev, "adb.0");
+-        s->adb_poll_timer = timer_new_ms(QEMU_CLOCK_VIRTUAL, pmu_adb_poll, s);
+-        s->adb_poll_mask = 0xffff;
+-        s->autopoll_rate_ms = 20;
++        adb_register_autopoll_callback(adb_bus, pmu_adb_poll, s);
+     }
  }
  
- static void cuda_init(Object *obj)
-diff --git a/include/hw/misc/macio/cuda.h b/include/hw/misc/macio/cuda.h
-index 5768075ac5..a8cf0be1ec 100644
---- a/include/hw/misc/macio/cuda.h
-+++ b/include/hw/misc/macio/cuda.h
-@@ -95,12 +95,8 @@ typedef struct CUDAState {
-     int data_out_index;
- 
-     qemu_irq irq;
+diff --git a/include/hw/misc/macio/pmu.h b/include/hw/misc/macio/pmu.h
+index 4f34b6f9e7..72f75612b6 100644
+--- a/include/hw/misc/macio/pmu.h
++++ b/include/hw/misc/macio/pmu.h
+@@ -218,9 +218,6 @@ typedef struct PMUState {
+     /* ADB */
+     bool has_adb;
+     ADBBusState adb_bus;
 -    uint16_t adb_poll_mask;
 -    uint8_t autopoll_rate_ms;
--    uint8_t autopoll;
-     uint8_t data_in[128];
-     uint8_t data_out[16];
 -    QEMUTimer *adb_poll_timer;
- } CUDAState;
+     uint8_t adb_reply_size;
+     uint8_t adb_reply[ADB_MAX_OUT_LEN];
  
- #endif /* CUDA_H */
 -- 
 2.20.1
 
