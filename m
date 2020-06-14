@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5C1C1F893F
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Jun 2020 16:34:04 +0200 (CEST)
-Received: from localhost ([::1]:38264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2E571F8944
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Jun 2020 16:36:00 +0200 (CEST)
+Received: from localhost ([::1]:47668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jkThz-0004FU-Pw
-	for lists+qemu-devel@lfdr.de; Sun, 14 Jun 2020 10:34:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51932)
+	id 1jkTjr-00085e-Pv
+	for lists+qemu-devel@lfdr.de; Sun, 14 Jun 2020 10:35:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51944)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1jkTe8-0007Po-9e; Sun, 14 Jun 2020 10:30:04 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:38412
+ id 1jkTeE-0007e5-UT; Sun, 14 Jun 2020 10:30:10 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:38422
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1jkTe6-0005FV-JT; Sun, 14 Jun 2020 10:30:03 -0400
+ id 1jkTeD-0005Im-9P; Sun, 14 Jun 2020 10:30:10 -0400
 Received: from host217-39-64-113.range217-39.btcentralplus.com
  ([217.39.64.113] helo=kentang.home)
  by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1jkTdv-0006Hv-3q; Sun, 14 Jun 2020 15:30:00 +0100
+ id 1jkTe4-0006Hv-GH; Sun, 14 Jun 2020 15:30:06 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, laurent@vivier.eu,
  fthain@telegraphics.com.au
-Date: Sun, 14 Jun 2020 15:28:29 +0100
-Message-Id: <20200614142840.10245-12-mark.cave-ayland@ilande.co.uk>
+Date: Sun, 14 Jun 2020 15:28:30 +0100
+Message-Id: <20200614142840.10245-13-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200614142840.10245-1-mark.cave-ayland@ilande.co.uk>
 References: <20200614142840.10245-1-mark.cave-ayland@ilande.co.uk>
@@ -36,8 +36,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 217.39.64.113
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH 11/22] adb: introduce new ADBDeviceHasData method to
- ADBDeviceClass
+Subject: [PATCH 12/22] adb: keep track of devices with pending data
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -65,90 +64,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is required later to allow devices to assert a service request (SRQ)
-signal to indicate that it has data to send, without having to consume it.
+Add a new pending variable to ADBBusState which is a bitmask indicating which
+ADB devices have data to send. Update the bitmask every time that an ADB
+request is executed.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/input/adb-kbd.c     | 8 ++++++++
- hw/input/adb-mouse.c   | 9 +++++++++
- include/hw/input/adb.h | 3 +++
- 3 files changed, 20 insertions(+)
+ hw/input/adb.c         | 16 +++++++++++++++-
+ include/hw/input/adb.h |  1 +
+ 2 files changed, 16 insertions(+), 1 deletion(-)
 
-diff --git a/hw/input/adb-kbd.c b/hw/input/adb-kbd.c
-index 027dd3e531..23760ecf7b 100644
---- a/hw/input/adb-kbd.c
-+++ b/hw/input/adb-kbd.c
-@@ -300,6 +300,13 @@ static int adb_kbd_request(ADBDevice *d, uint8_t *obuf,
-     return olen;
- }
- 
-+static bool adb_kbd_has_data(ADBDevice *d)
-+{
-+    KBDState *s = ADB_KEYBOARD(d);
-+
-+    return s->count > 0;
-+}
-+
- /* This is where keyboard events enter this file */
- static void adb_keyboard_event(DeviceState *dev, QemuConsole *src,
-                                InputEvent *evt)
-@@ -382,6 +389,7 @@ static void adb_kbd_class_init(ObjectClass *oc, void *data)
-     set_bit(DEVICE_CATEGORY_INPUT, dc->categories);
- 
-     adc->devreq = adb_kbd_request;
-+    adc->devhasdata = adb_kbd_has_data;
-     dc->reset = adb_kbd_reset;
-     dc->vmsd = &vmstate_adb_kbd;
- }
-diff --git a/hw/input/adb-mouse.c b/hw/input/adb-mouse.c
-index 78b6f5030c..e2359fd74d 100644
---- a/hw/input/adb-mouse.c
-+++ b/hw/input/adb-mouse.c
-@@ -197,6 +197,14 @@ static int adb_mouse_request(ADBDevice *d, uint8_t *obuf,
-     return olen;
- }
- 
-+static bool adb_mouse_has_data(ADBDevice *d)
-+{
-+    MouseState *s = ADB_MOUSE(d);
-+
-+    return !(s->last_buttons_state == s->buttons_state &&
-+             s->dx == 0 && s->dy == 0);
-+}
-+
- static void adb_mouse_reset(DeviceState *dev)
+diff --git a/hw/input/adb.c b/hw/input/adb.c
+index bb36ce6fad..c1adb21e6b 100644
+--- a/hw/input/adb.c
++++ b/hw/input/adb.c
+@@ -41,6 +41,7 @@ static void adb_device_reset(ADBDevice *d)
+ int adb_request(ADBBusState *s, uint8_t *obuf, const uint8_t *buf, int len)
  {
-     ADBDevice *d = ADB_DEVICE(dev);
-@@ -252,6 +260,7 @@ static void adb_mouse_class_init(ObjectClass *oc, void *data)
-     set_bit(DEVICE_CATEGORY_INPUT, dc->categories);
+     ADBDevice *d;
++    ADBDeviceClass *adc;
+     int devaddr, cmd, i;
  
-     adc->devreq = adb_mouse_request;
-+    adc->devhasdata = adb_mouse_has_data;
-     dc->reset = adb_mouse_reset;
-     dc->vmsd = &vmstate_adb_mouse;
+     cmd = buf[0] & 0xf;
+@@ -51,14 +52,27 @@ int adb_request(ADBBusState *s, uint8_t *obuf, const uint8_t *buf, int len)
+         }
+         return 0;
+     }
++
++    s->pending = 0;
++    for (i = 0; i < s->nb_devices; i++) {
++        d = s->devices[i];
++        adc = ADB_DEVICE_GET_CLASS(d);
++
++        if (adc->devhasdata(d)) {
++            s->pending |= (1 << d->devaddr);
++        }
++    }
++
+     devaddr = buf[0] >> 4;
+     for (i = 0; i < s->nb_devices; i++) {
+         d = s->devices[i];
++        adc = ADB_DEVICE_GET_CLASS(d);
++
+         if (d->devaddr == devaddr) {
+-            ADBDeviceClass *adc = ADB_DEVICE_GET_CLASS(d);
+             return adc->devreq(d, obuf, buf, len);
+         }
+     }
++
+     return ADB_RET_NOTPRESENT;
  }
+ 
 diff --git a/include/hw/input/adb.h b/include/hw/input/adb.h
-index 15b1874a3d..9b80204e43 100644
+index 9b80204e43..f1bc358d8e 100644
 --- a/include/hw/input/adb.h
 +++ b/include/hw/input/adb.h
-@@ -39,6 +39,8 @@ typedef struct ADBDevice ADBDevice;
- typedef int ADBDeviceRequest(ADBDevice *d, uint8_t *buf_out,
-                               const uint8_t *buf, int len);
- 
-+typedef bool ADBDeviceHasData(ADBDevice *d);
-+
- #define TYPE_ADB_DEVICE "adb-device"
- #define ADB_DEVICE(obj) OBJECT_CHECK(ADBDevice, (obj), TYPE_ADB_DEVICE)
- 
-@@ -62,6 +64,7 @@ typedef struct ADBDeviceClass {
+@@ -76,6 +76,7 @@ struct ADBBusState {
      /*< public >*/
  
-     ADBDeviceRequest *devreq;
-+    ADBDeviceHasData *devhasdata;
- } ADBDeviceClass;
+     ADBDevice *devices[MAX_ADB_DEVICES];
++    uint16_t pending;
+     int nb_devices;
+     int poll_index;
  
- #define TYPE_ADB_BUS "apple-desktop-bus"
 -- 
 2.20.1
 
