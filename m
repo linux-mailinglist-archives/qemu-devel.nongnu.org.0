@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB5821F8960
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Jun 2020 16:45:14 +0200 (CEST)
-Received: from localhost ([::1]:46236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F5751F8946
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Jun 2020 16:37:05 +0200 (CEST)
+Received: from localhost ([::1]:51582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jkTsn-0003XU-RK
-	for lists+qemu-devel@lfdr.de; Sun, 14 Jun 2020 10:45:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52278)
+	id 1jkTku-0001fY-Kj
+	for lists+qemu-devel@lfdr.de; Sun, 14 Jun 2020 10:37:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52354)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1jkTf0-0000T6-QS; Sun, 14 Jun 2020 10:30:58 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:38494
+ id 1jkTf8-0000Yp-RD; Sun, 14 Jun 2020 10:31:06 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:38502
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1jkTey-0005Ym-20; Sun, 14 Jun 2020 10:30:58 -0400
+ id 1jkTf6-0005Zi-Us; Sun, 14 Jun 2020 10:31:06 -0400
 Received: from host217-39-64-113.range217-39.btcentralplus.com
  ([217.39.64.113] helo=kentang.home)
  by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1jkTes-0006Hv-NQ; Sun, 14 Jun 2020 15:30:53 +0100
+ id 1jkTew-0006Hv-3U; Sun, 14 Jun 2020 15:31:03 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, laurent@vivier.eu,
  fthain@telegraphics.com.au
-Date: Sun, 14 Jun 2020 15:28:38 +0100
-Message-Id: <20200614142840.10245-21-mark.cave-ayland@ilande.co.uk>
+Date: Sun, 14 Jun 2020 15:28:39 +0100
+Message-Id: <20200614142840.10245-22-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200614142840.10245-1-mark.cave-ayland@ilande.co.uk>
 References: <20200614142840.10245-1-mark.cave-ayland@ilande.co.uk>
@@ -36,8 +36,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 217.39.64.113
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH 20/22] adb: only call autopoll callbacks when autopoll is not
- blocked
+Subject: [PATCH 21/22] adb: use adb_device prefix for ADB device trace events
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -65,63 +64,151 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Handle this at the ADB bus level so that individual implementations do not need
-to handle this themselves.
-
-Finally add an assert() into adb_request() to prevent developers from accidentally
-making an explicit ADB request without blocking autopoll.
+This is to allow us to distinguish between ADB device events and ADB
+bus events separately.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/input/adb.c    | 7 +++++--
- hw/misc/mac_via.c | 6 +-----
- 2 files changed, 6 insertions(+), 7 deletions(-)
+ hw/input/adb-kbd.c    | 12 ++++++------
+ hw/input/adb-mouse.c  | 12 ++++++------
+ hw/input/trace-events | 20 ++++++++++----------
+ 3 files changed, 22 insertions(+), 22 deletions(-)
 
-diff --git a/hw/input/adb.c b/hw/input/adb.c
-index 70aa1f4570..fe0f6c7ef3 100644
---- a/hw/input/adb.c
-+++ b/hw/input/adb.c
-@@ -86,10 +86,11 @@ static int do_adb_request(ADBBusState *s, uint8_t *obuf, const uint8_t *buf,
+diff --git a/hw/input/adb-kbd.c b/hw/input/adb-kbd.c
+index 23760ecf7b..3cfb6a7a20 100644
+--- a/hw/input/adb-kbd.c
++++ b/hw/input/adb-kbd.c
+@@ -243,7 +243,7 @@ static int adb_kbd_request(ADBDevice *d, uint8_t *obuf,
+     olen = 0;
+     switch (cmd) {
+     case ADB_WRITEREG:
+-        trace_adb_kbd_writereg(reg, buf[1]);
++        trace_adb_device_kbd_writereg(reg, buf[1]);
+         switch (reg) {
+         case 2:
+             /* LED status */
+@@ -256,7 +256,7 @@ static int adb_kbd_request(ADBDevice *d, uint8_t *obuf,
+             case ADB_CMD_CHANGE_ID_AND_ACT:
+             case ADB_CMD_CHANGE_ID_AND_ENABLE:
+                 d->devaddr = buf[1] & 0xf;
+-                trace_adb_kbd_request_change_addr(d->devaddr);
++                trace_adb_device_kbd_request_change_addr(d->devaddr);
+                 break;
+             default:
+                 d->devaddr = buf[1] & 0xf;
+@@ -270,8 +270,8 @@ static int adb_kbd_request(ADBDevice *d, uint8_t *obuf,
+                     d->handler = buf[2];
+                 }
  
- int adb_request(ADBBusState *s, uint8_t *obuf, const uint8_t *buf, int len)
- {
-+    assert(s->autopoll_blocked);
-+
-     return do_adb_request(s, obuf, buf, len);
- }
+-                trace_adb_kbd_request_change_addr_and_handler(d->devaddr,
+-                                                              d->handler);
++                trace_adb_device_kbd_request_change_addr_and_handler(
++                    d->devaddr, d->handler);
+                 break;
+             }
+         }
+@@ -294,7 +294,7 @@ static int adb_kbd_request(ADBDevice *d, uint8_t *obuf,
+             olen = 2;
+             break;
+         }
+-        trace_adb_kbd_readreg(reg, obuf[0], obuf[1]);
++        trace_adb_device_kbd_readreg(reg, obuf[0], obuf[1]);
+         break;
+     }
+     return olen;
+@@ -321,7 +321,7 @@ static void adb_keyboard_event(DeviceState *dev, QemuConsole *src,
+     /* FIXME: take handler into account when translating qcode */
+     keycode = qcode_to_adb_keycode[qcode];
+     if (keycode == NO_KEY) {  /* We don't want to send this to the guest */
+-        trace_adb_kbd_no_key();
++        trace_adb_device_kbd_no_key();
+         return;
+     }
+     if (evt->u.key.data->down == false) { /* if key release event */
+diff --git a/hw/input/adb-mouse.c b/hw/input/adb-mouse.c
+index e2359fd74d..577a38ff2e 100644
+--- a/hw/input/adb-mouse.c
++++ b/hw/input/adb-mouse.c
+@@ -121,7 +121,7 @@ static int adb_mouse_request(ADBDevice *d, uint8_t *obuf,
+         s->dx = 0;
+         s->dy = 0;
+         s->dz = 0;
+-        trace_adb_mouse_flush();
++        trace_adb_device_mouse_flush();
+         return 0;
+     }
  
--/* XXX: move that to cuda ? */
- int adb_poll(ADBBusState *s, uint8_t *obuf, uint16_t poll_mask)
- {
-     ADBDevice *d;
-@@ -181,7 +182,9 @@ static void adb_autopoll(void *opaque)
- {
-     ADBBusState *s = opaque;
+@@ -130,7 +130,7 @@ static int adb_mouse_request(ADBDevice *d, uint8_t *obuf,
+     olen = 0;
+     switch (cmd) {
+     case ADB_WRITEREG:
+-        trace_adb_mouse_writereg(reg, buf[1]);
++        trace_adb_device_mouse_writereg(reg, buf[1]);
+         switch (reg) {
+         case 2:
+             break;
+@@ -152,7 +152,7 @@ static int adb_mouse_request(ADBDevice *d, uint8_t *obuf,
+             case ADB_CMD_CHANGE_ID_AND_ACT:
+             case ADB_CMD_CHANGE_ID_AND_ENABLE:
+                 d->devaddr = buf[1] & 0xf;
+-                trace_adb_mouse_request_change_addr(d->devaddr);
++                trace_adb_device_mouse_request_change_addr(d->devaddr);
+                 break;
+             default:
+                 d->devaddr = buf[1] & 0xf;
+@@ -172,8 +172,8 @@ static int adb_mouse_request(ADBDevice *d, uint8_t *obuf,
+                     d->handler = buf[2];
+                 }
  
--    s->autopoll_cb(s->autopoll_cb_opaque);
-+    if (!s->autopoll_blocked) {
-+        s->autopoll_cb(s->autopoll_cb_opaque);
-+    }
+-                trace_adb_mouse_request_change_addr_and_handler(d->devaddr,
+-                                                                d->handler);
++                trace_adb_device_mouse_request_change_addr_and_handler(
++                    d->devaddr, d->handler);
+                 break;
+             }
+         }
+@@ -191,7 +191,7 @@ static int adb_mouse_request(ADBDevice *d, uint8_t *obuf,
+             olen = 2;
+             break;
+         }
+-        trace_adb_mouse_readreg(reg, obuf[0], obuf[1]);
++        trace_adb_device_mouse_readreg(reg, obuf[0], obuf[1]);
+         break;
+     }
+     return olen;
+diff --git a/hw/input/trace-events b/hw/input/trace-events
+index a2888fd10c..6f0d78241c 100644
+--- a/hw/input/trace-events
++++ b/hw/input/trace-events
+@@ -1,18 +1,18 @@
+ # See docs/devel/tracing.txt for syntax documentation.
  
-     timer_mod(s->autopoll_timer,
-               qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) +
-diff --git a/hw/misc/mac_via.c b/hw/misc/mac_via.c
-index 7676545474..efe96138d0 100644
---- a/hw/misc/mac_via.c
-+++ b/hw/misc/mac_via.c
-@@ -615,11 +615,7 @@ static void adb_via_poll(void *opaque)
-      * received, however we must block autopoll until the point where
-      * the entire reply has been read back to the host
-      */
--    if (adb_bus->autopoll_blocked) {
--        return;
--    } else {
--        adb_autopoll_block(adb_bus);
--    }
-+    adb_autopoll_block(adb_bus);
+ # adb-kbd.c
+-adb_kbd_no_key(void) "Ignoring NO_KEY"
+-adb_kbd_writereg(int reg, uint8_t val) "reg %d val 0x%2.2x"
+-adb_kbd_readreg(int reg, uint8_t val0, uint8_t val1) "reg %d obuf[0] 0x%2.2x obuf[1] 0x%2.2x"
+-adb_kbd_request_change_addr(int devaddr) "change addr to 0x%x"
+-adb_kbd_request_change_addr_and_handler(int devaddr, int handler) "change addr and handler to 0x%x, 0x%x"
++adb_device_kbd_no_key(void) "Ignoring NO_KEY"
++adb_device_kbd_writereg(int reg, uint8_t val) "reg %d val 0x%2.2x"
++adb_device_kbd_readreg(int reg, uint8_t val0, uint8_t val1) "reg %d obuf[0] 0x%2.2x obuf[1] 0x%2.2x"
++adb_device_kbd_request_change_addr(int devaddr) "change addr to 0x%x"
++adb_device_kbd_request_change_addr_and_handler(int devaddr, int handler) "change addr and handler to 0x%x, 0x%x"
  
-     m->adb_data_in_index = 0;
-     m->adb_data_out_index = 0;
+ # adb-mouse.c
+-adb_mouse_flush(void) "flush"
+-adb_mouse_writereg(int reg, uint8_t val) "reg %d val 0x%2.2x"
+-adb_mouse_readreg(int reg, uint8_t val0, uint8_t val1) "reg %d obuf[0] 0x%2.2x obuf[1] 0x%2.2x"
+-adb_mouse_request_change_addr(int devaddr) "change addr to 0x%x"
+-adb_mouse_request_change_addr_and_handler(int devaddr, int handler) "change addr and handler to 0x%x, 0x%x"
++adb_device_mouse_flush(void) "flush"
++adb_device_mouse_writereg(int reg, uint8_t val) "reg %d val 0x%2.2x"
++adb_device_mouse_readreg(int reg, uint8_t val0, uint8_t val1) "reg %d obuf[0] 0x%2.2x obuf[1] 0x%2.2x"
++adb_device_mouse_request_change_addr(int devaddr) "change addr to 0x%x"
++adb_device_mouse_request_change_addr_and_handler(int devaddr, int handler) "change addr and handler to 0x%x, 0x%x"
+ 
+ # pckbd.c
+ pckbd_kbd_read_data(uint32_t val) "0x%02x"
 -- 
 2.20.1
 
