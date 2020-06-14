@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA26A1F8949
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Jun 2020 16:37:49 +0200 (CEST)
-Received: from localhost ([::1]:54490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98D431F8941
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Jun 2020 16:34:36 +0200 (CEST)
+Received: from localhost ([::1]:41294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jkTlc-00035l-Np
-	for lists+qemu-devel@lfdr.de; Sun, 14 Jun 2020 10:37:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51972)
+	id 1jkTiV-0005U3-GW
+	for lists+qemu-devel@lfdr.de; Sun, 14 Jun 2020 10:34:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1jkTeI-0007kP-M8; Sun, 14 Jun 2020 10:30:14 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:38428
+ id 1jkTeQ-0007zg-Ab; Sun, 14 Jun 2020 10:30:22 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:38436
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1jkTeG-0005J2-Qn; Sun, 14 Jun 2020 10:30:14 -0400
+ id 1jkTeO-0005O8-NA; Sun, 14 Jun 2020 10:30:21 -0400
 Received: from host217-39-64-113.range217-39.btcentralplus.com
  ([217.39.64.113] helo=kentang.home)
  by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1jkTeB-0006Hv-2c; Sun, 14 Jun 2020 15:30:10 +0100
+ id 1jkTeE-0006Hv-Rp; Sun, 14 Jun 2020 15:30:18 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, laurent@vivier.eu,
  fthain@telegraphics.com.au
-Date: Sun, 14 Jun 2020 15:28:31 +0100
-Message-Id: <20200614142840.10245-14-mark.cave-ayland@ilande.co.uk>
+Date: Sun, 14 Jun 2020 15:28:32 +0100
+Message-Id: <20200614142840.10245-15-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200614142840.10245-1-mark.cave-ayland@ilande.co.uk>
 References: <20200614142840.10245-1-mark.cave-ayland@ilande.co.uk>
@@ -36,8 +36,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 217.39.64.113
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH 13/22] adb: add status field for holding information about the
- last ADB request
+Subject: [PATCH 14/22] adb: use adb_request() only for explicit requests
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -65,95 +64,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently only 2 bits are defined: one to indicate if the request timed out (no
-reply) and another to indicate whether the request was the result of an autopoll
-operation.
+Currently adb_request() is called both for explicit ADB requests and internal
+autopoll requests via adb_poll().
+
+Move the current functionality into do_adb_request() to be used internally and
+add a simple adb_request() wrapper for explicit requests.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/input/adb.c         | 14 +++++++++++---
- include/hw/input/adb.h |  4 ++++
- 2 files changed, 15 insertions(+), 3 deletions(-)
+ hw/input/adb.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
 diff --git a/hw/input/adb.c b/hw/input/adb.c
-index c1adb21e6b..a7a482fdfa 100644
+index a7a482fdfa..b3ad7c5fca 100644
 --- a/hw/input/adb.c
 +++ b/hw/input/adb.c
-@@ -42,7 +42,7 @@ int adb_request(ADBBusState *s, uint8_t *obuf, const uint8_t *buf, int len)
+@@ -38,7 +38,8 @@ static void adb_device_reset(ADBDevice *d)
+     qdev_reset_all(DEVICE(d));
+ }
+ 
+-int adb_request(ADBBusState *s, uint8_t *obuf, const uint8_t *buf, int len)
++static int do_adb_request(ADBBusState *s, uint8_t *obuf, const uint8_t *buf,
++                          int len)
  {
      ADBDevice *d;
      ADBDeviceClass *adc;
--    int devaddr, cmd, i;
-+    int devaddr, cmd, olen, i;
- 
-     cmd = buf[0] & 0xf;
-     if (cmd == ADB_BUSRESET) {
-@@ -50,6 +50,7 @@ int adb_request(ADBBusState *s, uint8_t *obuf, const uint8_t *buf, int len)
-             d = s->devices[i];
-             adb_device_reset(d);
-         }
-+        s->status = 0;
-         return 0;
-     }
- 
-@@ -63,16 +64,22 @@ int adb_request(ADBBusState *s, uint8_t *obuf, const uint8_t *buf, int len)
-         }
-     }
- 
-+    s->status = 0;
-     devaddr = buf[0] >> 4;
-     for (i = 0; i < s->nb_devices; i++) {
-         d = s->devices[i];
-         adc = ADB_DEVICE_GET_CLASS(d);
- 
-         if (d->devaddr == devaddr) {
--            return adc->devreq(d, obuf, buf, len);
-+            olen = adc->devreq(d, obuf, buf, len);
-+            if (!olen) {
-+                s->status |= ADB_STATUS_BUSTIMEOUT;
-+            }
-+            return olen;
-         }
-     }
- 
-+    s->status |= ADB_STATUS_BUSTIMEOUT;
+@@ -83,6 +84,11 @@ int adb_request(ADBBusState *s, uint8_t *obuf, const uint8_t *buf, int len)
      return ADB_RET_NOTPRESENT;
  }
  
-@@ -94,9 +101,10 @@ int adb_poll(ADBBusState *s, uint8_t *obuf, uint16_t poll_mask)
-             olen = adb_request(s, obuf + 1, buf, 1);
++int adb_request(ADBBusState *s, uint8_t *obuf, const uint8_t *buf, int len)
++{
++    return do_adb_request(s, obuf, buf, len);
++}
++
+ /* XXX: move that to cuda ? */
+ int adb_poll(ADBBusState *s, uint8_t *obuf, uint16_t poll_mask)
+ {
+@@ -98,7 +104,7 @@ int adb_poll(ADBBusState *s, uint8_t *obuf, uint16_t poll_mask)
+         d = s->devices[s->poll_index];
+         if ((1 << d->devaddr) & poll_mask) {
+             buf[0] = ADB_READREG | (d->devaddr << 4);
+-            olen = adb_request(s, obuf + 1, buf, 1);
++            olen = do_adb_request(s, obuf + 1, buf, 1);
              /* if there is data, we poll again the same device */
              if (olen > 0) {
-+                s->status |= ADB_STATUS_POLLREPLY;
-                 obuf[0] = buf[0];
-                 olen++;
--                break;
-+                return olen;
-             }
-         }
-         s->poll_index++;
-diff --git a/include/hw/input/adb.h b/include/hw/input/adb.h
-index f1bc358d8e..cff264739c 100644
---- a/include/hw/input/adb.h
-+++ b/include/hw/input/adb.h
-@@ -70,6 +70,9 @@ typedef struct ADBDeviceClass {
- #define TYPE_ADB_BUS "apple-desktop-bus"
- #define ADB_BUS(obj) OBJECT_CHECK(ADBBusState, (obj), TYPE_ADB_BUS)
- 
-+#define ADB_STATUS_BUSTIMEOUT  0x1
-+#define ADB_STATUS_POLLREPLY   0x2
-+
- struct ADBBusState {
-     /*< private >*/
-     BusState parent_obj;
-@@ -79,6 +82,7 @@ struct ADBBusState {
-     uint16_t pending;
-     int nb_devices;
-     int poll_index;
-+    uint8_t status;
- 
-     QEMUTimer *autopoll_timer;
-     bool autopoll_enabled;
+                 s->status |= ADB_STATUS_POLLREPLY;
 -- 
 2.20.1
 
