@@ -2,31 +2,29 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 170221F8A12
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Jun 2020 20:28:13 +0200 (CEST)
-Received: from localhost ([::1]:48186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEA0D1F8A16
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Jun 2020 20:30:22 +0200 (CEST)
+Received: from localhost ([::1]:54734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jkXMa-0005eh-5J
-	for lists+qemu-devel@lfdr.de; Sun, 14 Jun 2020 14:28:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48792)
+	id 1jkXOg-0000VT-0o
+	for lists+qemu-devel@lfdr.de; Sun, 14 Jun 2020 14:30:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jkXLQ-0004Bb-DW; Sun, 14 Jun 2020 14:27:00 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:52078)
+ id 1jkXLL-000436-Qm; Sun, 14 Jun 2020 14:26:55 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:52044)
  by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jkXLO-0007gM-Mf; Sun, 14 Jun 2020 14:27:00 -0400
+ id 1jkXLI-0007dA-KK; Sun, 14 Jun 2020 14:26:55 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 4EEC274633F;
- Sun, 14 Jun 2020 20:26:44 +0200 (CEST)
+ by localhost (Postfix) with SMTP id BB63C748DDC;
+ Sun, 14 Jun 2020 20:26:43 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id BD322748DD1; Sun, 14 Jun 2020 20:26:43 +0200 (CEST)
-Message-Id: <c0aef32ab7953f5d9ee35b6e505f5ac56e4fd11f.1592158400.git.balaton@eik.bme.hu>
-In-Reply-To: <cover.1592158400.git.balaton@eik.bme.hu>
-References: <cover.1592158400.git.balaton@eik.bme.hu>
+ id 9D963745702; Sun, 14 Jun 2020 20:26:43 +0200 (CEST)
+Message-Id: <cover.1592158400.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v4 7/9] macio: Add dummy screamer register area
+Subject: [PATCH v4 0/9] Mac Old World ROM experiment
 Date: Sun, 14 Jun 2020 20:13:19 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -61,86 +59,38 @@ Cc: Howard Spoelstra <hsp.cat7@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The only thing this returns is an idle status so the firmware
-continues, otherwise just ignores and logs access for debugging. This
-is a stop gap until proper implementation of this device lands.
+Last version with some changes according to review and adding more
+patches. The patch adding i2c support to CUDA is not yet working, only
+included here as RFC and show direction but any help fixing it is
+welcome as I've run out of free time for this. I think with i2c
+support fixed (and maybe adding real screamer implementation) could
+get us somewhere with the firmware ROM. Once it starts poking a video
+card I'm willing to look at what ati-vga may need to work with this
+but help is welcome getting to that point.
 
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
----
-This could be reverted as the first patch of a series adding real
-implementation so it should not cause much trouble. Or in case it's
-found that firmware continues once SPD data is available this patch
-may not be needed.
+Regards,
+BALATON Zoltan
 
- hw/misc/macio/macio.c | 34 ++++++++++++++++++++++++++++++++++
- 1 file changed, 34 insertions(+)
+BALATON Zoltan (9):
+  mac_oldworld: Allow loading binary ROM image
+  mac_newworld: Allow loading binary ROM image
+  grackle: Set revision in PCI config to match hardware
+  mac_oldworld: Rename ppc_heathrow_reset to ppc_heathrow_cpu_reset
+  mac_oldworld: Map macio to expected address at reset
+  mac_oldworld: Add machine ID register
+  macio: Add dummy screamer register area
+  WIP macio/cuda: Attempt to add i2c support
+  mac_oldworld: Add SPD data to cover RAM
 
-diff --git a/hw/misc/macio/macio.c b/hw/misc/macio/macio.c
-index 3779865ab2..dbc3df9ab1 100644
---- a/hw/misc/macio/macio.c
-+++ b/hw/misc/macio/macio.c
-@@ -26,6 +26,7 @@
- #include "qemu/osdep.h"
- #include "qapi/error.h"
- #include "qemu/module.h"
-+#include "qemu/log.h"
- #include "hw/ppc/mac.h"
- #include "hw/misc/macio/cuda.h"
- #include "hw/pci/pci.h"
-@@ -103,6 +104,33 @@ static void macio_init_child_obj(MacIOState *s, const char *childname,
-     qdev_set_parent_bus(DEVICE(child), BUS(&s->macio_bus));
- }
- 
-+#define AWAC_CODEC_STATUS_REG 0x20
-+
-+#define AWAC_MAKER_CRYSTAL 1
-+#define AWAC_REV_SCREAMER 3
-+#define AWAC_VALID_DATA 0x40
-+
-+static uint64_t screamer_read(void *opaque, hwaddr addr, unsigned size)
-+{
-+    qemu_log_mask(LOG_UNIMP,
-+                  "macio: screamer read %" HWADDR_PRIx "  %d\n", addr, size);
-+    return (addr == AWAC_CODEC_STATUS_REG ? AWAC_VALID_DATA << 8 |
-+            AWAC_MAKER_CRYSTAL << 16 | AWAC_REV_SCREAMER << 20 : 0);
-+}
-+
-+static void screamer_write(void *opaque, hwaddr addr,
-+                           uint64_t val, unsigned size)
-+{
-+    qemu_log_mask(LOG_UNIMP,
-+                  "macio: screamer write %" HWADDR_PRIx "  %d = %"PRIx64"\n",
-+                  addr, size, val);
-+}
-+
-+const MemoryRegionOps screamer_ops = {
-+    .read = screamer_read,
-+    .write = screamer_write,
-+};
-+
- static void macio_common_realize(PCIDevice *d, Error **errp)
- {
-     MacIOState *s = MACIO(d);
-@@ -158,6 +186,7 @@ static void macio_oldworld_realize(PCIDevice *d, Error **errp)
-     DeviceState *pic_dev = DEVICE(os->pic);
-     Error *err = NULL;
-     SysBusDevice *sysbus_dev;
-+    MemoryRegion *screamer = g_new(MemoryRegion, 1);
- 
-     macio_common_realize(d, &err);
-     if (err) {
-@@ -217,6 +246,11 @@ static void macio_oldworld_realize(PCIDevice *d, Error **errp)
-         error_propagate(errp, err);
-         return;
-     }
-+
-+    /* Dummy screamer sound device */
-+    memory_region_init_io(screamer, OBJECT(d), &screamer_ops, NULL,
-+                          "screamer", 0x2000);
-+    memory_region_add_subregion(&s->bar, 0x14000, screamer);
- }
- 
- static void macio_init_ide(MacIOState *s, MACIOIDEState *ide, size_t ide_size,
+ hw/misc/macio/cuda.c         | 65 ++++++++++++++++++++++++-
+ hw/misc/macio/macio.c        | 34 +++++++++++++
+ hw/pci-host/grackle.c        |  2 +-
+ hw/ppc/mac.h                 | 15 +++++-
+ hw/ppc/mac_newworld.c        | 22 +++++----
+ hw/ppc/mac_oldworld.c        | 93 ++++++++++++++++++++++++++++++------
+ include/hw/misc/macio/cuda.h |  1 +
+ 7 files changed, 206 insertions(+), 26 deletions(-)
+
 -- 
 2.21.3
 
