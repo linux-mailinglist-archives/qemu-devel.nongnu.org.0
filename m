@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE4CE1F8A1B
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Jun 2020 20:33:17 +0200 (CEST)
-Received: from localhost ([::1]:34286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C2291F8A20
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Jun 2020 20:35:47 +0200 (CEST)
+Received: from localhost ([::1]:40070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jkXRU-0003sq-Nb
-	for lists+qemu-devel@lfdr.de; Sun, 14 Jun 2020 14:33:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48800)
+	id 1jkXTu-0006Uw-OV
+	for lists+qemu-devel@lfdr.de; Sun, 14 Jun 2020 14:35:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jkXLQ-0004Cw-VM; Sun, 14 Jun 2020 14:27:00 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:52079)
+ id 1jkXLU-0004LD-4u; Sun, 14 Jun 2020 14:27:04 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:52081)
  by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jkXLP-0007ga-0t; Sun, 14 Jun 2020 14:27:00 -0400
+ id 1jkXLS-0007go-DK; Sun, 14 Jun 2020 14:27:03 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id C9189748DD0;
+ by localhost (Postfix) with SMTP id C8DA7748DCF;
  Sun, 14 Jun 2020 20:26:51 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id A7C337475FA; Sun, 14 Jun 2020 20:26:43 +0200 (CEST)
-Message-Id: <076b37ab493049ef05fdeb2b7c0833375833b370.1592158400.git.balaton@eik.bme.hu>
+ id AB9BB7482CE; Sun, 14 Jun 2020 20:26:43 +0200 (CEST)
+Message-Id: <fa8025e73555bcb54e1b741d7c759d5860b43014.1592158400.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1592158400.git.balaton@eik.bme.hu>
 References: <cover.1592158400.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v4 2/9] mac_newworld: Allow loading binary ROM image
+Subject: [PATCH v4 3/9] grackle: Set revision in PCI config to match hardware
 Date: Sun, 14 Jun 2020 20:13:19 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -61,100 +61,24 @@ Cc: Howard Spoelstra <hsp.cat7@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fall back to load binary ROM image if loading ELF fails. This also
-moves PROM_BASE and PROM_SIZE defines to board as these are matching
-the ROM size and address on this board.
-
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 ---
-Notes:
-    Unlike mac_oldworld where the openbios-ppc image loads at end of ROM
-    region here we only check size and assume ELF image is loaded from
-    PROM_BASE, Checking the load addr here is tricky because this board is
-    also be compiled both 64 and 32 bit and load_elf seems to always
-    return 64 bit value so handling that could become a mess. If this is a
-    problem then it's a preexisting one so should be fixed in a separate
-    patch. This one just allows loading ROM binary too otherwise
-    preserving previous behaviour.
+ hw/pci-host/grackle.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- hw/ppc/mac.h          |  2 --
- hw/ppc/mac_newworld.c | 22 ++++++++++++++--------
- 2 files changed, 14 insertions(+), 10 deletions(-)
-
-diff --git a/hw/ppc/mac.h b/hw/ppc/mac.h
-index 6af87d1fa0..a0d9e47031 100644
---- a/hw/ppc/mac.h
-+++ b/hw/ppc/mac.h
-@@ -38,10 +38,8 @@
- /* SMP is not enabled, for now */
- #define MAX_CPUS 1
- 
--#define BIOS_SIZE        (1 * MiB)
- #define NVRAM_SIZE        0x2000
- #define PROM_FILENAME    "openbios-ppc"
--#define PROM_ADDR         0xfff00000
- 
- #define KERNEL_LOAD_ADDR 0x01000000
- #define KERNEL_GAP       0x00100000
-diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
-index 3507f26f6e..5c8a625276 100644
---- a/hw/ppc/mac_newworld.c
-+++ b/hw/ppc/mac_newworld.c
-@@ -82,6 +82,8 @@
- 
- #define NDRV_VGA_FILENAME "qemu_vga.ndrv"
- 
-+#define PROM_BASE 0xfff00000
-+#define PROM_SIZE (1 * MiB)
- 
- static void fw_cfg_boot_set(void *opaque, const char *boot_device,
-                             Error **errp)
-@@ -100,7 +102,7 @@ static void ppc_core99_reset(void *opaque)
- 
-     cpu_reset(CPU(cpu));
-     /* 970 CPUs want to get their initial IP as part of their boot protocol */
--    cpu->env.nip = PROM_ADDR + 0x100;
-+    cpu->env.nip = PROM_BASE + 0x100;
- }
- 
- /* PowerPC Mac99 hardware initialisation */
-@@ -153,25 +155,29 @@ static void ppc_core99_init(MachineState *machine)
-     /* allocate RAM */
-     memory_region_add_subregion(get_system_memory(), 0, machine->ram);
- 
--    /* allocate and load BIOS */
--    memory_region_init_rom(bios, NULL, "ppc_core99.bios", BIOS_SIZE,
-+    /* allocate and load firmware ROM */
-+    memory_region_init_rom(bios, NULL, "ppc_core99.bios", PROM_SIZE,
-                            &error_fatal);
-+    memory_region_add_subregion(get_system_memory(), PROM_BASE, bios);
- 
--    if (bios_name == NULL)
-+    if (!bios_name) {
-         bios_name = PROM_FILENAME;
-+    }
-     filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, bios_name);
--    memory_region_add_subregion(get_system_memory(), PROM_ADDR, bios);
--
--    /* Load OpenBIOS (ELF) */
-     if (filename) {
-+        /* Load OpenBIOS (ELF) */
-         bios_size = load_elf(filename, NULL, NULL, NULL, NULL,
-                              NULL, NULL, NULL, 1, PPC_ELF_MACHINE, 0, 0);
- 
-+        if (bios_size <= 0) {
-+            /* or load binary ROM image */
-+            bios_size = load_image_targphys(filename, PROM_BASE, PROM_SIZE);
-+        }
-         g_free(filename);
-     } else {
-         bios_size = -1;
-     }
--    if (bios_size < 0 || bios_size > BIOS_SIZE) {
-+    if (bios_size < 0 || bios_size > PROM_SIZE) {
-         error_report("could not load PowerPC bios '%s'", bios_name);
-         exit(1);
-     }
+diff --git a/hw/pci-host/grackle.c b/hw/pci-host/grackle.c
+index 4b3af0c704..48d11f13ab 100644
+--- a/hw/pci-host/grackle.c
++++ b/hw/pci-host/grackle.c
+@@ -130,7 +130,7 @@ static void grackle_pci_class_init(ObjectClass *klass, void *data)
+     k->realize   = grackle_pci_realize;
+     k->vendor_id = PCI_VENDOR_ID_MOTOROLA;
+     k->device_id = PCI_DEVICE_ID_MOTOROLA_MPC106;
+-    k->revision  = 0x00;
++    k->revision  = 0x40;
+     k->class_id  = PCI_CLASS_BRIDGE_HOST;
+     /*
+      * PCI-facing part of the host bridge, not usable without the
 -- 
 2.21.3
 
