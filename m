@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A12B1F8871
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Jun 2020 12:48:52 +0200 (CEST)
-Received: from localhost ([::1]:54430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62F211F8872
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Jun 2020 12:50:01 +0200 (CEST)
+Received: from localhost ([::1]:56668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jkQC2-0005uH-Pq
-	for lists+qemu-devel@lfdr.de; Sun, 14 Jun 2020 06:48:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50610)
+	id 1jkQDA-0007OK-Gg
+	for lists+qemu-devel@lfdr.de; Sun, 14 Jun 2020 06:50:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1jkQ9Z-0005NE-NO; Sun, 14 Jun 2020 06:46:17 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:56038
+ id 1jkQAq-0005tb-Tr; Sun, 14 Jun 2020 06:47:36 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:56052
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1jkQ9X-0007Bf-O2; Sun, 14 Jun 2020 06:46:17 -0400
+ id 1jkQAn-0007Q4-GN; Sun, 14 Jun 2020 06:47:36 -0400
 Received: from host217-39-64-113.range217-39.btcentralplus.com
  ([217.39.64.113] helo=[192.168.1.65])
  by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1jkQ9W-0005N4-6D; Sun, 14 Jun 2020 11:46:21 +0100
+ id 1jkQAp-0005Nd-3M; Sun, 14 Jun 2020 11:47:39 +0100
 To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
  qemu-ppc@nongnu.org
 References: <cover.1592055375.git.balaton@eik.bme.hu>
- <4a304a01a87fc8154023bc8f48e22811d7cfcaf0.1592055375.git.balaton@eik.bme.hu>
+ <b80aec26effdb026b10394156d59611b47f807c6.1592055375.git.balaton@eik.bme.hu>
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
  mQENBFQJuzwBCADAYvxrwUh1p/PvUlNFwKosVtVHHplgWi5p29t58QlOUkceZG0DBYSNqk93
@@ -53,18 +53,19 @@ Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
  Ir6VauZs5Gp25XLrL6bh/SL8aK0BX6y79m5nhfKI1/6qtzHAjtMAjqy8ChPvOqVVVqmGUzFg
  KPsrrIoklWcYHXPyMLj9afispPVR8e0tMKvxzFBWzrWX1mzljbBlnV2n8BIwVXWNbgwpHSsj
  imgcU9TTGC5qd9g=
-Message-ID: <ef46b912-aa47-09bc-3362-a9dea0c82523@ilande.co.uk>
-Date: Sun, 14 Jun 2020 11:46:02 +0100
+Message-ID: <42ad2cb2-c1e7-4bb6-66e2-94b65c2c010a@ilande.co.uk>
+Date: Sun, 14 Jun 2020 11:47:24 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <4a304a01a87fc8154023bc8f48e22811d7cfcaf0.1592055375.git.balaton@eik.bme.hu>
+In-Reply-To: <b80aec26effdb026b10394156d59611b47f807c6.1592055375.git.balaton@eik.bme.hu>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-SA-Exim-Connect-IP: 217.39.64.113
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v2 1/5] mac_oldworld: Allow loading binary ROM image
+Subject: Re: [PATCH v2 3/5] grackle: Set revision in PCI config to match
+ hardware
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -96,74 +97,28 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 13/06/2020 14:36, BALATON Zoltan wrote:
 
-> The G3 beige machine has a 4MB firmware ROM. Fix the size of the rom
-> region and allow loading a binary image with -bios. This makes it
-> possible to test emulation with a ROM image from real hardware.
-> 
 > Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 > ---
->  hw/ppc/mac_oldworld.c | 24 +++++++++++++++---------
->  1 file changed, 15 insertions(+), 9 deletions(-)
+>  hw/pci-host/grackle.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
-> index 0b4c1c6373..3812adc441 100644
-> --- a/hw/ppc/mac_oldworld.c
-> +++ b/hw/ppc/mac_oldworld.c
-> @@ -59,6 +59,8 @@
->  #define NDRV_VGA_FILENAME "qemu_vga.ndrv"
->  
->  #define GRACKLE_BASE 0xfec00000
-> +#define PROM_BASE 0xffc00000
-> +#define PROM_SIZE (4 * MiB)
->  
->  static void fw_cfg_boot_set(void *opaque, const char *boot_device,
->                              Error **errp)
-> @@ -127,24 +129,28 @@ static void ppc_heathrow_init(MachineState *machine)
->  
->      memory_region_add_subregion(sysmem, 0, machine->ram);
->  
-> -    /* allocate and load BIOS */
-> -    memory_region_init_rom(bios, NULL, "ppc_heathrow.bios", BIOS_SIZE,
-> +    /* allocate and load firmware ROM */
-> +    memory_region_init_rom(bios, NULL, "ppc_heathrow.bios", PROM_SIZE,
->                             &error_fatal);
-> +    memory_region_add_subregion(sysmem, PROM_BASE, bios);
->  
-> -    if (bios_name == NULL)
-> +    if (!bios_name) {
->          bios_name = PROM_FILENAME;
-> +    }
->      filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, bios_name);
-> -    memory_region_add_subregion(sysmem, PROM_ADDR, bios);
-> -
-> -    /* Load OpenBIOS (ELF) */
->      if (filename) {
-> -        bios_size = load_elf(filename, NULL, 0, NULL, NULL, NULL, NULL, NULL,
-> -                             1, PPC_ELF_MACHINE, 0, 0);
-> +        /* Load OpenBIOS (ELF) */
-> +        bios_size = load_elf(filename, NULL, NULL, NULL, NULL, NULL, NULL,
-> +                             NULL, 1, PPC_ELF_MACHINE, 0, 0);
-> +        if (bios_size <= 0) {
-> +            /* or load binary ROM image */
-> +            bios_size = load_image_targphys(filename, PROM_BASE, PROM_SIZE);
-> +        }
->          g_free(filename);
->      } else {
->          bios_size = -1;
->      }
-> -    if (bios_size < 0 || bios_size > BIOS_SIZE) {
-> +    if (bios_size < 0 || bios_size > PROM_SIZE) {
->          error_report("could not load PowerPC bios '%s'", bios_name);
->          exit(1);
->      }
+> diff --git a/hw/pci-host/grackle.c b/hw/pci-host/grackle.c
+> index 4b3af0c704..48d11f13ab 100644
+> --- a/hw/pci-host/grackle.c
+> +++ b/hw/pci-host/grackle.c
+> @@ -130,7 +130,7 @@ static void grackle_pci_class_init(ObjectClass *klass, void *data)
+>      k->realize   = grackle_pci_realize;
+>      k->vendor_id = PCI_VENDOR_ID_MOTOROLA;
+>      k->device_id = PCI_DEVICE_ID_MOTOROLA_MPC106;
+> -    k->revision  = 0x00;
+> +    k->revision  = 0x40;
+>      k->class_id  = PCI_CLASS_BRIDGE_HOST;
+>      /*
+>       * PCI-facing part of the host bridge, not usable without the
 
-I think the logic could be improved a bit here: load_elf() can return the physical
-address from the ELF, so it would make sense to use that as the address for
-load_image_targphys() if present, and otherwise fall back to loading at 0xffc00000.
-
-It may also make sense to split PROM_ADDR to PROM_ADDR_OLDWORLD and
-PROM_ADDR_NEWWORLD (and similar for BIOS_SIZE) to allow these values to be adjusted
-separately for each machine.
+Out of curiosity does the BIOS you are using require this, or is it purely for
+cosmetic purposes? I'm sure I've seen device trees with several different revisions
+here...
 
 
 ATB,
