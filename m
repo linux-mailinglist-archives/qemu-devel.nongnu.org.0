@@ -2,69 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A373B1F9DAE
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 18:41:58 +0200 (CEST)
-Received: from localhost ([::1]:60446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D5BA1F9D85
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 18:34:06 +0200 (CEST)
+Received: from localhost ([::1]:41604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jksBJ-0001w6-Od
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 12:41:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35432)
+	id 1jks3h-0001Pe-98
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 12:34:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57540)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jks7N-0006iU-OT; Mon, 15 Jun 2020 12:37:53 -0400
-Received: from mail-il1-x141.google.com ([2607:f8b0:4864:20::141]:34642)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jks2H-0000cO-2d
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 12:32:37 -0400
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:36315)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jks7D-0000hk-7P; Mon, 15 Jun 2020 12:37:53 -0400
-Received: by mail-il1-x141.google.com with SMTP id x18so15942825ilp.1;
- Mon, 15 Jun 2020 09:37:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jks2F-0007I9-Cu
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 12:32:36 -0400
+Received: by mail-oi1-x244.google.com with SMTP id a137so16441831oii.3
+ for <qemu-devel@nongnu.org>; Mon, 15 Jun 2020 09:32:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=txXM3MgeLbWFZbvN7Of7+o1pSroCioT03fnhDcZg4Ok=;
- b=Ja9TLWo6uJ5AM5x0y5E7VYnyY2rRSFe7ND8EmQhwbsbsJj0bRlwfZ+4kxfU8EN9UrN
- hgyb70deIyhqSuABjCGggSlSxRlLpbklqbdANu4h70s3Z6Z5eJtDqfFdd7WEt8B0Kx3v
- Lup0VXHsmbblDDeAdmBDEhymDVJesQExwp7oUTiIxlxKtJ2ABDBAsK1D7dHJ8TVVvyLp
- 6Bx5fPUte1LWsjMXiJ3f9Ev0JACN23uwA31pVUwp+op75NNLY4vGSwh1CcuLeDVSV9Ve
- i5r/6L351HHaKiZZhT+n46N0oQjyvol0Nzb4trLFLVol34pDbbhfn/7GLLf0qouk47A1
- u3OA==
+ :cc:content-transfer-encoding;
+ bh=ZelwX56DSyGXsrRtDx0Fo1LHHCV3MBy8/FrDkipWvC8=;
+ b=zBW8iBl5epTtN9o/yzkLClhZZ+i2fMJL2Wh9IYV1InrocZMwNJF8qbUvNvrl/aKYH8
+ mPn2r58MAJ5WjRS8in5bL9BoVxH8nwikwYH2IMTCjy2rzGMaGeNf8qtbKlte/zVlFUIB
+ R+jqCTixs4rsJdc24WVBkdcmKJRfBtc/TbqlT0y0fhd8SIvx7JLwWr2iHuzZEoN623CH
+ RUG1yr25lT/cInRbSRLm7pDw9l6uYB9s2B5V9OwjXgIAeABgFU/7S9TEc7o2AC2SbCEa
+ ZEOjPnxTtQlWYfPweQvrxNVonNkV/baG6hoHY6P+B931HGpV72BNu/EF7e6Oba4jq7G9
+ o8Vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=txXM3MgeLbWFZbvN7Of7+o1pSroCioT03fnhDcZg4Ok=;
- b=QTcMWP4z8XsagxIFzKl/6x7olLvEW2p3uQFtkLrs58dlwd1XX1ks2f/q0+RX5Tth6Z
- ggKS3X/1jI1zL3GbLR+vIE7yCCGzCrjLw+9Ix1ygdeZ3wdZCQPdstb1PkX4+B+V2V8Yg
- YmL5PLEdNQU6XKOiU/GL8bOVXsUwUxp6QNBNs7PpOZxw8xny2pCK99+iU9ASHdnMzdpm
- 3vn+/+f54Iu7XBZ4CgkbbomqfLWCWoyiEsVemjh0L3U+XQ1Sq0o3bvjscyHP1TrnfKov
- GionVgEi2klD3nLNcRVHMqBGfElfmE7l5u5teAkJ20+55G/ziU+ggXi4CNyzvTuIXLM5
- sG9A==
-X-Gm-Message-State: AOAM532Qvp9tgQe1wxPasdTjBEttugRQFusBHb+qQLpa9JoYXn1OX2ac
- Zf8Q3nsqaWMmjSXUrqc8a6nceu17NapUJdWlOnE=
-X-Google-Smtp-Source: ABdhPJy8GuxAXfr6eotHbaemPoTuZCr69J28WcS6++MbyG6KJXB6xTfAqRCbnAAXKI8DBKPuCp6IQyFDlGEzyyg6giY=
-X-Received: by 2002:a92:aa07:: with SMTP id j7mr27636180ili.40.1592239061451; 
- Mon, 15 Jun 2020 09:37:41 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=ZelwX56DSyGXsrRtDx0Fo1LHHCV3MBy8/FrDkipWvC8=;
+ b=Gb6+f9BqLgpqe5Rr7tkNjBK9Teaeq0a1CNCDqB9K35a3h9eVRjyGb1mAO0ipHIYBhP
+ bp9InI7TLZlBQVD3I38l9Vk+uB7JRzPQHJTE+PZiQV7hfXLMQrcNJw1GQeJvffiPF5sH
+ Lw2A6nwIaGgOk18iDGHIayUufnLIlX6G5JYbYsTaQn+u0Z+QHDXRnDqv0a4vezwYennW
+ UV1wmn5PegsLghCYNE9RTDxUINGhjoDpMDTmeC9aktMhWbnUOGuf5bAKuAoYkCv/bK9Q
+ sJknISjfqXOx2615yVqkxxH5jwkp29ob+a6GIOvDFF/ljCQftHMzsbVABWN7ayHF8vgn
+ 3qLQ==
+X-Gm-Message-State: AOAM5325c+rqpsDTqkTCz78MyWwJAcWVvBshksZocdvdXdhCEo+VW+S7
+ ZG+32UG1hq/VPdLZ1R99b7M9yE7NKSLNoZA4A9Ekww==
+X-Google-Smtp-Source: ABdhPJx0+3tay1ed01q4wis4ixRhUvAwiCiPKjG8iPpmWSzqSF45O3/hGzw2Ki78icpZ648R7zIMb02c+OR2ksvAMdI=
+X-Received: by 2002:aca:5152:: with SMTP id f79mr135331oib.146.1592238754102; 
+ Mon, 15 Jun 2020 09:32:34 -0700 (PDT)
 MIME-Version: 1.0
-References: <1591625864-31494-1-git-send-email-bmeng.cn@gmail.com>
- <1591625864-31494-9-git-send-email-bmeng.cn@gmail.com>
-In-Reply-To: <1591625864-31494-9-git-send-email-bmeng.cn@gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 15 Jun 2020 09:28:18 -0700
-Message-ID: <CAKmqyKNwobjiCpQAVPhmwsf+y1w88g=P8x+pCT1JESLy8zf+ZA@mail.gmail.com>
-Subject: Re: [PATCH 08/15] hw/riscv: sifive_gpio: Do not blindly trigger
- output IRQs
-To: Bin Meng <bmeng.cn@gmail.com>
+References: <1591663670-47712-1-git-send-email-wang.yi59@zte.com.cn>
+ <94e456a8-0b4f-e1fd-7baa-8f81f36c6872@redhat.com>
+ <31290c21-01bb-e191-a166-1595f4fc8549@redhat.com>
+In-Reply-To: <31290c21-01bb-e191-a166-1595f4fc8549@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 15 Jun 2020 17:32:22 +0100
+Message-ID: <CAFEAcA-D440Z4-cPdmpMXJcfkxjrHTOvwO2PG5BhyXMzRCQN+w@mail.gmail.com>
+Subject: Re: [PATCH] Makefile: Install qemu-[qmp/ga]-ref.* into the directory
+ "interop"
+To: Paolo Bonzini <pbonzini@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::141;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x141.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::244;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x244.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
@@ -79,52 +83,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Palmer Dabbelt <palmerdabbelt@google.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>
+Cc: Yi Wang <wang.yi59@zte.com.cn>, wang.liang82@zte.com.cn,
+ QEMU Trivial <qemu-trivial@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, xue.zhihong@zte.com.cn,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Liao Pingfang <liao.pingfang@zte.com.cn>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 8, 2020 at 7:24 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+On Mon, 15 Jun 2020 at 17:13, Paolo Bonzini <pbonzini@redhat.com> wrote:
 >
-> From: Bin Meng <bin.meng@windriver.com>
->
-> At present the GPIO output IRQs are triggered each time any GPIO
-> register is written. However this is not correct. We should only
-> trigger the output IRQ when the pin is configured as output enable.
->
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> On 09/06/20 06:28, Philippe Mathieu-Daud=C3=A9 wrote:
+> > On 6/9/20 2:47 AM, Yi Wang wrote:
+> >> From: Liao Pingfang <liao.pingfang@zte.com.cn>
+> >>
+> >> We need install qemu-[qmp/ga]-ref.* files into the subdirectory of qem=
+u docs: interop.
+> >>
+> >> If we visit the following address and click the link to qemu-qmp-ref.h=
+tml:
+> >> https://www.qemu.org/docs/master/interop/bitmaps.html#basic-qmp-usage
+> >>
+> >> It will report following error:
+> >> "
+> >> Not Found
+> >> The requested URL /docs/master/interop/qemu-qmp-ref.html was not found=
+ on this server.
+> >> "
+> >>
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> Queued, thanks.
 
-Alistair
+I guess this works, but it's kind of odd because it's installing
+a non-Sphinx document into the Sphinx manual directory.
 
-> ---
->
->  hw/riscv/sifive_gpio.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/hw/riscv/sifive_gpio.c b/hw/riscv/sifive_gpio.c
-> index 0d0fd2b..aac6b44 100644
-> --- a/hw/riscv/sifive_gpio.c
-> +++ b/hw/riscv/sifive_gpio.c
-> @@ -76,7 +76,9 @@ static void update_state(SIFIVEGPIOState *s)
->              actual_value = pull;
->          }
->
-> -        qemu_set_irq(s->output[i], actual_value);
-> +        if (output_en) {
-> +            qemu_set_irq(s->output[i], actual_value);
-> +        }
->
->          /* Input value */
->          ival = input_en && actual_value;
-> --
-> 2.7.4
->
->
+I'm hoping we'll be able to land the conversion of the qapigen
+stuff to rst this cycle, which will make this change moot;
+so I suppose it's the most expedient fix for the moment.
+
+thanks
+-- PMM
 
