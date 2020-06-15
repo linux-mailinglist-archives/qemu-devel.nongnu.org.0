@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B3721FA29E
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 23:16:06 +0200 (CEST)
-Received: from localhost ([::1]:42582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 643AC1FA2A9
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 23:19:44 +0200 (CEST)
+Received: from localhost ([::1]:53596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jkwSb-0003k9-CF
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 17:16:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34002)
+	id 1jkwW7-0008U0-Aa
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 17:19:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jkvuh-0003bB-CW
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 16:41:03 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:37522
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jkvud-0003Uw-U5
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 16:40:59 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:20715
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jkvua-0000j5-54
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 16:41:02 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jkvuZ-0000ht-Ek
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 16:40:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592253655;
+ s=mimecast20190719; t=1592253653;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DHJ1oRCAkhNB2DNfhMMTxnmNKNLrQDT6ZZDgeVIDGmw=;
- b=SjMBuZuKEhurB2K/C2D/dOFKyKF/0bk2l9+PCGbYh417MS0JORy9qoP8apJRIw5nKpAft7
- eoX/P6tRqOjU8Cngeu5M8rdEozWCeqyIstrByLrYSXa4/FLG5rXrIYtlzUl5HOreTuClnQ
- 7vIV2A2E2mpgT5u+/qFSHLOo/okkGHk=
+ bh=y/MjLwpRHMbOqMoFFEVUaukXqnDS4yHry2twS+dsjR0=;
+ b=J/tq9s9KP+27p/wS5tUcxHdSNJ6OTh3TQ4U90426eTIzZSC1vYDYEPRYMK6rM4MWzVwHiu
+ lJjYkM2dDr6VJrumpsMzLSvS4mgxACMVvGSLaDS6PNhAcT0oTnfi+hdRVjAXl0pisYkR9F
+ KTfEV2KWdHuuO4I27GthXSm3+HUIsQ8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-341-HQJYBnUZM8eGGJD3vv4dOg-1; Mon, 15 Jun 2020 16:40:48 -0400
-X-MC-Unique: HQJYBnUZM8eGGJD3vv4dOg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-54-1rznzfYxODCKT2JoQxa9lA-1; Mon, 15 Jun 2020 16:40:51 -0400
+X-MC-Unique: 1rznzfYxODCKT2JoQxa9lA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6155E1091320
- for <qemu-devel@nongnu.org>; Mon, 15 Jun 2020 20:40:47 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AC0305AED2
+ for <qemu-devel@nongnu.org>; Mon, 15 Jun 2020 20:40:50 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-121.ams2.redhat.com
  [10.36.112.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 636D190337;
- Mon, 15 Jun 2020 20:40:44 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7DE237FE92;
+ Mon, 15 Jun 2020 20:40:43 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id E39A41132D80; Mon, 15 Jun 2020 22:40:08 +0200 (CEST)
+ id E717B1132D83; Mon, 15 Jun 2020 22:40:08 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 55/84] usb: Eliminate usb_try_create_simple()
-Date: Mon, 15 Jun 2020 22:39:39 +0200
-Message-Id: <20200615204008.3069956-56-armbru@redhat.com>
+Subject: [PULL 56/84] qdev: qdev_create(), qdev_try_create() are now unused,
+ drop
+Date: Mon, 15 Jun 2020 22:39:40 +0200
+Message-Id: <20200615204008.3069956-57-armbru@redhat.com>
 In-Reply-To: <20200615204008.3069956-1-armbru@redhat.com>
 References: <20200615204008.3069956-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/15 15:33:04
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/15 16:38:57
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -80,95 +81,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-usb_try_create_simple() is qdev_try_new() and qdev_realize_and_unref()
-with more verbose error messages.  Of its two users, one ignores
-errors, and the other asserts they are impossible.
-
-Make them use qdev_try_new() and qdev_realize_and_unref() directly,
-and eliminate usb_try_create_simple
-
-Cc: Gerd Hoffmann <kraxel@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20200610053247.1583243-30-armbru@redhat.com>
+Message-Id: <20200610053247.1583243-31-armbru@redhat.com>
 ---
- hw/usb/bus.c | 37 ++++++++++++++-----------------------
- 1 file changed, 14 insertions(+), 23 deletions(-)
+ include/hw/qdev-core.h |  2 --
+ hw/core/qdev.c         | 48 ------------------------------------------
+ hw/core/sysbus.c       |  1 -
+ migration/migration.c  |  2 +-
+ 4 files changed, 1 insertion(+), 52 deletions(-)
 
-diff --git a/hw/usb/bus.c b/hw/usb/bus.c
-index 5c4d31614e..a81aee2051 100644
---- a/hw/usb/bus.c
-+++ b/hw/usb/bus.c
-@@ -318,35 +318,22 @@ USBDevice *usb_new(const char *name)
-     return USB_DEVICE(qdev_new(name));
+diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
+index be6f7c4736..ef6137b6a8 100644
+--- a/include/hw/qdev-core.h
++++ b/include/hw/qdev-core.h
+@@ -320,8 +320,6 @@ compat_props_add(GPtrArray *arr,
+ 
+ /*** Board API.  This should go away once we have a machine config file.  ***/
+ 
+-DeviceState *qdev_create(BusState *bus, const char *name);
+-DeviceState *qdev_try_create(BusState *bus, const char *name);
+ DeviceState *qdev_new(const char *name);
+ DeviceState *qdev_try_new(const char *name);
+ void qdev_init_nofail(DeviceState *dev);
+diff --git a/hw/core/qdev.c b/hw/core/qdev.c
+index 4768244f31..a1fdebb3aa 100644
+--- a/hw/core/qdev.c
++++ b/hw/core/qdev.c
+@@ -128,54 +128,6 @@ void qdev_set_parent_bus(DeviceState *dev, BusState *bus)
+     }
  }
  
-+static USBDevice *usb_try_new(const char *name)
-+{
-+    return USB_DEVICE(qdev_try_new(name));
-+}
-+
- bool usb_realize_and_unref(USBDevice *dev, USBBus *bus, Error **errp)
- {
-     return qdev_realize_and_unref(&dev->qdev, &bus->qbus, errp);
- }
- 
--static USBDevice *usb_try_create_simple(USBBus *bus, const char *name,
--                                        Error **errp)
+-/* Create a new device.  This only initializes the device state
+-   structure and allows properties to be set.  The device still needs
+-   to be realized.  See qdev-core.h.  */
+-DeviceState *qdev_create(BusState *bus, const char *name)
 -{
--    Error *err = NULL;
 -    DeviceState *dev;
 -
--    dev = qdev_try_new(name);
+-    dev = qdev_try_create(bus, name);
 -    if (!dev) {
--        error_setg(errp, "Failed to create USB device '%s'", name);
--        return NULL;
+-        if (bus) {
+-            error_report("Unknown device '%s' for bus '%s'", name,
+-                         object_get_typename(OBJECT(bus)));
+-        } else {
+-            error_report("Unknown device '%s' for default sysbus", name);
+-        }
+-        abort();
 -    }
--    qdev_realize_and_unref(dev, &bus->qbus, &err);
--    if (err) {
--        error_propagate_prepend(errp, err,
--                                "Failed to initialize USB device '%s': ",
--                                name);
--        return NULL;
--    }
--    return USB_DEVICE(dev);
+-
+-    return dev;
 -}
 -
- USBDevice *usb_create_simple(USBBus *bus, const char *name)
- {
--    return usb_try_create_simple(bus, name, &error_abort);
-+    USBDevice *dev = usb_new(name);
-+
-+    usb_realize_and_unref(dev, bus, &error_abort);
-+    return dev;
- }
+-DeviceState *qdev_try_create(BusState *bus, const char *type)
+-{
+-    DeviceState *dev;
+-
+-    if (object_class_by_name(type) == NULL) {
+-        return NULL;
+-    }
+-    dev = DEVICE(object_new(type));
+-    if (!dev) {
+-        return NULL;
+-    }
+-
+-    if (!bus) {
+-        /* Assert that the device really is a SysBusDevice before
+-         * we put it onto the sysbus. Non-sysbus devices which aren't
+-         * being put onto a bus should be created with object_new(TYPE_FOO),
+-         * not qdev_create(NULL, TYPE_FOO).
+-         */
+-        g_assert(object_dynamic_cast(OBJECT(dev), TYPE_SYS_BUS_DEVICE));
+-        bus = sysbus_get_default();
+-    }
+-
+-    qdev_set_parent_bus(dev, bus);
+-    object_unref(OBJECT(dev));
+-    return dev;
+-}
+-
+ /*
+  * Create a device on the heap.
+  * A type @name must exist.
+diff --git a/hw/core/sysbus.c b/hw/core/sysbus.c
+index b5db0d179f..7ff1b5f2de 100644
+--- a/hw/core/sysbus.c
++++ b/hw/core/sysbus.c
+@@ -325,7 +325,6 @@ static const TypeInfo sysbus_device_type_info = {
+     .class_init = sysbus_device_class_init,
+ };
  
- static void usb_fill_port(USBPort *port, void *opaque, int index,
-@@ -426,6 +413,7 @@ void usb_claim_port(USBDevice *dev, Error **errp)
- {
-     USBBus *bus = usb_bus_from_device(dev);
-     USBPort *port;
-+    USBDevice *hub;
+-/* This is a nasty hack to allow passing a NULL bus to qdev_create.  */
+ static BusState *main_system_bus;
  
-     assert(dev->port == NULL);
- 
-@@ -443,7 +431,10 @@ void usb_claim_port(USBDevice *dev, Error **errp)
-     } else {
-         if (bus->nfree == 1 && strcmp(object_get_typename(OBJECT(dev)), "usb-hub") != 0) {
-             /* Create a new hub and chain it on */
--            usb_try_create_simple(bus, "usb-hub", NULL);
-+            hub = usb_try_new("usb-hub");
-+            if (hub) {
-+                usb_realize_and_unref(hub, bus, NULL);
-+            }
-         }
-         if (bus->nfree == 0) {
-             error_setg(errp, "tried to attach usb device %s to a bus "
+ static void main_system_bus_create(void)
+diff --git a/migration/migration.c b/migration/migration.c
+index b63ad91d34..481a590f72 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -3778,7 +3778,7 @@ static const TypeInfo migration_type = {
+     .name = TYPE_MIGRATION,
+     /*
+      * NOTE: TYPE_MIGRATION is not really a device, as the object is
+-     * not created using qdev_create(), it is not attached to the qdev
++     * not created using qdev_new(), it is not attached to the qdev
+      * device tree, and it is never realized.
+      *
+      * TODO: Make this TYPE_OBJECT once QOM provides something like
 -- 
 2.26.2
 
