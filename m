@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85D991FA241
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 23:04:37 +0200 (CEST)
-Received: from localhost ([::1]:34268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AFDF1FA292
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 23:12:56 +0200 (CEST)
+Received: from localhost ([::1]:60526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jkwHU-0004ne-7o
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 17:04:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33826)
+	id 1jkwPX-0007hm-6R
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 17:12:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jkvua-0003Os-RB
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 16:40:56 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:22724
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jkvuf-0003YJ-Lu
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 16:41:01 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:44632
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jkvuT-0000eZ-S1
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 16:40:56 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jkvua-0000gv-2d
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 16:41:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592253648;
+ s=mimecast20190719; t=1592253651;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UizYDe2hmq5ri7ZQKXfkui7OgdwrsZYupRkVPN0KO/I=;
- b=C+vHE/38Sm/TbEgcZhGwtrhWQ539SE1yuzGHLOPyNtKIe7HD+/Q8zGjshTpmaP/ytQqY9G
- i1sVJFjLkXH+wp/ZdcxTc8ZDAK7orKLASvgtdaeEdeA+KGEgGmv4fTunUVGfLoeJqdqx3P
- Bvk6pxFx7aTCJKx27gip8XKWoEU34M8=
+ bh=vyJJny2n+uv4N9Ypg1gW88LQd4WLpK2YY9vPs+d/TRA=;
+ b=aqD3Q8ND/q8SK3Hvpkh1KGDstP0I11yO4XsayH8V28TSAIHZlm+ZOQR0NP1eGmrF09zeS5
+ Fmiojjs9D+iZCx5zBKXbzTOKL7nBPiiVzSgt32GwJXE5sHNhauJ5XVDvjMKQaCEF+8h4Mc
+ gmKlnZs13rEX6arcWVbFRSEe0nhosu0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-316-2rM166baPi2JjkU1ICClKw-1; Mon, 15 Jun 2020 16:40:42 -0400
-X-MC-Unique: 2rM166baPi2JjkU1ICClKw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-99-OgafaLUTOC-vc7BRXjbXtg-1; Mon, 15 Jun 2020 16:40:49 -0400
+X-MC-Unique: OgafaLUTOC-vc7BRXjbXtg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7A4B75AEC9
- for <qemu-devel@nongnu.org>; Mon, 15 Jun 2020 20:40:41 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 38FAA1091325
+ for <qemu-devel@nongnu.org>; Mon, 15 Jun 2020 20:40:40 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-121.ams2.redhat.com
  [10.36.112.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3ECF97FE87;
- Mon, 15 Jun 2020 20:40:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0AA0E5D9CD;
+ Mon, 15 Jun 2020 20:40:33 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 8C5C61135239; Mon, 15 Jun 2020 22:40:08 +0200 (CEST)
+ id 936BE113523F; Mon, 15 Jun 2020 22:40:08 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 32/84] qdev: Convert to qbus_realize(), qbus_unrealize()
-Date: Mon, 15 Jun 2020 22:39:16 +0200
-Message-Id: <20200615204008.3069956-33-armbru@redhat.com>
+Subject: [PULL 34/84] qdev: Convert to qdev_unrealize() manually
+Date: Mon, 15 Jun 2020 22:39:18 +0200
+Message-Id: <20200615204008.3069956-35-armbru@redhat.com>
 In-Reply-To: <20200615204008.3069956-1-armbru@redhat.com>
 References: <20200615204008.3069956-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/15 15:33:00
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/15 15:33:04
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,67 +85,49 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I'm going to convert device realization to qdev_realize() with the
-help of Coccinelle.  Convert bus realization to qbus_realize() first,
-to get it out of Coccinelle's way.  Readability improves.
-
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20200610053247.1583243-7-armbru@redhat.com>
+Message-Id: <20200610053247.1583243-9-armbru@redhat.com>
 ---
- hw/core/qdev.c | 10 +++-------
- hw/pci/pci.c   |  2 +-
- 2 files changed, 4 insertions(+), 8 deletions(-)
+ include/hw/qdev-core.h | 1 -
+ hw/core/qdev.c         | 4 ++--
+ 2 files changed, 2 insertions(+), 3 deletions(-)
 
+diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
+index fba29308f7..be6f7c4736 100644
+--- a/include/hw/qdev-core.h
++++ b/include/hw/qdev-core.h
+@@ -328,7 +328,6 @@ void qdev_init_nofail(DeviceState *dev);
+ bool qdev_realize(DeviceState *dev, BusState *bus, Error **errp);
+ bool qdev_realize_and_unref(DeviceState *dev, BusState *bus, Error **errp);
+ void qdev_unrealize(DeviceState *dev);
+-
+ void qdev_set_legacy_instance_id(DeviceState *dev, int alias_id,
+                                  int required_for_version);
+ HotplugHandler *qdev_get_bus_hotplug_handler(DeviceState *dev);
 diff --git a/hw/core/qdev.c b/hw/core/qdev.c
-index f2c5cee278..b7355fbcd0 100644
+index b7355fbcd0..4768244f31 100644
 --- a/hw/core/qdev.c
 +++ b/hw/core/qdev.c
-@@ -1024,9 +1024,7 @@ static void device_set_realized(Object *obj, bool value, Error **errp)
-         resettable_state_clear(&dev->reset);
- 
-         QLIST_FOREACH(bus, &dev->child_bus, sibling) {
--            object_property_set_bool(OBJECT(bus), true, "realized",
--                                         &local_err);
--            if (local_err != NULL) {
-+            if (!qbus_realize(bus, errp)) {
-                 goto child_realize_fail;
-             }
-         }
-@@ -1051,8 +1049,7 @@ static void device_set_realized(Object *obj, bool value, Error **errp)
- 
-     } else if (!value && dev->realized) {
-         QLIST_FOREACH(bus, &dev->child_bus, sibling) {
--            object_property_set_bool(OBJECT(bus), false, "realized",
--                                     &error_abort);
-+            qbus_unrealize(bus);
-         }
-         if (qdev_get_vmsd(dev)) {
-             vmstate_unregister(VMSTATE_IF(dev), qdev_get_vmsd(dev), dev);
-@@ -1070,8 +1067,7 @@ static void device_set_realized(Object *obj, bool value, Error **errp)
- 
- child_realize_fail:
-     QLIST_FOREACH(bus, &dev->child_bus, sibling) {
--        object_property_set_bool(OBJECT(bus), false, "realized",
--                                 &error_abort);
-+        qbus_unrealize(bus);
-     }
- 
-     if (qdev_get_vmsd(dev)) {
-diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-index a60cf3ae3b..955eb11a01 100644
---- a/hw/pci/pci.c
-+++ b/hw/pci/pci.c
-@@ -456,7 +456,7 @@ void pci_root_bus_cleanup(PCIBus *bus)
+@@ -421,7 +421,7 @@ static void device_reset_child_foreach(Object *obj, ResettableChildCallback cb,
+ void qdev_simple_device_unplug_cb(HotplugHandler *hotplug_dev,
+                                   DeviceState *dev, Error **errp)
  {
-     pci_bus_uninit(bus);
-     /* the caller of the unplug hotplug handler will delete this device */
--    object_property_set_bool(OBJECT(bus), false, "realized", &error_abort);
-+    qbus_unrealize(BUS(bus));
+-    object_property_set_bool(OBJECT(dev), false, "realized", &error_abort);
++    qdev_unrealize(dev);
  }
  
- void pci_bus_irqs(PCIBus *bus, pci_set_irq_fn set_irq, pci_map_irq_fn map_irq,
+ /*
+@@ -1183,7 +1183,7 @@ static void device_unparent(Object *obj)
+     BusState *bus;
+ 
+     if (dev->realized) {
+-        object_property_set_bool(obj, false, "realized", &error_abort);
++        qdev_unrealize(dev);
+     }
+     while (dev->num_child_bus) {
+         bus = QLIST_FIRST(&dev->child_bus);
 -- 
 2.26.2
 
