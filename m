@@ -2,68 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 288CC1F8D32
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 07:13:28 +0200 (CEST)
-Received: from localhost ([::1]:60378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA4B61F8D34
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 07:18:32 +0200 (CEST)
+Received: from localhost ([::1]:35728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jkhR0-0004ft-Ob
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 01:13:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44236)
+	id 1jkhVv-0006Nk-FG
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 01:18:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jkhQH-0004GJ-9E
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 01:12:41 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:58570
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jkhV6-0005rX-M9
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 01:17:40 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:31750
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jkhQE-00074Y-Q3
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 01:12:40 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jkhV3-0007yi-My
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 01:17:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592197956;
+ s=mimecast20190719; t=1592198256;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=ia+C12z2Ucwp0vR10wHCy+xmy3VA3kNNhxNj2Dsiu+I=;
- b=CoqVHehTuhnRGVLo1js3E5k6snqmnziaw8hNRqXOROXymXgucKLYM75uS7u7vLnbwxow49
- Uw7UwmTJbavmQMVlpG3OkZUyZ9dJjE8qCmFDv49UfNmyHKcBdl5vWPGNrOiMPCdHufJJxb
- QQowgOPM2g+YvZWTSBTPTbw7LE/hoEo=
+ bh=P75QsGVo7uZ4+AvkQjhhjK0qNa1sQ/H5N3Y7+Tmh0zs=;
+ b=TPgiyNIW0cnxf1ryQofTmtK2xLKKB6lRB+kajNn/Eb5c1RiAVslyLvS2sxX0VIyaExLxNo
+ RimkbfvB7DVXmfnRQsNNZ6UvNGxaiobEhHdZfd02PXOFE2K3E3/3dZrK1HerT22dV17CMC
+ YPb29l8IE4xD7YpiRvbkIVojj9nwJYI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-412-oSoyd2zoPrC35gZgAh7uxg-1; Mon, 15 Jun 2020 01:12:28 -0400
-X-MC-Unique: oSoyd2zoPrC35gZgAh7uxg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-109-o2c0Z24HPqqw0Xyg1lHYsg-1; Mon, 15 Jun 2020 01:17:32 -0400
+X-MC-Unique: o2c0Z24HPqqw0Xyg1lHYsg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 70CAA10082EB;
- Mon, 15 Jun 2020 05:12:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BFB191009456;
+ Mon, 15 Jun 2020 05:17:31 +0000 (UTC)
 Received: from thuth.remote.csb (ovpn-112-111.ams2.redhat.com [10.36.112.111])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 42F3D7CAB8;
- Mon, 15 Jun 2020 05:12:25 +0000 (UTC)
-Subject: Re: [PATCH] .travis.yml: Use travis_retry() in case of network issues
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20200613130622.20541-1-f4bug@amsat.org>
- <5ba02176-34c9-f984-95f4-1f61103d785c@ilande.co.uk>
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 056FA100238C;
+ Mon, 15 Jun 2020 05:17:26 +0000 (UTC)
+Subject: Re: [PATCH v2] Makefile: Remove generated files when doing
+ 'distclean' (and 'clean')
+To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20191008082815.8267-1-thuth@redhat.com>
+ <CAL1e-=gYkhM99Ee0LxZJ5dCjeEdC08G4_Tm3WCZpCSWvJ=b26Q@mail.gmail.com>
+ <4bfea125-eb63-f4a2-bca0-bce462f73d89@redhat.com>
+ <CAFEAcA_+V7SNsxPSgsd04s8f7PnP3qdyXMp6NvS2inHjE08pJw@mail.gmail.com>
+ <CAL1e-=ijjbTG19NHnsDrcJdb7kajBdcndMT8JXymqC6UViiitQ@mail.gmail.com>
 From: Thomas Huth <thuth@redhat.com>
 Openpgp: preference=signencrypt
-Message-ID: <bc9c331b-cfd4-9d46-3c02-86e95d93be88@redhat.com>
-Date: Mon, 15 Jun 2020 07:12:22 +0200
+Message-ID: <770c89b9-44d1-0982-34ff-1830911ac413@redhat.com>
+Date: Mon, 15 Jun 2020 07:17:25 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <5ba02176-34c9-f984-95f4-1f61103d785c@ilande.co.uk>
+In-Reply-To: <CAL1e-=ijjbTG19NHnsDrcJdb7kajBdcndMT8JXymqC6UViiitQ@mail.gmail.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/15 01:12:36
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=thuth@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/15 01:17:36
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -84,59 +87,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 14/06/2020 11.48, Mark Cave-Ayland wrote:
-> On 13/06/2020 14:06, Philippe Mathieu-Daudé wrote:
-> 
->> Use travis_retry() when cloning SLOF (see 31c8cc4f94e) in the
->> s390x container job, to avoid build failures:
+On 13/06/2020 18.28, Aleksandar Markovic wrote:
+> On Tue, Oct 8, 2019 at 2:41 PM Peter Maydell <peter.maydell@linaro.org> wrote:
 >>
->>   $ ( cd ${SRC_DIR} ; git submodule update --init roms/SLOF )
->>   Submodule 'roms/SLOF' (https://git.qemu.org/git/SLOF.git) registered for path 'roms/SLOF'
->>   Cloning into '/home/travis/build/user/qemu/roms/SLOF'...
->>   fatal: unable to access 'https://git.qemu.org/git/SLOF.git/': Could not resolve host: git.qemu.org
->>   fatal: clone of 'https://git.qemu.org/git/SLOF.git' into submodule path '/home/travis/build/user/qemu/roms/SLOF' failed
->>   Failed to clone 'roms/SLOF'. Retry scheduled
->>   Cloning into '/home/travis/build/user/qemu/roms/SLOF'...
->>   fatal: unable to access 'https://git.qemu.org/git/SLOF.git/': Could not resolve host: git.qemu.org
->>   fatal: clone of 'https://git.qemu.org/git/SLOF.git' into submodule path '/home/travis/build/user/qemu/roms/SLOF' failed
->>   Failed to clone 'roms/SLOF' a second time, aborting
->>   The command "( cd ${SRC_DIR} ; git submodule update --init roms/SLOF )" exited with 1.
+>> On Tue, 8 Oct 2019 at 13:37, Thomas Huth <thuth@redhat.com> wrote:
+>>>
+>>> On 08/10/2019 14.18, Aleksandar Markovic wrote:
+>>>> If I remember well, QAPI-related c files are generated while doing
+>>>> 'make'. If that is true, these files should be deleted by 'make clean',
+>>>> shouldn't they?
+>>>
+>>> I think that's a philosophical question. Should "make clean" delete all
+>>> files that have been generated by a Makefile (i.e. not by "configure"),
+>>> or rather mainly the binary files?
 >>
->> Reported-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> ---
->>  .travis.yml | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
+>> https://www.gnu.org/software/automake/manual/html_node/Clean.html
 >>
->> diff --git a/.travis.yml b/.travis.yml
->> index ec6367af1f..19a1b55aab 100644
->> --- a/.travis.yml
->> +++ b/.travis.yml
->> @@ -496,7 +496,7 @@ jobs:
->>          - CONFIG="--disable-containers --target-list=${MAIN_SOFTMMU_TARGETS},s390x-linux-user"
->>          - UNRELIABLE=true
->>        script:
->> -        - ( cd ${SRC_DIR} ; git submodule update --init roms/SLOF )
->> +        - ( cd ${SRC_DIR} ; travis_retry git submodule update --init roms/SLOF )
->>          - BUILD_RC=0 && make -j${JOBS} || BUILD_RC=$?
->>          - |
->>            if [ "$BUILD_RC" -eq 0 ] ; then
+>> The autoconf manual suggests some heuristics:
+>>  - If make built it, and it is commonly something that one would want
+>>    to rebuild (for instance, a .o file), then mostlyclean should delete it.
+>>  - Otherwise, if make built it, then clean should delete it.
+>>  - If configure built it, then distclean should delete it.
+>>  - If the maintainer built it (for instance, a .info file), then
+>>    maintainer-clean should delete it. However maintainer-clean should
+>>    not delete anything that needs to exist in order to run
+>> './configure && make'.
+>>
 > 
-> Hi Phil,
-> 
-> Thanks for diagnosing and proposing a fix. Is there a reason why SLOF in particular
-> is failing compared to other repositories that might also need a similar change?
+> Thomas, can we reincarnate this patch? It needs only fairly simple
+> corrections, as said by Peter above. It would be nice to have at least
+> one release of QEMU with clean clean and distclean.
 
-That's what I wonder, too. If git.qemu.org could not be resolved for
-SLOF.git, why should it be resolvable for the other submodules that are
-checked out automatically during the build process?
+That depends ... Marc-André, Paolo, what's the status of the meson patch
+series? Do you think it will be merged for the next release already? If
+so, it does not make much sense to respin my distclean patch. Otherwise
+I could do another iteration...
 
  Thomas
 
