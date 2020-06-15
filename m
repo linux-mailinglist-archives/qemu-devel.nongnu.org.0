@@ -2,112 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48F6F1F93D9
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 11:47:16 +0200 (CEST)
-Received: from localhost ([::1]:58402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DA511F93E4
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 11:49:25 +0200 (CEST)
+Received: from localhost ([::1]:34482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jklhz-0001Fs-8r
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 05:47:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40722)
+	id 1jklk4-00035j-Hg
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 05:49:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jklgN-0000OM-VL
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 05:45:35 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:30038
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jklgL-0006cR-M0
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 05:45:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592214332;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=wPYHGoO4CqXANlsjYaA0wi7JY1jGlu8qGNaNIzAKLVU=;
- b=hS5lzMte1EEFGB1sYC/FkvsKKPm3TBq76Va0mUzHx7gpy5I/QNXLOAkFzT4/R2dKunIQvS
- 0MEPaUhNR95YmvlSJlDx8VGmR82nNM3HikiK/jsmpHgQOafxMXRRL9iwPetaUV3Z4TqDTw
- 6EsrS5cwhoQ2z+qlEYKueWj8WWcgBP0=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-1-L2m1QFy-P06MjPUbAYMZPg-1; Mon, 15 Jun 2020 05:45:20 -0400
-X-MC-Unique: L2m1QFy-P06MjPUbAYMZPg-1
-Received: by mail-wr1-f72.google.com with SMTP id c14so6805919wrm.15
- for <qemu-devel@nongnu.org>; Mon, 15 Jun 2020 02:45:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:autocrypt:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=wPYHGoO4CqXANlsjYaA0wi7JY1jGlu8qGNaNIzAKLVU=;
- b=mie/TTv0HNstFMOWnd9nBlnUBNsQpMLZG7RYdgXIQJY3wwwBD7G5uU4WAWNMMWKueR
- KpAHfO7CVPcvDRg+zQjCjVwctjVR6ZW3fRlpo/844YWtdTtOIGvTH3qisNWnSyKpAO1w
- AHwgdnXuBtMd7/oMjagH5hWoCtkXYf2oRzuU9cPtZrscwVeQVkl2+/zahzgmaqngE8g9
- mMWjWEbav0lALuB1uo0QPXHXolhkkEF051caeDCULm7BsvPNrshdmWRC0tfuz1K1G85I
- vUiMX/w+yGrqWuTrA0GNPVvEOs0NGP+Wk4hwmyvhGGiAmNyZK91prueONj6ptEwIZMH2
- Ha6A==
-X-Gm-Message-State: AOAM532d2KQeH1PMpgoJeXBtoABZCqM7tE0wATG9NeJOwjoj/BJnDOqY
- sUguCKGboU8DJRjUDRVNJSjWw47DJDWlDeZ5DG17/3MGgKITVximlr2QpmNSF/ylzFUxlgf6ueD
- AJr243gkoqM6ejbs=
-X-Received: by 2002:a7b:c7d8:: with SMTP id z24mr11781374wmk.28.1592214319245; 
- Mon, 15 Jun 2020 02:45:19 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxn+FystiLDSdZvtb92afzanp5cDdPGI+hwQhERDcbUh9bLPMJUYaRW7Lqv+qRdPdvvdEIfcA==
-X-Received: by 2002:a7b:c7d8:: with SMTP id z24mr11781362wmk.28.1592214319037; 
- Mon, 15 Jun 2020 02:45:19 -0700 (PDT)
-Received: from [192.168.1.40] (181.red-88-10-103.dynamicip.rima-tde.net.
- [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id j16sm28049543wre.21.2020.06.15.02.45.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 Jun 2020 02:45:18 -0700 (PDT)
-Subject: Re: KVM call for 2016-06-16
-To: quintela@redhat.com, kvm-devel <kvm@vger.kernel.org>, qemu-devel@nongnu.org
-References: <87wo48n047.fsf@secure.mitica>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <6324140e-8cc1-074d-8c02-ccce2f48a094@redhat.com>
-Date: Mon, 15 Jun 2020 11:45:17 +0200
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jklhz-0001rz-Id; Mon, 15 Jun 2020 05:47:15 -0400
+Received: from mail-eopbgr60127.outbound.protection.outlook.com
+ ([40.107.6.127]:50754 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jklhx-0007EF-VT; Mon, 15 Jun 2020 05:47:15 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=IUrZD1U/LtvZo7cLY63YHppaTxr/NHn/t1iMsW9wEZya/T2FizxR0yx5dIsxHND1/BiZKs1+5yPvXhpvX8FfLLeWxIB74nn1YzQMZOTwj/jhSYSC2ICH9I5fIpFwQg7pQ+R+LK3QMWz/qUjnOcS7Lz8lJW7P2SA5q+p/vV0VtZb8+NUocn28NKrPDqf3pPAwpa3B+k9vcdyj8fg35vI38JjIIW8BQMqdmNMPR1u5iUw3FD4RZqxYAxDM/GLaTficlbGyTpGpkWXWIsf/pgWjwhAvXTKK/jGxtaS/xg1ABJeS3nmrcNEgbAztAki914u21rPq+iCrbhpLBIMlhYmIKA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZyqOzCmv2w6NneYc7jdWkb/9lQsUnXSL4Kan7YfPkXs=;
+ b=UEmBRXEjh2/kf17k31pm4dC3YP0vITR7icQMPTQzcUVvorczX1vvI/Rhmq+BMvn3Dgr3Kqkg5v6lBWpAb+VVU4imkvI3xKnpWHQzBeX5QY75AapjfkNr2pDuPG5sPVjl6pn/a6uI3vqao9XE5DKmjUKg3Fv29RLstt+viCgq6IzvjuUHv01js9SjeDQYESIs18Da/eJOaoNVNUz57tsH1fAR8p0m/XJ6lRtiplGbyyGwPGn8bcYLn655jq4Sjez1608VvrUKuhWjfJu3TCvKIyLOHd/dNQQ6zRlzUtOq/dASS2u/zZ2PVAmBBVu7Q4EkHsgGlW88q2pFCb0OUY9HKA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZyqOzCmv2w6NneYc7jdWkb/9lQsUnXSL4Kan7YfPkXs=;
+ b=vvYxP353tLpqOUQeHsU2V3j5GGsobmugSso2J4TdJUE/rcEQ+PxMhVVK1Bo+jDfIjqMrRZ9q7KQbDjF4vRpad0bcsAkpmOrdqiMuQC9p67wGeinvr3m8WKKfL9Q1U4VzBGcIzdoeDUIEVpk87TIlbXxaIZhFcbaCQaLLZ4jL7sg=
+Authentication-Results: openvz.org; dkim=none (message not signed)
+ header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM7PR08MB5415.eurprd08.prod.outlook.com (2603:10a6:20b:10d::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3088.21; Mon, 15 Jun
+ 2020 09:47:11 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::a408:2f0f:bc6c:d312]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::a408:2f0f:bc6c:d312%3]) with mapi id 15.20.3088.028; Mon, 15 Jun 2020
+ 09:47:11 +0000
+Subject: Re: [PATCH v7 3/9] qcow2_format.py: make printable data an extension
+ class member
+To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>, qemu-block@nongnu.org
+References: <1591920302-1002219-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <1591920302-1002219-4-git-send-email-andrey.shinkevich@virtuozzo.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <4e340353-2a5b-3a96-8ffa-ece2e024b2e3@virtuozzo.com>
+Date: Mon, 15 Jun 2020 12:47:09 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
-MIME-Version: 1.0
-In-Reply-To: <87wo48n047.fsf@secure.mitica>
+ Thunderbird/68.8.1
+In-Reply-To: <1591920302-1002219-4-git-send-email-andrey.shinkevich@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/15 01:17:36
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM0PR07CA0029.eurprd07.prod.outlook.com
+ (2603:10a6:208:ac::42) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.2] (185.215.60.182) by
+ AM0PR07CA0029.eurprd07.prod.outlook.com (2603:10a6:208:ac::42) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3109.10 via Frontend Transport; Mon, 15 Jun 2020 09:47:10 +0000
+X-Originating-IP: [185.215.60.182]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: ec398d20-5608-421f-12fd-08d811111385
+X-MS-TrafficTypeDiagnostic: AM7PR08MB5415:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM7PR08MB5415A9AF76F2922CFADA6C1AC19C0@AM7PR08MB5415.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-Forefront-PRVS: 04359FAD81
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: j3gOaKdG/BovZJyOSy8M6dag+VIBbeBXmAEcKJXusTeZl6CetY4uDiAPMZMXRt9WRzfYCYJmq86nKp1PL0MFvAggnmOObespcK4PiXq/xgDxFhaKZdypDRDEaRpHy7mcJJC1TudR13KJjcY5aNHUbbPqclCLz1vag1IKbCf1AABLWr9MueeiNBG82UNV+u1PO98HZU87GTdLfC1ZIpFKL8XdvYY09lry5hRAwk0ZzJW51gM2BAGTO7+GWn5XFl8icndPOy8BboTTmMmvHEYc+xX0X8QVrvrWvlZEaEYpwht19lPLV9TlFCGvv/jedqeTQD+AFYVu7AOLDlSyX9ULWHdT9tnW1wTOYjRpoWd25wWoWLRX8QFkLeutscbn2K0W
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(136003)(396003)(39840400004)(346002)(366004)(376002)(2906002)(83380400001)(4326008)(36756003)(107886003)(5660300002)(956004)(31686004)(2616005)(66556008)(52116002)(26005)(8936002)(186003)(316002)(66946007)(66476007)(6486002)(478600001)(31696002)(86362001)(16576012)(16526019)(8676002)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: SIZ0hlVd/vVyNM+iRzKIsZ+qAMr/9HMypE/zL7sdU7tYI/HhH8cH4xgTx20DWUdiyOzcP36kma3nHfPVjW3NGz72r53VtgID8Av4aDVd5jFvsvm9Zgoiw/9xfaNO2IUOAsylhlkJFSLV0tLTM1vX0OEryXnwmip7mQAnUU7VRTxDOim90/wC1iZpJ545X+g/5f90Gx2a2rfH+OoV9JgjFaVTNnZMS9RBY6X5M9sRAlBpETUbFRMQwBbBfuEeVw5u4fv9RDd3OtUf/5DQey4M1wdn2C2s8qbzw8XK5oDqShyzz0K/JVluUUkYkQxmXoaNVcxYDxVyLNG1sS5MBnuChWw3jIB1eKV9+WfrPTxy18Stei3urWqmqt/jw/tVfgkKNxvoPs7iZVLOcWqMsZYcsWCwymlpElAEw1c3bzxQ/N45LJ1wko7j1s3oBQESM63rz0OAdZfmYfjWw1lSNiWryyzAL7OH/xnATvWzMe4AYqDgUrIJJO8lX2ZjgoxOqTil
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ec398d20-5608-421f-12fd-08d811111385
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jun 2020 09:47:11.3943 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: dhGcxKIST9VWTnYLBvxuERos5D9wr5AJtcN6gbiaL7wBybCC8HAQuK2lCPwQgaQWTROF206mNq4V9se+mKXAwQC5sc8WHJ5rL/L1+4rwYak=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5415
+Received-SPF: pass client-ip=40.107.6.127;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR04-DB3-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/15 05:47:12
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -37
+X-Spam_score: -3.8
 X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -120,75 +117,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: kwolf@redhat.com, den@openvz.org, qemu-devel@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Juan,
+12.06.2020 03:04, Andrey Shinkevich wrote:
+> Let us differ binary data type from string one for the extension data
+> variable and keep the string as the QcowHeaderExtension class member.
 
-On 6/15/20 11:34 AM, Juan Quintela wrote:
-> 
-> Hi
-> 
-> Please, send any topic that you are interested in covering.
-> There is already a topic from last call:
-
-This topic was already discussed in the last call :)
+Keep my r-b, but I just want to note, that I missed, what is the actual aim of this change..
 
 > 
-> Last minute suggestion after recent IRC chat with Alex Bennée and
-> Thomas Huth:
+> Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+> Reviewed-by: Eric Blake <eblake@redhat.com>
+> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>   tests/qemu-iotests/qcow2_format.py | 14 ++++++++------
+>   1 file changed, 8 insertions(+), 6 deletions(-)
 > 
-> "Move some of the build/CI infrastructure to GitLab."
-> 
-> Pro/Con?
-> 
->  - GitLab does not offer s390x/ppc64el => keep Travis for these?
-> 
-> How to coordinate efforts?
-> 
-> What we want to improve? Priorities?
-> 
-> Who can do which task / is motivated.
-> 
-> What has bugged us recently:
-> - Cross-build images (currently rebuilt all the time on Shippable)
-> 
-> Long term interests:
-> 
-> - Collect quality metrics
->   . build time
->   . test duration
->   . performances
->   . binary size
->   . runtime memory used
-> 
-> - Collect code coverage
-> 
-> Note, this is orthogonal to the "Gating CI" task Cleber is working on:
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg688150.html
-> 
-> 
-> 
-> 
-> At the end of Monday I will send an email with the agenda or the
-> cancellation of the call, so hurry up.
-> 
-> After discussions on the QEMU Summit, we are going to have always open a
-> KVM call where you can add topics.
-> 
->  Call details:
-> 
-> By popular demand, a google calendar public entry with it
-> 
->   https://www.google.com/calendar/embed?src=dG9iMXRqcXAzN3Y4ZXZwNzRoMHE4a3BqcXNAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ
-> 
-> (Let me know if you have any problems with the calendar entry.  I just
-> gave up about getting right at the same time CEST, CET, EDT and DST).
-> 
-> If you need phone number details,  contact me privately
-> 
-> Thanks, Juan.
-> 
+> diff --git a/tests/qemu-iotests/qcow2_format.py b/tests/qemu-iotests/qcow2_format.py
+> index 0f65fd1..d4f0000 100644
+> --- a/tests/qemu-iotests/qcow2_format.py
+> +++ b/tests/qemu-iotests/qcow2_format.py
+> @@ -164,6 +164,13 @@ class QcowHeaderExtension(Qcow2Struct):
+>               self.data = fd.read(padded)
+>               assert self.data is not None
+>   
+> +        data_str = self.data[:self.length]
+> +        if all(c in string.printable.encode('ascii') for c in data_str):
+> +            data_str = f"'{ data_str.decode('ascii') }'"
+> +        else:
+> +            data_str = '<binary>'
+> +        self.data_str = data_str
+> +
+>           if self.magic == QCOW2_EXT_MAGIC_BITMAPS:
+>               self.obj = Qcow2BitmapExt(data=self.data)
+>           else:
+> @@ -173,12 +180,7 @@ class QcowHeaderExtension(Qcow2Struct):
+>           super().dump()
+>   
+>           if self.obj is None:
+> -            data = self.data[:self.length]
+> -            if all(c in string.printable.encode('ascii') for c in data):
+> -                data = f"'{ data.decode('ascii') }'"
+> -            else:
+> -                data = '<binary>'
+> -            print(f'{"data":<25} {data}')
+> +            print(f'{"data":<25} {self.data_str}')
+>           else:
+>               self.obj.dump()
+>   
 > 
 
+
+-- 
+Best regards,
+Vladimir
 
