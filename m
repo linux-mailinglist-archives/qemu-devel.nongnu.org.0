@@ -2,109 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFD321F9DD0
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 18:48:08 +0200 (CEST)
-Received: from localhost ([::1]:42588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BF9F1F9DE2
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 18:54:55 +0200 (CEST)
+Received: from localhost ([::1]:51936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jksHI-0006av-2Q
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 12:48:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38672)
+	id 1jksNq-0002S4-1a
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 12:54:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jksFq-0005n0-Iv
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 12:46:42 -0400
-Received: from mout.kundenserver.de ([217.72.192.74]:42695)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jksFn-0002pJ-Tb
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 12:46:38 -0400
-Received: from [192.168.100.1] ([82.252.135.106]) by mrelayeu.kundenserver.de
- (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1M593i-1jjlmv0wwG-0019I6; Mon, 15 Jun 2020 18:46:17 +0200
-To: Fred Konrad <konrad@adacore.com>, qemu-devel@nongnu.org
-References: <1588094279-17913-1-git-send-email-frederic.konrad@adacore.com>
- <1588094279-17913-2-git-send-email-frederic.konrad@adacore.com>
- <1f4d93eb-0b89-5189-0147-3a456197cc0d@vivier.eu>
- <0cfb0348-d6db-db68-3181-85a605bfa91b@adacore.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
- 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
-Subject: Re: [PATCH 1/2] softfloat: m68k: infinity is a valid encoding
-Message-ID: <6224f733-3655-ff14-4fc2-8435f0f531cf@vivier.eu>
-Date: Mon, 15 Jun 2020 18:46:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jksN6-0001zS-AX
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 12:54:08 -0400
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:38641)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jksN4-00044l-CT
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 12:54:07 -0400
+Received: by mail-oi1-x244.google.com with SMTP id c194so16511964oig.5
+ for <qemu-devel@nongnu.org>; Mon, 15 Jun 2020 09:54:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=RhTc02SUPXCIhBoDXKpaH4nvryx0HQr1bm7mVp4QOpM=;
+ b=zm9jnbkp8IotzeH6faum2UUN9EM0GwYN128gZ1X5htNgQzvN2XobfmlwXtCEKk3FAY
+ Sai5Rn6ZIT+kp3HWYxIkof+w4yxQJ9EuN65HZFUnsu4BbFlVDic0VnJ4z2GeWoGG7rpA
+ jL4GhljxnNcJxy4Bp71vw1gl6HcZaYFHPgwPVZk7ltsACfBKXT8huq6XJ93mwUZWWqxh
+ genwQFJ1NrvAKA+bllH1DqRqX5/19WNEls32Nl5mOW9HMzsyzs/2pLVZse+BqUukIpYX
+ LOyCY3UIZAA750nzWhSJgVGC5jfiuOyr/pJxW1ZtTr4M60ByvBhaxAJpS8xpkRtd4Yc/
+ 5vaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=RhTc02SUPXCIhBoDXKpaH4nvryx0HQr1bm7mVp4QOpM=;
+ b=rmC9lkDV32bXMOT1b6UZK7CjQtLK7vOM5GLaXPh7+LqvbM4tPmGfmJC/Doxzkc4NGY
+ auW0WILZe5Sivp5KcAFnDsviQCdsQZqcj05SCkth4pXkFLEhtjfc9RtKnPdOggjx+Ass
+ gEyEKXx7aTqeJieNqbxtXPBmcbuNmmcqDJ84EvSkebqNERSfDq/l9HH7o0eP0uhmj0J+
+ Qlb5uTScywvlSR5Lt1PLpkmySTSdLnnFCe/gb1pee+CKtyN1Yio1DQvY/BalhEjYzPBd
+ PEibyFN1WRlwXj63qQRde6qD03TZQjSgbxtW60Wuv/RCveqW3+5eFkTaX3V9ZgJkTPFh
+ uVIQ==
+X-Gm-Message-State: AOAM531+F4SIyvugVAuXaYD44c1ANWNU5RaJqNa7llJ3aSMwKtsTf3ya
+ pe3FSamDMuT2CuNenzjMcEVvx2yXuBEpsOQSjgBcyA==
+X-Google-Smtp-Source: ABdhPJz5Ds/o798EISRwOKvDCeGFyBeJTX7M0kDaYcSeS2gtJ7vZlyLGuFZK7tbC+Zz/XC6PnmMHu4Y9fczwGhUOGH4=
+X-Received: by 2002:aca:568c:: with SMTP id k134mr221207oib.48.1592240045268; 
+ Mon, 15 Jun 2020 09:54:05 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <0cfb0348-d6db-db68-3181-85a605bfa91b@adacore.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:OIVBYbMFctURwBHakP4YWy3jluYXvO2MmjJeTTPEzOI9+4YKvGN
- tVDt2odOIQhR1E9pWJe9hx2COOjJCf2OqPsNkRxdk65GsO4Nk0kO96wyetaSHHgVMiCGQV7
- eJHxXutGBDetot6mHqxrFu5ziKAjah6jvybaHF/pGoVwzrxv+bXLgsh2Vys6SckteEDSpEm
- AGHkru6P7RQC5qbqi35Tg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:zu7HxR9H2Tw=:IMMz2O4F9uqIU6r+XaYXLh
- GQap9A4wy3diPHBNIyp//G/Qh5epGoZrrYu1TCKGSBD0XF2ANcTvApqSH/2mfhhH8xjreBA7M
- S4r2144sWRc80LbggW8N4Crmyrzu5LJjhZLyfqgBywyVpDDEcPJvXgcPTTIFPHYmIVVonTgZy
- 3wTeZG4sD4OqYkCyMnsgIBys6NwRIusJ5a550JVY2ueayaRxmU6WPP04BZkVWegUKOGFSU60n
- jDAs7xVnR9uZKxgc9OCgILoATg9QYoTrXY8uhvn93P4bhSY5n4DmC0mIi5yCPSweztMWWHIKB
- GJX1kZLuyekeUYOup5zgzLa/Bq8c3Iaj7KHr2E0yMfmvC/9wm73sRG9yOWGwDjMNsWVH/W0Wi
- 7F3FswRM6hv+uX/Y6QNLzaOISMeCKKK5rbUyxcUO0RxuDVCPvliQjkPYAJPvnWLDvscpnhb7n
- X7MnBl+GPhBnZuat3Q3Tszu51lwgruJOwcxn2bQ9BC+f9QJv2y2zQldXd4CPqtAFUFzPM/USC
- tHfqxQMUz6LFocn/MXxcO9CCUaEIPJnUkrF+c+K2YRymEh5Sf5oh101VVl2BGJT8WeidOO/4y
- BLyLDmKvIj0oQTOJmvlghPLU1hn5QdEMs16fRMzM/NzXVzf8n0pyOU8HZ9Yz+h6w/btOE5Tvs
- IsnQ8gew/AUbH+9DcEok4ZGwZur+kX/YPJ2yqyS3szYDfGRBoRbTNyW+Aa+2cLD58sqSogvJp
- gKt2uwB2cVp/qQun390gbYPL67qek01r95ZrA8otCYDXy6jlmXkLyLiosDMt6bwQ5eqyyQ8Mz
- W8yVBzVMi4RJdwpPSe94ZAPJKk1BJPoJStNVb4jpp99ZlyZYzwdfVGHqeN/rLc9MglpADnL
-Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/15 12:46:33
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+References: <cover.1591471056.git.balaton@eik.bme.hu>
+ <acb431de2d9c7a497d54a548dfc7592eb2b9fe1c.1591471056.git.balaton@eik.bme.hu>
+ <CAFEAcA_WemGUp0YTitXvChsFPzZjOts04zTp2-aPgmFxTC5NXA@mail.gmail.com>
+ <alpine.BSF.2.22.395.2006151832190.51837@zero.eik.bme.hu>
+In-Reply-To: <alpine.BSF.2.22.395.2006151832190.51837@zero.eik.bme.hu>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 15 Jun 2020 17:53:54 +0100
+Message-ID: <CAFEAcA8ktxFzcj61GydqarczXWh_gkzJ4aa5ZFKqs6s2BCQaPw@mail.gmail.com>
+Subject: Re: [PATCH 1/4] sm501: Fix bounds checks
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::244;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x244.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -117,87 +81,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, alex.bennee@linaro.org,
- Aurelien Jarno <aurelien@aurel32.net>, philmd@redhat.com
+Cc: Sebastian Bauer <mail@sebastianbauer.info>,
+ Magnus Damm <magnus.damm@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Aurelien Jarno <aurelien@aurel32.net>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 15/06/2020 à 17:59, Fred Konrad a écrit :
-> Missed this one sorry.
-> 
-> Le 6/12/20 à 10:31 AM, Laurent Vivier a écrit :
->> Le 28/04/2020 à 19:17, KONRAD Frederic a écrit :
->>> The MC68881 say about infinities (3.2.4):
->>>
->>> "*For the extended precision format, the most significant bit of the
->>> mantissa (the integer bit) is a don't care."
->>>
->>> https://www.nxp.com/docs/en/reference-manual/MC68881UM.pdf
->>>
->>> The m68k extended format is implemented with the floatx80 and
->>> floatx80_invalid_encoding currently treats 0x7fff00000000000000000000 as
->>> an invalid encoding.  This patch fixes floatx80_invalid_encoding so it
->>> accepts that the most significant bit of the mantissa can be 0.
->>>
->>> This bug can be revealed with the following code which pushes extended
->>> infinity on the stack as a double and then reloads it as a double.  It
->>> should normally be converted and read back as infinity and is currently
->>> read back as nan:
->>>
->>>          .global _start
->>>          .text
->>> _start:
->>>          lea val, %a0
->>>          lea fp, %fp
->>>          fmovex (%a0), %fp0
->>>          fmoved %fp0, %fp@(-8)
->>>          fmoved %fp@(-8), %fp0
->>> end:
->>>          bra end
->>>
->>> .align 0x4
->>> val:
->>>          .fill 1, 4, 0x7fff0000
->>>          .fill 1, 4, 0x00000000
->>>          .fill 1, 4, 0x00000000
->>> .align 0x4
->>>          .fill 0x100, 1, 0
->>> fp:
->>>
-> 
-> [...]
-> 
->>
->> According to "M68000 FAMILY PROGRAMMER’S REFERENCE MANUAL" the explicit
->> integer bit is "Don't care" for signed infinite (a.high == 0x7FFF) (this
->> is the case this patch manages).
->>
->> But wit a zero exponent and a non zero mantissa, it's a denormal number,
->> and a signed zero has also a zero explicit integer bit but a zero
->> mantissa. (both cases are already managed in the existing code).
->>
->> with a non zero exponent less than the maximum value it's an unnormal
->> number.
->>
->> The denormal and unnormal numbers must be managed during the load
->> operation in the m68k TCG emulation to generate directly the FP_UNIMP
->> exception.
-> 
-> Is this already handled in the TCG code?
+On Mon, 15 Jun 2020 at 17:40, BALATON Zoltan <balaton@eik.bme.hu> wrote:
+>
+> On Mon, 15 Jun 2020, Peter Maydell wrote:
+> > The calculations for sb/se/db/de all have a term which
+> > multiplies by (width + pitch), which makes me suspect
+> > they also need a similar fix ?
+>
+> Maybe. I'll have to check again. Actually is there a simpler way to check
+> if two rectangles overlap when they are given with base, x, y, w, h, pitch
+> where base is the first byte of the screen, pitch is length of one line
+> and x,y is coordinates of top left corner and w,h is dimensions of the
+> rect. Now that I think about it we also need to take into accounf the
+> bytes per pixel value (1 << format) because base is given in bytes while
+> others are in pixels so these formulae likely need some fixes. Pixman has
+> some functions for these but those assume common base so to use those we
+> would need to bring the two rectangles to common base which I could not
+> find out how to do. Probably this is really simple for someone who already
+> did a lot of these before.
 
-No, I have a skeleton with a workaround but if we enable the exception
-the kernel crashes because the size of the frame saved in the stack by
-fsave is not the one expected by the kernel (we save an IDLE frame and
-not the UNIMP frame).
+I think the thing that makes it particularly awkward is that
+the source and dest can have different pitches. That means it's
+not a simple "do two rectangles overlap" test because the dest
+area might not be a rectangle at all when looked at from the
+POV of the source.
 
-https://github.com/vivier/qemu-m68k/commit/c1297f61db283ccd592333f56907bd2961f1843c
+Do guests usually set src and dst pitch identical? If so it
+might be worth having a more accurate rectangle-overlap test
+for the common case and a looser check for the hard-to-handle
+case.
 
-I've also sent a patch similar to yours but disabling totally the
-floatx80_invalid_encoding() check.
+I might have a think about this and draw some diagrams tomorrow :-)
 
-https://patchew.org/QEMU/20200612140400.2130118-1-laurent@vivier.eu/
-
-Thanks,
-Laurent
-
+thanks
+-- PMM
 
