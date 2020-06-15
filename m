@@ -2,77 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0958C1F940C
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 11:56:56 +0200 (CEST)
-Received: from localhost ([::1]:39428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBBC31F9440
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 12:04:28 +0200 (CEST)
+Received: from localhost ([::1]:47974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jklrK-0005no-Lp
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 05:56:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42868)
+	id 1jklyd-0001ah-RY
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 06:04:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jklqM-0005Cc-2n
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 05:55:54 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:28320
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jklqK-00007e-2l
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 05:55:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592214950;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=Ejof/ppBNwBfwx20YcZOuwG3BxIgAKX8gDgsCoR1DM8=;
- b=BN/94aurzAfReoJOcC2CQsWZV6HVGzv0+hsD2T4lKaSJ3vKjhsNmOM1eE7D3fVdREMXE4n
- NF0cB/4cl+gHjVmODszZQVjKDRDQJwHL1AB4XDqX7G8hns8BsSER5noAVUrSDmoPr44P+O
- vJWbi+vb45V2hrWQYBERWBsIPNneNAI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-460-S7quqX09OS2V1ujSa4Nl6g-1; Mon, 15 Jun 2020 05:55:42 -0400
-X-MC-Unique: S7quqX09OS2V1ujSa4Nl6g-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 27BBD108BD0E;
- Mon, 15 Jun 2020 09:55:41 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-111.ams2.redhat.com [10.36.112.111])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3052F100164C;
- Mon, 15 Jun 2020 09:55:38 +0000 (UTC)
-Subject: Re: [PATCH v3] configure: Let SLOF be initialized by
- ./scripts/git-submodule.sh
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20200615074919.12552-1-f4bug@amsat.org>
- <e25444d6-d3b0-21b4-8bb8-b30a012f745a@redhat.com>
- <34f70bf7-69ef-da9a-37aa-e002ee7939c9@amsat.org>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <9c25addb-2c79-96bb-1eec-7c65a0eb2752@redhat.com>
-Date: Mon, 15 Jun 2020 11:55:37 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-MIME-Version: 1.0
-In-Reply-To: <34f70bf7-69ef-da9a-37aa-e002ee7939c9@amsat.org>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=thuth@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/14 22:37:26
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ (Exim 4.90_1) (envelope-from <konrad@adacore.com>)
+ id 1jklwW-0008ND-Lh
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 06:02:16 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:46824)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <konrad@adacore.com>)
+ id 1jklwU-0001HA-MI
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 06:02:16 -0400
+Received: by mail-wr1-x442.google.com with SMTP id x6so16400453wrm.13
+ for <qemu-devel@nongnu.org>; Mon, 15 Jun 2020 03:02:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=adacore-com.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id;
+ bh=6uoWWKTPFyIYGbUbYSEp0s2AbL2buoXSCuOMpMcIMZE=;
+ b=n/FAnp3iVaK3qelQbX6O5RWF7JLyyUYt1QvxMYdHYK80uZjiTW8Q7T1TzWWKX5V72U
+ iuJB20gZXBwU756WqUsDL20RuRukjHhNRreUVH5GvLlsQCjrNIApQn+09t0ABpZA8kE4
+ td1VzsXG5vgnYTJlZNB8Byd8iiplOiVCjLCCastbz97xpkZy2LLbpQpqWDNI4IQ2jrLT
+ fQazIUX4ZwA4genAlxm8kzIPOjPCDYaNxx/STJFKIoyvsq1c+zccmdv/AVeNTlMQ50ux
+ cZ5IupKWQXsuanifEXK6JseOcAzhC4qwISOOv0faGAc4gpOzZZ7npAXen4iVtHZj0Byd
+ oloA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=6uoWWKTPFyIYGbUbYSEp0s2AbL2buoXSCuOMpMcIMZE=;
+ b=uBYXl3vB2XSDibZZj3JoDafXeGI4M06I2bO6hS7H2emam7/sgZApJKbwTDWu4Ggk83
+ /W1WoGVPf2tDqB9JSvJG+rYA+3hVjyRm4Nb9JHioloWW5BugPO0gf0TMIjeW2NQKzeIG
+ Fudt8HrjwdxjZ5nbwr7uX/qdPN247btmzl/JgebJ5LKreZMm4MjJrKizse5PxN9th9uY
+ P+8boKCM16KhLjxHYROST1HZaAoBX9F7CXhJZ5P5lNr17LG0MQkOWpiL/q5UotRw6hyk
+ t7IILw7NbKdD/ZPLwQQMHfaTEV7zpHAjJJhkvLj2yrW7sAyNooYkkzyGsv+/FdOYYemh
+ qSKg==
+X-Gm-Message-State: AOAM533blgJO3bfP+KQ36MfntOsHRmRyOW97djv2npk/E4SyLmrhSBNT
+ LrIcn4x3LUeTH1aiM8yXDgwlneFW4n5GkQ==
+X-Google-Smtp-Source: ABdhPJyVzvQvG6iVcWlwqghHM6ADErOzBnsaCIoA/QfF/AEF0yMrSZinxI3SMqtT0sRAukgInUJeVA==
+X-Received: by 2002:a5d:49cd:: with SMTP id t13mr30114468wrs.292.1592215332080; 
+ Mon, 15 Jun 2020 03:02:12 -0700 (PDT)
+Received: from linux.home ([2a01:cb19:867e:2100:7eef:23e0:9210:3e8])
+ by smtp.gmail.com with ESMTPSA id g19sm21122757wmh.29.2020.06.15.03.02.11
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 15 Jun 2020 03:02:11 -0700 (PDT)
+From: konrad@adacore.com
+X-Google-Original-From: frederic.konrad@adacore.com
+To: qemu-devel@nongnu.org
+Subject: [PATCH v1 1/2] semihosting: defer connect_chardevs a little more to
+ use serialx
+Date: Mon, 15 Jun 2020 12:00:51 +0200
+Message-Id: <1592215252-26742-1-git-send-email-frederic.konrad@adacore.com>
+X-Mailer: git-send-email 1.8.3.1
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=konrad@adacore.com; helo=mail-wr1-x442.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,53 +80,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Cornelia Huck <cohuck@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-s390x@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: philmd@redhat.com, KONRAD Frederic <frederic.konrad@adacore.com>,
+ alex.bennee@linaro.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 15/06/2020 10.28, Philippe Mathieu-Daudé wrote:
-> On 6/15/20 10:13 AM, Thomas Huth wrote:
->> On 15/06/2020 09.49, Philippe Mathieu-Daudé wrote:
->>> The git-submodule.sh script is called by make and initialize the
->>> submodules listed in the GIT_SUBMODULES variable generated by
->>> ./configure.
->>>
->>> SLOF is required for building the s390-ccw firmware on s390x, since
->>> it is using the libnet code from SLOF for network booting.
->>>
->>> Add it to the GIT_SUBMODULES when buildint the s390-ccw firmware,
->>
->> s/buildint/building/
->>
->>> to fix:
->>>
->>>   $ ( cd ${SRC_DIR} ; git submodule update --init roms/SLOF )
->>>   Submodule 'roms/SLOF' (https://git.qemu.org/git/SLOF.git) registered for path 'roms/SLOF'
->>>   Cloning into '/home/travis/build/user/qemu/roms/SLOF'...
->>>   fatal: unable to access 'https://git.qemu.org/git/SLOF.git/': Could not resolve host: git.qemu.org
->>>   fatal: clone of 'https://git.qemu.org/git/SLOF.git' into submodule path '/home/travis/build/user/qemu/roms/SLOF' failed
->>>   Failed to clone 'roms/SLOF'. Retry scheduled
->>>   Cloning into '/home/travis/build/user/qemu/roms/SLOF'...
->>>   fatal: unable to access 'https://git.qemu.org/git/SLOF.git/': Could not resolve host: git.qemu.org
->>>   fatal: clone of 'https://git.qemu.org/git/SLOF.git' into submodule path '/home/travis/build/user/qemu/roms/SLOF' failed
->>>   Failed to clone 'roms/SLOF' a second time, aborting
->>>   The command "( cd ${SRC_DIR} ; git submodule update --init roms/SLOF )" exited with 1.
->>
->> I still somehow doubt that this will really fix the issue that you've
->> seen here (why should it matter where the submodule is checked out?),
-> 
-> Yeah I still don't understand why the previous checkouts succeeded.
-> 
-> Is git.qemu.org cached by a CDN?
+From: KONRAD Frederic <frederic.konrad@adacore.com>
 
-Is it still failing for you? For me it works fine:
+With that we can just use chardev=serial0.
 
- https://travis-ci.com/github/huth/qemu/jobs/349064333#L1531
+Signed-off-by: KONRAD Frederic <frederic.konrad@adacore.com>
+---
+ softmmu/vl.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
- Thomas
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index f669c06..9b8b48a 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -4123,8 +4123,6 @@ void qemu_init(int argc, char **argv, char **envp)
+ 
+     qemu_opts_foreach(qemu_find_opts("chardev"),
+                       chardev_init_func, NULL, &error_fatal);
+-    /* now chardevs have been created we may have semihosting to connect */
+-    qemu_semihosting_connect_chardevs();
+ 
+ #ifdef CONFIG_VIRTFS
+     qemu_opts_foreach(qemu_find_opts("fsdev"),
+@@ -4271,6 +4269,9 @@ void qemu_init(int argc, char **argv, char **envp)
+     if (foreach_device_config(DEV_DEBUGCON, debugcon_parse) < 0)
+         exit(1);
+ 
++    /* now chardevs have been created we may have semihosting to connect */
++    qemu_semihosting_connect_chardevs();
++
+     /* If no default VGA is requested, the default is "none".  */
+     if (default_vga) {
+         vga_model = get_default_vga_model(machine_class);
+-- 
+1.8.3.1
 
 
