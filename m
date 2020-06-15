@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 375761FA05A
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 21:34:14 +0200 (CEST)
-Received: from localhost ([::1]:50762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BD201FA046
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 21:30:54 +0200 (CEST)
+Received: from localhost ([::1]:35036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jkus1-00039H-5W
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 15:34:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45832)
+	id 1jkuon-00051g-7g
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 15:30:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1jkumN-0001uh-3Q
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 15:28:23 -0400
-Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:38200)
+ (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
+ id 1jkun4-0003L6-Rh
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 15:29:06 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:55860)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1jkumL-0004dY-B6
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 15:28:22 -0400
-Received: by mail-ej1-x62e.google.com with SMTP id w16so18164873ejj.5
- for <qemu-devel@nongnu.org>; Mon, 15 Jun 2020 12:28:20 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
+ id 1jkun3-0004is-5x
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 15:29:06 -0400
+Received: by mail-wm1-x333.google.com with SMTP id c71so673982wmd.5
+ for <qemu-devel@nongnu.org>; Mon, 15 Jun 2020 12:29:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=EWVx9sSSwTv5Jhbc9Yzw+I2OIv8ntdWEbnNZIj+p5yg=;
- b=aZQPBhPLruXaUuuvjK3dLkIaOgrfBLtcfzSV+CKmO2F4GqBftoBhQ5jFH9Z5qoAXR4
- 5117cmKLpmUMrNyzo6cpJl9Jpe0wrRm4HvAT48IYHTZx4/wMHP6WInNNL3rj4o+GR7Hd
- etOdRG9v6vKk1mv5qWFYJTUhvsq6F4JT4htUQ44MYv+lEaBOOs7My+SzYW6vtUKjR4hC
- 8btabS+4Ih2iNkSI+qAOUwGJ3gnPR1yj7z45vbNuIr1pv84RkvRuZOFbgx4jmW2hxmPm
- UZ573q9gStAHDy45gKhubHmyK5aRJAjmtB38d4IekRZvGElqH6d8ezGr1cV/+C6QFcBY
- fILw==
+ h=from:to:cc:subject:date:message-id;
+ bh=dmN19qsLPUK3TsoUi3hoFEyvCZztFjbWf7KqvvI3WUo=;
+ b=YO+8qnML5v6VRXYDhdkGozbKfm69Hj4b9GJ7q6NL8sJtKVrzM4s/w45AILEraPk5OW
+ VDY2arlTTD4nnbqbTE7dKk7l1lkC/BdKdyWrOs67iaFP4/HDXP3q/h9+SrAy5qLXkitM
+ h55yAniX5RvXs+sny2kGYVng/T2y8+ILc9xurGGvZJjLK3pPfLSglq8JsH1Ax/SPXii/
+ 7UuhpnOEvymWWR+yvTntk7+nsz2z+dodLcZVLJDqtgbpic2CmXIxU71D3kJ/Dd9ApGeS
+ B8NvBt9dkNSKD8CekuoAA312TwB9DcKG5xr67seC2G3gmlKMLwp7mIr6WuC5flvgpRme
+ 1lpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=EWVx9sSSwTv5Jhbc9Yzw+I2OIv8ntdWEbnNZIj+p5yg=;
- b=F/TTaOrlbQSunJwQffWZIKxGKE3VKf5ALfbshlAspLbY/bU8GkZimTq0JmNt6s03kU
- fmrcgxAPEbdQ6Ewk4imid7xuzg71my+Sd9fIzBkMgWRp3NZ9Mg6P8RG0RIjNksOT+b3T
- SylSB0n3Vt//ij65j6hbA5dltbpdt2iUzEwjTBLcVCSSh57SWh2evw/Y9oVsRSPaa9wE
- 3GmrBvOz0qisMON4WCfMuVwRG9UA6NZd2WRJcQoR/RznNQs+4GPqYzK75+u/fgC8hkNI
- VjMQ/1aQCCpnPj8iRVQIHB8qIMlXOuIOVpK2R17WjaFAo0C9V2IXsfndrXiknmlUDL6b
- 4qMQ==
-X-Gm-Message-State: AOAM530cTJElh71dnVnpXsbdVDUtbVDT0V/GKia3+R9S+YrB08uhWFKG
- iOGDLWRL14wDZ7Tu4yk9Ucmb3SAI28RaVCQGzoE=
-X-Google-Smtp-Source: ABdhPJwEPEr0UziD3/Kq8pauWFAXTwKAnJtVwfQmvPYGMvLMb8utX/PZsHFz/wpsjd3Y2DleeJXdhy5Sd4WrAdRb7vs=
-X-Received: by 2002:a17:906:ae14:: with SMTP id
- le20mr26363674ejb.307.1592249299719; 
- Mon, 15 Jun 2020 12:28:19 -0700 (PDT)
-MIME-Version: 1.0
-References: <1592248953-8162-1-git-send-email-aleksandar.qemu.devel@gmail.com>
-In-Reply-To: <1592248953-8162-1-git-send-email-aleksandar.qemu.devel@gmail.com>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Mon, 15 Jun 2020 21:28:09 +0200
-Message-ID: <CAL1e-=g5RCy1eJNNQdrmqGzk8Yxs4x3i8+rB_jJLZMLAmQF6Yw@mail.gmail.com>
-Subject: Re: [PULL 00/18] MIPS + misc queue for June 15th, 2020
-To: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
- envelope-from=aleksandar.m.mail@gmail.com; helo=mail-ej1-x62e.google.com
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=dmN19qsLPUK3TsoUi3hoFEyvCZztFjbWf7KqvvI3WUo=;
+ b=gUClnj9PsbIgdwF/QM3s51z5vFsqwAo996YVuSxFIAP68Pesu+U5CmcUllGXBT/ZKI
+ e70myYsUayzpkYSHL7yLNfCd6T2tlYSBBLG7Tl5Gw5m9+t1dw7HOzQOxag8y/9sfjUWI
+ Uw6/ulA4e2O4aGa13hyhKWWMbI6Qj14xAqY4Az4iisIFGTl+mIUqXrA2uf443nybz7dt
+ ZBeeuHJE5yZn2jV7fIS6OYnWgvx+B1yr7MBiRcZGi2bgOheAzGPUqFf+vwJC/EYlgT6m
+ fhiWSeihpmr/cppxzLJakcwblDjCRuR3NrdWYfXQdDGVmsSEOEs3xzpcJu+pafAuvl/T
+ 4vLQ==
+X-Gm-Message-State: AOAM531NPFQk7LUHzGc6K5nq3J89xz7ruN5mN7jdBC5c16xhIe56w4ek
+ 2v+p6uY8BSPKOlIcCgTFUfnAShux
+X-Google-Smtp-Source: ABdhPJyonucxEcUOggf/rpILkn+uxhPOUHsytezfhzDef+TI/0UoCk2cTFnXZLcubl/5ng9qD1l33w==
+X-Received: by 2002:a1c:9d96:: with SMTP id g144mr828502wme.126.1592249343459; 
+ Mon, 15 Jun 2020 12:29:03 -0700 (PDT)
+Received: from rtrkw774-lin.syrmia.com ([46.240.135.226])
+ by smtp.gmail.com with ESMTPSA id 138sm713098wma.23.2020.06.15.12.29.02
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 15 Jun 2020 12:29:03 -0700 (PDT)
+From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+To: qemu-devel@nongnu.org,
+	peter.maydell@linaro.org
+Subject: [PULL v2 00/18] MIPS + misc queue for June 15th, 2020
+Date: Mon, 15 Jun 2020 21:28:42 +0200
+Message-Id: <1592249340-8365-1-git-send-email-aleksandar.qemu.devel@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-wm1-x333.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -79,89 +79,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: aleksandar.qemu.devel@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 15, 2020 at 9:22 PM Aleksandar Markovic
-<aleksandar.qemu.devel@gmail.com> wrote:
->
-> The following changes since commit 81b53858fed8a316a4715c2f7f92cdfb4a7b4dd8:
->
->   target/mips: msa: Split helpers for SUBS_U.<B|H|W|D> (2020-06-15 20:50:40 +0200)
->
+The following changes since commit 7d3660e79830a069f1848bb4fa1cdf8f666424fb:
 
-Please discard this pull request. Wrong cover letter. Will send v2 shortly.
+  Merge remote-tracking branch 'remotes/bonzini/tags/for-upstream' into staging (2020-06-12 23:06:22 +0100)
 
-> are available in the git repository at:
->
->   https://github.com/AMarkovic/qemu tags/mips-queue-jun-15-2020
->
-> for you to fetch changes up to 250bc43a406f7d46e319abe87c19548d4f027828:
->
->   translations: Add Swedish language (2020-06-15 20:51:10 +0200)
->
-> ----------------------------------------------------------------
->
-> MIPS + misc queue for June 15th, 2020
->
->   Highlights:
->
->     This pull request, just exceptionally, contains two non-MIPS patches:
->
->       - adjust sh4 maintainership
->       - add Swedish translations
->
->     The rest are MIPS patches:
->
->       - refactor emulation of a number of MSA instructions
->       - activate Loongson-related insn_flags
->
->     Notes:
->
->       - one checkpatch warning is benign
->       - some of make check iotest-qcow2 tests fail on my system, both before
->         and after applying the patches from this pull request
->
-> ----------------------------------------------------------------
->
->
-> Aleksandar Markovic (15):
->   target/mips: msa: Split helpers for MADDV.<B|H|W|D>
->   target/mips: msa: Split helpers for MSUBV.<B|H|W|D>
->   target/mips: msa: Split helpers for DPADD_S.<H|W|D>
->   target/mips: msa: Split helpers for DPADD_U.<H|W|D>
->   target/mips: msa: Split helpers for DPSUB_S.<H|W|D>
->   target/mips: msa: Split helpers for DPSUB_U.<H|W|D>
->   target/mips: msa: Split helpers for DOTP_S.<H|W|D>
->   target/mips: msa: Split helpers for DOTP_U.<H|W|D>
->   target/mips: msa: Split helpers for SUBS_S.<B|H|W|D>
->   target/mips: msa: Split helpers for SUBS_U.<B|H|W|D>
->   target/mips: msa: Split helpers for SUBSUS_U.<B|H|W|D>
->   target/mips: msa: Split helpers for SUBSUU_S.<B|H|W|D>
->   target/mips: msa: Split helpers for SUBV.<B|H|W|D>
->   target/mips: msa: Split helpers for MULV.<B|H|W|D>
->   MAINTAINERS: Adjust sh4 maintainership
->
-> Jiaxun Yang (2):
->   target/mips: Legalize Loongson insn flags
->   target/mips: Add comments for vendor-specific ASEs
->
-> Sebastian Rasmussen (1):
->   translations: Add Swedish language
->
->  target/mips/helper.h     |   73 ++-
->  target/mips/mips-defs.h  |    8 +-
->  target/mips/msa_helper.c | 1296 ++++++++++++++++++++++++++++++++++++----------
->  target/mips/translate.c  |  213 +++++++-
->  MAINTAINERS              |    8 +-
->  po/sv.po                 |   75 +++
->  6 files changed, 1364 insertions(+), 309 deletions(-)
->  create mode 100644 po/sv.po
->
-> --
-> 2.7.4
->
->
+are available in the git repository at:
+
+  https://github.com/AMarkovic/qemu tags/mips-queue-jun-15-2020
+
+for you to fetch changes up to 250bc43a406f7d46e319abe87c19548d4f027828:
+
+  translations: Add Swedish language (2020-06-15 20:51:10 +0200)
+
+----------------------------------------------------------------
+
+MIPS + misc queue for June 15th, 2020
+
+  Highlights:
+
+    This pull request, just exceptionally, contains two non-MIPS patches:
+
+      - adjust sh4 maintainership
+      - add Swedish translations
+
+    The rest are MIPS patches:
+
+      - refactor emulation of a number of MSA instructions
+      - activate Loongson-related insn_flags
+
+    Notes:
+
+      - one checkpatch warning is benign
+      - some of make check iotest-qcow2 tests fail on my system, both before
+        and after applying the patches from this pull request
+
+----------------------------------------------------------------
+
+
+Aleksandar Markovic (15):
+  target/mips: msa: Split helpers for MADDV.<B|H|W|D>
+  target/mips: msa: Split helpers for MSUBV.<B|H|W|D>
+  target/mips: msa: Split helpers for DPADD_S.<H|W|D>
+  target/mips: msa: Split helpers for DPADD_U.<H|W|D>
+  target/mips: msa: Split helpers for DPSUB_S.<H|W|D>
+  target/mips: msa: Split helpers for DPSUB_U.<H|W|D>
+  target/mips: msa: Split helpers for DOTP_S.<H|W|D>
+  target/mips: msa: Split helpers for DOTP_U.<H|W|D>
+  target/mips: msa: Split helpers for SUBS_S.<B|H|W|D>
+  target/mips: msa: Split helpers for SUBS_U.<B|H|W|D>
+  target/mips: msa: Split helpers for SUBSUS_U.<B|H|W|D>
+  target/mips: msa: Split helpers for SUBSUU_S.<B|H|W|D>
+  target/mips: msa: Split helpers for SUBV.<B|H|W|D>
+  target/mips: msa: Split helpers for MULV.<B|H|W|D>
+  MAINTAINERS: Adjust sh4 maintainership
+
+Jiaxun Yang (2):
+  target/mips: Legalize Loongson insn flags
+  target/mips: Add comments for vendor-specific ASEs
+
+Sebastian Rasmussen (1):
+  translations: Add Swedish language
+
+ target/mips/helper.h     |   73 ++-
+ target/mips/mips-defs.h  |    8 +-
+ target/mips/msa_helper.c | 1296 ++++++++++++++++++++++++++++++++++++----------
+ target/mips/translate.c  |  213 +++++++-
+ MAINTAINERS              |    8 +-
+ po/sv.po                 |   75 +++
+ 6 files changed, 1364 insertions(+), 309 deletions(-)
+ create mode 100644 po/sv.po
+
+-- 
+2.7.4
+
 
