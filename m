@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA3EC1FA2BB
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 23:25:06 +0200 (CEST)
-Received: from localhost ([::1]:45798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 355C61FA298
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 23:14:49 +0200 (CEST)
+Received: from localhost ([::1]:39168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jkwbJ-00008I-NE
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 17:25:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35580)
+	id 1jkwRM-0002JA-4y
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 17:14:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jkw23-00074o-28
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 16:48:39 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:56213
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jkvue-0003VT-8n
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 16:41:00 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:55349
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jkw1z-0001t2-VW
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 16:48:38 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jkvuZ-0000iP-F8
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 16:40:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592254115;
+ s=mimecast20190719; t=1592253653;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=99VdaUClzJnUEnEwPNYzCAZ78B+0BmJG0jBIIGUUXtY=;
- b=CRdPBnlhu9uVpqNhSjXs7NwYvY9gj5NeTaCsUcRy30IebVBR5udz2VFBaTXTIELbSuNrBn
- AdZrUuXpNJECgZcJNtAQbeGhYdy/g/47WqzSx6uy3aoTMRzzuse8yYm1aowHmtV1sC7wbh
- WkeaopwH11wa9OT/jWbN8WLiBeJ3L30=
+ bh=PDHC300c/SElv2h0s9ZmQ+vQDIqHsOS+ajo9rbQfaSw=;
+ b=L9Ys3a4iwzzr+bG2Q9May2LwCVW6d89zPArEDM8EITMJXPnDmWbjYoGHOlDDYkA5gp5DHZ
+ gemvduK7mZUYC90v6lU+DsD0/eMfnAH88FHBBGyOh5STiwCw3sQAOnhoPTDYetT+1U7SJr
+ D8rfVD0iLlwTllTaaQyUEWoreI3Ot8U=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-276-q_lbqsSUPGm7_1_iY08sIQ-1; Mon, 15 Jun 2020 16:48:33 -0400
-X-MC-Unique: q_lbqsSUPGm7_1_iY08sIQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-145-xdbu-330PlK23MDffMe-yw-1; Mon, 15 Jun 2020 16:40:52 -0400
+X-MC-Unique: xdbu-330PlK23MDffMe-yw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 00A43349E6;
- Mon, 15 Jun 2020 20:48:32 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EFD01873416;
+ Mon, 15 Jun 2020 20:40:50 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-121.ams2.redhat.com
  [10.36.112.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9EBAD96B62;
- Mon, 15 Jun 2020 20:48:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 717ED619C0;
+ Mon, 15 Jun 2020 20:40:50 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id C9E4D1132E98; Mon, 15 Jun 2020 22:40:08 +0200 (CEST)
+ id CE4551132E9E; Mon, 15 Jun 2020 22:40:08 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 48/84] ssi: ssi_auto_connect_slaves() never does anything, drop
-Date: Mon, 15 Jun 2020 22:39:32 +0200
-Message-Id: <20200615204008.3069956-49-armbru@redhat.com>
+Subject: [PULL 49/84] ssi: Convert uses of ssi_create_slave_no_init() with
+ Coccinelle
+Date: Mon, 15 Jun 2020 22:39:33 +0200
+Message-Id: <20200615204008.3069956-50-armbru@redhat.com>
 In-Reply-To: <20200615204008.3069956-1-armbru@redhat.com>
 References: <20200615204008.3069956-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/15 15:33:00
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/15 16:40:20
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -86,171 +87,227 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-ssi_auto_connect_slaves(parent, cs_line, bus) iterates over @parent's
-QOM children @dev of type TYPE_SSI_SLAVE.  It puts these on @bus, and
-sets cs_line[] to qdev_get_gpio_in_named(dev, SSI_GPIO_CS, 0).
+Replace
 
-Suspicious: there is no protection against overrunning cs_line[].
+    dev = ssi_create_slave_no_init(bus, type_name);
+    ...
+    qdev_init_nofail(dev);
 
-Turns out it's safe because ssi_auto_connect_slaves() never finds any
-such children.  Its called by realize methods of some (but not all)
-devices providing an SSI bus, and gets passed the device.
+by
 
-SSI slave devices are always created with ssi_create_slave_no_init(),
-optionally via ssi_create_slave().  This adds them to their SSI bus.
-It doesn't set their QOM parent.
+    dev = qdev_new(type_name);
+    ...
+    qdev_realize_and_unref(dev, bus, &error_fatal);
 
-ssi_create_slave_no_init() is always immediately followed by
-qdev_init_nofail(), with no QOM parent assigned, so
-device_set_realized() puts the device into the /machine/unattached/
-orphanage.  None become QOM children of a device providing an SSI bus.
+Recent commit "qdev: New qdev_new(), qdev_realize(), etc." explains
+why.
 
-ssi_auto_connect_slaves() was added in commit b4ae3cfa57 "ssi: Add
-slave autoconnect helper".  I can't see which slaves it was supposed
-to connect back then.
+    @@
+    type SSIBus;
+    identifier bus;
+    expression dev, qbus, expr;
+    expression list args;
+    @@
+    -    bus = (SSIBus *)qbus;
+    +    bus = qbus; // TODO fix up decl
+         ...
+    -    dev = ssi_create_slave_no_init(bus, args);
+    +    dev = qdev_new(args);
+         ... when != dev = expr
+    -    qdev_init_nofail(dev);
+    +    qdev_realize_and_unref(dev, bus, &error_fatal);
+
+    @@
+    expression dev, bus, expr;
+    expression list args;
+    @@
+    -    dev = ssi_create_slave_no_init(bus, args);
+    +    dev = qdev_new(args);
+         ... when != dev = expr
+    -    qdev_init_nofail(dev);
+    +    qdev_realize_and_unref(dev, BUS(bus), &error_fatal);
+
+Bus declarations fixed up manually.
 
 Cc: Alistair Francis <alistair@alistair23.me>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Acked-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20200610053247.1583243-23-armbru@redhat.com>
+Message-Id: <20200610053247.1583243-24-armbru@redhat.com>
 ---
- include/hw/ssi/ssi.h  |  4 ----
- hw/ssi/aspeed_smc.c   |  1 -
- hw/ssi/imx_spi.c      |  2 --
- hw/ssi/mss-spi.c      |  1 -
- hw/ssi/ssi.c          | 33 ---------------------------------
- hw/ssi/xilinx_spi.c   |  1 -
- hw/ssi/xilinx_spips.c |  4 ----
- 7 files changed, 46 deletions(-)
+ hw/arm/aspeed.c                     |  4 ++--
+ hw/arm/msf2-som.c                   |  8 ++++----
+ hw/arm/sabrelite.c                  |  4 ++--
+ hw/arm/xilinx_zynq.c                |  4 ++--
+ hw/arm/xlnx-zcu102.c                | 16 ++++++++--------
+ hw/microblaze/petalogix_ml605_mmu.c |  4 ++--
+ 6 files changed, 20 insertions(+), 20 deletions(-)
 
-diff --git a/include/hw/ssi/ssi.h b/include/hw/ssi/ssi.h
-index 1107cb89ee..1725b13c32 100644
---- a/include/hw/ssi/ssi.h
-+++ b/include/hw/ssi/ssi.h
-@@ -86,10 +86,6 @@ SSIBus *ssi_create_bus(DeviceState *parent, const char *name);
+diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+index b08903df33..2b96244cf5 100644
+--- a/hw/arm/aspeed.c
++++ b/hw/arm/aspeed.c
+@@ -225,12 +225,12 @@ static void aspeed_board_init_flashes(AspeedSMCState *s, const char *flashtype,
+         DriveInfo *dinfo = drive_get_next(IF_MTD);
+         qemu_irq cs_line;
  
- uint32_t ssi_transfer(SSIBus *bus, uint32_t val);
+-        fl->flash = ssi_create_slave_no_init(s->spi, flashtype);
++        fl->flash = qdev_new(flashtype);
+         if (dinfo) {
+             qdev_prop_set_drive(fl->flash, "drive", blk_by_legacy_dinfo(dinfo),
+                                 errp);
+         }
+-        qdev_init_nofail(fl->flash);
++        qdev_realize_and_unref(fl->flash, BUS(s->spi), &error_fatal);
  
--/* Automatically connect all children nodes a spi controller as slaves */
--void ssi_auto_connect_slaves(DeviceState *parent, qemu_irq *cs_lines,
--                             SSIBus *bus);
--
- /* max111x.c */
- void max111x_set_input(DeviceState *dev, int line, uint8_t value);
+         cs_line = qdev_get_gpio_in_named(fl->flash, SSI_GPIO_CS, 0);
+         sysbus_connect_irq(SYS_BUS_DEVICE(s), i + 1, cs_line);
+diff --git a/hw/arm/msf2-som.c b/hw/arm/msf2-som.c
+index e398703742..ca9cbe1acb 100644
+--- a/hw/arm/msf2-som.c
++++ b/hw/arm/msf2-som.c
+@@ -47,7 +47,7 @@ static void emcraft_sf2_s2s010_init(MachineState *machine)
+     MachineClass *mc = MACHINE_GET_CLASS(machine);
+     DriveInfo *dinfo = drive_get_next(IF_MTD);
+     qemu_irq cs_line;
+-    SSIBus *spi_bus;
++    BusState *spi_bus;
+     MemoryRegion *sysmem = get_system_memory();
+     MemoryRegion *ddr = g_new(MemoryRegion, 1);
  
-diff --git a/hw/ssi/aspeed_smc.c b/hw/ssi/aspeed_smc.c
-index 2edccef2d5..4fab1f5f85 100644
---- a/hw/ssi/aspeed_smc.c
-+++ b/hw/ssi/aspeed_smc.c
-@@ -1356,7 +1356,6 @@ static void aspeed_smc_realize(DeviceState *dev, Error **errp)
+@@ -82,14 +82,14 @@ static void emcraft_sf2_s2s010_init(MachineState *machine)
+     soc = MSF2_SOC(dev);
  
-     /* Setup cs_lines for slaves */
-     s->cs_lines = g_new0(qemu_irq, s->num_cs);
--    ssi_auto_connect_slaves(dev, s->cs_lines, s->spi);
- 
-     for (i = 0; i < s->num_cs; ++i) {
-         sysbus_init_irq(sbd, &s->cs_lines[i]);
-diff --git a/hw/ssi/imx_spi.c b/hw/ssi/imx_spi.c
-index 43b2f14dd2..7f703d8328 100644
---- a/hw/ssi/imx_spi.c
-+++ b/hw/ssi/imx_spi.c
-@@ -424,8 +424,6 @@ static void imx_spi_realize(DeviceState *dev, Error **errp)
-     sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->iomem);
-     sysbus_init_irq(SYS_BUS_DEVICE(dev), &s->irq);
- 
--    ssi_auto_connect_slaves(dev, s->cs_lines, s->bus);
--
-     for (i = 0; i < 4; ++i) {
-         sysbus_init_irq(SYS_BUS_DEVICE(dev), &s->cs_lines[i]);
+     /* Attach SPI flash to SPI0 controller */
+-    spi_bus = (SSIBus *)qdev_get_child_bus(dev, "spi0");
+-    spi_flash = ssi_create_slave_no_init(spi_bus, "s25sl12801");
++    spi_bus = qdev_get_child_bus(dev, "spi0");
++    spi_flash = qdev_new("s25sl12801");
+     qdev_prop_set_uint8(spi_flash, "spansion-cr2nv", 1);
+     if (dinfo) {
+         qdev_prop_set_drive(spi_flash, "drive", blk_by_legacy_dinfo(dinfo),
+                                     &error_fatal);
      }
-diff --git a/hw/ssi/mss-spi.c b/hw/ssi/mss-spi.c
-index 3050fabb69..b2432c5a13 100644
---- a/hw/ssi/mss-spi.c
-+++ b/hw/ssi/mss-spi.c
-@@ -376,7 +376,6 @@ static void mss_spi_realize(DeviceState *dev, Error **errp)
-     s->spi = ssi_create_bus(dev, "spi");
+-    qdev_init_nofail(spi_flash);
++    qdev_realize_and_unref(spi_flash, spi_bus, &error_fatal);
+     cs_line = qdev_get_gpio_in_named(spi_flash, SSI_GPIO_CS, 0);
+     sysbus_connect_irq(SYS_BUS_DEVICE(&soc->spi[0]), 1, cs_line);
  
-     sysbus_init_irq(sbd, &s->irq);
--    ssi_auto_connect_slaves(dev, &s->cs_line, s->spi);
-     sysbus_init_irq(sbd, &s->cs_line);
+diff --git a/hw/arm/sabrelite.c b/hw/arm/sabrelite.c
+index 96cb30aa3c..33d731549d 100644
+--- a/hw/arm/sabrelite.c
++++ b/hw/arm/sabrelite.c
+@@ -75,13 +75,13 @@ static void sabrelite_init(MachineState *machine)
+                 qemu_irq cs_line;
+                 DriveInfo *dinfo = drive_get_next(IF_MTD);
  
-     memory_region_init_io(&s->mmio, OBJECT(s), &spi_ops, s,
-diff --git a/hw/ssi/ssi.c b/hw/ssi/ssi.c
-index c6415eb6e3..54106f5ef8 100644
---- a/hw/ssi/ssi.c
-+++ b/hw/ssi/ssi.c
-@@ -142,36 +142,3 @@ static void ssi_slave_register_types(void)
- }
+-                flash_dev = ssi_create_slave_no_init(spi_bus, "sst25vf016b");
++                flash_dev = qdev_new("sst25vf016b");
+                 if (dinfo) {
+                     qdev_prop_set_drive(flash_dev, "drive",
+                                         blk_by_legacy_dinfo(dinfo),
+                                         &error_fatal);
+                 }
+-                qdev_init_nofail(flash_dev);
++                qdev_realize_and_unref(flash_dev, BUS(spi_bus), &error_fatal);
  
- type_init(ssi_slave_register_types)
--
--typedef struct SSIAutoConnectArg {
--    qemu_irq **cs_linep;
--    SSIBus *bus;
--} SSIAutoConnectArg;
--
--static int ssi_auto_connect_slave(Object *child, void *opaque)
--{
--    SSIAutoConnectArg *arg = opaque;
--    SSISlave *dev = (SSISlave *)object_dynamic_cast(child, TYPE_SSI_SLAVE);
--    qemu_irq cs_line;
--
--    if (!dev) {
--        return 0;
--    }
--
--    cs_line = qdev_get_gpio_in_named(DEVICE(dev), SSI_GPIO_CS, 0);
--    qdev_set_parent_bus(DEVICE(dev), BUS(arg->bus));
--    **arg->cs_linep = cs_line;
--    (*arg->cs_linep)++;
--    return 0;
--}
--
--void ssi_auto_connect_slaves(DeviceState *parent, qemu_irq *cs_line,
--                             SSIBus *bus)
--{
--    SSIAutoConnectArg arg = {
--        .cs_linep = &cs_line,
--        .bus = bus
--    };
--
--    object_child_foreach(OBJECT(parent), ssi_auto_connect_slave, &arg);
--}
-diff --git a/hw/ssi/xilinx_spi.c b/hw/ssi/xilinx_spi.c
-index eba7ccd46a..80d1488dc7 100644
---- a/hw/ssi/xilinx_spi.c
-+++ b/hw/ssi/xilinx_spi.c
-@@ -334,7 +334,6 @@ static void xilinx_spi_realize(DeviceState *dev, Error **errp)
+                 cs_line = qdev_get_gpio_in_named(flash_dev, SSI_GPIO_CS, 0);
+                 sysbus_connect_irq(SYS_BUS_DEVICE(spi_dev), 1, cs_line);
+diff --git a/hw/arm/xilinx_zynq.c b/hw/arm/xilinx_zynq.c
+index 5fbd2b2e31..0e0f0976c4 100644
+--- a/hw/arm/xilinx_zynq.c
++++ b/hw/arm/xilinx_zynq.c
+@@ -157,12 +157,12 @@ static inline void zynq_init_spi_flashes(uint32_t base_addr, qemu_irq irq,
  
-     sysbus_init_irq(sbd, &s->irq);
-     s->cs_lines = g_new0(qemu_irq, s->num_cs);
--    ssi_auto_connect_slaves(dev, s->cs_lines, s->spi);
-     for (i = 0; i < s->num_cs; ++i) {
-         sysbus_init_irq(sbd, &s->cs_lines[i]);
+         for (j = 0; j < num_ss; ++j) {
+             DriveInfo *dinfo = drive_get_next(IF_MTD);
+-            flash_dev = ssi_create_slave_no_init(spi, "n25q128");
++            flash_dev = qdev_new("n25q128");
+             if (dinfo) {
+                 qdev_prop_set_drive(flash_dev, "drive",
+                                     blk_by_legacy_dinfo(dinfo), &error_fatal);
+             }
+-            qdev_init_nofail(flash_dev);
++            qdev_realize_and_unref(flash_dev, BUS(spi), &error_fatal);
+ 
+             cs_line = qdev_get_gpio_in_named(flash_dev, SSI_GPIO_CS, 0);
+             sysbus_connect_irq(busdev, i * num_ss + j + 1, cs_line);
+diff --git a/hw/arm/xlnx-zcu102.c b/hw/arm/xlnx-zcu102.c
+index 4229b2d936..77c84b82ab 100644
+--- a/hw/arm/xlnx-zcu102.c
++++ b/hw/arm/xlnx-zcu102.c
+@@ -149,21 +149,21 @@ static void xlnx_zcu102_init(MachineState *machine)
      }
-diff --git a/hw/ssi/xilinx_spips.c b/hw/ssi/xilinx_spips.c
-index e76cf290c8..b9371dbf8d 100644
---- a/hw/ssi/xilinx_spips.c
-+++ b/hw/ssi/xilinx_spips.c
-@@ -1270,7 +1270,6 @@ static void xilinx_spips_realize(DeviceState *dev, Error **errp)
-     XilinxSPIPS *s = XILINX_SPIPS(dev);
-     SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
-     XilinxSPIPSClass *xsc = XILINX_SPIPS_GET_CLASS(s);
--    qemu_irq *cs;
-     int i;
  
-     DB_PRINT_L(0, "realized spips\n");
-@@ -1297,9 +1296,6 @@ static void xilinx_spips_realize(DeviceState *dev, Error **errp)
+     for (i = 0; i < XLNX_ZYNQMP_NUM_SPIS; i++) {
+-        SSIBus *spi_bus;
++        BusState *spi_bus;
+         DeviceState *flash_dev;
+         qemu_irq cs_line;
+         DriveInfo *dinfo = drive_get_next(IF_MTD);
+         gchar *bus_name = g_strdup_printf("spi%d", i);
  
-     s->cs_lines = g_new0(qemu_irq, s->num_cs * s->num_busses);
-     s->cs_lines_state = g_new0(bool, s->num_cs * s->num_busses);
--    for (i = 0, cs = s->cs_lines; i < s->num_busses; ++i, cs += s->num_cs) {
--        ssi_auto_connect_slaves(DEVICE(s), cs, s->spi[i]);
--    }
+-        spi_bus = (SSIBus *)qdev_get_child_bus(DEVICE(&s->soc), bus_name);
++        spi_bus = qdev_get_child_bus(DEVICE(&s->soc), bus_name);
+         g_free(bus_name);
  
-     sysbus_init_irq(sbd, &s->irq);
-     for (i = 0; i < s->num_cs * s->num_busses; ++i) {
+-        flash_dev = ssi_create_slave_no_init(spi_bus, "sst25wf080");
++        flash_dev = qdev_new("sst25wf080");
+         if (dinfo) {
+             qdev_prop_set_drive(flash_dev, "drive", blk_by_legacy_dinfo(dinfo),
+                                 &error_fatal);
+         }
+-        qdev_init_nofail(flash_dev);
++        qdev_realize_and_unref(flash_dev, spi_bus, &error_fatal);
+ 
+         cs_line = qdev_get_gpio_in_named(flash_dev, SSI_GPIO_CS, 0);
+ 
+@@ -171,22 +171,22 @@ static void xlnx_zcu102_init(MachineState *machine)
+     }
+ 
+     for (i = 0; i < XLNX_ZYNQMP_NUM_QSPI_FLASH; i++) {
+-        SSIBus *spi_bus;
++        BusState *spi_bus;
+         DeviceState *flash_dev;
+         qemu_irq cs_line;
+         DriveInfo *dinfo = drive_get_next(IF_MTD);
+         int bus = i / XLNX_ZYNQMP_NUM_QSPI_BUS_CS;
+         gchar *bus_name = g_strdup_printf("qspi%d", bus);
+ 
+-        spi_bus = (SSIBus *)qdev_get_child_bus(DEVICE(&s->soc), bus_name);
++        spi_bus = qdev_get_child_bus(DEVICE(&s->soc), bus_name);
+         g_free(bus_name);
+ 
+-        flash_dev = ssi_create_slave_no_init(spi_bus, "n25q512a11");
++        flash_dev = qdev_new("n25q512a11");
+         if (dinfo) {
+             qdev_prop_set_drive(flash_dev, "drive", blk_by_legacy_dinfo(dinfo),
+                                 &error_fatal);
+         }
+-        qdev_init_nofail(flash_dev);
++        qdev_realize_and_unref(flash_dev, spi_bus, &error_fatal);
+ 
+         cs_line = qdev_get_gpio_in_named(flash_dev, SSI_GPIO_CS, 0);
+ 
+diff --git a/hw/microblaze/petalogix_ml605_mmu.c b/hw/microblaze/petalogix_ml605_mmu.c
+index 2e7a3fa119..d4bfa233c9 100644
+--- a/hw/microblaze/petalogix_ml605_mmu.c
++++ b/hw/microblaze/petalogix_ml605_mmu.c
+@@ -186,12 +186,12 @@ petalogix_ml605_init(MachineState *machine)
+             DriveInfo *dinfo = drive_get_next(IF_MTD);
+             qemu_irq cs_line;
+ 
+-            dev = ssi_create_slave_no_init(spi, "n25q128");
++            dev = qdev_new("n25q128");
+             if (dinfo) {
+                 qdev_prop_set_drive(dev, "drive", blk_by_legacy_dinfo(dinfo),
+                                     &error_fatal);
+             }
+-            qdev_init_nofail(dev);
++            qdev_realize_and_unref(dev, BUS(spi), &error_fatal);
+ 
+             cs_line = qdev_get_gpio_in_named(dev, SSI_GPIO_CS, 0);
+             sysbus_connect_irq(busdev, i+1, cs_line);
 -- 
 2.26.2
 
