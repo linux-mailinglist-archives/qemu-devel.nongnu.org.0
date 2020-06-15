@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A64E1FA2A7
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 23:19:11 +0200 (CEST)
-Received: from localhost ([::1]:51596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6B3D1FA2B4
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 23:23:50 +0200 (CEST)
+Received: from localhost ([::1]:40002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jkwVa-0007eF-4K
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 17:19:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34176)
+	id 1jkwa5-0006Bn-Q1
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 17:23:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jkvv8-0004BM-M1
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 16:41:30 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:37554
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jkvuv-0003no-4l
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 16:41:17 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:37043
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jkvv7-0000o4-0S
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 16:41:30 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jkvut-0000m6-AJ
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 16:41:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592253688;
+ s=mimecast20190719; t=1592253671;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OBE5UR75DopgD9wyODR/hJnInC+vSyBI8FTaeWzaFSU=;
- b=Sxesw01x/gUN4NaBIElt8aBq9Y0mp0JotS2jHWwSP1mp6NBFb9TI30uuMNHCjMDmabCqAu
- 1TGk4Jc9PD8ETpQwwc37w6jwh+A29HUSVm7u2DGXYXSvjb+jBoEuBJfc6GjODKLAc/SWMP
- oEXDh1MsTXPMA09rw0K33VLoQdfxVLk=
+ bh=Gs+7LGVCMm4BaDzR5wVC57NQ94MMqKk3dlbXbBxil9g=;
+ b=UzcfMmFpLrqa/pXO7B/tWd7VJ7M7TR3w3RpG+HVl+s+CTCH0OW7txGnsfHCREAZVDYuL9h
+ 1I1kT+CVaScpU4QEfT+ULsoZTZKkSZxYF9V+l66lFxncSJURDRl9yUijd8THXsJd8MwuPF
+ CRm+ooVmekxn2Es5+YSvfp6RepJxKDM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-155-DZrAyMDJNSiSV9IlXkKe3A-1; Mon, 15 Jun 2020 16:41:24 -0400
-X-MC-Unique: DZrAyMDJNSiSV9IlXkKe3A-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-437-WxH2a3KJPo6SU7rE3Fs5pw-1; Mon, 15 Jun 2020 16:40:52 -0400
+X-MC-Unique: WxH2a3KJPo6SU7rE3Fs5pw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6FC0610AB646;
- Mon, 15 Jun 2020 20:41:23 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 750D2188360F;
+ Mon, 15 Jun 2020 20:40:51 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-121.ams2.redhat.com
  [10.36.112.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 418785C1D2;
- Mon, 15 Jun 2020 20:41:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4584B100164D;
+ Mon, 15 Jun 2020 20:40:51 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 4526311358C1; Mon, 15 Jun 2020 22:40:08 +0200 (CEST)
+ id 48AD011358C5; Mon, 15 Jun 2020 22:40:08 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/84] macio: Delete unused "macio-gpio" devices
-Date: Mon, 15 Jun 2020 22:38:56 +0200
-Message-Id: <20200615204008.3069956-13-armbru@redhat.com>
+Subject: [PULL 13/84] pnv/phb4: Delete unused "pnv-phb4-pec-stack" devices
+Date: Mon, 15 Jun 2020 22:38:57 +0200
+Message-Id: <20200615204008.3069956-14-armbru@redhat.com>
 In-Reply-To: <20200615204008.3069956-1-armbru@redhat.com>
 References: <20200615204008.3069956-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
@@ -80,58 +80,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+Cc: Greg Kurz <groug@kaod.org>, qemu-ppc@nongnu.org,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
  David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These devices go with the "via-pmu" device, which is controlled by
-property "has-pmu".  macio_newworld_init() creates it unconditionally,
-because the property has not been set then.  macio_newworld_realize()
-realizes it only when the property is true.  Works, although it can
-leave an unrealized device hanging around in the QOM composition tree.
-Affects machine mac99 with via=cuda (default).
+The number of stacks is controlled by property "num-stacks".
+pnv_pec_instance_init() creates the maximum supported number, because
+the property has not been set then.  pnv_pec_realize() realizes only
+the wanted number.  Works, although it can leave unrealized devices
+hanging around in the QOM composition tree.  Affects machine powernv9.
 
-Delete the unused device by making macio_newworld_realize() unparent
-it.  Visible in "info qom-tree":
+Delete the unused devices by making pnv_pec_realize() unparent them.
+Visible in "info qom-tree":
 
-     /machine (mac99-machine)
-       [...]
-       /unattached (container)
-         /device[9] (macio-newworld)
-           [...]
-           /escc-legacy-port[8] (qemu:memory-region)
-           /escc-legacy-port[9] (qemu:memory-region)
-           /escc-legacy[0] (qemu:memory-region)
-    -      /gpio (macio-gpio)
-    -        /gpio[0] (qemu:memory-region)
-           /ide[0] (macio-ide)
-             /ide.0 (IDE)
-             /pmac-ide[0] (qemu:memory-region)
+     /machine (powernv9-machine)
+       /chip[0] (power9_v2.0-pnv-chip)
+         [...]
+         /pec[0] (pnv-phb4-pec)
+           /stack[0] (pnv-phb4-pec-stack)
+             [...]
+    -      /stack[1] (pnv-phb4-pec-stack)
+    -        /phb (pnv-phb4)
+    -          /pcie-mmcfg-mmio[0] (qemu:memory-region)
+    -          /root (pnv-phb4-root-port)
+    -          /source (xive-source)
+    -      /stack[2] (pnv-phb4-pec-stack)
+    -        /phb (pnv-phb4)
+    -          /pcie-mmcfg-mmio[0] (qemu:memory-region)
+    -          /root (pnv-phb4-root-port)
+    -          /source (xive-source)
+           /xscom-pec-0.0-nest[0] (qemu:memory-region)
+           /xscom-pec-0.0-pci[0] (qemu:memory-region)
+         /pec[1] (pnv-phb4-pec)
+           /stack[0] (pnv-phb4-pec-stack)
+             [...]
+           /stack[1] (pnv-phb4-pec-stack)
+             [...]
+    -      /stack[2] (pnv-phb4-pec-stack)
+    -        /phb (pnv-phb4)
+    -          /pcie-mmcfg-mmio[0] (qemu:memory-region)
+    -          /root (pnv-phb4-root-port)
+    -          /source (xive-source)
+           /xscom-pec-0.1-nest[0] (qemu:memory-region)
+           /xscom-pec-0.1-pci[0] (qemu:memory-region)
+         /pec[2] (pnv-phb4-pec)
+           /stack[0] (pnv-phb4-pec-stack)
+             [...]
+           /stack[1] (pnv-phb4-pec-stack)
+             [...]
+           /stack[2] (pnv-phb4-pec-stack)
+             [...]
 
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Cc: Cédric Le Goater <clg@kaod.org>
 Cc: David Gibson <david@gibson.dropbear.id.au>
 Cc: qemu-ppc@nongnu.org
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-Id: <20200609122339.937862-11-armbru@redhat.com>
+Reviewed-by: Greg Kurz <groug@kaod.org>
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Message-Id: <20200609122339.937862-12-armbru@redhat.com>
 ---
- hw/misc/macio/macio.c | 2 ++
- 1 file changed, 2 insertions(+)
+ hw/pci-host/pnv_phb4_pec.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/hw/misc/macio/macio.c b/hw/misc/macio/macio.c
-index 3779865ab2..b3dddf8be7 100644
---- a/hw/misc/macio/macio.c
-+++ b/hw/misc/macio/macio.c
-@@ -368,6 +368,8 @@ static void macio_newworld_realize(PCIDevice *d, Error **errp)
-         memory_region_add_subregion(&s->bar, 0x16000,
-                                     sysbus_mmio_get_region(sysbus_dev, 0));
-     } else {
-+        object_unparent(OBJECT(&ns->gpio));
-+
-         /* CUDA */
-         object_initialize_child(OBJECT(s), "cuda", &s->cuda, sizeof(s->cuda),
-                                 TYPE_CUDA, &error_abort, NULL);
+diff --git a/hw/pci-host/pnv_phb4_pec.c b/hw/pci-host/pnv_phb4_pec.c
+index 911d147ffd..565345a018 100644
+--- a/hw/pci-host/pnv_phb4_pec.c
++++ b/hw/pci-host/pnv_phb4_pec.c
+@@ -397,6 +397,9 @@ static void pnv_pec_realize(DeviceState *dev, Error **errp)
+             return;
+         }
+     }
++    for (; i < PHB4_PEC_MAX_STACKS; i++) {
++        object_unparent(OBJECT(&pec->stacks[i]));
++    }
+ 
+     /* Initialize the XSCOM regions for the PEC registers */
+     snprintf(name, sizeof(name), "xscom-pec-%d.%d-nest", pec->chip_id,
 -- 
 2.26.2
 
