@@ -2,116 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49E261F8FFB
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 09:34:47 +0200 (CEST)
-Received: from localhost ([::1]:36198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C34B61F9023
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 09:42:02 +0200 (CEST)
+Received: from localhost ([::1]:45282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jkjdm-000870-BA
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 03:34:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49412)
+	id 1jkjkn-0003vF-Qs
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 03:42:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jkjcc-00072e-QI
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 03:33:34 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:29189
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jkjca-0005da-8Q
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 03:33:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592206411;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Sz0yD3myTTItbke3YYrKtCTmNyc7L6MO/x+kUk2UXbI=;
- b=SalQiKEJLx1878xQzrucg3A5Fl6yQUS1dfWwJCxyLPHtGOj/+wb14f0YTxCLehQY8xjmMW
- FahIOamOf4zkI81q5eIIDcfQXu7LFjqiiZ2rVdgVkUTrXiJPF9ZaXntgbI1fL6uDce8ery
- H3tpw/m/FYPhtuaY9XWow6U/UVsIVuI=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-363-jvFO8iF6P6-7MUE5KeQ96g-1; Mon, 15 Jun 2020 03:33:27 -0400
-X-MC-Unique: jvFO8iF6P6-7MUE5KeQ96g-1
-Received: by mail-wm1-f71.google.com with SMTP id a7so4657422wmf.1
- for <qemu-devel@nongnu.org>; Mon, 15 Jun 2020 00:33:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=Sz0yD3myTTItbke3YYrKtCTmNyc7L6MO/x+kUk2UXbI=;
- b=qXhiBACFBjphTh/cel5S1F5RdScvwytmMkDqCreGigaBfJh10Ol8jIhEM2kHyTfI3b
- xCmNru25dT/38v9USGw/2qeKOwkas8IIkJaz3SIQxrZfVdkWSni2OwOOjmWktjh9ZP0u
- ZHXv8diTBYXNRlWkSatIHYn95+TKYz0RbF2nhdzPBU/fOUAUxbz/4n48A+ipw3A2a6K4
- win7j/ArVDBSV6jlzdyj9iW4ZSaihCGqmwrUL907TYD7QKBzIaApMF0SB6Kz8/etp9hq
- 6QcvMxLLBUtOZ3FhieepjrUeQ4EwimMGX6fW99RcVy7k6kz7LNbK/XobiHbRlUXSaVQN
- gU3A==
-X-Gm-Message-State: AOAM530O9HEywEoWK2e2ofb6ggzE6yefmg6AYIaYjkT0/UNOF0dd54sd
- RtjTd76tz1lHuodxsHzB9kOxo9eeuaBEmsQ55e1LgmaNBu3DEVDw12aR1wK4T2qvxoJI9Xr3VXR
- a3w6NMmZQBhVEjws=
-X-Received: by 2002:adf:f789:: with SMTP id q9mr25010686wrp.251.1592206406633; 
- Mon, 15 Jun 2020 00:33:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwTLoJsg/yByRsES5e2sasLDxxurKbViuErnaV78f8deFhAiEvh8hOUDmlGuClJJESWNalDhg==
-X-Received: by 2002:adf:f789:: with SMTP id q9mr25010665wrp.251.1592206406418; 
- Mon, 15 Jun 2020 00:33:26 -0700 (PDT)
-Received: from [192.168.1.40] (181.red-88-10-103.dynamicip.rima-tde.net.
- [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id o18sm22162120wme.19.2020.06.15.00.33.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 Jun 2020 00:33:25 -0700 (PDT)
-Subject: Re: [PATCH v3 00/11] hw/sd/sdcard: Fix CVE-2020-13253 & cleanups
-To: qemu-devel@nongnu.org
-References: <20200605102230.21493-1-philmd@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <50fc9467-205d-1ee1-d325-b26e95812084@redhat.com>
-Date: Mon, 15 Jun 2020 09:33:24 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jkjjm-0003PI-4f
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 03:40:58 -0400
+Received: from indium.canonical.com ([91.189.90.7]:49424)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jkjjk-00078i-3e
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 03:40:57 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jkjjh-0002D7-CR
+ for <qemu-devel@nongnu.org>; Mon, 15 Jun 2020 07:40:53 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 5AC6B2E804E
+ for <qemu-devel@nongnu.org>; Mon, 15 Jun 2020 07:40:53 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200605102230.21493-1-philmd@redhat.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/15 01:17:36
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 15 Jun 2020 07:35:00 -0000
+From: Thomas Huth <1883414@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: th-huth urisimchoni
+X-Launchpad-Bug-Reporter: Uri Simchoni (urisimchoni)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <159212433474.11524.6446671863571065618.malonedeb@soybean.canonical.com>
+Message-Id: <159220650074.12349.17370718068349754994.malone@soybean.canonical.com>
+Subject: [Bug 1883414] Re: Cannot build qemu-5.0.0 from tarball
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="b190cebbf563f89e480a8b57f641753c8196bda0";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 1666e72ae529157eca5ef1a658618798e44dd2ec
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/15 03:40:53
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -120,37 +72,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
- qemu-block@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
+Reply-To: Bug 1883414 <1883414@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/5/20 12:22 PM, Philippe Mathieu-Daudé wrote:
-> Patches 2 & 3 fix CVE-2020-13253.
+Where did you download the tarball from?
 
-Ping for the CVE fix?...
+** Changed in: qemu
+       Status: New =3D> Incomplete
 
-> The rest are (accumulated) cleanups.
-> 
-> Supersedes: <20200604182502.24228-1-f4bug@amsat.org>
-> 
-> Philippe Mathieu-Daudé (11):
->   MAINTAINERS: Cc qemu-block mailing list
->   hw/sd/sdcard: Update coding style to make checkpatch.pl happy
->   hw/sd/sdcard: Do not switch to ReceivingData if address is invalid
->   hw/sd/sdcard: Restrict Class 6 commands to SCSD cards
->   hw/sd/sdcard: Update the SDState documentation
->   hw/sd/sdcard: Simplify cmd_valid_while_locked()
->   hw/sd/sdcard: Constify sd_crc*()'s message argument
->   hw/sd/sdcard: Make iolen unsigned
->   hw/sd/sdcard: Correctly display the command name in trace events
->   hw/sd/sdcard: Display offset in read/write_data() trace events
->   hw/sd/sdcard: Simplify realize() a bit
-> 
->  hw/sd/sd.c         | 122 +++++++++++++++++++++++++++++----------------
->  MAINTAINERS        |   1 +
->  hw/sd/trace-events |   4 +-
->  3 files changed, 83 insertions(+), 44 deletions(-)
-> 
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1883414
+
+Title:
+  Cannot build qemu-5.0.0 from tarball
+
+Status in QEMU:
+  Incomplete
+
+Bug description:
+  Cannot build qemu 5.0.0 from the release tarball. Building from git-
+  clone succeeds.
+
+  After downloading and unpacking the 5.0.0 tarball, I typed the
+  following:
+
+  mkdir build
+  cd build
+  ../configure
+
+  Then got the following error message:
+
+  ERROR: missing file /home/uri/qemu-5.0.0/ui/keycodemapdb/README
+
+  This is not a GIT checkout but module content appears to
+  be missing. Do not use 'git archive' or GitHub download links
+  to acquire QEMU source archives. Non-GIT builds are only
+  supported with source archives linked from:
+
+    https://www.qemu.org/download/#source
+
+  Developers working with GIT can use scripts/archive-source.sh
+  if they need to create valid source archives.
+
+  It appears the ui/keycodemapdb is missing some files that are obtained
+  from a git submodule in a git tree.
+
+  Building from a git clone succeeds.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1883414/+subscriptions
 
