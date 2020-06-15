@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA7A61FA227
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 22:57:01 +0200 (CEST)
-Received: from localhost ([::1]:39108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E94501FA22D
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 22:59:13 +0200 (CEST)
+Received: from localhost ([::1]:47766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jkwA8-0003JD-Ne
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 16:57:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33562)
+	id 1jkwCH-0006xv-0L
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 16:59:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jkvuM-00032z-Hy
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 16:40:42 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:21921
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jkvuO-00038V-Vt
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 16:40:45 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:45917
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jkvuH-0000Yc-8Q
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 16:40:42 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jkvuJ-0000Yx-BO
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 16:40:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592253635;
+ s=mimecast20190719; t=1592253637;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wHibdf4ZH71iX+6oO/UN7+BTDCHfOn4SwkIpQGs/wMs=;
- b=L5MEEhKEDUuURM31D8SkkWUsEkDp+uAXJ7nEoYES6BgRtQXjUQs5fPCJcP9dYTCgGoom5f
- w7S3H/4uU+eWD9g4XtUilqR+P1Te4d16bofIDpZsar/5PLsJnkfR8MQC5TeEeF6Qcf/WSq
- u9GWEfa8X+cRPWTWMq9FndBAhL6NVEI=
+ bh=mZVlrKDqgEgfNKrKTmg+HbYIgOFjHjy9/9rz8chXYbk=;
+ b=ZTm7nd9FgdpMWmXBfjtIdhpvIaElMUzodhuRiShgf63tMAQH1Korxv62F7iIwYtmx432g1
+ 3J5O/tFGheAFU+9Ddp5Gg4XDFX8XlM+MD4QMoI4NfhOzMnWM4hPe9UNrtZ+hTyVGYegVHT
+ F+7JufQ33C4ZMcQQYQoGBJAztdA88XY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-14-uzqgj8k1PHOtIlNgPB0ZMw-1; Mon, 15 Jun 2020 16:40:33 -0400
-X-MC-Unique: uzqgj8k1PHOtIlNgPB0ZMw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-303-Jk0ecidRP3KFAznRnUQjcQ-1; Mon, 15 Jun 2020 16:40:33 -0400
+X-MC-Unique: Jk0ecidRP3KFAznRnUQjcQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7BAF480331B
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CABF45AED0
  for <qemu-devel@nongnu.org>; Mon, 15 Jun 2020 20:40:32 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-121.ams2.redhat.com
  [10.36.112.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EA9EC7CAA0;
- Mon, 15 Jun 2020 20:40:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F395F60F80;
+ Mon, 15 Jun 2020 20:40:31 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 9E860113524B; Mon, 15 Jun 2020 22:40:08 +0200 (CEST)
+ id A2C8C113524E; Mon, 15 Jun 2020 22:40:08 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 36/84] qdev: Convert uses of qdev_create() manually
-Date: Mon, 15 Jun 2020 22:39:20 +0200
-Message-Id: <20200615204008.3069956-37-armbru@redhat.com>
+Subject: [PULL 37/84] qdev: Convert uses of qdev_set_parent_bus() with
+ Coccinelle
+Date: Mon, 15 Jun 2020 22:39:21 +0200
+Message-Id: <20200615204008.3069956-38-armbru@redhat.com>
 In-Reply-To: <20200615204008.3069956-1-armbru@redhat.com>
 References: <20200615204008.3069956-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/15 16:38:57
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/15 16:40:20
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,442 +81,715 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Same transformation as in the previous commit.  Manual, because
-convincing Coccinelle to transform these cases is somewhere between
-not worthwhile and infeasible (at least for me).
+In addition to the qdev_create() patterns converted so far, we have a
+qdev_set_parent_bus() pattern.  Mostly when we embed a device in a
+parent device rather than allocating it on the heap.
+
+This pattern also puts devices in the dangerous "no QOM parent, but
+plugged into bus" state I explained in recent commit "qdev: New
+qdev_new(), qdev_realize(), etc."
+
+Apply same solution: convert to qdev_realize().  Coccinelle script:
+
+    @@
+    expression dev, bus, errp;
+    symbol true;
+    @@
+    -    qdev_set_parent_bus(DEVICE(dev), bus);
+         ...
+    -    object_property_set_bool(OBJECT(dev), true, "realized", errp);
+    +    qdev_realize(DEVICE(dev), bus, errp);
+
+    @ depends on !(file in "qdev-monitor.c") && !(file in "hw/core/qdev.c")@
+    expression dev, bus, errp;
+    symbol true;
+    @@
+    -    qdev_set_parent_bus(dev, bus);
+         ...
+    -    object_property_set_bool(OBJECT(dev), true, "realized", errp);
+    +    qdev_realize(dev, bus, errp);
+
+    @@
+    expression dev, bus;
+    symbol true;
+    @@
+    -    qdev_set_parent_bus(DEVICE(dev), bus);
+         ...
+    -    qdev_init_nofail(DEVICE(dev));
+    +    qdev_realize(DEVICE(dev), bus, &error_fatal);
+
+Unconverted uses of qdev_set_parent_bus() remain.  They'll be
+converted later in this series.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20200610053247.1583243-11-armbru@redhat.com>
+Message-Id: <20200610053247.1583243-12-armbru@redhat.com>
+[Also convert new hw/virtio/vhost-user-vsock-pci.c]
 ---
- hw/arm/highbank.c                   | 26 +++++++++++++-------------
- hw/arm/sbsa-ref.c                   |  4 ++--
- hw/arm/virt.c                       |  4 ++--
- hw/block/xen-block.c                |  4 ++--
- hw/char/serial.c                    |  4 ++--
- hw/display/ati.c                    |  5 ++---
- hw/display/sm501.c                  |  5 ++---
- hw/display/xlnx_dp.c                |  5 +++--
- hw/i386/pc.c                        |  4 ++--
- hw/i386/pc_sysfw.c                  |  4 ++--
- hw/pci-bridge/pci_expander_bridge.c |  4 ++--
- hw/ppc/pnv.c                        |  4 ++--
- hw/riscv/virt.c                     |  4 ++--
- hw/s390x/s390-pci-bus.c             |  4 ++--
- hw/sparc/leon3.c                    |  8 ++++----
- hw/usb/bus.c                        |  8 ++++----
- 16 files changed, 48 insertions(+), 49 deletions(-)
+ hw/display/virtio-gpu-pci.c      | 3 +--
+ hw/display/virtio-vga.c          | 3 +--
+ hw/i386/amd_iommu.c              | 3 +--
+ hw/isa/piix4.c                   | 3 +--
+ hw/misc/macio/macio.c            | 7 ++-----
+ hw/pci-host/designware.c         | 3 +--
+ hw/pci-host/gpex.c               | 3 +--
+ hw/pci-host/pnv_phb3.c           | 3 +--
+ hw/pci-host/pnv_phb4.c           | 3 +--
+ hw/pci-host/q35.c                | 3 +--
+ hw/pci-host/versatile.c          | 3 +--
+ hw/pci-host/xilinx-pcie.c        | 3 +--
+ hw/s390x/vhost-vsock-ccw.c       | 3 +--
+ hw/s390x/virtio-ccw-9p.c         | 3 +--
+ hw/s390x/virtio-ccw-balloon.c    | 3 +--
+ hw/s390x/virtio-ccw-blk.c        | 3 +--
+ hw/s390x/virtio-ccw-crypto.c     | 3 +--
+ hw/s390x/virtio-ccw-gpu.c        | 3 +--
+ hw/s390x/virtio-ccw-input.c      | 3 +--
+ hw/s390x/virtio-ccw-net.c        | 3 +--
+ hw/s390x/virtio-ccw-rng.c        | 3 +--
+ hw/s390x/virtio-ccw-scsi.c       | 6 ++----
+ hw/s390x/virtio-ccw-serial.c     | 3 +--
+ hw/virtio/vhost-scsi-pci.c       | 3 +--
+ hw/virtio/vhost-user-blk-pci.c   | 3 +--
+ hw/virtio/vhost-user-fs-pci.c    | 3 +--
+ hw/virtio/vhost-user-scsi-pci.c  | 3 +--
+ hw/virtio/vhost-user-vsock-pci.c | 3 +--
+ hw/virtio/vhost-vsock-pci.c      | 3 +--
+ hw/virtio/virtio-9p-pci.c        | 3 +--
+ hw/virtio/virtio-balloon-pci.c   | 3 +--
+ hw/virtio/virtio-blk-pci.c       | 3 +--
+ hw/virtio/virtio-crypto-pci.c    | 3 +--
+ hw/virtio/virtio-input-pci.c     | 3 +--
+ hw/virtio/virtio-iommu-pci.c     | 3 +--
+ hw/virtio/virtio-net-pci.c       | 3 +--
+ hw/virtio/virtio-pmem-pci.c      | 3 +--
+ hw/virtio/virtio-rng-pci.c       | 3 +--
+ hw/virtio/virtio-scsi-pci.c      | 3 +--
+ hw/virtio/virtio-serial-pci.c    | 3 +--
+ hw/xen/xen-legacy-backend.c      | 3 +--
+ 41 files changed, 43 insertions(+), 87 deletions(-)
 
-diff --git a/hw/arm/highbank.c b/hw/arm/highbank.c
-index ac9de9411e..1bed540011 100644
---- a/hw/arm/highbank.c
-+++ b/hw/arm/highbank.c
-@@ -311,20 +311,20 @@ static void calxeda_init(MachineState *machine, enum cxmachines machine_id)
+diff --git a/hw/display/virtio-gpu-pci.c b/hw/display/virtio-gpu-pci.c
+index 3d152ff5c8..b532fe8b5f 100644
+--- a/hw/display/virtio-gpu-pci.c
++++ b/hw/display/virtio-gpu-pci.c
+@@ -33,9 +33,8 @@ static void virtio_gpu_pci_base_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+     int i;
+     Error *local_error = NULL;
  
-     switch (machine_id) {
-     case CALXEDA_HIGHBANK:
--        dev = qdev_create(NULL, "l2x0");
--        qdev_init_nofail(dev);
-+        dev = qdev_new("l2x0");
-+        qdev_realize_and_unref(dev, NULL, &error_fatal);
-         busdev = SYS_BUS_DEVICE(dev);
-         sysbus_mmio_map(busdev, 0, 0xfff12000);
+-    qdev_set_parent_bus(vdev, BUS(&vpci_dev->bus));
+     virtio_pci_force_virtio_1(vpci_dev);
+-    object_property_set_bool(OBJECT(vdev), true, "realized", &local_error);
++    qdev_realize(vdev, BUS(&vpci_dev->bus), &local_error);
  
--        dev = qdev_create(NULL, TYPE_A9MPCORE_PRIV);
-+        dev = qdev_new(TYPE_A9MPCORE_PRIV);
-         break;
-     case CALXEDA_MIDWAY:
--        dev = qdev_create(NULL, TYPE_A15MPCORE_PRIV);
-+        dev = qdev_new(TYPE_A15MPCORE_PRIV);
-         break;
-     }
-     qdev_prop_set_uint32(dev, "num-cpu", smp_cpus);
-     qdev_prop_set_uint32(dev, "num-irq", NIRQ_GIC);
--    qdev_init_nofail(dev);
-+    qdev_realize_and_unref(dev, NULL, &error_fatal);
-     busdev = SYS_BUS_DEVICE(dev);
-     sysbus_mmio_map(busdev, 0, MPCORE_PERIPHBASE);
-     for (n = 0; n < smp_cpus; n++) {
-@@ -338,17 +338,17 @@ static void calxeda_init(MachineState *machine, enum cxmachines machine_id)
-         pic[n] = qdev_get_gpio_in(dev, n);
-     }
+     if (local_error) {
+         error_propagate(errp, local_error);
+diff --git a/hw/display/virtio-vga.c b/hw/display/virtio-vga.c
+index 95757a6619..68a062ece6 100644
+--- a/hw/display/virtio-vga.c
++++ b/hw/display/virtio-vga.c
+@@ -137,9 +137,8 @@ static void virtio_vga_base_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+     vpci_dev->common.offset = offset;
  
--    dev = qdev_create(NULL, "sp804");
-+    dev = qdev_new("sp804");
-     qdev_prop_set_uint32(dev, "freq0", 150000000);
-     qdev_prop_set_uint32(dev, "freq1", 150000000);
--    qdev_init_nofail(dev);
-+    qdev_realize_and_unref(dev, NULL, &error_fatal);
-     busdev = SYS_BUS_DEVICE(dev);
-     sysbus_mmio_map(busdev, 0, 0xfff34000);
-     sysbus_connect_irq(busdev, 0, pic[18]);
-     pl011_create(0xfff36000, pic[20], serial_hd(0));
- 
--    dev = qdev_create(NULL, TYPE_HIGHBANK_REGISTERS);
--    qdev_init_nofail(dev);
-+    dev = qdev_new(TYPE_HIGHBANK_REGISTERS);
-+    qdev_realize_and_unref(dev, NULL, &error_fatal);
-     busdev = SYS_BUS_DEVICE(dev);
-     sysbus_mmio_map(busdev, 0, 0xfff3c000);
- 
-@@ -363,18 +363,18 @@ static void calxeda_init(MachineState *machine, enum cxmachines machine_id)
- 
-     if (nd_table[0].used) {
-         qemu_check_nic_model(&nd_table[0], "xgmac");
--        dev = qdev_create(NULL, "xgmac");
-+        dev = qdev_new("xgmac");
-         qdev_set_nic_properties(dev, &nd_table[0]);
--        qdev_init_nofail(dev);
-+        qdev_realize_and_unref(dev, NULL, &error_fatal);
-         sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, 0xfff50000);
-         sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0, pic[77]);
-         sysbus_connect_irq(SYS_BUS_DEVICE(dev), 1, pic[78]);
-         sysbus_connect_irq(SYS_BUS_DEVICE(dev), 2, pic[79]);
- 
-         qemu_check_nic_model(&nd_table[1], "xgmac");
--        dev = qdev_create(NULL, "xgmac");
-+        dev = qdev_new("xgmac");
-         qdev_set_nic_properties(dev, &nd_table[1]);
--        qdev_init_nofail(dev);
-+        qdev_realize_and_unref(dev, NULL, &error_fatal);
-         sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, 0xfff51000);
-         sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0, pic[80]);
-         sysbus_connect_irq(SYS_BUS_DEVICE(dev), 1, pic[81]);
-diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
-index d68c5d87af..fe24567333 100644
---- a/hw/arm/sbsa-ref.c
-+++ b/hw/arm/sbsa-ref.c
-@@ -211,7 +211,7 @@ static PFlashCFI01 *sbsa_flash_create1(SBSAMachineState *sms,
-      * Create a single flash device.  We use the same parameters as
-      * the flash devices on the Versatile Express board.
-      */
--    DeviceState *dev = qdev_create(NULL, TYPE_PFLASH_CFI01);
-+    DeviceState *dev = qdev_new(TYPE_PFLASH_CFI01);
- 
-     qdev_prop_set_uint64(dev, "sector-length", SBSA_FLASH_SECTOR_SIZE);
-     qdev_prop_set_uint8(dev, "width", 4);
-@@ -243,7 +243,7 @@ static void sbsa_flash_map1(PFlashCFI01 *flash,
-     assert(QEMU_IS_ALIGNED(size, SBSA_FLASH_SECTOR_SIZE));
-     assert(size / SBSA_FLASH_SECTOR_SIZE <= UINT32_MAX);
-     qdev_prop_set_uint32(dev, "num-blocks", size / SBSA_FLASH_SECTOR_SIZE);
--    qdev_init_nofail(dev);
-+    qdev_realize_and_unref(dev, NULL, &error_fatal);
- 
-     memory_region_add_subregion(sysmem, base,
-                                 sysbus_mmio_get_region(SYS_BUS_DEVICE(dev),
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 154cd24731..ca151435ae 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -948,7 +948,7 @@ static PFlashCFI01 *virt_flash_create1(VirtMachineState *vms,
-      * Create a single flash device.  We use the same parameters as
-      * the flash devices on the Versatile Express board.
-      */
--    DeviceState *dev = qdev_create(NULL, TYPE_PFLASH_CFI01);
-+    DeviceState *dev = qdev_new(TYPE_PFLASH_CFI01);
- 
-     qdev_prop_set_uint64(dev, "sector-length", VIRT_FLASH_SECTOR_SIZE);
-     qdev_prop_set_uint8(dev, "width", 4);
-@@ -980,7 +980,7 @@ static void virt_flash_map1(PFlashCFI01 *flash,
-     assert(QEMU_IS_ALIGNED(size, VIRT_FLASH_SECTOR_SIZE));
-     assert(size / VIRT_FLASH_SECTOR_SIZE <= UINT32_MAX);
-     qdev_prop_set_uint32(dev, "num-blocks", size / VIRT_FLASH_SECTOR_SIZE);
--    qdev_init_nofail(dev);
-+    qdev_realize_and_unref(dev, NULL, &error_fatal);
- 
-     memory_region_add_subregion(sysmem, base,
-                                 sysbus_mmio_get_region(SYS_BUS_DEVICE(dev),
-diff --git a/hw/block/xen-block.c b/hw/block/xen-block.c
-index 570489d6d9..2827c90ac7 100644
---- a/hw/block/xen-block.c
-+++ b/hw/block/xen-block.c
-@@ -937,7 +937,7 @@ static void xen_block_device_create(XenBackendInstance *backend,
-         goto fail;
-     }
- 
--    xendev = XEN_DEVICE(qdev_create(BUS(xenbus), type));
-+    xendev = XEN_DEVICE(qdev_new(type));
-     blockdev = XEN_BLOCK_DEVICE(xendev);
- 
-     object_property_set_str(OBJECT(xendev), vdev, "vdev", &local_err);
-@@ -965,7 +965,7 @@ static void xen_block_device_create(XenBackendInstance *backend,
-     blockdev->iothread = iothread;
-     blockdev->drive = drive;
- 
--    object_property_set_bool(OBJECT(xendev), true, "realized", &local_err);
-+    qdev_realize_and_unref(DEVICE(xendev), BUS(xenbus), &local_err);
-     if (local_err) {
-         error_propagate_prepend(errp, local_err,
-                                 "realization of device %s failed: ",
-diff --git a/hw/char/serial.c b/hw/char/serial.c
-index 7d74694587..a0cab38fb0 100644
---- a/hw/char/serial.c
-+++ b/hw/char/serial.c
-@@ -1127,7 +1127,7 @@ SerialMM *serial_mm_init(MemoryRegion *address_space,
-                          qemu_irq irq, int baudbase,
-                          Chardev *chr, enum device_endian end)
- {
--    SerialMM *smm = SERIAL_MM(qdev_create(NULL, TYPE_SERIAL_MM));
-+    SerialMM *smm = SERIAL_MM(qdev_new(TYPE_SERIAL_MM));
-     MemoryRegion *mr;
- 
-     qdev_prop_set_uint8(DEVICE(smm), "regshift", regshift);
-@@ -1135,7 +1135,7 @@ SerialMM *serial_mm_init(MemoryRegion *address_space,
-     qdev_prop_set_chr(DEVICE(smm), "chardev", chr);
-     qdev_set_legacy_instance_id(DEVICE(smm), base, 2);
-     qdev_prop_set_uint8(DEVICE(smm), "endianness", end);
--    qdev_init_nofail(DEVICE(smm));
-+    qdev_realize_and_unref(DEVICE(smm), NULL, &error_fatal);
- 
-     sysbus_connect_irq(SYS_BUS_DEVICE(smm), 0, irq);
-     mr = sysbus_mmio_get_region(SYS_BUS_DEVICE(smm), 0);
-diff --git a/hw/display/ati.c b/hw/display/ati.c
-index 1d9df92b96..7216f7e08f 100644
---- a/hw/display/ati.c
-+++ b/hw/display/ati.c
-@@ -933,10 +933,9 @@ static void ati_vga_realize(PCIDevice *dev, Error **errp)
-     /* ddc, edid */
-     I2CBus *i2cbus = i2c_init_bus(DEVICE(s), "ati-vga.ddc");
-     bitbang_i2c_init(&s->bbi2c, i2cbus);
--    I2CSlave *i2cddc = I2C_SLAVE(qdev_create(BUS(i2cbus), TYPE_I2CDDC));
-+    I2CSlave *i2cddc = I2C_SLAVE(qdev_new(TYPE_I2CDDC));
-     i2c_set_slave_address(i2cddc, 0x50);
--    object_property_set_bool(OBJECT(i2cddc), true, "realized",
--                             &error_abort);
-+    qdev_realize_and_unref(DEVICE(i2cddc), BUS(i2cbus), &error_abort);
- 
-     /* mmio register space */
-     memory_region_init_io(&s->mm, OBJECT(s), &ati_mm_ops, s,
-diff --git a/hw/display/sm501.c b/hw/display/sm501.c
-index 7ff14fd474..3e62eca3de 100644
---- a/hw/display/sm501.c
-+++ b/hw/display/sm501.c
-@@ -1831,10 +1831,9 @@ static void sm501_init(SM501State *s, DeviceState *dev,
-     /* i2c */
-     s->i2c_bus = i2c_init_bus(dev, "sm501.i2c");
-     /* ddc */
--    I2CDDCState *ddc = I2CDDC(qdev_create(BUS(s->i2c_bus), TYPE_I2CDDC));
-+    I2CDDCState *ddc = I2CDDC(qdev_new(TYPE_I2CDDC));
-     i2c_set_slave_address(I2C_SLAVE(ddc), 0x50);
--    object_property_set_bool(OBJECT(ddc), true, "realized",
--                             &error_abort);
-+    qdev_realize_and_unref(DEVICE(ddc), BUS(s->i2c_bus), &error_abort);
- 
-     /* mmio */
-     memory_region_init(&s->mmio_region, OBJECT(dev), "sm501.mmio", MMIO_SIZE);
-diff --git a/hw/display/xlnx_dp.c b/hw/display/xlnx_dp.c
-index 5210412e55..6e9793584a 100644
---- a/hw/display/xlnx_dp.c
-+++ b/hw/display/xlnx_dp.c
-@@ -1252,7 +1252,7 @@ static void xlnx_dp_init(Object *obj)
-     s->dpcd = DPCD(aux_create_slave(s->aux_bus, "dpcd"));
-     object_property_add_child(OBJECT(s), "dpcd", OBJECT(s->dpcd));
- 
--    s->edid = I2CDDC(qdev_create(BUS(aux_get_i2c_bus(s->aux_bus)), "i2c-ddc"));
-+    s->edid = I2CDDC(qdev_new("i2c-ddc"));
-     i2c_set_slave_address(I2C_SLAVE(s->edid), 0x50);
-     object_property_add_child(OBJECT(s), "edid", OBJECT(s->edid));
- 
-@@ -1271,7 +1271,8 @@ static void xlnx_dp_realize(DeviceState *dev, Error **errp)
-     qdev_init_nofail(DEVICE(s->dpcd));
-     aux_map_slave(AUX_SLAVE(s->dpcd), 0x0000);
- 
--    qdev_init_nofail(DEVICE(s->edid));
-+    qdev_realize_and_unref(DEVICE(s->edid), BUS(aux_get_i2c_bus(s->aux_bus)),
-+                           &error_fatal);
- 
-     s->console = graphic_console_init(dev, 0, &xlnx_dp_gfx_ops, s);
-     surface = qemu_console_surface(s->console);
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index a5dd6252fa..ab2380c01f 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -1205,7 +1205,7 @@ void pc_basic_device_init(ISABus *isa_bus, qemu_irq *gsi,
-      * when the HPET wants to take over. Thus we have to disable the latter.
-      */
-     if (!no_hpet && (!kvm_irqchip_in_kernel() || kvm_has_pit_state2())) {
--        hpet = qdev_try_create(NULL, TYPE_HPET);
-+        hpet = qdev_try_new(TYPE_HPET);
-         if (hpet) {
-             /* For pc-piix-*, hpet's intcap is always IRQ2. For pc-q35-1.7
-              * and earlier, use IRQ2 for compat. Otherwise, use IRQ16~23,
-@@ -1216,7 +1216,7 @@ void pc_basic_device_init(ISABus *isa_bus, qemu_irq *gsi,
-             if (!compat) {
-                 qdev_prop_set_uint32(hpet, HPET_INTCAP, hpet_irqs);
-             }
--            qdev_init_nofail(hpet);
-+            qdev_realize_and_unref(hpet, NULL, &error_fatal);
-             sysbus_mmio_map(SYS_BUS_DEVICE(hpet), 0, HPET_BASE);
- 
-             for (i = 0; i < GSI_NUM_PINS; i++) {
-diff --git a/hw/i386/pc_sysfw.c b/hw/i386/pc_sysfw.c
-index b8d8ef59eb..2e414d1934 100644
---- a/hw/i386/pc_sysfw.c
-+++ b/hw/i386/pc_sysfw.c
-@@ -85,7 +85,7 @@ static PFlashCFI01 *pc_pflash_create(PCMachineState *pcms,
-                                      const char *name,
-                                      const char *alias_prop_name)
- {
--    DeviceState *dev = qdev_create(NULL, TYPE_PFLASH_CFI01);
-+    DeviceState *dev = qdev_new(TYPE_PFLASH_CFI01);
- 
-     qdev_prop_set_uint64(dev, "sector-length", FLASH_SECTOR_SIZE);
-     qdev_prop_set_uint8(dev, "width", 1);
-@@ -187,7 +187,7 @@ static void pc_system_flash_map(PCMachineState *pcms,
-         total_size += size;
-         qdev_prop_set_uint32(DEVICE(system_flash), "num-blocks",
-                              size / FLASH_SECTOR_SIZE);
--        qdev_init_nofail(DEVICE(system_flash));
-+        qdev_realize_and_unref(DEVICE(system_flash), NULL, &error_fatal);
-         sysbus_mmio_map(SYS_BUS_DEVICE(system_flash), 0,
-                         0x100000000ULL - total_size);
- 
-diff --git a/hw/pci-bridge/pci_expander_bridge.c b/hw/pci-bridge/pci_expander_bridge.c
-index 5da0d21061..3a395ab2f0 100644
---- a/hw/pci-bridge/pci_expander_bridge.c
-+++ b/hw/pci-bridge/pci_expander_bridge.c
-@@ -236,7 +236,7 @@ static void pxb_dev_realize_common(PCIDevice *dev, bool pcie, Error **errp)
-         bus = pci_root_bus_new(ds, dev_name, NULL, NULL, 0, TYPE_PXB_PCIE_BUS);
-     } else {
-         bus = pci_root_bus_new(ds, "pxb-internal", NULL, NULL, 0, TYPE_PXB_BUS);
--        bds = qdev_create(BUS(bus), "pci-bridge");
-+        bds = qdev_new("pci-bridge");
-         bds->id = dev_name;
-         qdev_prop_set_uint8(bds, PCI_BRIDGE_DEV_PROP_CHASSIS_NR, pxb->bus_nr);
-         qdev_prop_set_bit(bds, PCI_BRIDGE_DEV_PROP_SHPC, false);
-@@ -257,7 +257,7 @@ static void pxb_dev_realize_common(PCIDevice *dev, bool pcie, Error **errp)
- 
-     qdev_realize_and_unref(ds, NULL, &error_fatal);
-     if (bds) {
--        qdev_init_nofail(bds);
-+        qdev_realize_and_unref(bds, &bus->qbus, &error_fatal);
-     }
- 
-     pci_word_test_and_set_mask(dev->config + PCI_STATUS,
-diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index e3b6f0b884..8562af3fe0 100644
---- a/hw/ppc/pnv.c
-+++ b/hw/ppc/pnv.c
-@@ -818,7 +818,7 @@ static void pnv_init(MachineState *machine)
-     pnv->chips = g_new0(PnvChip *, pnv->num_chips);
-     for (i = 0; i < pnv->num_chips; i++) {
-         char chip_name[32];
--        Object *chip = OBJECT(qdev_create(NULL, chip_typename));
-+        Object *chip = OBJECT(qdev_new(chip_typename));
- 
-         pnv->chips[i] = PNV_CHIP(chip);
- 
-@@ -850,7 +850,7 @@ static void pnv_init(MachineState *machine)
-             object_property_set_link(chip, OBJECT(pnv), "xive-fabric",
-                                      &error_abort);
-         }
--        object_property_set_bool(chip, true, "realized", &error_fatal);
-+        qdev_realize_and_unref(DEVICE(chip), NULL, &error_fatal);
-     }
-     g_free(chip_typename);
- 
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index fa88e9118c..4970a085ca 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -80,7 +80,7 @@ static PFlashCFI01 *virt_flash_create1(RISCVVirtState *s,
-      * Create a single flash device.  We use the same parameters as
-      * the flash devices on the ARM virt board.
-      */
--    DeviceState *dev = qdev_create(NULL, TYPE_PFLASH_CFI01);
-+    DeviceState *dev = qdev_new(TYPE_PFLASH_CFI01);
- 
-     qdev_prop_set_uint64(dev, "sector-length", VIRT_FLASH_SECTOR_SIZE);
-     qdev_prop_set_uint8(dev, "width", 4);
-@@ -114,7 +114,7 @@ static void virt_flash_map1(PFlashCFI01 *flash,
-     assert(QEMU_IS_ALIGNED(size, VIRT_FLASH_SECTOR_SIZE));
-     assert(size / VIRT_FLASH_SECTOR_SIZE <= UINT32_MAX);
-     qdev_prop_set_uint32(dev, "num-blocks", size / VIRT_FLASH_SECTOR_SIZE);
--    qdev_init_nofail(dev);
-+    qdev_realize_and_unref(dev, NULL, &error_fatal);
- 
-     memory_region_add_subregion(sysmem, base,
-                                 sysbus_mmio_get_region(SYS_BUS_DEVICE(dev),
-diff --git a/hw/s390x/s390-pci-bus.c b/hw/s390x/s390-pci-bus.c
-index 7a4bfb7383..a13978bb37 100644
---- a/hw/s390x/s390-pci-bus.c
-+++ b/hw/s390x/s390-pci-bus.c
-@@ -824,7 +824,7 @@ static S390PCIBusDevice *s390_pci_device_new(S390pciState *s,
-     Error *local_err = NULL;
-     DeviceState *dev;
- 
--    dev = qdev_try_create(BUS(s->bus), TYPE_S390_PCI_DEVICE);
-+    dev = qdev_try_new(TYPE_S390_PCI_DEVICE);
-     if (!dev) {
-         error_setg(errp, "zPCI device could not be created");
-         return NULL;
-@@ -837,7 +837,7 @@ static S390PCIBusDevice *s390_pci_device_new(S390pciState *s,
-                                 "zPCI device could not be created: ");
-         return NULL;
-     }
--    object_property_set_bool(OBJECT(dev), true, "realized", &local_err);
-+    qdev_realize_and_unref(dev, BUS(s->bus), &local_err);
-     if (local_err) {
-         object_unparent(OBJECT(dev));
-         error_propagate_prepend(errp, local_err,
-diff --git a/hw/sparc/leon3.c b/hw/sparc/leon3.c
-index 69fb39909d..b778a5bf80 100644
---- a/hw/sparc/leon3.c
-+++ b/hw/sparc/leon3.c
-@@ -213,15 +213,15 @@ static void leon3_generic_hw_init(MachineState *machine)
-     reset_info->sp    = LEON3_RAM_OFFSET + ram_size;
-     qemu_register_reset(main_cpu_reset, reset_info);
- 
--    ahb_pnp = GRLIB_AHB_PNP(qdev_create(NULL, TYPE_GRLIB_AHB_PNP));
--    object_property_set_bool(OBJECT(ahb_pnp), true, "realized", &error_fatal);
-+    ahb_pnp = GRLIB_AHB_PNP(qdev_new(TYPE_GRLIB_AHB_PNP));
-+    qdev_realize_and_unref(DEVICE(ahb_pnp), NULL, &error_fatal);
-     sysbus_mmio_map(SYS_BUS_DEVICE(ahb_pnp), 0, LEON3_AHB_PNP_OFFSET);
-     grlib_ahb_pnp_add_entry(ahb_pnp, 0, 0, GRLIB_VENDOR_GAISLER,
-                             GRLIB_LEON3_DEV, GRLIB_AHB_MASTER,
-                             GRLIB_CPU_AREA);
- 
--    apb_pnp = GRLIB_APB_PNP(qdev_create(NULL, TYPE_GRLIB_APB_PNP));
--    object_property_set_bool(OBJECT(apb_pnp), true, "realized", &error_fatal);
-+    apb_pnp = GRLIB_APB_PNP(qdev_new(TYPE_GRLIB_APB_PNP));
-+    qdev_realize_and_unref(DEVICE(apb_pnp), NULL, &error_fatal);
-     sysbus_mmio_map(SYS_BUS_DEVICE(apb_pnp), 0, LEON3_APB_PNP_OFFSET);
-     grlib_ahb_pnp_add_entry(ahb_pnp, LEON3_APB_PNP_OFFSET, 0xFFF,
-                             GRLIB_VENDOR_GAISLER, GRLIB_APBMST_DEV,
-diff --git a/hw/usb/bus.c b/hw/usb/bus.c
-index fa07df98a2..d28eff1b5c 100644
---- a/hw/usb/bus.c
-+++ b/hw/usb/bus.c
-@@ -326,21 +326,21 @@ static USBDevice *usb_try_create_simple(USBBus *bus, const char *name,
-                                         Error **errp)
- {
-     Error *err = NULL;
--    USBDevice *dev;
-+    DeviceState *dev;
- 
--    dev = USB_DEVICE(qdev_try_create(&bus->qbus, name));
-+    dev = qdev_try_new(name);
-     if (!dev) {
-         error_setg(errp, "Failed to create USB device '%s'", name);
-         return NULL;
-     }
--    object_property_set_bool(OBJECT(dev), true, "realized", &err);
-+    qdev_realize_and_unref(dev, &bus->qbus, &err);
+     /* init virtio bits */
+-    qdev_set_parent_bus(DEVICE(g), BUS(&vpci_dev->bus));
+     virtio_pci_force_virtio_1(vpci_dev);
+-    object_property_set_bool(OBJECT(g), true, "realized", &err);
++    qdev_realize(DEVICE(g), BUS(&vpci_dev->bus), &err);
      if (err) {
-         error_propagate_prepend(errp, err,
-                                 "Failed to initialize USB device '%s': ",
-                                 name);
-         return NULL;
-     }
--    return dev;
-+    return USB_DEVICE(dev);
+         error_propagate(errp, err);
+         return;
+diff --git a/hw/i386/amd_iommu.c b/hw/i386/amd_iommu.c
+index 4346060e62..b26d30da57 100644
+--- a/hw/i386/amd_iommu.c
++++ b/hw/i386/amd_iommu.c
+@@ -1549,8 +1549,7 @@ static void amdvi_realize(DeviceState *dev, Error **errp)
+ 
+     /* This device should take care of IOMMU PCI properties */
+     x86_iommu->type = TYPE_AMD;
+-    qdev_set_parent_bus(DEVICE(&s->pci), &bus->qbus);
+-    object_property_set_bool(OBJECT(&s->pci), true, "realized", errp);
++    qdev_realize(DEVICE(&s->pci), &bus->qbus, errp);
+     ret = pci_add_capability(&s->pci.dev, AMDVI_CAPAB_ID_SEC, 0,
+                                          AMDVI_CAPAB_SIZE, errp);
+     if (ret < 0) {
+diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
+index 9a10fb9b3c..f634bcb2d1 100644
+--- a/hw/isa/piix4.c
++++ b/hw/isa/piix4.c
+@@ -182,9 +182,8 @@ static void piix4_realize(PCIDevice *dev, Error **errp)
+     i8257_dma_init(isa_bus, 0);
+ 
+     /* RTC */
+-    qdev_set_parent_bus(DEVICE(&s->rtc), BUS(isa_bus));
+     qdev_prop_set_int32(DEVICE(&s->rtc), "base_year", 2000);
+-    object_property_set_bool(OBJECT(&s->rtc), true, "realized", &err);
++    qdev_realize(DEVICE(&s->rtc), BUS(isa_bus), &err);
+     if (err) {
+         error_propagate(errp, err);
+         return;
+diff --git a/hw/misc/macio/macio.c b/hw/misc/macio/macio.c
+index 53a9fd5696..216bdc69c0 100644
+--- a/hw/misc/macio/macio.c
++++ b/hw/misc/macio/macio.c
+@@ -356,9 +356,7 @@ static void macio_newworld_realize(PCIDevice *d, Error **errp)
+         object_property_set_link(OBJECT(&s->pmu), OBJECT(sysbus_dev), "gpio",
+                                  &error_abort);
+         qdev_prop_set_bit(DEVICE(&s->pmu), "has-adb", ns->has_adb);
+-        qdev_set_parent_bus(DEVICE(&s->pmu), BUS(&s->macio_bus));
+-
+-        object_property_set_bool(OBJECT(&s->pmu), true, "realized", &err);
++        qdev_realize(DEVICE(&s->pmu), BUS(&s->macio_bus), &err);
+         if (err) {
+             error_propagate(errp, err);
+             return;
+@@ -374,11 +372,10 @@ static void macio_newworld_realize(PCIDevice *d, Error **errp)
+         /* CUDA */
+         object_initialize_child(OBJECT(s), "cuda", &s->cuda, sizeof(s->cuda),
+                                 TYPE_CUDA, &error_abort, NULL);
+-        qdev_set_parent_bus(DEVICE(&s->cuda), BUS(&s->macio_bus));
+         qdev_prop_set_uint64(DEVICE(&s->cuda), "timebase-frequency",
+                              s->frequency);
+ 
+-        object_property_set_bool(OBJECT(&s->cuda), true, "realized", &err);
++        qdev_realize(DEVICE(&s->cuda), BUS(&s->macio_bus), &err);
+         if (err) {
+             error_propagate(errp, err);
+             return;
+diff --git a/hw/pci-host/designware.c b/hw/pci-host/designware.c
+index dd245516dd..2e97d6b17f 100644
+--- a/hw/pci-host/designware.c
++++ b/hw/pci-host/designware.c
+@@ -688,8 +688,7 @@ static void designware_pcie_host_realize(DeviceState *dev, Error **errp)
+                        "pcie-bus-address-space");
+     pci_setup_iommu(pci->bus, designware_pcie_host_set_iommu, s);
+ 
+-    qdev_set_parent_bus(DEVICE(&s->root), BUS(pci->bus));
+-    qdev_init_nofail(DEVICE(&s->root));
++    qdev_realize(DEVICE(&s->root), BUS(pci->bus), &error_fatal);
  }
  
- USBDevice *usb_create_simple(USBBus *bus, const char *name)
+ static const VMStateDescription vmstate_designware_pcie_host = {
+diff --git a/hw/pci-host/gpex.c b/hw/pci-host/gpex.c
+index 0ca604dc62..3dfb3bf599 100644
+--- a/hw/pci-host/gpex.c
++++ b/hw/pci-host/gpex.c
+@@ -98,9 +98,8 @@ static void gpex_host_realize(DeviceState *dev, Error **errp)
+                                      pci_swizzle_map_irq_fn, s, &s->io_mmio,
+                                      &s->io_ioport, 0, 4, TYPE_PCIE_BUS);
+ 
+-    qdev_set_parent_bus(DEVICE(&s->gpex_root), BUS(pci->bus));
+     pci_bus_set_route_irq_fn(pci->bus, gpex_route_intx_pin_to_irq);
+-    qdev_init_nofail(DEVICE(&s->gpex_root));
++    qdev_realize(DEVICE(&s->gpex_root), BUS(pci->bus), &error_fatal);
+ }
+ 
+ static const char *gpex_host_root_bus_path(PCIHostState *host_bridge,
+diff --git a/hw/pci-host/pnv_phb3.c b/hw/pci-host/pnv_phb3.c
+index 74618fadf0..8dcfe4a2fd 100644
+--- a/hw/pci-host/pnv_phb3.c
++++ b/hw/pci-host/pnv_phb3.c
+@@ -1064,8 +1064,7 @@ static void pnv_phb3_realize(DeviceState *dev, Error **errp)
+     /* Add a single Root port */
+     qdev_prop_set_uint8(DEVICE(&phb->root), "chassis", phb->chip_id);
+     qdev_prop_set_uint16(DEVICE(&phb->root), "slot", phb->phb_id);
+-    qdev_set_parent_bus(DEVICE(&phb->root), BUS(pci->bus));
+-    qdev_init_nofail(DEVICE(&phb->root));
++    qdev_realize(DEVICE(&phb->root), BUS(pci->bus), &error_fatal);
+ }
+ 
+ void pnv_phb3_update_regions(PnvPHB3 *phb)
+diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
+index 23cf093928..e30ae9ad5b 100644
+--- a/hw/pci-host/pnv_phb4.c
++++ b/hw/pci-host/pnv_phb4.c
+@@ -1210,8 +1210,7 @@ static void pnv_phb4_realize(DeviceState *dev, Error **errp)
+     /* Add a single Root port */
+     qdev_prop_set_uint8(DEVICE(&phb->root), "chassis", phb->chip_id);
+     qdev_prop_set_uint16(DEVICE(&phb->root), "slot", phb->phb_id);
+-    qdev_set_parent_bus(DEVICE(&phb->root), BUS(pci->bus));
+-    qdev_init_nofail(DEVICE(&phb->root));
++    qdev_realize(DEVICE(&phb->root), BUS(pci->bus), &error_fatal);
+ 
+     /* Setup XIVE Source */
+     if (phb->big_phb) {
+diff --git a/hw/pci-host/q35.c b/hw/pci-host/q35.c
+index b788f17b2c..43ed5188cc 100644
+--- a/hw/pci-host/q35.c
++++ b/hw/pci-host/q35.c
+@@ -64,8 +64,7 @@ static void q35_host_realize(DeviceState *dev, Error **errp)
+                                 s->mch.address_space_io,
+                                 0, TYPE_PCIE_BUS);
+     PC_MACHINE(qdev_get_machine())->bus = pci->bus;
+-    qdev_set_parent_bus(DEVICE(&s->mch), BUS(pci->bus));
+-    qdev_init_nofail(DEVICE(&s->mch));
++    qdev_realize(DEVICE(&s->mch), BUS(pci->bus), &error_fatal);
+ }
+ 
+ static const char *q35_host_root_bus_path(PCIHostState *host_bridge,
+diff --git a/hw/pci-host/versatile.c b/hw/pci-host/versatile.c
+index ea7390c6fa..616882a80d 100644
+--- a/hw/pci-host/versatile.c
++++ b/hw/pci-host/versatile.c
+@@ -409,7 +409,6 @@ static void pci_vpb_realize(DeviceState *dev, Error **errp)
+     h->bus = &s->pci_bus;
+ 
+     object_initialize(&s->pci_dev, sizeof(s->pci_dev), TYPE_VERSATILE_PCI_HOST);
+-    qdev_set_parent_bus(DEVICE(&s->pci_dev), BUS(&s->pci_bus));
+ 
+     for (i = 0; i < 4; i++) {
+         sysbus_init_irq(sbd, &s->irq[i]);
+@@ -459,7 +458,7 @@ static void pci_vpb_realize(DeviceState *dev, Error **errp)
+     }
+ 
+     /* TODO Remove once realize propagates to child devices. */
+-    object_property_set_bool(OBJECT(&s->pci_dev), true, "realized", errp);
++    qdev_realize(DEVICE(&s->pci_dev), BUS(&s->pci_bus), errp);
+ }
+ 
+ static void versatile_pci_host_realize(PCIDevice *d, Error **errp)
+diff --git a/hw/pci-host/xilinx-pcie.c b/hw/pci-host/xilinx-pcie.c
+index e06f2b59cf..e4fc8abb6a 100644
+--- a/hw/pci-host/xilinx-pcie.c
++++ b/hw/pci-host/xilinx-pcie.c
+@@ -137,8 +137,7 @@ static void xilinx_pcie_host_realize(DeviceState *dev, Error **errp)
+                                      pci_swizzle_map_irq_fn, s, &s->mmio,
+                                      &s->io, 0, 4, TYPE_PCIE_BUS);
+ 
+-    qdev_set_parent_bus(DEVICE(&s->root), BUS(pci->bus));
+-    qdev_init_nofail(DEVICE(&s->root));
++    qdev_realize(DEVICE(&s->root), BUS(pci->bus), &error_fatal);
+ }
+ 
+ static const char *xilinx_pcie_host_root_bus_path(PCIHostState *host_bridge,
+diff --git a/hw/s390x/vhost-vsock-ccw.c b/hw/s390x/vhost-vsock-ccw.c
+index 12dee15e11..0822ecca89 100644
+--- a/hw/s390x/vhost-vsock-ccw.c
++++ b/hw/s390x/vhost-vsock-ccw.c
+@@ -24,8 +24,7 @@ static void vhost_vsock_ccw_realize(VirtioCcwDevice *ccw_dev, Error **errp)
+     VHostVSockCCWState *dev = VHOST_VSOCK_CCW(ccw_dev);
+     DeviceState *vdev = DEVICE(&dev->vdev);
+ 
+-    qdev_set_parent_bus(vdev, BUS(&ccw_dev->bus));
+-    object_property_set_bool(OBJECT(vdev), true, "realized", errp);
++    qdev_realize(vdev, BUS(&ccw_dev->bus), errp);
+ }
+ 
+ static void vhost_vsock_ccw_class_init(ObjectClass *klass, void *data)
+diff --git a/hw/s390x/virtio-ccw-9p.c b/hw/s390x/virtio-ccw-9p.c
+index 08e1d5d416..88c8884fc5 100644
+--- a/hw/s390x/virtio-ccw-9p.c
++++ b/hw/s390x/virtio-ccw-9p.c
+@@ -21,8 +21,7 @@ static void virtio_ccw_9p_realize(VirtioCcwDevice *ccw_dev, Error **errp)
+     V9fsCCWState *dev = VIRTIO_9P_CCW(ccw_dev);
+     DeviceState *vdev = DEVICE(&dev->vdev);
+ 
+-    qdev_set_parent_bus(vdev, BUS(&ccw_dev->bus));
+-    object_property_set_bool(OBJECT(vdev), true, "realized", errp);
++    qdev_realize(vdev, BUS(&ccw_dev->bus), errp);
+ }
+ 
+ static void virtio_ccw_9p_instance_init(Object *obj)
+diff --git a/hw/s390x/virtio-ccw-balloon.c b/hw/s390x/virtio-ccw-balloon.c
+index ef3308ecab..4c7631a433 100644
+--- a/hw/s390x/virtio-ccw-balloon.c
++++ b/hw/s390x/virtio-ccw-balloon.c
+@@ -21,8 +21,7 @@ static void virtio_ccw_balloon_realize(VirtioCcwDevice *ccw_dev, Error **errp)
+     VirtIOBalloonCcw *dev = VIRTIO_BALLOON_CCW(ccw_dev);
+     DeviceState *vdev = DEVICE(&dev->vdev);
+ 
+-    qdev_set_parent_bus(vdev, BUS(&ccw_dev->bus));
+-    object_property_set_bool(OBJECT(vdev), true, "realized", errp);
++    qdev_realize(vdev, BUS(&ccw_dev->bus), errp);
+ }
+ 
+ static void virtio_ccw_balloon_instance_init(Object *obj)
+diff --git a/hw/s390x/virtio-ccw-blk.c b/hw/s390x/virtio-ccw-blk.c
+index 7287932b7e..2294ce1ce4 100644
+--- a/hw/s390x/virtio-ccw-blk.c
++++ b/hw/s390x/virtio-ccw-blk.c
+@@ -21,8 +21,7 @@ static void virtio_ccw_blk_realize(VirtioCcwDevice *ccw_dev, Error **errp)
+     VirtIOBlkCcw *dev = VIRTIO_BLK_CCW(ccw_dev);
+     DeviceState *vdev = DEVICE(&dev->vdev);
+ 
+-    qdev_set_parent_bus(vdev, BUS(&ccw_dev->bus));
+-    object_property_set_bool(OBJECT(vdev), true, "realized", errp);
++    qdev_realize(vdev, BUS(&ccw_dev->bus), errp);
+ }
+ 
+ static void virtio_ccw_blk_instance_init(Object *obj)
+diff --git a/hw/s390x/virtio-ccw-crypto.c b/hw/s390x/virtio-ccw-crypto.c
+index 1a2690cf9e..ca6753bff3 100644
+--- a/hw/s390x/virtio-ccw-crypto.c
++++ b/hw/s390x/virtio-ccw-crypto.c
+@@ -21,8 +21,7 @@ static void virtio_ccw_crypto_realize(VirtioCcwDevice *ccw_dev, Error **errp)
+     DeviceState *vdev = DEVICE(&dev->vdev);
+     Error *err = NULL;
+ 
+-    qdev_set_parent_bus(vdev, BUS(&ccw_dev->bus));
+-    object_property_set_bool(OBJECT(vdev), true, "realized", &err);
++    qdev_realize(vdev, BUS(&ccw_dev->bus), &err);
+     if (err) {
+         error_propagate(errp, err);
+         return;
+diff --git a/hw/s390x/virtio-ccw-gpu.c b/hw/s390x/virtio-ccw-gpu.c
+index f69e3ff5a0..c301e2586b 100644
+--- a/hw/s390x/virtio-ccw-gpu.c
++++ b/hw/s390x/virtio-ccw-gpu.c
+@@ -20,8 +20,7 @@ static void virtio_ccw_gpu_realize(VirtioCcwDevice *ccw_dev, Error **errp)
+     VirtIOGPUCcw *dev = VIRTIO_GPU_CCW(ccw_dev);
+     DeviceState *vdev = DEVICE(&dev->vdev);
+ 
+-    qdev_set_parent_bus(vdev, BUS(&ccw_dev->bus));
+-    object_property_set_bool(OBJECT(vdev), true, "realized", errp);
++    qdev_realize(vdev, BUS(&ccw_dev->bus), errp);
+ }
+ 
+ static void virtio_ccw_gpu_instance_init(Object *obj)
+diff --git a/hw/s390x/virtio-ccw-input.c b/hw/s390x/virtio-ccw-input.c
+index b257dfd467..5601e25dee 100644
+--- a/hw/s390x/virtio-ccw-input.c
++++ b/hw/s390x/virtio-ccw-input.c
+@@ -20,8 +20,7 @@ static void virtio_ccw_input_realize(VirtioCcwDevice *ccw_dev, Error **errp)
+     VirtIOInputCcw *dev = VIRTIO_INPUT_CCW(ccw_dev);
+     DeviceState *vdev = DEVICE(&dev->vdev);
+ 
+-    qdev_set_parent_bus(vdev, BUS(&ccw_dev->bus));
+-    object_property_set_bool(OBJECT(vdev), true, "realized", errp);
++    qdev_realize(vdev, BUS(&ccw_dev->bus), errp);
+ }
+ 
+ static Property virtio_ccw_input_properties[] = {
+diff --git a/hw/s390x/virtio-ccw-net.c b/hw/s390x/virtio-ccw-net.c
+index 26c4d873bf..3860d4e6ea 100644
+--- a/hw/s390x/virtio-ccw-net.c
++++ b/hw/s390x/virtio-ccw-net.c
+@@ -24,8 +24,7 @@ static void virtio_ccw_net_realize(VirtioCcwDevice *ccw_dev, Error **errp)
+ 
+     virtio_net_set_netclient_name(&dev->vdev, qdev->id,
+                                   object_get_typename(OBJECT(qdev)));
+-    qdev_set_parent_bus(vdev, BUS(&ccw_dev->bus));
+-    object_property_set_bool(OBJECT(vdev), true, "realized", errp);
++    qdev_realize(vdev, BUS(&ccw_dev->bus), errp);
+ }
+ 
+ static void virtio_ccw_net_instance_init(Object *obj)
+diff --git a/hw/s390x/virtio-ccw-rng.c b/hw/s390x/virtio-ccw-rng.c
+index d575e30cc6..4077160f49 100644
+--- a/hw/s390x/virtio-ccw-rng.c
++++ b/hw/s390x/virtio-ccw-rng.c
+@@ -22,8 +22,7 @@ static void virtio_ccw_rng_realize(VirtioCcwDevice *ccw_dev, Error **errp)
+     DeviceState *vdev = DEVICE(&dev->vdev);
+     Error *err = NULL;
+ 
+-    qdev_set_parent_bus(vdev, BUS(&ccw_dev->bus));
+-    object_property_set_bool(OBJECT(vdev), true, "realized", &err);
++    qdev_realize(vdev, BUS(&ccw_dev->bus), &err);
+     if (err) {
+         error_propagate(errp, err);
+         return;
+diff --git a/hw/s390x/virtio-ccw-scsi.c b/hw/s390x/virtio-ccw-scsi.c
+index 3cb3ad669d..6e4beef700 100644
+--- a/hw/s390x/virtio-ccw-scsi.c
++++ b/hw/s390x/virtio-ccw-scsi.c
+@@ -33,8 +33,7 @@ static void virtio_ccw_scsi_realize(VirtioCcwDevice *ccw_dev, Error **errp)
+         g_free(bus_name);
+     }
+ 
+-    qdev_set_parent_bus(vdev, BUS(&ccw_dev->bus));
+-    object_property_set_bool(OBJECT(vdev), true, "realized", errp);
++    qdev_realize(vdev, BUS(&ccw_dev->bus), errp);
+ }
+ 
+ static void virtio_ccw_scsi_instance_init(Object *obj)
+@@ -78,8 +77,7 @@ static void vhost_ccw_scsi_realize(VirtioCcwDevice *ccw_dev, Error **errp)
+     VHostSCSICcw *dev = VHOST_SCSI_CCW(ccw_dev);
+     DeviceState *vdev = DEVICE(&dev->vdev);
+ 
+-    qdev_set_parent_bus(vdev, BUS(&ccw_dev->bus));
+-    object_property_set_bool(OBJECT(vdev), true, "realized", errp);
++    qdev_realize(vdev, BUS(&ccw_dev->bus), errp);
+ }
+ 
+ static void vhost_ccw_scsi_instance_init(Object *obj)
+diff --git a/hw/s390x/virtio-ccw-serial.c b/hw/s390x/virtio-ccw-serial.c
+index 1764db2e70..61958228d1 100644
+--- a/hw/s390x/virtio-ccw-serial.c
++++ b/hw/s390x/virtio-ccw-serial.c
+@@ -33,8 +33,7 @@ static void virtio_ccw_serial_realize(VirtioCcwDevice *ccw_dev, Error **errp)
+         g_free(bus_name);
+     }
+ 
+-    qdev_set_parent_bus(vdev, BUS(&ccw_dev->bus));
+-    object_property_set_bool(OBJECT(vdev), true, "realized", errp);
++    qdev_realize(vdev, BUS(&ccw_dev->bus), errp);
+ }
+ 
+ 
+diff --git a/hw/virtio/vhost-scsi-pci.c b/hw/virtio/vhost-scsi-pci.c
+index 5da6bb6449..095af23f3f 100644
+--- a/hw/virtio/vhost-scsi-pci.c
++++ b/hw/virtio/vhost-scsi-pci.c
+@@ -53,8 +53,7 @@ static void vhost_scsi_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+         vpci_dev->nvectors = vs->conf.num_queues + 3;
+     }
+ 
+-    qdev_set_parent_bus(vdev, BUS(&vpci_dev->bus));
+-    object_property_set_bool(OBJECT(vdev), true, "realized", errp);
++    qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
+ }
+ 
+ static void vhost_scsi_pci_class_init(ObjectClass *klass, void *data)
+diff --git a/hw/virtio/vhost-user-blk-pci.c b/hw/virtio/vhost-user-blk-pci.c
+index 58d7c31735..4f5d5cbf44 100644
+--- a/hw/virtio/vhost-user-blk-pci.c
++++ b/hw/virtio/vhost-user-blk-pci.c
+@@ -58,8 +58,7 @@ static void vhost_user_blk_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+         vpci_dev->nvectors = dev->vdev.num_queues + 1;
+     }
+ 
+-    qdev_set_parent_bus(vdev, BUS(&vpci_dev->bus));
+-    object_property_set_bool(OBJECT(vdev), true, "realized", errp);
++    qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
+ }
+ 
+ static void vhost_user_blk_pci_class_init(ObjectClass *klass, void *data)
+diff --git a/hw/virtio/vhost-user-fs-pci.c b/hw/virtio/vhost-user-fs-pci.c
+index ae36f1172d..e11c889d82 100644
+--- a/hw/virtio/vhost-user-fs-pci.c
++++ b/hw/virtio/vhost-user-fs-pci.c
+@@ -44,8 +44,7 @@ static void vhost_user_fs_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+         vpci_dev->nvectors = dev->vdev.conf.num_request_queues + 2;
+     }
+ 
+-    qdev_set_parent_bus(vdev, BUS(&vpci_dev->bus));
+-    object_property_set_bool(OBJECT(vdev), true, "realized", errp);
++    qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
+ }
+ 
+ static void vhost_user_fs_pci_class_init(ObjectClass *klass, void *data)
+diff --git a/hw/virtio/vhost-user-scsi-pci.c b/hw/virtio/vhost-user-scsi-pci.c
+index 6f3375fe55..4705cd54e8 100644
+--- a/hw/virtio/vhost-user-scsi-pci.c
++++ b/hw/virtio/vhost-user-scsi-pci.c
+@@ -59,8 +59,7 @@ static void vhost_user_scsi_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+         vpci_dev->nvectors = vs->conf.num_queues + 3;
+     }
+ 
+-    qdev_set_parent_bus(vdev, BUS(&vpci_dev->bus));
+-    object_property_set_bool(OBJECT(vdev), true, "realized", errp);
++    qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
+ }
+ 
+ static void vhost_user_scsi_pci_class_init(ObjectClass *klass, void *data)
+diff --git a/hw/virtio/vhost-user-vsock-pci.c b/hw/virtio/vhost-user-vsock-pci.c
+index 0a6847e6fc..f4cf95873d 100644
+--- a/hw/virtio/vhost-user-vsock-pci.c
++++ b/hw/virtio/vhost-user-vsock-pci.c
+@@ -40,8 +40,7 @@ static void vhost_user_vsock_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+     VHostUserVSockPCI *dev = VHOST_USER_VSOCK_PCI(vpci_dev);
+     DeviceState *vdev = DEVICE(&dev->vdev);
+ 
+-    qdev_set_parent_bus(vdev, BUS(&vpci_dev->bus));
+-    object_property_set_bool(OBJECT(vdev), true, "realized", errp);
++    qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
+ }
+ 
+ static void vhost_user_vsock_pci_class_init(ObjectClass *klass, void *data)
+diff --git a/hw/virtio/vhost-vsock-pci.c b/hw/virtio/vhost-vsock-pci.c
+index 01effe3d52..a815278e69 100644
+--- a/hw/virtio/vhost-vsock-pci.c
++++ b/hw/virtio/vhost-vsock-pci.c
+@@ -44,8 +44,7 @@ static void vhost_vsock_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+     VHostVSockPCI *dev = VHOST_VSOCK_PCI(vpci_dev);
+     DeviceState *vdev = DEVICE(&dev->vdev);
+ 
+-    qdev_set_parent_bus(vdev, BUS(&vpci_dev->bus));
+-    object_property_set_bool(OBJECT(vdev), true, "realized", errp);
++    qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
+ }
+ 
+ static void vhost_vsock_pci_class_init(ObjectClass *klass, void *data)
+diff --git a/hw/virtio/virtio-9p-pci.c b/hw/virtio/virtio-9p-pci.c
+index 6507ce340b..cbcb062faa 100644
+--- a/hw/virtio/virtio-9p-pci.c
++++ b/hw/virtio/virtio-9p-pci.c
+@@ -38,8 +38,7 @@ static void virtio_9p_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+     V9fsPCIState *dev = VIRTIO_9P_PCI(vpci_dev);
+     DeviceState *vdev = DEVICE(&dev->vdev);
+ 
+-    qdev_set_parent_bus(vdev, BUS(&vpci_dev->bus));
+-    object_property_set_bool(OBJECT(vdev), true, "realized", errp);
++    qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
+ }
+ 
+ static Property virtio_9p_pci_properties[] = {
+diff --git a/hw/virtio/virtio-balloon-pci.c b/hw/virtio/virtio-balloon-pci.c
+index cc25df0a3d..5adc4e5819 100644
+--- a/hw/virtio/virtio-balloon-pci.c
++++ b/hw/virtio/virtio-balloon-pci.c
+@@ -48,8 +48,7 @@ static void virtio_balloon_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+         vpci_dev->class_code = PCI_CLASS_OTHERS;
+     }
+ 
+-    qdev_set_parent_bus(vdev, BUS(&vpci_dev->bus));
+-    object_property_set_bool(OBJECT(vdev), true, "realized", errp);
++    qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
+ }
+ 
+ static void virtio_balloon_pci_class_init(ObjectClass *klass, void *data)
+diff --git a/hw/virtio/virtio-blk-pci.c b/hw/virtio/virtio-blk-pci.c
+index 28838fa958..849cc7dfd8 100644
+--- a/hw/virtio/virtio-blk-pci.c
++++ b/hw/virtio/virtio-blk-pci.c
+@@ -55,8 +55,7 @@ static void virtio_blk_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+         vpci_dev->nvectors = dev->vdev.conf.num_queues + 1;
+     }
+ 
+-    qdev_set_parent_bus(vdev, BUS(&vpci_dev->bus));
+-    object_property_set_bool(OBJECT(vdev), true, "realized", errp);
++    qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
+ }
+ 
+ static void virtio_blk_pci_class_init(ObjectClass *klass, void *data)
+diff --git a/hw/virtio/virtio-crypto-pci.c b/hw/virtio/virtio-crypto-pci.c
+index 0bebe0149d..72be531c95 100644
+--- a/hw/virtio/virtio-crypto-pci.c
++++ b/hw/virtio/virtio-crypto-pci.c
+@@ -53,9 +53,8 @@ static void virtio_crypto_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+         return;
+     }
+ 
+-    qdev_set_parent_bus(vdev, BUS(&vpci_dev->bus));
+     virtio_pci_force_virtio_1(vpci_dev);
+-    object_property_set_bool(OBJECT(vdev), true, "realized", errp);
++    qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
+     object_property_set_link(OBJECT(vcrypto),
+                  OBJECT(vcrypto->vdev.conf.cryptodev), "cryptodev",
+                  NULL);
+diff --git a/hw/virtio/virtio-input-pci.c b/hw/virtio/virtio-input-pci.c
+index 5a965408df..74651a42ea 100644
+--- a/hw/virtio/virtio-input-pci.c
++++ b/hw/virtio/virtio-input-pci.c
+@@ -49,9 +49,8 @@ static void virtio_input_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+     VirtIOInputPCI *vinput = VIRTIO_INPUT_PCI(vpci_dev);
+     DeviceState *vdev = DEVICE(&vinput->vdev);
+ 
+-    qdev_set_parent_bus(vdev, BUS(&vpci_dev->bus));
+     virtio_pci_force_virtio_1(vpci_dev);
+-    object_property_set_bool(OBJECT(vdev), true, "realized", errp);
++    qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
+ }
+ 
+ static void virtio_input_pci_class_init(ObjectClass *klass, void *data)
+diff --git a/hw/virtio/virtio-iommu-pci.c b/hw/virtio/virtio-iommu-pci.c
+index 3dfbf55b47..632533abaf 100644
+--- a/hw/virtio/virtio-iommu-pci.c
++++ b/hw/virtio/virtio-iommu-pci.c
+@@ -54,11 +54,10 @@ static void virtio_iommu_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+                           "-no-acpi\n");
+         return;
+     }
+-    qdev_set_parent_bus(vdev, BUS(&vpci_dev->bus));
+     object_property_set_link(OBJECT(dev),
+                              OBJECT(pci_get_bus(&vpci_dev->pci_dev)),
+                              "primary-bus", errp);
+-    object_property_set_bool(OBJECT(vdev), true, "realized", errp);
++    qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
+ }
+ 
+ static void virtio_iommu_pci_class_init(ObjectClass *klass, void *data)
+diff --git a/hw/virtio/virtio-net-pci.c b/hw/virtio/virtio-net-pci.c
+index ea43040f7b..489b5dbad6 100644
+--- a/hw/virtio/virtio-net-pci.c
++++ b/hw/virtio/virtio-net-pci.c
+@@ -52,8 +52,7 @@ static void virtio_net_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+ 
+     virtio_net_set_netclient_name(&dev->vdev, qdev->id,
+                                   object_get_typename(OBJECT(qdev)));
+-    qdev_set_parent_bus(vdev, BUS(&vpci_dev->bus));
+-    object_property_set_bool(OBJECT(vdev), true, "realized", errp);
++    qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
+ }
+ 
+ static void virtio_net_pci_class_init(ObjectClass *klass, void *data)
+diff --git a/hw/virtio/virtio-pmem-pci.c b/hw/virtio/virtio-pmem-pci.c
+index fe2af00fa1..11d0c8ebc6 100644
+--- a/hw/virtio/virtio-pmem-pci.c
++++ b/hw/virtio/virtio-pmem-pci.c
+@@ -22,8 +22,7 @@ static void virtio_pmem_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+     VirtIOPMEMPCI *pmem_pci = VIRTIO_PMEM_PCI(vpci_dev);
+     DeviceState *vdev = DEVICE(&pmem_pci->vdev);
+ 
+-    qdev_set_parent_bus(vdev, BUS(&vpci_dev->bus));
+-    object_property_set_bool(OBJECT(vdev), true, "realized", errp);
++    qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
+ }
+ 
+ static void virtio_pmem_pci_set_addr(MemoryDeviceState *md, uint64_t addr,
+diff --git a/hw/virtio/virtio-rng-pci.c b/hw/virtio/virtio-rng-pci.c
+index 8aaf54b781..cf1afb47a6 100644
+--- a/hw/virtio/virtio-rng-pci.c
++++ b/hw/virtio/virtio-rng-pci.c
+@@ -36,8 +36,7 @@ static void virtio_rng_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+     DeviceState *vdev = DEVICE(&vrng->vdev);
+     Error *err = NULL;
+ 
+-    qdev_set_parent_bus(vdev, BUS(&vpci_dev->bus));
+-    object_property_set_bool(OBJECT(vdev), true, "realized", &err);
++    qdev_realize(vdev, BUS(&vpci_dev->bus), &err);
+     if (err) {
+         error_propagate(errp, err);
+         return;
+diff --git a/hw/virtio/virtio-scsi-pci.c b/hw/virtio/virtio-scsi-pci.c
+index e82e7e5680..c23a134202 100644
+--- a/hw/virtio/virtio-scsi-pci.c
++++ b/hw/virtio/virtio-scsi-pci.c
+@@ -64,8 +64,7 @@ static void virtio_scsi_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+         g_free(bus_name);
+     }
+ 
+-    qdev_set_parent_bus(vdev, BUS(&vpci_dev->bus));
+-    object_property_set_bool(OBJECT(vdev), true, "realized", errp);
++    qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
+ }
+ 
+ static void virtio_scsi_pci_class_init(ObjectClass *klass, void *data)
+diff --git a/hw/virtio/virtio-serial-pci.c b/hw/virtio/virtio-serial-pci.c
+index 22ab4d8562..95d25d54da 100644
+--- a/hw/virtio/virtio-serial-pci.c
++++ b/hw/virtio/virtio-serial-pci.c
+@@ -65,8 +65,7 @@ static void virtio_serial_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+         g_free(bus_name);
+     }
+ 
+-    qdev_set_parent_bus(vdev, BUS(&vpci_dev->bus));
+-    object_property_set_bool(OBJECT(vdev), true, "realized", errp);
++    qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
+ }
+ 
+ static Property virtio_serial_pci_properties[] = {
+diff --git a/hw/xen/xen-legacy-backend.c b/hw/xen/xen-legacy-backend.c
+index 1c25373852..ef7c832e2e 100644
+--- a/hw/xen/xen-legacy-backend.c
++++ b/hw/xen/xen-legacy-backend.c
+@@ -278,9 +278,8 @@ static struct XenLegacyDevice *xen_be_get_xendev(const char *type, int dom,
+     xendev = g_malloc0(ops->size);
+     object_initialize(&xendev->qdev, ops->size, TYPE_XENBACKEND);
+     OBJECT(xendev)->free = g_free;
+-    qdev_set_parent_bus(DEVICE(xendev), xen_sysbus);
+     qdev_set_id(DEVICE(xendev), g_strdup_printf("xen-%s-%d", type, dev));
+-    qdev_init_nofail(DEVICE(xendev));
++    qdev_realize(DEVICE(xendev), xen_sysbus, &error_fatal);
+     object_unref(OBJECT(xendev));
+ 
+     xendev->type  = type;
 -- 
 2.26.2
 
