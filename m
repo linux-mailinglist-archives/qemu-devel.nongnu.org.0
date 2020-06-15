@@ -2,45 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FE121F97F9
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 15:11:13 +0200 (CEST)
-Received: from localhost ([::1]:55078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA28E1F97F0
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 15:10:05 +0200 (CEST)
+Received: from localhost ([::1]:50292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jkotM-000383-JF
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 09:11:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56950)
+	id 1jkosG-00014d-SI
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 09:10:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35458)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dario@ciriminna.com>)
- id 1jkl1q-0004u5-VQ
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 05:03:43 -0400
-Received: from smtpcmd01-g.aruba.it ([62.149.158.217]:54476)
+ id 1jklMx-0007Td-WC
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 05:25:32 -0400
+Received: from smtpcmd01-g.aruba.it ([62.149.158.217]:37953)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dario@ciriminna.com>) id 1jkl1p-0007YI-Ew
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 05:03:42 -0400
+ (envelope-from <dario@ciriminna.com>) id 1jklMv-0003Ge-Eu
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 05:25:31 -0400
 Received: from [192.168.0.2] ([93.48.24.41])
  by smtpcmd01.ad.aruba.it with bizsmtp
- id rM3f2200c0tBuBh01M3fzX; Mon, 15 Jun 2020 11:03:39 +0200
+ id rMRS2200F0tBuBh01MRSaT; Mon, 15 Jun 2020 11:25:26 +0200
+Subject: Re: qemu win10 host winxp quest very slow
+References: <127ef1aa-bcb3-835d-21ba-0918bb62b0f8@ciriminna.com>
 To: qemu-devel@nongnu.org
 From: Dario Ciriminna <dario@ciriminna.com>
-Subject: qemu win10 host winxp quest very slow
-Message-ID: <127ef1aa-bcb3-835d-21ba-0918bb62b0f8@ciriminna.com>
-Date: Mon, 15 Jun 2020 11:03:40 +0200
+Message-ID: <7b540837-07d9-e0f3-e285-0e84d610c2b6@ciriminna.com>
+Date: Mon, 15 Jun 2020 11:25:27 +0200
 User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
  Thunderbird/68.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-15; format=flowed
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <127ef1aa-bcb3-835d-21ba-0918bb62b0f8@ciriminna.com>
+Content-Type: multipart/mixed; boundary="------------4EDF93D9B87261CE2A905D53"
 Content-Language: it
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aruba.it; s=a1;
- t=1592211819; bh=kYME0rTDm2FKqk/YbrghLfWuebGvLtKIjUiROO5pTBY=;
- h=To:From:Subject:Date:MIME-Version:Content-Type;
- b=TJTIBW1cZ9OsXJZfq7iS8y9/LOYbFPC8MFMkazYK9enmpz8AIuYM1tiDcNLqJkpSm
- PxGfRlFu9tI+35LtVeelNIzzX9THKypqKNfYDZ409NWM4RgYl6OLP1d/gCjhN0lSlH
- XKW7C+f2DbacgLsN7GIbRdvHj9RVaHyxhOe4DGXpN7Q1wbXB3fbAecQKYEsfh+e+2l
- z259YyGZ52FK7My+dOM7GcBnsossQxv5KbVi4jd1DEQ1l6+oDwCKv+TpPW5Jj144Wd
- rDKB+Ikr1jE68tlFhHVPAEAaU9smxfZUCnaS4Zd7v0voiR/1IgXFU19s2md5r7OW+t
- 8DYBidQSsFN+A==
+ t=1592213126; bh=Z3VtQSCzMCYXgpSpebk69Sp5NZrs9m/mmSDn3tbmLfQ=;
+ h=Subject:To:From:Date:MIME-Version:Content-Type;
+ b=kcPkMJKJW8FaWNgXdFh7rduNpXvEF2bjtqO5CReY0+p9vSM8u/FqPVh9xvmtMra+2
+ YA/bg/Xl9K3lqEiQD2gHxndPJfn6fLRNHJSSnuydxN81unij/u1ONBeV0u3nt0gswl
+ bEHQG7VgBbaBoaSayiLJWBd2z4RXi1WdACu/q14eVgNSlOZKP0QBGBn5iBnvwZ4ful
+ y195JMuss0IrjhrCCaapKHjhpIJajeYlh2Eil21BHsWamneg02F7oohuBLVcGdkkNc
+ fKvNS7EU7kbdEwIf8yBoBVkbLdh7BTWubbIfYtZyWhVRR/LGiRazkjzJ+OhQ1FvKhp
+ 2e9dhqR/LjaXw==
 Received-SPF: pass client-ip=62.149.158.217; envelope-from=dario@ciriminna.com;
  helo=smtpcmd01-g.aruba.it
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/15 04:57:21
@@ -68,26 +69,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello folks,
+This is a multi-part message in MIME format.
+--------------4EDF93D9B87261CE2A905D53
+Content-Type: text/plain; charset=iso-8859-15; format=flowed
+Content-Transfer-Encoding: 8bit
 
-i need to compile and run qemu under Windows 10 host (Pentium G860, very 
-bad)  with a Windows XP guest.
-Precompiled downloaded binary run smoothly, but my compiled version is 
-very very slow (I NEED to compile it).
+I'm using v5.0.50 from the github repository.
 
-I start it with :
+See attached config.status
 
-"C:\Program Files\qemu\qemu-system-x86_64w.exe" .\WindowsXP.img -m 1024M 
--usb -vga std -netdev user,id=n0 -device rtl8139,netdev=n0 -fda 
-.\ZSK_DSK.img -D .\qemu.log
+Il 15/06/2020 11:03, Dario Ciriminna ha scritto:
+> Hello folks,
+>
+> i need to compile and run qemu under Windows 10 host (Pentium G860, 
+> very bad)  with a Windows XP guest.
+> Precompiled downloaded binary run smoothly, but my compiled version is 
+> very very slow (I NEED to compile it).
+>
+> I start it with :
+>
+> "C:\Program Files\qemu\qemu-system-x86_64w.exe" .\WindowsXP.img -m 
+> 1024M -usb -vga std -netdev user,id=n0 -device rtl8139,netdev=n0 -fda 
+> .\ZSK_DSK.img -D .\qemu.log
+>
+> ah and -D .\qemu.log doesn't log nothing. 0k log file.
+>
+> What can i try ? 3 min to start Windows XP is unacceptable and after 
+> start system run slow!
+>
+> Thanks for help
+>
+> Dario
+>
 
-ah and -D .\qemu.log doesn't log nothing. 0k log file.
+--------------4EDF93D9B87261CE2A905D53
+Content-Type: text/plain; charset=UTF-8;
+ name="config.status"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename="config.status"
 
-What can i try ? 3 min to start Windows XP is unacceptable and after 
-start system run slow!
+#!/bin/sh
+# Generated by configure.
+# Run this file to recreate the current configuration.
+# Compiler output produced by configure, useful for debugging
+# configure, is in config.log if it exists.
+unset AR
+unset AS
+unset CC
+unset CPP
+unset CXX
+unset INSTALL
+unset LD
+unset LD_LIBRARY_PATH
+unset LIBTOOL
+unset MAKE
+unset NM
+unset OBJCOPY
+PATH='/mingw64/bin:/usr/local/bin:/usr/bin:/bin:/c/Windows/System32:/c/Windows:/c/Windows/System32/Wbem:/c/Windows/System32/WindowsPowerShell/v1.0/:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl'
+export PATH
+unset PKG_CONFIG
+unset PKG_CONFIG_LIBDIR
+PKG_CONFIG_PATH='/mingw64/lib/pkgconfig:/mingw64/share/pkgconfig'
+export PKG_CONFIG_PATH
+unset PYTHON
+unset SDL2_CONFIG
+unset SMBD
+unset STRIP
+unset WINDRES
+exec './configure' '--cross-prefix=x86_64-w64-mingw32-' '--enable-gtk' '--enable-sdl' '--target-list=x86_64-softmmu' '--disable-iconv' '--disable-debug-info' '--disable-docs' '--disable-libssh' '--disable-xen' "$@"
 
-Thanks for help
-
-Dario
-
+--------------4EDF93D9B87261CE2A905D53--
 
