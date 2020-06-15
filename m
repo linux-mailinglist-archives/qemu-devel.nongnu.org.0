@@ -2,76 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 857FF1F959B
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 13:51:44 +0200 (CEST)
-Received: from localhost ([::1]:54268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 923501F95A5
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 13:52:58 +0200 (CEST)
+Received: from localhost ([::1]:58100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jkneQ-0004yJ-WC
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 07:51:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40590)
+	id 1jknfd-0006bV-JA
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 07:52:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jknd3-0003z6-CQ
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 07:50:17 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58854
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jknd1-0003Oi-8p
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 07:50:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592221814;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KFIqSX7fGjKxxX+cx4QxHu2SckfJptj9dJkeU30D0bo=;
- b=BjVvKVwXoD+e+Rkh64I3iVFVqF3P9cyzELfaw2hLi+B/wN4UhBYTHjHdIpEvuwyzKi5izH
- hfavjPFMem8zjUqFI2Gz+fpbnuVIiXO+ZXDJHFRxRsYE3v+ZPw+ZSs3JV+3cHPh+KuvNP3
- giNmJkMUes5USKaeM/z0WBdIAOuwBgk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-488-DCRsjIeDOeO5fBGjwZRqZg-1; Mon, 15 Jun 2020 07:50:12 -0400
-X-MC-Unique: DCRsjIeDOeO5fBGjwZRqZg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7D343EC1A1;
- Mon, 15 Jun 2020 11:50:10 +0000 (UTC)
-Received: from work-vm (ovpn-114-201.ams2.redhat.com [10.36.114.201])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E72F35D9CC;
- Mon, 15 Jun 2020 11:50:04 +0000 (UTC)
-Date: Mon, 15 Jun 2020 12:50:02 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [RFC PATCH v2 1/5] hw/misc: Add a LED device
-Message-ID: <20200615115002.GH2883@work-vm>
-References: <20200612175440.9901-1-f4bug@amsat.org>
- <20200612175440.9901-2-f4bug@amsat.org>
- <20200615105544.GG2883@work-vm>
- <4fa46a7c-7769-3712-c580-46af066abe29@amsat.org>
+ (Exim 4.90_1) (envelope-from <jianjay.zhou@huawei.com>)
+ id 1jkndn-0004jc-QY; Mon, 15 Jun 2020 07:51:03 -0400
+Received: from szxga02-in.huawei.com ([45.249.212.188]:2524 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jianjay.zhou@huawei.com>)
+ id 1jkndl-0003lo-B8; Mon, 15 Jun 2020 07:51:03 -0400
+Received: from DGGEMM403-HUB.china.huawei.com (unknown [172.30.72.53])
+ by Forcepoint Email with ESMTP id C61B361BFF711532955C;
+ Mon, 15 Jun 2020 19:50:52 +0800 (CST)
+Received: from DGGEMM423-HUB.china.huawei.com (10.1.198.40) by
+ DGGEMM403-HUB.china.huawei.com (10.3.20.211) with Microsoft SMTP Server (TLS)
+ id 14.3.487.0; Mon, 15 Jun 2020 19:50:52 +0800
+Received: from DGGEMM528-MBX.china.huawei.com ([169.254.8.27]) by
+ dggemm423-hub.china.huawei.com ([10.1.198.40]) with mapi id 14.03.0487.000;
+ Mon, 15 Jun 2020 19:50:42 +0800
+From: "Zhoujian (jay)" <jianjay.zhou@huawei.com>
+To: zhukeqian <zhukeqian1@huawei.com>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>, "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, "Paolo
+ Bonzini" <pbonzini@redhat.com>
+Subject: RE: [PATCH] migration: Count new_dirty instead of real_dirty
+Thread-Topic: [PATCH] migration: Count new_dirty instead of real_dirty
+Thread-Index: AQHWQsOuGwKJH9ifCkKqqwKpHTiKVqjZiHzw
+Date: Mon, 15 Jun 2020 11:50:41 +0000
+Message-ID: <B2D15215269B544CADD246097EACE7474BD38EFD@DGGEMM528-MBX.china.huawei.com>
+References: <20200601040250.38324-1-zhukeqian1@huawei.com>
+ <3205abb1-8e47-fc19-1213-ead621711291@huawei.com>
+In-Reply-To: <3205abb1-8e47-fc19-1213-ead621711291@huawei.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.174.149.93]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-In-Reply-To: <4fa46a7c-7769-3712-c580-46af066abe29@amsat.org>
-User-Agent: Mutt/1.14.0 (2020-05-02)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/14 22:37:26
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.188;
+ envelope-from=jianjay.zhou@huawei.com; helo=huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/15 07:50:53
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,258 +68,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Michael Roth <mdroth@linux.vnet.ibm.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- Esteban Bosse <estebanbosse@gmail.com>, qemu-arm@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>, Joel Stanley <joel@jms.id.au>
+Cc: "Wanghaibin \(D\)" <wanghaibin.wang@huawei.com>,
+ Chao Fan <fanc.fnst@cn.fujitsu.com>,
+ "Huangweidong \(C\)" <weidong.huang@huawei.com>,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Philippe Mathieu-Daudé (f4bug@amsat.org) wrote:
-> On 6/15/20 12:55 PM, Dr. David Alan Gilbert wrote:
-> > * Philippe Mathieu-DaudÃ© (f4bug@amsat.org) wrote:
-> >> A LED device can be connected to a GPIO output.
-> >>
-> >> Signed-off-by: Philippe Mathieu-DaudÃ© <f4bug@amsat.org>
-> >> ---
-> >>  include/hw/misc/led.h | 30 ++++++++++++++++
-> >>  hw/misc/led.c         | 84 +++++++++++++++++++++++++++++++++++++++++++
-> >>  MAINTAINERS           |  6 ++++
-> >>  hw/misc/Kconfig       |  3 ++
-> >>  hw/misc/Makefile.objs |  1 +
-> >>  hw/misc/trace-events  |  3 ++
-> >>  6 files changed, 127 insertions(+)
-> >>  create mode 100644 include/hw/misc/led.h
-> >>  create mode 100644 hw/misc/led.c
-> >>
-> >> diff --git a/include/hw/misc/led.h b/include/hw/misc/led.h
-> >> new file mode 100644
-> >> index 0000000000..427ca1418e
-> >> --- /dev/null
-> >> +++ b/include/hw/misc/led.h
-> >> @@ -0,0 +1,30 @@
-> >> +/*
-> >> + * QEMU single LED device
-> >> + *
-> >> + * Copyright (C) 2020 Philippe Mathieu-DaudÃ© <f4bug@amsat.org>
-> >> + *
-> >> + * SPDX-License-Identifier: GPL-2.0-or-later
-> >> + */
-> >> +#ifndef HW_MISC_LED_H
-> >> +#define HW_MISC_LED_H
-> >> +
-> >> +#include "hw/qdev-core.h"
-> >> +#include "hw/sysbus.h" /* FIXME remove */
-> >> +
-> >> +#define TYPE_LED "led"
-> >> +#define LED(obj) OBJECT_CHECK(LEDState, (obj), TYPE_LED)
-> >> +
-> >> +typedef struct LEDState {
-> >> +    /* Private */
-> >> +    SysBusDevice parent_obj; /* FIXME DeviceState */
-> >> +    /* Public */
-> >> +
-> >> +    qemu_irq irq;
-> > 
-> > Why an irq?
-> 
-> We model GPIO/IRQ the same way, this is simply a GPIO, right?
-> 
-> It makes modeling easier IMO. This is for visualization purpose.
-> 
-> > 
-> >> +    uint8_t current_state;
-> > 
-> > Is the state of this device boolean or is it a 0..255 0=off, 255=full
-> > on, analog thing?
-> > Can an LED device be connected to a PWM device driving a GPIO - what
-> > happens?
-> 
-> Well I simply wanted to use a boolean, but I need to consider
-> if we can model intensity here in case of PWM. This is interesting.
-
-Which then leads to an interesting question about your events in the
-next mail;  if I was to connect an LED to a PWM driven GPIO I'd get
-zillions of events which may not be what I want.
-
-Dave
-
-> > 
-> > Dave
-> > 
-> > 
-> >> +    /* Properties */
-> >> +    char *name;
-> >> +    uint8_t reset_state; /* TODO [GPIO_ACTIVE_LOW, GPIO_ACTIVE_HIGH] */
-> >> +} LEDState;
-> >> +
-> >> +#endif /* HW_MISC_LED_H */
-> >> diff --git a/hw/misc/led.c b/hw/misc/led.c
-> >> new file mode 100644
-> >> index 0000000000..1bae1a34c0
-> >> --- /dev/null
-> >> +++ b/hw/misc/led.c
-> >> @@ -0,0 +1,84 @@
-> >> +/*
-> >> + * QEMU single LED device
-> >> + *
-> >> + * Copyright (C) 2020 Philippe Mathieu-DaudÃ© <f4bug@amsat.org>
-> >> + *
-> >> + * SPDX-License-Identifier: GPL-2.0-or-later
-> >> + */
-> >> +#include "qemu/osdep.h"
-> >> +#include "qapi/error.h"
-> >> +#include "migration/vmstate.h"
-> >> +#include "hw/qdev-properties.h"
-> >> +#include "hw/misc/led.h"
-> >> +#include "hw/irq.h"
-> >> +#include "trace.h"
-> >> +
-> >> +static void led_set(void *opaque, int line, int new_state)
-> >> +{
-> >> +    LEDState *s = LED(opaque);
-> >> +
-> >> +    trace_led_set(s->name, s->current_state, new_state);
-> >> +
-> >> +    s->current_state = new_state;
-> >> +}
-> >> +
-> >> +static void led_reset(DeviceState *dev)
-> >> +{
-> >> +    LEDState *s = LED(dev);
-> >> +
-> >> +    led_set(dev, 0, s->reset_state);
-> >> +}
-> >> +
-> >> +static const VMStateDescription vmstate_led = {
-> >> +    .name = TYPE_LED,
-> >> +    .version_id = 1,
-> >> +    .minimum_version_id = 1,
-> >> +    .fields = (VMStateField[]) {
-> >> +        VMSTATE_UINT8(reset_state, LEDState),
-> > 
-> > I'm not sure you need to migrate this - this is a property that's set on
-> > the device, not a dynamic state of the device
-> 
-> Yes you are right.
-> 
-> >> +        VMSTATE_END_OF_LIST()
-> >> +    }
-> >> +};
-> >> +
-> >> +static void led_realize(DeviceState *dev, Error **errp)
-> >> +{
-> >> +    LEDState *s = LED(dev);
-> >> +
-> >> +    if (s->name == NULL) {
-> >> +        error_setg(errp, "property 'name' not specified");
-> >> +        return;
-> >> +    }
-> >> +
-> >> +    qdev_init_gpio_in(DEVICE(s), led_set, 1);
-> >> +}
-> >> +
-> >> +static Property led_properties[] = {
-> >> +    DEFINE_PROP_STRING("name", LEDState, name),
-> >> +    DEFINE_PROP_UINT8("reset_state", LEDState, reset_state, 0),
-> > 
-> > I suggest you add a property for the notional colour; that way any UIs
-> > that are built can use that as a hint.
-> 
-> Great idea, thanks!
-> 
-> > 
-> > Dave
-> > 
-> >> +    DEFINE_PROP_END_OF_LIST(),
-> >> +};
-> >> +
-> >> +static void led_class_init(ObjectClass *klass, void *data)
-> >> +{
-> >> +    DeviceClass *dc = DEVICE_CLASS(klass);
-> >> +
-> >> +    dc->desc = "LED";
-> >> +    dc->vmsd = &vmstate_led;
-> >> +    dc->reset = led_reset;
-> >> +    dc->realize = led_realize;
-> >> +    set_bit(DEVICE_CATEGORY_DISPLAY, dc->categories);
-> >> +    device_class_set_props(dc, led_properties);
-> >> +}
-> >> +
-> >> +static const TypeInfo led_info = {
-> >> +    .name = TYPE_LED,
-> >> +    .parent = TYPE_SYS_BUS_DEVICE, /* FIXME TYPE_DEVICE */
-> >> +    .instance_size = sizeof(LEDState),
-> >> +    .class_init = led_class_init
-> >> +};
-> >> +
-> >> +static void led_register_types(void)
-> >> +{
-> >> +    type_register_static(&led_info);
-> >> +}
-> >> +
-> >> +type_init(led_register_types)
-> >> diff --git a/MAINTAINERS b/MAINTAINERS
-> >> index 3abe3faa4e..10593863dc 100644
-> >> --- a/MAINTAINERS
-> >> +++ b/MAINTAINERS
-> >> @@ -1857,6 +1857,12 @@ F: docs/specs/vmgenid.txt
-> >>  F: tests/qtest/vmgenid-test.c
-> >>  F: stubs/vmgenid.c
-> >>  
-> >> +LED
-> >> +M: Philippe Mathieu-DaudÃ© <f4bug@amsat.org>
-> >> +S: Maintained
-> >> +F: include/hw/misc/led.h
-> >> +F: hw/misc/led.c
-> >> +
-> >>  Unimplemented device
-> >>  M: Peter Maydell <peter.maydell@linaro.org>
-> >>  R: Philippe Mathieu-DaudÃ© <f4bug@amsat.org>
-> >> diff --git a/hw/misc/Kconfig b/hw/misc/Kconfig
-> >> index bdd77d8020..f60dce694d 100644
-> >> --- a/hw/misc/Kconfig
-> >> +++ b/hw/misc/Kconfig
-> >> @@ -126,6 +126,9 @@ config AUX
-> >>  config UNIMP
-> >>      bool
-> >>  
-> >> +config LED
-> >> +    bool
-> >> +
-> >>  config MAC_VIA
-> >>      bool
-> >>      select MOS6522
-> >> diff --git a/hw/misc/Makefile.objs b/hw/misc/Makefile.objs
-> >> index 5aaca8a039..9efa3c941c 100644
-> >> --- a/hw/misc/Makefile.objs
-> >> +++ b/hw/misc/Makefile.objs
-> >> @@ -91,3 +91,4 @@ common-obj-$(CONFIG_NRF51_SOC) += nrf51_rng.o
-> >>  obj-$(CONFIG_MAC_VIA) += mac_via.o
-> >>  
-> >>  common-obj-$(CONFIG_GRLIB) += grlib_ahb_apb_pnp.o
-> >> +common-obj-$(CONFIG_LED) += led.o
-> >> diff --git a/hw/misc/trace-events b/hw/misc/trace-events
-> >> index 5561746866..e15b7f7c81 100644
-> >> --- a/hw/misc/trace-events
-> >> +++ b/hw/misc/trace-events
-> >> @@ -206,3 +206,6 @@ via1_rtc_cmd_pram_sect_write(int sector, int offset, int addr, int value) "secto
-> >>  # grlib_ahb_apb_pnp.c
-> >>  grlib_ahb_pnp_read(uint64_t addr, uint32_t value) "AHB PnP read addr:0x%03"PRIx64" data:0x%08x"
-> >>  grlib_apb_pnp_read(uint64_t addr, uint32_t value) "APB PnP read addr:0x%03"PRIx64" data:0x%08x"
-> >> +
-> >> +# led.c
-> >> +led_set(const char *name, uint8_t old_state, uint8_t new_state) "led name:'%s' state %d -> %d"
-> >> -- 
-> >> 2.21.3
-> >>
-> > --
-> > Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-> > 
-> 
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+SGkgS2VxaWFuLA0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IHpodWtl
+cWlhbg0KPiBTZW50OiBNb25kYXksIEp1bmUgMTUsIDIwMjAgMTE6MTkgQU0NCj4gVG86IHFlbXUt
+ZGV2ZWxAbm9uZ251Lm9yZzsgcWVtdS1hcm1Abm9uZ251Lm9yZzsgUGFvbG8gQm9uemluaQ0KPiA8
+cGJvbnppbmlAcmVkaGF0LmNvbT47IFpob3VqaWFuIChqYXkpIDxqaWFuamF5Lnpob3VAaHVhd2Vp
+LmNvbT4NCj4gQ2M6IEp1YW4gUXVpbnRlbGEgPHF1aW50ZWxhQHJlZGhhdC5jb20+OyBDaGFvIEZh
+biA8ZmFuYy5mbnN0QGNuLmZ1aml0c3UuY29tPjsNCj4gV2FuZ2hhaWJpbiAoRCkgPHdhbmdoYWli
+aW4ud2FuZ0BodWF3ZWkuY29tPg0KPiBTdWJqZWN0OiBSZTogW1BBVENIXSBtaWdyYXRpb246IENv
+dW50IG5ld19kaXJ0eSBpbnN0ZWFkIG9mIHJlYWxfZGlydHkNCj4gDQo+IEhpIFBhb2xvIGFuZCBK
+aWFuIFpob3UsDQo+IA0KPiBEbyB5b3UgaGF2ZSBhbnkgc3VnZ2VzdGlvbiBvbiB0aGlzIHBhdGNo
+Pw0KPiANCj4gVGhhbmtzLA0KPiBLZXFpYW4NCj4gDQo+IE9uIDIwMjAvNi8xIDEyOjAyLCBLZXFp
+YW4gWmh1IHdyb3RlOg0KPiA+IERJUlRZX0xPR19JTklUSUFMTFlfQUxMX1NFVCBmZWF0dXJlIGlz
+IG9uIHRoZSBxdWV1ZS4gVGhpcyBmaXhzIHRoZQ0KDQpzL2ZpeHMvZml4ZXMNCg0KPiA+IGRpcnR5
+IHJhdGUgY2FsY3VsYXRpb24gZm9yIHRoaXMgZmVhdHVyZS4gQWZ0ZXIgaW50cm9kdWNpbmcgdGhp
+cw0KPiA+IGZlYXR1cmUsIHJlYWxfZGlydHlfcGFnZXMgaXMgZXF1YWwgdG8gdG90YWwgbWVtb3J5
+IHNpemUgYXQgYmVnaW5pbmcuDQo+ID4gVGhpcyBjYXVzaW5nIHdyb25nIGRpcnR5IHJhdGUgYW5k
+IGZhbHNlIHBvc2l0aXZlIHRocm90dGxpbmcuDQoNCkkgdGhpbmsgaXQgc2hvdWxkIGJlIHRlc3Rl
+ZCB3aGV0aGVyIERJUlRZX0xPR19JTklUSUFMTFlfQUxMX1NFVCBpcyBlbmFibGVkDQppbiByYW1f
+aW5pdF9iaXRtYXBzKG1heWJlPykgaW4gb3JkZXIgdG8gYmUgY29tcGF0aWJsZSB3aXRoIHRoZSBv
+bGQgcGF0aC4NCg0KVGhhbmtzLA0KSmF5IFpob3UNCg0KPiA+DQo+ID4gQlRXLCByZWFsIGRpcnR5
+IHJhdGUgaXMgbm90IHN1aXRhYmxlIGFuZCBub3QgdmVyeSBhY2N1cmF0ZS4NCj4gPg0KPiA+IDEu
+IEZvciBub3Qgc3VpdGFibGU6IFdlIG1haW5seSBjb25jZXJuIG9uIHRoZSByZWxhdGlvbnNoaXAg
+YmV0d2Vlbg0KPiA+ICAgIGRpcnR5IHJhdGUgYW5kIG5ldHdvcmsgYmFuZHdpZHRoLiBOZXQgaW5j
+cmVhc2VtZW50IG9mIGRpcnR5IHBhZ2VzDQo+ID4gICAgbWFrZXMgbW9yZSBzZW5zZS4NCj4gPiAy
+LiBGb3Igbm90IHZlcnkgYWNjdXJhdGU6IFdpdGggbWFudWFsIGRpcnR5IGxvZyBjbGVhciwgc29t
+ZSBkaXJ0eSBwYWdlcw0KPiA+ICAgIHdpbGwgYmUgY2xlYXJlZCBkdXJpbmcgZWFjaCBwZXJvaWQs
+IG91ciAicmVhbCBkaXJ0eSByYXRlIiBpcyBsZXNzDQo+ID4gICAgdGhhbiByZWFsICJyZWFsIGRp
+cnR5IHJhdGUiLg0KDQoNCg0KPiA+DQo+ID4gU2lnbmVkLW9mZi1ieTogS2VxaWFuIFpodSA8emh1
+a2VxaWFuMUBodWF3ZWkuY29tPg0KPiA+IC0tLQ0KPiA+ICBpbmNsdWRlL2V4ZWMvcmFtX2FkZHIu
+aCB8IDUgKystLS0NCj4gPiAgMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMyBkZWxl
+dGlvbnMoLSkNCj4gPg0KPiA+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2V4ZWMvcmFtX2FkZHIuaCBi
+L2luY2x1ZGUvZXhlYy9yYW1fYWRkci5oIGluZGV4DQo+ID4gNWU1OWEzZDhkNy4uYWY5Njc3ZTI5
+MSAxMDA2NDQNCj4gPiAtLS0gYS9pbmNsdWRlL2V4ZWMvcmFtX2FkZHIuaA0KPiA+ICsrKyBiL2lu
+Y2x1ZGUvZXhlYy9yYW1fYWRkci5oDQo+ID4gQEAgLTQ0Myw3ICs0NDMsNyBAQCBzdGF0aWMgaW5s
+aW5lDQo+ID4gIHVpbnQ2NF90IGNwdV9waHlzaWNhbF9tZW1vcnlfc3luY19kaXJ0eV9iaXRtYXAo
+UkFNQmxvY2sgKnJiLA0KPiA+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgIHJhbV9hZGRyX3Qgc3RhcnQsDQo+ID4gICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgcmFtX2FkZHJfdCBsZW5ndGgsDQo+ID4gLSAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdWludDY0X3QNCj4gKnJlYWxf
+ZGlydHlfcGFnZXMpDQo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgdWludDY0X3QNCj4gPiArICphY2N1X2RpcnR5X3BhZ2VzKQ0KPiA+ICB7DQo+ID4g
+ICAgICByYW1fYWRkcl90IGFkZHI7DQo+ID4gICAgICB1bnNpZ25lZCBsb25nIHdvcmQgPSBCSVRf
+V09SRCgoc3RhcnQgKyByYi0+b2Zmc2V0KSA+Pg0KPiA+IFRBUkdFVF9QQUdFX0JJVFMpOyBAQCAt
+NDY5LDcgKzQ2OSw2IEBAIHVpbnQ2NF90DQo+IGNwdV9waHlzaWNhbF9tZW1vcnlfc3luY19kaXJ0
+eV9iaXRtYXAoUkFNQmxvY2sgKnJiLA0KPiA+ICAgICAgICAgICAgICBpZiAoc3JjW2lkeF1bb2Zm
+c2V0XSkgew0KPiA+ICAgICAgICAgICAgICAgICAgdW5zaWduZWQgbG9uZyBiaXRzID0gYXRvbWlj
+X3hjaGcoJnNyY1tpZHhdW29mZnNldF0sIDApOw0KPiA+ICAgICAgICAgICAgICAgICAgdW5zaWdu
+ZWQgbG9uZyBuZXdfZGlydHk7DQo+ID4gLSAgICAgICAgICAgICAgICAqcmVhbF9kaXJ0eV9wYWdl
+cyArPSBjdHBvcGwoYml0cyk7DQo+ID4gICAgICAgICAgICAgICAgICBuZXdfZGlydHkgPSB+ZGVz
+dFtrXTsNCj4gPiAgICAgICAgICAgICAgICAgIGRlc3Rba10gfD0gYml0czsNCj4gPiAgICAgICAg
+ICAgICAgICAgIG5ld19kaXJ0eSAmPSBiaXRzOw0KPiA+IEBAIC01MDIsNyArNTAxLDYgQEAgdWlu
+dDY0X3QNCj4gY3B1X3BoeXNpY2FsX21lbW9yeV9zeW5jX2RpcnR5X2JpdG1hcChSQU1CbG9jayAq
+cmIsDQo+ID4gICAgICAgICAgICAgICAgICAgICAgICAgIHN0YXJ0ICsgYWRkciArIG9mZnNldCwN
+Cj4gPiAgICAgICAgICAgICAgICAgICAgICAgICAgVEFSR0VUX1BBR0VfU0laRSwNCj4gPiAgICAg
+ICAgICAgICAgICAgICAgICAgICAgRElSVFlfTUVNT1JZX01JR1JBVElPTikpIHsNCj4gPiAtICAg
+ICAgICAgICAgICAgICpyZWFsX2RpcnR5X3BhZ2VzICs9IDE7DQo+ID4gICAgICAgICAgICAgICAg
+ICBsb25nIGsgPSAoc3RhcnQgKyBhZGRyKSA+PiBUQVJHRVRfUEFHRV9CSVRTOw0KPiA+ICAgICAg
+ICAgICAgICAgICAgaWYgKCF0ZXN0X2FuZF9zZXRfYml0KGssIGRlc3QpKSB7DQo+ID4gICAgICAg
+ICAgICAgICAgICAgICAgbnVtX2RpcnR5Kys7DQo+ID4gQEAgLTUxMSw2ICs1MDksNyBAQCB1aW50
+NjRfdA0KPiBjcHVfcGh5c2ljYWxfbWVtb3J5X3N5bmNfZGlydHlfYml0bWFwKFJBTUJsb2NrICpy
+YiwNCj4gPiAgICAgICAgICB9DQo+ID4gICAgICB9DQo+ID4NCj4gPiArICAgICphY2N1X2RpcnR5
+X3BhZ2VzICs9IG51bV9kaXJ0eTsNCj4gPiAgICAgIHJldHVybiBudW1fZGlydHk7DQo+ID4gIH0N
+Cj4gPiAgI2VuZGlmDQo+ID4NCg==
 
