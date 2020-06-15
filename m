@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1CF71F9D93
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 18:35:48 +0200 (CEST)
-Received: from localhost ([::1]:47300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D956E1F9DCA
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 18:46:43 +0200 (CEST)
+Received: from localhost ([::1]:39922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jks5L-0003nU-P5
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 12:35:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57768)
+	id 1jksFu-0005Pg-Vk
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 12:46:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38240)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jks2v-00019f-7L
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 12:33:17 -0400
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:41776)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jksES-0004rV-Vb; Mon, 15 Jun 2020 12:45:12 -0400
+Received: from mail-il1-x143.google.com ([2607:f8b0:4864:20::143]:33146)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jks2t-0007Nr-JV
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 12:33:16 -0400
-Received: by mail-oi1-x241.google.com with SMTP id a21so16423555oic.8
- for <qemu-devel@nongnu.org>; Mon, 15 Jun 2020 09:33:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jksER-0002Og-6o; Mon, 15 Jun 2020 12:45:12 -0400
+Received: by mail-il1-x143.google.com with SMTP id z2so15938129ilq.0;
+ Mon, 15 Jun 2020 09:45:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=tZ4DmxB2zYoXRE8UM31nl96bQ+qlZsBO9u/kFs7xhcQ=;
- b=QwruqVd++V8021JI8adp85kG05ULMnrzmQhFE1WH+XPd3bNjhQrdQWp6dJv0wn0WIE
- Dfc1oUt/0qfaUgn7ebPdrUkwEXYF3YyOlC5KkC+KOhwJbDS0qsAILIXLvv+GylQfw6ij
- 6wDboyA2rUotdluykXk73HTuT3oQv02JeSkN8euzMUQtIZJWcp1rtEeBoOZjaitwiFJv
- eOhl4FTZ4v/laaxdtNgW7XTTsGtBw2WBZ1QO8ED5P8qsZIBqq8aS8TRyZfbVlrkzcOhk
- CgCgTSeqOqOyK4oqHL59MTGvR2Yg/c6F4EaTCjEOkCacKBkSyPcocQiCqm4cmR2jcakr
- D24g==
+ :cc; bh=GxNE/Ziez4cPfywLHTGMClUB/FtlfEo8Us1ntedSN6k=;
+ b=PWSl4OeFnGtgRFJeId32Nl7H1d/Xw6VkdEfIqCXr9MSHqtNy4okR0zMzQHfMhBmrJz
+ 4wFlLUkMDad1c2G+aSKW14FnYmGDj6QxvXhXxTVXa0NOv7hdSlOc0F4K/KRU6/EQkJDu
+ DXxAD7xSSsQOeeGliWwQsni7XK37Nnv3XZOGX6Ly97k56DYDsBKjnZTWghUleg99iUyb
+ KVdPVjXBjMxHahFTnx7lFxQ5YntYFSxyNq1lVfcrxeFzmHtCLOpSLX1ga9fPZJF0VGiO
+ 0wnrfI7N+HSV6YTHiVjhh0YNxUSA8Be+mk7y/1CoA3QL+nEqvJ7DVeTOuLHSvtj9kgaw
+ WYTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=tZ4DmxB2zYoXRE8UM31nl96bQ+qlZsBO9u/kFs7xhcQ=;
- b=s0A+2oSSDeWLWwkgjd+uTWEIRfpvgPjIR2wONivwlzmpe+jMJKlyexUE7eFU6eLjck
- ZitqDjCnXO26ARKDPpCq8sA0CMl+77pg85j/cHduihp9O2pJtmv4KpBrZlQ3aECeQyZO
- Z7lfYPs34b1zFC1EP10P0DlHH3R9mdvGR8pL/cRvpJBIxNS+yHoY77iS289vObqaI6AK
- bFdBcJj0+uHgXVgDmyLJJWIeiLqcDgh2OgnnVlf+bvqYUT/Iwjcx4Ic5r5DppMRN0ZiE
- BaC6/3BUOz8IQvXDHN+Th29QaVR/h5x1zYSHD+ceVBvHCTLij0T2Bw5tzeVgcEewpcja
- 6e5Q==
-X-Gm-Message-State: AOAM533oyVpmnKwffSJP3nu0eB8TbBUdhgZ8cRnWDXZXUabnp4yyetOP
- 3RZ/7BqkTOxxb/EDIcSUEdGMkg6iiGJhhr2tTONqbg==
-X-Google-Smtp-Source: ABdhPJxPws0WUhck7/N1S+AEotpA+B+gjhLwOD5mulJfDsuCUGa2Lf2CwPqqFo36G8if043TiIN3vsA+pI0vLfpncXQ=
-X-Received: by 2002:aca:568c:: with SMTP id k134mr150567oib.48.1592238794548; 
- Mon, 15 Jun 2020 09:33:14 -0700 (PDT)
+ bh=GxNE/Ziez4cPfywLHTGMClUB/FtlfEo8Us1ntedSN6k=;
+ b=SPTEuGzPB0O5xIPo588DviVe+cP6T11kHfwJ6+BsJYMAgUMjPIJy6Kuf2sQqcu8X7C
+ DCmdwu6UChswMzLGJfWGAJ3ThDxwJXIQ32hO0h4Dge4oviD5HZ6Aonwjsvb6LdaWhWiZ
+ I8Qa08iWP3cqirlI4KvZUF/b3p8BIwEnmbci8KQFKd+I+EIrRl1cNb5pN31dAKL22Zb9
+ yo3huYw3TQzqCnRfLDrakCVRR7MmLXmyBIiQNJouTFkzlIHZQuV37aYuwcSeC2P48hWk
+ sQboh/kzIC2uzp0EAeAhtutAgDlctN9jnOCJmAXfs3BF51uPITcwxktda7FgXvlrzreE
+ yytw==
+X-Gm-Message-State: AOAM533ZiZrZBAvQbTjpZ4zPAlY6dX4yndZ5aIKC9dz3wxirnd8rwi9f
+ ixTd4ARoE42T4YI4KyU7owwLslG1ieRA4I8vxaY=
+X-Google-Smtp-Source: ABdhPJzMLXA4Iv+4WNuMTizolkuI41FiH7KRC5EQf0a1fky4MBrrrwxCjKZSUDOT+yNBd0KpJ5CuFOBf1Nzr1EV9HBA=
+X-Received: by 2002:a92:c94b:: with SMTP id i11mr28306635ilq.177.1592239509661; 
+ Mon, 15 Jun 2020 09:45:09 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200615151449.19818-1-kraxel@redhat.com>
- <alpine.BSF.2.22.395.2006151822170.51837@zero.eik.bme.hu>
-In-Reply-To: <alpine.BSF.2.22.395.2006151822170.51837@zero.eik.bme.hu>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 15 Jun 2020 17:33:03 +0100
-Message-ID: <CAFEAcA_iTpaUsuhyJyaaNUzKTrELSPH0QfPdnH7bTYpKDA07uQ@mail.gmail.com>
-Subject: Re: [PULL 0/4] Vga 20200615 patches
-To: BALATON Zoltan <balaton@eik.bme.hu>
+References: <1591625864-31494-1-git-send-email-bmeng.cn@gmail.com>
+ <1591625864-31494-10-git-send-email-bmeng.cn@gmail.com>
+In-Reply-To: <1591625864-31494-10-git-send-email-bmeng.cn@gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 15 Jun 2020 09:35:46 -0700
+Message-ID: <CAKmqyKMKzKeBECiUXDii7MdYp4gxU8zaStjXckfVEgNOqSF=4Q@mail.gmail.com>
+Subject: Re: [PATCH 09/15] hw/riscv: sifive_u: Add reset functionality
+To: Bin Meng <bmeng.cn@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::241;
- envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x241.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::143;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x143.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,47 +78,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc <qemu-ppc@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Bin Meng <bin.meng@windriver.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Palmer Dabbelt <palmerdabbelt@google.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 15 Jun 2020 at 17:28, BALATON Zoltan <balaton@eik.bme.hu> wrote:
+On Mon, Jun 8, 2020 at 7:23 AM Bin Meng <bmeng.cn@gmail.com> wrote:
 >
-> On Mon, 15 Jun 2020, Gerd Hoffmann wrote:
-> > The following changes since commit 7d3660e79830a069f1848bb4fa1cdf8f666424fb:
-> >
-> >  Merge remote-tracking branch 'remotes/bonzini/tags/for-upstream' into staging (2020-06-12 23:06:22 +0100)
-> >
-> > are available in the Git repository at:
-> >
-> >  git://git.kraxel.org/qemu tags/vga-20200615-pull-request
-> >
-> > for you to fetch changes up to fca0b885417497a973c56e6d4e0d88f9f7a0e71b:
-> >
-> >  sm501: Optimise 1 pixel 2d ops (2020-06-15 10:52:53 +0200)
-> >
-> > ----------------------------------------------------------------
-> > vga: sm501 fixes and optimizations.
-> >
-> > ----------------------------------------------------------------
-> >
-> > BALATON Zoltan (4):
-> >  sm501: Fix bounds checks
-> >  sm501: Drop unneded variable
-> >  sm501: Ignore no-op blits
-> >  sm501: Optimise 1 pixel 2d ops
-> >
-> > hw/display/sm501.c | 58 ++++++++++++++++++++++++++++++++++++++--------
-> > 1 file changed, 48 insertions(+), 10 deletions(-)
+> From: Bin Meng <bin.meng@windriver.com>
 >
-> Seems you've crossed mails with Peter. He sent some review comments for
-> these patches. Should I respin with those changes or you'll take this as
-> it is and I should send followup patches?
+> The HiFive Unleashed board wires GPIO pin#10 to the input of the
+> system reset signal. Let's set up the GPIO pin#10 and insert a
+> "gpio-restart" device tree node so that reboot is now functional
+> with QEMU 'sifive_u' machine.
+>
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
 
-I've dropped the pullreq from my to-process queue; if you could respin
-the patchset that's probably the best thing I think.
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-thanks
--- PMM
+Alistair
+
+> ---
+>
+>  hw/riscv/sifive_u.c | 24 +++++++++++++++++++++++-
+>  1 file changed, 23 insertions(+), 1 deletion(-)
+>
+> diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+> index 881949b..ef51874 100644
+> --- a/hw/riscv/sifive_u.c
+> +++ b/hw/riscv/sifive_u.c
+> @@ -37,6 +37,7 @@
+>  #include "qapi/error.h"
+>  #include "qapi/visitor.h"
+>  #include "hw/boards.h"
+> +#include "hw/irq.h"
+>  #include "hw/loader.h"
+>  #include "hw/sysbus.h"
+>  #include "hw/char/serial.h"
+> @@ -53,6 +54,7 @@
+>  #include "net/eth.h"
+>  #include "sysemu/arch_init.h"
+>  #include "sysemu/device_tree.h"
+> +#include "sysemu/runstate.h"
+>  #include "sysemu/sysemu.h"
+>  #include "exec/address-spaces.h"
+>
+> @@ -96,7 +98,7 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
+>      uint32_t *cells;
+>      char *nodename;
+>      char ethclk_names[] = "pclk\0hclk";
+> -    uint32_t plic_phandle, prci_phandle, phandle = 1;
+> +    uint32_t plic_phandle, prci_phandle, gpio_phandle, phandle = 1;
+>      uint32_t hfclk_phandle, rtcclk_phandle, phy_phandle;
+>
+>      fdt = s->fdt = create_device_tree(&s->fdt_size);
+> @@ -270,9 +272,11 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
+>      g_free(cells);
+>      g_free(nodename);
+>
+> +    gpio_phandle = phandle++;
+>      nodename = g_strdup_printf("/soc/gpio@%lx",
+>          (long)memmap[SIFIVE_U_GPIO].base);
+>      qemu_fdt_add_subnode(fdt, nodename);
+> +    qemu_fdt_setprop_cell(fdt, nodename, "phandle", gpio_phandle);
+>      qemu_fdt_setprop_cells(fdt, nodename, "clocks",
+>          prci_phandle, PRCI_CLK_TLCLK);
+>      qemu_fdt_setprop_cell(fdt, nodename, "#interrupt-cells", 2);
+> @@ -292,6 +296,12 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
+>      qemu_fdt_setprop_string(fdt, nodename, "compatible", "sifive,gpio0");
+>      g_free(nodename);
+>
+> +    nodename = g_strdup_printf("/gpio-restart");
+> +    qemu_fdt_add_subnode(fdt, nodename);
+> +    qemu_fdt_setprop_cells(fdt, nodename, "gpios", gpio_phandle, 10, 1);
+> +    qemu_fdt_setprop_string(fdt, nodename, "compatible", "gpio-restart");
+> +    g_free(nodename);
+> +
+>      phy_phandle = phandle++;
+>      nodename = g_strdup_printf("/soc/ethernet@%lx",
+>          (long)memmap[SIFIVE_U_GEM].base);
+> @@ -352,6 +362,14 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
+>      g_free(nodename);
+>  }
+>
+> +static void sifive_u_machine_reset(void *opaque, int n, int level)
+> +{
+> +    /* gpio pin active low triggers reset */
+> +    if (!level) {
+> +        qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
+> +    }
+> +}
+> +
+>  static void sifive_u_machine_init(MachineState *machine)
+>  {
+>      const struct MemmapEntry *memmap = sifive_u_memmap;
+> @@ -383,6 +401,10 @@ static void sifive_u_machine_init(MachineState *machine)
+>      memory_region_add_subregion(system_memory, memmap[SIFIVE_U_FLASH0].base,
+>                                  flash0);
+>
+> +    /* register gpio-restart */
+> +    qdev_connect_gpio_out(DEVICE(&(s->soc.gpio)), 10,
+> +                          qemu_allocate_irq(sifive_u_machine_reset, NULL, 0));
+> +
+>      /* create device tree */
+>      create_fdt(s, memmap, machine->ram_size, machine->kernel_cmdline);
+>
+> --
+> 2.7.4
+>
+>
 
