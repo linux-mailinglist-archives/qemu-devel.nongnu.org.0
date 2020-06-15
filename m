@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 232F51F9CE7
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 18:17:01 +0200 (CEST)
-Received: from localhost ([::1]:40222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C96F1F9C98
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 18:07:35 +0200 (CEST)
+Received: from localhost ([::1]:55892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jkrnA-0004Wr-4T
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 12:17:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52140)
+	id 1jkre2-0006Wx-Fx
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 12:07:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jkrlT-0003qm-7q; Mon, 15 Jun 2020 12:15:15 -0400
-Received: from mail-il1-x143.google.com ([2607:f8b0:4864:20::143]:46016)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jkrcb-0005TN-PG
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 12:06:05 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:35559)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jkrlQ-0003RU-P8; Mon, 15 Jun 2020 12:15:14 -0400
-Received: by mail-il1-x143.google.com with SMTP id 9so15809826ilg.12;
- Mon, 15 Jun 2020 09:15:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jkrcZ-000205-8z
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 12:06:05 -0400
+Received: by mail-ot1-x344.google.com with SMTP id 69so13522686otv.2
+ for <qemu-devel@nongnu.org>; Mon, 15 Jun 2020 09:06:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=jFr1/KpNmOHeaq44SQLd3Y7cVXzFee0fXpzGhnbidqU=;
- b=qjlZl/KYsjudmWB/360AQz+KN/mv3ujVBVPXBEd8qhGfBhgiMDXdaB5yNwNJdcZV5T
- FNHyLg1wt5IY71t90NEjo47dfZfV33fWq3F435BHXulRg1bbFDQ8X1jGcPIx8pdwNMBf
- huz95H4RMTUQdNYdKjbIw+VJQWx+NPybyk27lUHJltHBSlAJAqpHH3Ia/ZBPqlS6imBW
- 65wenusyALbQayVFjFY6/y9FIA1hEi0xiICny6DauJT6s4E4uvuNOup1S67kKhr4m27H
- 1jrh4Vv6Zr0TVZ6W8uJhHNHq8Tyl9UrAs/DJB7R3stwWIH0RkCJnm+oz6/bXzok9lYDV
- 8d4A==
+ :cc:content-transfer-encoding;
+ bh=oAxIBrXLEI5B8bnQBR6NKC7z6dng4m0U8TiLwWGPIzY=;
+ b=KxIj05u7eR38bLdDIIL/cEobM+KkJYgxbSgVQcWESuheV3Vs4j11sOpUVyzS15UwI9
+ LG52KhMo5D81P0OiWNeoYkicKG+XRdodqVuijh+hEClD9vjp+DtH3Ce4VccRN/D19v7c
+ Jci9jf2Ms9CCUqy8tqfS3Kmcrb8yxRi23c0WqOJe8EJO1GY/cQWdb1r+hk1bYIfh3m0n
+ 5RVA5huqaXPHTnhfNoQtV6zw3W6Hdyjtd7vq22fTav+xn8JNNZ5APOCifTlgkH8PgBNg
+ Ap23SF+pZbb1+XNlQgiGh0nTaGHdAsAlUA34CHLEKuYaBZFAEXrtnvW7hd22ui9y1mDC
+ /dCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=jFr1/KpNmOHeaq44SQLd3Y7cVXzFee0fXpzGhnbidqU=;
- b=BLb2OpduV3guwmCkY/qjD5SytEbVvaoZKwNqbfQNMwrsi5tXriTRZx6xCRSYQsNVP8
- aYHVgLDAYcYDKFfnWlJ3Vo16YZJUmKxY/QWmtjcGfAp3kk2MTliRUp5DWuElpthdoid6
- QAQgRScdYQ1pFLVl8oqFs3fJ3+fhEDpuA1zuAt/ZAt1KVMoyevrP/2raT8sTDzpCMVyX
- IET4rN+mIUhteVcq+ZxvOPFCi57wK7a9YGzVvQ5WvUTlOhOleOQzR5LXTkLWdvd3IlJt
- 34oPIUnhAZQeznQNe3dmgvZP0uXNzORhqeZDq2CvzJ1z5Yq0Lkjr46Y7evLa8P+MXTpF
- VsSg==
-X-Gm-Message-State: AOAM530ZzjqpMnr+mEnMMLINYRGj1LEc6Ggr3itUVF39oeAhPKV502g6
- kGCBOxLQhz/qUeCkzctR/YabnnxnGjk5xNAtywk=
-X-Google-Smtp-Source: ABdhPJzGD3Cu6HLOZTVHuHJj8a4Jj5XuvuzgejVrw9IHvKoQlGsq1zMlucDa/sGCn7uHgir0RSBrMtmQQ3Qxytnjwlk=
-X-Received: by 2002:a92:bb45:: with SMTP id w66mr27868277ili.131.1592237710720; 
- Mon, 15 Jun 2020 09:15:10 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=oAxIBrXLEI5B8bnQBR6NKC7z6dng4m0U8TiLwWGPIzY=;
+ b=f1umHtEGSJuxlz0vvMVIdTqyg0nyVWYJkg0uwbFUtGf6Z6fdBwweXvQvySwsUFuAOc
+ /iAsLNevh7JFPvuPyLtojefoHcOdZbDSvN79ccHzdRMk9kqIztYR+kkwuHLEruaGoaOL
+ xfk0353EvrEbiyrYWTIn4mh1KmromKJ6pPWWjg8BpmJzlTwt0BS+Lu6KDzJlvui6WFkT
+ tSDxkXi9y5b9emK5J+sPBYgqbQZ6p73Nz3FMKvjjwtShCwZSyGIzoD7XxjfLJH1F1dpz
+ EdEUffj4efCVBfNznQMIA1u2lp/7a8BRaGbb47GLZv1pklNqXtc/aGI9ODUKF7YlX6tt
+ YNIg==
+X-Gm-Message-State: AOAM533eUPLDc8Du1YmGsw/ThFCiZq36lMLkm4KegjnJfbIL3H26xn5R
+ e6IsRX654ULx+/8T1VYE9MwB9lRDOzM20iSRi79cWw==
+X-Google-Smtp-Source: ABdhPJyrSTZbe8X1NIykasaUJJAF64lT5L+aO+OOiJ/1awud9WjDRI/kneJF6WrmF9ijKvT67RRYYALPlouGQc2MAFo=
+X-Received: by 2002:a05:6830:18da:: with SMTP id
+ v26mr22660246ote.135.1592237161126; 
+ Mon, 15 Jun 2020 09:06:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <1591625864-31494-1-git-send-email-bmeng.cn@gmail.com>
- <1591625864-31494-2-git-send-email-bmeng.cn@gmail.com>
-In-Reply-To: <1591625864-31494-2-git-send-email-bmeng.cn@gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 15 Jun 2020 09:05:47 -0700
-Message-ID: <CAKmqyKNH-sxGyPiWVLFWzKVNxxFKWT79r=4Q1pQvLueTMvi9FQ@mail.gmail.com>
-Subject: Re: [PATCH 01/15] hw/riscv: sifive_e: Remove the riscv_ prefix of the
- machine* and soc* functions
-To: Bin Meng <bmeng.cn@gmail.com>
+References: <20200612175440.9901-1-f4bug@amsat.org>
+ <20200612175440.9901-3-f4bug@amsat.org>
+In-Reply-To: <20200612175440.9901-3-f4bug@amsat.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 15 Jun 2020 17:05:49 +0100
+Message-ID: <CAFEAcA8eYXvXtNP9xqnOs-rNA6d5S-jQBwsVVHA-aFMR7ApXPw@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 2/5] hw/misc/led: Add LED_STATUS_CHANGED QAPI event
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::143;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x143.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x344.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
@@ -79,111 +82,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Palmer Dabbelt <palmerdabbelt@google.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>
+Cc: Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Esteban Bosse <estebanbosse@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 8, 2020 at 7:20 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+On Fri, 12 Jun 2020 at 18:54, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
+ wrote:
 >
-> From: Bin Meng <bin.meng@windriver.com>
+> Allow LED devices to emit STATUS_CHANGED events on a QMP chardev.
 >
-> This was done in the virt & sifive_u codes, but sifive_e codes were
-> missed. Remove the riscv_ prefix of the machine* and soc* functions.
+> QMP event examples:
 >
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> {
+>     "timestamp": {
+>         "seconds": 1591704274,
+>         "microseconds": 520850
+>     },
+>     "event": "LED_STATUS_CHANGED",
+>     "data": {
+>         "name": "Green LED #0",
+>         "status": "on"
+>     }
+> }
+> {
+>     "timestamp": {
+>         "seconds": 1591704275,
+>         "microseconds": 530912
+>     },
+>     "event": "LED_STATUS_CHANGED",
+>     "data": {
+>         "name": "Green LED #0",
+>         "status": "off"
+>     }
+> }
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Is there a proof-of-concept of what might be on the other end of this
+QMP link consuming these events and doing something useful with them?
 
-Alistair
-
-> ---
->
->  hw/riscv/sifive_e.c | 24 ++++++++++++------------
->  1 file changed, 12 insertions(+), 12 deletions(-)
->
-> diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
-> index 472a989..8fab152 100644
-> --- a/hw/riscv/sifive_e.c
-> +++ b/hw/riscv/sifive_e.c
-> @@ -75,7 +75,7 @@ static const struct MemmapEntry {
->      [SIFIVE_E_DTIM] =     { 0x80000000,     0x4000 }
->  };
->
-> -static void riscv_sifive_e_init(MachineState *machine)
-> +static void sifive_e_machine_init(MachineState *machine)
->  {
->      const struct MemmapEntry *memmap = sifive_e_memmap;
->
-> @@ -124,7 +124,7 @@ static void sifive_e_machine_class_init(ObjectClass *oc, void *data)
->      MachineClass *mc = MACHINE_CLASS(oc);
->
->      mc->desc = "RISC-V Board compatible with SiFive E SDK";
-> -    mc->init = riscv_sifive_e_init;
-> +    mc->init = sifive_e_machine_init;
->      mc->max_cpus = 1;
->      mc->default_cpu_type = SIFIVE_E_CPU;
->  }
-> @@ -144,7 +144,7 @@ static void sifive_e_machine_init_register_types(void)
->
->  type_init(sifive_e_machine_init_register_types)
->
-> -static void riscv_sifive_e_soc_init(Object *obj)
-> +static void sifive_e_soc_init(Object *obj)
->  {
->      MachineState *ms = MACHINE(qdev_get_machine());
->      SiFiveESoCState *s = RISCV_E_SOC(obj);
-> @@ -159,7 +159,7 @@ static void riscv_sifive_e_soc_init(Object *obj)
->                            TYPE_SIFIVE_GPIO);
->  }
->
-> -static void riscv_sifive_e_soc_realize(DeviceState *dev, Error **errp)
-> +static void sifive_e_soc_realize(DeviceState *dev, Error **errp)
->  {
->      MachineState *ms = MACHINE(qdev_get_machine());
->      const struct MemmapEntry *memmap = sifive_e_memmap;
-> @@ -243,26 +243,26 @@ static void riscv_sifive_e_soc_realize(DeviceState *dev, Error **errp)
->          &s->xip_mem);
->  }
->
-> -static void riscv_sifive_e_soc_class_init(ObjectClass *oc, void *data)
-> +static void sifive_e_soc_class_init(ObjectClass *oc, void *data)
->  {
->      DeviceClass *dc = DEVICE_CLASS(oc);
->
-> -    dc->realize = riscv_sifive_e_soc_realize;
-> +    dc->realize = sifive_e_soc_realize;
->      /* Reason: Uses serial_hds in realize function, thus can't be used twice */
->      dc->user_creatable = false;
->  }
->
-> -static const TypeInfo riscv_sifive_e_soc_type_info = {
-> +static const TypeInfo sifive_e_soc_type_info = {
->      .name = TYPE_RISCV_E_SOC,
->      .parent = TYPE_DEVICE,
->      .instance_size = sizeof(SiFiveESoCState),
-> -    .instance_init = riscv_sifive_e_soc_init,
-> -    .class_init = riscv_sifive_e_soc_class_init,
-> +    .instance_init = sifive_e_soc_init,
-> +    .class_init = sifive_e_soc_class_init,
->  };
->
-> -static void riscv_sifive_e_soc_register_types(void)
-> +static void sifive_e_soc_register_types(void)
->  {
-> -    type_register_static(&riscv_sifive_e_soc_type_info);
-> +    type_register_static(&sifive_e_soc_type_info);
->  }
->
-> -type_init(riscv_sifive_e_soc_register_types)
-> +type_init(sifive_e_soc_register_types)
-> --
-> 2.7.4
->
->
+thanks
+-- PMM
 
