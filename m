@@ -2,72 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C96F1F9C98
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 18:07:35 +0200 (CEST)
-Received: from localhost ([::1]:55892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D39481F9CF5
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 18:18:22 +0200 (CEST)
+Received: from localhost ([::1]:43098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jkre2-0006Wx-Fx
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 12:07:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50420)
+	id 1jkroT-00064Z-Tl
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 12:18:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jkrcb-0005TN-PG
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 12:06:05 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:35559)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jkrmK-0004eG-9v; Mon, 15 Jun 2020 12:16:08 -0400
+Received: from mail-il1-x143.google.com ([2607:f8b0:4864:20::143]:40075)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jkrcZ-000205-8z
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 12:06:05 -0400
-Received: by mail-ot1-x344.google.com with SMTP id 69so13522686otv.2
- for <qemu-devel@nongnu.org>; Mon, 15 Jun 2020 09:06:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jkrmI-0003iT-Fd; Mon, 15 Jun 2020 12:16:07 -0400
+Received: by mail-il1-x143.google.com with SMTP id t8so15833388ilm.7;
+ Mon, 15 Jun 2020 09:16:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=oAxIBrXLEI5B8bnQBR6NKC7z6dng4m0U8TiLwWGPIzY=;
- b=KxIj05u7eR38bLdDIIL/cEobM+KkJYgxbSgVQcWESuheV3Vs4j11sOpUVyzS15UwI9
- LG52KhMo5D81P0OiWNeoYkicKG+XRdodqVuijh+hEClD9vjp+DtH3Ce4VccRN/D19v7c
- Jci9jf2Ms9CCUqy8tqfS3Kmcrb8yxRi23c0WqOJe8EJO1GY/cQWdb1r+hk1bYIfh3m0n
- 5RVA5huqaXPHTnhfNoQtV6zw3W6Hdyjtd7vq22fTav+xn8JNNZ5APOCifTlgkH8PgBNg
- Ap23SF+pZbb1+XNlQgiGh0nTaGHdAsAlUA34CHLEKuYaBZFAEXrtnvW7hd22ui9y1mDC
- /dCA==
+ :cc; bh=Xpv2aVaE5epWKjUkmopMDNnkHcoKtX1daBYpy1F/oKY=;
+ b=kEth8jedm7rtbYtSIm/mmUJJmn5lRNMjNxWovp4XNbHAMqyW2ve3jsgEZoQdkJ0bZD
+ D1uv7QeODbqfhxl9d3LdBQGjPsNXMP8i/Nn3UeQ7qiux8X2qVOOVB6Yt7TXAxoykwfiy
+ SHYSDQ3bsSEs4lz2wiV3rjNBvgNfoFper7wheEzZl45CfuhFZm3WbQ0rG8KVKTy+d14m
+ TXLf3mzd+vTV3IxSzPnApy8XGR0F32XptG+lVVJ6FTrA1e4pEYjQasDqBV60Bl3OrSWR
+ e2esmvp6lNV9AR5l+a6/3LVLtDV3MWdHqEcw58XPdUak4R0lltKEPKWgtvBts00Z5bLO
+ Lw/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=oAxIBrXLEI5B8bnQBR6NKC7z6dng4m0U8TiLwWGPIzY=;
- b=f1umHtEGSJuxlz0vvMVIdTqyg0nyVWYJkg0uwbFUtGf6Z6fdBwweXvQvySwsUFuAOc
- /iAsLNevh7JFPvuPyLtojefoHcOdZbDSvN79ccHzdRMk9kqIztYR+kkwuHLEruaGoaOL
- xfk0353EvrEbiyrYWTIn4mh1KmromKJ6pPWWjg8BpmJzlTwt0BS+Lu6KDzJlvui6WFkT
- tSDxkXi9y5b9emK5J+sPBYgqbQZ6p73Nz3FMKvjjwtShCwZSyGIzoD7XxjfLJH1F1dpz
- EdEUffj4efCVBfNznQMIA1u2lp/7a8BRaGbb47GLZv1pklNqXtc/aGI9ODUKF7YlX6tt
- YNIg==
-X-Gm-Message-State: AOAM533eUPLDc8Du1YmGsw/ThFCiZq36lMLkm4KegjnJfbIL3H26xn5R
- e6IsRX654ULx+/8T1VYE9MwB9lRDOzM20iSRi79cWw==
-X-Google-Smtp-Source: ABdhPJyrSTZbe8X1NIykasaUJJAF64lT5L+aO+OOiJ/1awud9WjDRI/kneJF6WrmF9ijKvT67RRYYALPlouGQc2MAFo=
-X-Received: by 2002:a05:6830:18da:: with SMTP id
- v26mr22660246ote.135.1592237161126; 
- Mon, 15 Jun 2020 09:06:01 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=Xpv2aVaE5epWKjUkmopMDNnkHcoKtX1daBYpy1F/oKY=;
+ b=XIA1hS0at1tSSIHFF0w7f1khr1/qBjU75zjxhuOiEfkCy97XBHrysv8bggqOsPO1W+
+ w25NpWRwD/B4/UgmV16yh2iZpW6XF9/x8YLObch+cjGMnzv1tjT5zK+nFNjEtvueltFk
+ mGM4HEg/FZxXARy7dQKdZczKFjkGqkVaxvc1pgKmAPXOojyaTfB4ygiwd8BVdPQGxSS4
+ Fb4wFOICmtQXhZqR6p0LKf0oN+ccLgSZanO/Ykt+DiMxWIbTBv9nff7aY1/wxHPtQJlW
+ 3qCW1QYy4DzcKNpf2FAi+eQ7GMkYcuTaSn2gNgzEpuRvQINoLnjg7tZDROy+lMsC4fl9
+ av+A==
+X-Gm-Message-State: AOAM531gsXaM6ydj5Tt48lj8QkO92mt1gBZB8svfHrpuMChBBIk/04AW
+ SQTazm2F9eZeLaJ7E1EaVXuoNfUg8BEx5U2JldM=
+X-Google-Smtp-Source: ABdhPJwq2Jo3ylp+UoPORCaBe0iCHB4FOUhmRsqS67inAG2upRW9+wf5+XrqGoIZPgvwx00OSKaZcgLKRlW1VXpLLOc=
+X-Received: by 2002:a92:aa07:: with SMTP id j7mr27543401ili.40.1592237765387; 
+ Mon, 15 Jun 2020 09:16:05 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200612175440.9901-1-f4bug@amsat.org>
- <20200612175440.9901-3-f4bug@amsat.org>
-In-Reply-To: <20200612175440.9901-3-f4bug@amsat.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 15 Jun 2020 17:05:49 +0100
-Message-ID: <CAFEAcA8eYXvXtNP9xqnOs-rNA6d5S-jQBwsVVHA-aFMR7ApXPw@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 2/5] hw/misc/led: Add LED_STATUS_CHANGED QAPI event
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+References: <1591625864-31494-1-git-send-email-bmeng.cn@gmail.com>
+ <1591625864-31494-3-git-send-email-bmeng.cn@gmail.com>
+In-Reply-To: <1591625864-31494-3-git-send-email-bmeng.cn@gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 15 Jun 2020 09:06:42 -0700
+Message-ID: <CAKmqyKNaoDbbrDzHAzKyw5RzsCbgwWQK4NXkkD5R0SPcOurWGw@mail.gmail.com>
+Subject: Re: [PATCH 02/15] hw/riscv: opentitan: Remove the riscv_ prefix of
+ the machine* and soc* functions
+To: Bin Meng <bmeng.cn@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x344.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::143;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x143.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
@@ -82,49 +79,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Michael Roth <mdroth@linux.vnet.ibm.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Esteban Bosse <estebanbosse@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
- Gerd Hoffmann <kraxel@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Joel Stanley <joel@jms.id.au>
+Cc: Bin Meng <bin.meng@windriver.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Palmer Dabbelt <palmerdabbelt@google.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 12 Jun 2020 at 18:54, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
- wrote:
+On Mon, Jun 8, 2020 at 7:18 AM Bin Meng <bmeng.cn@gmail.com> wrote:
 >
-> Allow LED devices to emit STATUS_CHANGED events on a QMP chardev.
+> From: Bin Meng <bin.meng@windriver.com>
 >
-> QMP event examples:
+> This was done in the virt & sifive_u codes, but opentitan codes were
+> missed. Remove the riscv_ prefix of the machine* and soc* functions.
 >
-> {
->     "timestamp": {
->         "seconds": 1591704274,
->         "microseconds": 520850
->     },
->     "event": "LED_STATUS_CHANGED",
->     "data": {
->         "name": "Green LED #0",
->         "status": "on"
->     }
-> }
-> {
->     "timestamp": {
->         "seconds": 1591704275,
->         "microseconds": 530912
->     },
->     "event": "LED_STATUS_CHANGED",
->     "data": {
->         "name": "Green LED #0",
->         "status": "off"
->     }
-> }
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
 
-Is there a proof-of-concept of what might be on the other end of this
-QMP link consuming these events and doing something useful with them?
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-thanks
--- PMM
+Alistair
+
+> ---
+>
+>  hw/riscv/opentitan.c | 29 ++++++++++++++---------------
+>  1 file changed, 14 insertions(+), 15 deletions(-)
+>
+> diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
+> index b4fb836..0907a42 100644
+> --- a/hw/riscv/opentitan.c
+> +++ b/hw/riscv/opentitan.c
+> @@ -51,7 +51,7 @@ static const struct MemmapEntry {
+>      [IBEX_PADCTRL] =        {  0x40160000,  0x10000 }
+>  };
+>
+> -static void riscv_opentitan_init(MachineState *machine)
+> +static void opentitan_board_init(MachineState *machine)
+>  {
+>      const struct MemmapEntry *memmap = ibex_memmap;
+>      OpenTitanState *s = g_new0(OpenTitanState, 1);
+> @@ -70,7 +70,6 @@ static void riscv_opentitan_init(MachineState *machine)
+>      memory_region_add_subregion(sys_mem,
+>          memmap[IBEX_RAM].base, main_mem);
+>
+> -
+>      if (machine->firmware) {
+>          riscv_load_firmware(machine->firmware, memmap[IBEX_RAM].base, NULL);
+>      }
+> @@ -80,17 +79,17 @@ static void riscv_opentitan_init(MachineState *machine)
+>      }
+>  }
+>
+> -static void riscv_opentitan_machine_init(MachineClass *mc)
+> +static void opentitan_machine_init(MachineClass *mc)
+>  {
+>      mc->desc = "RISC-V Board compatible with OpenTitan";
+> -    mc->init = riscv_opentitan_init;
+> +    mc->init = opentitan_board_init;
+>      mc->max_cpus = 1;
+>      mc->default_cpu_type = TYPE_RISCV_CPU_IBEX;
+>  }
+>
+> -DEFINE_MACHINE("opentitan", riscv_opentitan_machine_init)
+> +DEFINE_MACHINE("opentitan", opentitan_machine_init)
+>
+> -static void riscv_lowrisc_ibex_soc_init(Object *obj)
+> +static void lowrisc_ibex_soc_init(Object *obj)
+>  {
+>      LowRISCIbexSoCState *s = RISCV_IBEX_SOC(obj);
+>
+> @@ -99,7 +98,7 @@ static void riscv_lowrisc_ibex_soc_init(Object *obj)
+>                              &error_abort, NULL);
+>  }
+>
+> -static void riscv_lowrisc_ibex_soc_realize(DeviceState *dev_soc, Error **errp)
+> +static void lowrisc_ibex_soc_realize(DeviceState *dev_soc, Error **errp)
+>  {
+>      const struct MemmapEntry *memmap = ibex_memmap;
+>      MachineState *ms = MACHINE(qdev_get_machine());
+> @@ -159,26 +158,26 @@ static void riscv_lowrisc_ibex_soc_realize(DeviceState *dev_soc, Error **errp)
+>          memmap[IBEX_PADCTRL].base, memmap[IBEX_PADCTRL].size);
+>  }
+>
+> -static void riscv_lowrisc_ibex_soc_class_init(ObjectClass *oc, void *data)
+> +static void lowrisc_ibex_soc_class_init(ObjectClass *oc, void *data)
+>  {
+>      DeviceClass *dc = DEVICE_CLASS(oc);
+>
+> -    dc->realize = riscv_lowrisc_ibex_soc_realize;
+> +    dc->realize = lowrisc_ibex_soc_realize;
+>      /* Reason: Uses serial_hds in realize function, thus can't be used twice */
+>      dc->user_creatable = false;
+>  }
+>
+> -static const TypeInfo riscv_lowrisc_ibex_soc_type_info = {
+> +static const TypeInfo lowrisc_ibex_soc_type_info = {
+>      .name = TYPE_RISCV_IBEX_SOC,
+>      .parent = TYPE_DEVICE,
+>      .instance_size = sizeof(LowRISCIbexSoCState),
+> -    .instance_init = riscv_lowrisc_ibex_soc_init,
+> -    .class_init = riscv_lowrisc_ibex_soc_class_init,
+> +    .instance_init = lowrisc_ibex_soc_init,
+> +    .class_init = lowrisc_ibex_soc_class_init,
+>  };
+>
+> -static void riscv_lowrisc_ibex_soc_register_types(void)
+> +static void lowrisc_ibex_soc_register_types(void)
+>  {
+> -    type_register_static(&riscv_lowrisc_ibex_soc_type_info);
+> +    type_register_static(&lowrisc_ibex_soc_type_info);
+>  }
+>
+> -type_init(riscv_lowrisc_ibex_soc_register_types)
+> +type_init(lowrisc_ibex_soc_register_types)
+> --
+> 2.7.4
+>
+>
 
