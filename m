@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 035DA1FA2EE
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 23:37:46 +0200 (CEST)
-Received: from localhost ([::1]:41654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D1011FA2E0
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 23:34:41 +0200 (CEST)
+Received: from localhost ([::1]:57262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jkwnZ-0005QU-1B
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 17:37:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35626)
+	id 1jkwka-0008WP-Du
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 17:34:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jkw25-00078d-0E
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 16:48:41 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:24459
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jkw1y-0006vx-Sr
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 16:48:34 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:55051
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jkw21-0001tL-25
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 16:48:40 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jkw1v-0001rw-Q9
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 16:48:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592254116;
+ s=mimecast20190719; t=1592254110;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mlWQ/wW+zd4OpJtVRp4FbnsDGjJBdXtVksWOepzXqbM=;
- b=VXwXLxiA6DoFL2nDbDK8jNx2h6rB6/8j9eLncd6iLYySpr28bRpJ3dGPipFrtUqaXsZaK6
- NWvTzv5jWBzS/e6UfHqjzlSNYV0vLzY4y4tTeKQ+BnRnQm7p0SNOXw4ckTSL0SS5sW6j7v
- uUTYS1D1FxSfLXxlNorINtKEl7IzElY=
+ bh=NfKBF7c+XCzp9W6ZK62PYVBJQZBobUmykgVIIGYe/6w=;
+ b=COexuEhnlEjjOvBDuWgFnn3VwAhnqt0q94MkR3QtmiX1JjXHqgVyf113+34BTuHfM68yQC
+ nfgA4IQ96n7zyurRHzjeHJ93wxaH0bsHg0+hKMLuCki8W45wgo+Lwytth+SzVQJdx5Uxz2
+ fY/PVcOqjrsvqtoE0Qa9/EkrfV7RjXA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-59-EIsBwPZDMT6wiNCgYifFFg-1; Mon, 15 Jun 2020 16:48:34 -0400
-X-MC-Unique: EIsBwPZDMT6wiNCgYifFFg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-117-rphQZMe2MiewtuNgnwPd2Q-1; Mon, 15 Jun 2020 16:48:29 -0400
+X-MC-Unique: rphQZMe2MiewtuNgnwPd2Q-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2DB7D10AB66E
- for <qemu-devel@nongnu.org>; Mon, 15 Jun 2020 20:48:33 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 583768035C1
+ for <qemu-devel@nongnu.org>; Mon, 15 Jun 2020 20:48:28 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-121.ams2.redhat.com
  [10.36.112.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A4D8B5D9D5;
- Mon, 15 Jun 2020 20:48:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 292731002394;
+ Mon, 15 Jun 2020 20:48:28 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 4DFD31132751; Mon, 15 Jun 2020 22:40:09 +0200 (CEST)
+ id 527CC113275D; Mon, 15 Jun 2020 22:40:09 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 75/84] sysbus: Convert qdev_set_parent_bus() use with
- Coccinelle, part 3
-Date: Mon, 15 Jun 2020 22:39:59 +0200
-Message-Id: <20200615204008.3069956-76-armbru@redhat.com>
+Subject: [PULL 76/84] sysbus: Convert qdev_set_parent_bus() use with
+ Coccinelle, part 4
+Date: Mon, 15 Jun 2020 22:40:00 +0200
+Message-Id: <20200615204008.3069956-77-armbru@redhat.com>
 In-Reply-To: <20200615204008.3069956-1-armbru@redhat.com>
 References: <20200615204008.3069956-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -85,276 +85,76 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These are init/realize pairs produced by the previous commit's
-Coccinelle script where the argument test doesn't quite match.  They
-need even more careful review.
+This is still the same transformation as in the previous commits, but
+here the sysbus_init_child_obj() and its matching realize in are in
+separate files.  Fortunately, there's just one realize left to
+convert.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20200610053247.1583243-50-armbru@redhat.com>
+Message-Id: <20200610053247.1583243-51-armbru@redhat.com>
 ---
- hw/arm/armsse.c          | 33 +++++++++++++--------------------
- hw/arm/armv7m.c          |  6 +++---
- hw/arm/microbit.c        | 12 ++++++------
- hw/arm/xlnx-versal.c     |  6 +++---
- hw/arm/xlnx-zynqmp.c     |  6 +++---
- hw/cpu/realview_mpcore.c |  5 ++---
- hw/display/sm501.c       |  4 ++--
- hw/intc/armv7m_nvic.c    |  7 +++----
- 8 files changed, 35 insertions(+), 44 deletions(-)
+ hw/arm/aspeed_ast2600.c | 10 ++++------
+ hw/arm/aspeed_soc.c     |  4 ++--
+ hw/sd/aspeed_sdhci.c    |  2 +-
+ 3 files changed, 7 insertions(+), 9 deletions(-)
 
-diff --git a/hw/arm/armsse.c b/hw/arm/armsse.c
-index 6571c1ed4c..8abe1307a9 100644
---- a/hw/arm/armsse.c
-+++ b/hw/arm/armsse.c
-@@ -256,9 +256,8 @@ static void armsse_init(Object *obj)
-         g_free(name);
+diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
+index 7c39adb272..d465743247 100644
+--- a/hw/arm/aspeed_ast2600.c
++++ b/hw/arm/aspeed_ast2600.c
+@@ -200,9 +200,8 @@ static void aspeed_soc_ast2600_init(Object *obj)
  
-         name = g_strdup_printf("armv7m%d", i);
--        sysbus_init_child_obj(OBJECT(&s->cluster[i]), name,
--                              &s->armv7m[i], sizeof(s->armv7m[i]),
--                              TYPE_ARMV7M);
-+        object_initialize_child(OBJECT(&s->cluster[i]), name, &s->armv7m[i],
-+                                TYPE_ARMV7M);
-         qdev_prop_set_string(DEVICE(&s->armv7m[i]), "cpu-type",
-                              ARM_CPU_TYPE_NAME("cortex-m33"));
-         g_free(name);
-@@ -308,31 +307,26 @@ static void armsse_init(Object *obj)
-     object_initialize_child(obj, "armsse-sysinfo", &s->sysinfo,
-                             TYPE_IOTKIT_SYSINFO);
-     if (info->has_mhus) {
--        sysbus_init_child_obj(obj, "mhu0", &s->mhu[0], sizeof(s->mhu[0]),
--                              TYPE_ARMSSE_MHU);
--        sysbus_init_child_obj(obj, "mhu1", &s->mhu[1], sizeof(s->mhu[1]),
--                              TYPE_ARMSSE_MHU);
-+        object_initialize_child(obj, "mhu0", &s->mhu[0], TYPE_ARMSSE_MHU);
-+        object_initialize_child(obj, "mhu1", &s->mhu[1], TYPE_ARMSSE_MHU);
+     /* Init sd card slot class here so that they're under the correct parent */
+     for (i = 0; i < ASPEED_SDHCI_NUM_SLOTS; ++i) {
+-        sysbus_init_child_obj(obj, "sd-controller.sdhci[*]",
+-                              &s->sdhci.slots[i],
+-                              sizeof(s->sdhci.slots[i]), TYPE_SYSBUS_SDHCI);
++        object_initialize_child(obj, "sd-controller.sdhci[*]",
++                                &s->sdhci.slots[i], TYPE_SYSBUS_SDHCI);
      }
-     if (info->has_ppus) {
-         for (i = 0; i < info->num_cpus; i++) {
-             char *name = g_strdup_printf("CPU%dCORE_PPU", i);
-             int ppuidx = CPU0CORE_PPU + i;
  
--            sysbus_init_child_obj(obj, name, &s->ppu[ppuidx],
--                                  sizeof(s->ppu[ppuidx]),
--                                  TYPE_UNIMPLEMENTED_DEVICE);
-+            object_initialize_child(obj, name, &s->ppu[ppuidx],
-+                                    TYPE_UNIMPLEMENTED_DEVICE);
-             g_free(name);
-         }
--        sysbus_init_child_obj(obj, "DBG_PPU", &s->ppu[DBG_PPU],
--                              sizeof(s->ppu[DBG_PPU]),
--                              TYPE_UNIMPLEMENTED_DEVICE);
-+        object_initialize_child(obj, "DBG_PPU", &s->ppu[DBG_PPU],
-+                                TYPE_UNIMPLEMENTED_DEVICE);
-         for (i = 0; i < info->sram_banks; i++) {
-             char *name = g_strdup_printf("RAM%d_PPU", i);
-             int ppuidx = RAM0_PPU + i;
+     object_initialize_child(obj, "emmc-controller", &s->emmc,
+@@ -210,9 +209,8 @@ static void aspeed_soc_ast2600_init(Object *obj)
  
--            sysbus_init_child_obj(obj, name, &s->ppu[ppuidx],
--                                  sizeof(s->ppu[ppuidx]),
--                                  TYPE_UNIMPLEMENTED_DEVICE);
-+            object_initialize_child(obj, name, &s->ppu[ppuidx],
-+                                    TYPE_UNIMPLEMENTED_DEVICE);
-             g_free(name);
-         }
-     }
-@@ -428,7 +422,7 @@ static void map_ppu(ARMSSE *s, int ppuidx, const char *name, hwaddr addr)
+     object_property_set_int(OBJECT(&s->emmc), 1, "num-slots", &error_abort);
  
-     qdev_prop_set_string(dev, "name", name);
-     qdev_prop_set_uint64(dev, "size", 0x1000);
--    qdev_init_nofail(dev);
-+    sysbus_realize(SYS_BUS_DEVICE(dev), &error_fatal);
-     sysbus_mmio_map(SYS_BUS_DEVICE(&s->ppu[ppuidx]), 0, addr);
+-    sysbus_init_child_obj(obj, "emmc-controller.sdhci",
+-                          &s->emmc.slots[0], sizeof(s->emmc.slots[0]),
+-                          TYPE_SYSBUS_SDHCI);
++    object_initialize_child(obj, "emmc-controller.sdhci", &s->emmc.slots[0],
++                            TYPE_SYSBUS_SDHCI);
  }
  
-@@ -579,7 +573,7 @@ static void armsse_realize(DeviceState *dev, Error **errp)
-             error_propagate(errp, err);
-             return;
-         }
--        object_property_set_bool(cpuobj, true, "realized", &err);
-+        sysbus_realize(SYS_BUS_DEVICE(cpuobj), &err);
-         if (err) {
-             error_propagate(errp, err);
-             return;
-@@ -815,8 +809,7 @@ static void armsse_realize(DeviceState *dev, Error **errp)
-             int cpunum;
-             SysBusDevice *mhu_sbd = SYS_BUS_DEVICE(&s->mhu[i]);
+ /*
+diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
+index c40839c1fb..d1e48b7a5d 100644
+--- a/hw/arm/aspeed_soc.c
++++ b/hw/arm/aspeed_soc.c
+@@ -208,8 +208,8 @@ static void aspeed_soc_init(Object *obj)
  
--            object_property_set_bool(OBJECT(&s->mhu[i]), true,
--                                     "realized", &err);
-+            sysbus_realize(SYS_BUS_DEVICE(&s->mhu[i]), &err);
-             if (err) {
-                 error_propagate(errp, err);
-                 return;
-diff --git a/hw/arm/armv7m.c b/hw/arm/armv7m.c
-index 6fd672e7d9..5cdd0b9b51 100644
---- a/hw/arm/armv7m.c
-+++ b/hw/arm/armv7m.c
-@@ -141,8 +141,8 @@ static void armv7m_instance_init(Object *obj)
-                               OBJECT(&s->nvic), "num-irq");
- 
-     for (i = 0; i < ARRAY_SIZE(s->bitband); i++) {
--        sysbus_init_child_obj(obj, "bitband[*]", &s->bitband[i],
--                              sizeof(s->bitband[i]), TYPE_BITBAND);
-+        object_initialize_child(obj, "bitband[*]", &s->bitband[i],
-+                                TYPE_BITBAND);
-     }
- }
- 
-@@ -257,7 +257,7 @@ static void armv7m_realize(DeviceState *dev, Error **errp)
-             }
-             object_property_set_link(obj, OBJECT(s->board_memory),
-                                      "source-memory", &error_abort);
--            object_property_set_bool(obj, true, "realized", &err);
-+            sysbus_realize(SYS_BUS_DEVICE(obj), &err);
-             if (err != NULL) {
-                 error_propagate(errp, err);
-                 return;
-diff --git a/hw/arm/microbit.c b/hw/arm/microbit.c
-index 72fab429c4..d20ebd3aad 100644
---- a/hw/arm/microbit.c
-+++ b/hw/arm/microbit.c
-@@ -39,21 +39,21 @@ static void microbit_init(MachineState *machine)
-     Object *soc = OBJECT(&s->nrf51);
-     Object *i2c = OBJECT(&s->i2c);
- 
--    sysbus_init_child_obj(OBJECT(machine), "nrf51", &s->nrf51, sizeof(s->nrf51),
--                          TYPE_NRF51_SOC);
-+    object_initialize_child(OBJECT(machine), "nrf51", &s->nrf51,
-+                            TYPE_NRF51_SOC);
-     qdev_prop_set_chr(DEVICE(&s->nrf51), "serial0", serial_hd(0));
-     object_property_set_link(soc, OBJECT(system_memory), "memory",
-                              &error_fatal);
--    object_property_set_bool(soc, true, "realized", &error_fatal);
-+    sysbus_realize(SYS_BUS_DEVICE(soc), &error_fatal);
- 
-     /*
-      * Overlap the TWI stub device into the SoC.  This is a microbit-specific
-      * hack until we implement the nRF51 TWI controller properly and the
-      * magnetometer/accelerometer devices.
-      */
--    sysbus_init_child_obj(OBJECT(machine), "microbit.twi", &s->i2c,
--                          sizeof(s->i2c), TYPE_MICROBIT_I2C);
--    object_property_set_bool(i2c, true, "realized", &error_fatal);
-+    object_initialize_child(OBJECT(machine), "microbit.twi", &s->i2c,
-+                            TYPE_MICROBIT_I2C);
-+    sysbus_realize(SYS_BUS_DEVICE(i2c), &error_fatal);
-     mr = sysbus_mmio_get_region(SYS_BUS_DEVICE(i2c), 0);
-     memory_region_add_subregion_overlap(&s->nrf51.container, NRF51_TWI_BASE,
-                                         mr, -1);
-diff --git a/hw/arm/xlnx-versal.c b/hw/arm/xlnx-versal.c
-index a27c315a6b..20f0121ab0 100644
---- a/hw/arm/xlnx-versal.c
-+++ b/hw/arm/xlnx-versal.c
-@@ -238,10 +238,10 @@ static void versal_create_rtc(Versal *s, qemu_irq *pic)
-     SysBusDevice *sbd;
-     MemoryRegion *mr;
- 
--    sysbus_init_child_obj(OBJECT(s), "rtc", &s->pmc.rtc, sizeof(s->pmc.rtc),
--                          TYPE_XLNX_ZYNQMP_RTC);
-+    object_initialize_child(OBJECT(s), "rtc", &s->pmc.rtc,
-+                            TYPE_XLNX_ZYNQMP_RTC);
-     sbd = SYS_BUS_DEVICE(&s->pmc.rtc);
--    qdev_init_nofail(DEVICE(sbd));
-+    sysbus_realize(SYS_BUS_DEVICE(sbd), &error_fatal);
- 
-     mr = sysbus_mmio_get_region(sbd, 0);
-     memory_region_add_subregion(&s->mr_ps, MM_PMC_RTC, mr);
-diff --git a/hw/arm/xlnx-zynqmp.c b/hw/arm/xlnx-zynqmp.c
-index 667c11ac8d..446b75a7aa 100644
---- a/hw/arm/xlnx-zynqmp.c
-+++ b/hw/arm/xlnx-zynqmp.c
-@@ -251,8 +251,8 @@ static void xlnx_zynqmp_init(Object *obj)
-     object_initialize_child(obj, "sata", &s->sata, TYPE_SYSBUS_AHCI);
- 
-     for (i = 0; i < XLNX_ZYNQMP_NUM_SDHCI; i++) {
--        sysbus_init_child_obj(obj, "sdhci[*]", &s->sdhci[i],
--                              sizeof(s->sdhci[i]), TYPE_SYSBUS_SDHCI);
-+        object_initialize_child(obj, "sdhci[*]", &s->sdhci[i],
+     /* Init sd card slot class here so that they're under the correct parent */
+     for (i = 0; i < ASPEED_SDHCI_NUM_SLOTS; ++i) {
+-        sysbus_init_child_obj(obj, "sdhci[*]", &s->sdhci.slots[i],
+-                              sizeof(s->sdhci.slots[i]), TYPE_SYSBUS_SDHCI);
++        object_initialize_child(obj, "sdhci[*]", &s->sdhci.slots[i],
 +                                TYPE_SYSBUS_SDHCI);
      }
+ }
  
-     for (i = 0; i < XLNX_ZYNQMP_NUM_SPIS; i++) {
-@@ -530,7 +530,7 @@ static void xlnx_zynqmp_realize(DeviceState *dev, Error **errp)
-             error_propagate(errp, err);
+diff --git a/hw/sd/aspeed_sdhci.c b/hw/sd/aspeed_sdhci.c
+index 6a039a1d2f..538d3bad3d 100644
+--- a/hw/sd/aspeed_sdhci.c
++++ b/hw/sd/aspeed_sdhci.c
+@@ -145,7 +145,7 @@ static void aspeed_sdhci_realize(DeviceState *dev, Error **errp)
              return;
          }
--        object_property_set_bool(sdhci, true, "realized", &err);
-+        sysbus_realize(SYS_BUS_DEVICE(sdhci), &err);
+ 
+-        object_property_set_bool(sdhci_slot, true, "realized", &err);
++        sysbus_realize(sbd_slot, &err);
          if (err) {
              error_propagate(errp, err);
              return;
-diff --git a/hw/cpu/realview_mpcore.c b/hw/cpu/realview_mpcore.c
-index 672d0f8a25..d2e426fa45 100644
---- a/hw/cpu/realview_mpcore.c
-+++ b/hw/cpu/realview_mpcore.c
-@@ -81,7 +81,7 @@ static void realview_mpcore_realize(DeviceState *dev, Error **errp)
-     }
-     /* ??? IRQ routing is hardcoded to "normal" mode.  */
-     for (n = 0; n < 4; n++) {
--        object_property_set_bool(OBJECT(&s->gic[n]), true, "realized", &err);
-+        sysbus_realize(SYS_BUS_DEVICE(&s->gic[n]), &err);
-         if (err != NULL) {
-             error_propagate(errp, err);
-             return;
-@@ -109,8 +109,7 @@ static void mpcore_rirq_init(Object *obj)
-     sysbus_init_mmio(sbd, sysbus_mmio_get_region(privbusdev, 0));
- 
-     for (i = 0; i < 4; i++) {
--        sysbus_init_child_obj(obj, "gic[*]", &s->gic[i], sizeof(s->gic[i]),
--                              TYPE_REALVIEW_GIC);
-+        object_initialize_child(obj, "gic[*]", &s->gic[i], TYPE_REALVIEW_GIC);
-     }
- }
- 
-diff --git a/hw/display/sm501.c b/hw/display/sm501.c
-index 80da8575fe..a7fc08c52b 100644
---- a/hw/display/sm501.c
-+++ b/hw/display/sm501.c
-@@ -1977,7 +1977,7 @@ static void sm501_realize_sysbus(DeviceState *dev, Error **errp)
-     sysbus_pass_irq(sbd, SYS_BUS_DEVICE(usb_dev));
- 
-     /* bridge to serial emulation module */
--    qdev_init_nofail(DEVICE(&s->serial));
-+    sysbus_realize(SYS_BUS_DEVICE(&s->serial), &error_fatal);
-     mr = sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->serial), 0);
-     memory_region_add_subregion(&s->state.mmio_region, SM501_UART0, mr);
-     /* TODO : chain irq to IRL */
-@@ -2023,7 +2023,7 @@ static void sm501_sysbus_init(Object *o)
-     SM501SysBusState *sm501 = SYSBUS_SM501(o);
-     SerialMM *smm = &sm501->serial;
- 
--    sysbus_init_child_obj(o, "serial", smm, sizeof(*smm), TYPE_SERIAL_MM);
-+    object_initialize_child(o, "serial", smm, TYPE_SERIAL_MM);
-     qdev_set_legacy_instance_id(DEVICE(smm), SM501_UART0, 2);
-     qdev_prop_set_uint8(DEVICE(smm), "regshift", 2);
-     qdev_prop_set_uint8(DEVICE(smm), "endianness", DEVICE_LITTLE_ENDIAN);
-diff --git a/hw/intc/armv7m_nvic.c b/hw/intc/armv7m_nvic.c
-index f035079168..af9f4c5a85 100644
---- a/hw/intc/armv7m_nvic.c
-+++ b/hw/intc/armv7m_nvic.c
-@@ -2640,8 +2640,7 @@ static void armv7m_nvic_realize(DeviceState *dev, Error **errp)
- 
-     s->num_prio_bits = arm_feature(&s->cpu->env, ARM_FEATURE_V7) ? 8 : 2;
- 
--    object_property_set_bool(OBJECT(&s->systick[M_REG_NS]), true,
--                             "realized", &err);
-+    sysbus_realize(SYS_BUS_DEVICE(&s->systick[M_REG_NS]), &err);
-     if (err != NULL) {
-         error_propagate(errp, err);
-         return;
-@@ -2735,8 +2734,8 @@ static void armv7m_nvic_instance_init(Object *obj)
-     NVICState *nvic = NVIC(obj);
-     SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
- 
--    sysbus_init_child_obj(obj, "systick-reg-ns", &nvic->systick[M_REG_NS],
--                          sizeof(nvic->systick[M_REG_NS]), TYPE_SYSTICK);
-+    object_initialize_child(obj, "systick-reg-ns", &nvic->systick[M_REG_NS],
-+                            TYPE_SYSTICK);
-     /* We can't initialize the secure systick here, as we don't know
-      * yet if we need it.
-      */
 -- 
 2.26.2
 
