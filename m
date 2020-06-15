@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D9071F9BBE
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 17:17:54 +0200 (CEST)
-Received: from localhost ([::1]:47934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1BC31F9BC5
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 17:19:37 +0200 (CEST)
+Received: from localhost ([::1]:52612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jkqrx-0000mw-KH
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 11:17:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38634)
+	id 1jkqtc-0002lH-Vi
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 11:19:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jkqp9-0005aG-Jp
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 11:14:59 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:59017
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jkqpA-0005bV-MD
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 11:15:00 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:20472
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jkqp8-0008Hr-4B
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 11:14:59 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jkqp8-0008Hw-73
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 11:15:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1592234097;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=dnlXchZBvJOXh+jRt6F3KFOl0R377niWc9RM5c/3UsQ=;
- b=cTHlX+FDcIuWqoEn9wAkC6RWuSxwFkF6UcVFlUO+OF108HYlGp9sxAfkOlM94p5fjN5yL/
- HSHKKme2mOK+XD7FWLtV6T/8Ast0Rikt8an7qocUuRiedjj10KaYyO2l0k+fYYbrk/Hr47
- dHZzg5S6CJsSZCMuyLlAIOKgZNavdE0=
+ references:references; bh=LecwvyP45EHIo/5ojaRVp+ZNZSpf0qxlB4yWhHxuzMQ=;
+ b=bQOocitK/C/AM3XHTitguFUaLG9KP2PutLJa6l6L87sJ3xxEtvsB8CvslFYoTWlYo1UwTb
+ tw50qFMNmcJf287gOv4jFqBBRExypSzUf3OaO4Zy2ixdR1wEWwu3StpOJW13gbzr0PpBTG
+ 9MZge+6xyNVhlvDrXjGwTq4uLOL05ak=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-61-EJMFu99cMVqctWWrGYQedA-1; Mon, 15 Jun 2020 11:14:54 -0400
-X-MC-Unique: EJMFu99cMVqctWWrGYQedA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-320-fyhKSViFM2WLan5fPaXiaw-1; Mon, 15 Jun 2020 11:14:55 -0400
+X-MC-Unique: fyhKSViFM2WLan5fPaXiaw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D8F5A6BF44;
- Mon, 15 Jun 2020 15:14:53 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 541B918A2666;
+ Mon, 15 Jun 2020 15:14:54 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-67.ams2.redhat.com
  [10.36.112.67])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D0A9B1001B2B;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D0A1119C79;
  Mon, 15 Jun 2020 15:14:50 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 87D1A1753C; Mon, 15 Jun 2020 17:14:49 +0200 (CEST)
+ id 90CF91753D; Mon, 15 Jun 2020 17:14:49 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/4] sm501: Drop unneded variable
-Date: Mon, 15 Jun 2020 17:14:47 +0200
-Message-Id: <20200615151449.19818-3-kraxel@redhat.com>
+Subject: [PULL 3/4] sm501: Ignore no-op blits
+Date: Mon, 15 Jun 2020 17:14:48 +0200
+Message-Id: <20200615151449.19818-4-kraxel@redhat.com>
 In-Reply-To: <20200615151449.19818-1-kraxel@redhat.com>
 References: <20200615151449.19818-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=kraxel@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/15 01:17:36
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/15 01:12:36
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -82,44 +82,32 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: BALATON Zoltan <balaton@eik.bme.hu>
 
-We don't need a separate variable to keep track if we allocated memory
-that needs to be freed as we can test the pointer itself.
+Some guests seem to try source copy blits with same source and dest
+which are no-op so avoid calling pixman for these.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Message-id: 7a818701887a77af17995aa062b37f92ffc3d2eb.1591471056.git.balaton@eik.bme.hu
+Message-id: b62681e58108651b2ca0d2fdbde8281e87185dbb.1591471056.git.balaton@eik.bme.hu
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/display/sm501.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ hw/display/sm501.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/hw/display/sm501.c b/hw/display/sm501.c
-index 5ae320ddc325..85d54b598f80 100644
+index 85d54b598f80..3397ca9fbf4c 100644
 --- a/hw/display/sm501.c
 +++ b/hw/display/sm501.c
-@@ -796,13 +796,12 @@ static void sm501_2d_operation(SM501State *s)
-             de = db + width + height * (width + dst_pitch);
-             if (rtl && ((db >= sb && db <= se) || (de >= sb && de <= se))) {
-                 /* regions may overlap: copy via temporary */
--                int free_buf = 0, llb = width * (1 << format);
-+                int llb = width * (1 << format);
-                 int tmp_stride = DIV_ROUND_UP(llb, sizeof(uint32_t));
-                 uint32_t *tmp = tmp_buf;
- 
-                 if (tmp_stride * sizeof(uint32_t) * height > sizeof(tmp_buf)) {
-                     tmp = g_malloc(tmp_stride * sizeof(uint32_t) * height);
--                    free_buf = 1;
-                 }
-                 pixman_blt((uint32_t *)&s->local_mem[src_base], tmp,
-                            src_pitch * (1 << format) / sizeof(uint32_t),
-@@ -813,7 +812,7 @@ static void sm501_2d_operation(SM501State *s)
-                            dst_pitch * (1 << format) / sizeof(uint32_t),
-                            8 * (1 << format), 8 * (1 << format),
-                            0, 0, dst_x, dst_y, width, height);
--                if (free_buf) {
-+                if (tmp != tmp_buf) {
-                     g_free(tmp);
-                 }
-             } else {
+@@ -788,6 +788,11 @@ static void sm501_2d_operation(SM501State *s)
+                               (rop2_source_is_pattern ?
+                                   " with pattern source" : ""));
+             }
++            /* Ignore no-op blits, some guests seem to do this */
++            if (src_base == dst_base && src_pitch == dst_pitch &&
++                src_x == dst_x && src_y == dst_y) {
++                break;
++            }
+             /* Check for overlaps, this could be made more exact */
+             uint32_t sb, se, db, de;
+             sb = src_base + src_x + src_y * (width + src_pitch);
 -- 
 2.18.4
 
