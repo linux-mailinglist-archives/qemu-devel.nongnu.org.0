@@ -2,81 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C71191F94B5
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 12:38:34 +0200 (CEST)
-Received: from localhost ([::1]:59842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49AFE1F94BA
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 12:39:59 +0200 (CEST)
+Received: from localhost ([::1]:36056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jkmVd-0003if-Sa
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 06:38:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52284)
+	id 1jkmX0-0005YH-2z
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 06:39:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52470)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jkmSr-0007YK-Jd
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 06:35:41 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:42247
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jkmTq-0000a5-9x
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 06:36:42 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:53903
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jkmSp-0007H1-Mg
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 06:35:41 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jkmTo-0007RQ-Gd
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 06:36:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592217338;
+ s=mimecast20190719; t=1592217399;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0TdNeUFrgdnxc067dpUc6dq6R6Ay3YvPU+WKCInzAo4=;
- b=JvTMiMIzOQ0Lwz/GHag/iWdfPjupNxwM/eLaYq1p43OMTyEdnxSwIv6BjVb+BySjTn8b9Y
- MBwg9AWnM3QOdp9wN8MTstktQOI5SyQXhYQyEJqyvWW8WOCa0JbsqA7EJK70z8nuGC2QWL
- nOKudgmGZv2NX2jKCYuhIuGT0mVpkQM=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-186-i8EHCIVxPt22uH0Znctgxg-1; Mon, 15 Jun 2020 06:35:37 -0400
-X-MC-Unique: i8EHCIVxPt22uH0Znctgxg-1
-Received: by mail-wm1-f71.google.com with SMTP id p24so6515846wmc.1
- for <qemu-devel@nongnu.org>; Mon, 15 Jun 2020 03:35:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=0TdNeUFrgdnxc067dpUc6dq6R6Ay3YvPU+WKCInzAo4=;
- b=Ya+9uvdPIIvzKf/IPjLRVIM6Z7taWWrni2vvIKnVt9Fk7HRy9d+vhE9ilJJ14zBsFq
- /zaIRSN3UfJ+M+Wfz7v2e/wGEOXC9dTJC8J4kSFwnC4bMNkT7+blprAnHOGjPObapfDZ
- cIXojYnmUcyqkLeV9nAlvvSmAPU4F6/MOzZa/l03dhM7kZ4QqZCWYSRIe4Ur04WG7hd0
- VqRG39C1/SEsecwV78lizS14eH1QNzVj09qgHkNyq+WHwZ/vW6Wi6JB3UNyUd+Iwhb3d
- 6RlZG7Tzw8pbht6lRyCj9JeGyhASDIFsPF7VF8Uytvb0GBvv1PGpMkf51m0+1kbBTEJD
- sqXw==
-X-Gm-Message-State: AOAM5320zC0mO1riMxJclVpRfotogZvTskYefXhFOhlpsZPc2nNlYWxp
- KdR8kWdhxU3Jifl09Fty20apg8fL2psehZ6/uMjuVrbcnsKvEF4wN9vXJiD3zVfA0LG4V6Qwd8g
- 1SJn+04LvrD1T/ws=
-X-Received: by 2002:a05:6000:120b:: with SMTP id
- e11mr28312335wrx.107.1592217335604; 
- Mon, 15 Jun 2020 03:35:35 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz635h8fZF/aEc9mIj2mUzTOHcb6Kll2rIgjSg+sygCRyo2m9t/m62wol35ZR0PjIRj5KhHJA==
-X-Received: by 2002:a05:6000:120b:: with SMTP id
- e11mr28312319wrx.107.1592217335358; 
- Mon, 15 Jun 2020 03:35:35 -0700 (PDT)
-Received: from localhost.localdomain
- (181.red-88-10-103.dynamicip.rima-tde.net. [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id y5sm24794213wrs.63.2020.06.15.03.35.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Jun 2020 03:35:34 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org,
-	Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH v9 5/5] crypto/tls-cipher-suites: Produce fw_cfg consumable
- blob
-Date: Mon, 15 Jun 2020 12:34:57 +0200
-Message-Id: <20200615103457.25282-6-philmd@redhat.com>
-X-Mailer: git-send-email 2.21.3
-In-Reply-To: <20200615103457.25282-1-philmd@redhat.com>
-References: <20200615103457.25282-1-philmd@redhat.com>
+ content-transfer-encoding:content-transfer-encoding;
+ bh=WQhkqdS6EaGMQv+B05yQexMyipgFg0KRPPWB3xIi5G0=;
+ b=D+k8lhQ5pjVNtSXY96Tx/FhKLeKiumPUJJVxx98PUj+qBgzJrF0mjSC7yUoGOm9U4fo5kZ
+ 55ar3sCFPQ33wKASb/zPVWcoS8JWdSH05+oBoHvDVSbhaeZy4t5dNmN6MUgYruxuMvnLGW
+ t1KUsusDu7f8v8QpFoJebHw43IPTFAM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-116-F8wV5614PnS3Vp_i7bq_9w-1; Mon, 15 Jun 2020 06:36:36 -0400
+X-MC-Unique: F8wV5614PnS3Vp_i7bq_9w-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9557E1009442
+ for <qemu-devel@nongnu.org>; Mon, 15 Jun 2020 10:36:35 +0000 (UTC)
+Received: from localhost.localdomain.com (unknown [10.36.110.57])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BA5835D9CC;
+ Mon, 15 Jun 2020 10:36:34 +0000 (UTC)
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL v2 0/5] Qcrypto next patches
+Date: Mon, 15 Jun 2020 11:36:28 +0100
+Message-Id: <20200615103633.300208-1-berrange@redhat.com>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8;
-	text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/15 01:12:36
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -86,7 +61,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,103 +74,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Laszlo Ersek <lersek@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since our format is consumable by the fw_cfg device,
-we can implement the FW_CFG_DATA_GENERATOR interface.
-
-Acked-by: Laszlo Ersek <lersek@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
-v9: Fixed typos in qemu-options.hx (lersek)
----
- crypto/tls-cipher-suites.c | 19 +++++++++++++++++++
- qemu-options.hx            | 18 ++++++++++++++++++
- 2 files changed, 37 insertions(+)
-
-diff --git a/crypto/tls-cipher-suites.c b/crypto/tls-cipher-suites.c
-index f02a041f9a..d6ea0ed190 100644
---- a/crypto/tls-cipher-suites.c
-+++ b/crypto/tls-cipher-suites.c
-@@ -14,6 +14,7 @@
- #include "qemu/error-report.h"
- #include "crypto/tlscreds.h"
- #include "crypto/tls-cipher-suites.h"
-+#include "hw/nvram/fw_cfg.h"
- #include "trace.h"
- 
- static void parse_cipher_suites(QCryptoTLSCipherSuites *s,
-@@ -99,11 +100,28 @@ static void qcrypto_tls_cipher_suites_finalize(Object *obj)
-     g_free(s->cipher_list);
- }
- 
-+static const void *qcrypto_tls_cipher_suites_get_data(Object *obj)
-+{
-+    QCryptoTLSCipherSuites *s = QCRYPTO_TLS_CIPHER_SUITES(obj);
-+
-+    return s->cipher_list;
-+}
-+
-+static size_t qcrypto_tls_cipher_suites_get_length(Object *obj)
-+{
-+    QCryptoTLSCipherSuites *s = QCRYPTO_TLS_CIPHER_SUITES(obj);
-+
-+    return s->cipher_count * sizeof(IANA_TLS_CIPHER);
-+}
-+
- static void qcrypto_tls_cipher_suites_class_init(ObjectClass *oc, void *data)
- {
-     UserCreatableClass *ucc = USER_CREATABLE_CLASS(oc);
-+    FWCfgDataGeneratorClass *fwgc = FW_CFG_DATA_GENERATOR_CLASS(oc);
- 
-     ucc->complete = qcrypto_tls_cipher_suites_complete;
-+    fwgc->get_data = qcrypto_tls_cipher_suites_get_data;
-+    fwgc->get_length = qcrypto_tls_cipher_suites_get_length;
- }
- 
- static const TypeInfo qcrypto_tls_cipher_suites_info = {
-@@ -115,6 +133,7 @@ static const TypeInfo qcrypto_tls_cipher_suites_info = {
-     .class_init = qcrypto_tls_cipher_suites_class_init,
-     .interfaces = (InterfaceInfo[]) {
-         { TYPE_USER_CREATABLE },
-+        { TYPE_FW_CFG_DATA_GENERATOR_INTERFACE },
-         { }
-     }
- };
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 4f519f35fd..ce54c7359c 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -4585,6 +4585,24 @@ SRST
-         string as described at
-         https://gnutls.org/manual/html_node/Priority-Strings.html.
- 
-+        An example of use of this object is to control UEFI HTTPS Boot.
-+        The tls-cipher-suites object exposes the ordered list of permitted
-+        TLS cipher suites from the host side to the guest firmware, via
-+        fw_cfg. The list is represented as an array of IANA_TLS_CIPHER
-+        objects. The firmware uses the IANA_TLS_CIPHER array for configuring
-+        guest-side TLS.
-+
-+        In the following example, the priority at which the host-side policy
-+        is retrieved is given by the ``priority`` property.
-+        Given that QEMU uses GNUTLS, ``priority=@SYSTEM`` may be used to
-+        refer to /etc/crypto-policies/back-ends/gnutls.config.
-+
-+        .. parsed-literal::
-+
-+             # |qemu_system| \
-+                 -object tls-cipher-suites,id=mysuite0,priority=@SYSTEM \
-+                 -fw_cfg name=etc/edk2/https/ciphers,gen_id=mysuite0
-+
-     ``-object filter-buffer,id=id,netdev=netdevid,interval=t[,queue=all|rx|tx][,status=on|off][,position=head|tail|id=<id>][,insert=behind|before]``
-         Interval t can't be 0, this filter batches the packet delivery:
-         all packets arriving in a given interval on netdev netdevid are
--- 
-2.21.3
+The following changes since commit 7d3660e79830a069f1848bb4fa1cdf8f666424fb=
+:=0D
+=0D
+  Merge remote-tracking branch 'remotes/bonzini/tags/for-upstream' into sta=
+gi=3D=0D
+ng (2020-06-12 23:06:22 +0100)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  https://github.com/berrange/qemu tags/qcrypto-next-pull-request=0D
+=0D
+for you to fetch changes up to d6cca8e111696fbbd7c233dc53f9c80b6a43359d:=0D
+=0D
+  crypto: Remove use of GCRYPT_VERSION macro. (2020-06-15 11:33:51 +0100)=0D
+=0D
+----------------------------------------------------------------=0D
+Misc crypto subsystem fixes=0D
+=0D
+* Improve error message for large files when creating LUKS volumes=0D
+* Expand crypto hash benchmark coverage=0D
+* Misc code refactoring with no functional change=0D
+=0D
+----------------------------------------------------------------=0D
+=0D
+Alexey Krasikov (3):=0D
+  crypto/secret: move main logic from 'secret' to 'secret_common'.=0D
+  crypto/linux_keyring: add 'secret_keyring' secret object.=0D
+  test-crypto-secret: add 'secret_keyring' object tests.=0D
+=0D
+Marek Marczykowski-G=3DC3=3DB3recki (1):=0D
+  crypto: add "none" random provider=0D
+=0D
+Richard W.M. Jones (1):=0D
+  crypto: Remove use of GCRYPT_VERSION macro.=0D
+=0D
+ configure                       |  80 +++++++=0D
+ crypto/Makefile.objs            |   5 +-=0D
+ crypto/init.c                   |   2 +-=0D
+ crypto/random-none.c            |  38 +++=0D
+ crypto/secret.c                 | 347 +--------------------------=0D
+ crypto/secret_common.c          | 403 ++++++++++++++++++++++++++++++++=0D
+ crypto/secret_keyring.c         | 148 ++++++++++++=0D
+ include/crypto/secret.h         |  20 +-=0D
+ include/crypto/secret_common.h  |  68 ++++++=0D
+ include/crypto/secret_keyring.h |  52 +++++=0D
+ tests/Makefile.include          |   4 +=0D
+ tests/test-crypto-secret.c      | 158 +++++++++++++=0D
+ 12 files changed, 966 insertions(+), 359 deletions(-)=0D
+ create mode 100644 crypto/random-none.c=0D
+ create mode 100644 crypto/secret_common.c=0D
+ create mode 100644 crypto/secret_keyring.c=0D
+ create mode 100644 include/crypto/secret_common.h=0D
+ create mode 100644 include/crypto/secret_keyring.h=0D
+=0D
+--=3D20=0D
+2.26.2=0D
+=0D
 
 
