@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C76E1FA00C
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 21:15:44 +0200 (CEST)
-Received: from localhost ([::1]:48104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BAD01FA00F
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 21:16:36 +0200 (CEST)
+Received: from localhost ([::1]:52392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jkua7-0003XI-F2
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 15:15:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42604)
+	id 1jkuax-0005Mv-8L
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 15:16:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42642)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1jkuYn-00029s-9m
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 15:14:21 -0400
-Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:43843)
+ (Exim 4.90_1) (envelope-from <devnexen@gmail.com>)
+ id 1jkuZB-0002r6-S6; Mon, 15 Jun 2020 15:14:45 -0400
+Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:33428)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1jkuYl-0002LU-Mo
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 15:14:21 -0400
-Received: by mail-ej1-x644.google.com with SMTP id l12so18615886ejn.10
- for <qemu-devel@nongnu.org>; Mon, 15 Jun 2020 12:14:19 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <devnexen@gmail.com>)
+ id 1jkuZA-0002Nn-7h; Mon, 15 Jun 2020 15:14:45 -0400
+Received: by mail-ej1-x642.google.com with SMTP id n24so18692541ejd.0;
+ Mon, 15 Jun 2020 12:14:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=9T1ZQ5GQfs/AcJrUBF3eCnp3mZyd8on0S4n1RgtchD0=;
- b=f1YJc5QzHXyIX7Wb0c8OUj7gX4infv+Tmk12naZin4G3t8vr+JrV9NfVwFFN8XdE9Y
- 8AolABwNpCeLL/mHvoSPOddi19fYsiSo5SHKjMm8iN27E0230gJbfg8xE71E4hsPQmJV
- 5wDLqxZU2y/EQpiAcKmOMoX+TruNFd9zdPw6iPusRu5FmijwA/4J04iVmd4D1fEkWqCG
- PAuCIweb8Bly0emiCufMhhEE1O87a/MixzKDs9qL85/e2ocNe3mRn60FaQCaHwCi0sBS
- qrkAZFTTqw7WCGu5KunpxpA3YqLoQzedzaArH1Fq+FG7J3ajHDw66BiRQKsKWx1UQl5M
- sxhw==
+ :cc; bh=/PZIkwcwhzhRlZneTkXlf5lYswFN8eMJy20kuMcHczQ=;
+ b=N6pGZGjMLmUd8/7oYFH71fWWfLS242QkfYDwYOvXgZcDNDivjTEnzQ7Yu7dxZobn/u
+ h1LHoPMGVAXhDA0FQYncQB6o5QuXLcJ+TY40PoXahYWrEnnRu3ykANuUXWHpqNx3Fouo
+ Io37MJNqMiEGJ3UYUMoKmXvIooNRcMtZHjKIARPu7eR9kE2+OREZZKOT926UXFBLPQ3Y
+ 9ke/LdGnInMO7S5wzbfAZ4quIOl3W0/nOZ9q6PjaZ7Cw+NAdRuA6Jz2CPR4TGKG4GLxa
+ B8rgwwtQovauan0SXjA65SX2cK882iXtZGMvzERw7+bTtCDUbviBriEIY09nxRWZPDBH
+ cMPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=9T1ZQ5GQfs/AcJrUBF3eCnp3mZyd8on0S4n1RgtchD0=;
- b=poFlCpQb69KZxBBH0H+ReWNF1/6oP5bXL7vHpTGBdGnnWU5xJwKw2hCOPVg8XefMoD
- b5NWUtDH0WQ87VRCxiCe4/WV7NExy1O6xDsCbSvP3+CLYKEug90cqve79WUdB8r3090s
- vqGdWEiHbfg3lXJE6w6GlY68nhPrH8IYyigfm7j+P1+xm76569Nb50muEqoZC+W6KtBy
- m3khzu1NJTpnl79jSSFpPcPLqOrKTzzf5/y6cTAj6P+iaoL2p4APA6sECQu5TfcWmBYw
- 1gNm1dNV1eCyHdQoufUnhiEwvchbqdY5zV6STW0/E75uXr5oiSzr++XxEzyC8TZAHeyU
- vl/Q==
-X-Gm-Message-State: AOAM530smRLkVH12U5SUmt15QZOh0A/6kBpSWi7hzT3pU+YtEf+/nVde
- RWLzCyxp+AqhAu5JyF/GrpX+W7F8vEHKHWnUGz4=
-X-Google-Smtp-Source: ABdhPJzxT70RtRHlJjHbbhTcTXm6zcWDIMmob9MSOa9DyESOLWomzNhLLxYNRpV9rx/aX2vawtPLLXyoM1OsL4mEKEA=
-X-Received: by 2002:a17:906:ae14:: with SMTP id
- le20mr26316986ejb.307.1592248458506; 
- Mon, 15 Jun 2020 12:14:18 -0700 (PDT)
+ bh=/PZIkwcwhzhRlZneTkXlf5lYswFN8eMJy20kuMcHczQ=;
+ b=qxCgio2otgdgjetnqfzG23ZmTMNdEIKsIkH3GspMpbUCPvfhXYQ2afSgMgfm0CbSva
+ w72OygljhdB8MZZkIQx1T3sqN06x8Q2JrwVO/OragrLd/Nbz/+1JCdsjncTwkTmTL32P
+ 9ScOieABz8RZuKZ1vWDcKdMEfS49Gk+D7qMuOTl9CnQ2XjCuT7eNKNJk7eNR0ei+7dN1
+ tiLAUt3SeOqFPanmFr0dWUCIiIqUBQto+5SDgQ1uzfSpH/BZ6ln6sbMjlpOv8mLEii88
+ UzR7UCMvUGfS2k0STh+kigC2WH9HCL/kJeI3/4nK8NPIjoOH3h/9be51ltlXUmWguf4a
+ rDHQ==
+X-Gm-Message-State: AOAM5320eHVWYfCdo0e3ZVZbp2jVX+SD9VeJjrD/OvqHFv4oiumKTEFC
+ Qqqx+RunrKyIYprc4ymn/Rqrw4OgsdTnB4DHgHEnxj40g0Wshw==
+X-Google-Smtp-Source: ABdhPJyDiEuHYyBUunRhB6tFTqeb9Bbr6c8MrjsAVdZdQiAaNg7APqQmo0IKLa23truTii9VAe3jWuWIWVJC2vcBAT0=
+X-Received: by 2002:a17:907:35c2:: with SMTP id
+ ap2mr25570720ejc.530.1592248482466; 
+ Mon, 15 Jun 2020 12:14:42 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200613152133.8964-1-aleksandar.qemu.devel@gmail.com>
-In-Reply-To: <20200613152133.8964-1-aleksandar.qemu.devel@gmail.com>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Mon, 15 Jun 2020 21:14:07 +0200
-Message-ID: <CAL1e-=iz6t_Q41Me-d+4SJjWd7QeUyiEDa9TWcRunh8CQppsjA@mail.gmail.com>
-Subject: Re: [PATCH v8 00/14] target/mips: MSA,
- FPU and other cleanups and improvements
-To: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+References: <CA+XhMqyzW=ah4Q=OCE9KP6DYpiQN18oQpVWjqFCvzQfH3MvQFA@mail.gmail.com>
+ <CAFEAcA_e_0rFWGU2VtN3270sUhssHwe0eEgqb-U2Qq-HQKGLWA@mail.gmail.com>
+In-Reply-To: <CAFEAcA_e_0rFWGU2VtN3270sUhssHwe0eEgqb-U2Qq-HQKGLWA@mail.gmail.com>
+From: David CARLIER <devnexen@gmail.com>
+Date: Mon, 15 Jun 2020 20:14:31 +0100
+Message-ID: <CA+XhMqwe5ro+hw9=rVHuXb+7PhbCuU6jEOi=UOJzXu44E1Q8Cw@mail.gmail.com>
+Subject: Re: [PATCH v3] util/oslib-posix: : qemu_init_exec_dir implementation
+ for Mac
+To: Peter Maydell <peter.maydell@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::644;
- envelope-from=aleksandar.m.mail@gmail.com; helo=mail-ej1-x644.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::642;
+ envelope-from=devnexen@gmail.com; helo=mail-ej1-x642.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -80,77 +79,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aleksandar.rikalo@syrmia.com, QEMU Developers <qemu-devel@nongnu.org>
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>, qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Jun 13, 2020 at 5:22 PM Aleksandar Markovic
-<aleksandar.qemu.devel@gmail.com> wrote:
->
-> This series contains some patches that split heprers in msa_helper.c.
-> It will make easier for debugging tools to display involved source
-> code, and also introduces some modest performance improvements gains
-> for all involved MSA instructions.
->
+With this basic program
 
-Applied to MIPS+misc queue.
+#include <mach-o/dyld.h>
+#include <stdio.h>
 
-> v7->v8:
+int main(void)
+{
+char buf[4096];
+uint32_t bufsize = sizeof(buf);
+_NSGetExecutablePath(buf, &bufsize);
+printf("%s\n", buf);
+return 0;
+}
+
+I get
+
+Davids-MacBook-Pro-2:Contribs dcarlier$ ./a.out
+/Users/dcarlier/Contribs/./a.out
+
+The cast was to avoid possible warning with pedantic compile flags if used.
+
+On Mon, 15 Jun 2020 at 20:05, Peter Maydell <peter.maydell@linaro.org> wrote:
 >
->   - added six new demacroing patches
+> On Mon, 15 Jun 2020 at 18:06, David CARLIER <devnexen@gmail.com> wrote:
+> >
+> > From dfa1e900dd950f4d3fca17fbf5d3dfb5725c83fa Mon Sep 17 00:00:00 2001
+> > From: David Carlier <devnexen@gmail.com>
+> > Date: Tue, 26 May 2020 21:35:27 +0100
+> > Subject: [PATCH] util/oslib-posix : qemu_init_exec_dir implementation for Mac
+> >
+> > Using dyld API to get the full path of the current process.
+> >
+> > Signed-off-by: David Carlier <devnexen@gmail.com>
 >
-> v6->v7:
+> > +#elif defined(__APPLE__)
+> > +    {
+> > +        uint32_t len = (uint32_t)sizeof(buf);
 >
->   - excluded patches that have been already upstreamed
->   - added six new demacroing patches
+> Why do we need the cast?
 >
-> v5->v6:
+> > +        if (_NSGetExecutablePath(buf, &len) == 0) {
+> > +            buf[len - 1] = 0;
+> > +            p = buf;
+> > +        }
+> > +    }
 >
->   - excluded a patch that was included by mistake
+> What does this return if you start QEMU with a relative
+> path (eg "./qemu-system-x86_64") ?  The documentation
+> suggests that you need to call realpath() to resolve that kind
+> of relative path.
 >
-> v4->v5:
+> Did you try the test I suggested with checking that this
+> actually does return something different from argv[0] ?
 >
->   - corrected some spelling and style mistakes in commit messages
->   - added changing MAINTAINERS too while renaming files
->   - added two patches on splitting helpers in msa_helper.c
->
-> v3->v4:
->
->   - corrected some spelling and style mistakes in commit messages
->   - added a patch on renaming some files in hw/mips
->
-> v2->v3:
->
->   - changed Malta patch to perform logging
->   - added change of Aleksandar Rikalo's email
->
-> v1->v2:
->
->   - added more demacroing
->
-> Aleksandar Markovic (14):
->   target/mips: msa: Split helpers for MADDV.<B|H|W|D>
->   target/mips: msa: Split helpers for MSUBV.<B|H|W|D>
->   target/mips: msa: Split helpers for DPADD_S.<H|W|D>
->   target/mips: msa: Split helpers for DPADD_U.<H|W|D>
->   target/mips: msa: Split helpers for DPSUB_S.<H|W|D>
->   target/mips: msa: Split helpers for DPSUB_U.<H|W|D>
->   target/mips: msa: Split helpers for DOTP_S.<H|W|D>
->   target/mips: msa: Split helpers for DOTP_U.<H|W|D>
->   target/mips: msa: Split helpers for SUBS_S.<B|H|W|D>
->   target/mips: msa: Split helpers for SUBS_U.<B|H|W|D>
->   target/mips: msa: Split helpers for SUBSUS_U.<B|H|W|D>
->   target/mips: msa: Split helpers for SUBSUU_S.<B|H|W|D>
->   target/mips: msa: Split helpers for SUBV.<B|H|W|D>
->   target/mips: msa: Split helpers for MULV.<B|H|W|D>
->
->  target/mips/helper.h     |   73 ++-
->  target/mips/msa_helper.c | 1296 ++++++++++++++++++++++++++++++--------
->  target/mips/translate.c  |  200 +++++-
->  3 files changed, 1271 insertions(+), 298 deletions(-)
->
-> --
-> 2.20.1
->
->
+> thanks
+> -- PMM
 
