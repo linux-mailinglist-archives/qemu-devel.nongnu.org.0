@@ -2,58 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 986BA1F9338
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 11:22:07 +0200 (CEST)
-Received: from localhost ([::1]:58072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B1D01F9349
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 11:24:32 +0200 (CEST)
+Received: from localhost ([::1]:34682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jklJe-0004cK-MN
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 05:22:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34478)
+	id 1jklLz-0006fR-EU
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 05:24:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jklIL-0003Id-MN
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 05:20:45 -0400
-Received: from 6.mo177.mail-out.ovh.net ([46.105.51.249]:52956)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jklIJ-0002WI-Eh
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 05:20:45 -0400
-Received: from player735.ha.ovh.net (unknown [10.110.115.178])
- by mo177.mail-out.ovh.net (Postfix) with ESMTP id BCEB61383D0
- for <qemu-devel@nongnu.org>; Mon, 15 Jun 2020 11:20:39 +0200 (CEST)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player735.ha.ovh.net (Postfix) with ESMTPSA id 5BDE61322C2EB;
- Mon, 15 Jun 2020 09:20:32 +0000 (UTC)
-Authentication-Results: garm.ovh; auth=pass
- (GARM-100R00314af2b3d-e0f8-42ef-981f-506da9b1af67,F1BB0E26B38E3581C3F8E07DA172D6E56B46BED4)
- smtp.auth=groug@kaod.org
-Date: Mon, 15 Jun 2020 11:20:31 +0200
-From: Greg Kurz <groug@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [PATCH v3 4/4] spapr: Forbid nested KVM-HV in pre-power9 compat
- mode
-Message-ID: <20200615112031.679512c3@bahia.lan>
-In-Reply-To: <20200613071804.GE5861@umbus.fritz.box>
-References: <159188280345.70166.14940592691021389043.stgit@bahia.lan>
- <159188283391.70166.16995399489383620172.stgit@bahia.lan>
- <20200613071804.GE5861@umbus.fritz.box>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jklLB-0006D1-9n
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 05:23:41 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:41979)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jklL9-0002vq-Jf
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 05:23:40 -0400
+Received: by mail-ot1-x343.google.com with SMTP id k15so12570856otp.8
+ for <qemu-devel@nongnu.org>; Mon, 15 Jun 2020 02:23:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=OIYbvPwuZZGUSDw606KOMKG7AO1nw+7ti0rK9vhyemE=;
+ b=WACv8GLdP96zHgOChXgFWWiPKYq2KRAfZlzkNHU2Wz6lFs6NMbVXRc4v46YoyMxmMD
+ YeZt38QIJRmFoO5zSmDnIBsX/u1JmC4SIdYdaR2H0J7DWWlpt8lwt8eqDeq6G6oVz27t
+ 3ABzAHjX3uVBc7vkq4mtikZorUrTcahsEcip0sKQpJdROwBXgoWanPWlGK4E04fMyPE7
+ QmQwz8P5DodgLNAWvv+VsKJnaq4ZkL9YynsVdCLVzfnzX1HXusCfJ+rK5AFMrS/l7Wwm
+ ms5AeA2pOfldbR77Dt9IkQgMUd5qFYzkIjwPTGg54WSHdX17AolMystVbgNNhOs+mrIh
+ nSKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=OIYbvPwuZZGUSDw606KOMKG7AO1nw+7ti0rK9vhyemE=;
+ b=LFp+bvkrJY13JVZils4ErDRIg7QE0/RL0usHxLIQMfS4055nIFedV+4kNMozGWQ2RU
+ nDwUAuu554DK8h/An3MTMm1+zwHbWl6Ogwmfal7WoD9U19L0+ZcJBIJ68IrEpBJiu0mK
+ CqTzUFm/B45vPT0KXHRqflvkKXNRkPJ3Ptj04zKkoIdiNOH1KrYxzyVPlBpjQMxFxGt6
+ BQwLHuKPCpEOGWoIH3ENyuW56ExPpnGEvH5TYzYe+OvCqVaVt7Aa8SvhOf/fdrUs8+zd
+ o7Mkm3zpzgZ2Eug+i87njC5cMj3ispR6ef4SqvTvJ5i4nDV7ici43o2opyFU+9IgU3e9
+ aMoQ==
+X-Gm-Message-State: AOAM532GSEO/C8DMP7p6uby3hsrCp/EN4E6HwJG4ADGS+uNVtq+/Mp3i
+ +yabigjd+37T37fU8ey9XzodEFFNw44/wchrpuGeYQ==
+X-Google-Smtp-Source: ABdhPJykjuLLOabi23mGZO9j/OC0nZpKUckuVphKqegDuPWlmbTCsn1RZoq1pveGwfEuwQdkhiqfDSwpu2YgpVNtieE=
+X-Received: by 2002:a9d:67d6:: with SMTP id c22mr19766919otn.221.1592213017925; 
+ Mon, 15 Jun 2020 02:23:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/bhc.XnphqwxV_EGbMcqL.6o";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-Ovh-Tracer-Id: 4424505161592510950
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduhedrudeikedgudegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtsehgtderreertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeggfekuddvuddtgfekkeejleegjeffheduuefhledtteeftdfhffdtgfegiefhvdenucfkpheptddrtddrtddrtddpkedvrddvheefrddvtdekrddvgeeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeefhedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
-Received-SPF: pass client-ip=46.105.51.249; envelope-from=groug@kaod.org;
- helo=6.mo177.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/15 05:20:40
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+References: <20200614034729.3004-1-jiaxun.yang@flygoat.com>
+ <CAHiYmc5haGPCxR4Nr-WmL_4PG48F+dqeJLzvVRHjcoBZKykr8Q@mail.gmail.com>
+ <CAFEAcA_dBdns09k=kxpc=OqpYK3FJH=DZCx2+FgpqnKh_6Oxkg@mail.gmail.com>
+ <9a3f44fc-d279-c003-a8f6-0771e86cc3d0@flygoat.com>
+In-Reply-To: <9a3f44fc-d279-c003-a8f6-0771e86cc3d0@flygoat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 15 Jun 2020 10:23:27 +0100
+Message-ID: <CAFEAcA8f3TsKz7qK00c-ert+cNGEo6gsN_MYmSSmFBWkbJnWDQ@mail.gmail.com>
+Subject: Re: [PATCH] target/mips: Fix PageMask with variable page size
+To: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::343;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x343.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,109 +83,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
+Cc: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ "aleksandar.rikalo@syrmia.com" <aleksandar.rikalo@syrmia.com>,
+ "aurelien@aurel32.net" <aurelien@aurel32.net>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/bhc.XnphqwxV_EGbMcqL.6o
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On Mon, 15 Jun 2020 at 10:17, Jiaxun Yang <jiaxun.yang@flygoat.com> wrote:
+>
+>
+>
+> =E5=9C=A8 2020/6/15 17:13, Peter Maydell =E5=86=99=E9=81=93:
+> > On Sun, 14 Jun 2020 at 22:52, Aleksandar Markovic
+> > <aleksandar.qemu.devel@gmail.com> wrote:
+> >> When you change machine.c the way you did it, you need to bump the ver=
+sion. Please see git log on machine.c for details.
+> >
+> >>> --- a/target/mips/cpu.h
+> >>> +++ b/target/mips/cpu.h
+> >>> @@ -617,7 +617,8 @@ struct CPUMIPSState {
+> >>>   /*
+> >>>    * CP0 Register 5
+> >>>    */
+> >>> -    int32_t CP0_PageMask;
+> >>> +    target_ulong CP0_PageMask;
+> >>> +#define CP0PM_MASK 13
+> >
+> > Does CP0_PageMask ever actually hold a value that won't fit
+> > in an int32_t? If not, it might be preferable to avoid changing
+> > its type to avoid the migration compat break, even if MIPS
+> > doesn't have any versioned boards where we have a strict
+> > don't-break-compat promise to users.
+>
+> In Release2, PageMask was extended to 64bit on MIPS64 processors.
+>
+> Is it necessary to follow that?
 
-On Sat, 13 Jun 2020 17:18:04 +1000
-David Gibson <david@gibson.dropbear.id.au> wrote:
+Ah, I see. I'd assumed that you were only fixing the
+variable-page-size change (which shouldn't require a
+change in the type), but as Aleksandar says you've
+mixed in a new feature implementation in the same commit
+(which from what you're saying does need the type to change).
+If the new feature means the register is now 64 bits then
+it is possible to implement this in a migration-compatible
+way by using a vmstate subsection; I'll leave it up to
+Aleksandar whether that complexity is something that makes
+sense for MIPS targets or if it's better to just break migration
+compat by bumping the version.
 
-> On Thu, Jun 11, 2020 at 03:40:33PM +0200, Greg Kurz wrote:
-> > Nested KVM-HV only works on POWER9.
-> >=20
-> > Signed-off-by: Greg Kurz <groug@kaod.org>
-> > Reviewed-by: Laurent Vivier <lvivier@redhat.com>
->=20
-> Hrm.  I have mixed feelings about this.  It does bring forward an
-> error that we'd otherwise only discover when we try to load the kvm
-> module in the guest.
->=20
-> On the other hand, it's kind of a layering violation - really it's
-> KVM's business to report what it can and can't do, rather than having
-> qemu anticipate it.
->=20
-
-Agreed and it seems that we can probably get KVM to report that
-already. I'll have closer look.
-
-> Allowing POWER8 compat for an L2 is something we hope to have in the
-> fairly near future.
-
-Ok but I guess we don't want to start an L2 in compat POWER8 mode
-with cap-nested-hv=3Don, do we ?
-
->  Allowing POWER8 compat for L1, which is what this
-> covers, is, I'll admit, likely to never happen.
->=20
->=20
-> > ---
-> >  HW/ppc/spapr_caps.c |   10 ++++++++++
-> >  1 file changed, 10 insertions(+)
-> >=20
-> > diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
-> > index 27cf2b38af27..dfe3b419daaa 100644
-> > --- a/hw/ppc/spapr_caps.c
-> > +++ b/hw/ppc/spapr_caps.c
-> > @@ -391,6 +391,8 @@ static void cap_nested_kvm_hv_apply(SpaprMachineSta=
-te *spapr,
-> >                                      uint8_t val, Error **errp)
-> >  {
-> >      ERRP_AUTO_PROPAGATE();
-> > +    PowerPCCPU *cpu =3D POWERPC_CPU(first_cpu);
-> > +
-> >      if (!val) {
-> >          /* capability disabled by default */
-> >          return;
-> > @@ -400,6 +402,14 @@ static void cap_nested_kvm_hv_apply(SpaprMachineSt=
-ate *spapr,
-> >          error_setg(errp, "No Nested KVM-HV support in TCG");
-> >          error_append_hint(errp, "Try appending -machine cap-nested-hv=
-=3Doff\n");
-> >      } else if (kvm_enabled()) {
-> > +        if (!ppc_check_compat(cpu, CPU_POWERPC_LOGICAL_3_00, 0,
-> > +                              spapr->max_compat_pvr)) {
-> > +            error_setg(errp, "Nested KVM-HV only supported on POWER9");
-> > +            error_append_hint(errp,
-> > +                              "Try appending -machine max-cpu-compat=
-=3Dpower9\n");
-> > +            return;
-> > +        }
-> > +
-> >          if (!kvmppc_has_cap_nested_kvm_hv()) {
-> >              error_setg(errp,
-> >                         "KVM implementation does not support Nested KVM=
--HV");
-> >=20
-> >=20
->=20
-
-
---Sig_/bhc.XnphqwxV_EGbMcqL.6o
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEtIKLr5QxQM7yo0kQcdTV5YIvc9YFAl7nPV8ACgkQcdTV5YIv
-c9b9zA/+IMyWq7i/6dGh1rrB43Id9XOymPMSQrEWyPcajQgeo1arruBMbHZTcj3T
-J1z+3oE7eYtuQ0nnOlHIA+g+xJ5NqyyJjM95yg3Lfw3cxLupWBmTzFixfcTmtR+F
-ZvCUM0sbASJbUNw70YhSwwC+ZRsDwBiYhKuswpVZC27eCceQXnBkMGpdVsCYPMkI
-l3bfGbpk1fK4uhy09YJnNS4hcHiRM/5d1PYsGlEbksaxu6fGHz8EIkuySPU4p/DP
-kLvzA3fAHSQy9E4YPmFnWwu+QEj9TMcUUw4tWaFOYR44OFuQx3xZNQqaNVTeLFpt
-Hv97DKrlwu2+cFCK7Z8M31YHtZ7vATuz8v+fv6HDq5wVVAfNFkQgs4fGMHIX+peD
-4CJH72lnd7MINZNMED0qlk+e/wmtFk9hjPKHnzruX4heX0BHeMLKZEW2DU1OlrvB
-mJulpNheKoRxmTxS0F0+Bbm4S0hULeyWhBCK7a3hGDDKRHLDQ6DSMxEU8BEhmjCM
-NVnz4uT7cAJLQjVciq5ty9w40l+c4rQ7lUr0tMGh0u6qcVVNCXUQRLoLOk8FyxWc
-E1SwM1b7bK5Q0aeXLNJY8k/84rNZkQxWesDqrWflGZw3xcIbVdNVYPKFfkO74QpE
-+UWGwui6gnXbsBN7ngWsiRVoi6hJma7GPz3Zo3odcR9x0r1R284=
-=sgJO
------END PGP SIGNATURE-----
-
---Sig_/bhc.XnphqwxV_EGbMcqL.6o--
+thanks
+-- PMM
 
