@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DFA41FA1FB
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 22:50:16 +0200 (CEST)
-Received: from localhost ([::1]:39550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 422821FA21D
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 22:55:04 +0200 (CEST)
+Received: from localhost ([::1]:57800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jkw3b-0008GX-9Z
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 16:50:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33348)
+	id 1jkw8F-0007cm-7m
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 16:55:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jkvuD-0002pp-9p
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 16:40:33 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:33344
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jkvuQ-0003Bh-Aj
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 16:40:46 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:21876
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jkvu9-0000WT-Lq
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 16:40:32 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jkvuL-0000a4-7l
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 16:40:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592253628;
+ s=mimecast20190719; t=1592253640;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rGCVW4ESeLdcfgzX3rF5C8oGVI+kf/w1G8V504FaLlg=;
- b=W/XR0VZhY4R19kaJEZOS0c7Cq53qBELtzEtk9gMBu8ZunBPpPvV4HfmRiUDbNbbiRk7rdi
- ReuzFr/0QUUakfd0Png+Mdjv/8FJ63El7Ty9no2miCmbLcSYnOOJK4n/pWUi9vcvKcGxCa
- wwbvHLrC8EuL8n4Ui4HqOUrGG9MySDI=
+ bh=oR1WaFlgSz7otVXYZILJaYZbow/8lwVGgDarldA7V4w=;
+ b=FLBNk2O24JTDnXqVN0DmXZDQLn8A+E2HCiXMobM5eTKiWzyjOkacBwbbO42CYjm9VUsIeu
+ yYJ3Ig8KygmlOlhQ1uKAJkiuXgh8Qm+kujZyNQNWHwW8YHEncoJZwNBOHEazBCg50p/cRS
+ +rA9MXBuSRfWrQYBioDjIiTHGo0ELM0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-346-8SJ1SclwP32xX4SegiIaHA-1; Mon, 15 Jun 2020 16:40:27 -0400
-X-MC-Unique: 8SJ1SclwP32xX4SegiIaHA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-391-vacT-XU0OJO-86u47qeY3w-1; Mon, 15 Jun 2020 16:40:37 -0400
+X-MC-Unique: vacT-XU0OJO-86u47qeY3w-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 70B91100CCC4
- for <qemu-devel@nongnu.org>; Mon, 15 Jun 2020 20:40:26 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1F69E100CCC2;
+ Mon, 15 Jun 2020 20:40:36 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-121.ams2.redhat.com
  [10.36.112.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9F58390337;
- Mon, 15 Jun 2020 20:40:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2D1AD707C6;
+ Mon, 15 Jun 2020 20:40:28 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 7A8BB1135228; Mon, 15 Jun 2020 22:40:08 +0200 (CEST)
+ id 82DAD1135232; Mon, 15 Jun 2020 22:40:08 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 27/84] qdev: Rename qbus_realize() to qbus_init()
-Date: Mon, 15 Jun 2020 22:39:11 +0200
-Message-Id: <20200615204008.3069956-28-armbru@redhat.com>
+Subject: [PULL 29/84] Revert "hw/versatile: realize the PCI root bus as part
+ of the versatile init"
+Date: Mon, 15 Jun 2020 22:39:13 +0200
+Message-Id: <20200615204008.3069956-30-armbru@redhat.com>
 In-Reply-To: <20200615204008.3069956-1-armbru@redhat.com>
 References: <20200615204008.3069956-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/15 15:33:00
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/15 15:33:04
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,52 +81,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-qbus_realize() does not actually realize.  Rename it to qbus_init().
+This reverts commit b1af7959a66610669e1a019b9a84f6ed3a7936c6.
 
+Realizing a device automatically realizes its buses, in
+device_set_realized().  Realizing them in realize methods is
+redundant, unless the methods themselves require them to be realized
+early.  pci_vpb_realize() doesn't.  Drop the redundant bus
+realization.
+
+Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Cc: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20200610053247.1583243-2-armbru@redhat.com>
+Message-Id: <20200610053247.1583243-4-armbru@redhat.com>
 ---
- hw/core/bus.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ hw/pci-host/versatile.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/hw/core/bus.c b/hw/core/bus.c
-index 50924793ac..33a4443217 100644
---- a/hw/core/bus.c
-+++ b/hw/core/bus.c
-@@ -95,7 +95,7 @@ static void bus_reset_child_foreach(Object *obj, ResettableChildCallback cb,
+diff --git a/hw/pci-host/versatile.c b/hw/pci-host/versatile.c
+index 8ddfb8772a..ea7390c6fa 100644
+--- a/hw/pci-host/versatile.c
++++ b/hw/pci-host/versatile.c
+@@ -459,7 +459,6 @@ static void pci_vpb_realize(DeviceState *dev, Error **errp)
      }
+ 
+     /* TODO Remove once realize propagates to child devices. */
+-    object_property_set_bool(OBJECT(&s->pci_bus), true, "realized", errp);
+     object_property_set_bool(OBJECT(&s->pci_dev), true, "realized", errp);
  }
  
--static void qbus_realize(BusState *bus, DeviceState *parent, const char *name)
-+static void qbus_init(BusState *bus, DeviceState *parent, const char *name)
- {
-     const char *typename = object_get_typename(OBJECT(bus));
-     BusClass *bc;
-@@ -151,7 +151,7 @@ void qbus_create_inplace(void *bus, size_t size, const char *typename,
-                          DeviceState *parent, const char *name)
- {
-     object_initialize(bus, size, typename);
--    qbus_realize(bus, parent, name);
-+    qbus_init(bus, parent, name);
- }
- 
- BusState *qbus_create(const char *typename, DeviceState *parent, const char *name)
-@@ -159,7 +159,7 @@ BusState *qbus_create(const char *typename, DeviceState *parent, const char *nam
-     BusState *bus;
- 
-     bus = BUS(object_new(typename));
--    qbus_realize(bus, parent, name);
-+    qbus_init(bus, parent, name);
- 
-     return bus;
- }
 -- 
 2.26.2
 
