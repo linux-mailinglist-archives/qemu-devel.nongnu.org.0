@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AFDF1FA292
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 23:12:56 +0200 (CEST)
-Received: from localhost ([::1]:60526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEA051FA2A0
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 23:16:58 +0200 (CEST)
+Received: from localhost ([::1]:45114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jkwPX-0007hm-6R
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 17:12:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33956)
+	id 1jkwTR-0004uj-SV
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 17:16:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33866)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jkvuf-0003YJ-Lu
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 16:41:01 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:44632
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jkvuc-0003Rg-5c
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 16:40:58 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:25673
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jkvua-0000gv-2d
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 16:41:01 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jkvuO-0000b1-HY
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 16:40:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592253651;
+ s=mimecast20190719; t=1592253643;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vyJJny2n+uv4N9Ypg1gW88LQd4WLpK2YY9vPs+d/TRA=;
- b=aqD3Q8ND/q8SK3Hvpkh1KGDstP0I11yO4XsayH8V28TSAIHZlm+ZOQR0NP1eGmrF09zeS5
- Fmiojjs9D+iZCx5zBKXbzTOKL7nBPiiVzSgt32GwJXE5sHNhauJ5XVDvjMKQaCEF+8h4Mc
- gmKlnZs13rEX6arcWVbFRSEe0nhosu0=
+ bh=yxcJnCB9rRHBXYbCL/83fd+HkaWIm6s8ntlJLUm8dkE=;
+ b=FvZapfJCMJrNpE7LGOUJOX8hA963H5s2qQT5LayuSQ0UQ60UwyVtlpVdGpg8dJyBGEOwnu
+ gEAg2fJDNx4WxlOzqA4yhOI8iwmEjXTMDhBNsJ4ap6nIclOKG28a+efEKBsmXg1EumrmlJ
+ i4gKf96XXNdYIQ4KpJicT2OMPC0C4eU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-99-OgafaLUTOC-vc7BRXjbXtg-1; Mon, 15 Jun 2020 16:40:49 -0400
-X-MC-Unique: OgafaLUTOC-vc7BRXjbXtg-1
+ us-mta-131-CcOvjASXN_CfN6iR02NkPw-1; Mon, 15 Jun 2020 16:40:41 -0400
+X-MC-Unique: CcOvjASXN_CfN6iR02NkPw-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 38FAA1091325
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E0C4F1091329
  for <qemu-devel@nongnu.org>; Mon, 15 Jun 2020 20:40:40 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-121.ams2.redhat.com
  [10.36.112.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0AA0E5D9CD;
- Mon, 15 Jun 2020 20:40:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B1CC35D9CD;
+ Mon, 15 Jun 2020 20:40:40 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 936BE113523F; Mon, 15 Jun 2020 22:40:08 +0200 (CEST)
+ id A663C1135251; Mon, 15 Jun 2020 22:40:08 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 34/84] qdev: Convert to qdev_unrealize() manually
-Date: Mon, 15 Jun 2020 22:39:18 +0200
-Message-Id: <20200615204008.3069956-35-armbru@redhat.com>
+Subject: [PULL 38/84] qdev: Convert uses of qdev_set_parent_bus() manually
+Date: Mon, 15 Jun 2020 22:39:22 +0200
+Message-Id: <20200615204008.3069956-39-armbru@redhat.com>
 In-Reply-To: <20200615204008.3069956-1-armbru@redhat.com>
 References: <20200615204008.3069956-1-armbru@redhat.com>
 MIME-Version: 1.0
@@ -85,49 +85,99 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Same transformation as in the previous commit.  Manual, because
+convincing Coccinelle to transform these cases is somewhere between
+not worthwhile and infeasible (at least for me).
+
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20200610053247.1583243-9-armbru@redhat.com>
+Message-Id: <20200610053247.1583243-13-armbru@redhat.com>
 ---
- include/hw/qdev-core.h | 1 -
- hw/core/qdev.c         | 4 ++--
- 2 files changed, 2 insertions(+), 3 deletions(-)
+ hw/pci-host/prep.c |  3 +--
+ hw/ppc/pnv.c       |  6 ++----
+ hw/s390x/sclp.c    | 10 ++++------
+ 3 files changed, 7 insertions(+), 12 deletions(-)
 
-diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-index fba29308f7..be6f7c4736 100644
---- a/include/hw/qdev-core.h
-+++ b/include/hw/qdev-core.h
-@@ -328,7 +328,6 @@ void qdev_init_nofail(DeviceState *dev);
- bool qdev_realize(DeviceState *dev, BusState *bus, Error **errp);
- bool qdev_realize_and_unref(DeviceState *dev, BusState *bus, Error **errp);
- void qdev_unrealize(DeviceState *dev);
--
- void qdev_set_legacy_instance_id(DeviceState *dev, int alias_id,
-                                  int required_for_version);
- HotplugHandler *qdev_get_bus_hotplug_handler(DeviceState *dev);
-diff --git a/hw/core/qdev.c b/hw/core/qdev.c
-index b7355fbcd0..4768244f31 100644
---- a/hw/core/qdev.c
-+++ b/hw/core/qdev.c
-@@ -421,7 +421,7 @@ static void device_reset_child_foreach(Object *obj, ResettableChildCallback cb,
- void qdev_simple_device_unplug_cb(HotplugHandler *hotplug_dev,
-                                   DeviceState *dev, Error **errp)
- {
--    object_property_set_bool(OBJECT(dev), false, "realized", &error_abort);
-+    qdev_unrealize(dev);
+diff --git a/hw/pci-host/prep.c b/hw/pci-host/prep.c
+index fc01a294a4..a5550d1221 100644
+--- a/hw/pci-host/prep.c
++++ b/hw/pci-host/prep.c
+@@ -268,7 +268,7 @@ static void raven_pcihost_realizefn(DeviceState *d, Error **errp)
+     memory_region_add_subregion(address_space_mem, 0xbffffff0, &s->pci_intack);
+ 
+     /* TODO Remove once realize propagates to child devices. */
+-    object_property_set_bool(OBJECT(&s->pci_dev), true, "realized", errp);
++    qdev_realize(DEVICE(&s->pci_dev), BUS(&s->pci_bus), errp);
  }
  
- /*
-@@ -1183,7 +1183,7 @@ static void device_unparent(Object *obj)
-     BusState *bus;
+ static void raven_pcihost_initfn(Object *obj)
+@@ -308,7 +308,6 @@ static void raven_pcihost_initfn(Object *obj)
  
-     if (dev->realized) {
--        object_property_set_bool(obj, false, "realized", &error_abort);
-+        qdev_unrealize(dev);
-     }
-     while (dev->num_child_bus) {
-         bus = QLIST_FIRST(&dev->child_bus);
+     object_initialize(&s->pci_dev, sizeof(s->pci_dev), TYPE_RAVEN_PCI_DEVICE);
+     pci_dev = DEVICE(&s->pci_dev);
+-    qdev_set_parent_bus(pci_dev, BUS(&s->pci_bus));
+     object_property_set_int(OBJECT(&s->pci_dev), PCI_DEVFN(0, 0), "addr",
+                             NULL);
+     qdev_prop_set_bit(pci_dev, "multifunction", false);
+diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+index 8562af3fe0..e0588285a2 100644
+--- a/hw/ppc/pnv.c
++++ b/hw/ppc/pnv.c
+@@ -1212,12 +1212,11 @@ static void pnv_chip_power8_realize(DeviceState *dev, Error **errp)
+         object_property_set_int(OBJECT(phb), i, "index", &error_fatal);
+         object_property_set_int(OBJECT(phb), chip->chip_id, "chip-id",
+                                 &error_fatal);
+-        object_property_set_bool(OBJECT(phb), true, "realized", &local_err);
++        qdev_realize(DEVICE(phb), NULL, &local_err);
+         if (local_err) {
+             error_propagate(errp, local_err);
+             return;
+         }
+-        qdev_set_parent_bus(DEVICE(phb), sysbus_get_default());
+ 
+         /* Populate the XSCOM address space. */
+         pnv_xscom_add_subregion(chip,
+@@ -1422,12 +1421,11 @@ static void pnv_chip_power9_phb_realize(PnvChip *chip, Error **errp)
+             object_property_set_int(obj, PNV_PHB4_DEVICE_ID, "device-id",
+                                     &error_fatal);
+             object_property_set_link(obj, OBJECT(stack), "stack", &error_abort);
+-            object_property_set_bool(obj, true, "realized", &local_err);
++            qdev_realize(DEVICE(obj), NULL, &local_err);
+             if (local_err) {
+                 error_propagate(errp, local_err);
+                 return;
+             }
+-            qdev_set_parent_bus(DEVICE(obj), sysbus_get_default());
+ 
+             /* Populate the XSCOM address space. */
+             pnv_xscom_add_subregion(chip,
+diff --git a/hw/s390x/sclp.c b/hw/s390x/sclp.c
+index 20aca30ac4..40e27a8cb4 100644
+--- a/hw/s390x/sclp.c
++++ b/hw/s390x/sclp.c
+@@ -333,17 +333,15 @@ static void sclp_realize(DeviceState *dev, Error **errp)
+     uint64_t hw_limit;
+     int ret;
+ 
+-    object_property_set_bool(OBJECT(sclp->event_facility), true, "realized",
+-                             &err);
+-    if (err) {
+-        goto out;
+-    }
+     /*
+      * qdev_device_add searches the sysbus for TYPE_SCLP_EVENTS_BUS. As long
+      * as we can't find a fitting bus via the qom tree, we have to add the
+      * event facility to the sysbus, so e.g. a sclp console can be created.
+      */
+-    qdev_set_parent_bus(DEVICE(sclp->event_facility), sysbus_get_default());
++    qdev_realize(DEVICE(sclp->event_facility), NULL, &err);
++    if (err) {
++        goto out;
++    }
+ 
+     ret = s390_set_memory_limit(machine->maxram_size, &hw_limit);
+     if (ret == -E2BIG) {
 -- 
 2.26.2
 
