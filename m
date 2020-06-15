@@ -2,111 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E98D1FA2D2
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 23:33:10 +0200 (CEST)
-Received: from localhost ([::1]:50002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C089B1FA36A
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 00:23:09 +0200 (CEST)
+Received: from localhost ([::1]:37040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jkwj7-0005Wb-4p
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 17:33:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38678)
+	id 1jkxVU-0001sb-3w
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 18:23:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tobias.koch@nonterra.com>)
- id 1jkwNY-0006dm-9b
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 17:10:52 -0400
-Received: from mail-eopbgr20050.outbound.protection.outlook.com
- ([40.107.2.50]:10567 helo=EUR02-VE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tobias.koch@nonterra.com>)
- id 1jkwNW-0005NW-3Y
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 17:10:51 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SFXJytWBxsO7OZp4ZLxy1nxL5GOX8j9WPKEulPX/qXvqN8/SLXNlELam7/EEszZ28ldZur/2sqLlrhSHxJZbK2ra05+UpKQv6M+oUpnbQ1OA9XcuNSyxLn5+t0oXJm9DpOuglvO607zG2FCSLpCGnfZ1q8XVu2O1MlOKYGh/2aESfTzk3I0D4aKBZSF/ko7q0f9NNbOcQRq2BhY+lFH4V3+bpOmiD5jg3SI1BD3JTrlUJ5CnmTzwKXkDm7J7DQg+wANnFKGPWWHBCDn9vFBkFVTuS+w7rY2rZ9lBQX5k5tXY/Ho38nM6o4P2d9TstrZjpekidWwlT9pDEKP0KpgI4Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pz9kXdUzbEoFDb8Yb+XvF8rn4Ks9VKGkKOPyfK0hVB4=;
- b=NB1243EfI/ZKP7X89nr1/7b/z3shg98uTbLmCOcH8ItkiAvDVcu/e5jAeJy8Co9iIg3Zh1OmnibLCa80YYxtKtaXOZSvDgUm621KHSqPcPY2Oev46FaJ3G04eyPz1ZDBA2UUMJGlSLCY2IBNWgwwkPiMo1MCVWYBr1JRAaDxMYqsFAIaZBvSva9Z7LTJL0HeB5LV3WWEjcWHc34CtYB9OKR2O5w1GpPcAD8ujee8cafDRU4axSFJo+voPX5c0Dw+46r1iUz3rQ6vcDM+ViGMu1DblhBPouQAIrjKIui30Ct0rq7ev+ePZHUZkc8LKg6EL9S5bi2q2b3kNa/PeH8iXQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nonterra.com; dmarc=pass action=none header.from=nonterra.com;
- dkim=pass header.d=nonterra.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=nonterra01.onmicrosoft.com; s=selector2-nonterra01-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pz9kXdUzbEoFDb8Yb+XvF8rn4Ks9VKGkKOPyfK0hVB4=;
- b=mDB3rHtps38rBGupEoF6dqZxb0LIQqIWa1Ds9IW4/EfOP3LNcL0fqikdEPE40crhreOydpQDXYEYe2cqOweQ0AvuTfbxsAF/n8ZENQVVBESHAIio8Gs3hFZm/0tBmXU1BQgClNKET+F+4opg1zgxoJNicJPkjiF3SGYOvum5hA8=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=nonterra.com;
-Received: from AM6PR08MB3302.eurprd08.prod.outlook.com (2603:10a6:209:41::10)
- by AM6PR08MB3734.eurprd08.prod.outlook.com (2603:10a6:20b:82::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3088.23; Mon, 15 Jun
- 2020 21:10:46 +0000
-Received: from AM6PR08MB3302.eurprd08.prod.outlook.com
- ([fe80::c484:b59d:1164:8055]) by AM6PR08MB3302.eurprd08.prod.outlook.com
- ([fe80::c484:b59d:1164:8055%7]) with mapi id 15.20.3088.029; Mon, 15 Jun 2020
- 21:10:46 +0000
-Subject: Re: [PATCH] linux-user: mremap fails with EFAULT if address range
- overlaps with stack guard
-From: Tobias Koch <tobias.koch@nonterra.com>
-To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
-References: <20200305210534.28392-1-tobias.koch@nonterra.com>
- <d643f0d0-d5e7-d1f3-d3e2-7d62661774e8@vivier.eu>
- <3c9dffdf-b4be-d17c-730d-5a65665b3eac@nonterra.com>
- <d58a375c-42a0-a1a6-8970-e4aefa5a646b@nonterra.com>
-Message-ID: <768e88f1-0f0f-10d8-08e1-0b6137c210d6@nonterra.com>
-Date: Tue, 16 Jun 2020 00:10:44 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
-In-Reply-To: <d58a375c-42a0-a1a6-8970-e4aefa5a646b@nonterra.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-ClientProxiedBy: ZR0P278CA0018.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:16::28) To AM6PR08MB3302.eurprd08.prod.outlook.com
- (2603:10a6:209:41::10)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1jkxUR-0001Rx-UE
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 18:22:04 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:20554
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1jkxUP-0007lY-0E
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 18:22:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1592259718;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4HFqGT+7zPl4lMO9MT5+kJlksbGfjAfEoiqkOEnm5aY=;
+ b=TH7HztRbnBTR838mJhomU4mMResyEENtpx6yanknOA/+CSWcFkg71dO4BhMY/6LZZciRO8
+ rgV7L+eXdwePxW8sVIUIn09W0415lKPoKZDDlViDfzheUzUCDu4jxWsKGopoiFvIIrrw9T
+ FLgGPD9hWEGdN/094tEGy14PEI/kCR4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-70-y1WDkzy1OKSUo9CfHYVYcw-1; Mon, 15 Jun 2020 18:21:54 -0400
+X-MC-Unique: y1WDkzy1OKSUo9CfHYVYcw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 75DC8800EBB
+ for <qemu-devel@nongnu.org>; Mon, 15 Jun 2020 22:21:53 +0000 (UTC)
+Received: from localhost (ovpn-114-100.phx2.redhat.com [10.3.114.100])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 26A755C1C3;
+ Mon, 15 Jun 2020 22:21:53 +0000 (UTC)
+Date: Mon, 15 Jun 2020 18:21:52 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH v3 0/3] python/machine.py: refactor shutdown
+Message-ID: <20200615222152.GT2366737@habkost.net>
+References: <20200604195252.20739-1-jsnow@redhat.com>
+ <8bd27ec8-1bb6-45e2-a43a-7e0229065414@redhat.com>
+ <4012de28-5837-889a-eda1-b9957cbbbad1@redhat.com>
+ <5d20012b-923c-0bf4-232d-272977087fe3@redhat.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.181.119] (85.203.15.71) by
- ZR0P278CA0018.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:16::28) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3088.21 via Frontend Transport; Mon, 15 Jun 2020 21:10:45 +0000
-X-Originating-IP: [85.203.15.71]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: f8175b76-67d1-42bb-99d5-08d811709240
-X-MS-TrafficTypeDiagnostic: AM6PR08MB3734:
-X-Microsoft-Antispam-PRVS: <AM6PR08MB37346F430D65999F703B3A6C899C0@AM6PR08MB3734.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6108;
-X-Forefront-PRVS: 04359FAD81
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: UGTAawBepUKfwY1xv1u3H3oBnqzABuyEvfmYk9Da+idUiRqMTyJ44XgeBcmWt5g3t5DLHCYAEnpz+2HiAr/WVhgkolmWlZLO60AFx2/xqdjmg5gthwdKeLkdyxQOqnXJYBSR9XsplS0A7JZq9gtlK8ZV5jq+bRndgGZXSfESg0ojGauWEHNjyIbtWMl2Mcmt3zI/q9NXUw7ly3gnwF1fBLF0dor44VWNH6D4R2fB7tpDxBd/oD26uGrGbTRgxCRJRx5M2K5v56wZd3WWjzTyAKqcdTa3ZGfvEo0DH2CaLD2ASHm7klKcOBzI/+IDwKFVTv6Hd9e3yVPkHXWDyEDUbLMwx+/BZflfegUxRK9issXu9B2nMHdGBheGewe2yCLBTLbLLkUgjO8aD3LZivduV2rfwjNwwHYzLIc8zRrQi8TGNcRm4CBWpfnt6W+fdxqFJHRgg2zZzLNPj34PuW96HA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM6PR08MB3302.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(39830400003)(366004)(136003)(396003)(376002)(346002)(508600001)(36756003)(55236004)(53546011)(52116002)(31686004)(8676002)(16526019)(16576012)(26005)(186003)(956004)(2616005)(316002)(2906002)(8936002)(5660300002)(83380400001)(66556008)(66476007)(6486002)(86362001)(66574014)(31696002)(66946007)(966005)(44832011)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: 0QwNfTxuZBxNs4s+RSohfz1j0lKPNl/9mJNcDzPDsvDheNJ8zhDzL7NC1mi0DIX1eIv/KE6/aajkYFrT9shCZJXFc9I6yr3Y6h9E5Jmear6ibO9ivjfVwX/r9tyW26+46JwpIEJdDcoqBkHyR++3Vs8bjTJir0E0TjiGk4HMoB9eoBZfuOpj/87zLfCmbXG9Oaih4dzafJPEAO6+pyAL+fE1f5WmRYT0QMMqw/3HfY0iWveh6iebrsFqyW+SjTIg25p3fgN4EvpxOWwn2MDrX7L4Eu4HqSyRoeF/5NILhZsdmEkUWCFcNeNAmnLEL8TMRPslKJtxmulA8Oh3r7MXhMBND6HXR/pOKsd3+wdRBXVKMfplTcGYvrbFy2RTXsV/DYcC8gA3S0VW0x5LofMapoCMBU0BYoQJBRaeHOg9HWUjLSuMj8piMtivGkSfG2Z/SCWKGpGHBabsh63jheHotLEG4Bq6bGr16yM6qrjnV4w=
-X-OriginatorOrg: nonterra.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f8175b76-67d1-42bb-99d5-08d811709240
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jun 2020 21:10:46.1561 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 76ec9478-ab84-4eac-917c-c1a3242376a3
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gaa/u9f2RtIUi0lxdu+jznaIilgShkupYO+fpgcbRkfHWvz9qYZzZU6Xddt66AJAgMCddCjTfmC+S+lGBSRB4sVP9PzNLqZzXF5Mn/ytYpo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3734
-Received-SPF: pass client-ip=40.107.2.50;
- envelope-from=tobias.koch@nonterra.com;
- helo=EUR02-VE1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/15 17:10:47
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -35
-X-Spam_score: -3.6
+In-Reply-To: <5d20012b-923c-0bf4-232d-272977087fe3@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: 8bit
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/15 16:38:57
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
 X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-1, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001,
+ WEIRD_PORT=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -119,46 +84,209 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: kwolf@redhat.com, Markus Armbruster <armbru@redhat.com>,
+ John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ok, so according to the manpage, mremap generates EFAULT when "the range old_address to old_address+old_size is an
-invalid virtual memory address for this process". This is what the kernel does for the stack guard. However, the
-mappings in setup_arg_pages() will only ever provoke an ENOMEM, because there is no artifical way to turn a page into an
-invalid address. So as long as target bits >= host bits, this works as expected and EFAULT is generated, because then
-mremap is basically passed through and the kernel responds directly. But when reserved_va is set, this needs to be
-special-cased to fake kernel behavior.
+On Mon, Jun 15, 2020 at 05:21:18PM +0200, Philippe Mathieu-Daudé wrote:
+> On 6/9/20 11:55 PM, John Snow wrote:
+> > 
+> > 
+> > On 6/9/20 9:08 AM, Philippe Mathieu-Daudé wrote:
+> >> Hi John,
+> >>
+> >> On 6/4/20 9:52 PM, John Snow wrote:
+> >>> v3:
+> >>>  - Split _post_shutdown refactor into own patch (now 1/3)
+> >>>  - Re-add sigkill warning squelch (now 3/3)
+> >>>
+> >>> NOTE: I re-added the squelch in its own patch for review purposes, but
+> >>> for the purposes of avoiding temporary breakage, a maintainer may wish
+> >>> to squash patches 2 and 3 if they are accepted.
+> >>>
+> >>> v2: Philippe took patches 1, 3 and 4.
+> >>>
+> >>> This is a re-write of what was:
+> >>> [PATCH RFC 03/32] python//machine.py: remove bare except
+> >>> [PATCH 2/4] python/machine.py: remove bare except
+> >>>
+> >>> It's a bit heavier handed, but it should address some of kwolf's
+> >>> feedback from the RFC version.
+> >>>
+> >>> Applies straight to origin/master, ought to pass pylint and flake8:
+> >>>
+> >>>> cd ~/src/qemu/python/qemu
+> >>>> pylint *.py
+> >>>> flake8 *.py
+> >>>
+> >>> John Snow (3):
+> >>>   python/machine.py: consolidate _post_shutdown()
+> >>>   python/machine.py: refactor shutdown
+> >>>   python/machine.py: re-add sigkill warning suppression
+> >>>
+> >>>  python/qemu/machine.py | 100 +++++++++++++++++++++++++++++------------
+> >>>  1 file changed, 71 insertions(+), 29 deletions(-)
+> >>>
+> >>
+> >> I'm now seeing this error:
+> >>
+> >> 21:31:58 DEBUG| / # reboot
+> >> 21:32:01 DEBUG| / # reboot: Restarting system
+> >> 21:32:01 DEBUG| >>> {'execute': 'quit'}
+> >> 21:32:01 WARNI| qemu received signal 9; command:
+> >> "mips-softmmu/qemu-system-mips -display none -vga none -chardev
+> >> socket,id=mon,path=/tmp/tmp679upvrk/qemu-10292-monitor.sock -mon
+> >> chardev=mon,mode=control -machine malta -chardev
+> >> socket,id=console,path=/tmp/tmp679upvrk/qemu-10292-console.sock,server,nowait
+> >> -serial chardev:console -kernel
+> >> /tmp/avocado_b3aaagr9/avocado_job_5bj0xe1h/12-tests_acceptance_boot_linux_console.py_BootLinuxConsole.test_mips_malta_cpio/boot/vmlinux-4.5.0-2-4kc-malta
+> >> -initrd
+> >> /tmp/avocado_b3aaagr9/avocado_job_5bj0xe1h/12-tests_acceptance_boot_linux_console.py_BootLinuxConsole.test_mips_malta_cpiorootfs.cpio
+> >> -append printk.time=0 console=ttyS0 console=tty rdinit=/sbin/init
+> >> noreboot -no-reboot"
+> >> 21:32:01 ERROR|
+> >> 21:32:01 ERROR| Reproduced traceback from:
+> >> /home/travis/build/philmd/qemu/build/tests/venv/lib/python3.6/site-packages/avocado/core/test.py:886
+> >> 21:32:01 ERROR| Traceback (most recent call last):
+> >> 21:32:01 ERROR|   File
+> >> "/home/travis/build/philmd/qemu/build/tests/acceptance/avocado_qemu/__init__.py",
+> >> line 195, in tearDown
+> >> 21:32:01 ERROR|     vm.shutdown()
+> >> 21:32:01 ERROR|   File
+> >> "/home/travis/build/philmd/qemu/python/qemu/machine.py", line 449, in
+> >> shutdown
+> >> 21:32:01 ERROR|     self._do_shutdown(has_quit)
+> >> 21:32:01 ERROR|   File
+> >> "/home/travis/build/philmd/qemu/python/qemu/machine.py", line 426, in
+> >> _do_shutdown
+> >> 21:32:01 ERROR|     self._soft_shutdown(has_quit, timeout)
+> >> 21:32:01 ERROR|   File
+> >> "/home/travis/build/philmd/qemu/python/qemu/machine.py", line 413, in
+> >> _soft_shutdown
+> >> 21:32:01 ERROR|     self._qmp.cmd('quit')
+> >> 21:32:01 ERROR|   File
+> >> "/home/travis/build/philmd/qemu/python/qemu/qmp.py", line 271, in cmd
+> >> 21:32:01 ERROR|     return self.cmd_obj(qmp_cmd)
+> >> 21:32:01 ERROR|   File
+> >> "/home/travis/build/philmd/qemu/python/qemu/qmp.py", line 249, in cmd_obj
+> >> 21:32:01 ERROR|     self.__sock.sendall(json.dumps(qmp_cmd).encode('utf-8'))
+> >> 21:32:01 ERROR| BrokenPipeError: [Errno 32] Broken pipe
+> >> 21:32:01 ERROR|
+> >> 21:32:01 DEBUG| DATA (filename=output.expected) => NOT FOUND (data
+> >> sources: variant, test, file)
+> >> 21:32:01 DEBUG| DATA (filename=stdout.expected) => NOT FOUND (data
+> >> sources: variant, test, file)
+> >> 21:32:01 DEBUG| DATA (filename=stderr.expected) => NOT FOUND (data
+> >> sources: variant, test, file)
+> >> 21:32:01 DEBUG| Not logging /var/log/syslog (lack of permissions)
+> >> 21:32:01 ERROR| ERROR
+> >> 12-tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_mips_malta_cpio
+> >> -> TestSetupFail: [Errno 32] Broken pipe
+> >> 21:32:01 INFO |
+> >>
+> >> https://travis-ci.org/github/philmd/qemu/jobs/696142277#L5329
+> >>
+> > 
+> > Gotcha.
+> > 
+> > The problem here is that `test_mips_malta_cpio` in boot_linux_console.py
+> > does this:
+> > 
+> >         self.vm.add_args('-kernel', kernel_path,
+> >                          '-initrd', initrd_path,
+> >                          '-append', kernel_command_line,
+> >                          '-no-reboot')
+> > 
+> > and then:
+> > 
+> > exec_command_and_wait_for_pattern(self, 'reboot',
+> >                          'reboot: Restarting system')
+> > 
+> > and (in avocado_qemu/) __init__.py does this:
+> > 
+> >     def tearDown(self):
+> >         for vm in self._vms.values():
+> >             vm.shutdown()
+> > 
+> > 
+> > 
+> > What's happening here is that we are instructing QEMU to *close* when
+> > the guest reboots instead of allowing it to reboot. Then, we are issuing
+> > a reboot command to the guest, which will effectively terminate QEMU as
+> > well. Finally, we are trying to send a shutdown command to QEMU, but
+> > QEMU has already gone.
+> > 
+> > Now, in the shutdown code, we do make an attempt to catch this:
+> > 
+> > def is_running(self):
+> >     """Returns true if the VM is running."""
+> >     return self._popen is not None and self._popen.poll() is None
+> > 
+> > But, well, race conditions.
+> > 
+> > When we make it here:
+> > 
+> >         if self._qmp is not None:
+> >             if not has_quit:
+> >                 self._qmp.cmd('quit')
+> >             self._qmp.close()
+> > 
+> > We believe we are running and we believe we have an open QMP socket.
+> > Attempting to engage the socket by sending 'quit' causes the error.
+> > 
+> > It's a tight window: if quit happens earlier, we send the command
+> > successfully and everything's OK. If quit happens later, we realize QEMU
+> > isn't running and proceed to cleanup.
+> 
+> Nice debugging :)
+> 
+> > 
+> > Ultimately:
+> > 
+> > - Avocado should not try to shut down QEMU twice, but
+> > - machine.py shouldn't enable the race condition either.
+> > 
+> > 
+> > 
+> > for my part, how about this:
+> > 
+> > diff --git a/python/qemu/machine.py b/python/qemu/machine.py
+> > index 99bcb499878..813f8e477db 100644
+> > --- a/python/qemu/machine.py
+> > +++ b/python/qemu/machine.py
+> > @@ -385,7 +385,14 @@ def _soft_shutdown(self, has_quit: bool = False,
+> > timeout: int = 3) -> None:
+> > 
+> >          if self._qmp is not None:
+> >              if not has_quit:
+> > -                self._qmp.cmd('quit')
+> > +                try:
+> > +                    self._qmp.cmd('quit')
+> > +                except (BrokenPipeError, ConnectionResetError):
+> > +                    # QMP went away just before or just after sending
+> > 'quit'
+> > +                    if not self.is_running():
+> > +                        # "Mission Accomplished"
+> > +                        pass
+> > +                    raise
+> 
+> Looks OK to me, Cleber/Eduardo can you Ack?
 
-I'm open to other suggestions. I also understand that the code duplication in elfload.c and mmap.c to handle this is
-undesirable, but the most viable alternative seems to be introducing more globals.
+Looks good to me.
 
-On 6/15/20 11:28 PM, Tobias Koch wrote:
-> Hm, I see I need to have another look at this :)
->
-> On 6/15/20 10:17 AM, Tobias Koch wrote:
->> Hi Laurent,
->>
->> the code in musl libc probing the stack is in
->>
->>     https://git.musl-libc.org/cgit/musl/plain/src/thread/pthread_getattr_np.c
->>
->> The setup in elfload.c does work, but only when reserved_va is not set. In that case, any stack guard violation is
->> handled by the host kernel and thus results in the expected EFAULT.
->>
->> However, in case of e.g. a 32bit target being emulated on a 64bit host, reserved_va is set and the current code in
->> mmap.c will only produce a more generic ENOMEM, deviating from the kernel's behavior.
->>
->>
->> On 5/7/20 5:35 PM, Laurent Vivier wrote:
->>> Le 05/03/2020 à 22:05, Tobias Koch a écrit :
->>>> If the address range starting at old_address overlaps with the stack guard it
->>>> is invalid and mremap must fail with EFAULT. The musl c library relies on this
->>>> behavior to detect the stack size, which it does by doing consecutive mremaps
->>>> until it hits the stack guard. Without this patch, software (such as the Ruby
->>>> interpreter) that calls pthread_getattr_np under musl will crash on 32 bit
->>>> targets emulated on a 64 bit host.
->>> Could you share some pointers to the code that is doing this?
->>>
->>> We have already this kind of code in linux-user/elfload.c,
->>> setup_arg_pages(): could you check why it doesn't work?
+Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
+
+
+> 
+> >              self._qmp.close()
+> > 
+> >          self._popen.wait(timeout=timeout)
+> > 
+> 
+
+-- 
+Eduardo
+
 
