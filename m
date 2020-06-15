@@ -2,59 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C405F1F961A
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 14:13:04 +0200 (CEST)
-Received: from localhost ([::1]:44496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A45611F960A
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 14:04:20 +0200 (CEST)
+Received: from localhost ([::1]:39362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jknz5-0005eN-Sq
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 08:13:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46084)
+	id 1jknqd-0002wb-EI
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 08:04:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mtosatti@redhat.com>)
- id 1jknxh-0004zy-Ig
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 08:11:37 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:52136
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1jknpe-0002P7-If
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 08:03:19 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:38582
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mtosatti@redhat.com>)
- id 1jknxf-0007cv-K7
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 08:11:37 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1jknpb-00060b-AL
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 08:03:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592223094;
+ s=mimecast20190719; t=1592222594;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=dEcd7Ou8Wc2IM9OEpa2krlue9KWBHBJ5MmJhN3pvDxo=;
- b=NhSTWWgM62Kf0VcJi89PWUbMs7mBDJvgl3T+qTw6cFkxUWhJrBxKZRPWLqiu/QLBuNrd+A
- wuDaJ6GSNDrx2RtL447BFyukZXA8C+ZCDRaWA4zUUQ3OgqKfHZfjFzpJDTWrqCJXKqOW2B
- R4vYa5DHNZ8CPYhMQDWZghAxYrK6Z/w=
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=3YTsVU+wVObqC12+TLvCk7zaxY+QeeJH4tYZ3KB10sY=;
+ b=bfkh79acXWsHCLluBCBcNigiBzjnFKa23bzFwatpwneyzsxJgDwUl2O3JLDNSmgN4X/Dps
+ 5JgOClduTWjXWcaAoYAgZ19211b0hPfS+CsiS7JUIdcQnKy8za5Ew20DqfWUYkOKrzHWAr
+ hQNhjDPUfdoPKb+CWNvNxCHY+P9RoXE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-196-reJFroX6NsCuo-629NVw0Q-1; Mon, 15 Jun 2020 08:10:24 -0400
-X-MC-Unique: reJFroX6NsCuo-629NVw0Q-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-160-gPPZe6rOPeuiTMHAzA2XGw-1; Mon, 15 Jun 2020 08:03:12 -0400
+X-MC-Unique: gPPZe6rOPeuiTMHAzA2XGw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DCEE68C23B8;
- Mon, 15 Jun 2020 12:09:52 +0000 (UTC)
-Received: from fuller.cnet (ovpn-112-3.gru2.redhat.com [10.97.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5F61C80883;
- Mon, 15 Jun 2020 12:09:52 +0000 (UTC)
-Received: by fuller.cnet (Postfix, from userid 1000)
- id 31640430716A; Mon, 15 Jun 2020 09:01:27 -0300 (-03)
-Date: Mon, 15 Jun 2020 09:01:27 -0300
-From: Marcelo Tosatti <mtosatti@redhat.com>
-To: qemu-devel <qemu-devel@nongnu.org>, kvm-devel <kvm@vger.kernel.org>
-Subject: [PATCH] kvm: i386: allow TSC to differ by NTP correction bounds
- without TSC scaling
-Message-ID: <20200615120127.GB224592@fuller.cnet>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F4B68C9061;
+ Mon, 15 Jun 2020 12:03:11 +0000 (UTC)
+Received: from work-vm (ovpn-114-201.ams2.redhat.com [10.36.114.201])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4FABA5D9CC;
+ Mon, 15 Jun 2020 12:03:02 +0000 (UTC)
+Date: Mon, 15 Jun 2020 13:03:00 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: "Denis V. Lunev" <den@openvz.org>
+Subject: Re: [PATCH 1/4] migration/savevm: respect qemu_fclose() error code
+ in save_snapshot()
+Message-ID: <20200615120300.GI2883@work-vm>
+References: <20200611171143.21589-1-den@openvz.org>
+ <20200611171143.21589-2-den@openvz.org>
 MIME-Version: 1.0
+In-Reply-To: <20200611171143.21589-2-den@openvz.org>
+User-Agent: Mutt/1.14.0 (2020-05-02)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=mtosatti@redhat.com;
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/15 01:12:36
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -77,118 +81,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Denis Plotnikov <dplotnikov@virtuozzo.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+* Denis V. Lunev (den@openvz.org) wrote:
+> qemu_fclose() could return error, f.e. if bdrv_co_flush() will return
+> the error.
+> 
+> This validation will become more important once we will start waiting of
+> asynchronous IO operations, started from bdrv_write_vmstate(), which are
+> coming soon.
+> 
+> Signed-off-by: Denis V. Lunev <den@openvz.org>
+> CC: Kevin Wolf <kwolf@redhat.com>
+> CC: Max Reitz <mreitz@redhat.com>
+> CC: Stefan Hajnoczi <stefanha@redhat.com>
+> CC: Fam Zheng <fam@euphon.net>
+> CC: Juan Quintela <quintela@redhat.com>
+> CC: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> CC: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> CC: Denis Plotnikov <dplotnikov@virtuozzo.com>
 
-The Linux TSC calibration procedure is subject to small variations
-(its common to see +-1 kHz difference between reboots on a given CPU, for example).
+We check the return value in very few other places; I think in the
+migration case we do flushes and assume that if the flushes work we
+were OK; then most of the closes happen on error paths or after points
+we think we're done.
 
-So migrating a guest between two hosts with identical processor can fail, in case 
-of a small variation in calibrated TSC between them.
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-Allow a conservative 250ppm error between host TSC and VM TSC frequencies,
-rather than requiring an exact match. NTP daemon in the guest can
-correct this difference.
-
-Also change migration to accept this bound.
-
-Signed-off-by: Marcelo Tosatti <mtosatti@redhat.com>
-
-diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-index 34f8387..257fee4 100644
---- a/target/i386/kvm.c
-+++ b/target/i386/kvm.c
-@@ -739,23 +739,44 @@ static int kvm_arch_set_tsc_khz(CPUState *cs)
- {
-     X86CPU *cpu = X86_CPU(cs);
-     CPUX86State *env = &cpu->env;
--    int r;
-+    int r, cur_freq;
-+    bool set_ioctl = false;
- 
-     if (!env->tsc_khz) {
-         return 0;
-     }
- 
--    r = kvm_check_extension(cs->kvm_state, KVM_CAP_TSC_CONTROL) ?
-+    cur_freq = kvm_check_extension(cs->kvm_state, KVM_CAP_GET_TSC_KHZ) ?
-+               kvm_vcpu_ioctl(cs, KVM_GET_TSC_KHZ) : -ENOTSUP;
-+
-+    /*
-+     * If TSC scaling is supported, attempt to set TSC frequency.
-+     */
-+    if (kvm_check_extension(cs->kvm_state, KVM_CAP_TSC_CONTROL)) {
-+        set_ioctl = true;
-+    }
-+
-+    /*
-+     * If desired TSC frequency is within bounds of NTP correction,
-+     * attempt to set TSC frequency.
-+     */
-+    if (cur_freq != -ENOTSUP && freq_within_bounds(cur_freq, env->tsc_khz)) {
-+        set_ioctl = true;
-+    }
-+
-+    r = set_ioctl ?
-         kvm_vcpu_ioctl(cs, KVM_SET_TSC_KHZ, env->tsc_khz) :
-         -ENOTSUP;
-+
-     if (r < 0) {
-         /* When KVM_SET_TSC_KHZ fails, it's an error only if the current
-          * TSC frequency doesn't match the one we want.
-          */
--        int cur_freq = kvm_check_extension(cs->kvm_state, KVM_CAP_GET_TSC_KHZ) ?
--                       kvm_vcpu_ioctl(cs, KVM_GET_TSC_KHZ) :
--                       -ENOTSUP;
--        if (cur_freq <= 0 || cur_freq != env->tsc_khz) {
-+        cur_freq = kvm_check_extension(cs->kvm_state, KVM_CAP_GET_TSC_KHZ) ?
-+                   kvm_vcpu_ioctl(cs, KVM_GET_TSC_KHZ) :
-+                   -ENOTSUP;
-+        if (cur_freq <= 0 || (cur_freq != env->tsc_khz &&
-+                              !freq_within_bounds(cur_freq, env->tsc_khz))) {
-             warn_report("TSC frequency mismatch between "
-                         "VM (%" PRId64 " kHz) and host (%d kHz), "
-                         "and TSC scaling unavailable",
-diff --git a/target/i386/kvm_i386.h b/target/i386/kvm_i386.h
-index 00bde7a..ebf9a64 100644
---- a/target/i386/kvm_i386.h
-+++ b/target/i386/kvm_i386.h
-@@ -47,4 +47,20 @@ bool kvm_has_x2apic_api(void);
- 
- bool kvm_hv_vpindex_settable(void);
- 
-+/*
-+ * Check whether target_freq is within conservative
-+ * ntp correctable bounds (250ppm) of freq
-+ */
-+static inline bool freq_within_bounds(int freq, int target_freq)
-+{
-+        int max_freq = freq + (freq * 250 / 1000000);
-+        int min_freq = freq - (freq * 250 / 1000000);
-+
-+        if (target_freq >= min_freq && target_freq <= max_freq) {
-+                return true;
-+        }
-+
-+        return false;
-+}
-+
- #endif
-diff --git a/target/i386/machine.c b/target/i386/machine.c
-index 0c96531..b052654 100644
---- a/target/i386/machine.c
-+++ b/target/i386/machine.c
-@@ -300,7 +300,7 @@ static int cpu_post_load(void *opaque, int version_id)
-     int i;
- 
-     if (env->tsc_khz && env->user_tsc_khz &&
--        env->tsc_khz != env->user_tsc_khz) {
-+        !freq_within_bounds(env->tsc_khz, env->user_tsc_khz)) {
-         error_report("Mismatch between user-specified TSC frequency and "
-                      "migrated TSC frequency");
-         return -EINVAL;
+> ---
+>  migration/savevm.c | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
+> 
+> diff --git a/migration/savevm.c b/migration/savevm.c
+> index c00a6807d9..0ff5bb40ed 100644
+> --- a/migration/savevm.c
+> +++ b/migration/savevm.c
+> @@ -2628,7 +2628,7 @@ int save_snapshot(const char *name, Error **errp)
+>  {
+>      BlockDriverState *bs, *bs1;
+>      QEMUSnapshotInfo sn1, *sn = &sn1, old_sn1, *old_sn = &old_sn1;
+> -    int ret = -1;
+> +    int ret = -1, ret2;
+>      QEMUFile *f;
+>      int saved_vm_running;
+>      uint64_t vm_state_size;
+> @@ -2712,10 +2712,14 @@ int save_snapshot(const char *name, Error **errp)
+>      }
+>      ret = qemu_savevm_state(f, errp);
+>      vm_state_size = qemu_ftell(f);
+> -    qemu_fclose(f);
+> +    ret2 = qemu_fclose(f);
+>      if (ret < 0) {
+>          goto the_end;
+>      }
+> +    if (ret2 < 0) {
+> +        ret = ret2;
+> +        goto the_end;
+> +    }
+>  
+>      /* The bdrv_all_create_snapshot() call that follows acquires the AioContext
+>       * for itself.  BDRV_POLL_WHILE() does not support nested locking because
+> -- 
+> 2.17.1
+> 
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
