@@ -2,76 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 433631F9D62
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 18:27:35 +0200 (CEST)
-Received: from localhost ([::1]:60484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C3591F9D5F
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 18:27:10 +0200 (CEST)
+Received: from localhost ([::1]:58160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jkrxO-0005fK-Ah
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 12:27:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55846)
+	id 1jkrwz-0004jD-5I
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 12:27:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jkrw3-0004Fe-J9
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 12:26:11 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:37828
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jkrvb-0003bE-0T
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 12:25:43 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:52718
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jkrw1-0005zg-Fl
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 12:26:11 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jkrvZ-0005qs-8F
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 12:25:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592238368;
+ s=mimecast20190719; t=1592238338;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=00FXCB2yidhJiULOJDZcEYz8JWa1gwYhziImrZ06J3Q=;
- b=c0LIYHKLvT4LlCEa6rcgrweNwUcxG2ZMX5OoHnstsppVFnx4Kc5mG8x+Q7kPoiGlnteqTN
- 83QviHiC5lePCZFbFpT9YfMi+u5phxiCAaPnlBtyciPgEZg+QeukjPWlnIbQrsyWEMTmRL
- dB2Yl9kkAf1DBd7yaZniYWECydVNFt0=
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=NMcH9iG/KHNzRMwTDGOIJUwoN0RJVPszI1mZ2NcJYzE=;
+ b=Y13sn6KhAl8m0xsqLdD8ysMZjf/ypfgJujZoQ7seKcw0oPNQ11lCi5budf3jVofRNgIfBX
+ sg4vedI6Pbpx8o7g0V7cdEABh0r3eQoI02zOB39WdyS4zOCkM7VqXHDIaggsa5BMOaCECg
+ +Qo5zoePPYHgUwIihekjDoSQ2dFEznU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-87-2GzG0F6KOpegitOqR8HYwg-1; Mon, 15 Jun 2020 12:26:06 -0400
-X-MC-Unique: 2GzG0F6KOpegitOqR8HYwg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-320-yWIQ5Lv-NgGoGIozcCiAUw-1; Mon, 15 Jun 2020 12:25:36 -0400
+X-MC-Unique: yWIQ5Lv-NgGoGIozcCiAUw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C17F91981086;
- Mon, 15 Jun 2020 16:20:17 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-214.ams2.redhat.com [10.36.112.214])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 93A489034B;
- Mon, 15 Jun 2020 16:19:57 +0000 (UTC)
-Subject: Re: [PATCH] bios-tables-test: Fix "-tpmdev: invalid option"
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Eric Auger <eric.auger@redhat.com>, eric.auger.pro@gmail.com,
- stefanb@linux.ibm.com, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
- peter.maydell@linaro.org, mst@redhat.com, imammedo@redhat.com
-References: <20200615135051.2213-1-eric.auger@redhat.com>
- <aa595991-7f3a-fd83-026b-1b35aaf9c49e@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <34566599-4194-f092-774e-4c60eca647a4@redhat.com>
-Date: Mon, 15 Jun 2020 18:19:55 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8F740115AF44;
+ Mon, 15 Jun 2020 16:21:22 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-112-88.ams2.redhat.com [10.36.112.88])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C85FF5D9CC;
+ Mon, 15 Jun 2020 16:21:20 +0000 (UTC)
+Date: Mon, 15 Jun 2020 18:21:19 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Klaus Jensen <its@irrelevant.dk>
+Subject: Re: [PATCH v7 00/22] nvme: small fixes, refactoring and cleanups
+Message-ID: <20200615162119.GC7273@linux.fritz.box>
+References: <20200609190333.59390-1-its@irrelevant.dk>
 MIME-Version: 1.0
-In-Reply-To: <aa595991-7f3a-fd83-026b-1b35aaf9c49e@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20200609190333.59390-1-its@irrelevant.dk>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/15 01:43:27
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/15 01:12:36
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,54 +76,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Javier Gonzalez <javier.gonz@samsung.com>,
+ Maxim Levitsky <mlevitsk@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 15/06/2020 16.57, Philippe Mathieu-Daudé wrote:
-> On 6/15/20 3:50 PM, Eric Auger wrote:
->> When configure is run with "--disable-tpm", the bios-tables-test
->> q35/tis test fails with "-tpmdev: invalid option".
->>
->> Skip the test if CONFIG_TPM is unset.
->>
->> Signed-off-by: Eric Auger <eric.auger@redhat.com>
->> Reported-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->> ---
->>  tests/qtest/bios-tables-test.c | 4 ++++
->>  1 file changed, 4 insertions(+)
->>
->> diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
->> index 53f104a9c5..b482f76c03 100644
->> --- a/tests/qtest/bios-tables-test.c
->> +++ b/tests/qtest/bios-tables-test.c
->> @@ -882,6 +882,7 @@ uint64_t tpm_tis_base_addr;
->>  static void test_acpi_tcg_tpm(const char *machine, const char *tpm_if,
->>                                uint64_t base)
->>  {
->> +#ifdef CONFIG_TPM
->>      gchar *tmp_dir_name = g_strdup_printf("qemu-test_acpi_%s_tcg_%s.XXXXXX",
->>                                            machine, tpm_if);
->>      char *tmp_path = g_dir_make_tmp(tmp_dir_name, NULL);
->> @@ -924,6 +925,9 @@ static void test_acpi_tcg_tpm(const char *machine, const char *tpm_if,
->>      g_free(tmp_path);
->>      g_free(tmp_dir_name);
->>      free_test_data(&data);
->> +#else
->> +    g_test_skip("TPM disabled");
->> +#endif
->>  }
->>  
->>  static void test_acpi_q35_tcg_tpm_tis(void)
->>
+Am 09.06.2020 um 21:03 hat Klaus Jensen geschrieben:
+> From: Klaus Jensen <k.jensen@samsung.com>
 > 
-> This is simpler than Thomas' version.
+> Hi all,
 > 
-> Fixes: 5da7c35e25 ("bios-tables-test: Add Q35/TPM-TIS test")
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> As per our discussion about how to amend the bug I introduced in
+> "hw/block/nvme: allow use of any valid msix vector", this is a respin
+> without that patch.
+> 
+> Kevin, it applies cleanly on top of your block tree with all current
+> hw/block/bnvme patches removed.
 
-Your version is indeed nicer than mine, so let's use yours!
+Thanks, applied to the block branch.
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Kevin
 
 
