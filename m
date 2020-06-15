@@ -2,68 +2,118 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C34B61F9023
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 09:42:02 +0200 (CEST)
-Received: from localhost ([::1]:45282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEF111F9005
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 09:36:32 +0200 (CEST)
+Received: from localhost ([::1]:39778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jkjkn-0003vF-Qs
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 03:42:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50984)
+	id 1jkjfU-0001L4-1y
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 03:36:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50024)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jkjjm-0003PI-4f
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 03:40:58 -0400
-Received: from indium.canonical.com ([91.189.90.7]:49424)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jkjjk-00078i-3e
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 03:40:57 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jkjjh-0002D7-CR
- for <qemu-devel@nongnu.org>; Mon, 15 Jun 2020 07:40:53 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 5AC6B2E804E
- for <qemu-devel@nongnu.org>; Mon, 15 Jun 2020 07:40:53 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jkjeb-0000iX-Dv
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 03:35:37 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:26546
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jkjeY-0006Fo-QM
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 03:35:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1592206534;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=GK3XCrAF1t22+tzpwIxV2ZJkKM7PJ/lehVqqEMXjd+s=;
+ b=imkd5Rt74ZVC8DILeBkBBXsOC32GUnQvAqAO4W09MEkaSVtv75nzW/vSUzBKY9xNnSdaD7
+ IKLLdqLUK7gTTSCw5iPEN717nMIwuHpFiB+W0Dk/DDKW1+WGlKEUB6fdEnXkI8o1gYVddl
+ y0BImc4t9Gcstc1OcMqYjgdSjk6oaUo=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-301-HTq5gU0sOMKeojuFPJojMw-1; Mon, 15 Jun 2020 03:35:31 -0400
+X-MC-Unique: HTq5gU0sOMKeojuFPJojMw-1
+Received: by mail-wm1-f69.google.com with SMTP id u15so4660857wmm.5
+ for <qemu-devel@nongnu.org>; Mon, 15 Jun 2020 00:35:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=GK3XCrAF1t22+tzpwIxV2ZJkKM7PJ/lehVqqEMXjd+s=;
+ b=VEtD6bWfRNaiNIFwFL8S5vfBzFtlqxu/TpmiK12vPG/IPvoYmOvTLpYAktc7OqrHIL
+ /vv9JCUFQkJmY0+arUUVWxCnY60zrkbjYokijZ2Be8p3nO/fg2r3+zn0/2WLfvFezc41
+ t0JdMKXV0oCcw2gkx5ZhBDnPQWgnnBgZ/nmeqIoEoHUVD0SKSKsTOKGS6+S6XUC3PcEq
+ vaZaSwxiao+K3eu1wEUisoL24izOGmNqHHZ68J+bBBEjv4tcrdo/PnajpucqtHQlKMbR
+ /o/jscPYk0GA9ETuEKS/BSYXs2d6TTqanFNLO2miCK66xXLTu6oIZbYq1G5UW5i3Jj5W
+ 41MA==
+X-Gm-Message-State: AOAM531UG44jB5evkj0xkRJoW2jo30ctWh82uzhJjpO3XlDnrvyi/Xrb
+ jBfdTkQ9o/BD6kdm7NnucTdTj1FM0ScQxafPwICHrHOhrGI7TIHHjyx8oONUV5iGEpe5HSRWcm7
+ SxXqiOq3jVMvmJOQ=
+X-Received: by 2002:adf:e648:: with SMTP id b8mr28216402wrn.386.1592206530709; 
+ Mon, 15 Jun 2020 00:35:30 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyScFD1e69XCs8BpJeSOg9JJDVTXRB5NZgFc2ifWUSwQrr3D1DhCz1AKdweYUq/NhF8JeKHow==
+X-Received: by 2002:adf:e648:: with SMTP id b8mr28216384wrn.386.1592206530457; 
+ Mon, 15 Jun 2020 00:35:30 -0700 (PDT)
+Received: from [192.168.1.40] (181.red-88-10-103.dynamicip.rima-tde.net.
+ [88.10.103.181])
+ by smtp.gmail.com with ESMTPSA id q4sm5651411wmc.1.2020.06.15.00.35.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 15 Jun 2020 00:35:30 -0700 (PDT)
+Subject: Re: [PATCH] hw/scsi/megasas: Fix possible out-of-bounds array access
+ in tracepoints
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ Hannes Reinecke <hare@suse.com>
+References: <20200615072629.32321-1-thuth@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <61e995c8-8dd1-3df5-1450-e8061a2e09b7@redhat.com>
+Date: Mon, 15 Jun 2020 09:35:28 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 15 Jun 2020 07:35:00 -0000
-From: Thomas Huth <1883414@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: th-huth urisimchoni
-X-Launchpad-Bug-Reporter: Uri Simchoni (urisimchoni)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <159212433474.11524.6446671863571065618.malonedeb@soybean.canonical.com>
-Message-Id: <159220650074.12349.17370718068349754994.malone@soybean.canonical.com>
-Subject: [Bug 1883414] Re: Cannot build qemu-5.0.0 from tarball
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="b190cebbf563f89e480a8b57f641753c8196bda0";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 1666e72ae529157eca5ef1a658618798e44dd2ec
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/15 03:40:53
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <20200615072629.32321-1-thuth@redhat.com>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/15 01:43:27
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,57 +122,131 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1883414 <1883414@bugs.launchpad.net>
+Cc: Fam Zheng <fam@euphon.net>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Where did you download the tarball from?
+On 6/15/20 9:26 AM, Thomas Huth wrote:
+> Some tracepoints in megasas.c use a guest-controlled value as an index
+> into the mfi_frame_desc[] array. Thus a malicious guest could cause an
+> out-of-bounds error here. Fortunately, the impact is very low since this
+> can only happen when the corresponding tracepoints have been enabled
+> before, but the problem should be fixed anyway with a proper check.
+> 
+> Buglink: https://bugs.launchpad.net/qemu/+bug/1882065
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  hw/scsi/megasas.c | 36 +++++++++++++++++++++++-------------
+>  1 file changed, 23 insertions(+), 13 deletions(-)
+> 
+> diff --git a/hw/scsi/megasas.c b/hw/scsi/megasas.c
+> index af18c88b65..aa930226f8 100644
+> --- a/hw/scsi/megasas.c
+> +++ b/hw/scsi/megasas.c
+> @@ -54,10 +54,6 @@
+>  #define MEGASAS_FLAG_USE_QUEUE64   1
+>  #define MEGASAS_MASK_USE_QUEUE64   (1 << MEGASAS_FLAG_USE_QUEUE64)
+>  
+> -static const char *mfi_frame_desc[] = {
+> -    "MFI init", "LD Read", "LD Write", "LD SCSI", "PD SCSI",
+> -    "MFI Doorbell", "MFI Abort", "MFI SMP", "MFI Stop"};
+> -
+>  typedef struct MegasasCmd {
+>      uint32_t index;
+>      uint16_t flags;
+> @@ -183,6 +179,20 @@ static void megasas_frame_set_scsi_status(MegasasState *s,
+>      stb_pci_dma(pci, frame + offsetof(struct mfi_frame_header, scsi_status), v);
+>  }
+>  
+> +static inline const char *mfi_frame_desc(unsigned int cmd)
+> +{
+> +    static const char *mfi_frame_descs[] = {
+> +        "MFI init", "LD Read", "LD Write", "LD SCSI", "PD SCSI",
+> +        "MFI Doorbell", "MFI Abort", "MFI SMP", "MFI Stop"
+> +    };
+> +
+> +    if (cmd < ARRAY_SIZE(mfi_frame_descs)) {
+> +        return mfi_frame_descs[cmd];
+> +    }
+> +
+> +    return "Unknown";
+> +}
+> +
+>  /*
+>   * Context is considered opaque, but the HBA firmware is running
+>   * in little endian mode. So convert it to little endian, too.
+> @@ -1670,25 +1680,25 @@ static int megasas_handle_scsi(MegasasState *s, MegasasCmd *cmd,
+>      if (is_logical) {
+>          if (target_id >= MFI_MAX_LD || lun_id != 0) {
+>              trace_megasas_scsi_target_not_present(
+> -                mfi_frame_desc[frame_cmd], is_logical, target_id, lun_id);
+> +                mfi_frame_desc(frame_cmd), is_logical, target_id, lun_id);
+>              return MFI_STAT_DEVICE_NOT_FOUND;
+>          }
+>      }
+>      sdev = scsi_device_find(&s->bus, 0, target_id, lun_id);
+>  
+>      cmd->iov_size = le32_to_cpu(cmd->frame->header.data_len);
+> -    trace_megasas_handle_scsi(mfi_frame_desc[frame_cmd], is_logical,
+> +    trace_megasas_handle_scsi(mfi_frame_desc(frame_cmd), is_logical,
+>                                target_id, lun_id, sdev, cmd->iov_size);
+>  
+>      if (!sdev || (megasas_is_jbod(s) && is_logical)) {
+>          trace_megasas_scsi_target_not_present(
+> -            mfi_frame_desc[frame_cmd], is_logical, target_id, lun_id);
+> +            mfi_frame_desc(frame_cmd), is_logical, target_id, lun_id);
+>          return MFI_STAT_DEVICE_NOT_FOUND;
+>      }
+>  
+>      if (cdb_len > 16) {
+>          trace_megasas_scsi_invalid_cdb_len(
+> -                mfi_frame_desc[frame_cmd], is_logical,
+> +                mfi_frame_desc(frame_cmd), is_logical,
+>                  target_id, lun_id, cdb_len);
+>          megasas_write_sense(cmd, SENSE_CODE(INVALID_OPCODE));
+>          cmd->frame->header.scsi_status = CHECK_CONDITION;
+> @@ -1706,7 +1716,7 @@ static int megasas_handle_scsi(MegasasState *s, MegasasCmd *cmd,
+>      cmd->req = scsi_req_new(sdev, cmd->index, lun_id, cdb, cmd);
+>      if (!cmd->req) {
+>          trace_megasas_scsi_req_alloc_failed(
+> -                mfi_frame_desc[frame_cmd], target_id, lun_id);
+> +                mfi_frame_desc(frame_cmd), target_id, lun_id);
+>          megasas_write_sense(cmd, SENSE_CODE(NO_SENSE));
+>          cmd->frame->header.scsi_status = BUSY;
+>          s->event_count++;
+> @@ -1751,17 +1761,17 @@ static int megasas_handle_io(MegasasState *s, MegasasCmd *cmd, int frame_cmd)
+>      }
+>  
+>      trace_megasas_handle_io(cmd->index,
+> -                            mfi_frame_desc[frame_cmd], target_id, lun_id,
+> +                            mfi_frame_desc(frame_cmd), target_id, lun_id,
+>                              (unsigned long)lba_start, (unsigned long)lba_count);
+>      if (!sdev) {
+>          trace_megasas_io_target_not_present(cmd->index,
+> -            mfi_frame_desc[frame_cmd], target_id, lun_id);
+> +            mfi_frame_desc(frame_cmd), target_id, lun_id);
+>          return MFI_STAT_DEVICE_NOT_FOUND;
+>      }
+>  
+>      if (cdb_len > 16) {
+>          trace_megasas_scsi_invalid_cdb_len(
+> -            mfi_frame_desc[frame_cmd], 1, target_id, lun_id, cdb_len);
+> +            mfi_frame_desc(frame_cmd), 1, target_id, lun_id, cdb_len);
+>          megasas_write_sense(cmd, SENSE_CODE(INVALID_OPCODE));
+>          cmd->frame->header.scsi_status = CHECK_CONDITION;
+>          s->event_count++;
+> @@ -1781,7 +1791,7 @@ static int megasas_handle_io(MegasasState *s, MegasasCmd *cmd, int frame_cmd)
+>                              lun_id, cdb, cmd);
+>      if (!cmd->req) {
+>          trace_megasas_scsi_req_alloc_failed(
+> -            mfi_frame_desc[frame_cmd], target_id, lun_id);
+> +            mfi_frame_desc(frame_cmd), target_id, lun_id);
+>          megasas_write_sense(cmd, SENSE_CODE(NO_SENSE));
+>          cmd->frame->header.scsi_status = BUSY;
+>          s->event_count++;
+> 
 
-** Changed in: qemu
-       Status: New =3D> Incomplete
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1883414
-
-Title:
-  Cannot build qemu-5.0.0 from tarball
-
-Status in QEMU:
-  Incomplete
-
-Bug description:
-  Cannot build qemu 5.0.0 from the release tarball. Building from git-
-  clone succeeds.
-
-  After downloading and unpacking the 5.0.0 tarball, I typed the
-  following:
-
-  mkdir build
-  cd build
-  ../configure
-
-  Then got the following error message:
-
-  ERROR: missing file /home/uri/qemu-5.0.0/ui/keycodemapdb/README
-
-  This is not a GIT checkout but module content appears to
-  be missing. Do not use 'git archive' or GitHub download links
-  to acquire QEMU source archives. Non-GIT builds are only
-  supported with source archives linked from:
-
-    https://www.qemu.org/download/#source
-
-  Developers working with GIT can use scripts/archive-source.sh
-  if they need to create valid source archives.
-
-  It appears the ui/keycodemapdb is missing some files that are obtained
-  from a git submodule in a git tree.
-
-  Building from a git clone succeeds.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1883414/+subscriptions
 
