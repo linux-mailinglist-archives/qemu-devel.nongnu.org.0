@@ -2,76 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E39B1F93CA
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 11:45:43 +0200 (CEST)
-Received: from localhost ([::1]:55750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C6501F93DA
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 11:47:34 +0200 (CEST)
+Received: from localhost ([::1]:59452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jklgU-0008Ri-Af
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 05:45:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40348)
+	id 1jkliH-0001gE-Ke
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 05:47:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40400)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jklf9-0007cJ-9u
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 05:44:19 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:52278
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jklf6-0006K3-Q3
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 05:44:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592214255;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=72rKnDWlp5+yiOfk+vKoPcjcrSgCF10ukOWzQh+dO8U=;
- b=JO1aFHUOCOA7PmrtaZfOCA7zcXfaXv2UrXYjcukyqFC6J0pNr/5LV0mMew/4e81fktU4fN
- M6k56PExSrHCMarJ5zK7mDmiinEXMZCrbRvtmHP1wsvegOWzPWEn7P5Zb0rj7JKlP1A+v3
- LdWbObX1d6Tjhhz7ZKy8W4IqjHGewtE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-202-HNK2pMvFNyu7zF_7Zay7ew-1; Mon, 15 Jun 2020 05:44:14 -0400
-X-MC-Unique: HNK2pMvFNyu7zF_7Zay7ew-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B236118585B9;
- Mon, 15 Jun 2020 09:44:12 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-111.ams2.redhat.com [10.36.112.111])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A11565D9CC;
- Mon, 15 Jun 2020 09:44:10 +0000 (UTC)
-Subject: Re: [PATCH v3] configure: Let SLOF be initialized by
- ./scripts/git-submodule.sh
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-References: <20200615074919.12552-1-f4bug@amsat.org>
- <20200615091925.GB269638@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <fcf027f8-93d6-a93d-e268-e85736916e53@redhat.com>
-Date: Mon, 15 Jun 2020 11:44:08 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-MIME-Version: 1.0
-In-Reply-To: <20200615091925.GB269638@redhat.com>
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jklfH-0007pw-18; Mon, 15 Jun 2020 05:44:27 -0400
+Received: from mail-db8eur05on2114.outbound.protection.outlook.com
+ ([40.107.20.114]:50272 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jklfF-0006Lq-D8; Mon, 15 Jun 2020 05:44:26 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=eIZUX4hZr/M0CUkBvuxv8EkJn92+U8fhoAKgdbUfRJTcjBuFDFso5Q8+EpWozP9iNLBLwDSa+sqnbchDgJq+iKZZUJ8ShTy5KhCyxxJHKBukMeCQLfowHKvjjCb5CbeKjMtgmjW0Rpf+0BMZijB4LBjmfpaV85ik5F52r+5AGz/MUnwqiKMbUHvf4BxC4BMqe7w9eI6FCj/boFr7qPTDJ8E2QA7xW826IH4Jkk8quHJHAwkqlLM53UjBKttGsXR1eD8sZvfZS9I3mXyyFD+i9QXy7TuduFjym8i0mMAzXV3dNcUPJP4hvT0BiGnEb6QPjboncFCjz466XmMXSG5YNA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ovFVMR9BiACTdWaCDAcuNsVk0qjBuMBpkab6QgsgboE=;
+ b=CzSauLYxLFERaj3UW3epJhKL/G89L91R8DCuwgnmWsL+AE7LJCqdRF1eRhsjHgln/5TeIAPZn8/aep2Ua3lzj5cc6UUf1JrjZ5SzhOgAyi0QbS7VxvbmtV1JV1cvNXyFX48tG7AtGVu3KxF7n9sQXHEUvHRYlWDHXoyD5IuRMCLtMLk+CPg+RqCmyRr5pvESAdmBwa0i1ssK8zr/xckwhjW0G4c9ny51MavHdKheUJ3haJ0p4Owdl/1otsks3vo+BqPo4bC3/S5Z99MUZN7KZ4UOip1qhRHArNloA1feorScMDeVnhzt2rZ3Y3Fke3Vgj+I8eJd4QuUdChHgGjmmog==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ovFVMR9BiACTdWaCDAcuNsVk0qjBuMBpkab6QgsgboE=;
+ b=P5qpoLq2Zde8eiW3iCYuw5cVpui3isbq9xMIms0Mcb0JsFbADxvNaLDmjK2kFOVsPfEr+hR1p9xnL5IpFMlb9FfrjKGBIx1Fg7DIh5+lf/8ezDKD+CXxtFq78bFTO6KtMkUBw+RA8tBrr0xtuirr2pizrtAhjWcQfmpMJ+t/G7w=
+Authentication-Results: openvz.org; dkim=none (message not signed)
+ header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM7PR08MB5448.eurprd08.prod.outlook.com (2603:10a6:20b:106::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3088.22; Mon, 15 Jun
+ 2020 09:44:23 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::a408:2f0f:bc6c:d312]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::a408:2f0f:bc6c:d312%3]) with mapi id 15.20.3088.028; Mon, 15 Jun 2020
+ 09:44:23 +0000
+Subject: Re: [PATCH v7 2/9] qcow2: Fix capitalization of header extension
+ constant.
+To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>, qemu-block@nongnu.org
+References: <1591920302-1002219-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <1591920302-1002219-3-git-send-email-andrey.shinkevich@virtuozzo.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <0848cc66-d909-8537-5277-320ecef35925@virtuozzo.com>
+Date: Mon, 15 Jun 2020 12:44:20 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.1
+In-Reply-To: <1591920302-1002219-3-git-send-email-andrey.shinkevich@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=thuth@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/14 22:37:26
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR2P281CA0016.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:a::26) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.2] (185.215.60.182) by
+ FR2P281CA0016.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:a::26) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3088.23 via Frontend Transport; Mon, 15 Jun 2020 09:44:21 +0000
+X-Originating-IP: [185.215.60.182]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 45500061-3f39-4f43-6a2a-08d81110aec9
+X-MS-TrafficTypeDiagnostic: AM7PR08MB5448:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM7PR08MB544866BB7204248F08CE7B5EC19C0@AM7PR08MB5448.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3631;
+X-Forefront-PRVS: 04359FAD81
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: kypJroPoc858cfXxd9P47ZGVt0fonSFStHWFBoiGBR0p7F9B9ggoieWusmpXX+C/PuEgcmgYmqVIpKzb11f+e13oBTrVgL962dXj9KWvTikQas0pIrp/o5Lgl1n8rnNB8Pu0UOBJL7peJV6kfIvTC2g9yS/W78Dw8JNt84lYqxG2s3qDhDrR6dwT/ZRFmImkxBZPbHhKJPhNsdO2Y0sbz7e2htE/bhP5K7lMmyB8ks9cMAYjF6Kef2VZ3uxL2I+dZhVjvi7xbY5tO/y6n9EdLN6MXxK82fKUuR8bpADIl4y6xELFgpA2h8ZfGYCsouVJh65aETYelAojZvR/4lrdUJ2F3uqBzMTDjZsGMZraP+85ReKsnGlIPiLYXg66L9+C
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(136003)(366004)(396003)(346002)(39840400004)(376002)(66946007)(2616005)(66476007)(66556008)(478600001)(316002)(956004)(2906002)(8936002)(186003)(36756003)(52116002)(6486002)(31686004)(16576012)(26005)(4744005)(86362001)(8676002)(16526019)(5660300002)(107886003)(31696002)(4326008)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: eMKUo01t6lgXvZGcCmULx28Mofl3h7MBLWv2NT8Db+OVvCWbyzvLWNHnc2NXLiaYTwMUcj2DLp+/tgUhdx0Embs4NJYgvVvZPbc+AA83qd2kw3TfSFo1n3XRg8HF8/ueHaSSLyK43aNT1OfZAukq7IyNtZG3UdHzh5n/w73JyE3urrLlzA3O++E6WtBewr8KZ0qSYDoupk1cuk24JDpWqbgvOdfoA6L/Oox9mqhulQbjASPNLtKcMR05JnUfpB0zL4IUq29oT8keytXuxJzP4EzLUsU957AgWCenmFdww6tll3dkU9qNtmsUKX+2dn99Jneg1hRo5R5TBFzf+IDJVyGhmfM2q41mPx1nv0WztW1dok6R5iTt1oEcXP4rU4X4PtYA+VLBHnqV9Rh0kaOYNY7cDMOFpamYlP9suKwNqI1v9Sx/SkxJ2tkoknHsdD89Re1wyo6oivsigK5j1Yle8cPSqEj9/kz/ybWJMrUQFWtzoRpFKWjINI1pcFf6wm/b
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 45500061-3f39-4f43-6a2a-08d81110aec9
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jun 2020 09:44:22.8503 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: e1lOLZXfj+2Zhx6ebA6koTozKoYYTgsC1kzJKIEL1YTOMTx8n0QIi9fXjiJE5rXTnBNOeD18iIsfoFWvNk7kNZLvLO+P2lCo/QyWiA29ZJQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5448
+Received-SPF: pass client-ip=40.107.20.114;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR05-DB8-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/15 05:44:23
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -37
+X-Spam_score: -3.8
 X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,87 +117,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- qemu-s390x@nongnu.org, =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: kwolf@redhat.com, den@openvz.org, qemu-devel@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 15/06/2020 11.19, Daniel P. Berrangé wrote:
-> On Mon, Jun 15, 2020 at 09:49:19AM +0200, Philippe Mathieu-Daudé wrote:
->> The git-submodule.sh script is called by make and initialize the
->> submodules listed in the GIT_SUBMODULES variable generated by
->> ./configure.
->>
->> SLOF is required for building the s390-ccw firmware on s390x, since
->> it is using the libnet code from SLOF for network booting.
->>
->> Add it to the GIT_SUBMODULES when buildint the s390-ccw firmware,
->> to fix:
->>
->>   $ ( cd ${SRC_DIR} ; git submodule update --init roms/SLOF )
->>   Submodule 'roms/SLOF' (https://git.qemu.org/git/SLOF.git) registered for path 'roms/SLOF'
->>   Cloning into '/home/travis/build/user/qemu/roms/SLOF'...
->>   fatal: unable to access 'https://git.qemu.org/git/SLOF.git/': Could not resolve host: git.qemu.org
->>   fatal: clone of 'https://git.qemu.org/git/SLOF.git' into submodule path '/home/travis/build/user/qemu/roms/SLOF' failed
->>   Failed to clone 'roms/SLOF'. Retry scheduled
->>   Cloning into '/home/travis/build/user/qemu/roms/SLOF'...
->>   fatal: unable to access 'https://git.qemu.org/git/SLOF.git/': Could not resolve host: git.qemu.org
->>   fatal: clone of 'https://git.qemu.org/git/SLOF.git' into submodule path '/home/travis/build/user/qemu/roms/SLOF' failed
->>   Failed to clone 'roms/SLOF' a second time, aborting
->>   The command "( cd ${SRC_DIR} ; git submodule update --init roms/SLOF )" exited with 1.
+12.06.2020 03:04, Andrey Shinkevich wrote:
+> Make the capitalization of the hexadecimal numbers consistent for the
+> QCOW2 header extension constants in docs/interop/qcow2.txt.
 > 
-> The "git-submodule.sh" script just invokes "git submodule". So if
-> you are getting DNS failures from "git submodule", using git-submodule.sh
-> instead is not going to fix the problem.
-> 
->>
->> Reported-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->> Suggested-by: Thomas Huth <thuth@redhat.com>
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> ---
->>  configure   | 5 +++++
->>  .travis.yml | 1 -
->>  2 files changed, 5 insertions(+), 1 deletion(-)
->>
->> diff --git a/configure b/configure
->> index bb7fd12612..927e4a3d06 100755
->> --- a/configure
->> +++ b/configure
->> @@ -6533,6 +6533,11 @@ if test "$cpu" = "s390x" ; then
->>    write_c_skeleton
->>    if compile_prog "-march=z900" ""; then
->>      roms="$roms s390-ccw"
->> +    # SLOF is required for building the s390-ccw firmware on s390x,
->> +    # since it is using the libnet code from SLOF for network booting.
->> +    if test -e "${source_path}/.git" ; then
->> +      git_submodules="${git_submodules} roms/SLOF"
->> +    fi
->>    fi
->>  fi
-> 
-> This whole bit of configure looks a bit dubious.
-> 
-> For all the other firmware images we ship as pre-built blobs, we never
-> try to re-build them even if the host compiler supports it.
+> Suggested-by: Eric Blake<eblake@redhat.com>
+> Signed-off-by: Andrey Shinkevich<andrey.shinkevich@virtuozzo.com>
 
-All the other firmwares have separate projects and repositories, so it's
-normal that we don't try to rebuild them from the QEMU repo. But the
-s390-ccw firmware is part of the QEMU repository (for some good
-reasons), so of course we should build it during the QEMU build process
-if possible. And no, please don't suggest to move it to a separate
-repository instead, IIRC we've had this discussion in the past already,
-and it is easier if it stays in the current place.
 
-> So I don't think we need to make SLOF special.
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-We are not talking about SLOF here. We are talking about the s390-ccw
-firmware which is part of the QEMU repository (see pc-bios/s390-ccw). It
-just requires the SLOF submodule for building its network booting part,
-since it re-uses the network stack from SLOF.
-
- Thomas
-
+-- 
+Best regards,
+Vladimir
 
