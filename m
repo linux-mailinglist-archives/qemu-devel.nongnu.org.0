@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EE9A1F9DDC
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 18:51:54 +0200 (CEST)
-Received: from localhost ([::1]:48284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63ABE1F9DC0
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 18:44:30 +0200 (CEST)
+Received: from localhost ([::1]:37386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jksKv-0000hv-3A
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 12:51:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39696)
+	id 1jksDl-0004DL-C1
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 12:44:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jksJq-0000Db-2Y; Mon, 15 Jun 2020 12:50:47 -0400
-Received: from mail-il1-x143.google.com ([2607:f8b0:4864:20::143]:34799)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jksJn-0003RC-OF; Mon, 15 Jun 2020 12:50:45 -0400
-Received: by mail-il1-x143.google.com with SMTP id x18so15983713ilp.1;
- Mon, 15 Jun 2020 09:50:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=09cH+KrtXqLM7fQNz+W8DeIct8hAan40sX43VBh3y6o=;
- b=obq9J9OM6rEpc/fSbxryZ2XPu3FXTkkUT+vh5JAgdENTngGI+ipkMP7EMZrukyz/QO
- IcesIs/HlC54Cj4WEwbA3vrjRHgIDdgq9pDTFNMsVLBYDrdrga7R7puX7HjhkaS8AyK+
- 0s+3xqzdM4Nv+oBwNHIw043F8LeXKf/f514EwvDS9lI+fwaRsHT41D+UARHtQmroVqSJ
- sU/7mQWCVfVo8VWyjZHJTE0Hfqs4dTWS5ZcaccZI+QhyqB8qQiwKNta4YmgbY1QKGiYS
- c2jN8MZEZcTw5JsfxCTTI9oT+YCl8u633yzFYTz5Nc1EA+odirwxsiWU6/ZuKwVEGNaT
- kc5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=09cH+KrtXqLM7fQNz+W8DeIct8hAan40sX43VBh3y6o=;
- b=IUnkbqHKqXWI5Sg/9REzeT9rRx9StgakEhNWSf6nfeaTj+Oar6WEeLShzMYaQGiNij
- iISama+pHOoL3NT/Uvuuynsn64GiOe86D+ygXSLeOZWlXyQI5hfEJikxlH4WcWwi2Ddn
- zbbBugDZgXtZfDdoD8xpDmD4QKQVi60vDNFwBTFBXWGMxxi7UlPnKZCswCqEzsUnb1kC
- CCSGlxEBsuMdRtjVuSkauIeIMUDegtrLejD89awY1DWjCZuwL7kZsBrfa9+lEUj8ySjg
- iZ3tUxNirlIw47S0yZBgE/Fy/YdH4Yk8oHz1Vy/bVX9rYFvfeyXWiBd7HRPqnMtJCKQb
- lwnw==
-X-Gm-Message-State: AOAM533dtzURq4X5AQUgSDvpcMQkv3Ko4eLOmI2PP1Q2SQr4T+MLZE1O
- Hdb6Dxnpv5Pq1qlCU1Tdme3xkq809cR86h0DToE=
-X-Google-Smtp-Source: ABdhPJy4JJDhW2UyFHfnllSrwAMDhjTgouDagK1InPCxfyFn0MgSO2cLPviI9EUpYQaiYAeTFbWQN0RTJGK5/2v/01c=
-X-Received: by 2002:a92:bb45:: with SMTP id w66mr28021106ili.131.1592239842379; 
- Mon, 15 Jun 2020 09:50:42 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1jksCe-0003Vo-87
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 12:43:20 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:58788
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1jksCb-0002D2-O5
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 12:43:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1592239396;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=+glrrH0zDD4nj5i21BuLL7N1zu+uNb/lRZ2iPhQJWBY=;
+ b=WZwiGNcrn82buzC4FThUKEpLRofKIVwfrmMHdlBZiZ8/aQ+3geFxFDPs5sf9oARI4HcGZa
+ YH4PpHbAsHgVK86Bea55QrzAK7uNeXMxnI0Z5QxOsvuz2RUFsPR7uMmRppCA2hwIGYoGa0
+ hcLzI9SF7nCZnk1owRkAd/W/xWpXcU4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-317-9NiDuFyIOEWdI6e4gt3srg-1; Mon, 15 Jun 2020 12:43:14 -0400
+X-MC-Unique: 9NiDuFyIOEWdI6e4gt3srg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 594B418FE88C;
+ Mon, 15 Jun 2020 16:42:06 +0000 (UTC)
+Received: from laptop.redhat.com (ovpn-114-197.ams2.redhat.com [10.36.114.197])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C71AC7F4F9;
+ Mon, 15 Jun 2020 16:41:58 +0000 (UTC)
+From: Eric Auger <eric.auger@redhat.com>
+To: eric.auger.pro@gmail.com, eric.auger@redhat.com, stefanb@linux.ibm.com,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org, peter.maydell@linaro.org,
+ mst@redhat.com, imammedo@redhat.com
+Subject: [PATCH v2] bios-tables-test: Fix "-tpmdev: invalid option"
+Date: Mon, 15 Jun 2020 18:41:48 +0200
+Message-Id: <20200615164148.4706-1-eric.auger@redhat.com>
 MIME-Version: 1.0
-References: <1591625864-31494-1-git-send-email-bmeng.cn@gmail.com>
- <1591625864-31494-12-git-send-email-bmeng.cn@gmail.com>
-In-Reply-To: <1591625864-31494-12-git-send-email-bmeng.cn@gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 15 Jun 2020 09:41:19 -0700
-Message-ID: <CAKmqyKMGq_zNZBwbAFbtVVp0P_YvSD98ZqHg3=TvzOS5a6Qfag@mail.gmail.com>
-Subject: Re: [PATCH 11/15] hw/riscv: sifive_u: Add a new property msel for
- MSEL pin state
-To: Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::143;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x143.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.120;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/15 01:17:36
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,70 +78,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Palmer Dabbelt <palmerdabbelt@google.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>
+Cc: thuth@redhat.com, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 8, 2020 at 7:27 AM Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> From: Bin Meng <bin.meng@windriver.com>
->
-> On SiFive FU540 SoC, the value stored at physical address 0x1000
-> stores the MSEL pin state that is used to control the next boot
-> location that ROM codes jump to.
->
-> Add a new property msel to sifive_u machine for this.
->
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+When configure is run with "--disable-tpm", the bios-tables-test
+q35/tis test fails with "-tpmdev: invalid option".
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Skip the test if CONFIG_TPM is unset.
 
-Alistair
+Fixes: 5da7c35e25 ("bios-tables-test: Add Q35/TPM-TIS test")
+Signed-off-by: Eric Auger <eric.auger@redhat.com>
+Reported-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Tested-by: Stefan Berger <stefanb@linux.ibm.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
-> ---
->
->  hw/riscv/sifive_u.c         | 7 +++++++
->  include/hw/riscv/sifive_u.h | 1 +
->  2 files changed, 8 insertions(+)
->
-> diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-> index 07e2ba0..aaa5adb 100644
-> --- a/hw/riscv/sifive_u.c
-> +++ b/hw/riscv/sifive_u.c
-> @@ -507,6 +507,13 @@ static void sifive_u_machine_instance_init(Object *obj)
->                                      "Set on to tell QEMU's ROM to jump to "
->                                      "flash. Otherwise QEMU will jump to DRAM");
->
-> +    s->msel = 0;
-> +    object_property_add(obj, "msel", "uint32",
-> +                        sifive_u_machine_get_uint32_prop,
-> +                        sifive_u_machine_set_uint32_prop, NULL, &s->msel);
-> +    object_property_set_description(obj, "msel",
-> +                                    "Mode Select (MSEL[3:0]) pin state");
-> +
->      s->serial = OTP_SERIAL;
->      object_property_add(obj, "serial", "uint32",
->                          sifive_u_machine_get_uint32_prop,
-> diff --git a/include/hw/riscv/sifive_u.h b/include/hw/riscv/sifive_u.h
-> index dcf7f3b..d82cfe0 100644
-> --- a/include/hw/riscv/sifive_u.h
-> +++ b/include/hw/riscv/sifive_u.h
-> @@ -63,6 +63,7 @@ typedef struct SiFiveUState {
->      int fdt_size;
->
->      bool start_in_flash;
-> +    uint32_t msel;
->      uint32_t serial;
->  } SiFiveUState;
->
-> --
-> 2.7.4
->
->
+---
+
+v1 -> v2:
+- collected R-bs, T-bs and added fix tag (Phil)
+---
+ tests/qtest/bios-tables-test.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+index 53f104a9c5..b482f76c03 100644
+--- a/tests/qtest/bios-tables-test.c
++++ b/tests/qtest/bios-tables-test.c
+@@ -882,6 +882,7 @@ uint64_t tpm_tis_base_addr;
+ static void test_acpi_tcg_tpm(const char *machine, const char *tpm_if,
+                               uint64_t base)
+ {
++#ifdef CONFIG_TPM
+     gchar *tmp_dir_name = g_strdup_printf("qemu-test_acpi_%s_tcg_%s.XXXXXX",
+                                           machine, tpm_if);
+     char *tmp_path = g_dir_make_tmp(tmp_dir_name, NULL);
+@@ -924,6 +925,9 @@ static void test_acpi_tcg_tpm(const char *machine, const char *tpm_if,
+     g_free(tmp_path);
+     g_free(tmp_dir_name);
+     free_test_data(&data);
++#else
++    g_test_skip("TPM disabled");
++#endif
+ }
+ 
+ static void test_acpi_q35_tcg_tpm_tis(void)
+-- 
+2.20.1
+
 
