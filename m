@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1D4D1F97EF
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 15:10:04 +0200 (CEST)
-Received: from localhost ([::1]:50218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FE121F97F9
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 15:11:13 +0200 (CEST)
+Received: from localhost ([::1]:55078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jkosF-00011d-IM
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 09:10:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55086)
+	id 1jkotM-000383-JF
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 09:11:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dario@ciriminna.com>)
- id 1jkkvo-0004JO-Ru
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 04:57:29 -0400
-Received: from smtpcmd01-g.aruba.it ([62.149.158.217]:54359)
+ id 1jkl1q-0004u5-VQ
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 05:03:43 -0400
+Received: from smtpcmd01-g.aruba.it ([62.149.158.217]:54476)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dario@ciriminna.com>) id 1jkkvm-0006Jv-Du
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 04:57:28 -0400
+ (envelope-from <dario@ciriminna.com>) id 1jkl1p-0007YI-Ew
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 05:03:42 -0400
 Received: from [192.168.0.2] ([93.48.24.41])
  by smtpcmd01.ad.aruba.it with bizsmtp
- id rLxF2202K0tBuBh01LxJXi; Mon, 15 Jun 2020 10:57:20 +0200
+ id rM3f2200c0tBuBh01M3fzX; Mon, 15 Jun 2020 11:03:39 +0200
 To: qemu-devel@nongnu.org
 From: Dario Ciriminna <dario@ciriminna.com>
 Subject: qemu win10 host winxp quest very slow
-Message-ID: <ad6cf8c6-1164-294c-134f-0c958598862b@ciriminna.com>
-Date: Mon, 15 Jun 2020 10:57:17 +0200
+Message-ID: <127ef1aa-bcb3-835d-21ba-0918bb62b0f8@ciriminna.com>
+Date: Mon, 15 Jun 2020 11:03:40 +0200
 User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
  Thunderbird/68.9.0
 MIME-Version: 1.0
@@ -33,14 +33,14 @@ Content-Type: text/plain; charset=iso-8859-15; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: it
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aruba.it; s=a1;
- t=1592211440; bh=kYME0rTDm2FKqk/YbrghLfWuebGvLtKIjUiROO5pTBY=;
+ t=1592211819; bh=kYME0rTDm2FKqk/YbrghLfWuebGvLtKIjUiROO5pTBY=;
  h=To:From:Subject:Date:MIME-Version:Content-Type;
- b=VEffRxi3sY3bgRgLUdNEciZrxv7rU6XVRGgPuB+KIzTxlJbDk2ztQXKfjl2EAlRTh
- jlT2rUm+E50Am6mHSkSGSyJz3CqWIU/K+BaMwTbojbXFOKCQuUnDvostAoUA9KiZb7
- tKRoZ51sIfVi5dWDMg8ooa69OxoTIfApGMccYa15pzOKakqb8r2FsYkETERVuyDKBt
- XsNHcLKExyA8XU0mFo8C4a6HZhOkeCXoH53GdLQHIrqmJi7atl2KJJxQGWz2sVYYES
- V1o/ouUxHMWEw7OTD92v6ngCpcOMtWMaIwx8DRk6iioW/6Rx6MuNDh423KdjRh0yZq
- whADYjj5jrXoQ==
+ b=TJTIBW1cZ9OsXJZfq7iS8y9/LOYbFPC8MFMkazYK9enmpz8AIuYM1tiDcNLqJkpSm
+ PxGfRlFu9tI+35LtVeelNIzzX9THKypqKNfYDZ409NWM4RgYl6OLP1d/gCjhN0lSlH
+ XKW7C+f2DbacgLsN7GIbRdvHj9RVaHyxhOe4DGXpN7Q1wbXB3fbAecQKYEsfh+e+2l
+ z259YyGZ52FK7My+dOM7GcBnsossQxv5KbVi4jd1DEQ1l6+oDwCKv+TpPW5Jj144Wd
+ rDKB+Ikr1jE68tlFhHVPAEAaU9smxfZUCnaS4Zd7v0voiR/1IgXFU19s2md5r7OW+t
+ 8DYBidQSsFN+A==
 Received-SPF: pass client-ip=62.149.158.217; envelope-from=dario@ciriminna.com;
  helo=smtpcmd01-g.aruba.it
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/15 04:57:21
