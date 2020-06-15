@@ -2,92 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D2031F9A11
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 16:26:41 +0200 (CEST)
-Received: from localhost ([::1]:38500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94B521F9A24
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 16:28:27 +0200 (CEST)
+Received: from localhost ([::1]:45602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jkq4O-0002bp-Ew
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 10:26:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48280)
+	id 1jkq66-0005XK-L8
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 10:28:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48514)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.vnet.ibm.com>)
- id 1jkq1U-0007OJ-W3
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 10:23:41 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:48874
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.vnet.ibm.com>)
- id 1jkq1T-0005Jh-BG
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 10:23:40 -0400
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 05FE2V7r071063
- for <qemu-devel@nongnu.org>; Mon, 15 Jun 2020 10:23:38 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 31np7bkrru-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Mon, 15 Jun 2020 10:23:38 -0400
-Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 05FE2vZb073824
- for <qemu-devel@nongnu.org>; Mon, 15 Jun 2020 10:23:38 -0400
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
- [169.53.41.122])
- by mx0b-001b2d01.pphosted.com with ESMTP id 31np7bkrrj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 15 Jun 2020 10:23:38 -0400
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
- by ppma04dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 05FEKlbm010166;
- Mon, 15 Jun 2020 14:23:37 GMT
-Received: from b03cxnp07029.gho.boulder.ibm.com
- (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
- by ppma04dal.us.ibm.com with ESMTP id 31mpe8wt0j-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 15 Jun 2020 14:23:37 +0000
-Received: from b03ledav006.gho.boulder.ibm.com
- (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
- by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 05FENad559441594
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 15 Jun 2020 14:23:36 GMT
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 035E8C6059;
- Mon, 15 Jun 2020 14:23:36 +0000 (GMT)
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5BCF1C6055;
- Mon, 15 Jun 2020 14:23:35 +0000 (GMT)
-Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
- by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTP;
- Mon, 15 Jun 2020 14:23:35 +0000 (GMT)
-From: Stefan Berger <stefanb@linux.vnet.ibm.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 5/5] tests: Add updated DSDT
-Date: Mon, 15 Jun 2020 10:23:27 -0400
-Message-Id: <20200615142327.671546-6-stefanb@linux.vnet.ibm.com>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200615142327.671546-1-stefanb@linux.vnet.ibm.com>
-References: <20200615142327.671546-1-stefanb@linux.vnet.ibm.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jkq2m-0001Sv-ML
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 10:25:00 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:38691)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jkq2k-0005Rj-Ek
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 10:25:00 -0400
+Received: by mail-oi1-x243.google.com with SMTP id c194so16046968oig.5
+ for <qemu-devel@nongnu.org>; Mon, 15 Jun 2020 07:24:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=lX1DhGHvT7CCAJGL5gGUa67aYcG9Xt2i5yMrO/VCpKA=;
+ b=RcUVMghVfjqBT5RlKfeDPZ3feXIIX9wNapYadArpurUhkqpCt0Qz64nrnV8oiHxoKw
+ zPUwssguiFBdboHx8Jeb9Ctk6rMBRucnDhwVIOuU2yayRzEI0gcGxH23RiVeZ+4Ul9yE
+ OMKtTsVAGg0TeleQoIgSIpKFGjmw8ce2F88Y3GF8O5BsIgGQ2wK/L/WDWUlFp5XJzazY
+ gVfM4xETri9zqEQigVNBO7Dvh83wCsVlJ36y+ME1j3tkT9B9IRprezVRr6Yt3CJmVHZR
+ IOxIMJ8d13tpT3HLVL8v4fn5iqsAeivTbFKBdqTanp12x4QtA3/RGPsE7/KBZ5MT+8Uk
+ b+zQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=lX1DhGHvT7CCAJGL5gGUa67aYcG9Xt2i5yMrO/VCpKA=;
+ b=IV9mfEzq4hmFRkLtZsGJ12ZNJnbqXE9godKFcsy0huCT9/caSbAbq3wlWPHhBzzhHP
+ C/bYSHh5MvmZC0pO/9quz0kPNPIpHbgT/XIhx6BcMZvX/AVa8unHyTU4L6UJJpBNSfrd
+ FjhRF/kBxGinJ97l+8GQ6CmUYRoyy7ezTHxNFq4OHC94iPc7c7cHvy1qsEcmEEsYqH0b
+ hx0f0eubkunvcJyin5j9VAd2sFKl/0OmL3ZJiCT3eGiVp9UI+FE/A5AATAUAilkh5EI/
+ I4eNpNlTxQ5tNSxS8ZkJy+e10Mj+9KLaAP5gLj6G7STFhVnS6P0kiEu+bOmYxAPm0tm8
+ 65ow==
+X-Gm-Message-State: AOAM532DllWzL9RWuZ1ZZ5A6mgyizqczvFltwrCPKmYCJzG0qxzH9TOY
+ setx1AYcrt52xSvEK8TiiceM4n52KxGOzWybs4rPLGuojA8=
+X-Google-Smtp-Source: ABdhPJwd7oHPLffZnuVpo03JqiW8XtqL2Iw/usV7raRxj5YpDvLUwV3DeWRvvK1pjW7rouSnTVzMMYKDPMqob7MF+do=
+X-Received: by 2002:aca:1a07:: with SMTP id a7mr9035908oia.163.1592231097024; 
+ Mon, 15 Jun 2020 07:24:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.687
- definitions=2020-06-15_03:2020-06-15,
- 2020-06-15 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 adultscore=0
- mlxlogscore=857 priorityscore=1501 impostorscore=0 clxscore=1015
- cotscore=-2147483648 mlxscore=0 lowpriorityscore=0 phishscore=0
- suspectscore=1 spamscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2004280000 definitions=main-2006150111
-Received-SPF: none client-ip=148.163.158.5;
- envelope-from=stefanb@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/15 08:37:04
-X-ACL-Warn: Detected OS   = Linux 3.x [generic]
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=_AUTOLEARN
+References: <20200605102230.21493-1-philmd@redhat.com>
+ <20200605102230.21493-12-philmd@redhat.com>
+In-Reply-To: <20200605102230.21493-12-philmd@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 15 Jun 2020 15:24:46 +0100
+Message-ID: <CAFEAcA_K1gkMwpeXP2DQGTfiQZOGc9O94dLf84oJJJMVpTc-uQ@mail.gmail.com>
+Subject: Re: [PATCH v3 11/11] hw/sd/sdcard: Simplify realize() a bit
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x243.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,69 +81,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Berger <stefanb@linux.vnet.ibm.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, eric.auger@redhat.com,
- pbonzini@redhat.com, marcandre.lureau@redhat.com, philmd@redhat.com,
- mkedzier@redhat.com, Stefan Berger <stefanb@linux.ibm.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add the updated DSDT following the interrupt enablement.
+On Fri, 5 Jun 2020 at 11:28, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com=
+> wrote:
+>
+> From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+>
+> We don't need to check if sd->blk is set twice.
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+>  hw/sd/sd.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+>
+> diff --git a/hw/sd/sd.c b/hw/sd/sd.c
+> index a1b25ed36f..060ca9d993 100644
+> --- a/hw/sd/sd.c
+> +++ b/hw/sd/sd.c
+> @@ -2123,12 +2123,12 @@ static void sd_realize(DeviceState *dev, Error **=
+errp)
+>          return;
+>      }
+>
+> -    if (sd->blk && blk_is_read_only(sd->blk)) {
+> -        error_setg(errp, "Cannot use read-only drive as SD card");
+> -        return;
+> -    }
+> -
+>      if (sd->blk) {
+> +        if (blk_is_read_only(sd->blk)) {
+> +            error_setg(errp, "Cannot use read-only drive as SD card");
+> +            return;
+> +        }
+> +
+>          ret =3D blk_set_perm(sd->blk, BLK_PERM_CONSISTENT_READ | BLK_PER=
+M_WRITE,
+>                             BLK_PERM_ALL, errp);
+>          if (ret < 0) {
 
-@@ -5,13 +5,13 @@
-  *
-  * Disassembling to symbolic ASL+ operators
-  *
-- * Disassembly of tests/data/acpi/q35/DSDT.tis, Mon Jun 15 09:57:05 2020
-+ * Disassembly of /tmp/aml-Y77YL0, Mon Jun 15 09:57:05 2020
-  *
-  * Original Table Header:
-  *     Signature        "DSDT"
-- *     Length           0x000020A5 (8357)
-+ *     Length           0x000020A8 (8360)
-  *     Revision         0x01 **** 32-bit table (V1), no 64-bit math support
-- *     Checksum         0xAD
-+ *     Checksum         0x77
-  *     OEM ID           "BOCHS "
-  *     OEM Table ID     "BXPCDSDT"
-  *     OEM Revision     0x00000001 (1)
-@@ -3162,6 +3162,8 @@
-                         0xFED40000,         // Address Base
-                         0x00005000,         // Address Length
-                         )
-+                    IRQNoFlags ()
-+                        {13}
-                 })
-                 OperationRegion (TPP2, SystemMemory, 0xFED45100, 0x5A)
-                 Field (TPP2, AnyAcc, NoLock, Preserve)
-**
+Originally written with the pattern of "check all the error cases
+first; then do actual work". But if you prefer this way around
 
-Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
-CC: Michael S. Tsirkin <mst@redhat.com>
----
- tests/data/acpi/q35/DSDT.tis                | Bin 8357 -> 8360 bytes
- tests/qtest/bios-tables-test-allowed-diff.h |   1 -
- 2 files changed, 1 deletion(-)
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-diff --git a/tests/data/acpi/q35/DSDT.tis b/tests/data/acpi/q35/DSDT.tis
-index 56b6fb0c3298517d080e38fea05a748b9f1dba54..3f9db960aa05d399fa7f8449e6db688788211832 100644
-GIT binary patch
-delta 64
-zcmZ4LxWbXkCD<iog#rTuWBEp|KeC)oS~2m#PVoX>llkS`nVeK7N60A%iEs(FaWXJ6
-UFkJb^5Wv8o#GtUbT~3Y(068!Z;Q#;t
-
-delta 61
-zcmZ4CxYUu$CD<iosR9E7<Jyf}e`GoRHDls~o#F-DC-cj>Gx@7bj*wH}7v$n=<78lD
-RV7T&+A%KBlbC;YP695=#58(g+
-
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index bb4ce8967b..dfb8523c8b 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1,2 +1 @@
- /* List of comma-separated changed AML files to ignore */
--"tests/data/acpi/q35/DSDT.tis",
--- 
-2.24.1
-
+thanks
+-- PMM
 
