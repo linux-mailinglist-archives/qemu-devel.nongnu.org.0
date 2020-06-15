@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C9061FA2EB
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 23:36:22 +0200 (CEST)
-Received: from localhost ([::1]:35934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB2BA1FA2D4
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 23:33:34 +0200 (CEST)
+Received: from localhost ([::1]:52092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jkwmD-00031r-Bv
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 17:36:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35540)
+	id 1jkwjV-0006OK-NE
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 17:33:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jkw20-0006yK-4z
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jkw20-0006yg-9y
  for qemu-devel@nongnu.org; Mon, 15 Jun 2020 16:48:36 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:54181
- helo=us-smtp-delivery-1.mimecast.com)
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:28418
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jkw1x-0001sI-Fm
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jkw1y-0001sS-9B
  for qemu-devel@nongnu.org; Mon, 15 Jun 2020 16:48:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592254112;
+ s=mimecast20190719; t=1592254113;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/kaOdXKFX8fBv1C74UUej8EyLMgDrn0m3AxMKhi4J2g=;
- b=Xar5YUnyxDrLUUPWJYTt9O0O3Iv6xleDh9eqM6DdNFtGOp6wHVGGXLemhk+J8tG2LPZtUB
- lmOn0s1yI3BVJE1/oIAAAIWs3aPVoHkRnzkFmwWITJLDArZY8ta+P1RUPma1hJERQCrr6s
- P4lote4dreUtNgPcQylL+qqRG+g0o5A=
+ bh=FK722c5ZFKER/wHuGqRHn4hCieNnVg1zW4nTNMQ6CSE=;
+ b=FBQ8Qddnq22C+ZBaiX304Kxf6+5SXH+2jPs5XUf/bNMoyRnQQyOOQIuY/TdZgXRngGsaQO
+ kIzPlqxToXsEizmWakEXL/9LEd5rYPZf8WdxLWofdqo+QsPLDb+ZmuRUVrwG+XjJUzfbOO
+ ECqYNwBAHg49BefQ/UMyR9VrN5wNwos=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-197--zeVf2wXPJ6sRK6Q6S0HWg-1; Mon, 15 Jun 2020 16:48:31 -0400
-X-MC-Unique: -zeVf2wXPJ6sRK6Q6S0HWg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-278-vQiCIEQ0PRWta6Q8W5X62w-1; Mon, 15 Jun 2020 16:48:31 -0400
+X-MC-Unique: vQiCIEQ0PRWta6Q8W5X62w-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3414818585D0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F2CAD1009613
  for <qemu-devel@nongnu.org>; Mon, 15 Jun 2020 20:48:30 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-121.ams2.redhat.com
  [10.36.112.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CD01390348;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 77F5E19D9E;
  Mon, 15 Jun 2020 20:48:29 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 1B0531132B59; Mon, 15 Jun 2020 22:40:09 +0200 (CEST)
+ id 2BF5D11328AB; Mon, 15 Jun 2020 22:40:09 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 67/84] sysbus: Tidy up sysbus_init_child_obj()'s @childsize arg, part 1
-Date: Mon, 15 Jun 2020 22:39:51 +0200
-Message-Id: <20200615204008.3069956-68-armbru@redhat.com>
+Subject: [PULL 70/84] sysbus: New sysbus_realize(), sysbus_realize_and_unref()
+Date: Mon, 15 Jun 2020 22:39:54 +0200
+Message-Id: <20200615204008.3069956-71-armbru@redhat.com>
 In-Reply-To: <20200615204008.3069956-1-armbru@redhat.com>
 References: <20200615204008.3069956-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/15 15:33:04
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/15 16:38:57
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -80,141 +80,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The callers of sysbus_init_child_obj() commonly pass either &child,
-sizeof(child), or pchild, sizeof(*pchild).  Tidy up the few that use
-sizeof(child_type) instead, mostly to keep future commits simpler.
+Sysbus devices almost always plug into the main system bus.
+qdev_create() even has a convenience feature to make that easy: a null
+bus argument gets replaced by the main system bus.  qdev_realize() and
+qdev_realize_and_unref() do the same.
 
-Coccinelle script:
-
-    @@
-    expression parent, propname, type;
-    type T;
-    T child;
-    @@
-    -    sysbus_init_child_obj(parent, propname, &child, sizeof(T), type)
-    +    sysbus_init_child_obj(parent, propname, &child, sizeof(child), type)
-
-    @@
-    expression parent, propname, type;
-    type T;
-    T *child;
-    @@
-    -    sysbus_init_child_obj(parent, propname, child, sizeof(T), type)
-    +    sysbus_init_child_obj(parent, propname, child, sizeof(*child), type)
+We can do better.  Provide convenience wrappers around qdev_realize()
+and qdev_realize_and_unref() that don't take a @bus argument.  They
+always pass the main system bus.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20200610053247.1583243-42-armbru@redhat.com>
+Message-Id: <20200610053247.1583243-45-armbru@redhat.com>
 ---
- hw/arm/bcm2835_peripherals.c    | 3 +--
- hw/arm/mps2-tz.c                | 5 ++---
- hw/arm/musca.c                  | 8 +++-----
- hw/display/sm501.c              | 2 +-
- hw/microblaze/xlnx-zynqmp-pmu.c | 4 ++--
- 5 files changed, 9 insertions(+), 13 deletions(-)
+ include/hw/sysbus.h |  4 +++-
+ hw/core/sysbus.c    | 14 ++++++++++++--
+ 2 files changed, 15 insertions(+), 3 deletions(-)
 
-diff --git a/hw/arm/bcm2835_peripherals.c b/hw/arm/bcm2835_peripherals.c
-index cca5b5ad04..188b112c13 100644
---- a/hw/arm/bcm2835_peripherals.c
-+++ b/hw/arm/bcm2835_peripherals.c
-@@ -27,8 +27,7 @@ static void create_unimp(BCM2835PeripheralState *ps,
-                          UnimplementedDeviceState *uds,
-                          const char *name, hwaddr ofs, hwaddr size)
- {
--    sysbus_init_child_obj(OBJECT(ps), name, uds,
--                          sizeof(UnimplementedDeviceState),
-+    sysbus_init_child_obj(OBJECT(ps), name, uds, sizeof(*uds),
-                           TYPE_UNIMPLEMENTED_DEVICE);
-     qdev_prop_set_string(DEVICE(uds), "name", name);
-     qdev_prop_set_uint64(DEVICE(uds), "size", size);
-diff --git a/hw/arm/mps2-tz.c b/hw/arm/mps2-tz.c
-index 8a050228d0..ad0bc9365a 100644
---- a/hw/arm/mps2-tz.c
-+++ b/hw/arm/mps2-tz.c
-@@ -174,8 +174,7 @@ static MemoryRegion *make_unimp_dev(MPS2TZMachineState *mms,
-      */
-     UnimplementedDeviceState *uds = opaque;
+diff --git a/include/hw/sysbus.h b/include/hw/sysbus.h
+index c4a1c0adfa..606095ba35 100644
+--- a/include/hw/sysbus.h
++++ b/include/hw/sysbus.h
+@@ -90,6 +90,9 @@ void sysbus_add_io(SysBusDevice *dev, hwaddr addr,
+                    MemoryRegion *mem);
+ MemoryRegion *sysbus_address_space(SysBusDevice *dev);
  
--    sysbus_init_child_obj(OBJECT(mms), name, uds,
--                          sizeof(UnimplementedDeviceState),
-+    sysbus_init_child_obj(OBJECT(mms), name, uds, sizeof(*uds),
-                           TYPE_UNIMPLEMENTED_DEVICE);
-     qdev_prop_set_string(DEVICE(uds), "name", name);
-     qdev_prop_set_uint64(DEVICE(uds), "size", size);
-@@ -552,7 +551,7 @@ static void mps2tz_common_init(MachineState *machine)
-         char *gpioname;
- 
-         sysbus_init_child_obj(OBJECT(machine), ppcinfo->name, ppc,
--                              sizeof(TZPPC), TYPE_TZ_PPC);
-+                              sizeof(*ppc), TYPE_TZ_PPC);
-         ppcdev = DEVICE(ppc);
- 
-         for (port = 0; port < TZ_NUM_PORTS; port++) {
-diff --git a/hw/arm/musca.c b/hw/arm/musca.c
-index cd7df7c191..b7f1c4e128 100644
---- a/hw/arm/musca.c
-+++ b/hw/arm/musca.c
-@@ -142,8 +142,7 @@ static MemoryRegion *make_unimp_dev(MuscaMachineState *mms,
-      */
-     UnimplementedDeviceState *uds = opaque;
- 
--    sysbus_init_child_obj(OBJECT(mms), name, uds,
--                          sizeof(UnimplementedDeviceState),
-+    sysbus_init_child_obj(OBJECT(mms), name, uds, sizeof(*uds),
-                           TYPE_UNIMPLEMENTED_DEVICE);
-     qdev_prop_set_string(DEVICE(uds), "name", name);
-     qdev_prop_set_uint64(DEVICE(uds), "size", size);
-@@ -246,8 +245,7 @@ static MemoryRegion *make_mpc(MuscaMachineState *mms, void *opaque,
-     case MPC_CRYPTOISLAND:
-         /* We don't implement the CryptoIsland yet */
-         uds = &mms->cryptoisland;
--        sysbus_init_child_obj(OBJECT(mms), name, uds,
--                              sizeof(UnimplementedDeviceState),
-+        sysbus_init_child_obj(OBJECT(mms), name, uds, sizeof(*uds),
-                               TYPE_UNIMPLEMENTED_DEVICE);
-         qdev_prop_set_string(DEVICE(uds), "name", mpcinfo[i].name);
-         qdev_prop_set_uint64(DEVICE(uds), "size", mpcinfo[i].size);
-@@ -535,7 +533,7 @@ static void musca_init(MachineState *machine)
-         char *gpioname;
- 
-         sysbus_init_child_obj(OBJECT(machine), ppcinfo->name, ppc,
--                              sizeof(TZPPC), TYPE_TZ_PPC);
-+                              sizeof(*ppc), TYPE_TZ_PPC);
-         ppcdev = DEVICE(ppc);
- 
-         for (port = 0; port < TZ_NUM_PORTS; port++) {
-diff --git a/hw/display/sm501.c b/hw/display/sm501.c
-index 3e62eca3de..ccdbce1a06 100644
---- a/hw/display/sm501.c
-+++ b/hw/display/sm501.c
-@@ -2023,7 +2023,7 @@ static void sm501_sysbus_init(Object *o)
-     SM501SysBusState *sm501 = SYSBUS_SM501(o);
-     SerialMM *smm = &sm501->serial;
- 
--    sysbus_init_child_obj(o, "serial", smm, sizeof(SerialMM), TYPE_SERIAL_MM);
-+    sysbus_init_child_obj(o, "serial", smm, sizeof(*smm), TYPE_SERIAL_MM);
-     qdev_set_legacy_instance_id(DEVICE(smm), SM501_UART0, 2);
-     qdev_prop_set_uint8(DEVICE(smm), "regshift", 2);
-     qdev_prop_set_uint8(DEVICE(smm), "endianness", DEVICE_LITTLE_ENDIAN);
-diff --git a/hw/microblaze/xlnx-zynqmp-pmu.c b/hw/microblaze/xlnx-zynqmp-pmu.c
-index bd56eccd66..30ad133ec3 100644
---- a/hw/microblaze/xlnx-zynqmp-pmu.c
-+++ b/hw/microblaze/xlnx-zynqmp-pmu.c
-@@ -69,8 +69,8 @@ static void xlnx_zynqmp_pmu_soc_init(Object *obj)
-     /* Create the IPI device */
-     for (int i = 0; i < XLNX_ZYNQMP_PMU_NUM_IPIS; i++) {
-         char *name = g_strdup_printf("ipi%d", i);
--        sysbus_init_child_obj(obj, name, &s->ipi[i],
--                              sizeof(XlnxZynqMPIPI), TYPE_XLNX_ZYNQMP_IPI);
-+        sysbus_init_child_obj(obj, name, &s->ipi[i], sizeof(s->ipi[i]),
-+                              TYPE_XLNX_ZYNQMP_IPI);
-         g_free(name);
-     }
++bool sysbus_realize(SysBusDevice *dev, Error **errp);
++bool sysbus_realize_and_unref(SysBusDevice *dev, Error **errp);
++
+ /**
+  * sysbus_init_child_obj:
+  * @parent: The parent object
+@@ -121,5 +124,4 @@ static inline DeviceState *sysbus_create_simple(const char *name,
+     return sysbus_create_varargs(name, addr, irq, NULL);
  }
+ 
+-
+ #endif /* HW_SYSBUS_H */
+diff --git a/hw/core/sysbus.c b/hw/core/sysbus.c
+index e8d08d349b..68b837ac85 100644
+--- a/hw/core/sysbus.c
++++ b/hw/core/sysbus.c
+@@ -217,7 +217,7 @@ void sysbus_init_ioports(SysBusDevice *dev, uint32_t ioport, uint32_t size)
+  * from being set to NULL to break the normal init/realize
+  * of some devices.
+  */
+-static void sysbus_realize(DeviceState *dev, Error **errp)
++static void sysbus_device_realize(DeviceState *dev, Error **errp)
+ {
+ }
+ 
+@@ -250,6 +250,16 @@ DeviceState *sysbus_create_varargs(const char *name,
+     return dev;
+ }
+ 
++bool sysbus_realize(SysBusDevice *dev, Error **errp)
++{
++    return qdev_realize(DEVICE(dev), sysbus_get_default(), errp);
++}
++
++bool sysbus_realize_and_unref(SysBusDevice *dev, Error **errp)
++{
++    return qdev_realize_and_unref(DEVICE(dev), sysbus_get_default(), errp);
++}
++
+ static void sysbus_dev_print(Monitor *mon, DeviceState *dev, int indent)
+ {
+     SysBusDevice *s = SYS_BUS_DEVICE(dev);
+@@ -301,7 +311,7 @@ MemoryRegion *sysbus_address_space(SysBusDevice *dev)
+ static void sysbus_device_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *k = DEVICE_CLASS(klass);
+-    k->realize = sysbus_realize;
++    k->realize = sysbus_device_realize;
+     k->bus_type = TYPE_SYSTEM_BUS;
+     /*
+      * device_add plugs devices into a suitable bus.  For "real" buses,
 -- 
 2.26.2
 
