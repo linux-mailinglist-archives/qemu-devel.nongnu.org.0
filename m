@@ -2,80 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 531111F976B
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 14:59:35 +0200 (CEST)
-Received: from localhost ([::1]:33220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1D4D1F97EF
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 15:10:04 +0200 (CEST)
+Received: from localhost ([::1]:50218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jkoi6-0001s6-Du
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 08:59:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57024)
+	id 1jkosF-00011d-IM
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 09:10:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jkoh8-00014f-G4
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 08:58:34 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:21550
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jkoh6-0007OE-Fm
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 08:58:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592225911;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=lmHeBD8e9NKNnUj27QGWD5rnYcnbE9YVXjm4xIvsHwU=;
- b=RgZI92E2T6divngqQ1rIi7jxja7LeFK9XktF55lDGKmL5Ms61JotY/aPgRzq4FkUoqm8kB
- ZvyDJhG8lbW2DizWYdSn3qbX/Zg3nn4GsKSLAhLL9X6LzF8ZliIWR7QRHq0e4uZe+17VY1
- +30s3tK87IOeo+hMFpKED5HlwKJ77ME=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-218-q1LRaBXuMXeAGZ7niVcGDA-1; Mon, 15 Jun 2020 08:58:29 -0400
-X-MC-Unique: q1LRaBXuMXeAGZ7niVcGDA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 93E0D8B75A1;
- Mon, 15 Jun 2020 12:58:28 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-111.ams2.redhat.com [10.36.112.111])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D4CF37FEA3;
- Mon, 15 Jun 2020 12:58:19 +0000 (UTC)
-Subject: Re: [PULL v2 20/58] bios-tables-test: Add Q35/TPM-TIS test
-To: Auger Eric <eric.auger@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
-References: <20200612141917.9446-1-mst@redhat.com>
- <20200612141917.9446-21-mst@redhat.com>
- <CAP+75-V7YX9Kw86konzTv=urYF_hi3ht5eWUtRqALJGZ-WLEDQ@mail.gmail.com>
- <8dbb3662-25b5-ba06-10fe-e3667bb62f6c@redhat.com>
- <84e25c05-1b06-9f9e-e0b3-1b777d56530c@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <e850a5e1-c793-f7c9-ae0d-a9b1fe275837@redhat.com>
-Date: Mon, 15 Jun 2020 14:58:18 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (Exim 4.90_1) (envelope-from <dario@ciriminna.com>)
+ id 1jkkvo-0004JO-Ru
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 04:57:29 -0400
+Received: from smtpcmd01-g.aruba.it ([62.149.158.217]:54359)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <dario@ciriminna.com>) id 1jkkvm-0006Jv-Du
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 04:57:28 -0400
+Received: from [192.168.0.2] ([93.48.24.41])
+ by smtpcmd01.ad.aruba.it with bizsmtp
+ id rLxF2202K0tBuBh01LxJXi; Mon, 15 Jun 2020 10:57:20 +0200
+To: qemu-devel@nongnu.org
+From: Dario Ciriminna <dario@ciriminna.com>
+Subject: qemu win10 host winxp quest very slow
+Message-ID: <ad6cf8c6-1164-294c-134f-0c958598862b@ciriminna.com>
+Date: Mon, 15 Jun 2020 10:57:17 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <84e25c05-1b06-9f9e-e0b3-1b777d56530c@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-15; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/15 01:12:36
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
+Content-Language: it
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aruba.it; s=a1;
+ t=1592211440; bh=kYME0rTDm2FKqk/YbrghLfWuebGvLtKIjUiROO5pTBY=;
+ h=To:From:Subject:Date:MIME-Version:Content-Type;
+ b=VEffRxi3sY3bgRgLUdNEciZrxv7rU6XVRGgPuB+KIzTxlJbDk2ztQXKfjl2EAlRTh
+ jlT2rUm+E50Am6mHSkSGSyJz3CqWIU/K+BaMwTbojbXFOKCQuUnDvostAoUA9KiZb7
+ tKRoZ51sIfVi5dWDMg8ooa69OxoTIfApGMccYa15pzOKakqb8r2FsYkETERVuyDKBt
+ XsNHcLKExyA8XU0mFo8C4a6HZhOkeCXoH53GdLQHIrqmJi7atl2KJJxQGWz2sVYYES
+ V1o/ouUxHMWEw7OTD92v6ngCpcOMtWMaIwx8DRk6iioW/6Rx6MuNDh423KdjRh0yZq
+ whADYjj5jrXoQ==
+Received-SPF: pass client-ip=62.149.158.217; envelope-from=dario@ciriminna.com;
+ helo=smtpcmd01-g.aruba.it
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/15 04:57:21
+X-ACL-Warn: Detected OS   = Linux 2.6.x
+X-Spam_score_int: -38
+X-Spam_score: -3.9
 X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
+X-Mailman-Approved-At: Mon, 15 Jun 2020 09:08:41 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,100 +65,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Paolo Bonzini <pbonzini@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 15/06/2020 14.35, Auger Eric wrote:
-> Hi Philippe, Thomas,
-> 
-> On 6/15/20 12:22 PM, Thomas Huth wrote:
->> On 15/06/2020 12.02, Philippe Mathieu-DaudÃ© wrote:
->>> On Fri, Jun 12, 2020 at 5:00 PM Michael S. Tsirkin <mst@redhat.com> wrote:
->>>>
->>>> From: Eric Auger <eric.auger@redhat.com>
->>>>
->>>> Test tables specific to the TPM-TIS instantiation.
->>>> The TPM2 is added in the framework. Also the DSDT
->>>> is updated with the TPM. The new function should be
->>>> be usable for CRB as well, later one.
->>>>
->>>> Signed-off-by: Eric Auger <eric.auger@redhat.com>
->>>>
->>>> Message-Id: <20200609125409.24179-5-eric.auger@redhat.com>
->>>> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
->>>> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
->>>> ---
->>>>  tests/qtest/bios-tables-test.c | 58 ++++++++++++++++++++++++++++++++++
->>>>  tests/qtest/Makefile.include   |  1 +
->>>>  2 files changed, 59 insertions(+)
->>>>
->>>> diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
->>>> index c9843829b3..53f104a9c5 100644
->>>> --- a/tests/qtest/bios-tables-test.c
->>>> +++ b/tests/qtest/bios-tables-test.c
->>>> @@ -57,6 +57,9 @@
->>>>  #include "qemu/bitmap.h"
->>>>  #include "acpi-utils.h"
->>>>  #include "boot-sector.h"
->>>> +#include "tpm-emu.h"
->>>> +#include "hw/acpi/tpm.h"
->>>> +
->>>>
->>>>  #define MACHINE_PC "pc"
->>>>  #define MACHINE_Q35 "q35"
->>>> @@ -874,6 +877,60 @@ static void test_acpi_piix4_tcg_numamem(void)
->>>>      free_test_data(&data);
->>>>  }
->>>>
->>>> +uint64_t tpm_tis_base_addr;
->>>> +
->>>> +static void test_acpi_tcg_tpm(const char *machine, const char *tpm_if,
->>>> +                              uint64_t base)
->>>> +{
->>>> +    gchar *tmp_dir_name = g_strdup_printf("qemu-test_acpi_%s_tcg_%s.XXXXXX",
->>>> +                                          machine, tpm_if);
->>>> +    char *tmp_path = g_dir_make_tmp(tmp_dir_name, NULL);
->>>> +    TestState test;
->>>> +    test_data data;
->>>> +    GThread *thread;
->>>> +    char *args, *variant = g_strdup_printf(".%s", tpm_if);
->>>> +
->>>> +    tpm_tis_base_addr = base;
->>>> +
->>>> +    module_call_init(MODULE_INIT_QOM);
->>>> +
->>>> +    test.addr = g_new0(SocketAddress, 1);
->>>> +    test.addr->type = SOCKET_ADDRESS_TYPE_UNIX;
->>>> +    test.addr->u.q_unix.path = g_build_filename(tmp_path, "sock", NULL);
->>>> +    g_mutex_init(&test.data_mutex);
->>>> +    g_cond_init(&test.data_cond);
->>>> +    test.data_cond_signal = false;
->>>> +
->>>> +    thread = g_thread_new(NULL, tpm_emu_ctrl_thread, &test);
->>>> +    tpm_emu_test_wait_cond(&test);
->>>> +
->>>> +    memset(&data, 0, sizeof(data));
->>>> +    data.machine = machine;
->>>> +    data.variant = variant;
->>>> +
->>>> +    args = g_strdup_printf(
->>>> +        " -chardev socket,id=chr,path=%s"
->>>> +        " -tpmdev emulator,id=dev,chardev=chr"
->>>
->>> This test makes our CI fail:
->>> https://gitlab.com/qemu-project/qemu/-/jobs/593586369#L3466
->>
->> Right. The problem seems to occur as soon as you run "configure" with
->> "--disable-tpm" ... I think you need some "#ifdef CONFIG_TPM" here?
-> Thank you. I will respin asap.
+Hello folks,
 
-I just sent a fix ("Only run the TPM test with CONFIG_TPM enabled") ...
-please have a look at that mail whether it looks fine to you.
+i need to compile and run qemu under Windows 10 host (Pentium G860, very 
+bad)  with a Windows XP guest.
+Precompiled downloaded binary run smoothly, but my compiled version is 
+very very slow (I NEED to compile it).
 
- Thanks,
- Thomas
+I start it with :
+
+"C:\Program Files\qemu\qemu-system-x86_64w.exe" .\WindowsXP.img -m 1024M 
+-usb -vga std -netdev user,id=n0 -device rtl8139,netdev=n0 -fda 
+.\ZSK_DSK.img -D .\qemu.log
+
+ah and -D .\qemu.log doesn't log nothing. 0k log file.
+
+What can i try ? 3 min to start Windows XP is unacceptable and after 
+start system run slow!
+
+Thanks for help
+
+Dario
 
 
