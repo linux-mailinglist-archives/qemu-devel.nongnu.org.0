@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A1961FA249
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 23:07:18 +0200 (CEST)
-Received: from localhost ([::1]:42304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 986B41FA285
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 23:08:58 +0200 (CEST)
+Received: from localhost ([::1]:48154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jkwK5-0008MB-GH
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 17:07:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33594)
+	id 1jkwLh-0002RF-KE
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 17:08:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jkvuN-000360-V6
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 16:40:43 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:41897
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jkvuS-0003HW-VU
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 16:40:48 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:39771
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jkvuJ-0000Z3-Bd
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 16:40:43 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jkvuM-0000aZ-8v
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 16:40:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592253637;
+ s=mimecast20190719; t=1592253641;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kw11XaV9llR6IZI+iMTb4XV+xoOGm5V1oibzp+Gl5kU=;
- b=XoLKb1DyPlg1a941H03gfaWGan8P+bX9CB+qDug3XDxk3dzkcwBxSGdU17P6pXK3o1lu5/
- znwGIPudCecon2MjJB6LocQyx6sMjO6vYSAikf+6jw0dMgSWc+9VCvFHUVKG46y4ykWqyd
- qJEh5PuZTbFhjdWwuks0/Kkc5XZV1k8=
+ bh=8O0wtKjavh5H9EftYoHd/y7jFQcuTY0M2MfQNyhUGHw=;
+ b=NFfJvuqw9lh2Exeu16VPWrvKvTKrYUBP9+DKHLJR2THvLSWoHr76CHeHEbgPvhBJ1VIoYf
+ NdRUb959WGp3GWCo/ID3s1kW8W1U+Itrg7f+fds3lBSq6cmFp7Obv48atl3hPwfj+u/nCE
+ ttnVoljrjWCmCY1ZdE4LFpfmITYZHns=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-264-30uSdQByPlOQ9EPheSxQUg-1; Mon, 15 Jun 2020 16:40:35 -0400
-X-MC-Unique: 30uSdQByPlOQ9EPheSxQUg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-490-3_VAFFCJOJiD6rr9Up3aIw-1; Mon, 15 Jun 2020 16:40:39 -0400
+X-MC-Unique: 3_VAFFCJOJiD6rr9Up3aIw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 27CDE873402;
- Mon, 15 Jun 2020 20:40:34 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 22150873405;
+ Mon, 15 Jun 2020 20:40:38 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-121.ams2.redhat.com
  [10.36.112.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 35FA45D9D5;
- Mon, 15 Jun 2020 20:40:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BFB919033C;
+ Mon, 15 Jun 2020 20:40:37 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 61D5311358DB; Mon, 15 Jun 2020 22:40:08 +0200 (CEST)
+ id 6C9F11135220; Mon, 15 Jun 2020 22:40:08 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 20/84] display/sm501 display/ati: Fix to realize "i2c-ddc"
-Date: Mon, 15 Jun 2020 22:39:04 +0200
-Message-Id: <20200615204008.3069956-21-armbru@redhat.com>
+Subject: [PULL 23/84] sparc/leon3: Fix to put grlib,* devices on sysbus
+Date: Mon, 15 Jun 2020 22:39:07 +0200
+Message-Id: <20200615204008.3069956-24-armbru@redhat.com>
 In-Reply-To: <20200615204008.3069956-1-armbru@redhat.com>
 References: <20200615204008.3069956-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/15 15:33:00
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/15 16:38:57
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,82 +80,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Magnus Damm <magnus.damm@gmail.com>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>, qemu-ppc@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ KONRAD Frederic <frederic.konrad@adacore.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Fabien Chouteau <chouteau@adacore.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-sm501_init() and ati_vga_realize() create an "i2c-ddc" device, but
-neglect to realize it.  Affects machines sam460ex, shix, r2d, and
-fulong2e.
+leon3_generic_hw_init() creates a "grlib,ahbpnp" and a "grlib,apbpnp"
+sysbus device in a way that leaves them unplugged.
 
-In theory, a device becomes real only on realize.  In practice, the
-transition from unreal to real is a fuzzy one.  The work to make a
-device real can be spread between realize methods (fine),
-instance_init methods (wrong), and board code wiring up the device
-(fine as long as it effectively happens on realize).  Depending on
-what exactly is done where, a device can work even when we neglect
-to realize it.
+Create them the common way that puts them into the main system bus.
+Affects machine leon3_generic.  Visible in "info qtree":
 
-This one appears to work.  Nevertheless, it's a clear misuse of the
-interface.  Even when it works today (more or less by chance), it can
-break tomorrow.
+     bus: main-system-bus
+       type System
+    +  dev: grlib,ahbpnp, id ""
+    +    mmio 00000000fffff000/0000000000001000
+    +  dev: grlib,apbpnp, id ""
+    +    mmio 00000000800ff000/0000000000001000
+       dev: grlib,irqmp, id ""
 
-Fix by realizing it right away.  Visible in "info qom-tree"; here's
-the change for sam460ex:
-
-     /machine (sam460ex-machine)
-       [...]
-       /unattached (container)
-         [...]
-    -    /device[14] (sii3112)
-    +    /device[14] (i2c-ddc)
-    +    /device[15] (sii3112)
-         [rest of device[*] renumbered...]
-
-Fixes: 4a1f253adb45ac6019971193d5077c4d5d55886a
-Fixes: c82c7336de58876862e6b4dccbda29e9240fd388
-Cc: BALATON Zoltan <balaton@eik.bme.hu>
-Cc: qemu-ppc@nongnu.org
-Cc: Magnus Damm <magnus.damm@gmail.com>
-Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Cc: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+Cc: Fabien Chouteau <chouteau@adacore.com>
+Cc: KONRAD Frederic <frederic.konrad@adacore.com>
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Cc: Artyom Tarasenko <atar4qemu@gmail.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Tested-by: BALATON Zoltan <balaton@eik.bme.hu>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20200609122339.937862-19-armbru@redhat.com>
+Reviewed-by: KONRAD Frederic <frederic.konrad@adacore.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20200609122339.937862-22-armbru@redhat.com>
+Acked-by: Artyom Tarasenko <atar4qemu@gmail.com>
 ---
- hw/display/ati.c   | 2 ++
- hw/display/sm501.c | 2 ++
- 2 files changed, 4 insertions(+)
+ hw/sparc/leon3.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/display/ati.c b/hw/display/ati.c
-index 67604e68de..1d9df92b96 100644
---- a/hw/display/ati.c
-+++ b/hw/display/ati.c
-@@ -935,6 +935,8 @@ static void ati_vga_realize(PCIDevice *dev, Error **errp)
-     bitbang_i2c_init(&s->bbi2c, i2cbus);
-     I2CSlave *i2cddc = I2C_SLAVE(qdev_create(BUS(i2cbus), TYPE_I2CDDC));
-     i2c_set_slave_address(i2cddc, 0x50);
-+    object_property_set_bool(OBJECT(i2cddc), true, "realized",
-+                             &error_abort);
+diff --git a/hw/sparc/leon3.c b/hw/sparc/leon3.c
+index cc55117dec..d3ab8c9400 100644
+--- a/hw/sparc/leon3.c
++++ b/hw/sparc/leon3.c
+@@ -213,14 +213,14 @@ static void leon3_generic_hw_init(MachineState *machine)
+     reset_info->sp    = LEON3_RAM_OFFSET + ram_size;
+     qemu_register_reset(main_cpu_reset, reset_info);
  
-     /* mmio register space */
-     memory_region_init_io(&s->mm, OBJECT(s), &ati_mm_ops, s,
-diff --git a/hw/display/sm501.c b/hw/display/sm501.c
-index edd8d24a76..fa23a78164 100644
---- a/hw/display/sm501.c
-+++ b/hw/display/sm501.c
-@@ -1833,6 +1833,8 @@ static void sm501_init(SM501State *s, DeviceState *dev,
-     /* ddc */
-     I2CDDCState *ddc = I2CDDC(qdev_create(BUS(s->i2c_bus), TYPE_I2CDDC));
-     i2c_set_slave_address(I2C_SLAVE(ddc), 0x50);
-+    object_property_set_bool(OBJECT(ddc), true, "realized",
-+                             &error_abort);
+-    ahb_pnp = GRLIB_AHB_PNP(object_new(TYPE_GRLIB_AHB_PNP));
++    ahb_pnp = GRLIB_AHB_PNP(qdev_create(NULL, TYPE_GRLIB_AHB_PNP));
+     object_property_set_bool(OBJECT(ahb_pnp), true, "realized", &error_fatal);
+     sysbus_mmio_map(SYS_BUS_DEVICE(ahb_pnp), 0, LEON3_AHB_PNP_OFFSET);
+     grlib_ahb_pnp_add_entry(ahb_pnp, 0, 0, GRLIB_VENDOR_GAISLER,
+                             GRLIB_LEON3_DEV, GRLIB_AHB_MASTER,
+                             GRLIB_CPU_AREA);
  
-     /* mmio */
-     memory_region_init(&s->mmio_region, OBJECT(dev), "sm501.mmio", MMIO_SIZE);
+-    apb_pnp = GRLIB_APB_PNP(object_new(TYPE_GRLIB_APB_PNP));
++    apb_pnp = GRLIB_APB_PNP(qdev_create(NULL, TYPE_GRLIB_APB_PNP));
+     object_property_set_bool(OBJECT(apb_pnp), true, "realized", &error_fatal);
+     sysbus_mmio_map(SYS_BUS_DEVICE(apb_pnp), 0, LEON3_APB_PNP_OFFSET);
+     grlib_ahb_pnp_add_entry(ahb_pnp, LEON3_APB_PNP_OFFSET, 0xFFF,
 -- 
 2.26.2
 
