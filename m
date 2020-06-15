@@ -2,72 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 558301FA043
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 21:29:59 +0200 (CEST)
-Received: from localhost ([::1]:32808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A007E1FA06D
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 21:39:30 +0200 (CEST)
+Received: from localhost ([::1]:47530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jkunu-00048h-AL
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 15:29:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45108)
+	id 1jkux7-0004vg-Nt
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 15:39:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46558)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jkuh5-0006f7-U2
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 15:22:55 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:45208)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jkuoL-0005u2-N4; Mon, 15 Jun 2020 15:30:25 -0400
+Received: from mail-il1-x143.google.com ([2607:f8b0:4864:20::143]:34904)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jkuh3-0003qf-VF
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 15:22:55 -0400
-Received: by mail-wr1-x431.google.com with SMTP id c3so18273022wru.12
- for <qemu-devel@nongnu.org>; Mon, 15 Jun 2020 12:22:53 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jkuoH-00052Y-D4; Mon, 15 Jun 2020 15:30:25 -0400
+Received: by mail-il1-x143.google.com with SMTP id l6so280340ilo.2;
+ Mon, 15 Jun 2020 12:30:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=sO9x+bHLkdx0btvbwsMdriZmCPg7AHoA9rMG8PY8+c8=;
- b=VabKDFzdvZKNilc1Y2jbOBhryr4JDCI3kQtG3Gtt+HzRT5nNFDM31SLECgQgiLD8gg
- MjYzAXni+dwwt0M+wDh4ZPhcQNuQg2jFdcTIc/BIle66rQH/+Bag5abuSMvWoqcVbyes
- 66Zz1l7GJR8fKVurFRWxiQxF0/NE3dAgiAkvpLmcSVIkvzCpIrooF8R4PzoKrXKkvnht
- b7+T0AzStqRjSyWE0rONffbvt3GqK7oolYaUH0ZSf1jG/JZG31sb0XrusDDFRydYW0bJ
- ApTQLqaxKKRFSvH3QWHe7Vm5KacfDjNR2TTt7ngDHK/PTZ7+lONQ/6OmMPUcYQAfn4Ov
- UD4A==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=BlYRvqEWuxR/ZYBa39/RP6Znz9xpxQ6R4urwXV5zTDc=;
+ b=JTzssZegRqoHqkv/j+RJugehUxuICoGzFPttDjSCTs5e0Gr02eedaiOU3ttSYnBUpQ
+ rqpCO842yc4kI57U3Ck/qhUFFuAJk2JizSil+tL9zI5YCVndOx30yoWbWzA6hATTYT7p
+ mX2ANAZa/IaqwVhIVcpE5kUCyiI4QwiMRX3IdxdLuSN//ovN7mS3sBRLqfD6uYYrLrJM
+ G0iUo8RhK/S1/E3RDWCUIEwsxFoKgBTmTBfyr2wemJP/cFBD+BA/QHUCTG8lKY2AfiFA
+ lCz3seOh9Aga2w/T2iPhdUkA72oj7v0JsD1Vc+VAQnBXyDn4wdZK1sS6DfgO2OlUoRiW
+ lHVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=sO9x+bHLkdx0btvbwsMdriZmCPg7AHoA9rMG8PY8+c8=;
- b=LqZVrksxyF2bFUXwtcFEieL01R7RWsnhlPNVGXKyS3/+nAobi9uyHlRAIu+7EWF+FU
- ew2Awa6uKN1AwqrkItCTBq0PTXIV8JENoWvP/7AdWKmP7uFNxoBqbMI/MCzYFLn9CHmE
- 3W8u9BuEO5UCTzpitNSZZv0EPnwFfPjo70n1V96wY1XuzOdFb6UB+EX2vYsmPu5WT49f
- 6j/xrQ+85UfEZYzr6sTSgqDFFJjF9xBACrAHFPe3hfLzti/0dKmt8xY0zTnmA8e4FV0x
- bUl10ptsmtsTE2rubYdJxpCQ+DfU1ZSUnITG2ViK6gTcbeZx8IyunDJs6AHD0SYWqcSb
- WDBg==
-X-Gm-Message-State: AOAM532eckVPLhubU583GBbcWybSgqVw17nOwTnqJfQt+kL9vpV5DM/3
- 8bHWwkUNZ+jTOZMr3fd2fZQ5fEkW
-X-Google-Smtp-Source: ABdhPJyVZ8umRwQ04HR/l2DUDzIbNTpUqrhH/IamvqX2dECPZRbPOQGztKefBVmTsYQFjvl06cKAcg==
-X-Received: by 2002:a5d:4dd0:: with SMTP id f16mr32222811wru.117.1592248972258; 
- Mon, 15 Jun 2020 12:22:52 -0700 (PDT)
-Received: from rtrkw774-lin.syrmia.com ([46.240.135.226])
- by smtp.gmail.com with ESMTPSA id 50sm27823909wra.1.2020.06.15.12.22.51
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 15 Jun 2020 12:22:51 -0700 (PDT)
-From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-To: qemu-devel@nongnu.org,
-	peter.maydell@linaro.org
-Subject: [PULL 16/18] target/mips: msa: Split helpers for MULV.<B|H|W|D>
-Date: Mon, 15 Jun 2020 21:22:31 +0200
-Message-Id: <1592248953-8162-17-git-send-email-aleksandar.qemu.devel@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1592248953-8162-1-git-send-email-aleksandar.qemu.devel@gmail.com>
-References: <1592248953-8162-1-git-send-email-aleksandar.qemu.devel@gmail.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-wr1-x431.google.com
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=BlYRvqEWuxR/ZYBa39/RP6Znz9xpxQ6R4urwXV5zTDc=;
+ b=otp2f3n7hTSvBOFb4fgBS6ZIje3ZhSXFrsPPBN+gpViOR5jXf+o5S9WRJe+AksCY3e
+ PgY11IEZDkVJVuSCGf2gJ2TxYlK4kzBtg2BfFdcqM4XITdP+lp/zdQFSNNj3DxQx6hYn
+ 4y1nKvlpuHE2L1nQ/5qkqj2Wuvs/SvJ5VShXPHawb2iUormnbqXim3Qu0FFSbSZkYCzD
+ cRykumuGi7SOa8Qh9FM+MjzTaR7o4YfHCfRWCzW4Eb+CsQMvCfajoG30eaaK98Yj8Dn6
+ g8GxX+WRM4fuow2TO/7GQ45xXRyMsQeCVDFrcjjurvkIV9do4mK5ftwNZx1XUdJELpca
+ zjQw==
+X-Gm-Message-State: AOAM530ZoisL0EdusjDg6FBfbAVr0SbYAIRQzX+Yc0Sok6X9LZWZqXJH
+ kXUp3oywmOzA1S0rhcFFzPYQD0RKWnPo8VkY/ZQ=
+X-Google-Smtp-Source: ABdhPJzBb0q++Slziex0FS5xoV9V623lYWHrLEZ+z6nVilQTkHvksZU7VOnWoPIqXk6OJYWqZXxtWokjpvM+Lwjlo5Y=
+X-Received: by 2002:a92:aa07:: with SMTP id j7mr28329592ili.40.1592249420009; 
+ Mon, 15 Jun 2020 12:30:20 -0700 (PDT)
+MIME-Version: 1.0
+References: <1591625864-31494-1-git-send-email-bmeng.cn@gmail.com>
+ <1591625864-31494-16-git-send-email-bmeng.cn@gmail.com>
+In-Reply-To: <1591625864-31494-16-git-send-email-bmeng.cn@gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 15 Jun 2020 12:20:56 -0700
+Message-ID: <CAKmqyKMFTyZqbtNT932Dq8sSR593j=QhvJB=htRKji8mcP0+PA@mail.gmail.com>
+Subject: Re: [PATCH 15/15] hw/riscv: sifive_u: Add a dummy DDR memory
+ controller device
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::143;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x143.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
@@ -82,176 +79,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aleksandar.qemu.devel@gmail.com
+Cc: Bin Meng <bin.meng@windriver.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Palmer Dabbelt <palmerdabbelt@google.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Achieves clearer code and slightly better performance.
+On Mon, Jun 8, 2020 at 7:29 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> From: Bin Meng <bin.meng@windriver.com>
+>
+> It is enough to simply map the SiFive FU540 DDR memory controller
+> into the MMIO space using create_unimplemented_device(), to make
+> the upstream U-Boot v2020.07 DDR memory initialization codes happy.
+>
+> Note we do not generate device tree fragment for the DDR memory
+> controller. Since the controller data in device tree consumes a
+> very large space (see fu540-hifive-unleashed-a00-ddr.dtsi in the
+> U-Boot source), and it is only needed by U-Boot SPL but not any
+> operating system, we choose not to generate the fragment here.
+> This also means when testing with U-Boot SPL, the device tree has
+> to come from U-Boot SPL itself, but not the one generated by QEMU
+> on the fly. The memory has to be set to 8GiB to match the real
+> HiFive Unleashed board when invoking QEMU (-m 8G).
+>
+> With this commit, QEMU can boot U-Boot SPL built for SiFive FU540
+> all the way up to loading U-Boot proper from MMC:
+>
+> $ qemu-system-riscv64 -nographic -M sifive_u,msel=6 -m 8G -bios u-boot-spl.bin
+>
+> U-Boot SPL 2020.07-rc3-00208-g88bd5b1 (Jun 08 2020 - 20:16:10 +0800)
+> Trying to boot from MMC1
+> Unhandled exception: Load access fault
+> EPC: 0000000008009be6 TVAL: 0000000010050014
+>
+> The above exception is expected because QSPI is unsupported yet.
+>
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
 
-Reviewed-by: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
-Signed-off-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Message-Id: <20200613152133.8964-15-aleksandar.qemu.devel@gmail.com>
----
- target/mips/helper.h     |  6 +++-
- target/mips/msa_helper.c | 79 +++++++++++++++++++++++++++++++++++++++++++-----
- target/mips/translate.c  | 15 ++++++++-
- 3 files changed, 91 insertions(+), 9 deletions(-)
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-diff --git a/target/mips/helper.h b/target/mips/helper.h
-index 5d7ba6a..e97655d 100644
---- a/target/mips/helper.h
-+++ b/target/mips/helper.h
-@@ -960,6 +960,11 @@ DEF_HELPER_4(msa_msubv_h, void, env, i32, i32, i32)
- DEF_HELPER_4(msa_msubv_w, void, env, i32, i32, i32)
- DEF_HELPER_4(msa_msubv_d, void, env, i32, i32, i32)
- 
-+DEF_HELPER_4(msa_mulv_b, void, env, i32, i32, i32)
-+DEF_HELPER_4(msa_mulv_h, void, env, i32, i32, i32)
-+DEF_HELPER_4(msa_mulv_w, void, env, i32, i32, i32)
-+DEF_HELPER_4(msa_mulv_d, void, env, i32, i32, i32)
-+
- DEF_HELPER_4(msa_asub_s_b, void, env, i32, i32, i32)
- DEF_HELPER_4(msa_asub_s_h, void, env, i32, i32, i32)
- DEF_HELPER_4(msa_asub_s_w, void, env, i32, i32, i32)
-@@ -1098,7 +1103,6 @@ DEF_HELPER_5(msa_srlri_df, void, env, i32, i32, i32, i32)
- 
- DEF_HELPER_5(msa_binsl_df, void, env, i32, i32, i32, i32)
- DEF_HELPER_5(msa_binsr_df, void, env, i32, i32, i32, i32)
--DEF_HELPER_5(msa_mulv_df, void, env, i32, i32, i32, i32)
- 
- DEF_HELPER_4(msa_dotp_s_h, void, env, i32, i32, i32)
- DEF_HELPER_4(msa_dotp_s_w, void, env, i32, i32, i32)
-diff --git a/target/mips/msa_helper.c b/target/mips/msa_helper.c
-index d099e00..6865add 100644
---- a/target/mips/msa_helper.c
-+++ b/target/mips/msa_helper.c
-@@ -3360,6 +3360,78 @@ void helper_msa_msubv_d(CPUMIPSState *env,
- }
- 
- 
-+static inline int64_t msa_mulv_df(uint32_t df, int64_t arg1, int64_t arg2)
-+{
-+    return arg1 * arg2;
-+}
-+
-+void helper_msa_mulv_b(CPUMIPSState *env,
-+                       uint32_t wd, uint32_t ws, uint32_t wt)
-+{
-+    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
-+    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
-+    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
-+
-+    pwd->b[0]  = msa_mulv_df(DF_BYTE, pws->b[0],  pwt->b[0]);
-+    pwd->b[1]  = msa_mulv_df(DF_BYTE, pws->b[1],  pwt->b[1]);
-+    pwd->b[2]  = msa_mulv_df(DF_BYTE, pws->b[2],  pwt->b[2]);
-+    pwd->b[3]  = msa_mulv_df(DF_BYTE, pws->b[3],  pwt->b[3]);
-+    pwd->b[4]  = msa_mulv_df(DF_BYTE, pws->b[4],  pwt->b[4]);
-+    pwd->b[5]  = msa_mulv_df(DF_BYTE, pws->b[5],  pwt->b[5]);
-+    pwd->b[6]  = msa_mulv_df(DF_BYTE, pws->b[6],  pwt->b[6]);
-+    pwd->b[7]  = msa_mulv_df(DF_BYTE, pws->b[7],  pwt->b[7]);
-+    pwd->b[8]  = msa_mulv_df(DF_BYTE, pws->b[8],  pwt->b[8]);
-+    pwd->b[9]  = msa_mulv_df(DF_BYTE, pws->b[9],  pwt->b[9]);
-+    pwd->b[10] = msa_mulv_df(DF_BYTE, pws->b[10], pwt->b[10]);
-+    pwd->b[11] = msa_mulv_df(DF_BYTE, pws->b[11], pwt->b[11]);
-+    pwd->b[12] = msa_mulv_df(DF_BYTE, pws->b[12], pwt->b[12]);
-+    pwd->b[13] = msa_mulv_df(DF_BYTE, pws->b[13], pwt->b[13]);
-+    pwd->b[14] = msa_mulv_df(DF_BYTE, pws->b[14], pwt->b[14]);
-+    pwd->b[15] = msa_mulv_df(DF_BYTE, pws->b[15], pwt->b[15]);
-+}
-+
-+void helper_msa_mulv_h(CPUMIPSState *env,
-+                       uint32_t wd, uint32_t ws, uint32_t wt)
-+{
-+    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
-+    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
-+    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
-+
-+    pwd->h[0]  = msa_mulv_df(DF_HALF, pws->h[0],  pwt->h[0]);
-+    pwd->h[1]  = msa_mulv_df(DF_HALF, pws->h[1],  pwt->h[1]);
-+    pwd->h[2]  = msa_mulv_df(DF_HALF, pws->h[2],  pwt->h[2]);
-+    pwd->h[3]  = msa_mulv_df(DF_HALF, pws->h[3],  pwt->h[3]);
-+    pwd->h[4]  = msa_mulv_df(DF_HALF, pws->h[4],  pwt->h[4]);
-+    pwd->h[5]  = msa_mulv_df(DF_HALF, pws->h[5],  pwt->h[5]);
-+    pwd->h[6]  = msa_mulv_df(DF_HALF, pws->h[6],  pwt->h[6]);
-+    pwd->h[7]  = msa_mulv_df(DF_HALF, pws->h[7],  pwt->h[7]);
-+}
-+
-+void helper_msa_mulv_w(CPUMIPSState *env,
-+                       uint32_t wd, uint32_t ws, uint32_t wt)
-+{
-+    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
-+    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
-+    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
-+
-+    pwd->w[0]  = msa_mulv_df(DF_WORD, pws->w[0],  pwt->w[0]);
-+    pwd->w[1]  = msa_mulv_df(DF_WORD, pws->w[1],  pwt->w[1]);
-+    pwd->w[2]  = msa_mulv_df(DF_WORD, pws->w[2],  pwt->w[2]);
-+    pwd->w[3]  = msa_mulv_df(DF_WORD, pws->w[3],  pwt->w[3]);
-+}
-+
-+void helper_msa_mulv_d(CPUMIPSState *env,
-+                       uint32_t wd, uint32_t ws, uint32_t wt)
-+{
-+    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
-+    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
-+    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
-+
-+    pwd->d[0]  = msa_mulv_df(DF_DOUBLE, pws->d[0],  pwt->d[0]);
-+    pwd->d[1]  = msa_mulv_df(DF_DOUBLE, pws->d[1],  pwt->d[1]);
-+}
-+
-+
- /*
-  * Int Subtract
-  * ------------
-@@ -5444,11 +5516,6 @@ MSA_TEROP_IMMU_DF(binsli, binsl)
- MSA_TEROP_IMMU_DF(binsri, binsr)
- #undef MSA_TEROP_IMMU_DF
- 
--static inline int64_t msa_mulv_df(uint32_t df, int64_t arg1, int64_t arg2)
--{
--    return arg1 * arg2;
--}
--
- #define CONCATENATE_AND_SLIDE(s, k)             \
-     do {                                        \
-         for (i = 0; i < s; i++) {               \
-@@ -5566,8 +5633,6 @@ void helper_msa_ ## func ## _df(CPUMIPSState *env, uint32_t df,         \
-     }                                                                   \
- }
- 
--MSA_BINOP_DF(mulv)
--
- MSA_BINOP_DF(mul_q)
- MSA_BINOP_DF(mulr_q)
- #undef MSA_BINOP_DF
-diff --git a/target/mips/translate.c b/target/mips/translate.c
-index 9ca17ed..9fad58e 100644
---- a/target/mips/translate.c
-+++ b/target/mips/translate.c
-@@ -29315,7 +29315,20 @@ static void gen_msa_3r(CPUMIPSState *env, DisasContext *ctx)
-         }
-         break;
-     case OPC_MULV_df:
--        gen_helper_msa_mulv_df(cpu_env, tdf, twd, tws, twt);
-+        switch (df) {
-+        case DF_BYTE:
-+            gen_helper_msa_mulv_b(cpu_env, twd, tws, twt);
-+            break;
-+        case DF_HALF:
-+            gen_helper_msa_mulv_h(cpu_env, twd, tws, twt);
-+            break;
-+        case DF_WORD:
-+            gen_helper_msa_mulv_w(cpu_env, twd, tws, twt);
-+            break;
-+        case DF_DOUBLE:
-+            gen_helper_msa_mulv_d(cpu_env, twd, tws, twt);
-+            break;
-+        }
-         break;
-     case OPC_SLD_df:
-         gen_helper_msa_sld_df(cpu_env, tdf, twd, tws, twt);
--- 
-2.7.4
+Alistair
 
+>
+> ---
+>
+>  hw/riscv/sifive_u.c         | 4 ++++
+>  include/hw/riscv/sifive_u.h | 1 +
+>  2 files changed, 5 insertions(+)
+>
+> diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+> index c94ff6f..7923df4 100644
+> --- a/hw/riscv/sifive_u.c
+> +++ b/hw/riscv/sifive_u.c
+> @@ -82,6 +82,7 @@ static const struct MemmapEntry {
+>      [SIFIVE_U_OTP] =      { 0x10070000,     0x1000 },
+>      [SIFIVE_U_GEM] =      { 0x10090000,     0x2000 },
+>      [SIFIVE_U_GEM_MGMT] = { 0x100a0000,     0x1000 },
+> +    [SIFIVE_U_DMC] =      { 0x100b0000,    0x10000 },
+>      [SIFIVE_U_FLASH0] =   { 0x20000000, 0x10000000 },
+>      [SIFIVE_U_DRAM] =     { 0x80000000,        0x0 },
+>  };
+> @@ -733,6 +734,9 @@ static void sifive_u_soc_realize(DeviceState *dev, Error **errp)
+>
+>      create_unimplemented_device("riscv.sifive.u.gem-mgmt",
+>          memmap[SIFIVE_U_GEM_MGMT].base, memmap[SIFIVE_U_GEM_MGMT].size);
+> +
+> +    create_unimplemented_device("riscv.sifive.u.dmc",
+> +        memmap[SIFIVE_U_DMC].base, memmap[SIFIVE_U_DMC].size);
+>  }
+>
+>  static Property sifive_u_soc_props[] = {
+> diff --git a/include/hw/riscv/sifive_u.h b/include/hw/riscv/sifive_u.h
+> index 5d80f91..3e33646 100644
+> --- a/include/hw/riscv/sifive_u.h
+> +++ b/include/hw/riscv/sifive_u.h
+> @@ -78,6 +78,7 @@ enum {
+>      SIFIVE_U_UART1,
+>      SIFIVE_U_GPIO,
+>      SIFIVE_U_OTP,
+> +    SIFIVE_U_DMC,
+>      SIFIVE_U_FLASH0,
+>      SIFIVE_U_DRAM,
+>      SIFIVE_U_GEM,
+> --
+> 2.7.4
+>
+>
 
