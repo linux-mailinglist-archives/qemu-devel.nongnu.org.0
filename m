@@ -2,84 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D342A1F9BAC
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 17:14:32 +0200 (CEST)
-Received: from localhost ([::1]:37666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2977C1F9BB2
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 17:16:28 +0200 (CEST)
+Received: from localhost ([::1]:41908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jkqoh-0004pn-KX
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 11:14:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38088)
+	id 1jkqqZ-0006iN-5z
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 11:16:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1jkqnh-0003yw-Q8
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 11:13:29 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:44639
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1jkqng-00086I-6A
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 11:13:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592234007;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=x6YYuSptYPx7PlLjC+yQ4Noo93WJ4shSJavaXO+6xGs=;
- b=QgeH984bozIG0W13NnNdpkE3R/w3sUaBn/hD+pbVBQQbjvaZoNkNdl6SVQEU7sKB06XV8X
- jy3g5on7JbaS0sGM/kmLRp7e6CCVZI+rUmrBWeiEMstGL6RPUQZoUzLJZfLL9Z+hqNP0tp
- SAuY0itPXVPofvYSxAjAoVbt1/1gz9w=
-Received: from mail-io1-f70.google.com (mail-io1-f70.google.com
- [209.85.166.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-44-3i3UgzR_NHqAzO_JptpUpQ-1; Mon, 15 Jun 2020 11:13:25 -0400
-X-MC-Unique: 3i3UgzR_NHqAzO_JptpUpQ-1
-Received: by mail-io1-f70.google.com with SMTP id l204so11597500ioa.4
- for <qemu-devel@nongnu.org>; Mon, 15 Jun 2020 08:13:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=x6YYuSptYPx7PlLjC+yQ4Noo93WJ4shSJavaXO+6xGs=;
- b=uPuGPQncZKa6y6FfDsABoC7SU68Huc4NSgMwY1OzJTJsV0WiCAywPzwF3iYhk3ZVs+
- mQhkrprc06fu5+lp8FstehY93Dn5nvdsKCfB8fdSq8xb24o6aIugTBTraqVdjZgqbt3V
- 9aGwMePN7l92SI1vBrk76bccpOfzCLrOtDEvXpW7Tz2FptQXU3NEW1l6ao/3bYqoDDjD
- x3F4yBTIhIJt0K8u0bmhm/deRRgaEnIFtSV79Zneym48LlOrMUoLXhPKBnYivrAy1goA
- rRR402+RqQVFnpfQGRVJjyO91+aHREbsFcv+fdKgKHHlISU4nFefJaarkJet6C2r4iz1
- XuSw==
-X-Gm-Message-State: AOAM5315/U2v0WqWNLe6QmfX2BTzdhGJS1tT3MOE5p2ZjfBaulsQAEkR
- S68RZlzvzc3ZFeTCd/Mm4NFnvh3IPz4Exmlh+/PFt2MV/tMjbDak5KrOdDUQP/1+UhQxxcRkWTy
- jCnV5uzDunzHglqdBePR+dhYGjVYIQ/s=
-X-Received: by 2002:a92:cb03:: with SMTP id s3mr11023455ilo.161.1592234001016; 
- Mon, 15 Jun 2020 08:13:21 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzqB06x3ld5Nh1DJZcwleaexDXarPuhpA57wAY376BwJSKk5Ip7Di6exV5ZtCrdsc/auLljlrM2Op8+Ak5ymYc=
-X-Received: by 2002:a92:cb03:: with SMTP id s3mr11023438ilo.161.1592234000828; 
- Mon, 15 Jun 2020 08:13:20 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1jkqp1-0005U2-PM
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 11:14:51 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:30612)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1jkqoz-0008Fe-8q
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 11:14:51 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id CF3ED746331;
+ Mon, 15 Jun 2020 17:14:37 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id B00C3746307; Mon, 15 Jun 2020 17:14:37 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id AE62974594E;
+ Mon, 15 Jun 2020 17:14:37 +0200 (CEST)
+Date: Mon, 15 Jun 2020 17:14:37 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH 3/4] sm501: Ignore no-op blits
+In-Reply-To: <CAFEAcA_PoKT3RxidPuSoUy9=3-yUC82bn1dJpEpkqVq0VS06Cw@mail.gmail.com>
+Message-ID: <alpine.BSF.2.22.395.2006151707580.31485@zero.eik.bme.hu>
+References: <cover.1591471056.git.balaton@eik.bme.hu>
+ <b62681e58108651b2ca0d2fdbde8281e87185dbb.1591471056.git.balaton@eik.bme.hu>
+ <CAFEAcA_PoKT3RxidPuSoUy9=3-yUC82bn1dJpEpkqVq0VS06Cw@mail.gmail.com>
+User-Agent: Alpine 2.22 (BSF 395 2020-01-19)
 MIME-Version: 1.0
-References: <20200615142327.671546-1-stefanb@linux.vnet.ibm.com>
- <20200615142327.671546-5-stefanb@linux.vnet.ibm.com>
-In-Reply-To: <20200615142327.671546-5-stefanb@linux.vnet.ibm.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Mon, 15 Jun 2020 19:13:09 +0400
-Message-ID: <CAMxuvaxm+5Nuv2_1UTXY+-kK1CYMkxqU2pfLOxMgeDEqOjhgZA@mail.gmail.com>
-Subject: Re: [PATCH v2 4/5] acpi: Enable TPM IRQ
-To: Stefan Berger <stefanb@linux.vnet.ibm.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=mlureau@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/15 11:02:21
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/15 11:14:38
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,77 +61,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S . Tsirkin" <mst@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Eric Auger <eric.auger@redhat.com>, "Bonzini, Paolo" <pbonzini@redhat.com>,
- Philippe Mathieu Daude <philmd@redhat.com>,
- Marek Kedzierski <mkedzier@redhat.com>, Stefan Berger <stefanb@linux.ibm.com>
+Cc: Sebastian Bauer <mail@sebastianbauer.info>,
+ Magnus Damm <magnus.damm@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Aurelien Jarno <aurelien@aurel32.net>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 15, 2020 at 6:24 PM Stefan Berger
-<stefanb@linux.vnet.ibm.com> wrote:
+On Mon, 15 Jun 2020, Peter Maydell wrote:
+> On Sat, 6 Jun 2020 at 20:22, BALATON Zoltan <balaton@eik.bme.hu> wrote:
+>>
+>> Some guests seem to try source copy blits with same source and dest
+>> which are no-op so avoid calling pixman for these.
 >
-> From: Stefan Berger <stefanb@linux.ibm.com>
->
-> Move the TPM TIS IRQ to unused IRQ 13, which is also accepted by Windows.
-> Query for the TPM's irq number and enable the TPM IRQ if not zero.
->
-> Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
-> CC: Michael S. Tsirkin <mst@redhat.com>
+> Are they doing actual source copy blits, or one of the other
+> currently-unimplemented op types which we currently fall
+> back to doing as source-copy ?
 
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+I thought the same but in the cases I've seen the rop was 0xcc which is 
+copy source so it looks like an actual source copy blit (this seems to be 
+an issue in the guest driver, I've notified appropriate people but not 
+sure it's still maintained). Even if it was fallback we wouldn't need to 
+do the copy in this case as it changes nothing so we can optimise this 
+out. When we implement the missing op that would come before this case so 
+this is only for source copy case.
 
-> ---
->  hw/i386/acpi-build.c  | 11 +++++------
->  include/hw/acpi/tpm.h |  2 +-
->  2 files changed, 6 insertions(+), 7 deletions(-)
+>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu
 >
-> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> index 900f786d08..747defe1ce 100644
-> --- a/hw/i386/acpi-build.c
-> +++ b/hw/i386/acpi-build.c
-> @@ -2021,6 +2021,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
->              build_append_pci_bus_devices(scope, bus, pm->pcihp_bridge_en=
-);
->
->              if (TPM_IS_TIS_ISA(tpm)) {
-> +                uint8_t irq =3D tpm_get_irqnum(tpm);
->                  if (misc->tpm_version =3D=3D TPM_VERSION_2_0) {
->                      dev =3D aml_device("TPM");
->                      aml_append(dev, aml_name_decl("_HID",
-> @@ -2035,12 +2036,10 @@ build_dsdt(GArray *table_data, BIOSLinker *linker=
-,
->                  crs =3D aml_resource_template();
->                  aml_append(crs, aml_memory32_fixed(TPM_TIS_ADDR_BASE,
->                             TPM_TIS_ADDR_SIZE, AML_READ_WRITE));
-> -                /*
-> -                    FIXME: TPM_TIS_IRQ=3D5 conflicts with PNP0C0F irqs,
-> -                    Rewrite to take IRQ from TPM device model and
-> -                    fix default IRQ value there to use some unused IRQ
-> -                 */
-> -                /* aml_append(crs, aml_irq_no_flags(TPM_TIS_IRQ)); */
-> +
-> +                if (irq) {
-> +                    aml_append(crs, aml_irq_no_flags(irq));
-> +                }
->                  aml_append(dev, aml_name_decl("_CRS", crs));
->
->                  tpm_build_ppi_acpi(tpm, dev);
-> diff --git a/include/hw/acpi/tpm.h b/include/hw/acpi/tpm.h
-> index 1a2a57a21f..063a9eb42a 100644
-> --- a/include/hw/acpi/tpm.h
-> +++ b/include/hw/acpi/tpm.h
-> @@ -24,7 +24,7 @@
->  #define TPM_TIS_ADDR_BASE           0xFED40000
->  #define TPM_TIS_ADDR_SIZE           0x5000
->
-> -#define TPM_TIS_IRQ                 5
-> +#define TPM_TIS_IRQ                 13
->
->  #define TPM_TIS_NUM_LOCALITIES      5     /* per spec */
->  #define TPM_TIS_LOCALITY_SHIFT      12
-> --
-> 2.24.1
->
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
+Thank you,
+BALATON Zoltan
 
