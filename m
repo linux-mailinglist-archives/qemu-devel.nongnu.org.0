@@ -2,112 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B02DC1F901B
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 09:40:47 +0200 (CEST)
-Received: from localhost ([::1]:42996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7FF91F902F
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 09:44:50 +0200 (CEST)
+Received: from localhost ([::1]:49380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jkjja-0002vd-Qd
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 03:40:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50836)
+	id 1jkjnV-0005k1-Tu
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 03:44:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jkjik-0002Iy-Pa; Mon, 15 Jun 2020 03:39:55 -0400
-Received: from mail-db8eur05on2127.outbound.protection.outlook.com
- ([40.107.20.127]:8737 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jkjig-0006tz-Up; Mon, 15 Jun 2020 03:39:53 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XbubUafMqDx30NkCHQ5BHGVxwrtnWd1kDxtgSgHOrhxOEEFDDkWRU5hvJyI3khqv7a/RU+WZLLX/wWXCZUskm9jwIic7HTD5Mi6bnyDpEEX6YsAKMERjMQ4yfFMvnpjd4bXzXbufHzYlI7t1yNPwgYmI78NL/LfgThSfSysLDM6YnhjPXf6HTlcVC/oIw2v1rHYgIHg15SAdfp3p4GiCRf8WVzbY0eD1N3ksRJCFLQ/ngRKRcufk9L6Odn9ESgVfB5IMvrwdiTs3Ug1g/kPfLT1De8D/9ijxqvzy99oeqmzHpKgvQ+DKjjBENTPBHXha3AP+kLX+xQG6f7CvgbwERQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YKXTo5pqkF2fHafqWAmr91Qq7/5FBTXUJZF2B5+KeWI=;
- b=TNLMLroqkxfTmO15J83H3BgpIkNDKipdXjxmFr/iqmigkuVqE9inrES21JyO80MZwnQ6MlKPwMwO/zPKgOhxdFqaKzxHr3Sie3JdHhXfg3bYFP5WUTIXLJBeW0112SmOwMVrLO0v5gjvupIxE+5JHqQyeV2wM2kqPHTBeXKKJUs+uqEnm8jY/2XDlpc3duKF57EEil8WGRArJRHjq1wi5w6DvC8XNtQuWN9cRW9CAgDtKQT0a4FBUy7lKGPmzP7YfaB7GlfSck6wRjk5bzpKL3qY/YstMd4vkxn0P34W0P4ytQ237mZ7zqC6WbMAvxMQoc4SMJeT53OllF9QLmqp1A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YKXTo5pqkF2fHafqWAmr91Qq7/5FBTXUJZF2B5+KeWI=;
- b=G/COvjzNil0fDeJGYtFlVjL+vzROMBy5gIi1/8uJ7LL3DsbRsSlJMUD7qOV72Q1M38Zxpv5ZGbZfejqFh52RadagGEONbgSUtmQvgZbWFeIwp4w2cuaQ5phaxStsaG7vFax2ln+M7+4VbM7pC5y/UN4Klso5MPbWdMvxF6uGzbo=
-Authentication-Results: virtuozzo.com; dkim=none (message not signed)
- header.d=none;virtuozzo.com; dmarc=none action=none
- header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM7PR08MB5367.eurprd08.prod.outlook.com (2603:10a6:20b:dd::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3088.18; Mon, 15 Jun
- 2020 07:39:46 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::a408:2f0f:bc6c:d312]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::a408:2f0f:bc6c:d312%3]) with mapi id 15.20.3088.028; Mon, 15 Jun 2020
- 07:39:46 +0000
-Subject: Re: [PATCH 1/4] migration/savevm: respect qemu_fclose() error code in
- save_snapshot()
-To: "Denis V. Lunev" <den@openvz.org>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org
-References: <20200611171143.21589-1-den@openvz.org>
- <20200611171143.21589-2-den@openvz.org>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <b85767b0-4c7c-8cec-30c1-c93f6c9e3a74@virtuozzo.com>
-Date: Mon, 15 Jun 2020 10:39:44 +0300
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jkjmX-0005AR-7E; Mon, 15 Jun 2020 03:43:49 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:53359)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jkjmV-0007V2-EV; Mon, 15 Jun 2020 03:43:48 -0400
+Received: by mail-wm1-x341.google.com with SMTP id l26so13563350wme.3;
+ Mon, 15 Jun 2020 00:43:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=1s0bN70bEOKkdj9/NtcwoLGFW2ZzdcQpMyY9ziGa9CA=;
+ b=Xc4KRaYVB/+4GjD3irReKq6lbuCh0Gs3XG7SH6Hjd9a0/1yL7EhJcZw+KscPgI4VAr
+ rSapJltfGpm01DDme1P5oc2ktIRY/PkKazlU7L+2DnAf/rY9HtH0INKCVe0MOYAZrjSt
+ 4Q6oIaHS/444V6hqs+HvXVcqnnW0/YYHgE8KBITi3Ipc7N+haxHoU2dGgxAW+r3+iq8f
+ gj9Mkf4a6AjJY1Nfvj3v7mTjdsxzaZTZ8oPcPMpzJn/hNrZEfJTOctdXHCyIC+BGpPFG
+ GYkQWWT9KcDx7yNguB13BTfNJGCuzO6afPt+6VRKoLTC9A0X9kB9DSYnNTc/kQSzKhHD
+ NCqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=1s0bN70bEOKkdj9/NtcwoLGFW2ZzdcQpMyY9ziGa9CA=;
+ b=bCSmZdlxjJbqYmzgXtAJChfLZ/6WsTjGIxVPylqx4N9kFpYC0loHo6Dh9IGzt1367N
+ JgS9VZjk8FMvT2eSuYJfL/v+VBjuB0yMwlwRqN+sdP/uMsZFMTgPLUV205H4ec+K8cdg
+ KYIslLEjlF6uqS6X2JZ/NnkhQz+jJPTmmTWFLbNYloBdGbcdBFl8A2ulLdGagfYaOkM2
+ T4NWy7L6PVk6t1fToZS5nWiU2ilIhnTOH0ugxNpx3SdUb34kV4VfRHzJfv0iyAPIr82W
+ qWHpwmegKZbDBLHpiR1ZktgGYMh+V3jIgklD6I/TxHMmtb25FQfuek7DmRYxLpjaJzvB
+ IX7g==
+X-Gm-Message-State: AOAM531Grg7AoVgIOjDpii2ktZGaa9oaJCJrmBUwIGRkmGhLcOPgCh5b
+ CybPlvkdZIldLVQzoF7SXwk=
+X-Google-Smtp-Source: ABdhPJyJcabg7tFzt0uAUDGrRx1CYZPr6OEWWZ9Wh+ndlKzcxRw/ApJi/k5vNIKYyzz55JBy+OG2WA==
+X-Received: by 2002:a1c:6155:: with SMTP id v82mr11896551wmb.25.1592207025338; 
+ Mon, 15 Jun 2020 00:43:45 -0700 (PDT)
+Received: from [192.168.1.40] (181.red-88-10-103.dynamicip.rima-tde.net.
+ [88.10.103.181])
+ by smtp.gmail.com with ESMTPSA id s2sm14475810wmh.15.2020.06.15.00.43.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 15 Jun 2020 00:43:44 -0700 (PDT)
+Subject: Re: [PATCH v2] configure: Let SLOF be initialized by
+ ./scripts/git-submodule.sh
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+References: <20200615065721.7873-1-f4bug@amsat.org>
+ <e1343dcf-6607-8e51-5287-a52722aee97c@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <ac63e453-c21d-3365-7f30-4e6e460d3dd3@amsat.org>
+Date: Mon, 15 Jun 2020 09:43:43 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.1
-In-Reply-To: <20200611171143.21589-2-den@openvz.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM0PR01CA0166.eurprd01.prod.exchangelabs.com
- (2603:10a6:208:aa::35) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.2] (185.215.60.182) by
- AM0PR01CA0166.eurprd01.prod.exchangelabs.com (2603:10a6:208:aa::35) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3088.19 via Frontend
- Transport; Mon, 15 Jun 2020 07:39:45 +0000
-X-Originating-IP: [185.215.60.182]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 0256e302-01a2-42f6-30bb-08d810ff46b8
-X-MS-TrafficTypeDiagnostic: AM7PR08MB5367:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB536783E8F03F8D7B868AE54EC19C0@AM7PR08MB5367.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1148;
-X-Forefront-PRVS: 04359FAD81
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: IsYmev7/RJVtgxI/ncNSHZetUT2to/M4f2DkVo+zkSYCFtfXGLL7F4Jqjlm1mx2/CmwrXgnetThAHQAsvPnIdgIjcUylOn3w6ZxoZ1QZfg4eMd2Y6PwLFe58sfC4EL7sa8Gs6OKjjUnYKsmqrIgQCWKzgANsXtWNI1QRd6D8vJDUHC6aAV15MvnO7cZM/rK5qaUgkzdkRxZgGBkgaJpLHAQCeOsUJYNKGUgTzg21kV7nTsWlV27kjR/KA4YRcfumTTLnenyzYTY1tO0tTTEeHbtXcp0p0WK5tPwoefxcvDZLcoGJn7VpQMzQHJFWoDpqFyaKjfDADquPDVgBce6PhZkuC07v8345neyLtohI+tV3KUSefrVoNPlXUpgRmo0R
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(366004)(396003)(376002)(136003)(39830400003)(346002)(2906002)(107886003)(4744005)(54906003)(478600001)(316002)(6486002)(83380400001)(31686004)(16576012)(16526019)(8676002)(31696002)(26005)(8936002)(86362001)(66946007)(4326008)(66476007)(66556008)(956004)(36756003)(2616005)(52116002)(5660300002)(186003)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: mzz4wtm6zZhXOSwEBIoZZ8DZeZPXT0hwJt4o+kELuAR92LwymtTGBimfWtcyf8wRcrPMm5CPRtBlUTwTJmvoQvPXxnfCBzMRHDcMhSG/W27hpa2HpLtE6Z7SBcMTHUEaCimOvnH7YLGFkFu1w+7UIdWFMWsCod+WyOZAD7paIdK8+fq7u1xeyLSd2d+m31xQxpaQv357EWDdaQHOHBY/AoGI70OE97VrVuuNjxIMk0d8W36GCTr3zaLEQCzXfuBHrfrU9Mp+rAGargo9e59M5A23mM9AaPRm+5BjVC+JDV5OLXQygoEr14k5ABHf14PR7ZVkqzOmbtRR+6x/LmZMN3hrCeYr+vRDlPxK7zXQnxEEeeSITPa87STadXY7Py8F2qDFcz0jfdxSUwCEwVPEWjnucISclZ6rOE97HVIgd6apSdySpa6gM+PZ5PlcdgvEdNU5R8mWC2Y4/xPWam4lwzfxgiHHq5V59/FBxiLa6yc=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0256e302-01a2-42f6-30bb-08d810ff46b8
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jun 2020 07:39:46.4097 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: KVFOVxRiaDLDboBFOqEcy3/qOuSe/yxUhnnh36GxBGQvFsAbjWAQ+zeSPCoeW7Vy6nMRfgDd3Cy0YLaN3xcStYYSjSXU/kuX22qsffXPylk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5367
-Received-SPF: pass client-ip=40.107.20.127;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-DB8-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/15 03:39:47
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <e1343dcf-6607-8e51-5287-a52722aee97c@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -120,35 +89,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Denis Plotnikov <dplotnikov@virtuozzo.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Laurent Vivier <lvivier@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-ppc@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-11.06.2020 20:11, Denis V. Lunev wrote:
-> qemu_fclose() could return error, f.e. if bdrv_co_flush() will return
-> the error.
+On 6/15/20 9:31 AM, Thomas Huth wrote:
+> On 15/06/2020 08.57, Philippe Mathieu-Daudé wrote:
+>> The git-submodule.sh script is called by make and initialize the
+>> submodules listed in the GIT_SUBMODULES variable generated by
+>> ./configure.
+>>
+>> Add SLOF when we build the ppc64-softmmu target for the pSeries
+>> machines (which use SLOF). This fixes:
+>>
+>>   $ ( cd ${SRC_DIR} ; git submodule update --init roms/SLOF )
+>>   Submodule 'roms/SLOF' (https://git.qemu.org/git/SLOF.git) registered for path 'roms/SLOF'
+>>   Cloning into '/home/travis/build/user/qemu/roms/SLOF'...
+>>   fatal: unable to access 'https://git.qemu.org/git/SLOF.git/': Could not resolve host: git.qemu.org
+>>   fatal: clone of 'https://git.qemu.org/git/SLOF.git' into submodule path '/home/travis/build/user/qemu/roms/SLOF' failed
+>>   Failed to clone 'roms/SLOF'. Retry scheduled
+>>   Cloning into '/home/travis/build/user/qemu/roms/SLOF'...
+>>   fatal: unable to access 'https://git.qemu.org/git/SLOF.git/': Could not resolve host: git.qemu.org
+>>   fatal: clone of 'https://git.qemu.org/git/SLOF.git' into submodule path '/home/travis/build/user/qemu/roms/SLOF' failed
+>>   Failed to clone 'roms/SLOF' a second time, aborting
+>>   The command "( cd ${SRC_DIR} ; git submodule update --init roms/SLOF )" exited with 1.
+>>
+>> Reported-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> ---
+>> CI: https://travis-ci.org/github/philmd/qemu/jobs/698406512#L1596
+>> ---
+>>  configure   | 12 ++++++++++++
+>>  .travis.yml |  1 -
+>>  2 files changed, 12 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/configure b/configure
+>> index 7c2adf36e5..f297a4b68f 100755
+>> --- a/configure
+>> +++ b/configure
+>> @@ -2248,6 +2248,18 @@ if test "$edk2_blobs" = "yes" && ! has bzip2; then
+>>    error_exit "The bzip2 program is required for building QEMU"
+>>  fi
+>>  
+>> +###################################
+>> +# SLOF is mandatory for the pSeries
+>> +for target in $target_list; do
+>> +  case $target in
+>> +    ppc64-softmmu)
 > 
-> This validation will become more important once we will start waiting of
-> asynchronous IO operations, started from bdrv_write_vmstate(), which are
-> coming soon.
+> I know it's confusing, but actually, SLOF is not required for building
+> ppc64-softmmu. It's required for building the s390-ccw firmware on
+> s390x, since it is using the libnet code from SLOF for network booting.
+> And that can only be built right now when we're on a s390x host and GCC
+> is installed.
 > 
-> Signed-off-by: Denis V. Lunev<den@openvz.org>
-> CC: Kevin Wolf<kwolf@redhat.com>
-> CC: Max Reitz<mreitz@redhat.com>
-> CC: Stefan Hajnoczi<stefanha@redhat.com>
-> CC: Fam Zheng<fam@euphon.net>
-> CC: Juan Quintela<quintela@redhat.com>
-> CC: "Dr. David Alan Gilbert"<dgilbert@redhat.com>
-> CC: Vladimir Sementsov-Ogievskiy<vsementsov@virtuozzo.com>
-> CC: Denis Plotnikov<dplotnikov@virtuozzo.com>
+> There is already a check in configure (look for "Only build s390-ccw
+> bios" ...), so I'd suggest that you add the git_submodules line there
+> instead.
 
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+I'v been looking at that and got confuse indeed, in particular because
+only the s390x container has this failure, but SLOF documentation only
+comments pSeries.
 
--- 
-Best regards,
-Vladimir
+Will respin.
+
+> 
+>  Thanks,
+>   Thomas
+> 
+> 
+>> +      if test -e "${source_path}/.git" ; then
+>> +          git_submodules="${git_submodules} roms/SLOF"
+>> +      fi
+>> +    ;;
+>> +  esac
+>> +done
+>> +
+>>  feature_not_found() {
+>>    feature=$1
+>>    remedy=$2
+>> diff --git a/.travis.yml b/.travis.yml
+>> index ec6367af1f..220855c1f0 100644
+>> --- a/.travis.yml
+>> +++ b/.travis.yml
+>> @@ -496,7 +496,6 @@ jobs:
+>>          - CONFIG="--disable-containers --target-list=${MAIN_SOFTMMU_TARGETS},s390x-linux-user"
+>>          - UNRELIABLE=true
+>>        script:
+>> -        - ( cd ${SRC_DIR} ; git submodule update --init roms/SLOF )
+>>          - BUILD_RC=0 && make -j${JOBS} || BUILD_RC=$?
+>>          - |
+>>            if [ "$BUILD_RC" -eq 0 ] ; then
+>>
+> 
 
