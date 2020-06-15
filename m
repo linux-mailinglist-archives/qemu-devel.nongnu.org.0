@@ -2,58 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7E731FA22B
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 22:58:46 +0200 (CEST)
-Received: from localhost ([::1]:45658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3C721FA1D5
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 22:42:32 +0200 (CEST)
+Received: from localhost ([::1]:38854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jkwBp-00064s-SH
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 16:58:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33740)
+	id 1jkvw7-0004OM-TP
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 16:42:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33084)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jkvuU-0003KG-HL
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 16:40:50 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:21831
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jkvty-0002IO-2g
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 16:40:18 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:60599
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jkvuP-0000bJ-HC
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 16:40:50 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jkvtw-0000Qt-2p
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 16:40:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592253644;
+ s=mimecast20190719; t=1592253615;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4PproFFp9CZqW47mWgs2aeH5cSqQFrm+D4Qk9lQvT4Y=;
- b=Ypq4E8g2UmoJcIc2B6ZZAOZ9w4J3Tw1t2dUAEdI/TUjOuH52dboCssUdueBCdLIXA0mlOz
- 0AhrP2xBtKss92dwdkfPMc7ipUfMFChDuG7gIZBd7SKYZnkGZppDllVOs9PCj6VKwSWEBP
- Cwc7WQFrdA+t9QH5Q5OVWA63dAg2q9A=
+ bh=XXhsYAc1sImCT0pApL2R+GfUcSbdeXmhcKh5DC7hMK0=;
+ b=Yz6uGiDEdmo7gT8Sy+IKrNoy4ZI3AcB8HHkoiO/6wy6Z2/7mVBIQkkAKd6pOKw/DMogw8c
+ RkLjhzlNa76FW5v582apuoj2RDWgGs6nA/zWTmIf9UssXfJPnW83iLVbQKzOLCiDJHfYbX
+ tYlRJMnTf8M9ENGDrFPR+4/9Hzz8gUw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-315-j497jf-HNBqZZ5oWQ9ImQQ-1; Mon, 15 Jun 2020 16:40:15 -0400
-X-MC-Unique: j497jf-HNBqZZ5oWQ9ImQQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-161-su0K3nrOOcSne34IGGjxoA-1; Mon, 15 Jun 2020 16:40:12 -0400
+X-MC-Unique: su0K3nrOOcSne34IGGjxoA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EED655AECA;
- Mon, 15 Jun 2020 20:40:14 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CCCC21091320;
+ Mon, 15 Jun 2020 20:40:11 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-121.ams2.redhat.com
  [10.36.112.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 996066ED96;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9D0725D9D7;
  Mon, 15 Jun 2020 20:40:11 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 1C62611385EB; Mon, 15 Jun 2020 22:40:08 +0200 (CEST)
+ id 1FCB611385F1; Mon, 15 Jun 2020 22:40:08 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/84] qom: Constify object_get_canonical_path{,
- _component}()'s parameter
-Date: Mon, 15 Jun 2020 22:38:45 +0200
-Message-Id: <20200615204008.3069956-2-armbru@redhat.com>
+Subject: [PULL 02/84] qom: Make "info qom-tree" show children sorted
+Date: Mon, 15 Jun 2020 22:38:46 +0200
+Message-Id: <20200615204008.3069956-3-armbru@redhat.com>
 In-Reply-To: <20200615204008.3069956-1-armbru@redhat.com>
 References: <20200615204008.3069956-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
@@ -86,60 +85,69 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Suggested-by: Eric Blake <eblake@redhat.com>
+"info qom-tree" prints children in unstable order.  This is a pain
+when diffing output for different versions to find change.  Print it
+sorted.
+
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20200527084754.7531-2-armbru@redhat.com>
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Message-Id: <20200527084754.7531-3-armbru@redhat.com>
+Tested-by: Cédric Le Goater <clg@kaod.org>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- include/qom/object.h | 4 ++--
- qom/object.c         | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ qom/qom-hmp-cmds.c | 24 ++++++++++++++++--------
+ 1 file changed, 16 insertions(+), 8 deletions(-)
 
-diff --git a/include/qom/object.h b/include/qom/object.h
-index c7c97ead60..43858162ad 100644
---- a/include/qom/object.h
-+++ b/include/qom/object.h
-@@ -1404,7 +1404,7 @@ Object *object_get_internal_root(void);
-  * path is the path within the composition tree starting from the root.
-  * %NULL if the object doesn't have a parent (and thus a canonical path).
-  */
--char *object_get_canonical_path_component(Object *obj);
-+char *object_get_canonical_path_component(const Object *obj);
+diff --git a/qom/qom-hmp-cmds.c b/qom/qom-hmp-cmds.c
+index f704b6949a..99385b6ad2 100644
+--- a/qom/qom-hmp-cmds.c
++++ b/qom/qom-hmp-cmds.c
+@@ -81,22 +81,25 @@ typedef struct QOMCompositionState {
  
- /**
-  * object_get_canonical_path:
-@@ -1412,7 +1412,7 @@ char *object_get_canonical_path_component(Object *obj);
-  * Returns: The canonical path for a object.  This is the path within the
-  * composition tree starting from the root.
-  */
--char *object_get_canonical_path(Object *obj);
-+char *object_get_canonical_path(const Object *obj);
+ static void print_qom_composition(Monitor *mon, Object *obj, int indent);
  
- /**
-  * object_resolve_path:
-diff --git a/qom/object.c b/qom/object.c
-index b0ed560fd8..d1340ba3d9 100644
---- a/qom/object.c
-+++ b/qom/object.c
-@@ -1881,7 +1881,7 @@ object_property_add_const_link(Object *obj, const char *name,
-                                 NULL, OBJ_PROP_LINK_DIRECT);
+-static int print_qom_composition_child(Object *obj, void *opaque)
++static int qom_composition_compare(const void *a, const void *b, void *ignore)
+ {
+-    QOMCompositionState *s = opaque;
++    return g_strcmp0(a ? object_get_canonical_path_component(a) : NULL,
++                     b ? object_get_canonical_path_component(b) : NULL);
++}
+ 
+-    print_qom_composition(s->mon, obj, s->indent);
++static int insert_qom_composition_child(Object *obj, void *opaque)
++{
++    GQueue *children = opaque;
+ 
++    g_queue_insert_sorted(children, obj, qom_composition_compare, NULL);
+     return 0;
  }
  
--char *object_get_canonical_path_component(Object *obj)
-+char *object_get_canonical_path_component(const Object *obj)
+ static void print_qom_composition(Monitor *mon, Object *obj, int indent)
  {
-     ObjectProperty *prop = NULL;
-     GHashTableIter iter;
-@@ -1906,7 +1906,7 @@ char *object_get_canonical_path_component(Object *obj)
-     return NULL;
+-    QOMCompositionState s = {
+-        .mon = mon,
+-        .indent = indent + 2,
+-    };
+     char *name;
++    GQueue children;
++    Object *child;
+ 
+     if (obj == object_get_root()) {
+         name = g_strdup("");
+@@ -106,7 +109,12 @@ static void print_qom_composition(Monitor *mon, Object *obj, int indent)
+     monitor_printf(mon, "%*s/%s (%s)\n", indent, "", name,
+                    object_get_typename(obj));
+     g_free(name);
+-    object_child_foreach(obj, print_qom_composition_child, &s);
++
++    g_queue_init(&children);
++    object_child_foreach(obj, insert_qom_composition_child, &children);
++    while ((child = g_queue_pop_head(&children))) {
++        print_qom_composition(mon, child, indent + 2);
++    }
  }
  
--char *object_get_canonical_path(Object *obj)
-+char *object_get_canonical_path(const Object *obj)
- {
-     Object *root = object_get_root();
-     char *newpath, *path = NULL;
+ void hmp_info_qom_tree(Monitor *mon, const QDict *dict)
 -- 
 2.26.2
 
