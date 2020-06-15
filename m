@@ -2,65 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEAFD1F8F9D
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 09:27:56 +0200 (CEST)
-Received: from localhost ([::1]:55496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25C3B1F8FFA
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 09:34:36 +0200 (CEST)
+Received: from localhost ([::1]:35376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jkjX9-00047Z-Pm
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 03:27:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48038)
+	id 1jkjdb-0007lQ-7f
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 03:34:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jkjWF-0003c4-A9
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 03:26:59 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:30447
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jkjW8-0004fP-PN
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 03:26:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592206011;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type;
- bh=h2ykzcIixGwsxXRoKJ8JAYW4DjryARvaFM5dKgHkWFY=;
- b=MUZTCVnl03vPmZqIOtFYX13IUkTGllxPyDb/d1v8GTDwdVEp6jJY3JEO5s3AI0kqtAaH+k
- QD2DBpBsrEnVvlY9vDhyM42p+gaNf+Uuyc2+NINS/mkXAsS/Rm1//YWNstufceUceGH83k
- DL88QHJRfCZkQ7OBhQPTP2HOplFCBpA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-131-mT_KEVYnNpSQeA2192dFZw-1; Mon, 15 Jun 2020 03:26:35 -0400
-X-MC-Unique: mT_KEVYnNpSQeA2192dFZw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 962A6873077;
- Mon, 15 Jun 2020 07:26:34 +0000 (UTC)
-Received: from thuth.com (ovpn-112-111.ams2.redhat.com [10.36.112.111])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C9FA75D9CD;
- Mon, 15 Jun 2020 07:26:31 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
-	Hannes Reinecke <hare@suse.com>
-Subject: [PATCH] hw/scsi/megasas: Fix possible out-of-bounds array access in
- tracepoints
-Date: Mon, 15 Jun 2020 09:26:29 +0200
-Message-Id: <20200615072629.32321-1-thuth@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=thuth@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/15 01:17:36
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
+ (Exim 4.90_1) (envelope-from <tobias.koch@nonterra.com>)
+ id 1jkjcC-0006Iy-Fz
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 03:33:08 -0400
+Received: from mail-db8eur05on2046.outbound.protection.outlook.com
+ ([40.107.20.46]:3296 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <tobias.koch@nonterra.com>)
+ id 1jkjc9-0005Zi-A4
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 03:33:08 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=iEa227I6oX/egZNNXOHHZbKM5nZk7GZ/vt0MDweKrB9FxPeuBGkFbswYcma0Ar7fKxLJSMGhIjgZH4kGJI7m615LmpmfOyO+adkXmMBoRiAcjZH80ibU2pRIpoJNL8NZzC6U0ysPEpRM+mlXcmlp8BSeJHze5d+xfwp9jdioKD6SfuXig6YnPNY8sCUoUIe6fvH6/mBW3/Gpp8V3+UwRimoUGIsIldTkvxpFM7AayTX1d+fp+0NPo2KeMpZSwDg8ivSf5wsAFU6T0kHu3iQGgJUcUafrNw3lLKVIbssKwyMdklVUYaVFGY6XAx26LP9j9AGUtYsFd4uM+LX0azJzBQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=panQL4E8m4XVqvLWJHLRbRtr1lrzct1EXCUXWf4ordI=;
+ b=jrB3egOyeB4Ba5dJ5PgntVvi/eCyPr4mMVhn1SwQLePh2ac1OAT3NgHsRLPQDRK2jnXFUSdX+RY/ehTuAVbD0c4U+6M/tjSA0N7XO4yvUYlb5SCX2pcCE7Dm3MzUtQTx+CaAlDiBiFkLaLEZ1fQ6pfqF5Hq5pUOD3ICsUXNXbOe7KVGmmF6v2SY5sVHP0w6GWfVM25HhShRw7ylhYVSQyMeoftPfM/7piLL7C9mEGgdpp4YOTqMSZOHbNx5/g51lHPAXxoaV261Ym8Jsjgc63vmT6QhlAxc8B9aZNp6FS2asAClePae2/2XWSGHB67bAuTfw1DDz3YlhvyH35gEHrw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nonterra.com; dmarc=pass action=none header.from=nonterra.com;
+ dkim=pass header.d=nonterra.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=nonterra01.onmicrosoft.com; s=selector2-nonterra01-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=panQL4E8m4XVqvLWJHLRbRtr1lrzct1EXCUXWf4ordI=;
+ b=wthxYZZI7Uwz0JI2DQGj92zQYZdlMVlO2lgm9noD26GSADwZ4sCJ78utzhNoUGIpEoTQ+ldWMMOrpqz3AHokLz0IOXSPn745f7KNrb6RJfMRhCzc4jMii8oFp9pEPS8oWAamtF6lzSDjSyCmn+nIzWY0tXs9WEjtO7XFR2hdb9U=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=nonterra.com;
+Received: from AM6PR08MB3302.eurprd08.prod.outlook.com (2603:10a6:209:41::10)
+ by AM6PR08MB4708.eurprd08.prod.outlook.com (2603:10a6:20b:ce::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3088.23; Mon, 15 Jun
+ 2020 07:17:59 +0000
+Received: from AM6PR08MB3302.eurprd08.prod.outlook.com
+ ([fe80::c484:b59d:1164:8055]) by AM6PR08MB3302.eurprd08.prod.outlook.com
+ ([fe80::c484:b59d:1164:8055%7]) with mapi id 15.20.3088.029; Mon, 15 Jun 2020
+ 07:17:59 +0000
+Subject: Re: [PATCH] linux-user: mremap fails with EFAULT if address range
+ overlaps with stack guard
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+References: <20200305210534.28392-1-tobias.koch@nonterra.com>
+ <d643f0d0-d5e7-d1f3-d3e2-7d62661774e8@vivier.eu>
+From: Tobias Koch <tobias.koch@nonterra.com>
+Message-ID: <3c9dffdf-b4be-d17c-730d-5a65665b3eac@nonterra.com>
+Date: Mon, 15 Jun 2020 10:17:56 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
+In-Reply-To: <d643f0d0-d5e7-d1f3-d3e2-7d62661774e8@vivier.eu>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-ClientProxiedBy: GV0P278CA0018.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:710:26::28) To AM6PR08MB3302.eurprd08.prod.outlook.com
+ (2603:10a6:209:41::10)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.181.119] (85.203.15.71) by
+ GV0P278CA0018.CHEP278.PROD.OUTLOOK.COM (2603:10a6:710:26::28) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3088.18 via Frontend Transport; Mon, 15 Jun 2020 07:17:58 +0000
+X-Originating-IP: [85.203.15.71]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 89932151-1bfd-4c01-dfa4-08d810fc3b76
+X-MS-TrafficTypeDiagnostic: AM6PR08MB4708:
+X-Microsoft-Antispam-PRVS: <AM6PR08MB4708A64C8124FC6BF8C2AD28899C0@AM6PR08MB4708.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-Forefront-PRVS: 04359FAD81
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 5ryrG9GNVQ8Z+fyVLLwEcFo0pvR5+PMNlIOc4ualpBhDhMoJm1Gn7wj4TJ8Yw/tuC7HHYUIqBa9CBNU1c6V7zGJ4NAA1lh4X9ol6OtK6aNhxsp/9ypTq5LsIq5++VlH4xmBHGoVLt7JD2G0v2FCF061VvwsCHyHnsvlj/4TZg/RtnB3xZpepMnXc+5E9KUNhH9MbwbMe3DhsNtRwG132Uf6bZzDkPrJbcLRbucYqva49zeK+KZh16bxTki8aortoAg9lxj3FljhlCEQGLjL2nP63G85xMGwjaes/arVOdJ8Djyi48YE+yfLlkjKIhgJNd77za899+y8eYqvhmHtMXhLTw4Gkv72DXBL+37WlxSxuyTgDP1a2G0lyH/I+8sz8+IvMDfMFqTFQMZnPBwwczBS/sGiW4u/0lSNwO6xr4rYpUNqLZwsmPrNJzEHmSBxO2pg21g8937FPTeweihWlPw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM6PR08MB3302.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(376002)(366004)(346002)(136003)(39830400003)(396003)(44832011)(2616005)(956004)(52116002)(16576012)(316002)(83380400001)(86362001)(508600001)(53546011)(36756003)(5660300002)(55236004)(966005)(8676002)(16526019)(186003)(66556008)(66574014)(31696002)(31686004)(2906002)(66476007)(26005)(8936002)(66946007)(6486002)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: lHHWoqymh5HFc5YNFPtggXqbBH0Um+gq2iCRSMcwAFcV9q3iPEE3HmtZTmzhffEQ3+xNSf8kLa3fFzXBPUlsCsYS4tl5SOo3s+bwcKsld/fl7IQsPZDu9o741Y5WGXAutNv8X/PCRpt4QNzFGtT1uwxj25eFIqTk2SSQHRxbrUWQ96PfS+4tYu3sLdYhevlwAMIob8cfZz4TtDviHpGWUSkHVwf1wjueTVJC8iFlcVpbTKZOOjhJ1zBd+By2KYMMHF2cBXwn0dfPN4af78FTC4391nkPYPDs1uZK0F/3GhxOPaJr5klKeq8k0HF+aAlKESTpyUU+yqoue/UJUj8Xr7w9QA1v1Z85U4IBGYIBy9TeUf98LpFYxMcd4VxtE8yuZ4ynFn0qWWsi2vZ8uZ5VedtxFgU00mrlxuL6dpRwsMrhJAhpxl5IzA58A0JENFzkaGzdotM3fRWLzqAJJ03PZ3cbmeRmxVEWcgn8IhGoGrs=
+X-OriginatorOrg: nonterra.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 89932151-1bfd-4c01-dfa4-08d810fc3b76
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jun 2020 07:17:59.0143 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 76ec9478-ab84-4eac-917c-c1a3242376a3
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7Re3RPlJHPHqORCT9ebNlyaJIUmXKs4+FLyoqgmsxJaV5/y41wZ2PWEr4HYSIIt1hKcacQie/iXS+wvbEkD5vU6lvMePi/X5p+s4bTnhQdo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4708
+Received-SPF: pass client-ip=40.107.20.46;
+ envelope-from=tobias.koch@nonterra.com;
+ helo=EUR05-DB8-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/15 03:33:03
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -35
+X-Spam_score: -3.6
 X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -73,129 +117,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some tracepoints in megasas.c use a guest-controlled value as an index
-into the mfi_frame_desc[] array. Thus a malicious guest could cause an
-out-of-bounds error here. Fortunately, the impact is very low since this
-can only happen when the corresponding tracepoints have been enabled
-before, but the problem should be fixed anyway with a proper check.
+Hi Laurent,
 
-Buglink: https://bugs.launchpad.net/qemu/+bug/1882065
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- hw/scsi/megasas.c | 36 +++++++++++++++++++++++-------------
- 1 file changed, 23 insertions(+), 13 deletions(-)
+the code in musl libc probing the stack is in
 
-diff --git a/hw/scsi/megasas.c b/hw/scsi/megasas.c
-index af18c88b65..aa930226f8 100644
---- a/hw/scsi/megasas.c
-+++ b/hw/scsi/megasas.c
-@@ -54,10 +54,6 @@
- #define MEGASAS_FLAG_USE_QUEUE64   1
- #define MEGASAS_MASK_USE_QUEUE64   (1 << MEGASAS_FLAG_USE_QUEUE64)
- 
--static const char *mfi_frame_desc[] = {
--    "MFI init", "LD Read", "LD Write", "LD SCSI", "PD SCSI",
--    "MFI Doorbell", "MFI Abort", "MFI SMP", "MFI Stop"};
--
- typedef struct MegasasCmd {
-     uint32_t index;
-     uint16_t flags;
-@@ -183,6 +179,20 @@ static void megasas_frame_set_scsi_status(MegasasState *s,
-     stb_pci_dma(pci, frame + offsetof(struct mfi_frame_header, scsi_status), v);
- }
- 
-+static inline const char *mfi_frame_desc(unsigned int cmd)
-+{
-+    static const char *mfi_frame_descs[] = {
-+        "MFI init", "LD Read", "LD Write", "LD SCSI", "PD SCSI",
-+        "MFI Doorbell", "MFI Abort", "MFI SMP", "MFI Stop"
-+    };
-+
-+    if (cmd < ARRAY_SIZE(mfi_frame_descs)) {
-+        return mfi_frame_descs[cmd];
-+    }
-+
-+    return "Unknown";
-+}
-+
- /*
-  * Context is considered opaque, but the HBA firmware is running
-  * in little endian mode. So convert it to little endian, too.
-@@ -1670,25 +1680,25 @@ static int megasas_handle_scsi(MegasasState *s, MegasasCmd *cmd,
-     if (is_logical) {
-         if (target_id >= MFI_MAX_LD || lun_id != 0) {
-             trace_megasas_scsi_target_not_present(
--                mfi_frame_desc[frame_cmd], is_logical, target_id, lun_id);
-+                mfi_frame_desc(frame_cmd), is_logical, target_id, lun_id);
-             return MFI_STAT_DEVICE_NOT_FOUND;
-         }
-     }
-     sdev = scsi_device_find(&s->bus, 0, target_id, lun_id);
- 
-     cmd->iov_size = le32_to_cpu(cmd->frame->header.data_len);
--    trace_megasas_handle_scsi(mfi_frame_desc[frame_cmd], is_logical,
-+    trace_megasas_handle_scsi(mfi_frame_desc(frame_cmd), is_logical,
-                               target_id, lun_id, sdev, cmd->iov_size);
- 
-     if (!sdev || (megasas_is_jbod(s) && is_logical)) {
-         trace_megasas_scsi_target_not_present(
--            mfi_frame_desc[frame_cmd], is_logical, target_id, lun_id);
-+            mfi_frame_desc(frame_cmd), is_logical, target_id, lun_id);
-         return MFI_STAT_DEVICE_NOT_FOUND;
-     }
- 
-     if (cdb_len > 16) {
-         trace_megasas_scsi_invalid_cdb_len(
--                mfi_frame_desc[frame_cmd], is_logical,
-+                mfi_frame_desc(frame_cmd), is_logical,
-                 target_id, lun_id, cdb_len);
-         megasas_write_sense(cmd, SENSE_CODE(INVALID_OPCODE));
-         cmd->frame->header.scsi_status = CHECK_CONDITION;
-@@ -1706,7 +1716,7 @@ static int megasas_handle_scsi(MegasasState *s, MegasasCmd *cmd,
-     cmd->req = scsi_req_new(sdev, cmd->index, lun_id, cdb, cmd);
-     if (!cmd->req) {
-         trace_megasas_scsi_req_alloc_failed(
--                mfi_frame_desc[frame_cmd], target_id, lun_id);
-+                mfi_frame_desc(frame_cmd), target_id, lun_id);
-         megasas_write_sense(cmd, SENSE_CODE(NO_SENSE));
-         cmd->frame->header.scsi_status = BUSY;
-         s->event_count++;
-@@ -1751,17 +1761,17 @@ static int megasas_handle_io(MegasasState *s, MegasasCmd *cmd, int frame_cmd)
-     }
- 
-     trace_megasas_handle_io(cmd->index,
--                            mfi_frame_desc[frame_cmd], target_id, lun_id,
-+                            mfi_frame_desc(frame_cmd), target_id, lun_id,
-                             (unsigned long)lba_start, (unsigned long)lba_count);
-     if (!sdev) {
-         trace_megasas_io_target_not_present(cmd->index,
--            mfi_frame_desc[frame_cmd], target_id, lun_id);
-+            mfi_frame_desc(frame_cmd), target_id, lun_id);
-         return MFI_STAT_DEVICE_NOT_FOUND;
-     }
- 
-     if (cdb_len > 16) {
-         trace_megasas_scsi_invalid_cdb_len(
--            mfi_frame_desc[frame_cmd], 1, target_id, lun_id, cdb_len);
-+            mfi_frame_desc(frame_cmd), 1, target_id, lun_id, cdb_len);
-         megasas_write_sense(cmd, SENSE_CODE(INVALID_OPCODE));
-         cmd->frame->header.scsi_status = CHECK_CONDITION;
-         s->event_count++;
-@@ -1781,7 +1791,7 @@ static int megasas_handle_io(MegasasState *s, MegasasCmd *cmd, int frame_cmd)
-                             lun_id, cdb, cmd);
-     if (!cmd->req) {
-         trace_megasas_scsi_req_alloc_failed(
--            mfi_frame_desc[frame_cmd], target_id, lun_id);
-+            mfi_frame_desc(frame_cmd), target_id, lun_id);
-         megasas_write_sense(cmd, SENSE_CODE(NO_SENSE));
-         cmd->frame->header.scsi_status = BUSY;
-         s->event_count++;
--- 
-2.18.1
+    https://git.musl-libc.org/cgit/musl/plain/src/thread/pthread_getattr_np.c
 
+The setup in elfload.c does work, but only when reserved_va is not set. In that case, any stack guard violation is
+handled by the host kernel and thus results in the expected EFAULT.
+
+However, in case of e.g. a 32bit target being emulated on a 64bit host, reserved_va is set and the current code in
+mmap.c will only produce a more generic ENOMEM, deviating from the kernel's behavior.
+
+
+On 5/7/20 5:35 PM, Laurent Vivier wrote:
+> Le 05/03/2020 à 22:05, Tobias Koch a écrit :
+>> If the address range starting at old_address overlaps with the stack guard it
+>> is invalid and mremap must fail with EFAULT. The musl c library relies on this
+>> behavior to detect the stack size, which it does by doing consecutive mremaps
+>> until it hits the stack guard. Without this patch, software (such as the Ruby
+>> interpreter) that calls pthread_getattr_np under musl will crash on 32 bit
+>> targets emulated on a 64 bit host.
+> Could you share some pointers to the code that is doing this?
+>
+> We have already this kind of code in linux-user/elfload.c,
+> setup_arg_pages(): could you check why it doesn't work?
+>
+> Thanks,
+> Laurent
 
