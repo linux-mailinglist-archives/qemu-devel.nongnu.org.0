@@ -2,71 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB4AE1F9DD8
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 18:50:14 +0200 (CEST)
-Received: from localhost ([::1]:45878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FB9B1F9DBB
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 18:43:12 +0200 (CEST)
+Received: from localhost ([::1]:34728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jksJJ-000810-UG
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 12:50:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39258)
+	id 1jksCV-00033S-EQ
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 12:43:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jksHz-0007R7-Uc; Mon, 15 Jun 2020 12:48:52 -0400
-Received: from mail-il1-x143.google.com ([2607:f8b0:4864:20::143]:44565)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jksHy-00039B-EY; Mon, 15 Jun 2020 12:48:51 -0400
-Received: by mail-il1-x143.google.com with SMTP id i1so15901679ils.11;
- Mon, 15 Jun 2020 09:48:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=yHItOiITX7pnZGV3EgK7vfMRWWkWCREC1RJ2BfBpJM0=;
- b=p077mU2Mwimh8dngzuy/g+Ey7/Jrcq5YoyY1EfwCeXcFnl5vIiUEb/4S+3rBYVGS0A
- C6gMSHPBDQPZ6MYAcKZ8rZg3lvbb5rAuPyl01KrjiG4EYzIfCS+UvS5AJwMRc9bSMaZK
- BtYIerdGauOCB4n58LNwTSSoMMJiFKwEY7bkUC/3A8qdf3qLrZgc3cGsn0LMhLbvF9Un
- VUB7Ou8m7KuteSuGBjX8Y9gaj8p06MfApp1QsbcLDqmstlcAY8YBghfDededxMy0Jhln
- bFlKYkTF29lqBn+0qyiwkH2f1uQfS2FXwOhckCVup2E2d4ZHzIbeV4tAff1O/DNDZPIr
- pkHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=yHItOiITX7pnZGV3EgK7vfMRWWkWCREC1RJ2BfBpJM0=;
- b=UKFr4IMVZ8L7CyY+YteI6pTjiaonHJVP68pBoqWAcwb9HxcqsYynBBt99VFci3e3R0
- amNKGkMPBn0VJ/tdy7xKHTCXhvon89iLWrMBzA4DwxqiewW6A+jsiqe6L10PHVpNA/VU
- nEAt0Qu1kMor/w6eJRS6Czf6DtDstLRBOD3lBMVh24EwIzMzV5BESEoOV58/bWUJ+W2z
- s+cXNjxfZysoWdjYe5B29x0NRlfOsSoFnkBw3Qc4OrVl6CuGOSzr/bBZsV9qrIgFf0pY
- 0PYCS5kk0dCtOUkEUvg7eRiKF+LcxbptpB0tUtK47Jmhschi05D2A/VQIARE6T8mVRgz
- FJtA==
-X-Gm-Message-State: AOAM532xkVsAbItQWf69NmCu0l8lfWqYYYWx3EQTiEP59I8+V5mmp//D
- Bv4ZeCNiyUXy7UkQYrCH2Kwfemr3+5Tq2a+4lE+kjqN6
-X-Google-Smtp-Source: ABdhPJxaixL70p9q6a5LMxvLMdeXvQakkbULyPmi7aGGQkCL4NzRfIweT9VfSh8ARq5LmweILgxVwJ5i/rsNJP60kts=
-X-Received: by 2002:a92:bb45:: with SMTP id w66mr28013329ili.131.1592239729054; 
- Mon, 15 Jun 2020 09:48:49 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1jksAP-0001IH-Mn
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 12:41:01 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:22950)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1jksAM-0001h7-98
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 12:41:00 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id CD9C4746307;
+ Mon, 15 Jun 2020 18:40:55 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id AD569745702; Mon, 15 Jun 2020 18:40:55 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id ABB767456F8;
+ Mon, 15 Jun 2020 18:40:55 +0200 (CEST)
+Date: Mon, 15 Jun 2020 18:40:55 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH 1/4] sm501: Fix bounds checks
+In-Reply-To: <CAFEAcA_WemGUp0YTitXvChsFPzZjOts04zTp2-aPgmFxTC5NXA@mail.gmail.com>
+Message-ID: <alpine.BSF.2.22.395.2006151832190.51837@zero.eik.bme.hu>
+References: <cover.1591471056.git.balaton@eik.bme.hu>
+ <acb431de2d9c7a497d54a548dfc7592eb2b9fe1c.1591471056.git.balaton@eik.bme.hu>
+ <CAFEAcA_WemGUp0YTitXvChsFPzZjOts04zTp2-aPgmFxTC5NXA@mail.gmail.com>
+User-Agent: Alpine 2.22 (BSF 395 2020-01-19)
 MIME-Version: 1.0
-References: <1591625864-31494-1-git-send-email-bmeng.cn@gmail.com>
- <1591625864-31494-11-git-send-email-bmeng.cn@gmail.com>
-In-Reply-To: <1591625864-31494-11-git-send-email-bmeng.cn@gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 15 Jun 2020 09:39:26 -0700
-Message-ID: <CAKmqyKNpqe6LDeTma0iaQ6yBNdjHgzKPRyepGiWcg6q2_Mu4fw@mail.gmail.com>
-Subject: Re: [PATCH 10/15] hw/riscv: sifive_u: Rename serial property get/set
- functions to a generic name
-To: Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::143;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x143.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/15 11:14:38
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,72 +61,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Palmer Dabbelt <palmerdabbelt@google.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>
+Cc: Sebastian Bauer <mail@sebastianbauer.info>,
+ Magnus Damm <magnus.damm@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Aurelien Jarno <aurelien@aurel32.net>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 8, 2020 at 7:21 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+On Mon, 15 Jun 2020, Peter Maydell wrote:
+> On Sat, 6 Jun 2020 at 20:22, BALATON Zoltan <balaton@eik.bme.hu> wrote:
+>>
+>> We don't need to add width to pitch when calculating last point, that
+>> would reject valid ops within the card's local_mem.
+>>
+>> Fixes: b15a22bbcbe6a78dc3d88fe3134985e4cdd87de4
+>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>> ---
+>>  hw/display/sm501.c | 8 ++++----
+>>  1 file changed, 4 insertions(+), 4 deletions(-)
 >
-> From: Bin Meng <bin.meng@windriver.com>
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 >
-> In prepration to add more properties to this machine, rename the
-> existing serial property get/set functions to a generic name.
->
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> The calculations for sb/se/db/de all have a term which
+> multiplies by (width + pitch), which makes me suspect
+> they also need a similar fix ?
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Maybe. I'll have to check again. Actually is there a simpler way to check 
+if two rectangles overlap when they are given with base, x, y, w, h, pitch 
+where base is the first byte of the screen, pitch is length of one line 
+and x,y is coordinates of top left corner and w,h is dimensions of the 
+rect. Now that I think about it we also need to take into accounf the 
+bytes per pixel value (1 << format) because base is given in bytes while 
+others are in pixels so these formulae likely need some fixes. Pixman has 
+some functions for these but those assume common base so to use those we 
+would need to bring the two rectangles to common base which I could not 
+find out how to do. Probably this is really simple for someone who already 
+did a lot of these before.
 
-Alistair
-
-> ---
->
->  hw/riscv/sifive_u.c | 14 ++++++++------
->  1 file changed, 8 insertions(+), 6 deletions(-)
->
-> diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-> index ef51874..07e2ba0 100644
-> --- a/hw/riscv/sifive_u.c
-> +++ b/hw/riscv/sifive_u.c
-> @@ -481,14 +481,16 @@ static void sifive_u_machine_set_start_in_flash(Object *obj, bool value, Error *
->      s->start_in_flash = value;
->  }
->
-> -static void sifive_u_machine_get_serial(Object *obj, Visitor *v, const char *name,
-> -                                void *opaque, Error **errp)
-> +static void sifive_u_machine_get_uint32_prop(Object *obj, Visitor *v,
-> +                                             const char *name, void *opaque,
-> +                                             Error **errp)
->  {
->      visit_type_uint32(v, name, (uint32_t *)opaque, errp);
->  }
->
-> -static void sifive_u_machine_set_serial(Object *obj, Visitor *v, const char *name,
-> -                                void *opaque, Error **errp)
-> +static void sifive_u_machine_set_uint32_prop(Object *obj, Visitor *v,
-> +                                             const char *name, void *opaque,
-> +                                             Error **errp)
->  {
->      visit_type_uint32(v, name, (uint32_t *)opaque, errp);
->  }
-> @@ -507,8 +509,8 @@ static void sifive_u_machine_instance_init(Object *obj)
->
->      s->serial = OTP_SERIAL;
->      object_property_add(obj, "serial", "uint32",
-> -                        sifive_u_machine_get_serial,
-> -                        sifive_u_machine_set_serial, NULL, &s->serial);
-> +                        sifive_u_machine_get_uint32_prop,
-> +                        sifive_u_machine_set_uint32_prop, NULL, &s->serial);
->      object_property_set_description(obj, "serial", "Board serial number");
->  }
->
-> --
-> 2.7.4
->
->
+Regards,
+BALATON Zoltan
 
