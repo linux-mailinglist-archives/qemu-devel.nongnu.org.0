@@ -2,71 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCD3B1F9CF9
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 18:19:10 +0200 (CEST)
-Received: from localhost ([::1]:45926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB8771F9CB3
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 18:11:44 +0200 (CEST)
+Received: from localhost ([::1]:33236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jkrpF-0007Ia-Ne
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 12:19:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52668)
+	id 1jkri3-0000wq-Pn
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 12:11:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51338)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jkrno-0005zs-Fz; Mon, 15 Jun 2020 12:17:40 -0400
-Received: from mail-il1-x143.google.com ([2607:f8b0:4864:20::143]:36651)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jkrgz-0000GQ-Kg; Mon, 15 Jun 2020 12:10:37 -0400
+Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:39988)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jkrnm-00040h-N0; Mon, 15 Jun 2020 12:17:40 -0400
-Received: by mail-il1-x143.google.com with SMTP id a13so15875246ilh.3;
- Mon, 15 Jun 2020 09:17:37 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jkrgx-0002nA-TX; Mon, 15 Jun 2020 12:10:37 -0400
+Received: by mail-ed1-x542.google.com with SMTP id p18so11936968eds.7;
+ Mon, 15 Jun 2020 09:10:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=hI9MX4ofyyUfruODIlPBhDAbqYvRiqrXJQq+F+BFs1M=;
- b=ia0/iCOsdFHjyruRBIleN6Pb1uw/SmEH79k5Z+N2SjBLEfKKjTGvwpY8/8DdhnRA2K
- Ekq6YE8mn+zk5UZX+PRB9Rb94ms6/+BKrWn0KpqoJYVXA7YqzCCdqLEnjJMOFEJvfve8
- bMd+7S61eZnwVCkxhv6PhR93od5EIKEJMa30MdT+BSR3QbCJW63lXnKTV7BNBUn7XWXy
- E071vNc1b1InZ5nVRtzFIuhD+UH7Hl5pdd8bNSjCiR+qkv0gfeubsQR9/0MKyuTs2o3X
- /ZKSP/MiiH7UNEW6wrT8BvEOHqBnIt93+5+H9otIN3kdjY61RFF3E95uaJTlAgaOiDs+
- Yfyg==
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=4XcGnVtSQi3aCkQ4ZSpU8g9kkcVF6G/zxFJakn7ABuI=;
+ b=DrXRX8JHO2pebzCWkKOSn4YGx9AseRgzlKvbcOWORna02OZtzuD06Os8q7xrEgXjI0
+ ribMEeCdFuYBL1SqIFoRls21FROgE8qqyIZ2KTLCJe7XEf+y5W01tkC4n/ntkgzbhLFB
+ /BR3oICcqsO5635zU0E5pis/PEgA3+21r50LNLt2xkziqY8TJznQ29klHYHrNTpH1W/V
+ ttSCjpBKGP5rXS4swgoaEg6r4eKTwqUFsN79Po2exXd+42vuUKPYQc2H0DRy3FhdLA6x
+ tCJBu8prsYrqwivVuzaNl6yNDV+I0F+d3R+j6IDbcfrEz21aCyZe0lASiH2jbPe3Bpov
+ FF5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=hI9MX4ofyyUfruODIlPBhDAbqYvRiqrXJQq+F+BFs1M=;
- b=jrylOc7qc8A5+qo3ZdFawJbNWCzeM2gn+/1sGwA6eGFB7NIyst5RZUcDFEv/U6bVYj
- rNkGpK1iRoHOIQRiU/lmScccb0WJdIvt1xdprqyXLNLhsBbbU5I/mDrjPNZg7CJPaL3j
- lMogv5n9D8f/0c7s6Eel7CGsYJ21HqhVXPY09zQPc8nS+m64Ns1kd1cwhajNzMcxGB6T
- /+i+7dRscTtqWzlUbhNS2yw9Jz7V7qMYambwEEriVuNgnroq1Eiq00E02Mxs/YQB6CbP
- nYWdFeqIWa3mo3S8aPLyyZwboDBXzDso8lveB3Qu++ozO7VhG7T9xL56kYVB13hrWCSQ
- G86A==
-X-Gm-Message-State: AOAM532/OLCt+urK8f0xTlI/KIAx2nMPR5BFtVZ+KAIkRi4xW7Qqgj/c
- hndkYPGvha6BFxovDI0awnULpkl9b46LlhQGNdo=
-X-Google-Smtp-Source: ABdhPJzhbR/oe70IMDJ3kDyqkmKMxRxOBeKbR3GkGiU+3mkXeAfNm2WewAAzaWIIWW0MY9mMTyMyttYQBZ5IWq0SnKU=
-X-Received: by 2002:a92:aa07:: with SMTP id j7mr27549997ili.40.1592237856632; 
- Mon, 15 Jun 2020 09:17:36 -0700 (PDT)
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=4XcGnVtSQi3aCkQ4ZSpU8g9kkcVF6G/zxFJakn7ABuI=;
+ b=B6VDPGH8V31gCnkdNdqbw8RG9LkcquSP9N65J5Z3+65tHo/J3p5qG1lPizoWyoclTs
+ LE/3OObGuwPaXY1Jc4+hc/dGxulPtZgZy7g1WBbm1CAWG4kfinxLv6YstNUpZtgyvWkC
+ MgDtMWYKNdG8JbT0Tcxv2pOYg4d7onxZdC9BZxePVkfrw8+BdQx0pzQPJKkjlLXPAEJg
+ Myml1k3tWFEyJqCbw0bWqhQZ5zzKmtp+gtIjyi9ZOleahPhlTfbbriw9BymOQOVTfU5O
+ dl2Pq09DWr+a/rG119YTd+QA+qgSHZ+Oz007M3HaLiTZTEelbV1Hfc70lP+qyEpyJwiM
+ OoNA==
+X-Gm-Message-State: AOAM533R1Be2X1wSdPUpRci1/jX5gjhm8uqlTS1zsJTz+mWOSGphymu1
+ 448k0z9S8XIqZviiYjiGliUdyRpq
+X-Google-Smtp-Source: ABdhPJw8Gciylc4FFJfbvz1NH2pORQ3+fCeZcjF1vky0AUU4QZpJKyaF48O4PKgeysMHlNhfvQabKQ==
+X-Received: by 2002:a05:6402:3052:: with SMTP id
+ bu18mr23812852edb.323.1592237433327; 
+ Mon, 15 Jun 2020 09:10:33 -0700 (PDT)
+Received: from [192.168.1.38] (181.red-88-10-103.dynamicip.rima-tde.net.
+ [88.10.103.181])
+ by smtp.gmail.com with ESMTPSA id o16sm9334582ejg.106.2020.06.15.09.10.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 15 Jun 2020 09:10:32 -0700 (PDT)
+Subject: Re: [RFC PATCH v2 4/5] hw/arm/microbit: Add a fake LED to use as
+ proof-of-concept with Zephyr
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20200612175440.9901-1-f4bug@amsat.org>
+ <20200612175440.9901-5-f4bug@amsat.org>
+ <CAFEAcA-B26YareWgkTanQdGnz+WuyJW6jbHCvdwcGty56zgXpQ@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <876b9c00-1af3-3673-2819-19f3903af5e3@amsat.org>
+Date: Mon, 15 Jun 2020 18:10:30 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-References: <1591625864-31494-1-git-send-email-bmeng.cn@gmail.com>
- <1591625864-31494-5-git-send-email-bmeng.cn@gmail.com>
-In-Reply-To: <1591625864-31494-5-git-send-email-bmeng.cn@gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 15 Jun 2020 09:08:13 -0700
-Message-ID: <CAKmqyKObYVrCuYHKWKLYYcJEQJMxoCvRbYVTBObXm_crtCJSzQ@mail.gmail.com>
-Subject: Re: [PATCH 04/15] hw/riscv: sifive_u: Generate device tree node for
- OTP
-To: Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::143;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x143.google.com
+In-Reply-To: <CAFEAcA-B26YareWgkTanQdGnz+WuyJW6jbHCvdwcGty56zgXpQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::542;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x542.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,59 +91,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Palmer Dabbelt <palmerdabbelt@google.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>
+Cc: Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Esteban Bosse <estebanbosse@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 8, 2020 at 7:21 AM Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> From: Bin Meng <bin.meng@windriver.com>
->
-> Upstream U-Boot v2020.07 codes switch to access SiFive FU540 OTP
-> based on device tree information. Let's generate the device tree
-> node for OTP.
->
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+On 6/15/20 6:02 PM, Peter Maydell wrote:
+> On Fri, 12 Jun 2020 at 18:54, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
+>>
+>> We were using an AVR based Arduino to use this device, but since
+>> the port is not merged, the microbit is the easiest board to use
+>> with Zephyr.
+>> Note the microbit doesn't have a such LED, this is simply a proof
+>> of concept.
+> 
+> I know this is an RFC patchset, but just for the record, I
+> don't think we should add things to the board that the
+> real hardware doesn't have. (The microbit does have a 5x5
+> LED "display" but I dunno if this would be the best way
+> to implement that...)
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Yes, I plan to implement a generic LED array matrix and
+use it in the microbit (and few other boards).
 
-Alistair
+Without the AVR port merged, the microbit is the quickest
+way for me to test with Zephyr.
 
-> ---
->
->  hw/riscv/sifive_u.c | 11 +++++++++++
->  1 file changed, 11 insertions(+)
->
-> diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-> index cf7f833..8dc6842 100644
-> --- a/hw/riscv/sifive_u.c
-> +++ b/hw/riscv/sifive_u.c
-> @@ -207,6 +207,17 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
->      g_free(cells);
->      g_free(nodename);
->
-> +    nodename = g_strdup_printf("/soc/otp@%lx",
-> +        (long)memmap[SIFIVE_U_OTP].base);
-> +    qemu_fdt_add_subnode(fdt, nodename);
-> +    qemu_fdt_setprop_cell(fdt, nodename, "fuse-count", SIFIVE_U_OTP_REG_SIZE);
-> +    qemu_fdt_setprop_cells(fdt, nodename, "reg",
-> +        0x0, memmap[SIFIVE_U_OTP].base,
-> +        0x0, memmap[SIFIVE_U_OTP].size);
-> +    qemu_fdt_setprop_string(fdt, nodename, "compatible",
-> +        "sifive,fu540-c000-otp");
-> +    g_free(nodename);
-> +
->      prci_phandle = phandle++;
->      nodename = g_strdup_printf("/soc/clock-controller@%lx",
->          (long)memmap[SIFIVE_U_PRCI].base);
-> --
-> 2.7.4
->
->
+> 
+> thanks
+> -- PMM
+> 
 
