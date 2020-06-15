@@ -2,74 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C598E1F9611
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 14:07:55 +0200 (CEST)
-Received: from localhost ([::1]:41764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38D401F9666
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 14:18:17 +0200 (CEST)
+Received: from localhost ([::1]:46938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jknu6-0004CF-Sf
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 08:07:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45104)
+	id 1jko48-00073e-A8
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 08:18:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jkntE-0003lF-1h
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 08:07:00 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:23978
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jkntC-0006tX-E4
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 08:06:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592222817;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=UH/p8yBYE/X56qEKO3RuO5tDS7kqivHfm8tQEjKwLLM=;
- b=Qy/sf7F4dPFZc23gdblQbVeF9kth7yf7s6tXLjOvrhim/FIo+tKWDpZtGjQya46X4Jo3E0
- L8fvvoqz95pDEkgtWKztHFDMJjQw+DQfGdf/xsAeCGtv4rcDSi+UV6fW4DGTPTVjarsIee
- jiybvjY+BP4MWQubATsWORR/smIcP1Y=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-151-pYCQT_kaPAOiUzcetN6btQ-1; Mon, 15 Jun 2020 08:06:55 -0400
-X-MC-Unique: pYCQT_kaPAOiUzcetN6btQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D431C835B50
- for <qemu-devel@nongnu.org>; Mon, 15 Jun 2020 12:06:54 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-111.ams2.redhat.com [10.36.112.111])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3782E10013D6;
- Mon, 15 Jun 2020 12:06:54 +0000 (UTC)
-Subject: Re: [PATCH v3 0/2] net: Drop legacy "name" from -net and remove
- NetLegacy
-From: Thomas Huth <thuth@redhat.com>
-To: Jason Wang <jasowang@redhat.com>
-References: <20200518180103.32484-1-thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <ccb94bbf-62f8-a15c-c7ba-5d2da724757f@redhat.com>
-Date: Mon, 15 Jun 2020 14:06:52 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jko21-0006Sx-OV
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 08:16:05 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:39231)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jko1z-0008IV-7q
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 08:16:05 -0400
+Received: by mail-ot1-x343.google.com with SMTP id g5so12910134otg.6
+ for <qemu-devel@nongnu.org>; Mon, 15 Jun 2020 05:16:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=jH+FVUcLyGZ8+p75rBAz48h/mZlYR0NcFtss6SMrdsg=;
+ b=J9Kmpis0bRU9anee1/c80QlEwsCdXRIvA4fsM1sAbuJmfBj+OqRsVDTI68fHpPR/Lx
+ Wo0pv7KmySacs1yNsEJdBcSLZ7TWFx6B9HjwBOERIlXxBZHuXlQjzxB68xezFqOgRoU+
+ prfYM68i5WLbOrNsSOJj8EczWu4oTJWEiSE6J8ItLSKT/bmiRTsUhfL0xMXWNX20Wq6e
+ a01l7ocgKz4WIk/73NFwmBfSDKrL5iUzIEgsi70kFASSR2khl8nHH3cDjeC22Qm2du3v
+ cr8cI6CDv7U9onCTiI79kJY74+Wj8kaKg9NSkOV28LjS3OeKjXMlXBCW9NZmR35Nr5rY
+ HfYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=jH+FVUcLyGZ8+p75rBAz48h/mZlYR0NcFtss6SMrdsg=;
+ b=V6hKRHZx+BUTsS9lh+uq9Bsz978LiByy0zz2NsAQA8EFxjckoCClWWPyNZTHTYBWtY
+ ClZdaa4uJRuz0Eg2gswOCIRX/+N7bltA/+AO9t8e7lQsc6zaZaKGpm4Lme7ytkcnGJMn
+ KwKj7t24DYUWAM5FEp1L3NuBkasJ7JWxt2Km/7P2ovs25i6J8M4LS6Ob9biaN2sYjWsX
+ VN7l+PeFVfhBENZV41ck18Yt0ABDDJLGQHwz7ZWi5xPl3ZclrshmS69IiaN1/2XrHy+T
+ cXvZt7wnjpSQjUxf9iPt/B6+q8BJbQrEJY+AWD+Q4lHO6uUYN+oPp8tRbNAADZgwv+AB
+ G89A==
+X-Gm-Message-State: AOAM530Z2wkXOfCoe3JYFCmC6CGPL5/08E83pPsuEebGy1y9xJG8vIOr
+ 5OObbPOATPMI+kZmmLDkONTSDvEU4D/Aqr3klmuvnw==
+X-Google-Smtp-Source: ABdhPJwP1vMgYIexUy5+aDAD/Z8j7wrHxgKKADEUrtUqaayZGQu+/vBymL3boHhM4SG+ZEx+glOBa4ayYvMno80Jtu4=
+X-Received: by 2002:a05:6830:8d:: with SMTP id
+ a13mr20958370oto.91.1592223360506; 
+ Mon, 15 Jun 2020 05:16:00 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200518180103.32484-1-thuth@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/15 01:43:27
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+References: <20200608121243.2076-1-fangying1@huawei.com>
+In-Reply-To: <20200608121243.2076-1-fangying1@huawei.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 15 Jun 2020 13:15:49 +0100
+Message-ID: <CAFEAcA-ez0aNE6ASFM1PXs_PaqAuBzOqRhbYVAmrEhooPzmP0A@mail.gmail.com>
+Subject: Re: [PATCH v3] target/arm/cpu: adjust virtual time for arm cpu
+To: Ying Fang <fangying1@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::343;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x343.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,36 +79,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Andrew Jones <drjones@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, wu.wubin@huawei.com,
+ zhanghailiang <zhang.zhanghailiang@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 18/05/2020 20.01, Thomas Huth wrote:
-> Since commit b4983c570c7a ("net: Remove deprecated [hub_id name] tuple of
-> 'hostfwd_add' / 'hostfwd_remove'"), the "name" parameter is not used
-> internally anymore. And it's been marked as deprecated since QEMU v3.1,
-> so it is time to remove the "name" parameter from -net now. Once this
-> has been done, we can also drop the obsolete NetLegacy structure since
-> there is no major difference between Netdev and NetLegacy anymore.
-> 
-> v3:
->  - Do not make "id" in Netdev optional, but rather assign a temporary
->    "id" for -net before we call the options visitor function.
->  - Changed some "void *" to "Netdev *" now
-> 
-> v2:
->  - Rebased to master (use the deprecated.rst instead of qemu-deprecated.texi)
-> 
-> Thomas Huth (2):
->   net: Drop the legacy "name" parameter from the -net option
->   net: Drop the NetLegacy structure, always use Netdev instead
+On Mon, 8 Jun 2020 at 13:12, Ying Fang <fangying1@huawei.com> wrote:
+>
+> From: fangying <fangying1@huawei.com>
+>
+> Virtual time adjustment was implemented for virt-5.0 machine type,
+> but the cpu property was enabled only for host-passthrough and
+> max cpu model. Let's add it for arm cpu which has the generic timer
+> feature enabled.
+>
+> Suggested-by: Andrew Jones <drjones@redhat.com>
+> Signed-off-by: Ying Fang <fangying1@huawei.com>
 
-Ping!
 
-Jason, do you think these patches are OK now, and if so, could you
-please queue them for your next net pull request?
 
- Thanks,
-  Thomas
+Applied to target-arm.next, thanks (with a minor commit message
+wording tweak, and the suggested-by tag removed).
 
+-- PMM
 
