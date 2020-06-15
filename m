@@ -2,69 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A007E1FA06D
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 21:39:30 +0200 (CEST)
-Received: from localhost ([::1]:47530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 738551FA04C
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 21:32:20 +0200 (CEST)
+Received: from localhost ([::1]:41446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jkux7-0004vg-Nt
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 15:39:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46558)
+	id 1jkuqB-0007k7-Ei
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 15:32:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jkuoL-0005u2-N4; Mon, 15 Jun 2020 15:30:25 -0400
-Received: from mail-il1-x143.google.com ([2607:f8b0:4864:20::143]:34904)
+ (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
+ id 1jkuh6-0006gE-EY
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 15:22:56 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:40266)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jkuoH-00052Y-D4; Mon, 15 Jun 2020 15:30:25 -0400
-Received: by mail-il1-x143.google.com with SMTP id l6so280340ilo.2;
- Mon, 15 Jun 2020 12:30:20 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
+ id 1jkuh4-0003ql-L3
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 15:22:56 -0400
+Received: by mail-wm1-x341.google.com with SMTP id r15so714380wmh.5
+ for <qemu-devel@nongnu.org>; Mon, 15 Jun 2020 12:22:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=BlYRvqEWuxR/ZYBa39/RP6Znz9xpxQ6R4urwXV5zTDc=;
- b=JTzssZegRqoHqkv/j+RJugehUxuICoGzFPttDjSCTs5e0Gr02eedaiOU3ttSYnBUpQ
- rqpCO842yc4kI57U3Ck/qhUFFuAJk2JizSil+tL9zI5YCVndOx30yoWbWzA6hATTYT7p
- mX2ANAZa/IaqwVhIVcpE5kUCyiI4QwiMRX3IdxdLuSN//ovN7mS3sBRLqfD6uYYrLrJM
- G0iUo8RhK/S1/E3RDWCUIEwsxFoKgBTmTBfyr2wemJP/cFBD+BA/QHUCTG8lKY2AfiFA
- lCz3seOh9Aga2w/T2iPhdUkA72oj7v0JsD1Vc+VAQnBXyDn4wdZK1sS6DfgO2OlUoRiW
- lHVg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=tLLt/ZA/CTjspHHz2mdlknpJpMmJgI69nogAOwAORyI=;
+ b=uk+leVYgZL0liYCpOEUE4xYW6UkzTxdSxJWRQOqzdKV6MZtq/VgK4a+6FRdTffRlSu
+ nw/aBSILV20C5YxHY6J0eTZl36CqASDlX51xferSoYJiZqou8memn88VIaubjRuvAzsU
+ l+b/aG0v/NF8G9HBuet0reBRAI/gG2VdWhDspKl37Epy6afcNDBANTB9NH2aR4lb6tmd
+ waq4m9fy6WipWDeaflXK6ujPunK1h4FuvkNp1K3AYHbC32baW2FdmTMsiy0sCqQU+oij
+ rKnD9Hhqb6xnSttb2NjkNtOeu8hwCCbhd7/x4kb04HUbXaxPwAGxivi1xN0PVcc0vjlJ
+ UlxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=BlYRvqEWuxR/ZYBa39/RP6Znz9xpxQ6R4urwXV5zTDc=;
- b=otp2f3n7hTSvBOFb4fgBS6ZIje3ZhSXFrsPPBN+gpViOR5jXf+o5S9WRJe+AksCY3e
- PgY11IEZDkVJVuSCGf2gJ2TxYlK4kzBtg2BfFdcqM4XITdP+lp/zdQFSNNj3DxQx6hYn
- 4y1nKvlpuHE2L1nQ/5qkqj2Wuvs/SvJ5VShXPHawb2iUormnbqXim3Qu0FFSbSZkYCzD
- cRykumuGi7SOa8Qh9FM+MjzTaR7o4YfHCfRWCzW4Eb+CsQMvCfajoG30eaaK98Yj8Dn6
- g8GxX+WRM4fuow2TO/7GQ45xXRyMsQeCVDFrcjjurvkIV9do4mK5ftwNZx1XUdJELpca
- zjQw==
-X-Gm-Message-State: AOAM530ZoisL0EdusjDg6FBfbAVr0SbYAIRQzX+Yc0Sok6X9LZWZqXJH
- kXUp3oywmOzA1S0rhcFFzPYQD0RKWnPo8VkY/ZQ=
-X-Google-Smtp-Source: ABdhPJzBb0q++Slziex0FS5xoV9V623lYWHrLEZ+z6nVilQTkHvksZU7VOnWoPIqXk6OJYWqZXxtWokjpvM+Lwjlo5Y=
-X-Received: by 2002:a92:aa07:: with SMTP id j7mr28329592ili.40.1592249420009; 
- Mon, 15 Jun 2020 12:30:20 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=tLLt/ZA/CTjspHHz2mdlknpJpMmJgI69nogAOwAORyI=;
+ b=E+OGs0q7iUgZ9fZ0HCp3L2i36kDdISThxHMA3WSsF2CekefXKpwny93ZPoHgqAdoee
+ MGudaX2mJmA72Fs/yv+PlhNftq2tBoidwoTDuhcH7b59jTDOfV8AxluwWEupNZWz+Oi7
+ rV1oEHb/MwbLbWLxP2lMsK6SA1zbElDU3fu2mYosgkFkRHXtF7Th0fkyUO5MbUfY0Jdp
+ YMweOBUfv8dw+QsSm+aRcu/B2ukeEXMUOlnmuzw/zJ05jNt76c4Ld2MV2k6FjEYrSwv3
+ 7SL1SkFBPtGzGtEH/VGgCGh1bob5rp6dPRHR9FM4/Mr6Q/gPhey8WWcFcy4ACJVu6sp/
+ 6uKQ==
+X-Gm-Message-State: AOAM533Iemo8NpPt3sALyum48pCRal7fEfdY2PySFR4E752rleu0oFZv
+ 6nVtpQp9+w9LbmpmDDxCPxUf5IkX
+X-Google-Smtp-Source: ABdhPJx013tKEPzyyEYX1KCw9FCp2uJvf6PX/QOIjRfRZSz/S/SmW5am7g0g204W/KLqzgDO8M8KTA==
+X-Received: by 2002:a1c:6509:: with SMTP id z9mr895970wmb.144.1592248973088;
+ Mon, 15 Jun 2020 12:22:53 -0700 (PDT)
+Received: from rtrkw774-lin.syrmia.com ([46.240.135.226])
+ by smtp.gmail.com with ESMTPSA id 50sm27823909wra.1.2020.06.15.12.22.52
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 15 Jun 2020 12:22:52 -0700 (PDT)
+From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+To: qemu-devel@nongnu.org,
+	peter.maydell@linaro.org
+Subject: [PULL 17/18] MAINTAINERS: Adjust sh4 maintainership
+Date: Mon, 15 Jun 2020 21:22:32 +0200
+Message-Id: <1592248953-8162-18-git-send-email-aleksandar.qemu.devel@gmail.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1592248953-8162-1-git-send-email-aleksandar.qemu.devel@gmail.com>
+References: <1592248953-8162-1-git-send-email-aleksandar.qemu.devel@gmail.com>
 MIME-Version: 1.0
-References: <1591625864-31494-1-git-send-email-bmeng.cn@gmail.com>
- <1591625864-31494-16-git-send-email-bmeng.cn@gmail.com>
-In-Reply-To: <1591625864-31494-16-git-send-email-bmeng.cn@gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 15 Jun 2020 12:20:56 -0700
-Message-ID: <CAKmqyKMFTyZqbtNT932Dq8sSR593j=QhvJB=htRKji8mcP0+PA@mail.gmail.com>
-Subject: Re: [PATCH 15/15] hw/riscv: sifive_u: Add a dummy DDR memory
- controller device
-To: Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::143;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x143.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-wm1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
@@ -79,95 +86,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Palmer Dabbelt <palmerdabbelt@google.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>
+Cc: aleksandar.qemu.devel@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 8, 2020 at 7:29 AM Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> From: Bin Meng <bin.meng@windriver.com>
->
-> It is enough to simply map the SiFive FU540 DDR memory controller
-> into the MMIO space using create_unimplemented_device(), to make
-> the upstream U-Boot v2020.07 DDR memory initialization codes happy.
->
-> Note we do not generate device tree fragment for the DDR memory
-> controller. Since the controller data in device tree consumes a
-> very large space (see fu540-hifive-unleashed-a00-ddr.dtsi in the
-> U-Boot source), and it is only needed by U-Boot SPL but not any
-> operating system, we choose not to generate the fragment here.
-> This also means when testing with U-Boot SPL, the device tree has
-> to come from U-Boot SPL itself, but not the one generated by QEMU
-> on the fly. The memory has to be set to 8GiB to match the real
-> HiFive Unleashed board when invoking QEMU (-m 8G).
->
-> With this commit, QEMU can boot U-Boot SPL built for SiFive FU540
-> all the way up to loading U-Boot proper from MMC:
->
-> $ qemu-system-riscv64 -nographic -M sifive_u,msel=6 -m 8G -bios u-boot-spl.bin
->
-> U-Boot SPL 2020.07-rc3-00208-g88bd5b1 (Jun 08 2020 - 20:16:10 +0800)
-> Trying to boot from MMC1
-> Unhandled exception: Load access fault
-> EPC: 0000000008009be6 TVAL: 0000000010050014
->
-> The above exception is expected because QSPI is unsupported yet.
->
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+This patch transfers sh4 sections to Yoshinori Sato, who is
+best positioned in the community to assume sh4 maintainership.
+He is the maintainer of the related target rx as well, which
+means that some synergy between the two targets can be expected
+in future.
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Further adjustments, reorganizations, and improvements of sh4
+sections are left to the future maintainer to be devised and
+executed, as he deems suitable.
 
-Alistair
+Aurelien and Magnus are deleted as maintainers in some sections
+of the MAINTAINERS file with this patch. However, they will not
+be deleted from QEMU Hall of Fame, where their names will always
+remained carved in stone as QEMU pioneers and granddaddies.
 
->
-> ---
->
->  hw/riscv/sifive_u.c         | 4 ++++
->  include/hw/riscv/sifive_u.h | 1 +
->  2 files changed, 5 insertions(+)
->
-> diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-> index c94ff6f..7923df4 100644
-> --- a/hw/riscv/sifive_u.c
-> +++ b/hw/riscv/sifive_u.c
-> @@ -82,6 +82,7 @@ static const struct MemmapEntry {
->      [SIFIVE_U_OTP] =      { 0x10070000,     0x1000 },
->      [SIFIVE_U_GEM] =      { 0x10090000,     0x2000 },
->      [SIFIVE_U_GEM_MGMT] = { 0x100a0000,     0x1000 },
-> +    [SIFIVE_U_DMC] =      { 0x100b0000,    0x10000 },
->      [SIFIVE_U_FLASH0] =   { 0x20000000, 0x10000000 },
->      [SIFIVE_U_DRAM] =     { 0x80000000,        0x0 },
->  };
-> @@ -733,6 +734,9 @@ static void sifive_u_soc_realize(DeviceState *dev, Error **errp)
->
->      create_unimplemented_device("riscv.sifive.u.gem-mgmt",
->          memmap[SIFIVE_U_GEM_MGMT].base, memmap[SIFIVE_U_GEM_MGMT].size);
-> +
-> +    create_unimplemented_device("riscv.sifive.u.dmc",
-> +        memmap[SIFIVE_U_DMC].base, memmap[SIFIVE_U_DMC].size);
->  }
->
->  static Property sifive_u_soc_props[] = {
-> diff --git a/include/hw/riscv/sifive_u.h b/include/hw/riscv/sifive_u.h
-> index 5d80f91..3e33646 100644
-> --- a/include/hw/riscv/sifive_u.h
-> +++ b/include/hw/riscv/sifive_u.h
-> @@ -78,6 +78,7 @@ enum {
->      SIFIVE_U_UART1,
->      SIFIVE_U_GPIO,
->      SIFIVE_U_OTP,
-> +    SIFIVE_U_DMC,
->      SIFIVE_U_FLASH0,
->      SIFIVE_U_DRAM,
->      SIFIVE_U_GEM,
-> --
-> 2.7.4
->
->
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Acked-by: Aurelien Jarno <aurelien@aurel32.net>
+Acked-by: Magnus Damm <magnus.damm@gmail.com>
+Acked-by: Yoshinori Sato <ysato@users.sourceforge.jp>
+Signed-off-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20200611095316.10133-2-aleksandar.qemu.devel@gmail.com>
+---
+ MAINTAINERS | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index a922775..d59b605 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -296,7 +296,7 @@ F: tests/tcg/s390x/
+ L: qemu-s390x@nongnu.org
+ 
+ SH4 TCG CPUs
+-M: Aurelien Jarno <aurelien@aurel32.net>
++M: Yoshinori Sato <ysato@users.sourceforge.jp>
+ S: Odd Fixes
+ F: target/sh4/
+ F: hw/sh4/
+@@ -1253,14 +1253,16 @@ F: include/hw/riscv/opentitan.h
+ SH4 Machines
+ ------------
+ R2D
+-M: Magnus Damm <magnus.damm@gmail.com>
++M: Yoshinori Sato <ysato@users.sourceforge.jp>
++R: Magnus Damm <magnus.damm@gmail.com>
+ S: Maintained
+ F: hw/sh4/r2d.c
+ F: hw/intc/sh_intc.c
+ F: hw/timer/sh_timer.c
+ 
+ Shix
+-M: Magnus Damm <magnus.damm@gmail.com>
++M: Yoshinori Sato <ysato@users.sourceforge.jp>
++R: Magnus Damm <magnus.damm@gmail.com>
+ S: Odd Fixes
+ F: hw/sh4/shix.c
+ 
+-- 
+2.7.4
+
 
