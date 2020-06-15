@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19C091F9C95
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 18:06:15 +0200 (CEST)
-Received: from localhost ([::1]:52040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D05381F9C9A
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 18:07:56 +0200 (CEST)
+Received: from localhost ([::1]:56694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jkrcj-0004wS-7T
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 12:06:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49196)
+	id 1jkreM-0006rv-HL
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 12:07:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jkrXk-0007mk-BF
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 12:01:05 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:32898)
+ id 1jkrZe-0001uJ-J8
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 12:03:02 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:38977)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jkrXh-000131-Nh
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 12:01:04 -0400
-Received: by mail-ot1-x344.google.com with SMTP id n6so13523819otl.0
- for <qemu-devel@nongnu.org>; Mon, 15 Jun 2020 09:01:01 -0700 (PDT)
+ id 1jkrZb-0001X0-QD
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 12:03:02 -0400
+Received: by mail-ot1-x343.google.com with SMTP id g5so13501298otg.6
+ for <qemu-devel@nongnu.org>; Mon, 15 Jun 2020 09:02:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=I3yae7jKC5snnNCoi9B6lvanL8+kneVq8p+MpmcY3ws=;
- b=itP7RDKBY1KvCtFrJ0BIKHPe6o+xWSXMDcAe7+wC5hdyoEM6LMmMB08J2oXgwZ+AwC
- v1ka6Q7SMLNop8aFbhyYboih9E5PVXfFd7h6pVLO1CMxORK6RTODqG1zvDnbSqET5DnU
- OPZzCPm/r7BNtKrpqQ8i1DU4WhHelZrJFsXRqTP98bCcesoR28dxXcPFaZ7uh64So/DI
- 2dXZdkFd614dOljqeQPetfmWLG7rVdErCa5xHSPrDJVgcC/JtBqq+Pb400ZyvZVZ6AeG
- NPc1QqpCbNuiP/1LUyK7DFvlcVUmm0/hxxu+DCiaqYwNK64c9EiPtg18tVuZp9WA9keq
- NwRQ==
+ bh=EmnkRH2YoTe3iuP86b7Jm00I5ntFoZNUS9DkL1GSuKA=;
+ b=AxTwdYFZE+TWnc7BVinvaFzGuG+pHwUyKam/7MlzT41XH4iuZEVBgynhDHwl7y7uPE
+ G7hsRlkG1zaC37htASaOrB96uGAAXhwGW1mNUvce9TWFytES8aFRALg+yyCJgBitSGPl
+ Gfb0HYuaF+tUvMgZR07vUtVkKR+QPRHhV/z3wRwpDW7mjG2SNlIW3NGmoLYOZV4VwNQK
+ zqXaRHwVXwYDJJwygjkQhaLiwKve57aP/Icese9QkofecizZ9XdaWrX3Zw0fobWvOW2K
+ J3FIDmOmvCxpk3sSxaFt20rGH5YfB3a4oSG6CXBl0LHczV0igDYmaWvaZTIxflV6MMDa
+ nMyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=I3yae7jKC5snnNCoi9B6lvanL8+kneVq8p+MpmcY3ws=;
- b=MAXm0gYtzhHkMIwMCZpV6ElikoakWZWl3bDPnh6w9b13NLvGKEo2p5If3876pLVi87
- oqYBM0jgPQ4hLyRQ6a1xHyUtH94oi0FnNiUZdU8QMzv0uJC3z+wHxnn7lrFdUUKiVsQP
- 601R2AnHEcW9PLtM6R89pUMSF5bx2ViIvGkfaytNgoF3twklezstp3fUOGKYQ89JMcWy
- 0Cz17flw+HMLLVS9USXOEfVoOsxf4JI7KGj3pnZ+A9ctHL+GgjKrVK8WfzSNtYfmmBwE
- n8pvzzLXYZDlJJFsRc452kNAmZMTvUW8bQKo6AVd/DMIr09D2Y2kGgFI8JEscZZvfxuv
- jVXA==
-X-Gm-Message-State: AOAM531ypF/zRy9bLe8A9QRXhLjdbPyr3SHbEpq+aXaMUDBrCr0eOLnx
- oudgItbRP7SfyP6wkYh88VAUNY1ljLZRjDEZoKst2w==
-X-Google-Smtp-Source: ABdhPJxxO3aROImJ4mEpwC3PEFCUd5kgyB1AuR0Lv+srXREHtac3NVWFmbw7biFTCcw38ji5DM8jZoP/GnDBR5dmawM=
+ bh=EmnkRH2YoTe3iuP86b7Jm00I5ntFoZNUS9DkL1GSuKA=;
+ b=mgz4oUjWn9y69gjbeB8XGEm8rO3nnxGMhWsre7J6Ygz7JRC6+nsbAKJLkAjEGkcJ5c
+ +7IzXk7w6MYSKcxBOpj/0ETPKcIi5rJOdpSX7H02zY7t3UsfPsPAJkyh5nUDmlDZCc2n
+ rU+rst1/ZT3ob/xrtgVCtvkrZN3oEtStX2AsUqhXD8tciDMMOQ8jgnnTcmS6nplsebeg
+ obkME3dlxVI3rdW8VpyQUko8vkku9gPRDvVZ0G+RtlQyXEsi6EgB03xCQzOKIfSy1QkI
+ AlLRp61ZtWTwbjbNClRWvx39diOWObsdglS5VxSqv0qt2uHIwpn5+HuTg5jgYqQOuF2Z
+ g4Cw==
+X-Gm-Message-State: AOAM533VsTTrb3Q5WMhe7Dfu7gjNW/slcb135YWXy8i+ncO/+mknmTHq
+ rpPgQ8oVuHDQDTVQ3X22FB87qQLCi0JSgNM/iJf4Dg==
+X-Google-Smtp-Source: ABdhPJzjKVT5ex72tRNYX8VKVlUDdXnVV+h31uaPM2PhR+fdGgc7qoMfQZcWKxw3dyoyZLUnm1MJqi8wN/5vMPI8FaI=
 X-Received: by 2002:a05:6830:18da:: with SMTP id
- v26mr22633420ote.135.1592236859809; 
- Mon, 15 Jun 2020 09:00:59 -0700 (PDT)
+ v26mr22645151ote.135.1592236976952; 
+ Mon, 15 Jun 2020 09:02:56 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200612175440.9901-1-f4bug@amsat.org>
- <20200612175440.9901-6-f4bug@amsat.org>
-In-Reply-To: <20200612175440.9901-6-f4bug@amsat.org>
+ <20200612175440.9901-5-f4bug@amsat.org>
+In-Reply-To: <20200612175440.9901-5-f4bug@amsat.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 15 Jun 2020 17:00:48 +0100
-Message-ID: <CAFEAcA9tMd0VxEm_O1yre36kWp0U48SZj8tMna25h5M02X-_VQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 5/5] hw/arm/tosa: Use LED device for the Bluetooth
- led
+Date: Mon, 15 Jun 2020 17:02:45 +0100
+Message-ID: <CAFEAcA-B26YareWgkTanQdGnz+WuyJW6jbHCvdwcGty56zgXpQ@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 4/5] hw/arm/microbit: Add a fake LED to use as
+ proof-of-concept with Zephyr
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x344.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::343;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x343.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -96,36 +96,17 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Fri, 12 Jun 2020 at 18:54, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
  wrote:
 >
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
->  hw/arm/tosa.c  | 7 +++----
->  hw/arm/Kconfig | 1 +
->  2 files changed, 4 insertions(+), 4 deletions(-)
->
-> diff --git a/hw/arm/tosa.c b/hw/arm/tosa.c
-> index 5dee2d76c6..86d7e0283a 100644
-> --- a/hw/arm/tosa.c
-> +++ b/hw/arm/tosa.c
-> @@ -24,6 +24,7 @@
->  #include "hw/irq.h"
->  #include "hw/ssi/ssi.h"
->  #include "hw/sysbus.h"
-> +#include "hw/misc/led.h"
->  #include "exec/address-spaces.h"
->
->  #define TOSA_RAM    0x04000000
-> @@ -68,9 +69,6 @@ static void tosa_microdrive_attach(PXA2xxState *cpu)
->  static void tosa_out_switch(void *opaque, int line, int level)
->  {
->      switch (line) {
-> -        case 0:
-> -            fprintf(stderr, "blue LED %s.\n", level ? "on" : "off");
-> -            break;
->          case 1:
->              fprintf(stderr, "green LED %s.\n", level ? "on" : "off");
->              break;
+> We were using an AVR based Arduino to use this device, but since
+> the port is not merged, the microbit is the easiest board to use
+> with Zephyr.
+> Note the microbit doesn't have a such LED, this is simply a proof
+> of concept.
 
-Why convert the blue LED and not the green, amber or wlan LEDs ?
+I know this is an RFC patchset, but just for the record, I
+don't think we should add things to the board that the
+real hardware doesn't have. (The microbit does have a 5x5
+LED "display" but I dunno if this would be the best way
+to implement that...)
 
 thanks
 -- PMM
