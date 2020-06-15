@@ -2,99 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D4C01F9D22
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 18:21:49 +0200 (CEST)
-Received: from localhost ([::1]:51380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 433631F9D62
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 18:27:35 +0200 (CEST)
+Received: from localhost ([::1]:60484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jkrro-0001Ts-2p
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 12:21:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53072)
+	id 1jkrxO-0005fK-Ah
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 12:27:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1jkrpH-0008DV-7D
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 12:19:11 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:56730)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1jkrpF-0004HW-4I
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 12:19:10 -0400
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 05FG6p6R075365
- for <qemu-devel@nongnu.org>; Mon, 15 Jun 2020 12:19:07 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 31pc7pgbyc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Mon, 15 Jun 2020 12:19:06 -0400
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 05FG6t8Z076021
- for <qemu-devel@nongnu.org>; Mon, 15 Jun 2020 12:19:05 -0400
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.10])
- by mx0a-001b2d01.pphosted.com with ESMTP id 31pc7pgbxv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 15 Jun 2020 12:19:05 -0400
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
- by ppma02dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 05FGEvYo031630;
- Mon, 15 Jun 2020 16:19:04 GMT
-Received: from b03cxnp08027.gho.boulder.ibm.com
- (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
- by ppma02dal.us.ibm.com with ESMTP id 31mpe9f463-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 15 Jun 2020 16:19:04 +0000
-Received: from b03ledav001.gho.boulder.ibm.com
- (b03ledav001.gho.boulder.ibm.com [9.17.130.232])
- by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 05FGJ2rV11469168
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 15 Jun 2020 16:19:02 GMT
-Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6BA766E056;
- Mon, 15 Jun 2020 16:19:03 +0000 (GMT)
-Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id CC77F6E054;
- Mon, 15 Jun 2020 16:19:02 +0000 (GMT)
-Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
- by b03ledav001.gho.boulder.ibm.com (Postfix) with ESMTP;
- Mon, 15 Jun 2020 16:19:02 +0000 (GMT)
-Subject: Re: [PATCH v2 2/5] tpm: Extend TPMIfClass with get_irqnum() function
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jkrw3-0004Fe-J9
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 12:26:11 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:37828
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jkrw1-0005zg-Fl
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 12:26:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1592238368;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=00FXCB2yidhJiULOJDZcEYz8JWa1gwYhziImrZ06J3Q=;
+ b=c0LIYHKLvT4LlCEa6rcgrweNwUcxG2ZMX5OoHnstsppVFnx4Kc5mG8x+Q7kPoiGlnteqTN
+ 83QviHiC5lePCZFbFpT9YfMi+u5phxiCAaPnlBtyciPgEZg+QeukjPWlnIbQrsyWEMTmRL
+ dB2Yl9kkAf1DBd7yaZniYWECydVNFt0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-87-2GzG0F6KOpegitOqR8HYwg-1; Mon, 15 Jun 2020 12:26:06 -0400
+X-MC-Unique: 2GzG0F6KOpegitOqR8HYwg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C17F91981086;
+ Mon, 15 Jun 2020 16:20:17 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-214.ams2.redhat.com [10.36.112.214])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 93A489034B;
+ Mon, 15 Jun 2020 16:19:57 +0000 (UTC)
+Subject: Re: [PATCH] bios-tables-test: Fix "-tpmdev: invalid option"
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Stefan Berger <stefanb@linux.vnet.ibm.com>, qemu-devel@nongnu.org
-References: <20200615142327.671546-1-stefanb@linux.vnet.ibm.com>
- <20200615142327.671546-3-stefanb@linux.vnet.ibm.com>
- <755b35ea-fae7-e683-bb7b-6496f14bd66c@redhat.com>
-From: Stefan Berger <stefanb@linux.ibm.com>
-Message-ID: <33fab40a-585d-18f7-1017-550a35094d1a@linux.ibm.com>
-Date: Mon, 15 Jun 2020 12:19:02 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ Eric Auger <eric.auger@redhat.com>, eric.auger.pro@gmail.com,
+ stefanb@linux.ibm.com, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
+ peter.maydell@linaro.org, mst@redhat.com, imammedo@redhat.com
+References: <20200615135051.2213-1-eric.auger@redhat.com>
+ <aa595991-7f3a-fd83-026b-1b35aaf9c49e@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <34566599-4194-f092-774e-4c60eca647a4@redhat.com>
+Date: Mon, 15 Jun 2020 18:19:55 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <755b35ea-fae7-e683-bb7b-6496f14bd66c@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <aa595991-7f3a-fd83-026b-1b35aaf9c49e@redhat.com>
 Content-Language: en-US
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.687
- definitions=2020-06-15_03:2020-06-15,
- 2020-06-15 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- bulkscore=0 impostorscore=0 suspectscore=0 priorityscore=1501
- malwarescore=0 mlxlogscore=999 adultscore=0 spamscore=0 mlxscore=0
- clxscore=1015 cotscore=-2147483648 phishscore=0 classifier=spam adjust=0
- reason=mlx scancount=1 engine=8.12.0-2004280000
- definitions=main-2006150111
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=stefanb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/15 08:37:04
-X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
-X-Spam_score_int: -35
-X-Spam_score: -3.6
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/15 01:43:27
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
 X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -107,115 +85,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, pbonzini@redhat.com, mkedzier@redhat.com,
- Stefan Berger <stefanb@sbct-2.pok.ibm.com>, eric.auger@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/15/20 11:54 AM, Philippe Mathieu-Daudé wrote:
-> On 6/15/20 4:23 PM, Stefan Berger wrote:
->> From: Stefan Berger <stefanb@sbct-2.pok.ibm.com>
+On 15/06/2020 16.57, Philippe Mathieu-Daudé wrote:
+> On 6/15/20 3:50 PM, Eric Auger wrote:
+>> When configure is run with "--disable-tpm", the bios-tables-test
+>> q35/tis test fails with "-tpmdev: invalid option".
 >>
->> Implement get_irqnum() as part of the TPMIfClass to be get the assigned
->> IRQ number.
+>> Skip the test if CONFIG_TPM is unset.
 >>
->> Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
+>> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+>> Reported-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 >> ---
->>   hw/tpm/tpm_tis_isa.c    |  9 +++++++++
->>   hw/tpm/tpm_tis_sysbus.c |  9 +++++++++
->>   include/sysemu/tpm.h    | 10 ++++++++++
->>   3 files changed, 28 insertions(+)
+>>  tests/qtest/bios-tables-test.c | 4 ++++
+>>  1 file changed, 4 insertions(+)
 >>
->> diff --git a/hw/tpm/tpm_tis_isa.c b/hw/tpm/tpm_tis_isa.c
->> index 30ba37079d..63b62f4c21 100644
->> --- a/hw/tpm/tpm_tis_isa.c
->> +++ b/hw/tpm/tpm_tis_isa.c
->> @@ -80,6 +80,14 @@ static enum TPMVersion tpm_tis_isa_get_tpm_version(TPMIf *ti)
->>       return tpm_tis_get_tpm_version(s);
->>   }
->>   
->> +static uint8_t tpm_tis_isa_get_irqnum(TPMIf *ti)
->> +{
->> +    TPMStateISA *isadev = TPM_TIS_ISA(ti);
->> +    TPMState *s = &isadev->state;
->> +
->> +    return s->irq_num;
->> +}
->> +
->>   static void tpm_tis_isa_reset(DeviceState *dev)
->>   {
->>       TPMStateISA *isadev = TPM_TIS_ISA(dev);
->> @@ -148,6 +156,7 @@ static void tpm_tis_isa_class_init(ObjectClass *klass, void *data)
->>       dc->reset = tpm_tis_isa_reset;
->>       tc->request_completed = tpm_tis_isa_request_completed;
->>       tc->get_version = tpm_tis_isa_get_tpm_version;
->> +    tc->get_irqnum = tpm_tis_isa_get_irqnum;
->>   }
->>   
->>   static const TypeInfo tpm_tis_isa_info = {
->> diff --git a/hw/tpm/tpm_tis_sysbus.c b/hw/tpm/tpm_tis_sysbus.c
->> index eced1fc843..6cf45e5057 100644
->> --- a/hw/tpm/tpm_tis_sysbus.c
->> +++ b/hw/tpm/tpm_tis_sysbus.c
->> @@ -80,6 +80,14 @@ static enum TPMVersion tpm_tis_sysbus_get_tpm_version(TPMIf *ti)
->>       return tpm_tis_get_tpm_version(s);
->>   }
->>   
->> +static uint8_t tpm_tis_sysbus_get_irqnum(TPMIf *ti)
->> +{
->> +    TPMStateSysBus *sbdev = TPM_TIS_SYSBUS(ti);
->> +    TPMState *s = &sbdev->state;
->> +
->> +    return s->irq_num;
->> +}
->> +
->>   static void tpm_tis_sysbus_reset(DeviceState *dev)
->>   {
->>       TPMStateSysBus *sbdev = TPM_TIS_SYSBUS(dev);
->> @@ -137,6 +145,7 @@ static void tpm_tis_sysbus_class_init(ObjectClass *klass, void *data)
->>       dc->reset = tpm_tis_sysbus_reset;
->>       tc->request_completed = tpm_tis_sysbus_request_completed;
->>       tc->get_version = tpm_tis_sysbus_get_tpm_version;
->> +    tc->get_irqnum = tpm_tis_sysbus_get_irqnum;
->>   }
->>   
->>   static const TypeInfo tpm_tis_sysbus_info = {
->> diff --git a/include/sysemu/tpm.h b/include/sysemu/tpm.h
->> index 03fb25941c..b94a8a2b16 100644
->> --- a/include/sysemu/tpm.h
->> +++ b/include/sysemu/tpm.h
->> @@ -41,6 +41,7 @@ typedef struct TPMIfClass {
->>       enum TpmModel model;
->>       void (*request_completed)(TPMIf *obj, int ret);
->>       enum TPMVersion (*get_version)(TPMIf *obj);
->> +    uint8_t (*get_irqnum)(TPMIf *obj);
->>   } TPMIfClass;
->>   
->>   #define TYPE_TPM_TIS_ISA            "tpm-tis"
->> @@ -74,4 +75,13 @@ static inline TPMVersion tpm_get_version(TPMIf *ti)
->>       return TPM_IF_GET_CLASS(ti)->get_version(ti);
->>   }
->>   
->> +static inline uint8_t tpm_get_irqnum(TPMIf *ti)
->> +{
->> +    if (!ti || !TPM_IF_GET_CLASS(ti)->get_irqnum) {
->> +        return 0;
-> 0 is valid...
->
-> Shouldn't we use an Error* argument?
->
-> Else return -1 when invalid?
-
-Indeed. Let me fix this. Thanks.
-
-
->
->> +    }
->> +
->> +    return TPM_IF_GET_CLASS(ti)->get_irqnum(ti);
->> +}
->> +
->>   #endif /* QEMU_TPM_H */
+>> diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+>> index 53f104a9c5..b482f76c03 100644
+>> --- a/tests/qtest/bios-tables-test.c
+>> +++ b/tests/qtest/bios-tables-test.c
+>> @@ -882,6 +882,7 @@ uint64_t tpm_tis_base_addr;
+>>  static void test_acpi_tcg_tpm(const char *machine, const char *tpm_if,
+>>                                uint64_t base)
+>>  {
+>> +#ifdef CONFIG_TPM
+>>      gchar *tmp_dir_name = g_strdup_printf("qemu-test_acpi_%s_tcg_%s.XXXXXX",
+>>                                            machine, tpm_if);
+>>      char *tmp_path = g_dir_make_tmp(tmp_dir_name, NULL);
+>> @@ -924,6 +925,9 @@ static void test_acpi_tcg_tpm(const char *machine, const char *tpm_if,
+>>      g_free(tmp_path);
+>>      g_free(tmp_dir_name);
+>>      free_test_data(&data);
+>> +#else
+>> +    g_test_skip("TPM disabled");
+>> +#endif
+>>  }
+>>  
+>>  static void test_acpi_q35_tcg_tpm_tis(void)
 >>
+> 
+> This is simpler than Thomas' version.
+> 
+> Fixes: 5da7c35e25 ("bios-tables-test: Add Q35/TPM-TIS test")
+> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+
+Your version is indeed nicer than mine, so let's use yours!
+
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
