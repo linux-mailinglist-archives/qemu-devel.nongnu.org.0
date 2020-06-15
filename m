@@ -2,77 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BF9F1F9DE2
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 18:54:55 +0200 (CEST)
-Received: from localhost ([::1]:51936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D08A61F9E29
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jun 2020 19:11:44 +0200 (CEST)
+Received: from localhost ([::1]:35282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jksNq-0002S4-1a
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 12:54:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41202)
+	id 1jkse7-0008MF-MX
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 13:11:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jksN6-0001zS-AX
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 12:54:08 -0400
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:38641)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jksdJ-0007vg-FS
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 13:10:53 -0400
+Received: from indium.canonical.com ([91.189.90.7]:50912)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jksN4-00044l-CT
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 12:54:07 -0400
-Received: by mail-oi1-x244.google.com with SMTP id c194so16511964oig.5
- for <qemu-devel@nongnu.org>; Mon, 15 Jun 2020 09:54:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=RhTc02SUPXCIhBoDXKpaH4nvryx0HQr1bm7mVp4QOpM=;
- b=zm9jnbkp8IotzeH6faum2UUN9EM0GwYN128gZ1X5htNgQzvN2XobfmlwXtCEKk3FAY
- Sai5Rn6ZIT+kp3HWYxIkof+w4yxQJ9EuN65HZFUnsu4BbFlVDic0VnJ4z2GeWoGG7rpA
- jL4GhljxnNcJxy4Bp71vw1gl6HcZaYFHPgwPVZk7ltsACfBKXT8huq6XJ93mwUZWWqxh
- genwQFJ1NrvAKA+bllH1DqRqX5/19WNEls32Nl5mOW9HMzsyzs/2pLVZse+BqUukIpYX
- LOyCY3UIZAA750nzWhSJgVGC5jfiuOyr/pJxW1ZtTr4M60ByvBhaxAJpS8xpkRtd4Yc/
- 5vaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=RhTc02SUPXCIhBoDXKpaH4nvryx0HQr1bm7mVp4QOpM=;
- b=rmC9lkDV32bXMOT1b6UZK7CjQtLK7vOM5GLaXPh7+LqvbM4tPmGfmJC/Doxzkc4NGY
- auW0WILZe5Sivp5KcAFnDsviQCdsQZqcj05SCkth4pXkFLEhtjfc9RtKnPdOggjx+Ass
- gEyEKXx7aTqeJieNqbxtXPBmcbuNmmcqDJ84EvSkebqNERSfDq/l9HH7o0eP0uhmj0J+
- Qlb5uTScywvlSR5Lt1PLpkmySTSdLnnFCe/gb1pee+CKtyN1Yio1DQvY/BalhEjYzPBd
- PEibyFN1WRlwXj63qQRde6qD03TZQjSgbxtW60Wuv/RCveqW3+5eFkTaX3V9ZgJkTPFh
- uVIQ==
-X-Gm-Message-State: AOAM531+F4SIyvugVAuXaYD44c1ANWNU5RaJqNa7llJ3aSMwKtsTf3ya
- pe3FSamDMuT2CuNenzjMcEVvx2yXuBEpsOQSjgBcyA==
-X-Google-Smtp-Source: ABdhPJz5Ds/o798EISRwOKvDCeGFyBeJTX7M0kDaYcSeS2gtJ7vZlyLGuFZK7tbC+Zz/XC6PnmMHu4Y9fczwGhUOGH4=
-X-Received: by 2002:aca:568c:: with SMTP id k134mr221207oib.48.1592240045268; 
- Mon, 15 Jun 2020 09:54:05 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jksdH-0007NR-C1
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 13:10:53 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jksdF-0005dT-70
+ for <qemu-devel@nongnu.org>; Mon, 15 Jun 2020 17:10:49 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 33C7A2E8105
+ for <qemu-devel@nongnu.org>; Mon, 15 Jun 2020 17:10:49 +0000 (UTC)
 MIME-Version: 1.0
-References: <cover.1591471056.git.balaton@eik.bme.hu>
- <acb431de2d9c7a497d54a548dfc7592eb2b9fe1c.1591471056.git.balaton@eik.bme.hu>
- <CAFEAcA_WemGUp0YTitXvChsFPzZjOts04zTp2-aPgmFxTC5NXA@mail.gmail.com>
- <alpine.BSF.2.22.395.2006151832190.51837@zero.eik.bme.hu>
-In-Reply-To: <alpine.BSF.2.22.395.2006151832190.51837@zero.eik.bme.hu>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 15 Jun 2020 17:53:54 +0100
-Message-ID: <CAFEAcA8ktxFzcj61GydqarczXWh_gkzJ4aa5ZFKqs6s2BCQaPw@mail.gmail.com>
-Subject: Re: [PATCH 1/4] sm501: Fix bounds checks
-To: BALATON Zoltan <balaton@eik.bme.hu>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::244;
- envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x244.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 15 Jun 2020 16:57:01 -0000
+From: Laurent Vivier <1883560@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: build linux-user mips
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ajbennee laurent-vivier
+X-Launchpad-Bug-Reporter: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
+X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
+References: <159223432851.7281.13140123017230519248.malonedeb@gac.canonical.com>
+Message-Id: <159224022129.6307.7869539858613485547.malone@chaenomeles.canonical.com>
+Subject: [Bug 1883560] Re: mips linux-user builds occasionly crash randomly
+ only to be fixed by a full clean re-build
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="b190cebbf563f89e480a8b57f641753c8196bda0";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 6717bb290bbdcb0a038dc06badffab45613dea61
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/15 11:25:45
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -81,44 +73,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sebastian Bauer <mail@sebastianbauer.info>,
- Magnus Damm <magnus.damm@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Aurelien Jarno <aurelien@aurel32.net>, Gerd Hoffmann <kraxel@redhat.com>
+Reply-To: Bug 1883560 <1883560@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 15 Jun 2020 at 17:40, BALATON Zoltan <balaton@eik.bme.hu> wrote:
->
-> On Mon, 15 Jun 2020, Peter Maydell wrote:
-> > The calculations for sb/se/db/de all have a term which
-> > multiplies by (width + pitch), which makes me suspect
-> > they also need a similar fix ?
->
-> Maybe. I'll have to check again. Actually is there a simpler way to check
-> if two rectangles overlap when they are given with base, x, y, w, h, pitch
-> where base is the first byte of the screen, pitch is length of one line
-> and x,y is coordinates of top left corner and w,h is dimensions of the
-> rect. Now that I think about it we also need to take into accounf the
-> bytes per pixel value (1 << format) because base is given in bytes while
-> others are in pixels so these formulae likely need some fixes. Pixman has
-> some functions for these but those assume common base so to use those we
-> would need to bring the two rectangles to common base which I could not
-> find out how to do. Probably this is really simple for someone who already
-> did a lot of these before.
+syscall_nr.h is generated from syscall_n32.tbl and syscall_n64.tbl, so
+it should be under your build directory, not the source directory.
 
-I think the thing that makes it particularly awkward is that
-the source and dest can have different pitches. That means it's
-not a simple "do two rectangles overlap" test because the dest
-area might not be a rectangle at all when looked at from the
-POV of the source.
+But if you did a build before the change, the dependency file .d will
+store a path in the src dir and the new file will not be generated in
+the build dir but in the previous place.
 
-Do guests usually set src and dst pitch identical? If so it
-might be worth having a more accurate rectangle-overlap test
-for the common case and a looser check for the hard-to-handle
-case.
+linux-user/mips64/Makefile.objs:
 
-I might have a think about this and draw some diagrams tomorrow :-)
+ifeq ($(TARGET_SYSTBL_ABI),n32)
+%/syscall_nr.h: $(SRC_PATH)/linux-user/$(TARGET_ABI_DIR)/syscall_n32.tbl $(=
+syshdr)
+        $(call quiet-command, sh $(syshdr) $< $@ n32 "" 6000,"GEN","$@")
+endif
+ifeq ($(TARGET_SYSTBL_ABI),n64)
+%/syscall_nr.h: $(SRC_PATH)/linux-user/$(TARGET_ABI_DIR)/syscall_n64.tbl $(=
+syshdr)
+        $(call quiet-command, sh $(syshdr) $< $@ n64 "" 5000,"GEN","$@")
+endif
 
-thanks
--- PMM
+Normally this is cleaned up by the configure with:
+
+for arch in alpha hppa m68k xtensa sh4 microblaze arm ppc s390x sparc sparc=
+64 \
+    i386 x86_64 mips mips64 ; do
+    # remove the file if it has been generated in the source directory
+    rm -f "${source_path}/linux-user/${arch}/syscall_nr.h"
+    # remove the dependency files
+    for target in ${arch}*-linux-user ; do
+        test -d "${target}" && find "${target}" -type f -name "*.d" \
+             -exec grep -q "${source_path}/linux-user/${arch}/syscall_nr.h"=
+ {} \; \
+             -print | while read file ; do rm "${file}" "${file%.d}.o" ; do=
+ne
+    done
+don
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1883560
+
+Title:
+  mips linux-user builds occasionly crash randomly only to be fixed by a
+  full clean re-build
+
+Status in QEMU:
+  New
+
+Bug description:
+  From time to time I find check-tcg crashes with a one of the MIPS
+  binaries. The last time it crashed was running the test:
+
+    ./mips64el-linux-user/qemu-mips64el ./tests/tcg/mips64el-linux-
+  user/threadcount
+
+  Inevitably after some time noodling around wondering what could be
+  causing this weird behaviour I wonder if it is a build issue. I wipe
+  all the mips* build directories, re-run configure and re-build and
+  voila problem goes away.
+
+  It seems there must be some sort of build artefact which isn't being
+  properly re-generated on a build update which causes weird problems.
+  Additional data point if I:
+
+    rm -rf mips64el-linux-user
+    ../../configure
+    make
+
+  then I see failures in mip32 builds - eg:
+
+      GEN     mipsn32el-linux-user/config-target.h
+    In file included from /home/alex/lsrc/qemu.git/linux-user/syscall_defs.=
+h:10,
+                     from /home/alex/lsrc/qemu.git/linux-user/qemu.h:16,
+                     from /home/alex/lsrc/qemu.git/linux-user/linuxload.c:5:
+    /home/alex/lsrc/qemu.git/linux-user/mips64/syscall_nr.h:1: error: unter=
+minated #ifndef
+     #ifndef LINUX_USER_MIPS64_SYSCALL_NR_H
+
+    make[1]: *** [/home/alex/lsrc/qemu.git/rules.mak:69: linux-user/linuxlo=
+ad.o] Error 1
+    make[1]: *** Waiting for unfinished jobs....
+
+  which implies there is a cross dependency between different targets
+  somewhere. If I executed:
+
+    rm -rf mips*
+
+  before re-configuring and re-building then everything works again.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1883560/+subscriptions
 
