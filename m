@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65FD01FB489
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:37:58 +0200 (CEST)
-Received: from localhost ([::1]:41548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF1641FB4DA
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:48:14 +0200 (CEST)
+Received: from localhost ([::1]:57694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlCir-0001Za-Ae
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:37:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57776)
+	id 1jlCsn-0005l5-Ls
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:48:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCQ7-0002mX-Gf; Tue, 16 Jun 2020 10:18:35 -0400
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:42117)
+ id 1jlCQ8-0002n5-QB; Tue, 16 Jun 2020 10:18:37 -0400
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:37871)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCQ5-0006o5-W5; Tue, 16 Jun 2020 10:18:35 -0400
-Received: by mail-oi1-x242.google.com with SMTP id s21so19368963oic.9;
- Tue, 16 Jun 2020 07:18:32 -0700 (PDT)
+ id 1jlCQ6-0006p3-5Z; Tue, 16 Jun 2020 10:18:36 -0400
+Received: by mail-oi1-x244.google.com with SMTP id a3so19411717oid.4;
+ Tue, 16 Jun 2020 07:18:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=S1Y8wTl2wCcrU0k1huUV064vToavb00IavIF6/ytSuo=;
- b=egvrO6sxPb+D0QMA9T0goti0IZLSwGLO6qtgnHooIPaRx3UUquEMkeAp9FBtqKX+Rm
- gr6lvDXX2UM453GgurFJvTHe0lYnwRsTZA2ObcdVUrU7rvrM9ml+vHdnd9DFf8tFFYUJ
- D9c44u+G+tKRqqa+o1QsBbPwzAkPAjp/vp5AhiLoEtSX+WzehTMAsAB1uA6ovDZ0BqtW
- RyB28VI+jYFMgWkGzKcEIGvqeZo+ONcy4K5odVmLpSYC8E+2V2111od809enCvIAlUwf
- movRSE6GuTAS7XzDArjLRAdNIlt16US/yEV4+LeINGqO6AMoRe0s/oVE+l44DPO2zvZj
- m3TQ==
+ bh=JwnlDNPbrLcvfJMKjMv3fUQyb6M3rRDS3gPnPd6DoeI=;
+ b=DQ6sTO8BmJxCdDff6CoXV8iE76R/p6LqXYLhi7td3vcF8xHszO8WGtLmEu1Gc+8eLA
+ MFi7Euax6CM1oyw1drQc3GFy2RMzLYYxeEyB6aSfRq9m1n9ohnSoRS0NHr9UNYHkI4oV
+ +mXlKy1e4V5EkKlFqyrbZ2lvHjdzXLt+JcZPFLvhYw0BBYWlyeAXaHth8D06oJHN5/bH
+ 7GPrvEAOHLopp3SO2z2P5tpKsG+AKO8njIXAyZyxaRibtqIplYiq7O6goWcjT9TwpfYB
+ 6ix2K6U7nemQmD9U/DYF5sTKsN/T2b9/ziCI2wwsWWyZoFAAQo76y3XTdFcKteqx4asT
+ SMkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=S1Y8wTl2wCcrU0k1huUV064vToavb00IavIF6/ytSuo=;
- b=q8RLjGquzKE2pHKr1mwdUSB5Vg1FYeijbCVCG51LTJqOyuut4XAT2ukkDDm83oRcV0
- DXS+2xLHelXwsOUI6u57B4gHmzkILLC93LSNsAkR3OAIil4+rFyaxeOfoX7fncBK3gIb
- WAQWOKNhv+e/s4hC2ihx0uvYdc0whf71uclvHR8QYdRB0KQeJQ185FdzcwFKc8tVDfal
- eLhLrqZndKcjeP9JY60kgQG9LIlBTXwtnj7hFR/iu/uPgjfP90cu/6QuFOd0DeMYs68R
- tQkRd/UZVn/yYxadC2Q/CLCbSR9E8BfbNgO15YYDMrezYx607xIpgswz7yyKbKtJPSj0
- LLqQ==
-X-Gm-Message-State: AOAM531G/aPI0GQ3jPm+FqA/AIGWOCeUq+DFalINqpkhyy0jPAFv4wYr
- gZ/Qsu/qF+yFaQLLlXo+1kekV8Ni
-X-Google-Smtp-Source: ABdhPJzM5qytx3NA8RfbC/NPu+QdDN/Qh5Wn16zz7n9vuIUCBKm+2BQAQy1rikzTzte3HdPfHR3t7g==
-X-Received: by 2002:a05:6808:6ca:: with SMTP id
- m10mr3477886oih.27.1592317111283; 
- Tue, 16 Jun 2020 07:18:31 -0700 (PDT)
+ bh=JwnlDNPbrLcvfJMKjMv3fUQyb6M3rRDS3gPnPd6DoeI=;
+ b=lA821lgJg4v9hAVN1O4bLaz5HJgW8XayBcnxUOCkbDSY2axgS+UtXEjaVF92fJ0xVJ
+ eJMPCb2gzEXzVkBdNHNq2okOHR+xnGjL6cbwv86iiSF9Sgx2KG4lSRKtHOnf2gEKVs0s
+ 60ylh6x7rug3IX5H8uVu54mw1bRH3niUiNxbXHRkUlKQ52jtR3aeZuuR697qiBSSpncN
+ 80FUx7s0CWb5Ij3h1MqFoJU0/6GeSYV8fWsJFHNUVAWO7uL3K5QF9vQtyTmJ7Ax385XK
+ zZWp40koroZMUzH2iB5KmQhbyYizgUvi61Y1K/IqhAIzKxtoi3Fs1vYywiOC67oyiCKr
+ Fh9A==
+X-Gm-Message-State: AOAM531Lg85tbYtc2tSv4z5Eq0nkD5kZVKx0tCIRLsC4RVcSy5wOhWHH
+ JsR18U/jfQBZhaecumRmBdnqv8XA
+X-Google-Smtp-Source: ABdhPJzaiHmMLm2W4XQ9jtgG7t3fD8V8IH+SmzE3kRXKRUuGbtzp3Oagqm3c0BPOQc08QEwvvIygLQ==
+X-Received: by 2002:a54:4718:: with SMTP id k24mr3241700oik.133.1592317112536; 
+ Tue, 16 Jun 2020 07:18:32 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id u15sm275579oie.29.2020.06.16.07.18.30
+ by smtp.gmail.com with ESMTPSA id w10sm4087452otp.44.2020.06.16.07.18.31
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 16 Jun 2020 07:18:30 -0700 (PDT)
+ Tue, 16 Jun 2020 07:18:31 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 42/78] plugins/core: add missing break in cb_to_tcg_flags
-Date: Tue, 16 Jun 2020 09:15:11 -0500
-Message-Id: <20200616141547.24664-43-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 43/78] tcg: save vaddr temp for plugin usage
+Date: Tue, 16 Jun 2020 09:15:12 -0500
+Message-Id: <20200616141547.24664-44-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
 References: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::242;
- envelope-from=flukshun@gmail.com; helo=mail-oi1-x242.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::244;
+ envelope-from=flukshun@gmail.com; helo=mail-oi1-x244.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -85,41 +84,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Emilio G. Cota" <cota@braap.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Emilio G. Cota" <cota@braap.org>
+From: Alex Bennée <alex.bennee@linaro.org>
 
-Fixes: 54cb65d8588
-Reported-by: Robert Henry <robhenry@microsoft.com>
-Signed-off-by: Emilio G. Cota <cota@braap.org>
+While do_gen_mem_cb does copy (via extu_tl_i64) vaddr into a new temp
+this won't help if the vaddr temp gets clobbered by the actual
+load/store op. To avoid this clobbering we explicitly copy vaddr
+before the op to ensure it is live my the time we do the
+instrumentation.
+
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20200105072940.32204-1-cota@braap.org>
+Reviewed-by: Emilio G. Cota <cota@braap.org>
 Cc: qemu-stable@nongnu.org
-Message-Id: <20200225124710.14152-12-alex.bennee@linaro.org>
-(cherry picked from commit dcc474c69e6a59044b9bb54624bd636cbfd98aa9)
+Message-Id: <20200225124710.14152-18-alex.bennee@linaro.org>
+(cherry picked from commit fcc54ab5c7ca84ae72e8bf3781c33c9193a911aa)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- plugins/core.c | 1 +
- 1 file changed, 1 insertion(+)
+ tcg/tcg-op.c | 23 ++++++++++++++++++++---
+ 1 file changed, 20 insertions(+), 3 deletions(-)
 
-diff --git a/plugins/core.c b/plugins/core.c
-index 9e1b9e7a91..ed863011ba 100644
---- a/plugins/core.c
-+++ b/plugins/core.c
-@@ -286,6 +286,7 @@ static inline uint32_t cb_to_tcg_flags(enum qemu_plugin_cb_flags flags)
-     switch (flags) {
-     case QEMU_PLUGIN_CB_RW_REGS:
-         ret = 0;
-+        break;
-     case QEMU_PLUGIN_CB_R_REGS:
-         ret = TCG_CALL_NO_WG;
-         break;
+diff --git a/tcg/tcg-op.c b/tcg/tcg-op.c
+index c245126f98..eb5d172e49 100644
+--- a/tcg/tcg-op.c
++++ b/tcg/tcg-op.c
+@@ -2794,13 +2794,26 @@ static void tcg_gen_req_mo(TCGBar type)
+     }
+ }
+ 
++static inline TCGv plugin_prep_mem_callbacks(TCGv vaddr)
++{
++#ifdef CONFIG_PLUGIN
++    if (tcg_ctx->plugin_insn != NULL) {
++        /* Save a copy of the vaddr for use after a load.  */
++        TCGv temp = tcg_temp_new();
++        tcg_gen_mov_tl(temp, vaddr);
++        return temp;
++    }
++#endif
++    return vaddr;
++}
++
+ static inline void plugin_gen_mem_callbacks(TCGv vaddr, uint16_t info)
+ {
+ #ifdef CONFIG_PLUGIN
+-    if (tcg_ctx->plugin_insn == NULL) {
+-        return;
++    if (tcg_ctx->plugin_insn != NULL) {
++        plugin_gen_empty_mem_callback(vaddr, info);
++        tcg_temp_free(vaddr);
+     }
+-    plugin_gen_empty_mem_callback(vaddr, info);
+ #endif
+ }
+ 
+@@ -2822,6 +2835,7 @@ void tcg_gen_qemu_ld_i32(TCGv_i32 val, TCGv addr, TCGArg idx, MemOp memop)
+         }
+     }
+ 
++    addr = plugin_prep_mem_callbacks(addr);
+     gen_ldst_i32(INDEX_op_qemu_ld_i32, val, addr, memop, idx);
+     plugin_gen_mem_callbacks(addr, info);
+ 
+@@ -2868,6 +2882,7 @@ void tcg_gen_qemu_st_i32(TCGv_i32 val, TCGv addr, TCGArg idx, MemOp memop)
+         memop &= ~MO_BSWAP;
+     }
+ 
++    addr = plugin_prep_mem_callbacks(addr);
+     gen_ldst_i32(INDEX_op_qemu_st_i32, val, addr, memop, idx);
+     plugin_gen_mem_callbacks(addr, info);
+ 
+@@ -2905,6 +2920,7 @@ void tcg_gen_qemu_ld_i64(TCGv_i64 val, TCGv addr, TCGArg idx, MemOp memop)
+         }
+     }
+ 
++    addr = plugin_prep_mem_callbacks(addr);
+     gen_ldst_i64(INDEX_op_qemu_ld_i64, val, addr, memop, idx);
+     plugin_gen_mem_callbacks(addr, info);
+ 
+@@ -2967,6 +2983,7 @@ void tcg_gen_qemu_st_i64(TCGv_i64 val, TCGv addr, TCGArg idx, MemOp memop)
+         memop &= ~MO_BSWAP;
+     }
+ 
++    addr = plugin_prep_mem_callbacks(addr);
+     gen_ldst_i64(INDEX_op_qemu_st_i64, val, addr, memop, idx);
+     plugin_gen_mem_callbacks(addr, info);
+ 
 -- 
 2.17.1
 
