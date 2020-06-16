@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F40C1FB48F
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:38:28 +0200 (CEST)
-Received: from localhost ([::1]:44218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 456781FB470
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:31:56 +0200 (CEST)
+Received: from localhost ([::1]:43414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlCjL-0002kQ-IM
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:38:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57604)
+	id 1jlCd1-0007SN-73
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:31:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCPo-0002Ar-VJ; Tue, 16 Jun 2020 10:18:16 -0400
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:34890)
+ id 1jlCPr-0002JJ-Tz; Tue, 16 Jun 2020 10:18:19 -0400
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:34889)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCPn-0006ga-Al; Tue, 16 Jun 2020 10:18:16 -0400
-Received: by mail-oi1-x243.google.com with SMTP id k4so19384129oik.2;
- Tue, 16 Jun 2020 07:18:13 -0700 (PDT)
+ id 1jlCPq-0006hu-FE; Tue, 16 Jun 2020 10:18:19 -0400
+Received: by mail-oi1-x241.google.com with SMTP id k4so19384320oik.2;
+ Tue, 16 Jun 2020 07:18:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=j5JadjYITwuc3PbQFYYnCy+d7Me2080KB/yC+x/1sXg=;
- b=QYBtQb3qv5JrOYveG1CHpjtIi8E4eGda2+ymh+28Pe4Jslu6mvGNzqskv4eEQCPA8n
- 8BR1q7abwCfSm7+y/Nf71JA6VUlMDs70/uxS7l0eqQYtRVaJKidcy23GTuzmnee3Lqa2
- z2GMH73UHlwmQp6RhHWRx1ZdDS3fti8CZlsjnpuGpdkAGr+b1+ChTQEYk8M/9klFKu6Y
- zUAHPmuxwWP3ll3yvabAnnlv064sNmJe+W+ywecxmfMux1eOlTHpBZx8drqdB4DR1GWY
- jGgzQgxKQTEizIh10eT2Hama9GNje+NcTWlJ/yY5/3UWTJ1n5uoikwwqcrtji2byM74F
- R8bA==
+ bh=MYqD5kUyAFJe68fqslPuojGp+B170xLbwwM5A3xgweA=;
+ b=bXZSIRPq8d7FWdJW6c9yaexTnz15i66GYNJJJgwtHgd7/A6P8slTYFX4pmIcSwaCW9
+ EpJkA2kFHt8rmCOyYZpzDsd7pcr0iZp9HVcHzNpGykaODPOdoxcxuW7HjB9RR90NXBDK
+ GjEhngJmTlwZKoaFbTfTNklY1NJgr69NzpoBjKPu3umT83tFT8E74TXOrSmHBf4XesQ8
+ PCTmQe1BmZcRkkUTMm6I2BDVMtptg5EFh59v2gSk021hzJngv+BFqpDOWYDEwl+z+lfS
+ HRAIx8PD+4ehb1nxUTbOYVLIh8G+G+fuQhB+/g2pv2W+EmvqwLuJeFVoVG40vWxRZ3gF
+ /uPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=j5JadjYITwuc3PbQFYYnCy+d7Me2080KB/yC+x/1sXg=;
- b=ihVsnRbwK1jFN4AcpklyhyDU+i+ur6GamUNJv6F9c1I6lVUW+XIcbpVmswcg7kbakw
- viue7mofRHqcX2q79Cj3E0rU0mgxS+NrjpxywCO5VvhW5xCnlfdhSbaTEowhW5RlGf3a
- 4cWtnLlW/VFuISw0rjkTIuU549VtIpSb5DSYnNUUDVOT/BKR6+RkH6A8InMUh/qgYOV6
- jbAudAlS+O8+PcjVkFoijPewDfDOqWqSAZJesC7Bz9hpX2yA7hTFUEmJujkipIx3AKk2
- gAgD3sIRzaqM2TI4wMFNWfhDBN5Scw02yofCAmIyE/zeT1dUdhArjAfYFbcxb12RSpUZ
- YQfA==
-X-Gm-Message-State: AOAM5323v6A3VI25TgW7TRWV+7wkEO6lEd8SVBXHG78OaVQBoJi6Y57/
- 1zvEN9iDWEN+mRnHvI5UzV96yqU2
-X-Google-Smtp-Source: ABdhPJwZZUyt2mPpDUaiuo9qZigT3HqodRbWAqEJHNDjrz9SFLzeJIRgjXMzTuIQenvtbna1E1jwtw==
-X-Received: by 2002:aca:ec4d:: with SMTP id k74mr3364583oih.160.1592317092226; 
- Tue, 16 Jun 2020 07:18:12 -0700 (PDT)
+ bh=MYqD5kUyAFJe68fqslPuojGp+B170xLbwwM5A3xgweA=;
+ b=YVaGmstdyKEAU9H1/aq7n1j7jc7UyWoNuaewr4wj9ClX5OllUJCRmTdc/gHUYZi02z
+ sIr6gkr/hDE+WtxxHVLDgyhFtM42TgzsJ0D1lt1gjh631VC2Hc9dBY1ISrQ8ikFaD4RP
+ zQolEB610w1NKZnv5If/wD5i/j2IrMQIifYeKfN+wP7/fJ6BGK1QWYZ4PF5C3LGTRrS2
+ 1r+oEQ3wRaVCyh2UCbw35GmJHkLUpiC11eTcgcH8L2dCLWINnjDWLBKjj/f+EsC4DZuD
+ xAW5cjp2BAUpgaX0Wld8u1GyKoV5lewbnqJULWzUZvJ/Let8Vi4IX9p9tXolEH/vA9iC
+ mo9Q==
+X-Gm-Message-State: AOAM533FuxKGYhd59Mr1kPviHRK1SswaDCZpBeCcmyexfjMBjXnqCdTJ
+ LcMN1RgoQi6cTjY2Ue/pH42c0OWx
+X-Google-Smtp-Source: ABdhPJzyBxEjEU4YsHol5tsSt9TvVUlg+UWN+/he2OZ1RB8D6sSbg0h/Kzv3bi3zLZHMl/vGtzFYkg==
+X-Received: by 2002:aca:438a:: with SMTP id q132mr3382644oia.44.1592317096410; 
+ Tue, 16 Jun 2020 07:18:16 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id s20sm4078575otd.62.2020.06.16.07.18.11
+ by smtp.gmail.com with ESMTPSA id g5sm4072195otb.20.2020.06.16.07.18.14
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 16 Jun 2020 07:18:11 -0700 (PDT)
+ Tue, 16 Jun 2020 07:18:14 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 32/78] dp8393x: Clear RRRA command register bit only when
- appropriate
-Date: Tue, 16 Jun 2020 09:15:01 -0500
-Message-Id: <20200616141547.24664-33-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 34/78] dp8393x: Don't clobber packet checksum
+Date: Tue, 16 Jun 2020 09:15:03 -0500
+Message-Id: <20200616141547.24664-35-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
 References: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
- envelope-from=flukshun@gmail.com; helo=mail-oi1-x243.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::241;
+ envelope-from=flukshun@gmail.com; helo=mail-oi1-x241.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -92,45 +91,35 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Finn Thain <fthain@telegraphics.com.au>
 
-It doesn't make sense to clear the command register bit unless the
-command was actually issued.
+A received packet consumes pkt_size bytes in the buffer and the frame
+checksum that's appended to it consumes another 4 bytes. The Receive
+Buffer Address register takes the former quantity into account but
+not the latter. So the next packet written to the buffer overwrites
+the frame checksum. Fix this.
 
 Signed-off-by: Finn Thain <fthain@telegraphics.com.au>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Tested-by: Laurent Vivier <laurent@vivier.eu>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
-(cherry picked from commit a3cce2825a0b12bb717a5106daaca245557cc9ae)
+(cherry picked from commit bae112b80c9c42cea21ee7623c283668c3451c2e)
+*drop context dep. on 19f70347731
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- hw/net/dp8393x.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ hw/net/dp8393x.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/hw/net/dp8393x.c b/hw/net/dp8393x.c
-index 8dd6bf032c..04f58ee4e1 100644
+index ca8088c839..315b4ad844 100644
 --- a/hw/net/dp8393x.c
 +++ b/hw/net/dp8393x.c
-@@ -352,9 +352,6 @@ static void dp8393x_do_read_rra(dp8393xState *s)
-         s->regs[SONIC_ISR] |= SONIC_ISR_RBE;
-         dp8393x_update_irq(s);
-     }
--
--    /* Done */
--    s->regs[SONIC_CR] &= ~SONIC_CR_RRRA;
- }
- 
- static void dp8393x_do_software_reset(dp8393xState *s)
-@@ -563,8 +560,10 @@ static void dp8393x_do_command(dp8393xState *s, uint16_t command)
-         dp8393x_do_start_timer(s);
-     if (command & SONIC_CR_RST)
-         dp8393x_do_software_reset(s);
--    if (command & SONIC_CR_RRRA)
-+    if (command & SONIC_CR_RRRA) {
-         dp8393x_do_read_rra(s);
-+        s->regs[SONIC_CR] &= ~SONIC_CR_RRRA;
-+    }
-     if (command & SONIC_CR_LCAM)
-         dp8393x_do_load_cam(s);
- }
+@@ -816,6 +816,7 @@ static ssize_t dp8393x_receive(NetClientState *nc, const uint8_t * buf,
+     address += rx_len;
+     address_space_rw(&s->as, address,
+         MEMTXATTRS_UNSPECIFIED, (uint8_t *)&checksum, 4, 1);
++    address += 4;
+     rx_len += 4;
+     s->regs[SONIC_CRBA1] = address >> 16;
+     s->regs[SONIC_CRBA0] = address & 0xffff;
 -- 
 2.17.1
 
