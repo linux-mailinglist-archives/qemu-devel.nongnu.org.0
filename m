@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE4BF1FB5C1
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 17:13:20 +0200 (CEST)
-Received: from localhost ([::1]:55424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 779571FB587
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 17:06:16 +0200 (CEST)
+Received: from localhost ([::1]:51770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlDH5-0001n6-Rs
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 11:13:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35076)
+	id 1jlDAF-00051t-Gd
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 11:06:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35120)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jlCm5-0001tt-5r
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 10:41:17 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:38966)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jlCm3-0002Em-5Y
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 10:41:16 -0400
-Received: by mail-wr1-x443.google.com with SMTP id t18so21060776wru.6
- for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 07:41:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:in-reply-to:references:from:date:message-id:subject:to
- :cc; bh=zuwVhVMeKT0h6q8nDG34XQIrLSAFWowEVxHgsU97kn4=;
- b=MkO+6O/qmXEwEi+zpbOtDXGpujwETxMjwMmpW2bSi99D5mgkv7e+zDqpgxbcRAdWaK
- EqbENr1VdZRgiyEJyoo7yhPWn55PUc8qPv32LVh41QmzdrYQm+SAN3X6D8JSSoWTWBaq
- gXhIg15MZ6tUBuIz5NFWLvZWHPbP8oYGVl11sBINiuT6LTF9Yv8ATF8s9osFwmdgy6dj
- owyeuOaigVNTZbfYonVk6OQPBf05wPT+UFG3eS0bL3CPhuj0pAKojEHW4AVpRfvZNZMw
- RBitO2QzBoJeDhLoLATy+EYt7W34ZIKCM/Cs7awhx37JzbSxYHj+jovqxOV6N/MdVllZ
- 4/3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:in-reply-to:references:from:date
- :message-id:subject:to:cc;
- bh=zuwVhVMeKT0h6q8nDG34XQIrLSAFWowEVxHgsU97kn4=;
- b=r3mou0Ckk4ZFJg2+CHFZ4zHQnqmh7nIQxCr7MVFJm5ZQKs8iLMYSjmbnW3LG7sQb5R
- 6ML20ouN/jtIVTlWaZ1tQ/nBYxGjrYJGu2S0GUeOfDq/BubdgixFOWnNaJRrulITo4z8
- brRrE1SqIIGjCQPe7VP3bhNcGN/hLsrXwouoc/51avYlmrsL4zPLUUYBqo8ncEqCsNIo
- agWou0tlJSskBfBEe2pEnG0DmDyIxLO8HpkBF0sL+tMkfa3YZT3sL9DGV1NOX8eGTIk1
- 7twP2wYbs5yqMeISbuX1SwyMp2xkiZl3+Po1QRrcF+4GOdyGf8JqYinzGAh2YVjse9nm
- vc4Q==
-X-Gm-Message-State: AOAM530bn+/tXTXq8yor+VZD+FhuGHnIDmIT91hCVVyjCQwi0J9xNjaZ
- k0Irh6/SEVGNMm0vHgerhlkVpEabH64p1KHQHPk=
-X-Google-Smtp-Source: ABdhPJzHFQuHb0NeGZ+AEkDNiGDF73ODgVTJpSYs57D+kY4upe5BBpl0WxoPQ1nbv7InJ9toc7ezOJAZqZDFFLuczks=
-X-Received: by 2002:a5d:54c7:: with SMTP id x7mr3357974wrv.162.1592318473571; 
- Tue, 16 Jun 2020 07:41:13 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jlCme-0003V7-8Z
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 10:41:52 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:27988
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jlCmc-0002GH-Gv
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 10:41:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1592318509;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=wqjHu/2lHBq4QZX10aPeXKkXqqTRlUWTOJp0b4aR8IY=;
+ b=XPvX4rIRLKixgmkQrJoA0ghKOBCppXq2m1ZrhYIZsBNCmmW63D88tPyihKsTE99XpFrnTl
+ /PUcR+X5OmZdQSd9BtvcpZETHQmiCpF2TAIfYX3yOC2LT501weAlxyJgqeCwIfEq/78xZk
+ soRG1qbkbfI05dpJ1aPrvNbQ/fHp0mw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-246-TCxR_i5NNMuocRf4ICTLkg-1; Tue, 16 Jun 2020 10:41:47 -0400
+X-MC-Unique: TCxR_i5NNMuocRf4ICTLkg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BB68394B2A;
+ Tue, 16 Jun 2020 14:41:46 +0000 (UTC)
+Received: from redhat.com (unknown [10.36.110.66])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BF4965C1D2;
+ Tue, 16 Jun 2020 14:41:39 +0000 (UTC)
+Date: Tue, 16 Jun 2020 15:41:35 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Lukas Straub <lukasstraub2@web.de>
+Subject: Re: [PATCH v4 3/4] chardev/char-socket.c: Add yank feature
+Message-ID: <20200616144135.GH550360@redhat.com>
+References: <cover.1590421341.git.lukasstraub2@web.de>
+ <f513f9d9f329ca3a87a6e0aabe2f66f0775c1d6f.1590421341.git.lukasstraub2@web.de>
 MIME-Version: 1.0
-Received: by 2002:a1c:451:0:0:0:0:0 with HTTP;
- Tue, 16 Jun 2020 07:41:13 -0700 (PDT)
-In-Reply-To: <46907c6f-6c0f-5918-0885-a60b0114e1d1@flygoat.com>
-References: <20200616073359.2999656-1-jiaxun.yang@flygoat.com>
- <CAHiYmc6QEU4zk=0Xa6_gs1JEV+1mGNp3oNYQ6rZoxeLF5cABBw@mail.gmail.com>
- <46907c6f-6c0f-5918-0885-a60b0114e1d1@flygoat.com>
-From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Date: Tue, 16 Jun 2020 16:41:13 +0200
-Message-ID: <CAHiYmc6CYez1Ur2atyFa66HvbHSpiDLGa-emJ8CUK=hV0kpqXQ@mail.gmail.com>
-Subject: Re: [PATCH v2 0/2] target/mips: Add two groups of loongson-ext
- instructions
-To: Jiaxun Yang <jiaxun.yang@flygoat.com>
-Content-Type: multipart/alternative; boundary="000000000000fc90da05a8348840"
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-wr1-x443.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <f513f9d9f329ca3a87a6e0aabe2f66f0775c1d6f.1590421341.git.lukasstraub2@web.de>
+User-Agent: Mutt/1.14.0 (2020-05-02)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 02:01:17
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,189 +81,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "chenhc@lemote.com" <chenhc@lemote.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "aurelien@aurel32.net" <aurelien@aurel32.net>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block <qemu-block@nongnu.org>,
+ Juan Quintela <quintela@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000fc90da05a8348840
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Mon, May 25, 2020 at 05:44:29PM +0200, Lukas Straub wrote:
+> Register a yank function to shutdown the socket on yank.
+> 
+> Signed-off-by: Lukas Straub <lukasstraub2@web.de>
+> ---
+>  Makefile.objs         |  1 +
+>  chardev/char-socket.c | 24 ++++++++++++++++++++++++
+>  2 files changed, 25 insertions(+)
 
-=D1=83=D1=82=D0=BE=D1=80=D0=B0=D0=BA, 16. =D1=98=D1=83=D0=BD 2020., Jiaxun =
-Yang <jiaxun.yang@flygoat.com> =D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=
-=D0=B0=D0=BE/=D0=BB=D0=B0:
-
->
->
-> =E5=9C=A8 2020/6/16 18:38, Aleksandar Markovic =E5=86=99=E9=81=93:
->
->>
->>
->> =D1=83=D1=82=D0=BE=D1=80=D0=B0=D0=BA, 16. =D1=98=D1=83=D0=BD 2020., Jiax=
-un Yang <jiaxun.yang@flygoat.com <mailto:
->> jiaxun.yang@flygoat.com>> =D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=
-=B0=D0=BE/=D0=BB=D0=B0:
->>
->>     This is the sucessor of:
->>     "Basic TCG Loongson-3A1000 Support"
->>
->>     Thanks!
->>
->>
->> Hi, Jiaxun.
->>
->> Thanks for providing updated version of the series.
->>
->> I wonder, given so many "#if defined(TARGET_MIPS64)" lines in this
->> series, what would be the 32-bit processors that support Loongson EXT AS=
-E?
->>
->
-> Loongson GS232 core which can be found in Loongson-1A/B/C should support
-> it.
-> Although I have no intension to work on QEMU support of these processors.
->
->
-...And, for the sake of accuracy, you nevertheless included the correct
-implementation (for both 32-bir and 64-bit). That is very good. I would do
-the same, if I were you.
-
-However, there is a problem. We can't upstream (at least not in QEMU for
-MIPS) anything without the proper documentation.
-
-So, please provide the links or attach the supporting files to the cover
-letter in v2. You already did something similar in some of your previous
-series and patches. I am perfectly fine with machine translation from
-Chinese.
-
-For example, you need to provide, among other things, docs describing EXT
-support in GS 232 cores. We can't just make assumptions, or trust your
-word. These sources of information should be repeated for all versions (v2,
-v3,...) of the series, in their cover letters.
-
-I salute your series, but it needs much more justification.
-
-Yours,
-Aleksandar
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
 
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
->
->> Thanks,
->> Aleksandar
->>
->>     Jiaxun Yang (2):
->>        target/mips: Add loongson-ext lsdc2 group of instructions
->>        target/mips: Add loongson-ext lswc2 group of instrustions
->>
->>
->> Also, a spelling mistake in the second title.
->>
->
-> Ahh, My bad....
->
->
->>       target/mips/translate.c | 437 ++++++++++++++++++++++++++++++
->> ++++++++++
->>       1 file changed, 437 insertions(+)
->>
->>     --     2.27.0.rc2
->>
->>
-> --
-> - Jiaxun
->
-
---000000000000fc90da05a8348840
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<br><br>=D1=83=D1=82=D0=BE=D1=80=D0=B0=D0=BA, 16. =D1=98=D1=83=D0=BD 2020.,=
- Jiaxun Yang &lt;<a href=3D"mailto:jiaxun.yang@flygoat.com">jiaxun.yang@fly=
-goat.com</a>&gt; =D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=
-=D0=BB=D0=B0:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
-ex;border-left:1px #ccc solid;padding-left:1ex"><br>
-<br>
-=E5=9C=A8 2020/6/16 18:38, Aleksandar Markovic =E5=86=99=E9=81=93:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
-<br>
-<br>
-=D1=83=D1=82=D0=BE=D1=80=D0=B0=D0=BA, 16. =D1=98=D1=83=D0=BD 2020., Jiaxun =
-Yang &lt;<a href=3D"mailto:jiaxun.yang@flygoat.com" target=3D"_blank">jiaxu=
-n.yang@flygoat.com</a> &lt;mailto:<a href=3D"mailto:jiaxun.yang@flygoat.com=
-" target=3D"_blank">jiaxun.yang@flygoat.co<wbr>m</a>&gt;&gt; =D1=98=D0=B5 =
-=D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:<br>
-<br>
-=C2=A0 =C2=A0 This is the sucessor of:<br>
-=C2=A0 =C2=A0 &quot;Basic TCG Loongson-3A1000 Support&quot;<br>
-<br>
-=C2=A0 =C2=A0 Thanks!<br>
-<br>
-<br>
-Hi, Jiaxun.<br>
-<br>
-Thanks for providing updated version of the series.<br>
-<br>
-I wonder, given so many &quot;#if defined(TARGET_MIPS64)&quot; lines in thi=
-s series, what would be the 32-bit processors that support Loongson EXT ASE=
-?<br>
-</blockquote>
-<br>
-Loongson GS232 core which can be found in Loongson-1A/B/C should support it=
-.<br>
-Although I have no intension to work on QEMU support of these processors.<b=
-r>
-<br></blockquote><div><br></div><div>...And, for the sake of accuracy, you =
-nevertheless included the correct implementation (for both 32-bir and 64-bi=
-t). That is very good. I would do the same, if I were you.</div><div><br></=
-div><div>However, there is a problem. We can&#39;t upstream (at least not i=
-n QEMU for MIPS) anything without the proper documentation.</div><div><br><=
-/div><div>So, please provide the links or attach the supporting files to th=
-e cover letter in v2. You already did something similar in some of your pre=
-vious series and patches. I am perfectly fine with machine translation from=
- Chinese.</div><div><br></div><div>For example, you need to provide, among =
-other things, docs describing EXT support in GS 232 cores. We can&#39;t jus=
-t make assumptions, or trust your word. These sources of information should=
- be repeated for all versions (v2, v3,...) of the series, in their cover le=
-tters.</div><div><br></div><div>I salute your series, but it needs much mor=
-e justification.</div><div><br></div><div>Yours,</div><div>Aleksandar</div>=
-<div><br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"=
-margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
-<br>
-Thanks,<br>
-Aleksandar<br>
-<br>
-=C2=A0 =C2=A0 Jiaxun Yang (2):<br>
-=C2=A0 =C2=A0 =C2=A0=C2=A0 target/mips: Add loongson-ext lsdc2 group of ins=
-tructions<br>
-=C2=A0 =C2=A0 =C2=A0=C2=A0 target/mips: Add loongson-ext lswc2 group of ins=
-trustions<br>
-<br>
-<br>
-Also, a spelling mistake in the second title.<br>
-</blockquote>
-<br>
-Ahh, My bad....<br>
-<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
-<br>
-=C2=A0 =C2=A0 =C2=A0=C2=A0target/mips/translate.c | 437 +++++++++++++++++++=
-+++++++++++<wbr>++++++++++<br>
-=C2=A0 =C2=A0 =C2=A0=C2=A01 file changed, 437 insertions(+)<br>
-<br>
-=C2=A0 =C2=A0 --=C2=A0 =C2=A0 =C2=A02.27.0.rc2<br>
-<br>
-</blockquote>
-<br>
--- <br>
-- Jiaxun<br>
-</blockquote>
-
---000000000000fc90da05a8348840--
 
