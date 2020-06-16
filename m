@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F17391FB511
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:54:29 +0200 (CEST)
-Received: from localhost ([::1]:60256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB6C11FB51F
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:56:25 +0200 (CEST)
+Received: from localhost ([::1]:41294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlCyq-0001VK-W7
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:54:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58146)
+	id 1jlD0i-0005IQ-Uu
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:56:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCQl-0003ec-3u; Tue, 16 Jun 2020 10:19:15 -0400
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:46993)
+ id 1jlCQm-0003i1-H8; Tue, 16 Jun 2020 10:19:16 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:44578)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCQh-0006yE-Qj; Tue, 16 Jun 2020 10:19:14 -0400
-Received: by mail-oi1-x242.google.com with SMTP id 25so19336412oiy.13;
- Tue, 16 Jun 2020 07:19:08 -0700 (PDT)
+ id 1jlCQk-0006yz-PB; Tue, 16 Jun 2020 10:19:16 -0400
+Received: by mail-ot1-x343.google.com with SMTP id e5so16019583ote.11;
+ Tue, 16 Jun 2020 07:19:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=IhA7tGc4qQITgrYTWHPDVz8A3fUsUmDnXkD5C60/dcc=;
- b=phqAh/g2YyNhyYCcznlu2ECdKdM0Hr6yuvdTPxKmWmQR4xxGMx9tvaVvhlLv3to1jK
- JdH5PfVSRY6yw/Swf9N/R5/8apODnV7eyUJcPkKxcniHwOzJxk01lTo4nCk+chll+YTh
- LqZTQ4dJvh0V7sT7FIi9dhkMg3PfWfmY+mBhrT7JmG8u10Pa2l6c9c9SSQn5uooMuOMz
- y+Cv66OKlXOPjPU3/hGZQithDbp4VHiT4OuKMJRFhT/xfYd2IfPl0OEKX2n18vjOmBMf
- kYhw3Gct3zujlhPMU4b1cnEIf4yALFghhuW96IgW204U2MlT1Y1fijA/NP3lMGcAGTUW
- 82Vg==
+ bh=luDTWDuXHrw0jVjHUOWwtj8xIi3ns98/jyoG5nV+cZo=;
+ b=E1VQGJ83vVvyJBRTBkk5zIDSoUzhRTWSCrFmgxTEjDuVOhShz7BYhDtaaRvR6AFTdr
+ aw9zcdX29aetglsKxQB9wu5WD5Ro/+8DnafQGs6PitkIQEhy/t8U5F5HJDo1eItqbOgD
+ SfF6sA+K9vU5e1z8vvUE9/xo9vSKf2nyClOD9nruDtxmtJpzGxS+V3Hjysmqf1rkzKT1
+ rFPqxhsB0DEUEC9q88cS89PvzLyTeCiSkfMbV15EWArIXvF4joIWYe7ZTBWxGcCyJzYB
+ dlANiOUgzArrpUzz5EhvRcvSIuHIszMRnSMJ8GJqQVHZyi0xjc8F79JPctgWPCPVMUyT
+ 7U+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=IhA7tGc4qQITgrYTWHPDVz8A3fUsUmDnXkD5C60/dcc=;
- b=G+yv/dmRDqv18/4zrPLo3QDS4uP0ov2xpnCcMgB3Jy6omE8huL4vKC8rqpj7yZLgNC
- p9d/yy86ru/hFBLtvvjYw2zSkhdnZIp8Iy8fPr6LTK5HUU0P6RJofxR8Vvt8gBOYvbkE
- YhoopCIe0nFPHeHEA/2BMaUoQ77nfXaXSzqW31LeHuAkmD3E4NFVUFyxyaxREYuKdeJ4
- 6zK/qYwNXHncwmfb/WS4K1h6WqX7EMxfziKIZ3sN2Vv/WAxM1oaVtQRjxI1dINq76JT8
- GZnNhGnnIPnTytOBDn8PvbqLvJAFmeDTXDXjW+YWPJ4lwMxbhpR/RLMsPtojmN5boWYh
- NKOw==
-X-Gm-Message-State: AOAM532dQTtGdnH7dm7i75NbuAYPtPeTPqghNoRwFtUemPw9hBW1PrQW
- 2naXzBxRYksKUqeR000G65297J2s
-X-Google-Smtp-Source: ABdhPJz161B8mMuQHVo7VUZnppv5cLaSH+XIZyIK3/i25uAoSYq1AOoqbirZIFziElVD2sw8CjdBOA==
-X-Received: by 2002:aca:eb42:: with SMTP id j63mr3315973oih.144.1592317147300; 
- Tue, 16 Jun 2020 07:19:07 -0700 (PDT)
+ bh=luDTWDuXHrw0jVjHUOWwtj8xIi3ns98/jyoG5nV+cZo=;
+ b=Gi3YuwWDBCPJ0kdd1uHG+XTSZ0QXqeFKL7Puf7Nj9aFjrjoIwiZ0W3/OrWuJFI9F20
+ awnu1uwoYeKc3mqUIk1Rz9vVx6SxqxpnBtrSJ5IJtG555sdG6qqU0OHUhQ4u+KeY57vX
+ 2QFbEOTUxccLQ+3WQ1B2rqXjzEqwLym+UHCwHD2gU2YMmj8KsnxtJsy8s7u0O/gYuYFj
+ CsHL8VkKzGO1xRIHg/FclsMyftUfGyCkdtm7dWl9dU98qyeRAKvQSBOrUJ/lBbI7W/z8
+ IWMdVaxaJKCwAPMHxetIyi5Zhuexxnimz/X/PeKv7MM2l76lC1cPG1hHKUgBzahcRUw2
+ +vQA==
+X-Gm-Message-State: AOAM533v/iH0ekKzTSFmDKdkhbKqeTerdX4CfzPg2yI4A705Va5SIbgN
+ TF3QJ9yLOf+UJAweBwRF3xUWY2eP
+X-Google-Smtp-Source: ABdhPJwbOyq1+L9ExYcFnBJhBoSELKR5ybwRb06V3bl6Opt/lhZPmyxCJWx1ewsHpo/FJr62l7VF+Q==
+X-Received: by 2002:a05:6830:13d3:: with SMTP id
+ e19mr2629793otq.290.1592317152347; 
+ Tue, 16 Jun 2020 07:19:12 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id m13sm4086378oou.25.2020.06.16.07.19.05
+ by smtp.gmail.com with ESMTPSA id t11sm4072451otr.65.2020.06.16.07.19.09
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 16 Jun 2020 07:19:06 -0700 (PDT)
+ Tue, 16 Jun 2020 07:19:10 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 60/78] qga-win: prevent crash when executing guest-file-read
- with large count
-Date: Tue, 16 Jun 2020 09:15:29 -0500
-Message-Id: <20200616141547.24664-61-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 61/78] qga: Fix undefined C behavior
+Date: Tue, 16 Jun 2020 09:15:30 -0500
+Message-Id: <20200616141547.24664-62-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
 References: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::242;
- envelope-from=flukshun@gmail.com; helo=mail-oi1-x242.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::343;
+ envelope-from=flukshun@gmail.com; helo=mail-ot1-x343.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -81,53 +81,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Basil Salman <basil@daynix.com>, qemu-stable@nongnu.org
+Cc: qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Basil Salman <basil@daynix.com>
+From: Eric Blake <eblake@redhat.com>
 
-guest-file-read command is currently implemented to read from a
-file handle count number of bytes. when executed with a very large count number
-qemu-ga crashes.
-after some digging turns out that qemu-ga crashes after trying to allocate
-a buffer large enough to save the data read in it, the buffer was allocated using
-g_malloc0 which is not fail safe, and results a crash in case of failure.
-g_malloc0 was replaced with g_try_malloc0() which returns NULL on failure,
-A check was added for that case in order to prevent qemu-ga from crashing
-and to send a response to the qemu-ga client accordingly.
+The QAPI struct GuestFileWhence has a comment about how we are
+exploiting equivalent values between two different integer types
+shared in a union. But C says behavior is undefined on assignments to
+overlapping storage when the two types are not the same width, and
+indeed, 'int64_t value' and 'enum QGASeek name' are very likely to be
+different in width.  Utilize a temporary variable to fix things.
 
-Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1594054
-
-Signed-off-by: Basil Salman <basil@daynix.com>
-Reported-by: Fakhri Zulkifli <mohdfakhrizulkifli@gmail.com>
-Cc: qemu-stable@nongnu.org
+Reported-by: Peter Maydell <peter.maydell@linaro.org>
+Fixes: 0b4b49387
+Fixes: Coverity CID 1421990
+Signed-off-by: Eric Blake <eblake@redhat.com>
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
-(cherry picked from commit 807e2b6fce022707418bc8f61c069d91c613b3d2)
+(cherry picked from commit a23f38a72921fa915536a981a4f8a9134512f120)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- qga/commands-win32.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ qga/commands.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/qga/commands-win32.c b/qga/commands-win32.c
-index 55ba5b263a..01e02e4440 100644
---- a/qga/commands-win32.c
-+++ b/qga/commands-win32.c
-@@ -342,7 +342,13 @@ GuestFileRead *qmp_guest_file_read(int64_t handle, bool has_count,
+diff --git a/qga/commands.c b/qga/commands.c
+index 0c7d1385c2..8ec7fa3c04 100644
+--- a/qga/commands.c
++++ b/qga/commands.c
+@@ -482,10 +482,15 @@ done:
+  * the guest's SEEK_ constants.  */
+ int ga_parse_whence(GuestFileWhence *whence, Error **errp)
+ {
+-    /* Exploit the fact that we picked values to match QGA_SEEK_*. */
++    /*
++     * Exploit the fact that we picked values to match QGA_SEEK_*;
++     * however, we have to use a temporary variable since the union
++     * members may have different size.
++     */
+     if (whence->type == QTYPE_QSTRING) {
++        int value = whence->u.name;
+         whence->type = QTYPE_QNUM;
+-        whence->u.value = whence->u.name;
++        whence->u.value = value;
      }
- 
-     fh = gfh->fh;
--    buf = g_malloc0(count+1);
-+    buf = g_try_malloc0(count + 1);
-+    if (!buf) {
-+        error_setg(errp,
-+                   "failed to allocate sufficient memory "
-+                   "to complete the requested service");
-+        return NULL;
-+    }
-     is_ok = ReadFile(fh, buf, count, &read_count, NULL);
-     if (!is_ok) {
-         error_setg_win32(errp, GetLastError(), "failed to read file");
+     switch (whence->u.value) {
+     case QGA_SEEK_SET:
 -- 
 2.17.1
 
