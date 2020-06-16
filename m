@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E46261FB17D
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 15:03:18 +0200 (CEST)
-Received: from localhost ([::1]:38632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05E701FB18E
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 15:05:23 +0200 (CEST)
+Received: from localhost ([::1]:46554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlBFF-00017K-WE
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 09:03:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36380)
+	id 1jlBHF-0004jc-TP
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 09:05:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jlBDa-00080d-2q
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 09:01:34 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:36114)
+ id 1jlBDj-0008Dj-VA
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 09:01:44 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:34588)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jlBDY-0001bN-79
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 09:01:33 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id d128so2982213wmc.1
- for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 06:01:31 -0700 (PDT)
+ id 1jlBDe-0001cW-Cy
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 09:01:43 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id u26so2227377wmn.1
+ for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 06:01:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=fwzjDn90p+WbCyuUAz8JCmbSQbTpCjIg7lbls5LaIbw=;
- b=elpUDqDQP+voxX3qspI04niTK8yFVE1dggAHRwQTKX0A5/Vrbk99B94YXO9IzSDLOx
- esSt6/dIJYn89k2v3r35kSovlCRii7Ey6lVvlWEbUde2k1XfCA3Pa6usn6p0HH736aKS
- othSH7klSyZCwpyey+zcwef9JNQQxJFbz1LIXHW9+ed3CamFJ+5h7Rgigt1hSkbUm9IT
- 6ppjVS6FUygyBe3RuUh1zZYQHtbNWRrEUzkYbkhCCuV/S0D718WEjSZf0Vb2E2W3/Wus
- V7x1pklaLB+CMNuZbkyvZQlr1zzaDi90m9cQ/zCSouysfTwTCKmhNROIkUSNOJ9Rvf1a
- RYuQ==
+ bh=RbNElvIGkjlXKRGPXZgBVVIssKrGvTSw+jbb+dSxtd8=;
+ b=wh+Xx2FTQv/Ndc3ibp1IaOIQSeojGsciSxJa8uvAQR3b+Im0UdSFYceFXUXufljQnp
+ p99KO2Rgr/JiMwoCCsHrWKa4oxTpbkANIc/s32W1ZmiabDgtRBxzwUOssUoaVoky6l9T
+ WmcqOJ18xjMOrs/8xjjjT70DA8KCxUiFS/hQvg1qwBoESJaFn4e1EHYIeiXJCqB7rK6Z
+ lWoxCI4GpA4CtkkiY0KhpaNnmUXBC21fLzO1nGqSJbYAxE6R5yN9eESCu6cXMIkBkrQW
+ r3Tv+mteK/ByNWLD96593m+4SV+5gB4ztdYZfEDhoOKVpTBVqL01Tj0xI4n/BsGk9z9w
+ JNsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=fwzjDn90p+WbCyuUAz8JCmbSQbTpCjIg7lbls5LaIbw=;
- b=pJzz12fPsDLrzxXjCjYErY0OLsr8J34Q4FQOFAYgtXDhV+7u8YGw9/WHJeDs/ANyFU
- YrmmEDifEAvQZr+tn3UPAgo0SijPKyQJbzh8CU1S5f0qq7McxASJC26DVLcrilzYP7BX
- R2A4Cp7fZupY5kh7ZgrbPgLnu9rOVqxObs8px/SVozLXjci2/aIhK/V81P289OOF88d1
- aUJm8PP5rs8aa3m1ILJoV5PZ8lgkGHIlNh44JEmW/6irQJGZEBxy3Ce3v500e+ZQQsoE
- DSfxAcEUlANTS3WqkJX92GGPZRP1UhyiVjxIFjIreQz3a4CyVBrnyvuwyWQ3k4+ryZx5
- uRFg==
-X-Gm-Message-State: AOAM530Z778+k5R1YU+/hxh9+qkDBvQNiTd909gLnv6dlQ9Mv+KJaeZr
- XXb/xsjNm5gYRFdX8tcXKAWk3A==
-X-Google-Smtp-Source: ABdhPJzU/VUzxEro/Rimu4LqD/mWd9yzL1TLgLR+QtBaEmBalVLuBE1ISU+gz3GmHQuLRb3aLjioGg==
-X-Received: by 2002:a7b:cf06:: with SMTP id l6mr3105322wmg.63.1592312490172;
- Tue, 16 Jun 2020 06:01:30 -0700 (PDT)
+ bh=RbNElvIGkjlXKRGPXZgBVVIssKrGvTSw+jbb+dSxtd8=;
+ b=Dh+v+E5Obyye94t2GJ6gZhfxR/NMSR164WyGRPqLSBDcJMbWgCCQIO5A4xyqAtFcI6
+ q2aHdQ8HR9297Qs8AjOwEmd7nE4WICxBSnlDJlzqAiAYU0/mKMf3cookNFpfN+HaaCq3
+ IajedoHyuRnYbYYp7Dl5q+uAmrdOfjjuQlZZocD09ImBwkQZuYlm4YDOiyNfzZm7aZ/T
+ 4Bkq1YXZ2LYaHldx2E8h6m2tk4hq7BxMew9acqjSOOLUjiG+ydQd2ZjidU1qKjpiWwHj
+ MlX4oSl3S5OD6XrrPmvJg/qnInII9oNltTtfsNJT7NVWIYB3kXZ/49vW19KR5lxHHdKf
+ B46w==
+X-Gm-Message-State: AOAM531/DYyUPuH5zW5qlZfVYgFVlDMic13WRZj7aFV0fd+hcQ6KTw6H
+ VX8DjCtbyE+jS9a/gMstZSNHjQ==
+X-Google-Smtp-Source: ABdhPJz0Ij32DlYGd/URguH07tF6c/5GuDkHQbtmTKX/6RBt3IB4S0brGopnoIlox3rD0I0OepOF0Q==
+X-Received: by 2002:a7b:cb56:: with SMTP id v22mr3217325wmj.180.1592312496060; 
+ Tue, 16 Jun 2020 06:01:36 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id v6sm30963902wrf.61.2020.06.16.06.01.28
+ by smtp.gmail.com with ESMTPSA id c68sm3907750wmd.12.2020.06.16.06.01.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Jun 2020 06:01:29 -0700 (PDT)
+ Tue, 16 Jun 2020 06:01:34 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 168C61FFA6;
+ by zen.linaroharston (Postfix) with ESMTP id 2F49B1FFA9;
  Tue, 16 Jun 2020 13:53:26 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 19/21] tests/tcg: build plugin list from contents of src
- directory
-Date: Tue, 16 Jun 2020 13:53:22 +0100
-Message-Id: <20200616125324.19045-20-alex.bennee@linaro.org>
+Subject: [PULL 20/21] tests/tcg: ensure -cpu max also used for plugin run
+Date: Tue, 16 Jun 2020 13:53:23 +0100
+Message-Id: <20200616125324.19045-21-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200616125324.19045-1-alex.bennee@linaro.org>
 References: <20200616125324.19045-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32c.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,81 +88,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+Cc: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
  "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If you jump back and forth between branches while developing plugins
-you end up debugging failures caused by plugins left in the build
-directory. Fix this by basing plugins on the source tree instead.
+The check-tcg plugins build was failing because some special case
+tests that needed -cpu max failed because the plugin variant hadn't
+carried across the QEMU_OPTS tweak.
+
+Guests which globally set QEMU_OPTS=-cpu FOO where unaffected.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20200615141922.18829-2-alex.bennee@linaro.org>
+Message-Id: <20200615141922.18829-3-alex.bennee@linaro.org>
 
-diff --git a/tests/tcg/Makefile.target b/tests/tcg/Makefile.target
-index b3cff3cad1a..2ae86776cdc 100644
---- a/tests/tcg/Makefile.target
-+++ b/tests/tcg/Makefile.target
-@@ -126,9 +126,10 @@ RUN_TESTS=$(patsubst %,run-%, $(TESTS))
- 
- # If plugins exist also include those in the tests
- ifeq ($(CONFIG_PLUGIN),y)
--PLUGIN_DIR=../../plugin
--VPATH+=$(PLUGIN_DIR)
--PLUGINS=$(notdir $(wildcard $(PLUGIN_DIR)/*.so))
-+PLUGIN_SRC=$(SRC_PATH)/tests/plugin
-+PLUGIN_LIB=../../plugin
-+VPATH+=$(PLUGIN_LIB)
-+PLUGINS=$(patsubst %.c, lib%.so, $(notdir $(wildcard $(PLUGIN_SRC)/*.c)))
- 
- # We need to ensure expand the run-plugin-TEST-with-PLUGIN
- # pre-requistes manually here as we can't use stems to handle it. We
-@@ -152,7 +153,7 @@ run-%: %
- 
- run-plugin-%:
- 	$(call run-test, $@, $(QEMU) $(QEMU_OPTS) \
--		-plugin $(PLUGIN_DIR)/$(call extract-plugin,$@) \
-+		-plugin $(PLUGIN_LIB)/$(call extract-plugin,$@) \
- 		-d plugin -D $*.pout \
- 		 $(call strip-plugin,$<), \
- 	"$* on $(TARGET_NAME)")
-@@ -168,7 +169,7 @@ run-plugin-%:
- 	$(call run-test, $@, \
- 	  $(QEMU) -monitor none -display none \
- 		  -chardev file$(COMMA)path=$@.out$(COMMA)id=output \
--	   	  -plugin $(PLUGIN_DIR)/$(call extract-plugin,$@) \
-+	   	  -plugin $(PLUGIN_LIB)/$(call extract-plugin,$@) \
- 	    	  -d plugin -D $*.pout \
- 	   	  $(QEMU_OPTS) $(call strip-plugin,$<), \
- 	  "$* on $(TARGET_NAME)")
 diff --git a/tests/tcg/aarch64/Makefile.target b/tests/tcg/aarch64/Makefile.target
-index 312f36cde5f..6d60a2f2eed 100644
+index 6d60a2f2eed..b617f2ac7e0 100644
 --- a/tests/tcg/aarch64/Makefile.target
 +++ b/tests/tcg/aarch64/Makefile.target
-@@ -31,7 +31,7 @@ run-semihosting: semihosting
+@@ -20,8 +20,9 @@ run-fcvt: fcvt
+ # Pauth Tests
+ ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_ARMV8_3),)
+ AARCH64_TESTS += pauth-1 pauth-2 pauth-4
+-run-pauth-%: QEMU_OPTS += -cpu max
+ pauth-%: CFLAGS += -march=armv8.3-a
++run-pauth-%: QEMU_OPTS += -cpu max
++run-plugin-pauth-%: QEMU_OPTS += -cpu max
+ endif
  
- run-plugin-semihosting-with-%:
- 	$(call run-test, $@, $(QEMU) $(QEMU_OPTS) \
--		-plugin $(PLUGIN_DIR)/$(call extract-plugin,$@) \
-+		-plugin $(PLUGIN_LIB)/$(call extract-plugin,$@) \
- 		 $(call strip-plugin,$<) 2> $<.err, \
- 		"$< on $(TARGET_NAME) with $*")
+ # Semihosting smoke test for linux-user
+diff --git a/tests/tcg/i386/Makefile.target b/tests/tcg/i386/Makefile.target
+index 53efec06683..1a6463a7dc1 100644
+--- a/tests/tcg/i386/Makefile.target
++++ b/tests/tcg/i386/Makefile.target
+@@ -12,6 +12,7 @@ X86_64_TESTS:=$(filter test-i386-ssse3, $(ALL_X86_TESTS))
  
-diff --git a/tests/tcg/arm/Makefile.target b/tests/tcg/arm/Makefile.target
-index 3da09a38be7..ec951565626 100644
---- a/tests/tcg/arm/Makefile.target
-+++ b/tests/tcg/arm/Makefile.target
-@@ -45,7 +45,7 @@ run-semihosting-arm: semihosting-arm
+ test-i386-pcmpistri: CFLAGS += -msse4.2
+ run-test-i386-pcmpistri: QEMU_OPTS += -cpu max
++run-plugin-test-i386-pcmpistri-%: QEMU_OPTS += -cpu max
  
- run-plugin-semihosting-with-%:
- 	$(call run-test, $@, $(QEMU) $(QEMU_OPTS) \
--		-plugin $(PLUGIN_DIR)/$(call extract-plugin,$@) \
-+		-plugin $(PLUGIN_LIB)/$(call extract-plugin,$@) \
- 		 $(call strip-plugin,$<) 2> $<.err, \
- 		"$< on $(TARGET_NAME) with $*")
- 
+ #
+ # hello-i386 is a barebones app
 -- 
 2.20.1
 
