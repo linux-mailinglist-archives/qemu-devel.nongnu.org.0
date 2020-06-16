@@ -2,108 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D57D1FB530
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:57:58 +0200 (CEST)
-Received: from localhost ([::1]:48242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E5E91FB540
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:59:33 +0200 (CEST)
+Received: from localhost ([::1]:56810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlD2D-00086q-LJ
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:57:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35454)
+	id 1jlD3k-00037X-0F
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:59:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35750)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jlCo3-0006i5-Rt
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 10:43:20 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:42872
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jlCpH-0001Gm-7p
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 10:44:35 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:34180
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jlCo1-0002VZ-GB
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 10:43:19 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jlCpF-0002q4-GC
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 10:44:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592318596;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=MV6YcXhC3UDnQuU58Fe81XaiOeluBx75QeqeVTk4r4g=;
- b=PdhAcjP3zuiF1xxx3M3+20I01Ha/nNv0ag048s1Kg40X3DB0QxSyMSgqC4bD6GJYe3RInk
- H4Vm8Fu04CnsLdO1Vz5HuRS1/vQMlBlSmFLY8FkDnyMBcuMMyyIxP1x622MEUQlcinkLe4
- ZEDUOay4aEQWZgK2Y0LRVAoKpWV0iIw=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-182-Y3Aw6_MeNhGeUk51ZSeKzw-1; Tue, 16 Jun 2020 10:43:09 -0400
-X-MC-Unique: Y3Aw6_MeNhGeUk51ZSeKzw-1
-Received: by mail-wm1-f70.google.com with SMTP id l2so1042380wmi.2
- for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 07:43:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=MV6YcXhC3UDnQuU58Fe81XaiOeluBx75QeqeVTk4r4g=;
- b=Ycxj80nFfzDg+YGnRkWtyMHmtoz+DrAaXCS8b4Ovjx2yBP7ZOg+nHI3YivkW06Oua8
- eIYSf/SM/hbU5RhOCKbDHHdKMaSw7j1hVdXNvBBIACpKapWsFb2BUdpQxuHvRjlQ9F6P
- WfsJkC13Ur3RxIYs2JTyNLXUmFgvYcjYEqI5EY1a90AdEQbGr2pvJkpWlCGHmn0QrLZf
- vn1pu+ZZynf2YEZoJWQ5em19Bin0bcCO2HMI3vk+8pv0k8p4ReYZKieyRRzci2GQqJV+
- PEE++eeGQ0j1XmpNQYe4XKoLnwPtlSp076e3rNaQ3zJXl00QW8mf/PAAcLnWnXt6AkL+
- d8Dw==
-X-Gm-Message-State: AOAM533Pb77dqfqoipmgfyxhz4KInQgDz7TazH5gAJyzjLDVaZiJSwRG
- ssSdGysg/oX68+n4Un8taWu8XuaZ9HCyWXrr7PHcz7okn8xdz2Sy9c7tjUALt0eBpAPRg28o3Dz
- vgdS1uEdl7ZvwHEc=
-X-Received: by 2002:a05:600c:2218:: with SMTP id
- z24mr3486408wml.24.1592318587892; 
- Tue, 16 Jun 2020 07:43:07 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwSAChiy7Yz8CkMG9gU/AmnlEBzYqDzKL6kDfItd2WoAjUIyiJMTBzTo/+tlO/vy30/nETNIQ==
-X-Received: by 2002:a05:600c:2218:: with SMTP id
- z24mr3486388wml.24.1592318587690; 
- Tue, 16 Jun 2020 07:43:07 -0700 (PDT)
-Received: from [192.168.1.37] (93.red-83-59-160.dynamicip.rima-tde.net.
- [83.59.160.93])
- by smtp.gmail.com with ESMTPSA id q128sm4349126wma.38.2020.06.16.07.43.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 16 Jun 2020 07:43:07 -0700 (PDT)
-Subject: Re: [PULL 01/21] tests/docker: bump fedora to 32
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20200616125324.19045-1-alex.bennee@linaro.org>
- <20200616125324.19045-2-alex.bennee@linaro.org>
- <e08991ac-cb9f-9092-60d9-0f9e9522695e@redhat.com> <874krb15k9.fsf@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <4d18e0ac-09a8-a912-ae0d-2f551d33c4ab@redhat.com>
-Date: Tue, 16 Jun 2020 16:43:05 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ s=mimecast20190719; t=1592318672;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=2HSSVClTbN/6CYEN6qhlS9VdcH/s7v/hFrWVyfRHp3I=;
+ b=Yal4w2t4iEo/EXndBFz5uixQ1Un3KU7qvUgOn9i0OtmX0T5mSnwl/9aEu3rCkfWIfvwdku
+ 3w3Xmf5Iv/MzvdO9HhpN9VjpQvFTdjsFOzdM/cGzQFT8HYjh5U6ubuUIdOvqVTzjIknP81
+ t+o69bq74QB6BsSn1xDiLZfrlPKivaE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-35-sEXjh7zBPvyNO6VCfeNGmQ-1; Tue, 16 Jun 2020 10:44:23 -0400
+X-MC-Unique: sEXjh7zBPvyNO6VCfeNGmQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B6E76100CCC7;
+ Tue, 16 Jun 2020 14:44:22 +0000 (UTC)
+Received: from redhat.com (unknown [10.36.110.66])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8702C60BEC;
+ Tue, 16 Jun 2020 14:44:09 +0000 (UTC)
+Date: Tue, 16 Jun 2020 15:44:06 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Lukas Straub <lukasstraub2@web.de>
+Subject: Re: [PATCH v4 2/4] block/nbd.c: Add yank feature
+Message-ID: <20200616144406.GJ550360@redhat.com>
+References: <cover.1590421341.git.lukasstraub2@web.de>
+ <8e6a8e61b25813cdcdf385729709ef57f6255a3e.1590421341.git.lukasstraub2@web.de>
 MIME-Version: 1.0
-In-Reply-To: <874krb15k9.fsf@linaro.org>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 02:01:17
+Content-Disposition: inline
+In-Reply-To: <8e6a8e61b25813cdcdf385729709ef57f6255a3e.1590421341.git.lukasstraub2@web.de>
+User-Agent: Mutt/1.14.0 (2020-05-02)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=berrange@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 02:46:07
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -111,7 +65,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -124,49 +78,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, peter.maydell@linaro.org, qemu-devel@nongnu.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block <qemu-block@nongnu.org>,
+ Juan Quintela <quintela@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/16/20 3:52 PM, Alex Bennée wrote:
+On Mon, May 25, 2020 at 05:44:26PM +0200, Lukas Straub wrote:
+> Register a yank function which shuts down the socket and sets
+> s->state = NBD_CLIENT_QUIT. This is the same behaviour as if an
+> error occured.
 > 
-> Philippe Mathieu-Daudé <philmd@redhat.com> writes:
+> Signed-off-by: Lukas Straub <lukasstraub2@web.de>
+> ---
+>  Makefile.objs |   1 +
+>  block/nbd.c   | 101 ++++++++++++++++++++++++++++++++------------------
+>  2 files changed, 65 insertions(+), 37 deletions(-)
 > 
->> On 6/16/20 2:53 PM, Alex Bennée wrote:
->>> We should be keeping this up to date as Fedora goes out of support
->>> quite quickly.
->>>
->>> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
->>
->> FWIW this one had:
->> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> 
-> Thanks, I've issued a v2 of the tag:
-> 
->   pull-testing-and-plugin-160620-2
+> diff --git a/Makefile.objs b/Makefile.objs
+> index a7c967633a..8e403b81f3 100644
+> --- a/Makefile.objs
+> +++ b/Makefile.objs
+> @@ -18,6 +18,7 @@ block-obj-y += block.o blockjob.o job.o
+>  block-obj-y += block/ scsi/
+>  block-obj-y += qemu-io-cmds.o
+>  block-obj-$(CONFIG_REPLICATION) += replication.o
+> +block-obj-y += yank.o
 
-I didn't meant to ask you to resend a v2...
-I just wanted to notice that sometimes tags get lost in your
-workflow. Sorry for the time lost.
+Oh, I see this is repeated for migration and chardev code too.
 
->   
->>
->> https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg06556.html
->>
->>> Message-Id: <20200612190237.30436-2-alex.bennee@linaro.org>
->>>
->>> diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
->>> index 92b6e11c8a8..798ddd2c3e0 100644
->>> --- a/tests/docker/dockerfiles/fedora.docker
->>> +++ b/tests/docker/dockerfiles/fedora.docker
->>> @@ -1,4 +1,4 @@
->>> -FROM fedora:30
->>> +FROM fedora:32
->>>  
->>>  # Please keep this list sorted alphabetically
->>>  ENV PACKAGES \
->>>
-> 
-> 
+Instead of doing this and relying on linker to merge duplicates,
+I think we should put yank.c into util/ and built it into util-obj-y,
+so it gets added to everything.
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
