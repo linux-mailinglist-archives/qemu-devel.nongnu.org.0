@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C7671FB46F
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:31:23 +0200 (CEST)
-Received: from localhost ([::1]:41606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1DAD1FB473
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:32:32 +0200 (CEST)
+Received: from localhost ([::1]:45966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlCcU-0006jH-7s
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:31:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57420)
+	id 1jlCdb-0008VF-04
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:32:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCPW-0001vP-3L; Tue, 16 Jun 2020 10:17:58 -0400
-Received: from mail-oi1-x236.google.com ([2607:f8b0:4864:20::236]:39414)
+ id 1jlCPb-00021m-7V; Tue, 16 Jun 2020 10:18:04 -0400
+Received: from mail-ot1-x32b.google.com ([2607:f8b0:4864:20::32b]:40778)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCPU-0006bN-9v; Tue, 16 Jun 2020 10:17:57 -0400
-Received: by mail-oi1-x236.google.com with SMTP id d67so19349711oig.6;
- Tue, 16 Jun 2020 07:17:55 -0700 (PDT)
+ id 1jlCPY-0006d8-0K; Tue, 16 Jun 2020 10:18:02 -0400
+Received: by mail-ot1-x32b.google.com with SMTP id s13so16031640otd.7;
+ Tue, 16 Jun 2020 07:17:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=Q95hS3J40RCSoOEE5dlvFtYnyG3elf6x2RtaTUYv91A=;
- b=hV+qhLYVCwxGxaUe+OPMnAAyjIuQ19Rc9GGTZj7um2ONSqRRZ3eOt4hZd2XjmoXBCW
- PyLw6f1Zqm6RgJvb3O1cMwZ4hoM0oYdNGweD30hsEoosRHpxZIBoXS29eO/xrO+1qCIW
- PK7waDd0GnhMGhJ6B1gca9tI+u9vu0aFtxt83mWM8C05KJ1bZHWPWfmOexdZgHULBP+S
- NbpeRpJT+U1UaN4LzdcuPYX63GqSxBAkCFnYJVBoqha5s/3n0brQNnnIyNx50XxNfJNI
- ObkKQshNz8+uDXEg962KwnM4KEtaa4darxkiTqMRDIzPNxPpy/ohnCeaOZhWinwVKX7z
- U0Vg==
+ bh=MMeIQIaUT9cFLFVfOZAfkWHwj7aINzLWQ4+zAStdY7k=;
+ b=u5aeK+PmjI9Gh6dreGsRPcHI3c5ubwISbKAmqwykBXANPcUkOun2bcjWcOet6y8M6V
+ 8iSsqC63b1wKEZmX3AA1SwinCY70Miv6tUsFPDpDqPVFYPfU2ax88gpUuIjqG6gtuWTY
+ YFRXWVdm/HYMxI/c9kmD+MpuLtz+WMkTPA5lxO6zwkO3hZghXMXTCTpufe5A21lIsQJC
+ i1577QENYx1OTzlImWQsn7NoWPY65SZQR568o3pBHnJyI+t3+E3L0Qs7x755afFDWyOy
+ 1G+VGGNyFFFEkqJ7VComtmF9i+WUixvwQmk+fXH84EAWofaRW9zhlqKaivZK4Q55VHzU
+ hogQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=Q95hS3J40RCSoOEE5dlvFtYnyG3elf6x2RtaTUYv91A=;
- b=PiXY8Z9gRUkQeN8f5CpbN/nZE2liZjeSDjxIlLLMQPxeHqty2ysACGNY/Eciz6LXaN
- +/3r4Ll5GTUr7dRxbcSpn0mIT5Uf4qXnmwuokW7P3e/7C04oSlw6dPfqa2ifDJ0SpeVu
- fyGQ8iFXSPWMWmQKLqYEla4TE/Sx3KLaL1GGkePD1dfBxTz/sBJsJQDxT4Yc6j0KICxz
- rNoupncxMNEgEDnUeQVbQpZAuE3Db540PP7pmUg1ZxZpmfuBbSLAzCkMTLVaWCFjDrEj
- No/Zc4PEthQhsC313Sg4I0KcewmFcwJaXhLhKswN3K8R81LBfi8N2SzVu3BmSduNr5cJ
- MEGg==
-X-Gm-Message-State: AOAM5321IcGNznS7MqxbxMhhxtyhPiUXAx1+fZObL+X++lykAsk/ZXlG
- JgaLESkeb9BKEbZeb41KRAceqs3b
-X-Google-Smtp-Source: ABdhPJyN7T3b11wfLV+3qdP/dNuteuyTMH9TXoHEvXc4mgKL7zoWrgUUNsEVn9Ezq52NieeWicQpfw==
-X-Received: by 2002:aca:df04:: with SMTP id w4mr3458946oig.27.1592317074303;
- Tue, 16 Jun 2020 07:17:54 -0700 (PDT)
+ bh=MMeIQIaUT9cFLFVfOZAfkWHwj7aINzLWQ4+zAStdY7k=;
+ b=jVx734r/qMw0KL4ybeHSbJDdFM+w8zzJDdZFzvHFOp0Y6ymICTaqDP/nYxWQ9Nzo1E
+ OolnfM8ycUCiRVPvN5l60QQsS1C/WrZZhMHGdZK5shhtBe14Lv/GJZiHsa9LohzPEpCe
+ 7O3M5+IvzO9iPn4k3bnXus/eQkpgaYYhS8AGAifQNS44Lx2dwrqhqOzLeYth6EqQbBns
+ 2jVmTtyJkfvfOnBAHowAjZx40LaJmZMlEvjnep8Bv5iXckGfG1DnTHwKh5rOofaJ5eT6
+ LSgOe73X4zHVUKBMPeAmCScbo1lccYwvWzR7Q3oGfAGm08p2a+tI+IDYsUKcOJd4emGk
+ Gh2w==
+X-Gm-Message-State: AOAM531wAQwOS9BsCFYGjXZRCLbv5CjDj8eGjieu3paWWEMvksqTx6Bt
+ pR69oKTFVoZ7Ho6znvQb00+GwB9a
+X-Google-Smtp-Source: ABdhPJyFoyihSpa1xCN5LGq4WjvgfluazLwKf9W0ZySOJyJld+CoB05Y/z2P3ApLNKd8qK6MGHtLDg==
+X-Received: by 2002:a9d:4602:: with SMTP id y2mr2629775ote.199.1592317078117; 
+ Tue, 16 Jun 2020 07:17:58 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id e188sm4349186oib.18.2020.06.16.07.17.52
+ by smtp.gmail.com with ESMTPSA id s67sm4060121oif.0.2020.06.16.07.17.57
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 16 Jun 2020 07:17:53 -0700 (PDT)
+ Tue, 16 Jun 2020 07:17:57 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 21/78] virtio: reset region cache when on queue deletion
-Date: Tue, 16 Jun 2020 09:14:50 -0500
-Message-Id: <20200616141547.24664-22-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 24/78] intel_iommu: add present bit check for pasid table
+ entries
+Date: Tue, 16 Jun 2020 09:14:53 -0500
+Message-Id: <20200616141547.24664-25-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
 References: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::236;
- envelope-from=flukshun@gmail.com; helo=mail-oi1-x236.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32b;
+ envelope-from=flukshun@gmail.com; helo=mail-ot1-x32b.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -80,40 +81,206 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yuri Benditovich <yuri.benditovich@daynix.com>, qemu-stable@nongnu.org,
- "Michael S . Tsirkin" <mst@redhat.com>
+Cc: Kevin Tian <kevin.tian@intel.com>,
+ Jacob Pan <jacob.jun.pan@linux.intel.com>, Yi Sun <yi.y.sun@linux.intel.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>, qemu-stable@nongnu.org,
+ Peter Xu <peterx@redhat.com>, Liu Yi L <yi.l.liu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Yuri Benditovich <yuri.benditovich@daynix.com>
+From: Liu Yi L <yi.l.liu@intel.com>
 
-https://bugzilla.redhat.com/show_bug.cgi?id=1708480
-Fix leak of region reference that prevents complete
-device deletion on hot unplug.
+The present bit check for pasid entry (pe) and pasid directory
+entry (pdire) were missed in previous commits as fpd bit check
+doesn't require present bit as "Set". This patch adds the present
+bit check for callers which wants to get a valid pe/pdire.
 
 Cc: qemu-stable@nongnu.org
-Signed-off-by: Yuri Benditovich <yuri.benditovich@daynix.com>
-Message-Id: <20191226043649.14481-2-yuri.benditovich@daynix.com>
+Cc: Kevin Tian <kevin.tian@intel.com>
+Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
+Cc: Peter Xu <peterx@redhat.com>
+Cc: Yi Sun <yi.y.sun@linux.intel.com>
+Reviewed-by: Peter Xu <peterx@redhat.com>
+Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
+Message-Id: <1578058086-4288-3-git-send-email-yi.l.liu@intel.com>
+Reviewed-by: Peter Xu <peterx@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-(cherry picked from commit 421afd2fe8dd4603216cbf36081877c391f5a2a4)
+(cherry picked from commit 56fc1e6ac6bde95bc0369d358587f2234d4dddad)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- hw/virtio/virtio.c | 1 +
- 1 file changed, 1 insertion(+)
+ hw/i386/intel_iommu.c          | 92 +++++++++++++++++++++++++++-------
+ hw/i386/intel_iommu_internal.h |  1 +
+ 2 files changed, 74 insertions(+), 19 deletions(-)
 
-diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index 6de3cfdc2c..344d817644 100644
---- a/hw/virtio/virtio.c
-+++ b/hw/virtio/virtio.c
-@@ -2338,6 +2338,7 @@ void virtio_delete_queue(VirtQueue *vq)
-     vq->handle_aio_output = NULL;
-     g_free(vq->used_elems);
-     vq->used_elems = NULL;
-+    virtio_virtqueue_reset_region_cache(vq);
+diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
+index 00ebae4863..bfe8edb0ce 100644
+--- a/hw/i386/intel_iommu.c
++++ b/hw/i386/intel_iommu.c
+@@ -686,9 +686,18 @@ static inline bool vtd_pe_type_check(X86IOMMUState *x86_iommu,
+     return true;
  }
  
- void virtio_del_queue(VirtIODevice *vdev, int n)
+-static int vtd_get_pasid_dire(dma_addr_t pasid_dir_base,
+-                              uint32_t pasid,
+-                              VTDPASIDDirEntry *pdire)
++static inline bool vtd_pdire_present(VTDPASIDDirEntry *pdire)
++{
++    return pdire->val & 1;
++}
++
++/**
++ * Caller of this function should check present bit if wants
++ * to use pdir entry for futher usage except for fpd bit check.
++ */
++static int vtd_get_pdire_from_pdir_table(dma_addr_t pasid_dir_base,
++                                         uint32_t pasid,
++                                         VTDPASIDDirEntry *pdire)
+ {
+     uint32_t index;
+     dma_addr_t addr, entry_size;
+@@ -703,18 +712,22 @@ static int vtd_get_pasid_dire(dma_addr_t pasid_dir_base,
+     return 0;
+ }
+ 
+-static int vtd_get_pasid_entry(IntelIOMMUState *s,
+-                               uint32_t pasid,
+-                               VTDPASIDDirEntry *pdire,
+-                               VTDPASIDEntry *pe)
++static inline bool vtd_pe_present(VTDPASIDEntry *pe)
++{
++    return pe->val[0] & VTD_PASID_ENTRY_P;
++}
++
++static int vtd_get_pe_in_pasid_leaf_table(IntelIOMMUState *s,
++                                          uint32_t pasid,
++                                          dma_addr_t addr,
++                                          VTDPASIDEntry *pe)
+ {
+     uint32_t index;
+-    dma_addr_t addr, entry_size;
++    dma_addr_t entry_size;
+     X86IOMMUState *x86_iommu = X86_IOMMU_DEVICE(s);
+ 
+     index = VTD_PASID_TABLE_INDEX(pasid);
+     entry_size = VTD_PASID_ENTRY_SIZE;
+-    addr = pdire->val & VTD_PASID_TABLE_BASE_ADDR_MASK;
+     addr = addr + index * entry_size;
+     if (dma_memory_read(&address_space_memory, addr, pe, entry_size)) {
+         return -VTD_FR_PASID_TABLE_INV;
+@@ -732,25 +745,54 @@ static int vtd_get_pasid_entry(IntelIOMMUState *s,
+     return 0;
+ }
+ 
+-static int vtd_get_pasid_entry_from_pasid(IntelIOMMUState *s,
+-                                          dma_addr_t pasid_dir_base,
+-                                          uint32_t pasid,
+-                                          VTDPASIDEntry *pe)
++/**
++ * Caller of this function should check present bit if wants
++ * to use pasid entry for futher usage except for fpd bit check.
++ */
++static int vtd_get_pe_from_pdire(IntelIOMMUState *s,
++                                 uint32_t pasid,
++                                 VTDPASIDDirEntry *pdire,
++                                 VTDPASIDEntry *pe)
++{
++    dma_addr_t addr = pdire->val & VTD_PASID_TABLE_BASE_ADDR_MASK;
++
++    return vtd_get_pe_in_pasid_leaf_table(s, pasid, addr, pe);
++}
++
++/**
++ * This function gets a pasid entry from a specified pasid
++ * table (includes dir and leaf table) with a specified pasid.
++ * Sanity check should be done to ensure return a present
++ * pasid entry to caller.
++ */
++static int vtd_get_pe_from_pasid_table(IntelIOMMUState *s,
++                                       dma_addr_t pasid_dir_base,
++                                       uint32_t pasid,
++                                       VTDPASIDEntry *pe)
+ {
+     int ret;
+     VTDPASIDDirEntry pdire;
+ 
+-    ret = vtd_get_pasid_dire(pasid_dir_base, pasid, &pdire);
++    ret = vtd_get_pdire_from_pdir_table(pasid_dir_base,
++                                        pasid, &pdire);
+     if (ret) {
+         return ret;
+     }
+ 
+-    ret = vtd_get_pasid_entry(s, pasid, &pdire, pe);
++    if (!vtd_pdire_present(&pdire)) {
++        return -VTD_FR_PASID_TABLE_INV;
++    }
++
++    ret = vtd_get_pe_from_pdire(s, pasid, &pdire, pe);
+     if (ret) {
+         return ret;
+     }
+ 
+-    return ret;
++    if (!vtd_pe_present(pe)) {
++        return -VTD_FR_PASID_TABLE_INV;
++    }
++
++    return 0;
+ }
+ 
+ static int vtd_ce_get_rid2pasid_entry(IntelIOMMUState *s,
+@@ -763,7 +805,7 @@ static int vtd_ce_get_rid2pasid_entry(IntelIOMMUState *s,
+ 
+     pasid = VTD_CE_GET_RID2PASID(ce);
+     pasid_dir_base = VTD_CE_GET_PASID_DIR_TABLE(ce);
+-    ret = vtd_get_pasid_entry_from_pasid(s, pasid_dir_base, pasid, pe);
++    ret = vtd_get_pe_from_pasid_table(s, pasid_dir_base, pasid, pe);
+ 
+     return ret;
+ }
+@@ -781,7 +823,11 @@ static int vtd_ce_get_pasid_fpd(IntelIOMMUState *s,
+     pasid = VTD_CE_GET_RID2PASID(ce);
+     pasid_dir_base = VTD_CE_GET_PASID_DIR_TABLE(ce);
+ 
+-    ret = vtd_get_pasid_dire(pasid_dir_base, pasid, &pdire);
++    /*
++     * No present bit check since fpd is meaningful even
++     * if the present bit is clear.
++     */
++    ret = vtd_get_pdire_from_pdir_table(pasid_dir_base, pasid, &pdire);
+     if (ret) {
+         return ret;
+     }
+@@ -791,7 +837,15 @@ static int vtd_ce_get_pasid_fpd(IntelIOMMUState *s,
+         return 0;
+     }
+ 
+-    ret = vtd_get_pasid_entry(s, pasid, &pdire, &pe);
++    if (!vtd_pdire_present(&pdire)) {
++        return -VTD_FR_PASID_TABLE_INV;
++    }
++
++    /*
++     * No present bit check since fpd is meaningful even
++     * if the present bit is clear.
++     */
++    ret = vtd_get_pe_from_pdire(s, pasid, &pdire, &pe);
+     if (ret) {
+         return ret;
+     }
+diff --git a/hw/i386/intel_iommu_internal.h b/hw/i386/intel_iommu_internal.h
+index edcf9fc9bb..862033ebe6 100644
+--- a/hw/i386/intel_iommu_internal.h
++++ b/hw/i386/intel_iommu_internal.h
+@@ -479,6 +479,7 @@ typedef struct VTDRootEntry VTDRootEntry;
+ #define VTD_PASID_ENTRY_FPD           (1ULL << 1) /* Fault Processing Disable */
+ 
+ /* PASID Granular Translation Type Mask */
++#define VTD_PASID_ENTRY_P              1ULL
+ #define VTD_SM_PASID_ENTRY_PGTT        (7ULL << 6)
+ #define VTD_SM_PASID_ENTRY_FLT         (1ULL << 6)
+ #define VTD_SM_PASID_ENTRY_SLT         (2ULL << 6)
 -- 
 2.17.1
 
