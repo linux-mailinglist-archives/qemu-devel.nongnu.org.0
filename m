@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54A1C1FA8D9
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 08:36:59 +0200 (CEST)
-Received: from localhost ([::1]:56950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FBA41FA8D0
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 08:34:41 +0200 (CEST)
+Received: from localhost ([::1]:47692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jl5DO-000558-B9
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 02:36:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39298)
+	id 1jl5BA-0001DS-33
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 02:34:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jl58e-0007u7-2y; Tue, 16 Jun 2020 02:32:04 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:55597)
+ id 1jl58f-0007uT-8j; Tue, 16 Jun 2020 02:32:05 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:50887)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jl58c-0003LG-N1; Tue, 16 Jun 2020 02:32:03 -0400
-Received: by mail-wm1-x343.google.com with SMTP id c71so1700267wmd.5;
- Mon, 15 Jun 2020 23:32:01 -0700 (PDT)
+ id 1jl58d-0003LR-HS; Tue, 16 Jun 2020 02:32:04 -0400
+Received: by mail-wm1-x341.google.com with SMTP id l17so1723880wmj.0;
+ Mon, 15 Jun 2020 23:32:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=fwp2bV7YJjkiLZTrttPTVnsH6xKa3HonthSU7rRzJJA=;
- b=MmNw4K8/gon6mgxA9LK3rVLZq+tpX8RgeZx33g6F8PL2+ox2TeCYAIdN+aKQoxMEHA
- X4MYXVYC6qgJ41XhPfRzB+VVTksKfMtjpOLrhHcNYZ/zpjd7qW9rC10Nmh5HuwWL54Ou
- QnWdq6q776ucKZ2WGHFuiKAiURLEhoGejsj5N8BtD8Vzu5hRjT+/I2SVpdDbxB5DcF7j
- 8ZiHXRHJ4YI2W1AEAPlPzg5mpl1vj13rzEv0CofGxkbcWPnf1R38mY34BN0aYnfsqz3v
- eSJ2y1OnqTYGRyUOHc9fDzwD7lZm3WAN6+iOZ3ycwUnmSEnCySP+or7sq60Cfdly8vci
- 0vjg==
+ bh=zqA2FU9tJ7z1sN241pmUGO/apZ+JdoG+SHFS+QpWuEA=;
+ b=OYqjEsjIf9mT85xUHLTdSJOVKFvKCGpcGerrL8lLXivaNhEXa5qarLa0CunVVUj7Ku
+ EzsaVGpKrQCasNtZ2EUVHty794yeTatEgiPODQwLGf39DDxj+skOlqz/2+0fPjHqMAhF
+ DpCIeQZAa/U0fDaszqyonqqRZnPoalmYNfTVasSEaNJTLqIXG+ZiOYmO7upojA4Ocgug
+ ZQg74yFBHbgukaQh9b227/sijPh0q8RKUhu+lDLLQy9dRpRTP09q4L/iCpnPokwNz+Ii
+ ZcLT+3w8Z29rvr07AVshDlcYRxvsMWF+s1BUD6l+sGmIHJ95lIBXM3xCJ7FgLFZ2Bccg
+ VREw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=fwp2bV7YJjkiLZTrttPTVnsH6xKa3HonthSU7rRzJJA=;
- b=N5GK4OZrGloQHTZqdC/b1zi21eazo27bU+8IDfePCfljSR7N/bgU3rdJiolumlcuVv
- MAOlDsVGJrrXiCbIx0MGNFrUlY6pCGMakhBOLaso1J3ViAgH8nN6QKAZVA1lXH45sKth
- m3aRJ+vr/IV/G5W9Vd+184jcX0J+fJ16PP2VdqNFo7CbeqNG1RaoJ2zOwJWtoWInav6v
- Y8m9k7SUMry7zXjmnPOTD3pyf8EdVTOIcFoBVqP4K2JS/ryCdvcortXJZHwQ3ljnfx5n
- VVhHj7gFWhZ25+afCQjmxuI0PEEvEOLZG8EjLyAyUNVYmX2iIBTAkq0bgPwybAfQMT4w
- BfjQ==
-X-Gm-Message-State: AOAM531a0a1U3VsBLeP1u+PlcYViVoDqk0nKVftaoe6w60pZMPXR4PXr
- ojM2UbBlQCo7Ma5HDlrfKtPRNkan
-X-Google-Smtp-Source: ABdhPJx10W4CD/+D2U162LBnW0cMnx/cbfyPobFSBmDgmfSepliwqzYA30FyjDPW629GJTT6dr2lvw==
-X-Received: by 2002:a7b:cf31:: with SMTP id m17mr1446887wmg.47.1592289120628; 
- Mon, 15 Jun 2020 23:32:00 -0700 (PDT)
+ bh=zqA2FU9tJ7z1sN241pmUGO/apZ+JdoG+SHFS+QpWuEA=;
+ b=i7Ih2HeskeJgmKFEWMOZFrWyPMZpcRymB178EKmOURdLTNJCpm9gRqoAeinF7uGcB+
+ todagm3r0pnO5dsxJKtjlWtgiDFtI5J51fo+csRE/fBuYEImEazT8ywGuhmSQUO4x5AV
+ k0A3KO90Vtv1l1WZPY2z4AvOdVIkKn5QnHetW/5yKSqg689zXpuvQFuuKSCbh1wfhnDh
+ V9RV67/1D8FF394ZiKfVV+x/qwn0fTm8WihvYxlA/A0pbYOGY6JTydv0dJR8EwtxO3th
+ q0h7n7GDS6g4A0DahDc7rWCsJUi/Q+Rh0/LA2u/hVsLn5gJFcd4dgPNxssY9Ia5CgNRY
+ 62og==
+X-Gm-Message-State: AOAM530F6IlDW9YlOTdnpzQPpuxPpEqF6EMpwTGky4Nrc3QVD7H5yhLM
+ zgM77xOaQ+1RF3E6XW/mgOuCPG4K
+X-Google-Smtp-Source: ABdhPJyq9Bc5RyVkOKPFUh1u5sg2eUWFaCIhaW1/M0z2NJk0Nt7KDb7SewsszkTaAxM7VqQjUH9hpw==
+X-Received: by 2002:a1c:b182:: with SMTP id a124mr1470329wmf.114.1592289121705; 
+ Mon, 15 Jun 2020 23:32:01 -0700 (PDT)
 Received: from localhost.localdomain
  (181.red-88-10-103.dynamicip.rima-tde.net. [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id t188sm2483250wmt.27.2020.06.15.23.31.59
+ by smtp.gmail.com with ESMTPSA id t188sm2483250wmt.27.2020.06.15.23.32.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Jun 2020 23:32:00 -0700 (PDT)
+ Mon, 15 Jun 2020 23:32:01 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/7] hw/arm/mps2: Rename CMSDK AHB peripheral region
-Date: Tue, 16 Jun 2020 08:31:51 +0200
-Message-Id: <20200616063157.16389-2-f4bug@amsat.org>
+Subject: [PATCH 2/7] hw/arm/mps2: Rename dualtimer as apb-dualtimer
+Date: Tue, 16 Jun 2020 08:31:52 +0200
+Message-Id: <20200616063157.16389-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200616063157.16389-1-f4bug@amsat.org>
 References: <20200616063157.16389-1-f4bug@amsat.org>
@@ -62,8 +62,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -92,31 +92,26 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To differenciate with the CMSDK APB peripheral region,
-rename this region 'CMSDK AHB peripheral region'.
+The dualtimer is connected to AMBA APB.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/arm/mps2.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ hw/arm/mps2.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/hw/arm/mps2.c b/hw/arm/mps2.c
-index f246213206..3cc02c9018 100644
+index 3cc02c9018..1e8d5f21f9 100644
 --- a/hw/arm/mps2.c
 +++ b/hw/arm/mps2.c
-@@ -212,10 +212,11 @@ static void mps2_common_init(MachineState *machine)
-      */
-     create_unimplemented_device("CMSDK APB peripheral region @0x40000000",
-                                 0x40000000, 0x00010000);
--    create_unimplemented_device("CMSDK peripheral region @0x40010000",
-+    create_unimplemented_device("CMSDK AHB peripheral region @0x40010000",
-                                 0x40010000, 0x00010000);
-     create_unimplemented_device("Extra peripheral region @0x40020000",
-                                 0x40020000, 0x00010000);
-+
-     create_unimplemented_device("RESERVED 4", 0x40030000, 0x001D0000);
-     create_unimplemented_device("VGA", 0x41000000, 0x0200000);
+@@ -306,7 +306,7 @@ static void mps2_common_init(MachineState *machine)
+     cmsdk_apb_timer_create(0x40000000, qdev_get_gpio_in(armv7m, 8), SYSCLK_FRQ);
+     cmsdk_apb_timer_create(0x40001000, qdev_get_gpio_in(armv7m, 9), SYSCLK_FRQ);
  
+-    sysbus_init_child_obj(OBJECT(mms), "dualtimer", &mms->dualtimer,
++    sysbus_init_child_obj(OBJECT(mms), "apb-dualtimer", &mms->dualtimer,
+                           sizeof(mms->dualtimer), TYPE_CMSDK_APB_DUALTIMER);
+     qdev_prop_set_uint32(DEVICE(&mms->dualtimer), "pclk-frq", SYSCLK_FRQ);
+     object_property_set_bool(OBJECT(&mms->dualtimer), true, "realized",
 -- 
 2.21.3
 
