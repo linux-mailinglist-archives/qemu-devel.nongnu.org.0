@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEA281FB479
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:34:30 +0200 (CEST)
-Received: from localhost ([::1]:55742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEA971FB488
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:37:07 +0200 (CEST)
+Received: from localhost ([::1]:38574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlCfV-00043s-VT
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:34:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57552)
+	id 1jlCi2-0000HW-SZ
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:37:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCPh-00023E-Cx; Tue, 16 Jun 2020 10:18:09 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:37436)
+ id 1jlCPi-000245-SS; Tue, 16 Jun 2020 10:18:14 -0400
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:39887)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCPf-0006eO-Sn; Tue, 16 Jun 2020 10:18:09 -0400
-Received: by mail-ot1-x342.google.com with SMTP id v13so16028366otp.4;
- Tue, 16 Jun 2020 07:18:06 -0700 (PDT)
+ id 1jlCPh-0006eg-DQ; Tue, 16 Jun 2020 10:18:10 -0400
+Received: by mail-ot1-x341.google.com with SMTP id g5so16041041otg.6;
+ Tue, 16 Jun 2020 07:18:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=8ZFVEmVYSWBDs8wC8TE3sSuzczpmCQe4KbuCRBmtqzI=;
- b=kycbMPE1ue+qVRKGS+ClDnHRvZPxLhY1FtmjGQmrBo/4oN6af+kGcE+srdZYvzyVpM
- q8zAlGls0vGi61aBZfhq5qmcjL6hCJ6O1Z6aWX0hEENVldQzVOqIzcNbGh1ARl0Yi8iz
- 1hI9QPEPV6XHXmZK4IUXusUU1m1LBujxfGJJbQEFcAu1EJxhRns0LgRmA0dfkIJktrEf
- /xGPaN8dyhLXq9jVnOnyG05GK0C39XH7WrpYeBOn2WnxCOVFeC1sWPYlLn/TFsE15U97
- hkll7ov8rwVe7f8jLlhXG5q5pRIBVVL6fRlaKYdKgGDjgfY2yErxRsk+X8vXnlqOSiQB
- KFpQ==
+ bh=qxAqQFVt+5Z+veIt3jtnU/iIs7pS1pZXvHm2/UIl5LA=;
+ b=Z0P1fCs0bIYARh55Bb4MF2ocZsAl8++yrxp6SZfJLGZb9VzrYtF9ZPhCSx8wwVrZ6S
+ Fz32GHDnHOtpRNU3zsWc3hCpN4S5LJdt+Pyk3t/1eEegTrRZUuS4VdXCN9e0VMMcnDmE
+ L3aGXesVd/GNqsODCJZHKKmDT/g9ttqPOG4c8B0ueZLcrAg0xFC2HUES/6euhDOvZ3rv
+ h25I0BcQ7pGdBKOyC4Ey3XQoVHIFj3X96NI8dhDQhYLTVyDMTCbRsC+loXvl/oAsVIZs
+ Vg+H2B9sox/wrMRhVjwzD3yTZHCYJRk/qBJq7ItgkYSwt8CujsJ58w8ECVPXPmGNtFV9
+ yLHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=8ZFVEmVYSWBDs8wC8TE3sSuzczpmCQe4KbuCRBmtqzI=;
- b=f6buWVo4XjvC7Xm8ak8JVa7oLV43E2ZJWbd/5HgH8kwY0R0Bbgz8kFnKZPs2XFnFUu
- p13vtOiUc2zBJkXM26OGZFdDOEavIA5+qgavFhF9w0T9A/n+EaigPrNd9v48+JTiEc+p
- eHcPWJ8sWG6W1G4+BTULQzvBZfQX7AyQ05nv5Ify7/yjsL3KGKMYcwQLUDrGyZHWMMrS
- V3MVqhdusGANZ9GjEDg4I1/HVRp0Zy2w1CT4J+7p0aroGbz6AhEgzzWsBgZLww6WeoOg
- VOvMN9AAjFAo/nGBfJrZOgqJK42u7teALk9buWBHagRB22oECl003+BqVSVaLoCg+Qff
- LpxQ==
-X-Gm-Message-State: AOAM533tvi9PiRdvNjXO8rafflEvYmW7XDzbpT+k7Q0DqCX8B1SAhk4x
- 6t9TkDPbiEu5Yihjxt9p1Vu691zz
-X-Google-Smtp-Source: ABdhPJweTg1fM1X+ePN3WI4LGW+YjxGrI7lSPOB0Ux1yCk366Z8h54xYQoOKul0W4fhebjIbyBknug==
-X-Received: by 2002:a9d:6103:: with SMTP id i3mr2494415otj.354.1592317085563; 
- Tue, 16 Jun 2020 07:18:05 -0700 (PDT)
+ bh=qxAqQFVt+5Z+veIt3jtnU/iIs7pS1pZXvHm2/UIl5LA=;
+ b=kEG9mfhyyEY6J8K1FDPJkEtQtfTEn9dCSa6bzKaSy7EI9Gyp7vBJfvpYYh9dYj6Cvy
+ ASSjZJwC/VwwQw2zwrcUflN4bnOrAEbSMPfYZvVQeLLaCJacbxhX5MWRVm2PH1Grg7Es
+ Ln2C8HHMXNXY0Z2y0JD35xOgb4Rw2oe9T+cuDkOQEiRx8yGnfeJVJK7texeZBcdsIBWt
+ 1/8qsjwzWqdkZTu2QoEPt3+7SDghImIZcM0y6jR+TJJ48eLY5smN6mvfTUXkV8VGeZKK
+ lDkwv7+ONNtaEXy6mB9E0E7GQgUSyWqtPY8QL/k47RxIApMvRIlowdfh4NLM/XJ2VJTv
+ uXMg==
+X-Gm-Message-State: AOAM5323CsWVgiue+mGnnt4djBjBK0W20tmZjqNn0B1HYQI75xvRdZut
+ T/BttK5vm5rYyG1zF4rN7PeyweL0
+X-Google-Smtp-Source: ABdhPJxkRxGvh/DInT2u0J7dOJCyN/ll805IpZZ+EVAPK42EFze7d8NHgo+s4ABYqRkEmdMxv2LYBA==
+X-Received: by 2002:a9d:3a24:: with SMTP id j33mr2508220otc.271.1592317087119; 
+ Tue, 16 Jun 2020 07:18:07 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id c196sm4149776oib.34.2020.06.16.07.18.04
+ by smtp.gmail.com with ESMTPSA id t10sm154950oij.36.2020.06.16.07.18.05
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 16 Jun 2020 07:18:04 -0700 (PDT)
+ Tue, 16 Jun 2020 07:18:06 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 29/78] dp8393x: Clean up endianness hacks
-Date: Tue, 16 Jun 2020 09:14:58 -0500
-Message-Id: <20200616141547.24664-30-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 30/78] dp8393x: Have dp8393x_receive() return the packet size
+Date: Tue, 16 Jun 2020 09:14:59 -0500
+Message-Id: <20200616141547.24664-31-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
 References: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
- envelope-from=flukshun@gmail.com; helo=mail-ot1-x342.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::341;
+ envelope-from=flukshun@gmail.com; helo=mail-ot1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -91,61 +91,58 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Finn Thain <fthain@telegraphics.com.au>
 
-According to the datasheet, section 3.4.4, "in 32-bit mode ... the SONIC
-always writes long words".
-
-Therefore, use the same technique for the 'in_use' field that is used
-everywhere else, and write the full long word.
+This function re-uses its 'size' argument as a scratch variable.
+Instead, declare a local 'size' variable for that purpose so that the
+function result doesn't get messed up.
 
 Signed-off-by: Finn Thain <fthain@telegraphics.com.au>
-Tested-by: Laurent Vivier <laurent@vivier.eu>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Tested-by: Laurent Vivier <laurent@vivier.eu>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
-(cherry picked from commit 46ffee9ad43185cbee4182c208bbd534814086ca)
- Conflicts:
-	hw/net/dp8393x.c
-*roll in local dependencies on b7cbebf2b9d
-*drop functional dep. on 19f70347731
+(cherry picked from commit 9e3cd456d85ad45e72bdba99203302342ce29b3b)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- hw/net/dp8393x.c | 17 ++++++-----------
- 1 file changed, 6 insertions(+), 11 deletions(-)
+ hw/net/dp8393x.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
 diff --git a/hw/net/dp8393x.c b/hw/net/dp8393x.c
-index 49c304ee20..f89f4c7ba3 100644
+index f89f4c7ba3..a696485a55 100644
 --- a/hw/net/dp8393x.c
 +++ b/hw/net/dp8393x.c
-@@ -776,8 +776,6 @@ static ssize_t dp8393x_receive(NetClientState *nc, const uint8_t * buf,
-         return -1;
-     }
+@@ -757,20 +757,21 @@ static int dp8393x_receive_filter(dp8393xState *s, const uint8_t * buf,
+ }
  
--    /* XXX: Check byte ordering */
--
-     /* Check for EOL */
-     if (s->regs[SONIC_LLFA] & SONIC_DESC_EOL) {
-         /* Are we still in resource exhaustion? */
-@@ -847,15 +845,12 @@ static ssize_t dp8393x_receive(NetClientState *nc, const uint8_t * buf,
-         /* EOL detected */
-         s->regs[SONIC_ISR] |= SONIC_ISR_RDE;
-     } else {
--        /* Clear in_use, but it is always 16bit wide */
--        int offset = dp8393x_crda(s) + sizeof(uint16_t) * 6 * width;
--        if (s->big_endian && width == 2) {
--            /* we need to adjust the offset of the 16bit field */
--            offset += sizeof(uint16_t);
--        }
--        s->data[0] = 0;
--        address_space_rw(&s->as, offset, MEMTXATTRS_UNSPECIFIED,
--                         (uint8_t *)s->data, sizeof(uint16_t), 1);
-+        /* Clear in_use */
-+        size = sizeof(uint16_t) * width;
-+        address = dp8393x_crda(s) + sizeof(uint16_t) * 6 * width;
-+        dp8393x_put(s, width, 0, 0);
-+        address_space_rw(&s->as, address, MEMTXATTRS_UNSPECIFIED,
-+                         (uint8_t *)s->data, size, true);
-         s->regs[SONIC_CRDA] = s->regs[SONIC_LLFA];
-         s->regs[SONIC_ISR] |= SONIC_ISR_PKTRX;
-         s->regs[SONIC_RSC] = (s->regs[SONIC_RSC] & 0xff00) | (((s->regs[SONIC_RSC] & 0x00ff) + 1) & 0x00ff);
+ static ssize_t dp8393x_receive(NetClientState *nc, const uint8_t * buf,
+-                               size_t size)
++                               size_t pkt_size)
+ {
+     dp8393xState *s = qemu_get_nic_opaque(nc);
+     int packet_type;
+     uint32_t available, address;
+-    int width, rx_len = size;
++    int width, rx_len = pkt_size;
+     uint32_t checksum;
++    int size;
+ 
+     width = (s->regs[SONIC_DCR] & SONIC_DCR_DW) ? 2 : 1;
+ 
+     s->regs[SONIC_RCR] &= ~(SONIC_RCR_PRX | SONIC_RCR_LBK | SONIC_RCR_FAER |
+         SONIC_RCR_CRCR | SONIC_RCR_LPKT | SONIC_RCR_BC | SONIC_RCR_MC);
+ 
+-    packet_type = dp8393x_receive_filter(s, buf, size);
++    packet_type = dp8393x_receive_filter(s, buf, pkt_size);
+     if (packet_type < 0) {
+         DPRINTF("packet not for netcard\n");
+         return -1;
+@@ -864,7 +865,7 @@ static ssize_t dp8393x_receive(NetClientState *nc, const uint8_t * buf,
+     /* Done */
+     dp8393x_update_irq(s);
+ 
+-    return size;
++    return pkt_size;
+ }
+ 
+ static void dp8393x_reset(DeviceState *dev)
 -- 
 2.17.1
 
