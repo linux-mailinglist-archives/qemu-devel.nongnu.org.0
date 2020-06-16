@@ -2,63 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD1A81FB4FB
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:49:58 +0200 (CEST)
-Received: from localhost ([::1]:39176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B39F61FB4D6
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:47:30 +0200 (CEST)
+Received: from localhost ([::1]:56108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlCuT-0001OF-N0
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:49:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57920)
+	id 1jlCs5-00055K-N8
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:47:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCQM-00039l-21; Tue, 16 Jun 2020 10:18:50 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:41881)
+ id 1jlCQO-0003Ee-5F; Tue, 16 Jun 2020 10:18:52 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:43686)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCQI-0006uI-UC; Tue, 16 Jun 2020 10:18:49 -0400
-Received: by mail-ot1-x342.google.com with SMTP id k15so16043643otp.8;
- Tue, 16 Jun 2020 07:18:44 -0700 (PDT)
+ id 1jlCQM-0006uw-JB; Tue, 16 Jun 2020 10:18:51 -0400
+Received: by mail-oi1-x243.google.com with SMTP id j189so19335790oih.10;
+ Tue, 16 Jun 2020 07:18:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=SgpdSwyB/UPAjpHte2vWC5d1tT7Kus4ixfvhv062JB4=;
- b=MYVwFBH7/AnBnwQ9A2eK8LFphytp8bU3pr/4X3LPC/jAKosUDZqoKZk7NzToK98JEz
- YIPZ73mGRHWalaaAsGcLg4rDCoPXnMOZn9SUUNw4EZMkrczWsbOnL/XBVuejR67llLgo
- JSHMGKGeFt3EPut/Y24TDy0JoAyZuxvFFvkcPVinFjzdE3XL1GDep4PBeAo52uBQhY1P
- 9sUE5XR6sYAz83dIaJAk4ML5SUI7T+4mSCeKnQJ1KGdgeW2rRhA3LkT19weuSPLk7QLJ
- EquGD0SlIadpksv/VnSdI35FX//2h23b9E7BOW+ewrnVK/VNCleIwK3W8EV1U2Mt3rs+
- 2wxA==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=U7J2TqZ1ks8KNH7mIqSpb6zD0BiSTiY4lPX/uz7chis=;
+ b=LsudBc9irn12ll41uXuWAfo+MOHKdy5VJgTNuXGo7I9aj1VBx74Ot75xvrLZIydr2g
+ v4nLwd90MsuF0XTOl5Cwbudyy6Oz09Fdhl0xYdTvsoJSTjFpRFIoTvEq+L1LxtBl0EoZ
+ kDybpw1pJdJFsXO+ZZ4T/a6fmTZ5VUDwuCVxgmHVBBdVg7diqo+rHNiJ3XX5m4O/LJ0g
+ z5pgQbFbQtXsTH/htaTpfbZnW0fp/95q1O9ZSdTzIo+IitmyWVLSRf6MVnEK89zhR5s7
+ /QWIBP41/B2++1vxllA9XLDAKD9hQxzhL1CsejreHgWViht4UOQHWnTc3xc2bl2TVrw7
+ dukw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references;
- bh=SgpdSwyB/UPAjpHte2vWC5d1tT7Kus4ixfvhv062JB4=;
- b=dlyVNQjtCiRDEmUcm/RoM9PfNcvrcMtHgA/bq/5kPcRH4CLOcW2NFOhJizZ4ROA//3
- hAFyhuzvNNcwanoWMcxw2R9eO88UKhPvmNUn0SCVZMB1pLKy67UZUfZKrSQsbFeFcbsG
- FDKTUpRWlT8ftQyQHj+nZ7wyJN8BfzXK/QoIGXcwQwjSeLaNkjBWK7prcpgeb9+uGxcQ
- WZ/w8MLXf4BA1Y+rA4I32dY5bQdvPrZ49sk8ipZsMSiDlmBCvUILCZTPjpVBmNDUsu+s
- 6R9yJt6cXiBsXE6kO4gYjGd9iX65AMbtp8V8NoGu0t8zxLb4aV2aUe0dhMog9rvlJbba
- h7xw==
-X-Gm-Message-State: AOAM533o+Duh9riDck214BE3EfBTHY4MuNdWHDaQuqIPLQ4CldzZoXoq
- 3iGDNopdeX9HWNvAmNs9x1SQLBJ2
-X-Google-Smtp-Source: ABdhPJw575GwJSJIKal5/MbtrI6wUpCYlFqgB+cYolkPOq7hIJCi05KVx01bi+3n0IykxXgHJVDxkw==
-X-Received: by 2002:a9d:34c:: with SMTP id 70mr2662442otv.224.1592317123373;
- Tue, 16 Jun 2020 07:18:43 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=U7J2TqZ1ks8KNH7mIqSpb6zD0BiSTiY4lPX/uz7chis=;
+ b=nOD9PfhD/tOaQABGbp1zzCs0o6v9/eRnRmTclSMAx4AUXfoGK1lA9i1KQ9paG7yBVM
+ CeFFpjG8MNpkm9I/ecA3HxhiIOHag1/ZYR3zUv8eg4zfDIZVLqiHjWmNy10pCUuwbGkh
+ 2o7vx+V7RQuJ4uJkU+9WwPnUXDpgyd7lvNMVKSIFb5cDX6bB5cMHiHd3gf0RM0rjC93v
+ G+E+yjkRD75V2W9m8AliePxHAWm4GpigE8KzywtHsQZI1ENulEcA8gsHyow4jQE2EavP
+ FQswHXTA3t/TSSkjtHKgjXsK0KdA1m5HtRMI2nA2RaeA2GYFAXrpYXaWS5Y/r/zX3hn3
+ 53zA==
+X-Gm-Message-State: AOAM533nxAV0yFXsWJKyPqBGkZ9yLcgBXsjDXdfdgFHaLzSXX89GVHtg
+ MurAYk9+C8e6y7IG2qCdt4qJaMKf
+X-Google-Smtp-Source: ABdhPJzx/fWZpwsFoWHuJuIXAHDmV8uOqg6JcpZDnUy2K/AzBn9aajdchNTjFX1UOPANstr3M6z2ag==
+X-Received: by 2002:aca:1b13:: with SMTP id b19mr3649055oib.132.1592317128547; 
+ Tue, 16 Jun 2020 07:18:48 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id f1sm4093085ool.16.2020.06.16.07.18.41
+ by smtp.gmail.com with ESMTPSA id m18sm4155574ooe.12.2020.06.16.07.18.46
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 16 Jun 2020 07:18:41 -0700 (PDT)
+ Tue, 16 Jun 2020 07:18:46 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 50/78] virtio: gracefully handle invalid region caches
-Date: Tue, 16 Jun 2020 09:15:19 -0500
-Message-Id: <20200616141547.24664-51-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 51/78] scsi/qemu-pr-helper: Fix out-of-bounds access to
+ trnptid_list[]
+Date: Tue, 16 Jun 2020 09:15:20 -0500
+Message-Id: <20200616141547.24664-52-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
 References: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
- envelope-from=flukshun@gmail.com; helo=mail-ot1-x342.google.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
+ envelope-from=flukshun@gmail.com; helo=mail-oi1-x243.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -80,334 +85,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- qemu-stable@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
- Michael Tsirkin <mst@redhat.com>
+Cc: Christophe de Dinechin <dinechin@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Hajnoczi <stefanha@redhat.com>
+From: Christophe de Dinechin <dinechin@redhat.com>
 
-The virtqueue code sets up MemoryRegionCaches to access the virtqueue
-guest RAM data structures.  The code currently assumes that
-VRingMemoryRegionCaches is initialized before device emulation code
-accesses the virtqueue.  An assertion will fail in
-vring_get_region_caches() when this is not true.  Device fuzzing found a
-case where this assumption is false (see below).
+Compile error reported by gcc 10.0.1:
 
-Virtqueue guest RAM addresses can also be changed from a vCPU thread
-while an IOThread is accessing the virtqueue.  This breaks the same
-assumption but this time the caches could become invalid partway through
-the virtqueue code.  The code fetches the caches RCU pointer multiple
-times so we will need to validate the pointer every time it is fetched.
+scsi/qemu-pr-helper.c: In function ‘multipath_pr_out’:
+scsi/qemu-pr-helper.c:523:32: error: array subscript <unknown> is outside array bounds of ‘struct transportid *[0]’ [-Werror=array-bounds]
+  523 |             paramp.trnptid_list[paramp.num_transportid++] = id;
+      |             ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from scsi/qemu-pr-helper.c:36:
+/usr/include/mpath_persist.h:168:22: note: while referencing ‘trnptid_list’
+  168 |  struct transportid *trnptid_list[];
+      |                      ^~~~~~~~~~~~
+scsi/qemu-pr-helper.c:424:35: note: defined here ‘paramp’
+  424 |     struct prout_param_descriptor paramp;
+      |                                   ^~~~~~
 
-Add checks each time we call vring_get_region_caches() and treat invalid
-caches as a nop: memory stores are ignored and memory reads return 0.
+This highlights an actual implementation issue in function multipath_pr_out.
+The variable paramp is declared with type `struct prout_param_descriptor`,
+which is a struct terminated by an empty array in mpath_persist.h:
 
-The fuzz test failure is as follows:
+        struct transportid *trnptid_list[];
 
-  $ qemu -M pc -device virtio-blk-pci,id=drv0,drive=drive0,addr=4.0 \
-         -drive if=none,id=drive0,file=null-co://,format=raw,auto-read-only=off \
-         -drive if=none,id=drive1,file=null-co://,file.read-zeroes=on,format=raw \
-         -display none \
-         -qtest stdio
-  endianness
-  outl 0xcf8 0x80002020
-  outl 0xcfc 0xe0000000
-  outl 0xcf8 0x80002004
-  outw 0xcfc 0x7
-  write 0xe0000000 0x24 0x00ffffffabffffffabffffffabffffffabffffffabffffffabffffffabffffffabffffffabffffffabffffffabffffffabffffffabffffffab5cffffffabffffffabffffffabffffffabffffffabffffffabffffffabffffffabffffffabffffffabffffffabffffffabffffffabffffffabffffffab0000000001
-  inb 0x4
-  writew 0xe000001c 0x1
-  write 0xe0000014 0x1 0x0d
+That empty array was filled with code that looked like that:
 
-The following error message is produced:
+        trnptid_list[paramp.descr.num_transportid++] = id;
 
-  qemu-system-x86_64: /home/stefanha/qemu/hw/virtio/virtio.c:286: vring_get_region_caches: Assertion `caches != NULL' failed.
+This is an actual out-of-bounds access.
 
-The backtrace looks like this:
+The fix is to malloc `paramp`.
 
-  #0  0x00007ffff5520625 in raise () at /lib64/libc.so.6
-  #1  0x00007ffff55098d9 in abort () at /lib64/libc.so.6
-  #2  0x00007ffff55097a9 in _nl_load_domain.cold () at /lib64/libc.so.6
-  #3  0x00007ffff5518a66 in annobin_assert.c_end () at /lib64/libc.so.6
-  #4  0x00005555559073da in vring_get_region_caches (vq=<optimized out>) at qemu/hw/virtio/virtio.c:286
-  #5  vring_get_region_caches (vq=<optimized out>) at qemu/hw/virtio/virtio.c:283
-  #6  0x000055555590818d in vring_used_flags_set_bit (mask=1, vq=0x5555575ceea0) at qemu/hw/virtio/virtio.c:398
-  #7  virtio_queue_split_set_notification (enable=0, vq=0x5555575ceea0) at qemu/hw/virtio/virtio.c:398
-  #8  virtio_queue_set_notification (vq=vq@entry=0x5555575ceea0, enable=enable@entry=0) at qemu/hw/virtio/virtio.c:451
-  #9  0x0000555555908512 in virtio_queue_set_notification (vq=vq@entry=0x5555575ceea0, enable=enable@entry=0) at qemu/hw/virtio/virtio.c:444
-  #10 0x00005555558c697a in virtio_blk_handle_vq (s=0x5555575c57e0, vq=0x5555575ceea0) at qemu/hw/block/virtio-blk.c:775
-  #11 0x0000555555907836 in virtio_queue_notify_aio_vq (vq=0x5555575ceea0) at qemu/hw/virtio/virtio.c:2244
-  #12 0x0000555555cb5dd7 in aio_dispatch_handlers (ctx=ctx@entry=0x55555671a420) at util/aio-posix.c:429
-  #13 0x0000555555cb67a8 in aio_dispatch (ctx=0x55555671a420) at util/aio-posix.c:460
-  #14 0x0000555555cb307e in aio_ctx_dispatch (source=<optimized out>, callback=<optimized out>, user_data=<optimized out>) at util/async.c:260
-  #15 0x00007ffff7bbc510 in g_main_context_dispatch () at /lib64/libglib-2.0.so.0
-  #16 0x0000555555cb5848 in glib_pollfds_poll () at util/main-loop.c:219
-  #17 os_host_main_loop_wait (timeout=<optimized out>) at util/main-loop.c:242
-  #18 main_loop_wait (nonblocking=<optimized out>) at util/main-loop.c:518
-  #19 0x00005555559b20c9 in main_loop () at vl.c:1683
-  #20 0x0000555555838115 in main (argc=<optimized out>, argv=<optimized out>, envp=<optimized out>) at vl.c:4441
-
-Reported-by: Alexander Bulekov <alxndr@bu.edu>
-Cc: Michael Tsirkin <mst@redhat.com>
-Cc: Cornelia Huck <cohuck@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-stable@nongnu.org
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20200207104619.164892-1-stefanha@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-(cherry picked from commit abdd16f4681cc4d6bf84990227b5c9b98e869ccd)
+Signed-off-by: Christophe de Dinechin <dinechin@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+(cherry picked from commit 4ce1e15fbc7266a108a7c77a3962644b3935346e)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- hw/virtio/virtio.c | 99 ++++++++++++++++++++++++++++++++++++++++++----
- 1 file changed, 91 insertions(+), 8 deletions(-)
+ scsi/qemu-pr-helper.c | 17 ++++++++++-------
+ 1 file changed, 10 insertions(+), 7 deletions(-)
 
-diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index 344d817644..6c71141ed1 100644
---- a/hw/virtio/virtio.c
-+++ b/hw/virtio/virtio.c
-@@ -282,15 +282,19 @@ static void vring_packed_flags_write(VirtIODevice *vdev,
- /* Called within rcu_read_lock().  */
- static VRingMemoryRegionCaches *vring_get_region_caches(struct VirtQueue *vq)
- {
--    VRingMemoryRegionCaches *caches = atomic_rcu_read(&vq->vring.caches);
--    assert(caches != NULL);
--    return caches;
-+    return atomic_rcu_read(&vq->vring.caches);
- }
-+
- /* Called within rcu_read_lock().  */
- static inline uint16_t vring_avail_flags(VirtQueue *vq)
- {
-     VRingMemoryRegionCaches *caches = vring_get_region_caches(vq);
-     hwaddr pa = offsetof(VRingAvail, flags);
-+
-+    if (!caches) {
-+        return 0;
-+    }
-+
-     return virtio_lduw_phys_cached(vq->vdev, &caches->avail, pa);
- }
+diff --git a/scsi/qemu-pr-helper.c b/scsi/qemu-pr-helper.c
+index debb18f4aa..38c273de19 100644
+--- a/scsi/qemu-pr-helper.c
++++ b/scsi/qemu-pr-helper.c
+@@ -421,10 +421,13 @@ static int multipath_pr_out(int fd, const uint8_t *cdb, uint8_t *sense,
+     int rq_servact = cdb[1];
+     int rq_scope = cdb[2] >> 4;
+     int rq_type = cdb[2] & 0xf;
+-    struct prout_param_descriptor paramp;
++    g_autofree struct prout_param_descriptor *paramp = NULL;
+     char transportids[PR_HELPER_DATA_SIZE];
+     int r;
  
-@@ -299,6 +303,11 @@ static inline uint16_t vring_avail_idx(VirtQueue *vq)
- {
-     VRingMemoryRegionCaches *caches = vring_get_region_caches(vq);
-     hwaddr pa = offsetof(VRingAvail, idx);
++    paramp = g_malloc0(sizeof(struct prout_param_descriptor)
++                       + sizeof(struct transportid *) * MPATH_MX_TIDS);
 +
-+    if (!caches) {
-+        return 0;
-+    }
-+
-     vq->shadow_avail_idx = virtio_lduw_phys_cached(vq->vdev, &caches->avail, pa);
-     return vq->shadow_avail_idx;
- }
-@@ -308,6 +317,11 @@ static inline uint16_t vring_avail_ring(VirtQueue *vq, int i)
- {
-     VRingMemoryRegionCaches *caches = vring_get_region_caches(vq);
-     hwaddr pa = offsetof(VRingAvail, ring[i]);
-+
-+    if (!caches) {
-+        return 0;
-+    }
-+
-     return virtio_lduw_phys_cached(vq->vdev, &caches->avail, pa);
- }
+     if (sz < PR_OUT_FIXED_PARAM_SIZE) {
+         /* Illegal request, Parameter list length error.  This isn't fatal;
+          * we have read the data, send an error without closing the socket.
+@@ -454,10 +457,9 @@ static int multipath_pr_out(int fd, const uint8_t *cdb, uint8_t *sense,
+      * used by libmpathpersist (which, of course, will immediately
+      * do the opposite).
+      */
+-    memset(&paramp, 0, sizeof(paramp));
+-    memcpy(&paramp.key, &param[0], 8);
+-    memcpy(&paramp.sa_key, &param[8], 8);
+-    paramp.sa_flags = param[20];
++    memcpy(&paramp->key, &param[0], 8);
++    memcpy(&paramp->sa_key, &param[8], 8);
++    paramp->sa_flags = param[20];
+     if (sz > PR_OUT_FIXED_PARAM_SIZE) {
+         size_t transportid_len;
+         int i, j;
+@@ -520,12 +522,13 @@ static int multipath_pr_out(int fd, const uint8_t *cdb, uint8_t *sense,
+                 return CHECK_CONDITION;
+             }
  
-@@ -323,6 +337,11 @@ static inline void vring_used_write(VirtQueue *vq, VRingUsedElem *uelem,
- {
-     VRingMemoryRegionCaches *caches = vring_get_region_caches(vq);
-     hwaddr pa = offsetof(VRingUsed, ring[i]);
-+
-+    if (!caches) {
-+        return;
-+    }
-+
-     virtio_tswap32s(vq->vdev, &uelem->id);
-     virtio_tswap32s(vq->vdev, &uelem->len);
-     address_space_write_cached(&caches->used, pa, uelem, sizeof(VRingUsedElem));
-@@ -334,6 +353,11 @@ static uint16_t vring_used_idx(VirtQueue *vq)
- {
-     VRingMemoryRegionCaches *caches = vring_get_region_caches(vq);
-     hwaddr pa = offsetof(VRingUsed, idx);
-+
-+    if (!caches) {
-+        return 0;
-+    }
-+
-     return virtio_lduw_phys_cached(vq->vdev, &caches->used, pa);
- }
- 
-@@ -342,8 +366,12 @@ static inline void vring_used_idx_set(VirtQueue *vq, uint16_t val)
- {
-     VRingMemoryRegionCaches *caches = vring_get_region_caches(vq);
-     hwaddr pa = offsetof(VRingUsed, idx);
--    virtio_stw_phys_cached(vq->vdev, &caches->used, pa, val);
--    address_space_cache_invalidate(&caches->used, pa, sizeof(val));
-+
-+    if (caches) {
-+        virtio_stw_phys_cached(vq->vdev, &caches->used, pa, val);
-+        address_space_cache_invalidate(&caches->used, pa, sizeof(val));
-+    }
-+
-     vq->used_idx = val;
- }
- 
-@@ -353,8 +381,13 @@ static inline void vring_used_flags_set_bit(VirtQueue *vq, int mask)
-     VRingMemoryRegionCaches *caches = vring_get_region_caches(vq);
-     VirtIODevice *vdev = vq->vdev;
-     hwaddr pa = offsetof(VRingUsed, flags);
--    uint16_t flags = virtio_lduw_phys_cached(vq->vdev, &caches->used, pa);
-+    uint16_t flags;
- 
-+    if (!caches) {
-+        return;
-+    }
-+
-+    flags = virtio_lduw_phys_cached(vq->vdev, &caches->used, pa);
-     virtio_stw_phys_cached(vdev, &caches->used, pa, flags | mask);
-     address_space_cache_invalidate(&caches->used, pa, sizeof(flags));
- }
-@@ -365,8 +398,13 @@ static inline void vring_used_flags_unset_bit(VirtQueue *vq, int mask)
-     VRingMemoryRegionCaches *caches = vring_get_region_caches(vq);
-     VirtIODevice *vdev = vq->vdev;
-     hwaddr pa = offsetof(VRingUsed, flags);
--    uint16_t flags = virtio_lduw_phys_cached(vq->vdev, &caches->used, pa);
-+    uint16_t flags;
- 
-+    if (!caches) {
-+        return;
-+    }
-+
-+    flags = virtio_lduw_phys_cached(vq->vdev, &caches->used, pa);
-     virtio_stw_phys_cached(vdev, &caches->used, pa, flags & ~mask);
-     address_space_cache_invalidate(&caches->used, pa, sizeof(flags));
- }
-@@ -381,6 +419,10 @@ static inline void vring_set_avail_event(VirtQueue *vq, uint16_t val)
+-            paramp.trnptid_list[paramp.num_transportid++] = id;
++            assert(paramp->num_transportid < MPATH_MX_TIDS);
++            paramp->trnptid_list[paramp->num_transportid++] = id;
+         }
      }
  
-     caches = vring_get_region_caches(vq);
-+    if (!caches) {
-+        return;
-+    }
-+
-     pa = offsetof(VRingUsed, ring[vq->vring.num]);
-     virtio_stw_phys_cached(vq->vdev, &caches->used, pa, val);
-     address_space_cache_invalidate(&caches->used, pa, sizeof(val));
-@@ -410,7 +452,11 @@ static void virtio_queue_packed_set_notification(VirtQueue *vq, int enable)
-     VRingMemoryRegionCaches *caches;
- 
-     RCU_READ_LOCK_GUARD();
--    caches  = vring_get_region_caches(vq);
-+    caches = vring_get_region_caches(vq);
-+    if (!caches) {
-+        return;
-+    }
-+
-     vring_packed_event_read(vq->vdev, &caches->used, &e);
- 
-     if (!enable) {
-@@ -592,6 +638,10 @@ static int virtio_queue_packed_empty_rcu(VirtQueue *vq)
-     }
- 
-     cache = vring_get_region_caches(vq);
-+    if (!cache) {
-+        return 1;
-+    }
-+
-     vring_packed_desc_read_flags(vq->vdev, &desc.flags, &cache->desc,
-                                  vq->last_avail_idx);
- 
-@@ -772,6 +822,10 @@ static void virtqueue_packed_fill_desc(VirtQueue *vq,
-     }
- 
-     caches = vring_get_region_caches(vq);
-+    if (!caches) {
-+        return;
-+    }
-+
-     vring_packed_desc_write(vq->vdev, &desc, &caches->desc, head, strict_order);
+     r = mpath_persistent_reserve_out(fd, rq_servact, rq_scope, rq_type,
+-                                     &paramp, noisy, verbose);
++                                     paramp, noisy, verbose);
+     return mpath_reconstruct_sense(fd, r, sense);
  }
- 
-@@ -944,6 +998,10 @@ static void virtqueue_split_get_avail_bytes(VirtQueue *vq,
- 
-     max = vq->vring.num;
-     caches = vring_get_region_caches(vq);
-+    if (!caches) {
-+        goto err;
-+    }
-+
-     while ((rc = virtqueue_num_heads(vq, idx)) > 0) {
-         MemoryRegionCache *desc_cache = &caches->desc;
-         unsigned int num_bufs;
-@@ -1084,6 +1142,9 @@ static void virtqueue_packed_get_avail_bytes(VirtQueue *vq,
- 
-     max = vq->vring.num;
-     caches = vring_get_region_caches(vq);
-+    if (!caches) {
-+        goto err;
-+    }
- 
-     for (;;) {
-         unsigned int num_bufs = total_bufs;
-@@ -1189,6 +1250,10 @@ void virtqueue_get_avail_bytes(VirtQueue *vq, unsigned int *in_bytes,
-     }
- 
-     caches = vring_get_region_caches(vq);
-+    if (!caches) {
-+        goto err;
-+    }
-+
-     desc_size = virtio_vdev_has_feature(vq->vdev, VIRTIO_F_RING_PACKED) ?
-                                 sizeof(VRingPackedDesc) : sizeof(VRingDesc);
-     if (caches->desc.len < vq->vring.num * desc_size) {
-@@ -1382,6 +1447,11 @@ static void *virtqueue_split_pop(VirtQueue *vq, size_t sz)
-     i = head;
- 
-     caches = vring_get_region_caches(vq);
-+    if (!caches) {
-+        virtio_error(vdev, "Region caches not initialized");
-+        goto done;
-+    }
-+
-     if (caches->desc.len < max * sizeof(VRingDesc)) {
-         virtio_error(vdev, "Cannot map descriptor ring");
-         goto done;
-@@ -1504,6 +1574,11 @@ static void *virtqueue_packed_pop(VirtQueue *vq, size_t sz)
-     i = vq->last_avail_idx;
- 
-     caches = vring_get_region_caches(vq);
-+    if (!caches) {
-+        virtio_error(vdev, "Region caches not initialized");
-+        goto done;
-+    }
-+
-     if (caches->desc.len < max * sizeof(VRingDesc)) {
-         virtio_error(vdev, "Cannot map descriptor ring");
-         goto done;
-@@ -1623,6 +1698,10 @@ static unsigned int virtqueue_packed_drop_all(VirtQueue *vq)
-     VRingPackedDesc desc;
- 
-     caches = vring_get_region_caches(vq);
-+    if (!caches) {
-+        return 0;
-+    }
-+
-     desc_cache = &caches->desc;
- 
-     virtio_queue_set_notification(vq, 0);
-@@ -2406,6 +2485,10 @@ static bool virtio_packed_should_notify(VirtIODevice *vdev, VirtQueue *vq)
-     VRingMemoryRegionCaches *caches;
- 
-     caches = vring_get_region_caches(vq);
-+    if (!caches) {
-+        return false;
-+    }
-+
-     vring_packed_event_read(vdev, &caches->avail, &e);
- 
-     old = vq->signalled_used;
+ #endif
 -- 
 2.17.1
 
