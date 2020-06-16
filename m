@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7E421FAA88
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 09:56:24 +0200 (CEST)
-Received: from localhost ([::1]:59290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B89C1FAA7B
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 09:54:17 +0200 (CEST)
+Received: from localhost ([::1]:51852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jl6SF-0002ca-QL
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 03:56:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53946)
+	id 1jl6QC-0007yv-D9
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 03:54:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53952)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jl6Na-0003oP-R0; Tue, 16 Jun 2020 03:51:34 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:42173)
+ id 1jl6Nb-0003qt-Nl; Tue, 16 Jun 2020 03:51:35 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:34410)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jl6NY-000854-Sy; Tue, 16 Jun 2020 03:51:34 -0400
-Received: by mail-wr1-x441.google.com with SMTP id p5so19645032wrw.9;
- Tue, 16 Jun 2020 00:51:31 -0700 (PDT)
+ id 1jl6Na-00085H-52; Tue, 16 Jun 2020 03:51:35 -0400
+Received: by mail-wr1-x444.google.com with SMTP id r7so19698344wro.1;
+ Tue, 16 Jun 2020 00:51:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=jNTvdD7mpsXZtfy12szHXck2/SJaUPu7sRItCYEvWmI=;
- b=hlDQE2Y+qIt5bfkxo5d9ivmg+RnCdrgZik2djnVqg9fzhIrguwMe2kvyLMnFNkvBF0
- fOj9yLWI3qWupCP8+4J6HdrmB6U6CcDV1+n2BP/RiO0JrA8cEh552ypE9Nl/rz/qBoJo
- XmMkyuNRVWUAXwAxiyexhm2kPcCDhHZRCgO2JIgEgAg1KK1jUXpeyDspzmSsRWgDMniV
- 8me6Zg+qkEGe1jKLfX86KnAffrKijmKYaClzj9NU4zsNReHvGBxeK+9M6DWvVHkvrhC4
- XljtSuY3fqb+52RxtIOd4Piyrfumm5zdTR16RpUQkyKxrDE3P4RWFlvKvfQoRZZZOxRZ
- hJlw==
+ bh=G6lKanRQH/GfdgMJk57r0dQsTnmvZD4sTSFGUEMnT+8=;
+ b=iJCnoy+jzbnpq4MspV66mcR8W9OLQyPaNrTgFvghZJew4pyRMkFpsBEsb3u9BcH9AH
+ GUIEW2JkvqcKbEgQ8SdvGnQj/mZtUdC0vHAGwGTsolPN8xORhMaUOZtZmzbpRAWCJx2q
+ TLo/WsF23IW78QnCbvXH3q7Z8s2V51e3mKgt65ySZ3GYvyrAmjJeD6e9U1MwdgEdF26U
+ +AEeewBrtCA3QWFholGOv/LQP2RifuF3CsOvgaP6RZTe31MX5lSTTgtXCwdIcSeS/PgH
+ eKHcjbaJLIv4IYE5slrX77/ICK4pzmnWkbfnarVYxe0yFGeRGnLOPMoFNuFaD0i1D6NR
+ KF/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=jNTvdD7mpsXZtfy12szHXck2/SJaUPu7sRItCYEvWmI=;
- b=lTxB+SjuF4UXWO/+qgx795nv54TIckOQiWi4PlHjbBEaoG9P+lGR86UcNhPhGsmi87
- mBlzw1jO0LK9pqD7xiGQr97LlWxOvV8STF+sYQ1tkiJsjUtgu9prfVmE6qvG1GbzuCMU
- E4WsVqKXy9WmHFnGIDGfV733Shi9/Iho/gvyi3yx47nH1iPVyZTG8oCyikzMy/yqOXS7
- mjaDFwpSFhjI8a6ooEcV/kDWXlLuubM0ABL44RUyoCjn5CPGnnpAqkmJ7idNQ/Vr/zcB
- 5g11RXR27WZr7FFLdAaJgnqubU4jY+LohMvUbbVM91vpT5FhfiIhyrjHCQ+mzFLASyad
- F7Ow==
-X-Gm-Message-State: AOAM5311VsAP1M7QtKc7tb8DjGov3OBakQKh3nVqAB4o5q0syBYMWUGa
- LuRp9VvfySRtLSkWrHr88rFVom4g
-X-Google-Smtp-Source: ABdhPJw+EFEn77nFC6P8FC/flCFkku6pfG6x4QObNoCxtmxUNdNMglqucXXL/xjsW6biX12wvEnnzA==
-X-Received: by 2002:a5d:45c2:: with SMTP id b2mr1541194wrs.323.1592293890541; 
- Tue, 16 Jun 2020 00:51:30 -0700 (PDT)
+ bh=G6lKanRQH/GfdgMJk57r0dQsTnmvZD4sTSFGUEMnT+8=;
+ b=ACpopsp0oyBUPx6GAuYVEx/ayeVryUJTNIidbaD9ZBosvAdBqyVwZP1YOd3oi0SUG6
+ 1hmtzIVzaUO30R1vGjaER+CIUDW60DQ+RdoF7fm955CmSQ/wwU+WhqnuHlbN5iKGLxil
+ oguF1ItpBlXBbgatBmgTgpjo87ph6g9AglqQ7kxLiiCMnvyztaPqF1Lwof9KuqAr3URT
+ tIoWkNfyG5uCGhaJk76GoICb5HCgY8IvM48DwJ4RaEAtbRB48Ym+v0HTJsC2CITrtV3E
+ qWja0umVdPI0t3zxGZGE3scnE86wjJYWCWkQVbYckGyB8letrIxzOu7diUi6VoRiIAnq
+ Yc8g==
+X-Gm-Message-State: AOAM531Nm6p9AYfOImeIty0bie2Ddg8MyiVygS22jtKOMlgO3Dpe0ocE
+ TEY/IRSOeWsYoDxp/x0kvBiP3SlP
+X-Google-Smtp-Source: ABdhPJxc/ut3CrLejgtMaoW7b+CKbd6QBvEnKCkbw3lP8vJsYndJAgt+nkcsh88++Key55zlSFHmxg==
+X-Received: by 2002:a5d:6cc1:: with SMTP id c1mr1729297wrc.144.1592293891841; 
+ Tue, 16 Jun 2020 00:51:31 -0700 (PDT)
 Received: from localhost.localdomain
  (181.red-88-10-103.dynamicip.rima-tde.net. [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id q11sm28093538wrv.67.2020.06.16.00.51.29
+ by smtp.gmail.com with ESMTPSA id q11sm28093538wrv.67.2020.06.16.00.51.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Jun 2020 00:51:29 -0700 (PDT)
+ Tue, 16 Jun 2020 00:51:31 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 5/7] hw/rtc/m48t59: Reduce timer precision to milli-second
-Date: Tue, 16 Jun 2020 09:51:19 +0200
-Message-Id: <20200616075121.12837-6-f4bug@amsat.org>
+Subject: [PATCH 6/7] hw/ipmi/ipmi_bmc_extern: Reduce timer precision to
+ milli-second
+Date: Tue, 16 Jun 2020 09:51:20 +0200
+Message-Id: <20200616075121.12837-7-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200616075121.12837-1-f4bug@amsat.org>
 References: <20200616075121.12837-1-f4bug@amsat.org>
@@ -62,8 +63,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -97,120 +98,84 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The current implementation uses nano-second precision,
-while the RTC can not be more precise than a milli-second.
+The current implementation uses nano-second precision, while
+the device can not be more precise than a milli-second.
 Simplify by using a milli-second based timer.
-Rename the timer 'alrm_timer_ms' to have the unit explicit.
+Rename the timer 'extern_timer_ms' to have the unit explicit.
 
 Inspired-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/rtc/m48t59-internal.h |  2 +-
- hw/rtc/m48t59.c          | 31 ++++++++++++++++---------------
- 2 files changed, 17 insertions(+), 16 deletions(-)
 
-diff --git a/hw/rtc/m48t59-internal.h b/hw/rtc/m48t59-internal.h
-index cd648241e9..f21b603f97 100644
---- a/hw/rtc/m48t59-internal.h
-+++ b/hw/rtc/m48t59-internal.h
-@@ -49,7 +49,7 @@ typedef struct M48t59State {
-     time_t   stop_time;
-     /* Alarm & watchdog */
-     struct tm alarm;
--    QEMUTimer *alrm_timer;
-+    QEMUTimer *alrm_timer_ms;
-     QEMUTimer *wd_timer;
-     /* NVRAM storage */
-     uint8_t *buffer;
-diff --git a/hw/rtc/m48t59.c b/hw/rtc/m48t59.c
-index 47d48054fd..d2717d00a9 100644
---- a/hw/rtc/m48t59.c
-+++ b/hw/rtc/m48t59.c
-@@ -89,7 +89,7 @@ static M48txxInfo m48txx_sysbus_info[] = {
- static void alarm_cb (void *opaque)
- {
-     struct tm tm;
--    uint64_t next_time;
-+    uint64_t next_time_s;
-     M48t59State *NVRAM = opaque;
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ hw/ipmi/ipmi_bmc_extern.c | 19 ++++++++++---------
+ 1 file changed, 10 insertions(+), 9 deletions(-)
+
+diff --git a/hw/ipmi/ipmi_bmc_extern.c b/hw/ipmi/ipmi_bmc_extern.c
+index f9a13e0a44..441d3ed18e 100644
+--- a/hw/ipmi/ipmi_bmc_extern.c
++++ b/hw/ipmi/ipmi_bmc_extern.c
+@@ -81,7 +81,7 @@ typedef struct IPMIBmcExtern {
+     unsigned int outpos;
+     unsigned int outlen;
  
-     qemu_set_irq(NVRAM->IRQ, 1);
-@@ -104,42 +104,43 @@ static void alarm_cb (void *opaque)
-             tm.tm_mon = 1;
-             tm.tm_year++;
-         }
--        next_time = qemu_timedate_diff(&tm) - NVRAM->time_offset;
-+        next_time_s = qemu_timedate_diff(&tm) - NVRAM->time_offset;
-     } else if ((NVRAM->buffer[0x1FF5] & 0x80) != 0 &&
- 	       (NVRAM->buffer[0x1FF4] & 0x80) == 0 &&
- 	       (NVRAM->buffer[0x1FF3] & 0x80) == 0 &&
- 	       (NVRAM->buffer[0x1FF2] & 0x80) == 0) {
-         /* Repeat once a day */
--        next_time = 24 * 60 * 60;
-+        next_time_s = 24 * 60 * 60;
-     } else if ((NVRAM->buffer[0x1FF5] & 0x80) != 0 &&
- 	       (NVRAM->buffer[0x1FF4] & 0x80) != 0 &&
- 	       (NVRAM->buffer[0x1FF3] & 0x80) == 0 &&
- 	       (NVRAM->buffer[0x1FF2] & 0x80) == 0) {
-         /* Repeat once an hour */
--        next_time = 60 * 60;
-+        next_time_s = 60 * 60;
-     } else if ((NVRAM->buffer[0x1FF5] & 0x80) != 0 &&
- 	       (NVRAM->buffer[0x1FF4] & 0x80) != 0 &&
- 	       (NVRAM->buffer[0x1FF3] & 0x80) != 0 &&
- 	       (NVRAM->buffer[0x1FF2] & 0x80) == 0) {
-         /* Repeat once a minute */
--        next_time = 60;
-+        next_time_s = 60;
+-    struct QEMUTimer *extern_timer;
++    QEMUTimer *extern_timer_ms;
+ 
+     /* A reset event is pending to be sent upstream. */
+     bool send_reset;
+@@ -112,8 +112,8 @@ static void continue_send(IPMIBmcExtern *ibe)
+     }
+     if (ibe->outpos < ibe->outlen) {
+         /* Not fully transmitted, try again in a 10ms */
+-        timer_mod_ns(ibe->extern_timer,
+-                     qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 10000000);
++        timer_mod(ibe->extern_timer_ms,
++                  qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) + 10);
      } else {
-         /* Repeat once a second */
--        next_time = 1;
-+        next_time_s = 1;
+         /* Sent */
+         ibe->outlen = 0;
+@@ -137,8 +137,8 @@ static void continue_send(IPMIBmcExtern *ibe)
+ 
+         if (ibe->waiting_rsp) {
+             /* Make sure we get a response within 4 seconds. */
+-            timer_mod_ns(ibe->extern_timer,
+-                         qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 4000000000ULL);
++            timer_mod(ibe->extern_timer_ms,
++                      qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) + 4 * 1000);
+         }
      }
--    timer_mod(NVRAM->alrm_timer, qemu_clock_get_ns(rtc_clock) +
--                    next_time * 1000);
-+    timer_mod(NVRAM->alrm_timer_ms,
-+              qemu_clock_get_ms(rtc_clock) + next_time_s *
-+                                             NANOSECONDS_PER_SECOND / SCALE_MS);
-     qemu_set_irq(NVRAM->IRQ, 0);
+     return;
+@@ -303,7 +303,7 @@ static void handle_msg(IPMIBmcExtern *ibe)
+         ibe->inpos--; /* Remove checkum */
+     }
+ 
+-    timer_del(ibe->extern_timer);
++    timer_del(ibe->extern_timer_ms);
+     ibe->waiting_rsp = false;
+     k->handle_rsp(ibe->parent.intf, ibe->inbuf[0], ibe->inbuf + 1, ibe->inpos - 1);
+ }
+@@ -502,7 +502,8 @@ static void ipmi_bmc_extern_init(Object *obj)
+ {
+     IPMIBmcExtern *ibe = IPMI_BMC_EXTERN(obj);
+ 
+-    ibe->extern_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, extern_timeout, ibe);
++    ibe->extern_timer_ms = timer_new_ms(QEMU_CLOCK_VIRTUAL,
++                                        extern_timeout, ibe);
+     vmstate_register(NULL, 0, &vmstate_ipmi_bmc_extern, ibe);
  }
  
- static void set_alarm(M48t59State *NVRAM)
+@@ -510,8 +511,8 @@ static void ipmi_bmc_extern_finalize(Object *obj)
  {
-     int diff;
--    if (NVRAM->alrm_timer != NULL) {
--        timer_del(NVRAM->alrm_timer);
-+    if (NVRAM->alrm_timer_ms != NULL) {
-+        timer_del(NVRAM->alrm_timer_ms);
-         diff = qemu_timedate_diff(&NVRAM->alarm) - NVRAM->time_offset;
-         if (diff > 0)
--            timer_mod(NVRAM->alrm_timer, diff * 1000);
-+            timer_mod(NVRAM->alrm_timer_ms, diff * 1000);
-     }
+     IPMIBmcExtern *ibe = IPMI_BMC_EXTERN(obj);
+ 
+-    timer_del(ibe->extern_timer);
+-    timer_free(ibe->extern_timer);
++    timer_del(ibe->extern_timer_ms);
++    timer_free(ibe->extern_timer_ms);
  }
  
-@@ -539,9 +540,9 @@ void m48t59_reset_common(M48t59State *NVRAM)
- {
-     NVRAM->addr = 0;
-     NVRAM->lock = 0;
--    if (NVRAM->alrm_timer != NULL)
--        timer_del(NVRAM->alrm_timer);
--
-+    if (NVRAM->alrm_timer_ms != NULL) {
-+        timer_del(NVRAM->alrm_timer_ms);
-+    }
-     if (NVRAM->wd_timer != NULL)
-         timer_del(NVRAM->wd_timer);
- }
-@@ -603,7 +604,7 @@ void m48t59_realize_common(M48t59State *s, Error **errp)
- {
-     s->buffer = g_malloc0(s->size);
-     if (s->model == 59) {
--        s->alrm_timer = timer_new_ns(rtc_clock, &alarm_cb, s);
-+        s->alrm_timer_ms = timer_new_ms(rtc_clock, &alarm_cb, s);
-         s->wd_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, &watchdog_cb, s);
-     }
-     qemu_get_timedate(&s->alarm, 0);
+ static Property ipmi_bmc_extern_properties[] = {
 -- 
 2.21.3
 
