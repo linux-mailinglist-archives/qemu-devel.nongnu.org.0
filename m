@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 029B91FA91E
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 08:51:11 +0200 (CEST)
-Received: from localhost ([::1]:51416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37F521FA921
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 08:51:26 +0200 (CEST)
+Received: from localhost ([::1]:52846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jl5R8-0006p4-00
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 02:51:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41818)
+	id 1jl5RN-0007QD-4h
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 02:51:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1jl5MB-0001TO-Gw
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 02:46:04 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:54957
+ id 1jl5MI-0001UK-Kg
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 02:46:10 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:36449
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1jl5M8-0005Xa-Qg
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 02:46:03 -0400
+ id 1jl5MD-0005Xp-Dq
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 02:46:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592289957;
+ s=mimecast20190719; t=1592289962;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=SmCH46ekmE2CGGxJ9qoqWU+gNaRRz5t6QABzW7n9E7c=;
- b=X/bll8maStV5FR/g+DCmL5wFby80BsO3dNbd2ABYNqT6GiUyFNrLC9rZLXtJpR0im8MLvY
- rJPGa5wZiEMlEESjUqjaR7zTXF6f8OUD73etZTwel/prTn8tIfpaChk2upmdPY/XWrYBF3
- wceZNkPgWO3/dEcgjVLqBND5X9XDE7U=
+ references:references; bh=JFwHMkHqVUvcQ2HM5U+pSmAGlyM+UoHgsvgwXwXIIns=;
+ b=Rss5wD6G5CyDZDCFWwy/5/rUJeatboU2khMDFx7m705ZK5McOiQJqDCXlJhfVywi5D9fJo
+ R0hy+OaLa2nxCb21EFWZsSU6Jq3F12sWqy5lDsd5II/POAMVLX5UgvKSE3Ttc2ydWV9I7I
+ iuMvno73fZNL4IOwsIt6Vk5VUDktBYc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-113-IsFxkZCqO9q3-WJbDIGuNg-1; Tue, 16 Jun 2020 02:45:55 -0400
-X-MC-Unique: IsFxkZCqO9q3-WJbDIGuNg-1
+ us-mta-389-0mRFhSUGNzWdxSeGoDRj-Q-1; Tue, 16 Jun 2020 02:45:57 -0400
+X-MC-Unique: 0mRFhSUGNzWdxSeGoDRj-Q-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7CB681138302;
- Tue, 16 Jun 2020 06:45:54 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9B9F7835B50;
+ Tue, 16 Jun 2020 06:45:56 +0000 (UTC)
 Received: from jason-ThinkPad-T430s.redhat.com (ovpn-13-222.pek2.redhat.com
  [10.72.13.222])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CF82B8202D;
- Tue, 16 Jun 2020 06:45:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 06F868202D;
+ Tue, 16 Jun 2020 06:45:54 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: peter.maydell@linaro.org
-Subject: [PULL 02/33] virtio-net: implement RX RSS processing
-Date: Tue, 16 Jun 2020 14:45:13 +0800
-Message-Id: <1592289944-13727-3-git-send-email-jasowang@redhat.com>
+Subject: [PULL 03/33] tap: allow extended virtio header with hash info
+Date: Tue, 16 Jun 2020 14:45:14 +0800
+Message-Id: <1592289944-13727-4-git-send-email-jasowang@redhat.com>
 In-Reply-To: <1592289944-13727-1-git-send-email-jasowang@redhat.com>
 References: <1592289944-13727-1-git-send-email-jasowang@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
@@ -83,164 +83,26 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Yuri Benditovich <yuri.benditovich@daynix.com>
 
-If VIRTIO_NET_F_RSS negotiated and RSS is enabled, process
-incoming packets, calculate packet's hash and place the
-packet into respective RX virtqueue.
-
 Signed-off-by: Yuri Benditovich <yuri.benditovich@daynix.com>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- hw/net/virtio-net.c            | 88 +++++++++++++++++++++++++++++++++++++++++-
- include/hw/virtio/virtio-net.h |  1 +
- 2 files changed, 87 insertions(+), 2 deletions(-)
+ net/tap.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index e803b0a..556f221 100644
---- a/hw/net/virtio-net.c
-+++ b/hw/net/virtio-net.c
-@@ -42,6 +42,7 @@
- #include "trace.h"
- #include "monitor/qdev.h"
- #include "hw/pci/pci.h"
-+#include "net_rx_pkt.h"
+diff --git a/net/tap.c b/net/tap.c
+index 6207f61..ca48f2a 100644
+--- a/net/tap.c
++++ b/net/tap.c
+@@ -254,7 +254,8 @@ static void tap_set_vnet_hdr_len(NetClientState *nc, int len)
  
- #define VIRTIO_NET_VM_VERSION    11
+     assert(nc->info->type == NET_CLIENT_DRIVER_TAP);
+     assert(len == sizeof(struct virtio_net_hdr_mrg_rxbuf) ||
+-           len == sizeof(struct virtio_net_hdr));
++           len == sizeof(struct virtio_net_hdr) ||
++           len == sizeof(struct virtio_net_hdr_v1_hash));
  
-@@ -1533,8 +1534,80 @@ static int receive_filter(VirtIONet *n, const uint8_t *buf, int size)
-     return 0;
- }
- 
-+static uint8_t virtio_net_get_hash_type(bool isip4,
-+                                        bool isip6,
-+                                        bool isudp,
-+                                        bool istcp,
-+                                        uint32_t types)
-+{
-+    if (isip4) {
-+        if (istcp && (types & VIRTIO_NET_RSS_HASH_TYPE_TCPv4)) {
-+            return NetPktRssIpV4Tcp;
-+        }
-+        if (isudp && (types & VIRTIO_NET_RSS_HASH_TYPE_UDPv4)) {
-+            return NetPktRssIpV4Udp;
-+        }
-+        if (types & VIRTIO_NET_RSS_HASH_TYPE_IPv4) {
-+            return NetPktRssIpV4;
-+        }
-+    } else if (isip6) {
-+        uint32_t mask = VIRTIO_NET_RSS_HASH_TYPE_TCP_EX |
-+                        VIRTIO_NET_RSS_HASH_TYPE_TCPv6;
-+
-+        if (istcp && (types & mask)) {
-+            return (types & VIRTIO_NET_RSS_HASH_TYPE_TCP_EX) ?
-+                NetPktRssIpV6TcpEx : NetPktRssIpV6Tcp;
-+        }
-+        mask = VIRTIO_NET_RSS_HASH_TYPE_UDP_EX | VIRTIO_NET_RSS_HASH_TYPE_UDPv6;
-+        if (isudp && (types & mask)) {
-+            return (types & VIRTIO_NET_RSS_HASH_TYPE_UDP_EX) ?
-+                NetPktRssIpV6UdpEx : NetPktRssIpV6Udp;
-+        }
-+        mask = VIRTIO_NET_RSS_HASH_TYPE_IP_EX | VIRTIO_NET_RSS_HASH_TYPE_IPv6;
-+        if (types & mask) {
-+            return (types & VIRTIO_NET_RSS_HASH_TYPE_IP_EX) ?
-+                NetPktRssIpV6Ex : NetPktRssIpV6;
-+        }
-+    }
-+    return 0xff;
-+}
-+
-+static int virtio_net_process_rss(NetClientState *nc, const uint8_t *buf,
-+                                  size_t size)
-+{
-+    VirtIONet *n = qemu_get_nic_opaque(nc);
-+    unsigned int index = nc->queue_index, new_index;
-+    struct NetRxPkt *pkt = n->rx_pkt;
-+    uint8_t net_hash_type;
-+    uint32_t hash;
-+    bool isip4, isip6, isudp, istcp;
-+
-+    net_rx_pkt_set_protocols(pkt, buf + n->host_hdr_len,
-+                             size - n->host_hdr_len);
-+    net_rx_pkt_get_protocols(pkt, &isip4, &isip6, &isudp, &istcp);
-+    if (isip4 && (net_rx_pkt_get_ip4_info(pkt)->fragment)) {
-+        istcp = isudp = false;
-+    }
-+    if (isip6 && (net_rx_pkt_get_ip6_info(pkt)->fragment)) {
-+        istcp = isudp = false;
-+    }
-+    net_hash_type = virtio_net_get_hash_type(isip4, isip6, isudp, istcp,
-+                                             n->rss_data.hash_types);
-+    if (net_hash_type > NetPktRssIpV6UdpEx) {
-+        return n->rss_data.default_queue;
-+    }
-+
-+    hash = net_rx_pkt_calc_rss_hash(pkt, net_hash_type, n->rss_data.key);
-+    new_index = hash & (n->rss_data.indirections_len - 1);
-+    new_index = n->rss_data.indirections_table[new_index];
-+    if (index == new_index) {
-+        return -1;
-+    }
-+    return new_index;
-+}
-+
- static ssize_t virtio_net_receive_rcu(NetClientState *nc, const uint8_t *buf,
--                                      size_t size)
-+                                      size_t size, bool no_rss)
- {
-     VirtIONet *n = qemu_get_nic_opaque(nc);
-     VirtIONetQueue *q = virtio_net_get_subqueue(nc);
-@@ -1548,6 +1621,14 @@ static ssize_t virtio_net_receive_rcu(NetClientState *nc, const uint8_t *buf,
-         return -1;
-     }
- 
-+    if (!no_rss && n->rss_data.enabled) {
-+        int index = virtio_net_process_rss(nc, buf, size);
-+        if (index >= 0) {
-+            NetClientState *nc2 = qemu_get_subqueue(n->nic, index);
-+            return virtio_net_receive_rcu(nc2, buf, size, true);
-+        }
-+    }
-+
-     /* hdr_len refers to the header we supply to the guest */
-     if (!virtio_net_has_buffers(q, size + n->guest_hdr_len - n->host_hdr_len)) {
-         return 0;
-@@ -1642,7 +1723,7 @@ static ssize_t virtio_net_do_receive(NetClientState *nc, const uint8_t *buf,
- {
-     RCU_READ_LOCK_GUARD();
- 
--    return virtio_net_receive_rcu(nc, buf, size);
-+    return virtio_net_receive_rcu(nc, buf, size, false);
- }
- 
- static void virtio_net_rsc_extract_unit4(VirtioNetRscChain *chain,
-@@ -3221,6 +3302,8 @@ static void virtio_net_device_realize(DeviceState *dev, Error **errp)
- 
-     QTAILQ_INIT(&n->rsc_chains);
-     n->qdev = dev;
-+
-+    net_rx_pkt_init(&n->rx_pkt, false);
- }
- 
- static void virtio_net_device_unrealize(DeviceState *dev)
-@@ -3258,6 +3341,7 @@ static void virtio_net_device_unrealize(DeviceState *dev)
-     qemu_del_nic(n->nic);
-     virtio_net_rsc_cleanup(n);
-     g_free(n->rss_data.indirections_table);
-+    net_rx_pkt_uninit(n->rx_pkt);
-     virtio_cleanup(vdev);
- }
- 
-diff --git a/include/hw/virtio/virtio-net.h b/include/hw/virtio/virtio-net.h
-index d3fad7c..5081f3c 100644
---- a/include/hw/virtio/virtio-net.h
-+++ b/include/hw/virtio/virtio-net.h
-@@ -212,6 +212,7 @@ struct VirtIONet {
-     DeviceListener primary_listener;
-     Notifier migration_state;
-     VirtioNetRssData rss_data;
-+    struct NetRxPkt *rx_pkt;
- };
- 
- void virtio_net_set_netclient_name(VirtIONet *n, const char *name,
+     tap_fd_set_vnet_hdr_len(s->fd, len);
+     s->host_vnet_hdr_len = len;
 -- 
 2.5.0
 
