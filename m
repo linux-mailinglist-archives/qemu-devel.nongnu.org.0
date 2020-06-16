@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 456781FB470
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:31:56 +0200 (CEST)
-Received: from localhost ([::1]:43414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E023C1FB484
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:35:58 +0200 (CEST)
+Received: from localhost ([::1]:33340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlCd1-0007SN-73
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:31:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57628)
+	id 1jlCgv-0006QQ-Qj
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:35:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCPr-0002JJ-Tz; Tue, 16 Jun 2020 10:18:19 -0400
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:34889)
+ id 1jlCPu-0002PV-9V; Tue, 16 Jun 2020 10:18:22 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:41880)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCPq-0006hu-FE; Tue, 16 Jun 2020 10:18:19 -0400
-Received: by mail-oi1-x241.google.com with SMTP id k4so19384320oik.2;
- Tue, 16 Jun 2020 07:18:17 -0700 (PDT)
+ id 1jlCPs-0006ir-LR; Tue, 16 Jun 2020 10:18:21 -0400
+Received: by mail-ot1-x343.google.com with SMTP id k15so16042591otp.8;
+ Tue, 16 Jun 2020 07:18:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=MYqD5kUyAFJe68fqslPuojGp+B170xLbwwM5A3xgweA=;
- b=bXZSIRPq8d7FWdJW6c9yaexTnz15i66GYNJJJgwtHgd7/A6P8slTYFX4pmIcSwaCW9
- EpJkA2kFHt8rmCOyYZpzDsd7pcr0iZp9HVcHzNpGykaODPOdoxcxuW7HjB9RR90NXBDK
- GjEhngJmTlwZKoaFbTfTNklY1NJgr69NzpoBjKPu3umT83tFT8E74TXOrSmHBf4XesQ8
- PCTmQe1BmZcRkkUTMm6I2BDVMtptg5EFh59v2gSk021hzJngv+BFqpDOWYDEwl+z+lfS
- HRAIx8PD+4ehb1nxUTbOYVLIh8G+G+fuQhB+/g2pv2W+EmvqwLuJeFVoVG40vWxRZ3gF
- /uPQ==
+ bh=4eY61f4yjJnpy1o5y9J5QRfvOfW6Yv9szrM/jozGATU=;
+ b=Q3L+sAVN7rB8isPHP471ZTgUlBPifOiFj9HBkCUn32lPupNgCaTHjb3Ycb9ug7RBza
+ WtPOsWYxNXGU3V3/w84+Z19oTZ+n7yyFDnfJ0nGaTeSl5sDVlvtQHf+STW9oSEKfxoad
+ H3+pzOy1BXUv+63u5PT3fbX/pmQIHQSytBp3B6SZ2Xgc2xsyGKGq1We+7fhoUgIoPzDu
+ eE0QiJvbbzjIcDt4FPL/LGJAlrnS3YSqTvlFkO86RNpr1qPpBGPRLsgFzf61/kZbMGPw
+ 2HhdEXZ7D7qsG7OzKYsM+4JQI6GWs7BFxzrCzks8gRwjnYtB7RmIKUTnZ3s/kq0SwgTK
+ Fk5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=MYqD5kUyAFJe68fqslPuojGp+B170xLbwwM5A3xgweA=;
- b=YVaGmstdyKEAU9H1/aq7n1j7jc7UyWoNuaewr4wj9ClX5OllUJCRmTdc/gHUYZi02z
- sIr6gkr/hDE+WtxxHVLDgyhFtM42TgzsJ0D1lt1gjh631VC2Hc9dBY1ISrQ8ikFaD4RP
- zQolEB610w1NKZnv5If/wD5i/j2IrMQIifYeKfN+wP7/fJ6BGK1QWYZ4PF5C3LGTRrS2
- 1r+oEQ3wRaVCyh2UCbw35GmJHkLUpiC11eTcgcH8L2dCLWINnjDWLBKjj/f+EsC4DZuD
- xAW5cjp2BAUpgaX0Wld8u1GyKoV5lewbnqJULWzUZvJ/Let8Vi4IX9p9tXolEH/vA9iC
- mo9Q==
-X-Gm-Message-State: AOAM533FuxKGYhd59Mr1kPviHRK1SswaDCZpBeCcmyexfjMBjXnqCdTJ
- LcMN1RgoQi6cTjY2Ue/pH42c0OWx
-X-Google-Smtp-Source: ABdhPJzyBxEjEU4YsHol5tsSt9TvVUlg+UWN+/he2OZ1RB8D6sSbg0h/Kzv3bi3zLZHMl/vGtzFYkg==
-X-Received: by 2002:aca:438a:: with SMTP id q132mr3382644oia.44.1592317096410; 
- Tue, 16 Jun 2020 07:18:16 -0700 (PDT)
+ bh=4eY61f4yjJnpy1o5y9J5QRfvOfW6Yv9szrM/jozGATU=;
+ b=TNztWQRlRc0mgCNAztNogs8KrG58x7w4fPjnIiVs/Pu8PaOPcNqHytWQsisN7l1i62
+ WWi+Z4v0yaqGgvfbZhDHfRxfcSTteGjOdJpWNkiH8UwdOkD+hl5O3FGYPwd9BJmEz6Do
+ KjrpGPPGTpe2mR1xl5B1EjwnpYBOUlF/1oS4IHnrhatVdegFpg7u1cTrl3vCd0KjIYQD
+ RRFv7Xl6b9J3VdcwZMuxt8Gu0vRRNTwWQIYxc+37mqC6WLDfuoLG3rVHszA6o6+UOMx4
+ PAYGNI4MTzlDUnfZtfdpyRqJchU9c7EeHxZpG+hgvQAqSWftHRCgKBTlNn11aH64uToW
+ HhLQ==
+X-Gm-Message-State: AOAM533OocN+5xXq06Px2/EmcwrWHU8bHYwVLu0DVFhUiMoWDi7i+XLp
+ geu5sLIm4e08NV9J7drtxjSBbyPj
+X-Google-Smtp-Source: ABdhPJwU8N677Qc/swHP829IaFWmlbZ5qBeR6H1XdJP4PSFxSOfp4PUYhxz12rxgRC/e1CZKSG0Bgw==
+X-Received: by 2002:a9d:2965:: with SMTP id d92mr2585153otb.350.1592317098333; 
+ Tue, 16 Jun 2020 07:18:18 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id g5sm4072195otb.20.2020.06.16.07.18.14
+ by smtp.gmail.com with ESMTPSA id g4sm4077411otp.5.2020.06.16.07.18.16
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 16 Jun 2020 07:18:14 -0700 (PDT)
+ Tue, 16 Jun 2020 07:18:17 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 34/78] dp8393x: Don't clobber packet checksum
-Date: Tue, 16 Jun 2020 09:15:03 -0500
-Message-Id: <20200616141547.24664-35-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 35/78] dp8393x: Use long-word-aligned RRA pointers in 32-bit
+ mode
+Date: Tue, 16 Jun 2020 09:15:04 -0500
+Message-Id: <20200616141547.24664-36-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
 References: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::241;
- envelope-from=flukshun@gmail.com; helo=mail-oi1-x241.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::343;
+ envelope-from=flukshun@gmail.com; helo=mail-ot1-x343.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -91,35 +92,50 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Finn Thain <fthain@telegraphics.com.au>
 
-A received packet consumes pkt_size bytes in the buffer and the frame
-checksum that's appended to it consumes another 4 bytes. The Receive
-Buffer Address register takes the former quantity into account but
-not the latter. So the next packet written to the buffer overwrites
-the frame checksum. Fix this.
+Section 3.4.1 of the datasheet says,
+
+    The alignment of the RRA is confined to either word or long word
+    boundaries, depending upon the data width mode. In 16-bit mode,
+    the RRA must be aligned to a word boundary (A0 is always zero)
+    and in 32-bit mode, the RRA is aligned to a long word boundary
+    (A0 and A1 are always zero).
+
+This constraint has been implemented for 16-bit mode; implement it
+for 32-bit mode too.
 
 Signed-off-by: Finn Thain <fthain@telegraphics.com.au>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Tested-by: Laurent Vivier <laurent@vivier.eu>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
-(cherry picked from commit bae112b80c9c42cea21ee7623c283668c3451c2e)
-*drop context dep. on 19f70347731
+(cherry picked from commit ea2270279bc2e1635cb6e909e22e17e630198773)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- hw/net/dp8393x.c | 1 +
- 1 file changed, 1 insertion(+)
+ hw/net/dp8393x.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
 diff --git a/hw/net/dp8393x.c b/hw/net/dp8393x.c
-index ca8088c839..315b4ad844 100644
+index 315b4ad844..40e3a029b6 100644
 --- a/hw/net/dp8393x.c
 +++ b/hw/net/dp8393x.c
-@@ -816,6 +816,7 @@ static ssize_t dp8393x_receive(NetClientState *nc, const uint8_t * buf,
-     address += rx_len;
-     address_space_rw(&s->as, address,
-         MEMTXATTRS_UNSPECIFIED, (uint8_t *)&checksum, 4, 1);
-+    address += 4;
-     rx_len += 4;
-     s->regs[SONIC_CRBA1] = address >> 16;
-     s->regs[SONIC_CRBA0] = address & 0xffff;
+@@ -663,12 +663,16 @@ static void dp8393x_write(void *opaque, hwaddr addr, uint64_t data,
+                 qemu_flush_queued_packets(qemu_get_queue(s->nic));
+             }
+             break;
+-        /* Ignore least significant bit */
++        /* The guest is required to store aligned pointers here */
+         case SONIC_RSA:
+         case SONIC_REA:
+         case SONIC_RRP:
+         case SONIC_RWP:
+-            s->regs[reg] = val & 0xfffe;
++            if (s->regs[SONIC_DCR] & SONIC_DCR_DW) {
++                s->regs[reg] = val & 0xfffc;
++            } else {
++                s->regs[reg] = val & 0xfffe;
++            }
+             break;
+         /* Invert written value for some registers */
+         case SONIC_CRCT:
 -- 
 2.17.1
 
