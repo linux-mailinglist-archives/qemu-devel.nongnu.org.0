@@ -2,80 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A96E61FBCFD
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 19:31:39 +0200 (CEST)
-Received: from localhost ([::1]:59132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 933491FBD37
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 19:41:34 +0200 (CEST)
+Received: from localhost ([::1]:39784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlFQw-0006sk-PC
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 13:31:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51808)
+	id 1jlFaX-00067b-8U
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 13:41:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jlFP7-0005V5-7g
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 13:29:45 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:45556)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jlFP5-0002gi-Nd
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 13:29:44 -0400
-Received: by mail-wr1-x441.google.com with SMTP id c3so21591855wru.12
- for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 10:29:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=yPfDS6xGID1qMZnIa+ox51oDWDIA+6G4B8k/7Iwkk7s=;
- b=KyTvk5+zhcEFzDI+Jh6fA+C9WyRts66QK9YIQO1fSrYTk+SG/xBo2IuWK1Oqabr30R
- sc7+Zllcj8Dv15BeO+PLXHmQOzWZCtB46pzyu03DMZKcnfVW23b/xnaqZPe5OppZYjFT
- 2MNnSMhMjI0/nxdkOhxgmWiG77QJq3zVRcD1kxjc8LHCU6lLGij1yEEUhOILN71ET5hH
- guuZq6daB5l20niVKDn0T7IKFX79f1lv0p+trtkMTqenGcFpF7nquhbvRqJc8HWnLkOB
- jbgWQHeSUvbBVpUN2l+1/rWLewF1BFVBO7hxu40A3r0eOrhVDCeKsXQH/7nNpcbU2g0+
- fVMA==
+ (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
+ id 1jlFZB-0005ZE-33
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 13:40:09 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:51443
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
+ id 1jlFZ9-0004Un-BR
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 13:40:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1592329206;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=+3VbB9RzhN8EOoprJvBH2mgGx2SmPQjXYqxfqqPhXGQ=;
+ b=WcVdttk9tZiPRaMf0rM1upjxEqZZrruV8B356iyodw5E5P+bqe5kwlStqz9xAufcw2lhLc
+ uHv9U6PBoniWuIIXCXlNMezD0BcV24WeGm+tAYqgoLev99U7Izy82A8RhBMG1tO2+zPfDP
+ ta2hNneUDTDFFQBKtCKBNjxidmvj5hA=
+Received: from mail-oo1-f70.google.com (mail-oo1-f70.google.com
+ [209.85.161.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-213-BkR9YrQ8O_mmDvUJpu1AMw-1; Tue, 16 Jun 2020 13:39:56 -0400
+X-MC-Unique: BkR9YrQ8O_mmDvUJpu1AMw-1
+Received: by mail-oo1-f70.google.com with SMTP id t140so10029007oot.8
+ for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 10:39:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=yPfDS6xGID1qMZnIa+ox51oDWDIA+6G4B8k/7Iwkk7s=;
- b=prye+iJ00zIPP5tdxBu8weZyUhxqb+UoU/ahKbXq4NKyp2nl5RnEtmqlCl6CJQSe4q
- NRfW2qMb45DMgvqbteIJcJOXLZYsZj4XQkXF28r7uyb50Hce1urQCSoaR0ZDjU0XEgxf
- MMDHyvsEI5pNWHQr4FF+vvR1fp+G4sLxpcHtUz8lIQZ1WC7WpmrF/7VHDAb7TLbAFOya
- mVDcWpgLo3XOmllNOLBHAu6Z5bEN9TStZPfjJ4vUVET29dzVrPumvyiExpuQjDYbds0A
- xorDO3I11ZRFpDrtAXUTQL1+ASiElKw6H/NY/0LNYsrs/BIZd6ELTNDRGpmFQO8F/B2s
- 9Xlw==
-X-Gm-Message-State: AOAM533uH6Mr3fpbfNcBcZshWptGgj9xbvsbdtLm5hodAflpqo3zOG0w
- enP9c8ZI/p+GPROfX/Mg7ihrYQ==
-X-Google-Smtp-Source: ABdhPJyM2RYth2LQ9s0NU3q28WZ7N6kR0K8hQsc9kCR4LUdKORusNyNtOddlD5AvjbgadJfYL1NmDA==
-X-Received: by 2002:a5d:6cce:: with SMTP id c14mr3969871wrc.377.1592328581975; 
- Tue, 16 Jun 2020 10:29:41 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id j18sm31802807wrn.59.2020.06.16.10.29.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Jun 2020 10:29:40 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 596F91FF7E;
- Tue, 16 Jun 2020 18:29:40 +0100 (BST)
-References: <20200604085441.103087-1-kbastian@mail.uni-paderborn.de>
-User-agent: mu4e 1.5.3; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
-Subject: Re: [PATCH v2 00/15] tests/tcg: Add TriCore tests
-In-reply-to: <20200604085441.103087-1-kbastian@mail.uni-paderborn.de>
-Date: Tue, 16 Jun 2020 18:29:40 +0100
-Message-ID: <87zh92yl4r.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=+3VbB9RzhN8EOoprJvBH2mgGx2SmPQjXYqxfqqPhXGQ=;
+ b=tqm9HartzzTacFS8ZI2pAtopP5BqhV6uf8H4xRqEz2OaeuYfBDBMR4xW87mLEU8uZZ
+ Qx8BguG/SUa1BAVNMRuKozddkfnKMTz5aIAFc5qgrD52/4pnRm8uehI8GRGJc8krhrcO
+ XOg64EG55hJIhs8l6JOfTKViD2x7eyhVAztJZuMUaK6fbsJlAfu/6X70n//ixiRPglIv
+ 10/+ESZUMtfXINory8fAl3luOfFFvO+PVWdfxmDywK7TT6nLSZlPSlRZs3AHB7Ta0Xf8
+ jzggAjdkGnLBerIZNUfhruDbux4QwH2Hcc0PuWxSWgRxBSmu6qD718jrW+38TWaXHfwI
+ xvnQ==
+X-Gm-Message-State: AOAM530I6hKONRfo/7fKKGem11Opcg8aWeMjqV/pfnOgRSfftUrYJa4f
+ 46chfD1AarJ4BL+1M7e9cQTKK7ZEkTIbz76Ujj3gmqBrzpVEp5yGVgdIR3SEYus5IvIcOJFvxXG
+ dELbSxUYWzMqNChBlCBNYSjajQ/ZcNpk=
+X-Received: by 2002:a4a:e80c:: with SMTP id b12mr3346041oob.33.1592329196148; 
+ Tue, 16 Jun 2020 10:39:56 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxrqG8X+Yk92siANu9RganQye/nTGq28eB4XdPA/f1XFYQ0eZnb21W8XQpjgrYFmGGbUrbgC1zQxptwZb7jtGo=
+X-Received: by 2002:a4a:e80c:: with SMTP id b12mr3346026oob.33.1592329195866; 
+ Tue, 16 Jun 2020 10:39:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x441.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+References: <20200613170826.354270-1-nsoffer@redhat.com>
+ <CAMRbyyswkaedF0dN2nPb3H8fj5+pmhLWh9GHGor4wUk_Su=b8A@mail.gmail.com>
+ <20200616153241.GF4305@linux.fritz.box>
+In-Reply-To: <20200616153241.GF4305@linux.fritz.box>
+From: Nir Soffer <nsoffer@redhat.com>
+Date: Tue, 16 Jun 2020 20:39:39 +0300
+Message-ID: <CAMRbyys3fL_vqswb72-F_vE8pBQ1SkZZmmMeUA_TuTwsew6iSw@mail.gmail.com>
+Subject: Re: [PATCH] block: file-posix: Fail unmap with NO_FALLBACK on block
+ device
+To: Kevin Wolf <kwolf@redhat.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=nsoffer@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 02:45:57
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,27 +91,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: nirsof <nirsof@gmail.com>, qemu-block <qemu-block@nongnu.org>, pl@kamp.de,
+ QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Bastian Koppelmann <kbastian@mail.uni-paderborn.de> writes:
-
-> Hi Alex,
+On Tue, Jun 16, 2020 at 6:32 PM Kevin Wolf <kwolf@redhat.com> wrote:
 >
-> I managed to update the series to successfully run make check-tcg. This r=
-equired
-> some changes to the makefiles. I tried running the riscv64 and arm tests =
-and so
-> far I didn't break anything.
+> Am 15.06.2020 um 21:32 hat Nir Soffer geschrieben:
+> > We can zero 2.3 g/s:
+> >
+> > # time blkdiscard -z test-lv
+> >
+> > real 0m43.902s
+> > user 0m0.002s
+> > sys 0m0.130s
+>
+> > We can write 445m/s:
+> >
+> > # dd if=/dev/zero bs=2M count=51200 of=test-lv oflag=direct conv=fsync
+> > 107374182400 bytes (107 GB, 100 GiB) copied, 241.257 s, 445 MB/s
+>
+> So using FALLOC_FL_PUNCH_HOLE _is_ faster after all. What might not be
+> faster is zeroing out the whole device and then overwriting a
+> considerable part of it again.
+>
+> I think this means that we shouldn't fail write_zeroes at the file-posix
+> level even if BDRV_REQ_NO_FALLBACK is given. Instead, qemu-img convert
+> is where I see a fix.
+>
+> Certainly qemu-img could be cleverer and zero out more selectively. The
+> idea of doing a blk_make_zero() first seems to have caused some
+> problems, though of course its introduction was also justified with
+> performance, so improving one case might hurt another if we're not
+> careful.
+>
+> However, when Peter Lieven introduced this (commit 5a37b60a61c), we
+> didn't use write_zeroes yet during the regular copy loop (we do since
+> commit 690c7301600). So chances are that blk_make_zero() doesn't
+> actually help any more now.
+>
+> Can you run another test with the patch below?
 
-You can have a:
+Sure, I can try this.
 
-Tested-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> I think it should perform
+> the same as yours. Eric, Peter, do you think this would have a negative
+> effect for NBD and/or iscsi?
+>
+> The other option would be providing an option and making it Someone
+> Else's Problem.
+>
+> Kevin
+>
+>
+> diff --git a/qemu-img.c b/qemu-img.c
+> index d7e846e607..bdb9f6aa46 100644
+> --- a/qemu-img.c
+> +++ b/qemu-img.c
+> @@ -2084,15 +2084,6 @@ static int convert_do_copy(ImgConvertState *s)
+>          s->has_zero_init = bdrv_has_zero_init(blk_bs(s->target));
+>      }
+>
+> -    if (!s->has_zero_init && !s->target_has_backing &&
+> -        bdrv_can_write_zeroes_with_unmap(blk_bs(s->target)))
+> -    {
+> -        ret = blk_make_zero(s->target, BDRV_REQ_MAY_UNMAP | BDRV_REQ_NO_FALLBACK);
+> -        if (ret == 0) {
+> -            s->has_zero_init = true;
+> -        }
+> -    }
 
-for patches 6-15 although I have no idea if the results are correct ;-)
+This will work of course, but now we will not do bulk zero for any target
 
---=20
-Alex Benn=C3=A9e
+I think we never do this for regular files anyway since we truncate
+files, and there
+is nothing to zero, but maybe there is some case when this is useful?
+
+BTW, do we use BDRV_REQ_NO_FALLBACK elsewhere? maybe we can remove it.
+
+>      /* Allocate buffer for copied data. For compressed images, only one cluster
+>       * can be copied at a time. */
+>      if (s->compressed) {
+>
+
 
