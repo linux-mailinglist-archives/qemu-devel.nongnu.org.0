@@ -2,67 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A97591FB504
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:52:27 +0200 (CEST)
-Received: from localhost ([::1]:50440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2142E1FB51C
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:55:47 +0200 (CEST)
+Received: from localhost ([::1]:39090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlCws-0005xx-LT
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:52:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58050)
+	id 1jlD06-0004LB-5a
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:55:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCQd-0003Xd-Hs; Tue, 16 Jun 2020 10:19:11 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:38314)
+ id 1jlCQh-0003Xh-Oe; Tue, 16 Jun 2020 10:19:11 -0400
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:40315)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCQc-0006xe-02; Tue, 16 Jun 2020 10:19:07 -0400
-Received: by mail-ot1-x342.google.com with SMTP id n70so16046712ota.5;
- Tue, 16 Jun 2020 07:19:04 -0700 (PDT)
+ id 1jlCQd-0006xs-9Z; Tue, 16 Jun 2020 10:19:08 -0400
+Received: by mail-oi1-x242.google.com with SMTP id t25so19384808oij.7;
+ Tue, 16 Jun 2020 07:19:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=H56oUyDfYltLK80fHHPutYvS4jI1ii23yt2DPH3g7jo=;
- b=mR8N9e50RCg23pLx3lKQlKlZBTAxe7ycOstMiYqo+u5iEaxm7sROaN6zZQx5Gv+Sdx
- dI1NmQ5e7eQDvYZXmue7nhzfEu0PdnXxww3/i+C+jcYC2AQz9HrrRNr+yxqSPUDWe2tx
- PwFzzk7vl6YsIp6sNN0h5AgxM4Rr4lipa7U3cazENk8YzIJfSv0Kc4gXxoTsYdI5lmEN
- sNEvCZkGe6l4U0XLJGXpgSbv5Gs7vxc+3urlyDHfgKbRGUnbZ97/68psdnQBcfCSPgdt
- dx1icNfzL+23gLTQQ4ApAU/Ob1AcaRHbydw3h9IwitxBP5/B3RMWrQ+o0/M0hgbYOHar
- LBuw==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=lEcayuvB+XGeWNX8U/Yu92PQGUAoKZ14ovL5ftbZCxY=;
+ b=GAnh6LxNH6I2LyEAf7T2OHebxodipl3Wzk9PmkLXuXD/ix0miP4QPr1rilFE1Npl18
+ ureW8Fp9erWINJAQT27zEMLz86HAzs665EYRwbHmPbx6UWw1VE3ZDm2NJOoFSnX43JBp
+ bGfYJkfbUnR3Rha04jydqYl47DuJ9SQHNvPEas/QUSk8B3gGeFdukKSV5X6JuhJBmGAy
+ +0iVaU1KG3ko3YVoY3FcEGBLAu3du80FGe4s6glKqu4JIys5rGMPbVVDZjh3JORncqMA
+ 8tggU5tgGp4ZqM+W1OLTlZgLjp/D/bj90yUwVp3JCV9LZSMZWSa52+Faz/pGQzzf9Qt+
+ 6rkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=H56oUyDfYltLK80fHHPutYvS4jI1ii23yt2DPH3g7jo=;
- b=qWX+agNeBWFoFc35OaLZwafBPh5W2MfmW/Q12E0P77QtYlzrl1pfGMtxUTkW0JEXYc
- CND7YIfqtJgBiAIMHfpy2svwZ0TP+RQ0RuZXw4NzDyjh4tVOvxmpd3BlPO/vSxpG3ZkF
- cdjOJ+8qebKwSclxg7DkDgYGEhisa8G8/rhkUbGcwRf3iR+gLVqmWm9BU7DQ969Gw1A5
- QjZFbUQHeXFtdLFKcS7EBmmOBpgtgz2Mek+dyJukzZpNg3yzv2J6cM5GyZTViOwOQhzh
- 55yx4OFMguu9pYD/Y+1/CUTLtw6JFlCysfrOkMsfzWUIOsEtk1y8Zbri6zR2J5dfSoWt
- IR8w==
-X-Gm-Message-State: AOAM530whbEfiyDYzdQ6aKr5sOnwLl3HGPFCOBgCmURcRMkfAePQ752M
- u3jqLQ1rO2e0lMfPiOBZ6sB23vZr
-X-Google-Smtp-Source: ABdhPJyu5pc0DvMfVeaxEpuB/WEofk2K3ge4Q2IeJ41xYDar/iRg6/OgDt74uFg+NhRVfojxbuDZew==
-X-Received: by 2002:a9d:3df7:: with SMTP id l110mr2495125otc.214.1592317143900; 
- Tue, 16 Jun 2020 07:19:03 -0700 (PDT)
+ :in-reply-to:references;
+ bh=lEcayuvB+XGeWNX8U/Yu92PQGUAoKZ14ovL5ftbZCxY=;
+ b=sFJIDSYlqDklPGM/zRKqs3v+pMiWMSMCHFsvrHVSQeg2iKBSkkS48P6RX0SFQhz+UK
+ 7aSEQ7sibYfNBSD1z4iAsuZ697e2qFAM6ScVi/8XaudfQi6NWg4WmCdP+5LuDTedJADH
+ d7BYVOuUSjxI2/Jq2hfEGpb3FSnN/lCLTkMwOoonXoVuQDJKc7mxPDCeDm6jo68YX8Be
+ 0feEqoZSH3BSBth8H2scWUB0y8SXW8nWz9N9SgLAypndj9iVt4omlgEs4T1EgB4LneBp
+ JwkTF8h75p2kEZJcknZmm5ob9/Bb3Pp4A8XBhPR/hmqKdotUzMiChvu781fvfXSp4ajX
+ x6vQ==
+X-Gm-Message-State: AOAM530DMc7ZZJoTpwb6EqVizL243rUK81COsS9pwLYKNE5G+waEldKc
+ M/A+wGlnFzQrjv5qLEzh9QdCNNqN
+X-Google-Smtp-Source: ABdhPJzIg6sqCW7gxojRgIsnEhaN+ZXNtttu7aBVQ9zTzQIb4d+VffBOsqvS4QWOQRYh3vSPRoi03w==
+X-Received: by 2002:aca:fd94:: with SMTP id b142mr3610894oii.9.1592317145394; 
+ Tue, 16 Jun 2020 07:19:05 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id e25sm4082086otj.73.2020.06.16.07.19.02
+ by smtp.gmail.com with ESMTPSA id b4sm4085033oti.3.2020.06.16.07.19.04
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 16 Jun 2020 07:19:02 -0700 (PDT)
+ Tue, 16 Jun 2020 07:19:04 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 58/78] qga: Installer: Wait for installation to finish
-Date: Tue, 16 Jun 2020 09:15:27 -0500
-Message-Id: <20200616141547.24664-59-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 59/78] qga-win: Handle VSS_E_PROVIDER_ALREADY_REGISTERED error
+Date: Tue, 16 Jun 2020 09:15:28 -0500
+Message-Id: <20200616141547.24664-60-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
 References: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
- envelope-from=flukshun@gmail.com; helo=mail-ot1-x342.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::242;
+ envelope-from=flukshun@gmail.com; helo=mail-oi1-x242.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -89,34 +85,42 @@ Cc: Sameeh Jubran <sjubran@redhat.com>, Basil Salman <basil@daynix.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Basil Salman <basil@daynix.com>
+From: Sameeh Jubran <sjubran@redhat.com>
 
-Installation might fail if we don't wait for the provider
-unregisteration process to finish.
+This patch handles the case where VSS Provider is already registered,
+where in such case qga uninstalls the provider and registers it again.
 
 Signed-off-by: Sameeh Jubran <sjubran@redhat.com>
 Signed-off-by: Basil Salman <basil@daynix.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
-(cherry picked from commit bb1ce44b15f159b67fafc5f4b285bbf20a1961e9)
+(cherry picked from commit b2413df83348acf371c03bced9a3845bba883ed5)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- qga/installer/qemu-ga.wxs | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ qga/vss-win32/install.cpp | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/qga/installer/qemu-ga.wxs b/qga/installer/qemu-ga.wxs
-index 64bf90bd85..f6781752e6 100644
---- a/qga/installer/qemu-ga.wxs
-+++ b/qga/installer/qemu-ga.wxs
-@@ -81,7 +81,7 @@
-               Arguments="-d --retry-path"
-               >
-             </ServiceInstall>
--            <ServiceControl Id="StartService" Start="install" Stop="both" Remove="uninstall" Name="QEMU-GA" Wait="no" />
-+            <ServiceControl Id="StartService" Start="install" Stop="both" Remove="uninstall" Name="QEMU-GA" Wait="yes" />
-           </Component>
-           <?ifdef var.InstallVss?>
-           <Component Id="qga_vss_dll" Guid="{CB19C453-FABB-4BB1-ABAB-6B74F687BFBB}">
+diff --git a/qga/vss-win32/install.cpp b/qga/vss-win32/install.cpp
+index 6713e58670..a456841360 100644
+--- a/qga/vss-win32/install.cpp
++++ b/qga/vss-win32/install.cpp
+@@ -443,6 +443,17 @@ STDAPI DllRegisterServer(void)
+                                      VSS_PROV_SOFTWARE,
+                                      const_cast<WCHAR*>(QGA_PROVIDER_VERSION),
+                                      g_gProviderVersion);
++    if (hr == (long int) VSS_E_PROVIDER_ALREADY_REGISTERED) {
++        DllUnregisterServer();
++        hr = pVssAdmin->RegisterProvider(g_gProviderId, CLSID_QGAVSSProvider,
++                                         const_cast<WCHAR * >
++                                         (QGA_PROVIDER_LNAME),
++                                         VSS_PROV_SOFTWARE,
++                                         const_cast<WCHAR * >
++                                         (QGA_PROVIDER_VERSION),
++                                         g_gProviderVersion);
++    }
++
+     if (FAILED(hr)) {
+         errmsg_dialog(hr, "RegisterProvider failed");
+     }
 -- 
 2.17.1
 
