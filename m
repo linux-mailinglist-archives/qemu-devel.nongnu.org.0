@@ -2,111 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DFC41FB5E5
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 17:19:01 +0200 (CEST)
-Received: from localhost ([::1]:42586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CA431FB5D3
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 17:16:21 +0200 (CEST)
+Received: from localhost ([::1]:36210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlDMa-0004Mn-2M
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 11:19:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36636)
+	id 1jlDK0-0000Cc-Kr
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 11:16:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36638)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den@virtuozzo.com>)
- id 1jlCtv-0001Lz-82; Tue, 16 Jun 2020 10:49:23 -0400
-Received: from mail-eopbgr60105.outbound.protection.outlook.com
- ([40.107.6.105]:13430 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den@virtuozzo.com>)
- id 1jlCtq-0003qy-PD; Tue, 16 Jun 2020 10:49:22 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=R0QxJ2TGL02QOhPTEoID3ooFJHWT07ndZSqXF7TSygElbfW6/55yPx4NT+FZO/I1Q/rIQPNm+9HKNDXVkIMc4NteBu2A4jGII8C9L+yB5NAjq5/iw/eMRdBgqlpcgADabhxki9XKHAQpnsic0n1FSnRJjF2MMVrvGCsSXFOq54d+s+Y3XL34Y6BlUUjS03W7grNsmY+gamh1Pi7TZGkJmKgLfcPD0pKeeJxR4NoCyxA5vgrwf5sARp6S+qs7pSzKJ0uWUDpzLodXdVvZMNVc3RqOs1nBTmjYnY1tE7H67br0PrL2xFyJ2ti+z2Mlz2cb+J+1tGQ0pKIRYifTXrp6PQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5Tv/pSrigrFdxuLN/zhxMCWcCl5XBxmZm3Rw9InizfE=;
- b=MjvD6yjQ3gxYhjyAZwgF9zpPSXC98gjBzg1r6JmDp1eeKeqeLMHe/UM/HmwYcyHe3xjyF/te/IW5suU01+if4Mwq/SXIL+f+zOF76VoSktcJd+QvkLrfSqJ9Qv+uVa41d2wCf/9mfSfhpYVpm8vdKWsrgfz16CcnCtVGvsZTIEECVKx584NmWYG451FgMa0k1LVAJ4h/TTmhnHEr7wB2yIDIhCSUMnphEPn76z9xyc7EDuJM6eTuuZkDOXO24W93AxrI3lrDYsZzbJ9Zetsi5gNMOEh/t3hiY+rRW+iMqt5zMt2wnUuncBcsZ3Uzl3t+RhXYarmc64X67ZoyDU3BeQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none header.from=openvz.org;
- dkim=pass header.d=openvz.org; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5Tv/pSrigrFdxuLN/zhxMCWcCl5XBxmZm3Rw9InizfE=;
- b=SrvgSVngZTqk/ubsrgioNcOHDdYQ958J1ar5lwTiz5fkRXjqv+bLOKPCmmr+MDB7cpnkCF1eY6JdHvh1zUY3wciFIeSWrXfAY7+FIp6xIkYQeW00SECFvavjqCVBAIbM6KfLFp72LhexvdQjjkd9dq6oy8Sr+jWebuADQ1r9yCI=
-Authentication-Results: virtuozzo.com; dkim=none (message not signed)
- header.d=none;virtuozzo.com; dmarc=none action=none header.from=openvz.org;
-Received: from AM6PR08MB4214.eurprd08.prod.outlook.com (2603:10a6:20b:8d::30)
- by AM6PR08MB4949.eurprd08.prod.outlook.com (2603:10a6:20b:ee::25)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3088.22; Tue, 16 Jun
- 2020 14:49:14 +0000
-Received: from AM6PR08MB4214.eurprd08.prod.outlook.com
- ([fe80::821:7596:cf7f:68f8]) by AM6PR08MB4214.eurprd08.prod.outlook.com
- ([fe80::821:7596:cf7f:68f8%4]) with mapi id 15.20.3088.029; Tue, 16 Jun 2020
- 14:49:14 +0000
-Subject: Re: [PATCH 2/4] block/aio_task: allow start/wait task from any
- coroutine
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org
-References: <20200611171143.21589-1-den@openvz.org>
- <20200611171143.21589-3-den@openvz.org>
- <46a4083e-8944-e46b-ea77-0283c0ed5069@virtuozzo.com>
- <93966e61-df72-8d3d-87dc-95dc25ec37d4@virtuozzo.com>
-From: "Denis V. Lunev" <den@openvz.org>
-Message-ID: <75e3e09a-4863-810f-80d9-734d348a7978@openvz.org>
-Date: Tue, 16 Jun 2020 17:49:12 +0300
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jlCtu-0001MK-S2; Tue, 16 Jun 2020 10:49:22 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:38051)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jlCtt-0003rm-8M; Tue, 16 Jun 2020 10:49:22 -0400
+Received: by mail-wm1-x344.google.com with SMTP id f185so3381714wmf.3;
+ Tue, 16 Jun 2020 07:49:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=ES/i38+YHXtP1atxfpL2aGzxN/VNJHWmwNkcGFRb7Ks=;
+ b=BiQ21EUr5a7kltMJICQKVyqX6c7fcICYWhW8oNjKQrIZNhpmt6ZV7bd/agkhZ8F7Hf
+ tkBdOZNmisTYmfSGBfnYhGkak/VjFCZ20w9znBip6Q1XDMJk+OkLdRpX3tEhZrcfcDWZ
+ axDRVxDiKtidrj9o3hFzuPl76caz+3sf/HmfR9271rML5TpEgTnEm1r8dGhx1qR21M5s
+ dWDmg9R44+OSZNeYM174AbFSg42rHzR6Ah985+lU/p2BXpwZQyZ4lEAK5h6siSd8P6Md
+ AxGCaA9tua7FH7SZ2kCV7ceRFFS9dbd/egqLwlv7Ih1lATwinjlVqj1q0n7sL1vm3IpB
+ M72A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ES/i38+YHXtP1atxfpL2aGzxN/VNJHWmwNkcGFRb7Ks=;
+ b=ZkUae9jcc6ZRsoUg8dPqkuoosIyfCm7MHOJglk1PVy1b5dSVasAampVN6RCCQ0oVuL
+ Zypas1qpwewxlRtg9Egw+bHnsCoIhyoQcbWW0GpXd42w6ArODCykI/FjVBLv0Ihu6t/q
+ 5eqHQLDe4fPP5TKOzG9aUPTGfpOxD76jDuwdw1Y9rhUyD7bbbdFoJie9oenriZypJPuy
+ OsOyN3NxKEb0rLNS9B9HG4ACClk75pOTpVlrnIVtqZFJNEUag2/AXv7i1EJeuYo0ctVm
+ uZgXa8dYC8LDrHcKsR1OEmoWcCRGdzkYdRBC45iWHoPZ2oR8dNT3MwNY6rXZz5dKVge0
+ 3D0A==
+X-Gm-Message-State: AOAM530E2T7Q2AyKGen45IxuZyzu/Ojw425Q9sDHqFfUp4EISmU5PSxQ
+ KwbPOtQ8t66674glzY4wIgE=
+X-Google-Smtp-Source: ABdhPJx42dONDaKE3yQCxWxVtZZtbg8XmVzhfqeLcV7LOsid/mBzjlaJ5jqMSSK4jvj+79nZeSqaFw==
+X-Received: by 2002:a1c:bd84:: with SMTP id n126mr3401938wmf.149.1592318959406; 
+ Tue, 16 Jun 2020 07:49:19 -0700 (PDT)
+Received: from [192.168.1.37] (93.red-83-59-160.dynamicip.rima-tde.net.
+ [83.59.160.93])
+ by smtp.gmail.com with ESMTPSA id o15sm4295294wmm.31.2020.06.16.07.49.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 16 Jun 2020 07:49:18 -0700 (PDT)
+Subject: Re: [PATCH v4 1/7] MAINTAINERS: Cover 'hw/sh4/sh_intc.h' with the R2D
+ machine
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+References: <20200611114317.13044-1-f4bug@amsat.org>
+ <20200611114317.13044-2-f4bug@amsat.org>
+ <bb388c24-092c-28f5-2a78-daee14ed5731@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <94575412-81ae-25e1-b9ad-b12317da815b@amsat.org>
+Date: Tue, 16 Jun 2020 16:49:17 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
-In-Reply-To: <93966e61-df72-8d3d-87dc-95dc25ec37d4@virtuozzo.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-ClientProxiedBy: HE1PR08CA0066.eurprd08.prod.outlook.com
- (2603:10a6:7:2a::37) To AM6PR08MB4214.eurprd08.prod.outlook.com
- (2603:10a6:20b:8d::30)
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.1.27] (31.148.204.195) by
- HE1PR08CA0066.eurprd08.prod.outlook.com (2603:10a6:7:2a::37) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3109.21 via Frontend Transport; Tue, 16 Jun 2020 14:49:13 +0000
-X-Originating-IP: [31.148.204.195]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 331386a0-caf3-42bf-aa47-08d81204700c
-X-MS-TrafficTypeDiagnostic: AM6PR08MB4949:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB4949C1685489DD417DE96C3DB69D0@AM6PR08MB4949.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-Forefront-PRVS: 04362AC73B
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: XQsKxkEN72jwfYTGGFhs8GQ0hSvFzwSu06qwtHaRxgHN+TVW3kTnfAXElx5NUAbw4MS1hNdDw8GRUw+nHBO4s2Obf8KZBE5wKbyCZUckDrJteoePGeH0yGHjI758WxpaylOOTUau8tGyHj20rERxxDhmkK1RcgrGJOZsY/iGpviLC+FSXNOuTkxSMVAoVxD0SDclX69vw26nPDKAivWxz7g8VN0xtVNhjiB0eJukxNE/LhgfduFvPHiASHj6tOW6Ud6nObiDi3wd63buHTcWNGXbspROc4r5SepvLDl1ayQuJPv7TbH7XhTlb3ZzPH0tlq3EbNB2MYz4L+c21LpOG5is7dAuiuOudUE9O2PUuKItiQyGIxCvuzQmo2MFJEq1
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM6PR08MB4214.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(366004)(39840400004)(396003)(136003)(376002)(346002)(36756003)(53546011)(186003)(16526019)(83170400001)(478600001)(52116002)(66556008)(42882007)(6486002)(83380400001)(2906002)(107886003)(26005)(66946007)(66476007)(31696002)(4326008)(31686004)(8936002)(316002)(16576012)(8676002)(2616005)(956004)(54906003)(5660300002)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: bb3UssV+Sf9K7Kyym8+AcUJ2LtYk4z1OGmS9olP1oL+SSKVhEC2fo5k421zpxtMwdGSEud0ibshbR5u0oPp/cxPcSj0rEgjgOIOdZmR5GUHWJQ7SS5xup8lZklHdZ3uOeISyhZlf38NiAA6sYgNzjcJL3HG1MbGxfQ3Cx1KLpGPZL9nQN/YU9Y8Ar0B66kZJ7omqVfUACilDSqhRvHuvkoaDa8F3+ncovyfw4exxD4e/uDcqE5NFIIwtVtwcehDQOymSrTK/w6G9FOBfprxC7XpoB4//xhXqdsSSalXMeosibdf6ApBK9DEAhJeoPfbJJ+DrPXO3sTK5ayVydBrzWJJAUTZ1tmxPJlvdEtH4u6UeFhVSgVy8nAyTY0fo+OJ9N0Ub+kdUo/nXwa2nFePOP7myXLl8angvDu8XoAOJsJw49wc/DU5x8uzNyTiSivRnZbGEY1vphBR/Ka7IL5extacDX106lv9BxICIeFMRHQb4TuBZg9m90MffIo7ZZ7Mp
-X-OriginatorOrg: openvz.org
-X-MS-Exchange-CrossTenant-Network-Message-Id: 331386a0-caf3-42bf-aa47-08d81204700c
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jun 2020 14:49:14.4810 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: RGneEmYZyXe0/LHaaUVKqIofa4rKnS1Y9ktNlr69kIGNW0uoEDQrR/Gxp+355HhK82hXh9R2EXhEUzZxgh6GDA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4949
-Received-SPF: pass client-ip=40.107.6.105; envelope-from=den@virtuozzo.com;
- helo=EUR04-DB3-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 10:49:15
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <bb388c24-092c-28f5-2a78-daee14ed5731@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x344.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -119,135 +90,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Denis Plotnikov <dplotnikov@virtuozzo.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Yoshinori Sato <ysato@users.sourceforge.jp>,
+ qemu-trivial@nongnu.org, Magnus Damm <magnus.damm@gmail.com>,
+ Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/15/20 12:34 PM, Vladimir Sementsov-Ogievskiy wrote:
-> 15.06.2020 10:47, Vladimir Sementsov-Ogievskiy wrote:
->> 11.06.2020 20:11, Denis V. Lunev wrote:
->>> From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->>>
->>> Currently, aio task pool assumes that there is a main coroutine, which
->>> creates tasks and wait for them. Let's remove the restriction by using
->>> CoQueue. Code becomes clearer, interface more obvious.
->>>
->>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->>> Signed-off-by: Denis V. Lunev <den@openvz.org>
->>> CC: Kevin Wolf <kwolf@redhat.com>
->>> CC: Max Reitz <mreitz@redhat.com>
->>> CC: Stefan Hajnoczi <stefanha@redhat.com>
->>> CC: Fam Zheng <fam@euphon.net>
->>> CC: Juan Quintela <quintela@redhat.com>
->>> CC: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
->>> CC: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->>> CC: Denis Plotnikov <dplotnikov@virtuozzo.com>
->>> ---
->>>   block/aio_task.c | 21 ++++++---------------
->>>   1 file changed, 6 insertions(+), 15 deletions(-)
->>>
->>> diff --git a/block/aio_task.c b/block/aio_task.c
->>> index 88989fa248..cf62e5c58b 100644
->>> --- a/block/aio_task.c
->>> +++ b/block/aio_task.c
->>> @@ -27,11 +27,10 @@
->>>   #include "block/aio_task.h"
->>>   struct AioTaskPool {
->>> -    Coroutine *main_co;
->>>       int status;
->>>       int max_busy_tasks;
->>>       int busy_tasks;
->>> -    bool waiting;
->>> +    CoQueue waiters;
->>>   };
->>>   static void coroutine_fn aio_task_co(void *opaque)
->>> @@ -52,31 +51,23 @@ static void coroutine_fn aio_task_co(void *opaque)
->>>       g_free(task);
->>> -    if (pool->waiting) {
->>> -        pool->waiting = false;
->>> -        aio_co_wake(pool->main_co);
->>> -    }
->>> +    qemu_co_queue_restart_all(&pool->waiters);
->>>   }
->>>   void coroutine_fn aio_task_pool_wait_one(AioTaskPool *pool)
->>>   {
->>>       assert(pool->busy_tasks > 0);
->>> -    assert(qemu_coroutine_self() == pool->main_co);
->>> -    pool->waiting = true;
->>> -    qemu_coroutine_yield();
->>> +    qemu_co_queue_wait(&pool->waiters, NULL);
->>> -    assert(!pool->waiting);
->>>       assert(pool->busy_tasks < pool->max_busy_tasks);
+On 6/16/20 3:34 PM, Thomas Huth wrote:
+> On 11/06/2020 13.43, Philippe Mathieu-Daudé wrote:
+>> Commit 81527b94ad added hw/intc/sh_intc.c, complete by
+>> adding its corresponding header.
 >>
->> As we wake up several coroutines now, I'm afraid this assertion may
->> start to fire.
->> And aio_task_pool_wait_one() becomes useless as a public API (still,
->> it's used only locally, so we can make it static).
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> ---
+>>  MAINTAINERS | 1 +
+>>  1 file changed, 1 insertion(+)
 >>
->> I'll send updated patch after reviewing the rest of the series.
->>
->
-> Hm, OK, we have two kinds of waiters: waiting for a slot and for all
-> tasks to finish. So, either we need two queues, or do like this patch
-> (one queue, but wake-up all waiters, for them to check does their
-> condition satisfied or not).
->
-> I'm OK with this patch with the following squashed-in:
->
-> diff --git a/include/block/aio_task.h b/include/block/aio_task.h
-> index 50bc1e1817..50b1c036c5 100644
-> --- a/include/block/aio_task.h
-> +++ b/include/block/aio_task.h
-> @@ -48,7 +48,6 @@ bool aio_task_pool_empty(AioTaskPool *pool);
->  void coroutine_fn aio_task_pool_start_task(AioTaskPool *pool, AioTask
-> *task);
->  
->  void coroutine_fn aio_task_pool_wait_slot(AioTaskPool *pool);
-> -void coroutine_fn aio_task_pool_wait_one(AioTaskPool *pool);
->  void coroutine_fn aio_task_pool_wait_all(AioTaskPool *pool);
->  
->  #endif /* BLOCK_AIO_TASK_H */
-> diff --git a/block/aio_task.c b/block/aio_task.c
-> index cf62e5c58b..7ba15ff41f 100644
-> --- a/block/aio_task.c
-> +++ b/block/aio_task.c
-> @@ -54,26 +54,17 @@ static void coroutine_fn aio_task_co(void *opaque)
->      qemu_co_queue_restart_all(&pool->waiters);
->  }
->  
-> -void coroutine_fn aio_task_pool_wait_one(AioTaskPool *pool)
-> -{
-> -    assert(pool->busy_tasks > 0);
-> -
-> -    qemu_co_queue_wait(&pool->waiters, NULL);
-> -
-> -    assert(pool->busy_tasks < pool->max_busy_tasks);
-> -}
-> -
->  void coroutine_fn aio_task_pool_wait_slot(AioTaskPool *pool)
->  {
->      while (pool->busy_tasks >= pool->max_busy_tasks) {
-> -        aio_task_pool_wait_one(pool);
-> +        qemu_co_queue_wait(&pool->waiters, NULL);
->      }
->  }
->  
->  void coroutine_fn aio_task_pool_wait_all(AioTaskPool *pool)
->  {
->      while (pool->busy_tasks > 0) {
-> -        aio_task_pool_wait_one(pool);
-> +        qemu_co_queue_wait(&pool->waiters, NULL);
->      }
->  }
->  
->
->
->
-I'd better make this separate
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index 13711aafe8..87ceca7ff1 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -1257,6 +1257,7 @@ S: Maintained
+>>  F: hw/sh4/r2d.c
+>>  F: hw/intc/sh_intc.c
+>>  F: hw/timer/sh_timer.c
+>> +F: include/hw/sh4/sh_intc.h
+>>  
+>>  Shix
+>>  M: Yoshinori Sato <ysato@users.sourceforge.jp>
+> 
+> Hmm, sh_intc.h is used by sh7750_init() in sh7750.c ... and that
+> function is used by both, r2d and shix machines ... so should that maybe
+> rather be part of both machines or a generic entry?
 
-Den
+I'll add it to both machines. The maintainers can reorder
+the sections later.
+
+Thanks for the review!
+
+> 
+>  Thomas
+> 
+> 
 
