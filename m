@@ -2,143 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD3D41FB5B1
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 17:10:36 +0200 (CEST)
-Received: from localhost ([::1]:42382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8473C1FB5BA
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 17:12:23 +0200 (CEST)
+Received: from localhost ([::1]:51130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlDER-0004tF-Va
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 11:10:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41848)
+	id 1jlDGA-0008EF-Hx
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 11:12:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41954)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jlDAs-0007t0-4S
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 11:06:54 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:43751
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jlDBU-0000x6-Gx
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 11:07:32 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:55779
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jlDAp-0007jp-8e
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 11:06:53 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jlDBS-0007yM-Jy
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 11:07:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592320009;
+ s=mimecast20190719; t=1592320049;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=waqQlIAofOMPutSEtzPlPnM9S2BBF3P5bLloFI/3u7w=;
- b=C/2GhliAwHrscCmXkUVTkIwwxCu8NnHFS23VPi3NnLjIJeyfcooh0FBUwt6RED39LmAIr0
- OwRyY8gWVOSvsQuk99w/LSLoHalaNdhKI5n99yB9SuHpmdbTvKgqrpVNUbFa/BTzxg3Ksy
- 7ndBuZJOHD8LVfE4B2cTnICK4O71NHc=
+ bh=N10yde5q+AwU/P0JWv9z4Jhz3uwgnQeKoiS9nhqTQMk=;
+ b=DNE/7vUvb9Nm5u0L6cIi4fICPGi2i3xuSrEMXJn7by19Igy1X/fFj8wQTToF2xdo0jpb0Y
+ sUde9YxLYMVH77yqdPFB6/YbzrSJuXOacorBVPO+afl+yWQFTN5MUWYU/gO17xI6RSw0X5
+ XV+/HJncY9ot4XiIegkBDC9QEAqah8I=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-271-ImcBu7lyOOSXv9IyTAqx0Q-1; Tue, 16 Jun 2020 11:06:39 -0400
-X-MC-Unique: ImcBu7lyOOSXv9IyTAqx0Q-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-108-2m7fjNiPNCm85fwIEgwMKw-1; Tue, 16 Jun 2020 11:07:27 -0400
+X-MC-Unique: 2m7fjNiPNCm85fwIEgwMKw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 52581EC1CD
- for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 15:06:37 +0000 (UTC)
-Received: from [10.10.117.188] (ovpn-117-188.rdu2.redhat.com [10.10.117.188])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 82109100EBAC;
- Tue, 16 Jun 2020 15:06:19 +0000 (UTC)
-Subject: Re: [PATCH v3 0/3] python/machine.py: refactor shutdown
-To: Eduardo Habkost <ehabkost@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-References: <20200604195252.20739-1-jsnow@redhat.com>
- <8bd27ec8-1bb6-45e2-a43a-7e0229065414@redhat.com>
- <4012de28-5837-889a-eda1-b9957cbbbad1@redhat.com>
- <5d20012b-923c-0bf4-232d-272977087fe3@redhat.com>
- <20200615222152.GT2366737@habkost.net>
-From: John Snow <jsnow@redhat.com>
-Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <85b19f6a-5521-4672-b146-89be361527e6@redhat.com>
-Date: Tue, 16 Jun 2020 11:06:18 -0400
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CCC4218585CA;
+ Tue, 16 Jun 2020 15:07:25 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-112-244.ams2.redhat.com
+ [10.36.112.244])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 909DB79302;
+ Tue, 16 Jun 2020 15:07:24 +0000 (UTC)
+Subject: Re: [PATCH] qcow2: Fix preallocation on images with unaligned sizes
+To: Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org
+References: <20200610094600.4029-1-berto@igalia.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <8155ec22-5bbc-62e2-ae5d-b8e3bf816321@redhat.com>
+Date: Tue, 16 Jun 2020 17:07:22 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200615222152.GT2366737@habkost.net>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20200610094600.4029-1-berto@igalia.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=jsnow@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 02:46:07
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="fLTceEpNaX7cvxFni9TwZvVPtGfGrqF51"
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 02:01:17
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -146,8 +91,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001,
- WEIRD_PORT=0.001 autolearn=_AUTOLEARN
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -160,215 +104,143 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, Markus Armbruster <armbru@redhat.com>,
- qemu-devel@nongnu.org, Cleber Rosa <crosa@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--fLTceEpNaX7cvxFni9TwZvVPtGfGrqF51
+Content-Type: multipart/mixed; boundary="KIcMFWRRKMYAHW0OiS3YGxD5O9paSzZKB"
+
+--KIcMFWRRKMYAHW0OiS3YGxD5O9paSzZKB
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+On 10.06.20 11:46, Alberto Garcia wrote:
+> When resizing an image with qcow2_co_truncate() using the falloc or
+> full preallocation modes the code assumes that both the old and new
+> sizes are cluster-aligned.
+>=20
+> There are two problems with this:
+>=20
+>   1) The calculation of how many clusters are involved does not always
+>      get the right result.
+>=20
+>      Example: creating a 60KB image and resizing it (with
+>      preallocation=3Dfull) to 80KB won't allocate the second cluster.
+>=20
+>   2) No copy-on-write is performed, so in the previous example if
+>      there is a backing file then the first 60KB of the first cluster
+>      won't be filled with data from the backing file.
+>=20
+> This patch fixes both issues.
+>=20
+> Signed-off-by: Alberto Garcia <berto@igalia.com>
+> ---
+>  block/qcow2.c              | 17 ++++++++++++++---
+>  tests/qemu-iotests/125     | 21 +++++++++++++++++++++
+>  tests/qemu-iotests/125.out |  9 +++++++++
+>  3 files changed, 44 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/block/qcow2.c b/block/qcow2.c
+> index 0cd2e6757e..e20590c3b7 100644
+> --- a/block/qcow2.c
+> +++ b/block/qcow2.c
+
+[...]
+
+> @@ -4317,10 +4317,21 @@ static int coroutine_fn qcow2_co_truncate(BlockDr=
+iverState *bs, int64_t offset,
+>              int64_t nb_clusters =3D MIN(
+>                  nb_new_data_clusters,
+>                  s->l2_slice_size - offset_to_l2_slice_index(s, guest_off=
+set));
+> -            QCowL2Meta allocation =3D {
+> +            unsigned cow_start_length =3D offset_into_cluster(s, guest_o=
+ffset);
+> +            QCowL2Meta allocation;
+> +            guest_offset =3D start_of_cluster(s, guest_offset);
+> +            allocation =3D (QCowL2Meta) {
+>                  .offset       =3D guest_offset,
+>                  .alloc_offset =3D host_offset,
+>                  .nb_clusters  =3D nb_clusters,
+> +                .cow_start    =3D {
+> +                    .offset       =3D 0,
+> +                    .nb_bytes     =3D cow_start_length,
+> +                },
+> +                .cow_end      =3D {
+> +                    .offset       =3D nb_clusters << s->cluster_bits,
+> +                    .nb_bytes     =3D 0,
+> +                },
+
+(I don=E2=80=99t think we need to set .cow_end, but well, it doesn=E2=80=99=
+t hurt either.)
+
+Anyway, overall, the code change looks good to me, thanks!
+
+>              };
+>              qemu_co_queue_init(&allocation.dependent_requests);
+> =20
+> diff --git a/tests/qemu-iotests/125 b/tests/qemu-iotests/125
+> index d510984045..5c249b4b23 100755
+> --- a/tests/qemu-iotests/125
+> +++ b/tests/qemu-iotests/125
+> @@ -164,6 +164,27 @@ for GROWTH_SIZE in 16 48 80; do
+>  done
+>  done
+> =20
+> +# Test image resizing using preallocation and unaligned offsets
+> +$QEMU_IMG create -f raw "$TEST_IMG.base" 128k | _filter_img_create
+> +$QEMU_IO -c 'write -q -P 1 0 128k' -f raw "$TEST_IMG.base"
+> +for orig_size in 31k 33k; do
+> +    echo "--- Resizing image from $orig_size to 96k ---"
+> +    _make_test_img -F raw -b "$TEST_IMG.base" -o cluster_size=3D64k "$or=
+ig_size"
+> +    $QEMU_IMG resize -f "$IMGFMT" --preallocation=3Dfull "$TEST_IMG" 96k
+> +    # The first part of the image should contain data from the backing f=
+ile
+> +    $QEMU_IO -c "read -q -P 1 0 ${orig_size}" "$TEST_IMG"
+> +    # The resized part of the image should contain zeroes
+> +    $QEMU_IO -c "read -q -P 0 ${orig_size} 63k" "$TEST_IMG"
+> +    # The resized image should have 7 clusters:
+> +    # header, L1 table, L2 table, refcount table, refcount block, 2 data=
+ clusters
+> +    expected_file_length=3D$((65536 * 7))
+> +    file_length=3D$(stat -c '%s' "$TEST_IMG_FILE")
+> +    if [ "$file_length" !=3D "$expected_file_length" ]; then
+> +        echo "ERROR: file length $file_length (expected $expected_file_l=
+ength)"
+> +    fi
+
+Just one thing: Can we skip this check if $IMGOPTS has a data_file?
+(i.e. if _get_data_file "$TEST_IMG" returns true)
+
+Because if it has, the data clusters will be in that file and this is
+bound to fail.
+
+Max
 
 
-On 6/15/20 6:21 PM, Eduardo Habkost wrote:
-> On Mon, Jun 15, 2020 at 05:21:18PM +0200, Philippe Mathieu-Daudé wrote:
->> On 6/9/20 11:55 PM, John Snow wrote:
->>>
->>>
->>> On 6/9/20 9:08 AM, Philippe Mathieu-Daudé wrote:
->>>> Hi John,
->>>>
->>>> On 6/4/20 9:52 PM, John Snow wrote:
->>>>> v3:
->>>>>  - Split _post_shutdown refactor into own patch (now 1/3)
->>>>>  - Re-add sigkill warning squelch (now 3/3)
->>>>>
->>>>> NOTE: I re-added the squelch in its own patch for review purposes, but
->>>>> for the purposes of avoiding temporary breakage, a maintainer may wish
->>>>> to squash patches 2 and 3 if they are accepted.
->>>>>
->>>>> v2: Philippe took patches 1, 3 and 4.
->>>>>
->>>>> This is a re-write of what was:
->>>>> [PATCH RFC 03/32] python//machine.py: remove bare except
->>>>> [PATCH 2/4] python/machine.py: remove bare except
->>>>>
->>>>> It's a bit heavier handed, but it should address some of kwolf's
->>>>> feedback from the RFC version.
->>>>>
->>>>> Applies straight to origin/master, ought to pass pylint and flake8:
->>>>>
->>>>>> cd ~/src/qemu/python/qemu
->>>>>> pylint *.py
->>>>>> flake8 *.py
->>>>>
->>>>> John Snow (3):
->>>>>   python/machine.py: consolidate _post_shutdown()
->>>>>   python/machine.py: refactor shutdown
->>>>>   python/machine.py: re-add sigkill warning suppression
->>>>>
->>>>>  python/qemu/machine.py | 100 +++++++++++++++++++++++++++++------------
->>>>>  1 file changed, 71 insertions(+), 29 deletions(-)
->>>>>
->>>>
->>>> I'm now seeing this error:
->>>>
->>>> 21:31:58 DEBUG| / # reboot
->>>> 21:32:01 DEBUG| / # reboot: Restarting system
->>>> 21:32:01 DEBUG| >>> {'execute': 'quit'}
->>>> 21:32:01 WARNI| qemu received signal 9; command:
->>>> "mips-softmmu/qemu-system-mips -display none -vga none -chardev
->>>> socket,id=mon,path=/tmp/tmp679upvrk/qemu-10292-monitor.sock -mon
->>>> chardev=mon,mode=control -machine malta -chardev
->>>> socket,id=console,path=/tmp/tmp679upvrk/qemu-10292-console.sock,server,nowait
->>>> -serial chardev:console -kernel
->>>> /tmp/avocado_b3aaagr9/avocado_job_5bj0xe1h/12-tests_acceptance_boot_linux_console.py_BootLinuxConsole.test_mips_malta_cpio/boot/vmlinux-4.5.0-2-4kc-malta
->>>> -initrd
->>>> /tmp/avocado_b3aaagr9/avocado_job_5bj0xe1h/12-tests_acceptance_boot_linux_console.py_BootLinuxConsole.test_mips_malta_cpiorootfs.cpio
->>>> -append printk.time=0 console=ttyS0 console=tty rdinit=/sbin/init
->>>> noreboot -no-reboot"
->>>> 21:32:01 ERROR|
->>>> 21:32:01 ERROR| Reproduced traceback from:
->>>> /home/travis/build/philmd/qemu/build/tests/venv/lib/python3.6/site-packages/avocado/core/test.py:886
->>>> 21:32:01 ERROR| Traceback (most recent call last):
->>>> 21:32:01 ERROR|   File
->>>> "/home/travis/build/philmd/qemu/build/tests/acceptance/avocado_qemu/__init__.py",
->>>> line 195, in tearDown
->>>> 21:32:01 ERROR|     vm.shutdown()
->>>> 21:32:01 ERROR|   File
->>>> "/home/travis/build/philmd/qemu/python/qemu/machine.py", line 449, in
->>>> shutdown
->>>> 21:32:01 ERROR|     self._do_shutdown(has_quit)
->>>> 21:32:01 ERROR|   File
->>>> "/home/travis/build/philmd/qemu/python/qemu/machine.py", line 426, in
->>>> _do_shutdown
->>>> 21:32:01 ERROR|     self._soft_shutdown(has_quit, timeout)
->>>> 21:32:01 ERROR|   File
->>>> "/home/travis/build/philmd/qemu/python/qemu/machine.py", line 413, in
->>>> _soft_shutdown
->>>> 21:32:01 ERROR|     self._qmp.cmd('quit')
->>>> 21:32:01 ERROR|   File
->>>> "/home/travis/build/philmd/qemu/python/qemu/qmp.py", line 271, in cmd
->>>> 21:32:01 ERROR|     return self.cmd_obj(qmp_cmd)
->>>> 21:32:01 ERROR|   File
->>>> "/home/travis/build/philmd/qemu/python/qemu/qmp.py", line 249, in cmd_obj
->>>> 21:32:01 ERROR|     self.__sock.sendall(json.dumps(qmp_cmd).encode('utf-8'))
->>>> 21:32:01 ERROR| BrokenPipeError: [Errno 32] Broken pipe
->>>> 21:32:01 ERROR|
->>>> 21:32:01 DEBUG| DATA (filename=output.expected) => NOT FOUND (data
->>>> sources: variant, test, file)
->>>> 21:32:01 DEBUG| DATA (filename=stdout.expected) => NOT FOUND (data
->>>> sources: variant, test, file)
->>>> 21:32:01 DEBUG| DATA (filename=stderr.expected) => NOT FOUND (data
->>>> sources: variant, test, file)
->>>> 21:32:01 DEBUG| Not logging /var/log/syslog (lack of permissions)
->>>> 21:32:01 ERROR| ERROR
->>>> 12-tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_mips_malta_cpio
->>>> -> TestSetupFail: [Errno 32] Broken pipe
->>>> 21:32:01 INFO |
->>>>
->>>> https://travis-ci.org/github/philmd/qemu/jobs/696142277#L5329
->>>>
->>>
->>> Gotcha.
->>>
->>> The problem here is that `test_mips_malta_cpio` in boot_linux_console.py
->>> does this:
->>>
->>>         self.vm.add_args('-kernel', kernel_path,
->>>                          '-initrd', initrd_path,
->>>                          '-append', kernel_command_line,
->>>                          '-no-reboot')
->>>
->>> and then:
->>>
->>> exec_command_and_wait_for_pattern(self, 'reboot',
->>>                          'reboot: Restarting system')
->>>
->>> and (in avocado_qemu/) __init__.py does this:
->>>
->>>     def tearDown(self):
->>>         for vm in self._vms.values():
->>>             vm.shutdown()
->>>
->>>
->>>
->>> What's happening here is that we are instructing QEMU to *close* when
->>> the guest reboots instead of allowing it to reboot. Then, we are issuing
->>> a reboot command to the guest, which will effectively terminate QEMU as
->>> well. Finally, we are trying to send a shutdown command to QEMU, but
->>> QEMU has already gone.
->>>
->>> Now, in the shutdown code, we do make an attempt to catch this:
->>>
->>> def is_running(self):
->>>     """Returns true if the VM is running."""
->>>     return self._popen is not None and self._popen.poll() is None
->>>
->>> But, well, race conditions.
->>>
->>> When we make it here:
->>>
->>>         if self._qmp is not None:
->>>             if not has_quit:
->>>                 self._qmp.cmd('quit')
->>>             self._qmp.close()
->>>
->>> We believe we are running and we believe we have an open QMP socket.
->>> Attempting to engage the socket by sending 'quit' causes the error.
->>>
->>> It's a tight window: if quit happens earlier, we send the command
->>> successfully and everything's OK. If quit happens later, we realize QEMU
->>> isn't running and proceed to cleanup.
->>
->> Nice debugging :)
->>
->>>
->>> Ultimately:
->>>
->>> - Avocado should not try to shut down QEMU twice, but
->>> - machine.py shouldn't enable the race condition either.
->>>
->>>
->>>
->>> for my part, how about this:
->>>
->>> diff --git a/python/qemu/machine.py b/python/qemu/machine.py
->>> index 99bcb499878..813f8e477db 100644
->>> --- a/python/qemu/machine.py
->>> +++ b/python/qemu/machine.py
->>> @@ -385,7 +385,14 @@ def _soft_shutdown(self, has_quit: bool = False,
->>> timeout: int = 3) -> None:
->>>
->>>          if self._qmp is not None:
->>>              if not has_quit:
->>> -                self._qmp.cmd('quit')
->>> +                try:
->>> +                    self._qmp.cmd('quit')
->>> +                except (BrokenPipeError, ConnectionResetError):
->>> +                    # QMP went away just before or just after sending
->>> 'quit'
->>> +                    if not self.is_running():
->>> +                        # "Mission Accomplished"
->>> +                        pass
->>> +                    raise
->>
->> Looks OK to me, Cleber/Eduardo can you Ack?
-> 
-> Looks good to me.
-> 
-> Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
-> 
-> 
->>
->>>              self._qmp.close()
->>>
->>>          self._popen.wait(timeout=timeout)
->>>
->>
-> 
+--KIcMFWRRKMYAHW0OiS3YGxD5O9paSzZKB--
 
-I'll respin with the fix squashed.
+--fLTceEpNaX7cvxFni9TwZvVPtGfGrqF51
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
-Thanks!
+-----BEGIN PGP SIGNATURE-----
 
---js
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl7o4CoACgkQ9AfbAGHV
+z0AXvQf/WR5b+SVKh+TcbPb4guzgKF79CDsO4RGvpzsIc3/5ZRRY1o02a/RtH821
+JqvDvxL54USOfpkNOwBxtmNiTLGq2TFFwOHpiZftaQutnDbfwZu8x5bMPxIzNOGe
+fsdf8M7kkarzHX3bgdpWqUed0nciLFQ84vWv1cl+ECnhTOBQ3cl+y1A0JStnADhw
+8zwKC2RJbgy1MTf3DcCU5soPjamj0eSLOfuW5xWI8oGrPICT+RYQipWHAuq9s6np
+p7mxM0RTXYnFj5f/oo/yf4NUJyPRvqIU/klFN7v1yPppx7r/q1NhknmF1fV40K/g
+Enjl0MzXitnmThnMqWLgMclvilzDww==
+=ZzgN
+-----END PGP SIGNATURE-----
+
+--fLTceEpNaX7cvxFni9TwZvVPtGfGrqF51--
 
 
