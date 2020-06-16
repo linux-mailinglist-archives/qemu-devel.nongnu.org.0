@@ -2,75 +2,115 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84C651FB4FC
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:50:24 +0200 (CEST)
-Received: from localhost ([::1]:41262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D57D1FB530
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:57:58 +0200 (CEST)
+Received: from localhost ([::1]:48242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlCut-0002ER-FE
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:50:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58434)
+	id 1jlD2D-00086q-LJ
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:57:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCRF-0004nL-St; Tue, 16 Jun 2020 10:19:45 -0400
-Received: from mail-oi1-x229.google.com ([2607:f8b0:4864:20::229]:38034)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCRE-00073x-Ab; Tue, 16 Jun 2020 10:19:45 -0400
-Received: by mail-oi1-x229.google.com with SMTP id c194so19399823oig.5;
- Tue, 16 Jun 2020 07:19:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=oAWQwscS3hC8ntGZh49aUc7NALi41mqvXu730WQVmJg=;
- b=TxNvlH9hXozskCo1ZGNhRFVOY+L7oacdXXqiliUi/NEx2gsmztZ/2pVbum9ABN8DUe
- nH1vFlTltQIKxaVAOPto/OzgTBAH8i+NrGNFqIzz9U5Te1HpCEOMAXpmMuCxV9sVVLJD
- GHSqSb11h0J43j6x+rYNaquvFrkkNwtwJkQcIfHLCqsnZrTRhSOOa/VDDFEuJ/sFW+BS
- mkXKp8//PyxAqMFYYD/ffhPuOWwpBBzQjlsFqnsdWcRh7lAFHJo7QN5rwAoiJXIWaCRV
- LWzqoGe9yBTAHUMbSHNJKpJtnsl5JRpr/Mg3EOCf3UyjgdrrlHIWmKHlDSunPdITLYoJ
- gdjA==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jlCo3-0006i5-Rt
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 10:43:20 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:42872
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jlCo1-0002VZ-GB
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 10:43:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1592318596;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=MV6YcXhC3UDnQuU58Fe81XaiOeluBx75QeqeVTk4r4g=;
+ b=PdhAcjP3zuiF1xxx3M3+20I01Ha/nNv0ag048s1Kg40X3DB0QxSyMSgqC4bD6GJYe3RInk
+ H4Vm8Fu04CnsLdO1Vz5HuRS1/vQMlBlSmFLY8FkDnyMBcuMMyyIxP1x622MEUQlcinkLe4
+ ZEDUOay4aEQWZgK2Y0LRVAoKpWV0iIw=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-182-Y3Aw6_MeNhGeUk51ZSeKzw-1; Tue, 16 Jun 2020 10:43:09 -0400
+X-MC-Unique: Y3Aw6_MeNhGeUk51ZSeKzw-1
+Received: by mail-wm1-f70.google.com with SMTP id l2so1042380wmi.2
+ for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 07:43:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=oAWQwscS3hC8ntGZh49aUc7NALi41mqvXu730WQVmJg=;
- b=hw9e73tZNnVs/K5nv/k2cNeb7sTrjJQUeYm2+L8Dh0vglfJ6c8wNYCrgdxkD3qRAjU
- 63z8nK9tO9W4T1m25Jm+XvvP2CBPEoK/AO3Q8+r2xBo56Fy2dEbjKw9EJFtBUt7EVZ5/
- t+bReYLF0XwGc8PiCnc08Eyx8kplrv4fsSH+wor17RozBsw2ZVezd8NKpOMmMeQ4rljm
- EXnekUHGmIOIxqhYgZNKggZRqR3qPSbtkmbfbXCtaptf/qqWR0x83gDE1MpEZxmDjRIi
- VUOhpceuYGoh7EuLT3T0WM4GYQ0TEmx+y18Od8zNE4DJZrcf/4WJQiqnOJoJLIVT3FuF
- y9tg==
-X-Gm-Message-State: AOAM532gBTZBS6B8nxV1tNnIdtPEnmnW1CKPjig8fUYsDHHVhXPxJ3Js
- 3Eg93VNQr7V0LiQDs2Fx/Avd2pR+evU=
-X-Google-Smtp-Source: ABdhPJzNBbwoWKtR/GV0PYqsijTj+PsJw7vj4XW3lDgdesdIrpe20bkLokAnsS1Jdf1oniNY9AWASQ==
-X-Received: by 2002:aca:5a05:: with SMTP id o5mr3359110oib.138.1592317182493; 
- Tue, 16 Jun 2020 07:19:42 -0700 (PDT)
-Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
- [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id 53sm4069177otv.22.2020.06.16.07.19.40
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 16 Jun 2020 07:19:41 -0700 (PDT)
-From: Michael Roth <mdroth@linux.vnet.ibm.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 76/78] virtio-balloon: fix free page hinting check on unrealize
-Date: Tue, 16 Jun 2020 09:15:45 -0500
-Message-Id: <20200616141547.24664-77-mdroth@linux.vnet.ibm.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
-References: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=MV6YcXhC3UDnQuU58Fe81XaiOeluBx75QeqeVTk4r4g=;
+ b=Ycxj80nFfzDg+YGnRkWtyMHmtoz+DrAaXCS8b4Ovjx2yBP7ZOg+nHI3YivkW06Oua8
+ eIYSf/SM/hbU5RhOCKbDHHdKMaSw7j1hVdXNvBBIACpKapWsFb2BUdpQxuHvRjlQ9F6P
+ WfsJkC13Ur3RxIYs2JTyNLXUmFgvYcjYEqI5EY1a90AdEQbGr2pvJkpWlCGHmn0QrLZf
+ vn1pu+ZZynf2YEZoJWQ5em19Bin0bcCO2HMI3vk+8pv0k8p4ReYZKieyRRzci2GQqJV+
+ PEE++eeGQ0j1XmpNQYe4XKoLnwPtlSp076e3rNaQ3zJXl00QW8mf/PAAcLnWnXt6AkL+
+ d8Dw==
+X-Gm-Message-State: AOAM533Pb77dqfqoipmgfyxhz4KInQgDz7TazH5gAJyzjLDVaZiJSwRG
+ ssSdGysg/oX68+n4Un8taWu8XuaZ9HCyWXrr7PHcz7okn8xdz2Sy9c7tjUALt0eBpAPRg28o3Dz
+ vgdS1uEdl7ZvwHEc=
+X-Received: by 2002:a05:600c:2218:: with SMTP id
+ z24mr3486408wml.24.1592318587892; 
+ Tue, 16 Jun 2020 07:43:07 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwSAChiy7Yz8CkMG9gU/AmnlEBzYqDzKL6kDfItd2WoAjUIyiJMTBzTo/+tlO/vy30/nETNIQ==
+X-Received: by 2002:a05:600c:2218:: with SMTP id
+ z24mr3486388wml.24.1592318587690; 
+ Tue, 16 Jun 2020 07:43:07 -0700 (PDT)
+Received: from [192.168.1.37] (93.red-83-59-160.dynamicip.rima-tde.net.
+ [83.59.160.93])
+ by smtp.gmail.com with ESMTPSA id q128sm4349126wma.38.2020.06.16.07.43.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 16 Jun 2020 07:43:07 -0700 (PDT)
+Subject: Re: [PULL 01/21] tests/docker: bump fedora to 32
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20200616125324.19045-1-alex.bennee@linaro.org>
+ <20200616125324.19045-2-alex.bennee@linaro.org>
+ <e08991ac-cb9f-9092-60d9-0f9e9522695e@redhat.com> <874krb15k9.fsf@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <4d18e0ac-09a8-a912-ae0d-2f551d33c4ab@redhat.com>
+Date: Tue, 16 Jun 2020 16:43:05 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <874krb15k9.fsf@linaro.org>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::229;
- envelope-from=flukshun@gmail.com; helo=mail-oi1-x229.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 02:01:17
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,51 +124,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S . Tsirkin" <mst@redhat.com>,
- David Hildenbrand <david@redhat.com>, qemu-stable@nongnu.org,
- Alexander Duyck <alexander.duyck@gmail.com>, Wei Wang <wei.w.wang@intel.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: David Hildenbrand <david@redhat.com>
+On 6/16/20 3:52 PM, Alex Bennée wrote:
+> 
+> Philippe Mathieu-Daudé <philmd@redhat.com> writes:
+> 
+>> On 6/16/20 2:53 PM, Alex Bennée wrote:
+>>> We should be keeping this up to date as Fedora goes out of support
+>>> quite quickly.
+>>>
+>>> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+>>
+>> FWIW this one had:
+>> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> 
+> Thanks, I've issued a v2 of the tag:
+> 
+>   pull-testing-and-plugin-160620-2
 
-Checking against guest features is wrong. We allocated data structures
-based on host features. We can rely on "free_page_bh" as an indicator
-whether to un-do stuff instead.
+I didn't meant to ask you to resend a v2...
+I just wanted to notice that sometimes tags get lost in your
+workflow. Sorry for the time lost.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Alexander Duyck <alexander.h.duyck@linux.intel.com>
-Fixes: c13c4153f76d ("virtio-balloon: VIRTIO_BALLOON_F_FREE_PAGE_HINT")
-Cc: qemu-stable@nongnu.org
-Cc: Wei Wang <wei.w.wang@intel.com>
-Cc: Michael S. Tsirkin <mst@redhat.com>
-Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
-Cc: Alexander Duyck <alexander.duyck@gmail.com>
-Signed-off-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20200520100439.19872-3-david@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-(cherry picked from commit 49b01711b8eb3796c6904c7f85d2431572cfe54f)
-Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
----
- hw/virtio/virtio-balloon.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
-index 8c6a177365..64fdd0e332 100644
---- a/hw/virtio/virtio-balloon.c
-+++ b/hw/virtio/virtio-balloon.c
-@@ -818,7 +818,7 @@ static void virtio_balloon_device_unrealize(DeviceState *dev, Error **errp)
-     VirtIODevice *vdev = VIRTIO_DEVICE(dev);
-     VirtIOBalloon *s = VIRTIO_BALLOON(dev);
- 
--    if (virtio_balloon_free_page_support(s)) {
-+    if (s->free_page_bh) {
-         qemu_bh_delete(s->free_page_bh);
-         virtio_balloon_free_page_stop(s);
-         precopy_remove_notifier(&s->free_page_report_notify);
--- 
-2.17.1
+>   
+>>
+>> https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg06556.html
+>>
+>>> Message-Id: <20200612190237.30436-2-alex.bennee@linaro.org>
+>>>
+>>> diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
+>>> index 92b6e11c8a8..798ddd2c3e0 100644
+>>> --- a/tests/docker/dockerfiles/fedora.docker
+>>> +++ b/tests/docker/dockerfiles/fedora.docker
+>>> @@ -1,4 +1,4 @@
+>>> -FROM fedora:30
+>>> +FROM fedora:32
+>>>  
+>>>  # Please keep this list sorted alphabetically
+>>>  ENV PACKAGES \
+>>>
+> 
+> 
 
 
