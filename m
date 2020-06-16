@@ -2,69 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 242961FBEC9
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 21:11:08 +0200 (CEST)
-Received: from localhost ([::1]:42450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 876501FBECF
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 21:15:19 +0200 (CEST)
+Received: from localhost ([::1]:47324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlGzC-00077A-Tc
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 15:11:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44804)
+	id 1jlH3G-0001aC-Kg
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 15:15:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jlGy0-0006IM-RQ
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 15:09:53 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:57581
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jlGxy-0003QW-Jr
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 15:09:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592334589;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=JRqczKv1ry8MnbqQzqLLb1v1aqvQHvIx0njYzId9Vh0=;
- b=KF7jvaBC0RzHrlfyJJSOkuSV2mDey+82uOHqaR5TYRJjiiCDINeoYxs2Li9Vwh8dSu4s98
- uTOrRojAYQF0bxh+bubWhn65QF/JE+oByf0kLlDCZMDywD35ouIDclVTbGdg3uoQUHAQAK
- OwnSWyQaZ4FX/7b88fi3FeZbB+2bdBc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-104-N5UiDXaJMNWF9awtYu8PFA-1; Tue, 16 Jun 2020 15:09:48 -0400
-X-MC-Unique: N5UiDXaJMNWF9awtYu8PFA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2D42B80F5CE;
- Tue, 16 Jun 2020 19:09:47 +0000 (UTC)
-Received: from probe.redhat.com (ovpn-117-188.rdu2.redhat.com [10.10.117.188])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7FCAF60BE2;
- Tue, 16 Jun 2020 19:09:46 +0000 (UTC)
-From: John Snow <jsnow@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 1/1] configure: prefer python's sphinx module
-Date: Tue, 16 Jun 2020 15:09:42 -0400
-Message-Id: <20200616190942.24624-2-jsnow@redhat.com>
-In-Reply-To: <20200616190942.24624-1-jsnow@redhat.com>
-References: <20200616190942.24624-1-jsnow@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jlH2M-00014w-R4
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 15:14:22 -0400
+Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:44508)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jlH2K-00040h-NM
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 15:14:22 -0400
+Received: by mail-pl1-x644.google.com with SMTP id bh7so8805744plb.11
+ for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 12:14:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=E+uSJAmjqneFK8rKzf6jR9rMRCMZMpc2wWay7eGyotU=;
+ b=ni4HzdVEeBiXyWErKo47uW5DHlapQbEcG5efn9DnGljzJ1wPn5VHVP6ArUsY75KBp5
+ +/MBmvUjV0HcK1DfWOjPdkle6E2ZxtNG5Z+59mIJ1ZYz/ZINgaBVDxLtVQN0P/kuWvrm
+ Qz2DazpWxq5XtTnqYps+5lSCbdZnNB1AW8FrZ+L6fv2NTtEqpujfxfK2pguBuEz7y0hM
+ 3iEGDYgBRKtJpC1xAuafvJqe93ZvVsnLghMf7YK9JaaXgZbTrb59nu14nM/Xju4spn4E
+ rKmk1PK5fKXr/00CHX4C6pKvaU7oCbEwcS6aEPjM/cgRW+0ahDaEZwPDBi6KkJkXncr8
+ WynQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=E+uSJAmjqneFK8rKzf6jR9rMRCMZMpc2wWay7eGyotU=;
+ b=lxTXmMO6zhV8IFuq6uiMb/n5alOuygHmWseyKDrpiAi4G+aORxYBIt3Qyv4sk5hNnt
+ ID+KnkLiv0Q+Z7Q/gQYJ2pLFYgnqU5FRv1VBTh5Mk/x+gSQ3laUHuk7pQl8glQTEQzQ/
+ 7JiOGskulAGU+VwwKUvGicUpbsC+OhBTBqm3LdpVV/ucUJ3E8gQmM8fD56/Nx4KGeT7E
+ UfL9q2wUAfX7ImqDV/eBjVzSAgwplaIG0QpSMrFWgNxTHqrbVrqd4CSoosXdivXPG9fK
+ pMFWqt567ClGfmoItdZRI3g3EWhcpUlE8v1GsXa/uf+9moz27TGxdKCUiVVtWZWDKNNN
+ rp6g==
+X-Gm-Message-State: AOAM532dwgGoprszxkXC8SJNE4rmWnltJ7Uc7ASpNU8Izv+88ykDlb7X
+ Sgg2l5a1MDOg6MVDhGct+3TDCw==
+X-Google-Smtp-Source: ABdhPJwv16ChbxKLvqT/iaLjrK3XTWUMJDS0vmrjNaifd/aX2fq/4wnGfpTyMn2uanOJaVPluLPJ+A==
+X-Received: by 2002:a17:90a:db16:: with SMTP id
+ g22mr3927082pjv.26.1592334858835; 
+ Tue, 16 Jun 2020 12:14:18 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
+ by smtp.gmail.com with ESMTPSA id i12sm18235596pfk.180.2020.06.16.12.14.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 16 Jun 2020 12:14:18 -0700 (PDT)
+Subject: Re: [PATCH v2] target/arm: Implement SVE2 fp convert precision
+To: Stephen Long <steplong@quicinc.com>, qemu-devel@nongnu.org
+References: <20200430132813.7750-1-steplong@quicinc.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <329e48d1-f1ef-b73e-24ed-f4dc90f414e9@linaro.org>
+Date: Tue, 16 Jun 2020 12:14:16 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=jsnow@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 02:45:54
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+In-Reply-To: <20200430132813.7750-1-steplong@quicinc.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::644;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x644.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,125 +89,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, peter.maydell@linaro.org,
- John Snow <jsnow@redhat.com>, ehabkost@redhat.com
+Cc: qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Using an explicit entry path script for sphinx can lead to confusing
-results: If the python binary belongs to a virtual environment, our
-configure script may still select a sphinx script that belongs to the
-system distribution packages.
+On 4/30/20 6:28 AM, Stephen Long wrote:
+> Implements FCVTLT, FCVTX, FCVTNT, FCVTXNT
+> 
+> Signed-off-by: Stephen Long <steplong@quicinc.com>
+> ---
+> 
+> Fixed a compilation error and collapsed the translation functions with a
+> macro.
+> 
+>> Ignore my previous patchset. I missed the insn FCVTX and I ended up
+>> squashing those commits into this one. At the moment, I'm working on a
+>> patch for the SVE2 bitwise shift by imm insns.
 
-It is likely best to use python itself (whichever one the user provides)
-to resolve the sphinx script. This has a few benefits:
+Having missed this just a minute ago, I squashed FCVTX into the adjusted v1
+patch for FCVTXNT, using do_frint_mode.
 
-1. It will always be Python 3. Script entry points like 'sphinx-build'
-might attempt to invoke python2 -- or indeed, any version of python that
-the user did not specify with --python.
 
-2. When using a user installation of sphinx, it will naturally prefer
-that version.
-
-3. When using a virtual environment, it will naturally prefer that
-version.
-
-4. Removing explicit python script entry points gives us greater control
-within the QEMU build ecosystem; we can be confident we are respecting
-the user's --python configuration, if any.
-
-It's my hope that this will make it simpler to integrate some optional
-pipenv functionality into the build for adding regression testing to our
-python module -- by offloading more of the python environment
-configuration and testing directly to the python tooling ecosystem.
-
-This would, ideally, free us up to use more modern python packages not
-always offered in older system distributions. (For instance, we already
-violate this requirement with sphinx, which does not have the necessary
-versions in our oldest build platforms.)
-
-Signed-off-by: John Snow <jsnow@redhat.com>
----
- docs/system/deprecated.rst | 19 +++++++++++++++++++
- configure                  | 20 +++++++++-----------
- 2 files changed, 28 insertions(+), 11 deletions(-)
-
-diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-index 544ece0a45e..a762a8c8043 100644
---- a/docs/system/deprecated.rst
-+++ b/docs/system/deprecated.rst
-@@ -17,6 +17,25 @@ they were first deprecated in the 2.10.0 release.
- What follows is a list of all features currently marked as
- deprecated.
- 
-+Configure script options
-+------------------------
-+
-+``--sphinx-build=`` (since 5.1)
-+'''''''''''''''''''''''''''''''
-+
-+The ``--sphinx-build`` option to select a specific sphinx-build entry
-+point is replaced by configuring Python accordingly. QEMU will now
-+default to using ``$python -m sphinx`` to use Python's preferred version
-+of sphinx.
-+
-+Python will generally default to preferring user packages installed with
-+``pip install --user`` first, and system distribution packages
-+second. By specifying a custom Python binary or activating a virtual
-+environment, Python will alter its module search behavior. As a last
-+resort, the PYTHONPATH environment variable can be modified to specify
-+an explicit directory.
-+
-+
- System emulator command line arguments
- --------------------------------------
- 
-diff --git a/configure b/configure
-index b01b5e3bed0..e04b9d836ee 100755
---- a/configure
-+++ b/configure
-@@ -932,16 +932,6 @@ do
-     fi
- done
- 
--sphinx_build=
--for binary in sphinx-build-3 sphinx-build
--do
--    if has "$binary"
--    then
--        sphinx_build=$(command -v "$binary")
--        break
--    fi
--done
--
- # Check for ancillary tools used in testing
- genisoimage=
- for binary in genisoimage mkisofs
-@@ -1014,7 +1004,9 @@ for opt do
-   ;;
-   --python=*) python="$optarg"
-   ;;
--  --sphinx-build=*) sphinx_build="$optarg"
-+  --sphinx-build=*)
-+      sphinx_build="$optarg"
-+      echo "--sphinx-build is deprecated. QEMU uses the specified python's sphinx module."
-   ;;
-   --gcov=*) gcov_tool="$optarg"
-   ;;
-@@ -4996,6 +4988,12 @@ has_sphinx_build() {
-                     "$TMPDIR1/sphinx/out"  >> config.log 2>&1
- }
- 
-+# While we support --sphinx-build, defer to that.
-+# Otherwise, use the module execution feature of Python.
-+if ! has $sphinx_build; then
-+    sphinx_build="$python -m sphinx"
-+fi
-+
- # Check if tools are available to build documentation.
- if test "$docs" != "no" ; then
-   if has_sphinx_build; then
--- 
-2.21.3
-
+r~
 
