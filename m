@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65B181FB46B
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:30:36 +0200 (CEST)
-Received: from localhost ([::1]:38836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF5E31FB465
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:29:26 +0200 (CEST)
+Received: from localhost ([::1]:34826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlCbj-0005WO-Bs
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:30:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57474)
+	id 1jlCab-0003ti-Po
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:29:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57616)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCPb-00021l-6v; Tue, 16 Jun 2020 10:18:04 -0400
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:36658)
+ id 1jlCPq-0002EW-8r; Tue, 16 Jun 2020 10:18:18 -0400
+Received: from mail-oo1-xc43.google.com ([2607:f8b0:4864:20::c43]:35818)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCPZ-0006dO-Hq; Tue, 16 Jun 2020 10:18:02 -0400
-Received: by mail-oi1-x244.google.com with SMTP id a137so19379834oii.3;
- Tue, 16 Jun 2020 07:18:00 -0700 (PDT)
+ id 1jlCPo-0006gt-I9; Tue, 16 Jun 2020 10:18:17 -0400
+Received: by mail-oo1-xc43.google.com with SMTP id e12so4121124oou.2;
+ Tue, 16 Jun 2020 07:18:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=HkqpzH1+Uo68RKYymrYdAHIPp0MZsukAdfhLDqHwjIs=;
- b=EwfQstSew8KL4NK09Z518yu8GDl9t9zmAckYTgQjXMDn7Tg+29bKOJSFBBO7bQdVoj
- jcDUwSv0AIAUuuvTPIXSKPnJgXVsva4XgRdkDGqopbROS3iM8mxDMQvZAqB94AGxngLZ
- b5oriJK/nLvFExORBjgMoaS5Sh4XU9IP2+9KLlRkHzmDBqIKR4FKJN21VKTsVUfrNepI
- R3vByrFguOwOrstR5Zgs7E5NsxixviKB3jryCgz5ynKkf8HoMNybrMWDvT762ehCO3Vb
- k8ETvhOxaKjXRNhZdEZnM8hqrdfrBFHepirSz7WKlgj+7S8hg/bK4kcdfHUC0hXtWllG
- 0Nog==
+ bh=ZaCFlRve5uOasUm5bS0A0GsaW+2gRHGt4EL3FN/Sr9k=;
+ b=LvU2m+LTDjKlTEtIm8ZuktPhpFlAwYMRaByHDK9uPzGlUcY10UOzpBM75Xa0FavPWI
+ 1kVyVD5pMEjET8naXeJMPBtsBZpQt6sFGWESIAKnfqBAGuH25s+uA703poqOA0K/KnHa
+ fIoCjoZ5FEVFp/n5dK3wz+9bmm3MqsdTojjy+8X8ZWMe2NTamh7jwfE65bqa5W9EEfZX
+ ZbqvEt7fbtahXe6k+w3P6L2N0uIvv2PLuS4nqZVWf4VVDGvFdZMDrEMgCRz5v6EUwtNN
+ DovKES3lM+tNNR6nEmSWgIzS1GEyHggR2z7FGTMtWLcnomKB8xJAXbAEVdBduCz48wvL
+ XEAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=HkqpzH1+Uo68RKYymrYdAHIPp0MZsukAdfhLDqHwjIs=;
- b=KLfOcyd/oGlbvbcfGcAZ5Aw4VUZDqStoqirLUCcN8MoHrRyQ4A75hd0Y8ktr4Lmq1j
- ZoUi+5zHMQA6SmCGbCbEZ7lm+9IOfRPwecAnuqhEe2V9tDrIElOlL8VeDJg7BJPi8BKg
- FZAHp0hNVsVQHPkNEArtPGmk4GgZAQAE4GZSt7fnbY2LR8aEWnQs8xBnndzCKwDRW0j3
- SMKhbVm0/ui88D+UcE4sIVsXBBrZHegPbtGUJyS3Qj7OY+5Ab9k277SDwIEEfbfb37cs
- /F5O/g2SNZf2fnSaFsxIjJ4mj3g6aRu6ui9lbwA2jsasxw0mZuDHJ6S/CQa2PWzIlXhT
- K8fA==
-X-Gm-Message-State: AOAM533vIBLSMsRVbOzP2Ho1DzYkzAYZiEa17b57NfuSAkymGPhZfviE
- qC9xInSlW9wC1NzNH2awoCq75wNG
-X-Google-Smtp-Source: ABdhPJzHTowX2UqIdPR3uRtY0MmWG8VNl69iGHoFcjzeX+eEGgahGE7uuKxAGdjE1gpQFHCWW3/MPA==
-X-Received: by 2002:aca:5dd5:: with SMTP id r204mr3635419oib.80.1592317079717; 
- Tue, 16 Jun 2020 07:17:59 -0700 (PDT)
+ bh=ZaCFlRve5uOasUm5bS0A0GsaW+2gRHGt4EL3FN/Sr9k=;
+ b=S3Nw1SFaY8M7K95xz/pbG9emMxVR2IBPWAR4KgEHaDXWMKM/NhwSXVxh2vtPErRpRd
+ eNTb38xoIuzcN445g3r5b+l8tqvRye22Y76gSGp+LBkJGgVnbBcRsidh1R6/BksOB4UG
+ xV0m9prg2b4iqfcg3q/bfgxv2YA2adr0nO17IsVffDx0lj5P+4g6ruNuzD+4yhdShNbZ
+ tq4UggLN3bCTimXU25Ae9B/dMz3M4Y2KzfvRqXwdlNVocEhQXUoRUQqJ7cKMl24o2Iru
+ 6jQmxOTjnp179l2AfCh8IFRQ+xlZR5UB4SwvIimLQsW+nBFf0fm5Cot1OWA3I1abnkjn
+ 5WOg==
+X-Gm-Message-State: AOAM531oD3JkXS8HgMzVtWc8eKYvmaA8qVzTGV2Pr/+XbipQ4pfnBQ6X
+ gEzEB6fAOeFtXkvQggg1bS1Orb01
+X-Google-Smtp-Source: ABdhPJxH9Tb4OXUP05m6O+BnSklcInwsuTSk9SoLzYaY8euiOe1tiGhpKUP5EnA/Pso0WfGxm6rMmw==
+X-Received: by 2002:a4a:5ac3:: with SMTP id v186mr2540670ooa.2.1592317094352; 
+ Tue, 16 Jun 2020 07:18:14 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id j46sm4046019ota.69.2020.06.16.07.17.58
+ by smtp.gmail.com with ESMTPSA id p13sm4073089otp.58.2020.06.16.07.18.13
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 16 Jun 2020 07:17:58 -0700 (PDT)
+ Tue, 16 Jun 2020 07:18:13 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 25/78] vfio/pci: Don't remove irqchip notifier if not
- registered
-Date: Tue, 16 Jun 2020 09:14:54 -0500
-Message-Id: <20200616141547.24664-26-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 33/78] dp8393x: Implement packet size limit and RBAE interrupt
+Date: Tue, 16 Jun 2020 09:15:02 -0500
+Message-Id: <20200616141547.24664-34-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
 References: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::244;
- envelope-from=flukshun@gmail.com; helo=mail-oi1-x244.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c43;
+ envelope-from=flukshun@gmail.com; helo=mail-oo1-xc43.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -81,53 +80,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alex Williamson <alex.williamson@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>, qemu-stable@nongnu.org,
- Peter Xu <peterx@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
+Cc: Jason Wang <jasowang@redhat.com>, qemu-stable@nongnu.org,
+ Finn Thain <fthain@telegraphics.com.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Peter Xu <peterx@redhat.com>
+From: Finn Thain <fthain@telegraphics.com.au>
 
-The kvm irqchip notifier is only registered if the device supports
-INTx, however it's unconditionally removed.  If the assigned device
-does not support INTx, this will cause QEMU to crash when unplugging
-the device from the system.  Change it to conditionally remove the
-notifier only if the notify hook is setup.
+Add a bounds check to prevent a large packet from causing a buffer
+overflow. This is defensive programming -- I haven't actually tried
+sending an oversized packet or a jumbo ethernet frame.
 
-CC: Eduardo Habkost <ehabkost@redhat.com>
-CC: David Gibson <david@gibson.dropbear.id.au>
-CC: Alex Williamson <alex.williamson@redhat.com>
-Cc: qemu-stable@nongnu.org # v4.2
-Reported-by: yanghliu@redhat.com
-Debugged-by: Eduardo Habkost <ehabkost@redhat.com>
-Fixes: c5478fea27ac ("vfio/pci: Respond to KVM irqchip change notifier")
-Bugzilla: https://bugzilla.redhat.com/show_bug.cgi?id=1782678
-Signed-off-by: Peter Xu <peterx@redhat.com>
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
-Reviewed-by: Greg Kurz <groug@kaod.org>
-Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
-(cherry picked from commit 0446f8121723b134ca1d1ed0b73e96d4a0a8689d)
+The SONIC handles packets that are too big for the buffer by raising
+the RBAE interrupt and dropping them. Linux uses that interrupt to
+count dropped packets.
+
+Signed-off-by: Finn Thain <fthain@telegraphics.com.au>
+Tested-by: Laurent Vivier <laurent@vivier.eu>
+Signed-off-by: Jason Wang <jasowang@redhat.com>
+(cherry picked from commit ada74315270d1dcabf4c9d4fece19df7ef5b9577)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- hw/vfio/pci.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ hw/net/dp8393x.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-index 2d40b396f2..337a173ce7 100644
---- a/hw/vfio/pci.c
-+++ b/hw/vfio/pci.c
-@@ -3076,7 +3076,9 @@ static void vfio_exitfn(PCIDevice *pdev)
-     vfio_unregister_req_notifier(vdev);
-     vfio_unregister_err_notifier(vdev);
-     pci_device_set_intx_routing_notifier(&vdev->pdev, NULL);
--    kvm_irqchip_remove_change_notifier(&vdev->irqchip_change_notifier);
-+    if (vdev->irqchip_change_notifier.notify) {
-+        kvm_irqchip_remove_change_notifier(&vdev->irqchip_change_notifier);
+diff --git a/hw/net/dp8393x.c b/hw/net/dp8393x.c
+index 04f58ee4e1..ca8088c839 100644
+--- a/hw/net/dp8393x.c
++++ b/hw/net/dp8393x.c
+@@ -137,6 +137,7 @@ do { printf("sonic ERROR: %s: " fmt, __func__ , ## __VA_ARGS__); } while (0)
+ #define SONIC_TCR_CRCI   0x2000
+ #define SONIC_TCR_PINT   0x8000
+ 
++#define SONIC_ISR_RBAE   0x0010
+ #define SONIC_ISR_RBE    0x0020
+ #define SONIC_ISR_RDE    0x0040
+ #define SONIC_ISR_TC     0x0080
+@@ -770,6 +771,14 @@ static ssize_t dp8393x_receive(NetClientState *nc, const uint8_t * buf,
+     s->regs[SONIC_RCR] &= ~(SONIC_RCR_PRX | SONIC_RCR_LBK | SONIC_RCR_FAER |
+         SONIC_RCR_CRCR | SONIC_RCR_LPKT | SONIC_RCR_BC | SONIC_RCR_MC);
+ 
++    if (pkt_size + 4 > dp8393x_rbwc(s) * 2) {
++        DPRINTF("oversize packet, pkt_size is %d\n", pkt_size);
++        s->regs[SONIC_ISR] |= SONIC_ISR_RBAE;
++        dp8393x_update_irq(s);
++        dp8393x_do_read_rra(s);
++        return pkt_size;
 +    }
-     vfio_disable_interrupts(vdev);
-     if (vdev->intx.mmap_timer) {
-         timer_free(vdev->intx.mmap_timer);
++
+     packet_type = dp8393x_receive_filter(s, buf, pkt_size);
+     if (packet_type < 0) {
+         DPRINTF("packet not for netcard\n");
 -- 
 2.17.1
 
