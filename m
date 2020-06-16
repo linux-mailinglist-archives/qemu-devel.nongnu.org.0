@@ -2,43 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5A001FBB5D
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 18:22:11 +0200 (CEST)
-Received: from localhost ([::1]:54038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E7991FBB96
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 18:23:55 +0200 (CEST)
+Received: from localhost ([::1]:34638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlELi-0006jw-VI
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 12:22:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59826)
+	id 1jlENO-0002i7-79
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 12:23:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den@openvz.org>)
- id 1jlEKO-00050B-Eg; Tue, 16 Jun 2020 12:20:48 -0400
-Received: from relay.sw.ru ([185.231.240.75]:43690 helo=relay3.sw.ru)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den@openvz.org>)
- id 1jlEKK-0006Zx-CT; Tue, 16 Jun 2020 12:20:48 -0400
-Received: from [192.168.15.172] (helo=iris.lishka.ru)
- by relay3.sw.ru with esmtp (Exim 4.93)
- (envelope-from <den@openvz.org>)
- id 1jlEK1-0003Pf-JY; Tue, 16 Jun 2020 19:20:25 +0300
-From: "Denis V. Lunev" <den@openvz.org>
-To: qemu-block@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH 5/5] block/io: improve savevm performance
-Date: Tue, 16 Jun 2020 19:20:35 +0300
-Message-Id: <20200616162035.29857-6-den@openvz.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200616162035.29857-1-den@openvz.org>
-References: <20200616162035.29857-1-den@openvz.org>
-Received-SPF: pass client-ip=185.231.240.75; envelope-from=den@openvz.org;
- helo=relay3.sw.ru
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 12:20:39
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jlEMK-0000ws-KH
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 12:22:48 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:33833)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jlEMI-0006rP-SP
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 12:22:48 -0400
+Received: by mail-wr1-x443.google.com with SMTP id r7so21440648wro.1
+ for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 09:22:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=6+BJrA9RJ40BpdrJYLx5xkVRSgQ5/8rW5luGV75cAVQ=;
+ b=eTQQ1VA7cljlqbsDxsTdPPVsxP85dbbW/tC9rkOh1VJ2oIGWjewn2thj2lE8k5NKqN
+ EoOLmdIAGKOuG5RnsdZFg78UbXlc6H1yIb7d6OjkFCBIuGqGtrWmRcYujsRYrXCHXdHN
+ plR/lXmDbCX+CF7XNNDM/VcUffGlMgT6CFFU82jzrYSIsisN5OFRMdB6MKjfiF+vqrGH
+ nXzoxEXHAs/4MI6UIzZQ5igBdNKNgvRb/FYJrnqi7O4cxkNw2A5eHTVe4v/qVM42bS+6
+ 3i9B2txRiXdjWJcGV2zlc0Hgo4evMwsn3maHOeJGUhbJ/O0Xj8g5XpKrhBrFbv9W4hK5
+ DZGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=6+BJrA9RJ40BpdrJYLx5xkVRSgQ5/8rW5luGV75cAVQ=;
+ b=BUvyiztPPgWWOZad3Zeunc2N4aSllrJjSR8L7GdHcjq6v/Y84P/SwuhcqvcEPIRaWv
+ M4nAsa0k44umcnGzVJZ1JGTU+B5ljFjlHmOw95eier0MoLof9G3toJJBsricsDWny7wU
+ MSK5p4Xq4+BuvhV+bEqjoaycVnXERb4ShmIHVvi8CvXlrOICWorEuopkGbh9jPrUOAMc
+ pHy8uHV58gynHU4kJoXRqiWjJy2OzQ29x2/jVVYksEnwvotIuZhcPfuZlwMV3ADVE+Pa
+ i5dX7B7Z4Fm3zJ1T8rVa2XTbxIs9WGu6mF/3s10gkHDKmdg5daVdzRHnan6xD6U2LMsa
+ yHTg==
+X-Gm-Message-State: AOAM5333yLEawkBzN2pd523L/fWglQ7O2AqqmpWTKZVcxeKCX2oDIDO9
+ EzyGAvPY4Njr8KJ/Q0bqoI55CQ==
+X-Google-Smtp-Source: ABdhPJzKgNfMU2UGrqMEcGGguWDFbNHoh57MpsSbih8GvFSOCUCTolkPvZHvXXifHP/PQul4+8WdZw==
+X-Received: by 2002:adf:c6c5:: with SMTP id c5mr3700548wrh.13.1592324565235;
+ Tue, 16 Jun 2020 09:22:45 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id n19sm4519781wmi.33.2020.06.16.09.22.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 16 Jun 2020 09:22:44 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id F33A81FF7E;
+ Tue, 16 Jun 2020 17:22:42 +0100 (BST)
+References: <20200604085441.103087-1-kbastian@mail.uni-paderborn.de>
+ <20200604085441.103087-4-kbastian@mail.uni-paderborn.de>
+User-agent: mu4e 1.5.3; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+Subject: Re: [PATCH v2 03/15] tests/tcg: Run timeout cmds using --foreground
+In-reply-to: <20200604085441.103087-4-kbastian@mail.uni-paderborn.de>
+Date: Tue, 16 Jun 2020 17:22:42 +0100
+Message-ID: <87blljyo8d.fsf@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x443.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -51,249 +89,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Denis Plotnikov <dplotnikov@virtuozzo.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, "Denis V. Lunev" <den@openvz.org>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch does 2 standard basic things:
-- it creates intermediate buffer for all writes from QEMU migration code
-  to block driver,
-- this buffer is sent to disk asynchronously, allowing several writes to
-  run in parallel.
 
-Thus bdrv_vmstate_write() is becoming asynchronous. All pending operations
-completion are performed in newly invented bdrv_flush_vmstate().
+Bastian Koppelmann <kbastian@mail.uni-paderborn.de> writes:
 
-In general, migration code is fantastically inefficent (by observation),
-buffers are not aligned and sent with arbitrary pieces, a lot of time
-less than 100 bytes at a chunk, which results in read-modify-write
-operations if target file descriptor is opened with O_DIRECT. It should
-also be noted that all operations are performed into unallocated image
-blocks, which also suffer due to partial writes to such new clusters
-even on cached file descriptors.
+> when trying to run successful short tests from the Makefile timeout would=
+ no
+> terminate. Rather it would wait until the time runs out. Excerpt from the
+> manpage:
 
-Snapshot creation time (2 GB Fedora-31 VM running over NVME storage):
-                original     fixed
-cached:          1.79s       1.27s
-non-cached:      3.29s       0.81s
+Which tests hang without this change?
 
-The difference over HDD would be more significant :)
+>
+> --foreground
+>     when not running timeout directly from a shell prompt,
+>     allow COMMAND to read from the TTY and get TTY signals; in this mode,=
+ chil=E2=80=90
+>     dren of COMMAND will not be timed out
+>
+> Signed-off-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+> ---
+>  tests/tcg/Makefile.target | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+>
+> diff --git a/tests/tcg/Makefile.target b/tests/tcg/Makefile.target
+> index b3cff3cad1..423caffa56 100644
+> --- a/tests/tcg/Makefile.target
+> +++ b/tests/tcg/Makefile.target
+> @@ -40,9 +40,10 @@ quiet-command =3D $(if $(V),$1,$(if $(2),@printf "  %-=
+7s %s\n" $2 $3 && $1, @$1))
+>=20=20
+>  # $1 =3D test name, $2 =3D cmd, $3 =3D desc
+>  ifdef CONFIG_USER_ONLY
+> -run-test =3D $(call quiet-command, timeout $(TIMEOUT) $2 > $1.out,"TEST"=
+,$3)
+> +run-test =3D $(call quiet-command, timeout --foreground $(TIMEOUT) $2 > =
+$1.out \
+> +	"TEST",$3)
 
-Signed-off-by: Denis V. Lunev <den@openvz.org>
-CC: Kevin Wolf <kwolf@redhat.com>
-CC: Max Reitz <mreitz@redhat.com>
-CC: Stefan Hajnoczi <stefanha@redhat.com>
-CC: Fam Zheng <fam@euphon.net>
-CC: Juan Quintela <quintela@redhat.com>
-CC: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-CC: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-CC: Denis Plotnikov <dplotnikov@virtuozzo.com>
----
- block/io.c                | 123 +++++++++++++++++++++++++++++++++++++-
- include/block/block_int.h |   8 +++
- 2 files changed, 129 insertions(+), 2 deletions(-)
+This breaks make check-tcg due to a dropped ,
 
-diff --git a/block/io.c b/block/io.c
-index 8718df4ea8..1979098c02 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -26,6 +26,7 @@
- #include "trace.h"
- #include "sysemu/block-backend.h"
- #include "block/aio-wait.h"
-+#include "block/aio_task.h"
- #include "block/blockjob.h"
- #include "block/blockjob_int.h"
- #include "block/block_int.h"
-@@ -33,6 +34,7 @@
- #include "qapi/error.h"
- #include "qemu/error-report.h"
- #include "qemu/main-loop.h"
-+#include "qemu/units.h"
- #include "sysemu/replay.h"
- 
- /* Maximum bounce buffer for copy-on-read and write zeroes, in bytes */
-@@ -2640,6 +2642,100 @@ typedef struct BdrvVmstateCo {
-     bool                is_read;
- } BdrvVmstateCo;
- 
-+typedef struct BdrvVMStateTask {
-+    AioTask task;
-+
-+    BlockDriverState *bs;
-+    int64_t offset;
-+    void *buf;
-+    size_t bytes;
-+} BdrvVMStateTask;
-+
-+typedef struct BdrvSaveVMState {
-+    AioTaskPool *pool;
-+    BdrvVMStateTask *t;
-+} BdrvSaveVMState;
-+
-+
-+static coroutine_fn int bdrv_co_vmstate_save_task_entry(AioTask *task)
-+{
-+    int err = 0;
-+    BdrvVMStateTask *t = container_of(task, BdrvVMStateTask, task);
-+
-+    if (t->bytes != 0) {
-+        QEMUIOVector qiov = QEMU_IOVEC_INIT_BUF(qiov, t->buf, t->bytes);
-+
-+        bdrv_inc_in_flight(t->bs);
-+        err = t->bs->drv->bdrv_save_vmstate(t->bs, &qiov, t->offset);
-+        bdrv_dec_in_flight(t->bs);
-+    }
-+
-+    qemu_vfree(t->buf);
-+    return err;
-+}
-+
-+static BdrvVMStateTask *bdrv_vmstate_task_create(BlockDriverState *bs,
-+                                                 int64_t pos, size_t size)
-+{
-+    BdrvVMStateTask *t = g_new(BdrvVMStateTask, 1);
-+
-+    *t = (BdrvVMStateTask) {
-+        .task.func = bdrv_co_vmstate_save_task_entry,
-+        .buf = qemu_blockalign(bs, size),
-+        .offset = pos,
-+        .bs = bs,
-+    };
-+
-+    return t;
-+}
-+
-+static int bdrv_co_do_save_vmstate(BlockDriverState *bs, QEMUIOVector *qiov,
-+                                   int64_t pos)
-+{
-+    BdrvSaveVMState *state = bs->savevm_state;
-+    BdrvVMStateTask *t;
-+    size_t buf_size = MAX(bdrv_get_cluster_size(bs), 1 * MiB);
-+    size_t to_copy, off;
-+
-+    if (state == NULL) {
-+        state = g_new(BdrvSaveVMState, 1);
-+        *state = (BdrvSaveVMState) {
-+            .pool = aio_task_pool_new(BDRV_VMSTATE_WORKERS_MAX),
-+            .t = bdrv_vmstate_task_create(bs, pos, buf_size),
-+        };
-+
-+        bs->savevm_state = state;
-+    }
-+
-+    if (aio_task_pool_status(state->pool) < 0) {
-+        /* Caller is responsible for cleanup. We should block all further
-+         * save operations for this exact state */
-+        return aio_task_pool_status(state->pool);
-+    }
-+
-+    t = state->t;
-+    if (t->offset + t->bytes != pos) {
-+        /* Normally this branch is not reachable from migration */
-+        return bs->drv->bdrv_save_vmstate(bs, qiov, pos);
-+    }
-+
-+    off = 0;
-+    while (1) {
-+        to_copy = MIN(qiov->size - off, buf_size - t->bytes);
-+        qemu_iovec_to_buf(qiov, off, t->buf + t->bytes, to_copy);
-+        t->bytes += to_copy;
-+        if (t->bytes < buf_size) {
-+            return qiov->size;
-+        }
-+
-+        aio_task_pool_start_task(state->pool, &t->task);
-+
-+        pos += to_copy;
-+        off += to_copy;
-+        state->t = t = bdrv_vmstate_task_create(bs, pos, buf_size);
-+    }
-+}
-+
- static int coroutine_fn
- bdrv_co_rw_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos,
-                    bool is_read)
-@@ -2655,7 +2751,7 @@ bdrv_co_rw_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos,
-         if (is_read) {
-             ret = drv->bdrv_load_vmstate(bs, qiov, pos);
-         } else {
--            ret = drv->bdrv_save_vmstate(bs, qiov, pos);
-+            ret = bdrv_co_do_save_vmstate(bs, qiov, pos);
-         }
-     } else if (bs->file) {
-         ret = bdrv_co_rw_vmstate(bs->file->bs, qiov, pos, is_read);
-@@ -2726,7 +2822,30 @@ int bdrv_readv_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos)
- 
- static int coroutine_fn bdrv_co_flush_vmstate(BlockDriverState *bs)
- {
--    return 0;
-+    int err;
-+    BdrvSaveVMState *state = bs->savevm_state;
-+
-+    if (bs->drv->bdrv_save_vmstate == NULL && bs->file != NULL) {
-+        return bdrv_co_flush_vmstate(bs->file->bs);
-+    }
-+    if (state == NULL) {
-+        return 0;
-+    }
-+
-+    if (aio_task_pool_status(state->pool) >= 0) {
-+        /* We are on success path, commit last chunk if possible */
-+        aio_task_pool_start_task(state->pool, &state->t->task);
-+    }
-+
-+    aio_task_pool_wait_all(state->pool);
-+    err = aio_task_pool_status(state->pool);
-+
-+    aio_task_pool_free(state->pool);
-+    g_free(state);
-+
-+    bs->savevm_state = NULL;
-+
-+    return err;
- }
- 
- static int coroutine_fn bdrv_flush_vmstate_co_entry(void *opaque)
-diff --git a/include/block/block_int.h b/include/block/block_int.h
-index 791de6a59c..f90f0e8b6a 100644
---- a/include/block/block_int.h
-+++ b/include/block/block_int.h
-@@ -61,6 +61,8 @@
- 
- #define BLOCK_PROBE_BUF_SIZE        512
- 
-+#define BDRV_VMSTATE_WORKERS_MAX    8
-+
- enum BdrvTrackedRequestType {
-     BDRV_TRACKED_READ,
-     BDRV_TRACKED_WRITE,
-@@ -784,6 +786,9 @@ struct BdrvChild {
-     QLIST_ENTRY(BdrvChild) next_parent;
- };
- 
-+
-+typedef struct BdrvSaveVMState BdrvSaveVMState;
-+
- /*
-  * Note: the function bdrv_append() copies and swaps contents of
-  * BlockDriverStates, so if you add new fields to this struct, please
-@@ -947,6 +952,9 @@ struct BlockDriverState {
- 
-     /* BdrvChild links to this node may never be frozen */
-     bool never_freeze;
-+
-+    /* Intermediate buffer for VM state saving from snapshot creation code */
-+    BdrvSaveVMState *savevm_state;
- };
- 
- struct BlockBackendRootState {
--- 
-2.17.1
+>  else
+> -run-test =3D $(call quiet-command, timeout $(TIMEOUT) $2,"TEST",$3)
+> +run-test =3D $(call quiet-command, timeout --foreground $(TIMEOUT) $2,"T=
+EST",$3)
+>  endif
+>=20=20
+>  # $1 =3D test name, $2 =3D reference
 
+
+--=20
+Alex Benn=C3=A9e
 
