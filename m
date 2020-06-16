@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 088951FAD5B
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 12:03:29 +0200 (CEST)
-Received: from localhost ([::1]:60084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E88C1FAD49
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 12:00:41 +0200 (CEST)
+Received: from localhost ([::1]:52146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jl8RD-0007P0-WF
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 06:03:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50756)
+	id 1jl8OW-0003p7-10
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 06:00:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50780)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jl8L9-00070g-TR
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 05:57:11 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:35524)
+ id 1jl8LC-00073a-8n
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 05:57:14 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:41075)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jl8L7-00040l-Rr
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 05:57:11 -0400
-Received: by mail-wr1-x432.google.com with SMTP id x14so20093049wrp.2
- for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 02:57:09 -0700 (PDT)
+ id 1jl8LA-000415-D9
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 05:57:14 -0400
+Received: by mail-wr1-x436.google.com with SMTP id j10so20067759wrw.8
+ for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 02:57:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=sAtagmRYLNeEbetzybKuDczi9NbWIDftXDYpu4Z9+Xw=;
- b=aq+ceI8T5PoOiRhpyrWyq9D8OVOPlA/+OJVHRHJ+dtoyFBlBiJwtG/vdbinw2CcAxp
- 9jN9+sBvczbmjYRy5Am6GCxSuXQ4JRpDuT8PRDec4V36zE9TpDCjfCvRglhCeJsEA3VU
- I53nV1EaN0G9iMTn8maAbfK6zR4ZW3f25of7pAa8n9o3zSPQkq3xr2Z2+Gs5CAUVD/fZ
- k8bQBwt6JyKH4cRXEBrb+XaBjoDFYE6nnhD3nMjdvMHzBFmScfxEpoUquHIvB/phif2K
- rqKdMLtixgQDi5ilRqghfGgImscIZT+qElxf7yIb7uC2/8/FUDD3zPKgdq8hiVdwlr4I
- LV+w==
+ bh=guH6/4Zqbrl2/zmFmbwWPQQrG54LzUK6JULINOQ0BgQ=;
+ b=bCojA4p/08xlb956NPyHeR4jx75/ZuDmyciy93dmmroKv6tLVpyV1Ea7UGYSjtpCN+
+ /H/vDiG84UkKipm/uyw6ITRUflAtvlPmUNRIGy0Q4HGFZq1IjhTime/ti9y+YpgDcI+N
+ On8p0Nx9lNWbHFnrYrS36bqh7aMbQi9FI1Cx+p7iwxcL/LidCxnKcfB0Sxd0eq8Mw6uW
+ pzIxv7+TX2fpDQQ1a3MEoDjkK2dD+6oAHcCI1nmDhSQxrxrffkEEMQQaTQrp6LoCgvxd
+ b6FZlbEBL4/pB193LkpZ7tqq7emfZmdUZtCCIOzWQBamw8Gd17s/8LZp8tmP5eFsPSx8
+ Nt6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=sAtagmRYLNeEbetzybKuDczi9NbWIDftXDYpu4Z9+Xw=;
- b=nK/gaHqnoWjy+zFhRD9+xvE1oXLXEpPKw1PV6eqdfdiQfTSegqZieVXfRnE0NiUIZi
- ePyQY2CIVmbsYyDMsy2ILSbgy6KDaNvIMIrQe9lDpPcZM3WFzZZ6QdvOH1IiygUp6fNj
- Mg5UChXp36J8GxWD3sKgoTDxVhydAKvme5xCMfJuQQdeFr/CXK4RHsCsXwP4OeBaMA9k
- 9nwuPbRRiZqsdh3i8jShsa2MWftGpHHHF2Kbj2qcM2uk0rWzPbeenT0zcJpXj9SU+j2a
- 9ZU3yUiPzovEaiko7k7cVjkiX0XzRzPLf2Yz7N2U5D/L4CMS6fMxZ3iEQR4Zz7JfE4K4
- 0Cpw==
-X-Gm-Message-State: AOAM5312iWx07DgOwsO3BPtZMZLNcszfk10g01Dgbgq9TEVadc0tBbgS
- eCW5eevJkN6bIV/0se78+PleU36iLqq+Kg==
-X-Google-Smtp-Source: ABdhPJy1+FubILM/QRgVGxDiPcasb3zhfgdG+KJ6T23jfXm6A5BJXrRcEpk6J9kW4EucqM5qp04bQw==
-X-Received: by 2002:a5d:5551:: with SMTP id g17mr2080414wrw.45.1592301427775; 
- Tue, 16 Jun 2020 02:57:07 -0700 (PDT)
+ bh=guH6/4Zqbrl2/zmFmbwWPQQrG54LzUK6JULINOQ0BgQ=;
+ b=Ept9a5AlPTfIxi2d2eEkwEmXXDOLI/TKZ+3OLFRbBj0ql0KzMCHUcuqrBzroDAJ4s9
+ MDEMs8xzup15trtqrKM6qfQBIDnx7v5GJDU5HiwlRQlFCUQxbinGp/k4tOyrall3elm2
+ yzQ283iVMrpOF/2s90tE8xCFvv3SJD3tM6lKx4Oc6k17mV5by6JtclHcWFFi2XBuT0Yr
+ ooRL7FzU5d+68cS1qoQOOPx0OdSY4hEm6rw2iWFLMdGNrkSVwOQN3UNgyHB6geJpOH7S
+ dC9bx5CA3PvdM7AaaClqx0WyFr9QfO1hk0xCsvHKFW2t8XxH5aSLaNPOhON9blY0t8Ij
+ g+Dg==
+X-Gm-Message-State: AOAM532xoOjGVD2aipd4hg3oXf4hZjBKSvi9CAHiTa/cjSKRr/fwG4bA
+ Sk57UOb/QZ4rFGxev2hzw1DummXFiESO7Q==
+X-Google-Smtp-Source: ABdhPJy/OgwKkxnl+WaKWpWdwBbyIwU3PWnD7+ViUogD/WRkWmSTp3VsaMErwf9eszp2h4zyPfGabw==
+X-Received: by 2002:adf:ed87:: with SMTP id c7mr2185461wro.108.1592301430477; 
+ Tue, 16 Jun 2020 02:57:10 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id z12sm31090851wrg.9.2020.06.16.02.57.06
+ by smtp.gmail.com with ESMTPSA id z12sm31090851wrg.9.2020.06.16.02.57.08
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Jun 2020 02:57:06 -0700 (PDT)
+ Tue, 16 Jun 2020 02:57:09 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/23] target/arm: Convert Neon 3-reg-diff prewidening ops to
- decodetree
-Date: Tue, 16 Jun 2020 10:56:41 +0100
-Message-Id: <20200616095702.25848-3-peter.maydell@linaro.org>
+Subject: [PULL 04/23] target/arm: Convert Neon 3-reg-diff VABAL,
+ VABDL to decodetree
+Date: Tue, 16 Jun 2020 10:56:43 +0100
+Message-Id: <20200616095702.25848-5-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200616095702.25848-1-peter.maydell@linaro.org>
 References: <20200616095702.25848-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,92 +89,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Convert the "pre-widening" insns VADDL, VSUBL, VADDW and VSUBW
-in the Neon 3-registers-different-lengths group to decodetree.
-These insns work by widening one or both inputs to double their
-size, performing an add or subtract at the doubled size and
-then storing the double-size result.
-
-As usual, rather than copying the loop of the original decoder
-(which needs awkward code to avoid problems when source and
-destination registers overlap) we just unroll the two passes.
+Convert the Neon 3-reg-diff insns VABAL and VABDL to decodetree.
+Like almost all the remaining insns in this group, these are
+a combination of a two-input operation which returns a double width
+result and then a possible accumulation of that double width
+result into the destination.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/neon-dp.decode       |  43 +++++++++++++
- target/arm/translate-neon.inc.c | 104 ++++++++++++++++++++++++++++++++
- target/arm/translate.c          |  16 ++---
- 3 files changed, 151 insertions(+), 12 deletions(-)
+ target/arm/translate.h          |   1 +
+ target/arm/neon-dp.decode       |   6 ++
+ target/arm/translate-neon.inc.c | 132 ++++++++++++++++++++++++++++++++
+ target/arm/translate.c          |  31 +-------
+ 4 files changed, 142 insertions(+), 28 deletions(-)
 
+diff --git a/target/arm/translate.h b/target/arm/translate.h
+index c937dfe9bf0..62ed5c4780c 100644
+--- a/target/arm/translate.h
++++ b/target/arm/translate.h
+@@ -371,6 +371,7 @@ typedef void NeonGenTwo64OpEnvFn(TCGv_i64, TCGv_ptr, TCGv_i64, TCGv_i64);
+ typedef void NeonGenNarrowFn(TCGv_i32, TCGv_i64);
+ typedef void NeonGenNarrowEnvFn(TCGv_i32, TCGv_ptr, TCGv_i64);
+ typedef void NeonGenWidenFn(TCGv_i64, TCGv_i32);
++typedef void NeonGenTwoOpWidenFn(TCGv_i64, TCGv_i32, TCGv_i32);
+ typedef void NeonGenTwoSingleOPFn(TCGv_i32, TCGv_i32, TCGv_i32, TCGv_ptr);
+ typedef void NeonGenTwoDoubleOPFn(TCGv_i64, TCGv_i64, TCGv_i64, TCGv_ptr);
+ typedef void NeonGenOneOpFn(TCGv_i64, TCGv_i64);
 diff --git a/target/arm/neon-dp.decode b/target/arm/neon-dp.decode
-index bd1b0e13f7d..144a527ee65 100644
+index a2234dfa4f3..4f0aaaf6bb2 100644
 --- a/target/arm/neon-dp.decode
 +++ b/target/arm/neon-dp.decode
-@@ -397,3 +397,46 @@ VCVT_FU_2sh      1111 001 1 1 . ...... .... 1111 0 . . 1 .... @2reg_vcvt
- # So we have a single decode line and check the cmode/op in the
- # trans function.
- Vimm_1r          1111 001 . 1 . 000 ... .... cmode:4 0 . op:1 1 .... @1reg_imm
+@@ -442,7 +442,13 @@ Vimm_1r          1111 001 . 1 . 000 ... .... cmode:4 0 . op:1 1 .... @1reg_imm
+     VADDHN_3d    1111 001 0 1 . .. .... .... 0100 . 0 . 0 .... @3diff
+     VRADDHN_3d   1111 001 1 1 . .. .... .... 0100 . 0 . 0 .... @3diff
+ 
++    VABAL_S_3d   1111 001 0 1 . .. .... .... 0101 . 0 . 0 .... @3diff
++    VABAL_U_3d   1111 001 1 1 . .. .... .... 0101 . 0 . 0 .... @3diff
 +
-+######################################################################
-+# Within the "two registers, or three registers of different lengths"
-+# grouping ([23,4]=0b10), bits [21:20] are either part of the opcode
-+# decode: 0b11 for VEXT, two-reg-misc, VTBL, and duplicate-scalar;
-+# or they are a size field for the three-reg-different-lengths and
-+# two-reg-and-scalar insn groups (where size cannot be 0b11). This
-+# is slightly awkward for decodetree: we handle it with this
-+# non-exclusive group which contains within it two exclusive groups:
-+# one for the size=0b11 patterns, and one for the size-not-0b11
-+# patterns. This allows us to check that none of the insns within
-+# each subgroup accidentally overlap each other. Note that all the
-+# trans functions for the size-not-0b11 patterns must check and
-+# return false for size==3.
-+######################################################################
-+{
-+  # 0b11 subgroup will go here
+     VSUBHN_3d    1111 001 0 1 . .. .... .... 0110 . 0 . 0 .... @3diff
+     VRSUBHN_3d   1111 001 1 1 . .. .... .... 0110 . 0 . 0 .... @3diff
 +
-+  # Subgroup for size != 0b11
-+  [
-+    ##################################################################
-+    # 3-reg-different-length grouping:
-+    # 1111 001 U 1 D sz!=11 Vn:4 Vd:4 opc:4 N 0 M 0 Vm:4
-+    ##################################################################
-+
-+    &3diff vm vn vd size
-+
-+    @3diff       .... ... . . . size:2 .... .... .... . . . . .... \
-+                 &3diff vm=%vm_dp vn=%vn_dp vd=%vd_dp
-+
-+    VADDL_S_3d   1111 001 0 1 . .. .... .... 0000 . 0 . 0 .... @3diff
-+    VADDL_U_3d   1111 001 1 1 . .. .... .... 0000 . 0 . 0 .... @3diff
-+
-+    VADDW_S_3d   1111 001 0 1 . .. .... .... 0001 . 0 . 0 .... @3diff
-+    VADDW_U_3d   1111 001 1 1 . .. .... .... 0001 . 0 . 0 .... @3diff
-+
-+    VSUBL_S_3d   1111 001 0 1 . .. .... .... 0010 . 0 . 0 .... @3diff
-+    VSUBL_U_3d   1111 001 1 1 . .. .... .... 0010 . 0 . 0 .... @3diff
-+
-+    VSUBW_S_3d   1111 001 0 1 . .. .... .... 0011 . 0 . 0 .... @3diff
-+    VSUBW_U_3d   1111 001 1 1 . .. .... .... 0011 . 0 . 0 .... @3diff
-+  ]
-+}
++    VABDL_S_3d   1111 001 0 1 . .. .... .... 0111 . 0 . 0 .... @3diff
++    VABDL_U_3d   1111 001 1 1 . .. .... .... 0111 . 0 . 0 .... @3diff
+   ]
+ }
 diff --git a/target/arm/translate-neon.inc.c b/target/arm/translate-neon.inc.c
-index 299a61f067b..9b9d4111077 100644
+index 0c3965802a5..bea9360ce3f 100644
 --- a/target/arm/translate-neon.inc.c
 +++ b/target/arm/translate-neon.inc.c
-@@ -1828,3 +1828,107 @@ static bool trans_Vimm_1r(DisasContext *s, arg_1reg_imm *a)
-     }
-     return do_1reg_imm(s, a, fn);
- }
+@@ -2019,3 +2019,135 @@ DO_NARROW_3D(VADDHN, add, narrow, tcg_gen_extrh_i64_i32)
+ DO_NARROW_3D(VSUBHN, sub, narrow, tcg_gen_extrh_i64_i32)
+ DO_NARROW_3D(VRADDHN, add, narrow_round, gen_narrow_round_high_u32)
+ DO_NARROW_3D(VRSUBHN, sub, narrow_round, gen_narrow_round_high_u32)
 +
-+static bool do_prewiden_3d(DisasContext *s, arg_3diff *a,
-+                           NeonGenWidenFn *widenfn,
-+                           NeonGenTwo64OpFn *opfn,
-+                           bool src1_wide)
++static bool do_long_3d(DisasContext *s, arg_3diff *a,
++                       NeonGenTwoOpWidenFn *opfn,
++                       NeonGenTwo64OpFn *accfn)
 +{
-+    /* 3-regs different lengths, prewidening case (VADDL/VSUBL/VAADW/VSUBW) */
-+    TCGv_i64 rn0_64, rn1_64, rm_64;
-+    TCGv_i32 rm;
++    /*
++     * 3-regs different lengths, long operations.
++     * These perform an operation on two inputs that returns a double-width
++     * result, and then possibly perform an accumulation operation of
++     * that result into the double-width destination.
++     */
++    TCGv_i64 rd0, rd1, tmp;
++    TCGv_i32 rn, rm;
 +
 +    if (!arm_dc_feature(s, ARM_FEATURE_NEON)) {
 +        return false;
@@ -186,12 +166,12 @@ index 299a61f067b..9b9d4111077 100644
 +        return false;
 +    }
 +
-+    if (!widenfn || !opfn) {
++    if (!opfn) {
 +        /* size == 3 case, which is an entirely different insn group */
 +        return false;
 +    }
 +
-+    if ((a->vd & 1) || (src1_wide && (a->vn & 1))) {
++    if (a->vd & 1) {
 +        return false;
 +    }
 +
@@ -199,132 +179,158 @@ index 299a61f067b..9b9d4111077 100644
 +        return true;
 +    }
 +
-+    rn0_64 = tcg_temp_new_i64();
-+    rn1_64 = tcg_temp_new_i64();
-+    rm_64 = tcg_temp_new_i64();
++    rd0 = tcg_temp_new_i64();
++    rd1 = tcg_temp_new_i64();
 +
-+    if (src1_wide) {
-+        neon_load_reg64(rn0_64, a->vn);
-+    } else {
-+        TCGv_i32 tmp = neon_load_reg(a->vn, 0);
-+        widenfn(rn0_64, tmp);
-+        tcg_temp_free_i32(tmp);
-+    }
++    rn = neon_load_reg(a->vn, 0);
 +    rm = neon_load_reg(a->vm, 0);
-+
-+    widenfn(rm_64, rm);
++    opfn(rd0, rn, rm);
++    tcg_temp_free_i32(rn);
 +    tcg_temp_free_i32(rm);
-+    opfn(rn0_64, rn0_64, rm_64);
 +
-+    /*
-+     * Load second pass inputs before storing the first pass result, to
-+     * avoid incorrect results if a narrow input overlaps with the result.
-+     */
-+    if (src1_wide) {
-+        neon_load_reg64(rn1_64, a->vn + 1);
-+    } else {
-+        TCGv_i32 tmp = neon_load_reg(a->vn, 1);
-+        widenfn(rn1_64, tmp);
-+        tcg_temp_free_i32(tmp);
-+    }
++    rn = neon_load_reg(a->vn, 1);
 +    rm = neon_load_reg(a->vm, 1);
-+
-+    neon_store_reg64(rn0_64, a->vd);
-+
-+    widenfn(rm_64, rm);
++    opfn(rd1, rn, rm);
++    tcg_temp_free_i32(rn);
 +    tcg_temp_free_i32(rm);
-+    opfn(rn1_64, rn1_64, rm_64);
-+    neon_store_reg64(rn1_64, a->vd + 1);
 +
-+    tcg_temp_free_i64(rn0_64);
-+    tcg_temp_free_i64(rn1_64);
-+    tcg_temp_free_i64(rm_64);
++    /* Don't store results until after all loads: they might overlap */
++    if (accfn) {
++        tmp = tcg_temp_new_i64();
++        neon_load_reg64(tmp, a->vd);
++        accfn(tmp, tmp, rd0);
++        neon_store_reg64(tmp, a->vd);
++        neon_load_reg64(tmp, a->vd + 1);
++        accfn(tmp, tmp, rd1);
++        neon_store_reg64(tmp, a->vd + 1);
++        tcg_temp_free_i64(tmp);
++    } else {
++        neon_store_reg64(rd0, a->vd);
++        neon_store_reg64(rd1, a->vd + 1);
++    }
++
++    tcg_temp_free_i64(rd0);
++    tcg_temp_free_i64(rd1);
 +
 +    return true;
 +}
 +
-+#define DO_PREWIDEN(INSN, S, EXT, OP, SRC1WIDE)                         \
-+    static bool trans_##INSN##_3d(DisasContext *s, arg_3diff *a)        \
-+    {                                                                   \
-+        static NeonGenWidenFn * const widenfn[] = {                     \
-+            gen_helper_neon_widen_##S##8,                               \
-+            gen_helper_neon_widen_##S##16,                              \
-+            tcg_gen_##EXT##_i32_i64,                                    \
-+            NULL,                                                       \
-+        };                                                              \
-+        static NeonGenTwo64OpFn * const addfn[] = {                     \
-+            gen_helper_neon_##OP##l_u16,                                \
-+            gen_helper_neon_##OP##l_u32,                                \
-+            tcg_gen_##OP##_i64,                                         \
-+            NULL,                                                       \
-+        };                                                              \
-+        return do_prewiden_3d(s, a, widenfn[a->size],                   \
-+                              addfn[a->size], SRC1WIDE);                \
-+    }
++static bool trans_VABDL_S_3d(DisasContext *s, arg_3diff *a)
++{
++    static NeonGenTwoOpWidenFn * const opfn[] = {
++        gen_helper_neon_abdl_s16,
++        gen_helper_neon_abdl_s32,
++        gen_helper_neon_abdl_s64,
++        NULL,
++    };
 +
-+DO_PREWIDEN(VADDL_S, s, ext, add, false)
-+DO_PREWIDEN(VADDL_U, u, extu, add, false)
-+DO_PREWIDEN(VSUBL_S, s, ext, sub, false)
-+DO_PREWIDEN(VSUBL_U, u, extu, sub, false)
-+DO_PREWIDEN(VADDW_S, s, ext, add, true)
-+DO_PREWIDEN(VADDW_U, u, extu, add, true)
-+DO_PREWIDEN(VSUBW_S, s, ext, sub, true)
-+DO_PREWIDEN(VSUBW_U, u, extu, sub, true)
++    return do_long_3d(s, a, opfn[a->size], NULL);
++}
++
++static bool trans_VABDL_U_3d(DisasContext *s, arg_3diff *a)
++{
++    static NeonGenTwoOpWidenFn * const opfn[] = {
++        gen_helper_neon_abdl_u16,
++        gen_helper_neon_abdl_u32,
++        gen_helper_neon_abdl_u64,
++        NULL,
++    };
++
++    return do_long_3d(s, a, opfn[a->size], NULL);
++}
++
++static bool trans_VABAL_S_3d(DisasContext *s, arg_3diff *a)
++{
++    static NeonGenTwoOpWidenFn * const opfn[] = {
++        gen_helper_neon_abdl_s16,
++        gen_helper_neon_abdl_s32,
++        gen_helper_neon_abdl_s64,
++        NULL,
++    };
++    static NeonGenTwo64OpFn * const addfn[] = {
++        gen_helper_neon_addl_u16,
++        gen_helper_neon_addl_u32,
++        tcg_gen_add_i64,
++        NULL,
++    };
++
++    return do_long_3d(s, a, opfn[a->size], addfn[a->size]);
++}
++
++static bool trans_VABAL_U_3d(DisasContext *s, arg_3diff *a)
++{
++    static NeonGenTwoOpWidenFn * const opfn[] = {
++        gen_helper_neon_abdl_u16,
++        gen_helper_neon_abdl_u32,
++        gen_helper_neon_abdl_u64,
++        NULL,
++    };
++    static NeonGenTwo64OpFn * const addfn[] = {
++        gen_helper_neon_addl_u16,
++        gen_helper_neon_addl_u32,
++        tcg_gen_add_i64,
++        NULL,
++    };
++
++    return do_long_3d(s, a, opfn[a->size], addfn[a->size]);
++}
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index bcdfec34d28..93765344414 100644
+index 3fe39cd4f49..37fe9d46e0b 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -5241,7 +5241,6 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
-                 /* Three registers of different lengths.  */
-                 int src1_wide;
-                 int src2_wide;
--                int prewiden;
-                 /* undefreq: bit 0 : UNDEF if size == 0
-                  *           bit 1 : UNDEF if size == 1
-                  *           bit 2 : UNDEF if size == 2
-@@ -5251,10 +5250,10 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
-                 int undefreq;
-                 /* prewiden, src1_wide, src2_wide, undefreq */
-                 static const int neon_3reg_wide[16][4] = {
--                    {1, 0, 0, 0}, /* VADDL */
--                    {1, 1, 0, 0}, /* VADDW */
--                    {1, 0, 0, 0}, /* VSUBL */
--                    {1, 1, 0, 0}, /* VSUBW */
-+                    {0, 0, 0, 7}, /* VADDL: handled by decodetree */
-+                    {0, 0, 0, 7}, /* VADDW: handled by decodetree */
-+                    {0, 0, 0, 7}, /* VSUBL: handled by decodetree */
-+                    {0, 0, 0, 7}, /* VSUBW: handled by decodetree */
-                     {0, 1, 1, 0}, /* VADDHN */
-                     {0, 0, 0, 0}, /* VABAL */
-                     {0, 1, 1, 0}, /* VSUBHN */
-@@ -5269,7 +5268,6 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
-                     {0, 0, 0, 7}, /* Reserved: always UNDEF */
-                 };
- 
--                prewiden = neon_3reg_wide[op][0];
-                 src1_wide = neon_3reg_wide[op][1];
-                 src2_wide = neon_3reg_wide[op][2];
-                 undefreq = neon_3reg_wide[op][3];
-@@ -5322,9 +5320,6 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
-                         } else {
-                             tmp = neon_load_reg(rn, pass);
-                         }
--                        if (prewiden) {
--                            gen_neon_widen(cpu_V0, tmp, size, u);
--                        }
-                     }
-                     if (src2_wide) {
-                         neon_load_reg64(cpu_V1, rm + pass);
-@@ -5335,9 +5330,6 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
-                         } else {
-                             tmp2 = neon_load_reg(rm, pass);
-                         }
--                        if (prewiden) {
--                            gen_neon_widen(cpu_V1, tmp2, size, u);
--                        }
+@@ -5243,9 +5243,9 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
+                     {0, 0, 0, 7}, /* VSUBL: handled by decodetree */
+                     {0, 0, 0, 7}, /* VSUBW: handled by decodetree */
+                     {0, 0, 0, 7}, /* VADDHN: handled by decodetree */
+-                    {0, 0, 0, 0}, /* VABAL */
++                    {0, 0, 0, 7}, /* VABAL */
+                     {0, 0, 0, 7}, /* VSUBHN: handled by decodetree */
+-                    {0, 0, 0, 0}, /* VABDL */
++                    {0, 0, 0, 7}, /* VABDL */
+                     {0, 0, 0, 0}, /* VMLAL */
+                     {0, 0, 0, 9}, /* VQDMLAL */
+                     {0, 0, 0, 0}, /* VMLSL */
+@@ -5306,31 +5306,6 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
+                         tmp2 = neon_load_reg(rm, pass);
                      }
                      switch (op) {
-                     case 0: case 1: case 4: /* VADDL, VADDW, VADDHN, VRADDHN */
+-                    case 5: case 7: /* VABAL, VABDL */
+-                        switch ((size << 1) | u) {
+-                        case 0:
+-                            gen_helper_neon_abdl_s16(cpu_V0, tmp, tmp2);
+-                            break;
+-                        case 1:
+-                            gen_helper_neon_abdl_u16(cpu_V0, tmp, tmp2);
+-                            break;
+-                        case 2:
+-                            gen_helper_neon_abdl_s32(cpu_V0, tmp, tmp2);
+-                            break;
+-                        case 3:
+-                            gen_helper_neon_abdl_u32(cpu_V0, tmp, tmp2);
+-                            break;
+-                        case 4:
+-                            gen_helper_neon_abdl_s64(cpu_V0, tmp, tmp2);
+-                            break;
+-                        case 5:
+-                            gen_helper_neon_abdl_u64(cpu_V0, tmp, tmp2);
+-                            break;
+-                        default: abort();
+-                        }
+-                        tcg_temp_free_i32(tmp2);
+-                        tcg_temp_free_i32(tmp);
+-                        break;
+                     case 8: case 9: case 10: case 11: case 12: case 13:
+                         /* VMLAL, VQDMLAL, VMLSL, VQDMLSL, VMULL, VQDMULL */
+                         gen_neon_mull(cpu_V0, tmp, tmp2, size, u);
+@@ -5349,7 +5324,7 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
+                         case 10: /* VMLSL */
+                             gen_neon_negl(cpu_V0, size);
+                             /* Fall through */
+-                        case 5: case 8: /* VABAL, VMLAL */
++                        case 8: /* VABAL, VMLAL */
+                             gen_neon_addl(size);
+                             break;
+                         case 9: case 11: /* VQDMLAL, VQDMLSL */
 -- 
 2.20.1
 
