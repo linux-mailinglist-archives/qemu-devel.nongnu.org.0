@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C50411FB544
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 17:00:31 +0200 (CEST)
-Received: from localhost ([::1]:60428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09FA61FB51E
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:56:24 +0200 (CEST)
+Received: from localhost ([::1]:41108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlD4a-0004Zx-Mm
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 11:00:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58266)
+	id 1jlD0h-0005Dc-2V
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:56:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58354)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCQw-00045w-IQ; Tue, 16 Jun 2020 10:19:26 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:35108)
+ id 1jlCR7-0004VW-HZ; Tue, 16 Jun 2020 10:19:37 -0400
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:36792)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCQu-00071L-TC; Tue, 16 Jun 2020 10:19:26 -0400
-Received: by mail-ot1-x342.google.com with SMTP id d4so1648087otk.2;
- Tue, 16 Jun 2020 07:19:24 -0700 (PDT)
+ id 1jlCR6-00072c-0z; Tue, 16 Jun 2020 10:19:37 -0400
+Received: by mail-ot1-x341.google.com with SMTP id 97so16065397otg.3;
+ Tue, 16 Jun 2020 07:19:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=0W0U9RIkePSj9Jq4sCO7/r+zLbHnoVoeB2KaUJc1NS0=;
- b=L5YcdSOGCBcxZXhl6BndtVQeFb0fyaoVcGj5oxw0hveK8Aq3qp2+yJyrU/QK99Zuvo
- 3lT/4W245O8ySku38U5Lk9FILgJ1mPwADQzv0MimOqWDq/jlBV26nlJubKHmHa1hTKE4
- /xn7I+D1aKNKGvz/NoMRyoV1jzBLYwP/BTmX0QYl+oQUiobt22OSgzfVhjnjWWeNVG5+
- +oie0owTb7L4vbb7ETTLeR3cVryVfzVUTvk0TAIAh5+mbV+KRDoskUq0nqHgfE+tj3No
- 9T7sF2zOQv44DsL3KXd7evUoVg2FSIY6B4NLJCqvRCg1ESkD7Mkepu0w/H188XMHVx9t
- iBsw==
+ bh=DY0aK3a0zzQFlyBspZJZerQeFJhCLgUi3QlXt9plQig=;
+ b=KVNvsW7Nik16xiQC+aVzXxCYDyZvEo/itv2N2dmfOzRmzaKcSgai9fAJ2qR/r7J7fI
+ BRE8dsytgwvXGGGybL4szY4884avOPdFSZbjJbdUisZGYhr7fW7yS3iz1gMEFSgC56AZ
+ 7OoTpbdtao0z3WMfeHUsxhfCXpui7Auc5f+QQYx7/vOKbcAbDoZKT+8Bgv6PmI7alD5I
+ nNyktUJjsXCo+fCf1V3Zzj0cddZ9YfY6r4QIGyMSXjXpv9kMsrGAx2LDdVSAo01uNa5M
+ WMqQMryYBjiY4JJc/mVTFA2cVfXZmpo5zo5fxv0m8+gnPoqLCH/lFOBSijnDGKyYFfh6
+ G8mA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=0W0U9RIkePSj9Jq4sCO7/r+zLbHnoVoeB2KaUJc1NS0=;
- b=VZCDoaGjcWcTuIDlmD1Ni3gatDJ7plZgE6hSp6esO76HaI+465tyhNcZCfugjBMj74
- sl2KrIBJQ3QWG4oRxjC3U2CrGnhXFj+22z3C/dvZ3ClrVh8z7u8sS+NIdOEtwidz7OCj
- 2tgDhWH/a16DEXQrpxF3p7uC0OtlydkbIyJr1vFDqSQL4lGtDpOMavx/6VANJwLp+8bE
- 6VBAc6XU6ISpfZ+R21k/wn8Ny+9cIVp7/g67V3NRxt5t8eXTwtuwOmnK4ORx0q+RRlsc
- p/Yqbf3ENs4T6Vuwe1kGEGY301FYnGCU709Z+T4WQjR+6su8sH55bqBHXSFEuJd3uDlj
- UBJw==
-X-Gm-Message-State: AOAM530DbJK0nqEMnX5PTKBN9iDC6wXRwxco6HP5yUb1t2FqvXUmK/vw
- /QjuBojqqwnw/yXVErjrU4GvtcJ1
-X-Google-Smtp-Source: ABdhPJwmbdYCQwbFIvhqzNHp68Pnep1DyDRxvz2D1FGXG+yuP/VDLWv32JPhNerC9AudUR8XlXG3KA==
-X-Received: by 2002:a9d:2d88:: with SMTP id g8mr2411808otb.149.1592317163011; 
- Tue, 16 Jun 2020 07:19:23 -0700 (PDT)
+ bh=DY0aK3a0zzQFlyBspZJZerQeFJhCLgUi3QlXt9plQig=;
+ b=jyG6n0Xoi+1zHa6CgrflBQ+SBJeYsXxips6u0h6D66hRhdH+24ve0fcHCs12tofDxS
+ pew0xRQ3Xiq92DZ4/mY7NYOqgtbSrtPTVj+QktwRReQH2e3L4YyPtXl7r9TjhjghiWWt
+ S+rMmHzKRVFf0vYqHs3Ctqe8SUGjNub74P8aUTTPHpHGaThkxd+2E225yQENBYoCckg2
+ 6LT8pyRsXogbDirLo7J0kxmh7Jh5CS0Dhg0NwoxHkfolxKZ0cnqfkdy6NR3rc1U3tZxs
+ fzd9U6DIAPDGBOVhlH7sewYpH6c/R5DJV4xdfxP/ThimVFP32BbiiPH13TwhVBFa84XT
+ GLzA==
+X-Gm-Message-State: AOAM530wbNucBSmBpxpCCJ6qorHlmuJ+1H3I/z3b107t10Nl4gHyJxr8
+ DRbgQK7D7qXEkP2dRIq/Dj0cfTbo6Rk=
+X-Google-Smtp-Source: ABdhPJyKixcTi8UahooYXpRbzcHVsWHLZJKfOObb3tfoKRva1JJt/ovNvudTwaXRE7k2NVF3E+515Q==
+X-Received: by 2002:a9d:6c03:: with SMTP id f3mr2516702otq.291.1592317174242; 
+ Tue, 16 Jun 2020 07:19:34 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id f5sm4049121oou.47.2020.06.16.07.19.21
+ by smtp.gmail.com with ESMTPSA id y16sm4136217oot.11.2020.06.16.07.19.32
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 16 Jun 2020 07:19:21 -0700 (PDT)
+ Tue, 16 Jun 2020 07:19:33 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 66/78] xen-block: Fix double qlist remove and request leak
-Date: Tue, 16 Jun 2020 09:15:35 -0500
-Message-Id: <20200616141547.24664-67-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 71/78] qemu-nbd: Close inherited stderr
+Date: Tue, 16 Jun 2020 09:15:40 -0500
+Message-Id: <20200616141547.24664-72-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
 References: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
- envelope-from=flukshun@gmail.com; helo=mail-ot1-x342.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::341;
+ envelope-from=flukshun@gmail.com; helo=mail-ot1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -80,163 +80,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Anthony PERARD <anthony.perard@citrix.com>, qemu-stable@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: qemu-stable@nongnu.org, Raphael Pour <raphael.pour@hetzner.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Anthony PERARD <anthony.perard@citrix.com>
+From: Raphael Pour <raphael.pour@hetzner.com>
 
-Commit a31ca6801c02 ("qemu/queue.h: clear linked list pointers on
-remove") revealed that a request was removed twice from a list, once
-in xen_block_finish_request() and a second time in
-xen_block_release_request() when both function are called from
-xen_block_complete_aio(). But also, the `requests_inflight' counter is
-decreased twice, and thus became negative.
+Close inherited stderr of the parent if fork_process is false.
+Otherwise no one will close it. (introduced by e6df58a5)
 
-This is a bug that was introduced in bfd0d6366043 ("xen-block: improve
-response latency"), where a `finished' list was removed.
+This only affected 'qemu-nbd -c /dev/nbd0'.
 
-That commit also introduced a leak of request in xen_block_do_aio().
-That function calls xen_block_finish_request() but the request is
-never released after that.
-
-To fix both issue, we do two changes:
-- we squash finish_request() and release_request() together as we want
-  to remove a request from 'inflight' list to add it to 'freelist'.
-- before releasing a request, we need to let the other end know the
-  result, thus we should call xen_block_send_response() before
-  releasing a request.
-
-The first change fixes the double QLIST_REMOVE() as we remove the extra
-call. The second change makes the leak go away because if we want to
-call finish_request(), we need to call a function that does all of
-finish, send response, and release.
-
-Fixes: bfd0d6366043 ("xen-block: improve response latency")
-Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
-Message-Id: <20200406140217.1441858-1-anthony.perard@citrix.com>
-Reviewed-by: Paul Durrant <paul@xen.org>
-[mreitz: Amended commit message as per Paul's suggestions]
-Signed-off-by: Max Reitz <mreitz@redhat.com>
-(cherry picked from commit 36d883ba0de8a281072ded2b51e0a711fd002139)
+Signed-off-by: Raphael Pour <raphael.pour@hetzner.com>
+Message-Id: <d8ddc993-9816-836e-a3de-c6edab9d9c49@hetzner.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+[eblake: Enhance commit message]
+Signed-off-by: Eric Blake <eblake@redhat.com>
+(cherry picked from commit 0eaf453ebf6788885fbb5d40426b154ef8805407)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- hw/block/dataplane/xen-block.c | 48 ++++++++++++----------------------
- 1 file changed, 16 insertions(+), 32 deletions(-)
+ qemu-nbd.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/hw/block/dataplane/xen-block.c b/hw/block/dataplane/xen-block.c
-index 3b9caeb2fa..c4ed2870ec 100644
---- a/hw/block/dataplane/xen-block.c
-+++ b/hw/block/dataplane/xen-block.c
-@@ -64,6 +64,8 @@ struct XenBlockDataPlane {
-     AioContext *ctx;
- };
+diff --git a/qemu-nbd.c b/qemu-nbd.c
+index 108a51f7eb..38031310af 100644
+--- a/qemu-nbd.c
++++ b/qemu-nbd.c
+@@ -1022,7 +1022,11 @@ int main(int argc, char **argv)
+         } else if (pid == 0) {
+             close(stderr_fd[0]);
  
-+static int xen_block_send_response(XenBlockRequest *request);
+-            old_stderr = dup(STDERR_FILENO);
++            /* Remember parent's stderr if we will be restoring it. */
++            if (fork_process) {
++                old_stderr = dup(STDERR_FILENO);
++            }
 +
- static void reset_request(XenBlockRequest *request)
- {
-     memset(&request->req, 0, sizeof(request->req));
-@@ -115,23 +117,26 @@ out:
-     return request;
- }
+             ret = qemu_daemon(1, 0);
  
--static void xen_block_finish_request(XenBlockRequest *request)
-+static void xen_block_complete_request(XenBlockRequest *request)
- {
-     XenBlockDataPlane *dataplane = request->dataplane;
- 
--    QLIST_REMOVE(request, list);
--    dataplane->requests_inflight--;
--}
-+    if (xen_block_send_response(request)) {
-+        Error *local_err = NULL;
- 
--static void xen_block_release_request(XenBlockRequest *request)
--{
--    XenBlockDataPlane *dataplane = request->dataplane;
-+        xen_device_notify_event_channel(dataplane->xendev,
-+                                        dataplane->event_channel,
-+                                        &local_err);
-+        if (local_err) {
-+            error_report_err(local_err);
-+        }
-+    }
- 
-     QLIST_REMOVE(request, list);
-+    dataplane->requests_inflight--;
-     reset_request(request);
-     request->dataplane = dataplane;
-     QLIST_INSERT_HEAD(&dataplane->freelist, request, list);
--    dataplane->requests_inflight--;
- }
- 
- /*
-@@ -246,7 +251,6 @@ static int xen_block_copy_request(XenBlockRequest *request)
- }
- 
- static int xen_block_do_aio(XenBlockRequest *request);
--static int xen_block_send_response(XenBlockRequest *request);
- 
- static void xen_block_complete_aio(void *opaque, int ret)
- {
-@@ -286,7 +290,6 @@ static void xen_block_complete_aio(void *opaque, int ret)
-     }
- 
-     request->status = request->aio_errors ? BLKIF_RSP_ERROR : BLKIF_RSP_OKAY;
--    xen_block_finish_request(request);
- 
-     switch (request->req.operation) {
-     case BLKIF_OP_WRITE:
-@@ -306,17 +309,8 @@ static void xen_block_complete_aio(void *opaque, int ret)
-     default:
-         break;
-     }
--    if (xen_block_send_response(request)) {
--        Error *local_err = NULL;
- 
--        xen_device_notify_event_channel(dataplane->xendev,
--                                        dataplane->event_channel,
--                                        &local_err);
--        if (local_err) {
--            error_report_err(local_err);
--        }
--    }
--    xen_block_release_request(request);
-+    xen_block_complete_request(request);
- 
-     if (dataplane->more_work) {
-         qemu_bh_schedule(dataplane->bh);
-@@ -420,8 +414,8 @@ static int xen_block_do_aio(XenBlockRequest *request)
-     return 0;
- 
- err:
--    xen_block_finish_request(request);
-     request->status = BLKIF_RSP_ERROR;
-+    xen_block_complete_request(request);
-     return -1;
- }
- 
-@@ -575,17 +569,7 @@ static bool xen_block_handle_requests(XenBlockDataPlane *dataplane)
-                 break;
-             };
- 
--            if (xen_block_send_response(request)) {
--                Error *local_err = NULL;
--
--                xen_device_notify_event_channel(dataplane->xendev,
--                                                dataplane->event_channel,
--                                                &local_err);
--                if (local_err) {
--                    error_report_err(local_err);
--                }
--            }
--            xen_block_release_request(request);
-+            xen_block_complete_request(request);
-             continue;
-         }
- 
+             /* Temporarily redirect stderr to the parent's pipe...  */
 -- 
 2.17.1
 
