@@ -2,81 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E24F91FB5A9
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 17:08:40 +0200 (CEST)
-Received: from localhost ([::1]:35054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 826A41FB55F
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 17:03:54 +0200 (CEST)
+Received: from localhost ([::1]:42758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlDCZ-0001iJ-T8
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 11:08:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37450)
+	id 1jlD7x-0000gf-9M
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 11:03:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jlCx2-0007bS-NR
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 10:52:36 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:38091)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jlCx0-0004Jy-Gb
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 10:52:36 -0400
-Received: by mail-wm1-x344.google.com with SMTP id f185so3393629wmf.3
- for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 07:52:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=1cihiFfCWitvUSWOAYTLl7DtlU9tgPuqHldH8rmG098=;
- b=YFokXrsDCdCmfykzGRM+3ieO4WdeWhC5pjSA0rYvGBHhHDiEzNmmtyL1DfYTCm/6Of
- sCVqk62bk3GUkcdjK9qBNSjEfJf/5fEliLRz+PxPZ5ctZjuRy1JRHhA8E5gAHMshsUSG
- BP0BvgPLXQm2ghaWn7dS3L6zrFfAFvlVj9IzipalMM5UvVAVGlq26jvS9CxLuDYHRBuw
- hDm3CH3Q6Z+OJALQMLvcbg/ZcpWMjgmlLHEHWm7DnwEZ6UYxUPAn1IMtNEB4JmCTCyTi
- KOrq7Noc+2dx3UYhUH8OnLRosTDQYi2lLSWNQ08jMQ3FFWJ1B0BS0+J6C3XTbt8kqCXz
- /6MA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=1cihiFfCWitvUSWOAYTLl7DtlU9tgPuqHldH8rmG098=;
- b=fsjRHCApGhlNBWxZq0+JQQTTHArk46umHkiR4pTOdd3DfWeAjxROgspor8XgW1mHak
- RSHazp98Yv2H46G5qBYLjcgiZtnJNwF8/yUhHGyIjsYSVUQ4aM9ERI58eghcjf0IImfq
- qe7+DgEsFlg2NXtc4rqsF2QaFzt6VrtewP7tRztfwY1tYRHmhsyoWQ/x/k4gBXOOxf8z
- KC0g5OnjDPgPnqerFOHjUcAoZoBV5fXVr75RzvOdha8QI0JU1oTrZ3Rh54YMmXq1SPFi
- wMXYYCu4KVIbn5kxzcNDW3/JezeSyJ698je1rF9a3J8NFYVh9i3K2cV2vQLE2tkOzqKj
- GYTQ==
-X-Gm-Message-State: AOAM532wJWWpNG1lHsBUaFaY3Qel0LqAcwlICHMw8lPlNa/1api4NMug
- 4za6A+qNCOniG53ykYSel1F0Hg==
-X-Google-Smtp-Source: ABdhPJwxWlmOYLmCOf+rNIDKzTNxejYmKx5vhyjkP7iW3YdS7cU8vTmUIqY1ByOKhB8SjUP6odj3ug==
-X-Received: by 2002:a1c:2e0e:: with SMTP id u14mr3634052wmu.55.1592319153069; 
- Tue, 16 Jun 2020 07:52:33 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id c206sm4744503wmf.36.2020.06.16.07.52.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Jun 2020 07:52:31 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 1BA0A1FF7E;
- Tue, 16 Jun 2020 15:52:31 +0100 (BST)
-References: <1592215252-26742-1-git-send-email-frederic.konrad@adacore.com>
-User-agent: mu4e 1.5.3; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: konrad@adacore.com
-Subject: Re: [PATCH v1 1/2] semihosting: defer connect_chardevs a little
- more to use serialx
-In-reply-to: <1592215252-26742-1-git-send-email-frederic.konrad@adacore.com>
-Date: Tue, 16 Jun 2020 15:52:31 +0100
-Message-ID: <87tuzbyseo.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jlD5q-0007NC-JK
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 11:01:42 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:35760
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jlD5p-0006J4-2D
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 11:01:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1592319699;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=HqczRbAwPx+vKqu+Y3gRIXJ8X0tDsQL0G2N8oNctokM=;
+ b=fMelr5LbB5PdO4U3Z2Mrp8PwSxs93UtNQklYhgQn12PFaQZUyFGFYsmtQhK8sAWhkOoZPv
+ vQCEuq1a5m+N1hGL5QAYefJvqj872/wBfTi1QH4kgRlk7sCauKXzOUo00BCf2iIk2/nM8y
+ jZoDamCeaB87u0MAIhH4tJAKUWvh/fo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-387-2sdhp2BqPYSrEIhtCiUjdA-1; Tue, 16 Jun 2020 11:01:32 -0400
+X-MC-Unique: 2sdhp2BqPYSrEIhtCiUjdA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 46057100A8C1;
+ Tue, 16 Jun 2020 15:01:31 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-114-66.ams2.redhat.com [10.36.114.66])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 596CE60C05;
+ Tue, 16 Jun 2020 15:01:30 +0000 (UTC)
+Date: Tue, 16 Jun 2020 17:01:28 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Roman Bolshakov <r.bolshakov@yadro.com>
+Subject: Re: [PATCH] .gitignore: Ignore storage-daemon files
+Message-ID: <20200616150128.GE4305@linux.fritz.box>
+References: <20200612105830.17082-1-r.bolshakov@yadro.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x344.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+In-Reply-To: <20200612105830.17082-1-r.bolshakov@yadro.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 02:46:07
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,72 +76,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- KONRAD Frederic <frederic.konrad@adacore.com>, philmd@redhat.com,
- qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Am 12.06.2020 um 12:58 hat Roman Bolshakov geschrieben:
+> The files are generated.
+> 
+> Fixes: 2af282ec51a ("qemu-storage-daemon: Add --monitor option")
+> Cc: Kevin Wolf <kwolf@redhat.com>
+> Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
 
-konrad@adacore.com writes:
+Thanks, applied to the block branch.
 
-> From: KONRAD Frederic <frederic.konrad@adacore.com>
->
-> With that we can just use chardev=3Dserial0.
+Kevin
 
-I don't quite follow what this means.
-
-./aarch64-softmmu/qemu-system-aarch64 -cpu max -monitor none -chardev=3Dser=
-ial0 -M virt -display none -semihosting -kernel ./tests/tcg/aarch64-softmmu=
-/memory
-qemu-system-aarch64: -chardev=3Dserial0: invalid option
-
-./aarch64-softmmu/qemu-system-aarch64 -cpu max -monitor none -chardev id=3D=
-serial0 -M virt -display none -semihosting -kernel ./tests/tcg/aarch64-soft=
-mmu/memory
-qemu-system-aarch64: -chardev id=3Dserial0: chardev: "serial0" missing back=
-end
-
-The run:
-
-./aarch64-softmmu/qemu-system-aarch64 -cpu max -serial mon:stdio -M virt -d=
-isplay none -semihosting -kernel ./tests/tcg/aarch64-softmmu/memory
-
-works fine without this patch.
-
->
-> Signed-off-by: KONRAD Frederic <frederic.konrad@adacore.com>
-> ---
->  softmmu/vl.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
->
-> diff --git a/softmmu/vl.c b/softmmu/vl.c
-> index f669c06..9b8b48a 100644
-> --- a/softmmu/vl.c
-> +++ b/softmmu/vl.c
-> @@ -4123,8 +4123,6 @@ void qemu_init(int argc, char **argv, char **envp)
->=20=20
->      qemu_opts_foreach(qemu_find_opts("chardev"),
->                        chardev_init_func, NULL, &error_fatal);
-> -    /* now chardevs have been created we may have semihosting to connect=
- */
-> -    qemu_semihosting_connect_chardevs();
->=20=20
->  #ifdef CONFIG_VIRTFS
->      qemu_opts_foreach(qemu_find_opts("fsdev"),
-> @@ -4271,6 +4269,9 @@ void qemu_init(int argc, char **argv, char **envp)
->      if (foreach_device_config(DEV_DEBUGCON, debugcon_parse) < 0)
->          exit(1);
->=20=20
-> +    /* now chardevs have been created we may have semihosting to connect=
- */
-> +    qemu_semihosting_connect_chardevs();
-> +
->      /* If no default VGA is requested, the default is "none".  */
->      if (default_vga) {
->          vga_model =3D get_default_vga_model(machine_class);
-
-
---=20
-Alex Benn=C3=A9e
 
