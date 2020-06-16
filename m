@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0280A1FAA78
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 09:53:29 +0200 (CEST)
-Received: from localhost ([::1]:47056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBBE81FAA80
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 09:55:13 +0200 (CEST)
+Received: from localhost ([::1]:55606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jl6PQ-000655-14
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 03:53:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53916)
+	id 1jl6R6-00013n-My
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 03:55:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jl6NX-0003gL-Q2; Tue, 16 Jun 2020 03:51:31 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:34409)
+ id 1jl6NY-0003jF-SS; Tue, 16 Jun 2020 03:51:32 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:41202)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jl6NV-00084a-UO; Tue, 16 Jun 2020 03:51:31 -0400
-Received: by mail-wr1-x444.google.com with SMTP id r7so19698101wro.1;
- Tue, 16 Jun 2020 00:51:28 -0700 (PDT)
+ id 1jl6NX-00084r-6w; Tue, 16 Jun 2020 03:51:32 -0400
+Received: by mail-wr1-x442.google.com with SMTP id j10so19659126wrw.8;
+ Tue, 16 Jun 2020 00:51:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=/VMXSScmCR3d2/xkIxPp+LwxksxY5VIsQUSqaq3gT2w=;
- b=LgKlPInvpyWcJQMbinEVBrhvjBxSLgik0kvjvBXJ5vLSHydazZm1npSvulmJf7g3ZH
- vcT06mhNwvaHJYzKexKhtPj3X1uBs26KJr/3g/Uo9f4JAi0yOjI+ggFED/eI0EIkz+dj
- ACegk5qJrKPDUdyxK64vooWuXSaDufmJHKuzwy3GSVwlFGKsCgB82NKF81X9s2w+15Mq
- 4uJi2mzFI39tn702h5DYgZzIzDyIGI0h9DGV5uY1upX3G5mvZnz3sMexLNHh8qpoVE8J
- Wg6RLX76p2BP+SM4tkB06dBfc17szJClCmIftRXo4LcH9vhs4Oj86BpiP4C0Uz7dgKN9
- oKEA==
+ bh=nNUziTErkLgYz4tRwUDCFKibDK7Kq+2uBOuQqz7FOdE=;
+ b=EMXCBPQQiKZ0IiZlX2V9oIPUOIocKwAiFgJ87DIbemKuT55ZMwXBHSCQ0U3ocn1tWO
+ 2gUlIy2C7w+mpcRxPG0O2l85DCKvbqHEcZSRvvrKqEY8SHjcy6yi3bsPl1tX3y7GaA7Q
+ WNqFtDEQ/b/RRdF85QN3opwgKH1m0/bAdXcP520QisJFcqY341x10rcWRdFgeLNdTs7v
+ ALWaAT9iYZIhZ1mre/JCGtbuGXTxinHP3bnPjVy2bQSUJn3bHJD508/KXxjCHjKNTszo
+ GqRkYTaAhcS3ZnkpxkRFo4345EHZU/RDJT/Nbv/a2b6W0qE+aGGntMCe5s7pMi33OiY2
+ tqjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=/VMXSScmCR3d2/xkIxPp+LwxksxY5VIsQUSqaq3gT2w=;
- b=AsxLDro4zZAdu4jTRPOhclVAfS/ggw/T1El3HPDjqbreIUALnFy4jX4YvSnkVlJZvE
- 8YNzH4LfkcO8ID5uZ1LcSctnPgucgYshXhqpONdbypwS9CeUwJ3oWa3NmZJenR46sH2D
- QAWv5OADI76hHcC4F3zd2iD7m7GvuLGb1TuNisUaed6N9ukp91zNDqZFNSop1HcUiVda
- ypb8iOSusEFcvzdEjnRmq/0qCJvRMYyM+LgaJ2dVPU8XtuS9t7U6Ya9IY1AoHiuW4ZHK
- 9J3La/aJXqg6Xie8umBw6kiOfG5UhukeamcM1nkduIeTPmzaS4LqotFOypqcTxJgECKf
- gv2A==
-X-Gm-Message-State: AOAM533O70R29T0x8VwW+cP1z8Ul5LO5kZLcPQNBsAP5fZ5l6gyKB3JV
- Ss+QvJe5qqzQlbZ/Yhn2L3mdOR5z
-X-Google-Smtp-Source: ABdhPJw1CEDYD8VhkYNnlo/tDBeikFnfie1kFgHNOTqW2vK5wDAq1ur41dKnqMxnQXpjcMNkv+hOSw==
-X-Received: by 2002:adf:f0d2:: with SMTP id x18mr1633039wro.250.1592293887799; 
- Tue, 16 Jun 2020 00:51:27 -0700 (PDT)
+ bh=nNUziTErkLgYz4tRwUDCFKibDK7Kq+2uBOuQqz7FOdE=;
+ b=lTaWxdpG5H+r10ReT/iYfp1AdZkNiRs2F3A5eqglJM6GD2SmVjixBsQLnugtXAo7AP
+ BMbY51IV3DX4gf06rAuUem9LL6OXXGjBzHyjC81WMrZf/wP3C8B3RzXlHDoA4myJt0Ba
+ udC67zOPxhIaO7vnguySLlgwxqs7d8sjb7vbJlXxfyEG3rSzpQ9b6dliEKx0EeOx9VJQ
+ w5zv9Wa55vxoc4aWDtr3G8A+sZMiJ3BwwtH/f8nqBYgkMG+sLJwLyjNqHFcD903jBVCd
+ 97OpHkPZ3LHLr+gCQZTcAQVr9FEghjH170RfMRpmpKJ6ppgSs0QeOv2DlwzNfsxkLHkD
+ /ZXQ==
+X-Gm-Message-State: AOAM533jnUhzrU7IdO+TPtbL7/fhfpq0elt8wz1QznBVX8Tz9lRJkV6U
+ yzETY/cq3d3GRM9ecrPQkPChxpJ/
+X-Google-Smtp-Source: ABdhPJyX7kxTW4XOQXjVEj5drS5upHp8ngPtIAsARqpAsxbPN7+9xQEPXiXWWQNW++v5bR9lKQRF/A==
+X-Received: by 2002:adf:e590:: with SMTP id l16mr1566679wrm.383.1592293889090; 
+ Tue, 16 Jun 2020 00:51:29 -0700 (PDT)
 Received: from localhost.localdomain
  (181.red-88-10-103.dynamicip.rima-tde.net. [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id q11sm28093538wrv.67.2020.06.16.00.51.26
+ by smtp.gmail.com with ESMTPSA id q11sm28093538wrv.67.2020.06.16.00.51.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Jun 2020 00:51:27 -0700 (PDT)
+ Tue, 16 Jun 2020 00:51:28 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/7] block/curl: Reduce timer precision to milli-second
-Date: Tue, 16 Jun 2020 09:51:17 +0200
-Message-Id: <20200616075121.12837-4-f4bug@amsat.org>
+Subject: [PATCH 4/7] hw/virtio/virtio-balloon: Rename timer field including
+ 'ms' unit
+Date: Tue, 16 Jun 2020 09:51:18 +0200
+Message-Id: <20200616075121.12837-5-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200616075121.12837-1-f4bug@amsat.org>
 References: <20200616075121.12837-1-f4bug@amsat.org>
@@ -62,8 +63,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -89,7 +90,6 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
  qemu-block@nongnu.org, Corey Minyard <minyard@acm.org>,
  David Hildenbrand <david@redhat.com>, Andrew Jeffery <andrew@aj.id.au>,
  "Michael S. Tsirkin" <mst@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Max Reitz <mreitz@redhat.com>, qemu-arm@nongnu.org,
  Joel Stanley <joel@jms.id.au>, Paolo Bonzini <pbonzini@redhat.com>,
@@ -97,65 +97,66 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The current implementation uses nano-second precision,
-while the block driver is only used with a milli-second precision.
-Simplify by using a milli-second based timer.
-Rename the timer 'timer_ms' to have the unit explicit.
+To make code review easier, append the timer unit (milli-seconds)
+to its variable name.
 
-Inspired-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- block/curl.c | 15 +++++++--------
- 1 file changed, 7 insertions(+), 8 deletions(-)
+ include/hw/virtio/virtio-balloon.h |  2 +-
+ hw/virtio/virtio-balloon.c         | 14 ++++++++------
+ 2 files changed, 9 insertions(+), 7 deletions(-)
 
-diff --git a/block/curl.c b/block/curl.c
-index 6e325901dc..74950373aa 100644
---- a/block/curl.c
-+++ b/block/curl.c
-@@ -119,7 +119,7 @@ typedef struct CURLState
- 
- typedef struct BDRVCURLState {
-     CURLM *multi;
--    QEMUTimer timer;
-+    QEMUTimer timer_ms;
-     uint64_t len;
-     CURLState states[CURL_NUM_STATES];
-     char *url;
-@@ -148,11 +148,10 @@ static int curl_timer_cb(CURLM *multi, long timeout_ms, void *opaque)
- 
-     trace_curl_timer_cb(timeout_ms);
-     if (timeout_ms == -1) {
--        timer_del(&s->timer);
-+        timer_del(&s->timer_ms);
-     } else {
--        int64_t timeout_ns = (int64_t)timeout_ms * 1000 * 1000;
--        timer_mod(&s->timer,
--                  qemu_clock_get_ns(QEMU_CLOCK_REALTIME) + timeout_ns);
-+        timer_mod(&s->timer_ms,
-+                  qemu_clock_get_ms(QEMU_CLOCK_REALTIME) + timeout_ms);
-     }
-     return 0;
- }
-@@ -582,7 +581,7 @@ static void curl_detach_aio_context(BlockDriverState *bs)
-     }
-     qemu_mutex_unlock(&s->mutex);
- 
--    timer_del(&s->timer);
-+    timer_del(&s->timer_ms);
- }
- 
- static void curl_attach_aio_context(BlockDriverState *bs,
-@@ -590,8 +589,8 @@ static void curl_attach_aio_context(BlockDriverState *bs,
+diff --git a/include/hw/virtio/virtio-balloon.h b/include/hw/virtio/virtio-balloon.h
+index d49fef00ce..8a85fb1b88 100644
+--- a/include/hw/virtio/virtio-balloon.h
++++ b/include/hw/virtio/virtio-balloon.h
+@@ -50,7 +50,7 @@ typedef struct VirtIOBalloon {
+     uint64_t stats[VIRTIO_BALLOON_S_NR];
+     VirtQueueElement *stats_vq_elem;
+     size_t stats_vq_offset;
+-    QEMUTimer *stats_timer;
++    QEMUTimer *stats_timer_ms;
+     IOThread *iothread;
+     QEMUBH *free_page_bh;
+     /*
+diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
+index 10507b2a43..ad67cd53e4 100644
+--- a/hw/virtio/virtio-balloon.c
++++ b/hw/virtio/virtio-balloon.c
+@@ -197,16 +197,17 @@ static bool balloon_stats_enabled(const VirtIOBalloon *s)
+ static void balloon_stats_destroy_timer(VirtIOBalloon *s)
  {
-     BDRVCURLState *s = bs->opaque;
+     if (balloon_stats_enabled(s)) {
+-        timer_del(s->stats_timer);
+-        timer_free(s->stats_timer);
+-        s->stats_timer = NULL;
++        timer_del(s->stats_timer_ms);
++        timer_free(s->stats_timer_ms);
++        s->stats_timer_ms = NULL;
+         s->stats_poll_interval = 0;
+     }
+ }
  
--    aio_timer_init(new_context, &s->timer,
--                   QEMU_CLOCK_REALTIME, SCALE_NS,
-+    aio_timer_init(new_context, &s->timer_ms,
-+                   QEMU_CLOCK_REALTIME, SCALE_MS,
-                    curl_multi_timeout_do, s);
+ static void balloon_stats_change_timer(VirtIOBalloon *s, int64_t secs)
+ {
+-    timer_mod(s->stats_timer, qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) + secs * 1000);
++    timer_mod(s->stats_timer_ms,
++              qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) + secs * 1000);
+ }
  
-     assert(!s->multi);
+ static void balloon_stats_poll_cb(void *opaque)
+@@ -315,8 +316,9 @@ static void balloon_stats_set_poll_interval(Object *obj, Visitor *v,
+     }
+ 
+     /* create a new timer */
+-    g_assert(s->stats_timer == NULL);
+-    s->stats_timer = timer_new_ms(QEMU_CLOCK_VIRTUAL, balloon_stats_poll_cb, s);
++    g_assert(s->stats_timer_ms == NULL);
++    s->stats_timer_ms = timer_new_ms(QEMU_CLOCK_VIRTUAL,
++                                     balloon_stats_poll_cb, s);
+     s->stats_poll_interval = value;
+     balloon_stats_change_timer(s, 0);
+ }
 -- 
 2.21.3
 
