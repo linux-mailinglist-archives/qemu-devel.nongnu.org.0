@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD25A1FB72E
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 17:44:50 +0200 (CEST)
-Received: from localhost ([::1]:41308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 724C71FB651
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 17:37:10 +0200 (CEST)
+Received: from localhost ([::1]:52402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlDlZ-00078x-S0
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 11:44:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49516)
+	id 1jlDe9-0004aH-I9
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 11:37:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jlDiW-00014K-EQ
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 11:41:40 -0400
-Received: from indium.canonical.com ([91.189.90.7]:50408)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jlDiU-0008KX-Nc
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 11:41:40 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jlDiQ-0008RB-2r
- for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 15:41:34 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 09DB62E8157
- for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 15:41:30 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jlDa0-0001e9-Fj
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 11:32:52 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:58189
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jlDZx-00060G-2o
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 11:32:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1592321568;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=DgqodBgPCpfM8/0FpwIzpWCD6Hgmukz/7nJnfys5gjg=;
+ b=B4Ryr1/m4f7yiEuHhWN9ZZzjDOr+bP7eRyYrBh7SC6pUHdd3SuR0nU97lVlsOMCQs6xGB5
+ V/t4hJD1XFHHX31k8Zskab5DglNYqSTQjmF6pQeyvVSAniZkbQhSHk7emWsIx5ZPtCiJ9M
+ dIig6i5q4oaVgjtEsZyZdY5Nc0M5+qc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-6-oKQKLNzZNOi3CbYB4PYA9A-1; Tue, 16 Jun 2020 11:32:46 -0400
+X-MC-Unique: oKQKLNzZNOi3CbYB4PYA9A-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F29F680332B;
+ Tue, 16 Jun 2020 15:32:44 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-114-66.ams2.redhat.com [10.36.114.66])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5839979304;
+ Tue, 16 Jun 2020 15:32:43 +0000 (UTC)
+Date: Tue, 16 Jun 2020 17:32:41 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Nir Soffer <nsoffer@redhat.com>
+Subject: Re: [PATCH] block: file-posix: Fail unmap with NO_FALLBACK on block
+ device
+Message-ID: <20200616153241.GF4305@linux.fritz.box>
+References: <20200613170826.354270-1-nsoffer@redhat.com>
+ <CAMRbyyswkaedF0dN2nPb3H8fj5+pmhLWh9GHGor4wUk_Su=b8A@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 16 Jun 2020 15:31:46 -0000
-From: Bugs SysSec <1883728@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: bugs-syssec
-X-Launchpad-Bug-Reporter: Bugs SysSec (bugs-syssec)
-X-Launchpad-Bug-Modifier: Bugs SysSec (bugs-syssec)
-Message-Id: <159232150625.30008.14587531607819527800.malonedeb@chaenomeles.canonical.com>
-Subject: [Bug 1883728] [NEW] address_space_unmap: Assertion `mr != NULL'
- failed.
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="b190cebbf563f89e480a8b57f641753c8196bda0";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 9c03fe4f71e8855e9ffa80a688a0cf3fde705dfd
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 11:30:43
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=_AUTOLEARN
-X-Spam_action: no action
+In-Reply-To: <CAMRbyyswkaedF0dN2nPb3H8fj5+pmhLWh9GHGor4wUk_Su=b8A@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 02:01:17
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,63 +72,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1883728 <1883728@bugs.launchpad.net>
+Cc: nirsof <nirsof@gmail.com>, qemu-block <qemu-block@nongnu.org>, pl@kamp.de,
+ QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+Am 15.06.2020 um 21:32 hat Nir Soffer geschrieben:
+> We can zero 2.3 g/s:
+> 
+> # time blkdiscard -z test-lv
+> 
+> real 0m43.902s
+> user 0m0.002s
+> sys 0m0.130s
 
-To reproduce run the QEMU with the following command line:
-```
-qemu-system-x86_64 -cdrom hypertrash_os_bios_crash.iso -nographic -m 100 -e=
-nable-kvm -device virtio-gpu-pci -device nec-usb-xhci -device usb-audio
-```
+> We can write 445m/s:
+> 
+> # dd if=/dev/zero bs=2M count=51200 of=test-lv oflag=direct conv=fsync
+> 107374182400 bytes (107 GB, 100 GiB) copied, 241.257 s, 445 MB/s
 
-QEMU Version:
-```
-# qemu-5.0.0
-$ ./configure --target-list=3Dx86_64-softmmu --enable-sanitizers; make
-$ x86_64-softmmu/qemu-system-x86_64 --version
-QEMU emulator version 5.0.0
-Copyright (c) 2003-2020 Fabrice Bellard and the QEMU Project developers
-```
+So using FALLOC_FL_PUNCH_HOLE _is_ faster after all. What might not be
+faster is zeroing out the whole device and then overwriting a
+considerable part of it again.
 
-** Affects: qemu
-     Importance: Undecided
-         Status: New
+I think this means that we shouldn't fail write_zeroes at the file-posix
+level even if BDRV_REQ_NO_FALLBACK is given. Instead, qemu-img convert
+is where I see a fix.
 
-** Attachment added: "xhci_assert1.zip"
-   https://bugs.launchpad.net/bugs/1883728/+attachment/5384431/+files/xhci_=
-assert1.zip
+Certainly qemu-img could be cleverer and zero out more selectively. The
+idea of doing a blk_make_zero() first seems to have caused some
+problems, though of course its introduction was also justified with
+performance, so improving one case might hurt another if we're not
+careful.
 
--- =
+However, when Peter Lieven introduced this (commit 5a37b60a61c), we
+didn't use write_zeroes yet during the regular copy loop (we do since
+commit 690c7301600). So chances are that blk_make_zero() doesn't
+actually help any more now.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1883728
+Can you run another test with the patch below? I think it should perform
+the same as yours. Eric, Peter, do you think this would have a negative
+effect for NBD and/or iscsi?
 
-Title:
-  address_space_unmap: Assertion `mr !=3D NULL' failed.
+The other option would be providing an option and making it Someone
+Else's Problem.
 
-Status in QEMU:
-  New
+Kevin
 
-Bug description:
-  To reproduce run the QEMU with the following command line:
-  ```
-  qemu-system-x86_64 -cdrom hypertrash_os_bios_crash.iso -nographic -m 100 =
--enable-kvm -device virtio-gpu-pci -device nec-usb-xhci -device usb-audio
-  ```
 
-  QEMU Version:
-  ```
-  # qemu-5.0.0
-  $ ./configure --target-list=3Dx86_64-softmmu --enable-sanitizers; make
-  $ x86_64-softmmu/qemu-system-x86_64 --version
-  QEMU emulator version 5.0.0
-  Copyright (c) 2003-2020 Fabrice Bellard and the QEMU Project developers
-  ```
+diff --git a/qemu-img.c b/qemu-img.c
+index d7e846e607..bdb9f6aa46 100644
+--- a/qemu-img.c
++++ b/qemu-img.c
+@@ -2084,15 +2084,6 @@ static int convert_do_copy(ImgConvertState *s)
+         s->has_zero_init = bdrv_has_zero_init(blk_bs(s->target));
+     }
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1883728/+subscriptions
+-    if (!s->has_zero_init && !s->target_has_backing &&
+-        bdrv_can_write_zeroes_with_unmap(blk_bs(s->target)))
+-    {
+-        ret = blk_make_zero(s->target, BDRV_REQ_MAY_UNMAP | BDRV_REQ_NO_FALLBACK);
+-        if (ret == 0) {
+-            s->has_zero_init = true;
+-        }
+-    }
+-
+     /* Allocate buffer for copied data. For compressed images, only one cluster
+      * can be copied at a time. */
+     if (s->compressed) {
+
 
