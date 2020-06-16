@@ -2,57 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0890A1FB604
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 17:23:10 +0200 (CEST)
-Received: from localhost ([::1]:54458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AB8D1FB613
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 17:24:59 +0200 (CEST)
+Received: from localhost ([::1]:32800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlDQa-00011y-GC
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 11:23:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43900)
+	id 1jlDSM-0003ie-H3
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 11:24:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44270)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jlDIf-0007er-Hf
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 11:14:57 -0400
-Received: from 9.mo1.mail-out.ovh.net ([178.32.108.172]:50200)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jlDId-0001K1-AP
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 11:14:57 -0400
-Received: from player761.ha.ovh.net (unknown [10.108.35.240])
- by mo1.mail-out.ovh.net (Postfix) with ESMTP id B320F1BFB9C
- for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 17:14:45 +0200 (CEST)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player761.ha.ovh.net (Postfix) with ESMTPSA id D09BE136F4EEA;
- Tue, 16 Jun 2020 15:14:41 +0000 (UTC)
-Authentication-Results: garm.ovh; auth=pass
- (GARM-99G003d4a0efd5-a534-45b8-8147-0892b4cc63e6,6D1193CAFB0197A83E26607BB2BE83A43F9AE14F)
- smtp.auth=groug@kaod.org
-Date: Tue, 16 Jun 2020 17:14:40 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Michael Roth <mdroth@linux.vnet.ibm.com>
-Subject: Re: [PATCH 72/78] 9p: Lock directory streams with a CoMutex
-Message-ID: <20200616171440.172f1173@bahia.lan>
-In-Reply-To: <20200616141547.24664-73-mdroth@linux.vnet.ibm.com>
-References: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
- <20200616141547.24664-73-mdroth@linux.vnet.ibm.com>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <gpiccoli@canonical.com>)
+ id 1jlDK8-0001mn-EE
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 11:16:28 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:44808)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_CBC_SHA1:128)
+ (Exim 4.90_1) (envelope-from <gpiccoli@canonical.com>)
+ id 1jlDK6-0001lR-7b
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 11:16:28 -0400
+Received: from mail-qv1-f70.google.com ([209.85.219.70])
+ by youngberry.canonical.com with esmtps
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
+ (envelope-from <gpiccoli@canonical.com>) id 1jlDK3-0003c1-DM
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 15:16:23 +0000
+Received: by mail-qv1-f70.google.com with SMTP id a8so15799309qvt.7
+ for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 08:16:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:to:cc:from:autocrypt:subject:message-id:date
+ :user-agent:mime-version:content-language:content-transfer-encoding;
+ bh=eX3m0Di1LMY49eKKjvC+O37EN++/7yynGmI/HNgY9Os=;
+ b=GjeOFcuQnaYb9uu8lh18Swr0wc+ZfR8DkCkRvE9iK2pqJEryn1Jl6ctpUUeG3Hwuoh
+ v1Dl1WiogzDpmmCVMe5Bz9MLmg6C7O/YQGOQmGlUrBSYTFVCvtpIObQ0mPWQbKbhsywk
+ 9FgRxyEfjhEsJ/LAhmY+cPp0hQvjuWKSa4b+ps4RtqeAGpc3/UJX2jsyAjh5uGfPoLUU
+ j2otrBgHrx0wZtX4Ox+RYLYC7x0hUG4aMARAOS8XwAQxJ6Gk0bGsBWXf/ns2BNmH8hjh
+ GpS7vOnRtyRQ1xtOdY8rSQYLN6OYuamcD7f//E4BC0hCAqt2UvO/lHbaPnlLDhz+reEj
+ Xwjg==
+X-Gm-Message-State: AOAM531pEqlyQSax7GmCMWJJ5kLdB2pyLmoeRkWPFMsLn+yqNyNNkRwU
+ IwmQTeISfAJe/rie+4NgSCxuCpke+WZBV2mv0T03GYyZ44i6ZUV6Sq3UciamoYH5jT8a+zf8QN1
+ mzhyuvUj/rzaD9IWh7AGOZum2QKMJUtnM
+X-Received: by 2002:a0c:ffca:: with SMTP id h10mr2804747qvv.238.1592320582470; 
+ Tue, 16 Jun 2020 08:16:22 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyEBDqQuoSy7upQA8N3gCTg7WDRg0TDwj1P3JQeAzeeYqhVSfPz/yhCaABu0b0CxKASnKl86w==
+X-Received: by 2002:a0c:ffca:: with SMTP id h10mr2804720qvv.238.1592320582127; 
+ Tue, 16 Jun 2020 08:16:22 -0700 (PDT)
+Received: from [192.168.1.75] ([179.110.231.152])
+ by smtp.gmail.com with ESMTPSA id p185sm13373497qkd.128.2020.06.16.08.16.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 16 Jun 2020 08:16:21 -0700 (PDT)
+To: qemu-devel@nongnu.org
+From: "Guilherme G. Piccoli" <gpiccoli@canonical.com>
+Autocrypt: addr=gpiccoli@canonical.com; prefer-encrypt=mutual; keydata=
+ xsBNBFpVBxcBCADPNKmu2iNKLepiv8+Ssx7+fVR8lrL7cvakMNFPXsXk+f0Bgq9NazNKWJIn
+ Qxpa1iEWTZcLS8ikjatHMECJJqWlt2YcjU5MGbH1mZh+bT3RxrJRhxONz5e5YILyNp7jX+Vh
+ 30rhj3J0vdrlIhPS8/bAt5tvTb3ceWEic9mWZMsosPavsKVcLIO6iZFlzXVu2WJ9cov8eQM/
+ irIgzvmFEcRyiQ4K+XUhuA0ccGwgvoJv4/GWVPJFHfMX9+dat0Ev8HQEbN/mko/bUS4Wprdv
+ 7HR5tP9efSLucnsVzay0O6niZ61e5c97oUa9bdqHyApkCnGgKCpg7OZqLMM9Y3EcdMIJABEB
+ AAHNLUd1aWxoZXJtZSBHLiBQaWNjb2xpIDxncGljY29saUBjYW5vbmljYWwuY29tPsLAdwQT
+ AQgAIQUCWmClvQIbAwULCQgHAgYVCAkKCwIEFgIDAQIeAQIXgAAKCRDOR5EF9K/7Gza3B/9d
+ 5yczvEwvlh6ksYq+juyuElLvNwMFuyMPsvMfP38UslU8S3lf+ETukN1S8XVdeq9yscwtsRW/
+ 4YoUwHinJGRovqy8gFlm3SAtjfdqysgJqUJwBmOtcsHkmvFXJmPPGVoH9rMCUr9s6VDPox8f
+ q2W5M7XE9YpsfchS/0fMn+DenhQpV3W6pbLtuDvH/81GKrhxO8whSEkByZbbc+mqRhUSTdN3
+ iMpRL0sULKPVYbVMbQEAnfJJ1LDkPqlTikAgt3peP7AaSpGs1e3pFzSEEW1VD2jIUmmDku0D
+ LmTHRl4t9KpbU/H2/OPZkrm7809QovJGRAxjLLPcYOAP7DUeltvezsBNBFpVBxcBCADbxD6J
+ aNw/KgiSsbx5Sv8nNqO1ObTjhDR1wJw+02Bar9DGuFvx5/qs3ArSZkl8qX0X9Vhptk8rYnkn
+ pfcrtPBYLoux8zmrGPA5vRgK2ItvSc0WN31YR/6nqnMfeC4CumFa/yLl26uzHJa5RYYQ47jg
+ kZPehpc7IqEQ5IKy6cCKjgAkuvM1rDP1kWQ9noVhTUFr2SYVTT/WBHqUWorjhu57/OREo+Tl
+ nxI1KrnmW0DbF52tYoHLt85dK10HQrV35OEFXuz0QPSNrYJT0CZHpUprkUxrupDgkM+2F5LI
+ bIcaIQ4uDMWRyHpDbczQtmTke0x41AeIND3GUc+PQ4hWGp9XABEBAAHCwF8EGAEIAAkFAlpV
+ BxcCGwwACgkQzkeRBfSv+xv1wwgAj39/45O3eHN5pK0XMyiRF4ihH9p1+8JVfBoSQw7AJ6oU
+ 1Hoa+sZnlag/l2GTjC8dfEGNoZd3aRxqfkTrpu2TcfT6jIAsxGjnu+fUCoRNZzmjvRziw3T8
+ egSPz+GbNXrTXB8g/nc9mqHPPprOiVHDSK8aGoBqkQAPZDjUtRwVx112wtaQwArT2+bDbb/Y
+ Yh6gTrYoRYHo6FuQl5YsHop/fmTahpTx11IMjuh6IJQ+lvdpdfYJ6hmAZ9kiVszDF6pGFVkY
+ kHWtnE2Aa5qkxnA2HoFpqFifNWn5TyvJFpyqwVhVI8XYtXyVHub/WbXLWQwSJA4OHmqU8gDl
+ X18zwLgdiQ==
+Subject: ovmf / PCI passthrough impaired due to very limiting PCI64 aperture
+Message-ID: <99779e9c-f05f-501b-b4be-ff719f140a88@canonical.com>
+Date: Tue, 16 Jun 2020 12:16:16 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 16277416429476288924
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduhedrudejtddgkeelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepheekhfdtheegheehjeeludefkefhvdelfedvieehhfekhfdufffhueeuvdfftdfhnecukfhppedtrddtrddtrddtpdekvddrvdehfedrvddtkedrvdegkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejiedurdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
-Received-SPF: pass client-ip=178.32.108.172; envelope-from=groug@kaod.org;
- helo=9.mo1.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 11:14:46
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=91.189.89.112;
+ envelope-from=gpiccoli@canonical.com; helo=youngberry.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 11:16:23
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
  RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ SPF_NONE=0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,88 +106,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
- qemu-stable@nongnu.org
+Cc: pedro.principeza@canonical.com, ehabkost@redhat.com,
+ dann.frazier@canonical.com, dgilbert@redhat.com,
+ christian.ehrhardt@canonical.com, kraxel@redhat.com, lersek@redhat.com,
+ fw@gpiccoli.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc'ing co-maintainer Christian Schoenebeck.
+Hello folks, I'd like to start a discussion (or bump it, in case it was
+already discussed) about an "issue", or better saying, a limitation
+we've been observing (and receiving reports) on qemu/ovmf with regards
+to the PCI passthrough of large BAR devices.
 
-Christian,
+After OVMF commit 7e5b1b670c38 ("OvmfPkg: PlatformPei: determine the
+64-bit PCI host aperture for X64 DXE"), the PCI 64-bit aperture is a
+hardcoded value passed to the guest via ACPI CRS that, in practical
+terms does not allow 32G+ BAR PCI devices to be correctly passthrough'ed
+to guests.
 
-If there are some more commits you think are worth being cherry picked
-for QEMU 4.2.1, please inform Michael before freeze on 2020-06-22.
+There was a very informative discussion on edk2 groups [0] started by my
+colleague Dann, to which some edk2 and qemu developers responded with a
+good amount of information and rationale about this limitation, and the
+problems that increasing such limit would bring. All the colleagues that
+responded in that group discussion are hereby CC'ed.
 
-Cheers,
+The summary (in my understanding) is:
 
---
-Greg
+- The main reasoning for the current limitation is to make it simple; we
+need to take into account the 64-bit aperture in order to accomplish
+memory mapping on OVMF, and for common scenarios the current limit of
+32G accommodates the majority of use cases.
 
-On Tue, 16 Jun 2020 09:15:41 -0500
-Michael Roth <mdroth@linux.vnet.ibm.com> wrote:
+- On top of it, increasing the 64-bit aperture will incur in the
+increase of the memory required for OVMF-calculated PEI (Pre-EFI
+Initialization) page tables.
 
-> From: Greg Kurz <groug@kaod.org>
-> 
-> Locking was introduced in QEMU 2.7 to address the deprecation of
-> readdir_r(3) in glibc 2.24. It turns out that the frontend code is
-> the worst place to handle a critical section with a pthread mutex:
-> the code runs in a coroutine on behalf of the QEMU mainloop and then
-> yields control, waiting for the fsdev backend to process the request
-> in a worker thread. If the client resends another readdir request for
-> the same fid before the previous one finally unlocked the mutex, we're
-> deadlocked.
-> 
-> This never bit us because the linux client serializes readdir requests
-> for the same fid, but it is quite easy to demonstrate with a custom
-> client.
-> 
-> A good solution could be to narrow the critical section in the worker
-> thread code and to return a copy of the dirent to the frontend, but
-> this causes quite some changes in both 9p.c and codir.c. So, instead
-> of that, in order for people to easily backport the fix to older QEMU
-> versions, let's simply use a CoMutex since all the users for this
-> sit in coroutines.
-> 
-> Fixes: 7cde47d4a89d ("9p: add locking to V9fsDir")
-> Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> Message-Id: <158981894794.109297.3530035833368944254.stgit@bahia.lan>
-> Signed-off-by: Greg Kurz <groug@kaod.org>
-> (cherry picked from commit ed463454efd0ac3042ff772bfe1b1d846dc281a5)
-> Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
-> ---
->  hw/9pfs/9p.h | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/hw/9pfs/9p.h b/hw/9pfs/9p.h
-> index 3904f82901..069c86333f 100644
-> --- a/hw/9pfs/9p.h
-> +++ b/hw/9pfs/9p.h
-> @@ -186,22 +186,22 @@ typedef struct V9fsXattr
->  
->  typedef struct V9fsDir {
->      DIR *stream;
-> -    QemuMutex readdir_mutex;
-> +    CoMutex readdir_mutex;
->  } V9fsDir;
->  
->  static inline void v9fs_readdir_lock(V9fsDir *dir)
->  {
-> -    qemu_mutex_lock(&dir->readdir_mutex);
-> +    qemu_co_mutex_lock(&dir->readdir_mutex);
->  }
->  
->  static inline void v9fs_readdir_unlock(V9fsDir *dir)
->  {
-> -    qemu_mutex_unlock(&dir->readdir_mutex);
-> +    qemu_co_mutex_unlock(&dir->readdir_mutex);
->  }
->  
->  static inline void v9fs_readdir_init(V9fsDir *dir)
->  {
-> -    qemu_mutex_init(&dir->readdir_mutex);
-> +    qemu_co_mutex_init(&dir->readdir_mutex);
->  }
->  
->  /*
+- The current aperture also accounts for the 36-bit CPU physical bits
+(PCPU) common in old processors and in some qemu generic vcpus, and this
+"helps" with live migration, since 36-bit seems to be the LCD (lowest
+common denominator) between all processors (for 64-bit architectures),
+hence the limiting PCI64 aperture wouldn't be yet another factor that
+makes live migration difficult or impossible.
 
+- Finally, there's an _experimental_ parameter to allow some users'
+flexibility on PCI64 aperture calculation: "X-PciMmio64Mb".
+
+The point is we have more and more devices out there with bigger BARs
+(mostly GPUs), that either exceed 32G by themselves or are almost there
+(16G) and if users want to pass-through such devices, OVMF doesn't allow
+that. Relying on "X-PciMmio64Mb" is problematic due to the
+experimental/unstable nature of such parameter.
+
+Linux kernel allows bypassing ACPI CRS with "pci=nocrs", some discussion
+about that on [1]. But other OSes may not have such option, effectively
+preventing the PCI-PT of such large devices to succeed or forcing user
+to rely on the experimental parameter.
+
+I'd like to discuss here a definitive solution; I've started this
+discussion on Tianocore bugzilla [2], but Laszlo wisely suggested us to
+move here to gather input from qemu community.
+Currently I see 2 options, being (a) my preferred one:
+
+(a) We could rely in the guest physbits to calculate the PCI64 aperture.
+If the users are doing host bits' passthrough (or setting the physbits
+manually through -phys-bits), they are already risking a live migration
+failure. Also, if the users are not setting the physbits in the guest,
+there must be a default (seems to be 40bit according to my experiments),
+seems to be a good idea to rely on that.
+If guest physbits is 40, why to have OVMF limiting it to 36, right?
+
+(b) Making the experimental "X-PciMmio64Mb" not experimental anymore is
+also an option, allowing users to rely on it without the risk of support
+drop.
+
+Please let me know your thoughts on such limitation and how we could
+improve it. Other ideas are also welcome, of course. Thanks for the
+attention,
+
+
+Guilherme
+
+
+[0] edk2.groups.io/g/discuss/topic/ovmf_resource_assignment/59340711
+[1] bugs.launchpad.net/bugs/1849563
+[2] bugzilla.tianocore.org/show_bug.cgi?id=2796
 
