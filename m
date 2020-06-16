@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E2711FAE2D
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 12:41:14 +0200 (CEST)
-Received: from localhost ([::1]:52428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5165A1FAE46
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 12:42:48 +0200 (CEST)
+Received: from localhost ([::1]:58742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jl91l-0008T1-J8
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 06:41:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60142)
+	id 1jl93H-0002bF-Ah
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 06:42:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Filip.Bozuta@syrmia.com>)
- id 1jl90Q-0006sv-Gu
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 06:39:50 -0400
-Received: from mail-db8eur05on2113.outbound.protection.outlook.com
- ([40.107.20.113]:30304 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
+ id 1jl90T-0006wM-5G
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 06:39:53 -0400
+Received: from mail-db8eur05on2134.outbound.protection.outlook.com
+ ([40.107.20.134]:62689 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Filip.Bozuta@syrmia.com>)
- id 1jl90O-0002xB-FT
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 06:39:50 -0400
+ id 1jl90R-0002xj-EQ
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 06:39:52 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WevISPDYCYYgtnVMGGyskzSo4ZA71RK9+BD7MtrUNiXbUPyl0bN6tVanSadPKN+pdoiWwrE8i/dm/sfdrw/l0Lcc7AuYPSD3Lm5ONxTWdDY3jcVRqPYx+IhXRnpLWEOO1SjBEO8Rn6H7Q5bJz3nmbq7eK1LRglcg1GAu8Dc9BjI3kM1GkB8uNnlZ3wGwqiGOb1XsHp4oJ2kMyXRvwKr/SYl+6z085pRd1+9ePF76mv1Z3f/MOU/WfnqpAR5/UZcdH+UwoGG6lNmxuUo7iKXRnRd0uhbS37e9ntPGJ6jNc3NRu3DfF2TUXGoay6fdxsrIzTTVZl8Tt/9/RGAUm7nm5A==
+ b=gwTasGX//spULDwOFfCOJWyI1iWBoobQAnqLtRWMGoBly/g4ru0IyMT94+xHPtHFpQVwwVqRguIrzh2IaZ21irIi7kWpvFZAx0UOApzNnp5ERS9W9TUZcsU/yvgYa5yS3/00Pg7IDrRP23MSeTjZTcgVdU/xVlx9i/IunI076Kx3sXsVz0xy/0yD6qweA3wQm5TT6U+jOP/2UFaN3Y+Aa4iDpmDjVJVXPs2YjJc4FGq82l0UNOAIqTOaAO7r+0DpSYpQsIBbEq4J7JCNqq/ughx5Nh+h6gDjX2Xf/h3EiBADPnwU2gxupcQ/WOSmDf6rz8JUYbVAdO0o8y8OxnRYjQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vPSdFXYJawze262J22eUdv5iOsyYwSDNBoSHgHQQfY4=;
- b=X0gpAsGPZFP2HHO0kFawH+NG3wgmG6x73TTXjgHv6GM22lSOyv7fRvFAahhc2L4LdvwuJsw6iARXhdNCd7nwUrJyiPcb8TrYC3dBaVsbE9z8EPjjt+cnwoRLnvik5cLi3ZzCBD2VIFedqfUGZM/KADDXJBTce0X2r0sRRJxO94OeVQcVMoXpJrfK79Ai5OkiXz9tX7NJUYLSiu94/Tt6fHk6dh0ZuNm1G2K5ZO+gPgp4vR3h6jP65jUIR0SMXbh93Z4ROSnStZLZnJQ2dnciq/pX4fEHokRiUbbXEuhEk2c2dLsFdtG/SSAkWwP+h2rSqWfQzANs4KiTxxMWTmtxag==
+ bh=4wAkJOpp4vVJfx2IroOpDJITNyxXboEoL4zNW1eRyqo=;
+ b=Ve9iY54t3G4YajDCN/eTpULwtnGBgXst9d/LPrTi9wclquKShKHu0b+QYcqEJ4l20hyWsGM9hYa79tuhG9vdIjM5s7fJ3oym3pGOZpWWVmudp+WhWn3MvWllkhrwl/BjrH6U6YnBdrScaap9kSwTlYTSYxeaa7VEOhgv/nReYYKlMix2E8ZeSHwQnjhKjzYHYl/UMkPfhB9p4/7CIM31zeLxi4MTI/4UEMFukTGWA2x/ogbJPTuhWNNh6g6hRsjMjUaaL8qW9kTcvMnCdHgfnZJJ9CVh3ubTvUhTtHlc9JmKoi4rdV2P2KM9i8K6iiF2OxFA8qoZmY1kOfEsLc0ruQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=syrmia.com; dmarc=pass action=none header.from=syrmia.com;
  dkim=pass header.d=syrmia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=syrmia.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vPSdFXYJawze262J22eUdv5iOsyYwSDNBoSHgHQQfY4=;
- b=uTWFtr7QL/+oLmMqAJscGo2YIB6Gw8oGtcBZ6Q4rXN/J1EVpQZT8w98cWKTUEpm+T1zSDJY4g+Zt76Rkymf7t52UBPs6Gwt4LKPQ1ooiQLQ/zdgSnBFIohJgt/bCaVVvAu84eVFoaaoeAYjCqeZ1LM6hWp36fsWTUmor8BlqjQQ=
+ bh=4wAkJOpp4vVJfx2IroOpDJITNyxXboEoL4zNW1eRyqo=;
+ b=Yz6XLp+8X0Bi3Y0qmdvfN397giN+waxpit0q85/jwArzd2Yj0xkpsIlOyrTR5U8SctY3DwRB7h62h7rqdojts9D2eUOoHYIjtlRYE9dS+olQb4+/tlhC+vbOJzy6rhcwL8EQRAEz9b3MTWTtr9z6xiMoXZxn34igqbpyejk/sEI=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=syrmia.com;
 Received: from AM6PR03MB5233.eurprd03.prod.outlook.com (2603:10a6:20b:d1::19)
@@ -45,13 +45,13 @@ Received: from AM6PR03MB5233.eurprd03.prod.outlook.com (2603:10a6:20b:d1::19)
 Received: from AM6PR03MB5233.eurprd03.prod.outlook.com
  ([fe80::98f0:b948:78a8:f618]) by AM6PR03MB5233.eurprd03.prod.outlook.com
  ([fe80::98f0:b948:78a8:f618%7]) with mapi id 15.20.3088.029; Tue, 16 Jun 2020
- 10:39:42 +0000
+ 10:39:43 +0000
 From: Filip Bozuta <filip.bozuta@syrmia.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 3/6] linux-user: Add strace support for printing argument
- of syscalls used for extended attributes
-Date: Tue, 16 Jun 2020 12:39:24 +0200
-Message-Id: <20200616103927.20222-4-filip.bozuta@syrmia.com>
+Subject: [PATCH v4 4/6] linux-user: Add strace support for printing arguments
+ of lseek()
+Date: Tue, 16 Jun 2020 12:39:25 +0200
+Message-Id: <20200616103927.20222-5-filip.bozuta@syrmia.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200616103927.20222-1-filip.bozuta@syrmia.com>
 References: <20200616103927.20222-1-filip.bozuta@syrmia.com>
@@ -68,32 +68,32 @@ Received: from bozuta-ubuntu-18.syrmia.com (46.240.135.226) by
 X-Mailer: git-send-email 2.17.1
 X-Originating-IP: [46.240.135.226]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 54c2633a-8de9-42bf-247b-08d811e1941a
+X-MS-Office365-Filtering-Correlation-Id: 029fc219-4f4c-4324-bc0f-08d811e19462
 X-MS-TrafficTypeDiagnostic: AM6PR03MB3960:
-X-Microsoft-Antispam-PRVS: <AM6PR03MB3960565A700FC54E9D32EB43EB9D0@AM6PR03MB3960.eurprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1332;
+X-Microsoft-Antispam-PRVS: <AM6PR03MB3960DDB858E4D8BB3DD704E6EB9D0@AM6PR03MB3960.eurprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
 X-Forefront-PRVS: 04362AC73B
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: HVsXblJbPtm/KDr5N552Q/u82Qt+J5AEDItQsdLhWss55GIgiuwMFJQWvte0ko9qaf9CzCm61Kh20itLobHP2l3O2ZyS9yiXuzEySYTmDtiASEvxP1WKVBvgxhBYhd+fjFdkcS6jz3vMNUSnDZp4PKSkEf3jRTkCVURreekQrHiwZMzhMOaygYHpJcrvwIHwBRiU0V6YbT1Twg3OL7l8KqRYowDLxoxpIjOwW6jSFegpyCCeT/0FN/sPVsNEMi6Y/RibB7DX1aNdFNkbvF8XZiDS7a5SAlXDSrkj3F3ltgRKkHrtbd8Wpnz2yb9hTsuUamQDCLZ6N/qLpE8EHhcaOGO2EdrJ3han3HLQgPuSgnP7R3XKAyp7z43pBd+B2G0+X51bvUz6/nAc/E/NzU2EbHzA3/DIrbX3eNelS3UIrJ16Ux0TXzigmMf1OqYBI32xMPwBuJKUOawqK+AQW8WeuA==
+X-Microsoft-Antispam-Message-Info: QL/OCHYyJokb+4EdOCxS/hy6qHgCBnVgWuGzEq71C/Tw+GvPh4n6UuSI/YBGSf5Vkz7w6+Yad82Tg1nsbU3W8yxZ7zGxtBsYyjaxtqLyKMgKrASYyh5Z9j7ns7nN+BgEqLh8sskPQvCYDd4jI5TJWCn7LUcWXfWsk0ylQZzIgo4ppuhyvE3Lk0d9JryxVEQMmp/AZLyGLdqqEE1USwyKXa98T6JMAs1k3yyfnVbS/q+78LZltcmDLazyShwkgnef5ENVxEW1K27mM9kJNvn19S9nbyJ2WcagcEXf3JWiXIjhmMVP4XaJmlVfQ26KYoSzxoCUJmgyelIZQ7+NDuT8ZWUkHUTyHZDbxSWNimiFaJyDyT0QHYTGzYyfYCyI7fkbb0xxtSGgbqHg0i8aQFtJ3g==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM6PR03MB5233.eurprd03.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
- SFS:(396003)(346002)(366004)(376002)(39830400003)(136003)(966005)(5660300002)(83380400001)(86362001)(508600001)(8936002)(316002)(6666004)(66476007)(6916009)(7696005)(36756003)(2616005)(52116002)(66946007)(66556008)(956004)(44832011)(26005)(1076003)(2906002)(4326008)(16526019)(6486002)(186003)(8676002)(334744003);
+ SFS:(396003)(346002)(366004)(39840400004)(376002)(136003)(966005)(5660300002)(83380400001)(86362001)(508600001)(8936002)(316002)(6666004)(66476007)(6916009)(7696005)(36756003)(2616005)(52116002)(66946007)(66556008)(956004)(44832011)(26005)(1076003)(2906002)(4326008)(16526019)(6486002)(186003)(8676002);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: syla03kK0gcyMMy2k4m04HNPJ5yVV4r6BrZt7jL6UjJxXuLz3Mv8kyAoTuUyQIC0RjOKK9IM4y+xapi+TT+x3cVtsVyfn/EGL4Mw6Ox+dTUamAGj+glbH/xwKy3I6cNAazk/yNvQD2tbtjOBTUe+hsoRVsyMs3PxYpIPtfBqtJ37qm4JKhcxbO+jwiKmUU9YJHXDDT1IM1NsfGmG33/mFaThrL5CtatYq3vxMylNUUJy35ySi/J1T+z9g0dccHRmrUHNkrX0Zggsr3W/EafaglVQ/OPk6oUJulFcKxFy+OauHWW1Kgbl3tE+xQqAH64skj1c+G7NMAMJ7vxzq6w8ketNb8ZDFu2FqnffMjzyQJcC/zEZQ9z82I8QYjjUDonx3F+meBO2fP+17BdwGPFUNuy+uUnFuDCCHn3nWD1oS+DgyCgKHnwhX4IIL2HK1LMK5FPVCKDpAjyhPNZ8KbKG5n5zpTW1Osb+JdpktuLzvj4=
+X-MS-Exchange-AntiSpam-MessageData: UpRdYPBq62NhlC5rZrX+km5WixIq84APBt+w8mkZ5nKD9ybp6IKjUhdqjAC9fHjjXdCokEbSl6UqJI6KKjaOMrhFKsCuKSFAyDg5izL9oenokx75pcxvGJ51Ue5j2J9zHoY8UgIXzeZ2ZvgoF5soI35cWGmG7gpNiA6aHhr9blmDrhZ4EQz1Xf8ztQRBjX8go66A6Irtpm4n57lG+vseIox8X2phb8KbnMwq+tONHu11KI1ma8ALcSHhOZD0Wraf3P/dyx3J5uaNr6MnGd2pc6vg5rUCpVd0raZBETA3pW1I5juKxriCpoPZvwOY7LgyolYHZ/kray1RRVinf0RhZu1eVT/tcJ3wWPrqoPJjcOd4zpAf8ASBuieUd4os6ByrO9vosgevqj8Wi/+dNszHmW9n6rgmGggGCvCNx0PploTc6sBooJJssjKvLCZ7E/u52CEqt5QXx4oIQDrQpQnVQXSSnJgXk5msvqVpZaOeB88=
 X-OriginatorOrg: syrmia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 54c2633a-8de9-42bf-247b-08d811e1941a
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jun 2020 10:39:42.4419 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 029fc219-4f4c-4324-bc0f-08d811e19462
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jun 2020 10:39:42.8876 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 19214a73-c1ab-4e19-8f59-14bdcb09a66e
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2YmKb1KdEL+mBkQFePh+RUNfyZRgIjqgcRW37c2r0G3hPLfheBwipyL+ef7O4WHvWycxfa3u5Q+ch23pJ9sYJQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: byQe/7mgCKY6ta6OwwrxD6uqc6zwnSYVkx56RscCU+jMAvUKy5Lst71WkL5zuuRcLI3n7k/u0/TIC5fdt165ZA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR03MB3960
-Received-SPF: pass client-ip=40.107.20.113;
+Received-SPF: pass client-ip=40.107.20.134;
  envelope-from=Filip.Bozuta@syrmia.com;
  helo=EUR05-DB8-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 06:39:41
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 06:39:47
 X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
 X-Spam_score_int: -37
 X-Spam_score: -3.8
@@ -121,273 +121,88 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Filip Bozuta <Filip.Bozuta@syrmia.com>
 
-This patch implements strace argument printing functionality for following syscalls:
+This patch implements strace argument printing functionality for syscall:
 
-    *getxattr, lgetxattr, fgetxattr - retrieve an extended attribute value
+    *lseek - reposition read/write file offset
 
-        ssize_t getxattr(const char *path, const char *name, void *value, size_t size)
-        ssize_t lgetxattr(const char *path, const char *name, void *value, size_t size)
-        ssize_t fgetxattr(int fd, const char *name, void *value, size_t size)
-        man page: https://www.man7.org/linux/man-pages/man2/getxattr.2.html
-
-    *listxattr, llistxattr, flistxattr - list extended attribute names
-
-        ssize_t listxattr(const char *path, char *list, size_t size)
-        ssize_t llistxattr(const char *path, char *list, size_t size)
-        ssize_t flistxattr(int fd, char *list, size_t size)
-        man page: https://www.man7.org/linux/man-pages/man2/listxattr.2.html
-
-    *removexattr, lremovexattr, fremovexattr - remove an extended attribute
-
-         int removexattr(const char *path, const char *name)
-         int lremovexattr(const char *path, const char *name)
-         int fremovexattr(int fd, const char *name)
-         man page: https://www.man7.org/linux/man-pages/man2/removexattr.2.html
+         off_t lseek(int fd, off_t offset, int whence)
+         man page: https://www.man7.org/linux/man-pages/man2/lseek.2.html
 
 Implementation notes:
 
-    All of the syscalls have strings as argument types and thus a separate
-    printing function was stated in file "strace.list" for every one of them.
-    All of these printing functions were defined in "strace.c" using existing
-    printing functions for appropriate argument types:
-       "print_string()" - for (const char*) type
-       "print_pointer()" - for (char*) and (void *) type
-       "print_raw_param()" for (int) and (size_t) type
-    Syscalls "getxattr()" and "lgetxattr()" have the same number and type of
-    arguments and thus their print functions ("print_getxattr", "print_lgetxattr")
-    share a same definition. The same statement applies to syscalls "listxattr()"
-    and "llistxattr()".
-    Function "print_syscall_ret_listxattr()" was added to print the returned list
-    of extended attributes for syscalls "print_listxattr(), print_llistxattr() and
-    print_flistxattr()".
+    The syscall's third argument "whence" has predefined values:
+    "SEEK_SET","SEEK_CUR","SEEK_END","SEEK_DATA","SEEK_HOLE"
+    and thus a separate printing function "print_lseek" was stated
+    in file "strace.list". This function is defined in "strace.c"
+    by using an existing function "print_raw_param()" to print
+    the first and second argument and a switch(case) statement
+    for the predefined values of the third argument.
+    Values "SEEK_DATA" and "SEEK_HOLE" are defined in kernel version 3.1.
+    That is the reason why case statements for these values are
+    enwrapped in #ifdef directive.
 
 Signed-off-by: Filip Bozuta <Filip.Bozuta@syrmia.com>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/strace.c    | 122 +++++++++++++++++++++++++++++++++++++++++
- linux-user/strace.list |  21 ++++---
- 2 files changed, 134 insertions(+), 9 deletions(-)
+ linux-user/strace.c    | 31 +++++++++++++++++++++++++++++++
+ linux-user/strace.list |  2 +-
+ 2 files changed, 32 insertions(+), 1 deletion(-)
 
 diff --git a/linux-user/strace.c b/linux-user/strace.c
-index 6d7accaa4c..f76bbbc1ff 100644
+index f76bbbc1ff..db561dc4c9 100644
 --- a/linux-user/strace.c
 +++ b/linux-user/strace.c
-@@ -833,6 +833,41 @@ print_syscall_ret_adjtimex(const struct syscallname *name, abi_long ret,
+@@ -1841,6 +1841,37 @@ print__llseek(const struct syscallname *name,
  }
  #endif
  
-+#if defined(TARGET_NR_listxattr) || defined(TARGET_NR_llistxattr) \
-+ || defined(TARGGET_NR_flistxattr)
++#ifdef TARGET_NR_lseek
 +static void
-+print_syscall_ret_listxattr(const struct syscallname *name, abi_long ret,
-+                            abi_long arg0, abi_long arg1, abi_long arg2,
-+                            abi_long arg3, abi_long arg4, abi_long arg5)
++print_lseek(const struct syscallname *name,
++    abi_long arg0, abi_long arg1, abi_long arg2,
++    abi_long arg3, abi_long arg4, abi_long arg5)
 +{
-+    print_syscall_err(ret);
-+
-+    if (ret >= 0) {
-+        qemu_log(TARGET_ABI_FMT_ld, ret);
-+        qemu_log(" (list = ");
-+        if (arg1 != 0) {
-+            abi_long bts_printed = 0;
-+            abi_long attr = arg1;
-+            while (bts_printed < ret) {
-+                if (attr != arg1) {
-+                    qemu_log(",");
-+                }
-+                print_string(attr, 1);
-+                bts_printed += target_strlen(attr) + 1;
-+                attr += target_strlen(attr) + 1;
-+            }
-+        } else {
-+            qemu_log("NULL");
-+        }
-+        qemu_log(")");
++    print_syscall_prologue(name);
++    print_raw_param("%d", arg0, 0);
++    print_raw_param(TARGET_ABI_FMT_ld, arg1, 0);
++    switch (arg2) {
++    case SEEK_SET:
++        qemu_log("SEEK_SET"); break;
++    case SEEK_CUR:
++        qemu_log("SEEK_CUR"); break;
++    case SEEK_END:
++        qemu_log("SEEK_END"); break;
++#ifdef SEEK_DATA
++    case SEEK_DATA:
++        qemu_log("SEEK_DATA"); break;
++#endif
++#ifdef SEEK_HOLE
++    case SEEK_HOLE:
++        qemu_log("SEEK_HOLE"); break;
++#endif
++    default:
++        print_raw_param("%#x", arg2, 1);
 +    }
-+
-+    qemu_log("\n");
-+}
-+#define print_syscall_ret_llistxattr     print_syscall_ret_listxattr
-+#define print_syscall_ret_flistxattr     print_syscall_ret_listxattr
-+#endif
-+
- UNUSED static struct flags access_flags[] = {
-     FLAG_GENERIC(F_OK),
-     FLAG_GENERIC(R_OK),
-@@ -1640,6 +1675,93 @@ print_fcntl(const struct syscallname *name,
- #define print_fcntl64   print_fcntl
- #endif
- 
-+#ifdef TARGET_NR_fgetxattr
-+static void
-+print_fgetxattr(const struct syscallname *name,
-+    abi_long arg0, abi_long arg1, abi_long arg2,
-+    abi_long arg3, abi_long arg4, abi_long arg5)
-+{
-+    print_syscall_prologue(name);
-+    print_raw_param("%d", arg0, 0);
-+    print_string(arg1, 0);
-+    print_pointer(arg2, 0);
-+    print_raw_param(TARGET_FMT_lu, arg3, 1);
 +    print_syscall_epilogue(name);
 +}
 +#endif
 +
-+#ifdef TARGET_NR_flistxattr
-+static void
-+print_flistxattr(const struct syscallname *name,
-+    abi_long arg0, abi_long arg1, abi_long arg2,
-+    abi_long arg3, abi_long arg4, abi_long arg5)
-+{
-+    print_syscall_prologue(name);
-+    print_raw_param("%d", arg0, 0);
-+    print_pointer(arg1, 0);
-+    print_raw_param(TARGET_FMT_lu, arg2, 1);
-+    print_syscall_epilogue(name);
-+}
-+#endif
-+
-+#if defined(TARGET_NR_getxattr) || defined(TARGET_NR_lgetxattr)
-+static void
-+print_getxattr(const struct syscallname *name,
-+    abi_long arg0, abi_long arg1, abi_long arg2,
-+    abi_long arg3, abi_long arg4, abi_long arg5)
-+{
-+    print_syscall_prologue(name);
-+    print_string(arg0, 0);
-+    print_string(arg1, 0);
-+    print_pointer(arg2, 0);
-+    print_raw_param(TARGET_FMT_lu, arg3, 1);
-+    print_syscall_epilogue(name);
-+}
-+#define print_lgetxattr     print_getxattr
-+#endif
-+
-+#if defined(TARGET_NR_listxattr) || defined(TARGET_NR_llistxattr)
-+static void
-+print_listxattr(const struct syscallname *name,
-+    abi_long arg0, abi_long arg1, abi_long arg2,
-+    abi_long arg3, abi_long arg4, abi_long arg5)
-+{
-+    print_syscall_prologue(name);
-+    print_string(arg0, 0);
-+    print_pointer(arg1, 0);
-+    print_raw_param(TARGET_FMT_lu, arg2, 1);
-+    print_syscall_epilogue(name);
-+}
-+#define print_llistxattr     print_listxattr
-+#endif
-+
-+#if defined(TARGET_NR_fremovexattr)
-+static void
-+print_fremovexattr(const struct syscallname *name,
-+    abi_long arg0, abi_long arg1, abi_long arg2,
-+    abi_long arg3, abi_long arg4, abi_long arg5)
-+{
-+    print_syscall_prologue(name);
-+    print_raw_param("%d", arg0, 0);
-+    print_string(arg1, 1);
-+    print_syscall_epilogue(name);
-+}
-+#endif
-+
-+#if defined(TARGET_NR_removexattr) || defined(TARGET_NR_lremovexattr)
-+static void
-+print_removexattr(const struct syscallname *name,
-+    abi_long arg0, abi_long arg1, abi_long arg2,
-+    abi_long arg3, abi_long arg4, abi_long arg5)
-+{
-+    print_syscall_prologue(name);
-+    print_string(arg0, 0);
-+    print_string(arg1, 1);
-+    print_syscall_epilogue(name);
-+}
-+#define print_lremovexattr     print_removexattr
-+#endif
-+
- #ifdef TARGET_NR_futimesat
+ #if defined(TARGET_NR_socket)
  static void
- print_futimesat(const struct syscallname *name,
+ print_socket(const struct syscallname *name,
 diff --git a/linux-user/strace.list b/linux-user/strace.list
-index fb9799e7e6..af12b23276 100644
+index af12b23276..905a9c395c 100644
 --- a/linux-user/strace.list
 +++ b/linux-user/strace.list
-@@ -218,13 +218,14 @@
- { TARGET_NR_fdatasync, "fdatasync" , "%s(%d)", NULL, NULL },
- #endif
- #ifdef TARGET_NR_fgetxattr
--{ TARGET_NR_fgetxattr, "fgetxattr" , NULL, NULL, NULL },
-+{ TARGET_NR_fgetxattr, "fgetxattr" , NULL, print_fgetxattr, NULL },
- #endif
- #ifdef TARGET_NR_finit_module
- { TARGET_NR_finit_module, "finit_module" , NULL, NULL, NULL },
- #endif
- #ifdef TARGET_NR_flistxattr
--{ TARGET_NR_flistxattr, "flistxattr" , NULL, NULL, NULL },
-+{ TARGET_NR_flistxattr, "flistxattr" , NULL, print_flistxattr,
-+                        print_syscall_ret_flistxattr},
- #endif
- #ifdef TARGET_NR_flock
- { TARGET_NR_flock, "flock" , NULL, NULL, NULL },
-@@ -233,7 +234,7 @@
- { TARGET_NR_fork, "fork" , "%s()", NULL, NULL },
- #endif
- #ifdef TARGET_NR_fremovexattr
--{ TARGET_NR_fremovexattr, "fremovexattr" , NULL, NULL, NULL },
-+{ TARGET_NR_fremovexattr, "fremovexattr" , NULL, print_fremovexattr, NULL },
- #endif
- #ifdef TARGET_NR_fsetxattr
- { TARGET_NR_fsetxattr, "fsetxattr" , NULL, NULL, NULL },
-@@ -396,7 +397,7 @@
- { TARGET_NR_getuid32, "getuid32" , NULL, NULL, NULL },
- #endif
- #ifdef TARGET_NR_getxattr
--{ TARGET_NR_getxattr, "getxattr" , NULL, NULL, NULL },
-+{ TARGET_NR_getxattr, "getxattr" , NULL, print_getxattr, NULL },
- #endif
- #ifdef TARGET_NR_getxgid
- { TARGET_NR_getxgid, "getxgid" , NULL, NULL, NULL },
-@@ -480,7 +481,7 @@
- { TARGET_NR_lchown32, "lchown32" , NULL, NULL, NULL },
- #endif
- #ifdef TARGET_NR_lgetxattr
--{ TARGET_NR_lgetxattr, "lgetxattr" , NULL, NULL, NULL },
-+{ TARGET_NR_lgetxattr, "lgetxattr" , NULL, print_lgetxattr, NULL },
- #endif
- #ifdef TARGET_NR_link
- { TARGET_NR_link, "link" , NULL, print_link, NULL },
-@@ -495,10 +496,12 @@
- { TARGET_NR_listen, "listen" , "%s(%d,%d)", NULL, NULL },
- #endif
- #ifdef TARGET_NR_listxattr
--{ TARGET_NR_listxattr, "listxattr" , NULL, NULL, NULL },
-+{ TARGET_NR_listxattr, "listxattr" , NULL, print_listxattr,
-+                       print_syscall_ret_listxattr},
- #endif
- #ifdef TARGET_NR_llistxattr
--{ TARGET_NR_llistxattr, "llistxattr" , NULL, NULL, NULL },
-+{ TARGET_NR_llistxattr, "llistxattr" , NULL, print_llistxattr,
-+                        print_syscall_ret_llistxattr},
- #endif
- #ifdef TARGET_NR__llseek
- { TARGET_NR__llseek, "_llseek" , NULL, print__llseek, NULL },
-@@ -510,7 +513,7 @@
- { TARGET_NR_lookup_dcookie, "lookup_dcookie" , NULL, NULL, NULL },
- #endif
- #ifdef TARGET_NR_lremovexattr
--{ TARGET_NR_lremovexattr, "lremovexattr" , NULL, NULL, NULL },
-+{ TARGET_NR_lremovexattr, "lremovexattr" , NULL, print_lremovexattr, NULL },
+@@ -516,7 +516,7 @@
+ { TARGET_NR_lremovexattr, "lremovexattr" , NULL, print_lremovexattr, NULL },
  #endif
  #ifdef TARGET_NR_lseek
- { TARGET_NR_lseek, "lseek" , NULL, NULL, NULL },
-@@ -1116,7 +1119,7 @@
- { TARGET_NR_remap_file_pages, "remap_file_pages" , NULL, NULL, NULL },
+-{ TARGET_NR_lseek, "lseek" , NULL, NULL, NULL },
++{ TARGET_NR_lseek, "lseek" , NULL, print_lseek, NULL },
  #endif
- #ifdef TARGET_NR_removexattr
--{ TARGET_NR_removexattr, "removexattr" , NULL, NULL, NULL },
-+{ TARGET_NR_removexattr, "removexattr" , NULL, print_removexattr, NULL },
- #endif
- #ifdef TARGET_NR_rename
- { TARGET_NR_rename, "rename" , NULL, print_rename, NULL },
+ #ifdef TARGET_NR_lsetxattr
+ { TARGET_NR_lsetxattr, "lsetxattr" , NULL, NULL, NULL },
 -- 
 2.17.1
 
