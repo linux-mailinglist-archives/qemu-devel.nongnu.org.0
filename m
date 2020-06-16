@@ -2,69 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70E601FBE16
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 20:33:51 +0200 (CEST)
-Received: from localhost ([::1]:48876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DCEE1FBE49
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 20:40:38 +0200 (CEST)
+Received: from localhost ([::1]:51960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlGP8-0006v4-3E
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 14:33:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38200)
+	id 1jlGVh-0001Dt-EI
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 14:40:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jlGNz-0006Il-LW
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 14:32:39 -0400
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:32994)
+ (Exim 4.90_1) (envelope-from <devnexen@gmail.com>)
+ id 1jlGUh-0000Xh-F9; Tue, 16 Jun 2020 14:39:35 -0400
+Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:36325)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jlGNw-00069w-PI
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 14:32:39 -0400
-Received: by mail-oi1-x241.google.com with SMTP id i74so20193411oib.0
- for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 11:32:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=bzYyUbnYXAeNe9Bej6UR4BBIi1PkOJ2G7dYBf27O9Gs=;
- b=Fas/Qeq8YhBamSEKgJBSeCrFQwyECQM9FM4uHd1q+yXlMAE7uRxahzf+t1zr8IZ50l
- KinlDkCCwNRy2ygF3AfP8v1AfREhdg3EqfZQbSAEYF1HMDHEZNTJMeET/adkpxISgJWw
- 1QuzgsFeWow58OPstP2MSotYm0nwFLvGvaSCliyMb+q/D8xGQYNXkV6UIfraZOVMRsbO
- OvpINem6CI8Jb9D3uSbL/wv7j9bSC0vOsuiiXwLawQuw5CnIjZBr/BSNiY/SPUA5Twzt
- IAnOM2Y+ZsY2+50MPKl5keXB9hNQspqZ46VGNDAB7BwPZ5XOe6XMbABo/sir+4LeKeJJ
- SNYQ==
+ (Exim 4.90_1) (envelope-from <devnexen@gmail.com>)
+ id 1jlGUf-0006qF-Vq; Tue, 16 Jun 2020 14:39:35 -0400
+Received: by mail-ej1-x644.google.com with SMTP id dr13so22668429ejc.3;
+ Tue, 16 Jun 2020 11:39:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=gpT7+Cr3taESxYqh6JYHpGHEka5gVPb3m/3xE68Bsi4=;
+ b=ERbJ1zIs/4NS09/yv2EeZFEPxUoAVUYh3n3uu3En5mJImJu/XwVytpyN9uQ0uQH1LV
+ Wn/A/MiKvXKqYOIchMB2VAaDFbUYSlng/G4Jd0UC/lrcwLww2StybyS5tZc8CcZGa29F
+ BET3I2CjgMIpUPkmBv84bpmFf7NkxCFeF+ehbxpXv7dpnlGn4gkI5HMSxoW4QWGPNCWM
+ Yk9c7Dt6S2vjgGi3bD0jxQbtJ3Biujeh6qN9YbWYppXRtOC2k/XbMOKY2Gla0Lb52scM
+ plv0HsoJTt/XgeosTED0YcqmVOeBwwVKZhwlx275aADitFDOBosH5J583m+kseFUaZua
+ aEOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=bzYyUbnYXAeNe9Bej6UR4BBIi1PkOJ2G7dYBf27O9Gs=;
- b=XhbBP7VIJNdfrk/tDdWfmHfAhVIYCLGAwgYLlWpA6NHdjJO0opvTZTCrMtxR8gAloY
- wCnAaEf7ODoTAx1pAz6KkpGKq+axhzyWurXFbQAMRx+4INDh3hX32vi5YQ0Jj6E8tosQ
- C9MLDv7VONt5ekjvLxHInxLWVSeZKXw6sYj+ucRhvWBSO8yLfX8zkimSDyahT+/SW0I7
- AdhKQlcjUSB/sb7uHbWN+YVjaxmNMUIJoOWCC60eJSNZpuREuh+YawCRdhkDCD7ROfe9
- Io40nLgVOd/YBGbxi0AHtHlHDjmYdQsmwpDZaD3Pb+D1IQT3M8C3V6OX09Qo2jDjJt/X
- UkEw==
-X-Gm-Message-State: AOAM533eg3+6nl+OpWrez2RzLRZXt6Nj0k+Nk9G2N5zvusjrdt2r0UKw
- qCkVEiHATFfxqECRQqaJ2MHrnZ/Of1S6rhX93xppmQ==
-X-Google-Smtp-Source: ABdhPJxuvMrHRPwKqZbqN5gyYgmCOa4l97FZyIlTypHJt0xxr1unY6V30B7hA0Q6iweKUYOPaInmrXUZAsFmMeJkoxE=
-X-Received: by 2002:aca:568c:: with SMTP id k134mr4249179oib.48.1592332355418; 
- Tue, 16 Jun 2020 11:32:35 -0700 (PDT)
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=gpT7+Cr3taESxYqh6JYHpGHEka5gVPb3m/3xE68Bsi4=;
+ b=UdeX8j1b5PGPwSM7jyhLtAcCCCnbqS5etaOdngq32071P8DGHFuwMlTgQVJxOxWCos
+ YrCJIhekApsBb85qdw1A8+aIJwhi+TDjEOEryqtgYbSra7+cdkrl1+hJRfztX1O8RGcU
+ 8HX8SjIvbzINCATjZ7R3b0bgbe6I/PpWTO79NC/tEkD4oxwuI0BOWjNmmlKnBy4/2BZK
+ gAY3uG8VTO+4zYW58MBAWVHB9qnDFjdhy8Kuv+4lapkqNH/S8ru2F73Sad0sCjuOsnLl
+ oD6r/XkvCHj5ZGKdc7w7+U5RsxbBKb+8XE3+nO6AjN8KoDLjHIuCaATScfjN64wNiXhf
+ sdIA==
+X-Gm-Message-State: AOAM530T31oTujAI0Q22CCRdt5LZB+6WCg+OkYl5LjW5omnYNX6kiCzq
+ sBavncps88oz+dQFl2hyDKa1ySagDqeapCzpNE6YwKGNb20=
+X-Google-Smtp-Source: ABdhPJxNnGZVT5KOGhQa/QtlNgyY37Kx8jFy6SPQMrYjJtEtgv5eEOyZLk0ndlAxJxpqQoC0GRbHnoMzevonwrEUQ7w=
+X-Received: by 2002:a17:906:5203:: with SMTP id
+ g3mr3971983ejm.58.1592332771431; 
+ Tue, 16 Jun 2020 11:39:31 -0700 (PDT)
 MIME-Version: 1.0
-References: <CA+XhMqx6VjRhT6xBzJ-UYs7cPDXVK=PNdfNVdad3Tqhe43P=Ew@mail.gmail.com>
-In-Reply-To: <CA+XhMqx6VjRhT6xBzJ-UYs7cPDXVK=PNdfNVdad3Tqhe43P=Ew@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 16 Jun 2020 19:32:24 +0100
-Message-ID: <CAFEAcA_NjB4m6mg-cbH5WrLukSnMx4aZ=bpqoMHB1KLVV87iLg@mail.gmail.com>
-Subject: Re: [PATCH V4] util/oslib-posix : qemu_init_exec_dir implementation
- for Mac
-To: David CARLIER <devnexen@gmail.com>
+From: David CARLIER <devnexen@gmail.com>
+Date: Tue, 16 Jun 2020 19:39:20 +0100
+Message-ID: <CA+XhMqxwC10XHVs4Z-JfE0-WLAU3ztDuU9QKVi31mjr59HWCxg@mail.gmail.com>
+Subject: [PATCH V5] util/oslib-posix : qemu_init_exec_dir implementation for
+ Mac
+To: QEMU Trivial <qemu-trivial@nongnu.org>, qemu-devel <qemu-devel@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::241;
- envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x241.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::644;
+ envelope-from=devnexen@gmail.com; helo=mail-ej1-x644.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
@@ -79,80 +75,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>, qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 16 Jun 2020 at 17:12, David CARLIER <devnexen@gmail.com> wrote:
->
-> From 7eef8b803cdb0e7148fdf894d2992052695c1ff8 Mon Sep 17 00:00:00 2001
-> From: David Carlier <devnexen@gmail.com>
-> Date: Tue, 26 May 2020 21:35:27 +0100
-> Subject: [PATCH] util/oslib-posix : qemu_init_exec_dir implementation for Mac
->
-> Using dyld API to get the full path of the current process.
->
-> Signed-off-by: David Carlier <devnexen@gmail.com>
-> ---
->  util/oslib-posix.c | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
->
-> diff --git a/util/oslib-posix.c b/util/oslib-posix.c
-> index 916f1be224..3612c2c80e 100644
-> --- a/util/oslib-posix.c
-> +++ b/util/oslib-posix.c
-> @@ -57,6 +57,10 @@
->  #include <lwp.h>
->  #endif
->
-> +#ifdef __APPLE__
-> +#include <mach-o/dyld.h>
-> +#endif
-> +
->  #include "qemu/mmap-alloc.h"
->
->  #ifdef CONFIG_DEBUG_STACK_USAGE
-> @@ -375,6 +379,16 @@ void qemu_init_exec_dir(const char *argv0)
->              p = buf;
->          }
->      }
-> +#elif defined(__APPLE__)
-> +    {
-> +        uint32_t len = sizeof(buf);
-> +        if (_NSGetExecutablePath(buf, &len) == 0) {
-> +     char fpath[PATH_MAX];
+From 3025a0ce3fdf7d3559fc35a52c659f635f5c750c Mon Sep 17 00:00:00 2001
+From: David Carlier <devnexen@gmail.com>
+Date: Tue, 26 May 2020 21:35:27 +0100
+Subject: [PATCH] util/oslib-posix : qemu_init_exec_dir implementation for Mac
 
-(Something seems to have gone wrong with the indentation here;
-QEMU indent is always-spaces, 4-spaces-per-indent.)
+Using dyld API to get the full path of the current process.
 
-> +            buf[len - 1] = 0;
+Signed-off-by: David Carlier <devnexen@gmail.com>
+---
+ util/oslib-posix.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-_NSGetExecutablePath() will 0-terminate the string, so
-you don't need to write this 0 here. (The function call
-will fail if the buffer is not long enough for both the
-path string and the terminating NUL character.)
+diff --git a/util/oslib-posix.c b/util/oslib-posix.c
+index 916f1be224..39ddc77c85 100644
+--- a/util/oslib-posix.c
++++ b/util/oslib-posix.c
+@@ -57,6 +57,10 @@
+ #include <lwp.h>
+ #endif
 
-> +      realpath(buf, fpath);
++#ifdef __APPLE__
++#include <mach-o/dyld.h>
++#endif
++
+ #include "qemu/mmap-alloc.h"
 
-You need to check the return value from realpath() in
-case it returns an error; compare the code just below
-that handles calling realpath() on argv0.
-
-> +            p = fpath;
-
-This is setting p to a pointer to a buffer which goes
-out of scope, and then using it after it's out of scope,
-which is undefined behaviour. You can avoid that by
-doing _NSGetExecutablePath() into the tightly-scoped
-'fpath[]', and then doing realpath() into 'buf[]'
-(which is still live to the end of the function).
-
-> +        }
-> +    }
->  #endif
->      /* If we don't have any way of figuring out the actual executable
->         location then try argv[0].  */
-
-thanks
--- PMM
+ #ifdef CONFIG_DEBUG_STACK_USAGE
+@@ -375,6 +379,17 @@ void qemu_init_exec_dir(const char *argv0)
+             p = buf;
+         }
+     }
++#elif defined(__APPLE__)
++    {
++        char fpath[PATH_MAX];
++        uint32_t len = sizeof(fpath);
++        if (_NSGetExecutablePath(fpath, &len) == 0) {
++            p = realpath(fpath, buf);
++            if (!p) {
++                return;
++            }
++        }
++    }
+ #endif
+     /* If we don't have any way of figuring out the actual executable
+        location then try argv[0].  */
+-- 
+2.27.0
 
