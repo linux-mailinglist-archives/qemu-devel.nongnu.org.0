@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC8E71FB4B3
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:42:54 +0200 (CEST)
-Received: from localhost ([::1]:35804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1F611FB4FA
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:49:40 +0200 (CEST)
+Received: from localhost ([::1]:37494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlCnd-0004Ns-VD
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:42:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57996)
+	id 1jlCuB-0000iM-NV
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:49:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58012)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCQU-0003Ne-Ht; Tue, 16 Jun 2020 10:18:58 -0400
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:43689)
+ id 1jlCQW-0003RE-84; Tue, 16 Jun 2020 10:19:00 -0400
+Received: from mail-oo1-xc41.google.com ([2607:f8b0:4864:20::c41]:43355)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCQS-0006wl-RE; Tue, 16 Jun 2020 10:18:58 -0400
-Received: by mail-oi1-x244.google.com with SMTP id j189so19336198oih.10;
- Tue, 16 Jun 2020 07:18:56 -0700 (PDT)
+ id 1jlCQU-0006x6-MV; Tue, 16 Jun 2020 10:18:59 -0400
+Received: by mail-oo1-xc41.google.com with SMTP id i4so1365716ooj.10;
+ Tue, 16 Jun 2020 07:18:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=h429QYiD1bg+WMlm+glXw9EZ2TWraTLlcvNO6XKq5+Y=;
- b=Ysk0V+ewYqMMR0+gah7P2IQV88KYfhL3UsEqFDLtLQ5dWQqf9yajAhX0Pp4AVqvq8n
- YmMzunhImD0RI1nmthXt8nHxY0w+lJ3rPi2tpLGpWNxcR56hYaNOw5R74tKzrEGUR0dS
- dqyMrWHlolLYVOcNPTQ/9b6lL0grayg/2mpIYUOfHyzLNDZX5dZ80mm3k294WxMGFiKh
- zWEXwhCHOdesBKSAYiFHFzUxD1TAJ+jys9gjOlOE3DI9rbSrPriiqG8CWdMtR6L7gho+
- htz2cZ3Z9wwPKp5FHkQxvTFuoDYtVEGlit8PJCNpFdEbD9fHDmNAwzjPlSOMKM18ZVpd
- F4zQ==
+ bh=fqsQVkHuoYwfKpLZIzOnVAvejP3nC+yxd70HJ1sYMdQ=;
+ b=C8k5Sm2F2RjzW0oEnrcXThPDMiKat+FMkkY5HdHMMjNk03H33cjQCmbF2HzU9tRuag
+ tncmRdeXpAII0z9QJ8mcIPTk42ATekVowYIkFjTHjzvcZheGeDjGA42TuI6Ptt76vTe/
+ Ezegil8e/nlvfiDhZNs/sk7k9QdZ1Pn8mAdR8TNHL6Up7XoVeAcqGZEYM5W2/x80vFWR
+ 0nczRi0E87U3hXfH4JARCnIzTanaEGXe37HDu36xDWHqppzHay0X57oNRehWl8Lm3HJD
+ NIr+kPWeUgId4fOuWGFN5DCgIk2dqVBK6xoSXL52Wve/xhcf9TdBqNDLOx79sd+aoCc3
+ uKJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=h429QYiD1bg+WMlm+glXw9EZ2TWraTLlcvNO6XKq5+Y=;
- b=iwOrMWXcfRoSz9hGahhaDWFvhM2siLMtjm4IxnhPwDSa9KsWJFQJixnBhKCapbYMWS
- 80agSvSROmLsaUD5lERnTK6EXSj3nnrSCRvhcv/vjBPsihqYdil37ud4tuSkIc23rks5
- s8GalNfuD1xXvWPmQ0OlCNRHa6DJKNrs3KoAB8oUoxEc4/QZf0+DMbPvvAgGmvHaTDR+
- xPNc83ALeRjR9DEkShlVLSTY6rX23m714M6XLr+2hFsL0hb29R+TXI8q1EjvbwgeYhCX
- uGN8m6OO3HzBWLiNi4XKZoSLfFwMnMbkmBOQPy5L/1reW+NfJsuoNYotGG822hzu8qHe
- bcVA==
-X-Gm-Message-State: AOAM530YEJTGadyLnISZNQeRMWaU2qo54juJko8DtvYWdajgy3PLpwx5
- zQtrHIT/qW4cvrVJX64LCQeu+uGM
-X-Google-Smtp-Source: ABdhPJzlw1ib20DQePfdRx/1qhY4BU9r9KlsF1/qWQYjM49TgKeCy0G3phnZW6xg+mqWshcKaQp1BA==
-X-Received: by 2002:aca:4b4f:: with SMTP id y76mr3695526oia.34.1592317134822; 
- Tue, 16 Jun 2020 07:18:54 -0700 (PDT)
+ bh=fqsQVkHuoYwfKpLZIzOnVAvejP3nC+yxd70HJ1sYMdQ=;
+ b=NZ245u0VoDg5OrKVBzzANrZJmQbJT+XQkwj45aUss4JgRCl6TQ3yWSOL0Sw4EgQndR
+ m4CRy4qn1h4Cnowg1evunQ5nyu1/2jdd56K2J48k3Sb3DNzj83s1DgM6NEf3bjsTgL06
+ 9DEO2VdtLGUYMt0xVr5y6S3ff/11sbJHzFMkhr84frMtcKcfgcUIJGfGYkNMX2uXIfHv
+ 2WL37cfjGApUWxDIczToQBo0RJI732Y1D9R3Ca81YjUhAew02X/755BJeFkskBfapKAy
+ GdMYQ3nZOEZ+E1dPZBZKcj9zdfEkEO5Z4cc7z//1YFV0UYZ/ukGAK3SWnCK6Pmb2UcFw
+ 5D4g==
+X-Gm-Message-State: AOAM531DjDwVcPrt9SuGTy5CQqucp7I0zpDDJwN2kl+BAIlg9H/m5s7E
+ p3/Aasssha4XcKeSKdX3K//5yLZZ
+X-Google-Smtp-Source: ABdhPJyp/e5RUMVC5IQRQwBbjMsJt0uuOQF4BSGynHM13ygCx27nFmrNaIR91jYEOBtNglQ46DAqQQ==
+X-Received: by 2002:a4a:d6c6:: with SMTP id j6mr2566220oot.26.1592317136824;
+ Tue, 16 Jun 2020 07:18:56 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id e26sm2952616otp.50.2020.06.16.07.18.52
+ by smtp.gmail.com with ESMTPSA id m94sm4078651otm.19.2020.06.16.07.18.55
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 16 Jun 2020 07:18:52 -0700 (PDT)
+ Tue, 16 Jun 2020 07:18:55 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 54/78] block/block-copy: fix progress calculation
-Date: Tue, 16 Jun 2020 09:15:23 -0500
-Message-Id: <20200616141547.24664-55-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 55/78] target/ppc: Fix rlwinm on ppc64
+Date: Tue, 16 Jun 2020 09:15:24 -0500
+Message-Id: <20200616141547.24664-56-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
 References: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::244;
- envelope-from=flukshun@gmail.com; helo=mail-oi1-x244.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c41;
+ envelope-from=flukshun@gmail.com; helo=mail-oo1-xc41.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -80,203 +80,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-stable@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: Vitaly Chikunov <vt@altlinux.org>, qemu-stable@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+From: Vitaly Chikunov <vt@altlinux.org>
 
-Assume we have two regions, A and B, and region B is in-flight now,
-region A is not yet touched, but it is unallocated and should be
-skipped.
+rlwinm cannot just AND with Mask if shift value is zero on ppc64 when
+Mask Begin is greater than Mask End and high bits are set to 1.
 
-Correspondingly, as progress we have
+Note that PowerISA 3.0B says that for `rlwinm' ROTL32 is used, and
+ROTL32 is defined (in 3.3.14) so that rotated value should have two
+copies of lower word of the source value.
 
-  total = A + B
-  current = 0
+This seems to be another incarnation of the fix from 820724d170
+("target-ppc: Fix rlwimi, rlwinm, rlwnm again"), except I leave
+optimization when Mask value is less than 32 bits.
 
-If we reset unallocated region A and call progress_reset_callback,
-it will calculate 0 bytes dirty in the bitmap and call
-job_progress_set_remaining, which will set
-
-   total = current + 0 = 0 + 0 = 0
-
-So, B bytes are actually removed from total accounting. When job
-finishes we'll have
-
-   total = 0
-   current = B
-
-, which doesn't sound good.
-
-This is because we didn't considered in-flight bytes, actually when
-calculating remaining, we should have set (in_flight + dirty_bytes)
-as remaining, not only dirty_bytes.
-
-To fix it, let's refactor progress calculation, moving it to block-copy
-itself instead of fixing callback. And, of course, track in_flight
-bytes count.
-
-We still have to keep one callback, to maintain backup job bytes_read
-calculation, but it will go on soon, when we turn the whole backup
-process into one block_copy call.
-
+Fixes: 7b4d326f47 ("target-ppc: Use the new deposit and extract ops")
 Cc: qemu-stable@nongnu.org
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-Message-Id: <20200311103004.7649-3-vsementsov@virtuozzo.com>
-Signed-off-by: Max Reitz <mreitz@redhat.com>
-(cherry picked from commit d0ebeca14a585f352938062ef8ddde47fe4d39f9)
+Signed-off-by: Vitaly Chikunov <vt@altlinux.org>
+Message-Id: <20200309204557.14836-1-vt@altlinux.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+(cherry picked from commit 94f040aaecf4e41cc68991b80204b1b6886bbdd0)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- block/backup.c             | 13 ++-----------
- block/block-copy.c         | 16 ++++++++++++----
- include/block/block-copy.h | 15 +++++----------
- 3 files changed, 19 insertions(+), 25 deletions(-)
+ target/ppc/translate.c | 20 +++++++++++---------
+ 1 file changed, 11 insertions(+), 9 deletions(-)
 
-diff --git a/block/backup.c b/block/backup.c
-index cf62b1a38c..5f3bd2415a 100644
---- a/block/backup.c
-+++ b/block/backup.c
-@@ -57,15 +57,6 @@ static void backup_progress_bytes_callback(int64_t bytes, void *opaque)
-     BackupBlockJob *s = opaque;
- 
-     s->bytes_read += bytes;
--    job_progress_update(&s->common.job, bytes);
--}
--
--static void backup_progress_reset_callback(void *opaque)
--{
--    BackupBlockJob *s = opaque;
--    uint64_t estimate = bdrv_get_dirty_count(s->bcs->copy_bitmap);
--
--    job_progress_set_remaining(&s->common.job, estimate);
- }
- 
- static int coroutine_fn backup_do_cow(BackupBlockJob *job,
-@@ -461,8 +452,8 @@ BlockJob *backup_job_create(const char *job_id, BlockDriverState *bs,
-     job->cluster_size = cluster_size;
-     job->len = len;
- 
--    block_copy_set_callbacks(bcs, backup_progress_bytes_callback,
--                             backup_progress_reset_callback, job);
-+    block_copy_set_progress_callback(bcs, backup_progress_bytes_callback, job);
-+    block_copy_set_progress_meter(bcs, &job->common.job.progress);
- 
-     /* Required permissions are already taken by backup-top target */
-     block_job_add_bdrv(&job->common, "target", target, 0, BLK_PERM_ALL,
-diff --git a/block/block-copy.c b/block/block-copy.c
-index 79798a1567..e2d7b3b887 100644
---- a/block/block-copy.c
-+++ b/block/block-copy.c
-@@ -127,17 +127,20 @@ BlockCopyState *block_copy_state_new(BdrvChild *source, BdrvChild *target,
-     return s;
- }
- 
--void block_copy_set_callbacks(
-+void block_copy_set_progress_callback(
-         BlockCopyState *s,
-         ProgressBytesCallbackFunc progress_bytes_callback,
--        ProgressResetCallbackFunc progress_reset_callback,
-         void *progress_opaque)
- {
-     s->progress_bytes_callback = progress_bytes_callback;
--    s->progress_reset_callback = progress_reset_callback;
-     s->progress_opaque = progress_opaque;
- }
- 
-+void block_copy_set_progress_meter(BlockCopyState *s, ProgressMeter *pm)
-+{
-+    s->progress = pm;
-+}
-+
- /*
-  * block_copy_do_copy
-  *
-@@ -269,7 +272,9 @@ int64_t block_copy_reset_unallocated(BlockCopyState *s,
- 
-     if (!ret) {
-         bdrv_reset_dirty_bitmap(s->copy_bitmap, offset, bytes);
--        s->progress_reset_callback(s->progress_opaque);
-+        progress_set_remaining(s->progress,
-+                               bdrv_get_dirty_count(s->copy_bitmap) +
-+                               s->in_flight_bytes);
-     }
- 
-     *count = bytes;
-@@ -331,15 +336,18 @@ int coroutine_fn block_copy(BlockCopyState *s,
-         trace_block_copy_process(s, start);
- 
-         bdrv_reset_dirty_bitmap(s->copy_bitmap, start, chunk_end - start);
-+        s->in_flight_bytes += chunk_end - start;
- 
-         co_get_from_shres(s->mem, chunk_end - start);
-         ret = block_copy_do_copy(s, start, chunk_end, error_is_read);
-         co_put_to_shres(s->mem, chunk_end - start);
-+        s->in_flight_bytes -= chunk_end - start;
-         if (ret < 0) {
-             bdrv_set_dirty_bitmap(s->copy_bitmap, start, chunk_end - start);
-             break;
-         }
- 
-+        progress_work_done(s->progress, chunk_end - start);
-         s->progress_bytes_callback(chunk_end - start, s->progress_opaque);
-         start = chunk_end;
-         ret = 0;
-diff --git a/include/block/block-copy.h b/include/block/block-copy.h
-index 0a161724d7..9def00068c 100644
---- a/include/block/block-copy.h
-+++ b/include/block/block-copy.h
-@@ -26,7 +26,6 @@ typedef struct BlockCopyInFlightReq {
- } BlockCopyInFlightReq;
- 
- typedef void (*ProgressBytesCallbackFunc)(int64_t bytes, void *opaque);
--typedef void (*ProgressResetCallbackFunc)(void *opaque);
- typedef struct BlockCopyState {
-     /*
-      * BdrvChild objects are not owned or managed by block-copy. They are
-@@ -36,6 +35,7 @@ typedef struct BlockCopyState {
-     BdrvChild *source;
-     BdrvChild *target;
-     BdrvDirtyBitmap *copy_bitmap;
-+    int64_t in_flight_bytes;
-     int64_t cluster_size;
-     bool use_copy_range;
-     int64_t copy_size;
-@@ -60,15 +60,9 @@ typedef struct BlockCopyState {
-      */
-     bool skip_unallocated;
- 
-+    ProgressMeter *progress;
-     /* progress_bytes_callback: called when some copying progress is done. */
-     ProgressBytesCallbackFunc progress_bytes_callback;
--
--    /*
--     * progress_reset_callback: called when some bytes reset from copy_bitmap
--     * (see @skip_unallocated above). The callee is assumed to recalculate how
--     * many bytes remain based on the dirty bit count of copy_bitmap.
--     */
--    ProgressResetCallbackFunc progress_reset_callback;
-     void *progress_opaque;
- 
-     SharedResource *mem;
-@@ -79,12 +73,13 @@ BlockCopyState *block_copy_state_new(BdrvChild *source, BdrvChild *target,
-                                      BdrvRequestFlags write_flags,
-                                      Error **errp);
- 
--void block_copy_set_callbacks(
-+void block_copy_set_progress_callback(
-         BlockCopyState *s,
-         ProgressBytesCallbackFunc progress_bytes_callback,
--        ProgressResetCallbackFunc progress_reset_callback,
-         void *progress_opaque);
- 
-+void block_copy_set_progress_meter(BlockCopyState *s, ProgressMeter *pm);
-+
- void block_copy_state_free(BlockCopyState *s);
- 
- int64_t block_copy_reset_unallocated(BlockCopyState *s,
+diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+index f5fe5d0611..f87f6eeaf7 100644
+--- a/target/ppc/translate.c
++++ b/target/ppc/translate.c
+@@ -1938,15 +1938,17 @@ static void gen_rlwinm(DisasContext *ctx)
+         me += 32;
+ #endif
+         mask = MASK(mb, me);
+-        if (sh == 0) {
+-            tcg_gen_andi_tl(t_ra, t_rs, mask);
+-        } else if (mask <= 0xffffffffu) {
+-            TCGv_i32 t0 = tcg_temp_new_i32();
+-            tcg_gen_trunc_tl_i32(t0, t_rs);
+-            tcg_gen_rotli_i32(t0, t0, sh);
+-            tcg_gen_andi_i32(t0, t0, mask);
+-            tcg_gen_extu_i32_tl(t_ra, t0);
+-            tcg_temp_free_i32(t0);
++        if (mask <= 0xffffffffu) {
++            if (sh == 0) {
++                tcg_gen_andi_tl(t_ra, t_rs, mask);
++            } else {
++                TCGv_i32 t0 = tcg_temp_new_i32();
++                tcg_gen_trunc_tl_i32(t0, t_rs);
++                tcg_gen_rotli_i32(t0, t0, sh);
++                tcg_gen_andi_i32(t0, t0, mask);
++                tcg_gen_extu_i32_tl(t_ra, t0);
++                tcg_temp_free_i32(t0);
++            }
+         } else {
+ #if defined(TARGET_PPC64)
+             tcg_gen_deposit_i64(t_ra, t_rs, t_rs, 32, 32);
 -- 
 2.17.1
 
