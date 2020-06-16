@@ -2,51 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B21F41FA944
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 08:57:22 +0200 (CEST)
-Received: from localhost ([::1]:48396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 051991FA946
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 08:57:54 +0200 (CEST)
+Received: from localhost ([::1]:50248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jl5X7-0000Tu-Oq
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 02:57:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42036)
+	id 1jl5Xd-0001GH-0C
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 02:57:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1jl5Mh-0001nu-E8
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 02:46:35 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:43678
+ id 1jl5Mg-0001lg-D6
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 02:46:34 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47866
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1jl5Me-0005js-Um
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 02:46:35 -0400
+ id 1jl5Ma-0005jB-GQ
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 02:46:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592289988;
+ s=mimecast20190719; t=1592289987;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=OibOZtXl0nJKd8+ioRcnMXHkdEee8Tial68a0/hODkQ=;
- b=fLGWvxeOII9Syf+qOtDrOHN+UqnZ5mhWBiUNlhZ272WXfOwP8G5+BaXxO26zOhsIlmaq7P
- qUNccrwSyoJ7QGMd3Fb668e8l+o/jgGPkrhaObg+sK74AvuCYXjR0BqhpTfMbOQJlN61Y/
- o5bBGAZIgGYvpNWBDHN/jQUF0B8R7rY=
+ references:references; bh=nldiXqM8VmDWW6GXBzbsTcrmDvrvu3iO6lJu8FE0+Yk=;
+ b=iRYUh8wc6bOUg/Kj7EFGV2UqKCDJcRdEmGibWe5FonAS3Qt883Lqhldciyf9EPAx3/47Iz
+ xNHbf8YATZ4CE+VKksjMsPJvA2ilmUT5I4RjYsZli0AsE6FfKFM8KHpm+My6NL+mQHXaPQ
+ Gcgb0jJ0nCZ7s6zowWPAAco7+CF0T1o=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-281-7NU3HGEFPQuTt_U5dW93xQ-1; Tue, 16 Jun 2020 02:46:22 -0400
-X-MC-Unique: 7NU3HGEFPQuTt_U5dW93xQ-1
+ us-mta-79-MfQ27YytNuqbjZSVeMjSXw-1; Tue, 16 Jun 2020 02:46:24 -0400
+X-MC-Unique: MfQ27YytNuqbjZSVeMjSXw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A16B1835B5D;
- Tue, 16 Jun 2020 06:46:21 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BFC57E915;
+ Tue, 16 Jun 2020 06:46:23 +0000 (UTC)
 Received: from jason-ThinkPad-T430s.redhat.com (ovpn-13-222.pek2.redhat.com
  [10.72.13.222])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0D11D8202D;
- Tue, 16 Jun 2020 06:46:19 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2B74D90341;
+ Tue, 16 Jun 2020 06:46:21 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: peter.maydell@linaro.org
-Subject: [PULL 13/33] net: cadence_gem: Fix irq update w.r.t queue
-Date: Tue, 16 Jun 2020 14:45:24 +0800
-Message-Id: <1592289944-13727-14-git-send-email-jasowang@redhat.com>
+Subject: [PULL 14/33] net: cadence_gem: Define access permission for interrupt
+ registers
+Date: Tue, 16 Jun 2020 14:45:25 +0800
+Message-Id: <1592289944-13727-15-git-send-email-jasowang@redhat.com>
 In-Reply-To: <1592289944-13727-1-git-send-email-jasowang@redhat.com>
 References: <1592289944-13727-1-git-send-email-jasowang@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
@@ -83,53 +84,59 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
 
-Set irq's specific to a queue, present implementation is setting q1 irq
-based on q0 status.
+Q1 to Q7 ISR's are clear-on-read, IER/IDR registers
+are write-only, mask reg are read-only.
 
 Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
 Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- hw/net/cadence_gem.c | 25 +++----------------------
- 1 file changed, 3 insertions(+), 22 deletions(-)
+ hw/net/cadence_gem.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
 diff --git a/hw/net/cadence_gem.c b/hw/net/cadence_gem.c
-index fd3e4a8..4ad6c8e 100644
+index 4ad6c8e..72e7cf9 100644
 --- a/hw/net/cadence_gem.c
 +++ b/hw/net/cadence_gem.c
-@@ -554,29 +554,10 @@ static void gem_update_int_status(CadenceGEMState *s)
+@@ -458,6 +458,7 @@ static const uint8_t broadcast_addr[] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
+  */
+ static void gem_init_register_masks(CadenceGEMState *s)
  {
-     int i;
++    unsigned int i;
+     /* Mask of register bits which are read only */
+     memset(&s->regs_ro[0], 0, sizeof(s->regs_ro));
+     s->regs_ro[GEM_NWCTRL]   = 0xFFF80000;
+@@ -470,10 +471,19 @@ static void gem_init_register_masks(CadenceGEMState *s)
+     s->regs_ro[GEM_ISR]      = 0xFFFFFFFF;
+     s->regs_ro[GEM_IMR]      = 0xFFFFFFFF;
+     s->regs_ro[GEM_MODID]    = 0xFFFFFFFF;
++    for (i = 0; i < s->num_priority_queues; i++) {
++        s->regs_ro[GEM_INT_Q1_STATUS + i] = 0xFFFFFFFF;
++        s->regs_ro[GEM_INT_Q1_ENABLE + i] = 0xFFFFF319;
++        s->regs_ro[GEM_INT_Q1_DISABLE + i] = 0xFFFFF319;
++        s->regs_ro[GEM_INT_Q1_MASK + i] = 0xFFFFFFFF;
++    }
  
--    if (!s->regs[GEM_ISR]) {
--        /* ISR isn't set, clear all the interrupts */
--        for (i = 0; i < s->num_priority_queues; ++i) {
--            qemu_set_irq(s->irq[i], 0);
--        }
--        return;
--    }
-+    qemu_set_irq(s->irq[0], !!s->regs[GEM_ISR]);
+     /* Mask of register bits which are clear on read */
+     memset(&s->regs_rtc[0], 0, sizeof(s->regs_rtc));
+     s->regs_rtc[GEM_ISR]      = 0xFFFFFFFF;
++    for (i = 0; i < s->num_priority_queues; i++) {
++        s->regs_rtc[GEM_INT_Q1_STATUS + i] = 0x00000CE6;
++    }
  
--    /* If we get here we know s->regs[GEM_ISR] is set, so we don't need to
--     * check it again.
--     */
--    if (s->num_priority_queues == 1) {
--        /* No priority queues, just trigger the interrupt */
--        DB_PRINT("asserting int.\n");
--        qemu_set_irq(s->irq[0], 1);
--        return;
--    }
--
--    for (i = 0; i < s->num_priority_queues; ++i) {
--        if (s->regs[GEM_INT_Q1_STATUS + i]) {
--            DB_PRINT("asserting int. (q=%d)\n", i);
--            qemu_set_irq(s->irq[i], 1);
--        }
-+    for (i = 1; i < s->num_priority_queues; ++i) {
-+        qemu_set_irq(s->irq[i], !!s->regs[GEM_INT_Q1_STATUS + i - 1]);
-     }
+     /* Mask of register bits which are write 1 to clear */
+     memset(&s->regs_w1c[0], 0, sizeof(s->regs_w1c));
+@@ -485,6 +495,10 @@ static void gem_init_register_masks(CadenceGEMState *s)
+     s->regs_wo[GEM_NWCTRL]   = 0x00073E60;
+     s->regs_wo[GEM_IER]      = 0x07FFFFFF;
+     s->regs_wo[GEM_IDR]      = 0x07FFFFFF;
++    for (i = 0; i < s->num_priority_queues; i++) {
++        s->regs_wo[GEM_INT_Q1_ENABLE + i] = 0x00000CE6;
++        s->regs_wo[GEM_INT_Q1_DISABLE + i] = 0x00000CE6;
++    }
  }
  
+ /*
 -- 
 2.5.0
 
