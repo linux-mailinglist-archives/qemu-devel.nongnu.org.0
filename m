@@ -2,64 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91E771FB53D
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:58:50 +0200 (CEST)
-Received: from localhost ([::1]:52664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF0B81FB4E4
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:48:37 +0200 (CEST)
+Received: from localhost ([::1]:59758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlD33-0001UW-H4
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:58:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58410)
+	id 1jlCtA-0006hD-OQ
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:48:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCRC-0004gp-Fy; Tue, 16 Jun 2020 10:19:42 -0400
-Received: from mail-ot1-x335.google.com ([2607:f8b0:4864:20::335]:33095)
+ id 1jlCRE-0004je-Fo; Tue, 16 Jun 2020 10:19:44 -0400
+Received: from mail-ot1-x333.google.com ([2607:f8b0:4864:20::333]:35654)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCRA-000738-DS; Tue, 16 Jun 2020 10:19:42 -0400
-Received: by mail-ot1-x335.google.com with SMTP id n6so16070437otl.0;
- Tue, 16 Jun 2020 07:19:39 -0700 (PDT)
+ id 1jlCRC-00073Z-NQ; Tue, 16 Jun 2020 10:19:44 -0400
+Received: by mail-ot1-x333.google.com with SMTP id d4so1648994otk.2;
+ Tue, 16 Jun 2020 07:19:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=wTa4JXsyGprfTOQ8Gi0ZAfpppR1mnoFXQbPOUyCGbeA=;
- b=AHDiXuVaW8mbWnYKHaVlKB3o0TzMQMfM2eCdrO/vtPwaWmz/WZ7P260cFZU9loLjkU
- tauKFVKcHaHB8gceFghgQLCFmw1X2qrs/6lp810NpfwskmPY0MmE4oiEj5tB5+P/P+ic
- c3h1QyxhK5k+PjORnJXr+HqNqFj4f71Ybyo4asirih8bIX9vKczeDp+mSxDxFWCQfGvK
- DMAMkD+BJGfgdHj2Wp+y0vZN87IUqjmFLs0Mu3IZeuPTPuxVhsloI75KGIEPq/nf2wtB
- bAjRX1DB0Uruq60H5UQOJOnFsrkILPYBzG4275/pD/I0sw9OfFzVMBsqC+p6t8SzaK+d
- PVqQ==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=bSmWjteiTH5qC4xgVEDeGVyY7i9xPTV5XQWtaiyx/PM=;
+ b=CTkc+hyQkow2DVidoyqTi2cokBSbwJyx69zMXhgZfCBQgN2lIYDnvVJcLxe+pwDeAy
+ aJFWKJqH4O4ryay3nABUgNsN4u2JUUWJO7plwiLSzfbsNXfunqFQodc48jRWfIX0i/1u
+ rASeUd8JLAA79+ezFMEuRYn35MccvCmj7w8ZJnn4ruxGKF8GhPBgrsw+22MsbnHb4/dU
+ jMV57e6O3qafawK7mLGZwuidhVfRlKg1CwE8aSTBVUqlf3rWpkirez9mgz5a01Ut/j3W
+ dbA1iJTf/utrJUv79XbmL3Mu2yuOTP9TG0Pt92Y/Mlcn7X36LiCj8xaAVv5P6zJOotFJ
+ 1c0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references;
- bh=wTa4JXsyGprfTOQ8Gi0ZAfpppR1mnoFXQbPOUyCGbeA=;
- b=n4INjOJJ1pqc9+JnRwG7FGnOyK5lG/ejOQV9MJ6pkQeXWi5JB0mf6rVSs3FfzOrqOA
- CtrD2MkL4HzsrOGZiBonKvr7lZd+uDkWbVYBEAC5yITPf8Wtnz174i4kBTaay9QqKQV3
- 8c0vaURRTHDxx3dpNUBbsnUCO+2getwXSLt+Hih8KYjE++MgCpyiRTy4IlYJFauj3peO
- SHWQo04KmrK9ZzsQm+0l2NJMYBZkDaT2oXEETghEeISAjDXnf71DU78V95KHGxqU3X9w
- Iy5B9DYbNKcTE5/Q0wTuHJYlJGZSClWxofKNReeDi49OT8XY10ukXyo845QFKEbCyo5l
- NPXg==
-X-Gm-Message-State: AOAM531Lvus5Y+2MWGDa36ksBVWW4aNzOW8+d/r9KXMsxiN96Is3uEwp
- n5RHY5wR2B/jyFNcvypQ3tgk+hoo0SE=
-X-Google-Smtp-Source: ABdhPJwpF8KZWlRaGuSWvv4bToelCH0bFP3NQucaLKzUXNtGVVVIZKBS3mwqwo6X4aiipKbJ/E0/Pg==
-X-Received: by 2002:a9d:e88:: with SMTP id 8mr2432781otj.279.1592317178203;
- Tue, 16 Jun 2020 07:19:38 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=bSmWjteiTH5qC4xgVEDeGVyY7i9xPTV5XQWtaiyx/PM=;
+ b=VzFQsasr5e8ZoR6jAMTvHBDwbZHbaQz7C6IYvo+Lz5FlxfzYRnax5Jf+x39MOcb+9L
+ 0Yn3Oj/FNm3dnBU90CIqKnOf2IE5nDdVRiHuhYV6KngqRnqRicvUyQ28DrBi6oNUDfLu
+ XROy5lC33zk0mVq/HOqyVa14T2hHPF+Yq8kZ/Z9+6+F84AcAZ/gFBZZ23lhzb5WPukaw
+ A5TWPZ1TnXGuD6iJJSpoAG6usfI6itHybhG+33+yEKWvqQzwIxAfwm4KkHOZdvtb3Dgo
+ pCuW+sjDcurGzcM7jodhRls+LU6sWiurqzAKIQUckQ8I6bi5r6nMF3vjVpUW0dWYqidf
+ on6Q==
+X-Gm-Message-State: AOAM530z7CpTu0BfM7LlHe1YwAqMASS+gUuZzU3AlSN4kjwwoXdBvyoB
+ uzo75+ZXCDGndNS+lS4Fz5H3eOO6E1Q=
+X-Google-Smtp-Source: ABdhPJye/x4AaMiH3jOD98zq49I/ymdALf0f+ZhBdPqog/doFJlMhd3RDLTHvlG1qwn+QWh/0VBkVQ==
+X-Received: by 2002:a9d:32c3:: with SMTP id u61mr2760848otb.170.1592317180499; 
+ Tue, 16 Jun 2020 07:19:40 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id c129sm946246oif.53.2020.06.16.07.19.37
+ by smtp.gmail.com with ESMTPSA id z17sm256728oib.1.2020.06.16.07.19.38
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 16 Jun 2020 07:19:37 -0700 (PDT)
+ Tue, 16 Jun 2020 07:19:38 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 74/78] nbd/server: Avoid long error message assertions
- CVE-2020-10761
-Date: Tue, 16 Jun 2020 09:15:43 -0500
-Message-Id: <20200616141547.24664-75-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 75/78] virtio-balloon: fix free page hinting without an
+ iothread
+Date: Tue, 16 Jun 2020 09:15:44 -0500
+Message-Id: <20200616141547.24664-76-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
 References: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::335;
- envelope-from=flukshun@gmail.com; helo=mail-ot1-x335.google.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::333;
+ envelope-from=flukshun@gmail.com; helo=mail-ot1-x333.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -81,154 +85,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-stable@nongnu.org
+Cc: "Michael S . Tsirkin" <mst@redhat.com>,
+ David Hildenbrand <david@redhat.com>, qemu-stable@nongnu.org,
+ Alexander Duyck <alexander.duyck@gmail.com>, Wei Wang <wei.w.wang@intel.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Eric Blake <eblake@redhat.com>
+From: David Hildenbrand <david@redhat.com>
 
-Ever since commit 36683283 (v2.8), the server code asserts that error
-strings sent to the client are well-formed per the protocol by not
-exceeding the maximum string length of 4096.  At the time the server
-first started sending error messages, the assertion could not be
-triggered, because messages were completely under our control.
-However, over the years, we have added latent scenarios where a client
-could trigger the server to attempt an error message that would
-include the client's information if it passed other checks first:
+In case we don't have an iothread, we mark the feature as abscent but
+still add the queue. 'free_page_bh' remains set to NULL.
 
-- requesting NBD_OPT_INFO/GO on an export name that is not present
-  (commit 0cfae925 in v2.12 echoes the name)
+qemu-system-i386 \
+        -M microvm \
+        -nographic \
+        -device virtio-balloon-device,free-page-hint=true \
+        -nographic \
+        -display none \
+        -monitor none \
+        -serial none \
+        -qtest stdio
 
-- requesting NBD_OPT_LIST/SET_META_CONTEXT on an export name that is
-  not present (commit e7b1948d in v2.12 echoes the name)
+Doing a "write 0xc0000e30 0x24
+0x030000000300000003000000030000000300000003000000030000000300000003000000"
 
-At the time, those were still safe because we flagged names larger
-than 256 bytes with a different message; but that changed in commit
-93676c88 (v4.2) when we raised the name limit to 4096 to match the NBD
-string limit.  (That commit also failed to change the magic number
-4096 in nbd_negotiate_send_rep_err to the just-introduced named
-constant.)  So with that commit, long client names appended to server
-text can now trigger the assertion, and thus be used as a denial of
-service attack against a server.  As a mitigating factor, if the
-server requires TLS, the client cannot trigger the problematic paths
-unless it first supplies TLS credentials, and such trusted clients are
-less likely to try to intentionally crash the server.
+We will trigger a SEGFAULT. Let's move the check and bail out.
 
-We may later want to further sanitize the user-supplied strings we
-place into our error messages, such as scrubbing out control
-characters, but that is less important to the CVE fix, so it can be a
-later patch to the new nbd_sanitize_name.
+While at it, move the static initializations to instance_init().
+free_page_report_status and block_iothread are implicitly set to the
+right values (0/false) already, so drop the initialization.
 
-Consideration was given to changing the assertion in
-nbd_negotiate_send_rep_verr to instead merely log a server error and
-truncate the message, to avoid leaving a latent path that could
-trigger a future CVE DoS on any new error message.  However, this
-merely complicates the code for something that is already (correctly)
-flagging coding errors, and now that we are aware of the long message
-pitfall, we are less likely to introduce such errors in the future,
-which would make such error handling dead code.
-
-Reported-by: Xueqiang Wei <xuwei@redhat.com>
-CC: qemu-stable@nongnu.org
-Fixes: https://bugzilla.redhat.com/1843684 CVE-2020-10761
-Fixes: 93676c88d7
-Signed-off-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20200610163741.3745251-2-eblake@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-(cherry picked from commit 5c4fe018c025740fef4a0a4421e8162db0c3eefd)
+Reviewed-by: Alexander Duyck <alexander.h.duyck@linux.intel.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Fixes: c13c4153f76d ("virtio-balloon: VIRTIO_BALLOON_F_FREE_PAGE_HINT")
+Reported-by: Alexander Bulekov <alxndr@bu.edu>
+Cc: qemu-stable@nongnu.org
+Cc: Wei Wang <wei.w.wang@intel.com>
+Cc: Michael S. Tsirkin <mst@redhat.com>
+Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
+Cc: Alexander Duyck <alexander.duyck@gmail.com>
+Signed-off-by: David Hildenbrand <david@redhat.com>
+Message-Id: <20200520100439.19872-2-david@redhat.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+(cherry picked from commit 12fc8903a8ee09fb5f642de82699a0b211e1b5a7)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- nbd/server.c               | 23 ++++++++++++++++++++---
- tests/qemu-iotests/143     |  4 ++++
- tests/qemu-iotests/143.out |  2 ++
- 3 files changed, 26 insertions(+), 3 deletions(-)
+ hw/virtio/virtio-balloon.c | 33 ++++++++++++++++-----------------
+ 1 file changed, 16 insertions(+), 17 deletions(-)
 
-diff --git a/nbd/server.c b/nbd/server.c
-index 24ebc1a805..d5b9df092c 100644
---- a/nbd/server.c
-+++ b/nbd/server.c
-@@ -217,7 +217,7 @@ nbd_negotiate_send_rep_verr(NBDClient *client, uint32_t type,
+diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
+index 40b04f5180..8c6a177365 100644
+--- a/hw/virtio/virtio-balloon.c
++++ b/hw/virtio/virtio-balloon.c
+@@ -789,6 +789,13 @@ static void virtio_balloon_device_realize(DeviceState *dev, Error **errp)
+         return;
+     }
  
-     msg = g_strdup_vprintf(fmt, va);
-     len = strlen(msg);
--    assert(len < 4096);
-+    assert(len < NBD_MAX_STRING_SIZE);
-     trace_nbd_negotiate_send_rep_err(msg);
-     ret = nbd_negotiate_send_rep_len(client, type, len, errp);
-     if (ret < 0) {
-@@ -231,6 +231,19 @@ nbd_negotiate_send_rep_verr(NBDClient *client, uint32_t type,
-     return 0;
- }
- 
-+/*
-+ * Return a malloc'd copy of @name suitable for use in an error reply.
-+ */
-+static char *
-+nbd_sanitize_name(const char *name)
-+{
-+    if (strnlen(name, 80) < 80) {
-+        return g_strdup(name);
++    if (virtio_has_feature(s->host_features, VIRTIO_BALLOON_F_FREE_PAGE_HINT) &&
++        !s->iothread) {
++        error_setg(errp, "'free-page-hint' requires 'iothread' to be set");
++        virtio_cleanup(vdev);
++        return;
 +    }
-+    /* XXX Should we also try to sanitize any control characters? */
-+    return g_strdup_printf("%.80s...", name);
-+}
 +
- /* Send an error reply.
-  * Return -errno on error, 0 on success. */
- static int GCC_FMT_ATTR(4, 5)
-@@ -595,9 +608,11 @@ static int nbd_negotiate_handle_info(NBDClient *client, Error **errp)
- 
-     exp = nbd_export_find(name);
-     if (!exp) {
-+        g_autofree char *sane_name = nbd_sanitize_name(name);
+     s->ivq = virtio_add_queue(vdev, 128, virtio_balloon_handle_output);
+     s->dvq = virtio_add_queue(vdev, 128, virtio_balloon_handle_output);
+     s->svq = virtio_add_queue(vdev, 128, virtio_balloon_receive_stats);
+@@ -797,24 +804,11 @@ static void virtio_balloon_device_realize(DeviceState *dev, Error **errp)
+                            VIRTIO_BALLOON_F_FREE_PAGE_HINT)) {
+         s->free_page_vq = virtio_add_queue(vdev, VIRTQUEUE_MAX_SIZE,
+                                            virtio_balloon_handle_free_page_vq);
+-        s->free_page_report_status = FREE_PAGE_REPORT_S_STOP;
+-        s->free_page_report_cmd_id =
+-                           VIRTIO_BALLOON_FREE_PAGE_REPORT_CMD_ID_MIN;
+-        s->free_page_report_notify.notify =
+-                                       virtio_balloon_free_page_report_notify;
+         precopy_add_notifier(&s->free_page_report_notify);
+-        if (s->iothread) {
+-            object_ref(OBJECT(s->iothread));
+-            s->free_page_bh = aio_bh_new(iothread_get_aio_context(s->iothread),
+-                                       virtio_ballloon_get_free_page_hints, s);
+-            qemu_mutex_init(&s->free_page_lock);
+-            qemu_cond_init(&s->free_page_cond);
+-            s->block_iothread = false;
+-        } else {
+-            /* Simply disable this feature if the iothread wasn't created. */
+-            s->host_features &= ~(1 << VIRTIO_BALLOON_F_FREE_PAGE_HINT);
+-            virtio_error(vdev, "iothread is missing");
+-        }
 +
-         return nbd_negotiate_send_rep_err(client, NBD_REP_ERR_UNKNOWN,
-                                           errp, "export '%s' not present",
--                                          name);
-+                                          sane_name);
++        object_ref(OBJECT(s->iothread));
++        s->free_page_bh = aio_bh_new(iothread_get_aio_context(s->iothread),
++                                     virtio_ballloon_get_free_page_hints, s);
      }
+     reset_stats(s);
+ }
+@@ -885,6 +879,11 @@ static void virtio_balloon_instance_init(Object *obj)
+ {
+     VirtIOBalloon *s = VIRTIO_BALLOON(obj);
  
-     /* Don't bother sending NBD_INFO_NAME unless client requested it */
-@@ -995,8 +1010,10 @@ static int nbd_negotiate_meta_queries(NBDClient *client,
- 
-     meta->exp = nbd_export_find(export_name);
-     if (meta->exp == NULL) {
-+        g_autofree char *sane_name = nbd_sanitize_name(export_name);
++    qemu_mutex_init(&s->free_page_lock);
++    qemu_cond_init(&s->free_page_cond);
++    s->free_page_report_cmd_id = VIRTIO_BALLOON_FREE_PAGE_REPORT_CMD_ID_MIN;
++    s->free_page_report_notify.notify = virtio_balloon_free_page_report_notify;
 +
-         return nbd_opt_drop(client, NBD_REP_ERR_UNKNOWN, errp,
--                            "export '%s' not present", export_name);
-+                            "export '%s' not present", sane_name);
-     }
+     object_property_add(obj, "guest-stats", "guest statistics",
+                         balloon_stats_get_all, NULL, NULL, s, NULL);
  
-     ret = nbd_opt_read(client, &nb_queries, sizeof(nb_queries), errp);
-diff --git a/tests/qemu-iotests/143 b/tests/qemu-iotests/143
-index f649b36195..d2349903b1 100755
---- a/tests/qemu-iotests/143
-+++ b/tests/qemu-iotests/143
-@@ -58,6 +58,10 @@ _send_qemu_cmd $QEMU_HANDLE \
- $QEMU_IO_PROG -f raw -c quit \
-     "nbd+unix:///no_such_export?socket=$SOCK_DIR/nbd" 2>&1 \
-     | _filter_qemu_io | _filter_nbd
-+# Likewise, with longest possible name permitted in NBD protocol
-+$QEMU_IO_PROG -f raw -c quit \
-+    "nbd+unix:///$(printf %4096d 1 | tr ' ' a)?socket=$SOCK_DIR/nbd" 2>&1 \
-+    | _filter_qemu_io | _filter_nbd | sed 's/aaaa*aa/aa--aa/'
- 
- _send_qemu_cmd $QEMU_HANDLE \
-     "{ 'execute': 'quit' }" \
-diff --git a/tests/qemu-iotests/143.out b/tests/qemu-iotests/143.out
-index 1f4001c601..fc9c0a761f 100644
---- a/tests/qemu-iotests/143.out
-+++ b/tests/qemu-iotests/143.out
-@@ -5,6 +5,8 @@ QA output created by 143
- {"return": {}}
- qemu-io: can't open device nbd+unix:///no_such_export?socket=SOCK_DIR/nbd: Requested export not available
- server reported: export 'no_such_export' not present
-+qemu-io: can't open device nbd+unix:///aa--aa1?socket=SOCK_DIR/nbd: Requested export not available
-+server reported: export 'aa--aa...' not present
- { 'execute': 'quit' }
- {"return": {}}
- {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "SHUTDOWN", "data": {"guest": false, "reason": "host-qmp-quit"}}
 -- 
 2.17.1
 
