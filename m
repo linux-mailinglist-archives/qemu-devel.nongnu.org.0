@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A39F01FA8DA
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 08:37:00 +0200 (CEST)
-Received: from localhost ([::1]:57088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A75671FA8D5
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 08:36:52 +0200 (CEST)
+Received: from localhost ([::1]:56446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jl5DP-00058q-KT
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 02:36:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39356)
+	id 1jl5DH-0004sb-Ju
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 02:36:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39372)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jl58i-00080U-Hn; Tue, 16 Jun 2020 02:32:08 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:33660)
+ id 1jl58j-00082C-QT; Tue, 16 Jun 2020 02:32:09 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:33754)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jl58h-0003MH-1t; Tue, 16 Jun 2020 02:32:08 -0400
-Received: by mail-wm1-x341.google.com with SMTP id j198so1519972wmj.0;
- Mon, 15 Jun 2020 23:32:06 -0700 (PDT)
+ id 1jl58i-0003Mc-2W; Tue, 16 Jun 2020 02:32:09 -0400
+Received: by mail-wr1-x442.google.com with SMTP id l11so19465026wru.0;
+ Mon, 15 Jun 2020 23:32:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=0C754Z2styJVcWZeah0XfpUldg+E2WED/NhKiLJuUwM=;
- b=mX7AeBCmISmFvf1ccvUqkR0mMy1JR8NNO98AQPSOzV4WYlL6sf5STJzzK7oDXR+E03
- R0CXPdpfts55K3YTMA2Acz9YHFrtm/JbUCXC+3GrbEQGIEV1Vv4dPshC4U5TpXB8oqPy
- oJpCC6kKvHaCiqyvgHuz5u3ollxjm8f/Jgk0ECRbo8FBjoZz62TatXlRU/fHuSbO2QI6
- PipW+aLCNLmcKyW7o8XqXdjwn2Xyz6WmGPrqvR7fc8H3eSJAjOomBcqzj1S01mOSBEV9
- /ssPOyLMADJqFH1u/eU5Ty0rFPtcFs6hJLaJAVXrVFUcFR9o85QUYv/vC+GiMRdCmwiy
- 9IHA==
+ bh=2FjgOSd/PcaKbg94PaHicHO0rGFHpV0TnPuxXVdcN10=;
+ b=T5PsuaTM5zThSTjUXQD/0QYhszyEdhoZHQp8fhpUlPl7mAtK235dFj/CuvulyuNC45
+ D4WcjwAEZex9pSb326jKayEUew1vxgnA2ap1jDLxL7ISjeZhelQg+HIVkybgzswZmb3E
+ /NyqDeijTjljMlgKldEwu3NuUnLnDIBgzDNBekopeNCh2qEvAW/N4p99rdvP3lXt/Fuv
+ RTA9Rnm2AbHqk8J5Zm/itD9hAf0R/40XKYoyMEBStSqyxrlH6IzPlTODrB0dc+zcPwb8
+ y65VcVCr4wfvGB1KTo3vUlLKfaAy68bpGqjoYyGToXpV1tqQKFHQ7GPJAFYUY8Z164Bj
+ L9RA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=0C754Z2styJVcWZeah0XfpUldg+E2WED/NhKiLJuUwM=;
- b=rrlve4pCZNqXzK7IBdoapoOHiEEzED0oVzapBEVBA891QmUMlQGJnC7f57+KXJZWEy
- md6j1u4qB6jemmXYFLWiE/8q8r/EVSjKSrO/OhEoI1kwi4aGahUQmodcE0gxOOg2wB50
- gkHRcpPansWfSUPs0JAx12XVg563FFH2mB9bZtbzSg5fhV9TQBklMNeAyNvnvm68EDBj
- JkI0aStD3BnvJwg15k5yYShh3gCk+SQw2UbFvWhJuhbkptRKTTAUWBl1FSLXXsYUg3MP
- ybSqMheLcczXqcLhM4ToyndrPfLlZs3XLV+K9PK82e3/4MdT106/HJhqw8MQnT7SdqWS
- hBaA==
-X-Gm-Message-State: AOAM533npcPKP98VB5eNdL7Be2l9Uu8L525Mc7Iu81kOi19xU2cG3hAX
- sHiRmbR3CE7hRwCO/St/jCyUKBo2
-X-Google-Smtp-Source: ABdhPJzlPadS5VEC26TKnCCdNA0iXGEZ7JZ2XekaKsP6DbW7l6mwdkDDgV5T99IwPunfRpmXd+Qt1Q==
-X-Received: by 2002:a1c:9613:: with SMTP id y19mr1475307wmd.135.1592289125102; 
- Mon, 15 Jun 2020 23:32:05 -0700 (PDT)
+ bh=2FjgOSd/PcaKbg94PaHicHO0rGFHpV0TnPuxXVdcN10=;
+ b=jOLSWNHAdegBT3VPJDSjc+9jJC7nyQ9Djm7J6hK1GfDRt69eGNLKMGPSrme67nxfRY
+ hcIu8LMaif8AndPq9J5YZemaOoxLtXrggYY761Nf/HckgYdZ1isWhYnKUJLH8Eq6V5U4
+ jrqOwtEPJta5BzTubM7AbS1DW7auYP8wNgn8UVXwgiy2fN30DLEzbsj3vEvS1d0CP+rX
+ hTVKtuMVe0hmsAlaWmYGiAV0y8SqpkWYQoCyCHLS5KQmolFJ/Bz52xibTtdstU8feELI
+ /cOdcYR1h3YhkDkBYra2Jm6KyfGqhi6DW1C1zqIs+VhVnljSOQmLGUqWKFw6GToHBeuE
+ SP8A==
+X-Gm-Message-State: AOAM532sdqHXssNiIM0gcHC6Fiy4i2gnxV2P1n49QMQkp8ZmyVWM6CS/
+ DqeRlnlzXnE1ykKj3WEHXUBxykM5
+X-Google-Smtp-Source: ABdhPJwtY74K9OAMAZYUnH7lhCuobvYIiZAvY7IcA6o2SgRxRE6nPWfsKMxIN/N4CnR/sG7C0Y0G1w==
+X-Received: by 2002:a5d:5744:: with SMTP id q4mr1264543wrw.137.1592289126139; 
+ Mon, 15 Jun 2020 23:32:06 -0700 (PDT)
 Received: from localhost.localdomain
  (181.red-88-10-103.dynamicip.rima-tde.net. [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id t188sm2483250wmt.27.2020.06.15.23.32.04
+ by smtp.gmail.com with ESMTPSA id t188sm2483250wmt.27.2020.06.15.23.32.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Jun 2020 23:32:04 -0700 (PDT)
+ Mon, 15 Jun 2020 23:32:05 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 5/7] hw/arm/mps2: Add I2C busses on FPGA APB
-Date: Tue, 16 Jun 2020 08:31:55 +0200
-Message-Id: <20200616063157.16389-6-f4bug@amsat.org>
+Subject: [PATCH 6/7] hw/arm/mps2: Map the FPGA I/O block
+Date: Tue, 16 Jun 2020 08:31:56 +0200
+Message-Id: <20200616063157.16389-7-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200616063157.16389-1-f4bug@amsat.org>
 References: <20200616063157.16389-1-f4bug@amsat.org>
@@ -62,8 +62,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -92,35 +92,40 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There are 4 different I2C peripherals on the FPGA APB.
-
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
  hw/arm/mps2.c | 7 +++++++
  1 file changed, 7 insertions(+)
 
 diff --git a/hw/arm/mps2.c b/hw/arm/mps2.c
-index 4a49bfa9b9..6224d7a63c 100644
+index 6224d7a63c..345ba551ab 100644
 --- a/hw/arm/mps2.c
 +++ b/hw/arm/mps2.c
-@@ -321,6 +321,7 @@ static void mps2_common_init(MachineState *machine)
-         create_unimplemented_device("cmsdk-ahb-gpio", gpiobase[i], 0x1000);
-     }
+@@ -38,6 +38,7 @@
+ #include "hw/timer/cmsdk-apb-timer.h"
+ #include "hw/timer/cmsdk-apb-dualtimer.h"
+ #include "hw/misc/mps2-scc.h"
++#include "hw/misc/mps2-fpgaio.h"
+ #include "hw/net/lan9118.h"
+ #include "net/net.h"
  
-+    /* FPGA APB */
-     sysbus_init_child_obj(OBJECT(mms), "scc", &mms->scc,
-                           sizeof(mms->scc), TYPE_MPS2_SCC);
-     sccdev = DEVICE(&mms->scc);
-@@ -330,6 +331,12 @@ static void mps2_common_init(MachineState *machine)
-     object_property_set_bool(OBJECT(&mms->scc), true, "realized",
-                              &error_fatal);
-     sysbus_mmio_map(SYS_BUS_DEVICE(sccdev), 0, 0x4002f000);
-+    for (i = 0; i < 4; i++) {
-+        static const hwaddr i2cbase[] = {0x40022000, 0x40023000,
-+                                         0x40029000, 0x4002a000};
-+
-+        sysbus_create_simple("versatile_i2c", i2cbase[i], NULL);
-+    }
+@@ -66,6 +67,7 @@ typedef struct {
+     MemoryRegion blockram_m3;
+     MemoryRegion sram;
+     MPS2SCC scc;
++    MPS2FPGAIO fpgaio;
+     CMSDKAPBDualTimer dualtimer;
+ } MPS2MachineState;
+ 
+@@ -337,6 +339,11 @@ static void mps2_common_init(MachineState *machine)
+ 
+         sysbus_create_simple("versatile_i2c", i2cbase[i], NULL);
+     }
++    sysbus_init_child_obj(OBJECT(mms), "fpgaio", &mms->fpgaio,
++                          sizeof(mms->fpgaio), TYPE_MPS2_FPGAIO);
++    object_property_set_bool(OBJECT(&mms->fpgaio), true, "realized",
++                             &error_fatal);
++    sysbus_mmio_map(SYS_BUS_DEVICE(&mms->fpgaio), 0, 0x40028000);
  
      /* In hardware this is a LAN9220; the LAN9118 is software compatible
       * except that it doesn't support the checksum-offload feature.
