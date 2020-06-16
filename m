@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38A671FAA7C
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 09:54:49 +0200 (CEST)
-Received: from localhost ([::1]:53976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0F2A1FAA77
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 09:53:18 +0200 (CEST)
+Received: from localhost ([::1]:46072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jl6Qi-0000PM-6u
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 03:54:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53888)
+	id 1jl6PF-0005fz-Rx
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 03:53:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jl6NV-0003eA-6z; Tue, 16 Jun 2020 03:51:29 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:34407)
+ id 1jl6NX-0003fB-9k; Tue, 16 Jun 2020 03:51:31 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:45342)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jl6NT-00084A-Jj; Tue, 16 Jun 2020 03:51:28 -0400
-Received: by mail-wr1-x443.google.com with SMTP id r7so19697962wro.1;
- Tue, 16 Jun 2020 00:51:26 -0700 (PDT)
+ id 1jl6NV-00084L-Jy; Tue, 16 Jun 2020 03:51:30 -0400
+Received: by mail-wr1-x444.google.com with SMTP id c3so19630760wru.12;
+ Tue, 16 Jun 2020 00:51:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=u02Arpcubj9mPZ8wYNHVoADOr5FJrLRUYb2irB7o4Ig=;
- b=NU6xdCpJWWMjotGt3hh8qLQaEU6IcuR807+1T9o24PWWNqD9Vogza4t5sE/67Lc+Ul
- RGfzxZSZE3DbR+GqQrdbaiR5Itv2TJ5BXlyrssUbjIyUavUjrD2sL32ipexO5Un6L8HN
- jChBwkWzR2d4Cahzr2jOrEAHMxxk3Nvvv00VClpD+StLtJp282jata4OgZXBnCyzhuHJ
- fiQtd6K4ljhhVoDkTZI+jjJkNZjozK9Q5hQMOo0FuF7f02NHidx60lb9OLa8Hq+rbBND
- c/5y0//UT6HrihapbCL3sNis3PVVmmf4Y/hXtSZpzXycZPTqZWz43ZOq67pcJlu4blwI
- cTEQ==
+ bh=8+v1WtTiaBr/cU57D6WDEIafuRkg4EVCwsLaJ7Un5zA=;
+ b=WqyEB6spwUThFV9nVg0pOI27fLw4PvX4EMshTCBLKZSa572rAt6aEq86ZFCFfYoUU+
+ tgoto0t1sgsKsd2e/xFNgoXNEzFso8nwlNdn2u09tm1ukKJ8d3tkTlGa1rAsMfUXfe5Y
+ T1TYzcU8/iwY34qbxXV7WREAOF/S9SMSL0ejUYVXW8WvNWf2uMZMVihYevSlCYcKsaKZ
+ e9sgn73S6WmG1Zz/DCfml31GnOEm52zqdxsAfG0NkoLynOqqaIIA2IDuQpOxyHqcI3So
+ KV13Fzg+JFP+J+rdGOF1+97h3BlXbaBcMyG15qvS4HZt4Yk0fNHxwzfd+zTDYKnZgrVB
+ oCzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=u02Arpcubj9mPZ8wYNHVoADOr5FJrLRUYb2irB7o4Ig=;
- b=sB9i9cEqcfUFeFbX9TDjMgB1Y/1w+PyCoubmqdEbvZXndPVIHJof2MtTyIujEucH2O
- 3tCGslzDLeAJDGv/bLqh5I5KWFvJtq+eVE2gT+bS8SCKK535pXBnjnt4h9D2iqJJ7bfL
- r+T9qNCNLXR0X99sj3Hm9saUU0UCMat+LJvQXoVclGWYhwgOTsY2Tu2X6HyAUIaV916W
- zj6hkcCzTUC7X5MlTllv5MgvquBTOb47pIZ6KN12ASOhoCAiCWVWe2TYWKIoY+/yR9v7
- dR0HzCujmJnyLntEnvtF0t1SGlcYiYjtS7QRdaxoSKj90GPcNSPdiFhtdz+7YSlzQ9T0
- WM/w==
-X-Gm-Message-State: AOAM530HZnPY6nW8AXq/VGctOoOsdsFWEYsoLFQKkqOONIAOMtpAt6n+
- UA6rMSmt/e1N8BZ+8EnIONFRR7NQ
-X-Google-Smtp-Source: ABdhPJyvI98LxdXs/QaF0wr5dlrQ7y8cygnVOjolGcediY1CUVmrWxnbvLxbeYibXrGIgZMBGQIhoQ==
-X-Received: by 2002:a5d:4f09:: with SMTP id c9mr1617618wru.3.1592293885188;
- Tue, 16 Jun 2020 00:51:25 -0700 (PDT)
+ bh=8+v1WtTiaBr/cU57D6WDEIafuRkg4EVCwsLaJ7Un5zA=;
+ b=qyStvECLHnCp8DYBY7ufOMCrsHiwin856jCDCp7F+b4iZERfvgzxTx6YYLcFgbFy3g
+ Yk/E8pdUQZovSybGrLQf6hP3EqQvgFavjYjVKXbRAdvDNsrIfgr9uiJtVZ3rUrN6B2g+
+ taMMcnytWfxba5NqGzNaeEMn4BXxCb2Y79uHd/6qd90lru8D+h39gYJaptB0Ql21DGFf
+ IhetqvfSPd7zC6PZiOLtFw029wVfPcvYzNJpxIk+lf/UYeHWDTnLYydVbXGduaw/GLCE
+ 0IPlBCKlADqdb1bzjNtT0WPt1+fIkQg7DKSM/ny1AxU11AodCGOaHqscmuGrN6WOJZRm
+ Gf1A==
+X-Gm-Message-State: AOAM531+i89Vu9R56dK8I5tKLEp7b9pbVP52gfhGsIJayqJa00lxtaHp
+ O0amYlz1bmQ2OMDgsDa0kKd3XYJn
+X-Google-Smtp-Source: ABdhPJyVhsqAjnTuku/6hQtRl9inKCZTYIp+7/jbbB4OdUj3oQTfEA7fAkBKSHC2FPy7UG5FiQyngQ==
+X-Received: by 2002:adf:8067:: with SMTP id 94mr1545509wrk.427.1592293886437; 
+ Tue, 16 Jun 2020 00:51:26 -0700 (PDT)
 Received: from localhost.localdomain
  (181.red-88-10-103.dynamicip.rima-tde.net. [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id q11sm28093538wrv.67.2020.06.16.00.51.23
+ by smtp.gmail.com with ESMTPSA id q11sm28093538wrv.67.2020.06.16.00.51.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Jun 2020 00:51:24 -0700 (PDT)
+ Tue, 16 Jun 2020 00:51:25 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/7] qemu-common: Briefly document qemu_timedate_diff() unit
-Date: Tue, 16 Jun 2020 09:51:15 +0200
-Message-Id: <20200616075121.12837-2-f4bug@amsat.org>
+Subject: [PATCH 2/7] block/qcow2: Document cache_clean_interval field holds
+ seconds
+Date: Tue, 16 Jun 2020 09:51:16 +0200
+Message-Id: <20200616075121.12837-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200616075121.12837-1-f4bug@amsat.org>
 References: <20200616075121.12837-1-f4bug@amsat.org>
@@ -62,8 +63,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -96,41 +97,26 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It is not obvious that the qemu_timedate_diff() and
-qemu_ref_timedate() functions return seconds. Briefly
-document it.
+It is not obvious the 'cache_clean_interval' field holds
+a value expressing seconds. Add a brief comment.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/qemu-common.h | 1 +
- softmmu/vl.c          | 2 +-
- 2 files changed, 2 insertions(+), 1 deletion(-)
+ block/qcow2.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/include/qemu-common.h b/include/qemu-common.h
-index d0142f29ac..e97644710c 100644
---- a/include/qemu-common.h
-+++ b/include/qemu-common.h
-@@ -27,6 +27,7 @@ int qemu_main(int argc, char **argv, char **envp);
- #endif
+diff --git a/block/qcow2.h b/block/qcow2.h
+index 7ce2c23bdb..fa5c2e64a1 100644
+--- a/block/qcow2.h
++++ b/block/qcow2.h
+@@ -310,6 +310,7 @@ typedef struct BDRVQcow2State {
+     Qcow2Cache* l2_table_cache;
+     Qcow2Cache* refcount_block_cache;
+     QEMUTimer *cache_clean_timer;
++    /* Interval for cache cleanup timer (in seconds) */
+     unsigned cache_clean_interval;
  
- void qemu_get_timedate(struct tm *tm, int offset);
-+/* Returns difference with RTC reference time (in seconds) */
- int qemu_timedate_diff(struct tm *tm);
- 
- void *qemu_oom_check(void *ptr);
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index f669c06ede..215459c7b5 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -737,7 +737,7 @@ void qemu_system_vmstop_request(RunState state)
- }
- 
- /***********************************************************/
--/* RTC reference time/date access */
-+/* RTC reference time/date access (in seconds) */
- static time_t qemu_ref_timedate(QEMUClockType clock)
- {
-     time_t value = qemu_clock_get_ms(clock) / 1000;
+     QLIST_HEAD(, QCowL2Meta) cluster_allocs;
 -- 
 2.21.3
 
