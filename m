@@ -2,78 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 503E81FB1A6
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 15:07:01 +0200 (CEST)
-Received: from localhost ([::1]:53468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2945D1FB1C3
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 15:13:26 +0200 (CEST)
+Received: from localhost ([::1]:32892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlBIq-0007dG-B9
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 09:07:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36744)
+	id 1jlBP2-0003Wh-MX
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 09:13:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39912)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1jlBEH-0000Nj-Fe
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 09:02:18 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:46701
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1jlBEA-0001rk-V0
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 09:02:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592312529;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RGTWgAo/GAz5mXfW8XtQzTeAkk+Fl74XVICkS1mYLXs=;
- b=RttbEl+3WI2u22ekMw3fm8xOyQL+J6Wvqbh4FsP5DlaPaW8EIocthN14VZLc65DKGylvy8
- Dup8i8h9jJDlV8OY/uaeZsUWej/OrNOC74rYA8kOZgbxa9iD/cqF5CE2zOwXfBTah3vG/0
- hAdK/xYiVjkIBG9vtdSsED5EK4vDToY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-499-qrYcCAT0OMSeVJG_-_kP9g-1; Tue, 16 Jun 2020 09:02:07 -0400
-X-MC-Unique: qrYcCAT0OMSeVJG_-_kP9g-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AD2C418FE872;
- Tue, 16 Jun 2020 13:01:39 +0000 (UTC)
-Received: from [10.36.114.197] (ovpn-114-197.ams2.redhat.com [10.36.114.197])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 782125D9E4;
- Tue, 16 Jun 2020 13:01:34 +0000 (UTC)
-Subject: Re: [PATCH v2 4/5] acpi: Enable TPM IRQ
-To: Stefan Berger <stefanb@linux.ibm.com>,
- Stefan Berger <stefanb@linux.vnet.ibm.com>
-References: <20200615142327.671546-1-stefanb@linux.vnet.ibm.com>
- <20200615142327.671546-5-stefanb@linux.vnet.ibm.com>
- <CAMxuvaxm+5Nuv2_1UTXY+-kK1CYMkxqU2pfLOxMgeDEqOjhgZA@mail.gmail.com>
- <8e11e2d6-5e02-89c0-759f-d74189421eec@linux.ibm.com>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <ab78ab4a-a3e3-64bb-ff81-413c17c21f24@redhat.com>
-Date: Tue, 16 Jun 2020 15:01:32 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jlBNO-00020V-QS
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 09:11:42 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:37039)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jlBNM-0003cP-Eg
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 09:11:42 -0400
+Received: by mail-wm1-x344.google.com with SMTP id y20so3014892wmi.2
+ for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 06:11:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=Uu3YA6xN9OiaO3jQD6rztHmPMjUNaTzPkyj9MB2NriE=;
+ b=dwjIjfusH57+6reeoo8og5PxHpx5VOr4dnBVlbfGR9BReetsgi6EkGzaBkXxd9m51A
+ eV5IPkkb60urRg235mI3G9iaHyvF1+5vRfVFE/omxOEpUPYkszBRHXfr3ZW/6UHbpB0W
+ 2stZJdo1bHjJqqJ2Fvpij9oHTej6XrOcptvkIEoN4vKMtJzPB94hOYNCfOWZtQM8rFuK
+ zF8HPgKD7YWTGqciDTRuVXtwfkLZCtjyhqz3Ii3WDbMQeKOrPMyuySt8FHk2TTztInti
+ RvifHXu9dz2HiM3RCDQWBu2OyRvvragmkNXYwkWp3PyjKOguNvq6qG3TKqFIXaoWbXuA
+ POoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=Uu3YA6xN9OiaO3jQD6rztHmPMjUNaTzPkyj9MB2NriE=;
+ b=e9zM8z7lLKDTW0Arfx9BA3K4GRu4MR+o9mJVECNtOmlUEn7zMVzoF4WMdQqAk0Kcou
+ 22YmClxHIGPp60ajDo18c4gvxo3xFtyx06ni/Byn9q0UHb/eSQl3bz8jLVQlx9U7bY0f
+ GI2fOyMN37/TShNy1iVvCaM16kKCfneWRiBwdrFSWv8GTx1/Unq8bRjl8oxocDFIdk+W
+ Qq3dONV16u9QzAp+OHz92ZSgimkFS1r29gJ9ziFVE3SKlUf2SvTbbvz7eNor7gA6/xMT
+ cEgRfVJ1jfZgwd9drCGeVLkkeNkamViZA/KnRNiz/LsyseCzwgYFFtEQ8U7VPW+7kaMN
+ hzUQ==
+X-Gm-Message-State: AOAM530qkVM+BQF384hITo0o/D/dbUuOGmLNmBme9xHDtl91miqDr0e6
+ Gy2NbI31lUp3m6mmB2bTyV9lIg==
+X-Google-Smtp-Source: ABdhPJw7s12h/bCyazsNYGvGz9wTnlRftxGQKJA05LNoucHILYCr6bZs6BJtJYuS+yPrsS+sGPqpJQ==
+X-Received: by 2002:a1c:2d54:: with SMTP id t81mr3399273wmt.154.1592313098755; 
+ Tue, 16 Jun 2020 06:11:38 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id f11sm27634485wrm.13.2020.06.16.06.11.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 16 Jun 2020 06:11:37 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 8ABAB1FF7E;
+ Tue, 16 Jun 2020 14:11:36 +0100 (BST)
+References: <20200615180346.3992-1-cfontana@suse.de>
+ <20200615180346.3992-2-cfontana@suse.de>
+User-agent: mu4e 1.5.3; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Claudio Fontana <cfontana@suse.de>
+Subject: Re: [RFC v5 1/4] softmmu: move softmmu only files from root
+In-reply-to: <20200615180346.3992-2-cfontana@suse.de>
+Date: Tue, 16 Jun 2020 14:11:36 +0100
+Message-ID: <87d05z17g7.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <8e11e2d6-5e02-89c0-759f-d74189421eec@linux.ibm.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=eric.auger@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 02:45:57
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x344.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,54 +89,181 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S . Tsirkin" <mst@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- "Bonzini, Paolo" <pbonzini@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Philippe Mathieu Daude <philmd@redhat.com>,
- Marek Kedzierski <mkedzier@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, haxm-team@intel.com,
+ Marcelo Tosatti <mtosatti@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel@nongnu.org, Roman Bolshakov <r.bolshakov@yadro.com>,
+ Colin Xu <colin.xu@intel.com>, Wenchao Wang <wenchao.wang@intel.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Sunil Muthuswamy <sunilmut@microsoft.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud?= =?utf-8?Q?=C3=A9?= <philmd@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Stefan,
 
-On 6/15/20 7:11 PM, Stefan Berger wrote:
-> On 6/15/20 11:13 AM, Marc-André Lureau wrote:
->>
->>> diff --git a/include/hw/acpi/tpm.h b/include/hw/acpi/tpm.h
->>> index 1a2a57a21f..063a9eb42a 100644
->>> --- a/include/hw/acpi/tpm.h
->>> +++ b/include/hw/acpi/tpm.h
->>> @@ -24,7 +24,7 @@
->>>   #define TPM_TIS_ADDR_BASE           0xFED40000
->>>   #define TPM_TIS_ADDR_SIZE           0x5000
->>>
->>> -#define TPM_TIS_IRQ                 5
->>> +#define TPM_TIS_IRQ                 13
-> 
-> 
-> Eric,
-> 
->  does this change have any negative side effects on ARM? If you prefer,
-> we can split this part here up into TPM_TIS_ISA_IRQ and TPM_TIS_SYSBUS
-> IRQ and leave the latter at '5' because we know that this is working.
-The IRQ is not advertised in dt nor ACPI on ARM. However it is
-advertised in the capability reg and in the vector. reg So I think this
-should be fixed? I guess on ARM we will pick up a completely different
-IRQ num, allocated from the platform bus slot.
+Claudio Fontana <cfontana@suse.de> writes:
 
-Thanks
+> move arch_init, balloon, cpus, ioport, memory, memory_mapping, qtest.
+>
+> They are all specific to CONFIG_SOFTMMU.
+>
+> Signed-off-by: Claudio Fontana <cfontana@suse.de>
 
-Eric
-> 
->    Stefan
-> 
-> 
->>>
->>>   #define TPM_TIS_NUM_LOCALITIES      5     /* per spec */
->>>   #define TPM_TIS_LOCALITY_SHIFT      12
->>> -- 
->>> 2.24.1
->>>
-> 
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
+> ---
+>  MAINTAINERS                                  | 12 ++++++------
+>  Makefile.target                              |  7 ++-----
+>  softmmu/Makefile.objs                        | 10 ++++++++++
+>  arch_init.c =3D> softmmu/arch_init.c           |  0
+>  balloon.c =3D> softmmu/balloon.c               |  0
+>  cpus.c =3D> softmmu/cpus.c                     |  0
+>  ioport.c =3D> softmmu/ioport.c                 |  0
+>  memory.c =3D> softmmu/memory.c                 |  0
+>  memory_mapping.c =3D> softmmu/memory_mapping.c |  0
+>  qtest.c =3D> softmmu/qtest.c                   |  0
+>  10 files changed, 18 insertions(+), 11 deletions(-)
+>  rename arch_init.c =3D> softmmu/arch_init.c (100%)
+>  rename balloon.c =3D> softmmu/balloon.c (100%)
+>  rename cpus.c =3D> softmmu/cpus.c (100%)
+>  rename ioport.c =3D> softmmu/ioport.c (100%)
+>  rename memory.c =3D> softmmu/memory.c (100%)
+>  rename memory_mapping.c =3D> softmmu/memory_mapping.c (100%)
+>  rename qtest.c =3D> softmmu/qtest.c (100%)
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index a922775e45..1b4d2e0285 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -115,7 +115,7 @@ Overall TCG CPUs
+>  M: Richard Henderson <rth@twiddle.net>
+>  R: Paolo Bonzini <pbonzini@redhat.com>
+>  S: Maintained
+> -F: cpus.c
+> +F: softmmu/cpus.c
+>  F: cpus-common.c
+>  F: exec.c
+>  F: accel/tcg/
+> @@ -1682,7 +1682,7 @@ M: David Hildenbrand <david@redhat.com>
+>  S: Maintained
+>  F: hw/virtio/virtio-balloon*.c
+>  F: include/hw/virtio/virtio-balloon.h
+> -F: balloon.c
+> +F: softmmu/balloon.c
+>  F: include/sysemu/balloon.h
+>=20=20
+>  virtio-9p
+> @@ -2131,12 +2131,12 @@ Memory API
+>  M: Paolo Bonzini <pbonzini@redhat.com>
+>  S: Supported
+>  F: include/exec/ioport.h
+> -F: ioport.c
+>  F: include/exec/memop.h
+>  F: include/exec/memory.h
+>  F: include/exec/ram_addr.h
+>  F: include/exec/ramblock.h
+> -F: memory.c
+> +F: softmmu/ioport.c
+> +F: softmmu/memory.c
+>  F: include/exec/memory-internal.h
+>  F: exec.c
+>  F: scripts/coccinelle/memory-region-housekeeping.cocci
+> @@ -2168,13 +2168,13 @@ F: ui/cocoa.m
+>  Main loop
+>  M: Paolo Bonzini <pbonzini@redhat.com>
+>  S: Maintained
+> -F: cpus.c
+>  F: include/qemu/main-loop.h
+>  F: include/sysemu/runstate.h
+>  F: util/main-loop.c
+>  F: util/qemu-timer.c
+>  F: softmmu/vl.c
+>  F: softmmu/main.c
+> +F: softmmu/cpus.c
+>  F: qapi/run-state.json
+>=20=20
+>  Human Monitor (HMP)
+> @@ -2327,7 +2327,7 @@ M: Thomas Huth <thuth@redhat.com>
+>  M: Laurent Vivier <lvivier@redhat.com>
+>  R: Paolo Bonzini <pbonzini@redhat.com>
+>  S: Maintained
+> -F: qtest.c
+> +F: softmmu/qtest.c
+>  F: accel/qtest.c
+>  F: tests/qtest/
+>  X: tests/qtest/bios-tables-test-allowed-diff.h
+> diff --git a/Makefile.target b/Makefile.target
+> index 8ed1eba95b..7fbf5d8b92 100644
+> --- a/Makefile.target
+> +++ b/Makefile.target
+> @@ -152,16 +152,13 @@ endif #CONFIG_BSD_USER
+>  #########################################################
+>  # System emulator target
+>  ifdef CONFIG_SOFTMMU
+> -obj-y +=3D arch_init.o cpus.o gdbstub.o balloon.o ioport.o
+> -obj-y +=3D qtest.o
+> +obj-y +=3D softmmu/
+> +obj-y +=3D gdbstub.o
+>  obj-y +=3D dump/
+>  obj-y +=3D hw/
+>  obj-y +=3D monitor/
+>  obj-y +=3D qapi/
+> -obj-y +=3D memory.o
+> -obj-y +=3D memory_mapping.o
+>  obj-y +=3D migration/ram.o
+> -obj-y +=3D softmmu/
+>  LIBS :=3D $(libs_softmmu) $(LIBS)
+>=20=20
+>  # Hardware support
+> diff --git a/softmmu/Makefile.objs b/softmmu/Makefile.objs
+> index dd15c24346..a4bd9f2f52 100644
+> --- a/softmmu/Makefile.objs
+> +++ b/softmmu/Makefile.objs
+> @@ -1,3 +1,13 @@
+>  softmmu-main-y =3D softmmu/main.o
+> +
+> +obj-y +=3D arch_init.o
+> +obj-y +=3D cpus.o
+> +obj-y +=3D balloon.o
+> +obj-y +=3D ioport.o
+> +obj-y +=3D memory.o
+> +obj-y +=3D memory_mapping.o
+> +
+> +obj-y +=3D qtest.o
+> +
+>  obj-y +=3D vl.o
+>  vl.o-cflags :=3D $(GPROF_CFLAGS) $(SDL_CFLAGS)
+> diff --git a/arch_init.c b/softmmu/arch_init.c
+> similarity index 100%
+> rename from arch_init.c
+> rename to softmmu/arch_init.c
+> diff --git a/balloon.c b/softmmu/balloon.c
+> similarity index 100%
+> rename from balloon.c
+> rename to softmmu/balloon.c
+> diff --git a/cpus.c b/softmmu/cpus.c
+> similarity index 100%
+> rename from cpus.c
+> rename to softmmu/cpus.c
+> diff --git a/ioport.c b/softmmu/ioport.c
+> similarity index 100%
+> rename from ioport.c
+> rename to softmmu/ioport.c
+> diff --git a/memory.c b/softmmu/memory.c
+> similarity index 100%
+> rename from memory.c
+> rename to softmmu/memory.c
+> diff --git a/memory_mapping.c b/softmmu/memory_mapping.c
+> similarity index 100%
+> rename from memory_mapping.c
+> rename to softmmu/memory_mapping.c
+> diff --git a/qtest.c b/softmmu/qtest.c
+> similarity index 100%
+> rename from qtest.c
+> rename to softmmu/qtest.c
+
+
+--=20
+Alex Benn=C3=A9e
 
