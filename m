@@ -2,66 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 249BC1FBC98
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 19:17:34 +0200 (CEST)
-Received: from localhost ([::1]:38574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA1B81FBCD6
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 19:27:40 +0200 (CEST)
+Received: from localhost ([::1]:48498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlFDJ-0003IP-4p
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 13:17:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47720)
+	id 1jlFN6-0002Qa-1o
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 13:27:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48168)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jlF6b-0005W2-9a
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 13:10:38 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:26484
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1jlF8R-0001US-RS
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 13:12:31 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:52495
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jlF6Z-0007pm-Iw
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 13:10:36 -0400
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1jlF8Q-0008Bm-1r
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 13:12:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592327434;
+ s=mimecast20190719; t=1592327549;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TAX0b6rBIi7O1tAgAZ2KU8xXDAoFs/h4b0b1MBbp9TQ=;
- b=RiS5bgR/JCaq0e7j1SP5xZY60Uk2kq+mTykpgrw+ZH2JJZDUJ3De1+hIEguMMuQytqq4dn
- OTATSW0Z4Xs4a2beQ+NeGzwP/Gv9yC7Q+R0UfE6/kgKeapmv+kWdYen31/iJoFOjCdmHmT
- qGumdZ4Y45zIZxAbHsaUDjHC8jcdvmM=
+ bh=q7rPbUNxQ/rW5U9BX3QbkTThaGfDLx5mAfAOI0uHae4=;
+ b=A1sLT+9GLvaSzn4fWgABd4OIZkFX6SJWlgHK9TrVB/6QSXEw+5N4VAIvZKiy6yDxd5C+DP
+ T/SCquxj94f+77hsiY0atIJnFeKsTzAhkueNd1ZQKI8vMaMgrCS1hH8ug519wsuI59LrXA
+ yaUdQcTzpHKkV03Zy9/yiXzNtz/0KZE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-39-XotkJhe9NzWlrw8eDvRx4A-1; Tue, 16 Jun 2020 13:10:31 -0400
-X-MC-Unique: XotkJhe9NzWlrw8eDvRx4A-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-507-6RkPcz41NdS7n8gDRqu_Mg-1; Tue, 16 Jun 2020 13:12:26 -0400
+X-MC-Unique: 6RkPcz41NdS7n8gDRqu_Mg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 97EEB101C2C0;
- Tue, 16 Jun 2020 17:10:29 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-67.ams2.redhat.com
- [10.36.112.67])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C2FAE1C4;
- Tue, 16 Jun 2020 17:10:26 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 0AC1E16E18; Tue, 16 Jun 2020 19:10:26 +0200 (CEST)
-Date: Tue, 16 Jun 2020 19:10:26 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: ovmf / PCI passthrough impaired due to very limiting PCI64
- aperture
-Message-ID: <20200616171026.jhlhtewp6j6vj44m@sirius.home.kraxel.org>
-References: <99779e9c-f05f-501b-b4be-ff719f140a88@canonical.com>
- <20200616165043.24y2cp53axk7uggy@sirius.home.kraxel.org>
- <20200616165746.GH2788@work-vm>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2792810059B7
+ for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 17:12:25 +0000 (UTC)
+Received: from localhost (ovpn-113-23.phx2.redhat.com [10.3.113.23])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6176D1002388;
+ Tue, 16 Jun 2020 17:12:22 +0000 (UTC)
+Date: Tue, 16 Jun 2020 13:12:18 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH] MAINTAINERS: Add an entry to review Avocado based
+ acceptance tests
+Message-ID: <20200616171218.GW2366737@habkost.net>
+References: <20200605165656.17578-1-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200616165746.GH2788@work-vm>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+In-Reply-To: <20200605165656.17578-1-philmd@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: 8bit
 Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 02:46:07
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -71,7 +68,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,32 +81,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pedro.principeza@canonical.com, ehabkost@redhat.com,
- dann.frazier@canonical.com, "Guilherme G. Piccoli" <gpiccoli@canonical.com>,
- qemu-devel@nongnu.org, christian.ehrhardt@canonical.com, lersek@redhat.com,
- fw@gpiccoli.net
+Cc: qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
-
-> > If we can somehow make a *trustable* physbits value available to the
-> > guest, then yes, we can go that route.  But the guest physbits we have
-> > today unfortunately don't cut it.
+On Fri, Jun 05, 2020 at 06:56:56PM +0200, Philippe Mathieu-Daudé wrote:
+> Add an entry for to allow reviewers to be notified when acceptance /
+> integration tests are added or modified.
+> The designated reviewers are not maintainers, subsystem maintainers
+> are expected to merge their tests.
 > 
-> In downstream RH qemu, we run with host-physbits as default; so it's reasonably
-> trustworthy;
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Can the guest figure somehow whenever it is trustworthy or not?
+Thank you very much for volunteering!
 
-> of course that doesn't help you across a migration between
-> hosts with different sizes (e.g. an E5 Xeon to an E3).
+Acked-by: Eduardo Habkost <ehabkost@redhat.com>
 
-Making physbits configurable for migration compatibility is fine if qemu
-outlaws the problematic guest physbits > host physbits case and throws
-an error in that case.
+> ---
+>  MAINTAINERS | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 3e7d9cb0a5..c2ae2bf390 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -2923,6 +2923,14 @@ S: Maintained
+>  F: tests/tcg/Makefile
+>  F: tests/tcg/Makefile.include
+>  
+> +Acceptance (Integration) Testing with the Avocado framework
+> +W: https://trello.com/b/6Qi1pxVn/avocado-qemu
+> +R: Cleber Rosa <crosa@redhat.com>
+> +R: Philippe Mathieu-Daudé <philmd@redhat.com>
+> +R: Wainer dos Santos Moschetta <wainersm@redhat.com>
+> +S: Odd Fixes
+> +F: tests/acceptance/
+> +
+>  Documentation
+>  -------------
+>  Build system architecture
+> -- 
+> 2.21.3
+> 
 
-take care,
-  Gerd
+-- 
+Eduardo
 
 
