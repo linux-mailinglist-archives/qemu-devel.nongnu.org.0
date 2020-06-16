@@ -2,72 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E7991FBB96
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 18:23:55 +0200 (CEST)
-Received: from localhost ([::1]:34638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA7291FBBCF
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 18:33:53 +0200 (CEST)
+Received: from localhost ([::1]:45182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlENO-0002i7-79
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 12:23:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60272)
+	id 1jlEX2-0003JD-6w
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 12:33:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jlEMK-0000ws-KH
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 12:22:48 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:33833)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jlEW4-0002qO-ED
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 12:32:52 -0400
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:38393)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jlEMI-0006rP-SP
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 12:22:48 -0400
-Received: by mail-wr1-x443.google.com with SMTP id r7so21440648wro.1
- for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 09:22:46 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jlEW2-0000CC-HE
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 12:32:52 -0400
+Received: by mail-oi1-x241.google.com with SMTP id c194so19817635oig.5
+ for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 09:32:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=6+BJrA9RJ40BpdrJYLx5xkVRSgQ5/8rW5luGV75cAVQ=;
- b=eTQQ1VA7cljlqbsDxsTdPPVsxP85dbbW/tC9rkOh1VJ2oIGWjewn2thj2lE8k5NKqN
- EoOLmdIAGKOuG5RnsdZFg78UbXlc6H1yIb7d6OjkFCBIuGqGtrWmRcYujsRYrXCHXdHN
- plR/lXmDbCX+CF7XNNDM/VcUffGlMgT6CFFU82jzrYSIsisN5OFRMdB6MKjfiF+vqrGH
- nXzoxEXHAs/4MI6UIzZQ5igBdNKNgvRb/FYJrnqi7O4cxkNw2A5eHTVe4v/qVM42bS+6
- 3i9B2txRiXdjWJcGV2zlc0Hgo4evMwsn3maHOeJGUhbJ/O0Xj8g5XpKrhBrFbv9W4hK5
- DZGg==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=aAi5RV1R740hxNCi1K+iPeak5ZkS52Lw4UZUupXN/38=;
+ b=sxwpAlY7NRiNCBK4BqEl49z+wmEF4WvSBuplSyEwR+RzsaduYhwq8wyvlpg2cPRejQ
+ BsEweDs7Jdpp/i3YnbtjTKFAADRqWLJp0laruk2mBd5PsrWzyx6QlT3jXqt/mNqDJuTy
+ wZUo0JF17cvtiOC3O/NY1ZbimXqeo+SDXMOnnPvpwN2Yap5J+Q1D17ozzONW7dHLYhIb
+ ND83LgvsjuJFFJMkcEMha3SFA1Xnv6HFXGJl+FQuWIn60s2Qya9Vhzu5RhjL0Iy2r91n
+ mf8f+BaO3TXnNCovy9ZO4WWtJH6YsUnfxz94tqldPoGXwmoPAv20J0DdxHFXQH1aWtE6
+ B+XA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=6+BJrA9RJ40BpdrJYLx5xkVRSgQ5/8rW5luGV75cAVQ=;
- b=BUvyiztPPgWWOZad3Zeunc2N4aSllrJjSR8L7GdHcjq6v/Y84P/SwuhcqvcEPIRaWv
- M4nAsa0k44umcnGzVJZ1JGTU+B5ljFjlHmOw95eier0MoLof9G3toJJBsricsDWny7wU
- MSK5p4Xq4+BuvhV+bEqjoaycVnXERb4ShmIHVvi8CvXlrOICWorEuopkGbh9jPrUOAMc
- pHy8uHV58gynHU4kJoXRqiWjJy2OzQ29x2/jVVYksEnwvotIuZhcPfuZlwMV3ADVE+Pa
- i5dX7B7Z4Fm3zJ1T8rVa2XTbxIs9WGu6mF/3s10gkHDKmdg5daVdzRHnan6xD6U2LMsa
- yHTg==
-X-Gm-Message-State: AOAM5333yLEawkBzN2pd523L/fWglQ7O2AqqmpWTKZVcxeKCX2oDIDO9
- EzyGAvPY4Njr8KJ/Q0bqoI55CQ==
-X-Google-Smtp-Source: ABdhPJzKgNfMU2UGrqMEcGGguWDFbNHoh57MpsSbih8GvFSOCUCTolkPvZHvXXifHP/PQul4+8WdZw==
-X-Received: by 2002:adf:c6c5:: with SMTP id c5mr3700548wrh.13.1592324565235;
- Tue, 16 Jun 2020 09:22:45 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id n19sm4519781wmi.33.2020.06.16.09.22.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Jun 2020 09:22:44 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id F33A81FF7E;
- Tue, 16 Jun 2020 17:22:42 +0100 (BST)
-References: <20200604085441.103087-1-kbastian@mail.uni-paderborn.de>
- <20200604085441.103087-4-kbastian@mail.uni-paderborn.de>
-User-agent: mu4e 1.5.3; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
-Subject: Re: [PATCH v2 03/15] tests/tcg: Run timeout cmds using --foreground
-In-reply-to: <20200604085441.103087-4-kbastian@mail.uni-paderborn.de>
-Date: Tue, 16 Jun 2020 17:22:42 +0100
-Message-ID: <87blljyo8d.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=aAi5RV1R740hxNCi1K+iPeak5ZkS52Lw4UZUupXN/38=;
+ b=ul1xrMWI+OvKRKf0EAKNqWczr73VSDq+JxVD8V/lfYtPwUKoM+hp/kmh/wSWGdAqvv
+ /mWADVCYrytMtbJQuwfFBbOTCUmdy/kM2AMygpI4HPOASvozmaPlIktpxnLPvrEyiW9h
+ i9W/fNBYKZB+gWw4pT8dtVR7RwhMYcdScvAjx+bSry65+O8aRow63twB9fy7YWfzcmNg
+ YfddyLMTxs2S9WeECS0DPa3zYGv+bVeNWLU80pCWNEeyVqgqEWT4hKHf+iZIWYl/JJ0k
+ wFlvStbmJt1NsLVRwuCFqXieV+AiYEdFdGx0RlGFo6tF0GoSXBtN70Sruxv+1S8sZOVx
+ INig==
+X-Gm-Message-State: AOAM531Y5J35cYnjz1xmMBipiV39asY/ex2K4ZXA/YEMI2T9VwDlnhIy
+ aUcvBV9qsEDqVnIVY5DYu85+zh1ntdgG0kuFRzjzhA==
+X-Google-Smtp-Source: ABdhPJzmiZbz17bF8S3CBcrTjC9GY2Y29s2vL5lzkdP/wkvErYRJ/6BB2x0Lp0AEAFDclZyvFdTKpFRM2/TuxDN1b2U=
+X-Received: by 2002:aca:1a07:: with SMTP id a7mr4045456oia.163.1592325169132; 
+ Tue, 16 Jun 2020 09:32:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20200612014606.147691-1-jkz@google.com>
+ <87k107yp6p.fsf@linaro.org>
+In-Reply-To: <87k107yp6p.fsf@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 16 Jun 2020 17:32:38 +0100
+Message-ID: <CAFEAcA86xAJDmoDBrz5etKYGLye2qxf4idPXUWUAYMLcQy_+Yw@mail.gmail.com>
+Subject: Re: [PATCH 0/5] linux-user: Support extended clone(CLONE_VM)
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x443.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::241;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x241.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -75,8 +67,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,58 +81,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Josh Kunz <jkz@google.com>, Riku Voipio <riku.voipio@iki.fi>,
+ QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, 16 Jun 2020 at 17:08, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+te:
+> Apart from "a more perfect emulation" is there a particular use case
+> served by the extra functionality? AIUI up until this point we've
+> basically supported glibc's use of clone() which has generally been
+> enough. I'm assuming you've come across stuff that needs this more fine
+> grained support?
 
-Bastian Koppelmann <kbastian@mail.uni-paderborn.de> writes:
+There are definitely cases we don't handle that cause problems;
+notably https://bugs.launchpad.net/qemu/+bug/1673976 reports
+that newer glibc implement posix_spawn() using CLONE_VM|CLONE_VFORK
+which we don't handle correctly (though it is now just "we don't
+report failures correctly" rather than "guest asserts").
+The problem has always been that glibc implicitly assumes it
+knows what the process's threads are like, ie that it is the
+only thing doing any clone()s. (The comment in syscall.c mentions
+it "breaking mutexes" though I forget what I had in mind when
+I wrote that comment.) I haven't looked at these patches,
+but the risk of being clever is that we end up implicitly
+depending on details of glibc's internal implementation in a
+potentially fragile way.
 
-> when trying to run successful short tests from the Makefile timeout would=
- no
-> terminate. Rather it would wait until the time runs out. Excerpt from the
-> manpage:
+I forget whether QEMU can build against musl libc, but if we do
+then that might be an interesting test of whether we have
+accidental dependencies on the libc internals.
 
-Which tests hang without this change?
-
->
-> --foreground
->     when not running timeout directly from a shell prompt,
->     allow COMMAND to read from the TTY and get TTY signals; in this mode,=
- chil=E2=80=90
->     dren of COMMAND will not be timed out
->
-> Signed-off-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
-> ---
->  tests/tcg/Makefile.target | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
->
-> diff --git a/tests/tcg/Makefile.target b/tests/tcg/Makefile.target
-> index b3cff3cad1..423caffa56 100644
-> --- a/tests/tcg/Makefile.target
-> +++ b/tests/tcg/Makefile.target
-> @@ -40,9 +40,10 @@ quiet-command =3D $(if $(V),$1,$(if $(2),@printf "  %-=
-7s %s\n" $2 $3 && $1, @$1))
->=20=20
->  # $1 =3D test name, $2 =3D cmd, $3 =3D desc
->  ifdef CONFIG_USER_ONLY
-> -run-test =3D $(call quiet-command, timeout $(TIMEOUT) $2 > $1.out,"TEST"=
-,$3)
-> +run-test =3D $(call quiet-command, timeout --foreground $(TIMEOUT) $2 > =
-$1.out \
-> +	"TEST",$3)
-
-This breaks make check-tcg due to a dropped ,
-
->  else
-> -run-test =3D $(call quiet-command, timeout $(TIMEOUT) $2,"TEST",$3)
-> +run-test =3D $(call quiet-command, timeout --foreground $(TIMEOUT) $2,"T=
-EST",$3)
->  endif
->=20=20
->  # $1 =3D test name, $2 =3D reference
-
-
---=20
-Alex Benn=C3=A9e
+thanks
+-- PMM
 
