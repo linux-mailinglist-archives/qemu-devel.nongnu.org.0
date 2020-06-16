@@ -2,123 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 726F21FB0D8
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 14:36:11 +0200 (CEST)
-Received: from localhost ([::1]:50956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CB241FB0CD
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 14:34:38 +0200 (CEST)
+Received: from localhost ([::1]:44504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlAp0-0005YE-H2
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 08:36:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56072)
+	id 1jlAnV-0002nI-Jh
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 08:34:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56028)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani.sinha@nutanix.com>)
- id 1jlAlh-0001iO-4R
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 08:32:45 -0400
-Received: from mx0b-002c1b01.pphosted.com ([148.163.155.12]:2374)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani.sinha@nutanix.com>)
- id 1jlAlf-00057V-4r
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 08:32:44 -0400
-Received: from pps.filterd (m0127843.ppops.net [127.0.0.1])
- by mx0b-002c1b01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 05GCVnwa027831; Tue, 16 Jun 2020 05:32:24 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
- h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-id : content-transfer-encoding : mime-version;
- s=proofpoint20171006; bh=6BRWjfSQXKSSGMjWEhiRdyQJ8URU/bnSkWmIiiP179M=;
- b=p5BZv2qIgTzYGEYdjiJNSwPY6NXdnggwpqeCx4paQnausXNmQ+B2re+2YLksJHWots4s
- Gp12heD0IkbLvy6Cci2wvjTtGur9xZrXCmJzbMJl1AG1ZVo/2Te0Nim9/1TDO7NV/DIR
- ITW9vYLvCk2NkdS3qMbJwhOl6sPXFvuHdznGa+imNFqkTzd18K0xNAXV812YDMeNkMkG
- DfiQaAHCVnQEfxqMSmWEaqyK8006mVRoIRYXLjzjzABzeCqNh1RXCu65Qfr/7/KiDdop
- DgHQnX1BIyjqhYWFbPWK/BwYqWUbQ2a9yXDIztr+LPK+Xt57ByPmH3i/UjWg8+oBQ/FW +g== 
-Received: from nam10-mw2-obe.outbound.protection.outlook.com
- (mail-mw2nam10lp2107.outbound.protection.outlook.com [104.47.55.107])
- by mx0b-002c1b01.pphosted.com with ESMTP id 31n0535pfr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 16 Jun 2020 05:32:24 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=a/S+hFPCpX0P9N6BhYt6QhyP2pRokdCfdXe5xaErw8EUdlyvoesJyOslxAyc2IraEgMWp7XbLFbEAR+ItNzHQuw32aE9bjDoeALkIw14/DsF201bLZl8R1qkPqoJ4KOIWab3ywTgfM3kSoF34so+fyJ1BRbbfyHKDwe5+V56uE9p629VjQG3QEsc+jVFmjrIvFUKE2SC2E9KUVJCGCeePtiqDB79qngZZsfgPmoDzwOdmj3mCdKEZCzMcpQFFibaSqZEdJ97YX99nS69m7FwVKz9AZH+FNGjD3dCeX0bB1xPIJyruxK3Zl3VUGukAJjYE0XdxZmHtiRUdk5AsA77Ig==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6BRWjfSQXKSSGMjWEhiRdyQJ8URU/bnSkWmIiiP179M=;
- b=WdYMSuohbib5nJ5Fb/dldrlsiePX87Yy0ZInQP31xjWmAH+4JllcFAvJrmvVSNS1OEX7M4MLecu7kwsDdjxMgzyb0dEh/juFfb5U1ZIPWyqSesFVFK0GTHaCuq+I4eoLiDHzH/DgxSdhFC5GzpaGKLgjg7G2R/pKAFygUhoBN0Hv07aSg+o1tTZfQWGvb5583s+efuFWMzbpPvWKH1mIhOE6xRFjhK9Rk14HYRNvdKLYr0qt/gISg/vJxe1oYQPhfFKp0TJtygFSc+qYf7ylx+uPpeqWNt/LP0gAJFSy0OI8H012ZBCl+tuLYRDfXd945IHKevqLhol5KIeHOJYS8A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
- dkim=pass header.d=nutanix.com; arc=none
-Received: from MN2PR02MB5742.namprd02.prod.outlook.com (2603:10b6:208:10d::27)
- by MN2PR02MB5726.namprd02.prod.outlook.com (2603:10b6:208:117::31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3088.18; Tue, 16 Jun
- 2020 12:32:21 +0000
-Received: from MN2PR02MB5742.namprd02.prod.outlook.com
- ([fe80::317d:683f:b2:fa01]) by MN2PR02MB5742.namprd02.prod.outlook.com
- ([fe80::317d:683f:b2:fa01%7]) with mapi id 15.20.3088.029; Tue, 16 Jun 2020
- 12:32:21 +0000
-From: Ani Sinha <ani.sinha@nutanix.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH V2] Rename use_acpi_pci_hotplug to more appropriate
- use_acpi_hotplug_bridge
-Thread-Topic: [PATCH V2] Rename use_acpi_pci_hotplug to more appropriate
- use_acpi_hotplug_bridge
-Thread-Index: AQHWPyzD7ib4h0/yQkCsyuImnO1oVKjbLNGAgAAJHoA=
-Date: Tue, 16 Jun 2020 12:32:21 +0000
-Message-ID: <3D5E800F-73FE-48C1-9222-E7FA82DDB1A9@nutanix.com>
-References: <1591796451-49987-1-git-send-email-ani.sinha@nutanix.com>
- <20200616135927.4f2ef312@redhat.com>
-In-Reply-To: <20200616135927.4f2ef312@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=nutanix.com;
-x-originating-ip: [115.110.205.84]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: c67010f9-21e5-42a4-e4e8-08d811f150d1
-x-ms-traffictypediagnostic: MN2PR02MB5726:
-x-microsoft-antispam-prvs: <MN2PR02MB5726279A62C16316ABB1893AF19D0@MN2PR02MB5726.namprd02.prod.outlook.com>
-x-proofpoint-crosstenant: true
-x-ms-oob-tlc-oobclassifiers: OLM:3826;
-x-forefront-prvs: 04362AC73B
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: ebb0BH/mb9TfuVf0Do8fjGCcivo+HlOS28DC87BHLhOC/M71p+lbs7YCa8hrZxTHxDw9KEP+r+LqJeA+RuqdpXaZ5lfPkFpfTKL/mZKzWAZeJKOCUrV7HpX+rrHjFm5ExUi6oBb5VbMk2Qh+7UnVUFZWWJeYKaUdkVB8nvy7JjBsHRlC2r7qCQq9E/COE9AVCfjIEpuFXkYhkM/LbE/iaAMcBWeXPDqF1JpyzhTNNWa2qyR/4z3liReDXGZ+pIMXm5WVEYKdBogkqdIfQb66bP/4b6VF9h2FzB4b4Z66cEsrtklL5uDNIafYdXyENW0bPaXJasa9iZQyz3wTgWusJQ==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR02MB5742.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(39860400002)(346002)(396003)(366004)(136003)(376002)(86362001)(44832011)(66946007)(4326008)(8676002)(6506007)(26005)(8936002)(6916009)(186003)(33656002)(64756008)(53546011)(66556008)(66446008)(76116006)(36756003)(2616005)(66476007)(5660300002)(54906003)(6512007)(316002)(71200400001)(2906002)(6486002)(91956017)(558084003)(478600001);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: hP3uCRejLfB2jNslPoir2PMoXSpE44A3JYh6R2/ohi2y+9AcU0KLj9hCa1iJRX8V+h8xr3j9ccX8welX8WHPhY3xybOhoEmZWBnEcRFgPl5FP/JPHaO8B7toqsNZk5NthJXHQmTGc1m17e8Kx20KDmY+6wo9QnenMzsqWuMTsc0h1SXrl0SpA3vajsKqjZPXnx8hsTUDZH9rqdQY1SGmaKfIkzW53AAyqIIZtSu+lLEmPWetJiELZIzB0Dkysmi2iJv4vGd/Hdf9W8JHZoWNQG3soeWmDI5MmLJWq2H1K0bVENNFkxSg8/K2EV1fZzKa78o+KSmaDXmntr+q+2cNrniwRbBabt7G2CaVjOqVbUggkV7V/DJMoeFXQPKiCWReu7GhR3lSUOO9maSQWX2TQWsc8la5vcyplojxkLTB+yjF/pnc/ZhwArlY8Uwdw8Js/eN69oTZEEo8Bshs6NexUpu2+jQvH2ery41+U/PP+Exv7vMuvP+MC5IyibFEm//P
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <54D834122483E94193394C10AD05E0EA@namprd02.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jlAlc-0001Zb-1h
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 08:32:40 -0400
+Received: from mail-oo1-xc2d.google.com ([2607:f8b0:4864:20::c2d]:43220)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jlAla-00056q-5k
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 08:32:39 -0400
+Received: by mail-oo1-xc2d.google.com with SMTP id i4so1297315ooj.10
+ for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 05:32:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=sPlLIq2GHsQqLUqC9tReo7ZRmDa6wLM9/aEI3GPriG0=;
+ b=RUNXXPwmEfi/JBZpovCCZpZb5qRZwTirpoVpDG6pSDAnDTlT6sSbR1sdiEm7239b+7
+ TLwEAY/Syba7XMtPHH/Bwitsyin+mhgn4dvXBF6Po5/3qdlPLDsUSGZjQwdd19vqbrPq
+ PnIBigeL142g3OVlycIalV81GYOdNJK/CNrhwRoEu74PiV7I+MFYT0LcVjbdY3bBi4V+
+ wxsY9XeIhf+U6syi0hW6+TAtGrA507/paRZYJ/XAK4VvEQRyW4Ote06E3gPGCr/ivjwU
+ rYh4C3/QcrIJYka9ZvpY9zmuAanAQF7yJq/tSeEQMq5f8fOOPxHjzfobIsKE54YASphy
+ cC2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=sPlLIq2GHsQqLUqC9tReo7ZRmDa6wLM9/aEI3GPriG0=;
+ b=NFjiey/wruUZGcuAi5CVPhgjx/auJ0LumiPbXSLDpxiU87eQraEGt4+4we4q8s5g8l
+ T9t68/YmQ7ydJEnJDpA5VgEJo+vf9qLwmEkcGi6DDLk93O1rCWVZeC9UUdoZ9X9fdyQQ
+ THIndai/+ClC5YveyJFVsN7GojnPflQa7rpH2h8ZgcihBzDXo4yUGMVRfvwc3qv7pCpt
+ tbgChtDonp6BkMZwdZu/wz5FVzCAZPDX/H8GpzpEQHuCDdhOXCTdXJEZ0XHibfNs1/EQ
+ imP4z1Oyud6oepWCgCqB8OimPohnQtcWVdVxkg2eumjok2JkvocC9rqNhGY6BUA4MUAK
+ SLXw==
+X-Gm-Message-State: AOAM533AcQUf0PJ70EAHvv+ZrH7Ik77ah8DPnIBB9TWYa0mMOUXuVOfX
+ Hbtp7ih0+S6a1x20a6Vp20BzBcWG/DcB0/UomCzDyc4e6QzOAQ==
+X-Google-Smtp-Source: ABdhPJyc0hX4nFsLbQck7otwhCpLATLJIThxkgWe/AiK2vlcOo4YPYcwkp8YAcQMG3YjYuATFchRRi9L48vEGfjLrVw=
+X-Received: by 2002:a4a:221a:: with SMTP id f26mr2094875ooa.69.1592310756962; 
+ Tue, 16 Jun 2020 05:32:36 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: nutanix.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c67010f9-21e5-42a4-e4e8-08d811f150d1
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Jun 2020 12:32:21.2489 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: bb047546-786f-4de1-bd75-24e5b6f79043
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: PSGvOhpOqPo0Km8h0Ca6+4Kujr7Tqol0y58jD8VRnfXC3GSCqetTVhPF2fC70ZycrYh6bOHhSRUc90ClvzeXVQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR02MB5726
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.687
- definitions=2020-06-16_04:2020-06-16,
- 2020-06-16 signatures=0
-X-Proofpoint-Spam-Reason: safe
-Received-SPF: pass client-ip=148.163.155.12;
- envelope-from=ani.sinha@nutanix.com; helo=mx0b-002c1b01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 08:32:40
-X-ACL-Warn: Detected OS   = Linux 3.x [generic]
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+References: <1592289944-13727-1-git-send-email-jasowang@redhat.com>
+In-Reply-To: <1592289944-13727-1-git-send-email-jasowang@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 16 Jun 2020 13:32:26 +0100
+Message-ID: <CAFEAcA-7sG8_oOL+f=Q8dSevX-c26GeAcrLU6Ah6mOApfzizKQ@mail.gmail.com>
+Subject: Re: [PULL 00/33] Net patches
+To: Jason Wang <jasowang@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c2d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oo1-xc2d.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -131,24 +78,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Ani Sinha <ani@anisinha.ca>,
- =?iso-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, 16 Jun 2020 at 07:45, Jason Wang <jasowang@redhat.com> wrote:
+>
+> The following changes since commit 7d3660e79830a069f1848bb4fa1cdf8f666424fb:
+>
+>   Merge remote-tracking branch 'remotes/bonzini/tags/for-upstream' into staging (2020-06-12 23:06:22 +0100)
+>
+> are available in the git repository at:
+>
+>   https://github.com/jasowang/qemu.git tags/net-pull-request
+>
+> for you to fetch changes up to 955aab203f932b8a7c23ff9c58ba036997cb3ed8:
+>
+>   net: Drop the NetLegacy structure, always use Netdev instead (2020-06-16 14:40:40 +0800)
+>
+> ----------------------------------------------------------------
+>
+> ----------------------------------------------------------------
 
+Hi; I'm afraid this fails to build (all hosts):
 
-> On Jun 16, 2020, at 5:29 PM, Igor Mammedov <imammedo@redhat.com> wrote:
->=20
->> Change-Id: I2a6ab47e80fa2bc9504ce88e063d710efaceb842
-> what is this id, prehaps drop it?
+hw/net/virtio-net.o: In function `virtio_net_device_realize':
+/home/pm215/qemu/hw/net/virtio-net.c:3380: undefined reference to
+`net_rx_pkt_init'
+hw/net/virtio-net.o: In function `virtio_net_device_unrealize':
+/home/pm215/qemu/hw/net/virtio-net.c:3418: undefined reference to
+`net_rx_pkt_uninit'
+hw/net/virtio-net.o: In function `virtio_net_process_rss':
+/home/pm215/qemu/hw/net/virtio-net.c:1607: undefined reference to
+`net_rx_pkt_set_protocols'
+/home/pm215/qemu/hw/net/virtio-net.c:1609: undefined reference to
+`net_rx_pkt_get_protocols'
+/home/pm215/qemu/hw/net/virtio-net.c:1625: undefined reference to
+`net_rx_pkt_calc_rss_hash'
+/home/pm215/qemu/hw/net/virtio-net.c:1613: undefined reference to
+`net_rx_pkt_get_ip6_info'
+/home/pm215/qemu/hw/net/virtio-net.c:1610: undefined reference to
+`net_rx_pkt_get_ip4_info'
+collect2: error: ld returned 1 exit status
 
-Sent V3 with this dropped.
-
-Ani
-
+thanks
+-- PMM
 
