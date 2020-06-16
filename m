@@ -2,32 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCC5D1FB2FC
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 15:56:52 +0200 (CEST)
-Received: from localhost ([::1]:37374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8688C1FB2FF
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 15:57:08 +0200 (CEST)
+Received: from localhost ([::1]:39084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlC55-0008EL-Ol
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 09:56:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51924)
+	id 1jlC5L-0000fX-GP
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 09:57:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jlC1k-0001y5-RF; Tue, 16 Jun 2020 09:53:24 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:36196)
+ id 1jlC1n-000234-L2; Tue, 16 Jun 2020 09:53:27 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:36215)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jlC1h-0002PH-LU; Tue, 16 Jun 2020 09:53:24 -0400
+ id 1jlC1l-0002QA-LZ; Tue, 16 Jun 2020 09:53:27 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 36081748DDF;
+ by localhost (Postfix) with SMTP id 296F8748DDD;
  Tue, 16 Jun 2020 15:53:18 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id B75517482C8; Tue, 16 Jun 2020 15:53:17 +0200 (CEST)
-Message-Id: <321dd439b98051d7537e9a04fa02785ef132749a.1592315226.git.balaton@eik.bme.hu>
+ id BFD81748DC8; Tue, 16 Jun 2020 15:53:17 +0200 (CEST)
+Message-Id: <ae197fd25800011a2f5798661446f0758a2d3861.1592315226.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1592315226.git.balaton@eik.bme.hu>
 References: <cover.1592315226.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v5 03/11] mac_oldworld: Drop a variable, use
- get_system_memory() directly
+Subject: [PATCH v5 05/11] grackle: Set revision in PCI config to match hardware
 Date: Tue, 16 Jun 2020 15:47:06 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -62,43 +61,24 @@ Cc: Howard Spoelstra <hsp.cat7@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Half of the occurances already use get_system_memory() directly
-instead of sysmem variable, convert the two other uses to
-get_system_memory() tii which seems to be more common and drop the
-variable.
-
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 ---
- hw/ppc/mac_oldworld.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ hw/pci-host/grackle.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
-index baf3da6f90..d1c4244b1e 100644
---- a/hw/ppc/mac_oldworld.c
-+++ b/hw/ppc/mac_oldworld.c
-@@ -87,7 +87,6 @@ static void ppc_heathrow_init(MachineState *machine)
-     const char *kernel_cmdline = machine->kernel_cmdline;
-     const char *initrd_filename = machine->initrd_filename;
-     const char *boot_device = machine->boot_order;
--    MemoryRegion *sysmem = get_system_memory();
-     PowerPCCPU *cpu = NULL;
-     CPUPPCState *env = NULL;
-     char *filename;
-@@ -128,12 +127,12 @@ static void ppc_heathrow_init(MachineState *machine)
-         exit(1);
-     }
- 
--    memory_region_add_subregion(sysmem, 0, machine->ram);
-+    memory_region_add_subregion(get_system_memory(), 0, machine->ram);
- 
-     /* allocate and load firmware ROM */
-     memory_region_init_rom(bios, NULL, "ppc_heathrow.bios", PROM_SIZE,
-                            &error_fatal);
--    memory_region_add_subregion(sysmem, PROM_BASE, bios);
-+    memory_region_add_subregion(get_system_memory(), PROM_BASE, bios);
- 
-     if (!bios_name) {
-         bios_name = PROM_FILENAME;
+diff --git a/hw/pci-host/grackle.c b/hw/pci-host/grackle.c
+index 4b3af0c704..48d11f13ab 100644
+--- a/hw/pci-host/grackle.c
++++ b/hw/pci-host/grackle.c
+@@ -130,7 +130,7 @@ static void grackle_pci_class_init(ObjectClass *klass, void *data)
+     k->realize   = grackle_pci_realize;
+     k->vendor_id = PCI_VENDOR_ID_MOTOROLA;
+     k->device_id = PCI_DEVICE_ID_MOTOROLA_MPC106;
+-    k->revision  = 0x00;
++    k->revision  = 0x40;
+     k->class_id  = PCI_CLASS_BRIDGE_HOST;
+     /*
+      * PCI-facing part of the host bridge, not usable without the
 -- 
 2.21.3
 
