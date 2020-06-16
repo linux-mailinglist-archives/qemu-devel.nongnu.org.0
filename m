@@ -2,75 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87D7D1FB254
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 15:40:51 +0200 (CEST)
-Received: from localhost ([::1]:39246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 512D61FB315
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 15:59:01 +0200 (CEST)
+Received: from localhost ([::1]:47930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlBpa-0003wp-Jh
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 09:40:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48816)
+	id 1jlC7A-0004ES-AR
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 09:59:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1jlBol-0003Ov-Bn
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 09:39:59 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:25145
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1jlBoj-0000OT-E6
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 09:39:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592314796;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=QkXoip2LxJrp5LiciovIRUJ+y4HDoBImCYbawwPimpU=;
- b=bJRtjGjUgIqc8+rPxSy2jwR1QQOsGTK55BlUME3B0BWTMBNF8KDfGcsBLVi/fXYpXPfJi7
- JuKhEoawBN+WNkpI4D2UA6Ac/3xNmkjri10ck4UaV2CgXax4bVQ8P0rsnvj1TtQh0NyrBw
- V2f0k91D0cNVI1pWsNF8ScXreFc7PqU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-43-BBFma2SPMLOsFZ8vdMveGw-1; Tue, 16 Jun 2020 09:39:52 -0400
-X-MC-Unique: BBFma2SPMLOsFZ8vdMveGw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F3F08100A8FC;
- Tue, 16 Jun 2020 13:39:50 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 31F587930D;
- Tue, 16 Jun 2020 13:39:44 +0000 (UTC)
-Date: Tue, 16 Jun 2020 15:39:42 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Ani Sinha <ani@anisinha.ca>
-Subject: Re: [PATCH V3] Rename use_acpi_pci_hotplug to more appropriate
- use_acpi_hotplug_bridge
-Message-ID: <20200616153942.79155fe8@redhat.com>
-In-Reply-To: <CAARzgwwKwdYW0BK4-W2=q=g3cN4BZfPN6p8QqvgAsqJ7tifHtA@mail.gmail.com>
-References: <1592310699-58916-1-git-send-email-ani.sinha@nutanix.com>
- <20200616151735.17a84340@redhat.com>
- <CAARzgwwKwdYW0BK4-W2=q=g3cN4BZfPN6p8QqvgAsqJ7tifHtA@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1jlC1o-00027S-Mb; Tue, 16 Jun 2020 09:53:28 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:36222)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1jlC1m-0002QN-5B; Tue, 16 Jun 2020 09:53:28 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 81994748DCC;
+ Tue, 16 Jun 2020 15:53:18 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id D4E6A748DD9; Tue, 16 Jun 2020 15:53:17 +0200 (CEST)
+Message-Id: <681515f214d7b0a8553be509dcba3d8a9085082d.1592315226.git.balaton@eik.bme.hu>
+In-Reply-To: <cover.1592315226.git.balaton@eik.bme.hu>
+References: <cover.1592315226.git.balaton@eik.bme.hu>
+From: BALATON Zoltan <balaton@eik.bme.hu>
+Subject: [PATCH v5 10/11] WIP macio/cuda: Attempt to add i2c support
+Date: Tue, 16 Jun 2020 15:47:06 +0200
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 02:45:57
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+To: qemu-devel@nongnu.org,
+    qemu-ppc@nongnu.org
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 09:53:23
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,147 +55,140 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ani Sinha <ani.sinha@nutanix.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org, Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Howard Spoelstra <hsp.cat7@gmail.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 16 Jun 2020 18:50:13 +0530
-Ani Sinha <ani@anisinha.ca> wrote:
+This is a non-working RFC patch attempt to implement i2c bus in CUDA
+needed for firmware to access SPD data of installed RAM. The skeleton
+is there but actual operation fails because I don't know how this is
+supposed to work and the i2c bus state becomes invalid quickly. Also
+sending back results may be missing or wrong. Help fixing and
+finishing this is welcome, I don't plan to spend more time with this
+so just submitted it for whoever picks this up.
 
-> On Tue, Jun 16, 2020 at 6:47 PM Igor Mammedov <imammedo@redhat.com> wrote:
-> 
-> > On Tue, 16 Jun 2020 12:31:39 +0000
-> > Ani Sinha <ani.sinha@nutanix.com> wrote:
-> >  
-> > > Currently, the option use_acpi_pci_hotplug is being used to control  
-> > device  
-> > > hotplug capability using ACPI for slots of cold plugged bridges. Hence,  
-> > we  
-> > > are renaming this option to better reflect what it actually does.
-> > >
-> > > Signed-off-by: Ani Sinha <ani.sinha@nutanix.com>
-> > > ---  
-> >
-> > what was wrong with v2?  
-> 
-> 
-> i removed the change-id string.
-ok, usually we cary on ACK on resping if changes were trivial
-and drop them if there was a non trivial change so it could be reviewed again.
-Anyways, patch looks good so:
-
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-
-
-> 
-> 
-> > Also for the future,
-> > can you add under --- line change log please?
-> >  
-> > >  hw/acpi/piix4.c | 21 +++++++++++----------
-> > >  1 file changed, 11 insertions(+), 10 deletions(-)  
-> 
-> 
-> It's already here.
-
-I've meant something like:
-
-Signed-off-by: Ani Sinha <ani.sinha@nutanix.com>
+Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 ---
- vX: - I might be blind and don't see changelog ...
+ hw/misc/macio/cuda.c         | 62 +++++++++++++++++++++++++++++++++++-
+ include/hw/misc/macio/cuda.h |  1 +
+ 2 files changed, 62 insertions(+), 1 deletion(-)
 
-> 
-> 
-> > >
-> > > diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
-> > > index 85c199b..7de44bc 100644
-> > > --- a/hw/acpi/piix4.c
-> > > +++ b/hw/acpi/piix4.c
-> > > @@ -77,7 +77,7 @@ typedef struct PIIX4PMState {
-> > >      Notifier powerdown_notifier;
-> > >
-> > >      AcpiPciHpState acpi_pci_hotplug;
-> > > -    bool use_acpi_pci_hotplug;
-> > > +    bool use_acpi_hotplug_bridge;
-> > >
-> > >      uint8_t disable_s3;
-> > >      uint8_t disable_s4;
-> > > @@ -204,16 +204,17 @@ static const VMStateDescription vmstate_pci_status  
-> > = {  
-> > >      }
-> > >  };
-> > >
-> > > -static bool vmstate_test_use_acpi_pci_hotplug(void *opaque, int  
-> > version_id)  
-> > > +static bool vmstate_test_use_acpi_hotplug_bridge(void *opaque, int  
-> > version_id)  
-> > >  {
-> > >      PIIX4PMState *s = opaque;
-> > > -    return s->use_acpi_pci_hotplug;
-> > > +    return s->use_acpi_hotplug_bridge;
-> > >  }
-> > >
-> > > -static bool vmstate_test_no_use_acpi_pci_hotplug(void *opaque, int  
-> > version_id)  
-> > > +static bool vmstate_test_no_use_acpi_hotplug_bridge(void *opaque,
-> > > +                                                    int version_id)
-> > >  {
-> > >      PIIX4PMState *s = opaque;
-> > > -    return !s->use_acpi_pci_hotplug;
-> > > +    return !s->use_acpi_hotplug_bridge;
-> > >  }
-> > >
-> > >  static bool vmstate_test_use_memhp(void *opaque)
-> > > @@ -290,11 +291,11 @@ static const VMStateDescription vmstate_acpi = {
-> > >          VMSTATE_STRUCT_TEST(
-> > >  
-> > acpi_pci_hotplug.acpi_pcihp_pci_status[ACPI_PCIHP_BSEL_DEFAULT],  
-> > >              PIIX4PMState,
-> > > -            vmstate_test_no_use_acpi_pci_hotplug,
-> > > +            vmstate_test_no_use_acpi_hotplug_bridge,
-> > >              2, vmstate_pci_status,
-> > >              struct AcpiPciHpPciStatus),
-> > >          VMSTATE_PCI_HOTPLUG(acpi_pci_hotplug, PIIX4PMState,
-> > > -                            vmstate_test_use_acpi_pci_hotplug),
-> > > +                            vmstate_test_use_acpi_hotplug_bridge),
-> > >          VMSTATE_END_OF_LIST()
-> > >      },
-> > >      .subsections = (const VMStateDescription*[]) {
-> > > @@ -528,7 +529,7 @@ I2CBus *piix4_pm_init(PCIBus *bus, int devfn,  
-> > uint32_t smb_io_base,  
-> > >      s->smi_irq = smi_irq;
-> > >      s->smm_enabled = smm_enabled;
-> > >      if (xen_enabled()) {
-> > > -        s->use_acpi_pci_hotplug = false;
-> > > +        s->use_acpi_hotplug_bridge = false;
-> > >      }
-> > >
-> > >      qdev_init_nofail(dev);
-> > > @@ -593,7 +594,7 @@ static void  
-> > piix4_acpi_system_hot_add_init(MemoryRegion *parent,  
-> > >      memory_region_add_subregion(parent, GPE_BASE, &s->io_gpe);
-> > >
-> > >      acpi_pcihp_init(OBJECT(s), &s->acpi_pci_hotplug, bus, parent,
-> > > -                    s->use_acpi_pci_hotplug);
-> > > +                    s->use_acpi_hotplug_bridge);
-> > >
-> > >      s->cpu_hotplug_legacy = true;
-> > >      object_property_add_bool(OBJECT(s), "cpu-hotplug-legacy",
-> > > @@ -631,7 +632,7 @@ static Property piix4_pm_properties[] = {
-> > >      DEFINE_PROP_UINT8(ACPI_PM_PROP_S4_DISABLED, PIIX4PMState,  
-> > disable_s4, 0),  
-> > >      DEFINE_PROP_UINT8(ACPI_PM_PROP_S4_VAL, PIIX4PMState, s4_val, 2),
-> > >      DEFINE_PROP_BOOL("acpi-pci-hotplug-with-bridge-support",  
-> > PIIX4PMState,  
-> > > -                     use_acpi_pci_hotplug, true),
-> > > +                     use_acpi_hotplug_bridge, true),
-> > >      DEFINE_PROP_BOOL("memory-hotplug-support", PIIX4PMState,
-> > >                       acpi_memory_hotplug.is_enabled, true),
-> > >      DEFINE_PROP_END_OF_LIST(),  
-> >
-> >  
+diff --git a/hw/misc/macio/cuda.c b/hw/misc/macio/cuda.c
+index 47aa3b0552..cfe4713527 100644
+--- a/hw/misc/macio/cuda.c
++++ b/hw/misc/macio/cuda.c
+@@ -28,6 +28,7 @@
+ #include "hw/ppc/mac.h"
+ #include "hw/qdev-properties.h"
+ #include "migration/vmstate.h"
++#include "hw/i2c/i2c.h"
+ #include "hw/input/adb.h"
+ #include "hw/misc/mos6522.h"
+ #include "hw/misc/macio/cuda.h"
+@@ -371,6 +372,61 @@ static bool cuda_cmd_set_time(CUDAState *s,
+     return true;
+ }
+ 
++static bool cuda_cmd_get_set_iic(CUDAState *s,
++                                 const uint8_t *in_data, int in_len,
++                                 uint8_t *out_data, int *out_len)
++{
++    int i;
++
++    qemu_log_mask(LOG_UNIMP, "CUDA: unimplemented GET_SET_IIC %s 0x%x %d\n",
++                  (in_data[0] & 1 ? "read" : "write"), in_data[0] >> 1,
++                  in_len);
++    if (i2c_start_transfer(s->i2c_bus, in_data[0] >> 1, in_data[0] & 1)) {
++        return false;
++    }
++    for (i = 0; i < in_len - 3; i++) {
++        if (i2c_send(s->i2c_bus, in_data[i])) {
++            i2c_end_transfer(s->i2c_bus);
++            return false;
++        }
++    }
++    return true;
++}
++
++static bool cuda_cmd_combined_iic(CUDAState *s,
++                                  const uint8_t *in_data, int in_len,
++                                  uint8_t *out_data, int *out_len)
++{
++    int i;
++
++    if (in_len < 3) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "CUDA: COMBINED_FORMAT_IIC too few input bytes\n");
++        return false;
++    }
++    if ((in_data[0] & 0xfe) != (in_data[2] & 0xfe)) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "CUDA: COMBINED_FORMAT_IIC address mismatch\n");
++        return false;
++    }
++
++    uint8_t data = in_data[1];
++    if (i2c_start_transfer(s->i2c_bus, in_data[0] >> 1, in_data[0] & 1) ||
++        i2c_send_recv(s->i2c_bus, &data, in_data[0] & 1)) {
++        return false;
++    } else {
++        for (i = 0; i < in_len - 3; i++) {
++            data = in_data[3 + i];
++            if (i2c_send_recv(s->i2c_bus, (in_data[2] & 1 ? &out_data[i] :
++                              &data), in_data[2] & 1)) {
++                i2c_end_transfer(s->i2c_bus);
++                return false;
++            }
++        }
++    }
++    return true;
++}
++
+ static const CudaCommand handlers[] = {
+     { CUDA_AUTOPOLL, "AUTOPOLL", cuda_cmd_autopoll },
+     { CUDA_SET_AUTO_RATE, "SET_AUTO_RATE",  cuda_cmd_set_autorate },
+@@ -383,6 +439,8 @@ static const CudaCommand handlers[] = {
+       cuda_cmd_set_power_message },
+     { CUDA_GET_TIME, "GET_TIME", cuda_cmd_get_time },
+     { CUDA_SET_TIME, "SET_TIME", cuda_cmd_set_time },
++    { CUDA_GET_SET_IIC, "GET_SET_IIC", cuda_cmd_get_set_iic },
++    { CUDA_COMBINED_FORMAT_IIC, "COMBINED_FORMAT_IIC", cuda_cmd_combined_iic },
+ };
+ 
+ static void cuda_receive_packet(CUDAState *s,
+@@ -553,6 +611,7 @@ static void cuda_init(Object *obj)
+ {
+     CUDAState *s = CUDA(obj);
+     SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
++    DeviceState *dev = DEVICE(obj);
+ 
+     object_initialize_child(obj, "mos6522-cuda", &s->mos6522_cuda,
+                             TYPE_MOS6522_CUDA);
+@@ -561,7 +620,8 @@ static void cuda_init(Object *obj)
+     sysbus_init_mmio(sbd, &s->mem);
+ 
+     qbus_create_inplace(&s->adb_bus, sizeof(s->adb_bus), TYPE_ADB_BUS,
+-                        DEVICE(obj), "adb.0");
++                        dev, "adb.0");
++    s->i2c_bus = i2c_init_bus(dev, "i2c");
+ }
+ 
+ static Property cuda_properties[] = {
+diff --git a/include/hw/misc/macio/cuda.h b/include/hw/misc/macio/cuda.h
+index 5768075ac5..0c798100dc 100644
+--- a/include/hw/misc/macio/cuda.h
++++ b/include/hw/misc/macio/cuda.h
+@@ -79,6 +79,7 @@ typedef struct CUDAState {
+ 
+     ADBBusState adb_bus;
+     MOS6522CUDAState mos6522_cuda;
++    I2CBus *i2c_bus;
+ 
+     uint32_t tick_offset;
+     uint64_t tb_frequency;
+-- 
+2.21.3
 
 
