@@ -2,58 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2142E1FB51C
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:55:47 +0200 (CEST)
-Received: from localhost ([::1]:39090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F17391FB511
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:54:29 +0200 (CEST)
+Received: from localhost ([::1]:60256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlD06-0004LB-5a
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:55:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58068)
+	id 1jlCyq-0001VK-W7
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:54:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58146)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCQh-0003Xh-Oe; Tue, 16 Jun 2020 10:19:11 -0400
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:40315)
+ id 1jlCQl-0003ec-3u; Tue, 16 Jun 2020 10:19:15 -0400
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:46993)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCQd-0006xs-9Z; Tue, 16 Jun 2020 10:19:08 -0400
-Received: by mail-oi1-x242.google.com with SMTP id t25so19384808oij.7;
- Tue, 16 Jun 2020 07:19:06 -0700 (PDT)
+ id 1jlCQh-0006yE-Qj; Tue, 16 Jun 2020 10:19:14 -0400
+Received: by mail-oi1-x242.google.com with SMTP id 25so19336412oiy.13;
+ Tue, 16 Jun 2020 07:19:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=lEcayuvB+XGeWNX8U/Yu92PQGUAoKZ14ovL5ftbZCxY=;
- b=GAnh6LxNH6I2LyEAf7T2OHebxodipl3Wzk9PmkLXuXD/ix0miP4QPr1rilFE1Npl18
- ureW8Fp9erWINJAQT27zEMLz86HAzs665EYRwbHmPbx6UWw1VE3ZDm2NJOoFSnX43JBp
- bGfYJkfbUnR3Rha04jydqYl47DuJ9SQHNvPEas/QUSk8B3gGeFdukKSV5X6JuhJBmGAy
- +0iVaU1KG3ko3YVoY3FcEGBLAu3du80FGe4s6glKqu4JIys5rGMPbVVDZjh3JORncqMA
- 8tggU5tgGp4ZqM+W1OLTlZgLjp/D/bj90yUwVp3JCV9LZSMZWSa52+Faz/pGQzzf9Qt+
- 6rkg==
+ bh=IhA7tGc4qQITgrYTWHPDVz8A3fUsUmDnXkD5C60/dcc=;
+ b=phqAh/g2YyNhyYCcznlu2ECdKdM0Hr6yuvdTPxKmWmQR4xxGMx9tvaVvhlLv3to1jK
+ JdH5PfVSRY6yw/Swf9N/R5/8apODnV7eyUJcPkKxcniHwOzJxk01lTo4nCk+chll+YTh
+ LqZTQ4dJvh0V7sT7FIi9dhkMg3PfWfmY+mBhrT7JmG8u10Pa2l6c9c9SSQn5uooMuOMz
+ y+Cv66OKlXOPjPU3/hGZQithDbp4VHiT4OuKMJRFhT/xfYd2IfPl0OEKX2n18vjOmBMf
+ kYhw3Gct3zujlhPMU4b1cnEIf4yALFghhuW96IgW204U2MlT1Y1fijA/NP3lMGcAGTUW
+ 82Vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=lEcayuvB+XGeWNX8U/Yu92PQGUAoKZ14ovL5ftbZCxY=;
- b=sFJIDSYlqDklPGM/zRKqs3v+pMiWMSMCHFsvrHVSQeg2iKBSkkS48P6RX0SFQhz+UK
- 7aSEQ7sibYfNBSD1z4iAsuZ697e2qFAM6ScVi/8XaudfQi6NWg4WmCdP+5LuDTedJADH
- d7BYVOuUSjxI2/Jq2hfEGpb3FSnN/lCLTkMwOoonXoVuQDJKc7mxPDCeDm6jo68YX8Be
- 0feEqoZSH3BSBth8H2scWUB0y8SXW8nWz9N9SgLAypndj9iVt4omlgEs4T1EgB4LneBp
- JwkTF8h75p2kEZJcknZmm5ob9/Bb3Pp4A8XBhPR/hmqKdotUzMiChvu781fvfXSp4ajX
- x6vQ==
-X-Gm-Message-State: AOAM530DMc7ZZJoTpwb6EqVizL243rUK81COsS9pwLYKNE5G+waEldKc
- M/A+wGlnFzQrjv5qLEzh9QdCNNqN
-X-Google-Smtp-Source: ABdhPJzIg6sqCW7gxojRgIsnEhaN+ZXNtttu7aBVQ9zTzQIb4d+VffBOsqvS4QWOQRYh3vSPRoi03w==
-X-Received: by 2002:aca:fd94:: with SMTP id b142mr3610894oii.9.1592317145394; 
- Tue, 16 Jun 2020 07:19:05 -0700 (PDT)
+ bh=IhA7tGc4qQITgrYTWHPDVz8A3fUsUmDnXkD5C60/dcc=;
+ b=G+yv/dmRDqv18/4zrPLo3QDS4uP0ov2xpnCcMgB3Jy6omE8huL4vKC8rqpj7yZLgNC
+ p9d/yy86ru/hFBLtvvjYw2zSkhdnZIp8Iy8fPr6LTK5HUU0P6RJofxR8Vvt8gBOYvbkE
+ YhoopCIe0nFPHeHEA/2BMaUoQ77nfXaXSzqW31LeHuAkmD3E4NFVUFyxyaxREYuKdeJ4
+ 6zK/qYwNXHncwmfb/WS4K1h6WqX7EMxfziKIZ3sN2Vv/WAxM1oaVtQRjxI1dINq76JT8
+ GZnNhGnnIPnTytOBDn8PvbqLvJAFmeDTXDXjW+YWPJ4lwMxbhpR/RLMsPtojmN5boWYh
+ NKOw==
+X-Gm-Message-State: AOAM532dQTtGdnH7dm7i75NbuAYPtPeTPqghNoRwFtUemPw9hBW1PrQW
+ 2naXzBxRYksKUqeR000G65297J2s
+X-Google-Smtp-Source: ABdhPJz161B8mMuQHVo7VUZnppv5cLaSH+XIZyIK3/i25uAoSYq1AOoqbirZIFziElVD2sw8CjdBOA==
+X-Received: by 2002:aca:eb42:: with SMTP id j63mr3315973oih.144.1592317147300; 
+ Tue, 16 Jun 2020 07:19:07 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id b4sm4085033oti.3.2020.06.16.07.19.04
+ by smtp.gmail.com with ESMTPSA id m13sm4086378oou.25.2020.06.16.07.19.05
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 16 Jun 2020 07:19:04 -0700 (PDT)
+ Tue, 16 Jun 2020 07:19:06 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 59/78] qga-win: Handle VSS_E_PROVIDER_ALREADY_REGISTERED error
-Date: Tue, 16 Jun 2020 09:15:28 -0500
-Message-Id: <20200616141547.24664-60-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 60/78] qga-win: prevent crash when executing guest-file-read
+ with large count
+Date: Tue, 16 Jun 2020 09:15:29 -0500
+Message-Id: <20200616141547.24664-61-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
 References: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
@@ -80,47 +81,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sameeh Jubran <sjubran@redhat.com>, Basil Salman <basil@daynix.com>,
- qemu-stable@nongnu.org
+Cc: Basil Salman <basil@daynix.com>, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Sameeh Jubran <sjubran@redhat.com>
+From: Basil Salman <basil@daynix.com>
 
-This patch handles the case where VSS Provider is already registered,
-where in such case qga uninstalls the provider and registers it again.
+guest-file-read command is currently implemented to read from a
+file handle count number of bytes. when executed with a very large count number
+qemu-ga crashes.
+after some digging turns out that qemu-ga crashes after trying to allocate
+a buffer large enough to save the data read in it, the buffer was allocated using
+g_malloc0 which is not fail safe, and results a crash in case of failure.
+g_malloc0 was replaced with g_try_malloc0() which returns NULL on failure,
+A check was added for that case in order to prevent qemu-ga from crashing
+and to send a response to the qemu-ga client accordingly.
 
-Signed-off-by: Sameeh Jubran <sjubran@redhat.com>
+Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1594054
+
 Signed-off-by: Basil Salman <basil@daynix.com>
+Reported-by: Fakhri Zulkifli <mohdfakhrizulkifli@gmail.com>
+Cc: qemu-stable@nongnu.org
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
-(cherry picked from commit b2413df83348acf371c03bced9a3845bba883ed5)
+(cherry picked from commit 807e2b6fce022707418bc8f61c069d91c613b3d2)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- qga/vss-win32/install.cpp | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ qga/commands-win32.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/qga/vss-win32/install.cpp b/qga/vss-win32/install.cpp
-index 6713e58670..a456841360 100644
---- a/qga/vss-win32/install.cpp
-+++ b/qga/vss-win32/install.cpp
-@@ -443,6 +443,17 @@ STDAPI DllRegisterServer(void)
-                                      VSS_PROV_SOFTWARE,
-                                      const_cast<WCHAR*>(QGA_PROVIDER_VERSION),
-                                      g_gProviderVersion);
-+    if (hr == (long int) VSS_E_PROVIDER_ALREADY_REGISTERED) {
-+        DllUnregisterServer();
-+        hr = pVssAdmin->RegisterProvider(g_gProviderId, CLSID_QGAVSSProvider,
-+                                         const_cast<WCHAR * >
-+                                         (QGA_PROVIDER_LNAME),
-+                                         VSS_PROV_SOFTWARE,
-+                                         const_cast<WCHAR * >
-+                                         (QGA_PROVIDER_VERSION),
-+                                         g_gProviderVersion);
-+    }
-+
-     if (FAILED(hr)) {
-         errmsg_dialog(hr, "RegisterProvider failed");
+diff --git a/qga/commands-win32.c b/qga/commands-win32.c
+index 55ba5b263a..01e02e4440 100644
+--- a/qga/commands-win32.c
++++ b/qga/commands-win32.c
+@@ -342,7 +342,13 @@ GuestFileRead *qmp_guest_file_read(int64_t handle, bool has_count,
      }
+ 
+     fh = gfh->fh;
+-    buf = g_malloc0(count+1);
++    buf = g_try_malloc0(count + 1);
++    if (!buf) {
++        error_setg(errp,
++                   "failed to allocate sufficient memory "
++                   "to complete the requested service");
++        return NULL;
++    }
+     is_ok = ReadFile(fh, buf, count, &read_count, NULL);
+     if (!is_ok) {
+         error_setg_win32(errp, GetLastError(), "failed to read file");
 -- 
 2.17.1
 
