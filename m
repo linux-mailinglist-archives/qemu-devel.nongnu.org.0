@@ -2,133 +2,152 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3054F1FB5A3
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 17:07:16 +0200 (CEST)
-Received: from localhost ([::1]:56902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD3D41FB5B1
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 17:10:36 +0200 (CEST)
+Received: from localhost ([::1]:42382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlDBC-0007OH-Qu
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 11:07:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41644)
+	id 1jlDER-0004tF-Va
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 11:10:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wentong.wu@intel.com>)
- id 1jlD9q-0005bd-B1; Tue, 16 Jun 2020 11:05:51 -0400
-Received: from mga12.intel.com ([192.55.52.136]:12881)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wentong.wu@intel.com>)
- id 1jlD9n-00079U-3O; Tue, 16 Jun 2020 11:05:49 -0400
-IronPort-SDR: oGOoWQjs+D893fpQPWaR8u5dVCVL6jb5ACy3vhsUAfgrbckouhJNFfoaDyjFxjyAv9iNVk18Jw
- vET8xq8tMZIA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jun 2020 08:05:28 -0700
-IronPort-SDR: NPMAHFl4PeYZbN9z7iMtiGMThE1kApK3R44etvWMfHbcPi64PeetDGqf8SyRXKANKlgbn6GdIW
- cT6kUTcxbB4A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,518,1583222400"; d="scan'208";a="309139533"
-Received: from orsmsx101.amr.corp.intel.com ([10.22.225.128])
- by fmsmga002.fm.intel.com with ESMTP; 16 Jun 2020 08:05:27 -0700
-Received: from orsmsx602.amr.corp.intel.com (10.22.229.15) by
- ORSMSX101.amr.corp.intel.com (10.22.225.128) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Tue, 16 Jun 2020 08:05:26 -0700
-Received: from orsmsx602.amr.corp.intel.com (10.22.229.15) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Tue, 16 Jun 2020 08:05:26 -0700
-Received: from ORSEDG001.ED.cps.intel.com (10.7.248.4) by
- orsmsx602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.1713.5
- via Frontend Transport; Tue, 16 Jun 2020 08:05:25 -0700
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.174)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Tue, 16 Jun 2020 08:05:25 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=g1bb0SQ+OYhnQLLOLc42K7JQx3r5GAlW4hhM/NXE3PGDXcrqWayWpWjj+Qou+GizJ4fx0veF5DSs+AvHFD8bGGtLmB/QYNROLpiS/2i70LZnOQuI2pT4Z48V+xq7/2+GUcABo/6a7oxSDG7+Yh9BnzjdXG3US24F3H55sotoCTgS9coPC2eJSSjOpxcKYHGn6iy5w4T6pkZxP7cMy73gIMmKYKxAVtAsWlbr20/Enb4hWMA7ADmiGcjWQy4VyebVhxmqFBR5/nNDZvtb8AaJ6R2fOI+l1a7Jg4CmRGS/WtIkD2tuWFe5ao4mkJbiRAWPvQaoo2z1h4d3fVvvC2V2iw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uAjg7AAmuBqCeGtpFxh5q+0aNv1+9Y/Z/1zMutgfKRc=;
- b=TSpBiINA6Kih1x+cYYGrwSWL4+EyXf62XbH+LY53gs8MXwdPmMnolJWo4Nk5S9giMbr5dTYCdD0w22s3rAWnVBtvbgqV5bpueEP0gWFg+TfYbgHvO+3rs8hLThzaYMFbIjjlQqQBXv3EAic1+HHUpgJZ0s2cual4zae2ppnl4OYu1NKeiJM5zwWKB7fCzDRxIkWzEBqji06TPwsh4b+tsJI5LgNBAik7SZ0lAvQYbjzil8pS/TsX9jN7REHA1ko51fJ0CA/nciObLyn9y+oAXT3xOzOMBnRf+/3wreTFtwtqLsYlmVkT5M+XNPzlJ1WgPyCTKcdVjA+0+cgakTkuvQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
- s=selector2-intel-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uAjg7AAmuBqCeGtpFxh5q+0aNv1+9Y/Z/1zMutgfKRc=;
- b=RgrtsFyZpB0nlSh5h2U0OwsPo6ZQ4Je4eBou52mCzzWUIPdvp9PbDf0EV199sSBfyQafLFW20KRYQZ89ZYY3sRHIUxSpGO35LEsCg26ltFDuMs8rVQf5GrNZ8qUQOmkmw2emew6MSZnwgxIz8L6dKpperdZ1ogFyjVGnSn7etwU=
-Received: from DM5PR11MB1833.namprd11.prod.outlook.com (2603:10b6:3:110::12)
- by DM6PR11MB3052.namprd11.prod.outlook.com (2603:10b6:5:69::29) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3088.18; Tue, 16 Jun
- 2020 15:05:24 +0000
-Received: from DM5PR11MB1833.namprd11.prod.outlook.com
- ([fe80::3c09:1393:f7b8:1f51]) by DM5PR11MB1833.namprd11.prod.outlook.com
- ([fe80::3c09:1393:f7b8:1f51%9]) with mapi id 15.20.3088.028; Tue, 16 Jun 2020
- 15:05:24 +0000
-From: "Wu, Wentong" <wentong.wu@intel.com>
-To: =?utf-8?B?UGhpbGlwcGUgTWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Subject: RE: [PATCH] hw/nios2: Update interrupt request when CR_STATUS_PIE
- disabled
-Thread-Topic: [PATCH] hw/nios2: Update interrupt request when CR_STATUS_PIE
- disabled
-Thread-Index: AQHWP4ZsWxBTOO2K8UOOQsF38ZGk3KjU/8ewgAAeYICABjzw0A==
-Date: Tue, 16 Jun 2020 15:05:24 +0000
-Message-ID: <DM5PR11MB1833F9AA5ACF3D1CDC4E32CE8D9D0@DM5PR11MB1833.namprd11.prod.outlook.com>
-References: <20200611081319.1864-1-wentong.wu@intel.com>
- <DM5PR11MB1833DA1D82CD4DEAF8DE514F8D810@DM5PR11MB1833.namprd11.prod.outlook.com>
- <b1396e1a-ed01-2ea4-1ad1-359911d28a31@redhat.com>
-In-Reply-To: <b1396e1a-ed01-2ea4-1ad1-359911d28a31@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-reaction: no-action
-dlp-version: 11.2.0.6
-dlp-product: dlpe-windows
-authentication-results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=intel.com;
-x-originating-ip: [192.198.147.214]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 5756e9c4-a140-4f06-b10a-08d81206b246
-x-ms-traffictypediagnostic: DM6PR11MB3052:
-x-microsoft-antispam-prvs: <DM6PR11MB30520134C3642B779F08A23D8D9D0@DM6PR11MB3052.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-forefront-prvs: 04362AC73B
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: wkaOhSl19oELU/eqeYhfnNdMQxN2r3PlXi1NRlenj4nR77lgD2cegHHwksAslO48yNX1A2c4lrx8E7G+p0LYo3ZQ4psfORLQn7Ksr5K3krmwKcD6SQehYeQWC0cYI+hwzxhsqe4jTlAQ6D5w2T2QUOA5Ae4hB7P7HKVJWLNGNdMUoPnBYHPCaEaWbQeFVOkS+aaQzD9BI6oCtY52Cd1CE6+E5FFhw8uh97Zc6/h+IyoTmw9fxT5M40FsCn4W0uTLlUUGVCaX4eu2mex2N1t+5u3SQsqQw9IuPmvGFGHJDWbv98HlGVdZUFB7h9wMDkvFWK9lETw+NbNK+bj8c+sdGYr/hiS0jHJ7QsHMNG+ZHSQmdiPFSK+tbYfX++ZGq226tYeg/WwRq+VFiaAwJcRPTA==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM5PR11MB1833.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(39860400002)(136003)(376002)(366004)(396003)(346002)(86362001)(33656002)(26005)(966005)(478600001)(53546011)(7696005)(52536014)(316002)(5660300002)(54906003)(6506007)(110136005)(83380400001)(66476007)(4326008)(9686003)(8676002)(71200400001)(186003)(8936002)(15650500001)(55016002)(76116006)(66946007)(66446008)(66556008)(64756008)(2906002);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: 055lhhh28nwXUrcskClg88nOJi0yyACVcepP0W9zylJ5bRnfFfSSvweYrDDphHW2fxbOVj915pz9I95L3HeNmLXZP4XfVuG7HL6NqS3BU7os+URXiSfBOD845ua2Lp4UbCqVlKMfDp/WL0B/C82o3HWxNRXQs21Xdk5jNnmQ90DVWjwsntnoTNZWz258NAuKi0/vjTQ5W1F01zVUujbVaUi4IsjWEbRx7xCCXHANIQ0IoaBYEfMKQ0SIKswSZKndpAeZuCu6EQj+APRLQnXNT0u1ScGFOTPfryZLQwz8nYMtfHJsvzsmabdNjrPAxiSEG1oqKVEK6Is9DaLtSwKyDoo/Ag5Un3g2egEUXkWU6O9+zhNQ/y7eZIn6+mfRsBCgJx34YD4T8A+FY2yTmgTDHwoCEhzKGvBurV0PJnEv7X8UrgNWjxTFlemoxsTvn5MIrdzkhTfpoDT2DbR21cpDC6OQ1WB4D3XbNny3BsVNszx2azvM9effeb5rEsDoajwi
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jlDAs-0007t0-4S
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 11:06:54 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:43751
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jlDAp-0007jp-8e
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 11:06:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1592320009;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=waqQlIAofOMPutSEtzPlPnM9S2BBF3P5bLloFI/3u7w=;
+ b=C/2GhliAwHrscCmXkUVTkIwwxCu8NnHFS23VPi3NnLjIJeyfcooh0FBUwt6RED39LmAIr0
+ OwRyY8gWVOSvsQuk99w/LSLoHalaNdhKI5n99yB9SuHpmdbTvKgqrpVNUbFa/BTzxg3Ksy
+ 7ndBuZJOHD8LVfE4B2cTnICK4O71NHc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-271-ImcBu7lyOOSXv9IyTAqx0Q-1; Tue, 16 Jun 2020 11:06:39 -0400
+X-MC-Unique: ImcBu7lyOOSXv9IyTAqx0Q-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 52581EC1CD
+ for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 15:06:37 +0000 (UTC)
+Received: from [10.10.117.188] (ovpn-117-188.rdu2.redhat.com [10.10.117.188])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 82109100EBAC;
+ Tue, 16 Jun 2020 15:06:19 +0000 (UTC)
+Subject: Re: [PATCH v3 0/3] python/machine.py: refactor shutdown
+To: Eduardo Habkost <ehabkost@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+References: <20200604195252.20739-1-jsnow@redhat.com>
+ <8bd27ec8-1bb6-45e2-a43a-7e0229065414@redhat.com>
+ <4012de28-5837-889a-eda1-b9957cbbbad1@redhat.com>
+ <5d20012b-923c-0bf4-232d-272977087fe3@redhat.com>
+ <20200615222152.GT2366737@habkost.net>
+From: John Snow <jsnow@redhat.com>
+Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <85b19f6a-5521-4672-b146-89be361527e6@redhat.com>
+Date: Tue, 16 Jun 2020 11:06:18 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5756e9c4-a140-4f06-b10a-08d81206b246
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Jun 2020 15:05:24.1596 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: KjxN0ml++IKExTUUA5TvwCFAUmnjlgSQ7qo6gUqNSYbwYWi1QsTZ3JKkTxkqZ6cF8gtWG2Bid1DdBXWmqAk74g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB3052
-X-OriginatorOrg: intel.com
-Received-SPF: pass client-ip=192.55.52.136; envelope-from=wentong.wu@intel.com;
- helo=mga12.intel.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 11:05:28
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+In-Reply-To: <20200615222152.GT2366737@habkost.net>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 02:46:07
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001,
+ WEIRD_PORT=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -141,53 +160,215 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>,
- "marex@denx.de" <marex@denx.de>, "thuth@redhat.com" <thuth@redhat.com>,
- "crwulff@gmail.com" <crwulff@gmail.com>
+Cc: kwolf@redhat.com, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel@nongnu.org, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-DQo+SGksDQoNCj5PbiA2LzEyLzIwIDM6NDMgUE0sIFd1LCBXZW50b25nIHdyb3RlOg0KPiA+IEhp
-LA0KPiA+Q2FuIGFueSBib2R5IGhlbHAgcmV2aWV3IHRoaXMgcGF0Y2ggPyBUaGFua3MgaW4gYWR2
-YW5jZSENCg0KPiBZb3UganVzdCBzZW50IHRoaXMgcGF0Y2ggeWVzdGVyZGF5Li4uIFBsZWFzZSBn
-aXZlIHJldmlld2VycyBtb3JlIHRpbWUuDQoNCj4gU2VlOg0KPiBodHRwczovL3dpa2kucWVtdS5v
-cmcvQ29udHJpYnV0ZS9TdWJtaXRBUGF0Y2gjUGFydGljaXBhdGluZ19pbl9Db2RlX1Jldmlldw0K
-PiBJbiBwYXJ0aWN1bGFyOg0KPiBodHRwczovL3dpa2kucWVtdS5vcmcvQ29udHJpYnV0ZS9TdWJt
-aXRBUGF0Y2gjSWZfeW91cl9wYXRjaF9zZWVtc190b19oYXZlX2JlZW5faWdub3JlZA0KDQo+ID4g
-DQo+ID4gQlINCj4gPiANCj4gPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiA+IEZyb206
-IFd1LCBXZW50b25nIDx3ZW50b25nLnd1QGludGVsLmNvbT4NCj4gPiBTZW50OiBUaHVyc2RheSwg
-SnVuZSAxMSwgMjAyMCA0OjEzIFBNDQo+ID4gVG86IHFlbXUtZGV2ZWxAbm9uZ251Lm9yZw0KPiA+
-IENjOiBxZW11LXRyaXZpYWxAbm9uZ251Lm9yZzsgY3J3dWxmZkBnbWFpbC5jb207IG1hcmV4QGRl
-bnguZGU7IA0KPiA+IHRodXRoQHJlZGhhdC5jb207IFd1LCBXZW50b25nIDx3ZW50b25nLnd1QGlu
-dGVsLmNvbT4NCj4gPiBTdWJqZWN0OiBbUEFUQ0hdIGh3L25pb3MyOiBVcGRhdGUgaW50ZXJydXB0
-IHJlcXVlc3Qgd2hlbiBDUl9TVEFUVVNfUElFIA0KPiA+IGRpc2FibGVkDQo+ID4NCj4gPiBVcGRh
-dGUgaW50ZXJydXB0IHJlcXVlc3Qgd2hlbiBleHRlcm5hbCBpbnRlcnVwdCBwZW5kcyBmb3IgU1RB
-VFVTX1BJRSBkaXNhYmxlZC4gT3RoZXJ3aXNlIG9uIGljb3VudCBlbmFibGVkIG5pb3MyIHRhcmdl
-dCB0aGVyZSB3aWxsIGJlIGNwdSBhYm9ydCB3aGVuIGd1ZXN0IGNvZGUgY2hhbmdlcyBzdGF0ZSBy
-ZWdpc3RlciB3aXRoIHdyY3RsIGluc3RydWN0aW9uLg0KDQo+IEl0J2QgaGVscCBpZiB5b3UgcHJv
-dmlkZSBtb3JlIGluZm9ybWF0aW9uLCB3aGF0IGNvZGUgd2hlcmUgeW91IHRlc3RpbmcsIGhvdyB5
-b3UgcmFuIFFFTVUsIGVub3VnaCBmb3IgcmV2aWV3ZXJzIHRvIHJlcHJvZHVjZSB0aGUgaXNzdWUg
-eW91IGhhZCBhbmQgdGVzdCBpZiB5b3VyIHBhdGNoIGluZGVlZCByZXNvbHZlcyB0aGUgaXNzdWUg
-eW91IGRlc2NyaWJlZC4NCg0KSGksDQpJ4oCZbSBydW5uaW5nIGljb3VudCBtb2RlIG9uIHFlbXVf
-bmlvczIgd2l0aCBjdXN0b21pemVkIHBsYXRmb3JtKGh0dHBzOi8vZ2l0aHViLmNvbS96ZXBoeXJw
-cm9qZWN0LXJ0b3Mvc2RrLW5nL2Jsb2IvbWFzdGVyL21ldGEtemVwaHlyLXNkay9yZWNpcGVzLWRl
-dnRvb2xzL3FlbXUvZmlsZXMvMDAwMS1xZW11LW5pb3MyLUFkZC1BbHRlcmEtTUFYLTEwLWJvYXJk
-LXN1cHBvcnQtZm9yLVplcGh5LnBhdGNoLCBhbG1vc3Qgc2FtZSB3aXRoIDEwbTUwX2RldmJvYXJk
-KSBidXQgY3B1IGFib3J0IGhhcHBlbmVkKHFlbXU6IGZhdGFsOiBSYWlzZWQgaW50ZXJydXB0IHdo
-aWxlIG5vdCBpbiBJL08gZnVuY3Rpb24pIHdoZW4gZ3Vlc3QgY29kZSBjaGFuZ2VzIHN0YXRlIHJl
-Z2lzdGVyIHdpdGggd3JjdGwgaW5zdHJ1Y3Rpb24NCmFkZCBzb21lIGRlYnVnIGNvZGUgZmluZGlu
-ZyB0aGF0IGl04oCZcyBjYXVzZWQgYnkgdGhlIGludGVycnVwdF9yZXF1ZXN0IG1pc21hdGNoLiBI
-b3BlIHRoYXQgd2lsbCBiZSBoZWxwZnVsLg0KDQoNCj4gUmVnYXJkcywNCg0KPiBQaGlsLg0KDQo+
-ID4gDQo+ID4gU2lnbmVkLW9mZi1ieTogV2VudG9uZyBXdSA8d2VudG9uZy53dUBpbnRlbC5jb20+
-DQo+ID4gLS0tDQo+ID4gaHcvbmlvczIvY3B1X3BpYy5jIHwgMiArKw0KPiA+IDEgZmlsZSBjaGFu
-Z2VkLCAyIGluc2VydGlvbnMoKykNCj4gPg0KPiA+IGRpZmYgLS1naXQgYS9ody9uaW9zMi9jcHVf
-cGljLmMgYi9ody9uaW9zMi9jcHVfcGljLmMgaW5kZXggDQo+ID4gMWMxOTg5ZDUuLjJhYmM4ZmE4
-IDEwMDY0NA0KPiA+IC0tLSBhL2h3L25pb3MyL2NwdV9waWMuYw0KPiA+ICsrKyBiL2h3L25pb3My
-L2NwdV9waWMuYw0KPiA+IEBAIC00Miw2ICs0Miw4IEBAIHN0YXRpYyB2b2lkIG5pb3MyX3BpY19j
-cHVfaGFuZGxlcih2b2lkICpvcGFxdWUsIGludCBpcnEsIGludCBsZXZlbCkNCj4gPiAgICAgICB9
-IGVsc2UgaWYgKCFsZXZlbCkgew0KPiA+ICAgICAgICAgICAgIGVudi0+aXJxX3BlbmRpbmcgPSAw
-Ow0KPiA+ICAgICAgICAgICAgY3B1X3Jlc2V0X2ludGVycnVwdChjcywgdHlwZSk7DQo+ID4gKyAg
-ICAgICAgfSBlbHNlIHsNCj4gPiArICAgICAgICAgICAgY3MtPmludGVycnVwdF9yZXF1ZXN0IHw9
-IHR5cGU7DQo+ID4gICAgICAgIH0NCj4gPiAgICAgfSBlbHNlIHsNCj4gPiAgICAgICAgaWYgKGxl
-dmVsKSB7DQo+ID4gLS0NCj4gPiAyLjIxLjMNCj4gPg0KPiA+DQoNCg==
+
+
+On 6/15/20 6:21 PM, Eduardo Habkost wrote:
+> On Mon, Jun 15, 2020 at 05:21:18PM +0200, Philippe Mathieu-Daudé wrote:
+>> On 6/9/20 11:55 PM, John Snow wrote:
+>>>
+>>>
+>>> On 6/9/20 9:08 AM, Philippe Mathieu-Daudé wrote:
+>>>> Hi John,
+>>>>
+>>>> On 6/4/20 9:52 PM, John Snow wrote:
+>>>>> v3:
+>>>>>  - Split _post_shutdown refactor into own patch (now 1/3)
+>>>>>  - Re-add sigkill warning squelch (now 3/3)
+>>>>>
+>>>>> NOTE: I re-added the squelch in its own patch for review purposes, but
+>>>>> for the purposes of avoiding temporary breakage, a maintainer may wish
+>>>>> to squash patches 2 and 3 if they are accepted.
+>>>>>
+>>>>> v2: Philippe took patches 1, 3 and 4.
+>>>>>
+>>>>> This is a re-write of what was:
+>>>>> [PATCH RFC 03/32] python//machine.py: remove bare except
+>>>>> [PATCH 2/4] python/machine.py: remove bare except
+>>>>>
+>>>>> It's a bit heavier handed, but it should address some of kwolf's
+>>>>> feedback from the RFC version.
+>>>>>
+>>>>> Applies straight to origin/master, ought to pass pylint and flake8:
+>>>>>
+>>>>>> cd ~/src/qemu/python/qemu
+>>>>>> pylint *.py
+>>>>>> flake8 *.py
+>>>>>
+>>>>> John Snow (3):
+>>>>>   python/machine.py: consolidate _post_shutdown()
+>>>>>   python/machine.py: refactor shutdown
+>>>>>   python/machine.py: re-add sigkill warning suppression
+>>>>>
+>>>>>  python/qemu/machine.py | 100 +++++++++++++++++++++++++++++------------
+>>>>>  1 file changed, 71 insertions(+), 29 deletions(-)
+>>>>>
+>>>>
+>>>> I'm now seeing this error:
+>>>>
+>>>> 21:31:58 DEBUG| / # reboot
+>>>> 21:32:01 DEBUG| / # reboot: Restarting system
+>>>> 21:32:01 DEBUG| >>> {'execute': 'quit'}
+>>>> 21:32:01 WARNI| qemu received signal 9; command:
+>>>> "mips-softmmu/qemu-system-mips -display none -vga none -chardev
+>>>> socket,id=mon,path=/tmp/tmp679upvrk/qemu-10292-monitor.sock -mon
+>>>> chardev=mon,mode=control -machine malta -chardev
+>>>> socket,id=console,path=/tmp/tmp679upvrk/qemu-10292-console.sock,server,nowait
+>>>> -serial chardev:console -kernel
+>>>> /tmp/avocado_b3aaagr9/avocado_job_5bj0xe1h/12-tests_acceptance_boot_linux_console.py_BootLinuxConsole.test_mips_malta_cpio/boot/vmlinux-4.5.0-2-4kc-malta
+>>>> -initrd
+>>>> /tmp/avocado_b3aaagr9/avocado_job_5bj0xe1h/12-tests_acceptance_boot_linux_console.py_BootLinuxConsole.test_mips_malta_cpiorootfs.cpio
+>>>> -append printk.time=0 console=ttyS0 console=tty rdinit=/sbin/init
+>>>> noreboot -no-reboot"
+>>>> 21:32:01 ERROR|
+>>>> 21:32:01 ERROR| Reproduced traceback from:
+>>>> /home/travis/build/philmd/qemu/build/tests/venv/lib/python3.6/site-packages/avocado/core/test.py:886
+>>>> 21:32:01 ERROR| Traceback (most recent call last):
+>>>> 21:32:01 ERROR|   File
+>>>> "/home/travis/build/philmd/qemu/build/tests/acceptance/avocado_qemu/__init__.py",
+>>>> line 195, in tearDown
+>>>> 21:32:01 ERROR|     vm.shutdown()
+>>>> 21:32:01 ERROR|   File
+>>>> "/home/travis/build/philmd/qemu/python/qemu/machine.py", line 449, in
+>>>> shutdown
+>>>> 21:32:01 ERROR|     self._do_shutdown(has_quit)
+>>>> 21:32:01 ERROR|   File
+>>>> "/home/travis/build/philmd/qemu/python/qemu/machine.py", line 426, in
+>>>> _do_shutdown
+>>>> 21:32:01 ERROR|     self._soft_shutdown(has_quit, timeout)
+>>>> 21:32:01 ERROR|   File
+>>>> "/home/travis/build/philmd/qemu/python/qemu/machine.py", line 413, in
+>>>> _soft_shutdown
+>>>> 21:32:01 ERROR|     self._qmp.cmd('quit')
+>>>> 21:32:01 ERROR|   File
+>>>> "/home/travis/build/philmd/qemu/python/qemu/qmp.py", line 271, in cmd
+>>>> 21:32:01 ERROR|     return self.cmd_obj(qmp_cmd)
+>>>> 21:32:01 ERROR|   File
+>>>> "/home/travis/build/philmd/qemu/python/qemu/qmp.py", line 249, in cmd_obj
+>>>> 21:32:01 ERROR|     self.__sock.sendall(json.dumps(qmp_cmd).encode('utf-8'))
+>>>> 21:32:01 ERROR| BrokenPipeError: [Errno 32] Broken pipe
+>>>> 21:32:01 ERROR|
+>>>> 21:32:01 DEBUG| DATA (filename=output.expected) => NOT FOUND (data
+>>>> sources: variant, test, file)
+>>>> 21:32:01 DEBUG| DATA (filename=stdout.expected) => NOT FOUND (data
+>>>> sources: variant, test, file)
+>>>> 21:32:01 DEBUG| DATA (filename=stderr.expected) => NOT FOUND (data
+>>>> sources: variant, test, file)
+>>>> 21:32:01 DEBUG| Not logging /var/log/syslog (lack of permissions)
+>>>> 21:32:01 ERROR| ERROR
+>>>> 12-tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_mips_malta_cpio
+>>>> -> TestSetupFail: [Errno 32] Broken pipe
+>>>> 21:32:01 INFO |
+>>>>
+>>>> https://travis-ci.org/github/philmd/qemu/jobs/696142277#L5329
+>>>>
+>>>
+>>> Gotcha.
+>>>
+>>> The problem here is that `test_mips_malta_cpio` in boot_linux_console.py
+>>> does this:
+>>>
+>>>         self.vm.add_args('-kernel', kernel_path,
+>>>                          '-initrd', initrd_path,
+>>>                          '-append', kernel_command_line,
+>>>                          '-no-reboot')
+>>>
+>>> and then:
+>>>
+>>> exec_command_and_wait_for_pattern(self, 'reboot',
+>>>                          'reboot: Restarting system')
+>>>
+>>> and (in avocado_qemu/) __init__.py does this:
+>>>
+>>>     def tearDown(self):
+>>>         for vm in self._vms.values():
+>>>             vm.shutdown()
+>>>
+>>>
+>>>
+>>> What's happening here is that we are instructing QEMU to *close* when
+>>> the guest reboots instead of allowing it to reboot. Then, we are issuing
+>>> a reboot command to the guest, which will effectively terminate QEMU as
+>>> well. Finally, we are trying to send a shutdown command to QEMU, but
+>>> QEMU has already gone.
+>>>
+>>> Now, in the shutdown code, we do make an attempt to catch this:
+>>>
+>>> def is_running(self):
+>>>     """Returns true if the VM is running."""
+>>>     return self._popen is not None and self._popen.poll() is None
+>>>
+>>> But, well, race conditions.
+>>>
+>>> When we make it here:
+>>>
+>>>         if self._qmp is not None:
+>>>             if not has_quit:
+>>>                 self._qmp.cmd('quit')
+>>>             self._qmp.close()
+>>>
+>>> We believe we are running and we believe we have an open QMP socket.
+>>> Attempting to engage the socket by sending 'quit' causes the error.
+>>>
+>>> It's a tight window: if quit happens earlier, we send the command
+>>> successfully and everything's OK. If quit happens later, we realize QEMU
+>>> isn't running and proceed to cleanup.
+>>
+>> Nice debugging :)
+>>
+>>>
+>>> Ultimately:
+>>>
+>>> - Avocado should not try to shut down QEMU twice, but
+>>> - machine.py shouldn't enable the race condition either.
+>>>
+>>>
+>>>
+>>> for my part, how about this:
+>>>
+>>> diff --git a/python/qemu/machine.py b/python/qemu/machine.py
+>>> index 99bcb499878..813f8e477db 100644
+>>> --- a/python/qemu/machine.py
+>>> +++ b/python/qemu/machine.py
+>>> @@ -385,7 +385,14 @@ def _soft_shutdown(self, has_quit: bool = False,
+>>> timeout: int = 3) -> None:
+>>>
+>>>          if self._qmp is not None:
+>>>              if not has_quit:
+>>> -                self._qmp.cmd('quit')
+>>> +                try:
+>>> +                    self._qmp.cmd('quit')
+>>> +                except (BrokenPipeError, ConnectionResetError):
+>>> +                    # QMP went away just before or just after sending
+>>> 'quit'
+>>> +                    if not self.is_running():
+>>> +                        # "Mission Accomplished"
+>>> +                        pass
+>>> +                    raise
+>>
+>> Looks OK to me, Cleber/Eduardo can you Ack?
+> 
+> Looks good to me.
+> 
+> Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
+> 
+> 
+>>
+>>>              self._qmp.close()
+>>>
+>>>          self._popen.wait(timeout=timeout)
+>>>
+>>
+> 
+
+I'll respin with the fix squashed.
+
+Thanks!
+
+--js
+
 
