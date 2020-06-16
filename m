@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A3421FBC74
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 19:10:55 +0200 (CEST)
-Received: from localhost ([::1]:36222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C57B61FBC8F
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 19:15:41 +0200 (CEST)
+Received: from localhost ([::1]:60248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlF6s-0004Ii-B8
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 13:10:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46910)
+	id 1jlFBU-0000Kb-P3
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 13:15:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jlF53-0001Ho-Cs
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 13:09:01 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:41073)
+ id 1jlF54-0001K3-Dp
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 13:09:02 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:39566)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jlF50-0007T2-TC
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 13:09:01 -0400
-Received: by mail-wr1-x444.google.com with SMTP id j10so21555470wrw.8
- for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 10:08:58 -0700 (PDT)
+ id 1jlF52-0007TL-8I
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 13:09:02 -0400
+Received: by mail-wr1-x442.google.com with SMTP id t18so21579170wru.6
+ for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 10:08:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=/klidXRNhVmx5c20XB8gUIDpvSPxZBtSgZItdrt0HuY=;
- b=V9LQR8L6Boc4/gBLdE8O3b3aD+DFf87ZxBhVnvYVX4BMFTvbZH4JsCp85AGXg5J36z
- CGWA/ufYVnnFcP0G5x4/5oeep6c1pwGdm9xWSYfi8DPkCJJMmff33qUKlY+JihWfKcVA
- u5zXBgzNRi+Rkta7HS9PAAtyCOWSA8rODPSWyjJ1mQQT5SbT4pzUFI9kFZfG4x0wgyS2
- Cmd2ipx/Fj34inDCWDTJdvnRfOhtro56DrHapkdoTn1bE2tPk8/uMn8kEGLywSfLSO5X
- X/akZNV5kXNA4Wvo2k7AfTZd7NnYqoM+GOVNYZjAqVV1ccLhPV4CrnbuuLbDbNelBtA3
- q5zA==
+ bh=kP44X+T+Jfw2C1rlZJnvqC8xIudFDMP5KRrffXuNTsw=;
+ b=vABnWw3XXAcPeedfu56Tql4zhVSy20+pLdNodWoRds2Co0JIQCVkGe1B8FMWpqhKNr
+ LqRHIGTEGGrzRu3FJDU4KYzeUyWKIOVqNczNYpHQa8vSu65Hdoye+/3nhmuuetWmzrh2
+ 6HWD/mNDKZnNvd7R+lhvYETqXgXemjSxTuzMo+0z1CgfE4gJHyh6A/4GJUPxLhdZjlj8
+ KfTqvnXaJ7CFy7DgX4/C5TameZVUlJ/m8rfrnZvGlnEWbEyNSWGQn/lXiL0Jz0VrHN/y
+ 5BtalCrioxzY8x3arVNO6ZmqiHy+tJCf2o4VumtAylyuhAYJMPtEXIs19q1TJcZwTy7u
+ q9Mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=/klidXRNhVmx5c20XB8gUIDpvSPxZBtSgZItdrt0HuY=;
- b=J6MbDhKpeu29B0kfnWkxU0ml8w4k2gu5Poog3WZ8R075Ckx9d9UGMIcXpmgmLy5Vmv
- D/pRwOerPFr1ynR3Ljs2LpDx1+svJJPx5S5JtO3dr36FatmzevgdC0k4bHYTp83HdqDL
- tsRd19CaXbrdvuqXEE7BNg/zsj+tqBz6Ub7YBWyYW5LtHv72PkjV2BZwEcmjTT0NSSW7
- s2opDs23tCFXAE4p9i89EzR1m1HQR/RssPOfD8tkaAvT1KzBQ7IPN0UBs6NvPX6srTwl
- 6K2ZaYD04J6GJxR5+2Fl+uuWYKuhis1Xujvyvoekkjh2xqJMqX/tRpwmjKwK4YNC7OhX
- /6ZA==
-X-Gm-Message-State: AOAM533fpY4ckQ4Epml1zPs8bIZ7/usA68/OkCiel3iWbBACObtlZ0hB
- 8HvIm+HwnkAULtkBpXQZlmE/TQ==
-X-Google-Smtp-Source: ABdhPJxWIuXqOKOGq8KnlVcfbtbb4wlbwuaZAG2wulG3jWMBUzki7Tio4bYGOzx+wARmlZZ/abXi2Q==
-X-Received: by 2002:adf:f251:: with SMTP id b17mr3891175wrp.289.1592327337483; 
- Tue, 16 Jun 2020 10:08:57 -0700 (PDT)
+ bh=kP44X+T+Jfw2C1rlZJnvqC8xIudFDMP5KRrffXuNTsw=;
+ b=ljV2/0Ek4Cj9CA6mQaFIXZ5a3AdkpY+IVgoAYCmvvMG2sE+d8dB3wlO2DVWKHQDThl
+ q9Ox+kO6QUFPh7fAXbjodYy+VAV3GX/BMpryPkBgeMOOzHlkEewlK0qCDwq9iX2DuY+E
+ MXk78d4E4gdLu+3dunWDBGOjoIlGOo9PRKwNlk7byW0w4sRN2HozbVp/jIpns8+ARKI2
+ U+ogtPHUZaEjWvdvD5TfNCGxyCSnMI5pGfn1tYs0ycRJlmLVdusId9VZyWdpqeW9OPRV
+ nqnFcOeGR1PMtvUu3cJxpB3IaF678bplHnYPEiokludX5guLDON/udPKwKCcRr4Lm24M
+ eiJQ==
+X-Gm-Message-State: AOAM532aSRlN8wGOeOxMRt75BTqgj5HCuVz8Qfh0fMJzDWSqtumGRdIh
+ p5ajzRzonllxluUlZN1sEu/QIQ==
+X-Google-Smtp-Source: ABdhPJxbjZyw/ijSVtiV93tiTLwtXUbH6tptNgj7slZ7/b/npttcmArFfsgAl5/em56AgW0WmmriiA==
+X-Received: by 2002:adf:910e:: with SMTP id j14mr3905230wrj.278.1592327338706; 
+ Tue, 16 Jun 2020 10:08:58 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id y80sm5263216wmc.34.2020.06.16.10.08.56
+ by smtp.gmail.com with ESMTPSA id y80sm5263216wmc.34.2020.06.16.10.08.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Jun 2020 10:08:56 -0700 (PDT)
+ Tue, 16 Jun 2020 10:08:58 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 07/21] target/arm: Convert vectorised 2-reg-misc Neon ops to
- decodetree
-Date: Tue, 16 Jun 2020 18:08:30 +0100
-Message-Id: <20200616170844.13318-8-peter.maydell@linaro.org>
+Subject: [PATCH 08/21] target/arm: Convert Neon 2-reg-misc crypto operations
+ to decodetree
+Date: Tue, 16 Jun 2020 18:08:31 +0100
+Message-Id: <20200616170844.13318-9-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200616170844.13318-1-peter.maydell@linaro.org>
 References: <20200616170844.13318-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x444.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,167 +90,189 @@ Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Convert to decodetree the insns in the Neon 2-reg-misc grouping which
-we implement using gvec.
+Convert the Neon-2-reg misc crypto ops (AESE, AESMC, SHA1H, SHA1SU1)
+to decodetree.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/neon-dp.decode       | 11 +++++++
- target/arm/translate-neon.inc.c | 55 +++++++++++++++++++++++++++++++++
- target/arm/translate.c          | 35 +++++----------------
- 3 files changed, 74 insertions(+), 27 deletions(-)
+ target/arm/neon-dp.decode       | 12 ++++++++
+ target/arm/translate-neon.inc.c | 42 ++++++++++++++++++++++++++
+ target/arm/translate.c          | 52 +++------------------------------
+ 3 files changed, 58 insertions(+), 48 deletions(-)
 
 diff --git a/target/arm/neon-dp.decode b/target/arm/neon-dp.decode
-index 8174f2f92f4..b5692070d62 100644
+index b5692070d62..86b1b9e34bf 100644
 --- a/target/arm/neon-dp.decode
 +++ b/target/arm/neon-dp.decode
-@@ -447,9 +447,20 @@ Vimm_1r          1111 001 . 1 . 000 ... .... cmode:4 0 . op:1 1 .... @1reg_imm
+@@ -441,12 +441,19 @@ Vimm_1r          1111 001 . 1 . 000 ... .... cmode:4 0 . op:1 1 .... @1reg_imm
+                  &2misc vm=%vm_dp vd=%vd_dp
+     @2misc_q0    .... ... .. . .. size:2 .. .... . .... . . . .... \
+                  &2misc vm=%vm_dp vd=%vd_dp q=0
++    @2misc_q1    .... ... .. . .. size:2 .. .... . .... . . . .... \
++                 &2misc vm=%vm_dp vd=%vd_dp q=1
+ 
+     VREV64       1111 001 11 . 11 .. 00 .... 0 0000 . . 0 .... @2misc
+ 
      VPADDL_S     1111 001 11 . 11 .. 00 .... 0 0100 . . 0 .... @2misc
      VPADDL_U     1111 001 11 . 11 .. 00 .... 0 0101 . . 0 .... @2misc
  
-+    VMVN         1111 001 11 . 11 .. 00 .... 0 1011 . . 0 .... @2misc
++    AESE         1111 001 11 . 11 .. 00 .... 0 0110 0 . 0 .... @2misc_q1
++    AESD         1111 001 11 . 11 .. 00 .... 0 0110 1 . 0 .... @2misc_q1
++    AESMC        1111 001 11 . 11 .. 00 .... 0 0111 0 . 0 .... @2misc_q1
++    AESIMC       1111 001 11 . 11 .. 00 .... 0 0111 1 . 0 .... @2misc_q1
 +
+     VMVN         1111 001 11 . 11 .. 00 .... 0 1011 . . 0 .... @2misc
+ 
      VPADAL_S     1111 001 11 . 11 .. 00 .... 0 1100 . . 0 .... @2misc
-     VPADAL_U     1111 001 11 . 11 .. 00 .... 0 1101 . . 0 .... @2misc
+@@ -458,6 +465,8 @@ Vimm_1r          1111 001 . 1 . 000 ... .... cmode:4 0 . op:1 1 .... @1reg_imm
+     VCLE0        1111 001 11 . 11 .. 01 .... 0 0011 . . 0 .... @2misc
+     VCLT0        1111 001 11 . 11 .. 01 .... 0 0100 . . 0 .... @2misc
  
-+    VCGT0        1111 001 11 . 11 .. 01 .... 0 0000 . . 0 .... @2misc
-+    VCGE0        1111 001 11 . 11 .. 01 .... 0 0001 . . 0 .... @2misc
-+    VCEQ0        1111 001 11 . 11 .. 01 .... 0 0010 . . 0 .... @2misc
-+    VCLE0        1111 001 11 . 11 .. 01 .... 0 0011 . . 0 .... @2misc
-+    VCLT0        1111 001 11 . 11 .. 01 .... 0 0100 . . 0 .... @2misc
++    SHA1H        1111 001 11 . 11 .. 01 .... 0 0101 1 . 0 .... @2misc_q1
 +
-+    VABS         1111 001 11 . 11 .. 01 .... 0 0110 . . 0 .... @2misc
-+    VNEG         1111 001 11 . 11 .. 01 .... 0 0111 . . 0 .... @2misc
-+
-     VUZP         1111 001 11 . 11 .. 10 .... 0 0010 . . 0 .... @2misc
-     VZIP         1111 001 11 . 11 .. 10 .... 0 0011 . . 0 .... @2misc
+     VABS         1111 001 11 . 11 .. 01 .... 0 0110 . . 0 .... @2misc
+     VNEG         1111 001 11 . 11 .. 01 .... 0 0111 . . 0 .... @2misc
  
+@@ -473,6 +482,9 @@ Vimm_1r          1111 001 . 1 . 000 ... .... cmode:4 0 . op:1 1 .... @1reg_imm
+ 
+     VSHLL        1111 001 11 . 11 .. 10 .... 0 0110 0 . 0 .... @2misc_q0
+ 
++    SHA1SU1      1111 001 11 . 11 .. 10 .... 0 0111 0 . 0 .... @2misc_q1
++    SHA256SU0    1111 001 11 . 11 .. 10 .... 0 0111 1 . 0 .... @2misc_q1
++
+     VCVT_F16_F32 1111 001 11 . 11 .. 10 .... 0 1100 0 . 0 .... @2misc_q0
+     VCVT_F32_F16 1111 001 11 . 11 .. 10 .... 0 1110 0 . 0 .... @2misc_q0
+   ]
 diff --git a/target/arm/translate-neon.inc.c b/target/arm/translate-neon.inc.c
-index d37be597cf4..d80123514c2 100644
+index d80123514c2..5e2cd18bf71 100644
 --- a/target/arm/translate-neon.inc.c
 +++ b/target/arm/translate-neon.inc.c
-@@ -3450,3 +3450,58 @@ static bool trans_VCVT_F32_F16(DisasContext *s, arg_2misc *a)
- 
-     return true;
+@@ -3505,3 +3505,45 @@ static bool trans_VMVN(DisasContext *s, arg_2misc *a)
+     }
+     return do_2misc_vec(s, a, tcg_gen_gvec_not);
  }
 +
-+static bool do_2misc_vec(DisasContext *s, arg_2misc *a, GVecGen2Fn *fn)
-+{
-+    int vec_size = a->q ? 16 : 8;
-+    int rd_ofs = neon_reg_offset(a->vd, 0);
-+    int rm_ofs = neon_reg_offset(a->vm, 0);
-+
-+    if (!arm_dc_feature(s, ARM_FEATURE_NEON)) {
-+        return false;
++#define WRAP_2M_3_OOL_FN(WRAPNAME, FUNC, DATA)                          \
++    static void WRAPNAME(unsigned vece, uint32_t rd_ofs,                \
++                         uint32_t rm_ofs, uint32_t oprsz,               \
++                         uint32_t maxsz)                                \
++    {                                                                   \
++        tcg_gen_gvec_3_ool(rd_ofs, rd_ofs, rm_ofs, oprsz, maxsz,        \
++                           DATA, FUNC);                                 \
 +    }
 +
-+    /* UNDEF accesses to D16-D31 if they don't exist. */
-+    if (!dc_isar_feature(aa32_simd_r32, s) &&
-+        ((a->vd | a->vm) & 0x10)) {
-+        return false;
++#define WRAP_2M_2_OOL_FN(WRAPNAME, FUNC, DATA)                          \
++    static void WRAPNAME(unsigned vece, uint32_t rd_ofs,                \
++                         uint32_t rm_ofs, uint32_t oprsz,               \
++                         uint32_t maxsz)                                \
++    {                                                                   \
++        tcg_gen_gvec_2_ool(rd_ofs, rm_ofs, oprsz, maxsz, DATA, FUNC);   \
 +    }
 +
-+    if (a->size == 3) {
-+        return false;
-+    }
++WRAP_2M_3_OOL_FN(gen_AESE, gen_helper_crypto_aese, 0)
++WRAP_2M_3_OOL_FN(gen_AESD, gen_helper_crypto_aese, 1)
++WRAP_2M_2_OOL_FN(gen_AESMC, gen_helper_crypto_aesmc, 0)
++WRAP_2M_2_OOL_FN(gen_AESIMC, gen_helper_crypto_aesmc, 1)
++WRAP_2M_2_OOL_FN(gen_SHA1H, gen_helper_crypto_sha1h, 0)
++WRAP_2M_2_OOL_FN(gen_SHA1SU1, gen_helper_crypto_sha1su1, 0)
++WRAP_2M_2_OOL_FN(gen_SHA256SU0, gen_helper_crypto_sha256su0, 0)
 +
-+    if ((a->vd | a->vm) & a->q) {
-+        return false;
-+    }
-+
-+    if (!vfp_access_check(s)) {
-+        return true;
-+    }
-+
-+    fn(a->size, rd_ofs, rm_ofs, vec_size, vec_size);
-+
-+    return true;
-+}
-+
-+#define DO_2MISC_VEC(INSN, FN)                                  \
++#define DO_2M_CRYPTO(INSN, FEATURE, SIZE)                       \
 +    static bool trans_##INSN(DisasContext *s, arg_2misc *a)     \
 +    {                                                           \
-+        return do_2misc_vec(s, a, FN);                          \
++        if (!dc_isar_feature(FEATURE, s) || a->size != SIZE) {  \
++            return false;                                       \
++        }                                                       \
++        return do_2misc_vec(s, a, gen_##INSN);                  \
 +    }
 +
-+DO_2MISC_VEC(VNEG, tcg_gen_gvec_neg)
-+DO_2MISC_VEC(VABS, tcg_gen_gvec_abs)
-+DO_2MISC_VEC(VCEQ0, gen_gvec_ceq0)
-+DO_2MISC_VEC(VCGT0, gen_gvec_cgt0)
-+DO_2MISC_VEC(VCLE0, gen_gvec_cle0)
-+DO_2MISC_VEC(VCGE0, gen_gvec_cge0)
-+DO_2MISC_VEC(VCLT0, gen_gvec_clt0)
-+
-+static bool trans_VMVN(DisasContext *s, arg_2misc *a)
-+{
-+    if (a->size != 0) {
-+        return false;
-+    }
-+    return do_2misc_vec(s, a, tcg_gen_gvec_not);
-+}
++DO_2M_CRYPTO(AESE, aa32_aes, 0)
++DO_2M_CRYPTO(AESD, aa32_aes, 0)
++DO_2M_CRYPTO(AESMC, aa32_aes, 0)
++DO_2M_CRYPTO(AESIMC, aa32_aes, 0)
++DO_2M_CRYPTO(SHA1H, aa32_sha1, 2)
++DO_2M_CRYPTO(SHA1SU1, aa32_sha1, 2)
++DO_2M_CRYPTO(SHA256SU0, aa32_sha2, 2)
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 1ea09695546..0f0741a37bc 100644
+index 0f0741a37bc..38644995ab2 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -4859,7 +4859,6 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
+@@ -4855,7 +4855,7 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
+ {
+     int op;
+     int q;
+-    int rd, rm, rd_ofs, rm_ofs;
++    int rd, rm;
      int size;
      int pass;
      int u;
--    int vec_size;
-     TCGv_i32 tmp, tmp2;
- 
-     if (!arm_dc_feature(s, ARM_FEATURE_NEON)) {
-@@ -4883,7 +4882,6 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
+@@ -4882,8 +4882,6 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
      VFP_DREG_D(rd, insn);
      VFP_DREG_M(rm, insn);
      size = (insn >> 20) & 3;
--    vec_size = q ? 16 : 8;
-     rd_ofs = neon_reg_offset(rd, 0);
-     rm_ofs = neon_reg_offset(rm, 0);
+-    rd_ofs = neon_reg_offset(rd, 0);
+-    rm_ofs = neon_reg_offset(rm, 0);
  
-@@ -4929,6 +4927,14 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
-                 case NEON_2RM_VSHLL:
-                 case NEON_2RM_VCVT_F16_F32:
-                 case NEON_2RM_VCVT_F32_F16:
-+                case NEON_2RM_VMVN:
-+                case NEON_2RM_VNEG:
-+                case NEON_2RM_VABS:
-+                case NEON_2RM_VCEQ0:
-+                case NEON_2RM_VCGT0:
-+                case NEON_2RM_VCLE0:
-+                case NEON_2RM_VCGE0:
-+                case NEON_2RM_VCLT0:
+     if ((insn & (1 << 23)) == 0) {
+         /* Three register same length: handled by decodetree */
+@@ -4935,6 +4933,9 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
+                 case NEON_2RM_VCLE0:
+                 case NEON_2RM_VCGE0:
+                 case NEON_2RM_VCLT0:
++                case NEON_2RM_AESE: case NEON_2RM_AESMC:
++                case NEON_2RM_SHA1H:
++                case NEON_2RM_SHA1SU1:
                      /* handled by decodetree */
                      return 1;
                  case NEON_2RM_VTRN:
-@@ -4989,31 +4995,6 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
-                                        q ? gen_helper_crypto_sha256su0
-                                        : gen_helper_crypto_sha1su1);
+@@ -4950,51 +4951,6 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
+                         goto elementwise;
+                     }
                      break;
--                case NEON_2RM_VMVN:
--                    tcg_gen_gvec_not(0, rd_ofs, rm_ofs, vec_size, vec_size);
+-                case NEON_2RM_AESE: case NEON_2RM_AESMC:
+-                    if (!dc_isar_feature(aa32_aes, s) || ((rm | rd) & 1)) {
+-                        return 1;
+-                    }
+-                    /*
+-                     * Bit 6 is the lowest opcode bit; it distinguishes
+-                     * between encryption (AESE/AESMC) and decryption
+-                     * (AESD/AESIMC).
+-                     */
+-                    if (op == NEON_2RM_AESE) {
+-                        tcg_gen_gvec_3_ool(vfp_reg_offset(true, rd),
+-                                           vfp_reg_offset(true, rd),
+-                                           vfp_reg_offset(true, rm),
+-                                           16, 16, extract32(insn, 6, 1),
+-                                           gen_helper_crypto_aese);
+-                    } else {
+-                        tcg_gen_gvec_2_ool(vfp_reg_offset(true, rd),
+-                                           vfp_reg_offset(true, rm),
+-                                           16, 16, extract32(insn, 6, 1),
+-                                           gen_helper_crypto_aesmc);
+-                    }
 -                    break;
--                case NEON_2RM_VNEG:
--                    tcg_gen_gvec_neg(size, rd_ofs, rm_ofs, vec_size, vec_size);
+-                case NEON_2RM_SHA1H:
+-                    if (!dc_isar_feature(aa32_sha1, s) || ((rm | rd) & 1)) {
+-                        return 1;
+-                    }
+-                    tcg_gen_gvec_2_ool(rd_ofs, rm_ofs, 16, 16, 0,
+-                                       gen_helper_crypto_sha1h);
 -                    break;
--                case NEON_2RM_VABS:
--                    tcg_gen_gvec_abs(size, rd_ofs, rm_ofs, vec_size, vec_size);
--                    break;
--
--                case NEON_2RM_VCEQ0:
--                    gen_gvec_ceq0(size, rd_ofs, rm_ofs, vec_size, vec_size);
--                    break;
--                case NEON_2RM_VCGT0:
--                    gen_gvec_cgt0(size, rd_ofs, rm_ofs, vec_size, vec_size);
--                    break;
--                case NEON_2RM_VCLE0:
--                    gen_gvec_cle0(size, rd_ofs, rm_ofs, vec_size, vec_size);
--                    break;
--                case NEON_2RM_VCGE0:
--                    gen_gvec_cge0(size, rd_ofs, rm_ofs, vec_size, vec_size);
--                    break;
--                case NEON_2RM_VCLT0:
--                    gen_gvec_clt0(size, rd_ofs, rm_ofs, vec_size, vec_size);
+-                case NEON_2RM_SHA1SU1:
+-                    if ((rm | rd) & 1) {
+-                            return 1;
+-                    }
+-                    /* bit 6 (q): set -> SHA256SU0, cleared -> SHA1SU1 */
+-                    if (q) {
+-                        if (!dc_isar_feature(aa32_sha2, s)) {
+-                            return 1;
+-                        }
+-                    } else if (!dc_isar_feature(aa32_sha1, s)) {
+-                        return 1;
+-                    }
+-                    tcg_gen_gvec_2_ool(rd_ofs, rm_ofs, 16, 16, 0,
+-                                       q ? gen_helper_crypto_sha256su0
+-                                       : gen_helper_crypto_sha1su1);
 -                    break;
  
                  default:
