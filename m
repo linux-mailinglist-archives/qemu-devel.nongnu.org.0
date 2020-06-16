@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32E1F1FB441
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:26:52 +0200 (CEST)
-Received: from localhost ([::1]:49266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 050101FB468
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:30:17 +0200 (CEST)
+Received: from localhost ([::1]:37382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlCY6-0006Nv-Ue
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:26:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57444)
+	id 1jlCbP-0004w9-Vl
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:30:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCPX-00020L-PJ; Tue, 16 Jun 2020 10:17:59 -0400
-Received: from mail-oo1-xc44.google.com ([2607:f8b0:4864:20::c44]:43353)
+ id 1jlCPY-00020e-2j; Tue, 16 Jun 2020 10:18:01 -0400
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:39699)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCPW-0006cp-6E; Tue, 16 Jun 2020 10:17:59 -0400
-Received: by mail-oo1-xc44.google.com with SMTP id i4so1364902ooj.10;
+ id 1jlCPW-0006ct-Jc; Tue, 16 Jun 2020 10:17:59 -0400
+Received: by mail-oi1-x242.google.com with SMTP id d67so19349814oig.6;
  Tue, 16 Jun 2020 07:17:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=+5a+vrjSxlfmXcIjNg9VjuuOpfEW7OK8MY8Z5fA99eo=;
- b=sPA1VA0hWfjbJh5OVahjWiOFCpBsweGKurk81lYML8fTMG9EqEQeKfjt5BRwaSxdGy
- 4+Ftv2gG7nEOuQi3G/QwVQAwJIQ5OIZ+WJjw+35dIe3DmOwsrGpB+igA++7HlSNRb7ve
- o4eqZ/hTlChvboKFmV0loYhu+eOEuFiW/8DMkLPzamCNHCIasWky1zCWINSInOj9p0Bg
- OJ3T3Sc2CfZuaidczMh/sg03BzTeYIYYzoCCZx1NHTr4uz7RUwKwMChSlLU4J2sV6agx
- Zwek1irSjFj1hicMR70fnOHf90w2IxP0yHPg+Sf7A2399AtvAHBRaddPbO+iN4aehGqB
- zG1Q==
+ bh=mm6Vzeu6v4Wn/c8RqfvMPXPL7u7lWwdQ4IQrVXI00+I=;
+ b=Fa65ZW/HIlqMjjHRO84ugLMbA76D7/zKO5Bom9gEvwMOSfD+Je57sdDMPZs3BJyd7u
+ LKlIBHqAQZ/GbX5Ug56KQu1F/pnhNvZmg+DNqpm5Z5NioN/vaRcZzPjCC54t9qixuYXF
+ DC3EeXlzfRQg1yfiyuNu0gvMc/3yJU353AB8g659McpF/u6Xj9HiwwLF6lLDxLK2N1E9
+ nLdE5U6DPo6StI710iRX5BbRifLCCrSY0us23fSW2rrp0aTgoCFUnMGPZxpZAsTOVyS8
+ Hg4Kbm27xJ2GSoiP/jsXXcdXqbt/bFS1qrXFxRcsjN/U35VPAOCYQl1t9sRn1XjzIjPI
+ c8Pw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=+5a+vrjSxlfmXcIjNg9VjuuOpfEW7OK8MY8Z5fA99eo=;
- b=Wsq4MTAQa9FqyQL7kkb3IcJKdp2WFbFgAXmzcUMUFmVp6ix5pl1oI50ht8WZqxyejk
- 1tCWDexwu1jja7X/CoUWZ22Pc9nW0WB3NskUTOjtUb8dUny5xb8iZnX4ItQkCFQu+cCI
- HUfAB9tNG5xBH6u2DuAEeZKH+YWyTt1HMXux6OkCHFNNoEiGDA7KjEH8micBKAlg5f3M
- cLaIOqphXnpacBdLBvqWXGqZ1jqmFUP2hna6LSAcf6WQYWsjVlQQj5612KJs9rQtOgyp
- e807omMi6N5bn2Kp5FR/QvsjCW9oMjHYfIXCatsUyt+u7SHwByxFGN1Ilh+sn2R7OLe2
- MNEg==
-X-Gm-Message-State: AOAM530c3a2D0/G5l+20mUvRJtvBrAcJLkO+mDwW2Ie853bV9CaOGXVb
- 7aUHjj08AIXIO5WaORzdnmjYZmFy
-X-Google-Smtp-Source: ABdhPJxCKOJd4jeIeoNJCAOFoEMCjZpomM33u7iDdmXSk6iF42Tt8V7yVHwtIlZKhNVKFmERcGWBng==
-X-Received: by 2002:a4a:5585:: with SMTP id e127mr2467360oob.47.1592317075859; 
- Tue, 16 Jun 2020 07:17:55 -0700 (PDT)
+ bh=mm6Vzeu6v4Wn/c8RqfvMPXPL7u7lWwdQ4IQrVXI00+I=;
+ b=YjqT7QBSJLc4dj6bw5+xJDGMRj6/Gx0QylChMEnERqhSSvvXcmyYQMywHEnAH9x9Ut
+ 1jnzPHs3arM1A9w57eq9SMVT2DK0ubrVJDrrs1miGG/ZwpwdPnVwjXNCoEAIgLWOF9T1
+ HQp6fxI+fyvr7oh4/8Z/fg1ZQzQ9TSme2h+q6wYHlub9Ts7UXMA3Vg3HD5Eh7lC2rh5Z
+ ezfU4fKpmKN0dTPWI91nK1N1XchGARqAFE3drBTjHvch1uBGh+g+IOFR2n6aTDNVizki
+ t3ZrAFsPHZJV15uE+G8jj1nX2uX9Nbq5x/envwi9sTP2Dyjsk5xRzApYylNeQyVqVCh6
+ fGUA==
+X-Gm-Message-State: AOAM530w2hzEzaIOVJHjUOCWSeB7DtUDGlNLyrI/D+wtAF5d9eG62kli
+ bwkrkdFu4nCaIlRCAQB3OWnYhptm
+X-Google-Smtp-Source: ABdhPJymWhxwiBRQHRpVsZqSB3GBhki+JIzheCMvbmzjKIPTLeVNCghC+7AuTKU8R0zfI2LfizfEeg==
+X-Received: by 2002:aca:4e0c:: with SMTP id c12mr3482764oib.145.1592317076892; 
+ Tue, 16 Jun 2020 07:17:56 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id n10sm4134197oib.49.2020.06.16.07.17.54
+ by smtp.gmail.com with ESMTPSA id g51sm4041470otg.17.2020.06.16.07.17.56
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 16 Jun 2020 07:17:55 -0700 (PDT)
+ Tue, 16 Jun 2020 07:17:56 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 22/78] virtio-net: delete also control queue when TX/RX deleted
-Date: Tue, 16 Jun 2020 09:14:51 -0500
-Message-Id: <20200616141547.24664-23-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 23/78] intel_iommu: a fix to vtd_find_as_from_bus_num()
+Date: Tue, 16 Jun 2020 09:14:52 -0500
+Message-Id: <20200616141547.24664-24-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
 References: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c44;
- envelope-from=flukshun@gmail.com; helo=mail-oo1-xc44.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::242;
+ envelope-from=flukshun@gmail.com; helo=mail-oi1-x242.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -80,43 +80,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yuri Benditovich <yuri.benditovich@daynix.com>, qemu-stable@nongnu.org,
- "Michael S . Tsirkin" <mst@redhat.com>
+Cc: Kevin Tian <kevin.tian@intel.com>,
+ Jacob Pan <jacob.jun.pan@linux.intel.com>, Yi Sun <yi.y.sun@linux.intel.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>, qemu-stable@nongnu.org,
+ Peter Xu <peterx@redhat.com>, Liu Yi L <yi.l.liu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Yuri Benditovich <yuri.benditovich@daynix.com>
+From: Liu Yi L <yi.l.liu@intel.com>
 
-https://bugzilla.redhat.com/show_bug.cgi?id=1708480
-If the control queue is not deleted together with TX/RX, it
-later will be ignored in freeing cache resources and hot
-unplug will not be completed.
+Ensure the return value of vtd_find_as_from_bus_num() is NULL by
+enforcing vtd_bus=NULL. This would help caller of vtd_find_as_from_bus_num()
+to decide if any further operation on the returned vtd_bus.
 
 Cc: qemu-stable@nongnu.org
-Signed-off-by: Yuri Benditovich <yuri.benditovich@daynix.com>
-Message-Id: <20191226043649.14481-3-yuri.benditovich@daynix.com>
+Cc: Kevin Tian <kevin.tian@intel.com>
+Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
+Cc: Peter Xu <peterx@redhat.com>
+Cc: Yi Sun <yi.y.sun@linux.intel.com>
+Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
+Signed-off-by: Yi Sun <yi.y.sun@linux.intel.com>
+Message-Id: <1578058086-4288-2-git-send-email-yi.l.liu@intel.com>
+Reviewed-by: Peter Xu <peterx@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-(cherry picked from commit d945d9f1731244ef341f74ede93120fc9de35913)
+(cherry picked from commit a2e1cd41ccfe796529abfd1b6aeb1dd4393762a2)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- hw/net/virtio-net.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ hw/i386/intel_iommu.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index db3d7c38e6..f325440d01 100644
---- a/hw/net/virtio-net.c
-+++ b/hw/net/virtio-net.c
-@@ -3101,7 +3101,8 @@ static void virtio_net_device_unrealize(DeviceState *dev, Error **errp)
-     for (i = 0; i < max_queues; i++) {
-         virtio_net_del_queue(n, i);
+diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
+index 43c94b993b..00ebae4863 100644
+--- a/hw/i386/intel_iommu.c
++++ b/hw/i386/intel_iommu.c
+@@ -948,6 +948,7 @@ static VTDBus *vtd_find_as_from_bus_num(IntelIOMMUState *s, uint8_t bus_num)
+                 return vtd_bus;
+             }
+         }
++        vtd_bus = NULL;
      }
--
-+    /* delete also control vq */
-+    virtio_del_queue(vdev, max_queues * 2);
-     qemu_announce_timer_del(&n->announce_timer, false);
-     g_free(n->vqs);
-     qemu_del_nic(n->nic);
+     return vtd_bus;
+ }
 -- 
 2.17.1
 
