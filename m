@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 009E01FABCB
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 11:03:19 +0200 (CEST)
-Received: from localhost ([::1]:39526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF6DF1FABD7
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 11:04:51 +0200 (CEST)
+Received: from localhost ([::1]:44008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jl7V0-0003KY-1v
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 05:03:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38004)
+	id 1jl7WU-0005Jj-PR
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 05:04:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jl7QQ-0006oe-0D
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 04:58:34 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:40288
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jl7QR-0006rW-Tz
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 04:58:35 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:23460
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jl7QO-0002D9-24
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 04:58:33 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jl7QQ-0002EI-6A
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 04:58:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592297911;
+ s=mimecast20190719; t=1592297913;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kQLezVc9Lwz/BZ632pcpYvzrJssmPJ+T+57iNLo7q14=;
- b=N2QTwpuMAwo2MLAikXLBLt1wYVWcmyxTu7NkftoUmmZQwAHyjKAfR2v72HAHEEGFhWbspZ
- jamedzJLSFLr1m1sEFTqxw7qt2afKayzYDqzpOe0k9cCSY6o2g12dcThO1AVXibab4ZE8g
- 6BT15RcAsYJrqYiLt2uDIFgmuXiKIiA=
+ bh=yf9bcWcOt1wtgkfpnUND5IWaNOodbWud8g0oiDPKNS8=;
+ b=NZfg81CyClbZIALJY1H4nGjtonm5kdGKvWW3g2N9PrzYoFM+ssu2kshAbr3t17qSFs3Ql5
+ Brq7uSuDHPSGoFRyPQpWVdSLz9yhYFa9kURd1RMuq+V6YX2fW6MrqThMl6sdnENkZUqnE+
+ 5GRMWAwEoaJWrTAd9XCwJ7P4J9m9lew=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-75-IiKPDbLzMEG3oXtxnVdEWQ-1; Tue, 16 Jun 2020 04:58:26 -0400
-X-MC-Unique: IiKPDbLzMEG3oXtxnVdEWQ-1
+ us-mta-334-UikDMSUbOR-EOBUN6o-NJQ-1; Tue, 16 Jun 2020 04:58:28 -0400
+X-MC-Unique: UikDMSUbOR-EOBUN6o-NJQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B8D6C1009445;
- Tue, 16 Jun 2020 08:58:25 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2D8B31009454;
+ Tue, 16 Jun 2020 08:58:27 +0000 (UTC)
 Received: from thuth.com (ovpn-114-128.ams2.redhat.com [10.36.114.128])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AD8326ED96;
- Tue, 16 Jun 2020 08:58:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2311B768DC;
+ Tue, 16 Jun 2020 08:58:25 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL 6/7] tests/acceptance: Add boot tests for sh4 QEMU advent
- calendar image
-Date: Tue, 16 Jun 2020 10:58:12 +0200
-Message-Id: <20200616085813.29296-7-thuth@redhat.com>
+Subject: [PULL 7/7] configure: Let SLOF be initialized by
+ ./scripts/git-submodule.sh
+Date: Tue, 16 Jun 2020 10:58:13 +0200
+Message-Id: <20200616085813.29296-8-thuth@redhat.com>
 In-Reply-To: <20200616085813.29296-1-thuth@redhat.com>
 References: <20200616085813.29296-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -56,16 +56,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 02:45:57
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 02:01:17
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,67 +83,56 @@ Cc: Alexander Bulekov <alxndr@bu.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that we can select the second serial console in the acceptance tests
-(see commit 746f244d9720 "Allow to use other serial consoles than default"),
-we can also test the sh4 image from the QEMU advent calendar 2018.
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Message-Id: <20200515164337.4899-1-thuth@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+The git-submodule.sh script is called by make and initialize the
+submodules listed in the GIT_SUBMODULES variable generated by
+./configure.
+
+SLOF is required for building the s390-ccw firmware on s390x, since
+it is using the libnet code from SLOF for network booting.
+
+Add it to the GIT_SUBMODULES when building the s390-ccw firmware.
+
+Reported-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Suggested-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20200615074919.12552-1-f4bug@amsat.org>
+[thuth: Tweaked the commit message a little bit]
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- .travis.yml                            |  2 +-
- tests/acceptance/boot_linux_console.py | 13 +++++++++++--
- 2 files changed, 12 insertions(+), 3 deletions(-)
+ .travis.yml | 1 -
+ configure   | 5 +++++
+ 2 files changed, 5 insertions(+), 1 deletion(-)
 
 diff --git a/.travis.yml b/.travis.yml
-index ec6367af1f..22de1eeea1 100644
+index 22de1eeea1..74158f741b 100644
 --- a/.travis.yml
 +++ b/.travis.yml
-@@ -293,7 +293,7 @@ jobs:
-     - name: "GCC check-acceptance"
-       dist: bionic
-       env:
--        - CONFIG="--enable-tools --target-list=aarch64-softmmu,alpha-softmmu,arm-softmmu,m68k-softmmu,microblaze-softmmu,mips-softmmu,mips64el-softmmu,nios2-softmmu,or1k-softmmu,ppc-softmmu,ppc64-softmmu,s390x-softmmu,sparc-softmmu,x86_64-softmmu,xtensa-softmmu"
-+        - CONFIG="--enable-tools --target-list=aarch64-softmmu,alpha-softmmu,arm-softmmu,m68k-softmmu,microblaze-softmmu,mips-softmmu,mips64el-softmmu,nios2-softmmu,or1k-softmmu,ppc-softmmu,ppc64-softmmu,s390x-softmmu,sh4-softmmu,sparc-softmmu,x86_64-softmmu,xtensa-softmmu"
-         - TEST_CMD="make check-acceptance"
-         - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-acceptance"
-       after_script:
-diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
-index 3f3aa0c854..3d02519660 100644
---- a/tests/acceptance/boot_linux_console.py
-+++ b/tests/acceptance/boot_linux_console.py
-@@ -858,12 +858,12 @@ class BootLinuxConsole(LinuxKernelTest):
-         console_pattern = 'No filesystem could mount root'
-         self.wait_for_console_pattern(console_pattern)
+@@ -496,7 +496,6 @@ jobs:
+         - CONFIG="--disable-containers --target-list=${MAIN_SOFTMMU_TARGETS},s390x-linux-user"
+         - UNRELIABLE=true
+       script:
+-        - ( cd ${SRC_DIR} ; git submodule update --init roms/SLOF )
+         - BUILD_RC=0 && make -j${JOBS} || BUILD_RC=$?
+         - |
+           if [ "$BUILD_RC" -eq 0 ] ; then
+diff --git a/configure b/configure
+index bb7fd12612..927e4a3d06 100755
+--- a/configure
++++ b/configure
+@@ -6533,6 +6533,11 @@ if test "$cpu" = "s390x" ; then
+   write_c_skeleton
+   if compile_prog "-march=z900" ""; then
+     roms="$roms s390-ccw"
++    # SLOF is required for building the s390-ccw firmware on s390x,
++    # since it is using the libnet code from SLOF for network booting.
++    if test -e "${source_path}/.git" ; then
++      git_submodules="${git_submodules} roms/SLOF"
++    fi
+   fi
+ fi
  
--    def do_test_advcal_2018(self, day, tar_hash, kernel_name):
-+    def do_test_advcal_2018(self, day, tar_hash, kernel_name, console=0):
-         tar_url = ('https://www.qemu-advent-calendar.org'
-                    '/2018/download/day' + day + '.tar.xz')
-         file_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
-         archive.extract(file_path, self.workdir)
--        self.vm.set_console()
-+        self.vm.set_console(console_index=console)
-         self.vm.add_args('-kernel',
-                          self.workdir + '/day' + day + '/' + kernel_name)
-         self.vm.launch()
-@@ -937,6 +937,15 @@ class BootLinuxConsole(LinuxKernelTest):
-         self.vm.add_args('-M', 'graphics=off')
-         self.do_test_advcal_2018('15', tar_hash, 'invaders.elf')
- 
-+    def test_sh4_r2d(self):
-+        """
-+        :avocado: tags=arch:sh4
-+        :avocado: tags=machine:r2d
-+        """
-+        tar_hash = 'fe06a4fd8ccbf2e27928d64472939d47829d4c7e'
-+        self.vm.add_args('-append', 'console=ttySC1')
-+        self.do_test_advcal_2018('09', tar_hash, 'zImage', console=1)
-+
-     def test_sparc_ss20(self):
-         """
-         :avocado: tags=arch:sparc
 -- 
 2.18.1
 
