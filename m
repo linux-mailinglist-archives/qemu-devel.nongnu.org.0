@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB00E1FB421
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:22:57 +0200 (CEST)
-Received: from localhost ([::1]:35908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1AAF1FB415
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:20:20 +0200 (CEST)
+Received: from localhost ([::1]:55108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlCUK-0000VU-Jb
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:22:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57230)
+	id 1jlCRm-0004Xl-08
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:20:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCPG-0001Dn-Hk; Tue, 16 Jun 2020 10:17:42 -0400
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:38664)
+ id 1jlCPJ-0001KG-4f; Tue, 16 Jun 2020 10:17:45 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:42107)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCPF-0006Xl-1F; Tue, 16 Jun 2020 10:17:42 -0400
-Received: by mail-oi1-x244.google.com with SMTP id c194so19393110oig.5;
- Tue, 16 Jun 2020 07:17:40 -0700 (PDT)
+ id 1jlCPH-0006YQ-9s; Tue, 16 Jun 2020 10:17:44 -0400
+Received: by mail-oi1-x243.google.com with SMTP id s21so19366190oic.9;
+ Tue, 16 Jun 2020 07:17:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=KqhqPuFMDL4mUgpQ50K5I58H+FHgkQzqbUQkl0uEKsM=;
- b=s2Wyi+WnL/7Lyhbv3mTGD6zBu+dEySqCGJvwWviwomJswetrt6plaqOqz94rV6k9jS
- gLMmT/07jJP5wdhrqFH9xadtqxWWIDl38xfLgYwfYfSaKSLQ6Ab5eQjH9nIhd1mYoZgm
- bNWqhqNJY2cZJhATU6W0iCYWfGruxjt9HwcWF6qGwr8oI/3ljANm4AHoz6uvo7APhb5c
- rC3sAVJ05n+xHlGwuE7mOxoCeG9/N0Wa33+fQI55Qwt3muhEZuxyWNnK/+wm2VXXwNnW
- AqMJN9Nivjq122YF6KfMpufuAT4214qqMxwTkQu2FXVTrc2gqAbf/ibWsBFwQ6/HBMT/
- cXNQ==
+ bh=XQOJlPGQ6/E7BIZHDBdbimPTDRMBKClj3mjFCEM9x3c=;
+ b=JbuoFN1gVXWf+br6Uc/L3SZNh8B1OwQ4aYv4vi21ZI0DbR9PfUeR5f2EhriRle3ptV
+ OYzU/Y1aggCnJDk5LNYurZNrlnOvzRiCLNG5a8KpQu7PuFPAKnTVsR4efE63mTiIOXKp
+ w/mQclmZrUEXUedUT7x0KHKthmU4RFrhEKZ4d8AoLHKbtxgStopnxI9JggTiDQqRlW1j
+ EPgUYXj2zFlALGbvCsdGu3tvjAhtXg2rfFXJIe1KnmHICr2Cs+Uq9ncKKes3Q8tA0G1x
+ 4q23GCX4Fr1eZFOmTQSXW5L/8hBA+elStkZpSXclzImNTebzuAl4t5F32RFpuJcXDoHT
+ wJWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=KqhqPuFMDL4mUgpQ50K5I58H+FHgkQzqbUQkl0uEKsM=;
- b=bwc+EntRkiTkLKQyeTipThU/Ha4jt1xfNLp3/EJdPZJiI6Jywos/V3oVfE/EQXlnlr
- oXA2CpcD1bnZjhtaQwEQDXh6HJrQP/lcakqvRA+l2CP4AUwsCRJ9R4/Q3nclvjgsxlbW
- LPkCrW7z+Zk93IgwRIVD616JHHs0YZgiEUR5mPIjKyeaN/e+QBtVXz2pQfsddW8uKN7w
- tTGWLsdialFtbWSeeaALYPjWcJdAoBZmq0O0xW9bpa52B0sFmmX4d70+D4vtii2xAB1y
- qloH8zfaAON53H48JCqP4aWjombvfG8+F3ryZqzbsfw57zDvuOv3znU4CCwcEGMwt2KO
- dwdg==
-X-Gm-Message-State: AOAM531s/yyaBzmhcG/pBMv6IwA6o8ZDDNJDwkdfBiJ3mYBcbnGVQkdf
- AKlZMhHgbcmdSn1hs5hs+UHo/EDz
-X-Google-Smtp-Source: ABdhPJzWhPNIoYIBM3YwltT0TTfJLR/Y4BcCwdIi5LGieQum7sOfEV0iTaj/S1nzhllClS+RGZmLYQ==
-X-Received: by 2002:aca:2b0d:: with SMTP id i13mr3665510oik.39.1592317059203; 
- Tue, 16 Jun 2020 07:17:39 -0700 (PDT)
+ bh=XQOJlPGQ6/E7BIZHDBdbimPTDRMBKClj3mjFCEM9x3c=;
+ b=Qci2fGtWOSXIusR/Xp1U2HgDOa0vwPFCN2+jJL3S1pUE3n+K5GovAK2SPzDvhh1aDN
+ ZEbSi/XHiYcXzeSA9HeGTlBFVAnF/YHQi8Kk/Q+IwRcnCjlJxJYq708QT5pDx+ClkCf1
+ R27TyrzN52rZQsWbK/6urYFpz6zHwvAA+Xm9yiT3BdmrX2bBDPfNdCR3+KyuSTAV/7ih
+ aR/RpOwJIP+FGAT/dD8U4aFx6muGXOb54lvpTxck06CRDZ5TQsXqNmhUmmbW6KHI535T
+ RuusegVSBc/xuanWpjQXLFwe/AufXeq6YjzapLIvZnsq0DG7v6S7FXOL8oe2whdQ2Dxc
+ rqIQ==
+X-Gm-Message-State: AOAM53265tpwd73++AQ9bTi/oYjT5u7dFCZaIPUKBPsIo/aGjwQklC8U
+ suutOpkTKHyJBefip+IlHrHKQla+
+X-Google-Smtp-Source: ABdhPJw85TIqx40Rf62pn5Y1w3MbZ6BdcbPcWclfMqDmdRv3CRGPRrSN99zQmWepBLHeBxVF/Grjrw==
+X-Received: by 2002:aca:c494:: with SMTP id u142mr3474436oif.113.1592317060608; 
+ Tue, 16 Jun 2020 07:17:40 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id m20sm4061387ots.13.2020.06.16.07.17.38
+ by smtp.gmail.com with ESMTPSA id u62sm4206760oib.47.2020.06.16.07.17.39
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 16 Jun 2020 07:17:38 -0700 (PDT)
+ Tue, 16 Jun 2020 07:17:39 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 13/78] hw/i386/pc: fix regression in parsing vga cmdline
- parameter
-Date: Tue, 16 Jun 2020 09:14:42 -0500
-Message-Id: <20200616141547.24664-14-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 14/78] tests/ide-test: Create a single unit-test covering more
+ PRDT cases
+Date: Tue, 16 Jun 2020 09:14:43 -0500
+Message-Id: <20200616141547.24664-15-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
 References: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::244;
- envelope-from=flukshun@gmail.com; helo=mail-oi1-x244.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
+ envelope-from=flukshun@gmail.com; helo=mail-oi1-x243.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -81,60 +81,227 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-stable@nongnu.org,
- Sergio Lopez <slp@redhat.com>, Peter Wu <peter@lekensteyn.nl>
+Cc: John Snow <jsnow@redhat.com>, qemu-stable@nongnu.org,
+ Alexander Popov <alex.popov@linux.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Peter Wu <peter@lekensteyn.nl>
+From: Alexander Popov <alex.popov@linux.com>
 
-When the 'vga=' parameter is succeeded by another parameter, QEMU 4.2.0
-would refuse to start with a rather cryptic message:
+Fuzzing the Linux kernel with syzkaller allowed to find how to crash qemu
+using a special SCSI_IOCTL_SEND_COMMAND. It hits the assertion in
+ide_dma_cb() introduced in the commit a718978ed58a in July 2015.
+Currently this bug is not reproduced by the unit tests.
 
-    $ qemu-system-x86_64 -kernel /boot/vmlinuz-linux -append 'vga=792 quiet'
-    qemu: can't parse 'vga' parameter: Invalid argument
+Let's improve the ide-test to cover more PRDT cases including one
+that causes this particular qemu crash.
 
-It was not clear whether this applied to the '-vga std' parameter or the
-'-append' one. Fix the parsing regression and clarify the error.
+The test is developed according to the Programming Interface for
+Bus Master IDE Controller (Revision 1.0 5/16/94).
 
-Fixes: 133ef074bd ("hw/i386/pc: replace use of strtol with qemu_strtoui in x86_load_linux()")
-Cc: Sergio Lopez <slp@redhat.com>
-Signed-off-by: Peter Wu <peter@lekensteyn.nl>
-Message-Id: <20191221162124.1159291-1-peter@lekensteyn.nl>
-Cc: qemu-stable@nongnu.org
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-(cherry picked from commit a88c40f02ace88f09b2a85a64831b277b2ebc88c)
+Signed-off-by: Alexander Popov <alex.popov@linux.com>
+Message-id: 20191223175117.508990-3-alex.popov@linux.com
+Signed-off-by: John Snow <jsnow@redhat.com>
+(cherry picked from commit 59805ae92dfe4f67105e36b539d567caec4f8304)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- hw/i386/x86.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ tests/ide-test.c | 174 ++++++++++++++++++++---------------------------
+ 1 file changed, 74 insertions(+), 100 deletions(-)
 
-diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-index 394edc2f72..121650ae51 100644
---- a/hw/i386/x86.c
-+++ b/hw/i386/x86.c
-@@ -508,6 +508,7 @@ void x86_load_linux(X86MachineState *x86ms,
-     vmode = strstr(kernel_cmdline, "vga=");
-     if (vmode) {
-         unsigned int video_mode;
-+        const char *end;
-         int ret;
-         /* skip "vga=" */
-         vmode += 4;
-@@ -518,10 +519,9 @@ void x86_load_linux(X86MachineState *x86ms,
-         } else if (!strncmp(vmode, "ask", 3)) {
-             video_mode = 0xfffd;
-         } else {
--            ret = qemu_strtoui(vmode, NULL, 0, &video_mode);
--            if (ret != 0) {
--                fprintf(stderr, "qemu: can't parse 'vga' parameter: %s\n",
--                        strerror(-ret));
-+            ret = qemu_strtoui(vmode, &end, 0, &video_mode);
-+            if (ret != 0 || (*end && *end != ' ')) {
-+                fprintf(stderr, "qemu: invalid 'vga=' kernel parameter.\n");
-                 exit(1);
-             }
-         }
+diff --git a/tests/ide-test.c b/tests/ide-test.c
+index 0277e7d5a9..5cfd97f915 100644
+--- a/tests/ide-test.c
++++ b/tests/ide-test.c
+@@ -445,104 +445,81 @@ static void test_bmdma_trim(void)
+     test_bmdma_teardown(qts);
+ }
+ 
+-static void test_bmdma_short_prdt(void)
+-{
+-    QTestState *qts;
+-    QPCIDevice *dev;
+-    QPCIBar bmdma_bar, ide_bar;
+-    uint8_t status;
+-
+-    PrdtEntry prdt[] = {
+-        {
+-            .addr = 0,
+-            .size = cpu_to_le32(0x10 | PRDT_EOT),
+-        },
+-    };
+-
+-    qts = test_bmdma_setup();
+-
+-    dev = get_pci_device(qts, &bmdma_bar, &ide_bar);
+-
+-    /* Normal request */
+-    status = send_dma_request(qts, CMD_READ_DMA, 0, 1,
+-                              prdt, ARRAY_SIZE(prdt), NULL);
+-    g_assert_cmphex(status, ==, 0);
+-    assert_bit_clear(qpci_io_readb(dev, ide_bar, reg_status), DF | ERR);
+-
+-    /* Abort the request before it completes */
+-    status = send_dma_request(qts, CMD_READ_DMA | CMDF_ABORT, 0, 1,
+-                              prdt, ARRAY_SIZE(prdt), NULL);
+-    g_assert_cmphex(status, ==, 0);
+-    assert_bit_clear(qpci_io_readb(dev, ide_bar, reg_status), DF | ERR);
+-    free_pci_device(dev);
+-    test_bmdma_teardown(qts);
+-}
+-
+-static void test_bmdma_one_sector_short_prdt(void)
+-{
+-    QTestState *qts;
+-    QPCIDevice *dev;
+-    QPCIBar bmdma_bar, ide_bar;
+-    uint8_t status;
+-
+-    /* Read 2 sectors but only give 1 sector in PRDT */
+-    PrdtEntry prdt[] = {
+-        {
+-            .addr = 0,
+-            .size = cpu_to_le32(0x200 | PRDT_EOT),
+-        },
+-    };
+-
+-    qts = test_bmdma_setup();
+-
+-    dev = get_pci_device(qts, &bmdma_bar, &ide_bar);
+-
+-    /* Normal request */
+-    status = send_dma_request(qts, CMD_READ_DMA, 0, 2,
+-                              prdt, ARRAY_SIZE(prdt), NULL);
+-    g_assert_cmphex(status, ==, 0);
+-    assert_bit_clear(qpci_io_readb(dev, ide_bar, reg_status), DF | ERR);
+-
+-    /* Abort the request before it completes */
+-    status = send_dma_request(qts, CMD_READ_DMA | CMDF_ABORT, 0, 2,
+-                              prdt, ARRAY_SIZE(prdt), NULL);
+-    g_assert_cmphex(status, ==, 0);
+-    assert_bit_clear(qpci_io_readb(dev, ide_bar, reg_status), DF | ERR);
+-    free_pci_device(dev);
+-    test_bmdma_teardown(qts);
+-}
+-
+-static void test_bmdma_long_prdt(void)
++/*
++ * This test is developed according to the Programming Interface for
++ * Bus Master IDE Controller (Revision 1.0 5/16/94)
++ */
++static void test_bmdma_various_prdts(void)
+ {
+-    QTestState *qts;
+-    QPCIDevice *dev;
+-    QPCIBar bmdma_bar, ide_bar;
+-    uint8_t status;
+-
+-    PrdtEntry prdt[] = {
+-        {
+-            .addr = 0,
+-            .size = cpu_to_le32(0x1000 | PRDT_EOT),
+-        },
+-    };
+-
+-    qts = test_bmdma_setup();
+-
+-    dev = get_pci_device(qts, &bmdma_bar, &ide_bar);
+-
+-    /* Normal request */
+-    status = send_dma_request(qts, CMD_READ_DMA, 0, 1,
+-                              prdt, ARRAY_SIZE(prdt), NULL);
+-    g_assert_cmphex(status, ==, BM_STS_ACTIVE | BM_STS_INTR);
+-    assert_bit_clear(qpci_io_readb(dev, ide_bar, reg_status), DF | ERR);
++    int sectors = 0;
++    uint32_t size = 0;
++
++    for (sectors = 1; sectors <= 256; sectors *= 2) {
++        QTestState *qts = NULL;
++        QPCIDevice *dev = NULL;
++        QPCIBar bmdma_bar, ide_bar;
++
++        qts = test_bmdma_setup();
++        dev = get_pci_device(qts, &bmdma_bar, &ide_bar);
++
++        for (size = 0; size < 65536; size += 256) {
++            uint32_t req_size = sectors * 512;
++            uint32_t prd_size = size & 0xfffe; /* bit 0 is always set to 0 */
++            uint8_t ret = 0;
++            uint8_t req_status = 0;
++            uint8_t abort_req_status = 0;
++            PrdtEntry prdt[] = {
++                {
++                    .addr = 0,
++                    .size = cpu_to_le32(size | PRDT_EOT),
++                },
++            };
++
++            /* A value of zero in PRD size indicates 64K */
++            if (prd_size == 0) {
++                prd_size = 65536;
++            }
++
++            /*
++             * 1. If PRDs specified a smaller size than the IDE transfer
++             * size, then the Interrupt and Active bits in the Controller
++             * status register are not set (Error Condition).
++             *
++             * 2. If the size of the physical memory regions was equal to
++             * the IDE device transfer size, the Interrupt bit in the
++             * Controller status register is set to 1, Active bit is set to 0.
++             *
++             * 3. If PRDs specified a larger size than the IDE transfer size,
++             * the Interrupt and Active bits in the Controller status register
++             * are both set to 1.
++             */
++            if (prd_size < req_size) {
++                req_status = 0;
++                abort_req_status = 0;
++            } else if (prd_size == req_size) {
++                req_status = BM_STS_INTR;
++                abort_req_status = BM_STS_INTR;
++            } else {
++                req_status = BM_STS_ACTIVE | BM_STS_INTR;
++                abort_req_status = BM_STS_INTR;
++            }
++
++            /* Test the request */
++            ret = send_dma_request(qts, CMD_READ_DMA, 0, sectors,
++                                   prdt, ARRAY_SIZE(prdt), NULL);
++            g_assert_cmphex(ret, ==, req_status);
++            assert_bit_clear(qpci_io_readb(dev, ide_bar, reg_status), DF | ERR);
++
++            /* Now test aborting the same request */
++            ret = send_dma_request(qts, CMD_READ_DMA | CMDF_ABORT, 0,
++                                   sectors, prdt, ARRAY_SIZE(prdt), NULL);
++            g_assert_cmphex(ret, ==, abort_req_status);
++            assert_bit_clear(qpci_io_readb(dev, ide_bar, reg_status), DF | ERR);
++        }
+ 
+-    /* Abort the request before it completes */
+-    status = send_dma_request(qts, CMD_READ_DMA | CMDF_ABORT, 0, 1,
+-                              prdt, ARRAY_SIZE(prdt), NULL);
+-    g_assert_cmphex(status, ==, BM_STS_INTR);
+-    assert_bit_clear(qpci_io_readb(dev, ide_bar, reg_status), DF | ERR);
+-    free_pci_device(dev);
+-    test_bmdma_teardown(qts);
++        free_pci_device(dev);
++        test_bmdma_teardown(qts);
++    }
+ }
+ 
+ static void test_bmdma_no_busmaster(void)
+@@ -1066,10 +1043,7 @@ int main(int argc, char **argv)
+ 
+     qtest_add_func("/ide/bmdma/simple_rw", test_bmdma_simple_rw);
+     qtest_add_func("/ide/bmdma/trim", test_bmdma_trim);
+-    qtest_add_func("/ide/bmdma/short_prdt", test_bmdma_short_prdt);
+-    qtest_add_func("/ide/bmdma/one_sector_short_prdt",
+-                   test_bmdma_one_sector_short_prdt);
+-    qtest_add_func("/ide/bmdma/long_prdt", test_bmdma_long_prdt);
++    qtest_add_func("/ide/bmdma/various_prdts", test_bmdma_various_prdts);
+     qtest_add_func("/ide/bmdma/no_busmaster", test_bmdma_no_busmaster);
+ 
+     qtest_add_func("/ide/flush", test_flush);
 -- 
 2.17.1
 
