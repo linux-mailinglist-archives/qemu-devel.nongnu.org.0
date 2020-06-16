@@ -2,71 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D90D61FBFFC
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 22:27:12 +0200 (CEST)
-Received: from localhost ([::1]:58866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2063A1FBFA9
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 22:03:19 +0200 (CEST)
+Received: from localhost ([::1]:47130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlIAp-0006vQ-Ug
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 16:27:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34508)
+	id 1jlHnh-0004sB-L6
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 16:03:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <bounce+2dc402.947b4-qemu-devel=nongnu.org@mg.gitlab.com>)
- id 1jlG70-00085Q-8O
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 14:15:06 -0400
-Received: from do158-143.mg.gitlab.com ([192.237.158.143]:32990)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1)
- (envelope-from <bounce+2dc402.947b4-qemu-devel=nongnu.org@mg.gitlab.com>)
- id 1jlG6x-0002oz-2p
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 14:15:05 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.gitlab.com;
- q=dns/txt; 
- s=mailo; t=1592331304; h=List-Id: Content-Transfer-Encoding:
- Content-Type: Mime-Version: Subject: Message-ID: Reply-To: From: Date:
- Sender; bh=bft0n89LPnmjwvOgx6lB+Rxq1CaQpwtTPQncAuFPfiQ=;
- b=EHuuwz73RWjd+2z1IkNGrrzf1QPoX6U2GSPKPOU7Ny3FYgjXfIMTu0Z5sWTxo5DSs4lRQW0m
- mOY7/LnB5+2w/A6Dr+3Gx5ZdnZm/1/7/DvgYUtEhV6XKSrc77EzwDA/dyb9JLW4s7/dwX7Nc
- ljJmtglTqgJ5cAtbaZdc97yoDLc=
-X-Mailgun-Sending-Ip: 192.237.158.143
-X-Mailgun-Sid: WyI3MWYzYSIsICJxZW11LWRldmVsQG5vbmdudS5vcmciLCAiOTQ3YjQiXQ==
-Received: from mg.gitlab.com (64.90.74.34.bc.googleusercontent.com
- [34.74.90.64]) by smtp-out-n04.prod.us-east-1.postgun.com with SMTP id
- 5ee90c25a3d8a44743cf3ca9 (version=TLS1.3, cipher=TLS_AES_128_GCM_SHA256);
- Tue, 16 Jun 2020 18:15:01 GMT
-Date: Tue, 16 Jun 2020 18:15:00 +0000
-Message-ID: <5ee90c24bcc74_7ae33faa564f31a8182654@sidekiq-catchall-07-sv-gprd.mail>
-Subject: QEMU | Pipeline #156886967 has failed for master | 5c24bce3
-Mime-Version: 1.0
-Content-Type: multipart/alternative;
- boundary="--==_mimepart_5ee90c24b522d_7ae33faa564f31a8182564";
- charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-GitLab-Project: QEMU
-X-GitLab-Project-Id: 11167699
-X-GitLab-Project-Path: qemu-project/qemu
-X-GitLab-Pipeline-Id: 156886967
-X-GitLab-Pipeline-Ref: master
-X-GitLab-Pipeline-Status: failed
-Auto-Submitted: auto-generated
-X-Auto-Response-Suppress: All
-Received-SPF: pass client-ip=192.237.158.143;
- envelope-from=bounce+2dc402.947b4-qemu-devel=nongnu.org@mg.gitlab.com;
- helo=do158-143.mg.gitlab.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 02:34:43
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
- HTML_FONT_LOW_CONTRAST=0.001, HTML_MESSAGE=0.001, MISSING_HEADERS=1.021,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_BL=0.01, RCVD_IN_MSPIKE_L3=0.9,
- REPLYTO_WITHOUT_TO_CC=1.552, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
+ id 1jlHmN-0003rY-KN
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 16:01:55 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:47397
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
+ id 1jlHmL-0002zL-Fr
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 16:01:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1592337711;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=mckYOLfC28iNiRsjEYm3rdb8562PPGaXxo4zfY8NykI=;
+ b=D1mv8tCrbp1TKWKBD9qYTho0zVQwiO1q5qsdGpi/eSGGpPcJ7/i0tzQneMzQ4ClLn5UskG
+ crTGbBMHCO6Tx05Hnh/J+vmvfRHogf3TO/CWsUxsHS6GfE03SllpP9ymgg/iZY3SSy7Ut4
+ S3M3lLDQ/muiw4FP75iT+M4+HTGByLs=
+Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com
+ [209.85.161.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-31-NBGwPQYYP3KUoCktbPJeUQ-1; Tue, 16 Jun 2020 16:01:50 -0400
+X-MC-Unique: NBGwPQYYP3KUoCktbPJeUQ-1
+Received: by mail-oo1-f69.google.com with SMTP id e12so10224153oob.10
+ for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 13:01:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=mckYOLfC28iNiRsjEYm3rdb8562PPGaXxo4zfY8NykI=;
+ b=OIkEMM9TKFz5e23ycWoVQR5g2s+NY2tg4KUYfZHbES4TwsNg2awqZ2d6YpM2qfkPNx
+ VoA1ZXRe67Ih0idbzY9bSgOmtNYCS/spt8Xnu4cTzp064YNFtGlKGmnsrMwqSwv2DkCW
+ fOoo94yzR9H5TAnXGJWrmPJpqjJ2kyJBIa/7L2Hm3zXSbq1fbGYdFgoQYQa0WZbTU7Pl
+ CWCiWUYapq68jQdKn3ZoxZ5zLAX0fqI+3yy054pLvyQsWezfT9CHN/osjHVGUXoD88M1
+ ZVUwCHcTTxzzg8s6w8QqWjD1zB4L2QW94VtwDf9gbC0rDdWD8wX4Qxaog7kWXRcqGtw8
+ uLKQ==
+X-Gm-Message-State: AOAM532IDoysUU4HLcuy3TpPt4qOUPUTNBl8TrrTG2KzGmF6J9znNDvK
+ hRcJEqVTszQ6Sg3Mg3HEuNpqjd4YilV84EmtmLhf4zSyeqMEwcobARolEknGdgC4b3cscDRqh5Y
+ TVHcy86CeQ3WghhFTkU/Ce7fhgWdX1Wc=
+X-Received: by 2002:a9d:7f06:: with SMTP id j6mr3776636otq.132.1592337708734; 
+ Tue, 16 Jun 2020 13:01:48 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzy+f9QQgvSop9T0ILYjJ7Z6Bba/WHLp2ztSmOPcuo0zWT8ct1h2XmAMpRjXFKuoBdLj6Beu5Y1JeVY0aJMlWE=
+X-Received: by 2002:a9d:7f06:: with SMTP id j6mr3776525otq.132.1592337707436; 
+ Tue, 16 Jun 2020 13:01:47 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200613170826.354270-1-nsoffer@redhat.com>
+ <CAMRbyyswkaedF0dN2nPb3H8fj5+pmhLWh9GHGor4wUk_Su=b8A@mail.gmail.com>
+ <20200616153241.GF4305@linux.fritz.box>
+ <CAMRbyys3fL_vqswb72-F_vE8pBQ1SkZZmmMeUA_TuTwsew6iSw@mail.gmail.com>
+In-Reply-To: <CAMRbyys3fL_vqswb72-F_vE8pBQ1SkZZmmMeUA_TuTwsew6iSw@mail.gmail.com>
+From: Nir Soffer <nsoffer@redhat.com>
+Date: Tue, 16 Jun 2020 23:01:30 +0300
+Message-ID: <CAMRbyyvD6kRdaitm6Oc6LAnF6_e+Y9y+jTPKNVq8ENLEKYyKng@mail.gmail.com>
+Subject: Re: [PATCH] block: file-posix: Fail unmap with NO_FALLBACK on block
+ device
+To: Kevin Wolf <kwolf@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=nsoffer@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=nsoffer@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 02:45:57
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
-X-Mailman-Approved-At: Tue, 16 Jun 2020 16:26:05 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,676 +94,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: nirsof <nirsof@gmail.com>, qemu-block <qemu-block@nongnu.org>, pl@kamp.de,
+ QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to: GitLab <noreply@gitlab.com>, GitLab <gitlab@mg.gitlab.com>
-From: GitLab via <qemu-devel@nongnu.org>
 
-
-----==_mimepart_5ee90c24b522d_7ae33faa564f31a8182564
-Content-Type: text/plain;
- charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-
-
-Your pipeline has failed.
-
-Project: QEMU ( https://gitlab.com/qemu-project/qemu )
-Branch: master ( https://gitlab.com/qemu-project/qemu/-/commits/master )
-
-Commit: 5c24bce3 ( https://gitlab.com/qemu-project/qemu/-/commit/5c24bce3=
-056ff209a1ecc50ff4b7e65b85ad8e74 )
-Commit Message: Merge remote-tracking branch 'remotes/stsquad/t...
-Commit Author: Peter Maydell ( https://gitlab.com/pm215 )
-
-Pipeline #156886967 ( https://gitlab.com/qemu-project/qemu/-/pipelines/15=
-6886967 ) triggered by Alex Benn=C3=A9e ( https://gitlab.com/stsquad )
-had 1 failed build.
-
-Job #597977855 ( https://gitlab.com/qemu-project/qemu/-/jobs/597977855/ra=
-w )
-
-Stage: test
-Name: build-tcg-disabled
-Trace: 215      ...        [17:39:31]             ...              =
-
-215      =1B[32mpass      =1B[0m [17:39:31] [17:40:59]  87s              =
- =
-
-216      ...        [17:40:59]             ...              =
-
-216      =1B[32mpass      =1B[0m [17:40:59] [17:41:03]   4s              =
- =
-
-218      ...        [17:41:03]             ...              =
-
-218      =1B[32mpass      =1B[0m [17:41:03] [17:41:04]   1s              =
- =
-
-222      ...        [17:41:04]             ...              =
-
-222      =1B[32mpass      =1B[0m [17:41:04] [17:41:05]   1s              =
- =
-
-227      ...        [17:41:05]             ...              =
-
-227      =1B[32mpass      =1B[0m [17:41:05] [17:41:05]   0s              =
- =
-
-234      ...        [17:41:05]             ...              =
-
-234      =1B[32mpass      =1B[0m [17:41:05] [17:41:06]   1s              =
- =
-
-246      ...        [17:41:06]             ...              =
-
-246      =1B[32mpass      =1B[0m [17:41:06] [17:41:06]   0s              =
- =
-
-247      ...        [17:41:06]             ...              =
-
-247      =1B[32mpass      =1B[0m [17:41:06] [17:41:08]   1s              =
- =
-
-248      ...        [17:41:08]             ...              =
-
-248      =1B[32mpass      =1B[0m [17:41:08] [17:41:08]   0s              =
- =
-
-250      ...        [17:41:08]             ...              =
-
-250      =1B[32mpass      =1B[0m [17:41:08] [17:41:09]   1s              =
- =
-
-254      ...        [17:41:09]             ...              =
-
-254      =1B[32mpass      =1B[0m [17:41:09] [17:41:09]   0s              =
- =
-
-255      ...        [17:41:09]             ...              =
-
-255      =1B[32mpass      =1B[0m [17:41:09] [17:41:11]   2s              =
- =
-
-257      ...        [17:41:11]             ...              =
-
-257      =1B[32mpass      =1B[0m [17:41:11] [17:41:21]  10s              =
- =
-
-258      ...        [17:41:21]             ...              =
-
-258      =1B[32mpass      =1B[0m [17:41:21] [17:41:21]   0s              =
- =
-
-260      ...        [17:41:21]             ...              =
-
-260      =1B[32mpass      =1B[0m [17:41:21] [17:41:22]   1s              =
- =
-
-261      ...        [17:41:22]             ...              =
-
-261      =1B[32mpass      =1B[0m [17:41:22] [17:41:46]  24s              =
- =
-
-262      ...        [17:41:46]             ...              =
-
-262      =1B[32mpass      =1B[0m [17:41:46] [17:41:47]   1s              =
- =
-
-263      ...        [17:41:47]             ...              =
-
-263      =1B[32mpass      =1B[0m [17:41:47] [17:41:49]   2s              =
- =
-
-264      ...        [17:41:49]             ...              =
-
-264      =1B[32mpass      =1B[0m [17:41:49] [17:41:53]   4s              =
- =
-
-270      ...        [17:41:53]             ...              =
-
-270      =1B[32mpass      =1B[0m [17:41:53] [17:41:55]   2s              =
- =
-
-272      ...        [17:41:55]             ...              =
-
-272      =1B[32mpass      =1B[0m [17:41:55] [17:41:56]   1s              =
- =
-
-273      ...        [17:41:56]             ...              =
-
-273      =1B[32mpass      =1B[0m [17:41:56] [17:41:56]   0s              =
- =
-
-277      ...        [17:41:56]             ...              =
-
-277      =1B[32mpass      =1B[0m [17:41:56] [17:41:57]   1s              =
- =
-
-279      ...        [17:41:57]             ...              =
-
-279      =1B[32mpass      =1B[0m [17:41:57] [17:41:58]   1s              =
- =
-
-Failures: 051
-Failed 1 of 57 iotests
-section_end:1592329331:build_script
-=1B[0Ksection_start:1592329331:after_script
-=1B[0K=1B[0K=1B[36;1mRunning after_script=1B[0;m
-=1B[0;msection_end:1592329335:after_script
-=1B[0Ksection_start:1592329335:upload_artifacts_on_failure
-=1B[0K=1B[0K=1B[36;1mUploading artifacts for failed job=1B[0;m
-=1B[0;msection_end:1592329337:upload_artifacts_on_failure
-=1B[0K=1B[31;1mERROR: Job failed: exit code 1
-=1B[0;m
-
-
--- =
-
-You're receiving this email because of your account on gitlab.com.
-
-
-
-
-----==_mimepart_5ee90c24b522d_7ae33faa564f31a8182564
-Content-Type: text/html;
- charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://ww=
-w.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns=3D"http://www.w3.org/1999/xhtml" lang=3D"en" xml:lang=3D"en">=
-
-<head>
-<meta content=3D"text/html; charset=3DUTF-8" http-equiv=3D"Content-Type" =
-/>
-<meta content=3D"width=3Ddevice-width, initial-scale=3D1" name=3D"viewpor=
-t" />
-<meta content=3D"IE=3Dedge" http-equiv=3D"X-UA-Compatible" />
-<title>QEMU | Pipeline #156886967 has failed for master | 5c24bce3</title=
+On Tue, Jun 16, 2020 at 8:39 PM Nir Soffer <nsoffer@redhat.com> wrote:
 >
-<style data-premailer=3D"ignore" type=3D"text/css">
-body,table,td,a{-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}t=
-able,td{mso-table-lspace:0pt;mso-table-rspace:0pt}img{-ms-interpolation-m=
-ode:bicubic}.hidden{display:none !important;visibility:hidden !important}=
-a[x-apple-data-detectors]{color:inherit !important;text-decoration:none !=
-important;font-size:inherit !important;font-family:inherit !important;fon=
-t-weight:inherit !important;line-height:inherit !important}div[style*=3D'=
-margin: 16px 0']{margin:0 !important}@media only screen and (max-width: 6=
-39px){body,#body{min-width:320px !important}table.wrapper{width:100% !imp=
-ortant;min-width:320px !important}table.wrapper td.wrapper-cell{border-le=
-ft:0 !important;border-right:0 !important;border-radius:0 !important;padd=
-ing-left:10px !important;padding-right:10px !important}}
-
-</style>
-
-<style>body {
-margin: 0 !important; background-color: #fafafa; padding: 0; text-align: =
-center; min-width: 640px; width: 100%; height: 100%; font-family: "Helvet=
-ica Neue", Helvetica, Arial, sans-serif;
-}
-</style></head>
-<body style=3D"text-align: center; min-width: 640px; width: 100%; height:=
- 100%; font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-se=
-rif; margin: 0; padding: 0;" bgcolor=3D"#fafafa">
-<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" id=3D"body" style=
-=3D"text-align: center; min-width: 640px; width: 100%; margin: 0; padding=
-: 0;" bgcolor=3D"#fafafa">
-<tbody>
-<tr class=3D"line">
-<td style=3D"font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, s=
-ans-serif; height: 4px; font-size: 4px; line-height: 4px;" bgcolor=3D"#6b=
-4fbb"></td>
-</tr>
-<tr class=3D"header">
-<td style=3D"font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, s=
-ans-serif; font-size: 13px; line-height: 1.6; color: #5c5c5c; padding: 25=
-px 0;">
-
-<img alt=3D"GitLab" src=3D"https://gitlab.com/assets/mailers/gitlab_heade=
-r_logo-153749eaa7ea6fafcb995161abd3247bc4c4500f31498b0c4024f50093983ac0.g=
-if" width=3D"55" height=3D"50" />
-</td>
-</tr>
-<tr>
-<td style=3D"font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, s=
-ans-serif;">
-<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"wrapper"=
- style=3D"width: 640px; border-collapse: separate; border-spacing: 0; mar=
-gin: 0 auto;">
-<tbody>
-<tr>
-<td class=3D"wrapper-cell" style=3D"font-family: &quot;Helvetica Neue&quo=
-t;, Helvetica, Arial, sans-serif; border-radius: 3px; overflow: hidden; p=
-adding: 18px 25px; border: 1px solid #ededed;" align=3D"left" bgcolor=3D"=
-#ffffff">
-<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"content"=
- style=3D"width: 100%; border-collapse: separate; border-spacing: 0;">
-<tbody>
-<tr class=3D"alert">
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; bo=
-rder-radius: 3px; font-size: 14px; line-height: 1.3; overflow: hidden; co=
-lor: #ffffff; padding: 10px;" align=3D"center" bgcolor=3D"#d22f57">
-<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
-le=3D"border-collapse: collapse; margin: 0 auto;">
-<tbody>
-<tr>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
-lor: #ffffff; padding-right: 5px; line-height: 1;" align=3D"center" valig=
-n=3D"middle">
-<img alt=3D"&#10006;" height=3D"13" src=3D"https://gitlab.com/assets/mail=
-ers/ci_pipeline_notif_v1/icon-x-red-inverted-06edddd39ba2a7f9a32f6201e420=
-175db85a4b6ac0348203fdc069001b440149.gif" style=3D"display: block;" width=
-=3D"13" />
-</td>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
-lor: #ffffff;" align=3D"center" valign=3D"middle">
-Your pipeline has failed.
-</td>
-</tr>
-</tbody>
-</table>
-</td>
-</tr>
-<tr class=3D"spacer">
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; he=
-ight: 18px; font-size: 18px; line-height: 18px;">
-&#160;
-</td>
-</tr>
-<tr class=3D"section">
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; bo=
-rder-radius: 3px; overflow: hidden; padding: 0 15px; border: 1px solid #e=
-deded;">
-<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"table-in=
-fo" style=3D"width: 100%;">
-<tbody>
-<tr>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; color: #8c8c8c; font-weight: 300; margin=
-: 0; padding: 14px 0;">Project</td>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; font-weight: 500; color: #333333; width:=
- 75%; margin: 0; padding: 14px 0 14px 5px;">
-<a class=3D"muted" href=3D"https://gitlab.com/qemu-project" style=3D"colo=
-r: #333333; text-decoration: none;">
-QEMU
-</a>
-/
-<a class=3D"muted" href=3D"https://gitlab.com/qemu-project/qemu" style=3D=
-"color: #333333; text-decoration: none;">
-QEMU
-</a>
-</td>
-</tr>
-<tr>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; color: #8c8c8c; font-weight: 300; border=
--top-width: 1px; border-top-color: #ededed; border-top-style: solid; marg=
-in: 0; padding: 14px 0;">Branch</td>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; font-weight: 500; color: #333333; width:=
- 75%; border-top-width: 1px; border-top-color: #ededed; border-top-style:=
- solid; margin: 0; padding: 14px 0 14px 5px;">
-<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
-le=3D"border-collapse: collapse;">
-<tbody>
-<tr>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; padding-right: 5px;" valign=3D"middle">
-<img alt=3D"" height=3D"13" src=3D"https://gitlab.com/assets/mailers/ci_p=
-ipeline_notif_v1/icon-branch-gray-53618a7fc19d4d32ccbabac2f6d59bebe67202a=
-9f2f1255e3f72c69756c0dd9c.gif" style=3D"display: block;" width=3D"13" />
-</td>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4;" valign=3D"middle">
-<a class=3D"muted" href=3D"https://gitlab.com/qemu-project/qemu/-/commits=
-/master" style=3D"color: #333333; text-decoration: none;">
-master
-</a>
-</td>
-</tr>
-</tbody>
-</table>
-</td>
-</tr>
-<tr>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; color: #8c8c8c; font-weight: 300; border=
--top-width: 1px; border-top-color: #ededed; border-top-style: solid; marg=
-in: 0; padding: 14px 0;">Commit</td>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; font-weight: 400; color: #333333; width:=
- 75%; border-top-width: 1px; border-top-color: #ededed; border-top-style:=
- solid; margin: 0; padding: 14px 0 14px 5px;">
-<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
-le=3D"border-collapse: collapse;">
-<tbody>
-<tr>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; padding-right: 5px;" valign=3D"middle">
-<img alt=3D"" height=3D"13" src=3D"https://gitlab.com/assets/mailers/ci_p=
-ipeline_notif_v1/icon-commit-gray-c10243ac24cde64b549aec91de35e6b49c8739b=
-506b86472b54614c10d8b4aac.gif" style=3D"display: block;" width=3D"13" />
-</td>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4;" valign=3D"middle">
-<a href=3D"https://gitlab.com/qemu-project/qemu/-/commit/5c24bce3056ff209=
-a1ecc50ff4b7e65b85ad8e74" style=3D"color: #3777b0; text-decoration: none;=
-">
-5c24bce3
-</a>
-</td>
-</tr>
-</tbody>
-</table>
-<div class=3D"commit" style=3D"color: #5c5c5c; font-weight: 300;">
-Merge remote-tracking branch 'remotes/stsquad/t...
-</div>
-</td>
-</tr>
-<tr>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; color: #8c8c8c; font-weight: 300; border=
--top-width: 1px; border-top-color: #ededed; border-top-style: solid; marg=
-in: 0; padding: 14px 0;">Commit Author</td>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; font-weight: 500; color: #333333; width:=
- 75%; border-top-width: 1px; border-top-color: #ededed; border-top-style:=
- solid; margin: 0; padding: 14px 0 14px 5px;">
-<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
-le=3D"border-collapse: collapse;">
-<tbody>
-<tr>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; padding-right: 5px;" valign=3D"middle">
-<img alt=3D"" class=3D"avatar" height=3D"24" src=3D"https://secure.gravat=
-ar.com/avatar/98261ce19b4e9da714d577154686723a?s=3D48&amp;d=3Didenticon" =
-style=3D"display: block; border-radius: 12px; margin: -2px 0;" width=3D"2=
-4" />
-</td>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4;" valign=3D"middle">
-<a class=3D"muted" href=3D"https://gitlab.com/pm215" style=3D"color: #333=
-333; text-decoration: none;">
-Peter Maydell
-</a>
-</td>
-</tr>
-</tbody>
-</table>
-</td>
-</tr>
-</tbody>
-</table>
-</td>
-</tr>
-<tr class=3D"spacer">
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; he=
-ight: 18px; font-size: 18px; line-height: 18px;">
-&#160;
-</td>
-</tr>
-<tr class=3D"pre-section">
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
-lor: #333333; font-size: 15px; font-weight: 400; line-height: 1.4; paddin=
-g: 15px 5px 0;" align=3D"center">
-<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
-le=3D"border-collapse: collapse; margin: 0 auto;">
-<tbody>
-<tr>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; font-weight: 500; line-height: 1.4;" valign=3D"baseline">
-Pipeline
-<a href=3D"https://gitlab.com/qemu-project/qemu/-/pipelines/156886967" st=
-yle=3D"color: #3777b0; text-decoration: none;">
-#156886967
-</a>
-triggered by
-</td>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; padding-right: 5px; padding-left: 5px;" =
-width=3D"24" valign=3D"middle">
-<img alt=3D"" class=3D"avatar" height=3D"24" src=3D"https://secure.gravat=
-ar.com/avatar/a7d7f408c0b3370bbbeb98833d6c50e4?s=3D48&amp;d=3Didenticon" =
-style=3D"display: block; border-radius: 12px; margin: -2px 0;" width=3D"2=
-4" />
-</td>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; font-weight: 500; line-height: 1.4;" valign=3D"baseline">
-<a class=3D"muted" href=3D"https://gitlab.com/stsquad" style=3D"color: #3=
-33333; text-decoration: none;">
-Alex Benn&#233;e
-</a>
-</td>
-</tr>
-</tbody>
-</table>
-</td>
-</tr>
-<tr>
-<td colspan=3D"2" style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,=
-sans-serif; color: #333333; font-size: 14px; font-weight: 400; line-heigh=
-t: 1.4; padding: 0 8px 16px;" align=3D"center">
-had
-1
-failed
-build.
-</td>
-</tr>
-<tr class=3D"table-warning">
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; bo=
-rder-radius: 4px 4px 0 0; overflow: hidden; color: #d22852; font-size: 14=
-px; line-height: 1.4; padding: 8px 16px; border-color: #ededed; border-st=
-yle: solid; border-width: 1px 1px 0;" align=3D"center" bgcolor=3D"#fdf4f6=
-">
-Logs may contain sensitive data. Please consider before forwarding this e=
-mail.
-</td>
-</tr>
-<tr class=3D"section">
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; ov=
-erflow: hidden; border-radius: 0 0 4px 4px; padding: 0 16px; border-color=
-: #ededed; border-style: solid; border-width: 0 1px 1px;">
-<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"builds" =
-style=3D"width: 100%; border-collapse: collapse;">
-<tbody>
-<tr class=3D"build-state">
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
-lor: #8c8c8c; font-weight: 500; font-size: 14px; padding: 16px 0;">
-<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
-le=3D"border-collapse: collapse;">
-<tbody>
-<tr>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
-lor: #d22f57; font-weight: 500; font-size: 16px; padding-right: 8px; line=
--height: 10px;" valign=3D"middle">
-<img alt=3D"&#10006;" height=3D"10" src=3D"https://gitlab.com/assets/mail=
-ers/ci_pipeline_notif_v1/icon-x-red-67056b7b99899e30453df79abfbe16162f6a2=
-6ed789d8236f81afcaea216ffe6.gif" style=3D"display: block;" width=3D"10" /=
+> On Tue, Jun 16, 2020 at 6:32 PM Kevin Wolf <kwolf@redhat.com> wrote:
+> >
+> > Am 15.06.2020 um 21:32 hat Nir Soffer geschrieben:
+> > > We can zero 2.3 g/s:
+> > >
+> > > # time blkdiscard -z test-lv
+> > >
+> > > real 0m43.902s
+> > > user 0m0.002s
+> > > sys 0m0.130s
+> >
+> > > We can write 445m/s:
+> > >
+> > > # dd if=/dev/zero bs=2M count=51200 of=test-lv oflag=direct conv=fsync
+> > > 107374182400 bytes (107 GB, 100 GiB) copied, 241.257 s, 445 MB/s
+> >
+> > So using FALLOC_FL_PUNCH_HOLE _is_ faster after all. What might not be
+> > faster is zeroing out the whole device and then overwriting a
+> > considerable part of it again.
+> >
+> > I think this means that we shouldn't fail write_zeroes at the file-posix
+> > level even if BDRV_REQ_NO_FALLBACK is given. Instead, qemu-img convert
+> > is where I see a fix.
+> >
+> > Certainly qemu-img could be cleverer and zero out more selectively. The
+> > idea of doing a blk_make_zero() first seems to have caused some
+> > problems, though of course its introduction was also justified with
+> > performance, so improving one case might hurt another if we're not
+> > careful.
+> >
+> > However, when Peter Lieven introduced this (commit 5a37b60a61c), we
+> > didn't use write_zeroes yet during the regular copy loop (we do since
+> > commit 690c7301600). So chances are that blk_make_zero() doesn't
+> > actually help any more now.
+> >
+> > Can you run another test with the patch below?
 >
-</td>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
-lor: #8c8c8c; font-weight: 500; font-size: 14px;" valign=3D"middle">
-test
-</td>
-</tr>
-</tbody>
-</table>
-</td>
-<td align=3D"right" style=3D"font-family: 'Helvetica Neue',Helvetica,Aria=
-l,sans-serif; color: #8c8c8c; font-weight: 500; font-size: 14px; padding:=
- 16px 0;">
-<a href=3D"https://gitlab.com/qemu-project/qemu/-/jobs/597977855" style=3D=
-"color: #3777b0; text-decoration: none;">
-build-tcg-disabled
-</a>
+> Sure, I can try this.
 
-</td>
-</tr>
-<tr class=3D"build-log">
-<td colspan=3D"2" style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,=
-sans-serif; padding: 0 0 16px;">
-<pre style=3D"font-family: Monaco,'Lucida Console','Courier New',Courier,=
-monospace; background-color: #fafafa; border-radius: 4px; overflow: hidde=
-n; white-space: pre-wrap; word-break: break-all; font-size: 13px; line-he=
-ight: 1.4; color: #333333; margin: 0; padding: 16px 8px;"><span>215      =
-...        [17:39:31]             ...              =
+Tried it, and it performs the same as expected.
 
-215      </span><span class=3D"term-fg-green">pass      </span><span> [17=
-:39:31] [17:40:59]  87s               <br />216      ...        [17:40:59=
-]             ...              =
+> > I think it should perform
+> > the same as yours. Eric, Peter, do you think this would have a negative
+> > effect for NBD and/or iscsi?
+> >
+> > The other option would be providing an option and making it Someone
+> > Else's Problem.
+> >
+> > Kevin
+> >
+> >
+> > diff --git a/qemu-img.c b/qemu-img.c
+> > index d7e846e607..bdb9f6aa46 100644
+> > --- a/qemu-img.c
+> > +++ b/qemu-img.c
+> > @@ -2084,15 +2084,6 @@ static int convert_do_copy(ImgConvertState *s)
+> >          s->has_zero_init = bdrv_has_zero_init(blk_bs(s->target));
+> >      }
+> >
+> > -    if (!s->has_zero_init && !s->target_has_backing &&
+> > -        bdrv_can_write_zeroes_with_unmap(blk_bs(s->target)))
+> > -    {
+> > -        ret = blk_make_zero(s->target, BDRV_REQ_MAY_UNMAP | BDRV_REQ_NO_FALLBACK);
+> > -        if (ret == 0) {
+> > -            s->has_zero_init = true;
+> > -        }
+> > -    }
+>
+> This will work of course, but now we will not do bulk zero for any target
 
-216      </span><span class=3D"term-fg-green">pass      </span><span> [17=
-:40:59] [17:41:03]   4s               <br />218      ...        [17:41:03=
-]             ...              =
+I would like to have a minimal change to increase the chance that we can
+consume this very soon in oVirt.
 
-218      </span><span class=3D"term-fg-green">pass      </span><span> [17=
-:41:03] [17:41:04]   1s               <br />222      ...        [17:41:04=
-]             ...              =
+> I think we never do this for regular files anyway since we truncate
+> files, and there
+> is nothing to zero, but maybe there is some case when this is useful?
+>
+> BTW, do we use BDRV_REQ_NO_FALLBACK elsewhere? maybe we can remove it.
+>
+> >      /* Allocate buffer for copied data. For compressed images, only one cluster
+> >       * can be copied at a time. */
+> >      if (s->compressed) {
+> >
 
-222      </span><span class=3D"term-fg-green">pass      </span><span> [17=
-:41:04] [17:41:05]   1s               <br />227      ...        [17:41:05=
-]             ...              =
-
-227      </span><span class=3D"term-fg-green">pass      </span><span> [17=
-:41:05] [17:41:05]   0s               <br />234      ...        [17:41:05=
-]             ...              =
-
-234      </span><span class=3D"term-fg-green">pass      </span><span> [17=
-:41:05] [17:41:06]   1s               <br />246      ...        [17:41:06=
-]             ...              =
-
-246      </span><span class=3D"term-fg-green">pass      </span><span> [17=
-:41:06] [17:41:06]   0s               <br />247      ...        [17:41:06=
-]             ...              =
-
-247      </span><span class=3D"term-fg-green">pass      </span><span> [17=
-:41:06] [17:41:08]   1s               <br />248      ...        [17:41:08=
-]             ...              =
-
-248      </span><span class=3D"term-fg-green">pass      </span><span> [17=
-:41:08] [17:41:08]   0s               <br />250      ...        [17:41:08=
-]             ...              =
-
-250      </span><span class=3D"term-fg-green">pass      </span><span> [17=
-:41:08] [17:41:09]   1s               <br />254      ...        [17:41:09=
-]             ...              =
-
-254      </span><span class=3D"term-fg-green">pass      </span><span> [17=
-:41:09] [17:41:09]   0s               <br />255      ...        [17:41:09=
-]             ...              =
-
-255      </span><span class=3D"term-fg-green">pass      </span><span> [17=
-:41:09] [17:41:11]   2s               <br />257      ...        [17:41:11=
-]             ...              =
-
-257      </span><span class=3D"term-fg-green">pass      </span><span> [17=
-:41:11] [17:41:21]  10s               <br />258      ...        [17:41:21=
-]             ...              =
-
-258      </span><span class=3D"term-fg-green">pass      </span><span> [17=
-:41:21] [17:41:21]   0s               <br />260      ...        [17:41:21=
-]             ...              =
-
-260      </span><span class=3D"term-fg-green">pass      </span><span> [17=
-:41:21] [17:41:22]   1s               <br />261      ...        [17:41:22=
-]             ...              =
-
-261      </span><span class=3D"term-fg-green">pass      </span><span> [17=
-:41:22] [17:41:46]  24s               <br />262      ...        [17:41:46=
-]             ...              =
-
-262      </span><span class=3D"term-fg-green">pass      </span><span> [17=
-:41:46] [17:41:47]   1s               <br />263      ...        [17:41:47=
-]             ...              =
-
-263      </span><span class=3D"term-fg-green">pass      </span><span> [17=
-:41:47] [17:41:49]   2s               <br />264      ...        [17:41:49=
-]             ...              =
-
-264      </span><span class=3D"term-fg-green">pass      </span><span> [17=
-:41:49] [17:41:53]   4s               <br />270      ...        [17:41:53=
-]             ...              =
-
-270      </span><span class=3D"term-fg-green">pass      </span><span> [17=
-:41:53] [17:41:55]   2s               <br />272      ...        [17:41:55=
-]             ...              =
-
-272      </span><span class=3D"term-fg-green">pass      </span><span> [17=
-:41:55] [17:41:56]   1s               <br />273      ...        [17:41:56=
-]             ...              =
-
-273      </span><span class=3D"term-fg-green">pass      </span><span> [17=
-:41:56] [17:41:56]   0s               <br />277      ...        [17:41:56=
-]             ...              =
-
-277      </span><span class=3D"term-fg-green">pass      </span><span> [17=
-:41:56] [17:41:57]   1s               <br />279      ...        [17:41:57=
-]             ...              =
-
-279      </span><span class=3D"term-fg-green">pass      </span><span> [17=
-:41:57] [17:41:58]   1s               <br />Failures: 051<br />Failed 1 o=
-f 57 iotests<br /></span><div class=3D"section-start" data-timestamp=3D"1=
-592329331" data-section=3D"after-script" role=3D"button"></div><span clas=
-s=3D"term-fg-l-cyan term-bold section section-header js-s-after-script">R=
-unning after_script</span><span class=3D"section section-header js-s-afte=
-r-script"><br /></span><div class=3D"section-end" data-section=3D"after-s=
-cript"></div><div class=3D"section-start" data-timestamp=3D"1592329335" d=
-ata-section=3D"upload-artifacts-on-failure" role=3D"button"></div><span c=
-lass=3D"term-fg-l-cyan term-bold section section-header js-s-upload-artif=
-acts-on-failure">Uploading artifacts for failed job</span><span class=3D"=
-section section-header js-s-upload-artifacts-on-failure"><br /></span><di=
-v class=3D"section-end" data-section=3D"upload-artifacts-on-failure"></di=
-v><span class=3D"term-fg-l-red term-bold">ERROR: Job failed: exit code 1<=
-br /></span></pre>
-</td>
-</tr>
-</tbody>
-</table>
-</td>
-</tr>
-
-
-</tbody>
-</table>
-</td>
-</tr>
-</tbody>
-</table>
-</td>
-</tr>
-
-<tr class=3D"footer">
-<td style=3D"font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, s=
-ans-serif; font-size: 13px; line-height: 1.6; color: #5c5c5c; padding: 25=
-px 0;">
-<img alt=3D"GitLab" height=3D"33" src=3D"https://gitlab.com/assets/mailer=
-s/gitlab_footer_logo-078860f148cc9596195e6bb3fa7db31c30538355576c5c3b569c=
-414902e3d095.gif" width=3D"90" style=3D"display: block; margin: 0 auto 1e=
-m;" />
-<div>
-You're receiving this email because of your account on gitlab.com. <a cla=
-ss=3D"mng-notif-link" href=3D"https://gitlab.com/profile/notifications" s=
-tyle=3D"color: #3777b0; text-decoration: none;">Manage all notifications<=
-/a> &#183; <a class=3D"help-link" href=3D"https://gitlab.com/help" style=3D=
-"color: #3777b0; text-decoration: none;">Help</a>
-</div>
-</td>
-</tr>
-
-<tr>
-<td class=3D"footer-message" style=3D"font-family: &quot;Helvetica Neue&q=
-uot;, Helvetica, Arial, sans-serif; font-size: 13px; line-height: 1.6; co=
-lor: #5c5c5c; padding: 25px 0;">
-
-</td>
-</tr>
-</tbody>
-</table>
-</body>
-</html>
-
-----==_mimepart_5ee90c24b522d_7ae33faa564f31a8182564--
 
