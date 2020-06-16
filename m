@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F6B21FAD38
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 11:58:33 +0200 (CEST)
-Received: from localhost ([::1]:42784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 478791FAD47
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 12:00:28 +0200 (CEST)
+Received: from localhost ([::1]:51356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jl8MS-0008NM-Dm
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 05:58:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50728)
+	id 1jl8OJ-0003Uh-6e
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 06:00:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50730)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jl8L7-0006z0-DF
+ id 1jl8L7-0006z1-GS
  for qemu-devel@nongnu.org; Tue, 16 Jun 2020 05:57:09 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:35062)
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:52152)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jl8L5-00040V-F9
+ id 1jl8L6-00040a-0c
  for qemu-devel@nongnu.org; Tue, 16 Jun 2020 05:57:09 -0400
-Received: by mail-wm1-x335.google.com with SMTP id q25so2422203wmj.0
- for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 02:57:06 -0700 (PDT)
+Received: by mail-wm1-x329.google.com with SMTP id b82so2263771wmb.1
+ for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 02:57:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=7ScqesT2vaLTukCijDkEoT5RQ12ELJbQ9/G0v11gmYg=;
- b=VyeD8XgZdg6RDPLhJ7MaRwci/PTujCX6wSBKFsi3nJDtYqRrsGB4qgJX5ZYZ7eVhII
- 1tCaw/10d0Va+PqpffsR+fP7CfM05Tpi8ztXKVfZwf32ljWRwE5wLLGQ8e80Mbab9/IY
- 7DVXT1X0xqfx7+VYGh/Z5qb3/nANg1FF5o6YRFos8cZXMAVwbB4FdmySvaUzQL5qXamR
- ifR3OSfHEEkcXiwVKT9ON1ahi7NHHcYKqxDFi9Sy5MLbY7m5JGpAlDXxIz8W86IV4xHs
- KQoj2u8bMBxBXIdNzY8mqGn0o/dtF6W+O2h5LjFnRF7DOxfN2VvA7vKLeAKSQu0eJYws
- StsQ==
+ bh=JzYyFW+vzLvI4vaFh4vSRbwrxnE5oiZj4mGhEnDfHXw=;
+ b=EfVwMS7I+YMmgoybQm5hZBYlImAfIwEsU2JLusQJdoIskQwpUub6G1DqjVi56G4N7o
+ hRGSQU3jnTkfsLX0EgTwXeOkFo0GWHR+KpUjJoI7AboHaX/9lc9+jmQw3AL3lpAwK7DE
+ gyGUehtgE6tQygGnpusr+INBNQw2JOw5FbvCVq+NKegV4kPKRGnRSHwAR4ilPLmLWR8f
+ buvpcjJx1PsEVXm5oqM6oJivNXnNWRgWvbtq4QWFDDCURpgpRI89bOP4gSM5/2n1RCGr
+ ikSn3T7F3O0+tvqS4A6SAP87PEq81jrZY1rGUghp/7OV5mQ8bEEqtLUCX6s0Qe8qY9+g
+ dMwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=7ScqesT2vaLTukCijDkEoT5RQ12ELJbQ9/G0v11gmYg=;
- b=fxAbed8PNh0bQyfRdtXHEFOUoppd9v16Es++VZYN2I/JLv1aoFRxGlei8bGoNVpiPl
- vP/tuUOKx0Rjj2Yk2cU3yqDVGLTQoLc/6yqKuAG5DCFFIZF3kTDQMLTPWYmnujssDT6r
- RKHhfLX4nYG2MBmU+oJ4X+BOjkKaA9z/HqsmfIeRflkcgY5tlMp0e45JAjFJNJlUYL+D
- 9t/L5VqhsfrbfnfySgQVFv6a0G+U9wuGFVuB52I7DoleW1RAlA6A/LKPpH930BVq7lnE
- J4fdOASsUL4TAU9uRZOKRoM7Qkd22suOohc/Xf3yc76x940zvtZd9SNOKP+QmlN8J2WQ
- hAtg==
-X-Gm-Message-State: AOAM533ob6nv5YjgjKPu85aRoSiNjo1u+OmX0jK1jzrHyl6gvqV8qrOU
- 4DbUNmWtk+8xm/Y9TMdY27oySVRdI03+pw==
-X-Google-Smtp-Source: ABdhPJxfJlw04a5wiHN8fdJl/zztSl8BdAIfb20jZxQ3jJRs+gXAArgOnW4EbllA4XyVO51cU3C+vQ==
-X-Received: by 2002:a1c:3c08:: with SMTP id j8mr2243615wma.23.1592301425372;
- Tue, 16 Jun 2020 02:57:05 -0700 (PDT)
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=JzYyFW+vzLvI4vaFh4vSRbwrxnE5oiZj4mGhEnDfHXw=;
+ b=CGkEF/m9VOX6VQSQ6KMoUclRrwvYf0RMuVOpQouJ/cEbc61/e5xQjmGr5pN7+AaEzF
+ GVTAoIyZrRkdwtMg8Z2efbEWRgKUohRLq5DGLsJInGknY/NY9Ccfpjx6G9AGxFeia66p
+ WCAEgq7YUKwwf26dUUCkXt6rX/u1NnS2oW1YhFkWAemVVlERqSIKrcUGnYKaPNIzxPtD
+ R5nyrqm4uAwwg9KadasZndRsLMxz/PORTsDoORard7/cEMm748OUhmwnTmWfL8Pke8sR
+ 109I5o44e8ZPRiC23z6rS51qunCuYdIBPWoNqI9d+UDXA2vqEyX2UXQa0+CHMjSEaZi/
+ 2dNQ==
+X-Gm-Message-State: AOAM532He2SY+rNrOU0Om5IP/JIU+k7+D7vvR/juj3qO0bfni1IxQsxI
+ 54d5blpBz9UCJKSAhdOuAi6bggjWHWiAmg==
+X-Google-Smtp-Source: ABdhPJyr/OjPZ1ivu9WTaeZrZbVkA3YwATDH5VO1+jvbVsnmbRD30CjzLsvmI8DiydglD7V5QvTpBQ==
+X-Received: by 2002:a1c:9c8c:: with SMTP id f134mr2302012wme.142.1592301426419; 
+ Tue, 16 Jun 2020 02:57:06 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id z12sm31090851wrg.9.2020.06.16.02.57.04
+ by smtp.gmail.com with ESMTPSA id z12sm31090851wrg.9.2020.06.16.02.57.05
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Jun 2020 02:57:04 -0700 (PDT)
+ Tue, 16 Jun 2020 02:57:05 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/23] target-arm queue
-Date: Tue, 16 Jun 2020 10:56:39 +0100
-Message-Id: <20200616095702.25848-1-peter.maydell@linaro.org>
+Subject: [PULL 01/23] target/arm: Fix missing temp frees in do_vshll_2sh
+Date: Tue, 16 Jun 2020 10:56:40 +0100
+Message-Id: <20200616095702.25848-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200616095702.25848-1-peter.maydell@linaro.org>
+References: <20200616095702.25848-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -87,84 +89,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Mostly my decodetree stuff, but also some patches for various
-smaller bugs/features from others.
+The widenfn() in do_vshll_2sh() does not free the input 32-bit
+TCGv, so we need to do this in the calling code.
 
-thanks
--- PMM
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ target/arm/translate-neon.inc.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-The following changes since commit 53550e81e2cafe7c03a39526b95cd21b5194d9b1:
+diff --git a/target/arm/translate-neon.inc.c b/target/arm/translate-neon.inc.c
+index 664d3612607..299a61f067b 100644
+--- a/target/arm/translate-neon.inc.c
++++ b/target/arm/translate-neon.inc.c
+@@ -1624,6 +1624,7 @@ static bool do_vshll_2sh(DisasContext *s, arg_2reg_shift *a,
+     tmp = tcg_temp_new_i64();
+ 
+     widenfn(tmp, rm0);
++    tcg_temp_free_i32(rm0);
+     if (a->shift != 0) {
+         tcg_gen_shli_i64(tmp, tmp, a->shift);
+         tcg_gen_andi_i64(tmp, tmp, ~widen_mask);
+@@ -1631,6 +1632,7 @@ static bool do_vshll_2sh(DisasContext *s, arg_2reg_shift *a,
+     neon_store_reg64(tmp, a->vd);
+ 
+     widenfn(tmp, rm1);
++    tcg_temp_free_i32(rm1);
+     if (a->shift != 0) {
+         tcg_gen_shli_i64(tmp, tmp, a->shift);
+         tcg_gen_andi_i64(tmp, tmp, ~widen_mask);
+-- 
+2.20.1
 
-  Merge remote-tracking branch 'remotes/berrange/tags/qcrypto-next-pull-request' into staging (2020-06-15 16:36:34 +0100)
-
-are available in the Git repository at:
-
-  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20200616
-
-for you to fetch changes up to 64b397417a26509bcdff44ab94356a35c7901c79:
-
-  hw: arm: Set vendor property for IMX SDHCI emulations (2020-06-16 10:32:29 +0100)
-
-----------------------------------------------------------------
- * hw: arm: Set vendor property for IMX SDHCI emulations
- * sd: sdhci: Implement basic vendor specific register support
- * hw/net/imx_fec: Convert debug fprintf() to trace events
- * target/arm/cpu: adjust virtual time for all KVM arm cpus
- * Implement configurable descriptor size in ftgmac100
- * hw/misc/imx6ul_ccm: Implement non writable bits in CCM registers
- * target/arm: More Neon decodetree conversion work
-
-----------------------------------------------------------------
-Erik Smit (1):
-      Implement configurable descriptor size in ftgmac100
-
-Guenter Roeck (2):
-      sd: sdhci: Implement basic vendor specific register support
-      hw: arm: Set vendor property for IMX SDHCI emulations
-
-Jean-Christophe Dubois (2):
-      hw/misc/imx6ul_ccm: Implement non writable bits in CCM registers
-      hw/net/imx_fec: Convert debug fprintf() to trace events
-
-Peter Maydell (17):
-      target/arm: Fix missing temp frees in do_vshll_2sh
-      target/arm: Convert Neon 3-reg-diff prewidening ops to decodetree
-      target/arm: Convert Neon 3-reg-diff narrowing ops to decodetree
-      target/arm: Convert Neon 3-reg-diff VABAL, VABDL to decodetree
-      target/arm: Convert Neon 3-reg-diff long multiplies
-      target/arm: Convert Neon 3-reg-diff saturating doubling multiplies
-      target/arm: Convert Neon 3-reg-diff polynomial VMULL
-      target/arm: Add 'static' and 'const' annotations to VSHLL function arrays
-      target/arm: Add missing TCG temp free in do_2shift_env_64()
-      target/arm: Convert Neon 2-reg-scalar integer multiplies to decodetree
-      target/arm: Convert Neon 2-reg-scalar float multiplies to decodetree
-      target/arm: Convert Neon 2-reg-scalar VQDMULH, VQRDMULH to decodetree
-      target/arm: Convert Neon 2-reg-scalar VQRDMLAH, VQRDMLSH to decodetree
-      target/arm: Convert Neon 2-reg-scalar long multiplies to decodetree
-      target/arm: Convert Neon VEXT to decodetree
-      target/arm: Convert Neon VTBL, VTBX to decodetree
-      target/arm: Convert Neon VDUP (scalar) to decodetree
-
-fangying (1):
-      target/arm/cpu: adjust virtual time for all KVM arm cpus
-
- hw/sd/sdhci-internal.h          |    5 +
- include/hw/sd/sdhci.h           |    5 +
- target/arm/translate.h          |    1 +
- target/arm/neon-dp.decode       |  130 +++++
- hw/arm/fsl-imx25.c              |    6 +
- hw/arm/fsl-imx6.c               |    6 +
- hw/arm/fsl-imx6ul.c             |    2 +
- hw/arm/fsl-imx7.c               |    2 +
- hw/misc/imx6ul_ccm.c            |   76 ++-
- hw/net/ftgmac100.c              |   26 +-
- hw/net/imx_fec.c                |  106 ++--
- hw/sd/sdhci.c                   |   18 +-
- target/arm/cpu.c                |    6 +-
- target/arm/cpu64.c              |    1 -
- target/arm/kvm.c                |   21 +-
- target/arm/translate-neon.inc.c | 1148 ++++++++++++++++++++++++++++++++++++++-
- target/arm/translate.c          |  684 +----------------------
- hw/net/trace-events             |   18 +
- 18 files changed, 1495 insertions(+), 766 deletions(-)
 
