@@ -2,51 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F5E01FA98F
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 09:08:31 +0200 (CEST)
-Received: from localhost ([::1]:39160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FAA41FA977
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 09:04:09 +0200 (CEST)
+Received: from localhost ([::1]:46902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jl5hu-0003Eo-D3
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 03:08:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42292)
+	id 1jl5dg-00036T-Hz
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 03:04:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42314)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1jl5N8-0002E1-1L
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 02:47:02 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:35639
+ id 1jl5NC-0002Mv-15
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 02:47:06 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:31815
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1jl5N5-0005p5-PR
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 02:47:01 -0400
+ id 1jl5NA-0005pf-8r
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 02:47:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592290019;
+ s=mimecast20190719; t=1592290023;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=q+Zson716eA2srJK2dRNURIuqK9Cb9Ivl3c8K1m1iM8=;
- b=PbIWkM4qLxqsM6lpLrK4UuvPr3tJ6udt5SoVlpAtIqMd5rheSqI7c3AoG2PD/Cjc7gNigh
- JDqfDUq47FVln6SZv6NVBSmCuMULt9Z4TJtWxlVrz/jmKhHm9ENH7D1wLtxs4hpoEX4V8l
- K/TGwuygL+hfv8pJx7z1rX170sEzTGU=
+ references:references; bh=qXHWXtp/gvp5jX0g2Rmsyn3tiVUUdM3O3TjCQ3fM8pM=;
+ b=I3NdIvb7SP0fQ8ArWlSRu0JlgZXICwLYFwWPla0cbiyuALxTkjcHyOwcyKjZSA9sr7x04a
+ /814XkW7I8mSvcWDbOiXK3dhRRKVuTtaHvAz3g5IMcfOfA5YVOzQ3TOK9mNVmimsEdqyoD
+ cEBdMjwSYCxYLhMIprk7LJlHlGqz1jU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-301-zhb_TGf6NyyoLmEd8uqH4A-1; Tue, 16 Jun 2020 02:46:56 -0400
-X-MC-Unique: zhb_TGf6NyyoLmEd8uqH4A-1
+ us-mta-409-xny0xugtPQSpP_KEoZErHg-1; Tue, 16 Jun 2020 02:46:59 -0400
+X-MC-Unique: xny0xugtPQSpP_KEoZErHg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CAE3E801503;
- Tue, 16 Jun 2020 06:46:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 38D4A184D17D;
+ Tue, 16 Jun 2020 06:46:58 +0000 (UTC)
 Received: from jason-ThinkPad-T430s.redhat.com (ovpn-13-222.pek2.redhat.com
  [10.72.13.222])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E409B8202D;
- Tue, 16 Jun 2020 06:46:53 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5583790341;
+ Tue, 16 Jun 2020 06:46:56 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: peter.maydell@linaro.org
-Subject: [PULL 28/33] net/colo-compare.c: Check that colo-compare is active
-Date: Tue, 16 Jun 2020 14:45:39 +0800
-Message-Id: <1592289944-13727-29-git-send-email-jasowang@redhat.com>
+Subject: [PULL 29/33] net/colo-compare.c: Correct ordering in complete and
+ finalize
+Date: Tue, 16 Jun 2020 14:45:40 +0800
+Message-Id: <1592289944-13727-30-git-send-email-jasowang@redhat.com>
 In-Reply-To: <1592289944-13727-1-git-send-email-jasowang@redhat.com>
 References: <1592289944-13727-1-git-send-email-jasowang@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
@@ -83,131 +84,96 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Lukas Straub <lukasstraub2@web.de>
 
-If the colo-compare object is removed before failover and a
-checkpoint happens, qemu crashes because it tries to lock
-the destroyed event_mtx in colo_notify_compares_event.
-
-Fix this by checking if everything is initialized by
-introducing a new variable colo_compare_active which
-is protected by a new mutex colo_compare_mutex. The new mutex
-also protects against concurrent access of the net_compares
-list and makes sure that colo_notify_compares_event isn't
-active while we destroy event_mtx and event_complete_cond.
-
-With this it also is again possible to use colo without
-colo-compare (periodic mode) and to use multiple colo-compare
-for multiple network interfaces.
+In colo_compare_complete, insert CompareState into net_compares
+only after everything has been initialized.
+In colo_compare_finalize, remove CompareState from net_compares
+before anything is deinitialized.
 
 Signed-off-by: Lukas Straub <lukasstraub2@web.de>
-Tested-by: Lukas Straub <lukasstraub2@web.de>
 Reviewed-by: Zhang Chen <chen.zhang@intel.com>
 Signed-off-by: Zhang Chen <chen.zhang@intel.com>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- net/colo-compare.c | 35 +++++++++++++++++++++++++++++------
- 1 file changed, 29 insertions(+), 6 deletions(-)
+ net/colo-compare.c | 45 +++++++++++++++++++++++----------------------
+ 1 file changed, 23 insertions(+), 22 deletions(-)
 
 diff --git a/net/colo-compare.c b/net/colo-compare.c
-index a609f49..c30dbfb 100644
+index c30dbfb..ed1f3d0 100644
 --- a/net/colo-compare.c
 +++ b/net/colo-compare.c
-@@ -54,6 +54,8 @@ static NotifierList colo_compare_notifiers =
- #define REGULAR_PACKET_CHECK_MS 3000
- #define DEFAULT_TIME_OUT_MS 3000
- 
-+static QemuMutex colo_compare_mutex;
-+static bool colo_compare_active;
- static QemuMutex event_mtx;
- static QemuCond event_complete_cond;
- static int event_unhandled_count;
-@@ -906,6 +908,12 @@ static void check_old_packet_regular(void *opaque)
- void colo_notify_compares_event(void *opaque, int event, Error **errp)
- {
-     CompareState *s;
-+    qemu_mutex_lock(&colo_compare_mutex);
-+
-+    if (!colo_compare_active) {
-+        qemu_mutex_unlock(&colo_compare_mutex);
-+        return;
-+    }
- 
-     qemu_mutex_lock(&event_mtx);
-     QTAILQ_FOREACH(s, &net_compares, next) {
-@@ -919,6 +927,7 @@ void colo_notify_compares_event(void *opaque, int event, Error **errp)
-     }
- 
-     qemu_mutex_unlock(&event_mtx);
-+    qemu_mutex_unlock(&colo_compare_mutex);
- }
- 
- static void colo_compare_timer_init(CompareState *s)
-@@ -1274,7 +1283,14 @@ static void colo_compare_complete(UserCreatable *uc, Error **errp)
+@@ -1283,15 +1283,6 @@ static void colo_compare_complete(UserCreatable *uc, Error **errp)
                             s->vnet_hdr);
      }
  
+-    qemu_mutex_lock(&colo_compare_mutex);
+-    if (!colo_compare_active) {
+-        qemu_mutex_init(&event_mtx);
+-        qemu_cond_init(&event_complete_cond);
+-        colo_compare_active = true;
+-    }
+-    QTAILQ_INSERT_TAIL(&net_compares, s, next);
+-    qemu_mutex_unlock(&colo_compare_mutex);
+-
+     s->out_sendco.s = s;
+     s->out_sendco.chr = &s->chr_out;
+     s->out_sendco.notify_remote_frame = false;
+@@ -1314,6 +1305,16 @@ static void colo_compare_complete(UserCreatable *uc, Error **errp)
+                                                       connection_destroy);
+ 
+     colo_compare_iothread(s);
++
 +    qemu_mutex_lock(&colo_compare_mutex);
 +    if (!colo_compare_active) {
 +        qemu_mutex_init(&event_mtx);
 +        qemu_cond_init(&event_complete_cond);
 +        colo_compare_active = true;
 +    }
-     QTAILQ_INSERT_TAIL(&net_compares, s, next);
++    QTAILQ_INSERT_TAIL(&net_compares, s, next);
 +    qemu_mutex_unlock(&colo_compare_mutex);
- 
-     s->out_sendco.s = s;
-     s->out_sendco.chr = &s->chr_out;
-@@ -1292,9 +1308,6 @@ static void colo_compare_complete(UserCreatable *uc, Error **errp)
- 
-     g_queue_init(&s->conn_list);
- 
--    qemu_mutex_init(&event_mtx);
--    qemu_cond_init(&event_complete_cond);
--
-     s->connection_track_table = g_hash_table_new_full(connection_key_hash,
-                                                       connection_key_equal,
-                                                       g_free,
-@@ -1382,12 +1395,19 @@ static void colo_compare_finalize(Object *obj)
- 
-     qemu_bh_delete(s->event_bh);
- 
-+    qemu_mutex_lock(&colo_compare_mutex);
-     QTAILQ_FOREACH(tmp, &net_compares, next) {
-         if (tmp == s) {
-             QTAILQ_REMOVE(&net_compares, s, next);
-             break;
-         }
-     }
-+    if (QTAILQ_EMPTY(&net_compares)) {
-+        colo_compare_active = false;
-+        qemu_mutex_destroy(&event_mtx);
-+        qemu_cond_destroy(&event_complete_cond);
-+    }
-+    qemu_mutex_unlock(&colo_compare_mutex);
- 
-     AioContext *ctx = iothread_get_aio_context(s->iothread);
-     aio_context_acquire(ctx);
-@@ -1415,15 +1435,18 @@ static void colo_compare_finalize(Object *obj)
-         object_unref(OBJECT(s->iothread));
-     }
- 
--    qemu_mutex_destroy(&event_mtx);
--    qemu_cond_destroy(&event_complete_cond);
--
-     g_free(s->pri_indev);
-     g_free(s->sec_indev);
-     g_free(s->outdev);
-     g_free(s->notify_dev);
++
+     return;
  }
  
-+static void __attribute__((__constructor__)) colo_compare_init_globals(void)
-+{
-+    colo_compare_active = false;
-+    qemu_mutex_init(&colo_compare_mutex);
-+}
+@@ -1382,19 +1383,6 @@ static void colo_compare_finalize(Object *obj)
+     CompareState *s = COLO_COMPARE(obj);
+     CompareState *tmp = NULL;
+ 
+-    qemu_chr_fe_deinit(&s->chr_pri_in, false);
+-    qemu_chr_fe_deinit(&s->chr_sec_in, false);
+-    qemu_chr_fe_deinit(&s->chr_out, false);
+-    if (s->notify_dev) {
+-        qemu_chr_fe_deinit(&s->chr_notify_dev, false);
+-    }
+-
+-    if (s->iothread) {
+-        colo_compare_timer_del(s);
+-    }
+-
+-    qemu_bh_delete(s->event_bh);
+-
+     qemu_mutex_lock(&colo_compare_mutex);
+     QTAILQ_FOREACH(tmp, &net_compares, next) {
+         if (tmp == s) {
+@@ -1409,6 +1397,19 @@ static void colo_compare_finalize(Object *obj)
+     }
+     qemu_mutex_unlock(&colo_compare_mutex);
+ 
++    qemu_chr_fe_deinit(&s->chr_pri_in, false);
++    qemu_chr_fe_deinit(&s->chr_sec_in, false);
++    qemu_chr_fe_deinit(&s->chr_out, false);
++    if (s->notify_dev) {
++        qemu_chr_fe_deinit(&s->chr_notify_dev, false);
++    }
 +
- static const TypeInfo colo_compare_info = {
-     .name = TYPE_COLO_COMPARE,
-     .parent = TYPE_OBJECT,
++    if (s->iothread) {
++        colo_compare_timer_del(s);
++    }
++
++    qemu_bh_delete(s->event_bh);
++
+     AioContext *ctx = iothread_get_aio_context(s->iothread);
+     aio_context_acquire(ctx);
+     AIO_WAIT_WHILE(ctx, !s->out_sendco.done);
 -- 
 2.5.0
 
