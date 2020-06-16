@@ -2,70 +2,114 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EEFE1FB1F6
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 15:23:49 +0200 (CEST)
-Received: from localhost ([::1]:48978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 303BE1FB1FA
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 15:25:15 +0200 (CEST)
+Received: from localhost ([::1]:54464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlBZ6-0002j3-9D
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 09:23:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42256)
+	id 1jlBaU-0004xG-8Z
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 09:25:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43580)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1jlBVs-0007r4-DX
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 09:20:28 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:37752)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1jlBVq-00059z-B4
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 09:20:28 -0400
-Received: by mail-wr1-x443.google.com with SMTP id x13so20735120wrv.4
- for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 06:20:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=fKmeIt7w8WPPk6i1PHJWxdOIec66Soh/1diRqhLZsno=;
- b=YowGLFgsNH9GJcQB4nfvooKOdd0NxFuxwliPBoS2E2IEf+FUbGkDEfIBlv+O4rudk7
- OrHSgDrCBLq5nvx8XZsPAwcA+WhUGLvpvKF8SXYZ3m8qDJ5rwKJ3J8X/tBBY0mAdwZsV
- 5BvFiy+hlIhS+dDxvP/nt40ptpMwjmZEsoXilpNcyAXYJlm7WShONCmMhaYwRKnlQlBy
- FmCxhLFkGYtkFvT4npasz6TIxCWdulRD0HZgioAph6f70pxFr0WVm6/3+UEjzx+2MGCK
- o8brVkVT9p1EIW10cnHdpNeA+JguCBHqSwmFWLKkbSV0kiTtRpqxmZP3mHT2qyvgebRE
- ghiQ==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jlBYu-00032L-8d
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 09:23:36 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:59231
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jlBYs-0005in-Dc
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 09:23:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1592313812;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=8HfH40VjRJpHPM4DrPDqHRHYKZKzrVsBALVzE+Jc/RU=;
+ b=DUqh/EcfXYup6fbnIK4l9OLGuts7aVkf6SBP0ViJd37KDr68B4C+noX1jTZ0SG2Du/+X5K
+ COxRtRHmm9hYHmvukIJm2hq9f2xhE5K4aX+nK3skUKnZu0RQKUOSCJRgUsSWiyberZWf7B
+ /wRS2tAKUPRfW99YMD6CbEapgHZodoo=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-380-eCxlhuKEMd6opK21SNIVOg-1; Tue, 16 Jun 2020 09:23:29 -0400
+X-MC-Unique: eCxlhuKEMd6opK21SNIVOg-1
+Received: by mail-wm1-f69.google.com with SMTP id x6so1232420wmj.9
+ for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 06:23:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=fKmeIt7w8WPPk6i1PHJWxdOIec66Soh/1diRqhLZsno=;
- b=sp3mj4J+IMs6xSsdUp1UdEWr/YWOA7KbbE9VpDCYEGagjls+7kibSlCqNYpDNR35uw
- mTanWWWcjhMKJnJe1xy6/Owx54X6MBFUlktfboiJ6T+8ssUftxvuF7vK3ihhty55qeL6
- bz4N/LAYoKyyDYZ0fu9KOYMfykUFSk5oeWBtkuQLrTtzmO2k+GgiD4qUJbp5Qat02lb9
- DZMTcTtdKaDsIQ+nMce5VX9T8UaggbCjK0WbX9ggQuxpVJUMSlxi7T4xjGDQnHYnrOeb
- VNP8SIqZ/8HLHdDZQ5cbCeVrM82wOMnZhVmytPUtePTEPTL1XwrQ4gQBHnRhF7nnZqHJ
- 0N5w==
-X-Gm-Message-State: AOAM530I0Mn5ZqR9iLXcLV44ToPBOFJQGT00lfUvgFjENIOQyXhMPhpA
- jl9ZsixR4jPOk2Sf9SIsM4oPfjui0sN8xEJIlWHL9A==
-X-Google-Smtp-Source: ABdhPJzL3+GWm67Tpurw0Vk48+Bu4nfgcabTtlb9C0RluQ2n7j/cFyDRjE/XG9wTqbLzSaPx+pPN6h7kA7MvwzfjHGk=
-X-Received: by 2002:adf:b355:: with SMTP id k21mr3033229wrd.76.1592313624310; 
- Tue, 16 Jun 2020 06:20:24 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=8HfH40VjRJpHPM4DrPDqHRHYKZKzrVsBALVzE+Jc/RU=;
+ b=Sy03mQJQeL5ygC/JjLSwbNIIwxgp4u6zUw0lLXxMUCr6lrB1dDmaaoi5zqz7wpyVsF
+ OP3er3WymtloimceFkHDwShB1FzoDbcDsvfUr13nw96Y9Mm5Iz++ATE8QoxTF14BTg6I
+ kCzAgoT36ZwuEmrCezHG4Ijdk6RZPtkinAQjjY0UmDJg0+NcvtP+Ndxbr/rMCPxFLakY
+ FwKabinmOwCsxbbQ2y+UCCsiUGSl6T5s7G+1fx5/s4afPIJcBOyCC09DMPBNbeKUGpuC
+ 6Fa/oZwUkY5r2qr5Z/lKekktIrhlmwB+FOQm9dIPZMUX6AhhH74vca1ZySpeL6JBMyTD
+ AP4g==
+X-Gm-Message-State: AOAM531BEHbSGX9cVaNgydT10lPUvseKAbEJzDLjwvLSklfAuWbVnbi8
+ sfoq23W+peipiOjyqZNeNDJdU2Hz8O7GXka5HBe90qtVP4vDVij/PIpruXo2Jdhsj3T49PlPhWl
+ qVf0Q6F+gCN5c2Do=
+X-Received: by 2002:a1c:a5d4:: with SMTP id o203mr3251866wme.98.1592313806922; 
+ Tue, 16 Jun 2020 06:23:26 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwLmvKKN9x6/7l9XU24CuZeb0LwFWNqor/H3ubuybLQgdhY5wqp/aIGT008q8P1ObnOO9Wggw==
+X-Received: by 2002:a1c:a5d4:: with SMTP id o203mr3251851wme.98.1592313806722; 
+ Tue, 16 Jun 2020 06:23:26 -0700 (PDT)
+Received: from [192.168.1.37] (93.red-83-59-160.dynamicip.rima-tde.net.
+ [83.59.160.93])
+ by smtp.gmail.com with ESMTPSA id t189sm4162613wma.4.2020.06.16.06.23.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 16 Jun 2020 06:23:26 -0700 (PDT)
+Subject: Re: [PULL 01/21] tests/docker: bump fedora to 32
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ peter.maydell@linaro.org
+References: <20200616125324.19045-1-alex.bennee@linaro.org>
+ <20200616125324.19045-2-alex.bennee@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <e08991ac-cb9f-9092-60d9-0f9e9522695e@redhat.com>
+Date: Tue, 16 Jun 2020 15:23:24 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-References: <1592310699-58916-1-git-send-email-ani.sinha@nutanix.com>
- <20200616151735.17a84340@redhat.com>
-In-Reply-To: <20200616151735.17a84340@redhat.com>
-From: Ani Sinha <ani@anisinha.ca>
-Date: Tue, 16 Jun 2020 18:50:13 +0530
-Message-ID: <CAARzgwwKwdYW0BK4-W2=q=g3cN4BZfPN6p8QqvgAsqJ7tifHtA@mail.gmail.com>
-Subject: Re: [PATCH V3] Rename use_acpi_pci_hotplug to more appropriate
- use_acpi_hotplug_bridge
-To: Igor Mammedov <imammedo@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000f2da2b05a8336748"
-Received-SPF: none client-ip=2a00:1450:4864:20::443;
- envelope-from=ani@anisinha.ca; helo=mail-wr1-x443.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <20200616125324.19045-2-alex.bennee@linaro.org>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 02:01:17
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,284 +122,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ani Sinha <ani.sinha@nutanix.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org, Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000f2da2b05a8336748
-Content-Type: text/plain; charset="UTF-8"
+On 6/16/20 2:53 PM, Alex Bennée wrote:
+> We should be keeping this up to date as Fedora goes out of support
+> quite quickly.
+> 
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 
-On Tue, Jun 16, 2020 at 6:47 PM Igor Mammedov <imammedo@redhat.com> wrote:
+FWIW this one had:
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-> On Tue, 16 Jun 2020 12:31:39 +0000
-> Ani Sinha <ani.sinha@nutanix.com> wrote:
->
-> > Currently, the option use_acpi_pci_hotplug is being used to control
-> device
-> > hotplug capability using ACPI for slots of cold plugged bridges. Hence,
-> we
-> > are renaming this option to better reflect what it actually does.
-> >
-> > Signed-off-by: Ani Sinha <ani.sinha@nutanix.com>
-> > ---
->
-> what was wrong with v2?
+https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg06556.html
 
+> Message-Id: <20200612190237.30436-2-alex.bennee@linaro.org>
+> 
+> diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
+> index 92b6e11c8a8..798ddd2c3e0 100644
+> --- a/tests/docker/dockerfiles/fedora.docker
+> +++ b/tests/docker/dockerfiles/fedora.docker
+> @@ -1,4 +1,4 @@
+> -FROM fedora:30
+> +FROM fedora:32
+>  
+>  # Please keep this list sorted alphabetically
+>  ENV PACKAGES \
+> 
 
-i removed the change-id string.
-
-
-> Also for the future,
-> can you add under --- line change log please?
->
-> >  hw/acpi/piix4.c | 21 +++++++++++----------
-> >  1 file changed, 11 insertions(+), 10 deletions(-)
-
-
-It's already here.
-
-
-> >
-> > diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
-> > index 85c199b..7de44bc 100644
-> > --- a/hw/acpi/piix4.c
-> > +++ b/hw/acpi/piix4.c
-> > @@ -77,7 +77,7 @@ typedef struct PIIX4PMState {
-> >      Notifier powerdown_notifier;
-> >
-> >      AcpiPciHpState acpi_pci_hotplug;
-> > -    bool use_acpi_pci_hotplug;
-> > +    bool use_acpi_hotplug_bridge;
-> >
-> >      uint8_t disable_s3;
-> >      uint8_t disable_s4;
-> > @@ -204,16 +204,17 @@ static const VMStateDescription vmstate_pci_status
-> = {
-> >      }
-> >  };
-> >
-> > -static bool vmstate_test_use_acpi_pci_hotplug(void *opaque, int
-> version_id)
-> > +static bool vmstate_test_use_acpi_hotplug_bridge(void *opaque, int
-> version_id)
-> >  {
-> >      PIIX4PMState *s = opaque;
-> > -    return s->use_acpi_pci_hotplug;
-> > +    return s->use_acpi_hotplug_bridge;
-> >  }
-> >
-> > -static bool vmstate_test_no_use_acpi_pci_hotplug(void *opaque, int
-> version_id)
-> > +static bool vmstate_test_no_use_acpi_hotplug_bridge(void *opaque,
-> > +                                                    int version_id)
-> >  {
-> >      PIIX4PMState *s = opaque;
-> > -    return !s->use_acpi_pci_hotplug;
-> > +    return !s->use_acpi_hotplug_bridge;
-> >  }
-> >
-> >  static bool vmstate_test_use_memhp(void *opaque)
-> > @@ -290,11 +291,11 @@ static const VMStateDescription vmstate_acpi = {
-> >          VMSTATE_STRUCT_TEST(
-> >
-> acpi_pci_hotplug.acpi_pcihp_pci_status[ACPI_PCIHP_BSEL_DEFAULT],
-> >              PIIX4PMState,
-> > -            vmstate_test_no_use_acpi_pci_hotplug,
-> > +            vmstate_test_no_use_acpi_hotplug_bridge,
-> >              2, vmstate_pci_status,
-> >              struct AcpiPciHpPciStatus),
-> >          VMSTATE_PCI_HOTPLUG(acpi_pci_hotplug, PIIX4PMState,
-> > -                            vmstate_test_use_acpi_pci_hotplug),
-> > +                            vmstate_test_use_acpi_hotplug_bridge),
-> >          VMSTATE_END_OF_LIST()
-> >      },
-> >      .subsections = (const VMStateDescription*[]) {
-> > @@ -528,7 +529,7 @@ I2CBus *piix4_pm_init(PCIBus *bus, int devfn,
-> uint32_t smb_io_base,
-> >      s->smi_irq = smi_irq;
-> >      s->smm_enabled = smm_enabled;
-> >      if (xen_enabled()) {
-> > -        s->use_acpi_pci_hotplug = false;
-> > +        s->use_acpi_hotplug_bridge = false;
-> >      }
-> >
-> >      qdev_init_nofail(dev);
-> > @@ -593,7 +594,7 @@ static void
-> piix4_acpi_system_hot_add_init(MemoryRegion *parent,
-> >      memory_region_add_subregion(parent, GPE_BASE, &s->io_gpe);
-> >
-> >      acpi_pcihp_init(OBJECT(s), &s->acpi_pci_hotplug, bus, parent,
-> > -                    s->use_acpi_pci_hotplug);
-> > +                    s->use_acpi_hotplug_bridge);
-> >
-> >      s->cpu_hotplug_legacy = true;
-> >      object_property_add_bool(OBJECT(s), "cpu-hotplug-legacy",
-> > @@ -631,7 +632,7 @@ static Property piix4_pm_properties[] = {
-> >      DEFINE_PROP_UINT8(ACPI_PM_PROP_S4_DISABLED, PIIX4PMState,
-> disable_s4, 0),
-> >      DEFINE_PROP_UINT8(ACPI_PM_PROP_S4_VAL, PIIX4PMState, s4_val, 2),
-> >      DEFINE_PROP_BOOL("acpi-pci-hotplug-with-bridge-support",
-> PIIX4PMState,
-> > -                     use_acpi_pci_hotplug, true),
-> > +                     use_acpi_hotplug_bridge, true),
-> >      DEFINE_PROP_BOOL("memory-hotplug-support", PIIX4PMState,
-> >                       acpi_memory_hotplug.is_enabled, true),
-> >      DEFINE_PROP_END_OF_LIST(),
->
->
-
---000000000000f2da2b05a8336748
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Tue, Jun 16, 2020 at 6:47 PM Igor Mammedov &lt;<a href=
-=3D"mailto:imammedo@redhat.com">imammedo@redhat.com</a>&gt; wrote:<br></div=
-><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border=
--left-width:1px;border-left-style:solid;padding-left:1ex;border-left-color:=
-rgb(204,204,204)">On Tue, 16 Jun 2020 12:31:39 +0000<br>
-Ani Sinha &lt;<a href=3D"mailto:ani.sinha@nutanix.com" target=3D"_blank">an=
-i.sinha@nutanix.com</a>&gt; wrote:<br>
-<br>
-&gt; Currently, the option use_acpi_pci_hotplug is being used to control de=
-vice<br>
-&gt; hotplug capability using ACPI for slots of cold plugged bridges. Hence=
-, we<br>
-&gt; are renaming this option to better reflect what it actually does.<br>
-&gt; <br>
-&gt; Signed-off-by: Ani Sinha &lt;<a href=3D"mailto:ani.sinha@nutanix.com" =
-target=3D"_blank">ani.sinha@nutanix.com</a>&gt;<br>
-&gt; ---<br>
-<br>
-what was wrong with v2?</blockquote><div dir=3D"auto"><br></div><blockquote=
- class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:=
-1px;border-left-style:solid;padding-left:1ex;border-left-color:rgb(204,204,=
-204)"></blockquote><div dir=3D"auto">i removed the change-id string.</div><=
-div dir=3D"auto"><br></div><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;padding-l=
-eft:1ex;border-left-color:rgb(204,204,204)"><br>
-Also for the future,<br>
-can you add under --- line change log please?<br>
-<br>
-&gt;=C2=A0 hw/acpi/piix4.c | 21 +++++++++++----------<br>
-&gt;=C2=A0 1 file changed, 11 insertions(+), 10 deletions(-)</blockquote><d=
-iv dir=3D"auto"><br></div><div dir=3D"auto">It&#39;s already here.</div><di=
-v dir=3D"auto"><br></div><blockquote class=3D"gmail_quote" style=3D"margin:=
-0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;padding-lef=
-t:1ex;border-left-color:rgb(204,204,204)"><br>
-&gt; <br>
-&gt; diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c<br>
-&gt; index 85c199b..7de44bc 100644<br>
-&gt; --- a/hw/acpi/piix4.c<br>
-&gt; +++ b/hw/acpi/piix4.c<br>
-&gt; @@ -77,7 +77,7 @@ typedef struct PIIX4PMState {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 Notifier powerdown_notifier;<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 AcpiPciHpState acpi_pci_hotplug;<br>
-&gt; -=C2=A0 =C2=A0 bool use_acpi_pci_hotplug;<br>
-&gt; +=C2=A0 =C2=A0 bool use_acpi_hotplug_bridge;<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 uint8_t disable_s3;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 uint8_t disable_s4;<br>
-&gt; @@ -204,16 +204,17 @@ static const VMStateDescription vmstate_pci_stat=
-us =3D {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 }<br>
-&gt;=C2=A0 };<br>
-&gt;=C2=A0 <br>
-&gt; -static bool vmstate_test_use_acpi_pci_hotplug(void *opaque, int versi=
-on_id)<br>
-&gt; +static bool vmstate_test_use_acpi_hotplug_bridge(void *opaque, int ve=
-rsion_id)<br>
-&gt;=C2=A0 {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 PIIX4PMState *s =3D opaque;<br>
-&gt; -=C2=A0 =C2=A0 return s-&gt;use_acpi_pci_hotplug;<br>
-&gt; +=C2=A0 =C2=A0 return s-&gt;use_acpi_hotplug_bridge;<br>
-&gt;=C2=A0 }<br>
-&gt;=C2=A0 <br>
-&gt; -static bool vmstate_test_no_use_acpi_pci_hotplug(void *opaque, int ve=
-rsion_id)<br>
-&gt; +static bool vmstate_test_no_use_acpi_hotplug_bridge(void *opaque,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 int version_id)<br>
-&gt;=C2=A0 {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 PIIX4PMState *s =3D opaque;<br>
-&gt; -=C2=A0 =C2=A0 return !s-&gt;use_acpi_pci_hotplug;<br>
-&gt; +=C2=A0 =C2=A0 return !s-&gt;use_acpi_hotplug_bridge;<br>
-&gt;=C2=A0 }<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 static bool vmstate_test_use_memhp(void *opaque)<br>
-&gt; @@ -290,11 +291,11 @@ static const VMStateDescription vmstate_acpi =3D=
- {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_STRUCT_TEST(<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 acpi_pci_hotplug.acpi_=
-pcihp_pci_status[ACPI_PCIHP_BSEL_DEFAULT],<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 PIIX4PMState,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 vmstate_test_no_use_acpi_pc=
-i_hotplug,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 vmstate_test_no_use_acpi_ho=
-tplug_bridge,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 2, vmstate_pci_status,=
-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 struct AcpiPciHpPciSta=
-tus),<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_PCI_HOTPLUG(acpi_pci_hotplug=
-, PIIX4PMState,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 vmstate_test_use_acpi_pci_hotplug),<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 vmstate_test_use_acpi_hotplug_bridge),<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_END_OF_LIST()<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 },<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 .subsections =3D (const VMStateDescription*[]) {<b=
-r>
-&gt; @@ -528,7 +529,7 @@ I2CBus *piix4_pm_init(PCIBus *bus, int devfn, uint=
-32_t smb_io_base,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 s-&gt;smi_irq =3D smi_irq;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 s-&gt;smm_enabled =3D smm_enabled;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 if (xen_enabled()) {<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;use_acpi_pci_hotplug =3D false;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;use_acpi_hotplug_bridge =3D false;<=
-br>
-&gt;=C2=A0 =C2=A0 =C2=A0 }<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 qdev_init_nofail(dev);<br>
-&gt; @@ -593,7 +594,7 @@ static void piix4_acpi_system_hot_add_init(MemoryR=
-egion *parent,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 memory_region_add_subregion(parent, GPE_BASE, &amp=
-;s-&gt;io_gpe);<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 acpi_pcihp_init(OBJECT(s), &amp;s-&gt;acpi_pci_hot=
-plug, bus, parent,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- s-&gt;use_acpi_pci_hotplug);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- s-&gt;use_acpi_hotplug_bridge);<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 s-&gt;cpu_hotplug_legacy =3D true;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 object_property_add_bool(OBJECT(s), &quot;cpu-hotp=
-lug-legacy&quot;,<br>
-&gt; @@ -631,7 +632,7 @@ static Property piix4_pm_properties[] =3D {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 DEFINE_PROP_UINT8(ACPI_PM_PROP_S4_DISABLED, PIIX4P=
-MState, disable_s4, 0),<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 DEFINE_PROP_UINT8(ACPI_PM_PROP_S4_VAL, PIIX4PMStat=
-e, s4_val, 2),<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 DEFINE_PROP_BOOL(&quot;acpi-pci-hotplug-with-bridg=
-e-support&quot;, PIIX4PMState,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0use_acpi_pci_hotplug, true),<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0use_acpi_hotplug_bridge, true),<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 DEFINE_PROP_BOOL(&quot;memory-hotplug-support&quot=
-;, PIIX4PMState,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0acpi_memory_hotplug.is_enabled, true),<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 DEFINE_PROP_END_OF_LIST(),<br>
-<br>
-</blockquote></div></div>
-
---000000000000f2da2b05a8336748--
 
