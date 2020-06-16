@@ -2,77 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 318CE1FB6B0
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 17:41:40 +0200 (CEST)
-Received: from localhost ([::1]:59884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7B101FB859
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 17:56:27 +0200 (CEST)
+Received: from localhost ([::1]:54956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlDiV-00007v-81
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 11:41:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48996)
+	id 1jlDwo-0005tH-RK
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 11:56:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jlDgn-0007mr-3k
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 11:39:53 -0400
-Received: from mail-oo1-xc42.google.com ([2607:f8b0:4864:20::c42]:41355)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jlDvi-0005Nr-0y
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 11:55:18 -0400
+Received: from indium.canonical.com ([91.189.90.7]:55448)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jlDgk-0007js-5F
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 11:39:52 -0400
-Received: by mail-oo1-xc42.google.com with SMTP id y45so4160241ooi.8
- for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 08:39:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=HQjhk2kW5iuW9MHP9wBoBAZ1jJ2lH2MO8EKv2KNe6zo=;
- b=w0szmhycnCTpx7bWpj/ia6KqpVs5mfvgZamu0MBn6YwR+5MXnbbBCWbjFkru57++nL
- LGsGJaKJDIpryHMwD2v5DnwCPTXdqHD4ONybd64QdHlIjJzDVMxV6H/k6pv8Xl8YwQen
- Sguv5STI+I9zym0SJvTwJZA1LpNPOV0ke3KZ+W3eh97sNgv3qhEGHDDIo2Xb+zH9zwec
- 228NoM1jb+3jgGhqZNyuSMaebN4Wdp9cvtBaBige8Q6pT8FnEahqNZb2S4pJw1riXWPq
- bDrZb+EXp/C9us9JdjkBgp+EMroDk+Q/ogZU8Gxnr1jrSzhCAhrvHHVlZ3BUS42ApkmE
- iiow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=HQjhk2kW5iuW9MHP9wBoBAZ1jJ2lH2MO8EKv2KNe6zo=;
- b=HYNYaHbtYLjDcG/wh+9Pppxok3yzAiMu/21fj0yVlj+8oryKd/LJC8yLgnahF785zx
- MzjTs+8dpgQd+Uior4OgToBoNJEzDxJa1IUxDuAQbhCmX04cfOkddWyUkaY/wIqCCpAz
- 8Rb9g3HDQuMENLKGe2Dp+QklY7uJ7kL1MNIXFIxFUaZHrCtho8JwaCpRpwDcyfQXGHtl
- QvVjyMmvNuR5G67rWvMwVXZueXiMl1Tlgd0zTyaLhARQnaEWXRAbubRBjL48sY9btERD
- QZrlT8D8Ve3GkIWlycTOcr9uCFI9suLCgsXMR5RkMiLW422nHIYQ6pmcVionHT3exH+g
- Vr8A==
-X-Gm-Message-State: AOAM533KygOGZR/DE5WUdR97Os8srI4uGCWv9HHKKfw7wM4xkj8hdcLQ
- E+e6JcBQrfm6afU68EGj11N7kDGYGn5zZW5kDd8Igw==
-X-Google-Smtp-Source: ABdhPJzsZimVol6g4a0CgVucJ3ETZVhGAa8y+gifdoWy0VsgFXdxXY02Yeub5i/+Cz/Up4d/rZJCGMb5kSuN8Kf1mEk=
-X-Received: by 2002:a4a:9528:: with SMTP id m37mr2840833ooi.85.1592321988743; 
- Tue, 16 Jun 2020 08:39:48 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jlDvf-00025p-Rl
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 11:55:17 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jlDvd-0002XT-SH
+ for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 15:55:13 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id B924A2E8109
+ for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 15:55:13 +0000 (UTC)
 MIME-Version: 1.0
-References: <20200611081319.1864-1-wentong.wu@intel.com>
-In-Reply-To: <20200611081319.1864-1-wentong.wu@intel.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 16 Jun 2020 16:39:37 +0100
-Message-ID: <CAFEAcA_oQ7X9COCPnoarrKfGtXD4CVKs7MAjWq-i_8yc5jTtDA@mail.gmail.com>
-Subject: Re: [PATCH] hw/nios2: Update interrupt request when CR_STATUS_PIE
- disabled
-To: wentongw <wentong.wu@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c42;
- envelope-from=peter.maydell@linaro.org; helo=mail-oo1-xc42.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Date: Tue, 16 Jun 2020 15:41:27 -0000
+From: Bugs SysSec <1525123@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public Security
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: yes
+X-Launchpad-Bug-Commenters: a1xndr bugs-syssec janitor joveler th-huth
+X-Launchpad-Bug-Reporter: Hajin Jang (joveler)
+X-Launchpad-Bug-Modifier: Bugs SysSec (bugs-syssec)
+References: <20151211084346.25665.93589.malonedeb@gac.canonical.com>
+Message-Id: <159232208730.11750.331175831683550757.malone@gac.canonical.com>
+Subject: [Bug 1525123] Re: USB assert failure on hcd-uhci.c
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="b190cebbf563f89e480a8b57f641753c8196bda0";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 5a0bb641ed368d2d0da3d57b7e767021f8d63467
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 11:30:43
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -81,93 +71,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Marek Vasut <marex@denx.de>,
- Thomas Huth <thuth@redhat.com>, Chris Wulff <crwulff@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: Bug 1525123 <1525123@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 11 Jun 2020 at 01:23, wentongw <wentong.wu@intel.com> wrote:
->
-> Update interrupt request when external interupt pends for STATUS_PIE
-> disabled. Otherwise on icount enabled nios2 target there will be cpu
-> abort when guest code changes state register with wrctl instruction.
->
-> Signed-off-by: Wentong Wu <wentong.wu@intel.com>
-> ---
->  hw/nios2/cpu_pic.c | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/hw/nios2/cpu_pic.c b/hw/nios2/cpu_pic.c
-> index 1c1989d5..2abc8fa8 100644
-> --- a/hw/nios2/cpu_pic.c
-> +++ b/hw/nios2/cpu_pic.c
-> @@ -42,6 +42,8 @@ static void nios2_pic_cpu_handler(void *opaque, int irq=
-, int level)
->          } else if (!level) {
->              env->irq_pending =3D 0;
->              cpu_reset_interrupt(cs, type);
-> +        } else {
-> +            cs->interrupt_request |=3D type;
->          }
+We can reproduce this bug in QEMU 5.0.0
 
-Thanks for the clarification in your other email about the
-issue you're trying to address:
+```
+qemu-system-x86_64: hw/usb/core.c:723: usb_ep_get: Assertion `pid =3D=3D US=
+B_TOKEN_IN || pid =3D=3D USB_TOKEN_OUT' failed.
+```
 
-> I=E2=80=99m running icount mode on qemu_nios2 with customized platform
-> but cpu abort happened(qemu: fatal: Raised interrupt while not
-> in I/O function) when guest code changes state register with wrctl
-> instruction add some debug code finding that it=E2=80=99s caused by the
-> interrupt_request mismatch.
+To reproduce run the QEMU with the following command line:
+```
+qemu-system-x86_64 -cdrom hypertrash.iso -nographic -m 100 -enable-kvm -net=
+ none -device ich9-usb-ehci1 -device usb-tablet
+```
 
-I don't think the change you've made is the correct fix.
-Setting cs->interrupt_request like this is pretty much
-the same thing that calling cpu_interrupt() does, so
-what your patch is doing is essentially "ignore the
-status.PIE bit and always deliver interrupts", which isn't
-how the hardware behaves.
+QEMU Version:
+```
+# qemu-5.0.0
+$ ./configure --target-list=3Dx86_64-softmmu --enable-sanitizers; make
+$ x86_64-softmmu/qemu-system-x86_64 --version
+QEMU emulator version 5.0.0
+Copyright (c) 2003-2020 Fabrice Bellard and the QEMU Project developers
+```
 
-The assertion you've run into is saying "some instruction caused us
-to take an interrupt, but it wasn't marked up to indicate that it
-might cause a side effect". (This only matters in icount mode, where
-we insist that we never get unexpected sideeffects like this.) If
-the guest writes to status.PIE to unmask interrupts that's the kind
-of thing that will cause an interrupt to be taken, so the problem
-really here is that the nios2 translate.c code hasn't indicated
-that this insn can do this.
 
-The right fix here will be that target/nios2/translate.c
-needs to do this:
-    if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
-        gen_io_start();
-    }
-before generating code for an insn like this one, and then
-    if (tb_cflags(dc->base.tb) & CF_USE_ICOUNT) {
-        gen_io_end();
-    }
-after it. (Compare the xtensa target which does a similar
-kind of thing for its interrupt handling.)
-For wrctl to STATUS it should I think also end the TB,
-because we want to actually take any pending interrupt
-now, not in a few instructions time when the next branch
-comes along.
+** Attachment added: "ehci_assert1.zip"
+   https://bugs.launchpad.net/qemu/+bug/1525123/+attachment/5384435/+files/=
+ehci_assert1.zip
 
-The fact that the current nios2 code has no calls to
-gen_io_start() in it at all (apart from one in boilerplate
-code) suggests to me that this target is simply broken
-for use with -icount at the moment. There may well be
-other bugs of a similar kind where particular insns that
-cause interrupts or touch devices (any equivalent to the
-x86 in/out insns, for instance) also need to be marked up
-as IO.
+-- =
 
-(Beyond that, the way that nios2_check_interrupts() works
-looks weird; in an ideal world it would be rewritten to
-work in a way that's more in line with how we'd write that
-kind of code today. It should be possible to get it to work with
-icount without getting into that kind of refactoring/rework,
-though.)
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1525123
 
-thanks
--- PMM
+Title:
+  USB assert failure on hcd-uhci.c
+
+Status in QEMU:
+  New
+
+Bug description:
+  When inserting the attached kernel moudle in the guest OS, QEMU quits
+  with therse assert failure:
+
+  [insert kernel module in guest root shell]
+  root@qemu:~# insmod mymod.ko
+  root@qemu:~#
+  Connection closed by foreign host.
+
+  [host message]
+  qemu-system-x86_64: hw/usb/core.c:718: usb_ep_get: Assertion `pid =3D=3D =
+0x69 || pid =3D=3D 0xe1' failed.
+  Aborted
+
+  The direct cause of this bug is due to misimplementation of UHCI.
+  According to Intel's UHCI design guide, packet identification in transfer=
+ descriptor must be one of these three values : IN (69h), OUT (E1h), and SE=
+TUP (2Dh). Any other value in this field must cause the HALT of only HOST C=
+ONTROLLER.
+
+  However, due to misimplementation in uhci_handle_td, instead of host
+  controller being halted, QEMU itself dies with assertion failure. The
+  assertion code is in usb_ep_get():718, which is called during
+  uhci_handle_td().
+
+  Another issue resides in uhci_handle_td(). This function must check
+  that transfer descriptor's pid is one of IN, OUT, SETUP before calling
+  usb_ep_get() or other functions. If it does so, usb_ep_get() only
+  needs to check if pid is not SETUP.
+
+  This kind of assert failure can be misused by malwares to avoid being
+  analyzed by terminating only in the virtual environments and still
+  execute the malicious code in real machines.
+
+  =
+
+  [How to run exploit code]
+  Prepare linux kernel's source header, then type these lines in root shell.
+  # make
+  # insmod mymod.ko
+
+  It needs uhci-hcd.h from linux kernel source.
+  I attached linux 3.18.24's uhci-hcd.h for tempory measure; You should get=
+ proper version of uhci-hcd.h.
+  In the following envrionment, this exploit worked, exiting whole QEMU, no=
+t only USB.
+
+  QEMU was running on these environment :
+  [CPU model] Intel(R) Core(TM) i5-4590 CPU @ 3.30GHz
+  [qemu version] QEMU 2.5.0-rc3 (compiled from source, gcc 4.8.4)
+  [host info] Ubuntu 14.04.3, x86_64, 3.19.0-32-generic
+  [guest info] Ubuntu 14.04.3, x86_64, 3.19.0-28-generic
+  [QEMU argument]
+  x86_64-softmmu/qemu-system-x86_64 -hda /media/hdd/img/ubuntu1404.qcow2 \
+  =C2=A0-m 512 \
+  =C2=A0--usbdevice disk:format=3Dqcow2:../usb.img \
+  =C2=A0--enable-kvm
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1525123/+subscriptions
 
