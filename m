@@ -2,67 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF1641FB4DA
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:48:14 +0200 (CEST)
-Received: from localhost ([::1]:57694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5FC81FB4BF
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:43:40 +0200 (CEST)
+Received: from localhost ([::1]:39386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlCsn-0005l5-Ls
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:48:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57810)
+	id 1jlCoN-0005xB-OW
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:43:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCQ8-0002n5-QB; Tue, 16 Jun 2020 10:18:37 -0400
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:37871)
+ id 1jlCQ9-0002n6-21; Tue, 16 Jun 2020 10:18:37 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:38311)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCQ6-0006p3-5Z; Tue, 16 Jun 2020 10:18:36 -0400
-Received: by mail-oi1-x244.google.com with SMTP id a3so19411717oid.4;
- Tue, 16 Jun 2020 07:18:33 -0700 (PDT)
+ id 1jlCQ7-0006qK-Dt; Tue, 16 Jun 2020 10:18:36 -0400
+Received: by mail-ot1-x344.google.com with SMTP id n70so16045318ota.5;
+ Tue, 16 Jun 2020 07:18:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=JwnlDNPbrLcvfJMKjMv3fUQyb6M3rRDS3gPnPd6DoeI=;
- b=DQ6sTO8BmJxCdDff6CoXV8iE76R/p6LqXYLhi7td3vcF8xHszO8WGtLmEu1Gc+8eLA
- MFi7Euax6CM1oyw1drQc3GFy2RMzLYYxeEyB6aSfRq9m1n9ohnSoRS0NHr9UNYHkI4oV
- +mXlKy1e4V5EkKlFqyrbZ2lvHjdzXLt+JcZPFLvhYw0BBYWlyeAXaHth8D06oJHN5/bH
- 7GPrvEAOHLopp3SO2z2P5tpKsG+AKO8njIXAyZyxaRibtqIplYiq7O6goWcjT9TwpfYB
- 6ix2K6U7nemQmD9U/DYF5sTKsN/T2b9/ziCI2wwsWWyZoFAAQo76y3XTdFcKteqx4asT
- SMkA==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=0DBI2oDF9wCrNm/Eb66bKZMNBed6O1z+oe9NUEbxE3U=;
+ b=q5IVC64Jdho2cZjqag1SQPfDt/f4W7BTx8ZcyfM27yIbgdMwh9WdRiRIyuluwZrEg6
+ /b/FjuReRuY3BH/r7axhA6PiNxWjtGxICKISbr8OiZ8LW5Fw+iRY5mLUQ0/hA5alEhFG
+ tsKp4054OeOGUfA6L0+v4JNENWS3Dh0VjMbVJMVEdQSzQxF3NeIbUriXHTvuF8dvi2Ee
+ D0wA+oGq14QCa0BCa7XR5xwdFSklQ9wOGZTyy/5azNyV2E28TFNglzd2u+tDjUBHq/vc
+ NptmaT0a9J2KNMkItaSRoHMYUdZxH2QnZlPGfLMzG3b1n57lXIHH9GBiN98ma3OLGR80
+ 5ENw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=JwnlDNPbrLcvfJMKjMv3fUQyb6M3rRDS3gPnPd6DoeI=;
- b=lA821lgJg4v9hAVN1O4bLaz5HJgW8XayBcnxUOCkbDSY2axgS+UtXEjaVF92fJ0xVJ
- eJMPCb2gzEXzVkBdNHNq2okOHR+xnGjL6cbwv86iiSF9Sgx2KG4lSRKtHOnf2gEKVs0s
- 60ylh6x7rug3IX5H8uVu54mw1bRH3niUiNxbXHRkUlKQ52jtR3aeZuuR697qiBSSpncN
- 80FUx7s0CWb5Ij3h1MqFoJU0/6GeSYV8fWsJFHNUVAWO7uL3K5QF9vQtyTmJ7Ax385XK
- zZWp40koroZMUzH2iB5KmQhbyYizgUvi61Y1K/IqhAIzKxtoi3Fs1vYywiOC67oyiCKr
- Fh9A==
-X-Gm-Message-State: AOAM531Lg85tbYtc2tSv4z5Eq0nkD5kZVKx0tCIRLsC4RVcSy5wOhWHH
- JsR18U/jfQBZhaecumRmBdnqv8XA
-X-Google-Smtp-Source: ABdhPJzaiHmMLm2W4XQ9jtgG7t3fD8V8IH+SmzE3kRXKRUuGbtzp3Oagqm3c0BPOQc08QEwvvIygLQ==
-X-Received: by 2002:a54:4718:: with SMTP id k24mr3241700oik.133.1592317112536; 
- Tue, 16 Jun 2020 07:18:32 -0700 (PDT)
+ :in-reply-to:references;
+ bh=0DBI2oDF9wCrNm/Eb66bKZMNBed6O1z+oe9NUEbxE3U=;
+ b=OMZQos6Ps5BlZDtjMdQ8eV1vD3Q/2ZA1d8rjrwonPvvCLwtHPbuysrD7ksf9x1s54g
+ gz47QeYyJNqt4EPD+JSUDFBhj5nQA0AmmSClfdKxVeNs3LWGg6h7iCqeewj+Mpm9oSq6
+ g4sfMPPorhi0iXevAfmsR78Da9HR2+HnPSsK/PHj+9HgsFLpFlUcTks9/vIqIUByF2Wu
+ PN/Shj4/oJI738wjlN2x+ew/Ou6mcr2paXiLMV0eYSxTy/ly90aoMHwuRyRF7fy94voz
+ waTov97MOLLu4Ugpl+HEwjRg3p6Z5d10uJ/XIf1s7q5euPAff0CDuk8MHNAgI8re+2ix
+ tikA==
+X-Gm-Message-State: AOAM530ZBV1795n7ZQ0QG6GY2XADgokrojGi+LM4w5JzWtWF6FRElbUj
+ DBGcJClmNwomwf/KQS42C3FGuF+H
+X-Google-Smtp-Source: ABdhPJzF+kaKZH8Dr7sG+XtfQ3tcisaOS4FMRjy3g4mLiBvGCcuNCFfyyBHnyUsEB4kxFykFQtPHJw==
+X-Received: by 2002:a05:6830:1011:: with SMTP id
+ a17mr2496158otp.163.1592317113693; 
+ Tue, 16 Jun 2020 07:18:33 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id w10sm4087452otp.44.2020.06.16.07.18.31
+ by smtp.gmail.com with ESMTPSA id w10sm4073655oon.40.2020.06.16.07.18.32
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 16 Jun 2020 07:18:31 -0700 (PDT)
+ Tue, 16 Jun 2020 07:18:33 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 43/78] tcg: save vaddr temp for plugin usage
-Date: Tue, 16 Jun 2020 09:15:12 -0500
-Message-Id: <20200616141547.24664-44-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 44/78] qcow2: update_refcount(): Reset old_table_index after
+ qcow2_cache_put()
+Date: Tue, 16 Jun 2020 09:15:13 -0500
+Message-Id: <20200616141547.24664-45-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
 References: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::244;
- envelope-from=flukshun@gmail.com; helo=mail-oi1-x244.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
+ envelope-from=flukshun@gmail.com; helo=mail-ot1-x344.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -84,96 +82,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-stable@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alex Bennée <alex.bennee@linaro.org>
+From: Kevin Wolf <kwolf@redhat.com>
 
-While do_gen_mem_cb does copy (via extu_tl_i64) vaddr into a new temp
-this won't help if the vaddr temp gets clobbered by the actual
-load/store op. To avoid this clobbering we explicitly copy vaddr
-before the op to ensure it is live my the time we do the
-instrumentation.
+In the case that update_refcount() frees a refcount block, it evicts it
+from the metadata cache. Before doing so, however, it returns the
+currently used refcount block to the cache because it might be the same.
+Returning the refcount block early means that we need to reset
+old_table_index so that we reload the refcount block in the next
+iteration if it is actually still in use.
 
-Suggested-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Emilio G. Cota <cota@braap.org>
-Cc: qemu-stable@nongnu.org
-Message-Id: <20200225124710.14152-18-alex.bennee@linaro.org>
-(cherry picked from commit fcc54ab5c7ca84ae72e8bf3781c33c9193a911aa)
+Fixes: f71c08ea8e60f035485a512fd2af8908567592f0
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+Message-Id: <20200211094900.17315-2-kwolf@redhat.com>
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+(cherry picked from commit dea9052ef1ba12c83f17d394c70d7d710ea1dec9)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- tcg/tcg-op.c | 23 ++++++++++++++++++++---
- 1 file changed, 20 insertions(+), 3 deletions(-)
+ block/qcow2-refcount.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/tcg/tcg-op.c b/tcg/tcg-op.c
-index c245126f98..eb5d172e49 100644
---- a/tcg/tcg-op.c
-+++ b/tcg/tcg-op.c
-@@ -2794,13 +2794,26 @@ static void tcg_gen_req_mo(TCGBar type)
-     }
- }
- 
-+static inline TCGv plugin_prep_mem_callbacks(TCGv vaddr)
-+{
-+#ifdef CONFIG_PLUGIN
-+    if (tcg_ctx->plugin_insn != NULL) {
-+        /* Save a copy of the vaddr for use after a load.  */
-+        TCGv temp = tcg_temp_new();
-+        tcg_gen_mov_tl(temp, vaddr);
-+        return temp;
-+    }
-+#endif
-+    return vaddr;
-+}
-+
- static inline void plugin_gen_mem_callbacks(TCGv vaddr, uint16_t info)
- {
- #ifdef CONFIG_PLUGIN
--    if (tcg_ctx->plugin_insn == NULL) {
--        return;
-+    if (tcg_ctx->plugin_insn != NULL) {
-+        plugin_gen_empty_mem_callback(vaddr, info);
-+        tcg_temp_free(vaddr);
-     }
--    plugin_gen_empty_mem_callback(vaddr, info);
- #endif
- }
- 
-@@ -2822,6 +2835,7 @@ void tcg_gen_qemu_ld_i32(TCGv_i32 val, TCGv addr, TCGArg idx, MemOp memop)
-         }
-     }
- 
-+    addr = plugin_prep_mem_callbacks(addr);
-     gen_ldst_i32(INDEX_op_qemu_ld_i32, val, addr, memop, idx);
-     plugin_gen_mem_callbacks(addr, info);
- 
-@@ -2868,6 +2882,7 @@ void tcg_gen_qemu_st_i32(TCGv_i32 val, TCGv addr, TCGArg idx, MemOp memop)
-         memop &= ~MO_BSWAP;
-     }
- 
-+    addr = plugin_prep_mem_callbacks(addr);
-     gen_ldst_i32(INDEX_op_qemu_st_i32, val, addr, memop, idx);
-     plugin_gen_mem_callbacks(addr, info);
- 
-@@ -2905,6 +2920,7 @@ void tcg_gen_qemu_ld_i64(TCGv_i64 val, TCGv addr, TCGArg idx, MemOp memop)
-         }
-     }
- 
-+    addr = plugin_prep_mem_callbacks(addr);
-     gen_ldst_i64(INDEX_op_qemu_ld_i64, val, addr, memop, idx);
-     plugin_gen_mem_callbacks(addr, info);
- 
-@@ -2967,6 +2983,7 @@ void tcg_gen_qemu_st_i64(TCGv_i64 val, TCGv addr, TCGArg idx, MemOp memop)
-         memop &= ~MO_BSWAP;
-     }
- 
-+    addr = plugin_prep_mem_callbacks(addr);
-     gen_ldst_i64(INDEX_op_qemu_st_i64, val, addr, memop, idx);
-     plugin_gen_mem_callbacks(addr, info);
+diff --git a/block/qcow2-refcount.c b/block/qcow2-refcount.c
+index f67ac6b2d8..b06a9fa9ce 100644
+--- a/block/qcow2-refcount.c
++++ b/block/qcow2-refcount.c
+@@ -889,6 +889,7 @@ static int QEMU_WARN_UNUSED_RESULT update_refcount(BlockDriverState *bs,
+                                                 offset);
+             if (table != NULL) {
+                 qcow2_cache_put(s->refcount_block_cache, &refcount_block);
++                old_table_index = -1;
+                 qcow2_cache_discard(s->refcount_block_cache, table);
+             }
  
 -- 
 2.17.1
