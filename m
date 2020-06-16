@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 378441FAA76
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 09:53:16 +0200 (CEST)
-Received: from localhost ([::1]:45872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38A671FAA7C
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 09:54:49 +0200 (CEST)
+Received: from localhost ([::1]:53976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jl6PD-0005ar-63
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 03:53:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53878)
+	id 1jl6Qi-0000PM-6u
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 03:54:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53888)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jl6NT-0003dL-Sd; Tue, 16 Jun 2020 03:51:27 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:34406)
+ id 1jl6NV-0003eA-6z; Tue, 16 Jun 2020 03:51:29 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:34407)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jl6NS-000844-4y; Tue, 16 Jun 2020 03:51:27 -0400
-Received: by mail-wr1-x442.google.com with SMTP id r7so19697879wro.1;
- Tue, 16 Jun 2020 00:51:25 -0700 (PDT)
+ id 1jl6NT-00084A-Jj; Tue, 16 Jun 2020 03:51:28 -0400
+Received: by mail-wr1-x443.google.com with SMTP id r7so19697962wro.1;
+ Tue, 16 Jun 2020 00:51:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=CMGZ8HmZIZlFe+EGA2xhdq3yGzhcCaWNcKp3HY+yM/k=;
- b=l8drelST4J485o7YCO6ppUAgvESbk/nw0xzGesnIw33Y78ManT58+5luzQ5airxIzL
- W9SJ+0MldslH/WLb9TGA/jTT4dPnAppXb9uG+ymCBmlCnRTURl7xBa8OgQkwroBK4iJQ
- eyUl5s8h/pR++TmcxfNvsMXFUYc8EnUlS/obfO2rUdu+QLAzAKq2TYT1by3pgLnUrGXM
- cXmXxuiSzYwG/jEtu4UGmmX9YcbHx65JHwZBetOmSYAYu8jNxG+PCRnQYsVi/IkHQVbW
- 9GUzEcPTv+Ma0ehxoa4DMR/QWa3xVmon6XBoOlJdL3cMlKYdUccqiqK84u//m1O9/py4
- 1mWw==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=u02Arpcubj9mPZ8wYNHVoADOr5FJrLRUYb2irB7o4Ig=;
+ b=NU6xdCpJWWMjotGt3hh8qLQaEU6IcuR807+1T9o24PWWNqD9Vogza4t5sE/67Lc+Ul
+ RGfzxZSZE3DbR+GqQrdbaiR5Itv2TJ5BXlyrssUbjIyUavUjrD2sL32ipexO5Un6L8HN
+ jChBwkWzR2d4Cahzr2jOrEAHMxxk3Nvvv00VClpD+StLtJp282jata4OgZXBnCyzhuHJ
+ fiQtd6K4ljhhVoDkTZI+jjJkNZjozK9Q5hQMOo0FuF7f02NHidx60lb9OLa8Hq+rbBND
+ c/5y0//UT6HrihapbCL3sNis3PVVmmf4Y/hXtSZpzXycZPTqZWz43ZOq67pcJlu4blwI
+ cTEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=CMGZ8HmZIZlFe+EGA2xhdq3yGzhcCaWNcKp3HY+yM/k=;
- b=svYMNyr/c5YmUMedgu4+iuHooiFFJDbfu5n89M0b2iMgvp/DMZCFTK38fb0Hom4lmV
- oUpzHQCO5eUS4F6DMf6BR0BNNxrwgRNGgcO34GZFojsLqYoWMazYZ1ixRReEavZ0olrd
- MB1DM+Ivg4bec3wXPACyCXq3Qn2eOa8U8BfVfMLHk8zMm50Bk0oLeRrNsxXpKT1m4Czn
- 2NNeOAv4/kvRjlj7gjvkpBsTVZEUtjhbVTVW6l26yhPgCtxGjevpqhUZ5J+rXAlQrHCl
- OAt6ORWA3H+R5OGGy3CIwxnFTMw/v0rqPqkJSzGWgqP/7OfAaa/d0M1miOrp5rAqeEr+
- nCxw==
-X-Gm-Message-State: AOAM5331JOhalVKdfX2C48Gskc4zv1njJt0vZ/Z5yOwwM0ZoUHl7IMqo
- fpNnZp2w7snG1zd1mrPkEctb73wo
-X-Google-Smtp-Source: ABdhPJw2Xui4tCl06OEgMD7UGeAi4esroBAqUC0hJGZSAxupGm8JDbdSKe28jnhq05ocRWUlMU0Uog==
-X-Received: by 2002:adf:a396:: with SMTP id l22mr1640024wrb.24.1592293883830; 
- Tue, 16 Jun 2020 00:51:23 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=u02Arpcubj9mPZ8wYNHVoADOr5FJrLRUYb2irB7o4Ig=;
+ b=sB9i9cEqcfUFeFbX9TDjMgB1Y/1w+PyCoubmqdEbvZXndPVIHJof2MtTyIujEucH2O
+ 3tCGslzDLeAJDGv/bLqh5I5KWFvJtq+eVE2gT+bS8SCKK535pXBnjnt4h9D2iqJJ7bfL
+ r+T9qNCNLXR0X99sj3Hm9saUU0UCMat+LJvQXoVclGWYhwgOTsY2Tu2X6HyAUIaV916W
+ zj6hkcCzTUC7X5MlTllv5MgvquBTOb47pIZ6KN12ASOhoCAiCWVWe2TYWKIoY+/yR9v7
+ dR0HzCujmJnyLntEnvtF0t1SGlcYiYjtS7QRdaxoSKj90GPcNSPdiFhtdz+7YSlzQ9T0
+ WM/w==
+X-Gm-Message-State: AOAM530HZnPY6nW8AXq/VGctOoOsdsFWEYsoLFQKkqOONIAOMtpAt6n+
+ UA6rMSmt/e1N8BZ+8EnIONFRR7NQ
+X-Google-Smtp-Source: ABdhPJyvI98LxdXs/QaF0wr5dlrQ7y8cygnVOjolGcediY1CUVmrWxnbvLxbeYibXrGIgZMBGQIhoQ==
+X-Received: by 2002:a5d:4f09:: with SMTP id c9mr1617618wru.3.1592293885188;
+ Tue, 16 Jun 2020 00:51:25 -0700 (PDT)
 Received: from localhost.localdomain
  (181.red-88-10-103.dynamicip.rima-tde.net. [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id q11sm28093538wrv.67.2020.06.16.00.51.22
+ by smtp.gmail.com with ESMTPSA id q11sm28093538wrv.67.2020.06.16.00.51.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Jun 2020 00:51:23 -0700 (PDT)
+ Tue, 16 Jun 2020 00:51:24 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/7] misc: Reduce QEMUTimer pressure by using lower precision
- when possible
-Date: Tue, 16 Jun 2020 09:51:14 +0200
-Message-Id: <20200616075121.12837-1-f4bug@amsat.org>
+Subject: [PATCH 1/7] qemu-common: Briefly document qemu_timedate_diff() unit
+Date: Tue, 16 Jun 2020 09:51:15 +0200
+Message-Id: <20200616075121.12837-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
+In-Reply-To: <20200616075121.12837-1-f4bug@amsat.org>
+References: <20200616075121.12837-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -71,7 +72,7 @@ X-Spam_bar: /
 X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
  DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
  HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,35 +96,41 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series contains few patches resulting from the notes I
-took while reviewing Mark ADB series last Sunday, in particular:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg712078.html
+It is not obvious that the qemu_timedate_diff() and
+qemu_ref_timedate() functions return seconds. Briefly
+document it.
 
-I have another patch for hw/input/hid.c but I prefer to hold it
-to test it more.
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ include/qemu-common.h | 1 +
+ softmmu/vl.c          | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-Philippe Mathieu-Daudé (7):
-  qemu-common: Briefly document qemu_timedate_diff() unit
-  block/qcow2: Document cache_clean_interval field holds seconds
-  block/curl: Reduce timer precision to milli-second
-  hw/virtio/virtio-balloon: Rename timer field including 'ms' unit
-  hw/rtc/m48t59: Reduce timer precision to milli-second
-  hw/ipmi/ipmi_bmc_extern: Reduce timer precision to milli-second
-  hw/watchdog/wdt_aspeed: Reduce timer precision to micro-second
-
- block/qcow2.h                      |  1 +
- hw/rtc/m48t59-internal.h           |  2 +-
- include/hw/virtio/virtio-balloon.h |  2 +-
- include/hw/watchdog/wdt_aspeed.h   |  2 +-
- include/qemu-common.h              |  1 +
- block/curl.c                       | 15 +++++++--------
- hw/ipmi/ipmi_bmc_extern.c          | 19 +++++++++---------
- hw/rtc/m48t59.c                    | 31 +++++++++++++++---------------
- hw/virtio/virtio-balloon.c         | 14 ++++++++------
- hw/watchdog/wdt_aspeed.c           | 24 ++++++++++++-----------
- softmmu/vl.c                       |  2 +-
- 11 files changed, 60 insertions(+), 53 deletions(-)
-
+diff --git a/include/qemu-common.h b/include/qemu-common.h
+index d0142f29ac..e97644710c 100644
+--- a/include/qemu-common.h
++++ b/include/qemu-common.h
+@@ -27,6 +27,7 @@ int qemu_main(int argc, char **argv, char **envp);
+ #endif
+ 
+ void qemu_get_timedate(struct tm *tm, int offset);
++/* Returns difference with RTC reference time (in seconds) */
+ int qemu_timedate_diff(struct tm *tm);
+ 
+ void *qemu_oom_check(void *ptr);
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index f669c06ede..215459c7b5 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -737,7 +737,7 @@ void qemu_system_vmstop_request(RunState state)
+ }
+ 
+ /***********************************************************/
+-/* RTC reference time/date access */
++/* RTC reference time/date access (in seconds) */
+ static time_t qemu_ref_timedate(QEMUClockType clock)
+ {
+     time_t value = qemu_clock_get_ms(clock) / 1000;
 -- 
 2.21.3
 
