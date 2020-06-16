@@ -2,67 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7B101FB859
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 17:56:27 +0200 (CEST)
-Received: from localhost ([::1]:54956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F33801FB74C
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 17:47:02 +0200 (CEST)
+Received: from localhost ([::1]:43744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlDwo-0005tH-RK
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 11:56:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53364)
+	id 1jlDni-0008OI-1N
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 11:47:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50668)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jlDvi-0005Nr-0y
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 11:55:18 -0400
-Received: from indium.canonical.com ([91.189.90.7]:55448)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jlDvf-00025p-Rl
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 11:55:17 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jlDvd-0002XT-SH
- for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 15:55:13 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id B924A2E8109
- for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 15:55:13 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jlDmM-0007jb-M9
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 11:45:38 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27711
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jlDmJ-0000oX-U1
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 11:45:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1592322334;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=tKPQl7/IAT68akl9Ckfp/uPWqNuXCRIbQQxygkP4gKM=;
+ b=H9XXDazRE1U7FzSaHbHGU4rufwJyMyeBe7hEufj2FEiAVSsovyjpT2aev41p1dbwgUux0U
+ UYdJEhClgNpRLJkSBFbNaQpbOqD26YSqNXy+tQHJj+CfmWu9kiTGTXWV9XDr9x3CpCynQp
+ beNrZKI4+E1YO03AtWknNq56tUe0lqk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-290-OUhh_qsDMva4zQJIjKr9sQ-1; Tue, 16 Jun 2020 11:45:31 -0400
+X-MC-Unique: OUhh_qsDMva4zQJIjKr9sQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 02EA6EC1A5;
+ Tue, 16 Jun 2020 15:45:30 +0000 (UTC)
+Received: from gondolin (ovpn-112-222.ams2.redhat.com [10.36.112.222])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F19A319C79;
+ Tue, 16 Jun 2020 15:45:28 +0000 (UTC)
+Date: Tue, 16 Jun 2020 17:45:26 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Andrew Jones <drjones@redhat.com>
+Subject: Re: [PATCH] hw/arm/virt: Add 5.0 HW compat props
+Message-ID: <20200616174526.36e59545.cohuck@redhat.com>
+In-Reply-To: <20200616140803.25515-1-drjones@redhat.com>
+References: <20200616140803.25515-1-drjones@redhat.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 16 Jun 2020 15:41:27 -0000
-From: Bugs SysSec <1525123@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public Security
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: yes
-X-Launchpad-Bug-Commenters: a1xndr bugs-syssec janitor joveler th-huth
-X-Launchpad-Bug-Reporter: Hajin Jang (joveler)
-X-Launchpad-Bug-Modifier: Bugs SysSec (bugs-syssec)
-References: <20151211084346.25665.93589.malonedeb@gac.canonical.com>
-Message-Id: <159232208730.11750.331175831683550757.malone@gac.canonical.com>
-Subject: [Bug 1525123] Re: USB assert failure on hcd-uhci.c
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="b190cebbf563f89e480a8b57f641753c8196bda0";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 5a0bb641ed368d2d0da3d57b7e767021f8d63467
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 11:30:43
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=_AUTOLEARN
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 02:45:54
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,107 +78,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1525123 <1525123@bugs.launchpad.net>
+Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We can reproduce this bug in QEMU 5.0.0
+On Tue, 16 Jun 2020 16:08:03 +0200
+Andrew Jones <drjones@redhat.com> wrote:
 
-```
-qemu-system-x86_64: hw/usb/core.c:723: usb_ep_get: Assertion `pid =3D=3D US=
-B_TOKEN_IN || pid =3D=3D USB_TOKEN_OUT' failed.
-```
+Fixes: 541aaa1df80d ("hw: add compat machines for 5.1")
 
-To reproduce run the QEMU with the following command line:
-```
-qemu-system-x86_64 -cdrom hypertrash.iso -nographic -m 100 -enable-kvm -net=
- none -device ich9-usb-ehci1 -device usb-tablet
-```
+> Cc: Cornelia Huck <cohuck@redhat.com>
+> Signed-off-by: Andrew Jones <drjones@redhat.com>
+> ---
+>  hw/arm/virt.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> index caceb1e4a05f..8b6e6aa7b138 100644
+> --- a/hw/arm/virt.c
+> +++ b/hw/arm/virt.c
+> @@ -2375,6 +2375,7 @@ DEFINE_VIRT_MACHINE_AS_LATEST(5, 1)
+>  static void virt_machine_5_0_options(MachineClass *mc)
+>  {
+>      virt_machine_5_1_options(mc);
+> +    compat_props_add(mc->compat_props, hw_compat_5_0, hw_compat_5_0_len);
+>  }
+>  DEFINE_VIRT_MACHINE(5, 0)
+>  
 
-QEMU Version:
-```
-# qemu-5.0.0
-$ ./configure --target-list=3Dx86_64-softmmu --enable-sanitizers; make
-$ x86_64-softmmu/qemu-system-x86_64 --version
-QEMU emulator version 5.0.0
-Copyright (c) 2003-2020 Fabrice Bellard and the QEMU Project developers
-```
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 
-
-** Attachment added: "ehci_assert1.zip"
-   https://bugs.launchpad.net/qemu/+bug/1525123/+attachment/5384435/+files/=
-ehci_assert1.zip
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1525123
-
-Title:
-  USB assert failure on hcd-uhci.c
-
-Status in QEMU:
-  New
-
-Bug description:
-  When inserting the attached kernel moudle in the guest OS, QEMU quits
-  with therse assert failure:
-
-  [insert kernel module in guest root shell]
-  root@qemu:~# insmod mymod.ko
-  root@qemu:~#
-  Connection closed by foreign host.
-
-  [host message]
-  qemu-system-x86_64: hw/usb/core.c:718: usb_ep_get: Assertion `pid =3D=3D =
-0x69 || pid =3D=3D 0xe1' failed.
-  Aborted
-
-  The direct cause of this bug is due to misimplementation of UHCI.
-  According to Intel's UHCI design guide, packet identification in transfer=
- descriptor must be one of these three values : IN (69h), OUT (E1h), and SE=
-TUP (2Dh). Any other value in this field must cause the HALT of only HOST C=
-ONTROLLER.
-
-  However, due to misimplementation in uhci_handle_td, instead of host
-  controller being halted, QEMU itself dies with assertion failure. The
-  assertion code is in usb_ep_get():718, which is called during
-  uhci_handle_td().
-
-  Another issue resides in uhci_handle_td(). This function must check
-  that transfer descriptor's pid is one of IN, OUT, SETUP before calling
-  usb_ep_get() or other functions. If it does so, usb_ep_get() only
-  needs to check if pid is not SETUP.
-
-  This kind of assert failure can be misused by malwares to avoid being
-  analyzed by terminating only in the virtual environments and still
-  execute the malicious code in real machines.
-
-  =
-
-  [How to run exploit code]
-  Prepare linux kernel's source header, then type these lines in root shell.
-  # make
-  # insmod mymod.ko
-
-  It needs uhci-hcd.h from linux kernel source.
-  I attached linux 3.18.24's uhci-hcd.h for tempory measure; You should get=
- proper version of uhci-hcd.h.
-  In the following envrionment, this exploit worked, exiting whole QEMU, no=
-t only USB.
-
-  QEMU was running on these environment :
-  [CPU model] Intel(R) Core(TM) i5-4590 CPU @ 3.30GHz
-  [qemu version] QEMU 2.5.0-rc3 (compiled from source, gcc 4.8.4)
-  [host info] Ubuntu 14.04.3, x86_64, 3.19.0-32-generic
-  [guest info] Ubuntu 14.04.3, x86_64, 3.19.0-28-generic
-  [QEMU argument]
-  x86_64-softmmu/qemu-system-x86_64 -hda /media/hdd/img/ubuntu1404.qcow2 \
-  =C2=A0-m 512 \
-  =C2=A0--usbdevice disk:format=3Dqcow2:../usb.img \
-  =C2=A0--enable-kvm
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1525123/+subscriptions
 
