@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C24D1FB5AA
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 17:09:14 +0200 (CEST)
-Received: from localhost ([::1]:36946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 847B71FB546
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 17:00:49 +0200 (CEST)
+Received: from localhost ([::1]:33162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlDD7-0002Xj-76
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 11:09:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58396)
+	id 1jlD4y-0004xd-C7
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 11:00:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCRB-0004dk-9I; Tue, 16 Jun 2020 10:19:41 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:41889)
+ id 1jlCRH-0004rC-C2; Tue, 16 Jun 2020 10:19:47 -0400
+Received: from mail-ot1-x335.google.com ([2607:f8b0:4864:20::335]:45652)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCR9-000734-J9; Tue, 16 Jun 2020 10:19:40 -0400
-Received: by mail-ot1-x344.google.com with SMTP id k15so16046034otp.8;
- Tue, 16 Jun 2020 07:19:38 -0700 (PDT)
+ id 1jlCRF-000747-PB; Tue, 16 Jun 2020 10:19:46 -0400
+Received: by mail-ot1-x335.google.com with SMTP id m2so16025702otr.12;
+ Tue, 16 Jun 2020 07:19:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=kAY3Dn2N1bHaiQSIZRgbVopwR1kTKhAsT3MjOygGjVA=;
- b=qifVdR3NpgESKquRDTJKu0r4SlbeUQmTzdnUiSHPHMkDB80rdOxPXUaw0dcjRpRucf
- +eF/uS6WIM6UYEakBAK/sH9BZZYv+EfayDJ7CSAnWPXQob7lBnhgdAzXOAN/NpQHK6Xh
- SJkfDjkl1YfKWcUo0+4WPEWvYDb5M/gS2Cq47pFydCXEJJS3AZ2sm3LlM+0oblLDMFUg
- MNa6H7a40jRRhCgywJl7hKoIySuKUY1ZdkxU4qaxOrXkW5YJdToQTRAsbv6bibdKS+VQ
- Ld2Op//B9qTfTRy+Q68I8NG0c1qR3NM/LADC7utA4/qLeZY6XilXFtr+Axtmj/W6BC76
- Y9AA==
+ bh=dMB5MwLjGYUQmCwqpEn0/VvW/KiFIQ/TwNzYbII5zMw=;
+ b=YfwjlYVYuCCddrGwULgmqRJnMgsrSMER3nFxJ76dM3M5aVhg7JmfxqBuIhqctDH0ry
+ 5MCq2eRcPkN4iGJGPfi4kUSJPQqlavKhgW+QGTlQI0+bWb0wXpyn6V3JFDtu8jGPOUba
+ 7e6mpx4cZmWjCnIU6vPqJPNjH8lGplz7O42+p2/UvK0C+XH0W788Pp5v1P47om2c5AZW
+ ZmJc+SFrJ+fFaI2ncHO4+ooC1DnsdCVm0KTTooQFKXNPfyfraK41Neq6xjWPSNkhbjXF
+ sj/Mw7JubY6PLboERVTTPzGjsVYSko5ue9ciIsfLR7Tpcjo4BFggKHwFG24HgNF2P+ml
+ XbPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=kAY3Dn2N1bHaiQSIZRgbVopwR1kTKhAsT3MjOygGjVA=;
- b=N0iO6AVoh8OcnQAyHdI0zU5oN8plc1YeUGTviB2/qf4Egf+8xG9JkzLVTDoc0jfenl
- shRdU7ncAtMkMFHxuYdqJ10OIwLcf+Ltp8bwk7LTBVNhRYXyRrug6vBCFWuT6tmzWmZl
- B61oEZmIgAvQuhEmHf0GhgoOdEOFPpJZEw7B4audVDcqyNyOjAn0l/dpRbF3qqHDdSX+
- iacReB5QON2ebLbkyeJ3NscApnnvrzZOJtaW1u055dEHTNRrT+85LBedDC/E90yNT8GU
- 6b4giCZ8Adm5i9Y2Ab/vo+rlWDKhOJngY6S4UTTEfkpM0aWQ9pMSa76BYdPprvCrd96E
- iFNw==
-X-Gm-Message-State: AOAM532CDKDvToy18EpMKqNJQBbXPfchrEFvFZUtiweBD80SfPCg8T9E
- Tgn6OhIwM0yGl50SZO+Tr1/mt362ikQ=
-X-Google-Smtp-Source: ABdhPJzSaBmx+9tvAUsCnDJq8AbtirjnA2aqB3i0DTmNRZUJwerV+z2vnRsKY4VVNy3exTDFqU59oQ==
-X-Received: by 2002:a9d:4691:: with SMTP id z17mr2524965ote.88.1592317176949; 
- Tue, 16 Jun 2020 07:19:36 -0700 (PDT)
+ bh=dMB5MwLjGYUQmCwqpEn0/VvW/KiFIQ/TwNzYbII5zMw=;
+ b=I7qqPMvgokfU/rbjnJtb0YSRlhh/s+SGzbtJPXIW4T6Il3Cp1OQQcFOZr7b3YumF/q
+ askXeTqfWZBPET2dQ1Gaz4n/ObQa3w/dVYmg49tgk0/c+8Bk7pCj1XRh+AAOmIhLP+A+
+ DmywoiNPgt+5A3T7Rgx1Rqnor5vQc9f+IRCWch9whOq4MBGg8GzZXNmVQMOnexcHkBvV
+ R3lY+ZrrECphmkujLgELmxKrmXqJGHax2bgQpXM0QifsRwQ50Bs5wK0UUYUkmQdIfjD8
+ vpTNec6+wczA5yt769DEMuk9wb/YpEocYNY4quO+3IKy9OgrTM48LGRMQD2xGn9o+UMW
+ binw==
+X-Gm-Message-State: AOAM530jBWl0FLyOhzi9hXGWatn33YThPKNWo+0i34GygvIjfpCOYp9y
+ G8CnQSduhuekAN6BpODmFoprUNBhIMA=
+X-Google-Smtp-Source: ABdhPJzQtMYSb4xZ6tXVSUTBJmy3URMZch/tD66cioMMEQWMeocRL5dEeYhJx5MrMTEfNJ2jKYKaCQ==
+X-Received: by 2002:a9d:5c04:: with SMTP id o4mr2482249otk.21.1592317184076;
+ Tue, 16 Jun 2020 07:19:44 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id k7sm4035245oon.29.2020.06.16.07.19.36
+ by smtp.gmail.com with ESMTPSA id y125sm3033947oiy.9.2020.06.16.07.19.43
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 16 Jun 2020 07:19:36 -0700 (PDT)
+ Tue, 16 Jun 2020 07:19:43 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 73/78] net: Do not include a newline in the id of -nic devices
-Date: Tue, 16 Jun 2020 09:15:42 -0500
-Message-Id: <20200616141547.24664-74-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 77/78] virtio-balloon: unref the iothread when unrealizing
+Date: Tue, 16 Jun 2020 09:15:46 -0500
+Message-Id: <20200616141547.24664-78-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
 References: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
- envelope-from=flukshun@gmail.com; helo=mail-ot1-x344.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::335;
+ envelope-from=flukshun@gmail.com; helo=mail-ot1-x335.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -84,40 +84,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-stable@nongnu.org,
- Laurent Vivier <laurent@vivier.eu>
+Cc: "Michael S . Tsirkin" <mst@redhat.com>,
+ David Hildenbrand <david@redhat.com>, qemu-stable@nongnu.org,
+ Alexander Duyck <alexander.duyck@gmail.com>, Wei Wang <wei.w.wang@intel.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+From: David Hildenbrand <david@redhat.com>
 
-The '\n' sneaked in by accident here, an "id" string should really
-not contain a newline character at the end.
+We took a reference when realizing, so let's drop that reference when
+unrealizing.
 
-Fixes: 78cd6f7bf6b ('net: Add a new convenience option "--nic" ...')
-Signed-off-by: Thomas Huth <thuth@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200518074352.23125-1-thuth@redhat.com>
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
-(cherry picked from commit 0561dfac082becdd9e89110249a27b309b62aa9f)
+Reviewed-by: Alexander Duyck <alexander.h.duyck@linux.intel.com>
+Fixes: c13c4153f76d ("virtio-balloon: VIRTIO_BALLOON_F_FREE_PAGE_HINT")
+Cc: qemu-stable@nongnu.org
+Cc: Wei Wang <wei.w.wang@intel.com>
+Cc: Alexander Duyck <alexander.duyck@gmail.com>
+Cc: Michael S. Tsirkin <mst@redhat.com>
+Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: David Hildenbrand <david@redhat.com>
+Message-Id: <20200520100439.19872-4-david@redhat.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+(cherry picked from commit 105aef9c9479786d27c1c45c9b0b1fa03dc46be3)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- net/net.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/virtio/virtio-balloon.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/net/net.c b/net/net.c
-index 84aa6d8d00..58adaafba9 100644
---- a/net/net.c
-+++ b/net/net.c
-@@ -1524,7 +1524,7 @@ static int net_param_nic(void *dummy, QemuOpts *opts, Error **errp)
-     /* Create an ID if the user did not specify one */
-     nd_id = g_strdup(qemu_opts_id(opts));
-     if (!nd_id) {
--        nd_id = g_strdup_printf("__org.qemu.nic%i\n", idx);
-+        nd_id = g_strdup_printf("__org.qemu.nic%i", idx);
-         qemu_opts_set_id(opts, nd_id);
-     }
+diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
+index 64fdd0e332..9762a65600 100644
+--- a/hw/virtio/virtio-balloon.c
++++ b/hw/virtio/virtio-balloon.c
+@@ -820,6 +820,7 @@ static void virtio_balloon_device_unrealize(DeviceState *dev, Error **errp)
  
+     if (s->free_page_bh) {
+         qemu_bh_delete(s->free_page_bh);
++        object_unref(OBJECT(s->iothread));
+         virtio_balloon_free_page_stop(s);
+         precopy_remove_notifier(&s->free_page_report_notify);
+     }
 -- 
 2.17.1
 
