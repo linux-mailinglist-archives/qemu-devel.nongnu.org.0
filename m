@@ -2,75 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF11F1FB118
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 14:48:01 +0200 (CEST)
-Received: from localhost ([::1]:59328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EA181FB136
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 14:55:01 +0200 (CEST)
+Received: from localhost ([::1]:37068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlB0Q-00023R-8d
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 08:47:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60112)
+	id 1jlB7E-0005I0-Ic
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 08:55:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1jlAz6-0001JM-Lp
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 08:46:36 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:43085
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1jlAz5-0007Zi-3N
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 08:46:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592311593;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ewqU9Xfn6PNHy4P5R4ex1hCgSAihXvAec4MRSECMcp0=;
- b=aKNVyTOjHhBeS80K1E/QRfY4Hjhkj1/F2TN0kx14vq8R+osP8hWafyjoAbNeomBov7R6JY
- t1G0y1wXSShKKMNejPUvMW2AaUhvF8/Qa9WdrB7kMnnMFlHZCjH+RzoI6y/6JOMHR/zp3S
- s4DXEw9rnXlVafK9OOF1OUSb4rAfhDg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-354-g8JML2ZuPpqXCYBJu6gM5A-1; Tue, 16 Jun 2020 08:46:30 -0400
-X-MC-Unique: g8JML2ZuPpqXCYBJu6gM5A-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0F67F18A8222;
- Tue, 16 Jun 2020 12:46:29 +0000 (UTC)
-Received: from [10.36.114.197] (ovpn-114-197.ams2.redhat.com [10.36.114.197])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4FFE560C05;
- Tue, 16 Jun 2020 12:46:15 +0000 (UTC)
-Subject: Re: [PATCH v2 3/5] tests: Temporarily ignore DSDT table differences
-To: Stefan Berger <stefanb@linux.vnet.ibm.com>, qemu-devel@nongnu.org
-References: <20200615142327.671546-1-stefanb@linux.vnet.ibm.com>
- <20200615142327.671546-4-stefanb@linux.vnet.ibm.com>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <0b5c1afd-016e-2299-785d-2d46884aa020@redhat.com>
-Date: Tue, 16 Jun 2020 14:46:13 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jlB5p-0003hM-Fm
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 08:53:33 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:46654)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jlB5n-00005G-GA
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 08:53:33 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id x6so20612613wrm.13
+ for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 05:53:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=sZyRuWat06D3xG0H55RrQhbE1KyrtVpUifQMuvnHSdo=;
+ b=PNro4S+Gp2Ru/HE+Vyrf6iTagLMANWwrro71adF1P/r4Q5/l4X3aX1m0pkmhY+Oult
+ bnMm4/aaB1AP0zanNFVSxd5xV8IZ9FfaKRQuPLfgpB1jSJfDUbYS14u9dCfdalWLH0i0
+ VhbK4nrjBG9FleZPBnp+RoYKrm1LatRdzFAiIt2VWaoc11mSqL3Azu6OUEkcWE2D1jnI
+ 6JiMtFIKS7S56WmD8VoCCYhMccrBxxhFpxT7apTq3heOoBYPHz5LrdiVVhO5S9Bii+9J
+ dS5GfIDjx7AO3EFjdjfaAI7N3jfNsrgK7/UTHo1Vw6LX1u7Lnxp+NLMrXln5cAgCd60Y
+ rC9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=sZyRuWat06D3xG0H55RrQhbE1KyrtVpUifQMuvnHSdo=;
+ b=rW6t6XmgAmq2PFV31pBqYa2/yUWn69JsZSuuzZYcU2TY/OLp7+fPpbW4rvUHgzyvzg
+ u/XvYr2kpDeKPJIhDqq2YWajHymoJPc7kiE9v31DKk9/aSjqnobZHZHLcjico+zWkEIZ
+ DHfr0E9HqIz8MCrFdOy++GzXP455yyyfOYvgSVqiLgLHJlxjiQVOasQey87mR0epHdWL
+ 4oPje0Tu6kyrmkVbqzoCbQzrQt4gTqszvpxn+EaE/d2Fy8GVA9NnZnJJv/J50MozzkYW
+ vsVYyCbkZ6L4oGoylso9+mIo6s6AbLsZbQjupoLAq549Ryw+FuEiXQvz8dPGZYN7w0xp
+ NO2g==
+X-Gm-Message-State: AOAM530t/L0MMD6pRwKm9KIC/FJYPZ9diKYT0ZdR9bYluZ5EQLa32gFU
+ Dy1v5hk3z2ftAne/BaV6zzF8EA==
+X-Google-Smtp-Source: ABdhPJyuZAm77D8vo1LTx1U7kiNkqGTk83Kd74u1RQHvgJ80IbsVfC7iod5QuM1FrSv+AiAVwY8eOA==
+X-Received: by 2002:adf:ed4f:: with SMTP id u15mr2891034wro.126.1592312005861; 
+ Tue, 16 Jun 2020 05:53:25 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id c70sm3778631wme.32.2020.06.16.05.53.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 16 Jun 2020 05:53:24 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 4673E1FF7E;
+ Tue, 16 Jun 2020 13:53:24 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: peter.maydell@linaro.org
+Subject: [PULL 00/21] testing and plugin updates (tsan, plugins, cross-builds)
+Date: Tue, 16 Jun 2020 13:53:03 +0100
+Message-Id: <20200616125324.19045-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20200615142327.671546-4-stefanb@linux.vnet.ibm.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.120;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 02:45:54
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,35 +86,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S . Tsirkin" <mst@redhat.com>, pbonzini@redhat.com,
- marcandre.lureau@redhat.com, philmd@redhat.com, mkedzier@redhat.com,
- Stefan Berger <stefanb@linux.ibm.com>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The following changes since commit f5e34624f28f37ec3c8a93bdee348effee966a78:
 
-On 6/15/20 4:23 PM, Stefan Berger wrote:
-> Ignore DSDT table differences before enabling IRQ support for TPM.
-> 
-> Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
-> CC: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
+  Merge remote-tracking branch 'remotes/amarkovic/tags/mips-queue-jun-15-2020' into staging (2020-06-16 11:00:28 +0100)
 
-Thanks
+are available in the Git repository at:
 
-Eric
-> ---
+  https://github.com/stsquad/qemu.git tags/pull-testing-and-plugin-160620-1
 
->  tests/qtest/bios-tables-test-allowed-diff.h | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-> index dfb8523c8b..bb4ce8967b 100644
-> --- a/tests/qtest/bios-tables-test-allowed-diff.h
-> +++ b/tests/qtest/bios-tables-test-allowed-diff.h
-> @@ -1 +1,2 @@
->  /* List of comma-separated changed AML files to ignore */
-> +"tests/data/acpi/q35/DSDT.tis",
-> 
+for you to fetch changes up to 99c5f1ccb9ad9fe42466df292a9e4c9b863eafe6:
+
+  plugins: new lockstep plugin for debugging TCG changes (2020-06-16 13:25:00 +0100)
+
+----------------------------------------------------------------
+Testing and plugin updates
+
+  - clear up dtc warnings
+  - add support for --enable-tsan builds
+  - re-enable shippable cross builds
+  - serialise cirrus check steps
+  - fix check-tcg plugin issues
+  - add lockstep plugin
+
+----------------------------------------------------------------
+Alex Bennée (6):
+      tests/docker: bump fedora to 32
+      Revert ".shippable: temporaily disable some cross builds"
+      cirrus.yml: serialise make check
+      tests/tcg: build plugin list from contents of src directory
+      tests/tcg: ensure -cpu max also used for plugin run
+      plugins: new lockstep plugin for debugging TCG changes
+
+Claudio Fontana (2):
+      Makefile: dtc: update, build the libfdt target
+      Makefile: remove old compatibility gunks
+
+Emilio G. Cota (7):
+      cpu: convert queued work to a QSIMPLEQ
+      thread: add qemu_spin_destroy
+      cputlb: destroy CPUTLB with tlb_destroy
+      qht: call qemu_spin_destroy for head buckets
+      tcg: call qemu_spin_destroy for tb->jmp_lock
+      translate-all: call qemu_spin_destroy for PageDesc
+      thread: add tsan annotations to QemuSpin
+
+Lingfeng Yang (1):
+      configure: add --enable-tsan flag + fiber annotations for coroutine-ucontext
+
+Robert Foley (5):
+      tests/docker: Added docker build support for TSan.
+      include/qemu: Added tsan.h for annotations.
+      util: Added tsan annotate for thread name.
+      docs: Added details on TSan to testing.rst
+      tests: Disable select tests under TSan, which hit TSan issue.
+
+ docs/devel/testing.rst                     | 107 +++++++++
+ configure                                  |  48 +++-
+ Makefile                                   |  16 +-
+ include/exec/exec-all.h                    |   8 +
+ include/hw/core/cpu.h                      |   6 +-
+ include/qemu/thread.h                      |  38 +++-
+ include/qemu/tsan.h                        |  71 ++++++
+ include/tcg/tcg.h                          |   1 +
+ accel/tcg/cputlb.c                         |  15 ++
+ accel/tcg/translate-all.c                  |  17 ++
+ cpus-common.c                              |  25 +--
+ cpus.c                                     |  14 +-
+ exec.c                                     |   1 +
+ hw/core/cpu.c                              |   1 +
+ tcg/tcg.c                                  |   9 +
+ tests/plugin/lockstep.c                    | 340 +++++++++++++++++++++++++++++
+ util/coroutine-ucontext.c                  |  66 +++++-
+ util/qemu-thread-posix.c                   |   2 +
+ util/qht.c                                 |   1 +
+ .cirrus.yml                                |   6 +-
+ .shippable.yml                             |  12 +-
+ dtc                                        |   2 +-
+ tests/Makefile.include                     |   9 +-
+ tests/docker/dockerfiles/fedora.docker     |   2 +-
+ tests/docker/dockerfiles/ubuntu2004.docker |  65 ++++++
+ tests/docker/test-tsan                     |  44 ++++
+ tests/plugin/Makefile                      |   1 +
+ tests/qtest/Makefile.include               |   7 +-
+ tests/tcg/Makefile.target                  |  12 +-
+ tests/tcg/aarch64/Makefile.target          |   5 +-
+ tests/tcg/arm/Makefile.target              |   2 +-
+ tests/tcg/i386/Makefile.target             |   1 +
+ tests/tsan/blacklist.tsan                  |  10 +
+ tests/tsan/suppressions.tsan               |  14 ++
+ 34 files changed, 910 insertions(+), 68 deletions(-)
+ create mode 100644 include/qemu/tsan.h
+ create mode 100644 tests/plugin/lockstep.c
+ create mode 100644 tests/docker/dockerfiles/ubuntu2004.docker
+ create mode 100755 tests/docker/test-tsan
+ create mode 100644 tests/tsan/blacklist.tsan
+ create mode 100644 tests/tsan/suppressions.tsan
+
+-- 
+2.20.1
 
 
