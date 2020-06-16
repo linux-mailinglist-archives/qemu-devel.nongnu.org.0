@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 347D81FBC27
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 18:53:49 +0200 (CEST)
-Received: from localhost ([::1]:34240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 739181FBC35
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 18:59:18 +0200 (CEST)
+Received: from localhost ([::1]:44494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlEqK-0005jA-9d
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 12:53:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40192)
+	id 1jlEvd-0003Lf-AS
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 12:59:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jlEpQ-0004f6-UD
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 12:52:52 -0400
-Received: from mail-ot1-x32e.google.com ([2607:f8b0:4864:20::32e]:46934)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jlEpP-0003y4-1I
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 12:52:52 -0400
-Received: by mail-ot1-x32e.google.com with SMTP id g7so16445199oti.13
- for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 09:52:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=KCEnOnTn9PHWWLxnPDZQOPBoTWQd1ud5/oeuYSCYn3o=;
- b=qXsTSIxKdpl9mOGgeuf7rQjHvLAf6iLfA/kh7ms0t2c67DPUh1KJV+mBp4Dv+l3xAI
- MaAyGbb3XvFuM3V4ZHRvHaNvoktJTVoXO4ILwLzPy+iGoeaIs58LikwNbfEYYnRUcdGe
- E95dJKPIZHJVrR+7UYz/WlNP1WCit7YQ/3VS2KfA3KYOpI/IvdEXSMFz/JT76xKFvNNq
- XhbDRMjCQY1MsCBxYOgQRfnbMtkQ+3q4xynd5jQy5LYEqDiCzJmOUFbfAND6mWhkLKHX
- SfdROo0WYCxaDQoMmMgMkiFm1siJjE6H3a0p7WgyZ+VLFe44OP9avAa5o331f1FRMZ70
- RcXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=KCEnOnTn9PHWWLxnPDZQOPBoTWQd1ud5/oeuYSCYn3o=;
- b=CpoKFPC4yiK8VPX7unAuNiHqvc4JrdGAL31+kY/mWf6e1XOaNS7Niyjm1apZtaxajy
- 4Sb/In8lUOEMO6j0rtzJLzuqoF1O5T4Nd7084KhL9B9+VXl/9BbAHVZVfRGE+P0+TuNM
- u9jq+ma5S6C68QqHMaPp0reYxEt9krEOM4A0KMvabC8DXh7cdJrxhoBF+U6T+9L57BaL
- sVFnQJOkDk2aKVgdsstOf/LYOpiJKsKFzOtL9W3QyRRwmmAK6bX6AVvzUMGy+8cmHtSN
- 3nGn5KwSi7hWdl8kPuEzkzUfHzfhTM0F1JHy+3+ahpfi181coHd7J6JDgzZqA81H8Wtc
- 20kA==
-X-Gm-Message-State: AOAM530HTAtgGSYOIpDNtWtXffNxEBavSEct9Tebbh2VX6LhxbPqtpYU
- VzBaJKrHn6FT8K8Xjr1zAnv6/uWNpef6RktJ7FFxRA==
-X-Google-Smtp-Source: ABdhPJy7SGXrMwRmBarTdZshw4xbXVGoU3Lz/3sxr80++uPG27FnjLoevLogAJtmPjBIw/QwVj33vD1mqUYvJzDVPzY=
-X-Received: by 2002:a05:6830:18da:: with SMTP id
- v26mr3359262ote.135.1592326369868; 
- Tue, 16 Jun 2020 09:52:49 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1jlEuO-0002Xc-7O
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 12:58:00 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:20975
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1jlEuM-0004xq-9w
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 12:57:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1592326677;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=o1PsF6as5HbiO3n5zellw69hKG1kjmWUroALlSXOkhs=;
+ b=AFAJ8fgNn6FjBfwMDf0kydG4fWyXS1nqBtf3xk2E6fzQyiy1RmL+yXqxlNxwjLisO3o/8S
+ FKTaCeCkGSrMxga1nBNuAiqpfPlIzzGckhJAbzvZ1HWwyEg7zoQwKwDyQAzT3Pj/YXe9AH
+ f1w25uYdBeen3w1Em/dQbM3+qyAoh6E=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-290-5A3I7R-zO1Kk-BJpFaDd1Q-1; Tue, 16 Jun 2020 12:57:55 -0400
+X-MC-Unique: 5A3I7R-zO1Kk-BJpFaDd1Q-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 628D68064D8;
+ Tue, 16 Jun 2020 16:57:54 +0000 (UTC)
+Received: from work-vm (ovpn-112-42.ams2.redhat.com [10.36.112.42])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8DF281C4;
+ Tue, 16 Jun 2020 16:57:49 +0000 (UTC)
+Date: Tue, 16 Jun 2020 17:57:46 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: ovmf / PCI passthrough impaired due to very limiting PCI64
+ aperture
+Message-ID: <20200616165746.GH2788@work-vm>
+References: <99779e9c-f05f-501b-b4be-ff719f140a88@canonical.com>
+ <20200616165043.24y2cp53axk7uggy@sirius.home.kraxel.org>
 MIME-Version: 1.0
-References: <20200616135129.5786-1-alex.bennee@linaro.org>
-In-Reply-To: <20200616135129.5786-1-alex.bennee@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 16 Jun 2020 17:52:38 +0100
-Message-ID: <CAFEAcA8xfA+=vUGVLmeiv5o0or=J7kHHOqRkKaMP5JgBr1LKJw@mail.gmail.com>
-Subject: Re: [PULL v2 00/21] testing and plugin updates (tsan,
- pluginsm cross-builds)
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32e;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x32e.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+In-Reply-To: <20200616165043.24y2cp53axk7uggy@sirius.home.kraxel.org>
+User-Agent: Mutt/1.14.0 (2020-05-02)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 02:01:17
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,44 +81,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: pedro.principeza@canonical.com, ehabkost@redhat.com,
+ dann.frazier@canonical.com, "Guilherme G. Piccoli" <gpiccoli@canonical.com>,
+ qemu-devel@nongnu.org, christian.ehrhardt@canonical.com, lersek@redhat.com,
+ fw@gpiccoli.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 16 Jun 2020 at 14:51, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
-te:
->
-> The following changes since commit f5e34624f28f37ec3c8a93bdee348effee966a=
-78:
->
->   Merge remote-tracking branch 'remotes/amarkovic/tags/mips-queue-jun-15-=
-2020' into staging (2020-06-16 11:00:28 +0100)
->
-> are available in the Git repository at:
->
->   https://github.com/stsquad/qemu.git tags/pull-testing-and-plugin-160620=
--2
->
-> for you to fetch changes up to c81950a2f1923dec3f6b952ec6bb9b921be58a70:
->
->   plugins: new lockstep plugin for debugging TCG changes (2020-06-16 14:4=
-9:05 +0100)
->
-> ----------------------------------------------------------------
-> Testing and plugin updates
->
->   - clear up dtc warnings
->   - add support for --enable-tsan builds
->   - re-enable shippable cross builds
->   - serialise cirrus check steps
->   - fix check-tcg plugin issues
->   - add lockstep plugin
+* Gerd Hoffmann (kraxel@redhat.com) wrote:
+>   Hi,
+> 
+> > (a) We could rely in the guest physbits to calculate the PCI64 aperture.
+> 
+> I'd love to do that.  Move the 64-bit I/O window as high as possible and
+> use -- say -- 25% of the physical address space for it.
+> 
+> Problem is we can't.
+> 
+> > failure. Also, if the users are not setting the physbits in the guest,
+> > there must be a default (seems to be 40bit according to my experiments),
+> > seems to be a good idea to rely on that.
+> 
+> Yes, 40 is the default, and it is used *even if the host supports less
+> than that*.  Typical values I've seen for intel hardware are 36 and 39.
+> 39 is used even by recent hardware (not the xeons, but check out a
+> laptop or a nuc).
+> 
+> > If guest physbits is 40, why to have OVMF limiting it to 36, right?
+> 
+> Things will explode in case OVMF uses more physbits than the host
+> supports (host physbits limit applies to ept too).  In other words: OVMF
+> can't trust the guest physbits, so it is conservative to be on the safe
+> side.
+> 
+> If we can somehow make a *trustable* physbits value available to the
+> guest, then yes, we can go that route.  But the guest physbits we have
+> today unfortunately don't cut it.
 
+In downstream RH qemu, we run with host-physbits as default; so it's reasonably
+trustworthy; of course that doesn't help you across a migration between
+hosts with different sizes (e.g. an E5 Xeon to an E3).
+Changing upstream to do the same would seem sensible to me, but it's not
+a foolproof config.
 
-Applied, thanks.
+Dave
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.1
-for any user-visible changes.
+> take care,
+>   Gerd
+> 
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
--- PMM
 
