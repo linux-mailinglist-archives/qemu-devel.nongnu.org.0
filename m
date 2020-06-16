@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEA971FB488
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:37:07 +0200 (CEST)
-Received: from localhost ([::1]:38574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 300721FB497
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:40:18 +0200 (CEST)
+Received: from localhost ([::1]:52546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlCi2-0000HW-SZ
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:37:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57568)
+	id 1jlCl7-0006J5-72
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:40:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCPi-000245-SS; Tue, 16 Jun 2020 10:18:14 -0400
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:39887)
+ id 1jlCPp-0002BH-3I; Tue, 16 Jun 2020 10:18:17 -0400
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:38307)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCPh-0006eg-DQ; Tue, 16 Jun 2020 10:18:10 -0400
-Received: by mail-ot1-x341.google.com with SMTP id g5so16041041otg.6;
- Tue, 16 Jun 2020 07:18:08 -0700 (PDT)
+ id 1jlCPn-0006fk-Ai; Tue, 16 Jun 2020 10:18:16 -0400
+Received: by mail-ot1-x342.google.com with SMTP id n70so16044260ota.5;
+ Tue, 16 Jun 2020 07:18:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=qxAqQFVt+5Z+veIt3jtnU/iIs7pS1pZXvHm2/UIl5LA=;
- b=Z0P1fCs0bIYARh55Bb4MF2ocZsAl8++yrxp6SZfJLGZb9VzrYtF9ZPhCSx8wwVrZ6S
- Fz32GHDnHOtpRNU3zsWc3hCpN4S5LJdt+Pyk3t/1eEegTrRZUuS4VdXCN9e0VMMcnDmE
- L3aGXesVd/GNqsODCJZHKKmDT/g9ttqPOG4c8B0ueZLcrAg0xFC2HUES/6euhDOvZ3rv
- h25I0BcQ7pGdBKOyC4Ey3XQoVHIFj3X96NI8dhDQhYLTVyDMTCbRsC+loXvl/oAsVIZs
- Vg+H2B9sox/wrMRhVjwzD3yTZHCYJRk/qBJq7ItgkYSwt8CujsJ58w8ECVPXPmGNtFV9
- yLHw==
+ bh=wJrYjqEEa3ZXREtHH6UNEd/DSW1JqxV2SjbmLwmSWHM=;
+ b=GRar0dNLDEOV6q5B8UlO4NwB3uVEo5W8/HYWua50zwAO/EQdA+hvZZz3l21XgThdQD
+ d6eSXCRrRlMWq+O7vD0nUoBKQM0gxdCajI1ZURAbEP0J+YWzVc31b+bJ0KMryYARBJoA
+ WS3hggoUqkjDuWedNCX9J4GGbiED5vmxfWbzaaANn2KrARXLAiZmKB2/HJFDkYpCZ0dQ
+ zjsD5eCyAHdDXoP4eLHjVaY9ZBLgcWywrw1c3UqjIoy1ShyJA3KzJZZH0yYGQNvaBgeD
+ 3vV9pkJOarzeWbSVW4u8K5VYR75he8BVeR8pyo5PsRnJ5wfQtIo3JHLguW0JNxc2iAn0
+ b+XQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=qxAqQFVt+5Z+veIt3jtnU/iIs7pS1pZXvHm2/UIl5LA=;
- b=kEG9mfhyyEY6J8K1FDPJkEtQtfTEn9dCSa6bzKaSy7EI9Gyp7vBJfvpYYh9dYj6Cvy
- ASSjZJwC/VwwQw2zwrcUflN4bnOrAEbSMPfYZvVQeLLaCJacbxhX5MWRVm2PH1Grg7Es
- Ln2C8HHMXNXY0Z2y0JD35xOgb4Rw2oe9T+cuDkOQEiRx8yGnfeJVJK7texeZBcdsIBWt
- 1/8qsjwzWqdkZTu2QoEPt3+7SDghImIZcM0y6jR+TJJ48eLY5smN6mvfTUXkV8VGeZKK
- lDkwv7+ONNtaEXy6mB9E0E7GQgUSyWqtPY8QL/k47RxIApMvRIlowdfh4NLM/XJ2VJTv
- uXMg==
-X-Gm-Message-State: AOAM5323CsWVgiue+mGnnt4djBjBK0W20tmZjqNn0B1HYQI75xvRdZut
- T/BttK5vm5rYyG1zF4rN7PeyweL0
-X-Google-Smtp-Source: ABdhPJxkRxGvh/DInT2u0J7dOJCyN/ll805IpZZ+EVAPK42EFze7d8NHgo+s4ABYqRkEmdMxv2LYBA==
-X-Received: by 2002:a9d:3a24:: with SMTP id j33mr2508220otc.271.1592317087119; 
- Tue, 16 Jun 2020 07:18:07 -0700 (PDT)
+ bh=wJrYjqEEa3ZXREtHH6UNEd/DSW1JqxV2SjbmLwmSWHM=;
+ b=H+x5sf3yMM/bLkhPrTXKNIT7L9rA8tNjog1cJxS+uZ56NX3Nei+bF1zIBNCDNUC8XM
+ mPYdME6v0ej7QlYbT/rQrSqWYHi8YJ70T7wNC6KoFCmvaNtkIRIJxJCk8/cdjUbaI7gw
+ 4Q2TvGWKfvs34rKeQcI5Ow7siF/b1mlr9c3fLY8ghmcs0jP0qC/pikNe8gfkmwmZVF5Q
+ 5BVSMdzSAALtzURtsKtvlU1XNzfPVwEjU0P/vrCIr6B58foSvTRs9KBzzV+/Ky7fiDRq
+ TtbFwpwDxCN2V4bhXwrorwpvpbQbjrX8rHzm/QoFAD0cU6HdxVXvcLUWX240VoCJR3Vw
+ 2ywQ==
+X-Gm-Message-State: AOAM532S75UX6aJlSrC5tTXBV2xdMM9rMrAYanwj2aiCXBGmdoqRl6Y2
+ FrvIbGTzkITkO/fTYnu+PGxgv9n7
+X-Google-Smtp-Source: ABdhPJyUx2T6lAvHCczqd5gUjLQ7mxx5XK3473upZ15KI5BS2KBzQQCAmlgX35YVjgOgqQFCGqFTEw==
+X-Received: by 2002:a9d:204f:: with SMTP id n73mr2514196ota.342.1592317090711; 
+ Tue, 16 Jun 2020 07:18:10 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id t10sm154950oij.36.2020.06.16.07.18.05
+ by smtp.gmail.com with ESMTPSA id c23sm4072625otd.7.2020.06.16.07.18.09
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 16 Jun 2020 07:18:06 -0700 (PDT)
+ Tue, 16 Jun 2020 07:18:09 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 30/78] dp8393x: Have dp8393x_receive() return the packet size
-Date: Tue, 16 Jun 2020 09:14:59 -0500
-Message-Id: <20200616141547.24664-31-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 31/78] dp8393x: Update LLFA and CRDA registers from rx
+ descriptor
+Date: Tue, 16 Jun 2020 09:15:00 -0500
+Message-Id: <20200616141547.24664-32-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
 References: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::341;
- envelope-from=flukshun@gmail.com; helo=mail-ot1-x341.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
+ envelope-from=flukshun@gmail.com; helo=mail-ot1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -71,7 +72,7 @@ X-Spam_bar: /
 X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
  DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
  HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,58 +92,65 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Finn Thain <fthain@telegraphics.com.au>
 
-This function re-uses its 'size' argument as a scratch variable.
-Instead, declare a local 'size' variable for that purpose so that the
-function result doesn't get messed up.
+Follow the algorithm given in the National Semiconductor DP83932C
+datasheet in section 3.4.7:
+
+    At the next reception, the SONIC re-reads the last RXpkt.link field,
+    and updates its CRDA register to point to the next descriptor.
+
+The chip is designed to allow the host to provide a new list of
+descriptors in this way.
 
 Signed-off-by: Finn Thain <fthain@telegraphics.com.au>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Tested-by: Laurent Vivier <laurent@vivier.eu>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
-(cherry picked from commit 9e3cd456d85ad45e72bdba99203302342ce29b3b)
+(cherry picked from commit 5b0c98fcb7ac006bd8efe0e0fecba52c43a9d028)
+*drop context dep on 19f70347731
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- hw/net/dp8393x.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ hw/net/dp8393x.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
 diff --git a/hw/net/dp8393x.c b/hw/net/dp8393x.c
-index f89f4c7ba3..a696485a55 100644
+index a696485a55..8dd6bf032c 100644
 --- a/hw/net/dp8393x.c
 +++ b/hw/net/dp8393x.c
-@@ -757,20 +757,21 @@ static int dp8393x_receive_filter(dp8393xState *s, const uint8_t * buf,
- }
+@@ -784,12 +784,13 @@ static ssize_t dp8393x_receive(NetClientState *nc, const uint8_t * buf,
+         address = dp8393x_crda(s) + sizeof(uint16_t) * 5 * width;
+         address_space_rw(&s->as, address, MEMTXATTRS_UNSPECIFIED,
+                          (uint8_t *)s->data, size, 0);
+-        if (dp8393x_get(s, width, 0) & SONIC_DESC_EOL) {
++        s->regs[SONIC_LLFA] = dp8393x_get(s, width, 0);
++        if (s->regs[SONIC_LLFA] & SONIC_DESC_EOL) {
+             /* Still EOL ; stop reception */
+             return -1;
+-        } else {
+-            s->regs[SONIC_CRDA] = s->regs[SONIC_LLFA];
+         }
++        /* Link has been updated by host */
++        s->regs[SONIC_CRDA] = s->regs[SONIC_LLFA];
+     }
  
- static ssize_t dp8393x_receive(NetClientState *nc, const uint8_t * buf,
--                               size_t size)
-+                               size_t pkt_size)
- {
-     dp8393xState *s = qemu_get_nic_opaque(nc);
-     int packet_type;
-     uint32_t available, address;
--    int width, rx_len = size;
-+    int width, rx_len = pkt_size;
-     uint32_t checksum;
-+    int size;
+     /* Save current position */
+@@ -837,7 +838,7 @@ static ssize_t dp8393x_receive(NetClientState *nc, const uint8_t * buf,
+     address_space_rw(&s->as, dp8393x_crda(s),
+         MEMTXATTRS_UNSPECIFIED, (uint8_t *)s->data, size, 1);
  
-     width = (s->regs[SONIC_DCR] & SONIC_DCR_DW) ? 2 : 1;
- 
-     s->regs[SONIC_RCR] &= ~(SONIC_RCR_PRX | SONIC_RCR_LBK | SONIC_RCR_FAER |
-         SONIC_RCR_CRCR | SONIC_RCR_LPKT | SONIC_RCR_BC | SONIC_RCR_MC);
- 
--    packet_type = dp8393x_receive_filter(s, buf, size);
-+    packet_type = dp8393x_receive_filter(s, buf, pkt_size);
-     if (packet_type < 0) {
-         DPRINTF("packet not for netcard\n");
-         return -1;
-@@ -864,7 +865,7 @@ static ssize_t dp8393x_receive(NetClientState *nc, const uint8_t * buf,
-     /* Done */
-     dp8393x_update_irq(s);
- 
--    return size;
-+    return pkt_size;
- }
- 
- static void dp8393x_reset(DeviceState *dev)
+-    /* Move to next descriptor */
++    /* Check link field */
+     size = sizeof(uint16_t) * width;
+     address_space_rw(&s->as, dp8393x_crda(s) + sizeof(uint16_t) * 5 * width,
+         MEMTXATTRS_UNSPECIFIED, (uint8_t *)s->data, size, 0);
+@@ -852,6 +853,8 @@ static ssize_t dp8393x_receive(NetClientState *nc, const uint8_t * buf,
+         dp8393x_put(s, width, 0, 0);
+         address_space_rw(&s->as, address, MEMTXATTRS_UNSPECIFIED,
+                          (uint8_t *)s->data, size, true);
++
++        /* Move to next descriptor */
+         s->regs[SONIC_CRDA] = s->regs[SONIC_LLFA];
+         s->regs[SONIC_ISR] |= SONIC_ISR_PKTRX;
+         s->regs[SONIC_RSC] = (s->regs[SONIC_RSC] & 0xff00) | (((s->regs[SONIC_RSC] & 0x00ff) + 1) & 0x00ff);
 -- 
 2.17.1
 
