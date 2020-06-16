@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 241B61FB55B
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 17:03:22 +0200 (CEST)
-Received: from localhost ([::1]:40838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C8A01FB567
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 17:05:26 +0200 (CEST)
+Received: from localhost ([::1]:48940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlD7R-0008J2-3Z
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 11:03:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58278)
+	id 1jlD9R-0003R8-Hp
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 11:05:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCQy-0004A8-Ge; Tue, 16 Jun 2020 10:19:28 -0400
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:42132)
+ id 1jlCR0-0004Fp-Ui; Tue, 16 Jun 2020 10:19:30 -0400
+Received: from mail-oi1-x230.google.com ([2607:f8b0:4864:20::230]:35789)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCQw-00071X-S1; Tue, 16 Jun 2020 10:19:28 -0400
-Received: by mail-oi1-x242.google.com with SMTP id s21so19371882oic.9;
- Tue, 16 Jun 2020 07:19:26 -0700 (PDT)
+ id 1jlCQy-00071i-VS; Tue, 16 Jun 2020 10:19:30 -0400
+Received: by mail-oi1-x230.google.com with SMTP id k4so19388166oik.2;
+ Tue, 16 Jun 2020 07:19:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=4th/1Paxx9afMaB06sbfxHi7/R5Y+YQCpXI6dbC8fig=;
- b=EuC3QgdI1032Fdah8iGAenrSBnmrTivos7ZlFA82iW61CF+n4QyRv+8AtEcsskD4Ie
- 5a4hRcxzarlwYmJ1B2a4C3MXYbs7upBecsAUh7cFLJSC7a644Pix8CgEaFSf95FXVav9
- Qi4HwlBy5BOjNF8DhbT4PVeP+YlDmf0jgGAcFLg5+kcmGfIrTynpjwvJEms/+S2ZUSCf
- lXI6gLtVc8ILeF/zrpnTYrIRZ/p70V0UPUs7X3inJzYM+Wkr4bfjBQ44J8wHaJMrVTsU
- zHZPPeWP8R1HmVAs5N2M8X3E0G/w6sqYLWoXEyAI2UuRhzLudQQY6vnJnkUIEV2iWGP2
- z/fg==
+ bh=2sGZeIkn1XRAThlPtGTj22txvZ5HLiiO307uo0Zge1U=;
+ b=iQ5VvYBO6W9LW3IlvybIixdsur1eSa37dAB5/CFKEtGn6HNJBveyx5vGOiOysYh7pE
+ hLLEaZukUko1p9sUviyNOgSJnBkFBigZQWTKkhEON4NbEZC4j3GGrG3ASUxRHpMjYxxh
+ FppU9j7Z9/4pN6OPaPbxDc+oJCtfWEEAil1/NtoPSO9itPJVmqZH76D5FqiMMh7JsE34
+ 8IEifd/wpv98meAB8S/khIgHBQiIly9TzModPryrfrw03b9qBIdgX8+UfMC5mQ5VwPxt
+ qvV5iCI+9jFhTLyrlwMvi4rosiRk583tVgjbyw2BS0IcLrQE0kDxrCEKq3FImV+ViRDc
+ d+3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=4th/1Paxx9afMaB06sbfxHi7/R5Y+YQCpXI6dbC8fig=;
- b=VyEv9gNTT1u3WXnzfYTAe+ee5UNa72/chUVEKk2PnLC6VM9+c7KBgLDBrgqtMcqff3
- ZyCCXMbbyrOgH+MO8mHipykX4SsOqYDSa1jNGr3TC0cHu5EgTHM8PMZV0pVpJAOTFH8p
- Pg4VseXmXPNAetLWlS63DM9GW8g55tTVmGwo9n8Klteam/+/gPOGnbLv3NVzI+ejDcoN
- 7tMyVKPd2L326PBUavD2ooi6ROBvMWzg1vQVT3BJykt6+so52Q/+PdZ9pEBRXQQni1mO
- 7nQQ5FQkofNzkwJYKHvcfIxVZqw6fkFPAH4CqMRnvnToR5OQ0T+KJtM/aq91PrX3hM/O
- ZAxA==
-X-Gm-Message-State: AOAM533njVHJmmaLM6DjR7lP3dBbR9wZDm8wmZ7d4CDcgGhj8bd2doO8
- YzZA8s17UGqW6UA7vb7byxioTMq+/9o=
-X-Google-Smtp-Source: ABdhPJyJ9i3fD/IYbNRvWq7d49O7DpYeRbTyTeiILXBPO5wbubRhwAUKmJJEjvpYQqUtQlzjn7ImLQ==
-X-Received: by 2002:a54:4d96:: with SMTP id y22mr3269197oix.55.1592317164853; 
- Tue, 16 Jun 2020 07:19:24 -0700 (PDT)
+ bh=2sGZeIkn1XRAThlPtGTj22txvZ5HLiiO307uo0Zge1U=;
+ b=jkLB1k2/8K9T2uNlM+YpAUvpHR6Tk8jGtTIxgdyMvtRmlIADbRVt3KhP0tX2Iatim2
+ vsCTDSr6IxH+MPEK+yQ1BOwnQxO5a2gBGsz9Ej4NbTTyIRwW+MCqCD89QRleJni/v881
+ jponj/hCXShTQsapJfn6xBba3DR7lMpCWEUqD5SNbMHBcJiOCg0IuBFV7kJx+3fHhCmz
+ Xa99WqFLUBlAaMu8Sjkw/LBr9fQvTqK694FJLMI2DRn7t6WiuEgPPqTk9Xj9TlOoYYr2
+ hWrk/dQA0vW9JnPY+KE6k4ipH/wLhNfTJFRczIzW6zJFxXXYgU/MfVpUT2B+G34el/De
+ wQ+g==
+X-Gm-Message-State: AOAM5304+3wlf8OKRME0gLZ7UuTsApHhM7kAOIgkwFnSW80O1LUNUoOj
+ oRAQewJS3mP3b2eatgeZ+b7KJCJc6A0=
+X-Google-Smtp-Source: ABdhPJxfYOLhH8ZOcJmjUQjjean/8BmwRsenergJa5ecfZ9UWPUwhTx8hLwlMuCYuQhop2Q2xB+Rww==
+X-Received: by 2002:aca:2b1a:: with SMTP id i26mr3507705oik.45.1592317166761; 
+ Tue, 16 Jun 2020 07:19:26 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id h27sm2129255otg.23.2020.06.16.07.19.23
+ by smtp.gmail.com with ESMTPSA id c1sm4173638otn.81.2020.06.16.07.19.25
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 16 Jun 2020 07:19:23 -0700 (PDT)
+ Tue, 16 Jun 2020 07:19:25 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 67/78] vhost-user-gpu: Release memory returned by
- vu_queue_pop() with free()
-Date: Tue, 16 Jun 2020 09:15:36 -0500
-Message-Id: <20200616141547.24664-68-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 68/78] target/ppc: Fix mtmsr(d) L=1 variant that loses
+ interrupts
+Date: Tue, 16 Jun 2020 09:15:37 -0500
+Message-Id: <20200616141547.24664-69-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
 References: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::242;
- envelope-from=flukshun@gmail.com; helo=mail-oi1-x242.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::230;
+ envelope-from=flukshun@gmail.com; helo=mail-oi1-x230.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -72,7 +72,7 @@ X-Spam_bar: /
 X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
  DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
  HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,64 +85,160 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-stable@nongnu.org
+Cc: qemu-stable@nongnu.org, Nicholas Piggin <npiggin@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+From: Nicholas Piggin <npiggin@gmail.com>
 
-vu_queue_pop() returns memory that must be freed with free().
+If mtmsr L=1 sets MSR[EE] while there is a maskable exception pending,
+it does not cause an interrupt. This causes the test case to hang:
+
+https://lists.gnu.org/archive/html/qemu-ppc/2019-10/msg00826.html
+
+More recently, Linux reduced the occurance of operations (e.g., rfi)
+which stop translation and allow pending interrupts to be processed.
+This started causing hangs in Linux boot in long-running kernel tests,
+running with '-d int' shows the decrementer stops firing despite DEC
+wrapping and MSR[EE]=1.
+
+https://lists.ozlabs.org/pipermail/linuxppc-dev/2020-April/208301.html
+
+The cause is the broken mtmsr L=1 behaviour, which is contrary to the
+architecture. From Power ISA v3.0B, p.977, Move To Machine State Register,
+Programming Note states:
+
+    If MSR[EE]=0 and an External, Decrementer, or Performance Monitor
+    exception is pending, executing an mtmsrd instruction that sets
+    MSR[EE] to 1 will cause the interrupt to occur before the next
+    instruction is executed, if no higher priority exception exists
+
+Fix this by handling L=1 exactly the same way as L=0, modulo the MSR
+bits altered.
+
+The confusion arises from L=0 being "context synchronizing" whereas L=1
+is "execution synchronizing", which is a weaker semantic. However this
+is not a relaxation of the requirement that these exceptions cause
+interrupts when MSR[EE]=1 (e.g., when mtmsr executes to completion as
+TCG is doing here), rather it specifies how a pipelined processor can
+have multiple instructions in flight where one may influence how another
+behaves.
 
 Cc: qemu-stable@nongnu.org
-Reported-by: Coverity (CID 1421887 ALLOC_FREE_MISMATCH)
-Suggested-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-(cherry picked from commit 4ff97121a3ee631971aadc87e3d4e7fb66f15aa8)
+Reported-by: Anton Blanchard <anton@ozlabs.org>
+Reported-by: Nathan Chancellor <natechancellor@gmail.com>
+Tested-by: Nathan Chancellor <natechancellor@gmail.com>
+Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
+Message-Id: <20200414111131.465560-1-npiggin@gmail.com>
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Tested-by: Cédric Le Goater <clg@kaod.org>
+Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+(cherry picked from commit 5ed195065cc6895f61b9d59bfa0a0536ed5ed51e)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- contrib/vhost-user-gpu/main.c  | 4 ++--
- contrib/vhost-user-gpu/virgl.c | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ target/ppc/translate.c | 46 +++++++++++++++++++++++++-----------------
+ 1 file changed, 27 insertions(+), 19 deletions(-)
 
-diff --git a/contrib/vhost-user-gpu/main.c b/contrib/vhost-user-gpu/main.c
-index b45d2019b4..a019d0a9ac 100644
---- a/contrib/vhost-user-gpu/main.c
-+++ b/contrib/vhost-user-gpu/main.c
-@@ -848,7 +848,7 @@ vg_handle_ctrl(VuDev *dev, int qidx)
-             QTAILQ_INSERT_TAIL(&vg->fenceq, cmd, next);
-             vg->inflight++;
-         } else {
--            g_free(cmd);
-+            free(cmd);
-         }
+diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+index f87f6eeaf7..4f5008ed6f 100644
+--- a/target/ppc/translate.c
++++ b/target/ppc/translate.c
+@@ -4361,30 +4361,34 @@ static void gen_mtmsrd(DisasContext *ctx)
+     CHK_SV;
+ 
+ #if !defined(CONFIG_USER_ONLY)
++    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
++        gen_io_start();
++    }
+     if (ctx->opcode & 0x00010000) {
+-        /* Special form that does not need any synchronisation */
++        /* L=1 form only updates EE and RI */
+         TCGv t0 = tcg_temp_new();
++        TCGv t1 = tcg_temp_new();
+         tcg_gen_andi_tl(t0, cpu_gpr[rS(ctx->opcode)],
+                         (1 << MSR_RI) | (1 << MSR_EE));
+-        tcg_gen_andi_tl(cpu_msr, cpu_msr,
++        tcg_gen_andi_tl(t1, cpu_msr,
+                         ~(target_ulong)((1 << MSR_RI) | (1 << MSR_EE)));
+-        tcg_gen_or_tl(cpu_msr, cpu_msr, t0);
++        tcg_gen_or_tl(t1, t1, t0);
++
++        gen_helper_store_msr(cpu_env, t1);
+         tcg_temp_free(t0);
++        tcg_temp_free(t1);
++
+     } else {
+         /*
+          * XXX: we need to update nip before the store if we enter
+          *      power saving mode, we will exit the loop directly from
+          *      ppc_store_msr
+          */
+-        if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
+-            gen_io_start();
+-        }
+         gen_update_nip(ctx, ctx->base.pc_next);
+         gen_helper_store_msr(cpu_env, cpu_gpr[rS(ctx->opcode)]);
+-        /* Must stop the translation as machine state (may have) changed */
+-        /* Note that mtmsr is not always defined as context-synchronizing */
+-        gen_stop_exception(ctx);
      }
++    /* Must stop the translation as machine state (may have) changed */
++    gen_stop_exception(ctx);
+ #endif /* !defined(CONFIG_USER_ONLY) */
  }
-@@ -939,7 +939,7 @@ vg_handle_cursor(VuDev *dev, int qidx)
-         }
-         vu_queue_push(dev, vq, elem, 0);
-         vu_queue_notify(dev, vq);
--        g_free(elem);
-+        free(elem);
+ #endif /* defined(TARGET_PPC64) */
+@@ -4394,15 +4398,23 @@ static void gen_mtmsr(DisasContext *ctx)
+     CHK_SV;
+ 
+ #if !defined(CONFIG_USER_ONLY)
+-   if (ctx->opcode & 0x00010000) {
+-        /* Special form that does not need any synchronisation */
++    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
++        gen_io_start();
++    }
++    if (ctx->opcode & 0x00010000) {
++        /* L=1 form only updates EE and RI */
+         TCGv t0 = tcg_temp_new();
++        TCGv t1 = tcg_temp_new();
+         tcg_gen_andi_tl(t0, cpu_gpr[rS(ctx->opcode)],
+                         (1 << MSR_RI) | (1 << MSR_EE));
+-        tcg_gen_andi_tl(cpu_msr, cpu_msr,
++        tcg_gen_andi_tl(t1, cpu_msr,
+                         ~(target_ulong)((1 << MSR_RI) | (1 << MSR_EE)));
+-        tcg_gen_or_tl(cpu_msr, cpu_msr, t0);
++        tcg_gen_or_tl(t1, t1, t0);
++
++        gen_helper_store_msr(cpu_env, t1);
+         tcg_temp_free(t0);
++        tcg_temp_free(t1);
++
+     } else {
+         TCGv msr = tcg_temp_new();
+ 
+@@ -4411,9 +4423,6 @@ static void gen_mtmsr(DisasContext *ctx)
+          *      power saving mode, we will exit the loop directly from
+          *      ppc_store_msr
+          */
+-        if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
+-            gen_io_start();
+-        }
+         gen_update_nip(ctx, ctx->base.pc_next);
+ #if defined(TARGET_PPC64)
+         tcg_gen_deposit_tl(msr, cpu_msr, cpu_gpr[rS(ctx->opcode)], 0, 32);
+@@ -4422,10 +4431,9 @@ static void gen_mtmsr(DisasContext *ctx)
+ #endif
+         gen_helper_store_msr(cpu_env, msr);
+         tcg_temp_free(msr);
+-        /* Must stop the translation as machine state (may have) changed */
+-        /* Note that mtmsr is not always defined as context-synchronizing */
+-        gen_stop_exception(ctx);
      }
++    /* Must stop the translation as machine state (may have) changed */
++    gen_stop_exception(ctx);
+ #endif
  }
  
-diff --git a/contrib/vhost-user-gpu/virgl.c b/contrib/vhost-user-gpu/virgl.c
-index 43413e29df..b0bc22c3c1 100644
---- a/contrib/vhost-user-gpu/virgl.c
-+++ b/contrib/vhost-user-gpu/virgl.c
-@@ -519,7 +519,7 @@ virgl_write_fence(void *opaque, uint32_t fence)
-         g_debug("FENCE %" PRIu64, cmd->cmd_hdr.fence_id);
-         vg_ctrl_response_nodata(g, cmd, VIRTIO_GPU_RESP_OK_NODATA);
-         QTAILQ_REMOVE(&g->fenceq, cmd, next);
--        g_free(cmd);
-+        free(cmd);
-         g->inflight--;
-     }
- }
 -- 
 2.17.1
 
