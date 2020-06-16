@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 461A81FB486
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:36:38 +0200 (CEST)
-Received: from localhost ([::1]:36002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ACE81FB493
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:40:01 +0200 (CEST)
+Received: from localhost ([::1]:51060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlChZ-0007cE-9E
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:36:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57580)
+	id 1jlCkq-0005hK-LD
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:40:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCPn-000254-9d; Tue, 16 Jun 2020 10:18:15 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:47057)
+ id 1jlCQ8-0002md-1H; Tue, 16 Jun 2020 10:18:36 -0400
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:32774)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCPi-0006fF-KM; Tue, 16 Jun 2020 10:18:11 -0400
-Received: by mail-ot1-x343.google.com with SMTP id g7so16013909oti.13;
- Tue, 16 Jun 2020 07:18:09 -0700 (PDT)
+ id 1jlCQ5-0006mp-UW; Tue, 16 Jun 2020 10:18:35 -0400
+Received: by mail-ot1-x342.google.com with SMTP id n6so16067170otl.0;
+ Tue, 16 Jun 2020 07:18:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=MBxm7nuYUhmoYS/sHlImvlcd+nSnILjZSRJjgMLw/0Q=;
- b=bmZr+fbElDD0JaQE7MsKZ5sTkE3ClXno08gKztNtqB5gYQpDRMG4ZdITcXSSkPGgWq
- yibchgH84PMzmh/WqhUFb3yT2UiaFfxEcG9109c1CU3RzNarGzab9NODQWq8w+tOZmGJ
- GeXaAqTJvyYgHHwckHmkHR9xphLFNUP3fw3waM3aqju04jwvc26jdqSF2cDPbIvkJvLa
- SA1Mk8KFtwiLBhhZRkB+JKJKJ8E6LKCjAzVLLZCpF/9gNfxThnRYoKYIvOjhu1pzVOPv
- p4otV04dDskOMucWhYlBY3Tgwfe4nceU0pW+CD6hKXDSEXvqRg71c0TneNzPDWXu+GBr
- rjzQ==
+ bh=XMRHd9is/niWgVXUxgxGG8bEESpSidVHIXtDD8rfBdE=;
+ b=ZXSUv45KNcFTSSEvId9kiq7Q58R4FQCX57m8wemJkY2TTOUxsz3enX3m2AIl231F3S
+ POP/r0JcPmoJCDK4/pUdTNpcQ59U69+ruM/IxvIgT7xP2xtc4UQq7OneMqPYZzb4VI2C
+ M8dJ9kQ3BuCzh7hzp1AEH9ZkXIS+0N1ikvV6yXixxuYuXL3zjuNVbEJ9DaXGnACe6qXU
+ C7TWPHpwxRAMnb1mah8pIor4xKGQfBTeCgrM/1UbxVA1PNzuGwf8tp7v4wX0TRRP36aq
+ 7FRy+apY/JuE8jarVfqMtcy2tSQ1gFmJYiV36wYy+2JZSncVI9E7x3V6psV4eM6fNDwa
+ 59NQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=MBxm7nuYUhmoYS/sHlImvlcd+nSnILjZSRJjgMLw/0Q=;
- b=oBlZaoN+8ZycsPoSmQj4zx1/IWq4yLYcluI4+aONt5JJXMYsMHoZfQDMK0J8nlelWk
- 5G02JXG/zU3NCnLb8WLMD2twjcrYPSh2MizrvhH7Jqj/FQXGflcogr4iVjSJzZfaq1mH
- 7CIvoLyktZw7F9p7ktvgjUn3JqjNnYx4jz6NMmkylmV+z08o84Xa0yCCmeyQi1zwnEpL
- pTjxSlXapX17Fg5DXNch2VFl2xe/dim/phpOMVqms7MCtIjf4pmYXNeW+H2aXB1oaeuB
- O/Pt6QvZnauwYvtkHhpNG9+zEv6KtyhcACfyZyA/oo5DQxofZONDOjr5NufrN8znj9mC
- LKBg==
-X-Gm-Message-State: AOAM533VHdx9z3vrKvNyFg933kXmAJtVxeX/kfHLpG7wKq+MA3C4PJ/3
- npxvJJ9yZ+3/e7f5afTy+HAr+YUS
-X-Google-Smtp-Source: ABdhPJz5J7aVsq1RcsYH5jKM/6pSUvaw/Lg4/70DEV1PUTMPYIynh++uEE4/0AcwopEs0g4bR9VmdQ==
-X-Received: by 2002:a05:6830:1294:: with SMTP id
- z20mr2452486otp.24.1592317088694; 
- Tue, 16 Jun 2020 07:18:08 -0700 (PDT)
+ bh=XMRHd9is/niWgVXUxgxGG8bEESpSidVHIXtDD8rfBdE=;
+ b=bSqiWUirs3bnWf5U10tmueLPKs+Zol+lYqUauyZe0u1qg7ZKq+/AOZ6J1i9VkLvFCA
+ FQy24LMWr0hwMWJT5D9Rqyva6haP7yazctSluYpzm1DfjEtHwPbXukF8ZBYCWIxR1HYm
+ A0gKVr6kvMPEMFf3D21g5YCnMlLPeviKay3L2zZ+8Q7tzPjczC4p7zeiJdhMyXe6JZ92
+ 6YpKWAE7MO2S0PV/AiYXClZ4NzyVzR/PugvUHEKmp9AY/L2o/tzjHl/BQYpGDO0+Y8ls
+ 81M/W9mQoy/iML01Bu2oC4EFT4I+EaE+k1mRj+WXyMfipKysav/aitw4ax2jXuePcmAy
+ +N+Q==
+X-Gm-Message-State: AOAM531kos1txxBIZl4eOtHQowpb9+Shkirw2TYQO8Dkf1zDTPNYMM8/
+ LqolJI2SXZ3o0ghgZ6hlgBq6fXjo
+X-Google-Smtp-Source: ABdhPJxN7gOk7YMQ31/g/VoqRcwUllt9eM3MWvlQ7QLC/BD8vsKsn+zCf9Lr+0UPMTFJFnX8MNBLmg==
+X-Received: by 2002:a05:6830:1df6:: with SMTP id
+ b22mr2615207otj.98.1592317108698; 
+ Tue, 16 Jun 2020 07:18:28 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id c23sm4072614otd.7.2020.06.16.07.18.07
+ by smtp.gmail.com with ESMTPSA id p205sm4156686oih.48.2020.06.16.07.18.27
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 16 Jun 2020 07:18:07 -0700 (PDT)
+ Tue, 16 Jun 2020 07:18:27 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 02/78] block/nbd: fix memory leak in nbd_open()
-Date: Tue, 16 Jun 2020 09:14:31 -0500
-Message-Id: <20200616141547.24664-3-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 03/78] i386: Resolve CPU models to v1 by default
+Date: Tue, 16 Jun 2020 09:14:32 -0500
+Message-Id: <20200616141547.24664-4-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
 References: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::343;
- envelope-from=flukshun@gmail.com; helo=mail-ot1-x343.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
+ envelope-from=flukshun@gmail.com; helo=mail-ot1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -81,78 +81,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Pan Nengyuan <pannengyuan@huawei.com>, qemu-stable@nongnu.org
+Cc: qemu-stable@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Pan Nengyuan <pannengyuan@huawei.com>
+From: Eduardo Habkost <ehabkost@redhat.com>
 
-In currently implementation there will be a memory leak when
-nbd_client_connect() returns error status. Here is an easy way to
-reproduce:
+When using `query-cpu-definitions` using `-machine none`,
+QEMU is resolving all CPU models to their latest versions.  The
+actual CPU model version being used by another machine type (e.g.
+`pc-q35-4.0`) might be different.
 
-1. run qemu-iotests as follow and check the result with asan:
-    ./check -raw 143
+In theory, this was OK because the correct CPU model
+version is returned when using the correct `-machine` argument.
 
-Following is the asan output backtrack:
-Direct leak of 40 byte(s) in 1 object(s) allocated from:
-    #0 0x7f629688a560 in calloc (/usr/lib64/libasan.so.3+0xc7560)
-    #1 0x7f6295e7e015 in g_malloc0  (/usr/lib64/libglib-2.0.so.0+0x50015)
-    #2 0x56281dab4642 in qobject_input_start_struct  /mnt/sdb/qemu-4.2.0-rc0/qapi/qobject-input-visitor.c:295
-    #3 0x56281dab1a04 in visit_start_struct  /mnt/sdb/qemu-4.2.0-rc0/qapi/qapi-visit-core.c:49
-    #4 0x56281dad1827 in visit_type_SocketAddress  qapi/qapi-visit-sockets.c:386
-    #5 0x56281da8062f in nbd_config   /mnt/sdb/qemu-4.2.0-rc0/block/nbd.c:1716
-    #6 0x56281da8062f in nbd_process_options /mnt/sdb/qemu-4.2.0-rc0/block/nbd.c:1829
-    #7 0x56281da8062f in nbd_open /mnt/sdb/qemu-4.2.0-rc0/block/nbd.c:1873
+Except that in practice, this breaks libvirt expectations:
+libvirt always use `-machine none` when checking if a CPU model
+is runnable, because runnability is not expected to be affected
+when the machine type is changed.
 
-Direct leak of 15 byte(s) in 1 object(s) allocated from:
-    #0 0x7f629688a3a0 in malloc (/usr/lib64/libasan.so.3+0xc73a0)
-    #1 0x7f6295e7dfbd in g_malloc (/usr/lib64/libglib-2.0.so.0+0x4ffbd)
-    #2 0x7f6295e96ace in g_strdup (/usr/lib64/libglib-2.0.so.0+0x68ace)
-    #3 0x56281da804ac in nbd_process_options /mnt/sdb/qemu-4.2.0-rc0/block/nbd.c:1834
-    #4 0x56281da804ac in nbd_open /mnt/sdb/qemu-4.2.0-rc0/block/nbd.c:1873
+For example, when running on a Haswell host without TSX,
+Haswell-v4 is runnable, but Haswell-v1 is not.  On those hosts,
+`query-cpu-definitions` says Haswell is runnable if using
+`-machine none`, but Haswell is actually not runnable using any
+of the `pc-*` machine types (because they resolve Haswell to
+Haswell-v1).  In other words, we're breaking the "runnability
+guarantee" we promised to not break for a few releases (see
+qemu-deprecated.texi).
 
-Indirect leak of 24 byte(s) in 1 object(s) allocated from:
-    #0 0x7f629688a3a0 in malloc (/usr/lib64/libasan.so.3+0xc73a0)
-    #1 0x7f6295e7dfbd in g_malloc (/usr/lib64/libglib-2.0.so.0+0x4ffbd)
-    #2 0x7f6295e96ace in g_strdup (/usr/lib64/libglib-2.0.so.0+0x68ace)
-    #3 0x56281dab41a3 in qobject_input_type_str_keyval /mnt/sdb/qemu-4.2.0-rc0/qapi/qobject-input-visitor.c:536
-    #4 0x56281dab2ee9 in visit_type_str /mnt/sdb/qemu-4.2.0-rc0/qapi/qapi-visit-core.c:297
-    #5 0x56281dad0fa1 in visit_type_UnixSocketAddress_members qapi/qapi-visit-sockets.c:141
-    #6 0x56281dad17b6 in visit_type_SocketAddress_members qapi/qapi-visit-sockets.c:366
-    #7 0x56281dad186a in visit_type_SocketAddress qapi/qapi-visit-sockets.c:393
-    #8 0x56281da8062f in nbd_config /mnt/sdb/qemu-4.2.0-rc0/block/nbd.c:1716
-    #9 0x56281da8062f in nbd_process_options /mnt/sdb/qemu-4.2.0-rc0/block/nbd.c:1829
-    #10 0x56281da8062f in nbd_open /mnt/sdb/qemu-4.2.0-rc0/block/nbd.c:1873
+To address this issue, change the default CPU model version to v1
+on all machine types, so we make `query-cpu-definitions` output
+when using `-machine none` match the results when using `pc-*`.
+This will change in the future (the plan is to always return the
+latest CPU model version if using `-machine none`), but only
+after giving libvirt the opportunity to adapt.
 
-Fixes: 8f071c9db506e03ab
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Cc: qemu-stable <qemu-stable@nongnu.org>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-Id: <1575517528-44312-3-git-send-email-pannengyuan@huawei.com>
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
-Signed-off-by: Eric Blake <eblake@redhat.com>
-(cherry picked from commit 8198cf5ef0ef98118b4176970d1cd998d93ec849)
+Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=1779078
+Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+Message-Id: <20191205223339.764534-1-ehabkost@redhat.com>
+Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+(cherry picked from commit ad18392892c04637fb56956d997f4bc600224356)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- block/nbd.c | 1 +
- 1 file changed, 1 insertion(+)
+ qemu-deprecated.texi | 8 ++++++++
+ target/i386/cpu.c    | 8 +++++++-
+ 2 files changed, 15 insertions(+), 1 deletion(-)
 
-diff --git a/block/nbd.c b/block/nbd.c
-index 6bb6715286..3d369fc8eb 100644
---- a/block/nbd.c
-+++ b/block/nbd.c
-@@ -1900,6 +1900,7 @@ static int nbd_open(BlockDriverState *bs, QDict *options, int flags,
+diff --git a/qemu-deprecated.texi b/qemu-deprecated.texi
+index 4b4b7425ac..b42d8b3c5f 100644
+--- a/qemu-deprecated.texi
++++ b/qemu-deprecated.texi
+@@ -374,6 +374,14 @@ guarantees must resolve the CPU model aliases using te
+ ``alias-of'' field returned by the ``query-cpu-definitions'' QMP
+ command.
  
-     ret = nbd_client_connect(bs, errp);
-     if (ret < 0) {
-+        nbd_clear_bdrvstate(s);
-         return ret;
-     }
-     /* successfully connected */
++While those guarantees are kept, the return value of
++``query-cpu-definitions'' will have existing CPU model aliases
++point to a version that doesn't break runnability guarantees
++(specifically, version 1 of those CPU models).  In future QEMU
++versions, aliases will point to newer CPU model versions
++depending on the machine type, so management software must
++resolve CPU model aliases before starting a virtual machine.
++
+ 
+ @node Recently removed features
+ @appendix Recently removed features
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 69f518a21a..54e7f18a09 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -3924,7 +3924,13 @@ static PropValue tcg_default_props[] = {
+ };
+ 
+ 
+-X86CPUVersion default_cpu_version = CPU_VERSION_LATEST;
++/*
++ * We resolve CPU model aliases using -v1 when using "-machine
++ * none", but this is just for compatibility while libvirt isn't
++ * adapted to resolve CPU model versions before creating VMs.
++ * See "Runnability guarantee of CPU models" at * qemu-deprecated.texi.
++ */
++X86CPUVersion default_cpu_version = 1;
+ 
+ void x86_cpu_set_default_version(X86CPUVersion version)
+ {
 -- 
 2.17.1
 
