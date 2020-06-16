@@ -2,80 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5BC11FA9BC
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 09:10:55 +0200 (CEST)
-Received: from localhost ([::1]:46478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7B3D1FA981
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 09:06:26 +0200 (CEST)
+Received: from localhost ([::1]:57052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jl5kF-0006ZH-1M
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 03:10:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43704)
+	id 1jl5ft-0007Od-RI
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 03:06:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45120)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <coiby.xu@gmail.com>)
- id 1jl5Vs-0007vS-CQ
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 02:56:05 -0400
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:41271)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <coiby.xu@gmail.com>)
- id 1jl5Vq-0007Ah-Gb
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 02:56:04 -0400
-Received: by mail-pf1-x442.google.com with SMTP id 10so9032847pfx.8
- for <qemu-devel@nongnu.org>; Mon, 15 Jun 2020 23:56:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:date:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=y/pX7qxsLIUajggcY92AZ6bw/n97fJVH1BRi//cWGTk=;
- b=mRJ5AgL4vbvYt7RfCDU3nWhZk9hcH/uBt/51uOyWoRMdt04OwRvWYDGYrx7YvlTjPr
- LIrhltxg9aPEM1k3Rou9SCF3SMiiGdz4MIdaro1k4MrlDIICkCzxo9UDYf4KVG6SMaWU
- NqqD0di+QPoMFRAUz+YabLa5UUBisDY7CVKAHMS3oqkO56n+xjj4+mqscRf5ziIW4TTU
- SHxwNin/1yLDfPmawb2Goqx2f/tZh+GmLTPw1FGa0v/kREkiqUW4YEVIDjDKEtS1T835
- tXh9pTBR7I8Pw61/VmnSP4lc/Xh8t2lkpUMFddfqfYqzZ1oX8EvnfgKrpsZE3tTL81qm
- pvhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:date:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=y/pX7qxsLIUajggcY92AZ6bw/n97fJVH1BRi//cWGTk=;
- b=UPWGjdNAaPLpXxv5Fu+a8h7J6gmHyNINOb3llTrvd1VufZagsDJS+BxHKMefnXs2MF
- hFCwXIJf7JLHu3j9wuewK+sDUqCHHfyhINY1qZIbsnMsnPLkpXm+SDLePjATDy7fqOgZ
- 8uonVxbJoo0kAuwtZu/GfDvJxBrbVF6uDw0p2ALDQPKnQxcP2Jov/bYnETp4KbdS98ic
- jeMYu8lH1Zba+hji8SR17mTRq4o20nLsyaIMlDbcVNK2MFsuVEdXcJ5kaZcRMQWIXjZV
- DeG9KjnTLpUsyxVkpjL2J91h2hbFIXHL5VBQ5YRv9wQD84BIbNp6rTEpOmZ/JYYPkLn5
- 5DPA==
-X-Gm-Message-State: AOAM531rgC8431YtHQuwUtsaYpK6NTFjczLsW2N8rDnrDF9J1Boj5IIL
- oENMaCWB+xXTPyXm2ahNOXE=
-X-Google-Smtp-Source: ABdhPJwJAWBFuILMRacJrRk2c7CbILeDLnpvAhEZ41CjvVvDRzjNZ/iQ17Nwfe9jmbyjMoE1dnY/uQ==
-X-Received: by 2002:a63:ef11:: with SMTP id u17mr990685pgh.249.1592290560871; 
- Mon, 15 Jun 2020 23:56:00 -0700 (PDT)
-Received: from localhost ([2001:e42:102:1532:160:16:113:140])
- by smtp.gmail.com with ESMTPSA id gq8sm1447745pjb.14.2020.06.15.23.55.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Jun 2020 23:56:00 -0700 (PDT)
-From: Coiby Xu <coiby.xu@gmail.com>
-X-Google-Original-From: Coiby Xu <Coiby.Xu@gmail.com>
-Date: Tue, 16 Jun 2020 14:55:56 +0800
-To: Stefano Garzarella <sgarzare@redhat.com>
-Subject: Re: [PATCH v8 0/4] vhost-user block device backend implementation
-Message-ID: <20200616065556.4hy6ufszd474t2o2@r>
-References: <20200604233538.256325-1-coiby.xu@gmail.com>
- <20200611123703.jpokj4m75woxt55f@steredhat>
- <20200614184640.ydfsi6dhs5jkhaqx@r>
- <20200615084425.cjqlpazef4644huk@steredhat>
+ (Exim 4.90_1) (envelope-from <vav@sysgo.com>)
+ id 1jl5eb-0005ei-M8; Tue, 16 Jun 2020 03:05:05 -0400
+Received: from mail.sysgo.com ([176.9.12.79]:42146)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vav@sysgo.com>)
+ id 1jl5eX-00008r-OE; Tue, 16 Jun 2020 03:05:03 -0400
+Subject: Re: [PATCH] hw/timer/a9gtimer: Clear pending interrupt, after the
+ clear of Event flag
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20200610084551.28222-1-vav@sysgo.com>
+ <CAFEAcA9uF01LnFy6o4Yy=aeuy9ixyGWZFVGtR66ah3w1458O5g@mail.gmail.com>
+From: =?UTF-8?Q?V=c3=a1clav_Vanc?= <vav@sysgo.com>
+Message-ID: <583c6e8e-fe52-881d-1a61-f02ce7b16d23@sysgo.com>
+Date: Tue, 16 Jun 2020 09:04:57 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20200615084425.cjqlpazef4644huk@steredhat>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::442;
- envelope-from=coiby.xu@gmail.com; helo=mail-pf1-x442.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+In-Reply-To: <CAFEAcA9uF01LnFy6o4Yy=aeuy9ixyGWZFVGtR66ah3w1458O5g@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=176.9.12.79; envelope-from=vav@sysgo.com;
+ helo=mail.sysgo.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 03:04:58
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,126 +51,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, bharatlkmlkvm@gmail.com, qemu-devel@nongnu.org,
- stefanha@redhat.com
+Cc: "open list:ARM cores" <qemu-arm@nongnu.org>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 15, 2020 at 10:46:10AM +0200, Stefano Garzarella wrote:
->On Mon, Jun 15, 2020 at 02:46:40AM +0800, Coiby Xu wrote:
->> Hi Stefano Garzarella,
+On 6/15/20 1:04 PM, Peter Maydell wrote:
+> On Wed, 10 Jun 2020 at 09:47, Vaclav Vanc <vav@sysgo.com> wrote:
 >>
->> On Thu, Jun 11, 2020 at 02:37:03PM +0200, Stefano Garzarella wrote:
->> > Hi Coiby Xu,
->> >
->> > On Fri, Jun 05, 2020 at 07:35:34AM +0800, Coiby Xu wrote:
->> > > v8
->> > >  - re-try connecting to socket server to fix asan error
->> > >  - fix license naming issue
->> > >
->> > > v7
->> > >  - fix docker-test-debug@fedora errors by freeing malloced memory
->> > >
->> > > v6
->> > >  - add missing license header and include guard
->> > >  - vhost-user server only serve one client one time
->> > >  - fix a bug in custom vu_message_read
->> > >  - using qemu-storage-daemon to start vhost-user-blk-server
->> > >  - a bug fix to pass docker-test-clang@ubuntu
->> > >
->> > > v5:
->> > >  * re-use vu_kick_cb in libvhost-user
->> > >  * keeping processing VhostUserMsg in the same coroutine until there is
->> > >    detachment/attachment of AIOContext
->> > >  * Spawn separate coroutine for each VuVirtqElement
->> > >  * Other changes including relocating vhost-user-blk-server.c, coding
->> > >    style etc.
->> > >
->> > > v4:
->> > >  * add object properties in class_init
->> > >  * relocate vhost-user-blk-test
->> > >  * other changes including using SocketAddress, coding style, etc.
->> > >
->> > > v3:
->> > >  * separate generic vhost-user-server code from vhost-user-blk-server
->> > >    code
->> > >  * re-write vu_message_read and kick hander function as coroutines to
->> > >    directly call blk_co_preadv, blk_co_pwritev, etc.
->> > >  * add aio_context notifier functions to support multi-threading model
->> > >  * other fixes regarding coding style, warning report, etc.
->> > >
->> > > v2:
->> > >  * Only enable this feature for Linux because eventfd is a Linux-specific
->> > >    feature
->> > >
->> > >
->> > > This patch series is an implementation of vhost-user block device
->> > > backend server, thanks to Stefan and Kevin's guidance.
->> > >
->> > > Vhost-user block device backend server is a UserCreatable object and can be
->> > > started using object_add,
->> > >
->> > >  (qemu) object_add vhost-user-blk-server,id=ID,unix-socket=/tmp/vhost-user-blk_vhost.socket,node-name=DRIVE_NAME,writable=off,blk-size=512
->> > >  (qemu) object_del ID
->> > >
->> > > or appending the "-object" option when starting QEMU,
->> > >
->> > >   $ -object vhost-user-blk-server,id=disk,unix-socket=/tmp/vhost-user-blk_vhost.socket,node-name=DRIVE_NAME,writable=off,blk-size=512
->> > >
->> > > Then vhost-user client can connect to the server backend.
->> > > For example, QEMU could act as a client,
->> > >
->> > >   $ -m 256 -object memory-backend-memfd,id=mem,size=256M,share=on -numa node,memdev=mem -chardev socket,id=char1,path=/tmp/vhost-user-blk_vhost.socket -device vhost-user-blk-pci,id=blk0,chardev=char1
->> > >
->> > > And guest OS could access this vhost-user block device after mounting it.
->> > >
->> > > Coiby Xu (4):
->> > >   Allow vu_message_read to be replaced
->> > >   generic vhost user server
->> > >   vhost-user block device backend server
->> > >   new qTest case to test the vhost-user-blk-server
->> > >
->> > >  block/Makefile.objs                        |   1 +
->> > >  block/export/vhost-user-blk-server.c       | 716 ++++++++++++++++++++
->> > >  block/export/vhost-user-blk-server.h       |  34 +
->> > >  contrib/libvhost-user/libvhost-user-glib.c |   2 +-
->> > >  contrib/libvhost-user/libvhost-user.c      |  11 +-
->> > >  contrib/libvhost-user/libvhost-user.h      |  21 +
->> > >  softmmu/vl.c                               |   4 +
->> > >  tests/Makefile.include                     |   3 +-
->> > >  tests/qtest/Makefile.include               |   2 +
->> > >  tests/qtest/libqos/vhost-user-blk.c        | 130 ++++
->> > >  tests/qtest/libqos/vhost-user-blk.h        |  44 ++
->> > >  tests/qtest/libqtest.c                     |  54 +-
->> > >  tests/qtest/libqtest.h                     |  38 ++
->> > >  tests/qtest/vhost-user-blk-test.c          | 737 +++++++++++++++++++++
->> > >  tests/vhost-user-bridge.c                  |   2 +
->> > >  tools/virtiofsd/fuse_virtio.c              |   4 +-
->> > >  util/Makefile.objs                         |   1 +
->> > >  util/vhost-user-server.c                   | 406 ++++++++++++
->> > >  util/vhost-user-server.h                   |  59 ++
->> > >  19 files changed, 2229 insertions(+), 40 deletions(-)
->> > >  create mode 100644 block/export/vhost-user-blk-server.c
->> > >  create mode 100644 block/export/vhost-user-blk-server.h
->> > >  create mode 100644 tests/qtest/libqos/vhost-user-blk.c
->> > >  create mode 100644 tests/qtest/libqos/vhost-user-blk.h
->> > >  create mode 100644 tests/qtest/vhost-user-blk-test.c
->> > >  create mode 100644 util/vhost-user-server.c
->> > >  create mode 100644 util/vhost-user-server.h
->> > >
->> >
->> > Should we add an entry in the MAINTAINERS file for some of the new files?
->> > (e.g. util/vhost-user-server.*)
+>> A9 Global Timer is used with Edge triggered interrupts (This is true
+>> at least for Zynq and i.MX6 processors).
+>> When Event Flag is cleared in Interrupt Status Register and new interrupt
+>> was supposed to be scheduled, interrupt request is never cleared.
+>> Since interrupt in GIC is configured as Edge triggered, new interrupts
+>> are not registered (because interrupt is stuck at pending and GIC thinks
+>> it was already serviced). As a result interrupts from timer does not work
+>> anymore.
 >>
->> Yes, please. Thank you!
->
->I think the best thing should be to edit MAINTAINERS in this series,
->since you're adding new files, but I don't know who will maintain them ;-)
+>> Note: This happens only when interrupt was not serviced before the next
+>> interrupt is suppose to be scheduled. This happens for example during
+>> the increased load of the host system.
+>>
+>> Interrupt is now always cleared when Event Flag is cleared.
+>> This is in accordance to A9 Global Timer documentation.
+>>
+>> Signed-off-by: Vaclav Vanc <vav@sysgo.com>
+>> ---
+>>   hw/timer/a9gtimer.c | 3 +++
+>>   1 file changed, 3 insertions(+)
+>>
+>> diff --git a/hw/timer/a9gtimer.c b/hw/timer/a9gtimer.c
+>> index 7233068a37..732889105e 100644
+>> --- a/hw/timer/a9gtimer.c
+>> +++ b/hw/timer/a9gtimer.c
+>> @@ -206,6 +206,9 @@ static void a9_gtimer_write(void *opaque, hwaddr addr, uint64_t value,
+>>       case R_INTERRUPT_STATUS:
+>>           a9_gtimer_update(s, false);
+>>           gtb->status &= ~value;
+>> +        if (gtb->status == 0) {
+>> +            qemu_set_irq(gtb->irq, 0);
+>> +        }
+>>           break;
+> 
+> Hi; thanks for this patch. I can see the situation you're trying to address,
+> but I can't find anything in the docs that convinces me that this change
+> is the right way to fix it.
+> 
+Hi, thanks for reviewing the patch.
 
-Thank you for the explanation! I thought the MAINTAINERS file is supposed
-to be treated in a special way:)
+> The problem we have is that the a9_gtimer_update() function (which is
+> going to get called after this code at the end of the a9_gtimer_write()
+> function) updates the gtb->status bit based on whether the timer has
+> currently passed the compare value. So effectively we do the "has the
+> count gone past the compare value" check not only when the timer expires
+> but also at every register write. My best guess is that the real hardware
+> only does an expiry-check when it does a counter value update. If that's
+> the case then in the situation you outline the guest clearing the event
+> flag should mean that the interrupt is not re-asserted until the counter
+> next increments past the compare value (ie not for a little while) whereas
+> with your patch it will be instantly re-asserted.
 
---
-Best regards,
-Coiby
+We must distinguish between two cases:
+1, Auto-increment is disabled.
+I just run some test on SABRE Lite (i.MX6) board.
+I had auto-increment disabled, I verified, that GIC is configured for 
+Edge interrupts. Once count went past the compare value I got the 
+interrupt. I did not touch Timer registers, just signal EOI to GIC and 
+surprisingly, I got a another interrupt. If I stopped the timer 
+interrupts stopped coming (Status was still set to 1).
+
+ From this behavior I assume, that every time the Timer is incremented 
+(and Timer value is past the compare value) an EDGE interrupt (that 
+means actual X->0->1 transition) is asserted. This is really interesting 
+from HW point of view. This would mean, that a9_gtimer_update function 
+should generate the pulse and not level on compare event.
+
+2, Auto-increment is enabled.
+This is actually what the patch was aiming for.
+First call of a9_gtimer_update will potentially update the compare 
+value, then the interrupt and event flag is de-asserted. Second call of 
+a9_gtimer_update will just update the timer (or re-assert the interrupt 
+if the Timer hit the compare value in the meantime, which is fine).
+
+Let me know I you want me to run some more tests.
+
+> 
+> (Unfortunately the A9 TRM is not clear on the behaviour here. It would
+> probably be possible to write some test code to check the real h/w
+> behaviour.)
+>  > thanks
+> -- PMM
+> 
+
+Best Regards,
+Ing. Václav Vanc
+Project Engineer
+
+SYSGO s.r.o.
+Embedding Innovations
+Research and Development Center Prague
+Zeleny pruh 1560/99 I CZ-14000 Praha 4
+Phone: +420 222138 828, +49 6136 9948 828
+Fax: +420 244911174
+E-mail: vaclav.vanc@sysgo.com
+_________________________________________________________________________________
+
+Web: https://www.sysgo.com
+Blog: https://www.sysgo.com/blog
+Events: https://www.sysgo.com/events
+Newsletter: https://www.sysgo.com/newsletter
+_________________________________________________________________________________
+
+Handelsregister/Commercial Registry: HRB Mainz 90 HRB 48884
+Geschäftsführung/Managing Directors: Etienne Butery (CEO), Kai Sablotny 
+(COO)
+USt-Id-Nr./VAT-Id-No.: DE 149062328
+
+The protection of your personal data is important to us. Under the 
+following link you can see the information in accordance with article 13 
+GDPR: https://www.sysgo.com/privacy_policy
 
