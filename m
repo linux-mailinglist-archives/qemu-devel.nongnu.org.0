@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B39F61FB4D6
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:47:30 +0200 (CEST)
-Received: from localhost ([::1]:56108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D86CF1FB4A0
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:41:11 +0200 (CEST)
+Received: from localhost ([::1]:55724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlCs5-00055K-N8
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:47:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57942)
+	id 1jlCly-0007so-R8
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:41:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCQO-0003Ee-5F; Tue, 16 Jun 2020 10:18:52 -0400
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:43686)
+ id 1jlCQQ-0003Jh-6D; Tue, 16 Jun 2020 10:18:54 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:37443)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCQM-0006uw-JB; Tue, 16 Jun 2020 10:18:51 -0400
-Received: by mail-oi1-x243.google.com with SMTP id j189so19335790oih.10;
- Tue, 16 Jun 2020 07:18:49 -0700 (PDT)
+ id 1jlCQO-0006vA-IW; Tue, 16 Jun 2020 10:18:53 -0400
+Received: by mail-ot1-x344.google.com with SMTP id v13so16030474otp.4;
+ Tue, 16 Jun 2020 07:18:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=U7J2TqZ1ks8KNH7mIqSpb6zD0BiSTiY4lPX/uz7chis=;
- b=LsudBc9irn12ll41uXuWAfo+MOHKdy5VJgTNuXGo7I9aj1VBx74Ot75xvrLZIydr2g
- v4nLwd90MsuF0XTOl5Cwbudyy6Oz09Fdhl0xYdTvsoJSTjFpRFIoTvEq+L1LxtBl0EoZ
- kDybpw1pJdJFsXO+ZZ4T/a6fmTZ5VUDwuCVxgmHVBBdVg7diqo+rHNiJ3XX5m4O/LJ0g
- z5pgQbFbQtXsTH/htaTpfbZnW0fp/95q1O9ZSdTzIo+IitmyWVLSRf6MVnEK89zhR5s7
- /QWIBP41/B2++1vxllA9XLDAKD9hQxzhL1CsejreHgWViht4UOQHWnTc3xc2bl2TVrw7
- dukw==
+ bh=eT4kasepupf0quY9iPCk6nU2ks2xXCw/NfEezYt8oHw=;
+ b=Zk9TOKcBcbcRvgjLNBjKCxNze2FGr/VvYIwqXWwz2JxjMETRQ0OKHPGX19tQw89fHU
+ 3cHyKxELNJNTiiB3CXygXEU/r5XUmrtxIBh5CIaluxZu5H3udY1SkmJXKHs+LTeKY3Cp
+ zMO+xx1/66JMqMQ8Ko67B+/JQVwkAkpxdalB9M2hs95r2LP91YXLgojj35ajc+qegwY+
+ GcCNdxiGBmrLADsXVKUCc/i6eWOSJ4rfQ3w3KUiW1B/GVsW8UuEdvNMkt1/J8thOlFCR
+ rkoGVJELiEGywWbun4YJ/teZ94Ntayjd5PTkK83iFXxyf1pPFbtwy//879HBB/NpWJEU
+ 56UQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=U7J2TqZ1ks8KNH7mIqSpb6zD0BiSTiY4lPX/uz7chis=;
- b=nOD9PfhD/tOaQABGbp1zzCs0o6v9/eRnRmTclSMAx4AUXfoGK1lA9i1KQ9paG7yBVM
- CeFFpjG8MNpkm9I/ecA3HxhiIOHag1/ZYR3zUv8eg4zfDIZVLqiHjWmNy10pCUuwbGkh
- 2o7vx+V7RQuJ4uJkU+9WwPnUXDpgyd7lvNMVKSIFb5cDX6bB5cMHiHd3gf0RM0rjC93v
- G+E+yjkRD75V2W9m8AliePxHAWm4GpigE8KzywtHsQZI1ENulEcA8gsHyow4jQE2EavP
- FQswHXTA3t/TSSkjtHKgjXsK0KdA1m5HtRMI2nA2RaeA2GYFAXrpYXaWS5Y/r/zX3hn3
- 53zA==
-X-Gm-Message-State: AOAM533nxAV0yFXsWJKyPqBGkZ9yLcgBXsjDXdfdgFHaLzSXX89GVHtg
- MurAYk9+C8e6y7IG2qCdt4qJaMKf
-X-Google-Smtp-Source: ABdhPJzx/fWZpwsFoWHuJuIXAHDmV8uOqg6JcpZDnUy2K/AzBn9aajdchNTjFX1UOPANstr3M6z2ag==
-X-Received: by 2002:aca:1b13:: with SMTP id b19mr3649055oib.132.1592317128547; 
- Tue, 16 Jun 2020 07:18:48 -0700 (PDT)
+ bh=eT4kasepupf0quY9iPCk6nU2ks2xXCw/NfEezYt8oHw=;
+ b=nogD/0KLRmaUIRSa1l54h4EYRjsg/3wDEcRW+BvFGOzWYLf3yJZDYws7Sd1hZsdna0
+ GKdTAJjtabIn4Mat1jn3SA9VvJ006tg7WzUTKynlN78dQTKCfxxkMzP8PJb0XAykCNHD
+ iffrZ7cFGnl5+P7DhlladNeIdOT7myP6xs/gAQ9RAwQGbtiC3VtSs1by+f0Yl6w6G7lW
+ hlPY2bLZDKOwkVSd0oZPa8/pcQwAlABTz+2OcM7r1//Ov8Ri9bXSNt0wU6mnOcfnCdRM
+ qCnnrWVjF7PyslP7/362WeVHg9ylSb2xWuLuq1BfhvfuM+/OpQsrH2AGGHfI3wh9xCV5
+ Py3Q==
+X-Gm-Message-State: AOAM532jtt15qDCd2rTucAuX9jZjnhrLZqbFy/JTtF471Qosse7aTTBX
+ xsmlH6tw32wEIXQzOXgQxLymNUfM
+X-Google-Smtp-Source: ABdhPJyMH1zL1V54S0jl8dEBw22p+kWgOqC3YRAeAJJhkdzMEeCcEvnoYTiOSsgzCfb+xUpihKyJ7A==
+X-Received: by 2002:a9d:7f93:: with SMTP id t19mr2598707otp.347.1592317130464; 
+ Tue, 16 Jun 2020 07:18:50 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id m18sm4155574ooe.12.2020.06.16.07.18.46
+ by smtp.gmail.com with ESMTPSA id e17sm4169311oiy.21.2020.06.16.07.18.48
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 16 Jun 2020 07:18:46 -0700 (PDT)
+ Tue, 16 Jun 2020 07:18:49 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 51/78] scsi/qemu-pr-helper: Fix out-of-bounds access to
- trnptid_list[]
-Date: Tue, 16 Jun 2020 09:15:20 -0500
-Message-Id: <20200616141547.24664-52-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 52/78] block/qcow2-threads: fix qcow2_decompress
+Date: Tue, 16 Jun 2020 09:15:21 -0500
+Message-Id: <20200616141547.24664-53-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
 References: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
- envelope-from=flukshun@gmail.com; helo=mail-oi1-x243.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
+ envelope-from=flukshun@gmail.com; helo=mail-ot1-x344.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -85,98 +84,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christophe de Dinechin <dinechin@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, qemu-stable@nongnu.org
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-stable@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Christophe de Dinechin <dinechin@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-Compile error reported by gcc 10.0.1:
+On success path we return what inflate() returns instead of 0. And it
+most probably works for Z_STREAM_END as it is positive, but is
+definitely broken for Z_BUF_ERROR.
 
-scsi/qemu-pr-helper.c: In function ‘multipath_pr_out’:
-scsi/qemu-pr-helper.c:523:32: error: array subscript <unknown> is outside array bounds of ‘struct transportid *[0]’ [-Werror=array-bounds]
-  523 |             paramp.trnptid_list[paramp.num_transportid++] = id;
-      |             ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
-In file included from scsi/qemu-pr-helper.c:36:
-/usr/include/mpath_persist.h:168:22: note: while referencing ‘trnptid_list’
-  168 |  struct transportid *trnptid_list[];
-      |                      ^~~~~~~~~~~~
-scsi/qemu-pr-helper.c:424:35: note: defined here ‘paramp’
-  424 |     struct prout_param_descriptor paramp;
-      |                                   ^~~~~~
+While being here, switch to errno return code, to be closer to
+qcow2_compress API (and usual expectations).
 
-This highlights an actual implementation issue in function multipath_pr_out.
-The variable paramp is declared with type `struct prout_param_descriptor`,
-which is a struct terminated by an empty array in mpath_persist.h:
+Revert condition in if to be more positive. Drop dead initialization of
+ret.
 
-        struct transportid *trnptid_list[];
-
-That empty array was filled with code that looked like that:
-
-        trnptid_list[paramp.descr.num_transportid++] = id;
-
-This is an actual out-of-bounds access.
-
-The fix is to malloc `paramp`.
-
-Signed-off-by: Christophe de Dinechin <dinechin@redhat.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-(cherry picked from commit 4ce1e15fbc7266a108a7c77a3962644b3935346e)
+Cc: qemu-stable@nongnu.org # v4.0
+Fixes: 341926ab83e2b
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-Id: <20200302150930.16218-1-vsementsov@virtuozzo.com>
+Reviewed-by: Alberto Garcia <berto@igalia.com>
+Reviewed-by: Ján Tomko <jtomko@redhat.com>
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+(cherry picked from commit e7266570f2cf7b3ca2a156c677ee0a59d563458b)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- scsi/qemu-pr-helper.c | 17 ++++++++++-------
- 1 file changed, 10 insertions(+), 7 deletions(-)
+ block/qcow2-threads.c | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
-diff --git a/scsi/qemu-pr-helper.c b/scsi/qemu-pr-helper.c
-index debb18f4aa..38c273de19 100644
---- a/scsi/qemu-pr-helper.c
-+++ b/scsi/qemu-pr-helper.c
-@@ -421,10 +421,13 @@ static int multipath_pr_out(int fd, const uint8_t *cdb, uint8_t *sense,
-     int rq_servact = cdb[1];
-     int rq_scope = cdb[2] >> 4;
-     int rq_type = cdb[2] & 0xf;
--    struct prout_param_descriptor paramp;
-+    g_autofree struct prout_param_descriptor *paramp = NULL;
-     char transportids[PR_HELPER_DATA_SIZE];
-     int r;
+diff --git a/block/qcow2-threads.c b/block/qcow2-threads.c
+index 8f5a0d1ebe..0d193d1614 100644
+--- a/block/qcow2-threads.c
++++ b/block/qcow2-threads.c
+@@ -128,12 +128,12 @@ static ssize_t qcow2_compress(void *dest, size_t dest_size,
+  * @src - source buffer, @src_size bytes
+  *
+  * Returns: 0 on success
+- *          -1 on fail
++ *          -EIO on fail
+  */
+ static ssize_t qcow2_decompress(void *dest, size_t dest_size,
+                                 const void *src, size_t src_size)
+ {
+-    int ret = 0;
++    int ret;
+     z_stream strm;
  
-+    paramp = g_malloc0(sizeof(struct prout_param_descriptor)
-+                       + sizeof(struct transportid *) * MPATH_MX_TIDS);
-+
-     if (sz < PR_OUT_FIXED_PARAM_SIZE) {
-         /* Illegal request, Parameter list length error.  This isn't fatal;
-          * we have read the data, send an error without closing the socket.
-@@ -454,10 +457,9 @@ static int multipath_pr_out(int fd, const uint8_t *cdb, uint8_t *sense,
-      * used by libmpathpersist (which, of course, will immediately
-      * do the opposite).
-      */
--    memset(&paramp, 0, sizeof(paramp));
--    memcpy(&paramp.key, &param[0], 8);
--    memcpy(&paramp.sa_key, &param[8], 8);
--    paramp.sa_flags = param[20];
-+    memcpy(&paramp->key, &param[0], 8);
-+    memcpy(&paramp->sa_key, &param[8], 8);
-+    paramp->sa_flags = param[20];
-     if (sz > PR_OUT_FIXED_PARAM_SIZE) {
-         size_t transportid_len;
-         int i, j;
-@@ -520,12 +522,13 @@ static int multipath_pr_out(int fd, const uint8_t *cdb, uint8_t *sense,
-                 return CHECK_CONDITION;
-             }
+     memset(&strm, 0, sizeof(strm));
+@@ -144,17 +144,19 @@ static ssize_t qcow2_decompress(void *dest, size_t dest_size,
  
--            paramp.trnptid_list[paramp.num_transportid++] = id;
-+            assert(paramp->num_transportid < MPATH_MX_TIDS);
-+            paramp->trnptid_list[paramp->num_transportid++] = id;
-         }
+     ret = inflateInit2(&strm, -12);
+     if (ret != Z_OK) {
+-        return -1;
++        return -EIO;
      }
  
-     r = mpath_persistent_reserve_out(fd, rq_servact, rq_scope, rq_type,
--                                     &paramp, noisy, verbose);
-+                                     paramp, noisy, verbose);
-     return mpath_reconstruct_sense(fd, r, sense);
- }
- #endif
+     ret = inflate(&strm, Z_FINISH);
+-    if ((ret != Z_STREAM_END && ret != Z_BUF_ERROR) || strm.avail_out != 0) {
++    if ((ret == Z_STREAM_END || ret == Z_BUF_ERROR) && strm.avail_out == 0) {
+         /*
+          * We approve Z_BUF_ERROR because we need @dest buffer to be filled, but
+          * @src buffer may be processed partly (because in qcow2 we know size of
+          * compressed data with precision of one sector)
+          */
+-        ret = -1;
++        ret = 0;
++    } else {
++        ret = -EIO;
+     }
+ 
+     inflateEnd(&strm);
 -- 
 2.17.1
 
