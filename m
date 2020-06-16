@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21F301FB50F
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:54:14 +0200 (CEST)
-Received: from localhost ([::1]:58700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A97591FB504
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:52:27 +0200 (CEST)
+Received: from localhost ([::1]:50440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlCyb-0000tB-5T
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:54:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58046)
+	id 1jlCws-0005xx-LT
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:52:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCQd-0003XX-6A; Tue, 16 Jun 2020 10:19:11 -0400
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:37874)
+ id 1jlCQd-0003Xd-Hs; Tue, 16 Jun 2020 10:19:11 -0400
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:38314)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCQb-0006xa-ME; Tue, 16 Jun 2020 10:19:06 -0400
-Received: by mail-oi1-x241.google.com with SMTP id a3so19413326oid.4;
- Tue, 16 Jun 2020 07:19:03 -0700 (PDT)
+ id 1jlCQc-0006xe-02; Tue, 16 Jun 2020 10:19:07 -0400
+Received: by mail-ot1-x342.google.com with SMTP id n70so16046712ota.5;
+ Tue, 16 Jun 2020 07:19:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=V65H2WdSRAK88T/KlWVxHCbmRYaYQ8jXFvHNXk1Yflo=;
- b=IqK+GgBfugP2I9f499pW7yQGZ38XltjSJqKnyK0ifqook8dGH8YYUIbyM+8QQUE+WB
- 6Agzebnwjg91MF63/sugbUc5CBG786oAco60IXZ1SqRobpuhTWtSYCYfP2vBILR0hmTr
- XxLGOFVcwbg861dcTrEtjuyZGTVS3IlUuABrKPwU8ZOA3525TQ32BNH7dSQVwO7MZvzu
- Q+l269QzLYnwl3Jw2Asbm4nVXNe5kGmP3XsIdLkHq5W2Nuvr8tP6+l8EmKPd5JBm/UJY
- Ra6av29Vss5ayTejvw1aIyFg6MQBbQzAfsCYsYKthjGIz5JlmJsaZExX1k6KkPho0XAQ
- Yacg==
+ bh=H56oUyDfYltLK80fHHPutYvS4jI1ii23yt2DPH3g7jo=;
+ b=mR8N9e50RCg23pLx3lKQlKlZBTAxe7ycOstMiYqo+u5iEaxm7sROaN6zZQx5Gv+Sdx
+ dI1NmQ5e7eQDvYZXmue7nhzfEu0PdnXxww3/i+C+jcYC2AQz9HrrRNr+yxqSPUDWe2tx
+ PwFzzk7vl6YsIp6sNN0h5AgxM4Rr4lipa7U3cazENk8YzIJfSv0Kc4gXxoTsYdI5lmEN
+ sNEvCZkGe6l4U0XLJGXpgSbv5Gs7vxc+3urlyDHfgKbRGUnbZ97/68psdnQBcfCSPgdt
+ dx1icNfzL+23gLTQQ4ApAU/Ob1AcaRHbydw3h9IwitxBP5/B3RMWrQ+o0/M0hgbYOHar
+ LBuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=V65H2WdSRAK88T/KlWVxHCbmRYaYQ8jXFvHNXk1Yflo=;
- b=ZtzBPt5Iu4JtJjd7iz3kJreSdwXsiIiXfqAtkbdT8vMxLJ8olvW/0UPfwA5WzzGasL
- p26ZIaFrJtyGdNd2N8b5wHJhtFIk/8GL0bV+oE95xd6hqsIfmrXOOtm+6LMlxoVueiXQ
- KTXm054AJOPi2eEKG2nywR/XeyaTdybQb/JlKYSk1TeZKyBgdye/4n/kTSUvSEKTeYvh
- CS8AacBD5pLAnB6+RZ1/R7sHqnpQ1ZBvnMM3d1Zvy1vkIFIYFP5AGuYJZSjja5ZaX9b3
- xrQ4PrYOg/BxeqOvow80COTYU4RFtPfDDl/BDz5/N9JCnTACupK98rVJD6gCYVwsRm2s
- HTBg==
-X-Gm-Message-State: AOAM530ImqTk+kSJwNs7WTbAmZXpdUGbrKsey58Pksm39nbqbs9e5VXO
- mjOWmwheT7wiLgN7gt5YUC73HqQx
-X-Google-Smtp-Source: ABdhPJxXvPvCpe6jZK/n7n+7m6vnoY7vO9GPDffgmQ7b8YPZxKIj3ZeyyCDufiUf3GjJbnZlh4COuQ==
-X-Received: by 2002:aca:ad88:: with SMTP id w130mr3664364oie.103.1592317141901; 
- Tue, 16 Jun 2020 07:19:01 -0700 (PDT)
+ bh=H56oUyDfYltLK80fHHPutYvS4jI1ii23yt2DPH3g7jo=;
+ b=qWX+agNeBWFoFc35OaLZwafBPh5W2MfmW/Q12E0P77QtYlzrl1pfGMtxUTkW0JEXYc
+ CND7YIfqtJgBiAIMHfpy2svwZ0TP+RQ0RuZXw4NzDyjh4tVOvxmpd3BlPO/vSxpG3ZkF
+ cdjOJ+8qebKwSclxg7DkDgYGEhisa8G8/rhkUbGcwRf3iR+gLVqmWm9BU7DQ969Gw1A5
+ QjZFbUQHeXFtdLFKcS7EBmmOBpgtgz2Mek+dyJukzZpNg3yzv2J6cM5GyZTViOwOQhzh
+ 55yx4OFMguu9pYD/Y+1/CUTLtw6JFlCysfrOkMsfzWUIOsEtk1y8Zbri6zR2J5dfSoWt
+ IR8w==
+X-Gm-Message-State: AOAM530whbEfiyDYzdQ6aKr5sOnwLl3HGPFCOBgCmURcRMkfAePQ752M
+ u3jqLQ1rO2e0lMfPiOBZ6sB23vZr
+X-Google-Smtp-Source: ABdhPJyu5pc0DvMfVeaxEpuB/WEofk2K3ge4Q2IeJ41xYDar/iRg6/OgDt74uFg+NhRVfojxbuDZew==
+X-Received: by 2002:a9d:3df7:: with SMTP id l110mr2495125otc.214.1592317143900; 
+ Tue, 16 Jun 2020 07:19:03 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id g2sm2963099oou.0.2020.06.16.07.19.00
+ by smtp.gmail.com with ESMTPSA id e25sm4082086otj.73.2020.06.16.07.19.02
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 16 Jun 2020 07:19:00 -0700 (PDT)
+ Tue, 16 Jun 2020 07:19:02 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 57/78] compat: disable edid on correct virtio-gpu device
-Date: Tue, 16 Jun 2020 09:15:26 -0500
-Message-Id: <20200616141547.24664-58-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 58/78] qga: Installer: Wait for installation to finish
+Date: Tue, 16 Jun 2020 09:15:27 -0500
+Message-Id: <20200616141547.24664-59-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
 References: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::241;
- envelope-from=flukshun@gmail.com; helo=mail-oi1-x241.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
+ envelope-from=flukshun@gmail.com; helo=mail-ot1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -84,46 +84,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cornelia Huck <cohuck@redhat.com>, qemu-stable@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: Sameeh Jubran <sjubran@redhat.com>, Basil Salman <basil@daynix.com>,
+ qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Cornelia Huck <cohuck@redhat.com>
+From: Basil Salman <basil@daynix.com>
 
-Commit bb15791166c1 ("compat: disable edid on virtio-gpu base
-device") tried to disable 'edid' on the virtio-gpu base device.
-However, that device is not 'virtio-gpu', but 'virtio-gpu-device'.
-Fix it.
+Installation might fail if we don't wait for the provider
+unregisteration process to finish.
 
-Fixes: bb15791166c1 ("compat: disable edid on virtio-gpu base device")
-Reported-by: Lukáš Doktor <ldoktor@redhat.com>
-Tested-by: Lukáš Doktor <ldoktor@redhat.com>
+Signed-off-by: Sameeh Jubran <sjubran@redhat.com>
+Signed-off-by: Basil Salman <basil@daynix.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Signed-off-by: Cornelia Huck <cohuck@redhat.com>
-Message-id: 20200318093919.24942-1-cohuck@redhat.com
-Cc: qemu-stable@nongnu.org
-Signed-off-by: Cornelia Huck <cohuck@redhat.com>
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-(cherry picked from commit 02501fc39381c4dabaf6becdd12c2a4754c3847c)
+Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
+(cherry picked from commit bb1ce44b15f159b67fafc5f4b285bbf20a1961e9)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- hw/core/machine.c | 2 +-
+ qga/installer/qemu-ga.wxs | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index aa63231f31..1872263bf0 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -37,7 +37,7 @@ GlobalProperty hw_compat_4_0[] = {
-     { "secondary-vga",  "edid", "false" },
-     { "bochs-display",  "edid", "false" },
-     { "virtio-vga",     "edid", "false" },
--    { "virtio-gpu",     "edid", "false" },
-+    { "virtio-gpu-device", "edid", "false" },
-     { "virtio-device", "use-started", "false" },
-     { "virtio-balloon-device", "qemu-4-0-config-size", "true" },
-     { "pl031", "migrate-tick-offset", "false" },
+diff --git a/qga/installer/qemu-ga.wxs b/qga/installer/qemu-ga.wxs
+index 64bf90bd85..f6781752e6 100644
+--- a/qga/installer/qemu-ga.wxs
++++ b/qga/installer/qemu-ga.wxs
+@@ -81,7 +81,7 @@
+               Arguments="-d --retry-path"
+               >
+             </ServiceInstall>
+-            <ServiceControl Id="StartService" Start="install" Stop="both" Remove="uninstall" Name="QEMU-GA" Wait="no" />
++            <ServiceControl Id="StartService" Start="install" Stop="both" Remove="uninstall" Name="QEMU-GA" Wait="yes" />
+           </Component>
+           <?ifdef var.InstallVss?>
+           <Component Id="qga_vss_dll" Guid="{CB19C453-FABB-4BB1-ABAB-6B74F687BFBB}">
 -- 
 2.17.1
 
