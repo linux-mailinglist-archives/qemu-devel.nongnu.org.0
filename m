@@ -2,59 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67DB81FA94A
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 08:58:28 +0200 (CEST)
-Received: from localhost ([::1]:53770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB0A21FA945
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 08:57:29 +0200 (CEST)
+Received: from localhost ([::1]:49024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jl5YB-0002hl-3h
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 02:58:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42378)
+	id 1jl5XE-0000mS-RC
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 02:57:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42032)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1jl5NK-0002WG-7J
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 02:47:14 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:52889
+ (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
+ id 1jl5Mh-0001nO-3R
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 02:46:35 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:46469
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1jl5NG-0005qO-U1
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 02:47:13 -0400
+ (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
+ id 1jl5MY-0005gA-LB
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 02:46:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592290030;
+ s=mimecast20190719; t=1592289982;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=IDvJc4lUGQTwqv7uiU+Gab1nKluMeqbegsioSAJZHC0=;
- b=Y70ltuxtRykbU7i67+DMxbPR/L6W7S3kKhlNcKURTXWw5Yl5qqZOtfwrGSz94n48Lrk3nP
- v3jTxfUFwfn9EY/pEqE3MYNgn0efSzHk9DbHK+gOKTBIzbdJVRC/+1WhNUSlHE1tSmTXfg
- C9Rpz0GAiJ2Z6VRF1vi/sgwnk/oudmA=
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=vqgsOw1a2P1L/SAd1EMDnyw9jtgX932OEGT98EbCM2U=;
+ b=E4xtcG+riXkIOC0SRq3gouuONRHiy0uZ2ax8Yvji3I/a2elm0nV1ErzjFcFOGzXcctLczQ
+ 5GtuX7R7wOBbm57/hoWO0Bqn5fVL2UlVHuqfbXdiVt5wW+GuYiJlkdeYjH1PGnFYDRaGg9
+ vSmcvaLcLHGOuVrzQTI6DeFYp6XSP8g=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-486-AJVUl9t2M5Sl5j0jYyW0ow-1; Tue, 16 Jun 2020 02:47:08 -0400
-X-MC-Unique: AJVUl9t2M5Sl5j0jYyW0ow-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-162-TEN4xq4hMeyWHSQPyPIJJA-1; Tue, 16 Jun 2020 02:46:18 -0400
+X-MC-Unique: TEN4xq4hMeyWHSQPyPIJJA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 515071138300;
- Tue, 16 Jun 2020 06:47:07 +0000 (UTC)
-Received: from jason-ThinkPad-T430s.redhat.com (ovpn-13-222.pek2.redhat.com
- [10.72.13.222])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AE39390343;
- Tue, 16 Jun 2020 06:47:05 +0000 (UTC)
-From: Jason Wang <jasowang@redhat.com>
-To: peter.maydell@linaro.org
-Subject: [PULL 33/33] net: Drop the NetLegacy structure,
- always use Netdev instead
-Date: Tue, 16 Jun 2020 14:45:44 +0800
-Message-Id: <1592289944-13727-34-git-send-email-jasowang@redhat.com>
-In-Reply-To: <1592289944-13727-1-git-send-email-jasowang@redhat.com>
-References: <1592289944-13727-1-git-send-email-jasowang@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F28C3835B57;
+ Tue, 16 Jun 2020 06:46:16 +0000 (UTC)
+Received: from [10.40.193.154] (unknown [10.40.193.154])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1942819C79;
+ Tue, 16 Jun 2020 06:46:12 +0000 (UTC)
+Subject: Re: [PATCH v2 2/2] qemu-options.hx: Document hmat-lb and hmat-cache
+ order
+To: Markus Armbruster <armbru@redhat.com>
+References: <cover.1591794890.git.mprivozn@redhat.com>
+ <5bd3f4a03227658cbdb1d184518c7805c1c0122f.1591794890.git.mprivozn@redhat.com>
+ <877dw8bvu5.fsf@dusky.pond.sub.org>
+From: Michal Privoznik <mprivozn@redhat.com>
+Message-ID: <8de1babf-0925-eda0-9d30-a765aff0c4df@redhat.com>
+Date: Tue, 16 Jun 2020 08:46:11 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
+MIME-Version: 1.0
+In-Reply-To: <877dw8bvu5.fsf@dusky.pond.sub.org>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=jasowang@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=mprivozn@redhat.com;
  helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 02:45:54
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -64,7 +72,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,221 +85,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, Thomas Huth <thuth@redhat.com>,
- qemu-devel@nongnu.org
+Cc: Igor Mammedov <imammedo@redhat.com>, Liu Jingqi <jingqi.liu@intel.com>,
+ Tao Xu <tao3.xu@intel.com>, qemu-devel@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+On 6/15/20 10:02 AM, Markus Armbruster wrote:
+> Michal Privoznik <mprivozn@redhat.com> writes:
+> 
+>> To simplify internal implementation the hmat-cache parsing code
+>> expects hmat-lb to be already parsed. This means, that hmat-lb
+>> arguments must come before hmat-cache. Document this restriction
+>> so that management applications can follow it.
+>>
+>> Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
+>> ---
+>>   qemu-options.hx | 3 +++
+>>   1 file changed, 3 insertions(+)
+>>
+>> diff --git a/qemu-options.hx b/qemu-options.hx
+>> index b1a399079a..3fe9e6d6a0 100644
+>> --- a/qemu-options.hx
+>> +++ b/qemu-options.hx
+>> @@ -319,6 +319,9 @@ SRST
+>>       'none/direct(direct-mapped)/complex(complex cache indexing)'. policy
+>>       is the write policy. line is the cache Line size in bytes.
+>>   
+>> +    Please note, that due to internal implementation, '\ ``hmat-cache``\ '
+>> +    must be configured only after '\ ``hmat-lb``\ ' option.
+>> +
+>>       For example, the following options describe 2 NUMA nodes. Node 0 has
+>>       2 cpus and a ram, node 1 has only a ram. The processors in node 0
+>>       access memory in node 0 with access-latency 5 nanoseconds,
+> 
+> What happens when we do it wrong?
+> 
 
-Now that the "name" parameter is gone, there is hardly any difference
-between NetLegacy and Netdev anymore, so we can drop NetLegacy and always
-use Netdev to simplify the code quite a bit.
+We error out.
 
-The only two differences that were really left between Netdev and NetLegacy:
+https://lists.nongnu.org/archive/html/qemu-devel/2020-05/msg08409.html
 
-1) NetLegacy does not allow a "hubport" type. We can continue to block
-   this with a simple check in net_client_init1() for this type.
+> Can we catch doing it wrong somehow?  I figure that would be much better
+> than merely documenting it.
+> 
 
-2) The "id" parameter was optional in NetLegacy (and an internal id
-   was chosen via assign_name() during initialization), but it is mandatory
-   for Netdev. To avoid that the visitor code bails out here, we have to
-   add an internal id to the QemuOpts already earlier now.
+Sure, but that would require some more code (according to Igor's e-mail 
+and discussion linked from the linked document). And frankly, to libvirt 
+it doesn't matter. For everybody else, let's document it at least and if 
+somebody ever writes the missing piece we can remove the restriction 
+from the docs.
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Signed-off-by: Jason Wang <jasowang@redhat.com>
----
- net/net.c     | 77 ++++++++++-------------------------------------------------
- qapi/net.json | 46 -----------------------------------
- 2 files changed, 13 insertions(+), 110 deletions(-)
-
-diff --git a/net/net.c b/net/net.c
-index e55d357..d113029 100644
---- a/net/net.c
-+++ b/net/net.c
-@@ -965,15 +965,11 @@ static int (* const net_client_init_fun[NET_CLIENT_DRIVER__MAX])(
- };
- 
- 
--static int net_client_init1(const void *object, bool is_netdev, Error **errp)
-+static int net_client_init1(const Netdev *netdev, bool is_netdev, Error **errp)
- {
--    Netdev legacy = {0};
--    const Netdev *netdev;
-     NetClientState *peer = NULL;
- 
-     if (is_netdev) {
--        netdev = object;
--
-         if (netdev->type == NET_CLIENT_DRIVER_NIC ||
-             !net_client_init_fun[netdev->type]) {
-             error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "type",
-@@ -981,56 +977,11 @@ static int net_client_init1(const void *object, bool is_netdev, Error **errp)
-             return -1;
-         }
-     } else {
--        const NetLegacy *net = object;
--        const NetLegacyOptions *opts = net->opts;
--        legacy.id = net->id;
--        netdev = &legacy;
--
--        /* Map the old options to the new flat type */
--        switch (opts->type) {
--        case NET_LEGACY_OPTIONS_TYPE_NONE:
-+        if (netdev->type == NET_CLIENT_DRIVER_NONE) {
-             return 0; /* nothing to do */
--        case NET_LEGACY_OPTIONS_TYPE_NIC:
--            legacy.type = NET_CLIENT_DRIVER_NIC;
--            legacy.u.nic = opts->u.nic;
--            break;
--        case NET_LEGACY_OPTIONS_TYPE_USER:
--            legacy.type = NET_CLIENT_DRIVER_USER;
--            legacy.u.user = opts->u.user;
--            break;
--        case NET_LEGACY_OPTIONS_TYPE_TAP:
--            legacy.type = NET_CLIENT_DRIVER_TAP;
--            legacy.u.tap = opts->u.tap;
--            break;
--        case NET_LEGACY_OPTIONS_TYPE_L2TPV3:
--            legacy.type = NET_CLIENT_DRIVER_L2TPV3;
--            legacy.u.l2tpv3 = opts->u.l2tpv3;
--            break;
--        case NET_LEGACY_OPTIONS_TYPE_SOCKET:
--            legacy.type = NET_CLIENT_DRIVER_SOCKET;
--            legacy.u.socket = opts->u.socket;
--            break;
--        case NET_LEGACY_OPTIONS_TYPE_VDE:
--            legacy.type = NET_CLIENT_DRIVER_VDE;
--            legacy.u.vde = opts->u.vde;
--            break;
--        case NET_LEGACY_OPTIONS_TYPE_BRIDGE:
--            legacy.type = NET_CLIENT_DRIVER_BRIDGE;
--            legacy.u.bridge = opts->u.bridge;
--            break;
--        case NET_LEGACY_OPTIONS_TYPE_NETMAP:
--            legacy.type = NET_CLIENT_DRIVER_NETMAP;
--            legacy.u.netmap = opts->u.netmap;
--            break;
--        case NET_LEGACY_OPTIONS_TYPE_VHOST_USER:
--            legacy.type = NET_CLIENT_DRIVER_VHOST_USER;
--            legacy.u.vhost_user = opts->u.vhost_user;
--            break;
--        default:
--            abort();
-         }
--
--        if (!net_client_init_fun[netdev->type]) {
-+        if (netdev->type == NET_CLIENT_DRIVER_HUBPORT ||
-+            !net_client_init_fun[netdev->type]) {
-             error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "type",
-                        "a net backend type (maybe it is not compiled "
-                        "into this binary)");
-@@ -1039,7 +990,7 @@ static int net_client_init1(const void *object, bool is_netdev, Error **errp)
- 
-         /* Do not add to a hub if it's a nic with a netdev= parameter. */
-         if (netdev->type != NET_CLIENT_DRIVER_NIC ||
--            !opts->u.nic.has_netdev) {
-+            !netdev->u.nic.has_netdev) {
-             peer = net_hub_add_port(0, NULL, NULL);
-         }
-     }
-@@ -1100,7 +1051,7 @@ static void show_netdevs(void)
- static int net_client_init(QemuOpts *opts, bool is_netdev, Error **errp)
- {
-     gchar **substrings = NULL;
--    void *object = NULL;
-+    Netdev *object = NULL;
-     Error *err = NULL;
-     int ret = -1;
-     Visitor *v = opts_visitor_new(opts);
-@@ -1143,21 +1094,19 @@ static int net_client_init(QemuOpts *opts, bool is_netdev, Error **errp)
-         }
-     }
- 
--    if (is_netdev) {
--        visit_type_Netdev(v, NULL, (Netdev **)&object, &err);
--    } else {
--        visit_type_NetLegacy(v, NULL, (NetLegacy **)&object, &err);
-+    /* Create an ID for -net if the user did not specify one */
-+    if (!is_netdev && !qemu_opts_id(opts)) {
-+        static int idx;
-+        qemu_opts_set_id(opts, g_strdup_printf("__org.qemu.net%i", idx++));
-     }
- 
-+    visit_type_Netdev(v, NULL, &object, &err);
-+
-     if (!err) {
-         ret = net_client_init1(object, is_netdev, &err);
-     }
- 
--    if (is_netdev) {
--        qapi_free_Netdev(object);
--    } else {
--        qapi_free_NetLegacy(object);
--    }
-+    qapi_free_Netdev(object);
- 
- out:
-     error_propagate(errp, err);
-diff --git a/qapi/net.json b/qapi/net.json
-index fc7c95f..9244c9a 100644
---- a/qapi/net.json
-+++ b/qapi/net.json
-@@ -468,52 +468,6 @@
-     'vhost-user': 'NetdevVhostUserOptions' } }
- 
- ##
--# @NetLegacy:
--#
--# Captures the configuration of a network device; legacy.
--#
--# @id: identifier for monitor commands
--#
--# @opts: device type specific properties (legacy)
--#
--# Since: 1.2
--##
--{ 'struct': 'NetLegacy',
--  'data': {
--    '*id':   'str',
--    'opts':  'NetLegacyOptions' } }
--
--##
--# @NetLegacyOptionsType:
--#
--# Since: 1.2
--##
--{ 'enum': 'NetLegacyOptionsType',
--  'data': ['none', 'nic', 'user', 'tap', 'l2tpv3', 'socket', 'vde',
--           'bridge', 'netmap', 'vhost-user'] }
--
--##
--# @NetLegacyOptions:
--#
--# Like Netdev, but for use only by the legacy command line options
--#
--# Since: 1.2
--##
--{ 'union': 'NetLegacyOptions',
--  'base': { 'type': 'NetLegacyOptionsType' },
--  'discriminator': 'type',
--  'data': {
--    'nic':      'NetLegacyNicOptions',
--    'user':     'NetdevUserOptions',
--    'tap':      'NetdevTapOptions',
--    'l2tpv3':   'NetdevL2TPv3Options',
--    'socket':   'NetdevSocketOptions',
--    'vde':      'NetdevVdeOptions',
--    'bridge':   'NetdevBridgeOptions',
--    'netmap':   'NetdevNetmapOptions',
--    'vhost-user': 'NetdevVhostUserOptions' } }
--
--##
- # @NetFilterDirection:
- #
- # Indicates whether a netfilter is attached to a netdev's transmit queue or
--- 
-2.5.0
+Michal
 
 
