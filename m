@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 605691FB502
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:52:07 +0200 (CEST)
-Received: from localhost ([::1]:48408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA1021FB542
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 17:00:06 +0200 (CEST)
+Received: from localhost ([::1]:59246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlCwY-0005AK-F3
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:52:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58222)
+	id 1jlD4H-00046C-MP
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 11:00:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58228)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCQr-0003vG-Va; Tue, 16 Jun 2020 10:19:22 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:42866)
+ id 1jlCQs-0003x6-Rt; Tue, 16 Jun 2020 10:19:22 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:35108)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCQq-00070V-Da; Tue, 16 Jun 2020 10:19:21 -0400
-Received: by mail-ot1-x343.google.com with SMTP id t6so16023672otk.9;
- Tue, 16 Jun 2020 07:19:19 -0700 (PDT)
+ id 1jlCQr-00070e-0Q; Tue, 16 Jun 2020 10:19:22 -0400
+Received: by mail-ot1-x344.google.com with SMTP id d4so1647887otk.2;
+ Tue, 16 Jun 2020 07:19:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=rOQwJDphmhaIdRqWIt/ysSZEwiemdpwpObYdcb/nTmA=;
- b=stoZDnAFLyaVidRBFf2vh7DppTmcd++JgdNyKYUO4mPu1j4IF8owJSWXYIEHQHvvdb
- lo2jFmPP9F9VLVt+lO0+5W8zdRWFB74hiFXbzgQHPmJYG02BCzxxYjBD3B9nFL6rrrHk
- gNXNhW10ZRSGPzm0QFxFRzLIlQXqR73xqZhsP8lApUuGwFD9MjDeid5uzoseO8UztJe4
- 1C93sDQG5QMPB+Ve+jj2W8ny0/gyHz1mreBJ5Z/ZF7WuA+/lebHxi7vTqLhV/jNKNmq8
- /zR6oVPewxB0V6+Dm5klaoY2RZwk2DHdCPsMyYPvRpNhA/aS+mbeUluIWDMAWkfOqA9F
- JLpQ==
+ bh=RMIBO3jpMOms/D4uQke8brSu1T+4gHbWwgG0M1rmYeo=;
+ b=L5h4A1jhSAISjOnt4/5iYKvvgYcm5d938db0dmepSl2M9/GNnDVaU0NISXALHuae0a
+ bSq5wwXIjC50EaUQHGXdKkIg+QJz4a1/dX9VuluD4sprBXNGZxxkbOGyI0mMljOOcCYu
+ s1QLux4RP+t1Y7SIhm30vosfD27nrBvbgB9/uEJLEUsJ8icXtZlZ6ffrrWKzZ8melFqs
+ jr0yV672mX3YeNfejFCAIVnseZsbLuOYBGz1f/B0zVPU07ux1buVVtUhmk3nC3wRK3kn
+ 0BK6oEKdG58Bbe0kW1PKt0XwXrTGUabW5tYWWUE57XPUrEV1pJZPOATtYFeRR8iBhGy/
+ VS/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=rOQwJDphmhaIdRqWIt/ysSZEwiemdpwpObYdcb/nTmA=;
- b=gVCnh06poEHutEU8H/1ytJeQ32300LsJtKwaSltNiEFeM7kyBdnOAfflWefALnWfsK
- RmJQim+8vJvAyx3J/+Eofi2cfWkgEBgymnj32X2ctaozD2USKJgOtJ6EC2t8UdbFYu9M
- 2po6fngdsPVW08c8pFRoYpLX/gNC062Ox7nRmVLR8yrYTKff6gxEeYBKe5A8y2dkYvjJ
- YH2zrR1Yffu8o3cQv/KOdXZqHmKbG8nZegFTyNxhPAdyYNf6jkSnGJLYs3pjjCpha55p
- NnAZ3IUc6y0L+uNi/bBq4R0wiZTXW3kiXf9q/qumMYPFW+6XD7enf8SlkOiPBOkBfspr
- e0Iw==
-X-Gm-Message-State: AOAM53047jDZPneaTxoLScTI2XQOm0tTWQAmiXAEOMYw10PWivQNDhzi
- vCctm1IbAJFafPwfDULWcYpmEdTj
-X-Google-Smtp-Source: ABdhPJyjelM3INjEh+QQFzGR+0E4oJVYWFcWU40a0eR31cJi24RVIw8XthAWTcMe8jERqp5YlmOAsA==
-X-Received: by 2002:a9d:554d:: with SMTP id h13mr2342117oti.201.1592317157109; 
- Tue, 16 Jun 2020 07:19:17 -0700 (PDT)
+ bh=RMIBO3jpMOms/D4uQke8brSu1T+4gHbWwgG0M1rmYeo=;
+ b=gDZ5qR3uN0EAVbkCTVLrhLz3GofPp7R057vFoOGKXvWfAgeci1npc/SLsEZ2QmuAPQ
+ hGlcktznb/zWO5pnnZ8Z0P1/EziLHYv+CKeify3PKXhi1Bjwl1TStspWy+Fhzn195AJh
+ 0v85jpK4waoG1JQyUUMjNm4KK3AZ13HVAVJH5olEJDCwXthTry+2y5WefUS8RHL/1VVn
+ y1a7goyoebkQnfaLLi+hTeZc5Cin/Jv9TuQ0Ql3tRbQJ3j053fEUnYBRCfE4W/AbB/EW
+ N4BUtZFoBVs2OkRLIoa7AayG3Nds/k8YR5Jx3BFIEvOMy87FT8UPgLwwQE703UV1aZc2
+ 670Q==
+X-Gm-Message-State: AOAM5339meVR9erV3qZmW+XLAbOt+CVYWcI24QOPxb3DzkecIT3CwSd3
+ coWvcrCtYaCYcTtAjr7vQkCwddP6
+X-Google-Smtp-Source: ABdhPJwxvlKGC8ocNV8iNrhsx9Le6Q0jB4yXFgRwjDnGin0YOG743tznvtg6wWXny51WhkabSqECsQ==
+X-Received: by 2002:a9d:39f5:: with SMTP id y108mr2647644otb.262.1592317159005; 
+ Tue, 16 Jun 2020 07:19:19 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id c10sm4120781ooq.30.2020.06.16.07.19.15
+ by smtp.gmail.com with ESMTPSA id c9sm4031760oov.35.2020.06.16.07.19.17
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 16 Jun 2020 07:19:15 -0700 (PDT)
+ Tue, 16 Jun 2020 07:19:17 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 63/78] hw/i386/amd_iommu.c: Fix corruption of log events
- passed to guest
-Date: Tue, 16 Jun 2020 09:15:32 -0500
-Message-Id: <20200616141547.24664-64-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 64/78] tcg/i386: Fix INDEX_op_dup2_vec
+Date: Tue, 16 Jun 2020 09:15:33 -0500
+Message-Id: <20200616141547.24664-65-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
 References: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::343;
- envelope-from=flukshun@gmail.com; helo=mail-ot1-x343.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
+ envelope-from=flukshun@gmail.com; helo=mail-ot1-x344.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -81,48 +80,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-stable@nongnu.org,
- "Michael S . Tsirkin" <mst@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Peter Maydell <peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
 
-In the function amdvi_log_event(), we write an event log buffer
-entry into guest ram, whose contents are passed to the function
-via the "uint64_t *evt" argument. Unfortunately, a spurious
-'&' in the call to dma_memory_write() meant that instead of
-writing the event to the guest we would write the literal value
-of the pointer, plus whatever was in the following 8 bytes
-on the stack. This error was spotted by Coverity.
+We were only constructing the 64-bit element, and not
+replicating the 64-bit element across the rest of the vector.
 
-Fix the bug by removing the '&'.
-
-Fixes: CID 1421945
 Cc: qemu-stable@nongnu.org
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20200326105349.24588-1-peter.maydell@linaro.org>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-(cherry picked from commit 32a2d6b1f6b4405f0fc20c031e61d5d48e3d9cd1)
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+(cherry picked from commit e20cb81d9c5a3d0f9c08f3642728a210a1c162c9)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- hw/i386/amd_iommu.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tcg/i386/tcg-target.inc.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/hw/i386/amd_iommu.c b/hw/i386/amd_iommu.c
-index d55dbf07fc..ac5f2fddc5 100644
---- a/hw/i386/amd_iommu.c
-+++ b/hw/i386/amd_iommu.c
-@@ -181,7 +181,7 @@ static void amdvi_log_event(AMDVIState *s, uint64_t *evt)
-     }
- 
-     if (dma_memory_write(&address_space_memory, s->evtlog + s->evtlog_tail,
--        &evt, AMDVI_EVENT_LEN)) {
-+                         evt, AMDVI_EVENT_LEN)) {
-         trace_amdvi_evntlog_fail(s->evtlog, s->evtlog_tail);
-     }
- 
+diff --git a/tcg/i386/tcg-target.inc.c b/tcg/i386/tcg-target.inc.c
+index 9d8ed974e0..77b78c941c 100644
+--- a/tcg/i386/tcg-target.inc.c
++++ b/tcg/i386/tcg-target.inc.c
+@@ -2855,9 +2855,13 @@ static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
+         goto gen_simd;
+ #if TCG_TARGET_REG_BITS == 32
+     case INDEX_op_dup2_vec:
+-        /* Constraints have already placed both 32-bit inputs in xmm regs.  */
+-        insn = OPC_PUNPCKLDQ;
+-        goto gen_simd;
++        /* First merge the two 32-bit inputs to a single 64-bit element. */
++        tcg_out_vex_modrm(s, OPC_PUNPCKLDQ, a0, a1, a2);
++        /* Then replicate the 64-bit elements across the rest of the vector. */
++        if (type != TCG_TYPE_V64) {
++            tcg_out_dup_vec(s, type, MO_64, a0, a0);
++        }
++        break;
+ #endif
+     case INDEX_op_abs_vec:
+         insn = abs_insn[vece];
 -- 
 2.17.1
 
