@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7E301FB42F
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:24:34 +0200 (CEST)
-Received: from localhost ([::1]:40676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA8711FB416
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:20:39 +0200 (CEST)
+Received: from localhost ([::1]:55634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlCVt-0002TH-QL
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:24:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57390)
+	id 1jlCS6-0004oX-Px
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:20:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57138)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCPU-0001oZ-0V; Tue, 16 Jun 2020 10:17:56 -0400
-Received: from mail-ot1-x32a.google.com ([2607:f8b0:4864:20::32a]:39436)
+ id 1jlCPB-00010V-2A; Tue, 16 Jun 2020 10:17:37 -0400
+Received: from mail-ot1-x336.google.com ([2607:f8b0:4864:20::336]:37383)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCPS-0006as-Dq; Tue, 16 Jun 2020 10:17:55 -0400
-Received: by mail-ot1-x32a.google.com with SMTP id g5so16040353otg.6;
- Tue, 16 Jun 2020 07:17:53 -0700 (PDT)
+ id 1jlCP9-0006WQ-4R; Tue, 16 Jun 2020 10:17:36 -0400
+Received: by mail-ot1-x336.google.com with SMTP id v13so16026841otp.4;
+ Tue, 16 Jun 2020 07:17:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=wsVxcj7mHh7vxJ9uceuL9aJXpHZ9FIzGFrt0QiTuCIs=;
- b=GHQLTYnIqkdqWcDxp5+h4DNlNoZ2Dx2hG/6qJ5sWG1T0RAQkKAJ9rgKH7jm9QIVgE1
- BaRJMq/Gx1QYMQVX+IGws+JHRsNAr/TtJ74Tqii+qBLcr973vN44R9bhBlRfPDf5bU0N
- 4V+HcHcK0e0MGjA3IJpEUVjkJKWqPbyr20d4I7tksQiIMqebdWXlM8cMCcT/KR0VIkdh
- L5lXENcuPjUqjntH4FktK40Tegro3LYfa32mUPVwT9KblAYjFwueS3vOERlvrt/dYtGW
- 7i2fcOv98hr9NTgKwKRxL5rTt964Mt2NJIH239GNWRWj8uduomjt0ArWDhqRD3ghvJHT
- 6dfw==
+ bh=2om/n6j/KN2TdtxPEqFhJaW70WBM2nI5WC5aQncvJV0=;
+ b=XFL9dDk2CaS4A3U39+X98CzI2K3xIGEETWv1IbKp7ztJWxXUsQ/RIpQjMQnnqFeOn+
+ tqTX12tWh7WhH+p0zPogEcqOliWPUQsfWah0ddiupmmKFoHxYh+zGkqa75El+fkI8Rj9
+ LMGVjx/RwvMQb0exilEhBnFugjuzDvL99iu12PK3ho5cWK1LUS1sz+f9Uh5AZ6zMeA8X
+ 2+lWmzUNOZbVVM2YeQ9F4f5rP8WM2ftmfFOM0B3XdTYKPJ4p7WXGyV7K2rE7673gsXnV
+ 14Cf9GKtBoAagrOJUas8p4Hqy3Rzik2tAloRp2Hs6PkCHuyLa+haqQ7JZThG/5uKqDw+
+ 3FSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=wsVxcj7mHh7vxJ9uceuL9aJXpHZ9FIzGFrt0QiTuCIs=;
- b=r0pp7rzwbJdyqR0AJGO7uX7Cu6pZASU5JVN1RWJDcHEhmFi/LH8JSWD+fk6bf6NPs/
- rrJ6tHBbKJBROyPhhB96CVSL9YIa6M6SkPS8FFDUdN6TolkM51zhWJ9RrQxz7qnc1N2v
- voRSfAx8cq870MBwlXCHMNaKM7C3IPSO50EHS9f3N+0PvlUenH9qEYvY862QzIzk8Evj
- EMiFOkh6gniSFnVncGUYzG3sfQNePYTvab+3000XT/loOx5GkjoULjc9s1+eDXmnZaqF
- DldRGTEyM+j5/QlV6pHxHx9OYtAYnOKZ1ZejOuTNs04PwSdK5oqAxNjB+3gwwOrxEaNo
- J2fA==
-X-Gm-Message-State: AOAM533CnwNMZBzUDGEh4lXANn1Lvn96yh6jZTH1H9Etc7yOnbra9Pxr
- wX5uu5Bz41UZndDezXA2jYl5IgVs
-X-Google-Smtp-Source: ABdhPJzkd61bS8jCe+hRa+KGIYvcT1VY2DH5Dq5QSQWZ5hzPrHoCSj6gqIf33l1Lcalogd98feVmZw==
-X-Received: by 2002:a05:6830:22f1:: with SMTP id
- t17mr2655990otc.288.1592317072481; 
- Tue, 16 Jun 2020 07:17:52 -0700 (PDT)
+ bh=2om/n6j/KN2TdtxPEqFhJaW70WBM2nI5WC5aQncvJV0=;
+ b=R19yEkyx+YoAUnwrGQcMFvVVX48vimZa3fi/WoTe+X3KSlqBIHbVodyY/N9s92rvBo
+ AtJfGzGMsh3MBB+bVS7Da3k04aodcgN5gMLDR2dLvpLG7BBeojKyk679CyC4uD5gBcOO
+ UhxRGk/NxsSdlQHreMMc6nrNR3dsf+mubMgQFar7ws4Y45fLJQGvnqlqXQ22+ZqKmdUo
+ iyC0/eygSi4N/tdICzgc1qHqevLYsq4i+jzhPrvJ2FMJJMUC23hfNg0FHxyitQXaQI5o
+ bhXPt1UPnevDafA7Z+sHFD9ATqif7s0Ue7BBZRWXQVIiNZ4Gwx90L8px8FOa8Wd638qq
+ CPJA==
+X-Gm-Message-State: AOAM533rrthXP1mIeC/fLwiRwhG62pZxrySKUDNps6XbPViaE7Jydrtk
+ tWohFliLJL5aw5B1KuzQlwv1JtUM
+X-Google-Smtp-Source: ABdhPJzNerOYN9Do4YP5TfJx+zNt7p5YI/XAgAnO0IYKLeweCtQb6UJoF073i+1uCbVazmIC869ghQ==
+X-Received: by 2002:a9d:3a24:: with SMTP id j33mr2505701otc.271.1592317052511; 
+ Tue, 16 Jun 2020 07:17:32 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id 94sm4058183otb.47.2020.06.16.07.17.51
+ by smtp.gmail.com with ESMTPSA id g10sm4072699otn.34.2020.06.16.07.17.31
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 16 Jun 2020 07:17:51 -0700 (PDT)
+ Tue, 16 Jun 2020 07:17:31 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 01/78] block/nbd: extract the common cleanup code
-Date: Tue, 16 Jun 2020 09:14:30 -0500
-Message-Id: <20200616141547.24664-2-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 09/78] numa: properly check if numa is supported
+Date: Tue, 16 Jun 2020 09:14:38 -0500
+Message-Id: <20200616141547.24664-10-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
 References: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32a;
- envelope-from=flukshun@gmail.com; helo=mail-ot1-x32a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::336;
+ envelope-from=flukshun@gmail.com; helo=mail-ot1-x336.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -81,79 +80,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Pan Nengyuan <pannengyuan@huawei.com>, qemu-stable@nongnu.org
+Cc: Igor Mammedov <imammedo@redhat.com>, qemu-stable@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Pan Nengyuan <pannengyuan@huawei.com>
+From: Igor Mammedov <imammedo@redhat.com>
 
-The BDRVNBDState cleanup code is common in two places, add
-nbd_clear_bdrvstate() function to do these cleanups.
+Commit aa57020774b, by mistake used MachineClass::numa_mem_supported
+to check if NUMA is supported by machine and also as unrelated change
+set it to true for sbsa-ref board.
 
-Suggested-by: Stefano Garzarella <sgarzare@redhat.com>
-Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-Id: <1575517528-44312-2-git-send-email-pannengyuan@huawei.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-[eblake: fix compilation error and commit message]
-Signed-off-by: Eric Blake <eblake@redhat.com>
-(cherry picked from commit 7f493662be4045146a8f45119d8834c9088a0ad6)
+Luckily change didn't break machines that support NUMA, as the field
+is set to true for them.
+
+But the field is not intended for checking if NUMA is supported and
+will be flipped to false within this release for new machine types.
+
+Fix it:
+ - by using previously used condition
+      !mc->cpu_index_to_instance_props || !mc->get_default_cpu_node_id
+   the first time and then use MachineState::numa_state down the road
+   to check if NUMA is supported
+ - dropping stray sbsa-ref chunk
+
+Fixes: aa57020774b690a22be72453b8e91c9b5a68c516
+Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+Message-Id: <1576154936-178362-3-git-send-email-imammedo@redhat.com>
+Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+(cherry picked from commit fcd3f2cc124600385dba46c69a80626985c15b50)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- block/nbd.c | 26 +++++++++++++++-----------
- 1 file changed, 15 insertions(+), 11 deletions(-)
+ hw/arm/sbsa-ref.c | 1 -
+ hw/core/machine.c | 4 ++--
+ 2 files changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/block/nbd.c b/block/nbd.c
-index 5f18f78a94..6bb6715286 100644
---- a/block/nbd.c
-+++ b/block/nbd.c
-@@ -94,6 +94,19 @@ typedef struct BDRVNBDState {
- 
- static int nbd_client_connect(BlockDriverState *bs, Error **errp);
- 
-+static void nbd_clear_bdrvstate(BDRVNBDState *s)
-+{
-+    object_unref(OBJECT(s->tlscreds));
-+    qapi_free_SocketAddress(s->saddr);
-+    s->saddr = NULL;
-+    g_free(s->export);
-+    s->export = NULL;
-+    g_free(s->tlscredsid);
-+    s->tlscredsid = NULL;
-+    g_free(s->x_dirty_bitmap);
-+    s->x_dirty_bitmap = NULL;
-+}
-+
- static void nbd_channel_error(BDRVNBDState *s, int ret)
- {
-     if (ret == -EIO) {
-@@ -1864,11 +1877,7 @@ static int nbd_process_options(BlockDriverState *bs, QDict *options,
- 
-  error:
-     if (ret < 0) {
--        object_unref(OBJECT(s->tlscreds));
--        qapi_free_SocketAddress(s->saddr);
--        g_free(s->export);
--        g_free(s->tlscredsid);
--        g_free(s->x_dirty_bitmap);
-+        nbd_clear_bdrvstate(s);
-     }
-     qemu_opts_del(opts);
-     return ret;
-@@ -1947,12 +1956,7 @@ static void nbd_close(BlockDriverState *bs)
-     BDRVNBDState *s = bs->opaque;
- 
-     nbd_client_close(bs);
--
--    object_unref(OBJECT(s->tlscreds));
--    qapi_free_SocketAddress(s->saddr);
--    g_free(s->export);
--    g_free(s->tlscredsid);
--    g_free(s->x_dirty_bitmap);
-+    nbd_clear_bdrvstate(s);
+diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
+index 27046cc284..c6261d44a4 100644
+--- a/hw/arm/sbsa-ref.c
++++ b/hw/arm/sbsa-ref.c
+@@ -791,7 +791,6 @@ static void sbsa_ref_class_init(ObjectClass *oc, void *data)
+     mc->possible_cpu_arch_ids = sbsa_ref_possible_cpu_arch_ids;
+     mc->cpu_index_to_instance_props = sbsa_ref_cpu_index_to_props;
+     mc->get_default_cpu_node_id = sbsa_ref_get_default_cpu_node_id;
+-    mc->numa_mem_supported = true;
  }
  
- static int64_t nbd_getlength(BlockDriverState *bs)
+ static const TypeInfo sbsa_ref_info = {
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index 1689ad3bf8..aa63231f31 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -958,7 +958,7 @@ static void machine_initfn(Object *obj)
+                                         NULL);
+     }
+ 
+-    if (mc->numa_mem_supported) {
++    if (mc->cpu_index_to_instance_props && mc->get_default_cpu_node_id) {
+         ms->numa_state = g_new0(NumaState, 1);
+     }
+ 
+@@ -1102,7 +1102,7 @@ void machine_run_board_init(MachineState *machine)
+ {
+     MachineClass *machine_class = MACHINE_GET_CLASS(machine);
+ 
+-    if (machine_class->numa_mem_supported) {
++    if (machine->numa_state) {
+         numa_complete_configuration(machine);
+         if (machine->numa_state->num_nodes) {
+             machine_numa_finish_cpu_init(machine);
 -- 
 2.17.1
 
