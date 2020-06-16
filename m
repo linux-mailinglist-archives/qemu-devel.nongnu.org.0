@@ -2,78 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A46791FAD96
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 12:10:59 +0200 (CEST)
-Received: from localhost ([::1]:60096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE8281FAD9C
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 12:12:30 +0200 (CEST)
+Received: from localhost ([::1]:36118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jl8YU-0002Kq-Nh
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 06:10:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51098)
+	id 1jl8Zx-0004Bt-Ri
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 06:12:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jl8LX-0007nh-PT
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 05:57:35 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:35067)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jl8LV-00044Y-OC
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 05:57:35 -0400
-Received: by mail-wm1-x336.google.com with SMTP id q25so2423512wmj.0
- for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 02:57:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=PdJexom001mVS7cB10KTRHWOONdiZp92Yv5aLA2F8AU=;
- b=IHWBa6tavyQPIhy1zI3OCwILd+Uf9V9EL3QvZ7F1EcgGcR/7rOKGQKG4UhSaik92WH
- MAnPap8xpV75TssnjunDr3U66fJL+7qNIZVUZpQNPgV9YPa1LobKWTvkdShwaA5j+GHW
- liUHDJfzNcmBMZHgPYszfIkco3h2zpZNL7P8d9+qTHSQiCzmEUBkBbj+bDM7ZMZCod1M
- rds/rRRPrWL/HDC7qMVShR55zBHR72ipN7NsjgSIIKVzLUftmQp563QLK6RCXSVdakkF
- nhxQ4HDTE0/K3XGEfkkg3dEWpoGrdN/3mNYHNj9eWpKs66tC46afXPnqZ694VhCLPMf0
- mrOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=PdJexom001mVS7cB10KTRHWOONdiZp92Yv5aLA2F8AU=;
- b=Tfvo8cSMCGATw/2B2q2s1A+8Kdghx4CNWbCt6nY6Wx5k2tsTVG43n7Kvup8HPpfZQm
- No11+0atkPVdXcxdOlH9SMP3acB0JyNAhTrAjGvRFAWqHWYVhSEmZTc+AP8ZNtmXySEL
- Zdaf1ia3rc2pEOepGN03htD134ZJUlFj8lPXJ+aa31wKbD/TX33P/7LiwzbecNZ9YfSh
- EGZWvT/MrsMXDwSlr0R3arISmnl4RHjRAomCkBZ6xtvUd5V4n60qhG0Eaek+wFtD54sV
- NuQOV6eFa3XtgmjBaVeqKbhgLFA05YOq56KTz5nnXkZmCNtVx5IWJwn3LCSs3HejPTXc
- SRUg==
-X-Gm-Message-State: AOAM530TjpZ+GcKyA2RthSI1OoB4+PmhkqzgaswJiQEISXkDgaRYqdJ/
- WfRBp4DfqT7Q/GWeUFScON+cqEZv5D4vHw==
-X-Google-Smtp-Source: ABdhPJwXsiDt5spNmSIlDCHJgQpfvamc7HFZqr6nsWcdoVITqKphN1iGjdxxpVKhKwYNISQiR8Vtow==
-X-Received: by 2002:a1c:6244:: with SMTP id w65mr2344149wmb.82.1592301452060; 
- Tue, 16 Jun 2020 02:57:32 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id z12sm31090851wrg.9.2020.06.16.02.57.31
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Jun 2020 02:57:31 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 23/23] hw: arm: Set vendor property for IMX SDHCI emulations
-Date: Tue, 16 Jun 2020 10:57:02 +0100
-Message-Id: <20200616095702.25848-24-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200616095702.25848-1-peter.maydell@linaro.org>
-References: <20200616095702.25848-1-peter.maydell@linaro.org>
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1jl8Ms-0002La-IY
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 05:58:58 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:38995
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1jl8Mq-0004Pd-BS
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 05:58:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1592301534;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=DZkRS2YKIYjTQ3m1364+zVUZcS7Kch3h1oiLa89smbI=;
+ b=Gr44rEW3IwT/Z3XvZU00d6ODcyuGQ8oHa8htAurpPWL8J/6tBb3Ql3BKcnLJDPVv2Tj4Wk
+ n1FHrV6AJAS4e97djCOe34HKjni2YWR5bXeF6FTp7RZj3ukb+xPGQMGi+xSh3TCIuy+zT9
+ UMlnvveR877t4/Ck+Lhxe8TDfh/KoKo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-266-PspdvweGNHatQN315_VJ-g-1; Tue, 16 Jun 2020 05:58:53 -0400
+X-MC-Unique: PspdvweGNHatQN315_VJ-g-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C21C5873426;
+ Tue, 16 Jun 2020 09:58:51 +0000 (UTC)
+Received: from work-vm (ovpn-112-42.ams2.redhat.com [10.36.112.42])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AD3087BA14;
+ Tue, 16 Jun 2020 09:58:49 +0000 (UTC)
+Date: Tue, 16 Jun 2020 10:58:46 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: zhukeqian <zhukeqian1@huawei.com>
+Subject: Re: [PATCH v2] migration: Count new_dirty instead of real_dirty
+Message-ID: <20200616095846.GA2788@work-vm>
+References: <20200616021059.25984-1-zhukeqian1@huawei.com>
+ <20200616093551.GA2790@work-vm>
+ <3a45d5a0-3acf-336d-520f-523bf588b551@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+In-Reply-To: <3a45d5a0-3acf-336d-520f-523bf588b551@huawei.com>
+User-Agent: Mutt/1.14.0 (2020-05-02)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 02:01:17
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,87 +81,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: zhang.zhanghailiang@huawei.com, Paolo Bonzini <pbonzini@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, Chao Fan <fanc.fnst@cn.fujitsu.com>,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org, jianjay.zhou@huawei.com,
+ wanghaibin.wang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Guenter Roeck <linux@roeck-us.net>
+* zhukeqian (zhukeqian1@huawei.com) wrote:
+> Hi Dave,
+> 
+> On 2020/6/16 17:35, Dr. David Alan Gilbert wrote:
+> > * Keqian Zhu (zhukeqian1@huawei.com) wrote:
+> >> real_dirty_pages becomes equal to total ram size after dirty log sync
+> >> in ram_init_bitmaps, the reason is that the bitmap of ramblock is
+> >> initialized to be all set, so old path counts them as "real dirty" at
+> >> beginning.
+> >>
+> >> This causes wrong dirty rate and false positive throttling at the end
+> >> of first ram save iteration.
+> >>
+> >> Signed-off-by: Keqian Zhu <zhukeqian1@huawei.com>
+> > 
+> > Since this function already returns num_dirty, why not just change the
+> > caller to increment a counter based off the return value?
+> Yes, that would be better :-) .
+> 
+> > 
+> > Can you point to the code which is using this value that triggers the
+> > throttle?
+> > 
+> In migration_trigger_throttle(), rs->num_dirty_pages_period is used.
+> And it corresponds to real_dirty_pages here.
 
-Set vendor property to IMX to enable IMX specific functionality
-in sdhci code.
+OK; so is the problem not the same as the check that's in there for
+blk_mig_bulk_activate - don't we need to do the same trick for ram bulk
+migration (i.e. the first pass).
 
-Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Signed-off-by: Guenter Roeck <linux@roeck-us.net>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20200603145258.195920-3-linux@roeck-us.net
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- hw/arm/fsl-imx25.c  | 6 ++++++
- hw/arm/fsl-imx6.c   | 6 ++++++
- hw/arm/fsl-imx6ul.c | 2 ++
- hw/arm/fsl-imx7.c   | 2 ++
- 4 files changed, 16 insertions(+)
+Dave
 
-diff --git a/hw/arm/fsl-imx25.c b/hw/arm/fsl-imx25.c
-index cdaa79c26bd..a853ffcc006 100644
---- a/hw/arm/fsl-imx25.c
-+++ b/hw/arm/fsl-imx25.c
-@@ -274,6 +274,12 @@ static void fsl_imx25_realize(DeviceState *dev, Error **errp)
-                                  &err);
-         object_property_set_uint(OBJECT(&s->esdhc[i]), IMX25_ESDHC_CAPABILITIES,
-                                  "capareg", &err);
-+        object_property_set_uint(OBJECT(&s->esdhc[i]), SDHCI_VENDOR_IMX,
-+                                 "vendor", &err);
-+        if (err) {
-+            error_propagate(errp, err);
-+            return;
-+        }
-         object_property_set_bool(OBJECT(&s->esdhc[i]), true, "realized", &err);
-         if (err) {
-             error_propagate(errp, err);
-diff --git a/hw/arm/fsl-imx6.c b/hw/arm/fsl-imx6.c
-index f58c85aa8ce..29677cfd59d 100644
---- a/hw/arm/fsl-imx6.c
-+++ b/hw/arm/fsl-imx6.c
-@@ -350,6 +350,12 @@ static void fsl_imx6_realize(DeviceState *dev, Error **errp)
-                                  &err);
-         object_property_set_uint(OBJECT(&s->esdhc[i]), IMX6_ESDHC_CAPABILITIES,
-                                  "capareg", &err);
-+        object_property_set_uint(OBJECT(&s->esdhc[i]), SDHCI_VENDOR_IMX,
-+                                 "vendor", &err);
-+        if (err) {
-+            error_propagate(errp, err);
-+            return;
-+        }
-         object_property_set_bool(OBJECT(&s->esdhc[i]), true, "realized", &err);
-         if (err) {
-             error_propagate(errp, err);
-diff --git a/hw/arm/fsl-imx6ul.c b/hw/arm/fsl-imx6ul.c
-index 3ecb212da6f..ce1462927cd 100644
---- a/hw/arm/fsl-imx6ul.c
-+++ b/hw/arm/fsl-imx6ul.c
-@@ -505,6 +505,8 @@ static void fsl_imx6ul_realize(DeviceState *dev, Error **errp)
-             FSL_IMX6UL_USDHC2_IRQ,
-         };
- 
-+        object_property_set_uint(OBJECT(&s->usdhc[i]), SDHCI_VENDOR_IMX,
-+                                        "vendor", &error_abort);
-         object_property_set_bool(OBJECT(&s->usdhc[i]), true, "realized",
-                                  &error_abort);
- 
-diff --git a/hw/arm/fsl-imx7.c b/hw/arm/fsl-imx7.c
-index 89c3b64c066..dbf16b2814a 100644
---- a/hw/arm/fsl-imx7.c
-+++ b/hw/arm/fsl-imx7.c
-@@ -416,6 +416,8 @@ static void fsl_imx7_realize(DeviceState *dev, Error **errp)
-             FSL_IMX7_USDHC3_IRQ,
-         };
- 
-+        object_property_set_uint(OBJECT(&s->usdhc[i]), SDHCI_VENDOR_IMX,
-+                                 "vendor", &error_abort);
-         object_property_set_bool(OBJECT(&s->usdhc[i]), true, "realized",
-                                  &error_abort);
- 
--- 
-2.20.1
+> Thanks,
+> Keqian
+> 
+> > Dave
+> > 
+> > 
+> [...]
+> >>
+> >>
+> > --
+> > Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> > 
+> > .
+> > 
+> 
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
