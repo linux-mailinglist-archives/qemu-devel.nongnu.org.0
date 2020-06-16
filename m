@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE3EA1FB512
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:54:32 +0200 (CEST)
-Received: from localhost ([::1]:60562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CEDB1FB505
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:52:33 +0200 (CEST)
+Received: from localhost ([::1]:51070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlCyt-0001e9-RL
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:54:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58340)
+	id 1jlCwy-0006Et-4w
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:52:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCR5-0004S6-Vv; Tue, 16 Jun 2020 10:19:36 -0400
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:42135)
+ id 1jlCRK-0004zc-39; Tue, 16 Jun 2020 10:19:50 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:36683)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCR4-00072K-7f; Tue, 16 Jun 2020 10:19:35 -0400
-Received: by mail-oi1-x243.google.com with SMTP id s21so19372297oic.9;
- Tue, 16 Jun 2020 07:19:33 -0700 (PDT)
+ id 1jlCRI-00074V-Gg; Tue, 16 Jun 2020 10:19:49 -0400
+Received: by mail-oi1-x243.google.com with SMTP id a137so19385672oii.3;
+ Tue, 16 Jun 2020 07:19:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=JE04LHO3R8Lv6V+Ze+GWJq1aq7ZP3I/hJjdZ+OxJue8=;
- b=F+3wTBEvoXTt/wdDR76fgrPOZScw0efLIMjPtyUnJelkf4EPiMipI86riVFa0GFrZ5
- 2uQ+PI+/oz4GgJMBloBMzXuH61sGOOd5E9uxfBS8BfFQ5Ml44y4JJ47cPybitqGyU95T
- VRa2pKn3TgS28YErJo39LAcfw2XTAuudV5GZB6E/mgh3Lh691SaOfnYSUzk4RF7ZgNLt
- T3t3DVEs4nWQFj0o15WHShJgof/z8xzyUOKXfLXwJlIYAmRT3iRHKLVhPfa2rTBWNbk1
- vyAGsg34ZzzP0bAE9VhSuTUX9opfxkuGe+pRWDymIvi0IWD2Sj46AvO8Orw87dGa9SLI
- XsKQ==
+ bh=YubYL2qiQdxJE/c9v4DMH9xx2TRFI5UD3MIdHmHvxO0=;
+ b=J9iP3/rt11NnS2JIkkFCVKlInENyvsvcLl3wBvpZnwpQ9VH735zPiRF4TQiS20iHah
+ iJooTCQlYK8amOTh25n1wfaxMaeITCLg9rFRuqr5PHV2q+W67afMbwlXl5cS1JbWG6ea
+ rJI6THvY7y2EwGtywEo5ChLT34S3R4tY8JooDoucRD11IEIa4fkVrb4m68ZBM+Dt0mUk
+ 7MDB+eoOqZymZArvGYU+JjMdn73Q0GYze8ztvpFgWjbi8JwOEQGy99T6j5qvqWXod7v7
+ GQkgX/iwMR6eiQ/a15G8cDyFAnyxra/zJCcHDfjyiQXIuWz7zPeyo0EuV+EUrG0uqfmZ
+ k/8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=JE04LHO3R8Lv6V+Ze+GWJq1aq7ZP3I/hJjdZ+OxJue8=;
- b=dliDscswLghbrcRjZmaR4/bW1Zddkk1mkdLuC/n9WpxoiyuFF0JzVCN5kJLwFXTBBU
- RIDVLkqvEJ9Sm7eMc11a737/BBadSUBZxQpHTNqetJh7kLUsPvwurPOD2ydJla1lK7Zu
- kVbZgOW3gJnCaAY4NZWsHTAWxHDhfW8cu/g/2n1ICf3UPBSNeTun/zIeN3E6CDNYpu0z
- 9DpWxqM7nQUnEu576BooDmX0XDlvHXOIAWAOYGIRuAE7Ye/XJgiU/KYCZnnVBx8AAdfK
- YbNWzqZhMTqdr8elNyKbfDHDWVcifzXZE9IeqnnIAZ+j9+PVeJq/CchmkLKvoGV5LQeO
- vGlQ==
-X-Gm-Message-State: AOAM5331OtMfPztpYvHr0EVVdIVew9iEu9ZZsij1gK3uTp0thxPvvq62
- jFoMpoZ1AN6DXbNuHrWStmnlTyr/oOQ=
-X-Google-Smtp-Source: ABdhPJwEAHpHpImMWMBqmsF7fRgZqunbZfEmp+7TWHNpFDjxcC8HP9dnYADlwbf9QBoXH7sRMRXqxw==
-X-Received: by 2002:a05:6808:8e2:: with SMTP id
- d2mr3350787oic.131.1592317172226; 
- Tue, 16 Jun 2020 07:19:32 -0700 (PDT)
+ bh=YubYL2qiQdxJE/c9v4DMH9xx2TRFI5UD3MIdHmHvxO0=;
+ b=m+ErQD7umEmjSNtFioFPBf2/xEiTdprCA+en6qS16+RAoWq7Xn+xaPfSDpw5t33VT+
+ PCIKK/elIEfYK12uY+2xjj5rgPiRonnRobsG2NDqmnhpksfiVHg4OTemI1zZMbVEDC9I
+ kNGwsZcxOGBKJ9d4FK+PGJ6NueG9DcwcYTJ/ASzr5jJ9OqTjVCzGnwtDEUeaHmOHQC56
+ m+yoUzFFdVH6DQxmH4Stob0geYAXaebg2dRjUwT/SO9c3YQv2aR3TtEIHDJBg4Bz/Yj9
+ jKwMtynFmkGbEOh2xgcFQpCkC18e/6p0UMPJnqoh+gJzglRrY/SjDqerYyEEackMP9xg
+ xFbA==
+X-Gm-Message-State: AOAM533yI194MFORl8GJCvW0oxD/1pH7jMLy73/PjBwSMFKJ0nlwctA1
+ UH9qHppt9ZZXMP+J7GwVaTpX+cdC5v0=
+X-Google-Smtp-Source: ABdhPJwVCkzUVrTV3b8FUsAeQsRC1HL+buu9YdVRXOVUasx7Bt/UR3QMVLKrqrlGQps7ATeBBYcFxw==
+X-Received: by 2002:aca:470d:: with SMTP id u13mr3485056oia.157.1592317186712; 
+ Tue, 16 Jun 2020 07:19:46 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id j2sm4207324oiw.24.2020.06.16.07.19.30
+ by smtp.gmail.com with ESMTPSA id 6sm4271111ooy.18.2020.06.16.07.19.45
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 16 Jun 2020 07:19:31 -0700 (PDT)
+ Tue, 16 Jun 2020 07:19:46 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 06/78] block: Activate recursively even for already active
- nodes
-Date: Tue, 16 Jun 2020 09:14:35 -0500
-Message-Id: <20200616141547.24664-7-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 07/78] virtio-blk: fix out-of-bounds access to bitmap in
+ notify_guest_bh
+Date: Tue, 16 Jun 2020 09:14:36 -0500
+Message-Id: <20200616141547.24664-8-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
 References: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
@@ -82,109 +81,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-stable@nongnu.org
+Cc: Li Hangjing <lihangjing@baidu.com>, qemu-stable@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Kevin Wolf <kwolf@redhat.com>
+From: Li Hangjing <lihangjing@baidu.com>
 
-bdrv_invalidate_cache_all() assumes that all nodes in a given subtree
-are either active or inactive when it starts. Therefore, as soon as it
-arrives at an already active node, it stops.
+When the number of a virtio-blk device's virtqueues is larger than
+BITS_PER_LONG, the out-of-bounds access to bitmap[ ] will occur.
 
-However, this assumption is wrong. For example, it's possible to take a
-snapshot of an inactive node, which results in an active overlay over an
-inactive backing file. The active overlay is probably also the root node
-of an inactive BlockBackend (blk->disable_perm == true).
-
-In this case, bdrv_invalidate_cache_all() does not need to do anything
-to activate the overlay node, but it still needs to recurse into the
-children and the parents to make sure that after returning success,
-really everything is activated.
-
+Fixes: e21737ab15 ("virtio-blk: multiqueue batch notify")
 Cc: qemu-stable@nongnu.org
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Reviewed-by: Max Reitz <mreitz@redhat.com>
-(cherry picked from commit 7bb4941ace471fc7dd6ded4749b95b9622baa6ed)
+Cc: Stefan Hajnoczi <stefanha@redhat.com>
+Signed-off-by: Li Hangjing <lihangjing@baidu.com>
+Reviewed-by: Xie Yongji <xieyongji@baidu.com>
+Reviewed-by: Chai Wen <chaiwen@baidu.com>
+Message-id: 20191216023050.48620-1-lihangjing@baidu.com
+Message-Id: <20191216023050.48620-1-lihangjing@baidu.com>
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+(cherry picked from commit 725fe5d10dbd4259b1853b7d253cef83a3c0d22a)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- block.c | 50 ++++++++++++++++++++++++--------------------------
- 1 file changed, 24 insertions(+), 26 deletions(-)
+ hw/block/dataplane/virtio-blk.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/block.c b/block.c
-index 473eb6eeaa..2e5e8b639a 100644
---- a/block.c
-+++ b/block.c
-@@ -5335,10 +5335,6 @@ static void coroutine_fn bdrv_co_invalidate_cache(BlockDriverState *bs,
-         return;
-     }
+diff --git a/hw/block/dataplane/virtio-blk.c b/hw/block/dataplane/virtio-blk.c
+index 119906a5fe..1b52e8159c 100644
+--- a/hw/block/dataplane/virtio-blk.c
++++ b/hw/block/dataplane/virtio-blk.c
+@@ -67,7 +67,7 @@ static void notify_guest_bh(void *opaque)
+     memset(s->batch_notify_vqs, 0, sizeof(bitmap));
  
--    if (!(bs->open_flags & BDRV_O_INACTIVE)) {
--        return;
--    }
--
-     QLIST_FOREACH(child, &bs->children, next) {
-         bdrv_co_invalidate_cache(child->bs, &local_err);
-         if (local_err) {
-@@ -5360,34 +5356,36 @@ static void coroutine_fn bdrv_co_invalidate_cache(BlockDriverState *bs,
-      * just keep the extended permissions for the next time that an activation
-      * of the image is tried.
-      */
--    bs->open_flags &= ~BDRV_O_INACTIVE;
--    bdrv_get_cumulative_perm(bs, &perm, &shared_perm);
--    ret = bdrv_check_perm(bs, NULL, perm, shared_perm, NULL, NULL, &local_err);
--    if (ret < 0) {
--        bs->open_flags |= BDRV_O_INACTIVE;
--        error_propagate(errp, local_err);
--        return;
--    }
--    bdrv_set_perm(bs, perm, shared_perm);
--
--    if (bs->drv->bdrv_co_invalidate_cache) {
--        bs->drv->bdrv_co_invalidate_cache(bs, &local_err);
--        if (local_err) {
-+    if (bs->open_flags & BDRV_O_INACTIVE) {
-+        bs->open_flags &= ~BDRV_O_INACTIVE;
-+        bdrv_get_cumulative_perm(bs, &perm, &shared_perm);
-+        ret = bdrv_check_perm(bs, NULL, perm, shared_perm, NULL, NULL, &local_err);
-+        if (ret < 0) {
-             bs->open_flags |= BDRV_O_INACTIVE;
-             error_propagate(errp, local_err);
-             return;
-         }
--    }
-+        bdrv_set_perm(bs, perm, shared_perm);
+     for (j = 0; j < nvqs; j += BITS_PER_LONG) {
+-        unsigned long bits = bitmap[j];
++        unsigned long bits = bitmap[j / BITS_PER_LONG];
  
--    FOR_EACH_DIRTY_BITMAP(bs, bm) {
--        bdrv_dirty_bitmap_skip_store(bm, false);
--    }
-+        if (bs->drv->bdrv_co_invalidate_cache) {
-+            bs->drv->bdrv_co_invalidate_cache(bs, &local_err);
-+            if (local_err) {
-+                bs->open_flags |= BDRV_O_INACTIVE;
-+                error_propagate(errp, local_err);
-+                return;
-+            }
-+        }
- 
--    ret = refresh_total_sectors(bs, bs->total_sectors);
--    if (ret < 0) {
--        bs->open_flags |= BDRV_O_INACTIVE;
--        error_setg_errno(errp, -ret, "Could not refresh total sector count");
--        return;
-+        FOR_EACH_DIRTY_BITMAP(bs, bm) {
-+            bdrv_dirty_bitmap_skip_store(bm, false);
-+        }
-+
-+        ret = refresh_total_sectors(bs, bs->total_sectors);
-+        if (ret < 0) {
-+            bs->open_flags |= BDRV_O_INACTIVE;
-+            error_setg_errno(errp, -ret, "Could not refresh total sector count");
-+            return;
-+        }
-     }
- 
-     QLIST_FOREACH(parent, &bs->parents, next_parent) {
+         while (bits != 0) {
+             unsigned i = j + ctzl(bits);
 -- 
 2.17.1
 
