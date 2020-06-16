@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36B841FB138
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 14:55:05 +0200 (CEST)
-Received: from localhost ([::1]:37424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A4431FB160
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 14:58:40 +0200 (CEST)
+Received: from localhost ([::1]:54146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlB7I-0005Qc-51
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 08:55:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33742)
+	id 1jlBAl-0003zU-CG
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 08:58:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jlB5q-0003hw-MI
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 08:53:34 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:38374)
+ id 1jlB5t-0003nf-LW
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 08:53:37 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:37731)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jlB5o-00005g-Bn
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 08:53:34 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id f185so2938567wmf.3
- for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 05:53:31 -0700 (PDT)
+ id 1jlB5r-00006S-T4
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 08:53:37 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id x13so20638092wrv.4
+ for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 05:53:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+NpXtT7RiBsbFomL5lDB9mC735VtH4XYz1tP+UOZeEo=;
- b=Ogf2Kzz2ENtZakGpVXq9A6GzWuoCyEALK8Kw9iXxyAVFz7Zsapk7OvdtUYJ1wq0z1k
- QemkMybZQhDdpaxhGuS7Weqp4uhFOQxjBFXHgIRz6CVc4ElC0P35FZSb2f/QQE6QINbm
- BXVuV6fDb7qPqUNFXrjyt568OV0sAO9Md4Uz9QQ9I/rtCdF1DAfVuMCX/mvr2QygPkdM
- aiyT0IpUC0pZ/DZBj+sjGCO5HcEG75u5QNvAyxFFXM4a/wkh7nJGUlTNwMMCCPDRXmQl
- hk3iNUqfha5Si8OA8DiEkykbeiuIJJEkBg6udalSmga/CSjCvkGma2ETz64LAD9uxRGM
- 5/AQ==
+ bh=exFtdpeiE/YU2NIFtj2aRDoc3cKhGjW3auP7rUrwYDs=;
+ b=Pr0eH5Ko6K0UxbL2ea5LQKMJoe5pTYseSfudKNNX6qSsA9Zq9U0DaYl64Qc/9SxSn0
+ 4eVQvPva1CLCO/hk6EqjQti4I0p1RgV6tPe7fRbSsKvmtBXkmrcXuf4pL69asuaXCdj3
+ 4m+OuwVPZVMKlBYDBDvrUcpy3CusRxgKr1zB7n+fzSB04rhMCcmRtboqcSuBJyJxh/+3
+ i/YfsAVtz8vG4iC/D6L9Gjh2h0983BKfdQGn29X1YrKcyGSFWiSmzPr/Inmf2ioTpcEi
+ O+IzXTgzVKjfyk2A1zwH3InkSNuxj/yVIL0QHQde44nW/LuF3oejJGfei88WMcF//5VY
+ YH/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=+NpXtT7RiBsbFomL5lDB9mC735VtH4XYz1tP+UOZeEo=;
- b=CvD81f0LQJ3aEsQaL4cPMrdYlkp43oeCMN4JHD27mLayUbISjTQ9WnmKAhmJklhuPP
- ls9+xY2GbzPVEQn9ek+4gRuUmaWtZnkAEpJmhwqsXL2ro90YEfGtKuDV0+B5Yo+mLYLo
- d0Lju0FpLNO4ie3esjCRpSn1R14x7EC1vFs79Ydu1KCDtz5AeohNZJx3RhjzUKZISea9
- 5xvSAJajhCcYLQzGLGIeQE0C/rvZXmnp2tnZvzKSsOmMINfCitHMg/wN4r9279F1CzTR
- 5k9vubImvJ4CUdZ1VzfGiu1AXR9SlxKENuL8P3UFYnAxMUWJN5SjM0T9612X1EX/SZvM
- Tcig==
-X-Gm-Message-State: AOAM532B785zamy3Ye3hpNPhHLFfBGPrcn7WwotHJph/jGHJ6oRskkd/
- d8R8MwH0dJft91TPwXQIoCb/AvgaGwc=
-X-Google-Smtp-Source: ABdhPJzr9ETjdgNozI58Repv7yTDhFKWgq2oQ5f4xnwHIMtMe87QcBajjQgYuqcASZgjTVeMdcliCw==
-X-Received: by 2002:a7b:cf06:: with SMTP id l6mr3071539wmg.63.1592312010929;
- Tue, 16 Jun 2020 05:53:30 -0700 (PDT)
+ bh=exFtdpeiE/YU2NIFtj2aRDoc3cKhGjW3auP7rUrwYDs=;
+ b=PaUlOih15y2+bB63tsZUFiVjCHFDet1SN7JY6oPTSGOsGLdhDVpqea5Z2b3v/7GCx+
+ eWQmcbCa7JUUg+oFYNaRHAaQ5aheSaTC/L89jSufIS8yeCmet7V1uMJ0VjzULM6YlP9j
+ KPOcfu8D0n54WoA3SiqJpokU/k+ULXh2QG3KOpn5TAoEeWaICKAhJ1fT08KHQZ+u+CHb
+ +OPtFvHgqpuo3qKF8427VNh40ICWmvlIXPe1dsYTbj7mhAlf3FP3uFnmgHG9R8gUSsFM
+ Ut6BxSzjKsocTIkUjMn04m81bSNVwfNfptTjP2LseArkUBOHUNCP/eTuQSwao5NWLg8i
+ dkMA==
+X-Gm-Message-State: AOAM533MFLoPqqqfDE0SijuIOpeacclmYJ95IXFtvy3M+r+6FHK4STEZ
+ +a5aHPjFAayPwMpdYAZ+/cJf2d2yqvI=
+X-Google-Smtp-Source: ABdhPJwV8lFdvt5uK2IyqqCshgZT5zVh114alx4+bBRKhaJ6pIZMNtX8iQkbV1U77BLQR56VnEHKYQ==
+X-Received: by 2002:a5d:4701:: with SMTP id y1mr2914014wrq.310.1592312014401; 
+ Tue, 16 Jun 2020 05:53:34 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id n7sm29697418wrx.82.2020.06.16.05.53.26
+ by smtp.gmail.com with ESMTPSA id r14sm789732wrx.42.2020.06.16.05.53.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Jun 2020 05:53:28 -0700 (PDT)
+ Tue, 16 Jun 2020 05:53:29 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id D534E1FF92;
+ by zen.linaroharston (Postfix) with ESMTP id F04281FF93;
  Tue, 16 Jun 2020 13:53:24 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 06/21] thread: add qemu_spin_destroy
-Date: Tue, 16 Jun 2020 13:53:09 +0100
-Message-Id: <20200616125324.19045-7-alex.bennee@linaro.org>
+Subject: [PULL 07/21] cputlb: destroy CPUTLB with tlb_destroy
+Date: Tue, 16 Jun 2020 13:53:10 +0100
+Message-Id: <20200616125324.19045-8-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200616125324.19045-1-alex.bennee@linaro.org>
 References: <20200616125324.19045-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,37 +88,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Emilio G. Cota" <cota@braap.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Robert Foley <robert.foley@linaro.org>
+Cc: Robert Foley <robert.foley@linaro.org>, qemu-devel@nongnu.org,
+ "Emilio G. Cota" <cota@braap.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Emilio G. Cota" <cota@braap.org>
 
-It will be used for TSAN annotations.
+I was after adding qemu_spin_destroy calls, but while at
+it I noticed that we are leaking some memory.
 
 Signed-off-by: Emilio G. Cota <cota@braap.org>
 Signed-off-by: Robert Foley <robert.foley@linaro.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20200609200738.445-4-robert.foley@linaro.org>
-Message-Id: <20200612190237.30436-7-alex.bennee@linaro.org>
+Message-Id: <20200609200738.445-5-robert.foley@linaro.org>
+Message-Id: <20200612190237.30436-8-alex.bennee@linaro.org>
 
-diff --git a/include/qemu/thread.h b/include/qemu/thread.h
-index 06c058fb58b..9479facdcc5 100644
---- a/include/qemu/thread.h
-+++ b/include/qemu/thread.h
-@@ -215,6 +215,9 @@ static inline void qemu_spin_init(QemuSpin *spin)
-     __sync_lock_release(&spin->value);
+diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+index 8792bea07ab..3cf88272df9 100644
+--- a/include/exec/exec-all.h
++++ b/include/exec/exec-all.h
+@@ -124,6 +124,11 @@ void cpu_address_space_init(CPUState *cpu, int asidx,
+  * @cpu: CPU whose TLB should be initialized
+  */
+ void tlb_init(CPUState *cpu);
++/**
++ * tlb_destroy - destroy a CPU's TLB
++ * @cpu: CPU whose TLB should be destroyed
++ */
++void tlb_destroy(CPUState *cpu);
+ /**
+  * tlb_flush_page:
+  * @cpu: CPU whose TLB should be flushed
+@@ -284,6 +289,9 @@ void tlb_set_page(CPUState *cpu, target_ulong vaddr,
+ static inline void tlb_init(CPUState *cpu)
+ {
+ }
++static inline void tlb_destroy(CPUState *cpu)
++{
++}
+ static inline void tlb_flush_page(CPUState *cpu, target_ulong addr)
+ {
+ }
+diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+index eb2cf9de5e6..1e815357c70 100644
+--- a/accel/tcg/cputlb.c
++++ b/accel/tcg/cputlb.c
+@@ -270,6 +270,21 @@ void tlb_init(CPUState *cpu)
+     }
  }
  
-+static inline void qemu_spin_destroy(QemuSpin *spin)
-+{ }
++void tlb_destroy(CPUState *cpu)
++{
++    CPUArchState *env = cpu->env_ptr;
++    int i;
 +
- static inline void qemu_spin_lock(QemuSpin *spin)
++    qemu_spin_destroy(&env_tlb(env)->c.lock);
++    for (i = 0; i < NB_MMU_MODES; i++) {
++        CPUTLBDesc *desc = &env_tlb(env)->d[i];
++        CPUTLBDescFast *fast = &env_tlb(env)->f[i];
++
++        g_free(fast->table);
++        g_free(desc->iotlb);
++    }
++}
++
+ /* flush_all_helper: run fn across all cpus
+  *
+  * If the wait flag is set then the src cpu's helper will be queued as
+diff --git a/exec.c b/exec.c
+index 9c8f558590d..d6712fba7eb 100644
+--- a/exec.c
++++ b/exec.c
+@@ -892,6 +892,7 @@ void cpu_exec_unrealizefn(CPUState *cpu)
  {
-     while (unlikely(__sync_lock_test_and_set(&spin->value, true))) {
+     CPUClass *cc = CPU_GET_CLASS(cpu);
+ 
++    tlb_destroy(cpu);
+     cpu_list_remove(cpu);
+ 
+     if (cc->vmsd != NULL) {
 -- 
 2.20.1
 
