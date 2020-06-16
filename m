@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF5B11FA8D1
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 08:34:41 +0200 (CEST)
-Received: from localhost ([::1]:47762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A39F01FA8DA
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 08:37:00 +0200 (CEST)
+Received: from localhost ([::1]:57088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jl5BA-0001FC-Qr
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 02:34:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39348)
+	id 1jl5DP-00058q-KT
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 02:36:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39356)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jl58h-0007ye-LB; Tue, 16 Jun 2020 02:32:07 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:35033)
+ id 1jl58i-00080U-Hn; Tue, 16 Jun 2020 02:32:08 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:33660)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jl58f-0003Lu-Tm; Tue, 16 Jun 2020 02:32:07 -0400
-Received: by mail-wr1-x444.google.com with SMTP id x14so19470695wrp.2;
- Mon, 15 Jun 2020 23:32:05 -0700 (PDT)
+ id 1jl58h-0003MH-1t; Tue, 16 Jun 2020 02:32:08 -0400
+Received: by mail-wm1-x341.google.com with SMTP id j198so1519972wmj.0;
+ Mon, 15 Jun 2020 23:32:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=cOk8KAmRqbditcK3tUyn2RQFRwEFLc0t20rHeY/wkGk=;
- b=FfM1zO0D84sphPl8TX3M4U3jzZNT3EBhVaG810iD2iWv3LxtvkqKp9kB866cUqYucK
- ow7Bps+LGDYz6NCzbCVZBh7cRwAf2Pcn1FqU/tpg+Hoxr6YRCzu2xpSGozG8M49d3+GY
- RYEa8g59UHCUkih8KP47NfSMEpFwR4f5YQNgNDmgay20xqo2efZ59eTREGPGMZDJoiwh
- a7cT9u9jlgIc1NPixKmsJE0+wFqznKhJyNOFo33U9aG6UqbBQ3PzSydO9cEAteowPC0N
- u5ueFcqEUK91ofkGKCBO813BeMN4sZUhve26FO0ObIzd98TeuqQNJ+zn85sLIO+GMJ6h
- re8w==
+ bh=0C754Z2styJVcWZeah0XfpUldg+E2WED/NhKiLJuUwM=;
+ b=mX7AeBCmISmFvf1ccvUqkR0mMy1JR8NNO98AQPSOzV4WYlL6sf5STJzzK7oDXR+E03
+ R0CXPdpfts55K3YTMA2Acz9YHFrtm/JbUCXC+3GrbEQGIEV1Vv4dPshC4U5TpXB8oqPy
+ oJpCC6kKvHaCiqyvgHuz5u3ollxjm8f/Jgk0ECRbo8FBjoZz62TatXlRU/fHuSbO2QI6
+ PipW+aLCNLmcKyW7o8XqXdjwn2Xyz6WmGPrqvR7fc8H3eSJAjOomBcqzj1S01mOSBEV9
+ /ssPOyLMADJqFH1u/eU5Ty0rFPtcFs6hJLaJAVXrVFUcFR9o85QUYv/vC+GiMRdCmwiy
+ 9IHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=cOk8KAmRqbditcK3tUyn2RQFRwEFLc0t20rHeY/wkGk=;
- b=nTLaIN+cgt8uQUizHZxzxf5NzVQ0q5yG9kvVOIdj9Zcro4IjBNm1ZYBW5BYET6LDyW
- 34u7803stVPLYIyczDgWzYcAmC9yRdyMS9bCFbPF2F9GPNrfQd6XkNopjXVNXlag6UIH
- ohCtIPySPVIwbkzc7Wc3HA1cO1NXDMhTz/V9fbRa+wnYBEyp/IYpxjnqaL/1kqlBNSFz
- AmGR23vBgzgLHVtviIWDzpu2J4CJvIlw0HxfREuG/a45UTvAkl0SU70TU4Ty1VAAzKqg
- j3Tw2mJwMSY2Ckt9ABLFPZiTsNDbEW3JFSuU1/eihfp+2IkrIANWl4Rd0wbAOY/tEAPI
- IYzw==
-X-Gm-Message-State: AOAM530BFPLHhcce4eE/ZizzR0hUVVY3UAXJ99eBTry7vJ8YlOX6QkFm
- jb1MzgTsD0nOTS8PMI3RN5znej7n
-X-Google-Smtp-Source: ABdhPJwg2B8YQ+0WR7EXbmnTpSl73e2pMw/Uiv2fkojq6WF5Qzgy8X7Y08Sj9ax5773/MTG8PR8C8g==
-X-Received: by 2002:adf:ecce:: with SMTP id s14mr1352042wro.154.1592289124048; 
- Mon, 15 Jun 2020 23:32:04 -0700 (PDT)
+ bh=0C754Z2styJVcWZeah0XfpUldg+E2WED/NhKiLJuUwM=;
+ b=rrlve4pCZNqXzK7IBdoapoOHiEEzED0oVzapBEVBA891QmUMlQGJnC7f57+KXJZWEy
+ md6j1u4qB6jemmXYFLWiE/8q8r/EVSjKSrO/OhEoI1kwi4aGahUQmodcE0gxOOg2wB50
+ gkHRcpPansWfSUPs0JAx12XVg563FFH2mB9bZtbzSg5fhV9TQBklMNeAyNvnvm68EDBj
+ JkI0aStD3BnvJwg15k5yYShh3gCk+SQw2UbFvWhJuhbkptRKTTAUWBl1FSLXXsYUg3MP
+ ybSqMheLcczXqcLhM4ToyndrPfLlZs3XLV+K9PK82e3/4MdT106/HJhqw8MQnT7SdqWS
+ hBaA==
+X-Gm-Message-State: AOAM533npcPKP98VB5eNdL7Be2l9Uu8L525Mc7Iu81kOi19xU2cG3hAX
+ sHiRmbR3CE7hRwCO/St/jCyUKBo2
+X-Google-Smtp-Source: ABdhPJzlPadS5VEC26TKnCCdNA0iXGEZ7JZ2XekaKsP6DbW7l6mwdkDDgV5T99IwPunfRpmXd+Qt1Q==
+X-Received: by 2002:a1c:9613:: with SMTP id y19mr1475307wmd.135.1592289125102; 
+ Mon, 15 Jun 2020 23:32:05 -0700 (PDT)
 Received: from localhost.localdomain
  (181.red-88-10-103.dynamicip.rima-tde.net. [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id t188sm2483250wmt.27.2020.06.15.23.32.03
+ by smtp.gmail.com with ESMTPSA id t188sm2483250wmt.27.2020.06.15.23.32.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Jun 2020 23:32:03 -0700 (PDT)
+ Mon, 15 Jun 2020 23:32:04 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/7] hw/arm/mps2: Add CMSDK AHB GPIO peripherals as
- unimplemented devices
-Date: Tue, 16 Jun 2020 08:31:54 +0200
-Message-Id: <20200616063157.16389-5-f4bug@amsat.org>
+Subject: [PATCH 5/7] hw/arm/mps2: Add I2C busses on FPGA APB
+Date: Tue, 16 Jun 2020 08:31:55 +0200
+Message-Id: <20200616063157.16389-6-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200616063157.16389-1-f4bug@amsat.org>
 References: <20200616063157.16389-1-f4bug@amsat.org>
@@ -63,8 +62,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -93,72 +92,38 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Register the GPIO peripherals as unimplemented to better
-follow their accesses, for example booting Zephyr:
-
-  ----------------
-  IN: arm_mps2_pinmux_init
-  0x00001160:  f64f 0231  movw     r2, #0xf831
-  0x00001164:  4b06       ldr      r3, [pc, #0x18]
-  0x00001166:  2000       movs     r0, #0
-  0x00001168:  619a       str      r2, [r3, #0x18]
-  0x0000116a:  f24c 426f  movw     r2, #0xc46f
-  0x0000116e:  f503 5380  add.w    r3, r3, #0x1000
-  0x00001172:  619a       str      r2, [r3, #0x18]
-  0x00001174:  f44f 529e  mov.w    r2, #0x13c0
-  0x00001178:  f503 5380  add.w    r3, r3, #0x1000
-  0x0000117c:  619a       str      r2, [r3, #0x18]
-  0x0000117e:  4770       bx       lr
-  cmsdk-ahb-gpio: unimplemented device write (size 4, value 0xf831, offset 0x18)
-  cmsdk-ahb-gpio: unimplemented device write (size 4, value 0xc46f, offset 0x18)
-  cmsdk-ahb-gpio: unimplemented device write (size 4, value 0x13c0, offset 0x18)
+There are 4 different I2C peripherals on the FPGA APB.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/arm/mps2.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ hw/arm/mps2.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
 diff --git a/hw/arm/mps2.c b/hw/arm/mps2.c
-index 570ec50aa8..4a49bfa9b9 100644
+index 4a49bfa9b9..6224d7a63c 100644
 --- a/hw/arm/mps2.c
 +++ b/hw/arm/mps2.c
-@@ -111,6 +111,7 @@ static void mps2_common_init(MachineState *machine)
-     MemoryRegion *system_memory = get_system_memory();
-     MachineClass *mc = MACHINE_GET_CLASS(machine);
-     DeviceState *armv7m, *sccdev;
-+    int i;
+@@ -321,6 +321,7 @@ static void mps2_common_init(MachineState *machine)
+         create_unimplemented_device("cmsdk-ahb-gpio", gpiobase[i], 0x1000);
+     }
  
-     if (strcmp(machine->cpu_type, mc->default_cpu_type) != 0) {
-         error_report("This board can only be used with CPU %s",
-@@ -228,7 +229,6 @@ static void mps2_common_init(MachineState *machine)
-          */
-         Object *orgate;
-         DeviceState *orgate_dev;
--        int i;
- 
-         orgate = object_new(TYPE_OR_IRQ);
-         object_property_set_int(orgate, 6, "num-lines", &error_fatal);
-@@ -265,7 +265,6 @@ static void mps2_common_init(MachineState *machine)
-          */
-         Object *orgate;
-         DeviceState *orgate_dev;
--        int i;
- 
-         orgate = object_new(TYPE_OR_IRQ);
-         object_property_set_int(orgate, 10, "num-lines", &error_fatal);
-@@ -315,6 +314,12 @@ static void mps2_common_init(MachineState *machine)
-                        qdev_get_gpio_in(armv7m, 10));
-     sysbus_mmio_map(SYS_BUS_DEVICE(&mms->dualtimer), 0, 0x40002000);
-     create_unimplemented_device("cmsdk-apb-watchdog", 0x40008000, 0x1000);
-+    for (i = 0; i < 4; i++) {
-+        static const hwaddr gpiobase[] = {0x40010000, 0x40011000,
-+                                          0x40012000, 0x40013000};
-+
-+        create_unimplemented_device("cmsdk-ahb-gpio", gpiobase[i], 0x1000);
-+    }
- 
++    /* FPGA APB */
      sysbus_init_child_obj(OBJECT(mms), "scc", &mms->scc,
                            sizeof(mms->scc), TYPE_MPS2_SCC);
+     sccdev = DEVICE(&mms->scc);
+@@ -330,6 +331,12 @@ static void mps2_common_init(MachineState *machine)
+     object_property_set_bool(OBJECT(&mms->scc), true, "realized",
+                              &error_fatal);
+     sysbus_mmio_map(SYS_BUS_DEVICE(sccdev), 0, 0x4002f000);
++    for (i = 0; i < 4; i++) {
++        static const hwaddr i2cbase[] = {0x40022000, 0x40023000,
++                                         0x40029000, 0x4002a000};
++
++        sysbus_create_simple("versatile_i2c", i2cbase[i], NULL);
++    }
+ 
+     /* In hardware this is a LAN9220; the LAN9118 is software compatible
+      * except that it doesn't support the checksum-offload feature.
 -- 
 2.21.3
 
