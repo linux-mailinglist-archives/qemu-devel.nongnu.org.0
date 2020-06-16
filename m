@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FBA41FA8D0
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 08:34:41 +0200 (CEST)
-Received: from localhost ([::1]:47692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A921E1FA8D2
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 08:34:53 +0200 (CEST)
+Received: from localhost ([::1]:48510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jl5BA-0001DS-33
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 02:34:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39312)
+	id 1jl5BM-0001Xd-MT
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 02:34:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39332)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jl58f-0007uT-8j; Tue, 16 Jun 2020 02:32:05 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:50887)
+ id 1jl58g-0007wR-KV; Tue, 16 Jun 2020 02:32:06 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:37448)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jl58d-0003LR-HS; Tue, 16 Jun 2020 02:32:04 -0400
-Received: by mail-wm1-x341.google.com with SMTP id l17so1723880wmj.0;
- Mon, 15 Jun 2020 23:32:02 -0700 (PDT)
+ id 1jl58e-0003Lk-Ta; Tue, 16 Jun 2020 02:32:06 -0400
+Received: by mail-wr1-x444.google.com with SMTP id x13so19439573wrv.4;
+ Mon, 15 Jun 2020 23:32:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zqA2FU9tJ7z1sN241pmUGO/apZ+JdoG+SHFS+QpWuEA=;
- b=OYqjEsjIf9mT85xUHLTdSJOVKFvKCGpcGerrL8lLXivaNhEXa5qarLa0CunVVUj7Ku
- EzsaVGpKrQCasNtZ2EUVHty794yeTatEgiPODQwLGf39DDxj+skOlqz/2+0fPjHqMAhF
- DpCIeQZAa/U0fDaszqyonqqRZnPoalmYNfTVasSEaNJTLqIXG+ZiOYmO7upojA4Ocgug
- ZQg74yFBHbgukaQh9b227/sijPh0q8RKUhu+lDLLQy9dRpRTP09q4L/iCpnPokwNz+Ii
- ZcLT+3w8Z29rvr07AVshDlcYRxvsMWF+s1BUD6l+sGmIHJ95lIBXM3xCJ7FgLFZ2Bccg
- VREw==
+ bh=MjgVP8rwX0nk7ybJEZVD26qOTyCHQ8rjBa6s5OZUNzs=;
+ b=sBV0tcVoyjFqt1tVIHJE+6IUOMYpnGXt9S+RgQDfZjA9NOv5tjC1sg9ErQTj7r7USx
+ IQRta6mwBfv7PmQZM8/NDJ3s4JS7VvEcznMWyiRRMgolaf0b9yQeYytC9MUtcf/2SqVI
+ MPepvu8uqkipGJJPz/7H5+H6TOI0xsx+H6GfyYlscitRJs3S/nCDlhNxymHPAf4w4wb0
+ D33za4FDs4BxrJbsju3v+FgSHMY+lgsvVfrvdc0ULAehQSYRbgjgJYIRWMbeiOzciMte
+ Ng2/l0P9rmV4a3nDB9AHZzFgh0avziaKClgHYv8jKFP8WxpXH5pmcE0D+vBezardStt2
+ kwiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=zqA2FU9tJ7z1sN241pmUGO/apZ+JdoG+SHFS+QpWuEA=;
- b=i7Ih2HeskeJgmKFEWMOZFrWyPMZpcRymB178EKmOURdLTNJCpm9gRqoAeinF7uGcB+
- todagm3r0pnO5dsxJKtjlWtgiDFtI5J51fo+csRE/fBuYEImEazT8ywGuhmSQUO4x5AV
- k0A3KO90Vtv1l1WZPY2z4AvOdVIkKn5QnHetW/5yKSqg689zXpuvQFuuKSCbh1wfhnDh
- V9RV67/1D8FF394ZiKfVV+x/qwn0fTm8WihvYxlA/A0pbYOGY6JTydv0dJR8EwtxO3th
- q0h7n7GDS6g4A0DahDc7rWCsJUi/Q+Rh0/LA2u/hVsLn5gJFcd4dgPNxssY9Ia5CgNRY
- 62og==
-X-Gm-Message-State: AOAM530F6IlDW9YlOTdnpzQPpuxPpEqF6EMpwTGky4Nrc3QVD7H5yhLM
- zgM77xOaQ+1RF3E6XW/mgOuCPG4K
-X-Google-Smtp-Source: ABdhPJyq9Bc5RyVkOKPFUh1u5sg2eUWFaCIhaW1/M0z2NJk0Nt7KDb7SewsszkTaAxM7VqQjUH9hpw==
-X-Received: by 2002:a1c:b182:: with SMTP id a124mr1470329wmf.114.1592289121705; 
- Mon, 15 Jun 2020 23:32:01 -0700 (PDT)
+ bh=MjgVP8rwX0nk7ybJEZVD26qOTyCHQ8rjBa6s5OZUNzs=;
+ b=j+mpgQ8WbfnfIpIADZxgIF9TjlZJB77e3f+Vqyq5nyKSUVdLiyQQlh93u8hQAgfwZ0
+ DqWULdFmqq5tN71vwh9KE6sKa1fWXvMCFdQmW9XSqW7mqJa2sBcJk67TKWsllM3oH7fh
+ h1wvZSI/ESjesbxucIucrDkwbTVP3gwErfLY94E4XU4qaCnkwLoVNHgCjuoP1tWOxetd
+ dw/XlOSxRWOraRi8I6GdLJVokaqfzF/J95kQWVTcMlO9kadFRw4tbd77WcXBo66uCB7s
+ AxzLVlpN5aI8LH/Uf9ZeMQo4nZPaTYZdKmLrcv+ktrEbzB1Lc6ubVTfJdCeYMxLbzmt+
+ IscA==
+X-Gm-Message-State: AOAM530LGAx93xNHsHqhqWhZl9Rj2+Hu0rw41ZLrB9Uh82joCjRXYgbY
+ djTB+D/K31xDEQLYZNn390P7A26T
+X-Google-Smtp-Source: ABdhPJzrJxrt0nbB08y0ysvfGXIsFhjZG84V14gT6T/WIrBhemXlay9mir0pJFKTC5XfvIWsXhLesw==
+X-Received: by 2002:adf:a350:: with SMTP id d16mr1345314wrb.237.1592289122994; 
+ Mon, 15 Jun 2020 23:32:02 -0700 (PDT)
 Received: from localhost.localdomain
  (181.red-88-10-103.dynamicip.rima-tde.net. [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id t188sm2483250wmt.27.2020.06.15.23.32.00
+ by smtp.gmail.com with ESMTPSA id t188sm2483250wmt.27.2020.06.15.23.32.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Jun 2020 23:32:01 -0700 (PDT)
+ Mon, 15 Jun 2020 23:32:02 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/7] hw/arm/mps2: Rename dualtimer as apb-dualtimer
-Date: Tue, 16 Jun 2020 08:31:52 +0200
-Message-Id: <20200616063157.16389-3-f4bug@amsat.org>
+Subject: [PATCH 3/7] hw/arm/mps2: Add CMSDK APB watchdog as unimplemented
+ device
+Date: Tue, 16 Jun 2020 08:31:53 +0200
+Message-Id: <20200616063157.16389-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200616063157.16389-1-f4bug@amsat.org>
 References: <20200616063157.16389-1-f4bug@amsat.org>
@@ -62,8 +63,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -92,26 +93,42 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The dualtimer is connected to AMBA APB.
+Register the watchdog peripheral as unimplemented to better
+follow its accesses, for example booting Zephyr:
+
+  ----------------
+  IN: wdog_cmsdk_apb_init
+  0x00000900:  b508       push     {r3, lr}
+  0x00000902:  4b07       ldr      r3, [pc, #0x1c]
+  0x00000904:  4a07       ldr      r2, [pc, #0x1c]
+  0x00000906:  6018       str      r0, [r3]
+  0x00000908:  4b07       ldr      r3, [pc, #0x1c]
+  0x0000090a:  4808       ldr      r0, [pc, #0x20]
+  0x0000090c:  f8c3 2c00  str.w    r2, [r3, #0xc00]
+  0x00000910:  4a07       ldr      r2, [pc, #0x1c]
+  0x00000912:  6812       ldr      r2, [r2]
+  0x00000914:  601a       str      r2, [r3]
+  0x00000916:  f000 f9f9  bl       #0xd0c
+  cmsdk-apb-watchdog: unimplemented device write (size 4, value 0x1acce551, offset 0xc00)
+  cmsdk-apb-watchdog: unimplemented device write (size 4, value 0xe4e1c00, offset 0x0)
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/arm/mps2.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/arm/mps2.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/hw/arm/mps2.c b/hw/arm/mps2.c
-index 3cc02c9018..1e8d5f21f9 100644
+index 1e8d5f21f9..570ec50aa8 100644
 --- a/hw/arm/mps2.c
 +++ b/hw/arm/mps2.c
-@@ -306,7 +306,7 @@ static void mps2_common_init(MachineState *machine)
-     cmsdk_apb_timer_create(0x40000000, qdev_get_gpio_in(armv7m, 8), SYSCLK_FRQ);
-     cmsdk_apb_timer_create(0x40001000, qdev_get_gpio_in(armv7m, 9), SYSCLK_FRQ);
+@@ -314,6 +314,7 @@ static void mps2_common_init(MachineState *machine)
+     sysbus_connect_irq(SYS_BUS_DEVICE(&mms->dualtimer), 0,
+                        qdev_get_gpio_in(armv7m, 10));
+     sysbus_mmio_map(SYS_BUS_DEVICE(&mms->dualtimer), 0, 0x40002000);
++    create_unimplemented_device("cmsdk-apb-watchdog", 0x40008000, 0x1000);
  
--    sysbus_init_child_obj(OBJECT(mms), "dualtimer", &mms->dualtimer,
-+    sysbus_init_child_obj(OBJECT(mms), "apb-dualtimer", &mms->dualtimer,
-                           sizeof(mms->dualtimer), TYPE_CMSDK_APB_DUALTIMER);
-     qdev_prop_set_uint32(DEVICE(&mms->dualtimer), "pclk-frq", SYSCLK_FRQ);
-     object_property_set_bool(OBJECT(&mms->dualtimer), true, "realized",
+     sysbus_init_child_obj(OBJECT(mms), "scc", &mms->scc,
+                           sizeof(mms->scc), TYPE_MPS2_SCC);
 -- 
 2.21.3
 
