@@ -2,82 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FAA51FBD8C
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 20:07:36 +0200 (CEST)
-Received: from localhost ([::1]:33348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF55E1FBDDC
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 20:19:49 +0200 (CEST)
+Received: from localhost ([::1]:42596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlFzY-00043H-SQ
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 14:07:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33104)
+	id 1jlGBY-0001ox-9L
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 14:19:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35096)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jlFyA-0003UU-Pj; Tue, 16 Jun 2020 14:05:58 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:43423)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jlGAb-0001H2-2g
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 14:18:49 -0400
+Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:33927)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jlFy9-0001OL-5O; Tue, 16 Jun 2020 14:05:58 -0400
-Received: by mail-wr1-x441.google.com with SMTP id l10so21706894wrr.10;
- Tue, 16 Jun 2020 11:05:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jlGAZ-0003Lu-GO
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 14:18:48 -0400
+Received: by mail-pl1-x644.google.com with SMTP id n9so8757411plk.1
+ for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 11:18:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=eFv/74GIC90zXDmx/pN7hXJcT2/FHGZ6zxZ2uMPgNsA=;
- b=p5JOSr31AD56J4MUIf4IQXDggj2Z/JF7EBkCO07B8u6pulrrJ+dVE0htkhUrY21ZzM
- IrEaXfp7Pb/vmvD60L6wueyFoXSQjLEoSVlZVn2Hf/vjthzgkrwqwCB0bKUYAwb47Uf5
- x3dsxoSpzpYhB/gB8y9ZiEmH1gJAJGXNoUoewM1LcVAE4SkdbiKpYTznDneYZnREc7vE
- mnOo6yYINtegawDemT3r1StA9cGHH5aoSariNV72FoFbaOBpw5ByzRLsd7BHfetor3zV
- ydX4O2NZPoNkdRCw1F5y45auCqg2Y89Qa4rOmeeUuT1x/bu1lGXGa87F51PAXQ3tAULC
- vDrg==
+ bh=Ixv0qVVSKgtQHXUSiBt5c9qUuMecZtLrd9j1SkGWHU4=;
+ b=QT52wECj2VluwLSeXHUqf23yIvH1HsUaCqvTSTAQJu8AYv/MJ2/Xnx53lXhgw3W8Rf
+ 2iGWrEzRzabvSNB0uvo3T6sLUR5VcCww/x37RRdOjprUY32oi/QM4FeH/ZTGSGYS4bPw
+ gdX8HqsVpxiU0V5OUVvw1rsZ/bf+QZoLnUDGd4Myw83/rRlHlrXDhdENA0NnAAW/Riw6
+ fxxTiFRnfQw6pdwG5GdbeHrYvAo+Yy4JAzzXKxj63kIBvWHVLm1r1tiWx52r7Q5I0hg6
+ KiALemtXG4MrH5BxKt0k1xOMet1Urs11vD7jLvhplhJS6kAyTg58cR7RyADiyYpMEuHj
+ MrAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=eFv/74GIC90zXDmx/pN7hXJcT2/FHGZ6zxZ2uMPgNsA=;
- b=sJbFvJ87Ne1dyl8jbOME2/zfFmfH/HD1b0m1n81AWDqTMV4efOhJ2nqnik2RuGAc/s
- tmxR84sSdLap0dh4GtRAOgm84hefWJJdegj5kWWxcqrLl1brWC74aWLub//GUT4lPzoW
- cr9ufcNAB+llvF++Gnuk1T2hQh82fuIpzWcrchIRRzideXApHusN0FXYi/UURgivq1lh
- vhGgCZ9Zl7WWvD4uynF0e4DZecIF4+/ocQXJ6EWT01lMRJbE/aCdq/SZNcB9j4Xp287e
- zqu7ixSj0hOGNiVs0gBCB15R2Oxj3d7ZEh7RcBuFDUe6R002j7dM3X2+mDVYFSdeibfk
- OeLQ==
-X-Gm-Message-State: AOAM531qvzB2k8DAh/JigVIiQSz/2WxaFXyVz/7zbxDbo3wtRY12HqDQ
- NIGEWW2QR1IaWJWrnzvMYvY=
-X-Google-Smtp-Source: ABdhPJztlPdit+wPQ9nMlJfxvof3DSm4cYoFGlf4LUbGZFbSqkohY3L1vACKvciWk72GZAmgp4gkOg==
-X-Received: by 2002:adf:eacc:: with SMTP id o12mr4460351wrn.139.1592330755090; 
- Tue, 16 Jun 2020 11:05:55 -0700 (PDT)
-Received: from [192.168.1.37] (93.red-83-59-160.dynamicip.rima-tde.net.
- [83.59.160.93])
- by smtp.gmail.com with ESMTPSA id d16sm5021110wmd.42.2020.06.16.11.05.54
+ bh=Ixv0qVVSKgtQHXUSiBt5c9qUuMecZtLrd9j1SkGWHU4=;
+ b=E4Ua2UhoaVl5GVu+yrvalvyk2xcJTBIb8feT+DUye6iIsyDmH5wWwc0Fswy8tVeSee
+ UNOcrt6+sxS4nLa3Qn/iQJ41WRZ3dqtsG1o0HDizYqSxqYGjtan+bLlU3bCz3DDT30cu
+ K+iuMdNZotReI3JOapDcGrlU2MaWQx1fBktv0HKLCnNo2nw8totWtaPezK87r87hvXsG
+ WR1Spp8ps9JcGOu1IQcqR3SoOv6g4pjxwu7uYmbcHRnraKSr1CdiDUpyyCpFfcegGi1N
+ vUkX6IBtjkwq+AGK19H9dhS40K13RyHjrXltEW9MK15SmIQO//RBw2glC2HzhB6hJcTg
+ 1Aow==
+X-Gm-Message-State: AOAM531J/1GwMqS6VhaRTdm1SFlA+Y0Kyz82rQEH7IuQnPUm2FG647uT
+ 0ZOUwzBfgf6TdFTnDLNAmY40xw==
+X-Google-Smtp-Source: ABdhPJxVtgQJuBo24Bqrx0nnozPb24W4nSFlyek56aTG8Oeo17T+r+QY+jRkuXQMbjS5qC9Ii1ytsw==
+X-Received: by 2002:a17:90a:32ee:: with SMTP id
+ l101mr4263446pjb.213.1592331525708; 
+ Tue, 16 Jun 2020 11:18:45 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
+ by smtp.gmail.com with ESMTPSA id b11sm17810745pfr.58.2020.06.16.11.18.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 16 Jun 2020 11:05:54 -0700 (PDT)
-Subject: Re: [PATCH 1/2] hw/misc/pca9552: Trace LED On/Off events
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-devel@nongnu.org
-References: <20200616094542.25415-1-f4bug@amsat.org>
- <20200616094542.25415-2-f4bug@amsat.org>
- <ce02c953-073a-3843-5830-930cc194117c@kaod.org>
- <3181da82-6dcf-9826-5747-7601204faa9f@kaod.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <55785519-20e6-9637-1bc8-d396879f4595@amsat.org>
-Date: Tue, 16 Jun 2020 20:05:53 +0200
+ Tue, 16 Jun 2020 11:18:45 -0700 (PDT)
+Subject: Re: [PATCH RFC v2] target/arm: Implement SVE2 TBL, TBX
+To: Stephen Long <steplong@quicinc.com>, qemu-devel@nongnu.org
+References: <20200428144352.9275-1-steplong@quicinc.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <b7412e55-f2d6-eb01-d95c-26b8dfb194d9@linaro.org>
+Date: Tue, 16 Jun 2020 11:18:42 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <3181da82-6dcf-9826-5747-7601204faa9f@kaod.org>
+In-Reply-To: <20200428144352.9275-1-steplong@quicinc.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::644;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x644.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,82 +89,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
- Joaquin de Andres <me@xcancerberox.com.ar>,
- Esteban Bosse <estebanbosse@gmail.com>, qemu-arm@nongnu.org,
- Joel Stanley <joel@jms.id.au>, Guenter Roeck <linux@roeck-us.net>
+Cc: qemu-arm@nongnu.org, apazos@quicinc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/16/20 7:15 PM, Cédric Le Goater wrote:
-> After a closer look,
-> 
->>> @@ -45,9 +46,15 @@ static void pca9552_update_pin_input(PCA9552State *s)
->>>          switch (config) {
->>>          case PCA9552_LED_ON:
->>>              s->regs[input_reg] |= 1 << input_shift;
->>> +            if (input_shift < s->nr_leds) {
-> This seems like a superfluous test.
+On 4/28/20 7:43 AM, Stephen Long wrote:
+> Signed-off-by: Stephen Long <steplong@quicinc.com>
+> ---
+>  target/arm/helper-sve.h    | 10 ++++++
+>  target/arm/internals.h     | 12 +++++++
+>  target/arm/sve.decode      |  5 +++
+>  target/arm/sve_helper.c    | 71 ++++++++++++++++++++++++++++++++++----
+>  target/arm/translate-sve.c | 20 +++++++++++
+>  5 files changed, 112 insertions(+), 6 deletions(-)
 
-Indeed.
+I've rearranged the macros in sve_helper.c a little and queued.
 
-> 
->>> +                trace_pca9552_led_set(input_shift, true);
-> 
-> This should be using 'i' and the output is not very concise : 
-> 
-> 564609@1592326881.815616:pca9552_led_set LED#0 state:1
-> 564609@1592326881.815660:pca9552_led_set LED#1 state:1
-> 564609@1592326881.815669:pca9552_led_set LED#2 state:1
-> 564609@1592326881.815677:pca9552_led_set LED#3 state:1
-> 564609@1592326881.815706:pca9552_led_set LED#4 state:0
-> 564609@1592326881.815715:pca9552_led_set LED#5 state:0
-> 564609@1592326881.815727:pca9552_led_set LED#6 state:0
-> 564609@1592326881.815740:pca9552_led_set LED#7 state:0
-> 564609@1592326881.815748:pca9552_led_set LED#8 state:0
-> 564609@1592326881.815759:pca9552_led_set LED#9 state:0
-> 564609@1592326881.815767:pca9552_led_set LED#10 state:0
-> 564609@1592326881.815779:pca9552_led_set LED#11 state:0
-> 564609@1592326881.815790:pca9552_led_set LED#12 state:0
-> 564609@1592326881.815802:pca9552_led_set LED#13 state:1
-> 564609@1592326881.815813:pca9552_led_set LED#14 state:1
-> 564609@1592326881.815826:pca9552_led_set LED#15 state:1
-> 
-> I would instead simply dump the contents of the PCA9552_INPUT registers : 
-> 
-> LEDS = 1111000000000101
-> LEDS = 1111000000000111
-> ....
 
-Good idea, thanks!
-
-> 
-> C.
-> 
-> 
->>> +            }
->>>              break;
->>>          case PCA9552_LED_OFF:
->>>              s->regs[input_reg] &= ~(1 << input_shift);
->>> +            if (input_shift < s->nr_leds) {
->>> +                trace_pca9552_led_set(input_shift, false);
->>> +            }
->>>              break;
->>>          case PCA9552_LED_PWM0:
->>>          case PCA9552_LED_PWM1:
->>> diff --git a/hw/misc/trace-events b/hw/misc/trace-events
->>> index 5561746866..ed80d0d1be 100644
->>> --- a/hw/misc/trace-events
->>> +++ b/hw/misc/trace-events
->>> @@ -206,3 +206,6 @@ via1_rtc_cmd_pram_sect_write(int sector, int offset, int addr, int value) "secto
->>>  # grlib_ahb_apb_pnp.c
->>>  grlib_ahb_pnp_read(uint64_t addr, uint32_t value) "AHB PnP read addr:0x%03"PRIx64" data:0x%08x"
->>>  grlib_apb_pnp_read(uint64_t addr, uint32_t value) "APB PnP read addr:0x%03"PRIx64" data:0x%08x"
->>> +
->>> +# pca9552.c
->>> +pca9552_led_set(unsigned id, bool state) "LED#%d state:%u"
->>>
->>
-> 
-> 
+r~
 
