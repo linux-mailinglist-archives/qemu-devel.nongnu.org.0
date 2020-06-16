@@ -2,81 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44DBE1FBEAC
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 21:02:32 +0200 (CEST)
-Received: from localhost ([::1]:36972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14DCE1FBEC8
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 21:11:08 +0200 (CEST)
+Received: from localhost ([::1]:42476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlGqt-0002pE-Cc
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 15:02:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42572)
+	id 1jlGzC-00077m-JK
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 15:11:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jlGoe-0001am-6o
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 15:00:12 -0400
-Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044]:54861)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jlGoc-0001ht-FB
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 15:00:11 -0400
-Received: by mail-pj1-x1044.google.com with SMTP id u8so1838144pje.4
- for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 12:00:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=lODIeabYy1sWGEgwJXGcvNIdPesDYL5vG0+jAHyV8WE=;
- b=UX6t/pDXWPzeEjyYzLwdeOE1UqAhIAaN2ZAZyepCcGRYiJdnFLk7Y6OUBQWfMiR5KD
- ne7k7+SpZmq3tIVyRyHUUznFdUItUrVl5XO6hqpVDCTFYMbeEqK+C72aMHShgAYjocD4
- YOm8dso3sLH4rTdR7v7FzfLRk9TZxuqgSlKqsuTwLrOBg0hMtp8Ug90XukhM4uLy/7ac
- GF9R0CY7zo0NqhTaO6D6mKzbh8qaAZOlNIpJReiDREFYiYunXXVA/WdDijZOOzT2pP2Y
- mATXHrjNQiSOumFTu39dMdYOS9i6plYBKsjQZTWLri1Dm9p/cyzImgUzp83ryn5rUif2
- ZgKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=lODIeabYy1sWGEgwJXGcvNIdPesDYL5vG0+jAHyV8WE=;
- b=IlsTW/jUrtqZ5GT0DICVyBIblNQskjtVerxv9zZ70odqfE3sstPTDaTfZC35AHrB/3
- OQf7nujv/CkOa0zdApCtFI9PrO/tzaGl5yL7dnBxW0wyAuouAFQeVaaSLX8t8khRmmci
- 6oRUEGyATrARPEzyky/bhGZyn5Wmci0ldtf8IclCBXkI49RiOMz9qlKQq81sSfNawxGd
- uE5gA7lPlE2bAuwjYZsvrap+M6dzjDOL4UjB1nQ4aBOlW04+hDNkJ8nB0AFZryLgwEvP
- 9B3lu1lN415WpQZQPjSV+u6ne7QRxm230+/MmGwDOv5JRVbp3uCxjmO0WBB9eAIhONDM
- TjvQ==
-X-Gm-Message-State: AOAM530TMsvNZsthi7hCnApOR54jOoivW4fyFcP3ucqlLzFdNaQmyuHw
- gz0IqPTcF7YiclU9wHf0gjzZlg==
-X-Google-Smtp-Source: ABdhPJzOHX5i184b3TvzIIzm/HUjo5oY+Oec7ahqq93V7Tahvj7WqoBA0L6Rn5J3muRCM4lyGKcz9Q==
-X-Received: by 2002:a17:902:8bc7:: with SMTP id
- r7mr3357321plo.57.1592334009034; 
- Tue, 16 Jun 2020 12:00:09 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id jz23sm3333058pjb.2.2020.06.16.12.00.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 16 Jun 2020 12:00:08 -0700 (PDT)
-Subject: Re: [PATCH RFC 0/3] target/arm: Implement SVE2 fp conversion
-To: Stephen Long <steplong@quicinc.com>, qemu-devel@nongnu.org
-References: <20200428174332.17162-1-steplong@quicinc.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <db57c0a3-634f-caef-cab6-8b692a22e661@linaro.org>
-Date: Tue, 16 Jun 2020 12:00:06 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jlGy0-0006IL-Qv
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 15:09:52 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:21377
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jlGxy-0003QO-JY
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 15:09:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1592334589;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=PfKz1fSmix4zmI5fKAHXwJCv0hgpqvs8xJ2Ye6h5SoM=;
+ b=Caf+NQhWCXdjE36hvTePCMtFWPNuYWo/ehs8pLKoprYXu4pAem9AvvWfRujcvCzan7A84e
+ le0gqLd9faJaD3PqMn7yVMQqLd+1gRGwtsuY4k48Xy1PewXLzDIVJcxnI8kVb8cpCeCAZg
+ 4S/5WTfMxVloobvbSohnCcwDTs2b/KI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-305-h-h2V6StOeiTU6_p9Ro2lg-1; Tue, 16 Jun 2020 15:09:47 -0400
+X-MC-Unique: h-h2V6StOeiTU6_p9Ro2lg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 582C7101C2C0;
+ Tue, 16 Jun 2020 19:09:46 +0000 (UTC)
+Received: from probe.redhat.com (ovpn-117-188.rdu2.redhat.com [10.10.117.188])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 02E9D60BE2;
+ Tue, 16 Jun 2020 19:09:42 +0000 (UTC)
+From: John Snow <jsnow@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/1] configure: prefer python's sphinx module
+Date: Tue, 16 Jun 2020 15:09:41 -0400
+Message-Id: <20200616190942.24624-1-jsnow@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200428174332.17162-1-steplong@quicinc.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1044;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1044.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 02:46:07
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,24 +74,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org, apazos@quicinc.com
+Cc: libvir-list@redhat.com, peter.maydell@linaro.org,
+ John Snow <jsnow@redhat.com>, ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/28/20 10:43 AM, Stephen Long wrote:
-> The only insn left in this category is BFCVTNT. I couldn't find any
-> helper functions for bfloats so I'm not sure how to approach this insn.
-> 
-> Also, for insn FCVTXNT, I'm not sure if it is ok to set the status rounding
-> mode to odd like that.
-> 
-> Stephen Long (3):
->   target/arm: Implement SVE2 FCVTNT
->   target/arm: Implement SVE2 FCVTLT
->   target/arm: Implement SVE2 FCVTXNT
+Hi, this is a followup to my patch which attempted to prefer
+'sphinx-build' to 'sphinx-build-3' which intended to prefer a VENV
+installation of sphinx over Fedora's system installation.
 
-Queued, with the change to the third patch as mentioned.
+That got confusing, though, so here's something that's simpler and
+better: use python to invoke sphinx so we don't have to worry about
+python/sphinx version mismatches.
 
+This should essentially always DTRT. In cases where a specific sphinx is
+preferred, you would use a virtual environment with sphinx installed and
+configure QEMU with e.g. --python /path/to/my/venv/python35
 
-r~
+John Snow (1):
+  configure: prefer python's sphinx module
+
+ docs/system/deprecated.rst | 19 +++++++++++++++++++
+ configure                  | 20 +++++++++-----------
+ 2 files changed, 28 insertions(+), 11 deletions(-)
+
+-- 
+2.21.3
+
 
