@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81C171FA976
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 09:03:54 +0200 (CEST)
-Received: from localhost ([::1]:45506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC77B1FA961
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 09:02:08 +0200 (CEST)
+Received: from localhost ([::1]:38004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jl5dR-0002XV-Ge
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 03:03:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42180)
+	id 1jl5bj-0007vT-Ob
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 03:02:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1jl5Mw-00023J-NJ
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 02:46:51 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:55653
+ id 1jl5Mv-000223-8Z
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 02:46:49 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:28685
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1jl5Mt-0005ls-00
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 02:46:50 -0400
+ id 1jl5Ms-0005m4-Rn
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 02:46:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592290002;
+ s=mimecast20190719; t=1592290005;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=knZNVpLUEPruNNfU/OWb2xi+QKiEKywtJZm5h2oG0KI=;
- b=I51eU5cpQogp0eWEi/eS/m7b67IMMD5gNwgHd4iX3fFmRkOl1GxU9KQv2xN8gPE2t6NYwm
- 6TiSVk+AIkId0wGvkbeL7Qfc4WpZ2iyC0rRIDYuinTm3gDVgyuwawxinHBpXrA/IGnv308
- 0J+pH3nQkShpLug2yZnx1GIXbg1keHk=
+ references:references; bh=jEPW/ssjzOcwLYx17f9xfUp+I7p7BI72NlpDYT4bQh8=;
+ b=CDhkdUIismwtqp7jE4tPJ2JIweNUjIwBLcFoIZ+se0cAqys7mniEkEhmoFsaOHJx+3eV4P
+ HjY+WWFXrn2Cpidx5TbnSPuVKIABEW0hDOr4Oox+RYZHqC0ZfbUHTbBuSvE6XhNRjDLxk5
+ G09129D7g+FJfzBskIH6OWoQkhO1OLw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-191-dDokYR73OBGhHTsub2a11g-1; Tue, 16 Jun 2020 02:46:40 -0400
-X-MC-Unique: dDokYR73OBGhHTsub2a11g-1
+ us-mta-364-9EfkOVKLPf2XbCa9mxvsHQ-1; Tue, 16 Jun 2020 02:46:42 -0400
+X-MC-Unique: 9EfkOVKLPf2XbCa9mxvsHQ-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EE35A1138300;
- Tue, 16 Jun 2020 06:46:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9C6751009613;
+ Tue, 16 Jun 2020 06:46:41 +0000 (UTC)
 Received: from jason-ThinkPad-T430s.redhat.com (ovpn-13-222.pek2.redhat.com
  [10.72.13.222])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 18F4D8202D;
- Tue, 16 Jun 2020 06:46:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 78D228202D;
+ Tue, 16 Jun 2020 06:46:39 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: peter.maydell@linaro.org
-Subject: [PULL 21/33] net: cadence_gem: TX_LAST bit should be set by guest
-Date: Tue, 16 Jun 2020 14:45:32 +0800
-Message-Id: <1592289944-13727-22-git-send-email-jasowang@redhat.com>
+Subject: [PULL 22/33] net: cadence_gem: Fix RX address filtering
+Date: Tue, 16 Jun 2020 14:45:33 +0800
+Message-Id: <1592289944-13727-23-git-send-email-jasowang@redhat.com>
 In-Reply-To: <1592289944-13727-1-git-send-email-jasowang@redhat.com>
 References: <1592289944-13727-1-git-send-email-jasowang@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=jasowang@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 02:46:07
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 02:45:54
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,49 +76,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>,
- "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>,
- Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org
+Cc: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>,
+ Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>, Jason Wang <jasowang@redhat.com>,
+ Tong Ho <tong.ho@xilinx.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
+From: Tong Ho <tong.ho@xilinx.com>
 
-TX_LAST bit should not be set by hardware, its set by guest to inform
-the last bd of the frame.
+Two defects are fixed:
 
-Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
+1/ Detection of multicast frames
+2/ Treating drop of mis-addressed frames as non-error
+
+Signed-off-by: Tong Ho <tong.ho@xilinx.com>
 Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
 Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- hw/net/cadence_gem.c | 6 ------
- 1 file changed, 6 deletions(-)
+ hw/net/cadence_gem.c | 26 +++++++++++---------------
+ 1 file changed, 11 insertions(+), 15 deletions(-)
 
 diff --git a/hw/net/cadence_gem.c b/hw/net/cadence_gem.c
-index df6d818..78fb9ac 100644
+index 78fb9ac..a93b5c0 100644
 --- a/hw/net/cadence_gem.c
 +++ b/hw/net/cadence_gem.c
-@@ -350,11 +350,6 @@ static inline unsigned tx_desc_get_last(uint32_t *desc)
-     return (desc[1] & DESC_1_TX_LAST) ? 1 : 0;
- }
+@@ -34,6 +34,7 @@
+ #include "qemu/module.h"
+ #include "sysemu/dma.h"
+ #include "net/checksum.h"
++#include "net/eth.h"
  
--static inline void tx_desc_set_last(uint32_t *desc)
--{
--    desc[1] |= DESC_1_TX_LAST;
--}
--
- static inline unsigned tx_desc_get_length(uint32_t *desc)
+ #define CADENCE_GEM_ERR_DEBUG 0
+ #define DB_PRINT(...) do {\
+@@ -702,7 +703,7 @@ static unsigned calc_mac_hash(const uint8_t *mac)
+ static int gem_mac_address_filter(CadenceGEMState *s, const uint8_t *packet)
  {
-     return desc[1] & DESC_1_LENGTH;
-@@ -1298,7 +1293,6 @@ static void gem_transmit(CadenceGEMState *s)
+     uint8_t *gem_spaddr;
+-    int i;
++    int i, is_mc;
  
-             /* read next descriptor */
-             if (tx_desc_get_wrap(desc)) {
--                tx_desc_set_last(desc);
+     /* Promiscuous mode? */
+     if (s->regs[GEM_NWCFG] & GEM_NWCFG_PROMISC) {
+@@ -718,22 +719,17 @@ static int gem_mac_address_filter(CadenceGEMState *s, const uint8_t *packet)
+     }
  
-                 if (s->regs[GEM_DMACFG] & GEM_DMACFG_ADDR_64B) {
-                     packet_desc_addr = s->regs[GEM_TBQPH];
+     /* Accept packets -w- hash match? */
+-    if ((packet[0] == 0x01 && (s->regs[GEM_NWCFG] & GEM_NWCFG_MCAST_HASH)) ||
+-        (packet[0] != 0x01 && (s->regs[GEM_NWCFG] & GEM_NWCFG_UCAST_HASH))) {
++    is_mc = is_multicast_ether_addr(packet);
++    if ((is_mc && (s->regs[GEM_NWCFG] & GEM_NWCFG_MCAST_HASH)) ||
++        (!is_mc && (s->regs[GEM_NWCFG] & GEM_NWCFG_UCAST_HASH))) {
++        uint64_t buckets;
+         unsigned hash_index;
+ 
+         hash_index = calc_mac_hash(packet);
+-        if (hash_index < 32) {
+-            if (s->regs[GEM_HASHLO] & (1<<hash_index)) {
+-                return packet[0] == 0x01 ? GEM_RX_MULTICAST_HASH_ACCEPT :
+-                                           GEM_RX_UNICAST_HASH_ACCEPT;
+-            }
+-        } else {
+-            hash_index -= 32;
+-            if (s->regs[GEM_HASHHI] & (1<<hash_index)) {
+-                return packet[0] == 0x01 ? GEM_RX_MULTICAST_HASH_ACCEPT :
+-                                           GEM_RX_UNICAST_HASH_ACCEPT;
+-            }
++        buckets = ((uint64_t)s->regs[GEM_HASHHI] << 32) | s->regs[GEM_HASHLO];
++        if ((buckets >> hash_index) & 1) {
++            return is_mc ? GEM_RX_MULTICAST_HASH_ACCEPT
++                         : GEM_RX_UNICAST_HASH_ACCEPT;
+         }
+     }
+ 
+@@ -958,7 +954,7 @@ static ssize_t gem_receive(NetClientState *nc, const uint8_t *buf, size_t size)
+     /* Is this destination MAC address "for us" ? */
+     maf = gem_mac_address_filter(s, buf);
+     if (maf == GEM_RX_REJECT) {
+-        return -1;
++        return size;  /* no, drop siliently b/c it's not an error */
+     }
+ 
+     /* Discard packets with receive length error enabled ? */
 -- 
 2.5.0
 
