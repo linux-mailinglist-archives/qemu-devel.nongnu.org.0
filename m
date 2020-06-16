@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65B6C1FB436
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:25:53 +0200 (CEST)
-Received: from localhost ([::1]:46066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCA3F1FB464
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:29:04 +0200 (CEST)
+Received: from localhost ([::1]:32934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlCXA-00050p-C4
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:25:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57326)
+	id 1jlCaF-00037h-TF
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:29:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57348)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCPP-0001cD-Ag; Tue, 16 Jun 2020 10:17:51 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:41875)
+ id 1jlCPR-0001hN-1E; Tue, 16 Jun 2020 10:17:53 -0400
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:43053)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCPN-0006Zh-Sh; Tue, 16 Jun 2020 10:17:50 -0400
-Received: by mail-ot1-x344.google.com with SMTP id k15so16041234otp.8;
- Tue, 16 Jun 2020 07:17:49 -0700 (PDT)
+ id 1jlCPP-0006aE-GZ; Tue, 16 Jun 2020 10:17:52 -0400
+Received: by mail-ot1-x341.google.com with SMTP id u23so16054958otq.10;
+ Tue, 16 Jun 2020 07:17:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=n7B/wh3iwTtyo7VyN7RqN0zDZm9E1OhXpgfK21UOXC8=;
- b=aQPaW9tAw2YZkeFMm0nfTS+qfP/GmG6XHwzbZvRydk61C3pGf18c7UPhBe2r443FPN
- a0xYZATejGGsWplnd2LfjH81j6x8FSlota+LJ+jcyAfMJe3MYgzQN7Vkf8UTkRVDVKfJ
- by+/wg+1uMd7B55JGrcP2ce+4BczPLS/wxJfb4FGBjHceMASFwSbcIRSl6CLaZ0MQqKu
- pg2sxk3Tfa2fEioThbFLlrzHxAI6djZHxF/St0Njgyll287xEjn9jUH3cpgdheW0GIih
- u87CReq8WhDndlC1SYBnvLTsl2zWiIZgftsSawUhtoWBG807QD7QmaYyF16SikmeK6yA
- uOJw==
+ bh=EO7pUhlzm0oZLNOP4SxgQUagDG4s3W5EaxNKZcENM6A=;
+ b=digWy/xaSI0RgYIlNNAZE0ngwT+2nfXgaL3nZ7q4aeVdjht7KXJvDw3SNYK/ZzF2y4
+ ScbQ73N0AT4P5es9J/D7Kk6qZtZ5VObzlHuh54mXMvqKqcEZMTGlXmcxWKw40ct4K6M7
+ emmGFQyR02a4D+RQvYm2ikEutwtu40f8HlLwSgDHJk90EFLPwvSqSUhUsSzuUg2iDE5/
+ C+ueAnd0BuMn+uI0FkXlFW8m5KemFIgxumB0Avw309hLGRJXggJVtryxt25yHt+8+AeL
+ s5OnQ6lqinEhFS+VE35CxB+aUbAdPZU9d3fiykeHpIQSmMlCqCmVrGNPhaLb16VLjaxf
+ 0jtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=n7B/wh3iwTtyo7VyN7RqN0zDZm9E1OhXpgfK21UOXC8=;
- b=K1M5em5ge66juXzmtcfvyBgwbRHQ1Z2h8fPA21T07L8IAZq7sK+noOAg2c8rn7OWMk
- P5zSL8WYKehcO9+LXZmNwBpmfcFVcPaSaHiPXMnkAfNOb6l3nts3F2b3ohYj5j3QI7Z+
- N7HLpMLtMsA0PZH5orDwzoesZEvIGJL8A1oik9EbXozVYwKNvJp8c/8aJjwl05teTm8p
- GSuTylCuHf/drdyhFI1ou1fH5GNjrglGjfE5yz/IwHLkfC6YRuhDkjcX9JVUdiuGsdaY
- BE46LCpmTQYDrwFMck/mXSb1TmqqBg73RG9xKd4dO5d0Ws9z944904VVEuk83GCXy0Gz
- ReZg==
-X-Gm-Message-State: AOAM533e+7RX3AB6AuhtV/SX36jqwiPX0TKSIcmmSeUr4jSLyoLo9y5k
- SQse75HRTV6KYiL+oMQ3edURkQZ3
-X-Google-Smtp-Source: ABdhPJwKg+xX9CQiekHgGGRXnhTipyam5hAQCYo798Q9SkgQuqngG0+2gPE8BJ9MPYnR6Vs3JBNSDg==
-X-Received: by 2002:a9d:4b90:: with SMTP id k16mr2494240otf.69.1592317068096; 
- Tue, 16 Jun 2020 07:17:48 -0700 (PDT)
+ bh=EO7pUhlzm0oZLNOP4SxgQUagDG4s3W5EaxNKZcENM6A=;
+ b=udHXXNLdxrY5FG869nOBHtXGxUGtCBcdqwXx9An3KdLle51gtOHmNu2PN+m0n0znG1
+ /ntZ09EtHzLgsQh4JdxDt7Q6O8svC9EQNDo52kF5HqSwaIOvg0OtsobyfSRJ9s52ks43
+ COPZ4AyMLdwLk30cech/ZKVvdJ+uPATs9B54hq82+5Nxp/QS6lQTUV/FXUfqW8ELLrCb
+ rjHiwai4nf4Htxp/3EYAm+5pb8M6nOiFqwOuMQXg1SWgSRrhd4HXxHZbLau+wOaTq+6X
+ Hn92TNv1HXXcktowRC4ARDb2/itMyQRSJYzeefOg/K5VDZG43tmvl0vEg9YeUjTW4oZm
+ 0tOA==
+X-Gm-Message-State: AOAM531jVeVLbfwuMWJY85cacN6h1sfC3JtrX3aBQ2s6a6+AMIu45eWr
+ 6WZ40LBdRTPMi2iGbIia8uZ+fKRR
+X-Google-Smtp-Source: ABdhPJzoo/1kBILNkuoqEbECjuO83AGa8gq6fOuZLgHBNAXMBpVNtYaBAiPtRI7qkYad6/VTwAeLtw==
+X-Received: by 2002:a9d:730c:: with SMTP id e12mr2599634otk.8.1592317069709;
+ Tue, 16 Jun 2020 07:17:49 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id 53sm4068150otv.22.2020.06.16.07.17.46
+ by smtp.gmail.com with ESMTPSA id x1sm1535173oop.44.2020.06.16.07.17.48
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 16 Jun 2020 07:17:47 -0700 (PDT)
+ Tue, 16 Jun 2020 07:17:48 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 18/78] virtio-mmio: update queue size on guest write
-Date: Tue, 16 Jun 2020 09:14:47 -0500
-Message-Id: <20200616141547.24664-19-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 19/78] virtio: add ability to delete vq through a pointer
+Date: Tue, 16 Jun 2020 09:14:48 -0500
+Message-Id: <20200616141547.24664-20-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
 References: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
- envelope-from=flukshun@gmail.com; helo=mail-ot1-x344.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::341;
+ envelope-from=flukshun@gmail.com; helo=mail-ot1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -80,42 +80,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Denis Plotnikov <dplotnikov@virtuozzo.com>, qemu-stable@nongnu.org,
- "Michael S . Tsirkin" <mst@redhat.com>
+Cc: qemu-stable@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Denis Plotnikov <dplotnikov@virtuozzo.com>
+From: "Michael S. Tsirkin" <mst@redhat.com>
 
-Some guests read back queue size after writing it.
-Always update the on size write otherwise they might be confused.
+Devices tend to maintain vq pointers, allow deleting them trough a vq pointer.
 
-Cc: qemu-stable@nongnu.org
-Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
-Message-Id: <20191224081446.17003-1-dplotnikov@virtuozzo.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-(cherry picked from commit 1049f4c62c4070618cc5defc9963c6a17ae7a5ae)
+Reviewed-by: David Hildenbrand <david@redhat.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
+(cherry picked from commit 722f8c51d8af223751dfb1d02de40043e8ba067e)
+*prereq for 421afd2fe8
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- hw/virtio/virtio-mmio.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ hw/virtio/virtio.c         | 15 ++++++++++-----
+ include/hw/virtio/virtio.h |  2 ++
+ 2 files changed, 12 insertions(+), 5 deletions(-)
 
-diff --git a/hw/virtio/virtio-mmio.c b/hw/virtio/virtio-mmio.c
-index 94d934c44b..1e40a74869 100644
---- a/hw/virtio/virtio-mmio.c
-+++ b/hw/virtio/virtio-mmio.c
-@@ -295,8 +295,9 @@ static void virtio_mmio_write(void *opaque, hwaddr offset, uint64_t value,
-         break;
-     case VIRTIO_MMIO_QUEUE_NUM:
-         trace_virtio_mmio_queue_write(value, VIRTQUEUE_MAX_SIZE);
-+        virtio_queue_set_num(vdev, vdev->queue_sel, value);
+diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+index 04716b5f6c..31dd140990 100644
+--- a/hw/virtio/virtio.c
++++ b/hw/virtio/virtio.c
+@@ -2330,17 +2330,22 @@ VirtQueue *virtio_add_queue(VirtIODevice *vdev, int queue_size,
+     return &vdev->vq[i];
+ }
+ 
++void virtio_delete_queue(VirtQueue *vq)
++{
++    vq->vring.num = 0;
++    vq->vring.num_default = 0;
++    vq->handle_output = NULL;
++    vq->handle_aio_output = NULL;
++    g_free(vq->used_elems);
++}
 +
-         if (proxy->legacy) {
--            virtio_queue_set_num(vdev, vdev->queue_sel, value);
-             virtio_queue_update_rings(vdev, vdev->queue_sel);
-         } else {
-             proxy->vqs[vdev->queue_sel].num = value;
+ void virtio_del_queue(VirtIODevice *vdev, int n)
+ {
+     if (n < 0 || n >= VIRTIO_QUEUE_MAX) {
+         abort();
+     }
+ 
+-    vdev->vq[n].vring.num = 0;
+-    vdev->vq[n].vring.num_default = 0;
+-    vdev->vq[n].handle_output = NULL;
+-    vdev->vq[n].handle_aio_output = NULL;
+-    g_free(vdev->vq[n].used_elems);
++    virtio_delete_queue(&vdev->vq[n]);
+ }
+ 
+ static void virtio_set_isr(VirtIODevice *vdev, int value)
+diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+index c32a815303..e18756d50d 100644
+--- a/include/hw/virtio/virtio.h
++++ b/include/hw/virtio/virtio.h
+@@ -183,6 +183,8 @@ VirtQueue *virtio_add_queue(VirtIODevice *vdev, int queue_size,
+ 
+ void virtio_del_queue(VirtIODevice *vdev, int n);
+ 
++void virtio_delete_queue(VirtQueue *vq);
++
+ void virtqueue_push(VirtQueue *vq, const VirtQueueElement *elem,
+                     unsigned int len);
+ void virtqueue_flush(VirtQueue *vq, unsigned int count);
 -- 
 2.17.1
 
