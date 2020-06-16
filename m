@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C19161FC07E
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 22:58:43 +0200 (CEST)
-Received: from localhost ([::1]:49968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6665F1FC085
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 22:59:52 +0200 (CEST)
+Received: from localhost ([::1]:55614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlIfK-0004z4-PN
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 16:58:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33708)
+	id 1jlIgR-0007HD-GC
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 16:59:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33894)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanb@linux.vnet.ibm.com>)
- id 1jlIeC-0003fU-N4
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 16:57:32 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:62062
- helo=mx0a-001b2d01.pphosted.com)
+ id 1jlIfB-0005e6-8K
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 16:58:33 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:64940)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanb@linux.vnet.ibm.com>)
- id 1jlIeA-0003Dx-Ok
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 16:57:32 -0400
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 05GKq0IW013479
- for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 16:57:28 -0400
+ id 1jlIf9-0003JA-Is
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 16:58:32 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 05GKmBSK085859
+ for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 16:58:30 -0400
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 31ptqkxdvx-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 31q4wcs35v-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 16:57:28 -0400
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 05GKvBva033145
- for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 16:57:28 -0400
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
- [169.63.214.131])
- by mx0b-001b2d01.pphosted.com with ESMTP id 31ptqkxdvk-1
+ for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 16:58:30 -0400
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 05GKuHSW118478
+ for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 16:58:29 -0400
+Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.10])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 31q4wcs35j-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 16 Jun 2020 16:57:28 -0400
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 05GKsC56023489;
- Tue, 16 Jun 2020 20:57:27 GMT
-Received: from b03cxnp07028.gho.boulder.ibm.com
- (b03cxnp07028.gho.boulder.ibm.com [9.17.130.15])
- by ppma01dal.us.ibm.com with ESMTP id 31q26faaep-1
+ Tue, 16 Jun 2020 16:58:29 -0400
+Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
+ by ppma02dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 05GKt6Hg025367;
+ Tue, 16 Jun 2020 20:58:29 GMT
+Received: from b03cxnp08026.gho.boulder.ibm.com
+ (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
+ by ppma02dal.us.ibm.com with ESMTP id 31q2qv1v9b-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 16 Jun 2020 20:57:27 +0000
+ Tue, 16 Jun 2020 20:58:29 +0000
 Received: from b03ledav006.gho.boulder.ibm.com
  (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
- by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 05GKvQ9W51446018
+ by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 05GKvQTM32768306
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Tue, 16 Jun 2020 20:57:26 GMT
 Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 11F36C605B;
- Tue, 16 Jun 2020 20:57:26 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id E34CDC605B;
+ Tue, 16 Jun 2020 20:57:27 +0000 (GMT)
 Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 58B04C6057;
- Tue, 16 Jun 2020 20:57:25 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 387D9C6057;
+ Tue, 16 Jun 2020 20:57:27 +0000 (GMT)
 Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
  by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTP;
- Tue, 16 Jun 2020 20:57:25 +0000 (GMT)
+ Tue, 16 Jun 2020 20:57:27 +0000 (GMT)
 From: Stefan Berger <stefanb@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 2/8] tpm: Extend TPMIfClass with get_irqnum() function
-Date: Tue, 16 Jun 2020 16:57:15 -0400
-Message-Id: <20200616205721.1191408-3-stefanb@linux.vnet.ibm.com>
+Subject: [PATCH v3 4/8] tpm: Split TPM_TIS_IRQ into TPM_TIS_ISA_IRQ and
+ TPM_TIS_SYSBUS_IRQ
+Date: Tue, 16 Jun 2020 16:57:17 -0400
+Message-Id: <20200616205721.1191408-5-stefanb@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200616205721.1191408-1-stefanb@linux.vnet.ibm.com>
 References: <20200616205721.1191408-1-stefanb@linux.vnet.ibm.com>
@@ -74,14 +74,13 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.687
  definitions=2020-06-16_12:2020-06-16,
  2020-06-16 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0
- cotscore=-2147483648 suspectscore=1 phishscore=0 priorityscore=1501
- mlxlogscore=999 spamscore=0 impostorscore=0 malwarescore=0
- lowpriorityscore=0 clxscore=1015 adultscore=0 mlxscore=0 classifier=spam
- adjust=0 reason=mlx scancount=1 engine=8.12.0-2004280000
- definitions=main-2006160140
+ mlxscore=0 phishscore=0
+ clxscore=1015 cotscore=-2147483648 malwarescore=0 priorityscore=1501
+ spamscore=0 suspectscore=1 adultscore=0 mlxlogscore=995 bulkscore=0
+ lowpriorityscore=0 impostorscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2004280000 definitions=main-2006160140
 Received-SPF: none client-ip=148.163.158.5;
- envelope-from=stefanb@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
+ envelope-from=stefanb@linux.vnet.ibm.com; helo=mx0b-001b2d01.pphosted.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 16:57:26
 X-ACL-Warn: Detected OS   = Linux 3.x [generic]
 X-Spam_score_int: -35
@@ -101,113 +100,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Berger <stefanb@sbct-2.pok.ibm.com>, eric.auger@redhat.com,
+Cc: Stefan Berger <stefanb@linux.vnet.ibm.com>, eric.auger@redhat.com,
  pbonzini@redhat.com, marcandre.lureau@redhat.com, philmd@redhat.com,
  mkedzier@redhat.com, Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Berger <stefanb@sbct-2.pok.ibm.com>
-
-Implement get_irqnum() as part of the TPMIfClass to get the assigned IRQ
-number or TPM_IRQ_DISABLED (-1) in case IRQs cannot be used.
+Before the enablement of interrupts on PCs, split the TPM_TIS_IRQ
+into TPM_TIS_ISA_IRQ for PCs and TPM_TIS_SYSBUS_IRQ for ARM.
 
 Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
 ---
- hw/tpm/tpm_tis_isa.c    |  9 +++++++++
- hw/tpm/tpm_tis_sysbus.c |  9 +++++++++
- include/sysemu/tpm.h    | 12 ++++++++++++
- 3 files changed, 30 insertions(+)
+ hw/tpm/tpm_tis_isa.c    | 2 +-
+ hw/tpm/tpm_tis_sysbus.c | 3 ++-
+ include/hw/acpi/tpm.h   | 3 ++-
+ 3 files changed, 5 insertions(+), 3 deletions(-)
 
 diff --git a/hw/tpm/tpm_tis_isa.c b/hw/tpm/tpm_tis_isa.c
-index 30ba37079d..ed6d422f05 100644
+index ed6d422f05..27222a9a49 100644
 --- a/hw/tpm/tpm_tis_isa.c
 +++ b/hw/tpm/tpm_tis_isa.c
-@@ -80,6 +80,14 @@ static enum TPMVersion tpm_tis_isa_get_tpm_version(TPMIf *ti)
-     return tpm_tis_get_tpm_version(s);
+@@ -97,7 +97,7 @@ static void tpm_tis_isa_reset(DeviceState *dev)
  }
  
-+static int8_t tpm_tis_isa_get_irqnum(TPMIf *ti)
-+{
-+    TPMStateISA *isadev = TPM_TIS_ISA(ti);
-+    TPMState *s = &isadev->state;
-+
-+    return s->irq_num;
-+}
-+
- static void tpm_tis_isa_reset(DeviceState *dev)
- {
-     TPMStateISA *isadev = TPM_TIS_ISA(dev);
-@@ -148,6 +156,7 @@ static void tpm_tis_isa_class_init(ObjectClass *klass, void *data)
-     dc->reset = tpm_tis_isa_reset;
-     tc->request_completed = tpm_tis_isa_request_completed;
-     tc->get_version = tpm_tis_isa_get_tpm_version;
-+    tc->get_irqnum = tpm_tis_isa_get_irqnum;
- }
- 
- static const TypeInfo tpm_tis_isa_info = {
+ static Property tpm_tis_isa_properties[] = {
+-    DEFINE_PROP_UINT32("irq", TPMStateISA, state.irq_num, TPM_TIS_IRQ),
++    DEFINE_PROP_UINT32("irq", TPMStateISA, state.irq_num, TPM_TIS_ISA_IRQ),
+     DEFINE_PROP_TPMBE("tpmdev", TPMStateISA, state.be_driver),
+     DEFINE_PROP_BOOL("ppi", TPMStateISA, state.ppi_enabled, true),
+     DEFINE_PROP_END_OF_LIST(),
 diff --git a/hw/tpm/tpm_tis_sysbus.c b/hw/tpm/tpm_tis_sysbus.c
-index eced1fc843..86b3988be5 100644
+index 86b3988be5..bf4583c3f6 100644
 --- a/hw/tpm/tpm_tis_sysbus.c
 +++ b/hw/tpm/tpm_tis_sysbus.c
-@@ -80,6 +80,14 @@ static enum TPMVersion tpm_tis_sysbus_get_tpm_version(TPMIf *ti)
-     return tpm_tis_get_tpm_version(s);
+@@ -97,7 +97,8 @@ static void tpm_tis_sysbus_reset(DeviceState *dev)
  }
  
-+static int8_t tpm_tis_sysbus_get_irqnum(TPMIf *ti)
-+{
-+    TPMStateSysBus *sbdev = TPM_TIS_SYSBUS(ti);
-+    TPMState *s = &sbdev->state;
-+
-+    return s->irq_num;
-+}
-+
- static void tpm_tis_sysbus_reset(DeviceState *dev)
- {
-     TPMStateSysBus *sbdev = TPM_TIS_SYSBUS(dev);
-@@ -137,6 +145,7 @@ static void tpm_tis_sysbus_class_init(ObjectClass *klass, void *data)
-     dc->reset = tpm_tis_sysbus_reset;
-     tc->request_completed = tpm_tis_sysbus_request_completed;
-     tc->get_version = tpm_tis_sysbus_get_tpm_version;
-+    tc->get_irqnum = tpm_tis_sysbus_get_irqnum;
- }
+ static Property tpm_tis_sysbus_properties[] = {
+-    DEFINE_PROP_UINT32("irq", TPMStateSysBus, state.irq_num, TPM_TIS_IRQ),
++    DEFINE_PROP_UINT32("irq", TPMStateSysBus, state.irq_num,
++                       TPM_TIS_SYSBUS_IRQ),
+     DEFINE_PROP_TPMBE("tpmdev", TPMStateSysBus, state.be_driver),
+     DEFINE_PROP_BOOL("ppi", TPMStateSysBus, state.ppi_enabled, false),
+     DEFINE_PROP_END_OF_LIST(),
+diff --git a/include/hw/acpi/tpm.h b/include/hw/acpi/tpm.h
+index 1a2a57a21f..d5caee9771 100644
+--- a/include/hw/acpi/tpm.h
++++ b/include/hw/acpi/tpm.h
+@@ -24,7 +24,8 @@
+ #define TPM_TIS_ADDR_BASE           0xFED40000
+ #define TPM_TIS_ADDR_SIZE           0x5000
  
- static const TypeInfo tpm_tis_sysbus_info = {
-diff --git a/include/sysemu/tpm.h b/include/sysemu/tpm.h
-index 03fb25941c..a81fb4e18e 100644
---- a/include/sysemu/tpm.h
-+++ b/include/sysemu/tpm.h
-@@ -25,6 +25,8 @@ typedef enum TPMVersion {
-     TPM_VERSION_2_0 = 2,
- } TPMVersion;
+-#define TPM_TIS_IRQ                 5
++#define TPM_TIS_ISA_IRQ             5
++#define TPM_TIS_SYSBUS_IRQ          5
  
-+#define TPM_IRQ_DISABLED  -1
-+
- #define TYPE_TPM_IF "tpm-if"
- #define TPM_IF_CLASS(klass)                                 \
-     OBJECT_CLASS_CHECK(TPMIfClass, (klass), TYPE_TPM_IF)
-@@ -41,6 +43,7 @@ typedef struct TPMIfClass {
-     enum TpmModel model;
-     void (*request_completed)(TPMIf *obj, int ret);
-     enum TPMVersion (*get_version)(TPMIf *obj);
-+    int8_t (*get_irqnum)(TPMIf *obj);
- } TPMIfClass;
- 
- #define TYPE_TPM_TIS_ISA            "tpm-tis"
-@@ -74,4 +77,13 @@ static inline TPMVersion tpm_get_version(TPMIf *ti)
-     return TPM_IF_GET_CLASS(ti)->get_version(ti);
- }
- 
-+static inline int8_t tpm_get_irqnum(TPMIf *ti)
-+{
-+    if (!ti || !TPM_IF_GET_CLASS(ti)->get_irqnum) {
-+        return TPM_IRQ_DISABLED;
-+    }
-+
-+    return TPM_IF_GET_CLASS(ti)->get_irqnum(ti);
-+}
-+
- #endif /* QEMU_TPM_H */
+ #define TPM_TIS_NUM_LOCALITIES      5     /* per spec */
+ #define TPM_TIS_LOCALITY_SHIFT      12
 -- 
 2.24.1
 
