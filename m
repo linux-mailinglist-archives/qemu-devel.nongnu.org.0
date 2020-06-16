@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CC571FAD97
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 12:11:19 +0200 (CEST)
-Received: from localhost ([::1]:32972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A59CE1FAD9D
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 12:12:50 +0200 (CEST)
+Received: from localhost ([::1]:37320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jl8Yo-0002te-4x
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 06:11:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51068)
+	id 1jl8aH-0004rv-Nu
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 06:12:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51080)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jl8LV-0007jK-Uq
+ id 1jl8LW-0007l1-Jh
  for qemu-devel@nongnu.org; Tue, 16 Jun 2020 05:57:34 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:32816)
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:47086)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jl8LT-000441-N8
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 05:57:33 -0400
-Received: by mail-wm1-x343.google.com with SMTP id j198so1888842wmj.0
- for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 02:57:31 -0700 (PDT)
+ id 1jl8LU-00044D-P9
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 05:57:34 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id x6so20041870wrm.13
+ for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 02:57:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=yV6zq6/vjo+Fdrha6af2dr9oOxkMAKU4dYXCHkXr58M=;
- b=rOGBVZQXwZZRcpvNrqz1bwYKJdOEN2Q7ultRB/kcD/nIrlI+4HcmXaMv2O+iCsHvD3
- wj6BVEbW8wOunY0qlu9cI5zi23Iy6VG5kiuiXnUMIgkXyga4IhnlOwpklCcELppaUemr
- nkEfkH0qtsuSlCDOgkeoTW02n1Mf4fHcoKU/7BpG7jBwXCIs0vuqhTcedhWcKU/0aumn
- hhTWFF7Rti3zlM9Jiar3GgDwbqHnelriPIcJz2iRqp1NK6bKihGsJGU7i/kJOnhxfJ7o
- gphMcC0Y6hMXo36MVj5JjQdO1xSK7k3i3yr69jGg3WvrcdpnituMyG8q3OXY1A7KoO6J
- JA9w==
+ bh=lDQ3expnbb4U9BUDOaeYoPi9En+3zAAg59F+UjXfZYI=;
+ b=kPlwuwWZGBx9W/lvkbXgad1I+DGRrLyPGztE/Hn0O85yNNQYxDsGhzyUh5QeMLoYaH
+ zb3a77wf+UZiDWqCldIJq8jCMbvvpYMJbgo3XQJZY9mKc/kAVxlzIMYoCfWeQXEdeTAE
+ gdxB181n52FzmCIE9uDDwMFaCWoCG/czpAZsCW8D6WHc2emCkwRbZlo2cVx+TwB8U+KA
+ M7Uy9zJqxw+ARmxvgrfO+JOSGy9kvVWE62vapLEhW8hKnshNk/+E3di5G9qi/poFeGNP
+ rB7sBGajikyb4K9nNsK0VXIMQITRaNOWB89zUXlCEbQofGwiC1lGgEy6xzIdlwDskkUC
+ zeBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=yV6zq6/vjo+Fdrha6af2dr9oOxkMAKU4dYXCHkXr58M=;
- b=M+xf94BtJgUj1mcocc3eevoNMynQsvn15BB+0TIqH3i3QFoO521qkeeYS8JRbc4hz+
- Jo6L2F+aMV2VHdcg9opeMJiAGYGWQNIXFtakucUe4EDiLrUXcKFKivNDstzc+plnG2hP
- xq6b2C6nhjNk9qaWrxQdt7PP6SQHopEXLEG9z52juZjgUPx71rvUE9MzRfUWRr1HVTal
- 4v2NYGMe+xQe6+vZhJt7WZPBsl56WXGtE3tzu2qgdCyV52Alm0rlJoDsXtpDmXC2fSVU
- mONvXUglukVom67f6ightLLb5hgNySxfjSdQFFWlBuZ4JNS57RWN1LY0H96DW37qm9gy
- WqwA==
-X-Gm-Message-State: AOAM531zb3cYNOGJOiHY6DC8gDLVp1+7zdvQ1c8G0TMHFTVlDWUSQBJ9
- LswPUvs/c3mOXJxPJSTz4i196F8wfaiJKg==
-X-Google-Smtp-Source: ABdhPJynyxx9JGl4ezDtWM7vijgMiZrrKoJvT2NeRT7BKtm8iB95X7Yo3kmFosXdxlYPXZA+kA+Jvw==
-X-Received: by 2002:a1c:1fc2:: with SMTP id f185mr2371975wmf.4.1592301449863; 
- Tue, 16 Jun 2020 02:57:29 -0700 (PDT)
+ bh=lDQ3expnbb4U9BUDOaeYoPi9En+3zAAg59F+UjXfZYI=;
+ b=de2mSpAEI92KAGSMGUe2FF0ncww9me1BtgSOYkitvQknz/gPQmRriIaTjtK1+TUw9r
+ 4gdGxXhtn+yJKZd008b9jHuK+jVg7w8a+0EFsW/sS26HI8ichaXOsCL9cChfI2GnFS2N
+ lthwsSrUEyb7fAAj2oySSMPTwe1cuNg5mx68dz1vXy1dqON6iYDylEBscmR15kgqtZf3
+ o43ZQCfV21ToAvq3Z53HuOUXylnNCfuJAxKJBBhZknX+iJdiBSxGMeGU6zSCqRMDfPh6
+ j6ofVWQFzrbYx1TS+yXB90HskaHtNHXtLhbTYoHEibonCD/pxYcxeFg1RiuRmAbOGNPi
+ m5yw==
+X-Gm-Message-State: AOAM533kNxkaP/1LCnpYIPraTg/4s0Runos60tX5UMCtGMT86AuIdQTP
+ 8kQyCU2tPmo7/ICpr4TtG0uueFJYNVjZpw==
+X-Google-Smtp-Source: ABdhPJzXjvbCQ3yrvbmCv73MLWFejcdIV3dBBxnWXSFtq98u6L2bzau35OmNLtKj0hyxukk5dvymNQ==
+X-Received: by 2002:a5d:54c7:: with SMTP id x7mr2143393wrv.162.1592301450918; 
+ Tue, 16 Jun 2020 02:57:30 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id z12sm31090851wrg.9.2020.06.16.02.57.28
+ by smtp.gmail.com with ESMTPSA id z12sm31090851wrg.9.2020.06.16.02.57.29
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Jun 2020 02:57:29 -0700 (PDT)
+ Tue, 16 Jun 2020 02:57:30 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 21/23] hw/net/imx_fec: Convert debug fprintf() to trace events
-Date: Tue, 16 Jun 2020 10:57:00 +0100
-Message-Id: <20200616095702.25848-22-peter.maydell@linaro.org>
+Subject: [PULL 22/23] sd: sdhci: Implement basic vendor specific register
+ support
+Date: Tue, 16 Jun 2020 10:57:01 +0100
+Message-Id: <20200616095702.25848-23-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200616095702.25848-1-peter.maydell@linaro.org>
 References: <20200616095702.25848-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x343.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,354 +90,125 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jean-Christophe Dubois <jcd@tribudubois.net>
+From: Guenter Roeck <linux@roeck-us.net>
 
-Signed-off-by: Jean-Christophe Dubois <jcd@tribudubois.net>
+The Linux kernel's IMX code now uses vendor specific commands.
+This results in endless warnings when booting the Linux kernel.
+
+sdhci-esdhc-imx 2194000.usdhc: esdhc_wait_for_card_clock_gate_off:
+	card clock still not gate off in 100us!.
+
+Implement support for the vendor specific command implemented in IMX hardware
+to be able to avoid this warning.
+
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-[PMD: Fixed 32-bit format string using PRIx32/PRIx64]
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+Message-id: 20200603145258.195920-2-linux@roeck-us.net
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/net/imx_fec.c    | 106 +++++++++++++++++++-------------------------
- hw/net/trace-events |  18 ++++++++
- 2 files changed, 63 insertions(+), 61 deletions(-)
+ hw/sd/sdhci-internal.h |  5 +++++
+ include/hw/sd/sdhci.h  |  5 +++++
+ hw/sd/sdhci.c          | 18 +++++++++++++++++-
+ 3 files changed, 27 insertions(+), 1 deletion(-)
 
-diff --git a/hw/net/imx_fec.c b/hw/net/imx_fec.c
-index 7adcc9df654..eefedc252de 100644
---- a/hw/net/imx_fec.c
-+++ b/hw/net/imx_fec.c
-@@ -31,34 +31,11 @@
- #include "qemu/module.h"
- #include "net/checksum.h"
- #include "net/eth.h"
-+#include "trace.h"
+diff --git a/hw/sd/sdhci-internal.h b/hw/sd/sdhci-internal.h
+index e7c8a523b51..e8c753d6d1e 100644
+--- a/hw/sd/sdhci-internal.h
++++ b/hw/sd/sdhci-internal.h
+@@ -75,6 +75,7 @@
+ #define SDHC_CMD_INHIBIT               0x00000001
+ #define SDHC_DATA_INHIBIT              0x00000002
+ #define SDHC_DAT_LINE_ACTIVE           0x00000004
++#define SDHC_IMX_CLOCK_GATE_OFF        0x00000080
+ #define SDHC_DOING_WRITE               0x00000100
+ #define SDHC_DOING_READ                0x00000200
+ #define SDHC_SPACE_AVAILABLE           0x00000400
+@@ -289,7 +290,10 @@ extern const VMStateDescription sdhci_vmstate;
  
- /* For crc32 */
- #include <zlib.h>
  
--#ifndef DEBUG_IMX_FEC
--#define DEBUG_IMX_FEC 0
--#endif
--
--#define FEC_PRINTF(fmt, args...) \
--    do { \
--        if (DEBUG_IMX_FEC) { \
--            fprintf(stderr, "[%s]%s: " fmt , TYPE_IMX_FEC, \
--                                             __func__, ##args); \
--        } \
--    } while (0)
--
--#ifndef DEBUG_IMX_PHY
--#define DEBUG_IMX_PHY 0
--#endif
--
--#define PHY_PRINTF(fmt, args...) \
--    do { \
--        if (DEBUG_IMX_PHY) { \
--            fprintf(stderr, "[%s.phy]%s: " fmt , TYPE_IMX_FEC, \
--                                                 __func__, ##args); \
--        } \
--    } while (0)
--
- #define IMX_MAX_DESC    1024
- 
- static const char *imx_default_reg_name(IMXFECState *s, uint32_t index)
-@@ -262,43 +239,45 @@ static void imx_eth_update(IMXFECState *s);
-  * For now we don't handle any GPIO/interrupt line, so the OS will
-  * have to poll for the PHY status.
-  */
--static void phy_update_irq(IMXFECState *s)
-+static void imx_phy_update_irq(IMXFECState *s)
- {
-     imx_eth_update(s);
- }
- 
--static void phy_update_link(IMXFECState *s)
-+static void imx_phy_update_link(IMXFECState *s)
- {
-     /* Autonegotiation status mirrors link status.  */
-     if (qemu_get_queue(s->nic)->link_down) {
--        PHY_PRINTF("link is down\n");
-+        trace_imx_phy_update_link("down");
-         s->phy_status &= ~0x0024;
-         s->phy_int |= PHY_INT_DOWN;
-     } else {
--        PHY_PRINTF("link is up\n");
-+        trace_imx_phy_update_link("up");
-         s->phy_status |= 0x0024;
-         s->phy_int |= PHY_INT_ENERGYON;
-         s->phy_int |= PHY_INT_AUTONEG_COMPLETE;
-     }
--    phy_update_irq(s);
-+    imx_phy_update_irq(s);
- }
- 
- static void imx_eth_set_link(NetClientState *nc)
- {
--    phy_update_link(IMX_FEC(qemu_get_nic_opaque(nc)));
-+    imx_phy_update_link(IMX_FEC(qemu_get_nic_opaque(nc)));
- }
- 
--static void phy_reset(IMXFECState *s)
-+static void imx_phy_reset(IMXFECState *s)
- {
-+    trace_imx_phy_reset();
+ #define ESDHC_MIX_CTRL                  0x48
 +
-     s->phy_status = 0x7809;
-     s->phy_control = 0x3000;
-     s->phy_advertise = 0x01e1;
-     s->phy_int_mask = 0;
-     s->phy_int = 0;
--    phy_update_link(s);
-+    imx_phy_update_link(s);
- }
- 
--static uint32_t do_phy_read(IMXFECState *s, int reg)
-+static uint32_t imx_phy_read(IMXFECState *s, int reg)
- {
-     uint32_t val;
- 
-@@ -332,7 +311,7 @@ static uint32_t do_phy_read(IMXFECState *s, int reg)
-     case 29:    /* Interrupt source.  */
-         val = s->phy_int;
-         s->phy_int = 0;
--        phy_update_irq(s);
-+        imx_phy_update_irq(s);
-         break;
-     case 30:    /* Interrupt mask */
-         val = s->phy_int_mask;
-@@ -352,14 +331,14 @@ static uint32_t do_phy_read(IMXFECState *s, int reg)
-         break;
-     }
- 
--    PHY_PRINTF("read 0x%04x @ %d\n", val, reg);
-+    trace_imx_phy_read(val, reg);
- 
-     return val;
- }
- 
--static void do_phy_write(IMXFECState *s, int reg, uint32_t val)
-+static void imx_phy_write(IMXFECState *s, int reg, uint32_t val)
- {
--    PHY_PRINTF("write 0x%04x @ %d\n", val, reg);
-+    trace_imx_phy_write(val, reg);
- 
-     if (reg > 31) {
-         /* we only advertise one phy */
-@@ -369,7 +348,7 @@ static void do_phy_write(IMXFECState *s, int reg, uint32_t val)
-     switch (reg) {
-     case 0:     /* Basic Control */
-         if (val & 0x8000) {
--            phy_reset(s);
-+            imx_phy_reset(s);
-         } else {
-             s->phy_control = val & 0x7980;
-             /* Complete autonegotiation immediately.  */
-@@ -383,7 +362,7 @@ static void do_phy_write(IMXFECState *s, int reg, uint32_t val)
-         break;
-     case 30:    /* Interrupt mask */
-         s->phy_int_mask = val & 0xff;
--        phy_update_irq(s);
-+        imx_phy_update_irq(s);
-         break;
-     case 17:
-     case 18:
-@@ -402,6 +381,8 @@ static void do_phy_write(IMXFECState *s, int reg, uint32_t val)
- static void imx_fec_read_bd(IMXFECBufDesc *bd, dma_addr_t addr)
- {
-     dma_memory_read(&address_space_memory, addr, bd, sizeof(*bd));
+ #define ESDHC_VENDOR_SPEC               0xc0
++#define ESDHC_IMX_FRC_SDCLK_ON          (1 << 8)
 +
-+    trace_imx_fec_read_bd(addr, bd->flags, bd->length, bd->data);
- }
+ #define ESDHC_DLL_CTRL                  0x60
  
- static void imx_fec_write_bd(IMXFECBufDesc *bd, dma_addr_t addr)
-@@ -412,6 +393,9 @@ static void imx_fec_write_bd(IMXFECBufDesc *bd, dma_addr_t addr)
- static void imx_enet_read_bd(IMXENETBufDesc *bd, dma_addr_t addr)
- {
-     dma_memory_read(&address_space_memory, addr, bd, sizeof(*bd));
-+
-+    trace_imx_enet_read_bd(addr, bd->flags, bd->length, bd->data,
-+                   bd->option, bd->status);
- }
+ #define ESDHC_TUNING_CTRL               0xcc
+@@ -326,6 +330,7 @@ extern const VMStateDescription sdhci_vmstate;
+ #define DEFINE_SDHCI_COMMON_PROPERTIES(_state) \
+     DEFINE_PROP_UINT8("sd-spec-version", _state, sd_spec_version, 2), \
+     DEFINE_PROP_UINT8("uhs", _state, uhs_mode, UHS_NOT_SUPPORTED), \
++    DEFINE_PROP_UINT8("vendor", _state, vendor, SDHCI_VENDOR_NONE), \
+     \
+     /* Capabilities registers provide information on supported
+      * features of this specific host controller implementation */ \
+diff --git a/include/hw/sd/sdhci.h b/include/hw/sd/sdhci.h
+index c6868c96994..5d9275f3d6c 100644
+--- a/include/hw/sd/sdhci.h
++++ b/include/hw/sd/sdhci.h
+@@ -74,6 +74,7 @@ typedef struct SDHCIState {
+     uint16_t acmd12errsts; /* Auto CMD12 error status register */
+     uint16_t hostctl2;     /* Host Control 2 */
+     uint64_t admasysaddr;  /* ADMA System Address Register */
++    uint16_t vendor_spec;  /* Vendor specific register */
  
- static void imx_enet_write_bd(IMXENETBufDesc *bd, dma_addr_t addr)
-@@ -471,11 +455,11 @@ static void imx_fec_do_tx(IMXFECState *s)
-         int len;
+     /* Read-only registers */
+     uint64_t capareg;      /* Capabilities Register */
+@@ -96,8 +97,12 @@ typedef struct SDHCIState {
+     uint32_t quirks;
+     uint8_t sd_spec_version;
+     uint8_t uhs_mode;
++    uint8_t vendor;        /* For vendor specific functionality */
+ } SDHCIState;
  
-         imx_fec_read_bd(&bd, addr);
--        FEC_PRINTF("tx_bd %x flags %04x len %d data %08x\n",
--                   addr, bd.flags, bd.length, bd.data);
-         if ((bd.flags & ENET_BD_R) == 0) {
++#define SDHCI_VENDOR_NONE       0
++#define SDHCI_VENDOR_IMX        1
 +
-             /* Run out of descriptors to transmit.  */
--            FEC_PRINTF("tx_bd ran out of descriptors to transmit\n");
-+            trace_imx_eth_tx_bd_busy();
-+
-             break;
+ /*
+  * Controller does not provide transfer-complete interrupt when not
+  * busy.
+diff --git a/hw/sd/sdhci.c b/hw/sd/sdhci.c
+index 1b75d7bab93..eb2be6529e9 100644
+--- a/hw/sd/sdhci.c
++++ b/hw/sd/sdhci.c
+@@ -1569,11 +1569,13 @@ static uint64_t usdhc_read(void *opaque, hwaddr offset, unsigned size)
          }
-         len = bd.length;
-@@ -552,11 +536,11 @@ static void imx_enet_do_tx(IMXFECState *s, uint32_t index)
-         int len;
- 
-         imx_enet_read_bd(&bd, addr);
--        FEC_PRINTF("tx_bd %x flags %04x len %d data %08x option %04x "
--                   "status %04x\n", addr, bd.flags, bd.length, bd.data,
--                   bd.option, bd.status);
-         if ((bd.flags & ENET_BD_R) == 0) {
-             /* Run out of descriptors to transmit.  */
-+
-+            trace_imx_eth_tx_bd_busy();
-+
-             break;
-         }
-         len = bd.length;
-@@ -633,7 +617,7 @@ static void imx_eth_enable_rx(IMXFECState *s, bool flush)
-     s->regs[ENET_RDAR] = (bd.flags & ENET_BD_E) ? ENET_RDAR_RDAR : 0;
- 
-     if (!s->regs[ENET_RDAR]) {
--        FEC_PRINTF("RX buffer full\n");
-+        trace_imx_eth_rx_bd_full();
-     } else if (flush) {
-         qemu_flush_queued_packets(qemu_get_queue(s->nic));
-     }
-@@ -676,7 +660,7 @@ static void imx_eth_reset(DeviceState *d)
-     memset(s->tx_descriptor, 0, sizeof(s->tx_descriptor));
- 
-     /* We also reset the PHY */
--    phy_reset(s);
-+    imx_phy_reset(s);
- }
- 
- static uint32_t imx_default_read(IMXFECState *s, uint32_t index)
-@@ -774,8 +758,7 @@ static uint64_t imx_eth_read(void *opaque, hwaddr offset, unsigned size)
          break;
-     }
  
--    FEC_PRINTF("reg[%s] => 0x%" PRIx32 "\n", imx_eth_reg_name(s, index),
--                                              value);
-+    trace_imx_eth_read(index, imx_eth_reg_name(s, index), value);
- 
-     return value;
- }
-@@ -884,8 +867,7 @@ static void imx_eth_write(void *opaque, hwaddr offset, uint64_t value,
-     const bool single_tx_ring = !imx_eth_is_multi_tx_ring(s);
-     uint32_t index = offset >> 2;
- 
--    FEC_PRINTF("reg[%s] <= 0x%" PRIx32 "\n", imx_eth_reg_name(s, index),
--                (uint32_t)value);
-+    trace_imx_eth_write(index, imx_eth_reg_name(s, index), value);
- 
-     switch (index) {
-     case ENET_EIR:
-@@ -940,12 +922,12 @@ static void imx_eth_write(void *opaque, hwaddr offset, uint64_t value,
-         if (extract32(value, 29, 1)) {
-             /* This is a read operation */
-             s->regs[ENET_MMFR] = deposit32(s->regs[ENET_MMFR], 0, 16,
--                                           do_phy_read(s,
-+                                           imx_phy_read(s,
-                                                        extract32(value,
-                                                                  18, 10)));
-         } else {
-             /* This a write operation */
--            do_phy_write(s, extract32(value, 18, 10), extract32(value, 0, 16));
-+            imx_phy_write(s, extract32(value, 18, 10), extract32(value, 0, 16));
-         }
-         /* raise the interrupt as the PHY operation is done */
-         s->regs[ENET_EIR] |= ENET_INT_MII;
-@@ -1053,8 +1035,6 @@ static bool imx_eth_can_receive(NetClientState *nc)
- {
-     IMXFECState *s = IMX_FEC(qemu_get_nic_opaque(nc));
- 
--    FEC_PRINTF("\n");
--
-     return !!s->regs[ENET_RDAR];
- }
- 
-@@ -1071,7 +1051,7 @@ static ssize_t imx_fec_receive(NetClientState *nc, const uint8_t *buf,
-     unsigned int buf_len;
-     size_t size = len;
- 
--    FEC_PRINTF("len %d\n", (int)size);
-+    trace_imx_fec_receive(size);
- 
-     if (!s->regs[ENET_RDAR]) {
-         qemu_log_mask(LOG_GUEST_ERROR, "[%s]%s: Unexpected packet\n",
-@@ -1113,7 +1093,7 @@ static ssize_t imx_fec_receive(NetClientState *nc, const uint8_t *buf,
-         bd.length = buf_len;
-         size -= buf_len;
- 
--        FEC_PRINTF("rx_bd 0x%x length %d\n", addr, bd.length);
-+        trace_imx_fec_receive_len(addr, bd.length);
- 
-         /* The last 4 bytes are the CRC.  */
-         if (size < 4) {
-@@ -1131,7 +1111,9 @@ static ssize_t imx_fec_receive(NetClientState *nc, const uint8_t *buf,
-         if (size == 0) {
-             /* Last buffer in frame.  */
-             bd.flags |= flags | ENET_BD_L;
--            FEC_PRINTF("rx frame flags %04x\n", bd.flags);
++    case ESDHC_VENDOR_SPEC:
++        ret = s->vendor_spec;
++        break;
+     case ESDHC_DLL_CTRL:
+     case ESDHC_TUNE_CTRL_STATUS:
+     case ESDHC_UNDOCUMENTED_REG27:
+     case ESDHC_TUNING_CTRL:
+-    case ESDHC_VENDOR_SPEC:
+     case ESDHC_MIX_CTRL:
+     case ESDHC_WTMK_LVL:
+         ret = 0;
+@@ -1596,7 +1598,21 @@ usdhc_write(void *opaque, hwaddr offset, uint64_t val, unsigned size)
+     case ESDHC_UNDOCUMENTED_REG27:
+     case ESDHC_TUNING_CTRL:
+     case ESDHC_WTMK_LVL:
++        break;
 +
-+            trace_imx_fec_receive_last(bd.flags);
-+
-             s->regs[ENET_EIR] |= ENET_INT_RXF;
-         } else {
-             s->regs[ENET_EIR] |= ENET_INT_RXB;
-@@ -1164,7 +1146,7 @@ static ssize_t imx_enet_receive(NetClientState *nc, const uint8_t *buf,
-     size_t size = len;
-     bool shift16 = s->regs[ENET_RACC] & ENET_RACC_SHIFT16;
+     case ESDHC_VENDOR_SPEC:
++        s->vendor_spec = value;
++        switch (s->vendor) {
++        case SDHCI_VENDOR_IMX:
++            if (value & ESDHC_IMX_FRC_SDCLK_ON) {
++                s->prnsts &= ~SDHC_IMX_CLOCK_GATE_OFF;
++            } else {
++                s->prnsts |= SDHC_IMX_CLOCK_GATE_OFF;
++            }
++            break;
++        default:
++            break;
++        }
+         break;
  
--    FEC_PRINTF("len %d\n", (int)size);
-+    trace_imx_enet_receive(size);
- 
-     if (!s->regs[ENET_RDAR]) {
-         qemu_log_mask(LOG_GUEST_ERROR, "[%s]%s: Unexpected packet\n",
-@@ -1210,7 +1192,7 @@ static ssize_t imx_enet_receive(NetClientState *nc, const uint8_t *buf,
-         bd.length = buf_len;
-         size -= buf_len;
- 
--        FEC_PRINTF("rx_bd 0x%x length %d\n", addr, bd.length);
-+        trace_imx_enet_receive_len(addr, bd.length);
- 
-         /* The last 4 bytes are the CRC.  */
-         if (size < 4) {
-@@ -1246,7 +1228,9 @@ static ssize_t imx_enet_receive(NetClientState *nc, const uint8_t *buf,
-         if (size == 0) {
-             /* Last buffer in frame.  */
-             bd.flags |= flags | ENET_BD_L;
--            FEC_PRINTF("rx frame flags %04x\n", bd.flags);
-+
-+            trace_imx_enet_receive_last(bd.flags);
-+
-             /* Indicate that we've updated the last buffer descriptor. */
-             bd.last_buffer = ENET_BD_BDU;
-             if (bd.option & ENET_BD_RX_INT) {
-diff --git a/hw/net/trace-events b/hw/net/trace-events
-index e18f883cfd4..26700dad997 100644
---- a/hw/net/trace-events
-+++ b/hw/net/trace-events
-@@ -408,3 +408,21 @@ i82596_receive_packet(size_t sz) "len=%zu"
- i82596_new_mac(const char *id_with_mac) "New MAC for: %s"
- i82596_set_multicast(uint16_t count) "Added %d multicast entries"
- i82596_channel_attention(void *s) "%p: Received CHANNEL ATTENTION"
-+
-+# imx_fec.c
-+imx_phy_read(uint32_t val, int reg) "0x%04"PRIx32" <= reg[%d]"
-+imx_phy_write(uint32_t val, int reg) "0x%04"PRIx32" => reg[%d]"
-+imx_phy_update_link(const char *s) "%s"
-+imx_phy_reset(void) ""
-+imx_fec_read_bd(uint64_t addr, int flags, int len, int data) "tx_bd 0x%"PRIx64" flags 0x%04x len %d data 0x%08x"
-+imx_enet_read_bd(uint64_t addr, int flags, int len, int data, int options, int status) "tx_bd 0x%"PRIx64" flags 0x%04x len %d data 0x%08x option 0x%04x status 0x%04x"
-+imx_eth_tx_bd_busy(void) "tx_bd ran out of descriptors to transmit"
-+imx_eth_rx_bd_full(void) "RX buffer is full"
-+imx_eth_read(int reg, const char *reg_name, uint32_t value) "reg[%d:%s] => 0x%08"PRIx32
-+imx_eth_write(int reg, const char *reg_name, uint64_t value) "reg[%d:%s] <= 0x%08"PRIx64
-+imx_fec_receive(size_t size) "len %zu"
-+imx_fec_receive_len(uint64_t addr, int len) "rx_bd 0x%"PRIx64" length %d"
-+imx_fec_receive_last(int last) "rx frame flags 0x%04x"
-+imx_enet_receive(size_t size) "len %zu"
-+imx_enet_receive_len(uint64_t addr, int len) "rx_bd 0x%"PRIx64" length %d"
-+imx_enet_receive_last(int last) "rx frame flags 0x%04x"
+     case SDHC_HOSTCTL:
 -- 
 2.20.1
 
