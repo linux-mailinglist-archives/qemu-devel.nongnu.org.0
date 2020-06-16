@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F3F61FB4CA
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:45:29 +0200 (CEST)
-Received: from localhost ([::1]:48732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A3731FB4D9
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:48:08 +0200 (CEST)
+Received: from localhost ([::1]:57044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlCq8-0001oG-9V
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:45:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57848)
+	id 1jlCsh-0005UJ-27
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:48:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCQB-0002ru-Ta; Tue, 16 Jun 2020 10:18:39 -0400
-Received: from mail-oi1-x22d.google.com ([2607:f8b0:4864:20::22d]:41176)
+ id 1jlCQD-0002vx-5w; Tue, 16 Jun 2020 10:18:41 -0400
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:34189)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCQA-0006t4-An; Tue, 16 Jun 2020 10:18:39 -0400
-Received: by mail-oi1-x22d.google.com with SMTP id a21so19360519oic.8;
- Tue, 16 Jun 2020 07:18:37 -0700 (PDT)
+ id 1jlCQB-0006tb-GX; Tue, 16 Jun 2020 10:18:40 -0400
+Received: by mail-oi1-x242.google.com with SMTP id b8so19408308oic.1;
+ Tue, 16 Jun 2020 07:18:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=UHOhXDFptEyi8wAw25zqqNqwLR+Xm/W9JlxxPN8OX68=;
- b=dlOotZ7rQ45BnLt/QvJBJ2Z0M31uSmNFJsU/FN/FJmTVfwAbFk1895KMwfkQZ9eVL8
- NX3HO+K/G7UtISMg4OEgZ97fuHZyx3BSkItGLOXgOlcb1GCBb/KsvEQ3INl6jUYPg3yX
- ut0248g6QWdbCPY3WORPorbsfl+SXtZNjtXBGYq/hobn30BbT2DlnyLZ3LNciqAY7x3Z
- TL9c5TNL/cACaxX6LZ0ttoGQVhpaYzsMnjZN/TKV2t5eRzEifagFAabM8u/+HHspEbEx
- zZjLcJYIvXQB2/pFp1Xh7xi+hRHqesWRSOwFd0VNGVrffvQbklb691uohG4jKKjmR+SU
- ePpg==
+ bh=jQlmFbKrxdQ+T3w4qU7PkqGJ75h4OBz177pM/jknP8g=;
+ b=hhLjR0SvKu2seQ2QHHoGBlPdVSxDUN5aAodfpDF0lOu2p3XFFyeuRJXV30KxhHlq1w
+ mQvuV/fbHwo624vMVpkyOXTYX77Fsv9TEN7LIfgp7w9KiLGAsjTMaRSFsKzjoQhiaFpy
+ 4iRAV+Iz4vKM3xcq6RGLiR5itOlMVSVS4B4YVoyPU2WKRRTZ+jo6qtOfkddvgT7A3u2Z
+ Ju8/NRIe2hkoZW1XZkwehU0gZgHwkzowoYqsZc1u9ZkGuoRpE8KAURutBV3fQxSpxgUC
+ bG19fL0edgOy0wOpRpWBsCQ2FhHsUuIT0WmnDpQOAYA90Fb8D1Jj8BXvhXDTMV/EEeGv
+ sfoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=UHOhXDFptEyi8wAw25zqqNqwLR+Xm/W9JlxxPN8OX68=;
- b=JdbdMhqdjBdTVzfWwdDQGCd8pJrGKgsxb3mgdNfbFANYnSdcP3VMzA6CY/Gn9FIk57
- 6U8Xio7X86ETKuV6Nu+0pIT8eoa3rKUmZLHyuDjMYfAHifn8HiCjQzBr1uvMExGU213p
- RexmMf4GS5YHl9vbBfY1Mt1HsLzG7h1rILVhq3D49pYJGVemLjQjXyEk6sItGcva8K0l
- QJLruriMf+rED6ymNAUNbghXF6ZvbVFnRfub9Gp3mIuPV1oST3dfzrC1y4UwQ0ykSeUJ
- 0OaBwJzD9afBFbUsEpzSpa104sOApwDNLg+GbrtvVDFRIphZLAsiBywSXZjiEclB0FP3
- lgQQ==
-X-Gm-Message-State: AOAM533rBdBv9ZZC9B0aAbs0pFDkBIbobUBo+1rwlkvQOu2J01ubn1yk
- +r/qJdCQNtBXQvTBiotOtr5Tv8c2
-X-Google-Smtp-Source: ABdhPJwUHwh1mTO4kJCmQSDDzGNiKVltI+Xy2LmhZqFNqBFv234w7jt4b5MBZesnku1mbD43Lklehw==
-X-Received: by 2002:aca:5c54:: with SMTP id q81mr3434928oib.53.1592317116504; 
- Tue, 16 Jun 2020 07:18:36 -0700 (PDT)
+ bh=jQlmFbKrxdQ+T3w4qU7PkqGJ75h4OBz177pM/jknP8g=;
+ b=s60FzaKjZ0alcG1ExjAataVXAZGTxO2w4wEyYpjq9aossO0vvoF9HDTOH55gHwMQrp
+ NR43lQIKvWRwhgPEu6EmzBAP5wwCVvmdiGoOt/yCXQMtyvpdEVF0cr/x8o2zwmHLlCGS
+ SYddlo/rf5kpG81NS5PMwN2rrXws2kvhNhFR0HPVDpDE79IseVjcqIeeekT9vQ/ad/k3
+ pEFdag4dk9MWvxghUf9wqtqGyM7ywGpTcsMBhmhMHXs5MaOfCPL7eOxON0YRhN7iMqfV
+ K1hrR4EKwZhCPLKtkCxm1KChEXIi4syeydcIA8eRSPYgKSUa9XhRvuhk+l07v7Zw5RVt
+ tKBQ==
+X-Gm-Message-State: AOAM530EETfDZci5Gz379Eu+hFxfxS+EXwYnbS6yI+NP5l03lzbnTmeh
+ 3w2KNAB0SYSI9/lq/GTvAJZXEdAd
+X-Google-Smtp-Source: ABdhPJyS97v15IR+gzSzQ4gR7KMOL3uYqtPugG8JOqu5OIgEhqJgphyLNsAzcsHHbwGUYWwrENI2sA==
+X-Received: by 2002:a54:4504:: with SMTP id l4mr3385032oil.22.1592317117842;
+ Tue, 16 Jun 2020 07:18:37 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id c10sm4120422ooq.30.2020.06.16.07.18.35
+ by smtp.gmail.com with ESMTPSA id i2sm4050612otr.49.2020.06.16.07.18.36
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 16 Jun 2020 07:18:35 -0700 (PDT)
+ Tue, 16 Jun 2020 07:18:37 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 46/78] iotests: Test copy offloading with external data file
-Date: Tue, 16 Jun 2020 09:15:15 -0500
-Message-Id: <20200616141547.24664-47-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 47/78] qcow2: Fix alloc_cluster_abort() for pre-existing
+ clusters
+Date: Tue, 16 Jun 2020 09:15:16 -0500
+Message-Id: <20200616141547.24664-48-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
 References: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22d;
- envelope-from=flukshun@gmail.com; helo=mail-oi1-x22d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::242;
+ envelope-from=flukshun@gmail.com; helo=mail-oi1-x242.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -67,7 +68,7 @@ X-Spam_bar: /
 X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
  DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
  HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,70 +81,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-stable@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-stable@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Kevin Wolf <kwolf@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
 
-This adds a test for 'qemu-img convert' with copy offloading where the
-target image has an external data file. If the test hosts supports it,
-it tests both the case where copy offloading is supported and the case
-where it isn't (otherwise we just test unsupported twice).
+handle_alloc() reuses preallocated zero clusters.  If anything goes
+wrong during the data write, we do not change their L2 entry, so we
+must not let qcow2_alloc_cluster_abort() free them.
 
-More specifically, the case with unsupported copy offloading tests
-qcow2_alloc_cluster_abort() with external data files.
-
+Fixes: 8b24cd141549b5b264baeddd4e72902cfb5de23b
+Cc: qemu-stable@nongnu.org
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+Message-Id: <20200225143130.111267-2-mreitz@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Message-Id: <20200211094900.17315-4-kwolf@redhat.com>
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-(cherry picked from commit a0cf8daf77548786ced84d773f06fc70571c5d38)
+(cherry picked from commit 3ede935fdbbd5f7b24b4724bbfb8938acb5956d8)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- tests/qemu-iotests/244     | 14 ++++++++++++++
- tests/qemu-iotests/244.out |  6 ++++++
- 2 files changed, 20 insertions(+)
+ block/qcow2-cluster.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/qemu-iotests/244 b/tests/qemu-iotests/244
-index 13978f93d2..2f5dfb9edd 100755
---- a/tests/qemu-iotests/244
-+++ b/tests/qemu-iotests/244
-@@ -194,6 +194,20 @@ $QEMU_IO -c 'read -P 0x11 0 1M' -f $IMGFMT "$TEST_IMG" | _filter_qemu_io
- $QEMU_IMG map --output=human "$TEST_IMG" | _filter_testdir
- $QEMU_IMG map --output=json "$TEST_IMG"
- 
-+echo
-+echo "=== Copy offloading ==="
-+echo
-+
-+# Make use of copy offloading if the test host can provide it
-+_make_test_img -o "data_file=$TEST_IMG.data" 64M
-+$QEMU_IMG convert -f $IMGFMT -O $IMGFMT -n -C "$TEST_IMG.src" "$TEST_IMG"
-+$QEMU_IMG compare -f $IMGFMT -F $IMGFMT "$TEST_IMG.src" "$TEST_IMG"
-+
-+# blkdebug doesn't support copy offloading, so this tests the error path
-+$QEMU_IMG amend -f $IMGFMT -o "data_file=blkdebug::$TEST_IMG.data" "$TEST_IMG"
-+$QEMU_IMG convert -f $IMGFMT -O $IMGFMT -n -C "$TEST_IMG.src" "$TEST_IMG"
-+$QEMU_IMG compare -f $IMGFMT -F $IMGFMT "$TEST_IMG.src" "$TEST_IMG"
-+
- # success, all done
- echo "*** done"
- rm -f $seq.full
-diff --git a/tests/qemu-iotests/244.out b/tests/qemu-iotests/244.out
-index 6a3d0067cc..e6f4dc7993 100644
---- a/tests/qemu-iotests/244.out
-+++ b/tests/qemu-iotests/244.out
-@@ -122,4 +122,10 @@ Offset          Length          Mapped to       File
- 0               0x100000        0               TEST_DIR/t.qcow2.data
- [{ "start": 0, "length": 1048576, "depth": 0, "zero": false, "data": true, "offset": 0},
- { "start": 1048576, "length": 66060288, "depth": 0, "zero": true, "data": false}]
-+
-+=== Copy offloading ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864 data_file=TEST_DIR/t.IMGFMT.data
-+Images are identical.
-+Images are identical.
- *** done
+diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
+index dc3c270226..f1a6d42df0 100644
+--- a/block/qcow2-cluster.c
++++ b/block/qcow2-cluster.c
+@@ -1015,7 +1015,7 @@ err:
+ void qcow2_alloc_cluster_abort(BlockDriverState *bs, QCowL2Meta *m)
+ {
+     BDRVQcow2State *s = bs->opaque;
+-    if (!has_data_file(bs)) {
++    if (!has_data_file(bs) && !m->keep_old_clusters) {
+         qcow2_free_clusters(bs, m->alloc_offset,
+                             m->nb_clusters << s->cluster_bits,
+                             QCOW2_DISCARD_NEVER);
 -- 
 2.17.1
 
