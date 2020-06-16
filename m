@@ -2,97 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 665B61FB1F8
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 15:24:55 +0200 (CEST)
-Received: from localhost ([::1]:53742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D8BC1FB220
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 15:31:16 +0200 (CEST)
+Received: from localhost ([::1]:58838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlBaA-0004fT-EV
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 09:24:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43636)
+	id 1jlBgJ-0007H7-Bz
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 09:31:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jlBZ7-0003Mk-30
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 09:23:49 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:49170
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1jlBes-0006Wr-9Y
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 09:29:46 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:54560
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jlBZ5-0005jY-FM
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 09:23:48 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1jlBeq-0006pi-LY
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 09:29:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592313826;
+ s=mimecast20190719; t=1592314183;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=E8W7Qlc2zMVsN2JgnK/qH4Jp0+pTA8BG4yaaIzGy8Kc=;
- b=ESJV2+cG0ccXBHrdGqEmxcmn7wDvChUkk7csoviIloNXUfXyV2wen1L5I/B5rDu9X4cAnp
- 7l8EeaWSd1bPn4iKTVzrsRB8sj7oUtEcT8HxrrYAAlsc9WOpQvhmMdc3qYkBVyS6ok8Wl/
- OYsfbMTuXzWMEYqCq3u56MYPK5omg6M=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5z1aAw3cBg6Gw+LrPo2kSM5UNSKN/NZnKhFt01VRcVM=;
+ b=fcbvj0Tk5EgIGqI9KJmDmn4U+ryrdn2woyKYUNoLskDs5lG/BbZCBKXlI6N4g1d1KrliYr
+ HPPvYOkDlQpUr+xAQEkCIwo+q9N/ucIeyifawh/QdUROonAzmPhD6Vv5g9ehMl+uN64K6x
+ N5ntaJbNMuuxzMceNqArEtwTzWucQas=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-498-skgAieidMCSOuTAlWVotiQ-1; Tue, 16 Jun 2020 09:23:41 -0400
-X-MC-Unique: skgAieidMCSOuTAlWVotiQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-35-LlHTB0pjOOOw2spZvE4TMg-1; Tue, 16 Jun 2020 09:29:36 -0400
+X-MC-Unique: LlHTB0pjOOOw2spZvE4TMg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7CFAE80332A;
- Tue, 16 Jun 2020 13:23:40 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-112-244.ams2.redhat.com
- [10.36.112.244])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 22B3D5C1BD;
- Tue, 16 Jun 2020 13:23:35 +0000 (UTC)
-Subject: Re: [PATCH v8 05/14] block/amend: refactor qcow2 amend options
-To: Maxim Levitsky <mlevitsk@redhat.com>, qemu-devel@nongnu.org
-References: <20200608094030.670121-1-mlevitsk@redhat.com>
- <20200608094030.670121-6-mlevitsk@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <32faa102-737e-320e-fe7a-501965719f07@redhat.com>
-Date: Tue, 16 Jun 2020 15:23:34 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7D6FC109132C
+ for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 13:29:35 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.22])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A8D0979307;
+ Tue, 16 Jun 2020 13:29:31 +0000 (UTC)
+Date: Tue, 16 Jun 2020 15:29:26 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH] tests: disassemble-asm.sh: generate AML in readable format
+Message-ID: <20200616152926.4e08698d@redhat.com>
+In-Reply-To: <20200611165112.30979-1-mst@redhat.com>
+References: <20200611165112.30979-1-mst@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200608094030.670121-6-mlevitsk@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="utuSUox89lCUP0o7Jqqg0nnTCiGu4624w"
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=mreitz@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=imammedo@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 02:45:54
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 02:46:07
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -105,74 +81,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-block@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---utuSUox89lCUP0o7Jqqg0nnTCiGu4624w
-Content-Type: multipart/mixed; boundary="XmcetxVK66BbJEBLJ3UwwreuQDcTUSx4K"
+On Thu, 11 Jun 2020 12:51:16 -0400
+"Michael S. Tsirkin" <mst@redhat.com> wrote:
 
---XmcetxVK66BbJEBLJ3UwwreuQDcTUSx4K
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+subj: s/asm/asl/
 
-On 08.06.20 11:40, Maxim Levitsky wrote:
-> Some qcow2 create options can't be used for amend.
-> Remove them from the qcow2 create options and add generic logic to detect
-> such options in qemu-img
->=20
-> Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
-> Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> On systems where the IASL tool exists, we can convert
+> extected ACPI tables to ASL format, which is useful
+> for debugging and documentation purposes.
+> This script does this for all ACPI tables under tests/data/acpi/. 
 
-Last week (when I was about to prepare a pull request), I noticed that
-this patch breaks the iotests 134 and 158 for qcow (v1).  That=E2=80=99s be=
-cause
-as of this patch, qcow2 has a different order of creation options than qcow=
-.
+for debugging I usually use V=1 env var with test/make check,
+as it gives me all diffs vs current blobs.
+And it's on rare occasion that I go and decompile ASL file myself,
+since test already did that for tables that didn't match. 
 
-We could easily fix this by moving HEAD^:134.out and HEAD^:158.out to
-134.out.qcow and 158.out.qcow, respectively, and HEAD:134.out and
-HEAD:158.out to 134.out.qcow2 and 158.out.qcow2, respectively.
-
-But the underlying problem is a greater one: The order of creation
-options isn=E2=80=99t fixed between different formats, so I think
-_filter_img_create should sort it so it=E2=80=99s the same for all.
-
-To do so, I just sent the =E2=80=9Ciotests: Make _filter_img_create more ac=
-tive=E2=80=9D
-series.  We could put that underneath your series and then the problem
-would be fixed, too (and we could drop some of the hunks from this
-patch, because the option order wouldn=E2=80=99t change for any test that u=
-ses
-_filter_img_create).
-
-Max
-
-
---XmcetxVK66BbJEBLJ3UwwreuQDcTUSx4K--
-
---utuSUox89lCUP0o7Jqqg0nnTCiGu4624w
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl7ox9YACgkQ9AfbAGHV
-z0BEkggAt3cYkBojZOG7zz9FvsRNECbzxnw1fgIiLvIUx/KhdgYWZTLCGMNg2dUJ
-9UhN3QGdChqnjbDVkDRgiyMQLuUn2pMRHnnNbw8tEgzV/9iKsnjqWKTCEd0DX/Vy
-3Xf9GqB2/bdolTE7n045h/+ZGERT/00afLuUT4aJ5AUWYF38dmiWT5kwZV7SyA5R
-b2m/qvV1aw2Gcpy0Q66wiQmWOg9xZfL/8QsECOpOiTWx7XSmMxgjgKSIYSJECR7A
-v4qTrXkcXqZILMHUFBT+C4A0X8hDd9Euq83CBaNdARrCayY0VLEdBVKXUHz4aNVT
-sPa3CkNJgKvwx0HgyO0XtpFTGZJYlg==
-=B1Zr
------END PGP SIGNATURE-----
-
---utuSUox89lCUP0o7Jqqg0nnTCiGu4624w--
+> 
+> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> ---
+>  tests/data/acpi/disassemle-aml.sh | 52 +++++++++++++++++++++++++++++++
+>  1 file changed, 52 insertions(+)
+>  create mode 100755 tests/data/acpi/disassemle-aml.sh
+> 
+> diff --git a/tests/data/acpi/disassemle-aml.sh b/tests/data/acpi/disassemle-aml.sh
+> new file mode 100755
+> index 0000000000..42a1b51df0
+> --- /dev/null
+> +++ b/tests/data/acpi/disassemle-aml.sh
+> @@ -0,0 +1,52 @@
+> +#!/usr/bin/bash
+> +
+> +outdir=
+> +while getopts "o:" arg; do
+> +  case ${arg} in
+> +    o )
+> +        outdir=$OPTARG
+> +        ;;
+> +    \? )
+> +        echo "Usage: ./tests/data/acpi/disassemle-aml.sh [-o <output-directory>]"
+> +        exit 1
+> +        ;;
+> +    
+> +  esac
+> +done
+> +
+> +for machine in tests/data/acpi/*
+> +do
+> +    if [[ ! -d "$machine" ]];
+> +    then
+> +        continue
+> +    fi
+> +
+> +    if [[ "${outdir}" ]];
+> +    then
+> +        mkdir -p "${outdir}"/${machine} || exit $?
+> +    fi
+> +    for aml in $machine/*
+> +    do
+> +        if [[ "$aml" == $machine/*.dsl ]];
+> +        then
+> +            continue
+> +        fi
+> +        if [[ "$aml" == $machine/SSDT*.* ]];
+> +        then
+> +            dsdt=${aml/SSDT*./DSDT.}
+> +            extra="-e ${dsdt}"
+> +        elif [[ "$aml" == $machine/SSDT* ]];
+> +        then
+> +            dsdt=${aml/SSDT*/DSDT};
+> +            extra="-e ${dsdt}"
+> +        else
+> +            extra=""
+> +        fi
+> +        asl=${aml}.dsl
+> +        if [[ "${outdir}" ]];
+> +        then
+> +            asl="${outdir}"/${machine}/${asl}
+> +        fi
+> +        iasl -d -p ${asl} ${extra} ${aml} 
+> +    done
+> +done
 
 
