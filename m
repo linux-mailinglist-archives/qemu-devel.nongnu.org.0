@@ -2,80 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FA921FA957
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 09:00:37 +0200 (CEST)
-Received: from localhost ([::1]:34108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21D541FA990
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 09:08:35 +0200 (CEST)
+Received: from localhost ([::1]:39500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jl5aG-00067z-HN
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 03:00:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42626)
+	id 1jl5hy-0003NW-6V
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 03:08:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43096)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jl5Os-00045V-Gr; Tue, 16 Jun 2020 02:48:50 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:34877)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jl5Oq-0005vv-TH; Tue, 16 Jun 2020 02:48:50 -0400
-Received: by mail-wr1-x434.google.com with SMTP id x14so19512412wrp.2;
- Mon, 15 Jun 2020 23:48:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=IBTBkFR/YEjrp64VasvObHCtZdi9NsS/V+t+Y9ZL8J8=;
- b=AW/pHZ7bYkh80bqb5GBrA2ot+ly5QATIYRBpLR6pFTMbO6Rn6h7fZ6bJBFcdvb00vq
- lkIBO7NuJPdVNm5a1XOTTPMIIIv5rtwq6VNZPABi74dIl8MwebuUe7KkFeaWThx650PM
- tjUUPLiU/blB6hqHWr2EUOWX3Wo8cceUzGfpGyRGAf7yrE9BvozkanysunHtXeTHjJpk
- NhirUbzeQxj77C1qpu6s8Gcg/y9SuAkZzDdJ/94uBHVR4H/06IHvwCZSSrJi/34Z58jG
- zuwOf3cXoUQa6r4Ex9xUMLdvN060c+7rEtQtPPuGG3sN9s9QmWnO0/CWshWoWa3TR7mq
- tYfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=IBTBkFR/YEjrp64VasvObHCtZdi9NsS/V+t+Y9ZL8J8=;
- b=Bm/fkMjv6kFnfSxqhsg8vT4m+apFTIxCh9kiBABvQmJHuXgqeIhlb8ayz2XM+Aiaxg
- YOdmMNsvmMD/FSHpRXMBAcT1CuBY3axWYIZEWVyerVCXnl3eqT296Ex7zCnUf+Qn+/Ig
- bJFYXnDH59knwyswGJcibNL+XJKri/0s3uC4tGmjXRodZ1Qblg+2Loc9M/AnrgQgF+2R
- YlYmiPDJu2zF3eGBRZtod1vcm9hNbWq8eHIDARNzu5k1+oQXJt1SeGRJkiMfu68JKRmP
- 1Da8DhSKZvXOu7Hsml3Q7CRYAEzyxagG9L1PvuaaVYn3/cHEzQ8eGbU4CvqG0Y9uUzIN
- Km9Q==
-X-Gm-Message-State: AOAM5333ydLEqM4wibGIgAzQgNzBsXV9OUAyrMsdPLIhO3WaQEdh4Pw0
- cgJC3Qw/c09YJZnaB+E7GGGCVTIH
-X-Google-Smtp-Source: ABdhPJzMwXGMuX/mMzT0Jhr+VtD1lY2O5vOZqfNdkheiwpgw7eDnegHOyVpSCF0d69p5rB3JbxIuSA==
-X-Received: by 2002:adf:ef47:: with SMTP id c7mr1475858wrp.57.1592290126386;
- Mon, 15 Jun 2020 23:48:46 -0700 (PDT)
-Received: from [192.168.1.41] (181.red-88-10-103.dynamicip.rima-tde.net.
- [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id z16sm27719521wrm.70.2020.06.15.23.48.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 Jun 2020 23:48:45 -0700 (PDT)
-Subject: Re: [PULL 16/84] macio: Put "macio-nvram" device on the macio bus
-To: BALATON Zoltan <balaton@eik.bme.hu>, Markus Armbruster <armbru@redhat.com>
-References: <20200615204008.3069956-1-armbru@redhat.com>
- <20200615204008.3069956-17-armbru@redhat.com>
- <alpine.BSF.2.22.395.2006152257240.23601@zero.eik.bme.hu>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <8203f0bc-4cdb-a91d-38a4-2df48451204d@amsat.org>
-Date: Tue, 16 Jun 2020 08:48:44 +0200
+ (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
+ id 1jl5S9-0001Ix-UC
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 02:52:13 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:44298
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
+ id 1jl5S8-0006X4-3V
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 02:52:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1592290331;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VSHQnkty5Ij6bYsBZIFxzy52uokPml9YjdRl+QNYvZU=;
+ b=XaOcY8iJgn1xMgay95m3CRkR65X/wp4VEaX2vhFDRmzdBX1vgQg9/NrhOk1BPYrHR6jzbY
+ tVmSoP32q5AUzxmd5bewMXlsrOtkzo95KCee+um/8r4lw3glHQsp+ZLPjHpw3p5+E2HK4S
+ drGvDo7Ng4JeYvXVMeMcXEu8T8Zzn94=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-417-IkjC-mpRM8e1y2B5iyEqrg-1; Tue, 16 Jun 2020 02:52:07 -0400
+X-MC-Unique: IkjC-mpRM8e1y2B5iyEqrg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0C56D107B467;
+ Tue, 16 Jun 2020 06:52:06 +0000 (UTC)
+Received: from [10.40.193.154] (unknown [10.40.193.154])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C62865D9CD;
+ Tue, 16 Jun 2020 06:52:04 +0000 (UTC)
+Subject: Re: [PATCH v2 1/2] qemu-options.hx: Mark all hmat-cache attributes
+ required
+To: Markus Armbruster <armbru@redhat.com>
+References: <cover.1591794890.git.mprivozn@redhat.com>
+ <b6d3bc2ac8b38a419c98fb5eb1454ffbcb4fa172.1591794890.git.mprivozn@redhat.com>
+ <87a714bvy6.fsf@dusky.pond.sub.org>
+From: Michal Privoznik <mprivozn@redhat.com>
+Message-ID: <3a1c4ea2-dbca-4184-f2e1-0d94a8224811@redhat.com>
+Date: Tue, 16 Jun 2020 08:52:03 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <alpine.BSF.2.22.395.2006152257240.23601@zero.eik.bme.hu>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <87a714bvy6.fsf@dusky.pond.sub.org>
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=mprivozn@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 02:45:57
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,23 +85,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Igor Mammedov <imammedo@redhat.com>, Liu Jingqi <jingqi.liu@intel.com>,
+ Tao Xu <tao3.xu@intel.com>, qemu-devel@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/15/20 10:58 PM, BALATON Zoltan wrote:
-> On Mon, 15 Jun 2020, Markus Armbruster wrote:
->> macio_oldworld_init() creates a "macio-nvram", sysbus device, but
->> neglects to but it on a bus.
+On 6/15/20 10:00 AM, Markus Armbruster wrote:
+> Cc: the people involved in commit c412a48d4d "numa: Extend CLI to
+> provide memory side cache information".
 > 
-> This letter   ^ is upside down :-) (but -> put).
-
-Not sure this is the reason, but Markus is German, and I often listen
-Germans pronouncing 'B' and 'P' very similar (like 'V' and 'B' in
-Spain).
+> Michal Privoznik <mprivozn@redhat.com> writes:
+> 
+>> The documentation to `-numa hmat-cache` says that @node-id, @size
+>> and @level are the only required attributes. The rest
+>> (@associativity, @policy and @line) is optional. Well, not quite
+>> - if I try to start QEMU with only the three required attributes
+>> defined the QAPI code is complaining about associativity missing.
+> 
+> Only because @associativity visited first.
+> 
+>> According to QAPI all attributes are required. Make the docs
+>> reflect that.
+> 
+> Correct.
+> 
+>> Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
+>> ---
+>>   qemu-options.hx | 4 ++--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>
 
 > 
-> Regards,
-> BALATON Zoltan
+> Assuming non-optional is what we want:
+> Reviewed-by: Markus Armbruster <armbru@redhat.com>
+> 
+
+Indeed, it is:
+
+https://lists.nongnu.org/archive/html/qemu-devel/2020-05/msg08411.html
+
+Thanks,
+Michal
+
 
