@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CEDB1FB505
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:52:33 +0200 (CEST)
-Received: from localhost ([::1]:51070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16F121FB510
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:54:23 +0200 (CEST)
+Received: from localhost ([::1]:59600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlCwy-0006Et-4w
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:52:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58474)
+	id 1jlCyk-0001FA-3u
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:54:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCRK-0004zc-39; Tue, 16 Jun 2020 10:19:50 -0400
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:36683)
+ id 1jlCRL-00054N-Jh; Tue, 16 Jun 2020 10:19:51 -0400
+Received: from mail-oi1-x234.google.com ([2607:f8b0:4864:20::234]:35796)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCRI-00074V-Gg; Tue, 16 Jun 2020 10:19:49 -0400
-Received: by mail-oi1-x243.google.com with SMTP id a137so19385672oii.3;
- Tue, 16 Jun 2020 07:19:47 -0700 (PDT)
+ id 1jlCRJ-00074e-Vu; Tue, 16 Jun 2020 10:19:51 -0400
+Received: by mail-oi1-x234.google.com with SMTP id k4so19389344oik.2;
+ Tue, 16 Jun 2020 07:19:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=YubYL2qiQdxJE/c9v4DMH9xx2TRFI5UD3MIdHmHvxO0=;
- b=J9iP3/rt11NnS2JIkkFCVKlInENyvsvcLl3wBvpZnwpQ9VH735zPiRF4TQiS20iHah
- iJooTCQlYK8amOTh25n1wfaxMaeITCLg9rFRuqr5PHV2q+W67afMbwlXl5cS1JbWG6ea
- rJI6THvY7y2EwGtywEo5ChLT34S3R4tY8JooDoucRD11IEIa4fkVrb4m68ZBM+Dt0mUk
- 7MDB+eoOqZymZArvGYU+JjMdn73Q0GYze8ztvpFgWjbi8JwOEQGy99T6j5qvqWXod7v7
- GQkgX/iwMR6eiQ/a15G8cDyFAnyxra/zJCcHDfjyiQXIuWz7zPeyo0EuV+EUrG0uqfmZ
- k/8g==
+ bh=T0nZx/piA2xOnjj6Pt8s+fwsT7brwJJgsCHLxedaAr4=;
+ b=LtJggvb3hRlpd9yNL4y7qgfhSULxRu8xMAHg9OQiQYFvE2deCSoWovE+KrNkhLtFgK
+ g1Uzalyku6KhWPpi/xg31x2JP5XM3QN1n1cixwMqWKLItkNr1YImCH6oiHGt+YchsNlD
+ F+Tgv66b0jaWt4t41XbtyDgJrnZGYAOztuRIT28AosSm8ELqbDgf5TbZnWbYyajRCf9j
+ 8X792lEobbHC0l0Mhx4h6CAu44HPQMbfymDkSA/lNOVYWRAyNdeycACymjMS8aj6+M7j
+ gewljXzxP0LKiqHMpcEenCc6OAJ+jvKXMxOvFyVturt7ZwPPCJCTseLHX6x7VOOA8fZM
+ LCsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=YubYL2qiQdxJE/c9v4DMH9xx2TRFI5UD3MIdHmHvxO0=;
- b=m+ErQD7umEmjSNtFioFPBf2/xEiTdprCA+en6qS16+RAoWq7Xn+xaPfSDpw5t33VT+
- PCIKK/elIEfYK12uY+2xjj5rgPiRonnRobsG2NDqmnhpksfiVHg4OTemI1zZMbVEDC9I
- kNGwsZcxOGBKJ9d4FK+PGJ6NueG9DcwcYTJ/ASzr5jJ9OqTjVCzGnwtDEUeaHmOHQC56
- m+yoUzFFdVH6DQxmH4Stob0geYAXaebg2dRjUwT/SO9c3YQv2aR3TtEIHDJBg4Bz/Yj9
- jKwMtynFmkGbEOh2xgcFQpCkC18e/6p0UMPJnqoh+gJzglRrY/SjDqerYyEEackMP9xg
- xFbA==
-X-Gm-Message-State: AOAM533yI194MFORl8GJCvW0oxD/1pH7jMLy73/PjBwSMFKJ0nlwctA1
- UH9qHppt9ZZXMP+J7GwVaTpX+cdC5v0=
-X-Google-Smtp-Source: ABdhPJwVCkzUVrTV3b8FUsAeQsRC1HL+buu9YdVRXOVUasx7Bt/UR3QMVLKrqrlGQps7ATeBBYcFxw==
-X-Received: by 2002:aca:470d:: with SMTP id u13mr3485056oia.157.1592317186712; 
- Tue, 16 Jun 2020 07:19:46 -0700 (PDT)
+ bh=T0nZx/piA2xOnjj6Pt8s+fwsT7brwJJgsCHLxedaAr4=;
+ b=kyPcVAsSnl/CFZGoD+sZqy2DQdqveo6R+Y9u0bEHpQGxaA+59bC3DFGzQlTug3pYZm
+ 1GUuGjYDiLxNB4zZgtZnkQKfsTdk1xD7pfya6z0SO6VhzVZq1jFAfAqtqXpANpztto7g
+ GJMZJSJj5V7jd7BRUYDkNxdSWW2+n/MGoOuUOcH1DaE1/3/MUQCpbf+Lty/A4kkNBBW5
+ nzmNHi5EanAKpVn3xRROGftkcJIi96uVuLjJ4NsPX13xB2xSSCezwTPYeARoI2AwRWby
+ K9YzBpkW//E0kUxEBWIfYzGoYt/DLknm/Zd8lArEoM+k0nCy6E/Iul58lQ8VLEQKOGdi
+ fS5g==
+X-Gm-Message-State: AOAM533z9FjApJFWSY09uYE5kPcxvT+Lt6E5/BtTGmzMF18bR63/u3aq
+ ImsoHZz8IaKDjchvNx6Vu5cMe9hjti4=
+X-Google-Smtp-Source: ABdhPJyc91p4dToSg/uUtVelxH5IvXu13kgzSqTdC4BOVk2g1cQQg1ozCvculUYOvBnX/F70eQI+6A==
+X-Received: by 2002:aca:f455:: with SMTP id s82mr1185364oih.178.1592317188154; 
+ Tue, 16 Jun 2020 07:19:48 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id 6sm4271111ooy.18.2020.06.16.07.19.45
+ by smtp.gmail.com with ESMTPSA id c9sm4032034oov.35.2020.06.16.07.19.47
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 16 Jun 2020 07:19:46 -0700 (PDT)
+ Tue, 16 Jun 2020 07:19:47 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 07/78] virtio-blk: fix out-of-bounds access to bitmap in
- notify_guest_bh
-Date: Tue, 16 Jun 2020 09:14:36 -0500
-Message-Id: <20200616141547.24664-8-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 08/78] numa: remove not needed check
+Date: Tue, 16 Jun 2020 09:14:37 -0500
+Message-Id: <20200616141547.24664-9-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
 References: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
- envelope-from=flukshun@gmail.com; helo=mail-oi1-x243.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::234;
+ envelope-from=flukshun@gmail.com; helo=mail-oi1-x234.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -81,44 +80,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Li Hangjing <lihangjing@baidu.com>, qemu-stable@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>, qemu-stable@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Li Hangjing <lihangjing@baidu.com>
+From: Igor Mammedov <imammedo@redhat.com>
 
-When the number of a virtio-blk device's virtqueues is larger than
-BITS_PER_LONG, the out-of-bounds access to bitmap[ ] will occur.
+Currently parse_numa_node() is always called from already numa
+enabled context.
+Drop unnecessary check if numa is supported.
 
-Fixes: e21737ab15 ("virtio-blk: multiqueue batch notify")
-Cc: qemu-stable@nongnu.org
-Cc: Stefan Hajnoczi <stefanha@redhat.com>
-Signed-off-by: Li Hangjing <lihangjing@baidu.com>
-Reviewed-by: Xie Yongji <xieyongji@baidu.com>
-Reviewed-by: Chai Wen <chaiwen@baidu.com>
-Message-id: 20191216023050.48620-1-lihangjing@baidu.com
-Message-Id: <20191216023050.48620-1-lihangjing@baidu.com>
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-(cherry picked from commit 725fe5d10dbd4259b1853b7d253cef83a3c0d22a)
+Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+Message-Id: <1576154936-178362-2-git-send-email-imammedo@redhat.com>
+Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+(cherry picked from commit 5275db59aa7ff8a26bd6aa5d07cb4d53de5cfab5)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- hw/block/dataplane/virtio-blk.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/core/numa.c | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
-diff --git a/hw/block/dataplane/virtio-blk.c b/hw/block/dataplane/virtio-blk.c
-index 119906a5fe..1b52e8159c 100644
---- a/hw/block/dataplane/virtio-blk.c
-+++ b/hw/block/dataplane/virtio-blk.c
-@@ -67,7 +67,7 @@ static void notify_guest_bh(void *opaque)
-     memset(s->batch_notify_vqs, 0, sizeof(bitmap));
+diff --git a/hw/core/numa.c b/hw/core/numa.c
+index e3332a984f..19f082de12 100644
+--- a/hw/core/numa.c
++++ b/hw/core/numa.c
+@@ -83,10 +83,6 @@ static void parse_numa_node(MachineState *ms, NumaNodeOptions *node,
+         return;
+     }
  
-     for (j = 0; j < nvqs; j += BITS_PER_LONG) {
--        unsigned long bits = bitmap[j];
-+        unsigned long bits = bitmap[j / BITS_PER_LONG];
+-    if (!mc->cpu_index_to_instance_props || !mc->get_default_cpu_node_id) {
+-        error_setg(errp, "NUMA is not supported by this machine-type");
+-        return;
+-    }
+     for (cpus = node->cpus; cpus; cpus = cpus->next) {
+         CpuInstanceProperties props;
+         if (cpus->value >= max_cpus) {
+@@ -178,9 +174,8 @@ void parse_numa_distance(MachineState *ms, NumaDistOptions *dist, Error **errp)
+ void set_numa_options(MachineState *ms, NumaOptions *object, Error **errp)
+ {
+     Error *err = NULL;
+-    MachineClass *mc = MACHINE_GET_CLASS(ms);
  
-         while (bits != 0) {
-             unsigned i = j + ctzl(bits);
+-    if (!mc->numa_mem_supported) {
++    if (!ms->numa_state) {
+         error_setg(errp, "NUMA is not supported by this machine-type");
+         goto end;
+     }
 -- 
 2.17.1
 
