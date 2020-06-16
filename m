@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A7A81FB41C
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:21:50 +0200 (CEST)
-Received: from localhost ([::1]:58772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85EDC1FB413
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:20:10 +0200 (CEST)
+Received: from localhost ([::1]:54376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlCTF-0006fD-2m
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:21:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57172)
+	id 1jlCRd-0004D1-Fa
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:20:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57192)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCPC-00012M-9x; Tue, 16 Jun 2020 10:17:38 -0400
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:44840)
+ id 1jlCPE-00016p-5N; Tue, 16 Jun 2020 10:17:40 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:46973)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCP9-0006Wd-Si; Tue, 16 Jun 2020 10:17:38 -0400
-Received: by mail-oi1-x244.google.com with SMTP id x202so19359260oix.11;
- Tue, 16 Jun 2020 07:17:35 -0700 (PDT)
+ id 1jlCPC-0006XE-4E; Tue, 16 Jun 2020 10:17:39 -0400
+Received: by mail-oi1-x243.google.com with SMTP id 25so19331761oiy.13;
+ Tue, 16 Jun 2020 07:17:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=h/hE49QX8YmTKtVnyAn2SmarU/Zwjxz9HKFw4F8vB1M=;
- b=cILtWzvP4L4u8FWC7MUMCvZCpDhksJ3K9fyP7VqsGLO7SFlvecUq1G3xrhO9Q5wZs0
- zx1GtJ/plwR6yaDF1sRIdhFHQe+MLOGcb7oK72YN2yXvjxzBzY8ohiYEwzNKPPmQKNkr
- JS4Ok+3CQUfplnqsOKCKtF4L4CiEvURUXv9tdT8jvaPdfqdeSoa+ZArrvONNG5w0XYWq
- cjAcKl2Dpwt87pK2BXglW/H6CsA0jpaUIwxILeeUZNSN6YpSdgBkJn8HGylLpTuEhl2r
- TaB8HMSNq81nO9PHX2qJrI5TUt0LTkz4KG1AgVS3v+1wx8rYthUv9sFmfmkNtaql0mvz
- iLMQ==
+ bh=Oa9V802o+PKNgGwDm+Qufd06GDhvGLD8PaFrQvvJnXo=;
+ b=pPKBkcN9VXNTxdWjT62sbbWXk3bR/ijQ7bpqv36i5g+tQaT3dF6iysnzpw3h3tTAGc
+ WerjyMVdKhjB1ILkOo/RR8Zuq4OPdu+fPjYflJMnJCcs+nv9sTeSi8UBtOYHayV6menC
+ ZQ/Ma1ipzKeAkiVZmHbYZII+8SR6ZN8NRUQ70H0xzQ5lmXUy+i6KqdNiVOj40ed0AtfM
+ DPUj+5uTHympnhH5cPr/+NdNw4Pq5v3PmEBeGu/O3vhgC6Q2HXPpCWdo7SyErxh6kk9N
+ HkbpLySXH15EWrbOpceFRCBAb81vx4ZtRzUvtWKUlSxmtQ4DPm9yN1MsHA7JbU5TNhbO
+ GRnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=h/hE49QX8YmTKtVnyAn2SmarU/Zwjxz9HKFw4F8vB1M=;
- b=RL6lAOIVDNsQjdTuu+dhNTuY2gfKgvUuBfuXhJ4XFSIkUvs43tshIE6rXCrMKF5DGE
- gGhO1VH5Jx4tvb4gdhBWKpdmXIP7QqWFSriMLKoFyp2LZsFd0YdSGgYmR4BfD/bCaUD0
- x3dPWfbmRWMHr0WWs0wDdfLUiKodD1U1RK1dJ9fM7kqRDleJ3GMqVXg1kQSrtI5wt01e
- qKaBZe6Z0WJOp37/irVGevi14eQmRmGAiIXEDa4PcyYyrtprIJQcmQVr50/sKgyOtNrn
- gbQvKwAg3S4CT0pXp17oC70AdhNZQft9s64n72Bb8xRlL6a0cxbrWt7idVQwOyYnLW5u
- Ncjg==
-X-Gm-Message-State: AOAM533DcSckUyut4CTF5VJUGFD7xg6+6dOo/WMWvBG42iktjaxJyUjM
- P5U1fIdMlCfT6d+s+t04woeDyGkE
-X-Google-Smtp-Source: ABdhPJz73mREHdQ5EcXrsg9AovfPWhWMQdl1n3a4ntKd10hu5WRuCz8K0YAxiFleXmQFkPkZeyi7sw==
-X-Received: by 2002:aca:ba0a:: with SMTP id k10mr3361414oif.13.1592317053984; 
- Tue, 16 Jun 2020 07:17:33 -0700 (PDT)
+ bh=Oa9V802o+PKNgGwDm+Qufd06GDhvGLD8PaFrQvvJnXo=;
+ b=ehfl2s14+WNxaUOHAdz2o0xOgHeTzjsQCHqojCT/1Hf84u9a3B88pOZiW7rAirUrP7
+ bhW6lVWHr9QYk/Ip2nEanXfKkcEG7pCEktUPDTx+qbLDby83zAQZlRm8r/fWkaFO08S9
+ CFdszIHhSoMVs7uX9O0ZxFuKHtcqAnaslyku2kkE5OgI3TCRamSn7g63XGTnwEIHlJAi
+ HGr3mzE0WrUtDjlxvUMrMPoke/cBn4UhkmtUImhxE4BOmxLzhGMlEJE2RY+CJ8nOzWN/
+ 71Ub2qzNsZMXqxFqZnAm1kwDKVm7Qz2ftLTIE2UiHlVoR/BBJI/xl3kOYKSEwIyAiOXA
+ p4+w==
+X-Gm-Message-State: AOAM532IQuWOFDZnsXZPnwzd/wA4QRe2CexnpFZve/j23g9ghA7nWCI2
+ 8H/Grig70zwQRdGeh3AStIeCIyj4
+X-Google-Smtp-Source: ABdhPJx0bxk2406g7lFlhHW5g5/MKrysHiVPGT7MC6cu+nFQv3oCGGBGtcmwqBr81Qm8k6ahKblNEQ==
+X-Received: by 2002:aca:f0d:: with SMTP id 13mr3343149oip.90.1592317056370;
+ Tue, 16 Jun 2020 07:17:36 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id g3sm4100629oov.21.2020.06.16.07.17.32
+ by smtp.gmail.com with ESMTPSA id w10sm4086944otp.44.2020.06.16.07.17.35
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 16 Jun 2020 07:17:33 -0700 (PDT)
+ Tue, 16 Jun 2020 07:17:35 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 10/78] backup-top: Begin drain earlier
-Date: Tue, 16 Jun 2020 09:14:39 -0500
-Message-Id: <20200616141547.24664-11-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 11/78] arm/arm-powerctl: set NSACR.{CP11,
+ CP10} bits in arm_set_cpu_on()
+Date: Tue, 16 Jun 2020 09:14:40 -0500
+Message-Id: <20200616141547.24664-12-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
 References: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::244;
- envelope-from=flukshun@gmail.com; helo=mail-oi1-x244.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
+ envelope-from=flukshun@gmail.com; helo=mail-oi1-x243.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -80,47 +81,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-stable@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Max Reitz <mreitz@redhat.com>
+From: Niek Linnenbank <nieklinnenbank@gmail.com>
 
-When dropping backup-top, we need to drain the node before freeing the
-BlockCopyState.  Otherwise, requests may still be in flight and then the
-assertion in shres_destroy() will fail.
+This change ensures that the FPU can be accessed in Non-Secure mode
+when the CPU core is reset using the arm_set_cpu_on() function call.
+The NSACR.{CP11,CP10} bits define the exception level required to
+access the FPU in Non-Secure mode. Without these bits set, the CPU
+will give an undefined exception trap on the first FPU access for the
+secondary cores under Linux.
 
-(This becomes visible in intermittent failure of 056.)
+This is necessary because in this power-control codepath QEMU
+is effectively emulating a bit of EL3 firmware, and has to set
+the CPU up as the EL3 firmware would.
 
+Fixes: fc1120a7f5
 Cc: qemu-stable@nongnu.org
-Signed-off-by: Max Reitz <mreitz@redhat.com>
-Message-id: 20191219182638.104621-1-mreitz@redhat.com
-Signed-off-by: Max Reitz <mreitz@redhat.com>
-(cherry picked from commit 503ca1262bab2c11c533a4816d1ff4297d4f58a6)
+Signed-off-by: Niek Linnenbank <nieklinnenbank@gmail.com>
+[PMM: added clarifying para to commit message]
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+(cherry picked from commit 0c7f8c43daf6556078e51de98aa13f069e505985)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- block/backup-top.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ target/arm/arm-powerctl.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/block/backup-top.c b/block/backup-top.c
-index 7cdb1f8eba..818d3f26b4 100644
---- a/block/backup-top.c
-+++ b/block/backup-top.c
-@@ -257,12 +257,12 @@ void bdrv_backup_top_drop(BlockDriverState *bs)
-     BDRVBackupTopState *s = bs->opaque;
-     AioContext *aio_context = bdrv_get_aio_context(bs);
+diff --git a/target/arm/arm-powerctl.c b/target/arm/arm-powerctl.c
+index f77a950db6..b064513d44 100644
+--- a/target/arm/arm-powerctl.c
++++ b/target/arm/arm-powerctl.c
+@@ -104,6 +104,9 @@ static void arm_set_cpu_on_async_work(CPUState *target_cpu_state,
+         /* Processor is not in secure mode */
+         target_cpu->env.cp15.scr_el3 |= SCR_NS;
  
--    block_copy_state_free(s->bcs);
--
-     aio_context_acquire(aio_context);
- 
-     bdrv_drained_begin(bs);
- 
-+    block_copy_state_free(s->bcs);
++        /* Set NSACR.{CP11,CP10} so NS can access the FPU */
++        target_cpu->env.cp15.nsacr |= 3 << 10;
 +
-     s->active = false;
-     bdrv_child_refresh_perms(bs, bs->backing, &error_abort);
-     bdrv_replace_node(bs, backing_bs(bs), &error_abort);
+         /*
+          * If QEMU is providing the equivalent of EL3 firmware, then we need
+          * to make sure a CPU targeting EL2 comes out of reset with a
 -- 
 2.17.1
 
