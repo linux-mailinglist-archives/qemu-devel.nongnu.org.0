@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C52CE1FA53A
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 02:41:13 +0200 (CEST)
-Received: from localhost ([::1]:47674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A9C91FA535
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 02:38:48 +0200 (CEST)
+Received: from localhost ([::1]:40098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jkzf6-0003qz-Sd
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 20:41:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43200)
+	id 1jkzcl-0000ZD-Ei
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jun 2020 20:38:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43152)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jkzZu-0004fH-TU
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 20:35:51 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:46224)
+ id 1jkzZr-0004d1-P7
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 20:35:47 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:46188)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jkzZr-0003ye-NL
- for qemu-devel@nongnu.org; Mon, 15 Jun 2020 20:35:50 -0400
+ id 1jkzZn-0003tf-SW
+ for qemu-devel@nongnu.org; Mon, 15 Jun 2020 20:35:47 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id DDFA0748DDC;
+ by localhost (Postfix) with SMTP id D9B57748DDA;
  Tue, 16 Jun 2020 02:35:40 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 689A37482C8; Tue, 16 Jun 2020 02:35:40 +0200 (CEST)
-Message-Id: <a73902e1e3a50116ad87d210cac8b0b90e4de04d.1592266950.git.balaton@eik.bme.hu>
+ id 5FA1374633E; Tue, 16 Jun 2020 02:35:40 +0200 (CEST)
+Message-Id: <c1f83d989ce04c9838eaf2ceaa42455932e16b49.1592266950.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1592266950.git.balaton@eik.bme.hu>
 References: <cover.1592266950.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v2 3/8] sm501: Ignore no-op blits
+Subject: [PATCH v2 1/8] sm501: Fix bounds checks
 Date: Tue, 16 Jun 2020 02:22:30 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -63,31 +63,42 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some guests seem to try source copy blits with same source and dest
-which are no-op so avoid calling pixman for these.
+We don't need to add width to pitch when calculating last point, that
+would reject valid ops within the card's local_mem.
 
+Fixes: b15a22bbcbe6a78dc3d88fe3134985e4cdd87de4
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/display/sm501.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ hw/display/sm501.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/hw/display/sm501.c b/hw/display/sm501.c
-index 85d54b598f..3397ca9fbf 100644
+index edd8d24a76..5ae320ddc3 100644
 --- a/hw/display/sm501.c
 +++ b/hw/display/sm501.c
-@@ -788,6 +788,11 @@ static void sm501_2d_operation(SM501State *s)
-                               (rop2_source_is_pattern ?
-                                   " with pattern source" : ""));
-             }
-+            /* Ignore no-op blits, some guests seem to do this */
-+            if (src_base == dst_base && src_pitch == dst_pitch &&
-+                src_x == dst_x && src_y == dst_y) {
-+                break;
-+            }
-             /* Check for overlaps, this could be made more exact */
-             uint32_t sb, se, db, de;
-             sb = src_base + src_x + src_y * (width + src_pitch);
+@@ -723,8 +723,8 @@ static void sm501_2d_operation(SM501State *s)
+         dst_y -= height - 1;
+     }
+ 
+-    if (dst_base >= get_local_mem_size(s) || dst_base +
+-        (dst_x + width + (dst_y + height) * (dst_pitch + width)) *
++    if (dst_base >= get_local_mem_size(s) ||
++        dst_base + (dst_x + width + (dst_y + height) * dst_pitch) *
+         (1 << format) >= get_local_mem_size(s)) {
+         qemu_log_mask(LOG_GUEST_ERROR, "sm501: 2D op dest is outside vram.\n");
+         return;
+@@ -749,8 +749,8 @@ static void sm501_2d_operation(SM501State *s)
+             src_y -= height - 1;
+         }
+ 
+-        if (src_base >= get_local_mem_size(s) || src_base +
+-            (src_x + width + (src_y + height) * (src_pitch + width)) *
++        if (src_base >= get_local_mem_size(s) ||
++            src_base + (src_x + width + (src_y + height) * src_pitch) *
+             (1 << format) >= get_local_mem_size(s)) {
+             qemu_log_mask(LOG_GUEST_ERROR,
+                           "sm501: 2D op src is outside vram.\n");
 -- 
 2.21.3
 
