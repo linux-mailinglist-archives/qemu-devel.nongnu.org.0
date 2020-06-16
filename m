@@ -2,70 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 937FE1FACCE
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 11:38:00 +0200 (CEST)
-Received: from localhost ([::1]:43252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F41AB1FAD01
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 11:46:57 +0200 (CEST)
+Received: from localhost ([::1]:57388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jl82Z-0003PY-J6
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 05:37:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46138)
+	id 1jl8BE-0001lg-Lt
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 05:46:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jl80g-0001em-N0
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 05:36:03 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:42771
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jl80f-0000No-A0
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 05:36:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592300160;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=VYHHWc9u8FwNYjbF4kyrTR113dbvf8NpChpRI0AbqT8=;
- b=QdRYHoG5WEvGcjcWB1v2HUJ4kZJGFIF+K2OZaE/nETSJnHakNUQDIAhVJc+Fl1giX13X0b
- SUWM3ZzrtIhw9Mi5SCElwvzLeLdKx7X9UhxipPLy9xxw4r0CCs43qbciumrvV3CTs96SOJ
- TKVCUnBnDBIh2+fnR/HDL8Yv9oNzJkI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-63-xwkLMQcSOZ-YBlyV9u07QA-1; Tue, 16 Jun 2020 05:35:57 -0400
-X-MC-Unique: xwkLMQcSOZ-YBlyV9u07QA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C12B51937FC4;
- Tue, 16 Jun 2020 09:35:55 +0000 (UTC)
-Received: from work-vm (ovpn-112-42.ams2.redhat.com [10.36.112.42])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E6DEB7BA14;
- Tue, 16 Jun 2020 09:35:53 +0000 (UTC)
-Date: Tue, 16 Jun 2020 10:35:51 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Keqian Zhu <zhukeqian1@huawei.com>
-Subject: Re: [PATCH v2] migration: Count new_dirty instead of real_dirty
-Message-ID: <20200616093551.GA2790@work-vm>
-References: <20200616021059.25984-1-zhukeqian1@huawei.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jl8A8-0000ok-IH; Tue, 16 Jun 2020 05:45:48 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:42357)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jl8A7-00023o-4I; Tue, 16 Jun 2020 05:45:48 -0400
+Received: by mail-wr1-x442.google.com with SMTP id p5so20015348wrw.9;
+ Tue, 16 Jun 2020 02:45:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=BkfrXS6jUPlOeSckQNT81vLmPXJox8SVcSY2Hn3/dQU=;
+ b=X5xFtwLtOOEPDu0XJMfuwgOijMyOKlho5ap4523Ap0QtiJ+AbQF1TQ/08/8QQ8sMFf
+ vxFP0joX+6+Hx0RnwQ3FGwIotstkyizRgUcBB1Rq4iQUVYR5AUd7bNmLgi7tItR8IGrf
+ MiRZDPnqsEC98BuFIUDPAqzTi2i1Nm9ACMSAqOkpk5VAaVxjLUsoUkGCv1YIXLs9FcWw
+ uJRBmElBvPTITsT0yXMy3ksMeUXng0QIv4b1R87a6woicM2B6gae/zh4eWqsPaDZmlwe
+ oHzHDelx28QdtJOvpSi+SnVxqhydoim9pAgvPD11tX4oceRsNerWwU9QbS19URDR7lHb
+ 7WBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=BkfrXS6jUPlOeSckQNT81vLmPXJox8SVcSY2Hn3/dQU=;
+ b=fTpVIK8iabNa0cEF/R3P6QQyYTfTfBY7HyoOen81cX+SF+kRNszeoLTzer3izghaMP
+ BNNcrQ3BV+/EsExLT8iEKPshddchaQZTLCDHSjifAc5WjTxyVS3gJvgSP8iRcy27/m/Q
+ TyujDbR8UFAo9mSVyTetyW/FYOwAP7th/XkyDjFYmjfXdCax+PcCzeKMCAK7X/npfyJn
+ kwXiZQrDGVOIYrn75DVqHRHWcbVHudFCa6hKNdGakK61HfokIUUT2zAB6HX5qZNDExxb
+ tOUmCDty4MvoOwsf5IilKPv5DCC+JOqkPeaBlxBGXgJeKoQnhDyL81Vq2sW0nMxW/ZZT
+ VQ9A==
+X-Gm-Message-State: AOAM532e7VePo7IuAgNRnBU95bCmvnLYv46/lHf8VHKIIkMKaHdbBwPY
+ T/CoM0U/CUYLwUXmms+upF7qVG/t
+X-Google-Smtp-Source: ABdhPJwi47aKpRcMrb9z4W5IBm0LR9XQMl0nOFjQFxMuHqRR5j9j2q6BJTB5KdWu69xA5EOVJV4upw==
+X-Received: by 2002:adf:e587:: with SMTP id l7mr2155993wrm.352.1592300745151; 
+ Tue, 16 Jun 2020 02:45:45 -0700 (PDT)
+Received: from localhost.localdomain
+ (181.red-88-10-103.dynamicip.rima-tde.net. [88.10.103.181])
+ by smtp.gmail.com with ESMTPSA id o82sm3254017wmo.40.2020.06.16.02.45.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 16 Jun 2020 02:45:44 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/2] hw/misc/pca9552: Trace LEDs events,
+ make LEDs 13-15 as GPIOs
+Date: Tue, 16 Jun 2020 11:45:40 +0200
+Message-Id: <20200616094542.25415-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
-In-Reply-To: <20200616021059.25984-1-zhukeqian1@huawei.com>
-User-Agent: Mutt/1.14.0 (2020-05-02)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 02:46:07
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,86 +84,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhang.zhanghailiang@huawei.com, Paolo Bonzini <pbonzini@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Chao Fan <fanc.fnst@cn.fujitsu.com>,
- qemu-devel@nongnu.org, qemu-arm@nongnu.org, jianjay.zhou@huawei.com,
- wanghaibin.wang@huawei.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
+ Joaquin de Andres <me@xcancerberox.com.ar>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Esteban Bosse <estebanbosse@gmail.com>, qemu-arm@nongnu.org,
+ Joel Stanley <joel@jms.id.au>, Guenter Roeck <linux@roeck-us.net>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Keqian Zhu (zhukeqian1@huawei.com) wrote:
-> real_dirty_pages becomes equal to total ram size after dirty log sync
-> in ram_init_bitmaps, the reason is that the bitmap of ramblock is
-> initialized to be all set, so old path counts them as "real dirty" at
-> beginning.
-> 
-> This causes wrong dirty rate and false positive throttling at the end
-> of first ram save iteration.
-> 
-> Signed-off-by: Keqian Zhu <zhukeqian1@huawei.com>
+The PCA9552 LEDs 13-15 can also be used as GPIOs.
 
-Since this function already returns num_dirty, why not just change the
-caller to increment a counter based off the return value?
+Philippe Mathieu-Daudé (2):
+  hw/misc/pca9552: Trace LED On/Off events
+  hw/misc/pca9552: Make LEDs 13-15 also GPIOs
 
-Can you point to the code which is using this value that triggers the
-throttle?
+ include/hw/misc/pca9552.h |  2 ++
+ hw/misc/pca9552.c         | 25 +++++++++++++++++++++++++
+ hw/misc/trace-events      |  3 +++
+ 3 files changed, 30 insertions(+)
 
-Dave
-
-
-> ---
-> Changelog:
-> 
-> v2:
->  - use new_dirty_pages instead of accu_dirty_pages.
->  - adjust commit messages.
-> 
-> ---
->  include/exec/ram_addr.h | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
-> 
-> diff --git a/include/exec/ram_addr.h b/include/exec/ram_addr.h
-> index 7b5c24e928..a95e2e7c25 100644
-> --- a/include/exec/ram_addr.h
-> +++ b/include/exec/ram_addr.h
-> @@ -443,7 +443,7 @@ static inline
->  uint64_t cpu_physical_memory_sync_dirty_bitmap(RAMBlock *rb,
->                                                 ram_addr_t start,
->                                                 ram_addr_t length,
-> -                                               uint64_t *real_dirty_pages)
-> +                                               uint64_t *new_dirty_pages)
->  {
->      ram_addr_t addr;
->      unsigned long word = BIT_WORD((start + rb->offset) >> TARGET_PAGE_BITS);
-> @@ -469,7 +469,6 @@ uint64_t cpu_physical_memory_sync_dirty_bitmap(RAMBlock *rb,
->              if (src[idx][offset]) {
->                  unsigned long bits = atomic_xchg(&src[idx][offset], 0);
->                  unsigned long new_dirty;
-> -                *real_dirty_pages += ctpopl(bits);
->                  new_dirty = ~dest[k];
->                  dest[k] |= bits;
->                  new_dirty &= bits;
-> @@ -502,7 +501,6 @@ uint64_t cpu_physical_memory_sync_dirty_bitmap(RAMBlock *rb,
->                          start + addr + offset,
->                          TARGET_PAGE_SIZE,
->                          DIRTY_MEMORY_MIGRATION)) {
-> -                *real_dirty_pages += 1;
->                  long k = (start + addr) >> TARGET_PAGE_BITS;
->                  if (!test_and_set_bit(k, dest)) {
->                      num_dirty++;
-> @@ -511,6 +509,7 @@ uint64_t cpu_physical_memory_sync_dirty_bitmap(RAMBlock *rb,
->          }
->      }
->  
-> +    *new_dirty_pages += num_dirty;
->      return num_dirty;
->  }
->  #endif
-> -- 
-> 2.19.1
-> 
-> 
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+-- 
+2.21.3
 
 
