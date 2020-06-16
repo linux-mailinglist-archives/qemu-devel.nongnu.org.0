@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09FA61FB51E
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:56:24 +0200 (CEST)
-Received: from localhost ([::1]:41108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91E771FB53D
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:58:50 +0200 (CEST)
+Received: from localhost ([::1]:52664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlD0h-0005Dc-2V
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:56:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58354)
+	id 1jlD33-0001UW-H4
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:58:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58410)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCR7-0004VW-HZ; Tue, 16 Jun 2020 10:19:37 -0400
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:36792)
+ id 1jlCRC-0004gp-Fy; Tue, 16 Jun 2020 10:19:42 -0400
+Received: from mail-ot1-x335.google.com ([2607:f8b0:4864:20::335]:33095)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCR6-00072c-0z; Tue, 16 Jun 2020 10:19:37 -0400
-Received: by mail-ot1-x341.google.com with SMTP id 97so16065397otg.3;
- Tue, 16 Jun 2020 07:19:35 -0700 (PDT)
+ id 1jlCRA-000738-DS; Tue, 16 Jun 2020 10:19:42 -0400
+Received: by mail-ot1-x335.google.com with SMTP id n6so16070437otl.0;
+ Tue, 16 Jun 2020 07:19:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=DY0aK3a0zzQFlyBspZJZerQeFJhCLgUi3QlXt9plQig=;
- b=KVNvsW7Nik16xiQC+aVzXxCYDyZvEo/itv2N2dmfOzRmzaKcSgai9fAJ2qR/r7J7fI
- BRE8dsytgwvXGGGybL4szY4884avOPdFSZbjJbdUisZGYhr7fW7yS3iz1gMEFSgC56AZ
- 7OoTpbdtao0z3WMfeHUsxhfCXpui7Auc5f+QQYx7/vOKbcAbDoZKT+8Bgv6PmI7alD5I
- nNyktUJjsXCo+fCf1V3Zzj0cddZ9YfY6r4QIGyMSXjXpv9kMsrGAx2LDdVSAo01uNa5M
- WMqQMryYBjiY4JJc/mVTFA2cVfXZmpo5zo5fxv0m8+gnPoqLCH/lFOBSijnDGKyYFfh6
- G8mA==
+ bh=wTa4JXsyGprfTOQ8Gi0ZAfpppR1mnoFXQbPOUyCGbeA=;
+ b=AHDiXuVaW8mbWnYKHaVlKB3o0TzMQMfM2eCdrO/vtPwaWmz/WZ7P260cFZU9loLjkU
+ tauKFVKcHaHB8gceFghgQLCFmw1X2qrs/6lp810NpfwskmPY0MmE4oiEj5tB5+P/P+ic
+ c3h1QyxhK5k+PjORnJXr+HqNqFj4f71Ybyo4asirih8bIX9vKczeDp+mSxDxFWCQfGvK
+ DMAMkD+BJGfgdHj2Wp+y0vZN87IUqjmFLs0Mu3IZeuPTPuxVhsloI75KGIEPq/nf2wtB
+ bAjRX1DB0Uruq60H5UQOJOnFsrkILPYBzG4275/pD/I0sw9OfFzVMBsqC+p6t8SzaK+d
+ PVqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=DY0aK3a0zzQFlyBspZJZerQeFJhCLgUi3QlXt9plQig=;
- b=jyG6n0Xoi+1zHa6CgrflBQ+SBJeYsXxips6u0h6D66hRhdH+24ve0fcHCs12tofDxS
- pew0xRQ3Xiq92DZ4/mY7NYOqgtbSrtPTVj+QktwRReQH2e3L4YyPtXl7r9TjhjghiWWt
- S+rMmHzKRVFf0vYqHs3Ctqe8SUGjNub74P8aUTTPHpHGaThkxd+2E225yQENBYoCckg2
- 6LT8pyRsXogbDirLo7J0kxmh7Jh5CS0Dhg0NwoxHkfolxKZ0cnqfkdy6NR3rc1U3tZxs
- fzd9U6DIAPDGBOVhlH7sewYpH6c/R5DJV4xdfxP/ThimVFP32BbiiPH13TwhVBFa84XT
- GLzA==
-X-Gm-Message-State: AOAM530wbNucBSmBpxpCCJ6qorHlmuJ+1H3I/z3b107t10Nl4gHyJxr8
- DRbgQK7D7qXEkP2dRIq/Dj0cfTbo6Rk=
-X-Google-Smtp-Source: ABdhPJyKixcTi8UahooYXpRbzcHVsWHLZJKfOObb3tfoKRva1JJt/ovNvudTwaXRE7k2NVF3E+515Q==
-X-Received: by 2002:a9d:6c03:: with SMTP id f3mr2516702otq.291.1592317174242; 
- Tue, 16 Jun 2020 07:19:34 -0700 (PDT)
+ bh=wTa4JXsyGprfTOQ8Gi0ZAfpppR1mnoFXQbPOUyCGbeA=;
+ b=n4INjOJJ1pqc9+JnRwG7FGnOyK5lG/ejOQV9MJ6pkQeXWi5JB0mf6rVSs3FfzOrqOA
+ CtrD2MkL4HzsrOGZiBonKvr7lZd+uDkWbVYBEAC5yITPf8Wtnz174i4kBTaay9QqKQV3
+ 8c0vaURRTHDxx3dpNUBbsnUCO+2getwXSLt+Hih8KYjE++MgCpyiRTy4IlYJFauj3peO
+ SHWQo04KmrK9ZzsQm+0l2NJMYBZkDaT2oXEETghEeISAjDXnf71DU78V95KHGxqU3X9w
+ Iy5B9DYbNKcTE5/Q0wTuHJYlJGZSClWxofKNReeDi49OT8XY10ukXyo845QFKEbCyo5l
+ NPXg==
+X-Gm-Message-State: AOAM531Lvus5Y+2MWGDa36ksBVWW4aNzOW8+d/r9KXMsxiN96Is3uEwp
+ n5RHY5wR2B/jyFNcvypQ3tgk+hoo0SE=
+X-Google-Smtp-Source: ABdhPJwpF8KZWlRaGuSWvv4bToelCH0bFP3NQucaLKzUXNtGVVVIZKBS3mwqwo6X4aiipKbJ/E0/Pg==
+X-Received: by 2002:a9d:e88:: with SMTP id 8mr2432781otj.279.1592317178203;
+ Tue, 16 Jun 2020 07:19:38 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id y16sm4136217oot.11.2020.06.16.07.19.32
+ by smtp.gmail.com with ESMTPSA id c129sm946246oif.53.2020.06.16.07.19.37
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 16 Jun 2020 07:19:33 -0700 (PDT)
+ Tue, 16 Jun 2020 07:19:37 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 71/78] qemu-nbd: Close inherited stderr
-Date: Tue, 16 Jun 2020 09:15:40 -0500
-Message-Id: <20200616141547.24664-72-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 74/78] nbd/server: Avoid long error message assertions
+ CVE-2020-10761
+Date: Tue, 16 Jun 2020 09:15:43 -0500
+Message-Id: <20200616141547.24664-75-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
 References: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::341;
- envelope-from=flukshun@gmail.com; helo=mail-ot1-x341.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::335;
+ envelope-from=flukshun@gmail.com; helo=mail-ot1-x335.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -80,45 +81,154 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-stable@nongnu.org, Raphael Pour <raphael.pour@hetzner.com>
+Cc: qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Raphael Pour <raphael.pour@hetzner.com>
+From: Eric Blake <eblake@redhat.com>
 
-Close inherited stderr of the parent if fork_process is false.
-Otherwise no one will close it. (introduced by e6df58a5)
+Ever since commit 36683283 (v2.8), the server code asserts that error
+strings sent to the client are well-formed per the protocol by not
+exceeding the maximum string length of 4096.  At the time the server
+first started sending error messages, the assertion could not be
+triggered, because messages were completely under our control.
+However, over the years, we have added latent scenarios where a client
+could trigger the server to attempt an error message that would
+include the client's information if it passed other checks first:
 
-This only affected 'qemu-nbd -c /dev/nbd0'.
+- requesting NBD_OPT_INFO/GO on an export name that is not present
+  (commit 0cfae925 in v2.12 echoes the name)
 
-Signed-off-by: Raphael Pour <raphael.pour@hetzner.com>
-Message-Id: <d8ddc993-9816-836e-a3de-c6edab9d9c49@hetzner.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-[eblake: Enhance commit message]
+- requesting NBD_OPT_LIST/SET_META_CONTEXT on an export name that is
+  not present (commit e7b1948d in v2.12 echoes the name)
+
+At the time, those were still safe because we flagged names larger
+than 256 bytes with a different message; but that changed in commit
+93676c88 (v4.2) when we raised the name limit to 4096 to match the NBD
+string limit.  (That commit also failed to change the magic number
+4096 in nbd_negotiate_send_rep_err to the just-introduced named
+constant.)  So with that commit, long client names appended to server
+text can now trigger the assertion, and thus be used as a denial of
+service attack against a server.  As a mitigating factor, if the
+server requires TLS, the client cannot trigger the problematic paths
+unless it first supplies TLS credentials, and such trusted clients are
+less likely to try to intentionally crash the server.
+
+We may later want to further sanitize the user-supplied strings we
+place into our error messages, such as scrubbing out control
+characters, but that is less important to the CVE fix, so it can be a
+later patch to the new nbd_sanitize_name.
+
+Consideration was given to changing the assertion in
+nbd_negotiate_send_rep_verr to instead merely log a server error and
+truncate the message, to avoid leaving a latent path that could
+trigger a future CVE DoS on any new error message.  However, this
+merely complicates the code for something that is already (correctly)
+flagging coding errors, and now that we are aware of the long message
+pitfall, we are less likely to introduce such errors in the future,
+which would make such error handling dead code.
+
+Reported-by: Xueqiang Wei <xuwei@redhat.com>
+CC: qemu-stable@nongnu.org
+Fixes: https://bugzilla.redhat.com/1843684 CVE-2020-10761
+Fixes: 93676c88d7
 Signed-off-by: Eric Blake <eblake@redhat.com>
-(cherry picked from commit 0eaf453ebf6788885fbb5d40426b154ef8805407)
+Message-Id: <20200610163741.3745251-2-eblake@redhat.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+(cherry picked from commit 5c4fe018c025740fef4a0a4421e8162db0c3eefd)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- qemu-nbd.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ nbd/server.c               | 23 ++++++++++++++++++++---
+ tests/qemu-iotests/143     |  4 ++++
+ tests/qemu-iotests/143.out |  2 ++
+ 3 files changed, 26 insertions(+), 3 deletions(-)
 
-diff --git a/qemu-nbd.c b/qemu-nbd.c
-index 108a51f7eb..38031310af 100644
---- a/qemu-nbd.c
-+++ b/qemu-nbd.c
-@@ -1022,7 +1022,11 @@ int main(int argc, char **argv)
-         } else if (pid == 0) {
-             close(stderr_fd[0]);
+diff --git a/nbd/server.c b/nbd/server.c
+index 24ebc1a805..d5b9df092c 100644
+--- a/nbd/server.c
++++ b/nbd/server.c
+@@ -217,7 +217,7 @@ nbd_negotiate_send_rep_verr(NBDClient *client, uint32_t type,
  
--            old_stderr = dup(STDERR_FILENO);
-+            /* Remember parent's stderr if we will be restoring it. */
-+            if (fork_process) {
-+                old_stderr = dup(STDERR_FILENO);
-+            }
+     msg = g_strdup_vprintf(fmt, va);
+     len = strlen(msg);
+-    assert(len < 4096);
++    assert(len < NBD_MAX_STRING_SIZE);
+     trace_nbd_negotiate_send_rep_err(msg);
+     ret = nbd_negotiate_send_rep_len(client, type, len, errp);
+     if (ret < 0) {
+@@ -231,6 +231,19 @@ nbd_negotiate_send_rep_verr(NBDClient *client, uint32_t type,
+     return 0;
+ }
+ 
++/*
++ * Return a malloc'd copy of @name suitable for use in an error reply.
++ */
++static char *
++nbd_sanitize_name(const char *name)
++{
++    if (strnlen(name, 80) < 80) {
++        return g_strdup(name);
++    }
++    /* XXX Should we also try to sanitize any control characters? */
++    return g_strdup_printf("%.80s...", name);
++}
 +
-             ret = qemu_daemon(1, 0);
+ /* Send an error reply.
+  * Return -errno on error, 0 on success. */
+ static int GCC_FMT_ATTR(4, 5)
+@@ -595,9 +608,11 @@ static int nbd_negotiate_handle_info(NBDClient *client, Error **errp)
  
-             /* Temporarily redirect stderr to the parent's pipe...  */
+     exp = nbd_export_find(name);
+     if (!exp) {
++        g_autofree char *sane_name = nbd_sanitize_name(name);
++
+         return nbd_negotiate_send_rep_err(client, NBD_REP_ERR_UNKNOWN,
+                                           errp, "export '%s' not present",
+-                                          name);
++                                          sane_name);
+     }
+ 
+     /* Don't bother sending NBD_INFO_NAME unless client requested it */
+@@ -995,8 +1010,10 @@ static int nbd_negotiate_meta_queries(NBDClient *client,
+ 
+     meta->exp = nbd_export_find(export_name);
+     if (meta->exp == NULL) {
++        g_autofree char *sane_name = nbd_sanitize_name(export_name);
++
+         return nbd_opt_drop(client, NBD_REP_ERR_UNKNOWN, errp,
+-                            "export '%s' not present", export_name);
++                            "export '%s' not present", sane_name);
+     }
+ 
+     ret = nbd_opt_read(client, &nb_queries, sizeof(nb_queries), errp);
+diff --git a/tests/qemu-iotests/143 b/tests/qemu-iotests/143
+index f649b36195..d2349903b1 100755
+--- a/tests/qemu-iotests/143
++++ b/tests/qemu-iotests/143
+@@ -58,6 +58,10 @@ _send_qemu_cmd $QEMU_HANDLE \
+ $QEMU_IO_PROG -f raw -c quit \
+     "nbd+unix:///no_such_export?socket=$SOCK_DIR/nbd" 2>&1 \
+     | _filter_qemu_io | _filter_nbd
++# Likewise, with longest possible name permitted in NBD protocol
++$QEMU_IO_PROG -f raw -c quit \
++    "nbd+unix:///$(printf %4096d 1 | tr ' ' a)?socket=$SOCK_DIR/nbd" 2>&1 \
++    | _filter_qemu_io | _filter_nbd | sed 's/aaaa*aa/aa--aa/'
+ 
+ _send_qemu_cmd $QEMU_HANDLE \
+     "{ 'execute': 'quit' }" \
+diff --git a/tests/qemu-iotests/143.out b/tests/qemu-iotests/143.out
+index 1f4001c601..fc9c0a761f 100644
+--- a/tests/qemu-iotests/143.out
++++ b/tests/qemu-iotests/143.out
+@@ -5,6 +5,8 @@ QA output created by 143
+ {"return": {}}
+ qemu-io: can't open device nbd+unix:///no_such_export?socket=SOCK_DIR/nbd: Requested export not available
+ server reported: export 'no_such_export' not present
++qemu-io: can't open device nbd+unix:///aa--aa1?socket=SOCK_DIR/nbd: Requested export not available
++server reported: export 'aa--aa...' not present
+ { 'execute': 'quit' }
+ {"return": {}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "SHUTDOWN", "data": {"guest": false, "reason": "host-qmp-quit"}}
 -- 
 2.17.1
 
