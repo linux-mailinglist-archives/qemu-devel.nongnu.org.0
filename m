@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85EDC1FB413
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:20:10 +0200 (CEST)
-Received: from localhost ([::1]:54376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DF7F1FB422
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:22:58 +0200 (CEST)
+Received: from localhost ([::1]:35954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlCRd-0004D1-Fa
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:20:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57192)
+	id 1jlCUK-0000Xh-Uk
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:22:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCPE-00016p-5N; Tue, 16 Jun 2020 10:17:40 -0400
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:46973)
+ id 1jlCPE-00019N-UO; Tue, 16 Jun 2020 10:17:40 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:45176)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCPC-0006XE-4E; Tue, 16 Jun 2020 10:17:39 -0400
-Received: by mail-oi1-x243.google.com with SMTP id 25so19331761oiy.13;
- Tue, 16 Jun 2020 07:17:37 -0700 (PDT)
+ id 1jlCPD-0006XU-C1; Tue, 16 Jun 2020 10:17:40 -0400
+Received: by mail-oi1-x243.google.com with SMTP id p70so19330255oic.12;
+ Tue, 16 Jun 2020 07:17:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=Oa9V802o+PKNgGwDm+Qufd06GDhvGLD8PaFrQvvJnXo=;
- b=pPKBkcN9VXNTxdWjT62sbbWXk3bR/ijQ7bpqv36i5g+tQaT3dF6iysnzpw3h3tTAGc
- WerjyMVdKhjB1ILkOo/RR8Zuq4OPdu+fPjYflJMnJCcs+nv9sTeSi8UBtOYHayV6menC
- ZQ/Ma1ipzKeAkiVZmHbYZII+8SR6ZN8NRUQ70H0xzQ5lmXUy+i6KqdNiVOj40ed0AtfM
- DPUj+5uTHympnhH5cPr/+NdNw4Pq5v3PmEBeGu/O3vhgC6Q2HXPpCWdo7SyErxh6kk9N
- HkbpLySXH15EWrbOpceFRCBAb81vx4ZtRzUvtWKUlSxmtQ4DPm9yN1MsHA7JbU5TNhbO
- GRnA==
+ bh=zGag6QG3Qt4gKhYHnTWrY2G1J3/1QkOIEOU6VeQ7vrk=;
+ b=L0rzGLJ8aJEimBxgA4fPbmoAtq/qqfkafavPcWH/sXXc34SZF+kr3JHnrADHYKl/nU
+ HQOyGDOliSpz6u/477sKwNMhnPAssFpgIg73RgxrFjGC2gc4fa4UO6/Vppr5yWbfIo6J
+ 6iD0vlEQtzGAbXzRdH5b2sOgYWIgCdgidyJP8BMqRp0Ml4U2LoVYJ1e3VJE3s9I3+bPw
+ O+3FHTYLdOJf3ygS/4BsdXQUI/ALB7szgw2w2Cr+rXTIFXoyCJMrRNs2JBYhQDttZEJD
+ jpJ6cA8Dve4WkCa/AAyEJH4VhXePjSq0kvIUjtvcbalDL9FJQy9wbf1W8RogkCJDj9JB
+ zD+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=Oa9V802o+PKNgGwDm+Qufd06GDhvGLD8PaFrQvvJnXo=;
- b=ehfl2s14+WNxaUOHAdz2o0xOgHeTzjsQCHqojCT/1Hf84u9a3B88pOZiW7rAirUrP7
- bhW6lVWHr9QYk/Ip2nEanXfKkcEG7pCEktUPDTx+qbLDby83zAQZlRm8r/fWkaFO08S9
- CFdszIHhSoMVs7uX9O0ZxFuKHtcqAnaslyku2kkE5OgI3TCRamSn7g63XGTnwEIHlJAi
- HGr3mzE0WrUtDjlxvUMrMPoke/cBn4UhkmtUImhxE4BOmxLzhGMlEJE2RY+CJ8nOzWN/
- 71Ub2qzNsZMXqxFqZnAm1kwDKVm7Qz2ftLTIE2UiHlVoR/BBJI/xl3kOYKSEwIyAiOXA
- p4+w==
-X-Gm-Message-State: AOAM532IQuWOFDZnsXZPnwzd/wA4QRe2CexnpFZve/j23g9ghA7nWCI2
- 8H/Grig70zwQRdGeh3AStIeCIyj4
-X-Google-Smtp-Source: ABdhPJx0bxk2406g7lFlhHW5g5/MKrysHiVPGT7MC6cu+nFQv3oCGGBGtcmwqBr81Qm8k6ahKblNEQ==
-X-Received: by 2002:aca:f0d:: with SMTP id 13mr3343149oip.90.1592317056370;
- Tue, 16 Jun 2020 07:17:36 -0700 (PDT)
+ bh=zGag6QG3Qt4gKhYHnTWrY2G1J3/1QkOIEOU6VeQ7vrk=;
+ b=uXXN0GMpzNGpgduH/H4Gy3cncS6SVEPO+53y8ZrH2nqWyTaR63i2QDLAW7w3J8X6Yu
+ 7oU6x+WWCz5Szg48URnaLCILzKwYL8gB28RQLpQEdzqQXkiu6JA4KpTyO3gwv1I4951d
+ SIZK3U/tOTSwExKxydAIIkhC4mrxYFcFtIqg3etFgnHWz3JV3cuL0CngG3awL9joAyIV
+ kPqv/cvUvN9RzLqfjHKo3s+j6S2qDJ9xZCphhNMELphmjDqGjQ+u6ZFYqJXsh3YQ5SUm
+ 0CslVD55EorrR/lsdXIhZJn4+SO7QYYuYT1E88FkSiwpzL/YyjmlhWjMX0NXA4Ln7Xf1
+ ioRg==
+X-Gm-Message-State: AOAM530nlXed5b3KtdjydyOZuy30v8Pc7VKKgsFcD4Xi/pgGbbLTuFzq
+ medfzP9PKVjYnuIZti1jgimAEhMG
+X-Google-Smtp-Source: ABdhPJyqEGa7oosChgwaMTKDoeChFAm9EGYaw2KjbmmhGIO/Cw+SrNcXHMNxGqpcYsKMc1qu5goS+g==
+X-Received: by 2002:aca:c448:: with SMTP id u69mr3517692oif.104.1592317057644; 
+ Tue, 16 Jun 2020 07:17:37 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id w10sm4086944otp.44.2020.06.16.07.17.35
+ by smtp.gmail.com with ESMTPSA id f1sm4092478ool.16.2020.06.16.07.17.36
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 16 Jun 2020 07:17:35 -0700 (PDT)
+ Tue, 16 Jun 2020 07:17:36 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 11/78] arm/arm-powerctl: set NSACR.{CP11,
- CP10} bits in arm_set_cpu_on()
-Date: Tue, 16 Jun 2020 09:14:40 -0500
-Message-Id: <20200616141547.24664-12-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 12/78] arm/arm-powerctl: rebuild hflags after setting CP15
+ bits in arm_set_cpu_on()
+Date: Tue, 16 Jun 2020 09:14:41 -0500
+Message-Id: <20200616141547.24664-13-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
 References: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
@@ -88,43 +88,42 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Niek Linnenbank <nieklinnenbank@gmail.com>
 
-This change ensures that the FPU can be accessed in Non-Secure mode
-when the CPU core is reset using the arm_set_cpu_on() function call.
-The NSACR.{CP11,CP10} bits define the exception level required to
-access the FPU in Non-Secure mode. Without these bits set, the CPU
-will give an undefined exception trap on the first FPU access for the
-secondary cores under Linux.
+After setting CP15 bits in arm_set_cpu_on() the cached hflags must
+be rebuild to reflect the changed processor state. Without rebuilding,
+the cached hflags would be inconsistent until the next call to
+arm_rebuild_hflags(). When QEMU is compiled with debugging enabled
+(--enable-debug), this problem is captured shortly after the first
+call to arm_set_cpu_on() for CPUs running in ARM 32-bit non-secure mode:
 
-This is necessary because in this power-control codepath QEMU
-is effectively emulating a bit of EL3 firmware, and has to set
-the CPU up as the EL3 firmware would.
+  qemu-system-arm: target/arm/helper.c:11359: cpu_get_tb_cpu_state:
+  Assertion `flags == rebuild_hflags_internal(env)' failed.
+  Aborted (core dumped)
 
-Fixes: fc1120a7f5
+Fixes: 0c7f8c43daf65
 Cc: qemu-stable@nongnu.org
 Signed-off-by: Niek Linnenbank <nieklinnenbank@gmail.com>
-[PMM: added clarifying para to commit message]
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-(cherry picked from commit 0c7f8c43daf6556078e51de98aa13f069e505985)
+(cherry picked from commit c8fa6079eb35888587f1be27c1590da4edcc5098)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
  target/arm/arm-powerctl.c | 3 +++
  1 file changed, 3 insertions(+)
 
 diff --git a/target/arm/arm-powerctl.c b/target/arm/arm-powerctl.c
-index f77a950db6..b064513d44 100644
+index b064513d44..b75f813b40 100644
 --- a/target/arm/arm-powerctl.c
 +++ b/target/arm/arm-powerctl.c
-@@ -104,6 +104,9 @@ static void arm_set_cpu_on_async_work(CPUState *target_cpu_state,
-         /* Processor is not in secure mode */
-         target_cpu->env.cp15.scr_el3 |= SCR_NS;
+@@ -127,6 +127,9 @@ static void arm_set_cpu_on_async_work(CPUState *target_cpu_state,
+         target_cpu->env.regs[0] = info->context_id;
+     }
  
-+        /* Set NSACR.{CP11,CP10} so NS can access the FPU */
-+        target_cpu->env.cp15.nsacr |= 3 << 10;
++    /* CP15 update requires rebuilding hflags */
++    arm_rebuild_hflags(&target_cpu->env);
 +
-         /*
-          * If QEMU is providing the equivalent of EL3 firmware, then we need
-          * to make sure a CPU targeting EL2 comes out of reset with a
+     /* Start the new CPU at the requested address */
+     cpu_set_pc(target_cpu_state, info->entry);
+ 
 -- 
 2.17.1
 
