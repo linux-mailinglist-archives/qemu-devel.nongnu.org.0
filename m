@@ -2,64 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB6C11FB51F
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:56:25 +0200 (CEST)
-Received: from localhost ([::1]:41294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 703E81FB532
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:58:18 +0200 (CEST)
+Received: from localhost ([::1]:50140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlD0i-0005IQ-Uu
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:56:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58178)
+	id 1jlD2X-0000Qr-Di
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:58:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCQm-0003i1-H8; Tue, 16 Jun 2020 10:19:16 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:44578)
+ id 1jlCQo-0003mn-DE; Tue, 16 Jun 2020 10:19:18 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:41885)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCQk-0006yz-PB; Tue, 16 Jun 2020 10:19:16 -0400
-Received: by mail-ot1-x343.google.com with SMTP id e5so16019583ote.11;
- Tue, 16 Jun 2020 07:19:13 -0700 (PDT)
+ id 1jlCQm-0006zn-SL; Tue, 16 Jun 2020 10:19:18 -0400
+Received: by mail-ot1-x344.google.com with SMTP id k15so16045045otp.8;
+ Tue, 16 Jun 2020 07:19:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=luDTWDuXHrw0jVjHUOWwtj8xIi3ns98/jyoG5nV+cZo=;
- b=E1VQGJ83vVvyJBRTBkk5zIDSoUzhRTWSCrFmgxTEjDuVOhShz7BYhDtaaRvR6AFTdr
- aw9zcdX29aetglsKxQB9wu5WD5Ro/+8DnafQGs6PitkIQEhy/t8U5F5HJDo1eItqbOgD
- SfF6sA+K9vU5e1z8vvUE9/xo9vSKf2nyClOD9nruDtxmtJpzGxS+V3Hjysmqf1rkzKT1
- rFPqxhsB0DEUEC9q88cS89PvzLyTeCiSkfMbV15EWArIXvF4joIWYe7ZTBWxGcCyJzYB
- dlANiOUgzArrpUzz5EhvRcvSIuHIszMRnSMJ8GJqQVHZyi0xjc8F79JPctgWPCPVMUyT
- 7U+g==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=pvDvIVsYLo2LhgX9D3O1NAAgSIWbNm7XON8tX/XB+Pc=;
+ b=bjZruRqjP8gjhXrNrB5WShNyrYDmmcmex0Gw5nm7lWF5Xy2Gqw3GGLtz7tjL1PI1bc
+ bnjsfo14LMWExb8i/PAoNoN/zz9HWTLMsO8cIJss2gs+tEe9VUooX242aTZIdv0qq9CE
+ Wut2LaJ2BUAoVpPlU5uou6bCZJt5RT7tVJdZsZbpJr3se+LTRM+2sLtUGdpaEboocBw6
+ FbPtVk4jhvXdO6fBxMEiX48A0c8tyMCp/lrP+zb2637fYh8aOYX0ancxmsNYJeZ/D5ga
+ xWoayi+Gqno1Jqn/LUjKGhnllwsW5qT2mYBLF7354/c2STRD+k6vID3VmOB9o8bm4rRE
+ 0uvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references;
- bh=luDTWDuXHrw0jVjHUOWwtj8xIi3ns98/jyoG5nV+cZo=;
- b=Gi3YuwWDBCPJ0kdd1uHG+XTSZ0QXqeFKL7Puf7Nj9aFjrjoIwiZ0W3/OrWuJFI9F20
- awnu1uwoYeKc3mqUIk1Rz9vVx6SxqxpnBtrSJ5IJtG555sdG6qqU0OHUhQ4u+KeY57vX
- 2QFbEOTUxccLQ+3WQ1B2rqXjzEqwLym+UHCwHD2gU2YMmj8KsnxtJsy8s7u0O/gYuYFj
- CsHL8VkKzGO1xRIHg/FclsMyftUfGyCkdtm7dWl9dU98qyeRAKvQSBOrUJ/lBbI7W/z8
- IWMdVaxaJKCwAPMHxetIyi5Zhuexxnimz/X/PeKv7MM2l76lC1cPG1hHKUgBzahcRUw2
- +vQA==
-X-Gm-Message-State: AOAM533v/iH0ekKzTSFmDKdkhbKqeTerdX4CfzPg2yI4A705Va5SIbgN
- TF3QJ9yLOf+UJAweBwRF3xUWY2eP
-X-Google-Smtp-Source: ABdhPJwbOyq1+L9ExYcFnBJhBoSELKR5ybwRb06V3bl6Opt/lhZPmyxCJWx1ewsHpo/FJr62l7VF+Q==
-X-Received: by 2002:a05:6830:13d3:: with SMTP id
- e19mr2629793otq.290.1592317152347; 
- Tue, 16 Jun 2020 07:19:12 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=pvDvIVsYLo2LhgX9D3O1NAAgSIWbNm7XON8tX/XB+Pc=;
+ b=l3XKAj3AQ1dro9+AFk2aAdlFrtpjdwqYk4gUcc4jfqVLH+eT8U0LhVaKgJSIp/PCaB
+ tIo+jO7Cu8cPEOB4Gc0teVdrnjHUwg6RO5GBpEYTuqEiB7F0r4o59mwjlsEaKIpXiQy/
+ mfJ05Bo7AIGQa97BRsQ58piQM7R0RekXqYDwFmSLLMSj32Zvj5S+yC+ZIF0aifcghxXG
+ 0OZpCv8KEstWn6GDDlJfNEXAemulxBy4B2CGVjFyl4cJX23qOevAy3hutmNPzSZEvCSN
+ kQkpKpbB1XDHCntGKihPlbumBOo2if0JLG6xz9PSHEoYMVf8kFMf3aAVuhmIkVi5OjpU
+ qemA==
+X-Gm-Message-State: AOAM532RmhlzK1Mruh4Q1wS4uXjIJQBGABdAQslA7DaTHol68jOev9mO
+ +jxWIW3j/kg1f6gvLjjqfyD1aTHP
+X-Google-Smtp-Source: ABdhPJzFNN0oMyUGfy8AmEXBticP/I4iSYzdT/5A3E1cRr59mQNcxkR9rjHiUU2IqfKXvGNTyMqNoA==
+X-Received: by 2002:a05:6830:2368:: with SMTP id
+ r8mr2677944oth.120.1592317154765; 
+ Tue, 16 Jun 2020 07:19:14 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id t11sm4072451otr.65.2020.06.16.07.19.09
+ by smtp.gmail.com with ESMTPSA id l65sm4282070oig.27.2020.06.16.07.19.12
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 16 Jun 2020 07:19:10 -0700 (PDT)
+ Tue, 16 Jun 2020 07:19:13 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 61/78] qga: Fix undefined C behavior
-Date: Tue, 16 Jun 2020 09:15:30 -0500
-Message-Id: <20200616141547.24664-62-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 62/78] qemu-ga: document vsock-listen in the man page
+Date: Tue, 16 Jun 2020 09:15:31 -0500
+Message-Id: <20200616141547.24664-63-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
 References: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::343;
- envelope-from=flukshun@gmail.com; helo=mail-ot1-x343.google.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
+ envelope-from=flukshun@gmail.com; helo=mail-ot1-x344.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -81,52 +85,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-stable@nongnu.org
+Cc: qemu-stable@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Eric Blake <eblake@redhat.com>
+From: Stefan Hajnoczi <stefanha@redhat.com>
 
-The QAPI struct GuestFileWhence has a comment about how we are
-exploiting equivalent values between two different integer types
-shared in a union. But C says behavior is undefined on assignments to
-overlapping storage when the two types are not the same width, and
-indeed, 'int64_t value' and 'enum QGASeek name' are very likely to be
-different in width.  Utilize a temporary variable to fix things.
+Although qemu-ga has supported vsock since 2016 it was not documented on
+the man page.
 
-Reported-by: Peter Maydell <peter.maydell@linaro.org>
-Fixes: 0b4b49387
-Fixes: Coverity CID 1421990
-Signed-off-by: Eric Blake <eblake@redhat.com>
+Also add the socket address representation to the qga --help output.
+
+Fixes: 586ef5dee77180fc32e33bc08051600030630239
+       ("qga: add vsock-listen method")
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
-(cherry picked from commit a23f38a72921fa915536a981a4f8a9134512f120)
+(cherry picked from commit 7b46aadbbfb7b06cd45a3b113b1f7c003c68f603)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- qga/commands.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ docs/interop/qemu-ga.rst | 5 +++--
+ qga/main.c               | 4 +++-
+ 2 files changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/qga/commands.c b/qga/commands.c
-index 0c7d1385c2..8ec7fa3c04 100644
---- a/qga/commands.c
-+++ b/qga/commands.c
-@@ -482,10 +482,15 @@ done:
-  * the guest's SEEK_ constants.  */
- int ga_parse_whence(GuestFileWhence *whence, Error **errp)
- {
--    /* Exploit the fact that we picked values to match QGA_SEEK_*. */
-+    /*
-+     * Exploit the fact that we picked values to match QGA_SEEK_*;
-+     * however, we have to use a temporary variable since the union
-+     * members may have different size.
-+     */
-     if (whence->type == QTYPE_QSTRING) {
-+        int value = whence->u.name;
-         whence->type = QTYPE_QNUM;
--        whence->u.value = whence->u.name;
-+        whence->u.value = value;
-     }
-     switch (whence->u.value) {
-     case QGA_SEEK_SET:
+diff --git a/docs/interop/qemu-ga.rst b/docs/interop/qemu-ga.rst
+index 1313a4ae1c..3063357bb5 100644
+--- a/docs/interop/qemu-ga.rst
++++ b/docs/interop/qemu-ga.rst
+@@ -36,13 +36,14 @@ Options
+ .. option:: -m, --method=METHOD
+ 
+   Transport method: one of ``unix-listen``, ``virtio-serial``, or
+-  ``isa-serial`` (``virtio-serial`` is the default).
++  ``isa-serial``, or ``vsock-listen`` (``virtio-serial`` is the default).
+ 
+ .. option:: -p, --path=PATH
+ 
+   Device/socket path (the default for virtio-serial is
+   ``/dev/virtio-ports/org.qemu.guest_agent.0``,
+-  the default for isa-serial is ``/dev/ttyS0``)
++  the default for isa-serial is ``/dev/ttyS0``). Socket addresses for
++  vsock-listen are written as ``<cid>:<port>``.
+ 
+ .. option:: -l, --logfile=PATH
+ 
+diff --git a/qga/main.c b/qga/main.c
+index c35c2a2120..6b9f025a70 100644
+--- a/qga/main.c
++++ b/qga/main.c
+@@ -234,7 +234,9 @@ QEMU_COPYRIGHT "\n"
+ "  -p, --path        device/socket path (the default for virtio-serial is:\n"
+ "                    %s,\n"
+ "                    the default for isa-serial is:\n"
+-"                    %s)\n"
++"                    %s).\n"
++"                    Socket addresses for vsock-listen are written as\n"
++"                    <cid>:<port>.\n"
+ "  -l, --logfile     set logfile path, logs to stderr by default\n"
+ "  -f, --pidfile     specify pidfile (default is %s)\n"
+ #ifdef CONFIG_FSFREEZE
 -- 
 2.17.1
 
