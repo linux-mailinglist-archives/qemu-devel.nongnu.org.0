@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C83781FB1A7
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 15:07:18 +0200 (CEST)
-Received: from localhost ([::1]:54234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E46261FB17D
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 15:03:18 +0200 (CEST)
+Received: from localhost ([::1]:38632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlBJ7-0007wh-Th
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 09:07:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36442)
+	id 1jlBFF-00017K-WE
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 09:03:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jlBDd-00085p-L0
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 09:01:37 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:35185)
+ id 1jlBDa-00080d-2q
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 09:01:34 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:36114)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jlBDb-0001c6-Rd
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 09:01:37 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id x14so20692459wrp.2
- for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 06:01:35 -0700 (PDT)
+ id 1jlBDY-0001bN-79
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 09:01:33 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id d128so2982213wmc.1
+ for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 06:01:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=e785/2ytWUq6m1CZckPntnQd1feVAR6FA8r2SV7OZRA=;
- b=Izno5A/Ej21+Rl8NmYILa60fUa4RjKNZXiFn7pemj+0ybzwSooDDlzHswfzkcskusY
- 4RYs6SMBLKESM0cGgi4eMoZZcy+ezw3Ze2PE2ehw8NOrO1uYaq/bE5LTi8M426IJvgHW
- uxwZt+5s0FwOERHufttuga4jucdrAVGmzFnEVoOdzzGvxWdGTuEAizXMkw4XdxmCCYg9
- dKe/rvmdoeoD20is3FJtXdVRs5hHUZNc5wdYLrRVYEym3nXkia3ILrHA0ypLzjt+RT5A
- iUhL0k5yaO9iD6f6TcvgmelK3yfpdXwOSVU79NP6nSIk4U75wskdh/Qb18szzaha4g+g
- EP0g==
+ bh=fwzjDn90p+WbCyuUAz8JCmbSQbTpCjIg7lbls5LaIbw=;
+ b=elpUDqDQP+voxX3qspI04niTK8yFVE1dggAHRwQTKX0A5/Vrbk99B94YXO9IzSDLOx
+ esSt6/dIJYn89k2v3r35kSovlCRii7Ey6lVvlWEbUde2k1XfCA3Pa6usn6p0HH736aKS
+ othSH7klSyZCwpyey+zcwef9JNQQxJFbz1LIXHW9+ed3CamFJ+5h7Rgigt1hSkbUm9IT
+ 6ppjVS6FUygyBe3RuUh1zZYQHtbNWRrEUzkYbkhCCuV/S0D718WEjSZf0Vb2E2W3/Wus
+ V7x1pklaLB+CMNuZbkyvZQlr1zzaDi90m9cQ/zCSouysfTwTCKmhNROIkUSNOJ9Rvf1a
+ RYuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=e785/2ytWUq6m1CZckPntnQd1feVAR6FA8r2SV7OZRA=;
- b=H7BVQ31sUH5+uPIBOQUKlv3hDdh7vPi9glYozplEiEz8KMUU/GTM2z1EhcqlvjN506
- 5NygWMCgoIIP6MHuq50DA8dtc21+lo4PQYgdgm6stCK5f1hVlv4gh3gMplTnthGWAlhK
- /tM+JGdj3KvRIVHl5TqVm0RGXT0mpjIkYsKgE1lvmkzIGs8Mj8WGFsDqOwnpy9GDt5X0
- Ya8Q6ciag4ItofyJLm2HAjd1Qd2ULktKgxdSVVtpWqIjpuQAoRISK5nifZNyk+KpEIhk
- S+H5woBg5n11Qd1NJy7moskRDyPTdY6ccwHP1QKpbC8+APF0sJjM/6F0yS0wTZq45qks
- JBKA==
-X-Gm-Message-State: AOAM533wNDzUei9ED7IZO6lpxSaxPcdd/fBQNO4FlSMbhLfNkzYHPJ1w
- H0oxAFKHXX9ldxSeYDxyGPk7lA==
-X-Google-Smtp-Source: ABdhPJw6btr1iUBsd/wSurYqHBHuQlxMOuNgpp/MaT3dVl+iRcDVRHvuc8urOu72gc/1DQsOeOPZHQ==
-X-Received: by 2002:adf:ab08:: with SMTP id q8mr2892324wrc.216.1592312494465; 
- Tue, 16 Jun 2020 06:01:34 -0700 (PDT)
+ bh=fwzjDn90p+WbCyuUAz8JCmbSQbTpCjIg7lbls5LaIbw=;
+ b=pJzz12fPsDLrzxXjCjYErY0OLsr8J34Q4FQOFAYgtXDhV+7u8YGw9/WHJeDs/ANyFU
+ YrmmEDifEAvQZr+tn3UPAgo0SijPKyQJbzh8CU1S5f0qq7McxASJC26DVLcrilzYP7BX
+ R2A4Cp7fZupY5kh7ZgrbPgLnu9rOVqxObs8px/SVozLXjci2/aIhK/V81P289OOF88d1
+ aUJm8PP5rs8aa3m1ILJoV5PZ8lgkGHIlNh44JEmW/6irQJGZEBxy3Ce3v500e+ZQQsoE
+ DSfxAcEUlANTS3WqkJX92GGPZRP1UhyiVjxIFjIreQz3a4CyVBrnyvuwyWQ3k4+ryZx5
+ uRFg==
+X-Gm-Message-State: AOAM530Z778+k5R1YU+/hxh9+qkDBvQNiTd909gLnv6dlQ9Mv+KJaeZr
+ XXb/xsjNm5gYRFdX8tcXKAWk3A==
+X-Google-Smtp-Source: ABdhPJzU/VUzxEro/Rimu4LqD/mWd9yzL1TLgLR+QtBaEmBalVLuBE1ISU+gz3GmHQuLRb3aLjioGg==
+X-Received: by 2002:a7b:cf06:: with SMTP id l6mr3105322wmg.63.1592312490172;
+ Tue, 16 Jun 2020 06:01:30 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id u9sm4165844wme.16.2020.06.16.06.01.28
+ by smtp.gmail.com with ESMTPSA id v6sm30963902wrf.61.2020.06.16.06.01.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 16 Jun 2020 06:01:29 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id F2CC01FF7E;
- Tue, 16 Jun 2020 13:53:25 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 168C61FFA6;
+ Tue, 16 Jun 2020 13:53:26 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 18/21] cirrus.yml: serialise make check
-Date: Tue, 16 Jun 2020 13:53:21 +0100
-Message-Id: <20200616125324.19045-19-alex.bennee@linaro.org>
+Subject: [PULL 19/21] tests/tcg: build plugin list from contents of src
+ directory
+Date: Tue, 16 Jun 2020 13:53:22 +0100
+Message-Id: <20200616125324.19045-20-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200616125324.19045-1-alex.bennee@linaro.org>
 References: <20200616125324.19045-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32d.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -74,8 +75,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,47 +89,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ed Maste <emaste@freebsd.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Li-Wen Hsu <lwhsu@freebsd.org>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We do this on our other platforms to make it easier to see what has
-broken.
+If you jump back and forth between branches while developing plugins
+you end up debugging failures caused by plugins left in the build
+directory. Fix this by basing plugins on the source tree instead.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Li-Wen Hsu <lwhsu@FreeBSD.org>
-Message-Id: <20200612190237.30436-19-alex.bennee@linaro.org>
+Message-Id: <20200615141922.18829-2-alex.bennee@linaro.org>
 
-diff --git a/.cirrus.yml b/.cirrus.yml
-index ce7850a320e..69342ae031b 100644
---- a/.cirrus.yml
-+++ b/.cirrus.yml
-@@ -14,7 +14,7 @@ freebsd_12_task:
-     - cd build
-     - ../configure || { cat config.log; exit 1; }
-     - gmake -j8
--    - gmake -j8 V=1 check
-+    - gmake V=1 check
+diff --git a/tests/tcg/Makefile.target b/tests/tcg/Makefile.target
+index b3cff3cad1a..2ae86776cdc 100644
+--- a/tests/tcg/Makefile.target
++++ b/tests/tcg/Makefile.target
+@@ -126,9 +126,10 @@ RUN_TESTS=$(patsubst %,run-%, $(TESTS))
  
- macos_task:
-   osx_instance:
-@@ -26,7 +26,7 @@ macos_task:
-     - cd build
-     - ../configure --python=/usr/local/bin/python3 || { cat config.log; exit 1; }
-     - gmake -j$(sysctl -n hw.ncpu)
--    - gmake check -j$(sysctl -n hw.ncpu)
-+    - gmake check
+ # If plugins exist also include those in the tests
+ ifeq ($(CONFIG_PLUGIN),y)
+-PLUGIN_DIR=../../plugin
+-VPATH+=$(PLUGIN_DIR)
+-PLUGINS=$(notdir $(wildcard $(PLUGIN_DIR)/*.so))
++PLUGIN_SRC=$(SRC_PATH)/tests/plugin
++PLUGIN_LIB=../../plugin
++VPATH+=$(PLUGIN_LIB)
++PLUGINS=$(patsubst %.c, lib%.so, $(notdir $(wildcard $(PLUGIN_SRC)/*.c)))
  
- macos_xcode_task:
-   osx_instance:
-@@ -39,4 +39,4 @@ macos_xcode_task:
-     - cd build
-     - ../configure --cc=clang || { cat config.log; exit 1; }
-     - gmake -j$(sysctl -n hw.ncpu)
--    - gmake check -j$(sysctl -n hw.ncpu)
-+    - gmake check
+ # We need to ensure expand the run-plugin-TEST-with-PLUGIN
+ # pre-requistes manually here as we can't use stems to handle it. We
+@@ -152,7 +153,7 @@ run-%: %
+ 
+ run-plugin-%:
+ 	$(call run-test, $@, $(QEMU) $(QEMU_OPTS) \
+-		-plugin $(PLUGIN_DIR)/$(call extract-plugin,$@) \
++		-plugin $(PLUGIN_LIB)/$(call extract-plugin,$@) \
+ 		-d plugin -D $*.pout \
+ 		 $(call strip-plugin,$<), \
+ 	"$* on $(TARGET_NAME)")
+@@ -168,7 +169,7 @@ run-plugin-%:
+ 	$(call run-test, $@, \
+ 	  $(QEMU) -monitor none -display none \
+ 		  -chardev file$(COMMA)path=$@.out$(COMMA)id=output \
+-	   	  -plugin $(PLUGIN_DIR)/$(call extract-plugin,$@) \
++	   	  -plugin $(PLUGIN_LIB)/$(call extract-plugin,$@) \
+ 	    	  -d plugin -D $*.pout \
+ 	   	  $(QEMU_OPTS) $(call strip-plugin,$<), \
+ 	  "$* on $(TARGET_NAME)")
+diff --git a/tests/tcg/aarch64/Makefile.target b/tests/tcg/aarch64/Makefile.target
+index 312f36cde5f..6d60a2f2eed 100644
+--- a/tests/tcg/aarch64/Makefile.target
++++ b/tests/tcg/aarch64/Makefile.target
+@@ -31,7 +31,7 @@ run-semihosting: semihosting
+ 
+ run-plugin-semihosting-with-%:
+ 	$(call run-test, $@, $(QEMU) $(QEMU_OPTS) \
+-		-plugin $(PLUGIN_DIR)/$(call extract-plugin,$@) \
++		-plugin $(PLUGIN_LIB)/$(call extract-plugin,$@) \
+ 		 $(call strip-plugin,$<) 2> $<.err, \
+ 		"$< on $(TARGET_NAME) with $*")
+ 
+diff --git a/tests/tcg/arm/Makefile.target b/tests/tcg/arm/Makefile.target
+index 3da09a38be7..ec951565626 100644
+--- a/tests/tcg/arm/Makefile.target
++++ b/tests/tcg/arm/Makefile.target
+@@ -45,7 +45,7 @@ run-semihosting-arm: semihosting-arm
+ 
+ run-plugin-semihosting-with-%:
+ 	$(call run-test, $@, $(QEMU) $(QEMU_OPTS) \
+-		-plugin $(PLUGIN_DIR)/$(call extract-plugin,$@) \
++		-plugin $(PLUGIN_LIB)/$(call extract-plugin,$@) \
+ 		 $(call strip-plugin,$<) 2> $<.err, \
+ 		"$< on $(TARGET_NAME) with $*")
+ 
 -- 
 2.20.1
 
