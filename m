@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5EAC1FB4B1
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:42:52 +0200 (CEST)
-Received: from localhost ([::1]:35608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 554C11FB4F6
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:49:35 +0200 (CEST)
+Received: from localhost ([::1]:37140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlCnb-0004Ip-QG
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:42:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57870)
+	id 1jlCu6-0000ZL-CU
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:49:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCQE-00030h-RH; Tue, 16 Jun 2020 10:18:46 -0400
-Received: from mail-ot1-x331.google.com ([2607:f8b0:4864:20::331]:33084)
+ id 1jlCQK-00036B-JM; Tue, 16 Jun 2020 10:18:48 -0400
+Received: from mail-oi1-x22f.google.com ([2607:f8b0:4864:20::22f]:44003)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCQD-0006to-9U; Tue, 16 Jun 2020 10:18:42 -0400
-Received: by mail-ot1-x331.google.com with SMTP id n6so16067638otl.0;
- Tue, 16 Jun 2020 07:18:40 -0700 (PDT)
+ id 1jlCQI-0006u6-TZ; Tue, 16 Jun 2020 10:18:48 -0400
+Received: by mail-oi1-x22f.google.com with SMTP id j189so19335373oih.10;
+ Tue, 16 Jun 2020 07:18:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=Z/IEPTuPLem1LbcsQ8EirE06h15XALksmXQzNW0/kN0=;
- b=HmOUrGKUSQaGJnZWkCXwLwn84XIjmPrDe7NxQfcT6r8CHjdZKz9gI0wqjA8RC5oPO9
- zTnZUcmJM1YRYdqa+brIF3VnIdvy2v2UmfSVzMhU7xp+uepuse471+SVx3Qgk+qDjyr0
- vLLm94Mw2Y/OO+L6m7HE9fa4MW+Lz7up6fFyZJ0agaBPMKdGZOjXy+NnDuE1T1aKSXv0
- PjPL9wxiNlmFnHaIVwJJ7UdVhx+rPSLVHcadk5OkOk6kXgPu1+LPnzOFJ35YZlxjvvmV
- PASnr92fzPu0KMn/rwWjl7g3jKif0KF9dFOClf1xr8cPRTm+ZrCLxbGNHS3butuBhdWn
- A5kA==
+ bh=uvyAq22LZpRLFDPeqbXH7QRTPLBpYz1NSiWqpfZpfYg=;
+ b=BMyCatf75+tnK8vU/KBC59W0QgZqlGVForqrSq1Q6xc8DuCTyPFcAUWu9Jm6yonbqQ
+ TExSublKlZ8iXV5mDvtTdH6UYnMCmTEVYjv1ku6Mlhpm1bjJv5h9ifEZ88CQNjI2Hv3y
+ otgKAmbykqsxx1livqpeNRiVnM0UyxkHHwC8yXrxO9d34A9GaOc/moaWO6oSCSscLbR7
+ 5KhH7aEnzBH3yxR2so4oLc9rjBT+Mj3nqdMUHHWs8aMM1dE9scwCnNnPmv7kGJPiV+mp
+ VvgaDZPwd3rKbP72Wxl+jb99tuki+Qvsw+E1xLKlzvKG2a3EYpLpAzvBddTFf8MzobqZ
+ K7Jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=Z/IEPTuPLem1LbcsQ8EirE06h15XALksmXQzNW0/kN0=;
- b=TPTbmoclPjGWQEN+WcBxvIiy1k1nXNvRm3bzrkDb66OYa1jC8KETUC9UnbpcDlgJt7
- e0yYM1PMz7iNbir+agL1aVOYXJSjf6YNvWC13SW4IDSawbYMLxyfcOor4HyFtlBKwg1g
- dhiIEBa/pfEkb1dDAy8PUchbfsHdWRKb1tAy0RkBld/xDRc4BNhvL+IbQTkeysMFcPWV
- mQLF8uSTF7cFiDAZ+Mb9/xfnGJb/CyQQIOl4LjnCUql7qb5Rvsocn/FFkfeDvJ0Oqbar
- 2Xoua5kt4evlyfeS1tKLQGctskK/EH0Qxngvty0s18np5LcjWh22P1lxQ5Dydf52ikPY
- 9XkA==
-X-Gm-Message-State: AOAM533FXhhI0ZrsTXWfQWDyDz3aPj15YagloZqRRQ4UVrKFYGBPi5lP
- BPoLBUuC+2NSfOd78KDi7L4523QD
-X-Google-Smtp-Source: ABdhPJyN7+rmq1LVwe42qIaf+uH2LQcWEs+Qj8d6O78YIuEoUEk7LrSp9P2vy1X+JszvFCKdo6d6bA==
-X-Received: by 2002:a05:6830:1512:: with SMTP id
- k18mr2616069otp.37.1592317119076; 
- Tue, 16 Jun 2020 07:18:39 -0700 (PDT)
+ bh=uvyAq22LZpRLFDPeqbXH7QRTPLBpYz1NSiWqpfZpfYg=;
+ b=iRlEh5qOj1rPmagd4q1hUtqAkLKhGDP57zNGP9e7IpUzIt+qNPrhG5WRlRamseuFrE
+ ku1yMfOQaidLjeluAciRs9j3bH3mplrpR4T7nSjvHaXg4Xd81ma/7Rby6WlZ1h4ecNS5
+ Yh+vxf6666+B9Z04fzhYOF/hyCwtH5eh+oHDvd4NnV0X/gy01sjMhwqoGDUrIXbSOT+E
+ bmzEIcHQbdUbCuZyj2ipgv2crMpz/UWjGcFH1/sfs887FXn4qHcDWy88EKF+9MAux0UQ
+ AGVJumJKM1/3qPwv9Q79XjmV5tGllscqwNfq2hZcSrD6a3xU45HmKIeCnggy28ifI1pZ
+ 7fBA==
+X-Gm-Message-State: AOAM533GjCLm70AoGNaedLnVxiFZ3IO1FkrbO4YzxCxliOz9NlSVGXKI
+ OMp0CijOmhHgCf8PzINIK6alLdj/
+X-Google-Smtp-Source: ABdhPJzCkYT8mgvg/PpJRcol5Oad5nfYzaKSveTXknJISbylDgZ0tl5j5EEhRrxv4pLdWL+5MFuzfg==
+X-Received: by 2002:a05:6808:4b:: with SMTP id
+ v11mr3387714oic.31.1592317121076; 
+ Tue, 16 Jun 2020 07:18:41 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id x6sm2880173ooe.5.2020.06.16.07.18.38
+ by smtp.gmail.com with ESMTPSA id m94sm4078517otm.19.2020.06.16.07.18.39
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 16 Jun 2020 07:18:38 -0700 (PDT)
+ Tue, 16 Jun 2020 07:18:39 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 48/78] iotests/026: Test EIO on preallocated zero cluster
-Date: Tue, 16 Jun 2020 09:15:17 -0500
-Message-Id: <20200616141547.24664-49-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 49/78] iotests/026: Test EIO on allocation in a data-file
+Date: Tue, 16 Jun 2020 09:15:18 -0500
+Message-Id: <20200616141547.24664-50-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
 References: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::331;
- envelope-from=flukshun@gmail.com; helo=mail-ot1-x331.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22f;
+ envelope-from=flukshun@gmail.com; helo=mail-oi1-x22f.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -88,46 +88,64 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Max Reitz <mreitz@redhat.com>
 
-Test what happens when writing data to a preallocated zero cluster, but
-the data write fails.
+Test what happens when writing data to an external data file, where the
+write requires an L2 entry to be allocated, but the data write fails.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
-Message-Id: <20200225143130.111267-3-mreitz@redhat.com>
+Message-Id: <20200225143130.111267-4-mreitz@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-(cherry picked from commit 31ab00f3747c00fdbb9027cea644b40dd1405480)
+(cherry picked from commit 81311255f217859413c94f2cd9cebf2684bbda94)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- tests/qemu-iotests/026             | 21 +++++++++++++++++++++
- tests/qemu-iotests/026.out         | 10 ++++++++++
- tests/qemu-iotests/026.out.nocache | 10 ++++++++++
- 3 files changed, 41 insertions(+)
+ tests/qemu-iotests/026             | 32 ++++++++++++++++++++++++++++++
+ tests/qemu-iotests/026.out         |  6 ++++++
+ tests/qemu-iotests/026.out.nocache |  6 ++++++
+ 3 files changed, 44 insertions(+)
 
 diff --git a/tests/qemu-iotests/026 b/tests/qemu-iotests/026
-index 3430029ed6..d89729697f 100755
+index d89729697f..c1c96a41d9 100755
 --- a/tests/qemu-iotests/026
 +++ b/tests/qemu-iotests/026
-@@ -215,6 +215,27 @@ _make_test_img 64M
- $QEMU_IO -c "write 0 1M" -c "write 0 1M" "$BLKDBG_TEST_IMG" | _filter_qemu_io
+@@ -30,6 +30,7 @@ _cleanup()
+ {
+ 	_cleanup_test_img
+     rm "$TEST_DIR/blkdebug.conf"
++    rm -f "$TEST_IMG.data_file"
+ }
+ trap "_cleanup; exit \$status" 0 1 2 3 15
+ 
+@@ -236,6 +237,37 @@ $QEMU_IO -c "write 0 $CLUSTER_SIZE" "$BLKDBG_TEST_IMG" | _filter_qemu_io
+ 
  _check_test_img
  
 +echo
-+echo === Avoid freeing preallocated zero clusters on failure ===
++echo === Avoid freeing external data clusters on failure ===
 +echo
 +
-+cat > "$TEST_DIR/blkdebug.conf" <<EOF
-+[inject-error]
-+event = "write_aio"
-+errno = "5"
-+once = "on"
-+EOF
++# Similar test as the last one, except we test what happens when there
++# is an error when writing to an external data file instead of when
++# writing to a preallocated zero cluster
++_make_test_img -o "data_file=$TEST_IMG.data_file" $CLUSTER_SIZE
 +
-+_make_test_img $CLUSTER_SIZE
-+# Create a preallocated zero cluster
-+$QEMU_IO -c "write 0 $CLUSTER_SIZE" -c "write -z 0 $CLUSTER_SIZE" "$TEST_IMG" \
++# Put blkdebug above the data-file, and a raw node on top of that so
++# that blkdebug will see a write_aio event and emit an error
++$QEMU_IO -c "write 0 $CLUSTER_SIZE" \
++    "json:{
++         'driver': 'qcow2',
++         'file': { 'driver': 'file', 'filename': '$TEST_IMG' },
++         'data-file': {
++             'driver': 'raw',
++             'file': {
++                 'driver': 'blkdebug',
++                 'config': '$TEST_DIR/blkdebug.conf',
++                 'image': {
++                     'driver': 'file',
++                     'filename': '$TEST_IMG.data_file'
++                 }
++             }
++         }
++     }" \
 +    | _filter_qemu_io
-+# Try to overwrite it (prompting an I/O error from blkdebug), thus
-+# triggering the alloc abort code
-+$QEMU_IO -c "write 0 $CLUSTER_SIZE" "$BLKDBG_TEST_IMG" | _filter_qemu_io
 +
 +_check_test_img
 +
@@ -135,40 +153,32 @@ index 3430029ed6..d89729697f 100755
  echo "*** done"
  rm -f $seq.full
 diff --git a/tests/qemu-iotests/026.out b/tests/qemu-iotests/026.out
-index ff0817b6f2..83989996ff 100644
+index 83989996ff..c1b3b58482 100644
 --- a/tests/qemu-iotests/026.out
 +++ b/tests/qemu-iotests/026.out
-@@ -643,4 +643,14 @@ write failed: Input/output error
- wrote 1048576/1048576 bytes at offset 0
- 1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+@@ -653,4 +653,10 @@ wrote 1024/1024 bytes at offset 0
+ 1 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ write failed: Input/output error
  No errors were found on the image.
 +
-+=== Avoid freeing preallocated zero clusters on failure ===
++=== Avoid freeing external data clusters on failure ===
 +
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1024
-+wrote 1024/1024 bytes at offset 0
-+1 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+wrote 1024/1024 bytes at offset 0
-+1 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1024 data_file=TEST_DIR/t.IMGFMT.data_file
 +write failed: Input/output error
 +No errors were found on the image.
  *** done
 diff --git a/tests/qemu-iotests/026.out.nocache b/tests/qemu-iotests/026.out.nocache
-index 495d013007..9359d26d7e 100644
+index 9359d26d7e..8d5001648a 100644
 --- a/tests/qemu-iotests/026.out.nocache
 +++ b/tests/qemu-iotests/026.out.nocache
-@@ -651,4 +651,14 @@ write failed: Input/output error
- wrote 1048576/1048576 bytes at offset 0
- 1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+@@ -661,4 +661,10 @@ wrote 1024/1024 bytes at offset 0
+ 1 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ write failed: Input/output error
  No errors were found on the image.
 +
-+=== Avoid freeing preallocated zero clusters on failure ===
++=== Avoid freeing external data clusters on failure ===
 +
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1024
-+wrote 1024/1024 bytes at offset 0
-+1 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+wrote 1024/1024 bytes at offset 0
-+1 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1024 data_file=TEST_DIR/t.IMGFMT.data_file
 +write failed: Input/output error
 +No errors were found on the image.
  *** done
