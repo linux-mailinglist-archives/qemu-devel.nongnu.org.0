@@ -2,76 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B783D1FBFBA
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 22:10:32 +0200 (CEST)
-Received: from localhost ([::1]:51876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 973D11FC004
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 22:29:50 +0200 (CEST)
+Received: from localhost ([::1]:34136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlHuh-0000XF-RQ
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 16:10:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54206)
+	id 1jlIDN-00011E-MJ
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 16:29:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57344)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jlHtt-0008SS-Gv
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 16:09:41 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:48348
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jlICe-0000HV-Sv; Tue, 16 Jun 2020 16:29:04 -0400
+Resent-Date: Tue, 16 Jun 2020 16:29:04 -0400
+Resent-Message-Id: <E1jlICe-0000HV-Sv@lists.gnu.org>
+Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21724)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jlHtr-00040h-R3
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 16:09:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592338178;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qN0bYzVNMxPstzIJVKAf5YT8QXyeNSHCEOpkWOO1oNw=;
- b=AGj3krM6MfBohksflXNGvq3ihlUpX+evmzPfBIBhllSNGFzhuMhBfG9otLE5UTXWggwd4h
- GTX2ffZLqebbdVE6QFXYMC7Z/WAK/vQGYpbszA8/jv90LjkPCdvHD3/7NxToK5RwReGnJB
- VW8wp4vzWnzJxwCs+eGvHs2xSCv2Bfg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-388-Fs2psZicMRaYPpgcwEgPQg-1; Tue, 16 Jun 2020 16:09:34 -0400
-X-MC-Unique: Fs2psZicMRaYPpgcwEgPQg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 35D31109133E;
- Tue, 16 Jun 2020 20:09:33 +0000 (UTC)
-Received: from [10.3.112.27] (ovpn-112-27.phx2.redhat.com [10.3.112.27])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 777A05D9D7;
- Tue, 16 Jun 2020 20:09:32 +0000 (UTC)
-Subject: Re: [PATCH] block: file-posix: Fail unmap with NO_FALLBACK on block
- device
-To: Kevin Wolf <kwolf@redhat.com>, Nir Soffer <nsoffer@redhat.com>
-References: <20200613170826.354270-1-nsoffer@redhat.com>
- <CAMRbyyswkaedF0dN2nPb3H8fj5+pmhLWh9GHGor4wUk_Su=b8A@mail.gmail.com>
- <20200616153241.GF4305@linux.fritz.box>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <3fbf14f4-1bb9-7e30-3e7c-6207fa3f15c1@redhat.com>
-Date: Tue, 16 Jun 2020 15:09:31 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jlICc-00079Q-AW; Tue, 16 Jun 2020 16:29:04 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1592339320; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=nVbpeeSYbh1BRAp89QxBiCVe28OsGholhUE5uYT2/qN+txjBIT6AHl9BAC3G9Ww7iL42HsWqJ5gAAHeOBd4mFM6Sn2Mn8ZKjSsGWX/B7fvTltK8cU+EHcljlvp/WfuYRa3c3diiycbJBU8PQEQycSNejX12MGijSv6nLUmQtfzE=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1592339320;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=w4mpMyzXLvX7y+0PGrt7SXEH0j1hSxlNh2h4W1RWe3g=; 
+ b=NWe/HyKsjfb/1CaEiBcvPRP0myqXitXF8jnrtFtU9mXDD5WFLL1YZi4bxgoQzyJdpRV3eEtLwqpB1P3/YUZ0+5R38cYPrrqLJanegilgjVkWehtVhk7hyEEFoxkJUEZOOlaceSAzwZKv6yQVM0sc0CwkJF0HN0/3JGhshV/HHkI=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1592339318597240.28253489928113;
+ Tue, 16 Jun 2020 13:28:38 -0700 (PDT)
+Message-ID: <159233931679.9045.8660578431308415612@d1fd068a5071>
+Subject: Re: [PATCH v4 0/4] block: seriously improve savevm performance
+In-Reply-To: <20200616162035.29857-1-den@openvz.org>
 MIME-Version: 1.0
-In-Reply-To: <20200616153241.GF4305@linux.fritz.box>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=eblake@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 02:45:54
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: den@openvz.org
+Date: Tue, 16 Jun 2020 13:28:38 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o57.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 16:28:59
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,106 +67,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block <qemu-block@nongnu.org>, pl@kamp.de,
- QEMU Developers <qemu-devel@nongnu.org>, nirsof <nirsof@gmail.com>,
- Max Reitz <mreitz@redhat.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, fam@euphon.net, vsementsov@virtuozzo.com,
+ qemu-block@nongnu.org, quintela@redhat.com, qemu-devel@nongnu.org,
+ dgilbert@redhat.com, dplotnikov@virtuozzo.com, stefanha@redhat.com,
+ den@openvz.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/16/20 10:32 AM, Kevin Wolf wrote:
-> Am 15.06.2020 um 21:32 hat Nir Soffer geschrieben:
->> We can zero 2.3 g/s:
->>
->> # time blkdiscard -z test-lv
->>
->> real 0m43.902s
->> user 0m0.002s
->> sys 0m0.130s
-> 
->> We can write 445m/s:
->>
->> # dd if=/dev/zero bs=2M count=51200 of=test-lv oflag=direct conv=fsync
->> 107374182400 bytes (107 GB, 100 GiB) copied, 241.257 s, 445 MB/s
-> 
-> So using FALLOC_FL_PUNCH_HOLE _is_ faster after all. What might not be
-> faster is zeroing out the whole device and then overwriting a
-> considerable part of it again.
-
-Yeah, there can indeed be a difference between a pre-zeroing which can 
-be super-fast (on a posix file, truncate to 0 and back to the desired 
-size, for example), and where it is faster than writes but still slower 
-than a single pass.
-
-> 
-> I think this means that we shouldn't fail write_zeroes at the file-posix
-> level even if BDRV_REQ_NO_FALLBACK is given. Instead, qemu-img convert
-> is where I see a fix.
-
-Is the kernel able to tell us reliably when we can perform a fast 
-pre-zero pass?  If it can't, it's that much harder to define when 
-BDRV_REQ_NO_FALLBACK makes a difference.
-
-> 
-> Certainly qemu-img could be cleverer and zero out more selectively. The
-> idea of doing a blk_make_zero() first seems to have caused some
-> problems, though of course its introduction was also justified with
-> performance, so improving one case might hurt another if we're not
-> careful.
-> 
-> However, when Peter Lieven introduced this (commit 5a37b60a61c), we
-> didn't use write_zeroes yet during the regular copy loop (we do since
-> commit 690c7301600). So chances are that blk_make_zero() doesn't
-> actually help any more now.
-> 
-> Can you run another test with the patch below? I think it should perform
-> the same as yours. Eric, Peter, do you think this would have a negative
-> effect for NBD and/or iscsi?
-
-I'm still hoping to revive my work on making bdrv_make_zero a per-driver 
-callback with smarts for the fastest possible pre-zeroing that driver is 
-capable of, or fast failure when BDRV_REQ_NO_FALLBACK is set and it is 
-no faster to pre-zero than it is to just write zeroes when needed.  I 
-can certainly construct NBD scenarios in either direction (where a 
-pre-zeroing pass is faster because of less network traffic, or where a 
-pre-zeroing pass is slower because of increased I/O - in fact, that was 
-part of my KVM Forum 2019 demo on why the NBD protocol added a FAST_ZERO 
-flag mirroring the idea of qemu's BDRV_REQ_NO_FALLBACK).
-
-> 
-> The other option would be providing an option and making it Someone
-> Else's Problem.
-
-Matching what we recently did with --target-is-zero.
-
-> 
-> Kevin
-> 
-> 
-> diff --git a/qemu-img.c b/qemu-img.c
-> index d7e846e607..bdb9f6aa46 100644
-> --- a/qemu-img.c
-> +++ b/qemu-img.c
-> @@ -2084,15 +2084,6 @@ static int convert_do_copy(ImgConvertState *s)
->           s->has_zero_init = bdrv_has_zero_init(blk_bs(s->target));
->       }
-> 
-> -    if (!s->has_zero_init && !s->target_has_backing &&
-> -        bdrv_can_write_zeroes_with_unmap(blk_bs(s->target)))
-> -    {
-> -        ret = blk_make_zero(s->target, BDRV_REQ_MAY_UNMAP | BDRV_REQ_NO_FALLBACK);
-> -        if (ret == 0) {
-> -            s->has_zero_init = true;
-> -        }
-> -    }
-> -
->       /* Allocate buffer for copied data. For compressed images, only one cluster
->        * can be copied at a time. */
->       if (s->compressed) {
-> 
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDYxNjE2MjAzNS4yOTg1
+Ny0xLWRlbkBvcGVudnoub3JnLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhhdmUgc29t
+ZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUgaW5mb3Jt
+YXRpb246CgpTdWJqZWN0OiBbUEFUQ0ggdjQgMC80XSBibG9jazogc2VyaW91c2x5IGltcHJvdmUg
+c2F2ZXZtIHBlcmZvcm1hbmNlClR5cGU6IHNlcmllcwpNZXNzYWdlLWlkOiAyMDIwMDYxNjE2MjAz
+NS4yOTg1Ny0xLWRlbkBvcGVudnoub3JnCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jp
+bi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZp
+ZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5h
+bWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3Nj
+cmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5E
+ID09PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcxMzM4NApT
+d2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCjU1MTgyNmUgYmxvY2svaW86IGltcHJvdmUg
+c2F2ZXZtIHBlcmZvcm1hbmNlCjgxYTkzZmQgYmxvY2ssIG1pZ3JhdGlvbjogYWRkIGJkcnZfZmx1
+c2hfdm1zdGF0ZSBoZWxwZXIKMDVlMzM5NSBibG9jay9haW9fdGFzazogZHJvcCBhaW9fdGFza19w
+b29sX3dhaXRfb25lKCkgaGVscGVyCjYxZTBjZTMgYmxvY2svYWlvX3Rhc2s6IGFsbG93IHN0YXJ0
+L3dhaXQgdGFzayBmcm9tIGFueSBjb3JvdXRpbmUKZDA0YTcxNiBtaWdyYXRpb24vc2F2ZXZtOiBy
+ZXNwZWN0IHFlbXVfZmNsb3NlKCkgZXJyb3IgY29kZSBpbiBzYXZlX3NuYXBzaG90KCkKCj09PSBP
+VVRQVVQgQkVHSU4gPT09CjEvNSBDaGVja2luZyBjb21taXQgZDA0YTcxNjBkMmMwIChtaWdyYXRp
+b24vc2F2ZXZtOiByZXNwZWN0IHFlbXVfZmNsb3NlKCkgZXJyb3IgY29kZSBpbiBzYXZlX3NuYXBz
+aG90KCkpCjIvNSBDaGVja2luZyBjb21taXQgNjFlMGNlMzJkMzIwIChibG9jay9haW9fdGFzazog
+YWxsb3cgc3RhcnQvd2FpdCB0YXNrIGZyb20gYW55IGNvcm91dGluZSkKMy81IENoZWNraW5nIGNv
+bW1pdCAwNWUzMzk1MDBhZjggKGJsb2NrL2Fpb190YXNrOiBkcm9wIGFpb190YXNrX3Bvb2xfd2Fp
+dF9vbmUoKSBoZWxwZXIpCjQvNSBDaGVja2luZyBjb21taXQgODFhOTNmZGY3NGE5IChibG9jaywg
+bWlncmF0aW9uOiBhZGQgYmRydl9mbHVzaF92bXN0YXRlIGhlbHBlcikKV0FSTklORzogQmxvY2sg
+Y29tbWVudHMgdXNlIGEgbGVhZGluZyAvKiBvbiBhIHNlcGFyYXRlIGxpbmUKIzkzOiBGSUxFOiBp
+bmNsdWRlL2Jsb2NrL2Jsb2NrLmg6NTc1OgorLyogYmRydl9mbHVzaF92bXN0YXRlKCkgaXMgbWFu
+ZGF0b3J5IHRvIGNvbW1pdCB2bXN0YXRlIGNoYW5nZXMgaWYKCldBUk5JTkc6IEJsb2NrIGNvbW1l
+bnRzIHVzZSAqIG9uIHN1YnNlcXVlbnQgbGluZXMKIzk0OiBGSUxFOiBpbmNsdWRlL2Jsb2NrL2Js
+b2NrLmg6NTc2OgorLyogYmRydl9mbHVzaF92bXN0YXRlKCkgaXMgbWFuZGF0b3J5IHRvIGNvbW1p
+dCB2bXN0YXRlIGNoYW5nZXMgaWYKKyAgIGJkcnZfc2F2ZV92bXN0YXRlKCkgd2FzIGV2ZXIgY2Fs
+bGVkICovCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSB0cmFpbGluZyAqLyBvbiBhIHNl
+cGFyYXRlIGxpbmUKIzk0OiBGSUxFOiBpbmNsdWRlL2Jsb2NrL2Jsb2NrLmg6NTc2OgorICAgYmRy
+dl9zYXZlX3Ztc3RhdGUoKSB3YXMgZXZlciBjYWxsZWQgKi8KCkVSUk9SOiBicmFjZXMge30gYXJl
+IG5lY2Vzc2FyeSBmb3IgYWxsIGFybXMgb2YgdGhpcyBzdGF0ZW1lbnQKIzEwODogRklMRTogbWln
+cmF0aW9uL3NhdmV2bS5jOjE1NDoKKyAgICBpZiAoZXJyIDwgMCkKWy4uLl0KCnRvdGFsOiAxIGVy
+cm9ycywgMyB3YXJuaW5ncywgNjAgbGluZXMgY2hlY2tlZAoKUGF0Y2ggNC81IGhhcyBzdHlsZSBw
+cm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNl
+IHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0gg
+aW4gTUFJTlRBSU5FUlMuCgo1LzUgQ2hlY2tpbmcgY29tbWl0IDU1MTgyNmU0YWU2NiAoYmxvY2sv
+aW86IGltcHJvdmUgc2F2ZXZtIHBlcmZvcm1hbmNlKQpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1
+c2UgYSBsZWFkaW5nIC8qIG9uIGEgc2VwYXJhdGUgbGluZQojMTMyOiBGSUxFOiBibG9jay9pby5j
+OjI3MTE6CisgICAgICAgIC8qIENhbGxlciBpcyByZXNwb25zaWJsZSBmb3IgY2xlYW51cC4gV2Ug
+c2hvdWxkIGJsb2NrIGFsbCBmdXJ0aGVyCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSB0
+cmFpbGluZyAqLyBvbiBhIHNlcGFyYXRlIGxpbmUKIzEzMzogRklMRTogYmxvY2svaW8uYzoyNzEy
+OgorICAgICAgICAgKiBzYXZlIG9wZXJhdGlvbnMgZm9yIHRoaXMgZXhhY3Qgc3RhdGUgKi8KCnRv
+dGFsOiAwIGVycm9ycywgMiB3YXJuaW5ncywgMTc5IGxpbmVzIGNoZWNrZWQKClBhdGNoIDUvNSBo
+YXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3Jz
+CmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpD
+SEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29tbWFu
+ZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRw
+Oi8vcGF0Y2hldy5vcmcvbG9ncy8yMDIwMDYxNjE2MjAzNS4yOTg1Ny0xLWRlbkBvcGVudnoub3Jn
+L3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1
+dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2Vu
+ZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
 
