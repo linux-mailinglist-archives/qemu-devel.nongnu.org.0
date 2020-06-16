@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F3F11FB44A
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:27:40 +0200 (CEST)
-Received: from localhost ([::1]:53094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65B6C1FB436
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:25:53 +0200 (CEST)
+Received: from localhost ([::1]:46066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlCYt-0007ww-4b
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:27:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57304)
+	id 1jlCXA-00050p-C4
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:25:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCPN-0001YN-Sm; Tue, 16 Jun 2020 10:17:49 -0400
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:38304)
+ id 1jlCPP-0001cD-Ag; Tue, 16 Jun 2020 10:17:51 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:41875)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCPM-0006ZD-Cc; Tue, 16 Jun 2020 10:17:49 -0400
-Received: by mail-ot1-x341.google.com with SMTP id n70so16043119ota.5;
- Tue, 16 Jun 2020 07:17:47 -0700 (PDT)
+ id 1jlCPN-0006Zh-Sh; Tue, 16 Jun 2020 10:17:50 -0400
+Received: by mail-ot1-x344.google.com with SMTP id k15so16041234otp.8;
+ Tue, 16 Jun 2020 07:17:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=R9xeBRc60+ORME3XWT914n4d4tIF833r1AL2yrH3GfE=;
- b=kBLc7qb9Bf8gIGE0trLD7hJLK+x7YDhzlNVA7Lmv8zVHGLZ3ui/0EyNPlSos6psLSE
- jD/S955GOvKyahhdk9L4WM7DG5FF8wWoZhy7FWLp1RFG9Hv2iHmJpqdBIUchwRLaFqIU
- hcyc+Lrd5gVo7q+Sggv2O6g65Z8pUUvZNOfpEKIpLvfkNnN5HoKAFe1JzNlGFEGEHGUM
- QrhwSSrtV3GCPyBDgVeHw3zAj4XK1KqY1FHIIDx0ghSsP6BKvBe+uX9HV/1NTXuhQ5Jz
- 9NNEnJEVH1ELIFM7p6M2oe5hgdkEG0kqJZZ0+AJtpL83mpFf0mMTMuFHZ95g0Qm6SbEk
- 01ig==
+ bh=n7B/wh3iwTtyo7VyN7RqN0zDZm9E1OhXpgfK21UOXC8=;
+ b=aQPaW9tAw2YZkeFMm0nfTS+qfP/GmG6XHwzbZvRydk61C3pGf18c7UPhBe2r443FPN
+ a0xYZATejGGsWplnd2LfjH81j6x8FSlota+LJ+jcyAfMJe3MYgzQN7Vkf8UTkRVDVKfJ
+ by+/wg+1uMd7B55JGrcP2ce+4BczPLS/wxJfb4FGBjHceMASFwSbcIRSl6CLaZ0MQqKu
+ pg2sxk3Tfa2fEioThbFLlrzHxAI6djZHxF/St0Njgyll287xEjn9jUH3cpgdheW0GIih
+ u87CReq8WhDndlC1SYBnvLTsl2zWiIZgftsSawUhtoWBG807QD7QmaYyF16SikmeK6yA
+ uOJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=R9xeBRc60+ORME3XWT914n4d4tIF833r1AL2yrH3GfE=;
- b=gm/01BDP4fDF+s6kvQWEkbVz9Aec6Nt+dCHd0aPEg12ZbV7rUeJXujoOcVN6H1eVJV
- ebrfuyIp8wzSOq1zBBTIR5LwnwMVX4Mfmcat+JBV32wad5StYWaZk1+1Rk8bnTllPXah
- b6W4GC54WtlCsTJyTWBrvRDtrBW/o8yQCL41wKWjIJU5vXLWk+h8HYe00HaZbP06ugg3
- DLfjXVavmnefdmpK8qorZIQUHku9wolmBJljyle7USsBABXWn/c9UwzWV8e8+QZW2paN
- hGgr93SaYbUOawZil9gomThgz9dFAZYoKOmHrLPRp3o8EB88YQfcWf6Gyx9+c2WrWbMG
- Tefg==
-X-Gm-Message-State: AOAM533kWydafIqEBCAPDYI5eFf8uL6wbSHK2CgsUirMgcihgg3KuIYE
- hP/L46mTAWvpQ9Gged3rsspumOgV
-X-Google-Smtp-Source: ABdhPJzawZm3yjs02HwVJxdnwrJ2S0f/Awx260571nMpMwTONpYUbauMbYQrMLmX6vYrM1MKt/Culg==
-X-Received: by 2002:a9d:7457:: with SMTP id p23mr2518680otk.138.1592317066502; 
- Tue, 16 Jun 2020 07:17:46 -0700 (PDT)
+ bh=n7B/wh3iwTtyo7VyN7RqN0zDZm9E1OhXpgfK21UOXC8=;
+ b=K1M5em5ge66juXzmtcfvyBgwbRHQ1Z2h8fPA21T07L8IAZq7sK+noOAg2c8rn7OWMk
+ P5zSL8WYKehcO9+LXZmNwBpmfcFVcPaSaHiPXMnkAfNOb6l3nts3F2b3ohYj5j3QI7Z+
+ N7HLpMLtMsA0PZH5orDwzoesZEvIGJL8A1oik9EbXozVYwKNvJp8c/8aJjwl05teTm8p
+ GSuTylCuHf/drdyhFI1ou1fH5GNjrglGjfE5yz/IwHLkfC6YRuhDkjcX9JVUdiuGsdaY
+ BE46LCpmTQYDrwFMck/mXSb1TmqqBg73RG9xKd4dO5d0Ws9z944904VVEuk83GCXy0Gz
+ ReZg==
+X-Gm-Message-State: AOAM533e+7RX3AB6AuhtV/SX36jqwiPX0TKSIcmmSeUr4jSLyoLo9y5k
+ SQse75HRTV6KYiL+oMQ3edURkQZ3
+X-Google-Smtp-Source: ABdhPJwKg+xX9CQiekHgGGRXnhTipyam5hAQCYo798Q9SkgQuqngG0+2gPE8BJ9MPYnR6Vs3JBNSDg==
+X-Received: by 2002:a9d:4b90:: with SMTP id k16mr2494240otf.69.1592317068096; 
+ Tue, 16 Jun 2020 07:17:48 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id a9sm2827543oon.38.2020.06.16.07.17.45
+ by smtp.gmail.com with ESMTPSA id 53sm4068150otv.22.2020.06.16.07.17.46
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 16 Jun 2020 07:17:45 -0700 (PDT)
+ Tue, 16 Jun 2020 07:17:47 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 17/78] virtio: update queue size on guest write
-Date: Tue, 16 Jun 2020 09:14:46 -0500
-Message-Id: <20200616141547.24664-18-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 18/78] virtio-mmio: update queue size on guest write
+Date: Tue, 16 Jun 2020 09:14:47 -0500
+Message-Id: <20200616141547.24664-19-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
 References: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::341;
- envelope-from=flukshun@gmail.com; helo=mail-ot1-x341.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
+ envelope-from=flukshun@gmail.com; helo=mail-ot1-x344.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -80,41 +80,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-stable@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Denis Plotnikov <dplotnikov@virtuozzo.com>, qemu-stable@nongnu.org,
+ "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Michael S. Tsirkin" <mst@redhat.com>
+From: Denis Plotnikov <dplotnikov@virtuozzo.com>
 
 Some guests read back queue size after writing it.
-Update the size immediatly upon write otherwise
-they get confused.
+Always update the on size write otherwise they might be confused.
 
-In particular this is the case for seabios.
-
-Reported-by: Roman Kagan <rkagan@virtuozzo.com>
-Suggested-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
 Cc: qemu-stable@nongnu.org
+Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
+Message-Id: <20191224081446.17003-1-dplotnikov@virtuozzo.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-(cherry picked from commit d0c5f643383b9e84316f148affff368ac33d75b9)
+(cherry picked from commit 1049f4c62c4070618cc5defc9963c6a17ae7a5ae)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- hw/virtio/virtio-pci.c | 2 ++
- 1 file changed, 2 insertions(+)
+ hw/virtio/virtio-mmio.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index c6b47a9c73..e5c759e19e 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -1256,6 +1256,8 @@ static void virtio_pci_common_write(void *opaque, hwaddr addr,
+diff --git a/hw/virtio/virtio-mmio.c b/hw/virtio/virtio-mmio.c
+index 94d934c44b..1e40a74869 100644
+--- a/hw/virtio/virtio-mmio.c
++++ b/hw/virtio/virtio-mmio.c
+@@ -295,8 +295,9 @@ static void virtio_mmio_write(void *opaque, hwaddr offset, uint64_t value,
          break;
-     case VIRTIO_PCI_COMMON_Q_SIZE:
-         proxy->vqs[vdev->queue_sel].num = val;
-+        virtio_queue_set_num(vdev, vdev->queue_sel,
-+                             proxy->vqs[vdev->queue_sel].num);
-         break;
-     case VIRTIO_PCI_COMMON_Q_MSIX:
-         msix_vector_unuse(&proxy->pci_dev,
+     case VIRTIO_MMIO_QUEUE_NUM:
+         trace_virtio_mmio_queue_write(value, VIRTQUEUE_MAX_SIZE);
++        virtio_queue_set_num(vdev, vdev->queue_sel, value);
++
+         if (proxy->legacy) {
+-            virtio_queue_set_num(vdev, vdev->queue_sel, value);
+             virtio_queue_update_rings(vdev, vdev->queue_sel);
+         } else {
+             proxy->vqs[vdev->queue_sel].num = value;
 -- 
 2.17.1
 
