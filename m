@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFBDD1FA950
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 08:59:11 +0200 (CEST)
-Received: from localhost ([::1]:56886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B822D1FA952
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 08:59:39 +0200 (CEST)
+Received: from localhost ([::1]:58774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jl5Ys-0003w1-VL
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 02:59:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42040)
+	id 1jl5ZK-0004hq-Op
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 02:59:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42048)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1jl5Mh-0001oS-KG
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 02:46:35 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:31379
- helo=us-smtp-1.mimecast.com)
+ id 1jl5Mi-0001q7-Dk
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 02:46:36 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:33091
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1jl5Mf-0005k3-M2
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 02:46:35 -0400
+ id 1jl5Mf-0005kA-LW
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 02:46:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592289989;
+ s=mimecast20190719; t=1592289992;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=49TrhWLyQHkix4obFR6PR7exRax6E/YU1zWcuxXe1s0=;
- b=fcUDDO5lUxHG3KXHVlMmzQf0767hOnBR0xwx8eSx1tbkY25Es7+2y5Nge7RV4yMGcDzDb8
- /ecVs7xU4K6DwCL4sd1i0MlpCnfHZjv6n5cEGe21MEdvXd8763qIeykROMC9Jwb37jFiIX
- Tw/14dlI7p6hGahAtmj1gEpCZT49ycI=
+ references:references; bh=0vqoFtVgK7SIrhEAWWD1OBM8pgsuXNy35dko35zy3ts=;
+ b=Jh5btcIlwUHlkHpN+Dt4rS3+04kR6HdEQKAms6UWtZc4atRPNzuYIR1qCo1snnazaoqdqK
+ iC7apSnnSgVj27m37OtGNUUmSbzVRmfCYxynj99CS3Vm+w5HczAZsBokF7p6iZ4f4dyM4r
+ OPRfLNFZTdQu8hRkaohqJ+lbQj0iBaM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-146-H1ICK6ZPPYmrHWoLHZGvVQ-1; Tue, 16 Jun 2020 02:46:27 -0400
-X-MC-Unique: H1ICK6ZPPYmrHWoLHZGvVQ-1
+ us-mta-257-M_stS3hoPoeRHF4C9xdwNQ-1; Tue, 16 Jun 2020 02:46:29 -0400
+X-MC-Unique: M_stS3hoPoeRHF4C9xdwNQ-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E261518585A1;
- Tue, 16 Jun 2020 06:46:25 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0E50680F5C3;
+ Tue, 16 Jun 2020 06:46:28 +0000 (UTC)
 Received: from jason-ThinkPad-T430s.redhat.com (ovpn-13-222.pek2.redhat.com
  [10.72.13.222])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4A8C38202D;
- Tue, 16 Jun 2020 06:46:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6C8A18202D;
+ Tue, 16 Jun 2020 06:46:26 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: peter.maydell@linaro.org
-Subject: [PULL 15/33] net: cadence_gem: Set ISR according to queue in use
-Date: Tue, 16 Jun 2020 14:45:26 +0800
-Message-Id: <1592289944-13727-16-git-send-email-jasowang@redhat.com>
+Subject: [PULL 16/33] net: cadence_gem: Move tx/rx packet buffert to
+ CadenceGEMState
+Date: Tue, 16 Jun 2020 14:45:27 +0800
+Message-Id: <1592289944-13727-17-git-send-email-jasowang@redhat.com>
 In-Reply-To: <1592289944-13727-1-git-send-email-jasowang@redhat.com>
 References: <1592289944-13727-1-git-send-email-jasowang@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=jasowang@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 02:45:54
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 02:45:57
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -83,82 +84,152 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
 
-Set ISR according to queue in use, added interrupt support for
-all queues.
+Moving this buffers to CadenceGEMState, as their size will be increased
+more when JUMBO frames support is added.
 
 Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
 Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- hw/net/cadence_gem.c | 27 +++++++++++++++++----------
- 1 file changed, 17 insertions(+), 10 deletions(-)
+ hw/net/cadence_gem.c         | 38 +++++++++++++++++---------------------
+ include/hw/net/cadence_gem.h |  4 ++++
+ 2 files changed, 21 insertions(+), 21 deletions(-)
 
 diff --git a/hw/net/cadence_gem.c b/hw/net/cadence_gem.c
-index 72e7cf9..2e183b5 100644
+index 2e183b5..247a52f 100644
 --- a/hw/net/cadence_gem.c
 +++ b/hw/net/cadence_gem.c
-@@ -451,6 +451,16 @@ static inline void rx_desc_set_sar(uint32_t *desc, int sar_idx)
- /* The broadcast MAC address: 0xFFFFFFFFFFFF */
- static const uint8_t broadcast_addr[] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
+@@ -928,17 +928,14 @@ static void gem_get_rx_desc(CadenceGEMState *s, int q)
+  */
+ static ssize_t gem_receive(NetClientState *nc, const uint8_t *buf, size_t size)
+ {
+-    CadenceGEMState *s;
++    CadenceGEMState *s = qemu_get_nic_opaque(nc);
+     unsigned   rxbufsize, bytes_to_copy;
+     unsigned   rxbuf_offset;
+-    uint8_t    rxbuf[2048];
+     uint8_t   *rxbuf_ptr;
+     bool first_desc = true;
+     int maf;
+     int q = 0;
  
-+static void gem_set_isr(CadenceGEMState *s, int q, uint32_t flag)
-+{
-+    if (q == 0) {
-+        s->regs[GEM_ISR] |= flag & ~(s->regs[GEM_IMR]);
-+    } else {
-+        s->regs[GEM_INT_Q1_STATUS + q - 1] |= flag &
-+                                      ~(s->regs[GEM_INT_Q1_MASK + q - 1]);
-+    }
-+}
-+
- /*
-  * gem_init_register_masks:
-  * One time initialization.
-@@ -906,7 +916,7 @@ static void gem_get_rx_desc(CadenceGEMState *s, int q)
-     if (rx_desc_get_ownership(s->rx_desc[q]) == 1) {
-         DB_PRINT("descriptor 0x%" HWADDR_PRIx " owned by sw.\n", desc_addr);
-         s->regs[GEM_RXSTATUS] |= GEM_RXSTATUS_NOBUF;
--        s->regs[GEM_ISR] |= GEM_INT_RXUSED & ~(s->regs[GEM_IMR]);
-+        gem_set_isr(s, q, GEM_INT_RXUSED);
-         /* Handle interrupt consequences */
-         gem_update_int_status(s);
-     }
-@@ -1080,7 +1090,7 @@ static ssize_t gem_receive(NetClientState *nc, const uint8_t *buf, size_t size)
-     gem_receive_updatestats(s, buf, size);
- 
-     s->regs[GEM_RXSTATUS] |= GEM_RXSTATUS_FRMRCVD;
--    s->regs[GEM_ISR] |= GEM_INT_RXCMPL & ~(s->regs[GEM_IMR]);
-+    gem_set_isr(s, q, GEM_INT_RXCMPL);
- 
-     /* Handle interrupt consequences */
-     gem_update_int_status(s);
-@@ -1231,13 +1241,7 @@ static void gem_transmit(CadenceGEMState *s)
-                 DB_PRINT("TX descriptor next: 0x%08x\n", s->tx_desc_addr[q]);
- 
-                 s->regs[GEM_TXSTATUS] |= GEM_TXSTATUS_TXCMPL;
--                s->regs[GEM_ISR] |= GEM_INT_TXCMPL & ~(s->regs[GEM_IMR]);
+-    s = qemu_get_nic_opaque(nc);
 -
--                /* Update queue interrupt status */
--                if (s->num_priority_queues > 1) {
--                    s->regs[GEM_INT_Q1_STATUS + q] |=
--                            GEM_INT_TXCMPL & ~(s->regs[GEM_INT_Q1_MASK + q]);
--                }
-+                gem_set_isr(s, q, GEM_INT_TXCMPL);
+     /* Is this destination MAC address "for us" ? */
+     maf = gem_mac_address_filter(s, buf);
+     if (maf == GEM_RX_REJECT) {
+@@ -994,19 +991,19 @@ static ssize_t gem_receive(NetClientState *nc, const uint8_t *buf, size_t size)
+     } else {
+         unsigned crc_val;
  
-                 /* Handle interrupt consequences */
-                 gem_update_int_status(s);
-@@ -1287,7 +1291,10 @@ static void gem_transmit(CadenceGEMState *s)
- 
-         if (tx_desc_get_used(desc)) {
-             s->regs[GEM_TXSTATUS] |= GEM_TXSTATUS_USED;
--            s->regs[GEM_ISR] |= GEM_INT_TXUSED & ~(s->regs[GEM_IMR]);
-+            /* IRQ TXUSED is defined only for queue 0 */
-+            if (q == 0) {
-+                gem_set_isr(s, 0, GEM_INT_TXUSED);
-+            }
-             gem_update_int_status(s);
+-        if (size > sizeof(rxbuf) - sizeof(crc_val)) {
+-            size = sizeof(rxbuf) - sizeof(crc_val);
++        if (size > MAX_FRAME_SIZE - sizeof(crc_val)) {
++            size = MAX_FRAME_SIZE - sizeof(crc_val);
          }
-     }
+         bytes_to_copy = size;
+         /* The application wants the FCS field, which QEMU does not provide.
+          * We must try and calculate one.
+          */
+ 
+-        memcpy(rxbuf, buf, size);
+-        memset(rxbuf + size, 0, sizeof(rxbuf) - size);
+-        rxbuf_ptr = rxbuf;
+-        crc_val = cpu_to_le32(crc32(0, rxbuf, MAX(size, 60)));
+-        memcpy(rxbuf + size, &crc_val, sizeof(crc_val));
++        memcpy(s->rx_packet, buf, size);
++        memset(s->rx_packet + size, 0, MAX_FRAME_SIZE - size);
++        rxbuf_ptr = s->rx_packet;
++        crc_val = cpu_to_le32(crc32(0, s->rx_packet, MAX(size, 60)));
++        memcpy(s->rx_packet + size, &crc_val, sizeof(crc_val));
+ 
+         bytes_to_copy += 4;
+         size += 4;
+@@ -1152,7 +1149,6 @@ static void gem_transmit(CadenceGEMState *s)
+ {
+     uint32_t desc[DESC_MAX_NUM_WORDS];
+     hwaddr packet_desc_addr;
+-    uint8_t     tx_packet[2048];
+     uint8_t     *p;
+     unsigned    total_bytes;
+     int q = 0;
+@@ -1168,7 +1164,7 @@ static void gem_transmit(CadenceGEMState *s)
+      * Packets scattered across multiple descriptors are gathered to this
+      * one contiguous buffer first.
+      */
+-    p = tx_packet;
++    p = s->tx_packet;
+     total_bytes = 0;
+ 
+     for (q = s->num_priority_queues - 1; q >= 0; q--) {
+@@ -1198,12 +1194,12 @@ static void gem_transmit(CadenceGEMState *s)
+                 break;
+             }
+ 
+-            if (tx_desc_get_length(desc) > sizeof(tx_packet) -
+-                                               (p - tx_packet)) {
++            if (tx_desc_get_length(desc) > MAX_FRAME_SIZE -
++                                               (p - s->tx_packet)) {
+                 DB_PRINT("TX descriptor @ 0x%" HWADDR_PRIx \
+                          " too large: size 0x%x space 0x%zx\n",
+                          packet_desc_addr, tx_desc_get_length(desc),
+-                         sizeof(tx_packet) - (p - tx_packet));
++                         MAX_FRAME_SIZE - (p - s->tx_packet));
+                 break;
+             }
+ 
+@@ -1248,24 +1244,24 @@ static void gem_transmit(CadenceGEMState *s)
+ 
+                 /* Is checksum offload enabled? */
+                 if (s->regs[GEM_DMACFG] & GEM_DMACFG_TXCSUM_OFFL) {
+-                    net_checksum_calculate(tx_packet, total_bytes);
++                    net_checksum_calculate(s->tx_packet, total_bytes);
+                 }
+ 
+                 /* Update MAC statistics */
+-                gem_transmit_updatestats(s, tx_packet, total_bytes);
++                gem_transmit_updatestats(s, s->tx_packet, total_bytes);
+ 
+                 /* Send the packet somewhere */
+                 if (s->phy_loop || (s->regs[GEM_NWCTRL] &
+                                     GEM_NWCTRL_LOCALLOOP)) {
+-                    gem_receive(qemu_get_queue(s->nic), tx_packet,
++                    gem_receive(qemu_get_queue(s->nic), s->tx_packet,
+                                 total_bytes);
+                 } else {
+-                    qemu_send_packet(qemu_get_queue(s->nic), tx_packet,
++                    qemu_send_packet(qemu_get_queue(s->nic), s->tx_packet,
+                                      total_bytes);
+                 }
+ 
+                 /* Prepare for next packet */
+-                p = tx_packet;
++                p = s->tx_packet;
+                 total_bytes = 0;
+             }
+ 
+diff --git a/include/hw/net/cadence_gem.h b/include/hw/net/cadence_gem.h
+index 5c83036..eddac70 100644
+--- a/include/hw/net/cadence_gem.h
++++ b/include/hw/net/cadence_gem.h
+@@ -40,6 +40,8 @@
+ #define MAX_TYPE1_SCREENERS             16
+ #define MAX_TYPE2_SCREENERS             16
+ 
++#define MAX_FRAME_SIZE 2048
++
+ typedef struct CadenceGEMState {
+     /*< private >*/
+     SysBusDevice parent_obj;
+@@ -80,6 +82,8 @@ typedef struct CadenceGEMState {
+ 
+     uint8_t can_rx_state; /* Debug only */
+ 
++    uint8_t tx_packet[MAX_FRAME_SIZE];
++    uint8_t rx_packet[MAX_FRAME_SIZE];
+     uint32_t rx_desc[MAX_PRIORITY_QUEUES][DESC_MAX_NUM_WORDS];
+ 
+     bool sar_active[4];
 -- 
 2.5.0
 
