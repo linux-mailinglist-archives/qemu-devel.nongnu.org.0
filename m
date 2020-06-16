@@ -2,72 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC3CF1FB5AF
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 17:09:51 +0200 (CEST)
-Received: from localhost ([::1]:39764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7737C1FB560
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 17:04:18 +0200 (CEST)
+Received: from localhost ([::1]:44088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlDDi-0003nZ-PS
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 11:09:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58466)
+	id 1jlD8L-0001Jn-I0
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 11:04:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCRJ-0004ww-55; Tue, 16 Jun 2020 10:19:49 -0400
-Received: from mail-oi1-x22a.google.com ([2607:f8b0:4864:20::22a]:45918)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCRH-00074J-6T; Tue, 16 Jun 2020 10:19:48 -0400
-Received: by mail-oi1-x22a.google.com with SMTP id p70so19337016oic.12;
- Tue, 16 Jun 2020 07:19:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=mW4tdTj2Ppv8pYdiGj+XU8GuYMAaamWNuvZU1/Njrmw=;
- b=k3QsKWRCaegqZ9QhSIKH6EbW+yvsSc7D3zoimAWBR1uwaqgs7stk3HNkPpnfkrCSsd
- 4zO9Deq55UkQa9B3tpOSZmGgkCyMmdzJ9e55CI2E21k8BEUrTglhF4OfZXMwovWBiu2l
- bXhfk92wRqJs0m7Mf1/XSEOSCQbl7gJ1RcTJg5qmuHV0N8pEXXfq8F49Wk4l3g9S00Bm
- oOHdqk015XcrXqBNDnlY+lkBCeqgjiMMi6jvbIQEmQeKaOmTBNgsty/PrPi6ukww45n1
- DPoDnno82UAIMeliPTAIMLzBrb/yOPxJLq/zI/rCZitY6sN+qXtR6Kir/9tJq2znj3LN
- KNGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references;
- bh=mW4tdTj2Ppv8pYdiGj+XU8GuYMAaamWNuvZU1/Njrmw=;
- b=g1tVLTodnbLZp77ydUNb3t6ys+CF1Ylrxp7W7sDbTmxzneI8yVMG1A1MzPsXLL7WB0
- UHx6eiuR4cVayFFcknozDjBG2umUOAcrk+PoqY1o8+jC3nvv8Z8o2SKkHubgKGQEt7GB
- 3yzoQaIy3ERZNAgCzHvsjfBUaa4PexpLwPJzPnNqndF2k6J/rGiPwme74gOiALtQjpYk
- W8upQfqAedYqBtKOOZxk03eirbWpYG5v+j68OkxV4Jm6tZmLRWX4rlY64nDxPYWlIMnc
- MPzeYiESvM95yqpcd7SW6mh92WpDkqhIt9ZGAlylVvVqOY3EC7/IPaBr8uXt/xiZINYl
- XKWQ==
-X-Gm-Message-State: AOAM531WGMEqfdyB3nhl3tDFAx3925zrUvsCoOJt23s3ZK6pY9Z1QOSw
- 50QnHlyF2CClMsZkBZbzYLsblo+qG2g=
-X-Google-Smtp-Source: ABdhPJyupdAEsnLLy7BnWdhtf1O0PI4eYXdIodvCzqyAJmnOwnBU3AWYDY6JLL9d4CMv5q5SSiVLvw==
-X-Received: by 2002:aca:728f:: with SMTP id p137mr3668116oic.8.1592317185374; 
- Tue, 16 Jun 2020 07:19:45 -0700 (PDT)
-Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
- [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id x10sm4038667oox.41.2020.06.16.07.19.44
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 16 Jun 2020 07:19:44 -0700 (PDT)
-From: Michael Roth <mdroth@linux.vnet.ibm.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 78/78] block: Call attention to truncation of long NBD exports
-Date: Tue, 16 Jun 2020 09:15:47 -0500
-Message-Id: <20200616141547.24664-79-mdroth@linux.vnet.ibm.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
-References: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22a;
- envelope-from=flukshun@gmail.com; helo=mail-oi1-x22a.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1jlCii-0002UA-EI
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 10:37:48 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:53253
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1jlCif-0001dM-Rk
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 10:37:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1592318264;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2c5Wri+RHUpDn0MuyRPYVPPmdqaowYIcLWP9cT6K7DQ=;
+ b=bPTVmjUTVYNjPpQDU1Owi0x7SJoN2bG+c/D5fEU+Ek83HegGhGWcT51E1uQhkszxSVmFOV
+ w8C/1l6c0ArhwC3NNWQvBVhmFmvlnhPm2W9MFT45Y/6n8ZpJ+R1Qe5nJi4PN/pwxGh7Xim
+ Pg9ABadBi6MtczPv0wfBesu/uwEhKY0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-499--27T4Qx-PKOBhJ8Qk6sB_A-1; Tue, 16 Jun 2020 10:37:28 -0400
+X-MC-Unique: -27T4Qx-PKOBhJ8Qk6sB_A-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 829498CFF2B;
+ Tue, 16 Jun 2020 14:37:21 +0000 (UTC)
+Received: from [10.36.114.197] (ovpn-114-197.ams2.redhat.com [10.36.114.197])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 027905C1D2;
+ Tue, 16 Jun 2020 14:37:00 +0000 (UTC)
+Subject: Re: [PATCH v2 4/5] acpi: Enable TPM IRQ
+To: Stefan Berger <stefanb@linux.ibm.com>,
+ Stefan Berger <stefanb@linux.vnet.ibm.com>
+References: <20200615142327.671546-1-stefanb@linux.vnet.ibm.com>
+ <20200615142327.671546-5-stefanb@linux.vnet.ibm.com>
+ <CAMxuvaxm+5Nuv2_1UTXY+-kK1CYMkxqU2pfLOxMgeDEqOjhgZA@mail.gmail.com>
+ <8e11e2d6-5e02-89c0-759f-d74189421eec@linux.ibm.com>
+ <ab78ab4a-a3e3-64bb-ff81-413c17c21f24@redhat.com>
+ <dd1175fb-a3af-8c33-c7d5-02dd1e29e2dd@linux.ibm.com>
+From: Auger Eric <eric.auger@redhat.com>
+Message-ID: <161f92a0-9529-1c41-2ede-b4a7af85ed12@redhat.com>
+Date: Tue, 16 Jun 2020 16:36:59 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
+MIME-Version: 1.0
+In-Reply-To: <dd1175fb-a3af-8c33-c7d5-02dd1e29e2dd@linux.ibm.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=eric.auger@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 02:45:57
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,100 +88,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-stable@nongnu.org
+Cc: "Michael S . Tsirkin" <mst@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>, "Bonzini,
+ Paolo" <pbonzini@redhat.com>, Philippe Mathieu Daude <philmd@redhat.com>,
+ Marek Kedzierski <mkedzier@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Eric Blake <eblake@redhat.com>
+Hi Stefan,
 
-Commit 93676c88 relaxed our NBD client code to request export names up
-to the NBD protocol maximum of 4096 bytes without NUL terminator, even
-though the block layer can't store anything longer than 4096 bytes
-including NUL terminator for display to the user.  Since this means
-there are some export names where we have to truncate things, we can
-at least try to make the truncation a bit more obvious for the user.
-Note that in spite of the truncated display name, we can still
-communicate with an NBD server using such a long export name; this was
-deemed nicer than refusing to even connect to such a server (since the
-server may not be under our control, and since determining our actual
-length limits gets tricky when nbd://host:port/export and
-nbd+unix:///export?socket=/path are themselves variable-length
-expansions beyond the export name but count towards the block layer
-name length).
+On 6/16/20 4:05 PM, Stefan Berger wrote:
+> On 6/16/20 9:01 AM, Auger Eric wrote:
+>> Hi Stefan,
+>>
+>> On 6/15/20 7:11 PM, Stefan Berger wrote:
+>>> On 6/15/20 11:13 AM, Marc-André Lureau wrote:
+>>>>> diff --git a/include/hw/acpi/tpm.h b/include/hw/acpi/tpm.h
+>>>>> index 1a2a57a21f..063a9eb42a 100644
+>>>>> --- a/include/hw/acpi/tpm.h
+>>>>> +++ b/include/hw/acpi/tpm.h
+>>>>> @@ -24,7 +24,7 @@
+>>>>>    #define TPM_TIS_ADDR_BASE           0xFED40000
+>>>>>    #define TPM_TIS_ADDR_SIZE           0x5000
+>>>>>
+>>>>> -#define TPM_TIS_IRQ                 5
+>>>>> +#define TPM_TIS_IRQ                 13
+>>>
+>>> Eric,
+>>>
+>>>   does this change have any negative side effects on ARM? If you prefer,
+>>> we can split this part here up into TPM_TIS_ISA_IRQ and TPM_TIS_SYSBUS
+>>> IRQ and leave the latter at '5' because we know that this is working.
+>> The IRQ is not advertised in dt nor ACPI on ARM. However it is
+>> advertised in the capability reg and in the vector. reg So I think this
+>> should be fixed? I guess on ARM we will pick up a completely different
+>> IRQ num, allocated from the platform bus slot.
+> 
+> 
+> The specification
+> 
+> https://trustedcomputinggroup.org/wp-content/uploads/PC-Client-Specific-Platform-TPM-Profile-for-TPM-2p0-v1p04_r0p37_pub-1.pdf
+> 
+> 
+> declares several fields in the Interface Capability Register (table 23,
+> pdf page 89) to be mandatory and they must be set to '1'. So I would not
+> want to touch those. We can set the interrupt vector register to '0' in
+> case interrupts are not supported. Following the spec 0 means that no
+> interrupts are supported. I will now split TPM_TIS_IRQ into
+> TPM_TIS_ISA_IRQ and TPM_TIS_SYSBUS_IRQ and will in the end set
+> TPM_TIS_SYSBUS_IRQ to 'disabled', indicating that IRQs are not
+> supported, though they should work even though on ARM there may not be a
+> driver to test this with. Does this sound ok?
 
-Reported-by: Xueqiang Wei <xuwei@redhat.com>
-Fixes: https://bugzilla.redhat.com/1843684
-Signed-off-by: Eric Blake <eblake@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-Id: <20200610163741.3745251-3-eblake@redhat.com>
-(cherry picked from commit 5c86bdf1208916ece0b87e1151c9b48ee54faa3e)
-Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
----
- block.c     |  7 +++++--
- block/nbd.c | 21 +++++++++++++--------
- 2 files changed, 18 insertions(+), 10 deletions(-)
+Yes it does.
 
-diff --git a/block.c b/block.c
-index 2e5e8b639a..19c25da305 100644
---- a/block.c
-+++ b/block.c
-@@ -6486,8 +6486,11 @@ void bdrv_refresh_filename(BlockDriverState *bs)
-         pstrcpy(bs->filename, sizeof(bs->filename), bs->exact_filename);
-     } else {
-         QString *json = qobject_to_json(QOBJECT(bs->full_open_options));
--        snprintf(bs->filename, sizeof(bs->filename), "json:%s",
--                 qstring_get_str(json));
-+        if (snprintf(bs->filename, sizeof(bs->filename), "json:%s",
-+                     qstring_get_str(json)) >= sizeof(bs->filename)) {
-+            /* Give user a hint if we truncated things. */
-+            strcpy(bs->filename + sizeof(bs->filename) - 4, "...");
-+        }
-         qobject_unref(json);
-     }
- }
-diff --git a/block/nbd.c b/block/nbd.c
-index 3d369fc8eb..eb380102c0 100644
---- a/block/nbd.c
-+++ b/block/nbd.c
-@@ -1971,6 +1971,7 @@ static void nbd_refresh_filename(BlockDriverState *bs)
- {
-     BDRVNBDState *s = bs->opaque;
-     const char *host = NULL, *port = NULL, *path = NULL;
-+    size_t len = 0;
- 
-     if (s->saddr->type == SOCKET_ADDRESS_TYPE_INET) {
-         const InetSocketAddress *inet = &s->saddr->u.inet;
-@@ -1983,17 +1984,21 @@ static void nbd_refresh_filename(BlockDriverState *bs)
-     } /* else can't represent as pseudo-filename */
- 
-     if (path && s->export) {
--        snprintf(bs->exact_filename, sizeof(bs->exact_filename),
--                 "nbd+unix:///%s?socket=%s", s->export, path);
-+        len = snprintf(bs->exact_filename, sizeof(bs->exact_filename),
-+                       "nbd+unix:///%s?socket=%s", s->export, path);
-     } else if (path && !s->export) {
--        snprintf(bs->exact_filename, sizeof(bs->exact_filename),
--                 "nbd+unix://?socket=%s", path);
-+        len = snprintf(bs->exact_filename, sizeof(bs->exact_filename),
-+                       "nbd+unix://?socket=%s", path);
-     } else if (host && s->export) {
--        snprintf(bs->exact_filename, sizeof(bs->exact_filename),
--                 "nbd://%s:%s/%s", host, port, s->export);
-+        len = snprintf(bs->exact_filename, sizeof(bs->exact_filename),
-+                       "nbd://%s:%s/%s", host, port, s->export);
-     } else if (host && !s->export) {
--        snprintf(bs->exact_filename, sizeof(bs->exact_filename),
--                 "nbd://%s:%s", host, port);
-+        len = snprintf(bs->exact_filename, sizeof(bs->exact_filename),
-+                       "nbd://%s:%s", host, port);
-+    }
-+    if (len > sizeof(bs->exact_filename)) {
-+        /* Name is too long to represent exactly, so leave it empty. */
-+        bs->exact_filename[0] = '\0';
-     }
- }
- 
--- 
-2.17.1
+Thanks
+
+Eric
+> 
+> 
+>    Stefan
+> 
+> 
+>>
+>> Thanks
+>>
+>> Eric
+>>>     Stefan
+>>>
+>>>
+>>>>>    #define TPM_TIS_NUM_LOCALITIES      5     /* per spec */
+>>>>>    #define TPM_TIS_LOCALITY_SHIFT      12
+>>>>> -- 
+>>>>> 2.24.1
+>>>>>
+> 
+> 
 
 
