@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E88C1FAD49
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 12:00:41 +0200 (CEST)
-Received: from localhost ([::1]:52146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 679BB1FAD5C
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 12:03:47 +0200 (CEST)
+Received: from localhost ([::1]:60906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jl8OW-0003p7-10
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 06:00:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50780)
+	id 1jl8RW-0007iy-CB
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 06:03:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jl8LC-00073a-8n
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 05:57:14 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:41075)
+ id 1jl8LD-00075E-7u
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 05:57:15 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:50856)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jl8LA-000415-D9
+ id 1jl8LB-00041E-D7
  for qemu-devel@nongnu.org; Tue, 16 Jun 2020 05:57:14 -0400
-Received: by mail-wr1-x436.google.com with SMTP id j10so20067759wrw.8
- for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 02:57:11 -0700 (PDT)
+Received: by mail-wm1-x32f.google.com with SMTP id l17so2269905wmj.0
+ for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 02:57:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=guH6/4Zqbrl2/zmFmbwWPQQrG54LzUK6JULINOQ0BgQ=;
- b=bCojA4p/08xlb956NPyHeR4jx75/ZuDmyciy93dmmroKv6tLVpyV1Ea7UGYSjtpCN+
- /H/vDiG84UkKipm/uyw6ITRUflAtvlPmUNRIGy0Q4HGFZq1IjhTime/ti9y+YpgDcI+N
- On8p0Nx9lNWbHFnrYrS36bqh7aMbQi9FI1Cx+p7iwxcL/LidCxnKcfB0Sxd0eq8Mw6uW
- pzIxv7+TX2fpDQQ1a3MEoDjkK2dD+6oAHcCI1nmDhSQxrxrffkEEMQQaTQrp6LoCgvxd
- b6FZlbEBL4/pB193LkpZ7tqq7emfZmdUZtCCIOzWQBamw8Gd17s/8LZp8tmP5eFsPSx8
- Nt6w==
+ bh=+duFGZKIrzGEzxhaXpOnuzmyBgj9MUYvO1JAvfGbCTU=;
+ b=qEC1D4ORsSfz83Ywg1INfn/IZrrdupDWnA3luspXjpDN38o1MPriet1d4UJX2Gbi95
+ MWxx0l3wxJDQGwNVcUE7T8R3215LfAlNacIN/H5p+tbr4tkZoDF2/JpyM8qRd2VmLVPM
+ /cCts3IBlYjCotcy8J0D1K/9vO6xXZrAtmGNPB857RL3eW0cwONvN8qywStB40/dZbcI
+ 954z/2kuSDhyo12ks98aROZXhkGnfC7brLS9NwBLgsTmNv5xjlkW0K5lMF3vhktRmpaK
+ A/5X0Tg6kVIx/UbxLN8eA9MI6IHqUl7y6+/+lD8CitlB8CzWcHnwZ2QplKT4WtxZ5xQA
+ 3aKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=guH6/4Zqbrl2/zmFmbwWPQQrG54LzUK6JULINOQ0BgQ=;
- b=Ept9a5AlPTfIxi2d2eEkwEmXXDOLI/TKZ+3OLFRbBj0ql0KzMCHUcuqrBzroDAJ4s9
- MDEMs8xzup15trtqrKM6qfQBIDnx7v5GJDU5HiwlRQlFCUQxbinGp/k4tOyrall3elm2
- yzQ283iVMrpOF/2s90tE8xCFvv3SJD3tM6lKx4Oc6k17mV5by6JtclHcWFFi2XBuT0Yr
- ooRL7FzU5d+68cS1qoQOOPx0OdSY4hEm6rw2iWFLMdGNrkSVwOQN3UNgyHB6geJpOH7S
- dC9bx5CA3PvdM7AaaClqx0WyFr9QfO1hk0xCsvHKFW2t8XxH5aSLaNPOhON9blY0t8Ij
- g+Dg==
-X-Gm-Message-State: AOAM532xoOjGVD2aipd4hg3oXf4hZjBKSvi9CAHiTa/cjSKRr/fwG4bA
- Sk57UOb/QZ4rFGxev2hzw1DummXFiESO7Q==
-X-Google-Smtp-Source: ABdhPJy/OgwKkxnl+WaKWpWdwBbyIwU3PWnD7+ViUogD/WRkWmSTp3VsaMErwf9eszp2h4zyPfGabw==
-X-Received: by 2002:adf:ed87:: with SMTP id c7mr2185461wro.108.1592301430477; 
- Tue, 16 Jun 2020 02:57:10 -0700 (PDT)
+ bh=+duFGZKIrzGEzxhaXpOnuzmyBgj9MUYvO1JAvfGbCTU=;
+ b=b6BETftJmYrMKU/kjB0v3FZCmHOorfdMCZFufCsXWoTndhB6h+IMdUzF0LCJv5B/uE
+ lpwsWNmFl8EeWc6EKaalD25s0hKFVNtOhNhI2gjb2UwGNU1YWh9LYatX85tIkyW+j7Kw
+ LYlWSbCBouIZl81jPp5PlCOOznbCwkctrYSwSdDC5QGMDKKsSW+YOVDBk3jIzjBQqMwJ
+ qIxsTf4H/iDSHveH4KmY2RXej+oVbh4sdEXPkoCFkV0AqPyl1LS2l42ZTn1TF1QRqJOD
+ mic602A6MaqHstC1u+gmKX2pQdZjbOzIB+WTl1+4AlK88nbD18shCtFuT2sx+PGyf+P3
+ fvAg==
+X-Gm-Message-State: AOAM532tzFtU+nd/1fhAz9pHFpjKvsLVz0bpr9soSR3hN1S900LLA0Ws
+ UsC2JajVubqbX++DrXTwJGzCpVEaGGogVA==
+X-Google-Smtp-Source: ABdhPJx3m8CkiZCKPxxHi1F7/xffXJ5RLFbRLXX6WbvuuQBy5TkGWnFtoUEaXess4662bI4pXozLpA==
+X-Received: by 2002:a1c:4b15:: with SMTP id y21mr2388499wma.32.1592301431713; 
+ Tue, 16 Jun 2020 02:57:11 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id z12sm31090851wrg.9.2020.06.16.02.57.08
+ by smtp.gmail.com with ESMTPSA id z12sm31090851wrg.9.2020.06.16.02.57.10
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Jun 2020 02:57:09 -0700 (PDT)
+ Tue, 16 Jun 2020 02:57:11 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/23] target/arm: Convert Neon 3-reg-diff VABAL,
- VABDL to decodetree
-Date: Tue, 16 Jun 2020 10:56:43 +0100
-Message-Id: <20200616095702.25848-5-peter.maydell@linaro.org>
+Subject: [PULL 05/23] target/arm: Convert Neon 3-reg-diff long multiplies
+Date: Tue, 16 Jun 2020 10:56:44 +0100
+Message-Id: <20200616095702.25848-6-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200616095702.25848-1-peter.maydell@linaro.org>
 References: <20200616095702.25848-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32f.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,248 +88,176 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Convert the Neon 3-reg-diff insns VABAL and VABDL to decodetree.
-Like almost all the remaining insns in this group, these are
-a combination of a two-input operation which returns a double width
-result and then a possible accumulation of that double width
-result into the destination.
+Convert the Neon 3-reg-diff insns VMULL, VMLAL and VMLSL; these perform
+a 32x32->64 multiply with possible accumulate.
+
+Note that for VMLSL we do the accumulate directly with a subtraction
+rather than doing a negate-then-add as the old code did.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate.h          |   1 +
- target/arm/neon-dp.decode       |   6 ++
- target/arm/translate-neon.inc.c | 132 ++++++++++++++++++++++++++++++++
- target/arm/translate.c          |  31 +-------
- 4 files changed, 142 insertions(+), 28 deletions(-)
+ target/arm/neon-dp.decode       |  9 +++++
+ target/arm/translate-neon.inc.c | 71 +++++++++++++++++++++++++++++++++
+ target/arm/translate.c          | 21 +++-------
+ 3 files changed, 86 insertions(+), 15 deletions(-)
 
-diff --git a/target/arm/translate.h b/target/arm/translate.h
-index c937dfe9bf0..62ed5c4780c 100644
---- a/target/arm/translate.h
-+++ b/target/arm/translate.h
-@@ -371,6 +371,7 @@ typedef void NeonGenTwo64OpEnvFn(TCGv_i64, TCGv_ptr, TCGv_i64, TCGv_i64);
- typedef void NeonGenNarrowFn(TCGv_i32, TCGv_i64);
- typedef void NeonGenNarrowEnvFn(TCGv_i32, TCGv_ptr, TCGv_i64);
- typedef void NeonGenWidenFn(TCGv_i64, TCGv_i32);
-+typedef void NeonGenTwoOpWidenFn(TCGv_i64, TCGv_i32, TCGv_i32);
- typedef void NeonGenTwoSingleOPFn(TCGv_i32, TCGv_i32, TCGv_i32, TCGv_ptr);
- typedef void NeonGenTwoDoubleOPFn(TCGv_i64, TCGv_i64, TCGv_i64, TCGv_ptr);
- typedef void NeonGenOneOpFn(TCGv_i64, TCGv_i64);
 diff --git a/target/arm/neon-dp.decode b/target/arm/neon-dp.decode
-index a2234dfa4f3..4f0aaaf6bb2 100644
+index 4f0aaaf6bb2..1da492df146 100644
 --- a/target/arm/neon-dp.decode
 +++ b/target/arm/neon-dp.decode
-@@ -442,7 +442,13 @@ Vimm_1r          1111 001 . 1 . 000 ... .... cmode:4 0 . op:1 1 .... @1reg_imm
-     VADDHN_3d    1111 001 0 1 . .. .... .... 0100 . 0 . 0 .... @3diff
-     VRADDHN_3d   1111 001 1 1 . .. .... .... 0100 . 0 . 0 .... @3diff
+@@ -450,5 +450,14 @@ Vimm_1r          1111 001 . 1 . 000 ... .... cmode:4 0 . op:1 1 .... @1reg_imm
  
-+    VABAL_S_3d   1111 001 0 1 . .. .... .... 0101 . 0 . 0 .... @3diff
-+    VABAL_U_3d   1111 001 1 1 . .. .... .... 0101 . 0 . 0 .... @3diff
+     VABDL_S_3d   1111 001 0 1 . .. .... .... 0111 . 0 . 0 .... @3diff
+     VABDL_U_3d   1111 001 1 1 . .. .... .... 0111 . 0 . 0 .... @3diff
 +
-     VSUBHN_3d    1111 001 0 1 . .. .... .... 0110 . 0 . 0 .... @3diff
-     VRSUBHN_3d   1111 001 1 1 . .. .... .... 0110 . 0 . 0 .... @3diff
++    VMLAL_S_3d   1111 001 0 1 . .. .... .... 1000 . 0 . 0 .... @3diff
++    VMLAL_U_3d   1111 001 1 1 . .. .... .... 1000 . 0 . 0 .... @3diff
 +
-+    VABDL_S_3d   1111 001 0 1 . .. .... .... 0111 . 0 . 0 .... @3diff
-+    VABDL_U_3d   1111 001 1 1 . .. .... .... 0111 . 0 . 0 .... @3diff
++    VMLSL_S_3d   1111 001 0 1 . .. .... .... 1010 . 0 . 0 .... @3diff
++    VMLSL_U_3d   1111 001 1 1 . .. .... .... 1010 . 0 . 0 .... @3diff
++
++    VMULL_S_3d   1111 001 0 1 . .. .... .... 1100 . 0 . 0 .... @3diff
++    VMULL_U_3d   1111 001 1 1 . .. .... .... 1100 . 0 . 0 .... @3diff
    ]
  }
 diff --git a/target/arm/translate-neon.inc.c b/target/arm/translate-neon.inc.c
-index 0c3965802a5..bea9360ce3f 100644
+index bea9360ce3f..c435f0685d4 100644
 --- a/target/arm/translate-neon.inc.c
 +++ b/target/arm/translate-neon.inc.c
-@@ -2019,3 +2019,135 @@ DO_NARROW_3D(VADDHN, add, narrow, tcg_gen_extrh_i64_i32)
- DO_NARROW_3D(VSUBHN, sub, narrow, tcg_gen_extrh_i64_i32)
- DO_NARROW_3D(VRADDHN, add, narrow_round, gen_narrow_round_high_u32)
- DO_NARROW_3D(VRSUBHN, sub, narrow_round, gen_narrow_round_high_u32)
+@@ -2151,3 +2151,74 @@ static bool trans_VABAL_U_3d(DisasContext *s, arg_3diff *a)
+ 
+     return do_long_3d(s, a, opfn[a->size], addfn[a->size]);
+ }
 +
-+static bool do_long_3d(DisasContext *s, arg_3diff *a,
-+                       NeonGenTwoOpWidenFn *opfn,
-+                       NeonGenTwo64OpFn *accfn)
++static void gen_mull_s32(TCGv_i64 rd, TCGv_i32 rn, TCGv_i32 rm)
 +{
-+    /*
-+     * 3-regs different lengths, long operations.
-+     * These perform an operation on two inputs that returns a double-width
-+     * result, and then possibly perform an accumulation operation of
-+     * that result into the double-width destination.
-+     */
-+    TCGv_i64 rd0, rd1, tmp;
-+    TCGv_i32 rn, rm;
++    TCGv_i32 lo = tcg_temp_new_i32();
++    TCGv_i32 hi = tcg_temp_new_i32();
 +
-+    if (!arm_dc_feature(s, ARM_FEATURE_NEON)) {
-+        return false;
-+    }
++    tcg_gen_muls2_i32(lo, hi, rn, rm);
++    tcg_gen_concat_i32_i64(rd, lo, hi);
 +
-+    /* UNDEF accesses to D16-D31 if they don't exist. */
-+    if (!dc_isar_feature(aa32_simd_r32, s) &&
-+        ((a->vd | a->vn | a->vm) & 0x10)) {
-+        return false;
-+    }
-+
-+    if (!opfn) {
-+        /* size == 3 case, which is an entirely different insn group */
-+        return false;
-+    }
-+
-+    if (a->vd & 1) {
-+        return false;
-+    }
-+
-+    if (!vfp_access_check(s)) {
-+        return true;
-+    }
-+
-+    rd0 = tcg_temp_new_i64();
-+    rd1 = tcg_temp_new_i64();
-+
-+    rn = neon_load_reg(a->vn, 0);
-+    rm = neon_load_reg(a->vm, 0);
-+    opfn(rd0, rn, rm);
-+    tcg_temp_free_i32(rn);
-+    tcg_temp_free_i32(rm);
-+
-+    rn = neon_load_reg(a->vn, 1);
-+    rm = neon_load_reg(a->vm, 1);
-+    opfn(rd1, rn, rm);
-+    tcg_temp_free_i32(rn);
-+    tcg_temp_free_i32(rm);
-+
-+    /* Don't store results until after all loads: they might overlap */
-+    if (accfn) {
-+        tmp = tcg_temp_new_i64();
-+        neon_load_reg64(tmp, a->vd);
-+        accfn(tmp, tmp, rd0);
-+        neon_store_reg64(tmp, a->vd);
-+        neon_load_reg64(tmp, a->vd + 1);
-+        accfn(tmp, tmp, rd1);
-+        neon_store_reg64(tmp, a->vd + 1);
-+        tcg_temp_free_i64(tmp);
-+    } else {
-+        neon_store_reg64(rd0, a->vd);
-+        neon_store_reg64(rd1, a->vd + 1);
-+    }
-+
-+    tcg_temp_free_i64(rd0);
-+    tcg_temp_free_i64(rd1);
-+
-+    return true;
++    tcg_temp_free_i32(lo);
++    tcg_temp_free_i32(hi);
 +}
 +
-+static bool trans_VABDL_S_3d(DisasContext *s, arg_3diff *a)
++static void gen_mull_u32(TCGv_i64 rd, TCGv_i32 rn, TCGv_i32 rm)
++{
++    TCGv_i32 lo = tcg_temp_new_i32();
++    TCGv_i32 hi = tcg_temp_new_i32();
++
++    tcg_gen_mulu2_i32(lo, hi, rn, rm);
++    tcg_gen_concat_i32_i64(rd, lo, hi);
++
++    tcg_temp_free_i32(lo);
++    tcg_temp_free_i32(hi);
++}
++
++static bool trans_VMULL_S_3d(DisasContext *s, arg_3diff *a)
 +{
 +    static NeonGenTwoOpWidenFn * const opfn[] = {
-+        gen_helper_neon_abdl_s16,
-+        gen_helper_neon_abdl_s32,
-+        gen_helper_neon_abdl_s64,
++        gen_helper_neon_mull_s8,
++        gen_helper_neon_mull_s16,
++        gen_mull_s32,
 +        NULL,
 +    };
 +
 +    return do_long_3d(s, a, opfn[a->size], NULL);
 +}
 +
-+static bool trans_VABDL_U_3d(DisasContext *s, arg_3diff *a)
++static bool trans_VMULL_U_3d(DisasContext *s, arg_3diff *a)
 +{
 +    static NeonGenTwoOpWidenFn * const opfn[] = {
-+        gen_helper_neon_abdl_u16,
-+        gen_helper_neon_abdl_u32,
-+        gen_helper_neon_abdl_u64,
++        gen_helper_neon_mull_u8,
++        gen_helper_neon_mull_u16,
++        gen_mull_u32,
 +        NULL,
 +    };
 +
 +    return do_long_3d(s, a, opfn[a->size], NULL);
 +}
 +
-+static bool trans_VABAL_S_3d(DisasContext *s, arg_3diff *a)
-+{
-+    static NeonGenTwoOpWidenFn * const opfn[] = {
-+        gen_helper_neon_abdl_s16,
-+        gen_helper_neon_abdl_s32,
-+        gen_helper_neon_abdl_s64,
-+        NULL,
-+    };
-+    static NeonGenTwo64OpFn * const addfn[] = {
-+        gen_helper_neon_addl_u16,
-+        gen_helper_neon_addl_u32,
-+        tcg_gen_add_i64,
-+        NULL,
-+    };
++#define DO_VMLAL(INSN,MULL,ACC)                                         \
++    static bool trans_##INSN##_3d(DisasContext *s, arg_3diff *a)        \
++    {                                                                   \
++        static NeonGenTwoOpWidenFn * const opfn[] = {                   \
++            gen_helper_neon_##MULL##8,                                  \
++            gen_helper_neon_##MULL##16,                                 \
++            gen_##MULL##32,                                             \
++            NULL,                                                       \
++        };                                                              \
++        static NeonGenTwo64OpFn * const accfn[] = {                     \
++            gen_helper_neon_##ACC##l_u16,                               \
++            gen_helper_neon_##ACC##l_u32,                               \
++            tcg_gen_##ACC##_i64,                                        \
++            NULL,                                                       \
++        };                                                              \
++        return do_long_3d(s, a, opfn[a->size], accfn[a->size]);         \
++    }
 +
-+    return do_long_3d(s, a, opfn[a->size], addfn[a->size]);
-+}
-+
-+static bool trans_VABAL_U_3d(DisasContext *s, arg_3diff *a)
-+{
-+    static NeonGenTwoOpWidenFn * const opfn[] = {
-+        gen_helper_neon_abdl_u16,
-+        gen_helper_neon_abdl_u32,
-+        gen_helper_neon_abdl_u64,
-+        NULL,
-+    };
-+    static NeonGenTwo64OpFn * const addfn[] = {
-+        gen_helper_neon_addl_u16,
-+        gen_helper_neon_addl_u32,
-+        tcg_gen_add_i64,
-+        NULL,
-+    };
-+
-+    return do_long_3d(s, a, opfn[a->size], addfn[a->size]);
-+}
++DO_VMLAL(VMLAL_S,mull_s,add)
++DO_VMLAL(VMLAL_U,mull_u,add)
++DO_VMLAL(VMLSL_S,mull_s,sub)
++DO_VMLAL(VMLSL_U,mull_u,sub)
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 3fe39cd4f49..37fe9d46e0b 100644
+index 37fe9d46e0b..a2c47d19f21 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -5243,9 +5243,9 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
-                     {0, 0, 0, 7}, /* VSUBL: handled by decodetree */
-                     {0, 0, 0, 7}, /* VSUBW: handled by decodetree */
-                     {0, 0, 0, 7}, /* VADDHN: handled by decodetree */
--                    {0, 0, 0, 0}, /* VABAL */
-+                    {0, 0, 0, 7}, /* VABAL */
+@@ -5246,11 +5246,11 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
+                     {0, 0, 0, 7}, /* VABAL */
                      {0, 0, 0, 7}, /* VSUBHN: handled by decodetree */
--                    {0, 0, 0, 0}, /* VABDL */
-+                    {0, 0, 0, 7}, /* VABDL */
-                     {0, 0, 0, 0}, /* VMLAL */
+                     {0, 0, 0, 7}, /* VABDL */
+-                    {0, 0, 0, 0}, /* VMLAL */
++                    {0, 0, 0, 7}, /* VMLAL */
                      {0, 0, 0, 9}, /* VQDMLAL */
-                     {0, 0, 0, 0}, /* VMLSL */
-@@ -5306,31 +5306,6 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
+-                    {0, 0, 0, 0}, /* VMLSL */
++                    {0, 0, 0, 7}, /* VMLSL */
+                     {0, 0, 0, 9}, /* VQDMLSL */
+-                    {0, 0, 0, 0}, /* Integer VMULL */
++                    {0, 0, 0, 7}, /* Integer VMULL */
+                     {0, 0, 0, 9}, /* VQDMULL */
+                     {0, 0, 0, 0xa}, /* Polynomial VMULL */
+                     {0, 0, 0, 7}, /* Reserved: always UNDEF */
+@@ -5306,8 +5306,8 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
                          tmp2 = neon_load_reg(rm, pass);
                      }
                      switch (op) {
--                    case 5: case 7: /* VABAL, VABDL */
--                        switch ((size << 1) | u) {
--                        case 0:
--                            gen_helper_neon_abdl_s16(cpu_V0, tmp, tmp2);
--                            break;
--                        case 1:
--                            gen_helper_neon_abdl_u16(cpu_V0, tmp, tmp2);
--                            break;
--                        case 2:
--                            gen_helper_neon_abdl_s32(cpu_V0, tmp, tmp2);
--                            break;
--                        case 3:
--                            gen_helper_neon_abdl_u32(cpu_V0, tmp, tmp2);
--                            break;
--                        case 4:
--                            gen_helper_neon_abdl_s64(cpu_V0, tmp, tmp2);
--                            break;
--                        case 5:
--                            gen_helper_neon_abdl_u64(cpu_V0, tmp, tmp2);
--                            break;
--                        default: abort();
--                        }
--                        tcg_temp_free_i32(tmp2);
--                        tcg_temp_free_i32(tmp);
--                        break;
-                     case 8: case 9: case 10: case 11: case 12: case 13:
-                         /* VMLAL, VQDMLAL, VMLSL, VQDMLSL, VMULL, VQDMULL */
+-                    case 8: case 9: case 10: case 11: case 12: case 13:
+-                        /* VMLAL, VQDMLAL, VMLSL, VQDMLSL, VMULL, VQDMULL */
++                    case 9: case 11: case 13:
++                        /* VQDMLAL, VQDMLSL, VQDMULL */
                          gen_neon_mull(cpu_V0, tmp, tmp2, size, u);
-@@ -5349,7 +5324,7 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
-                         case 10: /* VMLSL */
-                             gen_neon_negl(cpu_V0, size);
-                             /* Fall through */
--                        case 5: case 8: /* VABAL, VMLAL */
-+                        case 8: /* VABAL, VMLAL */
-                             gen_neon_addl(size);
-                             break;
+                         break;
+                     default: /* 15 is RESERVED: caught earlier  */
+@@ -5317,16 +5317,10 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
+                         /* VQDMULL */
+                         gen_neon_addl_saturate(cpu_V0, cpu_V0, size);
+                         neon_store_reg64(cpu_V0, rd + pass);
+-                    } else if (op == 5 || (op >= 8 && op <= 11)) {
++                    } else {
+                         /* Accumulate.  */
+                         neon_load_reg64(cpu_V1, rd + pass);
+                         switch (op) {
+-                        case 10: /* VMLSL */
+-                            gen_neon_negl(cpu_V0, size);
+-                            /* Fall through */
+-                        case 8: /* VABAL, VMLAL */
+-                            gen_neon_addl(size);
+-                            break;
                          case 9: case 11: /* VQDMLAL, VQDMLSL */
+                             gen_neon_addl_saturate(cpu_V0, cpu_V0, size);
+                             if (op == 11) {
+@@ -5338,9 +5332,6 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
+                             abort();
+                         }
+                         neon_store_reg64(cpu_V0, rd + pass);
+-                    } else {
+-                        /* Write back the result.  */
+-                        neon_store_reg64(cpu_V0, rd + pass);
+                     }
+                 }
+             } else {
 -- 
 2.20.1
 
