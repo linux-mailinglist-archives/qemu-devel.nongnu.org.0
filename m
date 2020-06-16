@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17EC11FC225
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 01:14:37 +0200 (CEST)
-Received: from localhost ([::1]:46330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F34F1FC226
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 01:15:34 +0200 (CEST)
+Received: from localhost ([::1]:49756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlKmq-0004ga-5P
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 19:14:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54274)
+	id 1jlKnl-00064x-42
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 19:15:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ahmedkhaledkaraman@gmail.com>)
- id 1jlKlV-0002uA-Fo
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 19:13:13 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:41277)
+ id 1jlKla-000341-Qd
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 19:13:18 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:44100)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <ahmedkhaledkaraman@gmail.com>)
- id 1jlKlT-0006vB-In
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 19:13:13 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id j10so341533wrw.8
- for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 16:13:11 -0700 (PDT)
+ id 1jlKlZ-0006wn-1C
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 19:13:18 -0400
+Received: by mail-wr1-x434.google.com with SMTP id b6so329103wrs.11
+ for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 16:13:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=ClO0YbMLxFK4IoNk8Xcwu72VrPPnrLf9XqnoMALXakg=;
- b=FcTBWhbiAuTS3aQck2Rv1xN71br3x/y5lDhn4fbGPXEORqgMmS1ap1uN/S5ORNJqcM
- OS4qYTxbb/bbBO+wzMJgZU8B48Q17ilULwaSRsyimXzOO3um+Vs7kk7WrdzTxtkuObwo
- dwhk2GkXuUbH13mfbp5EpUR0pIygR5l272BHCxXbtmO5WYno1lme5V7blaP/yq7c3in3
- COPKmusuWOUN1vz+KxsdfdW9aDoV5+CqlTtvV4+AkERBT6Lz+p8KLKMMeWGQ3a1SrNdi
- m+TpzdF5b//B93hSyqnaOr/JVuDt4/+GSw5EOoQFlA79KcKyNcmmeuWSAkzKs2UHw0D2
- OnTQ==
+ bh=t3VP6WWaLEUXrw5hSPEQzC1W88S05EoRcbRI+Zf7OEE=;
+ b=G7/89ryh/FU+6PVotPSJOhs8ymD5/zqFU4jby/um/RijMhiuoZcw0/4j0CZItTCvP3
+ c8KILQH6c9jnHEqv32p1qWxWqrT8OnFJGXzHSE4wqwLmGK5j6lELr5rgA/z+RbLEKddB
+ m8A6xQ7IzAjHeGjF+TjMPIIL3bwC91w1d/FHSVYOzSmP0UetmwcuSZdCsSwVYr4bC54a
+ i5htcySduGVxeWZ1TStXWE25GNT0MUreAh0mTOQ6rTalFjFqHL42KRRopqvQQX33TX72
+ IYfa0Ka6mipyyxa4+DCA01tuHOgfqZLpkTRugG42daD5sKZ32ssnUNvgJRlT75UOb9ro
+ 84uw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=ClO0YbMLxFK4IoNk8Xcwu72VrPPnrLf9XqnoMALXakg=;
- b=kV233tpgXDnWvv0IW36LH2fhEaJJ7vX8gZhV9fqMzDtDoVRWaC/IXJXCfDnMsKwc18
- hhzhaAhf+DgDxB4ciub9MIfVrl6DzuEvUnBs2wXxQv8LK2QlnGiqC5UZt5nIvoWX9UNl
- FVcTqQouDbLofyW5hqwO81OyM6MeVYv6hNStW9S73OTP9kamVOKjV5AKnblB/GNc0QWN
- 140+L4biyhujI5jq5MZoCeFs38c/CL7ycdyhTaKKVLk36umiMZTmT6ehDhOZ/WcJubw7
- oEJkSjTFYOETcvF1U4ufufClugzNRVjKymlIvrC0ybyLuvyZqZSfXEWZK5dY9ZElR/eE
- l7Mw==
-X-Gm-Message-State: AOAM533hhxFH+q30YLkRZ0K47zoESGCcMqfOBAAu5sxa7JTx0nL4q5ve
- SNaEMoUfjSRgLaqE9N+G+qkNiI1YmzI=
-X-Google-Smtp-Source: ABdhPJx9UNcwQD+tNZkvtiw+L/LLheQd0grcNIZ+SaN65caeEM43IjtSAQQcmG75WBtGmeKdvKMuKA==
-X-Received: by 2002:a5d:468d:: with SMTP id u13mr5659423wrq.73.1592349189716; 
- Tue, 16 Jun 2020 16:13:09 -0700 (PDT)
+ bh=t3VP6WWaLEUXrw5hSPEQzC1W88S05EoRcbRI+Zf7OEE=;
+ b=dODol49pr31OeUeKt2ej88DFSANoHF+mfBHTXwG90Ec7WVtTaYzXRGSpZU2hRRvaLe
+ 2cWNl+IAFrJYmsmsHCYQ4UpkJqM0SCAkg5A9NXGKeTz5qqXgoaFN2uk2xeEMyj5AqHQu
+ XykfZhDQcreefpHQ0xHTNvSACTcsmg3Nkk/ianpzMnM2fh9MZiLX22inacWCxZPVUGHP
+ fw/Boh13sKQLrBs+AjiJwR627Fz2aSMhHojy25QfbYWUNQhsIO0ca8igOf9zfALOZ0u5
+ cA+12q5wbw382o22gVuX9HjeRJYTWjZ9FZeVswGSaFRJ4tcFQXuDpeLh8ML5dSadgZDC
+ C8Bg==
+X-Gm-Message-State: AOAM531XSLt3zIMagT/sUsWKle4c1FvEimu3F1dGBa+Ff/pyTt6ItbWw
+ vtNNlPpTjJrXOHpITJHkV5S1GPYhNcQ=
+X-Google-Smtp-Source: ABdhPJxC3RU2gkoYY68FJZnGIBh8uw/Zo+OEXUUD3FlTTmOCpVklYCF4YC1gdTBHQ/WKUsIqtfnSBw==
+X-Received: by 2002:a05:6000:1185:: with SMTP id
+ g5mr5715494wrx.39.1592349195486; 
+ Tue, 16 Jun 2020 16:13:15 -0700 (PDT)
 Received: from AK-L.domain.name ([197.58.89.86])
- by smtp.gmail.com with ESMTPSA id o9sm2384226wrs.1.2020.06.16.16.13.02
+ by smtp.gmail.com with ESMTPSA id o9sm2384226wrs.1.2020.06.16.16.13.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Jun 2020 16:13:09 -0700 (PDT)
+ Tue, 16 Jun 2020 16:13:15 -0700 (PDT)
 From: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
 To: qemu-devel@nongnu.org, rth@twiddle.net, aleksandar.qemu.devel@gmail.com,
  alex.bennee@linaro.org, eblake@redhat.com, ldoktor@redhat.com,
  ehabkost@redhat.com, crosa@redhat.com
-Subject: [PATCH 2/3] scripts/performance: Add callgrind_top_25.py script
-Date: Wed, 17 Jun 2020 01:12:03 +0200
-Message-Id: <20200616231204.8850-3-ahmedkhaledkaraman@gmail.com>
+Subject: [PATCH 3/3] scripts/performance: Add perf_top_25.py script
+Date: Wed, 17 Jun 2020 01:12:04 +0200
+Message-Id: <20200616231204.8850-4-ahmedkhaledkaraman@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200616231204.8850-1-ahmedkhaledkaraman@gmail.com>
 References: <20200616231204.8850-1-ahmedkhaledkaraman@gmail.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=ahmedkhaledkaraman@gmail.com; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=ahmedkhaledkaraman@gmail.com; helo=mail-wr1-x434.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,25 +89,25 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Python script that prints the top 25 most executed functions in QEMU
-using callgrind.
+using perf.
 
 Signed-off-by: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
 ---
- scripts/performance/callgrind_top_25.py | 95 +++++++++++++++++++++++++
- 1 file changed, 95 insertions(+)
- create mode 100644 scripts/performance/callgrind_top_25.py
+ scripts/performance/perf_top_25.py | 82 ++++++++++++++++++++++++++++++
+ 1 file changed, 82 insertions(+)
+ create mode 100644 scripts/performance/perf_top_25.py
 
-diff --git a/scripts/performance/callgrind_top_25.py b/scripts/performance/callgrind_top_25.py
+diff --git a/scripts/performance/perf_top_25.py b/scripts/performance/perf_top_25.py
 new file mode 100644
-index 0000000000..03b089a96d
+index 0000000000..eaa8cce3c3
 --- /dev/null
-+++ b/scripts/performance/callgrind_top_25.py
-@@ -0,0 +1,95 @@
++++ b/scripts/performance/perf_top_25.py
+@@ -0,0 +1,82 @@
 +#!/usr/bin/env python3
 +
-+#  Print the top 25 most executed functions in QEMU using callgrind.
++#  Print the top 25 most executed functions in QEMU using perf.
 +#  Example Usage:
-+#  callgrind_top_25.py <qemu-build>/x86_64-linux-user/qemu-x86_64 executable
++#  perf_top_25.py <qemu-build>/x86_64-linux-user/qemu-x86_64 executable
 +#
 +#  This file is a part of the project "TCG Continuous Benchmarking".
 +#
@@ -135,68 +136,55 @@ index 0000000000..03b089a96d
 +    sys.exit(1)
 +
 +# Get the qemu path and the executable + its arguments
-+(qemu, executable) = (sys.argv[1], ' '.join(sys.argv[2:]))
++(qemu_path, executable) = (sys.argv[1], ' '.join(sys.argv[2:]))
 +
-+# Run callgrind and callgrind_annotate
-+os.system('valgrind --tool=callgrind --callgrind-out-file=callgrind.data {} {} \
-+            2 > / dev / null & & callgrind_annotate callgrind.data \
-+            > tmp.callgrind.data'.
-+          format(qemu, executable))
-+
-+# Line number with the total number of instructions
-+number_of_instructions_line = 20
++# Run perf repcord and report
++os.system('sudo perf record {} {} 2> /dev/null \
++            && sudo perf report --stdio > tmp.perf.data'
++          .format(qemu_path, executable))
 +
 +# Line number with the top function
-+first_func_line = 25
++first_func_line = 11
 +
-+# callgrind_annotate output
-+callgrind_data = []
++# Perf report output
++perf_data = []
 +
-+# Open callgrind_annotate output and store it in callgrind_data
-+with open('tmp.callgrind.data', 'r') as data:
-+    callgrind_data = data.readlines()
++# Open perf report output and store it in perf_data
++with open('tmp.perf.data', 'r') as data:
++    perf_data = data.readlines()
 +
-+# Get the total number of instructions
-+total_number_of_instructions = int(
-+    callgrind_data[number_of_instructions_line].split(' ')[0].replace(',', ''))
-+
-+# Number of functions recorded by callgrind
-+number_of_functions = len(callgrind_data) - first_func_line
++# Number of functions recorded by perf
++number_of_functions = len(perf_data) - first_func_line
 +
 +# Limit the number of top functions to 25
 +number_of_top_functions = (25 if number_of_functions >
-+                           25 else number_of_instructions_line)
++                           25 else number_of_functions)
 +
 +# Store the data of the top functions in top_functions[]
-+top_functions = callgrind_data[first_func_line:
-+                               first_func_line + number_of_top_functions]
++top_functions = perf_data[first_func_line:first_func_line
++                          + number_of_top_functions]
++
 +# Print information headers
 +print('{:>4}  {:>10}  {:<25}  {}\n{}  {}  {}  {}'.format('No.',
 +                                                         'Percentage',
 +                                                         'Name',
-+                                                         'Source File',
++                                                         'Caller',
 +                                                         '-' * 4,
 +                                                         '-' * 10,
 +                                                         '-' * 25,
-+                                                         '-' * 30,
++                                                         '-' * 25,
 +                                                         ))
 +
 +# Print top 25 functions
 +for (index, function) in enumerate(top_functions, start=1):
 +    function_data = function.split()
-+    # Calculate function percentage
-+    percentage = (float(function_data[0].replace(
-+        ',', '')) / total_number_of_instructions) * 100
-+    # Get function source path and name
-+    path, name = function_data[1].split(':')
-+    # Print extracted data
-+    print('{:>4}  {:>9.3f}%  {:<25}  {}'.format(index,
-+                                                round(percentage, 3),
-+                                                name,
-+                                                path))
++    print('{:>4}  {:>10}  {:<25}  {}'.format(index,
++                                             function_data[0],
++                                             function_data[-1],
++                                             ' '.join(function_data[2:-2])))
 +
 +# Remove intermediate files
-+os.system('rm callgrind.data tmp.callgrind.data')
++os.system('sudo rm perf.data tmp.perf.data')
 -- 
 2.17.1
 
