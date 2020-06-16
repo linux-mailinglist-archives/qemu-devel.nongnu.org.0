@@ -2,63 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A23721FB485
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:36:01 +0200 (CEST)
-Received: from localhost ([::1]:33610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD7511FB4C9
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:45:18 +0200 (CEST)
+Received: from localhost ([::1]:48252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlCgy-0006XY-JG
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:36:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57714)
+	id 1jlCpx-0001c8-Rz
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:45:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57734)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCPz-0002de-6l; Tue, 16 Jun 2020 10:18:27 -0400
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:33673)
+ id 1jlCQ0-0002hK-GX; Tue, 16 Jun 2020 10:18:28 -0400
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:32773)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCPx-0006k6-Ig; Tue, 16 Jun 2020 10:18:26 -0400
-Received: by mail-oi1-x244.google.com with SMTP id i74so19411005oib.0;
- Tue, 16 Jun 2020 07:18:24 -0700 (PDT)
+ id 1jlCPz-0006kY-0B; Tue, 16 Jun 2020 10:18:28 -0400
+Received: by mail-ot1-x342.google.com with SMTP id n6so16067011otl.0;
+ Tue, 16 Jun 2020 07:18:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=LGDLxuflCPrnNSt/lCPZmy+cvNfPql2oqSYzLa/L3U4=;
- b=hUj7ZqUtkaiVg/DCkImFuNsH3AH/qCvU9l8Z7ib3iqu1w/+iQek4gutshN0oGO4uFX
- xJozFDcTq2ZBK8Ou0Eo9feiWSC10WFPDKRZ4wsYfYr3RtVWx3OePjcnw3ho3BOIqZmTl
- /lskfCdkkkhSAobskfsH8IQvCldzLKiAHThcRgLAZqdLMQSbZof+h39MyMSi8YOLnG21
- 9ldrLhPn8nLh96esd1l7j2Kx3hOBoSgteXCgV7x82bAGDil+bTHFeyB4XrBHNewK9i2Z
- bpbIS8JaLo6wyGtbhkTJ5GHh5RdBzeIHK923GpUOo1UpHnPcKpQjklMwTSzAlrqUnEL5
- 3fsA==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=E99qbF+LJ1aftYVGDxQKrqzQk4RtFRFY8oKglRjiv8Y=;
+ b=ewy2ofI37a46bVvM2kL+9RY5vvIf7EDMBMlrcQCC2eSWpgTgob9xIBXtYuu2Lsszv/
+ n+ISRKq4neXbVi1BG9zdGdlLRUkUieYWrBtRIhhoO3SJD886ilQVtbnqbLbaj/P2KjKe
+ YXRqAB/n5v01O/kcw5uPgCvQ/AocrYrOcZVtidxKvQdRGJ0eeVVQTiOPXy3LFXkfYTtM
+ tuLUi5yPodDpCDq8Rhd/ahuZ2yOpEGoR6Z7O25G+OigM+owaGXZDRFW37119s7WQ3TbH
+ OBKe2rU9QmstPXlOp65LLkwPpZA8RgTDRh0IVOgHvZiTfTuGkUU4+vY6ype7KuVK0opH
+ fiTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references;
- bh=LGDLxuflCPrnNSt/lCPZmy+cvNfPql2oqSYzLa/L3U4=;
- b=uXe4+aQH4Vq/yFw6n423nA06hGvixAj08x957QlfZqtis/62LexvRyOcj9MACkCD2q
- APFrpvS/MEAzcVmtdRmX5YqsjBCEu/n8T13hHmm8vmJ+lqMSvurl8KCJMlnSvBiAIWp8
- HQLbpNOfyXbThqp92ictH7QQAbD0wVZBtnyzerw7NwupXpPM0GiRlTL0bHi8ZyWAOO99
- 6Trc8A87+lVBfUiByCKuzEN/u5dVAx4S+8Upu4s9I3ZOVMDR1r4zciI6gbdpCS1lDhy9
- jEpxYUXHDu5vqfXnTOfn/w2Nd03+evDW2THc6eNP0o+ATeD+aTh93RARCFpVn12g+x9F
- Qgsg==
-X-Gm-Message-State: AOAM5326yHN3DvXuBGK9Tjogwrdzi1aj0qxDL2gdyNQW/j3X+9Ohq+jj
- bjMDTMQBJlJuu5oshtY5uN2liXEk
-X-Google-Smtp-Source: ABdhPJxIoVFvseDQ6UXW/1WTBBDwJDRbaXyENkY7XG1aldoslAxZHMA/ZYHz6CIsJIlNReLoD52YkA==
-X-Received: by 2002:a05:6808:3:: with SMTP id u3mr3513503oic.21.1592317103865; 
- Tue, 16 Jun 2020 07:18:23 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=E99qbF+LJ1aftYVGDxQKrqzQk4RtFRFY8oKglRjiv8Y=;
+ b=BQk0s8V+CkyKTQEEm3nnZlxhEi2KIqjbWLiNFwlOQ5aNLs08mUDVGKjoo/UX3sz3Oe
+ Ito2hpQIjCbMj/d3b78A9a9T7EkF1cpFsNkS00pgTRvxN8iXfbGb3rD3K77Ss1gy3FFM
+ Pg9kuX5qxywJgq7XesDmeUTEr3TRAxJLnsDXQdng8pCOERkt72nc+WL3CDW9ND4WXEyD
+ 12tj7QD8bJc8Ax5+LNBsvz8888yQ4nBHVynKMjrDr1iTqJnEgCpv+3FLw2EIdBrwZcMZ
+ AnjcUcFG1yalb7WYEileo+tRz0zDn3aH6KGqh2Llp0SBRoEko9x6/LiI21xYMmMD+GyO
+ V8kQ==
+X-Gm-Message-State: AOAM530VEOSqThutRg+4NUJffLZPf7rr3+4mQoX1z1AfoLI1R70xWVSm
+ Tc9fI9cQ8XbOhFSFvn4v0k+8bwdG
+X-Google-Smtp-Source: ABdhPJzpBUsOqb2YGelkjbzuILfuLOkjDTvWUSI/P0QPVxFz64Z5j9nPULx/OACaIrNyD9rKxyKtVQ==
+X-Received: by 2002:a9d:7458:: with SMTP id p24mr2341757otk.330.1592317105284; 
+ Tue, 16 Jun 2020 07:18:25 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id f1sm4092909ool.16.2020.06.16.07.18.22
+ by smtp.gmail.com with ESMTPSA id k2sm3090455oib.10.2020.06.16.07.18.24
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 16 Jun 2020 07:18:22 -0700 (PDT)
+ Tue, 16 Jun 2020 07:18:24 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 38/78] dp8393x: Always update RRA pointers and sequence numbers
-Date: Tue, 16 Jun 2020 09:15:07 -0500
-Message-Id: <20200616141547.24664-39-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 39/78] dp8393x: Don't reset Silicon Revision register
+Date: Tue, 16 Jun 2020 09:15:08 -0500
+Message-Id: <20200616141547.24664-40-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
 References: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::244;
- envelope-from=flukshun@gmail.com; helo=mail-oi1-x244.google.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
+ envelope-from=flukshun@gmail.com; helo=mail-ot1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -87,45 +91,41 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Finn Thain <fthain@telegraphics.com.au>
 
-These operations need to take place regardless of whether or not
-rx descriptors have been used up (that is, EOL flag was observed).
+The jazzsonic driver in Linux uses the Silicon Revision register value
+to probe the chip. The driver fails unless the SR register contains 4.
+Unfortunately, reading this register in QEMU usually returns 0 because
+the s->regs[] array gets wiped after a software reset.
 
-The algorithm is now the same for a packet that was withheld as for
-a packet that was not.
-
+Fixes: bd8f1ebce4 ("net/dp8393x: fix hardware reset")
+Suggested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Finn Thain <fthain@telegraphics.com.au>
-Tested-by: Laurent Vivier <laurent@vivier.eu>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
-(cherry picked from commit 80b60673ea598869050c66d95d8339480e4cefd0)
+(cherry picked from commit 083e21bbdde7dbd326baf29d21f49fc3f5614496)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- hw/net/dp8393x.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+ hw/net/dp8393x.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/hw/net/dp8393x.c b/hw/net/dp8393x.c
-index 4ce2ef818b..aa7bd785f3 100644
+index aa7bd785f3..d33f21bd0b 100644
 --- a/hw/net/dp8393x.c
 +++ b/hw/net/dp8393x.c
-@@ -897,12 +897,14 @@ static ssize_t dp8393x_receive(NetClientState *nc, const uint8_t * buf,
-         /* Move to next descriptor */
-         s->regs[SONIC_CRDA] = s->regs[SONIC_LLFA];
-         s->regs[SONIC_ISR] |= SONIC_ISR_PKTRX;
--        s->regs[SONIC_RSC] = (s->regs[SONIC_RSC] & 0xff00) | (((s->regs[SONIC_RSC] & 0x00ff) + 1) & 0x00ff);
-+    }
+@@ -919,6 +919,7 @@ static void dp8393x_reset(DeviceState *dev)
+     timer_del(s->watchdog);
  
--        if (s->regs[SONIC_RCR] & SONIC_RCR_LPKT) {
--            /* Read next RRA */
--            dp8393x_do_read_rra(s);
--        }
-+    s->regs[SONIC_RSC] = (s->regs[SONIC_RSC] & 0xff00) |
-+                         ((s->regs[SONIC_RSC] + 1) & 0x00ff);
-+
-+    if (s->regs[SONIC_RCR] & SONIC_RCR_LPKT) {
-+        /* Read next RRA */
-+        dp8393x_do_read_rra(s);
-     }
+     memset(s->regs, 0, sizeof(s->regs));
++    s->regs[SONIC_SR] = 0x0004; /* only revision recognized by Linux/mips */
+     s->regs[SONIC_CR] = SONIC_CR_RST | SONIC_CR_STP | SONIC_CR_RXDIS;
+     s->regs[SONIC_DCR] &= ~(SONIC_DCR_EXBUS | SONIC_DCR_LBR);
+     s->regs[SONIC_RCR] &= ~(SONIC_RCR_LB0 | SONIC_RCR_LB1 | SONIC_RCR_BRD | SONIC_RCR_RNT);
+@@ -971,7 +972,6 @@ static void dp8393x_realize(DeviceState *dev, Error **errp)
+     qemu_format_nic_info_str(qemu_get_queue(s->nic), s->conf.macaddr.a);
  
-     /* Done */
+     s->watchdog = timer_new_ns(QEMU_CLOCK_VIRTUAL, dp8393x_watchdog, s);
+-    s->regs[SONIC_SR] = 0x0004; /* only revision recognized by Linux */
+ 
+     memory_region_init_ram(&s->prom, OBJECT(dev),
+                            "dp8393x-prom", SONIC_PROM_SIZE, &local_err);
 -- 
 2.17.1
 
