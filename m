@@ -2,64 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9ACE81FB493
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:40:01 +0200 (CEST)
-Received: from localhost ([::1]:51060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 546FC1FB4C8
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:44:58 +0200 (CEST)
+Received: from localhost ([::1]:46598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlCkq-0005hK-LD
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:40:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57796)
+	id 1jlCpd-0000u9-9x
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:44:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCQ8-0002md-1H; Tue, 16 Jun 2020 10:18:36 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:32774)
+ id 1jlCQL-00038w-M7; Tue, 16 Jun 2020 10:18:49 -0400
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:45129)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCQ5-0006mp-UW; Tue, 16 Jun 2020 10:18:35 -0400
-Received: by mail-ot1-x342.google.com with SMTP id n6so16067170otl.0;
- Tue, 16 Jun 2020 07:18:29 -0700 (PDT)
+ id 1jlCQJ-0006uX-Qk; Tue, 16 Jun 2020 10:18:49 -0400
+Received: by mail-ot1-x341.google.com with SMTP id m2so16023049otr.12;
+ Tue, 16 Jun 2020 07:18:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=XMRHd9is/niWgVXUxgxGG8bEESpSidVHIXtDD8rfBdE=;
- b=ZXSUv45KNcFTSSEvId9kiq7Q58R4FQCX57m8wemJkY2TTOUxsz3enX3m2AIl231F3S
- POP/r0JcPmoJCDK4/pUdTNpcQ59U69+ruM/IxvIgT7xP2xtc4UQq7OneMqPYZzb4VI2C
- M8dJ9kQ3BuCzh7hzp1AEH9ZkXIS+0N1ikvV6yXixxuYuXL3zjuNVbEJ9DaXGnACe6qXU
- C7TWPHpwxRAMnb1mah8pIor4xKGQfBTeCgrM/1UbxVA1PNzuGwf8tp7v4wX0TRRP36aq
- 7FRy+apY/JuE8jarVfqMtcy2tSQ1gFmJYiV36wYy+2JZSncVI9E7x3V6psV4eM6fNDwa
- 59NQ==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=b1A+Yvt6udox+8JxoKh9t3OrmlBhYZ2sN0wsHf8qJP0=;
+ b=gkn0lArI48mwgUWuK2lUwaq8YIcdR69Eb6WXJO4gAEn/QE+ELmEI3FgNxa2ei24S1R
+ MR1QX6I/yJwea/NSQA49KoOqjOGs6XuLyVkc7i+VrueP5XgSbCKUzyG/1W7SnEQhYo2l
+ 128zFeUgXvl76xUEiS/+sMwRCenwbV0dYq8h+QVN68mzBi3E/xUifEgeSnVoSvhyHpQL
+ CJWhW1M9qMI462WQice0MuFBho0NeEQdF1ds1DWEzLYO7iI79a+8cUfTuLCpBDhrngwt
+ uX9jHP0p2IBPPZmssLfdAMfklz2m2m3MWD9PYOucw8cP9hRmpugvuumkK2ri+1fhxdZ4
+ 6JMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references;
- bh=XMRHd9is/niWgVXUxgxGG8bEESpSidVHIXtDD8rfBdE=;
- b=bSqiWUirs3bnWf5U10tmueLPKs+Zol+lYqUauyZe0u1qg7ZKq+/AOZ6J1i9VkLvFCA
- FQy24LMWr0hwMWJT5D9Rqyva6haP7yazctSluYpzm1DfjEtHwPbXukF8ZBYCWIxR1HYm
- A0gKVr6kvMPEMFf3D21g5YCnMlLPeviKay3L2zZ+8Q7tzPjczC4p7zeiJdhMyXe6JZ92
- 6YpKWAE7MO2S0PV/AiYXClZ4NzyVzR/PugvUHEKmp9AY/L2o/tzjHl/BQYpGDO0+Y8ls
- 81M/W9mQoy/iML01Bu2oC4EFT4I+EaE+k1mRj+WXyMfipKysav/aitw4ax2jXuePcmAy
- +N+Q==
-X-Gm-Message-State: AOAM531kos1txxBIZl4eOtHQowpb9+Shkirw2TYQO8Dkf1zDTPNYMM8/
- LqolJI2SXZ3o0ghgZ6hlgBq6fXjo
-X-Google-Smtp-Source: ABdhPJxN7gOk7YMQ31/g/VoqRcwUllt9eM3MWvlQ7QLC/BD8vsKsn+zCf9Lr+0UPMTFJFnX8MNBLmg==
-X-Received: by 2002:a05:6830:1df6:: with SMTP id
- b22mr2615207otj.98.1592317108698; 
- Tue, 16 Jun 2020 07:18:28 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=b1A+Yvt6udox+8JxoKh9t3OrmlBhYZ2sN0wsHf8qJP0=;
+ b=mFoaj2OQ83bhumxM/8qvhpci/3gYnB3rs/JpYMI7RhJfww3YrVsBcTMapFWkfDR4xG
+ ww2phKMFv8z9NZkqfkO0Ge89gL4vZiidLjDeb2/i2yxl14Dpmhdc6H7HTTmxfRa8PmrS
+ hjzB7/EoX4K8SlzAryxHFJzcX88T9Op2EalXioeWV8ytDrsIYpV7915qQyGGnzUeh4+L
+ L+jQNfnOH9hUarn23x3Z1aNEavnaZ6QcXLmr8YVFvGFLH2XyYm2qIIb7Fqtg0pxzWTJn
+ tjAP8BP2n1A2mqKpaoScrcf2coOO4C4yxcoTuJq6gchLkzdiaXHLH1g6/hiYZkRicalN
+ Ri2g==
+X-Gm-Message-State: AOAM53023vflL2suYkgrjkPa0C97lkRL6eKqxu0827lZj6IL0sUyM2sq
+ W5fA1n6B5MAxUi7F0BFaIIwSLHeH
+X-Google-Smtp-Source: ABdhPJwQYjZpCpiZTe4/K1rUxNxKOO0B45x7HET+0mBUJ1O5eb75xkjr639EUko0c16CdxeMa3kmsA==
+X-Received: by 2002:a05:6830:1dcb:: with SMTP id
+ a11mr2692986otj.16.1592317125873; 
+ Tue, 16 Jun 2020 07:18:45 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id p205sm4156686oih.48.2020.06.16.07.18.27
+ by smtp.gmail.com with ESMTPSA id b2sm4156905ooe.13.2020.06.16.07.18.43
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 16 Jun 2020 07:18:27 -0700 (PDT)
+ Tue, 16 Jun 2020 07:18:43 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 03/78] i386: Resolve CPU models to v1 by default
-Date: Tue, 16 Jun 2020 09:14:32 -0500
-Message-Id: <20200616141547.24664-4-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 04/78] qapi: better document NVMe blockdev @device parameter
+Date: Tue, 16 Jun 2020 09:14:33 -0500
+Message-Id: <20200616141547.24664-5-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
 References: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
- envelope-from=flukshun@gmail.com; helo=mail-ot1-x342.google.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::341;
+ envelope-from=flukshun@gmail.com; helo=mail-ot1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -81,90 +85,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-stable@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Eduardo Habkost <ehabkost@redhat.com>
+From: Daniel P. Berrangé <berrange@redhat.com>
 
-When using `query-cpu-definitions` using `-machine none`,
-QEMU is resolving all CPU models to their latest versions.  The
-actual CPU model version being used by another machine type (e.g.
-`pc-q35-4.0`) might be different.
+Mention that this is a PCI device address & give the format it is
+expected in. Also mention that it must be first unbound from any
+host kernel driver.
 
-In theory, this was OK because the correct CPU model
-version is returned when using the correct `-machine` argument.
-
-Except that in practice, this breaks libvirt expectations:
-libvirt always use `-machine none` when checking if a CPU model
-is runnable, because runnability is not expected to be affected
-when the machine type is changed.
-
-For example, when running on a Haswell host without TSX,
-Haswell-v4 is runnable, but Haswell-v1 is not.  On those hosts,
-`query-cpu-definitions` says Haswell is runnable if using
-`-machine none`, but Haswell is actually not runnable using any
-of the `pc-*` machine types (because they resolve Haswell to
-Haswell-v1).  In other words, we're breaking the "runnability
-guarantee" we promised to not break for a few releases (see
-qemu-deprecated.texi).
-
-To address this issue, change the default CPU model version to v1
-on all machine types, so we make `query-cpu-definitions` output
-when using `-machine none` match the results when using `pc-*`.
-This will change in the future (the plan is to always return the
-latest CPU model version if using `-machine none`), but only
-after giving libvirt the opportunity to adapt.
-
-Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=1779078
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-Message-Id: <20191205223339.764534-1-ehabkost@redhat.com>
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-(cherry picked from commit ad18392892c04637fb56956d997f4bc600224356)
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+(cherry picked from commit ecaf647f300d69271c245a67adca9c3a89d9463a)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- qemu-deprecated.texi | 8 ++++++++
- target/i386/cpu.c    | 8 +++++++-
- 2 files changed, 15 insertions(+), 1 deletion(-)
+ qapi/block-core.json | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/qemu-deprecated.texi b/qemu-deprecated.texi
-index 4b4b7425ac..b42d8b3c5f 100644
---- a/qemu-deprecated.texi
-+++ b/qemu-deprecated.texi
-@@ -374,6 +374,14 @@ guarantees must resolve the CPU model aliases using te
- ``alias-of'' field returned by the ``query-cpu-definitions'' QMP
- command.
- 
-+While those guarantees are kept, the return value of
-+``query-cpu-definitions'' will have existing CPU model aliases
-+point to a version that doesn't break runnability guarantees
-+(specifically, version 1 of those CPU models).  In future QEMU
-+versions, aliases will point to newer CPU model versions
-+depending on the machine type, so management software must
-+resolve CPU model aliases before starting a virtual machine.
-+
- 
- @node Recently removed features
- @appendix Recently removed features
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 69f518a21a..54e7f18a09 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -3924,7 +3924,13 @@ static PropValue tcg_default_props[] = {
- };
- 
- 
--X86CPUVersion default_cpu_version = CPU_VERSION_LATEST;
-+/*
-+ * We resolve CPU model aliases using -v1 when using "-machine
-+ * none", but this is just for compatibility while libvirt isn't
-+ * adapted to resolve CPU model versions before creating VMs.
-+ * See "Runnability guarantee of CPU models" at * qemu-deprecated.texi.
-+ */
-+X86CPUVersion default_cpu_version = 1;
- 
- void x86_cpu_set_default_version(X86CPUVersion version)
- {
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index 0cf68fea14..fcb52ec24f 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -2963,9 +2963,13 @@
+ #
+ # Driver specific block device options for the NVMe backend.
+ #
+-# @device:    controller address of the NVMe device.
++# @device:    PCI controller address of the NVMe device in
++#             format hhhh:bb:ss.f (host:bus:slot.function)
+ # @namespace: namespace number of the device, starting from 1.
+ #
++# Note that the PCI @device must have been unbound from any host
++# kernel driver before instructing QEMU to add the blockdev.
++#
+ # Since: 2.12
+ ##
+ { 'struct': 'BlockdevOptionsNVMe',
 -- 
 2.17.1
 
