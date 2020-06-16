@@ -2,70 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 375D31FB5D4
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 17:16:24 +0200 (CEST)
-Received: from localhost ([::1]:36498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E24F91FB5A9
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 17:08:40 +0200 (CEST)
+Received: from localhost ([::1]:35054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlDK3-0000KO-8y
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 11:16:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36718)
+	id 1jlDCZ-0001iJ-T8
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 11:08:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jlCuV-0002in-K7
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 10:49:59 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:59419
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jlCuT-0003uW-U9
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 10:49:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592318997;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=oq7RjkpmxUZSk0W5qQ1LyquL3jrgueAe25gZ5vzrRMo=;
- b=OUk1cU5kHNfhTQI21uyYkf9RGlJV9hor8Tq1T63kxXz0ghyvMvTRDB1RhcIOm5MwxhJJT7
- tx2PkHKXj7tWqOyWPaFOsMWZeCJT3VczskC+7jGyco01rwdLv+/bJrScoyO71XLxwJV6F/
- tLB1AZ0MK8loMuEWFnKkkhkoQ9Jlin0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-289-R0tY1oE_OUCRr-wWqyYZlg-1; Tue, 16 Jun 2020 10:49:53 -0400
-X-MC-Unique: R0tY1oE_OUCRr-wWqyYZlg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6EBBD10059D2;
- Tue, 16 Jun 2020 14:49:52 +0000 (UTC)
-Received: from redhat.com (unknown [10.36.110.66])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A6AC05D9F1;
- Tue, 16 Jun 2020 14:49:38 +0000 (UTC)
-Date: Tue, 16 Jun 2020 15:49:35 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Lukas Straub <lukasstraub2@web.de>
-Subject: Re: [PATCH v4 1/4] Introduce yank feature
-Message-ID: <20200616144935.GK550360@redhat.com>
-References: <cover.1590421341.git.lukasstraub2@web.de>
- <dc2724aead900db8fb3bed0a066f7c7e2654edb0.1590421341.git.lukasstraub2@web.de>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jlCx2-0007bS-NR
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 10:52:36 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:38091)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jlCx0-0004Jy-Gb
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 10:52:36 -0400
+Received: by mail-wm1-x344.google.com with SMTP id f185so3393629wmf.3
+ for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 07:52:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=1cihiFfCWitvUSWOAYTLl7DtlU9tgPuqHldH8rmG098=;
+ b=YFokXrsDCdCmfykzGRM+3ieO4WdeWhC5pjSA0rYvGBHhHDiEzNmmtyL1DfYTCm/6Of
+ sCVqk62bk3GUkcdjK9qBNSjEfJf/5fEliLRz+PxPZ5ctZjuRy1JRHhA8E5gAHMshsUSG
+ BP0BvgPLXQm2ghaWn7dS3L6zrFfAFvlVj9IzipalMM5UvVAVGlq26jvS9CxLuDYHRBuw
+ hDm3CH3Q6Z+OJALQMLvcbg/ZcpWMjgmlLHEHWm7DnwEZ6UYxUPAn1IMtNEB4JmCTCyTi
+ KOrq7Noc+2dx3UYhUH8OnLRosTDQYi2lLSWNQ08jMQ3FFWJ1B0BS0+J6C3XTbt8kqCXz
+ /6MA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=1cihiFfCWitvUSWOAYTLl7DtlU9tgPuqHldH8rmG098=;
+ b=fsjRHCApGhlNBWxZq0+JQQTTHArk46umHkiR4pTOdd3DfWeAjxROgspor8XgW1mHak
+ RSHazp98Yv2H46G5qBYLjcgiZtnJNwF8/yUhHGyIjsYSVUQ4aM9ERI58eghcjf0IImfq
+ qe7+DgEsFlg2NXtc4rqsF2QaFzt6VrtewP7tRztfwY1tYRHmhsyoWQ/x/k4gBXOOxf8z
+ KC0g5OnjDPgPnqerFOHjUcAoZoBV5fXVr75RzvOdha8QI0JU1oTrZ3Rh54YMmXq1SPFi
+ wMXYYCu4KVIbn5kxzcNDW3/JezeSyJ698je1rF9a3J8NFYVh9i3K2cV2vQLE2tkOzqKj
+ GYTQ==
+X-Gm-Message-State: AOAM532wJWWpNG1lHsBUaFaY3Qel0LqAcwlICHMw8lPlNa/1api4NMug
+ 4za6A+qNCOniG53ykYSel1F0Hg==
+X-Google-Smtp-Source: ABdhPJwxWlmOYLmCOf+rNIDKzTNxejYmKx5vhyjkP7iW3YdS7cU8vTmUIqY1ByOKhB8SjUP6odj3ug==
+X-Received: by 2002:a1c:2e0e:: with SMTP id u14mr3634052wmu.55.1592319153069; 
+ Tue, 16 Jun 2020 07:52:33 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id c206sm4744503wmf.36.2020.06.16.07.52.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 16 Jun 2020 07:52:31 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 1BA0A1FF7E;
+ Tue, 16 Jun 2020 15:52:31 +0100 (BST)
+References: <1592215252-26742-1-git-send-email-frederic.konrad@adacore.com>
+User-agent: mu4e 1.5.3; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: konrad@adacore.com
+Subject: Re: [PATCH v1 1/2] semihosting: defer connect_chardevs a little
+ more to use serialx
+In-reply-to: <1592215252-26742-1-git-send-email-frederic.konrad@adacore.com>
+Date: Tue, 16 Jun 2020 15:52:31 +0100
+Message-ID: <87tuzbyseo.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <dc2724aead900db8fb3bed0a066f7c7e2654edb0.1590421341.git.lukasstraub2@web.de>
-User-Agent: Mutt/1.14.0 (2020-05-02)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=berrange@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 02:46:07
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x344.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,39 +89,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block <qemu-block@nongnu.org>,
- Juan Quintela <quintela@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Max Reitz <mreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ KONRAD Frederic <frederic.konrad@adacore.com>, philmd@redhat.com,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 25, 2020 at 05:44:23PM +0200, Lukas Straub wrote:
-> The yank feature allows to recover from hanging qemu by "yanking"
-> at various parts. Other qemu systems can register themselves and
-> multiple yank functions. Then all yank functions for selected
-> instances can be called by the 'yank' out-of-band qmp command.
-> Available instances can be queried by a 'query-yank' oob command.
-> 
-> Signed-off-by: Lukas Straub <lukasstraub2@web.de>
+
+konrad@adacore.com writes:
+
+> From: KONRAD Frederic <frederic.konrad@adacore.com>
+>
+> With that we can just use chardev=3Dserial0.
+
+I don't quite follow what this means.
+
+./aarch64-softmmu/qemu-system-aarch64 -cpu max -monitor none -chardev=3Dser=
+ial0 -M virt -display none -semihosting -kernel ./tests/tcg/aarch64-softmmu=
+/memory
+qemu-system-aarch64: -chardev=3Dserial0: invalid option
+
+./aarch64-softmmu/qemu-system-aarch64 -cpu max -monitor none -chardev id=3D=
+serial0 -M virt -display none -semihosting -kernel ./tests/tcg/aarch64-soft=
+mmu/memory
+qemu-system-aarch64: -chardev id=3Dserial0: chardev: "serial0" missing back=
+end
+
+The run:
+
+./aarch64-softmmu/qemu-system-aarch64 -cpu max -serial mon:stdio -M virt -d=
+isplay none -semihosting -kernel ./tests/tcg/aarch64-softmmu/memory
+
+works fine without this patch.
+
+>
+> Signed-off-by: KONRAD Frederic <frederic.konrad@adacore.com>
 > ---
->  qapi/misc.json |  45 +++++++++++++
->  yank.c         | 174 +++++++++++++++++++++++++++++++++++++++++++++++++
->  yank.h         |  67 +++++++++++++++++++
+>  softmmu/vl.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+>
+> diff --git a/softmmu/vl.c b/softmmu/vl.c
+> index f669c06..9b8b48a 100644
+> --- a/softmmu/vl.c
+> +++ b/softmmu/vl.c
+> @@ -4123,8 +4123,6 @@ void qemu_init(int argc, char **argv, char **envp)
+>=20=20
+>      qemu_opts_foreach(qemu_find_opts("chardev"),
+>                        chardev_init_func, NULL, &error_fatal);
+> -    /* now chardevs have been created we may have semihosting to connect=
+ */
+> -    qemu_semihosting_connect_chardevs();
+>=20=20
+>  #ifdef CONFIG_VIRTFS
+>      qemu_opts_foreach(qemu_find_opts("fsdev"),
+> @@ -4271,6 +4269,9 @@ void qemu_init(int argc, char **argv, char **envp)
+>      if (foreach_device_config(DEV_DEBUGCON, debugcon_parse) < 0)
+>          exit(1);
+>=20=20
+> +    /* now chardevs have been created we may have semihosting to connect=
+ */
+> +    qemu_semihosting_connect_chardevs();
+> +
+>      /* If no default VGA is requested, the default is "none".  */
+>      if (default_vga) {
+>          vga_model =3D get_default_vga_model(machine_class);
 
-As mentioned n the second patch, I think these should live in util/
-and util/Makefile.objs should add them to util-obj-y
 
-Ideally MAINTAINERS would be updated to list someone as the official
-maintainer too.
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+--=20
+Alex Benn=C3=A9e
 
