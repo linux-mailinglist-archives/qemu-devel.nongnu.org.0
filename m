@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16F121FB510
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:54:23 +0200 (CEST)
-Received: from localhost ([::1]:59600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C7671FB46F
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:31:23 +0200 (CEST)
+Received: from localhost ([::1]:41606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlCyk-0001FA-3u
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:54:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58488)
+	id 1jlCcU-0006jH-7s
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:31:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCRL-00054N-Jh; Tue, 16 Jun 2020 10:19:51 -0400
-Received: from mail-oi1-x234.google.com ([2607:f8b0:4864:20::234]:35796)
+ id 1jlCPW-0001vP-3L; Tue, 16 Jun 2020 10:17:58 -0400
+Received: from mail-oi1-x236.google.com ([2607:f8b0:4864:20::236]:39414)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCRJ-00074e-Vu; Tue, 16 Jun 2020 10:19:51 -0400
-Received: by mail-oi1-x234.google.com with SMTP id k4so19389344oik.2;
- Tue, 16 Jun 2020 07:19:49 -0700 (PDT)
+ id 1jlCPU-0006bN-9v; Tue, 16 Jun 2020 10:17:57 -0400
+Received: by mail-oi1-x236.google.com with SMTP id d67so19349711oig.6;
+ Tue, 16 Jun 2020 07:17:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=T0nZx/piA2xOnjj6Pt8s+fwsT7brwJJgsCHLxedaAr4=;
- b=LtJggvb3hRlpd9yNL4y7qgfhSULxRu8xMAHg9OQiQYFvE2deCSoWovE+KrNkhLtFgK
- g1Uzalyku6KhWPpi/xg31x2JP5XM3QN1n1cixwMqWKLItkNr1YImCH6oiHGt+YchsNlD
- F+Tgv66b0jaWt4t41XbtyDgJrnZGYAOztuRIT28AosSm8ELqbDgf5TbZnWbYyajRCf9j
- 8X792lEobbHC0l0Mhx4h6CAu44HPQMbfymDkSA/lNOVYWRAyNdeycACymjMS8aj6+M7j
- gewljXzxP0LKiqHMpcEenCc6OAJ+jvKXMxOvFyVturt7ZwPPCJCTseLHX6x7VOOA8fZM
- LCsw==
+ bh=Q95hS3J40RCSoOEE5dlvFtYnyG3elf6x2RtaTUYv91A=;
+ b=hV+qhLYVCwxGxaUe+OPMnAAyjIuQ19Rc9GGTZj7um2ONSqRRZ3eOt4hZd2XjmoXBCW
+ PyLw6f1Zqm6RgJvb3O1cMwZ4hoM0oYdNGweD30hsEoosRHpxZIBoXS29eO/xrO+1qCIW
+ PK7waDd0GnhMGhJ6B1gca9tI+u9vu0aFtxt83mWM8C05KJ1bZHWPWfmOexdZgHULBP+S
+ NbpeRpJT+U1UaN4LzdcuPYX63GqSxBAkCFnYJVBoqha5s/3n0brQNnnIyNx50XxNfJNI
+ ObkKQshNz8+uDXEg962KwnM4KEtaa4darxkiTqMRDIzPNxPpy/ohnCeaOZhWinwVKX7z
+ U0Vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=T0nZx/piA2xOnjj6Pt8s+fwsT7brwJJgsCHLxedaAr4=;
- b=kyPcVAsSnl/CFZGoD+sZqy2DQdqveo6R+Y9u0bEHpQGxaA+59bC3DFGzQlTug3pYZm
- 1GUuGjYDiLxNB4zZgtZnkQKfsTdk1xD7pfya6z0SO6VhzVZq1jFAfAqtqXpANpztto7g
- GJMZJSJj5V7jd7BRUYDkNxdSWW2+n/MGoOuUOcH1DaE1/3/MUQCpbf+Lty/A4kkNBBW5
- nzmNHi5EanAKpVn3xRROGftkcJIi96uVuLjJ4NsPX13xB2xSSCezwTPYeARoI2AwRWby
- K9YzBpkW//E0kUxEBWIfYzGoYt/DLknm/Zd8lArEoM+k0nCy6E/Iul58lQ8VLEQKOGdi
- fS5g==
-X-Gm-Message-State: AOAM533z9FjApJFWSY09uYE5kPcxvT+Lt6E5/BtTGmzMF18bR63/u3aq
- ImsoHZz8IaKDjchvNx6Vu5cMe9hjti4=
-X-Google-Smtp-Source: ABdhPJyc91p4dToSg/uUtVelxH5IvXu13kgzSqTdC4BOVk2g1cQQg1ozCvculUYOvBnX/F70eQI+6A==
-X-Received: by 2002:aca:f455:: with SMTP id s82mr1185364oih.178.1592317188154; 
- Tue, 16 Jun 2020 07:19:48 -0700 (PDT)
+ bh=Q95hS3J40RCSoOEE5dlvFtYnyG3elf6x2RtaTUYv91A=;
+ b=PiXY8Z9gRUkQeN8f5CpbN/nZE2liZjeSDjxIlLLMQPxeHqty2ysACGNY/Eciz6LXaN
+ +/3r4Ll5GTUr7dRxbcSpn0mIT5Uf4qXnmwuokW7P3e/7C04oSlw6dPfqa2ifDJ0SpeVu
+ fyGQ8iFXSPWMWmQKLqYEla4TE/Sx3KLaL1GGkePD1dfBxTz/sBJsJQDxT4Yc6j0KICxz
+ rNoupncxMNEgEDnUeQVbQpZAuE3Db540PP7pmUg1ZxZpmfuBbSLAzCkMTLVaWCFjDrEj
+ No/Zc4PEthQhsC313Sg4I0KcewmFcwJaXhLhKswN3K8R81LBfi8N2SzVu3BmSduNr5cJ
+ MEGg==
+X-Gm-Message-State: AOAM5321IcGNznS7MqxbxMhhxtyhPiUXAx1+fZObL+X++lykAsk/ZXlG
+ JgaLESkeb9BKEbZeb41KRAceqs3b
+X-Google-Smtp-Source: ABdhPJyN7T3b11wfLV+3qdP/dNuteuyTMH9TXoHEvXc4mgKL7zoWrgUUNsEVn9Ezq52NieeWicQpfw==
+X-Received: by 2002:aca:df04:: with SMTP id w4mr3458946oig.27.1592317074303;
+ Tue, 16 Jun 2020 07:17:54 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id c9sm4032034oov.35.2020.06.16.07.19.47
+ by smtp.gmail.com with ESMTPSA id e188sm4349186oib.18.2020.06.16.07.17.52
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 16 Jun 2020 07:19:47 -0700 (PDT)
+ Tue, 16 Jun 2020 07:17:53 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 08/78] numa: remove not needed check
-Date: Tue, 16 Jun 2020 09:14:37 -0500
-Message-Id: <20200616141547.24664-9-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 21/78] virtio: reset region cache when on queue deletion
+Date: Tue, 16 Jun 2020 09:14:50 -0500
+Message-Id: <20200616141547.24664-22-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
 References: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::234;
- envelope-from=flukshun@gmail.com; helo=mail-oi1-x234.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::236;
+ envelope-from=flukshun@gmail.com; helo=mail-oi1-x236.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -80,52 +80,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>, qemu-stable@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Yuri Benditovich <yuri.benditovich@daynix.com>, qemu-stable@nongnu.org,
+ "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Igor Mammedov <imammedo@redhat.com>
+From: Yuri Benditovich <yuri.benditovich@daynix.com>
 
-Currently parse_numa_node() is always called from already numa
-enabled context.
-Drop unnecessary check if numa is supported.
+https://bugzilla.redhat.com/show_bug.cgi?id=1708480
+Fix leak of region reference that prevents complete
+device deletion on hot unplug.
 
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <1576154936-178362-2-git-send-email-imammedo@redhat.com>
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-(cherry picked from commit 5275db59aa7ff8a26bd6aa5d07cb4d53de5cfab5)
+Cc: qemu-stable@nongnu.org
+Signed-off-by: Yuri Benditovich <yuri.benditovich@daynix.com>
+Message-Id: <20191226043649.14481-2-yuri.benditovich@daynix.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+(cherry picked from commit 421afd2fe8dd4603216cbf36081877c391f5a2a4)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- hw/core/numa.c | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+ hw/virtio/virtio.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/core/numa.c b/hw/core/numa.c
-index e3332a984f..19f082de12 100644
---- a/hw/core/numa.c
-+++ b/hw/core/numa.c
-@@ -83,10 +83,6 @@ static void parse_numa_node(MachineState *ms, NumaNodeOptions *node,
-         return;
-     }
+diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+index 6de3cfdc2c..344d817644 100644
+--- a/hw/virtio/virtio.c
++++ b/hw/virtio/virtio.c
+@@ -2338,6 +2338,7 @@ void virtio_delete_queue(VirtQueue *vq)
+     vq->handle_aio_output = NULL;
+     g_free(vq->used_elems);
+     vq->used_elems = NULL;
++    virtio_virtqueue_reset_region_cache(vq);
+ }
  
--    if (!mc->cpu_index_to_instance_props || !mc->get_default_cpu_node_id) {
--        error_setg(errp, "NUMA is not supported by this machine-type");
--        return;
--    }
-     for (cpus = node->cpus; cpus; cpus = cpus->next) {
-         CpuInstanceProperties props;
-         if (cpus->value >= max_cpus) {
-@@ -178,9 +174,8 @@ void parse_numa_distance(MachineState *ms, NumaDistOptions *dist, Error **errp)
- void set_numa_options(MachineState *ms, NumaOptions *object, Error **errp)
- {
-     Error *err = NULL;
--    MachineClass *mc = MACHINE_GET_CLASS(ms);
- 
--    if (!mc->numa_mem_supported) {
-+    if (!ms->numa_state) {
-         error_setg(errp, "NUMA is not supported by this machine-type");
-         goto end;
-     }
+ void virtio_del_queue(VirtIODevice *vdev, int n)
 -- 
 2.17.1
 
