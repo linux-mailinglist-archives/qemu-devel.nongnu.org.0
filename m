@@ -2,72 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F410C1FBCA2
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 19:19:11 +0200 (CEST)
-Received: from localhost ([::1]:47074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 249BC1FBC98
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 19:17:34 +0200 (CEST)
+Received: from localhost ([::1]:38574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlFEs-0006lN-Ux
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 13:19:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47774)
+	id 1jlFDJ-0003IP-4p
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 13:17:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47720)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1jlF6j-0005dq-RA
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 13:10:46 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:48860
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jlF6b-0005W2-9a
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 13:10:38 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:26484
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1jlF6f-0007qP-Va
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 13:10:45 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jlF6Z-0007pm-Iw
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 13:10:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592327438;
+ s=mimecast20190719; t=1592327434;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=kG8NofYD5LjVridRqoLb7O/0vTFpDS9AaSElxP73zBQ=;
- b=WwRvhCnjZa923RgS8dzWo0U2TKCCUgE2aVbwU7lommc2vLFRxC3NOM9OymGlSiTd4tUngb
- hhz+BQTE+llN79tgTkqBHTUaxGnJn2QxEKzJEnkvYKYRfGiMJpKtPVM/PetUaocPcHH7iz
- s9JJG1yvM5QoEHQ1Tjjl7kd7GCHRrbI=
+ bh=TAX0b6rBIi7O1tAgAZ2KU8xXDAoFs/h4b0b1MBbp9TQ=;
+ b=RiS5bgR/JCaq0e7j1SP5xZY60Uk2kq+mTykpgrw+ZH2JJZDUJ3De1+hIEguMMuQytqq4dn
+ OTATSW0Z4Xs4a2beQ+NeGzwP/Gv9yC7Q+R0UfE6/kgKeapmv+kWdYen31/iJoFOjCdmHmT
+ qGumdZ4Y45zIZxAbHsaUDjHC8jcdvmM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-265-JaTrDTX3Nxi6M5xpHfFT8A-1; Tue, 16 Jun 2020 13:10:27 -0400
-X-MC-Unique: JaTrDTX3Nxi6M5xpHfFT8A-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-39-XotkJhe9NzWlrw8eDvRx4A-1; Tue, 16 Jun 2020 13:10:31 -0400
+X-MC-Unique: XotkJhe9NzWlrw8eDvRx4A-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BAA6F8064D8;
- Tue, 16 Jun 2020 17:10:25 +0000 (UTC)
-Received: from localhost (ovpn-113-23.phx2.redhat.com [10.3.113.23])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B93EF60C05;
- Tue, 16 Jun 2020 17:10:22 +0000 (UTC)
-Date: Tue, 16 Jun 2020 13:10:21 -0400
-From: Eduardo Habkost <ehabkost@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 97EEB101C2C0;
+ Tue, 16 Jun 2020 17:10:29 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-67.ams2.redhat.com
+ [10.36.112.67])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C2FAE1C4;
+ Tue, 16 Jun 2020 17:10:26 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 0AC1E16E18; Tue, 16 Jun 2020 19:10:26 +0200 (CEST)
+Date: Tue, 16 Jun 2020 19:10:26 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
 To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Subject: Re: ovmf / PCI passthrough impaired due to very limiting PCI64
  aperture
-Message-ID: <20200616171021.GV2366737@habkost.net>
+Message-ID: <20200616171026.jhlhtewp6j6vj44m@sirius.home.kraxel.org>
 References: <99779e9c-f05f-501b-b4be-ff719f140a88@canonical.com>
  <20200616165043.24y2cp53axk7uggy@sirius.home.kraxel.org>
  <20200616165746.GH2788@work-vm>
 MIME-Version: 1.0
 In-Reply-To: <20200616165746.GH2788@work-vm>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 02:45:57
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 02:46:07
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,56 +84,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pedro.principeza@canonical.com, dann.frazier@canonical.com,
- "Guilherme G. Piccoli" <gpiccoli@canonical.com>, qemu-devel@nongnu.org,
- christian.ehrhardt@canonical.com, Gerd Hoffmann <kraxel@redhat.com>,
- lersek@redhat.com, fw@gpiccoli.net
+Cc: pedro.principeza@canonical.com, ehabkost@redhat.com,
+ dann.frazier@canonical.com, "Guilherme G. Piccoli" <gpiccoli@canonical.com>,
+ qemu-devel@nongnu.org, christian.ehrhardt@canonical.com, lersek@redhat.com,
+ fw@gpiccoli.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 16, 2020 at 05:57:46PM +0100, Dr. David Alan Gilbert wrote:
-> * Gerd Hoffmann (kraxel@redhat.com) wrote:
-> >   Hi,
-> > 
-> > > (a) We could rely in the guest physbits to calculate the PCI64 aperture.
-> > 
-> > I'd love to do that.  Move the 64-bit I/O window as high as possible and
-> > use -- say -- 25% of the physical address space for it.
-> > 
-> > Problem is we can't.
-> > 
-> > > failure. Also, if the users are not setting the physbits in the guest,
-> > > there must be a default (seems to be 40bit according to my experiments),
-> > > seems to be a good idea to rely on that.
-> > 
-> > Yes, 40 is the default, and it is used *even if the host supports less
-> > than that*.  Typical values I've seen for intel hardware are 36 and 39.
-> > 39 is used even by recent hardware (not the xeons, but check out a
-> > laptop or a nuc).
-> > 
-> > > If guest physbits is 40, why to have OVMF limiting it to 36, right?
-> > 
-> > Things will explode in case OVMF uses more physbits than the host
-> > supports (host physbits limit applies to ept too).  In other words: OVMF
-> > can't trust the guest physbits, so it is conservative to be on the safe
-> > side.
-> > 
+  Hi,
+
 > > If we can somehow make a *trustable* physbits value available to the
 > > guest, then yes, we can go that route.  But the guest physbits we have
 > > today unfortunately don't cut it.
 > 
 > In downstream RH qemu, we run with host-physbits as default; so it's reasonably
-> trustworthy; of course that doesn't help you across a migration between
+> trustworthy;
+
+Can the guest figure somehow whenever it is trustworthy or not?
+
+> of course that doesn't help you across a migration between
 > hosts with different sizes (e.g. an E5 Xeon to an E3).
-> Changing upstream to do the same would seem sensible to me, but it's not
-> a foolproof config.
 
-Yeah, to make it really trustworthy we would need to prevent
-migration to hosts with mismatching phys sizes.  We would need to
-communicate that to the guest somehow (with new hypervisor CPUID
-flags, maybe).
+Making physbits configurable for migration compatibility is fine if qemu
+outlaws the problematic guest physbits > host physbits case and throws
+an error in that case.
 
--- 
-Eduardo
+take care,
+  Gerd
 
 
