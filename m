@@ -2,76 +2,123 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67A171FB0D4
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 14:35:41 +0200 (CEST)
-Received: from localhost ([::1]:48380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 726F21FB0D8
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 14:36:11 +0200 (CEST)
+Received: from localhost ([::1]:50956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlAoW-0004Pm-F4
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 08:35:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55886)
+	id 1jlAp0-0005YE-H2
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 08:36:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1jlAl5-0000xP-OU
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 08:32:08 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:23892
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1jlAkt-00052v-Nb
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 08:32:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592310713;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=m9AXSeX5xIkJ3UUPH3ig+R68TNnlcy7TUGSiJzPw30k=;
- b=IZkspfNQZ1LaEm8nV7D9tskyMFreUHnxYLH1LlmJeXDrpJzQo640z4sMnJpspzj4Pob5SD
- Wv6+LzGPNZG2HKaudsvVR9aGdmLwiINUuVVKDdyyRSFfhrUsJkdXiqOtzQW5eAO5W+VAYl
- 2As3N7dLYmlW6k9i2nVfi9Xp1lEoxG8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-213-LBNHN-PzOhi6cuuav7jHOw-1; Tue, 16 Jun 2020 08:31:52 -0400
-X-MC-Unique: LBNHN-PzOhi6cuuav7jHOw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1A783835B7C;
- Tue, 16 Jun 2020 12:31:51 +0000 (UTC)
-Received: from [10.36.114.197] (ovpn-114-197.ams2.redhat.com [10.36.114.197])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E6D08101E675;
- Tue, 16 Jun 2020 12:31:48 +0000 (UTC)
-Subject: Re: [PATCH v2 1/5] tpm_tis: Allow lowering of IRQ also when locality
- is not active
-To: Stefan Berger <stefanb@linux.vnet.ibm.com>, qemu-devel@nongnu.org
-References: <20200615142327.671546-1-stefanb@linux.vnet.ibm.com>
- <20200615142327.671546-2-stefanb@linux.vnet.ibm.com>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <14b3f62b-3aa0-1b18-c39e-ef2902826bb9@redhat.com>
-Date: Tue, 16 Jun 2020 14:31:46 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
-MIME-Version: 1.0
-In-Reply-To: <20200615142327.671546-2-stefanb@linux.vnet.ibm.com>
+ (Exim 4.90_1) (envelope-from <ani.sinha@nutanix.com>)
+ id 1jlAlh-0001iO-4R
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 08:32:45 -0400
+Received: from mx0b-002c1b01.pphosted.com ([148.163.155.12]:2374)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ani.sinha@nutanix.com>)
+ id 1jlAlf-00057V-4r
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 08:32:44 -0400
+Received: from pps.filterd (m0127843.ppops.net [127.0.0.1])
+ by mx0b-002c1b01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 05GCVnwa027831; Tue, 16 Jun 2020 05:32:24 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
+ h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-id : content-transfer-encoding : mime-version;
+ s=proofpoint20171006; bh=6BRWjfSQXKSSGMjWEhiRdyQJ8URU/bnSkWmIiiP179M=;
+ b=p5BZv2qIgTzYGEYdjiJNSwPY6NXdnggwpqeCx4paQnausXNmQ+B2re+2YLksJHWots4s
+ Gp12heD0IkbLvy6Cci2wvjTtGur9xZrXCmJzbMJl1AG1ZVo/2Te0Nim9/1TDO7NV/DIR
+ ITW9vYLvCk2NkdS3qMbJwhOl6sPXFvuHdznGa+imNFqkTzd18K0xNAXV812YDMeNkMkG
+ DfiQaAHCVnQEfxqMSmWEaqyK8006mVRoIRYXLjzjzABzeCqNh1RXCu65Qfr/7/KiDdop
+ DgHQnX1BIyjqhYWFbPWK/BwYqWUbQ2a9yXDIztr+LPK+Xt57ByPmH3i/UjWg8+oBQ/FW +g== 
+Received: from nam10-mw2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10lp2107.outbound.protection.outlook.com [104.47.55.107])
+ by mx0b-002c1b01.pphosted.com with ESMTP id 31n0535pfr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 16 Jun 2020 05:32:24 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=a/S+hFPCpX0P9N6BhYt6QhyP2pRokdCfdXe5xaErw8EUdlyvoesJyOslxAyc2IraEgMWp7XbLFbEAR+ItNzHQuw32aE9bjDoeALkIw14/DsF201bLZl8R1qkPqoJ4KOIWab3ywTgfM3kSoF34so+fyJ1BRbbfyHKDwe5+V56uE9p629VjQG3QEsc+jVFmjrIvFUKE2SC2E9KUVJCGCeePtiqDB79qngZZsfgPmoDzwOdmj3mCdKEZCzMcpQFFibaSqZEdJ97YX99nS69m7FwVKz9AZH+FNGjD3dCeX0bB1xPIJyruxK3Zl3VUGukAJjYE0XdxZmHtiRUdk5AsA77Ig==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6BRWjfSQXKSSGMjWEhiRdyQJ8URU/bnSkWmIiiP179M=;
+ b=WdYMSuohbib5nJ5Fb/dldrlsiePX87Yy0ZInQP31xjWmAH+4JllcFAvJrmvVSNS1OEX7M4MLecu7kwsDdjxMgzyb0dEh/juFfb5U1ZIPWyqSesFVFK0GTHaCuq+I4eoLiDHzH/DgxSdhFC5GzpaGKLgjg7G2R/pKAFygUhoBN0Hv07aSg+o1tTZfQWGvb5583s+efuFWMzbpPvWKH1mIhOE6xRFjhK9Rk14HYRNvdKLYr0qt/gISg/vJxe1oYQPhfFKp0TJtygFSc+qYf7ylx+uPpeqWNt/LP0gAJFSy0OI8H012ZBCl+tuLYRDfXd945IHKevqLhol5KIeHOJYS8A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
+ dkim=pass header.d=nutanix.com; arc=none
+Received: from MN2PR02MB5742.namprd02.prod.outlook.com (2603:10b6:208:10d::27)
+ by MN2PR02MB5726.namprd02.prod.outlook.com (2603:10b6:208:117::31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3088.18; Tue, 16 Jun
+ 2020 12:32:21 +0000
+Received: from MN2PR02MB5742.namprd02.prod.outlook.com
+ ([fe80::317d:683f:b2:fa01]) by MN2PR02MB5742.namprd02.prod.outlook.com
+ ([fe80::317d:683f:b2:fa01%7]) with mapi id 15.20.3088.029; Tue, 16 Jun 2020
+ 12:32:21 +0000
+From: Ani Sinha <ani.sinha@nutanix.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [PATCH V2] Rename use_acpi_pci_hotplug to more appropriate
+ use_acpi_hotplug_bridge
+Thread-Topic: [PATCH V2] Rename use_acpi_pci_hotplug to more appropriate
+ use_acpi_hotplug_bridge
+Thread-Index: AQHWPyzD7ib4h0/yQkCsyuImnO1oVKjbLNGAgAAJHoA=
+Date: Tue, 16 Jun 2020 12:32:21 +0000
+Message-ID: <3D5E800F-73FE-48C1-9222-E7FA82DDB1A9@nutanix.com>
+References: <1591796451-49987-1-git-send-email-ani.sinha@nutanix.com>
+ <20200616135927.4f2ef312@redhat.com>
+In-Reply-To: <20200616135927.4f2ef312@redhat.com>
+Accept-Language: en-US
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.120;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 02:46:07
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=nutanix.com;
+x-originating-ip: [115.110.205.84]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: c67010f9-21e5-42a4-e4e8-08d811f150d1
+x-ms-traffictypediagnostic: MN2PR02MB5726:
+x-microsoft-antispam-prvs: <MN2PR02MB5726279A62C16316ABB1893AF19D0@MN2PR02MB5726.namprd02.prod.outlook.com>
+x-proofpoint-crosstenant: true
+x-ms-oob-tlc-oobclassifiers: OLM:3826;
+x-forefront-prvs: 04362AC73B
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: ebb0BH/mb9TfuVf0Do8fjGCcivo+HlOS28DC87BHLhOC/M71p+lbs7YCa8hrZxTHxDw9KEP+r+LqJeA+RuqdpXaZ5lfPkFpfTKL/mZKzWAZeJKOCUrV7HpX+rrHjFm5ExUi6oBb5VbMk2Qh+7UnVUFZWWJeYKaUdkVB8nvy7JjBsHRlC2r7qCQq9E/COE9AVCfjIEpuFXkYhkM/LbE/iaAMcBWeXPDqF1JpyzhTNNWa2qyR/4z3liReDXGZ+pIMXm5WVEYKdBogkqdIfQb66bP/4b6VF9h2FzB4b4Z66cEsrtklL5uDNIafYdXyENW0bPaXJasa9iZQyz3wTgWusJQ==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR02MB5742.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(39860400002)(346002)(396003)(366004)(136003)(376002)(86362001)(44832011)(66946007)(4326008)(8676002)(6506007)(26005)(8936002)(6916009)(186003)(33656002)(64756008)(53546011)(66556008)(66446008)(76116006)(36756003)(2616005)(66476007)(5660300002)(54906003)(6512007)(316002)(71200400001)(2906002)(6486002)(91956017)(558084003)(478600001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: hP3uCRejLfB2jNslPoir2PMoXSpE44A3JYh6R2/ohi2y+9AcU0KLj9hCa1iJRX8V+h8xr3j9ccX8welX8WHPhY3xybOhoEmZWBnEcRFgPl5FP/JPHaO8B7toqsNZk5NthJXHQmTGc1m17e8Kx20KDmY+6wo9QnenMzsqWuMTsc0h1SXrl0SpA3vajsKqjZPXnx8hsTUDZH9rqdQY1SGmaKfIkzW53AAyqIIZtSu+lLEmPWetJiELZIzB0Dkysmi2iJv4vGd/Hdf9W8JHZoWNQG3soeWmDI5MmLJWq2H1K0bVENNFkxSg8/K2EV1fZzKa78o+KSmaDXmntr+q+2cNrniwRbBabt7G2CaVjOqVbUggkV7V/DJMoeFXQPKiCWReu7GhR3lSUOO9maSQWX2TQWsc8la5vcyplojxkLTB+yjF/pnc/ZhwArlY8Uwdw8Js/eN69oTZEEo8Bshs6NexUpu2+jQvH2ery41+U/PP+Exv7vMuvP+MC5IyibFEm//P
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <54D834122483E94193394C10AD05E0EA@namprd02.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: nutanix.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c67010f9-21e5-42a4-e4e8-08d811f150d1
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Jun 2020 12:32:21.2489 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: bb047546-786f-4de1-bd75-24e5b6f79043
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: PSGvOhpOqPo0Km8h0Ca6+4Kujr7Tqol0y58jD8VRnfXC3GSCqetTVhPF2fC70ZycrYh6bOHhSRUc90ClvzeXVQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR02MB5726
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.687
+ definitions=2020-06-16_04:2020-06-16,
+ 2020-06-16 signatures=0
+X-Proofpoint-Spam-Reason: safe
+Received-SPF: pass client-ip=148.163.155.12;
+ envelope-from=ani.sinha@nutanix.com; helo=mx0b-002c1b01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 08:32:40
+X-ACL-Warn: Detected OS   = Linux 3.x [generic]
+X-Spam_score_int: -37
+X-Spam_score: -3.8
 X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,45 +131,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, Stefan Berger <stefanb@linux.ibm.com>,
- philmd@redhat.com, mkedzier@redhat.com, pbonzini@redhat.com
+Cc: "Michael S. Tsirkin" <mst@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Ani Sinha <ani@anisinha.ca>,
+ =?iso-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Stefan,
 
-On 6/15/20 4:23 PM, Stefan Berger wrote:
-> From: Stefan Berger <stefanb@linux.ibm.com>
-> 
-> This patch fixes a bug that occurs when using interrupts. It
-> allows to lower the IRQ also when a locality is not active.
-> 
-> Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
 
-Thanks
+> On Jun 16, 2020, at 5:29 PM, Igor Mammedov <imammedo@redhat.com> wrote:
+>=20
+>> Change-Id: I2a6ab47e80fa2bc9504ce88e063d710efaceb842
+> what is this id, prehaps drop it?
 
-Eric
-> ---
+Sent V3 with this dropped.
 
->  hw/tpm/tpm_tis_common.c | 4 ----
->  1 file changed, 4 deletions(-)
-> 
-> diff --git a/hw/tpm/tpm_tis_common.c b/hw/tpm/tpm_tis_common.c
-> index 1af4bce139..0f42696f1f 100644
-> --- a/hw/tpm/tpm_tis_common.c
-> +++ b/hw/tpm/tpm_tis_common.c
-> @@ -601,10 +601,6 @@ static void tpm_tis_mmio_write(void *opaque, hwaddr addr,
->          /* hard wired -- ignore */
->          break;
->      case TPM_TIS_REG_INT_STATUS:
-> -        if (s->active_locty != locty) {
-> -            break;
-> -        }
-> -
->          /* clearing of interrupt flags */
->          if (((val & TPM_TIS_INTERRUPTS_SUPPORTED)) &&
->              (s->loc[locty].ints & TPM_TIS_INTERRUPTS_SUPPORTED)) {
-> 
+Ani
 
 
