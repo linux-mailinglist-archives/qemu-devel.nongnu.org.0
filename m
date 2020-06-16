@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B73451FB13F
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 14:56:33 +0200 (CEST)
-Received: from localhost ([::1]:45544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC0981FB15F
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 14:58:39 +0200 (CEST)
+Received: from localhost ([::1]:54054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlB8i-0000Ge-OI
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 08:56:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33732)
+	id 1jlBAk-0003xL-Nu
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 08:58:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jlB5q-0003hb-FA
+ id 1jlB5q-0003iQ-T7
  for qemu-devel@nongnu.org; Tue, 16 Jun 2020 08:53:34 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:43224)
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:43215)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jlB5n-00005K-Gc
+ id 1jlB5n-00005P-Gc
  for qemu-devel@nongnu.org; Tue, 16 Jun 2020 08:53:34 -0400
-Received: by mail-wr1-x434.google.com with SMTP id l10so20620758wrr.10
- for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 05:53:28 -0700 (PDT)
+Received: by mail-wr1-x42a.google.com with SMTP id l10so20620815wrr.10
+ for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 05:53:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=tgJUqLwLoRtLSvW9q3TioA1yOeOJ7FhmCuMS43Wyg4s=;
- b=EnPQ4J2+lnyyvNj1f+14SsQ0f/ityTfa4vJzMCYOgTjEhVZ7/8RGJ5+Px/sDYjfAU9
- srZv2mmQgci15AP1YNuy6YZ6gRgk6N0eOunMS5NmzBWXK5HC3EgNJNCbatQHxybXWubt
- 5nalAoNfFQj2FJcnLs3CX2PHXEb3uVxdmhS9GDrlfTbKnNyFVXyzn+RFz5lRxNfGwnzr
- Y67Z8KUxR4IQ3Q9GbGQDZaV3a5Mjyw/dYi96viEaGWQIN/TAvYRqHwyzH2CP6/T82nH4
- X9n6zNrqRaZzGV1B2cOnBuTtiqEUmr11sPIviPgFRbjoYPO6RYnM6breXp8RZxlqpvNF
- 3ioA==
+ bh=3KvyAfRcofuRLNj4oNNcFUoLgTecr2giSski/lyf7H4=;
+ b=W1M6nEkohGCl+xddylcn+tl9y4BEJHcjxXoa0yR20DlLrb5Q1YzHKThse8T2QvbXgM
+ dCxmbJqpDAKOru58olIg1cRlow6Bf/Kt4Jdb/90DkAN5XGvQ+UrsUt5CTy9hPaGbcgoJ
+ A7KsuYeyPy4mrFJxMroM5Bp1XhspWaKu9Xz5iXWfRF9C13dH4nBIuqSdZjBrhJsgHC9y
+ AypSo75qxWJE042//oc5L7U8cq34WVm/vM6kE27S8Y58VqVfomsD3TxkbJFGOHXYFkeZ
+ HyYah1QT+XzLjlfGLELBwUxNNL3c5vREcTbDKtfZjtNjVKrz/qJc8heiwrZq7bKNKWmY
+ /0Pw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=tgJUqLwLoRtLSvW9q3TioA1yOeOJ7FhmCuMS43Wyg4s=;
- b=JBPB/ESaNEAOl5iYhfbbM+m90juqJchfqLt9Wd6aHijK6HQ6ezzC84O9vH1ZOHZm5/
- Yk48FNa1kZ04mH3pY1nn4ysnlPPPJ8MtYpookTH77An5rxvyhiujcKWxHtlM3PdaHl8/
- E+YtiHHu/EHBHOI4T54m4zkOiSUE2tnZ0dkaORdeBmrDY8nAgOt1hTxUCmu9v2Q82X5I
- o24KKH4RRDykpvBl9GrZj1P6w/FEc1YBJdAgOpm2saakm6gmUMQbwNZa5yz6YYdWkd2U
- ADwJQgLO0OsNsh6S3bIfMe2wnC+xWLVYgn9ILq/aC+vk6j8ke1CSiA+FdE6GSaTwx9NG
- cgGQ==
-X-Gm-Message-State: AOAM531H2hhJ8wC0IMDzis6fttRfnbOrYisYzM9znd+e0DEz5c9uV8w5
- Z8mlkmoEIffDqDepg79Q6Gw2cA==
-X-Google-Smtp-Source: ABdhPJxmeWVE7BGojdXLZoCAt7zQ9cVMvqVlvNfboVwLNRrSEawlZwr5dBRDaFwROUFZSe/XBJC5Ag==
-X-Received: by 2002:a5d:4f0d:: with SMTP id c13mr3096823wru.357.1592312007082; 
- Tue, 16 Jun 2020 05:53:27 -0700 (PDT)
+ bh=3KvyAfRcofuRLNj4oNNcFUoLgTecr2giSski/lyf7H4=;
+ b=K0V6/aAE/vzbzI3MBFFqt5SY6u4fz5xlqcZdR1MVZkOgMTrc8gZYWYTG/hT98m3EAK
+ ChIf7Bt+8hbiHrw4DJCUMm6u9QTKkdohITNreBzBSx4H0yKBQ/gAPBkpY7NFB7cHxyhx
+ kGNndjsw3QQY6YA3PkPnNNtfTRsuXQ8foswjiEmdOSAhOSirLBKFVfB8qZCXwvfLup55
+ JrUTxOIcKlPVsbYTBMl/tr9c06Ksq5uxlUYob08gO1G9ZdFRHE31KCXUQxItvHQkm7vz
+ uCKShN1OQsk2r/BdwwBV6kqRgCkAR53BBhBvshsO/pAX8kZ2GWG6Tr4jlZmx258L1JKD
+ 2wYg==
+X-Gm-Message-State: AOAM530yk2UeynfsSeavtaSsp2eYbyb+lhrCmbjiOYYUKPsex0zlldiV
+ R5tuh/YXTU0M9dRbH6AKPp5fEw==
+X-Google-Smtp-Source: ABdhPJzjcn+rqffc5nOdoPBe2vhynvVSDmfIXka8YY1g1GHXcRqja72sMxtXiMqCAVSwjyz8mLwfvw==
+X-Received: by 2002:adf:ed51:: with SMTP id u17mr2735068wro.285.1592312008273; 
+ Tue, 16 Jun 2020 05:53:28 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id z206sm3833256wmg.30.2020.06.16.05.53.24
+ by smtp.gmail.com with ESMTPSA id p16sm31603816wru.27.2020.06.16.05.53.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Jun 2020 05:53:24 -0700 (PDT)
+ Tue, 16 Jun 2020 05:53:25 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 5C8C11FF87;
+ by zen.linaroharston (Postfix) with ESMTP id 75A7E1FF8C;
  Tue, 16 Jun 2020 13:53:24 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 01/21] tests/docker: bump fedora to 32
-Date: Tue, 16 Jun 2020 13:53:04 +0100
-Message-Id: <20200616125324.19045-2-alex.bennee@linaro.org>
+Subject: [PULL 02/21] Makefile: dtc: update, build the libfdt target
+Date: Tue, 16 Jun 2020 13:53:05 +0100
+Message-Id: <20200616125324.19045-3-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200616125324.19045-1-alex.bennee@linaro.org>
 References: <20200616125324.19045-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,28 +88,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+ qemu-devel@nongnu.org, Claudio Fontana <cfontana@suse.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We should be keeping this up to date as Fedora goes out of support
-quite quickly.
+From: Claudio Fontana <cfontana@suse.de>
 
+dtc submodule update, now call the libfdt target from the new
+dtc Makefile, which has been changed to not require bison, flex, etc.
+This removes warnings during the build.
+
+scripts/ symlink and tests directory creation are not necessary,
+and neither is calling the clean rule explicitly.
+
+Signed-off-by: Claudio Fontana <cfontana@suse.de>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20200612190237.30436-2-alex.bennee@linaro.org>
+Message-Id: <20200518160319.18861-2-cfontana@suse.de>
+Message-Id: <20200612190237.30436-3-alex.bennee@linaro.org>
 
-diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
-index 92b6e11c8a8..798ddd2c3e0 100644
---- a/tests/docker/dockerfiles/fedora.docker
-+++ b/tests/docker/dockerfiles/fedora.docker
-@@ -1,4 +1,4 @@
--FROM fedora:30
-+FROM fedora:32
+diff --git a/configure b/configure
+index 89867a17208..8a9f544b0b7 100755
+--- a/configure
++++ b/configure
+@@ -4312,7 +4312,6 @@ EOF
+           mkdir -p dtc
+           if [ "$pwd_is_source_path" != "y" ] ; then
+               symlink "$source_path/dtc/Makefile" "dtc/Makefile"
+-              symlink "$source_path/dtc/scripts" "dtc/scripts"
+           fi
+           fdt_cflags="-I\$(SRC_PATH)/dtc/libfdt"
+           fdt_ldflags="-L\$(BUILD_DIR)/dtc/libfdt"
+diff --git a/Makefile b/Makefile
+index ed0ed93b2d6..895410fbf9c 100644
+--- a/Makefile
++++ b/Makefile
+@@ -526,13 +526,14 @@ $(SOFTMMU_FUZZ_RULES): $(edk2-decompressed)
+ $(TARGET_DIRS_RULES):
+ 	$(call quiet-command,$(MAKE) $(SUBDIR_MAKEFLAGS) -C $(dir $@) V="$(V)" TARGET_DIR="$(dir $@)" $(notdir $@),)
  
- # Please keep this list sorted alphabetically
- ENV PACKAGES \
+-DTC_MAKE_ARGS=-I$(SRC_PATH)/dtc VPATH=$(SRC_PATH)/dtc -C dtc V="$(V)" LIBFDT_srcdir=$(SRC_PATH)/dtc/libfdt
++# LIBFDT_lib="": avoid breaking existing trees with objects requiring -fPIC
++DTC_MAKE_ARGS=-I$(SRC_PATH)/dtc VPATH=$(SRC_PATH)/dtc -C dtc V="$(V)" LIBFDT_lib=""
+ DTC_CFLAGS=$(CFLAGS) $(QEMU_CFLAGS)
+-DTC_CPPFLAGS=-I$(BUILD_DIR)/dtc -I$(SRC_PATH)/dtc -I$(SRC_PATH)/dtc/libfdt
++DTC_CPPFLAGS=-I$(SRC_PATH)/dtc/libfdt
+ 
+ .PHONY: dtc/all
+-dtc/all: .git-submodule-status dtc/libfdt dtc/tests
+-	$(call quiet-command,$(MAKE) $(DTC_MAKE_ARGS) CPPFLAGS="$(DTC_CPPFLAGS)" CFLAGS="$(DTC_CFLAGS)" LDFLAGS="$(QEMU_LDFLAGS)" ARFLAGS="$(ARFLAGS)" CC="$(CC)" AR="$(AR)" LD="$(LD)" $(SUBDIR_MAKEFLAGS) libfdt/libfdt.a,)
++dtc/all: .git-submodule-status dtc/libfdt
++	$(call quiet-command,$(MAKE) $(DTC_MAKE_ARGS) CPPFLAGS="$(DTC_CPPFLAGS)" CFLAGS="$(DTC_CFLAGS)" LDFLAGS="$(QEMU_LDFLAGS)" ARFLAGS="$(ARFLAGS)" CC="$(CC)" AR="$(AR)" LD="$(LD)" $(SUBDIR_MAKEFLAGS) libfdt,)
+ 
+ dtc/%: .git-submodule-status
+ 	@mkdir -p $@
+@@ -820,7 +821,6 @@ distclean: clean
+ 	rm -rf $$d || exit 1 ; \
+         done
+ 	rm -Rf .sdk
+-	if test -f dtc/version_gen.h; then $(MAKE) $(DTC_MAKE_ARGS) clean; fi
+ 
+ KEYMAPS=da     en-gb  et  fr     fr-ch  is  lt  no  pt-br  sv \
+ ar      de     en-us  fi  fr-be  hr     it  lv  nl         pl  ru     th \
+diff --git a/dtc b/dtc
+index 88f18909db7..85e5d839847 160000
+--- a/dtc
++++ b/dtc
+@@ -1 +1 @@
+-Subproject commit 88f18909db731a627456f26d779445f84e449536
++Subproject commit 85e5d839847af54efab170f2b1331b2a6421e647
 -- 
 2.20.1
 
