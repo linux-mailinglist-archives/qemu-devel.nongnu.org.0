@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42BB61FB475
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:33:27 +0200 (CEST)
-Received: from localhost ([::1]:50172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D5111FB47C
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:34:58 +0200 (CEST)
+Received: from localhost ([::1]:58344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlCeU-0001pB-6i
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:33:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57524)
+	id 1jlCfx-00057F-8J
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:34:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCPe-00022B-L7; Tue, 16 Jun 2020 10:18:07 -0400
-Received: from mail-oo1-xc41.google.com ([2607:f8b0:4864:20::c41]:36739)
+ id 1jlCPg-00022r-Cr; Tue, 16 Jun 2020 10:18:09 -0400
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:43057)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCPc-0006dv-Le; Tue, 16 Jun 2020 10:18:06 -0400
-Received: by mail-oo1-xc41.google.com with SMTP id 18so4114476ooy.3;
- Tue, 16 Jun 2020 07:18:03 -0700 (PDT)
+ id 1jlCPe-0006eE-Q5; Tue, 16 Jun 2020 10:18:08 -0400
+Received: by mail-ot1-x342.google.com with SMTP id u23so16055694otq.10;
+ Tue, 16 Jun 2020 07:18:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=vyfdFEZo9wjCtOzFIY4Rui8H5p83Ort5DNNjf/+2Umc=;
- b=Jv1c5gsVp22bBuHlahsGlVrPfcszZxv6m5FdLoLldeQOMYGfsr0zRMy0ZUpC2H3vro
- EGy+q6a0TMu8nZa6vXfH4ygN3kiUQ1pSWHYeW8GVCuMfXsjCdWgr9/buzzHQjgRyojUY
- VN/yssP1wdbIFe5VwdVPovFS/HdUL/twXpnYg+ndkpa8x/KsRdHYV+mEqbNBizPhp+JF
- ELq923flVnhS5CbNrNkINM/LWFQJqBveWu2YZE9BSK2YjcWzHsgOgInG0qLHMRQ04UlM
- geIo+sRpxXvdktW/ILIxh/EouvStk8au5GWl+ofT5WdhQeiGn/FfOxCZfwzMpX2Z4JEZ
- aCNg==
+ bh=tiuSDaEqW3kbDlPMBjGlHoEXpr31IQ14PK/IvjYjrxs=;
+ b=S6p5Hdl7w3Fzj/w4gkT3PfB7tcbGKzokKVEoFV28MW7tpYEiqbUmaT8jGuCKaRoORg
+ PQlO72RbVBJZBgY5FdHzYHZfLslVnQSwr8XMndKKKOowiblTkcp+FyONorM1ePVDK0Oo
+ viLhhrareZQOs1yw5Pj09+mEBDMsRA3rU7UBXmsbT/WOWIFv1QoJlcpU2v4z1roMtz3U
+ GXTRQofk6UAijeTsWcw6NGWgwLhsk8wTHtleHxANrI6DMs/Jlt9aTZ+25pJrXotD2/+l
+ nNor9ero6cdIzILv5/Uw+/vciJsEajiGVYsm6pHBEr3JDi6VvssbZRTa1TgubmaNE+LF
+ 9sMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=vyfdFEZo9wjCtOzFIY4Rui8H5p83Ort5DNNjf/+2Umc=;
- b=G12TyICBfoV58o4gYbPiGzPLqDl6bEJUg8En1TGCHAMUDTjqEmoIhkMJZL9O5sN40B
- r0Tfr4q2qE78tuxw6gr8K9uaRiOKgcHGc8xYA5yLrNQaKgh9j5yYa2dQ5v3dWwtg3JlQ
- Y1sF3na2tSCWunBqP5rwMKeFPGwvqnhSoP6NWZdXygLn0Qs6gKWj/6Ub6I82Uuuh3dMQ
- AHxXOk8TW8P+VGytLu1ebaqa2enTbKJ9wKg9D1BJ6Zpt1YEMlR7cpRo5/5IgWMykQXym
- k5K2R6KYb3d/RWUAVQKEAAV/yWgwBauXChhYERS8jZ+KueUe3nhEpr36bdnwecGXWlg8
- SIiQ==
-X-Gm-Message-State: AOAM532v6GyAImg7sbBXksHC4BlsPe4Jg0ss9futbBw7l9RzYad1AAB5
- 67EijEU1nWmaEy2n5cloEbsx5coG
-X-Google-Smtp-Source: ABdhPJyLWoo5hI5bJXmSp8BD0YLcRxZUGZk9VEXEmvcLDPG1sOHNF5ML6WOMb7rio72DozCVqo5vmg==
-X-Received: by 2002:a4a:8143:: with SMTP id p3mr2462712oog.49.1592317082522;
- Tue, 16 Jun 2020 07:18:02 -0700 (PDT)
+ bh=tiuSDaEqW3kbDlPMBjGlHoEXpr31IQ14PK/IvjYjrxs=;
+ b=Z44qboLwbpunBl8fFkcfnzQogCqUyE038czgiY52UN0F7cBBKsgj+tKtkKe919SEW9
+ ia+eUQ2why9F1b8JLOxsspRvLS1vWBAjj6UcStcjyLTFVZnyx4U3+XWyTIPTIAm1+h8d
+ mHBFB4Ixn30GJn66zgIEMyzdFk3hjv6h8OJhEBDgJukTssLwAr3ryzrMVnWax+iaIvyw
+ AuMmg7pUydJ8REpJBVoEvpRxneo59NRagTwphVdyiU+i6CfRt9hlwZ8okoNDbcccz+Bl
+ QaP4aqYX71lKKU8Tz46SNoGOo2kUsxr9EUxO2eTlnlyraYlh0imAE4phTD/T69KZdnR4
+ 7m/w==
+X-Gm-Message-State: AOAM5322u5MNTr+cDm+uwC1s9JLzqPksAI9aKBdvFIZOj43jhOfMeRQ7
+ L47TLbtr7DsemASo6FkNZfqfjtr8
+X-Google-Smtp-Source: ABdhPJyF2FhcF58eRlTr8Hxwh3R0Fq1qGjXnwYKzZW9iikpYbXyKk+m3X5YpLJwSpUYF3BZGYJCX0g==
+X-Received: by 2002:a9d:6188:: with SMTP id g8mr730233otk.43.1592317083933;
+ Tue, 16 Jun 2020 07:18:03 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id h27sm2128482otg.23.2020.06.16.07.18.01
+ by smtp.gmail.com with ESMTPSA id t77sm4251595oih.11.2020.06.16.07.18.02
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 16 Jun 2020 07:18:01 -0700 (PDT)
+ Tue, 16 Jun 2020 07:18:03 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 27/78] dp8393x: Mask EOL bit from descriptor addresses
-Date: Tue, 16 Jun 2020 09:14:56 -0500
-Message-Id: <20200616141547.24664-28-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 28/78] dp8393x: Always use 32-bit accesses
+Date: Tue, 16 Jun 2020 09:14:57 -0500
+Message-Id: <20200616141547.24664-29-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
 References: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c41;
- envelope-from=flukshun@gmail.com; helo=mail-oo1-xc41.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
+ envelope-from=flukshun@gmail.com; helo=mail-ot1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -87,91 +87,160 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Finn Thain <fthain@telegraphics.com.au>
 
-The Least Significant bit of a descriptor address register is used as
-an EOL flag. It has to be masked when the register value is to be used
-as an actual address for copying memory around. But when the registers
-are to be updated the EOL bit should not be masked.
+The DP83932 and DP83934 have 32 data lines. The datasheet says,
+
+    Data Bus: These bidirectional lines are used to transfer data on the
+    system bus. When the SONIC is a bus master, 16-bit data is transferred
+    on D15-D0 and 32-bit data is transferred on D31-D0. When the SONIC is
+    accessed as a slave, register data is driven onto lines D15-D0.
+    D31-D16 are held TRI-STATE if SONIC is in 16-bit mode. If SONIC is in
+    32-bit mode, they are driven, but invalid.
+
+Always use 32-bit accesses both as bus master and bus slave.
+
+Force the MSW to zero in bus master mode.
+
+This gets the Linux 'jazzsonic' driver working, and avoids the need for
+prior hacks to make the NetBSD 'sn' driver work.
 
 Signed-off-by: Finn Thain <fthain@telegraphics.com.au>
 Tested-by: Laurent Vivier <laurent@vivier.eu>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
-(cherry picked from commit 88f632fbb1b3d31d5b6978d28f8735a6ed18b8f5)
- Conflicts:
-	hw/net/dp8393x.c
-*drop context dep. on 19f70347731
+(cherry picked from commit 3fe9a838ec3eae1374ced16b63bf56894b2ffbe6)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- hw/net/dp8393x.c | 17 +++++++++++------
- 1 file changed, 11 insertions(+), 6 deletions(-)
+ hw/net/dp8393x.c | 47 +++++++++++++++++++++++++++++------------------
+ 1 file changed, 29 insertions(+), 18 deletions(-)
 
 diff --git a/hw/net/dp8393x.c b/hw/net/dp8393x.c
-index 3d991af163..7ca6a6dd46 100644
+index 7ca6a6dd46..49c304ee20 100644
 --- a/hw/net/dp8393x.c
 +++ b/hw/net/dp8393x.c
-@@ -145,6 +145,9 @@ do { printf("sonic ERROR: %s: " fmt, __func__ , ## __VA_ARGS__); } while (0)
- #define SONIC_ISR_PINT   0x0800
- #define SONIC_ISR_LCD    0x1000
- 
-+#define SONIC_DESC_EOL   0x0001
-+#define SONIC_DESC_ADDR  0xFFFE
-+
- #define TYPE_DP8393X "dp8393x"
- #define DP8393X(obj) OBJECT_CHECK(dp8393xState, (obj), TYPE_DP8393X)
- 
-@@ -197,7 +200,8 @@ static uint32_t dp8393x_crba(dp8393xState *s)
- 
- static uint32_t dp8393x_crda(dp8393xState *s)
+@@ -246,9 +246,19 @@ static void dp8393x_put(dp8393xState *s, int width, int offset,
+                         uint16_t val)
  {
--    return (s->regs[SONIC_URDA] << 16) | s->regs[SONIC_CRDA];
-+    return (s->regs[SONIC_URDA] << 16) |
-+           (s->regs[SONIC_CRDA] & SONIC_DESC_ADDR);
- }
- 
- static uint32_t dp8393x_rbwc(dp8393xState *s)
-@@ -217,7 +221,8 @@ static uint32_t dp8393x_tsa(dp8393xState *s)
- 
- static uint32_t dp8393x_ttda(dp8393xState *s)
- {
--    return (s->regs[SONIC_UTDA] << 16) | s->regs[SONIC_TTDA];
-+    return (s->regs[SONIC_UTDA] << 16) |
-+           (s->regs[SONIC_TTDA] & SONIC_DESC_ADDR);
- }
- 
- static uint32_t dp8393x_wt(dp8393xState *s)
-@@ -507,7 +512,7 @@ static void dp8393x_do_transmit_packets(dp8393xState *s)
-                              (4 + 3 * s->regs[SONIC_TFC]) * width,
-                 MEMTXATTRS_UNSPECIFIED, (uint8_t *)s->data, size, 0);
-             s->regs[SONIC_CTDA] = dp8393x_get(s, width, 0) & ~0x1;
--            if (dp8393x_get(s, width, 0) & 0x1) {
-+            if (dp8393x_get(s, width, 0) & SONIC_DESC_EOL) {
-                 /* EOL detected */
-                 break;
-             }
-@@ -763,13 +768,13 @@ static ssize_t dp8393x_receive(NetClientState *nc, const uint8_t * buf,
-     /* XXX: Check byte ordering */
- 
-     /* Check for EOL */
--    if (s->regs[SONIC_LLFA] & 0x1) {
-+    if (s->regs[SONIC_LLFA] & SONIC_DESC_EOL) {
-         /* Are we still in resource exhaustion? */
-         size = sizeof(uint16_t) * 1 * width;
-         address = dp8393x_crda(s) + sizeof(uint16_t) * 5 * width;
-         address_space_rw(&s->as, address, MEMTXATTRS_UNSPECIFIED,
-                          (uint8_t *)s->data, size, 0);
--        if (dp8393x_get(s, width, 0) & 0x1) {
-+        if (dp8393x_get(s, width, 0) & SONIC_DESC_EOL) {
-             /* Still EOL ; stop reception */
-             return -1;
-         } else {
-@@ -827,7 +832,7 @@ static ssize_t dp8393x_receive(NetClientState *nc, const uint8_t * buf,
-     address_space_rw(&s->as, dp8393x_crda(s) + sizeof(uint16_t) * 5 * width,
-         MEMTXATTRS_UNSPECIFIED, (uint8_t *)s->data, size, 0);
-     s->regs[SONIC_LLFA] = dp8393x_get(s, width, 0);
--    if (s->regs[SONIC_LLFA] & 0x1) {
-+    if (s->regs[SONIC_LLFA] & SONIC_DESC_EOL) {
-         /* EOL detected */
-         s->regs[SONIC_ISR] |= SONIC_ISR_RDE;
+     if (s->big_endian) {
+-        s->data[offset * width + width - 1] = cpu_to_be16(val);
++        if (width == 2) {
++            s->data[offset * 2] = 0;
++            s->data[offset * 2 + 1] = cpu_to_be16(val);
++        } else {
++            s->data[offset] = cpu_to_be16(val);
++        }
      } else {
+-        s->data[offset * width] = cpu_to_le16(val);
++        if (width == 2) {
++            s->data[offset * 2] = cpu_to_le16(val);
++            s->data[offset * 2 + 1] = 0;
++        } else {
++            s->data[offset] = cpu_to_le16(val);
++        }
+     }
+ }
+ 
+@@ -588,7 +598,7 @@ static uint64_t dp8393x_read(void *opaque, hwaddr addr, unsigned int size)
+ 
+     DPRINTF("read 0x%04x from reg %s\n", val, reg_names[reg]);
+ 
+-    return val;
++    return s->big_endian ? val << 16 : val;
+ }
+ 
+ static void dp8393x_write(void *opaque, hwaddr addr, uint64_t data,
+@@ -596,13 +606,14 @@ static void dp8393x_write(void *opaque, hwaddr addr, uint64_t data,
+ {
+     dp8393xState *s = opaque;
+     int reg = addr >> s->it_shift;
++    uint32_t val = s->big_endian ? data >> 16 : data;
+ 
+-    DPRINTF("write 0x%04x to reg %s\n", (uint16_t)data, reg_names[reg]);
++    DPRINTF("write 0x%04x to reg %s\n", (uint16_t)val, reg_names[reg]);
+ 
+     switch (reg) {
+         /* Command register */
+         case SONIC_CR:
+-            dp8393x_do_command(s, data);
++            dp8393x_do_command(s, val);
+             break;
+         /* Prevent write to read-only registers */
+         case SONIC_CAP2:
+@@ -615,36 +626,36 @@ static void dp8393x_write(void *opaque, hwaddr addr, uint64_t data,
+         /* Accept write to some registers only when in reset mode */
+         case SONIC_DCR:
+             if (s->regs[SONIC_CR] & SONIC_CR_RST) {
+-                s->regs[reg] = data & 0xbfff;
++                s->regs[reg] = val & 0xbfff;
+             } else {
+                 DPRINTF("writing to DCR invalid\n");
+             }
+             break;
+         case SONIC_DCR2:
+             if (s->regs[SONIC_CR] & SONIC_CR_RST) {
+-                s->regs[reg] = data & 0xf017;
++                s->regs[reg] = val & 0xf017;
+             } else {
+                 DPRINTF("writing to DCR2 invalid\n");
+             }
+             break;
+         /* 12 lower bytes are Read Only */
+         case SONIC_TCR:
+-            s->regs[reg] = data & 0xf000;
++            s->regs[reg] = val & 0xf000;
+             break;
+         /* 9 lower bytes are Read Only */
+         case SONIC_RCR:
+-            s->regs[reg] = data & 0xffe0;
++            s->regs[reg] = val & 0xffe0;
+             break;
+         /* Ignore most significant bit */
+         case SONIC_IMR:
+-            s->regs[reg] = data & 0x7fff;
++            s->regs[reg] = val & 0x7fff;
+             dp8393x_update_irq(s);
+             break;
+         /* Clear bits by writing 1 to them */
+         case SONIC_ISR:
+-            data &= s->regs[reg];
+-            s->regs[reg] &= ~data;
+-            if (data & SONIC_ISR_RBE) {
++            val &= s->regs[reg];
++            s->regs[reg] &= ~val;
++            if (val & SONIC_ISR_RBE) {
+                 dp8393x_do_read_rra(s);
+             }
+             dp8393x_update_irq(s);
+@@ -657,17 +668,17 @@ static void dp8393x_write(void *opaque, hwaddr addr, uint64_t data,
+         case SONIC_REA:
+         case SONIC_RRP:
+         case SONIC_RWP:
+-            s->regs[reg] = data & 0xfffe;
++            s->regs[reg] = val & 0xfffe;
+             break;
+         /* Invert written value for some registers */
+         case SONIC_CRCT:
+         case SONIC_FAET:
+         case SONIC_MPT:
+-            s->regs[reg] = data ^ 0xffff;
++            s->regs[reg] = val ^ 0xffff;
+             break;
+         /* All other registers have no special contrainst */
+         default:
+-            s->regs[reg] = data;
++            s->regs[reg] = val;
+     }
+ 
+     if (reg == SONIC_WT0 || reg == SONIC_WT1) {
+@@ -678,8 +689,8 @@ static void dp8393x_write(void *opaque, hwaddr addr, uint64_t data,
+ static const MemoryRegionOps dp8393x_ops = {
+     .read = dp8393x_read,
+     .write = dp8393x_write,
+-    .impl.min_access_size = 2,
+-    .impl.max_access_size = 2,
++    .impl.min_access_size = 4,
++    .impl.max_access_size = 4,
+     .endianness = DEVICE_NATIVE_ENDIAN,
+ };
+ 
 -- 
 2.17.1
 
