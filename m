@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F9441FA912
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 08:49:22 +0200 (CEST)
-Received: from localhost ([::1]:43454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6C4E1FA91F
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 08:51:15 +0200 (CEST)
+Received: from localhost ([::1]:51936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jl5PN-0003Yw-4k
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 02:49:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41906)
+	id 1jl5RC-00071u-PA
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 02:51:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1jl5MT-0001hq-OQ
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 02:46:23 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:27306
- helo=us-smtp-delivery-1.mimecast.com)
+ id 1jl5MX-0001iO-A7
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 02:46:26 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:20548
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1jl5MO-0005dl-Q0
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 02:46:21 -0400
+ id 1jl5MT-0005fL-DU
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 02:46:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592289976;
+ s=mimecast20190719; t=1592289980;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Mhzcc7G741UxkgAaTzU1Ayp6ddKf1AUbfEP8m/8N7mA=;
- b=NDMlTGlUf1i6zOl3WZUJS97RrWX9VfgfYbQV3tVRWjDWWMAgUBQq0stFLlzz5an5cLJY1W
- 1tUVXqefGKLnn0OOhfoJ6fZxi4gnDacuj5WRIzHLW8QkTDKl7SxpEAPFiMuTXX9GtD348V
- mEgp6mfErgo+/U0i+4y/D1a7CBP745s=
+ bh=WY9uuhYcrLCiZTe+aHYizIWB/zPu8U68u5vIIhwUxgY=;
+ b=IVBa+Uu53Kaspx4G3xHBrvagRosYJi/8kaDNUbe7UQErMOuX2SuhwkKvZYKhmZIBO9HBTh
+ WUVnNc73Q4Z1L5vJuktP7sIEEUl8rMrz6D6I2nNqnWbWLOlHqmL5xJP32ZZkW4uikbTugE
+ 970egiz2hJT/btAd8+FEFXeGkmnBFGE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-467-ta63FTsQMn6kOjNrDzI9hQ-1; Tue, 16 Jun 2020 02:46:14 -0400
-X-MC-Unique: ta63FTsQMn6kOjNrDzI9hQ-1
+ us-mta-408-oHPi5gkJPRuDAOLNOqd7XQ-1; Tue, 16 Jun 2020 02:46:16 -0400
+X-MC-Unique: oHPi5gkJPRuDAOLNOqd7XQ-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 22AA11009613;
- Tue, 16 Jun 2020 06:46:13 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4244B100961C;
+ Tue, 16 Jun 2020 06:46:15 +0000 (UTC)
 Received: from jason-ThinkPad-T430s.redhat.com (ovpn-13-222.pek2.redhat.com
  [10.72.13.222])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 52CA18202D;
- Tue, 16 Jun 2020 06:46:11 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A0F5F8202D;
+ Tue, 16 Jun 2020 06:46:13 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: peter.maydell@linaro.org
-Subject: [PULL 09/33] hw/net/tulip: Fix 'Descriptor Error' definition
-Date: Tue, 16 Jun 2020 14:45:20 +0800
-Message-Id: <1592289944-13727-10-git-send-email-jasowang@redhat.com>
+Subject: [PULL 10/33] hw/net/tulip: Log descriptor overflows
+Date: Tue, 16 Jun 2020 14:45:21 +0800
+Message-Id: <1592289944-13727-11-git-send-email-jasowang@redhat.com>
 In-Reply-To: <1592289944-13727-1-git-send-email-jasowang@redhat.com>
 References: <1592289944-13727-1-git-send-email-jasowang@redhat.com>
 MIME-Version: 1.0
@@ -57,9 +57,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 02:45:57
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 02:45:54
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -87,33 +87,38 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Bit #14 is "DE" for 'Descriptor Error':
-
-  When set, indicates a frame truncation caused by a frame
-  that does not fit within the current descriptor buffers,
-  and that the 21143 does not own the next descriptor.
-
-  [Table 4-1. RDES0 Bit Fields Description]
+Log with GUEST_ERROR what the guest is doing wrong.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- hw/net/tulip.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/net/tulip.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/hw/net/tulip.h b/hw/net/tulip.h
-index 97521b2..5271aad 100644
---- a/hw/net/tulip.h
-+++ b/hw/net/tulip.h
-@@ -211,7 +211,7 @@
- #define RDES0_RF         BIT(11)
- #define RDES0_DT_SHIFT   12
- #define RDES0_DT_MASK    3
--#define RDES0_LE         BIT(14)
-+#define RDES0_DE         BIT(14)
- #define RDES0_ES         BIT(15)
- #define RDES0_FL_SHIFT   16
- #define RDES0_FL_MASK    0x3fff
+diff --git a/hw/net/tulip.c b/hw/net/tulip.c
+index 57ecbe2..4487fd6 100644
+--- a/hw/net/tulip.c
++++ b/hw/net/tulip.c
+@@ -578,6 +578,9 @@ static int tulip_copy_tx_buffers(TULIPState *s, struct tulip_descriptor *desc)
+     int len2 = (desc->control >> TDES1_BUF2_SIZE_SHIFT) & TDES1_BUF2_SIZE_MASK;
+ 
+     if (s->tx_frame_len + len1 > sizeof(s->tx_frame)) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: descriptor overflow (ofs: %u, len:%d, size:%zu)\n",
++                      __func__, s->tx_frame_len, len1, sizeof(s->tx_frame));
+         return -1;
+     }
+     if (len1) {
+@@ -587,6 +590,9 @@ static int tulip_copy_tx_buffers(TULIPState *s, struct tulip_descriptor *desc)
+     }
+ 
+     if (s->tx_frame_len + len2 > sizeof(s->tx_frame)) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: descriptor overflow (ofs: %u, len:%d, size:%zu)\n",
++                      __func__, s->tx_frame_len, len2, sizeof(s->tx_frame));
+         return -1;
+     }
+     if (len2) {
 -- 
 2.5.0
 
