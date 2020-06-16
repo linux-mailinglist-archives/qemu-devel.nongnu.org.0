@@ -2,82 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A15281FB298
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 15:53:24 +0200 (CEST)
-Received: from localhost ([::1]:51040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D6CD1FB331
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:01:13 +0200 (CEST)
+Received: from localhost ([::1]:56596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlC1j-0001G8-OD
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 09:53:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51790)
+	id 1jlC9I-0007zK-9l
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:01:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53362)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jlC0q-0000h3-DL
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 09:52:28 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:38934)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jlC0o-0002Le-K8
- for qemu-devel@nongnu.org; Tue, 16 Jun 2020 09:52:28 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id t194so3156712wmt.4
- for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 06:52:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=pOU2t35/hHnHT1KrAWC6toR2TSifEFkIDpmekE0qS14=;
- b=bS0UQEFkrUYn+6sQIkGp90KHSJ4x83ZGStrbjKJs57g5o01m+Jx+0uZJcSIeG0NMkO
- qwWAzU9RCS5dltGQpU0eMXQaEqsBeJpF1kW74+IpThKqErdURt7UX8bXgs1YJZtjjZ8w
- ayJKpXwNiZCpUHaIxLxDYIByDQm9Kwoe0YKbEE+sL+eAljlnAc0od9jtaWJteil4LCxd
- F3NyjhsRoOlWmSaiopdbRdbLquiSFsWAyHNLSNeGBAbjC26ImkkDdgb/5W8DrLkcF6BM
- A7BZ4XqjeGpS0ysdlzLared4nDhXsWretH+77Ht32/LN9wFxy5R3hq4myXnty4MTEQZ1
- jHww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=pOU2t35/hHnHT1KrAWC6toR2TSifEFkIDpmekE0qS14=;
- b=SD0IA0JHuBYPA4NYSs3SOW0cNPM2xjutgUUAvbacX3EU7FzsLCosnCzz2FFaRcJLmX
- MVId9YVN4CM+hKOeeJLYPRwK0ViF3MP52c0Coc0rJbGdf6LsA841V8GvZPMLYoRdK1cb
- 3vV+oavMFXdOs4+NIygKg8HY2wtln8NuebtC0LJA2NrCOYjXS4VrFU0k3JTPDMls1ILI
- MlYzZ9cfOkKxVWZqYrgIseDe2R4gGJp+8m9Ctdft6qA5nC5br4gR/1ZfHG3FEu7YM97L
- b2mopjuHcgbSSbZGKXzfLmbFRmWE2N8BVZQ3B7JoD8U3xzPHzz3s0oA/TnPgUp9YgAtm
- UNag==
-X-Gm-Message-State: AOAM530phlSKz3YzSNzy9UQT4D1zjfnWm40dqhNQYWjCrfnSx54/I8CA
- RLHPiKaA2YThAIjm9oA3PPt+cw==
-X-Google-Smtp-Source: ABdhPJy3r0oUFWEVqYmgmMcO7fmirRJ0L3a71Uiqk8xjMqRKFrDPx404UaNK82pQJVmuqwX27oH66Q==
-X-Received: by 2002:a1c:2183:: with SMTP id h125mr3348571wmh.88.1592315545145; 
- Tue, 16 Jun 2020 06:52:25 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id u3sm27762223wrw.89.2020.06.16.06.52.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Jun 2020 06:52:23 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E2F011FF7E;
- Tue, 16 Jun 2020 14:52:22 +0100 (BST)
-References: <20200616125324.19045-1-alex.bennee@linaro.org>
- <20200616125324.19045-2-alex.bennee@linaro.org>
- <e08991ac-cb9f-9092-60d9-0f9e9522695e@redhat.com>
-User-agent: mu4e 1.5.3; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PULL 01/21] tests/docker: bump fedora to 32
-In-reply-to: <e08991ac-cb9f-9092-60d9-0f9e9522695e@redhat.com>
-Date: Tue, 16 Jun 2020 14:52:22 +0100
-Message-ID: <874krb15k9.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
+ id 1jlC6H-00038E-8q
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 09:58:05 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:51756
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
+ id 1jlC6E-0003CU-Fm
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 09:58:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1592315880;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VxDodg8ROY+/ZhLEXQVJSKCaJfuVRHBsSJhxdg0auwY=;
+ b=UF6ukEVN4NkV11NZRF1SPS2zDbKssEBozGMo7KNMq5YfzGMFhyjkqr+Pos4e2MdsKhP93Y
+ rCHY3PbFfBmEiRlSc5kerX++RpJnjCNX1Oy66C204Z2erRh9cYX26FT+2pftU7VCHQJB3X
+ QmavBGl5Z0OCJQp1es1fPT4/CNJ83Ik=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-428-4L6UW6qVOIOz-V-_bwC4gw-1; Tue, 16 Jun 2020 09:57:58 -0400
+X-MC-Unique: 4L6UW6qVOIOz-V-_bwC4gw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 34B8018A8229;
+ Tue, 16 Jun 2020 13:57:57 +0000 (UTC)
+Received: from starship (unknown [10.35.206.207])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6D22D7CCE8;
+ Tue, 16 Jun 2020 13:57:46 +0000 (UTC)
+Message-ID: <be57ad36212353a088ae88d9b84396874b29856f.camel@redhat.com>
+Subject: Re: [PATCH v8 07/14] block/crypto: implement the encryption key
+ management
+From: Maxim Levitsky <mlevitsk@redhat.com>
+To: Max Reitz <mreitz@redhat.com>, qemu-devel@nongnu.org
+Date: Tue, 16 Jun 2020 16:57:45 +0300
+In-Reply-To: <99997649-bf06-f494-8dce-c12bb1d17b66@redhat.com>
+References: <20200608094030.670121-1-mlevitsk@redhat.com>
+ <20200608094030.670121-8-mlevitsk@redhat.com>
+ <99997649-bf06-f494-8dce-c12bb1d17b66@redhat.com>
+User-Agent: Evolution 3.34.4 (3.34.4-1.fc31)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=mlevitsk@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 02:45:54
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,45 +83,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, peter.maydell@linaro.org, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ "Daniel P. =?ISO-8859-1?Q?Berrang=E9?=" <berrange@redhat.com>,
+ qemu-block@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, 2020-06-08 at 14:14 +0200, Max Reitz wrote:
+> On 08.06.20 11:40, Maxim Levitsky wrote:
+> > This implements the encryption key management using the generic code in
+> > qcrypto layer and exposes it to the user via qemu-img
+> > 
+> > This code adds another 'write_func' because the initialization
+> > write_func works directly on the underlying file, and amend
+> > works on instance of luks device.
+> > 
+> > This commit also adds a 'hack/workaround' I and Kevin Wolf (thanks)
+> > made to make the driver both support write sharing (to avoid breaking the users),
+> > and be safe against concurrent  metadata update (the keyslots)
+> > 
+> > Eventually the write sharing for luks driver will be deprecated
+> > and removed together with this hack.
+> > 
+> > The hack is that we ask (as a format driver) for BLK_PERM_CONSISTENT_READ
+> > and then when we want to update the keys, we unshare that permission.
+> > So if someone else has the image open, even readonly, encryption
+> > key update will fail gracefully.
+> > 
+> > Also thanks to Daniel Berrange for the idea of
+> > unsharing read, rather that write permission which allows
+> > to avoid cases when the other user had opened the image read-only.
+> > 
+> > Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+> > Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+> > Reviewed-by: Max Reitz <mreitz@redhat.com>
+> > ---
+> >  block/crypto.c | 130 +++++++++++++++++++++++++++++++++++++++++++++++--
+> >  block/crypto.h |  34 +++++++++++++
+> >  2 files changed, 161 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/block/crypto.c b/block/crypto.c
+> > index 1960b47ceb..b9c40e6922 100644
+> > --- a/block/crypto.c
+> > +++ b/block/crypto.c
+> 
+> [...]
+> 
+> > +static void
+> > +block_crypto_child_perms(BlockDriverState *bs, BdrvChild *c,
+> > +                         const BdrvChildRole role,
+> 
+> Well, it isn’t wrong to have this be a const, nor is it against any
+> coding guidelines.  While I do believe this was an accident, I also
+> think that in fact, maybe being strict about const-ness is what we
+> should’ve done everywhere from the start.
+> 
+> So this is not a complaint, quite the contrary.
+> 
+> (I felt it was interesting enough to warrant this mail.  *shrug*)
 
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+Yep, that was 100% accident I confess.
 
-> On 6/16/20 2:53 PM, Alex Benn=C3=A9e wrote:
->> We should be keeping this up to date as Fedora goes out of support
->> quite quickly.
->>=20
->> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->
-> FWIW this one had:
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Best regards,
+	Maxim Levitsky
 
-Thanks, I've issued a v2 of the tag:
+> 
+> > +                         BlockReopenQueue *reopen_queue,
+> > +                         uint64_t perm, uint64_t shared,
+> > +                         uint64_t *nperm, uint64_t *nshared)
+> > +{
+> > +
+> > +    BlockCrypto *crypto = bs->opaque;
+> > +
+> > +    bdrv_default_perms(bs, c, role, reopen_queue, perm, shared, nperm, nshared);
+> > +
+> > +    /*
+> > +     * For backward compatibility, manually share the write
+> > +     * and resize permission
+> > +     */
+> > +    *nshared |= (BLK_PERM_WRITE | BLK_PERM_RESIZE);
+> > +    /*
+> > +     * Since we are not fully a format driver, don't always request
+> > +     * the read/resize permission but only when explicitly
+> > +     * requested
+> > +     */
+> > +    *nperm &= ~(BLK_PERM_WRITE | BLK_PERM_RESIZE);
+> > +    *nperm |= perm & (BLK_PERM_WRITE | BLK_PERM_RESIZE);
+> 
+> Looks good, thanks!
+> 
+> Max
+> 
 
-  pull-testing-and-plugin-160620-2
-=20=20
->
-> https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg06556.html
->
->> Message-Id: <20200612190237.30436-2-alex.bennee@linaro.org>
->>=20
->> diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/docke=
-rfiles/fedora.docker
->> index 92b6e11c8a8..798ddd2c3e0 100644
->> --- a/tests/docker/dockerfiles/fedora.docker
->> +++ b/tests/docker/dockerfiles/fedora.docker
->> @@ -1,4 +1,4 @@
->> -FROM fedora:30
->> +FROM fedora:32
->>=20=20
->>  # Please keep this list sorted alphabetically
->>  ENV PACKAGES \
->>=20
 
-
---=20
-Alex Benn=C3=A9e
 
