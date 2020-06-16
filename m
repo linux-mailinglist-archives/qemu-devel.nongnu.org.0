@@ -2,68 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 703E81FB532
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:58:18 +0200 (CEST)
-Received: from localhost ([::1]:50140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 605691FB502
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 16:52:07 +0200 (CEST)
+Received: from localhost ([::1]:48408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlD2X-0000Qr-Di
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:58:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58198)
+	id 1jlCwY-0005AK-F3
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 10:52:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58222)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCQo-0003mn-DE; Tue, 16 Jun 2020 10:19:18 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:41885)
+ id 1jlCQr-0003vG-Va; Tue, 16 Jun 2020 10:19:22 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:42866)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jlCQm-0006zn-SL; Tue, 16 Jun 2020 10:19:18 -0400
-Received: by mail-ot1-x344.google.com with SMTP id k15so16045045otp.8;
- Tue, 16 Jun 2020 07:19:16 -0700 (PDT)
+ id 1jlCQq-00070V-Da; Tue, 16 Jun 2020 10:19:21 -0400
+Received: by mail-ot1-x343.google.com with SMTP id t6so16023672otk.9;
+ Tue, 16 Jun 2020 07:19:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=pvDvIVsYLo2LhgX9D3O1NAAgSIWbNm7XON8tX/XB+Pc=;
- b=bjZruRqjP8gjhXrNrB5WShNyrYDmmcmex0Gw5nm7lWF5Xy2Gqw3GGLtz7tjL1PI1bc
- bnjsfo14LMWExb8i/PAoNoN/zz9HWTLMsO8cIJss2gs+tEe9VUooX242aTZIdv0qq9CE
- Wut2LaJ2BUAoVpPlU5uou6bCZJt5RT7tVJdZsZbpJr3se+LTRM+2sLtUGdpaEboocBw6
- FbPtVk4jhvXdO6fBxMEiX48A0c8tyMCp/lrP+zb2637fYh8aOYX0ancxmsNYJeZ/D5ga
- xWoayi+Gqno1Jqn/LUjKGhnllwsW5qT2mYBLF7354/c2STRD+k6vID3VmOB9o8bm4rRE
- 0uvg==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=rOQwJDphmhaIdRqWIt/ysSZEwiemdpwpObYdcb/nTmA=;
+ b=stoZDnAFLyaVidRBFf2vh7DppTmcd++JgdNyKYUO4mPu1j4IF8owJSWXYIEHQHvvdb
+ lo2jFmPP9F9VLVt+lO0+5W8zdRWFB74hiFXbzgQHPmJYG02BCzxxYjBD3B9nFL6rrrHk
+ gNXNhW10ZRSGPzm0QFxFRzLIlQXqR73xqZhsP8lApUuGwFD9MjDeid5uzoseO8UztJe4
+ 1C93sDQG5QMPB+Ve+jj2W8ny0/gyHz1mreBJ5Z/ZF7WuA+/lebHxi7vTqLhV/jNKNmq8
+ /zR6oVPewxB0V6+Dm5klaoY2RZwk2DHdCPsMyYPvRpNhA/aS+mbeUluIWDMAWkfOqA9F
+ JLpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=pvDvIVsYLo2LhgX9D3O1NAAgSIWbNm7XON8tX/XB+Pc=;
- b=l3XKAj3AQ1dro9+AFk2aAdlFrtpjdwqYk4gUcc4jfqVLH+eT8U0LhVaKgJSIp/PCaB
- tIo+jO7Cu8cPEOB4Gc0teVdrnjHUwg6RO5GBpEYTuqEiB7F0r4o59mwjlsEaKIpXiQy/
- mfJ05Bo7AIGQa97BRsQ58piQM7R0RekXqYDwFmSLLMSj32Zvj5S+yC+ZIF0aifcghxXG
- 0OZpCv8KEstWn6GDDlJfNEXAemulxBy4B2CGVjFyl4cJX23qOevAy3hutmNPzSZEvCSN
- kQkpKpbB1XDHCntGKihPlbumBOo2if0JLG6xz9PSHEoYMVf8kFMf3aAVuhmIkVi5OjpU
- qemA==
-X-Gm-Message-State: AOAM532RmhlzK1Mruh4Q1wS4uXjIJQBGABdAQslA7DaTHol68jOev9mO
- +jxWIW3j/kg1f6gvLjjqfyD1aTHP
-X-Google-Smtp-Source: ABdhPJzFNN0oMyUGfy8AmEXBticP/I4iSYzdT/5A3E1cRr59mQNcxkR9rjHiUU2IqfKXvGNTyMqNoA==
-X-Received: by 2002:a05:6830:2368:: with SMTP id
- r8mr2677944oth.120.1592317154765; 
- Tue, 16 Jun 2020 07:19:14 -0700 (PDT)
+ :in-reply-to:references;
+ bh=rOQwJDphmhaIdRqWIt/ysSZEwiemdpwpObYdcb/nTmA=;
+ b=gVCnh06poEHutEU8H/1ytJeQ32300LsJtKwaSltNiEFeM7kyBdnOAfflWefALnWfsK
+ RmJQim+8vJvAyx3J/+Eofi2cfWkgEBgymnj32X2ctaozD2USKJgOtJ6EC2t8UdbFYu9M
+ 2po6fngdsPVW08c8pFRoYpLX/gNC062Ox7nRmVLR8yrYTKff6gxEeYBKe5A8y2dkYvjJ
+ YH2zrR1Yffu8o3cQv/KOdXZqHmKbG8nZegFTyNxhPAdyYNf6jkSnGJLYs3pjjCpha55p
+ NnAZ3IUc6y0L+uNi/bBq4R0wiZTXW3kiXf9q/qumMYPFW+6XD7enf8SlkOiPBOkBfspr
+ e0Iw==
+X-Gm-Message-State: AOAM53047jDZPneaTxoLScTI2XQOm0tTWQAmiXAEOMYw10PWivQNDhzi
+ vCctm1IbAJFafPwfDULWcYpmEdTj
+X-Google-Smtp-Source: ABdhPJyjelM3INjEh+QQFzGR+0E4oJVYWFcWU40a0eR31cJi24RVIw8XthAWTcMe8jERqp5YlmOAsA==
+X-Received: by 2002:a9d:554d:: with SMTP id h13mr2342117oti.201.1592317157109; 
+ Tue, 16 Jun 2020 07:19:17 -0700 (PDT)
 Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
  [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id l65sm4282070oig.27.2020.06.16.07.19.12
+ by smtp.gmail.com with ESMTPSA id c10sm4120781ooq.30.2020.06.16.07.19.15
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 16 Jun 2020 07:19:13 -0700 (PDT)
+ Tue, 16 Jun 2020 07:19:15 -0700 (PDT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 62/78] qemu-ga: document vsock-listen in the man page
-Date: Tue, 16 Jun 2020 09:15:31 -0500
-Message-Id: <20200616141547.24664-63-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 63/78] hw/i386/amd_iommu.c: Fix corruption of log events
+ passed to guest
+Date: Tue, 16 Jun 2020 09:15:32 -0500
+Message-Id: <20200616141547.24664-64-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
 References: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
- envelope-from=flukshun@gmail.com; helo=mail-ot1-x344.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::343;
+ envelope-from=flukshun@gmail.com; helo=mail-ot1-x343.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -85,66 +81,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-stable@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-stable@nongnu.org,
+ "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Hajnoczi <stefanha@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
 
-Although qemu-ga has supported vsock since 2016 it was not documented on
-the man page.
+In the function amdvi_log_event(), we write an event log buffer
+entry into guest ram, whose contents are passed to the function
+via the "uint64_t *evt" argument. Unfortunately, a spurious
+'&' in the call to dma_memory_write() meant that instead of
+writing the event to the guest we would write the literal value
+of the pointer, plus whatever was in the following 8 bytes
+on the stack. This error was spotted by Coverity.
 
-Also add the socket address representation to the qga --help output.
+Fix the bug by removing the '&'.
 
-Fixes: 586ef5dee77180fc32e33bc08051600030630239
-       ("qga: add vsock-listen method")
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
-Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
-(cherry picked from commit 7b46aadbbfb7b06cd45a3b113b1f7c003c68f603)
+Fixes: CID 1421945
+Cc: qemu-stable@nongnu.org
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Message-Id: <20200326105349.24588-1-peter.maydell@linaro.org>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+(cherry picked from commit 32a2d6b1f6b4405f0fc20c031e61d5d48e3d9cd1)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- docs/interop/qemu-ga.rst | 5 +++--
- qga/main.c               | 4 +++-
- 2 files changed, 6 insertions(+), 3 deletions(-)
+ hw/i386/amd_iommu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/docs/interop/qemu-ga.rst b/docs/interop/qemu-ga.rst
-index 1313a4ae1c..3063357bb5 100644
---- a/docs/interop/qemu-ga.rst
-+++ b/docs/interop/qemu-ga.rst
-@@ -36,13 +36,14 @@ Options
- .. option:: -m, --method=METHOD
+diff --git a/hw/i386/amd_iommu.c b/hw/i386/amd_iommu.c
+index d55dbf07fc..ac5f2fddc5 100644
+--- a/hw/i386/amd_iommu.c
++++ b/hw/i386/amd_iommu.c
+@@ -181,7 +181,7 @@ static void amdvi_log_event(AMDVIState *s, uint64_t *evt)
+     }
  
-   Transport method: one of ``unix-listen``, ``virtio-serial``, or
--  ``isa-serial`` (``virtio-serial`` is the default).
-+  ``isa-serial``, or ``vsock-listen`` (``virtio-serial`` is the default).
+     if (dma_memory_write(&address_space_memory, s->evtlog + s->evtlog_tail,
+-        &evt, AMDVI_EVENT_LEN)) {
++                         evt, AMDVI_EVENT_LEN)) {
+         trace_amdvi_evntlog_fail(s->evtlog, s->evtlog_tail);
+     }
  
- .. option:: -p, --path=PATH
- 
-   Device/socket path (the default for virtio-serial is
-   ``/dev/virtio-ports/org.qemu.guest_agent.0``,
--  the default for isa-serial is ``/dev/ttyS0``)
-+  the default for isa-serial is ``/dev/ttyS0``). Socket addresses for
-+  vsock-listen are written as ``<cid>:<port>``.
- 
- .. option:: -l, --logfile=PATH
- 
-diff --git a/qga/main.c b/qga/main.c
-index c35c2a2120..6b9f025a70 100644
---- a/qga/main.c
-+++ b/qga/main.c
-@@ -234,7 +234,9 @@ QEMU_COPYRIGHT "\n"
- "  -p, --path        device/socket path (the default for virtio-serial is:\n"
- "                    %s,\n"
- "                    the default for isa-serial is:\n"
--"                    %s)\n"
-+"                    %s).\n"
-+"                    Socket addresses for vsock-listen are written as\n"
-+"                    <cid>:<port>.\n"
- "  -l, --logfile     set logfile path, logs to stderr by default\n"
- "  -f, --pidfile     specify pidfile (default is %s)\n"
- #ifdef CONFIG_FSFREEZE
 -- 
 2.17.1
 
