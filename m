@@ -2,73 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C5DE1FBF05
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 21:29:13 +0200 (CEST)
-Received: from localhost ([::1]:55874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 337421FBF10
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 21:34:29 +0200 (CEST)
+Received: from localhost ([::1]:35258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlHGi-0007Qi-0D
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 15:29:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47296)
+	id 1jlHLo-0002y9-AT
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 15:34:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=4293a8cce=atish.patra@wdc.com>)
- id 1jlHFA-0005tE-8f; Tue, 16 Jun 2020 15:27:36 -0400
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:63296)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=4293a8cce=atish.patra@wdc.com>)
- id 1jlHF7-000622-S2; Tue, 16 Jun 2020 15:27:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1592335653; x=1623871653;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=qeB4ucQioXwAaSmCPZoRfbYELChjOVzX11pPJN936bc=;
- b=PeeDg72yTUHykr14YaLNM2sBMDiweaBcFuxNeEkPyzq27VN16bydi9X5
- nYuYWabI05zf9O5Z3KC2w0cfcyOXMfOjKzhAM/uTlnop+y6/r7AxzZWwr
- aRp/49KfsDYv8lo2TzVqTK+MeM24uscjClI7bOs/gDqKkjAmuQ+Gjfyt9
- RL2VH7J95eKpxFB8AtOLaa0dsdnvuOlDX8sB0v5gbBctf6iYd6mAN7YUy
- /RwWBCBBPr2EnGGA3Zg+8S6N4yK69e/No7djTUMh7+f9VU1ymVlcf5TjM
- g4aK17Cc7pnRrFx/37qTCDOH3SPFWFLbKzv/nHBzR7L6CQYWYIttKSb5W Q==;
-IronPort-SDR: xImD84NK6eISKrqPrsruicUy8Qlb2+XAN18iAg+FEV004sEcRscUfBQjPGVPaFkXq86CRkRLVx
- D3AYkQs7t3Lo7dCnRe1bixXcDPQB7oio4i3LbfHl8Q183f3qfn5B8QgJ+V69EUCt+apSs7DE1c
- RDqhckXcoluXEXsEr8I+PJS5/2v+ZtqLn1ktoDEQSOYUjttcckQi+YQxKTGXHE0keVk4hwQYkf
- Ikj8ITyVYpfGB8BCXA6HDpJ9snaxtd2iZoD55xjyBkc0FQejTM+IhPRSvgm1lfNLp5wNr5/Am+
- Ab8=
-X-IronPort-AV: E=Sophos;i="5.73,519,1583164800"; d="scan'208";a="140158606"
-Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 17 Jun 2020 03:27:23 +0800
-IronPort-SDR: 2mh2Fj1EtB+qLpKWTzo2ArUtQxE6Lska3mNe3zq9WIKvWDoz6VCxK7W/Y25AXDishwg8GCJQHk
- YJ7H7J50G1oD3LYHAetAyK33QIa/7UaaQ=
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jun 2020 12:16:39 -0700
-IronPort-SDR: frjhNr+NktBL/ndrYftbjvYzgDrfEp/TAzGkbTTpfHgcn4k/rpE+8Q9J661hUI8lLWWgT04tmZ
- VTSotJMn3qIA==
-WDCIronportException: Internal
-Received: from usa001615.ad.shared (HELO yoda.hgst.com) ([10.86.58.120])
- by uls-op-cesaip02.wdc.com with ESMTP; 16 Jun 2020 12:27:23 -0700
-From: Atish Patra <atish.patra@wdc.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH  3/3] riscv: Add opensbi firmware dynamic support
-Date: Tue, 16 Jun 2020 12:27:00 -0700
-Message-Id: <20200616192700.1900260-4-atish.patra@wdc.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200616192700.1900260-1-atish.patra@wdc.com>
-References: <20200616192700.1900260-1-atish.patra@wdc.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jlHKk-0002RE-KN
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 15:33:22 -0400
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:45621)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jlHKg-00070s-VM
+ for qemu-devel@nongnu.org; Tue, 16 Jun 2020 15:33:22 -0400
+Received: by mail-pf1-x442.google.com with SMTP id a127so9973976pfa.12
+ for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 12:33:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=ORlOaA2PbQqGiX0GiDqPOxc8JkZBiYTofpEQOQjS2Pc=;
+ b=mi2lsQiLpyJhhn/qaEgNKoSB4BfygWFLr/iDE48Ht55jhhpX6sqerwyZmQWJzgc0F/
+ 4YDmpIzzSiGO3ggP3UZP8rwJNNnwJiJwPddqPbuWx8Ee1R+L54XB8uOP1HeCHzZarwwR
+ HPgxihUCdtDY03Q93xrrq8/gnoDnoB6xFeEsJcUPJS/Ki8uDKM1+fI9HcXJjMow0Ea6B
+ 3qHEV4WYqua0tU7Rup9Oxh1Jg2MNYtJ0rmwgFvf6go22pYhYX4dFu9z3mYD/3B2s0pHx
+ 8CiyV9rMzrOnrKHySWFOGGufA42cpQJcp3eBDf3huCQ+MHfLnwEsz1/Gs3gH8Pm5JaRq
+ 1qcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ORlOaA2PbQqGiX0GiDqPOxc8JkZBiYTofpEQOQjS2Pc=;
+ b=GGcx8s9kEZbL5F9ag34jFrMLA4bW6Ow/3VePBrOibEWnF2cYqg1R82HDcKDdspDvYb
+ tcHA7ZeYYGJjofF6KWp+udQxRj3l/XXhkWoyAB5P2Ncx4n4XCl49VSYTmp0F0egViLr1
+ GRdGGAnUdEjknSbculSxs7eqU+gd4YCArEyIug8AtcrogUdOral2MYAPp0NxUy8xP8fj
+ DHkrYxjwXdvUdcvxLpOWXcozzZARulFEi/cROW/JNO9k3eH1OmAOKR6Ujr3/88rcP2Wh
+ X5ni2uK0MuZw04Cr7y8Us+N06KrYExokue9y/OZ35/THz1WbA87oRqz6oZvcudRqKKBw
+ Qcug==
+X-Gm-Message-State: AOAM533dltydJcPXsIa96PEN2ibAZ/9mpwWePRfXPhQR0DPY07hljcZ6
+ XPFvLIjppUcbd1ks6G6RROG+ow==
+X-Google-Smtp-Source: ABdhPJwq6FKfrJuPHEnOBX2Nu8+p96fqTbNmjEqJpV8QLXRveZZeV4SIf4eKwU2jYxWN8gZpaQjtog==
+X-Received: by 2002:a63:1305:: with SMTP id i5mr3195238pgl.140.1592335997315; 
+ Tue, 16 Jun 2020 12:33:17 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
+ by smtp.gmail.com with ESMTPSA id d5sm3207964pjo.20.2020.06.16.12.33.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 16 Jun 2020 12:33:16 -0700 (PDT)
+Subject: Re: [PATCH RFC v2] target/arm: Implement SVE2 FLOGB
+To: Stephen Long <steplong@quicinc.com>, qemu-devel@nongnu.org
+References: <20200430191405.21641-1-steplong@quicinc.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <7e1a5f0f-fed1-781b-7c38-7eade05e16f7@linaro.org>
+Date: Tue, 16 Jun 2020 12:33:14 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.71.154.42;
- envelope-from=prvs=4293a8cce=atish.patra@wdc.com; helo=esa4.hgst.iphmx.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 15:27:22
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+In-Reply-To: <20200430191405.21641-1-steplong@quicinc.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::442;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x442.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,323 +88,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-riscv@nongnu.org, Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Atish Patra <atish.patra@wdc.com>, Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: qemu-arm@nongnu.org, apazos@quicinc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-OpenSBI is the default firmware in Qemu and has various firmware loading
-options. Currently, qemu loader uses fw_jump which has a compile time
-pre-defined address where fdt & kernel image must reside. This puts a
-constraint on image size of the Linux kernel depending on the fdt location
-and available memory. However, fw_dynamic allows the loader to specify
-the next stage location (i.e. Linux kernel/U-boot) in memory and other
-configurable boot options available in OpenSBI.
+On 4/30/20 12:14 PM, Stephen Long wrote:
+> Signed-off-by: Stephen Long <steplong@quicinc.com>
+> ---
+> 
+> I made the changes Richard requested. I took out the status field for
+> the helper function.
+> 
+>  include/fpu/softfloat.h    |  5 +++
+>  target/arm/helper-sve.h    |  4 +++
+>  target/arm/sve.decode      |  4 +++
+>  target/arm/sve_helper.c    | 63 ++++++++++++++++++++++++++++++++++++++
+>  target/arm/translate-sve.c |  9 ++++++
+>  5 files changed, 85 insertions(+)
+> 
+> diff --git a/include/fpu/softfloat.h b/include/fpu/softfloat.h
+> index ecb8ba0114..275d138145 100644
+> --- a/include/fpu/softfloat.h
+> +++ b/include/fpu/softfloat.h
+> @@ -260,6 +260,11 @@ static inline int float16_is_zero_or_denormal(float16 a)
+>      return (float16_val(a) & 0x7c00) == 0;
+>  }
+>  
+> +static inline bool float16_is_normal(float16 a)
+> +{
+> +    return (((float16_val(a) >> 10) + 1) & 0x1f) >= 2;
+> +}
 
-Add support for OpenSBI dynamic firmware loading support. This doesn't
-break existing setup and fw_jump will continue to work as it is. Any
-other firmware will continue to work without any issues as long as it
-doesn't expect anything specific from loader in "a2" register.
+I split this out to its own patch.
 
-Signed-off-by: Atish Patra <atish.patra@wdc.com>
----
- hw/riscv/boot.c                 | 32 ++++++++++++++++--
- hw/riscv/sifive_u.c             | 11 +++++--
- hw/riscv/spike.c                | 11 +++++--
- hw/riscv/virt.c                 | 11 +++++--
- include/hw/riscv/boot.h         |  2 +-
- include/hw/riscv/boot_opensbi.h | 58 +++++++++++++++++++++++++++++++++
- 6 files changed, 116 insertions(+), 9 deletions(-)
- create mode 100644 include/hw/riscv/boot_opensbi.h
+> +static int16_t do_float16_logb_as_int(float16 a)
+> +{
+> +    if (float16_is_normal(a)) {
+> +        return extract16(a, 10, 5) - 15;
+> +    } else if (float16_is_infinity(a)) {
+> +        return INT16_MAX;
+> +    } else if (float16_is_any_nan(a) || float16_is_zero(a)) {
+> +        return INT16_MIN;
+> +    }
+> +    // denormal
 
-diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
-index 0378b7f1bd58..47530f2732cf 100644
---- a/hw/riscv/boot.c
-+++ b/hw/riscv/boot.c
-@@ -26,6 +26,7 @@
- #include "hw/boards.h"
- #include "hw/loader.h"
- #include "hw/riscv/boot.h"
-+#include "hw/riscv/boot_opensbi.h"
- #include "elf.h"
- #include "sysemu/device_tree.h"
- #include "sysemu/qtest.h"
-@@ -34,8 +35,10 @@
- 
- #if defined(TARGET_RISCV32)
- # define KERNEL_BOOT_ADDRESS 0x80400000
-+#define fw_dynamic_info_data(__val)     cpu_to_le32(__val)
- #else
- # define KERNEL_BOOT_ADDRESS 0x80200000
-+#define fw_dynamic_info_data(__val)     cpu_to_le64(__val)
- #endif
- 
- void riscv_find_and_load_firmware(MachineState *machine,
-@@ -183,13 +186,25 @@ hwaddr riscv_calc_fdt_load_addr(hwaddr dram_base, uint64_t mem_size, void *fdt)
- }
- 
- void riscv_setup_rom_reset_vec(hwaddr start_addr, hwaddr rom_base,
--                               hwaddr rom_size,
-+                               hwaddr rom_size, uint64_t kernel_entry,
-                                hwaddr fdt_load_addr, void *fdt)
- {
-     int i;
-+    struct fw_dynamic_info dinfo;
-+    uint64_t dinfo_len;
-+
-+    dinfo.magic = fw_dynamic_info_data(FW_DYNAMIC_INFO_MAGIC_VALUE);
-+    dinfo.version =  fw_dynamic_info_data(FW_DYNAMIC_INFO_VERSION);
-+    dinfo.next_mode = fw_dynamic_info_data(FW_DYNAMIC_INFO_NEXT_MODE_S);
-+    dinfo.next_addr = fw_dynamic_info_data(kernel_entry);
-+    dinfo.options = 0;
-+    dinfo.boot_hart = 0;
-+    dinfo_len = sizeof(dinfo);
-+
-     /* reset vector */
-     uint32_t reset_vec[10] = {
-         0x00000297,                  /* 1:  auipc  t0, %pcrel_hi(fw_dyn) */
-+        0x02828613,                  /*     addi   a2, t0, %pcrel_lo(1b) */
-         0xf1402573,                  /*     csrr   a0, mhartid  */
- #if defined(TARGET_RISCV32)
-         0x0202a583,                  /*     lw     a1, 32(t0) */
-@@ -199,7 +214,6 @@ void riscv_setup_rom_reset_vec(hwaddr start_addr, hwaddr rom_base,
-         0x0182b283,                  /*     ld     t0, 24(t0) */
- #endif
-         0x00028067,                  /*     jr     t0 */
--        0x00000000,
-         start_addr,                  /* start: .dword */
-         0x00000000,
-         fdt_load_addr,               /* fdt_laddr: .dword */
-@@ -214,6 +228,20 @@ void riscv_setup_rom_reset_vec(hwaddr start_addr, hwaddr rom_base,
-     rom_add_blob_fixed_as("mrom.reset", reset_vec, sizeof(reset_vec),
-                           rom_base, &address_space_memory);
- 
-+    /**
-+     * copy the dynamic firmware info. This information is specific to
-+     * OpenSBI but doesn't break any other firmware as long as they don't
-+     * expect any certain value in "a2" register.
-+     */
-+    if (fdt_pack(fdt) || fdt_totalsize(fdt) >
-+        rom_size - dinfo_len) {
-+        error_report("not enough space to store device-tree");
-+        exit(1);
-+    }
-+
-+    rom_add_blob_fixed_as("mrom.finfo", &dinfo, dinfo_len,
-+                           rom_base + sizeof(reset_vec),
-+                           &address_space_memory);
-     /* copy in the device tree */
-     qemu_fdt_dumpdtb(fdt, fdt_totalsize(fdt));
- 
-diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index 1a1540c7f98d..11b8814b9240 100644
---- a/hw/riscv/sifive_u.c
-+++ b/hw/riscv/sifive_u.c
-@@ -327,6 +327,7 @@ static void sifive_u_machine_init(MachineState *machine)
-     MemoryRegion *flash0 = g_new(MemoryRegion, 1);
-     target_ulong start_addr = memmap[SIFIVE_U_DRAM].base;
-     hwaddr fdt_load_addr;
-+    uint64_t kernel_entry;
- 
-     /* Initialize SoC */
-     object_initialize_child(OBJECT(machine), "soc", &s->soc,
-@@ -356,7 +357,7 @@ static void sifive_u_machine_init(MachineState *machine)
-                                  memmap[SIFIVE_U_DRAM].base, NULL);
- 
-     if (machine->kernel_filename) {
--        uint64_t kernel_entry = riscv_load_kernel(machine->kernel_filename,
-+        kernel_entry = riscv_load_kernel(machine->kernel_filename,
-                                                   NULL);
- 
-         if (machine->initrd_filename) {
-@@ -369,6 +370,12 @@ static void sifive_u_machine_init(MachineState *machine)
-             qemu_fdt_setprop_cell(s->fdt, "/chosen", "linux,initrd-end",
-                                   end);
-         }
-+    } else {
-+       /*
-+        * If dynamic firmware is used, it doesn't know where is the next mode
-+        * if kernel argument is not set.
-+        */
-+        kernel_entry = 0;
-     }
- 
-     /* Compute the fdt load address in dram */
-@@ -386,7 +393,7 @@ static void sifive_u_machine_init(MachineState *machine)
- 
-     /* load the reset vector */
-     riscv_setup_rom_reset_vec(start_addr, memmap[SIFIVE_U_MROM].base,
--                              memmap[SIFIVE_U_MROM].size,
-+                              memmap[SIFIVE_U_MROM].size, kernel_entry,
-                               fdt_load_addr, s->fdt);
- }
- 
-diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
-index 2a34a1382487..bd29a2b38611 100644
---- a/hw/riscv/spike.c
-+++ b/hw/riscv/spike.c
-@@ -168,6 +168,7 @@ static void spike_board_init(MachineState *machine)
-     MemoryRegion *mask_rom = g_new(MemoryRegion, 1);
-     unsigned int smp_cpus = machine->smp.cpus;
-     hwaddr fdt_load_addr;
-+    uint64_t kernel_entry;
- 
-     /* Initialize SOC */
-     object_initialize_child(OBJECT(machine), "soc", &s->soc, sizeof(s->soc),
-@@ -199,7 +200,7 @@ static void spike_board_init(MachineState *machine)
-                                  htif_symbol_callback);
- 
-     if (machine->kernel_filename) {
--        uint64_t kernel_entry = riscv_load_kernel(machine->kernel_filename,
-+        kernel_entry = riscv_load_kernel(machine->kernel_filename,
-                                                   htif_symbol_callback);
- 
-         if (machine->initrd_filename) {
-@@ -212,6 +213,12 @@ static void spike_board_init(MachineState *machine)
-             qemu_fdt_setprop_cell(s->fdt, "/chosen", "linux,initrd-end",
-                                   end);
-         }
-+    } else {
-+       /*
-+        * If dynamic firmware is used, it doesn't know where is the next mode
-+        * if kernel argument is not set.
-+        */
-+        kernel_entry = 0;
-     }
- 
-     /* Compute the fdt load address in dram */
-@@ -225,7 +232,7 @@ static void spike_board_init(MachineState *machine)
- 
-     /* load the reset vector */
-     riscv_setup_rom_reset_vec(memmap[SPIKE_DRAM].base, memmap[SPIKE_MROM].base,
--                              memmap[SPIKE_MROM].size,
-+                              memmap[SPIKE_MROM].size, kernel_entry,
-                               fdt_load_addr, s->fdt);
- 
-     /* initialize HTIF using symbols found in load_kernel */
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index ebb5dd5c8c1c..7897eaa97301 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -482,6 +482,7 @@ static void virt_machine_init(MachineState *machine)
-     size_t plic_hart_config_len;
-     target_ulong start_addr = memmap[VIRT_DRAM].base;
-     hwaddr fdt_load_addr;
-+    uint64_t kernel_entry;
-     int i;
-     unsigned int smp_cpus = machine->smp.cpus;
- 
-@@ -514,7 +515,7 @@ static void virt_machine_init(MachineState *machine)
-                                  memmap[VIRT_DRAM].base, NULL);
- 
-     if (machine->kernel_filename) {
--        uint64_t kernel_entry = riscv_load_kernel(machine->kernel_filename,
-+        kernel_entry = riscv_load_kernel(machine->kernel_filename,
-                                                   NULL);
- 
-         if (machine->initrd_filename) {
-@@ -527,6 +528,12 @@ static void virt_machine_init(MachineState *machine)
-             qemu_fdt_setprop_cell(s->fdt, "/chosen", "linux,initrd-end",
-                                   end);
-         }
-+    } else {
-+       /*
-+        * If dynamic firmware is used, it doesn't know where is the next mode
-+        * if kernel argument is not set.
-+        */
-+        kernel_entry = 0;
-     }
- 
-     if (drive_get(IF_PFLASH, 0, 0)) {
-@@ -548,7 +555,7 @@ static void virt_machine_init(MachineState *machine)
- 
-     /* load the reset vector */
-     riscv_setup_rom_reset_vec(start_addr, virt_memmap[VIRT_MROM].base,
--                              virt_memmap[VIRT_MROM].size,
-+                              virt_memmap[VIRT_MROM].size, kernel_entry,
-                               fdt_load_addr, s->fdt);
- 
-     /* create PLIC hart topology configuration string */
-diff --git a/include/hw/riscv/boot.h b/include/hw/riscv/boot.h
-index b6289a05d952..2e7163e3fef2 100644
---- a/include/hw/riscv/boot.h
-+++ b/include/hw/riscv/boot.h
-@@ -38,7 +38,7 @@ hwaddr riscv_load_initrd(const char *filename, uint64_t mem_size,
- hwaddr riscv_calc_fdt_load_addr(hwaddr dram_start, uint64_t dram_size,
-                                 void *fdt);
- void riscv_setup_rom_reset_vec(hwaddr saddr, hwaddr rom_base,
--                               hwaddr rom_size,
-+                               hwaddr rom_size, hwaddr kernel_entry,
-                                hwaddr fdt_load_addr, void *fdt);
- 
- #endif /* RISCV_BOOT_H */
-diff --git a/include/hw/riscv/boot_opensbi.h b/include/hw/riscv/boot_opensbi.h
-new file mode 100644
-index 000000000000..0d5ddd6c3daf
---- /dev/null
-+++ b/include/hw/riscv/boot_opensbi.h
-@@ -0,0 +1,58 @@
-+/* SPDX-License-Identifier: BSD-2-Clause */
-+/*
-+ * Copyright (c) 2019 Western Digital Corporation or its affiliates.
-+ *
-+ * Based on include/sbi/{fw_dynamic.h,sbi_scratch.h} from the OpenSBI project.
-+ */
-+#ifndef OPENSBI_H
-+#define OPENSBI_H
-+
-+/** Expected value of info magic ('OSBI' ascii string in hex) */
-+#define FW_DYNAMIC_INFO_MAGIC_VALUE     0x4942534f
-+
-+/** Maximum supported info version */
-+#define FW_DYNAMIC_INFO_VERSION         0x2
-+
-+/** Possible next mode values */
-+#define FW_DYNAMIC_INFO_NEXT_MODE_U     0x0
-+#define FW_DYNAMIC_INFO_NEXT_MODE_S     0x1
-+#define FW_DYNAMIC_INFO_NEXT_MODE_M     0x3
-+
-+enum sbi_scratch_options {
-+    /** Disable prints during boot */
-+    SBI_SCRATCH_NO_BOOT_PRINTS = (1 << 0),
-+    /** Enable runtime debug prints */
-+    SBI_SCRATCH_DEBUG_PRINTS = (1 << 1),
-+};
-+
-+/** Representation dynamic info passed by previous booting stage */
-+struct fw_dynamic_info {
-+    /** Info magic */
-+    target_long magic;
-+    /** Info version */
-+    target_long version;
-+    /** Next booting stage address */
-+    target_long next_addr;
-+    /** Next booting stage mode */
-+    target_long next_mode;
-+    /** Options for OpenSBI library */
-+    target_long options;
-+    /**
-+     * Preferred boot HART id
-+     *
-+     * It is possible that the previous booting stage uses same link
-+     * address as the FW_DYNAMIC firmware. In this case, the relocation
-+     * lottery mechanism can potentially overwrite the previous booting
-+     * stage while other HARTs are still running in the previous booting
-+     * stage leading to boot-time crash. To avoid this boot-time crash,
-+     * the previous booting stage can specify last HART that will jump
-+     * to the FW_DYNAMIC firmware as the preferred boot HART.
-+     *
-+     * To avoid specifying a preferred boot HART, the previous booting
-+     * stage can set it to -1UL which will force the FW_DYNAMIC firmware
-+     * to use the relocation lottery mechanism.
-+     */
-+    target_long boot_hart;
-+};
-+
-+#endif
--- 
-2.26.2
+CODING_STYLE prohibits c++ comments.  Fixed.
 
+> +static bool trans_FLOGB(DisasContext *s, arg_rpr_esz *a)
+> +{
+> +    static gen_helper_gvec_3 * const fns[] = {
+> +        NULL,               gen_helper_flogb_h,
+> +        gen_helper_flogb_s, gen_helper_flogb_d
+> +    };
+> +    return do_sve2_zpz_ool(s, a, fns[a->esz - 1]);
+
+Incorrect subtract in the indexing.  Fixed.
+
+Queued with the above changes.
+
+
+r~
 
