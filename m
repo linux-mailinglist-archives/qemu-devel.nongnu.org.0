@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F41AB1FAD01
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 11:46:57 +0200 (CEST)
-Received: from localhost ([::1]:57388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AFD11FAD0C
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jun 2020 11:49:06 +0200 (CEST)
+Received: from localhost ([::1]:33860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jl8BE-0001lg-Lt
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 05:46:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48674)
+	id 1jl8DJ-0003sf-8Y
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jun 2020 05:49:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jl8A8-0000ok-IH; Tue, 16 Jun 2020 05:45:48 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:42357)
+ id 1jl8A9-0000ov-TA; Tue, 16 Jun 2020 05:45:49 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:36748)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jl8A7-00023o-4I; Tue, 16 Jun 2020 05:45:48 -0400
-Received: by mail-wr1-x442.google.com with SMTP id p5so20015348wrw.9;
- Tue, 16 Jun 2020 02:45:46 -0700 (PDT)
+ id 1jl8A8-00024v-Ed; Tue, 16 Jun 2020 05:45:49 -0400
+Received: by mail-wm1-x343.google.com with SMTP id d128so2379389wmc.1;
+ Tue, 16 Jun 2020 02:45:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=BkfrXS6jUPlOeSckQNT81vLmPXJox8SVcSY2Hn3/dQU=;
- b=X5xFtwLtOOEPDu0XJMfuwgOijMyOKlho5ap4523Ap0QtiJ+AbQF1TQ/08/8QQ8sMFf
- vxFP0joX+6+Hx0RnwQ3FGwIotstkyizRgUcBB1Rq4iQUVYR5AUd7bNmLgi7tItR8IGrf
- MiRZDPnqsEC98BuFIUDPAqzTi2i1Nm9ACMSAqOkpk5VAaVxjLUsoUkGCv1YIXLs9FcWw
- uJRBmElBvPTITsT0yXMy3ksMeUXng0QIv4b1R87a6woicM2B6gae/zh4eWqsPaDZmlwe
- oHzHDelx28QdtJOvpSi+SnVxqhydoim9pAgvPD11tX4oceRsNerWwU9QbS19URDR7lHb
- 7WBg==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=Bx4xNdWeU6C7TR4mll2UBf3V29qn2VJEgsPuF0yeqI4=;
+ b=CLL75c8uzvdrd26sq1LzFvBCsCuUU33kDB6iXE3xilPTMwirEr4kW8CNn/jDDjuxyZ
+ PJwuJs/EQ0FeZjw1zBXFQ54qVBo6sAW4QeNvDsYELmVm8pdsypsFmQ8Xr/0cm+9uH14r
+ a3h+Aela2G4l3o1pc7GsnN8eFSKvq1SUDttd9reUAHL79vhfYTz80BvBD/1t42yWk1AA
+ jXPxk7g6LR9AQZtns2iTT2ppd4SoD3Nqv5FaleAAj3zQ4d2jPuJus+QFL0w1soNLNyEC
+ VVEiUjDRtQu7bMuFObW8D4/0WuEXiJJQgPjIw4xvllval466C+DPc71iHNcb4m4dM7pE
+ FmQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=BkfrXS6jUPlOeSckQNT81vLmPXJox8SVcSY2Hn3/dQU=;
- b=fTpVIK8iabNa0cEF/R3P6QQyYTfTfBY7HyoOen81cX+SF+kRNszeoLTzer3izghaMP
- BNNcrQ3BV+/EsExLT8iEKPshddchaQZTLCDHSjifAc5WjTxyVS3gJvgSP8iRcy27/m/Q
- TyujDbR8UFAo9mSVyTetyW/FYOwAP7th/XkyDjFYmjfXdCax+PcCzeKMCAK7X/npfyJn
- kwXiZQrDGVOIYrn75DVqHRHWcbVHudFCa6hKNdGakK61HfokIUUT2zAB6HX5qZNDExxb
- tOUmCDty4MvoOwsf5IilKPv5DCC+JOqkPeaBlxBGXgJeKoQnhDyL81Vq2sW0nMxW/ZZT
- VQ9A==
-X-Gm-Message-State: AOAM532e7VePo7IuAgNRnBU95bCmvnLYv46/lHf8VHKIIkMKaHdbBwPY
- T/CoM0U/CUYLwUXmms+upF7qVG/t
-X-Google-Smtp-Source: ABdhPJwi47aKpRcMrb9z4W5IBm0LR9XQMl0nOFjQFxMuHqRR5j9j2q6BJTB5KdWu69xA5EOVJV4upw==
-X-Received: by 2002:adf:e587:: with SMTP id l7mr2155993wrm.352.1592300745151; 
- Tue, 16 Jun 2020 02:45:45 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=Bx4xNdWeU6C7TR4mll2UBf3V29qn2VJEgsPuF0yeqI4=;
+ b=A57BVKQ3yidfFd9YB6/89J8kp583CIVFE+vAhvNHvzf9mYs1kCtMVl72Gzfb8JSW0E
+ w4/DtD1sz/V5fx9DoDzyid9j5RWcTj4FrvQsUYkVCYlCrmXH6cAT4NIikpuyLlmrFoaQ
+ 5sGk8xxMnrNaItNenIEwtU+DlVI7E90yhthA3cEOe5OHmxSOdVME8BWUIP+vQUevqkLC
+ +8q2uKEa9a4eUDZ6vfE3y5em3eqsMhuXS4jqgiNkF1hg4IQDCIReU2ZyRNeAXiGT8jL8
+ 7nuddDCafT7tOi+4aCrxSbcAoTHIIMxo1ZooWRN5JtLAx2xPMEM0wcrMh9SlrmtGYof0
+ UEHA==
+X-Gm-Message-State: AOAM533yzvM3rPL5nYPC5F0rmWJf3YAw23lYjAfP7QEK5Uus7JotiylJ
+ WD6kSbIsL79KSYxAAU/9rLnzPV07
+X-Google-Smtp-Source: ABdhPJxbhSF8DGknQMoNW6WPUKmcJzJhHB1NirO5EATbNDXVlvXpYHE1rPnk604ZhzEzEiAhb+oSlA==
+X-Received: by 2002:a1c:3c1:: with SMTP id 184mr2243919wmd.40.1592300746586;
+ Tue, 16 Jun 2020 02:45:46 -0700 (PDT)
 Received: from localhost.localdomain
  (181.red-88-10-103.dynamicip.rima-tde.net. [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id o82sm3254017wmo.40.2020.06.16.02.45.44
+ by smtp.gmail.com with ESMTPSA id o82sm3254017wmo.40.2020.06.16.02.45.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Jun 2020 02:45:44 -0700 (PDT)
+ Tue, 16 Jun 2020 02:45:45 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/2] hw/misc/pca9552: Trace LEDs events,
- make LEDs 13-15 as GPIOs
-Date: Tue, 16 Jun 2020 11:45:40 +0200
-Message-Id: <20200616094542.25415-1-f4bug@amsat.org>
+Subject: [PATCH 1/2] hw/misc/pca9552: Trace LED On/Off events
+Date: Tue, 16 Jun 2020 11:45:41 +0200
+Message-Id: <20200616094542.25415-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
+In-Reply-To: <20200616094542.25415-1-f4bug@amsat.org>
+References: <20200616094542.25415-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -93,17 +94,51 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The PCA9552 LEDs 13-15 can also be used as GPIOs.
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ hw/misc/pca9552.c    | 7 +++++++
+ hw/misc/trace-events | 3 +++
+ 2 files changed, 10 insertions(+)
 
-Philippe Mathieu-Daudé (2):
-  hw/misc/pca9552: Trace LED On/Off events
-  hw/misc/pca9552: Make LEDs 13-15 also GPIOs
-
- include/hw/misc/pca9552.h |  2 ++
- hw/misc/pca9552.c         | 25 +++++++++++++++++++++++++
- hw/misc/trace-events      |  3 +++
- 3 files changed, 30 insertions(+)
-
+diff --git a/hw/misc/pca9552.c b/hw/misc/pca9552.c
+index cac729e35a..a3d0decbff 100644
+--- a/hw/misc/pca9552.c
++++ b/hw/misc/pca9552.c
+@@ -17,6 +17,7 @@
+ #include "migration/vmstate.h"
+ #include "qapi/error.h"
+ #include "qapi/visitor.h"
++#include "trace.h"
+ 
+ #define PCA9552_LED_ON   0x0
+ #define PCA9552_LED_OFF  0x1
+@@ -45,9 +46,15 @@ static void pca9552_update_pin_input(PCA9552State *s)
+         switch (config) {
+         case PCA9552_LED_ON:
+             s->regs[input_reg] |= 1 << input_shift;
++            if (input_shift < s->nr_leds) {
++                trace_pca9552_led_set(input_shift, true);
++            }
+             break;
+         case PCA9552_LED_OFF:
+             s->regs[input_reg] &= ~(1 << input_shift);
++            if (input_shift < s->nr_leds) {
++                trace_pca9552_led_set(input_shift, false);
++            }
+             break;
+         case PCA9552_LED_PWM0:
+         case PCA9552_LED_PWM1:
+diff --git a/hw/misc/trace-events b/hw/misc/trace-events
+index 5561746866..ed80d0d1be 100644
+--- a/hw/misc/trace-events
++++ b/hw/misc/trace-events
+@@ -206,3 +206,6 @@ via1_rtc_cmd_pram_sect_write(int sector, int offset, int addr, int value) "secto
+ # grlib_ahb_apb_pnp.c
+ grlib_ahb_pnp_read(uint64_t addr, uint32_t value) "AHB PnP read addr:0x%03"PRIx64" data:0x%08x"
+ grlib_apb_pnp_read(uint64_t addr, uint32_t value) "APB PnP read addr:0x%03"PRIx64" data:0x%08x"
++
++# pca9552.c
++pca9552_led_set(unsigned id, bool state) "LED#%d state:%u"
 -- 
 2.21.3
 
