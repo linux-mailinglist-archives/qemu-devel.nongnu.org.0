@@ -2,71 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 703761FC54A
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 06:39:29 +0200 (CEST)
-Received: from localhost ([::1]:35428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDA0E1FC552
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 06:41:00 +0200 (CEST)
+Received: from localhost ([::1]:40956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlPrE-0007ww-Fw
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 00:39:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36068)
+	id 1jlPsh-0001rM-UU
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 00:40:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jlPps-0006jx-KR
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 00:38:04 -0400
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:45155)
+ id 1jlPpt-0006kh-7E
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 00:38:05 -0400
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:46415)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jlPpq-0001So-J6
+ id 1jlPpr-0001T1-Gk
  for qemu-devel@nongnu.org; Wed, 17 Jun 2020 00:38:04 -0400
-Received: by mail-pl1-x644.google.com with SMTP id d8so344177plo.12
- for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 21:38:02 -0700 (PDT)
+Received: by mail-pg1-x543.google.com with SMTP id u128so633530pgu.13
+ for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 21:38:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ChL+mQvp08NHZYyarb1xR9uQbyNLWA/IcQ/TYqhGDbM=;
- b=DMpKxujj0SseX0+Ey1b0vCw54IbS46m0Xjp5+1N6c7q4+0oEKYFZPGRIjPEDATVAXY
- tW4CAI8Rjtu5ncfO+zQvkXZN2j0K4IpJJ38VmpxvSL7v+ZjXgoIQ06P8IPSAqvg9KnKV
- YHzqEpDzymiMDKauiJAFo1CCbU5GgOdU7sSIa3TW+aZW1WdYnWbi2THus8z5rl0CvE7p
- zTkmNE7/6pSldnVLlS5g9sGflasVJzPyimUn5zJfjrhbCDmRJERx3KO7LE+e649xRosx
- WceL+miR6y2H58B73XIsDl3bgBot7fEIEgZu7Q/YWi0jopAEtkYRFgo6GT4Hwhpw2H1H
- W5zA==
+ bh=/1VQEyGIT5SioB6kHr1I24ND+09JThHqu5Yl+UsE9Vk=;
+ b=UEM4xrSfOR2sim6xTGwBYqO7P8+vDB/HVhPbjwZHUS5AaoSrdSSFSgYIKnPWagC2WW
+ 9043tBu3dnEBLRnlcMyvknpG7gHzWjxfu2nrQTCwSuQfmzdRwM4BV2c9yjn2Bo4fQnWU
+ F+eUyHEuNKEAibMVtM3/Kb83XMSOMPWvxCb6Pe+OynU9kVWmVv2czYRLFYjDH+yQx+mI
+ 6QzsfXsVWyeZYeGZgGSVNQg4NlHsJ1e2ugGl0aXoRxp3/LoiraiF1mcf9I7syewIDXWl
+ GJKhEBBfFBt4UxmZqTJ3lJoRDBWtPuYV3Ftmk25es80CD3Z6OD9/Eglem3m1HVFxENWw
+ NDqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ChL+mQvp08NHZYyarb1xR9uQbyNLWA/IcQ/TYqhGDbM=;
- b=mbkIIYVrVTkIwcC3FZznxUpWPYqB7Zp/9gD9jJ8J57hiagzDNJekPrwF7tqXi2XRzX
- 8eKR/s0/DWtnmq9QoQRCjxCOCfzm0JxDkDiSwaseVh1Rs0q1yXyZXKT/Gn2cLDjNZNNd
- mH4wds1TfcqYPf6/DtAc7ldQmk1TSnJPN6Um69/pHVopuf42OeoXJnqz/+6zV3nVLwEh
- c28jQ0MJL2I9RTUa//gmD7REmGIvixjhv77Dag9xbC+90/yIKkXIhSNOAWqNE/yQWczM
- OH2qVMGmgtBuwFdkEujYCOGDM5iTvG2sF8KbaX6Qe0Hsi5zXF5V+QLrdIsAyYFANxE8S
- YfJw==
-X-Gm-Message-State: AOAM533L95XYyUBeEDDxDoXMZ4wnGE5Hlg7bzZwyUanZ8E7B/LPrlPLq
- Mdn8U9KgX/h+swGn09M6Rs2Nps0oc1k=
-X-Google-Smtp-Source: ABdhPJxg6gSs6a6VP4vcDfL6b7jOhDmF/lQ/8qtpix64YHiYhcoX9zw6cOu4YJpkTCtFSR9IFANUVQ==
-X-Received: by 2002:a17:90a:4fc7:: with SMTP id
- q65mr5905335pjh.25.1592368680624; 
- Tue, 16 Jun 2020 21:38:00 -0700 (PDT)
+ bh=/1VQEyGIT5SioB6kHr1I24ND+09JThHqu5Yl+UsE9Vk=;
+ b=JDs1wJbRxkg5yQ1CQD771UCGnxYLVKnJZbR8rRPPtKoE34+mUzbOlghFMmH3vbei/o
+ WUVaSk+werjnLwig1jJSl6DC5E1nT/gr3T4+P+TGHkrhcgBuIpZqvTEbxrUk6GOzvPDk
+ XzfW+icfh2qmFGuzjUaF124/nPta1+iaribZQZnKyYZMFIrYcGPFzGAa9T3I5ndKslc4
+ fntUlicv7rnALMkqmNRQ2wws2wuIUFnwbk5Lg9wU6AYrXhJWn3QYxpTLq7AaiHbIEBoz
+ KMIGKFAyTKgMPpuJkExUsVt5EAmiuF5ldtqZUe4FVDOAGX/jBgTgoe+NE+p3enO2eLhv
+ KBNw==
+X-Gm-Message-State: AOAM531uobXrVFYJhV5ZzA2of3gSEnVEFh1Lex9cojGYXaPytMaRS+P9
+ +rA8Yz48xq0/YYCuOtTV5nq+0xfWc9A=
+X-Google-Smtp-Source: ABdhPJyhUJNKS35OSdDyVmmDpqYAgSZjCHCx6iEPJETPHuVObDqM2hxDuPNUg3l621UzBweeBGVT5Q==
+X-Received: by 2002:a63:1515:: with SMTP id v21mr2735712pgl.185.1592368681845; 
+ Tue, 16 Jun 2020 21:38:01 -0700 (PDT)
 Received: from localhost.localdomain (174-21-143-238.tukw.qwest.net.
  [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id x3sm18585808pfi.57.2020.06.16.21.37.59
+ by smtp.gmail.com with ESMTPSA id x3sm18585808pfi.57.2020.06.16.21.38.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Jun 2020 21:37:59 -0700 (PDT)
+ Tue, 16 Jun 2020 21:38:01 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 1/5] fpu/softfloat: Silence 'bitwise negation of boolean
- expression' warning
-Date: Tue, 16 Jun 2020 21:37:53 -0700
-Message-Id: <20200617043757.1623337-2-richard.henderson@linaro.org>
+Subject: [PATCH v3 2/5] migration: fix xbzrle encoding rate calculation
+Date: Tue, 16 Jun 2020 21:37:54 -0700
+Message-Id: <20200617043757.1623337-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200617043757.1623337-1-richard.henderson@linaro.org>
 References: <20200617043757.1623337-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::644;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x644.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::543;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x543.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,136 +85,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Thomas Huth <thuth@redhat.com>, alex.bennee@linaro.org
+Cc: Wei Wang <wei.w.wang@intel.com>, alex.bennee@linaro.org,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+From: Wei Wang <wei.w.wang@intel.com>
 
-When building with clang version 10.0.0-4ubuntu1, we get:
+It's reported an error of implicit conversion from "unsigned long" to
+"double" when compiling with Clang 10. Simply make the encoding rate 0
+when the encoded_size is 0.
 
-    CC      lm32-softmmu/fpu/softfloat.o
-  fpu/softfloat.c:3365:13: error: bitwise negation of a boolean expression; did you mean logical negation? [-Werror,-Wbool-operation]
-      absZ &= ~ ( ( ( roundBits ^ 0x40 ) == 0 ) & roundNearestEven );
-              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-  fpu/softfloat.c:3423:18: error: bitwise negation of a boolean expression; did you mean logical negation? [-Werror,-Wbool-operation]
-          absZ0 &= ~ ( ( (uint64_t) ( absZ1<<1 ) == 0 ) & roundNearestEven );
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-  ...
-
-  fpu/softfloat.c:4273:18: error: bitwise negation of a boolean expression; did you mean logical negation? [-Werror,-Wbool-operation]
-          zSig1 &= ~ ( ( zSig2 + zSig2 == 0 ) & roundNearestEven );
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Fix by rewriting the fishy bitwise AND of two bools as an int.
-
-Suggested-by: Eric Blake <eblake@redhat.com>
-Buglink: https://bugs.launchpad.net/bugs/1881004
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200528155420.9802-1-philmd@redhat.com>
+Fixes: e460a4b1a4
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reported-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Wei Wang <wei.w.wang@intel.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- fpu/softfloat.c | 33 ++++++++++++++++++++++++---------
- 1 file changed, 24 insertions(+), 9 deletions(-)
+ migration/ram.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/fpu/softfloat.c b/fpu/softfloat.c
-index 6c8f2d597a..5e9746c287 100644
---- a/fpu/softfloat.c
-+++ b/fpu/softfloat.c
-@@ -3362,7 +3362,9 @@ static int32_t roundAndPackInt32(bool zSign, uint64_t absZ,
-     }
-     roundBits = absZ & 0x7F;
-     absZ = ( absZ + roundIncrement )>>7;
--    absZ &= ~ ( ( ( roundBits ^ 0x40 ) == 0 ) & roundNearestEven );
-+    if (!(roundBits ^ 0x40) && roundNearestEven) {
-+        absZ &= ~1;
-+    }
-     z = absZ;
-     if ( zSign ) z = - z;
-     if ( ( absZ>>32 ) || ( z && ( ( z < 0 ) ^ zSign ) ) ) {
-@@ -3420,7 +3422,9 @@ static int64_t roundAndPackInt64(bool zSign, uint64_t absZ0, uint64_t absZ1,
-     if ( increment ) {
-         ++absZ0;
-         if ( absZ0 == 0 ) goto overflow;
--        absZ0 &= ~ ( ( (uint64_t) ( absZ1<<1 ) == 0 ) & roundNearestEven );
-+        if (!(absZ1 << 1) && roundNearestEven) {
-+            absZ0 &= ~1;
-+        }
-     }
-     z = absZ0;
-     if ( zSign ) z = - z;
-@@ -3480,7 +3484,9 @@ static int64_t roundAndPackUint64(bool zSign, uint64_t absZ0,
-             float_raise(float_flag_invalid, status);
-             return UINT64_MAX;
+diff --git a/migration/ram.c b/migration/ram.c
+index 41cc530d9d..069b6e30bc 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -913,10 +913,8 @@ static void migration_update_rates(RAMState *rs, int64_t end_time)
+         unencoded_size = (xbzrle_counters.pages - rs->xbzrle_pages_prev) *
+                          TARGET_PAGE_SIZE;
+         encoded_size = xbzrle_counters.bytes - rs->xbzrle_bytes_prev;
+-        if (xbzrle_counters.pages == rs->xbzrle_pages_prev) {
++        if (xbzrle_counters.pages == rs->xbzrle_pages_prev || !encoded_size) {
+             xbzrle_counters.encoding_rate = 0;
+-        } else if (!encoded_size) {
+-            xbzrle_counters.encoding_rate = UINT64_MAX;
+         } else {
+             xbzrle_counters.encoding_rate = unencoded_size / encoded_size;
          }
--        absZ0 &= ~(((uint64_t)(absZ1<<1) == 0) & roundNearestEven);
-+        if (!(absZ1 << 1) && roundNearestEven) {
-+            absZ0 &= ~1;
-+        }
-     }
- 
-     if (zSign && absZ0) {
-@@ -3603,7 +3609,9 @@ static float32 roundAndPackFloat32(bool zSign, int zExp, uint32_t zSig,
-         status->float_exception_flags |= float_flag_inexact;
-     }
-     zSig = ( zSig + roundIncrement )>>7;
--    zSig &= ~ ( ( ( roundBits ^ 0x40 ) == 0 ) & roundNearestEven );
-+    if (!(roundBits ^ 0x40) && roundNearestEven) {
-+        zSig &= ~1;
-+    }
-     if ( zSig == 0 ) zExp = 0;
-     return packFloat32( zSign, zExp, zSig );
- 
-@@ -3757,7 +3765,9 @@ static float64 roundAndPackFloat64(bool zSign, int zExp, uint64_t zSig,
-         status->float_exception_flags |= float_flag_inexact;
-     }
-     zSig = ( zSig + roundIncrement )>>10;
--    zSig &= ~ ( ( ( roundBits ^ 0x200 ) == 0 ) & roundNearestEven );
-+    if (!(roundBits ^ 0x200) && roundNearestEven) {
-+        zSig &= ~1;
-+    }
-     if ( zSig == 0 ) zExp = 0;
-     return packFloat64( zSign, zExp, zSig );
- 
-@@ -3983,8 +3993,9 @@ floatx80 roundAndPackFloatx80(int8_t roundingPrecision, bool zSign,
-             }
-             if ( increment ) {
-                 ++zSig0;
--                zSig0 &=
--                    ~ ( ( (uint64_t) ( zSig1<<1 ) == 0 ) & roundNearestEven );
-+                if (!(zSig1 << 1) && roundNearestEven) {
-+                    zSig0 &= ~1;
-+                }
-                 if ( (int64_t) zSig0 < 0 ) zExp = 1;
-             }
-             return packFloatx80( zSign, zExp, zSig0 );
-@@ -4000,7 +4011,9 @@ floatx80 roundAndPackFloatx80(int8_t roundingPrecision, bool zSign,
-             zSig0 = UINT64_C(0x8000000000000000);
-         }
-         else {
--            zSig0 &= ~ ( ( (uint64_t) ( zSig1<<1 ) == 0 ) & roundNearestEven );
-+            if (!(zSig1 << 1) && roundNearestEven) {
-+                zSig0 &= ~1;
-+            }
-         }
-     }
-     else {
-@@ -4270,7 +4283,9 @@ static float128 roundAndPackFloat128(bool zSign, int32_t zExp,
-     }
-     if ( increment ) {
-         add128( zSig0, zSig1, 0, 1, &zSig0, &zSig1 );
--        zSig1 &= ~ ( ( zSig2 + zSig2 == 0 ) & roundNearestEven );
-+        if ((zSig2 + zSig2 == 0) && roundNearestEven) {
-+            zSig1 &= ~1;
-+        }
-     }
-     else {
-         if ( ( zSig0 | zSig1 ) == 0 ) zExp = 0;
 -- 
 2.25.1
 
