@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B1391FD6FD
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 23:18:32 +0200 (CEST)
-Received: from localhost ([::1]:32854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 524041FD70B
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 23:21:09 +0200 (CEST)
+Received: from localhost ([::1]:41348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlfS3-0002dE-Ju
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 17:18:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37642)
+	id 1jlfUa-0006Vc-CN
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 17:21:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jlfEG-0003Wx-63
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 17:04:16 -0400
-Received: from mail-qk1-x731.google.com ([2607:f8b0:4864:20::731]:37880)
+ id 1jlfEH-0003aT-N3
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 17:04:17 -0400
+Received: from mail-qk1-x743.google.com ([2607:f8b0:4864:20::743]:43937)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jlfEE-00007X-7u
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 17:04:15 -0400
-Received: by mail-qk1-x731.google.com with SMTP id b27so3510324qka.4
- for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 14:04:13 -0700 (PDT)
+ id 1jlfEF-00009C-J2
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 17:04:17 -0400
+Received: by mail-qk1-x743.google.com with SMTP id j68so140069qkb.10
+ for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 14:04:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=4aryhQbcmaB7oNBbR9UD5nwcxfkIN5/StOGhgwEfKig=;
- b=BwPPvfcY3SN6EkACB8Aw04cAGgk26UutV0tjcSaMPiPDr1sX1TwEwIxzHSNEM7VtFn
- XbApUFCS09sXSuvnsdChjTl4LOx4Q6GXccgbUrI67MPyIPtsIT6RjUFIDK131NiQZjr0
- HDXZLwi4OT0BmOf7kXLzMbLlIP22E7hQ0JVxpuajweYrdKMs+bwX2khBtvFGwvF/vaLs
- tDvn4n8dHBGMnLAVNw0OGT3MAeToKIHA0vzkbRdJ5UrCFSCD6B8Lrs5IQtYliEcQMKkv
- zHCJ4vXrmQjhc8K+Y5bsdtEJaCAuDSk55kIgCA04+FLw2nylCbE+KLbQANQGGCp0NuWM
- F1pQ==
+ bh=bMJDR0op9yYxk4Q3uQ7Lh3faQWxq/2pZw+Fv/nrXz+A=;
+ b=RQ63kTM3AKz8TNyE0qqe3WkxI4DWPU9SoW1W8pf9NzcSXpE0kY0LeFIbtftZnxkj4x
+ xZuG7uhNcOEJpQEDpXhvC4mN6Up5589I6u4feY9dRApjrGtw0jzbP/VS3RgTMf+3aBMs
+ KTTbCR481jg527+8nsl8LO+Vk/i0cl2OV8eCwCMyefErmZD3bZ1vHgf1mAxZ2ABZZCPj
+ fT0xXvOy6UqjOHQopPv8256ETNp9vw1p7oH/cVAr7hjf0NIgnlygj/9hIa6OTvoYpio8
+ yEHxkxu+nZ+YVDtvv47ypap+qoRvdvBgWhM6O73KoW/1Uk32RfTR5O74JLUdSLiGrb3n
+ Zk+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=4aryhQbcmaB7oNBbR9UD5nwcxfkIN5/StOGhgwEfKig=;
- b=N7PFu9oChtqbVvTsVvWvQXm6BQpX3xojLkSLEBWnhVkP7/nkTYZmzbBJWZHKm3XZHU
- kIl+RS3+CQoP8Hm+dahPmygp53r0qCAIw6nSzVAdG6hxFK9YsdRqgLu0RMs1tJ5MLGQz
- RhsrsYeFKjkTrDL3EHipsTdC+PHDoSRHRC9wxipEHrwjF2Lg4FV3qUAmen1R5pRocRlT
- V4d8elYUaJH+zLPDgKIPb5tRPJhchgEqyf7uKJc8+3TIoaKgd2pnAzgI1/SbGMaHi3Wq
- FeUqrigmsuogUU57gdLCR7yukpVQkHrPQZp2+eCPok7sIV4zZ+5KkxgskZG4je4gnqDX
- Lw8A==
-X-Gm-Message-State: AOAM532cEw/LGaBq6oT4uYAjTYupoDkYZRbCjTHE7p5gtoLUjTUm2R/0
- aT4iwsqJ1Ix7Hs3qeHRlwp7ClGMKNriycA==
-X-Google-Smtp-Source: ABdhPJyju7vmLoHpCcD0cYBcsx3wNUKHeGKSLAyqnl8xM8It0WMH5WMieDP5E/ZZyjTy8xDPZQhTCg==
-X-Received: by 2002:a05:620a:3cc:: with SMTP id
- r12mr627072qkm.44.1592427852927; 
- Wed, 17 Jun 2020 14:04:12 -0700 (PDT)
+ bh=bMJDR0op9yYxk4Q3uQ7Lh3faQWxq/2pZw+Fv/nrXz+A=;
+ b=q2PgbqpYXAvRDQTXAWTocHCJI2PR9vhI3SCgp+QzpYKrGiBzYRy06Wqx+wCO/VX1Oi
+ QwASCsbAK+YcofbJk4svNJCpvv1gaK+LFA27UEDjrVl280tS+6+n10iLoYUI5+MY/igU
+ uxX6SFed/C6EcImdciZJBP54bQq1XuL28330oHjakB7YPOL7oaA1SWFsKIM27THYzPFR
+ dthz5cUJXMxGY7IKt3LCJVuZ4nXmCt/l6vQHiw/JCEcSyjYk/1FV00h2yIJTFFpPLbFe
+ cOXLFfN9+drd6sDSIxNO+rV4vygvDiyHCKUyVy9EK0Ugag1pCLsgrlSH3kiHrGpmW87e
+ QrLg==
+X-Gm-Message-State: AOAM533bj7LhLy9QAj0d2P2TWCnueGw+/iKJB/JjJrCuJ1MYom1coicA
+ h1J3ZJDz7yfoHmFGG/XvED1/8Y2krRiQ2g==
+X-Google-Smtp-Source: ABdhPJznqaLvi+9naqRjgbuk4+KNhEW9buBCGiCCF3iJ7TMvCWyNwsADfAY+cpYywUMGIYMeZlcjcA==
+X-Received: by 2002:a37:5e07:: with SMTP id s7mr625733qkb.20.1592427854372;
+ Wed, 17 Jun 2020 14:04:14 -0700 (PDT)
 Received: from Rfoley-MA01.hsd1.ma.comcast.net
  ([2601:199:4480:60c0:fc79:714c:9711:2e9c])
- by smtp.gmail.com with ESMTPSA id w13sm997245qkb.91.2020.06.17.14.04.11
+ by smtp.gmail.com with ESMTPSA id w13sm997245qkb.91.2020.06.17.14.04.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Jun 2020 14:04:12 -0700 (PDT)
+ Wed, 17 Jun 2020 14:04:13 -0700 (PDT)
 From: Robert Foley <robert.foley@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v10 39/73] i386: convert to cpu_interrupt_request
-Date: Wed, 17 Jun 2020 17:01:57 -0400
-Message-Id: <20200617210231.4393-40-robert.foley@linaro.org>
+Subject: [PATCH v10 40/73] i386/kvm: convert to cpu_interrupt_request
+Date: Wed, 17 Jun 2020 17:01:58 -0400
+Message-Id: <20200617210231.4393-41-robert.foley@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200617210231.4393-1-robert.foley@linaro.org>
 References: <20200617210231.4393-1-robert.foley@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::731;
- envelope-from=robert.foley@linaro.org; helo=mail-qk1-x731.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::743;
+ envelope-from=robert.foley@linaro.org; helo=mail-qk1-x743.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -87,7 +86,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: robert.foley@linaro.org, Eduardo Habkost <ehabkost@redhat.com>,
+Cc: robert.foley@linaro.org, "open list:X86 KVM CPUs" <kvm@vger.kernel.org>,
+ Marcelo Tosatti <mtosatti@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
  cota@braap.org, Paolo Bonzini <pbonzini@redhat.com>, peter.puhov@linaro.org,
  alex.bennee@linaro.org, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
@@ -100,65 +100,168 @@ Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Emilio G. Cota <cota@braap.org>
 Signed-off-by: Robert Foley <robert.foley@linaro.org>
 ---
- target/i386/cpu.c        | 2 +-
- target/i386/helper.c     | 4 ++--
- target/i386/svm_helper.c | 4 ++--
- 3 files changed, 5 insertions(+), 5 deletions(-)
+ target/i386/kvm.c | 58 ++++++++++++++++++++++++++++-------------------
+ 1 file changed, 35 insertions(+), 23 deletions(-)
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 4d3ab0f3a2..59ac96bd01 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -7093,7 +7093,7 @@ int x86_cpu_pending_interrupt(CPUState *cs, int interrupt_request)
- 
- static bool x86_cpu_has_work(CPUState *cs)
+diff --git a/target/i386/kvm.c b/target/i386/kvm.c
+index 8628fa9111..415a6d8114 100644
+--- a/target/i386/kvm.c
++++ b/target/i386/kvm.c
+@@ -3653,11 +3653,14 @@ static int kvm_put_vcpu_events(X86CPU *cpu, int level)
+         events.smi.smm = !!(env->hflags & HF_SMM_MASK);
+         events.smi.smm_inside_nmi = !!(env->hflags2 & HF2_SMM_INSIDE_NMI_MASK);
+         if (kvm_irqchip_in_kernel()) {
++            uint32_t interrupt_request;
++
+             /* As soon as these are moved to the kernel, remove them
+              * from cs->interrupt_request.
+              */
+-            events.smi.pending = cs->interrupt_request & CPU_INTERRUPT_SMI;
+-            events.smi.latched_init = cs->interrupt_request & CPU_INTERRUPT_INIT;
++            interrupt_request = cpu_interrupt_request(cs);
++            events.smi.pending = interrupt_request & CPU_INTERRUPT_SMI;
++            events.smi.latched_init = interrupt_request & CPU_INTERRUPT_INIT;
+             cpu_reset_interrupt(cs, CPU_INTERRUPT_INIT | CPU_INTERRUPT_SMI);
+         } else {
+             /* Keep these in cs->interrupt_request.  */
+@@ -4015,14 +4018,14 @@ void kvm_arch_pre_run(CPUState *cpu, struct kvm_run *run)
  {
--    return x86_cpu_pending_interrupt(cs, cs->interrupt_request) != 0;
-+    return x86_cpu_pending_interrupt(cs, cpu_interrupt_request(cs)) != 0;
- }
+     X86CPU *x86_cpu = X86_CPU(cpu);
+     CPUX86State *env = &x86_cpu->env;
++    uint32_t interrupt_request;
+     int ret;
  
- static void x86_disas_set_info(CPUState *cs, disassemble_info *info)
-diff --git a/target/i386/helper.c b/target/i386/helper.c
-index 058de4073d..623a7299ac 100644
---- a/target/i386/helper.c
-+++ b/target/i386/helper.c
-@@ -1029,12 +1029,12 @@ void do_cpu_init(X86CPU *cpu)
++    interrupt_request = cpu_interrupt_request(cpu);
+     /* Inject NMI */
+-    if (cpu->interrupt_request & (CPU_INTERRUPT_NMI | CPU_INTERRUPT_SMI)) {
+-        if (cpu->interrupt_request & CPU_INTERRUPT_NMI) {
+-            qemu_mutex_lock_iothread();
++    if (interrupt_request & (CPU_INTERRUPT_NMI | CPU_INTERRUPT_SMI)) {
++        if (interrupt_request & CPU_INTERRUPT_NMI) {
+             cpu_reset_interrupt(cpu, CPU_INTERRUPT_NMI);
+-            qemu_mutex_unlock_iothread();
+             DPRINTF("injected NMI\n");
+             ret = kvm_vcpu_ioctl(cpu, KVM_NMI);
+             if (ret < 0) {
+@@ -4030,10 +4033,8 @@ void kvm_arch_pre_run(CPUState *cpu, struct kvm_run *run)
+                         strerror(-ret));
+             }
+         }
+-        if (cpu->interrupt_request & CPU_INTERRUPT_SMI) {
+-            qemu_mutex_lock_iothread();
++        if (interrupt_request & CPU_INTERRUPT_SMI) {
+             cpu_reset_interrupt(cpu, CPU_INTERRUPT_SMI);
+-            qemu_mutex_unlock_iothread();
+             DPRINTF("injected SMI\n");
+             ret = kvm_vcpu_ioctl(cpu, KVM_SMI);
+             if (ret < 0) {
+@@ -4047,16 +4048,22 @@ void kvm_arch_pre_run(CPUState *cpu, struct kvm_run *run)
+         qemu_mutex_lock_iothread();
+     }
+ 
++    /*
++     * We might have cleared some bits in cpu->interrupt_request since reading
++     * it; read it again.
++     */
++    interrupt_request = cpu_interrupt_request(cpu);
++
+     /* Force the VCPU out of its inner loop to process any INIT requests
+      * or (for userspace APIC, but it is cheap to combine the checks here)
+      * pending TPR access reports.
+      */
+-    if (cpu->interrupt_request & (CPU_INTERRUPT_INIT | CPU_INTERRUPT_TPR)) {
+-        if ((cpu->interrupt_request & CPU_INTERRUPT_INIT) &&
++    if (interrupt_request & (CPU_INTERRUPT_INIT | CPU_INTERRUPT_TPR)) {
++        if ((interrupt_request & CPU_INTERRUPT_INIT) &&
+             !(env->hflags & HF_SMM_MASK)) {
+             cpu->exit_request = 1;
+         }
+-        if (cpu->interrupt_request & CPU_INTERRUPT_TPR) {
++        if (interrupt_request & CPU_INTERRUPT_TPR) {
+             cpu->exit_request = 1;
+         }
+     }
+@@ -4064,7 +4071,7 @@ void kvm_arch_pre_run(CPUState *cpu, struct kvm_run *run)
+     if (!kvm_pic_in_kernel()) {
+         /* Try to inject an interrupt if the guest can accept it */
+         if (run->ready_for_interrupt_injection &&
+-            (cpu->interrupt_request & CPU_INTERRUPT_HARD) &&
++            (interrupt_request & CPU_INTERRUPT_HARD) &&
+             (env->eflags & IF_MASK)) {
+             int irq;
+ 
+@@ -4088,7 +4095,7 @@ void kvm_arch_pre_run(CPUState *cpu, struct kvm_run *run)
+          * interrupt, request an interrupt window exit.  This will
+          * cause a return to userspace as soon as the guest is ready to
+          * receive interrupts. */
+-        if ((cpu->interrupt_request & CPU_INTERRUPT_HARD)) {
++        if ((cpu_interrupt_request(cpu) & CPU_INTERRUPT_HARD)) {
+             run->request_interrupt_window = 1;
+         } else {
+             run->request_interrupt_window = 0;
+@@ -4134,8 +4141,9 @@ int kvm_arch_process_async_events(CPUState *cs)
+ {
+     X86CPU *cpu = X86_CPU(cs);
+     CPUX86State *env = &cpu->env;
++    uint32_t interrupt_request;
+ 
+-    if (cs->interrupt_request & CPU_INTERRUPT_MCE) {
++    if (cpu_interrupt_request(cs) & CPU_INTERRUPT_MCE) {
+         /* We must not raise CPU_INTERRUPT_MCE if it's not supported. */
+         assert(env->mcg_cap);
+ 
+@@ -4158,7 +4166,7 @@ int kvm_arch_process_async_events(CPUState *cs)
+         }
+     }
+ 
+-    if ((cs->interrupt_request & CPU_INTERRUPT_INIT) &&
++    if ((cpu_interrupt_request(cs) & CPU_INTERRUPT_INIT) &&
+         !(env->hflags & HF_SMM_MASK)) {
+         kvm_cpu_synchronize_state(cs);
+         do_cpu_init(cpu);
+@@ -4168,20 +4176,21 @@ int kvm_arch_process_async_events(CPUState *cs)
+         return 0;
+     }
+ 
+-    if (cs->interrupt_request & CPU_INTERRUPT_POLL) {
++    if (cpu_interrupt_request(cs) & CPU_INTERRUPT_POLL) {
+         cpu_reset_interrupt(cs, CPU_INTERRUPT_POLL);
+         apic_poll_irq(cpu->apic_state);
+     }
+-    if (((cs->interrupt_request & CPU_INTERRUPT_HARD) &&
++    interrupt_request = cpu_interrupt_request(cs);
++    if (((interrupt_request & CPU_INTERRUPT_HARD) &&
+          (env->eflags & IF_MASK)) ||
+-        (cs->interrupt_request & CPU_INTERRUPT_NMI)) {
++        (interrupt_request & CPU_INTERRUPT_NMI)) {
+         cpu_halted_set(cs, 0);
+     }
+-    if (cs->interrupt_request & CPU_INTERRUPT_SIPI) {
++    if (interrupt_request & CPU_INTERRUPT_SIPI) {
+         kvm_cpu_synchronize_state(cs);
+         do_cpu_sipi(cpu);
+     }
+-    if (cs->interrupt_request & CPU_INTERRUPT_TPR) {
++    if (cpu_interrupt_request(cs) & CPU_INTERRUPT_TPR) {
+         cpu_reset_interrupt(cs, CPU_INTERRUPT_TPR);
+         kvm_cpu_synchronize_state(cs);
+         apic_handle_tpr_access_report(cpu->apic_state, env->eip,
+@@ -4195,10 +4204,13 @@ static int kvm_handle_halt(X86CPU *cpu)
+ {
      CPUState *cs = CPU(cpu);
      CPUX86State *env = &cpu->env;
-     CPUX86State *save = g_new(CPUX86State, 1);
--    int sipi = cs->interrupt_request & CPU_INTERRUPT_SIPI;
-+    int sipi = cpu_interrupt_request(cs) & CPU_INTERRUPT_SIPI;
++    uint32_t interrupt_request;
++
++    interrupt_request = cpu_interrupt_request(cs);
  
-     *save = *env;
- 
-     cpu_reset(cs);
--    cs->interrupt_request = sipi;
-+    cpu_interrupt_request_set(cs, sipi);
-     memcpy(&env->start_init_save, &save->start_init_save,
-            offsetof(CPUX86State, end_init_save) -
-            offsetof(CPUX86State, start_init_save));
-diff --git a/target/i386/svm_helper.c b/target/i386/svm_helper.c
-index 63eb136743..c739bf0d9c 100644
---- a/target/i386/svm_helper.c
-+++ b/target/i386/svm_helper.c
-@@ -316,7 +316,7 @@ void helper_vmrun(CPUX86State *env, int aflag, int next_eip_addend)
-     if (int_ctl & V_IRQ_MASK) {
-         CPUState *cs = env_cpu(env);
- 
--        cs->interrupt_request |= CPU_INTERRUPT_VIRQ;
-+        cpu_interrupt_request_or(cs, CPU_INTERRUPT_VIRQ);
+-    if (!((cs->interrupt_request & CPU_INTERRUPT_HARD) &&
++    if (!((interrupt_request & CPU_INTERRUPT_HARD) &&
+           (env->eflags & IF_MASK)) &&
+-        !(cs->interrupt_request & CPU_INTERRUPT_NMI)) {
++        !(interrupt_request & CPU_INTERRUPT_NMI)) {
+         cpu_halted_set(cs, 1);
+         return EXCP_HLT;
      }
- 
-     /* maybe we need to inject an event */
-@@ -674,7 +674,7 @@ void do_vmexit(CPUX86State *env, uint32_t exit_code, uint64_t exit_info_1)
-                        env->vm_vmcb + offsetof(struct vmcb, control.int_ctl));
-     int_ctl &= ~(V_TPR_MASK | V_IRQ_MASK);
-     int_ctl |= env->v_tpr & V_TPR_MASK;
--    if (cs->interrupt_request & CPU_INTERRUPT_VIRQ) {
-+    if (cpu_interrupt_request(cs) & CPU_INTERRUPT_VIRQ) {
-         int_ctl |= V_IRQ_MASK;
-     }
-     x86_stl_phys(cs,
 -- 
 2.17.1
 
