@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B2FB1FC764
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 09:29:35 +0200 (CEST)
-Received: from localhost ([::1]:38564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50E991FC757
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 09:27:24 +0200 (CEST)
+Received: from localhost ([::1]:57738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlSVq-0001rd-0L
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 03:29:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40958)
+	id 1jlSTj-0006cu-8v
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 03:27:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jlSSB-0004TB-Nc; Wed, 17 Jun 2020 03:25:47 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:45731)
+ id 1jlSSE-0004ZT-Mg; Wed, 17 Jun 2020 03:25:50 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:42051)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jlSSA-0002Yo-4V; Wed, 17 Jun 2020 03:25:47 -0400
-Received: by mail-wr1-x444.google.com with SMTP id c3so1122972wru.12;
- Wed, 17 Jun 2020 00:25:45 -0700 (PDT)
+ id 1jlSSD-0002aZ-44; Wed, 17 Jun 2020 03:25:50 -0400
+Received: by mail-wr1-x443.google.com with SMTP id p5so1137082wrw.9;
+ Wed, 17 Jun 2020 00:25:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=oKgx3XGZybeg/pFq9unPz0BUDJBMmdl8/2xtj0tVVxk=;
- b=RycNVVxBa4IXNkU5fh6Qx4y3GvSNbDgS0QB+nEch9IcUB6RfgcsQCaZJ4PCzbfwAoe
- WSn51zVf64da0w1iyYLsJ7GGIRyz5pj7WrfU0LzVIDcjB9oIMdjsU8wdjC0Lr6iIVNU5
- e5h/xEoQBRfL7Spw2oEdEY9wjSNEk2Ht5A27nc5VM6Q+7XPqzwFfB/EFlKtuHYjahEXb
- uRvcVN5ui9cR67AsNcRpPEKVb3lZo4Xir7SQgSu5qHkal1z4T8Wqtf/2BxPaHY3ILEWU
- T5kRX9TYygaS3XEd2Jttti3nwt4GQwV+Mjxzp4p43UzYABvKZL/eE3L3xDlpuCQTNXl3
- Rt/g==
+ bh=f5UdY4wcwM/YDfreLoFIdRkVZV4JAe25gaC3NdeFF78=;
+ b=H1IfjuLWQTDg0N99YnplsF4EZGUHHX69/g1UTqIgv/4Ldcb/ndFj1jEWtqU/OKPY8z
+ tgRYlT/3KAWvwU8m1IFr7vCsi+t19ml2pk4Jts0J7ZAZYuGBMo4+KAp0xovEg5wzONlg
+ 5IdduSS3fgCFY9Hraf/RnpBWg+5aC4JeN/zAX+Zhz9oNEU2dzgrY7DruiczuQ/+y5flW
+ z9F/nY+kcFUh4I81Kkp+XU8goTITUFq+vNLRGyBGGqgoeYCCz0aBITTu2AX8kfvtFlVt
+ EtltFpkaL+BPB45JBYlUFNiMEEa+fNCzBvCNmyrhGQiOMd74vcPYnos35T89TPGMkO9T
+ einQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=oKgx3XGZybeg/pFq9unPz0BUDJBMmdl8/2xtj0tVVxk=;
- b=l5ywIf2J/lO94zuugJgA8fPxvzyIlKx950jyLoBTDaZm9ohh9KO8OSqrnxGoduK2j+
- HDM34xJznxRl816NLDUu5EainxjGDvfFTLGlqHxjseVM/t7p46yAN1Bn1o/R2JOko2G3
- XYKNCYK42oWtrjS1fVwdAvOLkrzhU/Xj19zE5CjxiHqYWy9NAUCy9oW5/og71/w/GS/B
- mC0q6+7hoTf5NCNmnQj9Vk6Ff6lIQtjksAnx06kCeMukr509NO07FIiNATQGDHID1rqG
- yf9HHYB+6KvBapSsvLrLOxt+d/iaihkERQdFRiumdqyN+oLC44PqjWh2OO6tyrcZlrGw
- qjeQ==
-X-Gm-Message-State: AOAM532dec8+/piVrWViNro/31Tjpu4vy9cbCwKRfk3DJk5d0gemVdrP
- l974tafXRDiyhxjM+b19XMvaCXje
-X-Google-Smtp-Source: ABdhPJz0/myoakqxeLXUPx0tBtXAy5csVAndFnX9z971EOVIhdhVNobnyzW96xsxO8YAZw7B6vaajg==
-X-Received: by 2002:adf:e3c1:: with SMTP id k1mr6456674wrm.33.1592378744073;
- Wed, 17 Jun 2020 00:25:44 -0700 (PDT)
+ bh=f5UdY4wcwM/YDfreLoFIdRkVZV4JAe25gaC3NdeFF78=;
+ b=DB2oQgJodwF70rA+NSX7uwHIvQ8vsbaFAyYrIUkp9JeStgyx11Y5Mq3h43+Hk//HWF
+ FYjt6kt18VmA77nARFOrYljXvXqEWS7RDmvkR6HeRm8z+cQ9AqAnkS0dNpY+Va9xVnfj
+ 7eB0H/YR3V/6//n8XtBTUP3RhhpaNkDYshgTGa5q1RIjRRKOdO8H4joFMu6TsnxxKyJH
+ Zz5Ck8qYRInq1OwJ6dLtHQdoYJiPTfFfavkpQfrMIIs+Hii4XXI11EUjCNm1Wlhq4cnR
+ /8ojHF/cE6yhNsHSE/t6QNwHiFsBVHhHC8oFrfjJ086ck5Ss+3ZkAmgEmR9wb2paVyai
+ Ouuw==
+X-Gm-Message-State: AOAM533e5a7Re0c9bSbFWe491WXXN+48fF4i0OWWmiGYHG0YfCRKYQxZ
+ nyaabG0AZS/JCEt1No8eKnN5y9II
+X-Google-Smtp-Source: ABdhPJwlhXXUzwNLOdbUx1yRlAlrggodNtho2d5Ml1UGaiOr0f4HmtFgS9ZBTyPXzstsgGb4mMG5jg==
+X-Received: by 2002:adf:c385:: with SMTP id p5mr7084454wrf.409.1592378747212; 
+ Wed, 17 Jun 2020 00:25:47 -0700 (PDT)
 Received: from localhost.localdomain (93.red-83-59-160.dynamicip.rima-tde.net.
  [83.59.160.93])
- by smtp.gmail.com with ESMTPSA id j5sm32894781wrq.39.2020.06.17.00.25.43
+ by smtp.gmail.com with ESMTPSA id j5sm32894781wrq.39.2020.06.17.00.25.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Jun 2020 00:25:43 -0700 (PDT)
+ Wed, 17 Jun 2020 00:25:46 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 02/14] hw/i2c/versatile_i2c: Add definitions for register
- addresses
-Date: Wed, 17 Jun 2020 09:25:27 +0200
-Message-Id: <20200617072539.32686-3-f4bug@amsat.org>
+Subject: [PATCH v3 05/14] hw/arm: Use TYPE_VERSATILE_I2C instead of hardcoded
+ string
+Date: Wed, 17 Jun 2020 09:25:30 +0200
+Message-Id: <20200617072539.32686-6-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200617072539.32686-1-f4bug@amsat.org>
 References: <20200617072539.32686-1-f4bug@amsat.org>
@@ -63,8 +63,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -93,60 +93,80 @@ Cc: Esteban Bosse <estebanbosse@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use self-explicit definitions instead of magic values.
+By using the TYPE_* definitions for devices, we can:
+ - quickly find where devices are used with 'git-grep'
+ - easily rename a device (one-line change).
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/i2c/versatile_i2c.c | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
+ hw/arm/realview.c    | 3 ++-
+ hw/arm/versatilepb.c | 3 ++-
+ hw/arm/vexpress.c    | 3 ++-
+ 3 files changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/hw/i2c/versatile_i2c.c b/hw/i2c/versatile_i2c.c
-index 1ac2a6f59a..040139d701 100644
---- a/hw/i2c/versatile_i2c.c
-+++ b/hw/i2c/versatile_i2c.c
-@@ -24,6 +24,7 @@
- #include "qemu/osdep.h"
- #include "hw/sysbus.h"
- #include "hw/i2c/bitbang_i2c.h"
-+#include "hw/registerfields.h"
- #include "qemu/log.h"
- #include "qemu/module.h"
+diff --git a/hw/arm/realview.c b/hw/arm/realview.c
+index f3c00fe00c..b6c0a1adb9 100644
+--- a/hw/arm/realview.c
++++ b/hw/arm/realview.c
+@@ -26,6 +26,7 @@
+ #include "hw/cpu/a9mpcore.h"
+ #include "hw/intc/realview_gic.h"
+ #include "hw/irq.h"
++#include "hw/i2c/arm_sbcon_i2c.h"
  
-@@ -40,14 +41,19 @@ typedef struct VersatileI2CState {
-     int in;
- } VersatileI2CState;
+ #define SMP_BOOT_ADDR 0xe0000000
+ #define SMP_BOOTREG_ADDR 0x10000030
+@@ -282,7 +283,7 @@ static void realview_init(MachineState *machine,
+         }
+     }
  
-+REG32(CONTROL_GET, 0)
-+REG32(CONTROL_SET, 0)
-+REG32(CONTROL_CLR, 4)
-+
- static uint64_t versatile_i2c_read(void *opaque, hwaddr offset,
-                                    unsigned size)
- {
-     VersatileI2CState *s = (VersatileI2CState *)opaque;
+-    dev = sysbus_create_simple("versatile_i2c", 0x10002000, NULL);
++    dev = sysbus_create_simple(TYPE_VERSATILE_I2C, 0x10002000, NULL);
+     i2c = (I2CBus *)qdev_get_child_bus(dev, "i2c");
+     i2c_create_slave(i2c, "ds1338", 0x68);
  
--    if (offset == 0) {
-+    switch (offset) {
-+    case A_CONTROL_SET:
-         return (s->out & 1) | (s->in << 1);
--    } else {
-+    default:
-         qemu_log_mask(LOG_GUEST_ERROR,
-                       "%s: Bad offset 0x%x\n", __func__, (int)offset);
-         return -1;
-@@ -60,10 +66,10 @@ static void versatile_i2c_write(void *opaque, hwaddr offset,
-     VersatileI2CState *s = (VersatileI2CState *)opaque;
+diff --git a/hw/arm/versatilepb.c b/hw/arm/versatilepb.c
+index 2ebdcbd8ac..e596b8170f 100644
+--- a/hw/arm/versatilepb.c
++++ b/hw/arm/versatilepb.c
+@@ -18,6 +18,7 @@
+ #include "sysemu/sysemu.h"
+ #include "hw/pci/pci.h"
+ #include "hw/i2c/i2c.h"
++#include "hw/i2c/arm_sbcon_i2c.h"
+ #include "hw/irq.h"
+ #include "hw/boards.h"
+ #include "exec/address-spaces.h"
+@@ -314,7 +315,7 @@ static void versatile_init(MachineState *machine, int board_id)
+     /* Add PL031 Real Time Clock. */
+     sysbus_create_simple("pl031", 0x101e8000, pic[10]);
  
-     switch (offset) {
--    case 0:
-+    case A_CONTROL_SET:
-         s->out |= value & 3;
-         break;
--    case 4:
-+    case A_CONTROL_CLR:
-         s->out &= ~value;
-         break;
-     default:
+-    dev = sysbus_create_simple("versatile_i2c", 0x10002000, NULL);
++    dev = sysbus_create_simple(TYPE_VERSATILE_I2C, 0x10002000, NULL);
+     i2c = (I2CBus *)qdev_get_child_bus(dev, "i2c");
+     i2c_create_slave(i2c, "ds1338", 0x68);
+ 
+diff --git a/hw/arm/vexpress.c b/hw/arm/vexpress.c
+index 7ca5d523a4..24d656e653 100644
+--- a/hw/arm/vexpress.c
++++ b/hw/arm/vexpress.c
+@@ -42,6 +42,7 @@
+ #include "hw/char/pl011.h"
+ #include "hw/cpu/a9mpcore.h"
+ #include "hw/cpu/a15mpcore.h"
++#include "hw/i2c/arm_sbcon_i2c.h"
+ 
+ #define VEXPRESS_BOARD_ID 0x8e0
+ #define VEXPRESS_FLASH_SIZE (64 * 1024 * 1024)
+@@ -640,7 +641,7 @@ static void vexpress_common_init(MachineState *machine)
+     sysbus_create_simple("sp804", map[VE_TIMER01], pic[2]);
+     sysbus_create_simple("sp804", map[VE_TIMER23], pic[3]);
+ 
+-    dev = sysbus_create_simple("versatile_i2c", map[VE_SERIALDVI], NULL);
++    dev = sysbus_create_simple(TYPE_VERSATILE_I2C, map[VE_SERIALDVI], NULL);
+     i2c = (I2CBus *)qdev_get_child_bus(dev, "i2c");
+     i2c_create_slave(i2c, "sii9022", 0x39);
+ 
 -- 
 2.21.3
 
