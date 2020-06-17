@@ -2,58 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6C4B1FC942
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 10:52:21 +0200 (CEST)
-Received: from localhost ([::1]:47118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C9061FC8B5
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 10:33:09 +0200 (CEST)
+Received: from localhost ([::1]:35726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlTnw-0006Uo-VW
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 04:52:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60682)
+	id 1jlTVM-0006rt-BE
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 04:33:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jlTn2-0005Sz-9f
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 04:51:24 -0400
-Received: from ozlabs.org ([203.11.71.1]:49005)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jlTmy-0008Ov-C8
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 04:51:24 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 49mzLk49PBz9sSS; Wed, 17 Jun 2020 18:51:10 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1592383870;
- bh=0+FYW3NBWHrTQS0RCZY11LeSU7FhrDKvno8HqAobQ7A=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=HijhXZ4CKWXOBeB3oHpt+/mGJD7+uvgBx2uQAAA8hoKzRUsCrLsHxImls1u490Sp8
- PIdLuzVzVlTi5gyJ+Fh7Yh4sAIQ8XI2uLw0vp7BvbxfVwIn/ZMbxPEiUHyjw3z9LhW
- 1t0rJ7Gxnr3JmwGrNp7Tz2ZQ+xfup3nOYm+gn0Q8=
-Date: Wed, 17 Jun 2020 16:39:56 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: P J P <ppandit@redhat.com>
-Subject: Re: [PATCH 0/6] Add various undefined MMIO r/w functions
-Message-ID: <20200617063956.GA12597@umbus.fritz.box>
-References: <20200617053934.122642-1-ppandit@redhat.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jlTOR-0007df-P8
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 04:25:59 -0400
+Received: from indium.canonical.com ([91.189.90.7]:38586)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jlTOP-0004DJ-3O
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 04:25:59 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jlTOM-0003rA-97
+ for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 08:25:54 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 8F2972E8106
+ for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 08:25:53 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="17pEHd4RhPHOinZp"
-Content-Disposition: inline
-In-Reply-To: <20200617053934.122642-1-ppandit@redhat.com>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/17 04:51:11
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -9
-X-Spam_score: -1.0
-X-Spam_bar: -
-X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 17 Jun 2020 08:19:11 -0000
+From: Laurent Vivier <1883784@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: ppc64le tcg testcase
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: laurent-vivier nemequ
+X-Launchpad-Bug-Reporter: Evan Nemerson (nemequ)
+X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
+References: <159233926606.29237.7012634601262116409.malonedeb@chaenomeles.canonical.com>
+Message-Id: <159238195176.29709.7972509528681903402.malone@chaenomeles.canonical.com>
+Subject: [Bug 1883784] Re: [ppc64le] qemu behavior differs from ppc64le
+ hardware
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="b190cebbf563f89e480a8b57f641753c8196bda0";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 4e79ede54d75fed29f4c69f244cc85002036692e
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/17 04:06:03
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -62,64 +73,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Prasad J Pandit <pjp@fedoraproject.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Lei Sun <slei.casper@gmail.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- =?iso-8859-1?Q?Herv=E9?= Poussineau <hpoussin@reactos.org>,
- Joel Stanley <joel@jms.id.au>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Reply-To: Bug 1883784 <1883784@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Did you try to run it in a qemu-system-ppc64 guest?
+It would help to know if it is a tcg or a linux-user bug.
 
---17pEHd4RhPHOinZp
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+-- =
 
-On Wed, Jun 17, 2020 at 11:09:27AM +0530, P J P wrote:
-> From: Prasad J Pandit <pjp@fedoraproject.org>
->=20
-> Hello,
->=20
-> This series adds various undefined MMIO read/write functions
-> to avoid potential guest crash via a NULL pointer dereference.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1883784
 
-Hrm.  If this is such a common problem, maybe we should just add a
-NULL check in the common paths.
+Title:
+  [ppc64le] qemu behavior differs from ppc64le hardware
 
->=20
-> ex. -> https://git.qemu.org/?p=3Dqemu.git;a=3Dcommit;h=3Dbb15013ef34617eb=
-1344f5276292cadd326c21b2
->=20
-> Thank you.
+Status in QEMU:
+  New
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+Bug description:
+  I have some code which passes my test suite on PPC64LE hardware when
+  compiled with GCC 10, but the saem binary fails with both qemu-ppc64le
+  4.2 (on Fedora 32) and qemu-ppc64le-static 5.0.0 (Debian testing).
 
---17pEHd4RhPHOinZp
-Content-Type: application/pgp-signature; name="signature.asc"
+  I'm not getting any errors about illegal instructions or anything,
+  like that; the results are just silently different on qemu.
 
------BEGIN PGP SIGNATURE-----
+  I've generated a reduced test case, which is attached along with the
+  binaries (both are the same code, one is just statically linked).
+  They should execute successufully on PPC64LE hardware, but on qemu
+  they hit a __builtin_abort (because the computed value doesn't match
+  the expected value).
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl7purkACgkQbDjKyiDZ
-s5LsRxAAkXYwhL1HBOFLEAKJmIZCW04W9UE9P5S8mfNufR6mhukM8/mkI77WaJT6
-3IE8dZrbdmGnY5HVAib4lMF0mEQ/jSv0bjbDedIE4fmr/vPos/5dHme+J1pZ3JqR
-/6wcfJwy0k6aeMZpVVp495173D1wt/BO8LOx5IgWzqIVbiYR6KqC0+IjbUNsE/nE
-73cryPoP2SEKvAyChYdj9kDKDpun6/MiMt7gYMFrW1FeMqV8otsvR2hlcX3oH95n
-xx5MeyVCZv1ESKM6crraHelpkL5xfO8GlQerQjXp4YpxbnYrZKcV3PmqQGvFFs3l
-T1ab8dYiygMOtqdizdmMhGGDkDPOlpHj3JiGPGRuGqxNHIySANNU4TTctOIy0Pkn
-ITmIDCEKMRMYmm+OoJMUqXKNmLABmyo7NPyF2M/gU8cJoOj0Va96tLu5SCfNf4vE
-4pzLT3z6leZbAccISYtAXYFQUDe/w7F/lEH4u2zCtX2uLbgoL5huEAMgvhcKwZXo
-nE6LE/XXaAUcNwy2urVlOVieCsd7gsa5Z6f0GIZrjmIZftzxa8bryA4y1zHdHQpr
-muRl/4uXCy5OjJLwBNG3+hOReGCtUpgL/9BI7OqaxuM4sZfS/umzEJxkN1b7uQi+
-B/ytJFu3HAbI765aaCSs479pDsiTWrgUQhFA4iC1ydglwRAWLUY=
-=fA1d
------END PGP SIGNATURE-----
+  Without being familiar with PPC assembly I'm not sure what else I can
+  do, but if there is anything please let me know.
 
---17pEHd4RhPHOinZp--
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1883784/+subscriptions
 
