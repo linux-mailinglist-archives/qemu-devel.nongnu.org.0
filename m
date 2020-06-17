@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F9401FD7CD
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 23:45:38 +0200 (CEST)
-Received: from localhost ([::1]:46342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7915F1FD7E2
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 23:49:57 +0200 (CEST)
+Received: from localhost ([::1]:36202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlfsH-0004X6-9a
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 17:45:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45912)
+	id 1jlfwS-0004j3-Fd
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 17:49:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=430b82a1d=dmitry.fomichev@wdc.com>)
- id 1jlfhd-0003bS-KE; Wed, 17 Jun 2020 17:34:37 -0400
-Received: from esa1.hgst.iphmx.com ([68.232.141.245]:29844)
+ id 1jlfhh-0003jc-02; Wed, 17 Jun 2020 17:34:41 -0400
+Received: from esa1.hgst.iphmx.com ([68.232.141.245]:29831)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=430b82a1d=dmitry.fomichev@wdc.com>)
- id 1jlfhb-0005Dr-6a; Wed, 17 Jun 2020 17:34:37 -0400
+ id 1jlfhc-0005By-QC; Wed, 17 Jun 2020 17:34:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1592429674; x=1623965674;
+ t=1592429676; x=1623965676;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=TP+9GhGC6V6UFGFXIelPM1rn6ry/YJFB4JIxShesYoU=;
- b=J5xilHuK4Xa9GshogIYdN3eKBuqLoSPPNaRxZXPjk7kemrldNuPSGO+I
- NnsjHpcbqsEAIyN8Oo2bUUsrcjqWo3phEMvtIv0DHa8uNQteqSBEy+6cE
- TuD7cYVuc27cQ4xLVvXTeyFDiFVYy/dc4ADwqHYSOWZlccXsAv9AYtkOL
- MIAkuUu1V60VN2c5O+2NC5wczydU8KxjfRc4FU5z07aR0VbyQLB/trp8z
- YN1cYxiV8//mmPeT9bFN3lILjijS+v62dmUZwVnu45pUBpjxzLwp0gYGQ
- BH0KPgq0kNDvUvMBWx8VHm6+gLxOx/Qo1lqR+GkdRipOLTNNMVvXpHhhO A==;
-IronPort-SDR: SiUu3anDmdA9i+gWIdXzQBPpu9MnHba6kZuWixSWlUNPxn5CegNUbNkcD/0duRwtXbiaE+ZhcQ
- Ul6xOSUxpdpmU3dfGIAKiyg9Rs1CLwKYfMAtQuobkfBhYDb09Ys7qRQ59a0Ts2RwD51mVLkh6y
- iRrlO5zurqo1CNpRM4j2EZ6IA7euesVza7c+LbPQGs1PiU/5/hfjN49ALRB/XOuMEYOECwMtbN
- AWMGh4a6j0z92TP1XckwbcKeDHAzrsc3a4DjX3lEFoDIsmQIZBSC8jCbnkRj56jeKhdj3UW2c0
- d/w=
-X-IronPort-AV: E=Sophos;i="5.73,523,1583164800"; d="scan'208";a="249439789"
+ bh=VW+dI6TvAaMrKKR91glOG79oHU+lmwb39OiAXEN/4fk=;
+ b=TqT7SBJxVtcEqPn95bK4p3c+0RYoiKCn32X9rqKF6FubTRoZ86WARHKF
+ Vn23ogHj99b73pZtu5Bmzwu+EUfNhZ58hG/S5Z0Z5xE2tC+vczhI5w68Q
+ sFePvoZiwCETJ0j99tUsDS6QhDXhVxbxLgPtIimha6JMIWXy29OBVwYA0
+ aUZ/kuyfiopOPyYBOSkoG57QJZ1S5p1IIwXsU2onpe9agruDC4XBHRmWE
+ LazbRQ1OklmFcgnWpyf4nOkJF10ArVyvo5S916obd3woN7ScLD5okuziI
+ 5TsPGi2DojEwc0SZpAj3TqXQKZuKPs1gfxzSCLK/P8PA3q1Av6QLhv75o Q==;
+IronPort-SDR: LcFcDANmQvIHdO6cRadgp9TNRkXGwY5AGL+EILAerRzou+WJJx6KpB0yaEp/5EBe5KUiywoTfc
+ 7pec73PpXKWzfMQ/TzPHDCCHj9WFWF+0uTURKSV+iwgK+9MRAFKQBJUfzxBaS1ke5/bU56dfnG
+ wHZSQcTxXNzQFJ6656k5NXJbSnAY0W7GWzsLhpna6IiZyWM0gkN1BYvA9Iw1iCaUaB+oluFFF9
+ 0j23JY8eIrK8ih+Chje1poBnKv2MJ9IzKWcd/nseSeD3qWgXYqCzAkA1p1jxomB5IeI4f6vGC7
+ uz4=
+X-IronPort-AV: E=Sophos;i="5.73,523,1583164800"; d="scan'208";a="249439792"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 18 Jun 2020 05:34:31 +0800
-IronPort-SDR: Uj8dOHpAczLcaCzxqw5+YJNuDL+cJHDAL+tJsFGZ7TZApaInAxCkjtNgu2BhzsMPJn900UkCYW
- 7QAFmkt1xXCDhMRr88cxtj/QBayDo/2t8=
+ by ob1.hgst.iphmx.com with ESMTP; 18 Jun 2020 05:34:33 +0800
+IronPort-SDR: DE3CKNVxw/HIDJZEAfRfiQzuBXgLzOBZl57R7wQNmxCjQqwFKJZiKuvQ9ioyugZ1oZT0avkfBa
+ GhbbyIzhmLne0OWFLSb/o9PF3rE5mkC9o=
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jun 2020 14:23:12 -0700
-IronPort-SDR: h00Lh9Ktzk6vEIDdrED3Zl3dCtUJB1Xf2OJVU0xaRcnHowMxE6Kpa0xww+y4IZ4b5Mk3CrrNqP
- PVYGpqpsGkWQ==
+ 17 Jun 2020 14:23:14 -0700
+IronPort-SDR: PVyZEXqMhpOlCrTi2nPGHvEkOBSuZj5CskZFLEuomzUdCVbQXApSte5ZFlyYihDHrPjFNwsOWe
+ jKJ7L1Wsbj/g==
 WDCIronportException: Internal
 Received: from unknown (HELO redsun50.ssa.fujisawa.hgst.com) ([10.149.66.24])
- by uls-op-cesaip02.wdc.com with ESMTP; 17 Jun 2020 14:34:30 -0700
+ by uls-op-cesaip02.wdc.com with ESMTP; 17 Jun 2020 14:34:31 -0700
 From: Dmitry Fomichev <dmitry.fomichev@wdc.com>
 To: Kevin Wolf <kwolf@redhat.com>, Keith Busch <kbusch@kernel.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Maxim Levitsky <mlevitsky@redhat.com>
-Subject: [PATCH v2 02/18] hw/block/nvme: Define 64 bit cqe.result
-Date: Thu, 18 Jun 2020 06:33:59 +0900
-Message-Id: <20200617213415.22417-3-dmitry.fomichev@wdc.com>
+Subject: [PATCH v2 03/18] hw/block/nvme: Clean up unused AER definitions
+Date: Thu, 18 Jun 2020 06:34:00 +0900
+Message-Id: <20200617213415.22417-4-dmitry.fomichev@wdc.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200617213415.22417-1-dmitry.fomichev@wdc.com>
 References: <20200617213415.22417-1-dmitry.fomichev@wdc.com>
@@ -92,93 +92,95 @@ Cc: Niklas Cassel <niklas.cassel@wdc.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Ajay Joshi <ajay.joshi@wdc.com>
+Removed unused struct NvmeAerResult and SMART-related async event
+codes. All other event codes are now categorized by their type.
+This avoids having to define the same values in a single enum,
+NvmeAsyncEventRequest, that is now removed.
 
-A new write command, Zone Append, is added as a part of Zoned
-Namespace Command Set. Upon successful completion of this command,
-the controller returns the start LBA of the performed write operation
-in cqe.result field. Therefore, the maximum size of this variable
-needs to be changed from 32 to 64 bit, consuming the reserved 32 bit
-field that follows the result in CQE struct. Since the existing
-commands are expected to return a 32 bit LE value, two separate
-variables, result32 and result64, are now kept in a union.
+Later commits in this series will define additional values in some
+of these enums. No functional change.
 
-Signed-off-by: Ajay Joshi <ajay.joshi@wdc.com>
 Signed-off-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
 ---
- block/nvme.c         | 2 +-
- block/trace-events   | 2 +-
- hw/block/nvme.c      | 6 +++---
- include/block/nvme.h | 6 ++++--
- 4 files changed, 9 insertions(+), 7 deletions(-)
+ hw/block/nvme.h      |  1 -
+ include/block/nvme.h | 43 ++++++++++++++++++++++---------------------
+ 2 files changed, 22 insertions(+), 22 deletions(-)
 
-diff --git a/block/nvme.c b/block/nvme.c
-index eb2f54dd9d..ca245ec574 100644
---- a/block/nvme.c
-+++ b/block/nvme.c
-@@ -287,7 +287,7 @@ static inline int nvme_translate_error(const NvmeCqe *c)
- {
-     uint16_t status = (le16_to_cpu(c->status) >> 1) & 0xFF;
-     if (status) {
--        trace_nvme_error(le32_to_cpu(c->result),
-+        trace_nvme_error(le64_to_cpu(c->result64),
-                          le16_to_cpu(c->sq_head),
-                          le16_to_cpu(c->sq_id),
-                          le16_to_cpu(c->cid),
-diff --git a/block/trace-events b/block/trace-events
-index 29dff8881c..05c1393943 100644
---- a/block/trace-events
-+++ b/block/trace-events
-@@ -156,7 +156,7 @@ vxhs_get_creds(const char *cacert, const char *client_key, const char *client_ce
- # nvme.c
- nvme_kick(void *s, int queue) "s %p queue %d"
- nvme_dma_flush_queue_wait(void *s) "s %p"
--nvme_error(int cmd_specific, int sq_head, int sqid, int cid, int status) "cmd_specific %d sq_head %d sqid %d cid %d status 0x%x"
-+nvme_error(uint64_t cmd_specific, int sq_head, int sqid, int cid, int status) "cmd_specific %ld sq_head %d sqid %d cid %d status 0x%x"
- nvme_process_completion(void *s, int index, int inflight) "s %p queue %d inflight %d"
- nvme_process_completion_queue_busy(void *s, int index) "s %p queue %d"
- nvme_complete_command(void *s, int index, int cid) "s %p queue %d cid %d"
-diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 3ed9f3d321..a1bbc9acde 100644
---- a/hw/block/nvme.c
-+++ b/hw/block/nvme.c
-@@ -823,7 +823,7 @@ static uint16_t nvme_get_feature(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
-         return NVME_INVALID_FIELD | NVME_DNR;
-     }
+diff --git a/hw/block/nvme.h b/hw/block/nvme.h
+index 0460cc0e62..4f0dac39ae 100644
+--- a/hw/block/nvme.h
++++ b/hw/block/nvme.h
+@@ -13,7 +13,6 @@ typedef struct NvmeParams {
  
--    req->cqe.result = result;
-+    req->cqe.result32 = result;
-     return NVME_SUCCESS;
- }
+ typedef struct NvmeAsyncEvent {
+     QSIMPLEQ_ENTRY(NvmeAsyncEvent) entry;
+-    NvmeAerResult result;
+ } NvmeAsyncEvent;
  
-@@ -859,8 +859,8 @@ static uint16_t nvme_set_feature(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
-                                     ((dw11 >> 16) & 0xFFFF) + 1,
-                                     n->params.max_ioqpairs,
-                                     n->params.max_ioqpairs);
--        req->cqe.result = cpu_to_le32((n->params.max_ioqpairs - 1) |
--                                      ((n->params.max_ioqpairs - 1) << 16));
-+        req->cqe.result32 = cpu_to_le32((n->params.max_ioqpairs - 1) |
-+                                        ((n->params.max_ioqpairs - 1) << 16));
-         break;
-     case NVME_TIMESTAMP:
-         return nvme_set_feature_timestamp(n, cmd);
+ enum NvmeRequestFlags {
 diff --git a/include/block/nvme.h b/include/block/nvme.h
-index 1720ee1d51..9c3a04dcd7 100644
+index 9c3a04dcd7..3099df99eb 100644
 --- a/include/block/nvme.h
 +++ b/include/block/nvme.h
-@@ -577,8 +577,10 @@ typedef struct NvmeAerResult {
- } NvmeAerResult;
+@@ -553,28 +553,30 @@ typedef struct NvmeDsmRange {
+     uint64_t    slba;
+ } NvmeDsmRange;
+ 
+-enum NvmeAsyncEventRequest {
+-    NVME_AER_TYPE_ERROR                     = 0,
+-    NVME_AER_TYPE_SMART                     = 1,
+-    NVME_AER_TYPE_IO_SPECIFIC               = 6,
+-    NVME_AER_TYPE_VENDOR_SPECIFIC           = 7,
+-    NVME_AER_INFO_ERR_INVALID_SQ            = 0,
+-    NVME_AER_INFO_ERR_INVALID_DB            = 1,
+-    NVME_AER_INFO_ERR_DIAG_FAIL             = 2,
+-    NVME_AER_INFO_ERR_PERS_INTERNAL_ERR     = 3,
+-    NVME_AER_INFO_ERR_TRANS_INTERNAL_ERR    = 4,
+-    NVME_AER_INFO_ERR_FW_IMG_LOAD_ERR       = 5,
+-    NVME_AER_INFO_SMART_RELIABILITY         = 0,
+-    NVME_AER_INFO_SMART_TEMP_THRESH         = 1,
+-    NVME_AER_INFO_SMART_SPARE_THRESH        = 2,
++enum NvmeAsyncEventType {
++    NVME_AER_TYPE_ERROR                     = 0x00,
++    NVME_AER_TYPE_SMART                     = 0x01,
++    NVME_AER_TYPE_NOTICE                    = 0x02,
++    NVME_AER_TYPE_CMDSET_SPECIFIC           = 0x06,
++    NVME_AER_TYPE_VENDOR_SPECIFIC           = 0x07,
+ };
+ 
+-typedef struct NvmeAerResult {
+-    uint8_t event_type;
+-    uint8_t event_info;
+-    uint8_t log_page;
+-    uint8_t resv;
+-} NvmeAerResult;
++enum NvmeAsyncErrorInfo {
++    NVME_AER_ERR_INVALID_SQ                 = 0x00,
++    NVME_AER_ERR_INVALID_DB                 = 0x01,
++    NVME_AER_ERR_DIAG_FAIL                  = 0x02,
++    NVME_AER_ERR_PERS_INTERNAL_ERR          = 0x03,
++    NVME_AER_ERR_TRANS_INTERNAL_ERR         = 0x04,
++    NVME_AER_ERR_FW_IMG_LOAD_ERR            = 0x05,
++};
++
++enum NvmeAsyncNoticeInfo {
++    NVME_AER_NOTICE_NS_CHANGED              = 0x00,
++};
++
++enum NvmeAsyncEventCfg {
++    NVME_AEN_CFG_NS_ATTR                    = 1 << 8,
++};
  
  typedef struct NvmeCqe {
--    uint32_t    result;
--    uint32_t    rsvd;
-+    union {
-+        uint64_t     result64;
-+        uint32_t     result32;
-+    };
-     uint16_t    sq_head;
-     uint16_t    sq_id;
-     uint16_t    cid;
+     union {
+@@ -881,7 +883,6 @@ enum NvmeIdNsDps {
+ 
+ static inline void _nvme_check_size(void)
+ {
+-    QEMU_BUILD_BUG_ON(sizeof(NvmeAerResult) != 4);
+     QEMU_BUILD_BUG_ON(sizeof(NvmeCqe) != 16);
+     QEMU_BUILD_BUG_ON(sizeof(NvmeDsmRange) != 16);
+     QEMU_BUILD_BUG_ON(sizeof(NvmeCmd) != 64);
 -- 
 2.21.0
 
