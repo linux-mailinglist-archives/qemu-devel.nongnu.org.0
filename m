@@ -2,42 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5EBB1FCECF
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 15:49:21 +0200 (CEST)
-Received: from localhost ([::1]:56786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A34D1FCEBF
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 15:44:59 +0200 (CEST)
+Received: from localhost ([::1]:48598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlYRM-0001D3-Sf
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 09:49:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54198)
+	id 1jlYN7-0005N2-Q1
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 09:44:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jlYNV-000609-6l; Wed, 17 Jun 2020 09:45:21 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:64285)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jlYNR-0006w2-RQ; Wed, 17 Jun 2020 09:45:20 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 1BB877475FA;
- Wed, 17 Jun 2020 15:45:06 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 9D06E7482D3; Wed, 17 Jun 2020 15:45:05 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-Date: Wed, 17 Jun 2020 15:36:29 +0200
-Subject: [PATCH 2/2] scripts/tracetool: Add plainlog backend
-To: qemu-devel@nongnu.org
-Message-Id: <20200617134505.9D06E7482D3@zero.eik.bme.hu>
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -8
-X-Spam_score: -0.9
-X-Spam_bar: /
-X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, PP_MIME_FAKE_ASCII_TEXT=1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ (Exim 4.90_1) (envelope-from <guilherme.piccoli@canonical.com>)
+ id 1jlYMF-0004rx-Hv
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 09:44:03 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:54407)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_CBC_SHA1:128)
+ (Exim 4.90_1) (envelope-from <guilherme.piccoli@canonical.com>)
+ id 1jlYMD-0006dF-E4
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 09:44:03 -0400
+Received: from mail-ej1-f71.google.com ([209.85.218.71])
+ by youngberry.canonical.com with esmtps
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
+ (envelope-from <guilherme.piccoli@canonical.com>) id 1jlYMA-0001IQ-Si
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 13:43:59 +0000
+Received: by mail-ej1-f71.google.com with SMTP id j27so1047210ejo.11
+ for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 06:43:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=a/mA0I2ObU2+S0p52HianOSA+6II4kqYo9nkDgagWAY=;
+ b=TZwsKbIN5I85E4I0lECBb09IMwberbw12M/e6fUtKCMDHcE9524f/FODuK1hyGJz4t
+ zKkAhHO0jkq7R0zff1p+uWqWRIk1G4Hy/+/SzoStj1rMt3C0Gw8Hy4EJVcGGWBCWlQXw
+ jaVqGz1/HW1pnPSV8Z4Uf7cJmJGEHOFzVX5bBK9K8R5BE2gGhYIyGHoRqFNisXYiTLPJ
+ 637IHR1mfKkK+kxoY/GZ/mwUWI/YGn7p9WTHhH84aHU/2AqPab/zslAV92wr2PIns4E3
+ N/kaOkNTVfTievLXwbI5P08NyNKLAxvLjA2wK3HFoaQZAIrPzgS2ShgESvaETadF0RnS
+ vQFA==
+X-Gm-Message-State: AOAM533wH/7INiq8/sqZXS6rHi8i6TGT+/VLhRLJfaEaIbQAurim+zKp
+ uvbPpzR/a6eKQLF+24RXvfQ4WiEjE2W1ZtESN5a48KT5Iw+4PaSgOo6YdaUguLlVm1q7uwkD8Pa
+ KVP5Q3PfPx/i1/qS/thiqxHh/Mz2jbIlcL2MqZEssklCJgj+a
+X-Received: by 2002:a05:6402:1776:: with SMTP id
+ da22mr7531180edb.84.1592401438502; 
+ Wed, 17 Jun 2020 06:43:58 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyTDS73SgPSHwLVuWDo/naAhDnvwYUBWY0+SmpfP04AiywhRD1r6siY69XfXKeHWMhC7KH4hpy7xkSS8FUEoY0=
+X-Received: by 2002:a05:6402:1776:: with SMTP id
+ da22mr7531154edb.84.1592401438289; 
+ Wed, 17 Jun 2020 06:43:58 -0700 (PDT)
+MIME-Version: 1.0
+References: <99779e9c-f05f-501b-b4be-ff719f140a88@canonical.com>
+ <20200616165043.24y2cp53axk7uggy@sirius.home.kraxel.org>
+ <20200616165746.GH2788@work-vm>
+ <CAHD1Q_zGu4Q63HjHx3aZKu3wh8NppuP6T4kgnUN3j=-ZDufVZA@mail.gmail.com>
+ <b423f4a4-2552-bdc8-7c9f-41f200aef672@redhat.com>
+In-Reply-To: <b423f4a4-2552-bdc8-7c9f-41f200aef672@redhat.com>
+From: Guilherme Piccoli <gpiccoli@canonical.com>
+Date: Wed, 17 Jun 2020 10:43:22 -0300
+Message-ID: <CAHD1Q_zmTatErCefeh349sSYsQJUVT3KB+VMDheEgBn5r7QGjA@mail.gmail.com>
+Subject: Re: ovmf / PCI passthrough impaired due to very limiting PCI64
+ aperture
+To: Laszlo Ersek <lersek@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: none client-ip=91.189.89.112;
+ envelope-from=guilherme.piccoli@canonical.com; helo=youngberry.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/17 09:43:59
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -50,74 +83,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Pedro Principeza <pedro.principeza@canonical.com>, ehabkost@redhat.com,
+ Dann Frazier <dann.frazier@canonical.com>, qemu-devel@nongnu.org,
+ Christian Ehrhardt <christian.ehrhardt@canonical.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, fw@gpiccoli.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a backend that is the same as the log backend but omits the
-process id and timestamp so logs are easier to read and diff-able.
+Thanks a lot for all the responses here! Very constructive discussion =)
+Comments inline!
 
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
----
- scripts/tracetool/backend/plainlog.py | 48 +++++++++++++++++++++++++++
- 1 file changed, 48 insertions(+)
- create mode 100644 scripts/tracetool/backend/plainlog.py
+On Wed, Jun 17, 2020 at 10:22 AM Laszlo Ersek <lersek@redhat.com> wrote:
+> [...]
+> If QEMU can provide a *reliable* GPA width, in some info channel (CPUID
+> or even fw_cfg), then the above calculation could be reversed in OVMF.
+> We could take the width as a given (-> produce the CPU HOB directly),
+> plus calculate the *remaining* address space between the GPA space size
+> given by the width, and the end of the memory hotplug area end. If the
+> "remaining size" were negative, then obviously QEMU would have been
+> misconfigured, so we'd halt the boot. Otherwise, the remaining area
+> could be used as PCI64 MMIO aperture...
 
-diff --git a/scripts/tracetool/backend/plainlog.py b/scripts/tracetool/backend/plainlog.py
-new file mode 100644
-index 0000000000..40bbfa6d76
---- /dev/null
-+++ b/scripts/tracetool/backend/plainlog.py
-@@ -0,0 +1,48 @@
-+# -*- coding: utf-8 -*-
-+
-+"""
-+Stderr built-in backend, plain log without proc ID and time.
-+"""
-+
-+__author__     = "Lluís Vilanova <vilanova@ac.upc.edu>"
-+__copyright__  = "Copyright 2012-2017, Lluís Vilanova <vilanova@ac.upc.edu>"
-+__license__    = "GPL version 2 or (at your option) any later version"
-+
-+__maintainer__ = "Stefan Hajnoczi"
-+__email__      = "stefanha@linux.vnet.ibm.com"
-+
-+
-+from tracetool import out
-+
-+
-+PUBLIC = True
-+
-+
-+def generate_h_begin(events, group):
-+    out('#include "qemu/log-for-trace.h"',
-+        '')
-+
-+
-+def generate_h(event, group):
-+    argnames = ", ".join(event.args.names())
-+    if len(event.args) > 0:
-+        argnames = ", " + argnames
-+
-+    if "vcpu" in event.properties:
-+        # already checked on the generic format code
-+        cond = "true"
-+    else:
-+        cond = "trace_event_get_state(%s)" % ("TRACE_" + event.name.upper())
-+
-+    out('    if (%(cond)s && qemu_loglevel_mask(LOG_TRACE)) {',
-+        '        qemu_log("%(name)s " %(fmt)s "\\n" %(argnames)s);',
-+        '    }',
-+        cond=cond,
-+        name=event.name,
-+        fmt=event.fmt.rstrip("\n"),
-+        argnames=argnames)
-+
-+
-+def generate_h_backend_dstate(event, group):
-+    out('    trace_event_get_state_dynamic_by_id(%(event_id)s) || \\',
-+        event_id="TRACE_" + event.name.upper())
--- 
-2.21.3
+That was *exactly* the way I was considering, but without the right
+terminology due to my lack of experience in this topic heheh
+Thanks for the great summary of the idea! I was considering fw_cfg,
+but can be CPUID too, let me know what is the "trendy" way to do that.
+So, the only problem with that refactor you're proposing is the
+retrocompatibility with qemu versions, as I can anticipate cases in
+which newer OVMF runs with older qemu, which does not provide such
+trustworth physbits info. So, the code may be a bit complex, it'll
+need to take into account this case (probably we could just rely on
+the physbits "detected" by OVMF in such case, limiting PCI64 aperture
+to the current 36-bits, right?).
 
+
+> (PEI memory footprint of DXE page tables be darned).
+LOL
+
+Cheers,
+Guilherme
 
