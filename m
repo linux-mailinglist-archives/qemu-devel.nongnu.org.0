@@ -2,76 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6222F1FD0CC
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 17:22:16 +0200 (CEST)
-Received: from localhost ([::1]:47464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70E031FD103
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 17:30:06 +0200 (CEST)
+Received: from localhost ([::1]:39990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlZtH-0001BL-FN
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 11:22:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51582)
+	id 1jla0r-0001k1-Hy
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 11:30:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1jlZk7-0002P1-TY; Wed, 17 Jun 2020 11:12:47 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:37586)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1jlZk6-0007B0-D6; Wed, 17 Jun 2020 11:12:47 -0400
-Received: by mail-wr1-x442.google.com with SMTP id a6so774874wrm.4;
- Wed, 17 Jun 2020 08:12:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=VVmcwQqcqsnfwV++or82zXFkixv3Ic9j45fRPzZ1wgk=;
- b=o+Q6PLvzHrjAwhnkEn7OrdBhtz9bUiL/LcfcAkawgrqjlNgRcYw7sHisCWyriksfWd
- josM8D4qgkVSjU2h+zpHqFhRrv4MrVeEMM09vfNxZcOVXx+SregghVN4iZyi/WBtQeCc
- 6kTvwf6hGL4g5vDnpt2JgT5Qa5sxgJYv1vwQsGvYaUuEcpUp/Jx8pPOFdicNk973+DK1
- 8gCpksRHVvRwcxCf/Xxo0xcep7uOhh6r7ZHvfiejJk6SFcGpaMJTUOWd1iMuo3OOxSV0
- honsgQrVRVVfwyIP3wLQk9YY10vYAVkW2I/BUciMdAoyjQxoXWuVU55xRNmkDzbx10oE
- PpBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=VVmcwQqcqsnfwV++or82zXFkixv3Ic9j45fRPzZ1wgk=;
- b=Nx5olbHwPWJY+Dw3supl2QKSZKUzZH0etdMhd+Usutz6eKUNYE56/xJb3uQPeJfC95
- 8DqkBN2sN02T8/RocVXo7ZU6y9/7ud2X+Ve7MDRirl/A4Gb02Ifx06xvo3Y5o7HUVLm4
- qw9hgl9ziI3ELlP6oxsYfi81nr//zsYMmVMFvHF6KuBKIOxLzoQsa/4rsVj2PraS7c/5
- gHrBixXnj02jsWeNK5mY8v6HB63vd9C89TF2kuUI+C9xz8a7gffNAnMbiWw04oUspDU5
- QHWctcjUsLVLM7r+Qw1xMpuRVg3IccTr9gQOs/zRxHmxgSAEGQwp/F/1RaK6+hTljWLp
- FwLA==
-X-Gm-Message-State: AOAM533vfjrxrksfk/TBL5HXjJdCbGwDUKI/OY+DTvB8+OcOhJV1PHpO
- TbAnwU2XcULHf34aWLjD2GE=
-X-Google-Smtp-Source: ABdhPJx6Gu8KhbRy0Cz24GeuLrGIgVbaubDna00E+kKpMt/qJKxblIfvRJ6Dem7ZW7a8nQtIYOsGFw==
-X-Received: by 2002:adf:f2c2:: with SMTP id d2mr8650242wrp.424.1592406764489; 
- Wed, 17 Jun 2020 08:12:44 -0700 (PDT)
-Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id p7sm34376447wro.26.2020.06.17.08.12.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Jun 2020 08:12:41 -0700 (PDT)
-Date: Wed, 17 Jun 2020 16:12:40 +0100
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Lukas Straub <lukasstraub2@web.de>
-Subject: Re: [PATCH v4 1/4] Introduce yank feature
-Message-ID: <20200617151240.GM1728005@stefanha-x1.localdomain>
-References: <cover.1590421341.git.lukasstraub2@web.de>
- <dc2724aead900db8fb3bed0a066f7c7e2654edb0.1590421341.git.lukasstraub2@web.de>
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jlZlu-00060p-Nl
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 11:14:38 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:51586
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jlZlq-0007Po-OO
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 11:14:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1592406872;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=O7Uk/7F93+FHFsQpPMo/nZyyBxlJ26ZdBdpoCXTYzGA=;
+ b=Tx+Ht37oH7egXJkOXk4V2Dw6IBkbtts5fSDeR1UxMNrZnr/xARejzKPT+qsHYZQ07MfCtg
+ p3Ha2jzvY5ZN0jh6Z6KcLuhDTAcqx9//KzYa3PNL1DusVJaVuToJa+qUixxUSNCtP3Qb3r
+ 3/hy9/CG8rwKLJUALkEq4/UZyw+pYAM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-351-uTj1U3g5OMSxuMZiCrA2SQ-1; Wed, 17 Jun 2020 11:14:23 -0400
+X-MC-Unique: uTj1U3g5OMSxuMZiCrA2SQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 468F91185F82;
+ Wed, 17 Jun 2020 15:14:22 +0000 (UTC)
+Received: from [10.3.112.27] (ovpn-112-27.phx2.redhat.com [10.3.112.27])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B90485D9DA;
+ Wed, 17 Jun 2020 15:14:21 +0000 (UTC)
+Subject: Re: [PATCH v2] qcow2: Fix preallocation on images with unaligned sizes
+To: Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org
+References: <20200617140036.20311-1-berto@igalia.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <b9138a23-96c6-ef71-f75a-ff302fda4570@redhat.com>
+Date: Wed, 17 Jun 2020 10:14:21 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="lbQeYSs6J2ITmUo7"
-Content-Disposition: inline
-In-Reply-To: <dc2724aead900db8fb3bed0a066f7c7e2654edb0.1590421341.git.lukasstraub2@web.de>
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=stefanha@gmail.com; helo=mail-wr1-x442.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+In-Reply-To: <20200617140036.20311-1-berto@igalia.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=eblake@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/17 01:42:04
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,41 +81,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- qemu-block <qemu-block@nongnu.org>, Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 6/17/20 9:00 AM, Alberto Garcia wrote:
+> When resizing an image with qcow2_co_truncate() using the falloc or
+> full preallocation modes the code assumes that both the old and new
+> sizes are cluster-aligned.
+> 
+> There are two problems with this:
+> 
+>    1) The calculation of how many clusters are involved does not always
+>       get the right result.
+> 
+>       Example: creating a 60KB image and resizing it (with
+>       preallocation=full) to 80KB won't allocate the second cluster.
+> 
+>    2) No copy-on-write is performed, so in the previous example if
+>       there is a backing file then the first 60KB of the first cluster
+>       won't be filled with data from the backing file.
+> 
+> This patch fixes both issues.
+> 
+> Signed-off-by: Alberto Garcia <berto@igalia.com>
+> ---
+> v2: iotests: don't check the image size if data_file is set [Max]
+> 
 
---lbQeYSs6J2ITmUo7
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
-On Mon, May 25, 2020 at 05:44:23PM +0200, Lukas Straub wrote:
-> +static struct YankInstance *yank_find_instance(char *name)
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
-There are const char * -> char * casts in later patches. Please use
-const char * where possible. Callers shouldn't need to cast away const.
-
---lbQeYSs6J2ITmUo7
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl7qMugACgkQnKSrs4Gr
-c8jdaQgAieUMf4lNYjUEhSjICVFKSg0Y4mIh5zPEPM0mqtsC9TQU6lkCuE+TZxBE
-BaCw3a4ys1MKS6TSCtGBUWFnOMVR9W7zz2lLUH8NOb1iy9sN0OxfkixA8Expv3lg
-Xz1dJ0fmbbOAhshfO0fiZP331VdyWvurfrNOCD8Ghb9Y26etB7LsY1G5g8UAnZJJ
-QT1qeI+LYViWHwYN12jQdHjWU5Hx4387x6nmce/w6cM+IxAl7tnVQbQWi3g/lQSD
-qGinVy9NtSZJEslQYO4hlgggiUnvoeaFnvymmPEQOG+VRps8Jr/ujlLZx1vXOFlX
-kg2/IFZXyG5eelhtrplmcFUXKEaC4w==
-=a+dZ
------END PGP SIGNATURE-----
-
---lbQeYSs6J2ITmUo7--
 
