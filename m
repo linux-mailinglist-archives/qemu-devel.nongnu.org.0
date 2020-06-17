@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F4EC1FD4B9
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 20:42:22 +0200 (CEST)
-Received: from localhost ([::1]:56962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28AD31FD4AD
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 20:39:32 +0200 (CEST)
+Received: from localhost ([::1]:47838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jld0v-0000m0-GB
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 14:42:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51586)
+	id 1jlcyB-0005NR-0i
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 14:39:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jlcwg-0003X8-Ua
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 14:37:58 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:41773
- helo=us-smtp-1.mimecast.com)
+ id 1jlcwl-0003gD-4J
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 14:38:03 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:47105
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jlcwe-00089H-W8
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 14:37:58 -0400
+ id 1jlcwj-00089v-GI
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 14:38:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592419076;
+ s=mimecast20190719; t=1592419080;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=k6gS0XpUEexvKH9TWdrCUd6VNkzeKsuPrPQa4iYz43E=;
- b=SDY0LSf+XxWiENy6Pe5xPBc6KY3nSn+y4vlqreEF2o8LORm28vgDfZ1gx5pbVU+n1Pk/+k
- NqhBlgZniLt19ybBTPlynByrPsVuX0A+XW+eGYvOgKLwF/33vYG7E1BAf5OeGSsdnmAJL6
- q1AP1fHpl/tlaUNt6Yyh76vOPwZx2uY=
+ bh=8qJMdRHOjNP0k/cnguCGjmnvk+lL+y3mR0ev/Km7cfE=;
+ b=Cj3ySBIQ4/3YCugrMlnMqnV3bBYLXqtDKqmQ+E3y+zk6WeLSlCK6yUcoORamkp1e5UABXX
+ IyZVcN/TsNWL8O/fLNYW+2y3zmC+yjEueV8a1gGrcQGyuWIlh0ovMVbwlmTKZU3k9Wggq5
+ gbm1tP5zYZHvAJa1iW3B3fKL/7r6t+s=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-429-oAWPekAIPY2l4DXGWHHdyw-1; Wed, 17 Jun 2020 14:37:54 -0400
-X-MC-Unique: oAWPekAIPY2l4DXGWHHdyw-1
+ us-mta-427-VPS1HNybMjyK2mxOv6Idig-1; Wed, 17 Jun 2020 14:37:58 -0400
+X-MC-Unique: VPS1HNybMjyK2mxOv6Idig-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F318A8015CB;
- Wed, 17 Jun 2020 18:37:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 86B97BFC0;
+ Wed, 17 Jun 2020 18:37:57 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-115-47.ams2.redhat.com
  [10.36.115.47])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4A03B5EE0E;
- Wed, 17 Jun 2020 18:37:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4A88B5EE0E;
+ Wed, 17 Jun 2020 18:37:53 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, david@redhat.com, lvivier@redhat.com,
  maozhongyi@cmss.chinamobile.com, mreitz@redhat.com, pannengyuan@huawei.com
-Subject: [PULL 05/12] tests/migration: fix unreachable path in stress test
-Date: Wed, 17 Jun 2020 19:37:26 +0100
-Message-Id: <20200617183733.186168-6-dgilbert@redhat.com>
+Subject: [PULL 06/12] monitor/hmp-cmds: add units for migrate_parameters
+Date: Wed, 17 Jun 2020 19:37:27 +0100
+Message-Id: <20200617183733.186168-7-dgilbert@redhat.com>
 In-Reply-To: <20200617183733.186168-1-dgilbert@redhat.com>
 References: <20200617183733.186168-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -58,16 +58,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/17 01:42:04
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/17 01:42:42
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,70 +87,59 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mao Zhongyi <maozhongyi@cmss.chinamobile.com>
 
-If stressone() or stress() exits it's because of a failure
-because the test runs forever otherwise, so change stressone
-and stress type to void to make the exit_failure() as the exit
-function of main().
+When running:
+(qemu) info migrate_parameters
+announce-initial: 50 ms
+announce-max: 550 ms
+announce-step: 100 ms
+compress-wait-thread: on
+...
+max-bandwidth: 33554432 bytes/second
+downtime-limit: 300 milliseconds
+x-checkpoint-delay: 20000
+...
+xbzrle-cache-size: 67108864
+
+add units for the parameters 'x-checkpoint-delay' and
+'xbzrle-cache-size', it's easier to read, also move
+milliseconds to ms to keep the same style.
 
 Signed-off-by: Mao Zhongyi <maozhongyi@cmss.chinamobile.com>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20200603080904.997083-3-maozhongyi@cmss.chinamobile.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+Message-Id: <20200603080904.997083-4-maozhongyi@cmss.chinamobile.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- tests/migration/stress.c | 13 +++++--------
- 1 file changed, 5 insertions(+), 8 deletions(-)
+ monitor/hmp-cmds.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/tests/migration/stress.c b/tests/migration/stress.c
-index f9626d50ee..a062ef6b55 100644
---- a/tests/migration/stress.c
-+++ b/tests/migration/stress.c
-@@ -167,7 +167,7 @@ static unsigned long long now(void)
-     return (tv.tv_sec * 1000ull) + (tv.tv_usec / 1000ull);
- }
- 
--static int stressone(unsigned long long ramsizeMB)
-+static void stressone(unsigned long long ramsizeMB)
- {
-     size_t pagesPerMB = 1024 * 1024 / PAGE_SIZE;
-     g_autofree char *ram = g_malloc(ramsizeMB * 1024 * 1024);
-@@ -186,7 +186,7 @@ static int stressone(unsigned long long ramsizeMB)
-     memset(ram, 0xfe, ramsizeMB * 1024 * 1024);
- 
-     if (random_bytes(data, PAGE_SIZE) < 0) {
--        return -1;
-+        return;
-     }
- 
-     before = now();
-@@ -225,7 +225,7 @@ static void *stressthread(void *arg)
-     return NULL;
- }
- 
--static int stress(unsigned long long ramsizeGB, int ncpus)
-+static void stress(unsigned long long ramsizeGB, int ncpus)
- {
-     size_t i;
-     unsigned long long ramsizeMB = ramsizeGB * 1024 / ncpus;
-@@ -238,8 +238,6 @@ static int stress(unsigned long long ramsizeGB, int ncpus)
-     }
- 
-     stressone(ramsizeMB);
--
--    return 0;
- }
- 
- 
-@@ -335,8 +333,7 @@ int main(int argc, char **argv)
-     fprintf(stdout, "%s (%05d): INFO: RAM %llu GiB across %d CPUs\n",
-             argv0, gettid(), ramsizeGB, ncpus);
- 
--    if (stress(ramsizeGB, ncpus) < 0)
--        exit_failure();
-+    stress(ramsizeGB, ncpus);
- 
--    exit_success();
-+    exit_failure();
- }
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index e03adf0d4d..2c630ec88d 100644
+--- a/monitor/hmp-cmds.c
++++ b/monitor/hmp-cmds.c
+@@ -443,11 +443,11 @@ void hmp_info_migrate_parameters(Monitor *mon, const QDict *qdict)
+             MigrationParameter_str(MIGRATION_PARAMETER_MAX_BANDWIDTH),
+             params->max_bandwidth);
+         assert(params->has_downtime_limit);
+-        monitor_printf(mon, "%s: %" PRIu64 " milliseconds\n",
++        monitor_printf(mon, "%s: %" PRIu64 " ms\n",
+             MigrationParameter_str(MIGRATION_PARAMETER_DOWNTIME_LIMIT),
+             params->downtime_limit);
+         assert(params->has_x_checkpoint_delay);
+-        monitor_printf(mon, "%s: %u\n",
++        monitor_printf(mon, "%s: %u ms\n",
+             MigrationParameter_str(MIGRATION_PARAMETER_X_CHECKPOINT_DELAY),
+             params->x_checkpoint_delay);
+         assert(params->has_block_incremental);
+@@ -460,7 +460,7 @@ void hmp_info_migrate_parameters(Monitor *mon, const QDict *qdict)
+         monitor_printf(mon, "%s: %s\n",
+             MigrationParameter_str(MIGRATION_PARAMETER_MULTIFD_COMPRESSION),
+             MultiFDCompression_str(params->multifd_compression));
+-        monitor_printf(mon, "%s: %" PRIu64 "\n",
++        monitor_printf(mon, "%s: %" PRIu64 " bytes\n",
+             MigrationParameter_str(MIGRATION_PARAMETER_XBZRLE_CACHE_SIZE),
+             params->xbzrle_cache_size);
+         monitor_printf(mon, "%s: %" PRIu64 "\n",
 -- 
 2.26.2
 
