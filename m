@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 724701FC75F
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 09:28:30 +0200 (CEST)
-Received: from localhost ([::1]:33746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B2FB1FC764
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 09:29:35 +0200 (CEST)
+Received: from localhost ([::1]:38564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlSUn-0008KT-DM
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 03:28:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40944)
+	id 1jlSVq-0001rd-0L
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 03:29:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jlSSA-0004RM-Cy; Wed, 17 Jun 2020 03:25:46 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:55175)
+ id 1jlSSB-0004TB-Nc; Wed, 17 Jun 2020 03:25:47 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:45731)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jlSS8-0002Y6-TJ; Wed, 17 Jun 2020 03:25:46 -0400
-Received: by mail-wm1-x343.google.com with SMTP id g10so794389wmh.4;
- Wed, 17 Jun 2020 00:25:44 -0700 (PDT)
+ id 1jlSSA-0002Yo-4V; Wed, 17 Jun 2020 03:25:47 -0400
+Received: by mail-wr1-x444.google.com with SMTP id c3so1122972wru.12;
+ Wed, 17 Jun 2020 00:25:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=BVuLqYtrt8uBmV3Fe5GFgsc46Ji8iMLXSf7RHd88kek=;
- b=GPlx6IzHGYH3NeCHlM+gcHWjqm7pIIwQRisVevA6wjEEhj44wSMsiJDOnuktCyfA64
- 7xWdBBZQyMCKMb92x1a9lPgTeHQGHNvKavsQ2LZTxygOoRy/G0WSaKlsBV82oe18Dwf5
- GHB3gr8N5/LEH4xr5pBE0eNsrzt/C2chjn55F1naJjwhxAI3nwFAfvJ/+BaqidH7O4xZ
- GcHC3v9uAY5phUBmIQ43SiGRij6ah0fGgtblb28ta3uqZhfSI941BymVV0OTSpD/KWD9
- /UxNBtr5z4FOOmlJlwBTDm7RIniQGEVvF18KjvVLc2UfCrBfvAEiQY+Rw1J52/lttwv8
- BkcA==
+ bh=oKgx3XGZybeg/pFq9unPz0BUDJBMmdl8/2xtj0tVVxk=;
+ b=RycNVVxBa4IXNkU5fh6Qx4y3GvSNbDgS0QB+nEch9IcUB6RfgcsQCaZJ4PCzbfwAoe
+ WSn51zVf64da0w1iyYLsJ7GGIRyz5pj7WrfU0LzVIDcjB9oIMdjsU8wdjC0Lr6iIVNU5
+ e5h/xEoQBRfL7Spw2oEdEY9wjSNEk2Ht5A27nc5VM6Q+7XPqzwFfB/EFlKtuHYjahEXb
+ uRvcVN5ui9cR67AsNcRpPEKVb3lZo4Xir7SQgSu5qHkal1z4T8Wqtf/2BxPaHY3ILEWU
+ T5kRX9TYygaS3XEd2Jttti3nwt4GQwV+Mjxzp4p43UzYABvKZL/eE3L3xDlpuCQTNXl3
+ Rt/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=BVuLqYtrt8uBmV3Fe5GFgsc46Ji8iMLXSf7RHd88kek=;
- b=nwYl/ZPouKJjcbgiIBnUBOZh5HxLZBAKGTlrQ6bAye92bHiR2hcLnRB6KBXTYWN4Jm
- zobIPCbqF8qhesFGyHQZZyEA0quMzth/vYUjwbfMiw9nAdD+sb29UTjwKwqG9o5402r4
- X0uqdsvo5VeOAPFdQ0SY5N3wJLejdfm9EeZrSjgtZW/+Cnr04mgbPf0oIw20LYgzdqhn
- y071nyjV0VIg/e622Y3ugonwOSDd/DBiO9AKeBR8T/maQ2aIcN3YjtWC+wUOgSNLlUJQ
- XjoyRJh8WFDUXl6wHdPfF88qrjuHkpq3P8kSg/x2bO2/MUedMT666s2AsfUa25GaZZU3
- PwtA==
-X-Gm-Message-State: AOAM532eQbIZVvPJAQmR9hecURaUEqIYW/C2i8asWtoRJBsc05o+nSZ8
- uHKTKnaG5Z+nghehyuMulAhVC4Kn
-X-Google-Smtp-Source: ABdhPJxze/9lr4q2RaOvBpC2cU1N096/wOjR91InrmCPEz5DwKspG92uhq8c0D9nw3fBY0vsHK+A1Q==
-X-Received: by 2002:a1c:bd84:: with SMTP id n126mr6660098wmf.149.1592378743056; 
- Wed, 17 Jun 2020 00:25:43 -0700 (PDT)
+ bh=oKgx3XGZybeg/pFq9unPz0BUDJBMmdl8/2xtj0tVVxk=;
+ b=l5ywIf2J/lO94zuugJgA8fPxvzyIlKx950jyLoBTDaZm9ohh9KO8OSqrnxGoduK2j+
+ HDM34xJznxRl816NLDUu5EainxjGDvfFTLGlqHxjseVM/t7p46yAN1Bn1o/R2JOko2G3
+ XYKNCYK42oWtrjS1fVwdAvOLkrzhU/Xj19zE5CjxiHqYWy9NAUCy9oW5/og71/w/GS/B
+ mC0q6+7hoTf5NCNmnQj9Vk6Ff6lIQtjksAnx06kCeMukr509NO07FIiNATQGDHID1rqG
+ yf9HHYB+6KvBapSsvLrLOxt+d/iaihkERQdFRiumdqyN+oLC44PqjWh2OO6tyrcZlrGw
+ qjeQ==
+X-Gm-Message-State: AOAM532dec8+/piVrWViNro/31Tjpu4vy9cbCwKRfk3DJk5d0gemVdrP
+ l974tafXRDiyhxjM+b19XMvaCXje
+X-Google-Smtp-Source: ABdhPJz0/myoakqxeLXUPx0tBtXAy5csVAndFnX9z971EOVIhdhVNobnyzW96xsxO8YAZw7B6vaajg==
+X-Received: by 2002:adf:e3c1:: with SMTP id k1mr6456674wrm.33.1592378744073;
+ Wed, 17 Jun 2020 00:25:44 -0700 (PDT)
 Received: from localhost.localdomain (93.red-83-59-160.dynamicip.rima-tde.net.
  [83.59.160.93])
- by smtp.gmail.com with ESMTPSA id j5sm32894781wrq.39.2020.06.17.00.25.41
+ by smtp.gmail.com with ESMTPSA id j5sm32894781wrq.39.2020.06.17.00.25.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Jun 2020 00:25:42 -0700 (PDT)
+ Wed, 17 Jun 2020 00:25:43 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 01/14] hw/watchdog/cmsdk-apb-watchdog: Add trace event for
- lock status
-Date: Wed, 17 Jun 2020 09:25:26 +0200
-Message-Id: <20200617072539.32686-2-f4bug@amsat.org>
+Subject: [PATCH v3 02/14] hw/i2c/versatile_i2c: Add definitions for register
+ addresses
+Date: Wed, 17 Jun 2020 09:25:27 +0200
+Message-Id: <20200617072539.32686-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200617072539.32686-1-f4bug@amsat.org>
 References: <20200617072539.32686-1-f4bug@amsat.org>
@@ -63,8 +63,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -93,35 +93,60 @@ Cc: Esteban Bosse <estebanbosse@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a trace event to see when a guest disable/enable the watchdog.
+Use self-explicit definitions instead of magic values.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/watchdog/cmsdk-apb-watchdog.c | 1 +
- hw/watchdog/trace-events         | 1 +
- 2 files changed, 2 insertions(+)
+ hw/i2c/versatile_i2c.c | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
-diff --git a/hw/watchdog/cmsdk-apb-watchdog.c b/hw/watchdog/cmsdk-apb-watchdog.c
-index 1541365914..5bbadadfa6 100644
---- a/hw/watchdog/cmsdk-apb-watchdog.c
-+++ b/hw/watchdog/cmsdk-apb-watchdog.c
-@@ -225,6 +225,7 @@ static void cmsdk_apb_watchdog_write(void *opaque, hwaddr offset,
+diff --git a/hw/i2c/versatile_i2c.c b/hw/i2c/versatile_i2c.c
+index 1ac2a6f59a..040139d701 100644
+--- a/hw/i2c/versatile_i2c.c
++++ b/hw/i2c/versatile_i2c.c
+@@ -24,6 +24,7 @@
+ #include "qemu/osdep.h"
+ #include "hw/sysbus.h"
+ #include "hw/i2c/bitbang_i2c.h"
++#include "hw/registerfields.h"
+ #include "qemu/log.h"
+ #include "qemu/module.h"
+ 
+@@ -40,14 +41,19 @@ typedef struct VersatileI2CState {
+     int in;
+ } VersatileI2CState;
+ 
++REG32(CONTROL_GET, 0)
++REG32(CONTROL_SET, 0)
++REG32(CONTROL_CLR, 4)
++
+ static uint64_t versatile_i2c_read(void *opaque, hwaddr offset,
+                                    unsigned size)
+ {
+     VersatileI2CState *s = (VersatileI2CState *)opaque;
+ 
+-    if (offset == 0) {
++    switch (offset) {
++    case A_CONTROL_SET:
+         return (s->out & 1) | (s->in << 1);
+-    } else {
++    default:
+         qemu_log_mask(LOG_GUEST_ERROR,
+                       "%s: Bad offset 0x%x\n", __func__, (int)offset);
+         return -1;
+@@ -60,10 +66,10 @@ static void versatile_i2c_write(void *opaque, hwaddr offset,
+     VersatileI2CState *s = (VersatileI2CState *)opaque;
+ 
+     switch (offset) {
+-    case 0:
++    case A_CONTROL_SET:
+         s->out |= value & 3;
          break;
-     case A_WDOGLOCK:
-         s->lock = (value != WDOG_UNLOCK_VALUE);
-+        trace_cmsdk_apb_watchdog_lock(s->lock);
+-    case 4:
++    case A_CONTROL_CLR:
+         s->out &= ~value;
          break;
-     case A_WDOGITCR:
-         if (s->is_luminary) {
-diff --git a/hw/watchdog/trace-events b/hw/watchdog/trace-events
-index ab94d7df50..3124ca1f1b 100644
---- a/hw/watchdog/trace-events
-+++ b/hw/watchdog/trace-events
-@@ -4,3 +4,4 @@
- cmsdk_apb_watchdog_read(uint64_t offset, uint64_t data, unsigned size) "CMSDK APB watchdog read: offset 0x%" PRIx64 " data 0x%" PRIx64 " size %u"
- cmsdk_apb_watchdog_write(uint64_t offset, uint64_t data, unsigned size) "CMSDK APB watchdog write: offset 0x%" PRIx64 " data 0x%" PRIx64 " size %u"
- cmsdk_apb_watchdog_reset(void) "CMSDK APB watchdog: reset"
-+cmsdk_apb_watchdog_lock(uint32_t lock) "CMSDK APB watchdog: lock %" PRIu32
+     default:
 -- 
 2.21.3
 
