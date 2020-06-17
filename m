@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17BB61FD6DD
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 23:15:43 +0200 (CEST)
-Received: from localhost ([::1]:52544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B0F41FD728
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 23:25:48 +0200 (CEST)
+Received: from localhost ([::1]:60358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlfPK-0006w8-39
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 17:15:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37574)
+	id 1jlfZ5-00066y-D8
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 17:25:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jlfEB-0003Oi-Um
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 17:04:11 -0400
-Received: from mail-qt1-x844.google.com ([2607:f8b0:4864:20::844]:43959)
+ id 1jlfED-0003SI-EW
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 17:04:13 -0400
+Received: from mail-qt1-x844.google.com ([2607:f8b0:4864:20::844]:41175)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jlfEA-00005O-0p
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 17:04:11 -0400
-Received: by mail-qt1-x844.google.com with SMTP id v19so301336qtq.10
- for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 14:04:09 -0700 (PDT)
+ id 1jlfEB-00005t-8F
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 17:04:13 -0400
+Received: by mail-qt1-x844.google.com with SMTP id w90so2749980qtd.8
+ for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 14:04:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=OzUdSzbvDHrAdBgz7T3QQ9Qj/8hER0zlUjzEzhKy+Cs=;
- b=FXuMrH/ayFieQeNBk58pBYu631HqHSlzSzfND2T+mxHfKeUhQVTf3u8CJd2e9tPV5L
- ki1uVigHNioK4v6sTW7g1KGdY7sCT/FuxItCNa/SmM+hnc6L7WpLGbbzUX3/Gfkbqkwh
- 6Bqw4zuOZpBlFas1ci0kqwt8xTXBaIs1CATSNfaJYdT61mUBiCYj0fxsTa0uQ47z1GoH
- YMxzb+k7L6kFvZnTKOY6FLhAiyKALfCBUknuAXfUnG2Usg7XheyXZilfOeJXMWqrk3Dp
- g5MdItvGr3bvtnbcpTQ60Wxj32vDgbd7pbJt59G5hqnZK1neKhA5Dtl3RE1mrW9bxy35
- QqVQ==
+ bh=UAoGpC+tFU+Lrmci3F+3S0Zh/4YRyJd+sLsoLGG3MBc=;
+ b=GyJ/jnNzWFStVefIGozuSYyimRxYRgtyThR8wWWfcLxMxTgodWUbTNsJm7+K6Gk/jt
+ Swkd65jaLs9BIyGmf19466GvogyyztH+CozDC/Yte5nSHy0Nc48vCEFBTBESqoVBh1Yz
+ VJrfQqCdgSOOiIX/wIuXEmdALEyCro5PgiGD1bfanKbIg7upgrfvHzwxb3cVt/+SXiQq
+ DsRayPIPVCe8tJ6bsHuL4oTi2q60Bvn6YaJvRU/ejBME1KoGFLKpVYxcMX3Jxv2x2D3Z
+ Zommg/zn4c9xSlxqActFrbyX0CF40LU5I6RTnHXCzm6E28z8wfAzlP0lomBbZxgeuq/G
+ yX2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=OzUdSzbvDHrAdBgz7T3QQ9Qj/8hER0zlUjzEzhKy+Cs=;
- b=uXzeDlphY5uaM3xVw9jpuAweAL8rDPQmd8jPSzHwXk+7iea9HAlaIJbpkpLSCQlQQw
- toXEVzPUNx7ysJe4fUcorsGqZ3igO05y8a1S+uzIaIZORbE4zrN224hTaJEQ/0PXELv3
- +x7PZpkqJ7K4XXKWeLo75gSe7RyuGiqgBrkcBPkRvSY5y7VmLvREj/IlwTjCkTwkjkfE
- UhC4KkmQcWoGvD8imT5CodC/J6lJm9wA/NiYEPMuDGf7JJGK3ILoGBjDUQr+jpjIlV59
- 80QbbkyIrrf9KcKooLlHLQkyINK3cRHZ2U9iK0rF+zsgKhgXX06lnPQ4VFM1cBWx3O1G
- QIxg==
-X-Gm-Message-State: AOAM5325A1P7nFlcXdYbVVJrTeDMLr/ZtMm4LW1zJUR69kbjimrbhZuW
- X4CazGkklfF4pL+yEEQmcZZ4PzzDpxMlxw==
-X-Google-Smtp-Source: ABdhPJyF16sG7NBWpMntU37cYM/KPisBoMQLSRvrWGinFdgmeLhsWdNSr+DC3UzuzyILis+im0HDUg==
-X-Received: by 2002:ac8:341a:: with SMTP id u26mr1164523qtb.36.1592427848788; 
- Wed, 17 Jun 2020 14:04:08 -0700 (PDT)
+ bh=UAoGpC+tFU+Lrmci3F+3S0Zh/4YRyJd+sLsoLGG3MBc=;
+ b=LI4pNEsDl2mFDVd1ZzF6vYEa/g7m1lBF5vShVPac1S60UEoaslVz3oO1ydEjfvNoaV
+ Zb4PhdSYbAjoqJradlrWb8vA+vFrUj2detdwODifSxOa2bcAYndFi0BsAWuvu+idZ+Ek
+ xpN4jT5ICfT1xcpgvAEjDvFs/86GIHiuXjLFj/bO7UHZ502gmmWqZrDuFLwLE2oH7g9R
+ 344AgJ2luTuBTolO/RIVTjyfvqSEXGd2MiTn1Yd5e4D0lE5vmTR7PDFwdZamOB5YP15O
+ Qn5dJM5fD4v2xavUixucsUJDjJDoFj4zVvjMeyWSuF3RSj+sUdiIEzG4M9QN/4mAvlXn
+ ZVIg==
+X-Gm-Message-State: AOAM5300Pj+7jxhWfjwRPFXMb4zl6jToFcdtkBNpLp2HjRtbQfmjdGzn
+ pUBlV6h267prwyEEDdkveMhSAiTYcsmjjw==
+X-Google-Smtp-Source: ABdhPJzwqD3fbpvBkGjredjWWtP1MVsaFqx1+8dr68eOHTjcOCHfO4/UbmyDCveBrHzUw3sou+F/gw==
+X-Received: by 2002:ac8:6edb:: with SMTP id f27mr1039501qtv.325.1592427850072; 
+ Wed, 17 Jun 2020 14:04:10 -0700 (PDT)
 Received: from Rfoley-MA01.hsd1.ma.comcast.net
  ([2601:199:4480:60c0:fc79:714c:9711:2e9c])
- by smtp.gmail.com with ESMTPSA id w13sm997245qkb.91.2020.06.17.14.04.07
+ by smtp.gmail.com with ESMTPSA id w13sm997245qkb.91.2020.06.17.14.04.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Jun 2020 14:04:08 -0700 (PDT)
+ Wed, 17 Jun 2020 14:04:09 -0700 (PDT)
 From: Robert Foley <robert.foley@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v10 36/73] s390x: use cpu_reset_interrupt
-Date: Wed, 17 Jun 2020 17:01:54 -0400
-Message-Id: <20200617210231.4393-37-robert.foley@linaro.org>
+Subject: [PATCH v10 37/73] openrisc: use cpu_reset_interrupt
+Date: Wed, 17 Jun 2020 17:01:55 -0400
+Message-Id: <20200617210231.4393-38-robert.foley@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200617210231.4393-1-robert.foley@linaro.org>
 References: <20200617210231.4393-1-robert.foley@linaro.org>
@@ -86,41 +86,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, robert.foley@linaro.org,
- David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- qemu-s390x@nongnu.org, cota@braap.org, Paolo Bonzini <pbonzini@redhat.com>,
- peter.puhov@linaro.org, alex.bennee@linaro.org,
- Richard Henderson <rth@twiddle.net>
+Cc: robert.foley@linaro.org, cota@braap.org,
+ Paolo Bonzini <pbonzini@redhat.com>, peter.puhov@linaro.org,
+ Stafford Horne <shorne@gmail.com>, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Paolo Bonzini <pbonzini@redhat.com>
 
-Cc: qemu-s390x@nongnu.org
-Reviewed-by: David Hildenbrand <david@redhat.com>
+Cc: Stafford Horne <shorne@gmail.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Emilio G. Cota <cota@braap.org>
 Signed-off-by: Robert Foley <robert.foley@linaro.org>
 ---
- target/s390x/excp_helper.c | 2 +-
+ target/openrisc/sys_helper.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/s390x/excp_helper.c b/target/s390x/excp_helper.c
-index db6640ba2c..dde7afc2f0 100644
---- a/target/s390x/excp_helper.c
-+++ b/target/s390x/excp_helper.c
-@@ -530,7 +530,7 @@ try_deliver:
+diff --git a/target/openrisc/sys_helper.c b/target/openrisc/sys_helper.c
+index 2615571ce7..e54c148d4f 100644
+--- a/target/openrisc/sys_helper.c
++++ b/target/openrisc/sys_helper.c
+@@ -167,7 +167,7 @@ void HELPER(mtspr)(CPUOpenRISCState *env, target_ulong spr, target_ulong rb)
+                 env->ttmr = (rb & ~TTMR_IP) | ip;
+             } else {    /* Clear IP bit.  */
+                 env->ttmr = rb & ~TTMR_IP;
+-                cs->interrupt_request &= ~CPU_INTERRUPT_TIMER;
++                cpu_reset_interrupt(cs, CPU_INTERRUPT_TIMER);
+             }
  
-     /* we might still have pending interrupts, but not deliverable */
-     if (!env->pending_int && !qemu_s390_flic_has_any(flic)) {
--        cs->interrupt_request &= ~CPU_INTERRUPT_HARD;
-+        cpu_reset_interrupt(cs, CPU_INTERRUPT_HARD);
-     }
- 
-     /* WAIT PSW during interrupt injection or STOP interrupt */
+             cpu_openrisc_timer_update(cpu);
 -- 
 2.17.1
 
