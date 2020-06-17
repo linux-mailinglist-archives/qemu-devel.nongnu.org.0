@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EDBE1FD761
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 23:34:47 +0200 (CEST)
-Received: from localhost ([::1]:33140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F7AF1FD75F
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 23:34:18 +0200 (CEST)
+Received: from localhost ([::1]:58954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlfhm-0002Yx-IO
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 17:34:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37706)
+	id 1jlfhJ-0001Xp-E2
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 17:34:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37750)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jlfEL-0003m7-Qt
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 17:04:21 -0400
-Received: from mail-qk1-x743.google.com ([2607:f8b0:4864:20::743]:40510)
+ id 1jlfEO-0003sy-JJ
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 17:04:24 -0400
+Received: from mail-qk1-x743.google.com ([2607:f8b0:4864:20::743]:45364)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jlfEJ-0000Fo-Ux
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 17:04:21 -0400
-Received: by mail-qk1-x743.google.com with SMTP id c185so3483114qke.7
- for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 14:04:19 -0700 (PDT)
+ id 1jlfEL-0000I2-LR
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 17:04:24 -0400
+Received: by mail-qk1-x743.google.com with SMTP id q8so3451448qkm.12
+ for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 14:04:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=wUXpbIr+0XemeXbqwPqj4NV/3r6BPUZk1p9TVsxJgTg=;
- b=IIdMlYj5yz2hWu4Xu65YBgLkXmLNVn53G+Psk1HqPR8Xtmbp8BKjaVRLHHypSUisy0
- uYX5S8/EIT7N3R/bSAmiOtHIeTD9ziTNjrHil/DKIr3Cf2JoxSKAINsrVS907rcVf7Oe
- iRJ6Sx3RZBkmYlblx77/Vgw9TT2BzwDKOfEolv90yQpzyQKhtRfmLMav5SgBQ6mNHHTn
- kY3EiNTOmi7pwTe9P/SQfl6Q0vPG7yLVVoIq+9vNTg8/dlUSholu7XIKu7eLB/X2imrx
- 7o2dmoi9NQl/AsHqRJYbMRnbdz0ouHLvTwzoCIkLNWEQXHP+uxarEJGTfEwokGqaDWRT
- 11xw==
+ bh=otzI+vAMFZo6kJ+xiIJJ7YKSc6bvWOvFds+iAtOJpdU=;
+ b=S8T0vdim/sT9wr1S5Vdr7TX0r1CXRya8L+qIoKGAskCjcFuyN1of8xNkjvDSanleBb
+ p+8m3n3GQ9LKqAn5Rg7ZZUXhe89Jrlqlnu1ir2QSoH+oFHY4TheQigQUMzjuE5kgG1AQ
+ zjrFI2eMvIQ5tFZJ4PQ2rTcOLnr6el8s3iYTdKwlPR3BtFVbM6yXg6iT0Bnh7lQ30eTV
+ 0RZ4bmJvkT/BOD0bBUKmOtD/UCtE4Kmvdc+RkwAMtEN+DIl6Uo2/z8K0SOW9lW3a1+yD
+ hkdEhzyb4eQXjzI25Me8swEawHHYYdsFFYuu9UWqp8D/NO2RWRprqTEkltdOhh/3/RWr
+ 7vgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=wUXpbIr+0XemeXbqwPqj4NV/3r6BPUZk1p9TVsxJgTg=;
- b=Pjy7bF4tK7ljaLz5AiMdUY9dGQ37WBvqvw8P9AfKgTaL++miAxtbJR6lsVfuuTeP2P
- 0ZuiKRxQaW70rBK/hn2+RYPFNiikVL23fXAfK4CCOaRCCo/J6nKBItpzWWS9G4U2Hnmg
- n76evqWDno55ZI3FsO735ou2sHLkxWPFq0JAuDAxBkl4cag9jMSjugyu5tVmY07j0vvR
- Vga0MAolwIX0u2cjrZaXoctRQMKIcsD4jy2LuAZtdGBrCaabIYovLuAsur358aax9NXF
- +PB5kVVr6Qn3mqkckyE/A2WnNVgKeDh+wmOkFoPTM5PMnwsxwGydx7pjkP3VMI7KXPz+
- 3mkA==
-X-Gm-Message-State: AOAM532CpO3QWfAUfBhLH0OrBB+LuVnv9bNGRacD5iOgTgpfCsfxEDmO
- B1oLnCU3mEjBUTW7DDtqDguKSUbdo9dqFQ==
-X-Google-Smtp-Source: ABdhPJzCjfVejbCftVoxD5957JzHtAXgmn73ipiE0ckSMEa0PkW99IKvqhB4pdzt9LJu/LaQxFTEWg==
-X-Received: by 2002:a05:620a:14b8:: with SMTP id
- x24mr534431qkj.284.1592427858837; 
- Wed, 17 Jun 2020 14:04:18 -0700 (PDT)
+ bh=otzI+vAMFZo6kJ+xiIJJ7YKSc6bvWOvFds+iAtOJpdU=;
+ b=ZgUt0F0/50ddJYq/GwDRA6tMIHXz7WL8c9lrds+9CXnbaILzMhBc4J7fhCfDc1+8VY
+ SLZG1DRGQQc2lHpdVaws/AsoEPM31YjqID4TwHMdItZ1rkoaVaEhNbdZ0wiX84vEENPR
+ AwL97kLH1pcjqIdGFcOtLgvfdFEXRuJdGNYi64Ztbky+vEZj0bMeiry92UCzqLEUlaIs
+ XxyM5pWkNKBIgrLNWvBzhJpDhlKyf34ov8RSA7Duc4CKE0UKOjBcYUfBt3pJ6aUvsHdY
+ uxga3/v0KUOsWdcPK4OVM+DfQGPxPgJocsIgtqdUfycUP2TuzaxePV5bU1IU/YhpQnhw
+ vS8Q==
+X-Gm-Message-State: AOAM533Nq79T5ssop9AI2ky82qiXtyg5Gg5exPAmJe8kiVoIDz8vcYMr
+ mphqWAz9oBx7heL4Ue/tsG39CzxibU+p+Q==
+X-Google-Smtp-Source: ABdhPJz2pEF6XfP5oxWKDDHm+CNN+oDD54jtlq9KimO3MMniYQUkAoqEeC4hSOGIu6237ww6MiQ0TQ==
+X-Received: by 2002:a37:d246:: with SMTP id f67mr575324qkj.300.1592427860391; 
+ Wed, 17 Jun 2020 14:04:20 -0700 (PDT)
 Received: from Rfoley-MA01.hsd1.ma.comcast.net
  ([2601:199:4480:60c0:fc79:714c:9711:2e9c])
- by smtp.gmail.com with ESMTPSA id w13sm997245qkb.91.2020.06.17.14.04.17
+ by smtp.gmail.com with ESMTPSA id w13sm997245qkb.91.2020.06.17.14.04.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Jun 2020 14:04:18 -0700 (PDT)
+ Wed, 17 Jun 2020 14:04:19 -0700 (PDT)
 From: Robert Foley <robert.foley@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v10 43/73] i386/hvf: convert to cpu_request_interrupt
-Date: Wed, 17 Jun 2020 17:02:01 -0400
-Message-Id: <20200617210231.4393-44-robert.foley@linaro.org>
+Subject: [PATCH v10 44/73] ppc: convert to cpu_interrupt_request
+Date: Wed, 17 Jun 2020 17:02:02 -0400
+Message-Id: <20200617210231.4393-45-robert.foley@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200617210231.4393-1-robert.foley@linaro.org>
 References: <20200617210231.4393-1-robert.foley@linaro.org>
@@ -84,132 +83,133 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: robert.foley@linaro.org, Eduardo Habkost <ehabkost@redhat.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, cota@braap.org,
+ Roman Bolshakov <r.bolshakov@yadro.com>, cota@braap.org, qemu-ppc@nongnu.org,
  Paolo Bonzini <pbonzini@redhat.com>, peter.puhov@linaro.org,
- alex.bennee@linaro.org, Richard Henderson <rth@twiddle.net>
+ Richard Henderson <rth@twiddle.net>, alex.bennee@linaro.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Emilio G. Cota" <cota@braap.org>
 
+Cc: qemu-ppc@nongnu.org
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Acked-by: David Gibson <david@gibson.dropbear.id.au>
 Signed-off-by: Emilio G. Cota <cota@braap.org>
+[RF: Minor adjustment for new code in hvf_inject_interrupts]
 Signed-off-by: Robert Foley <robert.foley@linaro.org>
 ---
- target/i386/hvf/hvf.c    |  8 +++++---
- target/i386/hvf/x86hvf.c | 26 +++++++++++++++-----------
- 2 files changed, 20 insertions(+), 14 deletions(-)
+ hw/ppc/ppc.c                    |  2 +-
+ target/i386/hvf/x86hvf.c        |  1 -
+ target/ppc/kvm.c                |  2 +-
+ target/ppc/translate_init.inc.c | 14 +++++++-------
+ 4 files changed, 9 insertions(+), 10 deletions(-)
 
-diff --git a/target/i386/hvf/hvf.c b/target/i386/hvf/hvf.c
-index b3bd2285fa..01ee420185 100644
---- a/target/i386/hvf/hvf.c
-+++ b/target/i386/hvf/hvf.c
-@@ -262,7 +262,7 @@ static void update_apic_tpr(CPUState *cpu)
+diff --git a/hw/ppc/ppc.c b/hw/ppc/ppc.c
+index 0e7386ff88..89f92c4a88 100644
+--- a/hw/ppc/ppc.c
++++ b/hw/ppc/ppc.c
+@@ -89,7 +89,7 @@ void ppc_set_irq(PowerPCCPU *cpu, int n_IRQ, int level)
  
- static void hvf_handle_interrupt(CPUState * cpu, int mask)
- {
--    cpu->interrupt_request |= mask;
-+    cpu_interrupt_request_or(cpu, mask);
-     if (!qemu_cpu_is_self(cpu)) {
-         qemu_cpu_kick(cpu);
-     }
-@@ -737,10 +737,12 @@ int hvf_vcpu_exec(CPUState *cpu)
-         ret = 0;
-         switch (exit_reason) {
-         case EXIT_REASON_HLT: {
-+            uint32_t interrupt_request = cpu_interrupt_request(cpu);
-+
-             macvm_set_rip(cpu, rip + ins_len);
--            if (!((cpu->interrupt_request & CPU_INTERRUPT_HARD) &&
-+            if (!((interrupt_request & CPU_INTERRUPT_HARD) &&
-                 (env->eflags & IF_MASK))
--                && !(cpu->interrupt_request & CPU_INTERRUPT_NMI) &&
-+                && !(interrupt_request & CPU_INTERRUPT_NMI) &&
-                 !(idtvec_info & VMCS_IDT_VEC_VALID)) {
-                 cpu_halted_set(cpu, 1);
-                 ret = EXCP_HLT;
+     LOG_IRQ("%s: %p n_IRQ %d level %d => pending %08" PRIx32
+                 "req %08x\n", __func__, env, n_IRQ, level,
+-                env->pending_interrupts, CPU(cpu)->interrupt_request);
++                env->pending_interrupts, cpu_interrupt_request(CPU(cpu)));
+ 
+     if (locked) {
+         qemu_mutex_unlock_iothread();
 diff --git a/target/i386/hvf/x86hvf.c b/target/i386/hvf/x86hvf.c
-index 8e9b60d0a7..565594bc10 100644
+index 565594bc10..53515d0f0e 100644
 --- a/target/i386/hvf/x86hvf.c
 +++ b/target/i386/hvf/x86hvf.c
-@@ -352,6 +352,7 @@ bool hvf_inject_interrupts(CPUState *cpu_state)
+@@ -352,7 +352,6 @@ bool hvf_inject_interrupts(CPUState *cpu_state)
  
      uint8_t vector;
      uint64_t intr_type;
-+    uint32_t interrupt_request;
+-    uint32_t interrupt_request;
      bool have_event = true;
      if (env->interrupt_injected != -1) {
          vector = env->interrupt_injected;
-@@ -400,7 +401,7 @@ bool hvf_inject_interrupts(CPUState *cpu_state)
-         };
-     }
+diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+index aae2ef0ad4..084e158c34 100644
+--- a/target/ppc/kvm.c
++++ b/target/ppc/kvm.c
+@@ -1350,7 +1350,7 @@ static int kvmppc_handle_halt(PowerPCCPU *cpu)
+     CPUState *cs = CPU(cpu);
+     CPUPPCState *env = &cpu->env;
  
--    if (cpu_state->interrupt_request & CPU_INTERRUPT_NMI) {
-+    if (cpu_interrupt_request(cpu_state) & CPU_INTERRUPT_NMI) {
-         if (!(env->hflags2 & HF2_NMI_MASK) && !(info & VMCS_INTR_VALID)) {
-             cpu_reset_interrupt(cpu_state, CPU_INTERRUPT_NMI);
-             info = VMCS_INTR_VALID | VMCS_INTR_T_NMI | EXCP02_NMI;
-@@ -411,7 +412,7 @@ bool hvf_inject_interrupts(CPUState *cpu_state)
+-    if (!(cs->interrupt_request & CPU_INTERRUPT_HARD) && (msr_ee)) {
++    if (!(cpu_interrupt_request(cs) & CPU_INTERRUPT_HARD) && (msr_ee)) {
+         cpu_halted_set(cs, 1);
+         cs->exception_index = EXCP_HLT;
      }
+diff --git a/target/ppc/translate_init.inc.c b/target/ppc/translate_init.inc.c
+index ac59648541..d06d9ff204 100644
+--- a/target/ppc/translate_init.inc.c
++++ b/target/ppc/translate_init.inc.c
+@@ -8541,7 +8541,7 @@ static bool cpu_has_work_POWER7(CPUState *cs)
+     CPUPPCState *env = &cpu->env;
  
-     if (!(env->hflags & HF_INHIBIT_IRQ_MASK) &&
--        (cpu_state->interrupt_request & CPU_INTERRUPT_HARD) &&
-+        (cpu_interrupt_request(cpu_state) & CPU_INTERRUPT_HARD) &&
-         (env->eflags & IF_MASK) && !(info & VMCS_INTR_VALID)) {
-         int line = cpu_get_pic_interrupt(&x86cpu->env);
-         cpu_reset_interrupt(cpu_state, CPU_INTERRUPT_HARD);
-@@ -420,39 +421,42 @@ bool hvf_inject_interrupts(CPUState *cpu_state)
-                   VMCS_INTR_VALID | VMCS_INTR_T_HWINTR);
+     if (cpu_halted(cs)) {
+-        if (!(cs->interrupt_request & CPU_INTERRUPT_HARD)) {
++        if (!(cpu_interrupt_request(cs) & CPU_INTERRUPT_HARD)) {
+             return false;
          }
+         if ((env->pending_interrupts & (1u << PPC_INTERRUPT_EXT)) &&
+@@ -8565,7 +8565,7 @@ static bool cpu_has_work_POWER7(CPUState *cs)
+         }
+         return false;
+     } else {
+-        return msr_ee && (cs->interrupt_request & CPU_INTERRUPT_HARD);
++        return msr_ee && (cpu_interrupt_request(cs) & CPU_INTERRUPT_HARD);
      }
--    if (cpu_state->interrupt_request & CPU_INTERRUPT_HARD) {
-+    if (cpu_interrupt_request(cpu_state) & CPU_INTERRUPT_HARD) {
-         vmx_set_int_window_exiting(cpu_state);
-     }
--    return (cpu_state->interrupt_request
--            & (CPU_INTERRUPT_INIT | CPU_INTERRUPT_TPR));
-+    return cpu_interrupt_request(cpu_state) & (CPU_INTERRUPT_INIT |
-+                                               CPU_INTERRUPT_TPR);
  }
  
- int hvf_process_events(CPUState *cpu_state)
- {
-     X86CPU *cpu = X86_CPU(cpu_state);
-     CPUX86State *env = &cpu->env;
-+    uint32_t interrupt_request;
+@@ -8703,7 +8703,7 @@ static bool cpu_has_work_POWER8(CPUState *cs)
+     CPUPPCState *env = &cpu->env;
  
-     env->eflags = rreg(cpu_state->hvf_fd, HV_X86_RFLAGS);
+     if (cpu_halted(cs)) {
+-        if (!(cs->interrupt_request & CPU_INTERRUPT_HARD)) {
++        if (!(cpu_interrupt_request(cs) & CPU_INTERRUPT_HARD)) {
+             return false;
+         }
+         if ((env->pending_interrupts & (1u << PPC_INTERRUPT_EXT)) &&
+@@ -8735,7 +8735,7 @@ static bool cpu_has_work_POWER8(CPUState *cs)
+         }
+         return false;
+     } else {
+-        return msr_ee && (cs->interrupt_request & CPU_INTERRUPT_HARD);
++        return msr_ee && (cpu_interrupt_request(cs) & CPU_INTERRUPT_HARD);
+     }
+ }
  
--    if (cpu_state->interrupt_request & CPU_INTERRUPT_INIT) {
-+    if (cpu_interrupt_request(cpu_state) & CPU_INTERRUPT_INIT) {
-         hvf_cpu_synchronize_state(cpu_state);
-         do_cpu_init(cpu);
-     }
+@@ -8905,7 +8905,7 @@ static bool cpu_has_work_POWER9(CPUState *cs)
+     if (cpu_halted(cs)) {
+         uint64_t psscr = env->spr[SPR_PSSCR];
  
--    if (cpu_state->interrupt_request & CPU_INTERRUPT_POLL) {
-+    if (cpu_interrupt_request(cpu_state) & CPU_INTERRUPT_POLL) {
-         cpu_reset_interrupt(cpu_state, CPU_INTERRUPT_POLL);
-         apic_poll_irq(cpu->apic_state);
+-        if (!(cs->interrupt_request & CPU_INTERRUPT_HARD)) {
++        if (!(cpu_interrupt_request(cs) & CPU_INTERRUPT_HARD)) {
+             return false;
+         }
+ 
+@@ -8951,7 +8951,7 @@ static bool cpu_has_work_POWER9(CPUState *cs)
+         }
+         return false;
+     } else {
+-        return msr_ee && (cs->interrupt_request & CPU_INTERRUPT_HARD);
++        return msr_ee && (cpu_interrupt_request(cs) & CPU_INTERRUPT_HARD);
      }
--    if (((cpu_state->interrupt_request & CPU_INTERRUPT_HARD) &&
-+
-+    interrupt_request = cpu_interrupt_request(cpu_state);
-+    if (((interrupt_request & CPU_INTERRUPT_HARD) &&
-         (env->eflags & IF_MASK)) ||
--        (cpu_state->interrupt_request & CPU_INTERRUPT_NMI)) {
-+        (interrupt_request & CPU_INTERRUPT_NMI)) {
-         cpu_halted_set(cpu_state, 0);
-     }
--    if (cpu_state->interrupt_request & CPU_INTERRUPT_SIPI) {
-+    if (interrupt_request & CPU_INTERRUPT_SIPI) {
-         hvf_cpu_synchronize_state(cpu_state);
-         do_cpu_sipi(cpu);
-     }
--    if (cpu_state->interrupt_request & CPU_INTERRUPT_TPR) {
-+    if (cpu_interrupt_request(cpu_state) & CPU_INTERRUPT_TPR) {
-         cpu_reset_interrupt(cpu_state, CPU_INTERRUPT_TPR);
-         hvf_cpu_synchronize_state(cpu_state);
-         apic_handle_tpr_access_report(cpu->apic_state, env->eip,
+ }
+ 
+@@ -10656,7 +10656,7 @@ static bool ppc_cpu_has_work(CPUState *cs)
+     PowerPCCPU *cpu = POWERPC_CPU(cs);
+     CPUPPCState *env = &cpu->env;
+ 
+-    return msr_ee && (cs->interrupt_request & CPU_INTERRUPT_HARD);
++    return msr_ee && (cpu_interrupt_request(cs) & CPU_INTERRUPT_HARD);
+ }
+ 
+ static void ppc_cpu_reset(DeviceState *dev)
 -- 
 2.17.1
 
