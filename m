@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14E2F1FCD70
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 14:31:37 +0200 (CEST)
-Received: from localhost ([::1]:45594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9236E1FCD9F
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 14:45:04 +0200 (CEST)
+Received: from localhost ([::1]:55132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlXE8-0006JT-25
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 08:31:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60208)
+	id 1jlXR9-00047l-2o
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 08:45:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jlXBt-0004Nm-9O
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 08:29:17 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:57415
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jlXQN-0003hh-QT
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 08:44:15 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:43663
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jlXBr-0002WJ-MS
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 08:29:16 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jlXQL-0004w9-TK
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 08:44:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592396954;
+ s=mimecast20190719; t=1592397853;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wUr9c1FJi7A1aTjG8v2DGsv6CTJYWqCn2CZCN7xc4cw=;
- b=BSg/OGnVFfzojhq5jt/hE4vfcjEikuNGZQ0Y+b6w955oH8E4MEW6dudDgnKyNX6YB7RnaF
- e6EuJmatv2gjCvvO7NRL6pSpkWn17KS8ZFnRzskUf4YreVY4kr5+UkuwV3OH5GXiD7xvFY
- Yj1M5MizUeRfR0ekJnGMsw2UuJ7WxkE=
+ bh=70E46UBTU2IjHJeSA7UMtFO2qjX3gcTTvjmwnlDRSxg=;
+ b=i6d8Z1mtAAQwIAUHQLvTy7QWW+eFzMCpl30EhJOGt16LM7tu9mGZy8aLJOn+2EaYsIfMOx
+ WkdCVvWQ5Itu+1A5Epq0WsRFg9O3KbVHQ3ptd0icth+XY7kFoNR3AOIlUoqxqS76d/kjJK
+ oC2peIM+ECX7OwD1TuAdsleoPx0ANmc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-312-SRuNPBTVOlyeotJDUcrfYQ-1; Wed, 17 Jun 2020 08:29:13 -0400
-X-MC-Unique: SRuNPBTVOlyeotJDUcrfYQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-473-0uc-pkdGOvm47OUp5QPDoA-1; Wed, 17 Jun 2020 08:44:09 -0400
+X-MC-Unique: 0uc-pkdGOvm47OUp5QPDoA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A2D94107B472;
- Wed, 17 Jun 2020 12:29:11 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 88DC581EE5C;
+ Wed, 17 Jun 2020 12:44:08 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-67.ams2.redhat.com
  [10.36.112.67])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5782379302;
- Wed, 17 Jun 2020 12:29:03 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 18BFC60BE2;
+ Wed, 17 Jun 2020 12:44:08 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id C7C0A9D8F; Wed, 17 Jun 2020 14:29:01 +0200 (CEST)
+ id BDE9116E16; Wed, 17 Jun 2020 14:44:06 +0200 (CEST)
+Date: Wed, 17 Jun 2020 14:44:06 +0200
 From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 4/4] microvm: move virtio base to 0xfeb00000
-Date: Wed, 17 Jun 2020 14:29:01 +0200
-Message-Id: <20200617122901.13327-5-kraxel@redhat.com>
-In-Reply-To: <20200617122901.13327-1-kraxel@redhat.com>
-References: <20200617122901.13327-1-kraxel@redhat.com>
+To: Geoffrey McRae <geoff@hostfission.com>
+Subject: Re: [PATCH 5/6] audio/jack: honour the enable state of the audio
+ device
+Message-ID: <20200617124406.7dgne73ttfhgkj3x@sirius.home.kraxel.org>
+References: <20200613040518.38172-1-geoff@hostfission.com>
+ <20200613040518.38172-6-geoff@hostfission.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20200613040518.38172-6-geoff@hostfission.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/17 02:02:46
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/17 01:42:04
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -80,43 +81,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefano Stabellini <sstabellini@kernel.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Paul Durrant <paul@xen.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
- Richard Henderson <rth@twiddle.net>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Place virtio-mmio devices near the other mmio regions,
-next ioapic is at @ 0xfec00000.
+On Sat, Jun 13, 2020 at 02:05:17PM +1000, Geoffrey McRae wrote:
+> When the guest closes the audio device we must start dropping input
+> samples from JACK and zeroing the output buffer samples. Failure to do
+> so causes sound artifacts during operations such as guest OS reboot, and
+> causes a hang of the input pipeline breaking it until QEMU is restated.
+> 
+> Closing and reconnecting to JACK was tested during these enable/disable
+> calls which works well for Linux guests, however Windows re-opens the
+> audio hardware repeatedly even when doing simple tasks like playing a
+> system sounds. As such it was decided it is better to feed silence to
+> JACK while the device is disabled.
 
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-Reviewed-by: Paul Durrant <paul@xen.org>
-Acked-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-id: 20200529073957.8018-5-kraxel@redhat.com
----
- include/hw/i386/microvm.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hmm, I guess feeding silence into jack needs some cpu cycles?
+Maybe add a timer to close the jack server connection?  Keep the
+connection open for re-use for a while, but in case the guest stops
+playing sound altogether close the jack connection after being unused
+for a few minutes?
 
-diff --git a/include/hw/i386/microvm.h b/include/hw/i386/microvm.h
-index ba68d1f22bb3..fd34b78e0d2a 100644
---- a/include/hw/i386/microvm.h
-+++ b/include/hw/i386/microvm.h
-@@ -26,7 +26,7 @@
- #include "hw/i386/x86.h"
- 
- /* Platform virtio definitions */
--#define VIRTIO_MMIO_BASE      0xc0000000
-+#define VIRTIO_MMIO_BASE      0xfeb00000
- #define VIRTIO_IRQ_BASE       5
- #define VIRTIO_NUM_TRANSPORTS 8
- #define VIRTIO_CMDLINE_MAXLEN 64
--- 
-2.18.4
+[ Doesn't render the patch invalid, consider it a suggestion for future
+  improvements ]
+
+take care,
+  Gerd
 
 
