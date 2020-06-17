@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 537EF1FD4BB
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 20:43:17 +0200 (CEST)
-Received: from localhost ([::1]:60184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 364991FD4B3
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 20:41:04 +0200 (CEST)
+Received: from localhost ([::1]:53788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jld1o-000251-BS
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 14:43:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51602)
+	id 1jlczf-0007tm-7s
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 14:41:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51580)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jlcwh-0003Yh-Sv
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 14:37:59 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:31443
- helo=us-smtp-1.mimecast.com)
+ id 1jlcwg-0003Vk-5I
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 14:37:58 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:22803)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jlcwb-00088s-M4
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 14:37:59 -0400
+ id 1jlcwe-000898-ES
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 14:37:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592419072;
+ s=mimecast20190719; t=1592419075;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=55XnaJMZrBbinRSTa75FWtgEUUHQumqsDcF1mvx8mq8=;
- b=eGoWXYXCtgbYGW6dv17T1lcijgwh23Vrbk2+jJUH1z5zf+znOCITjkDVOB6nRp8+Wl044w
- a1yaTr36btK5vfRI6BPugPh6ZNIAAVWFb/3WZQSIkViVkU8ka1i6YFVD2u8eIFz5Sy2J6r
- 8FM7nmKAuARoocga21nTg0SZ9Nx3QOk=
+ bh=GgBUu7f9j9KFwMQkF7KC5sDJH2HYE9E300NSJ5oiq0o=;
+ b=BoWUQVAPdZ4Bb3kgmk5fOloVJ4ki+s3DJqzNFgMzexASDvm/suR9k8+9OYdioqIkKgszAj
+ 4tkb/VXpM1u2C4YVmegYK7AnQPeIkrgpUbtyalFPxx5s/AHHoTOK2RPpgZLzCXKfMVFbvB
+ 6oc0sBSZNOfQAV1PXpz5z4Mbnm2IokQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-445-RxTsZe1uOri5tfzHtuAiiQ-1; Wed, 17 Jun 2020 14:37:48 -0400
-X-MC-Unique: RxTsZe1uOri5tfzHtuAiiQ-1
+ us-mta-20-1Yx84jjRMcmLazj3N1FWhw-1; Wed, 17 Jun 2020 14:37:50 -0400
+X-MC-Unique: 1Yx84jjRMcmLazj3N1FWhw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F1C8218FE863;
- Wed, 17 Jun 2020 18:37:46 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F3C80107ACF3;
+ Wed, 17 Jun 2020 18:37:48 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-115-47.ams2.redhat.com
  [10.36.115.47])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4A81F768B4;
- Wed, 17 Jun 2020 18:37:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4A2825EE0E;
+ Wed, 17 Jun 2020 18:37:47 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, david@redhat.com, lvivier@redhat.com,
  maozhongyi@cmss.chinamobile.com, mreitz@redhat.com, pannengyuan@huawei.com
-Subject: [PULL 02/12] qom-hmp-cmds: fix a memleak in hmp_qom_get
-Date: Wed, 17 Jun 2020 19:37:23 +0100
-Message-Id: <20200617183733.186168-3-dgilbert@redhat.com>
+Subject: [PULL 03/12] hmp: Make json format optional for qom-set
+Date: Wed, 17 Jun 2020 19:37:24 +0100
+Message-Id: <20200617183733.186168-4-dgilbert@redhat.com>
 In-Reply-To: <20200617183733.186168-1-dgilbert@redhat.com>
 References: <20200617183733.186168-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/17 01:42:04
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/17 02:02:46
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -85,45 +86,85 @@ Cc: stefanha@redhat.com, quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Pan Nengyuan <pannengyuan@huawei.com>
+From: David Hildenbrand <david@redhat.com>
 
-'obj' forgot to free at the end of hmp_qom_get(). Fix that.
+Commit 7d2ef6dcc1cf ("hmp: Simplify qom-set") switched to the json
+parser, making it possible to specify complex types. However, with this
+change it is no longer possible to specify proper sizes (e.g., 2G, 128M),
+turning the interface harder to use for properties that consume sizes.
 
-The leak stack:
-Direct leak of 40 byte(s) in 1 object(s) allocated from:
-    #0 0x7f4e3a779ae8 in __interceptor_malloc (/lib64/libasan.so.5+0xefae8)
-    #1 0x7f4e398f91d5 in g_malloc (/lib64/libglib-2.0.so.0+0x531d5)
-    #2 0x55c9fd9a3999 in qstring_from_substr /build/qemu/src/qobject/qstring.c:45
-    #3 0x55c9fd894bd3 in qobject_output_type_str /build/qemu/src/qapi/qobject-output-visitor.c:175
-    #4 0x55c9fd894bd3 in qobject_output_type_str /build/qemu/src/qapi/qobject-output-visitor.c:168
-    #5 0x55c9fd88b34d in visit_type_str /build/qemu/src/qapi/qapi-visit-core.c:308
-    #6 0x55c9fd59aa6b in property_get_str /build/qemu/src/qom/object.c:2064
-    #7 0x55c9fd5adb8a in object_property_get_qobject /build/qemu/src/qom/qom-qobject.c:38
-    #8 0x55c9fd4a029d in hmp_qom_get /build/qemu/src/qom/qom-hmp-cmds.c:66
+Let's switch back to the previous handling and allow to specify passing
+json via the "-j" parameter.
 
-Fixes: 89cf4fe34f4
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
-Message-Id: <20200603070338.7922-1-pannengyuan@huawei.com>
-Reviewed-by: Li Qiang <liq3ea@gmail.com>
-Tested-by: Li Qiang <liq3ea@gmail.com>
+Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
+Cc: Markus Armbruster <armbru@redhat.com>
+Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: "Daniel P. Berrangé" <berrange@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>
+Signed-off-by: David Hildenbrand <david@redhat.com>
+Message-Id: <20200610075153.33892-1-david@redhat.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- qom/qom-hmp-cmds.c | 1 +
- 1 file changed, 1 insertion(+)
+ hmp-commands.hx    |  7 ++++---
+ qom/qom-hmp-cmds.c | 20 ++++++++++++++++----
+ 2 files changed, 20 insertions(+), 7 deletions(-)
 
+diff --git a/hmp-commands.hx b/hmp-commands.hx
+index 28256209b5..60f395c276 100644
+--- a/hmp-commands.hx
++++ b/hmp-commands.hx
+@@ -1806,9 +1806,10 @@ ERST
+ 
+     {
+         .name       = "qom-set",
+-        .args_type  = "path:s,property:s,value:S",
+-        .params     = "path property value",
+-        .help       = "set QOM property",
++        .args_type  = "json:-j,path:s,property:s,value:S",
++        .params     = "[-j] path property value",
++        .help       = "set QOM property.\n\t\t\t"
++                      "-j: the value is specified in json format.",
+         .cmd        = hmp_qom_set,
+         .flags      = "p",
+     },
 diff --git a/qom/qom-hmp-cmds.c b/qom/qom-hmp-cmds.c
-index 99385b6ad2..158e2d7409 100644
+index 158e2d7409..b0abe84cb1 100644
 --- a/qom/qom-hmp-cmds.c
 +++ b/qom/qom-hmp-cmds.c
-@@ -71,6 +71,7 @@ void hmp_qom_get(Monitor *mon, const QDict *qdict)
-         qobject_unref(str);
+@@ -44,15 +44,27 @@ void hmp_qom_list(Monitor *mon, const QDict *qdict)
+ 
+ void hmp_qom_set(Monitor *mon, const QDict *qdict)
+ {
++    const bool json = qdict_get_try_bool(qdict, "json", false);
+     const char *path = qdict_get_str(qdict, "path");
+     const char *property = qdict_get_str(qdict, "property");
+     const char *value = qdict_get_str(qdict, "value");
+     Error *err = NULL;
+-    QObject *obj;
+ 
+-    obj = qobject_from_json(value, &err);
+-    if (err == NULL) {
+-        qmp_qom_set(path, property, obj, &err);
++    if (!json) {
++        Object *obj = object_resolve_path(path, NULL);
++
++        if (!obj) {
++            error_set(&err, ERROR_CLASS_DEVICE_NOT_FOUND,
++                      "Device '%s' not found", path);
++        } else {
++            object_property_parse(obj, value, property, &err);
++        }
++    } else {
++        QObject *obj = qobject_from_json(value, &err);
++
++        if (!err) {
++            qmp_qom_set(path, property, obj, &err);
++        }
      }
  
-+    qobject_unref(obj);
      hmp_handle_error(mon, err);
- }
- 
 -- 
 2.26.2
 
