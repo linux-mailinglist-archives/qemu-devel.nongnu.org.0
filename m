@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAE0B1FC6E7
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 09:13:44 +0200 (CEST)
-Received: from localhost ([::1]:56178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FA6C1FC703
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 09:17:24 +0200 (CEST)
+Received: from localhost ([::1]:40534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlSGR-0000Ts-0d
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 03:13:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38284)
+	id 1jlSK3-00068N-Dt
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 03:17:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jlSF2-0007Cw-Rr
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 03:12:12 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:48982
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jlSFB-0007YR-HV
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 03:12:21 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:60664
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jlSF1-0000Vd-2L
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 03:12:12 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jlSF9-0000aG-Tq
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 03:12:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592377930;
+ s=mimecast20190719; t=1592377939;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iUH9yDv0lJaZjK5/fay/OlT7sYzbEibNJ0T2YusntvE=;
- b=Mw2g+zv5snIxz94YPojfGCEy/SN0pjsZmQ9RY0nCq++l5ZwBYyl03c9GsWIEtPGdlGSNHU
- yLBnNGX/iDv/8hl9hFmNbTw94J4sWRXqpgul2MW07XTSjwCd21oOVa9a390U33aMkWHRfH
- D3E/pchjIOkiN5ZmMkbEbO43CJzzKbY=
+ bh=wYr0bo4lCUYt/KWCu731zOLOU8tcfPXPriQHHjSMKRY=;
+ b=DA6j90Uz/QlRL7EMXyGeD2ErQFTwFPPf3DvJ+al/pDGUqL68RcVSPpm0djxoOc4gPxHfpP
+ NBTB+Fjd5CoC3ZtEDepBpasonBVrty8W6/b/UzyKgX3mK9yT3CDTpDFGNBLowR8t3mlsjK
+ BwOY1ZSHzYIaXnct2iYIKcG08UQtukc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-47-AWr1bz5bMy-VHZtkBbpIPw-1; Wed, 17 Jun 2020 03:12:08 -0400
-X-MC-Unique: AWr1bz5bMy-VHZtkBbpIPw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-43-Qq0H_LRNOFO-6TV69-pSeg-1; Wed, 17 Jun 2020 03:12:17 -0400
+X-MC-Unique: Qq0H_LRNOFO-6TV69-pSeg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4B2941158AAE;
- Wed, 17 Jun 2020 07:12:05 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B1FE3102C7EE;
+ Wed, 17 Jun 2020 07:12:10 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-67.ams2.redhat.com
  [10.36.112.67])
- by smtp.corp.redhat.com (Postfix) with ESMTP id ECF1790324;
- Wed, 17 Jun 2020 07:11:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 074171002394;
+ Wed, 17 Jun 2020 07:12:00 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id CDD569D94; Wed, 17 Jun 2020 09:11:38 +0200 (CEST)
+ id D6CDB9D95; Wed, 17 Jun 2020 09:11:38 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v9 06/10] acpi: factor out fw_cfg_add_acpi_dsdt()
-Date: Wed, 17 Jun 2020 09:11:34 +0200
-Message-Id: <20200617071138.11159-7-kraxel@redhat.com>
+Subject: [PATCH v9 07/10] acpi: simplify build_isa_devices_aml()
+Date: Wed, 17 Jun 2020 09:11:35 +0200
+Message-Id: <20200617071138.11159-8-kraxel@redhat.com>
 In-Reply-To: <20200617071138.11159-1-kraxel@redhat.com>
 References: <20200617071138.11159-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -93,108 +93,44 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add helper function to add fw_cfg device,
-also move code to hw/i386/fw_cfg.c.
+x86 machines can have a single ISA bus only.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- hw/i386/fw_cfg.h     |  1 +
- hw/i386/acpi-build.c | 24 +-----------------------
- hw/i386/fw_cfg.c     | 28 ++++++++++++++++++++++++++++
- 3 files changed, 30 insertions(+), 23 deletions(-)
+ hw/i386/acpi-build.c | 16 ++++++----------
+ 1 file changed, 6 insertions(+), 10 deletions(-)
 
-diff --git a/hw/i386/fw_cfg.h b/hw/i386/fw_cfg.h
-index 9e742787792b..275f15c1c5e8 100644
---- a/hw/i386/fw_cfg.h
-+++ b/hw/i386/fw_cfg.h
-@@ -25,5 +25,6 @@ FWCfgState *fw_cfg_arch_create(MachineState *ms,
-                                uint16_t apic_id_limit);
- void fw_cfg_build_smbios(MachineState *ms, FWCfgState *fw_cfg);
- void fw_cfg_build_feature_control(MachineState *ms, FWCfgState *fw_cfg);
-+void fw_cfg_add_acpi_dsdt(Aml *scope, FWCfgState *fw_cfg);
- 
- #endif
 diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 13113e83dfe2..19e9c298dc8f 100644
+index 19e9c298dc8f..d27cecc877c4 100644
 --- a/hw/i386/acpi-build.c
 +++ b/hw/i386/acpi-build.c
-@@ -1802,30 +1802,8 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+@@ -979,18 +979,14 @@ static void build_isa_devices_aml(Aml *table)
+ {
+     VMBusBridge *vmbus_bridge = vmbus_bridge_find();
+     bool ambiguous;
+-
+-    Aml *scope = aml_scope("_SB.PCI0.ISA");
+     Object *obj = object_resolve_path_type("", TYPE_ISA_BUS, &ambiguous);
++    Aml *scope;
  
-     /* create fw_cfg node, unconditionally */
-     {
--        /* when using port i/o, the 8-bit data register *always* overlaps
--         * with half of the 16-bit control register. Hence, the total size
--         * of the i/o region used is FW_CFG_CTL_SIZE; when using DMA, the
--         * DMA control register is located at FW_CFG_DMA_IO_BASE + 4 */
--        uint8_t io_size = object_property_get_bool(OBJECT(x86ms->fw_cfg),
--                                                   "dma_enabled", NULL) ?
--                          ROUND_UP(FW_CFG_CTL_SIZE, 4) + sizeof(dma_addr_t) :
--                          FW_CFG_CTL_SIZE;
--
-         scope = aml_scope("\\_SB.PCI0");
--        dev = aml_device("FWCF");
--
--        aml_append(dev, aml_name_decl("_HID", aml_string("QEMU0002")));
--
--        /* device present, functioning, decoding, not shown in UI */
--        aml_append(dev, aml_name_decl("_STA", aml_int(0xB)));
--
--        crs = aml_resource_template();
--        aml_append(crs,
--            aml_io(AML_DECODE16, FW_CFG_IO_BASE, FW_CFG_IO_BASE, 0x01, io_size)
--        );
--        aml_append(dev, aml_name_decl("_CRS", crs));
--
--        aml_append(scope, dev);
-+        fw_cfg_add_acpi_dsdt(scope, x86ms->fw_cfg);
-         aml_append(dsdt, scope);
-     }
+-    if (ambiguous) {
+-        error_report("Multiple ISA busses, unable to define IPMI ACPI data");
+-    } else if (!obj) {
+-        error_report("No ISA bus, unable to define IPMI ACPI data");
+-    } else {
+-        build_acpi_ipmi_devices(scope, BUS(obj), "\\_SB.PCI0.ISA");
+-        isa_build_aml(ISA_BUS(obj), scope);
+-    }
++    assert(obj && !ambiguous);
++
++    scope = aml_scope("_SB.PCI0.ISA");
++    build_acpi_ipmi_devices(scope, BUS(obj), "\\_SB.PCI0.ISA");
++    isa_build_aml(ISA_BUS(obj), scope);
  
-diff --git a/hw/i386/fw_cfg.c b/hw/i386/fw_cfg.c
-index da60ada59462..c55abfb01abb 100644
---- a/hw/i386/fw_cfg.c
-+++ b/hw/i386/fw_cfg.c
-@@ -15,6 +15,7 @@
- #include "qemu/osdep.h"
- #include "sysemu/numa.h"
- #include "hw/acpi/acpi.h"
-+#include "hw/acpi/aml-build.h"
- #include "hw/firmware/smbios.h"
- #include "hw/i386/fw_cfg.h"
- #include "hw/timer/hpet.h"
-@@ -179,3 +180,30 @@ void fw_cfg_build_feature_control(MachineState *ms, FWCfgState *fw_cfg)
-     *val = cpu_to_le64(feature_control_bits | FEATURE_CONTROL_LOCKED);
-     fw_cfg_add_file(fw_cfg, "etc/msr_feature_control", val, sizeof(*val));
- }
-+
-+void fw_cfg_add_acpi_dsdt(Aml *scope, FWCfgState *fw_cfg)
-+{
-+    /*
-+     * when using port i/o, the 8-bit data register *always* overlaps
-+     * with half of the 16-bit control register. Hence, the total size
-+     * of the i/o region used is FW_CFG_CTL_SIZE; when using DMA, the
-+     * DMA control register is located at FW_CFG_DMA_IO_BASE + 4
-+     */
-+    Object *obj = OBJECT(fw_cfg);
-+    uint8_t io_size = object_property_get_bool(obj, "dma_enabled", NULL) ?
-+        ROUND_UP(FW_CFG_CTL_SIZE, 4) + sizeof(dma_addr_t) :
-+        FW_CFG_CTL_SIZE;
-+    Aml *dev = aml_device("FWCF");
-+    Aml *crs = aml_resource_template();
-+
-+    aml_append(dev, aml_name_decl("_HID", aml_string("QEMU0002")));
-+
-+    /* device present, functioning, decoding, not shown in UI */
-+    aml_append(dev, aml_name_decl("_STA", aml_int(0xB)));
-+
-+    aml_append(crs,
-+        aml_io(AML_DECODE16, FW_CFG_IO_BASE, FW_CFG_IO_BASE, 0x01, io_size));
-+
-+    aml_append(dev, aml_name_decl("_CRS", crs));
-+    aml_append(scope, dev);
-+}
+     if (vmbus_bridge) {
+         aml_append(scope, build_vmbus_device_aml(vmbus_bridge));
 -- 
 2.18.4
 
