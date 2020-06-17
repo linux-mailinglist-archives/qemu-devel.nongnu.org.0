@@ -2,104 +2,138 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E83C1FD34F
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 19:19:50 +0200 (CEST)
-Received: from localhost ([::1]:38410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 285321FD358
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 19:21:17 +0200 (CEST)
+Received: from localhost ([::1]:42862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlbj3-0001mP-IN
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 13:19:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55626)
+	id 1jlbkS-0003mQ-7b
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 13:21:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jlbhd-0000oP-PU
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 13:18:21 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:55397
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jlbiN-0001Up-4x
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 13:19:07 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:30996
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jlbhb-0002ZS-Kv
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 13:18:21 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jlbiL-0002bl-3U
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 13:19:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592414299;
+ s=mimecast20190719; t=1592414343;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=/4s+KMLjPKl04oe//sCwCoYlXg/y+lC+n2CkmOvRm34=;
- b=GBeNTs+7gK6Sgci9vBQgH1thUfYBM3EjaJnPqNBD2i0IeO4AwL3/pEvsDfBOZSUK6H6qYP
- lHSMYmj72pqlJg94RNlMjRvjHG0nBkPQD8D6N6C1nZyhquGZ3C/IQdAFSi1rlz+xrOAhM0
- a/D7Qm0zOT+4RTiekWvp7CV6VBdJCW4=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-132-lpt7BAn2MQiGlcFixWSWzQ-1; Wed, 17 Jun 2020 13:18:14 -0400
-X-MC-Unique: lpt7BAn2MQiGlcFixWSWzQ-1
-Received: by mail-ej1-f70.google.com with SMTP id z21so1426425ejl.6
- for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 10:18:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=/4s+KMLjPKl04oe//sCwCoYlXg/y+lC+n2CkmOvRm34=;
- b=GzUClFyjJMPwWkDJTTxZloO9eEqM9d/ORwWF2QvHs4nauIoc/KPt/ZCvi8Dpc5TmqL
- WqWkK3qoJ6on3Fv+sukTXLZ+D7KhvO3LjJhu+UG++Ox63GxQ/aZ0GdGIgzkAjfibr+FR
- zuPxFlgWaHNN6k6pNc+nQQVxTxzOAYiOFTDu9z/+jiYs5L6RM1OdKfNQbxSGXbAvJ54i
- Kv2ExSGbf19/0+UqjR8luxv0Hsh3U/6mDl46FFFJB2pDwr0C9iHIAW72dGGL+45r7BvG
- rQ1fTIO+oFEiMdpUwJZDmlsZ4wJGqz54Sagas5q0s4Q8kj+mU3WyqZbXnQSvw2qkTgOC
- tOKA==
-X-Gm-Message-State: AOAM530wfDt19HmtFTL7ZIIz3ZLXMzwCl0KkzzWZLfulGAjyqzbus60j
- OT6LOuciMR417xdtDK9VhfB3fV2Kg6m6LbdmQeq1LdUYt4xWweb+OUJnlKs/h2oXuvM05iOIQ5v
- ajHe22bp6DUEXCls=
-X-Received: by 2002:a05:6402:1d89:: with SMTP id
- dk9mr159487edb.275.1592414291612; 
- Wed, 17 Jun 2020 10:18:11 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxm9ayRReM1bxBSfS9z67Ucsqs9yZDvDR2+RYc16OAVmsE8XgJWccQXtVSM/+ib/Qul+vgZ/g==
-X-Received: by 2002:a05:6402:1d89:: with SMTP id
- dk9mr159473edb.275.1592414291428; 
- Wed, 17 Jun 2020 10:18:11 -0700 (PDT)
-Received: from [192.168.1.38] (93.red-83-59-160.dynamicip.rima-tde.net.
- [83.59.160.93])
- by smtp.gmail.com with ESMTPSA id f5sm179417edv.36.2020.06.17.10.18.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 17 Jun 2020 10:18:10 -0700 (PDT)
+ bh=J5Y/3+8iarSW2JpuZxod/IhVV3Twq+xX9m+zFpa7TLU=;
+ b=coOdZWjGnkbNaN0VLTAKhh6vJRPSY4eTF1TYE4rAlE7/NGwm/zL4XDN5bKXWYO+zSpk5sK
+ jASA6A2+nBUprGTQCFHSK1sam6fzRY5Usm0K2slXqQgoSf11rla7poViz5C6vAuRgN+L+E
+ zqSuLMkda2u6NdYxT4qaemOL6aBxMPE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-384-8TXLOkEXOy6DwrExbw1Bqw-1; Wed, 17 Jun 2020 13:19:01 -0400
+X-MC-Unique: 8TXLOkEXOy6DwrExbw1Bqw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 86FD9100AA21;
+ Wed, 17 Jun 2020 17:19:00 +0000 (UTC)
+Received: from [10.10.117.188] (ovpn-117-188.rdu2.redhat.com [10.10.117.188])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9C99519D71;
+ Wed, 17 Jun 2020 17:18:59 +0000 (UTC)
 Subject: Re: [PATCH v3 00/16] python: add mypy support to python/qemu
-To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
 References: <20200604202236.25039-1-jsnow@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <47c9dce0-2dca-e73a-8a33-40938a4da44b@redhat.com>
-Date: Wed, 17 Jun 2020 19:18:09 +0200
+ <47c9dce0-2dca-e73a-8a33-40938a4da44b@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <3d4afcfd-51f5-fa6f-2272-ade445ac5762@redhat.com>
+Date: Wed, 17 Jun 2020 13:18:59 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200604202236.25039-1-jsnow@redhat.com>
+In-Reply-To: <47c9dce0-2dca-e73a-8a33-40938a4da44b@redhat.com>
 Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/17 02:02:46
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -128,43 +162,49 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Cleber Rosa <crosa@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/4/20 10:22 PM, John Snow wrote:
-> Based-on: 20200604195252.20739-1-jsnow@redhat.com
+
+
+On 6/17/20 1:18 PM, Philippe Mathieu-Daudé wrote:
+> On 6/4/20 10:22 PM, John Snow wrote:
+>> Based-on: 20200604195252.20739-1-jsnow@redhat.com
+>>
+>> This series is extracted from my larger series that attempted to bundle
+>> our python module as an installable module. These fixes don't require that,
+>> so they are being sent first as I think there's less up for debate in here.
+>>
+> [...]
+>>
+>> John Snow (16):
+>>   python/qmp.py: Define common types
+>>   iotests.py: use qemu.qmp type aliases
+>>   python/qmp.py: re-absorb MonitorResponseError
+>>   python/qmp.py: Do not return None from cmd_obj
+>>   python/qmp.py: add casts to JSON deserialization
+>>   python/qmp.py: add QMPProtocolError
+>>   python/machine.py: Fix monitor address typing
+>>   python/machine.py: reorder __init__
+>>   python/machine.py: Don't modify state in _base_args()
+>>   python/machine.py: Handle None events in events_wait
+>>   python/machine.py: use qmp.command
+>>   python/machine.py: Add _qmp access shim
+>>   python/machine.py: fix _popen access
+>>   python/qemu: make 'args' style arguments immutable
+>>   iotests.py: Adjust HMP kwargs typing
+>>   python/qemu: Add mypy type annotations
+>>
+>>  python/qemu/accel.py          |   8 +-
+>>  python/qemu/machine.py        | 286 ++++++++++++++++++++--------------
+>>  python/qemu/qmp.py            | 111 +++++++++----
+>>  python/qemu/qtest.py          |  53 ++++---
+>>  scripts/render_block_graph.py |   7 +-
+>>  tests/qemu-iotests/iotests.py |  11 +-
+>>  6 files changed, 298 insertions(+), 178 deletions(-)
+>>
 > 
-> This series is extracted from my larger series that attempted to bundle
-> our python module as an installable module. These fixes don't require that,
-> so they are being sent first as I think there's less up for debate in here.
-> 
-[...]
-> 
-> John Snow (16):
->   python/qmp.py: Define common types
->   iotests.py: use qemu.qmp type aliases
->   python/qmp.py: re-absorb MonitorResponseError
->   python/qmp.py: Do not return None from cmd_obj
->   python/qmp.py: add casts to JSON deserialization
->   python/qmp.py: add QMPProtocolError
->   python/machine.py: Fix monitor address typing
->   python/machine.py: reorder __init__
->   python/machine.py: Don't modify state in _base_args()
->   python/machine.py: Handle None events in events_wait
->   python/machine.py: use qmp.command
->   python/machine.py: Add _qmp access shim
->   python/machine.py: fix _popen access
->   python/qemu: make 'args' style arguments immutable
->   iotests.py: Adjust HMP kwargs typing
->   python/qemu: Add mypy type annotations
-> 
->  python/qemu/accel.py          |   8 +-
->  python/qemu/machine.py        | 286 ++++++++++++++++++++--------------
->  python/qemu/qmp.py            | 111 +++++++++----
->  python/qemu/qtest.py          |  53 ++++---
->  scripts/render_block_graph.py |   7 +-
->  tests/qemu-iotests/iotests.py |  11 +-
->  6 files changed, 298 insertions(+), 178 deletions(-)
+> Thanks, applied to my python-next tree:
+> https://gitlab.com/philmd/qemu/commits/python-next
 > 
 
-Thanks, applied to my python-next tree:
-https://gitlab.com/philmd/qemu/commits/python-next
+Awesome, thanks!
 
 
