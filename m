@@ -2,77 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B928C1FD4C5
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 20:45:09 +0200 (CEST)
-Received: from localhost ([::1]:41570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 356FD1FD4CB
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 20:46:48 +0200 (CEST)
+Received: from localhost ([::1]:46150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jld3c-0005wy-Qo
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 14:45:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53274)
+	id 1jld5D-0007w3-AE
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 14:46:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53460)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1jld2C-0003s5-53
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 14:43:40 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:37556)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jld2y-0005Y3-0b
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 14:44:28 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:38061)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1jld2A-0000Zs-9l
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 14:43:39 -0400
-Received: by mail-wm1-x343.google.com with SMTP id y20so3116895wmi.2
- for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 11:43:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=ZO9CXk8QOIOp/ULaqFKuKm4Yc/BI/X/L2xNDfa3rZdA=;
- b=lLYzvQ2xnwIHYFwEc441BK2f8SHPWwcZW1lkRCT8AI6rFc3H6e0l3EKzjVFURLs0Fm
- U2kFiHq+4dUrH14bFV8hKSLLdg7jxrxk0TxVeMDM+4veBOUmURt7T02UqXVZ7hc/QS2C
- KfAIHvoBwZcAEUjrUVwZTqBqSzE5p5sEsGWmKhZDyQJXDjRKdkPIduptD4S16s71bXUf
- Mc5S/F8iCaCoTQUa+yf6DEo3rpKjybBzDZ+A3a8drdIH+3tDfwHUWTyVmbGgKW3YELzd
- rYa2CJXfIx+2byotulkzXXmSg8P0xYWMW3ldAvY8aGuONNvmJj61D2yJzy3e51tbMiQb
- 3M9w==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jld2v-0000ht-CI
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 14:44:27 -0400
+Received: by mail-wr1-x444.google.com with SMTP id e1so3471046wrt.5
+ for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 11:44:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=YtNazOednAi6MOOw9lenaekpAHnI6NKLdX3/PjslyFw=;
+ b=cpr+ZxsWbDKb4OVyNaBwtmRejPSUL5S4/1xfzLjZduDqwahH8GvZXv00/DV2f4ADn5
+ nJlw/We/5Nd7nyqMaGsJypBTzsQnutgFpCTPWWMA9Xgmr9r6z5RKckDWYvDlmaggUQep
+ o1moOeS4KxjniP1BFRYovIwsBpNPP/zavn3ZIr5u1WsB00KRhGTSRf6t4PTMSAqiZ36Z
+ gow9mvrWwaXDLCOm5VopArMaGXyBG/68d1/WbD5Ttj4tbOCbbgf+BWjiOX1ZRKgifo9F
+ s4OamGzU+gYSf3YeiDrCbzCMITsxLgb4jLcAHIKGoaGTwB3ip1fSAAsV1BpAmXoj/did
+ o9jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=ZO9CXk8QOIOp/ULaqFKuKm4Yc/BI/X/L2xNDfa3rZdA=;
- b=NnSisjYv1QeZnsoaAma6lCrg/ndH1xPJXuZfLgAIJ+pMwsOsYPRhekzp0/n62+Y3Q8
- L3qz1gLksMKqRdnFRrJZybWklc5m69FuOhcij7PyMaq17NT4oE+UVvmJxEec+TwNbkaj
- 0OV9KXteheiRe4mLhyqSVT6XYFBi3hYVqPJtEHMPmeToXvpc2cJMMd+Ym0jI6I1MAGSM
- nFmgPWwfRgnQs4vnhiItm8lDW0KRl87Ft4P4OfMwxTKKdPl8z7V3J1jnXHWHUYrIeKT8
- sOR846EeNj2OnrqgXrOLesMx4Hi19x8a97C46eMMDrR1Ox+ivJwrR7sy1A1LfdXoymVA
- GKbA==
-X-Gm-Message-State: AOAM530Gd4JQdPEXLihso483qe2Z2G+qf8Gd8StWGsbqilNuH61/6GVH
- RaMMmkf/F5zVB43bwx1/4Xc=
-X-Google-Smtp-Source: ABdhPJxeaOjhnuRL6UQavnHItEkrMVmMOimGAXvxyoW/Jjp41BAkKzAOq7ExfQT1afRcq7Fk0JFTfw==
-X-Received: by 2002:a7b:c204:: with SMTP id x4mr146612wmi.22.1592419416459;
- Wed, 17 Jun 2020 11:43:36 -0700 (PDT)
-Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id h15sm471895wrt.73.2020.06.17.11.43.35
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=YtNazOednAi6MOOw9lenaekpAHnI6NKLdX3/PjslyFw=;
+ b=OfqAL0b0CgOXW597skkfdjaPOE2NV4WC6ZJl9TpEyPa3XFcXy1bobSFvS8mv1gnKGm
+ Q5OWOgphjwLK+QVXwvUQ7tExzoQk5Aj+1OZ0HSwb3y0rj8knxXiPggos2M+UrV5zBFpz
+ OoDUnecpQaWNoo1WFLLpzoiWaJsLNB7/bv/BCktri1mCrPBwcs07KC/R4/YMpg01plHt
+ 0N5vzWyJr4C1S8ad7uzfM2xTJwS+rc+8wSzTN4Bq4Gf26Qm9sYLoXjlGwLiS8jE7LbO4
+ uhFkWeibyp9ltdMEeSngMCtHmnt/Vb3aO1SuMJjpdXlqsmlQqUnpAstg4q33AHxXyCsd
+ sEIA==
+X-Gm-Message-State: AOAM531mUowZ633oo7OQcYDakrt0iSkPxReiNq5aeEQmJqzLLxJ8rwOV
+ o62EvQhOa/Xn0EOYLAxianUIYg==
+X-Google-Smtp-Source: ABdhPJwusH3lhFbO/4VXHNdvLMEoQY4u0S4V8EBiktE+smoQ/gdhKk6KbttLGEMCmzoRu/a/uNB3cg==
+X-Received: by 2002:adf:de0b:: with SMTP id b11mr630985wrm.346.1592419463466; 
+ Wed, 17 Jun 2020 11:44:23 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id j5sm509666wrm.57.2020.06.17.11.44.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Jun 2020 11:43:35 -0700 (PDT)
-Date: Wed, 17 Jun 2020 19:43:33 +0100
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Daniele Buono <dbuono@linux.vnet.ibm.com>
-Subject: Re: [PATCH v2 0/4] Add support for SafeStack
-Message-ID: <20200617184333.GO1728005@stefanha-x1.localdomain>
-References: <20200529205122.714-1-dbuono@linux.vnet.ibm.com>
+ Wed, 17 Jun 2020 11:44:21 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 475731FF7E;
+ Wed, 17 Jun 2020 19:44:21 +0100 (BST)
+References: <20200601211421.1277-1-robert.foley@linaro.org>
+User-agent: mu4e 1.5.3; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Robert Foley <robert.foley@linaro.org>
+Subject: Re: [PATCH v9 0/9] tests/vm: Add support for aarch64 VMs
+In-reply-to: <20200601211421.1277-1-robert.foley@linaro.org>
+Date: Wed, 17 Jun 2020 19:44:21 +0100
+Message-ID: <87y2olv8fu.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="FrxVhwK/bNRjN48l"
-Content-Disposition: inline
-In-Reply-To: <20200529205122.714-1-dbuono@linux.vnet.ibm.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=stefanha@gmail.com; helo=mail-wm1-x343.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,94 +88,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Cc: peter.puhov@linaro.org, philmd@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---FrxVhwK/bNRjN48l
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Robert Foley <robert.foley@linaro.org> writes:
 
-On Fri, May 29, 2020 at 04:51:18PM -0400, Daniele Buono wrote:
-> LLVM supports SafeStack instrumentation to protect against stack buffer
-> overflows, since version 3.7
->=20
-> From https://clang.llvm.org/docs/SafeStack.html:
-> "It works by separating the program stack into two distinct regions: the
-> safe stack and the unsafe stack. The safe stack stores return addresses,
-> register spills, and local variables that are always accessed in a safe
-> way, while the unsafe stack stores everything else. This separation
-> ensures that buffer overflows on the unsafe stack cannot be used to
-> overwrite anything on the safe stack."
->=20
-> Unfortunately, the use of two stack regions does not cope well with
-> QEMU's coroutines. The second stack region is not properly set up with
-> both ucontext and sigaltstack, so multiple coroutines end up sharing the
-> same memory area for the unsafe stack, causing undefined behaviors at
-> runtime (and most iochecks to fail).
->=20
-> This patch series fixes the implementation of the ucontext backend and
-> make sure that sigaltstack is never used if the compiler is applying
-> the SafeStack instrumentation. It also adds a configure flag to enable
-> SafeStack, and enables iotests when SafeStack is used.
->=20
-> Changes since v1:
->  - CONFIG_SAFESTACK is now set up in configure, and not in the code
->  - Added option for a --disable-safe-stack in configure
->  - Configure checks if SafeStack is enabled by default in the compiler,
->    and set the CONFIG_SAFESTACK accordingly
->  - Updated some comments in the code and the commit log
->=20
-> NOTE: I kept configure as Patch #3.=20
-> The reason is that the code changes will not be enabled without the
-> configure, making the code fully functional if only Patches #1 or #2 are
-> applied.
-> On the other hand, the configure patch will produce incorrect code if we
-> request SafeStack and the other patches are not applied.
->=20
-> Daniele Buono (4):
->   coroutine: support SafeStack in ucontext backend
->   coroutine: add check for SafeStack in sigaltstack
->   configure: add flags to support SafeStack
->   check-block: enable iotests with SafeStack
->=20
->  configure                    | 73 ++++++++++++++++++++++++++++++++++++
->  include/qemu/coroutine_int.h |  5 +++
->  tests/check-block.sh         | 12 +++++-
->  util/coroutine-sigaltstack.c |  4 ++
->  util/coroutine-ucontext.c    | 26 +++++++++++++
->  5 files changed, 119 insertions(+), 1 deletion(-)
->=20
-> --=20
-> 2.26.2
->=20
->=20
+> This is version 9 of the patch series to
+> add support for aarch64 VMs in the vm-build infrastructure.
+>  - Ubuntu 18.04 aarch64 VM
+>  - CentOS 8 aarch64 VM
 
-Thanks, applied to my block tree:
-https://github.com/stefanha/qemu/commits/block
+Queued to testing/next, thanks.
 
-Stefan
-
---FrxVhwK/bNRjN48l
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl7qZFUACgkQnKSrs4Gr
-c8iSSAf+PVmM1lkcVoyTkspWnqQaE4LO7zLRXn5OQc3DMrX4kw4YezrDgahYL8cD
-mzB+UfMOKnh29EOytgNc/kxcXi5BKYeHlh4KgBVjWB+MLvrEjNXj3YtlKIbZO9wp
-MBUI+mUJTIihnGOXjYhLBjjtP30A8HEmsSNFGjTCKO+t90bTuhmeD1z1d3I+7dGX
-Elfr5p0mBZxqe8AUUgnI9iCGw36OsG5J8avfOgQdPev+SH+OyThxyCsDzK6vLvJA
-dbPY+OxlAzJLokMVRgZYHINzCKNhjDf5NsVu8tsKaBQTVkF1b76Ve6+tirDF5H1z
-HphpsDIJ+/Lb16tT17ZJGWK5eYh5LQ==
-=2jDn
------END PGP SIGNATURE-----
-
---FrxVhwK/bNRjN48l--
+--=20
+Alex Benn=C3=A9e
 
