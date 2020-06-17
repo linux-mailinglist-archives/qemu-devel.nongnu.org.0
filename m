@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6B0A1FC883
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 10:26:14 +0200 (CEST)
-Received: from localhost ([::1]:45496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC9391FC891
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 10:27:54 +0200 (CEST)
+Received: from localhost ([::1]:52964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlTOf-0006cx-1n
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 04:26:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54440)
+	id 1jlTQH-0001du-Tk
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 04:27:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54470)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasper.lowell@bt.com>)
- id 1jlTN9-000532-Sb
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 04:24:40 -0400
-Received: from smtpe1.intersmtp.com ([213.121.35.79]:58732)
+ id 1jlTNC-00054A-P4
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 04:24:43 -0400
+Received: from smtpe1.intersmtp.com ([213.121.35.75]:50467)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <jasper.lowell@bt.com>)
- id 1jlTN3-0003vg-TK
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 04:24:38 -0400
-Received: from tpw09926dag06h.domain1.systemhost.net (10.9.202.33) by
- BWP09926084.bt.com (10.36.82.115) with Microsoft SMTP Server (version=TLS1_2, 
+ id 1jlTN9-0003w1-Lw
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 04:24:42 -0400
+Received: from tpw09926dag05h.domain1.systemhost.net (10.9.202.32) by
+ BWP09926080.bt.com (10.36.82.111) with Microsoft SMTP Server (version=TLS1_2, 
  cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id 15.1.1713.5; Wed, 17
- Jun 2020 09:24:08 +0100
-Received: from tpw09926dag12f.domain1.systemhost.net (10.9.212.20) by
- tpw09926dag06h.domain1.systemhost.net (10.9.202.33) with Microsoft SMTP
- Server (TLS) id 15.0.1395.4; Wed, 17 Jun 2020 09:24:31 +0100
+ Jun 2020 09:24:17 +0100
+Received: from tpw09926dag12g.domain1.systemhost.net (10.9.212.28) by
+ tpw09926dag05h.domain1.systemhost.net (10.9.202.32) with Microsoft SMTP
+ Server (TLS) id 15.0.1395.4; Wed, 17 Jun 2020 09:24:36 +0100
 Received: from RDW083A009ED65.bt.com (10.187.98.35) by
- tpw09926dag12f.domain1.systemhost.net (10.9.212.20) with Microsoft SMTP
- Server (TLS) id 15.0.1395.4 via Frontend Transport; Wed, 17 Jun 2020 09:24:31
+ tpw09926dag12g.domain1.systemhost.net (10.9.212.28) with Microsoft SMTP
+ Server (TLS) id 15.0.1395.4 via Frontend Transport; Wed, 17 Jun 2020 09:24:36
  +0100
 Received: from GBR01-CWL-obe.outbound.protection.outlook.com (104.47.20.57) by
  smtpe1.intersmtp.com (62.239.224.236) with Microsoft SMTP Server
- (TLS) id 14.3.439.0; Wed, 17 Jun 2020 09:17:09 +0100
+ (TLS) id 14.3.439.0; Wed, 17 Jun 2020 09:17:12 +0100
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=C5bVYfRrC611f8jUJhRrBo3xuyuzz2FXwKmo4Fu+SHrEJgRonpaeqiGPIe4zZI/oQNIIIeeVAd9i0KnIbK3VgrMhroO/LrTPnDH68IBUhIIa1pv0GehwSOVFzni+5FEhbzie/XHdl69Cx+xtIdLhwFFwZ0aYw4WPA64jRVGBg1GSFcgJLWjPgFh1baUmiLdoXh70KV6ROZ8c2Tqi/gF4VCccu+bUeUjkhHOem4E6tPTN31oGY1i/JOwpnO2V+WtTPVUxT5CrKh8/0cXIgPdMvLJ/MEadSagzpNo2jMK4UCBb3vI8gY0YkA/tcdJFk3bz4tBLR3a8G00JvXOymsx+nQ==
+ b=EhXtrU9p8EgR3vl4cwCtXh4znYeaXbvpk7C7ApVipOF9UF/y2cnV58STEvvrbWpzj6W62l7H5IOGUaHzuBLiaxeh9IrqvBgZAbAzjdJz73DUriZsCyKSESyIYzSl3hbPf5w6iO7celns9ceh61ST205say2Oe36fEaF4gzVSGM2gwocBIQFSfqYzDGqfUhmZ0CW/Iw44MmwWnYOlJ1eyAmmvKxIzstgaG8CzPb394sLaRth+zWNB22TG0EU1mQUSduZFPEP4mvqmCMknwrOlKVxFJzuCcrlwxka4sovjEkduZ/JSMD8xZNAo/IjdS0P7sqvb2GXiHJ1vsny34GGd1A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LeW+K9iboX3K97CORoAVE7xEbqqFwU8R2GcWPxX2ElM=;
- b=oTw/fi4YDwGbAwcqk8FK782O9WtiYM6yQei3J7G24lEBmfSpSexHyYIBBJqkCcgGpVzVt1S4L3X322xH2KVy/Rgn5gi8lc4Y/IBaHrW10Q3LRpEdyEzTrRQ5OtSWSBqEUuSZz8Brv+ry9OJmLEnoIvT19j6DdPfXLoo+6lhoIMyztctvzB13PfyF3czzn0PNZyzH0R9hfzKELG6sdNKKJRXNIfnjY9C+L5bsscUOrUP4t2Y7ezCQ4Lg9ZxTnBAOk0mjr8em3298IHaFiQX9sRAse4d2iMLwnqdapVQiJ33AwAbRltYEGoXKK2HfJe9/Z5RGrWiNzB/srRgT8iBfyrQ==
+ bh=54eo+T7L13Qlsrynt9C1L9gHU9Mlb0ek8Y+XSbMCeqI=;
+ b=iQQQBa480h+c8Tmqh3JRGYPl/7pU//sj8DeLiAvxVIiPlfwU1hGw6gJRyKxzZhFpL3rTYNC+IMz9rPISwCH3RXjLE+6kAsq301JvthNZLwrmpT7+jj6UsAyjwfyVdFD/oQLpqzmQuxuExEj4Jb09tnYVb+LohTdiInqc4E9Q7R6IcD90FiinXMKcoYcSBoQA3bwbdQXyBcRZifBX9MUSIiMCkvTohSM4KU+gsIDbcY2xprzysYHat09bpKF+jEBBUbcZAfkp39cbWB3hiyCUzkFdbnerH13nfNMMUUHFgMtv1Am4M6cGmfZvtHKLEXREHe4BwOeEUGZtpbM6r8Cdyg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bt.com; dmarc=pass action=none header.from=bt.com; dkim=pass
  header.d=bt.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bt.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LeW+K9iboX3K97CORoAVE7xEbqqFwU8R2GcWPxX2ElM=;
- b=U8onlo2qYawVOF8m/vpfLufgQyzmRzAAQm0hiUIS4NEHf/62L0yFmPa7WaQgLOvhvOB34ZDV+YpDVBlffSp6O53SAX5nzXFI67t8cHUOP9F2ryJRWI9HJ3ZfJIQwzyzlAb4FrJpwmk/zzDe94XXIEM1nZXt3S919K1H3sGr20mQ=
+ bh=54eo+T7L13Qlsrynt9C1L9gHU9Mlb0ek8Y+XSbMCeqI=;
+ b=EQ2VJsXneNf6L3uxTe12UXy7a+4qraB/AyTpfQDwWVBnxwElpP8x53cIuUFARWMVEIX3kqtVkZwdwPyJY9jD1pH+p/nMRyGTV27NPwBpMwkOF7Hsg59O51nPqAPaVmfLdaKtzoYQr8A/etf/mS3BsDx5IUvy1NceZD5uMJ1/0mI=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=bt.com;
 Received: from CWXP123MB1958.GBRP123.PROD.OUTLOOK.COM (2603:10a6:401:7b::18)
  by CWXP123MB3255.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:43::10) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3109.22; Wed, 17 Jun
- 2020 08:24:27 +0000
+ 2020 08:24:30 +0000
 Received: from CWXP123MB1958.GBRP123.PROD.OUTLOOK.COM
  ([fe80::e098:8c50:5b1e:6a1b]) by CWXP123MB1958.GBRP123.PROD.OUTLOOK.COM
  ([fe80::e098:8c50:5b1e:6a1b%7]) with mapi id 15.20.3109.021; Wed, 17 Jun 2020
- 08:24:27 +0000
+ 08:24:30 +0000
 From: Jasper Lowell <jasper.lowell@bt.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH 1/8] hw/char/escc2: Add device
-Date: Wed, 17 Jun 2020 18:23:55 +1000
-Message-ID: <20200617082402.242631-2-jasper.lowell@bt.com>
+Subject: [PATCH 2/8] hw/char/escc2: Handle interrupt generation
+Date: Wed, 17 Jun 2020 18:23:56 +1000
+Message-ID: <20200617082402.242631-3-jasper.lowell@bt.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200617082402.242631-1-jasper.lowell@bt.com>
 References: <20200617082402.242631-1-jasper.lowell@bt.com>
@@ -76,37 +76,37 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (185.128.24.45) by
  SG2PR02CA0051.apcprd02.prod.outlook.com (2603:1096:4:54::15) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3109.21 via Frontend Transport; Wed, 17 Jun 2020 08:24:23 +0000
+ 15.20.3109.21 via Frontend Transport; Wed, 17 Jun 2020 08:24:27 +0000
 X-Mailer: git-send-email 2.26.2
 X-Originating-IP: [185.128.24.45]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 66f3ef93-017a-40cc-bc86-08d81297d8e5
+X-MS-Office365-Filtering-Correlation-Id: 3ecfa6c9-08b3-4706-44f2-08d81297db59
 X-MS-TrafficTypeDiagnostic: CWXP123MB3255:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <CWXP123MB3255BC608445B6278AF9A20C839A0@CWXP123MB3255.GBRP123.PROD.OUTLOOK.COM>
+X-Microsoft-Antispam-PRVS: <CWXP123MB3255D320CA879F7144DBD724839A0@CWXP123MB3255.GBRP123.PROD.OUTLOOK.COM>
 X-Antispam-2: 1
-X-MS-Oob-TLC-OOBClassifiers: OLM:3383;
+X-MS-Oob-TLC-OOBClassifiers: OLM:3173;
 X-Forefront-PRVS: 04371797A5
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: erQ5F5WdtW5u9Z+LIacYp7XWrc7o+7ZrvHdpKIhgc1p3mbLcuDoVaacblwW1pBlPAPiQbJ4yDwFR4QiZesVMbrAs16fq9L19q7L/7+q2YcYiJcHNpq1AgT9icxRUdWBxnHnfQI/JntlqtVgfzROol2MDe9oLF6zqE8Q+Lhcy86OJW7zX5tftWL2n3eJ+tDjBj1wK/HCWlEtun5nAmBWgLXN80TMGarNyr5foOpa9K5rHVuPS0fKLQ0wrVQL9esQIKorGB69bCfg4T0o4VHefidGoLv3ysr3yEQmoadXBk4Yw0BGmONCc3C2f9+kk8K7L50A+XZZ5b7zSHZYIXWj13/9OD3t4HSU3v3JtzrjTNLsAwC+1oSFQjWqZAq0/vNeK
+X-Microsoft-Antispam-Message-Info: w0sOn0wXBCrhoR1S+fgeVHSOHRDUhFVph8SP5fcAraTnCbc/UiU+9EZGZgScjZ0h8bm33h+59rWEqI302rgJjfz0cWMNhQXFVPCeRR8HCKqYrPPu97kwIQOXfw1u58uwR5+iZQs4j9P7R1bozk8Vw04F4/qTcNBL4MkzQQxvfizz8HVCtuuZXX9yH5FxUtSt91tQeWBTexS9KogfFVDj2kNzTAC+/7YKTIWa90IpCtEke0MLhqexIEfHRjNk9K2HNCz2To/OPFIWwlU9oeAbwQYyBwvu3bAZpVZGTEsVEtxmk59c3H0F5M+T0iedR2QtelppPNfXVupFbM01d7CA+fua+eBWhhLz7ikbhYvWHU8xaJPq/aNgq2TBsuYDLQuh
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:CWXP123MB1958.GBRP123.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
  SFTY:;
- SFS:(4636009)(396003)(136003)(366004)(346002)(376002)(39860400002)(44832011)(1076003)(8676002)(2616005)(316002)(8936002)(6666004)(6486002)(956004)(2906002)(5660300002)(83380400001)(6506007)(69590400007)(26005)(6512007)(36756003)(6916009)(186003)(16526019)(478600001)(52116002)(66556008)(66476007)(4326008)(66946007)(30864003)(86362001);
+ SFS:(4636009)(396003)(136003)(366004)(346002)(376002)(39860400002)(44832011)(1076003)(8676002)(2616005)(316002)(8936002)(6666004)(6486002)(956004)(2906002)(5660300002)(83380400001)(6506007)(69590400007)(26005)(6512007)(36756003)(6916009)(186003)(16526019)(478600001)(52116002)(66556008)(66476007)(4326008)(66946007)(86362001);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: ndODFv3llosAooUDnuxPH5gewvqfvgcCaBd/P/1gnMJ6T+a0M7tR1ESfGrQ0/q9LTSWVNZzxbS9+U0FUXt+3JQnq2I06CMWrXst1JErr91Zqp+akMnr4a5q1TJ46Y4JMBkIGfwfgp0GBI4H1xHjcelkyGrshaNm4xoA65oQazLabWjnoZHbTG9vULY3xZbB+lZTwKKjgSQnbTYgUm4t3c4Z7ID1KiSXL78MgmrReo5l/YOuBwfNmcNL0tppvWH6X2rh0hDmXBWWp+BCg8lXBLbFwYfTmFIJvUNAjy5DCEDZfQbPzRMLw8WLUVi5LU4e6UqaGMEvXOAb+3UZo4xpxtQnM7dkmo04L0ICmYI5QdnRjLJ4/vFutyEoCc24HPrLnmmMdrlEjpvqvXU2XrnNkhKpB1vQI5r3TUY2pjyxSKEbfzjbyaokLXQZ0ThRXehkEcGNO1qwZPQAWX7ojEALz7Yex30POk7b72BN7onxWTpI=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 66f3ef93-017a-40cc-bc86-08d81297d8e5
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jun 2020 08:24:27.0426 (UTC)
+X-MS-Exchange-AntiSpam-MessageData: 0Z7sW5Mzp/G2aDTk9uq8Xod6fKOrohwhDLl+qDIuJsLAvIs9Wb2b76Pa+yFdAzdSQQTxKthSCZz5uiS2nLXJsS/+UibZ0XLw+WABmlsq8UidAinA3RItZZoc/BYqWsbJaefxKFDbSWQ8IftY/WCAZfWickSp0/1ISjFpDgf57tcuCe8ShsDEhTxgwW/s3vULdiE+FiaMxXSgfdeO5ANCECFIs1wG+VUqYnr4ZggAjDgmMEL7UCxlv5jPzRuRubJsV5b57FpQsWLqWUqI/YCC5SQReZPjCio+k0ZPsMd1E0HLsXUBmQDRptrP40oGk/OlolKnu85fLicmHfEtKAxGCfMHLJdadqKjBfDEhruZ8OJ1bnoHk9e1CIkRlecj/GcmvpYhnBtdS3Twtz1egmN8Ve7TDTfTwDNCo42c6aK+GS0AhLuhd+8K7fXPGIY3yyRV8Bl2XmzpHxnX+ZGF9h2hZ9kNfWhOS4Iqgmw3HRMmF1k=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3ecfa6c9-08b3-4706-44f2-08d81297db59
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jun 2020 08:24:30.5655 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: a7f35688-9c00-4d5e-ba41-29f146377ab0
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 610y78Rc8SMxVJS8QEz+WNFZRAAajxuc0czSQKAChP3G9XWLtMfA3S70Oe5c372KjFdUuaBNKclLdzhNIKbKEA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: SNw/dj7WkJhjhDS+3VmtvmBmrSrwYbFuJhPMjzb4CHtNZ23Pg533AYW7dLCyckIcdlVn+AeXW/89KSva9jDiHw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWXP123MB3255
 X-OriginatorOrg: bt.com
-Received-SPF: pass client-ip=213.121.35.79; envelope-from=jasper.lowell@bt.com;
+Received-SPF: pass client-ip=213.121.35.75; envelope-from=jasper.lowell@bt.com;
  helo=smtpe1.intersmtp.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/17 04:24:32
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/17 04:24:37
 X-ACL-Warn: Detected OS   = Windows 7 or 8 [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -133,691 +133,190 @@ Cc: tony.nguyen@bt.com, mark.cave-ayland@ilande.co.uk, atar4qemu@gmail.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Ultra 5 (Darwin) machine that is emulated for the Sun4u architecture
-ships with a SAB 82532 ESCC2 device that is used for providing the
-default ttya/ttyb serial consoles. This device is introduced to
-increment Sun4u emulation towards being hardware faithful. ISA support
-is included so that the device can be attached to the Sun ebus.
-
-Due to the complexity of the chip, the SAB 82532 ESCC2 is assumed to be
-configured and used in the ASYNC serial mode. This is the case for
-typical operating system drivers like those in Linux and OpenBSD.
-
-While ASYNC serial mode is assumed, the implementation is designed with
-the assumption that the full set of serial modes may be added at a later
-date. Registers can not be represented as uint8_t when more than a
-single serial mode is correctly implemented and so, the design avoids
-assuming the data structure used for registers. Avoiding this assumption
-leads to loops, rather than memset, along with a verbose switch case.
-The verbose switch case also has the benefit of preemptively detangling
-the jungle of features that the device supports.
-
 Signed-off-by: Jasper Lowell <jasper.lowell@bt.com>
 ---
- hw/char/Kconfig         |   8 +
- hw/char/Makefile.objs   |   1 +
- hw/char/escc2.c         | 581 ++++++++++++++++++++++++++++++++++++++++
- hw/char/trace-events    |   4 +
- include/hw/char/escc2.h |  17 ++
- 5 files changed, 611 insertions(+)
- create mode 100644 hw/char/escc2.c
- create mode 100644 include/hw/char/escc2.h
+ hw/char/escc2.c      | 88 ++++++++++++++++++++++++++++++++++++++++++++
+ hw/char/trace-events |  1 +
+ 2 files changed, 89 insertions(+)
 
-diff --git a/hw/char/Kconfig b/hw/char/Kconfig
-index 40e7a8b8bb..87352a75d8 100644
---- a/hw/char/Kconfig
-+++ b/hw/char/Kconfig
-@@ -1,6 +1,14 @@
- config ESCC
-     bool
- 
-+config ESCC2
-+    bool
-+
-+config ESCC2_ISA
-+    bool
-+    depends on ISA_BUS
-+    select ESCC2
-+
- config PARALLEL
-     bool
-     default y
-diff --git a/hw/char/Makefile.objs b/hw/char/Makefile.objs
-index 9e9a6c1aff..fd4766fd36 100644
---- a/hw/char/Makefile.objs
-+++ b/hw/char/Makefile.objs
-@@ -1,5 +1,6 @@
- common-obj-$(CONFIG_IPACK) += ipoctal232.o
- common-obj-$(CONFIG_ESCC) += escc.o
-+common-obj-$(CONFIG_ESCC2) += escc2.o
- common-obj-$(CONFIG_NRF51_SOC) += nrf51_uart.o
- common-obj-$(CONFIG_PARALLEL) += parallel.o
- common-obj-$(CONFIG_ISA_BUS) += parallel-isa.o
 diff --git a/hw/char/escc2.c b/hw/char/escc2.c
-new file mode 100644
-index 0000000000..94528b8a4c
---- /dev/null
+index 94528b8a4c..926346482f 100644
+--- a/hw/char/escc2.c
 +++ b/hw/char/escc2.c
-@@ -0,0 +1,581 @@
-+/* SPDX-License-Identifier: GPL-2.0-or-later */
-+/*
-+ * QEMU Enhanced Serial Communication Controller (ESCC2 v3.2).
-+ * Modelled according to the user manual (version 07.96).
-+ *
-+ * Copyright (C) 2020 Jasper Lowell
-+ */
+@@ -8,6 +8,7 @@
+ 
+ #include "qemu/osdep.h"
+ #include "hw/char/escc2.h"
++#include "hw/irq.h"
+ #include "hw/isa/isa.h"
+ #include "hw/qdev-properties.h"
+ #include "qapi/error.h"
+@@ -55,6 +56,13 @@
+ 
+ /* CCR0. */
+ #define REGISTER_CCR0_OFFSET                    0x2c
++#define REGISTER_CCR0_PU                        0x80
++#define REGISTER_CCR0_MCE                       0x40
++#define REGISTER_CCR0_SC2                       0x10
++#define REGISTER_CCR0_SC1                       0x8
++#define REGISTER_CCR0_SC0                       0x4
++#define REGISTER_CCR0_SM1                       0x2
++#define REGISTER_CCR0_SM0                       0x1
+ 
+ /* CCR1. */
+ #define REGISTER_CCR1_OFFSET                    0x2d
+@@ -94,12 +102,23 @@
+ 
+ /* GIS. */
+ #define REGISTER_GIS_OFFSET                     0x38
++#define REGISTER_GIS_PI                         0x80
++#define REGISTER_GIS_ISA1                       0x8
++#define REGISTER_GIS_ISA0                       0x4
++#define REGISTER_GIS_ISB1                       0x2
++#define REGISTER_GIS_ISB0                       0x1
+ 
+ /* IVA. */
+ #define REGISTER_IVA_OFFSET                     0x38
+ 
+ /* IPC. */
+ #define REGISTER_IPC_OFFSET                     0x39
++#define REGISTER_IPC_VIS                        0x80
++#define REGISTER_IPC_SLA1                       0x10
++#define REGISTER_IPC_SLA0                       0x8
++#define REGISTER_IPC_CASM                       0x4
++#define REGISTER_IPC_IC1                        0x2
++#define REGISTER_IPC_IC0                        0x1
+ 
+ /* ISR0. */
+ #define REGISTER_ISR0_OFFSET                    0x3a
+@@ -207,6 +226,7 @@ struct ESCC2State {
+     DeviceState parent;
+ 
+     MemoryRegion io;
++    qemu_irq irq;
+     ESCC2ChannelState channel[CHANNEL_COUNT];
+ };
+ 
+@@ -218,9 +238,62 @@ struct ESCC2State {
+ typedef struct ESCC2ISAState {
+     ISADevice parent;
+     uint32_t iobase;
++    uint32_t irq;
+     struct ESCC2State controller;
+ } ESCC2ISAState;
+ 
++static void escc2_irq_update(ESCC2State *controller)
++{
++    bool power;
++    uint8_t gis;
++    ESCC2ChannelState *a, *b;
 +
-+#include "qemu/osdep.h"
-+#include "hw/char/escc2.h"
-+#include "hw/isa/isa.h"
-+#include "hw/qdev-properties.h"
-+#include "qapi/error.h"
-+#include "sysemu/reset.h"
-+#include "trace.h"
-+
-+/* STAR. */
-+#define REGISTER_STAR_OFFSET                    0x20
-+
-+/* CMDR. */
-+#define REGISTER_CMDR_OFFSET                    0x20
-+
-+/* MODE. */
-+#define REGISTER_MODE_OFFSET                    0x22
-+
-+/* TIMR. */
-+#define REGISTER_TIMR_OFFSET                    0x23
-+
-+/* XON. */
-+#define REGISTER_XON_OFFSET                     0x24
-+
-+/* XOFF. */
-+#define REGISTER_XOFF_OFFSET                    0x25
-+
-+/* TCR. */
-+#define REGISTER_TCR_OFFSET                     0x26
-+
-+/* DAFO. */
-+#define REGISTER_DAFO_OFFSET                    0x27
-+
-+/* RFC. */
-+#define REGISTER_RFC_OFFSET                     0x28
-+
-+/* RBCL. */
-+#define REGISTER_RBCL_OFFSET                    0x2a
-+
-+/* XBCL. */
-+#define REGISTER_XBCL_OFFSET                    0x2a
-+
-+/* RBCH. */
-+#define REGISTER_RBCH_OFFSET                    0x2b
-+
-+/* XBCH. */
-+#define REGISTER_XBCH_OFFSET                    0x2b
-+
-+/* CCR0. */
-+#define REGISTER_CCR0_OFFSET                    0x2c
-+
-+/* CCR1. */
-+#define REGISTER_CCR1_OFFSET                    0x2d
-+
-+/* CCR2. */
-+#define REGISTER_CCR2_OFFSET                    0x2e
-+
-+/* CCR3. */
-+#define REGISTER_CCR3_OFFSET                    0x2f
-+
-+/* TSAX. */
-+#define REGISTER_TSAX_OFFSET                    0x30
-+
-+/* TSAR. */
-+#define REGISTER_TSAR_OFFSET                    0x31
-+
-+/* XCCR. */
-+#define REGISTER_XCCR_OFFSET                    0x32
-+
-+/* RCCR. */
-+#define REGISTER_RCCR_OFFSET                    0x33
-+
-+/* VSTR. */
-+#define REGISTER_VSTR_OFFSET                    0x34
-+
-+/* BGR. */
-+#define REGISTER_BGR_OFFSET                     0x34
-+
-+/* TIC. */
-+#define REGISTER_TIC_OFFSET                     0x35
-+
-+/* MXN. */
-+#define REGISTER_MXN_OFFSET                     0x36
-+
-+/* MXF. */
-+#define REGISTER_MXF_OFFSET                     0x37
-+
-+/* GIS. */
-+#define REGISTER_GIS_OFFSET                     0x38
-+
-+/* IVA. */
-+#define REGISTER_IVA_OFFSET                     0x38
-+
-+/* IPC. */
-+#define REGISTER_IPC_OFFSET                     0x39
-+
-+/* ISR0. */
-+#define REGISTER_ISR0_OFFSET                    0x3a
-+
-+/* IMR0. */
-+#define REGISTER_IMR0_OFFSET                    0x3a
-+
-+/* ISR1. */
-+#define REGISTER_ISR1_OFFSET                    0x3b
-+
-+/* IMR1. */
-+#define REGISTER_IMR1_OFFSET                    0x3b
-+
-+/* PVR. */
-+#define REGISTER_PVR_OFFSET                     0x3c
-+
-+/* PIS. */
-+#define REGISTER_PIS_OFFSET                     0x3d
-+
-+/* PIM. */
-+#define REGISTER_PIM_OFFSET                     0x3d
-+
-+/* PCR. */
-+#define REGISTER_PCR_OFFSET                     0x3e
-+
-+/* CCR4. */
-+#define REGISTER_CCR4_OFFSET                    0x3f
-+
-+enum {
-+    REGISTER_STAR = 0,
-+    REGISTER_CMDR,
-+    REGISTER_MODE,
-+    REGISTER_TIMR,
-+    REGISTER_XON,
-+    REGISTER_XOFF,
-+    REGISTER_TCR,
-+    REGISTER_DAFO,
-+    REGISTER_RFC,
-+    REGISTER_RBCL,
-+    REGISTER_XBCL,
-+    REGISTER_RBCH,
-+    REGISTER_XBCH,
-+    REGISTER_CCR0,
-+    REGISTER_CCR1,
-+    REGISTER_CCR2,
-+    REGISTER_CCR3,
-+    REGISTER_TSAX,
-+    REGISTER_TSAR,
-+    REGISTER_XCCR,
-+    REGISTER_RCCR,
-+    REGISTER_VSTR,
-+    REGISTER_BGR,
-+    REGISTER_TIC,
-+    REGISTER_MXN,
-+    REGISTER_MXF,
-+    REGISTER_GIS,
-+    REGISTER_IVA,
-+    REGISTER_IPC,
-+    REGISTER_ISR0,
-+    REGISTER_IMR0,
-+    REGISTER_ISR1,
-+    REGISTER_IMR1,
-+    REGISTER_PVR,
-+    REGISTER_PIS,
-+    REGISTER_PIM,
-+    REGISTER_PCR,
-+    REGISTER_CCR4,
-+    /* End. */
-+    REGISTER_COUNT
-+};
-+
-+typedef struct ESCC2State ESCC2State;
-+
-+#define CHANNEL_FIFO_LENGTH                     0x20
-+typedef struct ESCC2ChannelState {
-+    ESCC2State *controller;
++    gis = 0;
++    a = CONTROLLER_CHANNEL_A(controller);
++    b = CONTROLLER_CHANNEL_B(controller);
 +
 +    /*
-+     * The SAB 82532 ships with 64 byte FIFO queues for transmitting and
-+     * receiving but only 32 bytes are addressable.
++     * Interrupts are not propagated to the CPU when in power-down mode. There
++     * is an exception for interrupts from the universal port.
 +     */
-+    uint8_t fifo_receive[CHANNEL_FIFO_LENGTH];
-+    uint8_t fifo_transmit[CHANNEL_FIFO_LENGTH];
++    power = REGISTER_READ(a, REGISTER_CCR0) & REGISTER_CCR0_PU;
 +
-+    uint8_t register_set[REGISTER_COUNT];
-+} ESCC2ChannelState;
-+
-+#define CHANNEL_A_OFFSET                        0x0
-+#define CHANNEL_B_OFFSET                        0x40
-+#define CHANNEL_LENGTH                          0x40
-+
-+#define REGISTER_READ(channel, idx) \
-+    ((channel)->register_set[(idx)])
-+#define REGISTER_WRITE(channel, idx, value) \
-+    ((channel)->register_set[(idx)] = (value))
-+
-+enum {
-+    CHANNEL_A = 0,
-+    CHANNEL_B,
-+    /* End. */
-+    CHANNEL_COUNT
-+};
-+
-+struct ESCC2State {
-+    DeviceState parent;
-+
-+    MemoryRegion io;
-+    ESCC2ChannelState channel[CHANNEL_COUNT];
-+};
-+
-+#define CONTROLLER_CHANNEL_A(controller) (&(controller)->channel[CHANNEL_A])
-+#define CONTROLLER_CHANNEL_B(controller) (&(controller)->channel[CHANNEL_B])
-+#define CHANNEL_CHAR(channel) \
-+    ((channel) == CONTROLLER_CHANNEL_A((channel)->controller) ? 'A' : 'B')
-+
-+typedef struct ESCC2ISAState {
-+    ISADevice parent;
-+    uint32_t iobase;
-+    struct ESCC2State controller;
-+} ESCC2ISAState;
-+
-+static void escc2_channel_reset(ESCC2ChannelState *channel)
-+{
-+    unsigned int i;
-+
-+    memset(channel->fifo_receive, 0, sizeof(channel->fifo_receive));
-+    memset(channel->fifo_transmit, 0, sizeof(channel->fifo_transmit));
-+    for (i = 0; i < REGISTER_COUNT; i++) {
-+        channel->register_set[i] = 0;
++    if (REGISTER_READ(a, REGISTER_ISR0) & ~(REGISTER_READ(a, REGISTER_IMR0))) {
++        gis |= REGISTER_GIS_ISA0;
++    }
++    if (REGISTER_READ(a, REGISTER_ISR1) & ~(REGISTER_READ(a, REGISTER_IMR1))) {
++        gis |= REGISTER_GIS_ISA1;
 +    }
 +
-+    channel->register_set[REGISTER_STAR] = 0x40;
-+    channel->register_set[REGISTER_VSTR] = 0x2;
-+}
-+
-+static void escc2_reset(void *opaque)
-+{
-+    unsigned int i;
-+    ESCC2State *controller = opaque;
-+
-+    for (i = 0; i < CHANNEL_COUNT; i++) {
-+        escc2_channel_reset(&controller->channel[i]);
++    if (REGISTER_READ(b, REGISTER_ISR0) & ~(REGISTER_READ(b, REGISTER_IMR0))) {
++        gis |= REGISTER_GIS_ISB0;
 +    }
-+}
++    if (REGISTER_READ(b, REGISTER_ISR1) & ~(REGISTER_READ(b, REGISTER_IMR1))) {
++        gis |= REGISTER_GIS_ISB1;
++    }
 +
-+static uint64_t escc2_mem_read(void *opaque, hwaddr addr, unsigned size)
-+{
-+    uint8_t value, offset;
-+    ESCC2State *controller;
-+    ESCC2ChannelState *channel;
++    if (REGISTER_READ(a, REGISTER_PIS) & ~(REGISTER_READ(a, REGISTER_PIM))) {
++        gis |= REGISTER_GIS_PI;
++        /*
++         * Ensure that interrupts are propagated even if the controller is in
++         * power-down mode.
++         */
++        power = true;
++    }
 +
-+    assert(addr < (CHANNEL_COUNT * CHANNEL_LENGTH));
-+    assert(size == sizeof(uint8_t));
++    /* GIS is accessible from either channel and must be synchronised. */
++    REGISTER_WRITE(a, REGISTER_GIS, gis);
++    REGISTER_WRITE(b, REGISTER_GIS, gis);
 +
-+    controller = opaque;
-+    if (addr < CHANNEL_LENGTH) {
-+        channel = CONTROLLER_CHANNEL_A(controller);
-+        offset = addr;
++    if (gis && power) {
++        qemu_irq_raise(controller->irq);
 +    } else {
-+        channel = CONTROLLER_CHANNEL_B(controller);
-+        offset = addr - CHANNEL_LENGTH;
++        qemu_irq_lower(controller->irq);
 +    }
 +
-+    switch (offset) {
-+    case 0 ... (CHANNEL_FIFO_LENGTH - 1):
-+        value = channel->fifo_receive[offset];
-+        break;
-+    case REGISTER_STAR_OFFSET:
-+        value = REGISTER_READ(channel, REGISTER_STAR);
-+        break;
-+    case REGISTER_MODE_OFFSET:
-+        value = REGISTER_READ(channel, REGISTER_MODE);
-+        break;
-+    case REGISTER_TIMR_OFFSET:
-+        value = REGISTER_READ(channel, REGISTER_TIMR);
-+        break;
-+    case REGISTER_XON_OFFSET:
-+        value = REGISTER_READ(channel, REGISTER_XON);
-+        break;
-+    case REGISTER_XOFF_OFFSET:
-+        value = REGISTER_READ(channel, REGISTER_XOFF);
-+        break;
-+    case REGISTER_TCR_OFFSET:
-+        value = REGISTER_READ(channel, REGISTER_TCR);
-+        break;
-+    case REGISTER_DAFO_OFFSET:
-+        value = REGISTER_READ(channel, REGISTER_DAFO);
-+        break;
-+    case REGISTER_RFC_OFFSET:
-+        value = REGISTER_READ(channel, REGISTER_RFC);
-+        break;
-+    case REGISTER_RBCL_OFFSET:
-+        value = REGISTER_READ(channel, REGISTER_RBCL);
-+        break;
-+    case REGISTER_RBCH_OFFSET:
-+        value = REGISTER_READ(channel, REGISTER_RBCH);
-+        break;
-+    case REGISTER_CCR0_OFFSET:
-+        value = REGISTER_READ(channel, REGISTER_CCR0);
-+        break;
-+    case REGISTER_CCR1_OFFSET:
-+        value = REGISTER_READ(channel, REGISTER_CCR1);
-+        break;
-+    case REGISTER_CCR2_OFFSET:
-+        value = REGISTER_READ(channel, REGISTER_CCR2);
-+        break;
-+    case REGISTER_CCR3_OFFSET:
-+        value = REGISTER_READ(channel, REGISTER_CCR3);
-+        break;
-+    case REGISTER_VSTR_OFFSET:
-+        value = REGISTER_READ(channel, REGISTER_VSTR);
-+        break;
-+    case REGISTER_GIS_OFFSET:
-+        value = REGISTER_READ(channel, REGISTER_GIS);
-+        break;
-+    case REGISTER_IPC_OFFSET:
-+        value = REGISTER_READ(channel, REGISTER_IPC);
-+        break;
-+    case REGISTER_ISR0_OFFSET:
-+        value = REGISTER_READ(channel, REGISTER_ISR0);
-+        break;
-+    case REGISTER_ISR1_OFFSET:
-+        value = REGISTER_READ(channel, REGISTER_ISR1);
-+        break;
-+    case REGISTER_PVR_OFFSET:
-+        value = REGISTER_READ(channel, REGISTER_PVR);
-+        break;
-+    case REGISTER_PIS_OFFSET:
-+        value = REGISTER_READ(channel, REGISTER_PIS);
-+        break;
-+    case REGISTER_PCR_OFFSET:
-+        value = REGISTER_READ(channel, REGISTER_PCR);
-+        break;
-+    case REGISTER_CCR4_OFFSET:
-+        value = REGISTER_READ(channel, REGISTER_CCR4);
-+        break;
-+    default:
-+        value = 0;
-+        break;
-+    }
-+
-+    trace_escc2_mem_read(CHANNEL_CHAR(channel), offset, value);
-+    return value;
++    trace_escc2_irq_update(gis);
 +}
 +
-+static void escc2_mem_write(void *opaque, hwaddr addr, uint64_t value,
-+        unsigned size)
-+{
-+    uint8_t offset;
-+    ESCC2State *controller;
-+    ESCC2ChannelState *channel;
-+
-+    assert(addr < (CHANNEL_COUNT * CHANNEL_LENGTH));
-+    assert(size == sizeof(uint8_t));
-+    assert(value <= 0xff);
-+
-+    controller = opaque;
-+    if (addr < CHANNEL_LENGTH) {
-+        channel = CONTROLLER_CHANNEL_A(controller);
-+        offset = addr;
-+    } else {
-+        channel = CONTROLLER_CHANNEL_B(controller);
-+        offset = addr - CHANNEL_LENGTH;
-+    }
-+
-+    switch (offset) {
-+    case 0 ... (CHANNEL_FIFO_LENGTH - 1):
-+        channel->fifo_transmit[offset] = value;
-+        break;
-+    case REGISTER_CMDR_OFFSET:
-+        REGISTER_WRITE(channel, REGISTER_CMDR, value);
-+        break;
-+    case REGISTER_MODE_OFFSET:
-+        REGISTER_WRITE(channel, REGISTER_MODE, value);
-+        break;
-+    case REGISTER_TIMR_OFFSET:
-+        REGISTER_WRITE(channel, REGISTER_TIMR, value);
-+        break;
-+    case REGISTER_XON_OFFSET:
-+        REGISTER_WRITE(channel, REGISTER_XON, value);
-+        break;
-+    case REGISTER_XOFF_OFFSET:
-+        REGISTER_WRITE(channel, REGISTER_XOFF, value);
-+        break;
-+    case REGISTER_TCR_OFFSET:
-+        REGISTER_WRITE(channel, REGISTER_TCR, value);
-+        break;
-+    case REGISTER_DAFO_OFFSET:
-+        REGISTER_WRITE(channel, REGISTER_DAFO, value);
-+        break;
-+    case REGISTER_RFC_OFFSET:
-+        REGISTER_WRITE(channel, REGISTER_RFC, value);
-+        break;
-+    case REGISTER_XBCL_OFFSET:
-+        REGISTER_WRITE(channel, REGISTER_XBCL, value);
-+        break;
-+    case REGISTER_XBCH_OFFSET:
-+        REGISTER_WRITE(channel, REGISTER_XBCH, value);
-+        break;
-+    case REGISTER_CCR0_OFFSET:
-+        REGISTER_WRITE(channel, REGISTER_CCR0, value);
-+        break;
-+    case REGISTER_CCR1_OFFSET:
-+        REGISTER_WRITE(channel, REGISTER_CCR1, value);
-+        break;
-+    case REGISTER_CCR2_OFFSET:
-+        REGISTER_WRITE(channel, REGISTER_CCR2, value);
-+        break;
-+    case REGISTER_CCR3_OFFSET:
-+        REGISTER_WRITE(channel, REGISTER_CCR3, value);
-+        break;
-+    case REGISTER_TSAX_OFFSET:
-+        REGISTER_WRITE(channel, REGISTER_TSAX, value);
-+        break;
-+    case REGISTER_TSAR_OFFSET:
-+        REGISTER_WRITE(channel, REGISTER_TSAR, value);
-+        break;
-+    case REGISTER_XCCR_OFFSET:
-+        REGISTER_WRITE(channel, REGISTER_XCCR, value);
-+        break;
-+    case REGISTER_RCCR_OFFSET:
-+        REGISTER_WRITE(channel, REGISTER_RCCR, value);
-+        break;
-+    case REGISTER_BGR_OFFSET:
-+        REGISTER_WRITE(channel, REGISTER_BGR, value);
-+        break;
-+    case REGISTER_TIC_OFFSET:
-+        REGISTER_WRITE(channel, REGISTER_TIC, value);
-+        break;
-+    case REGISTER_MXN_OFFSET:
-+        REGISTER_WRITE(channel, REGISTER_MXN, value);
-+        break;
-+    case REGISTER_MXF_OFFSET:
-+        REGISTER_WRITE(channel, REGISTER_MXF, value);
-+        break;
-+    case REGISTER_IVA_OFFSET:
-+        REGISTER_WRITE(CONTROLLER_CHANNEL_A(controller), REGISTER_IVA, value);
-+        REGISTER_WRITE(CONTROLLER_CHANNEL_B(controller), REGISTER_IVA, value);
-+        break;
-+    case REGISTER_IPC_OFFSET:
-+        REGISTER_WRITE(CONTROLLER_CHANNEL_A(controller), REGISTER_IPC, value);
-+        REGISTER_WRITE(CONTROLLER_CHANNEL_B(controller), REGISTER_IPC, value);
-+        break;
-+    case REGISTER_IMR0_OFFSET:
-+        REGISTER_WRITE(channel, REGISTER_IMR0, value);
-+        break;
-+    case REGISTER_IMR1_OFFSET:
-+        REGISTER_WRITE(channel, REGISTER_IMR1, value);
-+        break;
-+    case REGISTER_PVR_OFFSET:
-+        REGISTER_WRITE(channel, REGISTER_PVR, value);
-+        break;
-+    case REGISTER_PIM_OFFSET:
-+        REGISTER_WRITE(CONTROLLER_CHANNEL_A(controller), REGISTER_PIM, value);
-+        REGISTER_WRITE(CONTROLLER_CHANNEL_B(controller), REGISTER_PIM, value);
-+        break;
-+    case REGISTER_PCR_OFFSET:
-+        REGISTER_WRITE(CONTROLLER_CHANNEL_A(controller), REGISTER_PCR, value);
-+        REGISTER_WRITE(CONTROLLER_CHANNEL_B(controller), REGISTER_PCR, value);
-+        break;
-+    case REGISTER_CCR4_OFFSET:
-+        REGISTER_WRITE(channel, REGISTER_CCR4, value);
-+        break;
-+    default:
-+        /* Registers do not exhaustively cover the addressable region. */
-+        break;
-+    }
-+
-+    trace_escc2_mem_write(CHANNEL_CHAR(channel), offset, value);
-+}
-+
-+static void escc2_realize(DeviceState *dev, Error **errp)
-+{
-+    unsigned int i;
-+    ESCC2ChannelState *channel;
-+    ESCC2State *controller = ESCC2(dev);
-+
-+    for (i = 0; i < CHANNEL_COUNT; i++) {
-+        channel = &controller->channel[i];
-+        channel->controller = controller;
-+    }
-+
-+    qemu_register_reset(escc2_reset, controller);
-+    escc2_reset(controller);
-+}
-+
-+const MemoryRegionOps escc2_mem_ops = {
-+    .read = escc2_mem_read,
-+    .write = escc2_mem_write,
-+    .impl = {
-+        .min_access_size = 1,
-+        .max_access_size = 1
-+    },
-+    .endianness = DEVICE_LITTLE_ENDIAN,
-+};
-+
-+static void escc2_isa_realize(DeviceState *dev, Error **errp)
-+{
-+    ESCC2ISAState *isa = ESCC2_ISA(dev);
-+    ESCC2State *controller = &isa->controller;
-+
-+    if (isa->iobase == -1) {
-+        error_setg(errp, "Base address must be provided.");
+ static void escc2_channel_reset(ESCC2ChannelState *channel)
+ {
+     unsigned int i;
+@@ -320,15 +393,22 @@ static uint64_t escc2_mem_read(void *opaque, hwaddr addr, unsigned size)
+         break;
+     case REGISTER_ISR0_OFFSET:
+         value = REGISTER_READ(channel, REGISTER_ISR0);
++        REGISTER_WRITE(channel, REGISTER_ISR0, 0);
++        escc2_irq_update(controller);
+         break;
+     case REGISTER_ISR1_OFFSET:
+         value = REGISTER_READ(channel, REGISTER_ISR1);
++        REGISTER_WRITE(channel, REGISTER_ISR1, 0);
++        escc2_irq_update(controller);
+         break;
+     case REGISTER_PVR_OFFSET:
+         value = REGISTER_READ(channel, REGISTER_PVR);
+         break;
+     case REGISTER_PIS_OFFSET:
+         value = REGISTER_READ(channel, REGISTER_PIS);
++        REGISTER_WRITE(CONTROLLER_CHANNEL_A(controller), REGISTER_PIS, 0);
++        REGISTER_WRITE(CONTROLLER_CHANNEL_B(controller), REGISTER_PIS, 0);
++        escc2_irq_update(controller);
+         break;
+     case REGISTER_PCR_OFFSET:
+         value = REGISTER_READ(channel, REGISTER_PCR);
+@@ -506,6 +586,13 @@ static void escc2_isa_realize(DeviceState *dev, Error **errp)
+         return;
+     }
+ 
++    if (isa->irq == -1) {
++        error_setg(errp, "IRQ must be provided.");
 +        return;
 +    }
 +
-+    object_property_set_bool(OBJECT(controller), true, "realized", errp);
-+    if (*errp) {
-+        return;
-+    }
++    isa_init_irq(ISA_DEVICE(dev), &controller->irq, isa->irq);
 +
-+    memory_region_init_io(&controller->io, OBJECT(dev), &escc2_mem_ops,
-+            controller, "escc2", CHANNEL_COUNT * CHANNEL_LENGTH);
-+    isa_register_ioport(ISA_DEVICE(dev), &controller->io, isa->iobase);
-+}
-+
-+static void escc2_unrealize(DeviceState *dev)
-+{
-+    ESCC2State *controller = ESCC2(dev);
-+    qemu_unregister_reset(escc2_reset, controller);
-+}
-+
-+static void escc2_isa_instance_init(Object *o)
-+{
-+    ESCC2ISAState *self = ESCC2_ISA(o);
-+    object_initialize_child(o, "escc2", &self->controller,
-+            sizeof(self->controller), TYPE_ESCC2, &error_abort, NULL);
-+    qdev_alias_all_properties(DEVICE(&self->controller), o);
-+}
-+
-+static Property escc2_properties[] = {
-+    DEFINE_PROP_END_OF_LIST()
-+};
-+
-+static Property escc2_isa_properties[] = {
-+    DEFINE_PROP_UINT32("iobase", ESCC2ISAState, iobase, -1),
-+    DEFINE_PROP_END_OF_LIST()
-+};
-+
-+static void escc2_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+
-+    dc->user_creatable = false;
-+    dc->realize = escc2_realize;
-+    dc->unrealize = escc2_unrealize;
-+    device_class_set_props(dc, escc2_properties);
-+}
-+
-+static void escc2_isa_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+
-+    device_class_set_props(dc, escc2_isa_properties);
-+    dc->realize = escc2_isa_realize;
-+}
-+
-+static const TypeInfo escc2_info = {
-+    .name = TYPE_ESCC2,
-+    .parent = TYPE_DEVICE,
-+    .instance_size = sizeof(ESCC2State),
-+    .class_init = escc2_class_init
-+};
-+
-+static const TypeInfo escc2_isa_info = {
-+    .name = TYPE_ESCC2_ISA,
-+    .parent = TYPE_ISA_DEVICE,
-+    .instance_size = sizeof(ESCC2ISAState),
-+    .instance_init = escc2_isa_instance_init,
-+    .class_init = escc2_isa_class_init
-+};
-+
-+static void escc2_types(void)
-+{
-+    type_register_static(&escc2_info);
-+    type_register_static(&escc2_isa_info);
-+}
-+
-+type_init(escc2_types);
+     object_property_set_bool(OBJECT(controller), true, "realized", errp);
+     if (*errp) {
+         return;
+@@ -536,6 +623,7 @@ static Property escc2_properties[] = {
+ 
+ static Property escc2_isa_properties[] = {
+     DEFINE_PROP_UINT32("iobase", ESCC2ISAState, iobase, -1),
++    DEFINE_PROP_UINT32("irq", ESCC2ISAState, irq, -1),
+     DEFINE_PROP_END_OF_LIST()
+ };
+ 
 diff --git a/hw/char/trace-events b/hw/char/trace-events
-index d20eafd56f..65c176f582 100644
+index 65c176f582..b4f4f30815 100644
 --- a/hw/char/trace-events
 +++ b/hw/char/trace-events
-@@ -56,6 +56,10 @@ escc_sunkbd_event_out(int ch) "Translated keycode 0x%2.2x"
- escc_kbd_command(int val) "Command %d"
+@@ -57,6 +57,7 @@ escc_kbd_command(int val) "Command %d"
  escc_sunmouse_event(int dx, int dy, int buttons_state) "dx=%d dy=%d buttons=0x%01x"
  
-+# escc2.c
-+escc2_mem_read(char channel, uint32_t addr, uint8_t value) "channel %c addr 0x%x value 0x%x"
-+escc2_mem_write(char channel, uint32_t addr, uint8_t value) "channel %c addr 0x%x value 0x%x"
-+
- # pl011.c
- pl011_irq_state(int level) "irq state %d"
- pl011_read(uint32_t addr, uint32_t value) "addr 0x%08x value 0x%08x"
-diff --git a/include/hw/char/escc2.h b/include/hw/char/escc2.h
-new file mode 100644
-index 0000000000..ca2e34da3f
---- /dev/null
-+++ b/include/hw/char/escc2.h
-@@ -0,0 +1,17 @@
-+/* SPDX-License-Identifier: GPL-2.0-or-later */
-+/*
-+ * QEMU Enhanced Serial Communication Controller (ESCC2 v3.2).
-+ * Modelled according to the user manual (version 07.96).
-+ *
-+ * Copyright (C) 2020 Jasper Lowell
-+ */
-+#ifndef HW_ESCC2_H
-+#define HW_ESCC2_H
-+
-+#define TYPE_ESCC2      "ESCC2"
-+#define ESCC2(obj)      OBJECT_CHECK(ESCC2State, (obj), TYPE_ESCC2)
-+
-+#define TYPE_ESCC2_ISA  "ESCC2_ISA"
-+#define ESCC2_ISA(obj)  OBJECT_CHECK(ESCC2ISAState, (obj), TYPE_ESCC2_ISA)
-+
-+#endif /* HW_ESCC2_H */
+ # escc2.c
++escc2_irq_update(uint8_t gis) "value 0x%x"
+ escc2_mem_read(char channel, uint32_t addr, uint8_t value) "channel %c addr 0x%x value 0x%x"
+ escc2_mem_write(char channel, uint32_t addr, uint8_t value) "channel %c addr 0x%x value 0x%x"
+ 
 -- 
 2.26.2
 
