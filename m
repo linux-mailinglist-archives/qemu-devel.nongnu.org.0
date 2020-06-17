@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5870D1FD025
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 16:57:38 +0200 (CEST)
-Received: from localhost ([::1]:50442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17C0F1FD02C
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 16:59:14 +0200 (CEST)
+Received: from localhost ([::1]:58934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlZVR-0002TR-8B
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 10:57:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45152)
+	id 1jlZWz-0006F3-4F
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 10:59:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jlZNg-0002ze-O6
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 10:49:36 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:33586
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jlZNh-00030L-5l
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 10:49:37 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:38814
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jlZNd-0001g2-DM
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jlZNe-0001gn-Ez
  for qemu-devel@nongnu.org; Wed, 17 Jun 2020 10:49:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592405372;
+ s=mimecast20190719; t=1592405373;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tgueg5odBcUiVyg8UUwykUifJJbuVk5C7HBCzlaak3g=;
- b=O2tE6uT0cWrgaw6sZJXpC2pQuN+Pnnvrx4WYGfj+uFmGQHzkFD6EpX4AfD3g50WM3rBZ8p
- yP1Smid8qOs6KUxNYwpktXJXUNlxLAeGjeXCYmlx/SBHysDnq6Ju3rdfF8QVBXIpGRIlYe
- JNb0OrJyeJ47ylVVsHHXbSraxYhngNg=
+ bh=wmvqFrrNA6PmYVGzeQgPjmNtOe0odHrviI5a7ZFsoqQ=;
+ b=hn3KNSeg/djEEbPYYiBU/qvs1A7dnoFMl947GFpS4oC1WoTZGmypDsDw6DSNOi+m4ctvur
+ KdFJ1tuq/HHuUn7eF4raPCGrctkfY35ua50A8hdOf1xFCjR4gn//xlMxbUYxp1K90LXhuQ
+ ptfeOFjem7vuurpT5DC1o7ms6sAoD0g=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-172-QuYGfuClPt-xLPcnIyPYRw-1; Wed, 17 Jun 2020 10:49:30 -0400
-X-MC-Unique: QuYGfuClPt-xLPcnIyPYRw-1
+ us-mta-397-OJbhx6RsN0Gs-_Q-BsSb2g-1; Wed, 17 Jun 2020 10:49:31 -0400
+X-MC-Unique: OJbhx6RsN0Gs-_Q-BsSb2g-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 70F3A835BE6;
- Wed, 17 Jun 2020 14:49:29 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B2BC683DB7A;
+ Wed, 17 Jun 2020 14:49:30 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-114-44.ams2.redhat.com [10.36.114.44])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 75DE77CAA0;
- Wed, 17 Jun 2020 14:49:28 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BB6547CAA8;
+ Wed, 17 Jun 2020 14:49:29 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 12/43] hw/block/nvme: refactor nvme_addr_read
-Date: Wed, 17 Jun 2020 16:48:38 +0200
-Message-Id: <20200617144909.192176-13-kwolf@redhat.com>
+Subject: [PULL 13/43] hw/block/nvme: fix pin-based interrupt behavior
+Date: Wed, 17 Jun 2020 16:48:39 +0200
+Message-Id: <20200617144909.192176-14-kwolf@redhat.com>
 In-Reply-To: <20200617144909.192176-1-kwolf@redhat.com>
 References: <20200617144909.192176-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=kwolf@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 23:30:45
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/17 01:42:42
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -83,50 +83,83 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-Pull the controller memory buffer check to its own function. The check
-will be used on its own in later patches.
+First, since the device only supports MSI-X or pin-based interrupt, if
+MSI-X is not enabled, it should not accept interrupt vectors different
+from 0 when creating completion queues.
 
+Secondly, the irq_status NvmeCtrl member is meant to be compared to the
+INTMS register, so it should only be 32 bits wide. And it is really only
+useful when used with multi-message MSI.
+
+Third, since we do not force a 1-to-1 correspondence between cqid and
+interrupt vector, the irq_status register should not have bits set
+according to cqid, but according to the associated interrupt vector.
+
+Fix these issues, but keep irq_status available so we can easily support
+multi-message MSI down the line.
+
+Fixes: 5e9aa92eb1a5 ("hw/block: Fix pin-based interrupt behaviour of NVMe")
+Cc: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 Reviewed-by: Keith Busch <kbusch@kernel.org>
-Message-Id: <20200609190333.59390-7-its@irrelevant.dk>
+Message-Id: <20200609190333.59390-8-its@irrelevant.dk>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- hw/block/nvme.c | 16 ++++++++++++----
- 1 file changed, 12 insertions(+), 4 deletions(-)
+ hw/block/nvme.h |  2 +-
+ hw/block/nvme.c | 12 ++++++++----
+ 2 files changed, 9 insertions(+), 5 deletions(-)
 
+diff --git a/hw/block/nvme.h b/hw/block/nvme.h
+index 9df244c93c..91f16c8125 100644
+--- a/hw/block/nvme.h
++++ b/hw/block/nvme.h
+@@ -84,7 +84,7 @@ typedef struct NvmeCtrl {
+     uint32_t    cmbsz;
+     uint32_t    cmbloc;
+     uint8_t     *cmbuf;
+-    uint64_t    irq_status;
++    uint32_t    irq_status;
+     uint64_t    host_timestamp;                 /* Timestamp sent by the host */
+     uint64_t    timestamp_set_qemu_clock_ms;    /* QEMU clock time */
+ 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 2a26b8859a..d6fcf078a4 100644
+index d6fcf078a4..ee514625ee 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -65,14 +65,22 @@
- 
- static void nvme_process_sq(void *opaque);
- 
-+static bool nvme_addr_is_cmb(NvmeCtrl *n, hwaddr addr)
-+{
-+    hwaddr low = n->ctrl_mem.addr;
-+    hwaddr hi  = n->ctrl_mem.addr + int128_get64(n->ctrl_mem.size);
-+
-+    return addr >= low && addr < hi;
-+}
-+
- static void nvme_addr_read(NvmeCtrl *n, hwaddr addr, void *buf, int size)
- {
--    if (n->cmbsz && addr >= n->ctrl_mem.addr &&
--                addr < (n->ctrl_mem.addr + int128_get64(n->ctrl_mem.size))) {
-+    if (n->cmbsz && nvme_addr_is_cmb(n, addr)) {
-         memcpy(buf, (void *)&n->cmbuf[addr - n->ctrl_mem.addr], size);
--    } else {
--        pci_dma_read(&n->parent_obj, addr, buf, size);
-+        return;
+@@ -137,8 +137,8 @@ static void nvme_irq_assert(NvmeCtrl *n, NvmeCQueue *cq)
+             msix_notify(&(n->parent_obj), cq->vector);
+         } else {
+             trace_pci_nvme_irq_pin();
+-            assert(cq->cqid < 64);
+-            n->irq_status |= 1 << cq->cqid;
++            assert(cq->vector < 32);
++            n->irq_status |= 1 << cq->vector;
+             nvme_irq_check(n);
+         }
+     } else {
+@@ -152,8 +152,8 @@ static void nvme_irq_deassert(NvmeCtrl *n, NvmeCQueue *cq)
+         if (msix_enabled(&(n->parent_obj))) {
+             return;
+         } else {
+-            assert(cq->cqid < 64);
+-            n->irq_status &= ~(1 << cq->cqid);
++            assert(cq->vector < 32);
++            n->irq_status &= ~(1 << cq->vector);
+             nvme_irq_check(n);
+         }
      }
-+
-+    pci_dma_read(&n->parent_obj, addr, buf, size);
- }
- 
- static int nvme_check_sqid(NvmeCtrl *n, uint16_t sqid)
+@@ -652,6 +652,10 @@ static uint16_t nvme_create_cq(NvmeCtrl *n, NvmeCmd *cmd)
+         trace_pci_nvme_err_invalid_create_cq_addr(prp1);
+         return NVME_INVALID_FIELD | NVME_DNR;
+     }
++    if (unlikely(!msix_enabled(&n->parent_obj) && vector)) {
++        trace_pci_nvme_err_invalid_create_cq_vector(vector);
++        return NVME_INVALID_IRQ_VECTOR | NVME_DNR;
++    }
+     if (unlikely(vector > n->params.num_queues)) {
+         trace_pci_nvme_err_invalid_create_cq_vector(vector);
+         return NVME_INVALID_IRQ_VECTOR | NVME_DNR;
 -- 
 2.25.4
 
