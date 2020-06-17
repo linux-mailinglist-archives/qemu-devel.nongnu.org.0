@@ -2,84 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E58D1FC7EC
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 09:53:06 +0200 (CEST)
-Received: from localhost ([::1]:43922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA2871FC849
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 10:06:56 +0200 (CEST)
+Received: from localhost ([::1]:49786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlSsb-0005J1-7e
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 03:53:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47650)
+	id 1jlT5z-0002CR-Pz
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 04:06:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jlSrl-0004n6-UU; Wed, 17 Jun 2020 03:52:14 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:54227)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jlT5D-0001nR-JR
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 04:06:07 -0400
+Received: from indium.canonical.com ([91.189.90.7]:35476)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jlSrk-0007Av-00; Wed, 17 Jun 2020 03:52:13 -0400
-Received: by mail-wm1-x341.google.com with SMTP id l26so866634wme.3;
- Wed, 17 Jun 2020 00:52:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=IakhfcRiFB3BaluWdRrTXWeTY2CyZNOzuL7AZak9664=;
- b=dGeijXxmc0HKO5zcqmvWDrhoMYiMj2dTF/b43Ex37Gah9gLsBfjkQAbJyinbnDSoN1
- WuHbZbAYzBKFVjBY5qgLN9ENQZQxMbLwRLR+ErlX5k/CG17X4o1xv4QYY8yoJYHWjf+K
- mdj7aLXtCcDAtC+qkZwNEsIe23AvYZ7Xnt9wYmSdBElhpVEb9iSYz5bwKXdsg1Wq8ccB
- OFI6lJXO0LYiEEke7yhR15Dp3+B7FXemVoYnug9B/lT2DOePyCj9YBYWDl/lZQJGTFMd
- L7cmBymnKypBud06mKy6mFOsyS79IAFPVS6kzqpUE7C/j6uonG6bbeRf4FiT0cdufRPV
- JMWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=IakhfcRiFB3BaluWdRrTXWeTY2CyZNOzuL7AZak9664=;
- b=QOC/0d8/58w9yM2HZhFUzR5D1nb3Dm7asafaNtQzWLZomSYY5gqWQhR7ZuYrZ0zMss
- 0Xx52XDSuKKTF5UIMPwItQP4Zru9FQnwTnQ9FaBI8/ejRgn21TsYJz25N77u5tZxDSKt
- SjitbCSnxw6LdNn+rMXxslzWJdYAS2WGL7pzmwEn2IJc0n3XLHh4ze1055oYFHHNxonD
- h2OiHeolqYuzrL3pR/8pGT9ipQbGvkkBp7nj2b3yprlpWc5pzJcZXIiolqPMR6EKW3i4
- QCd9c58097DzYcIBPBeuuLT+HelJyTDyh+xWvGr3gr9whAX4E+plWKOi7SOSOOiPqYLw
- vUFQ==
-X-Gm-Message-State: AOAM533bm2XAnyyWn9lhHHfbNVnK1Oc7exx2y2dQ00+h3leDFzVBgX77
- YxMI84ykkKYe4e3vdZjEfuw=
-X-Google-Smtp-Source: ABdhPJy3ufDHHxdhkCks/7zJ7aY4AkohfgjcHg9uo6leyQCZx5Qgd520DGBURhc5yyo5ys05+yHRTA==
-X-Received: by 2002:a7b:cbd0:: with SMTP id n16mr7466921wmi.38.1592380330123; 
- Wed, 17 Jun 2020 00:52:10 -0700 (PDT)
-Received: from [192.168.1.37] (93.red-83-59-160.dynamicip.rima-tde.net.
- [83.59.160.93])
- by smtp.gmail.com with ESMTPSA id u9sm7634451wme.16.2020.06.17.00.52.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 17 Jun 2020 00:52:09 -0700 (PDT)
-Subject: Re: [PATCH v2] hw/misc/pca9552: Trace LED On/Off events
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-devel@nongnu.org
-References: <20200617064734.26956-1-f4bug@amsat.org>
- <46689112-c5cc-0cac-fc93-0bfb57f404fc@kaod.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <56194006-6a95-2169-a9ef-603c70b54f60@amsat.org>
-Date: Wed, 17 Jun 2020 09:52:08 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jlT5B-00015J-0m
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 04:06:07 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jlT59-0001uh-2t
+ for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 08:06:03 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 1480C2E802E
+ for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 08:06:03 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <46689112-c5cc-0cac-fc93-0bfb57f404fc@kaod.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 17 Jun 2020 07:52:53 -0000
+From: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF?= <1749393@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=Triaged; importance=Undecided;
+ assignee=christian.ehrhardt@canonical.com; 
+X-Launchpad-Bug-Tags: arm linux-user qemu-20.10
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: doko gerard-f-vidal-4 hertzog janitor
+ laurent-vivier paelzer peterogden pmaydell rth
+X-Launchpad-Bug-Reporter: =?utf-8?q?Rapha=C3=ABl_Hertzog_=28hertzog=29?=
+X-Launchpad-Bug-Modifier: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF_=28paelzer?=
+ =?utf-8?q?=29?=
+References: <151859702399.9461.6832978283203997178.malonedeb@chaenomeles.canonical.com>
+Message-Id: <159238037515.25955.11447152121827926176.launchpad@wampee.canonical.com>
+Subject: [Bug 1749393] Re: sbrk() not working under qemu-user with a
+ PIE-compiled binary?
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="b190cebbf563f89e480a8b57f641753c8196bda0";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 19641c0d4fdcad6c84c971bf1fa3c90a59948597
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/17 04:06:03
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -88,146 +79,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
- Joaquin de Andres <me@xcancerberox.com.ar>,
- Esteban Bosse <estebanbosse@gmail.com>, qemu-arm@nongnu.org,
- Joel Stanley <joel@jms.id.au>
+Reply-To: Bug 1749393 <1749393@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/17/20 9:39 AM, Cédric Le Goater wrote:
-> On 6/17/20 8:47 AM, Philippe Mathieu-Daudé wrote:
->> Example booting obmc-phosphor-image:
->>
->>   $ qemu-system-arm -M witherspoon-bmc -trace pca\*
->>   26033@1592376001.873828:pca9552_led_state 0x5594a9f57560 LEDs [........ ........]
->>   26033@1592376001.874169:pca9552_led_state 0x5594a9f57560 LEDs [........ ........]
->>   26033@1592376001.874348:pca9552_led_state 0x5594a9f57560 LEDs [........ ........]
->>   26033@1592376001.874514:pca9552_led_state 0x5594a9f57560 LEDs [........ ........]
->>   26033@1592376001.879601:pca9552_led_state 0x5594a9f57560 LEDs [........ .......*]
->>   26033@1592376001.880507:pca9552_led_state 0x5594a9f57560 LEDs [........ ......**]
->>   26033@1592376001.880885:pca9552_led_state 0x5594a9f57560 LEDs [........ .....***]
->>   26033@1592376001.881228:pca9552_led_state 0x5594a9f57560 LEDs [........ ....****]
->>   26033@1592376001.881601:pca9552_led_state 0x5594a9f57560 LEDs [..*..... ....****]
->>   26033@1592376001.881952:pca9552_led_state 0x5594a9f57560 LEDs [.**..... ....****]
->>   26033@1592376001.882299:pca9552_led_state 0x5594a9f57560 LEDs [***..... ....****]
->>   26033@1592376065.090910:pca9552_led_state 0x5594a9f57560 LEDs [*.*..... ....****]
->>   26033@1592376065.600649:pca9552_led_state 0x5594a9f57560 LEDs [***..... ....****]
->>   26033@1592376066.110565:pca9552_led_state 0x5594a9f57560 LEDs [*.*..... ....****]
->>   26033@1592376066.620390:pca9552_led_state 0x5594a9f57560 LEDs [***..... ....****]
-> 
-> It looks better but the ordering is wrong.
+** Changed in: qemu (Ubuntu)
+     Assignee: Richard Henderson (rth) =3D> Christian Ehrhardt =EE=83=BF (p=
+aelzer)
 
-The order is [15, 14, ..., 3, 2, 1, 0].
+-- =
 
-This one is blinking?
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1749393
 
-    front-power {
-        retain-state-shutdown;
-        default-state = "keep";
-        gpios = <&pca0 14 GPIO_ACTIVE_LOW>;
-    };
+Title:
+  sbrk() not working under qemu-user with a PIE-compiled binary?
 
-> 
->> Suggested-by: Cédric Le Goater <clg@kaod.org>
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> ---
->>  hw/misc/pca9552.c    | 18 ++++++++++++++++++
->>  hw/misc/trace-events |  3 +++
->>  2 files changed, 21 insertions(+)
->>
->> diff --git a/hw/misc/pca9552.c b/hw/misc/pca9552.c
->> index cac729e35a..693f6c3b24 100644
->> --- a/hw/misc/pca9552.c
->> +++ b/hw/misc/pca9552.c
->> @@ -17,6 +17,7 @@
->>  #include "migration/vmstate.h"
->>  #include "qapi/error.h"
->>  #include "qapi/visitor.h"
->> +#include "trace.h"
->>  
->>  #define PCA9552_LED_ON   0x0
->>  #define PCA9552_LED_OFF  0x1
->> @@ -95,6 +96,23 @@ static void pca9552_write(PCA9552State *s, uint8_t reg, uint8_t data)
->>      case PCA9552_LS3:
->>          s->regs[reg] = data;
->>          pca9552_update_pin_input(s);
->> +        if (trace_event_get_state_backends(TRACE_PCA9552_LED_STATE)) {
->> +            char buf[2][9];
->> +
->> +            for (int i = 0; i < 2; i++) {
->> +                uint8_t val = s->regs[PCA9552_INPUT0 + i];
->> +                sprintf(buf[i], "%c%c%c%c%c%c%c%c",
->> +                        val & 0x80 ? '*' : '.',
->> +                        val & 0x40 ? '*' : '.',
->> +                        val & 0x20 ? '*' : '.',
->> +                        val & 0x10 ? '*' : '.',
->> +                        val & 0x08 ? '*' : '.',
->> +                        val & 0x04 ? '*' : '.',
->> +                        val & 0x02 ? '*' : '.',
->> +                        val & 0x01 ? '*' : '.');
->> +            }
->> +            trace_pca9552_led_state(s, buf[1], buf[0]);
->> +        }
->>          break;
-> 
-> or something like this : 
-> 
->  static void pca9552_update_pin_input(PCA9552State *s)
->  {
->      int i;
-> +    char state[s->nr_leds + 1];
->  
->      for (i = 0; i < s->nr_leds; i++) {
->          uint8_t input_reg = PCA9552_INPUT0 + (i / 8);
-> @@ -45,9 +47,11 @@ static void pca9552_update_pin_input(PCA
->          switch (config) {
->          case PCA9552_LED_ON:
->              s->regs[input_reg] |= 1 << input_shift;
-> +            state[i] = '*';
->              break;
->          case PCA9552_LED_OFF:
->              s->regs[input_reg] &= ~(1 << input_shift);
-> +            state[i] = '.';
->              break;
->          case PCA9552_LED_PWM0:
->          case PCA9552_LED_PWM1:
-> @@ -56,6 +60,9 @@ static void pca9552_update_pin_input(PCA
->              break;
->          }
->      }
-> +    state[i] = 0;
-> +
-> +    trace_pca9552_led_state(s, state);
->  }
-> 
-> 
-> 
-> The pin usage is described in the witherspoon DTS : 
-> 
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/arm/boot/dts/aspeed-bmc-opp-witherspoon.dts?id=b1f9be9392f0#n78
-> 
-> The front-power led is blinking. I suppose it means the BMC is on but not the host.￼
-> 
-> 
-> Cheers,
-> 
-> C. 
-> 
->>  
->>      case PCA9552_INPUT0:
->> diff --git a/hw/misc/trace-events b/hw/misc/trace-events
->> index 5561746866..21e52f192d 100644
->> --- a/hw/misc/trace-events
->> +++ b/hw/misc/trace-events
->> @@ -206,3 +206,6 @@ via1_rtc_cmd_pram_sect_write(int sector, int offset, int addr, int value) "secto
->>  # grlib_ahb_apb_pnp.c
->>  grlib_ahb_pnp_read(uint64_t addr, uint32_t value) "AHB PnP read addr:0x%03"PRIx64" data:0x%08x"
->>  grlib_apb_pnp_read(uint64_t addr, uint32_t value) "APB PnP read addr:0x%03"PRIx64" data:0x%08x"
->> +
->> +# pca9552.c
->> +pca9552_led_state(void *object, const char *bufhi, const char *buflo) "%p LEDs [%s %s]"
->>
-> 
-> 
+Status in QEMU:
+  Fix Released
+Status in qemu package in Ubuntu:
+  Triaged
+
+Bug description:
+  In Debian unstable, we recently switched bash to be a PIE-compiled
+  binary (for hardening). Unfortunately this resulted in bash being
+  broken when run under qemu-user (for all target architectures, host
+  being amd64 for me).
+
+  $ sudo chroot /srv/chroots/sid-i386/ qemu-i386-static /bin/bash
+  bash: xmalloc: .././shell.c:1709: cannot allocate 10 bytes (0 bytes alloc=
+ated)
+
+  bash has its own malloc implementation based on sbrk():
+  https://git.savannah.gnu.org/cgit/bash.git/tree/lib/malloc/malloc.c
+
+  When we disable this internal implementation and rely on glibc's
+  malloc, then everything is fine. But it might be that glibc has a
+  fallback when sbrk() is not working properly and it might hide the
+  underlying problem in qemu-user.
+
+  This issue has also been reported to the bash upstream author and he sugg=
+ested that the issue might be in qemu-user so I'm opening a ticket here. He=
+re's the discussion with the bash upstream author:
+  https://lists.gnu.org/archive/html/bug-bash/2018-02/threads.html#00080
+
+  You can find the problematic bash binary in that .deb file:
+  http://snapshot.debian.org/archive/debian/20180206T154716Z/pool/main/b/ba=
+sh/bash_4.4.18-1_i386.deb
+
+  The version of qemu I have been using is 2.11 (Debian package qemu-
+  user-static version 1:2.11+dfsg-1) but I have had reports that the
+  problem is reproducible with older versions (back to 2.8 at least).
+
+  Here are the related Debian bug reports:
+  https://bugs.debian.org/889869
+  https://bugs.debian.org/865599
+
+  It's worth noting that bash used to have this problem (when compiled as a=
+ PIE binary) even when run directly but then something got fixed in the ker=
+nel and now the problem only appears when run under qemu-user:
+  https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1518483
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1749393/+subscriptions
 
