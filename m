@@ -2,103 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A241C1FCAC7
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 12:26:49 +0200 (CEST)
-Received: from localhost ([::1]:54332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB31A1FCAE6
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 12:30:28 +0200 (CEST)
+Received: from localhost ([::1]:37318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlVHM-0004BR-9y
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 06:26:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54294)
+	id 1jlVKt-0000hX-WE
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 06:30:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55270)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jlVGG-0003fX-MD
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 06:25:40 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:33461
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1jlVJV-00084e-Tc
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 06:29:01 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:58890
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jlVGE-0007J6-Hv
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 06:25:40 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1jlVJU-00080o-2J
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 06:29:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592389537;
+ s=mimecast20190719; t=1592389738;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=fI3dRtlNjC89poL5ucKO0KBL6RBWlnw4FbMAWqqKI2Q=;
- b=FRS3I8TA/gb4MH5gRHBnmfaAd587K4yjzf0yQPgxKnZEdrggXsDp6SoSrz9fnqNu3JgR6R
- JRcKnuq8frLd41DUQc+3I+4ZeItO8dhQDU9GRohcFD4xvZhjiyJNZo5WxgK0yZGW3Og/7L
- IzVIrysqsoB8qAuCyChC/xSp3bZaOig=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-279-AaKZhN-UOCGrpQnEm24c1A-1; Wed, 17 Jun 2020 06:25:32 -0400
-X-MC-Unique: AaKZhN-UOCGrpQnEm24c1A-1
-Received: by mail-ed1-f72.google.com with SMTP id o3so619499eda.23
- for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 03:25:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=fI3dRtlNjC89poL5ucKO0KBL6RBWlnw4FbMAWqqKI2Q=;
- b=un5INnUKX1iituEcI1+f+GWJ96VKwHv0iZYpEnbsn/OzIOliHThr5hNInKuRif9Ve9
- HHre4HYPkWc+ZobYOGvVdUd6zExC+3OqCo337vfttq4VZBwh2wwMYyW69gCSLntiw774
- cASx0we1dcPkrJVeqIZaDEwYlSWA9bMhTomDzMP+mjJY8+8uLe9bFwkUVlkOnWYUzHyM
- dNhevdoaPH8LB6Vdd17LjX80UZnNXfkbR9T+HGUejaeC48v8cqPs9y/yGWugBQLwc138
- GJdPo3PhLzBNNjUzTwrU4b414H/kQWyEKCxbPZqTSZRnOgaRuaAouofEBLY9zvdfosH5
- C/gw==
-X-Gm-Message-State: AOAM530G/snBKDdfyyF4et1M6+dP6sZBb7n894HOFKQ4IJuWTw0OxdIC
- 0yDPC5Zpw3eB9fFU9pMFvQmGul3sGSDRTGfzVEPotNXK+LaHMmBcEZmmAEP9uLGdFQGrZxZjk/1
- 8bH39AhJVHi2yNwM=
-X-Received: by 2002:a50:fd05:: with SMTP id i5mr6449283eds.79.1592389531615;
- Wed, 17 Jun 2020 03:25:31 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwYxT2X9nv4//rroomT8mSp3vTzKSvpDwBp8hFZsNzzNdTvq/SFOTxjvFEalUjRQnUadCBi4Q==
-X-Received: by 2002:a50:fd05:: with SMTP id i5mr6449267eds.79.1592389531342;
- Wed, 17 Jun 2020 03:25:31 -0700 (PDT)
-Received: from [192.168.1.37] (93.red-83-59-160.dynamicip.rima-tde.net.
- [83.59.160.93])
- by smtp.gmail.com with ESMTPSA id a62sm834851ede.45.2020.06.17.03.25.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 17 Jun 2020 03:25:30 -0700 (PDT)
-Subject: Re: [PATCH v3 2/5] migration: fix xbzrle encoding rate calculation
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20200617043757.1623337-1-richard.henderson@linaro.org>
- <20200617043757.1623337-3-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <efc60816-9122-1951-b86a-83be588af944@redhat.com>
-Date: Wed, 17 Jun 2020 12:25:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ in-reply-to:in-reply-to:references:references;
+ bh=R/qtVws/SMeBmxE8F/dS05cMfUVXSTovcSD5FuQIBwQ=;
+ b=OexZZJddU0jEWs7wbxETpGizZdWUpe5SW2jBmP+tV6ygj0/Z184R3QZM+Xe4aaoLijj0vt
+ ZLP1Q/6zkhYw1zJ5rO6SYjGNGlxP+KSZPa1edVVSeWaF7A7ldGLCwKcNHdO+Q/SPzF89hj
+ Q/7XENGsWBMLMaTiFDmelgJBt7HaGMs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-47-Hf9W_hFuMqufO6A8aVvrCQ-1; Wed, 17 Jun 2020 06:28:43 -0400
+X-MC-Unique: Hf9W_hFuMqufO6A8aVvrCQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4C96580B71F;
+ Wed, 17 Jun 2020 10:28:42 +0000 (UTC)
+Received: from work-vm (ovpn-115-47.ams2.redhat.com [10.36.115.47])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 429C660BE2;
+ Wed, 17 Jun 2020 10:28:37 +0000 (UTC)
+Date: Wed, 17 Jun 2020 11:28:34 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Subject: Re: ovmf / PCI passthrough impaired due to very limiting PCI64
+ aperture
+Message-ID: <20200617102834.GB2776@work-vm>
+References: <99779e9c-f05f-501b-b4be-ff719f140a88@canonical.com>
+ <20200616165043.24y2cp53axk7uggy@sirius.home.kraxel.org>
+ <20200616165746.GH2788@work-vm>
+ <20200616171021.GV2366737@habkost.net>
+ <20200617085033.GB568347@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200617043757.1623337-3-richard.henderson@linaro.org>
-Content-Language: en-US
+In-Reply-To: <20200617085033.GB568347@redhat.com>
+User-Agent: Mutt/1.14.0 (2020-05-02)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: 8bit
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/17 01:42:42
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -121,65 +88,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Wei Wang <wei.w.wang@intel.com>, "cota@braap.org" <cota@braap.org>,
- alex.bennee@linaro.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Cc: pedro.principeza@canonical.com, Eduardo Habkost <ehabkost@redhat.com>,
+ dann.frazier@canonical.com, "Guilherme G. Piccoli" <gpiccoli@canonical.com>,
+ qemu-devel@nongnu.org, christian.ehrhardt@canonical.com,
+ Gerd Hoffmann <kraxel@redhat.com>, lersek@redhat.com, fw@gpiccoli.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/17/20 6:37 AM, Richard Henderson wrote:
-> From: Wei Wang <wei.w.wang@intel.com>
+* Daniel P. Berrangé (berrange@redhat.com) wrote:
+> On Tue, Jun 16, 2020 at 01:10:21PM -0400, Eduardo Habkost wrote:
+> > On Tue, Jun 16, 2020 at 05:57:46PM +0100, Dr. David Alan Gilbert wrote:
+> > > * Gerd Hoffmann (kraxel@redhat.com) wrote:
+> > > >   Hi,
+> > > > 
+> > > > > (a) We could rely in the guest physbits to calculate the PCI64 aperture.
+> > > > 
+> > > > I'd love to do that.  Move the 64-bit I/O window as high as possible and
+> > > > use -- say -- 25% of the physical address space for it.
+> > > > 
+> > > > Problem is we can't.
+> > > > 
+> > > > > failure. Also, if the users are not setting the physbits in the guest,
+> > > > > there must be a default (seems to be 40bit according to my experiments),
+> > > > > seems to be a good idea to rely on that.
+> > > > 
+> > > > Yes, 40 is the default, and it is used *even if the host supports less
+> > > > than that*.  Typical values I've seen for intel hardware are 36 and 39.
+> > > > 39 is used even by recent hardware (not the xeons, but check out a
+> > > > laptop or a nuc).
+> > > > 
+> > > > > If guest physbits is 40, why to have OVMF limiting it to 36, right?
+> > > > 
+> > > > Things will explode in case OVMF uses more physbits than the host
+> > > > supports (host physbits limit applies to ept too).  In other words: OVMF
+> > > > can't trust the guest physbits, so it is conservative to be on the safe
+> > > > side.
+> > > > 
+> > > > If we can somehow make a *trustable* physbits value available to the
+> > > > guest, then yes, we can go that route.  But the guest physbits we have
+> > > > today unfortunately don't cut it.
+> > > 
+> > > In downstream RH qemu, we run with host-physbits as default; so it's reasonably
+> > > trustworthy; of course that doesn't help you across a migration between
+> > > hosts with different sizes (e.g. an E5 Xeon to an E3).
+> > > Changing upstream to do the same would seem sensible to me, but it's not
+> > > a foolproof config.
+> > 
+> > Yeah, to make it really trustworthy we would need to prevent
+> > migration to hosts with mismatching phys sizes.  We would need to
+> > communicate that to the guest somehow (with new hypervisor CPUID
+> > flags, maybe).
 > 
-> It's reported an error of implicit conversion from "unsigned long" to
-> "double" when compiling with Clang 10. Simply make the encoding rate 0
-> when the encoded_size is 0.
+> QEMU should be able to validate the hostphysbits >= guestphysbits when
+> accepting incoming migration, and abort it.
 
-There is a similar error in tests/qht-bench.c, see the asan log:
-https://patchew.org/QEMU/20200617072539.32686-1-f4bug@amsat.org/
+Yeh, there's an outstanding request to validate other CPU flags as well.
 
-/tmp/qemu-test/src/tests/qht-bench.c:287:29: error: implicit conversion
-from 'unsigned long' to 'double' changes value from 18446744073709551615
-to 18446744073709551616 [-Werror,-Wimplicit-int-float-conversion]
-        *threshold = rate * UINT64_MAX;
-                          ~ ^~~~~~~~~~
-/usr/include/stdint.h:130:23: note: expanded from macro 'UINT64_MAX'
-# define UINT64_MAX             (__UINT64_C(18446744073709551615))
-                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-/usr/include/stdint.h:107:25: note: expanded from macro '__UINT64_C'
-#  define __UINT64_C(c) c ## UL
-                        ^~~~~~~
-<scratch space>:33:1: note: expanded from here
-18446744073709551615UL
-^~~~~~~~~~~~~~~~~~~~~~
-1 error generated.
-make: *** [/tmp/qemu-test/src/rules.mak:69: tests/qht-bench.o] Error 1
+> Meanwhile libvirt should be enhanced to report hostphysbits, so that
+> management apps can determine that they shouldn't even pick bad hosts
+> in the first place.
+
+Sounds reasonable.
+Note there are a couple of other considerations when choosing the
+physbits as reported to the guest:
+
+  a) TCG's view - I think it had a fixed size of 40 bits, but I haven't
+     dug into it.
+  b) We recently gained 'host-phys-bits-limit' which when used with
+host-phys-bits lets you take the host value but then limit it.  Eduardo
+seems to have done that to limit the guest from flipping into 5-level
+page tables.  Hmm I've not tried with chips that do 5-level - but maybe
+we also need this if you expect to migrate to hosts that don't have it.
+
+(I've also got a vague memory that there's a limit in some IOMMUs
+address sizes, but I can't remember what the details were).
+
+Dave
+
 
 > 
-> Fixes: e460a4b1a4
-> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Reported-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: Wei Wang <wei.w.wang@intel.com>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  migration/ram.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
-> 
-> diff --git a/migration/ram.c b/migration/ram.c
-> index 41cc530d9d..069b6e30bc 100644
-> --- a/migration/ram.c
-> +++ b/migration/ram.c
-> @@ -913,10 +913,8 @@ static void migration_update_rates(RAMState *rs, int64_t end_time)
->          unencoded_size = (xbzrle_counters.pages - rs->xbzrle_pages_prev) *
->                           TARGET_PAGE_SIZE;
->          encoded_size = xbzrle_counters.bytes - rs->xbzrle_bytes_prev;
-> -        if (xbzrle_counters.pages == rs->xbzrle_pages_prev) {
-> +        if (xbzrle_counters.pages == rs->xbzrle_pages_prev || !encoded_size) {
->              xbzrle_counters.encoding_rate = 0;
-> -        } else if (!encoded_size) {
-> -            xbzrle_counters.encoding_rate = UINT64_MAX;
->          } else {
->              xbzrle_counters.encoding_rate = unencoded_size / encoded_size;
->          }
-> 
+> Regards,
+> Daniel
+> -- 
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
