@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B02641FD4B4
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 20:41:43 +0200 (CEST)
-Received: from localhost ([::1]:55128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEA321FD4BD
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 20:43:52 +0200 (CEST)
+Received: from localhost ([::1]:35144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jld0I-0008RP-PE
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 14:41:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51640)
+	id 1jld2N-0003NG-Rx
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 14:43:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jlcwq-0003vn-TD
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 14:38:08 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:32037
+ id 1jlcws-000417-In
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 14:38:10 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:30613
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jlcwp-0008BF-8Q
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 14:38:08 -0400
+ id 1jlcwq-0008BM-Vt
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 14:38:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592419086;
+ s=mimecast20190719; t=1592419088;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Dd7PfU60ZH2AcRhRnv1bLgRZ5bOsNrGcQr6j2cs2djg=;
- b=XsdXqzUfuxhvQDBvA8nBwY1A+F4BIXvRPkRdjvG2gykgCLbHB5Ub4+cd59riE1maYFL/xE
- dpHSvtBFtvWb3IWm+HypDy1XFNryzGRWUre4Inf+Rvn6dZo/kMTWXfFOxP2ImD/L8s1xmO
- egVVVS0aUJrXWyyPyTahhw/GTdw110o=
+ bh=FLrAroPc5cUJn4I45NxPD0b+fLMR4nGqRkidrT0/yE0=;
+ b=Sv+WwRIxqHZgnAF8QwvmBl3fBP2ZdMmRCWxIymvI1O9zYQGxGDPAwuKwlKkXsLyzsij4A+
+ t2/8sNL48uZqVYxaSVSCJLsmn4xZqFD8dU9v7TgtL95Z+kDlPvMfAFmi0gVSZZ9UKwXM7J
+ akPwXiSj0A/GHKzD9GraMXrOYkUiqhU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-491-qtme5ml6Pqy0Zwgo01QQnQ-1; Wed, 17 Jun 2020 14:38:03 -0400
-X-MC-Unique: qtme5ml6Pqy0Zwgo01QQnQ-1
+ us-mta-185-p91IOAASM-6y7vM0WUKGjg-1; Wed, 17 Jun 2020 14:38:06 -0400
+X-MC-Unique: p91IOAASM-6y7vM0WUKGjg-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D3272107ACCD;
- Wed, 17 Jun 2020 18:38:02 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D871E835B46;
+ Wed, 17 Jun 2020 18:38:04 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-115-47.ams2.redhat.com
  [10.36.115.47])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D65635EE0E;
- Wed, 17 Jun 2020 18:37:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2B0837C3C3;
+ Wed, 17 Jun 2020 18:38:03 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, david@redhat.com, lvivier@redhat.com,
  maozhongyi@cmss.chinamobile.com, mreitz@redhat.com, pannengyuan@huawei.com
-Subject: [PULL 07/12] monitor/hmp-cmds: don't silently output when running
- 'migrate_set_downtime' fails
-Date: Wed, 17 Jun 2020 19:37:28 +0100
-Message-Id: <20200617183733.186168-8-dgilbert@redhat.com>
+Subject: [PULL 08/12] monitor/hmp-cmds: delete redundant Error check before
+ invoke hmp_handle_error()
+Date: Wed, 17 Jun 2020 19:37:29 +0100
+Message-Id: <20200617183733.186168-9-dgilbert@redhat.com>
 In-Reply-To: <20200617183733.186168-1-dgilbert@redhat.com>
 References: <20200617183733.186168-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -88,46 +88,32 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mao Zhongyi <maozhongyi@cmss.chinamobile.com>
 
-Although 'migrate_set_downtime' has been deprecated and replaced
-with 'migrate_set_parameter downtime_limit', it has not been
-completely eliminated, possibly due to compatibility with older
-versions. I think as long as this old parameter is running, we
-should report appropriate message when something goes wrong, not
-be silent.
-
-before:
-(qemu) migrate_set_downtime -1
-(qemu)
-
-after:
-(qemu) migrate_set_downtime -1
-Error: Parameter 'downtime_limit' expects an integer in the range of 0 to 2000 seconds
+hmp_handle_error() does Error check internally.
 
 Signed-off-by: Mao Zhongyi <maozhongyi@cmss.chinamobile.com>
+Message-Id: <20200603080904.997083-6-maozhongyi@cmss.chinamobile.com>
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Message-Id: <20200603080904.997083-5-maozhongyi@cmss.chinamobile.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- monitor/hmp-cmds.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ monitor/hmp-cmds.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
 diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index 2c630ec88d..a704b3469a 100644
+index a704b3469a..504796d6e9 100644
 --- a/monitor/hmp-cmds.c
 +++ b/monitor/hmp-cmds.c
-@@ -1189,8 +1189,11 @@ void hmp_migrate_pause(Monitor *mon, const QDict *qdict)
- /* Kept for backwards compatibility */
- void hmp_migrate_set_downtime(Monitor *mon, const QDict *qdict)
- {
-+    Error *err = NULL;
-+
-     double value = qdict_get_double(qdict, "value");
--    qmp_migrate_set_downtime(value, NULL);
-+    qmp_migrate_set_downtime(value, &err);
-+    hmp_handle_error(mon, err);
- }
+@@ -1637,9 +1637,8 @@ void hmp_object_add(Monitor *mon, const QDict *qdict)
+     obj = user_creatable_add_opts(opts, &err);
+     qemu_opts_del(opts);
  
- void hmp_migrate_set_cache_size(Monitor *mon, const QDict *qdict)
+-    if (err) {
+-        hmp_handle_error(mon, err);
+-    }
++    hmp_handle_error(mon, err);
++
+     if (obj) {
+         object_unref(obj);
+     }
 -- 
 2.26.2
 
