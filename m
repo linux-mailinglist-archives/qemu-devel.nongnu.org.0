@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E3DB1FCECD
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 15:49:18 +0200 (CEST)
-Received: from localhost ([::1]:56370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFD571FCED8
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 15:50:45 +0200 (CEST)
+Received: from localhost ([::1]:60512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlYRI-00012E-Ss
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 09:49:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54796)
+	id 1jlYSj-0002qS-18
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 09:50:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55120)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jlYPF-0007ht-Ga
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 09:47:09 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:28540
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jlYPB-0007MS-MW
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 09:47:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592401624;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ZPItyO0BW2fXmWr7d2juoYJHE/REMr33EQH9eBh9s7Q=;
- b=CcA0XCXUzU+uvTtrKQdp7/uEb3Q2MoEt8eXcQDfbiVa2j/W5UfJx/F3OTO1iB0vmezRu5X
- +4TjvN4AQ62hKVjF4jKFgY1oVdwwK/UEu1sHuhAxsqQ3MW8as8wQFcqTCkHeIe9XNlngUm
- vL/9rbyAexLtSLKIoeXqMKz5qeqIa4g=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-40-px9fOG0TPRivBvR8GUDx5w-1; Wed, 17 Jun 2020 09:47:02 -0400
-X-MC-Unique: px9fOG0TPRivBvR8GUDx5w-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DF894107B472;
- Wed, 17 Jun 2020 13:47:00 +0000 (UTC)
-Received: from work-vm (ovpn-115-47.ams2.redhat.com [10.36.115.47])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D457F5D9D3;
- Wed, 17 Jun 2020 13:46:54 +0000 (UTC)
-Date: Wed, 17 Jun 2020 14:46:52 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Laszlo Ersek <lersek@redhat.com>
-Subject: Re: ovmf / PCI passthrough impaired due to very limiting PCI64
- aperture
-Message-ID: <20200617134652.GE2776@work-vm>
-References: <99779e9c-f05f-501b-b4be-ff719f140a88@canonical.com>
- <20200616165043.24y2cp53axk7uggy@sirius.home.kraxel.org>
- <20200616165746.GH2788@work-vm>
- <CAHD1Q_zGu4Q63HjHx3aZKu3wh8NppuP6T4kgnUN3j=-ZDufVZA@mail.gmail.com>
- <b423f4a4-2552-bdc8-7c9f-41f200aef672@redhat.com>
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1jlYQa-0001AP-Lp
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 09:48:32 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:39364)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1jlYQY-0007Zj-Uv
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 09:48:32 -0400
+Received: by mail-wr1-x444.google.com with SMTP id t18so2415471wru.6
+ for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 06:48:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=0mwH6E/0+FcYvmz1WQDgzHW9s38uTme6ggphoPnuCjc=;
+ b=liPv6prN7IWv1xf6WHzLwnF1i7Ob2heZ4kHdn80WiQlyJVGctQrJnqkvZUNXPy+eq4
+ oPYbkmWZWrkPP8M4J1tQiGQ3GBHerkk/UgHs1hPzkyz+6u/fVe8HrZNiyf57vg08+XGr
+ H99urzRgFH03tlL6zapuz0nCrmSx9o/az7fBr3UAp0PzOtamtOynaQmgzyk0xrmBR8YH
+ M44kjt9qFPYv74PbZrelRslfBuMtq1FA0bydXoIKtpGmZ2MJerU0kiBqHmbCGqQJ0fMb
+ yDo/J9EPxMMChoaFNf09+aC96q3JjaLbTLbIBqCyVFvFZwJdwa+tU/8xzRlGSy5gL2Eq
+ 9OJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=0mwH6E/0+FcYvmz1WQDgzHW9s38uTme6ggphoPnuCjc=;
+ b=Vc4MZAX7uiaJCpW94DMPYlMmtwrGghEhyge6jzdejZA5TIW55leFX+oG7HchSreq/Q
+ YhAMe+Jy6MF8KY3lHvJ4ZxkylNQ9v7PLzxzTui3UEkoHLsAUCK6oLkt2hBBxw+n58mVi
+ iWotDjWm0euFYs/Kv5ShpW1DtJwWggcDJzPFcONN7okXcB5Lb4b5FL1AQaYNJIuHI3u+
+ SG0bVcf2YeewVBClLLUBKu/SU/ptxdR9D0zFzwAcQu/92DSx2sjEMf8B4YFNtUSot35c
+ zBsBs+uosaeyIDXv4czwpKEVB87N9mu3r93goejT3+vuezRVcLj5ygqXcwiEo9O2FwLS
+ yUwA==
+X-Gm-Message-State: AOAM533OgzxbMpjmg60jQEamtr7CdpSw30X3kLOZ1EFFOMSzDTt0K1rq
+ HTFEFkvKAAph3adwEnk/qZQ=
+X-Google-Smtp-Source: ABdhPJzlm6QXZxaFPfmpdSh61uPMUIFItSkQv9xMsFsAGJWfjDMCAz9/PhII7rhp73pKcDp92sUYRg==
+X-Received: by 2002:adf:9163:: with SMTP id j90mr8453967wrj.65.1592401708843; 
+ Wed, 17 Jun 2020 06:48:28 -0700 (PDT)
+Received: from localhost ([51.15.41.238])
+ by smtp.gmail.com with ESMTPSA id a3sm497822wmb.7.2020.06.17.06.48.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 17 Jun 2020 06:48:27 -0700 (PDT)
+Date: Wed, 17 Jun 2020 14:48:25 +0100
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH] minikconf: explicitly set encoding to UTF-8
+Message-ID: <20200617134825.GF1728005@stefanha-x1.localdomain>
+References: <20200521153616.307100-1-stefanha@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <b423f4a4-2552-bdc8-7c9f-41f200aef672@redhat.com>
-User-Agent: Mutt/1.14.0 (2020-05-02)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="z+pzSjdB7cqptWpS"
 Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 23:30:45
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+In-Reply-To: <20200521153616.307100-1-stefanha@redhat.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=stefanha@gmail.com; helo=mail-wr1-x444.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,66 +85,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Pedro Principeza <pedro.principeza@canonical.com>, ehabkost@redhat.com,
- Dann Frazier <dann.frazier@canonical.com>,
- Guilherme Piccoli <gpiccoli@canonical.com>, qemu-devel@nongnu.org,
- Christian Ehrhardt <christian.ehrhardt@canonical.com>,
- Gerd Hoffmann <kraxel@redhat.com>, fw@gpiccoli.net
+Cc: Cleber Rosa <crosa@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Laszlo Ersek (lersek@redhat.com) wrote:
-> On 06/16/20 19:14, Guilherme Piccoli wrote:
-> > Thanks Gerd, Dave and Eduardo for the prompt responses!
-> > 
-> > So, I understand that when we use "-host-physical-bits", we are
-> > passing the *real* number for the guest, correct? So, in this case we
-> > can trust that the guest physbits matches the true host physbits.
-> > 
-> > What if then we have OVMF relying in the physbits *iff*
-> > "-host-phys-bits" is used (which is the default in RH and a possible
-> > machine configuration on libvirt XML in Ubuntu), and we have OVMF
-> > fallbacks to 36-bit otherwise?
-> 
-> I've now read the commit message on QEMU commit 258fe08bd341d, and the
-> complexity is simply stunning.
-> 
-> Right now, OVMF calculates the guest physical address space size from
-> various range sizes (such as hotplug memory area end, default or
-> user-configured PCI64 MMIO aperture), and derives the minimum suitable
-> guest-phys address width from that address space size. This width is
-> then exposed to the rest of the firmware with the CPU HOB (hand-off
-> block), which in turn controls how the GCD (global coherency domain)
-> memory space map is sized. Etc.
-> 
-> If QEMU can provide a *reliable* GPA width, in some info channel (CPUID
-> or even fw_cfg), then the above calculation could be reversed in OVMF.
-> We could take the width as a given (-> produce the CPU HOB directly),
-> plus calculate the *remaining* address space between the GPA space size
-> given by the width, and the end of the memory hotplug area end. If the
-> "remaining size" were negative, then obviously QEMU would have been
-> misconfigured, so we'd halt the boot. Otherwise, the remaining area
-> could be used as PCI64 MMIO aperture (PEI memory footprint of DXE page
-> tables be darned).
-> 
-> > Now, regarding the problem "to trust or not" in the guests' physbits,
-> > I think it's an orthogonal discussion to some extent. It'd be nice to
-> > have that check, and as Eduardo said, prevent migration in such cases.
-> > But it's not really preventing OVMF big PCI64 aperture if we only
-> > increase the aperture _when  "-host-physical-bits" is used_.
-> 
-> I don't know what exactly those flags do, but I doubt they are clearly
-> visible to OVMF in any particular way.
 
-The firmware should trust whatever it reads from the cpuid and thus gets
-told from qemu; if qemu is doing the wrong thing there then that's our
-problem and we need to fix it in qemu.
+--z+pzSjdB7cqptWpS
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Dave
+On Thu, May 21, 2020 at 04:36:16PM +0100, Stefan Hajnoczi wrote:
+> QEMU currently only has ASCII Kconfig files but Linux actually uses
+> UTF-8. Explicitly specify the encoding and that we're doing text file
+> I/O.
+>=20
+> It's unclear whether or not QEMU will ever need Unicode in its Kconfig
+> files. If we start using the help text then it will become an issue
+> sooner or later. Make this change now for consistency with Linux
+> Kconfig.
+>=20
+> Reported-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>  scripts/minikconf.py | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 
-> Thanks
-> Laszlo
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Thanks, applied to my block tree:
+https://github.com/stefanha/qemu/commits/block
 
+Stefan
+
+--z+pzSjdB7cqptWpS
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl7qHykACgkQnKSrs4Gr
+c8isMQf+J7zph0Z4nxXUbI5fmiRb0p4HosR1qcblM+nOKQ7K8kUgeoDvBx/eXaJf
+GFwam17KcoZzzv7GiOYEZ+nGe3A7b0tJJXveH4PT4KY2yNaMIzkgIpbieDbMtgsz
+KmDwqpk/yCszzrPt66EZTBd0we19CmbGrhtgklXQzWBgrQzWp2DjneyIHJjM4RrD
+Ua86+1SbLljCa5ggS0d+0SG+2Y8nB6II03RfFIrbcRuANdh6Uwutj+ibO2i4DzRc
+go6XC1jUySCJ12MDddxsuEIjLuN2BsNa1puVZ7BkpXMu805QQEbdp9JruPW831py
+0vaf/kudsU82HPsjVsCgGcOdjqzDdg==
+=YzYs
+-----END PGP SIGNATURE-----
+
+--z+pzSjdB7cqptWpS--
 
