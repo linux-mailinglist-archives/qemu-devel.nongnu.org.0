@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FF941FD4AB
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 20:39:24 +0200 (CEST)
-Received: from localhost ([::1]:46984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 537EF1FD4BB
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 20:43:17 +0200 (CEST)
+Received: from localhost ([::1]:60184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlcy3-00052h-ID
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 14:39:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51540)
+	id 1jld1o-000251-BS
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 14:43:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jlcwe-0003Sr-92
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 14:37:56 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:56781
+ id 1jlcwh-0003Yh-Sv
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 14:37:59 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:31443
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jlcwc-00088y-HW
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 14:37:55 -0400
+ id 1jlcwb-00088s-M4
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 14:37:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592419074;
+ s=mimecast20190719; t=1592419072;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kILCUNjBUGkUCoYF9x7Iny35fM8scC9GMSxJAtT6j80=;
- b=EC7KKUSi9nk50jnS68eH0ZBqE7al+C95oSks+oGoutAwl08cMtRgITTSDhvSAbIlI/iEze
- d/O1zuPsfbIlCthibdaCkweI2ebvJv6MIifpUv2mCLd7sh4rdOYKSHEJ311hVxrFX5vJ9O
- 7rIId5dBBye182NhhN5prtTi11onp4s=
+ bh=55XnaJMZrBbinRSTa75FWtgEUUHQumqsDcF1mvx8mq8=;
+ b=eGoWXYXCtgbYGW6dv17T1lcijgwh23Vrbk2+jJUH1z5zf+znOCITjkDVOB6nRp8+Wl044w
+ a1yaTr36btK5vfRI6BPugPh6ZNIAAVWFb/3WZQSIkViVkU8ka1i6YFVD2u8eIFz5Sy2J6r
+ 8FM7nmKAuARoocga21nTg0SZ9Nx3QOk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-237-z5oUbk8UOs6o-An8K-bYhw-1; Wed, 17 Jun 2020 14:37:46 -0400
-X-MC-Unique: z5oUbk8UOs6o-An8K-bYhw-1
+ us-mta-445-RxTsZe1uOri5tfzHtuAiiQ-1; Wed, 17 Jun 2020 14:37:48 -0400
+X-MC-Unique: RxTsZe1uOri5tfzHtuAiiQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F1F1C1800D42;
- Wed, 17 Jun 2020 18:37:44 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F1C8218FE863;
+ Wed, 17 Jun 2020 18:37:46 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-115-47.ams2.redhat.com
  [10.36.115.47])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4C1B25EE0E;
- Wed, 17 Jun 2020 18:37:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4A81F768B4;
+ Wed, 17 Jun 2020 18:37:45 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, david@redhat.com, lvivier@redhat.com,
  maozhongyi@cmss.chinamobile.com, mreitz@redhat.com, pannengyuan@huawei.com
-Subject: [PULL 01/12] virtiofsd: Whitelist fchmod
-Date: Wed, 17 Jun 2020 19:37:22 +0100
-Message-Id: <20200617183733.186168-2-dgilbert@redhat.com>
+Subject: [PULL 02/12] qom-hmp-cmds: fix a memleak in hmp_qom_get
+Date: Wed, 17 Jun 2020 19:37:23 +0100
+Message-Id: <20200617183733.186168-3-dgilbert@redhat.com>
 In-Reply-To: <20200617183733.186168-1-dgilbert@redhat.com>
 References: <20200617183733.186168-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -85,64 +85,45 @@ Cc: stefanha@redhat.com, quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Max Reitz <mreitz@redhat.com>
+From: Pan Nengyuan <pannengyuan@huawei.com>
 
-lo_setattr() invokes fchmod() in a rarely used code path, so it should
-be whitelisted or virtiofsd will crash with EBADSYS.
+'obj' forgot to free at the end of hmp_qom_get(). Fix that.
 
-Said code path can be triggered for example as follows:
+The leak stack:
+Direct leak of 40 byte(s) in 1 object(s) allocated from:
+    #0 0x7f4e3a779ae8 in __interceptor_malloc (/lib64/libasan.so.5+0xefae8)
+    #1 0x7f4e398f91d5 in g_malloc (/lib64/libglib-2.0.so.0+0x531d5)
+    #2 0x55c9fd9a3999 in qstring_from_substr /build/qemu/src/qobject/qstring.c:45
+    #3 0x55c9fd894bd3 in qobject_output_type_str /build/qemu/src/qapi/qobject-output-visitor.c:175
+    #4 0x55c9fd894bd3 in qobject_output_type_str /build/qemu/src/qapi/qobject-output-visitor.c:168
+    #5 0x55c9fd88b34d in visit_type_str /build/qemu/src/qapi/qapi-visit-core.c:308
+    #6 0x55c9fd59aa6b in property_get_str /build/qemu/src/qom/object.c:2064
+    #7 0x55c9fd5adb8a in object_property_get_qobject /build/qemu/src/qom/qom-qobject.c:38
+    #8 0x55c9fd4a029d in hmp_qom_get /build/qemu/src/qom/qom-hmp-cmds.c:66
 
-On the host, in the shared directory, create a file with the sticky bit
-set and a security.capability xattr:
-(1) # touch foo
-(2) # chmod u+s foo
-(3) # setcap '' foo
-
-Then in the guest let some process truncate that file after it has
-dropped all of its capabilities (at least CAP_FSETID):
-
-int main(int argc, char *argv[])
-{
-    capng_setpid(getpid());
-    capng_clear(CAPNG_SELECT_BOTH);
-    capng_updatev(CAPNG_ADD, CAPNG_PERMITTED | CAPNG_EFFECTIVE, 0);
-    capng_apply(CAPNG_SELECT_BOTH);
-
-    ftruncate(open(argv[1], O_RDWR), 0);
-}
-
-This will cause the guest kernel to drop the sticky bit (i.e. perform a
-mode change) as part of the truncate (where FATTR_FH is set), and that
-will cause virtiofsd to invoke fchmod() instead of fchmodat().
-
-(A similar configuration exists further below with futimens() vs.
-utimensat(), but the former is not a syscall but just a wrapper for the
-latter, so no further whitelisting is required.)
-
-Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1842667
-Reported-by: Qian Cai <caiqian@redhat.com>
-Cc: qemu-stable@nongnu.org
-Signed-off-by: Max Reitz <mreitz@redhat.com>
-Message-Id: <20200608093111.14942-1-mreitz@redhat.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Reviewed-by: Vivek Goyal <vgoyal@redhat.com>
+Fixes: 89cf4fe34f4
+Reported-by: Euler Robot <euler.robot@huawei.com>
+Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
+Message-Id: <20200603070338.7922-1-pannengyuan@huawei.com>
+Reviewed-by: Li Qiang <liq3ea@gmail.com>
+Tested-by: Li Qiang <liq3ea@gmail.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- tools/virtiofsd/seccomp.c | 1 +
+ qom/qom-hmp-cmds.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/tools/virtiofsd/seccomp.c b/tools/virtiofsd/seccomp.c
-index bd9e7b083c..3b1522acdd 100644
---- a/tools/virtiofsd/seccomp.c
-+++ b/tools/virtiofsd/seccomp.c
-@@ -42,6 +42,7 @@ static const int syscall_whitelist[] = {
-     SCMP_SYS(exit_group),
-     SCMP_SYS(fallocate),
-     SCMP_SYS(fchdir),
-+    SCMP_SYS(fchmod),
-     SCMP_SYS(fchmodat),
-     SCMP_SYS(fchownat),
-     SCMP_SYS(fcntl),
+diff --git a/qom/qom-hmp-cmds.c b/qom/qom-hmp-cmds.c
+index 99385b6ad2..158e2d7409 100644
+--- a/qom/qom-hmp-cmds.c
++++ b/qom/qom-hmp-cmds.c
+@@ -71,6 +71,7 @@ void hmp_qom_get(Monitor *mon, const QDict *qdict)
+         qobject_unref(str);
+     }
+ 
++    qobject_unref(obj);
+     hmp_handle_error(mon, err);
+ }
+ 
 -- 
 2.26.2
 
