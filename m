@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA56F1FC6F3
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 09:16:06 +0200 (CEST)
-Received: from localhost ([::1]:36852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8C481FC71A
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 09:19:00 +0200 (CEST)
+Received: from localhost ([::1]:45170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlSIn-0004Z4-FZ
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 03:16:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38464)
+	id 1jlSLb-0008WP-Vq
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 03:19:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jlSFF-0007ja-Vc
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 03:12:26 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:56175
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jlSFD-0007ce-9f
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 03:12:23 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:23183
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jlSFD-0000bQ-1f
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 03:12:25 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jlSFA-0000aK-1W
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 03:12:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592377942;
+ s=mimecast20190719; t=1592377939;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=HFZs1P5/5zLsX+lt9an69Y6trhXT05gIadCW5CyshhA=;
- b=ENpJ1EkxBye9sivzheEjRXlPxK20ouP35Q7kA7jdGnpVy6f+MpM6Pke3ZMIWU/5uEbc1XV
- TVcX/a9hHZobavFhZARb3t9CMGkn0j5HNRk3DiuND3xL/Dl+u22cmyXAzD/DmsqCKK0n62
- jyZuKlvx3p5hk3EZeLOuSzyWysRuLIw=
+ references:references; bh=9Yghzj5BDEoyZVmuyyKns/SnsdxS39VB1n2rxPWWNy8=;
+ b=RNubsqucHg6AUW68eZ0va78VRB5KAtNyjCretJJNLCM3D9ELningwz0SjhhhwhT0MmzKPc
+ JhN/fne9Fh3LpqfR5PZhIBJ9L3VPVReFX7Nd3noFxKPL3+3rOgpEBw1vADV5zoDCuv/LcB
+ BudYV6iSr0Ek7nNzJJe4aoH0p9R7Fds=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-301-b6EF9MBmOYKiduXbmnocTA-1; Wed, 17 Jun 2020 03:12:20 -0400
-X-MC-Unique: b6EF9MBmOYKiduXbmnocTA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-281-MN-rKeurNtC3EnQluUyz9g-1; Wed, 17 Jun 2020 03:12:18 -0400
+X-MC-Unique: MN-rKeurNtC3EnQluUyz9g-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C257E9116D;
- Wed, 17 Jun 2020 07:12:12 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D91C58AB3AB;
+ Wed, 17 Jun 2020 07:12:10 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-67.ams2.redhat.com
  [10.36.112.67])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F20D91944D;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4BC221002393;
  Wed, 17 Jun 2020 07:11:59 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id E05B29D98; Wed, 17 Jun 2020 09:11:38 +0200 (CEST)
+ id E9CF99D99; Wed, 17 Jun 2020 09:11:38 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v9 08/10] acpi: drop serial/parallel enable bits from dsdt
-Date: Wed, 17 Jun 2020 09:11:36 +0200
-Message-Id: <20200617071138.11159-9-kraxel@redhat.com>
+Subject: [PATCH v9 09/10] acpi: drop build_piix4_pm()
+Date: Wed, 17 Jun 2020 09:11:37 +0200
+Message-Id: <20200617071138.11159-10-kraxel@redhat.com>
 In-Reply-To: <20200617071138.11159-1-kraxel@redhat.com>
 References: <20200617071138.11159-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -87,336 +87,156 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The _STA methods for COM+LPT used to reference them,
-but that isn't the case any more.
+The _SB.PCI0.PX13.P13C opregion (holds isa device enable bits)
+is not used any more, remove it from DSDT.
 
 piix4 DSDT changes:
 
      Scope (_SB.PCI0)
      {
+-        Device (PX13)
+-        {
+-            Name (_ADR, 0x00010003)  // _ADR: Address
+-            OperationRegion (P13C, PCI_Config, Zero, 0xFF)
+-        }
+-    }
+-
+-    Scope (_SB.PCI0)
+-    {
          Device (ISA)
          {
              Name (_ADR, 0x00010000)  // _ADR: Address
              OperationRegion (P40C, PCI_Config, 0x60, 0x04)
--            Field (^PX13.P13C, AnyAcc, NoLock, Preserve)
--            {
--                Offset (0x5F),
--                    ,   7,
--                LPEN,   1,
--                Offset (0x67),
--                    ,   3,
--                CAEN,   1,
--                    ,   3,
--                CBEN,   1
--            }
-         }
-     }
-
-ich9 DSDT changes:
-
-     Scope (_SB.PCI0)
-     {
-         Device (ISA)
-         {
-             Name (_ADR, 0x001F0000)  // _ADR: Address
-             OperationRegion (PIRQ, PCI_Config, 0x60, 0x0C)
-             OperationRegion (LPCD, PCI_Config, 0x80, 0x02)
-             Field (LPCD, AnyAcc, NoLock, Preserve)
-             {
-                 COMA,   3,
-                     ,   1,
-                 COMB,   3,
-                 Offset (0x01),
-                 LPTD,   2
-             }
--
--            OperationRegion (LPCE, PCI_Config, 0x82, 0x02)
--            Field (LPCE, AnyAcc, NoLock, Preserve)
--            {
--                CAEN,   1,
--                CBEN,   1,
--                LPEN,   1
--            }
          }
      }
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+Reviewed-by: Igor Mammedow <imammedo@redhat.com>
 ---
- hw/i386/acpi-build.c              |  23 -----------------------
- tests/data/acpi/pc/DSDT           | Bin 5014 -> 4972 bytes
- tests/data/acpi/pc/DSDT.acpihmat  | Bin 6338 -> 6296 bytes
- tests/data/acpi/pc/DSDT.bridge    | Bin 6873 -> 6831 bytes
- tests/data/acpi/pc/DSDT.cphp      | Bin 5477 -> 5435 bytes
- tests/data/acpi/pc/DSDT.dimmpxm   | Bin 6667 -> 6625 bytes
- tests/data/acpi/pc/DSDT.ipmikcs   | Bin 5086 -> 5044 bytes
- tests/data/acpi/pc/DSDT.memhp     | Bin 6373 -> 6331 bytes
- tests/data/acpi/pc/DSDT.numamem   | Bin 5020 -> 4978 bytes
- tests/data/acpi/q35/DSDT          | Bin 7752 -> 7718 bytes
- tests/data/acpi/q35/DSDT.acpihmat | Bin 9076 -> 9042 bytes
- tests/data/acpi/q35/DSDT.bridge   | Bin 7769 -> 7735 bytes
- tests/data/acpi/q35/DSDT.cphp     | Bin 8215 -> 8181 bytes
- tests/data/acpi/q35/DSDT.dimmpxm  | Bin 9405 -> 9371 bytes
- tests/data/acpi/q35/DSDT.ipmibt   | Bin 7827 -> 7793 bytes
- tests/data/acpi/q35/DSDT.memhp    | Bin 9111 -> 9077 bytes
- tests/data/acpi/q35/DSDT.mmio64   | Bin 8882 -> 8848 bytes
- tests/data/acpi/q35/DSDT.numamem  | Bin 7758 -> 7724 bytes
- tests/data/acpi/q35/DSDT.tis      | Bin 8357 -> 8323 bytes
- 19 files changed, 23 deletions(-)
+ hw/i386/acpi-build.c             |  16 ----------------
+ tests/data/acpi/pc/DSDT          | Bin 4972 -> 4934 bytes
+ tests/data/acpi/pc/DSDT.acpihmat | Bin 6296 -> 6258 bytes
+ tests/data/acpi/pc/DSDT.bridge   | Bin 6831 -> 6793 bytes
+ tests/data/acpi/pc/DSDT.cphp     | Bin 5435 -> 5397 bytes
+ tests/data/acpi/pc/DSDT.dimmpxm  | Bin 6625 -> 6587 bytes
+ tests/data/acpi/pc/DSDT.ipmikcs  | Bin 5044 -> 5006 bytes
+ tests/data/acpi/pc/DSDT.memhp    | Bin 6331 -> 6293 bytes
+ tests/data/acpi/pc/DSDT.numamem  | Bin 4978 -> 4940 bytes
+ 9 files changed, 16 deletions(-)
 
 diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index d27cecc877c4..ffbdbee51aa8 100644
+index ffbdbee51aa8..59f1b4d89000 100644
 --- a/hw/i386/acpi-build.c
 +++ b/hw/i386/acpi-build.c
-@@ -1360,15 +1360,6 @@ static void build_q35_isa_bridge(Aml *table)
-     aml_append(field, aml_named_field("LPTD", 2));
-     aml_append(dev, field);
- 
--    aml_append(dev, aml_operation_region("LPCE", AML_PCI_CONFIG,
--                                         aml_int(0x82), 0x02));
--    /* enable bits */
--    field = aml_field("LPCE", AML_ANY_ACC, AML_NOLOCK, AML_PRESERVE);
--    aml_append(field, aml_named_field("CAEN", 1));
--    aml_append(field, aml_named_field("CBEN", 1));
--    aml_append(field, aml_named_field("LPEN", 1));
--    aml_append(dev, field);
--
-     aml_append(scope, dev);
+@@ -1364,21 +1364,6 @@ static void build_q35_isa_bridge(Aml *table)
      aml_append(table, scope);
  }
-@@ -1392,7 +1383,6 @@ static void build_piix4_isa_bridge(Aml *table)
+ 
+-static void build_piix4_pm(Aml *table)
+-{
+-    Aml *dev;
+-    Aml *scope;
+-
+-    scope =  aml_scope("_SB.PCI0");
+-    dev = aml_device("PX13");
+-    aml_append(dev, aml_name_decl("_ADR", aml_int(0x00010003)));
+-
+-    aml_append(dev, aml_operation_region("P13C", AML_PCI_CONFIG,
+-                                         aml_int(0x00), 0xff));
+-    aml_append(scope, dev);
+-    aml_append(table, scope);
+-}
+-
+ static void build_piix4_isa_bridge(Aml *table)
  {
      Aml *dev;
-     Aml *scope;
--    Aml *field;
+@@ -1530,7 +1515,6 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+         aml_append(dsdt, sb_scope);
  
-     scope =  aml_scope("_SB.PCI0");
-     dev = aml_device("ISA");
-@@ -1401,19 +1391,6 @@ static void build_piix4_isa_bridge(Aml *table)
-     /* PIIX PCI to ISA irq remapping */
-     aml_append(dev, aml_operation_region("P40C", AML_PCI_CONFIG,
-                                          aml_int(0x60), 0x04));
--    /* enable bits */
--    field = aml_field("^PX13.P13C", AML_ANY_ACC, AML_NOLOCK, AML_PRESERVE);
--    /* Offset(0x5f),, 7, */
--    aml_append(field, aml_reserved_field(0x2f8));
--    aml_append(field, aml_reserved_field(7));
--    aml_append(field, aml_named_field("LPEN", 1));
--    /* Offset(0x67),, 3, */
--    aml_append(field, aml_reserved_field(0x38));
--    aml_append(field, aml_reserved_field(3));
--    aml_append(field, aml_named_field("CAEN", 1));
--    aml_append(field, aml_reserved_field(3));
--    aml_append(field, aml_named_field("CBEN", 1));
--    aml_append(dev, field);
- 
-     aml_append(scope, dev);
-     aml_append(table, scope);
+         build_hpet_aml(dsdt);
+-        build_piix4_pm(dsdt);
+         build_piix4_isa_bridge(dsdt);
+         build_isa_devices_aml(dsdt);
+         build_piix4_pci_hotplug(dsdt);
 diff --git a/tests/data/acpi/pc/DSDT b/tests/data/acpi/pc/DSDT
-index 384a82dbb3cb0e9f47db6f4d08945631c2b72b56..d9074ac8df7ff21f214a5f4a135e3d1ac2c86227 100644
+index d9074ac8df7ff21f214a5f4a135e3d1ac2c86227..6d0aaf729ac7d64cf966621adf276534de5cc555 100644
 GIT binary patch
-delta 62
-zcmbQH{zi?<CD<h-N0@<uan(jH8%8xXz4&0K_yA{5gXktH&tS)Rj(A6xAReGRLv%xc
-QiGec{R{|Hy;%SUR007+&8UO$Q
+delta 24
+fcmaE(c1(@SCD<jzO_+g!asNgxF~-eqjA}vvTlfZ5
 
-delta 104
-zcmaE(Hcg$&CD<ionlJ+cW7|e98^!<!R=xOOr}zM8PlM<tXBN+3$9Rr-N0%TTpbCcQ
-zh5!=-XC|%$E|%y<wK%<i2t(rlLt|$K1`mA(cAo%OKSl-%24-hR5QEv-2}mu@VH5%Y
-DFIE>C
+delta 62
+zcmX@6_C}4%CD<h-N0@<uan(jHF-BEYz4&0K_yA{5gXkv7fCxilj(A6xARcB0MuzBy
+R07GMECI+tmo8=kRg#ZJ94@3X}
 
 diff --git a/tests/data/acpi/pc/DSDT.acpihmat b/tests/data/acpi/pc/DSDT.acpihmat
-index 47ddfdb027b06dc2daa46be711c3f4640ce68320..8d76c7c01d49087cc5efb9843a2e1d0865145017 100644
+index 8d76c7c01d49087cc5efb9843a2e1d0865145017..2e5e02400b1bd2842989d395c573fc593f45503b 100644
 GIT binary patch
-delta 63
-zcmX?PIKz<3CD<ioh6DoxW5q@;8%8xXz4&0K_yA{5gXktH&tS)Rj(A6xAReGRLv%xc
-RiGec{R{|Hy=4p&N;s6aH4@Uq1
+delta 24
+fcmbPX_{o6FCD<jTNP>ZZv3Dbv7~^I)#vpM3TJi>R
 
-delta 105
-zcmbPXc*u~;CD<k8kOTt*W5`A>8^!<!R=xOOr}zM8PlM<tXBN+3$9Rr-N0%TTpbCcQ
-zh5!=-XC|%$E|%y<wK%<i2t(rlLt|$K1`mA(cAo%OKSl-%24-hR5QEv-2}o_uVbl=^
-E06$b0M*si-
+delta 62
+zcmexlFvF0`CD<ioh6DoxW5q@;F-BEYz4&0K_yA{5gXkv7fCxilj(A6xARcB0MuzBy
+R07GMECI+tmo8=jU#Q^|-4`BcR
 
 diff --git a/tests/data/acpi/pc/DSDT.bridge b/tests/data/acpi/pc/DSDT.bridge
-index d1e2fa9fb8c75160fc1fa46deed6a6a9cb515559..6ffae63dd8fcc4f617b9d9d57d79bd46a7253064 100644
+index 6ffae63dd8fcc4f617b9d9d57d79bd46a7253064..623c4c03585c47d4d28adc611823b7cce8f4a5c7 100644
 GIT binary patch
-delta 63
-zcmca<y55w_CD<ioy%Ylj<L8ZBHjHX&dhx+d@d3`B2GLDYp23ds9Py4WK|DZthUkU>
-R69Z=^t^_WY&C?j2B>^`q5Gnuw
+delta 24
+fcmZ2)+G)z=66_MvDaF9R$gz=2jB&FYW2PhkQA`Ea
 
-delta 105
-zcmZ2)defB4CD<k8rW6AM<N1wTHjDudta|amPVoWGo(9oP&Mcn6j`1AvjxIqwKotzp
-z4FM(w&P-ehTrAOzYH@l25r)PAhQ`he3?BLn>^=dmevAwj49w1sAO^Fu6Oh`R!{{st
-E0E&YcDgXcg
+delta 62
+zcmeA)U2n?e66_MPUW$Q%@$*J5F-BEYz4&0K_yA{5gXkv7fCxilj(A6xARcB0MuzBy
+R07GMECI+tmo8=j^BmoNk55)ig
 
 diff --git a/tests/data/acpi/pc/DSDT.cphp b/tests/data/acpi/pc/DSDT.cphp
-index 54f481faf1e336c0bbf5e774cd67220fe06e951b..b25bbf7dc5bbabea277d3402b90d376beb038043 100644
+index b25bbf7dc5bbabea277d3402b90d376beb038043..e0a43ccdadae150c0f39599c85e4e21ed8fff2a4 100644
 GIT binary patch
-delta 63
-zcmaE=wOfnJCD<jzT9ko-QF$Ym4WpWxUVN}qe1Nm3L3ERpXRu>DN4%p;5D!qEA-W;J
-R#K4(}D}jq;^EAfu!T|Sh4`~1Z
+delta 24
+fcmdn3HC2ntCD<iIRFr{%(PAT)7~^I)#;?KvO>hPk
 
-delta 105
-zcmdn3^;C<?CD<h-Rg{5&@&86H8^!<!R=xOOr}zM8PlM<tXBN+3$9Rr-N0%TTpbCcQ
-zh5!=-XC|%$E|%y<wK%<i2t(rlLt|$K1`mA(cAo%OKSl-%24-hR5QEv-2}o_uVLUGk
-E0B|rEX#fBK
+delta 62
+zcmbQLwOfnJCD<jzT9ko-QF$Ym7^AAHUVN}qe1Nm3L3ER3K!l+&N4%p;5Dzm0BSUmU
+RfT6K769d=(&GL-jgaOQn4+H=J
 
 diff --git a/tests/data/acpi/pc/DSDT.dimmpxm b/tests/data/acpi/pc/DSDT.dimmpxm
-index 5d98016ae571cde04ff96d58212e0faf9aaf50e6..7dffca09865f1c5d4f94e67dfe308bf22a45664a 100644
+index 7dffca09865f1c5d4f94e67dfe308bf22a45664a..21eb065a0ee3bd96f1a2e7601aa83fefa833349a 100644
 GIT binary patch
-delta 63
-zcmeA+d1%b#66_N4P?CXxk$WST4WpWxUVN}qe1Nm3L3ERpXRu>DN4%p;5D!qEA-W;J
-R#K4(}D}jq;^EAd%2>=a%4}|~#
+delta 24
+fcmaE8yxW+|CD<iow<H4tqryfmF~-eqjI$*GULyvu
 
-delta 105
-zcmaE8+-<_;66_MfEycjV_-rGW4P$@<t6qGtQ+$B4r$Ka+GmB@iV?0N^qe~DEPz6JD
-zLx72aGZR+=7fW=bTAW@$grRYOp|LXqgNHr?yH9|tA0vYW1GBRuh{5da1f(|SFqTRH
-E06D!Eg#Z8m
+delta 62
+zcmdmO{Lq-oCD<k8p(FzXBlkuwF-BEYz4&0K_yA{5gXkv7fCxilj(A6xARcB0MuzBy
+S07GMECI+tmo8=kjNB{r;>kpp*
 
 diff --git a/tests/data/acpi/pc/DSDT.ipmikcs b/tests/data/acpi/pc/DSDT.ipmikcs
-index 1c19e2f354d022279d7e1343fa7212396d8c25a0..5a039ac93c42d4b123e21d51c5799ddb42bf12a0 100644
+index 5a039ac93c42d4b123e21d51c5799ddb42bf12a0..b8f08f266b5735fe6967d4e105ee6b3662dad7e6 100644
 GIT binary patch
-delta 63
-zcmcbozD1qOCD<ioi!cKNquoX>8%8xXz4&0K_yA{5gXktH&tS)Rj(A6xAReGRLv%xc
-RiGec{R{|Hy=4p%`LI4lt4_^QP
+delta 24
+fcmdm@-lxvx66_MvC(OXW7`%~7jB&FYW1bKIQlth8
 
-delta 105
-zcmdm@eovjtCD<k8o-hLgqtr$&8^!<!R=xOOr}zM8PlM<tXBN+3$9Rr-N0%TTpbCcQ
-zh5!=-XC|%$E|%y<wK%<i2t(rlLt|$K1`mA(cAo%OKSl-%24-hR5QEv-2}o_uVe}9J
-E0760+UjP6A
+delta 62
+zcmeBE-=fat66_MPMVNts(QYG`7^AAHUVN}qe1Nm3L3ER3K!l+&N4%p;5Dzm0BSUmU
+RfT6K769d=(&GL--LIC7(4*CE9
 
 diff --git a/tests/data/acpi/pc/DSDT.memhp b/tests/data/acpi/pc/DSDT.memhp
-index 8cb90ef14e13be85995c6fe3d3f6d12f4d939504..a5b60b0e9c7d77fdc770687e28502b7dc6246dcd 100644
+index a5b60b0e9c7d77fdc770687e28502b7dc6246dcd..9a9418f4bde5fb18883c244ea956122e371ff01a 100644
 GIT binary patch
-delta 63
-zcmaEAxZ9A+CD<iow*&(N<D89LHjHX&dhx+d@d3`B2GLDYp23ds9Py4WK|DZthUkU>
-R69Z=^t^_WY&C?kD#Q`j#5BC57
+delta 24
+fcmdmOIMtBLCD<iosssZA<Hn6#VvL*J7)!+gS_}rG
 
-delta 105
-zcmdmO_|%ZgCD<k8sRRQ9W5q@;8^!<!R=xOOr}zM8PlM<tXBN+3$9Rr-N0%TTpbCcQ
-zh5!=-XC|%$E|%y<wK%<i2t(rlLt|$K1`mA(cAo%OKSl-%24-hR5QEv-2}o_uVe}UV
-E0Cn~k_W%F@
+delta 62
+zcmbPgxZ9A+CD<iow*&(N<D89LVvMS)dhx+d@d3`B2GLED0TG7A9Py4WK|IV1j118Y
+S0fxrTOblHAH_J1Yi30!tun&>|
 
 diff --git a/tests/data/acpi/pc/DSDT.numamem b/tests/data/acpi/pc/DSDT.numamem
-index f194bc639482eb839a875d493857526f85f1a9e0..b82e13cd12017c7197cc236d9cc161e28dcfc8b1 100644
+index b82e13cd12017c7197cc236d9cc161e28dcfc8b1..6eec385c2ec00544c6eaa7e19d32b2ccd5a51915 100644
 GIT binary patch
-delta 63
-zcmbQE{z;9?CD<jTNSJ|vF=Qi`4WpWxUVN}qe1Nm3L3ERpXRu>DN4%p;5D!qEA-W;J
-R#K4(}D}jq;^E5^_ApisS4(tE`
+delta 24
+fcmeyQc1DfMCD<jzN0@<uF>@oA7~^I)MjaslS{4Qu
 
-delta 105
-zcmeyQHb<SyCD<iojxYlQqrpZl8^!<!R=xOOr}zM8PlM<tXBN+3$9Rr-N0%TTpbCcQ
-zh5!=-XC|%$E|%y<wK%<i2t(rlLt|$K1`mA(cAo%OKSl-%24-hR5QEv-2}o_uVPq2m
-E053=u>;M1&
-
-diff --git a/tests/data/acpi/q35/DSDT b/tests/data/acpi/q35/DSDT
-index 6a5e4dd85a7d9a95f7ad0fb95e6a4fa7a8d91adb..dada9bf69fc23ea9c0931029445257657fde90ce 100644
-GIT binary patch
-delta 44
-zcmX?Mv&@FeCD<iIO^$(q@!v+S`HcL2EPC<5PVoWGo(9oPjx3XRFxqdHWYU)b03uKf
-AasU7T
-
-delta 79
-zcmZ2xbHawpCD<jzLym!g@ybT7`HcJy?0WIRPVoWGo(9oP&TNx+Fxo3cH~0iNyE1V#
-eaWO?Vih|e-&W^5rjLuF#!Y2SoZ2r!uF9QH_gcWfB
-
-diff --git a/tests/data/acpi/q35/DSDT.acpihmat b/tests/data/acpi/q35/DSDT.acpihmat
-index c1dd7773f3386a946fcb4a9a3bf9ad3a33ddbbe9..134fcffc3036c250877a50847426b2fe6d4229d7 100644
-GIT binary patch
-delta 44
-zcmez3cFB#)CD<h-NST3w@ytf9`HcL2EPC<5PVoWGo(9oPjx3XRFxqdHWQtY<05y*d
-A4gdfE
-
-delta 79
-zcmccQ_Qj3MCD<jTM45qsanVMu`HcJy?0WIRPVoWGo(9oP&TNx+Fxo3cH~0iNyE1V#
-eaWO?Vih|e-&W^5rjLuF#!Y2SoZ2ry|tq1^=WEKqo
-
-diff --git a/tests/data/acpi/q35/DSDT.bridge b/tests/data/acpi/q35/DSDT.bridge
-index 2ef1e894a35b9e85fe07e2678bd2456f5ec40dc6..6be4ccde643b3bba57f827c65490fa3a328ca77e 100644
-GIT binary patch
-delta 44
-zcmca<v)zWvCD<jzT#kW(ao$F*`HcL2EPC<5PVoWGo(9oPjx3XRFxqdHWO9%J03SOH
-ARsaA1
-
-delta 79
-zcmdmPbJK>)CD<h-QjURvv1B9Hd`5l;cD?vur}zM8PlM<tXST^Z810p!8+-zsU75I=
-exR|0FML}!^XGd2*MrS7=;S&HPHh*VykO2T`NEKB8
-
-diff --git a/tests/data/acpi/q35/DSDT.cphp b/tests/data/acpi/q35/DSDT.cphp
-index 74e86176e5fec46e660c567acf8fbcf08a14bdfb..d076236552c60b275bd91e59ab03ea8d96ccc9ea 100644
-GIT binary patch
-delta 44
-zcmbR4@YSBnCD<k8t2_e(W5q_U`HcL2EPC<5PVoWGo(9oPjx3XRFxqdHWcnuy05)3<
-Au>b%7
-
-delta 79
-zcmexrKiz@LCD<iIT!Dds(RU-)d`5l;cD?vur}zM8PlM<tXST^Z810p!8+-zsU75I=
-exR|0FML}!^XGd2*MrS7=;S&HPHh*XQCkp^jz7?<l
-
-diff --git a/tests/data/acpi/q35/DSDT.dimmpxm b/tests/data/acpi/q35/DSDT.dimmpxm
-index 4bf8e9d64b04f9f805047d6850c2dd0086970445..eeef0a4c15828b3a621aab88eafb3631ff85a960 100644
-GIT binary patch
-delta 44
-zcmdn%Iop%VCD<iowh99SqvJ-d`HcL2EPC<5PVoWGo(9oPjx3XRFxqdHWLlyG03LS?
-AuK)l5
-
-delta 79
-zcmbR3x!04+CD<iouL=VLqxeRy`HcJy?0WIRPVoWGo(9oP&TNx+Fxo3cH~0iNyE1V#
-eaWO?Vih|e-&W^5rjLuF#!Y2SoZ2r!;L<s<9F%_-=
-
-diff --git a/tests/data/acpi/q35/DSDT.ipmibt b/tests/data/acpi/q35/DSDT.ipmibt
-index 0173c3668a6cdef80127de7880a19cb5c5ea7dc0..5d89b41a1878bb0c77abda0807bcc833c7538581 100644
-GIT binary patch
-delta 44
-zcmbPi`_YEWCD<jTP>z9t(P$&rd`5mh7QOgjr}zM8PlM<tN0!Mu80|MpGF8a{02rJM
-AQvd(}
-
-delta 79
-zcmexpGuf8QCD<iovK#{gBgaOr`HcJy?0WIRPVoWGo(9oP&TNx+Fxo3cH~0iNyE1V#
-eaWO?Vih|e-&W^5rjLuF#!Y2SoZ2rzzB?ACkP!&=D
-
-diff --git a/tests/data/acpi/q35/DSDT.memhp b/tests/data/acpi/q35/DSDT.memhp
-index 98328d1c4197ab19a71de7f3f18e2985f4910f45..ad0608ef4d22de894e0a72596c2b15dead384903 100644
-GIT binary patch
-delta 44
-zcmbR4{?(1kCD<jTRGEQ+@xw;0`HcL2EPC<5PVoWGo(9oPjx3XRFxqdHWU5mH05ro5
-AKL7v#
-
-delta 79
-zcmezBHr<`eCD<iox-tU;<FSog^BMUa*!ALro#F$WJq@CpoY^MtV6<0?Ztw|kc4gvf
-e;$n(!6a}#voE=^L7@eJfgiipF*!-QbP7wf>fEGRg
-
-diff --git a/tests/data/acpi/q35/DSDT.mmio64 b/tests/data/acpi/q35/DSDT.mmio64
-index 5916c0e9ce0a9607c6230f9dfebe2c1be70b2495..b6c6946ed9812685dd71b51784900480963b54bd 100644
-GIT binary patch
-delta 44
-zcmdnwI>D98CD<iof)WD*<C=|J^BMX5SoGq9o#F$WJq@Cp99bssV6@*X$uv^|03;#|
-A;s5{u
-
-delta 79
-zcmbQ>y2+KxCD<iolM(|1W79^i`HcJy?0WIRPVoWGo(9oP&TNx+Fxo3cH~0iNyE1V#
-eaWO?Vih|e-&W^5rjLuF#!Y2SoZ2rzTQvm>UoE6~!
-
-diff --git a/tests/data/acpi/q35/DSDT.numamem b/tests/data/acpi/q35/DSDT.numamem
-index cf3fde3449bc8e9bbe683b936cf9866590b0ef82..9b5c962434471d63d65f027c84dfc3e6ac20e10b 100644
-GIT binary patch
-delta 44
-zcmX?Sv&M$YCD<iIM~;Dkam7Zi`HcL2EPC<5PVoWGo(9oPjx3XRFxqdHWHOZj02>|*
-AGynhq
-
-delta 79
-zcmZ2ubIyj#CD<jzPmY0sv2G*Rd`5l;cD?vur}zM8PlM<tXST^Z810p!8+-zsU75I=
-exR|0FML}!^XGd2*MrS7=;S&HPHh*U{l>q=^1{E^^
-
-diff --git a/tests/data/acpi/q35/DSDT.tis b/tests/data/acpi/q35/DSDT.tis
-index 56b6fb0c3298517d080e38fea05a748b9f1dba54..7cb8d8b154f3de295669a741c9ec3ec8c67e2b2f 100644
-GIT binary patch
-delta 44
-zcmZ4L*zCyV66_MvtiZs)czq++d`5mh7QOgjr}zM8PlM<tN0!Mu80|MpGWEy-03lZl
-A%>V!Z
-
-delta 79
-zcmZp6T<XZ>66_MPRDpqkaqUK~`HcJy?0WIRPVoWGo(9oP&TNx+Fxo3cH~0iNyE1V#
-eaWO?Vih|e-&W^5rjLuF#!Y2SoZ2r#JBL@I*{}s#t
+delta 62
+zcmX@3_DPM)CD<jTNSJ|vF=Qi`7^AAHUVN}qe1Nm3L3ER3K!l+&N4%p;5Dzm0BSUmU
+RfT6K769d=(&GL-8LIC%74+a1L
 
 -- 
 2.18.4
