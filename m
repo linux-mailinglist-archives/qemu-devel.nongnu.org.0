@@ -2,78 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 079801FCCA1
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 13:41:00 +0200 (CEST)
-Received: from localhost ([::1]:52734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 409091FCCCF
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 13:51:50 +0200 (CEST)
+Received: from localhost ([::1]:32822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlWR9-0002qO-4c
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 07:40:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43576)
+	id 1jlWbd-00087M-9f
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 07:51:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jlWQ5-0002Aw-BI
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 07:39:54 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36762
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jlWQ3-0002S2-PS
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 07:39:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592393991;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=+A3OzC8YqMZn3QGL8JSkuLnC6+2WWU53BGSNIa7D090=;
- b=JXBaXoTE+prx5o5SUDbNjclabzN/fieq0XtZX0YAxL0blTIdEJig3rE6iqtHrLwnnh5uCA
- KE9IQEDQaz21TFnE3ux3ud9hNESfmUuX1zT2FXCctzOTyLTNtGb8MoQJefbUwGOpv3fft/
- W7non99SGqvqOxcmQeepohV2KZ1wDPE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-225-Kk4d2p3hOr2nBpUn281m1A-1; Wed, 17 Jun 2020 07:39:49 -0400
-X-MC-Unique: Kk4d2p3hOr2nBpUn281m1A-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1DD78134D3;
- Wed, 17 Jun 2020 11:39:48 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-131.ams2.redhat.com [10.36.112.131])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3BA4E60BE2;
- Wed, 17 Jun 2020 11:39:47 +0000 (UTC)
-Subject: Re: [PATCH 2/5] iotests/041: Skip test_small_target for qed
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-References: <20200617104822.27525-1-mreitz@redhat.com>
- <20200617104822.27525-3-mreitz@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <c4f1cdec-6815-c059-bc66-58262bcff278@redhat.com>
-Date: Wed, 17 Jun 2020 13:39:45 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jlWac-0007gd-Da
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 07:50:46 -0400
+Received: from indium.canonical.com ([91.189.90.7]:41856)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jlWaa-0004Ok-HN
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 07:50:46 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jlWaV-0000TK-OD
+ for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 11:50:39 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id B37112E8109
+ for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 11:50:39 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200617104822.27525-3-mreitz@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=thuth@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/17 01:42:04
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 17 Jun 2020 11:44:43 -0000
+From: =?utf-8?q?Alex_Benn=C3=A9e?= <1883728@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: testcase
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: bugs-syssec
+X-Launchpad-Bug-Reporter: Bugs SysSec (bugs-syssec)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
+References: <159232150625.30008.14587531607819527800.malonedeb@chaenomeles.canonical.com>
+Message-Id: <159239428399.5967.969245159916405158.launchpad@soybean.canonical.com>
+Subject: [Bug 1883728] Re: address_space_unmap: Assertion `mr != NULL' failed.
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="1cbd0aa39df153c901321817f9b57cf3f232b507";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: b16e7937bd23c327ae92d139f069306b40ec7a11
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/17 06:40:58
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -82,35 +72,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
+Reply-To: Bug 1883728 <1883728@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 17/06/2020 12.48, Max Reitz wrote:
-> qed does not support shrinking images, so the test_small_target method
-> should be skipped to keep 041 passing.
-> 
-> Fixes: 16cea4ee1c8e5a69a058e76f426b2e17974d8d7d
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
-> ---
->  tests/qemu-iotests/041 | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/tests/qemu-iotests/041 b/tests/qemu-iotests/041
-> index 601c756117..b843f88a66 100755
-> --- a/tests/qemu-iotests/041
-> +++ b/tests/qemu-iotests/041
-> @@ -277,6 +277,8 @@ class TestSingleBlockdev(TestSingleDrive):
->          result = self.vm.run_job('job0')
->          self.assertEqual(result, 'Source and target image have different sizes')
->  
-> +    # qed does not support shrinking
-> +    @iotests.skip_for_formats(('qed'))
->      def test_small_target(self):
->          self.do_test_target_size(self.image_len // 2)
+** Tags added: testcase
 
-Great, now "check -qed 041" works fine for me again! Thanks!
+-- =
 
-Tested-by: Thomas Huth <thuth@redhat.com>
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1883728
 
+Title:
+  address_space_unmap: Assertion `mr !=3D NULL' failed.
+
+Status in QEMU:
+  New
+
+Bug description:
+  To reproduce run the QEMU with the following command line:
+  ```
+  qemu-system-x86_64 -cdrom hypertrash_os_bios_crash.iso -nographic -m 100 =
+-enable-kvm -device virtio-gpu-pci -device nec-usb-xhci -device usb-audio
+  ```
+
+  QEMU Version:
+  ```
+  # qemu-5.0.0
+  $ ./configure --target-list=3Dx86_64-softmmu --enable-sanitizers; make
+  $ x86_64-softmmu/qemu-system-x86_64 --version
+  QEMU emulator version 5.0.0
+  Copyright (c) 2003-2020 Fabrice Bellard and the QEMU Project developers
+  ```
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1883728/+subscriptions
 
