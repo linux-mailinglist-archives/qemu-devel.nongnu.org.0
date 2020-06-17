@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28AD31FD4AD
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 20:39:32 +0200 (CEST)
-Received: from localhost ([::1]:47838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B02641FD4B4
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 20:41:43 +0200 (CEST)
+Received: from localhost ([::1]:55128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlcyB-0005NR-0i
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 14:39:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51628)
+	id 1jld0I-0008RP-PE
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 14:41:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jlcwl-0003gD-4J
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 14:38:03 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:47105
- helo=us-smtp-delivery-1.mimecast.com)
+ id 1jlcwq-0003vn-TD
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 14:38:08 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:32037
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jlcwj-00089v-GI
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 14:38:02 -0400
+ id 1jlcwp-0008BF-8Q
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 14:38:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592419080;
+ s=mimecast20190719; t=1592419086;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8qJMdRHOjNP0k/cnguCGjmnvk+lL+y3mR0ev/Km7cfE=;
- b=Cj3ySBIQ4/3YCugrMlnMqnV3bBYLXqtDKqmQ+E3y+zk6WeLSlCK6yUcoORamkp1e5UABXX
- IyZVcN/TsNWL8O/fLNYW+2y3zmC+yjEueV8a1gGrcQGyuWIlh0ovMVbwlmTKZU3k9Wggq5
- gbm1tP5zYZHvAJa1iW3B3fKL/7r6t+s=
+ bh=Dd7PfU60ZH2AcRhRnv1bLgRZ5bOsNrGcQr6j2cs2djg=;
+ b=XsdXqzUfuxhvQDBvA8nBwY1A+F4BIXvRPkRdjvG2gykgCLbHB5Ub4+cd59riE1maYFL/xE
+ dpHSvtBFtvWb3IWm+HypDy1XFNryzGRWUre4Inf+Rvn6dZo/kMTWXfFOxP2ImD/L8s1xmO
+ egVVVS0aUJrXWyyPyTahhw/GTdw110o=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-427-VPS1HNybMjyK2mxOv6Idig-1; Wed, 17 Jun 2020 14:37:58 -0400
-X-MC-Unique: VPS1HNybMjyK2mxOv6Idig-1
+ us-mta-491-qtme5ml6Pqy0Zwgo01QQnQ-1; Wed, 17 Jun 2020 14:38:03 -0400
+X-MC-Unique: qtme5ml6Pqy0Zwgo01QQnQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 86B97BFC0;
- Wed, 17 Jun 2020 18:37:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D3272107ACCD;
+ Wed, 17 Jun 2020 18:38:02 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-115-47.ams2.redhat.com
  [10.36.115.47])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4A88B5EE0E;
- Wed, 17 Jun 2020 18:37:53 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D65635EE0E;
+ Wed, 17 Jun 2020 18:37:57 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, david@redhat.com, lvivier@redhat.com,
  maozhongyi@cmss.chinamobile.com, mreitz@redhat.com, pannengyuan@huawei.com
-Subject: [PULL 06/12] monitor/hmp-cmds: add units for migrate_parameters
-Date: Wed, 17 Jun 2020 19:37:27 +0100
-Message-Id: <20200617183733.186168-7-dgilbert@redhat.com>
+Subject: [PULL 07/12] monitor/hmp-cmds: don't silently output when running
+ 'migrate_set_downtime' fails
+Date: Wed, 17 Jun 2020 19:37:28 +0100
+Message-Id: <20200617183733.186168-8-dgilbert@redhat.com>
 In-Reply-To: <20200617183733.186168-1-dgilbert@redhat.com>
 References: <20200617183733.186168-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -58,16 +59,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/17 01:42:42
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/17 01:42:04
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,59 +88,46 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mao Zhongyi <maozhongyi@cmss.chinamobile.com>
 
-When running:
-(qemu) info migrate_parameters
-announce-initial: 50 ms
-announce-max: 550 ms
-announce-step: 100 ms
-compress-wait-thread: on
-...
-max-bandwidth: 33554432 bytes/second
-downtime-limit: 300 milliseconds
-x-checkpoint-delay: 20000
-...
-xbzrle-cache-size: 67108864
+Although 'migrate_set_downtime' has been deprecated and replaced
+with 'migrate_set_parameter downtime_limit', it has not been
+completely eliminated, possibly due to compatibility with older
+versions. I think as long as this old parameter is running, we
+should report appropriate message when something goes wrong, not
+be silent.
 
-add units for the parameters 'x-checkpoint-delay' and
-'xbzrle-cache-size', it's easier to read, also move
-milliseconds to ms to keep the same style.
+before:
+(qemu) migrate_set_downtime -1
+(qemu)
+
+after:
+(qemu) migrate_set_downtime -1
+Error: Parameter 'downtime_limit' expects an integer in the range of 0 to 2000 seconds
 
 Signed-off-by: Mao Zhongyi <maozhongyi@cmss.chinamobile.com>
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
-Message-Id: <20200603080904.997083-4-maozhongyi@cmss.chinamobile.com>
+Message-Id: <20200603080904.997083-5-maozhongyi@cmss.chinamobile.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- monitor/hmp-cmds.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ monitor/hmp-cmds.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index e03adf0d4d..2c630ec88d 100644
+index 2c630ec88d..a704b3469a 100644
 --- a/monitor/hmp-cmds.c
 +++ b/monitor/hmp-cmds.c
-@@ -443,11 +443,11 @@ void hmp_info_migrate_parameters(Monitor *mon, const QDict *qdict)
-             MigrationParameter_str(MIGRATION_PARAMETER_MAX_BANDWIDTH),
-             params->max_bandwidth);
-         assert(params->has_downtime_limit);
--        monitor_printf(mon, "%s: %" PRIu64 " milliseconds\n",
-+        monitor_printf(mon, "%s: %" PRIu64 " ms\n",
-             MigrationParameter_str(MIGRATION_PARAMETER_DOWNTIME_LIMIT),
-             params->downtime_limit);
-         assert(params->has_x_checkpoint_delay);
--        monitor_printf(mon, "%s: %u\n",
-+        monitor_printf(mon, "%s: %u ms\n",
-             MigrationParameter_str(MIGRATION_PARAMETER_X_CHECKPOINT_DELAY),
-             params->x_checkpoint_delay);
-         assert(params->has_block_incremental);
-@@ -460,7 +460,7 @@ void hmp_info_migrate_parameters(Monitor *mon, const QDict *qdict)
-         monitor_printf(mon, "%s: %s\n",
-             MigrationParameter_str(MIGRATION_PARAMETER_MULTIFD_COMPRESSION),
-             MultiFDCompression_str(params->multifd_compression));
--        monitor_printf(mon, "%s: %" PRIu64 "\n",
-+        monitor_printf(mon, "%s: %" PRIu64 " bytes\n",
-             MigrationParameter_str(MIGRATION_PARAMETER_XBZRLE_CACHE_SIZE),
-             params->xbzrle_cache_size);
-         monitor_printf(mon, "%s: %" PRIu64 "\n",
+@@ -1189,8 +1189,11 @@ void hmp_migrate_pause(Monitor *mon, const QDict *qdict)
+ /* Kept for backwards compatibility */
+ void hmp_migrate_set_downtime(Monitor *mon, const QDict *qdict)
+ {
++    Error *err = NULL;
++
+     double value = qdict_get_double(qdict, "value");
+-    qmp_migrate_set_downtime(value, NULL);
++    qmp_migrate_set_downtime(value, &err);
++    hmp_handle_error(mon, err);
+ }
+ 
+ void hmp_migrate_set_cache_size(Monitor *mon, const QDict *qdict)
 -- 
 2.26.2
 
