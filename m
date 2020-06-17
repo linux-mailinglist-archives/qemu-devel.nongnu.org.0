@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9A381FCB38
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 12:47:42 +0200 (CEST)
-Received: from localhost ([::1]:59740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E39AD1FCAEE
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 12:33:08 +0200 (CEST)
+Received: from localhost ([::1]:41590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlVbZ-0004SI-Qv
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 06:47:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59098)
+	id 1jlVNS-00030K-So
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 06:33:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55784)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <LMa@suse.com>) id 1jlVZt-0003r5-DC
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 06:45:59 -0400
-Received: from mail-am6eur05on2073.outbound.protection.outlook.com
- ([40.107.22.73]:6168 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <LMa@suse.com>) id 1jlVLt-0002Ao-SU
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 06:31:29 -0400
+Received: from mail-vi1eur05on2061.outbound.protection.outlook.com
+ ([40.107.21.61]:46817 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <LMa@suse.com>) id 1jlVZr-0002P8-Gn
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 06:45:57 -0400
+ (Exim 4.90_1) (envelope-from <LMa@suse.com>) id 1jlVLl-0008PW-M8
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 06:31:29 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=J1w5BDugRapG47HAjmUqXGWxHDY9VuglEULK2B9owx5Ew+Y3UudHFxR/n/qGDp2RpSb3BMeIeez0jpQT+GoeVlFNocnw7o52e2+FrJcXfx7kC6WT6cPlQ2Q7pu1WkN3WZfmGUz1aYPn6X4h7DpV/N09w4fd4RQnDTANxwdKhtx+YUuczwnYXwSHGHb439+8X2SDMLags8TfbdN8TvmQSdRT5FgTyueUEaLMGC+EB8le1hsno8ErdaGE4InBBCJSeYwv//Ay6NrB7QTgJZt5H5nJcNU5q1I76aLxGoHv7K0KELcIprqIjr5PnbCkBGwPcKLhow8KvfujGrb9r9TwBTw==
+ b=KKYaRjtDXbGNBCNKb8o0zTrv1IFm7nxhxT8tv5h1MzwjGZEB7hfcfSmPAJyqznUaLeVxTMb9ZqVs86ed4C9uDHi9AL1NYd/seNwwzT8b1RFxh9mE2UT3U5wAb/ietyjDUixMyioedCAWxjwI6DSnqIe0EuZIfa+kVR8sNa309fSlr0/xtWbvvAD/d2DhSyvUOhaCVfX0BRLXw16ofE7u/8kfPnd18mge7Ru3qm8Gd9/ZVO/oTQXkBsnaatSRd1PqZYUVfNQ2N7KOnw6vSlH5LjSEwWxQAe0elu8cNf0JSaTkvfOlAWiZDYZgmlOPyRJsJtsH0l3r4ppaPB+Ef9Cf2A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gmzbo8jhYhKPclHozRdra7INsokKICcPMve+ooZA5ME=;
- b=INDNw/jbEN5xFmGNXVd3GJSfTAZ9+bnaHHFd2auKonSk3wEORNHWPPYo3+ZM0ZZPC4iQuBBDDLDVUnvbxMX0leJNSgBgdIf+jscpFgtXs7pUTTpV4mVgIMsVUfdOrshQrNhCzYgJROXAni/KQtNUfUGzp1N52jbY8xvawFKfOe6DxgcXw1eWZmE2qD4wyodQmsOjLAh9uP1tLZg45kZ3r9R0eCFbnXs+q2Kr/jduwjg0GbbhzqTUggJHQ9K1NFJz3sdXHmBreFmVxcDR1qGOoTRQ6Zq/uvEcwXvZ2AA2tuplt4mzOtSuqS7UWjF6kBdshpcptnWvNMtOz6/XZTYTFw==
+ bh=LjgdY45G2B/P1e9HyyJEIYGlVAq8rMncFu9MNoqpXrg=;
+ b=KYETjBk7MfSXJnO6iyg/0bJD0OeMUxp9YFa2BsmRBV4zSIvGQp12ceTMu8fUhwuKDvaYmgmvHSdd7gDrRG2NdDTCs4+wbgD8Vjv4BNnOcTn5hpBNP+eaIQwyHvFLG9jT6kDqriPRaodYjQB08jeMLA2HoIsLCLbM8kXkembwYp87OhZ3bl0kAou2jQTzMIkjZeNWsG0WeHzNZ2cu6kT0KYfQcBnc7Apn0TMaUsOKIn5Xsk3yvYu8hP37mLfOwgb431PyaW0OKBzkAflu0nVCt8LB54n97bQDIBUXmMrSD/uRUqHdpkkvjjmUozzVEgOZcGDqY+vY28kmLOicokKZvQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=suse.com; dmarc=pass action=none header.from=suse.com;
  dkim=pass header.d=suse.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=mysuse.onmicrosoft.com; s=selector1-mysuse-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gmzbo8jhYhKPclHozRdra7INsokKICcPMve+ooZA5ME=;
- b=hMuYChFDAn5vAbznRMEbMJoelPURTKFvmKFdQ/1CprD4F0tdzeGPDXt/SOf5Y/l6h/fOYhxSYkFFF+7om1AT6f88f6CNhPioTK2qfF47gn7+CUnOpSgLo8IhtwPSSzwZ8zAqspUHt29NS8SdM/qQCxUrIvfO3AF6L7dTLkQuMfEqGfXFMk441FMv+bmDG6t8vixceJdlYeyQ+qha+L5q14/u0UAjvaDWLql3Ww6pR7D1M47gYg6rlU8Lf7AqBa+q/BoLk7u0xtRL6YJfyKP/H+qI4eAH30Cx7Dk5WaFZ0ywX5MQt/QtWRt8vr9jorQ6HbwSobz6LRfSIl1hdAKFt4g==
+ bh=LjgdY45G2B/P1e9HyyJEIYGlVAq8rMncFu9MNoqpXrg=;
+ b=LJYGddGaa1zTqo4GhU8JfcrAzWDMOC5u6stRAY5VlYrBT9mKW/3hIThSgVtagNC7M+S6dk09phsUFTG7TZpV8yJ65y8PXabeajmL13lRhX9Rriod6ku3ESTw6X/vAsPpG57L0K2IOSYt3p/bNcsAuxaaDmtrkPKTqwmnkqdsSSn72wbIuKt4Q5YMnnm7LGAUFooqOJboVqLWWgqy+KxEocgSEuIfzA9uP+6IOLQC+2QufZtjXDGZrIs3D+Rp+MZLOofY0gQtvE5BogbyKwmw7iRI6BEiqiRpzJR8IspBo3g/JxBDbJk0+NEwuF54yHG9GoUNZGE+V5odd4sDF4za+Q==
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=suse.com;
 Received: from AM6PR04MB5782.eurprd04.prod.outlook.com (2603:10a6:20b:aa::17)
  by AM6PR04MB5815.eurprd04.prod.outlook.com (2603:10a6:20b:b0::29)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3109.22; Wed, 17 Jun
- 2020 10:30:44 +0000
+ 2020 10:30:46 +0000
 Received: from AM6PR04MB5782.eurprd04.prod.outlook.com
  ([fe80::d848:9dea:7742:a55]) by AM6PR04MB5782.eurprd04.prod.outlook.com
  ([fe80::d848:9dea:7742:a55%4]) with mapi id 15.20.3088.029; Wed, 17 Jun 2020
- 10:30:44 +0000
+ 10:30:46 +0000
 From: Lin Ma <lma@suse.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/3] Add Support for GET LBA STATUS 16 command in scsi
- emulation
-Date: Wed, 17 Jun 2020 18:30:15 +0800
-Message-Id: <20200617103018.18026-1-lma@suse.com>
+Subject: [PATCH v2 1/3] block: Add bdrv_co_get_lba_status
+Date: Wed, 17 Jun 2020 18:30:16 +0800
+Message-Id: <20200617103018.18026-2-lma@suse.com>
 X-Mailer: git-send-email 2.26.0
+In-Reply-To: <20200617103018.18026-1-lma@suse.com>
+References: <20200617103018.18026-1-lma@suse.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-ClientProxiedBy: HK0PR03CA0107.apcprd03.prod.outlook.com
@@ -61,36 +62,36 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (114.255.249.163) by
  HK0PR03CA0107.apcprd03.prod.outlook.com (2603:1096:203:b0::23) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3109.21 via Frontend Transport; Wed, 17 Jun 2020 10:30:41 +0000
+ 15.20.3109.21 via Frontend Transport; Wed, 17 Jun 2020 10:30:44 +0000
 X-Mailer: git-send-email 2.26.0
 X-Originating-IP: [114.255.249.163]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 266733d2-8794-441a-13f8-08d812a97d83
+X-MS-Office365-Filtering-Correlation-Id: ef252621-e298-4ea9-1d8d-08d812a97f2a
 X-MS-TrafficTypeDiagnostic: AM6PR04MB5815:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR04MB581587F61D6975B0A56CE275C59A0@AM6PR04MB5815.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4125;
+X-Microsoft-Antispam-PRVS: <AM6PR04MB58152D8710B589CE4ACFBDF6C59A0@AM6PR04MB5815.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:813;
 X-Forefront-PRVS: 04371797A5
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: dga4A+UoBf66WoXIceW4KxsHlLjczlsNZTv/aCI2ZPKgcEZdGmNhc53ka95M0cHOlejgZdHNsPbIY5dpLAx6Vv4yUdcOY7tWk9tyWdFyv/YaSMPcDpm5Ph7EoI8OjOQgcw9jSZ3EaEAzrrBN15ZKwcVu+Z5D0nrCXPgPq5klcMxyFGQOQi5nw/lLs2652vLsuhNsDyMAU3tiD5iR2le8HC6xBrtSejX5EBwLDGXmUnTl4lnZfBQoGmszTPKsq1BYbQcqMAHbkeAMt5A5eTC1yUTy1XvT7TanQAYGtqWHgCVRhfImVkKyu7589HVJTnjeFSowG+kAjKKj8zFehrwa3eMBnwJfMTgblZR+r6ybXxVN4dnsRdTGsGbWZGtCSUWe
+X-Microsoft-Antispam-Message-Info: Kxa3IPvo3B6BWiu1RlsveUJN5Kz6zBPcSy+TiRb8Zo5RFu/54SFjVfcZIVGwu1b4m5fTZGxoOu79dv2NuzTx+tfvqmKwOhv7ZJY2fyZTJIDZrJwXTbE0IIPOTIpbA9/RSMkpHIx2f5rIo4UBmCghbGQNAVYXnosuz50Tslo8rjuoLvI+8wtPwnlH3aRmFq7uD5hAc7PP7Zwk55uwcHagyqbdOVYxM+dsVfhesrWg4lnkeAtWSQ8EKQt1y2sFnyg4n/o2oJjxGzX2/Ez7+zDiGT5TWTy0wdlVTKsyCkchEFzMs+flCCyao83nXEuANRF1/UOU84h/sRreXq79Q042f8+w9VGPQhO7IZGBt22OeiU+VHpq1RxxybQ5Sp2n3Pv4
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM6PR04MB5782.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
  SFS:(136003)(376002)(366004)(346002)(396003)(39860400002)(5660300002)(52116002)(6916009)(66556008)(478600001)(6486002)(8936002)(26005)(8676002)(2906002)(66476007)(66946007)(6506007)(4326008)(316002)(36756003)(6666004)(6512007)(86362001)(107886003)(2616005)(956004)(186003)(1076003)(16526019)(83380400001)(69590400007);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: I9t/uVjtrUT3TqoFldG8zuREefMT62YipNuFQ3EYF57zlluzTzEBvKHipGoPxqNiuf00IxE53ANt8u5Zgc3ndTci9bHi96cobIi2DTR2UP9IVGp9Hx/LjJgMFeYxvN8XDw3AFyZEA3lm7BNtkkIA5Z6xz84JFan+9X3Qc3N+/v7jzqe1gvZ78/RCb3vQ5QoNb6O5IZjAMq1gA4Fdv3xkaHodHCbHGI9bjCtzvvyM9aCb6kObR8sADV6FhNOEpGERVvEykSX7ARbu/JDdJ28FtoDWbcaAJoMoMofmEeWjgSaTPBcuLO3r12872zYiDD9jQduutJUp65S3f1eyNDVug+PBR+iB4fCoVmOK9/3jbv75lZ7GvQbUzzX/+sM3aIjrG0Cr8ZY95d8021DwMaR/Pl/nJ0Psr6WQI5fFf0UOtdfzEkr2a8uJUgvzvoVsu4WjmAeCmrbSBkISISvuk8VhQIvkr8u1E+J6C6Fbu83FAA9oOJvqu0Oy+lepGzE8uxgj
+X-MS-Exchange-AntiSpam-MessageData: G5/d8bOJElZyxMaTdnF3Nc/rRHuH1mXC+BcR9aKSaQbF6Y/YWe+7NoZFbTLIMgM4Alvq2qcsV5ojAQhAMssCWXDmbjKlxCqA3hz6SrqNM5PCtQ6sS0bgVNRAJ6t4nD+PAd6wZQBw+AnEFnV6KgPeMeHuATLykKC8KSbr91VItNp1NM8BQ4roD0MinR3uFv3WvLkPjVGjMtWcVYh3tA0JqaHK7n0z7Nen7hJJseOJgFqhbYbHkMEy7AypFOYvDj5APsX8e3/I2dGr+NPtSm/wPe7Aw39Z5TnchYO9G1gLfn2wHuCMHgBfeFpUl3euXlU8CdkGiWnD02Wv5DUfXILTdiniP5tMQCltctQaxNyjVk7dwEUbhbF6C2F0/XKSAVxZoDsWLD+OYZnk6mWVcSaLW1Pe5YT7KZMQsaPAaFCzemW8G7b9ZMkbKOdj7flAVZviW8kohb3+usPm7g+qF6ugnfeIuuzyqj8PMkLcgqquHYs=
 X-OriginatorOrg: suse.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 266733d2-8794-441a-13f8-08d812a97d83
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jun 2020 10:30:44.0878 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: ef252621-e298-4ea9-1d8d-08d812a97f2a
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jun 2020 10:30:46.6853 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: f7a17af6-1c5c-4a36-aa8b-f5be247aa4ba
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bniUpfkoRwZPlsptoP7otfEu6YE1dv9pyAR+2ynwghEqn73Z/Icc10esAZaQWECv
+X-MS-Exchange-CrossTenant-UserPrincipalName: gNdW1kO7VpzpX+IDcP1PpGeTA1Eq89RLaosK+hV6UXvMsU8OsqtDl5xpGVmffTXt
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR04MB5815
-Received-SPF: pass client-ip=40.107.22.73; envelope-from=LMa@suse.com;
- helo=EUR05-AM6-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/17 06:45:48
+Received-SPF: pass client-ip=40.107.21.61; envelope-from=LMa@suse.com;
+ helo=EUR05-VI1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/17 06:31:19
 X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
@@ -116,45 +117,85 @@ Cc: fam@euphon.net, kwolf@redhat.com, mreitz@redhat.com, stefanha@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v2->v1:
-Follow Claudio's suggestions and the docker test result, Fix the dereferencing
-'void *' pointer issues and the coding style issues.
+The get lba status wrapper based on the bdrv_block_status. The following
+patches will add GET LBA STATUS 16 support for scsi emulation layer.
 
+Signed-off-by: Lin Ma <lma@suse.com>
+---
+ block/io.c                | 43 +++++++++++++++++++++++++++++++++++++++
+ include/block/block_int.h |  5 +++++
+ 2 files changed, 48 insertions(+)
 
-In this current design, The GET LBA STATUS parameter data only contains
-an eight-byte header + one LBA status descriptor.
-
-How to test:
-host:~ # qemu-system-x86_64 \
-...
--drive file=/vm0/disk0.raw,format=raw,if=none,id=drive0,discard=unmap \
--device scsi-hd,id=scsi0,drive=drive0 \
-...
-
-
-guest:~ # dd if=/dev/zero of=/dev/sda bs=512 seek=1024 count=256
-
-guest:~ # sg_unmap -l 1024 -n 32 /dev/sda
-
-guest:~ # sg_get_lba_status /dev/sda -l 1024
-No indication of the completion condition
-RTP=0
-descriptor LBA: 0x0000000000000400  blocks: 32  deallocated
-
-Lin Ma (3):
-  block: Add bdrv_co_get_lba_status
-  block: Add GET LBA STATUS support
-  scsi-disk: Add support for the GET LBA STATUS 16 command
-
- block/block-backend.c          | 38 ++++++++++++++
- block/io.c                     | 43 ++++++++++++++++
- hw/scsi/scsi-disk.c            | 90 ++++++++++++++++++++++++++++++++++
- include/block/accounting.h     |  1 +
- include/block/block_int.h      |  5 ++
- include/scsi/constants.h       |  1 +
- include/sysemu/block-backend.h |  2 +
- 7 files changed, 180 insertions(+)
-
+diff --git a/block/io.c b/block/io.c
+index df8f2a98d4..2064016b19 100644
+--- a/block/io.c
++++ b/block/io.c
+@@ -2208,6 +2208,49 @@ int coroutine_fn bdrv_co_pwrite_zeroes(BdrvChild *child, int64_t offset,
+                            BDRV_REQ_ZERO_WRITE | flags);
+ }
+ 
++int coroutine_fn
++bdrv_co_get_lba_status(BdrvChild *child, int64_t offset, int64_t bytes,
++                       uint32_t *num_blocks, uint32_t *is_deallocated)
++{
++    BlockDriverState *bs = child->bs;
++    int ret = 0;
++    int64_t target_size, count = 0;
++    bool first = true;
++    uint8_t wanted_bit1 = 0;
++
++    target_size = bdrv_getlength(bs);
++    if (target_size < 0) {
++        return -EIO;
++    }
++
++    if (offset < 0 || bytes < 0) {
++        return -EIO;
++    }
++
++    for ( ; offset <= target_size - bytes; offset += count) {
++        ret = bdrv_block_status(bs, offset, bytes, &count, NULL, NULL);
++        if (ret < 0) {
++            goto out;
++        }
++        if (first) {
++            if (ret & BDRV_BLOCK_ZERO) {
++                wanted_bit1 = BDRV_BLOCK_ZERO >> 1;
++                *is_deallocated = 1;
++            } else {
++                wanted_bit1 = 0;
++            }
++            first = false;
++        }
++        if ((ret & BDRV_BLOCK_ZERO) >> 1 == wanted_bit1) {
++            (*num_blocks)++;
++        } else {
++            break;
++        }
++    }
++out:
++    return ret;
++}
++
+ /*
+  * Flush ALL BDSes regardless of if they are reachable via a BlkBackend or not.
+  */
+diff --git a/include/block/block_int.h b/include/block/block_int.h
+index 791de6a59c..43f90591b9 100644
+--- a/include/block/block_int.h
++++ b/include/block/block_int.h
+@@ -1296,6 +1296,11 @@ int coroutine_fn bdrv_co_block_status_from_backing(BlockDriverState *bs,
+                                                    int64_t *pnum,
+                                                    int64_t *map,
+                                                    BlockDriverState **file);
++int coroutine_fn bdrv_co_get_lba_status(BdrvChild *child,
++                                        int64_t offset,
++                                        int64_t bytes,
++                                        uint32_t *num_blocks,
++                                        uint32_t *is_deallocated);
+ const char *bdrv_get_parent_name(const BlockDriverState *bs);
+ void blk_dev_change_media_cb(BlockBackend *blk, bool load, Error **errp);
+ bool blk_dev_has_removable_media(BlockBackend *blk);
 -- 
 2.26.0
 
