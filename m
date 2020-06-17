@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64C1F1FCAEF
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 12:33:10 +0200 (CEST)
-Received: from localhost ([::1]:41648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A346B1FCAFA
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 12:34:58 +0200 (CEST)
+Received: from localhost ([::1]:47190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlVNV-00031o-FK
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 06:33:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55806)
+	id 1jlVPF-0005kv-O9
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 06:34:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <LMa@suse.com>) id 1jlVLw-0002BW-Te
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 06:31:32 -0400
+ (Exim 4.90_1) (envelope-from <LMa@suse.com>) id 1jlVLz-0002Dc-9i
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 06:31:35 -0400
 Received: from mail-vi1eur05on2061.outbound.protection.outlook.com
  ([40.107.21.61]:46817 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <LMa@suse.com>) id 1jlVLu-0008PW-6q
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 06:31:32 -0400
+ (Exim 4.90_1) (envelope-from <LMa@suse.com>) id 1jlVLx-0008PW-90
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 06:31:35 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BWmpHCFpOsYLNcuqCSrW5U4Acrd3I1R60WClWiEdL4GOZnJm45JRQF/fOR1+avvmc6al3LzvGV+aNsy/jrdDLDvcnK8gF7LoTC+yz29iOMHxG1eazof3knMI1/tuGnKuurV/Q+jXdslHfLg1aZV0yuHe+gAuin0QBRnEwEHNvJbp3fgvPvn681IrRy9SDknqP7L/9jtfaOyHxdpyLP3quIXhAp25oTBLx/BDrCJcyW4XeG9mobWoLrMmGmY/OQurh0byYOG5zwLU6XnYOHe6/ar2/arybfati8xRDIKKGJ3loM12wfyNtvntbGi426BTpleqcd/BIW18xhb9NhLoTQ==
+ b=Ml9iElFlPUml3cXZEI3bmHyltNnjKiyuJib1kVwOkG78AyzNoE8KEK+vTA5OK4yDZ4PwHc9D3RZL4txdOcAgQHZ2fAi6b10LmqPsnW9yoT5XFfsbaxdyM4m+amrR2/4gpqeacxXC3yt9Yfv++jmiVTzUb7WmLSgOH2WOYKApGEFJIyyja1WLrAuFRMDlUbWMUcnTCJQVqEFm+Uw1lSqQfTZg8O23xVthPIOidu5BpbWSYOu/0M87YzwS4XF47lhEZmpuDTOcE29PaWKJAtQRUFjSvmCWTtJxwa+iGIxVn0nL8a2m5dKcGkKPNIUtM3fcK8g+smh76ZL2AdNLKuJCbw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=w7gMfFneSO/Ae8TX5Q3DAdZgAzg15N6pZkYHdPwFk3Y=;
- b=lX9VRsWHQdiBYMlNucoaLCEqskwD0YbK/WM/Y5+9IBmNR03gCqivbK2GlXS3s5UIQGBCOjC9OZAi3fOrOav2j0LMnds8ffsG3Cl77K55x0fcUrdiy1/AusLSVRvxIw/7SedWaXe5wxbiWiyiknk8tEFMBbFD6ITn8L0wlaeDnTlSkZ44vYObcG/dZ2wrmyjW1bHA3fZuCDzszEQYeem2S951J5sNGxShrpyd4GwtWYYBSkC7XHAExJrcNzavVZrpstjGgZHhcZTjKXEMOb/n+UC8IxObEaICamEwWixJfSTea4BBv9/75CJmBfvLvQGV0RMj9hcd56f9+vp2dUb7aA==
+ bh=nUKfX9FVfthy2w7tRAPEyZ1a9rIxVPHgzXPclsOOFbo=;
+ b=nGXlrZZhVQNKYCgRVXI3hrHyW8eXed+AjHyA1YMzv1zZXVFGEQbPCWAyfeXwBOcFNDriZdxnet523F8KqTGzfmrzpjQvfHQqnziBKBu+pyZHCkKz76sa47wNhUNMFkceicobD63IWCDRuGuq9/S8xE71uRm8Gg5cLpmFf1t/3XCfq9I6PHsHhSEQlmfJ6+2F8pMid+nFo1nX9epjRZWn0/hiRgkRaKlS/Xhz5mhdPONxBL3Wn3Q8SZJp0s4PoAhNBTnWEiLCs8MaCDeZeIyptPMihz2KwnE2saUY1FhYJhuk9RBKvRprWX9lFuUbKbt5i0lt8u6Gc/ysEgS1gRLLlQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=suse.com; dmarc=pass action=none header.from=suse.com;
  dkim=pass header.d=suse.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=mysuse.onmicrosoft.com; s=selector1-mysuse-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=w7gMfFneSO/Ae8TX5Q3DAdZgAzg15N6pZkYHdPwFk3Y=;
- b=e4t7aQUQygR+xLWZoLdvvlpm7f+cSoXoZkBAE0HTs6X7oq4OXrIeUCr4bzK/Y8S2aoPBP6m0C8qgVmhxC7q1vqcozmBdzgKB3ZrT1gPMlMSbBfeGADKop8f1DL825grA7+FsiWnWXiuU6YRXpKRLeNx0hwL0VNA0wk/ZSCEqtYc+D7gC64KJ9CwTDCH8C433O/Z4rsV5/K5jY91diM1I1pCEEh/SQCM5EQy5pJxFnT8Z9KhWSpwQ2VLHW6ZNRmw9YTPWVDmu6lfpKXos7u0dE+/U+zdud9EJ0ubW/9y1dpKq4GUDxCr9tFBseppeW5AU3WhwahoVpBH/aSpfH44cNA==
+ bh=nUKfX9FVfthy2w7tRAPEyZ1a9rIxVPHgzXPclsOOFbo=;
+ b=VquGpf8eKu9bCX96WolpitU6Mym6aMoIKw657jF2QCEosDD6QQK9yW+BXpYRXcMqwPEz1a+wgSjVFCLAGttc6FIjMFPLyrAK2SoRTPSO0Pup7b0MRlfZt9dxN3ajttAO8aWK4nBgkaJ8cCZ5dWVZU29vW4dyLidSM83bSw7lpzEWdS8MuXC2RefiJzp3NZnoXvsvcSoFEFzpqLeKHvslyQyLnp/Ly6hXrs6MWcGps8yx3jzQGYhrT1HM9hkTm8Gyaf7p8mBWdBbxKyfEnUt4+TAO7cz4wOpHgRw4mWB/T27uEc9CLtjZZUvWEAblB/dyyO1X5/aeOImIOb0zJEFlhw==
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=suse.com;
 Received: from AM6PR04MB5782.eurprd04.prod.outlook.com (2603:10a6:20b:aa::17)
  by AM6PR04MB5815.eurprd04.prod.outlook.com (2603:10a6:20b:b0::29)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3109.22; Wed, 17 Jun
- 2020 10:30:49 +0000
+ 2020 10:30:52 +0000
 Received: from AM6PR04MB5782.eurprd04.prod.outlook.com
  ([fe80::d848:9dea:7742:a55]) by AM6PR04MB5782.eurprd04.prod.outlook.com
  ([fe80::d848:9dea:7742:a55%4]) with mapi id 15.20.3088.029; Wed, 17 Jun 2020
- 10:30:49 +0000
+ 10:30:52 +0000
 From: Lin Ma <lma@suse.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/3] block: Add GET LBA STATUS support
-Date: Wed, 17 Jun 2020 18:30:17 +0800
-Message-Id: <20200617103018.18026-3-lma@suse.com>
+Subject: [PATCH v2 3/3] scsi-disk: Add support for the GET LBA STATUS 16
+ command
+Date: Wed, 17 Jun 2020 18:30:18 +0800
+Message-Id: <20200617103018.18026-4-lma@suse.com>
 X-Mailer: git-send-email 2.26.0
 In-Reply-To: <20200617103018.18026-1-lma@suse.com>
 References: <20200617103018.18026-1-lma@suse.com>
@@ -62,32 +63,32 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (114.255.249.163) by
  HK0PR03CA0107.apcprd03.prod.outlook.com (2603:1096:203:b0::23) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3109.21 via Frontend Transport; Wed, 17 Jun 2020 10:30:47 +0000
+ 15.20.3109.21 via Frontend Transport; Wed, 17 Jun 2020 10:30:49 +0000
 X-Mailer: git-send-email 2.26.0
 X-Originating-IP: [114.255.249.163]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ea1e02a8-c9b0-4eef-c52c-08d812a980b6
+X-MS-Office365-Filtering-Correlation-Id: 6865d581-2e01-41ae-7863-08d812a98258
 X-MS-TrafficTypeDiagnostic: AM6PR04MB5815:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR04MB5815D9158C9BFFD26254C592C59A0@AM6PR04MB5815.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1002;
+X-Microsoft-Antispam-PRVS: <AM6PR04MB58158B2F27587C9C1979D46BC59A0@AM6PR04MB5815.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:156;
 X-Forefront-PRVS: 04371797A5
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: i5tomDSBSqXaT/V/8+oWoXuhY00Ato7mC6jYgOP91HI9B7D9U7GsUhWhlLn4QbdA4cFuZ7jRDG3QzLUiHAw60edEQTx6+2bfTDr5OBk/eVF8x1hLWzZeIZKc4AinizpyR16okYOnHlS0JDCO1+sdAEvnoIVXnpjiVbm2NMTa9BjJ4unECAV+c9DJQyCAXIpd5qFKiisfbe7x7AcipW92QnvC40EKLoUzwCNafCQ5bqxKT0J/BF8pbm5pFZyaLCynB46ac55nd2QWy1IZMzMaMUFZTKJtrM18xlm2ESWinYCULCipkksGb2AbF3UWW56ZSl0/EgI4mjY4dpi4ZPK7Ob5QrL41mEdEfvyZO6CoFi30dXoFLI9fUk7KLDhwUR+t
+X-Microsoft-Antispam-Message-Info: rqTie2uj2B0EBnQHYlWSIZV0u4J6/N1zJE9ILbq/1yLwrxiK0j8Yi6rLPhEGfhUa2D7OzwcUZ2QiOytUVWqY5KQsLF7twthFLXsJ7rhhDvoqWmpNV60/pf9ThNzdL+14/MOYhuzUhG/gu1dyzrXIcZrXxex3QSUfOh6nyT9CoxsWSsZi6RDjzU4wpq35ISXnyZ1Y+L29gfTQW/zYb5SOQ6u53KYkr5lY1LUbSvbG21kRbrncH9kWQapozTFidPjkVMBuVS1aguT6TfGpThIiyBDj6bVhmk0RColyjvdj6WOxy8jgKkuwGmXHdHHHCvrARO+swFTvhCbWILPKVk3cRh3cL0jOJ1LieFN1Ci6daElxS/6JEn8End9RFraklDSS
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM6PR04MB5782.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
  SFS:(136003)(376002)(366004)(346002)(396003)(39860400002)(5660300002)(52116002)(6916009)(66556008)(478600001)(6486002)(8936002)(26005)(8676002)(2906002)(66476007)(66946007)(6506007)(4326008)(316002)(36756003)(6666004)(6512007)(86362001)(107886003)(2616005)(956004)(186003)(1076003)(16526019)(83380400001)(69590400007);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: xZI2XIzp84Q2W4ixr16zH/Uaaquu+GAzSsuIYjpzwhXF7Dsa65c0LLrnRKDSmxFfP2X7IrbREvtQt5gWIs+/8uNBDUjGLsSST8+zN2NHIwMGhzOULefGjLSo8c7rDU5+boRG0pYIzYnRghWqtNFUpceNlNAtr6pizpWaS/FMCIw4LMivuLh8jRtA0ORkQMZ0QgCgr5i3MblExzeKtU69xBGhjOB9b/uzwZqDK964zjO7D/gb01NBpixgYzXyWoyjPLF1xmT21KKZNP4buxzZ8wCtrKH/zerIUuCcAm6sIqvO79LID8GP99D8Q5oop28M+Q6hIgx3kuGfmlP0VvZJin2SBVS9l+FGH1nT69js2WBXwscDl3Z6jeghO0Dg7ltecrpB/YzXnQFnmHNrTXeIC7Sa6LLRGvG85lpS8b1W0MgOe60rPfgXJBLu2nzjwJvLZb+yFtkohX2zSivlFuLwbe62AX8dCKoA6UM6VJ6Doic=
+X-MS-Exchange-AntiSpam-MessageData: Xa42W8n0rOjYWBG7WlX7dRxhAlJXnEkQzp/Kx4PLc48HKL9rENX79OVk+cuLaxu0UWKUTz6X3PQOD4KH91Kvk8fL5urzYl+SrZur3szGfakmZVPJdoy/5gXN/s7OlS9Fx7gJtCBSIzB6rVxb0KoBZywLGXZkbvf7U+FY9IzUdSvSSXlr6TyScRNWDE4u69pBi2gM8FoVm8oXN5bnCBtEwd9+NQxM6sbJAzHw1SZM5Do276GPQOa2bNJ8NjLFNKQ5749uwIM9BZCjEGoKM5+uvJ4iHjhglsIKVVVC1t+smKPU1rlQtTtwwOQRNPa0AZvIaJa/wVN9o4/LuEk5v8J5T3WQ6Lv/GzsJyz55EYoGvj51Cn4qSLHfIksu3MvhjrjXF1/6+I28LAxSRtvOrEZUqdpHcCnvul/Keag2sZNmwGvVLL1rDFAB/kV0eRUOTf1On9oAAJMxWiaxIHVZLGHfvWaVZAB9tfPM9M8kR9Hjsmo=
 X-OriginatorOrg: suse.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ea1e02a8-c9b0-4eef-c52c-08d812a980b6
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jun 2020 10:30:49.4228 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6865d581-2e01-41ae-7863-08d812a98258
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jun 2020 10:30:51.9703 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: f7a17af6-1c5c-4a36-aa8b-f5be247aa4ba
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 00Yl6TCCPtQ2Rlr3ql3Ll5nbKXGMVq4H62aD8GSJxHTyMcuTnmaT8smW6iSS/W9q
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4UqeLKzzLWYMj0923od1u5YkavHC4i5pf6buKaaH7MTKlWF7GecrA38lyl+7svUu
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR04MB5815
 Received-SPF: pass client-ip=40.107.21.61; envelope-from=LMa@suse.com;
  helo=EUR05-VI1-obe.outbound.protection.outlook.com
@@ -119,72 +120,143 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Lin Ma <lma@suse.com>
 ---
- block/block-backend.c          | 38 ++++++++++++++++++++++++++++++++++
- include/sysemu/block-backend.h |  2 ++
- 2 files changed, 40 insertions(+)
+ hw/scsi/scsi-disk.c        | 90 ++++++++++++++++++++++++++++++++++++++
+ include/block/accounting.h |  1 +
+ include/scsi/constants.h   |  1 +
+ 3 files changed, 92 insertions(+)
 
-diff --git a/block/block-backend.c b/block/block-backend.c
-index 6936b25c83..6d08dd5e0d 100644
---- a/block/block-backend.c
-+++ b/block/block-backend.c
-@@ -1650,6 +1650,44 @@ int blk_pdiscard(BlockBackend *blk, int64_t offset, int bytes)
-     return blk_prw(blk, offset, NULL, bytes, blk_pdiscard_entry, 0);
+diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
+index 387503e11b..9e3002ddaf 100644
+--- a/hw/scsi/scsi-disk.c
++++ b/hw/scsi/scsi-disk.c
+@@ -1866,6 +1866,89 @@ static void scsi_disk_emulate_write_data(SCSIRequest *req)
+     }
  }
  
-+static int coroutine_fn
-+blk_do_get_lba_status(BlockBackend *blk, int64_t offset, int bytes,
-+                      uint32_t *num_blocks, uint32_t *is_deallocated)
++typedef struct GetLbaStatusCBData {
++    uint32_t num_blocks;
++    uint32_t is_deallocated;
++    SCSIDiskReq *r;
++} GetLbaStatusCBData;
++
++static void scsi_get_lba_status_complete(void *opaque, int ret);
++
++static void scsi_get_lba_status_complete_noio(GetLbaStatusCBData *data, int ret)
 +{
-+    int ret;
++    SCSIDiskReq *r = data->r;
++    SCSIDiskState *s = DO_UPCAST(SCSIDiskState, qdev, r->req.dev);
 +
-+    blk_wait_while_drained(blk);
++    assert(r->req.aiocb == NULL);
 +
-+    ret = blk_check_byte_request(blk, offset, bytes);
-+    if (ret < 0) {
-+        return ret;
++    block_acct_start(blk_get_stats(s->qdev.conf.blk), &r->acct,
++                     s->qdev.blocksize, BLOCK_ACCT_GET_LBA_STATUS);
++
++    r->req.aiocb = blk_aio_get_lba_status(s->qdev.conf.blk,
++                                          r->req.cmd.lba * s->qdev.blocksize,
++                                          s->qdev.blocksize,
++                                          scsi_get_lba_status_complete, data);
++}
++
++static void scsi_get_lba_status_complete(void *opaque, int ret)
++{
++    GetLbaStatusCBData *data = opaque;
++    SCSIDiskReq *r = data->r;
++    SCSIDiskState *s = DO_UPCAST(SCSIDiskState, qdev, r->req.dev);
++
++    assert(r->req.aiocb != NULL);
++    r->req.aiocb = NULL;
++
++    aio_context_acquire(blk_get_aio_context(s->qdev.conf.blk));
++    if (scsi_disk_req_check_error(r, ret, true)) {
++        g_free(data);
++        goto done;
 +    }
 +
-+    return bdrv_co_get_lba_status(blk->root, offset, bytes, num_blocks,
-+                                  is_deallocated);
++    block_acct_done(blk_get_stats(s->qdev.conf.blk), &r->acct);
++    scsi_req_unref(&r->req);
++    g_free(data);
++
++done:
++    aio_context_release(blk_get_aio_context(s->qdev.conf.blk));
 +}
 +
-+static void blk_aio_get_lba_status_entry(void *opaque)
++static void scsi_disk_emulate_get_lba_status(SCSIRequest *req, uint8_t *outbuf)
 +{
-+    BlkAioEmAIOCB *acb = opaque;
-+    BlkRwCo *rwco = &acb->rwco;
++    SCSIDiskReq *r = DO_UPCAST(SCSIDiskReq, req, req);
++    GetLbaStatusCBData *data;
++    uint32_t *num_blocks;
++    uint32_t *is_deallocated;
 +
-+    void *data = acb->common.opaque;
-+    uint32_t *num_blocks = (uint32_t *)data;
-+    uint32_t *is_deallocated = (uint32_t *)(data + sizeof(uint32_t));
++    data = g_new0(GetLbaStatusCBData, 1);
++    data->r = r;
++    num_blocks = &(data->num_blocks);
++    is_deallocated = &(data->is_deallocated);
 +
-+    rwco->ret = blk_do_get_lba_status(rwco->blk, rwco->offset, acb->bytes,
-+                                      num_blocks, is_deallocated);
-+    blk_aio_complete(acb);
++    scsi_req_ref(&r->req);
++    scsi_get_lba_status_complete_noio(data, 0);
++
++    /*
++     * 8 + 16 is the length in bytes of response header and
++     * one LBA status descriptor
++     */
++    memset(outbuf, 0, 8 + 16);
++    outbuf[3] = 20;
++    outbuf[8] = (req->cmd.lba >> 56) & 0xff;
++    outbuf[9] = (req->cmd.lba >> 48) & 0xff;
++    outbuf[10] = (req->cmd.lba >> 40) & 0xff;
++    outbuf[11] = (req->cmd.lba >> 32) & 0xff;
++    outbuf[12] = (req->cmd.lba >> 24) & 0xff;
++    outbuf[13] = (req->cmd.lba >> 16) & 0xff;
++    outbuf[14] = (req->cmd.lba >> 8) & 0xff;
++    outbuf[15] = req->cmd.lba & 0xff;
++    outbuf[16] = (*num_blocks >> 24) & 0xff;
++    outbuf[17] = (*num_blocks >> 16) & 0xff;
++    outbuf[18] = (*num_blocks >> 8) & 0xff;
++    outbuf[19] = *num_blocks & 0xff;
++    outbuf[20] = *is_deallocated ? 1 : 0;
 +}
 +
-+BlockAIOCB *blk_aio_get_lba_status(BlockBackend *blk, int64_t offset, int bytes,
-+                                   BlockCompletionFunc *cb, void *opaque)
-+{
-+    return blk_aio_prwv(blk, offset, bytes, NULL, blk_aio_get_lba_status_entry,
-+                        0, cb, opaque);
-+}
-+
- /* To be called between exactly one pair of blk_inc/dec_in_flight() */
- static int coroutine_fn blk_do_flush(BlockBackend *blk)
+ static int32_t scsi_disk_emulate_command(SCSIRequest *req, uint8_t *buf)
  {
-diff --git a/include/sysemu/block-backend.h b/include/sysemu/block-backend.h
-index 8203d7f6f9..cd527ec0c9 100644
---- a/include/sysemu/block-backend.h
-+++ b/include/sysemu/block-backend.h
-@@ -171,6 +171,8 @@ BlockAIOCB *blk_aio_flush(BlockBackend *blk,
-                           BlockCompletionFunc *cb, void *opaque);
- BlockAIOCB *blk_aio_pdiscard(BlockBackend *blk, int64_t offset, int bytes,
-                              BlockCompletionFunc *cb, void *opaque);
-+BlockAIOCB *blk_aio_get_lba_status(BlockBackend *blk, int64_t offset, int bytes,
-+                                   BlockCompletionFunc *cb, void *opaque);
- void blk_aio_cancel(BlockAIOCB *acb);
- void blk_aio_cancel_async(BlockAIOCB *acb);
- int blk_ioctl(BlockBackend *blk, unsigned long int req, void *buf);
+     SCSIDiskReq *r = DO_UPCAST(SCSIDiskReq, req, req);
+@@ -2076,6 +2159,13 @@ static int32_t scsi_disk_emulate_command(SCSIRequest *req, uint8_t *buf)
+ 
+             /* Protection, exponent and lowest lba field left blank. */
+             break;
++        } else if ((req->cmd.buf[1] & 31) == SAI_GET_LBA_STATUS) {
++            if (req->cmd.lba > s->qdev.max_lba) {
++                goto illegal_lba;
++            }
++            scsi_disk_emulate_get_lba_status(req, outbuf);
++            r->iov.iov_len = req->cmd.xfer;
++            return r->iov.iov_len;
+         }
+         trace_scsi_disk_emulate_command_SAI_unsupported();
+         goto illegal_request;
+diff --git a/include/block/accounting.h b/include/block/accounting.h
+index 878b4c3581..645014fb0b 100644
+--- a/include/block/accounting.h
++++ b/include/block/accounting.h
+@@ -38,6 +38,7 @@ enum BlockAcctType {
+     BLOCK_ACCT_WRITE,
+     BLOCK_ACCT_FLUSH,
+     BLOCK_ACCT_UNMAP,
++    BLOCK_ACCT_GET_LBA_STATUS,
+     BLOCK_MAX_IOTYPE,
+ };
+ 
+diff --git a/include/scsi/constants.h b/include/scsi/constants.h
+index 874176019e..b18377b214 100644
+--- a/include/scsi/constants.h
++++ b/include/scsi/constants.h
+@@ -154,6 +154,7 @@
+  * SERVICE ACTION IN subcodes
+  */
+ #define SAI_READ_CAPACITY_16  0x10
++#define SAI_GET_LBA_STATUS    0x12
+ 
+ /*
+  * READ POSITION service action codes
 -- 
 2.26.0
 
