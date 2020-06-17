@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 535961FC786
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 09:35:22 +0200 (CEST)
-Received: from localhost ([::1]:54050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A33391FC7B2
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 09:42:51 +0200 (CEST)
+Received: from localhost ([::1]:48296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlSbR-0000HC-Ak
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 03:35:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42056)
+	id 1jlSig-0001bc-Mj
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 03:42:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42586)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jlSXZ-0005ww-PH
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 03:31:21 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:39280
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jlSaA-0008NT-Vv
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 03:34:03 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:51022
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jlSXW-0003Z3-NY
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 03:31:21 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jlSa7-000431-O1
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 03:34:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592379077;
+ s=mimecast20190719; t=1592379235;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Aja4NuHhJlFz7WG3qt2uX1TgPVfWdbNdD9GnYJRHAfI=;
- b=IqmP21YYrQg+dWD4BAxxyOmUCkF+CLr7W5bAyGcrJRozSYjsikW0rGAod/tBpnjLQx9GYz
- XlY7hEtX/pPEmqUwnprOkXxDu9woZlcBTlgbn5YIiIbMuy86cUOCbY44dVOwO+2Ogr3ek6
- 9JT3pxB9mI+3x2BSAkoCW35W/SWezJc=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-149-42aI74vLM5KU-veaJk9l1A-1; Wed, 17 Jun 2020 03:31:16 -0400
-X-MC-Unique: 42aI74vLM5KU-veaJk9l1A-1
-Received: by mail-wr1-f69.google.com with SMTP id p10so606071wrn.19
- for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 00:31:15 -0700 (PDT)
+ bh=Int/I8yTOdVwGneNpmII6WC4AoKYHD7NYYF0V/nfp3s=;
+ b=TiIoR6az8X4ozzbBEcOVKk2dX5/+6hBVA3G9uOw5bDRDEb0JN/Ag5bAClxe61g6m9KORWv
+ raF0tuv3Y8X2DnLZCkgFCuBJavE3YyeklLD61wAMz6TrTimLzlwchTNOS7n8ZGWC2BTpvp
+ WzEPcl12Uyb/p5HuDNtb/IRn9kuKo5w=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-395-S_Eu0X9TPVSIUqzMIj9Iqw-1; Wed, 17 Jun 2020 03:33:51 -0400
+X-MC-Unique: S_Eu0X9TPVSIUqzMIj9Iqw-1
+Received: by mail-wr1-f71.google.com with SMTP id c14so607918wrm.15
+ for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 00:33:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=Aja4NuHhJlFz7WG3qt2uX1TgPVfWdbNdD9GnYJRHAfI=;
- b=hgN14Vxp2aG9FaWwf5j5WWDBfRZDaUDP06DAcuoUTr8i3ZPbLtbVPKV7lS1OrlsNek
- eeqOLTKfHc9fVZjhWFVk1TvCdehIoBzPHHtxcaWBrS4i093leJjlyiW4XIsJ03hy1b+q
- NeFIM5fyUtTRjZjEtPYBf3yoNS0Sv4A568Wk4lEygDnwZwsjuqIkWBsuXWGgAK4UF3QI
- nIZCcYI2xzwd10jnV7HxhxBv0ccMOc9nAkH6UT31GWrojABqPYBtntokr2WT8KYoWQpx
- uCtLmPgAtoUQ5BaMXQIX72WePlxd8lnSMpcQ2md8LfQDoEbupS3xMZvlgjzY7k7vFwVe
- gzCw==
-X-Gm-Message-State: AOAM530LmMZcDCAJBeLD5uMYQfyOuRAjn4vwvG2+rlJDzEZ+IOMEU+sA
- LE0x+i2vbzQkv2aBkSSPWCJ4aGexGFW7vONTy9mln+sQmTX4iBXUxwhN6BhlhuUs9Lo1bkQy4h+
- ntV5hg+QfCX8M7f0=
-X-Received: by 2002:a5d:498f:: with SMTP id r15mr1213955wrq.175.1592379075065; 
- Wed, 17 Jun 2020 00:31:15 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyGVl3PbewFzsjRvfUwl2EY/2hByG1gkMH63YQSiK/LwtRtnHYIBErA9q3uTwNUpKRBYSuBHg==
-X-Received: by 2002:a5d:498f:: with SMTP id r15mr1213924wrq.175.1592379074816; 
- Wed, 17 Jun 2020 00:31:14 -0700 (PDT)
+ bh=Int/I8yTOdVwGneNpmII6WC4AoKYHD7NYYF0V/nfp3s=;
+ b=c9xg/SMQsgZrOmsytTxYEyHY4fYN+F7Tex1eVHibOpIqXv/bnkKihYSJtuKmrgvkBG
+ m1ubYaQbsn6lNfmh3nQiLo53t+g3krwxIkoNt3LWzr3CgdQmY3faBtjR841Re1sQaDqc
+ T14w2jHNWFeT8RZJDk8vd2/P/a+RDZKET7XDJkBLahFhBa5U5LX18x0IOjN3MLOSDIQ5
+ 2RgXGnPvpECqYvw11losnYazV8FkILkUqA6hKNKyWzeDqhssNEJAS+oT56JI02oIh4ze
+ bCY5yDIIIrNmx6eZopFu5poVwmABIUBdbb6UDJybtfS2d2gXCz24ZiW7VrW8PDIF+SLk
+ d7Iw==
+X-Gm-Message-State: AOAM532oLSCYxmShQUDs1KbuFjXJXWlOwsz9v+MCmVZrtW53EdRvi05l
+ vW1wZ956C1AMW9DXciP1NSGoP8mtuxrUDielguhIYFtKVRJKhp2tl8m93X8U76K1EmrqNzbc1Yv
+ 6RwxdV4Vm7TsQFyQ=
+X-Received: by 2002:a1c:4189:: with SMTP id o131mr7317082wma.110.1592379230533; 
+ Wed, 17 Jun 2020 00:33:50 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyf1yetm+hltWmEDsAyG+rHfJA7pIYGyuf4iV80KXJYJt8phP8NTmqNv9xxdULTFxVMWik89Q==
+X-Received: by 2002:a1c:4189:: with SMTP id o131mr7317063wma.110.1592379230335; 
+ Wed, 17 Jun 2020 00:33:50 -0700 (PDT)
 Received: from [192.168.1.37] (93.red-83-59-160.dynamicip.rima-tde.net.
  [83.59.160.93])
- by smtp.gmail.com with ESMTPSA id v24sm5857660wrd.92.2020.06.17.00.31.13
+ by smtp.gmail.com with ESMTPSA id s2sm6911795wmh.15.2020.06.17.00.33.49
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 17 Jun 2020 00:31:14 -0700 (PDT)
-Subject: Re: [PATCH v9 01/10] acpi: bios-tables-test: show more context on asl
- diffs
-To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
-References: <20200617071138.11159-1-kraxel@redhat.com>
- <20200617071138.11159-2-kraxel@redhat.com>
+ Wed, 17 Jun 2020 00:33:49 -0700 (PDT)
+Subject: Re: [PATCH 3/6] vfio: add quirk device write method
+To: P J P <ppandit@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
+References: <20200617053934.122642-1-ppandit@redhat.com>
+ <20200617053934.122642-4-ppandit@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Autocrypt: addr=philmd@redhat.com; keydata=
  mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
@@ -88,27 +87,27 @@ Autocrypt: addr=philmd@redhat.com; keydata=
  9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
  RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
  apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <17c3a2b5-19a1-5335-eba7-f06714a41915@redhat.com>
-Date: Wed, 17 Jun 2020 09:31:12 +0200
+Message-ID: <8b6786ae-31e9-c57a-3b7d-cc6355f57284@redhat.com>
+Date: Wed, 17 Jun 2020 09:33:48 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200617071138.11159-2-kraxel@redhat.com>
+In-Reply-To: <20200617053934.122642-4-ppandit@redhat.com>
 Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/17 01:42:42
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/17 01:42:04
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -122,39 +121,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- John Snow <jsnow@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: Prasad J Pandit <pjp@fedoraproject.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Lei Sun <slei.casper@gmail.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Joel Stanley <joel@jms.id.au>, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/17/20 9:11 AM, Gerd Hoffmann wrote:
-> Makes it easier to create good commit messages from the logs.
+On 6/17/20 7:39 AM, P J P wrote:
+> From: Prasad J Pandit <pjp@fedoraproject.org>
 > 
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> Add vfio quirk device mmio write method to avoid NULL pointer
+> dereference issue.
+> 
+> Reported-by: Lei Sun <slei.casper@gmail.com>
+> Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
 > ---
->  tests/qtest/bios-tables-test.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  hw/vfio/pci-quirks.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
 > 
-> diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-> index b482f76c03d4..c315156858f4 100644
-> --- a/tests/qtest/bios-tables-test.c
-> +++ b/tests/qtest/bios-tables-test.c
-> @@ -469,7 +469,7 @@ static void test_acpi_asl(test_data *data)
->                  fflush(stderr);
->                  if (getenv("V")) {
->                      const char *diff_env = getenv("DIFF");
-> -                    const char *diff_cmd = diff_env ? diff_env : "diff -u";
-> +                    const char *diff_cmd = diff_env ? diff_env : "diff -U 16";
->                      char *diff = g_strdup_printf("%s %s %s", diff_cmd,
->                                                   exp_sdt->asl_file, sdt->asl_file);
->                      int out = dup(STDOUT_FILENO);
-> 
+> diff --git a/hw/vfio/pci-quirks.c b/hw/vfio/pci-quirks.c
+> index f2155ddb1d..5bd98885d5 100644
+> --- a/hw/vfio/pci-quirks.c
+> +++ b/hw/vfio/pci-quirks.c
+> @@ -13,6 +13,7 @@
+>  #include "qemu/osdep.h"
+>  #include "exec/memop.h"
+>  #include "qemu/units.h"
+> +#include "qemu/log.h"
+>  #include "qemu/error-report.h"
+>  #include "qemu/main-loop.h"
+>  #include "qemu/module.h"
+> @@ -263,8 +264,15 @@ static uint64_t vfio_ati_3c3_quirk_read(void *opaque,
+>      return data;
+>  }
+>  
+> +static void vfio_ati_3c3_quirk_write(void *opaque, hwaddr addr,
+> +                                        uint64_t data, unsigned size)
+> +{
+> +    qemu_log_mask(LOG_UNIMP, "%s not implemented\n", __func__);
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Shouldn't this be LOG_GUEST_ERROR?
+
+> +}
+> +
+>  static const MemoryRegionOps vfio_ati_3c3_quirk = {
+>      .read = vfio_ati_3c3_quirk_read,
+> +    .write = vfio_ati_3c3_quirk_write,
+>      .endianness = DEVICE_LITTLE_ENDIAN,
+>  };
+>  
+> 
 
 
