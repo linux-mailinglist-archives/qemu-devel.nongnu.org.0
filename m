@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90ABE1FD767
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 23:36:11 +0200 (CEST)
-Received: from localhost ([::1]:36862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 570AF1FD784
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 23:38:16 +0200 (CEST)
+Received: from localhost ([::1]:45712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlfj8-0004Dl-J3
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 17:36:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38330)
+	id 1jlfl9-00007W-Cz
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 17:38:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jlfF2-0004ns-Rv
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 17:05:05 -0400
-Received: from mail-qv1-xf41.google.com ([2607:f8b0:4864:20::f41]:42314)
+ id 1jlfF4-0004p6-V4
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 17:05:06 -0400
+Received: from mail-qk1-x742.google.com ([2607:f8b0:4864:20::742]:43949)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jlfEz-0000Qm-JY
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 17:05:04 -0400
-Received: by mail-qv1-xf41.google.com with SMTP id p15so1751615qvr.9
- for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 14:05:00 -0700 (PDT)
+ id 1jlfF1-0000R9-8H
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 17:05:05 -0400
+Received: by mail-qk1-x742.google.com with SMTP id j68so142460qkb.10
+ for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 14:05:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=mMSK5jG93ccRv0iEW+yiTm1N/o9bSTPpnWnCySDcIBA=;
- b=l9e2iGt6X9bkA7GiikT3IzyDF6HuI1DQNYrztcTjfl8hAnrUokmdoS8PMcQrkKIeGi
- i2IydSAEhYYwj/gw+8kng65TMrgpptccie9kfRrkNpJoJJsIAG7Brc5J43IvQcqv+4wc
- sTvV2gKAKN1ujjKiyRmaPZqFuOdUqTPMQFFBsqh93Ep91TrKKvZWkPDfrUr3oIq5Ae7H
- ynlk5QG4s4RGMZZpg3fWGGqcMbCY2qRWXVuo0k2m7RHRvapYoFTSMkC1R0z2ve9YiNr+
- XQyrCXHy6LBJL6EuDBEeTybBZiaVUPCoMjIXrDvdE+vj4lERk1t1xyT2duLOklQ4oCt5
- KAzA==
+ bh=47Bm+ilUjsoqQoc0Msg5H7tt6ZAFbVXOlvVANVjxWdA=;
+ b=Gc6M8yD2PJf+m4eJQn/d9k5M5bF7YfbYtb14NoW536wuiAoo+dXW3ZBDn1/7DaX/xD
+ wWSNbu0aiTUfBQXtFSKfy/s0o3LbEYwSMRKh91MReJaPxx4HpdIX1bDoeCrQY64WHaqX
+ AV1PRhuchKh+lf8Gkqwj8TArkBvxOnMF0v3QF9234LlToVzhm6B39EmAzyniQhWg1yDO
+ PzoHtpmJskKHhKADgbh7tcPg4o+wO8S08xySwvTSOPkj6bbxveDDJiqEeXVPhVmioGj+
+ wlM6JIN+dPBop+VXHI8V/uid2htTKct6d7aMW7iJwI0zzFSXtJ8slA6YOtrOc6CqoaUh
+ iBJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=mMSK5jG93ccRv0iEW+yiTm1N/o9bSTPpnWnCySDcIBA=;
- b=YpLrGFpnacXPWzgGq5gZUQTYNW+XEriamxf22/N8xzd5T5x/VdCVg34rER9aZwAEK9
- vQuHnhUeKn8enesw9VIt5daMlEY9NHjVJw/QIsWNSQ+CtlDWcsPmSCg+0RiPcDFyy8fN
- v9y5yGV1DaTRD5WYdcgvl66F/wbhAmScJwJ0d0sWlXn2MkRLZmHIqhGWUBCVQ5fR9iaQ
- +lBNRM9J797RYmjEskNvch2CiVQS5FGRaAlosUNZGzN1MHJH0uV4hL8+cr9QGqH4TVFl
- LNtbVIsBKFmpbNVPE+81m2VBZqUIe0ZDEnf+93vTIxF/QrGGTiaoKVhj7kjcoZiXJ0Ck
- Lgyw==
-X-Gm-Message-State: AOAM532brwhKB05+o+zcP+hFdKUOASXiyrix5fVMnxW4eIL3vVXLnSrg
- Kl3tdjmSDt3f92MCG0bFF3J2Hei/Dqk8rA==
-X-Google-Smtp-Source: ABdhPJxTQJNn6gVu0kYsPjcH5hefyPmvER9VyoPxwhgIlAjoVhLUNN6NskyInwv3AeCf0UwKDrbVhw==
-X-Received: by 2002:a0c:9ba0:: with SMTP id o32mr553544qve.129.1592427899987; 
- Wed, 17 Jun 2020 14:04:59 -0700 (PDT)
+ bh=47Bm+ilUjsoqQoc0Msg5H7tt6ZAFbVXOlvVANVjxWdA=;
+ b=PnmEglxs0panLFS277ix4vG1RsKNEVS9kekmHdySBvwmzkgmmiZ7wfn+PlseiHf6en
+ o7AdCPu0IShisWDF7MMiYVwxN3in3/nm/YFs3b/8JIsbs0P8SD9lw9vN5x6i6o7kZwCl
+ 0Mx9NpqmEYYtuhGObAw8NAXDdjXOlAffjzhkmltBJGqVGOd9AIaCcThf0cMNlbI8goAa
+ fTwtfJ3+PnPn30vIMbTPO1rfCKL0kneM6gYTV1kISyirTL2njJmhFxXoqdMPx/Xiq4Cv
+ t8o10YOt61ZpbDAIKIZV7hrEDbhrPtI6bk9ruRtB9C0zl78hVjN8dN5ghgN0Dlnt/Ppi
+ ZTLA==
+X-Gm-Message-State: AOAM531+PEDtHEIrMjZczQeNZ557bkAlDC7SFF38cvbjkq8S644dZk7x
+ hElCM256VUlAgKOOfkctZ6RwpNlmMeqZpw==
+X-Google-Smtp-Source: ABdhPJzXnIjcO/f0aD77Htf4KnucFW8nSv7G9/x9WMjQqmt2CCNHQoUrDa/BcrvOEEPsqONI9zmDJg==
+X-Received: by 2002:a37:4ed2:: with SMTP id c201mr609785qkb.138.1592427901325; 
+ Wed, 17 Jun 2020 14:05:01 -0700 (PDT)
 Received: from Rfoley-MA01.hsd1.ma.comcast.net
  ([2601:199:4480:60c0:fc79:714c:9711:2e9c])
- by smtp.gmail.com with ESMTPSA id w13sm997245qkb.91.2020.06.17.14.04.58
+ by smtp.gmail.com with ESMTPSA id w13sm997245qkb.91.2020.06.17.14.05.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Jun 2020 14:04:58 -0700 (PDT)
+ Wed, 17 Jun 2020 14:05:00 -0700 (PDT)
 From: Robert Foley <robert.foley@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v10 72/73] cpu: add async_run_on_cpu_no_bql
-Date: Wed, 17 Jun 2020 17:02:30 -0400
-Message-Id: <20200617210231.4393-73-robert.foley@linaro.org>
+Subject: [PATCH v10 73/73] cputlb: queue async flush jobs without the BQL
+Date: Wed, 17 Jun 2020 17:02:31 -0400
+Message-Id: <20200617210231.4393-74-robert.foley@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200617210231.4393-1-robert.foley@linaro.org>
 References: <20200617210231.4393-1-robert.foley@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f41;
- envelope-from=robert.foley@linaro.org; helo=mail-qv1-xf41.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::742;
+ envelope-from=robert.foley@linaro.org; helo=mail-qk1-x742.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -72,8 +72,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,139 +86,155 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: robert.foley@linaro.org, Eduardo Habkost <ehabkost@redhat.com>,
- cota@braap.org, Paolo Bonzini <pbonzini@redhat.com>, peter.puhov@linaro.org,
+Cc: robert.foley@linaro.org, cota@braap.org,
+ Paolo Bonzini <pbonzini@redhat.com>, peter.puhov@linaro.org,
  alex.bennee@linaro.org, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Emilio G. Cota" <cota@braap.org>
 
-Some async jobs do not need the BQL.
+This yields sizable scalability improvements, as the below results show.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Host: Two Intel Xeon Silver 4114 20-core CPUs at 2.20 GHz
+
+VM: Ubuntu 18.04 ppc64
+
+                   Speedup vs a single thread for kernel build                  
+                                                                               
+  7 +-----------------------------------------------------------------------+  
+    |         +          +         +         +         +          +         |  
+    |                                    ###########       baseline ******* |  
+    |                               #####           ####   cpu lock ####### |  
+    |                             ##                    ####                |  
+  6 |-+                         ##                          ##            +-|  
+    |                         ##                              ####          |  
+    |                       ##                                    ###       |  
+    |                     ##        *****                            #      |  
+    |                   ##      ****     ***                          #     |  
+    |                 ##     ***            *                               |  
+  5 |-+             ##    ***                ****                         +-|  
+    |              #  ****                       **                         |  
+    |             # **                             **                       |  
+    |             #*                                 **                     |  
+    |          #*                                          **               |  
+    |         #*                                             *              |  
+    |         #                                               ******        |  
+    |        #                                                      **      |  
+    |       #                                                         *     |  
+  3 |-+     #                                                             +-|  
+    |      #                                                                |  
+    |      #                                                                |  
+    |     #                                                                 |  
+    |     #                                                                 |  
+  2 |-+  #                                                                +-|  
+    |    #                                                                  |  
+    |   #                                                                   |  
+    |   #                                                                   |  
+    |  #                                                                    |  
+    |  #      +          +         +         +         +          +         |  
+  1 +-----------------------------------------------------------------------+  
+    0         5          10        15        20        25         30        35  
+                                   Guest vCPUs  
+Pictures are also here:
+https://drive.google.com/file/d/1ASg5XyP9hNfN9VysXC3qe5s9QSJlwFAt/view?usp=sharing
+
+Some notes:
+- baseline corresponds to the commit before this series
+- cpu-lock is this series
+
+Single-threaded performance is affected very lightly. Results
+below for debian aarch64 bootup+test for the entire series
+on an Intel(R) Core(TM) i7-6700K CPU @ 4.00GHz host:
+
+- Before:
+
+ Performance counter stats for 'taskset -c 0 ../img/aarch64/die.sh' (10 runs):
+
+       7269.033478      task-clock (msec)         #    0.998 CPUs utilized
+      ( +-  0.06% )
+    30,659,870,302      cycles                    #    4.218 GHz
+      ( +-  0.06% )
+    54,790,540,051      instructions              #    1.79  insns per cycle
+      ( +-  0.05% )
+     9,796,441,380      branches                  # 1347.695 M/sec
+      ( +-  0.05% )
+       165,132,201      branch-misses             #    1.69% of all branches
+      ( +-  0.12% )
+
+       7.287011656 seconds time elapsed
+ ( +-  0.10% )
+
+- After:
+
+       7375.924053      task-clock (msec)         #    0.998 CPUs utilized
+      ( +-  0.13% )
+    31,107,548,846      cycles                    #    4.217 GHz
+      ( +-  0.12% )
+    55,355,668,947      instructions              #    1.78  insns per cycle
+      ( +-  0.05% )
+     9,929,917,664      branches                  # 1346.261 M/sec
+      ( +-  0.04% )
+       166,547,442      branch-misses             #    1.68% of all branches
+      ( +-  0.09% )
+
+       7.389068145 seconds time elapsed
+ ( +-  0.13% )
+
+That is, a 1.37% slowdown.
+
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Tested-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Emilio G. Cota <cota@braap.org>
+[Updated the speedup chart results for re-based series.]
 Signed-off-by: Robert Foley <robert.foley@linaro.org>
 ---
- cpus-common.c         | 39 ++++++++++++++++++++++++++++++++++-----
- include/hw/core/cpu.h | 14 ++++++++++++++
- 2 files changed, 48 insertions(+), 5 deletions(-)
+ accel/tcg/cputlb.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/cpus-common.c b/cpus-common.c
-index eecd63029a..923371a997 100644
---- a/cpus-common.c
-+++ b/cpus-common.c
-@@ -99,6 +99,7 @@ struct qemu_work_item {
-     run_on_cpu_func func;
-     run_on_cpu_data data;
-     bool free, exclusive, done;
-+    bool bql;
- };
+diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+index 1e815357c7..7f75054643 100644
+--- a/accel/tcg/cputlb.c
++++ b/accel/tcg/cputlb.c
+@@ -299,7 +299,7 @@ static void flush_all_helper(CPUState *src, run_on_cpu_func fn,
  
- /* Called with the CPU's lock held */
-@@ -145,6 +146,7 @@ void run_on_cpu(CPUState *cpu, run_on_cpu_func func, run_on_cpu_data data)
-     wi.done = false;
-     wi.free = false;
-     wi.exclusive = false;
-+    wi.bql = true;
- 
-     cpu_mutex_lock(cpu);
-     queue_work_on_cpu_locked(cpu, &wi);
-@@ -169,6 +171,21 @@ void async_run_on_cpu(CPUState *cpu, run_on_cpu_func func, run_on_cpu_data data)
-     wi->func = func;
-     wi->data = data;
-     wi->free = true;
-+    wi->bql = true;
-+
-+    queue_work_on_cpu(cpu, wi);
-+}
-+
-+void async_run_on_cpu_no_bql(CPUState *cpu, run_on_cpu_func func,
-+                             run_on_cpu_data data)
-+{
-+    struct qemu_work_item *wi;
-+
-+    wi = g_malloc0(sizeof(struct qemu_work_item));
-+    wi->func = func;
-+    wi->data = data;
-+    wi->free = true;
-+    /* wi->bql initialized to false */
- 
-     queue_work_on_cpu(cpu, wi);
- }
-@@ -315,6 +332,7 @@ void async_safe_run_on_cpu(CPUState *cpu, run_on_cpu_func func,
-     wi->data = data;
-     wi->free = true;
-     wi->exclusive = true;
-+    /* wi->bql initialized to false */
- 
-     queue_work_on_cpu(cpu, wi);
- }
-@@ -339,6 +357,7 @@ static void process_queued_cpu_work_locked(CPUState *cpu)
-              * BQL, so it goes to sleep; start_exclusive() is sleeping too, so
-              * neither CPU can proceed.
-              */
-+            g_assert(!wi->bql);
-             if (has_bql) {
-                 qemu_mutex_unlock_iothread();
-             }
-@@ -349,12 +368,22 @@ static void process_queued_cpu_work_locked(CPUState *cpu)
-                 qemu_mutex_lock_iothread();
-             }
-         } else {
--            if (has_bql) {
--                wi->func(cpu, wi->data);
-+            if (wi->bql) {
-+                if (has_bql) {
-+                    wi->func(cpu, wi->data);
-+                } else {
-+                    qemu_mutex_lock_iothread();
-+                    wi->func(cpu, wi->data);
-+                    qemu_mutex_unlock_iothread();
-+                }
-             } else {
--                qemu_mutex_lock_iothread();
--                wi->func(cpu, wi->data);
--                qemu_mutex_unlock_iothread();
-+                if (has_bql) {
-+                    qemu_mutex_unlock_iothread();
-+                    wi->func(cpu, wi->data);
-+                    qemu_mutex_lock_iothread();
-+                } else {
-+                    wi->func(cpu, wi->data);
-+                }
-             }
+     CPU_FOREACH(cpu) {
+         if (cpu != src) {
+-            async_run_on_cpu(cpu, fn, d);
++            async_run_on_cpu_no_bql(cpu, fn, d);
          }
-         cpu_mutex_lock(cpu);
-diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index d5e4c339e1..e37f64b57a 100644
---- a/include/hw/core/cpu.h
-+++ b/include/hw/core/cpu.h
-@@ -894,9 +894,23 @@ void run_on_cpu(CPUState *cpu, run_on_cpu_func func, run_on_cpu_data data);
-  * @data: Data to pass to the function.
-  *
-  * Schedules the function @func for execution on the vCPU @cpu asynchronously.
-+ * See also: async_run_on_cpu_no_bql()
-  */
- void async_run_on_cpu(CPUState *cpu, run_on_cpu_func func, run_on_cpu_data data);
+     }
+ }
+@@ -367,8 +367,8 @@ void tlb_flush_by_mmuidx(CPUState *cpu, uint16_t idxmap)
+     tlb_debug("mmu_idx: 0x%" PRIx16 "\n", idxmap);
  
-+/**
-+ * async_run_on_cpu_no_bql:
-+ * @cpu: The vCPU to run on.
-+ * @func: The function to be executed.
-+ * @data: Data to pass to the function.
-+ *
-+ * Schedules the function @func for execution on the vCPU @cpu asynchronously.
-+ * This function is run outside the BQL.
-+ * See also: async_run_on_cpu()
-+ */
-+void async_run_on_cpu_no_bql(CPUState *cpu, run_on_cpu_func func,
-+                             run_on_cpu_data data);
-+
- /**
-  * async_safe_run_on_cpu:
-  * @cpu: The vCPU to run on.
+     if (cpu->created && !qemu_cpu_is_self(cpu)) {
+-        async_run_on_cpu(cpu, tlb_flush_by_mmuidx_async_work,
+-                         RUN_ON_CPU_HOST_INT(idxmap));
++        async_run_on_cpu_no_bql(cpu, tlb_flush_by_mmuidx_async_work,
++                                RUN_ON_CPU_HOST_INT(idxmap));
+     } else {
+         tlb_flush_by_mmuidx_async_work(cpu, RUN_ON_CPU_HOST_INT(idxmap));
+     }
+@@ -562,7 +562,7 @@ void tlb_flush_page_by_mmuidx(CPUState *cpu, target_ulong addr, uint16_t idxmap)
+          * we can stuff idxmap into the low TARGET_PAGE_BITS, avoid
+          * allocating memory for this operation.
+          */
+-        async_run_on_cpu(cpu, tlb_flush_page_by_mmuidx_async_1,
++        async_run_on_cpu_no_bql(cpu, tlb_flush_page_by_mmuidx_async_1,
+                          RUN_ON_CPU_TARGET_PTR(addr | idxmap));
+     } else {
+         TLBFlushPageByMMUIdxData *d = g_new(TLBFlushPageByMMUIdxData, 1);
+@@ -570,7 +570,7 @@ void tlb_flush_page_by_mmuidx(CPUState *cpu, target_ulong addr, uint16_t idxmap)
+         /* Otherwise allocate a structure, freed by the worker.  */
+         d->addr = addr;
+         d->idxmap = idxmap;
+-        async_run_on_cpu(cpu, tlb_flush_page_by_mmuidx_async_2,
++        async_run_on_cpu_no_bql(cpu, tlb_flush_page_by_mmuidx_async_2,
+                          RUN_ON_CPU_HOST_PTR(d));
+     }
+ }
 -- 
 2.17.1
 
