@@ -2,85 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29A4E1FC7A6
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 09:39:22 +0200 (CEST)
-Received: from localhost ([::1]:35416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC0AC1FC7AD
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 09:41:10 +0200 (CEST)
+Received: from localhost ([::1]:41934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlSfJ-0004O8-4w
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 03:39:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43542)
+	id 1jlSh3-0007DM-RO
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 03:41:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1jlSdZ-0003TD-99
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 03:37:33 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:59958
+ id 1jlSeQ-00046V-Cl
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 03:38:26 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:51218
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1jlSdX-0004j6-Hr
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 03:37:32 -0400
+ id 1jlSeO-0004mv-Fb
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 03:38:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592379450;
+ s=mimecast20190719; t=1592379503;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=eWLY1FB3r/Id8vLvvBQnYkX64zV38I2qeMOakhNbn/E=;
- b=QBpL7ONEMJMwKHxZpKtBeQvCo8aTw0YFDhRNOpmleBet6rlPJ7cEZCjSO0z/fF3Khat+KG
- w8vrIxnsHFqT9xfub2b/dOupBk6GZSAsE3UkrCdcETT9dVxstQdU8beSFP53OR8GiYxZQo
- tTr2IWmBDwKoq1TR4vnT9JPAdL7ffUc=
-Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
- [209.85.166.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-84-lbpe8V4mOwOs5RjII2IFWQ-1; Wed, 17 Jun 2020 03:37:28 -0400
-X-MC-Unique: lbpe8V4mOwOs5RjII2IFWQ-1
-Received: by mail-il1-f199.google.com with SMTP id c29so908833ilf.20
- for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 00:37:28 -0700 (PDT)
+ bh=vTh7gVTBsoiOlaZTSSCPFqb66ZxmpJQkuWbOcSZwYbg=;
+ b=gQbrl/ynDypnttBv2jMb/2JbN+wsjw3YjfYGRxR8Wxcgcd7aWLLOsUTUOvYd0/fIkrT95t
+ ArgI0KMWBvLMdOdoSmZc+PJC9OZeroMJ0zO59ZBrYBLh7UI+uGpe4KHk+pIfTDltGhGWO0
+ Gj9ojS0GDQb79H7aSb6oNnUHojveAoE=
+Received: from mail-io1-f72.google.com (mail-io1-f72.google.com
+ [209.85.166.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-445-ahwUGuQJMRqMh302VYUr0A-1; Wed, 17 Jun 2020 03:38:22 -0400
+X-MC-Unique: ahwUGuQJMRqMh302VYUr0A-1
+Received: by mail-io1-f72.google.com with SMTP id a16so1223133iow.9
+ for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 00:38:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=eWLY1FB3r/Id8vLvvBQnYkX64zV38I2qeMOakhNbn/E=;
- b=LSjc/N3MTjM08Dt+pe9f477pWuuaBW+IEnh/TEX5VK2c3ba/xZcmvWfFDY5PUpyO8k
- TthpXC8CFXg11sNQwkMTe8OrxGcok2OIzDFI+oyxsbqiBjj8jMuM6UAlh53b7yKhQKXt
- SrOMLLeXbE9cNBSxYeOYTo107m+kEi32bJ4jGEoaamF/fnMH2Bm4nx9OirHYxENvyXZW
- e403bz1FhPlzu36LngfNmSQ1V48CwEQ1eDGgpSHQLWEHBZ00DW4zFpv5zfrHB2cSdRFN
- gJ1nqwgGn9xR26XYNdq8Y/jodm0rqDjvXpsJb00xz74nbKI8jk3pyBq9mMBzxVL2/16m
- kRGQ==
-X-Gm-Message-State: AOAM533E5r9kdd89xwhK5or2oJl/BU+yKEw2cSQkJI2uOxpEM1iTORY/
- NcJwdvyrsPZ5S6vN1Wjex1wDFGBbvLa+6Fu23I7p3X/6GJIwrFTbYZuVra4cyrKEIprqE+O2aTK
- 6wmV4dQz0O2RgpGLtVQx/RcGOz12u4ec=
-X-Received: by 2002:a05:6602:1616:: with SMTP id
- x22mr7280496iow.70.1592379447540; 
- Wed, 17 Jun 2020 00:37:27 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx8Lsybg1bTCpPhk4AQ0gSz9tOZsp1l1NEhIxT4+/4NpZE5ie9F9YMkvGVjobBH/EehATaTA17ReQx7He0I6o0=
-X-Received: by 2002:a05:6602:1616:: with SMTP id
- x22mr7280481iow.70.1592379447273; 
- Wed, 17 Jun 2020 00:37:27 -0700 (PDT)
+ bh=vTh7gVTBsoiOlaZTSSCPFqb66ZxmpJQkuWbOcSZwYbg=;
+ b=DU+jU57C/kalhefBZI1yB+ZxIb1Ap7xg8xB7GzmjwIEUvG5w0tQpxGKwrvA2qFOeFB
+ B83b+r1QuBTISucDCM2uptpUxaJJUDgZpgM+NMvrBLusdjNM2P6/JQQLl+hBNTmiZDdx
+ VpiYCeRFlvKdgkcV6inNa+BthKxz/rZYE7K0EqDF2TL71O/Gi1F6vb4OdmM8mddppdg5
+ 9IPDRMfayzBJXTowKjAMRs3U5x1zWzOLzMM2xWiIs4TMOAp8oO5ZPyooqUQV6TrgUfvs
+ 4XLHQAUkd5BZOEYLMKXmPk8zskSmPb5Pn91sjKUgZaCy7TojNdcn2qz75AUXdlNXmocy
+ 1b2w==
+X-Gm-Message-State: AOAM5330Y0b7YIudqCfW1OsxykVSe7URKcEVf0ZiQ3I4IX+ALkY10Uie
+ dqvpgp1NPUb5hy/NwJMOLhlGewcqFYrSOdr6OTEdjw6ebqVRzpztHBKit+gI0f3FA0xjtJ9vMhd
+ whyqsdVsDYJwSukXm+J9lMwxM5Df9Czw=
+X-Received: by 2002:a5e:de03:: with SMTP id e3mr7220309iok.0.1592379501675;
+ Wed, 17 Jun 2020 00:38:21 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw23rHmIcTnhGHpwcECh/2JOopvDieqt7ZE8HGdpc1+1Knm7SlrOhSHEKg6Sct4noJzP4myk97RExCnFiXVWxA=
+X-Received: by 2002:a5e:de03:: with SMTP id e3mr7220296iok.0.1592379501460;
+ Wed, 17 Jun 2020 00:38:21 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200616205721.1191408-1-stefanb@linux.vnet.ibm.com>
- <20200616205721.1191408-2-stefanb@linux.vnet.ibm.com>
-In-Reply-To: <20200616205721.1191408-2-stefanb@linux.vnet.ibm.com>
+ <20200616205721.1191408-3-stefanb@linux.vnet.ibm.com>
+In-Reply-To: <20200616205721.1191408-3-stefanb@linux.vnet.ibm.com>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Wed, 17 Jun 2020 11:37:16 +0400
-Message-ID: <CAMxuvaze8sbWfcWtcj+JJJvvjd+0Pz4u4=pVFSDcTtq5gE_45w@mail.gmail.com>
-Subject: Re: [PATCH v3 1/8] tpm_tis: Allow lowering of IRQ also when locality
- is not active
+Date: Wed, 17 Jun 2020 11:38:10 +0400
+Message-ID: <CAMxuvayz3cZh3x=RT8U1GwO_q7hZ5WdV68k=jWm2+Noys4FyyA@mail.gmail.com>
+Subject: Re: [PATCH v3 2/8] tpm: Extend TPMIfClass with get_irqnum() function
 To: Stefan Berger <stefanb@linux.vnet.ibm.com>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=mlureau@redhat.com;
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=mlureau@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 23:30:45
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/17 01:42:04
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,7 +91,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Eric Auger <eric.auger@redhat.com>,
+Cc: Stefan Berger <stefanb@sbct-2.pok.ibm.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Eric Auger <eric.auger@redhat.com>,
  "Bonzini, Paolo" <pbonzini@redhat.com>,
  Philippe Mathieu Daude <philmd@redhat.com>,
  Marek Kedzierski <mkedzier@redhat.com>, Stefan Berger <stefanb@linux.ibm.com>
@@ -104,36 +102,114 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Wed, Jun 17, 2020 at 12:57 AM Stefan Berger
 <stefanb@linux.vnet.ibm.com> wrote:
 >
-> From: Stefan Berger <stefanb@linux.ibm.com>
+> From: Stefan Berger <stefanb@sbct-2.pok.ibm.com>
 >
-> This patch fixes a bug that occurs when using interrupts. It
-> allows to lower the IRQ also when a locality is not active.
+> Implement get_irqnum() as part of the TPMIfClass to get the assigned IRQ
+> number or TPM_IRQ_DISABLED (-1) in case IRQs cannot be used.
 >
 > Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
-> Reviewed-by: Eric Auger <eric.auger@redhat.com>
 
 Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
 > ---
->  hw/tpm/tpm_tis_common.c | 4 ----
->  1 file changed, 4 deletions(-)
+>  hw/tpm/tpm_tis_isa.c    |  9 +++++++++
+>  hw/tpm/tpm_tis_sysbus.c |  9 +++++++++
+>  include/sysemu/tpm.h    | 12 ++++++++++++
+>  3 files changed, 30 insertions(+)
 >
-> diff --git a/hw/tpm/tpm_tis_common.c b/hw/tpm/tpm_tis_common.c
-> index 1af4bce139..0f42696f1f 100644
-> --- a/hw/tpm/tpm_tis_common.c
-> +++ b/hw/tpm/tpm_tis_common.c
-> @@ -601,10 +601,6 @@ static void tpm_tis_mmio_write(void *opaque, hwaddr =
-addr,
->          /* hard wired -- ignore */
->          break;
->      case TPM_TIS_REG_INT_STATUS:
-> -        if (s->active_locty !=3D locty) {
-> -            break;
-> -        }
-> -
->          /* clearing of interrupt flags */
->          if (((val & TPM_TIS_INTERRUPTS_SUPPORTED)) &&
->              (s->loc[locty].ints & TPM_TIS_INTERRUPTS_SUPPORTED)) {
+> diff --git a/hw/tpm/tpm_tis_isa.c b/hw/tpm/tpm_tis_isa.c
+> index 30ba37079d..ed6d422f05 100644
+> --- a/hw/tpm/tpm_tis_isa.c
+> +++ b/hw/tpm/tpm_tis_isa.c
+> @@ -80,6 +80,14 @@ static enum TPMVersion tpm_tis_isa_get_tpm_version(TPM=
+If *ti)
+>      return tpm_tis_get_tpm_version(s);
+>  }
+>
+> +static int8_t tpm_tis_isa_get_irqnum(TPMIf *ti)
+> +{
+> +    TPMStateISA *isadev =3D TPM_TIS_ISA(ti);
+> +    TPMState *s =3D &isadev->state;
+> +
+> +    return s->irq_num;
+> +}
+> +
+>  static void tpm_tis_isa_reset(DeviceState *dev)
+>  {
+>      TPMStateISA *isadev =3D TPM_TIS_ISA(dev);
+> @@ -148,6 +156,7 @@ static void tpm_tis_isa_class_init(ObjectClass *klass=
+, void *data)
+>      dc->reset =3D tpm_tis_isa_reset;
+>      tc->request_completed =3D tpm_tis_isa_request_completed;
+>      tc->get_version =3D tpm_tis_isa_get_tpm_version;
+> +    tc->get_irqnum =3D tpm_tis_isa_get_irqnum;
+>  }
+>
+>  static const TypeInfo tpm_tis_isa_info =3D {
+> diff --git a/hw/tpm/tpm_tis_sysbus.c b/hw/tpm/tpm_tis_sysbus.c
+> index eced1fc843..86b3988be5 100644
+> --- a/hw/tpm/tpm_tis_sysbus.c
+> +++ b/hw/tpm/tpm_tis_sysbus.c
+> @@ -80,6 +80,14 @@ static enum TPMVersion tpm_tis_sysbus_get_tpm_version(=
+TPMIf *ti)
+>      return tpm_tis_get_tpm_version(s);
+>  }
+>
+> +static int8_t tpm_tis_sysbus_get_irqnum(TPMIf *ti)
+> +{
+> +    TPMStateSysBus *sbdev =3D TPM_TIS_SYSBUS(ti);
+> +    TPMState *s =3D &sbdev->state;
+> +
+> +    return s->irq_num;
+> +}
+> +
+>  static void tpm_tis_sysbus_reset(DeviceState *dev)
+>  {
+>      TPMStateSysBus *sbdev =3D TPM_TIS_SYSBUS(dev);
+> @@ -137,6 +145,7 @@ static void tpm_tis_sysbus_class_init(ObjectClass *kl=
+ass, void *data)
+>      dc->reset =3D tpm_tis_sysbus_reset;
+>      tc->request_completed =3D tpm_tis_sysbus_request_completed;
+>      tc->get_version =3D tpm_tis_sysbus_get_tpm_version;
+> +    tc->get_irqnum =3D tpm_tis_sysbus_get_irqnum;
+>  }
+>
+>  static const TypeInfo tpm_tis_sysbus_info =3D {
+> diff --git a/include/sysemu/tpm.h b/include/sysemu/tpm.h
+> index 03fb25941c..a81fb4e18e 100644
+> --- a/include/sysemu/tpm.h
+> +++ b/include/sysemu/tpm.h
+> @@ -25,6 +25,8 @@ typedef enum TPMVersion {
+>      TPM_VERSION_2_0 =3D 2,
+>  } TPMVersion;
+>
+> +#define TPM_IRQ_DISABLED  -1
+> +
+>  #define TYPE_TPM_IF "tpm-if"
+>  #define TPM_IF_CLASS(klass)                                 \
+>      OBJECT_CLASS_CHECK(TPMIfClass, (klass), TYPE_TPM_IF)
+> @@ -41,6 +43,7 @@ typedef struct TPMIfClass {
+>      enum TpmModel model;
+>      void (*request_completed)(TPMIf *obj, int ret);
+>      enum TPMVersion (*get_version)(TPMIf *obj);
+> +    int8_t (*get_irqnum)(TPMIf *obj);
+>  } TPMIfClass;
+>
+>  #define TYPE_TPM_TIS_ISA            "tpm-tis"
+> @@ -74,4 +77,13 @@ static inline TPMVersion tpm_get_version(TPMIf *ti)
+>      return TPM_IF_GET_CLASS(ti)->get_version(ti);
+>  }
+>
+> +static inline int8_t tpm_get_irqnum(TPMIf *ti)
+> +{
+> +    if (!ti || !TPM_IF_GET_CLASS(ti)->get_irqnum) {
+> +        return TPM_IRQ_DISABLED;
+> +    }
+> +
+> +    return TPM_IF_GET_CLASS(ti)->get_irqnum(ti);
+> +}
+> +
+>  #endif /* QEMU_TPM_H */
 > --
 > 2.24.1
 >
