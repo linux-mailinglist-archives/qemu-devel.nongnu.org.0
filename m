@@ -2,82 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0920F1FCE86
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 15:36:09 +0200 (CEST)
-Received: from localhost ([::1]:43654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5EBB1FCECF
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 15:49:21 +0200 (CEST)
+Received: from localhost ([::1]:56786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlYEZ-0001tD-Ms
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 09:36:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50944)
+	id 1jlYRM-0001D3-Sf
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 09:49:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jlYCZ-0000ID-HN
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 09:34:03 -0400
-Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:46998)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jlYCX-0004nN-RP
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 09:34:03 -0400
-Received: by mail-ej1-x642.google.com with SMTP id p20so2295791ejd.13
- for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 06:34:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=I0U16efjBbAxbQ2aiQDUetYcF7HJ1N9/QcgXXhdpPfs=;
- b=KsADg5Tur9IsIedETm9JuXnWtEARAQSuo/76LPuYL3/aFTHo0vDO8tk1esM25bGI6M
- QprZ5UqmVNR0SuHCUbN7U21r5d2ZDD2A6zTFvJw8HkK2oGZscS94jqkFg1wDcZbt9DUJ
- WXAsrMV3968H+C7JJRJaq+1PXcPgvmfanaxS4muYlVhqVBZv1P9lbvijk5GwlQfcNXY3
- M6RyLmZHFzvJ6PSFexQkOuPmf/qIfjyS/YTbAhR12ZXtWg0yX9F2aPNVMOxOEslEHFl+
- cW93xWBuutDGGK5IAS5eE/6yBoBneFnDK0TgitMvUcNAMYC0asHJPQgq/OMA9S07oNWD
- 1+CA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=I0U16efjBbAxbQ2aiQDUetYcF7HJ1N9/QcgXXhdpPfs=;
- b=KEnFv9ImFWHy1sw6Z2xaOhbqH/HxhaUzFjA1N8vUO+0WwTHnOV9z5VBT990is6VK1m
- 5e0uSRNQUuj9x5PDZqeMAqdvz6kWU0RxXfpBW0AWaKXIdPOI+ndML5CaxfBslNr9rTrJ
- ibKUM7W8CYRzYSLK0Ci4BQW6wwQlheDgghQJPMZaVzljCM3QWc2etb0pmKZ9XLmu5iUF
- J0emV5OxJ52cPM2eUT7ikKmH5IY9qsvkPPi6OjWWeHThHXRVfecJnSfCvKRMnX+aACkf
- UNTD+1+nAg7V1VSHl242lYavlgFY06DAEdXC0/goSyTHErv8AsrTOJDeSWPUDr9GRXxe
- 7x8A==
-X-Gm-Message-State: AOAM532QAZV0yja/qHMB8HiBUUBond31t9xtfNUHSpq+88PPG+Yyh4mE
- UVq/TKFDLVGgd6XWQ54Mxfc=
-X-Google-Smtp-Source: ABdhPJxcrvYmyNh0bSWFjxa9uCElNlZ9PB88oOmewoJIfppqTyv7DBzUvWGFTuiN+//Cr7c3B/cyGg==
-X-Received: by 2002:a17:906:f2c2:: with SMTP id
- gz2mr7388053ejb.260.1592400840040; 
- Wed, 17 Jun 2020 06:34:00 -0700 (PDT)
-Received: from [192.168.1.38] (93.red-83-59-160.dynamicip.rima-tde.net.
- [83.59.160.93])
- by smtp.gmail.com with ESMTPSA id n6sm12170674edv.24.2020.06.17.06.33.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 17 Jun 2020 06:33:59 -0700 (PDT)
-Subject: Re: [PATCH 0/8] ESCC2
-To: Jasper Lowell <jasper.lowell@bt.com>, qemu-devel@nongnu.org
-References: <20200617082402.242631-1-jasper.lowell@bt.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <b7449721-3499-0018-4c36-339937f4ba2d@amsat.org>
-Date: Wed, 17 Jun 2020 15:33:57 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
-MIME-Version: 1.0
-In-Reply-To: <20200617082402.242631-1-jasper.lowell@bt.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::642;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x642.google.com
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1jlYNV-000609-6l; Wed, 17 Jun 2020 09:45:21 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:64285)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1jlYNR-0006w2-RQ; Wed, 17 Jun 2020 09:45:20 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 1BB877475FA;
+ Wed, 17 Jun 2020 15:45:06 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 9D06E7482D3; Wed, 17 Jun 2020 15:45:05 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+Date: Wed, 17 Jun 2020 15:36:29 +0200
+Subject: [PATCH 2/2] scripts/tracetool: Add plainlog backend
+To: qemu-devel@nongnu.org
+Message-Id: <20200617134505.9D06E7482D3@zero.eik.bme.hu>
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: 5
-X-Spam_score: 0.5
+X-Spam_score_int: -8
+X-Spam_score: -0.9
 X-Spam_bar: /
-X-Spam_report: (0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, SUBJ_ALL_CAPS=0.5 autolearn=_AUTOLEARN
+X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, PP_MIME_FAKE_ASCII_TEXT=1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,98 +50,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: tony.nguyen@bt.com, mark.cave-ayland@ilande.co.uk,
- Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, atar4qemu@gmail.com
+Cc: qemu-trivial@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc'ing chardev maintainers and Laurent.
+Add a backend that is the same as the log backend but omits the
+process id and timestamp so logs are easier to read and diff-able.
 
-On 6/17/20 10:23 AM, Jasper Lowell wrote:
-> I've been working on improving Solaris 10 emulation for the SPARC64
-> Sun4u architecture with the goal of a working shell. Currently, Solaris
-> 10 boots with a number of errors before displaying the prompt of an
-> otherwise unresponsive installer shell. It's been mentioned that this
-> problem may not be isolated to Solaris 10 but may affect derivatives of
-> OpenSolaris including illumos.
-> 
-> From what I can tell, Solaris 10 never attempts to use the 16550A UART
-> for the serial console. The kernel will probe registers to identify the
-> device but will not use it for receiving or transmitting. The kernel
-> only prints to the console using the prom interface that OpenBIOS
-> provides. It's difficult to ascertain what the problem is because there
-> is no visibility into the kernel. The 16550A UART on the Ultra 5
-> (Darwin), the machine that QEMU Sun4u is modelled against, is used for
-> the keyboard/mouse (SuperIO) and is not traditionally used for the
-> serial tty. Instead, the SAB 82532 ESCC2 is used to provide ttya and
-> ttyb on this system. This patch exists to increment QEMU Sun4u towards
-> being hardware faithful.
-> 
-> The SAB 82532 ESCC2 is complex because of the jungle of features that it
-> provides. Linux and OpenBSD only use a small subset of features
-> restricted to the ASYNC serial mode. The ASYNC serial mode is
-> relatively simple to implement in isolation. I have made progress on a
-> patch series that supports all serial modes, along with transitioning
-> between them, but I have decided against submitting it. The serial
-> controller appears to multiplex bit positions in registers across serial
-> modes while preserving the bits themselves. This means that some 8-bit
-> registers need to keep track of more than 8-bits of data and that the
-> interpretation of the value the register holds depends on the selected
-> serial mode. It's not ideal having a copy of each register for each
-> serial mode because some bits are shared across some of the register
-> modes. An added difficulty is that the manual doesn't document this
-> behaviour well and its unclear what exactly happens when there is a
-> transition in the selected serial mode. I've avoided depending on
-> registers being uint8_t and have made use of macros so that the backend
-> implementation of each register can be changed at a later date when
-> supporting other serial modes. If I have the opportunity to test real
-> hardware, or it becomes clear that HDLC/SDLC/BISYNC support is needed,
-> I'll look at upstreaming the other changes that I have.
-> 
-> I have written a bare-bones patch for OpenBIOS that adds this device to
-> the device tree. With that applied, Solaris identifies and attaches the
-> device successfully but does not interact with it further - similar to
-> the 16550A UART. I did notice, however, that Solaris 10 entered an
-> interrupt routine for this device when the network card was being
-> configured. I couldn't manage to provoke this behaviour for the 16550A
-> so this might be some small success. I strongly suspect that the
-> interrupt is a spurious interrupt caused by misconfiguration of the
-> devices in the firmware but I have not investigated this further.
-> 
-> Solaris 10, judging from the OpenSolaris source code, determines
-> stdin/stdout for the console by examining the stdin/stdout properties
-> under /chosen in the device tree. Naturally, this is done with the prom
-> interface. From what I can tell, to set these properties to the ESCC2
-> node it's necessary to change stdin/stdout for OpenBIOS completely. This
-> requires a device driver. I have made some progress on an OpenBIOS
-> device driver for the ESCC2 but it's taking longer than expected to
-> completely replace the 16550A and it's unlikely that I will have this
-> finished soon. It's possible that Solaris 10 emulation for this platform
-> will improve once that work is finished but it's unclear.
-> 
-> This is my first patch series for QEMU so it's possible that I've made
-> mistakes in the contribution process - sorry in advance.
-> 
-> Jasper Lowell (8):
->   hw/char/escc2: Add device
->   hw/char/escc2: Handle interrupt generation
->   hw/char/escc2: Add character device backend
->   hw/char/escc2: Add clock generation
->   hw/char/escc2: Add Receiver Reset (RRES) command
->   hw/char/escc2: Add RFRD command
->   hw/char/escc2: Add Transmit Frame (XF) command
->   hw/char/escc2: Add XRES command
-> 
->  hw/char/Kconfig         |    8 +
->  hw/char/Makefile.objs   |    1 +
->  hw/char/escc2.c         | 1135 +++++++++++++++++++++++++++++++++++++++
->  hw/char/trace-events    |    6 +
->  include/hw/char/escc2.h |   17 +
->  5 files changed, 1167 insertions(+)
->  create mode 100644 hw/char/escc2.c
->  create mode 100644 include/hw/char/escc2.h
-> 
+Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+---
+ scripts/tracetool/backend/plainlog.py | 48 +++++++++++++++++++++++++++
+ 1 file changed, 48 insertions(+)
+ create mode 100644 scripts/tracetool/backend/plainlog.py
+
+diff --git a/scripts/tracetool/backend/plainlog.py b/scripts/tracetool/backend/plainlog.py
+new file mode 100644
+index 0000000000..40bbfa6d76
+--- /dev/null
++++ b/scripts/tracetool/backend/plainlog.py
+@@ -0,0 +1,48 @@
++# -*- coding: utf-8 -*-
++
++"""
++Stderr built-in backend, plain log without proc ID and time.
++"""
++
++__author__     = "Lluís Vilanova <vilanova@ac.upc.edu>"
++__copyright__  = "Copyright 2012-2017, Lluís Vilanova <vilanova@ac.upc.edu>"
++__license__    = "GPL version 2 or (at your option) any later version"
++
++__maintainer__ = "Stefan Hajnoczi"
++__email__      = "stefanha@linux.vnet.ibm.com"
++
++
++from tracetool import out
++
++
++PUBLIC = True
++
++
++def generate_h_begin(events, group):
++    out('#include "qemu/log-for-trace.h"',
++        '')
++
++
++def generate_h(event, group):
++    argnames = ", ".join(event.args.names())
++    if len(event.args) > 0:
++        argnames = ", " + argnames
++
++    if "vcpu" in event.properties:
++        # already checked on the generic format code
++        cond = "true"
++    else:
++        cond = "trace_event_get_state(%s)" % ("TRACE_" + event.name.upper())
++
++    out('    if (%(cond)s && qemu_loglevel_mask(LOG_TRACE)) {',
++        '        qemu_log("%(name)s " %(fmt)s "\\n" %(argnames)s);',
++        '    }',
++        cond=cond,
++        name=event.name,
++        fmt=event.fmt.rstrip("\n"),
++        argnames=argnames)
++
++
++def generate_h_backend_dstate(event, group):
++    out('    trace_event_get_state_dynamic_by_id(%(event_id)s) || \\',
++        event_id="TRACE_" + event.name.upper())
+-- 
+2.21.3
 
 
