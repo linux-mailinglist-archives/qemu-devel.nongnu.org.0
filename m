@@ -2,47 +2,114 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B96B1FCAE5
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 12:30:23 +0200 (CEST)
-Received: from localhost ([::1]:37080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A241C1FCAC7
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 12:26:49 +0200 (CEST)
+Received: from localhost ([::1]:54332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlVKo-0000bG-Eh
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 06:30:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54412)
+	id 1jlVHM-0004BR-9y
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 06:26:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54294)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <root@localhost>)
- id 1jlVGq-0004Ge-D8; Wed, 17 Jun 2020 06:26:16 -0400
-Received: from [114.255.249.163] (port=23486 helo=localhost)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <root@localhost>)
- id 1jlVGo-0007Og-Fm; Wed, 17 Jun 2020 06:26:16 -0400
-Received: by localhost (Postfix, from userid 0)
- id 1F7BA1415FB; Wed, 17 Jun 2020 18:20:24 +0800 (CST)
-From: Lin Ma <lma@suse.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH v2 3/3] scsi-disk: Add support for the GET LBA STATUS 16
- command
-Date: Wed, 17 Jun 2020 18:20:19 +0800
-Message-Id: <20200617102019.29652-4-lma@suse.com>
-X-Mailer: git-send-email 2.26.0
-In-Reply-To: <20200617102019.29652-1-lma@suse.com>
-References: <20200617102019.29652-1-lma@suse.com>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jlVGG-0003fX-MD
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 06:25:40 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:33461
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jlVGE-0007J6-Hv
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 06:25:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1592389537;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=fI3dRtlNjC89poL5ucKO0KBL6RBWlnw4FbMAWqqKI2Q=;
+ b=FRS3I8TA/gb4MH5gRHBnmfaAd587K4yjzf0yQPgxKnZEdrggXsDp6SoSrz9fnqNu3JgR6R
+ JRcKnuq8frLd41DUQc+3I+4ZeItO8dhQDU9GRohcFD4xvZhjiyJNZo5WxgK0yZGW3Og/7L
+ IzVIrysqsoB8qAuCyChC/xSp3bZaOig=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-279-AaKZhN-UOCGrpQnEm24c1A-1; Wed, 17 Jun 2020 06:25:32 -0400
+X-MC-Unique: AaKZhN-UOCGrpQnEm24c1A-1
+Received: by mail-ed1-f72.google.com with SMTP id o3so619499eda.23
+ for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 03:25:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=fI3dRtlNjC89poL5ucKO0KBL6RBWlnw4FbMAWqqKI2Q=;
+ b=un5INnUKX1iituEcI1+f+GWJ96VKwHv0iZYpEnbsn/OzIOliHThr5hNInKuRif9Ve9
+ HHre4HYPkWc+ZobYOGvVdUd6zExC+3OqCo337vfttq4VZBwh2wwMYyW69gCSLntiw774
+ cASx0we1dcPkrJVeqIZaDEwYlSWA9bMhTomDzMP+mjJY8+8uLe9bFwkUVlkOnWYUzHyM
+ dNhevdoaPH8LB6Vdd17LjX80UZnNXfkbR9T+HGUejaeC48v8cqPs9y/yGWugBQLwc138
+ GJdPo3PhLzBNNjUzTwrU4b414H/kQWyEKCxbPZqTSZRnOgaRuaAouofEBLY9zvdfosH5
+ C/gw==
+X-Gm-Message-State: AOAM530G/snBKDdfyyF4et1M6+dP6sZBb7n894HOFKQ4IJuWTw0OxdIC
+ 0yDPC5Zpw3eB9fFU9pMFvQmGul3sGSDRTGfzVEPotNXK+LaHMmBcEZmmAEP9uLGdFQGrZxZjk/1
+ 8bH39AhJVHi2yNwM=
+X-Received: by 2002:a50:fd05:: with SMTP id i5mr6449283eds.79.1592389531615;
+ Wed, 17 Jun 2020 03:25:31 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwYxT2X9nv4//rroomT8mSp3vTzKSvpDwBp8hFZsNzzNdTvq/SFOTxjvFEalUjRQnUadCBi4Q==
+X-Received: by 2002:a50:fd05:: with SMTP id i5mr6449267eds.79.1592389531342;
+ Wed, 17 Jun 2020 03:25:31 -0700 (PDT)
+Received: from [192.168.1.37] (93.red-83-59-160.dynamicip.rima-tde.net.
+ [83.59.160.93])
+ by smtp.gmail.com with ESMTPSA id a62sm834851ede.45.2020.06.17.03.25.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 17 Jun 2020 03:25:30 -0700 (PDT)
+Subject: Re: [PATCH v3 2/5] migration: fix xbzrle encoding rate calculation
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20200617043757.1623337-1-richard.henderson@linaro.org>
+ <20200617043757.1623337-3-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <efc60816-9122-1951-b86a-83be588af944@redhat.com>
+Date: Wed, 17 Jun 2020 12:25:29 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 114.255.249.163 (failed)
-Received-SPF: none client-ip=114.255.249.163; envelope-from=root@localhost;
- helo=localhost
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/17 06:20:25
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: 68
-X-Spam_score: 6.8
-X-Spam_bar: ++++++
-X-Spam_report: (6.8 / 5.0 requ) BAYES_00=-1.9, FSL_HELO_NON_FQDN_1=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, HELO_LOCALHOST=3.828, RCVD_IN_MSPIKE_BL=0.01,
- RCVD_IN_MSPIKE_ZBI=2.7, RCVD_IN_XBL=0.375, RDNS_NONE=0.793,
- SPF_NONE=0.001 autolearn=_AUTOLEARN
-X-Spam_action: reject
+In-Reply-To: <20200617043757.1623337-3-richard.henderson@linaro.org>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/17 01:42:42
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,151 +121,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com,
- stefanha@redhat.com, Lin Ma <lma@suse.com>, pbonzini@redhat.com
+Cc: Wei Wang <wei.w.wang@intel.com>, "cota@braap.org" <cota@braap.org>,
+ alex.bennee@linaro.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Lin Ma <lma@suse.com>
----
- hw/scsi/scsi-disk.c        | 90 ++++++++++++++++++++++++++++++++++++++
- include/block/accounting.h |  1 +
- include/scsi/constants.h   |  1 +
- 3 files changed, 92 insertions(+)
+On 6/17/20 6:37 AM, Richard Henderson wrote:
+> From: Wei Wang <wei.w.wang@intel.com>
+> 
+> It's reported an error of implicit conversion from "unsigned long" to
+> "double" when compiling with Clang 10. Simply make the encoding rate 0
+> when the encoded_size is 0.
 
-diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
-index 387503e11b..9e3002ddaf 100644
---- a/hw/scsi/scsi-disk.c
-+++ b/hw/scsi/scsi-disk.c
-@@ -1866,6 +1866,89 @@ static void scsi_disk_emulate_write_data(SCSIRequest *req)
-     }
- }
- 
-+typedef struct GetLbaStatusCBData {
-+    uint32_t num_blocks;
-+    uint32_t is_deallocated;
-+    SCSIDiskReq *r;
-+} GetLbaStatusCBData;
-+
-+static void scsi_get_lba_status_complete(void *opaque, int ret);
-+
-+static void scsi_get_lba_status_complete_noio(GetLbaStatusCBData *data, int ret)
-+{
-+    SCSIDiskReq *r = data->r;
-+    SCSIDiskState *s = DO_UPCAST(SCSIDiskState, qdev, r->req.dev);
-+
-+    assert(r->req.aiocb == NULL);
-+
-+    block_acct_start(blk_get_stats(s->qdev.conf.blk), &r->acct,
-+                     s->qdev.blocksize, BLOCK_ACCT_GET_LBA_STATUS);
-+
-+    r->req.aiocb = blk_aio_get_lba_status(s->qdev.conf.blk,
-+                                          r->req.cmd.lba * s->qdev.blocksize,
-+                                          s->qdev.blocksize,
-+                                          scsi_get_lba_status_complete, data);
-+}
-+
-+static void scsi_get_lba_status_complete(void *opaque, int ret)
-+{
-+    GetLbaStatusCBData *data = opaque;
-+    SCSIDiskReq *r = data->r;
-+    SCSIDiskState *s = DO_UPCAST(SCSIDiskState, qdev, r->req.dev);
-+
-+    assert(r->req.aiocb != NULL);
-+    r->req.aiocb = NULL;
-+
-+    aio_context_acquire(blk_get_aio_context(s->qdev.conf.blk));
-+    if (scsi_disk_req_check_error(r, ret, true)) {
-+        g_free(data);
-+        goto done;
-+    }
-+
-+    block_acct_done(blk_get_stats(s->qdev.conf.blk), &r->acct);
-+    scsi_req_unref(&r->req);
-+    g_free(data);
-+
-+done:
-+    aio_context_release(blk_get_aio_context(s->qdev.conf.blk));
-+}
-+
-+static void scsi_disk_emulate_get_lba_status(SCSIRequest *req, uint8_t *outbuf)
-+{
-+    SCSIDiskReq *r = DO_UPCAST(SCSIDiskReq, req, req);
-+    GetLbaStatusCBData *data;
-+    uint32_t *num_blocks;
-+    uint32_t *is_deallocated;
-+
-+    data = g_new0(GetLbaStatusCBData, 1);
-+    data->r = r;
-+    num_blocks = &(data->num_blocks);
-+    is_deallocated = &(data->is_deallocated);
-+
-+    scsi_req_ref(&r->req);
-+    scsi_get_lba_status_complete_noio(data, 0);
-+
-+    /*
-+     * 8 + 16 is the length in bytes of response header and
-+     * one LBA status descriptor
-+     */
-+    memset(outbuf, 0, 8 + 16);
-+    outbuf[3] = 20;
-+    outbuf[8] = (req->cmd.lba >> 56) & 0xff;
-+    outbuf[9] = (req->cmd.lba >> 48) & 0xff;
-+    outbuf[10] = (req->cmd.lba >> 40) & 0xff;
-+    outbuf[11] = (req->cmd.lba >> 32) & 0xff;
-+    outbuf[12] = (req->cmd.lba >> 24) & 0xff;
-+    outbuf[13] = (req->cmd.lba >> 16) & 0xff;
-+    outbuf[14] = (req->cmd.lba >> 8) & 0xff;
-+    outbuf[15] = req->cmd.lba & 0xff;
-+    outbuf[16] = (*num_blocks >> 24) & 0xff;
-+    outbuf[17] = (*num_blocks >> 16) & 0xff;
-+    outbuf[18] = (*num_blocks >> 8) & 0xff;
-+    outbuf[19] = *num_blocks & 0xff;
-+    outbuf[20] = *is_deallocated ? 1 : 0;
-+}
-+
- static int32_t scsi_disk_emulate_command(SCSIRequest *req, uint8_t *buf)
- {
-     SCSIDiskReq *r = DO_UPCAST(SCSIDiskReq, req, req);
-@@ -2076,6 +2159,13 @@ static int32_t scsi_disk_emulate_command(SCSIRequest *req, uint8_t *buf)
- 
-             /* Protection, exponent and lowest lba field left blank. */
-             break;
-+        } else if ((req->cmd.buf[1] & 31) == SAI_GET_LBA_STATUS) {
-+            if (req->cmd.lba > s->qdev.max_lba) {
-+                goto illegal_lba;
-+            }
-+            scsi_disk_emulate_get_lba_status(req, outbuf);
-+            r->iov.iov_len = req->cmd.xfer;
-+            return r->iov.iov_len;
-         }
-         trace_scsi_disk_emulate_command_SAI_unsupported();
-         goto illegal_request;
-diff --git a/include/block/accounting.h b/include/block/accounting.h
-index 878b4c3581..645014fb0b 100644
---- a/include/block/accounting.h
-+++ b/include/block/accounting.h
-@@ -38,6 +38,7 @@ enum BlockAcctType {
-     BLOCK_ACCT_WRITE,
-     BLOCK_ACCT_FLUSH,
-     BLOCK_ACCT_UNMAP,
-+    BLOCK_ACCT_GET_LBA_STATUS,
-     BLOCK_MAX_IOTYPE,
- };
- 
-diff --git a/include/scsi/constants.h b/include/scsi/constants.h
-index 874176019e..b18377b214 100644
---- a/include/scsi/constants.h
-+++ b/include/scsi/constants.h
-@@ -154,6 +154,7 @@
-  * SERVICE ACTION IN subcodes
-  */
- #define SAI_READ_CAPACITY_16  0x10
-+#define SAI_GET_LBA_STATUS    0x12
- 
- /*
-  * READ POSITION service action codes
--- 
-2.26.0
+There is a similar error in tests/qht-bench.c, see the asan log:
+https://patchew.org/QEMU/20200617072539.32686-1-f4bug@amsat.org/
+
+/tmp/qemu-test/src/tests/qht-bench.c:287:29: error: implicit conversion
+from 'unsigned long' to 'double' changes value from 18446744073709551615
+to 18446744073709551616 [-Werror,-Wimplicit-int-float-conversion]
+        *threshold = rate * UINT64_MAX;
+                          ~ ^~~~~~~~~~
+/usr/include/stdint.h:130:23: note: expanded from macro 'UINT64_MAX'
+# define UINT64_MAX             (__UINT64_C(18446744073709551615))
+                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/usr/include/stdint.h:107:25: note: expanded from macro '__UINT64_C'
+#  define __UINT64_C(c) c ## UL
+                        ^~~~~~~
+<scratch space>:33:1: note: expanded from here
+18446744073709551615UL
+^~~~~~~~~~~~~~~~~~~~~~
+1 error generated.
+make: *** [/tmp/qemu-test/src/rules.mak:69: tests/qht-bench.o] Error 1
+
+> 
+> Fixes: e460a4b1a4
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Reported-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Wei Wang <wei.w.wang@intel.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  migration/ram.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+> 
+> diff --git a/migration/ram.c b/migration/ram.c
+> index 41cc530d9d..069b6e30bc 100644
+> --- a/migration/ram.c
+> +++ b/migration/ram.c
+> @@ -913,10 +913,8 @@ static void migration_update_rates(RAMState *rs, int64_t end_time)
+>          unencoded_size = (xbzrle_counters.pages - rs->xbzrle_pages_prev) *
+>                           TARGET_PAGE_SIZE;
+>          encoded_size = xbzrle_counters.bytes - rs->xbzrle_bytes_prev;
+> -        if (xbzrle_counters.pages == rs->xbzrle_pages_prev) {
+> +        if (xbzrle_counters.pages == rs->xbzrle_pages_prev || !encoded_size) {
+>              xbzrle_counters.encoding_rate = 0;
+> -        } else if (!encoded_size) {
+> -            xbzrle_counters.encoding_rate = UINT64_MAX;
+>          } else {
+>              xbzrle_counters.encoding_rate = unencoded_size / encoded_size;
+>          }
+> 
 
 
