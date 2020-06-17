@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B90C1FCD7A
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 14:33:46 +0200 (CEST)
-Received: from localhost ([::1]:51490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 182D81FCD73
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 14:31:41 +0200 (CEST)
+Received: from localhost ([::1]:45942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlXGD-0000P5-5h
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 08:33:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60266)
+	id 1jlXEC-0006XJ-2n
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 08:31:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jlXBw-0004Qg-MT
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 08:29:20 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:21170
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jlXBv-0004PO-Tm
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 08:29:19 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:51024
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jlXBv-0002Ww-2R
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 08:29:20 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jlXBt-0002Wl-Sz
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 08:29:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592396958;
+ s=mimecast20190719; t=1592396957;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=njPufjQU9J06Is2FXVSy/pVf/aMSRVIW2nX5LRoWV4E=;
- b=Pe5u/1KNBnU4/rSwGzk2KmoMdtsa2OqWP6lRqpmEx7Wr9OWXJd7KD67LMKtTCxyeTTZPdo
- VByY1VStcofVuqsl2d5fwb9CmIKnXpKFiS9SBlecviLhFoc4yvBNTkbDBJU//zGl25IfFw
- xYslxpfhOd4b5725/tTklF9wsAAo+q4=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=zb2O4LSZD2edy8bGwjrUcS/0sbskbMKnSoDc3GN7pZo=;
+ b=QfgQcYpSNacuj6fsbn7ykXPQ286Sms+/znik2XyWP17kzXs258kEJFBejQEH69/dMzwuBK
+ fLACzWZgdJ3P8XlTAMTZcZYQd+K8EQUX4nLdXmkkNI4ksL46l3JTqaLdhUP8fFvRwDMRup
+ bUmDWskmkCri61y7aScCu8lVXjzXWCE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-266-KQmlQncdOiGFUbPBAR1Qlw-1; Wed, 17 Jun 2020 08:29:16 -0400
-X-MC-Unique: KQmlQncdOiGFUbPBAR1Qlw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-164-_dMmP07cP0WQCOcEEX7-_A-1; Wed, 17 Jun 2020 08:29:13 -0400
+X-MC-Unique: _dMmP07cP0WQCOcEEX7-_A-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 75DFE100962B;
- Wed, 17 Jun 2020 12:29:15 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EAE79134D5;
+ Wed, 17 Jun 2020 12:29:11 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-67.ams2.redhat.com
  [10.36.112.67])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 09EB719D7B;
- Wed, 17 Jun 2020 12:29:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5291F5D9D3;
+ Wed, 17 Jun 2020 12:29:03 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 9AC9B16E16; Wed, 17 Jun 2020 14:29:01 +0200 (CEST)
+ id A32FE1750C; Wed, 17 Jun 2020 14:29:01 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/4] Microvm 20200617 patches
-Date: Wed, 17 Jun 2020 14:28:57 +0200
-Message-Id: <20200617122901.13327-1-kraxel@redhat.com>
+Subject: [PULL 1/4] microvm: use 3G split unconditionally
+Date: Wed, 17 Jun 2020 14:28:58 +0200
+Message-Id: <20200617122901.13327-2-kraxel@redhat.com>
+In-Reply-To: <20200617122901.13327-1-kraxel@redhat.com>
+References: <20200617122901.13327-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/17 02:02:46
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 23:30:45
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,40 +89,52 @@ Cc: Stefano Stabellini <sstabellini@kernel.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 5c24bce3056ff209a1ecc50ff4b7e65b85ad8e74:
+Looks like the logic was copied over from q35.
 
-  Merge remote-tracking branch 'remotes/stsquad/tags/pull-testing-and-plugin-160620-2' into staging (2020-06-16 14:57:15 +0100)
+q35 does this for backward compatibility, there is no reason to do this
+on microvm though.  Also microvm doesn't need much mmio space, 1G is
+more than enough.  Using an mmio window smaller than 1G is bad for
+gigabyte alignment and hugepages though.  So split @ 3G unconditionally.
 
-are available in the Git repository at:
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Message-id: 20200529073957.8018-2-kraxel@redhat.com
+---
+ hw/i386/microvm.c | 16 +---------------
+ 1 file changed, 1 insertion(+), 15 deletions(-)
 
-  git://git.kraxel.org/qemu tags/microvm-20200617-pull-request
-
-for you to fetch changes up to c8b473594b8fbba169a6ea950493a3015d15a18d:
-
-  microvm: move virtio base to 0xfeb00000 (2020-06-17 14:24:28 +0200)
-
-----------------------------------------------------------------
-microvm: memory config tweaks
-
-----------------------------------------------------------------
-
-Gerd Hoffmann (4):
-  microvm: use 3G split unconditionally
-  microvm: drop max-ram-below-4g support
-  x86: move max-ram-below-4g to pc
-  microvm: move virtio base to 0xfeb00000
-
- include/hw/i386/microvm.h |  2 +-
- include/hw/i386/pc.h      |  2 ++
- include/hw/i386/x86.h     |  4 ----
- hw/i386/microvm.c         | 35 +----------------------------
- hw/i386/pc.c              | 46 +++++++++++++++++++++++++++++++++++++++
- hw/i386/pc_piix.c         | 10 ++++-----
- hw/i386/pc_q35.c          | 10 ++++-----
- hw/i386/x86.c             | 46 ---------------------------------------
- hw/i386/xen/xen-hvm.c     |  2 +-
- 9 files changed, 61 insertions(+), 96 deletions(-)
-
+diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
+index 937db10ae6a5..44f940813b07 100644
+--- a/hw/i386/microvm.c
++++ b/hw/i386/microvm.c
+@@ -170,23 +170,9 @@ static void microvm_memory_init(MicrovmMachineState *mms)
+     MemoryRegion *ram_below_4g, *ram_above_4g;
+     MemoryRegion *system_memory = get_system_memory();
+     FWCfgState *fw_cfg;
+-    ram_addr_t lowmem;
++    ram_addr_t lowmem = 0xc0000000; /* 3G */
+     int i;
+ 
+-    /*
+-     * Check whether RAM fits below 4G (leaving 1/2 GByte for IO memory
+-     * and 256 Mbytes for PCI Express Enhanced Configuration Access Mapping
+-     * also known as MMCFG).
+-     * If it doesn't, we need to split it in chunks below and above 4G.
+-     * In any case, try to make sure that guest addresses aligned at
+-     * 1G boundaries get mapped to host addresses aligned at 1G boundaries.
+-     */
+-    if (machine->ram_size >= 0xb0000000) {
+-        lowmem = 0x80000000;
+-    } else {
+-        lowmem = 0xb0000000;
+-    }
+-
+     /*
+      * Handle the machine opt max-ram-below-4g.  It is basically doing
+      * min(qemu limit, user limit).
 -- 
 2.18.4
 
