@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F418C1FD4BC
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 20:43:31 +0200 (CEST)
-Received: from localhost ([::1]:33270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9226F1FD4CA
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 20:46:15 +0200 (CEST)
+Received: from localhost ([::1]:44762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jld23-0002bw-00
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 14:43:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51698)
+	id 1jld4g-0007H1-KW
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 14:46:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jlcwx-0004DC-Ar
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 14:38:15 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:60732
+ id 1jlcwz-0004I6-D8
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 14:38:17 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:45965
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jlcwv-0008Bf-0A
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 14:38:15 -0400
+ id 1jlcwx-0008C3-Ri
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 14:38:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592419092;
+ s=mimecast20190719; t=1592419095;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1T2hRnHo2ZQkp6yhb7Dn8+feROfOWRPY4/N/6N5P/ug=;
- b=PX+dBLXjg5x0U5lUAi4apvnw/MXjYZBteEMtfVF+Nketm62cA41MDP4TjYuzI0HXaF0o+O
- AyhQpHB+1qctiF6ZmcinZ8CLzXU6IubT/tH+qsQA4tNN/1qsUXhV6vh/4+8n90Fw3lM+BN
- YnEyozU+Y3JoJp5fZ+y4EHeVU+UlMRs=
+ bh=OlyIB0IJggiiLTxay7xl1fqhdKKGqUZtSEyA46+qzsg=;
+ b=PiuSmrTq7yL+o2T62/le62mjNnLTir5N7pclb4CBifEfyJBbLaRHZ4yglGNs0LNEFhRx2l
+ L3by/09fKvTKj4oeYx2oFbaARCY4CuZgAilePudBQTDPGSIgUCjfAFBf0cDw/1Kjpm0ASW
+ a+ZY2CayjAlg7J359Ruc1mmQKeN1sLc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-202-BZuqFqsFN6WJn4waTIDKvA-1; Wed, 17 Jun 2020 14:38:09 -0400
-X-MC-Unique: BZuqFqsFN6WJn4waTIDKvA-1
+ us-mta-426-1iv5JYTINz-UOie6fGsA8g-1; Wed, 17 Jun 2020 14:38:11 -0400
+X-MC-Unique: 1iv5JYTINz-UOie6fGsA8g-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DC14F8035C1;
- Wed, 17 Jun 2020 18:38:08 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DEEF4107ACCD;
+ Wed, 17 Jun 2020 18:38:10 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-115-47.ams2.redhat.com
  [10.36.115.47])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 367765EE0E;
- Wed, 17 Jun 2020 18:38:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 342335EE0E;
+ Wed, 17 Jun 2020 18:38:09 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, david@redhat.com, lvivier@redhat.com,
  maozhongyi@cmss.chinamobile.com, mreitz@redhat.com, pannengyuan@huawei.com
-Subject: [PULL 10/12] monitor/hmp-cmds: improvements for the 'info migrate'
-Date: Wed, 17 Jun 2020 19:37:31 +0100
-Message-Id: <20200617183733.186168-11-dgilbert@redhat.com>
+Subject: [PULL 11/12] docs/xbzrle: update 'cache miss rate' and 'encoding
+ rate' to docs
+Date: Wed, 17 Jun 2020 19:37:32 +0100
+Message-Id: <20200617183733.186168-12-dgilbert@redhat.com>
 In-Reply-To: <20200617183733.186168-1-dgilbert@redhat.com>
 References: <20200617183733.186168-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -87,76 +88,32 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mao Zhongyi <maozhongyi@cmss.chinamobile.com>
 
-When running:
-
-(qemu) info migrate
-globals:
-store-global-state: on
-only-migratable: off
-...
-xbzrle transferred: 640892 kbytes
-xbzrle pages: 16645936 pages
-xbzrle cache miss: 1525426
-xbzrle cache miss rate: 0.09
-xbzrle encoding rate: 91.42
-xbzrle overflow: 40896
-...
-compression pages: 377710 pages
-compression busy: 0
-compression busy rate: 0.00
-compressed size: 463169457
-compression rate: 3.33
-
-Add units for 'xbzrle cache miss' and 'compressed size',
-make it easier to read.
-
-Suggested-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Mao Zhongyi <maozhongyi@cmss.chinamobile.com>
-Message-Id: <20200603080904.997083-8-maozhongyi@cmss.chinamobile.com>
+Message-Id: <20200603080904.997083-9-maozhongyi@cmss.chinamobile.com>
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- docs/xbzrle.txt    | 2 +-
- monitor/hmp-cmds.c | 6 +++---
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ docs/xbzrle.txt | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/docs/xbzrle.txt b/docs/xbzrle.txt
-index b431bdaf0f..385b4993f8 100644
+index 385b4993f8..6bd1828f34 100644
 --- a/docs/xbzrle.txt
 +++ b/docs/xbzrle.txt
-@@ -112,7 +112,7 @@ is recommended.
-     cache size: H bytes
+@@ -113,9 +113,11 @@ is recommended.
      xbzrle transferred: I kbytes
      xbzrle pages: J pages
--    xbzrle cache miss: K
-+    xbzrle cache miss: K pages
-     xbzrle overflow: L
+     xbzrle cache miss: K pages
+-    xbzrle overflow: L
++    xbzrle cache miss rate: L
++    xbzrle encoding rate: M
++    xbzrle overflow: N
  
- xbzrle cache-miss: the number of cache misses to date - high cache-miss rate
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index 00e3362cb0..2b0b58a336 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -299,7 +299,7 @@ void hmp_info_migrate(Monitor *mon, const QDict *qdict)
-                        info->xbzrle_cache->bytes >> 10);
-         monitor_printf(mon, "xbzrle pages: %" PRIu64 " pages\n",
-                        info->xbzrle_cache->pages);
--        monitor_printf(mon, "xbzrle cache miss: %" PRIu64 "\n",
-+        monitor_printf(mon, "xbzrle cache miss: %" PRIu64 " pages\n",
-                        info->xbzrle_cache->cache_miss);
-         monitor_printf(mon, "xbzrle cache miss rate: %0.2f\n",
-                        info->xbzrle_cache->cache_miss_rate);
-@@ -316,8 +316,8 @@ void hmp_info_migrate(Monitor *mon, const QDict *qdict)
-                        info->compression->busy);
-         monitor_printf(mon, "compression busy rate: %0.2f\n",
-                        info->compression->busy_rate);
--        monitor_printf(mon, "compressed size: %" PRIu64 "\n",
--                       info->compression->compressed_size);
-+        monitor_printf(mon, "compressed size: %" PRIu64 " kbytes\n",
-+                       info->compression->compressed_size >> 10);
-         monitor_printf(mon, "compression rate: %0.2f\n",
-                        info->compression->compression_rate);
-     }
+-xbzrle cache-miss: the number of cache misses to date - high cache-miss rate
++xbzrle cache miss: the number of cache misses to date - high cache-miss rate
+ indicates that the cache size is set too low.
+ xbzrle overflow: the number of overflows in the decoding which where the delta
+ could not be compressed. This can happen if the changes in the pages are too
 -- 
 2.26.2
 
