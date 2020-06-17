@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C8B51FD760
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 23:34:20 +0200 (CEST)
-Received: from localhost ([::1]:59026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC8471FD7B6
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 23:42:17 +0200 (CEST)
+Received: from localhost ([::1]:58832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlfhK-0001Zg-VP
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 17:34:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37946)
+	id 1jlfp2-0006hu-Ts
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 17:42:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jlfEh-0004Jt-FS
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 17:04:43 -0400
-Received: from mail-qv1-xf41.google.com ([2607:f8b0:4864:20::f41]:40746)
+ id 1jlfEi-0004Ka-6p
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 17:04:45 -0400
+Received: from mail-qv1-xf41.google.com ([2607:f8b0:4864:20::f41]:36007)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jlfEb-0000Ml-JM
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 17:04:42 -0400
-Received: by mail-qv1-xf41.google.com with SMTP id e2so1757636qvw.7
- for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 14:04:36 -0700 (PDT)
+ id 1jlfEd-0000Mp-Ek
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 17:04:43 -0400
+Received: by mail-qv1-xf41.google.com with SMTP id x16so1776244qvr.3
+ for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 14:04:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=cWfP+0MUzrrNImWYZpz2KO/NSgj5qKMFSKUqs77s2xU=;
- b=q2dc5j9LGIKDmehInfKJjEb6jmYURGpk8RoLvw8cVtWLlWYhcWg2N9AmUjEN5UUJHm
- 2qfB9d7mVmnA4uh1TEKszpydB3ltf0YnJKZGU8y134vcwpanL/bO7N6UXCMMhFrmrPVL
- dPVkE6LfZmA/hvCdbl46rYkmTbgcgsyxlhnYgeeA3fjo3za5KMKYmOwsGB7ZxCng9uZk
- +qyMy3IX9BbjGGXcvizgB418I+XUJU/mb/sQ8+rrc54qvEkqr2UtzW47Ot7cPbLbfOl2
- tvFkpxKRdbA1uhB75Pi8ePAKEc1sO7uCi2/58VA2CgplS1Z/tKPz3krJb3My8FE6slBt
- uI5w==
+ bh=1b+dD7RxLqaUPVVNgXTFGKKstOqQ+qP/ZFHAKJHyCiE=;
+ b=bJZ9AnyH38/u9FenAZJOw32x7nXAE3c11H3UA9e01D6LcFVkzh4ioqYu144nKCXVdF
+ BxD+8cKCbFSDCU4yOxEWObt9rju8aW6aEX6X0gjikj3LhAjdtXr2iX9GFZKrQrJSZs1k
+ r5oAMM8Q5RamzzyyeALQEzu5uzrcXmrgF/iPgE/jB8lixwmZOBIe8XnHlMnyj3XwSq5i
+ PfaztLFruop8N0rCUpUgINYCWyGgxhXGkSO4zjaEuv3K+PXc276ZN4EFE9Qv7sOikx1V
+ vx/6tOfp9M1+OnZGsjIwGBQRMeICZKZEcQ5o15sw8ncbFmRBuFk1FutnQoe2zAa/HhmF
+ 7AUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=cWfP+0MUzrrNImWYZpz2KO/NSgj5qKMFSKUqs77s2xU=;
- b=Ib3+2JyJtPVnwAuhrmFtlAETOuIzNwakhzjL/j53WgbHpqkyrFnkpOesjEdH0WpaXi
- eKyALDhndu9MDPFssjkooH7a495VgQ4tSZwGeTvWnpAOQzlHxs449xeKNxLvtChJijTR
- TNFGR+D+uNsPixRebezOaSbk5oxxp0+gfyveVSksZ6pgeOJCfpf0VwgT1UPfvO/yQzQU
- 7iR2xOQ3poJ8yZYTqh2Oc1imUuzh1GclSuIPx/flcsssy0fREmJsMb4Gy08AcQlK82iO
- yCSnDdLAtEIK4xDJd2gYE3ZjZmuQaN9Z0yu0LYKE+F6MukT5dutjplkSnwr8xjMtoIFr
- RaEg==
-X-Gm-Message-State: AOAM531Y8R80E7msI7x4ZGkBDIv6H7micpN5kg+dUeG3jGIXL5TTFuw4
- 4uSbN/1aTwVXYo9V6+H0j2ie/v76JrXM2g==
-X-Google-Smtp-Source: ABdhPJzCTtcLN6/WDze13qgbwX91FaKVhh3OB6OSCdJxYdg7Xnf1X5gbtbJJ6URSuI6M63OK2GV/eQ==
-X-Received: by 2002:a0c:806e:: with SMTP id 101mr524860qva.173.1592427875727; 
- Wed, 17 Jun 2020 14:04:35 -0700 (PDT)
+ bh=1b+dD7RxLqaUPVVNgXTFGKKstOqQ+qP/ZFHAKJHyCiE=;
+ b=KaGzK9nqja7xYdxpSYkDIZ8hfc0oMHXfq+IvRZR6mj+b2stHDdgEmpUlHiOXsTs4Ov
+ 1vZw8Kf6JQL6vxqd4KvYKEzL0mFgAnHYNyJio+WLG5emGRe3Z4p9mVVl1WmeADW7CLTh
+ yk0v1ogUBTyZ4HCBttFSkbRD6nVPsKHoJwIL2GCIpaR12oywd5wnoao1kLw2fqdcVBYx
+ 8OYHF7hdmAvQhmIQIVoWlA3qusrnd50PLM3FnrptTLC+Wk0z/toG6VlaUuX/mWQ2UdBR
+ zdMzAHYfXbY6UCGY9qyzjVIBkev+VrOdD/T9rY0GQQDbe912UcgFr4cNmIOk/xQk1xYM
+ fi+w==
+X-Gm-Message-State: AOAM530NoBAi/atJ0vej/w2u0KFGGxOnOvSjR36o0sD+b2XRtXZMAHyA
+ aQUDx5NlmetEpAMVq/h/3smUlseiAwfCPg==
+X-Google-Smtp-Source: ABdhPJxNRVYp3AP7tFXV4bYbpzCc6IIWl4aKAMxqCHDz7BBBmEMED+n9+XyakEaFp6QPMpbpOI1oyg==
+X-Received: by 2002:a05:6214:6b2:: with SMTP id
+ s18mr523072qvz.135.1592427877097; 
+ Wed, 17 Jun 2020 14:04:37 -0700 (PDT)
 Received: from Rfoley-MA01.hsd1.ma.comcast.net
  ([2601:199:4480:60c0:fc79:714c:9711:2e9c])
- by smtp.gmail.com with ESMTPSA id w13sm997245qkb.91.2020.06.17.14.04.34
+ by smtp.gmail.com with ESMTPSA id w13sm997245qkb.91.2020.06.17.14.04.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Jun 2020 14:04:35 -0700 (PDT)
+ Wed, 17 Jun 2020 14:04:36 -0700 (PDT)
 From: Robert Foley <robert.foley@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v10 55/73] sparc: convert to cpu_interrupt_request
-Date: Wed, 17 Jun 2020 17:02:13 -0400
-Message-Id: <20200617210231.4393-56-robert.foley@linaro.org>
+Subject: [PATCH v10 56/73] openrisc: convert to cpu_interrupt_request
+Date: Wed, 17 Jun 2020 17:02:14 -0400
+Message-Id: <20200617210231.4393-57-robert.foley@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200617210231.4393-1-robert.foley@linaro.org>
 References: <20200617210231.4393-1-robert.foley@linaro.org>
@@ -86,60 +87,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: robert.foley@linaro.org, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- cota@braap.org, peter.puhov@linaro.org, alex.bennee@linaro.org,
- Artyom Tarasenko <atar4qemu@gmail.com>
+Cc: peter.puhov@linaro.org, Stafford Horne <shorne@gmail.com>, cota@braap.org,
+ alex.bennee@linaro.org, robert.foley@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Emilio G. Cota" <cota@braap.org>
 
-Cc: Artyom Tarasenko <atar4qemu@gmail.com>
+Cc: Stafford Horne <shorne@gmail.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Emilio G. Cota <cota@braap.org>
 Signed-off-by: Robert Foley <robert.foley@linaro.org>
 ---
- hw/sparc64/sparc64.c | 4 ++--
- target/sparc/cpu.c   | 2 +-
+ hw/openrisc/cputimer.c | 2 +-
+ target/openrisc/cpu.c  | 4 ++--
  2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/hw/sparc64/sparc64.c b/hw/sparc64/sparc64.c
-index fe9c678459..191ebfbb93 100644
---- a/hw/sparc64/sparc64.c
-+++ b/hw/sparc64/sparc64.c
-@@ -57,7 +57,7 @@ void cpu_check_irqs(CPUSPARCState *env)
-     /* The bit corresponding to psrpil is (1<< psrpil), the next bit
-        is (2 << psrpil). */
-     if (pil < (2 << env->psrpil)) {
--        if (cs->interrupt_request & CPU_INTERRUPT_HARD) {
-+        if (cpu_interrupt_request(cs) & CPU_INTERRUPT_HARD) {
-             trace_sparc64_cpu_check_irqs_reset_irq(env->interrupt_index);
-             env->interrupt_index = 0;
-             cpu_reset_interrupt(cs, CPU_INTERRUPT_HARD);
-@@ -88,7 +88,7 @@ void cpu_check_irqs(CPUSPARCState *env)
-                 break;
-             }
-         }
--    } else if (cs->interrupt_request & CPU_INTERRUPT_HARD) {
-+    } else if (cpu_interrupt_request(cs) & CPU_INTERRUPT_HARD) {
-         trace_sparc64_cpu_check_irqs_disabled(pil, env->pil_in, env->softint,
-                                               env->interrupt_index);
-         env->interrupt_index = 0;
-diff --git a/target/sparc/cpu.c b/target/sparc/cpu.c
-index 3f05aba9d6..cef25238a5 100644
---- a/target/sparc/cpu.c
-+++ b/target/sparc/cpu.c
-@@ -704,7 +704,7 @@ static bool sparc_cpu_has_work(CPUState *cs)
-     SPARCCPU *cpu = SPARC_CPU(cs);
-     CPUSPARCState *env = &cpu->env;
+diff --git a/hw/openrisc/cputimer.c b/hw/openrisc/cputimer.c
+index 93268815d8..9475b77d0a 100644
+--- a/hw/openrisc/cputimer.c
++++ b/hw/openrisc/cputimer.c
+@@ -102,7 +102,7 @@ static void openrisc_timer_cb(void *opaque)
+         CPUState *cs = CPU(cpu);
  
--    return (cs->interrupt_request & CPU_INTERRUPT_HARD) &&
-+    return (cpu_interrupt_request(cs) & CPU_INTERRUPT_HARD) &&
-            cpu_interrupts_enabled(env);
+         cpu->env.ttmr |= TTMR_IP;
+-        cs->interrupt_request |= CPU_INTERRUPT_TIMER;
++        cpu_interrupt_request_or(cs, CPU_INTERRUPT_TIMER);
+     }
+ 
+     switch (cpu->env.ttmr & TTMR_M) {
+diff --git a/target/openrisc/cpu.c b/target/openrisc/cpu.c
+index 5528c0918f..fd2da39124 100644
+--- a/target/openrisc/cpu.c
++++ b/target/openrisc/cpu.c
+@@ -32,8 +32,8 @@ static void openrisc_cpu_set_pc(CPUState *cs, vaddr value)
+ 
+ static bool openrisc_cpu_has_work(CPUState *cs)
+ {
+-    return cs->interrupt_request & (CPU_INTERRUPT_HARD |
+-                                    CPU_INTERRUPT_TIMER);
++    return cpu_interrupt_request(cs) & (CPU_INTERRUPT_HARD |
++                                        CPU_INTERRUPT_TIMER);
  }
  
+ static void openrisc_disas_set_info(CPUState *cpu, disassemble_info *info)
 -- 
 2.17.1
 
