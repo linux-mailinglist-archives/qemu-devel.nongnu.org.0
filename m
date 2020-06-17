@@ -2,83 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9051F1FD166
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 17:58:09 +0200 (CEST)
-Received: from localhost ([::1]:38358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57A3B1FD16E
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 17:59:51 +0200 (CEST)
+Received: from localhost ([::1]:43928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlaRq-00015P-T4
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 11:57:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33488)
+	id 1jlaTe-0003Vp-EB
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 11:59:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33668)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jlaQh-0000Kq-0z
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 11:56:47 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:52491)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jlaQf-0006Q6-Ab
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 11:56:46 -0400
-Received: by mail-wm1-x341.google.com with SMTP id r9so2356644wmh.2
- for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 08:56:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=yoQquuCYjDw4FDwopUEQOeBqQE58T/YaWKxPcD9oapo=;
- b=kF2PAsHZ6fCD3etNvQfXJaORlMNgBnN84sNRwAvNx5N1hktSB18Yo8+sNv8SffMdXJ
- NKTPhpPohWC0OAnet6rGXVG6saGHwMoCylrmuUALZLhCgEN47x5gbiMdXzLOTrLmW5VJ
- FQc1Aw8SjlxqQXV564bnf6MjYXCgGQptSOqaQOCyw2Yi0lsF+ErvsYdF45aZ2zMfGeTD
- lJHpn7CABmA0Okpy+ocIvMVWwGdhS6gUPgSmm9gTrxLXFdmBbrGC3e+PzLxaLsv7upa7
- zItfPvDlK/Mj+ArJ2doSsIfIb6un0KlkfMzkg0GGIkSgXXK5QRRfvlW8LrY+oEcTHZl/
- sq2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=yoQquuCYjDw4FDwopUEQOeBqQE58T/YaWKxPcD9oapo=;
- b=rNqKtUtV0XAzzsLwsBKvG5z+7znSgY35m7oBEY4zXCmlO/U6JKU2Sv/j+pIb4qbaV5
- i6AXB4KPHNp7CWipbVS2O9y4w+gi+9TzhnYBANzuCeFbhhg1vUnz3Ec/lUhbkSz69mL5
- p2Xbr9KLzCza0C2Vi2Id/F2fHJpHfTf0H3xkxcoVB1Wh4NOj2dHhwcHV2Zmoj/ndzB9R
- 31BTGCKlXaKaL6nOanAqFq51GgUKBhYbWANPk4nmqzdMN8XugMOauHgb91cyfc0z49Ux
- b+2m4WQyuqEvmPUxhWFfAjfOYW45K6yV1zI3s1Uag8Hb5rOqJw9f7gQdyU0cF06Mubps
- FlWg==
-X-Gm-Message-State: AOAM530OqZlutcTJsfowkOTsrj64TkOnHVO8+mosSwLvKJizbWuqyc99
- NfssGWIq6shrWdLWHZXdetytNA==
-X-Google-Smtp-Source: ABdhPJz4DwlTOF4xeh42RaJYJyKEhmgBXkcIyj8GXfJrj4eP4aoQ+nAk/xtkzPwEGNBDLQsy0M3WwA==
-X-Received: by 2002:a7b:c10c:: with SMTP id w12mr8642835wmi.132.1592409403701; 
- Wed, 17 Jun 2020 08:56:43 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id l1sm37489wrb.31.2020.06.17.08.56.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Jun 2020 08:56:42 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B3D681FF7E;
- Wed, 17 Jun 2020 16:56:41 +0100 (BST)
-References: <20200522160755.886-1-robert.foley@linaro.org>
- <20200522160755.886-2-robert.foley@linaro.org>
- <20200617142407.GH1728005@stefanha-x1.localdomain>
-User-agent: mu4e 1.5.3; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Subject: Re: [PATCH 01/19] configure: add --enable-tsan flag + fiber
- annotations for coroutine-ucontext
-In-reply-to: <20200617142407.GH1728005@stefanha-x1.localdomain>
-Date: Wed, 17 Jun 2020 16:56:41 +0100
-Message-ID: <87eeqdwurq.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1jlaRO-0001Jl-Tw
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 11:57:30 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:44400
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1jlaRM-0006UB-0G
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 11:57:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1592409446;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Ww46BwoLqqCnBMVMQNt8X6Zy5nlYLDyqpBdYPnLrbVs=;
+ b=K+TK2yyYq//ZmbvV+sMiiY8W32QbwHFiE2FoUzGILw1Yx6Ah7F5KPB0qS+2u8BWSv1MVl7
+ cybVekMqOgUEtNSAXic+XpjuVS3oVruv/qcNApdECs3ja+IZiSPe3hZD9b8BZzysDerWXv
+ wiDA8P4mRuqySpzUIHbl1KLzVHKHEus=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-117-eBZSwUgdMzSWuo3vCJaJDA-1; Wed, 17 Jun 2020 11:57:24 -0400
+X-MC-Unique: eBZSwUgdMzSWuo3vCJaJDA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 601D9873403;
+ Wed, 17 Jun 2020 15:57:23 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-115-92.ams2.redhat.com
+ [10.36.115.92])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8796F10013D5;
+ Wed, 17 Jun 2020 15:57:18 +0000 (UTC)
+Subject: Re: ovmf / PCI passthrough impaired due to very limiting PCI64
+ aperture
+To: Guilherme Piccoli <gpiccoli@canonical.com>
+References: <99779e9c-f05f-501b-b4be-ff719f140a88@canonical.com>
+ <20200616165043.24y2cp53axk7uggy@sirius.home.kraxel.org>
+ <20200616165746.GH2788@work-vm>
+ <CAHD1Q_zGu4Q63HjHx3aZKu3wh8NppuP6T4kgnUN3j=-ZDufVZA@mail.gmail.com>
+ <b423f4a4-2552-bdc8-7c9f-41f200aef672@redhat.com>
+ <CAHD1Q_zmTatErCefeh349sSYsQJUVT3KB+VMDheEgBn5r7QGjA@mail.gmail.com>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <084e2640-d71e-d4ec-efdd-3f7947a6b511@redhat.com>
+Date: Wed, 17 Jun 2020 17:57:17 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Firefox/52.0 Thunderbird/52.9.1
 MIME-Version: 1.0
+In-Reply-To: <CAHD1Q_zmTatErCefeh349sSYsQJUVT3KB+VMDheEgBn5r7QGjA@mail.gmail.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x341.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=lersek@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/17 01:42:04
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,33 +87,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.puhov@linaro.org, Lingfeng Yang <lfy@google.com>, cota@braap.org,
- Robert Foley <robert.foley@linaro.org>, qemu-devel@nongnu.org
+Cc: Pedro Principeza <pedro.principeza@canonical.com>, ehabkost@redhat.com,
+ Dann Frazier <dann.frazier@canonical.com>, qemu-devel@nongnu.org,
+ Christian Ehrhardt <christian.ehrhardt@canonical.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, fw@gpiccoli.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 06/17/20 15:43, Guilherme Piccoli wrote:
 
-Stefan Hajnoczi <stefanha@gmail.com> writes:
+> So, the only problem with that refactor you're proposing is the
+> retrocompatibility with qemu versions, as I can anticipate cases in
+> which newer OVMF runs with older qemu, which does not provide such
+> trustworth physbits info.
 
-> On Fri, May 22, 2020 at 12:07:37PM -0400, Robert Foley wrote:
->> +#define UC_DEBUG 0
->> +#if UC_DEBUG && defined(CONFIG_TSAN)
->> +#define UC_TRACE(fmt, ...) fprintf(stderr, "%s:%d:%p " fmt "\n", \
->> +    __func__, __LINE__, __tsan_get_current_fiber(), ##__VA_ARGS__);
->> +#else
->> +#define UC_TRACE(fmt, ...)
->> +#endif
->
-> QEMU has tracing support, see docs/devel/tracing.txt. These fprintfs
-> should be trace events defined in the util/trace-events file.
+I don't necessarily see compat issues -- large-BAR PCI device assignment
+might simply stop working under those circumstances, because you could
+no longer use X-PciMmio64Mb, and the new way wouldn't be supported by
+(old) QEMU.
 
-These got dropped on the final version. You might want to check against
-the version I pulled:
+This would indeed be a regression relative to "X-PciMmio64Mb", but
+that's exactly why there's an "X" in "X-PciMmio64Mb".
 
-  Subject: [PATCH v3 00/13] Add Thread Sanitizer support to QEMU
-  Date: Tue,  9 Jun 2020 16:07:25 -0400
-  Message-Id: <20200609200738.445-1-robert.foley@linaro.org>
+> So, the code may be a bit complex, it'll
+> need to take into account this case (probably we could just rely on
+> the physbits "detected" by OVMF in such case, limiting PCI64 aperture
+> to the current 36-bits, right?).
 
---=20
-Alex Benn=C3=A9e
+A "bit complex" is an understatement. The code is already much more
+complex than it should be. (And I do think that's an inherent, not
+accidental, complexity; it reflects the situation.) Once we have a new
+design, we should do the bare minimum to keep such previous usage
+functional that's *not* reliant on X-PciMmio64Mb.
+
+Laszlo
+
 
