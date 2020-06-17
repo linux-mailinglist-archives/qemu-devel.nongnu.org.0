@@ -2,76 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E3481FCB1D
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 12:43:43 +0200 (CEST)
-Received: from localhost ([::1]:56918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12EAD1FCB3D
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 12:48:33 +0200 (CEST)
+Received: from localhost ([::1]:33790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlVXi-0002bE-BC
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 06:43:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58278)
+	id 1jlVcO-0005Oa-2W
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 06:48:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jlVWx-0002Ax-2z
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 06:42:55 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:26883
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jlVbC-0004Uz-5w
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 06:47:18 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:36185
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jlVWu-0001tu-Ja
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 06:42:54 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jlVbA-0002co-7s
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 06:47:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592390571;
+ s=mimecast20190719; t=1592390835;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=L3E51P1F6tOTVd+pdpCEPNsEWH7FEVLZBQ64ExdzXaA=;
- b=SPf6WUNGijn82CID9dGB9eSMP4Z8SVeYQgfU8w/jk379bQmdEV5HG7dSuK1RAdlJusIYEW
- HLauz9wlkabJqOvKOwq96PMeBFzYjJaGO/9QbMgQJIi48Ii8ZeZyivFXOG1vD0BIr6bKPU
- vlpD0w7OQs6SlaMntwFA+Xe0yBTQ198=
+ in-reply-to:in-reply-to:references:references;
+ bh=BWTWT6SgDOLYZj8IHpZCjhLkNFtVGcdoHMHHxY+3Prc=;
+ b=eL8nk2LeB0kGP9u4ha9t0ayyyjZDj/bNLELE8OB92NALb7VC6v/DhcyOFRITT8vb/joUON
+ zs53CPYgBX3E9Bgy5AX5ardYRKXBXOQZyxJK8WC9GSBrBZPoszwbdaptDvPWlUr6L/F/aY
+ PbKm8HBWnj0VRKBVe4hrZ5tic/ubdV4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-357-2lSJNCAHPryIyr_dkDfPbQ-1; Wed, 17 Jun 2020 06:42:49 -0400
-X-MC-Unique: 2lSJNCAHPryIyr_dkDfPbQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-490--4S6YYXAPFqJ9TlqdeFgEw-1; Wed, 17 Jun 2020 06:47:13 -0400
+X-MC-Unique: -4S6YYXAPFqJ9TlqdeFgEw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 01D8918A8236;
- Wed, 17 Jun 2020 10:42:48 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-131.ams2.redhat.com [10.36.112.131])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 53A9D104B4C1;
- Wed, 17 Jun 2020 10:42:46 +0000 (UTC)
-Subject: Re: Core dump happened when starting a VM on arm64 server
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Andrew Jones <drjones@redhat.com>, Haibo Xu <haibo.xu@linaro.org>
-References: <CAJc+Z1Eb815hroFPY+9Ai_9hh=+eje+X2ENtGj9XA+_F0XUPqg@mail.gmail.com>
- <20200611091419.e2rfcurztmlajlwr@kamzik.brq.redhat.com>
- <a6740274-1bd7-460c-7011-244cdf2fc945@redhat.com>
- <e47664d7-a13e-7f60-975d-97f085036067@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <5f1d1d2b-7a85-f50e-1f74-b74ab17324ac@redhat.com>
-Date: Wed, 17 Jun 2020 12:42:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A05F594B24;
+ Wed, 17 Jun 2020 10:47:12 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-114-44.ams2.redhat.com [10.36.114.44])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C7FC919C71;
+ Wed, 17 Jun 2020 10:47:10 +0000 (UTC)
+Date: Wed, 17 Jun 2020 12:47:09 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Nir Soffer <nsoffer@redhat.com>
+Subject: Re: [PATCH] block: file-posix: Fail unmap with NO_FALLBACK on block
+ device
+Message-ID: <20200617104709.GA5166@linux.fritz.box>
+References: <20200613170826.354270-1-nsoffer@redhat.com>
+ <CAMRbyyswkaedF0dN2nPb3H8fj5+pmhLWh9GHGor4wUk_Su=b8A@mail.gmail.com>
+ <20200616153241.GF4305@linux.fritz.box>
+ <CAMRbyys3fL_vqswb72-F_vE8pBQ1SkZZmmMeUA_TuTwsew6iSw@mail.gmail.com>
+ <CAMRbyyvD6kRdaitm6Oc6LAnF6_e+Y9y+jTPKNVq8ENLEKYyKng@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <e47664d7-a13e-7f60-975d-97f085036067@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <CAMRbyyvD6kRdaitm6Oc6LAnF6_e+Y9y+jTPKNVq8ENLEKYyKng@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=kwolf@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/17 01:42:04
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 23:30:45
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,68 +81,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Markus Armbruster <armbru@redhat.com>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
+Cc: nirsof <nirsof@gmail.com>, qemu-block <qemu-block@nongnu.org>, pl@kamp.de,
+ QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 17/06/2020 12.32, Philippe Mathieu-Daudé wrote:
-> On 6/17/20 10:23 AM, Philippe Mathieu-Daudé wrote:
->> On 6/11/20 11:14 AM, Andrew Jones wrote:
->>> On Thu, Jun 11, 2020 at 04:46:45PM +0800, Haibo Xu wrote:
->>>> Hi,
->>>>
->>>> I met a qemu core dump issue when starting a VM with cpu feature
->>>> "pmu=on" on an arm server.
->>>> The commands to start the machine is:
->>>>
->>>>   ./qemu-system-aarch64 \
->>>>            -cpu host,pmu=on -M virt,accel=kvm,gic-version=3 -nographic
->>>> -m 2048M \
->>>>            -kernel ./Image \
->>>>            -initrd /boot/initrd.img-5.6.0-rc2+ \
->>>>            -append "root=/dev/vda rw console=ttyAMA0" -nodefaults -serial stdio\
->>>>            -drive if=none,file=./xenial.rootfs.ext4,id=hd0,format=raw \
->>>>            -device virtio-blk-device,drive=hd0
->>>>
->>>>
->>>> And here is the stack dump:
->>>>
->>>>  Core was generated by `./qemu-system-aarch64 -cpu host,pmu=on -M
->>>> virt,accel=kvm,gic-version=3 -nograph'.
->>>>  Program terminated with signal SIGSEGV, Segmentation fault.
->>>>  #0  kvm_ioctl (s=0x0, type=type@entry=44547) at
->>>
->>> s=0x0 means cpu->kvm_state is NULL
->>>
->>>> The root cause is in the arm_get_pmu() operation which was introduced
->>>> in ae502508f83.
->>>
->>> Actually the root cause is d70c996df23f ("target/arm/kvm: Use
->>> CPUState::kvm_state in kvm_arm_pmu_supported()"). ae502508f83 used
->>> the machine kvm_state, not the cpu kvm_state, and that allows pmu=on
->>> to work. d70c996df23f changed that saying that "KVMState is already
->>> accessible via CPUState::kvm_state, use it.", but I'm not sure why,
->>> since kvm_init_vcpu() doesn't run until the vcpu thread is created.
->>>
->>> Philippe?
->>
->> Sorry for some reason I missed this email. I'll look at this today.
+Am 16.06.2020 um 22:01 hat Nir Soffer geschrieben:
+> On Tue, Jun 16, 2020 at 8:39 PM Nir Soffer <nsoffer@redhat.com> wrote:
+> >
+> > On Tue, Jun 16, 2020 at 6:32 PM Kevin Wolf <kwolf@redhat.com> wrote:
+> > >
+> > > Am 15.06.2020 um 21:32 hat Nir Soffer geschrieben:
+> > > > We can zero 2.3 g/s:
+> > > >
+> > > > # time blkdiscard -z test-lv
+> > > >
+> > > > real 0m43.902s
+> > > > user 0m0.002s
+> > > > sys 0m0.130s
+> > >
+> > > > We can write 445m/s:
+> > > >
+> > > > # dd if=/dev/zero bs=2M count=51200 of=test-lv oflag=direct conv=fsync
+> > > > 107374182400 bytes (107 GB, 100 GiB) copied, 241.257 s, 445 MB/s
+> > >
+> > > So using FALLOC_FL_PUNCH_HOLE _is_ faster after all. What might not be
+> > > faster is zeroing out the whole device and then overwriting a
+> > > considerable part of it again.
+> > >
+> > > I think this means that we shouldn't fail write_zeroes at the file-posix
+> > > level even if BDRV_REQ_NO_FALLBACK is given. Instead, qemu-img convert
+> > > is where I see a fix.
+> > >
+> > > Certainly qemu-img could be cleverer and zero out more selectively. The
+> > > idea of doing a blk_make_zero() first seems to have caused some
+> > > problems, though of course its introduction was also justified with
+> > > performance, so improving one case might hurt another if we're not
+> > > careful.
+> > >
+> > > However, when Peter Lieven introduced this (commit 5a37b60a61c), we
+> > > didn't use write_zeroes yet during the regular copy loop (we do since
+> > > commit 690c7301600). So chances are that blk_make_zero() doesn't
+> > > actually help any more now.
+> > >
+> > > Can you run another test with the patch below?
+> >
+> > Sure, I can try this.
 > 
-> Quick reproducer:
-> 
-> $ qemu-system-aarch64 -cpu host,pmu=on -M virt,accel=kvm,gic-version=3
-> Segmentation fault (core dumped)
-> 
-> Eduardo, I thought we had a 'machine' qtest testing for various
-> combination of properties, but I can't find it, do you remember?
-> Or maybe it was Thomas? Or Markus? =)
+> Tried it, and it performs the same as expected.
 
-You probably remember the scripts/device-crash-test script? ... that's
-a) only testing -device options as far as I know, and b) is not run
-automatically during "make check", so it certainly is not suitable to
-detect these kind of errors automatically.
+Thanks.
 
- Thomas
+> > > I think it should perform
+> > > the same as yours. Eric, Peter, do you think this would have a negative
+> > > effect for NBD and/or iscsi?
+> > >
+> > > The other option would be providing an option and making it Someone
+> > > Else's Problem.
+> > >
+> > > Kevin
+> > >
+> > >
+> > > diff --git a/qemu-img.c b/qemu-img.c
+> > > index d7e846e607..bdb9f6aa46 100644
+> > > --- a/qemu-img.c
+> > > +++ b/qemu-img.c
+> > > @@ -2084,15 +2084,6 @@ static int convert_do_copy(ImgConvertState *s)
+> > >          s->has_zero_init = bdrv_has_zero_init(blk_bs(s->target));
+> > >      }
+> > >
+> > > -    if (!s->has_zero_init && !s->target_has_backing &&
+> > > -        bdrv_can_write_zeroes_with_unmap(blk_bs(s->target)))
+> > > -    {
+> > > -        ret = blk_make_zero(s->target, BDRV_REQ_MAY_UNMAP | BDRV_REQ_NO_FALLBACK);
+> > > -        if (ret == 0) {
+> > > -            s->has_zero_init = true;
+> > > -        }
+> > > -    }
+> >
+> > This will work of course, but now we will not do bulk zero for any target
+> 
+> I would like to have a minimal change to increase the chance that we
+> can consume this very soon in oVirt.
+
+I think this one would be pretty minimal.
+
+Maybe we can later bring this code back, but with an implementation of
+blk_make_zero() that doesn't use the generic write_zeroes operation,
+but with a specific callback like Eric suggested.
+
+> > I think we never do this for regular files anyway since we truncate
+> > files, and there is nothing to zero, but maybe there is some case
+> > when this is useful?
+
+Yes, regular files have s->has_zero_init == true anyway.
+
+> > BTW, do we use BDRV_REQ_NO_FALLBACK elsewhere? maybe we can remove
+> > it.
+
+qcow2 uses it when zeroing out parts of a newly allocated cluster on
+partial writes. Though that code is questionable, too, and XFS people
+suggest that we should stop using it.
+
+Kevin
 
 
