@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B400D1FD5D3
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 22:14:36 +0200 (CEST)
-Received: from localhost ([::1]:34194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EBC11FD5E8
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 22:19:04 +0200 (CEST)
+Received: from localhost ([::1]:44600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jleSB-00075i-PI
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 16:14:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52864)
+	id 1jleWV-0003kv-GQ
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 16:19:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jleR0-0005oC-N7
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 16:13:22 -0400
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:45922)
+ id 1jleR1-0005pI-Dg
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 16:13:23 -0400
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:39050)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jleQy-0000Il-R4
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 16:13:22 -0400
-Received: by mail-pg1-x542.google.com with SMTP id l63so1799795pge.12
- for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 13:13:20 -0700 (PDT)
+ id 1jleQz-0000Ix-Tb
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 16:13:23 -0400
+Received: by mail-pl1-x631.google.com with SMTP id v24so1448175plo.6
+ for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 13:13:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=KWMxYf4wO7x5jAN+/hqtYz9dCtHYS2Ay0EvaIwt8nhg=;
- b=K5lpsjvBl0D/4ebX+bdfX/ktGrI2K+BLRJWLwmDpcGmPQgX3zNuq4A/MF8qNzYIh2s
- e2IcBP2+pkHUtepLBDf/aKzFPW1z5D3qv/hpjCpLrFOziZ4kM7NFRlLapDHg0b9S4wMI
- Hu9KeMGWXu9VZURu7BJRZDQhjiUeQkTGKXQjfN3T7PTNPEx9RmW0n/Gs1vt+dsDZWZLj
- JK82MDkVWyo1Ux7GGz3jOYchrULUtwxT6sXZlTZe9+LS7u+kNpVlxr0yXn58Q56If3cD
- b4nigH/yo86WcSCzq5VF2PopQ+mVIFjm2+cFlMbP2sr3FsTNDdNjqhQ+e29yYjN7v7Jd
- x/Iw==
+ bh=iB6WP5osX7GLomupFEwKpIq8rnoF86CLVB0urJpiacU=;
+ b=DAtHA5kTyMCz43/pWlYuyy3VDgHr2r98rnL9NHkyMCVlc9gtocDnahKJwjYt35J2UN
+ VPR4PfA6+pSZ39viDfyzm9zuyG1T/jRBSCzY6HPNPgyWC8rMjLu/WSmL4QrMVqeAhvjQ
+ GD6XUYlWXR3TRzPr1zsM+duh5/J4DKWvrXCxPkTNv8fVPScAqP9anyDj/L+QtvAHBs8i
+ yyDJJTk27dkRLcIdwyHqeZVvAYQdkhRMRqoc2ZOMGKc5H8wmTOVWVqf3u6U7gXLvrNd7
+ 8T73LBjEcGTHKtr3B4soPomTcNyiBJed84EO8N42Xu4R5ANkCon97P0c8ioPCxby4zi8
+ ILyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=KWMxYf4wO7x5jAN+/hqtYz9dCtHYS2Ay0EvaIwt8nhg=;
- b=V/pOUkH44UcgFg//0lcuXtcFL1kymKOhYHqBmAdoMlU75zzcQDY2GB21K59SK4rP5B
- PBkgLQuHKj6+VkbslwlxMf0eipVJX3YlkVB7b6loB3sNaB8nP0l/OqOnHD64DK58kWXv
- whBpbMEWn/EhLcJw0CmuHT2FEvcrL84/+oXhVMwRhxjM5bFmOY6D++4DKHGrz5TuBJBb
- DseL5MZjSt0w18MaQVX9AcRwCDhPeldFNJowMyK/SjASvw/4QvObDx1srJf9BKL9pxYL
- rh+0sHLLHPfZU7BwYACYG6OAvyQYq5SsQBaz24aPh+h8N4u/Ksxpbzx50NnZbU5mlwal
- Aymg==
-X-Gm-Message-State: AOAM533XGCVFs3e2ETRs+Ou3MVYgibec8K6TkBiXNxq9OhbdxQ+690jr
- NDqCFb/bprJtbfP9huGGA0TGY1Fcuv4=
-X-Google-Smtp-Source: ABdhPJxTNqdRzbkcnz1YeBosTkOLu1f3vOoZVlOs10FPpG55eK0wIRXkyc0tH3dUzn3Kx88HvfAzPA==
-X-Received: by 2002:aa7:8bd0:: with SMTP id s16mr466871pfd.80.1592424799099;
- Wed, 17 Jun 2020 13:13:19 -0700 (PDT)
+ bh=iB6WP5osX7GLomupFEwKpIq8rnoF86CLVB0urJpiacU=;
+ b=RlZswqhPARB9mFp7V2oe1tGIEvk8a8BxAkLX5HS44090XR5/fnBlcj0J1AoT6SFo0B
+ EmSflfYIepmjQOv1imY78vkN9leYYrXDSgUoxkdVdF5dxx0gwwyn6noswdnyrhsmlaM4
+ RqLn3S2ZjB4klXeihHYISoQrUvgUQnyc6U+YnPzjw1gPaX0T/1+LcN7t+WsleEtTHZiL
+ nOq85BHYEflvfLx9gy6z4J4zEeSeKTd4Rmgbfn8L3ZFGRFN0mP/r3JKSkg5aFwWg2CgV
+ xPR7MAWWD6JZzBNIM878pDc+qOaNodM2zizbgs9eES8fwaEKYRNpyKfVtMgZWxJXTgvk
+ noLA==
+X-Gm-Message-State: AOAM532sH8RkAZnhJQOeSlm0d7NF/AYVo3LwZrISZxCfCvbavoODcYaE
+ V0PedszMm/H/A5Kx7Xz7TIJEMCvahmY=
+X-Google-Smtp-Source: ABdhPJz+cmAnYedg5soQVWclwa2TLNfMa13oMpur9yPU8vhS/KbNbwodLh8tSpnwWP+3ovcii705xA==
+X-Received: by 2002:a17:90a:fa8f:: with SMTP id
+ cu15mr773414pjb.9.1592424800277; 
+ Wed, 17 Jun 2020 13:13:20 -0700 (PDT)
 Received: from localhost.localdomain (174-21-143-238.tukw.qwest.net.
  [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id h9sm659259pfe.32.2020.06.17.13.13.18
+ by smtp.gmail.com with ESMTPSA id h9sm659259pfe.32.2020.06.17.13.13.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Jun 2020 13:13:18 -0700 (PDT)
+ Wed, 17 Jun 2020 13:13:19 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 5/6] configure: Add -Wno-psabi
-Date: Wed, 17 Jun 2020 13:13:08 -0700
-Message-Id: <20200617201309.1640952-6-richard.henderson@linaro.org>
+Subject: [PATCH v4 6/6] qht: Fix threshold rate calculation
+Date: Wed, 17 Jun 2020 13:13:09 -0700
+Message-Id: <20200617201309.1640952-7-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200617201309.1640952-1-richard.henderson@linaro.org>
 References: <20200617201309.1640952-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::542;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x542.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -86,59 +87,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: philmd@redhat.com, alex.bennee@linaro.org
+Cc: philmd@redhat.com, "Emilio G . Cota" <cota@braap.org>,
+ alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On aarch64, gcc 9.3 is generating
+tests/qht-bench.c:287:29: error: implicit conversion from 'unsigned long'
+  to 'double' changes value from 18446744073709551615
+  to 18446744073709551616 [-Werror,-Wimplicit-int-float-conversion]
+        *threshold = rate * UINT64_MAX;
+                          ~ ^~~~~~~~~~
 
-qemu/exec.c: In function ‘address_space_translate_iommu’:
-qemu/exec.c:431:28: note: parameter passing for argument of type \
-  ‘MemTxAttrs’ {aka ‘struct MemTxAttrs’} changed in GCC 9.1
+Fix this by splitting the 64-bit constant into two halves,
+each of which is individually perfectly representable, the
+sum of which produces the correct arithmetic result.
 
-and many other repetitions.  This structure, and the functions
-amongst which it is passed, are not part of a QEMU public API.
-Therefore we do not care how the compiler passes the argument,
-so long as the compiler is self-consistent.
-
-The only portion of QEMU which does have a public api, and so
-must have a stable abi, is "qemu/plugin.h".  We test this by
-forcing -Wpsabi in tests/plugin/Makefile.
-
-Buglink: https://bugs.launchpad.net/qemu/+bug/1881552
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Cc: Emilio G. Cota <cota@braap.org>
+Reported-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- configure             | 1 +
- tests/plugin/Makefile | 2 +-
- 2 files changed, 2 insertions(+), 1 deletion(-)
+Question: Should we really be scaling by UINT64_MAX?
 
-diff --git a/configure b/configure
-index 5e27229f58..ba88fd1824 100755
---- a/configure
-+++ b/configure
-@@ -2055,6 +2055,7 @@ add_to nowarn_flags -Wno-shift-negative-value
- add_to nowarn_flags -Wno-string-plus-int
- add_to nowarn_flags -Wno-typedef-redefinition
- add_to nowarn_flags -Wno-tautological-type-limit-compare
-+add_to nowarn_flags -Wno-psabi
+The comparisons against info->r mean that 1.0 is exceedingly unlikely
+to hit.  Or if that is supposed to be the point, why is is the test
+
+  r >= threshold
+not
+  r > threshold
+
+where, if threshold == UINT64_MAX, there is zero chance of the
+test being true for 1.0.
+---
+ tests/qht-bench.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/tests/qht-bench.c b/tests/qht-bench.c
+index e3b512f26f..eb88a90137 100644
+--- a/tests/qht-bench.c
++++ b/tests/qht-bench.c
+@@ -284,7 +284,8 @@ static void do_threshold(double rate, uint64_t *threshold)
+     if (rate == 1.0) {
+         *threshold = UINT64_MAX;
+     } else {
+-        *threshold = rate * UINT64_MAX;
++        *threshold = (rate * 0xffff000000000000ull)
++                   + (rate * 0x0000ffffffffffffull);
+     }
+ }
  
- gcc_flags="$warn_flags $nowarn_flags"
- 
-diff --git a/tests/plugin/Makefile b/tests/plugin/Makefile
-index b3250e2504..3a50451428 100644
---- a/tests/plugin/Makefile
-+++ b/tests/plugin/Makefile
-@@ -17,7 +17,7 @@ NAMES += lockstep
- 
- SONAMES := $(addsuffix .so,$(addprefix lib,$(NAMES)))
- 
--QEMU_CFLAGS += -fPIC
-+QEMU_CFLAGS += -fPIC -Wpsabi
- QEMU_CFLAGS += -I$(SRC_PATH)/include/qemu
- 
- all: $(SONAMES)
 -- 
 2.25.1
 
