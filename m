@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C8F31FD233
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 18:30:11 +0200 (CEST)
-Received: from localhost ([::1]:52376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93FA11FD25B
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 18:41:04 +0200 (CEST)
+Received: from localhost ([::1]:36376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlax0-0004SW-KG
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 12:30:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41602)
+	id 1jlb7X-0005T3-J7
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 12:41:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jlave-0003ZX-Ft
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 12:28:46 -0400
-Received: from mail-ot1-x334.google.com ([2607:f8b0:4864:20::334]:41343)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jlb6f-0004s5-0F; Wed, 17 Jun 2020 12:40:09 -0400
+Received: from mail-il1-x141.google.com ([2607:f8b0:4864:20::141]:34179)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jlavc-0002zM-M2
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 12:28:46 -0400
-Received: by mail-ot1-x334.google.com with SMTP id k15so2095610otp.8
- for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 09:28:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jlb6c-0004jN-VB; Wed, 17 Jun 2020 12:40:08 -0400
+Received: by mail-il1-x141.google.com with SMTP id x18so2828686ilp.1;
+ Wed, 17 Jun 2020 09:40:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=KlV2UXTf95H3IWTEXC9zCnquom/iLNsHl+EBgmkQTfU=;
- b=lYGplUL8vqYcAca1+pFJEGb6bF+vVc9Yroho8aHgz6/RvdnUYeT91M0W2RIwOiAlcb
- XSKA8bj+iypVEGMVG/kYdxOFLYyHOX64vdgOXpDNsnBnjaF71Uy9p2bPMubh/lzK/pDu
- 1GdA8HLyyAtiSTTdm0qIgKUrRSjAEqVMHYrrUgRFLJXxdrnLFIVP2DnGROqZx5cQxW0S
- qUxg81WAiuYsblsgWXmn1zeoKQSzKhns0U1DWO4QOVq7B8Y6euac4cwhg6VDQsgdqihK
- ddCsNwLUNTMjwxMfYlqH3zBj/HiafsJIsbN7pmak43IVutM7dmfxRFbx5oPSpWkyYIfs
- Rxcg==
+ :cc; bh=1ZDSdzl9vNlHlAJ+dw63QgXZAYY7vf4Q9sC315IiuYs=;
+ b=mLiWphu9W37zSbmtKCvX/vtriaxfbbTQtjOXIrKB9L6YJIB8VNfaXwLviOznlBJuvO
+ 4dhCuw9mbkKFbNTZNBQplUe/kBxkKLMdbdjVudXxqP95XdqQhaBFwl3hHQUEQAQcm9Wy
+ FwkKnMbbXcRhq04K8IF1/dJKkkd/lk7OOvj/I0d0DVqSc/Uc8QxK6YQo1zUtekpe1zou
+ vaLDGzAIj7fIKsK07o3VAkogCBK32YkcbJncH/URM8LATMPzH6+xTDjRKAtFXhG+mlft
+ xPrHDeg0/9HA/AOOGfdtFv9ouyzdQnAdPlYrAY6zobgAj+UikSn5EltB7ZRsWlr0PWr3
+ gPlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=KlV2UXTf95H3IWTEXC9zCnquom/iLNsHl+EBgmkQTfU=;
- b=WmUujce8za3Idtn/qfojt2QuA+Bv9kNTo9ItW8eTzIpQuL16Vb/WrUzK8emU59E+M+
- Zp+7aCuIDqEhgUKWLRuSULhz0Yrhnco6uapSgvLN5oUFZpJujwRvid3tb1uCGuuXIgy2
- DLinmgiCyGZFDJf0jZYthwi3CEoCU22mDNgpZrZX03vRT0UsdLOJ7FD7uJpjDcVD0h51
- YnBKYl8+Ew4kVKpWoJI2w363owFtRn6YJwl/CbK6XJfUxUd5htRdu3Rv2HIwd9PM69Ca
- iQw1mIZmpKCBYzdYy20EZx3S1xXqchUrs4LZEEXSRVMI6yQLRq57i+FdQlG3MQWYmV4s
- ZHzQ==
-X-Gm-Message-State: AOAM532+4h1bY2JLWkJTVY+k6pQFpVwVQDavG7MqSmG7hAgG0nxL2fzX
- TlewcVx5iMrVDZi9+8aXGPajGD1zFNz9LxyUw2kktg==
-X-Google-Smtp-Source: ABdhPJx+9Cn+2JJWQXGyj/Lu1ergdP5U4Kl1UakZZ90dTVIg5AjyiWBp+9ZxhiYUw4PfuV8AWNcs8DkqLSEpha9QStA=
-X-Received: by 2002:a05:6830:18da:: with SMTP id
- v26mr7732228ote.135.1592411323207; 
- Wed, 17 Jun 2020 09:28:43 -0700 (PDT)
+ bh=1ZDSdzl9vNlHlAJ+dw63QgXZAYY7vf4Q9sC315IiuYs=;
+ b=iFNpWfCjBOVgJUelfXZ2Y+qx6vg2VenG2CifjMrzeNVj3lfdbkiu/b1oLK4AJed5gO
+ Oo0TAk4bzS6ezu5Hs0BuRUPQMnV6FHiMyfUxXxq47BjqoUke1945uNwStQ+w3Ukqk3NX
+ 8pfDYmsq1XxxnyD5HGEwKTvkW8mRySEJS7qeU1iPHhUzdU0/UyAuGzKdKXj8BE5Cog1x
+ Xgj/0nIWEel6Jd1vx3yHlReJYk42KNNsjxAo+MlYoHx3WtP3zkJogkjKK54yy+CfV1ag
+ UHBeAYtGST78V1lHo0yYT2SrO8INtR7AIWehs4ZToRbMZbdRq9YnYKyDDFTjXs4AOAe0
+ mXkA==
+X-Gm-Message-State: AOAM532GP9at7oPoXaS4+F+CaQXesR+wELc9sJVVwjtVm8ZEL2/3Wqe5
+ ghM60D/yuG7AiAWDDYD5QUDsSrce8yV1FV7+EdU=
+X-Google-Smtp-Source: ABdhPJx1ObzKIJx2TQuUUnvWZcPBOYxAHj0QMcS8XP9h1cBwiqK89Pk4VmIsLv+mrLn3EQAxRd6eZfGXWmV8Lk1W2L8=
+X-Received: by 2002:a05:6e02:4d:: with SMTP id
+ i13mr9826146ilr.227.1592412005461; 
+ Wed, 17 Jun 2020 09:40:05 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200617104750.29511-1-kraxel@redhat.com>
-In-Reply-To: <20200617104750.29511-1-kraxel@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 17 Jun 2020 17:28:32 +0100
-Message-ID: <CAFEAcA8EVKxHYbYhR_GAm2RifHw=sbJZBwzZb0NvzsvLSeL9tA@mail.gmail.com>
-Subject: Re: [PULL 0/2] Usb 20200617 patches
-To: Gerd Hoffmann <kraxel@redhat.com>
+References: <1592268641-7478-1-git-send-email-bmeng.cn@gmail.com>
+ <1592268641-7478-3-git-send-email-bmeng.cn@gmail.com>
+In-Reply-To: <1592268641-7478-3-git-send-email-bmeng.cn@gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 17 Jun 2020 09:30:40 -0700
+Message-ID: <CAKmqyKNovTf3F+t9WFCWXvAgT_CRa5dbDuQExzbqxkM-z3ufqw@mail.gmail.com>
+Subject: Re: [PATCH v2 2/5] hw/riscv: sifive: Change SiFive E/U CPU reset
+ vector to 0x1004
+To: Bin Meng <bmeng.cn@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::334;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x334.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::141;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x141.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
@@ -79,33 +80,147 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Bin Meng <bin.meng@windriver.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Palmer Dabbelt <palmerdabbelt@google.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 17 Jun 2020 at 11:51, Gerd Hoffmann <kraxel@redhat.com> wrote:
+On Mon, Jun 15, 2020 at 5:51 PM Bin Meng <bmeng.cn@gmail.com> wrote:
 >
-> The following changes since commit 5c24bce3056ff209a1ecc50ff4b7e65b85ad8e74:
+> From: Bin Meng <bin.meng@windriver.com>
 >
->   Merge remote-tracking branch 'remotes/stsquad/tags/pull-testing-and-plugin-160620-2' into staging (2020-06-16 14:57:15 +0100)
+> Per the SiFive manual, all E/U series CPU cores' reset vector is
+> at 0x1004. Update our codes to match the hardware.
 >
-> are available in the Git repository at:
->
->   git://git.kraxel.org/qemu tags/usb-20200617-pull-request
->
-> for you to fetch changes up to 54cdfe511219b8051046be55a6e156c4f08ff7ff:
->
->   usb-host: workaround libusb bug (2020-06-17 09:12:33 +0200)
->
-> ----------------------------------------------------------------
-> usb-host: add hostdevice property, workaround libusb bug
->
-> ----------------------------------------------------------------
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
 
-Applied, thanks.
+This commit breaks my Oreboot test.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.1
-for any user-visible changes.
+Oreboot starts in flash and we run the command with the
+`sifive_u,start-in-flash=true` machine.
 
--- PMM
+I have removed this and the later patches from the RISC-V branch. I
+want to send a PR today. After that I'll look into this.
+
+Alistair
+
+>
+> ---
+>
+> Changes in v2:
+> - rebase on https://github.com/alistair23/qemu riscv-to-apply.next branch
+> - rename SiFive E/U CPU init routine names
+>
+>  hw/riscv/sifive_e.c | 10 ++++++----
+>  hw/riscv/sifive_u.c |  6 +++---
+>  target/riscv/cpu.c  | 16 ++++++++--------
+>  3 files changed, 17 insertions(+), 15 deletions(-)
+>
+> diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
+> index d9a5c7b..d1d3bf1 100644
+> --- a/hw/riscv/sifive_e.c
+> +++ b/hw/riscv/sifive_e.c
+> @@ -98,14 +98,16 @@ static void sifive_e_machine_init(MachineState *machine)
+>          memmap[SIFIVE_E_DTIM].base, main_mem);
+>
+>      /* Mask ROM reset vector */
+> -    uint32_t reset_vec[2];
+> +    uint32_t reset_vec[4];
+>
+>      if (s->revb) {
+> -        reset_vec[0] = 0x200102b7;        /* 0x1000: lui     t0,0x20010 */
+> +        reset_vec[1] = 0x200102b7;  /* 0x1004: lui     t0,0x20010 */
+>      } else {
+> -        reset_vec[0] = 0x204002b7;        /* 0x1000: lui     t0,0x20400 */
+> +        reset_vec[1] = 0x204002b7;  /* 0x1004: lui     t0,0x20400 */
+>      }
+> -    reset_vec[1] = 0x00028067;        /* 0x1004: jr      t0 */
+> +    reset_vec[2] = 0x00028067;      /* 0x1008: jr      t0 */
+> +
+> +    reset_vec[0] = reset_vec[3] = 0;
+>
+>      /* copy in the reset vector in little_endian byte order */
+>      for (i = 0; i < sizeof(reset_vec) >> 2; i++) {
+> diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+> index aaa5adb..0a86ffc 100644
+> --- a/hw/riscv/sifive_u.c
+> +++ b/hw/riscv/sifive_u.c
+> @@ -433,18 +433,18 @@ static void sifive_u_machine_init(MachineState *machine)
+>
+>      /* reset vector */
+>      uint32_t reset_vec[8] = {
+> +        0x00000000,
+>          0x00000297,                    /* 1:  auipc  t0, %pcrel_hi(dtb) */
+> -        0x02028593,                    /*     addi   a1, t0, %pcrel_lo(1b) */
+> +        0x01c28593,                    /*     addi   a1, t0, %pcrel_lo(1b) */
+>          0xf1402573,                    /*     csrr   a0, mhartid  */
+>  #if defined(TARGET_RISCV32)
+>          0x0182a283,                    /*     lw     t0, 24(t0) */
+>  #elif defined(TARGET_RISCV64)
+> -        0x0182b283,                    /*     ld     t0, 24(t0) */
+> +        0x0182e283,                    /*     lwu    t0, 24(t0) */
+>  #endif
+>          0x00028067,                    /*     jr     t0 */
+>          0x00000000,
+>          start_addr,                    /* start: .dword */
+> -        0x00000000,
+>                                         /* dtb: */
+>      };
+>
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index 5f03458..391a0b9 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -134,20 +134,20 @@ static void riscv_base_cpu_init(Object *obj)
+>      set_resetvec(env, DEFAULT_RSTVEC);
+>  }
+>
+> -static void rvxx_gcsu_priv1_10_0_cpu_init(Object *obj)
+> +static void rvxx_sifive_u_cpu_init(Object *obj)
+>  {
+>      CPURISCVState *env = &RISCV_CPU(obj)->env;
+>      set_misa(env, RVXLEN | RVI | RVM | RVA | RVF | RVD | RVC | RVS | RVU);
+>      set_priv_version(env, PRIV_VERSION_1_10_0);
+> -    set_resetvec(env, DEFAULT_RSTVEC);
+> +    set_resetvec(env, 0x1004);
+>  }
+>
+> -static void rvxx_imacu_nommu_cpu_init(Object *obj)
+> +static void rvxx_sifive_e_cpu_init(Object *obj)
+>  {
+>      CPURISCVState *env = &RISCV_CPU(obj)->env;
+>      set_misa(env, RVXLEN | RVI | RVM | RVA | RVC | RVU);
+>      set_priv_version(env, PRIV_VERSION_1_10_0);
+> -    set_resetvec(env, DEFAULT_RSTVEC);
+> +    set_resetvec(env, 0x1004);
+>      qdev_prop_set_bit(DEVICE(obj), "mmu", false);
+>  }
+>
+> @@ -578,13 +578,13 @@ static const TypeInfo riscv_cpu_type_infos[] = {
+>  #if defined(TARGET_RISCV32)
+>      DEFINE_CPU(TYPE_RISCV_CPU_BASE32,           riscv_base_cpu_init),
+>      DEFINE_CPU(TYPE_RISCV_CPU_IBEX,             rv32_ibex_cpu_init),
+> -    DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E31,       rvxx_imacu_nommu_cpu_init),
+> +    DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E31,       rvxx_sifive_e_cpu_init),
+>      DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E34,       rv32_imafcu_nommu_cpu_init),
+> -    DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_U34,       rvxx_gcsu_priv1_10_0_cpu_init),
+> +    DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_U34,       rvxx_sifive_u_cpu_init),
+>  #elif defined(TARGET_RISCV64)
+>      DEFINE_CPU(TYPE_RISCV_CPU_BASE64,           riscv_base_cpu_init),
+> -    DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E51,       rvxx_imacu_nommu_cpu_init),
+> -    DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_U54,       rvxx_gcsu_priv1_10_0_cpu_init),
+> +    DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E51,       rvxx_sifive_e_cpu_init),
+> +    DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_U54,       rvxx_sifive_u_cpu_init),
+>  #endif
+>  };
+>
+> --
+> 2.7.4
+>
+>
 
