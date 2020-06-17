@@ -2,82 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7938B1FCFA0
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 16:33:40 +0200 (CEST)
-Received: from localhost ([::1]:50314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36E311FCFAB
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 16:36:47 +0200 (CEST)
+Received: from localhost ([::1]:55882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlZ8F-0007hD-Iy
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 10:33:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39044)
+	id 1jlZBG-0001sn-Az
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 10:36:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1jlZ4i-0004nG-Iy
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 10:30:00 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:45606)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jlZA9-00010i-HX
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 10:35:37 -0400
+Received: from indium.canonical.com ([91.189.90.7]:48638)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1jlZ4g-0006a2-MU
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 10:30:00 -0400
-Received: by mail-wr1-x436.google.com with SMTP id c3so2542912wru.12
- for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 07:29:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=9BeFTxtyvUHiP/foG8WuGHqMNLmBo2SS3Hn31dxcmTc=;
- b=kgSMxs9G89UHxVqlNljaF/VdQFyE+fMj+KaG3U++ZfyQXI7skJEXoP4VtE95ZLB+jM
- 5RRptvA90yV/XKJSfUg+3v7R+BYZM26VeaOBPdL73Dlr57WFzobCq0Ge/aUKQnZzyxpe
- ltb8y0kc0H2TkzkutoIhOKvg9Rvd2itiDNYg/1yB8lCeOwl9boPOoCgVEtLsmBhhiYMy
- nIZ/+2bNwCpnwlWTQ9Irwttu8NcqrqnJSXxAPun4rU49giQW+dX7pkzxxGCULUHlYera
- I/NpSgfE89w/zKswpljIaaAHwprhGlMIPknUpk3YO4unMunJoZriyV1o1IJ6PxfR16sl
- CK0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=9BeFTxtyvUHiP/foG8WuGHqMNLmBo2SS3Hn31dxcmTc=;
- b=j5QLqdDGxsb9zKVpLsybHEbovO3Mwa0F4IJ7tp+wWpqLIoZTPoS6FYOlMLQHcHwscA
- HmWOBumsyW2nv60fAMNSpSgQ+XHCnxABAChV0J+hzb4OybigE87vg4p/Lnyu3fCB0HGf
- /BEm1O1uHxfU8Zs3olKExbm0r/rlu4RCFXDVc3remSOYhsudZD6f+B9ytOpEAXlxVs+C
- MmrDnCIaeos2rSnWNW/fbgBvfG7YWphsGqEfqMMAbItL8rYG25Ne2FlDcabmZYUiU5Ga
- pIvxD5cRhyNcQOycbXcw7dG0W9L9LFOGz7xrT4btcAS2x5rNy+DDgsr8rjzQMXl1Ff63
- hSxQ==
-X-Gm-Message-State: AOAM5324QmDUxLjPllAHR+Ns27qQAxwiYnbpjqeBc0bPHGPzrlW5kMpP
- h9ewh1Ee5VeI65YTXTopz06Z0cUxh8k=
-X-Google-Smtp-Source: ABdhPJxLenhde5zGCFmU9flfrSE3KgLbume1WA6Ukf3a9520iqwxuAB6BRTu55xuexcN4vAaaEck7g==
-X-Received: by 2002:adf:f845:: with SMTP id d5mr8695137wrq.197.1592404196851; 
- Wed, 17 Jun 2020 07:29:56 -0700 (PDT)
-Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id g187sm615828wma.17.2020.06.17.07.29.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Jun 2020 07:29:55 -0700 (PDT)
-Date: Wed, 17 Jun 2020 15:29:53 +0100
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Bug 1880507 <1880507@bugs.launchpad.net>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jlZA7-0007Xp-88
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 10:35:37 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jlZA5-0006Od-EK
+ for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 14:35:33 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 6930C2E8105
+ for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 14:35:33 +0000 (UTC)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 17 Jun 2020 14:29:53 -0000
+From: Stefan Hajnoczi <1880507@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: dvornikov stefanha
+X-Launchpad-Bug-Reporter: Dvornikov Mihail (dvornikov)
+X-Launchpad-Bug-Modifier: Stefan Hajnoczi (stefanha)
+References: <159038615546.7053.4830753292873479822.malonedeb@gac.canonical.com>
+Message-Id: <20200617142953.GI1728005@stefanha-x1.localdomain>
 Subject: Re: [Bug 1880507] [NEW] VMM from Ubuntu 20.04 does not show the
  memory consumption
-Message-ID: <20200617142953.GI1728005@stefanha-x1.localdomain>
-References: <159038615546.7053.4830753292873479822.malonedeb@gac.canonical.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="/8E7gjuj425jZz9t"
-Content-Disposition: inline
-In-Reply-To: <159038615546.7053.4830753292873479822.malonedeb@gac.canonical.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=stefanha@gmail.com; helo=mail-wr1-x436.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="1cbd0aa39df153c901321817f9b57cf3f232b507";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: b245803151a1a522bc0f9201847430e6a83aeeec
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/17 10:35:33
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -86,34 +72,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Reply-To: Bug 1880507 <1880507@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-
-
---/8E7gjuj425jZz9t
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
 Does "vmm" mean Virtual Machine Manager (aka virt-manager)? If yes,
 please file this bug against the virt-manager package instead of qemu.
 
 Thanks!
 
---/8E7gjuj425jZz9t
-Content-Type: application/pgp-signature; name="signature.asc"
+-- =
 
------BEGIN PGP SIGNATURE-----
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1880507
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl7qKOEACgkQnKSrs4Gr
-c8he/Af/Zki2oZ92uDkkIsO2y3qoY1sQPo41lpsAbSr/6TWlci/ScWDvKcjJpRSb
-TkRzcMd7cKQK/DG8KC2i6PgWYrsActqGdAU8wdpef9qrzmPXFYevcvdFgxxsJ9zl
-XjBVDOSgDy1XcyXBKO9/NNm1KhfL807SJzlP1aJhy7uDbnoGUYx6Jf2Nd0mi6XzA
-Wrwfk22K8yBqHUxj6yM1fZu4Os0I/PNPXtZ1X45vRUbvXRinOYxX8byE87BOQGO4
-BS5B1LhTzCgL3neCZZPs+7gjp6VUrp3ZU4tOisYql+9fmgmVYkjxGiXnSYNXwQtG
-Zcgj3uYRNjHvdIkVnQmpasICgPQ8GQ==
-=I9mN
------END PGP SIGNATURE-----
+Title:
+  VMM from Ubuntu 20.04 does not show the memory consumption
 
---/8E7gjuj425jZz9t--
+Status in QEMU:
+  New
+
+Bug description:
+  KVM host system: Ubuntu 18.04 and 20.04, guest machines: Windows and
+  Ubuntu. Management through Ubuntu 20.04, vmm does not show RAM
+  consumption for Windows guest systems (Win7, Win2008R2), for Ubuntu
+  values are shown. The error is not observed in Ubuntu 18.04/vmm.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1880507/+subscriptions
 
