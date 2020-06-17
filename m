@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48B191FD7EC
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 23:52:13 +0200 (CEST)
-Received: from localhost ([::1]:44912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C83161FD78B
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 23:38:55 +0200 (CEST)
+Received: from localhost ([::1]:48036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlfye-0008Lp-84
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 17:52:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38190)
+	id 1jlflm-00013p-Q1
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 17:38:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38168)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jlfEt-0004ge-VY
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 17:04:56 -0400
-Received: from mail-qt1-x843.google.com ([2607:f8b0:4864:20::843]:41180)
+ id 1jlfEt-0004eO-3b
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 17:04:55 -0400
+Received: from mail-qk1-x742.google.com ([2607:f8b0:4864:20::742]:37446)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jlfEo-0000Ou-E7
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 17:04:55 -0400
-Received: by mail-qt1-x843.google.com with SMTP id w90so2751525qtd.8
- for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 14:04:50 -0700 (PDT)
+ id 1jlfEq-0000PG-0P
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 17:04:54 -0400
+Received: by mail-qk1-x742.google.com with SMTP id b27so3512081qka.4
+ for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 14:04:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=9h9/kdng7d5/XyPKaeEfDSBMXGQEDWBnIMh8jIPDb5s=;
- b=EOHgITnTlH58unySKZbtDoTPHEK2dDpC/Gtmrde6cCSG6qN91j/e6Wc8xugGiyMW0Y
- aWbVM6z1y7CLV6VkMIKEuYpr4xJXFKN+WNdu6UmpyfyoR027BeM1+giuAFsGReSzuHFm
- 25DEXXNX4cC/PYZn+8JECZlnzGb1fkr7Hebi10zYnGZC5kBUmnAWMTnkE5KXMYL0aqXt
- 0TqTsv+crkoS3h+WhA4i6zkayEDU7y/ON+3maOBj7OwABKtPBdRX3OlFLizYRyU52cB1
- KUnOn5AwjGGXU/D/K/lRgigLztlsb0gCdyqyfGvmtMRuUpGB2dZIrMUnjxD/itry2i/X
- qciw==
+ bh=YTz6vFHmZFyC4ACE7F4vHqeFTUJV7CWjdiB6P/9KC+w=;
+ b=hC/Pejzb8BghSmFgUSR+yU/UxhcdgiOuTZg5ww8qnQVSJ+j0wrUDItnixZfav82TfF
+ u9kU66OoyEgjPZ2wUSfOqEsbfjJYkaDJ0dNgeGhQneC3JAAgYSs7plS52Yt19W5ddJTy
+ 6C2yFaWdcV9IS/gbbkfo6pmL6uhUpVpWCr7PiaaTIg1XVCOu5X2LN9WHmajL3OOhrHZQ
+ e6eNPGdU1F5ipFHlNs8CflvhyLr97YoWavUT7BOHfwWtmTjjDN7p0uUCq22NqqtzmSsi
+ g1CNKMY7eAld89KE83NMt0dQ9aGc/ytAjuDNkV7kAaekVPgFyRCEGH/4V418+uzQArls
+ hu2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=9h9/kdng7d5/XyPKaeEfDSBMXGQEDWBnIMh8jIPDb5s=;
- b=g5fhUQ05rBk00UMICRQ/HhRmRIQnr3wHN4t8oEYlQYIr/AJ+HlmaFdnB/MBQ4sSLz/
- RDwb1buTLStZlMGJqlDp7NQoLkR7IcoqZ+YHwcXnmGJStnSvKQzFSkdbESHnChIC3uJp
- a2A3Xu+h92qOE/S5/Z9il0xF+jRoyXmtjN81pr7XgNT1QxkHF2OrlzD4DM/Uwq468RTE
- 20O7YeFXtoA2hmTYPV6ppPwIl1dSM4Pz4vuPzeUZaCxYFWnkAw60F3Ik2mflAcgfUGGS
- zDVqI+odoCuyyiAEBq4bRTFNvE6U28YsA58jKcKPEys7LwnVEnpQGRXLFfbAft66hMpm
- IccQ==
-X-Gm-Message-State: AOAM530OlAIrCn+2tRkSIGBatBS5YjgIz+S4sENdawBHngi6XHvG9sp3
- EO4UHbLsWdiQvWV2iqV7ptQFBdogozmbjw==
-X-Google-Smtp-Source: ABdhPJxDbZZsWRpQ7oF8CF81oaCZXwgMXStQtX0RyCVG9VnqlMOGfaaP92E8zJYNCy5eo6zgd8WcDA==
-X-Received: by 2002:ac8:341a:: with SMTP id u26mr1167704qtb.36.1592427889282; 
- Wed, 17 Jun 2020 14:04:49 -0700 (PDT)
+ bh=YTz6vFHmZFyC4ACE7F4vHqeFTUJV7CWjdiB6P/9KC+w=;
+ b=spbTNvYcbRumoO9hByYwa6TESeXORS8rPrGEFMnjDk4X9pGzdPC+hZKqSkFNHJA4HQ
+ /5P6gtnwDmdTsiBgflXqBWy2TqTJZUYqi9GHx8aEvaZTdR4FBqc9S3KBPdn1pZhW6vZH
+ gVm6M1TfNDMrV5lXGD8BQ4rHsG99YUI/hK6eBdLQaJnRJWyPKlqfZqMoz5gdiQi6CH45
+ Ody46F9LM6D0ct+z5NV99DEtVujbI7nLdbJtDFw/Tv8zEbj7yBBQwf/G3jtNnEQKNQlo
+ T0t1K3NIPqK3JeT/W8VH5c3BPmlylnFV+1dUCYH9F3uORJoLh6E3Fqt50/INvxqrgMWM
+ 0Gmg==
+X-Gm-Message-State: AOAM533W+7x67U+ekzsYpRIZWjXLzm/pqmVsBs5A/dNp8NohdY5ysLfr
+ j0hY4/C2ExFq0llYXeP/dG2PWf6ToEV1rA==
+X-Google-Smtp-Source: ABdhPJzbaSCLaao3AWjR6m5aPs45KbFrOxOruYbFXhOkTsPlQrFCOCPObgXKviN3NH70Z40F28etrQ==
+X-Received: by 2002:a37:5e07:: with SMTP id s7mr628501qkb.20.1592427890822;
+ Wed, 17 Jun 2020 14:04:50 -0700 (PDT)
 Received: from Rfoley-MA01.hsd1.ma.comcast.net
  ([2601:199:4480:60c0:fc79:714c:9711:2e9c])
- by smtp.gmail.com with ESMTPSA id w13sm997245qkb.91.2020.06.17.14.04.48
+ by smtp.gmail.com with ESMTPSA id w13sm997245qkb.91.2020.06.17.14.04.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Jun 2020 14:04:48 -0700 (PDT)
+ Wed, 17 Jun 2020 14:04:50 -0700 (PDT)
 From: Robert Foley <robert.foley@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v10 65/73] s390x: convert to cpu_has_work_with_iothread_lock
-Date: Wed, 17 Jun 2020 17:02:23 -0400
-Message-Id: <20200617210231.4393-66-robert.foley@linaro.org>
+Subject: [PATCH v10 66/73] riscv: convert to cpu_has_work_with_iothread_lock
+Date: Wed, 17 Jun 2020 17:02:24 -0400
+Message-Id: <20200617210231.4393-67-robert.foley@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200617210231.4393-1-robert.foley@linaro.org>
 References: <20200617210231.4393-1-robert.foley@linaro.org>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::843;
- envelope-from=robert.foley@linaro.org; helo=mail-qt1-x843.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::742;
+ envelope-from=robert.foley@linaro.org; helo=mail-qk1-x742.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -82,10 +82,12 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, robert.foley@linaro.org,
- David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- qemu-s390x@nongnu.org, cota@braap.org, peter.puhov@linaro.org,
- alex.bennee@linaro.org, Richard Henderson <rth@twiddle.net>
+Cc: Alistair Francis <Alistair.Francis@wdc.com>,
+ "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>, robert.foley@linaro.org,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>, cota@braap.org,
+ Palmer Dabbelt <palmer@dabbelt.com>, peter.puhov@linaro.org,
+ alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -93,38 +95,40 @@ From: "Emilio G. Cota" <cota@braap.org>
 
 Soon we will call cpu_has_work without the BQL.
 
-Cc: David Hildenbrand <david@redhat.com>
-Cc: qemu-s390x@nongnu.org
+Cc: Sagar Karandikar <sagark@eecs.berkeley.edu>
+Cc: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+Reviewed-by: Palmer Dabbelt <palmer@dabbelt.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Emilio G. Cota <cota@braap.org>
 Signed-off-by: Robert Foley <robert.foley@linaro.org>
 ---
- target/s390x/cpu.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ target/riscv/cpu.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
-index d157dbb7a9..4d0d323cf9 100644
---- a/target/s390x/cpu.c
-+++ b/target/s390x/cpu.c
-@@ -59,6 +59,8 @@ static bool s390_cpu_has_work(CPUState *cs)
- {
-     S390CPU *cpu = S390_CPU(cs);
- 
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 3a6d202d03..d56ba65b32 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -310,6 +310,9 @@ static bool riscv_cpu_has_work(CPUState *cs)
+ #ifndef CONFIG_USER_ONLY
+     RISCVCPU *cpu = RISCV_CPU(cs);
+     CPURISCVState *env = &cpu->env;
++
 +    g_assert(qemu_mutex_iothread_locked());
 +
-     /* STOPPED cpus can never wake up */
-     if (s390_cpu_get_state(cpu) != S390_CPU_STATE_LOAD &&
-         s390_cpu_get_state(cpu) != S390_CPU_STATE_OPERATING) {
-@@ -489,7 +491,7 @@ static void s390_cpu_class_init(ObjectClass *oc, void *data)
- #endif
-     scc->reset = s390_cpu_reset;
-     cc->class_by_name = s390_cpu_class_by_name,
--    cc->has_work = s390_cpu_has_work;
-+    cc->has_work_with_iothread_lock = s390_cpu_has_work;
- #ifdef CONFIG_TCG
-     cc->do_interrupt = s390_cpu_do_interrupt;
- #endif
+     /*
+      * Definition of the WFI instruction requires it to ignore the privilege
+      * mode and delegation registers, but respect individual enables
+@@ -510,7 +513,7 @@ static void riscv_cpu_class_init(ObjectClass *c, void *data)
+     device_class_set_parent_reset(dc, riscv_cpu_reset, &mcc->parent_reset);
+ 
+     cc->class_by_name = riscv_cpu_class_by_name;
+-    cc->has_work = riscv_cpu_has_work;
++    cc->has_work_with_iothread_lock = riscv_cpu_has_work;
+     cc->do_interrupt = riscv_cpu_do_interrupt;
+     cc->cpu_exec_interrupt = riscv_cpu_exec_interrupt;
+     cc->dump_state = riscv_cpu_dump_state;
 -- 
 2.17.1
 
