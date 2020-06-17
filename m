@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13A9B1FC5E2
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 07:58:28 +0200 (CEST)
-Received: from localhost ([::1]:54936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 128E21FC5E9
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 08:00:25 +0200 (CEST)
+Received: from localhost ([::1]:33212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlR5f-0004ny-50
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 01:58:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49818)
+	id 1jlR7Y-0007tB-2j
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 02:00:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49850)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jlQzo-0002uI-PZ; Wed, 17 Jun 2020 01:52:24 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:52148)
+ id 1jlQzq-000304-VZ; Wed, 17 Jun 2020 01:52:26 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:54197)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jlQzn-0004Te-7q; Wed, 17 Jun 2020 01:52:24 -0400
-Received: by mail-wm1-x343.google.com with SMTP id b82so603405wmb.1;
- Tue, 16 Jun 2020 22:52:22 -0700 (PDT)
+ id 1jlQzp-0004U7-Bp; Wed, 17 Jun 2020 01:52:26 -0400
+Received: by mail-wm1-x344.google.com with SMTP id l26so593185wme.3;
+ Tue, 16 Jun 2020 22:52:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=xBt1JdUtXnVHDFLzLhbnDdhHBrdVurpC1i/gmVlTBm8=;
- b=JYlWuSrZ3RFNBDkWMAs8yqAf/eUDHyl9+PB9pWPMpQOWTlR4aPS/eFKVjwLVeGJgcj
- b8vCjriROPsAoaj3Ii+02qzKhQVW7hze0WXe++Q3wO4CXg+H1aqbXCtowglztOyUUFUT
- btsMOvLnc8B//AZwAFeRwMVwI2dhFMvVlp/ic6rmNBtSg96sVyBZy11qVt/hIIhsBuH2
- bKukVN5IeCWqpr2WrwILtlgFoBRuMlIVXkhGk7lx+lLoT4wCNlDQtZkYm9rCGfPag2fX
- z+X/2ag/5xdppdqDPdwnpwVLWaG5oN1oUYj+lL17cLKNg6oZWI3FzlEiFH1wY/b/gmzw
- qSBA==
+ bh=DU8MPmKR4oqV6/BAgGxIVSvkYzVMETNdD9pP50lGwu4=;
+ b=iXewhp5I22tG5YsVKxC/7jJ3Mgcmh8c9epLwy9rdr99Aaq7CZWeCE9YekBr53OS95b
+ Wxn+y8KofALB+fFm+II0XGtLXtBFd/LsKkI/LrnUQjSSOj7egWJpF6ZRuibvrFocuGGC
+ 2OUr7wh9651CCa4nW07jGzzjHJ5jLDlBuMn539d0gkYgR4M9U6bM7B4dZEEayFX76frY
+ s9Mz2BPhqhZ0MlEbPB9H/12Ij/VdZc03owYMN3GU5itx+nRF4T6rEO54r3HVFSeOKO+h
+ vNI26qEpZtjYP9j7fhMGl1XMR2c3rDj/nII/vlpdCy5u5PDaEVqU2PMx1WP+xtAA+m3H
+ kefg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=xBt1JdUtXnVHDFLzLhbnDdhHBrdVurpC1i/gmVlTBm8=;
- b=M4tv0n/t6xMiH7xiLpdBArdK4N6NQ/EMVa13PeN0hY3sbiLlpRcQW6kx0jwqpwAmNv
- WhnHkvBqYUZ9aNVNTdtN62x2aEG3I9rJm+m4EhXkPcV0XaCPudBFpzlfY4NnR52ZuSas
- 6ITpq12m9Gy9au1XAE723znlG8Hd89tuXDioRGOXkYAgYGI3Hl5FG6mIAQeYMVe9GM0x
- Y+5h6AKI4BW7gs0LHr0oZI7FAlGntkCIVdphh8blGrlvnIweSS5/2ANWTubgu+t7Ysta
- 97Ii8QrtIdQoc0Vm4bPUqoqZTYXr96guoIYiO2dk+QopVQgJBM05zuaRlU2cJDy5KFUL
- iO2Q==
-X-Gm-Message-State: AOAM532DuSTwu1U+az74Yuy/1qGtcn+bPC+SPe0oL+2RXuEz7fNol+4m
- n15CyEpjT8ZWEjgf+5QkfgasccmP
-X-Google-Smtp-Source: ABdhPJyVtLftZkZP6ukO8IyvUx6MjKmfKzfS+bJ8R0p4D9fxUM8Sknx5Ii/Igoq/oCWLS8j47BFcOA==
-X-Received: by 2002:a1c:de82:: with SMTP id v124mr6768495wmg.89.1592373141262; 
- Tue, 16 Jun 2020 22:52:21 -0700 (PDT)
+ bh=DU8MPmKR4oqV6/BAgGxIVSvkYzVMETNdD9pP50lGwu4=;
+ b=Trc4lxyN9LL88NRU5N3QmZNfuZC5aVz2k861pJ02ilnSudPefUbVgDXEPGzTAfeFbX
+ FdO+SX5uNgbInX2CxX+Qw/13sS27U2XZoUhRn96q4tW4kkXk47epbZwpynmwmyctVOfE
+ J3m8xqqvnN4VuGYiqN24yiJnqHw9AHR/539Ocl7TiSoS9wWaK5PIfTkY9raqWiJg4y3y
+ yhjmO5YDTyw0u1QxhzUYkVQ9BIpCbSAfZjZwQQlusJ50U4itLUYDf/f2ztq0t5nUelvj
+ st0c2F25h58ECUr6oLxcDsAKOGgLkjE6KU4xl12ovAXXM7TXr9sAWDpYhfNv4uMSfKaV
+ DLTA==
+X-Gm-Message-State: AOAM531lYeh00jygU+YwpS/Qx1TLK7H7C++NalcSC7SxSivG3zXokgOZ
+ zQx5Rxn7r0KXi6cKbBHjX87WjIEn
+X-Google-Smtp-Source: ABdhPJzWTNXBk4+QNKw81B7yoZ58mXSw/TZsiQIcWLcnvBrF8DxdChJNEgPDqpWM77zedkWV/Cts1g==
+X-Received: by 2002:a1c:4405:: with SMTP id r5mr6976264wma.72.1592373143458;
+ Tue, 16 Jun 2020 22:52:23 -0700 (PDT)
 Received: from localhost.localdomain (93.red-83-59-160.dynamicip.rima-tde.net.
  [83.59.160.93])
- by smtp.gmail.com with ESMTPSA id d28sm3000809wrc.50.2020.06.16.22.52.20
+ by smtp.gmail.com with ESMTPSA id d28sm3000809wrc.50.2020.06.16.22.52.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Jun 2020 22:52:20 -0700 (PDT)
+ Tue, 16 Jun 2020 22:52:22 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 12/14] hw/arm/mps2: Add I2C devices
-Date: Wed, 17 Jun 2020 07:52:03 +0200
-Message-Id: <20200617055205.3576-13-f4bug@amsat.org>
+Subject: [PATCH v2 14/14] hw/arm/mps2-tz: Use the ARM SBCon two-wire serial
+ bus interface
+Date: Wed, 17 Jun 2020 07:52:05 +0200
+Message-Id: <20200617055205.3576-15-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200617055205.3576-1-f4bug@amsat.org>
 References: <20200617055205.3576-1-f4bug@amsat.org>
@@ -62,8 +63,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x344.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -92,43 +93,76 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From 'Application Note AN385', chapter 3.14:
+From 'Application Note AN521', chapter 4.7:
 
-  The SMM implements a simple SBCon interface based on I2C.
+  The SMM implements four SBCon serial modules:
 
-There are 4 SBCon interfaces on the FPGA APB subsystem.
+  One SBCon module for use by the Color LCD touch interface.
+  One SBCon module to configure the audio controller.
+  Two general purpose SBCon modules, that connect to the
+  Expansion headers J7 and J8, are intended for use with the
+  V2C-Shield1 which provide an I2C interface on the headers.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/arm/mps2.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ hw/arm/mps2-tz.c | 23 ++++++++++++++++++-----
+ 1 file changed, 18 insertions(+), 5 deletions(-)
 
-diff --git a/hw/arm/mps2.c b/hw/arm/mps2.c
-index daa26f68d7..2f6acbf2c2 100644
---- a/hw/arm/mps2.c
-+++ b/hw/arm/mps2.c
-@@ -40,6 +40,7 @@
- #include "hw/misc/mps2-scc.h"
- #include "hw/misc/mps2-fpgaio.h"
+diff --git a/hw/arm/mps2-tz.c b/hw/arm/mps2-tz.c
+index 8155c35418..a4fd5ddede 100644
+--- a/hw/arm/mps2-tz.c
++++ b/hw/arm/mps2-tz.c
+@@ -58,6 +58,7 @@
+ #include "hw/arm/armsse.h"
+ #include "hw/dma/pl080.h"
  #include "hw/ssi/pl022.h"
 +#include "hw/i2c/arm_sbcon_i2c.h"
  #include "hw/net/lan9118.h"
  #include "net/net.h"
- #include "hw/watchdog/cmsdk-apb-watchdog.h"
-@@ -365,6 +366,13 @@ static void mps2_common_init(MachineState *machine)
-                                  qdev_get_gpio_in(orgate_dev, j));
-         }
-     }
-+    for (i = 0; i < 4; i++) {
-+        static const hwaddr i2cbase[] = {0x40022000,    /* Touch */
-+                                         0x40023000,    /* Audio */
-+                                         0x40029000,    /* Shield0 */
-+                                         0x4002a000};   /* Shield1 */
-+        sysbus_create_simple(TYPE_ARM_SBCON_I2C, i2cbase[i], NULL);
-+    }
+ #include "hw/core/split-irq.h"
+@@ -87,7 +88,7 @@ typedef struct {
+     TZPPC ppc[5];
+     TZMPC ssram_mpc[3];
+     PL022State spi[5];
+-    UnimplementedDeviceState i2c[4];
++    ArmSbconI2CState i2c[4];
+     UnimplementedDeviceState i2s_audio;
+     UnimplementedDeviceState gpio[4];
+     UnimplementedDeviceState gfx;
+@@ -365,6 +366,18 @@ static MemoryRegion *make_spi(MPS2TZMachineState *mms, void *opaque,
+     return sysbus_mmio_get_region(s, 0);
+ }
  
-     /* In hardware this is a LAN9220; the LAN9118 is software compatible
-      * except that it doesn't support the checksum-offload feature.
++static MemoryRegion *make_i2c(MPS2TZMachineState *mms, void *opaque,
++                              const char *name, hwaddr size)
++{
++    ArmSbconI2CState *i2c = opaque;
++    SysBusDevice *s;
++
++    object_initialize_child(OBJECT(mms), name, i2c, TYPE_ARM_SBCON_I2C);
++    s = SYS_BUS_DEVICE(i2c);
++    sysbus_realize(s, &error_fatal);
++    return sysbus_mmio_get_region(s, 0);
++}
++
+ static void mps2tz_common_init(MachineState *machine)
+ {
+     MPS2TZMachineState *mms = MPS2TZ_MACHINE(machine);
+@@ -499,10 +512,10 @@ static void mps2tz_common_init(MachineState *machine)
+                 { "uart2", make_uart, &mms->uart[2], 0x40202000, 0x1000 },
+                 { "uart3", make_uart, &mms->uart[3], 0x40203000, 0x1000 },
+                 { "uart4", make_uart, &mms->uart[4], 0x40204000, 0x1000 },
+-                { "i2c0", make_unimp_dev, &mms->i2c[0], 0x40207000, 0x1000 },
+-                { "i2c1", make_unimp_dev, &mms->i2c[1], 0x40208000, 0x1000 },
+-                { "i2c2", make_unimp_dev, &mms->i2c[2], 0x4020c000, 0x1000 },
+-                { "i2c3", make_unimp_dev, &mms->i2c[3], 0x4020d000, 0x1000 },
++                { "i2c0", make_i2c, &mms->i2c[0], 0x40207000, 0x1000 },
++                { "i2c1", make_i2c, &mms->i2c[1], 0x40208000, 0x1000 },
++                { "i2c2", make_i2c, &mms->i2c[2], 0x4020c000, 0x1000 },
++                { "i2c3", make_i2c, &mms->i2c[3], 0x4020d000, 0x1000 },
+             },
+         }, {
+             .name = "apb_ppcexp2",
 -- 
 2.21.3
 
