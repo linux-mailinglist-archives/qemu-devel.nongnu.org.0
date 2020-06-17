@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B13661FD71E
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 23:25:20 +0200 (CEST)
-Received: from localhost ([::1]:58436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71EEB1FD72E
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 23:27:41 +0200 (CEST)
+Received: from localhost ([::1]:38514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlfYd-0005Ir-NS
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 17:25:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37800)
+	id 1jlfau-0000h1-Gw
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 17:27:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jlfES-00042s-Sq
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 17:04:28 -0400
-Received: from mail-qv1-xf43.google.com ([2607:f8b0:4864:20::f43]:43611)
+ id 1jlfEd-0004IZ-Q5
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 17:04:41 -0400
+Received: from mail-qk1-x741.google.com ([2607:f8b0:4864:20::741]:36374)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jlfER-0000LW-2B
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 17:04:28 -0400
-Received: by mail-qv1-xf43.google.com with SMTP id dp10so1743591qvb.10
- for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 14:04:26 -0700 (PDT)
+ id 1jlfEY-0000MT-78
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 17:04:39 -0400
+Received: by mail-qk1-x741.google.com with SMTP id 205so3521153qkg.3
+ for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 14:04:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=leGMjXpK2HH4jKgWKo9xRsuJr3HkPgiK0233yCfpGgs=;
- b=oudhz65TfyHpYuLR9i4rIICUzB0r5nPw7a9UiTrsDIbg+PrX1eHmJ9g2FxhATNfFXq
- 1l0oiP4J4+NJYjM/niXRgp3M1TDttJ0zA1iy3uoVls2Vr+ZfE2p7+fIlY9Luq6z6EW1h
- 09mFs1yuIMJ5CUCy/HnQz1NmgoNKXqFVKE9d4K9FSJKbX6Fm1P77ls4jACovft/oz0/2
- TfI3ahHzDeTEMqhCfthIWak7OXZpHKzsFXQdp1LqUb6QoQY61ph3hJGxmH43H1x/pgky
- QVzlTCA41LVzHIVOhk41BkYTp/if87Z5DJSlt3elJSwUGjKZgSi/c0WcupUwNX/BLJjx
- TOBw==
+ bh=E/tQbITHc97dgORFyK3tE34tNsNJB0LGdPZMzeOAZ2A=;
+ b=gjGWNyK1fJl5+QdDcTtGkUHu0bKZupTYgIu+ikmiZPdtkwH1bKpmzZMkekHfQOqcyp
+ j6iTEhdp4xVVerBTq6iuPTwCNjRVTkX9kkrFWnklf5AhvoU+PSlfMRuaeNZCJdObue4J
+ rDMKy4yeH1BSyTEBqEVx9/0u6l2UcRkl1xVXG4U/yZ3a1FNwPiV1oshvaEuxn9RKCpR1
+ o6wBIxf1pmtmQS3jLQBLgp3a2PITVnVJCpXl6NWjnCgiujBnlahisTEGpqOpvcCXAhlB
+ GGd06yOrXzXNLBgbvFarwTz773YM9k7IpsMSSxeggM7MpD+rE+1vUauIuUv3gHPwEuzK
+ FsoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=leGMjXpK2HH4jKgWKo9xRsuJr3HkPgiK0233yCfpGgs=;
- b=K7qiQ32SPaUHofLeqgqpIdt9rD+9/DGWQnpCaWOrVzWMFVd18cZyEyFHxqVuxCJT7X
- gYngDmtIbGkNS2F4qHFjn/OnExWJ6/B37EyNU14W/G+0o72sMx4ZHyAxOPWEbcacark5
- 5sJ6SRrsPoSC+XRKXXwSBTIZmXSChzQq7RGQPITm7mBTHc7qx2hOm8OtPxIpm9BpVbSj
- aAIDVo20cghmb26x+81TbSrhILO45UUdJTHqGxUrNX4HFnx3M8oYuIt3csOukSb/Gf8Q
- 2ofCtof/yLPoLeD62anr4fnD+EEnQO+iI5EWDtMJPcCs23wcfT7kUFOwrOuhc6pOPesc
- CPAA==
-X-Gm-Message-State: AOAM533k76+nd8y3I50KnmwpAA3clpdKPRw/qsNBPC+MekObHUn5U6N2
- PbQcGVXgrzK0mqYgrPg9ayvtMQohY0nYQg==
-X-Google-Smtp-Source: ABdhPJxYdhHldkV+KneTM2kP408KlgsTDwq806haZN2BjdIK0DF7a9PdFGhWpCKamWyYdgDh+a0fxQ==
-X-Received: by 2002:a05:6214:713:: with SMTP id
- b19mr536025qvz.199.1592427865845; 
- Wed, 17 Jun 2020 14:04:25 -0700 (PDT)
+ bh=E/tQbITHc97dgORFyK3tE34tNsNJB0LGdPZMzeOAZ2A=;
+ b=tHvKO3iyVC1WPUEI5z2oCQeYbDzVuIuWMN7u7tOTVkibB4lLAoxIqEs704u2rm32bg
+ ZG/cMKb+UHdJKVqGb9rBBHJkTUFkPmnWYqdtKs/ZkJ2BllhoMopnjr61+PKF2SnTGmWL
+ I4zRDeWF/2J6CiP+MNcrATCR+DisqOFuOMmS6ibZvqqRLPcqBuPOX9sbrtdlIgeeK9Dn
+ T2Ix/tQMySktzJOdwSGZ9g//+XTzbu0aGjtiBzsp4+aBSTRu4DYUfk1AiB4UmdSpKo6L
+ VEm+MRCDoH1VKCKDLFIgd8JFu8dFsbdG5EN/rddZ3kjDHp/qyFKCX7/nat3g6iFJKpjr
+ cdHg==
+X-Gm-Message-State: AOAM532AX38n954tASMmrXsumE5R0e5DqzEjPT3Z3/vgWciVb1Pp5WUt
+ OMderKbsZQQNxv/nem9SOrLB05flI96EMw==
+X-Google-Smtp-Source: ABdhPJyZimv7dIPy8hBowq7zQvT/g30LHqCOD6SLjPxun950vDmvnc9XckquUOklTVlMA3HyYU7uEw==
+X-Received: by 2002:a37:4ed2:: with SMTP id c201mr607695qkb.138.1592427873025; 
+ Wed, 17 Jun 2020 14:04:33 -0700 (PDT)
 Received: from Rfoley-MA01.hsd1.ma.comcast.net
  ([2601:199:4480:60c0:fc79:714c:9711:2e9c])
- by smtp.gmail.com with ESMTPSA id w13sm997245qkb.91.2020.06.17.14.04.24
+ by smtp.gmail.com with ESMTPSA id w13sm997245qkb.91.2020.06.17.14.04.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Jun 2020 14:04:25 -0700 (PDT)
+ Wed, 17 Jun 2020 14:04:32 -0700 (PDT)
 From: Robert Foley <robert.foley@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v10 48/73] lm32: convert to cpu_interrupt_request
-Date: Wed, 17 Jun 2020 17:02:06 -0400
-Message-Id: <20200617210231.4393-49-robert.foley@linaro.org>
+Subject: [PATCH v10 53/73] alpha: convert to cpu_interrupt_request
+Date: Wed, 17 Jun 2020 17:02:11 -0400
+Message-Id: <20200617210231.4393-54-robert.foley@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200617210231.4393-1-robert.foley@linaro.org>
 References: <20200617210231.4393-1-robert.foley@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f43;
- envelope-from=robert.foley@linaro.org; helo=mail-qv1-xf43.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::741;
+ envelope-from=robert.foley@linaro.org; helo=mail-qk1-x741.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -87,35 +86,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.puhov@linaro.org, Michael Walle <michael@walle.cc>, cota@braap.org,
- alex.bennee@linaro.org, robert.foley@linaro.org
+Cc: peter.puhov@linaro.org, cota@braap.org, alex.bennee@linaro.org,
+ robert.foley@linaro.org, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Emilio G. Cota" <cota@braap.org>
 
-Cc: Michael Walle <michael@walle.cc>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Emilio G. Cota <cota@braap.org>
 Signed-off-by: Robert Foley <robert.foley@linaro.org>
 ---
- target/lm32/cpu.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/alpha/cpu.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/target/lm32/cpu.c b/target/lm32/cpu.c
-index c50ad5fa15..9e7d8ca929 100644
---- a/target/lm32/cpu.c
-+++ b/target/lm32/cpu.c
-@@ -96,7 +96,7 @@ static void lm32_cpu_init_cfg_reg(LM32CPU *cpu)
- 
- static bool lm32_cpu_has_work(CPUState *cs)
- {
--    return cs->interrupt_request & CPU_INTERRUPT_HARD;
-+    return cpu_interrupt_request(cs) & CPU_INTERRUPT_HARD;
+diff --git a/target/alpha/cpu.c b/target/alpha/cpu.c
+index b3fd6643e8..09677c6c44 100644
+--- a/target/alpha/cpu.c
++++ b/target/alpha/cpu.c
+@@ -42,10 +42,10 @@ static bool alpha_cpu_has_work(CPUState *cs)
+        assume that if a CPU really wants to stay asleep, it will mask
+        interrupts at the chipset level, which will prevent these bits
+        from being set in the first place.  */
+-    return cs->interrupt_request & (CPU_INTERRUPT_HARD
+-                                    | CPU_INTERRUPT_TIMER
+-                                    | CPU_INTERRUPT_SMP
+-                                    | CPU_INTERRUPT_MCHK);
++    return cpu_interrupt_request(cs) & (CPU_INTERRUPT_HARD
++                                        | CPU_INTERRUPT_TIMER
++                                        | CPU_INTERRUPT_SMP
++                                        | CPU_INTERRUPT_MCHK);
  }
  
- static void lm32_cpu_reset(DeviceState *dev)
+ static void alpha_cpu_disas_set_info(CPUState *cpu, disassemble_info *info)
 -- 
 2.17.1
 
