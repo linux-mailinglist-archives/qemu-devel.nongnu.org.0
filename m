@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8163F1FC6E8
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 09:13:52 +0200 (CEST)
-Received: from localhost ([::1]:57060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 013331FC6E6
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 09:13:29 +0200 (CEST)
+Received: from localhost ([::1]:55502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlSGd-0000sj-Jj
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 03:13:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38228)
+	id 1jlSGG-0000Cg-2B
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 03:13:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jlSEz-000761-Sr
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 03:12:09 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:45588
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jlSEv-00071T-3g
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 03:12:05 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:34646
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jlSEu-0000U6-Si
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 03:12:09 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jlSEs-0000TD-N0
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 03:12:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592377923;
+ s=mimecast20190719; t=1592377921;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=y54Y6QtUUoTle++FzPtUuED7F2fNxKC4cBGfSNCdIiY=;
- b=XWSXnHvVSMY691vu6h8bBRc3Tb5d+Fdv1ZrjthALfGe/8bK8Ee6BBI/4j8FZMfrLfQ1po/
- eH7HVxL5OgaiqvgePSs/7QqAETIpsNAodMNlUL3w0HMz7g0glxk2M2f8sZDzckGOMUyZN1
- LVgDJy0thMbxB0G8R6nehihh6duLJXM=
+ to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
+ references:references; bh=5n5L+rYsZITWAjAX4WgJOLDurbYTO5bt+jagADklpr8=;
+ b=QkezIOztRYra1bF+195sEhCLTPgleEDUmV6AOwcEYM1QkZEkU5DHQt6y30PRUzZ8ECwHcU
+ UYhjC36yvfVvd2PVcg73nGbj8N4tADoVWtrg8yV4JrcIKPIKr8akLeNQ+UKyoPsvnMb4o4
+ qV0FzQcZrhCzmChH5GgbOM7bLFEIEnY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-75-wzYa9v_tP--_ObqXtWEzgA-1; Wed, 17 Jun 2020 03:11:59 -0400
-X-MC-Unique: wzYa9v_tP--_ObqXtWEzgA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-385-00Y7si2tNVu5Fk639fdftw-1; Wed, 17 Jun 2020 03:11:59 -0400
+X-MC-Unique: 00Y7si2tNVu5Fk639fdftw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AF232105251F;
- Wed, 17 Jun 2020 07:11:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 25B10EC1C5;
+ Wed, 17 Jun 2020 07:11:58 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-67.ams2.redhat.com
  [10.36.112.67])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B98297931A;
- Wed, 17 Jun 2020 07:11:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B818461462;
+ Wed, 17 Jun 2020 07:11:43 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 88F9B16E16; Wed, 17 Jun 2020 09:11:38 +0200 (CEST)
+ id 911DF1750C; Wed, 17 Jun 2020 09:11:38 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v9 00/10] acpi: i386 tweaks
-Date: Wed, 17 Jun 2020 09:11:28 +0200
-Message-Id: <20200617071138.11159-1-kraxel@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Subject: [PATCH v9 01/10] acpi: bios-tables-test: show more context on asl
+ diffs
+Date: Wed, 17 Jun 2020 09:11:29 +0200
+Message-Id: <20200617071138.11159-2-kraxel@redhat.com>
+In-Reply-To: <20200617071138.11159-1-kraxel@redhat.com>
+References: <20200617071138.11159-1-kraxel@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=US-ASCII
 Received-SPF: pass client-ip=207.211.31.120; envelope-from=kraxel@redhat.com;
  helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/17 01:42:04
@@ -88,94 +88,26 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-First batch of microvm patches, some generic acpi stuff.
-Split the acpi-build.c monster, specifically split the
-pc and q35 and pci bits into a separate file which we
-can skip building at some point in the future.
+Makes it easier to create good commit messages from the logs.
 
-v2 changes: leave acpi-build.c largely as-is, move useful
-bits to other places to allow them being reused, specifically:
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+---
+ tests/qtest/bios-tables-test.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- * move isa device generator functions to individual isa devices.
- * move fw_cfg generator function to fw_cfg.c
-
-v3 changes: fix rtc, support multiple lpt devices.
-
-v4 changes:
- * drop merged patches.
- * split rtc crs change to separata patch.
- * added two cleanup patches.
- * picked up ack & review tags.
-
-v5 changes:
- * add comment for rtc crs update.
- * add even more cleanup patches.
- * picked up ack & review tags.
-
-v6 changes:
- * floppy: move cmos_get_fd_drive_type.
- * picked up ack & review tags.
-
-v7 changes:
- * rebased to mst/pci branch, resolved stubs conflict.
- * dropped patches already queued up in mst/pci.
- * added missing sign-off.
- * picked up ack & review tags.
-
-v8 changes:
- * (re-)add patch to allow acpi table changes
-
-v9 changes:
- * add asl changes to commit messages.
- * update acpi test data.
-
-take care,
-  Gerd
-
-Gerd Hoffmann (10):
-  acpi: bios-tables-test: show more context on asl diffs
-  acpi: move aml builder code for floppy device
-  floppy: make isa_fdc_get_drive_max_chs static
-  floppy: move cmos_get_fd_drive_type() from pc
-  acpi: move aml builder code for i8042 (kbd+mouse) device
-  acpi: factor out fw_cfg_add_acpi_dsdt()
-  acpi: simplify build_isa_devices_aml()
-  acpi: drop serial/parallel enable bits from dsdt
-  acpi: drop build_piix4_pm()
-  acpi: q35: drop _SB.PCI0.ISA.LPCD opregion.
-
- hw/i386/fw_cfg.h                  |   1 +
- include/hw/block/fdc.h            |   3 +-
- include/hw/i386/pc.h              |   1 -
- hw/block/fdc.c                    | 111 +++++++++++++++-
- hw/i386/acpi-build.c              | 210 +-----------------------------
- hw/i386/fw_cfg.c                  |  28 ++++
- hw/i386/pc.c                      |  25 ----
- hw/input/pckbd.c                  |  31 +++++
- stubs/cmos.c                      |   7 +
- tests/qtest/bios-tables-test.c    |   2 +-
- stubs/Makefile.objs               |   1 +
- tests/data/acpi/pc/DSDT           | Bin 5014 -> 4934 bytes
- tests/data/acpi/pc/DSDT.acpihmat  | Bin 6338 -> 6258 bytes
- tests/data/acpi/pc/DSDT.bridge    | Bin 6873 -> 6793 bytes
- tests/data/acpi/pc/DSDT.cphp      | Bin 5477 -> 5397 bytes
- tests/data/acpi/pc/DSDT.dimmpxm   | Bin 6667 -> 6587 bytes
- tests/data/acpi/pc/DSDT.ipmikcs   | Bin 5086 -> 5006 bytes
- tests/data/acpi/pc/DSDT.memhp     | Bin 6373 -> 6293 bytes
- tests/data/acpi/pc/DSDT.numamem   | Bin 5020 -> 4940 bytes
- tests/data/acpi/q35/DSDT          | Bin 7752 -> 7678 bytes
- tests/data/acpi/q35/DSDT.acpihmat | Bin 9076 -> 9002 bytes
- tests/data/acpi/q35/DSDT.bridge   | Bin 7769 -> 7695 bytes
- tests/data/acpi/q35/DSDT.cphp     | Bin 8215 -> 8141 bytes
- tests/data/acpi/q35/DSDT.dimmpxm  | Bin 9405 -> 9331 bytes
- tests/data/acpi/q35/DSDT.ipmibt   | Bin 7827 -> 7753 bytes
- tests/data/acpi/q35/DSDT.memhp    | Bin 9111 -> 9037 bytes
- tests/data/acpi/q35/DSDT.mmio64   | Bin 8882 -> 8808 bytes
- tests/data/acpi/q35/DSDT.numamem  | Bin 7758 -> 7684 bytes
- tests/data/acpi/q35/DSDT.tis      | Bin 8357 -> 8283 bytes
- 29 files changed, 185 insertions(+), 235 deletions(-)
- create mode 100644 stubs/cmos.c
-
+diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+index b482f76c03d4..c315156858f4 100644
+--- a/tests/qtest/bios-tables-test.c
++++ b/tests/qtest/bios-tables-test.c
+@@ -469,7 +469,7 @@ static void test_acpi_asl(test_data *data)
+                 fflush(stderr);
+                 if (getenv("V")) {
+                     const char *diff_env = getenv("DIFF");
+-                    const char *diff_cmd = diff_env ? diff_env : "diff -u";
++                    const char *diff_cmd = diff_env ? diff_env : "diff -U 16";
+                     char *diff = g_strdup_printf("%s %s %s", diff_cmd,
+                                                  exp_sdt->asl_file, sdt->asl_file);
+                     int out = dup(STDOUT_FILENO);
 -- 
 2.18.4
 
