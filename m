@@ -2,86 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72AE41FD0A9
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 17:16:15 +0200 (CEST)
-Received: from localhost ([::1]:59836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D89B21FD0A6
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 17:15:50 +0200 (CEST)
+Received: from localhost ([::1]:57942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlZnS-0007cu-C4
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 11:16:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49542)
+	id 1jlZn3-0006nB-N0
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 11:15:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1jlZbz-0005mJ-Is; Wed, 17 Jun 2020 11:04:23 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:52981)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1jlZbx-0005GF-LS; Wed, 17 Jun 2020 11:04:23 -0400
-Received: by mail-wm1-x344.google.com with SMTP id r9so2187853wmh.2;
- Wed, 17 Jun 2020 08:04:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=dnXhK56wzWxR6LV/1smHXrH9BiqjRK+oVXW76SWNEU8=;
- b=Q1TXVEmtEQySJNsd56QQwC7ApqjjKOiD2zIHIKxE9VEtShp4GftaMwAtrwVTm8j2MV
- 9++mAka7SG5C0+MnKiacmQNgVtuSzAml1yN0oSD+VF9vTjelPinhSw8J1A43IZPSv0rN
- ogCrDnDZ67ljh5DFLHPCRN2cGgUHY82z1GXvQkTNxE6S+/CbEC6nTNmb6NLNdraAYscg
- PuvgA9eEBGocJL5CpCC3NuOgbtz9iFLs74iumvGAP9+nOH9ScbTj3bjDwobr6YFudgyJ
- i7wA1E3ETDFbktAOEurxNaQ/Rro3lxHrP3WRU6po+xNkxwrdhzz8/C4/mQ27jHgUUEfo
- MwQQ==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jlZgF-0004gT-UA
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 11:08:47 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:56076
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jlZgD-0006Ej-C0
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 11:08:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1592406523;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=W4t5aEEhixJKv1dKhyIIzBH6l0t7LFuM7Z9ocXN6g74=;
+ b=SooWYd68WNBdFCI5lwep1pB5wdbeuuheUqyust+4+3z764X3lQ3du7U3twuFy/8Hmt8WPR
+ jQZBZUDVPHKbfdxG2MiI82BTUtppli/+/bJwdZp6qc+X0MA9hQg+I0EOPkaRtWz76ErkC8
+ joSoqgyKJngj8Cu82d/lZIp1eImzoyk=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-313-Z2-QGy_2MGyzrQyTQOZgqQ-1; Wed, 17 Jun 2020 11:08:39 -0400
+X-MC-Unique: Z2-QGy_2MGyzrQyTQOZgqQ-1
+Received: by mail-wm1-f72.google.com with SMTP id a7so963658wmf.1
+ for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 08:08:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=dnXhK56wzWxR6LV/1smHXrH9BiqjRK+oVXW76SWNEU8=;
- b=YpxgseQvs2dSiyAXS9yrGsMQTRLJ00UcHeltFYT10Kr9kHQRTcXlt0k978EaEO8orQ
- q2VGUXaYDROmfrBIv25t2GeDb1z+6Rd55lLl3t97wxiFT4u5Cqrz3IOgQMTdIceDA2QQ
- 1dhym74aSE214C1JSqj4+WdZn8CxhlX8GWkBl6/DGn66XqbD609YdYe+MN+P6GVxqZAU
- MTIk1VXlJLsjixuyRRM2LkBjvTONoFoJ9BRVhVraEwypFckipUsmx1vVMqqiAFrX1NaJ
- VLa5ISs2hlHAy7zkFbpAYdGA/aa/MMk9d1asWqgJCnXuSmxRayoeWPoP0JG6uA4SXbNa
- T1dw==
-X-Gm-Message-State: AOAM531oPCbERZszxq4WdTZsKCDLFTlfq5YK6OIi6NBdcULyw1tRWrU9
- Rnwly14Axe5jx170fRWHp3E=
-X-Google-Smtp-Source: ABdhPJyDwRu68E0wrJddqdrXroFxwqwbzXhh1tDoL0sGRbQTDrkyD7VMwjZSzuLKaKuMhR7Lc26FuA==
-X-Received: by 2002:a1c:9ad8:: with SMTP id c207mr8494451wme.45.1592406258467; 
- Wed, 17 Jun 2020 08:04:18 -0700 (PDT)
+ bh=W4t5aEEhixJKv1dKhyIIzBH6l0t7LFuM7Z9ocXN6g74=;
+ b=TxRiNEgwAodMKI7k31WZwtV7xST5IwUd0SQszFyfP50m/RoniNztvBmBxFwNC5J2m4
+ VHtW0qe2Xz31Mx4aGpF6YtODGPvDqWjr9AVLtbTh7HT/49QndbqG01RMZHmusAuT3hZf
+ akcPsl2dhs9uuDITveg+SpE8L5aAxE5q9jztZ0SDTmgPy/Q4b4VuiTqkxfDGnjrDp5Ju
+ XPdlHq6hSnsmt9RulbdPY+cBGe8hVbGhw72Fpy3wQa9iDjQSvcePRBwDZqrWFJY2IGIk
+ vVCOixE9TwT24atnn7A1DPlKADBityxykU+1kW8uSsXZP+/8EnW5i6Xt2+Bx+6HGgIcT
+ fGEQ==
+X-Gm-Message-State: AOAM5320NLTeDTv20Km3s3sTREdyjCCQK9zJ0gkfhYH7DjY/+LCrn4XZ
+ Chjaf7EGSGCqaweHhfyRmzQ4JdLgzIAZ8IK015AjbZPuuMVNyFUIMGuoq9sr6NF6013GcMmJv0M
+ A4SN4rUZ1Ko+/Cqc=
+X-Received: by 2002:a5d:522f:: with SMTP id i15mr9177150wra.339.1592406517946; 
+ Wed, 17 Jun 2020 08:08:37 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwUa+7NCTEgyWjCMbtrVga1JzhEL4eb08rsyFl3DWAqIG9rLewzEMFPNecq7/j8mRBbPSJ6lw==
+X-Received: by 2002:a5d:522f:: with SMTP id i15mr9177128wra.339.1592406517713; 
+ Wed, 17 Jun 2020 08:08:37 -0700 (PDT)
 Received: from ?IPv6:2001:b07:6468:f312:48a4:82f8:2ffd:ec67?
  ([2001:b07:6468:f312:48a4:82f8:2ffd:ec67])
- by smtp.googlemail.com with ESMTPSA id s8sm33935027wrm.96.2020.06.17.08.04.17
+ by smtp.gmail.com with ESMTPSA id u13sm33886809wrp.53.2020.06.17.08.08.33
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 17 Jun 2020 08:04:17 -0700 (PDT)
-Subject: Re: applying mailing list review tags (was: Re: [PATCH v3 00/16]
- python: add mypy support to python/qemu)
-To: John Snow <jsnow@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-References: <20200604202236.25039-1-jsnow@redhat.com>
- <20200605092630.GE5869@linux.fritz.box>
- <502e4f4d-6770-61a7-1496-9cb244f9ddd3@redhat.com>
- <20200608153327.GD6419@linux.fritz.box>
- <130e4383-8c33-c3f2-55b2-1ec45a5214cc@redhat.com>
- <87wo4gr4yb.fsf@dusky.pond.sub.org>
- <4ee8f32a-192d-b154-f3cc-c41e7ff56c58@redhat.com>
+ Wed, 17 Jun 2020 08:08:33 -0700 (PDT)
+Subject: Re: [PATCH 0/6] Add various undefined MMIO r/w functions
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
+References: <20200617053934.122642-1-ppandit@redhat.com>
+ <20200617063956.GA12597@umbus.fritz.box> <20200617070621.29051d4b@x1.home>
+ <8357f8a5-83e3-47a7-57c9-b88edfa3812c@redhat.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <ce1b566c-dd78-194d-e287-2e7117aa7ad4@redhat.com>
-Date: Wed, 17 Jun 2020 17:04:17 +0200
+Message-ID: <053a1d95-56ec-80da-cebf-51f920e86daa@redhat.com>
+Date: Wed, 17 Jun 2020 17:08:33 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <4ee8f32a-192d-b154-f3cc-c41e7ff56c58@redhat.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <8357f8a5-83e3-47a7-57c9-b88edfa3812c@redhat.com>
 Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x344.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/17 01:42:42
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,71 +103,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Prasad J Pandit <pjp@fedoraproject.org>, Li Qiang <liq3ea@163.com>,
+ Li Qiang <liq3ea@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ P J P <ppandit@redhat.com>, Lei Sun <slei.casper@gmail.com>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Joel Stanley <joel@jms.id.au>, Li Qiang <pangpei.lq@antfin.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 16/06/20 19:58, John Snow wrote:
-> 1. Correlating a mailing list patch from e.g. patchew to a commit in my
-> history, even if it's changed a little bit?
-
-Use "git am --message-id"?
-
-> (git-backport-diff uses patch names, that might be sufficient... Could
-> use that as a starting point, at least.)
+On 17/06/20 15:20, Philippe Mathieu-Daudé wrote:
+> On 6/17/20 3:06 PM, Alex Williamson wrote:
+>> On Wed, 17 Jun 2020 16:39:56 +1000
+>> David Gibson <david@gibson.dropbear.id.au> wrote:
+>>
+>>> On Wed, Jun 17, 2020 at 11:09:27AM +0530, P J P wrote:
+>>>> From: Prasad J Pandit <pjp@fedoraproject.org>
+>>>>
+>>>> Hello,
+>>>>
+>>>> This series adds various undefined MMIO read/write functions
+>>>> to avoid potential guest crash via a NULL pointer dereference.  
+>>>
+>>> Hrm.  If this is such a common problem, maybe we should just add a
+>>> NULL check in the common paths.
+>>
+>> +1, clearly the behavior is already expected.  Thanks,
 > 
-> 2. Obtaining the commit message of that patch?
-> `git show -s --format=%B $SHA` ought to do it...
+> 20 months ago Peter suggested:
 > 
-> 3. Editing that commit message? This I'm not sure about. I'd need to
-> understand the tags on the upstream and downstream versions, merge them,
-> and then re-write the message. Some magic with `git rebase -i` ?
+> "assert that every MemoryRegionOps has pointers to callbacks
+>  in it, when it is registered in memory_region_init_io() and
+>  memory_region_init_rom_device_nomigrate()."
+> 
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg573310.html
+> 
+> Li Qiang refers to this post from Paolo:
+> 
+>>  static const MemoryRegionOps notdirty_mem_ops = {
+>> +    .read = notdirty_mem_read,
+>>      .write = notdirty_mem_write,
+>>      .valid.accepts = notdirty_mem_accepts,
+>>      .endianness = DEVICE_NATIVE_ENDIAN,
+> 
+> "This cannot happen, since TLB_NOTDIRTY is only added
+>  to the addr_write member (see accel/tcg/cputlb.c)."
 
-"patchew apply" actually uses "git filter-branch --msg-filter" to add the
-tags  after a successful "git am", so you can do something similar yourself.
-(Actually I have pending patches to patchew that switch it to server-side
-application of tags using the "mbox" URL that Philippe mentioned earlier, but
-they've been pending for quite some time now).
-
-To get the upstream tags you can use the Patchew REST API:
-
-   $ MSGID=20200521153616.307100-1-stefanha@redhat.com
-   $ curl -L https://patchew.org/api/v1/projects/by-name/QEMU/messages/$MSGID/ | jq -r '.tags[]'
-   Reported-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-   Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-So you'd have to take a commit, look for a Message-Id header, fetch the
-tags from above mentioned Patchew API URL and add the tags to the commit
-message.
-
-The commit message can be either emitted to stdout (and the script
-used with "git filter-branch)" or, for the faint of heart, the script
-could do a "git commit --amend" and you can use "git rebase -i --exec"
-to execute the script on all commits in a range.
-
-This script is for the latter option:
-
-   #! /bin/bash
-   BODY=$(git show -s --format=%B)
-   MSGID=$(git interpret-trailers --parse <<< $BODY | sed -n 's/^Message-Id: <\(.*\)>/\1/ip')
-   USER="$(git config user.name) <$(git config user.email)>"
-   BODY=$(curl -L https://patchew.org/api/v1/projects/by-name/QEMU/messages/$MSGID/ | \
-     jq -r '.tags[]' | ( \
-       args=()
-       while read x; do
-         args+=(--trailer "$x")
-       done
-       git interpret-trailers \
-         --if-exists doNothing "${args[@]}" \
-         --if-exists replace --if-missing doNothing --trailer "Signed-off-by: $USER" <<< $BODY
-   ))
-   git commit --amend -m"$BODY"
-
-The script will also move your Signed-off-by line at the end of the commit
-message, this might be a problem if there is more than one such line and
-you want to keep them all.
+I'm now okay with asserting it, as long as notdirty_mem_read abort()s.
 
 Paolo
+
 
