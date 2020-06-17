@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E486E1FD027
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 16:58:02 +0200 (CEST)
-Received: from localhost ([::1]:52822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B63761FD032
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 17:00:37 +0200 (CEST)
+Received: from localhost ([::1]:34378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlZVp-0003WK-TN
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 10:58:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45454)
+	id 1jlZYK-0007mH-OP
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 11:00:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jlZNw-0003Em-Qz
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 10:49:52 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35253
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jlZO3-0003Nq-09
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 10:49:59 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:46454
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jlZNu-0001kV-Gt
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 10:49:52 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jlZO0-0001m7-UL
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 10:49:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592405389;
+ s=mimecast20190719; t=1592405395;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kYEy4CSlUwYadDuzhQLAHzO3vI5ceB/8XHO+tzwcPP0=;
- b=EdzSn4a7c2TP4zY4QCDN22qJC6TudYKAjVxcVVxWpR2PkBBkwRBG6DvfBN/kbUlUckw8e4
- BwnOEFBXzBInrZzsamWEyS7u4KHnN/xxpKLbocNmGu9dSkpAjAE4U8XWL7dJLHXwwqb0hx
- vens4PvLh3/WpTd1IGHmjl4rOCkN/pc=
+ bh=uy5ich4VT/VB6LLjP8nA02pW5jPVY/jmocAF5nozH+o=;
+ b=KO8M6ECVbnLg8/dS+Y9gGIVkcGedeSuAF+dlwFaaXbnJgQEtqs/9It++HaWN1xis+IJ43L
+ jNkjIjAJptppgXmawcP+hAunN3xYxYzNbVW7GIE+W3/1mJo4hPmqjtBzp+QEuSZqmTDwIh
+ KBaF4N33Bxkj4j+7dMqXgcaxXofcdLA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-176-3HKbV3FNPQeMIVkgd9OXIA-1; Wed, 17 Jun 2020 10:49:45 -0400
-X-MC-Unique: 3HKbV3FNPQeMIVkgd9OXIA-1
+ us-mta-408-DX5p0snINXmGJtLZ3A-qAg-1; Wed, 17 Jun 2020 10:49:52 -0400
+X-MC-Unique: DX5p0snINXmGJtLZ3A-qAg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 91E241091337;
- Wed, 17 Jun 2020 14:49:44 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A17AE8730B2;
+ Wed, 17 Jun 2020 14:49:49 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-114-44.ams2.redhat.com [10.36.114.44])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 967847CAAA;
- Wed, 17 Jun 2020 14:49:43 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A95F57CAA0;
+ Wed, 17 Jun 2020 14:49:48 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 22/43] hw/block/nvme: factor out cmb setup
-Date: Wed, 17 Jun 2020 16:48:48 +0200
-Message-Id: <20200617144909.192176-23-kwolf@redhat.com>
+Subject: [PULL 26/43] hw/block/nvme: Verify msix_vector_use() returned value
+Date: Wed, 17 Jun 2020 16:48:52 +0200
+Message-Id: <20200617144909.192176-27-kwolf@redhat.com>
 In-Reply-To: <20200617144909.192176-1-kwolf@redhat.com>
 References: <20200617144909.192176-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -54,16 +54,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=kwolf@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 23:30:45
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/17 02:02:46
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,86 +81,40 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Klaus Jensen <k.jensen@samsung.com>
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
-Reviewed-by: Keith Busch <kbusch@kernel.org>
-Message-Id: <20200609190333.59390-17-its@irrelevant.dk>
+msix_vector_use() returns -EINVAL on error. Assert it won't.
+
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20200609190333.59390-21-its@irrelevant.dk>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- hw/block/nvme.c | 43 ++++++++++++++++++++++++-------------------
- 1 file changed, 24 insertions(+), 19 deletions(-)
+ hw/block/nvme.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index a4022b0291..8aabb4c3c3 100644
+index e10fc774fc..fe17aa5d70 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -56,6 +56,7 @@
- 
- #define NVME_REG_SIZE 0x1000
- #define NVME_DB_SIZE  4
-+#define NVME_CMB_BIR 2
- 
- #define NVME_GUEST_ERR(trace, fmt, ...) \
-     do { \
-@@ -1438,6 +1439,28 @@ static void nvme_init_namespace(NvmeCtrl *n, NvmeNamespace *ns, Error **errp)
-     id_ns->nuse = id_ns->ncap;
- }
- 
-+static void nvme_init_cmb(NvmeCtrl *n, PCIDevice *pci_dev)
-+{
-+    NVME_CMBLOC_SET_BIR(n->bar.cmbloc, NVME_CMB_BIR);
-+    NVME_CMBLOC_SET_OFST(n->bar.cmbloc, 0);
-+
-+    NVME_CMBSZ_SET_SQS(n->bar.cmbsz, 1);
-+    NVME_CMBSZ_SET_CQS(n->bar.cmbsz, 0);
-+    NVME_CMBSZ_SET_LISTS(n->bar.cmbsz, 0);
-+    NVME_CMBSZ_SET_RDS(n->bar.cmbsz, 1);
-+    NVME_CMBSZ_SET_WDS(n->bar.cmbsz, 1);
-+    NVME_CMBSZ_SET_SZU(n->bar.cmbsz, 2); /* MBs */
-+    NVME_CMBSZ_SET_SZ(n->bar.cmbsz, n->params.cmb_size_mb);
-+
-+    n->cmbuf = g_malloc0(NVME_CMBSZ_GETSIZE(n->bar.cmbsz));
-+    memory_region_init_io(&n->ctrl_mem, OBJECT(n), &nvme_cmb_ops, n,
-+                          "nvme-cmb", NVME_CMBSZ_GETSIZE(n->bar.cmbsz));
-+    pci_register_bar(pci_dev, NVME_CMBLOC_BIR(n->bar.cmbloc),
-+                     PCI_BASE_ADDRESS_SPACE_MEMORY |
-+                     PCI_BASE_ADDRESS_MEM_TYPE_64 |
-+                     PCI_BASE_ADDRESS_MEM_PREFETCH, &n->ctrl_mem);
-+}
-+
- static void nvme_init_pci(NvmeCtrl *n, PCIDevice *pci_dev)
+@@ -615,6 +615,10 @@ static uint16_t nvme_del_cq(NvmeCtrl *n, NvmeCmd *cmd)
+ static void nvme_init_cq(NvmeCQueue *cq, NvmeCtrl *n, uint64_t dma_addr,
+     uint16_t cqid, uint16_t vector, uint16_t size, uint16_t irq_enabled)
  {
-     uint8_t *pci_conf = pci_dev->config;
-@@ -1514,25 +1537,7 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
-     n->bar.intmc = n->bar.intms = 0;
- 
-     if (n->params.cmb_size_mb) {
--
--        NVME_CMBLOC_SET_BIR(n->bar.cmbloc, 2);
--        NVME_CMBLOC_SET_OFST(n->bar.cmbloc, 0);
--
--        NVME_CMBSZ_SET_SQS(n->bar.cmbsz, 1);
--        NVME_CMBSZ_SET_CQS(n->bar.cmbsz, 0);
--        NVME_CMBSZ_SET_LISTS(n->bar.cmbsz, 0);
--        NVME_CMBSZ_SET_RDS(n->bar.cmbsz, 1);
--        NVME_CMBSZ_SET_WDS(n->bar.cmbsz, 1);
--        NVME_CMBSZ_SET_SZU(n->bar.cmbsz, 2); /* MBs */
--        NVME_CMBSZ_SET_SZ(n->bar.cmbsz, n->params.cmb_size_mb);
--
--        n->cmbuf = g_malloc0(NVME_CMBSZ_GETSIZE(n->bar.cmbsz));
--        memory_region_init_io(&n->ctrl_mem, OBJECT(n), &nvme_cmb_ops, n,
--                              "nvme-cmb", NVME_CMBSZ_GETSIZE(n->bar.cmbsz));
--        pci_register_bar(pci_dev, NVME_CMBLOC_BIR(n->bar.cmbloc),
--            PCI_BASE_ADDRESS_SPACE_MEMORY | PCI_BASE_ADDRESS_MEM_TYPE_64 |
--            PCI_BASE_ADDRESS_MEM_PREFETCH, &n->ctrl_mem);
--
-+        nvme_init_cmb(n, pci_dev);
-     } else if (n->pmrdev) {
-         /* Controller Capabilities register */
-         NVME_CAP_SET_PMRS(n->bar.cap, 1);
++    int ret;
++
++    ret = msix_vector_use(&n->parent_obj, vector);
++    assert(ret == 0);
+     cq->ctrl = n;
+     cq->cqid = cqid;
+     cq->size = size;
+@@ -625,7 +629,6 @@ static void nvme_init_cq(NvmeCQueue *cq, NvmeCtrl *n, uint64_t dma_addr,
+     cq->head = cq->tail = 0;
+     QTAILQ_INIT(&cq->req_list);
+     QTAILQ_INIT(&cq->sq_list);
+-    msix_vector_use(&n->parent_obj, cq->vector);
+     n->cq[cqid] = cq;
+     cq->timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, nvme_post_cqes, cq);
+ }
 -- 
 2.25.4
 
