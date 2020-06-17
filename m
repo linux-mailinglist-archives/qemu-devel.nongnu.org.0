@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73F9F1FD7C1
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 23:43:47 +0200 (CEST)
-Received: from localhost ([::1]:37832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F9401FD7CD
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 23:45:38 +0200 (CEST)
+Received: from localhost ([::1]:46342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlfqU-0001AV-9r
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 17:43:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45886)
+	id 1jlfsH-0004X6-9a
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 17:45:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45912)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=430b82a1d=dmitry.fomichev@wdc.com>)
- id 1jlfhc-0003aJ-HV; Wed, 17 Jun 2020 17:34:36 -0400
-Received: from esa1.hgst.iphmx.com ([68.232.141.245]:29837)
+ id 1jlfhd-0003bS-KE; Wed, 17 Jun 2020 17:34:37 -0400
+Received: from esa1.hgst.iphmx.com ([68.232.141.245]:29844)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=430b82a1d=dmitry.fomichev@wdc.com>)
- id 1jlfha-0005DU-GZ; Wed, 17 Jun 2020 17:34:36 -0400
+ id 1jlfhb-0005Dr-6a; Wed, 17 Jun 2020 17:34:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
  t=1592429674; x=1623965674;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=HX0mScZJawcN1wtB9oGEysO0x6z2NlfQ4Kuhi3c7Lc4=;
- b=Eh/bHDa9a6NU+Sel6hOZrVl4mBqP/W5eHA3oC9SzH3/Y86QDK/4eK4SR
- qyY/tOAVEtlZbcDyPdDyaOztkM2+rppgD4ljrY8hXaQwQZoJwWJbKMBrE
- rAsvmRhDuuXNFvIiQXEMoKG9n4gcoYIFLrpYv3Jd46lZbA15DaRpvvsNn
- KSYouSAr0PTNEoauXjPNH1T6mbYG65NRF7lM22zfaLLrO65/TOPA1gjTu
- o/7zWReE+d0BLkrYeMG07yKAuHvgNnauCopQsGa/c8RJNt8/isaW8fDgS
- hoHCgkw/qvGA4LykNopc2EV/4AzFQYNhrARTPY75/roNFau7mx8+6SQFk w==;
-IronPort-SDR: BrP0Rqx8XR2iFlC8/uM/E7C63R9Pdbsz1J12hQJ7mFys7H5/267NCnj3dovbF40pWnjKFyce68
- GaF3cdFiU8W+ZFp3NFDfRHFh4K5hgBEpRPWSqj0T89ZC7vrRkiZR7/tP/JBUC5ab/EvmxLHGil
- SxzQULDpn5jxLXEjH9VR/tLiiyay21OOnNX0dqiP8n3MN87o3GNArq/CCLePuprzLa6xxNT+mw
- elhsbHwSjq21bbH/ob0VtUFXBlobUciql7oDw7LFs1IdoTKaJ888dK+xmfqdHEHQDYJn94ZV5D
- wC8=
-X-IronPort-AV: E=Sophos;i="5.73,523,1583164800"; d="scan'208";a="249439785"
+ bh=TP+9GhGC6V6UFGFXIelPM1rn6ry/YJFB4JIxShesYoU=;
+ b=J5xilHuK4Xa9GshogIYdN3eKBuqLoSPPNaRxZXPjk7kemrldNuPSGO+I
+ NnsjHpcbqsEAIyN8Oo2bUUsrcjqWo3phEMvtIv0DHa8uNQteqSBEy+6cE
+ TuD7cYVuc27cQ4xLVvXTeyFDiFVYy/dc4ADwqHYSOWZlccXsAv9AYtkOL
+ MIAkuUu1V60VN2c5O+2NC5wczydU8KxjfRc4FU5z07aR0VbyQLB/trp8z
+ YN1cYxiV8//mmPeT9bFN3lILjijS+v62dmUZwVnu45pUBpjxzLwp0gYGQ
+ BH0KPgq0kNDvUvMBWx8VHm6+gLxOx/Qo1lqR+GkdRipOLTNNMVvXpHhhO A==;
+IronPort-SDR: SiUu3anDmdA9i+gWIdXzQBPpu9MnHba6kZuWixSWlUNPxn5CegNUbNkcD/0duRwtXbiaE+ZhcQ
+ Ul6xOSUxpdpmU3dfGIAKiyg9Rs1CLwKYfMAtQuobkfBhYDb09Ys7qRQ59a0Ts2RwD51mVLkh6y
+ iRrlO5zurqo1CNpRM4j2EZ6IA7euesVza7c+LbPQGs1PiU/5/hfjN49ALRB/XOuMEYOECwMtbN
+ AWMGh4a6j0z92TP1XckwbcKeDHAzrsc3a4DjX3lEFoDIsmQIZBSC8jCbnkRj56jeKhdj3UW2c0
+ d/w=
+X-IronPort-AV: E=Sophos;i="5.73,523,1583164800"; d="scan'208";a="249439789"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 18 Jun 2020 05:34:29 +0800
-IronPort-SDR: /D740RNZ+/o95QDVBz+NtJBapa9cOrsKn3ALo0NI+Dd8rm9BriWq0fY1xkOTiXDOeg1/mVS7b8
- ql4I0V9/Goufphq3dzQhbc+5jvQazQu0A=
+ by ob1.hgst.iphmx.com with ESMTP; 18 Jun 2020 05:34:31 +0800
+IronPort-SDR: Uj8dOHpAczLcaCzxqw5+YJNuDL+cJHDAL+tJsFGZ7TZApaInAxCkjtNgu2BhzsMPJn900UkCYW
+ 7QAFmkt1xXCDhMRr88cxtj/QBayDo/2t8=
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jun 2020 14:23:10 -0700
-IronPort-SDR: J6Yy+/u7Zf4QYayjkB5TSGeNs1zv8i7x01rSLal/98U2I8r9u1wifM1L/2YRCvuLVQhRPFsK72
- ZVz+W+yinV6A==
+ 17 Jun 2020 14:23:12 -0700
+IronPort-SDR: h00Lh9Ktzk6vEIDdrED3Zl3dCtUJB1Xf2OJVU0xaRcnHowMxE6Kpa0xww+y4IZ4b5Mk3CrrNqP
+ PVYGpqpsGkWQ==
 WDCIronportException: Internal
 Received: from unknown (HELO redsun50.ssa.fujisawa.hgst.com) ([10.149.66.24])
- by uls-op-cesaip02.wdc.com with ESMTP; 17 Jun 2020 14:34:28 -0700
+ by uls-op-cesaip02.wdc.com with ESMTP; 17 Jun 2020 14:34:30 -0700
 From: Dmitry Fomichev <dmitry.fomichev@wdc.com>
 To: Kevin Wolf <kwolf@redhat.com>, Keith Busch <kbusch@kernel.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Maxim Levitsky <mlevitsky@redhat.com>
-Subject: [PATCH v2 01/18] hw/block/nvme: Move NvmeRequest has_sg field to a
- bit flag
-Date: Thu, 18 Jun 2020 06:33:58 +0900
-Message-Id: <20200617213415.22417-2-dmitry.fomichev@wdc.com>
+Subject: [PATCH v2 02/18] hw/block/nvme: Define 64 bit cqe.result
+Date: Thu, 18 Jun 2020 06:33:59 +0900
+Message-Id: <20200617213415.22417-3-dmitry.fomichev@wdc.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200617213415.22417-1-dmitry.fomichev@wdc.com>
 References: <20200617213415.22417-1-dmitry.fomichev@wdc.com>
@@ -93,91 +92,93 @@ Cc: Niklas Cassel <niklas.cassel@wdc.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In addition to the existing has_sg flag, a few more Boolean
-NvmeRequest flags are going to be introduced in subsequent patches.
-Convert "has_sg" variable to "flags" and define NvmeRequestFlags
-enum for individual flag values.
+From: Ajay Joshi <ajay.joshi@wdc.com>
 
+A new write command, Zone Append, is added as a part of Zoned
+Namespace Command Set. Upon successful completion of this command,
+the controller returns the start LBA of the performed write operation
+in cqe.result field. Therefore, the maximum size of this variable
+needs to be changed from 32 to 64 bit, consuming the reserved 32 bit
+field that follows the result in CQE struct. Since the existing
+commands are expected to return a 32 bit LE value, two separate
+variables, result32 and result64, are now kept in a union.
+
+Signed-off-by: Ajay Joshi <ajay.joshi@wdc.com>
 Signed-off-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
 ---
- hw/block/nvme.c | 8 +++-----
- hw/block/nvme.h | 6 +++++-
- 2 files changed, 8 insertions(+), 6 deletions(-)
+ block/nvme.c         | 2 +-
+ block/trace-events   | 2 +-
+ hw/block/nvme.c      | 6 +++---
+ include/block/nvme.h | 6 ++++--
+ 4 files changed, 9 insertions(+), 7 deletions(-)
 
+diff --git a/block/nvme.c b/block/nvme.c
+index eb2f54dd9d..ca245ec574 100644
+--- a/block/nvme.c
++++ b/block/nvme.c
+@@ -287,7 +287,7 @@ static inline int nvme_translate_error(const NvmeCqe *c)
+ {
+     uint16_t status = (le16_to_cpu(c->status) >> 1) & 0xFF;
+     if (status) {
+-        trace_nvme_error(le32_to_cpu(c->result),
++        trace_nvme_error(le64_to_cpu(c->result64),
+                          le16_to_cpu(c->sq_head),
+                          le16_to_cpu(c->sq_id),
+                          le16_to_cpu(c->cid),
+diff --git a/block/trace-events b/block/trace-events
+index 29dff8881c..05c1393943 100644
+--- a/block/trace-events
++++ b/block/trace-events
+@@ -156,7 +156,7 @@ vxhs_get_creds(const char *cacert, const char *client_key, const char *client_ce
+ # nvme.c
+ nvme_kick(void *s, int queue) "s %p queue %d"
+ nvme_dma_flush_queue_wait(void *s) "s %p"
+-nvme_error(int cmd_specific, int sq_head, int sqid, int cid, int status) "cmd_specific %d sq_head %d sqid %d cid %d status 0x%x"
++nvme_error(uint64_t cmd_specific, int sq_head, int sqid, int cid, int status) "cmd_specific %ld sq_head %d sqid %d cid %d status 0x%x"
+ nvme_process_completion(void *s, int index, int inflight) "s %p queue %d inflight %d"
+ nvme_process_completion_queue_busy(void *s, int index) "s %p queue %d"
+ nvme_complete_command(void *s, int index, int cid) "s %p queue %d cid %d"
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 1aee042d4c..3ed9f3d321 100644
+index 3ed9f3d321..a1bbc9acde 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -350,7 +350,7 @@ static void nvme_rw_cb(void *opaque, int ret)
-         block_acct_failed(blk_get_stats(n->conf.blk), &req->acct);
-         req->status = NVME_INTERNAL_DEV_ERROR;
-     }
--    if (req->has_sg) {
-+    if (req->flags & NVME_REQ_FLG_HAS_SG) {
-         qemu_sglist_destroy(&req->qsg);
-     }
-     nvme_enqueue_req_completion(cq, req);
-@@ -359,7 +359,6 @@ static void nvme_rw_cb(void *opaque, int ret)
- static uint16_t nvme_flush(NvmeCtrl *n, NvmeNamespace *ns, NvmeCmd *cmd,
-     NvmeRequest *req)
- {
--    req->has_sg = false;
-     block_acct_start(blk_get_stats(n->conf.blk), &req->acct, 0,
-          BLOCK_ACCT_FLUSH);
-     req->aiocb = blk_aio_flush(n->conf.blk, nvme_rw_cb, req);
-@@ -383,7 +382,6 @@ static uint16_t nvme_write_zeros(NvmeCtrl *n, NvmeNamespace *ns, NvmeCmd *cmd,
-         return NVME_LBA_RANGE | NVME_DNR;
+@@ -823,7 +823,7 @@ static uint16_t nvme_get_feature(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
+         return NVME_INVALID_FIELD | NVME_DNR;
      }
  
--    req->has_sg = false;
-     block_acct_start(blk_get_stats(n->conf.blk), &req->acct, 0,
-                      BLOCK_ACCT_WRITE);
-     req->aiocb = blk_aio_pwrite_zeroes(n->conf.blk, offset, count,
-@@ -422,14 +420,13 @@ static uint16_t nvme_rw(NvmeCtrl *n, NvmeNamespace *ns, NvmeCmd *cmd,
+-    req->cqe.result = result;
++    req->cqe.result32 = result;
+     return NVME_SUCCESS;
+ }
  
-     dma_acct_start(n->conf.blk, &req->acct, &req->qsg, acct);
-     if (req->qsg.nsg > 0) {
--        req->has_sg = true;
-+        req->flags |= NVME_REQ_FLG_HAS_SG;
-         req->aiocb = is_write ?
-             dma_blk_write(n->conf.blk, &req->qsg, data_offset, BDRV_SECTOR_SIZE,
-                           nvme_rw_cb, req) :
-             dma_blk_read(n->conf.blk, &req->qsg, data_offset, BDRV_SECTOR_SIZE,
-                          nvme_rw_cb, req);
-     } else {
--        req->has_sg = false;
-         req->aiocb = is_write ?
-             blk_aio_pwritev(n->conf.blk, data_offset, &req->iov, 0, nvme_rw_cb,
-                             req) :
-@@ -917,6 +914,7 @@ static void nvme_process_sq(void *opaque)
-         QTAILQ_REMOVE(&sq->req_list, req, entry);
-         QTAILQ_INSERT_TAIL(&sq->out_req_list, req, entry);
-         memset(&req->cqe, 0, sizeof(req->cqe));
-+        req->flags = 0;
-         req->cqe.cid = cmd.cid;
+@@ -859,8 +859,8 @@ static uint16_t nvme_set_feature(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
+                                     ((dw11 >> 16) & 0xFFFF) + 1,
+                                     n->params.max_ioqpairs,
+                                     n->params.max_ioqpairs);
+-        req->cqe.result = cpu_to_le32((n->params.max_ioqpairs - 1) |
+-                                      ((n->params.max_ioqpairs - 1) << 16));
++        req->cqe.result32 = cpu_to_le32((n->params.max_ioqpairs - 1) |
++                                        ((n->params.max_ioqpairs - 1) << 16));
+         break;
+     case NVME_TIMESTAMP:
+         return nvme_set_feature_timestamp(n, cmd);
+diff --git a/include/block/nvme.h b/include/block/nvme.h
+index 1720ee1d51..9c3a04dcd7 100644
+--- a/include/block/nvme.h
++++ b/include/block/nvme.h
+@@ -577,8 +577,10 @@ typedef struct NvmeAerResult {
+ } NvmeAerResult;
  
-         status = sq->sqid ? nvme_io_cmd(n, &cmd, req) :
-diff --git a/hw/block/nvme.h b/hw/block/nvme.h
-index 1d30c0bca2..0460cc0e62 100644
---- a/hw/block/nvme.h
-+++ b/hw/block/nvme.h
-@@ -16,11 +16,15 @@ typedef struct NvmeAsyncEvent {
-     NvmeAerResult result;
- } NvmeAsyncEvent;
- 
-+enum NvmeRequestFlags {
-+    NVME_REQ_FLG_HAS_SG   = 1 << 0,
-+};
-+
- typedef struct NvmeRequest {
-     struct NvmeSQueue       *sq;
-     BlockAIOCB              *aiocb;
-     uint16_t                status;
--    bool                    has_sg;
-+    uint16_t                flags;
-     NvmeCqe                 cqe;
-     BlockAcctCookie         acct;
-     QEMUSGList              qsg;
+ typedef struct NvmeCqe {
+-    uint32_t    result;
+-    uint32_t    rsvd;
++    union {
++        uint64_t     result64;
++        uint32_t     result32;
++    };
+     uint16_t    sq_head;
+     uint16_t    sq_id;
+     uint16_t    cid;
 -- 
 2.21.0
 
