@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 600F21FCBB1
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 13:04:44 +0200 (CEST)
-Received: from localhost ([::1]:43912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2AFC1FCBBD
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 13:06:22 +0200 (CEST)
+Received: from localhost ([::1]:48594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlVs3-0006Z8-Ay
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 07:04:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35338)
+	id 1jlVtd-0000aZ-WD
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 07:06:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35324)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <arilou@gmail.com>) id 1jlVqn-0005hu-3f
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 07:03:25 -0400
-Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:43330)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <arilou@gmail.com>) id 1jlVqj-0005K1-6d
+ (Exim 4.90_1) (envelope-from <arilou@gmail.com>) id 1jlVql-0005hQ-VZ
  for qemu-devel@nongnu.org; Wed, 17 Jun 2020 07:03:24 -0400
-Received: by mail-ej1-x632.google.com with SMTP id l12so1825748ejn.10
- for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 04:03:20 -0700 (PDT)
+Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:43794)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <arilou@gmail.com>) id 1jlVqj-0005K9-PP
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 07:03:23 -0400
+Received: by mail-ej1-x642.google.com with SMTP id l12so1825818ejn.10
+ for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 04:03:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=aWndGdqKa1SXKyQPqVUUIP7N2TD8jiKpi3mQeXOmyP4=;
- b=AQ2GPuzsHTqzdWni5s5QrcH5jcix2loohMgEFs0s1hFEh1HXwnjeoH2yhVbVwaYWP3
- YUMUjySxlhwxfh7XDfhnDnplpJKHJTexVIy118Ol9uwp5mkpCHFaqD0/NNACz2Y25JUb
- 1SLR7BGnoxG72fTKnBl813L1KFC54Y45oEO/+Ju0a5kA2U07ZGZghOWCRhObrujkDrlG
- whyybPbuTbRsjDorQWfPl5XOjPQx0d4EqYtqdvo9waN2epuASPMexzy16X3i2G+vrIr4
- S4XTJ3kY8UoduKmh7Zqd6RkPGdo+yzsyVdpuPIIyf/ixo5Kfw9WFa9o1th78NUM/qGpQ
- W/5w==
+ bh=WiNUb7t32KnTMP03i/GQezdP9adjf5u3/DZqFCVRrqs=;
+ b=fCndc+86fuFDxadHuNrbrNaPjXpZq/GfveWO3KTK+OtXetzWXRpXkKS/c7sQ5PWHze
+ lKajarmMWe/uw/XMh6OdENLu9TqpNCMVOMcUQyhvzpcKoxE2aoQKfI3iHdyjKpFVjFiW
+ 3JSRydjnIGDw1fAnWkaL3uK5afgl05zg22mtqspMKa5y4HLBqVMNbgVmxVM1TQbv+VSN
+ KZ5N5N9RAa8Y1VjYkzkapyUSzfyKDQJU4iuDXSTqX/kjr3sU6gE+5FVjdvcCts5qDKPF
+ P/u62MdVpi3FGi3Spyih4zNwqKindNOhivHTF7L0Z/vo8QNT3lieUV0wbOk19QX4xqqr
+ cOcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=aWndGdqKa1SXKyQPqVUUIP7N2TD8jiKpi3mQeXOmyP4=;
- b=L90AyhktcyfeyfBbW81CK0W3Xcx29BUn++0qDuKj6Yj1FdOv7YjyW9YlTlmXScPBrN
- k9XmwbJVtkHj4CmdSbC5eVbBBbXuv7pPN+L7MhiCjj3l9txw6ogV9+BI5sGpaZgY2quG
- R198yza3haM0/7WukJkONDtcqUtiqbSh6gsHNDEBf1CwePafF9BD/dzfQl9ggHnfROsR
- dBprCD8+ZVxoZpGXULVf9rXHXUaNFDHL1KnBlXz0aBzhijYwlhX7JuB2WmrokKwfE9cu
- 5HbjA2OyYLzNakSgl4XNqO9iTT9jK73IyEcZgDBjyDRWq7d2PBf9Reb+b6lRdh9X3/ei
- uaCA==
-X-Gm-Message-State: AOAM530p/qcFDqHdkuOTe4rzz0LhjVhPT8bzhaidTh8k6if4OF/K6bg4
- +6BVpL1OGN4TJDZ6e6KUDwbibu8r
-X-Google-Smtp-Source: ABdhPJwuciFZHnxFyuULjk3xpPQhZHmQZXHFQ2Xse4FreETfV68NLUuTZZHMXxyiAOxSUhwCnjFreg==
-X-Received: by 2002:a17:906:3499:: with SMTP id
- g25mr6813904ejb.518.1592391799100; 
- Wed, 17 Jun 2020 04:03:19 -0700 (PDT)
+ bh=WiNUb7t32KnTMP03i/GQezdP9adjf5u3/DZqFCVRrqs=;
+ b=g0osc7BpEE4b341bxV6sJlJ9OH69WmpdTU16SL6BRsDmuUUR79l43AAL7F4dnSDOr7
+ yN/lMcDIF/VDGb17JO3XBw8JH8x7BnrgXXCVaY8dEX/lp0JaN+twtnhmCOx1Qkxnha5w
+ HvfZGOb7ElCNTtnyGzEOJOCW6WvFb5BQwW00gy8I3D7UwjrmtHDcU+uS7ToaSmQu9ptc
+ /aA8a4zX12MiFvdHv6DqDZRq2+ed1FKBSMEzl/gXbFgxOgz0L/WoZzo7Nj4T+APcQfFu
+ 1BUDERUfqM26RSYjkhKY8P3zMQYadM81ijH6VZEFkiCrlkc2l3CvAX5Gqxmyw6SBjNti
+ SJbw==
+X-Gm-Message-State: AOAM532lUbeFwBTIu0T5TzXW77rwOsxQt4T/RcdRzvb87fqCJqlw5c02
+ liVNa5D3npbiuNHhy2lUKvTS6hwH
+X-Google-Smtp-Source: ABdhPJzupnxEIo99d/+2gAsYak2sXfm/d+ISqDN/u5H7AODlg9Y1QMuwgcWDCwgRN8cE7yg1jLvo1w==
+X-Received: by 2002:a17:907:7294:: with SMTP id
+ dt20mr6840732ejc.355.1592391800322; 
+ Wed, 17 Jun 2020 04:03:20 -0700 (PDT)
 Received: from jondnuc.lan (IGLD-84-229-154-20.inter.net.il. [84.229.154.20])
  by smtp.gmail.com with ESMTPSA id
- dc8sm11835806edb.10.2020.06.17.04.03.17
+ dc8sm11835806edb.10.2020.06.17.04.03.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Jun 2020 04:03:18 -0700 (PDT)
+ Wed, 17 Jun 2020 04:03:19 -0700 (PDT)
 From: Jon Doron <arilou@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 1/3] hyperv: vmbus: Remove the 2nd IRQ
-Date: Wed, 17 Jun 2020 14:03:02 +0300
-Message-Id: <20200617110304.636666-2-arilou@gmail.com>
+Subject: [PATCH v1 2/3] i386: acpi: vmbus: Add _ADR definition
+Date: Wed, 17 Jun 2020 14:03:03 +0300
+Message-Id: <20200617110304.636666-3-arilou@gmail.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200617110304.636666-1-arilou@gmail.com>
 References: <20200617110304.636666-1-arilou@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::632;
- envelope-from=arilou@gmail.com; helo=mail-ej1-x632.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::642;
+ envelope-from=arilou@gmail.com; helo=mail-ej1-x642.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,53 +90,25 @@ Cc: mail@maciej.szmigiero.name, Jon Doron <arilou@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It seems like Windows does not really require 2 IRQs to have a
-functioning VMBus.
+It seems like latest HyperV sets _ADR to 0 in the ACPI for the VMBS
 
 Signed-off-by: Jon Doron <arilou@gmail.com>
 ---
- hw/hyperv/vmbus.c                | 1 -
- hw/i386/acpi-build.c             | 2 --
- include/hw/hyperv/vmbus-bridge.h | 1 -
- 3 files changed, 4 deletions(-)
+ hw/i386/acpi-build.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/hyperv/vmbus.c b/hw/hyperv/vmbus.c
-index f371240176..1a3738a03b 100644
---- a/hw/hyperv/vmbus.c
-+++ b/hw/hyperv/vmbus.c
-@@ -2742,7 +2742,6 @@ static const VMStateDescription vmstate_vmbus_bridge = {
- 
- static Property vmbus_bridge_props[] = {
-     DEFINE_PROP_UINT8("irq0", VMBusBridge, irq0, 7),
--    DEFINE_PROP_UINT8("irq1", VMBusBridge, irq1, 13),
-     DEFINE_PROP_END_OF_LIST()
- };
- 
 diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 900f786d08..dce680e97c 100644
+index dce680e97c..508f5d9dd7 100644
 --- a/hw/i386/acpi-build.c
 +++ b/hw/i386/acpi-build.c
-@@ -1083,8 +1083,6 @@ static Aml *build_vmbus_device_aml(VMBusBridge *vmbus_bridge)
+@@ -1061,6 +1061,7 @@ static Aml *build_vmbus_device_aml(VMBusBridge *vmbus_bridge)
  
-     crs = aml_resource_template();
-     aml_append(crs, aml_irq_no_flags(vmbus_bridge->irq0));
--    /* FIXME: newer HyperV gets by with only one IRQ */
--    aml_append(crs, aml_irq_no_flags(vmbus_bridge->irq1));
-     aml_append(dev, aml_name_decl("_CRS", crs));
- 
-     return dev;
-diff --git a/include/hw/hyperv/vmbus-bridge.h b/include/hw/hyperv/vmbus-bridge.h
-index c0a06d832c..0369dabc03 100644
---- a/include/hw/hyperv/vmbus-bridge.h
-+++ b/include/hw/hyperv/vmbus-bridge.h
-@@ -20,7 +20,6 @@ typedef struct VMBusBridge {
-     SysBusDevice parent_obj;
- 
-     uint8_t irq0;
--    uint8_t irq1;
- 
-     VMBus *bus;
- } VMBusBridge;
+     dev = aml_device("VMBS");
+     aml_append(dev, aml_name_decl("STA", aml_int(0xF)));
++    aml_append(dev, aml_name_decl("_ADR", aml_int(0x0)));
+     aml_append(dev, aml_name_decl("_HID", aml_string("VMBus")));
+     aml_append(dev, aml_name_decl("_UID", aml_int(0x0)));
+     aml_append(dev, aml_name_decl("_DDN", aml_string("VMBUS")));
 -- 
 2.24.1
 
