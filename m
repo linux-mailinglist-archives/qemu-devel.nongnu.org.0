@@ -2,79 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A4501FCDCD
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 14:54:20 +0200 (CEST)
-Received: from localhost ([::1]:34300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0DBD1FCDD2
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 14:55:17 +0200 (CEST)
+Received: from localhost ([::1]:38222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlXa7-0000JQ-4z
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 08:54:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38876)
+	id 1jlXb2-0002DO-Mx
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 08:55:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38932)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1jlXYV-0007Fz-7i; Wed, 17 Jun 2020 08:52:39 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:43594)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1jlXYS-0006Ix-LZ; Wed, 17 Jun 2020 08:52:38 -0400
-Received: by mail-wr1-x441.google.com with SMTP id l10so2195913wrr.10;
- Wed, 17 Jun 2020 05:52:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=7EIvx47leX1M9Fb9+Q5Hyqk4UskVfaxMuDj7xlBl2Hg=;
- b=pkQX5sSlFMw2FRuWRr1IOdX7TUkTHU0nTAWLi+wwPD1pvLKN9U+boTDxeRudexuiCc
- I+kZ7H0OOPJFS36gX0Ujzgdf4A/GdcMLAGphr4TRzgvSS+p035zJA7mthVbwvwf2mj0R
- 5syIHoThGnKC/IpYofaf7W0YTzkDGDMbMitYrjHy13Qf9Txo0G1lwlQ37lSI/WpIgDpK
- 2kUglF+RBtZoUQQ0xo3bJ00GeiwTQC9OX0rETu7bFc1bdB5qg/f77mTx1+g9gIQK3itu
- x3yOgchEJE9GnYldjQtSpRyHXOJGHjPmgGHwYESjZtakiulYZ51Badqcd2N6+fZnjcU1
- Yrmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=7EIvx47leX1M9Fb9+Q5Hyqk4UskVfaxMuDj7xlBl2Hg=;
- b=Ug5k78Sa/n1J7kBv+mFQ+LalIOIj2Tpp4qyjCJRIK5KIN4fmXpdqOFm03Gz02/Ro0o
- hlCvQICWcLC8Xq8Lq1JTkbzZ4X6L3viWP0qjJqBsySL5k/jhpeQGVNUuh4fb/b4DxQql
- Xonrlk9S3+TFTcHNmMBQmt/Q3pLJOC9PbYGRx3RSFVbvJPq/PfyK5B6NsWKUyJmcb4Bz
- y+4v6Mee1oV/HmFxWh7OV7PedLmwG6HDzzxL5U7d3SNrMUVmU4Zmxdu1A8yoO8/2Tve3
- K/oEB7ZFmDh0pis+FzkQBj+k5Ee2wx/UvSIHTOdDCyjZwEMwcarQr4jSXuc5Y/Cw9HF4
- 9T7w==
-X-Gm-Message-State: AOAM5313UuQLDfTgqzKW3voM0oHv22aDo5REOWm/WjMaBCcAKehj2R92
- hmz+hVzmep8bMmWNXWSbFHtcyW1QA2U=
-X-Google-Smtp-Source: ABdhPJzyHb0b9+2F8PeG6bFo72QdtEu6t+F3DVr1ppSASYFVSEZy8krwv8LbpNDxfxFTTvfpCbn3pg==
-X-Received: by 2002:adf:f5c6:: with SMTP id k6mr482627wrp.358.1592398354807;
- Wed, 17 Jun 2020 05:52:34 -0700 (PDT)
-Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id 23sm311417wmo.18.2020.06.17.05.52.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Jun 2020 05:52:33 -0700 (PDT)
-Date: Wed, 17 Jun 2020 13:52:32 +0100
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Sergio Lopez <slp@redhat.com>
-Subject: Re: [PATCH 1/7] block/nvme: poll queues without q->lock
-Message-ID: <20200617125232.GD1728005@stefanha-x1.localdomain>
-References: <20200519171138.201667-1-stefanha@redhat.com>
- <20200519171138.201667-2-stefanha@redhat.com>
- <20200525080713.7kvgnlzvdbhfbowt@dritchie>
- <20200528152350.GI158218@stefanha-x1.localdomain>
- <20200529074858.6kxtojzbg4ysqadf@dritchie>
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jlXYf-0007Uu-6x
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 08:52:49 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:26880
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jlXYc-0006JP-4c
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 08:52:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1592398364;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=tCPr94I3SaHdHP9gG206DElbD1wXrufTMlK224wSTzU=;
+ b=GvmgftqocIFC6OTdqlvVHMPT8nEHDtWyP2Q/C9nR+5TJlep/ydzTeJmKnP6IkKpQ/XyGhJ
+ cDONZklryR5j1YdNu54FnhSSwSuM5IVq0l+8yBl8LIKZS8BMIizAsQVZFG/mwqgijuJno4
+ a54YM7M6d90VHnWbVR+Sjdc59o5en+g=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-15-WlC67oC-OGKSZbB2fzbVYA-1; Wed, 17 Jun 2020 08:52:41 -0400
+X-MC-Unique: WlC67oC-OGKSZbB2fzbVYA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 48DF4250FE0;
+ Wed, 17 Jun 2020 12:52:40 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-114-44.ams2.redhat.com [10.36.114.44])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 799267BA1A;
+ Wed, 17 Jun 2020 12:52:39 +0000 (UTC)
+Date: Wed, 17 Jun 2020 14:52:38 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Max Reitz <mreitz@redhat.com>
+Subject: Re: [PATCH 0/5] iotests: Some fixes for rarely run cases
+Message-ID: <20200617125238.GC5166@linux.fritz.box>
+References: <20200617104822.27525-1-mreitz@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="AbQceqfdZEv+FvjW"
+In-Reply-To: <20200617104822.27525-1-mreitz@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 Content-Disposition: inline
-In-Reply-To: <20200529074858.6kxtojzbg4ysqadf@dritchie>
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=stefanha@gmail.com; helo=mail-wr1-x441.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/17 01:42:42
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,99 +80,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Am 17.06.2020 um 12:48 hat Max Reitz geschrieben:
+> Hi,
+> 
+> Thomas’s report
+> (https://lists.nongnu.org/archive/html/qemu-block/2020-06/msg00791.html)
+> has given me a nice excuse to write this series.
+> 
+> There are some iotests that have recently start to fail in rarely
+> exercised test environments (qed, qcow2 with data_file, qcow2 v2), and
+> this series fixes what I found.
 
---AbQceqfdZEv+FvjW
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thanks, applied to the block branch.
 
-On Fri, May 29, 2020 at 09:49:31AM +0200, Sergio Lopez wrote:
-> On Thu, May 28, 2020 at 04:23:50PM +0100, Stefan Hajnoczi wrote:
-> > On Mon, May 25, 2020 at 10:07:13AM +0200, Sergio Lopez wrote:
-> > > On Tue, May 19, 2020 at 06:11:32PM +0100, Stefan Hajnoczi wrote:
-> > > > A lot of CPU time is spent simply locking/unlocking q->lock during
-> > > > polling. Check for completion outside the lock to make q->lock disa=
-ppear
-> > > > from the profile.
-> > > >
-> > > > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> > > > ---
-> > > >  block/nvme.c | 12 ++++++++++++
-> > > >  1 file changed, 12 insertions(+)
-> > > >
-> > > > diff --git a/block/nvme.c b/block/nvme.c
-> > > > index eb2f54dd9d..7eb4512666 100644
-> > > > --- a/block/nvme.c
-> > > > +++ b/block/nvme.c
-> > > > @@ -512,6 +512,18 @@ static bool nvme_poll_queues(BDRVNVMeState *s)
-> > > >
-> > > >      for (i =3D 0; i < s->nr_queues; i++) {
-> > > >          NVMeQueuePair *q =3D s->queues[i];
-> > > > +        const size_t cqe_offset =3D q->cq.head * NVME_CQ_ENTRY_BYT=
-ES;
-> > > > +        NvmeCqe *cqe =3D (NvmeCqe *)&q->cq.queue[cqe_offset];
-> > > > +
-> > > > +        /*
-> > > > +         * q->lock isn't needed for checking completion because
-> > > > +         * nvme_process_completion() only runs in the event loop t=
-hread and
-> > > > +         * cannot race with itself.
-> > > > +         */
-> > > > +        if ((le16_to_cpu(cqe->status) & 0x1) =3D=3D q->cq_phase) {
-> > > > +            continue;
-> > > > +        }
-> > > > +
-> > >
-> > > IIUC, this is introducing an early check of the phase bit to determine
-> > > if there is something new in the queue.
-> > >
-> > > I'm fine with this optimization, but I have the feeling that the
-> > > comment doesn't properly describe it.
-> >
-> > I'm not sure I understand. The comment explains why it's safe not to
-> > take q->lock. Normally it would be taken. Without the comment readers
-> > could be confused why we ignore the locking rules here.
-> >
-> > As for documenting the cqe->status expression itself, I didn't think of
-> > explaining it since it's part of the theory of operation of this device.
-> > Any polling driver will do this, there's nothing QEMU-specific or
-> > unusual going on here.
-> >
-> > Would you like me to expand the comment explaining that NVMe polling
-> > consists of checking the phase bit of the latest cqe to check for
-> > readiness?
-> >
-> > Or maybe I misunderstood? :)
->=20
-> I was thinking of something like "Do an early check for
-> completions. We don't need q->lock here because
-> nvme_process_completion() only runs (...)"
+Kevin
 
-Sure, will fix.
-
-Stefan
-
---AbQceqfdZEv+FvjW
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl7qEhAACgkQnKSrs4Gr
-c8gTLQf/dkhJ94siO4mxmMuBE8TXrRFW/DYUtn1pRXvf7E6ZL7u4nSJZCkU1GAbO
-1RxOhS4L3sR/4fEjwrJRu3czv+V++H93xp0QvYgW82tquMfD9F+4nMcKiUwiju7A
-drnfpPOpCWMaNuZEpEn7iZpJqf92E6F4Xejm0j9r7ru2Or3mAjpAC3Riqk877lwH
-xBnz/qjQx4BXpL1I4wQprsb6qdUPKV3vkqTplU6QctK8iBcYsqENbQimbWS3V3AM
-XlMy+Tb+4LRuRYXxC5pP2jvcJ0Lj3fNXVSxzJYEp1i2pJy4ibyLjXvAewQ6j8VbZ
-oSJLHSTC70HVI76gT3Ooz1CCbGD02g==
-=iEzi
------END PGP SIGNATURE-----
-
---AbQceqfdZEv+FvjW--
 
