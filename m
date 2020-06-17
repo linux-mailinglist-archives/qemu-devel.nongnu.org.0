@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86FA61FC7B8
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 09:44:19 +0200 (CEST)
-Received: from localhost ([::1]:53846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACDA11FC7DE
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 09:48:54 +0200 (CEST)
+Received: from localhost ([::1]:36154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlSk6-00040c-JV
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 03:44:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45016)
+	id 1jlSoX-0001SU-PT
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 03:48:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46332)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jlSis-0002hf-Jj
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 03:43:02 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:38072
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jlSlb-0006vz-Py
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 03:45:51 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:25841
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jlSiq-0005YE-TI
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 03:43:02 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jlSla-0006Es-3P
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 03:45:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592379780;
+ s=mimecast20190719; t=1592379949;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=zQTPYAXbBqsFmed9DS7BJQqkK96B+vF646opAso6mXU=;
- b=HyJqfSGnyi2OBPfroyQtKSP9NlPofWdAqL3bzycrxRfAyggIsC/mMPphYsHk8XhQ+f6Of0
- 8CE9DPbFOmNwddc4uTsp1fw/DF77EbzEHfyk8gmxqFilGXhCnetJrcRY5VfRBGGfQot+Su
- 0PEqlUJkspocbtsadxO530hP+V+X+s4=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-342-eXUtZnfNNXep_BBDuRPEjA-1; Wed, 17 Jun 2020 03:42:56 -0400
-X-MC-Unique: eXUtZnfNNXep_BBDuRPEjA-1
-Received: by mail-wm1-f71.google.com with SMTP id p24so308907wma.4
- for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 00:42:56 -0700 (PDT)
+ bh=hfVm7KH6sO+JCxdg4cby3qWBPDu2eEZEaew9waJRJU8=;
+ b=FqhTzYuuA1IFqeuOeSWHNS0riJeAI/s5cWCLPnBX76n/i7Pkjnjiwpqrbn25Zw9a84xT09
+ 2q4DagQupoKG5tZju7+kD5DZkPSPHIkuhNRz6okQ7qwdmNNt4U5bDhzdaZU52SrozXUuFq
+ ZRUnZmFK9EKSpNf3X4rgL7HGY8ThjCs=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-227-xYSSGJ45PK-H_lZhtZiEzg-1; Wed, 17 Jun 2020 03:45:46 -0400
+X-MC-Unique: xYSSGJ45PK-H_lZhtZiEzg-1
+Received: by mail-wr1-f72.google.com with SMTP id m14so619541wrj.12
+ for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 00:45:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=zQTPYAXbBqsFmed9DS7BJQqkK96B+vF646opAso6mXU=;
- b=PVxCuYmUWyl/W1V3QVAdyUyqoiKFp0ucrisWBb58tYQxNnSA4EYRARvbxdlrfuGcWY
- LvQYBevDK3QR5obk9JrKrY+R8uG3Y+DSl+3awBY11pDgqfXdFaXq7tb5XTNOXWtdt3gD
- BeuKo4wzoKznS0We7s0qHWTMUGguOzrGsKmPf6YyDQZD699IZ8OVZaT5nFFh+kqK5Tg8
- 8Ha+Ldo4RsYb3zAEKqiLO6a7ku8Hu/yAqGrYsfaExZfds7/RGZa7q3SaWVtAyeWHUDtX
- Pr4lqV851CAqLnoHmYYP63S6nkORCC7Ln6jv0tUEvGKIxeUdpEftt8+lt6RWpLGifdeZ
- c2yA==
-X-Gm-Message-State: AOAM531evED02aWivKNM9cJto/AViDRHWsJ0vu5Ijh44v1UeNGMX7c3X
- lcKlwbnT+g+mju01A110s0VIlgRaU1Xg9+I7LJpTCYn7RSIR6QIqywuEfy04NFmIhUJtElvnM4t
- UTMuMGu9hmPE7LZ4=
-X-Received: by 2002:a5d:6a89:: with SMTP id s9mr6961084wru.15.1592379775388;
- Wed, 17 Jun 2020 00:42:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxdlwXMKWJHcKczhUHAREEwbCb9vZDlFpyc3ZyBoj/w3Wf8l/Nw14v1mNntZfZ/HBIS0hhT+A==
-X-Received: by 2002:a5d:6a89:: with SMTP id s9mr6961054wru.15.1592379775132;
- Wed, 17 Jun 2020 00:42:55 -0700 (PDT)
+ bh=hfVm7KH6sO+JCxdg4cby3qWBPDu2eEZEaew9waJRJU8=;
+ b=ks3eKg/gTjt7yYUzzSJ1NyX944YKHxoGIP5NQVYZZkAn2J0kQPNPQqq2p/SN9ATHBc
+ nivV7Fxvr9sH1a0cgiVBt5POL1GE5EDhQo9eOshkesprKSrxJPyeez1qpOl5tMv+PzDX
+ onR+df3xZtqdd3CB2XTFhMgKKbct/Fj1nRTRphZ1TxRds4ESuCE4d3AnnCkJbGWQ+jX/
+ IRvAgpXvJaGfY/CGkFk37jjDtKItex2efBGpqSDUwxBOEQED+PSdwaM0M60Aoc3XAHe9
+ +DAAOnM4SaDCfLcJoFzlI2sriBgfUs4Zx4d2jnIn28p+k42xJ3/YQB/TOCPmnI5U9+um
+ Q/2w==
+X-Gm-Message-State: AOAM531e2W13dlesUBgAgz7xMSpnD4rKHboYf9T4KMiFj4xchsovgkLO
+ yuXY8dvM75xKzWmcF7ejxe8DISpB2qS2odJF6ZYkpKRaBgULrSu0hdV3foBDAlX8QnRC9dlXpAW
+ gCJpWnY/TZ+jsGGI=
+X-Received: by 2002:a5d:6b81:: with SMTP id n1mr6934199wrx.411.1592379945458; 
+ Wed, 17 Jun 2020 00:45:45 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzGvb7p9N6LdXuL0MxX00ApyS3ACES/9tNEaz+Cf/CTsfH+BbyRd70umvYlZZIVxs2RJwInIw==
+X-Received: by 2002:a5d:6b81:: with SMTP id n1mr6934174wrx.411.1592379945262; 
+ Wed, 17 Jun 2020 00:45:45 -0700 (PDT)
 Received: from [192.168.1.37] (93.red-83-59-160.dynamicip.rima-tde.net.
  [83.59.160.93])
- by smtp.gmail.com with ESMTPSA id a126sm7172522wme.28.2020.06.17.00.42.54
+ by smtp.gmail.com with ESMTPSA id b143sm7147421wme.20.2020.06.17.00.45.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 17 Jun 2020 00:42:54 -0700 (PDT)
-Subject: Re: [PATCH 5/6] nvram: add nrf51_soc flash read method
+ Wed, 17 Jun 2020 00:45:44 -0700 (PDT)
+Subject: Re: [PATCH 6/6] spapr_pci: add spapr msi read method
 To: P J P <ppandit@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
 References: <20200617053934.122642-1-ppandit@redhat.com>
- <20200617053934.122642-6-ppandit@redhat.com>
+ <20200617053934.122642-7-ppandit@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Autocrypt: addr=philmd@redhat.com; keydata=
  mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
@@ -87,27 +87,27 @@ Autocrypt: addr=philmd@redhat.com; keydata=
  9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
  RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
  apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <67e5fea1-1961-5773-ed82-a441ed8ffbcc@redhat.com>
-Date: Wed, 17 Jun 2020 09:42:53 +0200
+Message-ID: <a16a0db2-3177-6923-7430-32ce35ad8349@redhat.com>
+Date: Wed, 17 Jun 2020 09:45:43 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200617053934.122642-6-ppandit@redhat.com>
+In-Reply-To: <20200617053934.122642-7-ppandit@redhat.com>
 Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 23:30:45
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/17 01:42:04
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -132,45 +132,52 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On 6/17/20 7:39 AM, P J P wrote:
 > From: Prasad J Pandit <pjp@fedoraproject.org>
 > 
-> Add nrf51_soc mmio read method to avoid NULL pointer dereference
+> Add spapr msi mmio read method to avoid NULL pointer dereference
 > issue.
 > 
 > Reported-by: Lei Sun <slei.casper@gmail.com>
 > Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
 > ---
->  hw/nvram/nrf51_nvm.c | 7 +++++++
->  1 file changed, 7 insertions(+)
+>  hw/ppc/spapr_pci.c | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
 > 
-> diff --git a/hw/nvram/nrf51_nvm.c b/hw/nvram/nrf51_nvm.c
-> index f2283c1a8d..e813c7ec72 100644
-> --- a/hw/nvram/nrf51_nvm.c
-> +++ b/hw/nvram/nrf51_nvm.c
-> @@ -274,6 +274,12 @@ static const MemoryRegionOps io_ops = {
->  };
+> diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
+> index 83f1453096..d4193be205 100644
+> --- a/hw/ppc/spapr_pci.c
+> +++ b/hw/ppc/spapr_pci.c
+> @@ -52,6 +52,7 @@
+>  #include "sysemu/kvm.h"
+>  #include "sysemu/hostmem.h"
+>  #include "sysemu/numa.h"
+> +#include "qemu/log.h"
 >  
+>  /* Copied from the kernel arch/powerpc/platforms/pseries/msi.c */
+>  #define RTAS_QUERY_FN           0
+> @@ -738,6 +739,12 @@ static PCIINTxRoute spapr_route_intx_pin_to_irq(void *opaque, int pin)
+>      return route;
+>  }
 >  
-> +static uint64_t flash_read(void *opaque, hwaddr addr, unsigned size)
+> +static uint64_t spapr_msi_read(void *opaque, hwaddr addr, unsigned size)
 > +{
 > +    qemu_log_mask(LOG_UNIMP, "%s not implemented\n", __func__);
 > +    return 0;
-
-This is a ROM device, shouldn't we return this instead?
-
-        return ldl_le_p(s->storage + offset);
-
 > +}
 > +
->  static void flash_write(void *opaque, hwaddr offset, uint64_t value,
->          unsigned int size)
->  {
-> @@ -300,6 +306,7 @@ static void flash_write(void *opaque, hwaddr offset, uint64_t value,
+>  /*
+>   * MSI/MSIX memory region implementation.
+>   * The handler handles both MSI and MSIX.
+> @@ -756,7 +763,7 @@ static void spapr_msi_write(void *opaque, hwaddr addr,
 >  
->  
->  static const MemoryRegionOps flash_ops = {
-> +    .read = flash_read,
->      .write = flash_write,
->      .valid.min_access_size = 4,
->      .valid.max_access_size = 4,
+>  static const MemoryRegionOps spapr_msi_ops = {
+>      /* There is no .read as the read result is undefined by PCI spec */
+
+We probably want to implement .accepts handler instead.
+
+> -    .read = NULL,
+> +    .read = spapr_msi_read,
+>      .write = spapr_msi_write,
+>      .endianness = DEVICE_LITTLE_ENDIAN
+>  };
 > 
 
 
