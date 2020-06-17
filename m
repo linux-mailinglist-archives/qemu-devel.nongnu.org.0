@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DB4F1FCF37
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 16:14:38 +0200 (CEST)
-Received: from localhost ([::1]:38772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A5EE1FCF67
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 16:22:37 +0200 (CEST)
+Received: from localhost ([::1]:44242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlYpp-0005H8-FY
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 10:14:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34946)
+	id 1jlYxW-0008Qn-0Y
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 10:22:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36932)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yilikernel@gmail.com>)
- id 1jlYp3-0004WO-Af; Wed, 17 Jun 2020 10:13:49 -0400
-Received: from mail-yb1-xb43.google.com ([2607:f8b0:4864:20::b43]:35182)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <yilikernel@gmail.com>)
- id 1jlYp1-0003w1-BG; Wed, 17 Jun 2020 10:13:49 -0400
-Received: by mail-yb1-xb43.google.com with SMTP id 187so1353971ybq.2;
- Wed, 17 Jun 2020 07:13:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:in-reply-to:references:from:date:message-id:subject:to
- :cc; bh=AJQ6VEUGf1MQ++ss43RRmLAIinslj07stOFzOoMnW28=;
- b=bIaDU0oofQiEgNkfCfPiXwuwyJXaX4B7bb90cV4+cVqkagRNDY6ZwrvQomEVIY9UP+
- ofgd7BcMi7BdF/zndGyT/oGkU/uKj3b5DVkXFIyCiFkfjOl9gdpI6YZAB6S6Hqb1TXG5
- Zx4oOnGpMgLAriF+D4fiii7rwG9vauVelyxCRr08z53C/rN5UnmWkkW+HXBuWNguaUpV
- dWRIP6ROfFLVZdy6e+0+N9bcpDKfTF61zgntjyIw0Yt+HhUwKcccwxbFhNerOcRCKbiu
- XxRW9aexZm91dwch/MC1JjgOo2Hc03/zHXfLXmVgZqwflG6XTR+inFvHJxhc3PeP+ySe
- /f7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:in-reply-to:references:from:date
- :message-id:subject:to:cc;
- bh=AJQ6VEUGf1MQ++ss43RRmLAIinslj07stOFzOoMnW28=;
- b=XgteIemmneoJW+YiTLEsBFc+MgsgHCsNS8J8J2ZK4lgllZxbRwFWSwQh2ynrX7uP39
- 0fxnCZPDcnhWh1F1ypTmFC4NgzZoOjU2z46ZZA1kIGM2Hy7owXJGGwZbYxuGqGyfNmE3
- Xu5YuE9a7Q7PMaYBdNjW+GzbW7g+k8frUuOIYhBpz54Jt++WLCegsPX3+31oQsy36108
- BqW8VvQbuBM4Yg5d6ERaT5I0DZWIi4sBESm3XULi6tET3KZaVw4xzbuq5BKVEJl98qqx
- q6ThZfKY8qtO47qYJOL/DlMhAk35LaLCPalilB45wB4yZv7LWVUtgsp/kr5yrYa7Ib+/
- qSEg==
-X-Gm-Message-State: AOAM530wv5/feDmtbhlXVt2th6NH8nbAV2cqmQc514kpC00/wI80Imfn
- 73KIgWggNHGdKyyUC0ggS+xPPLZD8AYzgGr6H/A=
-X-Google-Smtp-Source: ABdhPJxmvMfmKBQOUDWT9e0P65KpjYU972aw+lxNkyZ5i7oH4Mz1Jh9Ec8qnAcvL99/inZv88IvsmB54UP8ceVohdzM=
-X-Received: by 2002:a25:324f:: with SMTP id y76mr13621189yby.207.1592403225486; 
- Wed, 17 Jun 2020 07:13:45 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jlYwK-0007Nd-6f
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 10:21:20 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:53177
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jlYwG-0005B1-Kq
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 10:21:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1592403675;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=mYv9UkkFRC2CxcQDSe8reW/njI0vFithaOOZ/pnAqTo=;
+ b=R4vO56o8PmsYhk6dLAP6/FSUlcwrtG+NGk2f2lcQLb+yvUs/B4vTS2At8AFnd40shNP8Sc
+ eFbBtdH6l/l1bL94qbmhA4sZrktGFjs3MYS47KtD3OMOu/yA0enkSTCr0zBjg1V8TcmlsY
+ pvTz4744qAClBkeBMSxwbPGyU2TxO6k=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-102-Kr7tx5nxMA-b11YMEHf8tw-1; Wed, 17 Jun 2020 10:19:25 -0400
+X-MC-Unique: Kr7tx5nxMA-b11YMEHf8tw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EB1321100F62;
+ Wed, 17 Jun 2020 14:19:24 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-114-44.ams2.redhat.com [10.36.114.44])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DBF0F7CACF;
+ Wed, 17 Jun 2020 14:19:23 +0000 (UTC)
+Date: Wed, 17 Jun 2020 16:19:22 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Max Reitz <mreitz@redhat.com>
+Subject: Re: [PATCH 0/5] iotests: Some fixes for rarely run cases
+Message-ID: <20200617141922.GE5166@linux.fritz.box>
+References: <20200617104822.27525-1-mreitz@redhat.com>
+ <20200617125238.GC5166@linux.fritz.box>
+ <f8192770-0fe1-95e6-9560-47571a1ebc59@redhat.com>
 MIME-Version: 1.0
-Received: by 2002:a5b:3ca:0:0:0:0:0 with HTTP;
- Wed, 17 Jun 2020 07:13:43 -0700 (PDT)
-In-Reply-To: <20200611153623.1415001-1-yili@winhong.com>
-References: <CAJfdMYCS7SJ66K2F7a9qyKyP9f1Tmbe9N7qvshNe6jAZZtpWBg@mail.gmail.com>
- <20200611153623.1415001-1-yili@winhong.com>
-From: Yi Li <yilikernel@gmail.com>
-Date: Wed, 17 Jun 2020 22:13:43 +0800
-Message-ID: <CAJfdMYDGr2O9JFKxvc9VYYYdoRhsc66sPXdVQ9KTo01a-6uQyA@mail.gmail.com>
-Subject: Re: [PATCH v2] rbd: Use RBD fast-diff for querying actual allocation
-To: jdillama@redhat.com, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b43;
- envelope-from=yilikernel@gmail.com; helo=mail-yb1-xb43.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+In-Reply-To: <f8192770-0fe1-95e6-9560-47571a1ebc59@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="OXfL5xGRrasGEqWY"
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/17 01:42:04
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,170 +79,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf <kwolf@redhat.com>, qemu-block <qemu-block@nongnu.org>,
- mreitz@redhat.com
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-ping ?
+--OXfL5xGRrasGEqWY
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 6/11/20, Yi Li <yili@winhong.com> wrote:
-> Since Ceph version Infernalis (9.2.0) the new fast-diff mechanism
-> of RBD allows for querying actual rbd image usage.
->
-> Prior to this version there was no easy and fast way to query how
-> much allocation a RBD image had inside a Ceph cluster.
->
-> To use the fast-diff feature it needs to be enabled per RBD image
-> and is only supported by Ceph cluster running version Infernalis
-> (9.2.0) or newer.
->
-> The fast-diff feature disabled or fast-diff map is marked as invalid,
-> qemu-img will report an allocation identical to the image capacity.
->
-> 'qemu-img info rbd:cepharm/liyi-rbd' might output for example:
->
->   image: json:{"driver": "raw", "file": {"pool": "cepharm",
->   "image": "liyi-rbd", "driver": "rbd"}}
->   file format: raw
->   virtual size: 20 GiB (21474836480 bytes)
->   disk size: 0 B
->   cluster_size: 4194304
->
-> Newly created rbds will have the fast-diff feature enabled.
->
-> Signed-off-by: Yi Li <yili@winhong.com>
-> ---
->  block/rbd.c | 103 ++++++++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 103 insertions(+)
->
-> diff --git a/block/rbd.c b/block/rbd.c
-> index 617553b022..c1e68ff7e9 100644
-> --- a/block/rbd.c
-> +++ b/block/rbd.c
-> @@ -1107,6 +1107,108 @@ static int64_t qemu_rbd_getlength(BlockDriverState
-> *bs)
->      return info.size;
->  }
->
-> +#if LIBRBD_VERSION_CODE > 265
-> +static int disk_usage_callback(uint64_t offset, size_t len, int exists,
-> +                               void *arg)
-> +{
-> +  uint64_t *used_size = (uint64_t *)(arg);
-> +  if (exists) {
-> +    (*used_size) += len;
-> +  }
-> +  return 0;
-> +}
-> +
-> +static int qemu_rbd_getflags(rbd_image_t image, uint64_t *flags)
-> +{
-> +    int r;
-> +
-> +    r = rbd_get_flags(image, flags);
-> +    if (r < 0) {
-> +        return r;
-> +    }
-> +    return 0;
-> +}
-> +
-> +static bool qemu_rbd_use_fastdiff(uint64_t features, uint64_t flags)
-> +{
-> +    return (((features & RBD_FEATURE_FAST_DIFF) != 0ULL) &&
-> +            ((flags & RBD_FLAG_FAST_DIFF_INVALID) == 0ULL));
-> +}
-> +
-> +static int qemu_rbd_set_allocation(rbd_image_t image,
-> +                                   rbd_image_info_t *info,
-> +                                   uint64_t *used_size)
-> +{
-> +    int r;
-> +    /*
-> +     * RBD image fast-diff feature enabled
-> +     * Querying for actual allocation.
-> +     */
-> +    r = rbd_diff_iterate2(image, NULL, 0, info->size, 0, 1,
-> +                          &disk_usage_callback,
-> +                          used_size);
-> +    if (r < 0) {
-> +        return r;
-> +    }
-> +    return 0;
-> +}
-> +
-> +#else
-> +static int qemu_rbd_getflags(rbd_image_t image G_GNUC_UNUSED, uint64_t
-> *flags)
-> +{
-> +    *flags = 0;
-> +    return 0;
-> +}
-> +
-> +static bool qemu_rbd_use_fastdiff(uint64_t features G_GNUC_UNUSED,
-> +                                  uint64_t feature_flags G_GNUC_UNUSED)
-> +{
-> +    return false;
-> +}
-> +
-> +static int qemu_rbd_set_allocation(rbd_image_t image G_GNUC_UNUSED,
-> +                                   rbd_image_info_t *info _GNUC_UNUSED,
-> +                                   uint64_t *used_size _GNUC_UNUSED)
-> +{
-> +    return 0;
-> +}
-> +#endif
-> +
-> +static int64_t qemu_rbd_allocated_file_size(BlockDriverState *bs)
-> +{
-> +    BDRVRBDState *s = bs->opaque;
-> +    rbd_image_info_t info;
-> +    int r;
-> +    uint64_t used_size = 0;
-> +    uint64_t features = 0;
-> +    uint64_t flags = 0;
-> +
-> +    r = rbd_stat(s->image, &info, sizeof(info));
-> +    if (r < 0) {
-> +        return r;
-> +    }
-> +
-> +    r = rbd_get_features(s->image, &features);
-> +    if (r < 0) {
-> +        return r;
-> +    }
-> +
-> +    r = qemu_rbd_getflags(s->image, &flags);
-> +    if (r < 0) {
-> +        return r;
-> +    }
-> +
-> +    if (qemu_rbd_use_fastdiff(features, flags)) {
-> +        r = qemu_rbd_set_allocation(s->image, &info, &used_size);
-> +        if (r < 0) {
-> +            return r;
-> +        }
-> +    } else {
-> +        used_size = info.size;
-> +    }
-> +    return used_size;
-> +}
-> +
->  static int coroutine_fn qemu_rbd_co_truncate(BlockDriverState *bs,
->                                               int64_t offset,
->                                               bool exact,
-> @@ -1316,6 +1418,7 @@ static BlockDriver bdrv_rbd = {
->      .bdrv_get_info          = qemu_rbd_getinfo,
->      .create_opts            = &qemu_rbd_create_opts,
->      .bdrv_getlength         = qemu_rbd_getlength,
-> +    .bdrv_get_allocated_file_size = qemu_rbd_allocated_file_size,
->      .bdrv_co_truncate       = qemu_rbd_co_truncate,
->      .protocol_name          = "rbd",
->
-> --
-> 2.25.3
->
->
->
->
+Am 17.06.2020 um 16:11 hat Max Reitz geschrieben:
+> On 17.06.20 14:52, Kevin Wolf wrote:
+> > Am 17.06.2020 um 12:48 hat Max Reitz geschrieben:
+> >> Hi,
+> >>
+> >> Thomas=E2=80=99s report
+> >> (https://lists.nongnu.org/archive/html/qemu-block/2020-06/msg00791.htm=
+l)
+> >> has given me a nice excuse to write this series.
+> >>
+> >> There are some iotests that have recently start to fail in rarely
+> >> exercised test environments (qed, qcow2 with data_file, qcow2 v2), and
+> >> this series fixes what I found.
+> >=20
+> > Thanks, applied to the block branch.
+>=20
+> Sorry, I didn=E2=80=99t run iotest 297 before sending this series...
+>=20
+> The problems arise in patch 1:
+>=20
+> iotests.py:1113:0: C0301: Line too long (80/79) (line-too-long)
+> iotests.py:1106: error: Function is missing a return type annotation
+>=20
+> (So there=E2=80=99s a line with 80 characters, when 79 is the maximum (*s=
+hrug*),
+> and I failed to specify skip_for_format=E2=80=99s return type.)
+>=20
+> I think patch 1 needs the attached diff squashed in.  Are you willing to
+> do that or should I just send a v2?
+
+I'm squashing it in. In fact, I already had fixed it, but I was too lazy
+to be more specific than Callable[..., Any], so I'll replace that with
+your version.
+
+Kevin
+
+--OXfL5xGRrasGEqWY
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEE3D3rFZqa+V09dFb+fwmycsiPL9YFAl7qJmoACgkQfwmycsiP
+L9aylRAAyISE2wDWKj0lm92u0i8zhBFP9LRT72neVBYp1SKOe1UahsRa0gf5xdHt
+qug1l/eaiHgCzs/hSjc8YsbSiVvf5Ku6nvBKl+pxkgWT8TiHJ+mDv9He3DsI/aEX
+VQK/eHMmgslXB5f8u/1i00fn6X4lWjfrv2EOEcWAczyieJz/nnr6J5TxQxCMsn76
+doYDby2RM8cLlSCmejBWZ5NKy+cIWhdUmSa9F0Pjkhmig67fU5BnMTYn+hWN/9qv
+8u1Llt322tk91bAL1oW7U1BKfxDSD6YReNJ4fO49IGdRNI1ZVuAtjbnmnbngY33i
+xJaCY8QB/kn2Q+7wJP6KvLK/iEKb0z5KWhqB1w1pTKi9HcwtaE8opqaxttilZzYq
++qgWHkgzgw9kh/fPZ8L4fjCB+gTsNfDmpxxUbzDcMmCdflijnyJgJFkcwFgYzsnA
++xe3bO49HV03bkuv93Tc3mujWTHl3XaEwJzKEEwqcRWkSXZ70VJITKFxZ5pnvP4X
+UieEEj1gY1JgjYKLUuH5n0uHOBVasOGgPFWzfSoHQm3Ifi9BZAXcZ3yr1EjD8N2O
+d72PP85qfd87x8Czf9qfNO5/BzP/6LAlQLHfeG924NZjSQ6yw+2yWM/k7ix4L19C
+Ajk0cz/FB2K76axM8SfiX0iSiQLRQNJNSSOldbvKb6K86N2BJLM=
+=4WT/
+-----END PGP SIGNATURE-----
+
+--OXfL5xGRrasGEqWY--
+
 
