@@ -2,70 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB17E1FD53D
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 21:16:56 +0200 (CEST)
-Received: from localhost ([::1]:35478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FE171FD53F
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 21:16:59 +0200 (CEST)
+Received: from localhost ([::1]:35866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jldYM-0005uz-5j
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 15:16:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35482)
+	id 1jldYQ-00064U-Em
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 15:16:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jldWv-00047s-3O
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 15:15:25 -0400
-Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:40810)
+ id 1jldWw-000485-E8
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 15:15:26 -0400
+Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:42283)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jldWt-0006Sk-2G
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 15:15:24 -0400
-Received: by mail-ej1-x643.google.com with SMTP id q19so3731926eja.7
- for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 12:15:22 -0700 (PDT)
+ id 1jldWu-0006St-60
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 15:15:26 -0400
+Received: by mail-ej1-x641.google.com with SMTP id k11so3719212ejr.9
+ for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 12:15:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=0dYCgpXmXRlRUXY6LzyB3Nc5AAZnuU9yOrYUBejU6Wc=;
- b=BKRVXMW2w51DcWdtvNM0VLIowaSDEsykfstoyYqoklibXs9Sj3LpqnnoCbvy9CJmVD
- fahiSsNQI+Arl+RdG+NqjBmgv6WatQWwWiE5GC0+ELGiWPxyVFW3RL5YaPUjsDGXFlJc
- Nwk6xjbGp7C9g8yvGhPucTFcnNYccbyrhGP7A8oo5hWrIuzBtgAIMvgPpzedCrRKCMMR
- krP2Ajze6bRh9XeypvuO7jiuKDCyjZsZdrVAwGWffY9y4m4jD1WCufKl2zM+diP+U5az
- Xgok8rRBA1+lW/U7xSNySqIBKhD/aotdFkaQyTfubQyeGmX0A26arWQOLhdjSrgcVFGB
- /1pA==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=BGnnG9Xy3PNvVbxTp72sTTRXPqYJOpLdaAYtg1CD7cQ=;
+ b=i3auPICeDDoEZ4FZOmBZxJBrd9eYomLL3m2QlivoaxqV+w/q/d4jLvc5aTpCAgJ1uS
+ MKmT2OgHb/OgukZTegxB49/lMExI9c9oovhoE3uSDW8Ye53j7wWI0ZP5gkWEpAFwoIEv
+ LHZzsMabFxtUAIwzhdJm2ISIQzgxAlzcMMbJn+0Miru+V5SkeGaoPzCOP6w0yMl9+Rv6
+ 5Hu948A3BVwUZGbvq7bxG9UgTyYY2KYH+ZvTadcCWwD4eMNVOp3nkep5XYj5geTE+mQb
+ FPVEqjKH22yFhU2/tykvBS/Acegfa1wS73HR0c0V4m+6/AXBJc+Rwtqw+3go3mBtLpTl
+ KuJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=0dYCgpXmXRlRUXY6LzyB3Nc5AAZnuU9yOrYUBejU6Wc=;
- b=eHeYFTbXp5mjq9vv6D+yizTR/+HwNmO5vVbTyoc7eBJhO/LjSY/UYGUao6kl8Murx5
- 6SFE2PrHBanH0tQlp+tzMYGmCg88W9LfT4nIvo0EoPQw3a7xVvwPkWshYE+rDfzXqbFk
- koXL1V8WhdJOVHeoX/Ert7609hE1VMnR6b6fAiirrjtKcUhVNlrnP9pbsr0dpMQv/9bS
- 7wrxRO6YYtXht4t3ZL0XS3jtmQFKbbjqgQ6JuVBwkjkftGYHj12+mqpkuhRV2daZlEr5
- Bip/H7DR2Kb5NAqSNR7gXNWcncdtdRVsPFQ09LgEUlJVtYAwssrmFfXFpHKUfJNhJ4gQ
- FQXQ==
-X-Gm-Message-State: AOAM530SQRpyQ1xVm6pBEQ9+CN0JEeD6VaNAAJmM9AFvhlVI7BhYhC7b
- Jrrdgc5LHrkdckfm0XpSlSQ=
-X-Google-Smtp-Source: ABdhPJzdbEobhH7Pax5GgYSwExHVg+0NpFQBpWmK0sS0zMqm9U5/weq2SmF1t2eVtE2YLYZHrKYb5Q==
-X-Received: by 2002:a17:906:19c8:: with SMTP id
- h8mr657461ejd.512.1592421321515; 
- Wed, 17 Jun 2020 12:15:21 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=BGnnG9Xy3PNvVbxTp72sTTRXPqYJOpLdaAYtg1CD7cQ=;
+ b=rmtIYwvCrrcrNP9ecFqMabENs2uCevKuJLHvYIvQKng+cpRx2zLSY6EP4YTfZtjtRz
+ TXN+dAdZ/0UOTjgbt8EUMNi8AeD2OVQ+XYgtkV+xq2jVbd6qeDMrxvJO5+c8Sf+vT5FH
+ mVN/e46hZ0CK3o1XM26OhR1DYNo3zTyp0dxmYjdeFTZ0DspwwLuTrmCAGbY0EIKaznIl
+ AkFeoncDY+k1CCK8CFcD0pNIdfaBx/jiikxf24ztMPjpnyj+ZESqCWY4nPLKQ0GmnSwu
+ QwEH5b5lJhfxuaBE7E7nASG2rApu9LZlcHw1P1PfTe5kyb0yoajaAs8WQXefOmUljomY
+ tOmg==
+X-Gm-Message-State: AOAM530kF5n1w+hRgGRgHJTCSRX3T2GebROeA8sXU2cWftzEYbHjggwO
+ P+umixWZJXOG81BLEpiE/czYuOWo
+X-Google-Smtp-Source: ABdhPJyJ7z2GQoiaFsH29252NwfGINjmU2Z3dGt85MaVfsqQ9fuW7frWYqwAkw8RLlP5ybWFs9bdXA==
+X-Received: by 2002:a17:906:aad8:: with SMTP id
+ kt24mr569129ejb.527.1592421322922; 
+ Wed, 17 Jun 2020 12:15:22 -0700 (PDT)
 Received: from x1w.redhat.com (93.red-83-59-160.dynamicip.rima-tde.net.
  [83.59.160.93])
- by smtp.gmail.com with ESMTPSA id y21sm324308edl.72.2020.06.17.12.15.20
+ by smtp.gmail.com with ESMTPSA id y21sm324308edl.72.2020.06.17.12.15.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Jun 2020 12:15:20 -0700 (PDT)
+ Wed, 17 Jun 2020 12:15:22 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: Richard Henderson <rth@twiddle.net>,
  Yoshinori Sato <ysato@users.sourceforge.jp>, qemu-devel@nongnu.org
-Subject: [PATCH rc1 00/15] hw: Renesas patches (SH4 and RX)
-Date: Wed, 17 Jun 2020 21:15:04 +0200
-Message-Id: <20200617191519.14842-1-f4bug@amsat.org>
+Subject: [PATCH rc1 01/15] MAINTAINERS: Cover sh_intc files in the R2D/Shix
+ machine sections
+Date: Wed, 17 Jun 2020 21:15:05 +0200
+Message-Id: <20200617191519.14842-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
+In-Reply-To: <20200617191519.14842-1-f4bug@amsat.org>
+References: <20200617191519.14842-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::643;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x643.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::641;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x641.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -74,7 +77,7 @@ X-Spam_bar: /
 X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
  DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
  HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,159 +90,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Magnus Damm <magnus.damm@gmail.com>,
+Cc: Thomas Huth <thuth@redhat.com>, Magnus Damm <magnus.damm@gmail.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Richard, Yoshinori,
+Commit 81527b94ad added hw/intc/sh_intc.c, but only to the R2D
+machine (it is also used by the Shix machine). Complete the
+previous commit by adding the header to the R2D section, and
+both source + header to the Shix section.
 
-This is a merger of the latest SH4 patches (add a common entry for
-Renesas hardware in MAINTAINERS, an acceptance test from Thomas),
-and Yoshinori's v32 [*] of the RX machine.
-Call this release, or merge, candidate 1.
-
-[*] https://www.mail-archive.com/qemu-devel@nongnu.org/msg682290.html
-
+Suggested-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
+ MAINTAINERS | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Richard,
-
-A few months ago, I volunteered to integrate the RX port posted last
-year on the list, to help you ease the burden of your heavy workload.
-
-As it took a long time, at some point I suggested doing the integration
-in two parts, first the architecture part (target/ directory), then the
-hardware (hw/ directory). You disagreed, arguing that this approach
-could be dangerous, as we don’t want to maintain a partly integrated
-port. In hindsight I learned the hard way that you were right!
-
-When I decided to send the architectural part first, I made the
-commitment to you to finish the full integration before the following
-release. The second part has been a painful experience.
-
-With this series, I have now fulfilled this commitment. I don't plan
-to continue working on the RX port.
-
-Thank you for your support during this experiment, I learned a lot,
-and I’d be grateful to work with you again in the future in other
-parts of the project.
-
----
-
-Yoshinori,
-
-I appreciated integrating your work, which is of very good quality
-overall. Despite the numerous iterations you had to go through, the
-outcome has proven worthwhile.
-Working with you has been a great experience.
-
-I volunteered to help maintain the RX hardware in my leisure time.
-Such hobby projects are supposed to be fun, and not have the same
-level of pressure as paid work.
-
-Sadly, my experience trying to get your work merged has not been fun:
-too much aggressive criticism, and constant demands for more work.
-The pressure has become too great for what is, essentially, unpaid
-work.
-
----
-
-Missing review: patches 2 and 12
-- 02/15 MAINTAINERS: Add an entry for common Renesas peripherals
-- 12/15 hw/rx: Register R5F562N7 and R5F562N8 MCUs
-
-Changes since v32:
-
-- Rebased on DeviceReset API change
-- Renamed CPU -> MCU
-- Renamed device -> microcontroller
-- Rebased on device_class_set_parent_realize API change
-- Split timer patch in two distincts: CMT and TMR
-- Rebased on ramdev API change
-- Use TYPE_RX62N_CPU definition
-- Use RX62N_NR_TMR/CMT/SCI definitions
-- Replace obsolete set_machine() by machine tag
-- Split rx-virt patch in two distinct, MCU first, machine next
-- Renamed machined as gdbsim
-- Make TYPE_RX62N_MCU an abstract class,
-  add TYPE_R5F562N7_MCU and TYPE_R5F562N8_MCU models
-- Rename the machine gdbsim-r5f562n8, also add the gdbsim-r5f562n7
-- Filled various VMStateField for migration
-- Rebase on qdev/sysbus API change
-
-CI:
-https://travis-ci.org/github/philmd/qemu/builds/698974425
-
-Philippe Mathieu-Daudé (7):
-  MAINTAINERS: Cover sh_intc files in the R2D/Shix machine sections
-  MAINTAINERS: Add an entry for common Renesas peripherals
-  hw/sh4: Use MemoryRegion typedef
-  hw/sh4: Extract timer definitions to 'hw/timer/tmu012.h'
-  hw/timer/sh_timer: Remove unused 'qemu/timer.h' include
-  hw/rx: Register R5F562N7 and R5F562N8 MCUs
-  BootLinuxConsoleTest: Test the RX GDB simulator
-
-Richard Henderson (1):
-  hw/rx: Honor -accel qtest
-
-Yoshinori Sato (7):
-  hw/intc: RX62N interrupt controller (ICUa)
-  hw/timer: RX62N 8-Bit timer (TMR)
-  hw/timer: RX62N compare match timer (CMT)
-  hw/char: RX62N serial communication interface (SCI)
-  hw/rx: RX62N microcontroller (MCU)
-  hw/rx: Add RX GDB simulator
-  docs: Document the RX target
-
- docs/system/target-rx.rst             |  36 ++
- docs/system/targets.rst               |   1 +
- default-configs/rx-softmmu.mak        |   1 +
- include/hw/char/renesas_sci.h         |  51 +++
- include/hw/intc/rx_icu.h              |  76 ++++
- include/hw/rx/rx62n.h                 |  78 +++++
- include/hw/sh4/sh.h                   |  12 +-
- include/hw/timer/renesas_cmt.h        |  40 +++
- include/hw/timer/renesas_tmr.h        |  55 +++
- include/hw/timer/tmu012.h             |  23 ++
- hw/char/renesas_sci.c                 | 350 +++++++++++++++++++
- hw/intc/rx_icu.c                      | 397 +++++++++++++++++++++
- hw/rx/rx-gdbsim.c                     | 196 +++++++++++
- hw/rx/rx62n.c                         | 318 +++++++++++++++++
- hw/sh4/sh7750.c                       |   1 +
- hw/timer/renesas_cmt.c                | 283 +++++++++++++++
- hw/timer/renesas_tmr.c                | 477 ++++++++++++++++++++++++++
- hw/timer/sh_timer.c                   |   3 +-
- MAINTAINERS                           |  33 +-
- hw/Kconfig                            |   1 +
- hw/char/Kconfig                       |   3 +
- hw/char/Makefile.objs                 |   1 +
- hw/intc/Kconfig                       |   3 +
- hw/intc/Makefile.objs                 |   1 +
- hw/rx/Kconfig                         |  10 +
- hw/rx/Makefile.objs                   |   2 +
- hw/timer/Kconfig                      |   6 +
- hw/timer/Makefile.objs                |   2 +
- tests/acceptance/machine_rx_gdbsim.py |  68 ++++
- 29 files changed, 2515 insertions(+), 13 deletions(-)
- create mode 100644 docs/system/target-rx.rst
- create mode 100644 include/hw/char/renesas_sci.h
- create mode 100644 include/hw/intc/rx_icu.h
- create mode 100644 include/hw/rx/rx62n.h
- create mode 100644 include/hw/timer/renesas_cmt.h
- create mode 100644 include/hw/timer/renesas_tmr.h
- create mode 100644 include/hw/timer/tmu012.h
- create mode 100644 hw/char/renesas_sci.c
- create mode 100644 hw/intc/rx_icu.c
- create mode 100644 hw/rx/rx-gdbsim.c
- create mode 100644 hw/rx/rx62n.c
- create mode 100644 hw/timer/renesas_cmt.c
- create mode 100644 hw/timer/renesas_tmr.c
- create mode 100644 hw/rx/Kconfig
- create mode 100644 hw/rx/Makefile.objs
- create mode 100644 tests/acceptance/machine_rx_gdbsim.py
-
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 955cc8dd5c..67c495e841 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1261,12 +1261,15 @@ S: Maintained
+ F: hw/sh4/r2d.c
+ F: hw/intc/sh_intc.c
+ F: hw/timer/sh_timer.c
++F: include/hw/sh4/sh_intc.h
+ 
+ Shix
+ M: Yoshinori Sato <ysato@users.sourceforge.jp>
+ R: Magnus Damm <magnus.damm@gmail.com>
+ S: Odd Fixes
+ F: hw/sh4/shix.c
++F: hw/intc/sh_intc.c
++F: include/hw/sh4/sh_intc.h
+ 
+ SPARC Machines
+ --------------
 -- 
 2.21.3
 
