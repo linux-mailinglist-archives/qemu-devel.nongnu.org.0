@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 453041FD702
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 23:19:11 +0200 (CEST)
-Received: from localhost ([::1]:34640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D3A11FD70E
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 23:21:29 +0200 (CEST)
+Received: from localhost ([::1]:43146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlfSg-0003KX-8h
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 17:19:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37514)
+	id 1jlfUu-0007Sw-6W
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 17:21:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jlfEA-0003KX-BP
+ id 1jlfEA-0003L8-Ik
  for qemu-devel@nongnu.org; Wed, 17 Jun 2020 17:04:10 -0400
-Received: from mail-qt1-x841.google.com ([2607:f8b0:4864:20::841]:46910)
+Received: from mail-qk1-x743.google.com ([2607:f8b0:4864:20::743]:43935)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jlfE5-0008Vr-4S
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 17:04:09 -0400
-Received: by mail-qt1-x841.google.com with SMTP id g18so2723364qtu.13
- for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 14:04:04 -0700 (PDT)
+ id 1jlfE6-0008W5-Ep
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 17:04:10 -0400
+Received: by mail-qk1-x743.google.com with SMTP id j68so139639qkb.10
+ for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 14:04:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=9A7y00FSGgamAX20OqsIrmd5Bhg8NgpNlEQx1G0undg=;
- b=ejmPWiR0v02UVxmZ398zLrIXxCek8QuDnCa6ZDQi298AcyuiOwoXb8UGDGN/LQ+kHN
- /k4Xcb/L3C+Fiq4BL7Z4/taW4VsO9qgjiGO4DfGYsOq4JBeMRg1WUlvXedRB8tPH1288
- KUFkh59Q8Tb1H/MvV/r3tlQSVCvmq5WKMXC/0mUMs8CgFAC5lheR/r+UvtsvofxabO8K
- 6ORkMlYLMIKU/LNBA10Lh077jbH5Dr++2NR+7Bxvo3tbFimHnH5RZoK9RMU8ILwY2Gf7
- epJiVHKCo7+yw+/E+A1K/3G/B72xOG+wwXgjV2WXgoOlQyDxU8GqoB7uZuNn5N2JejuN
- /ruQ==
+ bh=kW0XRsqxaI6VAROraHDcJYsTCy7+fL1IiAmTn+bRRXA=;
+ b=XM/7BK+/iHa4FBsC1UBLrfofa7/j6P5RMeFU/Ek8K59mhBj47wxLUaaCGpCbX4em5m
+ 5fM10wnUeGFErzBgK3m2N4P3Ht0oni0C5QoJt/6WV0s0AzRdxF8dwZyt221bV8PmDSPh
+ 7CpwRw6/TfY8uRmXXGZfWKwKpSPbGutShDsAja4MIamIvhBUv+ekuyUm4KgGCpUFB65q
+ 4b1xQeF3Ixs8gML2Uhe94Q34OPoQ8Qsi1jys6OlHJjcfKI9r80oQY12PZKzmsFd0Qvim
+ ituAiAmJtsGTkUcI4HQenqDFJTHCdLXxdqaf7+RUdTEL3WyfFf4t6PSI9o4rk/0p/9H4
+ rsrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9A7y00FSGgamAX20OqsIrmd5Bhg8NgpNlEQx1G0undg=;
- b=GuFz01+La0Y/XUTeA6GiUn9zT0w1A3gyY6shEOZfeCAkr4B4jcREEENLj3XXXrOuR4
- jFPzUJSCioasTCvYQsx/lyvg928WJiYY/p653lXoqRsCSUWKY6WpMkM8jDBaU0EpfgP+
- bLlb339wPuQhBMsQWzTYUV7JvPRd0CxGsX9X5t6HiUjxavV9FUlaV1WloUuSGS6gHXI9
- EzSQnyI+sEi7QPchBSfoHjk+uCSJp9GqnOafxj7TwUMqCobNzm6oC9FJYGmdPbEcP7su
- Xuaa20aq9qkyFCc8re1fgHDIEknvC79dYjrvksawPKqKVtHMYhQEF8meoiH09vvrLPVZ
- ZEPA==
-X-Gm-Message-State: AOAM532e4S+CISupnH5k/Zx5w4mgqceJebND2KZeUycmGMzrGL9KPOEa
- HzNG5Kk4rENyajdEgFee+F0AE772zNQ2Jw==
-X-Google-Smtp-Source: ABdhPJwyu5JcTS5Tgzntf3Vg8FGyhu2oC9siLtvrpzvlhf+Jih/q83gvaId6kY7S2VmKxUcknkhE0w==
-X-Received: by 2002:aed:3e5d:: with SMTP id m29mr1085289qtf.125.1592427843830; 
- Wed, 17 Jun 2020 14:04:03 -0700 (PDT)
+ bh=kW0XRsqxaI6VAROraHDcJYsTCy7+fL1IiAmTn+bRRXA=;
+ b=VLTH/uXxWgFBG8vFj+mglvEkMmAtLoAkH5RnagPGKYH9VLm///qe7yK2O9NvYNtaMJ
+ McTlvfajzr0Wwn9t1zIP2dQ5Lo3M5RWxlA/LM8c7sPZd1QitwYiHsuJFcBsrfMOkuk/2
+ ku2hktJTeEt1rvsd5Bt6vSV8qVhudQgVcamj/77NEzHvJSWWCUffa0UlF87FmEIig2Zb
+ IugHiGGN02MubmgVQzJFKEkjMsbfJLvsfifazGWwMheJ4mZkwwxKzIsZOYjJFbkbZjqS
+ LKAtsq13ZBOqwhICMup9FhdjyP6Sm0esNXArrkYzTK4uUz32ZoNXBlv/sho7561Mo6PE
+ wlIQ==
+X-Gm-Message-State: AOAM5301He4jhU2eL3EO/HET25IG4lCA4pZpiyyJw3On5hVpAptjLB8y
+ LFB4+IKmvEudWZ0eF7Pra+HTxnVPLU+WzA==
+X-Google-Smtp-Source: ABdhPJxhTs+/3LWI+xZKLjMn+wzxlDw7mA8mFD6NxqHpAD82UqFp3nCcm+WmsCaIhKKn1IIntHs4iw==
+X-Received: by 2002:a37:383:: with SMTP id 125mr522609qkd.487.1592427845272;
+ Wed, 17 Jun 2020 14:04:05 -0700 (PDT)
 Received: from Rfoley-MA01.hsd1.ma.comcast.net
  ([2601:199:4480:60c0:fc79:714c:9711:2e9c])
- by smtp.gmail.com with ESMTPSA id w13sm997245qkb.91.2020.06.17.14.04.02
+ by smtp.gmail.com with ESMTPSA id w13sm997245qkb.91.2020.06.17.14.04.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Jun 2020 14:04:03 -0700 (PDT)
+ Wed, 17 Jun 2020 14:04:04 -0700 (PDT)
 From: Robert Foley <robert.foley@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v10 33/73] ppc: use cpu_reset_interrupt
-Date: Wed, 17 Jun 2020 17:01:51 -0400
-Message-Id: <20200617210231.4393-34-robert.foley@linaro.org>
+Subject: [PATCH v10 34/73] exec: use cpu_reset_interrupt
+Date: Wed, 17 Jun 2020 17:01:52 -0400
+Message-Id: <20200617210231.4393-35-robert.foley@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200617210231.4393-1-robert.foley@linaro.org>
 References: <20200617210231.4393-1-robert.foley@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::841;
- envelope-from=robert.foley@linaro.org; helo=mail-qt1-x841.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::743;
+ envelope-from=robert.foley@linaro.org; helo=mail-qk1-x743.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -86,39 +86,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: robert.foley@linaro.org, cota@braap.org, qemu-ppc@nongnu.org,
+Cc: robert.foley@linaro.org, cota@braap.org,
  Paolo Bonzini <pbonzini@redhat.com>, peter.puhov@linaro.org,
- alex.bennee@linaro.org, David Gibson <david@gibson.dropbear.id.au>
+ alex.bennee@linaro.org, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Paolo Bonzini <pbonzini@redhat.com>
+From: "Emilio G. Cota" <cota@braap.org>
 
-Cc: qemu-ppc@nongnu.org
-Acked-by: David Gibson <david@gibson.dropbear.id.au>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Emilio G. Cota <cota@braap.org>
 Signed-off-by: Robert Foley <robert.foley@linaro.org>
 ---
- target/ppc/excp_helper.c | 2 +-
+ exec.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index 507f64c9e7..bf9e1e27e9 100644
---- a/target/ppc/excp_helper.c
-+++ b/target/ppc/excp_helper.c
-@@ -1060,7 +1060,7 @@ bool ppc_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
-     if (interrupt_request & CPU_INTERRUPT_HARD) {
-         ppc_hw_interrupt(env);
-         if (env->pending_interrupts == 0) {
--            cs->interrupt_request &= ~CPU_INTERRUPT_HARD;
-+            cpu_reset_interrupt(cs, CPU_INTERRUPT_HARD);
-         }
-         return true;
-     }
+diff --git a/exec.c b/exec.c
+index d6712fba7e..58fc928801 100644
+--- a/exec.c
++++ b/exec.c
+@@ -752,7 +752,7 @@ static int cpu_common_post_load(void *opaque, int version_id)
+ 
+     /* 0x01 was CPU_INTERRUPT_EXIT. This line can be removed when the
+        version_id is increased. */
+-    cpu->interrupt_request &= ~0x01;
++    cpu_reset_interrupt(cpu, 1);
+     tlb_flush(cpu);
+ 
+     /* loadvm has just updated the content of RAM, bypassing the
 -- 
 2.17.1
 
