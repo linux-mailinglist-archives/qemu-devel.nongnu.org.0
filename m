@@ -2,72 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB2CB1FC5F1
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 08:03:37 +0200 (CEST)
-Received: from localhost ([::1]:39428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A28191FC606
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 08:09:12 +0200 (CEST)
+Received: from localhost ([::1]:44540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlRAe-0002ZA-S2
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 02:03:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50240)
+	id 1jlRG3-0005lP-O2
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 02:09:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jlR3i-0002D5-8G
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 01:56:26 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:36409)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jlR3g-0005IB-6v
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 01:56:25 -0400
-Received: by mail-wm1-x343.google.com with SMTP id d128so635415wmc.1
- for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 22:56:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:in-reply-to:references:from:date:message-id:subject:to
- :cc; bh=RIKM7h65zo+mYCRztj0NhugFqMBs/P2knqSfwv5eIzk=;
- b=CNs+yWpeqAblA3Yg/pTBUSzqFnQlC0byRMVdQ0howUKu81WYx1fSnh5qabFRZFlfvH
- TfBgUpS0pV5K5kKeq53i9nCWOYvidKBNoVZ/vm/O8tfySs9g+5e/nq8DUwbqLf2L4Fya
- teST+heqFGmpWgJ3UMdyQLm7aHY/BSCR6MmKzF3d4R36tbjWtcA7K4eaX2F9tFjIUpmG
- 1e+u6kS4t5s4haWVEuX/wF40KVfYPxEbept7ezDGsBV62GR2E8DF3p97lptu4ITyXM+w
- HT4lIKtOWbmNAdz23Fjh79Zqdgcl4P+OP8ORdWo9qP/s6DQwrT3ac4lITGz88lzzcPpX
- GfkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:in-reply-to:references:from:date
- :message-id:subject:to:cc;
- bh=RIKM7h65zo+mYCRztj0NhugFqMBs/P2knqSfwv5eIzk=;
- b=Z3rDv/WcZt0+R34rQAYHmyBq44EOAYYNROAnq1OKAqmk355TcIEY68G8jK6GQjGd5m
- oNByy+wgiX/VsSY07sBUmLxyvAGxjNybqBECm7aTv+j7Lxtq3E+jT41WOOo6mBltXesz
- jn10YMDBrD4j4WvJYeXJt5XsW4CTQrUVVhOmWh0lgyV0QxVr75pmtj0WA7otoyCRaIc5
- +UT+84tryKZeGDjtzzQf8eRKgTvrJ1j8z6ddgWo5TmJQNobGzvVPxfAZjhlQjYrf7Jfv
- a5oLXHUL+DrcQaP/EC6qaTd8rL8JJakpB+czHSUb2RKctJVXNBJIHhVzMGN74t5KPZAf
- SWSQ==
-X-Gm-Message-State: AOAM533F7vxhOkJ1NbYZpunXxcAKUiQ/5VidconXgofyi3/IzPkBl1zS
- T7kCN72Z7ynEfRtRo+0mbIwzVEFpz6uRpQpDtHxz0GEV
-X-Google-Smtp-Source: ABdhPJyvAsPjRkmi9x2fHQOErGbEnCLJQ3B3muM8YVdohJhnfr4uvUm59+jjgV59iMHImvOWT3XS8f0n/6BoNMkH0Tk=
-X-Received: by 2002:a7b:c3c6:: with SMTP id t6mr6453378wmj.159.1592373382933; 
- Tue, 16 Jun 2020 22:56:22 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jlRFH-00052d-DP
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 02:08:23 -0400
+Resent-Date: Wed, 17 Jun 2020 02:08:23 -0400
+Resent-Message-Id: <E1jlRFH-00052d-DP@lists.gnu.org>
+Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21726)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jlRFE-0006yz-2c
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 02:08:23 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1592374057; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=OlSt16KPbW4pg8safvkOiOVg4NPDq91o1kgMILDAa0q3S4FqS701JRq6/Ctn/kkFLK99TWlU8xGwPWnIE1hSvqnuu0n6YOnQLlKvOX/XWjrnqvMH8/QFz5MIYgoGyUYyyiIJAx413KycQyn4kP5xgth+8Y9Q+ou0bS+VDMQ+CwY=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1592374057;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=MT5XZ+Hfwm53UMW7oUqHNPwKs9JF4yPs1q3hIRCxeAc=; 
+ b=ZnsUQR4P1GYIgESN1BrXRFlI7orE66QNloQXJCDNvj9CiA08srwhD9mHQZzY5v/Uv6gP1DCR4w7yRrKh3hzKz2+cv8u/HeU6hN7B/AE9l7dyez46HNDg+kNKUxqoL17hQtP/FMq7ykr+s9yD+IAYD6zGFW71E+Pq2r7aUfx/W/s=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1592374054282763.012539121946;
+ Tue, 16 Jun 2020 23:07:34 -0700 (PDT)
+Message-ID: <159237405249.13252.7803118807603163747@d1fd068a5071>
+Subject: Re: [PATCH 0/6] Add various undefined MMIO r/w functions
+In-Reply-To: <20200617053934.122642-1-ppandit@redhat.com>
 MIME-Version: 1.0
-Received: by 2002:a1c:451:0:0:0:0:0 with HTTP;
- Tue, 16 Jun 2020 22:56:22 -0700 (PDT)
-In-Reply-To: <20200616231204.8850-4-ahmedkhaledkaraman@gmail.com>
-References: <20200616231204.8850-1-ahmedkhaledkaraman@gmail.com>
- <20200616231204.8850-4-ahmedkhaledkaraman@gmail.com>
-From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Date: Wed, 17 Jun 2020 07:56:22 +0200
-Message-ID: <CAHiYmc6qsmQ8EwBecCYZqou_A2yL51D6RDcCR2YYpFYO8AgZXQ@mail.gmail.com>
-Subject: Re: [PATCH 3/3] scripts/performance: Add perf_top_25.py script
-To: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
-Content-Type: multipart/alternative; boundary="000000000000d6f24605a8415169"
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-wm1-x343.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: ppandit@redhat.com
+Date: Tue, 16 Jun 2020 23:07:34 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o57.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/17 02:08:17
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,297 +69,204 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "ldoktor@redhat.com" <ldoktor@redhat.com>,
- "ehabkost@redhat.com" <ehabkost@redhat.com>,
- "alex.bennee@linaro.org" <alex.bennee@linaro.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "crosa@redhat.com" <crosa@redhat.com>, "rth@twiddle.net" <rth@twiddle.net>
+Reply-To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, pjp@fedoraproject.org, qemu-devel@nongnu.org,
+ slei.casper@gmail.com, alex.williamson@redhat.com, hpoussin@reactos.org,
+ joel@jms.id.au, philmd@redhat.com, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000d6f24605a8415169
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-=D1=81=D1=80=D0=B5=D0=B4=D0=B0, 17. =D1=98=D1=83=D0=BD 2020., Ahmed Karaman=
- <ahmedkhaledkaraman@gmail.com> =D1=98=D0=B5
-=D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
-
-> Python script that prints the top 25 most executed functions in QEMU
-> using perf.
->
-> Signed-off-by: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
-> ---
-
-
-The same comment as I made for patch 2, apply here too.
-
-Thanks,
-Aleksandar
-
-
-
->  scripts/performance/perf_top_25.py | 82 ++++++++++++++++++++++++++++++
->  1 file changed, 82 insertions(+)
->  create mode 100644 scripts/performance/perf_top_25.py
->
-> diff --git a/scripts/performance/perf_top_25.py
-> b/scripts/performance/perf_top_25.py
-> new file mode 100644
-> index 0000000000..eaa8cce3c3
-> --- /dev/null
-> +++ b/scripts/performance/perf_top_25.py
-> @@ -0,0 +1,82 @@
-> +#!/usr/bin/env python3
-> +
-> +#  Print the top 25 most executed functions in QEMU using perf.
-> +#  Example Usage:
-> +#  perf_top_25.py <qemu-build>/x86_64-linux-user/qemu-x86_64 executable
-> +#
-> +#  This file is a part of the project "TCG Continuous Benchmarking".
-> +#
-> +#  Copyright (C) 2020  Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
-> +#  Copyright (C) 2020  Aleksandar Markovic <aleksandar.qemu.devel@gmail.
-> com>
-> +#
-> +#  This program is free software: you can redistribute it and/or modify
-> +#  it under the terms of the GNU General Public License as published by
-> +#  the Free Software Foundation, either version 2 of the License, or
-> +#  (at your option) any later version.
-> +#
-> +#  This program is distributed in the hope that it will be useful,
-> +#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-> +#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-> +#  GNU General Public License for more details.
-> +#
-> +#  You should have received a copy of the GNU General Public License
-> +#  along with this program. If not, see <https://www.gnu.org/licenses/>.
-> +
-> +import os
-> +import sys
-> +
-> +# Ensure sufficient arguments
-> +if len(sys.argv) < 3:
-> +    print('Insufficient Script Arguments!')
-> +    sys.exit(1)
-> +
-> +# Get the qemu path and the executable + its arguments
-> +(qemu_path, executable) =3D (sys.argv[1], ' '.join(sys.argv[2:]))
-> +
-> +# Run perf repcord and report
-> +os.system('sudo perf record {} {} 2> /dev/null \
-> +            && sudo perf report --stdio > tmp.perf.data'
-> +          .format(qemu_path, executable))
-> +
-> +# Line number with the top function
-> +first_func_line =3D 11
-> +
-> +# Perf report output
-> +perf_data =3D []
-> +
-> +# Open perf report output and store it in perf_data
-> +with open('tmp.perf.data', 'r') as data:
-> +    perf_data =3D data.readlines()
-> +
-> +# Number of functions recorded by perf
-> +number_of_functions =3D len(perf_data) - first_func_line
-> +
-> +# Limit the number of top functions to 25
-> +number_of_top_functions =3D (25 if number_of_functions >
-> +                           25 else number_of_functions)
-> +
-> +# Store the data of the top functions in top_functions[]
-> +top_functions =3D perf_data[first_func_line:first_func_line
-> +                          + number_of_top_functions]
-> +
-> +# Print information headers
-> +print('{:>4}  {:>10}  {:<25}  {}\n{}  {}  {}  {}'.format('No.',
-> +                                                         'Percentage',
-> +                                                         'Name',
-> +                                                         'Caller',
-> +                                                         '-' * 4,
-> +                                                         '-' * 10,
-> +                                                         '-' * 25,
-> +                                                         '-' * 25,
-> +                                                         ))
-> +
-> +# Print top 25 functions
-> +for (index, function) in enumerate(top_functions, start=3D1):
-> +    function_data =3D function.split()
-> +    print('{:>4}  {:>10}  {:<25}  {}'.format(index,
-> +                                             function_data[0],
-> +                                             function_data[-1],
-> +                                             '
-> '.join(function_data[2:-2])))
-> +
-> +# Remove intermediate files
-> +os.system('sudo rm perf.data tmp.perf.data')
-> --
-> 2.17.1
->
->
-
---000000000000d6f24605a8415169
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<br><br>=D1=81=D1=80=D0=B5=D0=B4=D0=B0, 17. =D1=98=D1=83=D0=BD 2020., Ahmed=
- Karaman &lt;<a href=3D"mailto:ahmedkhaledkaraman@gmail.com">ahmedkhaledkar=
-aman@gmail.com</a>&gt; =D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=
-=BE/=D0=BB=D0=B0:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
-0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Python script that prin=
-ts the top 25 most executed functions in QEMU<br>
-using perf.<br>
-<br>
-Signed-off-by: Ahmed Karaman &lt;<a href=3D"mailto:ahmedkhaledkaraman@gmail=
-.com">ahmedkhaledkaraman@gmail.com</a>&gt;<br>
----</blockquote><div><br></div><div>The same comment as I made for patch 2,=
- apply here too.</div><div><br></div><div>Thanks,</div><div>Aleksandar</div=
-><div><br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D=
-"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-=C2=A0scripts/performance/perf_top_<wbr>25.py | 82 ++++++++++++++++++++++++=
-++++++<br>
-=C2=A01 file changed, 82 insertions(+)<br>
-=C2=A0create mode 100644 scripts/performance/perf_top_<wbr>25.py<br>
-<br>
-diff --git a/scripts/performance/perf_<wbr>top_25.py b/scripts/performance/=
-perf_<wbr>top_25.py<br>
-new file mode 100644<br>
-index 0000000000..eaa8cce3c3<br>
---- /dev/null<br>
-+++ b/scripts/performance/perf_<wbr>top_25.py<br>
-@@ -0,0 +1,82 @@<br>
-+#!/usr/bin/env python3<br>
-+<br>
-+#=C2=A0 Print the top 25 most executed functions in QEMU using perf.<br>
-+#=C2=A0 Example Usage:<br>
-+#=C2=A0 perf_top_25.py &lt;qemu-build&gt;/x86_64-linux-<wbr>user/qemu-x86_=
-64 executable<br>
-+#<br>
-+#=C2=A0 This file is a part of the project &quot;TCG Continuous Benchmarki=
-ng&quot;.<br>
-+#<br>
-+#=C2=A0 Copyright (C) 2020=C2=A0 Ahmed Karaman &lt;<a href=3D"mailto:ahmed=
-khaledkaraman@gmail.com">ahmedkhaledkaraman@gmail.com</a>&gt;<br>
-+#=C2=A0 Copyright (C) 2020=C2=A0 Aleksandar Markovic &lt;<a href=3D"mailto=
-:aleksandar.qemu.devel@gmail.com">aleksandar.qemu.devel@gmail.<wbr>com</a>&=
-gt;<br>
-+#<br>
-+#=C2=A0 This program is free software: you can redistribute it and/or modi=
-fy<br>
-+#=C2=A0 it under the terms of the GNU General Public License as published =
-by<br>
-+#=C2=A0 the Free Software Foundation, either version 2 of the License, or<=
-br>
-+#=C2=A0 (at your option) any later version.<br>
-+#<br>
-+#=C2=A0 This program is distributed in the hope that it will be useful,<br=
->
-+#=C2=A0 but WITHOUT ANY WARRANTY; without even the implied warranty of<br>
-+#=C2=A0 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the<br>
-+#=C2=A0 GNU General Public License for more details.<br>
-+#<br>
-+#=C2=A0 You should have received a copy of the GNU General Public License<=
-br>
-+#=C2=A0 along with this program. If not, see &lt;<a href=3D"https://www.gn=
-u.org/licenses/" target=3D"_blank">https://www.gnu.org/licenses/</a><wbr>&g=
-t;.<br>
-+<br>
-+import os<br>
-+import sys<br>
-+<br>
-+# Ensure sufficient arguments<br>
-+if len(sys.argv) &lt; 3:<br>
-+=C2=A0 =C2=A0 print(&#39;Insufficient Script Arguments!&#39;)<br>
-+=C2=A0 =C2=A0 sys.exit(1)<br>
-+<br>
-+# Get the qemu path and the executable + its arguments<br>
-+(qemu_path, executable) =3D (sys.argv[1], &#39; &#39;.join(sys.argv[2:]))<=
-br>
-+<br>
-+# Run perf repcord and report<br>
-+os.system(&#39;sudo perf record {} {} 2&gt; /dev/null \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;&amp; sudo perf report --st=
-dio &gt; tmp.perf.data&#39;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .format(qemu_path, executable))<br>
-+<br>
-+# Line number with the top function<br>
-+first_func_line =3D 11<br>
-+<br>
-+# Perf report output<br>
-+perf_data =3D []<br>
-+<br>
-+# Open perf report output and store it in perf_data<br>
-+with open(&#39;tmp.perf.data&#39;, &#39;r&#39;) as data:<br>
-+=C2=A0 =C2=A0 perf_data =3D data.readlines()<br>
-+<br>
-+# Number of functions recorded by perf<br>
-+number_of_functions =3D len(perf_data) - first_func_line<br>
-+<br>
-+# Limit the number of top functions to 25<br>
-+number_of_top_functions =3D (25 if number_of_functions &gt;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A025 else number_of_functions)<br>
-+<br>
-+# Store the data of the top functions in top_functions[]<br>
-+top_functions =3D perf_data[first_func_line:<wbr>first_func_line<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 + number_of_top_functions]<br>
-+<br>
-+# Print information headers<br>
-+print(&#39;{:&gt;4}=C2=A0 {:&gt;10}=C2=A0 {:&lt;25}=C2=A0 {}\n{}=C2=A0 {}=
-=C2=A0 {}=C2=A0 {}&#39;.format(&#39;No.&#39;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;Percentage&#39;=
-,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;Name&#39;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;Caller&#39;,<br=
->
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;-&#39; * 4,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;-&#39; * 10,<br=
->
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;-&#39; * 25,<br=
->
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;-&#39; * 25,<br=
->
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0))<br>
-+<br>
-+# Print top 25 functions<br>
-+for (index, function) in enumerate(top_functions, start=3D1):<br>
-+=C2=A0 =C2=A0 function_data =3D function.split()<br>
-+=C2=A0 =C2=A0 print(&#39;{:&gt;4}=C2=A0 {:&gt;10}=C2=A0 {:&lt;25}=C2=A0 {}=
-&#39;.format(index,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0function_data[0],<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0function_data[-1],<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0&#39; &#39;.join(function_data[2:-2])))<br>
-+<br>
-+# Remove intermediate files<br>
-+os.system(&#39;sudo rm perf.data tmp.perf.data&#39;)<br>
--- <br>
-2.17.1<br>
-<br>
-</blockquote>
-
---000000000000d6f24605a8415169--
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDYxNzA1MzkzNC4xMjI2
+NDItMS1wcGFuZGl0QHJlZGhhdC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgZmFpbGVkIHRoZSBh
+c2FuIGJ1aWxkIHRlc3QuIFBsZWFzZSBmaW5kIHRoZSB0ZXN0aW5nIGNvbW1hbmRzIGFuZAp0aGVp
+ciBvdXRwdXQgYmVsb3cuIElmIHlvdSBoYXZlIERvY2tlciBpbnN0YWxsZWQsIHlvdSBjYW4gcHJv
+YmFibHkgcmVwcm9kdWNlIGl0CmxvY2FsbHkuCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMh
+L2Jpbi9iYXNoCmV4cG9ydCBBUkNIPXg4Nl82NAptYWtlIGRvY2tlci1pbWFnZS1mZWRvcmEgVj0x
+IE5FVFdPUks9MQp0aW1lIG1ha2UgZG9ja2VyLXRlc3QtZGVidWdAZmVkb3JhIFRBUkdFVF9MSVNU
+PXg4Nl82NC1zb2Z0bW11IEo9MTQgTkVUV09SSz0xCj09PSBURVNUIFNDUklQVCBFTkQgPT09Cgog
+IENDICAgICAgcWdhL2d1ZXN0LWFnZW50LWNvbW1hbmQtc3RhdGUubwogIENDICAgICAgcWdhL21h
+aW4ubwogIENDICAgICAgcWdhL2NvbW1hbmRzLXBvc2l4Lm8KL3Vzci9iaW4vbGQ6IC91c3IvbGli
+NjQvY2xhbmcvMTAuMC4wL2xpYi9saW51eC9saWJjbGFuZ19ydC5hc2FuLXg4Nl82NC5hKGFzYW5f
+aW50ZXJjZXB0b3JzX3Zmb3JrLlMubyk6IHdhcm5pbmc6IGNvbW1vbiBvZiBgX19pbnRlcmNlcHRp
+b246OnJlYWxfdmZvcmsnIG92ZXJyaWRkZW4gYnkgZGVmaW5pdGlvbiBmcm9tIC91c3IvbGliNjQv
+Y2xhbmcvMTAuMC4wL2xpYi9saW51eC9saWJjbGFuZ19ydC5hc2FuLXg4Nl82NC5hKGFzYW5faW50
+ZXJjZXB0b3JzLmNwcC5vKQogIENDICAgICAgcWdhL2NoYW5uZWwtcG9zaXgubwogIENDICAgICAg
+cWdhL3FhcGktZ2VuZXJhdGVkL3FnYS1xYXBpLXR5cGVzLm8KICBDQyAgICAgIHFnYS9xYXBpLWdl
+bmVyYXRlZC9xZ2EtcWFwaS12aXNpdC5vCi0tLQogIEdFTiAgICAgZG9jcy9pbnRlcm9wL3FlbXUt
+Z2EtcmVmLmh0bWwKICBHRU4gICAgIGRvY3MvaW50ZXJvcC9xZW11LWdhLXJlZi50eHQKICBHRU4g
+ICAgIGRvY3MvaW50ZXJvcC9xZW11LWdhLXJlZi43Ci91c3IvYmluL2xkOiAvdXNyL2xpYjY0L2Ns
+YW5nLzEwLjAuMC9saWIvbGludXgvbGliY2xhbmdfcnQuYXNhbi14ODZfNjQuYShhc2FuX2ludGVy
+Y2VwdG9yc192Zm9yay5TLm8pOiB3YXJuaW5nOiBjb21tb24gb2YgYF9faW50ZXJjZXB0aW9uOjpy
+ZWFsX3Zmb3JrJyBvdmVycmlkZGVuIGJ5IGRlZmluaXRpb24gZnJvbSAvdXNyL2xpYjY0L2NsYW5n
+LzEwLjAuMC9saWIvbGludXgvbGliY2xhbmdfcnQuYXNhbi14ODZfNjQuYShhc2FuX2ludGVyY2Vw
+dG9ycy5jcHAubykKICBMSU5LICAgIHFlbXUta2V5bWFwCi91c3IvYmluL2xkOiAvdXNyL2xpYjY0
+L2NsYW5nLzEwLjAuMC9saWIvbGludXgvbGliY2xhbmdfcnQuYXNhbi14ODZfNjQuYShhc2FuX2lu
+dGVyY2VwdG9yc192Zm9yay5TLm8pOiB3YXJuaW5nOiBjb21tb24gb2YgYF9faW50ZXJjZXB0aW9u
+OjpyZWFsX3Zmb3JrJyBvdmVycmlkZGVuIGJ5IGRlZmluaXRpb24gZnJvbSAvdXNyL2xpYjY0L2Ns
+YW5nLzEwLjAuMC9saWIvbGludXgvbGliY2xhbmdfcnQuYXNhbi14ODZfNjQuYShhc2FuX2ludGVy
+Y2VwdG9ycy5jcHAubykKICBMSU5LICAgIGl2c2htZW0tY2xpZW50CiAgTElOSyAgICBpdnNobWVt
+LXNlcnZlcgovdXNyL2Jpbi9sZDogL3Vzci9saWI2NC9jbGFuZy8xMC4wLjAvbGliL2xpbnV4L2xp
+YmNsYW5nX3J0LmFzYW4teDg2XzY0LmEoYXNhbl9pbnRlcmNlcHRvcnNfdmZvcmsuUy5vKTogd2Fy
+bmluZzogY29tbW9uIG9mIGBfX2ludGVyY2VwdGlvbjo6cmVhbF92Zm9yaycgb3ZlcnJpZGRlbiBi
+eSBkZWZpbml0aW9uIGZyb20gL3Vzci9saWI2NC9jbGFuZy8xMC4wLjAvbGliL2xpbnV4L2xpYmNs
+YW5nX3J0LmFzYW4teDg2XzY0LmEoYXNhbl9pbnRlcmNlcHRvcnMuY3BwLm8pCiAgTElOSyAgICBx
+ZW11LW5iZAovdXNyL2Jpbi9sZDogL3Vzci9saWI2NC9jbGFuZy8xMC4wLjAvbGliL2xpbnV4L2xp
+YmNsYW5nX3J0LmFzYW4teDg2XzY0LmEoYXNhbl9pbnRlcmNlcHRvcnNfdmZvcmsuUy5vKTogd2Fy
+bmluZzogY29tbW9uIG9mIGBfX2ludGVyY2VwdGlvbjo6cmVhbF92Zm9yaycgb3ZlcnJpZGRlbiBi
+eSBkZWZpbml0aW9uIGZyb20gL3Vzci9saWI2NC9jbGFuZy8xMC4wLjAvbGliL2xpbnV4L2xpYmNs
+YW5nX3J0LmFzYW4teDg2XzY0LmEoYXNhbl9pbnRlcmNlcHRvcnMuY3BwLm8pCiAgTElOSyAgICBx
+ZW11LXN0b3JhZ2UtZGFlbW9uCi91c3IvYmluL2xkOiAvdXNyL2xpYjY0L2NsYW5nLzEwLjAuMC9s
+aWIvbGludXgvbGliY2xhbmdfcnQuYXNhbi14ODZfNjQuYShhc2FuX2ludGVyY2VwdG9yc192Zm9y
+ay5TLm8pOiB3YXJuaW5nOiBjb21tb24gb2YgYF9faW50ZXJjZXB0aW9uOjpyZWFsX3Zmb3JrJyBv
+dmVycmlkZGVuIGJ5IGRlZmluaXRpb24gZnJvbSAvdXNyL2xpYjY0L2NsYW5nLzEwLjAuMC9saWIv
+bGludXgvbGliY2xhbmdfcnQuYXNhbi14ODZfNjQuYShhc2FuX2ludGVyY2VwdG9ycy5jcHAubykK
+ICBBUyAgICAgIHBjLWJpb3Mvb3B0aW9ucm9tL211bHRpYm9vdC5vCi91c3IvYmluL2xkOiAvdXNy
+L2xpYjY0L2NsYW5nLzEwLjAuMC9saWIvbGludXgvbGliY2xhbmdfcnQuYXNhbi14ODZfNjQuYShh
+c2FuX2ludGVyY2VwdG9yc192Zm9yay5TLm8pOiB3YXJuaW5nOiBjb21tb24gb2YgYF9faW50ZXJj
+ZXB0aW9uOjpyZWFsX3Zmb3JrJyBvdmVycmlkZGVuIGJ5IGRlZmluaXRpb24gZnJvbSAvdXNyL2xp
+YjY0L2NsYW5nLzEwLjAuMC9saWIvbGludXgvbGliY2xhbmdfcnQuYXNhbi14ODZfNjQuYShhc2Fu
+X2ludGVyY2VwdG9ycy5jcHAubykKICBMSU5LICAgIHFlbXUtaW1nCiAgQVMgICAgICBwYy1iaW9z
+L29wdGlvbnJvbS9saW51eGJvb3QubwovdXNyL2Jpbi9sZDogL3Vzci9saWI2NC9jbGFuZy8xMC4w
+LjAvbGliL2xpbnV4L2xpYmNsYW5nX3J0LmFzYW4teDg2XzY0LmEoYXNhbl9pbnRlcmNlcHRvcnNf
+dmZvcmsuUy5vKTogd2FybmluZzogY29tbW9uIG9mIGBfX2ludGVyY2VwdGlvbjo6cmVhbF92Zm9y
+aycgb3ZlcnJpZGRlbiBieSBkZWZpbml0aW9uIGZyb20gL3Vzci9saWI2NC9jbGFuZy8xMC4wLjAv
+bGliL2xpbnV4L2xpYmNsYW5nX3J0LmFzYW4teDg2XzY0LmEoYXNhbl9pbnRlcmNlcHRvcnMuY3Bw
+Lm8pCiAgQ0MgICAgICBwYy1iaW9zL29wdGlvbnJvbS9saW51eGJvb3RfZG1hLm8KICBBUyAgICAg
+IHBjLWJpb3Mvb3B0aW9ucm9tL2t2bXZhcGljLm8KICBBUyAgICAgIHBjLWJpb3Mvb3B0aW9ucm9t
+L3B2aC5vCiAgQ0MgICAgICBwYy1iaW9zL29wdGlvbnJvbS9wdmhfbWFpbi5vCiAgQlVJTEQgICBw
+Yy1iaW9zL29wdGlvbnJvbS9tdWx0aWJvb3QuaW1nCiAgTElOSyAgICBxZW11LWlvCi91c3IvYmlu
+L2xkOiAvdXNyL2xpYjY0L2NsYW5nLzEwLjAuMC9saWIvbGludXgvbGliY2xhbmdfcnQuYXNhbi14
+ODZfNjQuYShhc2FuX2ludGVyY2VwdG9yc192Zm9yay5TLm8pOiB3YXJuaW5nOiBjb21tb24gb2Yg
+YF9faW50ZXJjZXB0aW9uOjpyZWFsX3Zmb3JrJyBvdmVycmlkZGVuIGJ5IGRlZmluaXRpb24gZnJv
+bSAvdXNyL2xpYjY0L2NsYW5nLzEwLjAuMC9saWIvbGludXgvbGliY2xhbmdfcnQuYXNhbi14ODZf
+NjQuYShhc2FuX2ludGVyY2VwdG9ycy5jcHAubykKICBCVUlMRCAgIHBjLWJpb3Mvb3B0aW9ucm9t
+L2xpbnV4Ym9vdC5pbWcKICBCVUlMRCAgIHBjLWJpb3Mvb3B0aW9ucm9tL2xpbnV4Ym9vdF9kbWEu
+aW1nCiAgQlVJTEQgICBwYy1iaW9zL29wdGlvbnJvbS9rdm12YXBpYy5pbWcKLS0tCiAgTElOSyAg
+ICBmc2Rldi92aXJ0ZnMtcHJveHktaGVscGVyCiAgQlVJTEQgICBwYy1iaW9zL29wdGlvbnJvbS9s
+aW51eGJvb3QucmF3CiAgQlVJTEQgICBwYy1iaW9zL29wdGlvbnJvbS9tdWx0aWJvb3QucmF3Ci91
+c3IvYmluL2xkOiAvdXNyL2xpYjY0L2NsYW5nLzEwLjAuMC9saWIvbGludXgvbGliY2xhbmdfcnQu
+YXNhbi14ODZfNjQuYShhc2FuX2ludGVyY2VwdG9yc192Zm9yay5TLm8pOiB3YXJuaW5nOiBjb21t
+b24gb2YgYF9faW50ZXJjZXB0aW9uOjpyZWFsX3Zmb3JrJyBvdmVycmlkZGVuIGJ5IGRlZmluaXRp
+b24gZnJvbSAvdXNyL2xpYjY0L2NsYW5nLzEwLjAuMC9saWIvbGludXgvbGliY2xhbmdfcnQuYXNh
+bi14ODZfNjQuYShhc2FuX2ludGVyY2VwdG9ycy5jcHAubykKICBCVUlMRCAgIHBjLWJpb3Mvb3B0
+aW9ucm9tL2t2bXZhcGljLnJhdwogIFNJR04gICAgcGMtYmlvcy9vcHRpb25yb20vbGludXhib290
+LmJpbgogIExJTksgICAgc2NzaS9xZW11LXByLWhlbHBlcgogIFNJR04gICAgcGMtYmlvcy9vcHRp
+b25yb20vbGludXhib290X2RtYS5iaW4KICBTSUdOICAgIHBjLWJpb3Mvb3B0aW9ucm9tL2t2bXZh
+cGljLmJpbgogIExJTksgICAgcWVtdS1icmlkZ2UtaGVscGVyCi91c3IvYmluL2xkOiAvdXNyL2xp
+YjY0L2NsYW5nLzEwLjAuMC9saWIvbGludXgvbGliY2xhbmdfcnQuYXNhbi14ODZfNjQuYShhc2Fu
+X2ludGVyY2VwdG9yc192Zm9yay5TLm8pOiB3YXJuaW5nOiBjb21tb24gb2YgYF9faW50ZXJjZXB0
+aW9uOjpyZWFsX3Zmb3JrJyBvdmVycmlkZGVuIGJ5IGRlZmluaXRpb24gZnJvbSAvdXNyL2xpYjY0
+L2NsYW5nLzEwLjAuMC9saWIvbGludXgvbGliY2xhbmdfcnQuYXNhbi14ODZfNjQuYShhc2FuX2lu
+dGVyY2VwdG9ycy5jcHAubykKICBTSUdOICAgIHBjLWJpb3Mvb3B0aW9ucm9tL211bHRpYm9vdC5i
+aW4KICBMSU5LICAgIHZpcnRpb2ZzZAovdXNyL2Jpbi9sZDogL3Vzci9saWI2NC9jbGFuZy8xMC4w
+LjAvbGliL2xpbnV4L2xpYmNsYW5nX3J0LmFzYW4teDg2XzY0LmEoYXNhbl9pbnRlcmNlcHRvcnNf
+dmZvcmsuUy5vKTogd2FybmluZzogY29tbW9uIG9mIGBfX2ludGVyY2VwdGlvbjo6cmVhbF92Zm9y
+aycgb3ZlcnJpZGRlbiBieSBkZWZpbml0aW9uIGZyb20gL3Vzci9saWI2NC9jbGFuZy8xMC4wLjAv
+bGliL2xpbnV4L2xpYmNsYW5nX3J0LmFzYW4teDg2XzY0LmEoYXNhbl9pbnRlcmNlcHRvcnMuY3Bw
+Lm8pCi91c3IvYmluL2xkOiAvdXNyL2xpYjY0L2NsYW5nLzEwLjAuMC9saWIvbGludXgvbGliY2xh
+bmdfcnQuYXNhbi14ODZfNjQuYShhc2FuX2ludGVyY2VwdG9yc192Zm9yay5TLm8pOiB3YXJuaW5n
+OiBjb21tb24gb2YgYF9faW50ZXJjZXB0aW9uOjpyZWFsX3Zmb3JrJyBvdmVycmlkZGVuIGJ5IGRl
+ZmluaXRpb24gZnJvbSAvdXNyL2xpYjY0L2NsYW5nLzEwLjAuMC9saWIvbGludXgvbGliY2xhbmdf
+cnQuYXNhbi14ODZfNjQuYShhc2FuX2ludGVyY2VwdG9ycy5jcHAubykKICBMSU5LICAgIHZob3N0
+LXVzZXItaW5wdXQKICBMSU5LICAgIHFlbXUtZ2EKICBCVUlMRCAgIHBjLWJpb3Mvb3B0aW9ucm9t
+L3B2aC5pbWcKICBCVUlMRCAgIHBjLWJpb3Mvb3B0aW9ucm9tL3B2aC5yYXcKICBTSUdOICAgIHBj
+LWJpb3Mvb3B0aW9ucm9tL3B2aC5iaW4KL3Vzci9iaW4vbGQ6IC91c3IvbGliNjQvY2xhbmcvMTAu
+MC4wL2xpYi9saW51eC9saWJjbGFuZ19ydC5hc2FuLXg4Nl82NC5hKGFzYW5faW50ZXJjZXB0b3Jz
+X3Zmb3JrLlMubyk6IHdhcm5pbmc6IGNvbW1vbiBvZiBgX19pbnRlcmNlcHRpb246OnJlYWxfdmZv
+cmsnIG92ZXJyaWRkZW4gYnkgZGVmaW5pdGlvbiBmcm9tIC91c3IvbGliNjQvY2xhbmcvMTAuMC4w
+L2xpYi9saW51eC9saWJjbGFuZ19ydC5hc2FuLXg4Nl82NC5hKGFzYW5faW50ZXJjZXB0b3JzLmNw
+cC5vKQovdXNyL2Jpbi9sZDogL3Vzci9saWI2NC9jbGFuZy8xMC4wLjAvbGliL2xpbnV4L2xpYmNs
+YW5nX3J0LmFzYW4teDg2XzY0LmEoYXNhbl9pbnRlcmNlcHRvcnNfdmZvcmsuUy5vKTogd2Fybmlu
+ZzogY29tbW9uIG9mIGBfX2ludGVyY2VwdGlvbjo6cmVhbF92Zm9yaycgb3ZlcnJpZGRlbiBieSBk
+ZWZpbml0aW9uIGZyb20gL3Vzci9saWI2NC9jbGFuZy8xMC4wLjAvbGliL2xpbnV4L2xpYmNsYW5n
+X3J0LmFzYW4teDg2XzY0LmEoYXNhbl9pbnRlcmNlcHRvcnMuY3BwLm8pCi91c3IvYmluL2xkOiAv
+dXNyL2xpYjY0L2NsYW5nLzEwLjAuMC9saWIvbGludXgvbGliY2xhbmdfcnQuYXNhbi14ODZfNjQu
+YShhc2FuX2ludGVyY2VwdG9yc192Zm9yay5TLm8pOiB3YXJuaW5nOiBjb21tb24gb2YgYF9faW50
+ZXJjZXB0aW9uOjpyZWFsX3Zmb3JrJyBvdmVycmlkZGVuIGJ5IGRlZmluaXRpb24gZnJvbSAvdXNy
+L2xpYjY0L2NsYW5nLzEwLjAuMC9saWIvbGludXgvbGliY2xhbmdfcnQuYXNhbi14ODZfNjQuYShh
+c2FuX2ludGVyY2VwdG9ycy5jcHAubykKICBHRU4gICAgIHg4Nl82NC1zb2Z0bW11L2htcC1jb21t
+YW5kcy1pbmZvLmgKICBHRU4gICAgIHg4Nl82NC1zb2Z0bW11L2htcC1jb21tYW5kcy5oCiAgR0VO
+ICAgICB4ODZfNjQtc29mdG1tdS9jb25maWctdGFyZ2V0LmgKLS0tCiAgQ0MgICAgICB4ODZfNjQt
+c29mdG1tdS9ody9zY3NpL3ZpcnRpby1zY3NpLm8KICBDQyAgICAgIHg4Nl82NC1zb2Z0bW11L2h3
+L3Njc2kvdmlydGlvLXNjc2ktZGF0YXBsYW5lLm8KICBDQyAgICAgIHg4Nl82NC1zb2Z0bW11L2h3
+L3Njc2kvdmhvc3Qtc2NzaS1jb21tb24ubwovdG1wL3FlbXUtdGVzdC9zcmMvbWlncmF0aW9uL3Jh
+bS5jOjkxOTo0NTogZXJyb3I6IGltcGxpY2l0IGNvbnZlcnNpb24gZnJvbSAndW5zaWduZWQgbG9u
+ZycgdG8gJ2RvdWJsZScgY2hhbmdlcyB2YWx1ZSBmcm9tIDE4NDQ2NzQ0MDczNzA5NTUxNjE1IHRv
+IDE4NDQ2NzQ0MDczNzA5NTUxNjE2IFstV2Vycm9yLC1XaW1wbGljaXQtaW50LWZsb2F0LWNvbnZl
+cnNpb25dCiAgICAgICAgICAgIHhienJsZV9jb3VudGVycy5lbmNvZGluZ19yYXRlID0gVUlOVDY0
+X01BWDsKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfiBefn5+fn5+
+fn5+Ci91c3IvaW5jbHVkZS9zdGRpbnQuaDoxMzA6MjM6IG5vdGU6IGV4cGFuZGVkIGZyb20gbWFj
+cm8gJ1VJTlQ2NF9NQVgnCi0tLQoxODQ0Njc0NDA3MzcwOTU1MTYxNVVMCl5+fn5+fn5+fn5+fn5+
+fn5+fn5+fn4KMSBlcnJvciBnZW5lcmF0ZWQuCi90bXAvcWVtdS10ZXN0L3NyYy9mcHUvc29mdGZs
+b2F0LmM6MzM2NToxMzogZXJyb3I6IGJpdHdpc2UgbmVnYXRpb24gb2YgYSBib29sZWFuIGV4cHJl
+c3Npb247IGRpZCB5b3UgbWVhbiBsb2dpY2FsIG5lZ2F0aW9uPyBbLVdlcnJvciwtV2Jvb2wtb3Bl
+cmF0aW9uXQogICAgYWJzWiAmPSB+ICggKCAoIHJvdW5kQml0cyBeIDB4NDAgKSA9PSAwICkgJiBy
+b3VuZE5lYXJlc3RFdmVuICk7CiAgICAgICAgICAgIF5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+
+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fgogICAgICAgICAgICAhCi90bXAvcWVtdS10ZXN0
+L3NyYy9mcHUvc29mdGZsb2F0LmM6MzQyMzoxODogZXJyb3I6IGJpdHdpc2UgbmVnYXRpb24gb2Yg
+YSBib29sZWFuIGV4cHJlc3Npb247IGRpZCB5b3UgbWVhbiBsb2dpY2FsIG5lZ2F0aW9uPyBbLVdl
+cnJvciwtV2Jvb2wtb3BlcmF0aW9uXQogICAgICAgIGFic1owICY9IH4gKCAoICh1aW50NjRfdCkg
+KCBhYnNaMTw8MSApID09IDAgKSAmIHJvdW5kTmVhcmVzdEV2ZW4gKTsKICAgICAgICAgICAgICAg
+ICBefn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+
+fn4KICAgICAgICAgICAgICAgICAhCi90bXAvcWVtdS10ZXN0L3NyYy9mcHUvc29mdGZsb2F0LmM6
+MzQ4MzoxODogZXJyb3I6IGJpdHdpc2UgbmVnYXRpb24gb2YgYSBib29sZWFuIGV4cHJlc3Npb247
+IGRpZCB5b3UgbWVhbiBsb2dpY2FsIG5lZ2F0aW9uPyBbLVdlcnJvciwtV2Jvb2wtb3BlcmF0aW9u
+XQogICAgICAgIGFic1owICY9IH4oKCh1aW50NjRfdCkoYWJzWjE8PDEpID09IDApICYgcm91bmRO
+ZWFyZXN0RXZlbik7CiAgICAgICAgICAgICAgICAgXn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+
+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fgogICAgICAgICAgICAgICAgICEKL3RtcC9xZW11LXRlc3Qv
+c3JjL2ZwdS9zb2Z0ZmxvYXQuYzozNjA2OjEzOiBlcnJvcjogYml0d2lzZSBuZWdhdGlvbiBvZiBh
+IGJvb2xlYW4gZXhwcmVzc2lvbjsgZGlkIHlvdSBtZWFuIGxvZ2ljYWwgbmVnYXRpb24/IFstV2Vy
+cm9yLC1XYm9vbC1vcGVyYXRpb25dCiAgICB6U2lnICY9IH4gKCAoICggcm91bmRCaXRzIF4gMHg0
+MCApID09IDAgKSAmIHJvdW5kTmVhcmVzdEV2ZW4gKTsKICAgICAgICAgICAgXn5+fn5+fn5+fn5+
+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+CiAgICAgICAgICAgICEK
+L3RtcC9xZW11LXRlc3Qvc3JjL2ZwdS9zb2Z0ZmxvYXQuYzozNzYwOjEzOiBlcnJvcjogYml0d2lz
+ZSBuZWdhdGlvbiBvZiBhIGJvb2xlYW4gZXhwcmVzc2lvbjsgZGlkIHlvdSBtZWFuIGxvZ2ljYWwg
+bmVnYXRpb24/IFstV2Vycm9yLC1XYm9vbC1vcGVyYXRpb25dCiAgICB6U2lnICY9IH4gKCAoICgg
+cm91bmRCaXRzIF4gMHgyMDAgKSA9PSAwICkgJiByb3VuZE5lYXJlc3RFdmVuICk7CiAgICAgICAg
+ICAgIF5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+
+fn4KICAgICAgICAgICAgIQovdG1wL3FlbXUtdGVzdC9zcmMvZnB1L3NvZnRmbG9hdC5jOjM5ODc6
+MjE6IGVycm9yOiBiaXR3aXNlIG5lZ2F0aW9uIG9mIGEgYm9vbGVhbiBleHByZXNzaW9uOyBkaWQg
+eW91IG1lYW4gbG9naWNhbCBuZWdhdGlvbj8gWy1XZXJyb3IsLVdib29sLW9wZXJhdGlvbl0KICAg
+ICAgICAgICAgICAgICAgICB+ICggKCAodWludDY0X3QpICggelNpZzE8PDEgKSA9PSAwICkgJiBy
+b3VuZE5lYXJlc3RFdmVuICk7CiAgICAgICAgICAgICAgICAgICAgXn5+fn5+fn5+fn5+fn5+fn5+
+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+CiAgICAgICAgICAgICAgICAg
+ICAgIQovdG1wL3FlbXUtdGVzdC9zcmMvZnB1L3NvZnRmbG9hdC5jOjQwMDM6MjI6IGVycm9yOiBi
+aXR3aXNlIG5lZ2F0aW9uIG9mIGEgYm9vbGVhbiBleHByZXNzaW9uOyBkaWQgeW91IG1lYW4gbG9n
+aWNhbCBuZWdhdGlvbj8gWy1XZXJyb3IsLVdib29sLW9wZXJhdGlvbl0KICAgICAgICAgICAgelNp
+ZzAgJj0gfiAoICggKHVpbnQ2NF90KSAoIHpTaWcxPDwxICkgPT0gMCApICYgcm91bmROZWFyZXN0
+RXZlbiApOwogICAgICAgICAgICAgICAgICAgICBefn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+
+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn4KICAgICAgICAgICAgICAgICAgICAgIQovdG1w
+L3FlbXUtdGVzdC9zcmMvZnB1L3NvZnRmbG9hdC5jOjQyNzM6MTg6IGVycm9yOiBiaXR3aXNlIG5l
+Z2F0aW9uIG9mIGEgYm9vbGVhbiBleHByZXNzaW9uOyBkaWQgeW91IG1lYW4gbG9naWNhbCBuZWdh
+dGlvbj8gWy1XZXJyb3IsLVdib29sLW9wZXJhdGlvbl0KICAgICAgICB6U2lnMSAmPSB+ICggKCB6
+U2lnMiArIHpTaWcyID09IDAgKSAmIHJvdW5kTmVhcmVzdEV2ZW4gKTsKICAgICAgICAgICAgICAg
+ICBefn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fgogICAgICAg
+ICAgICAgICAgICEKOCBlcnJvcnMgZ2VuZXJhdGVkLgptYWtlWzFdOiAqKiogWy90bXAvcWVtdS10
+ZXN0L3NyYy9ydWxlcy5tYWs6Njk6IG1pZ3JhdGlvbi9yYW0ub10gRXJyb3IgMQptYWtlWzFdOiAq
+KiogV2FpdGluZyBmb3IgdW5maW5pc2hlZCBqb2JzLi4uLgptYWtlWzFdOiAqKiogWy90bXAvcWVt
+dS10ZXN0L3NyYy9ydWxlcy5tYWs6Njk6IGZwdS9zb2Z0ZmxvYXQub10gRXJyb3IgMQptYWtlOiAq
+KiogW01ha2VmaWxlOjUyNzogeDg2XzY0LXNvZnRtbXUvYWxsXSBFcnJvciAyClRyYWNlYmFjayAo
+bW9zdCByZWNlbnQgY2FsbCBsYXN0KToKICBGaWxlICIuL3Rlc3RzL2RvY2tlci9kb2NrZXIucHki
+LCBsaW5lIDY2OSwgaW4gPG1vZHVsZT4KICAgIHN5cy5leGl0KG1haW4oKSkKLS0tCiAgICByYWlz
+ZSBDYWxsZWRQcm9jZXNzRXJyb3IocmV0Y29kZSwgY21kKQpzdWJwcm9jZXNzLkNhbGxlZFByb2Nl
+c3NFcnJvcjogQ29tbWFuZCAnWydzdWRvJywgJy1uJywgJ2RvY2tlcicsICdydW4nLCAnLS1sYWJl
+bCcsICdjb20ucWVtdS5pbnN0YW5jZS51dWlkPTAxZjAyMGUxMjIyOTQ1MjM5ZDBhOGUxMjRmMTVm
+NmMzJywgJy11JywgJzEwMDEnLCAnLS1zZWN1cml0eS1vcHQnLCAnc2VjY29tcD11bmNvbmZpbmVk
+JywgJy0tcm0nLCAnLWUnLCAnVEFSR0VUX0xJU1Q9eDg2XzY0LXNvZnRtbXUnLCAnLWUnLCAnRVhU
+UkFfQ09ORklHVVJFX09QVFM9JywgJy1lJywgJ1Y9JywgJy1lJywgJ0o9MTQnLCAnLWUnLCAnREVC
+VUc9JywgJy1lJywgJ1NIT1dfRU5WPScsICctZScsICdDQ0FDSEVfRElSPS92YXIvdG1wL2NjYWNo
+ZScsICctdicsICcvaG9tZS9wYXRjaGV3Ly5jYWNoZS9xZW11LWRvY2tlci1jY2FjaGU6L3Zhci90
+bXAvY2NhY2hlOnonLCAnLXYnLCAnL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLTNkZnpyZmd3
+L3NyYy9kb2NrZXItc3JjLjIwMjAtMDYtMTctMDIuMDMuNDkuMTAxMDA6L3Zhci90bXAvcWVtdTp6
+LHJvJywgJ3FlbXU6ZmVkb3JhJywgJy92YXIvdG1wL3FlbXUvcnVuJywgJ3Rlc3QtZGVidWcnXScg
+cmV0dXJuZWQgbm9uLXplcm8gZXhpdCBzdGF0dXMgMi4KZmlsdGVyPS0tZmlsdGVyPWxhYmVsPWNv
+bS5xZW11Lmluc3RhbmNlLnV1aWQ9MDFmMDIwZTEyMjI5NDUyMzlkMGE4ZTEyNGYxNWY2YzMKbWFr
+ZVsxXTogKioqIFtkb2NrZXItcnVuXSBFcnJvciAxCm1ha2VbMV06IExlYXZpbmcgZGlyZWN0b3J5
+IGAvdmFyL3RtcC9wYXRjaGV3LXRlc3Rlci10bXAtM2RmenJmZ3cvc3JjJwptYWtlOiAqKiogW2Rv
+Y2tlci1ydW4tdGVzdC1kZWJ1Z0BmZWRvcmFdIEVycm9yIDIKCnJlYWwgICAgM200NC45OThzCnVz
+ZXIgICAgMG04LjI1OXMKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRj
+aGV3Lm9yZy9sb2dzLzIwMjAwNjE3MDUzOTM0LjEyMjY0Mi0xLXBwYW5kaXRAcmVkaGF0LmNvbS90
+ZXN0aW5nLmFzYW4vP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNh
+bGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBm
+ZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
 
