@@ -2,63 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57F2E1FD045
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 17:06:38 +0200 (CEST)
-Received: from localhost ([::1]:50592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 484771FD04F
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 17:08:33 +0200 (CEST)
+Received: from localhost ([::1]:58708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlZe9-0007O3-8u
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 11:06:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45326)
+	id 1jlZg0-0002k8-5j
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 11:08:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45362)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jlZNs-00036U-A4
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jlZNt-00037U-L6
  for qemu-devel@nongnu.org; Wed, 17 Jun 2020 10:49:49 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:59503
- helo=us-smtp-1.mimecast.com)
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:36760
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jlZNo-0001jA-PC
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 10:49:47 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jlZNq-0001jS-49
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 10:49:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592405382;
+ s=mimecast20190719; t=1592405384;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Vkx3Gbc4xe3zntOOxWB679eH/cE6ClvCik3q1EsrHU0=;
- b=f7R7KJywXN0QyoXvSsCsY9AK5vJUSmNc3rpYVYCeSpwPf/L+qI8PiZj/Hko5ejMgTBDDhr
- 4g4yAxvO3tVWhVT2q1gQ7dlHvClUf1V9FJ5lKVrTacMGogre8mkwYBJt5r9rqK5gEJxOZ7
- E0DW1vRxWV9/8IFdCrWtnTlRWO4zJl4=
+ bh=WCMxHSIvK8NrqxtaLK1jm+7CZhdADvSuKPMRRngiERc=;
+ b=Ax8ZRl3fSxpIZ/y41K+fU8kYY75GtTzbGSkb4ihU3vJrhdolD9Rmh1YjINHHYLTBnZZmXV
+ qA1JNBZO7UxhhrUPi829oI7/HJcwI2YluU+yA6MgSgQXaRI2EN6ajhXWKPn1CfAzSezQt+
+ RAtTAVRGTN0+JN7Tr7LdyH2qmLJimO0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-47-wocKRcZgOeaJsSPsVT1X7g-1; Wed, 17 Jun 2020 10:49:40 -0400
-X-MC-Unique: wocKRcZgOeaJsSPsVT1X7g-1
+ us-mta-190-lCqjJV6EOOuB_9TTCh_UVA-1; Wed, 17 Jun 2020 10:49:41 -0400
+X-MC-Unique: lCqjJV6EOOuB_9TTCh_UVA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1C99780331A;
- Wed, 17 Jun 2020 14:49:37 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BE3CF80F5F0;
+ Wed, 17 Jun 2020 14:49:40 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-114-44.ams2.redhat.com [10.36.114.44])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 24A857CAA0;
- Wed, 17 Jun 2020 14:49:35 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 689BD7CAA0;
+ Wed, 17 Jun 2020 14:49:37 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 18/43] hw/block/nvme: factor out block backend setup
-Date: Wed, 17 Jun 2020 16:48:44 +0200
-Message-Id: <20200617144909.192176-19-kwolf@redhat.com>
+Subject: [PULL 19/43] hw/block/nvme: add namespace helpers
+Date: Wed, 17 Jun 2020 16:48:45 +0200
+Message-Id: <20200617144909.192176-20-kwolf@redhat.com>
 In-Reply-To: <20200617144909.192176-1-kwolf@redhat.com>
 References: <20200617144909.192176-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=kwolf@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/17 01:42:04
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/17 02:02:46
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -85,46 +83,65 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
+Introduce some small helpers to make the next patches easier on the eye.
+
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 Reviewed-by: Keith Busch <kbusch@kernel.org>
-Message-Id: <20200609190333.59390-13-its@irrelevant.dk>
+Message-Id: <20200609190333.59390-14-its@irrelevant.dk>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- hw/block/nvme.c | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+ hw/block/nvme.h | 17 +++++++++++++++++
+ hw/block/nvme.c |  3 +--
+ 2 files changed, 18 insertions(+), 2 deletions(-)
 
-diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index b721cab9b0..87f1f0d0d1 100644
---- a/hw/block/nvme.c
-+++ b/hw/block/nvme.c
-@@ -1410,6 +1410,13 @@ static void nvme_init_state(NvmeCtrl *n)
-     n->cq = g_new0(NvmeCQueue *, n->params.max_ioqpairs + 1);
- }
+diff --git a/hw/block/nvme.h b/hw/block/nvme.h
+index cedc8022db..61dd9b23b8 100644
+--- a/hw/block/nvme.h
++++ b/hw/block/nvme.h
+@@ -61,6 +61,17 @@ typedef struct NvmeNamespace {
+     NvmeIdNs        id_ns;
+ } NvmeNamespace;
  
-+static void nvme_init_blk(NvmeCtrl *n, Error **errp)
++static inline NvmeLBAF *nvme_ns_lbaf(NvmeNamespace *ns)
 +{
-+    blkconf_blocksizes(&n->conf);
-+    blkconf_apply_backend_options(&n->conf, blk_is_read_only(n->conf.blk),
-+                                  false, errp);
++    NvmeIdNs *id_ns = &ns->id_ns;
++    return &id_ns->lbaf[NVME_ID_NS_FLBAS_INDEX(id_ns->flbas)];
 +}
 +
- static void nvme_realize(PCIDevice *pci_dev, Error **errp)
- {
-     NvmeCtrl *n = NVME(pci_dev);
-@@ -1434,9 +1441,9 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
-         return;
-     }
++static inline uint8_t nvme_ns_lbads(NvmeNamespace *ns)
++{
++    return nvme_ns_lbaf(ns)->ds;
++}
++
+ #define TYPE_NVME "nvme"
+ #define NVME(obj) \
+         OBJECT_CHECK(NvmeCtrl, (obj), TYPE_NVME)
+@@ -97,4 +108,10 @@ typedef struct NvmeCtrl {
+     NvmeIdCtrl      id_ctrl;
+ } NvmeCtrl;
  
--    blkconf_blocksizes(&n->conf);
--    if (!blkconf_apply_backend_options(&n->conf, blk_is_read_only(n->conf.blk),
--                                       false, errp)) {
-+    nvme_init_blk(n, &local_err);
-+    if (local_err) {
-+        error_propagate(errp, local_err);
-         return;
++/* calculate the number of LBAs that the namespace can accomodate */
++static inline uint64_t nvme_ns_nlbas(NvmeCtrl *n, NvmeNamespace *ns)
++{
++    return n->ns_size >> nvme_ns_lbads(ns);
++}
++
+ #endif /* HW_NVME_H */
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index 87f1f0d0d1..3f3db17231 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -1573,8 +1573,7 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+         id_ns->dps = 0;
+         id_ns->lbaf[0].ds = BDRV_SECTOR_BITS;
+         id_ns->ncap  = id_ns->nuse = id_ns->nsze =
+-            cpu_to_le64(n->ns_size >>
+-                id_ns->lbaf[NVME_ID_NS_FLBAS_INDEX(ns->id_ns.flbas)].ds);
++            cpu_to_le64(nvme_ns_nlbas(n, ns));
      }
+ }
  
 -- 
 2.25.4
