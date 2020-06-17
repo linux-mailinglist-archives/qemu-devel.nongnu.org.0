@@ -2,114 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EDD01FCFEF
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 16:46:52 +0200 (CEST)
-Received: from localhost ([::1]:43332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94A771FCFF6
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 16:51:55 +0200 (CEST)
+Received: from localhost ([::1]:51402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlZL1-00018F-1i
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 10:46:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43522)
+	id 1jlZPu-0005na-JW
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 10:51:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jlZJ1-0007X0-Cw
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 10:44:47 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:58832
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jlZNa-0002pp-QT
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 10:49:31 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:58863
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jlZIz-0000tt-R9
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 10:44:47 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jlZNT-0001de-An
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 10:49:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592405085;
+ s=mimecast20190719; t=1592405361;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=CHFD1VruEB4oAyd3xuiq9rrj36/A1AN7Xnv/87JKlhc=;
- b=UHp/hAY0m7midaxYTe/yryMNSugbzdQCKF/BzUcIqOrYFxWIaFTH2f6ZoMduS3BSZbCW4K
- ZTGDkEFCrH6dqlWpuJOFrh08QAvBsK+XxB+KkanyFHBI5tfRPj2Stq6uZgyfYqCVlapM/A
- AUyvxBzyQ8Njk5K8iruhvtomvmmNli0=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-95-3xvuVwcHMUegQ4zouztrXQ-1; Wed, 17 Jun 2020 10:44:39 -0400
-X-MC-Unique: 3xvuVwcHMUegQ4zouztrXQ-1
-Received: by mail-ed1-f70.google.com with SMTP id a21so978119edy.1
- for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 07:44:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=CHFD1VruEB4oAyd3xuiq9rrj36/A1AN7Xnv/87JKlhc=;
- b=rk95UHovyNJzPbQ2u4aRpag1MyyM5DK7kudLnETdOroDKJcX3Zrt4Mq6YhEdBwpGt2
- KiWQUbXspVDiH4Hco2JMvkQNQ+VBYe84nXMbCNdiuvtCElMA1c8+ACHOX/Kbh1vBtzbF
- YyCx7pXijV3DBABElQZRxntbS+1Lu3i6E8UaLlXA1N/nptx05z4OxyGjLFoQl0URF7Iu
- un7n3rkE8R9f2wTw59KtCMnH0Rc4vCsmHfRGThd+0pKttJ8PUq15lpCY1hGmTsuww2xV
- qHm/bCn+vAdgZNMcrlC38s/V6Jyazej6l3t+5xnCp6hxMtVAOTGYZsXao9ewUM7mDr33
- XNhw==
-X-Gm-Message-State: AOAM531FfaSmo/p6OKMMuxe8dqmliDyHmoTOI9f2kBBfjwsCF1NAyuse
- pH+oy+RH1BHEjFLaiFfXVIvzyW7s/NmxlqGnm38l1plAtVOewb9ohk7ubjyvVoHf1865Z0FvwaF
- Dkgs4ygClzhyNR+k=
-X-Received: by 2002:a17:906:1d5b:: with SMTP id
- o27mr7737588ejh.344.1592405078117; 
- Wed, 17 Jun 2020 07:44:38 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw3naQoX53WK1KIdEqQL6yOu5CB3LT896nG37FRgHopYwfHLWeK8Brcov7DVlOJlE6ByvNEBQ==
-X-Received: by 2002:a17:906:1d5b:: with SMTP id
- o27mr7737577ejh.344.1592405077895; 
- Wed, 17 Jun 2020 07:44:37 -0700 (PDT)
-Received: from [192.168.1.38] (93.red-83-59-160.dynamicip.rima-tde.net.
- [83.59.160.93])
- by smtp.gmail.com with ESMTPSA id v5sm85346ejx.123.2020.06.17.07.44.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 17 Jun 2020 07:44:37 -0700 (PDT)
-Subject: Re: [PATCH 1/2] .gitignore: Ignore generated srorage-daemon files for
- in-tree builds
-To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org
-References: <20200617134505.979607482CD@zero.eik.bme.hu>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <ca05a43b-c955-cccd-e157-5692e0a08ce7@redhat.com>
-Date: Wed, 17 Jun 2020 16:44:36 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ILZS1thQRzoOTqI/fiVPAQY6fXjGov5mUghI+dKbF48=;
+ b=UHVZWbddnElxIOZ/3K5rkzcqRn+Xh657tPlP0Wrr3lgbdPqBiUKo/3NSaolojYpHyfnseZ
+ YCVy2Zz7DBy2qShZWEOC9nYiIKAFgxHHxB0W9eHfn6NHhX1UqDxPAFiVRxmL9Higdo8/k0
+ a1EL9GfzmWueKlNj6nk69tKEUnLy/XY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-369-1zilAIhINqqXKBuFR51egg-1; Wed, 17 Jun 2020 10:49:14 -0400
+X-MC-Unique: 1zilAIhINqqXKBuFR51egg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9E18B81EE4F;
+ Wed, 17 Jun 2020 14:49:13 +0000 (UTC)
+Received: from linux.fritz.box.com (ovpn-114-44.ams2.redhat.com [10.36.114.44])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7EEEC7CAA5;
+ Wed, 17 Jun 2020 14:49:12 +0000 (UTC)
+From: Kevin Wolf <kwolf@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PULL 00/43] Block layer patches
+Date: Wed, 17 Jun 2020 16:48:26 +0200
+Message-Id: <20200617144909.192176-1-kwolf@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200617134505.979607482CD@zero.eik.bme.hu>
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/17 01:42:04
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/17 01:42:42
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -123,36 +74,130 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>
+Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/17/20 3:06 PM, BALATON Zoltan wrote:
-> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-> ---
->  .gitignore | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/.gitignore b/.gitignore
-> index 0c5af83aa7..d9ef9f635a 100644
-> --- a/.gitignore
-> +++ b/.gitignore
-> @@ -46,6 +46,9 @@
->  !/qapi/qapi-visit-core.c
->  /qapi/qapi-visit.[ch]
->  /qapi/qapi-doc.texi
-> +/storage-daemon/qapi/qapi-doc.texi
-> +/storage-daemon/qapi/qapi-*.[ch]
-> +/qemu-storage-daemon
->  /qemu-edid
->  /qemu-img
->  /qemu-nbd
-> 
+The following changes since commit 5c24bce3056ff209a1ecc50ff4b7e65b85ad8e74:
 
-Thanks Zoltan, but Kevin already queued a similar patch
-from Roman:
+  Merge remote-tracking branch 'remotes/stsquad/tags/pull-testing-and-plugin-160620-2' into staging (2020-06-16 14:57:15 +0100)
 
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg711806.html
+are available in the Git repository at:
+
+  git://repo.or.cz/qemu/kevin.git tags/for-upstream
+
+for you to fetch changes up to 3419ec713f04c323b030e0763459435335b25476:
+
+  iotests: Add copyright line in qcow2.py (2020-06-17 16:21:21 +0200)
+
+----------------------------------------------------------------
+Block layer patches:
+
+- enhance handling of size-related BlockConf properties
+- nvme: small fixes, refactoring and cleanups
+- virtio-blk: On restart, process queued requests in the proper context
+- icount: make dma reads deterministic
+- iotests: Some fixes for rarely run cases
+- .gitignore: Ignore storage-daemon files
+- Minor code cleanups
+
+----------------------------------------------------------------
+Eric Blake (3):
+      block: Refactor subdirectory recursion during make
+      qcow2: Tweak comments on qcow2_get_persistent_dirty_bitmap_size
+      iotests: Add copyright line in qcow2.py
+
+Klaus Jensen (21):
+      hw/block/nvme: fix pci doorbell size calculation
+      hw/block/nvme: rename trace events to pci_nvme
+      hw/block/nvme: remove superfluous breaks
+      hw/block/nvme: move device parameters to separate struct
+      hw/block/nvme: use constants in identify
+      hw/block/nvme: refactor nvme_addr_read
+      hw/block/nvme: fix pin-based interrupt behavior
+      hw/block/nvme: add max_ioqpairs device parameter
+      hw/block/nvme: remove redundant cmbloc/cmbsz members
+      hw/block/nvme: factor out property/constraint checks
+      hw/block/nvme: factor out device state setup
+      hw/block/nvme: factor out block backend setup
+      hw/block/nvme: add namespace helpers
+      hw/block/nvme: factor out namespace setup
+      hw/block/nvme: factor out pci setup
+      hw/block/nvme: factor out cmb setup
+      hw/block/nvme: factor out pmr setup
+      hw/block/nvme: do cmb/pmr init as part of pci init
+      hw/block/nvme: factor out controller identify setup
+      hw/block/nvme: add msix_qsize parameter
+      hw/block/nvme: verify msix_init_exclusive_bar() return value
+
+Max Reitz (5):
+      iotests.py: Add skip_for_formats() decorator
+      iotests/041: Skip test_small_target for qed
+      iotests/292: data_file is unsupported
+      iotests/229: data_file is unsupported
+      iotests/{190,291}: compat=0.10 is unsupported
+
+Pavel Dovgaluk (1):
+      icount: make dma reads deterministic
+
+Philippe Mathieu-Daudé (2):
+      hw/ide: Make IDEDMAOps handlers take a const IDEDMA pointer
+      hw/block/nvme: Verify msix_vector_use() returned value
+
+Roman Bolshakov (1):
+      .gitignore: Ignore storage-daemon files
+
+Roman Kagan (8):
+      virtio-blk: store opt_io_size with correct size
+      block: consolidate blocksize properties consistency checks
+      qdev-properties: blocksize: use same limits in code and description
+      qdev-properties: add size32 property type
+      qdev-properties: make blocksize accept size suffixes
+      block: make BlockConf size props 32bit and accept size suffixes
+      qdev-properties: add getter for size32 and blocksize
+      block: lift blocksize property limit to 2 MiB
+
+Sergio Lopez (2):
+      virtio-blk: Refactor the code that processes queued requests
+      virtio-blk: On restart, process queued requests in the proper context
+
+ hw/block/nvme.h                    |  34 ++-
+ include/block/nvme.h               |   8 +
+ include/hw/block/block.h           |  14 +-
+ include/hw/ide/internal.h          |  12 +-
+ include/hw/qdev-properties.h       |   5 +-
+ include/hw/virtio/virtio-blk.h     |   1 +
+ block/qcow2-bitmap.c               |   9 +-
+ dma-helpers.c                      |  22 ++
+ hw/block/block.c                   |  40 ++-
+ hw/block/dataplane/virtio-blk.c    |   8 +
+ hw/block/fdc.c                     |   5 +-
+ hw/block/nvme.c                    | 574 +++++++++++++++++++++----------------
+ hw/block/swim.c                    |   5 +-
+ hw/block/virtio-blk.c              |  39 +--
+ hw/block/xen-block.c               |   6 +-
+ hw/core/qdev-properties.c          |  85 +++++-
+ hw/ide/ahci.c                      |  18 +-
+ hw/ide/core.c                      |   6 +-
+ hw/ide/macio.c                     |   6 +-
+ hw/ide/pci.c                       |  12 +-
+ hw/ide/qdev.c                      |   5 +-
+ hw/scsi/scsi-disk.c                |  12 +-
+ hw/usb/dev-storage.c               |   5 +-
+ tests/qemu-iotests/iotests.py      |  16 ++
+ tests/qemu-iotests/qcow2.py        |   2 +
+ tests/qemu-iotests/qcow2_format.py |   1 +
+ .gitignore                         |  17 +-
+ Makefile.objs                      |   2 +-
+ block/Makefile.objs                |   1 +
+ hw/block/trace-events              | 180 ++++++------
+ tests/qemu-iotests/041             |   2 +
+ tests/qemu-iotests/118             |   7 +-
+ tests/qemu-iotests/172.out         | 532 +++++++++++++++++-----------------
+ tests/qemu-iotests/190             |   2 +
+ tests/qemu-iotests/229             |   3 +
+ tests/qemu-iotests/291             |   2 +
+ tests/qemu-iotests/292             |   5 +
+ 37 files changed, 1005 insertions(+), 698 deletions(-)
 
 
