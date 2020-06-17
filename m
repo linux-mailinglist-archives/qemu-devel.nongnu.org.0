@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 768001FD0D1
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 17:23:32 +0200 (CEST)
-Received: from localhost ([::1]:51474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2D881FD03F
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 17:04:34 +0200 (CEST)
+Received: from localhost ([::1]:44658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlZuV-0002xk-Hh
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 11:23:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45906)
+	id 1jlZc9-0004PW-Ul
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 11:04:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jlZOJ-0003mB-Ha
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 10:50:15 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:38884
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jlZOK-0003ni-5X
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 10:50:16 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:45443
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jlZOG-0001rP-RF
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 10:50:14 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jlZOH-0001s3-TO
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 10:50:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592405412;
+ s=mimecast20190719; t=1592405413;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=eqQXSFyP0kuFjE3fFDQshh/+swbSOqeRdeu3TmA5zKM=;
- b=TVjeUlrdIkY7z2wOZxrJGfBTKyxJ0UGmxIjk5BFzFkTXDDwnEkYqu9PzW9z3USbaXTtn8Y
- j7zRuwlLYYrPWcFwd/m7kfqfxx+s05YUDLj6+/tp4U3ORRT1sv9DirCCP2uChSBxlam6Mj
- REpaD1vHh0cY6sOHsQD0oLlMztwu20c=
+ bh=1YzF2zYeHLHdgZyeMg7SvF4k2GFQa0dhiDsGJTjXkQA=;
+ b=QFd9IvfuKynNMfBW1D8OSu0+P8RmyXLEG++xbttfIhxbJgxIsvmI+/pDN1PncXES6D26cO
+ 8J2F6iO87Y1jAGjltuXY0vtW89yUxpLxAwprk0F5sg5u+JD+r2y4tCEal5JZxKvtvugUgy
+ AmlvRllE9YmsK8xKfGq5/hFTL02xibM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-36-sVOEbP1iP4-YplTOMPAqzA-1; Wed, 17 Jun 2020 10:50:09 -0400
-X-MC-Unique: sVOEbP1iP4-YplTOMPAqzA-1
+ us-mta-39-vss185q0PNaDXUC2R8sbQA-1; Wed, 17 Jun 2020 10:50:11 -0400
+X-MC-Unique: vss185q0PNaDXUC2R8sbQA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CC972134D7;
- Wed, 17 Jun 2020 14:50:08 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1E8A5134D0;
+ Wed, 17 Jun 2020 14:50:10 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-114-44.ams2.redhat.com [10.36.114.44])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CED0F7CAA0;
- Wed, 17 Jun 2020 14:50:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 260E77CAA0;
+ Wed, 17 Jun 2020 14:50:08 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 39/43] iotests/041: Skip test_small_target for qed
-Date: Wed, 17 Jun 2020 16:49:05 +0200
-Message-Id: <20200617144909.192176-40-kwolf@redhat.com>
+Subject: [PULL 40/43] iotests/292: data_file is unsupported
+Date: Wed, 17 Jun 2020 16:49:06 +0200
+Message-Id: <20200617144909.192176-41-kwolf@redhat.com>
 In-Reply-To: <20200617144909.192176-1-kwolf@redhat.com>
 References: <20200617144909.192176-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -56,16 +56,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/17 02:02:46
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/17 01:42:42
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,31 +85,30 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Max Reitz <mreitz@redhat.com>
 
-qed does not support shrinking images, so the test_small_target method
-should be skipped to keep 041 passing.
-
-Fixes: 16cea4ee1c8e5a69a058e76f426b2e17974d8d7d
+Fixes: e4d7019e1a81c61de6a925c3ac5bb6e62ea21b29
 Signed-off-by: Max Reitz <mreitz@redhat.com>
-Message-Id: <20200617104822.27525-3-mreitz@redhat.com>
-Tested-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20200617104822.27525-4-mreitz@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- tests/qemu-iotests/041 | 2 ++
- 1 file changed, 2 insertions(+)
+ tests/qemu-iotests/292 | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/tests/qemu-iotests/041 b/tests/qemu-iotests/041
-index 601c756117..b843f88a66 100755
---- a/tests/qemu-iotests/041
-+++ b/tests/qemu-iotests/041
-@@ -277,6 +277,8 @@ class TestSingleBlockdev(TestSingleDrive):
-         result = self.vm.run_job('job0')
-         self.assertEqual(result, 'Source and target image have different sizes')
+diff --git a/tests/qemu-iotests/292 b/tests/qemu-iotests/292
+index a2de27cca4..83ab19231d 100755
+--- a/tests/qemu-iotests/292
++++ b/tests/qemu-iotests/292
+@@ -40,6 +40,11 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ _supported_fmt qcow2
+ _supported_proto file
+ _supported_os Linux
++# We need qemu-img map to show the file where the data is allocated,
++# but with an external data file, it will show that instead of the
++# file we want to check.  So just skip this test for external data
++# files.
++_unsupported_imgopts data_file
  
-+    # qed does not support shrinking
-+    @iotests.skip_for_formats(('qed'))
-     def test_small_target(self):
-         self.do_test_target_size(self.image_len // 2)
- 
+ echo '### Create the backing image'
+ BACKING_IMG="$TEST_IMG.base"
 -- 
 2.25.4
 
