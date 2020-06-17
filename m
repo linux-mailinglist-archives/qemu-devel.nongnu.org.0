@@ -2,72 +2,147 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93FA11FD25B
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 18:41:04 +0200 (CEST)
-Received: from localhost ([::1]:36376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CDC61FD238
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 18:32:24 +0200 (CEST)
+Received: from localhost ([::1]:56106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlb7X-0005T3-J7
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 12:41:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44596)
+	id 1jlaz9-0006Hd-Na
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 12:32:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jlb6f-0004s5-0F; Wed, 17 Jun 2020 12:40:09 -0400
-Received: from mail-il1-x141.google.com ([2607:f8b0:4864:20::141]:34179)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jlb6c-0004jN-VB; Wed, 17 Jun 2020 12:40:08 -0400
-Received: by mail-il1-x141.google.com with SMTP id x18so2828686ilp.1;
- Wed, 17 Jun 2020 09:40:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=1ZDSdzl9vNlHlAJ+dw63QgXZAYY7vf4Q9sC315IiuYs=;
- b=mLiWphu9W37zSbmtKCvX/vtriaxfbbTQtjOXIrKB9L6YJIB8VNfaXwLviOznlBJuvO
- 4dhCuw9mbkKFbNTZNBQplUe/kBxkKLMdbdjVudXxqP95XdqQhaBFwl3hHQUEQAQcm9Wy
- FwkKnMbbXcRhq04K8IF1/dJKkkd/lk7OOvj/I0d0DVqSc/Uc8QxK6YQo1zUtekpe1zou
- vaLDGzAIj7fIKsK07o3VAkogCBK32YkcbJncH/URM8LATMPzH6+xTDjRKAtFXhG+mlft
- xPrHDeg0/9HA/AOOGfdtFv9ouyzdQnAdPlYrAY6zobgAj+UikSn5EltB7ZRsWlr0PWr3
- gPlA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=1ZDSdzl9vNlHlAJ+dw63QgXZAYY7vf4Q9sC315IiuYs=;
- b=iFNpWfCjBOVgJUelfXZ2Y+qx6vg2VenG2CifjMrzeNVj3lfdbkiu/b1oLK4AJed5gO
- Oo0TAk4bzS6ezu5Hs0BuRUPQMnV6FHiMyfUxXxq47BjqoUke1945uNwStQ+w3Ukqk3NX
- 8pfDYmsq1XxxnyD5HGEwKTvkW8mRySEJS7qeU1iPHhUzdU0/UyAuGzKdKXj8BE5Cog1x
- Xgj/0nIWEel6Jd1vx3yHlReJYk42KNNsjxAo+MlYoHx3WtP3zkJogkjKK54yy+CfV1ag
- UHBeAYtGST78V1lHo0yYT2SrO8INtR7AIWehs4ZToRbMZbdRq9YnYKyDDFTjXs4AOAe0
- mXkA==
-X-Gm-Message-State: AOAM532GP9at7oPoXaS4+F+CaQXesR+wELc9sJVVwjtVm8ZEL2/3Wqe5
- ghM60D/yuG7AiAWDDYD5QUDsSrce8yV1FV7+EdU=
-X-Google-Smtp-Source: ABdhPJx1ObzKIJx2TQuUUnvWZcPBOYxAHj0QMcS8XP9h1cBwiqK89Pk4VmIsLv+mrLn3EQAxRd6eZfGXWmV8Lk1W2L8=
-X-Received: by 2002:a05:6e02:4d:: with SMTP id
- i13mr9826146ilr.227.1592412005461; 
- Wed, 17 Jun 2020 09:40:05 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jlayB-0005m8-9H
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 12:31:23 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:21003
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jlay9-0003Q5-LW
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 12:31:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1592411480;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=8SMeORRftw60v4HVADUVaztuFQQpXceJ7YKK7ssbe5Y=;
+ b=fg/Ql0qfwRi9zgLGeAEEoO7Q81bHE+q17aNWy96u7aQ7KyjsZehF1YPAOFBLfJrm1CvJSq
+ UUJMgVAgADFrn/qccFjMf/Z6RRQC7oLD9GByGAI/uF0hYJS1AHKwX1bt8MVJT08E+VfkFQ
+ ggaBOjRfgl+RrhGRU0Rj8dG1HcA/AeE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-415-0Va_75uNM86eViXDqDY-sg-1; Wed, 17 Jun 2020 12:31:18 -0400
+X-MC-Unique: 0Va_75uNM86eViXDqDY-sg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CDB23194092A;
+ Wed, 17 Jun 2020 16:31:17 +0000 (UTC)
+Received: from [10.10.117.188] (ovpn-117-188.rdu2.redhat.com [10.10.117.188])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 27A667CAA8;
+ Wed, 17 Jun 2020 16:31:17 +0000 (UTC)
+Subject: Re: [PATCH v2] configure: prefer sphinx-build to sphinx-build-3
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20200513215211.17341-1-jsnow@redhat.com>
+ <CAFEAcA_8oE2qoDrRgTw72=u+4H1DEu0LJ+cnkVaBgjM7bkkcUQ@mail.gmail.com>
+From: John Snow <jsnow@redhat.com>
+Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
+ mQINBFTKefwBEAChvwqYC6saTzawbih87LqBYq0d5A8jXYXaiFMV/EvMSDqqY4EY6whXliNO
+ IYzhgrPEe7ZmPxbCSe4iMykjhwMh5byIHDoPGDU+FsQty2KXuoxto+ZdrP9gymAgmyqdk3aV
+ vzzmCa3cOppcqKvA0Kqr10UeX/z4OMVV390V+DVWUvzXpda45/Sxup57pk+hyY52wxxjIqef
+ rj8u5BN93s5uCVTus0oiVA6W+iXYzTvVDStMFVqnTxSxlpZoH5RGKvmoWV3uutByQyBPHW2U
+ 1Y6n6iEZ9MlP3hcDqlo0S8jeP03HaD4gOqCuqLceWF5+2WyHzNfylpNMFVi+Hp0H/nSDtCvQ
+ ua7j+6Pt7q5rvqgHvRipkDDVsjqwasuNc3wyoHexrBeLU/iJBuDld5iLy+dHXoYMB3HmjMxj
+ 3K5/8XhGrDx6BDFeO3HIpi3u2z1jniB7RtyVEtdupED6lqsDj0oSz9NxaOFZrS3Jf6z/kHIf
+ h42mM9Sx7+s4c07N2LieUxcfqhFTaa/voRibF4cmkBVUhOD1AKXNfhEsTvmcz9NbUchCkcvA
+ T9119CrsxfVsE7bXiGvdXnzyGLXdsoosjzwacKdOrVaDmN3Uy+SHiQXo6TlkSdV0XH2PUxTM
+ LsBFIO9qXO43Ai6J6iPAP/01l8fuZfpJE0/L/c25yyaND7xA3wARAQABtCpKb2huIFNub3cg
+ KEpvaG4gSHVzdG9uKSA8anNub3dAcmVkaGF0LmNvbT6JAlQEEwECAD4CGwMCHgECF4AFCwkI
+ BwMFFQoJCAsFFgIDAQAWIQT665cRoSz0dYEvGPKIqQZNGDVh6wUCXF392gUJC1Xq3gAKCRCI
+ qQZNGDVh6558D/9pM4pu4njX5aT6uUW3vAmbWLF1jfPxiTQgSHAnm9EBMZED/fsvkzj97clo
+ LN7JKmbYZNgJmR01A7flG45V4iOR/249qAfaVuD+ZzZi1R4jFzr13WS+IEdn0hYp9ITndb7R
+ ezW+HGu6/rP2PnfmDnNowgJu6Dp6IUEabq8SXXwGHXZPuMIrsXJxUdKJdGnh1o2u7271yNO7
+ J9PEMuMDsgjsdnaGtv7aQ9CECtXvBleAc06pLW2HU10r5wQyBMZGITemJdBhhdzGmbHAL0M6
+ vKi/bafHRWqfMqOAdDkv3Jg4arl2NCG/uNateR1z5e529+UlB4XVAQT+f5T/YyI65DFTY940
+ il3aZhA8u788jZEPMXmt94u7uPZbEYp7V0jt68SrTaOgO7NaXsboXFjwEa42Ug5lB5d5/Qdp
+ 1AITUv0NJ51kKwhHL1dEagGeloIsGVQILmpS0MLdtitBHqZLsnJkRvtMaxo47giyBlv2ewmq
+ tIGTlVLxHx9xkc9aVepOuiGlZaZB72c9AvZs9rKaAjgU2UfJHlB/Hr4uSk/1EY0IgMv4vnsG
+ 1sA5gvS7A4T4euu0PqHtn2sZEWDrk5RDbw0yIb53JYdXboLFmFXKzVASfKh2ZVeXRBlQQSJi
+ 3PBR1GzzqORlfryby7mkY857xzCI2NkIkD2eq+HhzFTfFOTdGrkCDQRUynn8ARAAwbhP45BE
+ d/zAMBPV2dk2WwIwKRSKULElP3kXpcuiDWYQob3UODUUqClO+3aXVRndaNmZX9WbzGYexVo3
+ 5j+CVBCGr3DlU8AL9pp3KQ3SJihWcDed1LSmUf8tS+10d6mdGxDqgnd/OWU214isvhgWZtZG
+ MM/Xj7cx5pERIiP+jqu7PT1cibcfcEKhPjYdyV1QnLtKNGrTg/UMKaL+qkWBUI/8uBoa0HLs
+ NH63bXsRtNAG8w6qG7iiueYZUIXKc4IHINUguqYQJVdSe+u8b2N5XNhDSEUhdlqFYraJvX6d
+ TjxMTW5lzVG2KjztfErRNSUmu2gezbw1/CV0ztniOKDA7mkQi6UIUDRh4LxRm5mflfKiCyDQ
+ L6P/jxHBxFv+sIgjuLrfNhIC1p3z9rvCh+idAVJgtHtYl8p6GAVrF+4xQV2zZH45tgmHo2+S
+ JsLPjXZtWVsWANpepXnesyabWtNAV4qQB7/SfC77zZwsVX0OOY2Qc+iohmXo8U7DgXVDgl/R
+ /5Qgfnlv0/3rOdMt6ZPy5LJr8D9LJmcP0RvX98jyoBOf06Q9QtEwJsNLCOCo2LKNL71DNjZr
+ nXEwjUH66CXiRXDbDKprt71BiSTitkFhGGU88XCtrp8R9yArXPf4MN+wNYBjfT7K29gWTzxt
+ 9DYQIvEf69oZD5Z5qHYGp031E90AEQEAAYkCPAQYAQIAJgIbDBYhBPrrlxGhLPR1gS8Y8oip
+ Bk0YNWHrBQJcXf3JBQkLVerNAAoJEIipBk0YNWHrU1AP/1FOK2SBGbyhHa5vDHuf47fgLipC
+ e0/h1E0vdSonzlhPxuZoQ47FjzG9uOhqqQG6/PqtWs/FJIyz8aGG4aV+pSA/9Ko3/2ND8MSY
+ ZflWs7Y8Peg08Ro01GTHFITjEUgHpTpHiT6TNcZB5aZNJ8jqCtW5UlqvXXbVeSTmO70ZiVtc
+ vUJbpvSxYmzhFfZWaXIPcNcKWL1rnmnzs67lDhMLdkYVf91aml/XtyMUlfB8Iaejzud9Ht3r
+ C0pA9MG57pLblX7okEshxAC0+tUdY2vANWFeX0mgqRt1GSuG9XM9H/cKP1czfUV/FgaWo/Ya
+ fM4eMhUAlL/y+/AJxxumPhBXftM4yuiktp2JMezoIMJI9fmhjfWDw7+2jVrx9ze1joLakFD1
+ rVAoHxVJ7ORfQ4Ni/qWbQm3T6qQkSMt4N/scNsMczibdTPxU7qtwQwIeFOOc3wEwmJ9Qe3ox
+ TODQ0agXiWVj0OXYCHJ6MxTDswtyTGQW+nUHpKBgHGwUaR6d1kr/LK9+5LpOfRlK9VRfEu7D
+ PGNiRkr8Abp8jHsrBqQWfUS1bAf62bq6XUel0kUCtb7qCq024aOczXYWPFpJFX+nhp4d7NeH
+ Edq+wlC13sBSiSHC7T5yssJ+7JPa2ATLlSKhEvBsLe2TsSTTtFlA0nBclqhfJXzimiuge9qU
+ E40lvMWBuQINBFTKimUBEADDbJ+pQ5M4QBMWkaWImRj7c598xIZ37oKM6rGaSnuB1SVb7YCr
+ Ci2MTwQcrQscA2jm80O8VFqWk+/XsEp62dty47GVwSfdGje/3zv3VTH2KhOCKOq3oPP5ZXWY
+ rz2d2WnTvx++o6lU7HLHDEC3NGLYNLkL1lyVxLhnhvcMxkf1EGA1DboEcMgnJrNB1pGP27ww
+ cSfvdyPGseV+qZZa8kuViDga1oxmnYDxFKMGLxrClqHrRt8geQL1Wj5KFM5hFtGTK4da5lPn
+ wGNd6/CINMeCT2AWZY5ySz7/tSZe5F22vPvVZGoPgQicYWdNc3ap7+7IKP86JNjmec/9RJcz
+ jvrYjJdiqBVldXou72CtDydKVLVSKv8c2wBDJghYZitfYIaL8cTvQfUHRYTfo0n5KKSec8Vo
+ vjDuxmdbOUBA+SkRxqmneP5OxGoZ92VusrwWCjry8HRsNdR+2T+ClDCO6Wpihu4V3CPkQwTy
+ eCuMHPAT0ka5paTwLrnZIxsdfnjUa96T10vzmQgAxpbbiaLvgKJ8+76OPdDnhddyxd2ldYfw
+ RkF5PEGg3mqZnYKNNBtwjvX49SAvgETQvLzQ8IKVgZS0m4z9qHHvtc1BsQnFfe+LJOFjzZr7
+ CrDNJMqk1JTHYsSi2JcN3vY32WMezXSQ0TzeMK4kdnclSQyp/h23GWod5QARAQABiQRbBBgB
+ AgAmAhsCFiEE+uuXEaEs9HWBLxjyiKkGTRg1YesFAlxd/coFCQtV2mQCKcFdIAQZAQIABgUC
+ VMqKZQAKCRB974EGqvw5DiJoEACLmuiRq9ifvOh5DyBFwRS7gvA14DsGQngmC57EzV0EFcfM
+ XVi1jX5OtwUyUe0Az5r6lHyyHDsDsIpLKBlWrYCeLpUhRR3oy181T7UNxvujGFeTkzvLAOo6
+ Hs3b8Wv9ARg+7acRYkQRNY7k0GIJ6YZz149tRyRKAy/vSjsaB9Lt0NOd1wf2EQMKwRVELwJD
+ y0AazGn+0PRP7Bua2YbtxaBmhBBDb2tPpwn8U9xdckB4Vlft9lcWNsC/18Gi9bpjd9FSbdH/
+ sOUI+3ToWYENeoT4IP09wn6EkgWaJS3nAUN/MOycNej2i4Yhy2wDDSKyTAnVkSSSoXk+tK91
+ HfqtokbDanB8daP+K5LgoiWHzjfWzsxA2jKisI4YCGjrYQzTyGOT6P6u6SEeoEx10865B/zc
+ 8/vN50kncdjYz2naacIDEKQNZlnGLsGkpCbfmfdi3Zg4vuWKNdWr0wGUzDUcpqW0y/lUXna+
+ 6uyQShX5e4JD2UPuf9WAQ9HtgSAkaDd4O1I2J41sleePzZOVB3DmYgy+ECRJJ5nw3ihdxpgc
+ y/v3lfcJaqiyCv0PF+K/gSOvwhH7CbVqARmptT7yhhxqFdaYWo2Z2ksuKyoKSRMFCXQY5oac
+ uTmyPIT4STFyUQFeqSCWDum/NFNoSKhmItw2Td+4VSJHShRVbg39KNFPZ7mXYAkQiKkGTRg1
+ YesWJA/+PV3qDUtPNEGwjVvjQqHSbrBy94tu6gJvPHgGPtRDYvxnCaJsmgiC0pGB2KFRsnfl
+ 2zBNBEWF/XwsI081jQE5UO60GKmHTputChLXpVobyuc+lroG2YhknXRBAV969SLnZR4BS/1s
+ Gi046gOXfaKYatve8BiZr5it5Foq3FMPDNgZMit1H9Dk8rkKFfDMRf8EGS/Z+TmyEsIf99H7
+ TH3n7lco8qO81fSFwkh4pvo2kWRFYTC5vsIVQ+GqVUp+W1DZJHxX8LwWuF1AzUt4MUTtNAvy
+ TXl5EgsmoY9mpNNL7ZnW65oG63nEP5KNiybvuQJzXVxR8eqzOh2Mod4nHg3PE7UCd3DvLNsn
+ GXFRo44WyT/G2lArBtjpkut7bDm0i1nENABy2UgS+1QvdmgNu6aEZxdNthwRjUhuuvCCDMA4
+ rCDQYyakH2tJNQgkXkeLodBKF4bHiBbuwj0E39S9wmGgg+q4OTnAO/yhQGknle7a7G5xHBwE
+ i0HjnLoJP5jDcoMTabZTIazXmJz3pKM11HYJ5/ZsTIf3ZRJJKIvXJpbmcAPVwTZII6XxiJdh
+ RSSX4Mvd5pL/+5WI6NTdW6DMfigTtdd85fe6PwBNVJL2ZvBfsBJZ5rxg1TOH3KLsYBqBTgW2
+ glQofxhkJhDEcvjLhe3Y2BlbCWKOmvM8XS9TRt0OwUs=
+Message-ID: <d9b40a52-ae51-8822-6bc5-68045cb75c08@redhat.com>
+Date: Wed, 17 Jun 2020 12:31:16 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-References: <1592268641-7478-1-git-send-email-bmeng.cn@gmail.com>
- <1592268641-7478-3-git-send-email-bmeng.cn@gmail.com>
-In-Reply-To: <1592268641-7478-3-git-send-email-bmeng.cn@gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 17 Jun 2020 09:30:40 -0700
-Message-ID: <CAKmqyKNovTf3F+t9WFCWXvAgT_CRa5dbDuQExzbqxkM-z3ufqw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/5] hw/riscv: sifive: Change SiFive E/U CPU reset
- vector to 0x1004
-To: Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::141;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x141.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <CAFEAcA_8oE2qoDrRgTw72=u+4H1DEu0LJ+cnkVaBgjM7bkkcUQ@mail.gmail.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/17 01:42:42
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,147 +155,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Palmer Dabbelt <palmerdabbelt@google.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 15, 2020 at 5:51 PM Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> From: Bin Meng <bin.meng@windriver.com>
->
-> Per the SiFive manual, all E/U series CPU cores' reset vector is
-> at 0x1004. Update our codes to match the hardware.
->
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
 
-This commit breaks my Oreboot test.
 
-Oreboot starts in flash and we run the command with the
-`sifive_u,start-in-flash=true` machine.
+On 5/14/20 6:40 AM, Peter Maydell wrote:
+> On Wed, 13 May 2020 at 22:52, John Snow <jsnow@redhat.com> wrote:
+> 
+>> +# We require the python3 version of sphinx, but sphinx-build-3 is a
+>> +# distro package. prefer 'sphinx-build' to find the venv version, if
+>> +# any, but ensure it is a suitable version.
+>>  sphinx_build=
+>> -for binary in sphinx-build-3 sphinx-build
+>> +sphinx_ok=
+>> +for binary in sphinx-build sphinx-build-3
+>>  do
+>>      if has "$binary"
+>>      then
+>> -        sphinx_build=$(command -v "$binary")
+>> -        break
+>> +        sphinx_candidate=$(command -v "$binary")
+>> +        if test_sphinx_build "$sphinx_candidate"
+>> +        then
+>> +            sphinx_build=$sphinx_candidate
+>> +            sphinx_ok=yes
+>> +            break
+>> +        fi
+>>      fi
+>>  done
+> 
+> Here we look for a sphinx binary that works, and if
+> we find one then we set sphinx_build to that binary and
+> set sphinx_ok to 'yes'.
+> 
+> But then (in the part of configure between these two patch hunks)
+> if the user uses the command line --sphinx-build=foo option we
+> will reset sphinx_build but don't reset sphinx_ok...
+> 
+>>  # Check if tools are available to build documentation.
+>>  if test "$docs" != "no" ; then
+>> -  if has_sphinx_build; then
+>> -    sphinx_ok=yes
+>> -  else
+>> -    sphinx_ok=no
+>> +
+>> +  if [ "$sphinx_ok" != "yes" ]; then
+>> +    if test_sphinx_build "$sphinx_build"; then
+>> +      sphinx_ok=yes
+>> +    else
+>> +      sphinx_ok=no
+>> +    fi
+>>    fi
+> 
+> ...which means we'll skip this check entirely and won't
+> test to see whether the user-specified sphinx-build binary works.
+> 
+>> +
+>>    if has makeinfo && has pod2man && test "$sphinx_ok" = "yes"; then
+>>      docs=yes
+>>    else
+> 
+> thanks
+> -- PMM
+> 
 
-I have removed this and the later patches from the RISC-V branch. I
-want to send a PR today. After that I'll look into this.
+Oops!
 
-Alistair
+I've tried a new method of invoking sphinx instead of pursuing this, but
+I see it has a build failure for one of our CI tests, so I'll keep
+poking at it.
 
->
-> ---
->
-> Changes in v2:
-> - rebase on https://github.com/alistair23/qemu riscv-to-apply.next branch
-> - rename SiFive E/U CPU init routine names
->
->  hw/riscv/sifive_e.c | 10 ++++++----
->  hw/riscv/sifive_u.c |  6 +++---
->  target/riscv/cpu.c  | 16 ++++++++--------
->  3 files changed, 17 insertions(+), 15 deletions(-)
->
-> diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
-> index d9a5c7b..d1d3bf1 100644
-> --- a/hw/riscv/sifive_e.c
-> +++ b/hw/riscv/sifive_e.c
-> @@ -98,14 +98,16 @@ static void sifive_e_machine_init(MachineState *machine)
->          memmap[SIFIVE_E_DTIM].base, main_mem);
->
->      /* Mask ROM reset vector */
-> -    uint32_t reset_vec[2];
-> +    uint32_t reset_vec[4];
->
->      if (s->revb) {
-> -        reset_vec[0] = 0x200102b7;        /* 0x1000: lui     t0,0x20010 */
-> +        reset_vec[1] = 0x200102b7;  /* 0x1004: lui     t0,0x20010 */
->      } else {
-> -        reset_vec[0] = 0x204002b7;        /* 0x1000: lui     t0,0x20400 */
-> +        reset_vec[1] = 0x204002b7;  /* 0x1004: lui     t0,0x20400 */
->      }
-> -    reset_vec[1] = 0x00028067;        /* 0x1004: jr      t0 */
-> +    reset_vec[2] = 0x00028067;      /* 0x1008: jr      t0 */
-> +
-> +    reset_vec[0] = reset_vec[3] = 0;
->
->      /* copy in the reset vector in little_endian byte order */
->      for (i = 0; i < sizeof(reset_vec) >> 2; i++) {
-> diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-> index aaa5adb..0a86ffc 100644
-> --- a/hw/riscv/sifive_u.c
-> +++ b/hw/riscv/sifive_u.c
-> @@ -433,18 +433,18 @@ static void sifive_u_machine_init(MachineState *machine)
->
->      /* reset vector */
->      uint32_t reset_vec[8] = {
-> +        0x00000000,
->          0x00000297,                    /* 1:  auipc  t0, %pcrel_hi(dtb) */
-> -        0x02028593,                    /*     addi   a1, t0, %pcrel_lo(1b) */
-> +        0x01c28593,                    /*     addi   a1, t0, %pcrel_lo(1b) */
->          0xf1402573,                    /*     csrr   a0, mhartid  */
->  #if defined(TARGET_RISCV32)
->          0x0182a283,                    /*     lw     t0, 24(t0) */
->  #elif defined(TARGET_RISCV64)
-> -        0x0182b283,                    /*     ld     t0, 24(t0) */
-> +        0x0182e283,                    /*     lwu    t0, 24(t0) */
->  #endif
->          0x00028067,                    /*     jr     t0 */
->          0x00000000,
->          start_addr,                    /* start: .dword */
-> -        0x00000000,
->                                         /* dtb: */
->      };
->
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index 5f03458..391a0b9 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -134,20 +134,20 @@ static void riscv_base_cpu_init(Object *obj)
->      set_resetvec(env, DEFAULT_RSTVEC);
->  }
->
-> -static void rvxx_gcsu_priv1_10_0_cpu_init(Object *obj)
-> +static void rvxx_sifive_u_cpu_init(Object *obj)
->  {
->      CPURISCVState *env = &RISCV_CPU(obj)->env;
->      set_misa(env, RVXLEN | RVI | RVM | RVA | RVF | RVD | RVC | RVS | RVU);
->      set_priv_version(env, PRIV_VERSION_1_10_0);
-> -    set_resetvec(env, DEFAULT_RSTVEC);
-> +    set_resetvec(env, 0x1004);
->  }
->
-> -static void rvxx_imacu_nommu_cpu_init(Object *obj)
-> +static void rvxx_sifive_e_cpu_init(Object *obj)
->  {
->      CPURISCVState *env = &RISCV_CPU(obj)->env;
->      set_misa(env, RVXLEN | RVI | RVM | RVA | RVC | RVU);
->      set_priv_version(env, PRIV_VERSION_1_10_0);
-> -    set_resetvec(env, DEFAULT_RSTVEC);
-> +    set_resetvec(env, 0x1004);
->      qdev_prop_set_bit(DEVICE(obj), "mmu", false);
->  }
->
-> @@ -578,13 +578,13 @@ static const TypeInfo riscv_cpu_type_infos[] = {
->  #if defined(TARGET_RISCV32)
->      DEFINE_CPU(TYPE_RISCV_CPU_BASE32,           riscv_base_cpu_init),
->      DEFINE_CPU(TYPE_RISCV_CPU_IBEX,             rv32_ibex_cpu_init),
-> -    DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E31,       rvxx_imacu_nommu_cpu_init),
-> +    DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E31,       rvxx_sifive_e_cpu_init),
->      DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E34,       rv32_imafcu_nommu_cpu_init),
-> -    DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_U34,       rvxx_gcsu_priv1_10_0_cpu_init),
-> +    DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_U34,       rvxx_sifive_u_cpu_init),
->  #elif defined(TARGET_RISCV64)
->      DEFINE_CPU(TYPE_RISCV_CPU_BASE64,           riscv_base_cpu_init),
-> -    DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E51,       rvxx_imacu_nommu_cpu_init),
-> -    DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_U54,       rvxx_gcsu_priv1_10_0_cpu_init),
-> +    DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E51,       rvxx_sifive_e_cpu_init),
-> +    DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_U54,       rvxx_sifive_u_cpu_init),
->  #endif
->  };
->
-> --
-> 2.7.4
->
->
+--js
+
 
