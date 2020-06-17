@@ -2,64 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAB991FD16F
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 17:59:51 +0200 (CEST)
-Received: from localhost ([::1]:44024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C76F01FD183
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 18:05:40 +0200 (CEST)
+Received: from localhost ([::1]:57780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlaTe-0003YE-QR
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 11:59:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33906)
+	id 1jlaZH-0001iV-SF
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 12:05:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <guilherme.piccoli@canonical.com>)
- id 1jlaSO-0002fN-Sw
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 11:58:32 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:59375)
+ id 1jlaVZ-0007AG-LJ
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 12:01:49 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:59474)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_CBC_SHA1:128)
  (Exim 4.90_1) (envelope-from <guilherme.piccoli@canonical.com>)
- id 1jlaSM-0006ZY-Ra
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 11:58:32 -0400
-Received: from mail-ej1-f72.google.com ([209.85.218.72])
+ id 1jlaVX-0007IB-Fe
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 12:01:49 -0400
+Received: from mail-ej1-f70.google.com ([209.85.218.70])
  by youngberry.canonical.com with esmtps
  (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
- (envelope-from <guilherme.piccoli@canonical.com>) id 1jlaSK-0003rE-Ro
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 15:58:28 +0000
-Received: by mail-ej1-f72.google.com with SMTP id bg25so1314413ejb.12
- for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 08:58:28 -0700 (PDT)
+ (envelope-from <guilherme.piccoli@canonical.com>) id 1jlaVV-00046a-Sh
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 16:01:45 +0000
+Received: by mail-ej1-f70.google.com with SMTP id g6so104114ejo.18
+ for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 09:01:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=RdHGnEjlH+Mi5ZqYwppp48TZAEiD+1F8zacrTigiN+Y=;
- b=K7bFW0ZnERYYnJWmRoFew9RByRxDzGOdcR92NI9gAwTLatEt39/aZPlk3hEZRXICAt
- lSjtxHvw4+lR9UjmF1MMA/IdUlN/iu7xgcTf9rwG7JrpR9iXPDA5EzVo1gxp35VVhXkV
- YiKfq0DVWvKJsuI7/3oigN29iWG4JkuTxb1wW1KSoGDIi32XLK6b+NMYOs3iB1emER0L
- 6G9fdsSnZg0PGzm3c400Lucr0WxMopEXaw6nl6MVHrn2sWNbzNNkV/Dl98C8ybYRkZql
- kkQZogVmNLge83g2pHctp31HFAE0uCU3JhoQAwm+rI9nBc5JlgPrTnKkbaijNf1Gm2OQ
- 2Crw==
-X-Gm-Message-State: AOAM531GAzm5hWreVteDECZKcUq/3yPwBCoQgI3Zr1yiT3XbogkaqgaV
- tOS7WijZ9mXtTth2XlIRnlaEZ5b7gOfVKXSVYtvAp9YECPuqRFqJPoHJKkkF1aT58/X7nV/s3E6
- KOCV+H9FSHNFicxR9YR5Wj1c1o15kvClnR1BmgaCEI0S9gfSE
-X-Received: by 2002:a50:ee08:: with SMTP id g8mr7574028eds.267.1592409508458; 
- Wed, 17 Jun 2020 08:58:28 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwQcRWOWbV2cVIXJITXzfVmVlX5/ggUXb9oeLo+NNx/O4Zt/YpMA1PBUYxe0pB2iKZvnjcKrx9npw8slXqdTh0=
-X-Received: by 2002:a50:ee08:: with SMTP id g8mr7574006eds.267.1592409508198; 
- Wed, 17 Jun 2020 08:58:28 -0700 (PDT)
+ bh=jpIAJVEDvPogV7AUu3IXaXwIKWhryDywcckqT+7EMFE=;
+ b=T1MBKBzH8H1ouc5yku4Bje6S8R02+W0Z7caLML8cgKW5liDuUeO4FWzcJSGE5UXalg
+ HHg4uA8w6Xm4Bo8JDTsSMZ3WNeKsUhFomLUSIxJPwyU6Ah6ooyp7M/FkZLjdZWZF0h8y
+ U2/PPOCbZGwU/sv1SVCRb7FLus+0/r+jsEjXxTc2WcVYkqC0/iJoLtpBdVlSLxfg9VTk
+ LaW8XujIqsULqWCu52hlqv5LedF1qIOj41p7pacUJ8LbeU64S/ACi0hBO95e28Z2/E7m
+ AmYn/KDlPENVn4UGwYnyulEiXE97h3SP7cvu/2IgDVosBn2N7+zskt05aMOlwlHi7Yh0
+ jBUw==
+X-Gm-Message-State: AOAM53154ozMNxYrGS9WcgcTk88K/AHmbJE8e6EqCo4zBd4kyqow/K09
+ UEzNbThiIybovzpdRmbJcPmeM6xgmdKUy/2oCny+Y6ZP6Q6aqlqjxIb+gJ9+Tgm2icjjAydKl7h
+ CzzGDgulEJBl5oo+MHCG/dbSXURhrolm+C/72cWNb9GDmLT7q
+X-Received: by 2002:a17:906:7f84:: with SMTP id
+ f4mr8013987ejr.482.1592409705454; 
+ Wed, 17 Jun 2020 09:01:45 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwUsHwJZ4R7uTtJONKTOXAw6Oo3h2S/MfAxwnGGZ/hpEDITqRPWqXLjcA3X9fio+xi4ydECR6JrddMBgzTdle4=
+X-Received: by 2002:a17:906:7f84:: with SMTP id
+ f4mr8013944ejr.482.1592409705124; 
+ Wed, 17 Jun 2020 09:01:45 -0700 (PDT)
 MIME-Version: 1.0
 References: <99779e9c-f05f-501b-b4be-ff719f140a88@canonical.com>
  <20200616165043.24y2cp53axk7uggy@sirius.home.kraxel.org>
  <20200616165746.GH2788@work-vm>
  <CAHD1Q_zGu4Q63HjHx3aZKu3wh8NppuP6T4kgnUN3j=-ZDufVZA@mail.gmail.com>
  <b423f4a4-2552-bdc8-7c9f-41f200aef672@redhat.com>
- <20200617134652.GE2776@work-vm>
- <20200617154959.GZ2366737@habkost.net>
-In-Reply-To: <20200617154959.GZ2366737@habkost.net>
+ <CAHD1Q_zmTatErCefeh349sSYsQJUVT3KB+VMDheEgBn5r7QGjA@mail.gmail.com>
+ <084e2640-d71e-d4ec-efdd-3f7947a6b511@redhat.com>
+In-Reply-To: <084e2640-d71e-d4ec-efdd-3f7947a6b511@redhat.com>
 From: Guilherme Piccoli <gpiccoli@canonical.com>
-Date: Wed, 17 Jun 2020 12:57:52 -0300
-Message-ID: <CAHD1Q_z7E79HwCeFEg8yQOUGsOZRQuhL-zc4RXJdubT3eYp+NA@mail.gmail.com>
+Date: Wed, 17 Jun 2020 13:01:09 -0300
+Message-ID: <CAHD1Q_x6E4Oggq_HnKH4xYX_CGY0dRQWRD-J-DGqh42diLy5og@mail.gmail.com>
 Subject: Re: ovmf / PCI passthrough impaired due to very limiting PCI64
  aperture
-To: Eduardo Habkost <ehabkost@redhat.com>
+To: Laszlo Ersek <lersek@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Received-SPF: none client-ip=91.189.89.112;
  envelope-from=guilherme.piccoli@canonical.com; helo=youngberry.canonical.com
@@ -84,78 +86,40 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Pedro Principeza <pedro.principeza@canonical.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
  Dann Frazier <dann.frazier@canonical.com>, qemu-devel@nongnu.org,
  Christian Ehrhardt <christian.ehrhardt@canonical.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
- fw@gpiccoli.net
+ Gerd Hoffmann <kraxel@redhat.com>, fw@gpiccoli.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Can't qemu reads the host physical bits and pass that as fw_cfg as
-"real_host_physbits" or something like that?
-OVMF could rely on that - if such property is available, we use it to
-extend the PCI64 aperture.
+On Wed, Jun 17, 2020 at 12:57 PM Laszlo Ersek <lersek@redhat.com> wrote:
+> [...]
+> I don't necessarily see compat issues -- large-BAR PCI device assignment
+> might simply stop working under those circumstances, because you could
+> no longer use X-PciMmio64Mb, and the new way wouldn't be supported by
+> (old) QEMU.
+>
+> This would indeed be a regression relative to "X-PciMmio64Mb", but
+> that's exactly why there's an "X" in "X-PciMmio64Mb".
+>
 
-On Wed, Jun 17, 2020 at 12:50 PM Eduardo Habkost <ehabkost@redhat.com> wrote:
+Are you planning to remove that option, with this improvement? I think
+we could keep it for a while, as a way to override the automatic
+mechanism we might implement. This is even for "safe" purposes, in
+case there's some corner case with the auto-sized aperture that we
+ignore upfront.
+
+> > So, the code may be a bit complex, it'll
+> > need to take into account this case (probably we could just rely on
+> > the physbits "detected" by OVMF in such case, limiting PCI64 aperture
+> > to the current 36-bits, right?).
 >
-> On Wed, Jun 17, 2020 at 02:46:52PM +0100, Dr. David Alan Gilbert wrote:
-> > * Laszlo Ersek (lersek@redhat.com) wrote:
-> > > On 06/16/20 19:14, Guilherme Piccoli wrote:
-> > > > Thanks Gerd, Dave and Eduardo for the prompt responses!
-> > > >
-> > > > So, I understand that when we use "-host-physical-bits", we are
-> > > > passing the *real* number for the guest, correct? So, in this case we
-> > > > can trust that the guest physbits matches the true host physbits.
-> > > >
-> > > > What if then we have OVMF relying in the physbits *iff*
-> > > > "-host-phys-bits" is used (which is the default in RH and a possible
-> > > > machine configuration on libvirt XML in Ubuntu), and we have OVMF
-> > > > fallbacks to 36-bit otherwise?
-> > >
-> > > I've now read the commit message on QEMU commit 258fe08bd341d, and the
-> > > complexity is simply stunning.
-> > >
-> > > Right now, OVMF calculates the guest physical address space size from
-> > > various range sizes (such as hotplug memory area end, default or
-> > > user-configured PCI64 MMIO aperture), and derives the minimum suitable
-> > > guest-phys address width from that address space size. This width is
-> > > then exposed to the rest of the firmware with the CPU HOB (hand-off
-> > > block), which in turn controls how the GCD (global coherency domain)
-> > > memory space map is sized. Etc.
-> > >
-> > > If QEMU can provide a *reliable* GPA width, in some info channel (CPUID
-> > > or even fw_cfg), then the above calculation could be reversed in OVMF.
-> > > We could take the width as a given (-> produce the CPU HOB directly),
-> > > plus calculate the *remaining* address space between the GPA space size
-> > > given by the width, and the end of the memory hotplug area end. If the
-> > > "remaining size" were negative, then obviously QEMU would have been
-> > > misconfigured, so we'd halt the boot. Otherwise, the remaining area
-> > > could be used as PCI64 MMIO aperture (PEI memory footprint of DXE page
-> > > tables be darned).
-> > >
-> > > > Now, regarding the problem "to trust or not" in the guests' physbits,
-> > > > I think it's an orthogonal discussion to some extent. It'd be nice to
-> > > > have that check, and as Eduardo said, prevent migration in such cases.
-> > > > But it's not really preventing OVMF big PCI64 aperture if we only
-> > > > increase the aperture _when  "-host-physical-bits" is used_.
-> > >
-> > > I don't know what exactly those flags do, but I doubt they are clearly
-> > > visible to OVMF in any particular way.
-> >
-> > The firmware should trust whatever it reads from the cpuid and thus gets
-> > told from qemu; if qemu is doing the wrong thing there then that's our
-> > problem and we need to fix it in qemu.
->
-> It is impossible to provide a MAXPHYADDR that the guest can trust
-> unconditionally and allow live migration to hosts with different
-> sizes at the same time.
->
-> Unless we want to drop support live migration to hosts with
-> different sizes entirely, we need additional bits to tell the
-> guest how much it can trust MAXPHYADDR.
->
-> --
-> Eduardo
->
+> A "bit complex" is an understatement. The code is already much more
+>[...]
+heheh
+indeed, it's very complex code! It took me a while to even start to
+figure where things are done, I guess UEFI spec is complex in nature
+too, which adds to that code complexity!
 
