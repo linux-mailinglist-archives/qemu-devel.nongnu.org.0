@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E5851FD6EA
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 23:16:09 +0200 (CEST)
-Received: from localhost ([::1]:53366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52BCF1FD6FE
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 23:18:47 +0200 (CEST)
+Received: from localhost ([::1]:33630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlfPk-0007Gq-50
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 17:16:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37056)
+	id 1jlfSH-0002vv-QT
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 17:18:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37122)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jlfDf-0002p4-80
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 17:03:39 -0400
-Received: from mail-qk1-x741.google.com ([2607:f8b0:4864:20::741]:37430)
+ id 1jlfDh-0002t4-Cr
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 17:03:41 -0400
+Received: from mail-qk1-x743.google.com ([2607:f8b0:4864:20::743]:43930)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jlfDc-0008RV-69
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 17:03:38 -0400
-Received: by mail-qk1-x741.google.com with SMTP id b27so3508327qka.4
- for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 14:03:33 -0700 (PDT)
+ id 1jlfDc-0008Rb-6Q
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 17:03:41 -0400
+Received: by mail-qk1-x743.google.com with SMTP id j68so138258qkb.10
+ for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 14:03:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=8O2wd0xMJ+DcB/CefCYufYGHDOjb2p67mBVobEDCvB4=;
- b=EZZo5knfSSDy73/TMZC+g9YfOw3kPYfcF3JMZTKAwDBZ4SD9AxG1sdOmVBprdYx4Fz
- kMe9jM7AwQ+AqTmf8k0cMLGgsw6JpcKCxzqxOmgD2uZvSG4seCOGnTfgrC+H5c6M3kP5
- HwmMOxwDIOGSP5+3nUPAFr0iv0h6/rmtFNPN/90kf9kxcdYEh5bjvU7DAdiizz7pIEqf
- fSk61QFF9tufPWnFzYtoR0lsljChcD1Y1qFT3M/hbn3LXg2Wik9am7hQwhhSHnqKG+h1
- GDR42sWfmg9VLb2kwWDyY2c9YInj73nMuH7mbVp32ovpph73zEWQpXrhODuNmYTjydJ6
- qe4Q==
+ bh=XOL0McJNxpiiKDMcuEDzDPwcyrSarpMmiP9igPMccJY=;
+ b=bWUG+Nn58G7tf1GVpLj8HXfMR8FrqALNXTDR30Ey5jrxh4ryzsblivnkfST/l5sm0e
+ WAx/s9rdvzkFkCNuoblOq+NDoYMdotzjYIJaC+uINryWEwPfzxrTrEKUlQaTSwCgjI7a
+ Phudp5IaC3VZPmO1Mzm1h474xpskwCp78qAb2Q22heWlEetVQVEsRaLFRgLptur39CPY
+ CJBF6ckB4l3uRFdkque5De7gdofqS8i42aHWGnYHt98B9/+Z1f3rG5yUFZGv9PeWcTDn
+ DBAhH+D4r+5m1pIstGRmB4TwI1FunumjbhwCuyY6QhbEwJmJSHqwSQYbT86c1pnGyVbD
+ 8ZXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=8O2wd0xMJ+DcB/CefCYufYGHDOjb2p67mBVobEDCvB4=;
- b=CMH7en96ymm6jXKiOeLIq4bfHFKNQN5rWJFygK3t0+qy94lfmB94xeR/JVgmbtjtk7
- FL6x4pXM5qsj8jbquNoE9ld3hBer5PH5E5JPtoEQtdLW1NHk7UnSbb1HHdLotEvfBP48
- m8vve/bb21f+kTk/+sBTtoluPpuShGnAM1sZa0vRgnsdZjt4sm57Q4s2dA2Mo/N5MFew
- mYH0Wa0XcJLSC6iX0puj3eVbS7Z8CWDszjjIMhgFktPbTQz4yXeknmsq9TZdwanj5l4M
- EMpcLmkocrPP0iER7Qb8bMkEp+/c2A07mCSh33NstRCJ2uDyreIaEmuCMNDJB4rmSPsZ
- 1yTg==
-X-Gm-Message-State: AOAM530kOepO6wNjEbP+JmBwRCdQIzNZy9JpDgP5Ya5DQpBL2HlmOd6x
- KkrJLyJU18g1rmyb9B0NvxH3qUL8cH5aPg==
-X-Google-Smtp-Source: ABdhPJwYnCjD+TX4VXbPeoQ5sChwruzNvGYDcLPi/M+/41ITkgfREmTfK/7o3zmFOTAHSNkWObfhCQ==
-X-Received: by 2002:a05:620a:200a:: with SMTP id
- c10mr590690qka.218.1592427813151; 
- Wed, 17 Jun 2020 14:03:33 -0700 (PDT)
+ bh=XOL0McJNxpiiKDMcuEDzDPwcyrSarpMmiP9igPMccJY=;
+ b=p77qYu3Hm8vewZxrkwq+L2kaA1GE3Nni6axZWywBvgXNqEQXPuXRyfqMmocAyOqfYS
+ RUqojaAdW+HFsf5h5cYt4leGu2MAdoNd1GfWtTEXuBEZACerYMMm3Y9l9qmCobSavgUK
+ f5ooQ5KSC/PCJhlG+84yAb2gC+WTUOgB4+lpJYB7Q97ujEvZ/IbJiv2f+zJRE7M0mX/2
+ eVzKs919Dju+roEb5FxjmXUY9vPf79kDmrKuzKTSh8vsyS4O2LoO62KNZeP6Rf4anZXt
+ KTxEdv5fXkKS3bDZzuhU6U63w89EfB66JOdcT39z6P4clx05DS4fYcdPgGsFo4WIMPv+
+ uoog==
+X-Gm-Message-State: AOAM5331fFfQY1PTfJ5rKYexoI/AU0r+rURRn2kne8T4xSD8O7ce7pLb
+ IlZln+JI7iaqdbj5m+2041eWYYloYMK/pw==
+X-Google-Smtp-Source: ABdhPJxUqltz36O4G7d9obYHNBaTLYS+nsyK5AD+rZdnTG4tLcbSM05Al1sm5b1gY3EYHGjpDwNYAQ==
+X-Received: by 2002:a05:620a:12cd:: with SMTP id
+ e13mr567675qkl.143.1592427814586; 
+ Wed, 17 Jun 2020 14:03:34 -0700 (PDT)
 Received: from Rfoley-MA01.hsd1.ma.comcast.net
  ([2601:199:4480:60c0:fc79:714c:9711:2e9c])
- by smtp.gmail.com with ESMTPSA id w13sm997245qkb.91.2020.06.17.14.03.32
+ by smtp.gmail.com with ESMTPSA id w13sm997245qkb.91.2020.06.17.14.03.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Jun 2020 14:03:32 -0700 (PDT)
+ Wed, 17 Jun 2020 14:03:34 -0700 (PDT)
 From: Robert Foley <robert.foley@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v10 12/73] alpha: convert to helper_cpu_halted_set
-Date: Wed, 17 Jun 2020 17:01:30 -0400
-Message-Id: <20200617210231.4393-13-robert.foley@linaro.org>
+Subject: [PATCH v10 13/73] microblaze: convert to helper_cpu_halted_set
+Date: Wed, 17 Jun 2020 17:01:31 -0400
+Message-Id: <20200617210231.4393-14-robert.foley@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200617210231.4393-1-robert.foley@linaro.org>
 References: <20200617210231.4393-1-robert.foley@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::741;
- envelope-from=robert.foley@linaro.org; helo=mail-qk1-x741.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::743;
+ envelope-from=robert.foley@linaro.org; helo=mail-qk1-x743.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,44 +88,36 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: peter.puhov@linaro.org, cota@braap.org, alex.bennee@linaro.org,
- robert.foley@linaro.org, Richard Henderson <rth@twiddle.net>
+ robert.foley@linaro.org, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Emilio G. Cota" <cota@braap.org>
 
+Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Emilio G. Cota <cota@braap.org>
 Signed-off-by: Robert Foley <robert.foley@linaro.org>
 ---
- target/alpha/translate.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ target/microblaze/translate.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/target/alpha/translate.c b/target/alpha/translate.c
-index 8870284f57..b1cd55e6ca 100644
---- a/target/alpha/translate.c
-+++ b/target/alpha/translate.c
-@@ -1226,8 +1226,7 @@ static DisasJumpType gen_call_pal(DisasContext *ctx, int palcode)
-             /* WTINT */
-             {
-                 TCGv_i32 tmp = tcg_const_i32(1);
--                tcg_gen_st_i32(tmp, cpu_env, -offsetof(AlphaCPU, env) +
--                                             offsetof(CPUState, halted));
-+                gen_helper_cpu_halted_set(cpu_env, tmp);
-                 tcg_temp_free_i32(tmp);
-             }
-             tcg_gen_movi_i64(ctx->ir[IR_V0], 0);
-@@ -1381,8 +1380,7 @@ static DisasJumpType gen_mtpr(DisasContext *ctx, TCGv vb, int regno)
-         /* WAIT */
-         {
-             TCGv_i32 tmp = tcg_const_i32(1);
--            tcg_gen_st_i32(tmp, cpu_env, -offsetof(AlphaCPU, env) +
--                                         offsetof(CPUState, halted));
-+            gen_helper_cpu_halted_set(cpu_env, tmp);
-             tcg_temp_free_i32(tmp);
-         }
-         return gen_excp(ctx, EXCP_HALTED, 0);
+diff --git a/target/microblaze/translate.c b/target/microblaze/translate.c
+index f6ff2591c3..c08a7f1d39 100644
+--- a/target/microblaze/translate.c
++++ b/target/microblaze/translate.c
+@@ -1237,9 +1237,7 @@ static void dec_br(DisasContext *dc)
+             LOG_DIS("sleep\n");
+ 
+             t_sync_flags(dc);
+-            tcg_gen_st_i32(tmp_1, cpu_env,
+-                           -offsetof(MicroBlazeCPU, env)
+-                           +offsetof(CPUState, halted));
++            gen_helper_cpu_halted_set(cpu_env, tmp_1);
+             tcg_gen_movi_i64(cpu_SR[SR_PC], dc->pc + 4);
+             gen_helper_raise_exception(cpu_env, tmp_hlt);
+             tcg_temp_free_i32(tmp_hlt);
 -- 
 2.17.1
 
