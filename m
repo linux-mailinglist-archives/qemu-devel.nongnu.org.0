@@ -2,65 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB07E1FD7F4
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 23:53:55 +0200 (CEST)
-Received: from localhost ([::1]:53338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33C751FD7C0
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 23:43:38 +0200 (CEST)
+Received: from localhost ([::1]:36860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlg0I-0003z3-QX
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 17:53:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38220)
+	id 1jlfqL-0000mo-73
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 17:43:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jlfEw-0004hb-0b
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 17:04:58 -0400
-Received: from mail-qk1-x743.google.com ([2607:f8b0:4864:20::743]:41381)
+ id 1jlfEz-0004kL-11
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 17:05:01 -0400
+Received: from mail-qt1-x842.google.com ([2607:f8b0:4864:20::842]:44362)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jlfEs-0000Pj-JN
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 17:04:57 -0400
-Received: by mail-qk1-x743.google.com with SMTP id n11so3491772qkn.8
- for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 14:04:54 -0700 (PDT)
+ id 1jlfEu-0000Pw-Gg
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 17:04:59 -0400
+Received: by mail-qt1-x842.google.com with SMTP id c12so2732467qtq.11
+ for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 14:04:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=FcchR0Kiy3cS07PsythDlOBOqbmqT9MEDX8/TYIcoYY=;
- b=b7NNgrZrFNuqVFOfuDQ849a9QCbO8DRNYzIhM0lVUGYEd5ZmLEzBXc9iDl2xxSdRNX
- wyvClhDSJmiqfoawmvHf63Ivq9hJxSUryarsthN6PgF0Hj7roHiy7732Pgu2AVqtU/lk
- vD8P9EvZtlR5KoVsJgd3YqI6z0Q+alrUH6ZazunfyvHsYdPmBtk7k6CQuMCPhFPtgBR5
- s5Ygr9YbIarzbNs3cTe6gAMyptKJNna9j30UF3Mm6ORtQqqKGkbRYd95Q4G2jxOxJUTY
- sElUgc1sLzdzOWctyz+lGbsc9YsLVV7/bCZ/URBv4iSO9rYAJOMRz+nfIuxbA00d6K/b
- IWaw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=E8xOKg6zl9lpl0+sHu1MbBAzWMqSY0gf0lTzZwybF5o=;
+ b=eeIjDad8QZZSwiPDJPlhK/CUYY5xjxWhWsCKEVDRwD3prmDhbP4OuHsTXGFXpyrqcq
+ fgL/59sa1tTdZYAx6uk1lLa5Q+Se/972AnxrO01Cr8/UbSGVL7bn9NSGDkTMTMbicdhQ
+ aH/doqCOF3vW6zSGP+7cYoR2f1igNxpmw1+vimHRxx+divzGubxR3ypvQNKYjIj+oXwa
+ 48NS/Hj43H6dv3L/tKAC9jBK21DOMfFZlfHZ4LAGuFfFQdKm6EdjWN7e2YQTkxIee/fu
+ vOU7ri095drXYoDMfOlLhttYnZPJTQZHypybF08Lqdh60s/NBK+ZJVNp/n6DyPSKPbae
+ PvPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=FcchR0Kiy3cS07PsythDlOBOqbmqT9MEDX8/TYIcoYY=;
- b=THiEuTHk/drK9Xbdq6dnf4R57thrWQCC3KDn838q8h4JUlUigTn7K7JYU/fKuTYbT8
- cXnihemOaeID1NiFmRXGhwrJolEWn5Bx+jGABibUX5yAGsKtyDTRN3nLfXisF8izR5zR
- 2D8m29Q1HSZEQF7rQL+2dAKzIFafqiBOHoK11B/bijLhOquWqKUA+KcXtseYCRTDio8c
- gnj7K02VDmJY33PCEfHvFfUL98O0CVilC44sIEP9GFqEbFK0swgptWeGLq96jDIDCxrr
- Thn16YWnyWK9e/NqyARexWlQagyYs5hGGgbEJBF3TpLhE8zhikqwdESi415G6uf4tpoQ
- ppsQ==
-X-Gm-Message-State: AOAM533fmG1MZi7GqIBsjISbnBczfdF3pbC0XxuDdbCtEkUAiqOJ5Uog
- K6npnLfcbx0jnCixXdpC7cU1IX/aSW+qzw==
-X-Google-Smtp-Source: ABdhPJyx+9aPp6NjMgmMg2Jpy2x8+7rtzrr2M4IIVCw7aqzUu3jyOAym+42n5ip9HKdguY35gz62Dg==
-X-Received: by 2002:a37:a84c:: with SMTP id r73mr336144qke.0.1592427893463;
- Wed, 17 Jun 2020 14:04:53 -0700 (PDT)
+ :references:mime-version:content-transfer-encoding;
+ bh=E8xOKg6zl9lpl0+sHu1MbBAzWMqSY0gf0lTzZwybF5o=;
+ b=sK5Gk8ZWfHUjZaOIMN5+6k6nwzG3NAmRgUnZJdh+omn0cPJxYsflrqjKUxytgBWIqc
+ n090WGK/hOT3DTGCzMVyu4yQzfzOyI/Ref6/5wNfuuBdByS/6NAFL5VoaLMSA56hQms/
+ JfnMUYRjmCl1dkZ+s0OYdfRXViqX6AuVXnkEgEawo1PMSzuL5SDky5+uvCwIwY81MeHk
+ XXCo+JNaK39KXtTKcGOO2oAduPEK5Pj8jwyNFaFRodU2cBVhheT9a0cfmQsnyJFCap/s
+ 9E+syn7r6E390Y09vM3cP8Gedxz9/BZMjjCWHc3OGOTKDh0nGcahLErK5o+Zz9IzU0bF
+ AeOw==
+X-Gm-Message-State: AOAM533Jfeu8PiAaqTpp248VUgzbsJY8qiZiCFa5s0mVqlej560yD1Gj
+ +IbCxTG3ri1EGhuiK4CKo/t3f8jsWJMQkQ==
+X-Google-Smtp-Source: ABdhPJxNIzeZBOZW0gNtxYteNvYRgBJc+2t1LbJsDe88yOKZZbS2v0yNUfFBlPV9NqI3svqHVeS7nA==
+X-Received: by 2002:ac8:4281:: with SMTP id o1mr1113527qtl.322.1592427894841; 
+ Wed, 17 Jun 2020 14:04:54 -0700 (PDT)
 Received: from Rfoley-MA01.hsd1.ma.comcast.net
  ([2601:199:4480:60c0:fc79:714c:9711:2e9c])
- by smtp.gmail.com with ESMTPSA id w13sm997245qkb.91.2020.06.17.14.04.52
+ by smtp.gmail.com with ESMTPSA id w13sm997245qkb.91.2020.06.17.14.04.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Jun 2020 14:04:52 -0700 (PDT)
+ Wed, 17 Jun 2020 14:04:54 -0700 (PDT)
 From: Robert Foley <robert.foley@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v10 68/73] xtensa: convert to cpu_has_work_with_iothread_lock
-Date: Wed, 17 Jun 2020 17:02:26 -0400
-Message-Id: <20200617210231.4393-69-robert.foley@linaro.org>
+Subject: [PATCH v10 69/73] cpu: rename all_cpu_threads_idle to
+ qemu_tcg_rr_all_cpu_threads_idle
+Date: Wed, 17 Jun 2020 17:02:27 -0400
+Message-Id: <20200617210231.4393-70-robert.foley@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200617210231.4393-1-robert.foley@linaro.org>
 References: <20200617210231.4393-1-robert.foley@linaro.org>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::743;
- envelope-from=robert.foley@linaro.org; helo=mail-qk1-x743.google.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::842;
+ envelope-from=robert.foley@linaro.org; helo=mail-qt1-x842.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -82,45 +87,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.puhov@linaro.org, cota@braap.org, alex.bennee@linaro.org,
- robert.foley@linaro.org, Max Filippov <jcmvbkbc@gmail.com>
+Cc: robert.foley@linaro.org, cota@braap.org,
+ Paolo Bonzini <pbonzini@redhat.com>, peter.puhov@linaro.org,
+ alex.bennee@linaro.org, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Emilio G. Cota" <cota@braap.org>
 
-Soon we will call cpu_has_work without the BQL.
+This function is only called from TCG rr mode, so add
+a prefix to mark this as well as an assertion.
 
-Cc: Max Filippov <jcmvbkbc@gmail.com>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Emilio G. Cota <cota@braap.org>
 Signed-off-by: Robert Foley <robert.foley@linaro.org>
 ---
- target/xtensa/cpu.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ cpus.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/target/xtensa/cpu.c b/target/xtensa/cpu.c
-index fda4a73722..0f96483563 100644
---- a/target/xtensa/cpu.c
-+++ b/target/xtensa/cpu.c
-@@ -47,6 +47,8 @@ static bool xtensa_cpu_has_work(CPUState *cs)
- #ifndef CONFIG_USER_ONLY
-     XtensaCPU *cpu = XTENSA_CPU(cs);
- 
-+    g_assert(qemu_mutex_iothread_locked());
-+
-     return !cpu->env.runstall && cpu->env.pending_irq_level;
- #else
+diff --git a/cpus.c b/cpus.c
+index e070bffbff..2e9c19ae36 100644
+--- a/cpus.c
++++ b/cpus.c
+@@ -230,10 +230,12 @@ static bool cpu_thread_is_idle(CPUState *cpu)
      return true;
-@@ -187,7 +189,7 @@ static void xtensa_cpu_class_init(ObjectClass *oc, void *data)
-     device_class_set_parent_reset(dc, xtensa_cpu_reset, &xcc->parent_reset);
+ }
  
-     cc->class_by_name = xtensa_cpu_class_by_name;
--    cc->has_work = xtensa_cpu_has_work;
-+    cc->has_work_with_iothread_lock = xtensa_cpu_has_work;
-     cc->do_interrupt = xtensa_cpu_do_interrupt;
-     cc->cpu_exec_interrupt = xtensa_cpu_exec_interrupt;
-     cc->dump_state = xtensa_cpu_dump_state;
+-static bool all_cpu_threads_idle(void)
++static bool qemu_tcg_rr_all_cpu_threads_idle(void)
+ {
+     CPUState *cpu;
+ 
++    g_assert(qemu_is_tcg_rr());
++
+     CPU_FOREACH(cpu) {
+         if (!cpu_thread_is_idle(cpu)) {
+             return false;
+@@ -642,7 +644,7 @@ void qemu_start_warp_timer(void)
+     }
+ 
+     if (replay_mode != REPLAY_MODE_PLAY) {
+-        if (!all_cpu_threads_idle()) {
++        if (!qemu_tcg_rr_all_cpu_threads_idle()) {
+             return;
+         }
+ 
+@@ -1320,7 +1322,7 @@ static void qemu_tcg_rr_wait_io_event(void)
+ {
+     CPUState *cpu;
+ 
+-    while (all_cpu_threads_idle()) {
++    while (qemu_tcg_rr_all_cpu_threads_idle()) {
+         stop_tcg_kick_timer();
+         qemu_cond_wait(first_cpu->halt_cond, &qemu_global_mutex);
+     }
+@@ -1676,7 +1678,7 @@ static void *qemu_tcg_rr_cpu_thread_fn(void *arg)
+             atomic_mb_set(&cpu->exit_request, 0);
+         }
+ 
+-        if (use_icount && all_cpu_threads_idle()) {
++        if (use_icount && qemu_tcg_rr_all_cpu_threads_idle()) {
+             /*
+              * When all cpus are sleeping (e.g in WFI), to avoid a deadlock
+              * in the main_loop, wake it up in order to start the warp timer.
 -- 
 2.17.1
 
