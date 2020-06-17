@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B50601FD02B
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 16:59:01 +0200 (CEST)
-Received: from localhost ([::1]:57694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E486E1FD027
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 16:58:02 +0200 (CEST)
+Received: from localhost ([::1]:52822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlZWm-0005jM-MP
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 10:59:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45424)
+	id 1jlZVp-0003WK-TN
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 10:58:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jlZNv-0003BL-IF
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 10:49:51 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:46868
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jlZNw-0003Em-Qz
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 10:49:52 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35253
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jlZNs-0001jw-0n
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 10:49:51 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jlZNu-0001kV-Gt
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 10:49:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592405386;
+ s=mimecast20190719; t=1592405389;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4EYn0YLgcyInod5P5CKlMLEhfPAmsvkNju5dTdEPi0w=;
- b=D7YLDZL1u9JH2+hr66bDcAt/C/UxhOmgvOMC9NG5SYg2t4djs7xYa07Q3pic+SQF64u+As
- 8dU5A+fN1VpwBPpB9b7SwPPTytgydzmT5age/lcsFivIMOUr8wj8XhYC5yVKtM7fKk/f0K
- JV9o6b7ImEqZjhcFbFzKao8ucSs9128=
+ bh=kYEy4CSlUwYadDuzhQLAHzO3vI5ceB/8XHO+tzwcPP0=;
+ b=EdzSn4a7c2TP4zY4QCDN22qJC6TudYKAjVxcVVxWpR2PkBBkwRBG6DvfBN/kbUlUckw8e4
+ BwnOEFBXzBInrZzsamWEyS7u4KHnN/xxpKLbocNmGu9dSkpAjAE4U8XWL7dJLHXwwqb0hx
+ vens4PvLh3/WpTd1IGHmjl4rOCkN/pc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-156-LC3o_UuWMo6jIB3spxarmQ-1; Wed, 17 Jun 2020 10:49:44 -0400
-X-MC-Unique: LC3o_UuWMo6jIB3spxarmQ-1
+ us-mta-176-3HKbV3FNPQeMIVkgd9OXIA-1; Wed, 17 Jun 2020 10:49:45 -0400
+X-MC-Unique: 3HKbV3FNPQeMIVkgd9OXIA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4D3B78730AC;
- Wed, 17 Jun 2020 14:49:43 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 91E241091337;
+ Wed, 17 Jun 2020 14:49:44 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-114-44.ams2.redhat.com [10.36.114.44])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 55DE07CAA0;
- Wed, 17 Jun 2020 14:49:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 967847CAAA;
+ Wed, 17 Jun 2020 14:49:43 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 21/43] hw/block/nvme: factor out pci setup
-Date: Wed, 17 Jun 2020 16:48:47 +0200
-Message-Id: <20200617144909.192176-22-kwolf@redhat.com>
+Subject: [PULL 22/43] hw/block/nvme: factor out cmb setup
+Date: Wed, 17 Jun 2020 16:48:48 +0200
+Message-Id: <20200617144909.192176-23-kwolf@redhat.com>
 In-Reply-To: <20200617144909.192176-1-kwolf@redhat.com>
 References: <20200617144909.192176-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -87,61 +87,80 @@ Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 Reviewed-by: Keith Busch <kbusch@kernel.org>
-Message-Id: <20200609190333.59390-16-its@irrelevant.dk>
+Message-Id: <20200609190333.59390-17-its@irrelevant.dk>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- hw/block/nvme.c | 30 ++++++++++++++++++------------
- 1 file changed, 18 insertions(+), 12 deletions(-)
+ hw/block/nvme.c | 43 ++++++++++++++++++++++++-------------------
+ 1 file changed, 24 insertions(+), 19 deletions(-)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index c98af03f44..a4022b0291 100644
+index a4022b0291..8aabb4c3c3 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -1438,6 +1438,22 @@ static void nvme_init_namespace(NvmeCtrl *n, NvmeNamespace *ns, Error **errp)
+@@ -56,6 +56,7 @@
+ 
+ #define NVME_REG_SIZE 0x1000
+ #define NVME_DB_SIZE  4
++#define NVME_CMB_BIR 2
+ 
+ #define NVME_GUEST_ERR(trace, fmt, ...) \
+     do { \
+@@ -1438,6 +1439,28 @@ static void nvme_init_namespace(NvmeCtrl *n, NvmeNamespace *ns, Error **errp)
      id_ns->nuse = id_ns->ncap;
  }
  
-+static void nvme_init_pci(NvmeCtrl *n, PCIDevice *pci_dev)
++static void nvme_init_cmb(NvmeCtrl *n, PCIDevice *pci_dev)
 +{
-+    uint8_t *pci_conf = pci_dev->config;
++    NVME_CMBLOC_SET_BIR(n->bar.cmbloc, NVME_CMB_BIR);
++    NVME_CMBLOC_SET_OFST(n->bar.cmbloc, 0);
 +
-+    pci_conf[PCI_INTERRUPT_PIN] = 1;
-+    pci_config_set_prog_interface(pci_conf, 0x2);
-+    pci_config_set_class(pci_conf, PCI_CLASS_STORAGE_EXPRESS);
-+    pcie_endpoint_cap_init(pci_dev, 0x80);
++    NVME_CMBSZ_SET_SQS(n->bar.cmbsz, 1);
++    NVME_CMBSZ_SET_CQS(n->bar.cmbsz, 0);
++    NVME_CMBSZ_SET_LISTS(n->bar.cmbsz, 0);
++    NVME_CMBSZ_SET_RDS(n->bar.cmbsz, 1);
++    NVME_CMBSZ_SET_WDS(n->bar.cmbsz, 1);
++    NVME_CMBSZ_SET_SZU(n->bar.cmbsz, 2); /* MBs */
++    NVME_CMBSZ_SET_SZ(n->bar.cmbsz, n->params.cmb_size_mb);
 +
-+    memory_region_init_io(&n->iomem, OBJECT(n), &nvme_mmio_ops, n, "nvme",
-+                          n->reg_size);
-+    pci_register_bar(pci_dev, 0, PCI_BASE_ADDRESS_SPACE_MEMORY |
-+                     PCI_BASE_ADDRESS_MEM_TYPE_64, &n->iomem);
-+    msix_init_exclusive_bar(pci_dev, n->params.max_ioqpairs + 1, 4, NULL);
++    n->cmbuf = g_malloc0(NVME_CMBSZ_GETSIZE(n->bar.cmbsz));
++    memory_region_init_io(&n->ctrl_mem, OBJECT(n), &nvme_cmb_ops, n,
++                          "nvme-cmb", NVME_CMBSZ_GETSIZE(n->bar.cmbsz));
++    pci_register_bar(pci_dev, NVME_CMBLOC_BIR(n->bar.cmbloc),
++                     PCI_BASE_ADDRESS_SPACE_MEMORY |
++                     PCI_BASE_ADDRESS_MEM_TYPE_64 |
++                     PCI_BASE_ADDRESS_MEM_PREFETCH, &n->ctrl_mem);
 +}
 +
- static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+ static void nvme_init_pci(NvmeCtrl *n, PCIDevice *pci_dev)
  {
-     NvmeCtrl *n = NVME(pci_dev);
-@@ -1461,19 +1477,9 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
-         return;
-     }
+     uint8_t *pci_conf = pci_dev->config;
+@@ -1514,25 +1537,7 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+     n->bar.intmc = n->bar.intms = 0;
  
--    pci_conf = pci_dev->config;
--    pci_conf[PCI_INTERRUPT_PIN] = 1;
--    pci_config_set_prog_interface(pci_dev->config, 0x2);
--    pci_config_set_class(pci_dev->config, PCI_CLASS_STORAGE_EXPRESS);
--    pcie_endpoint_cap_init(pci_dev, 0x80);
+     if (n->params.cmb_size_mb) {
 -
--    memory_region_init_io(&n->iomem, OBJECT(n), &nvme_mmio_ops, n,
--                          "nvme", n->reg_size);
--    pci_register_bar(pci_dev, 0,
--        PCI_BASE_ADDRESS_SPACE_MEMORY | PCI_BASE_ADDRESS_MEM_TYPE_64,
--        &n->iomem);
--    msix_init_exclusive_bar(pci_dev, n->params.max_ioqpairs + 1, 4, NULL);
-+    nvme_init_pci(n, pci_dev);
- 
-+    pci_conf = pci_dev->config;
-     id->vid = cpu_to_le16(pci_get_word(pci_conf + PCI_VENDOR_ID));
-     id->ssvid = cpu_to_le16(pci_get_word(pci_conf + PCI_SUBSYSTEM_VENDOR_ID));
-     strpadcpy((char *)id->mn, sizeof(id->mn), "QEMU NVMe Ctrl", ' ');
+-        NVME_CMBLOC_SET_BIR(n->bar.cmbloc, 2);
+-        NVME_CMBLOC_SET_OFST(n->bar.cmbloc, 0);
+-
+-        NVME_CMBSZ_SET_SQS(n->bar.cmbsz, 1);
+-        NVME_CMBSZ_SET_CQS(n->bar.cmbsz, 0);
+-        NVME_CMBSZ_SET_LISTS(n->bar.cmbsz, 0);
+-        NVME_CMBSZ_SET_RDS(n->bar.cmbsz, 1);
+-        NVME_CMBSZ_SET_WDS(n->bar.cmbsz, 1);
+-        NVME_CMBSZ_SET_SZU(n->bar.cmbsz, 2); /* MBs */
+-        NVME_CMBSZ_SET_SZ(n->bar.cmbsz, n->params.cmb_size_mb);
+-
+-        n->cmbuf = g_malloc0(NVME_CMBSZ_GETSIZE(n->bar.cmbsz));
+-        memory_region_init_io(&n->ctrl_mem, OBJECT(n), &nvme_cmb_ops, n,
+-                              "nvme-cmb", NVME_CMBSZ_GETSIZE(n->bar.cmbsz));
+-        pci_register_bar(pci_dev, NVME_CMBLOC_BIR(n->bar.cmbloc),
+-            PCI_BASE_ADDRESS_SPACE_MEMORY | PCI_BASE_ADDRESS_MEM_TYPE_64 |
+-            PCI_BASE_ADDRESS_MEM_PREFETCH, &n->ctrl_mem);
+-
++        nvme_init_cmb(n, pci_dev);
+     } else if (n->pmrdev) {
+         /* Controller Capabilities register */
+         NVME_CAP_SET_PMRS(n->bar.cap, 1);
 -- 
 2.25.4
 
