@@ -2,69 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED0DA1FCB6B
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 12:52:47 +0200 (CEST)
-Received: from localhost ([::1]:48912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 319781FCB73
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 12:54:27 +0200 (CEST)
+Received: from localhost ([::1]:56032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlVgU-0003iY-S4
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 06:52:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59960)
+	id 1jlVi6-00074F-90
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 06:54:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jlVcV-0006Xm-QL
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 06:48:39 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:22184
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jlVcU-0002wP-7N
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 06:48:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592390917;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6fGfyxuH38HQ0qw62o/OI7Aoh3/0s3u8sMeYx6Bjzeg=;
- b=PeiIEW4bHTGWg5hND4iZU8z2SNqH5ddvnCHNpyTgUDQrw3qFkSsYbaqfIyOmvFSnCM4P29
- /AcEXD6GW16Y0L8zvIG7q879tNdfAOipUPjGQCfK1IJYSRqGYFSGMaAbTtY0q59T+SayAL
- JJC8mPAne4x5kJzmQylJEXv/KbWTQY4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-200-5a3oS5CsP9285NlXP8cQ_w-1; Wed, 17 Jun 2020 06:48:36 -0400
-X-MC-Unique: 5a3oS5CsP9285NlXP8cQ_w-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 22B9118A0793;
- Wed, 17 Jun 2020 10:48:35 +0000 (UTC)
-Received: from localhost (ovpn-113-111.ams2.redhat.com [10.36.113.111])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B7D4E10013D6;
- Wed, 17 Jun 2020 10:48:34 +0000 (UTC)
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH 5/5] iotests/{190,291}: compat=0.10 is unsupported
-Date: Wed, 17 Jun 2020 12:48:22 +0200
-Message-Id: <20200617104822.27525-6-mreitz@redhat.com>
-In-Reply-To: <20200617104822.27525-1-mreitz@redhat.com>
-References: <20200617104822.27525-1-mreitz@redhat.com>
+ (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
+ id 1jlVfx-0004BR-5s
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 06:52:16 -0400
+Received: from nylar.uni-paderborn.de ([2001:638:502:c003::18]:36372)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
+ id 1jlVfu-0003Na-9q
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 06:52:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=mail.uni-paderborn.de; s=20170601; h=In-Reply-To:Content-Transfer-Encoding:
+ Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+ Sender:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+ Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+ List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=PTr12PgOv7VoXfr2wdzMBMdshZA7WUd63OJz16QFCc8=; b=DS4AVc2MXyedepPY4S74AbzXt9
+ xIyyuja6ivRxER8fWlv7ZCe5aNwzlTMKcmho3nT4+G4xWWBhAVwYfm94vFjuLTyBsVTkP/6rFiGpV
+ 8Ai+ozy+XVe7GrZskjcvEgEz1XM1Iuf3vVmHv8HaUi+5+WGSJdkZWQJa5z5P5SToSBCQ=;
+Date: Wed, 17 Jun 2020 12:52:04 +0200
+From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: Re: [PATCH v2 03/15] tests/tcg: Run timeout cmds using --foreground
+Message-ID: <20200617105204.73hwdt3fp64ymctg@schnipp-desktop>
+References: <20200604085441.103087-1-kbastian@mail.uni-paderborn.de>
+ <20200604085441.103087-4-kbastian@mail.uni-paderborn.de>
+ <87blljyo8d.fsf@linaro.org>
+ <20200617061313.uaru24twuzqgml5j@schnipp-desktop>
+ <87sgeuxbb9.fsf@linaro.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=mreitz@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 23:30:45
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+In-Reply-To: <87sgeuxbb9.fsf@linaro.org>
+X-IMT-Spam-Score: 0.0 ()
+X-PMX-Version: 6.4.9.2830568, Antispam-Engine: 2.7.2.2107409,
+ Antispam-Data: 2020.6.17.104217, AntiVirus-Engine: 5.74.0,
+ AntiVirus-Data: 2020.6.17.5740001
+X-Sophos-SenderHistory: ip=2a02:908:2214:e5bc::95d, fs=8028509, da=80000190,
+ mc=198, sc=3, hc=195, sp=1, fso=8028509, re=0, sd=0, hd=0
+X-IMT-Authenticated-Sender: kbastian@UNI-PADERBORN.DE
+Received-SPF: pass client-ip=2001:638:502:c003::18;
+ envelope-from=kbastian@mail.uni-paderborn.de; helo=nylar.uni-paderborn.de
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,46 +72,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fixes: 5d72c68b49769c927e90b78af6d90f6a384b26ac
-Fixes: cf2d1203dcfc2bf964453d83a2302231ce77f2dc
-Signed-off-by: Max Reitz <mreitz@redhat.com>
----
- tests/qemu-iotests/190 | 2 ++
- tests/qemu-iotests/291 | 2 ++
- 2 files changed, 4 insertions(+)
+Hi Alex,
 
-diff --git a/tests/qemu-iotests/190 b/tests/qemu-iotests/190
-index fe630918e9..c22d8d64f9 100755
---- a/tests/qemu-iotests/190
-+++ b/tests/qemu-iotests/190
-@@ -41,6 +41,8 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
- # See 178 for more extensive tests across more formats
- _supported_fmt qcow2
- _supported_proto file
-+# compat=0.10 does not support bitmaps
-+_unsupported_imgopts 'compat=0.10'
- 
- echo "== Huge file without bitmaps =="
- echo
-diff --git a/tests/qemu-iotests/291 b/tests/qemu-iotests/291
-index 3ca83b9cd1..3ff1858d95 100755
---- a/tests/qemu-iotests/291
-+++ b/tests/qemu-iotests/291
-@@ -39,6 +39,8 @@ _supported_fmt qcow2
- _supported_proto file
- _supported_os Linux
- _require_command QEMU_NBD
-+# compat=0.10 does not support bitmaps
-+_unsupported_imgopts 'compat=0.10'
- 
- echo
- echo "=== Initial image setup ==="
--- 
-2.26.2
+On Wed, Jun 17, 2020 at 10:59:22AM +0100, Alex Bennée wrote:
+> 
+> Bastian Koppelmann <kbastian@mail.uni-paderborn.de> writes:
+> 
+> > On Tue, Jun 16, 2020 at 05:22:42PM +0100, Alex Bennée wrote:
+> >> 
+> >> Bastian Koppelmann <kbastian@mail.uni-paderborn.de> writes:
+> >> 
+> >> > when trying to run successful short tests from the Makefile timeout would no
+> >> > terminate. Rather it would wait until the time runs out. Excerpt from the
+> >> > manpage:
+> >> 
+> >> Which tests hang without this change?
+> >
+> > The TriCore tests ;).
+> 
+> Hmm I wonder why? All the other tests work so is this a function of
+> output from the test? The softmmu tests for example usually redirect
+> their output via a chardev device. Tests which require actual input from
+> the user are skipped (the semiconsole test is MANUAL only).
+  
+I was wondering as well. If you run the test command without --foreground on a
+shell, it works. If you run it from make, it times out. Maybe this is just on my
+end. I usually run bleeding edge software on my developing machines. I have
+timeout 8.32 here.
 
+Cheers,
+Bastian
 
