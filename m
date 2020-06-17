@@ -2,42 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFAAD1FC596
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 07:19:10 +0200 (CEST)
-Received: from localhost ([::1]:56148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D5451FC598
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 07:20:11 +0200 (CEST)
+Received: from localhost ([::1]:59844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlQTd-0008Ln-V5
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 01:19:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43896)
+	id 1jlQUc-0001aQ-HL
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 01:20:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrzej.jakowski@linux.intel.com>)
- id 1jlQST-0006vb-Ay; Wed, 17 Jun 2020 01:17:57 -0400
-Received: from mga07.intel.com ([134.134.136.100]:46522)
+ id 1jlQST-0006wz-T1; Wed, 17 Jun 2020 01:17:57 -0400
+Received: from mga07.intel.com ([134.134.136.100]:46524)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrzej.jakowski@linux.intel.com>)
- id 1jlQSR-0007dv-3C; Wed, 17 Jun 2020 01:17:56 -0400
-IronPort-SDR: Hv48LctYfeR7/ZobRymAJoke2cw1o1IsLwF1U2BoFtaq0Y4z1dDn2YwtsdAXISFfrKd/R6j0pQ
- xi1fkpa9nY5A==
+ id 1jlQSR-0007e0-VY; Wed, 17 Jun 2020 01:17:57 -0400
+IronPort-SDR: a5JIAoQlf3MtImb4tuSwkCv5LRpExmaG+hqodQR6Lmsr2xajW2IOALH6iupUYX8NUDmRc3fCST
+ y90D6kM569bQ==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jun 2020 22:17:47 -0700
-IronPort-SDR: 20wayyYrx43jZekzm0rqYqxqXjsL0JKjj0JQK+Owqa3qKTDJYyp92wC3fqyQxtLh6pGZLXrQEw
- 5KjaJKvfVv3g==
+ 16 Jun 2020 22:17:49 -0700
+IronPort-SDR: SMPYiHOEdaMSSuRisYBq0IyqXnxulqjGVlG7lkP005emWdP7o6xKM0R7nnIC6N6/KWgxNlubnL
+ DR//le9eIz9g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,521,1583222400"; d="scan'208";a="308681723"
+X-IronPort-AV: E=Sophos;i="5.73,521,1583222400"; d="scan'208";a="308681728"
 Received: from unknown (HELO localhost.ch.intel.com) ([10.2.28.117])
- by orsmga008.jf.intel.com with ESMTP; 16 Jun 2020 22:17:47 -0700
+ by orsmga008.jf.intel.com with ESMTP; 16 Jun 2020 22:17:48 -0700
 From: Andrzej Jakowski <andrzej.jakowski@linux.intel.com>
 To: kbusch@kernel.org,
 	kwolf@redhat.com,
 	mreitz@redhat.com
-Subject: [PATCH RESEND v2] nvme: allow cmb and pmr emulation on same device
-Date: Tue, 16 Jun 2020 22:18:55 -0700
-Message-Id: <20200617051857.20508-1-andrzej.jakowski@linux.intel.com>
+Subject: [PATCH RESEND v2 1/2] nvme: indicate CMB support through controller
+ capabilities register
+Date: Tue, 16 Jun 2020 22:18:56 -0700
+Message-Id: <20200617051857.20508-2-andrzej.jakowski@linux.intel.com>
 X-Mailer: git-send-email 2.21.1
+In-Reply-To: <20200617051857.20508-1-andrzej.jakowski@linux.intel.com>
+References: <20200617051857.20508-1-andrzej.jakowski@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: none client-ip=134.134.136.100;
@@ -61,36 +64,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: Klaus Jensen <k.jensen@samsung.com>,
+ Andrzej Jakowski <andrzej.jakowski@linux.intel.com>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi All, 
+This patch sets CMBS bit in controller capabilities register when user
+configures NVMe driver with CMB support, so capabilites are correctly
+reported to guest OS.
 
-Resending series recently posted on mailing list related to nvme device
-extension.
+Signed-off-by: Andrzej Jakowski <andrzej.jakowski@linux.intel.com>
+Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
+---
+ hw/block/nvme.c      | 2 +-
+ include/block/nvme.h | 6 +++++-
+ 2 files changed, 6 insertions(+), 2 deletions(-)
 
-
-This patch series does following:
- - Fixes problem where CMBS bit was not set in controller capabilities
-   register, so support for CMB was not correctly advertised to guest.
-   This is resend of patch that has been submitted and reviewed by
-   Klaus [1]
- - Introduces BAR4 sharing between MSI-X vectors and CMB. This allows
-   to have CMB and PMR emulated on the same device. This extension
-   was indicated by Keith [2]
-
-v2:
- - rebase on Kevin's latest block branch (Klaus [3])
- - improved comments section (Klaus [3])
- - simplified calculation of BAR4 size (Klaus [3])
-
-v1:
- - initial push of the patch
-
-[1]: https://lore.kernel.org/qemu-devel/20200408055607.g2ii7gwqbnv6cd3w@apples.localdomain/
-[2]: https://lore.kernel.org/qemu-devel/20200330165518.GA8234@redsun51.ssa.fujisawa.hgst.com/
-[3]: https://lore.kernel.org/qemu-devel/20200605181043.28782-1-andrzej.jakowski@linux.intel.com/
-
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index 1aee042d4c..9f11f3e9da 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -1582,6 +1582,7 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
+     NVME_CAP_SET_TO(n->bar.cap, 0xf);
+     NVME_CAP_SET_CSS(n->bar.cap, 1);
+     NVME_CAP_SET_MPSMAX(n->bar.cap, 4);
++    NVME_CAP_SET_CMBS(n->bar.cap, n->params.cmb_size_mb ? 1 : 0);
+ 
+     n->bar.vs = 0x00010200;
+     n->bar.intmc = n->bar.intms = 0;
+@@ -1591,7 +1592,6 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+ {
+     NvmeCtrl *n = NVME(pci_dev);
+     Error *local_err = NULL;
+-
+     int i;
+ 
+     nvme_check_constraints(n, &local_err);
+diff --git a/include/block/nvme.h b/include/block/nvme.h
+index 1720ee1d51..14cf398dfa 100644
+--- a/include/block/nvme.h
++++ b/include/block/nvme.h
+@@ -35,6 +35,7 @@ enum NvmeCapShift {
+     CAP_MPSMIN_SHIFT   = 48,
+     CAP_MPSMAX_SHIFT   = 52,
+     CAP_PMR_SHIFT      = 56,
++    CAP_CMB_SHIFT      = 57,
+ };
+ 
+ enum NvmeCapMask {
+@@ -48,6 +49,7 @@ enum NvmeCapMask {
+     CAP_MPSMIN_MASK    = 0xf,
+     CAP_MPSMAX_MASK    = 0xf,
+     CAP_PMR_MASK       = 0x1,
++    CAP_CMB_MASK       = 0x1,
+ };
+ 
+ #define NVME_CAP_MQES(cap)  (((cap) >> CAP_MQES_SHIFT)   & CAP_MQES_MASK)
+@@ -78,8 +80,10 @@ enum NvmeCapMask {
+                                                            << CAP_MPSMIN_SHIFT)
+ #define NVME_CAP_SET_MPSMAX(cap, val) (cap |= (uint64_t)(val & CAP_MPSMAX_MASK)\
+                                                             << CAP_MPSMAX_SHIFT)
+-#define NVME_CAP_SET_PMRS(cap, val) (cap |= (uint64_t)(val & CAP_PMR_MASK)\
++#define NVME_CAP_SET_PMRS(cap, val)   (cap |= (uint64_t)(val & CAP_PMR_MASK)   \
+                                                             << CAP_PMR_SHIFT)
++#define NVME_CAP_SET_CMBS(cap, val)   (cap |= (uint64_t)(val & CAP_CMB_MASK)   \
++                                                           << CAP_CMB_SHIFT)
+ 
+ enum NvmeCcShift {
+     CC_EN_SHIFT     = 0,
+-- 
+2.21.1
 
 
