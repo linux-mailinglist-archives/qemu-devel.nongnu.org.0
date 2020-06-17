@@ -2,67 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0692B1FC7A9
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 09:40:29 +0200 (CEST)
-Received: from localhost ([::1]:38808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 104CE1FC7B0
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 09:41:58 +0200 (CEST)
+Received: from localhost ([::1]:45562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlSgO-0005o4-0U
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 03:40:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43850)
+	id 1jlShp-0000Gn-1p
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 03:41:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1jlSee-0004SS-El
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 03:38:40 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:58897
+ id 1jlSfE-0005Aa-Ml
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 03:39:16 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:20241
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1jlSec-0004o0-QF
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 03:38:40 -0400
+ id 1jlSfC-0004rh-Vb
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 03:39:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592379518;
+ s=mimecast20190719; t=1592379554;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1ClMhna20Rma45ApqZ85KbVBLPUKCIx/Ep1Kd67/J+E=;
- b=Zs6o9SFss/L53NIaDV5ROQRLXMUDtZKKPFpvhspOQTqkbKfmVkAbQF/irrVC4v9jChqA0A
- iLK2R38a/w+sSGOY2XPSmhK8eIl9nuikr7edVs8t7urpiiNI4D8rxjDVpbiPcfhZ4o3WQe
- gqeyQWRxT/dLS31DXY4X4Jtpsi7Mnl4=
-Received: from mail-io1-f70.google.com (mail-io1-f70.google.com
- [209.85.166.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-363-YMbttxPkNVWLWPD9Eg8uDA-1; Wed, 17 Jun 2020 03:38:36 -0400
-X-MC-Unique: YMbttxPkNVWLWPD9Eg8uDA-1
-Received: by mail-io1-f70.google.com with SMTP id v14so1208136iob.11
- for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 00:38:36 -0700 (PDT)
+ bh=XrGe2WzRvDQV5cyfB2MhoZTiCjLEkvQxdw5EGgIrZiI=;
+ b=hMltdyBEil7tfg/vEi6ZKCbGzkKVU+OUSx9etl1nI/KFzA79csgXcU9cF5DH4veXa+BQ7o
+ GziAkQ6xavf1/s2urHEJQKB2uvTR0P5Rv1PeyvtzalYi4IBn7zUt3JjlWEWQFE/qzHs4/I
+ Pds8wVSdpqQ0Jk0VqN5omQi8CQ7QZho=
+Received: from mail-il1-f200.google.com (mail-il1-f200.google.com
+ [209.85.166.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-309-FYgtd9MtPH6uUulrEzHueg-1; Wed, 17 Jun 2020 03:39:12 -0400
+X-MC-Unique: FYgtd9MtPH6uUulrEzHueg-1
+Received: by mail-il1-f200.google.com with SMTP id q24so916954ili.12
+ for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 00:39:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=1ClMhna20Rma45ApqZ85KbVBLPUKCIx/Ep1Kd67/J+E=;
- b=roa6XoV/o3BqCDYeQ6BpirclOfCVebmStfN8eNBtNP0JvIvSIurjI+6qKs4bQD7I7I
- 8YSZQWP3nvJIrnujJOtCgL2+uml+C+WpIntSr4IpiqMijtFTD+anWeoZVb3ZfxjAmDC5
- LTMCUVdcXIFGCxGIPAN0ytVAr1XZ6uTmOb981OoCvX5WqOZsRc9+l++wkTfixZO3j16C
- OdRTIuSLBbWG/y+6jd98K9hTG6AfC1U5q42Ketxqf3pUBXb5lxfQVKmuAC2KPkF5Atz9
- ACAuAlUubSwtEDAryNwjBjKCoCGSS93Ws9WIz2TvsBivctumiGl1oBrrQC9Gxa0pB8MF
- yGeg==
-X-Gm-Message-State: AOAM530+d4TZJaqW9hfWtkSW8Q9AhUiXJRuV9SLERBD+YcKOxdfuki2a
- lT1tObzpb4lP2swQMckzRnrmqIFaA6webEiYfBnEzMx6W0QZgCisqHuqXBbo4VLgXNwCqNjn7RE
- P8jLkTjqz8zafXHpcnUmLUj5W40PoX1o=
-X-Received: by 2002:a92:8419:: with SMTP id l25mr6780025ild.182.1592379515746; 
- Wed, 17 Jun 2020 00:38:35 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJztbM5pgUG91i72tmyW8dUh25KCiZKIEbJ2nRhS/LLO/kAHm3DfZrhDXixYGftLy07VR3w+0uLEHPWhwM7di1A=
-X-Received: by 2002:a92:8419:: with SMTP id l25mr6780015ild.182.1592379515534; 
- Wed, 17 Jun 2020 00:38:35 -0700 (PDT)
+ bh=XrGe2WzRvDQV5cyfB2MhoZTiCjLEkvQxdw5EGgIrZiI=;
+ b=J4g6KflDRnDSyzyaJHWI3Xms2WZonI7jMAUlFGGugzLfw3gc/DpXRItPHL0Pa+Rizo
+ 8h+PbN0bqhBQF+nECxhJzoIhXHpYi4Fuluol3SLm0RPS7X+ZHQA/MGngczWBZAZ4woSd
+ f2nv7nw3U0/TD1L8J4mQyePyNOUUjfD6WYzJbaCIh3tf6ycFQ2nAt7CjCkwQhXMkqJPB
+ WiZn0GkHF7/JJMYPkdWZZaU+MF5eTgAM8pR+aJYeyBK7i7+a9bzAqrjEhfY4xEZY5iBN
+ zdw8X5jfs3zteIsIbiKgZUhMXR2nJrqs3wGOB+WiFqg4NbYRZXD1NMBdMACDNojc3tTH
+ +Ssw==
+X-Gm-Message-State: AOAM531I8LhI99r26MyGzBnM8bH7wmXAZHbrNuP8uah1CnwIzuuukkWF
+ 1ArBFZzBQi0ZbDvKpQnqU5leeD5gkfuOBcyWDSyb2KcobDdtSMfl079d0HniwaxH7AD85pDVpsG
+ 35JYM6BlWBhL7bs7d9MjAcazOllbtcQY=
+X-Received: by 2002:a05:6602:2e0e:: with SMTP id
+ o14mr7119222iow.164.1592379552067; 
+ Wed, 17 Jun 2020 00:39:12 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz6w5A/527KlXcikjC9oowppp9LQ1lK/Cbo1dFXCzVdElfzjDgXil6pp1FQZ7iywetFe4reoXkSYKlt7gK5sSo=
+X-Received: by 2002:a05:6602:2e0e:: with SMTP id
+ o14mr7119212iow.164.1592379551766; 
+ Wed, 17 Jun 2020 00:39:11 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200616205721.1191408-1-stefanb@linux.vnet.ibm.com>
- <20200616205721.1191408-4-stefanb@linux.vnet.ibm.com>
-In-Reply-To: <20200616205721.1191408-4-stefanb@linux.vnet.ibm.com>
+ <20200616205721.1191408-5-stefanb@linux.vnet.ibm.com>
+In-Reply-To: <20200616205721.1191408-5-stefanb@linux.vnet.ibm.com>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Wed, 17 Jun 2020 11:38:24 +0400
-Message-ID: <CAMxuvawoGnmA=-GOR1rkhVqxTSMxbprED0xGE8_0jr2Uf8EECw@mail.gmail.com>
-Subject: Re: [PATCH v3 3/8] tests: Temporarily ignore DSDT table differences
+Date: Wed, 17 Jun 2020 11:39:00 +0400
+Message-ID: <CAMxuvaz9Wj6vr_wNcObr_Xktze7QMkPxNmR1LXTkvF5p+v2XGw@mail.gmail.com>
+Subject: Re: [PATCH v3 4/8] tpm: Split TPM_TIS_IRQ into TPM_TIS_ISA_IRQ and
+ TPM_TIS_SYSBUS_IRQ
 To: Stefan Berger <stefanb@linux.vnet.ibm.com>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
@@ -91,36 +94,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S . Tsirkin" <mst@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Eric Auger <eric.auger@redhat.com>, "Bonzini, Paolo" <pbonzini@redhat.com>,
+Cc: qemu-devel <qemu-devel@nongnu.org>, Eric Auger <eric.auger@redhat.com>,
+ "Bonzini, Paolo" <pbonzini@redhat.com>,
  Philippe Mathieu Daude <philmd@redhat.com>,
  Marek Kedzierski <mkedzier@redhat.com>, Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 17, 2020 at 12:57 AM Stefan Berger
+On Wed, Jun 17, 2020 at 12:58 AM Stefan Berger
 <stefanb@linux.vnet.ibm.com> wrote:
 >
-> Ignore DSDT table differences before enabling IRQ support for TPM.
+> Before the enablement of interrupts on PCs, split the TPM_TIS_IRQ
+> into TPM_TIS_ISA_IRQ for PCs and TPM_TIS_SYSBUS_IRQ for ARM.
 >
 > Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
-> CC: Michael S. Tsirkin <mst@redhat.com>
-> Reviewed-by: Eric Auger <eric.auger@redhat.com>
 
 Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
 > ---
->  tests/qtest/bios-tables-test-allowed-diff.h | 1 +
->  1 file changed, 1 insertion(+)
+>  hw/tpm/tpm_tis_isa.c    | 2 +-
+>  hw/tpm/tpm_tis_sysbus.c | 3 ++-
+>  include/hw/acpi/tpm.h   | 3 ++-
+>  3 files changed, 5 insertions(+), 3 deletions(-)
 >
-> diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bi=
-os-tables-test-allowed-diff.h
-> index dfb8523c8b..bb4ce8967b 100644
-> --- a/tests/qtest/bios-tables-test-allowed-diff.h
-> +++ b/tests/qtest/bios-tables-test-allowed-diff.h
-> @@ -1 +1,2 @@
->  /* List of comma-separated changed AML files to ignore */
-> +"tests/data/acpi/q35/DSDT.tis",
+> diff --git a/hw/tpm/tpm_tis_isa.c b/hw/tpm/tpm_tis_isa.c
+> index ed6d422f05..27222a9a49 100644
+> --- a/hw/tpm/tpm_tis_isa.c
+> +++ b/hw/tpm/tpm_tis_isa.c
+> @@ -97,7 +97,7 @@ static void tpm_tis_isa_reset(DeviceState *dev)
+>  }
+>
+>  static Property tpm_tis_isa_properties[] =3D {
+> -    DEFINE_PROP_UINT32("irq", TPMStateISA, state.irq_num, TPM_TIS_IRQ),
+> +    DEFINE_PROP_UINT32("irq", TPMStateISA, state.irq_num, TPM_TIS_ISA_IR=
+Q),
+>      DEFINE_PROP_TPMBE("tpmdev", TPMStateISA, state.be_driver),
+>      DEFINE_PROP_BOOL("ppi", TPMStateISA, state.ppi_enabled, true),
+>      DEFINE_PROP_END_OF_LIST(),
+> diff --git a/hw/tpm/tpm_tis_sysbus.c b/hw/tpm/tpm_tis_sysbus.c
+> index 86b3988be5..bf4583c3f6 100644
+> --- a/hw/tpm/tpm_tis_sysbus.c
+> +++ b/hw/tpm/tpm_tis_sysbus.c
+> @@ -97,7 +97,8 @@ static void tpm_tis_sysbus_reset(DeviceState *dev)
+>  }
+>
+>  static Property tpm_tis_sysbus_properties[] =3D {
+> -    DEFINE_PROP_UINT32("irq", TPMStateSysBus, state.irq_num, TPM_TIS_IRQ=
+),
+> +    DEFINE_PROP_UINT32("irq", TPMStateSysBus, state.irq_num,
+> +                       TPM_TIS_SYSBUS_IRQ),
+>      DEFINE_PROP_TPMBE("tpmdev", TPMStateSysBus, state.be_driver),
+>      DEFINE_PROP_BOOL("ppi", TPMStateSysBus, state.ppi_enabled, false),
+>      DEFINE_PROP_END_OF_LIST(),
+> diff --git a/include/hw/acpi/tpm.h b/include/hw/acpi/tpm.h
+> index 1a2a57a21f..d5caee9771 100644
+> --- a/include/hw/acpi/tpm.h
+> +++ b/include/hw/acpi/tpm.h
+> @@ -24,7 +24,8 @@
+>  #define TPM_TIS_ADDR_BASE           0xFED40000
+>  #define TPM_TIS_ADDR_SIZE           0x5000
+>
+> -#define TPM_TIS_IRQ                 5
+> +#define TPM_TIS_ISA_IRQ             5
+> +#define TPM_TIS_SYSBUS_IRQ          5
+>
+>  #define TPM_TIS_NUM_LOCALITIES      5     /* per spec */
+>  #define TPM_TIS_LOCALITY_SHIFT      12
 > --
 > 2.24.1
 >
