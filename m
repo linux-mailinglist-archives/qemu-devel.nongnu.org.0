@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D12771FC783
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 09:34:59 +0200 (CEST)
-Received: from localhost ([::1]:52636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8636D1FC7AC
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 09:41:10 +0200 (CEST)
+Received: from localhost ([::1]:42012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlSb4-000874-SC
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 03:34:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41114)
+	id 1jlSh3-0007FG-BW
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 03:41:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41122)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jlSSM-0004uH-Rj; Wed, 17 Jun 2020 03:25:58 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:39863)
+ id 1jlSSN-0004wQ-Lu; Wed, 17 Jun 2020 03:25:59 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:45732)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jlSSL-0002cF-80; Wed, 17 Jun 2020 03:25:58 -0400
-Received: by mail-wm1-x344.google.com with SMTP id t194so839813wmt.4;
- Wed, 17 Jun 2020 00:25:56 -0700 (PDT)
+ id 1jlSSM-0002cb-8b; Wed, 17 Jun 2020 03:25:59 -0400
+Received: by mail-wr1-x441.google.com with SMTP id c3so1123553wru.12;
+ Wed, 17 Jun 2020 00:25:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Xsx3rVy21mly30ECAO4zqqbSeNtihiVFwXLty9S11BE=;
- b=FmnJML5YCRErbI42yssQwWNRybu4/4kqZCImUOTsGw33xtHtQ+Rby5AY7QEucT6Y2E
- Wcf1ZxSzahKDDh++BD6N2BIPgrHk0nqjrrl9NLclCM443sepKJgHwjuXo8AGuQZ46vuc
- DTTVQZl2aiAeOK619/+Ec1J4ZjdT8pbbNmpYGxfVvi0/RJJ07DBxsSSJffeYi1/FK2rt
- xX0Lcp3CUUODyCfvAxCmA1SKetye5MILF1DiRRCV2BSue8k2sZIU3Qoop/g30zc1gZa8
- y//yq68hSHg2+jNQG8tjLPKKpxTLluRoF4xugEYp4qX7VkV0VVFiYiiXgo3CIyBwB9zj
- D44A==
+ bh=9KNJnLBp1OneKNvTmDgKiylMxA5dVLV/Msl/G9txJEk=;
+ b=Wk9JJdWnn47gUikPT/UsTBJChpT1zX90gL9MYuUOJEFJ55CjRQZQQhtseGBDiO3Z9V
+ jU+pdtF5Ck746xqivTRxcNhu2v0AXG1E/PHFZOACjK/VrfNSGgYKE9tt3BJsr9uQqV0m
+ duG9X6y3ak9OZ3uuculJGDUB5lxKv2p9DbBvYx4qeiDfadMjuwNhquv5hyzrziybuqx0
+ QYUx+wLpFPKSNSvKeC/kK6ZserYkoos8/T1X3spZB5v0A6zZy7UTv/TOQgT/HiRT7T9t
+ FQfbfVCcR67nZ2Dcq50jdSgLL1NdBBXvB58tVUocK91Qmjd9mfZSDGcPfcevTBkKrv7A
+ lDQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Xsx3rVy21mly30ECAO4zqqbSeNtihiVFwXLty9S11BE=;
- b=CibrR2tvLRy8GeuOgGO/easpz1gOWlKkICibNjV6wF4eusffkIiqnYWiCx67Yo4yp0
- lXz0IuBxp5rAabGzCUm/bX42PaK5oNxPHbTicbfAs92a/bddjZq6/kNqT6gMMO1l9mUf
- CMHtKX2IfBkecQoBkokIpX5k5amMYfjuvp4h97XKFGtr+/1Ib1yYVGXVaVGJiVYzvwhS
- tPRY2AVJW2MJj/iqU2i2PP+Ppsvjjwdw94vmAlYEnG2SQB0h3fuMDJ4fYNkiJJ19xBiK
- sYUp+YWR4hM3lIrskfL0lUdSgcxAsXXDuEOX2wUWEZ5/ASnnGcVbPaf3YlrnXTksnV2b
- aW7w==
-X-Gm-Message-State: AOAM531IPcxh3Kbj1WgUDCcbDxvRXXNPsQ6oZ7Ehbu6pPQYS0iuorbvN
- ffTyUlIOH0LKchdYtcxinE46WnRp
-X-Google-Smtp-Source: ABdhPJzRV0KpfpqO2fN3+g+fRWn9aDkWPaO4SsOrMdCn3ImbHhLIlxY+RDRoJ1ATS4flteR5bn8IIg==
-X-Received: by 2002:a1c:1d49:: with SMTP id d70mr7140003wmd.49.1592378754981; 
- Wed, 17 Jun 2020 00:25:54 -0700 (PDT)
+ bh=9KNJnLBp1OneKNvTmDgKiylMxA5dVLV/Msl/G9txJEk=;
+ b=P4Fl6aZ4evWVKH+uEqSI4iDVDVyAqjV9xOjeEbsIvuLT/7PX6G6d2O5myEmbKBXjuq
+ 7skkaYTJADGSwyida1sKQDBzjwjIqRdI50+steYZuoyxLAff8PkJbGDLBTSPdrnOQc+8
+ p3HhChyullqS/QZQ9g3NYzAmv/AtqEpML7MNe94Qe4B6Gtmwu7f70M0Wsnw8wGIqFvAs
+ EMA/Q+WD+DsIn4c9369plLrLVjUsbPV0uEBWdfY5X3FvUOnVpyoBGdJBCpCCuGIGmsnu
+ fRB39L35QYNheJ1LzDVzYKhamUmqNC2BhDIhVtI+wd8iylFwFI2lO+V4Mg+msD57rEM0
+ GVBA==
+X-Gm-Message-State: AOAM533ryvjdGshRspOw0X13RGWaBMVmKjHQiu0my/CyUNyaNqgFJpCf
+ yGOJd/m2CCvjUBG5sPFcw0/pERbV
+X-Google-Smtp-Source: ABdhPJwo8N8VOJweH0Y9AYyF3O4e//pad9jP2aknn1Xwf6OxRBSY5sv84W7T8SYayUbK5S7OdKLPUA==
+X-Received: by 2002:adf:aa94:: with SMTP id h20mr6536393wrc.327.1592378756378; 
+ Wed, 17 Jun 2020 00:25:56 -0700 (PDT)
 Received: from localhost.localdomain (93.red-83-59-160.dynamicip.rima-tde.net.
  [83.59.160.93])
- by smtp.gmail.com with ESMTPSA id j5sm32894781wrq.39.2020.06.17.00.25.54
+ by smtp.gmail.com with ESMTPSA id j5sm32894781wrq.39.2020.06.17.00.25.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Jun 2020 00:25:54 -0700 (PDT)
+ Wed, 17 Jun 2020 00:25:55 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 12/14] hw/arm/mps2: Add I2C devices
-Date: Wed, 17 Jun 2020 09:25:37 +0200
-Message-Id: <20200617072539.32686-13-f4bug@amsat.org>
+Subject: [PATCH v3 13/14] hw/arm/mps2: Add audio I2S interface as
+ unimplemented device
+Date: Wed, 17 Jun 2020 09:25:38 +0200
+Message-Id: <20200617072539.32686-14-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200617072539.32686-1-f4bug@amsat.org>
 References: <20200617072539.32686-1-f4bug@amsat.org>
@@ -62,8 +63,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x344.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -92,56 +93,23 @@ Cc: Esteban Bosse <estebanbosse@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From 'Application Note AN385', chapter 3.14:
-
-  The SMM implements a simple SBCon interface based on I2C.
-
-There are 4 SBCon interfaces on the FPGA APB subsystem.
-
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/arm/mps2.c  | 8 ++++++++
- hw/arm/Kconfig | 1 +
- 2 files changed, 9 insertions(+)
+ hw/arm/mps2.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/hw/arm/mps2.c b/hw/arm/mps2.c
-index daa26f68d7..2f6acbf2c2 100644
+index 2f6acbf2c2..d1653a7e6e 100644
 --- a/hw/arm/mps2.c
 +++ b/hw/arm/mps2.c
-@@ -40,6 +40,7 @@
- #include "hw/misc/mps2-scc.h"
- #include "hw/misc/mps2-fpgaio.h"
- #include "hw/ssi/pl022.h"
-+#include "hw/i2c/arm_sbcon_i2c.h"
- #include "hw/net/lan9118.h"
- #include "net/net.h"
- #include "hw/watchdog/cmsdk-apb-watchdog.h"
-@@ -365,6 +366,13 @@ static void mps2_common_init(MachineState *machine)
-                                  qdev_get_gpio_in(orgate_dev, j));
-         }
+@@ -373,6 +373,7 @@ static void mps2_common_init(MachineState *machine)
+                                          0x4002a000};   /* Shield1 */
+         sysbus_create_simple(TYPE_ARM_SBCON_I2C, i2cbase[i], NULL);
      }
-+    for (i = 0; i < 4; i++) {
-+        static const hwaddr i2cbase[] = {0x40022000,    /* Touch */
-+                                         0x40023000,    /* Audio */
-+                                         0x40029000,    /* Shield0 */
-+                                         0x4002a000};   /* Shield1 */
-+        sysbus_create_simple(TYPE_ARM_SBCON_I2C, i2cbase[i], NULL);
-+    }
++    create_unimplemented_device("i2s", 0x40024000, 0x400);
  
      /* In hardware this is a LAN9220; the LAN9118 is software compatible
       * except that it doesn't support the checksum-offload feature.
-diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-index 90ed584e7a..4a224a6351 100644
---- a/hw/arm/Kconfig
-+++ b/hw/arm/Kconfig
-@@ -406,6 +406,7 @@ config MPS2
-     select SPLIT_IRQ
-     select UNIMP
-     select CMSDK_APB_WATCHDOG
-+    select VERSATILE_I2C
- 
- config FSL_IMX7
-     bool
 -- 
 2.21.3
 
