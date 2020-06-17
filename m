@@ -2,64 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 319781FCB73
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 12:54:27 +0200 (CEST)
-Received: from localhost ([::1]:56032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 941351FCB7A
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 12:55:52 +0200 (CEST)
+Received: from localhost ([::1]:60826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlVi6-00074F-90
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 06:54:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60498)
+	id 1jlVjT-0000e8-KP
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 06:55:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32816)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
- id 1jlVfx-0004BR-5s
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 06:52:16 -0400
-Received: from nylar.uni-paderborn.de ([2001:638:502:c003::18]:36372)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
- id 1jlVfu-0003Na-9q
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 06:52:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=mail.uni-paderborn.de; s=20170601; h=In-Reply-To:Content-Transfer-Encoding:
- Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
- Sender:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
- List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=PTr12PgOv7VoXfr2wdzMBMdshZA7WUd63OJz16QFCc8=; b=DS4AVc2MXyedepPY4S74AbzXt9
- xIyyuja6ivRxER8fWlv7ZCe5aNwzlTMKcmho3nT4+G4xWWBhAVwYfm94vFjuLTyBsVTkP/6rFiGpV
- 8Ai+ozy+XVe7GrZskjcvEgEz1XM1Iuf3vVmHv8HaUi+5+WGSJdkZWQJa5z5P5SToSBCQ=;
-Date: Wed, 17 Jun 2020 12:52:04 +0200
-From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
-To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: Re: [PATCH v2 03/15] tests/tcg: Run timeout cmds using --foreground
-Message-ID: <20200617105204.73hwdt3fp64ymctg@schnipp-desktop>
-References: <20200604085441.103087-1-kbastian@mail.uni-paderborn.de>
- <20200604085441.103087-4-kbastian@mail.uni-paderborn.de>
- <87blljyo8d.fsf@linaro.org>
- <20200617061313.uaru24twuzqgml5j@schnipp-desktop>
- <87sgeuxbb9.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jlVhr-0007Wg-RU
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 06:54:11 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:38825)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jlVhp-0003jd-DZ
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 06:54:11 -0400
+Received: by mail-wr1-x444.google.com with SMTP id e1so1838863wrt.5
+ for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 03:54:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=zoWa2zzk0/uUmGPJtdjO8zuI4L0r2C/p+Mo7E6u/ciE=;
+ b=cvjcO6vnpyWsL+ZwZVBiZ3G3b/CW4F2LDGKYkdEtrXeJe572jnqw806URcP/TLI1Dc
+ Ed+tEEABBMOiNGRh6lglJUZiRRPXKGg8p3S0dH1z2IHy6Ep0cY//p9b7qibV7FAcxInK
+ 6J6D+Eu66kHJtLMZPX68dXy3C62WPWQjavSLJ/nHs3JcMvTPU6ntTWBeSB5TOEjRQqmf
+ ZM+j0fjZVqb/2hFgawNE228JAMPpnW26esMAA/L8JWSJxR5TIiAd0C6DCVvU8uMwDkgr
+ U3pRHX0eRq0msTeXRn4MzMQGVnI7M7jBfs60I3ozdDbEn7gt0D/Ks8eqnPxd8SwhCzVW
+ pMdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=zoWa2zzk0/uUmGPJtdjO8zuI4L0r2C/p+Mo7E6u/ciE=;
+ b=HJSN7bfib1kIMaKWcD51/7sej5g1VZX2NrAuJNq80j300ZVoOQFHudWTfinAQIe50C
+ 34x6YSdBly7oDqGWDB6PSg8niwrSZIfufca998tu/Zojl5YdeXvNYGHzqaDAVhwucx+5
+ F6lgzR6JeC361i1h/8pfMSQYjgqf+NTuMyGjzvHLONY11UbWTmxknrFoEolteqfwtBK0
+ zXF9jth5UYoiskeLv0JkaY0kTPfSXfkri4DK6ivd4Tt/2p3q3AQi0ppMYqeLy1e0zGqs
+ AFwQrgEhEmNh1F7xLF2vYwsD1UjAPBQzTg655qlvO6VmUIaZVyu2iJRR95SQ62vZmROM
+ OkmA==
+X-Gm-Message-State: AOAM532LrSWe3Uy6dR6QXLObRDuGjJGwORoSWMwumPmeZMhjrMTAMlBP
+ 7dKew6wCRH9zl3yJJnYc+HiMAg==
+X-Google-Smtp-Source: ABdhPJwze4D0D9iPWBr2V3SCMM7NyYlcK7C5JAOp3WT5GHLAxbQKe6oL5X+QWJH0d6krx9mpLJjaOw==
+X-Received: by 2002:adf:ef4a:: with SMTP id c10mr1269610wrp.32.1592391247521; 
+ Wed, 17 Jun 2020 03:54:07 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id v19sm7693542wml.26.2020.06.17.03.54.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 17 Jun 2020 03:54:06 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id C97471FF7E;
+ Wed, 17 Jun 2020 11:54:05 +0100 (BST)
+References: <20200617043757.1623337-1-richard.henderson@linaro.org>
+ <20200617043757.1623337-3-richard.henderson@linaro.org>
+User-agent: mu4e 1.5.3; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v3 2/5] migration: fix xbzrle encoding rate calculation
+In-reply-to: <20200617043757.1623337-3-richard.henderson@linaro.org>
+Date: Wed, 17 Jun 2020 11:54:05 +0100
+Message-ID: <87mu52x8s2.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <87sgeuxbb9.fsf@linaro.org>
-X-IMT-Spam-Score: 0.0 ()
-X-PMX-Version: 6.4.9.2830568, Antispam-Engine: 2.7.2.2107409,
- Antispam-Data: 2020.6.17.104217, AntiVirus-Engine: 5.74.0,
- AntiVirus-Data: 2020.6.17.5740001
-X-Sophos-SenderHistory: ip=2a02:908:2214:e5bc::95d, fs=8028509, da=80000190,
- mc=198, sc=3, hc=195, sp=1, fso=8028509, re=0, sd=0, hd=0
-X-IMT-Authenticated-Sender: kbastian@UNI-PADERBORN.DE
-Received-SPF: pass client-ip=2001:638:502:c003::18;
- envelope-from=kbastian@mail.uni-paderborn.de; helo=nylar.uni-paderborn.de
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -72,38 +89,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Wei Wang <wei.w.wang@intel.com>, qemu-devel@nongnu.org, "Dr . David Alan
+ Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Alex,
 
-On Wed, Jun 17, 2020 at 10:59:22AM +0100, Alex Bennée wrote:
-> 
-> Bastian Koppelmann <kbastian@mail.uni-paderborn.de> writes:
-> 
-> > On Tue, Jun 16, 2020 at 05:22:42PM +0100, Alex Bennée wrote:
-> >> 
-> >> Bastian Koppelmann <kbastian@mail.uni-paderborn.de> writes:
-> >> 
-> >> > when trying to run successful short tests from the Makefile timeout would no
-> >> > terminate. Rather it would wait until the time runs out. Excerpt from the
-> >> > manpage:
-> >> 
-> >> Which tests hang without this change?
-> >
-> > The TriCore tests ;).
-> 
-> Hmm I wonder why? All the other tests work so is this a function of
-> output from the test? The softmmu tests for example usually redirect
-> their output via a chardev device. Tests which require actual input from
-> the user are skipped (the semiconsole test is MANUAL only).
-  
-I was wondering as well. If you run the test command without --foreground on a
-shell, it works. If you run it from make, it times out. Maybe this is just on my
-end. I usually run bleeding edge software on my developing machines. I have
-timeout 8.32 here.
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-Cheers,
-Bastian
+> From: Wei Wang <wei.w.wang@intel.com>
+>
+> It's reported an error of implicit conversion from "unsigned long" to
+> "double" when compiling with Clang 10. Simply make the encoding rate 0
+> when the encoded_size is 0.
+>
+> Fixes: e460a4b1a4
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Reported-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Wei Wang <wei.w.wang@intel.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+--=20
+Alex Benn=C3=A9e
 
