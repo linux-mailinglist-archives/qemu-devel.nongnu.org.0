@@ -2,75 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A34D1FCEBF
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 15:44:59 +0200 (CEST)
-Received: from localhost ([::1]:48598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 340671FCEC9
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 15:49:01 +0200 (CEST)
+Received: from localhost ([::1]:55368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlYN7-0005N2-Q1
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 09:44:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53922)
+	id 1jlYR2-0000Uc-6u
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 09:49:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <guilherme.piccoli@canonical.com>)
- id 1jlYMF-0004rx-Hv
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 09:44:03 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:54407)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_CBC_SHA1:128)
- (Exim 4.90_1) (envelope-from <guilherme.piccoli@canonical.com>)
- id 1jlYMD-0006dF-E4
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 09:44:03 -0400
-Received: from mail-ej1-f71.google.com ([209.85.218.71])
- by youngberry.canonical.com with esmtps
- (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
- (envelope-from <guilherme.piccoli@canonical.com>) id 1jlYMA-0001IQ-Si
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 13:43:59 +0000
-Received: by mail-ej1-f71.google.com with SMTP id j27so1047210ejo.11
- for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 06:43:58 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1jlYOy-0007OG-VC; Wed, 17 Jun 2020 09:46:53 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:40484)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1jlYOx-0007Js-3H; Wed, 17 Jun 2020 09:46:52 -0400
+Received: by mail-wm1-x343.google.com with SMTP id r15so2065791wmh.5;
+ Wed, 17 Jun 2020 06:46:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=1b/4an5jiWrnNGFhUDqge0c+0ZlE5AaWLFGrYR3dnMo=;
+ b=BbIADM320hJs1OQ73t+xp/8rtPrSp8Ft/+sU4fl1tRVUm0XVytVKZ5/QWPd4Vqn7X4
+ M/djZjr2gP2JvrNjZ8zyvV6sMcXzWELH8dCxgwvMWmd1dqUKrb8+KSj9Cpg/2niEElZ4
+ yB+JqWQUAjDogRyqzgDLxLQebBHNKsfX76UXXlGV5rIs2xcV3MikQuOYO4IH6EVONqcF
+ aQ1bj8Y+MuHAf9lWL4NWs9Fc4WtgEcVzKODHWOhUOgEfkFELGamTXbPLcpRwO1SAuIY0
+ apgRoX0a4fQoNEOuVtwpjv11VdGucLPDhcXXeLZOCh7RKRzkHqB++y+eRgJ1B0Jp8La1
+ DoUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=a/mA0I2ObU2+S0p52HianOSA+6II4kqYo9nkDgagWAY=;
- b=TZwsKbIN5I85E4I0lECBb09IMwberbw12M/e6fUtKCMDHcE9524f/FODuK1hyGJz4t
- zKkAhHO0jkq7R0zff1p+uWqWRIk1G4Hy/+/SzoStj1rMt3C0Gw8Hy4EJVcGGWBCWlQXw
- jaVqGz1/HW1pnPSV8Z4Uf7cJmJGEHOFzVX5bBK9K8R5BE2gGhYIyGHoRqFNisXYiTLPJ
- 637IHR1mfKkK+kxoY/GZ/mwUWI/YGn7p9WTHhH84aHU/2AqPab/zslAV92wr2PIns4E3
- N/kaOkNTVfTievLXwbI5P08NyNKLAxvLjA2wK3HFoaQZAIrPzgS2ShgESvaETadF0RnS
- vQFA==
-X-Gm-Message-State: AOAM533wH/7INiq8/sqZXS6rHi8i6TGT+/VLhRLJfaEaIbQAurim+zKp
- uvbPpzR/a6eKQLF+24RXvfQ4WiEjE2W1ZtESN5a48KT5Iw+4PaSgOo6YdaUguLlVm1q7uwkD8Pa
- KVP5Q3PfPx/i1/qS/thiqxHh/Mz2jbIlcL2MqZEssklCJgj+a
-X-Received: by 2002:a05:6402:1776:: with SMTP id
- da22mr7531180edb.84.1592401438502; 
- Wed, 17 Jun 2020 06:43:58 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyTDS73SgPSHwLVuWDo/naAhDnvwYUBWY0+SmpfP04AiywhRD1r6siY69XfXKeHWMhC7KH4hpy7xkSS8FUEoY0=
-X-Received: by 2002:a05:6402:1776:: with SMTP id
- da22mr7531154edb.84.1592401438289; 
- Wed, 17 Jun 2020 06:43:58 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=1b/4an5jiWrnNGFhUDqge0c+0ZlE5AaWLFGrYR3dnMo=;
+ b=ssTc2kTD/qYs8lt5/AbVUMa2lfTRffjWDXoU/v4PUrOx9g2JI9FocsW63Uu2gCcCg7
+ Nm5AByLtxaBwOM83TR2xtB0DvplH35LcEBzvuKxHu52Az35pqaUdj1DYeLKD0FNITIu9
+ TgDGGUByxQYHBwLNegA9Ha/kdDyjBqfP3wf0Y5bC1gSyK+km2zQH+BIBG/U+P4Lh0Pnw
+ yPWb6q2DHf4qHTcKtepB30Pj41RSrAfnAWNHNirV/mEaQS3dmmNjcYvOA1OFtoJD/GVz
+ T3tLu4u7vQP8yQdOCoIvCknQyMDfVZ3J1KCxxz3pGdjKYWUV4NhSYzqMR3xssjHzO8L3
+ bM4A==
+X-Gm-Message-State: AOAM532NUaMnY7lnP5qhm6k8pjrsY+kECGTu5VFvXjjcRaRQt28uuw3w
+ vY0bsgThE72AI1ZEy31mThs=
+X-Google-Smtp-Source: ABdhPJxeVUoOgxRc+9XhU9I4CcQcFLY4TJw5s7dwgKNHCPN8rBzmDnV2Cy7knyF9XMTBX1Y0e/5Csw==
+X-Received: by 2002:a1c:4009:: with SMTP id n9mr8729348wma.104.1592401608358; 
+ Wed, 17 Jun 2020 06:46:48 -0700 (PDT)
+Received: from localhost ([51.15.41.238])
+ by smtp.gmail.com with ESMTPSA id c16sm419398wml.45.2020.06.17.06.46.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 17 Jun 2020 06:46:47 -0700 (PDT)
+Date: Wed, 17 Jun 2020 14:46:45 +0100
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v3] block: Factor out bdrv_run_co()
+Message-ID: <20200617134645.GE1728005@stefanha-x1.localdomain>
+References: <20200520144901.16589-1-vsementsov@virtuozzo.com>
+ <20200528151707.GH158218@stefanha-x1.localdomain>
+ <99f13039-ae61-fc5e-43fa-8cbc3f3e1bab@virtuozzo.com>
 MIME-Version: 1.0
-References: <99779e9c-f05f-501b-b4be-ff719f140a88@canonical.com>
- <20200616165043.24y2cp53axk7uggy@sirius.home.kraxel.org>
- <20200616165746.GH2788@work-vm>
- <CAHD1Q_zGu4Q63HjHx3aZKu3wh8NppuP6T4kgnUN3j=-ZDufVZA@mail.gmail.com>
- <b423f4a4-2552-bdc8-7c9f-41f200aef672@redhat.com>
-In-Reply-To: <b423f4a4-2552-bdc8-7c9f-41f200aef672@redhat.com>
-From: Guilherme Piccoli <gpiccoli@canonical.com>
-Date: Wed, 17 Jun 2020 10:43:22 -0300
-Message-ID: <CAHD1Q_zmTatErCefeh349sSYsQJUVT3KB+VMDheEgBn5r7QGjA@mail.gmail.com>
-Subject: Re: ovmf / PCI passthrough impaired due to very limiting PCI64
- aperture
-To: Laszlo Ersek <lersek@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: none client-ip=91.189.89.112;
- envelope-from=guilherme.piccoli@canonical.com; helo=youngberry.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/17 09:43:59
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=_AUTOLEARN
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="PGNNI9BzQDUtgA2J"
+Content-Disposition: inline
+In-Reply-To: <99f13039-ae61-fc5e-43fa-8cbc3f3e1bab@virtuozzo.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=stefanha@gmail.com; helo=mail-wm1-x343.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,44 +85,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Pedro Principeza <pedro.principeza@canonical.com>, ehabkost@redhat.com,
- Dann Frazier <dann.frazier@canonical.com>, qemu-devel@nongnu.org,
- Christian Ehrhardt <christian.ehrhardt@canonical.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, fw@gpiccoli.net
+Cc: kwolf@redhat.com, fam@euphon.net, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, mreitz@redhat.com,
+ Stefan Hajnoczi <stefanha@redhat.com>, den@openvz.org, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Thanks a lot for all the responses here! Very constructive discussion =)
-Comments inline!
 
-On Wed, Jun 17, 2020 at 10:22 AM Laszlo Ersek <lersek@redhat.com> wrote:
-> [...]
-> If QEMU can provide a *reliable* GPA width, in some info channel (CPUID
-> or even fw_cfg), then the above calculation could be reversed in OVMF.
-> We could take the width as a given (-> produce the CPU HOB directly),
-> plus calculate the *remaining* address space between the GPA space size
-> given by the width, and the end of the memory hotplug area end. If the
-> "remaining size" were negative, then obviously QEMU would have been
-> misconfigured, so we'd halt the boot. Otherwise, the remaining area
-> could be used as PCI64 MMIO aperture...
+--PGNNI9BzQDUtgA2J
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-That was *exactly* the way I was considering, but without the right
-terminology due to my lack of experience in this topic heheh
-Thanks for the great summary of the idea! I was considering fw_cfg,
-but can be CPUID too, let me know what is the "trendy" way to do that.
-So, the only problem with that refactor you're proposing is the
-retrocompatibility with qemu versions, as I can anticipate cases in
-which newer OVMF runs with older qemu, which does not provide such
-trustworth physbits info. So, the code may be a bit complex, it'll
-need to take into account this case (probably we could just rely on
-the physbits "detected" by OVMF in such case, limiting PCI64 aperture
-to the current 36-bits, right?).
+On Thu, May 28, 2020 at 08:38:04PM +0300, Vladimir Sementsov-Ogievskiy wrot=
+e:
+> 28.05.2020 18:17, Stefan Hajnoczi wrote:
+> > On Wed, May 20, 2020 at 05:49:01PM +0300, Vladimir Sementsov-Ogievskiy =
+wrote:
+> > > We have a few bdrv_*() functions that can either spawn a new coroutine
+> > > and wait for it with BDRV_POLL_WHILE() or use a fastpath if they are
+> > > alreeady running in a coroutine. All of them duplicate basically the
+> > > same code.
+> > >=20
+> > > Factor the common code into a new function bdrv_run_co().
+> > >=20
+> > > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> > > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> > >     [Factor out bdrv_run_co_entry too]
+> > > ---
+> > >=20
+> > > v3: keep created coroutine in BdrvRunCo struct for debugging [Kevin]
+> > >=20
+> > >   block/io.c | 193 ++++++++++++++++++++------------------------------=
+---
+> > >   1 file changed, 72 insertions(+), 121 deletions(-)
+> >=20
+> > Thanks, applied to my block tree:
+> > https://github.com/stefanha/qemu/commits/block
+> >=20
+> > Stefan
+> >=20
+>=20
+> Actually, [PATCH v5 0/7] coroutines: generate wrapper code
+> substites this patch.. What do you think of it, could we take it instead?
 
+This patch has already been merged but the "coroutines: generate wrapper
+code" series can be reviewed and merged separately.
 
-> (PEI memory footprint of DXE page tables be darned).
-LOL
+Stefan
 
-Cheers,
-Guilherme
+--PGNNI9BzQDUtgA2J
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl7qHsUACgkQnKSrs4Gr
+c8iDqwf9HD20gjTdTgiJnBGbKAKHSlQV9ZQpE6HH7ujfjyGGV4capaRjSxIcg3w8
+xjaGfznS94POYOL7BYD7g9h6bPmqUZNQe3EpSu3WG9IvYQG2Ba7muUxYOjBGJx2N
+KCBskcY5aIFU4lhRTkAhcxZN33XZxMEIgBBdLCxtXM7rotVWVeyoyvjQOASMtsv1
+jafoBreaNJAOmN1PyzP7NsCvDQDXZ6fOopyA6GX2jtoTJ6DPAm9rNrflxu6Vc6IB
+aGnZ3UXMy9dgsr/ShaOuYSVcP5QIvteAKqR0BW6EU335KBq+bFBfZKaQ4Dii8ArF
+HhVF5a8MpUnm0Qle53UBxBhcsnxEGA==
+=OZvs
+-----END PGP SIGNATURE-----
+
+--PGNNI9BzQDUtgA2J--
 
