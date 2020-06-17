@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B0511FD769
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 23:36:49 +0200 (CEST)
-Received: from localhost ([::1]:39396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73CFA1FD78A
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 23:38:52 +0200 (CEST)
+Received: from localhost ([::1]:47990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlfjk-0005bF-Hs
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 17:36:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37756)
+	id 1jlflj-00012h-Go
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 17:38:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jlfEO-0003to-Ts
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 17:04:24 -0400
-Received: from mail-qv1-xf44.google.com ([2607:f8b0:4864:20::f44]:34515)
+ id 1jlfES-00041j-B1
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 17:04:28 -0400
+Received: from mail-qv1-xf42.google.com ([2607:f8b0:4864:20::f42]:33709)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jlfEN-0000J1-2z
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 17:04:24 -0400
-Received: by mail-qv1-xf44.google.com with SMTP id fc4so1776123qvb.1
- for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 14:04:22 -0700 (PDT)
+ id 1jlfEQ-0000LR-Hu
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 17:04:27 -0400
+Received: by mail-qv1-xf42.google.com with SMTP id d12so1775865qvn.0
+ for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 14:04:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=cJAv+EbsefdW66yr8LjRtj+7g6Sr3jeK6hHxTVUkhJA=;
- b=Z7nPbxN9nrVvlMAqzjDNaj7kD9CZdQv9dyywyXt+Ph1BM/q33gxGtkIo2dCblV9zOU
- G+TubiU7MZCinD1HWYpJ0N0L/1R8N0wgimpk/H4fy1yW8XvPn9Ak3dUE0nCK5Hpmwb3V
- KAem1secs41VxsXUxefQL1BK/uVozQXpFefh1v3rLB1VcpNsrfo6qKACtcVbe5NoCSxD
- Qrou6/svXhi8H8xvbkKMl5XRi8b3ga6tU8OhHQ+5tPgWlEVYabuzcEFFaGoyVDGZTCd0
- zG/Ce1+Gy3nKaR8YeF77hG5ktujcKP4+w+bSzIWUpESXwB3YZ/csxKc3OJj9c1ZqqMjz
- gagg==
+ bh=oS4OFCHOXLNPVShms1TjWbnrC15wr+ouKwB5TcDXaeE=;
+ b=GE0AA6F0qghZkTHfPxeGxcc04dzhmoqfZtJMXikX8yoIn+CxuNQ9j94pEpjoZ8fMBx
+ IBSDa8D0i9ekrXE+rJP+qNDmVFN/MLpPNG4EETYPdc6TJpbyqEQg8tXRV3qQeTc+QhtD
+ WAIyLdjtp0HZ+czVWcizdGrk5825Y1Ze/MIeWuSZuHLqYH2A7G0RIW+9Pu+g1svJNNxm
+ y4r3wdr+f/WLp7gqW2z2+xeKXC19oLV3tJTr6/6/V4IukBqzPJ9f/md5wgb1xq1OJoKT
+ kNxX7iwjE8PwLyFYSD2Hh6AqqXTwZnefhQTmg4ymy5RcFhQ3R+UpFnNY1UTKKPCRYbMI
+ 7CVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=cJAv+EbsefdW66yr8LjRtj+7g6Sr3jeK6hHxTVUkhJA=;
- b=IegCyd8PKhDNZVOl+JjlAuwjhj9BIvH0yUn/4pqxj++J65Nz+Mu7BdGf7rDYQ1sjw4
- brWjN2FnoS73Z0BQwMLENOR3KoRnw1igpPzQWQ2sTkky95q8xcZR5NjvQ1ykCuYQVcKo
- /Zp3xkA7yrmJPUCLSDEPh2nY501Ciw4OzwO2VS4nHdmsPaNCbkRMo3tv4TIetIHPNHab
- ba/x/PCMQSLiL3ziYAO/NxIRjgk/UuWiN1wy5voavNlA3neMDU/ogjiGOojgVJQsYhBl
- bnhWyijspdqKGFfUHlX75qBxl/OkkTDvNBW8DNJ+arAijrtf7Co+qi77NdO1h9SusfPv
- O3YQ==
-X-Gm-Message-State: AOAM531DdqLoZJiBmhzEUD7LZ7z3vruqBGCjKQUxt3GL67i8ILLPPRRh
- D2yD3IyN7is7CxEWOCLGquASom3O/pfgMQ==
-X-Google-Smtp-Source: ABdhPJxYV3yaUAovRK41PP3Qo7LV9GbVJ8hNhPHC6zuDNA5ZR/421XqHVubbGWH9FCe12abmYZraTQ==
-X-Received: by 2002:a0c:9ae2:: with SMTP id k34mr519566qvf.247.1592427861880; 
- Wed, 17 Jun 2020 14:04:21 -0700 (PDT)
+ bh=oS4OFCHOXLNPVShms1TjWbnrC15wr+ouKwB5TcDXaeE=;
+ b=ZSmm7x55lxeLlRJixHDcMK8E4sRvPrjxl1KWCUZpCs0rIDAoU/2zK8WueQzo7348IU
+ jHAC4xl4Bfg6TEtSQ8NcGQKx//cnyFIUbCskLhC0X9Oqgb3+x1Ju7Axa3IcG6NHtlR6j
+ 6JbdGVxT2tICLCJNX+eVPw+efrLQF63C32nZeYgkGxwcCoU5Ec0F24ffxb6ii7OffQbV
+ dW6XTL0I+U3CDwWpllJIcDIdUef4EspmH3c247x5SLHSNlo6kP6Kz30IvMabs3ammkzr
+ mWHlRCk3DMv2dwIpxZXg2U/f1Kqtx2BpCyfBPQ4ss0wbjFceGnL+3apDlYzJr72AtqRF
+ gYsA==
+X-Gm-Message-State: AOAM531jNa/tqcGbpqUs7CzMxWhozpEuE8rWKjvC/Ed1E0yXDw3MUydC
+ T5Gb2iucIQ1jwfo9d51xp5F/dB5MkfQjLQ==
+X-Google-Smtp-Source: ABdhPJx1hN6zWpynxS0xeB7YUJdmDiLn5MvRJZQa4q3/0rSqcrGAqD8GNRMWxANy1OOfhVa5sWQW7w==
+X-Received: by 2002:ad4:4851:: with SMTP id t17mr599131qvy.160.1592427864494; 
+ Wed, 17 Jun 2020 14:04:24 -0700 (PDT)
 Received: from Rfoley-MA01.hsd1.ma.comcast.net
  ([2601:199:4480:60c0:fc79:714c:9711:2e9c])
- by smtp.gmail.com with ESMTPSA id w13sm997245qkb.91.2020.06.17.14.04.20
+ by smtp.gmail.com with ESMTPSA id w13sm997245qkb.91.2020.06.17.14.04.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Jun 2020 14:04:21 -0700 (PDT)
+ Wed, 17 Jun 2020 14:04:23 -0700 (PDT)
 From: Robert Foley <robert.foley@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v10 45/73] sh4: convert to cpu_interrupt_request
-Date: Wed, 17 Jun 2020 17:02:03 -0400
-Message-Id: <20200617210231.4393-46-robert.foley@linaro.org>
+Subject: [PATCH v10 47/73] hppa: convert to cpu_interrupt_request
+Date: Wed, 17 Jun 2020 17:02:05 -0400
+Message-Id: <20200617210231.4393-48-robert.foley@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200617210231.4393-1-robert.foley@linaro.org>
 References: <20200617210231.4393-1-robert.foley@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f44;
- envelope-from=robert.foley@linaro.org; helo=mail-qv1-xf44.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f42;
+ envelope-from=robert.foley@linaro.org; helo=mail-qv1-xf42.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -86,50 +86,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: robert.foley@linaro.org, Yoshinori Sato <ysato@users.sourceforge.jp>,
- cota@braap.org, peter.puhov@linaro.org, alex.bennee@linaro.org,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: peter.puhov@linaro.org, cota@braap.org, alex.bennee@linaro.org,
+ robert.foley@linaro.org, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Emilio G. Cota" <cota@braap.org>
 
-Cc: Aurelien Jarno <aurelien@aurel32.net>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Emilio G. Cota <cota@braap.org>
 Signed-off-by: Robert Foley <robert.foley@linaro.org>
 ---
- target/sh4/cpu.c    | 2 +-
- target/sh4/helper.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ target/hppa/cpu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/sh4/cpu.c b/target/sh4/cpu.c
-index 3c68021c56..18f3448183 100644
---- a/target/sh4/cpu.c
-+++ b/target/sh4/cpu.c
-@@ -44,7 +44,7 @@ static void superh_cpu_synchronize_from_tb(CPUState *cs, TranslationBlock *tb)
+diff --git a/target/hppa/cpu.c b/target/hppa/cpu.c
+index 71b6aca45d..287055f96e 100644
+--- a/target/hppa/cpu.c
++++ b/target/hppa/cpu.c
+@@ -61,7 +61,7 @@ static void hppa_cpu_synchronize_from_tb(CPUState *cs, TranslationBlock *tb)
  
- static bool superh_cpu_has_work(CPUState *cs)
+ static bool hppa_cpu_has_work(CPUState *cs)
  {
 -    return cs->interrupt_request & CPU_INTERRUPT_HARD;
 +    return cpu_interrupt_request(cs) & CPU_INTERRUPT_HARD;
  }
  
- static void superh_cpu_reset(DeviceState *dev)
-diff --git a/target/sh4/helper.c b/target/sh4/helper.c
-index 408478ce5d..1e32365c75 100644
---- a/target/sh4/helper.c
-+++ b/target/sh4/helper.c
-@@ -62,7 +62,7 @@ void superh_cpu_do_interrupt(CPUState *cs)
- {
-     SuperHCPU *cpu = SUPERH_CPU(cs);
-     CPUSH4State *env = &cpu->env;
--    int do_irq = cs->interrupt_request & CPU_INTERRUPT_HARD;
-+    int do_irq = cpu_interrupt_request(cs) & CPU_INTERRUPT_HARD;
-     int do_exp, irq_vector = cs->exception_index;
- 
-     /* prioritize exceptions over interrupts */
+ static void hppa_cpu_disas_set_info(CPUState *cs, disassemble_info *info)
 -- 
 2.17.1
 
