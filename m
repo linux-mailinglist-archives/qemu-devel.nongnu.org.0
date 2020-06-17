@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE24C1FD020
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 16:56:07 +0200 (CEST)
-Received: from localhost ([::1]:42916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2856F1FD00C
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 16:53:27 +0200 (CEST)
+Received: from localhost ([::1]:59932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlZTy-0007Su-EK
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 10:56:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45110)
+	id 1jlZRO-00017d-1E
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 10:53:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45148)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jlZNf-0002xl-TG
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 10:49:35 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:55600
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jlZNg-0002zV-MD
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 10:49:36 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:43536
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jlZNc-0001fa-ME
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 10:49:35 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jlZNa-0001f9-Gx
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 10:49:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592405370;
+ s=mimecast20190719; t=1592405368;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OeTAIUXbQvCLy+gN9jiiCS7VpxqfG8BurMGuBOXIqZU=;
- b=aw4sQfjTGEeHtEM51wig4elHV7ytktSYPao+13GwC9+CXdIHmrZbM6M/D2TEL8qaoLroq/
- 1T0AJnf1gxpWETPcXvWr0G42aT4aJdXNiPBJdcQPFTudLim21OzyD17Ea1TZUapaoKuwfv
- NFx1GvFrjj3oEzL9Q9/3duqAOM90+uI=
+ bh=2Utk5L2ouoqN29QdO+mm6k9lBgU5fDYtT12Dun46psQ=;
+ b=drFnZNmkz2WrdBJutOgELXLHJZ4PLLr0QLj78w9WsT5xRTiOyeF/2ZTWX475kYowRLDw9P
+ JoofQnXU8E+riJjBOd8T9V9qBH8PlgcGSmy3hfQraLWBTrGb2hlqiL5KGPEhRnvXdobQ1E
+ PQafrjMrRH2lAv/VRVO+Ij3vqxILS0o=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-480-E_4Cr9f_Pcm04_a92G2SKg-1; Wed, 17 Jun 2020 10:49:23 -0400
-X-MC-Unique: E_4Cr9f_Pcm04_a92G2SKg-1
+ us-mta-149-6XT74I2YMFOCbWy0unluaQ-1; Wed, 17 Jun 2020 10:49:26 -0400
+X-MC-Unique: 6XT74I2YMFOCbWy0unluaQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A86FB80332A;
- Wed, 17 Jun 2020 14:49:22 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8FE6C18A266D;
+ Wed, 17 Jun 2020 14:49:25 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-114-44.ams2.redhat.com [10.36.114.44])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A97E57CAAA;
- Wed, 17 Jun 2020 14:49:21 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 958937CAB0;
+ Wed, 17 Jun 2020 14:49:24 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 07/43] hw/block/nvme: fix pci doorbell size calculation
-Date: Wed, 17 Jun 2020 16:48:33 +0200
-Message-Id: <20200617144909.192176-8-kwolf@redhat.com>
+Subject: [PULL 09/43] hw/block/nvme: remove superfluous breaks
+Date: Wed, 17 Jun 2020 16:48:35 +0200
+Message-Id: <20200617144909.192176-10-kwolf@redhat.com>
 In-Reply-To: <20200617144909.192176-1-kwolf@redhat.com>
 References: <20200617144909.192176-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -54,9 +54,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=kwolf@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 23:30:45
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/17 01:42:42
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -83,56 +83,43 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-The size of the BAR is 0x1000 (main registers) + 8 bytes for each
-queue. Currently, the size of the BAR is calculated like so:
-
-    n->reg_size = pow2ceil(0x1004 + 2 * (n->num_queues + 1) * 4);
-
-Since the 'num_queues' parameter already accounts for the admin queue,
-this should in any case not need to be incremented by one. Also, the
-size should be initialized to (0x1000).
-
-    n->reg_size = pow2ceil(0x1000 + 2 * n->num_queues * 4);
-
-This, with the default value of num_queues (64), we will set aside room
-for 1 admin queue and 63 I/O queues (4 bytes per doorbell, 2 doorbells
-per queue).
+These break statements was left over when commit 3036a626e9ef ("nvme:
+add Get/Set Feature Timestamp support") was merged.
 
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Keith Busch <kbusch@kernel.org>
-Message-Id: <20200609190333.59390-2-its@irrelevant.dk>
+Message-Id: <20200609190333.59390-4-its@irrelevant.dk>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- hw/block/nvme.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ hw/block/nvme.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index a21eeca2fb..c1476e8b2a 100644
+index e8f5c5ab82..0d3f8f345f 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -53,6 +53,9 @@
- #include "trace.h"
- #include "nvme.h"
- 
-+#define NVME_REG_SIZE 0x1000
-+#define NVME_DB_SIZE  4
-+
- #define NVME_GUEST_ERR(trace, fmt, ...) \
-     do { \
-         (trace_##trace)(__VA_ARGS__); \
-@@ -1401,7 +1404,9 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
-     pcie_endpoint_cap_init(pci_dev, 0x80);
- 
-     n->num_namespaces = 1;
--    n->reg_size = pow2ceil(0x1004 + 2 * (n->num_queues + 1) * 4);
-+
-+    /* num_queues is really number of pairs, so each has two doorbells */
-+    n->reg_size = pow2ceil(NVME_REG_SIZE + 2 * n->num_queues * NVME_DB_SIZE);
-     n->ns_size = bs_size / (uint64_t)n->num_namespaces;
- 
-     n->namespaces = g_new0(NvmeNamespace, n->num_namespaces);
+@@ -801,7 +801,6 @@ static uint16_t nvme_get_feature(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
+         break;
+     case NVME_TIMESTAMP:
+         return nvme_get_feature_timestamp(n, cmd);
+-        break;
+     default:
+         trace_pci_nvme_err_invalid_getfeat(dw10);
+         return NVME_INVALID_FIELD | NVME_DNR;
+@@ -845,11 +844,8 @@ static uint16_t nvme_set_feature(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
+         req->cqe.result =
+             cpu_to_le32((n->num_queues - 2) | ((n->num_queues - 2) << 16));
+         break;
+-
+     case NVME_TIMESTAMP:
+         return nvme_set_feature_timestamp(n, cmd);
+-        break;
+-
+     default:
+         trace_pci_nvme_err_invalid_setfeat(dw10);
+         return NVME_INVALID_FIELD | NVME_DNR;
 -- 
 2.25.4
 
