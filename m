@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B12FF1FC551
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 06:40:59 +0200 (CEST)
-Received: from localhost ([::1]:40842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 203AF1FC557
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 06:42:27 +0200 (CEST)
+Received: from localhost ([::1]:44176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlPsg-0001nV-P0
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 00:40:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36130)
+	id 1jlPu6-0003MA-6s
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 00:42:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36134)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jlPpv-0006p5-U1
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 00:38:07 -0400
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:43167)
+ id 1jlPpw-0006qi-Lb
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 00:38:08 -0400
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:39291)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jlPpu-0001Te-4J
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 00:38:07 -0400
-Received: by mail-pg1-x542.google.com with SMTP id h10so640624pgq.10
- for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 21:38:05 -0700 (PDT)
+ id 1jlPpv-0001Tp-21
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 00:38:08 -0400
+Received: by mail-pg1-x541.google.com with SMTP id v11so651632pgb.6
+ for <qemu-devel@nongnu.org>; Tue, 16 Jun 2020 21:38:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=U2OhPh1mOGrVWInaZNwiPEgVVlC79KKQnsD/xgS7OZI=;
- b=EjVDRpzOtBEADaOdZfYBlVrrf4zOQbwJmXHEaS7CS+RmV+e7Ux9wIaH91zTTFhTlMY
- bkgnNwjb6cZ7W2dt46Uu0nkxpLzGVowXBgqw1/2y6Y1wKXUearzXR2lQXHJB+ucULWgz
- 9jHo2Yl9/bb/UvyGs7tXlUJFTGmtlZVKeqbGmrN8Y1eH8UjpuidZSrLYM8x1xAuyCiTg
- Ti5eOfYRJw7kM2GHAz9tHUTPG4E0ANvCOfKGOVjbv9bDLTXEJJPQ0xHhL7rfwChIYFmW
- ALqls/5Z2+3KUstJD/T13m+71hGuUIp8B8SWu3TtghlMSHzrE9qu+2raN3kORMktuf69
- rL8Q==
+ bh=jYIhlgGCq1UUdx/JfqZRUcnP+U2PpbQCAFcsCH7XqwQ=;
+ b=kTOYkSuUXu11HGclWCRwxe8yk9zLjb/6dA69WXkVzq8xZNIM38v8qzwUTxktClD4HV
+ df6A1LUGS5L3whi1S8/LX3q7wOK/b67wJYhzj18zCcozNpiUOPgN2CStJyb+qek/ztoz
+ 5YSktlpXZ6Ee8tSHlSZH6K0Rie2cMVCk+VCXJOoLX9Ha5g55NpCAfh56Tt0KAfbNTDzw
+ 0J6bX/jm4OOD6Juw1o06stXIYZu5zOo17tSYlR9koxNkRLhOfRNipZyQpF2RiQ1uzlgw
+ kTmFSEBgL7HMAPFQM/k4z2vGzK+67XQ55RIDN5/JlBPbWUFpH7dXMEjuIDzVjO6SfV9V
+ ++gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=U2OhPh1mOGrVWInaZNwiPEgVVlC79KKQnsD/xgS7OZI=;
- b=EalNUAm4toG1byNCuXFUpSpcr4lI6gX1eFGPMb0LEfE/XdvP0H1ZzaBBfcrKYNe51B
- GoUs/Z61Fc0kqB4gepgWbr0MgVEGZ0fy/EndH3AgcEG8PKax2Xez+wkh3xMaDq0wHoy4
- yiO4idn7ZzGEIbwPoTzyfTPSQ+Kvv4nAdSu01QwYRbbWpYigoOrEr0ew3yA4MG2G37vA
- f7KMQgOyTldGwtgUapAZEgJb73H2P7FfD566TMYJNE6gXgQv4n+azTeGNeWNQBgtlOMz
- HnI5ZqvBggRQrOTMgRiYDOdsT4lxmHgb4eYSD+vjpeV3C+ur+VtMuX69wL+RKal2Vvkz
- iPUw==
-X-Gm-Message-State: AOAM532+IIyB8IOpVUKmY6MYrqQQ+279cXQvBonrzgJvaruuTggpZzMu
- +bXsPP+MP9YTh2c/MwVuwP9q+jhzot0=
-X-Google-Smtp-Source: ABdhPJydTKviR5eJuaiBmOC0DsuxAbF3eYDe1gxkRhQOkDGl1ORDKIdAKBOwZP830+x9d4zt9QbZXg==
-X-Received: by 2002:a63:e004:: with SMTP id e4mr4532828pgh.44.1592368684253;
- Tue, 16 Jun 2020 21:38:04 -0700 (PDT)
+ bh=jYIhlgGCq1UUdx/JfqZRUcnP+U2PpbQCAFcsCH7XqwQ=;
+ b=mNuQoBRISmHx4i7S21vcwRxawwhPYi1PhgvCb32+sDI4bDVBnf6LiVCwMfAlDEevRZ
+ pMztnLE0o/xYy7Ox0/o80liplXNpnPVdwyThI1pfto5uwfUDV0bKp033PT//I56CGLeN
+ 3JGuUXEuSUqImHZTN3eaTMnkpAZiUu0oSbSRNqi4BGniT2XfOt7o8BkT1EljHNQG6LID
+ 8CCj2cLD9P4cvkvmuVoRAkm4FhFe17BcL2ha1W33y8RaWj1O6vwfUWDzyXf/xwWkxp2n
+ RHKkxJBFCZHwGvjrIlO/L17Tk1G+AHFFe3sBsPI9l7E7bQ8cMOOqP7EZ1ylD+xcCcXdD
+ 4qnQ==
+X-Gm-Message-State: AOAM531yMPQELYIB+/a+Q0lI/LSSQJplk+er4PS5HXmalqPWn6O/zF7n
+ X10lmB41wQYXBlCjFor1RTvUEE8zOHQ=
+X-Google-Smtp-Source: ABdhPJxPYez1C36KmAlYobL7dvQyuHcIpHem7WI00m9MjQckpk3q6JLoqgg/Ja9NveEdnACjqHSRSw==
+X-Received: by 2002:a63:63c6:: with SMTP id x189mr4723224pgb.36.1592368685518; 
+ Tue, 16 Jun 2020 21:38:05 -0700 (PDT)
 Received: from localhost.localdomain (174-21-143-238.tukw.qwest.net.
  [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id x3sm18585808pfi.57.2020.06.16.21.38.03
+ by smtp.gmail.com with ESMTPSA id x3sm18585808pfi.57.2020.06.16.21.38.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Jun 2020 21:38:03 -0700 (PDT)
+ Tue, 16 Jun 2020 21:38:04 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 4/5] configure: Disable -Wtautological-type-limit-compare
-Date: Tue, 16 Jun 2020 21:37:56 -0700
-Message-Id: <20200617043757.1623337-5-richard.henderson@linaro.org>
+Subject: [PATCH v3 5/5] configure: Add -Wno-psabi
+Date: Tue, 16 Jun 2020 21:37:57 -0700
+Message-Id: <20200617043757.1623337-6-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200617043757.1623337-1-richard.henderson@linaro.org>
 References: <20200617043757.1623337-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::542;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x542.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::541;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x541.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -86,43 +86,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, alex.bennee@linaro.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Clang 10 enables this by default with -Wtype-limit.
+On aarch64, gcc 9.3 is generating
 
-All of the instances flagged by this Werror so far have been
-cases in which we really do want the compiler to optimize away
-the test completely.  Disabling the warning will avoid having
-to add ifdefs to work around this.
+qemu/exec.c: In function ‘address_space_translate_iommu’:
+qemu/exec.c:431:28: note: parameter passing for argument of type \
+  ‘MemTxAttrs’ {aka ‘struct MemTxAttrs’} changed in GCC 9.1
 
-Cc: Eric Blake <eblake@redhat.com>
-Fixes: https://bugs.launchpad.net/qemu/+bug/1878628
-Acked-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+and many other reptitions.  This structure, and the functions
+amongst which it is passed, are not part of a QEMU public API.
+Therefore we do not care how the compiler passes the argument,
+so long as the compiler is self-consistent.
+
+The only portion of QEMU which does have a public api, and so
+must have a stable abi, is "qemu/plugin.h".  We test this by
+forcing -Wpsabi in tests/plugin/Makefile.
+
+Cc: Alex Bennée <alex.bennee@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-v2: Use the new add_to function.
----
- configure | 1 +
- 1 file changed, 1 insertion(+)
+ configure             | 1 +
+ tests/plugin/Makefile | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/configure b/configure
-index a8bef95282..5e27229f58 100755
+index 5e27229f58..ba88fd1824 100755
 --- a/configure
 +++ b/configure
-@@ -2054,6 +2054,7 @@ add_to nowarn_flags -Wno-missing-include-dirs
- add_to nowarn_flags -Wno-shift-negative-value
+@@ -2055,6 +2055,7 @@ add_to nowarn_flags -Wno-shift-negative-value
  add_to nowarn_flags -Wno-string-plus-int
  add_to nowarn_flags -Wno-typedef-redefinition
-+add_to nowarn_flags -Wno-tautological-type-limit-compare
+ add_to nowarn_flags -Wno-tautological-type-limit-compare
++add_to nowarn_flags -Wno-psabi
  
  gcc_flags="$warn_flags $nowarn_flags"
  
+diff --git a/tests/plugin/Makefile b/tests/plugin/Makefile
+index b3250e2504..3a50451428 100644
+--- a/tests/plugin/Makefile
++++ b/tests/plugin/Makefile
+@@ -17,7 +17,7 @@ NAMES += lockstep
+ 
+ SONAMES := $(addsuffix .so,$(addprefix lib,$(NAMES)))
+ 
+-QEMU_CFLAGS += -fPIC
++QEMU_CFLAGS += -fPIC -Wpsabi
+ QEMU_CFLAGS += -I$(SRC_PATH)/include/qemu
+ 
+ all: $(SONAMES)
 -- 
 2.25.1
 
