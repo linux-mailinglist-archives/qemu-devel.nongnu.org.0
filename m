@@ -2,61 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21F851FD27A
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 18:44:11 +0200 (CEST)
-Received: from localhost ([::1]:46450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 317861FD282
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 18:45:00 +0200 (CEST)
+Received: from localhost ([::1]:49830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlbAX-0001zB-2M
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 12:44:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45356)
+	id 1jlbBL-0003QG-6L
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 12:44:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1jlb8w-0000Tv-6h
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 12:42:30 -0400
-Received: from 16.mo7.mail-out.ovh.net ([46.105.72.216]:59223)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1jlb8s-0005J4-2B
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 12:42:29 -0400
-Received: from player798.ha.ovh.net (unknown [10.110.171.227])
- by mo7.mail-out.ovh.net (Postfix) with ESMTP id 9F9AA16CB5C
- for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 18:42:23 +0200 (CEST)
-Received: from kaod.org (82-64-250-170.subs.proxad.net [82.64.250.170])
- (Authenticated sender: clg@kaod.org)
- by player798.ha.ovh.net (Postfix) with ESMTPSA id 5C1C5139391D0;
- Wed, 17 Jun 2020 16:42:13 +0000 (UTC)
-Authentication-Results: garm.ovh; auth=pass
- (GARM-106R006778cf0ea-3aef-4ffb-9c1b-112d4f892549,ABECD89738EEB0C75E5395B338997A57DB3A3EEE)
- smtp.auth=clg@kaod.org
-Subject: Re: [PATCH v2 11/12] hw/arm: Wire up BMC boot flash for npcm750-evb
- and quanta-gsj
-To: Havard Skinnemoen <hskinnemoen@google.com>, peter.maydell@linaro.org,
- joel@jms.id.au
-References: <20200611223016.259837-1-hskinnemoen@google.com>
- <20200611223016.259837-12-hskinnemoen@google.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <69a4b9c8-0ae0-96e2-8b46-cc89c9acbc9a@kaod.org>
-Date: Wed, 17 Jun 2020 18:42:13 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1jlbA7-0002BZ-Tq
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 12:43:43 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:56297
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1jlbA5-0005Pb-Rq
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 12:43:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1592412220;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Gdc8Jjge+uq5oI4ioVF7aL1fsQ5nH8HKrG+Y6K5DqCw=;
+ b=XlyI3W/KZO0K/DsMU/voZdtiSsDxgPETzv/d67CcPBT4jZm7E7jqVh3xWufzO2EuiwoA53
+ UMNazUMZD4uP9oGrpSrqnggkBPjeQwdkAhXqvUdVdljCkXkpX4BsDP1w6wimnZnqfLPbX8
+ 4uUzNEdYkd9Y4wwIN3rs4wHGG0XSwOQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-389-DCoRVVnOOxi3sdVErVx5zQ-1; Wed, 17 Jun 2020 12:43:36 -0400
+X-MC-Unique: DCoRVVnOOxi3sdVErVx5zQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E29CC184D153;
+ Wed, 17 Jun 2020 16:43:23 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-115-92.ams2.redhat.com
+ [10.36.115.92])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D07785C1D4;
+ Wed, 17 Jun 2020 16:43:21 +0000 (UTC)
+Subject: Re: ovmf / PCI passthrough impaired due to very limiting PCI64
+ aperture
+From: Laszlo Ersek <lersek@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+References: <99779e9c-f05f-501b-b4be-ff719f140a88@canonical.com>
+ <20200616165043.24y2cp53axk7uggy@sirius.home.kraxel.org>
+ <20200616165746.GH2788@work-vm>
+ <CAHD1Q_zGu4Q63HjHx3aZKu3wh8NppuP6T4kgnUN3j=-ZDufVZA@mail.gmail.com>
+ <b423f4a4-2552-bdc8-7c9f-41f200aef672@redhat.com>
+ <20200617134652.GE2776@work-vm>
+ <37e7bbbe-6792-fdaa-0046-fb8bc5b64546@redhat.com>
+Message-ID: <74a52916-af58-6dee-f0e0-deb2954ddd90@redhat.com>
+Date: Wed, 17 Jun 2020 18:43:20 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Firefox/52.0 Thunderbird/52.9.1
 MIME-Version: 1.0
-In-Reply-To: <20200611223016.259837-12-hskinnemoen@google.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <37e7bbbe-6792-fdaa-0046-fb8bc5b64546@redhat.com>
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Ovh-Tracer-Id: 5183361699602271145
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduhedrudejvddguddtgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgsehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepfeffvddtudegieefudeugffhjefgieegieegleettdehgfeiieevueeihfegfefgnecukfhppedtrddtrddtrddtpdekvddrieegrddvhedtrddujedtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeelkedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
-Received-SPF: pass client-ip=46.105.72.216; envelope-from=clg@kaod.org;
- helo=16.mo7.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/17 12:42:23
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=lersek@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/17 01:42:04
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,97 +88,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kfting@nuvoton.com, qemu-arm@nongnu.org, qemu-devel@nongnu.org,
- Avi.Fishman@nuvoton.com
+Cc: Pedro Principeza <pedro.principeza@canonical.com>, ehabkost@redhat.com,
+ Dann Frazier <dann.frazier@canonical.com>,
+ Guilherme Piccoli <gpiccoli@canonical.com>, qemu-devel@nongnu.org,
+ Christian Ehrhardt <christian.ehrhardt@canonical.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, fw@gpiccoli.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/12/20 12:30 AM, Havard Skinnemoen wrote:
-> This allows these NPCM7xx-based boards to boot from a flash image, e.g.
-> one built with OpenBMC. For example like this:
+On 06/17/20 18:14, Laszlo Ersek wrote:
+> On 06/17/20 15:46, Dr. David Alan Gilbert wrote:
+>> * Laszlo Ersek (lersek@redhat.com) wrote:
+>>> On 06/16/20 19:14, Guilherme Piccoli wrote:
+>>>> Thanks Gerd, Dave and Eduardo for the prompt responses!
+>>>>
+>>>> So, I understand that when we use "-host-physical-bits", we are
+>>>> passing the *real* number for the guest, correct? So, in this case we
+>>>> can trust that the guest physbits matches the true host physbits.
+>>>>
+>>>> What if then we have OVMF relying in the physbits *iff*
+>>>> "-host-phys-bits" is used (which is the default in RH and a possible
+>>>> machine configuration on libvirt XML in Ubuntu), and we have OVMF
+>>>> fallbacks to 36-bit otherwise?
+>>>
+>>> I've now read the commit message on QEMU commit 258fe08bd341d, and the
+>>> complexity is simply stunning.
+>>>
+>>> Right now, OVMF calculates the guest physical address space size from
+>>> various range sizes (such as hotplug memory area end, default or
+>>> user-configured PCI64 MMIO aperture), and derives the minimum suitable
+>>> guest-phys address width from that address space size. This width is
+>>> then exposed to the rest of the firmware with the CPU HOB (hand-off
+>>> block), which in turn controls how the GCD (global coherency domain)
+>>> memory space map is sized. Etc.
+>>>
+>>> If QEMU can provide a *reliable* GPA width, in some info channel (CPUID
+>>> or even fw_cfg), then the above calculation could be reversed in OVMF.
+>>> We could take the width as a given (-> produce the CPU HOB directly),
+>>> plus calculate the *remaining* address space between the GPA space size
+>>> given by the width, and the end of the memory hotplug area end. If the
+>>> "remaining size" were negative, then obviously QEMU would have been
+>>> misconfigured, so we'd halt the boot. Otherwise, the remaining area
+>>> could be used as PCI64 MMIO aperture (PEI memory footprint of DXE page
+>>> tables be darned).
+>>>
+>>>> Now, regarding the problem "to trust or not" in the guests' physbits,
+>>>> I think it's an orthogonal discussion to some extent. It'd be nice to
+>>>> have that check, and as Eduardo said, prevent migration in such cases.
+>>>> But it's not really preventing OVMF big PCI64 aperture if we only
+>>>> increase the aperture _when  "-host-physical-bits" is used_.
+>>>
+>>> I don't know what exactly those flags do, but I doubt they are clearly
+>>> visible to OVMF in any particular way.
+>>
+>> The firmware should trust whatever it reads from the cpuid and thus gets
+>> told from qemu; if qemu is doing the wrong thing there then that's our
+>> problem and we need to fix it in qemu.
 > 
-> IMAGE=${OPENBMC}/build/tmp/deploy/images/gsj/image-bmc
-
-could you put the image on some site when ready ? 
-
-> qemu-system-arm -machine quanta-gsj -nographic \
-> 	-bios ~/qemu/bootrom/npcm7xx_bootrom.bin \
-> 	-drive file=${IMAGE},if=mtd,bus=0,unit=0,format=raw,snapshot=on
+> This sounds good in practice, but -- as Gerd too has stated, to my
+> understanding -- it has potential to break existing usage.
 > 
-> Change-Id: I158a4d9952c0e90f2b1b7280443a7305b6ae57cf
-> Reviewed-by: Tyrone Ting <kfting@nuvoton.com>
-> Signed-off-by: Havard Skinnemoen <hskinnemoen@google.com>
+> Consider assigning a single device with a 32G BAR -- right now that's
+> supposed to work, without the X-PciMmio64Mb OVMF knob, on even the "most
+> basic" hardware (36-bit host phys address width, and EPT supported). If
+> OVMF suddenly starts trusting the CPUID from QEMU, and that results in a
+> GPA width of 40 bits (i.e. new OVMF is run on old QEMU), then the big
+> BAR (and other stuff too) could be allocated from GPA space that EPT is
+> actually able to deal with. --> regression for the user.
 
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
+s/able/unable/, sigh. :/
 
-> ---
->  hw/arm/npcm7xx_boards.c | 27 +++++++++++++++++++++++++++
->  1 file changed, 27 insertions(+)
 > 
-> diff --git a/hw/arm/npcm7xx_boards.c b/hw/arm/npcm7xx_boards.c
-> index 86e18af2d7..1ec772fa59 100644
-> --- a/hw/arm/npcm7xx_boards.c
-> +++ b/hw/arm/npcm7xx_boards.c
-> @@ -18,6 +18,7 @@
->  #include "hw/arm/boot.h"
->  #include "hw/arm/npcm7xx.h"
->  #include "hw/core/cpu.h"
-> +#include "hw/qdev-properties.h"
->  #include "qapi/error.h"
->  #include "qemu/units.h"
->  
-> @@ -40,6 +41,20 @@ static void npcm7xx_load_kernel(MachineState *machine, NPCM7xxState *soc)
->      arm_load_kernel(&soc->cpu[0], machine, &npcm7xx_binfo);
->  }
->  
-> +static void npcm7xx_connect_flash(NPCM7xxFIUState *fiu, int cs_no,
-> +                                  const char *flash_type, DriveInfo *dinfo) {
-> +    DeviceState *flash;
-> +    qemu_irq flash_cs;
-> +
-> +    flash = ssi_create_slave_no_init(fiu->spi, flash_type);
-> +    qdev_prop_set_drive(flash, "drive", blk_by_legacy_dinfo(dinfo),
-> +                        &error_abort);
-> +    qdev_init_nofail(flash);
-> +
-> +    flash_cs = qdev_get_gpio_in_named(flash, SSI_GPIO_CS, 0);
-> +    sysbus_connect_irq(SYS_BUS_DEVICE(fiu), cs_no, flash_cs);
-> +}
-> +
->  static NPCM7xxState *npcm7xx_create_soc(MachineState *machine)
->  {
->      NPCM7xxMachineClass *nmc = NPCM7XX_MACHINE_GET_CLASS(machine);
-> @@ -57,18 +72,30 @@ static NPCM7xxState *npcm7xx_create_soc(MachineState *machine)
->  static void npcm750_evb_init(MachineState *machine)
->  {
->      NPCM7xxState *soc;
-> +    DriveInfo *dinfo;
->  
->      soc = npcm7xx_create_soc(machine);
->  
-> +    dinfo = drive_get(IF_MTD, 0, 0);
-> +    if (dinfo) {
-> +        npcm7xx_connect_flash(&soc->fiu[0], 0, "w25q256", dinfo);
-> +    }
-> +
->      npcm7xx_load_kernel(machine, soc);
->  }
->  
->  static void quanta_gsj_init(MachineState *machine)
->  {
->      NPCM7xxState *soc;
-> +    DriveInfo *dinfo;
->  
->      soc = npcm7xx_create_soc(machine);
->  
-> +    dinfo = drive_get(IF_MTD, 0, 0);
-> +    if (dinfo) {
-> +        npcm7xx_connect_flash(&soc->fiu[0], 0, "mx25l25635e", dinfo);
-> +    }
-> +
->      npcm7xx_load_kernel(machine, soc);
->  }
->  
+> Sometimes I can tell users "hey given that you're building OVMF from
+> source, or taking it from a 3rd party origin anyway, can you just run
+> upstream QEMU too", but most of the time they just want everything to
+> continue working on a 3 year old Ubuntu LTS release or whatever. :/
+> 
+> And again, this is *without* "X-PciMmio64Mb".
+> 
+> Laszlo
 > 
 
 
