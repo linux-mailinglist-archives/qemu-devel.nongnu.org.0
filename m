@@ -2,58 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E99F81FCB6E
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 12:53:46 +0200 (CEST)
-Received: from localhost ([::1]:52852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 069C11FCB46
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 12:50:26 +0200 (CEST)
+Received: from localhost ([::1]:40736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlVhS-0005Me-0J
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 06:53:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59788)
+	id 1jlVeD-0008KT-0n
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 06:50:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jlVcN-0006GF-Dh
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 06:48:31 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:29377
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jlVcR-0006Mn-0U
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 06:48:35 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:54599
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jlVcL-0002rh-Ku
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 06:48:31 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jlVcL-0002rm-Pa
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 06:48:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592390908;
+ s=mimecast20190719; t=1592390909;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=em2jn7SZRS6IW3/zeKNoyC1BJqjaUeC1MdlOqZQ9DSE=;
- b=XaB+J7nuqM8/h9A3UnCq12RtQjh4t2MC9JFMKlid9XxRSz+Ptk2ocCXP0VagtQ/7ev/0c8
- zytSmTyeWQPzlPgFVjZuZjeZi9L5hNwfRn2NGxTuOar8XUECXykxfBZnPHlo1kls81lY4P
- /YCXdfhifgzTy2gLSaCYM/nAf6IuRGY=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=JeLCn0lDrN52b1nmtuGqj498yZlBEJPzm3iAoxTHi2Q=;
+ b=PskrZ16J/J53SXHQSENoaERf4ixM7KXIoRc1izkSsgpXUAw1Zyu3FKEo1qFBmtzno7ilD4
+ dqeXZzeBN2gXgP3bF2w+KVDNkkzwPzb+2Ln+0Jc5pVrw+kn6TLI0VEKwFu6Kgs9okU/vPa
+ nY+r8kAjIwMVH/sph+j8tvSMLLMo8O8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-476-B21Ukk18M-q8lzVe2c6pHw-1; Wed, 17 Jun 2020 06:48:25 -0400
-X-MC-Unique: B21Ukk18M-q8lzVe2c6pHw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-327-HlIHTzYqMx-e8oARPDMvDg-1; Wed, 17 Jun 2020 06:48:27 -0400
+X-MC-Unique: HlIHTzYqMx-e8oARPDMvDg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2002B80F5DA;
- Wed, 17 Jun 2020 10:48:24 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5C3BFE919;
+ Wed, 17 Jun 2020 10:48:26 +0000 (UTC)
 Received: from localhost (ovpn-113-111.ams2.redhat.com [10.36.113.111])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B64D278911;
- Wed, 17 Jun 2020 10:48:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E80A410013D6;
+ Wed, 17 Jun 2020 10:48:25 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 0/5] iotests: Some fixes for rarely run cases
-Date: Wed, 17 Jun 2020 12:48:17 +0200
-Message-Id: <20200617104822.27525-1-mreitz@redhat.com>
+Subject: [PATCH 1/5] iotests.py: Add skip_for_formats() decorator
+Date: Wed, 17 Jun 2020 12:48:18 +0200
+Message-Id: <20200617104822.27525-2-mreitz@redhat.com>
+In-Reply-To: <20200617104822.27525-1-mreitz@redhat.com>
+References: <20200617104822.27525-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=mreitz@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 23:30:45
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/17 01:42:42
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -79,33 +82,58 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+Sometimes, we want to skip some test methods for certain formats.  This
+decorator allows that.
 
-Thomas’s report
-(https://lists.nongnu.org/archive/html/qemu-block/2020-06/msg00791.html)
-has given me a nice excuse to write this series.
-
-There are some iotests that have recently start to fail in rarely
-exercised test environments (qed, qcow2 with data_file, qcow2 v2), and
-this series fixes what I found.
-
-
-Max Reitz (5):
-  iotests.py: Add skip_for_formats() decorator
-  iotests/041: Skip test_small_target for qed
-  iotests/292: data_file is unsupported
-  iotests/229: data_file is unsupported
-  iotests/{190,291}: compat=0.10 is unsupported
-
- tests/qemu-iotests/041        |  2 ++
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+---
  tests/qemu-iotests/118        |  7 +++----
- tests/qemu-iotests/190        |  2 ++
- tests/qemu-iotests/229        |  3 +++
- tests/qemu-iotests/291        |  2 ++
- tests/qemu-iotests/292        |  5 +++++
  tests/qemu-iotests/iotests.py | 13 +++++++++++++
- 7 files changed, 30 insertions(+), 4 deletions(-)
+ 2 files changed, 16 insertions(+), 4 deletions(-)
 
+diff --git a/tests/qemu-iotests/118 b/tests/qemu-iotests/118
+index adc8a848b5..2350929fd8 100755
+--- a/tests/qemu-iotests/118
++++ b/tests/qemu-iotests/118
+@@ -683,11 +683,10 @@ class TestBlockJobsAfterCycle(ChangeBaseClass):
+         except OSError:
+             pass
+ 
++    # We need backing file support
++    @iotests.skip_for_formats(('vpc', 'parallels', 'qcow', 'vdi', 'vmdk', 'raw',
++                               'vhdx'))
+     def test_snapshot_and_commit(self):
+-        # We need backing file support
+-        if iotests.imgfmt != 'qcow2' and iotests.imgfmt != 'qed':
+-            return
+-
+         result = self.vm.qmp('blockdev-snapshot-sync', device='drive0',
+                                                        snapshot_file=new_img,
+                                                        format=iotests.imgfmt)
+diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+index f20d90f969..92c08b9dc6 100644
+--- a/tests/qemu-iotests/iotests.py
++++ b/tests/qemu-iotests/iotests.py
+@@ -1103,6 +1103,19 @@ def skip_if_unsupported(required_formats=(), read_only=False):
+         return func_wrapper
+     return skip_test_decorator
+ 
++def skip_for_formats(formats: Sequence[str] = ()):
++    '''Skip Test Decorator
++       Skips the test for the given formats'''
++    def skip_test_decorator(func):
++        def func_wrapper(test_case: QMPTestCase, *args: List[Any],
++                         **kwargs: Dict[str, Any]) -> None:
++            if imgfmt in formats:
++                test_case.case_skip(f'{test_case}: Skipped for format {imgfmt}')
++            else:
++                func(test_case, *args, **kwargs)
++        return func_wrapper
++    return skip_test_decorator
++
+ def skip_if_user_is_root(func):
+     '''Skip Test Decorator
+        Runs the test only without root permissions'''
 -- 
 2.26.2
 
