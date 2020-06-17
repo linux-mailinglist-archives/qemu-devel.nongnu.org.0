@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 450D61FD70F
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 23:21:32 +0200 (CEST)
-Received: from localhost ([::1]:43452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7D741FD731
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 23:28:05 +0200 (CEST)
+Received: from localhost ([::1]:40126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlfUx-0007aM-8O
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 17:21:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37440)
+	id 1jlfbI-0001XX-SD
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 17:28:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jlfE7-0003Gg-3s
+ id 1jlfE7-0003Gm-4n
  for qemu-devel@nongnu.org; Wed, 17 Jun 2020 17:04:07 -0400
-Received: from mail-qk1-x744.google.com ([2607:f8b0:4864:20::744]:39456)
+Received: from mail-qk1-x743.google.com ([2607:f8b0:4864:20::743]:45357)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jlfDy-0008V4-6M
+ id 1jlfDz-0008VC-QP
  for qemu-devel@nongnu.org; Wed, 17 Jun 2020 17:04:06 -0400
-Received: by mail-qk1-x744.google.com with SMTP id w3so3495522qkb.6
- for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 14:03:57 -0700 (PDT)
+Received: by mail-qk1-x743.google.com with SMTP id q8so3450292qkm.12
+ for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 14:03:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=r3ihf6Hm5TzP8tkXXmmJd+HhpHTqUNEyVizEpWsgvtc=;
- b=FLazHiiMttd3/Qd+Dl/Rze/N8LbtIMW3GoaMCj4W1fl1o0Yl35Z2o0BYg52G5ggmAB
- 7T2Um0hj/foyGWbpjIHDiGGGmhQ6MU+dJE0qTP1MbRPvyr7YkQ3KxOy/ZPeJa6S+BSl7
- IOngYd60f5oHr5U7C8XS3o9sk2f3nrx3rpDx1bQ7G59v1tavYzGMINDx0YBufOUlEsAe
- w4lZb6tuyKCK+xm9owNYFNVcVcRHG+xrhFF3rSwD0xEnvfNE4FXquQoMu/NcXdoPu46j
- NZVeaUEJJHcW4jAFbUs+NZh/pD6Y7raWKPy+MJuTKwkLHfKGe7AdDHosd8JL15PudG+a
- 8mvw==
+ bh=O0fBrT3P1tRSLH4phcxb7WjFxDduimB9rIeQgvMHfic=;
+ b=IRM0C7pFoTg1L2sxI+taEDC+ZG+BeUGjMY10i9SdEfHlp8J4ikn0QpCpjT46EbbG7F
+ Li03oMkZyZCDVCAxh4gcJInYBus6QuVgHT4CV7kc8Gt0TjbpI/AAZmd2zo5h6cboMpG2
+ MG41Mt4E1It1M/E+CwmPObEW3vvXzdtG0YjZz0VtaoQl/30CDN3DfcIDju2vzBOr1XYk
+ 2PI3lsk8tJ1QWxJctVPOR9SBT+3UXu7aQfY1S5OmtS+I0UPe2KJiUuucUr5HX3t4YVUA
+ fthaMmkKyjP5VQoUWnEC+VjpbVulj2QKs+2MUExykcqKdFup8m+kEx5mYsAHS6/E1OgF
+ Q/UQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=r3ihf6Hm5TzP8tkXXmmJd+HhpHTqUNEyVizEpWsgvtc=;
- b=QfukeIaWbc3cYYfr2SGuqHl+gAbZVpNWzc+ZHG/brGcl8z+kCWqTDG5N1Kh2FosjxU
- VZKbduUn8bk53LbzTb8afodSNjMkpNW56ggVfd7IW9+TSEdlyvMZ8EMBtwmh2VYk/AUg
- G0I63AKSgJntYQJ3QM9Jl6b6eYiyqKzt+euZc4TowxjDEwBlhWM8saJIsE7apCmBqp39
- GhaxDprH/2YvZkrOAEVl5iJ2wT4xO7DjYuHUaa0ukF7o8Mw2STCTF7ao36HRrZOd76XQ
- gsFpB47Tb8DTyMUABVQXi1UGt21nKFfm/Xd95YNFoOl0pGzwgRDXs1hIDauSpllhuwxo
- b5uQ==
-X-Gm-Message-State: AOAM530hAUMQKZbbUQM/U46M1XpwmEDS8JqErwl5OU1TBdp7ScLlt9pG
- DVTF4iOLS0au+t7p6mkzBmaAk4j6Au2dIA==
-X-Google-Smtp-Source: ABdhPJyAThCZa/zBmHIFbY4iGsWkaL1FbA02flAYJWC/OYAUSKBAuRDs5KdvXwy+EwJlzMK7/CnNbA==
-X-Received: by 2002:a37:4ed2:: with SMTP id c201mr604934qkb.138.1592427836755; 
- Wed, 17 Jun 2020 14:03:56 -0700 (PDT)
+ bh=O0fBrT3P1tRSLH4phcxb7WjFxDduimB9rIeQgvMHfic=;
+ b=DszzcW2csKduhfqt+QrMOaoZZkSSn5Q8TBk/+rOxd/NdlvJlYcK0GdY7Z15GF3LgsJ
+ wORLddRiT+/8/aFL2Qnxu2pTEaaCPXVTVRJ3IvbVUbcK2zOPzoBVAMhHsxZvjyeEKarU
+ 420ZhkdG+Ich0Xbv5UBrP3tZG2m02Mu/UyiIg0YqfFkFH4nbLOshG0BpztRCRJ+irCcq
+ 9tIOQxy6aFa2O7msuibg47D2HRkVdCfwrqrqBSyiKIvruQEGUkW+kAc7xkMrQF3O7Qjr
+ eidIxcAUhwM0g+CO2kePsxL/KCHvgbkE9MK5STYjNuam1wGaxziOYCLMI5rN1hOFskzK
+ Zyzw==
+X-Gm-Message-State: AOAM532YK1A9LVJ4ZSD+XcK4aY7cLbHqNuTZAlPhI44rQzbkKxIGXWtX
+ mdZn3H3WFsL92CPmuwDOhaIHjzwu3pLDJw==
+X-Google-Smtp-Source: ABdhPJxp01N+0tR1SNc6jCm8XkcTNe3ng9IOq+hSRY/lAQXSe/KRtNsuZN9EZ800nJwotnufr0Tvsw==
+X-Received: by 2002:a05:620a:2213:: with SMTP id
+ m19mr608072qkh.244.1592427838111; 
+ Wed, 17 Jun 2020 14:03:58 -0700 (PDT)
 Received: from Rfoley-MA01.hsd1.ma.comcast.net
  ([2601:199:4480:60c0:fc79:714c:9711:2e9c])
- by smtp.gmail.com with ESMTPSA id w13sm997245qkb.91.2020.06.17.14.03.55
+ by smtp.gmail.com with ESMTPSA id w13sm997245qkb.91.2020.06.17.14.03.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Jun 2020 14:03:56 -0700 (PDT)
+ Wed, 17 Jun 2020 14:03:57 -0700 (PDT)
 From: Robert Foley <robert.foley@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v10 28/73] gdbstub: convert to cpu_halted
-Date: Wed, 17 Jun 2020 17:01:46 -0400
-Message-Id: <20200617210231.4393-29-robert.foley@linaro.org>
+Subject: [PATCH v10 29/73] openrisc: convert to cpu_halted
+Date: Wed, 17 Jun 2020 17:01:47 -0400
+Message-Id: <20200617210231.4393-30-robert.foley@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200617210231.4393-1-robert.foley@linaro.org>
 References: <20200617210231.4393-1-robert.foley@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::744;
- envelope-from=robert.foley@linaro.org; helo=mail-qk1-x744.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::743;
+ envelope-from=robert.foley@linaro.org; helo=mail-qk1-x743.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -86,39 +87,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.puhov@linaro.org, cota@braap.org, alex.bennee@linaro.org,
- robert.foley@linaro.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: peter.puhov@linaro.org, Stafford Horne <shorne@gmail.com>, cota@braap.org,
+ alex.bennee@linaro.org, robert.foley@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Emilio G. Cota" <cota@braap.org>
 
+Cc: Stafford Horne <shorne@gmail.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Emilio G. Cota <cota@braap.org>
 Signed-off-by: Robert Foley <robert.foley@linaro.org>
 ---
- gdbstub.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ target/openrisc/sys_helper.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/gdbstub.c b/gdbstub.c
-index 6950fd243f..b25796b33d 100644
---- a/gdbstub.c
-+++ b/gdbstub.c
-@@ -2062,10 +2062,10 @@ static void handle_query_thread_extra(GdbCmdContext *gdb_ctx, void *user_ctx)
-         g_autofree char *cpu_name =
-             object_get_canonical_path_component(OBJECT(cpu));
-         g_string_printf(rs, "%s %s [%s]", cpu_model, cpu_name,
--                        cpu->halted ? "halted " : "running");
-+                        cpu_halted(cpu) ? "halted " : "running");
-     } else {
-         g_string_printf(rs, "CPU#%d [%s]", cpu->cpu_index,
--                        cpu->halted ? "halted " : "running");
-+                                   cpu_halted(cpu) ? "halted " : "running");
-     }
-     trace_gdbstub_op_extra_info(rs->str);
-     memtohex(gdbserver_state.str_buf, (uint8_t *)rs->str, rs->len);
+diff --git a/target/openrisc/sys_helper.c b/target/openrisc/sys_helper.c
+index d9fe6c5948..2615571ce7 100644
+--- a/target/openrisc/sys_helper.c
++++ b/target/openrisc/sys_helper.c
+@@ -134,7 +134,7 @@ void HELPER(mtspr)(CPUOpenRISCState *env, target_ulong spr, target_ulong rb)
+         if (env->pmr & PMR_DME || env->pmr & PMR_SME) {
+             cpu_restore_state(cs, GETPC(), true);
+             env->pc += 4;
+-            cs->halted = 1;
++            cpu_halted_set(cs, 1);
+             raise_exception(cpu, EXCP_HALTED);
+         }
+         break;
 -- 
 2.17.1
 
