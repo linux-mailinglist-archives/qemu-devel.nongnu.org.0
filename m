@@ -2,133 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A79D11FD190
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 18:08:32 +0200 (CEST)
-Received: from localhost ([::1]:37640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 037BD1FD196
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 18:10:21 +0200 (CEST)
+Received: from localhost ([::1]:41986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlac3-0007Yt-OM
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 12:08:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36168)
+	id 1jladn-0002kW-WD
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 12:10:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1jlaax-00055L-Mq; Wed, 17 Jun 2020 12:07:23 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:14578
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1jlaav-00082p-Pc; Wed, 17 Jun 2020 12:07:23 -0400
-Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 05HG3Jlh128169; Wed, 17 Jun 2020 12:07:20 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 31q6j5c1mp-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 17 Jun 2020 12:07:20 -0400
-Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 05HG3Pqo128834;
- Wed, 17 Jun 2020 12:07:20 -0400
-Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.108])
- by mx0b-001b2d01.pphosted.com with ESMTP id 31q6j5c1kk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 17 Jun 2020 12:07:19 -0400
-Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
- by ppma05fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 05HG1Jm5015134;
- Wed, 17 Jun 2020 16:07:18 GMT
-Received: from b06cxnps3075.portsmouth.uk.ibm.com
- (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
- by ppma05fra.de.ibm.com with ESMTP id 31q6c8rhk0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 17 Jun 2020 16:07:18 +0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
- [9.149.105.232])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 05HG7Fs764159814
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 17 Jun 2020 16:07:15 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 386DA52052;
- Wed, 17 Jun 2020 16:07:15 +0000 (GMT)
-Received: from oc7455500831.ibm.com (unknown [9.145.185.179])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id AD7F052054;
- Wed, 17 Jun 2020 16:07:14 +0000 (GMT)
-Subject: Re: [PATCH 1/1] docs/s390x: fix vfio-ap device_del description
-To: Tony Krowiak <akrowiak@linux.ibm.com>
-References: <20200617160604.5593-1-borntraeger@de.ibm.com>
-From: Christian Borntraeger <borntraeger@de.ibm.com>
-Autocrypt: addr=borntraeger@de.ibm.com; prefer-encrypt=mutual; keydata=
- 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
- nS4h0HDFPrrp1C2EMVYIQrMokWvlFZbCpsdYbBI=
-Message-ID: <1ca5b584-951b-03a1-afc9-fca1520ab905@de.ibm.com>
-Date: Wed, 17 Jun 2020 18:07:14 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ (Exim 4.90_1) (envelope-from <ahmedkhaledkaraman@gmail.com>)
+ id 1jlacT-000107-DS
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 12:08:57 -0400
+Received: from mail-lf1-x141.google.com ([2a00:1450:4864:20::141]:37072)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ahmedkhaledkaraman@gmail.com>)
+ id 1jlacR-0008D2-Jg
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 12:08:57 -0400
+Received: by mail-lf1-x141.google.com with SMTP id i8so1656031lfo.4
+ for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 09:08:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=B7OpIdvwwJ6dMqe2bdNIv/fEEahLa2yMeXnF6IpXGPs=;
+ b=hO6P6F4a4aiBB19YOP9rvaFNQY2XpQ0d00+TLHGDwG0GzRmcbrF2HbPxS4+Dgkinrv
+ HBRwD1MwXuEsJ3/a+cfY1yU//1TCH3ATCUXymcPPn7pIeOyOsajAXO8+O/oOJb0Xqc+o
+ Evj6e79UY0QLxowJLEzOtnc6Zmw7K5Ez75/oPYR6GlvmXLHcMU31BkJrTxXhI4FDaLib
+ QykURsGi0UqjdST4Jl27C1+ATNfR/cKbEnx1kVgyL4zQCrILCHP4lCP522bkRZONp058
+ gBVGMoz/si0cTp45wq3dZ/3YN23FwE2hgh8I8gGPdALl4HXlPdCMVpzOOdTgzQcTOtJT
+ +p8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=B7OpIdvwwJ6dMqe2bdNIv/fEEahLa2yMeXnF6IpXGPs=;
+ b=KSQmaTylajG/5pb/7crZdjH2R3ESRB71HpbYtKMCSPNE/LBfkZIWzXl6+UEMzNsUl2
+ vVB7mZa6zcQA8/3J6m6J/DWPpyTUQFjWm2XXUdROPX+xZrdVuvnh5OOCNjZtmm232ZaZ
+ mKVnHWCMsnmjw4vjMOP6mFb/BFovXqvBH6WLnnE35UWBpIgTmx52Q/C+Y+1tCiXBOQAb
+ x9Gd4smXZeCpTfqoVwMG5sb/djPC0Edx4syZHbb08u8RJFZHidY+CcvIkcAL4lGkFpCT
+ THEgVcEC0OwjAYpMW4Fhk6axHO7oVMJ7H1vO4gYR5IeW6a2/5LxSEYQzODI3nO4TyD27
+ u7+g==
+X-Gm-Message-State: AOAM531/0TBnuLaOT3wKl4BUkm8MYNMo4pLQaHc+xWLkx+dD2X8AQTBH
+ osnuZwM1LHT2h3t78UN+TqJXf1TubiySEfiKZZg=
+X-Google-Smtp-Source: ABdhPJwJqceq4hECuOc9YrdwwDN+Vx8mpI3tgZeTUNK8if8LX0or0xkfSkK99rZbDcQvBWDOxjDR8coldcnq+u757Zw=
+X-Received: by 2002:a05:6512:691:: with SMTP id
+ t17mr5204346lfe.85.1592410133539; 
+ Wed, 17 Jun 2020 09:08:53 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200617160604.5593-1-borntraeger@de.ibm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.687
- definitions=2020-06-17_06:2020-06-17,
- 2020-06-17 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 phishscore=0
- lowpriorityscore=0 mlxlogscore=737 bulkscore=0 impostorscore=0
- adultscore=0 mlxscore=0 suspectscore=0 clxscore=1015 priorityscore=1501
- cotscore=-2147483648 spamscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2004280000 definitions=main-2006170127
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=borntraeger@de.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/17 10:23:10
-X-ACL-Warn: Detected OS   = Linux 3.x [generic]
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+References: <20200616231204.8850-1-ahmedkhaledkaraman@gmail.com>
+ <20200616231204.8850-3-ahmedkhaledkaraman@gmail.com>
+ <874kr9yjjc.fsf@linaro.org>
+In-Reply-To: <874kr9yjjc.fsf@linaro.org>
+From: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
+Date: Wed, 17 Jun 2020 18:08:17 +0200
+Message-ID: <CALTWKrWtK83iSUUfhtX8bBacQZ5zNWt=vE3nGqXYLw+vJ_VKng@mail.gmail.com>
+Subject: Re: [PATCH 2/3] scripts/performance: Add callgrind_top_25.py script
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::141;
+ envelope-from=ahmedkhaledkaraman@gmail.com; helo=mail-lf1-x141.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -141,53 +83,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Halil Pasic <pasic@linux.ibm.com>,
- qemu-s390x <qemu-s390x@nongnu.org>, Richard Henderson <rth@twiddle.net>
+Cc: =?UTF-8?B?THVrw6HFoSBEb2t0b3I=?= <ldoktor@redhat.com>, ehabkost@redhat.com,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>, crosa@redhat.com,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-wrong Person on to, I wanted to send this to Tony.
+Thanks Mr. Alex for your suggestions. I will send a v2 of this series
+with the updates.
 
+On Wed, Jun 17, 2020 at 2:16 PM Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
+rote:
 
-On 17.06.20 18:06, Christian Borntraeger wrote:
-> device_del requires an id and not a sysfsfile.
-> 
-> Signed-off-by: Christian Borntraeger <borntraeger@de.ibm.com>
-> ---
->  docs/system/s390x/vfio-ap.rst | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/docs/system/s390x/vfio-ap.rst b/docs/system/s390x/vfio-ap.rst
-> index 3cd84179a2df..f441df69edde 100644
-> --- a/docs/system/s390x/vfio-ap.rst
-> +++ b/docs/system/s390x/vfio-ap.rst
-> @@ -606,10 +606,11 @@ action.
->  
->  To hot plug a vfio-ap device, use the QEMU ``device_add`` command::
->  
-> -    (qemu) device_add vfio-ap,sysfsdev="$path-to-mdev"
-> +    (qemu) device_add vfio-ap,sysfsdev="$path-to-mdev",id="$id"
->  
->  Where the ``$path-to-mdev`` value specifies the absolute path to a mediated
->  device to which AP resources to be used by the guest have been assigned.
-> +``$id`` is the name value for the optional id parameter.
->  
->  Note that on Linux guests, the AP devices will be created in the
->  ``/sys/bus/ap/devices`` directory when the AP bus subsequently performs its periodic
-> @@ -632,10 +633,9 @@ or a prior hot plug action.
->  
->  To hot unplug a vfio-ap device, use the QEMU ``device_del`` command::
->  
-> -    (qemu) device_del vfio-ap,sysfsdev="$path-to-mdev"
-> +    (qemu) device_del "id"
->  
-> -Where ``$path-to-mdev`` is the same as the path specified when the vfio-ap
-> -device was attached to the virtual machine's ap-bus.
-> +Where ``$id`` is the same id that was specified at device creation.
->  
->  On a Linux guest, the AP devices will be removed from the ``/sys/bus/ap/devices``
->  directory on the guest when the AP bus subsequently performs its periodic scan,
-> 
+> You will want the script to be +x if the user is to execute it.
+
+Thanks for the reminder. Forgot to do this before sending the patch.
+
+> > +#  Print the top 25 most executed functions in QEMU using callgrind.
+> > +#  Example Usage:
+> > +#  callgrind_top_25.py <qemu-build>/x86_64-linux-user/qemu-x86_64
+> > executable
+>
+> Why limit to 25, make the name generic and maybe just default to 25
+> unless the user specifies a different option.
+
+Very valid suggestion. Thanks!
+
+>
+> I would recommend using:
+>
+>   from argparse import ArgumentParser
+>
+> from the start as adding options with hand parsing will be a pain. I
+> would suggest a specific option for the qemu binary and then using a
+> positional argument that can be read after -- so you don't confuse
+> options.
+>
+
+Great, what do you think of the format below:
+topN_callgrind.py -n20 -- /path/to/qemu executable -executable - arguments
+
+> Direct os.system calls are discouraged, you tend to get weird effects
+> like:
+>
+>   ../../scripts/performance/callgrind_top_25.py ./aarch64-linux-user/qemu=
+-aarch64 ./tests/tcg/aarch64-linux-user/fcvt
+>   sh: 1: Syntax error: "&" unexpected
+>   Traceback (most recent call last):
+>     File "../../scripts/performance/callgrind_top_25.py", line 52, in <mo=
+dule>
+>       with open('tmp.callgrind.data', 'r') as data:
+>   FileNotFoundError: [Errno 2] No such file or directory: 'tmp.callgrind.=
+data'
+>
+> I would:
+>
+>   - check for valgrind in path and fail gracefully if not found
+>   - use os.subprocess API for launching (with or without the shell)
+>
+
+This weird error was because of the space between "&&" and "2>/dev/null"
+These were inserted by the autopep8 python formatter before committing.
+When this is fixed, everything works fine, but I believe your
+suggestion of using the os.subprocess is valid so I will implement it
+and also check for valgrind as you've said.
+
+> > +
+> > +# Line number with the total number of instructions
+> > +number_of_instructions_line =3D 20
+> > +
+> > +# Line number with the top function
+> > +first_func_line =3D 25
+>
+> for example
+>
+>     parser.add_argument('-n', dest=3D"top", type=3Dint, default=3D25,
+>                         help=3D"Hottest n functions")
+
+Will also use:
+    parser.add_argument('command',  type=3Dstr, nargs=3D'+',
+                help=3D"QEMU invocation to report the top functions for")
+To parse all remaining arguments after "--".
+
+> > +# Get the total number of instructions
+> > +total_number_of_instructions =3D int(
+> > +    callgrind_data[number_of_instructions_line].split('
+> > ')[0].replace(',', ''))
+>
+> There is no harm in having your steps split out a little.
+
+Noted!
+
+> > +# Remove intermediate files
+> > +os.system('rm callgrind.data tmp.callgrind.data')
+>
+> os.unlink()
+>
+
+Noted!
 
