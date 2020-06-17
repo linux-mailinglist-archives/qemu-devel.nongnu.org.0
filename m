@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85B091FC5D7
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 07:54:53 +0200 (CEST)
-Received: from localhost ([::1]:40464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2FDD1FC5D9
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 07:55:32 +0200 (CEST)
+Received: from localhost ([::1]:43358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlR2C-0006dH-FH
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 01:54:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49680)
+	id 1jlR2q-0007lI-1D
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 01:55:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jlQzd-0002U4-Nc; Wed, 17 Jun 2020 01:52:13 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:38121)
+ id 1jlQze-0002WR-RU; Wed, 17 Jun 2020 01:52:14 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:42136)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jlQzc-0004QW-7N; Wed, 17 Jun 2020 01:52:13 -0400
-Received: by mail-wm1-x342.google.com with SMTP id f185so623305wmf.3;
- Tue, 16 Jun 2020 22:52:11 -0700 (PDT)
+ id 1jlQzd-0004Qh-5I; Wed, 17 Jun 2020 01:52:14 -0400
+Received: by mail-wr1-x444.google.com with SMTP id p5so904722wrw.9;
+ Tue, 16 Jun 2020 22:52:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=oKgx3XGZybeg/pFq9unPz0BUDJBMmdl8/2xtj0tVVxk=;
- b=bAsjVI3m0QiScklMYpycNK5w8FrcBA4X6t7AwQhEH6ShBtZexMCc3ZNpGpPqmpqhAb
- uHmsgcLYsRNXphhVwDsKGqjeSFqDGulJSarquc7fK7OzGJjNXYZlskOe2xwb2cPhracB
- idQEVa6a2oNAdWCkTDe4+kZjJ/iD8nFWJWS9MsttfU8mgEqe0xIDNVUIk78XHc7dUJ5w
- mzWf87NdTyKlmwcYkndumXbzwoG55ijYMKs3Qc7A/wGvJSOdAEajaULPaeVKzSXBhofg
- IN6uJyHFBX2OncgeWA2qIke9a+MPfjI25S4olQPIzHJABQ6dT2Z4p+D17Qy582xJUsrW
- uqFg==
+ bh=gRuYrkZwAIJ2Q2Q4lPg1tjWevvwY/3xzxDc6xxMros0=;
+ b=Cof89Yt7fJxuUEazQj+qFjLIGw8DqPQqglKC78/AQpiFWD+i7nEbl74QCX6/Mei/w8
+ xXM/PAIf36uB6y+XVv50ycasYtfe6Nhc4SEnETLBWE3gy/VjNTK9du5FWSD4G7ipje/+
+ IBxggCobZUhXVVL3aVOOeHWQ9s2akRyG3HVr52+Hk+cybOuvw24pepN3p3+0qGKWr0Cs
+ ICGaVfwVzxuXaN4FACuv4IodOxjvNemMi+mgeI0KGAWNEyaOiJn2hv4iBGhURsJ98qnR
+ BzqMlI37HjVgXeJR7bD44mTdO9Zr0cB2ZU/OsBmpgRYSFrt9oja6fkB4jNKeXznYy7V3
+ e8lA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=oKgx3XGZybeg/pFq9unPz0BUDJBMmdl8/2xtj0tVVxk=;
- b=CABvyXYTz9EGyKtso8DjQ6DPRYliKXoAbDvUyq8Os33lwtITkNRXNCj3oVuBXm7Uu6
- iPHJMFnuWlUHpc6gRGjU7slT5O6C3Cc6EQ87qgWL+WO/GBH2uUYRA1D+TtAYZMJzpAWq
- amBCxJhU/ZXCngbx6ZunfFcca4MY6i1dtr8cBMO3ZXXrtagEnn7GJlzmanyNy3maIi2X
- CqPDuhAfGAmfLpGDw+FPj12qkRpFLBwC3Dd6Xnh2Z8S6CL4vVqLqtjB6I7sq1gHhwjZF
- 7Yrftim9h7JVjy7os+cjNLlJNLYtyXjkdZWxLsHRkgStdryNA/3+5gI7ldmCczcq0Zwc
- 9BYQ==
-X-Gm-Message-State: AOAM530zU3AIm3PB08LNjxylas9R2uoAdxEROnS1Gk65geKL80rStPIz
- MnU5QAyX8xe090NI7xn5xZqSgJwC
-X-Google-Smtp-Source: ABdhPJwtYMBJaNSr9tYfqR+q04mUol3NEHI2XoitONH/PTcKbIGueWinmaz764ZQKZQrRCZLEmA4sA==
-X-Received: by 2002:a1c:a1c5:: with SMTP id k188mr6965418wme.41.1592373130230; 
- Tue, 16 Jun 2020 22:52:10 -0700 (PDT)
+ bh=gRuYrkZwAIJ2Q2Q4lPg1tjWevvwY/3xzxDc6xxMros0=;
+ b=KxSNEWVTE84IP4ZslDGNzxUS4CV/E2ROvVmpL9gCVcyMw6rRttTGAFdn5zlvWNtKhf
+ jUuwTG+VTsPgjLmUViw0iGKNcLl+7vORT3dlQ7sbWE6qkdjOC4MPEGKnlFFP7mkzMrdE
+ g3F4bJOv8a0NJKRk9748drweVhUJhHlpf8xDKzJqCmi0VO7U5zRWu+tY1FIrTZg7NrJ1
+ AtYR9CXeo2rQBFe+pZNgCXCdXMMeCLcpAFIpq04npg558u4rAat8lca7RqK9xlAbWn6W
+ emen6IDElXlqP3m/aZf+D2WL9MAmeWWMvWUJgkyfaa7n6aeWBZ/UzAR+PqMm28Bj2RTZ
+ eyTA==
+X-Gm-Message-State: AOAM533MTUPgEvbWq/7k24prltk1PqOPqvQFApQjM5YyQiRKVUNx7Aki
+ 6jxl5TZs56ZQp5ADBlu+QwNr/Zy6
+X-Google-Smtp-Source: ABdhPJwKXaprxgAnU/UQBpHHmK9GJUzKM4vU+oIhihtdbvjWKFX3TeIQMOdE7lTwXio+GepplixJDw==
+X-Received: by 2002:adf:ec03:: with SMTP id x3mr6557424wrn.297.1592373131266; 
+ Tue, 16 Jun 2020 22:52:11 -0700 (PDT)
 Received: from localhost.localdomain (93.red-83-59-160.dynamicip.rima-tde.net.
  [83.59.160.93])
- by smtp.gmail.com with ESMTPSA id d28sm3000809wrc.50.2020.06.16.22.52.09
+ by smtp.gmail.com with ESMTPSA id d28sm3000809wrc.50.2020.06.16.22.52.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Jun 2020 22:52:09 -0700 (PDT)
+ Tue, 16 Jun 2020 22:52:10 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 02/14] hw/i2c/versatile_i2c: Add definitions for register
- addresses
-Date: Wed, 17 Jun 2020 07:51:53 +0200
-Message-Id: <20200617055205.3576-3-f4bug@amsat.org>
+Subject: [PATCH v2 03/14] hw/i2c/versatile_i2c: Add SCL/SDA definitions
+Date: Wed, 17 Jun 2020 07:51:54 +0200
+Message-Id: <20200617055205.3576-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200617055205.3576-1-f4bug@amsat.org>
 References: <20200617055205.3576-1-f4bug@amsat.org>
@@ -63,8 +62,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -97,56 +96,34 @@ Use self-explicit definitions instead of magic values.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/i2c/versatile_i2c.c | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
+ hw/i2c/versatile_i2c.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
 diff --git a/hw/i2c/versatile_i2c.c b/hw/i2c/versatile_i2c.c
-index 1ac2a6f59a..040139d701 100644
+index 040139d701..0ce10a1bcc 100644
 --- a/hw/i2c/versatile_i2c.c
 +++ b/hw/i2c/versatile_i2c.c
-@@ -24,6 +24,7 @@
- #include "qemu/osdep.h"
- #include "hw/sysbus.h"
- #include "hw/i2c/bitbang_i2c.h"
-+#include "hw/registerfields.h"
- #include "qemu/log.h"
- #include "qemu/module.h"
+@@ -45,6 +45,9 @@ REG32(CONTROL_GET, 0)
+ REG32(CONTROL_SET, 0)
+ REG32(CONTROL_CLR, 4)
  
-@@ -40,14 +41,19 @@ typedef struct VersatileI2CState {
-     int in;
- } VersatileI2CState;
- 
-+REG32(CONTROL_GET, 0)
-+REG32(CONTROL_SET, 0)
-+REG32(CONTROL_CLR, 4)
++#define SCL BIT(0)
++#define SDA BIT(1)
 +
  static uint64_t versatile_i2c_read(void *opaque, hwaddr offset,
                                     unsigned size)
  {
-     VersatileI2CState *s = (VersatileI2CState *)opaque;
- 
--    if (offset == 0) {
-+    switch (offset) {
-+    case A_CONTROL_SET:
-         return (s->out & 1) | (s->in << 1);
--    } else {
-+    default:
+@@ -76,8 +79,8 @@ static void versatile_i2c_write(void *opaque, hwaddr offset,
          qemu_log_mask(LOG_GUEST_ERROR,
                        "%s: Bad offset 0x%x\n", __func__, (int)offset);
-         return -1;
-@@ -60,10 +66,10 @@ static void versatile_i2c_write(void *opaque, hwaddr offset,
-     VersatileI2CState *s = (VersatileI2CState *)opaque;
+     }
+-    bitbang_i2c_set(&s->bitbang, BITBANG_I2C_SCL, (s->out & 1) != 0);
+-    s->in = bitbang_i2c_set(&s->bitbang, BITBANG_I2C_SDA, (s->out & 2) != 0);
++    bitbang_i2c_set(&s->bitbang, BITBANG_I2C_SCL, (s->out & SCL) != 0);
++    s->in = bitbang_i2c_set(&s->bitbang, BITBANG_I2C_SDA, (s->out & SDA) != 0);
+ }
  
-     switch (offset) {
--    case 0:
-+    case A_CONTROL_SET:
-         s->out |= value & 3;
-         break;
--    case 4:
-+    case A_CONTROL_CLR:
-         s->out &= ~value;
-         break;
-     default:
+ static const MemoryRegionOps versatile_i2c_ops = {
 -- 
 2.21.3
 
