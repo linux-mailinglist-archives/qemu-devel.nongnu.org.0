@@ -2,60 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05D461FD275
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 18:43:11 +0200 (CEST)
-Received: from localhost ([::1]:43450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06C1F1FD280
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 18:44:43 +0200 (CEST)
+Received: from localhost ([::1]:48380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlb9a-0000hm-2x
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 12:43:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45020)
+	id 1jlbB4-0002pL-2J
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 12:44:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45188)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1jlb7n-0006NO-Jn
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 12:41:19 -0400
-Received: from 17.mo4.mail-out.ovh.net ([46.105.41.16]:52697)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1jlb7i-0005DR-PH
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 12:41:19 -0400
-Received: from player788.ha.ovh.net (unknown [10.108.35.232])
- by mo4.mail-out.ovh.net (Postfix) with ESMTP id 0047A240693
- for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 18:41:11 +0200 (CEST)
-Received: from kaod.org (82-64-250-170.subs.proxad.net [82.64.250.170])
- (Authenticated sender: clg@kaod.org)
- by player788.ha.ovh.net (Postfix) with ESMTPSA id 2B016137EE3E5;
- Wed, 17 Jun 2020 16:41:05 +0000 (UTC)
-Authentication-Results: garm.ovh; auth=pass
- (GARM-105G0068c08235e-42a9-4c3b-af7e-6a74198a76f7,
- ABECD89738EEB0C75E5395B338997A57DB3A3EEE) smtp.auth=clg@kaod.org
-Subject: Re: [PATCH v2 10/12] hw/ssi: NPCM7xx Flash Interface Unit device model
-To: Havard Skinnemoen <hskinnemoen@google.com>, peter.maydell@linaro.org,
- joel@jms.id.au
-References: <20200611223016.259837-1-hskinnemoen@google.com>
- <20200611223016.259837-11-hskinnemoen@google.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <2132f1c4-fe01-ff78-553a-cb34f9dda8fe@kaod.org>
-Date: Wed, 17 Jun 2020 18:41:03 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1jlb8T-00087N-Ic
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 12:42:01 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:60369
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1jlb8Q-0005Fm-D0
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 12:42:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1592412117;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mdY7oxYjhmCAgMKKmOuHTjAjm0EAxm7/i8WZQhE2N2c=;
+ b=GnIRnVECqTRPO6lfsXkrTS3Jfjs5PAxboIoz1HFkN4lx6o+ojFgn6rPWOk4Sx+GJtkli0V
+ vhvHvKu9XLM8kajyUdjmEZ9q/K+bwnp5HuzB1MpRA8hP6yNdalXvi2ocGGRzIYzKYg+1pU
+ sqkIwU2QxBmbfeDgZ1ixzxrN9MgU5y4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-348-DAi8jMKxNBOUwrtyZBJHLA-1; Wed, 17 Jun 2020 12:41:52 -0400
+X-MC-Unique: DAi8jMKxNBOUwrtyZBJHLA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7C7D3835B48;
+ Wed, 17 Jun 2020 16:41:50 +0000 (UTC)
+Received: from work-vm (ovpn-115-47.ams2.redhat.com [10.36.115.47])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8315E5D9DA;
+ Wed, 17 Jun 2020 16:41:44 +0000 (UTC)
+Date: Wed, 17 Jun 2020 17:41:41 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Subject: Re: ovmf / PCI passthrough impaired due to very limiting PCI64
+ aperture
+Message-ID: <20200617164141.GH2776@work-vm>
+References: <99779e9c-f05f-501b-b4be-ff719f140a88@canonical.com>
+ <20200616165043.24y2cp53axk7uggy@sirius.home.kraxel.org>
+ <20200616165746.GH2788@work-vm>
+ <CAHD1Q_zGu4Q63HjHx3aZKu3wh8NppuP6T4kgnUN3j=-ZDufVZA@mail.gmail.com>
+ <b423f4a4-2552-bdc8-7c9f-41f200aef672@redhat.com>
+ <20200617134652.GE2776@work-vm>
+ <20200617154959.GZ2366737@habkost.net>
+ <20200617160412.GG2776@work-vm>
+ <20200617161717.GC660974@redhat.com>
+ <20200617162243.GB2366737@habkost.net>
 MIME-Version: 1.0
-In-Reply-To: <20200611223016.259837-11-hskinnemoen@google.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+In-Reply-To: <20200617162243.GB2366737@habkost.net>
+User-Agent: Mutt/1.14.0 (2020-05-02)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
 Content-Transfer-Encoding: 8bit
-X-Ovh-Tracer-Id: 5163095498512173993
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduhedrudejvddguddtgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgsehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepfeffvddtudegieefudeugffhjefgieegieegleettdehgfeiieevueeihfegfefgnecukfhppedtrddtrddtrddtpdekvddrieegrddvhedtrddujedtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeekkedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
-Received-SPF: pass client-ip=46.105.41.16; envelope-from=clg@kaod.org;
- helo=17.mo4.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/17 12:41:12
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/17 02:02:46
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,817 +91,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kfting@nuvoton.com, qemu-arm@nongnu.org, qemu-devel@nongnu.org,
- Avi.Fishman@nuvoton.com
+Cc: Liu Yi L <yi.l.liu@intel.com>,
+ Pedro Principeza <pedro.principeza@canonical.com>,
+ Like Xu <like.xu@linux.intel.com>, Dann Frazier <dann.frazier@canonical.com>,
+ Guilherme Piccoli <gpiccoli@canonical.com>, qemu-devel@nongnu.org,
+ Christian Ehrhardt <christian.ehrhardt@canonical.com>,
+ Robert Hoo <robert.hu@linux.intel.com>, Babu Moger <babu.moger@amd.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Chenyi Qiang <chenyi.qiang@intel.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Laszlo Ersek <lersek@redhat.com>, fw@gpiccoli.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/12/20 12:30 AM, Havard Skinnemoen wrote:
-> This implements a device model for the NPCM7xx SPI flash controller.
+* Eduardo Habkost (ehabkost@redhat.com) wrote:
+> On Wed, Jun 17, 2020 at 05:17:17PM +0100, Daniel P. Berrangé wrote:
+> > On Wed, Jun 17, 2020 at 05:04:12PM +0100, Dr. David Alan Gilbert wrote:
+> > > * Eduardo Habkost (ehabkost@redhat.com) wrote:
+> > > > On Wed, Jun 17, 2020 at 02:46:52PM +0100, Dr. David Alan Gilbert wrote:
+> > > > > * Laszlo Ersek (lersek@redhat.com) wrote:
+> > > > > > On 06/16/20 19:14, Guilherme Piccoli wrote:
+> > > > > > > Thanks Gerd, Dave and Eduardo for the prompt responses!
+> > > > > > > 
+> > > > > > > So, I understand that when we use "-host-physical-bits", we are
+> > > > > > > passing the *real* number for the guest, correct? So, in this case we
+> > > > > > > can trust that the guest physbits matches the true host physbits.
+> > > > > > > 
+> > > > > > > What if then we have OVMF relying in the physbits *iff*
+> > > > > > > "-host-phys-bits" is used (which is the default in RH and a possible
+> > > > > > > machine configuration on libvirt XML in Ubuntu), and we have OVMF
+> > > > > > > fallbacks to 36-bit otherwise?
+> > > > > > 
+> > > > > > I've now read the commit message on QEMU commit 258fe08bd341d, and the
+> > > > > > complexity is simply stunning.
+> > > > > > 
+> > > > > > Right now, OVMF calculates the guest physical address space size from
+> > > > > > various range sizes (such as hotplug memory area end, default or
+> > > > > > user-configured PCI64 MMIO aperture), and derives the minimum suitable
+> > > > > > guest-phys address width from that address space size. This width is
+> > > > > > then exposed to the rest of the firmware with the CPU HOB (hand-off
+> > > > > > block), which in turn controls how the GCD (global coherency domain)
+> > > > > > memory space map is sized. Etc.
+> > > > > > 
+> > > > > > If QEMU can provide a *reliable* GPA width, in some info channel (CPUID
+> > > > > > or even fw_cfg), then the above calculation could be reversed in OVMF.
+> > > > > > We could take the width as a given (-> produce the CPU HOB directly),
+> > > > > > plus calculate the *remaining* address space between the GPA space size
+> > > > > > given by the width, and the end of the memory hotplug area end. If the
+> > > > > > "remaining size" were negative, then obviously QEMU would have been
+> > > > > > misconfigured, so we'd halt the boot. Otherwise, the remaining area
+> > > > > > could be used as PCI64 MMIO aperture (PEI memory footprint of DXE page
+> > > > > > tables be darned).
+> > > > > > 
+> > > > > > > Now, regarding the problem "to trust or not" in the guests' physbits,
+> > > > > > > I think it's an orthogonal discussion to some extent. It'd be nice to
+> > > > > > > have that check, and as Eduardo said, prevent migration in such cases.
+> > > > > > > But it's not really preventing OVMF big PCI64 aperture if we only
+> > > > > > > increase the aperture _when  "-host-physical-bits" is used_.
+> > > > > > 
+> > > > > > I don't know what exactly those flags do, but I doubt they are clearly
+> > > > > > visible to OVMF in any particular way.
+> > > > > 
+> > > > > The firmware should trust whatever it reads from the cpuid and thus gets
+> > > > > told from qemu; if qemu is doing the wrong thing there then that's our
+> > > > > problem and we need to fix it in qemu.
+> > > > 
+> > > > It is impossible to provide a MAXPHYADDR that the guest can trust
+> > > > unconditionally and allow live migration to hosts with different
+> > > > sizes at the same time.
+> > > 
+> > > It would be nice to get to a point where we could say that the reported
+> > > size is no bigger than the physical hardware.
+> > > The gotcha here is that (upstream) qemu is still reporting 40 by default
+> > > when even modern Intel desktop chips are 39.
+> > > 
+> > > > Unless we want to drop support live migration to hosts with
+> > > > different sizes entirely, we need additional bits to tell the
+> > > > guest how much it can trust MAXPHYADDR.
+> > > 
+> > > Could we go with host-phys-bits=true by default, that at least means the
+> > > normal behaviour is correct; if people want to migrate between different
+> > > hosts with different sizes they should set phys-bits (or
+> > > host-phys-limit) to the lowest in their set of hardware.
+> > 
+> > Is there any sense in picking the default value based on -cpu selection ?
+> > 
+> > If user has asked for -cpu host, there's no downside to host-phys-bits=true,
+> > as the user has intentionally traded off live migration portability already.
 > 
-> Direct reads and writes, and user-mode transactions have been tested in
-> various modes. Protection features are not implemented yet.
+> Setting host-phys-bits=true when using -cpu host makes a lot of
+> sense, and we could start doing that immediately.
 > 
-> All the FIU instances are available in the SoC's address space,
-> regardless of whether or not they're connected to actual flash chips.
+> > 
+> > If the user askes for -cpu $MODEL, then could we set phys-bits=NNN for some
+> > NNN that is the lowest value for CPUs that are capable of running $MODEL ?
+> > Or will that get too complicated with the wide range of SKU variants, in
+> > particular server vs desktop CPUs.
 > 
-> Change-Id: Ia4985761931714c6ca35b505f47aef3f4008c1d8
-> Reviewed-by: Tyrone Ting <kfting@nuvoton.com>
-> Signed-off-by: Havard Skinnemoen <hskinnemoen@google.com>
+> This makes sense too.  We need some help from CPU vendors to get
+> us this data added to our CPU model table.  I'm CCing some Intel
+> and AMD people that could help us.
 
-LGTM, 
+That bit worries me because I think I agree it's SKU dependent and has
+been for a long time (on Intel at least) and we don't even have CPU
+models for all Intel devices. (My laptop for example is a Kaby Lake, 39
+bits physical).  Maybe it works on the more modern ones where we have
+'Icelake-Client' and 'Icelake-Server'.
 
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Dave
 
-
-
-> ---
->  MAINTAINERS                  |   2 +
->  hw/arm/Kconfig               |   1 +
->  hw/arm/npcm7xx.c             |  59 +++++
->  hw/ssi/Makefile.objs         |   1 +
->  hw/ssi/npcm7xx_fiu.c         | 497 +++++++++++++++++++++++++++++++++++
->  hw/ssi/trace-events          |   9 +
->  include/hw/arm/npcm7xx.h     |   2 +
->  include/hw/ssi/npcm7xx_fiu.h |  99 +++++++
->  8 files changed, 670 insertions(+)
->  create mode 100644 hw/ssi/npcm7xx_fiu.c
->  create mode 100644 include/hw/ssi/npcm7xx_fiu.h
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 9a289366ba..8a5c08c2c2 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -730,11 +730,13 @@ F: hw/arm/npcm7xx*
->  F: hw/mem/npcm7xx*
->  F: hw/misc/npcm7xx*
->  F: hw/nvram/npcm7xx*
-> +F: hw/ssi/npcm7xx*
->  F: hw/timer/npcm7xx*
->  F: include/hw/arm/npcm7xx*
->  F: include/hw/mem/npcm7xx*
->  F: include/hw/misc/npcm7xx*
->  F: include/hw/nvram/npcm7xx*
-> +F: include/hw/ssi/npcm7xx*
->  F: include/hw/timer/npcm7xx*
->  
->  nSeries
-> diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-> index 3738c1f5cd..8cc99f6190 100644
-> --- a/hw/arm/Kconfig
-> +++ b/hw/arm/Kconfig
-> @@ -360,6 +360,7 @@ config NPCM7XX
->      select ARM_GIC
->      select PL310  # cache controller
->      select SERIAL
-> +    select SSI
->      select UNIMP
->  
->  config FSL_IMX25
-> diff --git a/hw/arm/npcm7xx.c b/hw/arm/npcm7xx.c
-> index 54d84bafa1..50319d0d33 100644
-> --- a/hw/arm/npcm7xx.c
-> +++ b/hw/arm/npcm7xx.c
-> @@ -98,6 +98,37 @@ static const hwaddr npcm7xx_uart_addr[] = {
->      0xF0004000,
->  };
->  
-> +static const hwaddr npcm7xx_fiu0_flash_addr[] = {
-> +    0x80000000,
-> +    0x88000000,
-> +};
-> +
-> +static const hwaddr npcm7xx_fiu3_flash_addr[] = {
-> +    0xa0000000,
-> +    0xa8000000,
-> +    0xb0000000,
-> +    0xb8000000,
-> +};
-> +
-> +static const struct {
-> +    const char *name;
-> +    hwaddr regs_addr;
-> +    int cs_count;
-> +    const hwaddr *flash_addr;
-> +} npcm7xx_fiu[] = {
-> +    {
-> +        .name = "fiu0",
-> +        .regs_addr = 0xfb000000,
-> +        .cs_count = ARRAY_SIZE(npcm7xx_fiu0_flash_addr),
-> +        .flash_addr = npcm7xx_fiu0_flash_addr,
-> +    }, {
-> +        .name = "fiu3",
-> +        .regs_addr = 0xc0000000,
-> +        .cs_count = ARRAY_SIZE(npcm7xx_fiu3_flash_addr),
-> +        .flash_addr = npcm7xx_fiu3_flash_addr,
-> +    },
-> +};
-> +
->  void npcm7xx_write_secondary_boot(ARMCPU *cpu, const struct arm_boot_info *info)
->  {
->      /*
-> @@ -169,6 +200,13 @@ static void npcm7xx_init(Object *obj)
->          sysbus_init_child_obj(obj, "tim[*]", OBJECT(&s->tim[i]),
->                                sizeof(s->tim[i]), TYPE_NPCM7XX_TIMER);
->      }
-> +
-> +    QEMU_BUILD_BUG_ON(ARRAY_SIZE(npcm7xx_fiu) != ARRAY_SIZE(s->fiu));
-> +    for (i = 0; i < ARRAY_SIZE(s->fiu); i++) {
-> +        sysbus_init_child_obj(obj, npcm7xx_fiu[i].name,
-> +                              OBJECT(&s->fiu[i]), sizeof(s->fiu[i]),
-> +                              TYPE_NPCM7XX_FIU);
-> +    }
->  }
->  
->  static void npcm7xx_realize(DeviceState *dev, Error **errp)
-> @@ -297,6 +335,27 @@ static void npcm7xx_realize(DeviceState *dev, Error **errp)
->                         serial_hd(i), DEVICE_LITTLE_ENDIAN);
->      }
->  
-> +    /* Flash Interface Unit (FIU) */
-> +    QEMU_BUILD_BUG_ON(ARRAY_SIZE(npcm7xx_fiu) != ARRAY_SIZE(s->fiu));
-> +    for (i = 0; i < ARRAY_SIZE(s->fiu); i++) {
-> +        Object *o = OBJECT(&s->fiu[i]);
-> +        int j;
-> +
-> +        object_property_set_int(o, npcm7xx_fiu[i].cs_count, "cs-count",
-> +                                &error_abort);
-> +        object_property_set_bool(o, true, "realized", &err);
-> +        if (err) {
-> +            error_propagate(errp, err);
-> +            return;
-> +        }
-> +
-> +        sysbus_mmio_map(SYS_BUS_DEVICE(o), 0, npcm7xx_fiu[i].regs_addr);
-> +        for (j = 0; j < npcm7xx_fiu[i].cs_count; j++) {
-> +            sysbus_mmio_map(SYS_BUS_DEVICE(o), j + 1,
-> +                            npcm7xx_fiu[i].flash_addr[j]);
-> +        }
-> +    }
-> +
->      /* RAM2 (SRAM) */
->      memory_region_init_ram(&s->sram, OBJECT(dev), "ram2",
->                             NPCM7XX_RAM2_SZ, &err);
-> diff --git a/hw/ssi/Makefile.objs b/hw/ssi/Makefile.objs
-> index 07a85f1967..cab48e72c9 100644
-> --- a/hw/ssi/Makefile.objs
-> +++ b/hw/ssi/Makefile.objs
-> @@ -5,6 +5,7 @@ common-obj-$(CONFIG_XILINX_SPIPS) += xilinx_spips.o
->  common-obj-$(CONFIG_ASPEED_SOC) += aspeed_smc.o
->  common-obj-$(CONFIG_STM32F2XX_SPI) += stm32f2xx_spi.o
->  common-obj-$(CONFIG_MSF2) += mss-spi.o
-> +common-obj-$(CONFIG_NPCM7XX) += npcm7xx_fiu.o
->  
->  common-obj-$(CONFIG_OMAP) += omap_spi.o
->  common-obj-$(CONFIG_IMX) += imx_spi.o
-> diff --git a/hw/ssi/npcm7xx_fiu.c b/hw/ssi/npcm7xx_fiu.c
-> new file mode 100644
-> index 0000000000..dd7e1c8a4e
-> --- /dev/null
-> +++ b/hw/ssi/npcm7xx_fiu.c
-> @@ -0,0 +1,497 @@
-> +/*
-> + * Nuvoton NPCM7xx Flash Interface Unit (FIU)
-> + *
-> + * Copyright 2020 Google LLC
-> + *
-> + * This program is free software; you can redistribute it and/or
-> + * modify it under the terms of the GNU General Public License
-> + * version 2 as published by the Free Software Foundation.
-> + *
-> + * This program is distributed in the hope that it will be useful,
-> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-> + * GNU General Public License for more details.
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +
-> +#include "hw/irq.h"
-> +#include "hw/qdev-properties.h"
-> +#include "hw/ssi/npcm7xx_fiu.h"
-> +#include "qapi/error.h"
-> +#include "qemu/error-report.h"
-> +#include "qemu/log.h"
-> +#include "qemu/module.h"
-> +#include "qemu/units.h"
-> +
-> +#include "trace.h"
-> +
-> +/* Up to 128 MiB of flash may be accessed directly as memory. */
-> +#define NPCM7XX_FIU_FLASH_WINDOW_SIZE (128 * MiB)
-> +
-> +/* Each module has 4 KiB of register space. Only a fraction of it is used. */
-> +#define NPCM7XX_FIU_CTRL_REGS_SIZE (4 * KiB)
-> +
-> +/* FIU_{DRD,DWR,UMA,PTR}_CFG cannot be written when this bit is set. */
-> +#define NPCM7XX_FIU_CFG_LCK BIT(31)
-> +
-> +/* Direct Read configuration register fields. */
-> +#define FIU_DRD_CFG_ADDSIZ(rv) extract32(rv, 16, 2)
-> +#define FIU_ADDSIZ_3BYTES 0
-> +#define FIU_ADDSIZ_4BYTES 1
-> +#define FIU_DRD_CFG_DBW(rv) extract32(rv, 12, 2)
-> +#define FIU_DRD_CFG_ACCTYPE(rv) extract32(rv, 8, 2)
-> +#define FIU_DRD_CFG_RDCMD(rv) extract32(rv, 0, 8)
-> +
-> +/* Direct Write configuration register fields. */
-> +#define FIU_DWR_CFG_ADDSIZ(rv) extract32(rv, 16, 2)
-> +#define FIU_DWR_CFG_WRCMD(rv) extract32(rv, 0, 8)
-> +
-> slK0mser-Mode Access register fields. */
-> +
-> +/* Command Mode Lock and the bits protected by it. */
-> +#define FIU_UMA_CFG_CMMLCK BIT(30)
-> +#define FIU_UMA_CFG_CMMLCK_MASK 0x00000403
-> +
-> +#define FIU_UMA_CFG_RDATSIZ(rv) extract32(rv, 24, 5)
-> +#define FIU_UMA_CFG_DBSIZ(rv) extract32(rv, 21, 3)
-> +#define FIU_UMA_CFG_WDATSIZ(rv) extract32(rv, 16, 5)
-> +#define FIU_UMA_CFG_ADDSIZ(rv) extract32(rv, 11, 3)
-> +#define FIU_UMA_CFG_CMDSIZ(rv) extract32(rv, 10, 1)
-> +#define FIU_UMA_CFG_DBPCK(rv) extract32(rv, 6, 2)
-> +
-> +#define FIU_UMA_CTS_RDYIE BIT(25)
-> +#define FIU_UMA_CTS_RDYST BIT(24)
-> +#define FIU_UMA_CTS_SW_CS BIT(16)
-> +#define FIU_UMA_CTS_DEV_NUM(rv) extract32(rv, 8, 2)
-> +#define FIU_UMA_CTS_EXEC_DONE BIT(0)
-> +
-> +/* Direct flash memory read handler. */
-> +static uint64_t npcm7xx_fiu_flash_read(void *opaque, hwaddr addr,
-> +                                       unsigned int size)
-> +{
-> +    NPCM7xxFIUFlash *f = opaque;
-> +    NPCM7xxFIUState *fiu = f->fiu;
-> +    int cs_id = f - fiu->flash;
-> +    uint64_t value = 0;
-> +    uint32_t drd_cfg;
-> +    int dummy_cycles;
-> +    int i;
-> +
-> +    drd_cfg = fiu->regs[NPCM7XX_FIU_DRD_CFG];
-> +
-> +    qemu_irq_lower(fiu->cs_lines[cs_id]);
-> +    ssi_transfer(fiu->spi, FIU_DRD_CFG_RDCMD(drd_cfg));
-> +
-> +    switch (FIU_DRD_CFG_ADDSIZ(drd_cfg)) {
-> +    case FIU_ADDSIZ_4BYTES:
-> +        ssi_transfer(fiu->spi, extract32(addr, 24, 8));
-> +        /* fall through */
-> +    case FIU_ADDSIZ_3BYTES:
-> +        ssi_transfer(fiu->spi, extract32(addr, 16, 8));
-> +        ssi_transfer(fiu->spi, extract32(addr, 8, 8));
-> +        ssi_transfer(fiu->spi, extract32(addr, 0, 8));
-> +        break;
-> +
-> +    default:
-> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: bad address size %d\n",
-> +                      DEVICE(fiu)->canonical_path, FIU_DRD_CFG_ADDSIZ(drd_cfg));
-> +        break;
-> +    }
-> +
-> +    /* Flash chip model expects one transfer per dummy bit, not byte */
-> +    dummy_cycles =
-> +        (FIU_DRD_CFG_DBW(drd_cfg) * 8) >> FIU_DRD_CFG_ACCTYPE(drd_cfg);
-> +    for (i = 0; i < dummy_cycles; i++) {
-> +        ssi_transfer(fiu->spi, 0);
-> +    }
-> +
-> +    for (i = 0; i < size; i++) {
-> +        value |= ssi_transfer(fiu->spi, 0) << (8 * i);
-> +    }
-> +
-> +    qemu_irq_raise(fiu->cs_lines[cs_id]);
-> +
-> +    trace_npcm7xx_fiu_flash_read(DEVICE(fiu)->canonical_path, cs_id, addr, size,
-> +                                 value);
-> +
-> +    return value;
-> +}
-> +
-> +/* Direct flash memory write handler. */
-> +static void npcm7xx_fiu_flash_write(void *opaque, hwaddr addr, uint64_t v,
-> +                                    unsigned int size)
-> +{
-> +    NPCM7xxFIUFlash *f = opaque;
-> +    NPCM7xxFIUState *fiu = f->fiu;
-> +    int cs_id = f - fiu->flash;
-> +    uint32_t dwr_cfg;
-> +    int i;
-> +
-> +    trace_npcm7xx_fiu_flash_write(DEVICE(fiu)->canonical_path, cs_id, addr,
-> +                                  size, v);
-> +
-> +    dwr_cfg = fiu->regs[NPCM7XX_FIU_DWR_CFG];
-> +
-> +    qemu_irq_lower(fiu->cs_lines[cs_id]);
-> +    ssi_transfer(fiu->spi, FIU_DWR_CFG_WRCMD(dwr_cfg));
-> +
-> +    switch (FIU_DWR_CFG_ADDSIZ(dwr_cfg)) {
-> +    case FIU_ADDSIZ_4BYTES:
-> +        ssi_transfer(fiu->spi, extract32(addr, 24, 8));
-> +        /* fall through */
-> +    case FIU_ADDSIZ_3BYTES:
-> +        ssi_transfer(fiu->spi, extract32(addr, 16, 8));
-> +        ssi_transfer(fiu->spi, extract32(addr, 8, 8));
-> +        ssi_transfer(fiu->spi, extract32(addr, 0, 8));
-> +        break;
-> +
-> +    default:
-> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: bad address size %d\n",
-> +                      DEVICE(fiu)->canonical_path, FIU_DWR_CFG_ADDSIZ(dwr_cfg));
-> +        break;
-> +    }
-> +
-> +    for (i = 0; i < size; i++) {
-> +        ssi_transfer(fiu->spi, v & 0xff);
-> +        v >>= 8;
-> +    }
-> +
-> +    qemu_irq_raise(fiu->cs_lines[cs_id]);
-> +}
-> +
-> +static const MemoryRegionOps npcm7xx_fiu_flash_ops = {
-> +    .read = npcm7xx_fiu_flash_read,
-> +    .write = npcm7xx_fiu_flash_write,
-> +    .endianness = DEVICE_LITTLE_ENDIAN,
-> +    .valid = {
-> +        .min_access_size = 1,
-> +        .max_access_size = 8,
-> +        .unaligned = true,
-> +    },
-> +};
-> +
-> +/* Control register read handler. */
-> +static uint64_t npcm7xx_fiu_ctrl_read(void *opaque, hwaddr addr,
-> +                                      unsigned int size)
-> +{
-> +    hwaddr reg = addr / sizeof(uint32_t);
-> +    NPCM7xxFIUState *s = opaque;
-> +    uint32_t value;
-> +
-> +    if (reg < NPCM7XX_FIO_NR_REGS) {
-> +        value = s->regs[reg];
-> +    } else {
-> +        qemu_log_mask(LOG_GUEST_ERROR,
-> +                      "%s: read from invalid offset 0x%" PRIx64 "\n",
-> +                      DEVICE(s)->canonical_path, addr);
-> +        value = 0;
-> +    }
-> +
-> +    trace_npcm7xx_fiu_ctrl_read(DEVICE(s)->canonical_path, addr, value);
-> +
-> +    return value;
-> +}
-> +
-> +/* Send the specified number of address bytes from the UMA address register. */
-> +static void send_address(SSIBus *spi, unsigned int addsiz, uint32_t addr)
-> +{
-> +    /* All cases fall through */
-> +    switch (addsiz) {
-> +    case 4:
-> +        ssi_transfer(spi, extract32(addr, 24, 8));
-> +    case 3:
-> +        ssi_transfer(spi, extract32(addr, 16, 8));
-> +    case 2:
-> +        ssi_transfer(spi, extract32(addr, 8, 8));
-> +    case 1:
-> +        ssi_transfer(spi, extract32(addr, 0, 8));
-> +    case 0:
-> +        break;
-> +    }
-> +}
-> +
-> +/* Send the number of dummy bits specified in the UMA config register. */
-> +static void send_dummy_bits(SSIBus *spi, uint32_t uma_cfg, uint32_t uma_cmd)
-> +{
-> +    unsigned int bits_per_clock = 1U << FIU_UMA_CFG_DBPCK(uma_cfg);
-> +    unsigned int i;
-> +
-> +    for (i = 0; i < FIU_UMA_CFG_DBSIZ(uma_cfg); i++) {
-> +        /* Use bytes 0 and 1 first, then keep repeating byte 2 */
-> +        unsigned int field = (i < 2) ? ((i + 1) * 8) : 24;
-> +        unsigned int j;
-> +
-> +        for (j = 0; j < 8; j += bits_per_clock) {
-> +            ssi_transfer(spi, extract32(uma_cmd, field + j, bits_per_clock));
-> +        }
-> +    }
-> +}
-> +
-> +/* Assert the chip select specified in the UMA Control/Status Register. */
-> +static void npcm7xx_fiu_select(NPCM7xxFIUState *s)
-> +{
-> +    int cs_id;
-> +
-> +    cs_id = FIU_UMA_CTS_DEV_NUM(s->regs[NPCM7XX_FIU_UMA_CTS]);
-> +    if (cs_id < s->cs_count) {
-> +        qemu_irq_lower(s->cs_lines[cs_id]);
-> +    } else {
-> +        qemu_log_mask(LOG_GUEST_ERROR,
-> +                      "%s: UMA to CS%d; this module has only %d chip selects",
-> +                      DEVICE(s)->canonical_path, cs_id, s->cs_count);
-> +        cs_id = -1;
-> +    }
-> +
-> +    s->active_cs = cs_id;
-> +}
-> +
-> +/* Deassert the currently active chip select. */
-> +static void npcm7xx_fiu_deselect(NPCM7xxFIUState *s)
-> +{
-> +    if (s->active_cs < 0) {
-> +        return;
-> +    }
-> +
-> +    qemu_irq_raise(s->cs_lines[s->active_cs]);
-> +    s->active_cs = -1;
-> +}
-> +
-> +/* Perform a User-Mode Access transaction. */
-> +static void npcm7xx_fiu_uma_transaction(NPCM7xxFIUState *s)
-> +{
-> +    uint32_t uma_cts = s->regs[NPCM7XX_FIU_UMA_CTS];
-> +    uint32_t uma_cfg;
-> +    unsigned int i;
-> +
-> +    /* SW_CS means the CS is already forced low, so don't touch it. */
-> +    if (uma_cts & FIU_UMA_CTS_SW_CS) {
-> +        npcm7xx_fiu_select(s);
-> +    }
-> +
-> +    /* Send command, if present. */
-> +    uma_cfg = s->regs[NPCM7XX_FIU_UMA_CFG];
-> +    if (FIU_UMA_CFG_CMDSIZ(uma_cfg) > 0) {
-> +        ssi_transfer(s->spi, extract32(s->regs[NPCM7XX_FIU_UMA_CMD], 0, 8));
-> +    }
-> +
-> +    /* Send address, if present. */
-> +    send_address(s->spi, FIU_UMA_CFG_ADDSIZ(uma_cfg),
-> +                 s->regs[NPCM7XX_FIU_UMA_ADDR]);
-> +
-> +    /* Write data, if present. */
-> +    for (i = 0; i < FIU_UMA_CFG_WDATSIZ(uma_cfg); i++) {
-> +        unsigned int reg =
-> +            (i < 16) ? (NPCM7XX_FIU_UMA_DW0 + i / 4) : NPCM7XX_FIU_UMA_DW3;
-> +        unsigned int field = (i % 4) * 8;
-> +
-> +        ssi_transfer(s->spi, extract32(s->regs[reg], field, 8));
-> +    }
-> +
-> +    /* Send aummy bits, if present. */
-> +    send_dummy_bits(s->spi, uma_cfg, s->regs[NPCM7XX_FIU_UMA_CMD]);
-> +
-> +    /* Read data, if present. */
-> +    for (i = 0; i < FIU_UMA_CFG_RDATSIZ(uma_cfg); i++) {
-> +        unsigned int reg = NPCM7XX_FIU_UMA_DR0 + i / 4;
-> +        unsigned int field = (i % 4) * 8;
-> +        uint8_t c;
-> +
-> +        c = ssi_transfer(s->spi, 0);
-> +        if (reg <= NPCM7XX_FIU_UMA_DR3) {
-> +            s->regs[reg] = deposit32(s->regs[reg], field, 8, c);
-> +        }
-> +    }
-> +
-> +    /* Again, don't touch CS if the user is forcing it low. */
-> +    if (uma_cts & FIU_UMA_CTS_SW_CS) {
-> +        npcm7xx_fiu_deselect(s);
-> +    }
-> +
-> +    /* RDYST means a command has completed since it was cleared. */
-> +    s->regs[NPCM7XX_FIU_UMA_CTS] |= FIU_UMA_CTS_RDYST;
-> +    /* EXEC_DONE means Execute Command / Not Done, so clear it here. */
-> +    s->regs[NPCM7XX_FIU_UMA_CTS] &= ~FIU_UMA_CTS_EXEC_DONE;
-> +}
-> +
-> +/* Control register write handler. */
-> +static void npcm7xx_fiu_ctrl_write(void *opaque, hwaddr addr, uint64_t v,
-> +                                   unsigned int size)
-> +{
-> +    hwaddr reg = addr / sizeof(uint32_t);
-> +    NPCM7xxFIUState *s = opaque;
-> +    uint32_t value = v;
-> +
-> +    trace_npcm7xx_fiu_ctrl_write(DEVICE(s)->canonical_path, addr, value);
-> +
-> +    switch (reg) {
-> +    case NPCM7XX_FIU_UMA_CFG:
-> +        if (s->regs[reg] & FIU_UMA_CFG_CMMLCK) {
-> +            value &= ~FIU_UMA_CFG_CMMLCK_MASK;
-> +            value |= (s->regs[reg] & FIU_UMA_CFG_CMMLCK_MASK);
-> +        }
-> +        /* fall through */
-> +    case NPCM7XX_FIU_DRD_CFG:
-> +    case NPCM7XX_FIU_DWR_CFG:
-> +        if (s->regs[reg] & NPCM7XX_FIU_CFG_LCK) {
-> +            qemu_log_mask(LOG_GUEST_ERROR,
-> +                          "%s: write to locked register @ 0x%" PRIx64 "\n",
-> +                          DEVICE(s)->canonical_path, addr);
-> +            return;
-> +        }
-> +        s->regs[reg] = value;
-> +        break;
-> +
-> +    case NPCM7XX_FIU_UMA_CTS:
-> +        if (value & FIU_UMA_CTS_RDYST) {
-> +            value &= ~FIU_UMA_CTS_RDYST;
-> +        } else {
-> +            value |= s->regs[reg] & FIU_UMA_CTS_RDYST;
-> +        }
-> +        if ((s->regs[reg] ^ value) & FIU_UMA_CTS_SW_CS) {
-> +            if (value & FIU_UMA_CTS_SW_CS) {
-> +                /*
-> +                 * Don't drop CS if there's a transfer in progress, or we're
-> +                 * about to start one.
-> +                 */
-> +                if (!((value | s->regs[reg]) & FIU_UMA_CTS_EXEC_DONE)) {
-> +                    npcm7xx_fiu_deselect(s);
-> +                }
-> +            } else {
-> +                npcm7xx_fiu_select(s);
-> +            }
-> +        }
-> +        s->regs[reg] = value | (s->regs[reg] & FIU_UMA_CTS_EXEC_DONE);
-> +        if (value & FIU_UMA_CTS_EXEC_DONE) {
-> +            npcm7xx_fiu_uma_transaction(s);
-> +        }
-> +        break;
-> +
-> +    case NPCM7XX_FIU_UMA_DR0 ... NPCM7XX_FIU_UMA_DR3:
-> +        qemu_log_mask(LOG_GUEST_ERROR,
-> +                      "%s: write to read-only register @ 0x%" PRIx64 "\n",
-> +                      DEVICE(s)->canonical_path, addr);
-> +        return;
-> +
-> +    case NPCM7XX_FIU_PRT_CFG:
-> +    case NPCM7XX_FIU_PRT_CMD0 ... NPCM7XX_FIU_PRT_CMD9:
-> +        qemu_log_mask(LOG_UNIMP, "%s: PRT is not implemented\n", __func__);
-> +        break;
-> +
-> +    case NPCM7XX_FIU_UMA_CMD:
-> +    case NPCM7XX_FIU_UMA_ADDR:
-> +    case NPCM7XX_FIU_UMA_DW0 ... NPCM7XX_FIU_UMA_DW3:
-> +    case NPCM7XX_FIU_CFG:
-> +        s->regs[reg] = value;
-> +        break;
-> +
-> +    default:
-> +        qemu_log_mask(LOG_GUEST_ERROR,
-> +                      "%s: write to invalid offset 0x%" PRIx64 "\n",
-> +                      DEVICE(s)->canonical_path, addr);
-> +        return;
-> +    }
-> +}
-> +
-> +static const MemoryRegionOps npcm7xx_fiu_ctrl_ops = {
-> +    .read = npcm7xx_fiu_ctrl_read,
-> +    .write = npcm7xx_fiu_ctrl_write,
-> +    .endianness = DEVICE_LITTLE_ENDIAN,
-> +    .valid = {
-> +        .min_access_size = 4,
-> +        .max_access_size = 4,
-> +        .unaligned = false,
-> +    },
-> +};
-> +
-> +static void npcm7xx_fiu_enter_reset(Object *obj, ResetType type)
-> +{
-> +    NPCM7xxFIUState *s = NPCM7XX_FIU(obj);
-> +
-> +    trace_npcm7xx_fiu_enter_reset(DEVICE(obj)->canonical_path, type);
-> +
-> +    memset(s->regs, 0, sizeof(s->regs));
-> +
-> +    s->regs[NPCM7XX_FIU_DRD_CFG] = 0x0300100b;
-> +    s->regs[NPCM7XX_FIU_DWR_CFG] = 0x03000002;
-> +    s->regs[NPCM7XX_FIU_UMA_CFG] = 0x00000400;
-> +    s->regs[NPCM7XX_FIU_UMA_CTS] = 0x00010000;
-> +    s->regs[NPCM7XX_FIU_UMA_CMD] = 0x0000000b;
-> +    s->regs[NPCM7XX_FIU_PRT_CFG] = 0x00000400;
-> +    s->regs[NPCM7XX_FIU_CFG] = 0x0000000b;
-> +}
-> +
-> +static void npcm7xx_fiu_hold_reset(Object *obj)
-> +{
-> +    NPCM7xxFIUState *s = NPCM7XX_FIU(obj);
-> +    int i;
-> +
-> +    trace_npcm7xx_fiu_hold_reset(DEVICE(obj)->canonical_path);
-> +
-> +    for (i = 0; i < s->cs_count; i++) {
-> +        qemu_irq_raise(s->cs_lines[i]);
-> +    }
-> +}
-> +
-> +static void npcm7xx_fiu_realize(DeviceState *dev, Error **errp)
-> +{
-> +    NPCM7xxFIUState *s = NPCM7XX_FIU(dev);
-> +    SysBusDevice *sbd = &s->parent;
-> +    int i;
-> +
-> +    if (s->cs_count <= 0) {
-> +        error_setg(errp, "%s: %d chip selects specified, need at least one",
-> +                   dev->canonical_path, s->cs_count);
-> +        return;
-> +    }
-> +
-> +    s->spi = ssi_create_bus(dev, "spi");
-> +    s->cs_lines = g_new0(qemu_irq, s->cs_count);
-> +    ssi_auto_connect_slaves(dev, s->cs_lines, s->spi);
-
-ssi_auto_connect_slaves() is gone.
-
-> +    s->flash = g_new0(NPCM7xxFIUFlash, s->cs_count);
-> +
-> +    /*
-> +     * Register the control registers region first. It may be followed by one
-> +     * or more direct flash access regions.
-> +     */
-> +    memory_region_init_io(&s->mmio, OBJECT(s), &npcm7xx_fiu_ctrl_ops, s, "ctrl",
-> +                          NPCM7XX_FIU_CTRL_REGS_SIZE);
-> +    sysbus_init_mmio(sbd, &s->mmio);
-> +
-> +    for (i = 0; i < s->cs_count; i++) {
-> +        NPCM7xxFIUFlash *flash = &s->flash[i];
-> +        sysbus_init_irq(sbd, &s->cs_lines[i]);
-> +        flash->fiu = s;
-> +        memory_region_init_io(&flash->direct_access, OBJECT(s),
-> +                              &npcm7xx_fiu_flash_ops, &s->flash[i], "flash",
-> +                              NPCM7XX_FIU_FLASH_WINDOW_SIZE);
-> +        sysbus_init_mmio(sbd, &flash->direct_access);
-> +    }
-> +}
-> +
-> +static Property npcm7xx_fiu_properties[] = {
-> +    DEFINE_PROP_INT32("cs-count", NPCM7xxFIUState, cs_count, 0),
-> +    DEFINE_PROP_END_OF_LIST(),
-> +};
-> +
-> +static void npcm7xx_fiu_class_init(ObjectClass *klass, void *data)
-> +{
-> +    ResettableClass *rc = RESETTABLE_CLASS(klass);
-> +    DeviceClass *dc = DEVICE_CLASS(klass);
-> +
-> +    dc->desc = "NPCM7xx Flash Interface Unit";
-> +    dc->realize = npcm7xx_fiu_realize;
-> +    rc->phases.enter = npcm7xx_fiu_enter_reset;
-> +    rc->phases.hold = npcm7xx_fiu_hold_reset;
-> +    device_class_set_props(dc, npcm7xx_fiu_properties);
-> +}
-> +
-> +static const TypeInfo npcm7xx_fiu_types[] = {
-> +    {
-> +        .name = TYPE_NPCM7XX_FIU,
-> +        .parent = TYPE_SYS_BUS_DEVICE,
-> +        .instance_size = sizeof(NPCM7xxFIUState),
-> +        .class_init = npcm7xx_fiu_class_init,
-> +    },
-> +};
-> +DEFINE_TYPES(npcm7xx_fiu_types);
-> diff --git a/hw/ssi/trace-events b/hw/ssi/trace-events
-> index 0ea498de91..8024253c1f 100644
-> --- a/hw/ssi/trace-events
-> +++ b/hw/ssi/trace-events
-> @@ -9,3 +9,12 @@ aspeed_smc_dma_checksum(uint32_t addr, uint32_t data) "0x%08x: 0x%08x"
->  aspeed_smc_dma_rw(const char *dir, uint32_t flash_addr, uint32_t dram_addr, uint32_t size) "%s flash:@0x%08x dram:@0x%08x size:0x%08x"
->  aspeed_smc_write(uint64_t addr,  uint32_t size, uint64_t data) "@0x%" PRIx64 " size %u: 0x%" PRIx64
->  aspeed_smc_flash_select(int cs, const char *prefix) "CS%d %sselect"
-> +
-> +# npcm7xx_fiu.c
-> +
-> +npcm7xx_fiu_enter_reset(const char *id, int reset_type) "%s reset type: %d"
-> +npcm7xx_fiu_hold_reset(const char *id) "%s"
-> +npcm7xx_fiu_ctrl_read(const char *id, uint64_t addr, uint32_t data) "%s offset: 0x%04" PRIx64 " value: 0x%08x"
-> +npcm7xx_fiu_ctrl_write(const char *id, uint64_t addr, uint32_t data) "%s offset: 0x%04" PRIx64 " value: 0x%08x"
-> +npcm7xx_fiu_flash_read(const char *id, int cs, uint64_t addr, unsigned int size, uint64_t value) "%s[%d] offset: 0x%08" PRIx64 " size: %u value: 0x%" PRIx64
-> +npcm7xx_fiu_flash_write(const char *id, int cs, uint64_t addr, unsigned int size, uint64_t value) "%s[%d] offset: 0x%08" PRIx64 " size: %u value: 0x%" PRIx64
-> diff --git a/include/hw/arm/npcm7xx.h b/include/hw/arm/npcm7xx.h
-> index 8f49f7015c..e357f4bf59 100644
-> --- a/include/hw/arm/npcm7xx.h
-> +++ b/include/hw/arm/npcm7xx.h
-> @@ -22,6 +22,7 @@
->  #include "hw/misc/npcm7xx_gcr.h"
->  #include "hw/nvram/npcm7xx_otp.h"
->  #include "hw/timer/npcm7xx_timer.h"
-> +#include "hw/ssi/npcm7xx_fiu.h"
->  #include "target/arm/cpu.h"
->  
->  #define NPCM7XX_MAX_NUM_CPUS    (2)
-> @@ -67,6 +68,7 @@ typedef struct NPCM7xxState {
->      NPCM7xxOTPState     key_storage;
->      NPCM7xxOTPState     fuse_array;
->      NPCM7xxMCState      mc;
-> +    NPCM7xxFIUState     fiu[2];
->  } NPCM7xxState;
->  
->  #define TYPE_NPCM7XX    "npcm7xx"
-> diff --git a/include/hw/ssi/npcm7xx_fiu.h b/include/hw/ssi/npcm7xx_fiu.h
-> new file mode 100644
-> index 0000000000..88bfd4ba8e
-> --- /dev/null
-> +++ b/include/hw/ssi/npcm7xx_fiu.h
-> @@ -0,0 +1,99 @@
-> +/*
-> + * Nuvoton NPCM7xx Flash Interface Unit (FIU)
-> + *
-> + * Copyright 2020 Google LLC
-> + *
-> + * This program is free software; you can redistribute it and/or
-> + * modify it under the terms of the GNU General Public License
-> + * version 2 as published by the Free Software Foundation.
-> + *
-> + * This program is distributed in the hope that it will be useful,
-> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-> + * GNU General Public License for more details.
-> + */
-> +#ifndef NPCM7XX_FIU_H
-> +#define NPCM7XX_FIU_H
-> +
-> +#include "hw/ssi/ssi.h"
-> +#include "hw/sysbus.h"
-> +
-> +/**
-> + * enum NPCM7xxFIURegister - 32-bit FIU register indices.
-> + */
-> +enum NPCM7xxFIURegister {
-> +    NPCM7XX_FIU_DRD_CFG,
-> +    NPCM7XX_FIU_DWR_CFG,
-> +    NPCM7XX_FIU_UMA_CFG,
-> +    NPCM7XX_FIU_UMA_CTS,
-> +    NPCM7XX_FIU_UMA_CMD,
-> +    NPCM7XX_FIU_UMA_ADDR,
-> +    NPCM7XX_FIU_PRT_CFG,
-> +    NPCM7XX_FIU_UMA_DW0 = 0x0020 / sizeof(uint32_t),
-> +    NPCM7XX_FIU_UMA_DW1,
-> +    NPCM7XX_FIU_UMA_DW2,
-> +    NPCM7XX_FIU_UMA_DW3,
-> +    NPCM7XX_FIU_UMA_DR0,
-> +    NPCM7XX_FIU_UMA_DR1,
-> +    NPCM7XX_FIU_UMA_DR2,
-> +    NPCM7XX_FIU_UMA_DR3,
-> +    NPCM7XX_FIU_PRT_CMD0,
-> +    NPCM7XX_FIU_PRT_CMD1,
-> +    NPCM7XX_FIU_PRT_CMD2,
-> +    NPCM7XX_FIU_PRT_CMD3,
-> +    NPCM7XX_FIU_PRT_CMD4,
-> +    NPCM7XX_FIU_PRT_CMD5,
-> +    NPCM7XX_FIU_PRT_CMD6,
-> +    NPCM7XX_FIU_PRT_CMD7,
-> +    NPCM7XX_FIU_PRT_CMD8,
-> +    NPCM7XX_FIU_PRT_CMD9,
-> +    NPCM7XX_FIU_CFG = 0x78 / sizeof(uint32_t),
-> +    NPCM7XX_FIO_NR_REGS,
-> +};
-> +
-> +typedef struct NPCM7xxFIUState NPCM7xxFIUState;
-> +
-> +/**
-> + * struct NPCM7xxFIUFlash - Per-chipselect flash controller state.
-> + * @direct_access: Memory region for direct flash access.
-> + * @fiu: Pointer to flash controller shared state.
-> + */
-> +typedef struct NPCM7xxFIUFlash {
-> +    MemoryRegion direct_access;
-> +    NPCM7xxFIUState *fiu;
-> +} NPCM7xxFIUFlash;
-> +
-> +/**
-> + * NPCM7xxFIUState - Device state for one Flash Interface Unit.
-> + * @parent: System bus device.
-> + * @mmio: Memory region for register access.
-> + * @cs_count: Number of flash chips that may be connected to this module.
-> + * @active_cs: Currently active chip select, or -1 if no chip is selected.
-> + * @cs_lines: GPIO lines that may be wired to flash chips.
-> + * @flash: Array of @cs_count per-flash-chip state objects.
-> + * @spi: The SPI bus mastered by this controller.
-> + * @regs: Register contents.
-> + *
-> + * Each FIU has a shared bank of registers, and controls up to four chip
-> + * selects. Each chip select has a dedicated memory region which may be used to
-> + * read and write the flash connected to that chip select as if it were memory.
-> + */
-> +struct NPCM7xxFIUState {
-> +    SysBusDevice parent;
-> +
-> +    MemoryRegion mmio;
-> +
-> +    int32_t cs_count;
-> +    int32_t active_cs;
-> +    qemu_irq *cs_lines;
-> +    NPCM7xxFIUFlash *flash;
-> +
-> +    SSIBus *spi;
-> +
-> +    uint32_t regs[NPCM7XX_FIO_NR_REGS];
-> +};
-> +
-> +#define TYPE_NPCM7XX_FIU "npcm7xx-fiu"
-> +#define NPCM7XX_FIU(obj) OBJECT_CHECK(NPCM7xxFIUState, (obj), TYPE_NPCM7XX_FIU)
-> +
-> +#endif /* NPCM7XX_FIU_H */
-> 
+> -- 
+> Eduardo
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
