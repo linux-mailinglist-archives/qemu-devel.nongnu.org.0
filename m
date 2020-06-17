@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9226F1FD4CA
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 20:46:15 +0200 (CEST)
-Received: from localhost ([::1]:44762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 035AA1FD4C2
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 20:44:30 +0200 (CEST)
+Received: from localhost ([::1]:38358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jld4g-0007H1-KW
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 14:46:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51736)
+	id 1jld2y-0004fE-Ue
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 14:44:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51750)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jlcwz-0004I6-D8
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 14:38:17 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:45965
+ id 1jlcx0-0004Kz-H0
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 14:38:18 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:55645
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jlcwx-0008C3-Ri
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 14:38:17 -0400
+ id 1jlcwy-0008CB-Ko
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 14:38:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592419095;
+ s=mimecast20190719; t=1592419096;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OlyIB0IJggiiLTxay7xl1fqhdKKGqUZtSEyA46+qzsg=;
- b=PiuSmrTq7yL+o2T62/le62mjNnLTir5N7pclb4CBifEfyJBbLaRHZ4yglGNs0LNEFhRx2l
- L3by/09fKvTKj4oeYx2oFbaARCY4CuZgAilePudBQTDPGSIgUCjfAFBf0cDw/1Kjpm0ASW
- a+ZY2CayjAlg7J359Ruc1mmQKeN1sLc=
+ bh=0Spe4DMKm1bF0j02m1UMkUsLjMrwOSGPTH88jlHHP0A=;
+ b=VO+qE1w7HKKJ+K+Pcp35cxGxEX0MZz6BFnFvFzLCuFztgJcHIVYe9u4fjWWhN8zj2eosdL
+ NZRU5nStI+C9a8V8x/97BnrFxAg0bu1G2/VjSp8NqYzP1bgV6K0lm+3X3TuTOGuysludnS
+ 2uThrky7GJJiiB//kV9n6FJvYoBZleY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-426-1iv5JYTINz-UOie6fGsA8g-1; Wed, 17 Jun 2020 14:38:11 -0400
-X-MC-Unique: 1iv5JYTINz-UOie6fGsA8g-1
+ us-mta-504-cSgs3x4WOuq3KbCT3aVdTg-1; Wed, 17 Jun 2020 14:38:13 -0400
+X-MC-Unique: cSgs3x4WOuq3KbCT3aVdTg-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DEEF4107ACCD;
- Wed, 17 Jun 2020 18:38:10 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DFEDC835B41;
+ Wed, 17 Jun 2020 18:38:12 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-115-47.ams2.redhat.com
  [10.36.115.47])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 342335EE0E;
- Wed, 17 Jun 2020 18:38:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 372F86ED96;
+ Wed, 17 Jun 2020 18:38:11 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, david@redhat.com, lvivier@redhat.com,
  maozhongyi@cmss.chinamobile.com, mreitz@redhat.com, pannengyuan@huawei.com
-Subject: [PULL 11/12] docs/xbzrle: update 'cache miss rate' and 'encoding
- rate' to docs
-Date: Wed, 17 Jun 2020 19:37:32 +0100
-Message-Id: <20200617183733.186168-12-dgilbert@redhat.com>
+Subject: [PULL 12/12] migration: fix multifd_send_pages() next channel
+Date: Wed, 17 Jun 2020 19:37:33 +0100
+Message-Id: <20200617183733.186168-13-dgilbert@redhat.com>
 In-Reply-To: <20200617183733.186168-1-dgilbert@redhat.com>
 References: <20200617183733.186168-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -86,34 +85,49 @@ Cc: stefanha@redhat.com, quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Mao Zhongyi <maozhongyi@cmss.chinamobile.com>
+From: Laurent Vivier <lvivier@redhat.com>
 
-Signed-off-by: Mao Zhongyi <maozhongyi@cmss.chinamobile.com>
-Message-Id: <20200603080904.997083-9-maozhongyi@cmss.chinamobile.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+multifd_send_pages() loops around the available channels,
+the next channel to use between two calls to multifd_send_pages() is stored
+inside a local static variable, next_channel.
+
+It works well, except if the number of channels decreases between two calls
+to multifd_send_pages(). In this case, the loop can try to access the
+data of a channel that doesn't exist anymore.
+
+The problem can be triggered if we start a migration with a given number of
+channels and then we cancel the migration to restart it with a lower number.
+This ends generally with an error like:
+qemu-system-ppc64: .../util/qemu-thread-posix.c:77: qemu_mutex_lock_impl: Assertion `mutex->initialized' failed.
+
+This patch fixes the error by capping next_channel with the current number
+of channels before using it.
+
+Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+Message-Id: <20200617113154.593233-1-lvivier@redhat.com>
+Reviewed-by: Juan Quintela <quintela@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- docs/xbzrle.txt | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ migration/multifd.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/docs/xbzrle.txt b/docs/xbzrle.txt
-index 385b4993f8..6bd1828f34 100644
---- a/docs/xbzrle.txt
-+++ b/docs/xbzrle.txt
-@@ -113,9 +113,11 @@ is recommended.
-     xbzrle transferred: I kbytes
-     xbzrle pages: J pages
-     xbzrle cache miss: K pages
--    xbzrle overflow: L
-+    xbzrle cache miss rate: L
-+    xbzrle encoding rate: M
-+    xbzrle overflow: N
+diff --git a/migration/multifd.c b/migration/multifd.c
+index 5a3e4d0d46..d0441202aa 100644
+--- a/migration/multifd.c
++++ b/migration/multifd.c
+@@ -415,6 +415,12 @@ static int multifd_send_pages(QEMUFile *f)
+     }
  
--xbzrle cache-miss: the number of cache misses to date - high cache-miss rate
-+xbzrle cache miss: the number of cache misses to date - high cache-miss rate
- indicates that the cache size is set too low.
- xbzrle overflow: the number of overflows in the decoding which where the delta
- could not be compressed. This can happen if the changes in the pages are too
+     qemu_sem_wait(&multifd_send_state->channels_ready);
++    /*
++     * next_channel can remain from a previous migration that was
++     * using more channels, so ensure it doesn't overflow if the
++     * limit is lower now.
++     */
++    next_channel %= migrate_multifd_channels();
+     for (i = next_channel;; i = (i + 1) % migrate_multifd_channels()) {
+         p = &multifd_send_state->params[i];
+ 
 -- 
 2.26.2
 
