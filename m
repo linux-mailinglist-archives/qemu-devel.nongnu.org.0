@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 455271FD0A1
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 17:14:41 +0200 (CEST)
-Received: from localhost ([::1]:53292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FDDF1FD0D6
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 17:25:18 +0200 (CEST)
+Received: from localhost ([::1]:56368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlZlw-0004ff-6U
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 11:14:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45960)
+	id 1jlZwD-00052u-FH
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 11:25:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jlZOL-0003qb-LY
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 10:50:17 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:52262
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jlZOP-00041y-Hw
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 10:50:21 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:24858
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jlZOJ-0001tJ-8r
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 10:50:17 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jlZON-0001wo-Rj
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 10:50:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592405414;
+ s=mimecast20190719; t=1592405419;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=83wB9T7HX+oIDJxJh7iboMbmpbeTUk5kg1XD4my9L3k=;
- b=W+ItJBaBWQldziQdoDMLRhnegrhmkV2bzKy1sLnWnsZy1/rBWaqdekrPX08VGVxBo6MUGg
- fi1cN+A5O/B6vTp0m3sa9x4b+n4UB+AF4hgK42KCgwkpJPBuhG2PQBdrz6FXijm9ayGRl1
- phJC9IoDdDhFJA/0+pK7XexWP3aHDDg=
+ bh=aCyRlcLsLgVaRXnU5SLsAruLHHDQZWjPTIPP8PG6N8w=;
+ b=Gh20qtoemgV0udipwT1ig7coYYRtMOhSZpavhuHzCzXluJGTTwK6Tc93zymzZhoDhlcSHU
+ 3OTJSHe9jXII1yfMzr0fTZrWXOduPdGiQzp8pwN8r4z3LBkm1AOOz43BukJSmwMEInG1t4
+ 9fRgiLJiHwAE/Cez8CFkChpGFngbHcM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-315-3vctua3AME6O-PyJ_8dYeQ-1; Wed, 17 Jun 2020 10:50:12 -0400
-X-MC-Unique: 3vctua3AME6O-PyJ_8dYeQ-1
+ us-mta-463-_40xnGk-MuKe-J7Bqb9zjQ-1; Wed, 17 Jun 2020 10:50:15 -0400
+X-MC-Unique: _40xnGk-MuKe-J7Bqb9zjQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 63BAB18A2673;
- Wed, 17 Jun 2020 14:50:11 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A6C28100CCCB;
+ Wed, 17 Jun 2020 14:50:13 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-114-44.ams2.redhat.com [10.36.114.44])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 68CCE7CAA0;
- Wed, 17 Jun 2020 14:50:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id ACAFD7CAB0;
+ Wed, 17 Jun 2020 14:50:11 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 41/43] iotests/229: data_file is unsupported
-Date: Wed, 17 Jun 2020 16:49:07 +0200
-Message-Id: <20200617144909.192176-42-kwolf@redhat.com>
+Subject: [PULL 42/43] iotests/{190,291}: compat=0.10 is unsupported
+Date: Wed, 17 Jun 2020 16:49:08 +0200
+Message-Id: <20200617144909.192176-43-kwolf@redhat.com>
 In-Reply-To: <20200617144909.192176-1-kwolf@redhat.com>
 References: <20200617144909.192176-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -83,28 +83,42 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Max Reitz <mreitz@redhat.com>
 
-Fixes: d89ac3cf305b28c024a76805a84d75c0ee1e786f
+Fixes: 5d72c68b49769c927e90b78af6d90f6a384b26ac
+Fixes: cf2d1203dcfc2bf964453d83a2302231ce77f2dc
 Signed-off-by: Max Reitz <mreitz@redhat.com>
-Message-Id: <20200617104822.27525-5-mreitz@redhat.com>
+Message-Id: <20200617104822.27525-6-mreitz@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- tests/qemu-iotests/229 | 3 +++
- 1 file changed, 3 insertions(+)
+ tests/qemu-iotests/190 | 2 ++
+ tests/qemu-iotests/291 | 2 ++
+ 2 files changed, 4 insertions(+)
 
-diff --git a/tests/qemu-iotests/229 b/tests/qemu-iotests/229
-index 99acb55ebb..89a5359f32 100755
---- a/tests/qemu-iotests/229
-+++ b/tests/qemu-iotests/229
-@@ -46,6 +46,9 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
- _supported_fmt qcow2 qed
+diff --git a/tests/qemu-iotests/190 b/tests/qemu-iotests/190
+index fe630918e9..c22d8d64f9 100755
+--- a/tests/qemu-iotests/190
++++ b/tests/qemu-iotests/190
+@@ -41,6 +41,8 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ # See 178 for more extensive tests across more formats
+ _supported_fmt qcow2
+ _supported_proto file
++# compat=0.10 does not support bitmaps
++_unsupported_imgopts 'compat=0.10'
+ 
+ echo "== Huge file without bitmaps =="
+ echo
+diff --git a/tests/qemu-iotests/291 b/tests/qemu-iotests/291
+index 404f8521f7..28e4fb9b4d 100755
+--- a/tests/qemu-iotests/291
++++ b/tests/qemu-iotests/291
+@@ -39,6 +39,8 @@ _supported_fmt qcow2
  _supported_proto file
  _supported_os Linux
-+# blkdebug can only inject errors on bs->file, so external data files
-+# do not work with this test
-+_unsupported_imgopts data_file
+ _require_command QEMU_NBD
++# compat=0.10 does not support bitmaps
++_unsupported_imgopts 'compat=0.10'
  
- 
- DEST_IMG="$TEST_DIR/d.$IMGFMT"
+ echo
+ echo "=== Initial image setup ==="
 -- 
 2.25.4
 
