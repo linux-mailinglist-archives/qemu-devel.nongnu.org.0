@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6675A1FC5E1
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 07:57:41 +0200 (CEST)
-Received: from localhost ([::1]:52006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5148A1FC5DA
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 07:55:54 +0200 (CEST)
+Received: from localhost ([::1]:45078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlR4u-0003SP-De
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 01:57:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49748)
+	id 1jlR3B-0008TO-5m
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 01:55:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jlQzi-0002f1-2T; Wed, 17 Jun 2020 01:52:18 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:33027)
+ id 1jlQzi-0002hS-VA; Wed, 17 Jun 2020 01:52:18 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:40681)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jlQzg-0004ST-EQ; Wed, 17 Jun 2020 01:52:17 -0400
-Received: by mail-wr1-x441.google.com with SMTP id l11so954416wru.0;
- Tue, 16 Jun 2020 22:52:15 -0700 (PDT)
+ id 1jlQzh-0004Sj-Cd; Wed, 17 Jun 2020 01:52:18 -0400
+Received: by mail-wr1-x441.google.com with SMTP id h5so918700wrc.7;
+ Tue, 16 Jun 2020 22:52:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=cg5OZZgeFdkySmBsDID4sS8qarnHbFdRK4wloQNjZ2E=;
- b=dsbKIV4O6UW9D34HPyz4x0JsQR5PpSXq7B6LRYAcivUcVNbOCBTjlJAGxsFPDg/jQ+
- TgMgF8LGQaEo5GHaeCUKVOWYemZEaqGy6nI2NyzdBsnMLV0B+n4dBV9lWv35hIzGm3c1
- nbrzAtHOwocUrk9yXtY3tZ0xikCf8DUQBX50LPqqhHfN0eMm6v8aPS8LER1ow7r4KOVb
- 0rBf/RJ89ISk2aUomERaqIB/EhJaufu4VH/rDhKVPxenj94HCiQMeiUH9vWkx/Z0R2vI
- fBhc6fYDnv7GJdnhFyuQnvszxe7pD01s2S1iD34JrTfQr1SrYd9rVkF8yu9q/xsVIqan
- CIXw==
+ bh=FBTuMSOiLwpA4yPchfEYPLFdnrdZHjpXEDQDsJPN5pY=;
+ b=Mrlojp0nSZ29AmemXES5Q+Cn9i/ZqgpH6z08Zc9+kpJ0uO206wK1ND6JlxQbSewHSj
+ SfolCoqZD2ueUROvAT1F4s8Na74rhZzJ4In2twsQqeF35WGn1UEBpDPDHXFgZuux418Q
+ JjHWCdDeOtwtkiQ1CU0ncCZ1UVorA4kxdfaFWTWsB5PNU/skjRBXRd02+QqKrV5z6GLf
+ sRrCaD+2pBbAQKtLHYa0rk19JJLNkyTMXZIzRveP+jsEIY9zlw8GUE8AkizZUes/ck5C
+ vTqUCjyaK3zw5PeO6g5u5pSZ6cSzWm0kVByQI8q1d6XSoNhK5aN23V4bXKgxMN1QCMSq
+ dqQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=cg5OZZgeFdkySmBsDID4sS8qarnHbFdRK4wloQNjZ2E=;
- b=r7g97rsRaUYOlQqI6IGqTnWznVxg012r8o6mjCc7dSnn3we6x19gOwMMyfobytvoDg
- pBGPPrCSZDPhVbMbwHUKG1fb+nWCkjPUrAfD/z+Jh+XlVWNke5QenNakAylRBPhGJb1z
- CXCbrAUlscBzpcRkRSFILTQWYMdRsjYNzloQi76JXoHgpbXfMDhtb9OHFvIhq9SgG9Um
- k2Q+txomZXSu2KVTnM+ZeA7tIlBnM5qsCvCoDia1XYKkb+VC+ZgL7KWx9a+fmaOZX43m
- ppK/1M+pQeOC9hfzHdtg7X2MF6XsOllJHZdrfPug1Sbr8AssA1S638AeRywA/aiKF3G/
- J9NQ==
-X-Gm-Message-State: AOAM530aITYyczTdbxANmFf7jyUp+LmpYMcMiGUr53RJTtjIHbVd+BKC
- EYpS9gjnHID0KwC0tq2S36xh+KgY
-X-Google-Smtp-Source: ABdhPJzbbzaJ+ul27/cXGDCJIqGun8Fv9v9trLwVDDTKWSWCPoUOQ8+NPg5kP/fSLbZjxHF0/lLemQ==
-X-Received: by 2002:a5d:49c5:: with SMTP id t5mr6725072wrs.18.1592373134616;
- Tue, 16 Jun 2020 22:52:14 -0700 (PDT)
+ bh=FBTuMSOiLwpA4yPchfEYPLFdnrdZHjpXEDQDsJPN5pY=;
+ b=MihQy/PlNp8RfVYNmdosDW1w0XpeHDLp6hMmeGpjrMCGYwG+xoUDG0WT0cElylk7LG
+ 8VxuB5mYKfFs/w78L2K4LWTe7Dwi8t/3LEnXwkVdUA5BBvVGe+ZOqmpWb4cmgimtxAh6
+ 3JUT0JrQs0B5xyMcevkcv6vqmCQ2zWoPgffZhuwXAXZcOtlpU/7kLVGklb2ww7jZg9jN
+ U9oR3qOhF1MCyTfy6tQLtyyiLJABZmWHwc1rXwd2+hZJbgJHd7Lk6uUlVhlh7zCQ3Its
+ DR1d/1PwyxkCoz4HDryVI/8RyMgHWOen3PsGzrX+ZDjJtOU5Iy8VUz3GjoNv1wyDi9vg
+ pa5Q==
+X-Gm-Message-State: AOAM5326C28x1eX7HZNFuOucsVQ5Y5M143wKhRhI8XLkQ8Joso1ZyQtz
+ jZyZHuk1p0QBWlAOs2bpCJtV+T7K
+X-Google-Smtp-Source: ABdhPJyFgSUduxrxt4c88IS53ODkaXfLkyZjKtdAriqTtBvuLtAgzl1SXmvrpFaLK7SzNzUyRF2G8Q==
+X-Received: by 2002:a5d:5230:: with SMTP id i16mr6460923wra.325.1592373135678; 
+ Tue, 16 Jun 2020 22:52:15 -0700 (PDT)
 Received: from localhost.localdomain (93.red-83-59-160.dynamicip.rima-tde.net.
  [83.59.160.93])
- by smtp.gmail.com with ESMTPSA id d28sm3000809wrc.50.2020.06.16.22.52.13
+ by smtp.gmail.com with ESMTPSA id d28sm3000809wrc.50.2020.06.16.22.52.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Jun 2020 22:52:14 -0700 (PDT)
+ Tue, 16 Jun 2020 22:52:15 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 06/14] hw/arm/mps2: Document CMSDK/FPGA APB subsystem
- sections
-Date: Wed, 17 Jun 2020 07:51:57 +0200
-Message-Id: <20200617055205.3576-7-f4bug@amsat.org>
+Subject: [PATCH v2 07/14] hw/arm/mps2: Rename CMSDK AHB peripheral region
+Date: Wed, 17 Jun 2020 07:51:58 +0200
+Message-Id: <20200617055205.3576-8-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200617055205.3576-1-f4bug@amsat.org>
 References: <20200617055205.3576-1-f4bug@amsat.org>
@@ -93,44 +92,32 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+To differenciate with the CMSDK APB peripheral region,
+rename this region 'CMSDK AHB peripheral region'.
+
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/arm/mps2.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ hw/arm/mps2.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/hw/arm/mps2.c b/hw/arm/mps2.c
-index daa55f730b..ee555f919d 100644
+index ee555f919d..4fe5cc8622 100644
 --- a/hw/arm/mps2.c
 +++ b/hw/arm/mps2.c
-@@ -65,7 +65,9 @@ typedef struct {
-     MemoryRegion blockram_m2;
-     MemoryRegion blockram_m3;
-     MemoryRegion sram;
-+    /* FPGA APB subsystem */
-     MPS2SCC scc;
-+    /* CMSDK APB subsystem */
-     CMSDKAPBDualTimer dualtimer;
- } MPS2MachineState;
+@@ -212,10 +212,11 @@ static void mps2_common_init(MachineState *machine)
+      */
+     create_unimplemented_device("CMSDK APB peripheral region @0x40000000",
+                                 0x40000000, 0x00010000);
+-    create_unimplemented_device("CMSDK peripheral region @0x40010000",
++    create_unimplemented_device("CMSDK AHB peripheral region @0x40010000",
+                                 0x40010000, 0x00010000);
+     create_unimplemented_device("Extra peripheral region @0x40020000",
+                                 0x40020000, 0x00010000);
++
+     create_unimplemented_device("RESERVED 4", 0x40030000, 0x001D0000);
+     create_unimplemented_device("VGA", 0x41000000, 0x0200000);
  
-@@ -299,9 +301,9 @@ static void mps2_common_init(MachineState *machine)
-         g_assert_not_reached();
-     }
- 
-+    /* CMSDK APB subsystem */
-     cmsdk_apb_timer_create(0x40000000, qdev_get_gpio_in(armv7m, 8), SYSCLK_FRQ);
-     cmsdk_apb_timer_create(0x40001000, qdev_get_gpio_in(armv7m, 9), SYSCLK_FRQ);
--
-     object_initialize_child(OBJECT(mms), "dualtimer", &mms->dualtimer,
-                             TYPE_CMSDK_APB_DUALTIMER);
-     qdev_prop_set_uint32(DEVICE(&mms->dualtimer), "pclk-frq", SYSCLK_FRQ);
-@@ -310,6 +312,7 @@ static void mps2_common_init(MachineState *machine)
-                        qdev_get_gpio_in(armv7m, 10));
-     sysbus_mmio_map(SYS_BUS_DEVICE(&mms->dualtimer), 0, 0x40002000);
- 
-+    /* FPGA APB subsystem */
-     object_initialize_child(OBJECT(mms), "scc", &mms->scc, TYPE_MPS2_SCC);
-     sccdev = DEVICE(&mms->scc);
-     qdev_prop_set_uint32(sccdev, "scc-cfg4", 0x2);
 -- 
 2.21.3
 
