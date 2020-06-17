@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CA941FD7E3
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 23:50:01 +0200 (CEST)
-Received: from localhost ([::1]:36482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C72361FD74F
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 23:33:36 +0200 (CEST)
+Received: from localhost ([::1]:55976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlfwW-0004pr-2p
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 17:50:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38098)
+	id 1jlfgd-0000I7-Rk
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 17:33:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38160)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jlfEo-0004a8-Uf
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 17:04:51 -0400
-Received: from mail-qk1-x743.google.com ([2607:f8b0:4864:20::743]:35411)
+ id 1jlfEs-0004d9-Ll
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 17:04:54 -0400
+Received: from mail-qt1-x844.google.com ([2607:f8b0:4864:20::844]:46918)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jlfEl-0000OE-JT
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 17:04:50 -0400
-Received: by mail-qk1-x743.google.com with SMTP id q2so3530862qkb.2
- for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 14:04:47 -0700 (PDT)
+ id 1jlfEm-0000OY-VU
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 17:04:54 -0400
+Received: by mail-qt1-x844.google.com with SMTP id g18so2725211qtu.13
+ for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 14:04:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=Wzz0etTpNkLIVhXKsaNrdHJF+FQFmmiKYteH+ClsJ3Y=;
- b=VaZgkRbqExWZmfHzCi1ylCk2OTlGq4vZUGFz8454JcjhQz7U8XsVLAJhEjS86oc7YI
- aIT2qvw6nlnhOTcxuk8SVnV44NBHZzePlYGJAX5TdIbJgkpx1moTYkZcOXQDKXG9XHjC
- L3JiZMZxBV7VBqGv/oOqwgGOYBR1xEBX6MT/PF6hpHn1Z/XJCS4JkHOGgPebZezzmg9U
- KBk5TzEZoIvwdR54MhA0oPcnVdXjmR/MyaMitLvtcUbGlU9+4f0cRB5nMhGfQEuBFmdV
- i2wPNQO0YBZ4IrOqlXXFaiZFjONytjH3ilx2BIXW/O2jGYmlg3dqQaxLXZXtzeDA5kJ9
- x+qA==
+ bh=Gn2vKDOISxQzKy44RYpzzeOAg/5NGEBTOA6wtcYZvN4=;
+ b=Thm2aHeyJvMESgiuasvN/HjzFdRSeqqVQq4LmqV7D6GB6694ajgYvGe/9WpkcXcr7F
+ H6koOjMcYHMlU58jiBD/na7kpp3MbsoTyX0KplAxlwrt2ZmSeI/rh5fM8TdZticOuv0p
+ Z1vjrEEY1KGN1jCiWJwqToxP+qrfb2n72GLHYu9mJqEYeG3CUlJzq4Eky3Kx2UvuHPHN
+ aMlcJ1moeBFKEZ07hjG6Nhi29ltknA7u72gd+Wrac+8dyTBBsAfs1wIVelDyGhrH+pG+
+ PPsjFOGYYUXi0b4Dv6yGb227Q5Ef2PKsuQMeOhRBSfupxxYGQECJ0uMoPk4M83egmmQx
+ rsew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=Wzz0etTpNkLIVhXKsaNrdHJF+FQFmmiKYteH+ClsJ3Y=;
- b=WFdl5v8aXNWQSwbqhMSjsopFyq8Fc8oUsYcJ3gVmg7OWdjJxon4VeXFBWDNCYozXs8
- 2xWriMgpKrlmhr75C3V/yt73NIFw9rjJTqDxgLMluPRjFKx6Ryj3l0rgC9lY3tXdy+js
- UcMJB/lP4sEp23LUWz2qdJIkSB6TetIvMhhaS5C1TITvMp7mlmAqmbYt5mRvmhe6q84U
- nYP5i71l6WuxBK66GKNmJVZUcd1OFRdQszoWUZ4gqa14cNMfbKSsMZdfvTeGjBEOTRA3
- Dwgy1yQCyP0x4TzQGFlRRr8i+1JuD3hTursbgneL7kjP01QRWIuCn88ij45XzQDx3eOL
- PFig==
-X-Gm-Message-State: AOAM533igE9RhEvZExxQxYALLN2IOs7VgvcjTbVOvXaIw4JQKbpLaToW
- xfG4Et5YeBD+o+dnRRgB9jgf7u5rBctUMg==
-X-Google-Smtp-Source: ABdhPJxM6QYpcRkr9Oc35nOQvHJgtBtlSj0UtIwI8rlUvBY9sV4CeFovpAHG4xq1HcNUQ6mZvlmC+A==
-X-Received: by 2002:a37:9684:: with SMTP id y126mr593877qkd.348.1592427886325; 
- Wed, 17 Jun 2020 14:04:46 -0700 (PDT)
+ bh=Gn2vKDOISxQzKy44RYpzzeOAg/5NGEBTOA6wtcYZvN4=;
+ b=eK+bamCd/z262bhZrdAt9o1bJRpRneSS+H1nOJqtmyNSaC6hbb+uaKBxEAAbDv3Lmb
+ IWFDcC1ucWfvAXg2J0zoFksB/58J7NpNkqVF3m08mplZDVZdoNp9t14uZpOWIfBRJUmf
+ PsEH7PcmefK05FG9QBP6+T69O9kHBBaBYk79fMqs2E3gO9oN2wfI10DkNj7XC5UVPa8Q
+ pcj1rm6Ov43tH0VHH4Wst1pJ5jsWjdp5wz241rXZm1AxZy7+FW/Ew+l90n2nNWhPWx0/
+ D6Wmwbnr083jaVTWuAURHM+Xczvw5sHyHHJYhS+H7phe1xAUCHn1bI264mHR8ry01QHP
+ n9Gw==
+X-Gm-Message-State: AOAM531hWh/5SWwtiDRLiLha723myIuM73+b4DGDrBbiWIry9QQY4/jb
+ snnozBt+aYlfCBtWt42P/BkNLu/09ol46w==
+X-Google-Smtp-Source: ABdhPJxAKNubapx5PrPPbM5wErYiPAmdGaZpL0L5IGJIvowKMl1c2emXMR/ej2SGxbckZ5RV2i/pjg==
+X-Received: by 2002:ac8:51d5:: with SMTP id d21mr1141796qtn.154.1592427887822; 
+ Wed, 17 Jun 2020 14:04:47 -0700 (PDT)
 Received: from Rfoley-MA01.hsd1.ma.comcast.net
  ([2601:199:4480:60c0:fc79:714c:9711:2e9c])
- by smtp.gmail.com with ESMTPSA id w13sm997245qkb.91.2020.06.17.14.04.45
+ by smtp.gmail.com with ESMTPSA id w13sm997245qkb.91.2020.06.17.14.04.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Jun 2020 14:04:45 -0700 (PDT)
+ Wed, 17 Jun 2020 14:04:47 -0700 (PDT)
 From: Robert Foley <robert.foley@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v10 63/73] ppc: convert to cpu_has_work_with_iothread_lock
-Date: Wed, 17 Jun 2020 17:02:21 -0400
-Message-Id: <20200617210231.4393-64-robert.foley@linaro.org>
+Subject: [PATCH v10 64/73] mips: convert to cpu_has_work_with_iothread_lock
+Date: Wed, 17 Jun 2020 17:02:22 -0400
+Message-Id: <20200617210231.4393-65-robert.foley@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200617210231.4393-1-robert.foley@linaro.org>
 References: <20200617210231.4393-1-robert.foley@linaro.org>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::743;
- envelope-from=robert.foley@linaro.org; helo=mail-qk1-x743.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::844;
+ envelope-from=robert.foley@linaro.org; helo=mail-qt1-x844.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -82,9 +82,10 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: robert.foley@linaro.org, cota@braap.org, qemu-ppc@nongnu.org,
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, robert.foley@linaro.org,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>, cota@braap.org,
  peter.puhov@linaro.org, alex.bennee@linaro.org,
- David Gibson <david@gibson.dropbear.id.au>
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -92,109 +93,37 @@ From: "Emilio G. Cota" <cota@braap.org>
 
 Soon we will call cpu_has_work without the BQL.
 
-Cc: qemu-ppc@nongnu.org
+Cc: Aurelien Jarno <aurelien@aurel32.net>
+Cc: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Acked-by: David Gibson <david@gibson.dropbear.id.au>
 Signed-off-by: Emilio G. Cota <cota@braap.org>
-[RF: Converted new code related to POWER10]
 Signed-off-by: Robert Foley <robert.foley@linaro.org>
 ---
- target/ppc/translate_init.inc.c | 19 ++++++++++++++-----
- 1 file changed, 14 insertions(+), 5 deletions(-)
+ target/mips/cpu.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/target/ppc/translate_init.inc.c b/target/ppc/translate_init.inc.c
-index d06d9ff204..60ee51c105 100644
---- a/target/ppc/translate_init.inc.c
-+++ b/target/ppc/translate_init.inc.c
-@@ -8540,6 +8540,8 @@ static bool cpu_has_work_POWER7(CPUState *cs)
-     PowerPCCPU *cpu = POWERPC_CPU(cs);
-     CPUPPCState *env = &cpu->env;
+diff --git a/target/mips/cpu.c b/target/mips/cpu.c
+index 761d8aaa54..ec9dde5100 100644
+--- a/target/mips/cpu.c
++++ b/target/mips/cpu.c
+@@ -58,6 +58,8 @@ static bool mips_cpu_has_work(CPUState *cs)
+     bool has_work = false;
+     uint32_t interrupt_request = cpu_interrupt_request(cs);
  
 +    g_assert(qemu_mutex_iothread_locked());
 +
-     if (cpu_halted(cs)) {
-         if (!(cpu_interrupt_request(cs) & CPU_INTERRUPT_HARD)) {
-             return false;
-@@ -8582,7 +8584,7 @@ POWERPC_FAMILY(POWER7)(ObjectClass *oc, void *data)
-     pcc->pcr_supported = PCR_COMPAT_2_06 | PCR_COMPAT_2_05;
-     pcc->init_proc = init_proc_POWER7;
-     pcc->check_pow = check_pow_nocheck;
--    cc->has_work = cpu_has_work_POWER7;
-+    cc->has_work_with_iothread_lock = cpu_has_work_POWER7;
-     pcc->insns_flags = PPC_INSNS_BASE | PPC_ISEL | PPC_STRING | PPC_MFTB |
-                        PPC_FLOAT | PPC_FLOAT_FSEL | PPC_FLOAT_FRES |
-                        PPC_FLOAT_FSQRT | PPC_FLOAT_FRSQRTE |
-@@ -8702,6 +8704,8 @@ static bool cpu_has_work_POWER8(CPUState *cs)
-     PowerPCCPU *cpu = POWERPC_CPU(cs);
-     CPUPPCState *env = &cpu->env;
+     /*
+      * Prior to MIPS Release 6 it is implementation dependent if non-enabled
+      * interrupts wake-up the CPU, however most of the implementations only
+@@ -193,7 +195,7 @@ static void mips_cpu_class_init(ObjectClass *c, void *data)
+     device_class_set_parent_reset(dc, mips_cpu_reset, &mcc->parent_reset);
  
-+    g_assert(qemu_mutex_iothread_locked());
-+
-     if (cpu_halted(cs)) {
-         if (!(cpu_interrupt_request(cs) & CPU_INTERRUPT_HARD)) {
-             return false;
-@@ -8752,7 +8756,7 @@ POWERPC_FAMILY(POWER8)(ObjectClass *oc, void *data)
-     pcc->pcr_supported = PCR_COMPAT_2_07 | PCR_COMPAT_2_06 | PCR_COMPAT_2_05;
-     pcc->init_proc = init_proc_POWER8;
-     pcc->check_pow = check_pow_nocheck;
--    cc->has_work = cpu_has_work_POWER8;
-+    cc->has_work_with_iothread_lock = cpu_has_work_POWER8;
-     pcc->insns_flags = PPC_INSNS_BASE | PPC_ISEL | PPC_STRING | PPC_MFTB |
-                        PPC_FLOAT | PPC_FLOAT_FSEL | PPC_FLOAT_FRES |
-                        PPC_FLOAT_FSQRT | PPC_FLOAT_FRSQRTE |
-@@ -8902,6 +8906,8 @@ static bool cpu_has_work_POWER9(CPUState *cs)
-     PowerPCCPU *cpu = POWERPC_CPU(cs);
-     CPUPPCState *env = &cpu->env;
- 
-+    g_assert(qemu_mutex_iothread_locked());
-+
-     if (cpu_halted(cs)) {
-         uint64_t psscr = env->spr[SPR_PSSCR];
- 
-@@ -8969,7 +8975,7 @@ POWERPC_FAMILY(POWER9)(ObjectClass *oc, void *data)
-                          PCR_COMPAT_2_05;
-     pcc->init_proc = init_proc_POWER9;
-     pcc->check_pow = check_pow_nocheck;
--    cc->has_work = cpu_has_work_POWER9;
-+    cc->has_work_with_iothread_lock = cpu_has_work_POWER9;
-     pcc->insns_flags = PPC_INSNS_BASE | PPC_ISEL | PPC_STRING | PPC_MFTB |
-                        PPC_FLOAT | PPC_FLOAT_FSEL | PPC_FLOAT_FRES |
-                        PPC_FLOAT_FSQRT | PPC_FLOAT_FRSQRTE |
-@@ -9118,6 +9124,7 @@ static bool cpu_has_work_POWER10(CPUState *cs)
-     PowerPCCPU *cpu = POWERPC_CPU(cs);
-     CPUPPCState *env = &cpu->env;
- 
-+    g_assert(qemu_mutex_iothread_locked());
-     if (cpu_halted(cs)) {
-         uint64_t psscr = env->spr[SPR_PSSCR];
- 
-@@ -9186,7 +9193,7 @@ POWERPC_FAMILY(POWER10)(ObjectClass *oc, void *data)
-                          PCR_COMPAT_2_06 | PCR_COMPAT_2_05;
-     pcc->init_proc = init_proc_POWER10;
-     pcc->check_pow = check_pow_nocheck;
--    cc->has_work = cpu_has_work_POWER10;
-+    cc->has_work_with_iothread_lock = cpu_has_work_POWER10;
-     pcc->insns_flags = PPC_INSNS_BASE | PPC_ISEL | PPC_STRING | PPC_MFTB |
-                        PPC_FLOAT | PPC_FLOAT_FSEL | PPC_FLOAT_FRES |
-                        PPC_FLOAT_FSQRT | PPC_FLOAT_FRSQRTE |
-@@ -10656,6 +10663,8 @@ static bool ppc_cpu_has_work(CPUState *cs)
-     PowerPCCPU *cpu = POWERPC_CPU(cs);
-     CPUPPCState *env = &cpu->env;
- 
-+    g_assert(qemu_mutex_iothread_locked());
-+
-     return msr_ee && (cpu_interrupt_request(cs) & CPU_INTERRUPT_HARD);
- }
- 
-@@ -10880,7 +10889,7 @@ static void ppc_cpu_class_init(ObjectClass *oc, void *data)
-     cc->class_by_name = ppc_cpu_class_by_name;
-     pcc->parent_parse_features = cc->parse_features;
-     cc->parse_features = ppc_cpu_parse_featurestr;
--    cc->has_work = ppc_cpu_has_work;
-+    cc->has_work_with_iothread_lock = ppc_cpu_has_work;
-     cc->do_interrupt = ppc_cpu_do_interrupt;
-     cc->cpu_exec_interrupt = ppc_cpu_exec_interrupt;
-     cc->dump_state = ppc_cpu_dump_state;
+     cc->class_by_name = mips_cpu_class_by_name;
+-    cc->has_work = mips_cpu_has_work;
++    cc->has_work_with_iothread_lock = mips_cpu_has_work;
+     cc->do_interrupt = mips_cpu_do_interrupt;
+     cc->cpu_exec_interrupt = mips_cpu_exec_interrupt;
+     cc->dump_state = mips_cpu_dump_state;
 -- 
 2.17.1
 
