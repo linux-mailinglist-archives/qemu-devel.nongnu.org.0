@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB7BF1FC5C4
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 07:43:59 +0200 (CEST)
-Received: from localhost ([::1]:42600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2F811FC5CE
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 07:48:00 +0200 (CEST)
+Received: from localhost ([::1]:54658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlQre-0002rs-S5
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 01:43:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48022)
+	id 1jlQvY-0008Ok-1t
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 01:48:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1jlQqE-0001bb-Px
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 01:42:30 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58873
- helo=us-smtp-1.mimecast.com)
+ id 1jlQqS-0001md-Ib
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 01:42:45 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:25704
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1jlQqD-0002yQ-7I
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 01:42:30 -0400
+ id 1jlQqR-000306-1s
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 01:42:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592372548;
+ s=mimecast20190719; t=1592372562;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VKx7iSvqId1U58YggDYrmaFz5CuGPxBP34L170G72K4=;
- b=g2wgA+g6TwrPFXwGUQ+lbHCoqC5QSfUzgoGMlW2q2iF6eTn2x+5iJPqo25q+C2Xu5LHsVg
- oZiuRMRd45EquFaBZEzAjwqEt3F1IRJbXQHvAviyEWnykgM+KEqqwiu3RApFtUsbbwxX9M
- LaiJiLjM9D0A3KixW+RavBHjis/n/gQ=
+ bh=mL4yiHRVyGUjZw4VEYH3AemwfXJwLjo65tErGUGUNr4=;
+ b=C8Vcg8QBAQj4FCyfwwanboBjj0SDjG/HlVTrwebV5Jt6DkeIbpCat24qwbEJOpOdTx4/Tc
+ it4Y8nrSY33ywTop9kMd7KuW1eykI/spMSdsFMMsh8Nim0v3Z0NQKvxXXy/ciOgzZzNZbP
+ 5eQkHvMlR9zaSkkQLHhHaZzSQhmG79Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-460-88d2ZwnHNOG6jZtciGRoDw-1; Wed, 17 Jun 2020 01:42:26 -0400
-X-MC-Unique: 88d2ZwnHNOG6jZtciGRoDw-1
+ us-mta-357-Qb5FJo9GPey4gMw2zaN2WA-1; Wed, 17 Jun 2020 01:42:37 -0400
+X-MC-Unique: Qb5FJo9GPey4gMw2zaN2WA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4969180F5C8;
- Wed, 17 Jun 2020 05:42:25 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2DDD6107B476;
+ Wed, 17 Jun 2020 05:42:35 +0000 (UTC)
 Received: from localhost.localdomain (vpn2-54-83.bne.redhat.com [10.64.54.83])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 14B7119D61;
- Wed, 17 Jun 2020 05:42:18 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6FF4919D61;
+ Wed, 17 Jun 2020 05:42:25 +0000 (UTC)
 From: P J P <ppandit@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH 4/6] prep: add ppc-parity write method
-Date: Wed, 17 Jun 2020 11:09:31 +0530
-Message-Id: <20200617053934.122642-5-ppandit@redhat.com>
+Subject: [PATCH 5/6] nvram: add nrf51_soc flash read method
+Date: Wed, 17 Jun 2020 11:09:32 +0530
+Message-Id: <20200617053934.122642-6-ppandit@redhat.com>
 In-Reply-To: <20200617053934.122642-1-ppandit@redhat.com>
 References: <20200617053934.122642-1-ppandit@redhat.com>
 MIME-Version: 1.0
@@ -56,9 +56,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=ppandit@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/16 23:30:45
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=ppandit@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/17 01:42:42
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -91,43 +91,40 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Prasad J Pandit <pjp@fedoraproject.org>
 
-Add ppc-parity mmio write method to avoid NULL pointer dereference
+Add nrf51_soc mmio read method to avoid NULL pointer dereference
 issue.
 
 Reported-by: Lei Sun <slei.casper@gmail.com>
 Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
 ---
- hw/ppc/prep_systemio.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ hw/nvram/nrf51_nvm.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/hw/ppc/prep_systemio.c b/hw/ppc/prep_systemio.c
-index bbc51b6e9a..aacd7831fd 100644
---- a/hw/ppc/prep_systemio.c
-+++ b/hw/ppc/prep_systemio.c
-@@ -23,6 +23,7 @@
-  */
+diff --git a/hw/nvram/nrf51_nvm.c b/hw/nvram/nrf51_nvm.c
+index f2283c1a8d..e813c7ec72 100644
+--- a/hw/nvram/nrf51_nvm.c
++++ b/hw/nvram/nrf51_nvm.c
+@@ -274,6 +274,12 @@ static const MemoryRegionOps io_ops = {
+ };
  
- #include "qemu/osdep.h"
-+#include "qemu/log.h"
- #include "hw/irq.h"
- #include "hw/isa/isa.h"
- #include "hw/qdev-properties.h"
-@@ -235,8 +236,15 @@ static uint64_t ppc_parity_error_readl(void *opaque, hwaddr addr,
-     return val;
- }
  
-+static void ppc_parity_error_writel(void *opaque, hwaddr addr,
-+                                    uint64_t data, unsigned size)
++static uint64_t flash_read(void *opaque, hwaddr addr, unsigned size)
 +{
 +    qemu_log_mask(LOG_UNIMP, "%s not implemented\n", __func__);
++    return 0;
 +}
 +
- static const MemoryRegionOps ppc_parity_error_ops = {
-     .read = ppc_parity_error_readl,
-+    .write = ppc_parity_error_writel,
-     .valid = {
-         .min_access_size = 4,
-         .max_access_size = 4,
+ static void flash_write(void *opaque, hwaddr offset, uint64_t value,
+         unsigned int size)
+ {
+@@ -300,6 +306,7 @@ static void flash_write(void *opaque, hwaddr offset, uint64_t value,
+ 
+ 
+ static const MemoryRegionOps flash_ops = {
++    .read = flash_read,
+     .write = flash_write,
+     .valid.min_access_size = 4,
+     .valid.max_access_size = 4,
 -- 
 2.26.2
 
