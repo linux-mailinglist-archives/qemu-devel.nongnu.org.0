@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 233F91FC8A0
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 10:30:33 +0200 (CEST)
-Received: from localhost ([::1]:57466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 025FC1FC887
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 10:26:33 +0200 (CEST)
+Received: from localhost ([::1]:46752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlTSq-0003hH-7Q
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 04:30:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54576)
+	id 1jlTOy-0007Gw-1F
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 04:26:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasper.lowell@bt.com>)
- id 1jlTNM-0005DS-OY
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 04:24:52 -0400
-Received: from smtpe1.intersmtp.com ([62.239.224.235]:19688)
+ id 1jlTNQ-0005KT-QO
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 04:24:56 -0400
+Received: from smtpe1.intersmtp.com ([62.239.224.234]:29299)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <jasper.lowell@bt.com>)
- id 1jlTNK-0003xN-QS
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 04:24:52 -0400
-Received: from tpw09926dag13e.domain1.systemhost.net (10.9.212.13) by
- RDW083A011ED67.bt.com (10.187.98.37) with Microsoft SMTP Server (TLS) id
- 14.3.439.0; Wed, 17 Jun 2020 09:27:35 +0100
+ id 1jlTNO-0003y5-VM
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 04:24:56 -0400
+Received: from tpw09926dag15h.domain1.systemhost.net (10.9.212.39) by
+ RDW083A012ED68.bt.com (10.187.98.38) with Microsoft SMTP Server (TLS) id
+ 14.3.439.0; Wed, 17 Jun 2020 09:21:30 +0100
 Received: from tpw09926dag13h.domain1.systemhost.net (10.9.212.37) by
- tpw09926dag13e.domain1.systemhost.net (10.9.212.13) with Microsoft SMTP
- Server (TLS) id 15.0.1395.4; Wed, 17 Jun 2020 09:24:48 +0100
+ tpw09926dag15h.domain1.systemhost.net (10.9.212.39) with Microsoft SMTP
+ Server (TLS) id 15.0.1395.4; Wed, 17 Jun 2020 09:24:51 +0100
 Received: from RDW083A009ED65.bt.com (10.187.98.35) by
  tpw09926dag13h.domain1.systemhost.net (10.9.212.37) with Microsoft SMTP
- Server (TLS) id 15.0.1395.4 via Frontend Transport; Wed, 17 Jun 2020 09:24:48
+ Server (TLS) id 15.0.1395.4 via Frontend Transport; Wed, 17 Jun 2020 09:24:51
  +0100
-Received: from GBR01-CWL-obe.outbound.protection.outlook.com (104.47.20.57) by
+Received: from GBR01-CWL-obe.outbound.protection.outlook.com (104.47.20.51) by
  smtpe1.intersmtp.com (62.239.224.236) with Microsoft SMTP Server
- (TLS) id 14.3.439.0; Wed, 17 Jun 2020 09:17:28 +0100
+ (TLS) id 14.3.439.0; Wed, 17 Jun 2020 09:17:31 +0100
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dtIKUuZn1/3EpvnLBoNl1PAM74sCK6/NfAYPZHrCizOeHpFGuUHNkfabWOgl3pnNrIqWt4qfpIq1mGf/ojCmfpcQEZXB5XLUC4QuXwPBOb7ddx+qDERU+WbKJ97ZilZiUsW4j4heFfAmaNCBkT72SXtc1nZDNlG0bO+p+eGq2SFxvE36g9Jj9v0dGg2ONv+VCCcTp9x9kUJRGvcQcHqFhoqWWiErxkBsHwRdNl0r+UDVEj2t4jRjnRXqVdVhO/gwa2YfKXgrq7DngWk/k9ApO62BgKKDrqtH3OwLR0/EYYUvSDthAISmeJ/Y6gi+b/CpzWGOZlxgCmMf8LUAbCtl8Q==
+ b=YMo6IS0HS4r8DdcPE5+Oi0KIphH2ytTeb1+2JZE2dl2wFKXbNbPSUTFL9uGapYcIVnn+mM5XE85CG9lQCAknRvVZmOAZ/93P5VMDeYbDVA2gkFtKizTInlRZTMj4X0E5SqkHPThEL9/O0tmxWSV5WSIx2Mn06Ech9zCvjNRrNheml4Q01eJQaXbu5J9pvjGmuUQRAcPdqHjrLTSJG8qYEyGmpzWRZxCyAPme5WngRhrpp/fifyrkRSUN7rV03nSavjxZkr1Eh6k9EdmJQJ4J+JDRG3H7vyXEaaEYXgTaR0WqWUNmAKnAQVc1QHqIYB3F4fr4r33VPI+kRqRxMUQAAw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5Epn5UyQdf1Lw0Zh6v9NFROnbfoPOmhL5PCtfueV/us=;
- b=RcxYV2IOw/kupd08s8BuYtX4p7VfKplFsN2Mq6Onq4Z7F/gXylk0hifP1H6VFF4pPmEzPs7u5R6DaYpBEdiXOdNtnQXdIDnhmCW5PT+2SP6jDWIT1cBWKO49o53lu2QMg0NjLv9uGCZSwAlu6WTDec6Lyx24oeHhP4KCOfGwpc7FCv1l/Oi86CLic+8fuQ5AJp9fTCB4FAfjM6n+whG61RZGZWLltS5j11EcSTWl7QhzHWRlpc2KIcffLpnruRdEVUpyGvaEyMyIltKWp6xuV5YoYcGnRsUv/mGmVzOJ0ZJF8RgZn4M62YrVum2slA/7Z03ztPyqHJMLS0JKyMIq4Q==
+ bh=dBLNsCvC3ZFFfVobT9Df/7+Ndzt03Ahc+Gg/6OZAm+4=;
+ b=RuuOtaLiShAWSNWXfXa/JONBZloK4av+6iGkGN8XKefRG96kXqp5lnJPSE6OyA6xGUS4OyMpHCtp5u26+ZHWE15oE5t0ny+LZynMvzwPxHZNeY/h4Kl65FCZ26R6UDo8wLszMNNy/heStfq+QPujlNWh45BNu0x+arR6ZT/1aOYQ5XUrgPi0UWYdwvq/EOzz8I5Z5XapFZvvMoUKlY4hoPvB7gMc9YP1FswSyYoNl3WJzWQsD8BLFDSeh9buKDamxTBjsLD/QBpOnzJdwNM1KXEsglOgWD4jJVfd/2iG4Xb7RmjW8aMIrmaWtjfCekZLK4Q189w+8h39cB/q6b6Ofg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bt.com; dmarc=pass action=none header.from=bt.com; dkim=pass
  header.d=bt.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bt.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5Epn5UyQdf1Lw0Zh6v9NFROnbfoPOmhL5PCtfueV/us=;
- b=hWtFFV0HO+7uuYPyHezhkkmJ4FpZwh0UygQzExTAXLygkSt+bI+ItiXUom3efG7fCwq5hKSKfPymuOPva3nkiz5RNXnKrfY2gf3q3tvuPqtrvTjl8WOgoqNmgalOqxyKE0aIj3iTiO0LehCepI8OWbUZwNHbwDpUEWT/cuJCTFQ=
+ bh=dBLNsCvC3ZFFfVobT9Df/7+Ndzt03Ahc+Gg/6OZAm+4=;
+ b=UkaE9aLXqS7/Tc3QczMn1QhUi5dlVGgKc8jyUg/g9dVw2rMOK0Zac6JlG0eopiWU10om0uZsYyEnAuiiDc9PT4fqptaMd2WxFFllnp8aZj1VoI1rZ6YNn1sNRaO5s424NFkMLgYRoV1E0rWPC3tXM0ZIy2E7xwYEXxu4C6/QqyE=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=bt.com;
 Received: from CWXP123MB1958.GBRP123.PROD.OUTLOOK.COM (2603:10a6:401:7b::18)
  by CWXP123MB3255.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:43::10) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3109.22; Wed, 17 Jun
- 2020 08:24:41 +0000
+ 2020 08:24:49 +0000
 Received: from CWXP123MB1958.GBRP123.PROD.OUTLOOK.COM
  ([fe80::e098:8c50:5b1e:6a1b]) by CWXP123MB1958.GBRP123.PROD.OUTLOOK.COM
  ([fe80::e098:8c50:5b1e:6a1b%7]) with mapi id 15.20.3109.021; Wed, 17 Jun 2020
- 08:24:41 +0000
+ 08:24:49 +0000
 From: Jasper Lowell <jasper.lowell@bt.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH 5/8] hw/char/escc2: Add Receiver Reset (RRES) command
-Date: Wed, 17 Jun 2020 18:23:59 +1000
-Message-ID: <20200617082402.242631-6-jasper.lowell@bt.com>
+Subject: [PATCH 7/8] hw/char/escc2: Add Transmit Frame (XF) command
+Date: Wed, 17 Jun 2020 18:24:01 +1000
+Message-ID: <20200617082402.242631-8-jasper.lowell@bt.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200617082402.242631-1-jasper.lowell@bt.com>
 References: <20200617082402.242631-1-jasper.lowell@bt.com>
@@ -75,44 +75,44 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (185.128.24.45) by
  SG2PR02CA0051.apcprd02.prod.outlook.com (2603:1096:4:54::15) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3109.21 via Frontend Transport; Wed, 17 Jun 2020 08:24:38 +0000
+ 15.20.3109.21 via Frontend Transport; Wed, 17 Jun 2020 08:24:46 +0000
 X-Mailer: git-send-email 2.26.2
 X-Originating-IP: [185.128.24.45]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 5e1b0c13-505c-408c-16eb-08d81297e1fe
+X-MS-Office365-Filtering-Correlation-Id: 8f22ffab-3cf3-4f22-2eff-08d81297e682
 X-MS-TrafficTypeDiagnostic: CWXP123MB3255:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <CWXP123MB3255A6BE038B37240BF92355839A0@CWXP123MB3255.GBRP123.PROD.OUTLOOK.COM>
+X-Microsoft-Antispam-PRVS: <CWXP123MB3255B5857BB12213ACCB48DE839A0@CWXP123MB3255.GBRP123.PROD.OUTLOOK.COM>
 X-Antispam-2: 1
-X-MS-Oob-TLC-OOBClassifiers: OLM:4303;
+X-MS-Oob-TLC-OOBClassifiers: OLM:5516;
 X-Forefront-PRVS: 04371797A5
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: d0BkMyMVd52Gy0lib0adiYlZPiM8KycdS0QZQkYZTu5Y85Kb/xOkoajuhIQ5XcdYDJO36bb9MlGtfzwxIEfSQ+FFSOsflJdTkskSth+C6eTtlSrnuGlRUazIHQ3j6dpG8NEfHZ+ZEBOdBu8J0iX6CL2sLeUWNAH+dvgjYD/6PjEvVQUUZsKCer/7HPAdEr/AdUZ2qD+AfG3JgItbwWoTPv75iNm2pz+OJ8byITNZl7/LA3kqk7Y0hOEQ+jUa21LqwNNx7FmVHYDBYADGwSOnpcOlGZU3mSc7YmiekA2oN1UU2Zx+FhO2wUsjpxs/qA26xswW1mzl/XuRayPPEjamxqqT7rNaexpa7eV9bWxLRHv+1a0g19LihZGd9ZeidbjF
+X-Microsoft-Antispam-Message-Info: EGXztA3e5mh6Kd+E032T+N0u5JVI9khA+ghTpsUP2wJ0LUJlEymlNVQ5l3McjRn68z47x48A7aYdIaIy1lvC4iNVwSMKQFa1sjaWZrJuEq2hqX3ilYh8nMV7wmNAmlwdzpyjkDXxo+MccBQpdoOoFzFRwgTdGGjnumijaK9yJYT4jnse/tM1gHj5YXZhoTY1ZV0bX12Gc8omSwTjiMOMWdPLpglaIl5lDysn9fn/WExSJILF7YmiffNXlpED8cCMFcaHn9Io+sv3RRq6tnIxb/frsaDerEAntbeiNt6vG6cZ6+Q7RfGhEiEw4zmX/C0YxVWWM8XaKdbHq/GE7QUo6yAe10/YaMXjxCmNK95lAdoQl0NnBJIGIrAJmyXKI1bi
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:CWXP123MB1958.GBRP123.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
  SFTY:;
- SFS:(4636009)(396003)(136003)(366004)(346002)(376002)(39860400002)(44832011)(1076003)(8676002)(2616005)(316002)(8936002)(6666004)(6486002)(956004)(2906002)(5660300002)(83380400001)(6506007)(69590400007)(26005)(6512007)(36756003)(6916009)(186003)(16526019)(478600001)(52116002)(66556008)(66476007)(4326008)(66946007)(86362001);
+ SFS:(4636009)(396003)(136003)(366004)(346002)(376002)(39860400002)(44832011)(1076003)(8676002)(2616005)(316002)(8936002)(6666004)(6486002)(956004)(2906002)(5660300002)(6506007)(69590400007)(26005)(6512007)(36756003)(6916009)(186003)(16526019)(478600001)(52116002)(66556008)(66476007)(4326008)(66946007)(86362001);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: mk6WLnihyINqETpMZhMKcGlVmgH2iKf0cbIcINLTaMkYS6rWj+86q6nsucav3jEer70q5TE4grs2aS5frZl8WZWOSv8N9A5Exw4fD7tAqKxLFmGVz0bMu5sABZxUZuyUKLHGHzjmstrjP7padhkW057agCASJekwjs5CjsNS2JhJDH+K2wkuXOjE3OJUuIzZXZm+FU7g5A4yltnC2x+y/brd8xYKIvl/aMOjnZDvKn2UhIJV6VaqDkYGWx4vHm/NmtIy/jFv+RXeppcqYIbSFR+bIb77SZ7gIF7lfNquPDg8buAmB9K7ZwrIe4zpIBn69VskREZSi8GRyGeWizOqbur9E6dxdqb2/G3luG7//Ytborc2A5QSttTTtSOYkISd+2Sn0eSZFT0ZttMnAureJx9o57srp3A3VhYX5fD1uqSNoLfwdSpdorS7mMcDJWkavPPWIUGyVAM4CrXyAqdT/2yrSJGlByNljBw2ISzjbGM=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5e1b0c13-505c-408c-16eb-08d81297e1fe
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jun 2020 08:24:41.7390 (UTC)
+X-MS-Exchange-AntiSpam-MessageData: gnGW6avl1Cs9OUK+bZy9k1J7XpGeLLXw8/HnpBMkgHLpqWNX8UiZe4bT7hs/2XyXmmXzR6e/MUNji4G4DiF+mudhRWqdLuQlkaNCVVW0a5+qCrIDSdyCjJ+surPPviAi5zEKQOjQfABeqdh6+HBcUmvkjzfpEzpOW9o1tDasR6q3VtFn0ob3G5MWXysRzZeE6uQUPpcZJZWwqJs9AHeJ9+HjufoCsg1u26+8eD7SNL3SdyMHMEGwO555OuKoj+YU5orON2wjkRP+WZWejqdKATDaE4XJilR16AxvPD2xffW9SdgPNMIStOgzXHxVOuuh6ccStU3+8FQdFn1A2Phx7mrVUb3i7I1YLt0X3ncUaB/od1MTGuZtUJPQUUD20vGDItQIzTzN5d74leBQLwNwJ3P3g72sWm0QegLBspunPLnfLILDYydEdRr1Nh/AxXq4Xfdn8tN5T8NlTTn9lZnSrqOuWOS4hbyTFpc5Qm3VPt0=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8f22ffab-3cf3-4f22-2eff-08d81297e682
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jun 2020 08:24:49.3026 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: a7f35688-9c00-4d5e-ba41-29f146377ab0
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: QVlz67wh+La1oT4TD99dc+cqu8jVtOV9T4M5LESgP17QzI4mj9KeuD2GQgdNkLhLDR5wpQbp7orMIRnz2rXhNA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: BZb33HLn3Zv6Qj2Jzd9YciXrDC7AbOZZha+0pq32myQkmUF1iVlo0ayGqnJtzS7Kee//D9saHsa3wxccpscHSw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWXP123MB3255
 X-OriginatorOrg: bt.com
-Received-SPF: pass client-ip=62.239.224.235; envelope-from=jasper.lowell@bt.com;
+Received-SPF: pass client-ip=62.239.224.234; envelope-from=jasper.lowell@bt.com;
  helo=smtpe1.intersmtp.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/17 04:24:49
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/17 04:24:48
 X-ACL-Warn: Detected OS   = ???
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-Spam_score_int: -26
+X-Spam_score: -2.7
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FUZZY_XPILL=0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01,
  RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
@@ -132,76 +132,64 @@ Cc: tony.nguyen@bt.com, mark.cave-ayland@ilande.co.uk, atar4qemu@gmail.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commands are initiated by setting certain bits in the CMDR register. The
-Receiver Reset (RRES) command clears the receiver FIFO (RFIFO).
+The Transmit Frame (XF) command is an alternative to using the TIC
+register for transmitting. This command allows the guest to transmit the
+contents of the transmit FIFO rather than a single character.
 
 Signed-off-by: Jasper Lowell <jasper.lowell@bt.com>
 ---
- hw/char/escc2.c      | 24 ++++++++++++++++++++++++
- hw/char/trace-events |  1 +
- 2 files changed, 25 insertions(+)
+ hw/char/escc2.c | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
 
 diff --git a/hw/char/escc2.c b/hw/char/escc2.c
-index 059e033089..5afb8aa6d9 100644
+index 8198b7fec3..3bacdfaa7c 100644
 --- a/hw/char/escc2.c
 +++ b/hw/char/escc2.c
-@@ -29,6 +29,12 @@
+@@ -207,6 +207,14 @@
  
- /* CMDR. */
- #define REGISTER_CMDR_OFFSET                    0x20
-+#define REGISTER_CMDR_RMC                       0x80
-+#define REGISTER_CMDR_RRES                      0x40
-+#define REGISTER_CMDR_RFRD                      0x20
-+#define REGISTER_CMDR_STI                       0x10
-+#define REGISTER_CMDR_XF                        0x8
-+#define REGISTER_CMDR_XRES                      0x1
+ /* ISR1. */
+ #define REGISTER_ISR1_OFFSET                    0x3b
++#define REGISTER_ISR1_BRK                       0x80
++#define REGISTER_ISR1_BRKT                      0x40
++#define REGISTER_ISR1_ALLS                      0x20
++#define REGISTER_ISR1_XOFF                      0x10
++#define REGISTER_ISR1_TIN                       0x8
++#define REGISTER_ISR1_CSC                       0x4
++#define REGISTER_ISR1_XON                       0x2
++#define REGISTER_ISR1_XPR                       0x1
  
- /* MODE. */
- #define REGISTER_MODE_OFFSET                    0x22
-@@ -741,6 +747,23 @@ static uint64_t escc2_mem_read(void *opaque, hwaddr addr, unsigned size)
-     return value;
+ /* IMR1. */
+ #define REGISTER_IMR1_OFFSET                    0x3b
+@@ -749,6 +757,7 @@ static uint64_t escc2_mem_read(void *opaque, hwaddr addr, unsigned size)
+ 
+ static void escc2_channel_command(ESCC2ChannelState *channel)
+ {
++    unsigned int i;
+     uint8_t tmp, command;
+ 
+     command = REGISTER_READ(channel, REGISTER_CMDR);
+@@ -766,6 +775,21 @@ static void escc2_channel_command(ESCC2ChannelState *channel)
+     if (command & REGISTER_CMDR_RFRD) {
+         escc2_channel_irq_event(channel, REGISTER_ISR0, REGISTER_ISR0_TCD);
+     }
++
++    if (command & REGISTER_CMDR_XF) {
++        i = 0;
++        while (i < CHANNEL_FIFO_LENGTH && channel->fifo_transmit[i] != 0) {
++            i++;
++        }
++        qemu_chr_fe_write_all(&channel->chardev, channel->fifo_transmit, i);
++        escc2_channel_irq_event(channel, REGISTER_ISR1, REGISTER_ISR1_ALLS);
++
++        /*
++         * XFIFO is ready and ISR1_XPR should be generated. Fake the XRES
++         * command.
++         */
++        command &= REGISTER_CMDR_XRES;
++    }
  }
  
-+static void escc2_channel_command(ESCC2ChannelState *channel)
-+{
-+    uint8_t tmp, command;
-+
-+    command = REGISTER_READ(channel, REGISTER_CMDR);
-+    trace_escc2_channel_command(CHANNEL_CHAR(channel), command);
-+
-+    if (command & REGISTER_CMDR_RRES) {
-+        memset(channel->fifo_receive, 0, sizeof(channel->fifo_receive));
-+        REGISTER_WRITE(channel, REGISTER_RBCL, 0);
-+
-+        tmp = REGISTER_READ(channel, REGISTER_STAR);
-+        tmp &= ~(REGISTER_STAR_RFNE);
-+        REGISTER_WRITE(channel, REGISTER_STAR, tmp);
-+    }
-+}
-+
  static void escc2_mem_write(void *opaque, hwaddr addr, uint64_t value,
-         unsigned size)
- {
-@@ -767,6 +790,7 @@ static void escc2_mem_write(void *opaque, hwaddr addr, uint64_t value,
-         break;
-     case REGISTER_CMDR_OFFSET:
-         REGISTER_WRITE(channel, REGISTER_CMDR, value);
-+        escc2_channel_command(channel);
-         break;
-     case REGISTER_MODE_OFFSET:
-         REGISTER_WRITE(channel, REGISTER_MODE, value);
-diff --git a/hw/char/trace-events b/hw/char/trace-events
-index b4f4f30815..47b46b92c9 100644
---- a/hw/char/trace-events
-+++ b/hw/char/trace-events
-@@ -59,6 +59,7 @@ escc_sunmouse_event(int dx, int dy, int buttons_state) "dx=%d dy=%d buttons=0x%0
- # escc2.c
- escc2_irq_update(uint8_t gis) "value 0x%x"
- escc2_mem_read(char channel, uint32_t addr, uint8_t value) "channel %c addr 0x%x value 0x%x"
-+escc2_channel_command(char channel, uint8_t command) "channel %c command 0x%x"
- escc2_mem_write(char channel, uint32_t addr, uint8_t value) "channel %c addr 0x%x value 0x%x"
- 
- # pl011.c
 -- 
 2.26.2
 
