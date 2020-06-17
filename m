@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4F111FCF72
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 16:24:31 +0200 (CEST)
-Received: from localhost ([::1]:52118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D1001FCF7C
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 16:26:10 +0200 (CEST)
+Received: from localhost ([::1]:58848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlYzO-0003Eq-Pz
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 10:24:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37302)
+	id 1jlZ0z-000658-FZ
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 10:26:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanb@linux.vnet.ibm.com>)
- id 1jlYyA-0001aY-6H
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 10:23:14 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:52142
+ id 1jlYyC-0001eG-LB
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 10:23:16 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:51796
  helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanb@linux.vnet.ibm.com>)
- id 1jlYy8-0005Ki-7R
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 10:23:13 -0400
-Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+ id 1jlYy9-0005Kt-Hi
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 10:23:16 -0400
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
  by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 05HE3Pi7080704
- for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 10:23:11 -0400
+ 05HE24nd120503
+ for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 10:23:12 -0400
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 31q6j58v75-1
+ by mx0b-001b2d01.pphosted.com with ESMTP id 31q6hbs10y-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 10:23:11 -0400
-Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 05HE3bH2082119
- for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 10:23:11 -0400
-Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
- [169.55.91.170])
- by mx0b-001b2d01.pphosted.com with ESMTP id 31q6j58v6u-1
+ for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 10:23:12 -0400
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 05HE528p131368
+ for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 10:23:12 -0400
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.11])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 31q6hbs10h-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 17 Jun 2020 10:23:11 -0400
-Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
- by ppma02wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 05HEFjjf017453;
- Wed, 17 Jun 2020 14:23:10 GMT
-Received: from b03cxnp08028.gho.boulder.ibm.com
- (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
- by ppma02wdc.us.ibm.com with ESMTP id 31q6bjuxxp-1
+ Wed, 17 Jun 2020 10:23:12 -0400
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+ by ppma03dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 05HEF0QL029914;
+ Wed, 17 Jun 2020 14:23:11 GMT
+Received: from b03cxnp07029.gho.boulder.ibm.com
+ (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
+ by ppma03dal.us.ibm.com with ESMTP id 31q6c5kdnt-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 17 Jun 2020 14:23:10 +0000
+ Wed, 17 Jun 2020 14:23:11 +0000
 Received: from b03ledav004.gho.boulder.ibm.com
  (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
- by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 05HEN9KL27328892
+ by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 05HENAEw34865638
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 17 Jun 2020 14:23:09 GMT
+ Wed, 17 Jun 2020 14:23:10 GMT
 Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 863E97805E;
+ by IMSVA (Postfix) with ESMTP id 8CC2B7805E;
+ Wed, 17 Jun 2020 14:23:10 +0000 (GMT)
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A93397805C;
  Wed, 17 Jun 2020 14:23:09 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id CBFA27805C;
- Wed, 17 Jun 2020 14:23:08 +0000 (GMT)
 Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
  by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
- Wed, 17 Jun 2020 14:23:08 +0000 (GMT)
+ Wed, 17 Jun 2020 14:23:09 +0000 (GMT)
 From: Stefan Berger <stefanb@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 2/8] tpm: Extend TPMIfClass with get_irqnum() function
-Date: Wed, 17 Jun 2020 10:22:59 -0400
-Message-Id: <20200617142305.1198672-3-stefanb@linux.vnet.ibm.com>
+Subject: [PATCH v4 3/8] tests: Temporarily ignore DSDT table differences
+Date: Wed, 17 Jun 2020 10:23:00 -0400
+Message-Id: <20200617142305.1198672-4-stefanb@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200617142305.1198672-1-stefanb@linux.vnet.ibm.com>
 References: <20200617142305.1198672-1-stefanb@linux.vnet.ibm.com>
@@ -75,11 +75,11 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.687
  definitions=2020-06-17_04:2020-06-17,
  2020-06-17 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 phishscore=0
- lowpriorityscore=0 mlxlogscore=999 bulkscore=0 impostorscore=0
- adultscore=0 mlxscore=0 suspectscore=1 clxscore=1015 priorityscore=1501
- cotscore=-2147483648 spamscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2004280000 definitions=main-2006170109
+ cotscore=-2147483648
+ clxscore=1015 suspectscore=1 phishscore=0 adultscore=0 mlxscore=0
+ mlxlogscore=999 malwarescore=0 bulkscore=0 impostorscore=0 spamscore=0
+ lowpriorityscore=0 priorityscore=1501 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2004280000 definitions=main-2006170105
 Received-SPF: none client-ip=148.163.158.5;
  envelope-from=stefanb@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/17 10:23:10
@@ -101,115 +101,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Berger <stefanb@sbct-2.pok.ibm.com>, eric.auger@redhat.com,
+Cc: Stefan Berger <stefanb@linux.vnet.ibm.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>, eric.auger@redhat.com,
  pbonzini@redhat.com, marcandre.lureau@redhat.com, philmd@redhat.com,
  mkedzier@redhat.com, Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Berger <stefanb@sbct-2.pok.ibm.com>
-
-Implement get_irqnum() as part of the TPMIfClass to get the assigned IRQ
-number or TPM_IRQ_DISABLED (~0) in case IRQs cannot be used.
+Ignore DSDT table differences before enabling IRQ support for TPM.
 
 Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-id: 20200616205721.1191408-3-stefanb@linux.vnet.ibm.com
+Message-id: 20200616205721.1191408-4-stefanb@linux.vnet.ibm.com
+CC: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/tpm/tpm_tis_isa.c    |  9 +++++++++
- hw/tpm/tpm_tis_sysbus.c |  9 +++++++++
- include/sysemu/tpm.h    | 12 ++++++++++++
- 3 files changed, 30 insertions(+)
+ tests/qtest/bios-tables-test-allowed-diff.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/tpm/tpm_tis_isa.c b/hw/tpm/tpm_tis_isa.c
-index 30ba37079d..ed6d422f05 100644
---- a/hw/tpm/tpm_tis_isa.c
-+++ b/hw/tpm/tpm_tis_isa.c
-@@ -80,6 +80,14 @@ static enum TPMVersion tpm_tis_isa_get_tpm_version(TPMIf *ti)
-     return tpm_tis_get_tpm_version(s);
- }
- 
-+static int8_t tpm_tis_isa_get_irqnum(TPMIf *ti)
-+{
-+    TPMStateISA *isadev = TPM_TIS_ISA(ti);
-+    TPMState *s = &isadev->state;
-+
-+    return s->irq_num;
-+}
-+
- static void tpm_tis_isa_reset(DeviceState *dev)
- {
-     TPMStateISA *isadev = TPM_TIS_ISA(dev);
-@@ -148,6 +156,7 @@ static void tpm_tis_isa_class_init(ObjectClass *klass, void *data)
-     dc->reset = tpm_tis_isa_reset;
-     tc->request_completed = tpm_tis_isa_request_completed;
-     tc->get_version = tpm_tis_isa_get_tpm_version;
-+    tc->get_irqnum = tpm_tis_isa_get_irqnum;
- }
- 
- static const TypeInfo tpm_tis_isa_info = {
-diff --git a/hw/tpm/tpm_tis_sysbus.c b/hw/tpm/tpm_tis_sysbus.c
-index eced1fc843..86b3988be5 100644
---- a/hw/tpm/tpm_tis_sysbus.c
-+++ b/hw/tpm/tpm_tis_sysbus.c
-@@ -80,6 +80,14 @@ static enum TPMVersion tpm_tis_sysbus_get_tpm_version(TPMIf *ti)
-     return tpm_tis_get_tpm_version(s);
- }
- 
-+static int8_t tpm_tis_sysbus_get_irqnum(TPMIf *ti)
-+{
-+    TPMStateSysBus *sbdev = TPM_TIS_SYSBUS(ti);
-+    TPMState *s = &sbdev->state;
-+
-+    return s->irq_num;
-+}
-+
- static void tpm_tis_sysbus_reset(DeviceState *dev)
- {
-     TPMStateSysBus *sbdev = TPM_TIS_SYSBUS(dev);
-@@ -137,6 +145,7 @@ static void tpm_tis_sysbus_class_init(ObjectClass *klass, void *data)
-     dc->reset = tpm_tis_sysbus_reset;
-     tc->request_completed = tpm_tis_sysbus_request_completed;
-     tc->get_version = tpm_tis_sysbus_get_tpm_version;
-+    tc->get_irqnum = tpm_tis_sysbus_get_irqnum;
- }
- 
- static const TypeInfo tpm_tis_sysbus_info = {
-diff --git a/include/sysemu/tpm.h b/include/sysemu/tpm.h
-index 03fb25941c..7ebe9f7ef0 100644
---- a/include/sysemu/tpm.h
-+++ b/include/sysemu/tpm.h
-@@ -25,6 +25,8 @@ typedef enum TPMVersion {
-     TPM_VERSION_2_0 = 2,
- } TPMVersion;
- 
-+#define TPM_IRQ_DISABLED  ~0
-+
- #define TYPE_TPM_IF "tpm-if"
- #define TPM_IF_CLASS(klass)                                 \
-     OBJECT_CLASS_CHECK(TPMIfClass, (klass), TYPE_TPM_IF)
-@@ -41,6 +43,7 @@ typedef struct TPMIfClass {
-     enum TpmModel model;
-     void (*request_completed)(TPMIf *obj, int ret);
-     enum TPMVersion (*get_version)(TPMIf *obj);
-+    int8_t (*get_irqnum)(TPMIf *obj);
- } TPMIfClass;
- 
- #define TYPE_TPM_TIS_ISA            "tpm-tis"
-@@ -74,4 +77,13 @@ static inline TPMVersion tpm_get_version(TPMIf *ti)
-     return TPM_IF_GET_CLASS(ti)->get_version(ti);
- }
- 
-+static inline int8_t tpm_get_irqnum(TPMIf *ti)
-+{
-+    if (!ti || !TPM_IF_GET_CLASS(ti)->get_irqnum) {
-+        return TPM_IRQ_DISABLED;
-+    }
-+
-+    return TPM_IF_GET_CLASS(ti)->get_irqnum(ti);
-+}
-+
- #endif /* QEMU_TPM_H */
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index dfb8523c8b..bb4ce8967b 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1 +1,2 @@
+ /* List of comma-separated changed AML files to ignore */
++"tests/data/acpi/q35/DSDT.tis",
 -- 
 2.24.1
 
