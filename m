@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 364991FD4B3
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 20:41:04 +0200 (CEST)
-Received: from localhost ([::1]:53788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E0EC1FD4AC
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jun 2020 20:39:26 +0200 (CEST)
+Received: from localhost ([::1]:47298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlczf-0007tm-7s
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 14:41:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51580)
+	id 1jlcy5-0005AD-9r
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 14:39:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51570)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jlcwg-0003Vk-5I
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 14:37:58 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:22803)
+ id 1jlcwf-0003Ua-Ib
+ for qemu-devel@nongnu.org; Wed, 17 Jun 2020 14:37:57 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:54000
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jlcwe-000898-ES
+ id 1jlcwc-000891-Pb
  for qemu-devel@nongnu.org; Wed, 17 Jun 2020 14:37:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592419075;
+ s=mimecast20190719; t=1592419074;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GgBUu7f9j9KFwMQkF7KC5sDJH2HYE9E300NSJ5oiq0o=;
- b=BoWUQVAPdZ4Bb3kgmk5fOloVJ4ki+s3DJqzNFgMzexASDvm/suR9k8+9OYdioqIkKgszAj
- 4tkb/VXpM1u2C4YVmegYK7AnQPeIkrgpUbtyalFPxx5s/AHHoTOK2RPpgZLzCXKfMVFbvB
- 6oc0sBSZNOfQAV1PXpz5z4Mbnm2IokQ=
+ bh=riurTgz12QESBVcw5Zc8+kKkfgFPVQl4jHnXFZyGEv0=;
+ b=YuGUhGOTQajVO6/uKEYkJO1gRnCtXPGSylqQbd8VXtMeBgnirc+ji2WfwgVm2ueFs++T0X
+ b8byRz4j1cn5cZ+2jS8nXp9txoqfxvPlY9MzjqJ3423oQ96fPRFj4D8r6ELe+KlR3QHmwb
+ Aace2LDH5zQ4tbyk95wz4oNITElDoEQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-20-1Yx84jjRMcmLazj3N1FWhw-1; Wed, 17 Jun 2020 14:37:50 -0400
-X-MC-Unique: 1Yx84jjRMcmLazj3N1FWhw-1
+ us-mta-33-DXgIpLjoMIiRzgTrVfYpkA-1; Wed, 17 Jun 2020 14:37:52 -0400
+X-MC-Unique: DXgIpLjoMIiRzgTrVfYpkA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F3C80107ACF3;
- Wed, 17 Jun 2020 18:37:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F0FC1107ACF2;
+ Wed, 17 Jun 2020 18:37:50 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-115-47.ams2.redhat.com
  [10.36.115.47])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4A2825EE0E;
- Wed, 17 Jun 2020 18:37:47 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4BE235EE0E;
+ Wed, 17 Jun 2020 18:37:49 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, david@redhat.com, lvivier@redhat.com,
  maozhongyi@cmss.chinamobile.com, mreitz@redhat.com, pannengyuan@huawei.com
-Subject: [PULL 03/12] hmp: Make json format optional for qom-set
-Date: Wed, 17 Jun 2020 19:37:24 +0100
-Message-Id: <20200617183733.186168-4-dgilbert@redhat.com>
+Subject: [PULL 04/12] tests/migration: mem leak fix
+Date: Wed, 17 Jun 2020 19:37:25 +0100
+Message-Id: <20200617183733.186168-5-dgilbert@redhat.com>
 In-Reply-To: <20200617183733.186168-1-dgilbert@redhat.com>
 References: <20200617183733.186168-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -59,9 +60,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/17 02:02:46
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/17 01:42:04
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -86,85 +87,74 @@ Cc: stefanha@redhat.com, quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: David Hildenbrand <david@redhat.com>
+From: Mao Zhongyi <maozhongyi@cmss.chinamobile.com>
 
-Commit 7d2ef6dcc1cf ("hmp: Simplify qom-set") switched to the json
-parser, making it possible to specify complex types. However, with this
-change it is no longer possible to specify proper sizes (e.g., 2G, 128M),
-turning the interface harder to use for properties that consume sizes.
+‘data’ has the possibility of memory leaks， so use the
+glib macros g_autofree recommended by CODING_STYLE.rst
+to automatically release the memory that returned from
+g_malloc().
 
-Let's switch back to the previous handling and allow to specify passing
-json via the "-j" parameter.
-
-Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
-Cc: Markus Armbruster <armbru@redhat.com>
-Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: "Daniel P. Berrangé" <berrange@redhat.com>
-Cc: Eduardo Habkost <ehabkost@redhat.com>
-Signed-off-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20200610075153.33892-1-david@redhat.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Signed-off-by: Mao Zhongyi <maozhongyi@cmss.chinamobile.com>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <20200603080904.997083-2-maozhongyi@cmss.chinamobile.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- hmp-commands.hx    |  7 ++++---
- qom/qom-hmp-cmds.c | 20 ++++++++++++++++----
- 2 files changed, 20 insertions(+), 7 deletions(-)
+ tests/migration/stress.c | 21 ++-------------------
+ 1 file changed, 2 insertions(+), 19 deletions(-)
 
-diff --git a/hmp-commands.hx b/hmp-commands.hx
-index 28256209b5..60f395c276 100644
---- a/hmp-commands.hx
-+++ b/hmp-commands.hx
-@@ -1806,9 +1806,10 @@ ERST
- 
-     {
-         .name       = "qom-set",
--        .args_type  = "path:s,property:s,value:S",
--        .params     = "path property value",
--        .help       = "set QOM property",
-+        .args_type  = "json:-j,path:s,property:s,value:S",
-+        .params     = "[-j] path property value",
-+        .help       = "set QOM property.\n\t\t\t"
-+                      "-j: the value is specified in json format.",
-         .cmd        = hmp_qom_set,
-         .flags      = "p",
-     },
-diff --git a/qom/qom-hmp-cmds.c b/qom/qom-hmp-cmds.c
-index 158e2d7409..b0abe84cb1 100644
---- a/qom/qom-hmp-cmds.c
-+++ b/qom/qom-hmp-cmds.c
-@@ -44,15 +44,27 @@ void hmp_qom_list(Monitor *mon, const QDict *qdict)
- 
- void hmp_qom_set(Monitor *mon, const QDict *qdict)
+diff --git a/tests/migration/stress.c b/tests/migration/stress.c
+index 0c23964693..f9626d50ee 100644
+--- a/tests/migration/stress.c
++++ b/tests/migration/stress.c
+@@ -170,26 +170,14 @@ static unsigned long long now(void)
+ static int stressone(unsigned long long ramsizeMB)
  {
-+    const bool json = qdict_get_try_bool(qdict, "json", false);
-     const char *path = qdict_get_str(qdict, "path");
-     const char *property = qdict_get_str(qdict, "property");
-     const char *value = qdict_get_str(qdict, "value");
-     Error *err = NULL;
--    QObject *obj;
+     size_t pagesPerMB = 1024 * 1024 / PAGE_SIZE;
+-    char *ram = malloc(ramsizeMB * 1024 * 1024);
++    g_autofree char *ram = g_malloc(ramsizeMB * 1024 * 1024);
+     char *ramptr;
+     size_t i, j, k;
+-    char *data = malloc(PAGE_SIZE);
++    g_autofree char *data = g_malloc(PAGE_SIZE);
+     char *dataptr;
+     size_t nMB = 0;
+     unsigned long long before, after;
  
--    obj = qobject_from_json(value, &err);
--    if (err == NULL) {
--        qmp_qom_set(path, property, obj, &err);
-+    if (!json) {
-+        Object *obj = object_resolve_path(path, NULL);
-+
-+        if (!obj) {
-+            error_set(&err, ERROR_CLASS_DEVICE_NOT_FOUND,
-+                      "Device '%s' not found", path);
-+        } else {
-+            object_property_parse(obj, value, property, &err);
-+        }
-+    } else {
-+        QObject *obj = qobject_from_json(value, &err);
-+
-+        if (!err) {
-+            qmp_qom_set(path, property, obj, &err);
-+        }
+-    if (!ram) {
+-        fprintf(stderr, "%s (%05d): ERROR: cannot allocate %llu MB of RAM: %s\n",
+-                argv0, gettid(), ramsizeMB, strerror(errno));
+-        return -1;
+-    }
+-    if (!data) {
+-        fprintf(stderr, "%s (%d): ERROR: cannot allocate %d bytes of RAM: %s\n",
+-                argv0, gettid(), PAGE_SIZE, strerror(errno));
+-        free(ram);
+-        return -1;
+-    }
+-
+     /* We don't care about initial state, but we do want
+      * to fault it all into RAM, otherwise the first iter
+      * of the loop below will be quite slow. We can't use
+@@ -198,8 +186,6 @@ static int stressone(unsigned long long ramsizeMB)
+     memset(ram, 0xfe, ramsizeMB * 1024 * 1024);
+ 
+     if (random_bytes(data, PAGE_SIZE) < 0) {
+-        free(ram);
+-        free(data);
+         return -1;
      }
  
-     hmp_handle_error(mon, err);
+@@ -227,9 +213,6 @@ static int stressone(unsigned long long ramsizeMB)
+             }
+         }
+     }
+-
+-    free(data);
+-    free(ram);
+ }
+ 
+ 
 -- 
 2.26.2
 
