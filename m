@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A8F11FEAA6
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 07:10:54 +0200 (CEST)
-Received: from localhost ([::1]:33366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1900E1FEAAF
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 07:12:29 +0200 (CEST)
+Received: from localhost ([::1]:42938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlmpA-0002Cr-78
-	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 01:10:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34302)
+	id 1jlmqi-00068i-5F
+	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 01:12:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34344)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jlmEz-0007B4-Th
- for qemu-devel@nongnu.org; Thu, 18 Jun 2020 00:33:29 -0400
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:42082)
+ id 1jlmF1-0007Eo-Gs
+ for qemu-devel@nongnu.org; Thu, 18 Jun 2020 00:33:31 -0400
+Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435]:44529)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jlmEy-0003fb-7Z
- for qemu-devel@nongnu.org; Thu, 18 Jun 2020 00:33:29 -0400
-Received: by mail-pg1-x544.google.com with SMTP id e9so2328567pgo.9
- for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 21:33:27 -0700 (PDT)
+ id 1jlmEz-0003fz-Og
+ for qemu-devel@nongnu.org; Thu, 18 Jun 2020 00:33:31 -0400
+Received: by mail-pf1-x435.google.com with SMTP id 64so2184390pfv.11
+ for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 21:33:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=JnIvscga/41MHmopAUGND2DFOQvZJOfzYshgRIbja6w=;
- b=MC91PRMo3aGGAYJcXbt+4cffLSLpTEuWhVKiM4V9z7VvbS2MOB4FXVk8WCcy+pB07N
- f9nGmsCvy0xcDtjEC5sELLT5nc/1h4GhAucji0+48IuvT3O4atRA3dNJfLQ7zX1klFqa
- 5wMvAEZHLF9VPGCNKbMLj1vwzwuaalXa9BV/9jjOT6Dyx1QYzjMTT7dw+A0FSFumowWf
- X/4nvtVpxcPnPX9IUey00vhJL5izKjw1cH5fuVbp4NUFCgkkgGs9G0OhIOLAuD93XOvR
- AMdm8vO6IPIQ1Rq4Rgzm9XNy/9HyK+1HvgduDvQHldquVg4ppHaaxEBlGqtSZsVgp6MD
- V7wA==
+ bh=Afsa8YE1SU9yEO5SjjTLoHbXeJiFUQdZwQR7tGmaBDg=;
+ b=blXvspUSxmC5+0slbJlOuc4vGpwgIiNCzCm1NwhJOKlbId8uuYs4M2ziosWoLD1EfV
+ Y/Diml7lIxiOghZ60RPeS3ClsAOokOg1zo0RMZB22HlI/sTPztGsQFu6bDL1Fhz+Nr9u
+ aJRVhCyZOuOxjA2Rx2FKeNKGVNLiuJIJxn4RWzcn2LF3OHIk2tWI6aVG8q+57ZIBzPB2
+ Mg0d/DE+WYGJtBYVZSoh4ndH9mV/KZVuUwXihwPUpaw7RJuj9kH6Sghs0310lyW3mxPt
+ syqbJIlfhRhusLLicIy8vBtezm5utE3c0hEH65J7WHALsWdmWnDpVPv/aZA1uoIkJ2u5
+ EQUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=JnIvscga/41MHmopAUGND2DFOQvZJOfzYshgRIbja6w=;
- b=KLNVg0CaX/xxmw3NDMQrQ6oJO2wYPE/vJe/t1Kr0r8cWRE9UGSoCYhEYZhHX+Yvgbg
- b/zFul3R3rNbl9GiOQ9D2XIDO2MWC3ftECl5hMlcSE7c26B6JrsOZjn5YFzidURyKn+G
- MrYzgDS7lXaqG+Z/I7/LxShrpYlM3FhdULnwOI/kYSgU/nqre8v45XdRdef8zF0mBxD8
- 5jJKbfaB+hypWbZnlbp4ZCCSbL9XJOKH8IQEdItyT+ZRDkw5e3p8cIlOYnMzuJbqLJvo
- Fnhor1yLAB/lWkqzE+6lyngLug2xPlaUO0d0IAJlFgKG4z0cbG71SmdRBXO1OiFSY417
- h1fg==
-X-Gm-Message-State: AOAM530DjXCaqAn82bULzxV29cqhT+0Nm+gBzFyLJ7r/CFnUTFazxpLO
- /RN9A3amJK4nQjiuo9wMeMuXUTH7ziM=
-X-Google-Smtp-Source: ABdhPJxdayk6t7iVMBPsEPCjl0povWXVv6IJSZCmlMIZe9k1P9zSHOk5/LZAkXcLoHq8kaysKxN8hw==
-X-Received: by 2002:aa7:84cc:: with SMTP id x12mr1884519pfn.235.1592454806628; 
- Wed, 17 Jun 2020 21:33:26 -0700 (PDT)
+ bh=Afsa8YE1SU9yEO5SjjTLoHbXeJiFUQdZwQR7tGmaBDg=;
+ b=sai3x755HcwliHBTVxmG+AWBgC+1hhekoX6hNtuh4u5xqtdzAsmlg1oYe/l045MqYS
+ NBWGWTTBxLq/mAsXkNkez22jLnOF1oWQLwGIvata2Fjao0IxhtsCkFlYKodS7mQNCtNr
+ vc6arP29H9IrOkEtAzFm84wCSZtkJ9P5TNVhB9UEowiVT+mY79gs0BbxQWAtaSC12Qaz
+ +4kyjhyyxMlZH6KX4DNmzB8nAaMQ80bTOiNXSuUc4yDRVNIqHTJ6P2vVGAGxi3os8wYB
+ M93m1IZSTvpGThFgKX3/43/DcOlwcomYWKFcA1f223Xqi7eaxaFrBz+RiE3cH3MePjei
+ qiFw==
+X-Gm-Message-State: AOAM531s23y60DNIGBp0Y4TFG7tqxSFmD0aUKBWdfwpE0F91BW/41SaV
+ NrU/x9ZXdkYUTcksdmuIUuNdY5S7fqg=
+X-Google-Smtp-Source: ABdhPJx5204KMjW4ioXR+i2y3BSF/Cd3sEctx9iRgS0LtqaxHyekwGibzZTxQceelYODJUKXIULYpg==
+X-Received: by 2002:a05:6a00:1510:: with SMTP id
+ q16mr1868860pfu.164.1592454807959; 
+ Wed, 17 Jun 2020 21:33:27 -0700 (PDT)
 Received: from localhost.localdomain (174-21-143-238.tukw.qwest.net.
  [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id q22sm1288212pfg.192.2020.06.17.21.33.25
+ by smtp.gmail.com with ESMTPSA id q22sm1288212pfg.192.2020.06.17.21.33.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Jun 2020 21:33:26 -0700 (PDT)
+ Wed, 17 Jun 2020 21:33:27 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 093/100] softfloat: Add float16_is_normal
-Date: Wed, 17 Jun 2020 21:26:37 -0700
-Message-Id: <20200618042644.1685561-94-richard.henderson@linaro.org>
+Subject: [PATCH v2 094/100] target/arm: Implement SVE2 FLOGB
+Date: Wed, 17 Jun 2020 21:26:38 -0700
+Message-Id: <20200618042644.1685561-95-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200618042644.1685561-1-richard.henderson@linaro.org>
 References: <20200618042644.1685561-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::544;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x544.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x435.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -91,30 +92,117 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Stephen Long <steplong@quicinc.com>
 
-This float16 predicate was missing from the normal set.
-
 Signed-off-by: Stephen Long <steplong@quicinc.com>
+Message-Id: <20200430191405.21641-1-steplong@quicinc.com>
+[rth: Fixed esz index and c++ comments]
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/fpu/softfloat.h | 5 +++++
- 1 file changed, 5 insertions(+)
+ target/arm/helper-sve.h    |  4 ++++
+ target/arm/sve.decode      |  3 +++
+ target/arm/sve_helper.c    | 49 ++++++++++++++++++++++++++++++++++++++
+ target/arm/translate-sve.c |  9 +++++++
+ 4 files changed, 65 insertions(+)
 
-diff --git a/include/fpu/softfloat.h b/include/fpu/softfloat.h
-index 16ca697a73..cd1fcfbf0c 100644
---- a/include/fpu/softfloat.h
-+++ b/include/fpu/softfloat.h
-@@ -264,6 +264,11 @@ static inline bool float16_is_zero_or_denormal(float16 a)
-     return (float16_val(a) & 0x7c00) == 0;
- }
+diff --git a/target/arm/helper-sve.h b/target/arm/helper-sve.h
+index 935655d07a..aa7d113232 100644
+--- a/target/arm/helper-sve.h
++++ b/target/arm/helper-sve.h
+@@ -2256,3 +2256,7 @@ DEF_HELPER_FLAGS_5(sve2_fcvtlt_hs, TCG_CALL_NO_RWG,
+                    void, ptr, ptr, ptr, ptr, i32)
+ DEF_HELPER_FLAGS_5(sve2_fcvtlt_sd, TCG_CALL_NO_RWG,
+                    void, ptr, ptr, ptr, ptr, i32)
++
++DEF_HELPER_FLAGS_4(flogb_h, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_4(flogb_s, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_4(flogb_d, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
+diff --git a/target/arm/sve.decode b/target/arm/sve.decode
+index 6c0e39d553..6808ff4194 100644
+--- a/target/arm/sve.decode
++++ b/target/arm/sve.decode
+@@ -1581,3 +1581,6 @@ FCVTNT_sh       01100100 10 0010 00 101 ... ..... .....  @rd_pg_rn_e0
+ FCVTLT_hs       01100100 10 0010 01 101 ... ..... .....  @rd_pg_rn_e0
+ FCVTNT_ds       01100100 11 0010 10 101 ... ..... .....  @rd_pg_rn_e0
+ FCVTLT_sd       01100100 11 0010 11 101 ... ..... .....  @rd_pg_rn_e0
++
++### SVE2 floating-point convert to integer
++FLOGB           01100101 00 011 esz:2 0101 pg:3 rn:5 rd:5  &rpr_esz
+diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
+index 8bfc9393a1..1b92f203c2 100644
+--- a/target/arm/sve_helper.c
++++ b/target/arm/sve_helper.c
+@@ -1121,6 +1121,55 @@ DO_ZPZ_D(sve2_sqneg_d, uint64_t, DO_SQNEG)
+ DO_ZPZ(sve2_urecpe_s, uint32_t, H1_4, helper_recpe_u32)
+ DO_ZPZ(sve2_ursqrte_s, uint32_t, H1_4, helper_rsqrte_u32)
  
-+static inline bool float16_is_normal(float16 a)
++static int16_t do_float16_logb_as_int(float16 a)
 +{
-+    return (((float16_val(a) >> 10) + 1) & 0x1f) >= 2;
++    if (float16_is_normal(a)) {
++        return extract16(a, 10, 5) - 15;
++    } else if (float16_is_infinity(a)) {
++        return INT16_MAX;
++    } else if (float16_is_any_nan(a) || float16_is_zero(a)) {
++        return INT16_MIN;
++    } else {
++        /* denormal */
++        int shift = 6 - clz32(extract16(a, 0, 10)) - 16;
++        return -15 - shift + 1;
++    }
 +}
 +
- static inline float16 float16_abs(float16 a)
- {
-     /* Note that abs does *not* handle NaN specially, nor does
++static int32_t do_float32_logb_as_int(float32 a)
++{
++    if (float32_is_normal(a)) {
++        return extract32(a, 23, 8) - 127;
++    } else if (float32_is_infinity(a)) {
++        return INT32_MAX;
++    } else if (float32_is_any_nan(a) || float32_is_zero(a)) {
++        return INT32_MIN;
++    } else {
++        /* denormal */
++        int shift = 9 - clz32(extract32(a, 0, 23));
++        return -127 - shift + 1;
++    }
++}
++
++static int64_t do_float64_logb_as_int(float64 a)
++{
++    if (float64_is_normal(a)) {
++        return extract64(a, 52, 11) - 1023;
++    } else if (float64_is_infinity(a)) {
++        return INT64_MAX;
++    } else if (float64_is_any_nan(a) || float64_is_zero(a)) {
++        return INT64_MIN;
++    } else {
++        /* denormal */
++        int shift = 12 - clz64(extract64(a, 0, 52));
++        return -1023 - shift + 1;
++    }
++}
++
++DO_ZPZ(flogb_h, float16, H1_2, do_float16_logb_as_int)
++DO_ZPZ(flogb_s, float32, H1_4, do_float32_logb_as_int)
++DO_ZPZ(flogb_d, float64,     , do_float64_logb_as_int)
++
+ /* Three-operand expander, unpredicated, in which the third operand is "wide".
+  */
+ #define DO_ZZW(NAME, TYPE, TYPEW, H, OP)                       \
+diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
+index 0232381500..f3b2463b7c 100644
+--- a/target/arm/translate-sve.c
++++ b/target/arm/translate-sve.c
+@@ -7841,3 +7841,12 @@ static bool trans_FCVTXNT_ds(DisasContext *s, arg_rpr_esz *a)
+     }
+     return do_frint_mode(s, a, float_round_to_odd, gen_helper_sve2_fcvtnt_ds);
+ }
++
++static bool trans_FLOGB(DisasContext *s, arg_rpr_esz *a)
++{
++    static gen_helper_gvec_3 * const fns[] = {
++        NULL,               gen_helper_flogb_h,
++        gen_helper_flogb_s, gen_helper_flogb_d
++    };
++    return do_sve2_zpz_ool(s, a, fns[a->esz]);
++}
 -- 
 2.25.1
 
