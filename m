@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5B711FF2ED
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 15:24:02 +0200 (CEST)
-Received: from localhost ([::1]:39234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 261861FF30B
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 15:29:21 +0200 (CEST)
+Received: from localhost ([::1]:60088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jluWP-00087D-Rt
-	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 09:24:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40518)
+	id 1jlubY-0001FM-3p
+	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 09:29:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1jluVC-0005wS-9d
- for qemu-devel@nongnu.org; Thu, 18 Jun 2020 09:22:46 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:40945
+ id 1jluVI-0006Fq-2a
+ for qemu-devel@nongnu.org; Thu, 18 Jun 2020 09:22:52 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:43498
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1jluVA-0005ml-Kl
- for qemu-devel@nongnu.org; Thu, 18 Jun 2020 09:22:45 -0400
+ id 1jluVG-0005nF-FA
+ for qemu-devel@nongnu.org; Thu, 18 Jun 2020 09:22:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592486564;
+ s=mimecast20190719; t=1592486569;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=X+BZX1BaGzUe3Qvjw967m9fYyu6CebM9xadgO89zEXQ=;
- b=LcHC+NCSqrhw5tHW11kp/S2ePqhGC34GHEpxLUbAzd3X2NnjMjnqE+gh4Jh6Hr1Y/U2iK6
- Imwa9nnyZ0fBqmxFpq3hqBU09mTtz33uH4dLghmaZypY5TVdCbdVqFsd3UEMcOcNVbyYxn
- d8A/ZTGfnE+kicaUVQb7APLDF+fW4FM=
+ references:references; bh=OibOZtXl0nJKd8+ioRcnMXHkdEee8Tial68a0/hODkQ=;
+ b=cNbbsFy1uhRFctTrB0wtisVHq62qErAB8QqGCuzQA5jW3kD54j18yYn2o822ob/5ZEwLnn
+ ST+gFzHxgQTQkDSG08lMlDqkhegIIQkpYQrMP1W6ph+HgzvUjYRoLWcZCC8uqQ+sZxA4Ea
+ vzDXGcS1vLCe08OI5Q9B5YDICQwTpv0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-396-yyIintg9OmSmvNuGg87J8w-1; Thu, 18 Jun 2020 09:22:42 -0400
-X-MC-Unique: yyIintg9OmSmvNuGg87J8w-1
+ us-mta-154-eczTqWFtNYupTgqTHpJo8g-1; Thu, 18 Jun 2020 09:22:47 -0400
+X-MC-Unique: eczTqWFtNYupTgqTHpJo8g-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 33962193F579;
- Thu, 18 Jun 2020 13:22:36 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ED9EA100A47B;
+ Thu, 18 Jun 2020 13:22:41 +0000 (UTC)
 Received: from jason-ThinkPad-T430s.redhat.com (ovpn-12-109.pek2.redhat.com
  [10.72.12.109])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6495E5BAC2;
- Thu, 18 Jun 2020 13:22:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9B7AE5BAC2;
+ Thu, 18 Jun 2020 13:22:39 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL V2 11/33] net: cadence_gem: Fix debug statements
-Date: Thu, 18 Jun 2020 21:21:26 +0800
-Message-Id: <1592486508-6135-12-git-send-email-jasowang@redhat.com>
+Subject: [PULL V2 13/33] net: cadence_gem: Fix irq update w.r.t queue
+Date: Thu, 18 Jun 2020 21:21:28 +0800
+Message-Id: <1592486508-6135-14-git-send-email-jasowang@redhat.com>
 In-Reply-To: <1592486508-6135-1-git-send-email-jasowang@redhat.com>
 References: <1592486508-6135-1-git-send-email-jasowang@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
@@ -84,74 +84,52 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
 
-Enabling debug breaks the build, Fix them and make debug statements
-always compilable. Fix few statements to use sized integer casting.
+Set irq's specific to a queue, present implementation is setting q1 irq
+based on q0 status.
 
 Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
 Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- hw/net/cadence_gem.c | 27 +++++++++++++--------------
- 1 file changed, 13 insertions(+), 14 deletions(-)
+ hw/net/cadence_gem.c | 25 +++----------------------
+ 1 file changed, 3 insertions(+), 22 deletions(-)
 
 diff --git a/hw/net/cadence_gem.c b/hw/net/cadence_gem.c
-index e8f9cc7..2e273dca 100644
+index fd3e4a8..4ad6c8e 100644
 --- a/hw/net/cadence_gem.c
 +++ b/hw/net/cadence_gem.c
-@@ -35,14 +35,13 @@
- #include "sysemu/dma.h"
- #include "net/checksum.h"
+@@ -554,29 +554,10 @@ static void gem_update_int_status(CadenceGEMState *s)
+ {
+     int i;
  
--#ifdef CADENCE_GEM_ERR_DEBUG
--#define DB_PRINT(...) do { \
--    fprintf(stderr,  ": %s: ", __func__); \
--    fprintf(stderr, ## __VA_ARGS__); \
--    } while (0)
--#else
--    #define DB_PRINT(...)
--#endif
-+#define CADENCE_GEM_ERR_DEBUG 0
-+#define DB_PRINT(...) do {\
-+    if (CADENCE_GEM_ERR_DEBUG) {   \
-+        qemu_log(": %s: ", __func__); \
-+        qemu_log(__VA_ARGS__); \
-+    } \
-+} while (0)
+-    if (!s->regs[GEM_ISR]) {
+-        /* ISR isn't set, clear all the interrupts */
+-        for (i = 0; i < s->num_priority_queues; ++i) {
+-            qemu_set_irq(s->irq[i], 0);
+-        }
+-        return;
+-    }
++    qemu_set_irq(s->irq[0], !!s->regs[GEM_ISR]);
  
- #define GEM_NWCTRL        (0x00000000/4) /* Network Control reg */
- #define GEM_NWCFG         (0x00000004/4) /* Network Config reg */
-@@ -979,7 +978,7 @@ static ssize_t gem_receive(NetClientState *nc, const uint8_t *buf, size_t size)
-         size += 4;
+-    /* If we get here we know s->regs[GEM_ISR] is set, so we don't need to
+-     * check it again.
+-     */
+-    if (s->num_priority_queues == 1) {
+-        /* No priority queues, just trigger the interrupt */
+-        DB_PRINT("asserting int.\n");
+-        qemu_set_irq(s->irq[0], 1);
+-        return;
+-    }
+-
+-    for (i = 0; i < s->num_priority_queues; ++i) {
+-        if (s->regs[GEM_INT_Q1_STATUS + i]) {
+-            DB_PRINT("asserting int. (q=%d)\n", i);
+-            qemu_set_irq(s->irq[i], 1);
+-        }
++    for (i = 1; i < s->num_priority_queues; ++i) {
++        qemu_set_irq(s->irq[i], !!s->regs[GEM_INT_Q1_STATUS + i - 1]);
      }
- 
--    DB_PRINT("config bufsize: %d packet size: %ld\n", rxbufsize, size);
-+    DB_PRINT("config bufsize: %u packet size: %zd\n", rxbufsize, size);
- 
-     /* Find which queue we are targeting */
-     q = get_queue_from_screen(s, rxbuf_ptr, rxbufsize);
-@@ -992,9 +991,9 @@ static ssize_t gem_receive(NetClientState *nc, const uint8_t *buf, size_t size)
-             return -1;
-         }
- 
--        DB_PRINT("copy %u bytes to 0x%" PRIx64 "\n",
--                 MIN(bytes_to_copy, rxbufsize),
--                 rx_desc_get_buffer(s, s->rx_desc[q]));
-+        DB_PRINT("copy %" PRIu32 " bytes to 0x%" PRIx64 "\n",
-+                MIN(bytes_to_copy, rxbufsize),
-+                rx_desc_get_buffer(s, s->rx_desc[q]));
- 
-         /* Copy packet data to emulated DMA buffer */
-         address_space_write(&s->dma_as, rx_desc_get_buffer(s, s->rx_desc[q]) +
-@@ -1160,8 +1159,8 @@ static void gem_transmit(CadenceGEMState *s)
-              */
-             if ((tx_desc_get_buffer(s, desc) == 0) ||
-                 (tx_desc_get_length(desc) == 0)) {
--                DB_PRINT("Invalid TX descriptor @ 0x%x\n",
--                         (unsigned)packet_desc_addr);
-+                DB_PRINT("Invalid TX descriptor @ 0x%" HWADDR_PRIx "\n",
-+                         packet_desc_addr);
-                 break;
-             }
+ }
  
 -- 
 2.5.0
