@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9E651FEA3F
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 06:38:13 +0200 (CEST)
-Received: from localhost ([::1]:41392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA8611FEA44
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 06:39:45 +0200 (CEST)
+Received: from localhost ([::1]:48624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlmJY-00061n-Tu
-	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 00:38:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59804)
+	id 1jlmL2-0000r5-Uq
+	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 00:39:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jlmA0-0004a2-Sa
- for qemu-devel@nongnu.org; Thu, 18 Jun 2020 00:28:20 -0400
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:33848)
+ id 1jlmA2-0004fS-TJ
+ for qemu-devel@nongnu.org; Thu, 18 Jun 2020 00:28:22 -0400
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:45372)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jlm9y-0002XC-Rb
- for qemu-devel@nongnu.org; Thu, 18 Jun 2020 00:28:20 -0400
-Received: by mail-pl1-x644.google.com with SMTP id n9so1921192plk.1
- for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 21:28:18 -0700 (PDT)
+ id 1jlmA0-0002Xc-R0
+ for qemu-devel@nongnu.org; Thu, 18 Jun 2020 00:28:22 -0400
+Received: by mail-pl1-x633.google.com with SMTP id d8so1896660plo.12
+ for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 21:28:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=VL4tXyw4M6IpMyAozY62pjgUXiGjPzfttiHC17X14fE=;
- b=X3pBX2cVjfZiAIKK5nnIxIghscTVSvHo74w2KqWP+50CjbNbz8zG5YcOwXgQbCR/3a
- pgOzTKgEWLR6/MMKTOMURQ4OGDWzmIIemJ+wnIrysmG0etwkPiHAt5ESRNgllxpq1HQB
- LUyeTaH2G/9lrQuiQJb6aztmjbxmoB/BIoRy08fY2KM3xooAgE6MB7YqC8MuPuEws3NQ
- f3XaTIzb6N8JQQFydqsFSt6BsvIV+kKrD+oJh6jOUiZZ65MPOz7XRlcW8KLwZ1sSWevc
- lTDjLvGqqmj1cEiyjlJLMgdxSVzLNc29B/E2KQAvQCDo5BAU8rPChVymKreTq+FfJK6I
- jBRQ==
+ bh=G4yngMWSAFQFJBx9RVQ+XDb76AzJ6KfoGmLepuualwo=;
+ b=oq6fuNOVo3hy6om/WY6I3y9tIAymGveX6ujdo1wONFi3i7PzxpdIEaY+hJWZdGgjcy
+ xVcRkutBoZ/IeE3x5o+DE1u9weWQv8CO80AdwCJJGtARKxjJdQv6dTw+fUpzDHOLwHJM
+ +eFcmdlVJHSX91UDm01We+TLyhOv6jgTE+uIqjRt/zrrDhH+WkUI9RzUzMmgmiJlt+Jo
+ g0dMZ8uiK0t659MJdhcdXFAXiDuvAzuB7Q8UmHK0x/OVx8QTE9M3zqr1t55j8Gjhtp0O
+ /b+3o2GUy/IsUzs0/RATUwgi+zCp75iRVFTotaVEJ1BYsUYsx3lBbrkHJ8o6pmSmJBYe
+ j0DA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=VL4tXyw4M6IpMyAozY62pjgUXiGjPzfttiHC17X14fE=;
- b=ESYgyOpUd2KmeVwJHLvhLbTET4jtRmFzkOXZTOavndhgopBcY/Q644TxVRAMxPvmw0
- zbf+A3Uoma1UlkdP+gFv6LF/TxM63ST9Qy8NH2LLg4nzPkJftyGl8ZTcEYwybs253MIc
- t1LuiRqzF4JiVl7MtTRbfNMLz2o80MIJeq+WXDU6iOs7j/S/DBFMGC2hf6K2JCne7j8F
- F5RxDdyQYT/iH4Z55GE+P/ATMswsmPbIoGHV9/iZQAPQxwPwRC+g1HHoDWqv9k7O2YoG
- LLPuZpKMPEevz4n8QUnj7vsmZ3fuTabJknMKUF2kuJ6SgdYgWBUuQaK/IHHHhiB6R7iK
- eqaQ==
-X-Gm-Message-State: AOAM533Fx/nM95FlqHjJ1KkCZb2fj7hmTmzh02jCF1jXSIj/Iv7id5SK
- +1SqjE0oKaolNZR4xQp7zJJyYl1zihg=
-X-Google-Smtp-Source: ABdhPJyUGBsGXFiBrAFlSTwhionPaF6n/dnfghg4lOpqZ6YbQ4zpQkEV77+oSh2EqLXWjZ9z377ZdA==
-X-Received: by 2002:a17:90a:d18c:: with SMTP id
- fu12mr2305635pjb.232.1592454497084; 
- Wed, 17 Jun 2020 21:28:17 -0700 (PDT)
+ bh=G4yngMWSAFQFJBx9RVQ+XDb76AzJ6KfoGmLepuualwo=;
+ b=ZEymWU+yKOSzdvfUMyGLcB5WQg9Ufxo352A6jBx7dqaiQOPHdCq2dW9e3GBOPb0kN8
+ 5t4Vox/0TrOueGuVMxPJVMjwpQgKjzYxeaGf+kzCwq4pp9Yd7eS7FjnNLJLnycfDxj/H
+ j1jCwVyJfKDlCFGUkR9pvLSw7SfiDasE/eiwwlc1ZgI4fSCDIBzy6QRL2rcuciAxtm9E
+ swid1YR1ZqxpqYRTjBAVDJihOVHiHFR6S1d8P7zq3GZqGEf45ainwhB53GRyCovw6a+4
+ m+WWDpDGWo4npDMuV0RDSf4qAhN3UxD+Zm5NIdbnz+7+5sXQj1tKU0Vi40DqA4uo/PXr
+ AYKA==
+X-Gm-Message-State: AOAM5335kgWDa5SNkQRHzkW4FYFof8T2hyaFiZ35OD0k/QieiIb3rMhH
+ GyLzrMCamuJxQHdEjxPdLyxY7LPtGRg=
+X-Google-Smtp-Source: ABdhPJzAKny6+RQcsb36D5+k/WnBhmNpzcycFrdoQZl0jPxuycdYGbdEzSyL/8bGDvHEjwmo5WQj2g==
+X-Received: by 2002:a17:90a:d3d6:: with SMTP id
+ d22mr2338451pjw.184.1592454498687; 
+ Wed, 17 Jun 2020 21:28:18 -0700 (PDT)
 Received: from localhost.localdomain (174-21-143-238.tukw.qwest.net.
  [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id l134sm1154412pga.50.2020.06.17.21.28.16
+ by smtp.gmail.com with ESMTPSA id l134sm1154412pga.50.2020.06.17.21.28.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Jun 2020 21:28:16 -0700 (PDT)
+ Wed, 17 Jun 2020 21:28:18 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 022/100] target/arm: Implement SVE2 integer pairwise
- arithmetic
-Date: Wed, 17 Jun 2020 21:25:26 -0700
-Message-Id: <20200618042644.1685561-23-richard.henderson@linaro.org>
+Subject: [PATCH v2 023/100] target/arm: Implement SVE2 saturating add/subtract
+ (predicated)
+Date: Wed, 17 Jun 2020 21:25:27 -0700
+Message-Id: <20200618042644.1685561-24-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200618042644.1685561-1-richard.henderson@linaro.org>
 References: <20200618042644.1685561-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::644;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x644.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -93,187 +93,379 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-v2: Load all inputs before writing any output (laurent desnogues)
----
- target/arm/helper-sve.h    | 45 ++++++++++++++++++++++
- target/arm/sve.decode      |  8 ++++
- target/arm/sve_helper.c    | 76 ++++++++++++++++++++++++++++++++++++++
- target/arm/translate-sve.c |  6 +++
- 4 files changed, 135 insertions(+)
+ target/arm/helper-sve.h    |  54 +++++++++++
+ target/arm/sve.decode      |  11 +++
+ target/arm/sve_helper.c    | 194 ++++++++++++++++++++++++++-----------
+ target/arm/translate-sve.c |   7 ++
+ 4 files changed, 210 insertions(+), 56 deletions(-)
 
 diff --git a/target/arm/helper-sve.h b/target/arm/helper-sve.h
-index e02c3661c3..c722bd39ee 100644
+index c722bd39ee..be5b0aec5b 100644
 --- a/target/arm/helper-sve.h
 +++ b/target/arm/helper-sve.h
-@@ -326,6 +326,51 @@ DEF_HELPER_FLAGS_5(sve_sel_zpzz_s, TCG_CALL_NO_RWG,
- DEF_HELPER_FLAGS_5(sve_sel_zpzz_d, TCG_CALL_NO_RWG,
+@@ -371,6 +371,60 @@ DEF_HELPER_FLAGS_5(sve2_uminp_zpzz_s, TCG_CALL_NO_RWG,
+ DEF_HELPER_FLAGS_5(sve2_uminp_zpzz_d, TCG_CALL_NO_RWG,
                     void, ptr, ptr, ptr, ptr, i32)
  
-+DEF_HELPER_FLAGS_5(sve2_addp_zpzz_b, TCG_CALL_NO_RWG,
++DEF_HELPER_FLAGS_5(sve2_sqadd_zpzz_b, TCG_CALL_NO_RWG,
 +                   void, ptr, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_5(sve2_addp_zpzz_h, TCG_CALL_NO_RWG,
++DEF_HELPER_FLAGS_5(sve2_sqadd_zpzz_h, TCG_CALL_NO_RWG,
 +                   void, ptr, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_5(sve2_addp_zpzz_s, TCG_CALL_NO_RWG,
++DEF_HELPER_FLAGS_5(sve2_sqadd_zpzz_s, TCG_CALL_NO_RWG,
 +                   void, ptr, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_5(sve2_addp_zpzz_d, TCG_CALL_NO_RWG,
-+                   void, ptr, ptr, ptr, ptr, i32)
-+
-+DEF_HELPER_FLAGS_5(sve2_smaxp_zpzz_b, TCG_CALL_NO_RWG,
-+                   void, ptr, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_5(sve2_smaxp_zpzz_h, TCG_CALL_NO_RWG,
-+                   void, ptr, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_5(sve2_smaxp_zpzz_s, TCG_CALL_NO_RWG,
-+                   void, ptr, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_5(sve2_smaxp_zpzz_d, TCG_CALL_NO_RWG,
++DEF_HELPER_FLAGS_5(sve2_sqadd_zpzz_d, TCG_CALL_NO_RWG,
 +                   void, ptr, ptr, ptr, ptr, i32)
 +
-+DEF_HELPER_FLAGS_5(sve2_umaxp_zpzz_b, TCG_CALL_NO_RWG,
++DEF_HELPER_FLAGS_5(sve2_uqadd_zpzz_b, TCG_CALL_NO_RWG,
 +                   void, ptr, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_5(sve2_umaxp_zpzz_h, TCG_CALL_NO_RWG,
++DEF_HELPER_FLAGS_5(sve2_uqadd_zpzz_h, TCG_CALL_NO_RWG,
 +                   void, ptr, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_5(sve2_umaxp_zpzz_s, TCG_CALL_NO_RWG,
++DEF_HELPER_FLAGS_5(sve2_uqadd_zpzz_s, TCG_CALL_NO_RWG,
 +                   void, ptr, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_5(sve2_umaxp_zpzz_d, TCG_CALL_NO_RWG,
-+                   void, ptr, ptr, ptr, ptr, i32)
-+
-+DEF_HELPER_FLAGS_5(sve2_sminp_zpzz_b, TCG_CALL_NO_RWG,
-+                   void, ptr, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_5(sve2_sminp_zpzz_h, TCG_CALL_NO_RWG,
-+                   void, ptr, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_5(sve2_sminp_zpzz_s, TCG_CALL_NO_RWG,
-+                   void, ptr, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_5(sve2_sminp_zpzz_d, TCG_CALL_NO_RWG,
++DEF_HELPER_FLAGS_5(sve2_uqadd_zpzz_d, TCG_CALL_NO_RWG,
 +                   void, ptr, ptr, ptr, ptr, i32)
 +
-+DEF_HELPER_FLAGS_5(sve2_uminp_zpzz_b, TCG_CALL_NO_RWG,
++DEF_HELPER_FLAGS_5(sve2_sqsub_zpzz_b, TCG_CALL_NO_RWG,
 +                   void, ptr, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_5(sve2_uminp_zpzz_h, TCG_CALL_NO_RWG,
++DEF_HELPER_FLAGS_5(sve2_sqsub_zpzz_h, TCG_CALL_NO_RWG,
 +                   void, ptr, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_5(sve2_uminp_zpzz_s, TCG_CALL_NO_RWG,
++DEF_HELPER_FLAGS_5(sve2_sqsub_zpzz_s, TCG_CALL_NO_RWG,
 +                   void, ptr, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_5(sve2_uminp_zpzz_d, TCG_CALL_NO_RWG,
++DEF_HELPER_FLAGS_5(sve2_sqsub_zpzz_d, TCG_CALL_NO_RWG,
++                   void, ptr, ptr, ptr, ptr, i32)
++
++DEF_HELPER_FLAGS_5(sve2_uqsub_zpzz_b, TCG_CALL_NO_RWG,
++                   void, ptr, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_5(sve2_uqsub_zpzz_h, TCG_CALL_NO_RWG,
++                   void, ptr, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_5(sve2_uqsub_zpzz_s, TCG_CALL_NO_RWG,
++                   void, ptr, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_5(sve2_uqsub_zpzz_d, TCG_CALL_NO_RWG,
++                   void, ptr, ptr, ptr, ptr, i32)
++
++DEF_HELPER_FLAGS_5(sve2_suqadd_zpzz_b, TCG_CALL_NO_RWG,
++                   void, ptr, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_5(sve2_suqadd_zpzz_h, TCG_CALL_NO_RWG,
++                   void, ptr, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_5(sve2_suqadd_zpzz_s, TCG_CALL_NO_RWG,
++                   void, ptr, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_5(sve2_suqadd_zpzz_d, TCG_CALL_NO_RWG,
++                   void, ptr, ptr, ptr, ptr, i32)
++
++DEF_HELPER_FLAGS_5(sve2_usqadd_zpzz_b, TCG_CALL_NO_RWG,
++                   void, ptr, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_5(sve2_usqadd_zpzz_h, TCG_CALL_NO_RWG,
++                   void, ptr, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_5(sve2_usqadd_zpzz_s, TCG_CALL_NO_RWG,
++                   void, ptr, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_5(sve2_usqadd_zpzz_d, TCG_CALL_NO_RWG,
 +                   void, ptr, ptr, ptr, ptr, i32)
 +
  DEF_HELPER_FLAGS_5(sve_asr_zpzw_b, TCG_CALL_NO_RWG,
                     void, ptr, ptr, ptr, ptr, i32)
  DEF_HELPER_FLAGS_5(sve_asr_zpzw_h, TCG_CALL_NO_RWG,
 diff --git a/target/arm/sve.decode b/target/arm/sve.decode
-index 2d5104b84f..6f091897d1 100644
+index 6f091897d1..7a287bd8a6 100644
 --- a/target/arm/sve.decode
 +++ b/target/arm/sve.decode
-@@ -1143,3 +1143,11 @@ SRHADD          01000100 .. 010 100 100 ... ..... .....  @rdn_pg_rm
- URHADD          01000100 .. 010 101 100 ... ..... .....  @rdn_pg_rm
- SHSUB           01000100 .. 010 110 100 ... ..... .....  @rdm_pg_rn # SHSUBR
- UHSUB           01000100 .. 010 111 100 ... ..... .....  @rdm_pg_rn # UHSUBR
+@@ -1151,3 +1151,14 @@ SMAXP           01000100 .. 010 100 101 ... ..... .....  @rdn_pg_rm
+ UMAXP           01000100 .. 010 101 101 ... ..... .....  @rdn_pg_rm
+ SMINP           01000100 .. 010 110 101 ... ..... .....  @rdn_pg_rm
+ UMINP           01000100 .. 010 111 101 ... ..... .....  @rdn_pg_rm
 +
-+### SVE2 integer pairwise arithmetic
++### SVE2 saturating add/subtract (predicated)
 +
-+ADDP            01000100 .. 010 001 101 ... ..... .....  @rdn_pg_rm
-+SMAXP           01000100 .. 010 100 101 ... ..... .....  @rdn_pg_rm
-+UMAXP           01000100 .. 010 101 101 ... ..... .....  @rdn_pg_rm
-+SMINP           01000100 .. 010 110 101 ... ..... .....  @rdn_pg_rm
-+UMINP           01000100 .. 010 111 101 ... ..... .....  @rdn_pg_rm
++SQADD_zpzz      01000100 .. 011 000 100 ... ..... .....  @rdn_pg_rm
++UQADD_zpzz      01000100 .. 011 001 100 ... ..... .....  @rdn_pg_rm
++SQSUB_zpzz      01000100 .. 011 010 100 ... ..... .....  @rdn_pg_rm
++UQSUB_zpzz      01000100 .. 011 011 100 ... ..... .....  @rdn_pg_rm
++SUQADD          01000100 .. 011 100 100 ... ..... .....  @rdn_pg_rm
++USQADD          01000100 .. 011 101 100 ... ..... .....  @rdn_pg_rm
++SQSUB_zpzz      01000100 .. 011 110 100 ... ..... .....  @rdm_pg_rn # SQSUBR
++UQSUB_zpzz      01000100 .. 011 111 100 ... ..... .....  @rdm_pg_rn # UQSUBR
 diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
-index b578556a22..5427327c11 100644
+index 5427327c11..ba80d24b21 100644
 --- a/target/arm/sve_helper.c
 +++ b/target/arm/sve_helper.c
-@@ -681,6 +681,82 @@ DO_ZPZZ_D(sve2_uhsub_zpzz_d, uint64_t, DO_HSUB_D)
+@@ -678,6 +678,135 @@ DO_ZPZZ(sve2_uhsub_zpzz_h, uint16_t, H1_2, DO_HSUB_BHS)
+ DO_ZPZZ(sve2_uhsub_zpzz_s, uint32_t, H1_4, DO_HSUB_BHS)
+ DO_ZPZZ_D(sve2_uhsub_zpzz_d, uint64_t, DO_HSUB_D)
+ 
++static inline int32_t do_sat_bhs(int64_t val, int64_t min, int64_t max)
++{
++    return val >= max ? max : val <= min ? min : val;
++}
++
++#define DO_SQADD_B(n, m) do_sat_bhs((int64_t)n + m, INT8_MIN, INT8_MAX)
++#define DO_SQADD_H(n, m) do_sat_bhs((int64_t)n + m, INT16_MIN, INT16_MAX)
++#define DO_SQADD_S(n, m) do_sat_bhs((int64_t)n + m, INT32_MIN, INT32_MAX)
++
++static inline int64_t do_sqadd_d(int64_t n, int64_t m)
++{
++    int64_t r = n + m;
++    if (((r ^ n) & ~(n ^ m)) < 0) {
++        /* Signed overflow.  */
++        return r < 0 ? INT64_MAX : INT64_MIN;
++    }
++    return r;
++}
++
++DO_ZPZZ(sve2_sqadd_zpzz_b, int8_t, H1_2, DO_SQADD_B)
++DO_ZPZZ(sve2_sqadd_zpzz_h, int16_t, H1_2, DO_SQADD_H)
++DO_ZPZZ(sve2_sqadd_zpzz_s, int32_t, H1_4, DO_SQADD_S)
++DO_ZPZZ_D(sve2_sqadd_zpzz_d, int64_t, do_sqadd_d)
++
++#define DO_UQADD_B(n, m) do_sat_bhs((int64_t)n + m, 0, UINT8_MAX)
++#define DO_UQADD_H(n, m) do_sat_bhs((int64_t)n + m, 0, UINT16_MAX)
++#define DO_UQADD_S(n, m) do_sat_bhs((int64_t)n + m, 0, UINT32_MAX)
++
++static inline uint64_t do_uqadd_d(uint64_t n, uint64_t m)
++{
++    uint64_t r = n + m;
++    return r < n ? UINT64_MAX : r;
++}
++
++DO_ZPZZ(sve2_uqadd_zpzz_b, uint8_t, H1_2, DO_UQADD_B)
++DO_ZPZZ(sve2_uqadd_zpzz_h, uint16_t, H1_2, DO_UQADD_H)
++DO_ZPZZ(sve2_uqadd_zpzz_s, uint32_t, H1_4, DO_UQADD_S)
++DO_ZPZZ_D(sve2_uqadd_zpzz_d, uint64_t, do_uqadd_d)
++
++#define DO_SQSUB_B(n, m) do_sat_bhs((int64_t)n - m, INT8_MIN, INT8_MAX)
++#define DO_SQSUB_H(n, m) do_sat_bhs((int64_t)n - m, INT16_MIN, INT16_MAX)
++#define DO_SQSUB_S(n, m) do_sat_bhs((int64_t)n - m, INT32_MIN, INT32_MAX)
++
++static inline int64_t do_sqsub_d(int64_t n, int64_t m)
++{
++    int64_t r = n - m;
++    if (((r ^ n) & (n ^ m)) < 0) {
++        /* Signed overflow.  */
++        return r < 0 ? INT64_MAX : INT64_MIN;
++    }
++    return r;
++}
++
++DO_ZPZZ(sve2_sqsub_zpzz_b, int8_t, H1_2, DO_SQSUB_B)
++DO_ZPZZ(sve2_sqsub_zpzz_h, int16_t, H1_2, DO_SQSUB_H)
++DO_ZPZZ(sve2_sqsub_zpzz_s, int32_t, H1_4, DO_SQSUB_S)
++DO_ZPZZ_D(sve2_sqsub_zpzz_d, int64_t, do_sqsub_d)
++
++#define DO_UQSUB_B(n, m) do_sat_bhs((int64_t)n - m, 0, UINT8_MAX)
++#define DO_UQSUB_H(n, m) do_sat_bhs((int64_t)n - m, 0, UINT16_MAX)
++#define DO_UQSUB_S(n, m) do_sat_bhs((int64_t)n - m, 0, UINT32_MAX)
++
++static inline uint64_t do_uqsub_d(uint64_t n, uint64_t m)
++{
++    return n > m ? n - m : 0;
++}
++
++DO_ZPZZ(sve2_uqsub_zpzz_b, uint8_t, H1_2, DO_UQSUB_B)
++DO_ZPZZ(sve2_uqsub_zpzz_h, uint16_t, H1_2, DO_UQSUB_H)
++DO_ZPZZ(sve2_uqsub_zpzz_s, uint32_t, H1_4, DO_UQSUB_S)
++DO_ZPZZ_D(sve2_uqsub_zpzz_d, uint64_t, do_uqsub_d)
++
++#define DO_SUQADD_B(n, m) \
++    do_sat_bhs((int64_t)(int8_t)n + m, INT8_MIN, INT8_MAX)
++#define DO_SUQADD_H(n, m) \
++    do_sat_bhs((int64_t)(int16_t)n + m, INT16_MIN, INT16_MAX)
++#define DO_SUQADD_S(n, m) \
++    do_sat_bhs((int64_t)(int32_t)n + m, INT32_MIN, INT32_MAX)
++
++static inline int64_t do_suqadd_d(int64_t n, uint64_t m)
++{
++    uint64_t r = n + m;
++
++    if (n < 0) {
++        /* Note that m - abs(n) cannot underflow. */
++        if (r > INT64_MAX) {
++            /* Result is either very large positive or negative. */
++            if (m > -n) {
++                /* m > abs(n), so r is a very large positive. */
++                return INT64_MAX;
++            }
++            /* Result is negative. */
++        }
++    } else {
++        /* Both inputs are positive: check for overflow.  */
++        if (r < m || r > INT64_MAX) {
++            return INT64_MAX;
++        }
++    }
++    return r;
++}
++
++DO_ZPZZ(sve2_suqadd_zpzz_b, uint8_t, H1_2, DO_SUQADD_B)
++DO_ZPZZ(sve2_suqadd_zpzz_h, uint16_t, H1_2, DO_SUQADD_H)
++DO_ZPZZ(sve2_suqadd_zpzz_s, uint32_t, H1_4, DO_SUQADD_S)
++DO_ZPZZ_D(sve2_suqadd_zpzz_d, uint64_t, do_suqadd_d)
++
++#define DO_USQADD_B(n, m) \
++    do_sat_bhs((int64_t)n + (int8_t)m, 0, UINT8_MAX)
++#define DO_USQADD_H(n, m) \
++    do_sat_bhs((int64_t)n + (int16_t)m, 0, UINT16_MAX)
++#define DO_USQADD_S(n, m) \
++    do_sat_bhs((int64_t)n + (int32_t)m, 0, UINT32_MAX)
++
++static inline uint64_t do_usqadd_d(uint64_t n, int64_t m)
++{
++    uint64_t r = n + m;
++
++    if (m < 0) {
++        return n < -m ? 0 : r;
++    }
++    return r < n ? UINT64_MAX : r;
++}
++
++DO_ZPZZ(sve2_usqadd_zpzz_b, uint8_t, H1_2, DO_USQADD_B)
++DO_ZPZZ(sve2_usqadd_zpzz_h, uint16_t, H1_2, DO_USQADD_H)
++DO_ZPZZ(sve2_usqadd_zpzz_s, uint32_t, H1_4, DO_USQADD_S)
++DO_ZPZZ_D(sve2_usqadd_zpzz_d, uint64_t, do_usqadd_d)
++
  #undef DO_ZPZZ
  #undef DO_ZPZZ_D
  
-+/*
-+ * Three operand expander, operating on element pairs.
-+ * If the slot I is even, the elements from from VN {I, I+1}.
-+ * If the slot I is odd, the elements from from VM {I-1, I}.
-+ * Load all of the input elements in each pair before overwriting output.
-+ */
-+#define DO_ZPZZ_PAIR(NAME, TYPE, H, OP) \
-+void HELPER(NAME)(void *vd, void *vn, void *vm, void *vg, uint32_t desc) \
-+{                                                               \
-+    intptr_t i, opr_sz = simd_oprsz(desc);                      \
-+    for (i = 0; i < opr_sz; ) {                                 \
-+        uint16_t pg = *(uint16_t *)(vg + H1_2(i >> 3));         \
-+        do {                                                    \
-+            TYPE n0 = *(TYPE *)(vn + H(i));                     \
-+            TYPE m0 = *(TYPE *)(vm + H(i));                     \
-+            TYPE n1 = *(TYPE *)(vn + H(i + sizeof(TYPE)));      \
-+            TYPE m1 = *(TYPE *)(vm + H(i + sizeof(TYPE)));      \
-+            if (pg & 1) {                                       \
-+                *(TYPE *)(vd + H(i)) = OP(n0, n1);              \
-+            }                                                   \
-+            i += sizeof(TYPE), pg >>= sizeof(TYPE);             \
-+            if (pg & 1) {                                       \
-+                *(TYPE *)(vd + H(i)) = OP(m0, m1);              \
-+            }                                                   \
-+            i += sizeof(TYPE), pg >>= sizeof(TYPE);             \
-+        } while (i & 15);                                       \
-+    }                                                           \
-+}
-+
-+/* Similarly, specialized for 64-bit operands.  */
-+#define DO_ZPZZ_PAIR_D(NAME, TYPE, OP) \
-+void HELPER(NAME)(void *vd, void *vn, void *vm, void *vg, uint32_t desc) \
-+{                                                               \
-+    intptr_t i, opr_sz = simd_oprsz(desc) / 8;                  \
-+    TYPE *d = vd, *n = vn, *m = vm;                             \
-+    uint8_t *pg = vg;                                           \
-+    for (i = 0; i < opr_sz; i += 2) {                           \
-+        TYPE n0 = n[i], n1 = n[i + 1];                          \
-+        TYPE m0 = m[i], m1 = m[i + 1];                          \
-+        if (pg[H1(i)] & 1) {                                    \
-+            d[i] = OP(n0, n1);                                  \
-+        }                                                       \
-+        if (pg[H1(i + 1)] & 1) {                                \
-+            d[i + 1] = OP(m0, m1);                              \
-+        }                                                       \
-+    }                                                           \
-+}
-+
-+DO_ZPZZ_PAIR(sve2_addp_zpzz_b, uint8_t, H1_2, DO_ADD)
-+DO_ZPZZ_PAIR(sve2_addp_zpzz_h, uint16_t, H1_2, DO_ADD)
-+DO_ZPZZ_PAIR(sve2_addp_zpzz_s, uint32_t, H1_4, DO_ADD)
-+DO_ZPZZ_PAIR_D(sve2_addp_zpzz_d, uint64_t, DO_ADD)
-+
-+DO_ZPZZ_PAIR(sve2_umaxp_zpzz_b, uint8_t, H1_2, DO_MAX)
-+DO_ZPZZ_PAIR(sve2_umaxp_zpzz_h, uint16_t, H1_2, DO_MAX)
-+DO_ZPZZ_PAIR(sve2_umaxp_zpzz_s, uint32_t, H1_4, DO_MAX)
-+DO_ZPZZ_PAIR_D(sve2_umaxp_zpzz_d, uint64_t, DO_MAX)
-+
-+DO_ZPZZ_PAIR(sve2_uminp_zpzz_b, uint8_t, H1_2, DO_MIN)
-+DO_ZPZZ_PAIR(sve2_uminp_zpzz_h, uint16_t, H1_2, DO_MIN)
-+DO_ZPZZ_PAIR(sve2_uminp_zpzz_s, uint32_t, H1_4, DO_MIN)
-+DO_ZPZZ_PAIR_D(sve2_uminp_zpzz_d, uint64_t, DO_MIN)
-+
-+DO_ZPZZ_PAIR(sve2_smaxp_zpzz_b, int8_t, H1_2, DO_MAX)
-+DO_ZPZZ_PAIR(sve2_smaxp_zpzz_h, int16_t, H1_2, DO_MAX)
-+DO_ZPZZ_PAIR(sve2_smaxp_zpzz_s, int32_t, H1_4, DO_MAX)
-+DO_ZPZZ_PAIR_D(sve2_smaxp_zpzz_d, int64_t, DO_MAX)
-+
-+DO_ZPZZ_PAIR(sve2_sminp_zpzz_b, int8_t, H1_2, DO_MIN)
-+DO_ZPZZ_PAIR(sve2_sminp_zpzz_h, int16_t, H1_2, DO_MIN)
-+DO_ZPZZ_PAIR(sve2_sminp_zpzz_s, int32_t, H1_4, DO_MIN)
-+DO_ZPZZ_PAIR_D(sve2_sminp_zpzz_d, int64_t, DO_MIN)
-+
-+#undef DO_ZPZZ_PAIR
-+#undef DO_ZPZZ_PAIR_D
-+
- /* Three-operand expander, controlled by a predicate, in which the
-  * third operand is "wide".  That is, for D = N op M, the same 64-bit
-  * value of M is used with all of the narrower values of N.
+@@ -1613,13 +1742,7 @@ void HELPER(sve_sqaddi_b)(void *d, void *a, int32_t b, uint32_t desc)
+     intptr_t i, oprsz = simd_oprsz(desc);
+ 
+     for (i = 0; i < oprsz; i += sizeof(int8_t)) {
+-        int r = *(int8_t *)(a + i) + b;
+-        if (r > INT8_MAX) {
+-            r = INT8_MAX;
+-        } else if (r < INT8_MIN) {
+-            r = INT8_MIN;
+-        }
+-        *(int8_t *)(d + i) = r;
++        *(int8_t *)(d + i) = DO_SQADD_B(b, *(int8_t *)(a + i));
+     }
+ }
+ 
+@@ -1628,13 +1751,7 @@ void HELPER(sve_sqaddi_h)(void *d, void *a, int32_t b, uint32_t desc)
+     intptr_t i, oprsz = simd_oprsz(desc);
+ 
+     for (i = 0; i < oprsz; i += sizeof(int16_t)) {
+-        int r = *(int16_t *)(a + i) + b;
+-        if (r > INT16_MAX) {
+-            r = INT16_MAX;
+-        } else if (r < INT16_MIN) {
+-            r = INT16_MIN;
+-        }
+-        *(int16_t *)(d + i) = r;
++        *(int16_t *)(d + i) = DO_SQADD_H(b, *(int16_t *)(a + i));
+     }
+ }
+ 
+@@ -1643,13 +1760,7 @@ void HELPER(sve_sqaddi_s)(void *d, void *a, int64_t b, uint32_t desc)
+     intptr_t i, oprsz = simd_oprsz(desc);
+ 
+     for (i = 0; i < oprsz; i += sizeof(int32_t)) {
+-        int64_t r = *(int32_t *)(a + i) + b;
+-        if (r > INT32_MAX) {
+-            r = INT32_MAX;
+-        } else if (r < INT32_MIN) {
+-            r = INT32_MIN;
+-        }
+-        *(int32_t *)(d + i) = r;
++        *(int32_t *)(d + i) = DO_SQADD_S(b, *(int32_t *)(a + i));
+     }
+ }
+ 
+@@ -1658,13 +1769,7 @@ void HELPER(sve_sqaddi_d)(void *d, void *a, int64_t b, uint32_t desc)
+     intptr_t i, oprsz = simd_oprsz(desc);
+ 
+     for (i = 0; i < oprsz; i += sizeof(int64_t)) {
+-        int64_t ai = *(int64_t *)(a + i);
+-        int64_t r = ai + b;
+-        if (((r ^ ai) & ~(ai ^ b)) < 0) {
+-            /* Signed overflow.  */
+-            r = (r < 0 ? INT64_MAX : INT64_MIN);
+-        }
+-        *(int64_t *)(d + i) = r;
++        *(int64_t *)(d + i) = do_sqadd_d(b, *(int64_t *)(a + i));
+     }
+ }
+ 
+@@ -1677,13 +1782,7 @@ void HELPER(sve_uqaddi_b)(void *d, void *a, int32_t b, uint32_t desc)
+     intptr_t i, oprsz = simd_oprsz(desc);
+ 
+     for (i = 0; i < oprsz; i += sizeof(uint8_t)) {
+-        int r = *(uint8_t *)(a + i) + b;
+-        if (r > UINT8_MAX) {
+-            r = UINT8_MAX;
+-        } else if (r < 0) {
+-            r = 0;
+-        }
+-        *(uint8_t *)(d + i) = r;
++        *(uint8_t *)(d + i) = DO_UQADD_B(b, *(uint8_t *)(a + i));
+     }
+ }
+ 
+@@ -1692,13 +1791,7 @@ void HELPER(sve_uqaddi_h)(void *d, void *a, int32_t b, uint32_t desc)
+     intptr_t i, oprsz = simd_oprsz(desc);
+ 
+     for (i = 0; i < oprsz; i += sizeof(uint16_t)) {
+-        int r = *(uint16_t *)(a + i) + b;
+-        if (r > UINT16_MAX) {
+-            r = UINT16_MAX;
+-        } else if (r < 0) {
+-            r = 0;
+-        }
+-        *(uint16_t *)(d + i) = r;
++        *(uint16_t *)(d + i) = DO_UQADD_H(b, *(uint16_t *)(a + i));
+     }
+ }
+ 
+@@ -1707,13 +1800,7 @@ void HELPER(sve_uqaddi_s)(void *d, void *a, int64_t b, uint32_t desc)
+     intptr_t i, oprsz = simd_oprsz(desc);
+ 
+     for (i = 0; i < oprsz; i += sizeof(uint32_t)) {
+-        int64_t r = *(uint32_t *)(a + i) + b;
+-        if (r > UINT32_MAX) {
+-            r = UINT32_MAX;
+-        } else if (r < 0) {
+-            r = 0;
+-        }
+-        *(uint32_t *)(d + i) = r;
++        *(uint32_t *)(d + i) = DO_UQADD_S(b, *(uint32_t *)(a + i));
+     }
+ }
+ 
+@@ -1722,11 +1809,7 @@ void HELPER(sve_uqaddi_d)(void *d, void *a, uint64_t b, uint32_t desc)
+     intptr_t i, oprsz = simd_oprsz(desc);
+ 
+     for (i = 0; i < oprsz; i += sizeof(uint64_t)) {
+-        uint64_t r = *(uint64_t *)(a + i) + b;
+-        if (r < b) {
+-            r = UINT64_MAX;
+-        }
+-        *(uint64_t *)(d + i) = r;
++        *(uint64_t *)(d + i) = do_uqadd_d(b, *(uint64_t *)(a + i));
+     }
+ }
+ 
+@@ -1735,8 +1818,7 @@ void HELPER(sve_uqsubi_d)(void *d, void *a, uint64_t b, uint32_t desc)
+     intptr_t i, oprsz = simd_oprsz(desc);
+ 
+     for (i = 0; i < oprsz; i += sizeof(uint64_t)) {
+-        uint64_t ai = *(uint64_t *)(a + i);
+-        *(uint64_t *)(d + i) = (ai < b ? 0 : ai - b);
++        *(uint64_t *)(d + i) = do_uqsub_d(*(uint64_t *)(a + i), b);
+     }
+ }
+ 
 diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index dac662a586..19737eb8f4 100644
+index 19737eb8f4..b377abea15 100644
 --- a/target/arm/translate-sve.c
 +++ b/target/arm/translate-sve.c
-@@ -5523,3 +5523,9 @@ DO_SVE2_ZPZZ(SHSUB, shsub)
- DO_SVE2_ZPZZ(UHADD, uhadd)
- DO_SVE2_ZPZZ(URHADD, urhadd)
- DO_SVE2_ZPZZ(UHSUB, uhsub)
+@@ -5529,3 +5529,10 @@ DO_SVE2_ZPZZ(SMAXP, smaxp)
+ DO_SVE2_ZPZZ(UMAXP, umaxp)
+ DO_SVE2_ZPZZ(SMINP, sminp)
+ DO_SVE2_ZPZZ(UMINP, uminp)
 +
-+DO_SVE2_ZPZZ(ADDP, addp)
-+DO_SVE2_ZPZZ(SMAXP, smaxp)
-+DO_SVE2_ZPZZ(UMAXP, umaxp)
-+DO_SVE2_ZPZZ(SMINP, sminp)
-+DO_SVE2_ZPZZ(UMINP, uminp)
++DO_SVE2_ZPZZ(SQADD_zpzz, sqadd)
++DO_SVE2_ZPZZ(UQADD_zpzz, uqadd)
++DO_SVE2_ZPZZ(SQSUB_zpzz, sqsub)
++DO_SVE2_ZPZZ(UQSUB_zpzz, uqsub)
++DO_SVE2_ZPZZ(SUQADD, suqadd)
++DO_SVE2_ZPZZ(USQADD, usqadd)
 -- 
 2.25.1
 
