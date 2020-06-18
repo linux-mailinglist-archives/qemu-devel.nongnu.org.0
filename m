@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C7DD1FEA45
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 06:40:08 +0200 (CEST)
-Received: from localhost ([::1]:51034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64C3A1FEA56
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 06:45:13 +0200 (CEST)
+Received: from localhost ([::1]:47754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlmLP-0001uc-9V
-	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 00:40:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60022)
+	id 1jlmQK-0004VY-DS
+	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 00:45:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jlmAC-0004vH-Dk
+ id 1jlmAC-0004vC-By
  for qemu-devel@nongnu.org; Thu, 18 Jun 2020 00:28:32 -0400
-Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:42308)
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:43910)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jlmA7-0002Yt-QS
+ id 1jlmA8-0002Z1-9L
  for qemu-devel@nongnu.org; Thu, 18 Jun 2020 00:28:32 -0400
-Received: by mail-pl1-x642.google.com with SMTP id k6so1900891pll.9
- for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 21:28:26 -0700 (PDT)
+Received: by mail-pg1-x544.google.com with SMTP id h10so2320586pgq.10
+ for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 21:28:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=T9tLcCKTkbNmDxAyHgl5RsUu/R3CyNcD6tukvru2LMk=;
- b=Vdm4H0wqKKiZ4w7S2ofpvB1QEYef8yfg1tZiXMrcTILATiQ6JBunqtaKlzbQfA/LTG
- 1bYb1q06UeunxPx6L8Hb1KudfOA0hbEebKsXrFYCJb4Sef7m126/iMZwCmeTRUDo+Pha
- x2vfwK6J/CA0ZR70aCAYtlnYoOwTvsu00PVrFqa/o3ho99gr4xFUM3GEXFxNmEU7Dl03
- LH1trZxNMBOwX51YkzvAA6xadOKjBAQ8+psmEhVJr9drVp+8cLcllhZnRGMug//+sL4A
- waFB0zgCNWhbI35mqbf4J2OjtI0UQkpiKl2wJ3hdkGhDNDuRN0UqeAoVGrQ5ogz2E/Rb
- eELw==
+ bh=0RZoidkINKk+4kSs+3+p0XQ23yggd+OITaADAOtdoSQ=;
+ b=WdpzleGlCy8bwgXaTGEstzgWarF1p0trcqnl5Ic7uXErpKv3IqDiKeD1MeZWx0lxFR
+ HViZj0fL9V2F32F4FwTh9ccZ6aWTaDzdwkla6zsgq+xK6MFjGQzEzN7QMduy5afWr34b
+ OHlPL9NRuGxlw0BR0ZpuswS7oM/Og2VGclH/Mpi3tdY+EUfvi06OglPOsOxIexMZOKkB
+ HZ2dwZNZW3GaM/y2+rRyYFwjXptnuZUX0iHehJGxk9C7muT/KpOr4hpIZFNtHEVaGBl2
+ ePKCO1+bwz067626lHm9aXxCT7BBAPMD44hEyWqrYj2m3+hMFM4+jIDqdAFguZZVjwrx
+ fhVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=T9tLcCKTkbNmDxAyHgl5RsUu/R3CyNcD6tukvru2LMk=;
- b=kCpKGkLuiq4cyjWt9MT2xXe7+81ZwDyoBKh8SBIEiUjGSA5ohzUwYmrELTzVwrL8Gr
- CvQIdFOuD7NT6ai+5SgVF/KbCTHRHgWATBhX5Y7mRk9LZkfgnJRbltoyU86kTula9qba
- xL3YhSE09cHcDLlTjYXCo5SPhC7mVGeYwXRZio4NUolWizEJ5b8jxRxxl9uua8P2mSk/
- iVvY9fUub6PHFZqEt8yQaAKCTk+wBP3vln62dJIgV4/2mBIb/trj3d92ekktikvYh77l
- VffQWj7XhJyURg8sukTdwNAh9quWJaFvIzHo8LpLTQN4Wk7vWU+6uLJDh5NToAmo9pYE
- YxqQ==
-X-Gm-Message-State: AOAM5319jGj8gkhy0kc11LQ03Ye5NQoL6GBB0EHiUOAkZNuSJZiY5695
- X7m6cuS5Xq33cWB4yKdTMa0h8Ie4nNA=
-X-Google-Smtp-Source: ABdhPJwQLWRaXH9vBHvNUFsvQ9cLImxZp6cCKKBEbcrigaKVrkLK8GyaHokTBoeDVGdarAfhEAHMUA==
-X-Received: by 2002:a17:90b:1013:: with SMTP id
- gm19mr2333056pjb.231.1592454505303; 
- Wed, 17 Jun 2020 21:28:25 -0700 (PDT)
+ bh=0RZoidkINKk+4kSs+3+p0XQ23yggd+OITaADAOtdoSQ=;
+ b=cnvg4PnedGifBKqDGklHhsNT33Tgym8EPW2vlKywERA7uCvFhKEzYMPZl6bqCIVEyp
+ u8iOareqbSbW2j4YY1OLlMw9XZ/zUuWmeHZbbSzavHGVATH0StWW7NCDVd/IyVA8iJkR
+ YnopYBII2pq59ZwrGmFiBb41y5wWRWA/3Ej3udUR57fI1HQs/U7xaIZIeE/pnbHwF+a5
+ ADo5oyHKmNGJPdE8dhHH/8xV4S+448mldRvty42IplQKdlkdjhONlj+7IyOohcoM/yJl
+ wMTeYhGtBIti2em2f9TbztjB/udVcVQ+DgH6mkHcpxuAwD7PHp0qnOc2H07jtO9+7nue
+ YYLA==
+X-Gm-Message-State: AOAM531pZ8U1p2Bk7qVDxQQW8sU0YiLLSpmxbRNuIo+RTVNikPLb7cuF
+ mI9IjWOiCFCbgZWZy5koqPfVKIh9KNk=
+X-Google-Smtp-Source: ABdhPJym2mQgDN/Yany/nEOzZJxpH8Y/6HRDSTTbsocFS/zFiiXQyCBWf3fTix5X704BbtJqdzfJWA==
+X-Received: by 2002:a62:1b82:: with SMTP id b124mr1914290pfb.172.1592454506533; 
+ Wed, 17 Jun 2020 21:28:26 -0700 (PDT)
 Received: from localhost.localdomain (174-21-143-238.tukw.qwest.net.
  [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id l134sm1154412pga.50.2020.06.17.21.28.24
+ by smtp.gmail.com with ESMTPSA id l134sm1154412pga.50.2020.06.17.21.28.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Jun 2020 21:28:24 -0700 (PDT)
+ Wed, 17 Jun 2020 21:28:25 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 028/100] target/arm: Implement PMULLB and PMULLT
-Date: Wed, 17 Jun 2020 21:25:32 -0700
-Message-Id: <20200618042644.1685561-29-richard.henderson@linaro.org>
+Subject: [PATCH v2 029/100] target/arm: Tidy SVE tszimm shift formats
+Date: Wed, 17 Jun 2020 21:25:33 -0700
+Message-Id: <20200618042644.1685561-30-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200618042644.1685561-1-richard.henderson@linaro.org>
 References: <20200618042644.1685561-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::642;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x642.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::544;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x544.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,126 +89,76 @@ Cc: qemu-arm@nongnu.org, steplong@quicinc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Rather than require the user to fill in the immediate (shl or shr),
+create full formats that include the immediate.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/cpu.h           | 10 ++++++++++
- target/arm/helper-sve.h    |  1 +
- target/arm/sve.decode      |  2 ++
- target/arm/translate-sve.c | 22 ++++++++++++++++++++++
- target/arm/vec_helper.c    | 24 ++++++++++++++++++++++++
- 5 files changed, 59 insertions(+)
+ target/arm/sve.decode | 35 ++++++++++++++++-------------------
+ 1 file changed, 16 insertions(+), 19 deletions(-)
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index e9f56e67c7..f7574cb757 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -3862,6 +3862,16 @@ static inline bool isar_feature_aa64_sve2(const ARMISARegisters *id)
-     return FIELD_EX64(id->id_aa64zfr0, ID_AA64ZFR0, SVEVER) != 0;
- }
- 
-+static inline bool isar_feature_aa64_sve2_aes(const ARMISARegisters *id)
-+{
-+    return FIELD_EX64(id->id_aa64zfr0, ID_AA64ZFR0, AES) != 0;
-+}
-+
-+static inline bool isar_feature_aa64_sve2_pmull128(const ARMISARegisters *id)
-+{
-+    return FIELD_EX64(id->id_aa64zfr0, ID_AA64ZFR0, AES) >= 2;
-+}
-+
- /*
-  * Feature tests for "does this exist in either 32-bit or 64-bit?"
-  */
-diff --git a/target/arm/helper-sve.h b/target/arm/helper-sve.h
-index cb1d4f2443..e7b539df21 100644
---- a/target/arm/helper-sve.h
-+++ b/target/arm/helper-sve.h
-@@ -1875,3 +1875,4 @@ DEF_HELPER_FLAGS_4(sve2_umull_zzz_s, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
- DEF_HELPER_FLAGS_4(sve2_umull_zzz_d, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
- 
- DEF_HELPER_FLAGS_4(sve2_pmull_h, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(sve2_pmull_d, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
 diff --git a/target/arm/sve.decode b/target/arm/sve.decode
-index 32370d7b76..079ba0ec62 100644
+index 079ba0ec62..417b11fdd5 100644
 --- a/target/arm/sve.decode
 +++ b/target/arm/sve.decode
-@@ -1204,6 +1204,8 @@ USUBWT          01000101 .. 0 ..... 010 111 ..... .....  @rd_rn_rm
+@@ -150,13 +150,17 @@
+ @rd_rn_i6       ........ ... rn:5 ..... imm:s6 rd:5             &rri
  
- SQDMULLB_zzz    01000101 .. 0 ..... 011 000 ..... .....  @rd_rn_rm
- SQDMULLT_zzz    01000101 .. 0 ..... 011 001 ..... .....  @rd_rn_rm
-+PMULLB          01000101 .. 0 ..... 011 010 ..... .....  @rd_rn_rm
-+PMULLT          01000101 .. 0 ..... 011 011 ..... .....  @rd_rn_rm
- SMULLB_zzz      01000101 .. 0 ..... 011 100 ..... .....  @rd_rn_rm
- SMULLT_zzz      01000101 .. 0 ..... 011 101 ..... .....  @rd_rn_rm
- UMULLB_zzz      01000101 .. 0 ..... 011 110 ..... .....  @rd_rn_rm
-diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index 0712a25de7..db2081130d 100644
---- a/target/arm/translate-sve.c
-+++ b/target/arm/translate-sve.c
-@@ -5596,6 +5596,28 @@ DO_SVE2_ZZZ_TB(SMULLT_zzz, smull_zzz, true, true)
- DO_SVE2_ZZZ_TB(UMULLB_zzz, umull_zzz, false, false)
- DO_SVE2_ZZZ_TB(UMULLT_zzz, umull_zzz, true, true)
+ # Two register operand, one immediate operand, with predicate,
+-# element size encoded as TSZHL.  User must fill in imm.
+-@rdn_pg_tszimm  ........ .. ... ... ... pg:3 ..... rd:5 \
+-                &rpri_esz rn=%reg_movprfx esz=%tszimm_esz
++# element size encoded as TSZHL.
++@rdn_pg_tszimm_shl  ........ .. ... ... ... pg:3 ..... rd:5 \
++                    &rpri_esz rn=%reg_movprfx esz=%tszimm_esz imm=%tszimm_shl
++@rdn_pg_tszimm_shr  ........ .. ... ... ... pg:3 ..... rd:5 \
++                    &rpri_esz rn=%reg_movprfx esz=%tszimm_esz imm=%tszimm_shr
  
-+static bool do_trans_pmull(DisasContext *s, arg_rrr_esz *a, bool sel)
-+{
-+    static gen_helper_gvec_3 * const fns[4] = {
-+        gen_helper_gvec_pmull_q, gen_helper_sve2_pmull_h,
-+        NULL,                    gen_helper_sve2_pmull_d,
-+    };
-+    if (a->esz == 0 && !dc_isar_feature(aa64_sve2_pmull128, s)) {
-+        return false;
-+    }
-+    return do_sve2_zzw_ool(s, a, fns[a->esz], sel);
-+}
-+
-+static bool trans_PMULLB(DisasContext *s, arg_rrr_esz *a)
-+{
-+    return do_trans_pmull(s, a, false);
-+}
-+
-+static bool trans_PMULLT(DisasContext *s, arg_rrr_esz *a)
-+{
-+    return do_trans_pmull(s, a, true);
-+}
-+
- #define DO_SVE2_ZZZ_WTB(NAME, name, SEL2) \
- static bool trans_##NAME(DisasContext *s, arg_rrr_esz *a)       \
- {                                                               \
-diff --git a/target/arm/vec_helper.c b/target/arm/vec_helper.c
-index cd58bfb84f..32b1aace3d 100644
---- a/target/arm/vec_helper.c
-+++ b/target/arm/vec_helper.c
-@@ -1378,6 +1378,30 @@ void HELPER(sve2_pmull_h)(void *vd, void *vn, void *vm, uint32_t desc)
-         d[i] = pmull_h(nn, mm);
-     }
- }
-+
-+static uint64_t pmull_d(uint64_t op1, uint64_t op2)
-+{
-+    uint64_t result = 0;
-+    int i;
-+
-+    for (i = 0; i < 32; ++i) {
-+        uint64_t mask = -((op1 >> i) & 1);
-+        result ^= (op2 << i) & mask;
-+    }
-+    return result;
-+}
-+
-+void HELPER(sve2_pmull_d)(void *vd, void *vn, void *vm, uint32_t desc)
-+{
-+    intptr_t sel = H4(simd_data(desc));
-+    intptr_t i, opr_sz = simd_oprsz(desc);
-+    uint32_t *n = vn, *m = vm;
-+    uint64_t *d = vd;
-+
-+    for (i = 0; i < opr_sz / 8; ++i) {
-+        d[i] = pmull_d(n[2 * i + sel], m[2 * i + sel]);
-+    }
-+}
- #endif
+ # Similarly without predicate.
+-@rd_rn_tszimm   ........ .. ... ... ...... rn:5 rd:5 \
+-                &rri_esz esz=%tszimm16_esz
++@rd_rn_tszimm_shl   ........ .. ... ... ...... rn:5 rd:5 \
++                    &rri_esz esz=%tszimm16_esz imm=%tszimm16_shl
++@rd_rn_tszimm_shr   ........ .. ... ... ...... rn:5 rd:5 \
++                    &rri_esz esz=%tszimm16_esz imm=%tszimm16_shr
  
- #define DO_CMP0(NAME, TYPE, OP)                         \
+ # Two register operand, one immediate operand, with 4-bit predicate.
+ # User must fill in imm.
+@@ -289,14 +293,10 @@ UMINV           00000100 .. 001 011 001 ... ..... .....         @rd_pg_rn
+ ### SVE Shift by Immediate - Predicated Group
+ 
+ # SVE bitwise shift by immediate (predicated)
+-ASR_zpzi        00000100 .. 000 000 100 ... .. ... ..... \
+-                @rdn_pg_tszimm imm=%tszimm_shr
+-LSR_zpzi        00000100 .. 000 001 100 ... .. ... ..... \
+-                @rdn_pg_tszimm imm=%tszimm_shr
+-LSL_zpzi        00000100 .. 000 011 100 ... .. ... ..... \
+-                @rdn_pg_tszimm imm=%tszimm_shl
+-ASRD            00000100 .. 000 100 100 ... .. ... ..... \
+-                @rdn_pg_tszimm imm=%tszimm_shr
++ASR_zpzi        00000100 .. 000 000 100 ... .. ... .....  @rdn_pg_tszimm_shr
++LSR_zpzi        00000100 .. 000 001 100 ... .. ... .....  @rdn_pg_tszimm_shr
++LSL_zpzi        00000100 .. 000 011 100 ... .. ... .....  @rdn_pg_tszimm_shl
++ASRD            00000100 .. 000 100 100 ... .. ... .....  @rdn_pg_tszimm_shr
+ 
+ # SVE bitwise shift by vector (predicated)
+ ASR_zpzz        00000100 .. 010 000 100 ... ..... .....   @rdn_pg_rm
+@@ -400,12 +400,9 @@ RDVL            00000100 101 11111 01010 imm:s6 rd:5
+ ### SVE Bitwise Shift - Unpredicated Group
+ 
+ # SVE bitwise shift by immediate (unpredicated)
+-ASR_zzi         00000100 .. 1 ..... 1001 00 ..... ..... \
+-                @rd_rn_tszimm imm=%tszimm16_shr
+-LSR_zzi         00000100 .. 1 ..... 1001 01 ..... ..... \
+-                @rd_rn_tszimm imm=%tszimm16_shr
+-LSL_zzi         00000100 .. 1 ..... 1001 11 ..... ..... \
+-                @rd_rn_tszimm imm=%tszimm16_shl
++ASR_zzi         00000100 .. 1 ..... 1001 00 ..... .....  @rd_rn_tszimm_shr
++LSR_zzi         00000100 .. 1 ..... 1001 01 ..... .....  @rd_rn_tszimm_shr
++LSL_zzi         00000100 .. 1 ..... 1001 11 ..... .....  @rd_rn_tszimm_shl
+ 
+ # SVE bitwise shift by wide elements (unpredicated)
+ # Note esz != 3
 -- 
 2.25.1
 
