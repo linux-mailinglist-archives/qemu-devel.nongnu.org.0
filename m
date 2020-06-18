@@ -2,58 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEBF01FF355
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 15:40:27 +0200 (CEST)
-Received: from localhost ([::1]:45336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D5511FF31D
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 15:34:11 +0200 (CEST)
+Received: from localhost ([::1]:50650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlumI-0004c3-Oa
-	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 09:40:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41042)
+	id 1jlugE-0001Fd-59
+	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 09:34:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40988)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1jluWA-0000Th-8B
- for qemu-devel@nongnu.org; Thu, 18 Jun 2020 09:23:46 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:41216
+ id 1jluW2-00005p-Bq
+ for qemu-devel@nongnu.org; Thu, 18 Jun 2020 09:23:38 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:53001
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1jluVu-0005tS-QB
- for qemu-devel@nongnu.org; Thu, 18 Jun 2020 09:23:45 -0400
+ id 1jluW0-0005u8-FN
+ for qemu-devel@nongnu.org; Thu, 18 Jun 2020 09:23:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592486610;
+ s=mimecast20190719; t=1592486615;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=elivO27Qf/JSTlTnpF6OqVy6SM5yMeRd8r5vrxQeoxI=;
- b=dgNUlX7cPuTxbc1bv40yn0C+J+QWDpgaJoofOa3Y1AW6PLeBfzKkfy4y1IdhC41UcCsMYz
- pcLksl9rOaFcMEIoNgRxRtQTzUfCE8nBy8n1oIj7/ZKkQLZWWKSYpnC9quSdyfHwNpFjFY
- bI2EuVoWTYd8ZrY9B74U772j6Wx3dKw=
+ bh=7+O77/1VoIy5ZmKPNfruC/I0o10kheFBwNmfaZ48ahQ=;
+ b=WXCrNnfvwOFtjL7zGdr9s55LGxYHjAYn5loNTkCS+ssBMHbDOwDVoCP9V95iEuOg8imapG
+ QdToizC4Ie8XJCIKl9p8dkPKfWSidRYJ19sBDvGUALaR1yw6+d8lhP07c/K8nsWlcct98W
+ 0Hfvmstcz37HtGXPht5b1G8FMan6uFQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-458-Tbokr5ldMZWVpSeTRIqeXQ-1; Thu, 18 Jun 2020 09:23:28 -0400
-X-MC-Unique: Tbokr5ldMZWVpSeTRIqeXQ-1
+ us-mta-44-G4xE9hiGO4q87iNx3N9cTg-1; Thu, 18 Jun 2020 09:23:31 -0400
+X-MC-Unique: G4xE9hiGO4q87iNx3N9cTg-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1189C107ACF6;
- Thu, 18 Jun 2020 13:23:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DE4B1107ACCD;
+ Thu, 18 Jun 2020 13:23:29 +0000 (UTC)
 Received: from jason-ThinkPad-T430s.redhat.com (ovpn-12-109.pek2.redhat.com
  [10.72.12.109])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 258665BAC2;
- Thu, 18 Jun 2020 13:23:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 918645BAC1;
+ Thu, 18 Jun 2020 13:23:27 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL V2 30/33] colo-compare: Fix memory leak in packet_enqueue()
-Date: Thu, 18 Jun 2020 21:21:45 +0800
-Message-Id: <1592486508-6135-31-git-send-email-jasowang@redhat.com>
+Subject: [PULL V2 31/33] hw/net/e1000e: Do not abort() on invalid PSRCTL
+ register value
+Date: Thu, 18 Jun 2020 21:21:46 +0800
+Message-Id: <1592486508-6135-32-git-send-email-jasowang@redhat.com>
 In-Reply-To: <1592486508-6135-1-git-send-email-jasowang@redhat.com>
 References: <1592486508-6135-1-git-send-email-jasowang@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
@@ -67,6 +70,7 @@ X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,91 +84,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Derek Su <dereksu@qnap.com>, Zhang Chen <chen.zhang@intel.com>,
- Jason Wang <jasowang@redhat.com>
+Cc: Jason Wang <jasowang@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Derek Su <dereksu@qnap.com>
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-The patch is to fix the "pkt" memory leak in packet_enqueue().
-The allocated "pkt" needs to be freed if the colo compare
-primary or secondary queue is too big.
+libFuzzer found using 'qemu-system-i386 -M q35':
 
-Replace the error_report of full queue with a trace event.
+qemu: hardware error: e1000e: PSRCTL.BSIZE0 cannot be zero
+CPU #0:
+EAX=00000000 EBX=00000000 ECX=00000000 EDX=00000663
+ESI=00000000 EDI=00000000 EBP=00000000 ESP=00000000
+EIP=0000fff0 EFL=00000002 [-------] CPL=0 II=0 A20=1 SMM=0 HLT=0
+ES =0000 00000000 0000ffff 00009300
+CS =f000 ffff0000 0000ffff 00009b00
+SS =0000 00000000 0000ffff 00009300
+DS =0000 00000000 0000ffff 00009300
+FS =0000 00000000 0000ffff 00009300
+GS =0000 00000000 0000ffff 00009300
+LDT=0000 00000000 0000ffff 00008200
+TR =0000 00000000 0000ffff 00008b00
+GDT=     00000000 0000ffff
+IDT=     00000000 0000ffff
+CR0=60000010 CR2=00000000 CR3=00000000 CR4=00000000
+DR0=00000000 DR1=00000000 DR2=00000000 DR3=00000000
+DR6=ffff0ff0 DR7=00000400
+EFER=0000000000000000
+FCW=037f FSW=0000 [ST=0] FTW=00 MXCSR=00001f80
+FPR0=0000000000000000 0000 FPR1=0000000000000000 0000
+FPR2=0000000000000000 0000 FPR3=0000000000000000 0000
+FPR4=0000000000000000 0000 FPR5=0000000000000000 0000
+FPR6=0000000000000000 0000 FPR7=0000000000000000 0000
+XMM00=00000000000000000000000000000000 XMM01=00000000000000000000000000000000
+XMM02=00000000000000000000000000000000 XMM03=00000000000000000000000000000000
+XMM04=00000000000000000000000000000000 XMM05=00000000000000000000000000000000
+XMM06=00000000000000000000000000000000 XMM07=00000000000000000000000000000000
+==1988== ERROR: libFuzzer: deadly signal
+    #6 0x7fae4d3ea894 in __GI_abort (/lib64/libc.so.6+0x22894)
+    #7 0x563f4cc59a1d in hw_error (qemu-fuzz-i386+0xe8ca1d)
+    #8 0x563f4d7c93f2 in e1000e_set_psrctl (qemu-fuzz-i386+0x19fc3f2)
+    #9 0x563f4d7b798f in e1000e_core_write (qemu-fuzz-i386+0x19ea98f)
+    #10 0x563f4d7afc46 in e1000e_mmio_write (qemu-fuzz-i386+0x19e2c46)
+    #11 0x563f4cc9a0a7 in memory_region_write_accessor (qemu-fuzz-i386+0xecd0a7)
+    #12 0x563f4cc99c13 in access_with_adjusted_size (qemu-fuzz-i386+0xeccc13)
+    #13 0x563f4cc987b4 in memory_region_dispatch_write (qemu-fuzz-i386+0xecb7b4)
 
-Signed-off-by: Derek Su <dereksu@qnap.com>
-Reviewed-by: Zhang Chen <chen.zhang@intel.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Signed-off-by: Zhang Chen <chen.zhang@intel.com>
+It simply sent the following 2 I/O command to the e1000e
+PCI BAR #2 I/O region:
+
+  writew 0x0100 0x0c00 # RCTL =   E1000_RCTL_DTYP_MASK
+  writeb 0x2170 0x00   # PSRCTL = 0
+
+2813 static void
+2814 e1000e_set_psrctl(E1000ECore *core, int index, uint32_t val)
+2815 {
+2816     if (core->mac[RCTL] & E1000_RCTL_DTYP_MASK) {
+2817
+2818         if ((val & E1000_PSRCTL_BSIZE0_MASK) == 0) {
+2819             hw_error("e1000e: PSRCTL.BSIZE0 cannot be zero");
+2820         }
+
+Instead of calling hw_error() which abort the process (it is
+meant for CPU fatal error condition, not for device logging),
+log the invalid request with qemu_log_mask(LOG_GUEST_ERROR)
+and return, ignoring the request.
+
+Cc: qemu-stable@nongnu.org
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- net/colo-compare.c | 23 +++++++++++++++--------
- net/trace-events   |  1 +
- 2 files changed, 16 insertions(+), 8 deletions(-)
+ hw/net/e1000e_core.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/net/colo-compare.c b/net/colo-compare.c
-index ed1f3d0..f15779d 100644
---- a/net/colo-compare.c
-+++ b/net/colo-compare.c
-@@ -146,6 +146,10 @@ enum {
-     SECONDARY_IN,
- };
+diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
+index d567687..bcd186c 100644
+--- a/hw/net/e1000e_core.c
++++ b/hw/net/e1000e_core.c
+@@ -34,9 +34,9 @@
+ */
  
-+static const char *colo_mode[] = {
-+    [PRIMARY_IN] = "primary",
-+    [SECONDARY_IN] = "secondary",
-+};
+ #include "qemu/osdep.h"
++#include "qemu/log.h"
+ #include "net/net.h"
+ #include "net/tap.h"
+-#include "hw/hw.h"
+ #include "hw/pci/msi.h"
+ #include "hw/pci/msix.h"
+ #include "sysemu/runstate.h"
+@@ -2816,11 +2816,15 @@ e1000e_set_psrctl(E1000ECore *core, int index, uint32_t val)
+     if (core->mac[RCTL] & E1000_RCTL_DTYP_MASK) {
  
- static int compare_chr_send(CompareState *s,
-                             uint8_t *buf,
-@@ -242,6 +246,7 @@ static int packet_enqueue(CompareState *s, int mode, Connection **con)
-     ConnectionKey key;
-     Packet *pkt = NULL;
-     Connection *conn;
-+    int ret;
+         if ((val & E1000_PSRCTL_BSIZE0_MASK) == 0) {
+-            hw_error("e1000e: PSRCTL.BSIZE0 cannot be zero");
++            qemu_log_mask(LOG_GUEST_ERROR,
++                          "e1000e: PSRCTL.BSIZE0 cannot be zero");
++            return;
+         }
  
-     if (mode == PRIMARY_IN) {
-         pkt = packet_new(s->pri_rs.buf,
-@@ -270,16 +275,18 @@ static int packet_enqueue(CompareState *s, int mode, Connection **con)
+         if ((val & E1000_PSRCTL_BSIZE1_MASK) == 0) {
+-            hw_error("e1000e: PSRCTL.BSIZE1 cannot be zero");
++            qemu_log_mask(LOG_GUEST_ERROR,
++                          "e1000e: PSRCTL.BSIZE1 cannot be zero");
++            return;
+         }
      }
  
-     if (mode == PRIMARY_IN) {
--        if (!colo_insert_packet(&conn->primary_list, pkt, &conn->pack)) {
--            error_report("colo compare primary queue size too big,"
--                         "drop packet");
--        }
-+        ret = colo_insert_packet(&conn->primary_list, pkt, &conn->pack);
-     } else {
--        if (!colo_insert_packet(&conn->secondary_list, pkt, &conn->sack)) {
--            error_report("colo compare secondary queue size too big,"
--                         "drop packet");
--        }
-+        ret = colo_insert_packet(&conn->secondary_list, pkt, &conn->sack);
-     }
-+
-+    if (!ret) {
-+        trace_colo_compare_drop_packet(colo_mode[mode],
-+            "queue size too big, drop packet");
-+        packet_destroy(pkt, NULL);
-+        pkt = NULL;
-+    }
-+
-     *con = conn;
- 
-     return 0;
-diff --git a/net/trace-events b/net/trace-events
-index 02c13fd..fa49c71 100644
---- a/net/trace-events
-+++ b/net/trace-events
-@@ -12,6 +12,7 @@ colo_proxy_main(const char *chr) ": %s"
- 
- # colo-compare.c
- colo_compare_main(const char *chr) ": %s"
-+colo_compare_drop_packet(const char *queue, const char *chr) ": %s: %s"
- colo_compare_udp_miscompare(const char *sta, int size) ": %s = %d"
- colo_compare_icmp_miscompare(const char *sta, int size) ": %s = %d"
- colo_compare_ip_info(int psize, const char *sta, const char *stb, int ssize, const char *stc, const char *std) "ppkt size = %d, ip_src = %s, ip_dst = %s, spkt size = %d, ip_src = %s, ip_dst = %s"
 -- 
 2.5.0
 
