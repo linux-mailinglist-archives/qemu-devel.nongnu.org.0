@@ -2,76 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D5511FF31D
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 15:34:11 +0200 (CEST)
-Received: from localhost ([::1]:50650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B0611FF34D
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 15:39:26 +0200 (CEST)
+Received: from localhost ([::1]:42144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlugE-0001Fd-59
-	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 09:34:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40988)
+	id 1jlulJ-0002ZL-2Y
+	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 09:39:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1jluW2-00005p-Bq
- for qemu-devel@nongnu.org; Thu, 18 Jun 2020 09:23:38 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:53001
- helo=us-smtp-delivery-1.mimecast.com)
+ id 1jluW5-0000CL-Bg
+ for qemu-devel@nongnu.org; Thu, 18 Jun 2020 09:23:41 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:50515
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1jluW0-0005u8-FN
- for qemu-devel@nongnu.org; Thu, 18 Jun 2020 09:23:38 -0400
+ id 1jluW2-0005uj-F2
+ for qemu-devel@nongnu.org; Thu, 18 Jun 2020 09:23:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592486615;
+ s=mimecast20190719; t=1592486617;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7+O77/1VoIy5ZmKPNfruC/I0o10kheFBwNmfaZ48ahQ=;
- b=WXCrNnfvwOFtjL7zGdr9s55LGxYHjAYn5loNTkCS+ssBMHbDOwDVoCP9V95iEuOg8imapG
- QdToizC4Ie8XJCIKl9p8dkPKfWSidRYJ19sBDvGUALaR1yw6+d8lhP07c/K8nsWlcct98W
- 0Hfvmstcz37HtGXPht5b1G8FMan6uFQ=
+ to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
+ references:references; bh=vG0s1oHZ1P8zXtguCxiLEMRTZ70YOVVV1rooYTo+RUA=;
+ b=Bm3GksjfGzVeSNHhzfLp3W075YsqlhiwjLBYzELyylMy4jJZmkmKzWaNS3d4T+69On7nlQ
+ OdXyecbeHtBkuKgFynU/JQopJgVmjZ0U5trjOWQqlWrknZBFL+lGzOyJ1uCDkQmO2iSi4y
+ dl8bowdqtnYgfGqUy6YzAsztpBUmkWI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-44-G4xE9hiGO4q87iNx3N9cTg-1; Thu, 18 Jun 2020 09:23:31 -0400
-X-MC-Unique: G4xE9hiGO4q87iNx3N9cTg-1
+ us-mta-132-nEMH0YUDORmK_qOUT7HGqw-1; Thu, 18 Jun 2020 09:23:34 -0400
+X-MC-Unique: nEMH0YUDORmK_qOUT7HGqw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DE4B1107ACCD;
- Thu, 18 Jun 2020 13:23:29 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 28F8110CE780;
+ Thu, 18 Jun 2020 13:23:33 +0000 (UTC)
 Received: from jason-ThinkPad-T430s.redhat.com (ovpn-12-109.pek2.redhat.com
  [10.72.12.109])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 918645BAC1;
- Thu, 18 Jun 2020 13:23:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6A19E5BAC1;
+ Thu, 18 Jun 2020 13:23:30 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL V2 31/33] hw/net/e1000e: Do not abort() on invalid PSRCTL
- register value
-Date: Thu, 18 Jun 2020 21:21:46 +0800
-Message-Id: <1592486508-6135-32-git-send-email-jasowang@redhat.com>
+Subject: [PULL V2 32/33] net: Drop the legacy "name" parameter from the -net
+ option
+Date: Thu, 18 Jun 2020 21:21:47 +0800
+Message-Id: <1592486508-6135-33-git-send-email-jasowang@redhat.com>
 In-Reply-To: <1592486508-6135-1-git-send-email-jasowang@redhat.com>
 References: <1592486508-6135-1-git-send-email-jasowang@redhat.com>
-MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/18 01:32:18
+Content-Type: text/plain; charset=US-ASCII
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/18 01:21:16
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,114 +78,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-stable@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>, Jason Wang <jasowang@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Thomas Huth <thuth@redhat.com>
 
-libFuzzer found using 'qemu-system-i386 -M q35':
+It's been deprecated since QEMU v3.1, so it's time to finally
+remove it. The "id" parameter can simply be used instead.
 
-qemu: hardware error: e1000e: PSRCTL.BSIZE0 cannot be zero
-CPU #0:
-EAX=00000000 EBX=00000000 ECX=00000000 EDX=00000663
-ESI=00000000 EDI=00000000 EBP=00000000 ESP=00000000
-EIP=0000fff0 EFL=00000002 [-------] CPL=0 II=0 A20=1 SMM=0 HLT=0
-ES =0000 00000000 0000ffff 00009300
-CS =f000 ffff0000 0000ffff 00009b00
-SS =0000 00000000 0000ffff 00009300
-DS =0000 00000000 0000ffff 00009300
-FS =0000 00000000 0000ffff 00009300
-GS =0000 00000000 0000ffff 00009300
-LDT=0000 00000000 0000ffff 00008200
-TR =0000 00000000 0000ffff 00008b00
-GDT=     00000000 0000ffff
-IDT=     00000000 0000ffff
-CR0=60000010 CR2=00000000 CR3=00000000 CR4=00000000
-DR0=00000000 DR1=00000000 DR2=00000000 DR3=00000000
-DR6=ffff0ff0 DR7=00000400
-EFER=0000000000000000
-FCW=037f FSW=0000 [ST=0] FTW=00 MXCSR=00001f80
-FPR0=0000000000000000 0000 FPR1=0000000000000000 0000
-FPR2=0000000000000000 0000 FPR3=0000000000000000 0000
-FPR4=0000000000000000 0000 FPR5=0000000000000000 0000
-FPR6=0000000000000000 0000 FPR7=0000000000000000 0000
-XMM00=00000000000000000000000000000000 XMM01=00000000000000000000000000000000
-XMM02=00000000000000000000000000000000 XMM03=00000000000000000000000000000000
-XMM04=00000000000000000000000000000000 XMM05=00000000000000000000000000000000
-XMM06=00000000000000000000000000000000 XMM07=00000000000000000000000000000000
-==1988== ERROR: libFuzzer: deadly signal
-    #6 0x7fae4d3ea894 in __GI_abort (/lib64/libc.so.6+0x22894)
-    #7 0x563f4cc59a1d in hw_error (qemu-fuzz-i386+0xe8ca1d)
-    #8 0x563f4d7c93f2 in e1000e_set_psrctl (qemu-fuzz-i386+0x19fc3f2)
-    #9 0x563f4d7b798f in e1000e_core_write (qemu-fuzz-i386+0x19ea98f)
-    #10 0x563f4d7afc46 in e1000e_mmio_write (qemu-fuzz-i386+0x19e2c46)
-    #11 0x563f4cc9a0a7 in memory_region_write_accessor (qemu-fuzz-i386+0xecd0a7)
-    #12 0x563f4cc99c13 in access_with_adjusted_size (qemu-fuzz-i386+0xeccc13)
-    #13 0x563f4cc987b4 in memory_region_dispatch_write (qemu-fuzz-i386+0xecb7b4)
-
-It simply sent the following 2 I/O command to the e1000e
-PCI BAR #2 I/O region:
-
-  writew 0x0100 0x0c00 # RCTL =   E1000_RCTL_DTYP_MASK
-  writeb 0x2170 0x00   # PSRCTL = 0
-
-2813 static void
-2814 e1000e_set_psrctl(E1000ECore *core, int index, uint32_t val)
-2815 {
-2816     if (core->mac[RCTL] & E1000_RCTL_DTYP_MASK) {
-2817
-2818         if ((val & E1000_PSRCTL_BSIZE0_MASK) == 0) {
-2819             hw_error("e1000e: PSRCTL.BSIZE0 cannot be zero");
-2820         }
-
-Instead of calling hw_error() which abort the process (it is
-meant for CPU fatal error condition, not for device logging),
-log the invalid request with qemu_log_mask(LOG_GUEST_ERROR)
-and return, ignoring the request.
-
-Cc: qemu-stable@nongnu.org
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- hw/net/e1000e_core.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ docs/system/deprecated.rst | 15 +++++++++------
+ net/net.c                  | 10 +---------
+ qapi/net.json              |  3 ---
+ 3 files changed, 10 insertions(+), 18 deletions(-)
 
-diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
-index d567687..bcd186c 100644
---- a/hw/net/e1000e_core.c
-+++ b/hw/net/e1000e_core.c
-@@ -34,9 +34,9 @@
- */
+diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
+index 544ece0..3a25559 100644
+--- a/docs/system/deprecated.rst
++++ b/docs/system/deprecated.rst
+@@ -47,12 +47,6 @@ The 'file' driver for drives is no longer appropriate for character or host
+ devices and will only accept regular files (S_IFREG). The correct driver
+ for these file types is 'host_cdrom' or 'host_device' as appropriate.
  
- #include "qemu/osdep.h"
-+#include "qemu/log.h"
- #include "net/net.h"
- #include "net/tap.h"
--#include "hw/hw.h"
- #include "hw/pci/msi.h"
- #include "hw/pci/msix.h"
- #include "sysemu/runstate.h"
-@@ -2816,11 +2816,15 @@ e1000e_set_psrctl(E1000ECore *core, int index, uint32_t val)
-     if (core->mac[RCTL] & E1000_RCTL_DTYP_MASK) {
+-``-net ...,name=``\ *name* (since 3.1)
+-''''''''''''''''''''''''''''''''''''''
+-
+-The ``name`` parameter of the ``-net`` option is a synonym
+-for the ``id`` parameter, which should now be used instead.
+-
+ ``-smp`` (invalid topologies) (since 3.1)
+ '''''''''''''''''''''''''''''''''''''''''
  
-         if ((val & E1000_PSRCTL_BSIZE0_MASK) == 0) {
--            hw_error("e1000e: PSRCTL.BSIZE0 cannot be zero");
-+            qemu_log_mask(LOG_GUEST_ERROR,
-+                          "e1000e: PSRCTL.BSIZE0 cannot be zero");
-+            return;
-         }
+@@ -441,6 +435,15 @@ What follows is a record of recently removed, formerly deprecated
+ features that serves as a record for users who have encountered
+ trouble after a recent upgrade.
  
-         if ((val & E1000_PSRCTL_BSIZE1_MASK) == 0) {
--            hw_error("e1000e: PSRCTL.BSIZE1 cannot be zero");
-+            qemu_log_mask(LOG_GUEST_ERROR,
-+                          "e1000e: PSRCTL.BSIZE1 cannot be zero");
-+            return;
++System emulator command line arguments
++--------------------------------------
++
++``-net ...,name=``\ *name* (removed in 5.1)
++'''''''''''''''''''''''''''''''''''''''''''
++
++The ``name`` parameter of the ``-net`` option was a synonym
++for the ``id`` parameter, which should now be used instead.
++
+ QEMU Machine Protocol (QMP) commands
+ ------------------------------------
+ 
+diff --git a/net/net.c b/net/net.c
+index 4c62b10..e55d357 100644
+--- a/net/net.c
++++ b/net/net.c
+@@ -969,12 +969,10 @@ static int net_client_init1(const void *object, bool is_netdev, Error **errp)
+ {
+     Netdev legacy = {0};
+     const Netdev *netdev;
+-    const char *name;
+     NetClientState *peer = NULL;
+ 
+     if (is_netdev) {
+         netdev = object;
+-        name = netdev->id;
+ 
+         if (netdev->type == NET_CLIENT_DRIVER_NIC ||
+             !net_client_init_fun[netdev->type]) {
+@@ -987,12 +985,6 @@ static int net_client_init1(const void *object, bool is_netdev, Error **errp)
+         const NetLegacyOptions *opts = net->opts;
+         legacy.id = net->id;
+         netdev = &legacy;
+-        /* missing optional values have been initialized to "all bits zero" */
+-        name = net->has_id ? net->id : net->name;
+-
+-        if (net->has_name) {
+-            warn_report("The 'name' parameter is deprecated, use 'id' instead");
+-        }
+ 
+         /* Map the old options to the new flat type */
+         switch (opts->type) {
+@@ -1052,7 +1044,7 @@ static int net_client_init1(const void *object, bool is_netdev, Error **errp)
          }
      }
  
+-    if (net_client_init_fun[netdev->type](netdev, name, peer, errp) < 0) {
++    if (net_client_init_fun[netdev->type](netdev, netdev->id, peer, errp) < 0) {
+         /* FIXME drop when all init functions store an Error */
+         if (errp && !*errp) {
+             error_setg(errp, QERR_DEVICE_INIT_FAILED,
+diff --git a/qapi/net.json b/qapi/net.json
+index cebb1b5..fc7c95f 100644
+--- a/qapi/net.json
++++ b/qapi/net.json
+@@ -474,8 +474,6 @@
+ #
+ # @id: identifier for monitor commands
+ #
+-# @name: identifier for monitor commands, ignored if @id is present
+-#
+ # @opts: device type specific properties (legacy)
+ #
+ # Since: 1.2
+@@ -483,7 +481,6 @@
+ { 'struct': 'NetLegacy',
+   'data': {
+     '*id':   'str',
+-    '*name': 'str',
+     'opts':  'NetLegacyOptions' } }
+ 
+ ##
 -- 
 2.5.0
 
