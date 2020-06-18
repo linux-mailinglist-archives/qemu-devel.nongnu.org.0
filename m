@@ -2,69 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FCD01FF633
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 17:08:09 +0200 (CEST)
-Received: from localhost ([::1]:35614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1C681FF63C
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 17:10:49 +0200 (CEST)
+Received: from localhost ([::1]:41426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlw9A-0000yz-98
-	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 11:08:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48826)
+	id 1jlwBk-0003bV-VO
+	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 11:10:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jlw7z-0007gv-Bn
- for qemu-devel@nongnu.org; Thu, 18 Jun 2020 11:06:55 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:55165
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jlw7v-0000tI-19
- for qemu-devel@nongnu.org; Thu, 18 Jun 2020 11:06:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592492809;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=siypREn7usoiOvL84M37gxO1myaI+Jh3hjxgqrGQ9Hk=;
- b=gP68B+RUG+Fbt+rD/97hh+h26+RAeWTZDmoOiZGq7Pywim8VYEunmn8r7QWoRUD5EjbSbs
- 9CNj328OpaemCDhaY+oGjYiaIsLBnVmQaI6rOgD/bCbUnmcYU+diSxaUQPA6djdhAYhH0z
- zL0XGZh4XxRAHRtmgraqnr8FXB10f+M=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-284-ursJZ5B7O6a92WXONDZrBw-1; Thu, 18 Jun 2020 11:06:47 -0400
-X-MC-Unique: ursJZ5B7O6a92WXONDZrBw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2889B107ACCD;
- Thu, 18 Jun 2020 15:06:46 +0000 (UTC)
-Received: from localhost (ovpn-112-185.ams2.redhat.com [10.36.112.185])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BBCA960F88;
- Thu, 18 Jun 2020 15:06:42 +0000 (UTC)
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH v3 2/2] iotests: filter few more luks specific create options
-Date: Thu, 18 Jun 2020 17:06:28 +0200
-Message-Id: <20200618150628.2169239-3-mreitz@redhat.com>
-In-Reply-To: <20200618150628.2169239-1-mreitz@redhat.com>
-References: <20200618150628.2169239-1-mreitz@redhat.com>
+ (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
+ id 1jlw8D-0008LG-Hn
+ for qemu-devel@nongnu.org; Thu, 18 Jun 2020 11:07:10 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:40217)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
+ id 1jlw8B-0000vF-2Q
+ for qemu-devel@nongnu.org; Thu, 18 Jun 2020 11:07:08 -0400
+Received: by mail-wr1-x433.google.com with SMTP id h5so6447271wrc.7
+ for <qemu-devel@nongnu.org>; Thu, 18 Jun 2020 08:07:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+ :cc; bh=VE45IjbDxvu3358vkYjshA4lYZnR9j7ohge4rzRsW/s=;
+ b=GyTmc21djPYpLkp9ExME4oGKbFnSLUwCdu2tRFICDDOiCQYC+kboiwjUxB7QiAa+87
+ 4xvbyREFYE/DqMB+/glCB2549mB88pua43lGR9GLjceAzfyH1cwJkqqijP1tvSe6zwSr
+ o15z3EmhjcCIHKn7gHTcyqdU46L8d3akh13cnfwC742kH7CHPsLwZ2D1U954VHkCTszs
+ h/3EJe14SbeadftLsXJq0YS4B0DW4Enrq5oE6u/qwTNkQDKHhUUrFkWS/iBhkcb0ASbu
+ xfY0GdKhJunh1Lipy6+Cr2GXWbjLZ/IT55eNbweI+XSMm37wvABck15HUyeGuYAZtMbm
+ UOkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+ :message-id:subject:to:cc;
+ bh=VE45IjbDxvu3358vkYjshA4lYZnR9j7ohge4rzRsW/s=;
+ b=ODVvRY5i7wUsm8NKvPDidhRjLFl2OV8xgCpEDYPM5ysHKHfNkO0zGhy6A9WShnELT7
+ 4UjOlBhBtXWT8nZQjTb11mzTKNNNcZ9OiVNddoAgGSTaDLxXySicdL5o/BtIZhjyP44n
+ IqbNXKIKBaAutl/6nDeTR3c3e5VIY4v8XThxAXg6EoEblfj3YfxverJdgvDaM6jK2DRk
+ +62dEAj/S2LBHfL6NHdUQ0s+aWtWd6Pw8W29XTPKDFwwjRHFIjBr1LpWSYU5D246jpfB
+ 2yoW4i+dvc7BlLJerkIOqCJxQD0JziOX9D2ktN04oCWmSRq1oJoydG8QNe9N9X829T8f
+ S3LA==
+X-Gm-Message-State: AOAM5331KzQucSkFK0TnzGmF46vg6R/qhm0ShTyVM8yZaTcsBbCMke5Z
+ f3P9Xsnqf4K8J5f1SCuv2ISOgVZjbm/NTfr7bUI=
+X-Google-Smtp-Source: ABdhPJxXQbOZp7x81ZYKLvergILhxcQwqtFgLZXUIm1At8BlE0lob9YUdg0lWOUjWO3U+5DRfBypUqsU/Arj1EvZymQ=
+X-Received: by 2002:adf:a283:: with SMTP id s3mr4761852wra.147.1592492825145; 
+ Thu, 18 Jun 2020 08:07:05 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/18 01:32:18
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Received: by 2002:a1c:451:0:0:0:0:0 with HTTP;
+ Thu, 18 Jun 2020 08:07:04 -0700 (PDT)
+In-Reply-To: <CALTWKrXmYVtxeAjMjD0UYKzYeuBUXxNeMYVVNLfbL-iKknAN4Q@mail.gmail.com>
+References: <20200616231204.8850-1-ahmedkhaledkaraman@gmail.com>
+ <20200616231204.8850-4-ahmedkhaledkaraman@gmail.com>
+ <871rmdyjbh.fsf@linaro.org>
+ <CALTWKrVovkoQvNFxYac2eOV7Cf+K_RA+1-Gn=3AnL8dJLemTyQ@mail.gmail.com>
+ <877dw5wq7r.fsf@linaro.org>
+ <CALTWKrXmYVtxeAjMjD0UYKzYeuBUXxNeMYVVNLfbL-iKknAN4Q@mail.gmail.com>
+From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+Date: Thu, 18 Jun 2020 17:07:04 +0200
+Message-ID: <CAHiYmc6Cg+FQrJZJ4nzoDs9sgoxrbOZ2hL3k9rAAb9T23PVxrw@mail.gmail.com>
+Subject: Re: [PATCH 3/3] scripts/performance: Add perf_top_25.py script
+To: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
+Content-Type: multipart/alternative; boundary="00000000000026732305a85d21e7"
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-wr1-x433.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,221 +85,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Maxim Levitsky <mlevitsk@redhat.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: =?UTF-8?B?THVrw6HFoSBEb2t0b3I=?= <ldoktor@redhat.com>,
+ "ehabkost@redhat.com" <ehabkost@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, "crosa@redhat.com" <crosa@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Maxim Levitsky <mlevitsk@redhat.com>
+--00000000000026732305a85d21e7
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This allows more tests to be able to have same output on both qcow2 luks encrypted images
-and raw luks images
+=D1=81=D1=80=D0=B5=D0=B4=D0=B0, 17. =D1=98=D1=83=D0=BD 2020., Ahmed Karaman=
+ <ahmedkhaledkaraman@gmail.com> =D1=98=D0=B5
+=D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
 
-Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
-Signed-off-by: Max Reitz <mreitz@redhat.com>
-Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
----
- tests/qemu-iotests/087.out       | 6 +++---
- tests/qemu-iotests/134.out       | 2 +-
- tests/qemu-iotests/158.out       | 4 ++--
- tests/qemu-iotests/188.out       | 2 +-
- tests/qemu-iotests/189.out       | 4 ++--
- tests/qemu-iotests/198.out       | 4 ++--
- tests/qemu-iotests/263.out       | 4 ++--
- tests/qemu-iotests/284.out       | 6 +++---
- tests/qemu-iotests/common.filter | 5 +----
- 9 files changed, 17 insertions(+), 20 deletions(-)
+> On Wed, Jun 17, 2020 at 7:35 PM Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> wrote:
+> >
+> > Right - which I do as a developer. It would be rude to sudo things if
+> > you don't need to because then you end up running your potentially
+> > un-trusted application with root privileges.
+> >
+> > Could we either probe for the requirement or require an explicit sudo
+> > flag which we can prompt for if it fails?
+> >
+> To make sure I got it right. You mean I should specify in the script
+> comment on the top that the user should modify the
+> kernel.perf_event_paranoid setting in order to run the script, otherwise,
+> they should add a --sudo flag when running the Python script to invoke
+> perf as sudo?
+>
+>
+I think Alex meant that everything related to super user access should be
+examined by the script. You could:
 
-diff --git a/tests/qemu-iotests/087.out b/tests/qemu-iotests/087.out
-index 2d92ea847b..b61ba638af 100644
---- a/tests/qemu-iotests/087.out
-+++ b/tests/qemu-iotests/087.out
-@@ -34,7 +34,7 @@ QMP_VERSION
- 
- === Encrypted image QCow ===
- 
--Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728 encryption=on encrypt.key-secret=sec0
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728 encryption=on
- Testing:
- QMP_VERSION
- {"return": {}}
-@@ -46,7 +46,7 @@ QMP_VERSION
- 
- === Encrypted image LUKS ===
- 
--Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728 encrypt.format=luks encrypt.key-secret=sec0
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728
- Testing:
- QMP_VERSION
- {"return": {}}
-@@ -58,7 +58,7 @@ QMP_VERSION
- 
- === Missing driver ===
- 
--Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728 encryption=on encrypt.key-secret=sec0
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728 encryption=on
- Testing: -S
- QMP_VERSION
- {"return": {}}
-diff --git a/tests/qemu-iotests/134.out b/tests/qemu-iotests/134.out
-index 09d46f6b17..4abc5b5f7d 100644
---- a/tests/qemu-iotests/134.out
-+++ b/tests/qemu-iotests/134.out
-@@ -1,5 +1,5 @@
- QA output created by 134
--Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728 encryption=on encrypt.key-secret=sec0
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728 encryption=on
- 
- == reading whole image ==
- read 134217728/134217728 bytes at offset 0
-diff --git a/tests/qemu-iotests/158.out b/tests/qemu-iotests/158.out
-index 6def216e55..f28a17626b 100644
---- a/tests/qemu-iotests/158.out
-+++ b/tests/qemu-iotests/158.out
-@@ -1,6 +1,6 @@
- QA output created by 158
- == create base ==
--Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=134217728 encryption=on encrypt.key-secret=sec0
-+Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=134217728 encryption=on
- 
- == writing whole image ==
- wrote 134217728/134217728 bytes at offset 0
-@@ -10,7 +10,7 @@ wrote 134217728/134217728 bytes at offset 0
- read 134217728/134217728 bytes at offset 0
- 128 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- == create overlay ==
--Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728 backing_file=TEST_DIR/t.IMGFMT.base encryption=on encrypt.key-secret=sec0
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728 backing_file=TEST_DIR/t.IMGFMT.base encryption=on
- 
- == writing part of a cluster ==
- wrote 1024/1024 bytes at offset 0
-diff --git a/tests/qemu-iotests/188.out b/tests/qemu-iotests/188.out
-index c568ef3701..5426861b18 100644
---- a/tests/qemu-iotests/188.out
-+++ b/tests/qemu-iotests/188.out
-@@ -1,5 +1,5 @@
- QA output created by 188
--Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=16777216 encrypt.format=luks encrypt.key-secret=sec0 encrypt.iter-time=10
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=16777216
- 
- == reading whole image ==
- read 16777216/16777216 bytes at offset 0
-diff --git a/tests/qemu-iotests/189.out b/tests/qemu-iotests/189.out
-index a0b7c9c24c..bc213cbe14 100644
---- a/tests/qemu-iotests/189.out
-+++ b/tests/qemu-iotests/189.out
-@@ -1,6 +1,6 @@
- QA output created by 189
- == create base ==
--Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=16777216 encrypt.format=luks encrypt.key-secret=sec0 encrypt.iter-time=10
-+Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=16777216
- 
- == writing whole image ==
- wrote 16777216/16777216 bytes at offset 0
-@@ -10,7 +10,7 @@ wrote 16777216/16777216 bytes at offset 0
- read 16777216/16777216 bytes at offset 0
- 16 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- == create overlay ==
--Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=16777216 backing_file=TEST_DIR/t.IMGFMT.base encrypt.format=luks encrypt.key-secret=sec1 encrypt.iter-time=10
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=16777216 backing_file=TEST_DIR/t.IMGFMT.base
- 
- == writing part of a cluster ==
- wrote 1024/1024 bytes at offset 0
-diff --git a/tests/qemu-iotests/198.out b/tests/qemu-iotests/198.out
-index 6280ae6eed..4b800e70db 100644
---- a/tests/qemu-iotests/198.out
-+++ b/tests/qemu-iotests/198.out
-@@ -1,12 +1,12 @@
- QA output created by 198
- == create base ==
--Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=16777216 encrypt.format=luks encrypt.key-secret=sec0 encrypt.iter-time=10
-+Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=16777216
- 
- == writing whole image base ==
- wrote 16777216/16777216 bytes at offset 0
- 16 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- == create overlay ==
--Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=16777216 backing_file=TEST_DIR/t.IMGFMT.base encrypt.format=luks encrypt.key-secret=sec1 encrypt.iter-time=10
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=16777216 backing_file=TEST_DIR/t.IMGFMT.base
- 
- == writing whole image layer ==
- wrote 16777216/16777216 bytes at offset 0
-diff --git a/tests/qemu-iotests/263.out b/tests/qemu-iotests/263.out
-index 0c982c55cb..54bfbeeff8 100644
---- a/tests/qemu-iotests/263.out
-+++ b/tests/qemu-iotests/263.out
-@@ -2,7 +2,7 @@ QA output created by 263
- 
- testing LUKS qcow2 encryption
- 
--Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576 encrypt.format=luks encrypt.key-secret=sec0 encrypt.iter-time=10
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576
- == reading the whole image ==
- read 1048576/1048576 bytes at offset 0
- 1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-@@ -21,7 +21,7 @@ read 982528/982528 bytes at offset 66048
- 
- testing legacy AES qcow2 encryption
- 
--Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576 encrypt.format=aes encrypt.key-secret=sec0
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576
- == reading the whole image ==
- read 1048576/1048576 bytes at offset 0
- 1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-diff --git a/tests/qemu-iotests/284.out b/tests/qemu-iotests/284.out
-index 48216f5742..a929239302 100644
---- a/tests/qemu-iotests/284.out
-+++ b/tests/qemu-iotests/284.out
-@@ -2,7 +2,7 @@ QA output created by 284
- 
- testing LUKS qcow2 encryption
- 
--Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576 encrypt.format=luks encrypt.key-secret=sec0 encrypt.iter-time=10
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576
- 
- == cluster size 512
- == checking image refcounts ==
-@@ -21,7 +21,7 @@ wrote 1/1 bytes at offset 512
- 
- == rechecking image refcounts ==
- No errors were found on the image.
--Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576 encrypt.format=luks encrypt.key-secret=sec0 encrypt.iter-time=10
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576
- 
- == cluster size 2048
- == checking image refcounts ==
-@@ -40,7 +40,7 @@ wrote 1/1 bytes at offset 2048
- 
- == rechecking image refcounts ==
- No errors were found on the image.
--Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576 encrypt.format=luks encrypt.key-secret=sec0 encrypt.iter-time=10
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576
- 
- == cluster size 32768
- == checking image refcounts ==
-diff --git a/tests/qemu-iotests/common.filter b/tests/qemu-iotests/common.filter
-index 6cbd5ebba6..3a4becebb0 100644
---- a/tests/qemu-iotests/common.filter
-+++ b/tests/qemu-iotests/common.filter
-@@ -165,16 +165,13 @@ _filter_img_create()
-         echo "$options" \
-         | tr '\n' '\0' \
-         | $SED -e 's/\x0$//' -e 's/ \([a-z0-9_.-]*\)=/\n\1=/g' \
--        | grep -ae "^\(fmt\\|size\\|backing\\|preallocation\\|encrypt$grep_data_file\\)" \
-+        | grep -ae "^\(fmt\\|size\\|backing\\|preallocation\\|encryption$grep_data_file\\)" \
-         | $SED "${filename_filters[@]}" \
-             -e 's/^\(fmt\)/0-\1/' \
-             -e 's/^\(size\)/1-\1/' \
-             -e 's/^\(backing\)/2-\1/' \
-             -e 's/^\(data_file\)/3-\1/' \
-             -e 's/^\(encryption\)/4-\1/' \
--            -e 's/^\(encrypt\.format\)/5-\1/' \
--            -e 's/^\(encrypt\.key-secret\)/6-\1/' \
--            -e 's/^\(encrypt\.iter-time\)/7-\1/' \
-             -e 's/^\(preallocation\)/8-\1/' \
-         | sort \
-         | $SED -e 's/^[0-9]-//' \
--- 
-2.26.2
+A. Establish if the user that execute the script is already super user. If
+yes, you can proceed with command lines containing "perf. (see hints how to
+do this here:
+https://stackoverflow.com/questions/2806897/what-is-the-best-way-for-checki=
+ng-if-the-user-of-a-script-has-root-like-privileg
+)
 
+B. Establish if "perf" can be executed successfully with current user
+privelages. If yes, you can also proceed with command lines containing
+"perf" (a primitive but simple way for establishing this is to run "perf
+stat ls /" and see what happens, success or error)
+
+C. If neither A nor B are satisfied, you cold emit error message
+instructing the user what he needs to/could do.
+
+Just my 2 c. Not sure if this is compatible with Alex' thoughts.
+
+Aleksandar
+
+
+> > >
+> > >> Also redirecting just stderr? why?
+> > >
+> > > Perf, as well as Valgrind, print their output on stderr not stdout.
+> >
+> > Right so I think a bit of splitting apart and use of subprocess can mak=
+e
+> > this cleaner and not involve quite so much being done with shell
+> > redirection in one invocation.
+> >
+>
+> Noted!
+>
+
+--00000000000026732305a85d21e7
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<br><br>=D1=81=D1=80=D0=B5=D0=B4=D0=B0, 17. =D1=98=D1=83=D0=BD 2020., Ahmed=
+ Karaman &lt;<a href=3D"mailto:ahmedkhaledkaraman@gmail.com">ahmedkhaledkar=
+aman@gmail.com</a>&gt; =D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=
+=BE/=D0=BB=D0=B0:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
+0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Wed, Jun 17, 2020 at=
+ 7:35 PM Alex Benn=C3=A9e &lt;<a href=3D"mailto:alex.bennee@linaro.org">ale=
+x.bennee@linaro.org</a>&gt; wrote:<br>
+&gt;<br>
+&gt; Right - which I do as a developer. It would be rude to sudo things if<=
+br>
+&gt; you don&#39;t need to because then you end up running your potentially=
+<br>
+&gt; un-trusted application with root privileges.<br>
+&gt;<br>
+&gt; Could we either probe for the requirement or require an explicit sudo<=
+br>
+&gt; flag which we can prompt for if it fails?<br>
+&gt;<br>
+To make sure I got it right. You mean I should specify in the script<br>
+comment on the top that the user should modify the<br>
+kernel.perf_event_paranoid setting in order to run the script, otherwise,<b=
+r>
+they should add a --sudo flag when running the Python script to invoke<br>
+perf as sudo?<br>
+<br></blockquote><div><br></div><div>I think Alex meant that everything rel=
+ated to super user access should be examined by the script. You could:</div=
+><div><br></div><div>A. Establish if the user that execute the script is al=
+ready super user. If yes, you can proceed with command lines containing &qu=
+ot;perf. (see hints how to do this here: <a href=3D"https://stackoverflow.c=
+om/questions/2806897/what-is-the-best-way-for-checking-if-the-user-of-a-scr=
+ipt-has-root-like-privileg">https://stackoverflow.com/questions/2806897/wha=
+t-is-the-best-way-for-checking-if-the-user-of-a-script-has-root-like-privil=
+eg</a> )</div><div><br></div><div>B. Establish if &quot;perf&quot; can be e=
+xecuted successfully with current user privelages. If yes,=C2=A0you can als=
+o proceed with command lines containing &quot;perf&quot;=C2=A0(a primitive =
+but simple way for establishing this is to run &quot;perf stat ls /&quot; a=
+nd see what happens, success or error)</div><div><br></div><div>C. If neith=
+er A nor B are satisfied, you cold emit error message instructing the user =
+what he needs to/could do.</div><div><br></div><div>Just my 2 c. Not sure i=
+f this is compatible with Alex&#39; thoughts.</div><div><br></div><div>Alek=
+sandar</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"mar=
+gin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+&gt; &gt;<br>
+&gt; &gt;&gt; Also redirecting just stderr? why?<br>
+&gt; &gt;<br>
+&gt; &gt; Perf, as well as Valgrind, print their output on stderr not stdou=
+t.<br>
+&gt;<br>
+&gt; Right so I think a bit of splitting apart and use of subprocess can ma=
+ke<br>
+&gt; this cleaner and not involve quite so much being done with shell<br>
+&gt; redirection in one invocation.<br>
+&gt;<br>
+<br>
+Noted!<br>
+</blockquote>
+
+--00000000000026732305a85d21e7--
 
