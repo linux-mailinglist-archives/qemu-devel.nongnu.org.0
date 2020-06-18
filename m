@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31A191FF02E
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 13:03:40 +0200 (CEST)
-Received: from localhost ([::1]:57996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BF201FF033
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 13:04:36 +0200 (CEST)
+Received: from localhost ([::1]:60438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlsKX-00050s-LX
-	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 07:03:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52150)
+	id 1jlsLT-00062D-9U
+	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 07:04:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52486)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jlsJT-0004Ey-SI
- for qemu-devel@nongnu.org; Thu, 18 Jun 2020 07:02:31 -0400
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:42390)
+ id 1jlsKI-0005Dz-HM
+ for qemu-devel@nongnu.org; Thu, 18 Jun 2020 07:03:22 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:39995)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jlsJP-0004Y0-Um
- for qemu-devel@nongnu.org; Thu, 18 Jun 2020 07:02:29 -0400
-Received: by mail-oi1-x243.google.com with SMTP id s21so4669189oic.9
- for <qemu-devel@nongnu.org>; Thu, 18 Jun 2020 04:02:25 -0700 (PDT)
+ id 1jlsKH-0004i7-2A
+ for qemu-devel@nongnu.org; Thu, 18 Jun 2020 07:03:22 -0400
+Received: by mail-oi1-x243.google.com with SMTP id t25so4669657oij.7
+ for <qemu-devel@nongnu.org>; Thu, 18 Jun 2020 04:03:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ivLhvnhRrT9bHWVFX0sgU3qFIW56QB8SCvTpx0SnlDs=;
- b=I29cW7OPj0Ejx2LGVrpXrhliwurlq/WGHwG8JuMoYCc96Ejd31wmC9rF0foWGmwdYy
- GhjFD2DR6Qs2Ew0QsV5iLx1slKAgcGKvsirSGXPsKqhfJ3C6ADwHJfgjNDUoYhOJCCjX
- a8a7l6axZhoUe6/jw92PUXSwYbkaw0/KnWhJiJyGDaxy7IfXIZgtKS96nCBrSez3UpUz
- or6Sac4blBVX1Mp/OYr6AFBoJhXFN/ahmQso/aDj2I0afSjrwDFdTf7vroHj47wkxj+A
- 6vtGQQr8tdbvMk6iTl5f7uasjpzjziVU/a0JFm9asbVtGdjhb8GiHVk1JOYa6nUAwZNi
- vNYw==
+ :cc; bh=sblb7qlJdr34B47GIhwzR92sWkubK3mKOcyUPBBcXEc=;
+ b=ucaUpmgop2q4eutZnwqY+teLFGqoyUvnu3KAlbRfpht+f/MBPDOEgjtztvBwmdLyhF
+ O6s2lxvmHzn1JsuDMCUXCC5EVNQdktCxyVxgwJMM1Xg4C2XhH2fKFRK9K2toM7dj6MJW
+ An3WliX9wJPevEblMBWkeVqBD1IQcIoyugeDH5B1c43iOOjK7cgxGvMqZNrvpJbFdAN0
+ uzVqY3qZpkZDHt1HKxrTWy+aox852goEAiPUzkSikiJ/cadFY/1oiScRjn5XnV0ch4FN
+ DJdVy4qExsLxKJa7kNQp1Rh7cb6+agBt0e9ooWbFLeUcVKAYEdNDDwrEplU9L0ygK+xo
+ 1glQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=ivLhvnhRrT9bHWVFX0sgU3qFIW56QB8SCvTpx0SnlDs=;
- b=kvHuVMu+r9vIZmk69uXBz6U7f0DCYOpm/sGzfQy8tKOomb71/4Zi0X2sc29d2N7kjr
- BaXiBb2w9pyVlkcMJLCwoWDD8O4LG++IhLmepPq8OQmZ+3mf/MaxsjHunR/HTkoheKdR
- dS2o7ked1+SDEMUAlZKfWjUwakWb7Zz2luzPbiomwEu69APhkq4DfsHhaLCda7Qwq9/3
- jCNQX0HC1RTDtvOFIOPBHYdQfZ1vVGS0oz5dGyjk4UWXzqLymFi4THyutC4VQ7IyRC8l
- iHPC8rQa9I8C0ICD2DA5r7BnsctKqVMzelxdLN8P9DvYeaX6uxrxDIHxnXBNsvSg/nFi
- vPbw==
-X-Gm-Message-State: AOAM530z1Q1ScIDc3HziWrINRhlsYscDiqt+YgI2Pc2WBLcwjuoJdI0G
- RvNdHTn1IXajF0Bz5rw6fYB/y7oiOjCct5kHgqxb1g==
-X-Google-Smtp-Source: ABdhPJzy8eggtTAQR/z3jX1uWrsKd9QfTVadBDdKY6PP22Gm+bAegiC/+pZEhZ5nC5dBwPwJ9IijPV0dLksBTutm8Cc=
-X-Received: by 2002:aca:5152:: with SMTP id f79mr2299578oib.146.1592478144634; 
- Thu, 18 Jun 2020 04:02:24 -0700 (PDT)
+ bh=sblb7qlJdr34B47GIhwzR92sWkubK3mKOcyUPBBcXEc=;
+ b=gVRDRx8tJn7sS1pbgtYhZpyp+Gk29kzv5Abdk/N1EPMhuvYXTBJnWiHo7ZZwqYuSWe
+ NWEc8A20SaBW33oAwcehsuRMRyREyv+jJHw4LqIYaQVCARD3gvbRQk7uUNS9LQ4ZWnhY
+ 94sHjO+lUebShvHMEjqg5BRym737uzB+3TDHMrdgOp4mA4qw0mMnHmGzkgzLgeo2O0eI
+ Wf3g3vIt4oMurV0TZDZFLNax1JVuFZrTCbgceJ7sb3Zqf5IaMrOJsrgb95NaW5z58B8e
+ c/YbdHBaP6u7YInmZjUToIuA4tZwLeFdFZqc/VqRt6d7SHqmRPOx+OWXY0vBH6ML8OPM
+ fE7Q==
+X-Gm-Message-State: AOAM5325XBLyd0JQBWeu1QsMQA8E/trkkE9A2jywt+ZL4rJWHgG4pUwM
+ QOOjPnsULDsg1MT+xSg5sMvqwKSy4sz1qNw7KwFpRA==
+X-Google-Smtp-Source: ABdhPJwNtNEWTTy4g9D6k5rj0n185MpZKofYBB3sbtdfWwjqJ0yVA7xtaLoulU16mUf8AzVUtDZssM8XfrL7He26Bok=
+X-Received: by 2002:aca:1a07:: with SMTP id a7mr2351759oia.163.1592478199972; 
+ Thu, 18 Jun 2020 04:03:19 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200603011317.473934-1-richard.henderson@linaro.org>
- <20200603011317.473934-5-richard.henderson@linaro.org>
-In-Reply-To: <20200603011317.473934-5-richard.henderson@linaro.org>
+ <20200603011317.473934-6-richard.henderson@linaro.org>
+In-Reply-To: <20200603011317.473934-6-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 18 Jun 2020 12:02:13 +0100
-Message-ID: <CAFEAcA_Hur6VJhUB_Xa5TUnRoX=Q55iwrDg_VZ7+tHSh=o96Fg@mail.gmail.com>
-Subject: Re: [PATCH v7 04/42] target/arm: Add support for MTE to HCR_EL2 and
- SCR_EL3
+Date: Thu, 18 Jun 2020 12:03:08 +0100
+Message-ID: <CAFEAcA_dbXptwF6GiQ=o2sM5Wvbrv+fVegxS4HYOo8fP_w2ifg@mail.gmail.com>
+Subject: Re: [PATCH v7 05/42] target/arm: Rename DISAS_UPDATE to
+ DISAS_UPDATE_EXIT
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
@@ -88,10 +88,9 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Wed, 3 Jun 2020 at 02:13, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
+> Emphasize that the is_jmp option exits to the main loop.
+>
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/arm/helper.c | 6 ++++++
->  1 file changed, 6 insertions(+)
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
