@@ -2,100 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3CD21FF64D
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 17:11:49 +0200 (CEST)
-Received: from localhost ([::1]:43564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5075E1FF653
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 17:13:37 +0200 (CEST)
+Received: from localhost ([::1]:48820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlwCj-0004kX-03
-	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 11:11:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49790)
+	id 1jlwES-00082d-EO
+	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 11:13:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50630)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jlwB2-0003Uo-J5
- for qemu-devel@nongnu.org; Thu, 18 Jun 2020 11:10:04 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:52010
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jlwB0-0001Qi-9R
- for qemu-devel@nongnu.org; Thu, 18 Jun 2020 11:10:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592493001;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=HLTUtn+GjA1cxMH9YFaPp8odCwUUfP1SXkXmT2PkozU=;
- b=UOHXCP/kodn5hjGFIycRDmbCpyokh2SHBcOji41ANsC0WI3dLww3iuVCNlYsTvCe+BrMHn
- eqxhFHcXSZTQvImhyq4HgrHQhofmxmGK9rohX6BY2I0QmfHSBXcOT2dtWcT+k2tTD18Ynk
- q/lb6A1cL8YaqcP9hQeeAZnQaYbcT2c=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-479-ZXr3uaAmMi-h2VcBHEwI0Q-1; Thu, 18 Jun 2020 11:09:45 -0400
-X-MC-Unique: ZXr3uaAmMi-h2VcBHEwI0Q-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B3FAB835B44;
- Thu, 18 Jun 2020 15:09:43 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-112-185.ams2.redhat.com
- [10.36.112.185])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2D6E25BAC2;
- Thu, 18 Jun 2020 15:09:41 +0000 (UTC)
-Subject: Re: [PULL 14/15] qcow2_format.py: dump bitmaps header extension
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
-References: <20200609205245.3548257-1-eblake@redhat.com>
- <20200609205245.3548257-15-eblake@redhat.com>
- <81ba0181-3dfc-1c1e-7c19-278569e65c60@redhat.com>
- <64c3084a-8bda-14d9-907c-da0af67cf9c3@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <d29f030e-ce33-d5c1-7f65-3a08c6f6cf9a@redhat.com>
-Date: Thu, 18 Jun 2020 17:09:39 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
+ id 1jlwCh-0006Os-56
+ for qemu-devel@nongnu.org; Thu, 18 Jun 2020 11:11:48 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:53481)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
+ id 1jlwCe-0002JL-UO
+ for qemu-devel@nongnu.org; Thu, 18 Jun 2020 11:11:46 -0400
+Received: by mail-wm1-x329.google.com with SMTP id l26so5544894wme.3
+ for <qemu-devel@nongnu.org>; Thu, 18 Jun 2020 08:11:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+ :cc; bh=3MPeQJJl/Hh0ZbXJLrOfiLjK3sBZfLIJQEog7b7H+ow=;
+ b=GxFMc8rtXVN3F+a6RWsUGZzy07ZMuPmQNrszj44r3UQeqk5WZQeQwG8ZOnwaJGtrBT
+ PPSaDJqmwVqsF/ellO5NISvL7wroPYcCyEpBGVK1AV5iK+xYy06UXZR6rgPrrTkgsGSn
+ bmZ/9m8AW5lLomat3+351p4lnZXqecDfMQzVgUGAgtBem/A6a+gglnUSxhihdrHqOulv
+ VVzG6vKw/Mrb0QhwGbVZ/g+AC7sow9Qco6KBEE2bnRsMPyGIgJfKPekqecmjxJB5456v
+ 1T2QYC7Xc4T4WdUUbwaO81+ex5yPXfWtJ9p76dtCzZF1SeXmaoFWY+Irn4nKopkGDtja
+ a95g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+ :message-id:subject:to:cc;
+ bh=3MPeQJJl/Hh0ZbXJLrOfiLjK3sBZfLIJQEog7b7H+ow=;
+ b=K0Ab3R/5X8yKiQtVOH5/1+wjLDSX2rfgfRFITKU5RDgCSOfI616U3XAVWKWu3PZqLK
+ 4kv9esDlGbDup+WgCCV4GXEwzToyvfvIHmhCskp8AL00qq9HQ7+lR78cSkKTYPn4P5Wl
+ yYc/rQ9sjek48F4CEn3I/AWkS7y3VXq9qsSFk44w+gH6h2CFI7ftRUgETDt86lKjbSeO
+ POIyHsuTv4oK6yqgvc6E8xNI8d8y8yhlUjXKHWrxUIfm6i/EgxsbCtwEFRG02Vy40bY4
+ oBYO8JJ5c2kXXGvj+x6O6GbkaLN1Yy8tFxbXjVdMakBOLo3bp2nz/GqobYoKPpjyPypK
+ ciZg==
+X-Gm-Message-State: AOAM533gapA4Xo/MO3jiTSTbbr/OV605OWMStLi6m5e76fi7/5zoYwsa
+ Pxl+IwnOwBUH4iFQcvnMvBvQO15t13vskLw/PGI=
+X-Google-Smtp-Source: ABdhPJwjiElHVkt8fYM14uaZzJkZ1h05ODzioe3bAQsf6xdHleX20amsosbHPpkB4/lOPvtuMhHRFqXC59AD+3UKkLw=
+X-Received: by 2002:a1c:4c05:: with SMTP id z5mr4303086wmf.129.1592493102375; 
+ Thu, 18 Jun 2020 08:11:42 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <64c3084a-8bda-14d9-907c-da0af67cf9c3@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="PpfuW3SfiMzJKtp6WPuOhJFONBNYaz8l5"
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/18 00:57:40
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Received: by 2002:a1c:451:0:0:0:0:0 with HTTP;
+ Thu, 18 Jun 2020 08:11:42 -0700 (PDT)
+In-Reply-To: <20200618135331.7ec861e9.cohuck@redhat.com>
+References: <159223432851.7281.13140123017230519248.malonedeb@gac.canonical.com>
+ <20200618135331.7ec861e9.cohuck@redhat.com>
+From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+Date: Thu, 18 Jun 2020 17:11:42 +0200
+Message-ID: <CAHiYmc4CSjJ2ZVmAtfaQNqve=XQD04-JZrcVnozk18vWtxBmug@mail.gmail.com>
+Subject: Re: [Bug 1883560] [NEW] mips linux-user builds occasionly crash
+ randomly only to be fixed by a full clean re-build
+To: Cornelia Huck <cohuck@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000aca53305a85d3112"
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-wm1-x329.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -108,114 +82,160 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
- "open list:Block layer core" <qemu-block@nongnu.org>
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <1883560@bugs.launchpad.net>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---PpfuW3SfiMzJKtp6WPuOhJFONBNYaz8l5
-Content-Type: multipart/mixed; boundary="tpndFCRtUloVPW0ZKbaWvxlhOf1xFKBRV"
-
---tpndFCRtUloVPW0ZKbaWvxlhOf1xFKBRV
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+--000000000000aca53305a85d3112
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On 18.06.20 15:28, Vladimir Sementsov-Ogievskiy wrote:
-> 18.06.2020 16:13, Max Reitz wrote:
->> On 09.06.20 22:52, Eric Blake wrote:
->>> From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->>>
->>> Add class for bitmap extension and dump its fields. Further work is to
->>> dump bitmap directory.
->>>
->>> Test new functionality inside 291 iotest.
->>
->> Unfortunately, it also breaks 291 with an external data file, which
->> worked before.=C2=A0 (The problems being that an external data file give=
-s you
->> an additional header extension, and that the bitmap directory offset
->> changes.)
->>
->> I think if we want to test testing tools, we have to do that in a
->> controlled environment where we exactly know what the image is.=C2=A0 It
->> looks to me now as if 291 is not such an environment.=C2=A0 Or phrased
->> differently, we probably shouldn=E2=80=99t test some testing tool in nor=
-mal
->> tests that test qemu itself.
->>
->> If we only test qcow2.py in normal tests, then I don=E2=80=99t think we =
-have to
->> explicitly test it at all.=C2=A0 (Because if you test qcow2.py in a norm=
-al
->> test, and the test breaks, it=E2=80=99s unclear what=E2=80=99s broken.=
-=C2=A0 So I think you
->> might as well forego the qcow2.py test altogether, because if it breaks,
->> that=E2=80=99ll probably show up in some other test case that uses it.)
->>
->> In this case here, I can see three things we could do:
->>
->> First, could just filter out the data file header extension and the
->> bitmap_directory_offset.=C2=A0 But I=E2=80=99m not sure whether that=E2=
-=80=99s the best thing
->> to do, because it might break with some other obscure IMGOPTS that I
->> personally never use for the iotests.
->>
->> I think that if we want a real qcow2.py test somewhere, it should be its
->> own test.=C2=A0 No custom IMGOPTS allowed.=C2=A0 So the second idea woul=
-d be to
->> move it there, and drop the qcow2.py usage from here.
->>
->> Or, third, maybe we actually don=E2=80=99t care that much about a real q=
-cow2.py
->> test, and really want to just *use* (as opposed to =E2=80=9Ctest=E2=80=
-=9D) qcow2.py
->> here.=C2=A0 Then we should filter what we really need from its output in=
-stead
->> of dropping what we don=E2=80=99t need.
->>
->>
->> (We could also disable 291 for external data files, but I don=E2=80=99t =
-really
->> see why, if the only justification for this addition to it is to test
->> qcow2.py =E2=80=93 which 291 isn=E2=80=99t for.)
->>
-> I see your point, agree that the most correct thing is to drop qcow2.py
-> testing from 291, reverting test chunks from this commit. I can send a
-> patch.
+=D1=87=D0=B5=D1=82=D0=B2=D1=80=D1=82=D0=B0=D0=BA, 18. =D1=98=D1=83=D0=BD 20=
+20., Cornelia Huck <cohuck@redhat.com> =D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=
+=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
 
-OK, thanks!
+> On Mon, 15 Jun 2020 15:18:48 -0000
+> Alex Benn=C3=A9e <1883560@bugs.launchpad.net> wrote:
+>
+> > Public bug reported:
+> >
+> > >From time to time I find check-tcg crashes with a one of the MIPS
+> > binaries. The last time it crashed was running the test:
+> >
+> >   ./mips64el-linux-user/qemu-mips64el ./tests/tcg/mips64el-linux-
+> > user/threadcount
+> >
+> > Inevitably after some time noodling around wondering what could be
+> > causing this weird behaviour I wonder if it is a build issue. I wipe al=
+l
+> > the mips* build directories, re-run configure and re-build and voila
+> > problem goes away.
+> >
+> > It seems there must be some sort of build artefact which isn't being
+> > properly re-generated on a build update which causes weird problems.
+> > Additional data point if I:
+> >
+> >   rm -rf mips64el-linux-user
+> >   ../../configure
+> >   make
+> >
+> > then I see failures in mip32 builds - eg:
+> >
+> >     GEN     mipsn32el-linux-user/config-target.h
+> >   In file included from /home/alex/lsrc/qemu.git/
+> linux-user/syscall_defs.h:10,
+> >                    from /home/alex/lsrc/qemu.git/linux-user/qemu.h:16,
+> >                    from /home/alex/lsrc/qemu.git/
+> linux-user/linuxload.c:5:
+> >   /home/alex/lsrc/qemu.git/linux-user/mips64/syscall_nr.h:1: error:
+> unterminated #ifndef
+> >    #ifndef LINUX_USER_MIPS64_SYSCALL_NR_H
+> >
+> >   make[1]: *** [/home/alex/lsrc/qemu.git/rules.mak:69:
+> linux-user/linuxload.o] Error 1
+> >   make[1]: *** Waiting for unfinished jobs....
+> >
+> > which implies there is a cross dependency between different targets
+> > somewhere. If I executed:
+> >
+> >   rm -rf mips*
+> >
+> > before re-configuring and re-building then everything works again.
+> >
+> > ** Affects: qemu
+> >      Importance: Undecided
+> >          Status: New
+> >
+> >
+> > ** Tags: build linux-user mips
+> >
+>
+> FWIW, this does not seem to be a mips-only issue: I'm seeing the
+> threadcount test fail with s390x-linux-user as well, and it also goes
+> away (only) if I purge the build directory, re-configure, and re-build.
+>
+>
+Valuable info!
 
-> I do think, that we'll need some testing for qcow2.py, as we are going
-> to improve it a lot, to be used as separate debugging tool. And we just
-> need a separate iotest for it.
+--000000000000aca53305a85d3112
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Great.
+<br><br>=D1=87=D0=B5=D1=82=D0=B2=D1=80=D1=82=D0=B0=D0=BA, 18. =D1=98=D1=83=
+=D0=BD 2020., Cornelia Huck &lt;<a href=3D"mailto:cohuck@redhat.com">cohuck=
+@redhat.com</a>&gt; =D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE=
+/=D0=BB=D0=B0:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
+8ex;border-left:1px #ccc solid;padding-left:1ex">On Mon, 15 Jun 2020 15:18:=
+48 -0000<br>
+Alex Benn=C3=A9e &lt;<a href=3D"mailto:1883560@bugs.launchpad.net">1883560@=
+bugs.launchpad.net</a>&gt; wrote:<br>
+<br>
+&gt; Public bug reported:<br>
+&gt; <br>
+&gt; &gt;From time to time I find check-tcg crashes with a one of the MIPS=
+=C2=A0 <br>
+&gt; binaries. The last time it crashed was running the test:<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0./mips64el-linux-user/qemu-<wbr>mips64el ./tests/tcg/mips6=
+4el-linux-<br>
+&gt; user/threadcount<br>
+&gt; <br>
+&gt; Inevitably after some time noodling around wondering what could be<br>
+&gt; causing this weird behaviour I wonder if it is a build issue. I wipe a=
+ll<br>
+&gt; the mips* build directories, re-run configure and re-build and voila<b=
+r>
+&gt; problem goes away.<br>
+&gt; <br>
+&gt; It seems there must be some sort of build artefact which isn&#39;t bei=
+ng<br>
+&gt; properly re-generated on a build update which causes weird problems.<b=
+r>
+&gt; Additional data point if I:<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0rm -rf mips64el-linux-user<br>
+&gt;=C2=A0 =C2=A0../../configure<br>
+&gt;=C2=A0 =C2=A0make<br>
+&gt; <br>
+&gt; then I see failures in mip32 builds - eg:<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0GEN=C2=A0 =C2=A0 =C2=A0mipsn32el-linux-user/config-=
+<wbr>target.h<br>
+&gt;=C2=A0 =C2=A0In file included from /home/alex/lsrc/qemu.git/<wbr>linux-=
+user/syscall_defs.h:10,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 f=
+rom /home/alex/lsrc/qemu.git/<wbr>linux-user/qemu.h:16,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 f=
+rom /home/alex/lsrc/qemu.git/<wbr>linux-user/linuxload.c:5:<br>
+&gt;=C2=A0 =C2=A0/home/alex/lsrc/qemu.git/<wbr>linux-user/mips64/syscall_nr=
+.<wbr>h:1: error: unterminated #ifndef<br>
+&gt;=C2=A0 =C2=A0 #ifndef LINUX_USER_MIPS64_SYSCALL_NR_H<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0make[1]: *** [/home/alex/lsrc/qemu.git/<wbr>rules.mak:69: =
+linux-user/linuxload.o] Error 1<br>
+&gt;=C2=A0 =C2=A0make[1]: *** Waiting for unfinished jobs....<br>
+&gt; <br>
+&gt; which implies there is a cross dependency between different targets<br=
+>
+&gt; somewhere. If I executed:<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0rm -rf mips*<br>
+&gt; <br>
+&gt; before re-configuring and re-building then everything works again.<br>
+&gt; <br>
+&gt; ** Affects: qemu<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 Importance: Undecided<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Status: New<br>
+&gt; <br>
+&gt; <br>
+&gt; ** Tags: build linux-user mips<br>
+&gt; <br>
+<br>
+FWIW, this does not seem to be a mips-only issue: I&#39;m seeing the<br>
+threadcount test fail with s390x-linux-user as well, and it also goes<br>
+away (only) if I purge the build directory, re-configure, and re-build.<br>
+<br></blockquote><div><br></div><div>Valuable info!</div><div>=C2=A0</div>
 
-Max
-
-
---tpndFCRtUloVPW0ZKbaWvxlhOf1xFKBRV--
-
---PpfuW3SfiMzJKtp6WPuOhJFONBNYaz8l5
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl7rg7MACgkQ9AfbAGHV
-z0BNgwf9Ef3gsHW9SvxsOXqhnfz5uFncabNJ5OzSfhKrllPF5RV6B9472zWF6f9u
-ZyJQot2DQC1DE/M4SVm/v7g1hl7FoGKR+Vdd7EhuRbPbnal/vCP7aV733aDFxJFq
-ohcCmIBSma1/1rd0HFaUoNS4IkyKcGBc3nTvBfWGgRX0fo5Ku+3iPq1lo0mfIEip
-kFiJamT8oLV7XJ/lVX+2J6HQlAnN3BxA+qcMhsoW7R8rZ86O+7vQUicWCuYQOrCU
-wnvuVbVdS6cH8PXWTjiDEVIhxojpgbpvYWR+u9ZA4YyEHH6KTf9Kgi/zUtzoC86b
-y4VgX1LjtvlivXM6u1Vt4FiobzQDVA==
-=bXvk
------END PGP SIGNATURE-----
-
---PpfuW3SfiMzJKtp6WPuOhJFONBNYaz8l5--
-
+--000000000000aca53305a85d3112--
 
