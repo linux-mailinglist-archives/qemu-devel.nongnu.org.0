@@ -2,69 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E44631FF9E9
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 19:07:23 +0200 (CEST)
-Received: from localhost ([::1]:41548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA19F1FF9D3
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 19:01:54 +0200 (CEST)
+Received: from localhost ([::1]:60690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jly0Y-00045Z-WF
-	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 13:07:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60074)
+	id 1jlxvF-0007Fq-6p
+	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 13:01:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58576)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jlxz0-0002l9-BQ
- for qemu-devel@nongnu.org; Thu, 18 Jun 2020 13:05:46 -0400
-Received: from indium.canonical.com ([91.189.90.7]:45464)
+ (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
+ id 1jlxu4-0006ig-AC
+ for qemu-devel@nongnu.org; Thu, 18 Jun 2020 13:00:40 -0400
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:55953)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jlxyy-0008Vr-0n
- for qemu-devel@nongnu.org; Thu, 18 Jun 2020 13:05:46 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jlxyv-0007Rs-Rg
- for <qemu-devel@nongnu.org>; Thu, 18 Jun 2020 17:05:41 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id CEB812E80BA
- for <qemu-devel@nongnu.org>; Thu, 18 Jun 2020 17:05:41 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
+ id 1jlxu1-0007sz-10
+ for qemu-devel@nongnu.org; Thu, 18 Jun 2020 13:00:40 -0400
+Received: by mail-wm1-x330.google.com with SMTP id a6so2490756wmm.5
+ for <qemu-devel@nongnu.org>; Thu, 18 Jun 2020 10:00:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+ :cc; bh=mxI99qDnJCWr+9aAwRwsnp2nIReND1p2AIkKbj6x+D4=;
+ b=ZuolLb9WsYf0KtGr4Cceo6wFN3PzcsUMlToU0/3d6PnSLNqbswRWfcGdwycrfwVKV2
+ bpi6OGdYxgCvYQZNx64nlDh/X8bEl1AZOur6uuFpIOSN/YKJHxFz5DAtIfL8PaB7ytWP
+ 6ApatR7w/tsTX+EscvVfSS1N/BvR76K7SatX2Xj1MTBGMX9f9lsqtdK6HMcgCex7LtTx
+ tNXgQolx6MOm93B+t81c66Dmhv3cRbvHONJ0TJ9F7XPBUQv1td201R+oSRlcANnjXSjo
+ JKDmu0/5r0tigkDjrY4cSl/kidCCj7/KN3P+g565dUFRaqWbNZa4Kfl+/RqHAYEwrgHP
+ W0fg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+ :message-id:subject:to:cc;
+ bh=mxI99qDnJCWr+9aAwRwsnp2nIReND1p2AIkKbj6x+D4=;
+ b=iWJRwHd2dZV2QpIliwCu1NYm7TtoCdxTMEptm0yPTtmhmsVwZ+LoSni98/8qXaoJfv
+ +CAtMpEYf9SZCv/LUtZ7tEiRA30qA6WEf+Nr9WuF21bmZ55u/93hB7Xz1Utz/yhoqI51
+ PBNu65ITzSiGuIe5aiFasOKrmJz0JxtI7+dZesQB5YZLtO9B7JBcszLXa9Tn1uv3d9mc
+ WmdtZQRqHNOEDx4+KOWxmZc3nmzARNm8CWVS0xvJnfHXaftNUq73A7bWitthoGsQhIok
+ +UC6QPBSKdsqYGy/amMUwB68ArM9WMlKQvepkq5bc1K2wVtuZ/3HK2K/O17iGgIzx0lq
+ ikHw==
+X-Gm-Message-State: AOAM530BYv91kVw2soyp7H0JADcPayxVNIbTSK8XfAlqbsyytRQ6kndz
+ g6HA/80Oj4KfUgcNWHEiidbzyd53x263CDhlmjo=
+X-Google-Smtp-Source: ABdhPJxdRSCWUh9x+Cjuo0QFJNFe32eV8y2P77kKIUlOjF/mqJByqBnI+bi7girgXtVEIuMPn1mN0f63f3qFYlc19Jg=
+X-Received: by 2002:a1c:46c3:: with SMTP id t186mr4817626wma.36.1592499634836; 
+ Thu, 18 Jun 2020 10:00:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 18 Jun 2020 17:00:34 -0000
-From: Aleksandar Markovic <1883560@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: build linux-user mips
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ajbennee aleksandar-markovic laurent-vivier
-X-Launchpad-Bug-Reporter: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
-X-Launchpad-Bug-Modifier: Aleksandar Markovic (aleksandar-markovic)
+Received: by 2002:a1c:451:0:0:0:0:0 with HTTP;
+ Thu, 18 Jun 2020 10:00:34 -0700 (PDT)
+In-Reply-To: <20200618135331.7ec861e9.cohuck@redhat.com>
 References: <159223432851.7281.13140123017230519248.malonedeb@gac.canonical.com>
-Message-Id: <CAHiYmc5eJDN-FmBZOtRCM9446mxLZW_JtWdZw7TmSYMsk8iz8Q@mail.gmail.com>
+ <20200618135331.7ec861e9.cohuck@redhat.com>
+From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+Date: Thu, 18 Jun 2020 19:00:34 +0200
+Message-ID: <CAHiYmc5eJDN-FmBZOtRCM9446mxLZW_JtWdZw7TmSYMsk8iz8Q@mail.gmail.com>
 Subject: Re: [Bug 1883560] [NEW] mips linux-user builds occasionly crash
  randomly only to be fixed by a full clean re-build
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="1cbd0aa39df153c901321817f9b57cf3f232b507";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 316452c29f10861b80bc2db79a4ff71b64fa2606
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/18 11:20:43
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=_AUTOLEARN
+To: Cornelia Huck <cohuck@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000000a191905a85eb7a9"
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-wm1-x330.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,13 +82,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1883560 <1883560@bugs.launchpad.net>
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <1883560@bugs.launchpad.net>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--0000000000000a191905a85eb7a9
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
 =D1=87=D0=B5=D1=82=D0=B2=D1=80=D1=82=D0=B0=D0=BA, 18. =D1=98=D1=83=D0=BD 20=
-20., Cornelia Huck <cohuck@redhat.com> =D1=98=D0=B5
-=D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
+20., Cornelia Huck <cohuck@redhat.com> =D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=
+=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
 
 > On Mon, 15 Jun 2020 15:18:48 -0000
 > Alex Benn=C3=A9e <1883560@bugs.launchpad.net> wrote:
@@ -93,7 +108,8 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 > > user/threadcount
 > >
 > > Inevitably after some time noodling around wondering what could be
-> > causing this weird behaviour I wonder if it is a build issue. I wipe all
+> > causing this weird behaviour I wonder if it is a build issue. I wipe al=
+l
 > > the mips* build directories, re-run configure and re-build and voila
 > > problem goes away.
 > >
@@ -151,61 +167,90 @@ make" on existing, but not latest source tree?
 Thanks,
 Aleksandar
 
--- =
+--0000000000000a191905a85eb7a9
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1883560
+<br><br>=D1=87=D0=B5=D1=82=D0=B2=D1=80=D1=82=D0=B0=D0=BA, 18. =D1=98=D1=83=
+=D0=BD 2020., Cornelia Huck &lt;<a href=3D"mailto:cohuck@redhat.com">cohuck=
+@redhat.com</a>&gt; =D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE=
+/=D0=BB=D0=B0:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
+8ex;border-left:1px #ccc solid;padding-left:1ex">On Mon, 15 Jun 2020 15:18:=
+48 -0000<br>
+Alex Benn=C3=A9e &lt;<a href=3D"mailto:1883560@bugs.launchpad.net">1883560@=
+bugs.launchpad.net</a>&gt; wrote:<br>
+<br>
+&gt; Public bug reported:<br>
+&gt; <br>
+&gt; &gt;From time to time I find check-tcg crashes with a one of the MIPS=
+=C2=A0 <br>
+&gt; binaries. The last time it crashed was running the test:<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0./mips64el-linux-user/qemu-<wbr>mips64el ./tests/tcg/mips6=
+4el-linux-<br>
+&gt; user/threadcount<br>
+&gt; <br>
+&gt; Inevitably after some time noodling around wondering what could be<br>
+&gt; causing this weird behaviour I wonder if it is a build issue. I wipe a=
+ll<br>
+&gt; the mips* build directories, re-run configure and re-build and voila<b=
+r>
+&gt; problem goes away.<br>
+&gt; <br>
+&gt; It seems there must be some sort of build artefact which isn&#39;t bei=
+ng<br>
+&gt; properly re-generated on a build update which causes weird problems.<b=
+r>
+&gt; Additional data point if I:<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0rm -rf mips64el-linux-user<br>
+&gt;=C2=A0 =C2=A0../../configure<br>
+&gt;=C2=A0 =C2=A0make<br>
+&gt; <br>
+&gt; then I see failures in mip32 builds - eg:<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0GEN=C2=A0 =C2=A0 =C2=A0mipsn32el-linux-user/config-=
+<wbr>target.h<br>
+&gt;=C2=A0 =C2=A0In file included from /home/alex/lsrc/qemu.git/<wbr>linux-=
+user/syscall_defs.h:10,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 f=
+rom /home/alex/lsrc/qemu.git/<wbr>linux-user/qemu.h:16,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 f=
+rom /home/alex/lsrc/qemu.git/<wbr>linux-user/linuxload.c:5:<br>
+&gt;=C2=A0 =C2=A0/home/alex/lsrc/qemu.git/<wbr>linux-user/mips64/syscall_nr=
+.<wbr>h:1: error: unterminated #ifndef<br>
+&gt;=C2=A0 =C2=A0 #ifndef LINUX_USER_MIPS64_SYSCALL_NR_H<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0make[1]: *** [/home/alex/lsrc/qemu.git/<wbr>rules.mak:69: =
+linux-user/linuxload.o] Error 1<br>
+&gt;=C2=A0 =C2=A0make[1]: *** Waiting for unfinished jobs....<br>
+&gt; <br>
+&gt; which implies there is a cross dependency between different targets<br=
+>
+&gt; somewhere. If I executed:<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0rm -rf mips*<br>
+&gt; <br>
+&gt; before re-configuring and re-building then everything works again.<br>
+&gt; <br>
+&gt; ** Affects: qemu<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 Importance: Undecided<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Status: New<br>
+&gt; <br>
+&gt; <br>
+&gt; ** Tags: build linux-user mips<br>
+&gt; <br>
+<br>
+FWIW, this does not seem to be a mips-only issue: I&#39;m seeing the<br>
+threadcount test fail with s390x-linux-user as well, and it also goes<br>
+away (only) if I purge the build directory, re-configure, and re-build.<br>
+<br>
+<br>
+</blockquote><div><br></div><div>Alex, Cornelia,</div><div><br></div><div>D=
+o you perhaps recall how did you obtain the original binaries (those with t=
+he problem)? What would be your typical workflow? Perhaps &quot;git-pull + =
+make&quot; on existing, but not latest source tree?</div><div><br></div><di=
+v>Thanks,</div><div>Aleksandar</div><div><br></div><div>=C2=A0</div>
 
-Title:
-  mips linux-user builds occasionly crash randomly only to be fixed by a
-  full clean re-build
-
-Status in QEMU:
-  New
-
-Bug description:
-  From time to time I find check-tcg crashes with a one of the MIPS
-  binaries. The last time it crashed was running the test:
-
-    ./mips64el-linux-user/qemu-mips64el ./tests/tcg/mips64el-linux-
-  user/threadcount
-
-  Inevitably after some time noodling around wondering what could be
-  causing this weird behaviour I wonder if it is a build issue. I wipe
-  all the mips* build directories, re-run configure and re-build and
-  voila problem goes away.
-
-  It seems there must be some sort of build artefact which isn't being
-  properly re-generated on a build update which causes weird problems.
-  Additional data point if I:
-
-    rm -rf mips64el-linux-user
-    ../../configure
-    make
-
-  then I see failures in mip32 builds - eg:
-
-      GEN     mipsn32el-linux-user/config-target.h
-    In file included from /home/alex/lsrc/qemu.git/linux-user/syscall_defs.=
-h:10,
-                     from /home/alex/lsrc/qemu.git/linux-user/qemu.h:16,
-                     from /home/alex/lsrc/qemu.git/linux-user/linuxload.c:5:
-    /home/alex/lsrc/qemu.git/linux-user/mips64/syscall_nr.h:1: error: unter=
-minated #ifndef
-     #ifndef LINUX_USER_MIPS64_SYSCALL_NR_H
-
-    make[1]: *** [/home/alex/lsrc/qemu.git/rules.mak:69: linux-user/linuxlo=
-ad.o] Error 1
-    make[1]: *** Waiting for unfinished jobs....
-
-  which implies there is a cross dependency between different targets
-  somewhere. If I executed:
-
-    rm -rf mips*
-
-  before re-configuring and re-building then everything works again.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1883560/+subscriptions
+--0000000000000a191905a85eb7a9--
 
