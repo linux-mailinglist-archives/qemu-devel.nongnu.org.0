@@ -2,67 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFE8D1FEAD2
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 07:18:41 +0200 (CEST)
-Received: from localhost ([::1]:43498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B82E31FEAD0
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 07:18:34 +0200 (CEST)
+Received: from localhost ([::1]:42732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlmwi-0001AZ-Mu
-	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 01:18:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39662)
+	id 1jlmwb-0000rQ-PY
+	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 01:18:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jlmfa-0005px-KU
- for qemu-devel@nongnu.org; Thu, 18 Jun 2020 01:00:58 -0400
-Received: from indium.canonical.com ([91.189.90.7]:35616)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jlmfW-0008Pz-SC
- for qemu-devel@nongnu.org; Thu, 18 Jun 2020 01:00:58 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jlmfU-0005qo-HW
- for <qemu-devel@nongnu.org>; Thu, 18 Jun 2020 05:00:52 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 7EE492E8060
- for <qemu-devel@nongnu.org>; Thu, 18 Jun 2020 05:00:52 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jlmcS-0006CK-4E
+ for qemu-devel@nongnu.org; Thu, 18 Jun 2020 00:57:44 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:49128
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jlmcP-0007tI-RQ
+ for qemu-devel@nongnu.org; Thu, 18 Jun 2020 00:57:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1592456260;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=Np898EeVpvVvEiKw2Rp3dLcHzXexmvQhMwXlOH+B6q4=;
+ b=QsuC5ylEyx0Pc2Hw6Lk0jXLy8TIWkpOv80L7E4MNHn38sD+Ob+SD8YD7s6BtDDX06peS45
+ GkKVYYLeBCvWaFc6po05G5IR0T+TwdhUKOJIKSqbYYhcCqGjsCyeQWtt8In34QUFDDCgK5
+ U0pv0hVnl2K/EFoL+iBBPXPF4yokAkw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-75--YRWwxlXPeGnRc707FNWRw-1; Thu, 18 Jun 2020 00:57:14 -0400
+X-MC-Unique: -YRWwxlXPeGnRc707FNWRw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C6A2E8018A7;
+ Thu, 18 Jun 2020 04:57:13 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-4.ams2.redhat.com [10.36.112.4])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B5B4A60BF4;
+ Thu, 18 Jun 2020 04:57:08 +0000 (UTC)
+Subject: Re: [PATCH] hw/audio/gus: Fix registers 32-bit access
+To: Allan Peramaki <aperamak@pp1.inet.fi>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20200615201757.16868-1-aperamak@pp1.inet.fi>
+ <CAFEAcA-eKboVf3uk4iY_A9_uQ=HnGyic4fzbzJhv1gH2V+TMVw@mail.gmail.com>
+ <87e628f4-6c0e-c4a2-daba-57cb1e508b77@pp1.inet.fi>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <5c118336-0452-5429-1ad9-1e2c982c6d92@redhat.com>
+Date: Thu, 18 Jun 2020 06:57:07 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 18 Jun 2020 04:54:32 -0000
-From: David Glover <1884017@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: qemu-system-i386
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: me-davidglover
-X-Launchpad-Bug-Reporter: David Glover (me-davidglover)
-X-Launchpad-Bug-Modifier: David Glover (me-davidglover)
-Message-Id: <159245607293.6124.18309162054825340522.malonedeb@soybean.canonical.com>
-Subject: [Bug 1884017] [NEW] Intermittently erratic mouse under Windows 95
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="1cbd0aa39df153c901321817f9b57cf3f232b507";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 3261ae1108fc1b475cf911e8f6834e18896107dc
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/18 01:00:52
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <87e628f4-6c0e-c4a2-daba-57cb1e508b77@pp1.inet.fi>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/18 00:57:40
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,83 +84,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1884017 <1884017@bugs.launchpad.net>
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+On 18/06/2020 00.25, Allan Peramaki wrote:
+> On 17/06/2020 23:23, Peter Maydell wrote:
+>>
+>> This patch is quite difficult to read because it mixes some
+>> whitespace only changes with some actual changes of
+>> behaviour.
+> 
+> Sorry about that. I had to put some whitespace in the two lines I
+> modified because of checkpatch.pl, but then the nearby lines would have
+> had inconsistent style if left unmodified.
 
-The mouse works fine maybe 75-80% of the time, but intermittently (every
-20-30 seconds or so), moving the mouse will cause the pointer to fly
-around the screen at high speed, usually colliding with the edges, and
-much more problematically, click all the mouse buttons at random, even
-if you are not clicking. This causes random objects on the screen to be
-clicked and dragged around, rendering the system generally unusable.
+ Hi Allan!
 
-I don't know if this is related to #1785485 - it happens even if you
-never use the scroll wheel.
+Makes perfect sense, but for the review, it might have been helpful if
+you'd put this information in the commit message.
 
-qemu version: 5.0.0 (openSUSE Tumbleweed)
+Anyway, the change looks correct to me, so:
 
-Launch command line: qemu-system-i386 -hda win95.qcow2 -cpu pentium2 -m
-16 -vga cirrus -soundhw sb16 -nic user,model=3Dpcnet -rtc base=3Dlocaltime
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
-OS version: Windows 95 4.00.950 C
-
-I have made the disk image available here:
-https://home.gloveraoki.me/share/win95.qcow2.lz
-
-Setup notes: In order to make Windows 95 detect the system devices
-correctly, after first install you must change the driver for "Plug and
-Play BIOS" to "PCI bus". I have already done this in the above image.
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
-
-** Tags: qemu-system-i386
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1884017
-
-Title:
-  Intermittently erratic mouse under Windows 95
-
-Status in QEMU:
-  New
-
-Bug description:
-  The mouse works fine maybe 75-80% of the time, but intermittently
-  (every 20-30 seconds or so), moving the mouse will cause the pointer
-  to fly around the screen at high speed, usually colliding with the
-  edges, and much more problematically, click all the mouse buttons at
-  random, even if you are not clicking. This causes random objects on
-  the screen to be clicked and dragged around, rendering the system
-  generally unusable.
-
-  I don't know if this is related to #1785485 - it happens even if you
-  never use the scroll wheel.
-
-  qemu version: 5.0.0 (openSUSE Tumbleweed)
-
-  Launch command line: qemu-system-i386 -hda win95.qcow2 -cpu pentium2
-  -m 16 -vga cirrus -soundhw sb16 -nic user,model=3Dpcnet -rtc
-  base=3Dlocaltime
-
-  OS version: Windows 95 4.00.950 C
-
-  I have made the disk image available here:
-  https://home.gloveraoki.me/share/win95.qcow2.lz
-
-  Setup notes: In order to make Windows 95 detect the system devices
-  correctly, after first install you must change the driver for "Plug
-  and Play BIOS" to "PCI bus". I have already done this in the above
-  image.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1884017/+subscriptions
 
