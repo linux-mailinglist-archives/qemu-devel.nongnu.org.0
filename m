@@ -2,91 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3ED01FF179
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 14:17:17 +0200 (CEST)
-Received: from localhost ([::1]:35566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 372451FF1AF
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 14:28:47 +0200 (CEST)
+Received: from localhost ([::1]:44112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jltTo-0003GW-QM
-	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 08:17:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46360)
+	id 1jltew-00027m-AT
+	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 08:28:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jltS5-0002Hw-BQ
- for qemu-devel@nongnu.org; Thu, 18 Jun 2020 08:15:30 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:24246
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jltS3-0001Ze-7b
- for qemu-devel@nongnu.org; Thu, 18 Jun 2020 08:15:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592482526;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ySdz41fDNOdTrRzwx7//o0/hQD1seKre8zcPrqXjRDE=;
- b=XPAVxzMYenHXCDg93TDeYb4J80BfyMlaRfbuaoxjYNofrgxDlTsQEdv0TeEu/4LyzgyGh9
- bjZyHOtM7BrXl3Nd5IvmJiv2mUljNmUqJZk0fl3t/gxJGAuwSP4HlNoLzXUdMWbNd49sbg
- ZZtfNXs2N61L4uYt0wTsnhjdFw1M5Vo=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-201-jPdY_KRQMwukF7pUcfhJAg-1; Thu, 18 Jun 2020 08:15:24 -0400
-X-MC-Unique: jPdY_KRQMwukF7pUcfhJAg-1
-Received: by mail-wm1-f70.google.com with SMTP id x6so2504751wmj.9
- for <qemu-devel@nongnu.org>; Thu, 18 Jun 2020 05:15:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ySdz41fDNOdTrRzwx7//o0/hQD1seKre8zcPrqXjRDE=;
- b=H64qeWsMe3IvwwfYQ5KbSbkxHwfLADlwNAKdd4AQarC+crcb7OxegNMx+y+iqnlDPQ
- 4Y3oe/YPsoDwbT+ZFoQB0TTzKdtPiBkLqieyZQVeahESicdwZFLuebazdyIf2MER0Hkf
- f9YwftFVyJQ7Cdf6LoCJSdjXio0Uy5v+jgwzREaNVgPovmjtUA1qjUDVZb17sTdzO6CY
- iUOnfiaaTwcDK9ag3uleLE1EkrWSbVbyxjx2SHA+14p09HL+LGYNDzwZMlIAkuLcWWYl
- CVGFYrGrXsrhyTyKHX3f1CzjxOAnWIbKVpQB/bicMPxQxkPXtD3Pn7bW4X+7Esjh1B2b
- 1O5w==
-X-Gm-Message-State: AOAM533AnByF2RXk/mJ6u/ajwajKd2mHVCl6gllc8v50Rml6/LKg0gwq
- QtQuHHSkfGv3XXmrlrpzCNSujPOsb/S49TDfkZ4N2ewbmVkNNKUsNg0E1jyeiQVVSZwHVRD2T0E
- 3YkVMelLdup4dtmY=
-X-Received: by 2002:a5d:6749:: with SMTP id l9mr4243087wrw.63.1592482523110;
- Thu, 18 Jun 2020 05:15:23 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyKoawyynYX8J8sn/FtrBkvn1wTqUpMgN4G3+Vt2mEo7Msk/He8zChANYkim7Oj1nHIrYtG+w==
-X-Received: by 2002:a5d:6749:: with SMTP id l9mr4243069wrw.63.1592482522908;
- Thu, 18 Jun 2020 05:15:22 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:e1d2:138e:4eff:42cb?
- ([2001:b07:6468:f312:e1d2:138e:4eff:42cb])
- by smtp.gmail.com with ESMTPSA id g3sm3740742wrb.46.2020.06.18.05.15.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 18 Jun 2020 05:15:22 -0700 (PDT)
-Subject: Re: qemu-pr-helper -v suppresses errors, isn't that weird?
-To: Markus Armbruster <armbru@redhat.com>
-References: <87imfpszvr.fsf@dusky.pond.sub.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <4a56a2cb-0025-cefc-68a0-37a14641b7b1@redhat.com>
-Date: Thu, 18 Jun 2020 14:15:21 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (Exim 4.90_1) (envelope-from <shameerali.kolothum.thodi@huawei.com>)
+ id 1jlte3-0001Pw-TD; Thu, 18 Jun 2020 08:27:51 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:42832 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <shameerali.kolothum.thodi@huawei.com>)
+ id 1jlte1-0003Xd-KZ; Thu, 18 Jun 2020 08:27:51 -0400
+Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id 99F6316FA107B353DA5D;
+ Thu, 18 Jun 2020 20:27:41 +0800 (CST)
+Received: from S00345302A-PC.china.huawei.com (10.47.83.241) by
+ DGGEMS414-HUB.china.huawei.com (10.3.19.214) with Microsoft SMTP Server id
+ 14.3.487.0; Thu, 18 Jun 2020 20:27:30 +0800
+From: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
+To: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>
+Subject: [PATCH v3] arm/virt: Add memory hot remove support
+Date: Thu, 18 Jun 2020 13:21:29 +0100
+Message-ID: <20200618122129.7704-1-shameerali.kolothum.thodi@huawei.com>
+X-Mailer: git-send-email 2.12.0.windows.1
 MIME-Version: 1.0
-In-Reply-To: <87imfpszvr.fsf@dusky.pond.sub.org>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/18 01:47:12
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
+Content-Type: text/plain
+X-Originating-IP: [10.47.83.241]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.32;
+ envelope-from=shameerali.kolothum.thodi@huawei.com; helo=huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/18 08:27:42
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -31
+X-Spam_score: -3.2
 X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-3.2 / 5.0 requ) AC_FROM_MANY_DOTS=1, BAYES_00=-1.9,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,53 +55,161 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, mst@redhat.com, linuxarm@huawei.com,
+ xuwei5@hisilicon.com, eric.auger@redhat.com, prime.zeng@hisilicon.com,
+ imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 18/06/20 07:32, Markus Armbruster wrote:
-> prh_co_entry() reports reports errors reading requests / writing
-> responses only when @verbose (command line -v); relevant code appended
-> for you convenience.
-> 
-> Sure these are *errors*?  The program recovers and continues, and this
-> is deemed normal enough to inform the user only when he specifically
-> asks for it.  Yet when we inform, we format it as an error.  Should we
-> tune it down to warnings?
+This adds support for memory(pc-dimm) hot remove on arm/virt that
+uses acpi ged device.
 
-They are errors, but they're errors in the client rather than in
-qemu-pr-helper.c itself.
+NVDIMM hot removal is not yet supported.
 
-Paolo
+Signed-off-by: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
+---
+V2 --> v3
+  -Addressed Eric's review comment and added check for NVDIMM.
+RFC v1 --> v2
+  -Rebased on top of latest Qemu master.
+  -Dropped "RFC" and tested with kernel 5.7-rc6
+---
+ hw/acpi/generic_event_device.c | 29 ++++++++++++++++
+ hw/arm/virt.c                  | 62 ++++++++++++++++++++++++++++++++--
+ 2 files changed, 89 insertions(+), 2 deletions(-)
 
-> 
-> static void coroutine_fn prh_co_entry(void *opaque)
-> {
->     [...]
->     while (atomic_read(&state) == RUNNING) {
->         [...]
->         sz = prh_read_request(client, &req, &resp, &local_err);
->         if (sz < 0) {
->             break;
->         }
->         [...]
->         if (prh_write_response(client, &req, &resp, &local_err) < 0) {
->             break;
->         }
->     }
->     if (local_err) {
->         if (verbose == 0) {
->             error_free(local_err);
->         } else {
->             error_report_err(local_err);
->         }
->     }
-> 
-> out:
->     qio_channel_detach_aio_context(QIO_CHANNEL(client->ioc));
->     object_unref(OBJECT(client->ioc));
->     g_free(client);
-> }
-> 
+diff --git a/hw/acpi/generic_event_device.c b/hw/acpi/generic_event_device.c
+index 1cb34111e5..b8abdefa1c 100644
+--- a/hw/acpi/generic_event_device.c
++++ b/hw/acpi/generic_event_device.c
+@@ -193,6 +193,33 @@ static void acpi_ged_device_plug_cb(HotplugHandler *hotplug_dev,
+     }
+ }
+ 
++static void acpi_ged_unplug_request_cb(HotplugHandler *hotplug_dev,
++                                       DeviceState *dev, Error **errp)
++{
++    AcpiGedState *s = ACPI_GED(hotplug_dev);
++
++    if ((object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM) &&
++                       !(object_dynamic_cast(OBJECT(dev), TYPE_NVDIMM)))) {
++        acpi_memory_unplug_request_cb(hotplug_dev, &s->memhp_state, dev, errp);
++    } else {
++        error_setg(errp, "acpi: device unplug request for unsupported device"
++                   " type: %s", object_get_typename(OBJECT(dev)));
++    }
++}
++
++static void acpi_ged_unplug_cb(HotplugHandler *hotplug_dev,
++                               DeviceState *dev, Error **errp)
++{
++    AcpiGedState *s = ACPI_GED(hotplug_dev);
++
++    if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM)) {
++        acpi_memory_unplug_cb(&s->memhp_state, dev, errp);
++    } else {
++        error_setg(errp, "acpi: device unplug for unsupported device"
++                   " type: %s", object_get_typename(OBJECT(dev)));
++    }
++}
++
+ static void acpi_ged_send_event(AcpiDeviceIf *adev, AcpiEventStatusBits ev)
+ {
+     AcpiGedState *s = ACPI_GED(adev);
+@@ -318,6 +345,8 @@ static void acpi_ged_class_init(ObjectClass *class, void *data)
+     dc->vmsd = &vmstate_acpi_ged;
+ 
+     hc->plug = acpi_ged_device_plug_cb;
++    hc->unplug_request = acpi_ged_unplug_request_cb;
++    hc->unplug = acpi_ged_unplug_cb;
+ 
+     adevc->send_event = acpi_ged_send_event;
+ }
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index caceb1e4a0..a981dc9f1c 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -2177,11 +2177,68 @@ static void virt_machine_device_plug_cb(HotplugHandler *hotplug_dev,
+     }
+ }
+ 
++static void virt_dimm_unplug_request(HotplugHandler *hotplug_dev,
++                                     DeviceState *dev, Error **errp)
++{
++    VirtMachineState *vms = VIRT_MACHINE(hotplug_dev);
++    Error *local_err = NULL;
++
++    if (!vms->acpi_dev) {
++        error_setg(errp,
++                   "memory hotplug is not enabled: missing acpi-ged device");
++        goto out;
++    }
++
++    if (object_dynamic_cast(OBJECT(dev), TYPE_NVDIMM)) {
++        error_setg(&local_err,
++                   "nvdimm device hot unplug is not supported yet.");
++        goto out;
++    }
++
++    hotplug_handler_unplug_request(HOTPLUG_HANDLER(vms->acpi_dev), dev,
++                                   &local_err);
++out:
++    error_propagate(errp, local_err);
++}
++
++static void virt_dimm_unplug(HotplugHandler *hotplug_dev,
++                             DeviceState *dev, Error **errp)
++{
++    VirtMachineState *vms = VIRT_MACHINE(hotplug_dev);
++    Error *local_err = NULL;
++
++    hotplug_handler_unplug(HOTPLUG_HANDLER(vms->acpi_dev), dev, &local_err);
++    if (local_err) {
++        goto out;
++    }
++
++    pc_dimm_unplug(PC_DIMM(dev), MACHINE(vms));
++    object_property_set_bool(OBJECT(dev), false, "realized", NULL);
++
++ out:
++    error_propagate(errp, local_err);
++}
++
+ static void virt_machine_device_unplug_request_cb(HotplugHandler *hotplug_dev,
+                                           DeviceState *dev, Error **errp)
+ {
+-    error_setg(errp, "device unplug request for unsupported device"
+-               " type: %s", object_get_typename(OBJECT(dev)));
++    if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM)) {
++        virt_dimm_unplug_request(hotplug_dev, dev, errp);
++    } else {
++        error_setg(errp, "device unplug request for unsupported device"
++                   " type: %s", object_get_typename(OBJECT(dev)));
++    }
++}
++
++static void virt_machine_device_unplug_cb(HotplugHandler *hotplug_dev,
++                                          DeviceState *dev, Error **errp)
++{
++    if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM)) {
++        virt_dimm_unplug(hotplug_dev, dev, errp);
++    } else {
++        error_setg(errp, "virt: device unplug for unsupported device"
++                   " type: %s", object_get_typename(OBJECT(dev)));
++    }
+ }
+ 
+ static HotplugHandler *virt_machine_get_hotplug_handler(MachineState *machine,
+@@ -2262,6 +2319,7 @@ static void virt_machine_class_init(ObjectClass *oc, void *data)
+     hc->pre_plug = virt_machine_device_pre_plug_cb;
+     hc->plug = virt_machine_device_plug_cb;
+     hc->unplug_request = virt_machine_device_unplug_request_cb;
++    hc->unplug = virt_machine_device_unplug_cb;
+     mc->numa_mem_supported = true;
+     mc->nvdimm_supported = true;
+     mc->auto_enable_numa_with_memhp = true;
+-- 
+2.17.1
+
 
 
