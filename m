@@ -2,71 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F40731FF36C
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 15:44:04 +0200 (CEST)
-Received: from localhost ([::1]:57536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0BD71FF381
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 15:45:49 +0200 (CEST)
+Received: from localhost ([::1]:35770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlupo-0002PE-0w
-	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 09:44:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44680)
+	id 1jlurU-00059H-NB
+	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 09:45:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jlufK-0000Qu-8R
- for qemu-devel@nongnu.org; Thu, 18 Jun 2020 09:33:14 -0400
-Received: from mail-oo1-xc44.google.com ([2607:f8b0:4864:20::c44]:46921)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jlufI-00083u-Jp
- for qemu-devel@nongnu.org; Thu, 18 Jun 2020 09:33:13 -0400
-Received: by mail-oo1-xc44.google.com with SMTP id z145so1159208ooa.13
- for <qemu-devel@nongnu.org>; Thu, 18 Jun 2020 06:33:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=kGdauocYF4BXlU7/FEGOo5Z/ZRwkBSG/D6g35P04CXo=;
- b=OyLKuICeazjBy/JWVyIKR1Iphrh4PHhbxQDEDXYd1+JW0h1Cd8GrCt2/PzxryxPmhZ
- ho9gi5rE8P7/0y4E9EmuU8vjeqGeSHbbeN1RekfgVM+a1BuBCRQ5oKfsIwISviDIBwwG
- bh21GZCE5Ph0d8bGDEa6/EQklWka8oMjZLyYkGNOFCBeY+wHMbTBTf1NJ/QJ/bXkfysq
- NLA8MveQ+2WpTA5p4FKkuWhhlSrVjakh3XWp0017zY/B5q8WxB7b7iqVuXctMf/Vy8JK
- sfBqk0UCT33SYML4n4YNHkpsaqM7CtgwlQAmNAhZoO5DNMA+ElUrj7tJlvKvCPsp+Ato
- +QDQ==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jluhQ-0005cg-3d
+ for qemu-devel@nongnu.org; Thu, 18 Jun 2020 09:35:24 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:32518
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jluhN-0008JL-Ph
+ for qemu-devel@nongnu.org; Thu, 18 Jun 2020 09:35:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1592487320;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=aLfFWWN786UTNglIQiVmrgn3+v9wpuJECNM2po67mSo=;
+ b=SvGT6SQph6GVo7+ChZmCwreA38cqvnI7TydLPQc8FcB+V70+STsi1oTgOrWoD3wC/LV1nr
+ +AaUQvgKAiACVW+0ivD1mukK1Pz8YUndo+r0qMnD2rHiR7f+G4A4jmEgxAdLAGzeEgAgyW
+ 4OZ6ZGwLY7orGO+9YE9+oVuI1+BVamY=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-229-_y-85SouP3OZMj2N_sc1cA-1; Thu, 18 Jun 2020 09:35:19 -0400
+X-MC-Unique: _y-85SouP3OZMj2N_sc1cA-1
+Received: by mail-wm1-f71.google.com with SMTP id r1so2590721wmh.7
+ for <qemu-devel@nongnu.org>; Thu, 18 Jun 2020 06:35:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=kGdauocYF4BXlU7/FEGOo5Z/ZRwkBSG/D6g35P04CXo=;
- b=sIRP4YknVYPDpH6er/xOZcWP8+6L6/8gBexecU4PAzFP4VSY4W9uawxleehpR1pRTN
- MEoj17c6D+ShEpLyPyYxg2QTx9yP25fZjPW+pvNnXdxEGQC70mq3tvAZL83dr8At4arb
- W3N7HXruJzckZ04uKaWU1mYIEL3ZbRW0D4KeGXCtwB8/apMqZnvcP/BqCHUByfL+GWre
- 9kKkLkBruhM+zSwLNGS8NnyPzHdfkNBWOl848861ELzDo67PlPi+CB0MN/PuzmuB+bvd
- Y6PkaozKxT7yqE0eOVzNR9ThylMhMmlqSFSme5gcR1OgMRmeeqBfr6RkMsWO3BU5L5qv
- 8rAA==
-X-Gm-Message-State: AOAM5329DmCRxIzcn1tEBWBYJpKd66j5g81uRKKv9297HO9RlvT6UV31
- j7KwC7hScA6Bgp37GZ/EqvZNcVJiYtIOlLf1zXf6QbPQVGw=
-X-Google-Smtp-Source: ABdhPJzqWGb1euoNfWbIkrrK1cLNMK4QW3oJmyHfVnztt0GtFyI0E1tMMR+VojEuHxsEhs/ZLJw+Qs/4Bf5jVyrnTG4=
-X-Received: by 2002:a4a:9528:: with SMTP id m37mr3989128ooi.85.1592487191322; 
- Thu, 18 Jun 2020 06:33:11 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=aLfFWWN786UTNglIQiVmrgn3+v9wpuJECNM2po67mSo=;
+ b=Mmualw3LQXf23an6ODwsvkQpGCcLYAsyEBZTZl3JFsu5ymocb+9p3INp0gzy3PI4rf
+ mger0gWB5N7FwAXKhYTIj4RTicWIU5zyWMU2kHRrJXA14nZ6Hi132XIrpo9TS2wO8Mi6
+ 06x0Te6RsKAS8fGbHtOGtY9A+Nw4HxfB6J2WGmGLr/m/TLEyzCww3Zb6gw71b0jBYaVM
+ UIPtoexFq2rMHKtcVDwWfJQ5TeVioCP6LQXNVxO5Am+hVIXV3Zbt5a9KvXVC7QK+j++o
+ mCZtG5LmlZEPsxSiWTGk8+FBkkxB0jZ8dSO33BAoKqY67Pgah0Kf0bLn+puA3wxq2HEw
+ lCUw==
+X-Gm-Message-State: AOAM532CqctCu+ceFC0y3dCTi56EAvlhP4eWaD6un5IdyDIJOGbuHWAc
+ YQM3Gj5dIj2jmOW42s6Tw1LR2ayUPNP2apSX87yTgZw3Gpnolw4RW3HN5FuLMea5+o5lZ3Skz4t
+ f57etSwPLbF/M+38=
+X-Received: by 2002:adf:e782:: with SMTP id n2mr4536586wrm.417.1592487318012; 
+ Thu, 18 Jun 2020 06:35:18 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzke9/QOSpZW4+85a3TVRyoYXZmMZdPZKXwkgZ5qvG+1Ceu7D0MQvrZWgqgjV7D1PCYk/MHkA==
+X-Received: by 2002:adf:e782:: with SMTP id n2mr4536563wrm.417.1592487317780; 
+ Thu, 18 Jun 2020 06:35:17 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:e1d2:138e:4eff:42cb?
+ ([2001:b07:6468:f312:e1d2:138e:4eff:42cb])
+ by smtp.gmail.com with ESMTPSA id b187sm3633299wmd.26.2020.06.18.06.35.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 18 Jun 2020 06:35:16 -0700 (PDT)
+Subject: Re: [PATCH v1] memory: assert MemoryRegionOps callbacks are defined
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ P J P <ppandit@redhat.com>
+References: <20200618121218.215808-1-ppandit@redhat.com>
+ <87r1ucv7pe.fsf@linaro.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <51f137f0-89ee-e130-a43e-c82d0b3623fa@redhat.com>
+Date: Thu, 18 Jun 2020 15:35:14 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-References: <20200603011317.473934-1-richard.henderson@linaro.org>
- <20200603011317.473934-15-richard.henderson@linaro.org>
-In-Reply-To: <20200603011317.473934-15-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 18 Jun 2020 14:33:00 +0100
-Message-ID: <CAFEAcA9EJB8Oa5c7emh-cKMmZRUPa8rRvvvXsHUJWO51gUaDvA@mail.gmail.com>
-Subject: Re: [PATCH v7 14/42] target/arm: Add helper_probe_access
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c44;
- envelope-from=peter.maydell@linaro.org; helo=mail-oo1-xc44.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+In-Reply-To: <87r1ucv7pe.fsf@linaro.org>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/18 01:47:12
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,43 +101,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
- Stephen Long <steplong@quicinc.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Prasad J Pandit <pjp@fedoraproject.org>, Li Qiang <liq3ea@gmail.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Lei Sun <slei.casper@gmail.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 3 Jun 2020 at 02:13, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Raise an exception if the given virtual memory is not accessible.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
+On 18/06/20 15:12, Alex Bennée wrote:
+>>
+>> @@ -1495,6 +1495,9 @@ void memory_region_init_io(MemoryRegion *mr,
+>>                             const char *name,
+>>                             uint64_t size)
+>>  {
+>> +    assert(ops);
+>> +    assert(ops->read);
+>> +    assert(ops->write);
+> 
+> If you look at memory_region_dispatch_write you can see that
+> mr->ops->write being empty is acceptable because it implies
+> mr->ops->write_with_attrs is set instead. I think the same is true for
+> read so I think you need something more like:
+> 
+>      assert(ops->read || ops->read_with_attrs);
+>      assert(ops->write || ops->write_with_attrs);
 
-> diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-> index 0ee2ef403e..b032829194 100644
-> --- a/target/arm/translate-a64.c
-> +++ b/target/arm/translate-a64.c
-> @@ -232,6 +232,19 @@ static void gen_address_with_allocation_tag0(TCGv_i64 dst, TCGv_i64 src)
->      tcg_gen_andi_i64(dst, src, ~MAKE_64BIT_MASK(56, 4));
->  }
->
-> +static void gen_probe_access(DisasContext *s, TCGv_i64 ptr,
-> +                             MMUAccessType acc, int log2_size)
-> +{
-> +    TCGv_i32 t_acc = tcg_const_i32(acc);
-> +    TCGv_i32 t_idx = tcg_const_i32(get_mem_index(s));
-> +    TCGv_i32 t_size = tcg_const_i32(1 << log2_size);
-> +
-> +    gen_helper_probe_access(cpu_env, ptr, t_acc, t_idx, t_size);
-> +    tcg_temp_free_i32(t_acc);
-> +    tcg_temp_free_i32(t_idx);
-> +    tcg_temp_free_i32(t_size);
-> +}
+Also, !ops is acceptable since you have a couple lines below:
 
-This isn't called from anywhere -- clang is probably going to
-complain about that.
+    mr->ops = ops ? ops : &unassigned_mem_ops;
 
-thanks
--- PMM
+
+>> +    assert(ops->read);
+>> +    assert(ops->write);
+> 
+> Do ROM devices need a ->write function?
+
+Yes, ROMD regions are treated as I/O regions for writes.  However they
+don't need a read function.
+
+> Also doesn't this break a load of running stuff without fixes for all
+> the various missing bits? How far does make check-acceptance get?
+
+This might actually be really close with the above assertions fixed.
+For example, commit 08565552f7 ("cputlb: Move NOTDIRTY handling from I/O
+path to TLB path", 2019-09-25) got rid of io_mem_notdirty.
+
+The only cases I found with "git grep" are:
+
+- tz_ppc_dummy_ops which is broken and should just use NULL ops
+
+- hw/nvram/nrf51_nvm.c's flash_ops which is fixed if ROMD regions are
+changed not to require a read callback.
+
+- designware_pci_host_msi_ops which is broken and should have a dummy
+read callback.
+
+Needless to say, this is something that the submitter should have done,
+not the reviewer.
+
+Paolo
+
 
