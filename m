@@ -2,59 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC2881FFA6E
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 19:39:37 +0200 (CEST)
-Received: from localhost ([::1]:49382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4FEF1FFA79
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 19:46:15 +0200 (CEST)
+Received: from localhost ([::1]:57310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlyVk-0005ZH-Pr
-	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 13:39:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42608)
+	id 1jlycA-0002JZ-EG
+	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 13:46:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44580)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jlyUt-0004lW-Ho
- for qemu-devel@nongnu.org; Thu, 18 Jun 2020 13:38:45 -0400
-Received: from mail-oi1-x234.google.com ([2607:f8b0:4864:20::234]:33910)
+ id 1jlybC-0001aD-E2
+ for qemu-devel@nongnu.org; Thu, 18 Jun 2020 13:45:14 -0400
+Received: from mail-oo1-xc43.google.com ([2607:f8b0:4864:20::c43]:34692)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jlyUr-0007Wp-Om
- for qemu-devel@nongnu.org; Thu, 18 Jun 2020 13:38:43 -0400
-Received: by mail-oi1-x234.google.com with SMTP id b8so5862984oic.1
- for <qemu-devel@nongnu.org>; Thu, 18 Jun 2020 10:38:41 -0700 (PDT)
+ id 1jlybA-0000Oe-Im
+ for qemu-devel@nongnu.org; Thu, 18 Jun 2020 13:45:14 -0400
+Received: by mail-oo1-xc43.google.com with SMTP id v3so1349320oot.1
+ for <qemu-devel@nongnu.org>; Thu, 18 Jun 2020 10:45:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=075dXPEDcOcwdP9IQzTAf7X9x4tuD1nd1dHZRVN+ZAU=;
- b=RNXlDR2qA8R9l0wRnRRGC7tuvBll/a30RFLIJGgZOUEBiuh7fwXrXyRRwWQr1irgft
- oX+sVI6xFyJsuC6/TPM7s1O+Cv9Dfj+bNR7WV3YmzDLEqS8S1Sk0ToqF3Nm2nytgGDIe
- yncKri+zGKmIiuZlKdtC794v9uy8L8Z6FJZUhLBYEUJx/n/JstEkhXKT3wv+VasD2gKM
- KSwOZS3BXb5gf7QFqDP8cz+fofpUUjzdSRmp3nD0laD6aB93dvuIcjobqbsLlOF7/+2N
- uaVo//AYfIMW85O5ErJXuEzJoYitJ/vucCvUF6cAvOLdzsq8AV0MI4k7hBiB/r+TBQ/t
- h9ZA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=2qmwHswApVSYrMfm287st1BzO5wGu9YBA4IZqnJpVZI=;
+ b=GzNpA1ywjj5iIWvKUlHtqaglO7uu+YcsmVlipzpwO56t9su+AB1uFtH85mapw5rrth
+ V33qp875P7Sssz95xCivpFuOJG7l/Llaqu9HDkoOjwEmhvQalNhkieoi/iW+ZYro1joX
+ vj1NtOaHD7EYLeWOBfS2xhfMoI2JviiwnCZDnZ30s6ArwPKI7Ye+VjKiQhzepqCO1vbO
+ 9Sh+NJLRYZyqmi28YsDQk75raPK9n+CUIjciweCE6wJq6ZPnwbIsui3aV6vLYvKzYLbr
+ nJyKV3SovYeqxJqNrQ5DYJ3xzg/beo3FUp3jfSe7Q3UPtnXO9pmuJL7gHFRrM0HC0/Gv
+ 30Gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=075dXPEDcOcwdP9IQzTAf7X9x4tuD1nd1dHZRVN+ZAU=;
- b=e+O6svjDEKtomeSstmUWKbB45Nld1qwobS/B+BuGdY4mm9yyguZTpm5a91/p6rE8EQ
- T3LY3tyFPXlXK6Kw20MsMHt1bB7HjRHZGOK63LwItBcaoEX6491aLqIZir9DZqOl5v6k
- RnDWCSep4ou8B5kB9ajpw9FiWMsUvjtp871mV+aplLYhyt9GsQCiTo2s2xR1uMkNdzL1
- GS2XbkKPvWUrYw9xR3BUrRFHl5bpGIqLxYDjALhdBOCwGP9poCTkMVVB0mKVshqwmrGa
- 72vJuR4OSUW+qgmiECX/xgqAmP+msq6PcBhqmoGVmtlOW7ONIhWFicGaF0+l5jnYL89x
- YgGQ==
-X-Gm-Message-State: AOAM532Dl9axryRhWx2XG6jckqbDRd+9Hpv+V8ZJoWF+XdGVkwZIKhTn
- JFUBG3KEtG/PkLX9/QvsmytbStc8grennkkY4SyulEh6Hwf7TQ==
-X-Google-Smtp-Source: ABdhPJzkF1n/Y3NEbzm6UwXzWwGTgiYCdUZsJqLjaKG1Mhz9HT+pL8qnWfLSfDVm9VosKHN8H2ixT73fNtWN1BSyKMU=
-X-Received: by 2002:aca:5152:: with SMTP id f79mr3825856oib.146.1592501920205; 
- Thu, 18 Jun 2020 10:38:40 -0700 (PDT)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=2qmwHswApVSYrMfm287st1BzO5wGu9YBA4IZqnJpVZI=;
+ b=AEjyJbb+9z+XSFOVcMxhwAGw+pErz7m4VMzQeEcG5t6NcI08DOrLC98/JJIkAoFwXQ
+ VAXDdDDT70pNNcha47tbPKOdcwtkzC7ao6rpBxKHMudns9lcMLzg11bxUQFmFUpaIihg
+ xUJHtISMbMOW0rFPCLCCyE2IxvO8KcxbwIAjK5YtOjKhMhIEh+OX+xOJ+NfAbVaNyXSm
+ lYDkDpW4z1hSfAb5nevZMMjoDhVEzZZoMX6BOV4x2SU1obdJh/zuQM12/XHcI7SKacjg
+ gDTWrGNCVd5E5sdn4YtmHNAFNjjVkczDia2TMEBzntWjwUh/evUN2WxYpaVVyZ+RVpGf
+ 4sIA==
+X-Gm-Message-State: AOAM5306tZc8uN+VY5X2c60kiQ3E/hFk7hgS+neG2Fdh9KpA53fGj/NT
+ L8ihckc0UfdzIu0rA8dz5dBYB67crY4ryriMeUtnkA==
+X-Google-Smtp-Source: ABdhPJwFtNhjRxK8/11Q23ml0ex8eHRaFXjrhLg0NQbDgJMQzMxM1VNF93Y3db+M2PI8Qgu1Pxr3dQOqXF/96tvmkHM=
+X-Received: by 2002:a4a:9528:: with SMTP id m37mr5149530ooi.85.1592502311500; 
+ Thu, 18 Jun 2020 10:45:11 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200603011317.473934-1-richard.henderson@linaro.org>
+ <20200603011317.473934-14-richard.henderson@linaro.org>
+ <CAFEAcA86dH_utZzXdbvwhB_67OgVGc249tO6TOBtfw+nWi2-7g@mail.gmail.com>
+ <bc120bc8-a08a-3b8e-cc31-e7c09e06a3a0@linaro.org>
+In-Reply-To: <bc120bc8-a08a-3b8e-cc31-e7c09e06a3a0@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 18 Jun 2020 18:38:29 +0100
-Message-ID: <CAFEAcA_HOxdK5rgKVnww6Bum3vGb=TrhDEp7oqDwsd=UbHmC_g@mail.gmail.com>
-Subject: what are the requirements on target/ code for -icount to work
- correctly?
-To: QEMU Developers <qemu-devel@nongnu.org>
+Date: Thu, 18 Jun 2020 18:45:00 +0100
+Message-ID: <CAFEAcA-v7uTL=j_78gkESbTiV8Q2JgRBoVz4spNekSyvSC0fUw@mail.gmail.com>
+Subject: Re: [PATCH v7 13/42] target/arm: Define arm_cpu_do_unaligned_access
+ for user-only
+To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::234;
- envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x234.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c43;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oo1-xc43.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -76,43 +82,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Pavel Dovgalyuk <dovgaluk@ispras.ru>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ Stephen Long <steplong@quicinc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For -icount mode to work, there are requirements on the target/
-code (notably around marking up "I/O" instructions). Unfortunately
-we've never documented what these are, which makes it pretty rough
-for people writing new targets or reviewing changes to existing ones.
-Does anybody understand what they actually are?
+On Thu, 18 Jun 2020 at 18:04, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+> First, this could definitely be delayed to the follow-on linux-user patch set.
+>
+> Second, in the linux-user patch set, I decode the syndrome data to determine
+> what kind of segv to deliver for MTE synchronous faults.  It would be easy to
+> extend that just a little to notice the usual syndrome for unaligned accesses.
+>  Which may be less confusing than abusing the v7m exception code?
 
-Some more specific questions on the general theme:
+Yeah, if we're going to look at syndrome data anyway that might
+be clearer.
 
-Q1: the comment on gen_io_end() says:
-/*
- * cpu->can_do_io is cleared automatically at the beginning of
- * each translation block.  The cost is minimal and only paid
- * for -icount, plus it would be very easy to forget doing it
- * in the translator.  Therefore, backends only need to call
- * gen_io_start.
- */
-but in fact multiple backends *do* call gen_io_end(). When
-does a backend have to call this, and when not? Or are those
-all legacy useless calls we should delete? (If so, can we
-just get rid of this function entirely ?)
-
-Q2: is it a requirement that after an insn which is a "known
-to be an I/O insn" one (like x86 in/out) and which is marked
-up with gen_io_start()/gen_io_end() that we also end the TB?
-Or is it OK to generate more insns after that one? If the former,
-is there somewhere we can assert() that this is done ?
-
-Q3: why does gen_tb_start() call gen_io_end()? This is the
-*start* of the TB so by definition we haven't started doing
-any IO yet...
+The other thing that really it would be nice if we were able
+to feed through (via syndrome info or otherwise) is the difference
+between SIGSEGV with si_code == SEGV_ACCERR vs SEGV_MAPERR.
+At the moment handle_cpu_signal() knows the difference, but it
+doesn't have a way to pass this through to tlb_fill, and then
+cpu_loop() has to make up a si_code when it gets the EXCP_DATA_ABORT.
+I mention this mostly in case it affects how you want to design
+how you treat alignment and MTE faults -- it might be that the
+si_code stuff is better dealt with entirely differently.
 
 thanks
 -- PMM
