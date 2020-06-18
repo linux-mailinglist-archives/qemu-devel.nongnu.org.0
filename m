@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 010151FEA94
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 07:04:15 +0200 (CEST)
-Received: from localhost ([::1]:55706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C76141FEA93
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 07:03:56 +0200 (CEST)
+Received: from localhost ([::1]:54156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlmij-000327-VS
-	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 01:04:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33300)
+	id 1jlmiR-0002Lb-PD
+	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 01:03:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jlmCt-0003Ip-KA
- for qemu-devel@nongnu.org; Thu, 18 Jun 2020 00:31:19 -0400
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:50786)
+ id 1jlmCu-0003LJ-EF
+ for qemu-devel@nongnu.org; Thu, 18 Jun 2020 00:31:20 -0400
+Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:33926)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jlmCr-0003Jz-G4
- for qemu-devel@nongnu.org; Thu, 18 Jun 2020 00:31:19 -0400
-Received: by mail-pj1-x102c.google.com with SMTP id jz3so1972646pjb.0
- for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 21:31:17 -0700 (PDT)
+ id 1jlmCs-0003KG-FI
+ for qemu-devel@nongnu.org; Thu, 18 Jun 2020 00:31:20 -0400
+Received: by mail-pf1-x441.google.com with SMTP id z63so2207961pfb.1
+ for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 21:31:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=aL3JmGTn7BB0ZGVDuD2d3mmxx3NlQruQfPzWzn6p43Q=;
- b=JHD6YF+WXSCLISzBczbonXfyKQNB+e/96xxwaTPQqqLqi/T8aSXR9EEOVT4EzoRK+K
- CuCZFnoSaFfqktvVdcaziWtLFeAATn2XFZKkSYjhn1EqRdq6prvjTHaf9zerbDsmFcTG
- /M94eqrlEpOaWTIa26mtyT6SVYdcdRG3arxW3I8N9Fah5+IOaNAwWCbmGEViurvsx8WA
- kQEHEJUDgaOFW0jmpQFkwfEP6SsNF6FzlEyQ6stk+24hCo7XZXuADH5KhikjDQvLKzt6
- 1UOCpfRedxTrF0i7GImW412JKYacY/4WOe8Yt6zZJ6fem2SqcS7UdD8XZYiYm6kuzb+J
- eQyw==
+ bh=sUjpYX85gvRbXx7OLAC50qSvAFYBPvgDJch2qLP0/gY=;
+ b=sGflO3zfvBANaU5bLcNPfwo8SNckoZ/9/+VWaJ8Fscf1YHVvFHYtVclMWsvPNuLODv
+ MJbi/XSG11GUYaWtC26gkiy+kau9HPW8tYlIUFdCbs2vNweFJ5SYCWwi3Bi7coFi9HLJ
+ 1ytid1qMQIfs6b7F+iMfyvFHZRSytMxRW7MbHS3229sDNpfX9DVYqaU5a3555jJTWptZ
+ aclXFGQO4zTWQHFQAtEOaIdwamvd5tfo9js6rNLOkafOLl86IYiitZKYzzVwhUcVuXQ1
+ Pu/gOcvuUELveiJ/0xyC+D/CsieO3kevhlmJ8MvyHsk9KnKsLQcfS25aa/DFTBMY9eBW
+ lCIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=aL3JmGTn7BB0ZGVDuD2d3mmxx3NlQruQfPzWzn6p43Q=;
- b=iZsHrBwV7V6N74Z/1RDkrCwD9EBmLjuQaJVfUQ9+0Jbdx4c+Qk5UW2LkIkycuyeMuL
- bbJg21fB/FQmZUqoaTpNz6nQXIsDD199+8LCHvndFyMlEU1G/KVDn89fXnd6QFnH49V1
- Sg/GN0lPnZACe3vqfFimUyXSWviWUHx8jFTc7ZhN9k7ohdMHh8iy1OV4MlwwqsaXwsVA
- gmeYmc3X2RtL3+0ljzalQLXEKasaR7bRqwQHBjVJ3wnyUsJEgSYHmGPqPwmEPvptO+Iw
- /kNwWcdSJ1q6YK+SUqLpnUM1hMrSEiSpjezlTLhKpRnfrmnZ3XIShmbwdZUIReor6084
- dKWg==
-X-Gm-Message-State: AOAM532Zadm36Ei7RMsBJ1DnWx8F1I7KnmV0fNk5W/LzP22JDab6AumZ
- yzTPqsXJ4oqIuoylryeGj0j3JNJuw1s=
-X-Google-Smtp-Source: ABdhPJxL8YugUJ+2zWyUQAr0jZK7kew9Yy86lGaFByqOuTKC6+2ag58zuL98Iyacs7jY8zskmDYPZg==
-X-Received: by 2002:a17:902:eb14:: with SMTP id
- l20mr2214389plb.189.1592454675656; 
- Wed, 17 Jun 2020 21:31:15 -0700 (PDT)
+ bh=sUjpYX85gvRbXx7OLAC50qSvAFYBPvgDJch2qLP0/gY=;
+ b=oVRgVXCb7EzmnowI/pvrh9w/MenC2h5N9YWp8HlOVr3NpyC2S5tR1BLyqG6fr4wVJ3
+ jTp/hMiJ5Fax+idmxNOfGP3heG4sJYEvQyD+GVKNCjw6GuysfttGNUhod2Qa6NfjYvFr
+ vbJBYfvoPIXysossypBcOsv7VN4hsoYST4IQH+n1r8c0HVjfVunh5V0QEsCi+clnl5DF
+ 6meOny73FFMMq4HaBwVNvws328FqpSNKF/Ub17FH2dZ2qy6jQ9hSG/1nn2zE3XG9VPbv
+ 8ZCGlZwVDXZpFpR7DteSWEOGn/VBK3QBq6E0q+Fxh0zwSr13hT0YkuuPP2pIQMABTmD/
+ AhHg==
+X-Gm-Message-State: AOAM531JHPqDSzaPnM4VGyNLOPHT8VnN7r84x8TMrRgdA5gBDT3cIhqB
+ FubQUoQaPwUXtH7WvgLPINy9TEsvoVE=
+X-Google-Smtp-Source: ABdhPJxA0TXeBEWgxpB+izctGP3IAwLMvSplFlvIT10m+HibjdygCr7UgncmYh64bBDijZCgRLcHxg==
+X-Received: by 2002:a63:495c:: with SMTP id y28mr1882590pgk.30.1592454676833; 
+ Wed, 17 Jun 2020 21:31:16 -0700 (PDT)
 Received: from localhost.localdomain (174-21-143-238.tukw.qwest.net.
  [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id o1sm974337pjf.17.2020.06.17.21.31.14
+ by smtp.gmail.com with ESMTPSA id o1sm974337pjf.17.2020.06.17.21.31.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Jun 2020 21:31:15 -0700 (PDT)
+ Wed, 17 Jun 2020 21:31:16 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 063/100] target/arm: Implement SVE2 SPLICE, EXT
-Date: Wed, 17 Jun 2020 21:26:07 -0700
-Message-Id: <20200618042644.1685561-64-richard.henderson@linaro.org>
+Subject: [PATCH v2 064/100] target/arm: Fix sve_uzp_p vs odd vector lengths
+Date: Wed, 17 Jun 2020 21:26:08 -0700
+Message-Id: <20200618042644.1685561-65-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200618042644.1685561-1-richard.henderson@linaro.org>
 References: <20200618042644.1685561-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::441;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -86,122 +85,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org, steplong@quicinc.com
+Cc: Laurent Desnogues <laurent.desnogues@gmail.com>, qemu-arm@nongnu.org,
+ steplong@quicinc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stephen Long <steplong@quicinc.com>
+Missed out on compressing the second half of a predicate
+with length vl % 512 > 256.
 
-Signed-off-by: Stephen Long <steplong@quicinc.com>
-Message-Id: <20200423180347.9403-1-steplong@quicinc.com>
-[rth: Rename the trans_* functions to *_sve2.]
+Adjust all of the x + (y << s) to x | (y << s) as a
+general style fix.
+
+Reported-by: Laurent Desnogues <laurent.desnogues@gmail.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/sve.decode      | 11 +++++++++--
- target/arm/translate-sve.c | 35 ++++++++++++++++++++++++++++++-----
- 2 files changed, 39 insertions(+), 7 deletions(-)
+ target/arm/sve_helper.c | 30 +++++++++++++++++++++---------
+ 1 file changed, 21 insertions(+), 9 deletions(-)
 
-diff --git a/target/arm/sve.decode b/target/arm/sve.decode
-index 11e724d3a2..0688dae450 100644
---- a/target/arm/sve.decode
-+++ b/target/arm/sve.decode
-@@ -494,10 +494,14 @@ CPY_z_i         00000101 .. 01 .... 00 . ........ .....   @rdn_pg4 imm=%sh8_i8s
+diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
+index b1bb2300f8..f0601bf25b 100644
+--- a/target/arm/sve_helper.c
++++ b/target/arm/sve_helper.c
+@@ -2971,7 +2971,7 @@ void HELPER(sve_uzp_p)(void *vd, void *vn, void *vm, uint32_t pred_desc)
+     if (oprsz <= 8) {
+         l = compress_bits(n[0] >> odd, esz);
+         h = compress_bits(m[0] >> odd, esz);
+-        d[0] = extract64(l + (h << (4 * oprsz)), 0, 8 * oprsz);
++        d[0] = l | (h << (4 * oprsz));
+     } else {
+         ARMPredicateReg tmp_m;
+         intptr_t oprsz_16 = oprsz / 16;
+@@ -2985,23 +2985,35 @@ void HELPER(sve_uzp_p)(void *vd, void *vn, void *vm, uint32_t pred_desc)
+             h = n[2 * i + 1];
+             l = compress_bits(l >> odd, esz);
+             h = compress_bits(h >> odd, esz);
+-            d[i] = l + (h << 32);
++            d[i] = l | (h << 32);
+         }
  
- ### SVE Permute - Extract Group
- 
--# SVE extract vector (immediate offset)
-+# SVE extract vector (destructive)
- EXT             00000101 001 ..... 000 ... rm:5 rd:5 \
-                 &rrri rn=%reg_movprfx imm=%imm8_16_10
- 
-+# SVE2 extract vector (constructive)
-+EXT_sve2        00000101 011 ..... 000 ... rn:5 rd:5 \
-+                &rri imm=%imm8_16_10
+-        /* For VL which is not a power of 2, the results from M do not
+-           align nicely with the uint64_t for D.  Put the aligned results
+-           from M into TMP_M and then copy it into place afterward.  */
++        /*
++         * For VL which is not a multiple of 512, the results from M do not
++         * align nicely with the uint64_t for D.  Put the aligned results
++         * from M into TMP_M and then copy it into place afterward.
++         */
+         if (oprsz & 15) {
+-            d[i] = compress_bits(n[2 * i] >> odd, esz);
++            int final_shift = (oprsz & 15) * 2;
 +
- ### SVE Permute - Unpredicated Group
++            l = n[2 * i + 0];
++            h = n[2 * i + 1];
++            l = compress_bits(l >> odd, esz);
++            h = compress_bits(h >> odd, esz);
++            d[i] = l | (h << final_shift);
  
- # SVE broadcast general register
-@@ -588,9 +592,12 @@ REVH            00000101 .. 1001 01 100 ... ..... .....         @rd_pg_rn
- REVW            00000101 .. 1001 10 100 ... ..... .....         @rd_pg_rn
- RBIT            00000101 .. 1001 11 100 ... ..... .....         @rd_pg_rn
+             for (i = 0; i < oprsz_16; i++) {
+                 l = m[2 * i + 0];
+                 h = m[2 * i + 1];
+                 l = compress_bits(l >> odd, esz);
+                 h = compress_bits(h >> odd, esz);
+-                tmp_m.p[i] = l + (h << 32);
++                tmp_m.p[i] = l | (h << 32);
+             }
+-            tmp_m.p[i] = compress_bits(m[2 * i] >> odd, esz);
++            l = m[2 * i + 0];
++            h = m[2 * i + 1];
++            l = compress_bits(l >> odd, esz);
++            h = compress_bits(h >> odd, esz);
++            tmp_m.p[i] = l | (h << final_shift);
  
--# SVE vector splice (predicated)
-+# SVE vector splice (predicated, destructive)
- SPLICE          00000101 .. 101 100 100 ... ..... .....         @rdn_pg_rm
- 
-+# SVE2 vector splice (predicated, constructive)
-+SPLICE_sve2     00000101 .. 101 101 100 ... ..... .....         @rd_pg_rn
-+
- ### SVE Select Vectors Group
- 
- # SVE select vector elements (predicated)
-diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index 0fa04afcaf..45ee91d3fe 100644
---- a/target/arm/translate-sve.c
-+++ b/target/arm/translate-sve.c
-@@ -2266,18 +2266,18 @@ static bool trans_CPY_z_i(DisasContext *s, arg_CPY_z_i *a)
-  *** SVE Permute Extract Group
-  */
- 
--static bool trans_EXT(DisasContext *s, arg_EXT *a)
-+static bool do_EXT(DisasContext *s, int rd, int rn, int rm, int imm)
- {
-     if (!sve_access_check(s)) {
-         return true;
+             swap_memmove(vd + oprsz / 2, &tmp_m, oprsz / 2);
+         } else {
+@@ -3010,7 +3022,7 @@ void HELPER(sve_uzp_p)(void *vd, void *vn, void *vm, uint32_t pred_desc)
+                 h = m[2 * i + 1];
+                 l = compress_bits(l >> odd, esz);
+                 h = compress_bits(h >> odd, esz);
+-                d[oprsz_16 + i] = l + (h << 32);
++                d[oprsz_16 + i] = l | (h << 32);
+             }
+         }
      }
- 
-     unsigned vsz = vec_full_reg_size(s);
--    unsigned n_ofs = a->imm >= vsz ? 0 : a->imm;
-+    unsigned n_ofs = imm >= vsz ? 0 : imm;
-     unsigned n_siz = vsz - n_ofs;
--    unsigned d = vec_full_reg_offset(s, a->rd);
--    unsigned n = vec_full_reg_offset(s, a->rn);
--    unsigned m = vec_full_reg_offset(s, a->rm);
-+    unsigned d = vec_full_reg_offset(s, rd);
-+    unsigned n = vec_full_reg_offset(s, rn);
-+    unsigned m = vec_full_reg_offset(s, rm);
- 
-     /* Use host vector move insns if we have appropriate sizes
-      * and no unfortunate overlap.
-@@ -2296,6 +2296,19 @@ static bool trans_EXT(DisasContext *s, arg_EXT *a)
-     return true;
- }
- 
-+static bool trans_EXT(DisasContext *s, arg_EXT *a)
-+{
-+    return do_EXT(s, a->rd, a->rn, a->rm, a->imm);
-+}
-+
-+static bool trans_EXT_sve2(DisasContext *s, arg_rri *a)
-+{
-+    if (!dc_isar_feature(aa64_sve2, s)) {
-+        return false;
-+    }
-+    return do_EXT(s, a->rd, a->rn, (a->rn + 1) % 32, a->imm);
-+}
-+
- /*
-  *** SVE Permute - Unpredicated Group
-  */
-@@ -3023,6 +3036,18 @@ static bool trans_SPLICE(DisasContext *s, arg_rprr_esz *a)
-     return true;
- }
- 
-+static bool trans_SPLICE_sve2(DisasContext *s, arg_rpr_esz *a)
-+{
-+    if (!dc_isar_feature(aa64_sve2, s)) {
-+        return false;
-+    }
-+    if (sve_access_check(s)) {
-+        gen_gvec_ool_zzzp(s, gen_helper_sve_splice,
-+                          a->rd, a->rn, (a->rn + 1) % 32, a->pg, 0);
-+    }
-+    return true;
-+}
-+
- /*
-  *** SVE Integer Compare - Vectors Group
-  */
 -- 
 2.25.1
 
