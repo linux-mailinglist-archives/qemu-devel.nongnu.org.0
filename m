@@ -2,67 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBB3E1FF1F4
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 14:35:40 +0200 (CEST)
-Received: from localhost ([::1]:50430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01AA61FF212
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 14:39:29 +0200 (CEST)
+Received: from localhost ([::1]:38894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jltlb-00060A-Sc
-	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 08:35:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52072)
+	id 1jltpI-0005Ui-0g
+	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 08:39:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jltk5-0004Jb-RW
- for qemu-devel@nongnu.org; Thu, 18 Jun 2020 08:34:05 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:44317
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jltkB-0004Om-QM
+ for qemu-devel@nongnu.org; Thu, 18 Jun 2020 08:34:11 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27904
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jltk3-0004lZ-JP
- for qemu-devel@nongnu.org; Thu, 18 Jun 2020 08:34:05 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jltkA-0004mI-3v
+ for qemu-devel@nongnu.org; Thu, 18 Jun 2020 08:34:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592483643;
+ s=mimecast20190719; t=1592483649;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YldnbglfueR/JxDNR3GOT5PAuLJHMwf8AbnvT6htMeE=;
- b=isNmxjqM24TU6n3GzOZZ9x4spgY+aDtQHt6EjMKW6rFUrCHX6wGc3EWUlllHScYtlW5jeb
- knIot/aTjWaTSXLEMCD76dOIlVrQEmGjAlNGWf5cbk5Y0nIJLJX4SDxwiMThmVqCJDO5t8
- ihF9orqkhRvP/5jMuIQ+btkBctJyXvw=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-63-Qxdl8fWPMqeVicchOqh2jw-1; Thu, 18 Jun 2020 08:34:00 -0400
-X-MC-Unique: Qxdl8fWPMqeVicchOqh2jw-1
-Received: by mail-wr1-f71.google.com with SMTP id r5so2748693wrt.9
- for <qemu-devel@nongnu.org>; Thu, 18 Jun 2020 05:34:00 -0700 (PDT)
+ bh=qGm35NS9TNX7NuxVc5/FgVKm25dd/CU0oP9YFDrfAng=;
+ b=SuMfU9lrBTBjHT28wHKPxuZLINzsCr+V5yYm6e1tF9J6zhgZgTH0j2kyNDkzSuf07CNQeF
+ SyChXAUsBLPP7yNs/rchEUdzzXN9qHzZj7TY9hHAYg4Z/EKiZ/oMqA9jdzLZ1eZHYLqona
+ rr5tEc/uRr94iZilG69ZSw6+CkwBegU=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-194-gbxQFzL4PiGlBvycm5HSpA-1; Thu, 18 Jun 2020 08:34:05 -0400
+X-MC-Unique: gbxQFzL4PiGlBvycm5HSpA-1
+Received: by mail-wr1-f69.google.com with SMTP id w4so2750760wrl.13
+ for <qemu-devel@nongnu.org>; Thu, 18 Jun 2020 05:34:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=YldnbglfueR/JxDNR3GOT5PAuLJHMwf8AbnvT6htMeE=;
- b=FSL5rdIKd2p90ifckB4JwN38FK/shwpxIU67YQlO9/wZdCPHVhZxQgPFJHCAxrPEPx
- wYTroQpy+TjP5gf7+meHvQaA5ACojLmhvPragy8vJNASXQgoNVmy7vo1EUu7HnYOnMuz
- cdRThok/N8tGjVXzZ5cKOIWM6BWOHPUNygY/r4bYl+StFiqgzgH1jo7DY1cwqw6hke4p
- CDI1hWX4Ynm7FT4jfg8D+REm2f3eifdduHbciGYOmzvEYENi86NvpC3SdJXpdPqxPTAs
- GeXAc+gS5c18/2xqV3RZuU0haIRYwoL8zAt3d90xDdm6eY9FSggrcMWmRRq3QKP2jBPU
- aVew==
-X-Gm-Message-State: AOAM530EQkn9e2+Q0XXS02icGczqFuHdWaDJ/U6vPOCV7GnFYxULFwN2
- HzKjwYX/nlriGuwpHTDofU+lMG7oLyEkbqdNoYGaxN213sqX0VjFrWPnlu0pRJXs9PSDez2HJMf
- rn6hBXJhcm+4JJyw=
-X-Received: by 2002:a5d:4710:: with SMTP id y16mr4501810wrq.189.1592483639354; 
- Thu, 18 Jun 2020 05:33:59 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwqrO3zrA4hgzKR/Nsj9dOwgIrb4dyU5vvx8n8L1MVW3efYapJkfriD5Maaedj8FxDEZ4ZeFA==
-X-Received: by 2002:a5d:4710:: with SMTP id y16mr4501799wrq.189.1592483639201; 
- Thu, 18 Jun 2020 05:33:59 -0700 (PDT)
+ bh=qGm35NS9TNX7NuxVc5/FgVKm25dd/CU0oP9YFDrfAng=;
+ b=ozbRlJ1QF+2KI40h8/MuxBKP+Mmy2CEWTxn0F1Q6pT0ayuxUoUxd2rHYDTWyO7ioIO
+ 5SkCRw53GwiiC1vd4r4hxQMtQHK1cUAxoipTEcV+ciEBnF2Z2SzXz6Wqmk03DGwGmC3v
+ 03B9YlqT5xSwn1EXOryLT6Uig+vEvMGbrsPM0rGRYl2RsEA69Kx+W9KUmPJ3pE8gojGZ
+ +DpGHm7TdiECZ4nRIfD74Ijlcli+UphmiwJfyo0qkp0om5UUA4BE497Wi+8puSsJJleK
+ H9OMiNoyWcns2DqC/ZhgbAzUr+/tHH0FDS+ohRC+m2tmhFsIl2TWwoCnMRbRasw1vE6T
+ zAjQ==
+X-Gm-Message-State: AOAM530tJC09Nyq9uBZxFqvkBUN8RzT2j4pwv6iBq8C4kURqi+kRuTRP
+ 3hVZ1EQxJ+/ZB/fUXpw7EU4sAQcPnUIvFfWfUJYv3T48LCdnNOyByoqwt2zoz4dRak1/JPRDCzW
+ Z+tlMHrZgJd5I+zc=
+X-Received: by 2002:a05:6000:10cf:: with SMTP id
+ b15mr4335089wrx.214.1592483643968; 
+ Thu, 18 Jun 2020 05:34:03 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw71Y5QCb+2TRfiq3gVG0S5v4Pewe7HyoiaGE+3scgR8fl+iA9L6r+2Ovj/9LN8zdKl55a6/w==
+X-Received: by 2002:a05:6000:10cf:: with SMTP id
+ b15mr4335066wrx.214.1592483643748; 
+ Thu, 18 Jun 2020 05:34:03 -0700 (PDT)
 Received: from localhost.localdomain (93.red-83-59-160.dynamicip.rima-tde.net.
  [83.59.160.93])
- by smtp.gmail.com with ESMTPSA id o15sm3450918wrv.48.2020.06.18.05.33.58
+ by smtp.gmail.com with ESMTPSA id j14sm3465557wrs.75.2020.06.18.05.34.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 18 Jun 2020 05:33:58 -0700 (PDT)
+ Thu, 18 Jun 2020 05:34:03 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v9 03/10] MAINTAINERS: Cover the HAX accelerator stub
-Date: Thu, 18 Jun 2020 14:33:35 +0200
-Message-Id: <20200618123342.10693-4-philmd@redhat.com>
+Subject: [PATCH v9 04/10] configure: Generate rule to calculate the base
+ architecture of a target
+Date: Thu, 18 Jun 2020 14:33:36 +0200
+Message-Id: <20200618123342.10693-5-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200618123342.10693-1-philmd@redhat.com>
 References: <20200618123342.10693-1-philmd@redhat.com>
@@ -72,16 +75,16 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/18 01:47:12
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/18 01:21:16
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,29 +100,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cover accel/stubs/hax-stub.c in the HAXM section.
+From: Alex Bennée <alex.bennee@linaro.org>
 
+As we encode the base architecture in configure.sh, we can emit
+the base-arch() function into config-host.mak.
+
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
+ configure | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 426439a2c3..cebb0d385a 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -476,6 +476,7 @@ M: Colin Xu <colin.xu@intel.com>
- L: haxm-team@intel.com
- W: https://github.com/intel/haxm/issues
- S: Maintained
-+F: accel/stubs/hax-stub.c
- F: include/sysemu/hax.h
- F: target/i386/hax-*
+diff --git a/configure b/configure
+index ba88fd1824..c0d7fbc30e 100755
+--- a/configure
++++ b/configure
+@@ -7927,6 +7927,8 @@ if test "$linux" = "yes" ; then
+     fi
+ fi
  
++target_to_base_map=""
++
+ for target in $target_list; do
+ target_dir="$target"
+ config_target_mak=$target_dir/config-target.mak
+@@ -8155,6 +8157,7 @@ target_arch_name="$(upper $TARGET_ARCH)"
+ echo "TARGET_$target_arch_name=y" >> $config_target_mak
+ echo "TARGET_NAME=$target_name" >> $config_target_mak
+ echo "TARGET_BASE_ARCH=$TARGET_BASE_ARCH" >> $config_target_mak
++target_to_base_map="$target_dir,$TARGET_BASE_ARCH $target_to_base_map"
+ if [ "$TARGET_ABI_DIR" = "" ]; then
+   TARGET_ABI_DIR=$TARGET_ARCH
+ fi
+@@ -8370,6 +8373,22 @@ if test "$ccache_cpp2" = "yes"; then
+   echo "export CCACHE_CPP2=y" >> $config_host_mak
+ fi
+ 
++# Export a rule for calculating base arch from target_dir for use by
++# the Kconfig generator
++echo "# Usage: \$(call base-arch, target-dir)" >> $config_host_mak
++echo "# Return the base architecture for a target." >> $config_host_mak
++echo "# e.g \$(call base-arch, aarch64-linux-user) returns 'arm'" >> $config_host_mak
++echo "base-arch = \$(strip \\" >> $config_host_mak
++close_braces=""
++for pairs in $target_to_base_map
++do
++    dir="${pairs%%,*}"
++    base="${pairs#*,}"
++    echo "\$(if \$(findstring $dir,\$1),$base, \\" >> $config_host_mak
++    close_braces="$close_braces )"
++done
++echo "$close_braces )" >> $config_host_mak
++
+ # If we're using a separate build tree, set it up now.
+ # DIRS are directories which we simply mkdir in the build tree;
+ # LINKS are things to symlink back into the source tree
 -- 
 2.21.3
 
