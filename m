@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 312091FF372
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 15:44:58 +0200 (CEST)
-Received: from localhost ([::1]:60998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F40731FF36C
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 15:44:04 +0200 (CEST)
+Received: from localhost ([::1]:57536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jluqf-0003tp-6u
-	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 09:44:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44170)
+	id 1jlupo-0002PE-0w
+	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 09:44:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jludy-0006s1-5m
- for qemu-devel@nongnu.org; Thu, 18 Jun 2020 09:31:50 -0400
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:40822)
+ id 1jlufK-0000Qu-8R
+ for qemu-devel@nongnu.org; Thu, 18 Jun 2020 09:33:14 -0400
+Received: from mail-oo1-xc44.google.com ([2607:f8b0:4864:20::c44]:46921)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jludv-0007iX-JP
- for qemu-devel@nongnu.org; Thu, 18 Jun 2020 09:31:49 -0400
-Received: by mail-oi1-x242.google.com with SMTP id t25so5048416oij.7
- for <qemu-devel@nongnu.org>; Thu, 18 Jun 2020 06:31:47 -0700 (PDT)
+ id 1jlufI-00083u-Jp
+ for qemu-devel@nongnu.org; Thu, 18 Jun 2020 09:33:13 -0400
+Received: by mail-oo1-xc44.google.com with SMTP id z145so1159208ooa.13
+ for <qemu-devel@nongnu.org>; Thu, 18 Jun 2020 06:33:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=fkjHCDpYTARpMaa7D3EA8CbN8CCSa+lbQaizLJq9WzQ=;
- b=neU5bLcQUTRTlbiT92KjLzVjMtyn9VDgYDJtL7V7VKulrYO0RQAPd7n8bpen501Ihy
- lfz3d5OejwmMdU67R/dxKyPpMpwd0sDxIPBEDX5wA072/pUHRnFEahxFMaKq5dZITcw2
- lzX0jeGvTPaicf5WqjNleyF6ha7+UOg/JEuiusmn3A18iwL9vpCTjfxLglAGO9CcD8Q/
- Sb7fvxCAaaPQMdZKFkvD2mwDwMkFzjzM9qiZULGW2FkTV5/3lbrKDi5tYorhh7MQ+IXW
- oKtmDLVeaUn9VrlEJNuYGpFSYAEJN6Q2VqOS0sqqjcQ4fqzPRbdicF+E+BnHs+U/G6W4
- mMbw==
+ :cc; bh=kGdauocYF4BXlU7/FEGOo5Z/ZRwkBSG/D6g35P04CXo=;
+ b=OyLKuICeazjBy/JWVyIKR1Iphrh4PHhbxQDEDXYd1+JW0h1Cd8GrCt2/PzxryxPmhZ
+ ho9gi5rE8P7/0y4E9EmuU8vjeqGeSHbbeN1RekfgVM+a1BuBCRQ5oKfsIwISviDIBwwG
+ bh21GZCE5Ph0d8bGDEa6/EQklWka8oMjZLyYkGNOFCBeY+wHMbTBTf1NJ/QJ/bXkfysq
+ NLA8MveQ+2WpTA5p4FKkuWhhlSrVjakh3XWp0017zY/B5q8WxB7b7iqVuXctMf/Vy8JK
+ sfBqk0UCT33SYML4n4YNHkpsaqM7CtgwlQAmNAhZoO5DNMA+ElUrj7tJlvKvCPsp+Ato
+ +QDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=fkjHCDpYTARpMaa7D3EA8CbN8CCSa+lbQaizLJq9WzQ=;
- b=Vkg6/ggiKffUTr+LUf3biJIybrNa4DySlcBJDEDHIwIOER3S+xucXiVVzkRsLKEyAj
- 1lATKWGpur2bS5Na9qZp4Wm2YihOOcbfeE2HXn6mlr3QFF2QtQIA27HkSX4lF5MI6noQ
- esR36C6wjmW9grGsZzJ8DRA7GHhQra0+ySpm/Ul174LXFfYdykTTGHugk0JVmRk9y2Mv
- gFtLtsh1uWxWKfurcXWRO6YFmKipzCa17MX9qs3mvqGfZ2N8S848M19rthIl4TzVJ+Pu
- LIfk57aniaiaRils+NBl/MqLfvkW2TpYisChbX4vHYaaRHNiRZ6tUG5uepblGqJl75wV
- OmxA==
-X-Gm-Message-State: AOAM531Msty/ie6gT9b6NheqmFk5e4jdC2V+pEQmWOnANg0FpkofxoYe
- EU0Qbt/pXavd3yF6Fmv3UyszYi6jWykHrpP9znjpFw==
-X-Google-Smtp-Source: ABdhPJxdc4vAscDrz4EpncLc883tbRX4PBNAtjKSrJW5MHLHrQpcWrKqP0A69XxTDILsrOGPWfctYS5tQM5+gcgcL98=
-X-Received: by 2002:aca:5152:: with SMTP id f79mr2780017oib.146.1592487106235; 
- Thu, 18 Jun 2020 06:31:46 -0700 (PDT)
+ bh=kGdauocYF4BXlU7/FEGOo5Z/ZRwkBSG/D6g35P04CXo=;
+ b=sIRP4YknVYPDpH6er/xOZcWP8+6L6/8gBexecU4PAzFP4VSY4W9uawxleehpR1pRTN
+ MEoj17c6D+ShEpLyPyYxg2QTx9yP25fZjPW+pvNnXdxEGQC70mq3tvAZL83dr8At4arb
+ W3N7HXruJzckZ04uKaWU1mYIEL3ZbRW0D4KeGXCtwB8/apMqZnvcP/BqCHUByfL+GWre
+ 9kKkLkBruhM+zSwLNGS8NnyPzHdfkNBWOl848861ELzDo67PlPi+CB0MN/PuzmuB+bvd
+ Y6PkaozKxT7yqE0eOVzNR9ThylMhMmlqSFSme5gcR1OgMRmeeqBfr6RkMsWO3BU5L5qv
+ 8rAA==
+X-Gm-Message-State: AOAM5329DmCRxIzcn1tEBWBYJpKd66j5g81uRKKv9297HO9RlvT6UV31
+ j7KwC7hScA6Bgp37GZ/EqvZNcVJiYtIOlLf1zXf6QbPQVGw=
+X-Google-Smtp-Source: ABdhPJzqWGb1euoNfWbIkrrK1cLNMK4QW3oJmyHfVnztt0GtFyI0E1tMMR+VojEuHxsEhs/ZLJw+Qs/4Bf5jVyrnTG4=
+X-Received: by 2002:a4a:9528:: with SMTP id m37mr3989128ooi.85.1592487191322; 
+ Thu, 18 Jun 2020 06:33:11 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200603011317.473934-1-richard.henderson@linaro.org>
- <20200603011317.473934-14-richard.henderson@linaro.org>
-In-Reply-To: <20200603011317.473934-14-richard.henderson@linaro.org>
+ <20200603011317.473934-15-richard.henderson@linaro.org>
+In-Reply-To: <20200603011317.473934-15-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 18 Jun 2020 14:31:35 +0100
-Message-ID: <CAFEAcA86dH_utZzXdbvwhB_67OgVGc249tO6TOBtfw+nWi2-7g@mail.gmail.com>
-Subject: Re: [PATCH v7 13/42] target/arm: Define arm_cpu_do_unaligned_access
- for user-only
+Date: Thu, 18 Jun 2020 14:33:00 +0100
+Message-ID: <CAFEAcA9EJB8Oa5c7emh-cKMmZRUPa8rRvvvXsHUJWO51gUaDvA@mail.gmail.com>
+Subject: Re: [PATCH v7 14/42] target/arm: Add helper_probe_access
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::242;
- envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x242.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c44;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oo1-xc44.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,24 +87,34 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Wed, 3 Jun 2020 at 02:13, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> We need this to raise unaligned exceptions from user mode.
+> Raise an exception if the given virtual memory is not accessible.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
-> v6: Use EXCP_UNALIGNED for user-only and update cpu_loop.c.
 
-Could you update the comment in cpu.h, maybe something like:
-#define EXCP_UNALIGNED      22   /* v7M UNALIGNED UsageFault; also linux-user */
+> diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+> index 0ee2ef403e..b032829194 100644
+> --- a/target/arm/translate-a64.c
+> +++ b/target/arm/translate-a64.c
+> @@ -232,6 +232,19 @@ static void gen_address_with_allocation_tag0(TCGv_i64 dst, TCGv_i64 src)
+>      tcg_gen_andi_i64(dst, src, ~MAKE_64BIT_MASK(56, 4));
+>  }
+>
+> +static void gen_probe_access(DisasContext *s, TCGv_i64 ptr,
+> +                             MMUAccessType acc, int log2_size)
+> +{
+> +    TCGv_i32 t_acc = tcg_const_i32(acc);
+> +    TCGv_i32 t_idx = tcg_const_i32(get_mem_index(s));
+> +    TCGv_i32 t_size = tcg_const_i32(1 << log2_size);
+> +
+> +    gen_helper_probe_access(cpu_env, ptr, t_acc, t_idx, t_size);
+> +    tcg_temp_free_i32(t_acc);
+> +    tcg_temp_free_i32(t_idx);
+> +    tcg_temp_free_i32(t_size);
+> +}
 
-and also update the string printed by arm_log_exception():
-#ifdef CONFIG_USER_ONLY
-            [EXCP_UNALIGNED] = "linux-user unaligned access fault",
-#else
-            [EXCP_UNALIGNED] = "v7M UNALIGNED UsageFault",
-#endif
-
-Otherwise
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+This isn't called from anywhere -- clang is probably going to
+complain about that.
 
 thanks
 -- PMM
