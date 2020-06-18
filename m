@@ -2,81 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E7461FF7E9
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 17:48:43 +0200 (CEST)
-Received: from localhost ([::1]:42786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D06DD1FF814
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 17:52:28 +0200 (CEST)
+Received: from localhost ([::1]:48496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlwmQ-0005WC-OW
-	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 11:48:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33760)
+	id 1jlwq3-0001Y0-Mm
+	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 11:52:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jlwhZ-0007bn-7e
- for qemu-devel@nongnu.org; Thu, 18 Jun 2020 11:43:41 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:29436
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jlwhX-0000u6-3w
- for qemu-devel@nongnu.org; Thu, 18 Jun 2020 11:43:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592495018;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5zrIqMX8xTE/RgeCFBWMQyxbDigu9jXkKkXY6EJS5Rw=;
- b=FLtrFQlbixyh5WRBzRvXnefvSCXI3oXxSUCc/KSfv/MrJzidgqVhvDwwODaGADdCpPtftj
- 68Iei7GH3gk8QafimliNXrKYRvxDOCP7uG8U87wlW25wLVWoTq7SBMgGKqUTFS2JRef5ep
- 9x09lFaNVMhrmvbEIOriCrdzvkTxj3c=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-318-6HmVXCqMPgWqyDC2JetvOw-1; Thu, 18 Jun 2020 11:43:31 -0400
-X-MC-Unique: 6HmVXCqMPgWqyDC2JetvOw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 94652107ACCA;
- Thu, 18 Jun 2020 15:43:30 +0000 (UTC)
-Received: from redhat.com (unknown [10.36.110.61])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3E7AF5C1D0;
- Thu, 18 Jun 2020 15:43:26 +0000 (UTC)
-Date: Thu, 18 Jun 2020 16:43:23 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH 2/2] scripts/tracetool: Add plainlog backend
-Message-ID: <20200618154323.GK671599@redhat.com>
-References: <20200617134505.9D06E7482D3@zero.eik.bme.hu>
- <20200618073124.GA1956319@stefanha-x1.localdomain>
- <20200618090741.GC671599@redhat.com>
- <20200618153516.GE1956319@stefanha-x1.localdomain>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jlwp1-0008Ua-Mf
+ for qemu-devel@nongnu.org; Thu, 18 Jun 2020 11:51:23 -0400
+Received: from indium.canonical.com ([91.189.90.7]:57366)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jlwox-0002oB-Oo
+ for qemu-devel@nongnu.org; Thu, 18 Jun 2020 11:51:23 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jlwov-0005es-MW
+ for <qemu-devel@nongnu.org>; Thu, 18 Jun 2020 15:51:17 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id A78EB2E806B
+ for <qemu-devel@nongnu.org>; Thu, 18 Jun 2020 15:51:17 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200618153516.GE1956319@stefanha-x1.localdomain>
-User-Agent: Mutt/1.14.0 (2020-05-02)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=berrange@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/18 01:21:16
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 18 Jun 2020 15:45:02 -0000
+From: Ronald Antony <1818075@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: pmaydell rcfa ross
+X-Launchpad-Bug-Reporter: Ross Burton (ross)
+X-Launchpad-Bug-Modifier: Ronald Antony (rcfa)
+References: <155136199055.29310.6029801353341134939.malonedeb@chaenomeles.canonical.com>
+Message-Id: <159249510247.6619.7405437862109684672.malone@soybean.canonical.com>
+Subject: [Bug 1818075] Re: qemu x86 TCG doesn't support AVX insns
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="1cbd0aa39df153c901321817f9b57cf3f232b507";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 01f6421520c3a02fcdc12a6045327b410c2c164c
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/18 11:20:43
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -85,109 +71,143 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org
+Reply-To: Bug 1818075 <1818075@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 18, 2020 at 04:35:16PM +0100, Stefan Hajnoczi wrote:
-> On Thu, Jun 18, 2020 at 10:07:41AM +0100, Daniel P. Berrangé wrote:
-> > On Thu, Jun 18, 2020 at 08:31:24AM +0100, Stefan Hajnoczi wrote:
-> > > On Wed, Jun 17, 2020 at 03:36:29PM +0200, BALATON Zoltan wrote:
-> > > > Add a backend that is the same as the log backend but omits the
-> > > > process id and timestamp so logs are easier to read and diff-able.
-> > > > 
-> > > > Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-> > > > ---
-> > > >  scripts/tracetool/backend/plainlog.py | 48 +++++++++++++++++++++++++++
-> > > >  1 file changed, 48 insertions(+)
-> > > >  create mode 100644 scripts/tracetool/backend/plainlog.py
-> > > > 
-> > > > diff --git a/scripts/tracetool/backend/plainlog.py b/scripts/tracetool/backend/plainlog.py
-> > > > new file mode 100644
-> > > > index 0000000000..40bbfa6d76
-> > > > --- /dev/null
-> > > > +++ b/scripts/tracetool/backend/plainlog.py
-> > > > @@ -0,0 +1,48 @@
-> > > > +# -*- coding: utf-8 -*-
-> > > > +
-> > > > +"""
-> > > > +Stderr built-in backend, plain log without proc ID and time.
-> > > > +"""
-> > > > +
-> > > > +__author__     = "Llu????s Vilanova <vilanova@ac.upc.edu>"
-> > > > +__copyright__  = "Copyright 2012-2017, Llu????s Vilanova <vilanova@ac.upc.edu>"
-> > > 
-> > > There is a Unicode issue here, Lluís' name is not printed correctly.
-> > > 
-> > > > +__license__    = "GPL version 2 or (at your option) any later version"
-> > > > +
-> > > > +__maintainer__ = "Stefan Hajnoczi"
-> > > > +__email__      = "stefanha@linux.vnet.ibm.com"
-> > > > +
-> > > > +
-> > > > +from tracetool import out
-> > > > +
-> > > > +
-> > > > +PUBLIC = True
-> > > > +
-> > > > +
-> > > > +def generate_h_begin(events, group):
-> > > > +    out('#include "qemu/log-for-trace.h"',
-> > > > +        '')
-> > > > +
-> > > > +
-> > > > +def generate_h(event, group):
-> > > > +    argnames = ", ".join(event.args.names())
-> > > > +    if len(event.args) > 0:
-> > > > +        argnames = ", " + argnames
-> > > > +
-> > > > +    if "vcpu" in event.properties:
-> > > > +        # already checked on the generic format code
-> > > > +        cond = "true"
-> > > > +    else:
-> > > > +        cond = "trace_event_get_state(%s)" % ("TRACE_" + event.name.upper())
-> > > > +
-> > > > +    out('    if (%(cond)s && qemu_loglevel_mask(LOG_TRACE)) {',
-> > > > +        '        qemu_log("%(name)s " %(fmt)s "\\n" %(argnames)s);',
-> > > > +        '    }',
-> > > > +        cond=cond,
-> > > > +        name=event.name,
-> > > > +        fmt=event.fmt.rstrip("\n"),
-> > > > +        argnames=argnames)
-> > > 
-> > > It is not necessary to introduce a new backend. There could be an option
-> > > that controls whether or not the timestamp/tid is printed. For example,
-> > > -trace timestamp=off or maybe the timestmap/tid can be integrated into
-> > > qemu_log() itself so that it's used more consistently and a -d timestamp
-> > > option enables it.
-> > 
-> > QEMU already has a "-msg timestamp=on|off" option that controls whether
-> > error reports on stderr get a timestamp. I think it is probably reasonable
-> > for this existing option to apply to anything QEMU prints to stdout/err,
-> > and thus we could wire it up for qemu_log().
-> 
-> I thought about that but the features are somewhat unrelated.
-> 
-> If we unify them, how about making the timestamp/tid apply to *all*
-> qemu_log() output, not just tracing?
+If I may be so free:
 
-That's exactly what I intended.
+It seems that QEMU has stopped emphasizing the EMU part of the name, and
+is too much focused on virtualization.
 
-Essentially if QEMU is going to add timestamps to things it writes to
-stdout/err, then it should do that universally for all parts of the code
-base that use stdio. This means error_report(), qemu_log(), and any
-other places that are relevant wrt stdio.
+My interest is at running legacy operating systems, and as such, they must =
+run on foreign CPU platforms. m68 on intel, intel on ARM, etc.
+Time doesn't stand still, and reliance on KVM and similar x86-on-x86 tricks=
+, which allow the delegation of certain CPU features to the host CPU is goi=
+ng to not work going forward.
 
-Having separate timestamp on/off switches for each feature is not
-desirable.
+If the rumored transition of Apple to ARM is going to take place, people
+will want to e.g. emulate for testing or legacy purposes a variety of
+operating systems, incl. earlier versions of MacOS.
 
+Testing that scenario, i.e. macOS on an ARM board with the lowest
+possible CPU capable of running modern macOS, results in these problems
+(and of course utter failure achieving the goal):
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+qemu-system-x86_64: warning: TCG doesn't support requested feature: CPUID.0=
+1H:ECX.fma [bit 12]
+qemu-system-x86_64: warning: TCG doesn't support requested feature: CPUID.0=
+1H:ECX.avx [bit 28]
+qemu-system-x86_64: warning: TCG doesn't support requested feature: CPUID.0=
+7H:EBX.avx2 [bit 5]
+qemu-system-x86_64: warning: TCG doesn't support requested feature: CPUID.8=
+0000007H:EDX.invtsc [bit 8]
+qemu-system-x86_64: warning: TCG doesn't support requested feature: CPUID.0=
+DH:EAX.xsavec [bit 1]
 
+And this is emulating a lowly Penryn CPU with the required CPU flags for ma=
+cOS:
+-cpu Penryn,vendor=3DGenuineIntel,+sse3,+sse4.2,+aes,+xsave,+avx,+xsaveopt,=
++xsavec,+xgetbv1,+avx2,+bmi2,+smep,+bmi1,+fma,+movbe,+invtsc
+
+Attempting to emulate a more feature laden intel CPU results in even
+more issues.
+
+I would propose that no CPU should be considered supported unless it can
+be fully handled by TCG on a non-native host. KVM, native-on-native etc.
+are nice to have, but peripheral to qEMUlation when it boils down to it.
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1818075
+
+Title:
+  qemu x86 TCG doesn't support AVX insns
+
+Status in QEMU:
+  New
+
+Bug description:
+  I'm trying to execute code that has been built with -march=3Dskylake
+  -mtune=3Dgeneric -mavx2 under qemu-user x86-64 with -cpu Skylake-Client.
+  However this code just hangs at 100% CPU.
+
+  Adding input tracing shows that it is likely hanging when dealing with
+  an AVX instruction:
+
+  warning: TCG doesn't support requested feature: CPUID.01H:ECX.fma [bit 12]
+  warning: TCG doesn't support requested feature: CPUID.01H:ECX.pcid [bit 1=
+7]
+  warning: TCG doesn't support requested feature: CPUID.01H:ECX.x2apic [bit=
+ 21]
+  warning: TCG doesn't support requested feature: CPUID.01H:ECX.tsc-deadlin=
+e [bit 24]
+  warning: TCG doesn't support requested feature: CPUID.01H:ECX.avx [bit 28]
+  warning: TCG doesn't support requested feature: CPUID.01H:ECX.f16c [bit 2=
+9]
+  warning: TCG doesn't support requested feature: CPUID.01H:ECX.rdrand [bit=
+ 30]
+  warning: TCG doesn't support requested feature: CPUID.07H:EBX.hle [bit 4]
+  warning: TCG doesn't support requested feature: CPUID.07H:EBX.avx2 [bit 5]
+  warning: TCG doesn't support requested feature: CPUID.07H:EBX.invpcid [bi=
+t 10]
+  warning: TCG doesn't support requested feature: CPUID.07H:EBX.rtm [bit 11]
+  warning: TCG doesn't support requested feature: CPUID.07H:EBX.rdseed [bit=
+ 18]
+  warning: TCG doesn't support requested feature: CPUID.80000001H:ECX.3dnow=
+prefetch [bit 8]
+  warning: TCG doesn't support requested feature: CPUID.0DH:EAX.xsavec [bit=
+ 1]
+
+  IN:
+  0x4000b4ef3b:  c5 fb 5c ca              vsubsd   %xmm2, %xmm0, %xmm1
+  0x4000b4ef3f:  c4 e1 fb 2c d1           vcvttsd2si %xmm1, %rdx
+  0x4000b4ef44:  4c 31 e2                 xorq     %r12, %rdx
+  0x4000b4ef47:  48 85 d2                 testq    %rdx, %rdx
+  0x4000b4ef4a:  79 9e                    jns      0x4000b4eeea
+
+  [ hangs ]
+
+  Attaching a gdb produces this stacktrace:
+
+  (gdb) bt
+  #0  canonicalize (status=3D0x55a20ff67a88, parm=3D0x55a20bb807e0 <float64=
+_params>, part=3D...)
+      at /data/poky-tmp/master/work/x86_64-linux/qemu-native/3.1.0-r0/qemu-=
+3.1.0/fpu/softfloat.c:350
+  #1  float64_unpack_canonical (s=3D0x55a20ff67a88, f=3D0)
+      at /data/poky-tmp/master/work/x86_64-linux/qemu-native/3.1.0-r0/qemu-=
+3.1.0/fpu/softfloat.c:547
+  #2  float64_sub (a=3D0, b=3D4890909195324358656, status=3D0x55a20ff67a88)
+      at /data/poky-tmp/master/work/x86_64-linux/qemu-native/3.1.0-r0/qemu-=
+3.1.0/fpu/softfloat.c:776
+  #3  0x000055a20baa1949 in helper_subsd (env=3D<optimized out>, d=3D0x55a2=
+0ff67ad8, s=3D<optimized out>)
+      at /data/poky-tmp/master/work/x86_64-linux/qemu-native/3.1.0-r0/qemu-=
+3.1.0/target/i386/ops_sse.h:623
+  #4  0x000055a20cfcfea8 in static_code_gen_buffer ()
+  #5  0x000055a20ba3f764 in cpu_tb_exec (itb=3D<optimized out>, cpu=3D0x55a=
+20cea2180 <static_code_gen_buffer+15684720>)
+      at /data/poky-tmp/master/work/x86_64-linux/qemu-native/3.1.0-r0/qemu-=
+3.1.0/accel/tcg/cpu-exec.c:171
+  #6  cpu_loop_exec_tb (tb_exit=3D<synthetic pointer>, last_tb=3D<synthetic=
+ pointer>, tb=3D<optimized out>,
+      cpu=3D0x55a20cea2180 <static_code_gen_buffer+15684720>)
+      at /data/poky-tmp/master/work/x86_64-linux/qemu-native/3.1.0-r0/qemu-=
+3.1.0/accel/tcg/cpu-exec.c:615
+  #7  cpu_exec (cpu=3Dcpu@entry=3D0x55a20ff5f4d0)
+      at /data/poky-tmp/master/work/x86_64-linux/qemu-native/3.1.0-r0/qemu-=
+3.1.0/accel/tcg/cpu-exec.c:725
+  #8  0x000055a20ba6d728 in cpu_loop (env=3D0x55a20ff67780)
+      at /data/poky-tmp/master/work/x86_64-linux/qemu-native/3.1.0-r0/qemu-=
+3.1.0/linux-user/x86_64/../i386/cpu_loop.c:93
+  #9  0x000055a20ba049ff in main (argc=3D<optimized out>, argv=3D0x7ffc5857=
+2868, envp=3D<optimized out>)
+      at /data/poky-tmp/master/work/x86_64-linux/qemu-native/3.1.0-r0/qemu-=
+3.1.0/linux-user/main.c:819
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1818075/+subscriptions
 
