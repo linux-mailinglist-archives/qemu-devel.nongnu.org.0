@@ -2,67 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38F121FF8E6
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 18:12:44 +0200 (CEST)
-Received: from localhost ([::1]:33670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC07F1FF8A0
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 18:07:31 +0200 (CEST)
+Received: from localhost ([::1]:55180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlx9f-0008Ld-Ah
-	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 12:12:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44218)
+	id 1jlx4c-0004le-I4
+	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 12:07:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jlx7w-000714-Of
- for qemu-devel@nongnu.org; Thu, 18 Jun 2020 12:10:56 -0400
-Received: from indium.canonical.com ([91.189.90.7]:33592)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jlx7t-0006w2-CK
- for qemu-devel@nongnu.org; Thu, 18 Jun 2020 12:10:56 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jlx7s-0008U3-9G
- for <qemu-devel@nongnu.org>; Thu, 18 Jun 2020 16:10:52 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 446252E80BA
- for <qemu-devel@nongnu.org>; Thu, 18 Jun 2020 16:10:52 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 18 Jun 2020 16:04:49 -0000
-From: Daniel Berrange <1818075@bugs.launchpad.net>
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jlx2t-00030E-N9
+ for qemu-devel@nongnu.org; Thu, 18 Jun 2020 12:05:43 -0400
+Received: from mail-dm6nam11on2106.outbound.protection.outlook.com
+ ([40.107.223.106]:21216 helo=NAM11-DM6-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jlx2o-0005q6-6V
+ for qemu-devel@nongnu.org; Thu, 18 Jun 2020 12:05:43 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=i0ulvHDwtXKmsfPjyll0Zm1rwmWbgffjP2wTM05hHrP4OykstpqXGU5mHQrn54/a/gBewbcxc8FFPqV0p+zNgjx1Ny6h6bJegyzQ9FIDJsinHBNWzbvO4wOqBrV1UW9xMg43sDCtR/34y+trItPFMqkbShwVcTviZF9SpNHTKnWVFFV3WuLoVW9nhprb/OWcHHIvidAyootLn+BnvjsU2x7u3LZ6N/zVYgDeNovjMqeMb1ci3rcgJwAV6u07uLifhGlKJkKuzuis4AMoL4xGf+Z+wlFd3PEBRAwNGLT8Wo5CZsVPAGa20VuDkhkOz3dKjW5ovsUhmQYXpduLGlJpAg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Y1gUomRwNuEQ0sYEhB4aQoekqEON0f3EII0MakEtJx4=;
+ b=jjaVAmze62YW7xfVlfbkVnw/bEeoKRbd2UZuu1ohuoM1rAbhCkK0IRgim7DLG3qs5BS0lvCKWiWuvaThl4V5BM/pFkWD58mxdXSnxlSYFWjPKB8WcRBz3Sm2sGMUzKo2yaraP/7fSKwJgaMFRk+F6PqWU/rp3nCZy5dtOVTlmwz3B2WVs2TyxfdgQHYM2Gr8vUyM8Pg3Iegm/st2jBKsessigouUzB86rRTybivbN36ITNrDipzv/SZr4amHf/0MTvFm/96rPhq3xDdsrlkRj81utc7jGIY4KlCfdGdgZzNBdEOmuQfeOCqf4XUDtoc6a170+qkfE93+AEUnS6NTSg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
+ header.d=bu.edu; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Y1gUomRwNuEQ0sYEhB4aQoekqEON0f3EII0MakEtJx4=;
+ b=6kpZWXIajlCs4uDwLFk94AUZm8ero5GKRBeIqv1GSzhwfYteSs+BTwLEqtGMz8CXObo9VOKfbyL2lms2P+V0Q92tbojry0QZK3Njq+so4SWblTSMPToe09yADG3o9x3CMw2lcSs0OGo8JdW4XVs3PH4hj64zb6DOZSagn2Jdexo=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=bu.edu;
+Received: from SN6PR03MB3871.namprd03.prod.outlook.com (2603:10b6:805:6d::32)
+ by SN6PR03MB3679.namprd03.prod.outlook.com (2603:10b6:805:42::28)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3109.21; Thu, 18 Jun
+ 2020 16:05:34 +0000
+Received: from SN6PR03MB3871.namprd03.prod.outlook.com
+ ([fe80::8ce:29a6:77be:c35b]) by SN6PR03MB3871.namprd03.prod.outlook.com
+ ([fe80::8ce:29a6:77be:c35b%7]) with mapi id 15.20.3109.021; Thu, 18 Jun 2020
+ 16:05:34 +0000
+From: Alexander Bulekov <alxndr@bu.edu>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: berrange pmaydell rcfa ross
-X-Launchpad-Bug-Reporter: Ross Burton (ross)
-X-Launchpad-Bug-Modifier: Daniel Berrange (berrange)
-References: <155136199055.29310.6029801353341134939.malonedeb@chaenomeles.canonical.com>
-Message-Id: <159249628986.26203.13077132449520479380.malone@gac.canonical.com>
-Subject: [Bug 1818075] Re: qemu x86 TCG doesn't support AVX insns
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="1cbd0aa39df153c901321817f9b57cf3f232b507";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 35fd0b3773f30c389fe69e9ae2b42a4170589f3c
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/18 11:20:43
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=_AUTOLEARN
+Subject: [PATCH] fuzz: fix broken qtest check at rcu_disable_atfork
+Date: Thu, 18 Jun 2020 12:05:16 -0400
+Message-Id: <20200618160516.2817-1-alxndr@bu.edu>
+X-Mailer: git-send-email 2.26.2
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: MN2PR19CA0018.namprd19.prod.outlook.com
+ (2603:10b6:208:178::31) To SN6PR03MB3871.namprd03.prod.outlook.com
+ (2603:10b6:805:6d::32)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from mozz.bu.edu (128.197.127.33) by
+ MN2PR19CA0018.namprd19.prod.outlook.com (2603:10b6:208:178::31) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3109.22 via Frontend
+ Transport; Thu, 18 Jun 2020 16:05:33 +0000
+X-Mailer: git-send-email 2.26.2
+X-Originating-IP: [128.197.127.33]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: cd20deba-bddc-479d-d78d-08d813a16ed3
+X-MS-TrafficTypeDiagnostic: SN6PR03MB3679:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <SN6PR03MB3679AEE54FDA22B975986A49BA9B0@SN6PR03MB3679.namprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1923;
+X-Forefront-PRVS: 0438F90F17
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: tpJHQhAqP450XVPlRAqHJVv2vmzOeKLmWFeiYRPPi6HQHsS9t5/QVF/BNyjoSyd+NvU4bSDWgWcxFnoOALqR0hGd/AATi4qewaxFItflWH+atBOOa5FDdAYPl0X9sH3Q78J4wesXha6oA9mDMYkji7Orp0cT63VYIcJd/R2GnhU8b3X6Ps+VRyhE4Nohi91BCaCpuORw/gHBmwktX8xepbj13/lEU4UkPp+HhuLC30BWhmDkAULBiyUhrLDWBeGYv0SNqd+DxX291vlBWcZJF7tKBbnejh25z2N9cDyWZZqWTN5/qSgkJ1r+/Ajm6+yHgqRulMIMe5YfWFbpEPVWAg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR03MB3871.namprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(39860400002)(396003)(136003)(376002)(346002)(366004)(66476007)(66946007)(6666004)(66556008)(5660300002)(75432002)(52116002)(16526019)(956004)(7696005)(36756003)(6916009)(186003)(86362001)(8676002)(2616005)(2906002)(6486002)(1076003)(4326008)(26005)(786003)(83380400001)(54906003)(316002)(8936002)(478600001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: jFAb7cBWvTntpQz6D/+U9F7w+O/4CFlc1IzoAUM3Etfq8dzh0dCsvhHPnZvfaeEBu91Rb6OmHwkp8Yd2jQsrR+qguCzsun10gKuiLH5ZVrAZPF5ryvNrkLGPLYS0jUrTcECjixqKNlAkr5mR4pQ5kYzoJsv7o+uldquiLXGx0Yi6K1AzWrQnQL2Xhos5YOoMobVe3ddC8c+WrrAib3CYdBvKgq8kerqYaSdAlGWmGMrf16dpAC2PMYM6j7oqmQJKzT6ubaaDXlI6enL3W2XGcuMPWHoyaHjoOk6NIYYO/1s+p247chOS2BoRnyKoz+LEb742h8Vct8Mlt48gx8P6jrEV51JGumpyOKm4camiwZ17sxBDCpoY4aF19/rFCOnt5Abn9KIisuulSw3DYStve/RXxtYlmuaKPYjk1xRpLFidvdIFJzmKvMh7XT/KJzhzvJVbyVazZ+Ul5hbzyqGdg++KvFXgR91eVfjK1gEFUQ4=
+X-OriginatorOrg: bu.edu
+X-MS-Exchange-CrossTenant-Network-Message-Id: cd20deba-bddc-479d-d78d-08d813a16ed3
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jun 2020 16:05:34.6352 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d57d32cc-c121-488f-b07b-dfe705680c71
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 94YhxJD7inyEXzrFnzEomr93ZsuzWzdSSQsf4439h3i+VulkAjxUek+Nd0VMGiBj
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR03MB3679
+Received-SPF: pass client-ip=40.107.223.106; envelope-from=alxndr@bu.edu;
+ helo=NAM11-DM6-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/18 12:05:35
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,117 +111,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1818075 <1818075@bugs.launchpad.net>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ f4bug@amsat.org, Alexander Bulekov <alxndr@bu.edu>,
+ Bandan Das <bsd@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QEMU, like most open source projects, relies on contributors who have
-motivation, skills and available time to work on implementing particular
-features. They naturally tend to focus on features that result in the
-greatest benefit to their own use cases. Thus simply declaring that an
-open source project, must support something won't magically make it
-happen.
+The qtest_enabled check introduced in d6919e4 always returns false, as
+it is called prior to configure_accelerators(). Instead of trying to
+skip rcu_disable_atfork in qemu_main, simply call rcu_enable_atfork in
+the fuzzer, after qemu_main returns.
 
-IOW, the lack of coverage of newer x86 instructions is largely a
-reflection of the relative priorities of the current pool of
-contributors and where/what they feel are the best places/features to
-spend their time on.
+Reported-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+---
+ softmmu/vl.c            | 12 +-----------
+ tests/qtest/fuzz/fuzz.c |  3 +++
+ 2 files changed, 4 insertions(+), 11 deletions(-)
 
-If any person does want to work on improving x86 TCG though, the project
-would happily receive patches, and existing contributors can offer
-guidance & advice along the way to help get to a successful outcome.
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index f669c06ede..95e2fed7f4 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -3832,17 +3832,7 @@ void qemu_init(int argc, char **argv, char **envp)
+                                               machine_class);
+ 
+     os_daemonize();
+-
+-    /*
+-     * If QTest is enabled, keep the rcu_atfork enabled, since system processes
+-     * may be forked testing purposes (e.g. fork-server based fuzzing) The fork
+-     * should happen before a signle cpu instruction is executed, to prevent
+-     * deadlocks. See commit 73c6e40, rcu: "completely disable pthread_atfork
+-     * callbacks as soon as possible"
+-     */
+-    if (!qtest_enabled()) {
+-        rcu_disable_atfork();
+-    }
++    rcu_disable_atfork();
+ 
+     if (pid_file && !qemu_write_pidfile(pid_file, &err)) {
+         error_reportf_err(err, "cannot create PID file: ");
+diff --git a/tests/qtest/fuzz/fuzz.c b/tests/qtest/fuzz/fuzz.c
+index a44fe479db..a36d9038e0 100644
+--- a/tests/qtest/fuzz/fuzz.c
++++ b/tests/qtest/fuzz/fuzz.c
+@@ -211,5 +211,8 @@ int LLVMFuzzerInitialize(int *argc, char ***argv, char ***envp)
+ 
+     qemu_init(result.we_wordc, result.we_wordv, NULL);
+ 
++    /* re-enable the rcu atfork, which was previously disabled in qemu_init */
++    rcu_enable_atfork();
++
+     return 0;
+ }
+-- 
+2.26.2
 
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1818075
-
-Title:
-  qemu x86 TCG doesn't support AVX insns
-
-Status in QEMU:
-  New
-
-Bug description:
-  I'm trying to execute code that has been built with -march=3Dskylake
-  -mtune=3Dgeneric -mavx2 under qemu-user x86-64 with -cpu Skylake-Client.
-  However this code just hangs at 100% CPU.
-
-  Adding input tracing shows that it is likely hanging when dealing with
-  an AVX instruction:
-
-  warning: TCG doesn't support requested feature: CPUID.01H:ECX.fma [bit 12]
-  warning: TCG doesn't support requested feature: CPUID.01H:ECX.pcid [bit 1=
-7]
-  warning: TCG doesn't support requested feature: CPUID.01H:ECX.x2apic [bit=
- 21]
-  warning: TCG doesn't support requested feature: CPUID.01H:ECX.tsc-deadlin=
-e [bit 24]
-  warning: TCG doesn't support requested feature: CPUID.01H:ECX.avx [bit 28]
-  warning: TCG doesn't support requested feature: CPUID.01H:ECX.f16c [bit 2=
-9]
-  warning: TCG doesn't support requested feature: CPUID.01H:ECX.rdrand [bit=
- 30]
-  warning: TCG doesn't support requested feature: CPUID.07H:EBX.hle [bit 4]
-  warning: TCG doesn't support requested feature: CPUID.07H:EBX.avx2 [bit 5]
-  warning: TCG doesn't support requested feature: CPUID.07H:EBX.invpcid [bi=
-t 10]
-  warning: TCG doesn't support requested feature: CPUID.07H:EBX.rtm [bit 11]
-  warning: TCG doesn't support requested feature: CPUID.07H:EBX.rdseed [bit=
- 18]
-  warning: TCG doesn't support requested feature: CPUID.80000001H:ECX.3dnow=
-prefetch [bit 8]
-  warning: TCG doesn't support requested feature: CPUID.0DH:EAX.xsavec [bit=
- 1]
-
-  IN:
-  0x4000b4ef3b:  c5 fb 5c ca              vsubsd   %xmm2, %xmm0, %xmm1
-  0x4000b4ef3f:  c4 e1 fb 2c d1           vcvttsd2si %xmm1, %rdx
-  0x4000b4ef44:  4c 31 e2                 xorq     %r12, %rdx
-  0x4000b4ef47:  48 85 d2                 testq    %rdx, %rdx
-  0x4000b4ef4a:  79 9e                    jns      0x4000b4eeea
-
-  [ hangs ]
-
-  Attaching a gdb produces this stacktrace:
-
-  (gdb) bt
-  #0  canonicalize (status=3D0x55a20ff67a88, parm=3D0x55a20bb807e0 <float64=
-_params>, part=3D...)
-      at /data/poky-tmp/master/work/x86_64-linux/qemu-native/3.1.0-r0/qemu-=
-3.1.0/fpu/softfloat.c:350
-  #1  float64_unpack_canonical (s=3D0x55a20ff67a88, f=3D0)
-      at /data/poky-tmp/master/work/x86_64-linux/qemu-native/3.1.0-r0/qemu-=
-3.1.0/fpu/softfloat.c:547
-  #2  float64_sub (a=3D0, b=3D4890909195324358656, status=3D0x55a20ff67a88)
-      at /data/poky-tmp/master/work/x86_64-linux/qemu-native/3.1.0-r0/qemu-=
-3.1.0/fpu/softfloat.c:776
-  #3  0x000055a20baa1949 in helper_subsd (env=3D<optimized out>, d=3D0x55a2=
-0ff67ad8, s=3D<optimized out>)
-      at /data/poky-tmp/master/work/x86_64-linux/qemu-native/3.1.0-r0/qemu-=
-3.1.0/target/i386/ops_sse.h:623
-  #4  0x000055a20cfcfea8 in static_code_gen_buffer ()
-  #5  0x000055a20ba3f764 in cpu_tb_exec (itb=3D<optimized out>, cpu=3D0x55a=
-20cea2180 <static_code_gen_buffer+15684720>)
-      at /data/poky-tmp/master/work/x86_64-linux/qemu-native/3.1.0-r0/qemu-=
-3.1.0/accel/tcg/cpu-exec.c:171
-  #6  cpu_loop_exec_tb (tb_exit=3D<synthetic pointer>, last_tb=3D<synthetic=
- pointer>, tb=3D<optimized out>,
-      cpu=3D0x55a20cea2180 <static_code_gen_buffer+15684720>)
-      at /data/poky-tmp/master/work/x86_64-linux/qemu-native/3.1.0-r0/qemu-=
-3.1.0/accel/tcg/cpu-exec.c:615
-  #7  cpu_exec (cpu=3Dcpu@entry=3D0x55a20ff5f4d0)
-      at /data/poky-tmp/master/work/x86_64-linux/qemu-native/3.1.0-r0/qemu-=
-3.1.0/accel/tcg/cpu-exec.c:725
-  #8  0x000055a20ba6d728 in cpu_loop (env=3D0x55a20ff67780)
-      at /data/poky-tmp/master/work/x86_64-linux/qemu-native/3.1.0-r0/qemu-=
-3.1.0/linux-user/x86_64/../i386/cpu_loop.c:93
-  #9  0x000055a20ba049ff in main (argc=3D<optimized out>, argv=3D0x7ffc5857=
-2868, envp=3D<optimized out>)
-      at /data/poky-tmp/master/work/x86_64-linux/qemu-native/3.1.0-r0/qemu-=
-3.1.0/linux-user/main.c:819
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1818075/+subscriptions
 
