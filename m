@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F0311FF340
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 15:38:20 +0200 (CEST)
-Received: from localhost ([::1]:39096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66EDC1FF363
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 15:42:16 +0200 (CEST)
+Received: from localhost ([::1]:51750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlukF-0001Gk-Dy
-	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 09:38:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40866)
+	id 1jluo3-0007wI-DL
+	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 09:42:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1jluVr-000844-UO
- for qemu-devel@nongnu.org; Thu, 18 Jun 2020 09:23:27 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:28685
- helo=us-smtp-delivery-1.mimecast.com)
+ id 1jluVu-0008CF-DX
+ for qemu-devel@nongnu.org; Thu, 18 Jun 2020 09:23:30 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:48459
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1jluVq-0005t1-4o
- for qemu-devel@nongnu.org; Thu, 18 Jun 2020 09:23:27 -0400
+ id 1jluVs-0005tF-G7
+ for qemu-devel@nongnu.org; Thu, 18 Jun 2020 09:23:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592486605;
+ s=mimecast20190719; t=1592486607;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=q+Zson716eA2srJK2dRNURIuqK9Cb9Ivl3c8K1m1iM8=;
- b=NV3/3zN5U72n5M7XGfpnDXh8qt2vX+auvEZ5ersjyYbBuLGrRq7IUM5gtBOQXOEuPJ6R47
- KYf8Nw/N3qH00Yu62Rq/X7qWGHh2rPC3YfXVZbUC3/6ZDwiaJIx9QhhrXdtrMEPqAlIsnU
- v0qObh8c6TGaMoJZoHoyqyQOjbdlcDo=
+ references:references; bh=qXHWXtp/gvp5jX0g2Rmsyn3tiVUUdM3O3TjCQ3fM8pM=;
+ b=V1OTmm2Xrtry+N9uq6jLP0qxEaBsdp1nQV0qk5PCiKlfwnVKyAdQr89j7zz5xY77I9IPiT
+ tT/j8B+8kLv9Xl12W/7LWtKjMQm/LpE93BEDjPLoFuhpB2J0mRdnDGoVWBGn5vSmvH6/nV
+ nbD533Ds4VvXMGqzh+pl+9DBkXRQNS0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-192-HF8_IFTDPVKGynu4tdZCkg-1; Thu, 18 Jun 2020 09:23:23 -0400
-X-MC-Unique: HF8_IFTDPVKGynu4tdZCkg-1
+ us-mta-354-wd_tYdBsOnyTuWuVfAOU_A-1; Thu, 18 Jun 2020 09:23:25 -0400
+X-MC-Unique: wd_tYdBsOnyTuWuVfAOU_A-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 329C8835B41;
- Thu, 18 Jun 2020 13:23:22 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9A206107ACCA;
+ Thu, 18 Jun 2020 13:23:24 +0000 (UTC)
 Received: from jason-ThinkPad-T430s.redhat.com (ovpn-12-109.pek2.redhat.com
  [10.72.12.109])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 45C425BAC1;
- Thu, 18 Jun 2020 13:23:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B23195BAC1;
+ Thu, 18 Jun 2020 13:23:22 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL V2 28/33] net/colo-compare.c: Check that colo-compare is active
-Date: Thu, 18 Jun 2020 21:21:43 +0800
-Message-Id: <1592486508-6135-29-git-send-email-jasowang@redhat.com>
+Subject: [PULL V2 29/33] net/colo-compare.c: Correct ordering in complete and
+ finalize
+Date: Thu, 18 Jun 2020 21:21:44 +0800
+Message-Id: <1592486508-6135-30-git-send-email-jasowang@redhat.com>
 In-Reply-To: <1592486508-6135-1-git-send-email-jasowang@redhat.com>
 References: <1592486508-6135-1-git-send-email-jasowang@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/18 01:32:18
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/18 01:21:16
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,131 +85,96 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Lukas Straub <lukasstraub2@web.de>
 
-If the colo-compare object is removed before failover and a
-checkpoint happens, qemu crashes because it tries to lock
-the destroyed event_mtx in colo_notify_compares_event.
-
-Fix this by checking if everything is initialized by
-introducing a new variable colo_compare_active which
-is protected by a new mutex colo_compare_mutex. The new mutex
-also protects against concurrent access of the net_compares
-list and makes sure that colo_notify_compares_event isn't
-active while we destroy event_mtx and event_complete_cond.
-
-With this it also is again possible to use colo without
-colo-compare (periodic mode) and to use multiple colo-compare
-for multiple network interfaces.
+In colo_compare_complete, insert CompareState into net_compares
+only after everything has been initialized.
+In colo_compare_finalize, remove CompareState from net_compares
+before anything is deinitialized.
 
 Signed-off-by: Lukas Straub <lukasstraub2@web.de>
-Tested-by: Lukas Straub <lukasstraub2@web.de>
 Reviewed-by: Zhang Chen <chen.zhang@intel.com>
 Signed-off-by: Zhang Chen <chen.zhang@intel.com>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- net/colo-compare.c | 35 +++++++++++++++++++++++++++++------
- 1 file changed, 29 insertions(+), 6 deletions(-)
+ net/colo-compare.c | 45 +++++++++++++++++++++++----------------------
+ 1 file changed, 23 insertions(+), 22 deletions(-)
 
 diff --git a/net/colo-compare.c b/net/colo-compare.c
-index a609f49..c30dbfb 100644
+index c30dbfb..ed1f3d0 100644
 --- a/net/colo-compare.c
 +++ b/net/colo-compare.c
-@@ -54,6 +54,8 @@ static NotifierList colo_compare_notifiers =
- #define REGULAR_PACKET_CHECK_MS 3000
- #define DEFAULT_TIME_OUT_MS 3000
- 
-+static QemuMutex colo_compare_mutex;
-+static bool colo_compare_active;
- static QemuMutex event_mtx;
- static QemuCond event_complete_cond;
- static int event_unhandled_count;
-@@ -906,6 +908,12 @@ static void check_old_packet_regular(void *opaque)
- void colo_notify_compares_event(void *opaque, int event, Error **errp)
- {
-     CompareState *s;
-+    qemu_mutex_lock(&colo_compare_mutex);
-+
-+    if (!colo_compare_active) {
-+        qemu_mutex_unlock(&colo_compare_mutex);
-+        return;
-+    }
- 
-     qemu_mutex_lock(&event_mtx);
-     QTAILQ_FOREACH(s, &net_compares, next) {
-@@ -919,6 +927,7 @@ void colo_notify_compares_event(void *opaque, int event, Error **errp)
-     }
- 
-     qemu_mutex_unlock(&event_mtx);
-+    qemu_mutex_unlock(&colo_compare_mutex);
- }
- 
- static void colo_compare_timer_init(CompareState *s)
-@@ -1274,7 +1283,14 @@ static void colo_compare_complete(UserCreatable *uc, Error **errp)
+@@ -1283,15 +1283,6 @@ static void colo_compare_complete(UserCreatable *uc, Error **errp)
                             s->vnet_hdr);
      }
  
+-    qemu_mutex_lock(&colo_compare_mutex);
+-    if (!colo_compare_active) {
+-        qemu_mutex_init(&event_mtx);
+-        qemu_cond_init(&event_complete_cond);
+-        colo_compare_active = true;
+-    }
+-    QTAILQ_INSERT_TAIL(&net_compares, s, next);
+-    qemu_mutex_unlock(&colo_compare_mutex);
+-
+     s->out_sendco.s = s;
+     s->out_sendco.chr = &s->chr_out;
+     s->out_sendco.notify_remote_frame = false;
+@@ -1314,6 +1305,16 @@ static void colo_compare_complete(UserCreatable *uc, Error **errp)
+                                                       connection_destroy);
+ 
+     colo_compare_iothread(s);
++
 +    qemu_mutex_lock(&colo_compare_mutex);
 +    if (!colo_compare_active) {
 +        qemu_mutex_init(&event_mtx);
 +        qemu_cond_init(&event_complete_cond);
 +        colo_compare_active = true;
 +    }
-     QTAILQ_INSERT_TAIL(&net_compares, s, next);
++    QTAILQ_INSERT_TAIL(&net_compares, s, next);
 +    qemu_mutex_unlock(&colo_compare_mutex);
- 
-     s->out_sendco.s = s;
-     s->out_sendco.chr = &s->chr_out;
-@@ -1292,9 +1308,6 @@ static void colo_compare_complete(UserCreatable *uc, Error **errp)
- 
-     g_queue_init(&s->conn_list);
- 
--    qemu_mutex_init(&event_mtx);
--    qemu_cond_init(&event_complete_cond);
--
-     s->connection_track_table = g_hash_table_new_full(connection_key_hash,
-                                                       connection_key_equal,
-                                                       g_free,
-@@ -1382,12 +1395,19 @@ static void colo_compare_finalize(Object *obj)
- 
-     qemu_bh_delete(s->event_bh);
- 
-+    qemu_mutex_lock(&colo_compare_mutex);
-     QTAILQ_FOREACH(tmp, &net_compares, next) {
-         if (tmp == s) {
-             QTAILQ_REMOVE(&net_compares, s, next);
-             break;
-         }
-     }
-+    if (QTAILQ_EMPTY(&net_compares)) {
-+        colo_compare_active = false;
-+        qemu_mutex_destroy(&event_mtx);
-+        qemu_cond_destroy(&event_complete_cond);
-+    }
-+    qemu_mutex_unlock(&colo_compare_mutex);
- 
-     AioContext *ctx = iothread_get_aio_context(s->iothread);
-     aio_context_acquire(ctx);
-@@ -1415,15 +1435,18 @@ static void colo_compare_finalize(Object *obj)
-         object_unref(OBJECT(s->iothread));
-     }
- 
--    qemu_mutex_destroy(&event_mtx);
--    qemu_cond_destroy(&event_complete_cond);
--
-     g_free(s->pri_indev);
-     g_free(s->sec_indev);
-     g_free(s->outdev);
-     g_free(s->notify_dev);
++
+     return;
  }
  
-+static void __attribute__((__constructor__)) colo_compare_init_globals(void)
-+{
-+    colo_compare_active = false;
-+    qemu_mutex_init(&colo_compare_mutex);
-+}
+@@ -1382,19 +1383,6 @@ static void colo_compare_finalize(Object *obj)
+     CompareState *s = COLO_COMPARE(obj);
+     CompareState *tmp = NULL;
+ 
+-    qemu_chr_fe_deinit(&s->chr_pri_in, false);
+-    qemu_chr_fe_deinit(&s->chr_sec_in, false);
+-    qemu_chr_fe_deinit(&s->chr_out, false);
+-    if (s->notify_dev) {
+-        qemu_chr_fe_deinit(&s->chr_notify_dev, false);
+-    }
+-
+-    if (s->iothread) {
+-        colo_compare_timer_del(s);
+-    }
+-
+-    qemu_bh_delete(s->event_bh);
+-
+     qemu_mutex_lock(&colo_compare_mutex);
+     QTAILQ_FOREACH(tmp, &net_compares, next) {
+         if (tmp == s) {
+@@ -1409,6 +1397,19 @@ static void colo_compare_finalize(Object *obj)
+     }
+     qemu_mutex_unlock(&colo_compare_mutex);
+ 
++    qemu_chr_fe_deinit(&s->chr_pri_in, false);
++    qemu_chr_fe_deinit(&s->chr_sec_in, false);
++    qemu_chr_fe_deinit(&s->chr_out, false);
++    if (s->notify_dev) {
++        qemu_chr_fe_deinit(&s->chr_notify_dev, false);
++    }
 +
- static const TypeInfo colo_compare_info = {
-     .name = TYPE_COLO_COMPARE,
-     .parent = TYPE_OBJECT,
++    if (s->iothread) {
++        colo_compare_timer_del(s);
++    }
++
++    qemu_bh_delete(s->event_bh);
++
+     AioContext *ctx = iothread_get_aio_context(s->iothread);
+     aio_context_acquire(ctx);
+     AIO_WAIT_WHILE(ctx, !s->out_sendco.done);
 -- 
 2.5.0
 
