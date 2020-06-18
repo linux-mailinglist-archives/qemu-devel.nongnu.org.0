@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 528C11FF738
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 17:40:43 +0200 (CEST)
-Received: from localhost ([::1]:44428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0428D1FF79D
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 17:43:55 +0200 (CEST)
+Received: from localhost ([::1]:54992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlweg-0001vQ-8F
-	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 11:40:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60452)
+	id 1jlwhm-0006a1-24
+	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 11:43:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60688)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <bounce+2dc402.947b4-qemu-devel=nongnu.org@mg.gitlab.com>)
- id 1jlwcx-0000Px-RA
- for qemu-devel@nongnu.org; Thu, 18 Jun 2020 11:38:55 -0400
-Received: from do158-143.mg.gitlab.com ([192.237.158.143]:52016)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1)
- (envelope-from <bounce+2dc402.947b4-qemu-devel=nongnu.org@mg.gitlab.com>)
- id 1jlwcu-0008DV-Kg
- for qemu-devel@nongnu.org; Thu, 18 Jun 2020 11:38:55 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.gitlab.com;
- q=dns/txt; 
- s=mailo; t=1592494733; h=List-Id: Content-Transfer-Encoding:
- Content-Type: Mime-Version: Subject: Message-ID: Reply-To: From: Date:
- Sender; bh=FTx1ik9xfgdd2aaBtE8aII7i1T6LNSNxi7I4Z9SQQ/U=;
- b=bw2TlFmYgi3VPU44XVI25NB0if4ooJdPI2YbmCirSyDLBnbJgbV2ZJO7JHylWLcSrDaoDsy6
- 3qBs5PFxfa1QseUkrBPrkdiyXj7MTsby+8dU6MATYE9R7RM5M4yvV12d25007tCO6GPwHz7C
- 1Yddk5vIcuS7/nCHXfmtPLHO7v0=
-X-Mailgun-Sending-Ip: 192.237.158.143
-X-Mailgun-Sid: WyI3MWYzYSIsICJxZW11LWRldmVsQG5vbmdudS5vcmciLCAiOTQ3YjQiXQ==
-Received: from mg.gitlab.com (67.90.74.34.bc.googleusercontent.com
- [34.74.90.67]) by smtp-out-n13.prod.us-east-1.postgun.com with SMTP id
- 5eeb8a88bfb34e631cbda84d (version=TLS1.3, cipher=TLS_AES_128_GCM_SHA256);
- Thu, 18 Jun 2020 15:38:48 GMT
-Date: Thu, 18 Jun 2020 15:38:48 +0000
-Message-ID: <5eeb8a8851e43_33e13fc74b2222a02453e8@sidekiq-catchall-04-sv-gprd.mail>
-Subject: QEMU | Pipeline #157678866 has failed for master | 3b268766
-Mime-Version: 1.0
-Content-Type: multipart/alternative;
- boundary="--==_mimepart_5eeb8a8847a08_33e13fc74b2222a02452a4";
- charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-GitLab-Project: QEMU
-X-GitLab-Project-Id: 11167699
-X-GitLab-Project-Path: qemu-project/qemu
-X-GitLab-Pipeline-Id: 157678866
-X-GitLab-Pipeline-Ref: master
-X-GitLab-Pipeline-Status: failed
-Auto-Submitted: auto-generated
-X-Auto-Response-Suppress: All
-Received-SPF: pass client-ip=192.237.158.143;
- envelope-from=bounce+2dc402.947b4-qemu-devel=nongnu.org@mg.gitlab.com;
- helo=do158-143.mg.gitlab.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/18 05:28:44
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
- HTML_FONT_LOW_CONTRAST=0.001, HTML_MESSAGE=0.001, MISSING_HEADERS=1.021,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_BL=0.01, RCVD_IN_MSPIKE_L3=0.9,
- REPLYTO_WITHOUT_TO_CC=1.552, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jlwdI-0000wE-8F
+ for qemu-devel@nongnu.org; Thu, 18 Jun 2020 11:39:16 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:53331
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jlwdD-0008Rq-Jj
+ for qemu-devel@nongnu.org; Thu, 18 Jun 2020 11:39:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1592494750;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=d6B4K6IzRfvXoXDBEEGwnEKAYhyZLu3EtJJLEy4yyp0=;
+ b=Pb/FXTfgEnw/z9ZjpOfzKn6bDtj3Zoh31OPTsem5TKBb+Nrl7kzhxYscR9ASSliRMp8gsl
+ i70gDl1y/7UjllI2tYtgSduJh2BiibcNwAnvS3Cb782lvfvWXaJU7hQk5KjjcXZsc8BINx
+ 5Nak0n7PGZDvLEXx4sEx2m+GRwFO+Og=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-326-pQrh1IyBPAKoeQ6q8TxMbg-1; Thu, 18 Jun 2020 11:39:02 -0400
+X-MC-Unique: pQrh1IyBPAKoeQ6q8TxMbg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 30B03107ACCA;
+ Thu, 18 Jun 2020 15:39:01 +0000 (UTC)
+Received: from localhost (ovpn-113-9.ams2.redhat.com [10.36.113.9])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4978F60CD3;
+ Thu, 18 Jun 2020 15:39:00 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: [PULL 1/7] Linux headers: update
+Date: Thu, 18 Jun 2020 17:38:48 +0200
+Message-Id: <20200618153854.271723-2-cohuck@redhat.com>
+In-Reply-To: <20200618153854.271723-1-cohuck@redhat.com>
+References: <20200618153854.271723-1-cohuck@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/18 01:32:18
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FUZZY_XPILL=0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,792 +78,1364 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to: GitLab <noreply@gitlab.com>, GitLab <gitlab@mg.gitlab.com>
-From: GitLab via <qemu-devel@nongnu.org>
 
+Update against Linux 5.8-rc1.
+
+Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+---
+ include/standard-headers/asm-x86/kvm_para.h  |  17 +-
+ include/standard-headers/drm/drm_fourcc.h    | 140 +++++++-
+ include/standard-headers/linux/ethtool.h     |  16 +-
+ include/standard-headers/linux/virtio_ids.h  |   1 +
+ include/standard-headers/linux/virtio_mem.h  | 211 ++++++++++++
+ include/standard-headers/linux/virtio_ring.h |  48 ++-
+ linux-headers/asm-arm64/mman.h               |   8 +
+ linux-headers/asm-generic/unistd.h           |   4 +-
+ linux-headers/asm-mips/unistd_n32.h          |   1 +
+ linux-headers/asm-mips/unistd_n64.h          |   1 +
+ linux-headers/asm-mips/unistd_o32.h          |   1 +
+ linux-headers/asm-powerpc/unistd_32.h        |   1 +
+ linux-headers/asm-powerpc/unistd_64.h        |   1 +
+ linux-headers/asm-s390/unistd_32.h           |   1 +
+ linux-headers/asm-s390/unistd_64.h           |   1 +
+ linux-headers/asm-x86/kvm.h                  |  20 +-
+ linux-headers/asm-x86/unistd.h               |  11 +-
+ linux-headers/asm-x86/unistd_32.h            |   1 +
+ linux-headers/asm-x86/unistd_64.h            |   1 +
+ linux-headers/asm-x86/unistd_x32.h           |   1 +
+ linux-headers/linux/kvm.h                    |  18 +-
+ linux-headers/linux/psp-sev.h                |   2 +
+ linux-headers/linux/vfio.h                   | 322 +++++++++++++++++++
+ linux-headers/linux/vfio_ccw.h               |  19 ++
+ linux-headers/linux/vhost.h                  |   4 +
+ 25 files changed, 818 insertions(+), 33 deletions(-)
+ create mode 100644 include/standard-headers/linux/virtio_mem.h
+
+diff --git a/include/standard-headers/asm-x86/kvm_para.h b/include/standard-headers/asm-x86/kvm_para.h
+index 90604a8fb77b..07877d3295f2 100644
+--- a/include/standard-headers/asm-x86/kvm_para.h
++++ b/include/standard-headers/asm-x86/kvm_para.h
+@@ -31,6 +31,7 @@
+ #define KVM_FEATURE_PV_SEND_IPI	11
+ #define KVM_FEATURE_POLL_CONTROL	12
+ #define KVM_FEATURE_PV_SCHED_YIELD	13
++#define KVM_FEATURE_ASYNC_PF_INT	14
+ 
+ #define KVM_HINTS_REALTIME      0
+ 
+@@ -50,6 +51,8 @@
+ #define MSR_KVM_STEAL_TIME  0x4b564d03
+ #define MSR_KVM_PV_EOI_EN      0x4b564d04
+ #define MSR_KVM_POLL_CONTROL	0x4b564d05
++#define MSR_KVM_ASYNC_PF_INT	0x4b564d06
++#define MSR_KVM_ASYNC_PF_ACK	0x4b564d07
+ 
+ struct kvm_steal_time {
+ 	uint64_t steal;
+@@ -81,6 +84,11 @@ struct kvm_clock_pairing {
+ #define KVM_ASYNC_PF_ENABLED			(1 << 0)
+ #define KVM_ASYNC_PF_SEND_ALWAYS		(1 << 1)
+ #define KVM_ASYNC_PF_DELIVERY_AS_PF_VMEXIT	(1 << 2)
++#define KVM_ASYNC_PF_DELIVERY_AS_INT		(1 << 3)
++
++/* MSR_KVM_ASYNC_PF_INT */
++#define KVM_ASYNC_PF_VEC_MASK			GENMASK(7, 0)
++
+ 
+ /* Operations for KVM_HC_MMU_OP */
+ #define KVM_MMU_OP_WRITE_PTE            1
+@@ -112,8 +120,13 @@ struct kvm_mmu_op_release_pt {
+ #define KVM_PV_REASON_PAGE_READY 2
+ 
+ struct kvm_vcpu_pv_apf_data {
+-	uint32_t reason;
+-	uint8_t pad[60];
++	/* Used for 'page not present' events delivered via #PF */
++	uint32_t flags;
++
++	/* Used for 'page ready' events delivered via interrupt notification */
++	uint32_t token;
++
++	uint8_t pad[56];
+ 	uint32_t enabled;
+ };
+ 
+diff --git a/include/standard-headers/drm/drm_fourcc.h b/include/standard-headers/drm/drm_fourcc.h
+index 66e838074c81..909a66753c03 100644
+--- a/include/standard-headers/drm/drm_fourcc.h
++++ b/include/standard-headers/drm/drm_fourcc.h
+@@ -353,9 +353,12 @@ extern "C" {
+  * a platform-dependent stride. On top of that the memory can apply
+  * platform-depending swizzling of some higher address bits into bit6.
+  *
+- * This format is highly platforms specific and not useful for cross-driver
+- * sharing. It exists since on a given platform it does uniquely identify the
+- * layout in a simple way for i915-specific userspace.
++ * Note that this layout is only accurate on intel gen 8+ or valleyview chipsets.
++ * On earlier platforms the is highly platforms specific and not useful for
++ * cross-driver sharing. It exists since on a given platform it does uniquely
++ * identify the layout in a simple way for i915-specific userspace, which
++ * facilitated conversion of userspace to modifiers. Additionally the exact
++ * format on some really old platforms is not known.
+  */
+ #define I915_FORMAT_MOD_X_TILED	fourcc_mod_code(INTEL, 1)
+ 
+@@ -368,9 +371,12 @@ extern "C" {
+  * memory can apply platform-depending swizzling of some higher address bits
+  * into bit6.
+  *
+- * This format is highly platforms specific and not useful for cross-driver
+- * sharing. It exists since on a given platform it does uniquely identify the
+- * layout in a simple way for i915-specific userspace.
++ * Note that this layout is only accurate on intel gen 8+ or valleyview chipsets.
++ * On earlier platforms the is highly platforms specific and not useful for
++ * cross-driver sharing. It exists since on a given platform it does uniquely
++ * identify the layout in a simple way for i915-specific userspace, which
++ * facilitated conversion of userspace to modifiers. Additionally the exact
++ * format on some really old platforms is not known.
+  */
+ #define I915_FORMAT_MOD_Y_TILED	fourcc_mod_code(INTEL, 2)
+ 
+@@ -520,7 +526,113 @@ extern "C" {
+ #define DRM_FORMAT_MOD_NVIDIA_TEGRA_TILED fourcc_mod_code(NVIDIA, 1)
+ 
+ /*
+- * 16Bx2 Block Linear layout, used by desktop GPUs, and Tegra K1 and later
++ * Generalized Block Linear layout, used by desktop GPUs starting with NV50/G80,
++ * and Tegra GPUs starting with Tegra K1.
++ *
++ * Pixels are arranged in Groups of Bytes (GOBs).  GOB size and layout varies
++ * based on the architecture generation.  GOBs themselves are then arranged in
++ * 3D blocks, with the block dimensions (in terms of GOBs) always being a power
++ * of two, and hence expressible as their log2 equivalent (E.g., "2" represents
++ * a block depth or height of "4").
++ *
++ * Chapter 20 "Pixel Memory Formats" of the Tegra X1 TRM describes this format
++ * in full detail.
++ *
++ *       Macro
++ * Bits  Param Description
++ * ----  ----- -----------------------------------------------------------------
++ *
++ *  3:0  h     log2(height) of each block, in GOBs.  Placed here for
++ *             compatibility with the existing
++ *             DRM_FORMAT_MOD_NVIDIA_16BX2_BLOCK()-based modifiers.
++ *
++ *  4:4  -     Must be 1, to indicate block-linear layout.  Necessary for
++ *             compatibility with the existing
++ *             DRM_FORMAT_MOD_NVIDIA_16BX2_BLOCK()-based modifiers.
++ *
++ *  8:5  -     Reserved (To support 3D-surfaces with variable log2(depth) block
++ *             size).  Must be zero.
++ *
++ *             Note there is no log2(width) parameter.  Some portions of the
++ *             hardware support a block width of two gobs, but it is impractical
++ *             to use due to lack of support elsewhere, and has no known
++ *             benefits.
++ *
++ * 11:9  -     Reserved (To support 2D-array textures with variable array stride
++ *             in blocks, specified via log2(tile width in blocks)).  Must be
++ *             zero.
++ *
++ * 19:12 k     Page Kind.  This value directly maps to a field in the page
++ *             tables of all GPUs >= NV50.  It affects the exact layout of bits
++ *             in memory and can be derived from the tuple
++ *
++ *               (format, GPU model, compression type, samples per pixel)
++ *
++ *             Where compression type is defined below.  If GPU model were
++ *             implied by the format modifier, format, or memory buffer, page
++ *             kind would not need to be included in the modifier itself, but
++ *             since the modifier should define the layout of the associated
++ *             memory buffer independent from any device or other context, it
++ *             must be included here.
++ *
++ * 21:20 g     GOB Height and Page Kind Generation.  The height of a GOB changed
++ *             starting with Fermi GPUs.  Additionally, the mapping between page
++ *             kind and bit layout has changed at various points.
++ *
++ *               0 = Gob Height 8, Fermi - Volta, Tegra K1+ Page Kind mapping
++ *               1 = Gob Height 4, G80 - GT2XX Page Kind mapping
++ *               2 = Gob Height 8, Turing+ Page Kind mapping
++ *               3 = Reserved for future use.
++ *
++ * 22:22 s     Sector layout.  On Tegra GPUs prior to Xavier, there is a further
++ *             bit remapping step that occurs at an even lower level than the
++ *             page kind and block linear swizzles.  This causes the layout of
++ *             surfaces mapped in those SOC's GPUs to be incompatible with the
++ *             equivalent mapping on other GPUs in the same system.
++ *
++ *               0 = Tegra K1 - Tegra Parker/TX2 Layout.
++ *               1 = Desktop GPU and Tegra Xavier+ Layout
++ *
++ * 25:23 c     Lossless Framebuffer Compression type.
++ *
++ *               0 = none
++ *               1 = ROP/3D, layout 1, exact compression format implied by Page
++ *                   Kind field
++ *               2 = ROP/3D, layout 2, exact compression format implied by Page
++ *                   Kind field
++ *               3 = CDE horizontal
++ *               4 = CDE vertical
++ *               5 = Reserved for future use
++ *               6 = Reserved for future use
++ *               7 = Reserved for future use
++ *
++ * 55:25 -     Reserved for future use.  Must be zero.
++ */
++#define DRM_FORMAT_MOD_NVIDIA_BLOCK_LINEAR_2D(c, s, g, k, h) \
++	fourcc_mod_code(NVIDIA, (0x10 | \
++				 ((h) & 0xf) | \
++				 (((k) & 0xff) << 12) | \
++				 (((g) & 0x3) << 20) | \
++				 (((s) & 0x1) << 22) | \
++				 (((c) & 0x7) << 23)))
++
++/* To grandfather in prior block linear format modifiers to the above layout,
++ * the page kind "0", which corresponds to "pitch/linear" and hence is unusable
++ * with block-linear layouts, is remapped within drivers to the value 0xfe,
++ * which corresponds to the "generic" kind used for simple single-sample
++ * uncompressed color formats on Fermi - Volta GPUs.
++ */
++static inline uint64_t
++drm_fourcc_canonicalize_nvidia_format_mod(uint64_t modifier)
++{
++	if (!(modifier & 0x10) || (modifier & (0xff << 12)))
++		return modifier;
++	else
++		return modifier | (0xfe << 12);
++}
++
++/*
++ * 16Bx2 Block Linear layout, used by Tegra K1 and later
+  *
+  * Pixels are arranged in 64x8 Groups Of Bytes (GOBs). GOBs are then stacked
+  * vertically by a power of 2 (1 to 32 GOBs) to form a block.
+@@ -541,20 +653,20 @@ extern "C" {
+  * in full detail.
+  */
+ #define DRM_FORMAT_MOD_NVIDIA_16BX2_BLOCK(v) \
+-	fourcc_mod_code(NVIDIA, 0x10 | ((v) & 0xf))
++	DRM_FORMAT_MOD_NVIDIA_BLOCK_LINEAR_2D(0, 0, 0, 0, (v))
+ 
+ #define DRM_FORMAT_MOD_NVIDIA_16BX2_BLOCK_ONE_GOB \
+-	fourcc_mod_code(NVIDIA, 0x10)
++	DRM_FORMAT_MOD_NVIDIA_16BX2_BLOCK(0)
+ #define DRM_FORMAT_MOD_NVIDIA_16BX2_BLOCK_TWO_GOB \
+-	fourcc_mod_code(NVIDIA, 0x11)
++	DRM_FORMAT_MOD_NVIDIA_16BX2_BLOCK(1)
+ #define DRM_FORMAT_MOD_NVIDIA_16BX2_BLOCK_FOUR_GOB \
+-	fourcc_mod_code(NVIDIA, 0x12)
++	DRM_FORMAT_MOD_NVIDIA_16BX2_BLOCK(2)
+ #define DRM_FORMAT_MOD_NVIDIA_16BX2_BLOCK_EIGHT_GOB \
+-	fourcc_mod_code(NVIDIA, 0x13)
++	DRM_FORMAT_MOD_NVIDIA_16BX2_BLOCK(3)
+ #define DRM_FORMAT_MOD_NVIDIA_16BX2_BLOCK_SIXTEEN_GOB \
+-	fourcc_mod_code(NVIDIA, 0x14)
++	DRM_FORMAT_MOD_NVIDIA_16BX2_BLOCK(4)
+ #define DRM_FORMAT_MOD_NVIDIA_16BX2_BLOCK_THIRTYTWO_GOB \
+-	fourcc_mod_code(NVIDIA, 0x15)
++	DRM_FORMAT_MOD_NVIDIA_16BX2_BLOCK(5)
+ 
+ /*
+  * Some Broadcom modifiers take parameters, for example the number of
+diff --git a/include/standard-headers/linux/ethtool.h b/include/standard-headers/linux/ethtool.h
+index 1200890c8608..fd8d2cccfe89 100644
+--- a/include/standard-headers/linux/ethtool.h
++++ b/include/standard-headers/linux/ethtool.h
+@@ -1666,6 +1666,18 @@ static inline int ethtool_validate_duplex(uint8_t duplex)
+ 	return 0;
+ }
+ 
++#define MASTER_SLAVE_CFG_UNSUPPORTED		0
++#define MASTER_SLAVE_CFG_UNKNOWN		1
++#define MASTER_SLAVE_CFG_MASTER_PREFERRED	2
++#define MASTER_SLAVE_CFG_SLAVE_PREFERRED	3
++#define MASTER_SLAVE_CFG_MASTER_FORCE		4
++#define MASTER_SLAVE_CFG_SLAVE_FORCE		5
++#define MASTER_SLAVE_STATE_UNSUPPORTED		0
++#define MASTER_SLAVE_STATE_UNKNOWN		1
++#define MASTER_SLAVE_STATE_MASTER		2
++#define MASTER_SLAVE_STATE_SLAVE		3
++#define MASTER_SLAVE_STATE_ERR			4
++
+ /* Which connector port. */
+ #define PORT_TP			0x00
+ #define PORT_AUI		0x01
+@@ -1904,7 +1916,9 @@ struct ethtool_link_settings {
+ 	uint8_t	eth_tp_mdix_ctrl;
+ 	int8_t	link_mode_masks_nwords;
+ 	uint8_t	transceiver;
+-	uint8_t	reserved1[3];
++	uint8_t	master_slave_cfg;
++	uint8_t	master_slave_state;
++	uint8_t	reserved1[1];
+ 	uint32_t	reserved[7];
+ 	uint32_t	link_mode_masks[0];
+ 	/* layout of link_mode_masks fields:
+diff --git a/include/standard-headers/linux/virtio_ids.h b/include/standard-headers/linux/virtio_ids.h
+index ecc27a17401a..b052355ac7a3 100644
+--- a/include/standard-headers/linux/virtio_ids.h
++++ b/include/standard-headers/linux/virtio_ids.h
+@@ -44,6 +44,7 @@
+ #define VIRTIO_ID_VSOCK        19 /* virtio vsock transport */
+ #define VIRTIO_ID_CRYPTO       20 /* virtio crypto */
+ #define VIRTIO_ID_IOMMU        23 /* virtio IOMMU */
++#define VIRTIO_ID_MEM          24 /* virtio mem */
+ #define VIRTIO_ID_FS           26 /* virtio filesystem */
+ #define VIRTIO_ID_PMEM         27 /* virtio pmem */
+ #define VIRTIO_ID_MAC80211_HWSIM 29 /* virtio mac80211-hwsim */
+diff --git a/include/standard-headers/linux/virtio_mem.h b/include/standard-headers/linux/virtio_mem.h
+new file mode 100644
+index 000000000000..05e5ade75d3d
+--- /dev/null
++++ b/include/standard-headers/linux/virtio_mem.h
+@@ -0,0 +1,211 @@
++/* SPDX-License-Identifier: BSD-3-Clause */
++/*
++ * Virtio Mem Device
++ *
++ * Copyright Red Hat, Inc. 2020
++ *
++ * Authors:
++ *     David Hildenbrand <david@redhat.com>
++ *
++ * This header is BSD licensed so anyone can use the definitions
++ * to implement compatible drivers/servers:
++ *
++ * Redistribution and use in source and binary forms, with or without
++ * modification, are permitted provided that the following conditions
++ * are met:
++ * 1. Redistributions of source code must retain the above copyright
++ *    notice, this list of conditions and the following disclaimer.
++ * 2. Redistributions in binary form must reproduce the above copyright
++ *    notice, this list of conditions and the following disclaimer in the
++ *    documentation and/or other materials provided with the distribution.
++ * 3. Neither the name of IBM nor the names of its contributors
++ *    may be used to endorse or promote products derived from this software
++ *    without specific prior written permission.
++ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
++ * ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
++ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
++ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL IBM OR
++ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
++ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
++ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF
++ * USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
++ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
++ * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
++ * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
++ * SUCH DAMAGE.
++ */
++
++#ifndef _LINUX_VIRTIO_MEM_H
++#define _LINUX_VIRTIO_MEM_H
++
++#include "standard-headers/linux/types.h"
++#include "standard-headers/linux/virtio_types.h"
++#include "standard-headers/linux/virtio_ids.h"
++#include "standard-headers/linux/virtio_config.h"
++
++/*
++ * Each virtio-mem device manages a dedicated region in physical address
++ * space. Each device can belong to a single NUMA node, multiple devices
++ * for a single NUMA node are possible. A virtio-mem device is like a
++ * "resizable DIMM" consisting of small memory blocks that can be plugged
++ * or unplugged. The device driver is responsible for (un)plugging memory
++ * blocks on demand.
++ *
++ * Virtio-mem devices can only operate on their assigned memory region in
++ * order to (un)plug memory. A device cannot (un)plug memory belonging to
++ * other devices.
++ *
++ * The "region_size" corresponds to the maximum amount of memory that can
++ * be provided by a device. The "size" corresponds to the amount of memory
++ * that is currently plugged. "requested_size" corresponds to a request
++ * from the device to the device driver to (un)plug blocks. The
++ * device driver should try to (un)plug blocks in order to reach the
++ * "requested_size". It is impossible to plug more memory than requested.
++ *
++ * The "usable_region_size" represents the memory region that can actually
++ * be used to (un)plug memory. It is always at least as big as the
++ * "requested_size" and will grow dynamically. It will only shrink when
++ * explicitly triggered (VIRTIO_MEM_REQ_UNPLUG).
++ *
++ * There are no guarantees what will happen if unplugged memory is
++ * read/written. Such memory should, in general, not be touched. E.g.,
++ * even writing might succeed, but the values will simply be discarded at
++ * random points in time.
++ *
++ * It can happen that the device cannot process a request, because it is
++ * busy. The device driver has to retry later.
++ *
++ * Usually, during system resets all memory will get unplugged, so the
++ * device driver can start with a clean state. However, in specific
++ * scenarios (if the device is busy) it can happen that the device still
++ * has memory plugged. The device driver can request to unplug all memory
++ * (VIRTIO_MEM_REQ_UNPLUG) - which might take a while to succeed if the
++ * device is busy.
++ */
++
++/* --- virtio-mem: feature bits --- */
++
++/* node_id is an ACPI PXM and is valid */
++#define VIRTIO_MEM_F_ACPI_PXM		0
++
++
++/* --- virtio-mem: guest -> host requests --- */
++
++/* request to plug memory blocks */
++#define VIRTIO_MEM_REQ_PLUG			0
++/* request to unplug memory blocks */
++#define VIRTIO_MEM_REQ_UNPLUG			1
++/* request to unplug all blocks and shrink the usable size */
++#define VIRTIO_MEM_REQ_UNPLUG_ALL		2
++/* request information about the plugged state of memory blocks */
++#define VIRTIO_MEM_REQ_STATE			3
++
++struct virtio_mem_req_plug {
++	__virtio64 addr;
++	__virtio16 nb_blocks;
++	__virtio16 padding[3];
++};
++
++struct virtio_mem_req_unplug {
++	__virtio64 addr;
++	__virtio16 nb_blocks;
++	__virtio16 padding[3];
++};
++
++struct virtio_mem_req_state {
++	__virtio64 addr;
++	__virtio16 nb_blocks;
++	__virtio16 padding[3];
++};
++
++struct virtio_mem_req {
++	__virtio16 type;
++	__virtio16 padding[3];
++
++	union {
++		struct virtio_mem_req_plug plug;
++		struct virtio_mem_req_unplug unplug;
++		struct virtio_mem_req_state state;
++	} u;
++};
++
++
++/* --- virtio-mem: host -> guest response --- */
++
++/*
++ * Request processed successfully, applicable for
++ * - VIRTIO_MEM_REQ_PLUG
++ * - VIRTIO_MEM_REQ_UNPLUG
++ * - VIRTIO_MEM_REQ_UNPLUG_ALL
++ * - VIRTIO_MEM_REQ_STATE
++ */
++#define VIRTIO_MEM_RESP_ACK			0
++/*
++ * Request denied - e.g. trying to plug more than requested, applicable for
++ * - VIRTIO_MEM_REQ_PLUG
++ */
++#define VIRTIO_MEM_RESP_NACK			1
++/*
++ * Request cannot be processed right now, try again later, applicable for
++ * - VIRTIO_MEM_REQ_PLUG
++ * - VIRTIO_MEM_REQ_UNPLUG
++ * - VIRTIO_MEM_REQ_UNPLUG_ALL
++ */
++#define VIRTIO_MEM_RESP_BUSY			2
++/*
++ * Error in request (e.g. addresses/alignment), applicable for
++ * - VIRTIO_MEM_REQ_PLUG
++ * - VIRTIO_MEM_REQ_UNPLUG
++ * - VIRTIO_MEM_REQ_STATE
++ */
++#define VIRTIO_MEM_RESP_ERROR			3
++
++
++/* State of memory blocks is "plugged" */
++#define VIRTIO_MEM_STATE_PLUGGED		0
++/* State of memory blocks is "unplugged" */
++#define VIRTIO_MEM_STATE_UNPLUGGED		1
++/* State of memory blocks is "mixed" */
++#define VIRTIO_MEM_STATE_MIXED			2
++
++struct virtio_mem_resp_state {
++	__virtio16 state;
++};
++
++struct virtio_mem_resp {
++	__virtio16 type;
++	__virtio16 padding[3];
++
++	union {
++		struct virtio_mem_resp_state state;
++	} u;
++};
++
++/* --- virtio-mem: configuration --- */
++
++struct virtio_mem_config {
++	/* Block size and alignment. Cannot change. */
++	uint64_t block_size;
++	/* Valid with VIRTIO_MEM_F_ACPI_PXM. Cannot change. */
++	uint16_t node_id;
++	uint8_t padding[6];
++	/* Start address of the memory region. Cannot change. */
++	uint64_t addr;
++	/* Region size (maximum). Cannot change. */
++	uint64_t region_size;
++	/*
++	 * Currently usable region size. Can grow up to region_size. Can
++	 * shrink due to VIRTIO_MEM_REQ_UNPLUG_ALL (in which case no config
++	 * update will be sent).
++	 */
++	uint64_t usable_region_size;
++	/*
++	 * Currently used size. Changes due to plug/unplug requests, but no
++	 * config updates will be sent.
++	 */
++	uint64_t plugged_size;
++	/* Requested size. New plug requests cannot exceed it. Can change. */
++	uint64_t requested_size;
++};
++
++#endif /* _LINUX_VIRTIO_MEM_H */
+diff --git a/include/standard-headers/linux/virtio_ring.h b/include/standard-headers/linux/virtio_ring.h
+index f230fed47960..0fa0e1067ffe 100644
+--- a/include/standard-headers/linux/virtio_ring.h
++++ b/include/standard-headers/linux/virtio_ring.h
+@@ -84,6 +84,13 @@
+  * at the end of the used ring. Guest should ignore the used->flags field. */
+ #define VIRTIO_RING_F_EVENT_IDX		29
+ 
++/* Alignment requirements for vring elements.
++ * When using pre-virtio 1.0 layout, these fall out naturally.
++ */
++#define VRING_AVAIL_ALIGN_SIZE 2
++#define VRING_USED_ALIGN_SIZE 4
++#define VRING_DESC_ALIGN_SIZE 16
++
+ /* Virtio ring descriptors: 16 bytes.  These can chain together via "next". */
+ struct vring_desc {
+ 	/* Address (guest-physical). */
+@@ -110,28 +117,47 @@ struct vring_used_elem {
+ 	__virtio32 len;
+ };
+ 
++typedef struct vring_used_elem __attribute__((aligned(VRING_USED_ALIGN_SIZE)))
++	vring_used_elem_t;
++
+ struct vring_used {
+ 	__virtio16 flags;
+ 	__virtio16 idx;
+-	struct vring_used_elem ring[];
++	vring_used_elem_t ring[];
+ };
+ 
++/*
++ * The ring element addresses are passed between components with different
++ * alignments assumptions. Thus, we might need to decrease the compiler-selected
++ * alignment, and so must use a typedef to make sure the aligned attribute
++ * actually takes hold:
++ *
++ * https://gcc.gnu.org/onlinedocs//gcc/Common-Type-Attributes.html#Common-Type-Attributes
++ *
++ * When used on a struct, or struct member, the aligned attribute can only
++ * increase the alignment; in order to decrease it, the packed attribute must
++ * be specified as well. When used as part of a typedef, the aligned attribute
++ * can both increase and decrease alignment, and specifying the packed
++ * attribute generates a warning.
++ */
++typedef struct vring_desc __attribute__((aligned(VRING_DESC_ALIGN_SIZE)))
++	vring_desc_t;
++typedef struct vring_avail __attribute__((aligned(VRING_AVAIL_ALIGN_SIZE)))
++	vring_avail_t;
++typedef struct vring_used __attribute__((aligned(VRING_USED_ALIGN_SIZE)))
++	vring_used_t;
++
+ struct vring {
+ 	unsigned int num;
+ 
+-	struct vring_desc *desc;
++	vring_desc_t *desc;
+ 
+-	struct vring_avail *avail;
++	vring_avail_t *avail;
+ 
+-	struct vring_used *used;
++	vring_used_t *used;
+ };
+ 
+-/* Alignment requirements for vring elements.
+- * When using pre-virtio 1.0 layout, these fall out naturally.
+- */
+-#define VRING_AVAIL_ALIGN_SIZE 2
+-#define VRING_USED_ALIGN_SIZE 4
+-#define VRING_DESC_ALIGN_SIZE 16
++#ifndef VIRTIO_RING_NO_LEGACY
+ 
+ /* The standard layout for the ring is a continuous chunk of memory which looks
+  * like this.  We assume num is a power of 2.
+@@ -179,6 +205,8 @@ static inline unsigned vring_size(unsigned int num, unsigned long align)
+ 		+ sizeof(__virtio16) * 3 + sizeof(struct vring_used_elem) * num;
+ }
+ 
++#endif /* VIRTIO_RING_NO_LEGACY */
++
+ /* The following is used with USED_EVENT_IDX and AVAIL_EVENT_IDX */
+ /* Assuming a given event_idx value from the other side, if
+  * we have just incremented index from old to new_idx,
+diff --git a/linux-headers/asm-arm64/mman.h b/linux-headers/asm-arm64/mman.h
+index 8eebf89f5ab1..e94b9af85984 100644
+--- a/linux-headers/asm-arm64/mman.h
++++ b/linux-headers/asm-arm64/mman.h
+@@ -1 +1,9 @@
++/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
++#ifndef __ASM_MMAN_H
++#define __ASM_MMAN_H
++
+ #include <asm-generic/mman.h>
++
++#define PROT_BTI	0x10		/* BTI guarded page */
++
++#endif /* ! _UAPI__ASM_MMAN_H */
+diff --git a/linux-headers/asm-generic/unistd.h b/linux-headers/asm-generic/unistd.h
+index 3a3201e4618e..f4a01305d9a6 100644
+--- a/linux-headers/asm-generic/unistd.h
++++ b/linux-headers/asm-generic/unistd.h
+@@ -855,9 +855,11 @@ __SYSCALL(__NR_clone3, sys_clone3)
+ __SYSCALL(__NR_openat2, sys_openat2)
+ #define __NR_pidfd_getfd 438
+ __SYSCALL(__NR_pidfd_getfd, sys_pidfd_getfd)
++#define __NR_faccessat2 439
++__SYSCALL(__NR_faccessat2, sys_faccessat2)
+ 
+ #undef __NR_syscalls
+-#define __NR_syscalls 439
++#define __NR_syscalls 440
+ 
+ /*
+  * 32 bit systems traditionally used different
+diff --git a/linux-headers/asm-mips/unistd_n32.h b/linux-headers/asm-mips/unistd_n32.h
+index aec9f6081af7..3b9eda7e7d8f 100644
+--- a/linux-headers/asm-mips/unistd_n32.h
++++ b/linux-headers/asm-mips/unistd_n32.h
+@@ -367,6 +367,7 @@
+ #define __NR_clone3	(__NR_Linux + 435)
+ #define __NR_openat2	(__NR_Linux + 437)
+ #define __NR_pidfd_getfd	(__NR_Linux + 438)
++#define __NR_faccessat2	(__NR_Linux + 439)
+ 
+ 
+ #endif /* _ASM_MIPS_UNISTD_N32_H */
+diff --git a/linux-headers/asm-mips/unistd_n64.h b/linux-headers/asm-mips/unistd_n64.h
+index 1c75d83df53f..9cdf9b6c60df 100644
+--- a/linux-headers/asm-mips/unistd_n64.h
++++ b/linux-headers/asm-mips/unistd_n64.h
+@@ -343,6 +343,7 @@
+ #define __NR_clone3	(__NR_Linux + 435)
+ #define __NR_openat2	(__NR_Linux + 437)
+ #define __NR_pidfd_getfd	(__NR_Linux + 438)
++#define __NR_faccessat2	(__NR_Linux + 439)
+ 
+ 
+ #endif /* _ASM_MIPS_UNISTD_N64_H */
+diff --git a/linux-headers/asm-mips/unistd_o32.h b/linux-headers/asm-mips/unistd_o32.h
+index 660716e240ec..e3e5e238f026 100644
+--- a/linux-headers/asm-mips/unistd_o32.h
++++ b/linux-headers/asm-mips/unistd_o32.h
+@@ -413,6 +413,7 @@
+ #define __NR_clone3	(__NR_Linux + 435)
+ #define __NR_openat2	(__NR_Linux + 437)
+ #define __NR_pidfd_getfd	(__NR_Linux + 438)
++#define __NR_faccessat2	(__NR_Linux + 439)
+ 
+ 
+ #endif /* _ASM_MIPS_UNISTD_O32_H */
+diff --git a/linux-headers/asm-powerpc/unistd_32.h b/linux-headers/asm-powerpc/unistd_32.h
+index 4ba8e32f7344..862edb7448c5 100644
+--- a/linux-headers/asm-powerpc/unistd_32.h
++++ b/linux-headers/asm-powerpc/unistd_32.h
+@@ -420,6 +420,7 @@
+ #define __NR_clone3	435
+ #define __NR_openat2	437
+ #define __NR_pidfd_getfd	438
++#define __NR_faccessat2	439
+ 
+ 
+ #endif /* _ASM_POWERPC_UNISTD_32_H */
+diff --git a/linux-headers/asm-powerpc/unistd_64.h b/linux-headers/asm-powerpc/unistd_64.h
+index ac20bb4f95b2..f553224ce408 100644
+--- a/linux-headers/asm-powerpc/unistd_64.h
++++ b/linux-headers/asm-powerpc/unistd_64.h
+@@ -392,6 +392,7 @@
+ #define __NR_clone3	435
+ #define __NR_openat2	437
+ #define __NR_pidfd_getfd	438
++#define __NR_faccessat2	439
+ 
+ 
+ #endif /* _ASM_POWERPC_UNISTD_64_H */
+diff --git a/linux-headers/asm-s390/unistd_32.h b/linux-headers/asm-s390/unistd_32.h
+index e4a6b654f10e..e08233c0c377 100644
+--- a/linux-headers/asm-s390/unistd_32.h
++++ b/linux-headers/asm-s390/unistd_32.h
+@@ -410,5 +410,6 @@
+ #define __NR_clone3 435
+ #define __NR_openat2 437
+ #define __NR_pidfd_getfd 438
++#define __NR_faccessat2 439
+ 
+ #endif /* _ASM_S390_UNISTD_32_H */
+diff --git a/linux-headers/asm-s390/unistd_64.h b/linux-headers/asm-s390/unistd_64.h
+index 472f732956e4..560e19ae2bb4 100644
+--- a/linux-headers/asm-s390/unistd_64.h
++++ b/linux-headers/asm-s390/unistd_64.h
+@@ -358,5 +358,6 @@
+ #define __NR_clone3 435
+ #define __NR_openat2 437
+ #define __NR_pidfd_getfd 438
++#define __NR_faccessat2 439
+ 
+ #endif /* _ASM_S390_UNISTD_64_H */
+diff --git a/linux-headers/asm-x86/kvm.h b/linux-headers/asm-x86/kvm.h
+index 3f3f780c8c65..17c5a038f42d 100644
+--- a/linux-headers/asm-x86/kvm.h
++++ b/linux-headers/asm-x86/kvm.h
+@@ -385,32 +385,48 @@ struct kvm_sync_regs {
+ #define KVM_X86_QUIRK_MISC_ENABLE_NO_MWAIT (1 << 4)
+ 
+ #define KVM_STATE_NESTED_FORMAT_VMX	0
+-#define KVM_STATE_NESTED_FORMAT_SVM	1	/* unused */
++#define KVM_STATE_NESTED_FORMAT_SVM	1
+ 
+ #define KVM_STATE_NESTED_GUEST_MODE	0x00000001
+ #define KVM_STATE_NESTED_RUN_PENDING	0x00000002
+ #define KVM_STATE_NESTED_EVMCS		0x00000004
+ #define KVM_STATE_NESTED_MTF_PENDING	0x00000008
++#define KVM_STATE_NESTED_GIF_SET	0x00000100
+ 
+ #define KVM_STATE_NESTED_SMM_GUEST_MODE	0x00000001
+ #define KVM_STATE_NESTED_SMM_VMXON	0x00000002
+ 
+ #define KVM_STATE_NESTED_VMX_VMCS_SIZE	0x1000
+ 
++#define KVM_STATE_NESTED_SVM_VMCB_SIZE	0x1000
++
++#define KVM_STATE_VMX_PREEMPTION_TIMER_DEADLINE	0x00000001
++
+ struct kvm_vmx_nested_state_data {
+ 	__u8 vmcs12[KVM_STATE_NESTED_VMX_VMCS_SIZE];
+ 	__u8 shadow_vmcs12[KVM_STATE_NESTED_VMX_VMCS_SIZE];
+ };
+ 
+ struct kvm_vmx_nested_state_hdr {
++	__u32 flags;
+ 	__u64 vmxon_pa;
+ 	__u64 vmcs12_pa;
++	__u64 preemption_timer_deadline;
+ 
+ 	struct {
+ 		__u16 flags;
+ 	} smm;
+ };
+ 
++struct kvm_svm_nested_state_data {
++	/* Save area only used if KVM_STATE_NESTED_RUN_PENDING.  */
++	__u8 vmcb12[KVM_STATE_NESTED_SVM_VMCB_SIZE];
++};
++
++struct kvm_svm_nested_state_hdr {
++	__u64 vmcb_pa;
++};
++
+ /* for KVM_CAP_NESTED_STATE */
+ struct kvm_nested_state {
+ 	__u16 flags;
+@@ -419,6 +435,7 @@ struct kvm_nested_state {
+ 
+ 	union {
+ 		struct kvm_vmx_nested_state_hdr vmx;
++		struct kvm_svm_nested_state_hdr svm;
+ 
+ 		/* Pad the header to 128 bytes.  */
+ 		__u8 pad[120];
+@@ -431,6 +448,7 @@ struct kvm_nested_state {
+ 	 */
+ 	union {
+ 		struct kvm_vmx_nested_state_data vmx[0];
++		struct kvm_svm_nested_state_data svm[0];
+ 	} data;
+ };
+ 
+diff --git a/linux-headers/asm-x86/unistd.h b/linux-headers/asm-x86/unistd.h
+index 498d1515c616..d2af42d61ded 100644
+--- a/linux-headers/asm-x86/unistd.h
++++ b/linux-headers/asm-x86/unistd.h
+@@ -2,8 +2,15 @@
+ #ifndef _ASM_X86_UNISTD_H
+ #define _ASM_X86_UNISTD_H
+ 
+-/* x32 syscall flag bit */
+-#define __X32_SYSCALL_BIT	0x40000000UL
++/*
++ * x32 syscall flag bit.  Some user programs expect syscall NR macros
++ * and __X32_SYSCALL_BIT to have type int, even though syscall numbers
++ * are, for practical purposes, unsigned long.
++ *
++ * Fortunately, expressions like (nr & ~__X32_SYSCALL_BIT) do the right
++ * thing regardless.
++ */
++#define __X32_SYSCALL_BIT	0x40000000
+ 
+ # ifdef __i386__
+ #  include <asm/unistd_32.h>
+diff --git a/linux-headers/asm-x86/unistd_32.h b/linux-headers/asm-x86/unistd_32.h
+index 1e6c1a586776..c727981d4a3a 100644
+--- a/linux-headers/asm-x86/unistd_32.h
++++ b/linux-headers/asm-x86/unistd_32.h
+@@ -428,6 +428,7 @@
+ #define __NR_clone3 435
+ #define __NR_openat2 437
+ #define __NR_pidfd_getfd 438
++#define __NR_faccessat2 439
+ 
+ 
+ #endif /* _ASM_X86_UNISTD_32_H */
+diff --git a/linux-headers/asm-x86/unistd_64.h b/linux-headers/asm-x86/unistd_64.h
+index 6daf0aecb298..843fa6274584 100644
+--- a/linux-headers/asm-x86/unistd_64.h
++++ b/linux-headers/asm-x86/unistd_64.h
+@@ -350,6 +350,7 @@
+ #define __NR_clone3 435
+ #define __NR_openat2 437
+ #define __NR_pidfd_getfd 438
++#define __NR_faccessat2 439
+ 
+ 
+ #endif /* _ASM_X86_UNISTD_64_H */
+diff --git a/linux-headers/asm-x86/unistd_x32.h b/linux-headers/asm-x86/unistd_x32.h
+index e3f17ef370fc..7d63d703cab4 100644
+--- a/linux-headers/asm-x86/unistd_x32.h
++++ b/linux-headers/asm-x86/unistd_x32.h
+@@ -303,6 +303,7 @@
+ #define __NR_clone3 (__X32_SYSCALL_BIT + 435)
+ #define __NR_openat2 (__X32_SYSCALL_BIT + 437)
+ #define __NR_pidfd_getfd (__X32_SYSCALL_BIT + 438)
++#define __NR_faccessat2 (__X32_SYSCALL_BIT + 439)
+ #define __NR_rt_sigaction (__X32_SYSCALL_BIT + 512)
+ #define __NR_rt_sigreturn (__X32_SYSCALL_BIT + 513)
+ #define __NR_ioctl (__X32_SYSCALL_BIT + 514)
+diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
+index 9804495a46c5..a28c3667370b 100644
+--- a/linux-headers/linux/kvm.h
++++ b/linux-headers/linux/kvm.h
+@@ -116,7 +116,7 @@ struct kvm_irq_level {
+ 	 * ACPI gsi notion of irq.
+ 	 * For IA-64 (APIC model) IOAPIC0: irq 0-23; IOAPIC1: irq 24-47..
+ 	 * For X86 (standard AT mode) PIC0/1: irq 0-15. IOAPIC0: 0-23..
+-	 * For ARM: See Documentation/virt/kvm/api.txt
++	 * For ARM: See Documentation/virt/kvm/api.rst
+ 	 */
+ 	union {
+ 		__u32 irq;
+@@ -188,10 +188,13 @@ struct kvm_s390_cmma_log {
+ struct kvm_hyperv_exit {
+ #define KVM_EXIT_HYPERV_SYNIC          1
+ #define KVM_EXIT_HYPERV_HCALL          2
++#define KVM_EXIT_HYPERV_SYNDBG         3
+ 	__u32 type;
++	__u32 pad1;
+ 	union {
+ 		struct {
+ 			__u32 msr;
++			__u32 pad2;
+ 			__u64 control;
+ 			__u64 evt_page;
+ 			__u64 msg_page;
+@@ -201,6 +204,15 @@ struct kvm_hyperv_exit {
+ 			__u64 result;
+ 			__u64 params[2];
+ 		} hcall;
++		struct {
++			__u32 msr;
++			__u32 pad2;
++			__u64 control;
++			__u64 status;
++			__u64 send_page;
++			__u64 recv_page;
++			__u64 pending_page;
++		} syndbg;
+ 	} u;
+ };
+ 
+@@ -1017,6 +1029,8 @@ struct kvm_ppc_resize_hpt {
+ #define KVM_CAP_S390_VCPU_RESETS 179
+ #define KVM_CAP_S390_PROTECTED 180
+ #define KVM_CAP_PPC_SECURE_GUEST 181
++#define KVM_CAP_HALT_POLL 182
++#define KVM_CAP_ASYNC_PF_INT 183
+ 
+ #ifdef KVM_CAP_IRQ_ROUTING
+ 
+@@ -1107,7 +1121,7 @@ struct kvm_xen_hvm_config {
+  *
+  * KVM_IRQFD_FLAG_RESAMPLE indicates resamplefd is valid and specifies
+  * the irqfd to operate in resampling mode for level triggered interrupt
+- * emulation.  See Documentation/virt/kvm/api.txt.
++ * emulation.  See Documentation/virt/kvm/api.rst.
+  */
+ #define KVM_IRQFD_FLAG_RESAMPLE (1 << 1)
+ 
+diff --git a/linux-headers/linux/psp-sev.h b/linux-headers/linux/psp-sev.h
+index 31f971e89659..51d8b3940e14 100644
+--- a/linux-headers/linux/psp-sev.h
++++ b/linux-headers/linux/psp-sev.h
+@@ -83,6 +83,8 @@ struct sev_user_data_status {
+ 	__u32 guest_count;			/* Out */
+ } __attribute__((packed));
+ 
++#define SEV_STATUS_FLAGS_CONFIG_ES	0x0100
++
+ /**
+  * struct sev_user_data_pek_csr - PEK_CSR command parameters
+  *
+diff --git a/linux-headers/linux/vfio.h b/linux-headers/linux/vfio.h
+index a41c45286511..f09df262c4b5 100644
+--- a/linux-headers/linux/vfio.h
++++ b/linux-headers/linux/vfio.h
+@@ -305,6 +305,7 @@ struct vfio_region_info_cap_type {
+ #define VFIO_REGION_TYPE_PCI_VENDOR_MASK	(0xffff)
+ #define VFIO_REGION_TYPE_GFX                    (1)
+ #define VFIO_REGION_TYPE_CCW			(2)
++#define VFIO_REGION_TYPE_MIGRATION              (3)
+ 
+ /* sub-types for VFIO_REGION_TYPE_PCI_* */
+ 
+@@ -378,6 +379,235 @@ struct vfio_region_gfx_edid {
+ 
+ /* sub-types for VFIO_REGION_TYPE_CCW */
+ #define VFIO_REGION_SUBTYPE_CCW_ASYNC_CMD	(1)
++#define VFIO_REGION_SUBTYPE_CCW_SCHIB		(2)
++#define VFIO_REGION_SUBTYPE_CCW_CRW		(3)
++
++/* sub-types for VFIO_REGION_TYPE_MIGRATION */
++#define VFIO_REGION_SUBTYPE_MIGRATION           (1)
++
++/*
++ * The structure vfio_device_migration_info is placed at the 0th offset of
++ * the VFIO_REGION_SUBTYPE_MIGRATION region to get and set VFIO device related
++ * migration information. Field accesses from this structure are only supported
++ * at their native width and alignment. Otherwise, the result is undefined and
++ * vendor drivers should return an error.
++ *
++ * device_state: (read/write)
++ *      - The user application writes to this field to inform the vendor driver
++ *        about the device state to be transitioned to.
++ *      - The vendor driver should take the necessary actions to change the
++ *        device state. After successful transition to a given state, the
++ *        vendor driver should return success on write(device_state, state)
++ *        system call. If the device state transition fails, the vendor driver
++ *        should return an appropriate -errno for the fault condition.
++ *      - On the user application side, if the device state transition fails,
++ *	  that is, if write(device_state, state) returns an error, read
++ *	  device_state again to determine the current state of the device from
++ *	  the vendor driver.
++ *      - The vendor driver should return previous state of the device unless
++ *        the vendor driver has encountered an internal error, in which case
++ *        the vendor driver may report the device_state VFIO_DEVICE_STATE_ERROR.
++ *      - The user application must use the device reset ioctl to recover the
++ *        device from VFIO_DEVICE_STATE_ERROR state. If the device is
++ *        indicated to be in a valid device state by reading device_state, the
++ *        user application may attempt to transition the device to any valid
++ *        state reachable from the current state or terminate itself.
++ *
++ *      device_state consists of 3 bits:
++ *      - If bit 0 is set, it indicates the _RUNNING state. If bit 0 is clear,
++ *        it indicates the _STOP state. When the device state is changed to
++ *        _STOP, driver should stop the device before write() returns.
++ *      - If bit 1 is set, it indicates the _SAVING state, which means that the
++ *        driver should start gathering device state information that will be
++ *        provided to the VFIO user application to save the device's state.
++ *      - If bit 2 is set, it indicates the _RESUMING state, which means that
++ *        the driver should prepare to resume the device. Data provided through
++ *        the migration region should be used to resume the device.
++ *      Bits 3 - 31 are reserved for future use. To preserve them, the user
++ *      application should perform a read-modify-write operation on this
++ *      field when modifying the specified bits.
++ *
++ *  +------- _RESUMING
++ *  |+------ _SAVING
++ *  ||+----- _RUNNING
++ *  |||
++ *  000b => Device Stopped, not saving or resuming
++ *  001b => Device running, which is the default state
++ *  010b => Stop the device & save the device state, stop-and-copy state
++ *  011b => Device running and save the device state, pre-copy state
++ *  100b => Device stopped and the device state is resuming
++ *  101b => Invalid state
++ *  110b => Error state
++ *  111b => Invalid state
++ *
++ * State transitions:
++ *
++ *              _RESUMING  _RUNNING    Pre-copy    Stop-and-copy   _STOP
++ *                (100b)     (001b)     (011b)        (010b)       (000b)
++ * 0. Running or default state
++ *                             |
++ *
++ * 1. Normal Shutdown (optional)
++ *                             |------------------------------------->|
++ *
++ * 2. Save the state or suspend
++ *                             |------------------------->|---------->|
++ *
++ * 3. Save the state during live migration
++ *                             |----------->|------------>|---------->|
++ *
++ * 4. Resuming
++ *                  |<---------|
++ *
++ * 5. Resumed
++ *                  |--------->|
++ *
++ * 0. Default state of VFIO device is _RUNNNG when the user application starts.
++ * 1. During normal shutdown of the user application, the user application may
++ *    optionally change the VFIO device state from _RUNNING to _STOP. This
++ *    transition is optional. The vendor driver must support this transition but
++ *    must not require it.
++ * 2. When the user application saves state or suspends the application, the
++ *    device state transitions from _RUNNING to stop-and-copy and then to _STOP.
++ *    On state transition from _RUNNING to stop-and-copy, driver must stop the
++ *    device, save the device state and send it to the application through the
++ *    migration region. The sequence to be followed for such transition is given
++ *    below.
++ * 3. In live migration of user application, the state transitions from _RUNNING
++ *    to pre-copy, to stop-and-copy, and to _STOP.
++ *    On state transition from _RUNNING to pre-copy, the driver should start
++ *    gathering the device state while the application is still running and send
++ *    the device state data to application through the migration region.
++ *    On state transition from pre-copy to stop-and-copy, the driver must stop
++ *    the device, save the device state and send it to the user application
++ *    through the migration region.
++ *    Vendor drivers must support the pre-copy state even for implementations
++ *    where no data is provided to the user before the stop-and-copy state. The
++ *    user must not be required to consume all migration data before the device
++ *    transitions to a new state, including the stop-and-copy state.
++ *    The sequence to be followed for above two transitions is given below.
++ * 4. To start the resuming phase, the device state should be transitioned from
++ *    the _RUNNING to the _RESUMING state.
++ *    In the _RESUMING state, the driver should use the device state data
++ *    received through the migration region to resume the device.
++ * 5. After providing saved device data to the driver, the application should
++ *    change the state from _RESUMING to _RUNNING.
++ *
++ * reserved:
++ *      Reads on this field return zero and writes are ignored.
++ *
++ * pending_bytes: (read only)
++ *      The number of pending bytes still to be migrated from the vendor driver.
++ *
++ * data_offset: (read only)
++ *      The user application should read data_offset field from the migration
++ *      region. The user application should read the device data from this
++ *      offset within the migration region during the _SAVING state or write
++ *      the device data during the _RESUMING state. See below for details of
++ *      sequence to be followed.
++ *
++ * data_size: (read/write)
++ *      The user application should read data_size to get the size in bytes of
++ *      the data copied in the migration region during the _SAVING state and
++ *      write the size in bytes of the data copied in the migration region
++ *      during the _RESUMING state.
++ *
++ * The format of the migration region is as follows:
++ *  ------------------------------------------------------------------
++ * |vfio_device_migration_info|    data section                      |
++ * |                          |     ///////////////////////////////  |
++ * ------------------------------------------------------------------
++ *   ^                              ^
++ *  offset 0-trapped part        data_offset
++ *
++ * The structure vfio_device_migration_info is always followed by the data
++ * section in the region, so data_offset will always be nonzero. The offset
++ * from where the data is copied is decided by the kernel driver. The data
++ * section can be trapped, mmapped, or partitioned, depending on how the kernel
++ * driver defines the data section. The data section partition can be defined
++ * as mapped by the sparse mmap capability. If mmapped, data_offset must be
++ * page aligned, whereas initial section which contains the
++ * vfio_device_migration_info structure, might not end at the offset, which is
++ * page aligned. The user is not required to access through mmap regardless
++ * of the capabilities of the region mmap.
++ * The vendor driver should determine whether and how to partition the data
++ * section. The vendor driver should return data_offset accordingly.
++ *
++ * The sequence to be followed while in pre-copy state and stop-and-copy state
++ * is as follows:
++ * a. Read pending_bytes, indicating the start of a new iteration to get device
++ *    data. Repeated read on pending_bytes at this stage should have no side
++ *    effects.
++ *    If pending_bytes == 0, the user application should not iterate to get data
++ *    for that device.
++ *    If pending_bytes > 0, perform the following steps.
++ * b. Read data_offset, indicating that the vendor driver should make data
++ *    available through the data section. The vendor driver should return this
++ *    read operation only after data is available from (region + data_offset)
++ *    to (region + data_offset + data_size).
++ * c. Read data_size, which is the amount of data in bytes available through
++ *    the migration region.
++ *    Read on data_offset and data_size should return the offset and size of
++ *    the current buffer if the user application reads data_offset and
++ *    data_size more than once here.
++ * d. Read data_size bytes of data from (region + data_offset) from the
++ *    migration region.
++ * e. Process the data.
++ * f. Read pending_bytes, which indicates that the data from the previous
++ *    iteration has been read. If pending_bytes > 0, go to step b.
++ *
++ * The user application can transition from the _SAVING|_RUNNING
++ * (pre-copy state) to the _SAVING (stop-and-copy) state regardless of the
++ * number of pending bytes. The user application should iterate in _SAVING
++ * (stop-and-copy) until pending_bytes is 0.
++ *
++ * The sequence to be followed while _RESUMING device state is as follows:
++ * While data for this device is available, repeat the following steps:
++ * a. Read data_offset from where the user application should write data.
++ * b. Write migration data starting at the migration region + data_offset for
++ *    the length determined by data_size from the migration source.
++ * c. Write data_size, which indicates to the vendor driver that data is
++ *    written in the migration region. Vendor driver must return this write
++ *    operations on consuming data. Vendor driver should apply the
++ *    user-provided migration region data to the device resume state.
++ *
++ * If an error occurs during the above sequences, the vendor driver can return
++ * an error code for next read() or write() operation, which will terminate the
++ * loop. The user application should then take the next necessary action, for
++ * example, failing migration or terminating the user application.
++ *
++ * For the user application, data is opaque. The user application should write
++ * data in the same order as the data is received and the data should be of
++ * same transaction size at the source.
++ */
++
++struct vfio_device_migration_info {
++	__u32 device_state;         /* VFIO device state */
++#define VFIO_DEVICE_STATE_STOP      (0)
++#define VFIO_DEVICE_STATE_RUNNING   (1 << 0)
++#define VFIO_DEVICE_STATE_SAVING    (1 << 1)
++#define VFIO_DEVICE_STATE_RESUMING  (1 << 2)
++#define VFIO_DEVICE_STATE_MASK      (VFIO_DEVICE_STATE_RUNNING | \
++				     VFIO_DEVICE_STATE_SAVING |  \
++				     VFIO_DEVICE_STATE_RESUMING)
++
++#define VFIO_DEVICE_STATE_VALID(state) \
++	(state & VFIO_DEVICE_STATE_RESUMING ? \
++	(state & VFIO_DEVICE_STATE_MASK) == VFIO_DEVICE_STATE_RESUMING : 1)
++
++#define VFIO_DEVICE_STATE_IS_ERROR(state) \
++	((state & VFIO_DEVICE_STATE_MASK) == (VFIO_DEVICE_STATE_SAVING | \
++					      VFIO_DEVICE_STATE_RESUMING))
++
++#define VFIO_DEVICE_STATE_SET_ERROR(state) \
++	((state & ~VFIO_DEVICE_STATE_MASK) | VFIO_DEVICE_SATE_SAVING | \
++					     VFIO_DEVICE_STATE_RESUMING)
++
++	__u32 reserved;
++	__u64 pending_bytes;
++	__u64 data_offset;
++	__u64 data_size;
++};
+ 
+ /*
+  * The MSIX mappable capability informs that MSIX data of a BAR can be mmapped
+@@ -577,6 +807,7 @@ enum {
+ 
+ enum {
+ 	VFIO_CCW_IO_IRQ_INDEX,
++	VFIO_CCW_CRW_IRQ_INDEX,
+ 	VFIO_CCW_NUM_IRQS
+ };
+ 
+@@ -785,6 +1016,29 @@ struct vfio_iommu_type1_info_cap_iova_range {
+ 	struct	vfio_iova_range iova_ranges[];
+ };
+ 
++/*
++ * The migration capability allows to report supported features for migration.
++ *
++ * The structures below define version 1 of this capability.
++ *
++ * The existence of this capability indicates that IOMMU kernel driver supports
++ * dirty page logging.
++ *
++ * pgsize_bitmap: Kernel driver returns bitmap of supported page sizes for dirty
++ * page logging.
++ * max_dirty_bitmap_size: Kernel driver returns maximum supported dirty bitmap
++ * size in bytes that can be used by user applications when getting the dirty
++ * bitmap.
++ */
++#define VFIO_IOMMU_TYPE1_INFO_CAP_MIGRATION  1
++
++struct vfio_iommu_type1_info_cap_migration {
++	struct	vfio_info_cap_header header;
++	__u32	flags;
++	__u64	pgsize_bitmap;
++	__u64	max_dirty_bitmap_size;		/* in bytes */
++};
++
+ #define VFIO_IOMMU_GET_INFO _IO(VFIO_TYPE, VFIO_BASE + 12)
+ 
+ /**
+@@ -805,6 +1059,12 @@ struct vfio_iommu_type1_dma_map {
+ 
+ #define VFIO_IOMMU_MAP_DMA _IO(VFIO_TYPE, VFIO_BASE + 13)
+ 
++struct vfio_bitmap {
++	__u64        pgsize;	/* page size for bitmap in bytes */
++	__u64        size;	/* in bytes */
++	__u64 *data;	/* one bit per page */
++};
++
+ /**
+  * VFIO_IOMMU_UNMAP_DMA - _IOWR(VFIO_TYPE, VFIO_BASE + 14,
+  *							struct vfio_dma_unmap)
+@@ -814,12 +1074,23 @@ struct vfio_iommu_type1_dma_map {
+  * field.  No guarantee is made to the user that arbitrary unmaps of iova
+  * or size different from those used in the original mapping call will
+  * succeed.
++ * VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP should be set to get the dirty bitmap
++ * before unmapping IO virtual addresses. When this flag is set, the user must
++ * provide a struct vfio_bitmap in data[]. User must provide zero-allocated
++ * memory via vfio_bitmap.data and its size in the vfio_bitmap.size field.
++ * A bit in the bitmap represents one page, of user provided page size in
++ * vfio_bitmap.pgsize field, consecutively starting from iova offset. Bit set
++ * indicates that the page at that offset from iova is dirty. A Bitmap of the
++ * pages in the range of unmapped size is returned in the user-provided
++ * vfio_bitmap.data.
+  */
+ struct vfio_iommu_type1_dma_unmap {
+ 	__u32	argsz;
+ 	__u32	flags;
++#define VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP (1 << 0)
+ 	__u64	iova;				/* IO virtual address */
+ 	__u64	size;				/* Size of mapping (bytes) */
++	__u8    data[];
+ };
+ 
+ #define VFIO_IOMMU_UNMAP_DMA _IO(VFIO_TYPE, VFIO_BASE + 14)
+@@ -831,6 +1102,57 @@ struct vfio_iommu_type1_dma_unmap {
+ #define VFIO_IOMMU_ENABLE	_IO(VFIO_TYPE, VFIO_BASE + 15)
+ #define VFIO_IOMMU_DISABLE	_IO(VFIO_TYPE, VFIO_BASE + 16)
+ 
++/**
++ * VFIO_IOMMU_DIRTY_PAGES - _IOWR(VFIO_TYPE, VFIO_BASE + 17,
++ *                                     struct vfio_iommu_type1_dirty_bitmap)
++ * IOCTL is used for dirty pages logging.
++ * Caller should set flag depending on which operation to perform, details as
++ * below:
++ *
++ * Calling the IOCTL with VFIO_IOMMU_DIRTY_PAGES_FLAG_START flag set, instructs
++ * the IOMMU driver to log pages that are dirtied or potentially dirtied by
++ * the device; designed to be used when a migration is in progress. Dirty pages
++ * are logged until logging is disabled by user application by calling the IOCTL
++ * with VFIO_IOMMU_DIRTY_PAGES_FLAG_STOP flag.
++ *
++ * Calling the IOCTL with VFIO_IOMMU_DIRTY_PAGES_FLAG_STOP flag set, instructs
++ * the IOMMU driver to stop logging dirtied pages.
++ *
++ * Calling the IOCTL with VFIO_IOMMU_DIRTY_PAGES_FLAG_GET_BITMAP flag set
++ * returns the dirty pages bitmap for IOMMU container for a given IOVA range.
++ * The user must specify the IOVA range and the pgsize through the structure
++ * vfio_iommu_type1_dirty_bitmap_get in the data[] portion. This interface
++ * supports getting a bitmap of the smallest supported pgsize only and can be
++ * modified in future to get a bitmap of any specified supported pgsize. The
++ * user must provide a zeroed memory area for the bitmap memory and specify its
++ * size in bitmap.size. One bit is used to represent one page consecutively
++ * starting from iova offset. The user should provide page size in bitmap.pgsize
++ * field. A bit set in the bitmap indicates that the page at that offset from
++ * iova is dirty. The caller must set argsz to a value including the size of
++ * structure vfio_iommu_type1_dirty_bitmap_get, but excluding the size of the
++ * actual bitmap. If dirty pages logging is not enabled, an error will be
++ * returned.
++ *
++ * Only one of the flags _START, _STOP and _GET may be specified at a time.
++ *
++ */
++struct vfio_iommu_type1_dirty_bitmap {
++	__u32        argsz;
++	__u32        flags;
++#define VFIO_IOMMU_DIRTY_PAGES_FLAG_START	(1 << 0)
++#define VFIO_IOMMU_DIRTY_PAGES_FLAG_STOP	(1 << 1)
++#define VFIO_IOMMU_DIRTY_PAGES_FLAG_GET_BITMAP	(1 << 2)
++	__u8         data[];
++};
++
++struct vfio_iommu_type1_dirty_bitmap_get {
++	__u64              iova;	/* IO virtual address */
++	__u64              size;	/* Size of iova range */
++	struct vfio_bitmap bitmap;
++};
++
++#define VFIO_IOMMU_DIRTY_PAGES             _IO(VFIO_TYPE, VFIO_BASE + 17)
++
+ /* -------- Additional API for SPAPR TCE (Server POWERPC) IOMMU -------- */
+ 
+ /*
+diff --git a/linux-headers/linux/vfio_ccw.h b/linux-headers/linux/vfio_ccw.h
+index fcc3e69ef526..516496f1d482 100644
+--- a/linux-headers/linux/vfio_ccw.h
++++ b/linux-headers/linux/vfio_ccw.h
+@@ -34,4 +34,23 @@ struct ccw_cmd_region {
+ 	__u32 ret_code;
+ } __attribute__((packed));
+ 
++/*
++ * Used for processing commands that read the subchannel-information block
++ * Reading this region triggers a stsch() to hardware
++ * Note: this is controlled by a capability
++ */
++struct ccw_schib_region {
++#define SCHIB_AREA_SIZE 52
++	__u8 schib_area[SCHIB_AREA_SIZE];
++} __attribute__((packed));
++
++/*
++ * Used for returning a Channel Report Word to userspace.
++ * Note: this is controlled by a capability
++ */
++struct ccw_crw_region {
++	__u32 crw;
++	__u32 pad;
++} __attribute__((packed));
++
+ #endif
+diff --git a/linux-headers/linux/vhost.h b/linux-headers/linux/vhost.h
+index 9fe72e4b1373..0c2349612e77 100644
+--- a/linux-headers/linux/vhost.h
++++ b/linux-headers/linux/vhost.h
+@@ -15,6 +15,8 @@
+ #include <linux/types.h>
+ #include <linux/ioctl.h>
+ 
++#define VHOST_FILE_UNBIND -1
++
+ /* ioctls */
+ 
+ #define VHOST_VIRTIO 0xAF
+@@ -140,4 +142,6 @@
+ /* Get the max ring size. */
+ #define VHOST_VDPA_GET_VRING_NUM	_IOR(VHOST_VIRTIO, 0x76, __u16)
+ 
++/* Set event fd for config interrupt*/
++#define VHOST_VDPA_SET_CONFIG_CALL	_IOW(VHOST_VIRTIO, 0x77, int)
+ #endif
+-- 
+2.25.4
 
-----==_mimepart_5eeb8a8847a08_33e13fc74b2222a02452a4
-Content-Type: text/plain;
- charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-
-
-Your pipeline has failed.
-
-Project: QEMU ( https://gitlab.com/qemu-project/qemu )
-Branch: master ( https://gitlab.com/qemu-project/qemu/-/commits/master )
-
-Commit: 3b268766 ( https://gitlab.com/qemu-project/qemu/-/commit/3b268766=
-ecb7b630938e9bfb89b106a9dd8d94ae )
-Commit Message: Merge remote-tracking branch 'remotes/kevin/tag...
-Commit Author: Peter Maydell ( https://gitlab.com/pm215 )
-
-Pipeline #157678866 ( https://gitlab.com/qemu-project/qemu/-/pipelines/15=
-7678866 ) triggered by Alex Benn=C3=A9e ( https://gitlab.com/stsquad )
-had 2 failed builds.
-
-Job #601434165 ( https://gitlab.com/qemu-project/qemu/-/jobs/601434165/ra=
-w )
-
-Stage: test
-Name: build-disabled
-Trace: qemu-system-i386: -accel kvm: failed to initialize kvm: No such fi=
-le or directory
-qemu-system-i386: falling back to tcg
-Could not access KVM kernel module: No such file or directory
-qemu-system-i386: -accel kvm: failed to initialize kvm: No such file or d=
-irectory
-qemu-system-i386: falling back to tcg
-Could not access KVM kernel module: No such file or directory
-qemu-system-i386: -accel kvm: failed to initialize kvm: No such file or d=
-irectory
-qemu-system-i386: falling back to tcg
-  TEST    check-qtest-i386: tests/qtest/device-introspect-test
-  TEST    check-qtest-i386: tests/qtest/machine-none-test
-  TEST    check-qtest-i386: tests/qtest/qmp-test
-  TEST    check-qtest-i386: tests/qtest/qmp-cmd-test
-  TEST    check-qtest-i386: tests/qtest/qom-test
-  TEST    check-qtest-i386: tests/qtest/test-hmp
-  TEST    check-qtest-i386: tests/qtest/qos-test
-  TEST    check-qtest-mips64: tests/qtest/endianness-test
-  TEST    check-qtest-mips64: tests/qtest/display-vga-test
-  TEST    check-qtest-mips64: tests/qtest/cdrom-test
-  TEST    check-qtest-mips64: tests/qtest/device-introspect-test
-  TEST    check-qtest-mips64: tests/qtest/machine-none-test
-  TEST    check-qtest-mips64: tests/qtest/qmp-test
-  TEST    check-qtest-mips64: tests/qtest/qmp-cmd-test
-  TEST    check-qtest-mips64: tests/qtest/qom-test
-  TEST    check-qtest-mips64: tests/qtest/test-hmp
-  TEST    check-qtest-mips64: tests/qtest/qos-test
-qemu-system-ppc64: warning: machine has no BMC device. Use '-device ipmi-=
-bmc-sim,id=3Dbmc0 -device isa-ipmi-bt,bmc=3Dbmc0,irq=3D10' to define one
-qemu-system-ppc64: warning: machine has no BMC device. Use '-device ipmi-=
-bmc-sim,id=3Dbmc0 -device isa-ipmi-bt,bmc=3Dbmc0,irq=3D10' to define one
-qemu-system-ppc64: warning: machine has no BMC device. Use '-device ipmi-=
-bmc-sim,id=3Dbmc0 -device isa-ipmi-bt,bmc=3Dbmc0,irq=3D10' to define one
-section_end:1592494727:step_script
-=1B[0K=1B[31;1mERROR: Job failed: execution took longer than 1h0m0s secon=
-ds
-=1B[0;m
-
-Job #601434166 ( https://gitlab.com/qemu-project/qemu/-/jobs/601434166/ra=
-w )
-
-Stage: test
-Name: build-tcg-disabled
-Trace: 208      ...        [15:02:39]             ...              =
-
-208      =1B[32mpass      =1B[0m [15:02:39] [15:02:39]   0s              =
- =
-
-209      ...        [15:02:39]             ...              =
-
-209      =1B[32mpass      =1B[0m [15:02:39] [15:02:40]   1s              =
- =
-
-215      ...        [15:02:40]             ...              =
-
-215      =1B[32mpass      =1B[0m [15:02:40] [15:04:10]  90s              =
- =
-
-216      ...        [15:04:10]             ...              =
-
-216      =1B[32mpass      =1B[0m [15:04:10] [15:04:16]   6s              =
- =
-
-218      ...        [15:04:16]             ...              =
-
-218      =1B[32mpass      =1B[0m [15:04:16] [15:04:18]   2s              =
- =
-
-222      ...        [15:04:18]             ...              =
-
-222      =1B[32mpass      =1B[0m [15:04:18] [15:04:19]   1s              =
- =
-
-227      ...        [15:04:19]             ...              =
-
-227      =1B[32mpass      =1B[0m [15:04:19] [15:04:19]   0s              =
- =
-
-234      ...        [15:04:19]             ...              =
-
-234      =1B[32mpass      =1B[0m [15:04:19] [15:04:20]   1s              =
- =
-
-246      ...        [15:04:20]             ...              =
-
-246      =1B[32mpass      =1B[0m [15:04:20] [15:04:23]   3s              =
- =
-
-247      ...        [15:04:23]             ...              =
-
-247      =1B[32mpass      =1B[0m [15:04:23] [15:04:24]   1s              =
- =
-
-248      ...        [15:04:24]             ...              =
-
-248      =1B[32mpass      =1B[0m [15:04:24] [15:04:25]   1s              =
- =
-
-250      ...        [15:04:25]             ...              =
-
-250      =1B[32mpass      =1B[0m [15:04:25] [15:04:26]   1s              =
- =
-
-254      ...        [15:04:26]             ...              =
-
-254      =1B[32mpass      =1B[0m [15:04:26] [15:04:26]   0s              =
- =
-
-255      ...        [15:04:26]             ...              =
-
-255      =1B[32mpass      =1B[0m [15:04:26] [15:04:28]   2s              =
- =
-
-257      ...        [15:04:28]             ...              =
-
-257      =1B[32mpass      =1B[0m [15:04:28] [15:04:40]  12s              =
- =
-
-258      ...        [15:04:40]             ...              =
-
-258      =1B[32mpass      =1B[0m [15:04:40] [15:04:41]   1s              =
- =
-
-260      ...        [15:04:41]             ...              =
-
-260      =1B[32mpass      =1B[0m [15:04:41] [15:04:42]   1s              =
- =
-
-261      ...        [15:04:42]             ...              =
-
-261      =1B[32mpass      =1B[0m [15:04:42] [15:05:08]  26s              =
- =
-
-262      ...        [15:05:08]             ...              =
-
-262      =1B[32mpass      =1B[0m [15:05:08] [15:05:08]   0s              =
- =
-
-263      ...        [15:05:08]             ...              =
-
-263      =1B[32mpass      =1B[0m [15:05:08] [15:05:11]   3s              =
- =
-
-264      ...        [15:05:11]             ...              =
-
-264      =1B[32mpass      =1B[0m [15:05:11] [15:05:15]   4s              =
- =
-
-270      ...        [15:05:15]             ...              =
-
-270      =1B[32mpass      =1B[0m [15:05:15] [15:05:17]   2s              =
- =
-
-272      ...        [15:05:17]             ...              =
-
-272      =1B[32mpass      =1B[0m [15:05:17] [15:05:18]   1s              =
- =
-
-273      ...        [15:05:18]             ...              =
-
-273      =1B[32mpass      =1B[0m [15:05:18] [15:05:18]   0s              =
- =
-
-277      ...        [15:05:18]             ...              =
-
-277      =1B[32mpass      =1B[0m [15:05:18] [15:05:19]   1s              =
- =
-
-279      ...        [15:05:19]             ...              =
-
-279      =1B[32mpass      =1B[0m [15:05:19] [15:05:19]   0s              =
- =
-
-Failures: 051
-Failed 1 of 57 iotests
-section_end:1592492742:step_script
-=1B[0K=1B[31;1mERROR: Job failed: exit code 1
-=1B[0;m
-
-
--- =
-
-You're receiving this email because of your account on gitlab.com.
-
-
-
-
-----==_mimepart_5eeb8a8847a08_33e13fc74b2222a02452a4
-Content-Type: text/html;
- charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://ww=
-w.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns=3D"http://www.w3.org/1999/xhtml" lang=3D"en" xml:lang=3D"en">=
-
-<head>
-<meta content=3D"text/html; charset=3DUTF-8" http-equiv=3D"Content-Type" =
-/>
-<meta content=3D"width=3Ddevice-width, initial-scale=3D1" name=3D"viewpor=
-t" />
-<meta content=3D"IE=3Dedge" http-equiv=3D"X-UA-Compatible" />
-<title>QEMU | Pipeline #157678866 has failed for master | 3b268766</title=
->
-<style data-premailer=3D"ignore" type=3D"text/css">
-body,table,td,a{-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}t=
-able,td{mso-table-lspace:0pt;mso-table-rspace:0pt}img{-ms-interpolation-m=
-ode:bicubic}.hidden{display:none !important;visibility:hidden !important}=
-a[x-apple-data-detectors]{color:inherit !important;text-decoration:none !=
-important;font-size:inherit !important;font-family:inherit !important;fon=
-t-weight:inherit !important;line-height:inherit !important}div[style*=3D'=
-margin: 16px 0']{margin:0 !important}@media only screen and (max-width: 6=
-39px){body,#body{min-width:320px !important}table.wrapper{width:100% !imp=
-ortant;min-width:320px !important}table.wrapper td.wrapper-cell{border-le=
-ft:0 !important;border-right:0 !important;border-radius:0 !important;padd=
-ing-left:10px !important;padding-right:10px !important}}
-
-</style>
-
-<style>body {
-margin: 0 !important; background-color: #fafafa; padding: 0; text-align: =
-center; min-width: 640px; width: 100%; height: 100%; font-family: "Helvet=
-ica Neue", Helvetica, Arial, sans-serif;
-}
-</style></head>
-<body style=3D"text-align: center; min-width: 640px; width: 100%; height:=
- 100%; font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-se=
-rif; margin: 0; padding: 0;" bgcolor=3D"#fafafa">
-<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" id=3D"body" style=
-=3D"text-align: center; min-width: 640px; width: 100%; margin: 0; padding=
-: 0;" bgcolor=3D"#fafafa">
-<tbody>
-<tr class=3D"line">
-<td style=3D"font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, s=
-ans-serif; height: 4px; font-size: 4px; line-height: 4px;" bgcolor=3D"#6b=
-4fbb"></td>
-</tr>
-<tr class=3D"header">
-<td style=3D"font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, s=
-ans-serif; font-size: 13px; line-height: 1.6; color: #5c5c5c; padding: 25=
-px 0;">
-
-<img alt=3D"GitLab" src=3D"https://gitlab.com/assets/mailers/gitlab_heade=
-r_logo-153749eaa7ea6fafcb995161abd3247bc4c4500f31498b0c4024f50093983ac0.g=
-if" width=3D"55" height=3D"50" />
-</td>
-</tr>
-<tr>
-<td style=3D"font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, s=
-ans-serif;">
-<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"wrapper"=
- style=3D"width: 640px; border-collapse: separate; border-spacing: 0; mar=
-gin: 0 auto;">
-<tbody>
-<tr>
-<td class=3D"wrapper-cell" style=3D"font-family: &quot;Helvetica Neue&quo=
-t;, Helvetica, Arial, sans-serif; border-radius: 3px; overflow: hidden; p=
-adding: 18px 25px; border: 1px solid #ededed;" align=3D"left" bgcolor=3D"=
-#ffffff">
-<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"content"=
- style=3D"width: 100%; border-collapse: separate; border-spacing: 0;">
-<tbody>
-<tr class=3D"alert">
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; bo=
-rder-radius: 3px; font-size: 14px; line-height: 1.3; overflow: hidden; co=
-lor: #ffffff; padding: 10px;" align=3D"center" bgcolor=3D"#d22f57">
-<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
-le=3D"border-collapse: collapse; margin: 0 auto;">
-<tbody>
-<tr>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
-lor: #ffffff; padding-right: 5px; line-height: 1;" align=3D"center" valig=
-n=3D"middle">
-<img alt=3D"&#10006;" height=3D"13" src=3D"https://gitlab.com/assets/mail=
-ers/ci_pipeline_notif_v1/icon-x-red-inverted-06edddd39ba2a7f9a32f6201e420=
-175db85a4b6ac0348203fdc069001b440149.gif" style=3D"display: block;" width=
-=3D"13" />
-</td>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
-lor: #ffffff;" align=3D"center" valign=3D"middle">
-Your pipeline has failed.
-</td>
-</tr>
-</tbody>
-</table>
-</td>
-</tr>
-<tr class=3D"spacer">
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; he=
-ight: 18px; font-size: 18px; line-height: 18px;">
-&#160;
-</td>
-</tr>
-<tr class=3D"section">
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; bo=
-rder-radius: 3px; overflow: hidden; padding: 0 15px; border: 1px solid #e=
-deded;">
-<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"table-in=
-fo" style=3D"width: 100%;">
-<tbody>
-<tr>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; color: #8c8c8c; font-weight: 300; margin=
-: 0; padding: 14px 0;">Project</td>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; font-weight: 500; color: #333333; width:=
- 75%; margin: 0; padding: 14px 0 14px 5px;">
-<a class=3D"muted" href=3D"https://gitlab.com/qemu-project" style=3D"colo=
-r: #333333; text-decoration: none;">
-QEMU
-</a>
-/
-<a class=3D"muted" href=3D"https://gitlab.com/qemu-project/qemu" style=3D=
-"color: #333333; text-decoration: none;">
-QEMU
-</a>
-</td>
-</tr>
-<tr>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; color: #8c8c8c; font-weight: 300; border=
--top-width: 1px; border-top-color: #ededed; border-top-style: solid; marg=
-in: 0; padding: 14px 0;">Branch</td>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; font-weight: 500; color: #333333; width:=
- 75%; border-top-width: 1px; border-top-color: #ededed; border-top-style:=
- solid; margin: 0; padding: 14px 0 14px 5px;">
-<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
-le=3D"border-collapse: collapse;">
-<tbody>
-<tr>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; padding-right: 5px;" valign=3D"middle">
-<img alt=3D"" height=3D"13" src=3D"https://gitlab.com/assets/mailers/ci_p=
-ipeline_notif_v1/icon-branch-gray-53618a7fc19d4d32ccbabac2f6d59bebe67202a=
-9f2f1255e3f72c69756c0dd9c.gif" style=3D"display: block;" width=3D"13" />
-</td>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4;" valign=3D"middle">
-<a class=3D"muted" href=3D"https://gitlab.com/qemu-project/qemu/-/commits=
-/master" style=3D"color: #333333; text-decoration: none;">
-master
-</a>
-</td>
-</tr>
-</tbody>
-</table>
-</td>
-</tr>
-<tr>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; color: #8c8c8c; font-weight: 300; border=
--top-width: 1px; border-top-color: #ededed; border-top-style: solid; marg=
-in: 0; padding: 14px 0;">Commit</td>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; font-weight: 400; color: #333333; width:=
- 75%; border-top-width: 1px; border-top-color: #ededed; border-top-style:=
- solid; margin: 0; padding: 14px 0 14px 5px;">
-<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
-le=3D"border-collapse: collapse;">
-<tbody>
-<tr>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; padding-right: 5px;" valign=3D"middle">
-<img alt=3D"" height=3D"13" src=3D"https://gitlab.com/assets/mailers/ci_p=
-ipeline_notif_v1/icon-commit-gray-c10243ac24cde64b549aec91de35e6b49c8739b=
-506b86472b54614c10d8b4aac.gif" style=3D"display: block;" width=3D"13" />
-</td>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4;" valign=3D"middle">
-<a href=3D"https://gitlab.com/qemu-project/qemu/-/commit/3b268766ecb7b630=
-938e9bfb89b106a9dd8d94ae" style=3D"color: #3777b0; text-decoration: none;=
-">
-3b268766
-</a>
-</td>
-</tr>
-</tbody>
-</table>
-<div class=3D"commit" style=3D"color: #5c5c5c; font-weight: 300;">
-Merge remote-tracking branch 'remotes/kevin/tag...
-</div>
-</td>
-</tr>
-<tr>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; color: #8c8c8c; font-weight: 300; border=
--top-width: 1px; border-top-color: #ededed; border-top-style: solid; marg=
-in: 0; padding: 14px 0;">Commit Author</td>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; font-weight: 500; color: #333333; width:=
- 75%; border-top-width: 1px; border-top-color: #ededed; border-top-style:=
- solid; margin: 0; padding: 14px 0 14px 5px;">
-<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
-le=3D"border-collapse: collapse;">
-<tbody>
-<tr>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; padding-right: 5px;" valign=3D"middle">
-<img alt=3D"" class=3D"avatar" height=3D"24" src=3D"https://secure.gravat=
-ar.com/avatar/98261ce19b4e9da714d577154686723a?s=3D48&amp;d=3Didenticon" =
-style=3D"display: block; border-radius: 12px; margin: -2px 0;" width=3D"2=
-4" />
-</td>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4;" valign=3D"middle">
-<a class=3D"muted" href=3D"https://gitlab.com/pm215" style=3D"color: #333=
-333; text-decoration: none;">
-Peter Maydell
-</a>
-</td>
-</tr>
-</tbody>
-</table>
-</td>
-</tr>
-</tbody>
-</table>
-</td>
-</tr>
-<tr class=3D"spacer">
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; he=
-ight: 18px; font-size: 18px; line-height: 18px;">
-&#160;
-</td>
-</tr>
-<tr class=3D"pre-section">
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
-lor: #333333; font-size: 15px; font-weight: 400; line-height: 1.4; paddin=
-g: 15px 5px 0;" align=3D"center">
-<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
-le=3D"border-collapse: collapse; margin: 0 auto;">
-<tbody>
-<tr>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; font-weight: 500; line-height: 1.4;" valign=3D"baseline">
-Pipeline
-<a href=3D"https://gitlab.com/qemu-project/qemu/-/pipelines/157678866" st=
-yle=3D"color: #3777b0; text-decoration: none;">
-#157678866
-</a>
-triggered by
-</td>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; line-height: 1.4; padding-right: 5px; padding-left: 5px;" =
-width=3D"24" valign=3D"middle">
-<img alt=3D"" class=3D"avatar" height=3D"24" src=3D"https://secure.gravat=
-ar.com/avatar/a7d7f408c0b3370bbbeb98833d6c50e4?s=3D48&amp;d=3Didenticon" =
-style=3D"display: block; border-radius: 12px; margin: -2px 0;" width=3D"2=
-4" />
-</td>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
-nt-size: 15px; font-weight: 500; line-height: 1.4;" valign=3D"baseline">
-<a class=3D"muted" href=3D"https://gitlab.com/stsquad" style=3D"color: #3=
-33333; text-decoration: none;">
-Alex Benn&#233;e
-</a>
-</td>
-</tr>
-</tbody>
-</table>
-</td>
-</tr>
-<tr>
-<td colspan=3D"2" style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,=
-sans-serif; color: #333333; font-size: 14px; font-weight: 400; line-heigh=
-t: 1.4; padding: 0 8px 16px;" align=3D"center">
-had
-2
-failed
-builds.
-</td>
-</tr>
-<tr class=3D"table-warning">
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; bo=
-rder-radius: 4px 4px 0 0; overflow: hidden; color: #d22852; font-size: 14=
-px; line-height: 1.4; padding: 8px 16px; border-color: #ededed; border-st=
-yle: solid; border-width: 1px 1px 0;" align=3D"center" bgcolor=3D"#fdf4f6=
-">
-Logs may contain sensitive data. Please consider before forwarding this e=
-mail.
-</td>
-</tr>
-<tr class=3D"section">
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; ov=
-erflow: hidden; border-radius: 0 0 4px 4px; padding: 0 16px; border-color=
-: #ededed; border-style: solid; border-width: 0 1px 1px;">
-<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"builds" =
-style=3D"width: 100%; border-collapse: collapse;">
-<tbody>
-<tr class=3D"build-state">
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
-lor: #8c8c8c; font-weight: 500; font-size: 14px; padding: 16px 0;">
-<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
-le=3D"border-collapse: collapse;">
-<tbody>
-<tr>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
-lor: #d22f57; font-weight: 500; font-size: 16px; padding-right: 8px; line=
--height: 10px;" valign=3D"middle">
-<img alt=3D"&#10006;" height=3D"10" src=3D"https://gitlab.com/assets/mail=
-ers/ci_pipeline_notif_v1/icon-x-red-67056b7b99899e30453df79abfbe16162f6a2=
-6ed789d8236f81afcaea216ffe6.gif" style=3D"display: block;" width=3D"10" /=
->
-</td>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
-lor: #8c8c8c; font-weight: 500; font-size: 14px;" valign=3D"middle">
-test
-</td>
-</tr>
-</tbody>
-</table>
-</td>
-<td align=3D"right" style=3D"font-family: 'Helvetica Neue',Helvetica,Aria=
-l,sans-serif; color: #8c8c8c; font-weight: 500; font-size: 14px; padding:=
- 16px 0;">
-<a href=3D"https://gitlab.com/qemu-project/qemu/-/jobs/601434165" style=3D=
-"color: #3777b0; text-decoration: none;">
-build-disabled
-</a>
-
-</td>
-</tr>
-<tr class=3D"build-log">
-<td colspan=3D"2" style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,=
-sans-serif; padding: 0 0 16px;">
-<pre style=3D"font-family: Monaco,'Lucida Console','Courier New',Courier,=
-monospace; background-color: #fafafa; border-radius: 4px; overflow: hidde=
-n; white-space: pre-wrap; word-break: break-all; font-size: 13px; line-he=
-ight: 1.4; color: #333333; margin: 0; padding: 16px 8px;"><span>qemu-syst=
-em-i386: -accel kvm: failed to initialize kvm: No such file or directory<=
-br />qemu-system-i386: falling back to tcg<br />Could not access KVM kern=
-el module: No such file or directory<br />qemu-system-i386: -accel kvm: f=
-ailed to initialize kvm: No such file or directory<br />qemu-system-i386:=
- falling back to tcg<br />Could not access KVM kernel module: No such fil=
-e or directory<br />qemu-system-i386: -accel kvm: failed to initialize kv=
-m: No such file or directory<br />qemu-system-i386: falling back to tcg<b=
-r />  TEST    check-qtest-i386: tests/qtest/device-introspect-test<br /> =
- TEST    check-qtest-i386: tests/qtest/machine-none-test<br />  TEST    c=
-heck-qtest-i386: tests/qtest/qmp-test<br />  TEST    check-qtest-i386: te=
-sts/qtest/qmp-cmd-test<br />  TEST    check-qtest-i386: tests/qtest/qom-t=
-est<br />  TEST    check-qtest-i386: tests/qtest/test-hmp<br />  TEST    =
-check-qtest-i386: tests/qtest/qos-test<br />  TEST    check-qtest-mips64:=
- tests/qtest/endianness-test<br />  TEST    check-qtest-mips64: tests/qte=
-st/display-vga-test<br />  TEST    check-qtest-mips64: tests/qtest/cdrom-=
-test<br />  TEST    check-qtest-mips64: tests/qtest/device-introspect-tes=
-t<br />  TEST    check-qtest-mips64: tests/qtest/machine-none-test<br /> =
- TEST    check-qtest-mips64: tests/qtest/qmp-test<br />  TEST    check-qt=
-est-mips64: tests/qtest/qmp-cmd-test<br />  TEST    check-qtest-mips64: t=
-ests/qtest/qom-test<br />  TEST    check-qtest-mips64: tests/qtest/test-h=
-mp<br />  TEST    check-qtest-mips64: tests/qtest/qos-test<br />qemu-syst=
-em-ppc64: warning: machine has no BMC device. Use '-device ipmi-bmc-sim,i=
-d=3Dbmc0 -device isa-ipmi-bt,bmc=3Dbmc0,irq=3D10' to define one<br />qemu=
--system-ppc64: warning: machine has no BMC device. Use '-device ipmi-bmc-=
-sim,id=3Dbmc0 -device isa-ipmi-bt,bmc=3Dbmc0,irq=3D10' to define one<br /=
->qemu-system-ppc64: warning: machine has no BMC device. Use '-device ipmi=
--bmc-sim,id=3Dbmc0 -device isa-ipmi-bt,bmc=3Dbmc0,irq=3D10' to define one=
-<br /></span><span class=3D"term-fg-l-red term-bold">ERROR: Job failed: e=
-xecution took longer than 1h0m0s seconds<br /></span></pre>
-</td>
-</tr>
-<tr class=3D"build-state">
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
-lor: #8c8c8c; font-weight: 500; font-size: 14px; padding: 16px 0;">
-<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
-le=3D"border-collapse: collapse;">
-<tbody>
-<tr>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
-lor: #d22f57; font-weight: 500; font-size: 16px; padding-right: 8px; line=
--height: 10px;" valign=3D"middle">
-<img alt=3D"&#10006;" height=3D"10" src=3D"https://gitlab.com/assets/mail=
-ers/ci_pipeline_notif_v1/icon-x-red-67056b7b99899e30453df79abfbe16162f6a2=
-6ed789d8236f81afcaea216ffe6.gif" style=3D"display: block;" width=3D"10" /=
->
-</td>
-<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
-lor: #8c8c8c; font-weight: 500; font-size: 14px;" valign=3D"middle">
-test
-</td>
-</tr>
-</tbody>
-</table>
-</td>
-<td align=3D"right" style=3D"font-family: 'Helvetica Neue',Helvetica,Aria=
-l,sans-serif; color: #8c8c8c; font-weight: 500; font-size: 14px; padding:=
- 16px 0;">
-<a href=3D"https://gitlab.com/qemu-project/qemu/-/jobs/601434166" style=3D=
-"color: #3777b0; text-decoration: none;">
-build-tcg-disabled
-</a>
-
-</td>
-</tr>
-<tr class=3D"build-log">
-<td colspan=3D"2" style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,=
-sans-serif; padding: 0 0 16px;">
-<pre style=3D"font-family: Monaco,'Lucida Console','Courier New',Courier,=
-monospace; background-color: #fafafa; border-radius: 4px; overflow: hidde=
-n; white-space: pre-wrap; word-break: break-all; font-size: 13px; line-he=
-ight: 1.4; color: #333333; margin: 0; padding: 16px 8px;"><span>208      =
-...        [15:02:39]             ...              =
-
-208      </span><span class=3D"term-fg-green">pass      </span><span> [15=
-:02:39] [15:02:39]   0s               <br />209      ...        [15:02:39=
-]             ...              =
-
-209      </span><span class=3D"term-fg-green">pass      </span><span> [15=
-:02:39] [15:02:40]   1s               <br />215      ...        [15:02:40=
-]             ...              =
-
-215      </span><span class=3D"term-fg-green">pass      </span><span> [15=
-:02:40] [15:04:10]  90s               <br />216      ...        [15:04:10=
-]             ...              =
-
-216      </span><span class=3D"term-fg-green">pass      </span><span> [15=
-:04:10] [15:04:16]   6s               <br />218      ...        [15:04:16=
-]             ...              =
-
-218      </span><span class=3D"term-fg-green">pass      </span><span> [15=
-:04:16] [15:04:18]   2s               <br />222      ...        [15:04:18=
-]             ...              =
-
-222      </span><span class=3D"term-fg-green">pass      </span><span> [15=
-:04:18] [15:04:19]   1s               <br />227      ...        [15:04:19=
-]             ...              =
-
-227      </span><span class=3D"term-fg-green">pass      </span><span> [15=
-:04:19] [15:04:19]   0s               <br />234      ...        [15:04:19=
-]             ...              =
-
-234      </span><span class=3D"term-fg-green">pass      </span><span> [15=
-:04:19] [15:04:20]   1s               <br />246      ...        [15:04:20=
-]             ...              =
-
-246      </span><span class=3D"term-fg-green">pass      </span><span> [15=
-:04:20] [15:04:23]   3s               <br />247      ...        [15:04:23=
-]             ...              =
-
-247      </span><span class=3D"term-fg-green">pass      </span><span> [15=
-:04:23] [15:04:24]   1s               <br />248      ...        [15:04:24=
-]             ...              =
-
-248      </span><span class=3D"term-fg-green">pass      </span><span> [15=
-:04:24] [15:04:25]   1s               <br />250      ...        [15:04:25=
-]             ...              =
-
-250      </span><span class=3D"term-fg-green">pass      </span><span> [15=
-:04:25] [15:04:26]   1s               <br />254      ...        [15:04:26=
-]             ...              =
-
-254      </span><span class=3D"term-fg-green">pass      </span><span> [15=
-:04:26] [15:04:26]   0s               <br />255      ...        [15:04:26=
-]             ...              =
-
-255      </span><span class=3D"term-fg-green">pass      </span><span> [15=
-:04:26] [15:04:28]   2s               <br />257      ...        [15:04:28=
-]             ...              =
-
-257      </span><span class=3D"term-fg-green">pass      </span><span> [15=
-:04:28] [15:04:40]  12s               <br />258      ...        [15:04:40=
-]             ...              =
-
-258      </span><span class=3D"term-fg-green">pass      </span><span> [15=
-:04:40] [15:04:41]   1s               <br />260      ...        [15:04:41=
-]             ...              =
-
-260      </span><span class=3D"term-fg-green">pass      </span><span> [15=
-:04:41] [15:04:42]   1s               <br />261      ...        [15:04:42=
-]             ...              =
-
-261      </span><span class=3D"term-fg-green">pass      </span><span> [15=
-:04:42] [15:05:08]  26s               <br />262      ...        [15:05:08=
-]             ...              =
-
-262      </span><span class=3D"term-fg-green">pass      </span><span> [15=
-:05:08] [15:05:08]   0s               <br />263      ...        [15:05:08=
-]             ...              =
-
-263      </span><span class=3D"term-fg-green">pass      </span><span> [15=
-:05:08] [15:05:11]   3s               <br />264      ...        [15:05:11=
-]             ...              =
-
-264      </span><span class=3D"term-fg-green">pass      </span><span> [15=
-:05:11] [15:05:15]   4s               <br />270      ...        [15:05:15=
-]             ...              =
-
-270      </span><span class=3D"term-fg-green">pass      </span><span> [15=
-:05:15] [15:05:17]   2s               <br />272      ...        [15:05:17=
-]             ...              =
-
-272      </span><span class=3D"term-fg-green">pass      </span><span> [15=
-:05:17] [15:05:18]   1s               <br />273      ...        [15:05:18=
-]             ...              =
-
-273      </span><span class=3D"term-fg-green">pass      </span><span> [15=
-:05:18] [15:05:18]   0s               <br />277      ...        [15:05:18=
-]             ...              =
-
-277      </span><span class=3D"term-fg-green">pass      </span><span> [15=
-:05:18] [15:05:19]   1s               <br />279      ...        [15:05:19=
-]             ...              =
-
-279      </span><span class=3D"term-fg-green">pass      </span><span> [15=
-:05:19] [15:05:19]   0s               <br />Failures: 051<br />Failed 1 o=
-f 57 iotests<br /></span><span class=3D"term-fg-l-red term-bold">ERROR: J=
-ob failed: exit code 1<br /></span></pre>
-</td>
-</tr>
-</tbody>
-</table>
-</td>
-</tr>
-
-
-</tbody>
-</table>
-</td>
-</tr>
-</tbody>
-</table>
-</td>
-</tr>
-
-<tr class=3D"footer">
-<td style=3D"font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, s=
-ans-serif; font-size: 13px; line-height: 1.6; color: #5c5c5c; padding: 25=
-px 0;">
-<img alt=3D"GitLab" height=3D"33" src=3D"https://gitlab.com/assets/mailer=
-s/gitlab_footer_logo-078860f148cc9596195e6bb3fa7db31c30538355576c5c3b569c=
-414902e3d095.gif" width=3D"90" style=3D"display: block; margin: 0 auto 1e=
-m;" />
-<div>
-You're receiving this email because of your account on gitlab.com. <a cla=
-ss=3D"mng-notif-link" href=3D"https://gitlab.com/profile/notifications" s=
-tyle=3D"color: #3777b0; text-decoration: none;">Manage all notifications<=
-/a> &#183; <a class=3D"help-link" href=3D"https://gitlab.com/help" style=3D=
-"color: #3777b0; text-decoration: none;">Help</a>
-</div>
-</td>
-</tr>
-
-<tr>
-<td class=3D"footer-message" style=3D"font-family: &quot;Helvetica Neue&q=
-uot;, Helvetica, Arial, sans-serif; font-size: 13px; line-height: 1.6; co=
-lor: #5c5c5c; padding: 25px 0;">
-
-</td>
-</tr>
-</tbody>
-</table>
-</body>
-</html>
-
-----==_mimepart_5eeb8a8847a08_33e13fc74b2222a02452a4--
 
