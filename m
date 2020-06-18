@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1900E1FEAAF
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 07:12:29 +0200 (CEST)
-Received: from localhost ([::1]:42938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C0B31FEADC
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 07:23:22 +0200 (CEST)
+Received: from localhost ([::1]:34134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlmqi-00068i-5F
-	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 01:12:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34344)
+	id 1jln1F-0000mz-8b
+	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 01:23:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jlmF1-0007Eo-Gs
- for qemu-devel@nongnu.org; Thu, 18 Jun 2020 00:33:31 -0400
-Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435]:44529)
+ id 1jlmF2-0007HK-HK
+ for qemu-devel@nongnu.org; Thu, 18 Jun 2020 00:33:32 -0400
+Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:39304)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jlmEz-0003fz-Og
- for qemu-devel@nongnu.org; Thu, 18 Jun 2020 00:33:31 -0400
-Received: by mail-pf1-x435.google.com with SMTP id 64so2184390pfv.11
- for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 21:33:29 -0700 (PDT)
+ id 1jlmF0-0003gM-R7
+ for qemu-devel@nongnu.org; Thu, 18 Jun 2020 00:33:32 -0400
+Received: by mail-pf1-x429.google.com with SMTP id d66so2199246pfd.6
+ for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 21:33:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Afsa8YE1SU9yEO5SjjTLoHbXeJiFUQdZwQR7tGmaBDg=;
- b=blXvspUSxmC5+0slbJlOuc4vGpwgIiNCzCm1NwhJOKlbId8uuYs4M2ziosWoLD1EfV
- Y/Diml7lIxiOghZ60RPeS3ClsAOokOg1zo0RMZB22HlI/sTPztGsQFu6bDL1Fhz+Nr9u
- aJRVhCyZOuOxjA2Rx2FKeNKGVNLiuJIJxn4RWzcn2LF3OHIk2tWI6aVG8q+57ZIBzPB2
- Mg0d/DE+WYGJtBYVZSoh4ndH9mV/KZVuUwXihwPUpaw7RJuj9kH6Sghs0310lyW3mxPt
- syqbJIlfhRhusLLicIy8vBtezm5utE3c0hEH65J7WHALsWdmWnDpVPv/aZA1uoIkJ2u5
- EQUg==
+ bh=E14O64whYVWkcjjdESbOpmxAElX5odxSSFhOR+o6tVA=;
+ b=fqoAoBTUzhTy/6XCbZEVq1IKvFVp6D+fTRwtO/G22UZPvnEtJbwB8Y0D7zpgB3SfWS
+ 5aTESsoy+cpyw+MXo75/p8oSBS6b9WFpilptEwEA6+8RyScPfSN4P1URhqoUKAIiy+cE
+ /8oFMPK2f6g+8feRAyKCb3bSLFcaHFdVIw2H2IRne2B+DNDigCjIjdTueiYoe5XVKaua
+ A3LYRKbrKvJwkJnKN/d92Ksa6+vTGOHiBpEcfyjBVW8JyLM3kU70bt5vAn6FD5ySTfYf
+ KMbLKxarvLfXZt7AwM6VCdgHT4ilWxCphJKZLUrWoiXw3ZdRRLdDwv2yMoC0Y43uzfcV
+ ExSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Afsa8YE1SU9yEO5SjjTLoHbXeJiFUQdZwQR7tGmaBDg=;
- b=sai3x755HcwliHBTVxmG+AWBgC+1hhekoX6hNtuh4u5xqtdzAsmlg1oYe/l045MqYS
- NBWGWTTBxLq/mAsXkNkez22jLnOF1oWQLwGIvata2Fjao0IxhtsCkFlYKodS7mQNCtNr
- vc6arP29H9IrOkEtAzFm84wCSZtkJ9P5TNVhB9UEowiVT+mY79gs0BbxQWAtaSC12Qaz
- +4kyjhyyxMlZH6KX4DNmzB8nAaMQ80bTOiNXSuUc4yDRVNIqHTJ6P2vVGAGxi3os8wYB
- M93m1IZSTvpGThFgKX3/43/DcOlwcomYWKFcA1f223Xqi7eaxaFrBz+RiE3cH3MePjei
- qiFw==
-X-Gm-Message-State: AOAM531s23y60DNIGBp0Y4TFG7tqxSFmD0aUKBWdfwpE0F91BW/41SaV
- NrU/x9ZXdkYUTcksdmuIUuNdY5S7fqg=
-X-Google-Smtp-Source: ABdhPJx5204KMjW4ioXR+i2y3BSF/Cd3sEctx9iRgS0LtqaxHyekwGibzZTxQceelYODJUKXIULYpg==
-X-Received: by 2002:a05:6a00:1510:: with SMTP id
- q16mr1868860pfu.164.1592454807959; 
- Wed, 17 Jun 2020 21:33:27 -0700 (PDT)
+ bh=E14O64whYVWkcjjdESbOpmxAElX5odxSSFhOR+o6tVA=;
+ b=hke1no5CGV4fFn33zNSsM4EgcD59Lv/F7Yop8nhIhHtKYVm7+JYr6YgPcB2UeNF/aq
+ Xl5PiKbV6UJJDn0FZzwHEBbO7Kb1br5LzsrPWeWdn+taBHkKcq/1bsJilDAQosQ7Yx/f
+ S8OYbw8BFrz6tQ/yZP2KdssLDBIgl9sokJaIqNCiLEgaVWES56Zh6M2GlsYJui9K5e/s
+ SB+baePHW0a+RhXZKLZ8QBPFkpRYCbEXiAYxJG0JUpzwQofMxpIHbDU5pDJd0zWf8Ux6
+ R2Fc3qEGG3rRyiBMCt56Rkv7QK/5fbtWm/3RjwcHKhcIfUe9apm/IkxxHpIymHrCWTpM
+ y8sg==
+X-Gm-Message-State: AOAM531reyE7SQ1WLtkxZzAkJr4JjUlGJm/0NFbZmG0TDIqbuGsfPidB
+ fhu/NfimwZ4P8qlXJ1uT5MqOp4IcT4I=
+X-Google-Smtp-Source: ABdhPJzeiWwiijZrJYmT/xd/qkUx+X2DWLFZ71cPkIr8hDlGtiSzv7od4nf9IH8YtHu1Vq4o6p7zJA==
+X-Received: by 2002:a62:5ec2:: with SMTP id s185mr2011010pfb.0.1592454809187; 
+ Wed, 17 Jun 2020 21:33:29 -0700 (PDT)
 Received: from localhost.localdomain (174-21-143-238.tukw.qwest.net.
  [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id q22sm1288212pfg.192.2020.06.17.21.33.26
+ by smtp.gmail.com with ESMTPSA id q22sm1288212pfg.192.2020.06.17.21.33.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Jun 2020 21:33:27 -0700 (PDT)
+ Wed, 17 Jun 2020 21:33:28 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 094/100] target/arm: Implement SVE2 FLOGB
-Date: Wed, 17 Jun 2020 21:26:38 -0700
-Message-Id: <20200618042644.1685561-95-richard.henderson@linaro.org>
+Subject: [PATCH v2 095/100] tcg: Implement 256-bit dup for tcg_gen_gvec_dup_mem
+Date: Wed, 17 Jun 2020 21:26:39 -0700
+Message-Id: <20200618042644.1685561-96-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200618042644.1685561-1-richard.henderson@linaro.org>
 References: <20200618042644.1685561-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x435.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x429.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,119 +89,87 @@ Cc: qemu-arm@nongnu.org, steplong@quicinc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stephen Long <steplong@quicinc.com>
+We already support duplication of 128-bit blocks.  This extends
+that support to 256-bit blocks.  This will be needed by SVE2.
 
-Signed-off-by: Stephen Long <steplong@quicinc.com>
-Message-Id: <20200430191405.21641-1-steplong@quicinc.com>
-[rth: Fixed esz index and c++ comments]
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/helper-sve.h    |  4 ++++
- target/arm/sve.decode      |  3 +++
- target/arm/sve_helper.c    | 49 ++++++++++++++++++++++++++++++++++++++
- target/arm/translate-sve.c |  9 +++++++
- 4 files changed, 65 insertions(+)
+ tcg/tcg-op-gvec.c | 52 ++++++++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 49 insertions(+), 3 deletions(-)
 
-diff --git a/target/arm/helper-sve.h b/target/arm/helper-sve.h
-index 935655d07a..aa7d113232 100644
---- a/target/arm/helper-sve.h
-+++ b/target/arm/helper-sve.h
-@@ -2256,3 +2256,7 @@ DEF_HELPER_FLAGS_5(sve2_fcvtlt_hs, TCG_CALL_NO_RWG,
-                    void, ptr, ptr, ptr, ptr, i32)
- DEF_HELPER_FLAGS_5(sve2_fcvtlt_sd, TCG_CALL_NO_RWG,
-                    void, ptr, ptr, ptr, ptr, i32)
-+
-+DEF_HELPER_FLAGS_4(flogb_h, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(flogb_s, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(flogb_d, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
-diff --git a/target/arm/sve.decode b/target/arm/sve.decode
-index 6c0e39d553..6808ff4194 100644
---- a/target/arm/sve.decode
-+++ b/target/arm/sve.decode
-@@ -1581,3 +1581,6 @@ FCVTNT_sh       01100100 10 0010 00 101 ... ..... .....  @rd_pg_rn_e0
- FCVTLT_hs       01100100 10 0010 01 101 ... ..... .....  @rd_pg_rn_e0
- FCVTNT_ds       01100100 11 0010 10 101 ... ..... .....  @rd_pg_rn_e0
- FCVTLT_sd       01100100 11 0010 11 101 ... ..... .....  @rd_pg_rn_e0
-+
-+### SVE2 floating-point convert to integer
-+FLOGB           01100101 00 011 esz:2 0101 pg:3 rn:5 rd:5  &rpr_esz
-diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
-index 8bfc9393a1..1b92f203c2 100644
---- a/target/arm/sve_helper.c
-+++ b/target/arm/sve_helper.c
-@@ -1121,6 +1121,55 @@ DO_ZPZ_D(sve2_sqneg_d, uint64_t, DO_SQNEG)
- DO_ZPZ(sve2_urecpe_s, uint32_t, H1_4, helper_recpe_u32)
- DO_ZPZ(sve2_ursqrte_s, uint32_t, H1_4, helper_rsqrte_u32)
+diff --git a/tcg/tcg-op-gvec.c b/tcg/tcg-op-gvec.c
+index 3707c0effb..1b7876bb22 100644
+--- a/tcg/tcg-op-gvec.c
++++ b/tcg/tcg-op-gvec.c
+@@ -1570,12 +1570,10 @@ void tcg_gen_gvec_dup_mem(unsigned vece, uint32_t dofs, uint32_t aofs,
+             do_dup(vece, dofs, oprsz, maxsz, NULL, in, 0);
+             tcg_temp_free_i64(in);
+         }
+-    } else {
++    } else if (vece == 4) {
+         /* 128-bit duplicate.  */
+-        /* ??? Dup to 256-bit vector.  */
+         int i;
  
-+static int16_t do_float16_logb_as_int(float16 a)
-+{
-+    if (float16_is_normal(a)) {
-+        return extract16(a, 10, 5) - 15;
-+    } else if (float16_is_infinity(a)) {
-+        return INT16_MAX;
-+    } else if (float16_is_any_nan(a) || float16_is_zero(a)) {
-+        return INT16_MIN;
+-        tcg_debug_assert(vece == 4);
+         tcg_debug_assert(oprsz >= 16);
+         if (TCG_TARGET_HAS_v128) {
+             TCGv_vec in = tcg_temp_new_vec(TCG_TYPE_V128);
+@@ -1601,6 +1599,54 @@ void tcg_gen_gvec_dup_mem(unsigned vece, uint32_t dofs, uint32_t aofs,
+         if (oprsz < maxsz) {
+             expand_clr(dofs + oprsz, maxsz - oprsz);
+         }
++    } else if (vece == 5) {
++        /* 256-bit duplicate.  */
++        int i;
++
++        tcg_debug_assert(oprsz >= 32);
++        tcg_debug_assert(oprsz % 32 == 0);
++        if (TCG_TARGET_HAS_v256) {
++            TCGv_vec in = tcg_temp_new_vec(TCG_TYPE_V256);
++
++            tcg_gen_ld_vec(in, cpu_env, aofs);
++            for (i = 0; i < oprsz; i += 32) {
++                tcg_gen_st_vec(in, cpu_env, dofs + i);
++            }
++            tcg_temp_free_vec(in);
++        } else if (TCG_TARGET_HAS_v128) {
++            TCGv_vec in0 = tcg_temp_new_vec(TCG_TYPE_V128);
++            TCGv_vec in1 = tcg_temp_new_vec(TCG_TYPE_V128);
++
++            tcg_gen_ld_vec(in0, cpu_env, aofs);
++            tcg_gen_ld_vec(in1, cpu_env, aofs + 16);
++            for (i = 0; i < oprsz; i += 32) {
++                tcg_gen_st_vec(in0, cpu_env, dofs + i);
++                tcg_gen_st_vec(in1, cpu_env, dofs + i + 16);
++            }
++            tcg_temp_free_vec(in0);
++            tcg_temp_free_vec(in1);
++        } else {
++            TCGv_i64 in[4];
++            int j;
++
++            for (j = 0; j < 4; ++j) {
++                in[j] = tcg_temp_new_i64();
++                tcg_gen_ld_i64(in[j], cpu_env, aofs + j * 8);
++            }
++            for (i = 0; i < oprsz; i += 32) {
++                for (j = 0; j < 4; ++j) {
++                    tcg_gen_st_i64(in[j], cpu_env, dofs + i + j * 8);
++                }
++            }
++            for (j = 0; j < 4; ++j) {
++                tcg_temp_free_i64(in[j]);
++            }
++        }
++        if (oprsz < maxsz) {
++            expand_clr(dofs + oprsz, maxsz - oprsz);
++        }
 +    } else {
-+        /* denormal */
-+        int shift = 6 - clz32(extract16(a, 0, 10)) - 16;
-+        return -15 - shift + 1;
-+    }
-+}
-+
-+static int32_t do_float32_logb_as_int(float32 a)
-+{
-+    if (float32_is_normal(a)) {
-+        return extract32(a, 23, 8) - 127;
-+    } else if (float32_is_infinity(a)) {
-+        return INT32_MAX;
-+    } else if (float32_is_any_nan(a) || float32_is_zero(a)) {
-+        return INT32_MIN;
-+    } else {
-+        /* denormal */
-+        int shift = 9 - clz32(extract32(a, 0, 23));
-+        return -127 - shift + 1;
-+    }
-+}
-+
-+static int64_t do_float64_logb_as_int(float64 a)
-+{
-+    if (float64_is_normal(a)) {
-+        return extract64(a, 52, 11) - 1023;
-+    } else if (float64_is_infinity(a)) {
-+        return INT64_MAX;
-+    } else if (float64_is_any_nan(a) || float64_is_zero(a)) {
-+        return INT64_MIN;
-+    } else {
-+        /* denormal */
-+        int shift = 12 - clz64(extract64(a, 0, 52));
-+        return -1023 - shift + 1;
-+    }
-+}
-+
-+DO_ZPZ(flogb_h, float16, H1_2, do_float16_logb_as_int)
-+DO_ZPZ(flogb_s, float32, H1_4, do_float32_logb_as_int)
-+DO_ZPZ(flogb_d, float64,     , do_float64_logb_as_int)
-+
- /* Three-operand expander, unpredicated, in which the third operand is "wide".
-  */
- #define DO_ZZW(NAME, TYPE, TYPEW, H, OP)                       \
-diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index 0232381500..f3b2463b7c 100644
---- a/target/arm/translate-sve.c
-+++ b/target/arm/translate-sve.c
-@@ -7841,3 +7841,12 @@ static bool trans_FCVTXNT_ds(DisasContext *s, arg_rpr_esz *a)
++        g_assert_not_reached();
      }
-     return do_frint_mode(s, a, float_round_to_odd, gen_helper_sve2_fcvtnt_ds);
  }
-+
-+static bool trans_FLOGB(DisasContext *s, arg_rpr_esz *a)
-+{
-+    static gen_helper_gvec_3 * const fns[] = {
-+        NULL,               gen_helper_flogb_h,
-+        gen_helper_flogb_s, gen_helper_flogb_d
-+    };
-+    return do_sve2_zpz_ool(s, a, fns[a->esz]);
-+}
+ 
 -- 
 2.25.1
 
