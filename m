@@ -2,81 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D5E31FDA24
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 02:16:04 +0200 (CEST)
-Received: from localhost ([::1]:60108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CE6E1FDA5B
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 02:42:51 +0200 (CEST)
+Received: from localhost ([::1]:39444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jliDr-00025R-Es
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 20:16:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53564)
+	id 1jlidl-0004Ls-TU
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 20:42:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ljp@linux.ibm.com>)
- id 1jli9d-0004Gv-2o; Wed, 17 Jun 2020 20:11:41 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:24274)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ljp@linux.ibm.com>)
- id 1jli9a-0006qx-Np; Wed, 17 Jun 2020 20:11:40 -0400
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 05I03PQu066424; Wed, 17 Jun 2020 20:11:37 -0400
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.10])
- by mx0a-001b2d01.pphosted.com with ESMTP id 31q6j4vchp-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 17 Jun 2020 20:11:37 -0400
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
- by ppma02dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 05I05Bkf011561;
- Thu, 18 Jun 2020 00:11:36 GMT
-Received: from b03cxnp08027.gho.boulder.ibm.com
- (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
- by ppma02dal.us.ibm.com with ESMTP id 31q6c89mg8-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 18 Jun 2020 00:11:36 +0000
-Received: from b03ledav003.gho.boulder.ibm.com
- (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
- by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 05I0BXro14876952
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 18 Jun 2020 00:11:33 GMT
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A42F76A058;
- Thu, 18 Jun 2020 00:11:34 +0000 (GMT)
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 22FD86A057;
- Thu, 18 Jun 2020 00:11:34 +0000 (GMT)
-Received: from pompom.ibm.com (unknown [9.65.216.12])
- by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
- Thu, 18 Jun 2020 00:11:33 +0000 (GMT)
-From: Lijun Pan <ljp@linux.ibm.com>
-To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
-Subject: [PATCH v2 7/7] target/ppc: add vdiv{su}{wd} vmod{su}{wd} instructions
-Date: Wed, 17 Jun 2020 19:11:27 -0500
-Message-Id: <20200618001127.34438-8-ljp@linux.ibm.com>
-X-Mailer: git-send-email 2.22.0
-In-Reply-To: <20200618001127.34438-1-ljp@linux.ibm.com>
-References: <20200618001127.34438-1-ljp@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1jlicv-0003w9-Vv; Wed, 17 Jun 2020 20:41:58 -0400
+Received: from mail-yb1-xb42.google.com ([2607:f8b0:4864:20::b42]:39844)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1jlicu-0003G5-FG; Wed, 17 Jun 2020 20:41:57 -0400
+Received: by mail-yb1-xb42.google.com with SMTP id j202so2212494ybg.6;
+ Wed, 17 Jun 2020 17:41:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=HA7uE3XwI6osjOygEhN7yWCooXTEl5Hl2veL+7bdXUM=;
+ b=CJVvyhRHSgq0OCzkGo3ZNavC6EJStn+4tUyUKIj7jTvXiRNF4pwnDl5ROSeRilc+pP
+ h6njPX3Wa4sW55YQ8Ono8FIqIwpNhbH4AG47PhPxzHWQBEXMglWawsKq4m1SE/P/Pu9r
+ cqHBF+Ah3HRt+Fjoh0vsgSrbxgglpLYAHxY6LzLNayNnaVy2rh5pRXfy8bmaFziFz6f2
+ RbP1t3s0Z1gDeKdUDCd0/DgjuGaxscwFwNXQZFHywxsvPXKLPCPPt5uZ/ZiQ4wQIbREE
+ jnJHhD8LcEEvQKik4w07vFlySQhM8csLDHVDfWwGSsN7Ip/GB6bP4Tv4k2izxbuux46t
+ j+bw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=HA7uE3XwI6osjOygEhN7yWCooXTEl5Hl2veL+7bdXUM=;
+ b=nsT/IM7XhgDhLG9TTlYA0dMyPvTHCRUYRqsTwAN+fIi+gJQWQEDTa5BREZ4VSvKWz+
+ ADMZpc5WqqUExsGOzPqT4BIgFu8M8v9mSTRJyYUr0bHJkwj1RzsA4mIiLpTrEmHhw775
+ ahdqrOiyc9byISWjB1QglPBM/EgrvID52FAiv/Y4qUYLMMreiuRxDU0Xb8yaAIUbLL+z
+ dcIyE/ntRVqKh8nuim1pdVPaGvTkU+QuXyE5j2Q/AyJprAUbWmtWFwwIzhArVGh6fsrl
+ 3vTGrF9ZlsvQPPiWtCvdG5rJQS1J9khrhwtQ0YyPPia8PPaECtEjtVBLSm4j8BcfMclW
+ UOLA==
+X-Gm-Message-State: AOAM531XchbC3isMihKxImAb2iEMnH5tmok/oXbLo4jiXxdZM4jhvX79
+ KUIOdN/EW87MzseHGh3rLB1YOI9D+L65OgtUkj8=
+X-Google-Smtp-Source: ABdhPJyLGb47ttZjhgyep7kKZ/jjo/paFzpT+53zsypRassH5YaQcTjS8fGpVYUll5OZsuX6CZX8qjEOqT/Qw+4fk/Y=
+X-Received: by 2002:a25:c507:: with SMTP id v7mr2452085ybe.306.1592440914821; 
+ Wed, 17 Jun 2020 17:41:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.687
- definitions=2020-06-17_12:2020-06-17,
- 2020-06-17 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 mlxscore=0
- mlxlogscore=999 suspectscore=2 adultscore=0 spamscore=0 malwarescore=0
- lowpriorityscore=0 phishscore=0 bulkscore=0 priorityscore=1501
- impostorscore=0 cotscore=-2147483648 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2004280000 definitions=main-2006170180
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=ljp@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/17 20:11:31
-X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+References: <1592268641-7478-1-git-send-email-bmeng.cn@gmail.com>
+ <1592268641-7478-3-git-send-email-bmeng.cn@gmail.com>
+ <CAKmqyKNovTf3F+t9WFCWXvAgT_CRa5dbDuQExzbqxkM-z3ufqw@mail.gmail.com>
+In-Reply-To: <CAKmqyKNovTf3F+t9WFCWXvAgT_CRa5dbDuQExzbqxkM-z3ufqw@mail.gmail.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Thu, 18 Jun 2020 08:41:43 +0800
+Message-ID: <CAEUhbmVq8kVfZRQSF-LT_bDib9e1xBL-7zifmHpQgdvehcNzFA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/5] hw/riscv: sifive: Change SiFive E/U CPU reset
+ vector to 0x1004
+To: Alistair Francis <alistair23@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b42;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb42.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,170 +79,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Lijun Pan <ljp@linux.ibm.com>
+Cc: Bin Meng <bin.meng@windriver.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Palmer Dabbelt <palmerdabbelt@google.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-vdivsw: Vector Divide Signed Word
-vdivuw: Vector Divide Unsigned Word
-vdivsd: Vector Divide Signed Doubleword
-vdivud: Vector Divide Unsigned Doubleword
-vmodsw: Vector Modulo Signed Word
-vmoduw: Vector Modulo Unsigned Word
-vmodsd: Vector Modulo Signed Doubleword
-vmodud: Vector Modulo Unsigned Doubleword
+Hi Alistair,
 
-Signed-off-by: Lijun Pan <ljp@linux.ibm.com>
----
-v2: fix coding style
-    use Power ISA 3.1 flag
+On Thu, Jun 18, 2020 at 12:40 AM Alistair Francis <alistair23@gmail.com> wrote:
+>
+> On Mon, Jun 15, 2020 at 5:51 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+> >
+> > From: Bin Meng <bin.meng@windriver.com>
+> >
+> > Per the SiFive manual, all E/U series CPU cores' reset vector is
+> > at 0x1004. Update our codes to match the hardware.
+> >
+> > Signed-off-by: Bin Meng <bin.meng@windriver.com>
+>
+> This commit breaks my Oreboot test.
+>
+> Oreboot starts in flash and we run the command with the
+> `sifive_u,start-in-flash=true` machine.
 
- target/ppc/helper.h                 |  8 ++++++++
- target/ppc/int_helper.c             | 19 +++++++++++++++++++
- target/ppc/translate.c              |  3 +++
- target/ppc/translate/vmx-impl.inc.c | 15 +++++++++++++++
- target/ppc/translate/vmx-ops.inc.c  | 17 +++++++++++++++--
- 5 files changed, 60 insertions(+), 2 deletions(-)
+Could you please post an Oreboot binary for testing somewhere, or some
+instructions so that I can test this?
 
-diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index 1aed2087cf..823999a8c2 100644
---- a/target/ppc/helper.h
-+++ b/target/ppc/helper.h
-@@ -190,6 +190,14 @@ DEF_HELPER_3(vmulhsw, void, avr, avr, avr)
- DEF_HELPER_3(vmulhuw, void, avr, avr, avr)
- DEF_HELPER_3(vmulhsd, void, avr, avr, avr)
- DEF_HELPER_3(vmulhud, void, avr, avr, avr)
-+DEF_HELPER_3(vdivsw, void, avr, avr, avr)
-+DEF_HELPER_3(vdivuw, void, avr, avr, avr)
-+DEF_HELPER_3(vdivsd, void, avr, avr, avr)
-+DEF_HELPER_3(vdivud, void, avr, avr, avr)
-+DEF_HELPER_3(vmodsw, void, avr, avr, avr)
-+DEF_HELPER_3(vmoduw, void, avr, avr, avr)
-+DEF_HELPER_3(vmodsd, void, avr, avr, avr)
-+DEF_HELPER_3(vmodud, void, avr, avr, avr)
- DEF_HELPER_3(vslo, void, avr, avr, avr)
- DEF_HELPER_3(vsro, void, avr, avr, avr)
- DEF_HELPER_3(vsrv, void, avr, avr, avr)
-diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
-index 9a0937810f..bc3640166d 100644
---- a/target/ppc/int_helper.c
-+++ b/target/ppc/int_helper.c
-@@ -575,6 +575,25 @@ VARITH_DO(mulld, *, s64)
- #undef VARITH_DO
- #undef VARITH
- 
-+#define VDIV_MOD_DO(name, op, element)                                  \
-+    void helper_v##name(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)       \
-+    {                                                                   \
-+        int i;                                                          \
-+                                                                        \
-+        for (i = 0; i < ARRAY_SIZE(r->element); i++) {                  \
-+            r->element[i] = a->element[i] op b->element[i];             \
-+        }                                                               \
-+    }
-+VDIV_MOD_DO(divsw, /, s32)
-+VDIV_MOD_DO(divuw, /, u32)
-+VDIV_MOD_DO(divsd, /, s64)
-+VDIV_MOD_DO(divud, /, u64)
-+VDIV_MOD_DO(modsw, %, s32)
-+VDIV_MOD_DO(moduw, %, u32)
-+VDIV_MOD_DO(modsd, %, s64)
-+VDIV_MOD_DO(modud, %, u64)
-+#undef VDIV_MOD_DO
-+
- #define VARITHFP(suffix, func)                                          \
-     void helper_v##suffix(CPUPPCState *env, ppc_avr_t *r, ppc_avr_t *a, \
-                           ppc_avr_t *b)                                 \
-diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index d686e6084a..6d5af650e4 100644
---- a/target/ppc/translate.c
-+++ b/target/ppc/translate.c
-@@ -388,6 +388,9 @@ GEN_OPCODE3(name, opc1, opc2, opc3, opc4, inval, type, type2)
- #define GEN_HANDLER2_E_2(name, onam, opc1, opc2, opc3, opc4, inval, typ, typ2) \
- GEN_OPCODE4(name, onam, opc1, opc2, opc3, opc4, inval, typ, typ2)
- 
-+#define GEN_HANDLER_BOTH(name, opc1, opc2, opc3, inval0, inval1, type0, type1) \
-+GEN_OPCODE_DUAL(name, opc1, opc2, opc3, inval0, inval1, type0, type1)
-+
- typedef struct opcode_t {
-     unsigned char opc1, opc2, opc3, opc4;
- #if HOST_LONG_BITS == 64 /* Explicitly align to 64 bits */
-diff --git a/target/ppc/translate/vmx-impl.inc.c b/target/ppc/translate/vmx-impl.inc.c
-index c494a7aebb..e0b8658d1f 100644
---- a/target/ppc/translate/vmx-impl.inc.c
-+++ b/target/ppc/translate/vmx-impl.inc.c
-@@ -798,6 +798,9 @@ static void trans_vclzd(DisasContext *ctx)
-     tcg_temp_free_i64(avr);
- }
- 
-+static void gen_vexptefp(DisasContext *ctx);
-+static void gen_vlogefp(DisasContext *ctx);
-+
- GEN_VXFORM(vmuloub, 4, 0);
- GEN_VXFORM(vmulouh, 4, 1);
- GEN_VXFORM(vmulouw, 4, 2);
-@@ -822,6 +825,18 @@ GEN_VXFORM(vmulhsw, 4, 14);
- GEN_VXFORM_DUAL(vmulesw, PPC_ALTIVEC, PPC_NONE,
-                 vmulhsw, PPC_NONE, PPC2_ISA310);
- GEN_VXFORM(vmulhsd, 4, 15);
-+GEN_VXFORM(vdivuw, 5, 2);
-+GEN_VXFORM(vdivud, 5, 3);
-+GEN_VXFORM(vdivsw, 5, 6);
-+GEN_VXFORM_DUAL_EXT(vexptefp, PPC_ALTIVEC, PPC_NONE, 0x001f0000,
-+                    vdivsw, PPC_NONE, PPC2_ISA310, 0x00000000);
-+GEN_VXFORM(vdivsd, 5, 7);
-+GEN_VXFORM_DUAL_EXT(vlogefp, PPC_ALTIVEC, PPC_NONE, 0x001f0000,
-+                    vdivsd, PPC_NONE, PPC2_ISA310, 0x00000000);
-+GEN_VXFORM(vmoduw, 5, 26);
-+GEN_VXFORM(vmodud, 5, 27);
-+GEN_VXFORM(vmodsw, 5, 30);
-+GEN_VXFORM(vmodsd, 5, 31);
- GEN_VXFORM_V(vslb, MO_8, tcg_gen_gvec_shlv, 2, 4);
- GEN_VXFORM_V(vslh, MO_16, tcg_gen_gvec_shlv, 2, 5);
- GEN_VXFORM_V(vslw, MO_32, tcg_gen_gvec_shlv, 2, 6);
-diff --git a/target/ppc/translate/vmx-ops.inc.c b/target/ppc/translate/vmx-ops.inc.c
-index f3f4855111..528458cb25 100644
---- a/target/ppc/translate/vmx-ops.inc.c
-+++ b/target/ppc/translate/vmx-ops.inc.c
-@@ -54,6 +54,11 @@ GEN_HANDLER_E(name, 0x04, opc2, opc3, 0x00000000, PPC_NONE, PPC2_ISA310)
- #define GEN_VXFORM_DUAL(name0, name1, opc2, opc3, type0, type1) \
- GEN_HANDLER_E(name0##_##name1, 0x4, opc2, opc3, 0x00000000, type0, type1)
- 
-+#define GEN_VXFORM_DUAL_BOTH(name0, name1, opc2, opc3, inval0, \
-+                             inval1, type0, type1)             \
-+GEN_HANDLER_BOTH(name0##_##name1, 0x4, opc2, opc3, inval0,     \
-+                 inval1, type0, type1)
-+
- #define GEN_VXRFORM_DUAL(name0, name1, opc2, opc3, tp0, tp1) \
- GEN_HANDLER_E(name0##_##name1, 0x4, opc2, opc3, 0x00000000, tp0, tp1), \
- GEN_HANDLER_E(name0##_##name1, 0x4, opc2, (opc3 | 0x10), 0x00000000, tp0, tp1),
-@@ -116,6 +121,16 @@ GEN_VXFORM(vmulesb, 4, 12),
- GEN_VXFORM(vmulesh, 4, 13),
- GEN_VXFORM_DUAL(vmulesw, vmulhsw, 4, 14, PPC_ALTIVEC, PPC_NONE),
- GEN_VXFORM_310(vmulhsd, 4, 15),
-+GEN_VXFORM_310(vdivuw, 5, 2),
-+GEN_VXFORM_310(vdivud, 5, 3),
-+GEN_VXFORM_DUAL_BOTH(vexptefp, vdivsw, 5, 6, 0x001f0000, 0x00000000,
-+                     PPC_ALTIVEC, PPC2_ISA310),
-+GEN_VXFORM_DUAL_BOTH(vlogefp, vdivsd, 5, 7, 0x001f0000, 0x00000000,
-+                     PPC_ALTIVEC, PPC2_ISA310),
-+GEN_VXFORM_310(vmoduw, 5, 26),
-+GEN_VXFORM_310(vmodud, 5, 27),
-+GEN_VXFORM_310(vmodsw, 5, 30),
-+GEN_VXFORM_310(vmodsd, 5, 31),
- GEN_VXFORM(vslb, 2, 4),
- GEN_VXFORM(vslh, 2, 5),
- GEN_VXFORM_DUAL(vslw, vrlwnm, 2, 6, PPC_ALTIVEC, PPC_NONE),
-@@ -259,8 +274,6 @@ GEN_VXFORM_NOA(vupkhpx, 7, 13),
- GEN_VXFORM_NOA(vupklpx, 7, 15),
- GEN_VXFORM_NOA(vrefp, 5, 4),
- GEN_VXFORM_NOA(vrsqrtefp, 5, 5),
--GEN_VXFORM_NOA(vexptefp, 5, 6),
--GEN_VXFORM_NOA(vlogefp, 5, 7),
- GEN_VXFORM_NOA(vrfim, 5, 11),
- GEN_VXFORM_NOA(vrfin, 5, 8),
- GEN_VXFORM_NOA(vrfip, 5, 10),
--- 
-2.23.0
+>
+> I have removed this and the later patches from the RISC-V branch. I
+> want to send a PR today. After that I'll look into this.
 
+Regards,
+Bin
 
