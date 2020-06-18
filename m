@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B1A71FF66F
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 17:19:38 +0200 (CEST)
-Received: from localhost ([::1]:55574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31F5B1FF6F7
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 17:36:42 +0200 (CEST)
+Received: from localhost ([::1]:38900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlwKH-0003qy-8h
-	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 11:19:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52314)
+	id 1jlwam-00073d-9O
+	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 11:36:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1jlwIm-0003Hn-Up
- for qemu-devel@nongnu.org; Thu, 18 Jun 2020 11:18:04 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:30581
+ id 1jlwZc-0006SL-1k
+ for qemu-devel@nongnu.org; Thu, 18 Jun 2020 11:35:28 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:38864
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1jlwIi-0003VR-1L
- for qemu-devel@nongnu.org; Thu, 18 Jun 2020 11:18:04 -0400
+ id 1jlwZZ-0007bt-6q
+ for qemu-devel@nongnu.org; Thu, 18 Jun 2020 11:35:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592493478;
+ s=mimecast20190719; t=1592494524;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=JPO3qS+/og5kLrVA2H4Tl/XJ4llfK4U+EDV83lE46rw=;
- b=bCr2fNI8up9CDHkRIRGE6Q8Hzu+YVEvWpyh6ZWCpDh9lT06zbeUyxdQ64LAtOExevc+OQa
- H9CDISEovKUjzvPjDE+8PteqSA2ogmwh5JjMQGUvIH3xcaOSVhoJdmQebAECtvogyotxVb
- SPLgP/K83jWh4UzMq/Cpvn08yyWnVeM=
+ bh=ttfQhqAJ59sT4RarvibgBtYM0IyzQZUtgmArPyKa6q4=;
+ b=SrbD/gySGBr7pw85aFMgnH6bUeM8gR0qVvx/7MieL6d+d59IU/2aSbWFzzneVZnqqmvtz6
+ V0WYAilHulOeZR1UB0UQ1Ds/uwl99wXo+Od6fo2l5SuVsHR4cNPrMolkXmvdH4BOiLndii
+ VOCHoaz3Q2gctF3gMfi+9SpT0gg3DrI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-500-PBzEepRrNgmTyPm6NjaQSA-1; Thu, 18 Jun 2020 11:17:54 -0400
-X-MC-Unique: PBzEepRrNgmTyPm6NjaQSA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-227-_5JReB47PlGEE02BNutWhA-1; Thu, 18 Jun 2020 11:35:20 -0400
+X-MC-Unique: _5JReB47PlGEE02BNutWhA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F10BC1030981;
- Thu, 18 Jun 2020 15:17:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3205310CE782;
+ Thu, 18 Jun 2020 15:35:19 +0000 (UTC)
 Received: from localhost (ovpn-113-212.ams2.redhat.com [10.36.113.212])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 54C855BAC1;
- Thu, 18 Jun 2020 15:17:52 +0000 (UTC)
-Date: Thu, 18 Jun 2020 16:17:51 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D526F1E2267;
+ Thu, 18 Jun 2020 15:35:17 +0000 (UTC)
+Date: Thu, 18 Jun 2020 16:35:16 +0100
 From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Coiby Xu <coiby.xu@gmail.com>
-Subject: Re: [PATCH v9 5/5] new qTest case to test the vhost-user-blk-server
-Message-ID: <20200618151751.GD1956319@stefanha-x1.localdomain>
-References: <20200614183907.514282-1-coiby.xu@gmail.com>
- <20200614183907.514282-6-coiby.xu@gmail.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Subject: Re: [PATCH 2/2] scripts/tracetool: Add plainlog backend
+Message-ID: <20200618153516.GE1956319@stefanha-x1.localdomain>
+References: <20200617134505.9D06E7482D3@zero.eik.bme.hu>
+ <20200618073124.GA1956319@stefanha-x1.localdomain>
+ <20200618090741.GC671599@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200614183907.514282-6-coiby.xu@gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20200618090741.GC671599@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="at6+YcpfzWZg/htY"
+ protocol="application/pgp-signature"; boundary="pY3vCvL1qV+PayAL"
 Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=stefanha@redhat.com;
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=stefanha@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/18 01:21:16
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/18 01:47:12
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,76 +81,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org, bharatlkmlkvm@gmail.com,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---at6+YcpfzWZg/htY
-Content-Type: text/plain; charset=us-ascii
+--pY3vCvL1qV+PayAL
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jun 15, 2020 at 02:39:07AM +0800, Coiby Xu wrote:
-> This test case has the same tests as tests/virtio-blk-test.c except for
-> tests have block_resize. Since vhost-user server can only server one
-> client one time, two instances of qemu-storage-daemon are launched
-> for the hotplug test.
+On Thu, Jun 18, 2020 at 10:07:41AM +0100, Daniel P. Berrang=E9 wrote:
+> On Thu, Jun 18, 2020 at 08:31:24AM +0100, Stefan Hajnoczi wrote:
+> > On Wed, Jun 17, 2020 at 03:36:29PM +0200, BALATON Zoltan wrote:
+> > > Add a backend that is the same as the log backend but omits the
+> > > process id and timestamp so logs are easier to read and diff-able.
+> > >=20
+> > > Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+> > > ---
+> > >  scripts/tracetool/backend/plainlog.py | 48 +++++++++++++++++++++++++=
+++
+> > >  1 file changed, 48 insertions(+)
+> > >  create mode 100644 scripts/tracetool/backend/plainlog.py
+> > >=20
+> > > diff --git a/scripts/tracetool/backend/plainlog.py b/scripts/tracetoo=
+l/backend/plainlog.py
+> > > new file mode 100644
+> > > index 0000000000..40bbfa6d76
+> > > --- /dev/null
+> > > +++ b/scripts/tracetool/backend/plainlog.py
+> > > @@ -0,0 +1,48 @@
+> > > +# -*- coding: utf-8 -*-
+> > > +
+> > > +"""
+> > > +Stderr built-in backend, plain log without proc ID and time.
+> > > +"""
+> > > +
+> > > +__author__     =3D "Llu????s Vilanova <vilanova@ac.upc.edu>"
+> > > +__copyright__  =3D "Copyright 2012-2017, Llu????s Vilanova <vilanova=
+@ac.upc.edu>"
+> >=20
+> > There is a Unicode issue here, Llu=EDs' name is not printed correctly.
+> >=20
+> > > +__license__    =3D "GPL version 2 or (at your option) any later vers=
+ion"
+> > > +
+> > > +__maintainer__ =3D "Stefan Hajnoczi"
+> > > +__email__      =3D "stefanha@linux.vnet.ibm.com"
+> > > +
+> > > +
+> > > +from tracetool import out
+> > > +
+> > > +
+> > > +PUBLIC =3D True
+> > > +
+> > > +
+> > > +def generate_h_begin(events, group):
+> > > +    out('#include "qemu/log-for-trace.h"',
+> > > +        '')
+> > > +
+> > > +
+> > > +def generate_h(event, group):
+> > > +    argnames =3D ", ".join(event.args.names())
+> > > +    if len(event.args) > 0:
+> > > +        argnames =3D ", " + argnames
+> > > +
+> > > +    if "vcpu" in event.properties:
+> > > +        # already checked on the generic format code
+> > > +        cond =3D "true"
+> > > +    else:
+> > > +        cond =3D "trace_event_get_state(%s)" % ("TRACE_" + event.nam=
+e.upper())
+> > > +
+> > > +    out('    if (%(cond)s && qemu_loglevel_mask(LOG_TRACE)) {',
+> > > +        '        qemu_log("%(name)s " %(fmt)s "\\n" %(argnames)s);',
+> > > +        '    }',
+> > > +        cond=3Dcond,
+> > > +        name=3Devent.name,
+> > > +        fmt=3Devent.fmt.rstrip("\n"),
+> > > +        argnames=3Dargnames)
+> >=20
+> > It is not necessary to introduce a new backend. There could be an optio=
+n
+> > that controls whether or not the timestamp/tid is printed. For example,
+> > -trace timestamp=3Doff or maybe the timestmap/tid can be integrated int=
+o
+> > qemu_log() itself so that it's used more consistently and a -d timestam=
+p
+> > option enables it.
 >=20
-> In order to not block scripts/tap-driver.pl, vhost-user-blk-server will
-> send "quit" command to qemu-storage-daemon's QMP monitor. So a function
-> is added to libqtest.c to establish socket connection with socket
-> server.
->=20
-> Signed-off-by: Coiby Xu <coiby.xu@gmail.com>
-> ---
->  tests/Makefile.include              |   3 +-
->  tests/qtest/Makefile.include        |   2 +
->  tests/qtest/libqos/vhost-user-blk.c | 130 +++++
->  tests/qtest/libqos/vhost-user-blk.h |  48 ++
->  tests/qtest/libqtest.c              |  35 +-
->  tests/qtest/libqtest.h              |  17 +
->  tests/qtest/vhost-user-blk-test.c   | 739 ++++++++++++++++++++++++++++
->  7 files changed, 971 insertions(+), 3 deletions(-)
->  create mode 100644 tests/qtest/libqos/vhost-user-blk.c
->  create mode 100644 tests/qtest/libqos/vhost-user-blk.h
->  create mode 100644 tests/qtest/vhost-user-blk-test.c
+> QEMU already has a "-msg timestamp=3Don|off" option that controls whether
+> error reports on stderr get a timestamp. I think it is probably reasonabl=
+e
+> for this existing option to apply to anything QEMU prints to stdout/err,
+> and thus we could wire it up for qemu_log().
 
-This test case fails for me:
+I thought about that but the features are somewhat unrelated.
 
-qemu-system-x86_64: Failed to read from slave.
-qemu-system-x86_64: Failed to set msg fds.
-qemu-system-x86_64: vhost VQ 0 ring restore failed: -1: Success (0)
-qemu-system-x86_64: Failed to read from slave.
-qemu-system-x86_64: Failed to read from slave.
-qemu-system-x86_64: Failed to read from slave.
-qemu-system-x86_64: Failed to set msg fds.
-qemu-system-x86_64: vhost VQ 0 ring restore failed: -1: Success (0)
-qemu-system-x86_64: Failed to read msg header. Read -1 instead of 12. Origi=
-nal request 11.
-qemu-system-x86_64: vhost VQ 0 ring restore failed: -1: Input/output error =
-(5)
-
-Does "make -j4 check" pass for you?
+If we unify them, how about making the timestamp/tid apply to *all*
+qemu_log() output, not just tracing?
 
 Stefan
 
---at6+YcpfzWZg/htY
+--pY3vCvL1qV+PayAL
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl7rhZ8ACgkQnKSrs4Gr
-c8j9swf/QqzGVZhlltmiW9ZBYsky9eSRIeq+TDTfAVwYwDSBmcwY+UrNnvHADlHq
-i3iWg1D6uVNNyl8BKHrcOdeiIv+Anmq2TzvyfAG1AS7FYt3FKdTljhEIJzCt14zT
-IST8lMZ1fjpcOv9xbI7dmdXCtzeIK7ITCjbvnDS+81gkjjdZG29WZ/jgx5qWwmlL
-Cqx9iRnYUsGFQP3qqaQnn+0zDNQ2QfvNOiTRv0wDNbCn4bcSVUKzlnRqEfhmbkU3
-qCSJ/DR/JRiXFH3QhjO1e2xKHNwsASrEjKT4CMP9QG9sgzHO430eGYuVXY/ky4jR
-DFylsjZJ+4eGl9iI0YzFaFmNANy6rQ==
-=stx9
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl7ribQACgkQnKSrs4Gr
+c8g4cQf/VYK88ehewD7DAsjXVw8yKpuzMYol1yA4u6pJWh0qhUqpD05/p6W66kzG
+POD8hIDNMaY9C9gKFSX7yWr25NAV/ZAZin6R4WxVRYE+VQImw9pV386MhP/m1GuX
+t/lc9S1GRZ3X1drfG5n3Pd0PmxyrSh1KCidhyTKCWY3u/mEsVtONqRqgHbR66x6k
+aaGhY+uq7k7AtS76Bz4QG+bRQjvMayu1pXVw+uSY/XwJW1pBXdLGr8IDjVcnkwPk
+gp68i7dgSV2dzCVsWGnw6OadotFrF/nDA89D0tkKdI8bYCcMA4SckI4ttWMq3WW5
+oV39IpLpmCnI2fGhGxPCIk+UVm02FA==
+=8tsd
 -----END PGP SIGNATURE-----
 
---at6+YcpfzWZg/htY--
+--pY3vCvL1qV+PayAL--
 
 
