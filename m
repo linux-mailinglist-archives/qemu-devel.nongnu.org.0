@@ -2,69 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40F701FF675
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 17:22:06 +0200 (CEST)
-Received: from localhost ([::1]:58720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E1851FF656
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 17:14:33 +0200 (CEST)
+Received: from localhost ([::1]:50968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlwMf-0005eR-BH
-	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 11:22:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53214)
+	id 1jlwFM-0000XX-44
+	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 11:14:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jlwLP-0004nG-Bl
- for qemu-devel@nongnu.org; Thu, 18 Jun 2020 11:20:47 -0400
-Received: from indium.canonical.com ([91.189.90.7]:49524)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jlwLM-0003xa-Qc
- for qemu-devel@nongnu.org; Thu, 18 Jun 2020 11:20:46 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jlwLK-0000id-C9
- for <qemu-devel@nongnu.org>; Thu, 18 Jun 2020 15:20:42 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 5AEE82E810A
- for <qemu-devel@nongnu.org>; Thu, 18 Jun 2020 15:20:42 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 18 Jun 2020 15:11:42 -0000
-From: Aleksandar Markovic <1883560@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: build linux-user mips
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ajbennee aleksandar-markovic laurent-vivier
-X-Launchpad-Bug-Reporter: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
-X-Launchpad-Bug-Modifier: Aleksandar Markovic (aleksandar-markovic)
-References: <159223432851.7281.13140123017230519248.malonedeb@gac.canonical.com>
-Message-Id: <CAHiYmc4CSjJ2ZVmAtfaQNqve=XQD04-JZrcVnozk18vWtxBmug@mail.gmail.com>
-Subject: Re: [Bug 1883560] [NEW] mips linux-user builds occasionly crash
- randomly only to be fixed by a full clean re-build
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="1cbd0aa39df153c901321817f9b57cf3f232b507";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 603bcab4b7d8d10d60e59472bd55d73d2ae5790d
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/18 11:20:43
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=_AUTOLEARN
+ (Exim 4.90_1) (envelope-from <ysato@users.sourceforge.jp>)
+ id 1jlwDi-0007fx-Dg
+ for qemu-devel@nongnu.org; Thu, 18 Jun 2020 11:12:50 -0400
+Received: from mail02.asahi-net.or.jp ([202.224.55.14]:49391)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <ysato@users.sourceforge.jp>) id 1jlwDf-0002Yl-VO
+ for qemu-devel@nongnu.org; Thu, 18 Jun 2020 11:12:50 -0400
+Received: from sakura.ysato.name (ik1-413-38519.vs.sakura.ne.jp
+ [153.127.30.23]) (Authenticated sender: PQ4Y-STU)
+ by mail02.asahi-net.or.jp (Postfix) with ESMTPA id 4108CEF782;
+ Fri, 19 Jun 2020 00:12:42 +0900 (JST)
+Received: from yo-satoh-debian.ysato.ml (ZM005235.ppp.dion.ne.jp [222.8.5.235])
+ by sakura.ysato.name (Postfix) with ESMTPSA id BC7FB1C0792;
+ Fri, 19 Jun 2020 00:12:41 +0900 (JST)
+Date: Fri, 19 Jun 2020 00:12:38 +0900
+Message-ID: <87eeqctnkp.wl-ysato@users.sourceforge.jp>
+From: Yoshinori Sato <ysato@users.sourceforge.jp>
+To: Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [PATCH rc1 00/15] hw: Renesas patches (SH4 and RX)
+In-Reply-To: <20200617191519.14842-1-f4bug@amsat.org>
+References: <20200617191519.14842-1-f4bug@amsat.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL/10.8 EasyPG/1.0.0 Emacs/26
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=GB2312
+Content-Transfer-Encoding: base64
+Received-SPF: softfail client-ip=202.224.55.14;
+ envelope-from=ysato@users.sourceforge.jp; helo=mail02.asahi-net.or.jp
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/18 11:12:43
+X-ACL-Warn: Detected OS   = ???
+X-Spam_score_int: 6
+X-Spam_score: 0.6
+X-Spam_bar: /
+X-Spam_report: (0.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_BL=0.01, RCVD_IN_MSPIKE_L5=2.5, SPF_HELO_NONE=0.001,
+ SPF_SOFTFAIL=0.665, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,131 +60,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1883560 <1883560@bugs.launchpad.net>
+Cc: Magnus Damm <magnus.damm@gmail.com>, qemu-devel@nongnu.org,
+ Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-=D1=87=D0=B5=D1=82=D0=B2=D1=80=D1=82=D0=B0=D0=BA, 18. =D1=98=D1=83=D0=BD 20=
-20., Cornelia Huck <cohuck@redhat.com> =D1=98=D0=B5
-=D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
-
-> On Mon, 15 Jun 2020 15:18:48 -0000
-> Alex Benn=C3=A9e <1883560@bugs.launchpad.net> wrote:
->
-> > Public bug reported:
-> >
-> > >From time to time I find check-tcg crashes with a one of the MIPS
-> > binaries. The last time it crashed was running the test:
-> >
-> >   ./mips64el-linux-user/qemu-mips64el ./tests/tcg/mips64el-linux-
-> > user/threadcount
-> >
-> > Inevitably after some time noodling around wondering what could be
-> > causing this weird behaviour I wonder if it is a build issue. I wipe all
-> > the mips* build directories, re-run configure and re-build and voila
-> > problem goes away.
-> >
-> > It seems there must be some sort of build artefact which isn't being
-> > properly re-generated on a build update which causes weird problems.
-> > Additional data point if I:
-> >
-> >   rm -rf mips64el-linux-user
-> >   ../../configure
-> >   make
-> >
-> > then I see failures in mip32 builds - eg:
-> >
-> >     GEN     mipsn32el-linux-user/config-target.h
-> >   In file included from /home/alex/lsrc/qemu.git/
-> linux-user/syscall_defs.h:10,
-> >                    from /home/alex/lsrc/qemu.git/linux-user/qemu.h:16,
-> >                    from /home/alex/lsrc/qemu.git/
-> linux-user/linuxload.c:5:
-> >   /home/alex/lsrc/qemu.git/linux-user/mips64/syscall_nr.h:1: error:
-> unterminated #ifndef
-> >    #ifndef LINUX_USER_MIPS64_SYSCALL_NR_H
-> >
-> >   make[1]: *** [/home/alex/lsrc/qemu.git/rules.mak:69:
-> linux-user/linuxload.o] Error 1
-> >   make[1]: *** Waiting for unfinished jobs....
-> >
-> > which implies there is a cross dependency between different targets
-> > somewhere. If I executed:
-> >
-> >   rm -rf mips*
-> >
-> > before re-configuring and re-building then everything works again.
-> >
-> > ** Affects: qemu
-> >      Importance: Undecided
-> >          Status: New
-> >
-> >
-> > ** Tags: build linux-user mips
-> >
->
-> FWIW, this does not seem to be a mips-only issue: I'm seeing the
-> threadcount test fail with s390x-linux-user as well, and it also goes
-> away (only) if I purge the build directory, re-configure, and re-build.
->
->
-Valuable info!
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1883560
-
-Title:
-  mips linux-user builds occasionly crash randomly only to be fixed by a
-  full clean re-build
-
-Status in QEMU:
-  New
-
-Bug description:
-  From time to time I find check-tcg crashes with a one of the MIPS
-  binaries. The last time it crashed was running the test:
-
-    ./mips64el-linux-user/qemu-mips64el ./tests/tcg/mips64el-linux-
-  user/threadcount
-
-  Inevitably after some time noodling around wondering what could be
-  causing this weird behaviour I wonder if it is a build issue. I wipe
-  all the mips* build directories, re-run configure and re-build and
-  voila problem goes away.
-
-  It seems there must be some sort of build artefact which isn't being
-  properly re-generated on a build update which causes weird problems.
-  Additional data point if I:
-
-    rm -rf mips64el-linux-user
-    ../../configure
-    make
-
-  then I see failures in mip32 builds - eg:
-
-      GEN     mipsn32el-linux-user/config-target.h
-    In file included from /home/alex/lsrc/qemu.git/linux-user/syscall_defs.=
-h:10,
-                     from /home/alex/lsrc/qemu.git/linux-user/qemu.h:16,
-                     from /home/alex/lsrc/qemu.git/linux-user/linuxload.c:5:
-    /home/alex/lsrc/qemu.git/linux-user/mips64/syscall_nr.h:1: error: unter=
-minated #ifndef
-     #ifndef LINUX_USER_MIPS64_SYSCALL_NR_H
-
-    make[1]: *** [/home/alex/lsrc/qemu.git/rules.mak:69: linux-user/linuxlo=
-ad.o] Error 1
-    make[1]: *** Waiting for unfinished jobs....
-
-  which implies there is a cross dependency between different targets
-  somewhere. If I executed:
-
-    rm -rf mips*
-
-  before re-configuring and re-building then everything works again.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1883560/+subscriptions
+T24gVGh1LCAxOCBKdW4gMjAyMCAwNDoxNTowNCArMDkwMCwNClBoaWxpcHBlIE1hdGhpZXUtRGF1
+ZKimIHdyb3RlOg0KPiANCj4gSGkgUmljaGFyZCwgWW9zaGlub3JpLA0KPiANCj4gVGhpcyBpcyBh
+IG1lcmdlciBvZiB0aGUgbGF0ZXN0IFNINCBwYXRjaGVzIChhZGQgYSBjb21tb24gZW50cnkgZm9y
+DQo+IFJlbmVzYXMgaGFyZHdhcmUgaW4gTUFJTlRBSU5FUlMsIGFuIGFjY2VwdGFuY2UgdGVzdCBm
+cm9tIFRob21hcyksDQo+IGFuZCBZb3NoaW5vcmkncyB2MzIgWypdIG9mIHRoZSBSWCBtYWNoaW5l
+Lg0KPiBDYWxsIHRoaXMgcmVsZWFzZSwgb3IgbWVyZ2UsIGNhbmRpZGF0ZSAxLg0KPiANCj4gWypd
+IGh0dHBzOi8vd3d3Lm1haWwtYXJjaGl2ZS5jb20vcWVtdS1kZXZlbEBub25nbnUub3JnL21zZzY4
+MjI5MC5odG1sDQo+IA0KPiAtLS0NCj4gDQo+IFJpY2hhcmQsDQo+IA0KPiBBIGZldyBtb250aHMg
+YWdvLCBJIHZvbHVudGVlcmVkIHRvIGludGVncmF0ZSB0aGUgUlggcG9ydCBwb3N0ZWQgbGFzdA0K
+PiB5ZWFyIG9uIHRoZSBsaXN0LCB0byBoZWxwIHlvdSBlYXNlIHRoZSBidXJkZW4gb2YgeW91ciBo
+ZWF2eSB3b3JrbG9hZC4NCj4gDQo+IEFzIGl0IHRvb2sgYSBsb25nIHRpbWUsIGF0IHNvbWUgcG9p
+bnQgSSBzdWdnZXN0ZWQgZG9pbmcgdGhlIGludGVncmF0aW9uDQo+IGluIHR3byBwYXJ0cywgZmly
+c3QgdGhlIGFyY2hpdGVjdHVyZSBwYXJ0ICh0YXJnZXQvIGRpcmVjdG9yeSksIHRoZW4gdGhlDQo+
+IGhhcmR3YXJlIChody8gZGlyZWN0b3J5KS4gWW91IGRpc2FncmVlZCwgYXJndWluZyB0aGF0IHRo
+aXMgYXBwcm9hY2gNCj4gY291bGQgYmUgZGFuZ2Vyb3VzLCBhcyB3ZSBkb26hr3Qgd2FudCB0byBt
+YWludGFpbiBhIHBhcnRseSBpbnRlZ3JhdGVkDQo+IHBvcnQuIEluIGhpbmRzaWdodCBJIGxlYXJu
+ZWQgdGhlIGhhcmQgd2F5IHRoYXQgeW91IHdlcmUgcmlnaHQhDQo+IA0KPiBXaGVuIEkgZGVjaWRl
+ZCB0byBzZW5kIHRoZSBhcmNoaXRlY3R1cmFsIHBhcnQgZmlyc3QsIEkgbWFkZSB0aGUNCj4gY29t
+bWl0bWVudCB0byB5b3UgdG8gZmluaXNoIHRoZSBmdWxsIGludGVncmF0aW9uIGJlZm9yZSB0aGUg
+Zm9sbG93aW5nDQo+IHJlbGVhc2UuIFRoZSBzZWNvbmQgcGFydCBoYXMgYmVlbiBhIHBhaW5mdWwg
+ZXhwZXJpZW5jZS4NCj4gDQo+IFdpdGggdGhpcyBzZXJpZXMsIEkgaGF2ZSBub3cgZnVsZmlsbGVk
+IHRoaXMgY29tbWl0bWVudC4gSSBkb24ndCBwbGFuDQo+IHRvIGNvbnRpbnVlIHdvcmtpbmcgb24g
+dGhlIFJYIHBvcnQuDQo+IA0KPiBUaGFuayB5b3UgZm9yIHlvdXIgc3VwcG9ydCBkdXJpbmcgdGhp
+cyBleHBlcmltZW50LCBJIGxlYXJuZWQgYSBsb3QsDQo+IGFuZCBJoa9kIGJlIGdyYXRlZnVsIHRv
+IHdvcmsgd2l0aCB5b3UgYWdhaW4gaW4gdGhlIGZ1dHVyZSBpbiBvdGhlcg0KPiBwYXJ0cyBvZiB0
+aGUgcHJvamVjdC4NCj4gDQo+IC0tLQ0KPiANCj4gWW9zaGlub3JpLA0KPiANCj4gSSBhcHByZWNp
+YXRlZCBpbnRlZ3JhdGluZyB5b3VyIHdvcmssIHdoaWNoIGlzIG9mIHZlcnkgZ29vZCBxdWFsaXR5
+DQo+IG92ZXJhbGwuIERlc3BpdGUgdGhlIG51bWVyb3VzIGl0ZXJhdGlvbnMgeW91IGhhZCB0byBn
+byB0aHJvdWdoLCB0aGUNCj4gb3V0Y29tZSBoYXMgcHJvdmVuIHdvcnRod2hpbGUuDQo+IFdvcmtp
+bmcgd2l0aCB5b3UgaGFzIGJlZW4gYSBncmVhdCBleHBlcmllbmNlLg0KPiANCj4gSSB2b2x1bnRl
+ZXJlZCB0byBoZWxwIG1haW50YWluIHRoZSBSWCBoYXJkd2FyZSBpbiBteSBsZWlzdXJlIHRpbWUu
+DQo+IFN1Y2ggaG9iYnkgcHJvamVjdHMgYXJlIHN1cHBvc2VkIHRvIGJlIGZ1biwgYW5kIG5vdCBo
+YXZlIHRoZSBzYW1lDQo+IGxldmVsIG9mIHByZXNzdXJlIGFzIHBhaWQgd29yay4NCj4gDQo+IFNh
+ZGx5LCBteSBleHBlcmllbmNlIHRyeWluZyB0byBnZXQgeW91ciB3b3JrIG1lcmdlZCBoYXMgbm90
+IGJlZW4gZnVuOg0KPiB0b28gbXVjaCBhZ2dyZXNzaXZlIGNyaXRpY2lzbSwgYW5kIGNvbnN0YW50
+IGRlbWFuZHMgZm9yIG1vcmUgd29yay4NCj4gVGhlIHByZXNzdXJlIGhhcyBiZWNvbWUgdG9vIGdy
+ZWF0IGZvciB3aGF0IGlzLCBlc3NlbnRpYWxseSwgdW5wYWlkDQo+IHdvcmsuDQo+DQoNClRoYW5r
+IHlvdSB2ZXJ5IG11Y2guDQpJIHdvdWxkbid0IGhhdmUgYmVlbiBhYmxlIHRvIGFjaGlldmUgc3Vj
+aCBhbiBvdXRjb21lIHdpdGhvdXQgeW91cg0KZ3JlYXQgY29vcGVyYXRpb24uDQpUaGVyZSBhcmUg
+c3RpbGwgc29tZSBmdW5jdGlvbnMgdGhhdCBJIHdhbnQgdG8gaW1wbGVtZW50IG9uIHRoZSBSWCBw
+b3J0LA0Kc28gSSB3aWxsIGNvbnRpbnVlIHdvcmtpbmcuDQoNCj4gLS0tDQo+IA0KPiBNaXNzaW5n
+IHJldmlldzogcGF0Y2hlcyAyIGFuZCAxMg0KPiAtIDAyLzE1IE1BSU5UQUlORVJTOiBBZGQgYW4g
+ZW50cnkgZm9yIGNvbW1vbiBSZW5lc2FzIHBlcmlwaGVyYWxzDQo+IC0gMTIvMTUgaHcvcng6IFJl
+Z2lzdGVyIFI1RjU2Mk43IGFuZCBSNUY1NjJOOCBNQ1VzDQo+IA0KPiBDaGFuZ2VzIHNpbmNlIHYz
+MjoNCj4gDQo+IC0gUmViYXNlZCBvbiBEZXZpY2VSZXNldCBBUEkgY2hhbmdlDQo+IC0gUmVuYW1l
+ZCBDUFUgLT4gTUNVDQo+IC0gUmVuYW1lZCBkZXZpY2UgLT4gbWljcm9jb250cm9sbGVyDQo+IC0g
+UmViYXNlZCBvbiBkZXZpY2VfY2xhc3Nfc2V0X3BhcmVudF9yZWFsaXplIEFQSSBjaGFuZ2UNCj4g
+LSBTcGxpdCB0aW1lciBwYXRjaCBpbiB0d28gZGlzdGluY3RzOiBDTVQgYW5kIFRNUg0KPiAtIFJl
+YmFzZWQgb24gcmFtZGV2IEFQSSBjaGFuZ2UNCj4gLSBVc2UgVFlQRV9SWDYyTl9DUFUgZGVmaW5p
+dGlvbg0KPiAtIFVzZSBSWDYyTl9OUl9UTVIvQ01UL1NDSSBkZWZpbml0aW9ucw0KPiAtIFJlcGxh
+Y2Ugb2Jzb2xldGUgc2V0X21hY2hpbmUoKSBieSBtYWNoaW5lIHRhZw0KPiAtIFNwbGl0IHJ4LXZp
+cnQgcGF0Y2ggaW4gdHdvIGRpc3RpbmN0LCBNQ1UgZmlyc3QsIG1hY2hpbmUgbmV4dA0KPiAtIFJl
+bmFtZWQgbWFjaGluZWQgYXMgZ2Ric2ltDQo+IC0gTWFrZSBUWVBFX1JYNjJOX01DVSBhbiBhYnN0
+cmFjdCBjbGFzcywNCj4gICBhZGQgVFlQRV9SNUY1NjJON19NQ1UgYW5kIFRZUEVfUjVGNTYyTjhf
+TUNVIG1vZGVscw0KPiAtIFJlbmFtZSB0aGUgbWFjaGluZSBnZGJzaW0tcjVmNTYybjgsIGFsc28g
+YWRkIHRoZSBnZGJzaW0tcjVmNTYybjcNCj4gLSBGaWxsZWQgdmFyaW91cyBWTVN0YXRlRmllbGQg
+Zm9yIG1pZ3JhdGlvbg0KPiAtIFJlYmFzZSBvbiBxZGV2L3N5c2J1cyBBUEkgY2hhbmdlDQo+IA0K
+PiBDSToNCj4gaHR0cHM6Ly90cmF2aXMtY2kub3JnL2dpdGh1Yi9waGlsbWQvcWVtdS9idWlsZHMv
+Njk4OTc0NDI1DQo+IA0KPiBQaGlsaXBwZSBNYXRoaWV1LURhdWSopiAoNyk6DQo+ICAgTUFJTlRB
+SU5FUlM6IENvdmVyIHNoX2ludGMgZmlsZXMgaW4gdGhlIFIyRC9TaGl4IG1hY2hpbmUgc2VjdGlv
+bnMNCj4gICBNQUlOVEFJTkVSUzogQWRkIGFuIGVudHJ5IGZvciBjb21tb24gUmVuZXNhcyBwZXJp
+cGhlcmFscw0KPiAgIGh3L3NoNDogVXNlIE1lbW9yeVJlZ2lvbiB0eXBlZGVmDQo+ICAgaHcvc2g0
+OiBFeHRyYWN0IHRpbWVyIGRlZmluaXRpb25zIHRvICdody90aW1lci90bXUwMTIuaCcNCj4gICBo
+dy90aW1lci9zaF90aW1lcjogUmVtb3ZlIHVudXNlZCAncWVtdS90aW1lci5oJyBpbmNsdWRlDQo+
+ICAgaHcvcng6IFJlZ2lzdGVyIFI1RjU2Mk43IGFuZCBSNUY1NjJOOCBNQ1VzDQo+ICAgQm9vdExp
+bnV4Q29uc29sZVRlc3Q6IFRlc3QgdGhlIFJYIEdEQiBzaW11bGF0b3INCj4gDQo+IFJpY2hhcmQg
+SGVuZGVyc29uICgxKToNCj4gICBody9yeDogSG9ub3IgLWFjY2VsIHF0ZXN0DQo+IA0KPiBZb3No
+aW5vcmkgU2F0byAoNyk6DQo+ICAgaHcvaW50YzogUlg2Mk4gaW50ZXJydXB0IGNvbnRyb2xsZXIg
+KElDVWEpDQo+ICAgaHcvdGltZXI6IFJYNjJOIDgtQml0IHRpbWVyIChUTVIpDQo+ICAgaHcvdGlt
+ZXI6IFJYNjJOIGNvbXBhcmUgbWF0Y2ggdGltZXIgKENNVCkNCj4gICBody9jaGFyOiBSWDYyTiBz
+ZXJpYWwgY29tbXVuaWNhdGlvbiBpbnRlcmZhY2UgKFNDSSkNCj4gICBody9yeDogUlg2Mk4gbWlj
+cm9jb250cm9sbGVyIChNQ1UpDQo+ICAgaHcvcng6IEFkZCBSWCBHREIgc2ltdWxhdG9yDQo+ICAg
+ZG9jczogRG9jdW1lbnQgdGhlIFJYIHRhcmdldA0KPiANCj4gIGRvY3Mvc3lzdGVtL3RhcmdldC1y
+eC5yc3QgICAgICAgICAgICAgfCAgMzYgKysNCj4gIGRvY3Mvc3lzdGVtL3RhcmdldHMucnN0ICAg
+ICAgICAgICAgICAgfCAgIDEgKw0KPiAgZGVmYXVsdC1jb25maWdzL3J4LXNvZnRtbXUubWFrICAg
+ICAgICB8ICAgMSArDQo+ICBpbmNsdWRlL2h3L2NoYXIvcmVuZXNhc19zY2kuaCAgICAgICAgIHwg
+IDUxICsrKw0KPiAgaW5jbHVkZS9ody9pbnRjL3J4X2ljdS5oICAgICAgICAgICAgICB8ICA3NiAr
+KysrDQo+ICBpbmNsdWRlL2h3L3J4L3J4NjJuLmggICAgICAgICAgICAgICAgIHwgIDc4ICsrKysr
+DQo+ICBpbmNsdWRlL2h3L3NoNC9zaC5oICAgICAgICAgICAgICAgICAgIHwgIDEyICstDQo+ICBp
+bmNsdWRlL2h3L3RpbWVyL3JlbmVzYXNfY210LmggICAgICAgIHwgIDQwICsrKw0KPiAgaW5jbHVk
+ZS9ody90aW1lci9yZW5lc2FzX3Rtci5oICAgICAgICB8ICA1NSArKysNCj4gIGluY2x1ZGUvaHcv
+dGltZXIvdG11MDEyLmggICAgICAgICAgICAgfCAgMjMgKysNCj4gIGh3L2NoYXIvcmVuZXNhc19z
+Y2kuYyAgICAgICAgICAgICAgICAgfCAzNTAgKysrKysrKysrKysrKysrKysrKw0KPiAgaHcvaW50
+Yy9yeF9pY3UuYyAgICAgICAgICAgICAgICAgICAgICB8IDM5NyArKysrKysrKysrKysrKysrKysr
+KysNCj4gIGh3L3J4L3J4LWdkYnNpbS5jICAgICAgICAgICAgICAgICAgICAgfCAxOTYgKysrKysr
+KysrKysNCj4gIGh3L3J4L3J4NjJuLmMgICAgICAgICAgICAgICAgICAgICAgICAgfCAzMTggKysr
+KysrKysrKysrKysrKysNCj4gIGh3L3NoNC9zaDc3NTAuYyAgICAgICAgICAgICAgICAgICAgICAg
+fCAgIDEgKw0KPiAgaHcvdGltZXIvcmVuZXNhc19jbXQuYyAgICAgICAgICAgICAgICB8IDI4MyAr
+KysrKysrKysrKysrKysNCj4gIGh3L3RpbWVyL3JlbmVzYXNfdG1yLmMgICAgICAgICAgICAgICAg
+fCA0NzcgKysrKysrKysrKysrKysrKysrKysrKysrKysNCj4gIGh3L3RpbWVyL3NoX3RpbWVyLmMg
+ICAgICAgICAgICAgICAgICAgfCAgIDMgKy0NCj4gIE1BSU5UQUlORVJTICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgfCAgMzMgKy0NCj4gIGh3L0tjb25maWcgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgfCAgIDEgKw0KPiAgaHcvY2hhci9LY29uZmlnICAgICAgICAgICAgICAgICAgICAgICB8
+ICAgMyArDQo+ICBody9jaGFyL01ha2VmaWxlLm9ianMgICAgICAgICAgICAgICAgIHwgICAxICsN
+Cj4gIGh3L2ludGMvS2NvbmZpZyAgICAgICAgICAgICAgICAgICAgICAgfCAgIDMgKw0KPiAgaHcv
+aW50Yy9NYWtlZmlsZS5vYmpzICAgICAgICAgICAgICAgICB8ICAgMSArDQo+ICBody9yeC9LY29u
+ZmlnICAgICAgICAgICAgICAgICAgICAgICAgIHwgIDEwICsNCj4gIGh3L3J4L01ha2VmaWxlLm9i
+anMgICAgICAgICAgICAgICAgICAgfCAgIDIgKw0KPiAgaHcvdGltZXIvS2NvbmZpZyAgICAgICAg
+ICAgICAgICAgICAgICB8ICAgNiArDQo+ICBody90aW1lci9NYWtlZmlsZS5vYmpzICAgICAgICAg
+ICAgICAgIHwgICAyICsNCj4gIHRlc3RzL2FjY2VwdGFuY2UvbWFjaGluZV9yeF9nZGJzaW0ucHkg
+fCAgNjggKysrKw0KPiAgMjkgZmlsZXMgY2hhbmdlZCwgMjUxNSBpbnNlcnRpb25zKCspLCAxMyBk
+ZWxldGlvbnMoLSkNCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBkb2NzL3N5c3RlbS90YXJnZXQtcngu
+cnN0DQo+ICBjcmVhdGUgbW9kZSAxMDA2NDQgaW5jbHVkZS9ody9jaGFyL3JlbmVzYXNfc2NpLmgN
+Cj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBpbmNsdWRlL2h3L2ludGMvcnhfaWN1LmgNCj4gIGNyZWF0
+ZSBtb2RlIDEwMDY0NCBpbmNsdWRlL2h3L3J4L3J4NjJuLmgNCj4gIGNyZWF0ZSBtb2RlIDEwMDY0
+NCBpbmNsdWRlL2h3L3RpbWVyL3JlbmVzYXNfY210LmgNCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBp
+bmNsdWRlL2h3L3RpbWVyL3JlbmVzYXNfdG1yLmgNCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBpbmNs
+dWRlL2h3L3RpbWVyL3RtdTAxMi5oDQo+ICBjcmVhdGUgbW9kZSAxMDA2NDQgaHcvY2hhci9yZW5l
+c2FzX3NjaS5jDQo+ICBjcmVhdGUgbW9kZSAxMDA2NDQgaHcvaW50Yy9yeF9pY3UuYw0KPiAgY3Jl
+YXRlIG1vZGUgMTAwNjQ0IGh3L3J4L3J4LWdkYnNpbS5jDQo+ICBjcmVhdGUgbW9kZSAxMDA2NDQg
+aHcvcngvcng2Mm4uYw0KPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IGh3L3RpbWVyL3JlbmVzYXNfY210
+LmMNCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBody90aW1lci9yZW5lc2FzX3Rtci5jDQo+ICBjcmVh
+dGUgbW9kZSAxMDA2NDQgaHcvcngvS2NvbmZpZw0KPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IGh3L3J4
+L01ha2VmaWxlLm9ianMNCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCB0ZXN0cy9hY2NlcHRhbmNlL21h
+Y2hpbmVfcnhfZ2Ric2ltLnB5DQo+IA0KPiAtLSANCj4gMi4yMS4zDQo+IA0KPiANCg0KLS0gDQpZ
+b3Npbm9yaSBTYXRvDQo=
 
