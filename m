@@ -2,80 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F04E01FF1A9
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 14:27:57 +0200 (CEST)
-Received: from localhost ([::1]:41730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACB3C1FF1EF
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 14:35:16 +0200 (CEST)
+Received: from localhost ([::1]:49110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlte9-00018f-1Z
-	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 08:27:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49982)
+	id 1jltlD-0005TP-DQ
+	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 08:35:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52012)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jltd5-00087c-Ag; Thu, 18 Jun 2020 08:26:51 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:45839)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jltd3-0003VB-NW; Thu, 18 Jun 2020 08:26:51 -0400
-Received: by mail-wr1-x442.google.com with SMTP id c3so5813175wru.12;
- Thu, 18 Jun 2020 05:26:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=SmRqn1NMAwNgsF9PUkPB+mNDI4pExxMYe+VGcTHvnno=;
- b=AcO4bXkbXLsCQ7oFbIllH5PpP5i6tqrBapRC2fABiT1vujcsApXzOXCLbv7652w7pq
- Xq10ZOh23LLAkptvG9xDM1PIJ0BfFV7vK8gnLhHb3N+TsCTniUy6s+pYU7/rF5lTu2Aq
- YrQdlhTJQYFXjMcJ3DbK1jG0iBYzYhgbCFJNoOCq5ICtLvylgqXDKnyltixJFyTBgSlC
- Woda6LNJvki9vBOBKUiKMwNfClprZTBOqdUzp+WnDts1BWRN8cAmxbJvTYsiH2JRG1QM
- qsDXZjExQI2oskAkPU+wL8O6oTFR0QwJHPNqH2P3dHYvk1A+7hFBTa74ZYr5wugv1ULh
- 70Hg==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jltjv-00048i-J9
+ for qemu-devel@nongnu.org; Thu, 18 Jun 2020 08:33:55 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:38685
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jltjt-0004k6-M4
+ for qemu-devel@nongnu.org; Thu, 18 Jun 2020 08:33:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1592483632;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Ec3+6rIYnweISsqXobwB8UQ1YAERHYVXDDrU6cMnaY0=;
+ b=EzPzMUDlDEUNxZ5Bf1vnnfg6/iOFQXAkM34+I6n7xQyusjPP7xm1x3eC/kjYDmD/7QnyAG
+ Q8A8f4st5MUX0dE5gt/l0bQ5LnPhRELUiCbm7wQ9j3+nYmJX2LcIXVH0do9EC8m3fv0otr
+ a01yDiTW+XxcQmzh2tg90CB3fQTnaTg=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-161-DSEOySQEM0uUuooP3np2ZA-1; Thu, 18 Jun 2020 08:33:46 -0400
+X-MC-Unique: DSEOySQEM0uUuooP3np2ZA-1
+Received: by mail-wm1-f71.google.com with SMTP id u15so1742234wmm.5
+ for <qemu-devel@nongnu.org>; Thu, 18 Jun 2020 05:33:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=SmRqn1NMAwNgsF9PUkPB+mNDI4pExxMYe+VGcTHvnno=;
- b=GzfpZdmH4Rc/yNftAZonWpIBiD3hPFkEzwbVoq6A1NDQFEcnX+fKpQaimW6Imta/pf
- 7W79QmsP/+jMEXseQuAEjbkbjcKHLIIvv52HzjQQ6aW9A0shPePwFZ10iQedpDUNIRZ3
- 3l8ZygyL6tL4Tdb9w5Py6OAjedR+8qanxEsYaJBMGmpbMfNox7LYpm3x9cKdp3LIgBJn
- eYSOJnUv+w12J3IjZEbZ2n+F7Zyj05HQCpMPo/LkqOtmrdwFrj8FntbTxsdXl7i73wsM
- YI3bvByEZiwIEiyHJJ+rPTWBtUvCryVp+ZriuRrPGyMyZVv3rFuv/7viCD0lQgeaYlE/
- xcGQ==
-X-Gm-Message-State: AOAM533w0jr/Ou27tq75aUIIT6wb2+y99YqiOe4rR6a9CmdiyMA4WWPS
- a1FczA3fdVcDzKAbIw4R1Ho=
-X-Google-Smtp-Source: ABdhPJzo/BcSvIq5JpNa8MIAI84xo8vh28wQzVGq6P1LpSJ/z88Q9rVk8714yyu2jBL/X3LtPNXkLQ==
-X-Received: by 2002:a5d:46d0:: with SMTP id g16mr4723857wrs.229.1592483207320; 
- Thu, 18 Jun 2020 05:26:47 -0700 (PDT)
-Received: from [192.168.1.38] (93.red-83-59-160.dynamicip.rima-tde.net.
+ bh=Ec3+6rIYnweISsqXobwB8UQ1YAERHYVXDDrU6cMnaY0=;
+ b=en4uKi5SVVym1mCy0GvCIKYSfxUMEz0gyFWAWsyz7W7rnUftCXt8PpsaWZUgouRroL
+ +OT2yvjcFDwBVB/LV47mxfK3+12B42HOqqENlH09EXRFrHD6+j9+Mo/ceM9SMwYz5cCF
+ gRc2ZMR28OZ67LlNt087GzkjbCDTw8lmGsee23M8i8e2gall6v7wxuRBAeycgLwcBRqm
+ /3In8DFB3nG5EM5lwq/X/4I26J7LHdUym1w8uLA0p9JzkeMAWn/ybvSJSwFADqzshBVD
+ esH61+0Wzohew1eQtqHZtqJrUdiSXT0JLURgj8ZCfgmVhZLd29XxPswxg/7DarJP6u3b
+ TtSg==
+X-Gm-Message-State: AOAM533+oUAITruKTd1dED4/fWPM9IUaIkY0P9L2VDGvCpioaJliIAeq
+ wgZXKWxmiYNCDSTMTMZvgXDa/CWifPhhjc5HgzFvep6r+sbla9rpfUPT2E9JMxAvYaTteXRp7N6
+ WKHfzb2MB/ClRHKE=
+X-Received: by 2002:adf:e44c:: with SMTP id t12mr4209665wrm.181.1592483625282; 
+ Thu, 18 Jun 2020 05:33:45 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwg4JV2c3qlpEZj+xzkoaQYb7B1L4eVfD2Z+w/QXAOC6Aqj5B8x6mEJV2UlbdVK+Jg0N7gWvQ==
+X-Received: by 2002:adf:e44c:: with SMTP id t12mr4209649wrm.181.1592483625027; 
+ Thu, 18 Jun 2020 05:33:45 -0700 (PDT)
+Received: from localhost.localdomain (93.red-83-59-160.dynamicip.rima-tde.net.
  [83.59.160.93])
- by smtp.gmail.com with ESMTPSA id s72sm3545069wme.35.2020.06.18.05.26.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 18 Jun 2020 05:26:46 -0700 (PDT)
-Subject: Re: [PATCH 0/7] misc: Reduce QEMUTimer pressure by using lower
- precision when possible
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20200616075121.12837-1-f4bug@amsat.org>
- <b6170c76-27d3-c3b2-e32f-427fea769350@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <df330613-a75a-5d3c-5290-c080f5c32785@amsat.org>
-Date: Thu, 18 Jun 2020 14:26:45 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ by smtp.gmail.com with ESMTPSA id a3sm3357148wmb.7.2020.06.18.05.33.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 18 Jun 2020 05:33:44 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v9 00/10] accel: Allow targets to use Kconfig
+Date: Thu, 18 Jun 2020 14:33:32 +0200
+Message-Id: <20200618123342.10693-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
-In-Reply-To: <b6170c76-27d3-c3b2-e32f-427fea769350@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8;
+	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/18 01:47:12
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,29 +92,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-block@nongnu.org, Corey Minyard <minyard@acm.org>,
- David Hildenbrand <david@redhat.com>, Andrew Jeffery <andrew@aj.id.au>,
- "Michael S. Tsirkin" <mst@redhat.com>, Max Reitz <mreitz@redhat.com>,
- qemu-arm@nongnu.org, Joel Stanley <joel@jms.id.au>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/18/20 2:23 PM, Paolo Bonzini wrote:
-> On 16/06/20 09:51, Philippe Mathieu-Daudé wrote:
->> This series contains few patches resulting from the notes I
->> took while reviewing Mark ADB series last Sunday, in particular:
->> https://www.mail-archive.com/qemu-devel@nongnu.org/msg712078.html
->>
->> I have another patch for hw/input/hid.c but I prefer to hold it
->> to test it more.
-> 
-> This is in principle a very good idea; however, util/qemu-timer.c does
-> not use the scale to coalesce low-precision timers with nearby
-> high-precision ones.
+Missing review:
+- 03/10 MAINTAINERS: Cover the HAX accelerator stub
+- 04/10 configure: Generate rule to calculate base arch of target
 
-IOW this doesn't reduce the pressure, but simply makes the code easier?
-Only the cover mentions 'pressure', so maybe the patches can still be
-reviewed/queued in their current state?
+This series include generic patches I took of the KVM/ARM
+specific series which will follow.
+
+- Update accelerators in MAINTAINERS
+- Add accel/Kconfig
+- Allow targets to use their how Kconfig
+
+Since v8:
+- Fixed typo in patch 10 (Stefan)
+
+Since v7:
+- Generate base-arch() (Alex)
+- Do not deprecate HAXM
+
+Since v6:
+- Fixed typo 'startwith' -> 'startswith' (armbru)
+
+Since v5:
+- Fixed typo in patch #4 subject
+- Added David R-b tag
+- Stripped --- comments
+
+Since v4:
+- Addressed rth review comments in rules.mak
+
+Since v3:
+- Fixed base-arch() rule (rth)
+- Dropped 'semihosting: Make the feature depend of TCG'
+
+Since v2:
+- Addressed Thomas review comments
+- Fixed problem when including TARGET instead of BASE_TARGET
+
+Since v1:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg689024.html
+- Drop HVF MAINTAINERS patch (merged elsewhere)
+- Kconfig-select SEMIHOSTING (bonzini)
+- Drop user-mode selection patches
+- consider m68k/nios2/xtensa/riscv (pm215)
+- reword Kconfig SEMIHOSTING description (pm215)
+- reset some of rth R-b tags
+
+Previous RFC for semihosting posted earlier:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg631218.html
+
+Alex Bennée (1):
+  configure: Generate rule to calculate the base architecture of a
+    target
+
+Philippe Mathieu-Daudé (9):
+  MAINTAINERS: Fix KVM path expansion glob
+  MAINTAINERS: Add an 'overall' entry for accelerators
+  MAINTAINERS: Cover the HAX accelerator stub
+  Makefile: Remove dangerous EOL trailing backslash
+  Makefile: Write MINIKCONF variables as one entry per line
+  accel/Kconfig: Extract accel selectors into their own config
+  accel/Kconfig: Add the TCG selector
+  Makefile: Allow target-specific optional Kconfig
+  accel/tcg: Add stub for probe_access()
+
+ configure              | 19 +++++++++++++++++++
+ Makefile               | 15 +++++++++++----
+ accel/stubs/tcg-stub.c |  7 +++++++
+ Kconfig.host           |  7 -------
+ MAINTAINERS            | 14 +++++++++++++-
+ accel/Kconfig          |  9 +++++++++
+ 6 files changed, 59 insertions(+), 12 deletions(-)
+ create mode 100644 accel/Kconfig
+
+-- 
+2.21.3
+
 
