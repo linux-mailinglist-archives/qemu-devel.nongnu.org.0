@@ -2,88 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FAB11FF200
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 14:37:30 +0200 (CEST)
-Received: from localhost ([::1]:57572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 311351FF1F2
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 14:35:31 +0200 (CEST)
+Received: from localhost ([::1]:49758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jltnN-0000WL-Fs
-	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 08:37:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52014)
+	id 1jltlS-0005jv-54
+	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 08:35:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jltjv-00048j-Lz
- for qemu-devel@nongnu.org; Thu, 18 Jun 2020 08:33:55 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:28526
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jltk0-0004CW-2J
+ for qemu-devel@nongnu.org; Thu, 18 Jun 2020 08:34:00 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:22549
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jltju-0004kE-48
- for qemu-devel@nongnu.org; Thu, 18 Jun 2020 08:33:55 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jltjy-0004kj-Hi
+ for qemu-devel@nongnu.org; Thu, 18 Jun 2020 08:33:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592483633;
+ s=mimecast20190719; t=1592483637;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0KXjr0V89kJqeQEnHRscG8gu4vbhven6ovSEsc9X8sQ=;
- b=Uqkq1l/co5Td8mEwTOdr5it2W7MAoqcu+U56i8jtQlsgPI/vCe3+YGqJ7QuyPWLulsMa0+
- DTndh+7DUmIROg6AkOj297Ze/3mtH/epxm1KF6cK0XnJ8RQ9BU1UGjJA+dbEGuo31UFQf7
- w2Wyv/LfkE4d49t5rSgjRteErMZkdmQ=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-17-hOJEz9EaNiOMNxtG3qyEvw-1; Thu, 18 Jun 2020 08:33:51 -0400
-X-MC-Unique: hOJEz9EaNiOMNxtG3qyEvw-1
-Received: by mail-wm1-f72.google.com with SMTP id v24so2533977wmh.3
- for <qemu-devel@nongnu.org>; Thu, 18 Jun 2020 05:33:51 -0700 (PDT)
+ bh=b6A9Myjz2xIFJ0p/+Ilwbl6ahUirOvgUENcTOtgqZWg=;
+ b=JbG/clpJyRwbdmkdMWbSh7jPUm2gs3+9ZBSkFYpS4uaAKSNG3BEtjWMtUO3Cfykczrc/T9
+ guEPN4TBw/UvGuP85qFT7kjLyQoO8YAjKavJc9zWaamOrL9B3kALSzyGln8PdsvTO8JtX4
+ zcDOBWDnDyJKvR8NFOMXyQrGRxdX+SA=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-223-W38ida5HMui3eQYFgs7GXg-1; Thu, 18 Jun 2020 08:33:56 -0400
+X-MC-Unique: W38ida5HMui3eQYFgs7GXg-1
+Received: by mail-wr1-f71.google.com with SMTP id d6so2742742wrn.1
+ for <qemu-devel@nongnu.org>; Thu, 18 Jun 2020 05:33:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=0KXjr0V89kJqeQEnHRscG8gu4vbhven6ovSEsc9X8sQ=;
- b=WMy/NiGa+waLOZiazQuKYbc4+TNME47eHTM21P646J/EaV3gTAFekIgsoygdc1x+9t
- uxRg+LKhncujwbr9khVAf8U4kFrPnanydqfm3Rz9wg4y5EeZbskmbVhkEbEFCG8OAcB1
- sC1wKahm5Www1LMBsPMtirX4FNlvFpz9Hst98AcjBua/GgV53CCy9eUq+jcbeyxxnddC
- 0UaUxCXy0rCeKBbQL7dZRsgzfqiRsAG4JQuv3bGmpD6hN+02qhDh3hv8b3tMG5ZRfW4s
- sl3xRcWpOHoypn7F7sgvri2ESZSsAkO8jqoC6E9Ekg83LFY0/xmdZMrEbwPYXjV1+WE1
- Ve3A==
-X-Gm-Message-State: AOAM533sFhE7Em+HMC+TOdfWjR+eFVE/GaGBmbx0998xKH7pqKQvsJZ7
- 71PG362wP/Ftyq7xllvJwcInCodNrY4u/JWypwx7EVf6/y9q1x41BVntihvrLyzVaZt1SKWbUUb
- rnknkGjdHbxTM4Lk=
-X-Received: by 2002:adf:fd49:: with SMTP id h9mr4531394wrs.67.1592483629958;
- Thu, 18 Jun 2020 05:33:49 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzBTJQubJcUEZi82cDmqNxeBBRl/U9Ipq0sPBbmc4K/S7rV4nke1kxtB6cX2EA3NNsCy9yHzA==
-X-Received: by 2002:adf:fd49:: with SMTP id h9mr4531374wrs.67.1592483629798;
- Thu, 18 Jun 2020 05:33:49 -0700 (PDT)
+ bh=b6A9Myjz2xIFJ0p/+Ilwbl6ahUirOvgUENcTOtgqZWg=;
+ b=mh/9tp4qj02jombVSA2d2cRqok1l2dhVmq++2jOsJNabq0omvObKMW8WXJXhgAI8Pa
+ c8B/fbDYQuDpMt47eChn3aEXVmm/2mkK3x2fwlYFoAHN83F1N0GbX87GFpLXIhYKvT6M
+ LqQ+KJUcJhZheiUq14DvcqdKmi31K6JVnkrg6SdLse4da1j8IKLr29cVOHGvEEQnQe9A
+ vwGAlmSgC0QTKGETDLJ2cTbBNAhINoT3F3aH3DdkmwDKWX96hyWDqL1wHiCqA5vJkVJl
+ bAUOmLxTOKVhoX5XGzRRdiqcnp0KRc8TtUDNi/JMdO3XtbbnnkPhiaAca1OVEz4THUR5
+ URYw==
+X-Gm-Message-State: AOAM533hin35Tj2KplDvVbdMZ4F+QnV2uLKRyOX4hU32dpbn4ry3FiPf
+ 5+GpxeOclUZX4TV3eexUwutvQgiFtwAx6/x2WYKbEcmw8Sw3UKCgRmLzen9+EO+eJ/jRld2Nx1W
+ /2yWj/sI6x+6x9tY=
+X-Received: by 2002:a05:600c:4102:: with SMTP id
+ j2mr3808269wmi.48.1592483634685; 
+ Thu, 18 Jun 2020 05:33:54 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwT3PW6GYEKCPuH0vp0J2f+7eTExNCzKTpYhKoq4qDryxTb+dGBNqWB76knQM8Hv8WBQ0EJ2w==
+X-Received: by 2002:a05:600c:4102:: with SMTP id
+ j2mr3808250wmi.48.1592483634546; 
+ Thu, 18 Jun 2020 05:33:54 -0700 (PDT)
 Received: from localhost.localdomain (93.red-83-59-160.dynamicip.rima-tde.net.
  [83.59.160.93])
- by smtp.gmail.com with ESMTPSA id b143sm3508187wme.20.2020.06.18.05.33.48
+ by smtp.gmail.com with ESMTPSA id x186sm3509943wmg.8.2020.06.18.05.33.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 18 Jun 2020 05:33:49 -0700 (PDT)
+ Thu, 18 Jun 2020 05:33:53 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v9 01/10] MAINTAINERS: Fix KVM path expansion glob
-Date: Thu, 18 Jun 2020 14:33:33 +0200
-Message-Id: <20200618123342.10693-2-philmd@redhat.com>
+Subject: [PATCH v9 02/10] MAINTAINERS: Add an 'overall' entry for accelerators
+Date: Thu, 18 Jun 2020 14:33:34 +0200
+Message-Id: <20200618123342.10693-3-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200618123342.10693-1-philmd@redhat.com>
 References: <20200618123342.10693-1-philmd@redhat.com>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/18 01:47:12
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/18 00:57:40
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,40 +97,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The KVM files has been moved from target-ARCH to the target/ARCH/
-folder in commit fcf5ef2a. Fix the pathname expansion.
-
-Fixes: fcf5ef2a ("Move target-* CPU file into a target/ folder")
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- MAINTAINERS | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ MAINTAINERS | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 955cc8dd5c..5184cf46b3 100644
+index 5184cf46b3..426439a2c3 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -362,7 +362,7 @@ Overall KVM CPUs
- M: Paolo Bonzini <pbonzini@redhat.com>
- L: kvm@vger.kernel.org
- S: Supported
--F: */kvm.*
-+F: */*/kvm*
- F: accel/kvm/
- F: accel/stubs/kvm-stub.c
- F: include/hw/kvm/
+@@ -416,6 +416,17 @@ S: Supported
+ F: target/i386/kvm.c
+ F: scripts/kvm/vmxcap
+ 
++Guest CPU Cores (other accelerators)
++------------------------------------
++Overall
++M: Richard Henderson <rth@twiddle.net>
++R: Paolo Bonzini <pbonzini@redhat.com>
++S: Maintained
++F: include/sysemu/accel.h
++F: accel/accel.c
++F: accel/Makefile.objs
++F: accel/stubs/Makefile.objs
++
+ X86 HVF CPUs
+ M: Roman Bolshakov <r.bolshakov@yadro.com>
+ S: Maintained
 -- 
 2.21.3
 
