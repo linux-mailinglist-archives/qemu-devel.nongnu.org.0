@@ -2,65 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3AA31FF90B
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 18:18:14 +0200 (CEST)
-Received: from localhost ([::1]:40674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 556A91FF93C
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 18:29:48 +0200 (CEST)
+Received: from localhost ([::1]:49244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlxEz-0004D1-SX
-	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 12:18:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45944)
+	id 1jlxQA-00056L-St
+	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 12:29:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49304)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jlxDa-0002vC-38
- for qemu-devel@nongnu.org; Thu, 18 Jun 2020 12:16:46 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:42294)
+ id 1jlxP9-0004KC-IL
+ for qemu-devel@nongnu.org; Thu, 18 Jun 2020 12:28:43 -0400
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:43435)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jlxDX-00082D-7A
- for qemu-devel@nongnu.org; Thu, 18 Jun 2020 12:16:45 -0400
-Received: by mail-ot1-x343.google.com with SMTP id t6so4953546otk.9
- for <qemu-devel@nongnu.org>; Thu, 18 Jun 2020 09:16:42 -0700 (PDT)
+ id 1jlxP7-0001nr-96
+ for qemu-devel@nongnu.org; Thu, 18 Jun 2020 12:28:43 -0400
+Received: by mail-oi1-x244.google.com with SMTP id j189so5599584oih.10
+ for <qemu-devel@nongnu.org>; Thu, 18 Jun 2020 09:28:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=y7u5drJT0mavJGQbNOJVAerHycRJJAKN9jThBgI5L4Y=;
- b=SS+UD4V0AucHg1TPPK829NYQF6kZmIG3TGIm3UIjuozdJL3Tc3T1IcUHn1sOiy6f6g
- lzZQbYh3fKiCbNCDQRa22+n01eQPcJ6BH92UybrJFZGdg2Fg0QQuu0pastubdXsRUEBf
- VPMLYx2A3R+piYqtSxk03yywPShm7fgsMfbeCGvmkQG/Ycy/CJz2R2IBc9LN9wVwpBJs
- ThC6v/y3LpZoiLeknWhVDCLPRN87LMtVVzdGuZbzoGscWAWqhizemSl/wZUhXQFyWzDV
- 2y9YEPZBx88JGEmr3nSaMtCNVnJoFsUDixGrRa1QfwWbWLDtTML113WTLzzu4u9HXwxT
- kGjQ==
+ :cc; bh=KOZc7w2xFsluC74qyPSUVXOw/N6fRxF3MLKa8m9157Y=;
+ b=FmSyCUxJaFrXXTaflf8CIKAEHBtCJ8vmE2LrR1Sw3DoAKJ68ocV+dhg1tOITCC38nB
+ dcEefVjTyLPoZ9PtqdA6QJ4C99rK3ZY2ZQPKbO+ZmjyH9OhrE3ynA/TaHM/YRxwGvHRv
+ aBTQNi8GXZNh+Xxz/N9rUyFO39A7Ihv2FxQ7MU0wqLZNTWV/pryMsef9rfHKYeb+2Vo0
+ d+qzIpowo15bVZBfPsa7Bx9Oh0H0ncfZWPWNG7+wI6uFP54Vtr9sqhOBf9bUamA6U3Wm
+ scaql9NeijNzbbvuuNh9lVuvm+kQ3c3q5fZg6DeY6IU3hVPNTsE52m3XYLQ/ozVfYY1C
+ i1Jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=y7u5drJT0mavJGQbNOJVAerHycRJJAKN9jThBgI5L4Y=;
- b=rIi2fcKI2YUALZVa1ejC+6H4Ac9QpcgVH1NWl30JxOETzHvgBCkgIVKSTEoON7XYZj
- egehiVswghNwRqGgvOOB7GNHiFCcGCo4StrciUo9Pz15j8PjbIpUUkO8R8VCeeBbCDED
- 3OjCtsueoHKxfntN+3xgES+KLlSFQrp9JBSrCq5LLbQjfggW6LCKleC5eC547MBSFM6t
- 3JYvKnQz8FWYGYMapWkWhzXjvWnG/tRCMyvstsHtyGuKqnfX5uxNM0a16phAzIEYrYRs
- QQzn7+JkBfWWtn1gpjf0vjOnRSU4K7n8LgGemKXU469xgkIgy7nc7X9TRVAhE1ynJwzd
- UXcA==
-X-Gm-Message-State: AOAM531x4752zc2/Rd2lvqk0QEDsb+E+N9Wu49XDKMNdyD9EwggfO6hS
- ilXBKWBBK+9yYI8ygtkGPmcBV0hAvwKXrwhhN33Zxg==
-X-Google-Smtp-Source: ABdhPJwqaXIiNMN6/ixavJRAAMknBlsow4Z+IgLbAVJdS7kRxCkltAIYzguYjXz/yR/l2SavLDxOrAh12o/6cwq5H3s=
-X-Received: by 2002:a05:6830:18da:: with SMTP id
- v26mr4288713ote.135.1592497002126; 
- Thu, 18 Jun 2020 09:16:42 -0700 (PDT)
+ bh=KOZc7w2xFsluC74qyPSUVXOw/N6fRxF3MLKa8m9157Y=;
+ b=rK6GDooxeD98eFmKrWJ6WPdCTOmLQdQwJfGrOLbN0FKdrD1iHWQXEbE5wNFseJVWKu
+ zuDcSvh8RFpxQf6EKNBMa0uTbesj1jOPz1H8vN2+kE2/FQmD9d2Q5uh65gcy9Gp0HIBg
+ x4YUWpw4jDEAe9zQxRAY5gCW47JPmYZ4NfWVazcOZ1i0QOPjGiZdGyVuXGE2LZ7b4JVp
+ yEBSa4WiiI9rh9QddAWmokmFrQ9e6h9rSQyM+3SyLQcSYiZ+5oJbCTTK7Za4zy9d7ZVo
+ YdmQUGcKFtVyHuFvgf4GvDnpfb9n/wrV5BnL2R6cedk37CgskMaXS2kMMXNXBi8JQi2V
+ Bcog==
+X-Gm-Message-State: AOAM530Vqj620m7/mIZtV8Py/NnSMfvSijD/4lfr3Unr85zuuH5Y2eQj
+ dB2r+3uS57degP4ykjQPvu+nzvt4TZoxL9Cj9wgLNQ==
+X-Google-Smtp-Source: ABdhPJwOYk5DGhA07PTAVpzNODzmSa857B7a1pleW1zcKzKgGvPooY0eq5sXeMn6w+w/7OugIZUhDMMcFubDS6AAjls=
+X-Received: by 2002:aca:5152:: with SMTP id f79mr3545603oib.146.1592497720112; 
+ Thu, 18 Jun 2020 09:28:40 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200603011317.473934-1-richard.henderson@linaro.org>
- <20200603011317.473934-11-richard.henderson@linaro.org>
- <CAFEAcA-QZ_D1tQMv785xsxWwcEKmM76dK4Mvgx=y7eyb_mUqEg@mail.gmail.com>
- <3b1b50b8-061e-8422-2df0-e8df6f856941@linaro.org>
-In-Reply-To: <3b1b50b8-061e-8422-2df0-e8df6f856941@linaro.org>
+ <20200603011317.473934-21-richard.henderson@linaro.org>
+In-Reply-To: <20200603011317.473934-21-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 18 Jun 2020 17:16:31 +0100
-Message-ID: <CAFEAcA_LFC8isWLjUZCXOjDnPcfO+-bS1jRJTEwqMP9CwKS-Tw@mail.gmail.com>
-Subject: Re: [PATCH v7 10/42] target/arm: Implement the ADDG, SUBG instructions
+Date: Thu, 18 Jun 2020 17:28:29 +0100
+Message-ID: <CAFEAcA8B=DQH4h-uTV7veaa-bCVsYjKkHDRsTj-zeU-7Zxg3tw@mail.gmail.com>
+Subject: Re: [PATCH v7 20/42] target/arm: Implement the access tag cache
+ flushes
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::343;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x343.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::244;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x244.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -87,33 +85,17 @@ Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 18 Jun 2020 at 17:12, Richard Henderson
+On Wed, 3 Jun 2020 at 02:13, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> On 6/18/20 6:17 AM, Peter Maydell wrote:
-> >> +        imm = (imm >> 6) << LOG2_TAG_GRANULE;
-> ...
-> >> +            TCGv_i32 tag_offset = tcg_const_i32(imm & 15);
-> ...
-> > Given that we don't really share any of the codegen with the
-> > existing disas_add_sub_imm() insns, and the insn format isn't
-> > the same (uimm6/op3/uimm4 rather than an imm12), I'm tempted
-> > to suggest we should structure this the same way the Arm ARM
-> > decode tables do, where "Add/subtract (immediate, with tags)"
-> > is a separate subtable from "Add/subtract (immediate)": so
-> > instead of disas_data_proc_imm() sending both case
-> > 0x22 and 0x23 to disas_add_sub_imm(), it would send 0x23
-> > to a new disas_add_sub_tag().
+> Like the regular data cache flushes, these are nops within qemu.
 >
-> I'll do that, because...
->
-> > But this patch is functionally correct...
->
-> ... I've just noticed that it isn't correct.
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+> v6: Split out and handle el0 cache ops properly.
+> ---
 
-Heh. I do think it will look nicer this way round.
-Don't forget to tidy up disas_add_sub_imm(): its 'shift'
-field will then be 1 bit, not 2.
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
 thanks
 -- PMM
