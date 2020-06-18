@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A4C11FEEC1
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 11:34:24 +0200 (CEST)
-Received: from localhost ([::1]:49480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8EDA1FEF09
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 11:52:37 +0200 (CEST)
+Received: from localhost ([::1]:39650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlqwB-00073c-2l
-	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 05:34:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49990)
+	id 1jlrDo-0004L4-Um
+	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 05:52:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55894)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jlqtd-0005Fs-34
- for qemu-devel@nongnu.org; Thu, 18 Jun 2020 05:31:45 -0400
-Received: from indium.canonical.com ([91.189.90.7]:47564)
+ id 1jlrCY-0002zb-0Z
+ for qemu-devel@nongnu.org; Thu, 18 Jun 2020 05:51:18 -0400
+Received: from indium.canonical.com ([91.189.90.7]:52828)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jlqtb-0003DM-0p
- for qemu-devel@nongnu.org; Thu, 18 Jun 2020 05:31:44 -0400
+ id 1jlrCV-00070s-Iv
+ for qemu-devel@nongnu.org; Thu, 18 Jun 2020 05:51:17 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jlqtY-0008VB-K2
- for <qemu-devel@nongnu.org>; Thu, 18 Jun 2020 09:31:40 +0000
+ id 1jlrCT-0004R1-Ab
+ for <qemu-devel@nongnu.org>; Thu, 18 Jun 2020 09:51:13 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id A0AB32E8132
- for <qemu-devel@nongnu.org>; Thu, 18 Jun 2020 09:31:33 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 4E2782E80BA
+ for <qemu-devel@nongnu.org>; Thu, 18 Jun 2020 09:51:13 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 18 Jun 2020 09:23:33 -0000
-From: =?utf-8?q?=C5=81ukasz_Zemczak?= <1805256@bugs.launchpad.net>
+Date: Thu, 18 Jun 2020 09:38:29 -0000
+From: Launchpad Bug Tracker <1805256@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=kunpeng920; status=Fix Committed; importance=Undecided;
@@ -50,10 +50,10 @@ X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
 X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
  status=Fix Released; importance=Medium; assignee=None; 
 X-Launchpad-Bug: distribution=ubuntu; distroseries=bionic; sourcepackage=qemu; 
- component=main; status=Fix Committed; importance=Medium;
+ component=main; status=Fix Released; importance=Medium;
  assignee=None; 
 X-Launchpad-Bug: distribution=ubuntu; distroseries=eoan; sourcepackage=qemu;
- component=main; status=Fix Committed; importance=Medium; assignee=None; 
+ component=main; status=Fix Released; importance=Medium; assignee=None; 
 X-Launchpad-Bug: distribution=ubuntu; distroseries=focal; sourcepackage=qemu; 
  component=main; status=Fix Released; importance=Medium;
  assignee=None; 
@@ -66,17 +66,18 @@ X-Launchpad-Bug-Commenters: andrew-cloke brian-murray dannf ikepanhc iveskim
  jan-glauber-i janitor jnsnow kongzizaixian lizhengui paelzer philmd
  rafaeldtinoco sil2100 ubuntu-sru-bot ying-fang
 X-Launchpad-Bug-Reporter: dann frazier (dannf)
-X-Launchpad-Bug-Modifier: =?utf-8?q?=C5=81ukasz_Zemczak_=28sil2100=29?=
+X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
 References: <154327283728.15443.11625169757714443608.malonedeb@soybean.canonical.com>
-Message-Id: <159247221357.25045.1634007280737097168.malone@gac.canonical.com>
-Subject: [Bug 1805256] Update Released
+Message-Id: <159247311146.15688.17951471364956322054.malone@ackee.canonical.com>
+Subject: [Bug 1805256] Re: qemu-img hangs on rcu_call_ready_event logic in
+ Aarch64 when converting images
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="1cbd0aa39df153c901321817f9b57cf3f232b507";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: f31ff38b4a4df138537533425f699086f5680244
+X-Launchpad-Hash: 62459fcf3e7ebe0374ebb96d0e974f38331b9708
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/18 03:41:11
@@ -102,13 +103,23 @@ Reply-To: Bug 1805256 <1805256@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The verification of the Stable Release Update for qemu has completed
-successfully and the package is now being released to -updates.
-Subsequently, the Ubuntu Stable Release Updates Team is being
-unsubscribed and will not receive messages about this bug report.  In
-the event that you encounter a regression using the package from
--updates please report a new bug using ubuntu-bug and tag the bug report
-regression-update so we can easily find any regressions.
+This bug was fixed in the package qemu - 1:4.0+dfsg-0ubuntu9.7
+
+---------------
+qemu (1:4.0+dfsg-0ubuntu9.7) eoan; urgency=3Dmedium
+
+  * d/p/ubuntu/lp-1805256*: Fixes for QEMU on aarch64 ARM hosts
+    - async: use explicit memory barriers (LP: #1805256)
+    - aio-wait: delegate polling of main AioContext if BQL not held
+
+ -- Rafael David Tinoco <rafaeldtinoco@ubuntu.com>  Wed, 27 May 2020
+20:07:57 +0000
+
+** Changed in: qemu (Ubuntu Eoan)
+       Status: Fix Committed =3D> Fix Released
+
+** Changed in: qemu (Ubuntu Bionic)
+       Status: Fix Committed =3D> Fix Released
 
 -- =
 
@@ -137,9 +148,9 @@ Status in QEMU:
 Status in qemu package in Ubuntu:
   Fix Released
 Status in qemu source package in Bionic:
-  Fix Committed
+  Fix Released
 Status in qemu source package in Eoan:
-  Fix Committed
+  Fix Released
 Status in qemu source package in Focal:
   Fix Released
 
