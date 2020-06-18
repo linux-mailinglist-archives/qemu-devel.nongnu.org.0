@@ -2,116 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C578E1FEFBA
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 12:36:56 +0200 (CEST)
-Received: from localhost ([::1]:50252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A44141FEFBD
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 12:38:47 +0200 (CEST)
+Received: from localhost ([::1]:56558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlruh-0007uo-Rv
-	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 06:36:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44570)
+	id 1jlrwU-0002LT-OG
+	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 06:38:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44986)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jlrtG-0006Sv-9v
- for qemu-devel@nongnu.org; Thu, 18 Jun 2020 06:35:26 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:34291
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jlru0-00088e-Be
+ for qemu-devel@nongnu.org; Thu, 18 Jun 2020 06:36:17 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:28750
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jlrtC-0007XF-5o
- for qemu-devel@nongnu.org; Thu, 18 Jun 2020 06:35:25 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jlrtw-0007p3-Qd
+ for qemu-devel@nongnu.org; Thu, 18 Jun 2020 06:36:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592476520;
+ s=mimecast20190719; t=1592476568;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=F9m5YQV0nHEOpjjyDseH18Zq49wNJQGWE9XMFCMqdLg=;
- b=NVSy1dONzpfZ57EBGDM97CKr5m8GuQjypFdpMUv/LqmkbPZDvL9SD+vFK1mkG6FwRhStp0
- lwJ76VXSxeoM14nnVrypgD9Q5aTpnOQro+Gv8DBKgTy90UUDI4X1+DDba7voIV9Y+v41dd
- KkHq2VygmX3RYHtXCAdm8K8y5gnOTVc=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-182-uWPqW8nLMci8-CEEys8CEA-1; Thu, 18 Jun 2020 06:35:18 -0400
-X-MC-Unique: uWPqW8nLMci8-CEEys8CEA-1
-Received: by mail-wr1-f69.google.com with SMTP id c14so2611183wrw.11
- for <qemu-devel@nongnu.org>; Thu, 18 Jun 2020 03:35:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=F9m5YQV0nHEOpjjyDseH18Zq49wNJQGWE9XMFCMqdLg=;
- b=XNId3alRU7Y4xzaOQSQTWwCzW9+c6tb/HOr106xSlh4YP5oVai7L+CaeU9jTbGRrKB
- WMiCpEAk7CyTw1auagIvH0Lxqh5bBBVOqBkxWVksXK0qg8idtSVl7Pyupn3ZM8npGx7L
- 3DWLd6I+Ydc7eMbowctSqWSUQTXh84+G9JQPPTKa5EfPUticQFkxgMzXUW+xlBFUAbEf
- JJ+swswBMvOLcTjSPvPYKCxgb7qMKXDHGrZFvzPM7cKJaC4Va4PngJ40BpPO3NVwLJnd
- L9r0fV/X7sxMsLW1HHwFSC0Wwkt3+e/owrlJ/32XwM7uzGmnfT2AkIkkhBOMPU+lUsXw
- shJA==
-X-Gm-Message-State: AOAM531rGPsZMf73SXTjEFKjdBMxwYjECM1Nq2iKqvH4WlXGFtbYpOao
- zqi+VTbRu2cCK4+rMzBZmvw3NZJJCvaOL5ZR8tjXDtUVTHwYYxA8WDv2hNXemDXhp93iheNfmg5
- SEvtPJ/LCbqhVGZk=
-X-Received: by 2002:a05:600c:4146:: with SMTP id
- h6mr3378043wmm.172.1592476517702; 
- Thu, 18 Jun 2020 03:35:17 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw9TTouuQZRtFR1WUR29js+cSf2/esXXi4p+uoD9l+gqBn/Tof1hbyC6F2JQBmhQWeTMsSNSg==
-X-Received: by 2002:a05:600c:4146:: with SMTP id
- h6mr3378024wmm.172.1592476517486; 
- Thu, 18 Jun 2020 03:35:17 -0700 (PDT)
-Received: from [192.168.1.38] (93.red-83-59-160.dynamicip.rima-tde.net.
- [83.59.160.93])
- by smtp.gmail.com with ESMTPSA id r1sm2148447wrn.29.2020.06.18.03.35.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 18 Jun 2020 03:35:16 -0700 (PDT)
-Subject: Re: [PATCH] hw/audio/gus: Fix registers 32-bit access
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20200615201757.16868-1-aperamak@pp1.inet.fi>
- <CAFEAcA-eKboVf3uk4iY_A9_uQ=HnGyic4fzbzJhv1gH2V+TMVw@mail.gmail.com>
- <fdb9eabf-2663-f2e4-6b40-2455261eaa46@redhat.com>
- <CAFEAcA9sCJ6wKdra+EBFOJfOaZbtOE0DND6S6rh5jgrDqLG57Q@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <eae2ce28-693a-b838-37ea-b8a58a581bb8@redhat.com>
-Date: Thu, 18 Jun 2020 12:35:15 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ in-reply-to:in-reply-to:references:references;
+ bh=C7gHvRvY9nNUkmf9VtA8p2rNmnge1ZQpYC/0H05afo8=;
+ b=WXCR2JxyWYVhM/YfhEAnXZU5GiQogNTUEBCC5Ire5RcpcHjIu/rg0prJu9iDAOXLYvFZce
+ wBMXddrG6nM6KeVD0+Hoibr+dGgG5zzExnc9X5EkpSoxO5K7N+x/aIJ7+jQx2NQtQDMk+2
+ FQF5QHkfVojFaIaMGcRQe2/zUv6uk20=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-106-TUyYlulAM9CMcfDbr7WiOw-1; Thu, 18 Jun 2020 06:36:06 -0400
+X-MC-Unique: TUyYlulAM9CMcfDbr7WiOw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EB02F18FE866;
+ Thu, 18 Jun 2020 10:36:04 +0000 (UTC)
+Received: from gondolin (ovpn-113-9.ams2.redhat.com [10.36.113.9])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2859310013D6;
+ Thu, 18 Jun 2020 10:35:59 +0000 (UTC)
+Date: Thu, 18 Jun 2020 12:35:57 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH 1/1] docs/s390x: fix vfio-ap device_del description
+Message-ID: <20200618123557.5c2ad135.cohuck@redhat.com>
+In-Reply-To: <38f61553-10d9-2d45-0e10-ef30f9607b0f@redhat.com>
+References: <20200617160604.5593-1-borntraeger@de.ibm.com>
+ <38f61553-10d9-2d45-0e10-ef30f9607b0f@redhat.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA9sCJ6wKdra+EBFOJfOaZbtOE0DND6S6rh5jgrDqLG57Q@mail.gmail.com>
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/18 01:21:16
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/18 01:32:18
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -125,37 +79,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
- Allan Peramaki <aperamak@pp1.inet.fi>, QEMU Developers <qemu-devel@nongnu.org>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: Tony Krowiak <akrowiak@linux.ibm.com>,
+ Peter Maydell <peter.maydell@linaro.org>, David Hildenbrand <david@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ qemu-s390x <qemu-s390x@nongnu.org>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/18/20 12:23 PM, Peter Maydell wrote:
-> On Thu, 18 Jun 2020 at 11:22, Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
->>
->> On 6/17/20 10:23 PM, Peter Maydell wrote:
->>> On Mon, 15 Jun 2020 at 22:23, Allan Peramaki <aperamak@pp1.inet.fi> wrote:
->>>>
->>>> Fix audio on software that accesses DRAM above 64k via register peek/poke
->>>> and some cases when more than 16 voices are used.
->>>>
->>>> Fixes: 135f5ae1974c ("audio: GUSsample is int16_t")
->>>> Signed-off-by: Allan Peramaki <aperamak@pp1.inet.fi>
->>>
->>> This patch is quite difficult to read because it mixes some
->>> whitespace only changes with some actual changes of
->>> behaviour.
->>
->> In such cases the author might add a comment in the commit
->> description "this patch is easier to review with git-diff -w"
->> or other options.
->>
->> Allan, can we get the patch with only the changed lines?
-> 
-> Is it worth the effort of a respin at this point?
-> 
+On Wed, 17 Jun 2020 19:17:54 +0200
+Thomas Huth <thuth@redhat.com> wrote:
 
-I'll give it a try to see if it takes me less than 2min.
+> On 17/06/2020 18.06, Christian Borntraeger wrote:
+> > device_del requires an id and not a sysfsfile.
+> > 
+> > Signed-off-by: Christian Borntraeger <borntraeger@de.ibm.com>
+> > ---
+> >  docs/system/s390x/vfio-ap.rst | 8 ++++----
+> >  1 file changed, 4 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/docs/system/s390x/vfio-ap.rst b/docs/system/s390x/vfio-ap.rst
+> > index 3cd84179a2df..f441df69edde 100644
+> > --- a/docs/system/s390x/vfio-ap.rst
+> > +++ b/docs/system/s390x/vfio-ap.rst
+> > @@ -606,10 +606,11 @@ action.
+> >  
+> >  To hot plug a vfio-ap device, use the QEMU ``device_add`` command::
+> >  
+> > -    (qemu) device_add vfio-ap,sysfsdev="$path-to-mdev"
+> > +    (qemu) device_add vfio-ap,sysfsdev="$path-to-mdev",id="$id"
+> >  
+> >  Where the ``$path-to-mdev`` value specifies the absolute path to a mediated
+> >  device to which AP resources to be used by the guest have been assigned.
+> > +``$id`` is the name value for the optional id parameter.
+> >  
+> >  Note that on Linux guests, the AP devices will be created in the
+> >  ``/sys/bus/ap/devices`` directory when the AP bus subsequently performs its periodic
+> > @@ -632,10 +633,9 @@ or a prior hot plug action.
+> >  
+> >  To hot unplug a vfio-ap device, use the QEMU ``device_del`` command::
+> >  
+> > -    (qemu) device_del vfio-ap,sysfsdev="$path-to-mdev"
+> > +    (qemu) device_del "id"  
+> 
+> Do you want to use $id instead of id here?
+> >  
+> > -Where ``$path-to-mdev`` is the same as the path specified when the vfio-ap
+> > -device was attached to the virtual machine's ap-bus.
+> > +Where ``$id`` is the same id that was specified at device creation.  
+> 
+>             ^--- ... since you use $id here.
+> 
+> >  On a Linux guest, the AP devices will be removed from the ``/sys/bus/ap/devices``
+> >  directory on the guest when the AP bus subsequently performs its periodic scan,  
+> 
+> With the 1 $ question fixed:
+> 
+> Reviewed-by: Thomas Huth <thuth@redhat.com>
+
+Indeed, no reason to skimp on the $s :)
+
+Fixed up and pushed to s390-next, thanks.
 
 
