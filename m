@@ -2,68 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACB3C1FF1EF
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 14:35:16 +0200 (CEST)
-Received: from localhost ([::1]:49110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FAB11FF200
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 14:37:30 +0200 (CEST)
+Received: from localhost ([::1]:57572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jltlD-0005TP-DQ
-	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 08:35:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52012)
+	id 1jltnN-0000WL-Fs
+	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 08:37:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jltjv-00048i-J9
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jltjv-00048j-Lz
  for qemu-devel@nongnu.org; Thu, 18 Jun 2020 08:33:55 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:38685
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:28526
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jltjt-0004k6-M4
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jltju-0004kE-48
  for qemu-devel@nongnu.org; Thu, 18 Jun 2020 08:33:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592483632;
+ s=mimecast20190719; t=1592483633;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=Ec3+6rIYnweISsqXobwB8UQ1YAERHYVXDDrU6cMnaY0=;
- b=EzPzMUDlDEUNxZ5Bf1vnnfg6/iOFQXAkM34+I6n7xQyusjPP7xm1x3eC/kjYDmD/7QnyAG
- Q8A8f4st5MUX0dE5gt/l0bQ5LnPhRELUiCbm7wQ9j3+nYmJX2LcIXVH0do9EC8m3fv0otr
- a01yDiTW+XxcQmzh2tg90CB3fQTnaTg=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-161-DSEOySQEM0uUuooP3np2ZA-1; Thu, 18 Jun 2020 08:33:46 -0400
-X-MC-Unique: DSEOySQEM0uUuooP3np2ZA-1
-Received: by mail-wm1-f71.google.com with SMTP id u15so1742234wmm.5
- for <qemu-devel@nongnu.org>; Thu, 18 Jun 2020 05:33:46 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0KXjr0V89kJqeQEnHRscG8gu4vbhven6ovSEsc9X8sQ=;
+ b=Uqkq1l/co5Td8mEwTOdr5it2W7MAoqcu+U56i8jtQlsgPI/vCe3+YGqJ7QuyPWLulsMa0+
+ DTndh+7DUmIROg6AkOj297Ze/3mtH/epxm1KF6cK0XnJ8RQ9BU1UGjJA+dbEGuo31UFQf7
+ w2Wyv/LfkE4d49t5rSgjRteErMZkdmQ=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-17-hOJEz9EaNiOMNxtG3qyEvw-1; Thu, 18 Jun 2020 08:33:51 -0400
+X-MC-Unique: hOJEz9EaNiOMNxtG3qyEvw-1
+Received: by mail-wm1-f72.google.com with SMTP id v24so2533977wmh.3
+ for <qemu-devel@nongnu.org>; Thu, 18 Jun 2020 05:33:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Ec3+6rIYnweISsqXobwB8UQ1YAERHYVXDDrU6cMnaY0=;
- b=en4uKi5SVVym1mCy0GvCIKYSfxUMEz0gyFWAWsyz7W7rnUftCXt8PpsaWZUgouRroL
- +OT2yvjcFDwBVB/LV47mxfK3+12B42HOqqENlH09EXRFrHD6+j9+Mo/ceM9SMwYz5cCF
- gRc2ZMR28OZ67LlNt087GzkjbCDTw8lmGsee23M8i8e2gall6v7wxuRBAeycgLwcBRqm
- /3In8DFB3nG5EM5lwq/X/4I26J7LHdUym1w8uLA0p9JzkeMAWn/ybvSJSwFADqzshBVD
- esH61+0Wzohew1eQtqHZtqJrUdiSXT0JLURgj8ZCfgmVhZLd29XxPswxg/7DarJP6u3b
- TtSg==
-X-Gm-Message-State: AOAM533+oUAITruKTd1dED4/fWPM9IUaIkY0P9L2VDGvCpioaJliIAeq
- wgZXKWxmiYNCDSTMTMZvgXDa/CWifPhhjc5HgzFvep6r+sbla9rpfUPT2E9JMxAvYaTteXRp7N6
- WKHfzb2MB/ClRHKE=
-X-Received: by 2002:adf:e44c:: with SMTP id t12mr4209665wrm.181.1592483625282; 
- Thu, 18 Jun 2020 05:33:45 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwg4JV2c3qlpEZj+xzkoaQYb7B1L4eVfD2Z+w/QXAOC6Aqj5B8x6mEJV2UlbdVK+Jg0N7gWvQ==
-X-Received: by 2002:adf:e44c:: with SMTP id t12mr4209649wrm.181.1592483625027; 
- Thu, 18 Jun 2020 05:33:45 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=0KXjr0V89kJqeQEnHRscG8gu4vbhven6ovSEsc9X8sQ=;
+ b=WMy/NiGa+waLOZiazQuKYbc4+TNME47eHTM21P646J/EaV3gTAFekIgsoygdc1x+9t
+ uxRg+LKhncujwbr9khVAf8U4kFrPnanydqfm3Rz9wg4y5EeZbskmbVhkEbEFCG8OAcB1
+ sC1wKahm5Www1LMBsPMtirX4FNlvFpz9Hst98AcjBua/GgV53CCy9eUq+jcbeyxxnddC
+ 0UaUxCXy0rCeKBbQL7dZRsgzfqiRsAG4JQuv3bGmpD6hN+02qhDh3hv8b3tMG5ZRfW4s
+ sl3xRcWpOHoypn7F7sgvri2ESZSsAkO8jqoC6E9Ekg83LFY0/xmdZMrEbwPYXjV1+WE1
+ Ve3A==
+X-Gm-Message-State: AOAM533sFhE7Em+HMC+TOdfWjR+eFVE/GaGBmbx0998xKH7pqKQvsJZ7
+ 71PG362wP/Ftyq7xllvJwcInCodNrY4u/JWypwx7EVf6/y9q1x41BVntihvrLyzVaZt1SKWbUUb
+ rnknkGjdHbxTM4Lk=
+X-Received: by 2002:adf:fd49:: with SMTP id h9mr4531394wrs.67.1592483629958;
+ Thu, 18 Jun 2020 05:33:49 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzBTJQubJcUEZi82cDmqNxeBBRl/U9Ipq0sPBbmc4K/S7rV4nke1kxtB6cX2EA3NNsCy9yHzA==
+X-Received: by 2002:adf:fd49:: with SMTP id h9mr4531374wrs.67.1592483629798;
+ Thu, 18 Jun 2020 05:33:49 -0700 (PDT)
 Received: from localhost.localdomain (93.red-83-59-160.dynamicip.rima-tde.net.
  [83.59.160.93])
- by smtp.gmail.com with ESMTPSA id a3sm3357148wmb.7.2020.06.18.05.33.43
+ by smtp.gmail.com with ESMTPSA id b143sm3508187wme.20.2020.06.18.05.33.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 18 Jun 2020 05:33:44 -0700 (PDT)
+ Thu, 18 Jun 2020 05:33:49 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v9 00/10] accel: Allow targets to use Kconfig
-Date: Thu, 18 Jun 2020 14:33:32 +0200
-Message-Id: <20200618123342.10693-1-philmd@redhat.com>
+Subject: [PATCH v9 01/10] MAINTAINERS: Fix KVM path expansion glob
+Date: Thu, 18 Jun 2020 14:33:33 +0200
+Message-Id: <20200618123342.10693-2-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
+In-Reply-To: <20200618123342.10693-1-philmd@redhat.com>
+References: <20200618123342.10693-1-philmd@redhat.com>
 MIME-Version: 1.0
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
@@ -79,7 +84,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,85 +97,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
+Cc: Thomas Huth <thuth@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Missing review:
-- 03/10 MAINTAINERS: Cover the HAX accelerator stub
-- 04/10 configure: Generate rule to calculate base arch of target
+The KVM files has been moved from target-ARCH to the target/ARCH/
+folder in commit fcf5ef2a. Fix the pathname expansion.
 
-This series include generic patches I took of the KVM/ARM
-specific series which will follow.
+Fixes: fcf5ef2a ("Move target-* CPU file into a target/ folder")
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ MAINTAINERS | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-- Update accelerators in MAINTAINERS
-- Add accel/Kconfig
-- Allow targets to use their how Kconfig
-
-Since v8:
-- Fixed typo in patch 10 (Stefan)
-
-Since v7:
-- Generate base-arch() (Alex)
-- Do not deprecate HAXM
-
-Since v6:
-- Fixed typo 'startwith' -> 'startswith' (armbru)
-
-Since v5:
-- Fixed typo in patch #4 subject
-- Added David R-b tag
-- Stripped --- comments
-
-Since v4:
-- Addressed rth review comments in rules.mak
-
-Since v3:
-- Fixed base-arch() rule (rth)
-- Dropped 'semihosting: Make the feature depend of TCG'
-
-Since v2:
-- Addressed Thomas review comments
-- Fixed problem when including TARGET instead of BASE_TARGET
-
-Since v1:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg689024.html
-- Drop HVF MAINTAINERS patch (merged elsewhere)
-- Kconfig-select SEMIHOSTING (bonzini)
-- Drop user-mode selection patches
-- consider m68k/nios2/xtensa/riscv (pm215)
-- reword Kconfig SEMIHOSTING description (pm215)
-- reset some of rth R-b tags
-
-Previous RFC for semihosting posted earlier:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg631218.html
-
-Alex Bennée (1):
-  configure: Generate rule to calculate the base architecture of a
-    target
-
-Philippe Mathieu-Daudé (9):
-  MAINTAINERS: Fix KVM path expansion glob
-  MAINTAINERS: Add an 'overall' entry for accelerators
-  MAINTAINERS: Cover the HAX accelerator stub
-  Makefile: Remove dangerous EOL trailing backslash
-  Makefile: Write MINIKCONF variables as one entry per line
-  accel/Kconfig: Extract accel selectors into their own config
-  accel/Kconfig: Add the TCG selector
-  Makefile: Allow target-specific optional Kconfig
-  accel/tcg: Add stub for probe_access()
-
- configure              | 19 +++++++++++++++++++
- Makefile               | 15 +++++++++++----
- accel/stubs/tcg-stub.c |  7 +++++++
- Kconfig.host           |  7 -------
- MAINTAINERS            | 14 +++++++++++++-
- accel/Kconfig          |  9 +++++++++
- 6 files changed, 59 insertions(+), 12 deletions(-)
- create mode 100644 accel/Kconfig
-
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 955cc8dd5c..5184cf46b3 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -362,7 +362,7 @@ Overall KVM CPUs
+ M: Paolo Bonzini <pbonzini@redhat.com>
+ L: kvm@vger.kernel.org
+ S: Supported
+-F: */kvm.*
++F: */*/kvm*
+ F: accel/kvm/
+ F: accel/stubs/kvm-stub.c
+ F: include/hw/kvm/
 -- 
 2.21.3
 
