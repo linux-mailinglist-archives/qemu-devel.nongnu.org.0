@@ -2,84 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0BD71FF381
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 15:45:49 +0200 (CEST)
-Received: from localhost ([::1]:35770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E860D1FF39C
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 15:47:31 +0200 (CEST)
+Received: from localhost ([::1]:43632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlurU-00059H-NB
-	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 09:45:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45454)
+	id 1jlut8-0008Vg-Uv
+	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 09:47:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jluhQ-0005cg-3d
- for qemu-devel@nongnu.org; Thu, 18 Jun 2020 09:35:24 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:32518
+ (Exim 4.90_1) (envelope-from <maxime.coquelin@redhat.com>)
+ id 1jlunc-0007xX-CP
+ for qemu-devel@nongnu.org; Thu, 18 Jun 2020 09:41:48 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:41920
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jluhN-0008JL-Ph
- for qemu-devel@nongnu.org; Thu, 18 Jun 2020 09:35:23 -0400
+ (Exim 4.90_1) (envelope-from <maxime.coquelin@redhat.com>)
+ id 1jlunZ-00014M-TC
+ for qemu-devel@nongnu.org; Thu, 18 Jun 2020 09:41:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592487320;
+ s=mimecast20190719; t=1592487705;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=aLfFWWN786UTNglIQiVmrgn3+v9wpuJECNM2po67mSo=;
- b=SvGT6SQph6GVo7+ChZmCwreA38cqvnI7TydLPQc8FcB+V70+STsi1oTgOrWoD3wC/LV1nr
- +AaUQvgKAiACVW+0ivD1mukK1Pz8YUndo+r0qMnD2rHiR7f+G4A4jmEgxAdLAGzeEgAgyW
- 4OZ6ZGwLY7orGO+9YE9+oVuI1+BVamY=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-229-_y-85SouP3OZMj2N_sc1cA-1; Thu, 18 Jun 2020 09:35:19 -0400
-X-MC-Unique: _y-85SouP3OZMj2N_sc1cA-1
-Received: by mail-wm1-f71.google.com with SMTP id r1so2590721wmh.7
- for <qemu-devel@nongnu.org>; Thu, 18 Jun 2020 06:35:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=aLfFWWN786UTNglIQiVmrgn3+v9wpuJECNM2po67mSo=;
- b=Mmualw3LQXf23an6ODwsvkQpGCcLYAsyEBZTZl3JFsu5ymocb+9p3INp0gzy3PI4rf
- mger0gWB5N7FwAXKhYTIj4RTicWIU5zyWMU2kHRrJXA14nZ6Hi132XIrpo9TS2wO8Mi6
- 06x0Te6RsKAS8fGbHtOGtY9A+Nw4HxfB6J2WGmGLr/m/TLEyzCww3Zb6gw71b0jBYaVM
- UIPtoexFq2rMHKtcVDwWfJQ5TeVioCP6LQXNVxO5Am+hVIXV3Zbt5a9KvXVC7QK+j++o
- mCZtG5LmlZEPsxSiWTGk8+FBkkxB0jZ8dSO33BAoKqY67Pgah0Kf0bLn+puA3wxq2HEw
- lCUw==
-X-Gm-Message-State: AOAM532CqctCu+ceFC0y3dCTi56EAvlhP4eWaD6un5IdyDIJOGbuHWAc
- YQM3Gj5dIj2jmOW42s6Tw1LR2ayUPNP2apSX87yTgZw3Gpnolw4RW3HN5FuLMea5+o5lZ3Skz4t
- f57etSwPLbF/M+38=
-X-Received: by 2002:adf:e782:: with SMTP id n2mr4536586wrm.417.1592487318012; 
- Thu, 18 Jun 2020 06:35:18 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzke9/QOSpZW4+85a3TVRyoYXZmMZdPZKXwkgZ5qvG+1Ceu7D0MQvrZWgqgjV7D1PCYk/MHkA==
-X-Received: by 2002:adf:e782:: with SMTP id n2mr4536563wrm.417.1592487317780; 
- Thu, 18 Jun 2020 06:35:17 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:e1d2:138e:4eff:42cb?
- ([2001:b07:6468:f312:e1d2:138e:4eff:42cb])
- by smtp.gmail.com with ESMTPSA id b187sm3633299wmd.26.2020.06.18.06.35.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 18 Jun 2020 06:35:16 -0700 (PDT)
-Subject: Re: [PATCH v1] memory: assert MemoryRegionOps callbacks are defined
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- P J P <ppandit@redhat.com>
-References: <20200618121218.215808-1-ppandit@redhat.com>
- <87r1ucv7pe.fsf@linaro.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <51f137f0-89ee-e130-a43e-c82d0b3623fa@redhat.com>
-Date: Thu, 18 Jun 2020 15:35:14 +0200
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=o0EkcNIzTJjX5iAyowvgomH2hAifFcjwEGAFHe5iFpU=;
+ b=dn1hsKghKTqoVazrg2ND5QAysyNrV+Nkr8ct6P0tUGKjzPJtHK8qnsyP3S4EOe1w1ou/p/
+ 9iQu6GAJ8fPARWG0iE0wrQYBwKRUf2aQElFaICTa2UY3svArVc7tTgZgL4Xj1gUS1ZolX2
+ FrIpM5E6Klc9NUDTgyQcOL7YskmGCak=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-377-YAm38IFGNfqOVC_f5apVEg-1; Thu, 18 Jun 2020 09:41:43 -0400
+X-MC-Unique: YAm38IFGNfqOVC_f5apVEg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 604E0EC1A0
+ for <qemu-devel@nongnu.org>; Thu, 18 Jun 2020 13:41:42 +0000 (UTC)
+Received: from [10.36.110.7] (unknown [10.36.110.7])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 357D11002382;
+ Thu, 18 Jun 2020 13:41:37 +0000 (UTC)
+Subject: Re: [PATCH] docs: vhost-user: add Virtio status protocol feature
+To: Jason Wang <jasowang@redhat.com>, mst@redhat.com, lulu@redhat.com,
+ amorenoz@redhat.com, qemu-devel@nongnu.org
+References: <20200618112908.130528-1-maxime.coquelin@redhat.com>
+ <1208fc0b-3ca1-8735-e74b-9f71aefc3bb1@redhat.com>
+From: Maxime Coquelin <maxime.coquelin@redhat.com>
+Autocrypt: addr=maxime.coquelin@redhat.com; keydata=
+ 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
+ Mwqu3GQ=
+Message-ID: <3cbc1cfa-5306-35e4-5c69-78188518d4b4@redhat.com>
+Date: Thu, 18 Jun 2020 15:41:36 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <87r1ucv7pe.fsf@linaro.org>
+In-Reply-To: <1208fc0b-3ca1-8735-e74b-9f71aefc3bb1@redhat.com>
 Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
+Received-SPF: pass client-ip=207.211.31.120;
+ envelope-from=maxime.coquelin@redhat.com; helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/18 01:47:12
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
@@ -101,66 +127,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Prasad J Pandit <pjp@fedoraproject.org>, Li Qiang <liq3ea@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Lei Sun <slei.casper@gmail.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 18/06/20 15:12, Alex Bennée wrote:
+
+
+On 6/18/20 2:50 PM, Jason Wang wrote:
+> 
+> On 2020/6/18 下午7:29, Maxime Coquelin wrote:
+>> This patch specifies the VHOST_USER_SET_STATUS and
+>> VHOST_USER_GET_STATUS requests, which are sent by
+>> the master to update and query the Virtio status
+>> in the backend.
 >>
->> @@ -1495,6 +1495,9 @@ void memory_region_init_io(MemoryRegion *mr,
->>                             const char *name,
->>                             uint64_t size)
->>  {
->> +    assert(ops);
->> +    assert(ops->read);
->> +    assert(ops->write);
+>> Signed-off-by: Maxime Coquelin <maxime.coquelin@redhat.com>
+>> ---
+>>
+>> Changes since v1:
+>> =================
+>> - Only keep the spec part in this patch, the implementation will
+>>    be part of Cindy's Vhost vDPA series it depends on. The goal is
+>>    to be able to implement it in next DPDK release even if Qemu part
+>>    is not merged.
+>> - Add GET_STATUS after discussions with Michael and Jason. It can
+>>    be used by the master to ensure FEATURES_OK bit set is
+>>    acknowledged by the backend.
+>>
+>>   docs/interop/vhost-user.rst | 24 ++++++++++++++++++++++++
+>>   1 file changed, 24 insertions(+)
+>>
+>> diff --git a/docs/interop/vhost-user.rst b/docs/interop/vhost-user.rst
+>> index 688b7c6900..866d7c2fb7 100644
+>> --- a/docs/interop/vhost-user.rst
+>> +++ b/docs/interop/vhost-user.rst
+>> @@ -816,6 +816,7 @@ Protocol features
+>>     #define VHOST_USER_PROTOCOL_F_RESET_DEVICE         13
+>>     #define VHOST_USER_PROTOCOL_F_INBAND_NOTIFICATIONS 14
+>>     #define VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS  15
+>> +  define VHOST_USER_PROTOCOL_F_STATUS                16
 > 
-> If you look at memory_region_dispatch_write you can see that
-> mr->ops->write being empty is acceptable because it implies
-> mr->ops->write_with_attrs is set instead. I think the same is true for
-> read so I think you need something more like:
 > 
->      assert(ops->read || ops->read_with_attrs);
->      assert(ops->write || ops->write_with_attrs);
+> Miss a '#"?
 
-Also, !ops is acceptable since you have a couple lines below:
+Indeed, I will fix that.
 
-    mr->ops = ops ? ops : &unassigned_mem_ops;
+Thanks,
+Maxime
 
-
->> +    assert(ops->read);
->> +    assert(ops->write);
+> Other looks good.
 > 
-> Do ROM devices need a ->write function?
-
-Yes, ROMD regions are treated as I/O regions for writes.  However they
-don't need a read function.
-
-> Also doesn't this break a load of running stuff without fixes for all
-> the various missing bits? How far does make check-acceptance get?
-
-This might actually be really close with the above assertions fixed.
-For example, commit 08565552f7 ("cputlb: Move NOTDIRTY handling from I/O
-path to TLB path", 2019-09-25) got rid of io_mem_notdirty.
-
-The only cases I found with "git grep" are:
-
-- tz_ppc_dummy_ops which is broken and should just use NULL ops
-
-- hw/nvram/nrf51_nvm.c's flash_ops which is fixed if ROMD regions are
-changed not to require a read callback.
-
-- designware_pci_host_msi_ops which is broken and should have a dummy
-read callback.
-
-Needless to say, this is something that the submitter should have done,
-not the reviewer.
-
-Paolo
+> Thanks
+> 
+> 
+>>     Master message types
+>>   --------------------
+>> @@ -1307,6 +1308,29 @@ Master message types
+>>     ``VHOST_USER_ADD_MEM_REG`` message, this message is used to set and
+>>     update the memory tables of the slave device.
+>>   +``VHOST_USER_SET_STATUS``
+>> +  :id: 39
+>> +  :equivalent ioctl: VHOST_VDPA_SET_STATUS
+>> +  :slave payload: N/A
+>> +  :master payload: ``u64``
+>> +
+>> +  When the ``VHOST_USER_PROTOCOL_F_STATUS`` protocol feature has been
+>> +  successfully negotiated, this message is submitted by the master to
+>> +  notify the backend with updated device status as defined in the Virtio
+>> +  specification.
+>> +
+>> +``VHOST_USER_GET_STATUS``
+>> +  :id: 40
+>> +  :equivalent ioctl: VHOST_VDPA_GET_STATUS
+>> +  :slave payload: ``u64``
+>> +  :master payload: N/A
+>> +
+>> +  When the ``VHOST_USER_PROTOCOL_F_STATUS`` protocol feature has been
+>> +  successfully negotiated, this message is submitted by the master to
+>> +  query the backend for its device status as defined in the Virtio
+>> +  specification.
+>> +
+>> +
+>>   Slave message types
+>>   -------------------
+>>   
 
 
