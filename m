@@ -2,69 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AA931FDA0C
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 02:06:41 +0200 (CEST)
-Received: from localhost ([::1]:45056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F39A11FDA1B
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 02:13:04 +0200 (CEST)
+Received: from localhost ([::1]:51402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jli4m-0002fS-Bj
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 20:06:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52244)
+	id 1jliAy-00065s-33
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jun 2020 20:13:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53504)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jli3p-0002G7-Pf
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 20:05:41 -0400
-Received: from indium.canonical.com ([91.189.90.7]:33434)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jli3n-0005wk-O1
- for qemu-devel@nongnu.org; Wed, 17 Jun 2020 20:05:41 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jli3l-00060o-Nx
- for <qemu-devel@nongnu.org>; Thu, 18 Jun 2020 00:05:37 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id A43BE2E80E7
- for <qemu-devel@nongnu.org>; Thu, 18 Jun 2020 00:05:37 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <ljp@linux.ibm.com>)
+ id 1jli9Y-00048i-F5; Wed, 17 Jun 2020 20:11:36 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:7982)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ljp@linux.ibm.com>)
+ id 1jli9W-0006q5-OJ; Wed, 17 Jun 2020 20:11:36 -0400
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 05I023sp045608; Wed, 17 Jun 2020 20:11:31 -0400
+Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.10])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 31q8njpedd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 17 Jun 2020 20:11:31 -0400
+Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
+ by ppma02dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 05I05B6f011552;
+ Thu, 18 Jun 2020 00:11:30 GMT
+Received: from b03cxnp08027.gho.boulder.ibm.com
+ (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
+ by ppma02dal.us.ibm.com with ESMTP id 31q6c89mfn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 18 Jun 2020 00:11:30 +0000
+Received: from b03ledav003.gho.boulder.ibm.com
+ (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
+ by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 05I0BR1210617344
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 18 Jun 2020 00:11:27 GMT
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C4DA36A057;
+ Thu, 18 Jun 2020 00:11:28 +0000 (GMT)
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 358416A064;
+ Thu, 18 Jun 2020 00:11:28 +0000 (GMT)
+Received: from pompom.ibm.com (unknown [9.65.216.12])
+ by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Thu, 18 Jun 2020 00:11:27 +0000 (GMT)
+From: Lijun Pan <ljp@linux.ibm.com>
+To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Subject: [PATCH v2 0/7] Add several Power ISA 3.1 32/64-bit vector instructions
+Date: Wed, 17 Jun 2020 19:11:20 -0500
+Message-Id: <20200618001127.34438-1-ljp@linux.ibm.com>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 18 Jun 2020 00:00:18 -0000
-From: Randy Rhoads <1883593@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: tcg
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ajbennee randy3
-X-Launchpad-Bug-Reporter: Randy Rhoads (randy3)
-X-Launchpad-Bug-Modifier: Randy Rhoads (randy3)
-References: <159225010396.5666.14857392307926027696.malonedeb@chaenomeles.canonical.com>
-Message-Id: <159243841840.6020.3116249437326838729.malone@soybean.canonical.com>
-Subject: [Bug 1883593] Re: Windows XP takes much longer to boot in TCG mode
- since 5.0
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="1cbd0aa39df153c901321817f9b57cf3f232b507";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: b061d11e3b4369e8681538244d325457c2d37fec
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/17 20:05:38
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=_AUTOLEARN
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.687
+ definitions=2020-06-17_12:2020-06-17,
+ 2020-06-17 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0
+ impostorscore=0 priorityscore=1501 mlxlogscore=839 mlxscore=0 bulkscore=0
+ cotscore=-2147483648 lowpriorityscore=0 spamscore=0 malwarescore=0
+ clxscore=1015 phishscore=0 adultscore=0 classifier=spam adjust=0
+ reason=mlx scancount=1 engine=8.12.0-2004280000
+ definitions=main-2006170176
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=ljp@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/17 20:11:31
+X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,44 +89,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1883593 <1883593@bugs.launchpad.net>
+Cc: Lijun Pan <ljp@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Bisecting showed that this is the bad commit:
+This patch series add several newly introduced 32/64-bit vector
+instructions in Power ISA 3.1. Power ISA 3.1 flag is introduced in
+this version. Coding style issues are fixed in this version.
 
-    b55f54bc965607c45b5010a107a792ba333ba654 exec: flush CPU TB cache in
-breakpoint_invalidate
+Lijun Pan (7):
+  target/ppc: Introduce Power ISA 3.1 flag
+  target/ppc: add byte-reverse br[dwh] instructions
+  target/ppc: add vmulld instruction
+  target/ppc: add vmulh{su}w instructions
+  fix the prototype of muls64/mulu64
+  target/ppc: add vmulh{su}d instructions
+  target/ppc: add vdiv{su}{wd} vmod{su}{wd} instructions
 
-And I can indeed confirm that this commit is much slower than the
-previous one, e18e5501d8ac692d32657a3e1ef545b14e72b730.
+ include/qemu/host-utils.h           |  4 +-
+ target/ppc/cpu.h                    |  4 +-
+ target/ppc/helper.h                 | 13 ++++++
+ target/ppc/int_helper.c             | 58 +++++++++++++++++++++++++
+ target/ppc/translate.c              | 65 +++++++++++++++++++++++++++++
+ target/ppc/translate/vmx-impl.inc.c | 24 +++++++++++
+ target/ppc/translate/vmx-ops.inc.c  | 27 ++++++++++--
+ target/ppc/translate_init.inc.c     |  2 +-
+ 8 files changed, 189 insertions(+), 8 deletions(-)
 
--- =
+-- 
+2.23.0
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1883593
-
-Title:
-  Windows XP takes much longer to boot in TCG mode since 5.0
-
-Status in QEMU:
-  New
-
-Bug description:
-  Since upgrading from 4.2 to 5.0, a Windows XP VM takes much longer to
-  boot.
-
-  It hangs about three minutes on "welcome" screen with the blue
-  background, while previously the total boot time was less than a
-  minute.
-
-  The issue only happens in TCG mode (not with KVM) and also happens
-  with the current master which includes the uring patches (7d3660e7).
-
-  I can reproduce this issue with a clean XP install with no flags other
-  than `-m 2G`. After booting, the performance seems to be normal.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1883593/+subscriptions
 
