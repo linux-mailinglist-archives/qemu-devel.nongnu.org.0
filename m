@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3C7C1FEA18
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 06:28:54 +0200 (CEST)
-Received: from localhost ([::1]:59890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 989F31FEA17
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 06:28:40 +0200 (CEST)
+Received: from localhost ([::1]:58882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jlmAX-0004JN-NA
-	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 00:28:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58990)
+	id 1jlmAJ-0003us-KJ
+	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 00:28:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59018)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jlm8d-0001kB-JQ
- for qemu-devel@nongnu.org; Thu, 18 Jun 2020 00:26:55 -0400
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:36747)
+ id 1jlm8e-0001nr-Rb
+ for qemu-devel@nongnu.org; Thu, 18 Jun 2020 00:26:56 -0400
+Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:46489)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jlm8c-0002GO-1m
- for qemu-devel@nongnu.org; Thu, 18 Jun 2020 00:26:55 -0400
-Received: by mail-pf1-x444.google.com with SMTP id x22so2202815pfn.3
- for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 21:26:53 -0700 (PDT)
+ id 1jlm8d-0002Gp-34
+ for qemu-devel@nongnu.org; Thu, 18 Jun 2020 00:26:56 -0400
+Received: by mail-pf1-x441.google.com with SMTP id b16so2171160pfi.13
+ for <qemu-devel@nongnu.org>; Wed, 17 Jun 2020 21:26:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=s4wGmXAIkyJLsPXTOxLRpkXsjobp8ryXeXVLTjvMEOw=;
- b=Yf0rlRMKLpPaa9dg+YIf886Pe/rQjbGakYMGacDc603PSHbnpw+ciOY4/njNbM57OG
- djrqXLZo2B0RK8F1e/uf5Z1pfbIF9Z4MOsW4C6VMTs7+rXWdBERDzutL/k3k7fPA+i5M
- oU8wIt3qbO/8ZLXUtV3biJzDCzvC+X9F8MPL9qIZz3NsCaE9t55imLiBof/+w7cq7DWR
- tGoQzSCImcIU4lNLEJwzistEZ9dl/u1Y4xgSe2fQemt72PuqG2Jv/fU2DCQ/AYB4O5QS
- BKq+qSqW0qP7KY7R+tGHXIa+DbVpIvc98aHbnRWpo7JK7qJCZQTReMP6hl+IXv9bEeg2
- lQwA==
+ bh=6tpPOBz95/j0U9AMqUe6BQmQ5LvPnYdp+NbHp9sGVlA=;
+ b=NlkiN6Ql2YvrrimkRrKvOEvCLTso+5yuSXfnv2WSF4t26+Pqt1gB3uND3NC8D7JhCe
+ NJgiHCHb8Sqn8HZYw+LtEoguGnxsq2NxdHM65i7u9rfsSk023VveMHV8A6SImiy2/BVb
+ 4/Jz5nF4KqOcdVTW41Zdz2WBr2ED2UMEPk6tvcIL5H3fyndbvQvasH6fN1/iVdbIICjV
+ 2XuajbCoMdGWE7yZ2nmdEZkcseh3mvXcFk/MHESlP/4yXbnYW9oMr5SQS3slIHDOqEgl
+ xembrt02LyXpuo6t1Meyq1/3YImH9HN7/crC87IohQ2HmX/nK381zOi+5C0eJeeHg19+
+ b3oQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=s4wGmXAIkyJLsPXTOxLRpkXsjobp8ryXeXVLTjvMEOw=;
- b=fS5hwGUEGTGZELm3CZU9lou89LsYo/3tBivcd2NzKFHziFo4vnJoGi7bz95v7pjDIX
- Oemh9nmwwUAxSPL6Q+iKpIa2Ebca8aDXGEuQLY+6AXqROcLcssH3noVILkE5U32Okjo3
- aA+hb/R2tfZzKjNLHKyEHHVVYVy/rdgxOShsByywcpIBbEYvY3L2tx/MWv4oeWh5P3cO
- hugcNSCO0YnJ3ZGByDum5+KmA8fDTZBMYELym9r/aKAJcJMdAaY/oX96kAL1qcR0Smkf
- 9MLdKSOiPZKj4Rui+W2HK4toEvu71Lo/xOAcjvAx4YSRrdCocUvsud18oyTsv8zbDWEs
- B5qg==
-X-Gm-Message-State: AOAM533cbBXIcn+CCYCFMSVZrEHflhd1646rdM7tuGYeyL33VuwtxzDo
- EUirnEgYALIJVhLqC8A/Y0ofUcSqXE8=
-X-Google-Smtp-Source: ABdhPJxMej/HixwVCY/mu1L5BAcqNH1uqxqZL17VgdUmlnfsGNFv7K7wkG6Ow0QH6VnV63OVY+vOsQ==
-X-Received: by 2002:a62:3806:: with SMTP id f6mr1946040pfa.102.1592454412278; 
- Wed, 17 Jun 2020 21:26:52 -0700 (PDT)
+ bh=6tpPOBz95/j0U9AMqUe6BQmQ5LvPnYdp+NbHp9sGVlA=;
+ b=aBTL5Pse6s2rMxJjkktT+H9pibxITrozESE+L+d3XJNa7VS2cAR5NHI0ZHn/qkJ7Gh
+ V2cVD9Pze+SPbEKq4RTV38VSTylpRnFL//uUFn0c+a1YxD5o6dsx4MncMIiuQCAcJLPv
+ 7DQGdtDzoh49nz69lWZsXzJ9mDwKIz/tCkxNmW6IPSvT7XyTSAtzi8re3UIwRUYEDXBb
+ sR9BL/gz98bO/HZIpFe5YBP56DHbit1Y76G51502JtsmL/plmXZRIsPRvslrixqEf58j
+ 5BIz2EqlCtQH8KRxrB6d2s4OGdrKAFtNVsDPoY3lxfOTVz4pnDX/ZU5WBoi0B5soDgGq
+ vFYg==
+X-Gm-Message-State: AOAM533+xCzZsj0w1N3PFbv6mmiPYNZNzkYdhOBq8h+zEoPXPW8W8giB
+ NamRgjezIfL/NzICiAwz0h/xVxMOe0Q=
+X-Google-Smtp-Source: ABdhPJx1rJxWgptFX2x6mB/TseGrrmS9u5sr7zyIyHNL8SeIGrE63W+n9TL525uxtHuT9sQKFyHp4g==
+X-Received: by 2002:aa7:9818:: with SMTP id e24mr2032168pfl.30.1592454413431; 
+ Wed, 17 Jun 2020 21:26:53 -0700 (PDT)
 Received: from localhost.localdomain (174-21-143-238.tukw.qwest.net.
  [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id o16sm1162035pgg.57.2020.06.17.21.26.51
+ by smtp.gmail.com with ESMTPSA id o16sm1162035pgg.57.2020.06.17.21.26.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Jun 2020 21:26:51 -0700 (PDT)
+ Wed, 17 Jun 2020 21:26:52 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 004/100] target/arm: Split out gen_gvec_fn_zzz, do_zzz_fn
-Date: Wed, 17 Jun 2020 21:25:08 -0700
-Message-Id: <20200618042644.1685561-5-richard.henderson@linaro.org>
+Subject: [PATCH v2 005/100] target/arm: Rearrange {sve, fp}_check_access assert
+Date: Wed, 17 Jun 2020 21:25:09 -0700
+Message-Id: <20200618042644.1685561-6-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200618042644.1685561-1-richard.henderson@linaro.org>
 References: <20200618042644.1685561-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x444.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::441;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,120 +89,90 @@ Cc: qemu-arm@nongnu.org, steplong@quicinc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Model gen_gvec_fn_zzz on gen_gvec_fn3 in translate-a64.c, but
-indicating which kind of register and in which order.
+We want to ensure that access is checked by the time we ask
+for a specific fp/vector register.  We want to ensure that
+we do not emit two lots of code to raise an exception.
 
-Model do_zzz_fn on the other do_foo functions that take an
-argument set and verify sve enabled.
+But sometimes it's difficult to cleanly organize the code
+such that we never pass through sve_check_access exactly once.
+Allow multiple calls so long as the result is true, that is,
+no exception to be raised.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate-sve.c | 43 +++++++++++++++++++++-----------------
- 1 file changed, 24 insertions(+), 19 deletions(-)
+ target/arm/translate.h     |  1 +
+ target/arm/translate-a64.c | 27 ++++++++++++++++-----------
+ 2 files changed, 17 insertions(+), 11 deletions(-)
 
-diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index bc286331cb..a8d5c7421d 100644
---- a/target/arm/translate-sve.c
-+++ b/target/arm/translate-sve.c
-@@ -153,16 +153,13 @@ static void gen_gvec_fn_zz(DisasContext *s, GVecGen2Fn *gvec_fn,
- }
- 
- /* Invoke a vector expander on three Zregs.  */
--static bool do_vector3_z(DisasContext *s, GVecGen3Fn *gvec_fn,
--                         int esz, int rd, int rn, int rm)
-+static void gen_gvec_fn_zzz(DisasContext *s, GVecGen3Fn *gvec_fn,
-+                            int esz, int rd, int rn, int rm)
- {
--    if (sve_access_check(s)) {
--        unsigned vsz = vec_full_reg_size(s);
--        gvec_fn(esz, vec_full_reg_offset(s, rd),
--                vec_full_reg_offset(s, rn),
--                vec_full_reg_offset(s, rm), vsz, vsz);
--    }
--    return true;
-+    unsigned vsz = vec_full_reg_size(s);
-+    gvec_fn(esz, vec_full_reg_offset(s, rd),
-+            vec_full_reg_offset(s, rn),
-+            vec_full_reg_offset(s, rm), vsz, vsz);
- }
- 
- /* Invoke a vector move on two Zregs.  */
-@@ -274,24 +271,32 @@ const uint64_t pred_esz_masks[4] = {
-  *** SVE Logical - Unpredicated Group
+diff --git a/target/arm/translate.h b/target/arm/translate.h
+index 62ed5c4780..f6a9e1054b 100644
+--- a/target/arm/translate.h
++++ b/target/arm/translate.h
+@@ -63,6 +63,7 @@ typedef struct DisasContext {
+      * that it is set at the point where we actually touch the FP regs.
+      */
+     bool fp_access_checked;
++    bool sve_access_checked;
+     /* ARMv8 single-step state (this is distinct from the QEMU gdbstub
+      * single-step support).
+      */
+diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+index a0e72ad694..b80ee9f734 100644
+--- a/target/arm/translate-a64.c
++++ b/target/arm/translate-a64.c
+@@ -1083,18 +1083,18 @@ static void do_vec_ld(DisasContext *s, int destidx, int element,
+  * unallocated-encoding checks (otherwise the syndrome information
+  * for the resulting exception will be incorrect).
   */
+-static inline bool fp_access_check(DisasContext *s)
++static bool fp_access_check(DisasContext *s)
+ {
+-    assert(!s->fp_access_checked);
+-    s->fp_access_checked = true;
++    if (s->fp_excp_el) {
++        assert(!s->fp_access_checked);
++        s->fp_access_checked = true;
  
-+static bool do_zzz_fn(DisasContext *s, arg_rrr_esz *a, GVecGen3Fn *gvec_fn)
-+{
-+    if (sve_access_check(s)) {
-+        gen_gvec_fn_zzz(s, gvec_fn, a->esz, a->rd, a->rn, a->rm);
-+    }
+-    if (!s->fp_excp_el) {
+-        return true;
++        gen_exception_insn(s, s->pc_curr, EXCP_UDEF,
++                           syn_fp_access_trap(1, 0xe, false), s->fp_excp_el);
++        return false;
+     }
+-
+-    gen_exception_insn(s, s->pc_curr, EXCP_UDEF,
+-                       syn_fp_access_trap(1, 0xe, false), s->fp_excp_el);
+-    return false;
++    s->fp_access_checked = true;
 +    return true;
-+}
+ }
+ 
+ /* Check that SVE access is enabled.  If it is, return true.
+@@ -1103,10 +1103,14 @@ static inline bool fp_access_check(DisasContext *s)
+ bool sve_access_check(DisasContext *s)
+ {
+     if (s->sve_excp_el) {
+-        gen_exception_insn(s, s->pc_curr, EXCP_UDEF, syn_sve_access_trap(),
+-                           s->sve_excp_el);
++        assert(!s->sve_access_checked);
++        s->sve_access_checked = true;
 +
- static bool trans_AND_zzz(DisasContext *s, arg_rrr_esz *a)
- {
--    return do_vector3_z(s, tcg_gen_gvec_and, 0, a->rd, a->rn, a->rm);
-+    return do_zzz_fn(s, a, tcg_gen_gvec_and);
++        gen_exception_insn(s, s->pc_curr, EXCP_UDEF,
++                           syn_sve_access_trap(), s->sve_excp_el);
+         return false;
+     }
++    s->sve_access_checked = true;
+     return fp_access_check(s);
  }
  
- static bool trans_ORR_zzz(DisasContext *s, arg_rrr_esz *a)
- {
--    return do_vector3_z(s, tcg_gen_gvec_or, 0, a->rd, a->rn, a->rm);
-+    return do_zzz_fn(s, a, tcg_gen_gvec_or);
- }
+@@ -14050,6 +14054,7 @@ static void disas_a64_insn(CPUARMState *env, DisasContext *s)
+     s->base.pc_next += 4;
  
- static bool trans_EOR_zzz(DisasContext *s, arg_rrr_esz *a)
- {
--    return do_vector3_z(s, tcg_gen_gvec_xor, 0, a->rd, a->rn, a->rm);
-+    return do_zzz_fn(s, a, tcg_gen_gvec_xor);
- }
+     s->fp_access_checked = false;
++    s->sve_access_checked = false;
  
- static bool trans_BIC_zzz(DisasContext *s, arg_rrr_esz *a)
- {
--    return do_vector3_z(s, tcg_gen_gvec_andc, 0, a->rd, a->rn, a->rm);
-+    return do_zzz_fn(s, a, tcg_gen_gvec_andc);
- }
- 
- /*
-@@ -300,32 +305,32 @@ static bool trans_BIC_zzz(DisasContext *s, arg_rrr_esz *a)
- 
- static bool trans_ADD_zzz(DisasContext *s, arg_rrr_esz *a)
- {
--    return do_vector3_z(s, tcg_gen_gvec_add, a->esz, a->rd, a->rn, a->rm);
-+    return do_zzz_fn(s, a, tcg_gen_gvec_add);
- }
- 
- static bool trans_SUB_zzz(DisasContext *s, arg_rrr_esz *a)
- {
--    return do_vector3_z(s, tcg_gen_gvec_sub, a->esz, a->rd, a->rn, a->rm);
-+    return do_zzz_fn(s, a, tcg_gen_gvec_sub);
- }
- 
- static bool trans_SQADD_zzz(DisasContext *s, arg_rrr_esz *a)
- {
--    return do_vector3_z(s, tcg_gen_gvec_ssadd, a->esz, a->rd, a->rn, a->rm);
-+    return do_zzz_fn(s, a, tcg_gen_gvec_ssadd);
- }
- 
- static bool trans_SQSUB_zzz(DisasContext *s, arg_rrr_esz *a)
- {
--    return do_vector3_z(s, tcg_gen_gvec_sssub, a->esz, a->rd, a->rn, a->rm);
-+    return do_zzz_fn(s, a, tcg_gen_gvec_sssub);
- }
- 
- static bool trans_UQADD_zzz(DisasContext *s, arg_rrr_esz *a)
- {
--    return do_vector3_z(s, tcg_gen_gvec_usadd, a->esz, a->rd, a->rn, a->rm);
-+    return do_zzz_fn(s, a, tcg_gen_gvec_usadd);
- }
- 
- static bool trans_UQSUB_zzz(DisasContext *s, arg_rrr_esz *a)
- {
--    return do_vector3_z(s, tcg_gen_gvec_ussub, a->esz, a->rd, a->rn, a->rm);
-+    return do_zzz_fn(s, a, tcg_gen_gvec_ussub);
- }
- 
- /*
+     if (dc_isar_feature(aa64_bti, s)) {
+         if (s->base.num_insns == 1) {
 -- 
 2.25.1
 
