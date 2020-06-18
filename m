@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD1081FF2F9
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 15:26:22 +0200 (CEST)
-Received: from localhost ([::1]:47742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E7961FF309
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jun 2020 15:28:33 +0200 (CEST)
+Received: from localhost ([::1]:56216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jluYf-0003Xl-Dh
-	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 09:26:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40588)
+	id 1jluam-00083o-1X
+	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 09:28:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40616)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1jluVM-0006U4-R1
- for qemu-devel@nongnu.org; Thu, 18 Jun 2020 09:22:56 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:44011
- helo=us-smtp-delivery-1.mimecast.com)
+ id 1jluVR-0006jx-Rm
+ for qemu-devel@nongnu.org; Thu, 18 Jun 2020 09:23:01 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:55213
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1jluVL-0005ne-6U
- for qemu-devel@nongnu.org; Thu, 18 Jun 2020 09:22:56 -0400
+ id 1jluVQ-0005oB-1N
+ for qemu-devel@nongnu.org; Thu, 18 Jun 2020 09:23:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592486574;
+ s=mimecast20190719; t=1592486579;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=nldiXqM8VmDWW6GXBzbsTcrmDvrvu3iO6lJu8FE0+Yk=;
- b=cBaWA5bcLKS6pbpxYx1Fr0BTm3Oi/de6AaBuQun25K3Lx/w42CWKFmD9zDlNC0XITnSilY
- D34YbHAccrGetpQS+iYk1s6GKUVuvA45cMYDlPRaKL1oYLwRIbQ477ZZjLH8MFE0GkafGi
- eFR6O9HuOEhztvhQA14FJsTN8uy/Sww=
+ references:references; bh=49TrhWLyQHkix4obFR6PR7exRax6E/YU1zWcuxXe1s0=;
+ b=Sg8C7mOsMhIRnowVrdM63M2AulFndCrX8s7QNr+vtESUI5J+c6GipNLlN4qRnia+hJQFGk
+ wu0Ahii0AbdCuUZ/ZhAlqoq3a62XVmlRva0Ft/N4eCNCfPZatA3KqsAZ926mhx8lZ/tFp/
+ 8luTrwHP8mi0fU7gqiKsri4RTS2kRj4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-57-7EjPLwUrPoucCxwarXai9g-1; Thu, 18 Jun 2020 09:22:52 -0400
-X-MC-Unique: 7EjPLwUrPoucCxwarXai9g-1
+ us-mta-326-wE3p1lvwMXOt9WaIbcpK7A-1; Thu, 18 Jun 2020 09:22:57 -0400
+X-MC-Unique: wE3p1lvwMXOt9WaIbcpK7A-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1DCAE8BBCE2;
- Thu, 18 Jun 2020 13:22:45 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4D4736DB67;
+ Thu, 18 Jun 2020 13:22:47 +0000 (UTC)
 Received: from jason-ThinkPad-T430s.redhat.com (ovpn-12-109.pek2.redhat.com
  [10.72.12.109])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 78CE65BAC2;
- Thu, 18 Jun 2020 13:22:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9D9F15BAC0;
+ Thu, 18 Jun 2020 13:22:45 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL V2 14/33] net: cadence_gem: Define access permission for
- interrupt registers
-Date: Thu, 18 Jun 2020 21:21:29 +0800
-Message-Id: <1592486508-6135-15-git-send-email-jasowang@redhat.com>
+Subject: [PULL V2 15/33] net: cadence_gem: Set ISR according to queue in use
+Date: Thu, 18 Jun 2020 21:21:30 +0800
+Message-Id: <1592486508-6135-16-git-send-email-jasowang@redhat.com>
 In-Reply-To: <1592486508-6135-1-git-send-email-jasowang@redhat.com>
 References: <1592486508-6135-1-git-send-email-jasowang@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/18 00:57:40
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/18 01:21:16
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -85,59 +84,82 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
 
-Q1 to Q7 ISR's are clear-on-read, IER/IDR registers
-are write-only, mask reg are read-only.
+Set ISR according to queue in use, added interrupt support for
+all queues.
 
 Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
 Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- hw/net/cadence_gem.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ hw/net/cadence_gem.c | 27 +++++++++++++++++----------
+ 1 file changed, 17 insertions(+), 10 deletions(-)
 
 diff --git a/hw/net/cadence_gem.c b/hw/net/cadence_gem.c
-index 4ad6c8e..72e7cf9 100644
+index 72e7cf9..2e183b5 100644
 --- a/hw/net/cadence_gem.c
 +++ b/hw/net/cadence_gem.c
-@@ -458,6 +458,7 @@ static const uint8_t broadcast_addr[] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
-  */
- static void gem_init_register_masks(CadenceGEMState *s)
- {
-+    unsigned int i;
-     /* Mask of register bits which are read only */
-     memset(&s->regs_ro[0], 0, sizeof(s->regs_ro));
-     s->regs_ro[GEM_NWCTRL]   = 0xFFF80000;
-@@ -470,10 +471,19 @@ static void gem_init_register_masks(CadenceGEMState *s)
-     s->regs_ro[GEM_ISR]      = 0xFFFFFFFF;
-     s->regs_ro[GEM_IMR]      = 0xFFFFFFFF;
-     s->regs_ro[GEM_MODID]    = 0xFFFFFFFF;
-+    for (i = 0; i < s->num_priority_queues; i++) {
-+        s->regs_ro[GEM_INT_Q1_STATUS + i] = 0xFFFFFFFF;
-+        s->regs_ro[GEM_INT_Q1_ENABLE + i] = 0xFFFFF319;
-+        s->regs_ro[GEM_INT_Q1_DISABLE + i] = 0xFFFFF319;
-+        s->regs_ro[GEM_INT_Q1_MASK + i] = 0xFFFFFFFF;
-+    }
+@@ -451,6 +451,16 @@ static inline void rx_desc_set_sar(uint32_t *desc, int sar_idx)
+ /* The broadcast MAC address: 0xFFFFFFFFFFFF */
+ static const uint8_t broadcast_addr[] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
  
-     /* Mask of register bits which are clear on read */
-     memset(&s->regs_rtc[0], 0, sizeof(s->regs_rtc));
-     s->regs_rtc[GEM_ISR]      = 0xFFFFFFFF;
-+    for (i = 0; i < s->num_priority_queues; i++) {
-+        s->regs_rtc[GEM_INT_Q1_STATUS + i] = 0x00000CE6;
++static void gem_set_isr(CadenceGEMState *s, int q, uint32_t flag)
++{
++    if (q == 0) {
++        s->regs[GEM_ISR] |= flag & ~(s->regs[GEM_IMR]);
++    } else {
++        s->regs[GEM_INT_Q1_STATUS + q - 1] |= flag &
++                                      ~(s->regs[GEM_INT_Q1_MASK + q - 1]);
 +    }
- 
-     /* Mask of register bits which are write 1 to clear */
-     memset(&s->regs_w1c[0], 0, sizeof(s->regs_w1c));
-@@ -485,6 +495,10 @@ static void gem_init_register_masks(CadenceGEMState *s)
-     s->regs_wo[GEM_NWCTRL]   = 0x00073E60;
-     s->regs_wo[GEM_IER]      = 0x07FFFFFF;
-     s->regs_wo[GEM_IDR]      = 0x07FFFFFF;
-+    for (i = 0; i < s->num_priority_queues; i++) {
-+        s->regs_wo[GEM_INT_Q1_ENABLE + i] = 0x00000CE6;
-+        s->regs_wo[GEM_INT_Q1_DISABLE + i] = 0x00000CE6;
-+    }
- }
- 
++}
++
  /*
+  * gem_init_register_masks:
+  * One time initialization.
+@@ -906,7 +916,7 @@ static void gem_get_rx_desc(CadenceGEMState *s, int q)
+     if (rx_desc_get_ownership(s->rx_desc[q]) == 1) {
+         DB_PRINT("descriptor 0x%" HWADDR_PRIx " owned by sw.\n", desc_addr);
+         s->regs[GEM_RXSTATUS] |= GEM_RXSTATUS_NOBUF;
+-        s->regs[GEM_ISR] |= GEM_INT_RXUSED & ~(s->regs[GEM_IMR]);
++        gem_set_isr(s, q, GEM_INT_RXUSED);
+         /* Handle interrupt consequences */
+         gem_update_int_status(s);
+     }
+@@ -1080,7 +1090,7 @@ static ssize_t gem_receive(NetClientState *nc, const uint8_t *buf, size_t size)
+     gem_receive_updatestats(s, buf, size);
+ 
+     s->regs[GEM_RXSTATUS] |= GEM_RXSTATUS_FRMRCVD;
+-    s->regs[GEM_ISR] |= GEM_INT_RXCMPL & ~(s->regs[GEM_IMR]);
++    gem_set_isr(s, q, GEM_INT_RXCMPL);
+ 
+     /* Handle interrupt consequences */
+     gem_update_int_status(s);
+@@ -1231,13 +1241,7 @@ static void gem_transmit(CadenceGEMState *s)
+                 DB_PRINT("TX descriptor next: 0x%08x\n", s->tx_desc_addr[q]);
+ 
+                 s->regs[GEM_TXSTATUS] |= GEM_TXSTATUS_TXCMPL;
+-                s->regs[GEM_ISR] |= GEM_INT_TXCMPL & ~(s->regs[GEM_IMR]);
+-
+-                /* Update queue interrupt status */
+-                if (s->num_priority_queues > 1) {
+-                    s->regs[GEM_INT_Q1_STATUS + q] |=
+-                            GEM_INT_TXCMPL & ~(s->regs[GEM_INT_Q1_MASK + q]);
+-                }
++                gem_set_isr(s, q, GEM_INT_TXCMPL);
+ 
+                 /* Handle interrupt consequences */
+                 gem_update_int_status(s);
+@@ -1287,7 +1291,10 @@ static void gem_transmit(CadenceGEMState *s)
+ 
+         if (tx_desc_get_used(desc)) {
+             s->regs[GEM_TXSTATUS] |= GEM_TXSTATUS_USED;
+-            s->regs[GEM_ISR] |= GEM_INT_TXUSED & ~(s->regs[GEM_IMR]);
++            /* IRQ TXUSED is defined only for queue 0 */
++            if (q == 0) {
++                gem_set_isr(s, 0, GEM_INT_TXUSED);
++            }
+             gem_update_int_status(s);
+         }
+     }
 -- 
 2.5.0
 
