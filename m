@@ -2,77 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76F4B200CEB
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 16:52:56 +0200 (CEST)
-Received: from localhost ([::1]:41176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E0A2200D13
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 16:54:06 +0200 (CEST)
+Received: from localhost ([::1]:46818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jmINz-0006QL-Gs
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 10:52:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45634)
+	id 1jmIP7-0000GR-FR
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 10:54:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jmIMO-000446-7k; Fri, 19 Jun 2020 10:51:16 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:34504)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jmIMI-0003gT-N0; Fri, 19 Jun 2020 10:51:13 -0400
-Received: by mail-wr1-x444.google.com with SMTP id v3so2477572wrc.1;
- Fri, 19 Jun 2020 07:51:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=iBPUxckhtWZbcMu6/ZTaa1aw+MkUGsnzLuvvoya/1F0=;
- b=pzhKYbYmmmmHXSWQ2RLMrfyLJm6OQ56jWtnAzq0ocx+ED/9+drBnGjoxSF4V65Aq7p
- tkpg5inKW62B81F0P6Ch/s4O716TFBPGABBJP06+lsup16bHB9Psa82sHh7/Fm3qP0x/
- qdePjcaWPNf13ycJGAEV6KxKzJTWpo7dfkTIfydQam2LVcnKe/kShgD+BwjauS6Fu/ef
- KVb9PTR8sDCTf3r0vA55X9oc0Jtz470okXbBmZhQTyrySbO+WXOh0NzqbFLqIiCWfSQj
- muT5v06mjz32bVc47RxoMvqOQjgaWrfIuhfSRr34Nn1dnXpMp6WAcnBgltAAACeJOvZ7
- fyGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=iBPUxckhtWZbcMu6/ZTaa1aw+MkUGsnzLuvvoya/1F0=;
- b=EvSMbqV6YuMMhOYSOaoWkahZid+8yE/4B8L2jlKcegnQo6S6bwZ5m0SLZ4LIG+cUGY
- oInDw3x68K7m27xuBJ7D+LlJLobHtwOYqSe2muF80i3KvNXB0iPvAZM3RJ3++Bxm1IzJ
- LVwEIZh0b+wID4zpsoHSnnlscY0VCJmeVGAMM4Q6yaZ9573/5ZCIokU8M/YgLx3s7jif
- ASLwAYIw+BXE8MT+EuplRoqHKRVqlRNDMGkGorhazvsULz/hGPWmwMXpSM6C1f2x2/gm
- gXQaL+7untndA/xI/UgYARMLr34wLCNe3T6tiT6n0wnjzcft5Sj+oAMVo7TaHK9KjQXn
- /5tw==
-X-Gm-Message-State: AOAM531bKsdZ/YO4WfAmHwzNFV8ZB02If03e2VWUPdIS6N6ratuALceY
- f4k+qu2El21WYBBnqhdvIaF32M9c
-X-Google-Smtp-Source: ABdhPJwZ2XzbWffN7tyF009+ZQCJPuPoEdvtRxjvNBLn+EtmvTS2iYp/zEgwUmECO86Ajxm0UbBzdQ==
-X-Received: by 2002:a5d:4385:: with SMTP id i5mr4436175wrq.420.1592578268521; 
- Fri, 19 Jun 2020 07:51:08 -0700 (PDT)
-Received: from localhost.localdomain (93.red-83-59-160.dynamicip.rima-tde.net.
- [83.59.160.93])
- by smtp.gmail.com with ESMTPSA id e12sm7512548wro.52.2020.06.19.07.51.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Jun 2020 07:51:08 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 4/4] hw/misc/pca9552: Trace LED change events
-Date: Fri, 19 Jun 2020 16:51:01 +0200
-Message-Id: <20200619145101.1637-5-f4bug@amsat.org>
-X-Mailer: git-send-email 2.21.3
-In-Reply-To: <20200619145101.1637-1-f4bug@amsat.org>
-References: <20200619145101.1637-1-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jmIMQ-00049T-09
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 10:51:18 -0400
+Resent-Date: Fri, 19 Jun 2020 10:51:18 -0400
+Resent-Message-Id: <E1jmIMQ-00049T-09@lists.gnu.org>
+Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21758)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jmIMN-0003i4-WF
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 10:51:17 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1592578266; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=UZ/V1bc+sm+Xe6DY78473tobt/gmIgHW7urP9I+0AyXGQ6QIVfuspeHuksDajBbpQ+8M9OLL/Sr37fx3jTuTBj7bl29ZV3lxXXg+kXQExEsXc+UnZlxm6JtrLpjA2eRNgM3eUGnJDt5PpDy/viLTYOos+QujRvKqkJBtRmFtAUc=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1592578266;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=5X6iaVlAOazF14naNq+Y+9jlEeaPg6fQXAX7oSV3T3c=; 
+ b=OPXu2nw5Q5Zx3pEmQ+d1q3O25aO2EjGemM5lldw29wOSgmcfA4Z1rmaEoF877b31VwESXcRhSYPXe8o1BzENN8syxd7SDSU7aYhvi9NPPdpySLl58Sipe8EypHir+0e3N7eH3/mlU0FnGJ9cXGZcIfbVdPAEPWVZjlcFFBmSxFQ=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1592578264424678.6168055308967;
+ Fri, 19 Jun 2020 07:51:04 -0700 (PDT)
+Message-ID: <159257826311.2784.15111363669451514970@d1fd068a5071>
+Subject: Re: [RFC PATCH] docs/devel: add some notes on tcg-icount for
+ developers
+In-Reply-To: <20200619135844.23307-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: alex.bennee@linaro.org
+Date: Fri, 19 Jun 2020 07:51:04 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o57.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/19 10:14:48
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,93 +70,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
- Joaquin de Andres <me@xcancerberox.com.ar>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Esteban Bosse <estebanbosse@gmail.com>, qemu-arm@nongnu.org,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Joel Stanley <joel@jms.id.au>
+Reply-To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, dovgaluk@ispras.ru, pbonzini@redhat.com,
+ alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Emit a trace event when a LED change its value.
-
-Example booting obmc-phosphor-image:
-
-  $ qemu-system-arm -M witherspoon-bmc -trace pca9552_led_change
-  23367@1592575218.896117:pca9552_led_change 0x557cb6896d80 LED id:0 status: 0 -> 1
-  23367@1592575218.897072:pca9552_led_change 0x557cb6896d80 LED id:1 status: 0 -> 1
-  23367@1592575218.897487:pca9552_led_change 0x557cb6896d80 LED id:2 status: 0 -> 1
-  23367@1592575218.897855:pca9552_led_change 0x557cb6896d80 LED id:3 status: 0 -> 1
-  23367@1592575218.898256:pca9552_led_change 0x557cb6896d80 LED id:13 status: 0 -> 1
-  23367@1592575218.898663:pca9552_led_change 0x557cb6896d80 LED id:14 status: 0 -> 1
-  23367@1592575218.899138:pca9552_led_change 0x557cb6896d80 LED id:15 status: 0 -> 1
-  23367@1592575281.593379:pca9552_led_change 0x557cb6896d80 LED id:14 status: 1 -> 0
-  23367@1592575282.102994:pca9552_led_change 0x557cb6896d80 LED id:14 status: 0 -> 1
-  23367@1592575282.613558:pca9552_led_change 0x557cb6896d80 LED id:14 status: 1 -> 0
-  23367@1592575283.122774:pca9552_led_change 0x557cb6896d80 LED id:14 status: 0 -> 1
-
-We notice the LED #14 (front-power LED) starts to blink.
-
-This LED is described in the witherspoon device-tree [*]:
-
-  front-power {
-      retain-state-shutdown;
-      default-state = "keep";
-      gpios = <&pca0 14 GPIO_ACTIVE_LOW>;
-  };
-
-[*] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/arm/boot/dts/aspeed-bmc-opp-witherspoon.dts?id=b1f9be9392f0#n140
-
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/misc/pca9552.c    | 15 +++++++++++++++
- hw/misc/trace-events |  1 +
- 2 files changed, 16 insertions(+)
-
-diff --git a/hw/misc/pca9552.c b/hw/misc/pca9552.c
-index 50c149077d..096ec3112a 100644
---- a/hw/misc/pca9552.c
-+++ b/hw/misc/pca9552.c
-@@ -62,6 +62,16 @@ static void pca9552_update_pin_input(PCA9552State *s)
-     }
- }
- 
-+static void pca9552_update_led(PCA9552State *s, unsigned id, unsigned new_state)
-+{
-+    /*
-+     * We display the state using the PCA logic ("active-high").
-+     * This is not the state of the LED, which signal might be
-+     * wired "active-low" on the board.
-+     */
-+    trace_pca9552_led_change(s, id, !new_state, new_state);
-+}
-+
- static void pca9552_display_leds(PCA9552State *s)
- {
-     uint16_t leds_status, led_changed;
-@@ -86,6 +96,11 @@ static void pca9552_display_leds(PCA9552State *s)
-         buf[i] = '\0';
-         trace_pca9552_leds_status(s, buf);
-     }
-+    for (i = 0; i < s->nr_leds; i++) {
-+        if (extract32(led_changed, i, 1)) {
-+            pca9552_update_led(s, i, extract32(leds_status, i, 1));
-+        }
-+    }
- }
- 
- static uint8_t pca9552_read(PCA9552State *s, uint8_t reg)
-diff --git a/hw/misc/trace-events b/hw/misc/trace-events
-index 5d9505ad0f..29892c8b28 100644
---- a/hw/misc/trace-events
-+++ b/hw/misc/trace-events
-@@ -209,3 +209,4 @@ grlib_apb_pnp_read(uint64_t addr, uint32_t value) "APB PnP read addr:0x%03"PRIx6
- 
- # pca9552.c
- pca9552_leds_status(void *object, const char *buf) "%p LEDs 0-15 [%s]"
-+pca9552_led_change(void *object, unsigned id, unsigned prev_state, unsigned current_state) "%p LED id:%u status: %u -> %u"
--- 
-2.21.3
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDYxOTEzNTg0NC4yMzMw
+Ny0xLWFsZXguYmVubmVlQGxpbmFyby5vcmcvCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8g
+aGF2ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9y
+ZSBpbmZvcm1hdGlvbjoKClN1YmplY3Q6IFtSRkMgUEFUQ0hdIGRvY3MvZGV2ZWw6IGFkZCBzb21l
+IG5vdGVzIG9uIHRjZy1pY291bnQgZm9yIGRldmVsb3BlcnMKVHlwZTogc2VyaWVzCk1lc3NhZ2Ut
+aWQ6IDIwMjAwNjE5MTM1ODQ0LjIzMzA3LTEtYWxleC5iZW5uZWVAbGluYXJvLm9yZwoKPT09IFRF
+U1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2
+L251bGwgfHwgZXhpdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0
+IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZm
+LmFsZ29yaXRobSBoaXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBi
+YXNlLi4KPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAn
+dGVzdCcKMmNiMTVkYiBkb2NzL2RldmVsOiBhZGQgc29tZSBub3RlcyBvbiB0Y2ctaWNvdW50IGZv
+ciBkZXZlbG9wZXJzCgo9PT0gT1VUUFVUIEJFR0lOID09PQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQg
+b3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiMyMTog
+Cm5ldyBmaWxlIG1vZGUgMTAwNjQ0CgpFUlJPUjogdHJhaWxpbmcgd2hpdGVzcGFjZQojOTU6IEZJ
+TEU6IGRvY3MvZGV2ZWwvdGNnLWljb3VudC5yc3Q6NzA6CisgICQKCkVSUk9SOiB0cmFpbGluZyB3
+aGl0ZXNwYWNlCiM5NjogRklMRTogZG9jcy9kZXZlbC90Y2ctaWNvdW50LnJzdDo3MToKKy4uIFsx
+XSBzb21ldGltZXMgdHdvIGluc3RydWN0aW9ucyBpZiBkZWFsaW5nIHdpdGggZGVsYXkgc2xvdHMg
+ICQKCnRvdGFsOiAyIGVycm9ycywgMSB3YXJuaW5ncywgODYgbGluZXMgY2hlY2tlZAoKQ29tbWl0
+IDJjYjE1ZGIyYTk0YyAoZG9jcy9kZXZlbDogYWRkIHNvbWUgbm90ZXMgb24gdGNnLWljb3VudCBm
+b3IgZGV2ZWxvcGVycykgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55
+IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBt
+YWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KPT09IE9VVFBVVCBFTkQg
+PT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBh
+dmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMDA2MTkxMzU4NDQuMjMzMDct
+MS1hbGV4LmJlbm5lZUBsaW5hcm8ub3JnL3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1tZXNzYWdl
+LgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9w
+YXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxA
+cmVkaGF0LmNvbQ==
 
