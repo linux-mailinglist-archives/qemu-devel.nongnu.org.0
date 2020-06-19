@@ -2,80 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3ED65201846
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 18:55:38 +0200 (CEST)
-Received: from localhost ([::1]:43716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FD5B201912
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 19:09:38 +0200 (CEST)
+Received: from localhost ([::1]:59632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jmKIj-0000T4-Ah
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 12:55:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54572)
+	id 1jmKWH-0002gy-Ep
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 13:09:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48470)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jmKHc-00089n-V2
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 12:54:28 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:35907
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jmKHb-00021A-1I
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 12:54:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592585666;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=A//y9jUsGEhwIPdvgAsoNy1Db9+PrmiQ/+zFWOzTsM0=;
- b=UWpO7y87EmBW8jFd93aK3u4lAQlLhGHPEB5htlY7AM8XJJohnSOYM0CZFd56IcTpNWRCtq
- kb+Wx7+1OseieeYZBTL6bHIYMqR7eTiS0qcYNF+J1nZtYX6xP9Zw7/8OYAQQzCJOR4T8lS
- PFMKrfoOMEPs0In7J4DeVCs+SQnbiHo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-42-1iO5acclOJan8WC9yIa7Kw-1; Fri, 19 Jun 2020 12:54:24 -0400
-X-MC-Unique: 1iO5acclOJan8WC9yIa7Kw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 32AA1801503;
- Fri, 19 Jun 2020 16:54:23 +0000 (UTC)
-Received: from redhat.com (unknown [10.36.110.65])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 09CFC1C8;
- Fri, 19 Jun 2020 16:54:02 +0000 (UTC)
-Date: Fri, 19 Jun 2020 17:53:59 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Lukas Straub <lukasstraub2@web.de>
-Subject: Re: [PATCH v4 1/4] Introduce yank feature
-Message-ID: <20200619165359.GC700896@redhat.com>
-References: <cover.1590421341.git.lukasstraub2@web.de>
- <dc2724aead900db8fb3bed0a066f7c7e2654edb0.1590421341.git.lukasstraub2@web.de>
- <20200616143957.GF550360@redhat.com>
- <20200619162350.5a1cb518@luklap>
+ (Exim 4.90_1) (envelope-from <alr48@hermes.cam.ac.uk>)
+ id 1jmJwR-00054J-NQ; Fri, 19 Jun 2020 12:32:35 -0400
+Received: from ppsw-43.csi.cam.ac.uk ([131.111.8.143]:43630)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alr48@hermes.cam.ac.uk>)
+ id 1jmJwP-0006FD-7z; Fri, 19 Jun 2020 12:32:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=cam.ac.uk; 
+ s=20180806.ppsw;
+ h=Sender:Content-Type:Cc:To:Subject:Message-ID:Date:From:
+ In-Reply-To:References:MIME-Version:Reply-To:Content-Transfer-Encoding:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=NAb26gyr/K5h/Ph6R4AoRAP5xysoGB7s9rr1Hlxe1Hw=; b=k4r3m+iz1ycurBv/Sx0Dss425O
+ 19J4+2C2kHbAuOJ1Q/S30Ni//458ND/FX0Eq8WE+ssUURmOlp7a3OWa1U0MuLFfA/WjkdyYoNmJ5N
+ GTEITB2HnjP6Yql/7g1fv68PDW0KLiI6e/prBAYF2wghZqlMEKM4V5qm0T6i1kMiHIlA=;
+X-Cam-AntiVirus: no malware found
+X-Cam-ScannerInfo: http://help.uis.cam.ac.uk/email-scanner-virus
+Received: from mail-il1-f170.google.com ([209.85.166.170]:37782)
+ by ppsw-43.csi.cam.ac.uk (smtp.hermes.cam.ac.uk [131.111.8.159]:587)
+ with esmtpsa (PLAIN:alr48) (TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
+ id 1jmJwK-000QFA-pW (Exim 4.92.3)
+ (return-path <alr48@hermes.cam.ac.uk>); Fri, 19 Jun 2020 17:32:29 +0100
+Received: by mail-il1-f170.google.com with SMTP id e11so9786766ilr.4;
+ Fri, 19 Jun 2020 09:32:28 -0700 (PDT)
+X-Gm-Message-State: AOAM531WCFBHGlhJdizzYmXV2T27aQJ4KmmAOjVfjKFHmwjDTN7uEtpK
+ MJVgo+m59AMb8RE7phCMMr+DKnFRpoqK37mVaIA=
+X-Google-Smtp-Source: ABdhPJx9Zk66FxsJ0ZauBl0VQTJaeC/B/5T6o1tlXoEkCIFyaKfSxjW2Q0RyO9qqqMF6wj+is4A/YqQwO+G4RVs+MNY=
+X-Received: by 2002:a05:6e02:13f4:: with SMTP id
+ w20mr4501867ilj.294.1592584347920; 
+ Fri, 19 Jun 2020 09:32:27 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200619162350.5a1cb518@luklap>
-User-Agent: Mutt/1.14.0 (2020-05-02)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/19 02:45:39
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+References: <20200616192700.1900260-1-atish.patra@wdc.com>
+ <CAEUhbmVRN2Ze=jNqFSJbZgO0_ggyX6B-1UydPJB1sZVdAokrxQ@mail.gmail.com>
+ <CAOnJCUKN=L+eqMsp5X_6HG3j85Gzf6jtZMdNhCZ+cwROpJOTCQ@mail.gmail.com>
+In-Reply-To: <CAOnJCUKN=L+eqMsp5X_6HG3j85Gzf6jtZMdNhCZ+cwROpJOTCQ@mail.gmail.com>
+From: Alexander Richardson <Alexander.Richardson@cl.cam.ac.uk>
+Date: Fri, 19 Jun 2020 17:32:11 +0100
+X-Gmail-Original-Message-ID: <CAEeofcg7Rvu-=AxZJKwQxHJX1pq_P6sfZJ3Vn_JGcSw5C2aF4A@mail.gmail.com>
+Message-ID: <CAEeofcg7Rvu-=AxZJKwQxHJX1pq_P6sfZJ3Vn_JGcSw5C2aF4A@mail.gmail.com>
+Subject: Re: [PATCH 0/3] Add OpenSBI dynamic firmware support
+To: Atish Patra <atishp@atishpatra.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=131.111.8.143;
+ envelope-from=alr48@hermes.cam.ac.uk; helo=ppsw-43.csi.cam.ac.uk
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/19 12:32:29
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -52
+X-Spam_score: -5.3
+X-Spam_bar: -----
+X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
+X-Mailman-Approved-At: Fri, 19 Jun 2020 13:07:04 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,87 +78,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block <qemu-block@nongnu.org>,
- Juan Quintela <quintela@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Max Reitz <mreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Atish Patra <atish.patra@wdc.com>, Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jun 19, 2020 at 04:23:50PM +0200, Lukas Straub wrote:
-> On Tue, 16 Jun 2020 15:39:57 +0100
-> Daniel P. Berrangé <berrange@redhat.com> wrote:
-> 
-> > On Mon, May 25, 2020 at 05:44:23PM +0200, Lukas Straub wrote:
-> > > The yank feature allows to recover from hanging qemu by "yanking"
-> > > at various parts. Other qemu systems can register themselves and
-> > > multiple yank functions. Then all yank functions for selected
-> > > instances can be called by the 'yank' out-of-band qmp command.
-> > > Available instances can be queried by a 'query-yank' oob command.
-> > > 
-> > > Signed-off-by: Lukas Straub <lukasstraub2@web.de>
-> > > ---
-> > >  qapi/misc.json |  45 +++++++++++++
-> > >  yank.c         | 174 +++++++++++++++++++++++++++++++++++++++++++++++++
-> > >  yank.h         |  67 +++++++++++++++++++
-> > >  3 files changed, 286 insertions(+)
-> > >  create mode 100644 yank.c
-> > >  create mode 100644 yank.h  
-> > 
-> > > +void yank_register_function(char *instance_name, YankFn *func, void *opaque)
-> > > +{
-> > > +    struct YankInstance *instance;
-> > > +    struct YankFuncAndParam *entry;
-> > > +
-> > > +    qemu_mutex_lock(&lock);
-> > > +    instance = yank_find_instance(instance_name);
-> > > +    assert(instance);
-> > > +
-> > > +    entry = g_slice_new(struct YankFuncAndParam);
-> > > +    entry->func = func;
-> > > +    entry->opaque = opaque;
-> > > +
-> > > +    QLIST_INSERT_HEAD(&instance->yankfns, entry, next);
-> > > +    qemu_mutex_unlock(&lock);
-> > > +}
-> > > +
-> > > +void yank_unregister_function(char *instance_name, YankFn *func, void *opaque)
-> > > +{
-> > > +    struct YankInstance *instance;
-> > > +    struct YankFuncAndParam *entry;
-> > > +
-> > > +    qemu_mutex_lock(&lock);
-> > > +    instance = yank_find_instance(instance_name);
-> > > +    assert(instance);
-> > > +
-> > > +    QLIST_FOREACH(entry, &instance->yankfns, next) {
-> > > +        if (entry->func == func && entry->opaque == opaque) {
-> > > +            QLIST_REMOVE(entry, next);
-> > > +            g_slice_free(struct YankFuncAndParam, entry);
-> > > +            qemu_mutex_unlock(&lock);
-> > > +            return;
-> > > +        }
-> > > +    }
-> > > +
-> > > +    abort();
-> > > +}  
-> > 
-> > Since the NBD impl no longer needs to register multiple different functions
-> > on the same insance_nane, these methods could be be simplified, to only
-> > accept a single function, instead of keeping a whole list. This would avoid
-> > need to pass a function into the unregister() method at all.
-> 
-> Multiple yank functions are still needed for multifd migration.
+On Thu, 18 Jun 2020 at 19:22, Atish Patra <atishp@atishpatra.org> wrote:
+>
+> On Thu, Jun 18, 2020 at 1:56 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+> >
+> > On Wed, Jun 17, 2020 at 3:29 AM Atish Patra <atish.patra@wdc.com> wrote:
+> > >
+> > > This series adds support OpenSBI dynamic firmware support to Qemu.
+> > > Qemu loader passes the information about the DT and next stage (i.e. kernel
+> > > or U-boot) via "a2" register. It allows the user to build bigger OS images
+> > > without worrying about overwriting DT. It also unifies the reset vector code
+> >
+> > I am not sure in what situation overwriting DT could happen. Could you
+> > please elaborate?
+> >
+>
+> Currently, the DT is loaded 0x82200000 (34MB offset) for fw_jump.
+> Thus, a bigger kernel image
+> would overwrite the DT. In fact, it was reported by FreeBSD folks.
+> https://github.com/riscv/opensbi/issues/169
+>
+The problem is that the DT overwrites the kernel image. Usually this
+is not noticeable since it's so small and rarely overwrites something
+useful, but in my case it was overwriting program memory which
+resulted in invalid instruction crashes.
+Since this is quite awkward to debug, I added a kernel assertion to
+FreeBSD to abort boot in that case.
 
-Oh I missed that subtlety, so fine to ignore my suggestion.
+> There are temporary solutions that can put DT a little bit further or
+> put it within 2MB offset. But that's
+> just delaying the inevitable.
+>
+I've changed OpenSBI locally to use a 1MB offset (i.e. place the DT
+between OpenSBI and the kernel), but I think the fw_dynamic approach
+is much nicer.
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+Thanks,
+Alex
 
