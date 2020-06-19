@@ -2,62 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09E9620090C
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 14:56:20 +0200 (CEST)
-Received: from localhost ([::1]:59870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CC67200910
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 14:57:50 +0200 (CEST)
+Received: from localhost ([::1]:36648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jmGZ8-0007fu-Ih
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 08:56:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38588)
+	id 1jmGab-0001Je-Jb
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 08:57:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jmGYD-0006kJ-Dm
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 08:55:21 -0400
-Resent-Date: Fri, 19 Jun 2020 08:55:21 -0400
-Resent-Message-Id: <E1jmGYD-0006kJ-Dm@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21328)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jmGYe-0007Rq-82
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 08:55:48 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:28056
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jmGYB-0007cc-5d
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 08:55:21 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1592571306; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=jo4jxZ68rGpjAOwXRaM6fCCX64mflLktPy1pn8vt92V1zaQniTITDsiipk6NHrD2J1tKVZiFQZqvlNl2mXyG+TmoXhY7SxXKxg3ij/US3eM8LgAK6LP0cuqUoqSmuHRdP075DF9S0mYD3EM3REvUIlxk0iz+yKAb98VwYpimhdc=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1592571306;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=PzGgM5g6p2CcMrCYD/FBMeg7OGbWyKrYUFVC4UZTx6U=; 
- b=LVxrKHt9S6/bn1McgFnW3VhP4i1cH0SG4LoS8yvdsysNzbYpXpU35+hMz0fkOBWNUkuMitUJEuy9wNIl35XOhg1rNGPLVLPlj9ZHOWsIlHYxjOON7G92ZGr5WwLjl3YM1nEjdkuWhtNbgX1lasKoFUwsD4qfny2NarpIxl6Zbz4=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1592571304823588.1803655332094;
- Fri, 19 Jun 2020 05:55:04 -0700 (PDT)
-Message-ID: <159257130377.466.16273092559732587725@d1fd068a5071>
-Subject: Re: [PATCH v5 0/6] Add strace support for printing arguments of
- selected syscalls
-In-Reply-To: <20200619123331.17387-1-filip.bozuta@syrmia.com>
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jmGYc-0007ma-Gs
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 08:55:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1592571345;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=JS9ukXCIgdCtkEHKUl8K+WAkcaaqmTYTmT4t6l9ISFI=;
+ b=aZ6DbQg1SZy2/BLn2dY8yTsjk6GWzNUIYOOAlJNOeS4rzu8PlE6tSzIS9ApbKa7CDsw4Ue
+ QR8UF8yU81fXwu3XEIs52ytZIUeerB9m5u2Dn5dcnZvS/3TXx+Bd9ZLuQcFu1loic88mAj
+ qgEI670aL8OaHHlEyDg2feuFTrK6KGQ=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-192-ZFid8z_pOByuClqdh5j-JA-1; Fri, 19 Jun 2020 08:55:41 -0400
+X-MC-Unique: ZFid8z_pOByuClqdh5j-JA-1
+Received: by mail-wm1-f71.google.com with SMTP id x6so3940248wmj.9
+ for <qemu-devel@nongnu.org>; Fri, 19 Jun 2020 05:55:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=JS9ukXCIgdCtkEHKUl8K+WAkcaaqmTYTmT4t6l9ISFI=;
+ b=eyWYJ2jZUmIb9hc0eziWZc/DcmpSx0+McDfkN3olWxb9L1U7mq7QdZoKUPMmDS7vXR
+ 9GUKX/E2mNON+vUEKHBv1NdAoep985j3YeSn1QviKIk6WtRihKO1Kcdgo0qKQjkCaV2w
+ LCgUdZYjGvgGnkYlRiONK08dPUm40axJfzoLCWMI2NBK1X40+AaWwsNqane0XoLYC80P
+ 2gZ3D5B4+9Mses5ZG9R0NrEfLNTUKVUIGf6kir4Qd8cwJKvHfcytiWfHVYj54UYFXyA0
+ 85NHelwJPfit/lRlnlT9jqnLfAf5DnM9VKbBH7nS7ywqibC9cqnE7exVN6gSclhCMFbY
+ 3m9w==
+X-Gm-Message-State: AOAM530U/z1NMbHIkbiHC+uoTd6P5kwWfFiILoX4P1w0J0Cm7uSipaX+
+ TBFsDX9ycsBJ6BdWZlzPzefio0AfhVGxv5/e1ekNNVB/vbgf1V/V6GSC59lwssQxetdCPVmlBLd
+ M6VDrz8IZpyiWC3k=
+X-Received: by 2002:a1c:dc06:: with SMTP id t6mr3769247wmg.118.1592571340767; 
+ Fri, 19 Jun 2020 05:55:40 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJznfhTRR9yeksT3hxvluDOgcXnF2Y6m0fKD9/C8X9cgCINRT6g2TheYfEN6MrVvKIZv63K+nQ==
+X-Received: by 2002:a1c:dc06:: with SMTP id t6mr3769229wmg.118.1592571340552; 
+ Fri, 19 Jun 2020 05:55:40 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:e1d2:138e:4eff:42cb?
+ ([2001:b07:6468:f312:e1d2:138e:4eff:42cb])
+ by smtp.gmail.com with ESMTPSA id g82sm6937170wmf.1.2020.06.19.05.55.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 19 Jun 2020 05:55:40 -0700 (PDT)
+Subject: Re: what are the requirements on target/ code for -icount to work
+ correctly?
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <CAFEAcA_HOxdK5rgKVnww6Bum3vGb=TrhDEp7oqDwsd=UbHmC_g@mail.gmail.com>
+ <c47e9e4e-49eb-88c5-fdc7-8ebec121c165@ispras.ru>
+ <f4fc4a1b-4054-cffd-0272-22c28d656aba@redhat.com>
+ <CAFEAcA-=igrJfoiga7b7rcwZDj46nTNMiT2VEj11DKO7OiJpNA@mail.gmail.com>
+ <1364f7e8-3283-8ca2-76f8-75e3eb74af7b@redhat.com>
+ <CAFEAcA-8aKX=Qa=i5pahhPTWOBx6MOWfo9ezhFFH+89du8Wf7Q@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <049e21f4-7254-5f59-2207-c01ad8f26916@redhat.com>
+Date: Fri, 19 Jun 2020 14:55:38 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: filip.bozuta@syrmia.com
-Date: Fri, 19 Jun 2020 05:55:04 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/19 07:15:10
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <CAFEAcA-8aKX=Qa=i5pahhPTWOBx6MOWfo9ezhFFH+89du8Wf7Q@mail.gmail.com>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/19 02:45:39
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,58 +105,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: riku.voipio@iki.fi, qemu-devel@nongnu.org, laurent@vivier.eu
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Pavel Dovgalyuk <dovgaluk@ispras.ru>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDYxOTEyMzMzMS4xNzM4
-Ny0xLWZpbGlwLmJvenV0YUBzeXJtaWEuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRv
-IGhhdmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1v
-cmUgaW5mb3JtYXRpb246CgpTdWJqZWN0OiBbUEFUQ0ggdjUgMC82XSBBZGQgc3RyYWNlIHN1cHBv
-cnQgZm9yIHByaW50aW5nIGFyZ3VtZW50cyBvZiBzZWxlY3RlZCBzeXNjYWxscwpUeXBlOiBzZXJp
-ZXMKTWVzc2FnZS1pZDogMjAyMDA2MTkxMjMzMzEuMTczODctMS1maWxpcC5ib3p1dGFAc3lybWlh
-LmNvbQoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNl
-IGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFt
-ZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcg
-LS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwg
-LS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCkZyb20gaHR0cHM6Ly9n
-aXRodWIuY29tL3BhdGNoZXctcHJvamVjdC9xZW11CiAgIDI5MmVmMTguLjRkMjg1ODIgIG1hc3Rl
-ciAgICAgLT4gbWFzdGVyCkZyb20gaHR0cHM6Ly9naXRodWIuY29tL3BhdGNoZXctcHJvamVjdC9x
-ZW11CiAqIFtuZXcgdGFnXSAgICAgICAgIHBhdGNoZXcvMjAyMDA2MTkxMjMzMzEuMTczODctMS1m
-aWxpcC5ib3p1dGFAc3lybWlhLmNvbSAtPiBwYXRjaGV3LzIwMjAwNjE5MTIzMzMxLjE3Mzg3LTEt
-ZmlsaXAuYm96dXRhQHN5cm1pYS5jb20KU3dpdGNoZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0Jwo0
-YjBhZTE4IGxpbnV4LXVzZXI6IEFkZCBzdHJhY2Ugc3VwcG9ydCBmb3IgcHJpbnRpbmcgYXJndW1l
-bnRzIG9mIGZhbGxvY2F0ZSgpCjVlZDNkNzYgbGludXgtdXNlcjogQWRkIHN0cmFjZSBzdXBwb3J0
-IGZvciBwcmludGluZyBhcmd1bWVudHMgb2YgY2hvd24oKS9sY2hvd24oKQo5NjUyY2Y1IGxpbnV4
-LXVzZXI6IEFkZCBzdHJhY2Ugc3VwcG9ydCBmb3IgcHJpbnRpbmcgYXJndW1lbnRzIG9mIGxzZWVr
-KCkKNWNiMmRiOCBsaW51eC11c2VyOiBBZGQgc3RyYWNlIHN1cHBvcnQgZm9yIHByaW50aW5nIGFy
-Z3VtZW50IG9mIHN5c2NhbGxzIHVzZWQgZm9yIGV4dGVuZGVkIGF0dHJpYnV0ZXMKYzYzNTY1NiBs
-aW51eC11c2VyOiBBZGQgc3RyYWNlIHN1cHBvcnQgZm9yIGEgZ3JvdXAgb2Ygc3lzY2FsbHMKMTZm
-Njc0YSBsaW51eC11c2VyOiBFeHRlbmQgc3RyYWNlIHN1cHBvcnQgdG8gZW5hYmxlIGFyZ3VtZW50
-IHByaW50aW5nIGFmdGVyIHN5c2NhbGwgZXhlY3V0aW9uCgo9PT0gT1VUUFVUIEJFR0lOID09PQox
-LzYgQ2hlY2tpbmcgY29tbWl0IDE2ZjY3NGE3NDczZCAobGludXgtdXNlcjogRXh0ZW5kIHN0cmFj
-ZSBzdXBwb3J0IHRvIGVuYWJsZSBhcmd1bWVudCBwcmludGluZyBhZnRlciBzeXNjYWxsIGV4ZWN1
-dGlvbikKMi82IENoZWNraW5nIGNvbW1pdCBjNjM1NjU2YzVlMDYgKGxpbnV4LXVzZXI6IEFkZCBz
-dHJhY2Ugc3VwcG9ydCBmb3IgYSBncm91cCBvZiBzeXNjYWxscykKMy82IENoZWNraW5nIGNvbW1p
-dCA1Y2IyZGI4ODhjZTQgKGxpbnV4LXVzZXI6IEFkZCBzdHJhY2Ugc3VwcG9ydCBmb3IgcHJpbnRp
-bmcgYXJndW1lbnQgb2Ygc3lzY2FsbHMgdXNlZCBmb3IgZXh0ZW5kZWQgYXR0cmlidXRlcykKNC82
-IENoZWNraW5nIGNvbW1pdCA5NjUyY2Y1YmEzZWUgKGxpbnV4LXVzZXI6IEFkZCBzdHJhY2Ugc3Vw
-cG9ydCBmb3IgcHJpbnRpbmcgYXJndW1lbnRzIG9mIGxzZWVrKCkpCjUvNiBDaGVja2luZyBjb21t
-aXQgNWVkM2Q3NmJhNjc1IChsaW51eC11c2VyOiBBZGQgc3RyYWNlIHN1cHBvcnQgZm9yIHByaW50
-aW5nIGFyZ3VtZW50cyBvZiBjaG93bigpL2xjaG93bigpKQo2LzYgQ2hlY2tpbmcgY29tbWl0IDRi
-MGFlMTg1NWYzYyAobGludXgtdXNlcjogQWRkIHN0cmFjZSBzdXBwb3J0IGZvciBwcmludGluZyBh
-cmd1bWVudHMgb2YgZmFsbG9jYXRlKCkpCkVSUk9SOiBzdG9yYWdlIGNsYXNzIHNob3VsZCBiZSBh
-dCB0aGUgYmVnaW5uaW5nIG9mIHRoZSBkZWNsYXJhdGlvbgojNzA6IEZJTEU6IGxpbnV4LXVzZXIv
-c3RyYWNlLmM6MTEzODoKK1VOVVNFRCBzdGF0aWMgc3RydWN0IGZsYWdzIGZhbGxvY19mbGFnc1td
-ID0gewoKdG90YWw6IDEgZXJyb3JzLCAwIHdhcm5pbmdzLCAxMDQgbGluZXMgY2hlY2tlZAoKUGF0
-Y2ggNi82IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVz
-ZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5l
-ciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgo9PT0gT1VUUFVUIEVORCA9PT0KClRl
-c3QgY29tbWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJs
-ZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDIwMDYxOTEyMzMzMS4xNzM4Ny0xLWZpbGlw
-LmJvenV0YUBzeXJtaWEuY29tL3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0K
-RW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3
-Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0
-LmNvbQ==
+On 19/06/20 14:39, Peter Maydell wrote:
+> On Fri, 19 Jun 2020 at 13:37, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>>
+>> On 19/06/20 14:18, Peter Maydell wrote:
+>>> On Fri, 19 Jun 2020 at 12:16, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>>>>
+>>>> On 19/06/20 07:46, Pavel Dovgalyuk wrote:
+>>>>> I think, that we need some efforts from target maintainers to remove all such calls.
+>>>>
+>>>> I'll take care of target/i386 (which does need one of the three
+>>>> gen_io_end calls that are left).
+>>>
+>>> So why does it need it ? Why can't it just rely on "TB going to
+>>> end anyway which will clear the can_do_io flag" ?
+>>
+>> Because the TB is not always going to end in that case that is left.
+> 
+> OK, so when is it valid not to end the TB after an IO instruction ?
+> My initial belief was that the TB should *always* end.
+
+You're right, cpu_io_recompile works only for memory accesses so that
+third one has to be fixed.
+
+Paolo
+
 
