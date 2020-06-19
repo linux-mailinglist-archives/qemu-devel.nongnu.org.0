@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25135201915
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 19:10:27 +0200 (CEST)
-Received: from localhost ([::1]:37420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 949E2201917
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 19:10:36 +0200 (CEST)
+Received: from localhost ([::1]:37920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jmKX4-0005Mi-2p
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 13:10:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58042)
+	id 1jmKXD-0005ak-Jv
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 13:10:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=4324eb4de=alistair.francis@wdc.com>)
- id 1jmKUC-0000dI-2h
+ id 1jmKUC-0000dg-AB
  for qemu-devel@nongnu.org; Fri, 19 Jun 2020 13:07:28 -0400
-Received: from esa3.hgst.iphmx.com ([216.71.153.141]:19131)
+Received: from esa3.hgst.iphmx.com ([216.71.153.141]:19141)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=4324eb4de=alistair.francis@wdc.com>)
- id 1jmKU9-0004PZ-3V
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 13:07:27 -0400
+ id 1jmKU9-0004Pg-Er
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 13:07:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
  t=1592586445; x=1624122445;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=XRlfmAxnNO+uf1echkK6NudzAPtFUGkmvCQ9SmWv+Zg=;
- b=Mxw6YUoxCzsUT30KqqdLF8NFP282/TfyNpzmldDIjzc71FbdE/l+AGfu
- /OGjSzOO99ZX4HOY1jwe7XMSUiGxMki89Psg7uBj4MwtiatCPj9Va5H0Z
- IqZB8sVPz5KpJkHap0/c+IjVskviBa64GgEFuBfTld8TDLIorpOaCkJsn
- HknK8kT/NZ8qrzfzOZNbggER41i/RpNCxjfAh0N9rX+2PfyfseCTKtWq+
- 47cIrhHr/f6ldmuPwS6A1W8VEZSXGUV4Ky1eFipPDAW6veFU2XDkd17pw
- FTIqDS45RGInFBKhQ9acmcr1JD+/qR6Iu5LtN7tF/9roIf+R/R+xpdJRm g==;
-IronPort-SDR: zvPQ5lQqkE9Jp5JINanqI+xo/HUFMIs7K+tY9o3GT72OtI3b191iMRKxYOKJzIBB4uPIEjCLNB
- J6jNTT2LRTwzx29wCVG6rTtLCgCt0mVtjc3Rm1vwq6a8LaoWKpaJzL1RNQWB08YJhPyGC4JvHT
- ZHi8nC1APm9q04sT4lfKiEPg08/qL7+djzZI4J3ZGbkHR676BHSeIzWqNPLA0rzHNsybGYLeml
- LzIx2kZVhkN9tFp1w+3jJ10SDMvVYsNSutuSM7lJIoeWiQ2W14Sgvob8s90YBE/8rk8F6Gf1ZO
- VQc=
-X-IronPort-AV: E=Sophos;i="5.75,256,1589212800"; d="scan'208";a="144763295"
+ bh=XXem7lAIy5JLne6cVjjQsO7guKTzZZhyfFB1ov8zLOg=;
+ b=fDJBD3Lb1Id4RjgL1jb3NMfvkQQChnqvtRDkIgZ0wYCC1Lprzh+zKudw
+ MKSEQiY+MKGdCdoS1xC3bF6baikh2LUJ15xKJwXq/8G9pctQf7hEOOvXM
+ w/XQHZMSrKbMxM9Xb6JDDSXGgiRERg8+j1M7M0+G/GfT+Zd6a1pbuFBYB
+ rrgl+IAe10GdUA0RYxE81khI6MGyHYpiemNqck8iCzDtmlMjJ30cBZ+yh
+ Lc7JnLG8DiWx6K+CmGiikCjoA4Jn4k0m7GZnYUFoZPc4DQUKPoycCyGqf
+ 8O4nR9VENED1Ylv/NvTJrHx4mOkrmA35mpaLdRXt6TkhB4EnP6xhA/USj Q==;
+IronPort-SDR: PsBj6//sU9a46ErTf0rrGd6tuHngG6nN938ms+NykNGIlUhgP8bFquJ7r6k3VYZPbDzdDK/wQB
+ YZ2z5ojysGICa+f+bp0EsffI/pVQNn7rxR0YMaQt0wBkElfyk3nFFdrKk6lmwMVjgn8pOvhom5
+ 6HhOODZGoNl9t5FPc5hD+UKxZdSZD+3MgwwpE0H4u6jkfeecUnf93jfav5VUTQ0s3Ij7GPF3Kc
+ s/ExnknwhapLj06ARUszLVbdysOdpqeePK47DMdzLZ0gVwZFrGtHDwFbHr+lmAt73Msp6gckVK
+ VOs=
+X-IronPort-AV: E=Sophos;i="5.75,256,1589212800"; d="scan'208";a="144763300"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
  by ob1.hgst.iphmx.com with ESMTP; 20 Jun 2020 01:07:21 +0800
-IronPort-SDR: 36Yx6u1MFk392HGrnJdJUt2DMR7n5TejB6KVLeXb8DUjBZxqSLYqtzACjkBFC3wrLJn0IyRVNU
- 2m+Qo3olGxu68tbDHiNmjRqvGpdtzZzPo=
+IronPort-SDR: +ynqII+RQpn9KyggGqUbxBy2CO+IDhNOIynbfEXfRH7/djzP8R8Ri2cKJogDnOrmVpZ3kd86ze
+ k8GmIXtgdqJQAiTI8AsKWncMbz2tmives=
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  19 Jun 2020 09:55:58 -0700
-IronPort-SDR: 2KntkliM+aXblpaEUylXwA5cqhqlUeCI/qc8K2/Ppi2FYGxsdHtQqY5ejIcwm/pdeSxseFsUiE
- RaRzKM37+5AA==
+IronPort-SDR: T6GGQ2U2sA+ZAKGSh3Dynnzy1N78sGu0jSHtkZWP/EqF5CE5OXgwscwW7AWGy0erN+ieDxZ025
+ bwvZuZmtCz0Q==
 WDCIronportException: Internal
 Received: from unknown (HELO risc6-mainframe.hgst.com) ([10.86.58.142])
- by uls-op-cesaip02.wdc.com with ESMTP; 19 Jun 2020 10:07:21 -0700
+ by uls-op-cesaip02.wdc.com with ESMTP; 19 Jun 2020 10:07:22 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL v2 01/32] riscv: Add helper to make NaN-boxing for FP register
-Date: Fri, 19 Jun 2020 09:57:46 -0700
-Message-Id: <20200619165817.4144200-2-alistair.francis@wdc.com>
+Subject: [PULL v2 02/32] sifive_e: Support the revB machine
+Date: Fri, 19 Jun 2020 09:57:47 -0700
+Message-Id: <20200619165817.4144200-3-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200619165817.4144200-1-alistair.francis@wdc.com>
 References: <20200619165817.4144200-1-alistair.francis@wdc.com>
@@ -87,62 +87,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, Richard Henderson <richard.henderson@linaro.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- Ian Jiang <ianjiang.ict@gmail.com>
+Cc: alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Ian Jiang <ianjiang.ict@gmail.com>
-
-The function that makes NaN-boxing when a 32-bit value is assigned
-to a 64-bit FP register is split out to a helper gen_nanbox_fpr().
-Then it is applied in translating of the FLW instruction.
-
-Signed-off-by: Ian Jiang <ianjiang.ict@gmail.com>
-Message-Id: <20200128003707.17028-1-ianjiang.ict@gmail.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/insn_trans/trans_rvf.inc.c | 17 +++++++++++++++--
- 1 file changed, 15 insertions(+), 2 deletions(-)
+ include/hw/riscv/sifive_e.h |  1 +
+ hw/riscv/sifive_e.c         | 34 ++++++++++++++++++++++++++++++----
+ 2 files changed, 31 insertions(+), 4 deletions(-)
 
-diff --git a/target/riscv/insn_trans/trans_rvf.inc.c b/target/riscv/insn_trans/trans_rvf.inc.c
-index e23cd639a6..3bfd8881e7 100644
---- a/target/riscv/insn_trans/trans_rvf.inc.c
-+++ b/target/riscv/insn_trans/trans_rvf.inc.c
-@@ -23,6 +23,20 @@
-         return false;                       \
- } while (0)
+diff --git a/include/hw/riscv/sifive_e.h b/include/hw/riscv/sifive_e.h
+index d386ea9223..637414130b 100644
+--- a/include/hw/riscv/sifive_e.h
++++ b/include/hw/riscv/sifive_e.h
+@@ -45,6 +45,7 @@ typedef struct SiFiveEState {
  
-+/*
-+ * RISC-V requires NaN-boxing of narrower width floating
-+ * point values.  This applies when a 32-bit value is
-+ * assigned to a 64-bit FP register.  Thus this does not
-+ * apply when the RVD extension is not present.
-+ */
-+static void gen_nanbox_fpr(DisasContext *ctx, int regno)
-+{
-+    if (has_ext(ctx, RVD)) {
-+        tcg_gen_ori_i64(cpu_fpr[regno], cpu_fpr[regno],
-+                        MAKE_64BIT_MASK(32, 32));
+     /*< public >*/
+     SiFiveESoCState soc;
++    bool revb;
+ } SiFiveEState;
+ 
+ #define TYPE_RISCV_E_MACHINE MACHINE_TYPE_NAME("sifive_e")
+diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
+index 1c17d02cf0..36486b72d2 100644
+--- a/hw/riscv/sifive_e.c
++++ b/hw/riscv/sifive_e.c
+@@ -95,10 +95,14 @@ static void riscv_sifive_e_init(MachineState *machine)
+         memmap[SIFIVE_E_DTIM].base, main_mem);
+ 
+     /* Mask ROM reset vector */
+-    uint32_t reset_vec[2] = {
+-        0x204002b7,        /* 0x1000: lui     t0,0x20400 */
+-        0x00028067,        /* 0x1004: jr      t0 */
+-    };
++    uint32_t reset_vec[2];
++
++    if (s->revb) {
++        reset_vec[0] = 0x200102b7;        /* 0x1000: lui     t0,0x20010 */
++    } else {
++        reset_vec[0] = 0x204002b7;        /* 0x1000: lui     t0,0x20400 */
 +    }
++    reset_vec[1] = 0x00028067;        /* 0x1004: jr      t0 */
+ 
+     /* copy in the reset vector in little_endian byte order */
+     for (i = 0; i < sizeof(reset_vec) >> 2; i++) {
+@@ -112,8 +116,30 @@ static void riscv_sifive_e_init(MachineState *machine)
+     }
+ }
+ 
++static bool sifive_e_machine_get_revb(Object *obj, Error **errp)
++{
++    SiFiveEState *s = RISCV_E_MACHINE(obj);
++
++    return s->revb;
 +}
 +
- static bool trans_flw(DisasContext *ctx, arg_flw *a)
++static void sifive_e_machine_set_revb(Object *obj, bool value, Error **errp)
++{
++    SiFiveEState *s = RISCV_E_MACHINE(obj);
++
++    s->revb = value;
++}
++
+ static void sifive_e_machine_instance_init(Object *obj)
  {
-     TCGv t0 = tcg_temp_new();
-@@ -32,8 +46,7 @@ static bool trans_flw(DisasContext *ctx, arg_flw *a)
-     tcg_gen_addi_tl(t0, t0, a->imm);
++    SiFiveEState *s = RISCV_E_MACHINE(obj);
++
++    s->revb = false;
++    object_property_add_bool(obj, "revb", sifive_e_machine_get_revb,
++                             sifive_e_machine_set_revb);
++    object_property_set_description(obj, "revb",
++                                    "Set on to tell QEMU that it should model "
++                                    "the revB HiFive1 board");
+ }
  
-     tcg_gen_qemu_ld_i64(cpu_fpr[a->rd], t0, ctx->mem_idx, MO_TEUL);
--    /* RISC-V requires NaN-boxing of narrower width floating point values */
--    tcg_gen_ori_i64(cpu_fpr[a->rd], cpu_fpr[a->rd], 0xffffffff00000000ULL);
-+    gen_nanbox_fpr(ctx, a->rd);
- 
-     tcg_temp_free(t0);
-     mark_fs_dirty(ctx);
+ static void sifive_e_machine_class_init(ObjectClass *oc, void *data)
 -- 
 2.27.0
 
