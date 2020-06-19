@@ -2,68 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13F1C201D1A
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 23:29:42 +0200 (CEST)
-Received: from localhost ([::1]:42918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 479A6201D56
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 23:54:40 +0200 (CEST)
+Received: from localhost ([::1]:47742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jmOZw-0004it-V1
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 17:29:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35486)
+	id 1jmOy6-0000dF-SK
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 17:54:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39996)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jmOYt-0004G9-Mt; Fri, 19 Jun 2020 17:28:35 -0400
-Received: from mail-il1-x141.google.com ([2607:f8b0:4864:20::141]:39719)
+ (Exim 4.90_1) (envelope-from <alexander.duyck@gmail.com>)
+ id 1jmOwe-0006x1-Bc
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 17:53:08 -0400
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:33531)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jmOYs-0006aq-7H; Fri, 19 Jun 2020 17:28:35 -0400
-Received: by mail-il1-x141.google.com with SMTP id p5so10673642ile.6;
- Fri, 19 Jun 2020 14:28:33 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alexander.duyck@gmail.com>)
+ id 1jmOwc-00029a-V4
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 17:53:08 -0400
+Received: by mail-pl1-x633.google.com with SMTP id 35so4478206ple.0
+ for <qemu-devel@nongnu.org>; Fri, 19 Jun 2020 14:53:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=FQ60atYdbCpKWcd5W7Al0DMKGjezBEjbtwl+C00qbmo=;
- b=SUygVtgPZBygkiaZJkBtOSIkR5fL/wz+nzmNOpvku2FBKzeI6kogdYRP3uJL2/C6b0
- OPI9xqXHbmHPjhQnYnZuZ5gP0xuvEifMQFQRG4nG9fJMka1wnoGZsUAHve4EFSqMMOCc
- /HramkYZdw1f87VcMEWhiMFc2BzBzMbl8wedbrhSD9pfzkXq8iMebpbV35a1W+/1rCmL
- DEHGLxcTlNOJNLf44NYOzPVpZSgh/GmBJUzcGqL2/UqOd+EdeWf5A15S+j0cJ7TMdwf1
- 2Wn/NyorucJ21Eh9inNDRIFMcCzg/8mL+ZtmwtpP5pY4l85nDtGwD+bariNZt0AdiaHQ
- cfkg==
+ h=subject:from:to:cc:date:message-id:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=d+EgG7gNxCoetfLV/BNd+vkK4DSWQczsbkkcDJB0OtM=;
+ b=XrsuIV5DZT+J6d56czt29vdkHa7kHJoLK3PrrfG4NLeWwhas7ywA5J5OSan+axT7bT
+ b0X1MMlLKVUzJi+pWLmnRfdJECNJTUj5U4EjzYqk9dHHT2hQNU0rW3rQzheHP4j3VNyD
+ 1i8Ir1bEkeb9LcTchwof6LCCA2LpOahT4xeu3e+5AahH1RRdrZjE2Og7Ra8v0QUzIiQs
+ JY6Dx4lHGG5SZo1qU0M5zJ91WhtHMhMVSBNz+jz1Baz6+p9EybRg2XaH/bGpvHlpLvmh
+ BNuB8ZnixlpC4uzxV1MP5H48TI/xLZJL/xtlqR5eUdn0U7VITaf0H1lsuvWdiJhY/fbj
+ aT3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=FQ60atYdbCpKWcd5W7Al0DMKGjezBEjbtwl+C00qbmo=;
- b=kRL4PX58Pom9CEV0nJa4CRGeA8+a5K7emSVJio3q+bgWwjEVXTvnYBoY0VtQr6HlmY
- gfzzY5h1p462oy43YfPV+E07V6bLZ4hz1DM1sCVkkoxMSwJzmOsQyE+7v+9vanEQ/yLl
- 6JMsKYd/SRA7Gh+taeRKB0clkRTFuP5RF+uU22Z18IalTYsCjwww+qNMq0KjHgYgddXO
- Pps/KtelgHc1DJv76LNY66Fnyxlx4lWdbSrBPyp651Ahx/gne/PhKag0I4Jw0Eshbof8
- G1cw8Xls+54Yy+lh4IrV5iY2PY7xJnewqhvOafKRhMS5hxCWPWY9B22PyjzWVaYO65sr
- pgZA==
-X-Gm-Message-State: AOAM5303tDMwkelQ+rKXiq0b3RNjcN1mWuoAQelbzwB0UyMNQHwoK31e
- XgJDV5AGpMUwXEWkYc2ATleqfp8Cu92SY+zzg5Y=
-X-Google-Smtp-Source: ABdhPJwTQXBHfpbH6cjK+1vwlQOZm+AVbN5/m0sT50HAogwHHkpHFKXF+tzIWRr/ObVfbwKzLMgw6S9FY4pFRdnNJUg=
-X-Received: by 2002:a92:d647:: with SMTP id x7mr5578284ilp.267.1592602112686; 
- Fri, 19 Jun 2020 14:28:32 -0700 (PDT)
+ h=x-gm-message-state:subject:from:to:cc:date:message-id:user-agent
+ :mime-version:content-transfer-encoding;
+ bh=d+EgG7gNxCoetfLV/BNd+vkK4DSWQczsbkkcDJB0OtM=;
+ b=qTHNDh6BAnznuUWAB302QeqADFfELaOWGAKGnLQlma4ugG8aZCTsxCl+VbeOR6tOL+
+ Y6HULW6hJN1EV1iiQF81Cg3QVWy9WTzhG8PvyZAiSrx3vZpKw6ohqxU1QCv5oABV12G7
+ PQZfo40XnWvNgvDe7JKpDmutyvgPCYZgya1Kf5jSysKM5Ep4Hh73aaWBbAQDGwV/Jxc1
+ dtNjE0TjpsKO7DTxqctGUSTyZYXRyAyut7PD/6HSsVt3hsp4ceq+pvvWsSXcoBHbRoWB
+ dId2S2+ouhsOPpKpf18wqFNqJEM5Mn0P5f5F6qdC8Uyn48m1wzLzXvtyujccr/DpclS5
+ PSUw==
+X-Gm-Message-State: AOAM530wmpXBTHKJk2YViNS9DrwvCMuxGmCagAwr3hrJBPloC2rQJrPk
+ 8LLVrHSS/ABNHbDadain/3I=
+X-Google-Smtp-Source: ABdhPJxNJKc05yULHHdYH8ZWbCFUqC4Bp5OZjjeGv0QF8zEQOmTF+kDX3QFauKH76LS2jhWflw8fPw==
+X-Received: by 2002:a17:902:be06:: with SMTP id
+ r6mr3917984pls.310.1592603584765; 
+ Fri, 19 Jun 2020 14:53:04 -0700 (PDT)
+Received: from localhost.localdomain ([2001:470:b:9c3:9e5c:8eff:fe4f:f2d0])
+ by smtp.gmail.com with ESMTPSA id h9sm5733200pjs.50.2020.06.19.14.53.04
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 19 Jun 2020 14:53:04 -0700 (PDT)
+Subject: [PATCH 0/2] virtio-balloon: Free page hinting clean-ups
+From: Alexander Duyck <alexander.duyck@gmail.com>
+To: david@redhat.com, mst@redhat.com
+Date: Fri, 19 Jun 2020 14:53:03 -0700
+Message-ID: <20200619214912.25598.8400.stgit@localhost.localdomain>
+User-Agent: StGit/0.17.1-dirty
 MIME-Version: 1.0
-References: <20200618210649.22451-1-jrtc27@jrtc27.com>
-In-Reply-To: <20200618210649.22451-1-jrtc27@jrtc27.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 19 Jun 2020 14:19:04 -0700
-Message-ID: <CAKmqyKMSNiYWZtDRg2V6qCsYHVOAiUPcim_mTNEwY2pKjQ4SZQ@mail.gmail.com>
-Subject: Re: [PATCH] riscv: plic: Add a couple of mising sifive_plic_update
- calls
-To: Jessica Clarke <jrtc27@jrtc27.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::141;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x141.google.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
+ envelope-from=alexander.duyck@gmail.com; helo=mail-pl1-x633.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
@@ -78,69 +84,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: virtio-dev@lists.oasis-open.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 18, 2020 at 2:07 PM Jessica Clarke <jrtc27@jrtc27.com> wrote:
->
-> Claiming an interrupt and changing the source priority both potentially
-> affect whether an interrupt is pending, thus we must re-compute xEIP.
-> Note that we don't put the sifive_plic_update inside sifive_plic_claim
-> so that the logging of a claim (and the resulting IRQ) happens before
-> the state update, making the causal effect clear, and that we drop the
-> explicit call to sifive_plic_print_state when claiming since
-> sifive_plic_update already does that automatically at the end for us.
->
-> This can result in both spurious interrupt storms if you fail to
-> complete an IRQ before enabling interrupts (and no other actions occur
-> that result in a call to sifive_plic_update), but also more importantly
-> lost interrupts if a disabled interrupt is pending and then becomes
-> enabled.
->
-> Signed-off-by: Jessica Clarke <jrtc27@jrtc27.com>
+This series contains a couple minor cleanups related to free page hinting.
 
-Looks good to me!
+The first patch addresses what I believe is a possible issue in which the
+driver could potentially force the device out of the stop state and back
+into the running state if it were to replay an earlier virtqueue element
+containing the same ID it had submitted earlier.
 
-Applied to the RISC-V tree
+The second patch takes care of renaming various hinting objects that were
+using "reporting" in the name to try and clarify which objects are for free
+page reporting and which are for free page hinting.
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+---
 
-Alistair
+Alexander Duyck (2):
+      virtio-balloon: Prevent guest from starting a report when we didn't request one
+      virtio-balloon: Replace free page hinting references to 'report' with 'hint'
 
-> ---
->  hw/riscv/sifive_plic.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/hw/riscv/sifive_plic.c b/hw/riscv/sifive_plic.c
-> index d91e82b8ab..c20c192034 100644
-> --- a/hw/riscv/sifive_plic.c
-> +++ b/hw/riscv/sifive_plic.c
-> @@ -255,8 +255,8 @@ static uint64_t sifive_plic_read(void *opaque, hwaddr addr, unsigned size)
->                      plic->addr_config[addrid].hartid,
->                      mode_to_char(plic->addr_config[addrid].mode),
->                      value);
-> -                sifive_plic_print_state(plic);
->              }
-> +            sifive_plic_update(plic);
->              return value;
->          }
->      }
-> @@ -287,6 +287,7 @@ static void sifive_plic_write(void *opaque, hwaddr addr, uint64_t value,
->              qemu_log("plic: write priority: irq=%d priority=%d\n",
->                  irq, plic->source_priority[irq]);
->          }
-> +        sifive_plic_update(plic);
->          return;
->      } else if (addr >= plic->pending_base && /* 1 bit per source */
->                 addr < plic->pending_base + (plic->num_sources >> 3))
-> --
-> 2.20.1
->
->
+
+ hw/virtio/virtio-balloon.c         |   77 +++++++++++++++++++-----------------
+ include/hw/virtio/virtio-balloon.h |   20 +++++----
+ 2 files changed, 50 insertions(+), 47 deletions(-)
+
+--
 
