@@ -2,70 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABC8E20088A
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 14:19:03 +0200 (CEST)
-Received: from localhost ([::1]:33830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 168B220088B
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 14:19:54 +0200 (CEST)
+Received: from localhost ([::1]:36088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jmFz4-0005Rr-QH
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 08:19:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57674)
+	id 1jmFzt-0006hu-4m
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 08:19:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58226)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1jmFwj-0003nr-5O; Fri, 19 Jun 2020 08:16:37 -0400
-Received: from mail-qt1-x843.google.com ([2607:f8b0:4864:20::843]:44732)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1jmFwh-0001CA-Gc; Fri, 19 Jun 2020 08:16:36 -0400
-Received: by mail-qt1-x843.google.com with SMTP id c12so6929792qtq.11;
- Fri, 19 Jun 2020 05:16:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=7LS/TugZnjYebNveEdNSU9Kvswcwc/EvpO4Z41+DyVw=;
- b=D7GStb/MTWKkgvYxnfSuwn+JmXTUoe+Mm8Yeyt2mFLMqi01IV51gamnKcz3++wjlXk
- YUtnMwehz22lEHbkmf38mnZGIJyq9S0VaLEX9VZKWYfGD6R6a6IhotjRK/3dCe6Egbtn
- XDmCG64fnIhAt6tLYdM9XhIfLnWNT3K/nhiq8bjeZTnfJ+RMNabQ72+awv+m/G0idZsA
- V1NolRQJhMJ2/XM2ZrukOfldJCHPA9MZYg1rEFxqUfAoYSd4HY+5eqoEb4b0nLdK4MlI
- h7ZonoW3Ly/A63QAHDpj+SRImhzoNlhzyo4wV+M3kZg8gQkyd/vQ9hkFNEuEX5vZtO48
- zlOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=7LS/TugZnjYebNveEdNSU9Kvswcwc/EvpO4Z41+DyVw=;
- b=lxdH6/4jZZG26vI+kTnrutFpt3/456BVPKg7BJIssQiok30Y3Uq9Si6LpQfjPHO4ej
- H0LNG3JYKCG4gbwgWIrwIs1Z/56KjDeNYpOQzCFc3ecf0VkS0+zv7OjBUY37AXKIAecP
- ClglibrRaPbbbEu1xqsc7o+QGzuwNppu36mvpJHqe54nADsDlGqPmJehg7b/ZS8EZGvb
- 9jUBddMeUnxOZVd+Q+3IRAGtmEI7baAT1gQiAUpT2JQF8sjRDpbiJdK8KcC+5Da7MjAy
- iegwojlMpGbMcWCGIzSrQmLLjf1KF4XA8tbQLw0/5JR0+vkaPBIGA/slVyWquBqy5NvE
- uzSQ==
-X-Gm-Message-State: AOAM533B8eMEwSFvcnqZe0K7OFPtEBf5uedg8KbSNtTWbKQt7+WRqNde
- 5LfMDePJ3TxoJanu/VxMRlugPp/pY5w6NwGnxDND6xBv
-X-Google-Smtp-Source: ABdhPJzl80Yw9ZaqyXTwgIyo9Ss+ggelUrwacJFWuoNtn6+ALUdAPwwRg4iVeXwGVVwPpVfnvVYVpD2mwblTnLczSI0=
-X-Received: by 2002:ac8:4806:: with SMTP id g6mr2441184qtq.213.1592568992236; 
- Fri, 19 Jun 2020 05:16:32 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jmFxi-0004d6-BX
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 08:17:38 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:33069
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jmFxf-0001Yz-I8
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 08:17:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1592569053;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+cPpAvOw2w1v2s0fjI4PThylStBiw99zHKfe9LanrA8=;
+ b=Y51L3levSHU33bj1l8Lr7uOaEHhy7ftmWvc6g7+K2xWgCQ35yEOODOjvk9MLbRYvfjZXuJ
+ 599eZffFGlBLl6IaaSq+GDJbDarG22lz5LMwrv/W/GKkpZ4iCwFWPikL3b3lIm11irvguW
+ x52zQIJiWDQdlSxpStNAU19PlOBgeK0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-153-1r8e4UCyMqqQ0gXg73t-jQ-1; Fri, 19 Jun 2020 08:17:09 -0400
+X-MC-Unique: 1r8e4UCyMqqQ0gXg73t-jQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3D38C464;
+ Fri, 19 Jun 2020 12:17:07 +0000 (UTC)
+Received: from redhat.com (unknown [10.36.110.65])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 06CC190324;
+ Fri, 19 Jun 2020 12:16:40 +0000 (UTC)
+Date: Fri, 19 Jun 2020 13:16:38 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH v3 9/9] host trust limitation: Alter virtio default
+ properties for protected guests
+Message-ID: <20200619121638.GK700896@redhat.com>
+References: <20200619020602.118306-1-david@gibson.dropbear.id.au>
+ <20200619020602.118306-10-david@gibson.dropbear.id.au>
+ <20200619101245.GC700896@redhat.com>
+ <20200619074432-mutt-send-email-mst@kernel.org>
+ <20200619074630-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-References: <20200619101132.2401756-1-stefanha@redhat.com>
- <159256530289.466.10137557982265811079@d1fd068a5071>
-In-Reply-To: <159256530289.466.10137557982265811079@d1fd068a5071>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Fri, 19 Jun 2020 13:16:20 +0100
-Message-ID: <CAJSP0QWT+a609WD0DaqriUYWfkTvFKKD8s5fgmN05pZpd0jYhA@mail.gmail.com>
-Subject: Re: [PATCH 0/2] qemu-storage-daemon: memory leak and --object opts
- fixes
-To: qemu-devel <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::843;
- envelope-from=stefanha@gmail.com; helo=mail-qt1-x843.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- PDS_TONAME_EQ_TOLOCAL_SHORT=1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200619074630-mutt-send-email-mst@kernel.org>
+User-Agent: Mutt/1.14.0 (2020-05-02)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=berrange@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/19 03:15:03
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,18 +85,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu block <qemu-block@nongnu.org>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: pair@us.ibm.com, brijesh.singh@amd.com, frankja@linux.ibm.com,
+ kvm@vger.kernel.org, david@redhat.com, cohuck@redhat.com,
+ qemu-devel@nongnu.org, dgilbert@redhat.com, pasic@linux.ibm.com,
+ qemu-s390x@nongnu.org, qemu-ppc@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>, pbonzini@redhat.com,
+ Richard Henderson <rth@twiddle.net>, mdroth@linux.vnet.ibm.com,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jun 19, 2020 at 12:15 PM <no-reply@patchew.org> wrote:
-> /tmp/qemu-test/src/tests/qht-bench.c:287:29: error: implicit conversion from 'unsigned long' to 'double' changes value from 18446744073709551615 to 18446744073709551616 [-Werror,-Wimplicit-int-float-conversion]
->         *threshold = rate * UINT64_MAX;
->                           ~ ^~~~~~~~~~
-> /usr/include/stdint.h:130:23: note: expanded from macro 'UINT64_MAX'
+On Fri, Jun 19, 2020 at 07:47:20AM -0400, Michael S. Tsirkin wrote:
+> On Fri, Jun 19, 2020 at 07:46:14AM -0400, Michael S. Tsirkin wrote:
+> > On Fri, Jun 19, 2020 at 11:12:45AM +0100, Daniel P. BerrangÃÂ© wrote:
+> > > On Fri, Jun 19, 2020 at 12:06:02PM +1000, David Gibson wrote:
+> > > > The default behaviour for virtio devices is not to use the platforms normal
+> > > > DMA paths, but instead to use the fact that it's running in a hypervisor
+> > > > to directly access guest memory.  That doesn't work if the guest's memory
+> > > > is protected from hypervisor access, such as with AMD's SEV or POWER's PEF.
+> > > > 
+> > > > So, if a host trust limitation mechanism is enabled, then apply the
+> > > > iommu_platform=on option so it will go through normal DMA mechanisms.
+> > > > Those will presumably have some way of marking memory as shared with the
+> > > > hypervisor or hardware so that DMA will work.
+> > > > 
+> > > > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> > > > ---
+> > > >  hw/core/machine.c | 11 +++++++++++
+> > > >  1 file changed, 11 insertions(+)
+> > > > 
+> > > > diff --git a/hw/core/machine.c b/hw/core/machine.c
+> > > > index a71792bc16..8dfc1bb3f8 100644
+> > > > --- a/hw/core/machine.c
+> > > > +++ b/hw/core/machine.c
+> > > > @@ -28,6 +28,8 @@
+> > > >  #include "hw/mem/nvdimm.h"
+> > > >  #include "migration/vmstate.h"
+> > > >  #include "exec/host-trust-limitation.h"
+> > > > +#include "hw/virtio/virtio.h"
+> > > > +#include "hw/virtio/virtio-pci.h"
+> > > >  
+> > > >  GlobalProperty hw_compat_5_0[] = {
+> > > >      { "virtio-balloon-device", "page-poison", "false" },
+> > > > @@ -1165,6 +1167,15 @@ void machine_run_board_init(MachineState *machine)
+> > > >           * areas.
+> > > >           */
+> > > >          machine_set_mem_merge(OBJECT(machine), false, &error_abort);
+> > > > +
+> > > > +        /*
+> > > > +         * Virtio devices can't count on directly accessing guest
+> > > > +         * memory, so they need iommu_platform=on to use normal DMA
+> > > > +         * mechanisms.  That requires disabling legacy virtio support
+> > > > +         * for virtio pci devices
+> > > > +         */
+> > > > +        object_register_sugar_prop(TYPE_VIRTIO_PCI, "disable-legacy", "on");
+> > > > +        object_register_sugar_prop(TYPE_VIRTIO_DEVICE, "iommu_platform", "on");
+> > > >      }
+> > > 
+> > > Silently changing the user's request configuration like this is a bad idea.
+> > > The "disable-legacy" option in particular is undesirable as that switches
+> > > the device to virtio-1.0 only mode, which exposes a different PCI ID to
+> > > the guest.
+> > > 
+> > > If some options are incompatible with encryption, then we should raise a
+> > > fatal error at startup, so applications/admins are aware that their requested
+> > > config is broken.
+> >
+> > Agreed - my suggestion is an on/off/auto property, auto value
+> > changes automatically, on/off is validated.
+> 
+> In fact should we extend all bit properties to allow an auto value?
 
-Unrelated failure.
+If "auto" was made the default that creates a similar headache, as to
+preserve existing configuration semantics we expose to apps, libvirt
+would need to find all the properties changed to use "auto" and manually
+set them back to on/off explicitly.
 
-Stefan
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
