@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58F96201976
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 19:29:41 +0200 (CEST)
-Received: from localhost ([::1]:34032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70BC6201947
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 19:21:16 +0200 (CEST)
+Received: from localhost ([::1]:57092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jmKpg-0004GS-Dc
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 13:29:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60558)
+	id 1jmKhX-0005EY-CZ
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 13:21:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jmKcL-0004vV-2L
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 13:15:53 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:40080)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jmKcJ-0005s3-6T
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 13:15:52 -0400
-Received: by mail-wr1-x442.google.com with SMTP id h5so10432903wrc.7
- for <qemu-devel@nongnu.org>; Fri, 19 Jun 2020 10:15:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=cWBE60YDRt2ipaIUjY7lGwhDyWZ8nYNoAEL9KqLFAz4=;
- b=aFwdICJYC7NHfE9XAykfgh/re6iB6JMqXnPtaqf6etlqk6jtZo6tC2KdATJtTawV7C
- fzbGZPgj9u2+VaFaFqg+5bW4hrS6QvuzdWz1D0iiOW2dW2yDCnDROF1mLT78js0h2q4H
- B4tObXrN/XcVqo0NBUm0OaEJXulxqbmnjJSeqtS0cAfpwtboL7xkY8EFeJAUW20FV/ld
- 9DJPSu7S40sVnbSxcAbmOQE7XJoJFf27hwWVQJmINr1YVA1REcFmCQLB3WL+7DZfIYvP
- lkNf0WyeavWpRiQn14z6qSO7GlNYo4EjU60Jm0ok3q2SXiFWKUlUxNTG1x9fVsByXo3f
- clKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=cWBE60YDRt2ipaIUjY7lGwhDyWZ8nYNoAEL9KqLFAz4=;
- b=PNCEo8kggdyIb7R3eFd16cbKRjtdef7gABXvfvgOx59odO3b1c2T/fw/2GbKApI3PK
- HigWh7uvKvKJDKR+/yq6GF5+mNgAcJZATL6Y4dVFqjtBdQ6yLSu8NtvQtjt3xuEtvudq
- 8bKpd+6Prw30uWCnFZok0h6Q/20dd39DTZUI8rSE0ujWNo6VNOv6QMjYVerzadC7x7ML
- Ys6tRoTR+QyhZLmLABWdUU77Q6XhsyU3n5SeyfxrXFuskq2aM3lZHzJxyVxxqbY/FK80
- n0DfQVLTIXn4v2qhOd/TgVXduHxGfBaWx8C9xzTpt4n46hDzQet2Ic0iQMSLcUwq2Alj
- GhdQ==
-X-Gm-Message-State: AOAM531q9WCZLqt5kP5D6XMcNeXddhDewul8xQo9UnhH1NfrAa0kzn4Y
- IfPY7ZtfKrVoKmduDlyxpDZCbg==
-X-Google-Smtp-Source: ABdhPJwvF2VcbXeFnZ3jCvc8Rl2CpSiDxlfXD4rWSuI0nDFgsB2h7NtWuYxTS919hHWMjXQpT1AxPA==
-X-Received: by 2002:a5d:4d01:: with SMTP id z1mr5528879wrt.29.1592586949692;
- Fri, 19 Jun 2020 10:15:49 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id l17sm7083180wmi.3.2020.06.19.10.15.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Jun 2020 10:15:49 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH] target/arm: Remove dead code relating to SABA and UABA
-Date: Fri, 19 Jun 2020 18:15:47 +0100
-Message-Id: <20200619171547.29780-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1jmKdC-00068Q-N8
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 13:16:46 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:27603
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1jmKdA-00061u-SY
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 13:16:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1592587004;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=tN3Ij5wzTKQaU0Ddmdd6o/1UsrLQev6hzXuBwg3HRBI=;
+ b=WEGiKC360f6ogqzJwN0UhDVD8drXK931QFnJyzGuYeps/R38O0b1IaoiE79AmW7uzgX0AS
+ tbOvODEEJ+pzRD69TQ6ygG5pOBCU5av4PGJ0Xo4gJdUSJa11nr+Myp1geOVWgsPMSARVvS
+ lxUcoHy8iN1n3JIYmiD1A+m7fUPngDY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-203-FVHOaU_YMA-ulL0g2UB7bg-1; Fri, 19 Jun 2020 13:16:42 -0400
+X-MC-Unique: FVHOaU_YMA-ulL0g2UB7bg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 01F1E1005512;
+ Fri, 19 Jun 2020 17:16:41 +0000 (UTC)
+Received: from work-vm (ovpn-114-215.ams2.redhat.com [10.36.114.215])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 56E3271662;
+ Fri, 19 Jun 2020 17:16:34 +0000 (UTC)
+Date: Fri, 19 Jun 2020 18:16:31 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Vivek Goyal <vgoyal@redhat.com>
+Subject: Re: [Virtio-fs] [PATCH 0/2] virtiofsd: drop Linux capabilities(7)
+Message-ID: <20200619171631.GK2690@work-vm>
+References: <20200416164907.244868-1-stefanha@redhat.com>
+ <20200618190816.GD3814@redhat.com> <20200618191655.GI2769@work-vm>
+ <20200618192717.GE3814@redhat.com> <20200619082746.GA2690@work-vm>
+ <20200619160923.GD3154@redhat.com> <20200619161648.GJ2690@work-vm>
+ <20200619171121.GE3154@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x442.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+In-Reply-To: <20200619171121.GE3154@redhat.com>
+User-Agent: Mutt/1.14.0 (2020-05-02)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/19 03:15:03
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,47 +83,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>
+Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>, Miklos Szeredi <miklos@szeredi.hu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In commit cfdb2c0c95ae9205b0 ("target/arm: Vectorize SABA/UABA") we
-replaced the old handling of SABA/UABA with a vectorized implementation
-which returns early rather than falling into the loop-ever-elements
-code. We forgot to delete the part of the old looping code that
-did the accumulate step, and Coverity correctly warns (CID 1428955)
-that this code is now dead. Delete it.
+* Vivek Goyal (vgoyal@redhat.com) wrote:
+> On Fri, Jun 19, 2020 at 05:16:48PM +0100, Dr. David Alan Gilbert wrote:
+> 
+> [..]
+> > > > > >   b) If something nasty was to write junk into the trusted attributes,
+> > > > > >     what would happen?
+> > > > > 
+> > > > > This directory is owned by guest. So it should be able to write
+> > > > > anything it wants, as long as process in guest has CAP_SYS_ADMIN, right?
+> > > > 
+> > > > Well, we shouldn't be able to break/crash/escape into the host; how
+> > > > much does overlayfs validate trusted.* it uses?
+> > > 
+> > > I thought qemu and kvm are the one who should ensure we should not be
+> > > able to break out of sandbox. Kernel implementation could be as 
+> > > buggy as it wanted to be. We are working with this security model
+> > > that kernel is completely untrusted.
+> > 
+> > But with virtiofs we allow the guest to do a lot of filesystem
+> > operations on the host.  It's the virtiofsd that has to ensure that
+> > these are safe and contained within the fs it's exposed; the qemu/kvm
+> > can't protect us from that.
+> 
+> Fair enough. I should have added virtiofsd to list. Its an attack
+> vector and is of concern.
+> 
+> > 
+> > That's why we sandbox the virtiofsd like we do - if we allow a
+> > priviliged guest to perform calls to an unconstrained virtiofsd it would
+> > be able to escape.  That's what I want to check.
+> 
+> Sure. So does giving CAP_SYS_ADMIN to virtiofsd allow daemon to escape
+> the jail.
 
-Fixes: cfdb2c0c95ae9205b0
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- target/arm/translate-a64.c | 12 ------------
- 1 file changed, 12 deletions(-)
+So that's *my* question - what bad things can someone do by setting
+attributes (trusted/system/security) - it's fine if they break they
+screwup the security inside the container, because they'd need to be
+CAP_SYS_ADMIN inside the container to do it - as long as they can't
+break the host.  So what happens if someone starts doing bad things to
+trusted.* attributes on an overlayfs - no other fs uses them as far as I
+know.
 
-diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index a0e72ad6942..01d59164d68 100644
---- a/target/arm/translate-a64.c
-+++ b/target/arm/translate-a64.c
-@@ -11370,18 +11370,6 @@ static void disas_simd_3same_int(DisasContext *s, uint32_t insn)
-                 genfn(tcg_res, tcg_op1, tcg_op2);
-             }
- 
--            if (opcode == 0xf) {
--                /* SABA, UABA: accumulating ops */
--                static NeonGenTwoOpFn * const fns[3] = {
--                    gen_helper_neon_add_u8,
--                    gen_helper_neon_add_u16,
--                    tcg_gen_add_i32,
--                };
--
--                read_vec_element_i32(s, tcg_op1, rd, pass, MO_32);
--                fns[size](tcg_res, tcg_op1, tcg_res);
--            }
--
-             write_vec_element_i32(s, tcg_res, rd, pass, MO_32);
- 
-             tcg_temp_free_i32(tcg_res);
--- 
-2.20.1
+> If it does we need to implement what crossvm folks did,
+> remapping of trusted xattr. That will also allow us to run inside
+> user namespace and still be able to support trusted xattr emulation
+> for guest.
+
+I think we need to do that anyway, it's just going to take a while to
+figure out.
+
+Dave
+
+> 
+> Vivek
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
