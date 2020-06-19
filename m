@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D43AC2009EC
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 15:24:27 +0200 (CEST)
-Received: from localhost ([::1]:52854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 965632009DB
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 15:22:10 +0200 (CEST)
+Received: from localhost ([::1]:44142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jmH0M-0003jH-Tu
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 09:24:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44770)
+	id 1jmGy9-0007JY-J8
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 09:22:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jmGu1-0001sh-4Y
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 09:17:53 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:32638
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jmGu4-00021A-Jl
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 09:17:56 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:27504
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jmGtz-00037j-FX
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 09:17:52 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jmGu2-00038O-7K
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 09:17:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592572670;
+ s=mimecast20190719; t=1592572673;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=ThA4PcGmHPjm0a2hIhKL6GKElc9TuBBquvXBGHtlg3o=;
- b=LnI3BHKCdn4NXaYEFbg7sJCN3c+GxK00oR8GLYLI7JC3g5+R6xE1+Ir9YCiNCyzn0mTIgq
- zMMmDbqSfuU0nhRDdfNOVXMwMWqY+uPNP1rM/t2ekP1ldn6m6p6ZD1oGikF2iznZfS+nZa
- KkA4vL4GVU+iM+bLvxyS6jrS1Tt/p4E=
+ references:references; bh=tt2MqH4x5xif840Q+MJPvJJfNlTyLOyjD2Lm0Z9OQVI=;
+ b=K0VDOHGt1pyJde34lcvDoI+kmj7oKP13Va8IpYT0JrRChKiVF5/CrhCvYPaAuUNuDPEBVm
+ iX++yzsROy3aVkUx9374Ay3Cxfigwka0RkCYXRNEOwSzsIJZ4MZa6RtiJmamntwXtNFFAe
+ hWmbgBbO3BAyRALXnAOrPRGehgmg4QI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-464-8BfNKi7zPiamzpPfHnG41g-1; Fri, 19 Jun 2020 09:17:48 -0400
-X-MC-Unique: 8BfNKi7zPiamzpPfHnG41g-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-437-FRPllmUDOaa-G9TwGUO6Pw-1; Fri, 19 Jun 2020 09:17:51 -0400
+X-MC-Unique: FRPllmUDOaa-G9TwGUO6Pw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 87CD3EC1A2;
- Fri, 19 Jun 2020 13:17:47 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B52FB10059A1;
+ Fri, 19 Jun 2020 13:17:50 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-67.ams2.redhat.com
  [10.36.112.67])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C3B897C1E5;
- Fri, 19 Jun 2020 13:17:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 54CC55C1D6;
+ Fri, 19 Jun 2020 13:17:47 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 845CC9D8F; Fri, 19 Jun 2020 15:17:41 +0200 (CEST)
+ id 8D68C9D92; Fri, 19 Jun 2020 15:17:41 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 4/7] audio/jack: do not remove ports when finishing
-Date: Fri, 19 Jun 2020 15:17:38 +0200
-Message-Id: <20200619131741.10857-5-kraxel@redhat.com>
+Subject: [PULL 5/7] audio/jack: honour the enable state of the audio device
+Date: Fri, 19 Jun 2020 15:17:39 +0200
+Message-Id: <20200619131741.10857-6-kraxel@redhat.com>
 In-Reply-To: <20200619131741.10857-1-kraxel@redhat.com>
 References: <20200619131741.10857-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/19 02:45:39
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/19 03:15:03
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -82,34 +82,126 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Geoffrey McRae <geoff@hostfission.com>
 
-This fixes a hang when there is a communications issue with the JACK
-server. Simply closing the connection is enough to completely clean up
-and as such we do not need to remove the ports first. As JACK uses a
-socket based protocol that relies on the `select` call, if there is a
-communication breakdown with the server the client library waits
-forever for a response to the unregister request.
+When the guest closes the audio device we must start dropping input
+samples from JACK and zeroing the output buffer samples. Failure to do
+so causes sound artifacts during operations such as guest OS reboot, and
+causes a hang of the input pipeline breaking it until QEMU is restated.
+
+Closing and reconnecting to JACK was tested during these enable/disable
+calls which works well for Linux guests, however Windows re-opens the
+audio hardware repeatedly even when doing simple tasks like playing a
+system sounds. As such it was decided it is better to feed silence to
+JACK while the device is disabled.
 
 Signed-off-by: Geoffrey McRae <geoff@hostfission.com>
-Message-id: 20200613040518.38172-5-geoff@hostfission.com
+Message-id: 20200613040518.38172-6-geoff@hostfission.com
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- audio/jackaudio.c | 3 ---
- 1 file changed, 3 deletions(-)
+ audio/jackaudio.c | 29 +++++++++++++++++++++--------
+ 1 file changed, 21 insertions(+), 8 deletions(-)
 
 diff --git a/audio/jackaudio.c b/audio/jackaudio.c
-index 58c73444977e..249cbd3265c5 100644
+index 249cbd3265c5..b2b53985ae61 100644
 --- a/audio/jackaudio.c
 +++ b/audio/jackaudio.c
-@@ -548,9 +548,6 @@ static void qjack_client_fini(QJackClient *c)
- {
-     switch (c->state) {
-     case QJACK_STATE_RUNNING:
--        for (int i = 0; i < c->nchannels; ++i) {
--            jack_port_unregister(c->client, c->port[i]);
--        }
-         jack_deactivate(c->client);
-         /* fallthrough */
+@@ -56,7 +56,7 @@ typedef struct QJackClient {
+     AudiodevJackPerDirectionOptions *opt;
  
+     bool out;
+-    bool finished;
++    bool enabled;
+     bool connect_ports;
+     int  packets;
+ 
+@@ -271,9 +271,17 @@ static int qjack_process(jack_nframes_t nframes, void *arg)
+     }
+ 
+     if (c->out) {
+-        qjack_buffer_read_l(&c->fifo, buffers, nframes);
++        if (likely(c->enabled)) {
++            qjack_buffer_read_l(&c->fifo, buffers, nframes);
++        } else {
++            for(int i = 0; i < c->nchannels; ++i) {
++                memset(buffers[i], 0, nframes * sizeof(float));
++            }
++        }
+     } else {
+-        qjack_buffer_write_l(&c->fifo, buffers, nframes);
++        if (likely(c->enabled)) {
++            qjack_buffer_write_l(&c->fifo, buffers, nframes);
++        }
+     }
+ 
+     return 0;
+@@ -314,8 +322,8 @@ static void qjack_client_recover(QJackClient *c)
+     if (c->state == QJACK_STATE_DISCONNECTED &&
+         c->packets % 100 == 0) {
+ 
+-        /* if not finished then attempt to recover */
+-        if (!c->finished) {
++        /* if enabled then attempt to recover */
++        if (c->enabled) {
+             dolog("attempting to reconnect to server\n");
+             qjack_client_init(c);
+         }
+@@ -387,7 +395,6 @@ static int qjack_client_init(QJackClient *c)
+     char client_name[jack_client_name_size()];
+     jack_options_t options = JackNullOption;
+ 
+-    c->finished      = false;
+     c->connect_ports = true;
+ 
+     snprintf(client_name, sizeof(client_name), "%s-%s",
+@@ -483,8 +490,10 @@ static int qjack_init_out(HWVoiceOut *hw, struct audsettings *as,
+     }
+ 
+     jo->c.out       = true;
++    jo->c.enabled   = false;
+     jo->c.nchannels = as->nchannels;
+     jo->c.opt       = dev->u.jack.out;
++
+     int ret = qjack_client_init(&jo->c);
+     if (ret != 0) {
+         return ret;
+@@ -519,8 +528,10 @@ static int qjack_init_in(HWVoiceIn *hw, struct audsettings *as,
+     }
+ 
+     ji->c.out       = false;
++    ji->c.enabled   = false;
+     ji->c.nchannels = as->nchannels;
+     ji->c.opt       = dev->u.jack.in;
++
+     int ret = qjack_client_init(&ji->c);
+     if (ret != 0) {
+         return ret;
+@@ -568,23 +579,25 @@ static void qjack_client_fini(QJackClient *c)
+ static void qjack_fini_out(HWVoiceOut *hw)
+ {
+     QJackOut *jo = (QJackOut *)hw;
+-    jo->c.finished = true;
+     qjack_client_fini(&jo->c);
+ }
+ 
+ static void qjack_fini_in(HWVoiceIn *hw)
+ {
+     QJackIn *ji = (QJackIn *)hw;
+-    ji->c.finished = true;
+     qjack_client_fini(&ji->c);
+ }
+ 
+ static void qjack_enable_out(HWVoiceOut *hw, bool enable)
+ {
++    QJackOut *jo = (QJackOut *)hw;
++    jo->c.enabled = enable;
+ }
+ 
+ static void qjack_enable_in(HWVoiceIn *hw, bool enable)
+ {
++    QJackIn *ji = (QJackIn *)hw;
++    ji->c.enabled = enable;
+ }
+ 
+ static int qjack_thread_creator(jack_native_thread_t *thread,
 -- 
 2.18.4
 
