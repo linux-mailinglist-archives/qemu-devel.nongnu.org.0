@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6293D20193A
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 19:19:22 +0200 (CEST)
-Received: from localhost ([::1]:49950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52F2E20195E
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 19:25:51 +0200 (CEST)
+Received: from localhost ([::1]:49374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jmKfh-0001pa-9I
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 13:19:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58286)
+	id 1jmKly-0007F6-DO
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 13:25:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=4324eb4de=alistair.francis@wdc.com>)
- id 1jmKUL-0000pi-Mp
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 13:07:38 -0400
-Received: from esa3.hgst.iphmx.com ([216.71.153.141]:19125)
+ id 1jmKUT-00010s-Ib
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 13:07:45 -0400
+Received: from esa3.hgst.iphmx.com ([216.71.153.141]:19131)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=4324eb4de=alistair.francis@wdc.com>)
- id 1jmKUG-0004PR-3M
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 13:07:37 -0400
+ id 1jmKUR-0004PZ-Q1
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 13:07:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1592586452; x=1624122452;
+ t=1592586463; x=1624122463;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=melHyBNyq+GBsmbi68L0crjn+k4ZDNG0okkKwoQJd1E=;
- b=WDJrDptaXabXE60fGKqvHWkSaLIZVwVAF09vb/6YHOf4Vox6xnMsdqh+
- 06deDkso/fcM53Y+W3JKiuY0FfRoHTuAhh2sHFyjfn0fW42wgGnOpOTnf
- aIYeGF+0U3JD03ShxNbbcxRXvOzeCFrXi0GZfr4zXwprVriic7elo4NoN
- mZPTgwJ+LnU6CCdDvzVJXfxZCZ8rztXD0Ve6saYTNI9DYfJAOg6QeTa1K
- C4H/Ci1B+PUYUMsJS+n29S3Y05dIA7Mey9+trQVWJH0xk2oPz8tac3BFx
- uxWQqw4Kg3mfIhHlpNwR8QrEdFyFL4oTk5TbpVAzn5znAkNgzagYPIkOO w==;
-IronPort-SDR: 2f2e9DrkxKt0TvInIYK+8XLU55FlPFCIZOc6LBxBCnQJ4b7JGuHa7eLBEZjdJsGBZmRnABU/lx
- pt30hgmTL37pX6q7s+T/8sg3RB1669HaeYmSxyPiX0SzneDKz3C9ICSlYFJsvVl6WZnQ9d60xV
- 9jFLSuTSjlp0uTdiDVLp43nTcPQiN9puWaHIQHyCJ9++g85tRbUDuEgF3NJ/zAqUEz7r2ZCTeH
- laSpWvOv8iXCj4+8hXCAcMt7loAZg2O1vvVNQbdqSDGl6OMjsE+QqtwoDTp5scpzHzx1stRxzm
- as0=
-X-IronPort-AV: E=Sophos;i="5.75,256,1589212800"; d="scan'208";a="144763327"
-Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
+ bh=LYV/HV2oePnGMNLANWSHYTsEansGO/O7noO72QkqJrU=;
+ b=MTUYepk/0VECDFE2+UpnPNiG07MsMyACpl9sgJPbomJ3vVa4BIGXVu/t
+ mEqssXB6m/l0Yhu774WESOxVMTKZf641cgQDjIwvCX/Sjhb9479qL6CwG
+ tDLnoFPVbFCEA3ZpNq8p/x/P5L4ZJLwFiL3IReUKgrPQaVql4yZNT9sJ2
+ beZtkXONvyjf20YXBdl6ZECjkYxr9JKZx3hwoA2+BofQ3u1hZ4uFMZJti
+ Equwxc9ia2NTlZEYsxCrhEBg5smnlLzGha0xoX4CRpOh7fdhv+FGBgdnM
+ /o8d2K5HgspIRNhbS3wJ71Klo2PXnrkN4pMJZZq/AIHiAWjoqtDuDkam8 Q==;
+IronPort-SDR: lw4KtMantPBd+u1Dl7MkQJJH+S3DwcPDBObDqqg0XpjOSJRBDaoGzeAitufFC3i63Z8wx6959e
+ /ajTt1xvRBzna9RAMoL7uHkAoX3OSsjhICGIlzUz7rIkr+TnD8U9ddV+TS1tY161tgs8+LKQL4
+ /eojnexo+9iy0ABpKgMBGySc1G33kX/jixFkL+OeSpExY+j7+BUSSaYRDqmc+azDYubtkO6yaX
+ enYrWMY34pBLjxReRHmZdtAJHiAeF4zMSqOO2jxo4aHVEoI0gj1H+OqmbosKuHkSOCCQNcFTgx
+ Noo=
+X-IronPort-AV: E=Sophos;i="5.75,256,1589212800"; d="scan'208";a="144763328"
+Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
  by ob1.hgst.iphmx.com with ESMTP; 20 Jun 2020 01:07:23 +0800
-IronPort-SDR: 6xwowBLhNMZu9tJKEt1fWW8OFsgB067nmoS/k2xZG4Aw5tg0Ywwag3KORIpLbnyot5hUwf8qaK
- +HpGonOZzaiDx5ze78x+nEE9K8MhaYuAk=
+IronPort-SDR: xDMss9n4YtkJA8QGE0ntQS9l5dbZcZV0Drx8eppqFoL8cyNQVx7oi5U54GIBVktv2XLZTNG5PB
+ VIDSXtoPpBYZmqCnw8WohGA45/4wGMe7s=
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jun 2020 09:56:33 -0700
-IronPort-SDR: tX4WVnppWyeEaM/LdRYn1c9CUUefhDT+KGF6VXtu4JxYNd/6Fe68k+lerR/HdZmM1XNMQ1441N
- Kgjpd5r4rLPw==
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Jun 2020 09:56:01 -0700
+IronPort-SDR: /I5VQBK97zQ7pOb2dRLGRR7MSpg5z0wjEHAkzpEbNCBV6HprzV3iQQzVdfy9vfZbnyDyR7hxWI
+ OUjU3mLjBEZw==
 WDCIronportException: Internal
 Received: from unknown (HELO risc6-mainframe.hgst.com) ([10.86.58.142])
  by uls-op-cesaip02.wdc.com with ESMTP; 19 Jun 2020 10:07:24 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL v2 10/32] target/riscv: Implement checks for hfence
-Date: Fri, 19 Jun 2020 09:57:55 -0700
-Message-Id: <20200619165817.4144200-11-alistair.francis@wdc.com>
+Subject: [PULL v2 11/32] riscv/opentitan: Fix the ROM size
+Date: Fri, 19 Jun 2020 09:57:56 -0700
+Message-Id: <20200619165817.4144200-12-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200619165817.4144200-1-alistair.francis@wdc.com>
 References: <20200619165817.4144200-1-alistair.francis@wdc.com>
@@ -87,109 +87,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, Richard Henderson <richard.henderson@linaro.org>,
+Cc: Damien Hedde <damien.hedde@greensocs.com>, alistair23@gmail.com,
  Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Call the helper_hyp_tlb_flush() function on hfence instructions which
-will generate an illegal insruction execption if we don't have
-permission to flush the Hypervisor level TLBs.
-
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reported-by: Damien Hedde <damien.hedde@greensocs.com>
 ---
- target/riscv/helper.h                   |  5 ++++
- target/riscv/insn_trans/trans_rvh.inc.c | 32 +++++--------------------
- target/riscv/op_helper.c                | 13 ++++++++++
- 3 files changed, 24 insertions(+), 26 deletions(-)
+ hw/riscv/opentitan.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-index debb22a480..b36be978d5 100644
---- a/target/riscv/helper.h
-+++ b/target/riscv/helper.h
-@@ -76,3 +76,8 @@ DEF_HELPER_2(mret, tl, env, tl)
- DEF_HELPER_1(wfi, void, env)
- DEF_HELPER_1(tlb_flush, void, env)
- #endif
-+
-+/* Hypervisor functions */
-+#ifndef CONFIG_USER_ONLY
-+DEF_HELPER_1(hyp_tlb_flush, void, env)
-+#endif
-diff --git a/target/riscv/insn_trans/trans_rvh.inc.c b/target/riscv/insn_trans/trans_rvh.inc.c
-index 2c0359819d..263b652d90 100644
---- a/target/riscv/insn_trans/trans_rvh.inc.c
-+++ b/target/riscv/insn_trans/trans_rvh.inc.c
-@@ -18,40 +18,20 @@
+diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
+index f6776da8e9..011e4f7ee2 100644
+--- a/hw/riscv/opentitan.c
++++ b/hw/riscv/opentitan.c
+@@ -25,12 +25,13 @@
+ #include "hw/misc/unimp.h"
+ #include "hw/riscv/boot.h"
+ #include "exec/address-spaces.h"
++#include "qemu/units.h"
  
- static bool trans_hfence_gvma(DisasContext *ctx, arg_sfence_vma *a)
- {
-+    REQUIRE_EXT(ctx, RVH);
- #ifndef CONFIG_USER_ONLY
--    if (ctx->priv_ver >= PRIV_VERSION_1_10_0 &&
--        has_ext(ctx, RVH)) {
--        /* Hpervisor extensions exist */
--        /*
--         * if (env->priv == PRV_M ||
--         *   (env->priv == PRV_S &&
--         *    !riscv_cpu_virt_enabled(env) &&
--         *    get_field(ctx->mstatus_fs, MSTATUS_TVM))) {
--         */
--            gen_helper_tlb_flush(cpu_env);
--            return true;
--        /* } */
--    }
-+    gen_helper_hyp_tlb_flush(cpu_env);
-+    return true;
- #endif
-     return false;
- }
- 
- static bool trans_hfence_vvma(DisasContext *ctx, arg_sfence_vma *a)
- {
-+    REQUIRE_EXT(ctx, RVH);
- #ifndef CONFIG_USER_ONLY
--    if (ctx->priv_ver >= PRIV_VERSION_1_10_0 &&
--        has_ext(ctx, RVH)) {
--        /* Hpervisor extensions exist */
--        /*
--         * if (env->priv == PRV_M ||
--         *   (env->priv == PRV_S &&
--         *    !riscv_cpu_virt_enabled(env) &&
--         *    get_field(ctx->mstatus_fs, MSTATUS_TVM))) {
--         */
--            gen_helper_tlb_flush(cpu_env);
--            return true;
--        /* } */
--    }
-+    gen_helper_hyp_tlb_flush(cpu_env);
-+    return true;
- #endif
-     return false;
- }
-diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
-index b0c49efc4a..7cccd42a1e 100644
---- a/target/riscv/op_helper.c
-+++ b/target/riscv/op_helper.c
-@@ -194,4 +194,17 @@ void helper_tlb_flush(CPURISCVState *env)
-     }
- }
- 
-+void helper_hyp_tlb_flush(CPURISCVState *env)
-+{
-+    CPUState *cs = env_cpu(env);
-+
-+    if (env->priv == PRV_M ||
-+        (env->priv == PRV_S && !riscv_cpu_virt_enabled(env))) {
-+        tlb_flush(cs);
-+        return;
-+    }
-+
-+    riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());
-+}
-+
- #endif /* !CONFIG_USER_ONLY */
+ static const struct MemmapEntry {
+     hwaddr base;
+     hwaddr size;
+ } ibex_memmap[] = {
+-    [IBEX_ROM] =            {  0x00008000,   0xc000 },
++    [IBEX_ROM] =            {  0x00008000, 16 * KiB },
+     [IBEX_RAM] =            {  0x10000000,  0x10000 },
+     [IBEX_FLASH] =          {  0x20000000,  0x80000 },
+     [IBEX_UART] =           {  0x40000000,  0x10000 },
 -- 
 2.27.0
 
