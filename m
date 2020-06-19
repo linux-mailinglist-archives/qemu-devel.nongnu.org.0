@@ -2,67 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAF602004D9
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 11:21:00 +0200 (CEST)
-Received: from localhost ([::1]:46400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5BED2004EE
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 11:23:46 +0200 (CEST)
+Received: from localhost ([::1]:60224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jmDCl-0004kn-Sj
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 05:20:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37298)
+	id 1jmDFR-0002x7-Se
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 05:23:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jmDBA-0002k1-3y
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 05:19:20 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:20305
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jmDBC-0002oW-Gs
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 05:19:22 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:38882
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jmDB7-0003eG-CI
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 05:19:19 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jmDB9-0003ei-5K
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 05:19:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592558356;
+ s=mimecast20190719; t=1592558358;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=65AK+l0ayf/jAEUQwA/bth6AW44uX8Nq0gpboHYXMLM=;
- b=aV0zzPWnfuW3GWR20hsYkBOB10ei4/Q4WJGar39EuYw8/BLFZzEcb+3ZdL1UIwaAHh+52H
- YPFtI3IWqUCiLNkfPIGFFGOj/LvX+TKsTpJHiAnjoWC6YppIfHhhAgXgoK/BIUp5Fa27CL
- fP4q3FMrlmV7eZqUo+DoqX2BITFOgKY=
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=DBpec4dkvwbdtbDKsmA20C1jU4juOXcGRoZfm/Q0T04=;
+ b=RxtTn087nKTgtPtKfZ5kunWxvb2PbzNOQs8pFshiYciRke5QdQ6i/T7diMvWDfGscD203j
+ FttLE9pT9Qm0ZeUPwTS2CtLYxKKWYpf1C/cnLoVKNANzthf9YqP7tvQtt//JIHqD5j/NuY
+ 0mI9f3KNZB0Az2g//4i02Yf2uamHZPg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-339-EN1EFMrlPAGQnGahblKZrQ-1; Fri, 19 Jun 2020 05:19:14 -0400
-X-MC-Unique: EN1EFMrlPAGQnGahblKZrQ-1
+ us-mta-112-Nj2vdgfCN6OgeSlnz3wcHg-1; Fri, 19 Jun 2020 05:19:14 -0400
+X-MC-Unique: Nj2vdgfCN6OgeSlnz3wcHg-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A237E1B2C983;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 87CC6835B42;
  Fri, 19 Jun 2020 09:19:13 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-67.ams2.redhat.com
  [10.36.112.67])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E98B3100164C;
- Fri, 19 Jun 2020 09:19:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DECEC10002BC;
+ Fri, 19 Jun 2020 09:19:11 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id EEECB1750C; Fri, 19 Jun 2020 11:19:05 +0200 (CEST)
+ id 0406E1753C; Fri, 19 Jun 2020 11:19:06 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v10 01/12] qtest: allow DSDT acpi table changes
-Date: Fri, 19 Jun 2020 11:18:54 +0200
-Message-Id: <20200619091905.21676-2-kraxel@redhat.com>
+Subject: [PATCH v10 02/12] acpi: bios-tables-test: show more context on asl
+ diffs
+Date: Fri, 19 Jun 2020 11:18:55 +0200
+Message-Id: <20200619091905.21676-3-kraxel@redhat.com>
 In-Reply-To: <20200619091905.21676-1-kraxel@redhat.com>
 References: <20200619091905.21676-1-kraxel@redhat.com>
+MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=kraxel@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=kraxel@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/19 03:15:03
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/19 05:19:18
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,35 +90,27 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- tests/qtest/bios-tables-test-allowed-diff.h | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+Makes it easier to create good commit messages from the logs.
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dfb8523c8bf4..8992f1f12b77 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1 +1,19 @@
- /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/pc/DSDT",
-+"tests/data/acpi/pc/DSDT.acpihmat",
-+"tests/data/acpi/pc/DSDT.bridge",
-+"tests/data/acpi/pc/DSDT.cphp",
-+"tests/data/acpi/pc/DSDT.dimmpxm",
-+"tests/data/acpi/pc/DSDT.ipmikcs",
-+"tests/data/acpi/pc/DSDT.memhp",
-+"tests/data/acpi/pc/DSDT.numamem",
-+"tests/data/acpi/q35/DSDT",
-+"tests/data/acpi/q35/DSDT.acpihmat",
-+"tests/data/acpi/q35/DSDT.bridge",
-+"tests/data/acpi/q35/DSDT.cphp",
-+"tests/data/acpi/q35/DSDT.dimmpxm",
-+"tests/data/acpi/q35/DSDT.ipmibt",
-+"tests/data/acpi/q35/DSDT.memhp",
-+"tests/data/acpi/q35/DSDT.mmio64",
-+"tests/data/acpi/q35/DSDT.numamem",
-+"tests/data/acpi/q35/DSDT.tis",
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ tests/qtest/bios-tables-test.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+index b482f76c03d4..c315156858f4 100644
+--- a/tests/qtest/bios-tables-test.c
++++ b/tests/qtest/bios-tables-test.c
+@@ -469,7 +469,7 @@ static void test_acpi_asl(test_data *data)
+                 fflush(stderr);
+                 if (getenv("V")) {
+                     const char *diff_env = getenv("DIFF");
+-                    const char *diff_cmd = diff_env ? diff_env : "diff -u";
++                    const char *diff_cmd = diff_env ? diff_env : "diff -U 16";
+                     char *diff = g_strdup_printf("%s %s %s", diff_cmd,
+                                                  exp_sdt->asl_file, sdt->asl_file);
+                     int out = dup(STDOUT_FILENO);
 -- 
 2.18.4
 
