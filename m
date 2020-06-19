@@ -2,73 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7968C20195C
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 19:24:41 +0200 (CEST)
-Received: from localhost ([::1]:44288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF9CA20197F
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 19:32:07 +0200 (CEST)
+Received: from localhost ([::1]:39936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jmKkq-00053m-Em
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 13:24:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33716)
+	id 1jmKs2-0007TI-RN
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 13:32:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jmKiT-0000he-Ij
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 13:22:13 -0400
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:34080)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jmKiR-0006uW-JD
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 13:22:13 -0400
-Received: by mail-oi1-x244.google.com with SMTP id b8so9128069oic.1
- for <qemu-devel@nongnu.org>; Fri, 19 Jun 2020 10:22:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=snliSYd+mulJizjEpl5Dl69ntnWcBXIk9+iTvlRC7E4=;
- b=HEBaOEAC8kev5ZPD5UiFF9cqi4d2t3RqPSqOs76mwNw3wJjGzq5DCeZzwgn97nKYWB
- 1z3SC4DvudWLqIb4VX5W+jBXuQ+pbjU1YVIvY2KA6PKFk2kce4kJTm6tCRea914T/R3v
- 3K3grTcUYNp3uSnLVbKJTc/k/v/McqREO3VXPLOeRKASJ31g3J9svUtKn7ltHpKXGR+n
- vB323qJn59sD3ghw94Y5niO/bJYPZ66uQFwJgIQkWO07ZiVro0H4ipvUQCcUoC88YrT9
- iNvkyQvM6181zHKqZDaJ8jjE4mz9mLeHWqcp3Tyh1JeY8bVlh6ahC11aYGqk4S4xYrrF
- DKlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=snliSYd+mulJizjEpl5Dl69ntnWcBXIk9+iTvlRC7E4=;
- b=tm3+XOZAdR8YB8lorgIKP5tZxd8EG22SMK41L5YLQLOwNyvKoG+1d+gF2r9av88fhJ
- AR32OF8EVvsmtGmQvHVRH2DzD+EwZ1JRL08FrrphVemrxcn1Eb5RyHHd2FG3MClo4yS1
- 1lhfcLm6hej26F2S2Yr8P8IOUwI1tA0wY4YY2WtzBPn4aEOFJkGkyqqgKOvtCMu+hfL9
- OW5TGUDrPU9YBU8jNw+325JYJ7dUQ2sKWMBS3R2iKVdWO2BGN/FsD4/khPGnQB7kJqZ+
- jxJ6FnjLTjCRxfH6DJ4S6mMbCzw2vYC+7G5c4Zog+0jWLS92WtzHi/s311u0tbV4FXRF
- O4ew==
-X-Gm-Message-State: AOAM531K+0ZgBFYWXrAY0mAMcd/z8u9tEjX9wm73WV5Kted2Rh9Qms2P
- O0l9G917ZfwKPqLCAlaMiAglLv/fj7p65ep3mQrdXA==
-X-Google-Smtp-Source: ABdhPJyhLzSs5cnuvnV6JzOrwU/mrxPMIHdjd3s3fqM0Basrvp35yvid7mm6SDHN/nMs8dW0fLMPu+dSc8RZ8HpussE=
-X-Received: by 2002:aca:5152:: with SMTP id f79mr3748675oib.146.1592587330245; 
- Fri, 19 Jun 2020 10:22:10 -0700 (PDT)
+ (Exim 4.90_1)
+ (envelope-from <prvs=4324eb4de=alistair.francis@wdc.com>)
+ id 1jmKV0-0002E4-MZ
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 13:08:18 -0400
+Received: from esa2.hgst.iphmx.com ([68.232.143.124]:24431)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <prvs=4324eb4de=alistair.francis@wdc.com>)
+ id 1jmKUy-0004Pk-R9
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 13:08:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1592586524; x=1624122524;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=JwztKMtvyHRO+8rsE3rkWQvqEjJezYk1Ew7ePUs8op4=;
+ b=hWq8Vm6j/LkEOan4CRm3NBXkO1f6KvS1Or7w4I++UoT3kcfeq/Bo2JRL
+ cgLFu7Z/oWBoyT0mP8dFrEqNFN8UwoHOpyggQv5hgeRpP4MePUcMa9KAl
+ T4zxL53W4VVG800dlvyrohgFRi0MkcwnNHWo4CCO/tH37ZoXwlgq3AlPf
+ /KekH7Ru2z1fQbYBaCvIBnn3jr2Rwf2YIdVQhJU1Dgo9eWNWMupRCusqV
+ OPl8jLUKKcB7EHR8wWl8BAymhjqU6qkri7L4MDQ9RdE7lO8e3a6jAOyr1
+ GiM6rtBYBmWeX/gWtIvLHOGILOOtfhtdk/E+BOuG5+Yxg0n5BKPQb1toK A==;
+IronPort-SDR: kicLeLw134wVzL3sSvHKrF3lLO/Xi8LYcycRx7RInZADCflmhHQC4Dp6lio2kppGo0+WBBK4dH
+ VBzbfpO/deZ1gR7a1mV/ktbWd0ABHJeXfa1zKfc83dtPp4Tfshjaf9GegFgNJ/N7/RaJZFRfmL
+ 3w89FUDMqdS13IqJRA9BzDpIBHhawuMDZzsoqZNIdkGnhwHcejQvqdhdBkiYT3qdppmTfhISwc
+ VPldXs4p2jX4cEYN8cblwVjOkXdVaS016P9iMJwk1bSs2gj3K3X7FMdtVkKmrITuftxztZuKM1
+ 1T8=
+X-IronPort-AV: E=Sophos;i="5.75,256,1589212800"; d="scan'208";a="243417022"
+Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 20 Jun 2020 01:07:32 +0800
+IronPort-SDR: DCi/8Ay6onhUGjp286PAw1FE3djgSO5NoxNHiIjoyHeb1pZJfH09IDxYvfwZ6Ylj7pX825l8F0
+ 3DwbCV9OwxYloewdh+T5TDxxBWufNEEtI=
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Jun 2020 09:56:06 -0700
+IronPort-SDR: tv78s7XmN5qRmP8lGC7jX34+eW36k5Ol0w4tD3eLTuwR1qWe3cm0kT6pubXftK+IfaiIL8Q4M8
+ hkG+p+7t3N3w==
+WDCIronportException: Internal
+Received: from unknown (HELO risc6-mainframe.hgst.com) ([10.86.58.142])
+ by uls-op-cesaip02.wdc.com with ESMTP; 19 Jun 2020 10:07:29 -0700
+From: Alistair Francis <alistair.francis@wdc.com>
+To: peter.maydell@linaro.org,
+	qemu-devel@nongnu.org
+Subject: [PULL v2 32/32] hw/riscv: sifive_u: Add a dummy DDR memory controller
+ device
+Date: Fri, 19 Jun 2020 09:58:17 -0700
+Message-Id: <20200619165817.4144200-33-alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20200619165817.4144200-1-alistair.francis@wdc.com>
+References: <20200619165817.4144200-1-alistair.francis@wdc.com>
 MIME-Version: 1.0
-References: <20200514142138.20875-1-peter.maydell@linaro.org>
- <20200514142138.20875-27-peter.maydell@linaro.org>
- <CAFEAcA_a4yiE9UZx=MAFUM+f0LSiNvjQ=X1+dObELRzfnTyUHQ@mail.gmail.com>
- <20200521113048-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20200521113048-mutt-send-email-mst@kernel.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 19 Jun 2020 18:21:59 +0100
-Message-ID: <CAFEAcA-PTtLvouxo5XZmgSbeRWa4WCwH7_cC5xrg3Dnr8UyZxg@mail.gmail.com>
-Subject: Re: [PULL 26/45] ACPI: Record Generic Error Status Block(GESB) table
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::244;
- envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x244.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=68.232.143.124;
+ envelope-from=prvs=4324eb4de=alistair.francis@wdc.com;
+ helo=esa2.hgst.iphmx.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/19 13:07:24
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,81 +88,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Dongjiu Geng <gengdongjiu@huawei.com>
+Cc: alistair23@gmail.com, Bin Meng <bin.meng@windriver.com>,
+ Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 21 May 2020 at 16:31, Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> On Thu, May 21, 2020 at 02:03:36PM +0100, Peter Maydell wrote:
-> > On Thu, 14 May 2020 at 15:22, Peter Maydell <peter.maydell@linaro.org> wrote:
-> > >
-> > > From: Dongjiu Geng <gengdongjiu@huawei.com>
-> > >
-> > > kvm_arch_on_sigbus_vcpu() error injection uses source_id as
-> > > index in etc/hardware_errors to find out Error Status Data
-> > > Block entry corresponding to error source. So supported source_id
-> > > values should be assigned here and not be changed afterwards to
-> > > make sure that guest will write error into expected Error Status
-> > > Data Block.
-> > >
-> > > Before QEMU writes a new error to ACPI table, it will check whether
-> > > previous error has been acknowledged. If not acknowledged, the new
-> > > errors will be ignored and not be recorded. For the errors section
-> > > type, QEMU simulate it to memory section error.
-> >
-> > Hi; Coverity points out (CID 1428962) that there is
-> > unreachable code in this function:
-> >
-> > > +static int acpi_ghes_record_mem_error(uint64_t error_block_address,
-> > > +                                      uint64_t error_physical_addr)
-> > > +{
-> > > +    GArray *block;
-> > > +
-> > > +    /* Memory Error Section Type */
-> > > +    const uint8_t uefi_cper_mem_sec[] =
-> > > +          UUID_LE(0xA5BC1114, 0x6F64, 0x4EDE, 0xB8, 0x63, 0x3E, 0x83, \
-> > > +                  0xED, 0x7C, 0x83, 0xB1);
-> > > +
-> > > +    /* invalid fru id: ACPI 4.0: 17.3.2.6.1 Generic Error Data,
-> > > +     * Table 17-13 Generic Error Data Entry
-> > > +     */
-> > > +    QemuUUID fru_id = {};
-> > > +    uint32_t data_length;
-> > > +
-> > > +    block = g_array_new(false, true /* clear */, 1);
-> > > +
-> > > +    /* This is the length if adding a new generic error data entry*/
-> > > +    data_length = ACPI_GHES_DATA_LENGTH + ACPI_GHES_MEM_CPER_LENGTH;
-> >
-> > Here data_length has a constant value...
-> >
-> > > +
-> > > +    /*
-> > > +     * Check whether it will run out of the preallocated memory if adding a new
-> > > +     * generic error data entry
-> > > +     */
-> > > +    if ((data_length + ACPI_GHES_GESB_SIZE) > ACPI_GHES_MAX_RAW_DATA_LENGTH) {
-> >
-> > ...but here we immediately have a runtime check which can't possibly
-> > fail because of the values of the constants involved, so this
-> > if() block is dead code.
-> >
-> > > +        error_report("Not enough memory to record new CPER!!!");
-> > > +        g_array_free(block, true);
-> > > +        return -1;
-> > > +    }
-> >
-> > What was this code trying to do? Is the initial value of
-> > data_length incorrect, or is the if() condition wrong, or
-> > should this simply have been an assert() ?
+From: Bin Meng <bin.meng@windriver.com>
 
-> It's just a validity check. assert will do just as well.
+It is enough to simply map the SiFive FU540 DDR memory controller
+into the MMIO space using create_unimplemented_device(), to make
+the upstream U-Boot v2020.07 DDR memory initialization codes happy.
 
-Would somebody like to write a patch to make it assert instead, then,
-please? That should keep Coverity happy.
+Note we do not generate device tree fragment for the DDR memory
+controller. Since the controller data in device tree consumes a
+very large space (see fu540-hifive-unleashed-a00-ddr.dtsi in the
+U-Boot source), and it is only needed by U-Boot SPL but not any
+operating system, we choose not to generate the fragment here.
+This also means when testing with U-Boot SPL, the device tree has
+to come from U-Boot SPL itself, but not the one generated by QEMU
+on the fly. The memory has to be set to 8GiB to match the real
+HiFive Unleashed board when invoking QEMU (-m 8G).
 
-thanks
--- PMM
+With this commit, QEMU can boot U-Boot SPL built for SiFive FU540
+all the way up to loading U-Boot proper from MMC:
+
+$ qemu-system-riscv64 -nographic -M sifive_u,msel=6 -m 8G -bios u-boot-spl.bin
+
+U-Boot SPL 2020.07-rc3-00208-g88bd5b1 (Jun 08 2020 - 20:16:10 +0800)
+Trying to boot from MMC1
+Unhandled exception: Load access fault
+EPC: 0000000008009be6 TVAL: 0000000010050014
+
+The above exception is expected because QSPI is unsupported yet.
+
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Message-id: 1592268641-7478-6-git-send-email-bmeng.cn@gmail.com
+Message-Id: <1592268641-7478-6-git-send-email-bmeng.cn@gmail.com>
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+---
+ include/hw/riscv/sifive_u.h | 1 +
+ hw/riscv/sifive_u.c         | 4 ++++
+ 2 files changed, 5 insertions(+)
+
+diff --git a/include/hw/riscv/sifive_u.h b/include/hw/riscv/sifive_u.h
+index 27dc35e0a3..aba4d0181f 100644
+--- a/include/hw/riscv/sifive_u.h
++++ b/include/hw/riscv/sifive_u.h
+@@ -78,6 +78,7 @@ enum {
+     SIFIVE_U_UART1,
+     SIFIVE_U_GPIO,
+     SIFIVE_U_OTP,
++    SIFIVE_U_DMC,
+     SIFIVE_U_FLASH0,
+     SIFIVE_U_DRAM,
+     SIFIVE_U_GEM,
+diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+index b9d0a6901a..7d051e7c92 100644
+--- a/hw/riscv/sifive_u.c
++++ b/hw/riscv/sifive_u.c
+@@ -82,6 +82,7 @@ static const struct MemmapEntry {
+     [SIFIVE_U_OTP] =      { 0x10070000,     0x1000 },
+     [SIFIVE_U_GEM] =      { 0x10090000,     0x2000 },
+     [SIFIVE_U_GEM_MGMT] = { 0x100a0000,     0x1000 },
++    [SIFIVE_U_DMC] =      { 0x100b0000,    0x10000 },
+     [SIFIVE_U_FLASH0] =   { 0x20000000, 0x10000000 },
+     [SIFIVE_U_DRAM] =     { 0x80000000,        0x0 },
+ };
+@@ -714,6 +715,9 @@ static void sifive_u_soc_realize(DeviceState *dev, Error **errp)
+ 
+     create_unimplemented_device("riscv.sifive.u.gem-mgmt",
+         memmap[SIFIVE_U_GEM_MGMT].base, memmap[SIFIVE_U_GEM_MGMT].size);
++
++    create_unimplemented_device("riscv.sifive.u.dmc",
++        memmap[SIFIVE_U_DMC].base, memmap[SIFIVE_U_DMC].size);
+ }
+ 
+ static Property sifive_u_soc_props[] = {
+-- 
+2.27.0
+
 
