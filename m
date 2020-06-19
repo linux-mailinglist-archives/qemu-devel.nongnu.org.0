@@ -2,68 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93A4E200D49
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 16:57:37 +0200 (CEST)
-Received: from localhost ([::1]:56782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 253D0200CA5
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 16:52:10 +0200 (CEST)
+Received: from localhost ([::1]:37552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jmISW-00070x-MB
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 10:57:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46982)
+	id 1jmINE-0004YA-Uc
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 10:52:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jmIQm-0005Jy-Fu
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 10:55:48 -0400
-Received: from indium.canonical.com ([91.189.90.7]:47684)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jmIQk-0004T1-BC
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 10:55:48 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jmIQi-0000rI-7d
- for <qemu-devel@nongnu.org>; Fri, 19 Jun 2020 14:55:44 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 2DECC2E8072
- for <qemu-devel@nongnu.org>; Fri, 19 Jun 2020 14:55:44 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jmILe-0002yl-S5
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 10:50:30 -0400
+Resent-Date: Fri, 19 Jun 2020 10:50:30 -0400
+Resent-Message-Id: <E1jmILe-0002yl-S5@lists.gnu.org>
+Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21737)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jmILc-0003W7-7x
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 10:50:30 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1592578215; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=cHKH22aUNRSTi+0SFjsQvjK1PdjyWdDmrxw4rkGk08xFCy4qcycERi9mUPtcEcquHhw0t8xbCPCQ4inrJX6v3V2h0WQX57wWW6/tPu94Zhj2lxoX8680UbHgAE8/1y2Xk/e0u6eJS68DNhMqkQakn74rnl5ZxGeEsUKUPhiY9Zk=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1592578215;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=3aE2Ff/049rR25KW5R2mEQGkzcdD0SJQxP2A9cQCFEU=; 
+ b=VPGxUQzxlhln0sC0p4GBBgWriMDxK/hFV8Fba+xanpaDAkrUNM590WEPK8cks1vM2c+XTmBUleCAJ+v1L3Rj3KLiXBfxAseFhXPZlV9PSfGGEgfo1e/ka0q6SDk8VZd38/A4VXbYo7ktjj9Cfkyjz2pOR1cQkGgSG57vRLsvcoM=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 159257821272282.35505608739754;
+ Fri, 19 Jun 2020 07:50:12 -0700 (PDT)
+Message-ID: <159257821134.2784.18219083983698800306@d1fd068a5071>
+Subject: Re: [RFC PATCH] docs/devel: add some notes on tcg-icount for
+ developers
+In-Reply-To: <20200619135844.23307-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 19 Jun 2020 14:46:08 -0000
-From: Christian Schoenebeck <1884169@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Opinion; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: judahh schoenebeck
-X-Launchpad-Bug-Reporter: Judah Holanda Correia Lima (judahh)
-X-Launchpad-Bug-Modifier: Christian Schoenebeck (schoenebeck)
-References: <159252498136.16858.459210330047675680.malonedeb@chaenomeles.canonical.com>
-Message-Id: <159257796905.17037.4695605909860910581.malone@chaenomeles.canonical.com>
-Subject: [Bug 1884169] Re: There is no option group 'fsdev' for OSX
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="1cbd0aa39df153c901321817f9b57cf3f232b507";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: bf26f02b72133060bec9dbe392ff9d7f2352d47d
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/19 10:55:44
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: alex.bennee@linaro.org
+Date: Fri, 19 Jun 2020 07:50:12 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o57.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/19 10:14:48
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=_AUTOLEARN
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,44 +70,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1884169 <1884169@bugs.launchpad.net>
+Reply-To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, dovgaluk@ispras.ru, pbonzini@redhat.com,
+ alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-That's the behaviour on macOS that I would expect ATM. So it's not a
-bug.
-
-Your macOS version was compiled without virtfs support, that's why qemu
-does not even offer you these options.
-
-Even though 9P is a network protocol, you still need support by host OS
-and guest OS for some kind of communication channel between host and
-guest. Currently 9pfs in qemu supports either virtio (Linux KVM host <->
-Linux guest) or Xen as communication channel. For macOS so far nobody
-bothered to implement a communication driver for qemu 9pfs yet.
-
-** Changed in: qemu
-       Status: New =3D> Opinion
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1884169
-
-Title:
-  There is no option group 'fsdev' for OSX
-
-Status in QEMU:
-  Opinion
-
-Bug description:
-  When I try to use -fsoption on OSX I receive this error:
-
-  -fsdev local,security_model=3Dmapped,id=3Dfsdev0,path=3Ddevel/dmos-exampl=
-e:
-  There is no option group 'fsdev'
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1884169/+subscriptions
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDYxOTEzNTg0NC4yMzMw
+Ny0xLWFsZXguYmVubmVlQGxpbmFyby5vcmcvCgoKCkhpLAoKVGhpcyBzZXJpZXMgZmFpbGVkIHRo
+ZSBkb2NrZXItbWluZ3dAZmVkb3JhIGJ1aWxkIHRlc3QuIFBsZWFzZSBmaW5kIHRoZSB0ZXN0aW5n
+IGNvbW1hbmRzIGFuZAp0aGVpciBvdXRwdXQgYmVsb3cuIElmIHlvdSBoYXZlIERvY2tlciBpbnN0
+YWxsZWQsIHlvdSBjYW4gcHJvYmFibHkgcmVwcm9kdWNlIGl0CmxvY2FsbHkuCgo9PT0gVEVTVCBT
+Q1JJUFQgQkVHSU4gPT09CiMhIC9iaW4vYmFzaApleHBvcnQgQVJDSD14ODZfNjQKbWFrZSBkb2Nr
+ZXItaW1hZ2UtZmVkb3JhIFY9MSBORVRXT1JLPTEKdGltZSBtYWtlIGRvY2tlci10ZXN0LW1pbmd3
+QGZlZG9yYSBKPTE0IE5FVFdPUks9MQo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKICBDQyAgICAg
+IGNyeXB0by90bHNjcmVkc3g1MDkubwogIENDICAgICAgY3J5cHRvL3Rsc3Nlc3Npb24ubwoKV2Fy
+bmluZywgdHJlYXRlZCBhcyBlcnJvcjoKL3RtcC9xZW11LXRlc3Qvc3JjL2RvY3MvZGV2ZWwvdGNn
+LWljb3VudC5yc3Q6ZG9jdW1lbnQgaXNuJ3QgaW5jbHVkZWQgaW4gYW55IHRvY3RyZWUKICBDQyAg
+ICAgIGNyeXB0by9zZWNyZXRfY29tbW9uLm8KICBDQyAgICAgIGNyeXB0by9zZWNyZXQubwotLS0K
+ICBDQyAgICAgIHFvbS9xb20tcW9iamVjdC5vCiAgQ0MgICAgICBxb20vb2JqZWN0X2ludGVyZmFj
+ZXMubwogIENDICAgICAgcWVtdS1pby5vCm1ha2U6ICoqKiBbTWFrZWZpbGU6MTA4ODogZG9jcy9k
+ZXZlbC9pbmRleC5odG1sXSBFcnJvciAyCm1ha2U6ICoqKiBXYWl0aW5nIGZvciB1bmZpbmlzaGVk
+IGpvYnMuLi4uClRyYWNlYmFjayAobW9zdCByZWNlbnQgY2FsbCBsYXN0KToKICBGaWxlICIuL3Rl
+c3RzL2RvY2tlci9kb2NrZXIucHkiLCBsaW5lIDY2OSwgaW4gPG1vZHVsZT4KLS0tCiAgICByYWlz
+ZSBDYWxsZWRQcm9jZXNzRXJyb3IocmV0Y29kZSwgY21kKQpzdWJwcm9jZXNzLkNhbGxlZFByb2Nl
+c3NFcnJvcjogQ29tbWFuZCAnWydzdWRvJywgJy1uJywgJ2RvY2tlcicsICdydW4nLCAnLS1sYWJl
+bCcsICdjb20ucWVtdS5pbnN0YW5jZS51dWlkPTIyZDVhNTFjNDk3MzRmMGZiZmNhODM3YTliYTIw
+MzY4JywgJy11JywgJzEwMDMnLCAnLS1zZWN1cml0eS1vcHQnLCAnc2VjY29tcD11bmNvbmZpbmVk
+JywgJy0tcm0nLCAnLWUnLCAnVEFSR0VUX0xJU1Q9JywgJy1lJywgJ0VYVFJBX0NPTkZJR1VSRV9P
+UFRTPScsICctZScsICdWPScsICctZScsICdKPTE0JywgJy1lJywgJ0RFQlVHPScsICctZScsICdT
+SE9XX0VOVj0nLCAnLWUnLCAnQ0NBQ0hFX0RJUj0vdmFyL3RtcC9jY2FjaGUnLCAnLXYnLCAnL2hv
+bWUvcGF0Y2hldzIvLmNhY2hlL3FlbXUtZG9ja2VyLWNjYWNoZTovdmFyL3RtcC9jY2FjaGU6eics
+ICctdicsICcvdmFyL3RtcC9wYXRjaGV3LXRlc3Rlci10bXAtcl9kOGRjOWovc3JjL2RvY2tlci1z
+cmMuMjAyMC0wNi0xOS0xMC40Ny4yNi4zMTIyMDovdmFyL3RtcC9xZW11Onoscm8nLCAncWVtdTpm
+ZWRvcmEnLCAnL3Zhci90bXAvcWVtdS9ydW4nLCAndGVzdC1taW5ndyddJyByZXR1cm5lZCBub24t
+emVybyBleGl0IHN0YXR1cyAyLgpmaWx0ZXI9LS1maWx0ZXI9bGFiZWw9Y29tLnFlbXUuaW5zdGFu
+Y2UudXVpZD0yMmQ1YTUxYzQ5NzM0ZjBmYmZjYTgzN2E5YmEyMDM2OAptYWtlWzFdOiAqKiogW2Rv
+Y2tlci1ydW5dIEVycm9yIDEKbWFrZVsxXTogTGVhdmluZyBkaXJlY3RvcnkgYC92YXIvdG1wL3Bh
+dGNoZXctdGVzdGVyLXRtcC1yX2Q4ZGM5ai9zcmMnCm1ha2U6ICoqKiBbZG9ja2VyLXJ1bi10ZXN0
+LW1pbmd3QGZlZG9yYV0gRXJyb3IgMgoKcmVhbCAgICAybTQ0LjM3OHMKdXNlciAgICAwbTguNDIy
+cwoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3Mv
+MjAyMDA2MTkxMzU4NDQuMjMzMDctMS1hbGV4LmJlbm5lZUBsaW5hcm8ub3JnL3Rlc3RpbmcuZG9j
+a2VyLW1pbmd3QGZlZG9yYS8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9t
+YXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5
+b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
 
