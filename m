@@ -2,53 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A5FA1FFF28
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 02:11:54 +0200 (CEST)
-Received: from localhost ([::1]:38668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1264A1FFF35
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 02:21:47 +0200 (CEST)
+Received: from localhost ([::1]:43530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jm4dM-0005wa-Vx
-	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 20:11:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48786)
+	id 1jm4mw-00027E-50
+	for lists+qemu-devel@lfdr.de; Thu, 18 Jun 2020 20:21:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jm4cQ-0005Lr-MZ
- for qemu-devel@nongnu.org; Thu, 18 Jun 2020 20:10:54 -0400
-Received: from indium.canonical.com ([91.189.90.7]:57494)
+ id 1jm4ly-0001ah-Ea
+ for qemu-devel@nongnu.org; Thu, 18 Jun 2020 20:20:46 -0400
+Received: from indium.canonical.com ([91.189.90.7]:58660)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jm4cO-0007WQ-JN
- for qemu-devel@nongnu.org; Thu, 18 Jun 2020 20:10:54 -0400
+ id 1jm4lw-0000pR-1M
+ for qemu-devel@nongnu.org; Thu, 18 Jun 2020 20:20:46 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jm4cM-0006US-If
- for <qemu-devel@nongnu.org>; Fri, 19 Jun 2020 00:10:50 +0000
+ id 1jm4lt-0007Ec-L0
+ for <qemu-devel@nongnu.org>; Fri, 19 Jun 2020 00:20:41 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 86F362E8106
- for <qemu-devel@nongnu.org>; Fri, 19 Jun 2020 00:10:50 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 8DA632E8107
+ for <qemu-devel@nongnu.org>; Fri, 19 Jun 2020 00:20:41 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 19 Jun 2020 00:03:01 -0000
-From: Judah Holanda Correia Lima <1884169@bugs.launchpad.net>
+Date: Fri, 19 Jun 2020 00:11:01 -0000
+From: Bruno Haible <1883984@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: judahh
-X-Launchpad-Bug-Reporter: Judah Holanda Correia Lima (judahh)
-X-Launchpad-Bug-Modifier: Judah Holanda Correia Lima (judahh)
-Message-Id: <159252498136.16858.459210330047675680.malonedeb@chaenomeles.canonical.com>
-Subject: [Bug 1884169] [NEW] There is no option group 'fsdev' for OSX
+X-Launchpad-Bug-Commenters: bruno-clisp nhfbeebe
+X-Launchpad-Bug-Reporter: Nelson H F Beebe (nhfbeebe)
+X-Launchpad-Bug-Modifier: Bruno Haible (bruno-clisp)
+References: <159243063748.16697.11009205973276249282.malonedeb@chaenomeles.canonical.com>
+Message-Id: <159252546202.26082.15434771582246293575.malone@gac.canonical.com>
+Subject: [Bug 1883984] Re: QEMU S/390x sqxbr (128-bit IEEE 754 square root)
+ crashes qemu-system-s390x
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="1cbd0aa39df153c901321817f9b57cf3f232b507";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: fa8a322524d166266e49f8c0ab68a36f02fdc404
+X-Launchpad-Hash: 61481dd12f1035f67178b1bbb5d339a4ed9c655d
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/18 18:15:38
@@ -70,40 +72,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1884169 <1884169@bugs.launchpad.net>
+Reply-To: Bug 1883984 <1883984@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+Another way to reproduce this bug is with qemu-s390x and a cross-
+compiled binary:
 
-When I try to use -fsoption on OSX I receive this error:
+$ s390x-linux-gnu-gcc-5 -static -o bug-sqrtl-one-line.s390x bug-sqrtl-one-l=
+ine.c
+$ qemu-s390x bug-sqrtl-one-line.s390x
+Segmentation fault (core dumped)
 
--fsdev local,security_model=3Dmapped,id=3Dfsdev0,path=3Ddevel/dmos-example:
-There is no option group 'fsdev'
+Find attached the binary.
 
-** Affects: qemu
-     Importance: Undecided
-         Status: New
+** Attachment added: "statically compiled binary"
+   https://bugs.launchpad.net/qemu/+bug/1883984/+attachment/5385168/+files/=
+bug-sqrtl-one-line.s390x
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1884169
+https://bugs.launchpad.net/bugs/1883984
 
 Title:
-  There is no option group 'fsdev' for OSX
+  QEMU S/390x sqxbr (128-bit IEEE 754 square root) crashes qemu-system-
+  s390x
 
 Status in QEMU:
   New
 
 Bug description:
-  When I try to use -fsoption on OSX I receive this error:
+  In porting software to guest Ubuntu 18.04 and 20.04 VMs for S/390x, I dis=
+covered
+  that some of my own numerical programs, and also a GNU configure script f=
+or at
+  least one package with CC=3Dclang, would cause an instant crash of the VM=
+, sometimes
+  also destroying recently opened files, and producing long strings of NUL =
+characters
+  in /var/log/syslog in the S/390 guest O/S.
 
-  -fsdev local,security_model=3Dmapped,id=3Dfsdev0,path=3Ddevel/dmos-exampl=
-e:
-  There is no option group 'fsdev'
+  Further detective work narrowed the cause of the crash down to a single I=
+BM S/390
+  instruction: sqxbr (128-bit IEEE 754 square root).  Here is a one-line pr=
+ogram
+  that when compiled and run on a VM hosted on QEMUcc emulator version 4.2.=
+0 =
+
+  (Debian 1:4.2-3ubuntu6.1) [hosted on Ubuntu 20.04 on a Dell Precision 792=
+0 =
+
+  workstation with an Intel Xeon Platinum 8253 CPU],  and also on QEMU emul=
+ator =
+
+  version 5.0.0, reproducibly produces a VM crash under qemu-system-s390x.
+
+  % cat bug-sqrtl-one-line.c
+  int main(void) { volatile long double x, r; x =3D 4.0L; __asm__ __volatil=
+e__("sqxbr %0, %1" : "=3Df" (r) : "f" (x)); return (0);}
+
+  % cc bug-sqrtl-one-line.c && ./a.out
+  Segmentation fault (core dumped)
+
+  The problem code may be the function float128_sqrt() defined in qemu-5.0.=
+0/fpu/softfloat.c
+  starting at line 7619.  I have NOT attempted to run the qemu-system-s390x=
+ executable
+  under a debugger.  However, I observe that S/390 is the only CPU family t=
+hat I know of,
+  except possibly for a Fujitsu SPARC-64, that has a 128-bit square root in=
+ hardware.
+  Thus, this instruction bug may not have been seen before.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1884169/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1883984/+subscriptions
 
