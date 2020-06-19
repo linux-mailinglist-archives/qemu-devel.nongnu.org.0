@@ -2,82 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89136200A3D
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 15:34:14 +0200 (CEST)
-Received: from localhost ([::1]:43288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FF91200A2A
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 15:31:33 +0200 (CEST)
+Received: from localhost ([::1]:36790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jmH9p-0006Qo-KQ
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 09:34:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46674)
+	id 1jmH7E-00035g-5f
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 09:31:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47612)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <climber.cui@qq.com>)
- id 1jmH0j-0005DU-Dh
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 09:24:50 -0400
-Received: from smtpbgeu1.qq.com ([52.59.177.22]:54717)
+ (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
+ id 1jmH4E-0008Ll-Pe
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 09:28:26 -0400
+Received: from nylar.uni-paderborn.de ([2001:638:502:c003::18]:49966)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <climber.cui@qq.com>)
- id 1jmH0X-0004Bj-B2
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 09:24:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
- t=1592573061; bh=BCVTZzY+L5Gzh6O+fRzuQmK5nmDjU4TReQ8UN6Noz4M=;
- h=From:To:Subject:Mime-Version:Date:Message-ID;
- b=WSHNaMgZmqkSfRVpm3NE+qeEX0sdQmqZXCtQMmECAqGzKD5NUBq2kj1QLXp3uRyAn
- SM/yBWqglDL1Qsqmwizrnef0v0u9e8c/CYQCGE49vDVN0N/IIArJS3oIyKL0+eGiUZ
- 2ucgCmtV7+J/fQbl4r5jPQIr75rfFjzOcwXXosdI=
-X-QQ-FEAT: YuwbzFVdD1hYztLj6Ldo630nvfKw3cBVnCj0v5Q57DrbV9W4Yx/A3/aEc99Gp
- cABkjJ8MEqzClLoBs18TMCB+o7QOqf6DfjtsWG+314EVQGS/sbWloFQtdixS10c9/lteLQF
- EU0kcUextkmPv7uLoiVzkQE5m7dKPtU/swu56uHrNX8tUNCtS6MG0Hme8txljWjd/kvTS7W
- Jgj3O4X5tCthZS5th+z0n1E1jEICAahXhZrO3orLqTMm6LWUSa0oRkxEfO/2dhss1wxfwBi
- FN1pC2a0JLSp/y
-X-QQ-SSF: 00010000000000F000000000000000D
-X-QQ-XMAILINFO: MkPe/1JmsBykDUdFNOJvzbxNf65xWWeI/YLkEJJWhLXW91VttOSIDNajACyUvx
- xjgBc5NWyG5WZxdD3QyxK/vxCC/h70b1bpfK9Iw0ba5RgOX4nXTi8CUqGJkRFi1ab+yUdy+6Q6J3/
- MdrNnqBaopl8PJc14YIqv0t1MwAlfO+V5d5uKiWVU11SGT7o8eBUFg78fYXvg7Z/oyL1WQBZjMa1U
- AhRixKbXg+39sZ+eUQNn3YktOfI1LK7RN/XtSAhwqeQIKuvat20hK1qm3GXBvE9Dl988hh+V/3Ppr
- Hf3YjMcD04xChZgMBO/CTE/V7QZ8/cZVTSLrYEZZ8UOfejFsFri0yLAnVZN4p+bPqFSh7C7yKX9rg
- Xfsq5N3AjusjvUzZxPYkXTM7YUOtgxkt+PDKy4JLMGnCRi8YzQzT8Ee/LSTZmRMOnta+dD/JKI3F6
- qI9DD+fHrGUUKrvwFpMukT4Hhc/HLdLyc2XeFS354LzpGcoMMvyhGWntkXOkp3Huyh4VCfuTYWwze
- LESNRowmusrG5AyW+Xmwop/hvQ9wNqUfo9PsIaT2HtTqczr+hHD47iWBCprkMcZj8O+TNhkYyps/M
- tQ/9gwYpMkv3qeww5VaEO1QWkstgeVghISqUKHh+BsQgTbVlc519dA6/5/Y9e8uwJK/wyhDVruF8Z
- OPvbPHpA5uDoNt6M0x26zY6iCayZkXAkEbemeoqcM7fMs60G4=
-X-HAS-ATTACH: no
-X-QQ-BUSINESS-ORIGIN: 2
-X-Originating-IP: 111.199.165.201
-X-QQ-STYLE: 
-X-QQ-mid: webmail725t1592573059t777270
-From: "=?ISO-8859-1?B?Y2FzbWFj?=" <climber.cui@qq.com>
-To: "=?ISO-8859-1?B?cWVtdS1kZXZlbA==?=" <qemu-devel@nongnu.org>
-Subject: how to build QEMU with the peripheral device modules
-Mime-Version: 1.0
-Content-Type: multipart/alternative;
- boundary="----=_NextPart_5EECBC83_127566A8_2153B5F0"
-Content-Transfer-Encoding: 8Bit
-Date: Fri, 19 Jun 2020 21:24:19 +0800
-X-Priority: 3
-Message-ID: <tencent_2BB56CF9C4F3AA4DBB9D8A50C3BFBDCA720A@qq.com>
-X-QQ-MIME: TCMime 1.0 by Tencent
-X-Mailer: QQMail 2.x
-X-QQ-Mailer: QQMail 2.x
-X-QQ-SENDSIZE: 520
-Received: from qq.com (unknown [127.0.0.1]) by smtp.qq.com (ESMTP) with SMTP
- id ; Fri, 19 Jun 2020 21:24:20 +0800 (CST)
-Feedback-ID: webmail:qq.com:bgforeign:bgforeign12
-X-QQ-Bgrelay: 1
-Received-SPF: pass client-ip=52.59.177.22; envelope-from=climber.cui@qq.com;
- helo=smtpbgeu1.qq.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/19 09:24:23
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- FROM_EXCESS_BASE64=0.001, HTML_MESSAGE=0.001, MSGID_FROM_MTA_HEADER=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
+ id 1jmH4C-0004ss-5a
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 09:28:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=mail.uni-paderborn.de; s=20170601; h=In-Reply-To:Content-Type:MIME-Version:
+ References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+ Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+ List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=uZv4noQSj0xfDjr21tbwhsC3ToybmXI/nv2HYipuC1Y=; b=he5F1TXC9w6ade45MStKcdRKu
+ sx+OZIiJZTEGfuMDskAAjg7t5bNNfl4RtjWX+wX3P69uAIxh6NhviWrb3lQmR7k6Hm8L87u8NIqhc
+ maROXIdFrpGz2kaMGD4YZQ/lfcl8XlGjJ8UpwRAAoA0BlDxxUbKy3y4zrUaSi4eSEjO3E=;
+Date: Fri, 19 Jun 2020 15:28:16 +0200
+From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+To: "Konopik, Andreas (EFS-GH2)" <andreas.konopik@efs-auto.de>
+Subject: Re: [PATCH v2 1/1] tricore: added triboard with tc27x_soc
+Message-ID: <20200619132816.ir53gqafnmrfjyb3@schnipp-desktop>
+References: <20200609152553.4376-1-david.brenken@efs-auto.org>
+ <20200609152553.4376-2-david.brenken@efs-auto.org>
+ <20200610084818.yrzxqm6466w2wpiz@schnipp-desktop>
+ <69A9BBE82CEA98469F7BA51850C5B89CF2FEA8F8@AUDIINSX0364.audi.vwg>
+ <F5B10EA5F04CF44F81B685A0E281578724EB1D39@AUDIINSX0385.audi.vwg>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <F5B10EA5F04CF44F81B685A0E281578724EB1D39@AUDIINSX0385.audi.vwg>
+X-IMT-Spam-Score: 0.0 ()
+X-Sophos-SenderHistory: ip=2a02:908:2214:e5bc::95d, fs=8210681, da=80182362,
+ mc=201, sc=3, hc=198, sp=1, fso=8210681, re=0, sd=0, hd=0
+X-PMX-Version: 6.4.9.2830568, Antispam-Engine: 2.7.2.2107409,
+ Antispam-Data: 2020.6.19.132116, AntiVirus-Engine: 5.74.0,
+ AntiVirus-Data: 2020.6.19.5740001
+X-IMT-Authenticated-Sender: kbastian@UNI-PADERBORN.DE
+Received-SPF: pass client-ip=2001:638:502:c003::18;
+ envelope-from=kbastian@mail.uni-paderborn.de; helo=nylar.uni-paderborn.de
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
-X-Mailman-Approved-At: Fri, 19 Jun 2020 09:29:13 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,72 +71,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "Brenken, David \(EFS-GH5\)" <david.brenken@efs-auto.de>, "Hofstetter,
+ Georg \(EFS-GH2\)" <Georg.Hofstetter@efs-auto.de>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
+Hi Andreas,
 
-------=_NextPart_5EECBC83_127566A8_2153B5F0
-Content-Type: text/plain;
-	charset="ISO-8859-1"
-Content-Transfer-Encoding: base64
+On Fri, Jun 19, 2020 at 11:57:03AM +0000, Konopik, Andreas (EFS-GH2) wrote:
+> Hello Bastian,
+> 
+> I assume that your review comments, which Georg has answered, are solved. I will implement the remaining suggestions in a new version of the patch.
 
-SGkgQWxsLA0KJm5ic3A7ICZuYnNwO0kgYW0gdHJ5aW5nIHRvIGFkZCBhIERNQSBwZXJpcGhl
-cmFsIG1vZHVsZS4gSW4gaHcvZG1hIGRpcmVjdG9yeSwgYSBmaWxlJm5ic3A7IHRpX2RtYS5j
-IGlzIGFkZGVkLg0KJm5ic3A7ICZuYnNwO0Fsc28sIGluIGh3L2RtYS9rY29uZmlnLCBJIGFk
-ZGVkIHRoZSBmb2xsb3dpbmcgbGluZXM6DQpjb25maWcgVElfRE1BDQoJYm9vbA0KDQombmJz
-cDsgJm5ic3A7SW4gaHcvZG1hL21ha2VmaWxlLm9qYiwgYWRkZWQgb25lIGxpbmU6DQpjb21t
-b24tb2JqLSQoQ09ORklHX1RJX0RNQSkgKz0gdGlfZG1hLm8NCiZuYnNwOyAmbmJzcDtIb3dl
-dmVyLCB0aV9kbWEuYyBpcyBub3QgY29tcGlsZWQgYXMgdGhlIFFFTVUgcHJvamVjdCBpcyBi
-dWlsdC4gU29tZSBkaXJlY3RvcmllcyhlZy4gYmxvY2ssIGNwdS4uLikgdW5kZXIgaHcgd2ls
-bCBiZSBjb21waWxlZCB0aG91Z2guJm5ic3A7DQombmJzcDsgJm5ic3A7VGhlIG1ha2VmaWxl
-Lm9iaiBzZWVtcyB0byBzaG93IHRoYXQgdGhlIERNQSBtb2R1bGUgd291bGQgYmUgYnVpbHQg
-YWxvbmcgd2l0aCZuYnNwOyBvdGhlcnM6DQpkZXZpY2VzLWRpcnMteSA9IGNvcmUvDQppZmVx
-ICgkKENPTkZJR19TT0ZUTU1VKSwgeSkNCmRldmljZXMtZGlycy0kKGNhbGwgbG9yLCQoQ09O
-RklHX1ZJUlRJT185UCksJChjYWxsIGxhbmQsJChDT05GSUdfVklSVEZTKSwkKENPTkZJR19Y
-RU4pKSkgKz0gOXBmcy8NCmRldmljZXMtZGlycy15ICs9IGFjcGkvDQpkZXZpY2VzLWRpcnMt
-eSArPSBhZGMvDQpkZXZpY2VzLWRpcnMteSArPSBhdWRpby8NCmRldmljZXMtZGlycy15ICs9
-IGJsb2NrLw0KZGV2aWNlcy1kaXJzLXkgKz0gYnQvDQpkZXZpY2VzLWRpcnMteSArPSBjaGFy
-Lw0KZGV2aWNlcy1kaXJzLXkgKz0gY3B1Lw0KZGV2aWNlcy1kaXJzLXkgKz0gZGlzcGxheS8N
-CmRldmljZXMtZGlycy15ICs9IGRtYS8NCmRldmljZXMtZGlycy15ICs9IGdwaW8vDQouLi4u
-Li4NCiZuYnNwOyAmbmJzcDsgSSBhbSBub3Qgc3VyZSB3aGF0IGlzIG1pc3NpbmcgaGVyZS4g
-QW55IGFkdmlzZSB3b3VsZCBiZSBhcHByZWNpYXRlZC4gVGhhbmtzLg0KDQoNCnhpYW9sZWk=
+yes. After the suggestions are implemented it should be good to go.
 
-------=_NextPart_5EECBC83_127566A8_2153B5F0
-Content-Type: text/html;
-	charset="ISO-8859-1"
-Content-Transfer-Encoding: base64
-
-PG1ldGEgaHR0cC1lcXVpdj0iQ29udGVudC1UeXBlIiBjb250ZW50PSJ0ZXh0L2h0bWw7IGNo
-YXJzZXQ9R0IxODAzMCI+PGRpdj5IaSBBbGwsPC9kaXY+PGRpdj4mbmJzcDsgJm5ic3A7SSBh
-bSB0cnlpbmcgdG8gYWRkIGEgRE1BIHBlcmlwaGVyYWwgbW9kdWxlLiBJbiBody9kbWEgZGly
-ZWN0b3J5LCBhIGZpbGUmbmJzcDsgdGlfZG1hLmMgaXMgYWRkZWQuPC9kaXY+PGRpdj4mbmJz
-cDsgJm5ic3A7QWxzbywgaW4gaHcvZG1hL2tjb25maWcsIEkgYWRkZWQgdGhlIGZvbGxvd2lu
-ZyBsaW5lczo8L2Rpdj48ZGl2PjxkaXY+Y29uZmlnIFRJX0RNQTwvZGl2PjxkaXY+PHNwYW4g
-c3R5bGU9IndoaXRlLXNwYWNlOnByZSI+CTwvc3Bhbj5ib29sPC9kaXY+PC9kaXY+PGRpdj4m
-bmJzcDsgJm5ic3A7SW4gaHcvZG1hL21ha2VmaWxlLm9qYiwgYWRkZWQgb25lIGxpbmU6PC9k
-aXY+PGRpdj5jb21tb24tb2JqLSQoQ09ORklHX1RJX0RNQSkgKz0gdGlfZG1hLm88L2Rpdj48
-ZGl2PiZuYnNwOyAmbmJzcDtIb3dldmVyLCB0aV9kbWEuYyBpcyBub3QgY29tcGlsZWQgYXMg
-dGhlIFFFTVUgcHJvamVjdCBpcyBidWlsdC4gU29tZSBkaXJlY3RvcmllcyhlZy4gYmxvY2ss
-IGNwdS4uLikgdW5kZXIgaHcgd2lsbCBiZSBjb21waWxlZCB0aG91Z2guJm5ic3A7PC9kaXY+
-PGRpdj4mbmJzcDsgJm5ic3A7VGhlIG1ha2VmaWxlLm9iaiBzZWVtcyB0byBzaG93IHRoYXQg
-dGhlIERNQSBtb2R1bGUgd291bGQgYmUgYnVpbHQgYWxvbmcgd2l0aCZuYnNwOyBvdGhlcnM6
-PC9kaXY+PGRpdj5kZXZpY2VzLWRpcnMteSA9IGNvcmUvPC9kaXY+PGRpdj5pZmVxICgkKENP
-TkZJR19TT0ZUTU1VKSwgeSk8L2Rpdj48ZGl2PmRldmljZXMtZGlycy0kKGNhbGwgbG9yLCQo
-Q09ORklHX1ZJUlRJT185UCksJChjYWxsIGxhbmQsJChDT05GSUdfVklSVEZTKSwkKENPTkZJ
-R19YRU4pKSkgKz0gOXBmcy88L2Rpdj48ZGl2PmRldmljZXMtZGlycy15ICs9IGFjcGkvPC9k
-aXY+PGRpdj5kZXZpY2VzLWRpcnMteSArPSBhZGMvPC9kaXY+PGRpdj5kZXZpY2VzLWRpcnMt
-eSArPSBhdWRpby88L2Rpdj48ZGl2PmRldmljZXMtZGlycy15ICs9IGJsb2NrLzwvZGl2Pjxk
-aXY+ZGV2aWNlcy1kaXJzLXkgKz0gYnQvPC9kaXY+PGRpdj5kZXZpY2VzLWRpcnMteSArPSBj
-aGFyLzwvZGl2PjxkaXY+ZGV2aWNlcy1kaXJzLXkgKz0gY3B1LzwvZGl2PjxkaXY+ZGV2aWNl
-cy1kaXJzLXkgKz0gZGlzcGxheS88L2Rpdj48ZGl2PmRldmljZXMtZGlycy15ICs9IGRtYS88
-L2Rpdj48ZGl2PmRldmljZXMtZGlycy15ICs9IGdwaW8vPC9kaXY+PGRpdj4uLi4uLi48L2Rp
-dj48ZGl2PiZuYnNwOyAmbmJzcDsgSSBhbSBub3Qgc3VyZSB3aGF0IGlzIG1pc3NpbmcgaGVy
-ZS4gQW55IGFkdmlzZSB3b3VsZCBiZSBhcHByZWNpYXRlZC4gVGhhbmtzLjwvZGl2PjxkaXY+
-PGJyPjwvZGl2PjxkaXY+eGlhb2xlaTwvZGl2Pg==
-
-------=_NextPart_5EECBC83_127566A8_2153B5F0--
-
-
-
+Cheers,
+Bastian
 
