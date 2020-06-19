@@ -2,111 +2,148 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91A20200D74
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 17:00:54 +0200 (CEST)
-Received: from localhost ([::1]:60080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C55F7200DDB
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 17:05:37 +0200 (CEST)
+Received: from localhost ([::1]:42804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jmIVh-0000tv-21
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 11:00:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47992)
+	id 1jmIaG-000701-Jt
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 11:05:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jmIUL-0000QS-0W
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 10:59:29 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:21431
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jmIZA-00067Q-MR
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 11:04:28 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58315
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jmIUI-0004zy-L3
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 10:59:28 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jmIZ8-0006ZA-QO
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 11:04:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592578764;
+ s=mimecast20190719; t=1592579063;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=zkEPXXVb2uQc1CQ0d4NrOJpMxWbJnfObQscqAlNTRak=;
- b=TBDm7hCtBhOPJbnlUVm5lv1bau3lHGmcpcam3PCg+7C4/D7rKnIe3APAfYANhMD2sORZuM
- qJEfPv2jxgpCpZSTPVxNg4donQ51XMHv3RYRANfyMofSGYEY366zyViDeSDe0tfCDKUwXr
- HSgcUVPp4XrmNtnhckWCcicDocJzhrk=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-372-wmFAYI-lOFKPNkjrynFuhA-1; Fri, 19 Jun 2020 10:59:23 -0400
-X-MC-Unique: wmFAYI-lOFKPNkjrynFuhA-1
-Received: by mail-wm1-f71.google.com with SMTP id v24so4067217wmh.3
- for <qemu-devel@nongnu.org>; Fri, 19 Jun 2020 07:59:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:autocrypt:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Li43D/GxwfC5KjJjrb/5440gG3IN0LqUncP145w/BCM=;
- b=DH+CXPsbisy4vbLhLIprWJWeXIFaerzJaVi7i2PQYn153Drlrp3GkaiFTdOnNn2bkc
- LWQho/sdw6409kZS20MjVTsik4olNEBSfHBGgQ8UAyA15i6yxbVu1rWaHb2ktqDKayC+
- jsvkOG2Azne+ZUPJnDsTwIJXCrgITVhR3iSU6dYIDzVdhhtC8FZkQqv8s7yDRVgpNyQ4
- S7VMsBIZSXcOfhsZWe4XUzNEsNdZAUiPzRUzvtGL5n8NHlYc7y4WcWEMdmtprMLY85sz
- IlZfRsu5WcEFTIaFNBak1bnMN7pNBY1aKc6UrkQkbHxZODDjUsSvc2VEXqV3AqD+JiSv
- /Xnw==
-X-Gm-Message-State: AOAM533TO/TUExdtfuM4e/W3snrI0Il37PFmOX8YCxR/XIpAublXx7lV
- IpgFPYSB2ayf2UqGI4qHjJM0McDCaY571smGD99f79vmUcImgE0U5iz2bjfHdpHN9iohqtIKpmR
- q+ufEJsox3GqaCP4=
-X-Received: by 2002:adf:9dd0:: with SMTP id q16mr4809000wre.410.1592578761797; 
- Fri, 19 Jun 2020 07:59:21 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyx0FUPnrLJVuEzfEDSVrxCSYniHX7/RiqaTJtMS55yrtHjGaVNlbZOxIykokiBERo2YoWFgg==
-X-Received: by 2002:adf:9dd0:: with SMTP id q16mr4808982wre.410.1592578761579; 
- Fri, 19 Jun 2020 07:59:21 -0700 (PDT)
-Received: from [192.168.1.37] (93.red-83-59-160.dynamicip.rima-tde.net.
- [83.59.160.93])
- by smtp.gmail.com with ESMTPSA id h7sm7421915wml.24.2020.06.19.07.59.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 19 Jun 2020 07:59:21 -0700 (PDT)
-Subject: Re: how to build QEMU with the peripheral device modules
-To: casmac <climber.cui@qq.com>, qemu-devel <qemu-devel@nongnu.org>
-References: <tencent_2BB56CF9C4F3AA4DBB9D8A50C3BFBDCA720A@qq.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <00d27d39-e82d-103c-eac8-01313e3b365f@redhat.com>
-Date: Fri, 19 Jun 2020 16:59:20 +0200
+ bh=YL/3okwzdhy7eKvbTZRg3cahSh6Pl/zwhv3e5+4KZus=;
+ b=AHAQryUp2Cgox36bxCQQI0a4+9RUOSxta+xyNGJ5sU/Tux4c6MltRt0dmpj5iJoZJjsY4T
+ 2XtZURBpsl3ZZoCf2hKtekkEk8HDP6NTjv7NyR081f5KTottVKnCiJOTjLI+ZX3siSJHKH
+ HDgiV7FeW51bGkdvr76Ow7137jCBD8M=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-168-mK50pHb6M-aZZ-TDMgNBEw-1; Fri, 19 Jun 2020 11:04:19 -0400
+X-MC-Unique: mK50pHb6M-aZZ-TDMgNBEw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2CD28800053;
+ Fri, 19 Jun 2020 15:04:18 +0000 (UTC)
+Received: from [10.10.117.188] (ovpn-117-188.rdu2.redhat.com [10.10.117.188])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E37325BAD6;
+ Fri, 19 Jun 2020 15:04:12 +0000 (UTC)
+Subject: Re: [PATCH 0/7] python: create installable package
+To: Kevin Wolf <kwolf@redhat.com>
+References: <20200603001523.18085-1-jsnow@redhat.com>
+ <20200617195241.GA434320@localhost.localdomain>
+ <32791435-4aa4-7eaa-e2c6-b53165f2e28d@redhat.com>
+ <20200618092319.GA6012@linux.fritz.box>
+From: John Snow <jsnow@redhat.com>
+Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <5944404f-3833-3bc5-d3e4-1cf459b4c0c1@redhat.com>
+Date: Fri, 19 Jun 2020 11:04:12 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <tencent_2BB56CF9C4F3AA4DBB9D8A50C3BFBDCA720A@qq.com>
+In-Reply-To: <20200618092319.GA6012@linux.fritz.box>
 Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/19 02:45:39
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/19 05:19:18
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -120,77 +157,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Max Reitz <mreitz@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
 
-On 6/19/20 3:24 PM, casmac wrote:
-> Hi All,
->    I am trying to add a DMA peripheral module. In hw/dma directory, a
-> file  ti_dma.c is added.
->    Also, in hw/dma/kconfig, I added the following lines:
-> config TI_DMA
-> bool
 
-You need some device that 'selects' your device.
-
-You can select it by default:
-
-  config TI_DMA
-      bool
-      default y
-
-You can enforce the selection on a target. For example to add it
-to all the ARM machines, in default-configs/arm-softmmu.mak add:
-
-CONFIG_TI_DMA=y
-
-The best is to only select it when required. For example if you
-need it on all machines using a TI OMAP SoC, then you'd select it
-in the OMAP section of hw/arm/Kconfig:
-
-  config OMAP
-      bool
-      select FRAMEBUFFER
-      select I2C
-      select ECC
-      select NAND
-      select PFLASH_CFI01
-      select SD
-      select SERIAL
-      select TI_DMA
-
-You should have enough to adapt to your needs.
-
-Regards,
-
-Phil.
-
->    In hw/dma/makefile.ojb, added one line:
-> common-obj-$(CONFIG_TI_DMA) += ti_dma.o
->    However, ti_dma.c is not compiled as the QEMU project is built. Some
-> directories(eg. block, cpu...) under hw will be compiled though. 
->    The makefile.obj seems to show that the DMA module would be built
-> along with  others:
-> devices-dirs-y = core/
-> ifeq ($(CONFIG_SOFTMMU), y)
-> devices-dirs-$(call lor,$(CONFIG_VIRTIO_9P),$(call
-> land,$(CONFIG_VIRTFS),$(CONFIG_XEN))) += 9pfs/
-> devices-dirs-y += acpi/
-> devices-dirs-y += adc/
-> devices-dirs-y += audio/
-> devices-dirs-y += block/
-> devices-dirs-y += bt/
-> devices-dirs-y += char/
-> devices-dirs-y += cpu/
-> devices-dirs-y += display/
-> devices-dirs-y += dma/
-> devices-dirs-y += gpio/
-> ......
->     I am not sure what is missing here. Any advise would be appreciated.
-> Thanks.
+On 6/18/20 5:23 AM, Kevin Wolf wrote:
+> Am 17.06.2020 um 22:27 hat John Snow geschrieben:
+>>> In the Avocado project, we have a `make develop` rule that does that
+>>> for the main setup.py file, and for all plugins we carry on the same
+>>> tree, which is similar in some regards to the "not at the project root
+>>> directory" situation here with "qemu/python/setup.py".
+>>>
+>>
+>> Ah, yeah. If we're going this far, I'd prefer using a VENV over
+>> modifying the user's environment. That way you can blast it all away
+>> with a `make distclean`.
+>>
+>> Maybe the "make develop" target could even use the presence of a .venv
+>> directory to know when it needs to make the environment or not ...
+> [..]
+>> For QEMU developers, installing with develop is going to be the smart
+>> way to go. When your git tree is updated, your package will be updated
+>> along with it. You can do it once and then probably forget about it.
 > 
-> xiaolei
+> I don't think we can make this a manual step at all. Building QEMU
+> requires running some Python scripts (e.g. the QAPI generator), so the
+> setup needs to be done either in configure or in a Makefile target that
+> is specified as a dependency of any rule that would run a Python script.
+> Building QEMU once would then be enough.
+> 
+
+I am imagining that we might treat "building" and "testing" separately
+-- as it is, builds require python3.5 and tests requires 3.6 which
+definitely necessitates two distinct environments.
+
+I will admit that I haven't constructed a full, coherent vision of
+python management that encapsulates both building ad testing yet. For
+example, should configure/make expect to be run inside of a venv, or
+should they expect to create and then enter the venv? That's not clear
+to me yet. I'm simultaneously trying to work out with Peter Maydell how
+the sphinx dependency should work. Sphinx is presently our only python
+dependency for our build environment.)
+
+Perhaps starting with the testing step is a good starting point and we
+can use an implicit dependency on a `make develop` style step so it
+happens automatically.
+
+(But perhaps keeping it as a standalone target that CAN be invoked
+manually would be nice if you want to do some more intensive debugging
+or development of new tests.)
+
+> Doing it automatically also means that we have to keep things local to
+> the QEMU directory rather than installing them globally into the user
+> directory. This is desirable anyway: Most of us deal with more than one
+> QEMU source tree, so conflicts would be inevitable.
+> 
+
+I think it should be easy enough to put the VENV in the build directory
+to prevent cross-contamination.
+
+> Kevin
+> 
 
 
