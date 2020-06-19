@@ -2,74 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0363620141E
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 18:11:11 +0200 (CEST)
-Received: from localhost ([::1]:42930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8C68201421
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 18:12:33 +0200 (CEST)
+Received: from localhost ([::1]:46896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jmJbi-0003nl-3j
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 12:11:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41270)
+	id 1jmJd2-0005VD-Qk
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 12:12:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41344)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1jmJaD-0001ur-0s
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 12:09:37 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:46464
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1jmJaA-0002Lm-Mv
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 12:09:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592582973;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=I312RrnGPjHwdsnBELG74IdqjvGt+9W8gL4g09O+1ko=;
- b=IW5MiVjEL0cXiifbXJ33lHkJ7IThR8PA8cRdMsVTYsVJrifSRgpoPWJisF3dv/NMUWQXbZ
- IUiH5264I0fP7MLrV6sJkafbqCc6THRl/vxBnkz7ZiDjwtNcJzoCz3msR+PJmpc9nCG5II
- V/ismbEo+KsYG2PTTCRftV/YQ+roF+Y=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-483-4nqdKz90Nca_MbOgQBn6Ww-1; Fri, 19 Jun 2020 12:09:30 -0400
-X-MC-Unique: 4nqdKz90Nca_MbOgQBn6Ww-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C53B918C6EC4;
- Fri, 19 Jun 2020 16:09:29 +0000 (UTC)
-Received: from horse.redhat.com (ovpn-114-35.rdu2.redhat.com [10.10.114.35])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2CE7A5D9CA;
- Fri, 19 Jun 2020 16:09:24 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id AF7BD220390; Fri, 19 Jun 2020 12:09:23 -0400 (EDT)
-Date: Fri, 19 Jun 2020 12:09:23 -0400
-From: Vivek Goyal <vgoyal@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [Virtio-fs] [PATCH 0/2] virtiofsd: drop Linux capabilities(7)
-Message-ID: <20200619160923.GD3154@redhat.com>
-References: <20200416164907.244868-1-stefanha@redhat.com>
- <20200618190816.GD3814@redhat.com> <20200618191655.GI2769@work-vm>
- <20200618192717.GE3814@redhat.com> <20200619082746.GA2690@work-vm>
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1jmJak-000352-2u; Fri, 19 Jun 2020 12:10:10 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:42364)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1jmJag-0002O2-7g; Fri, 19 Jun 2020 12:10:09 -0400
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 05JG2B9N185975; Fri, 19 Jun 2020 12:10:02 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 31rthf3yxq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 19 Jun 2020 12:10:00 -0400
+Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 05JG2NFE186921;
+ Fri, 19 Jun 2020 12:10:00 -0400
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
+ [169.63.214.131])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 31rthf3yx2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 19 Jun 2020 12:10:00 -0400
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+ by ppma01dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 05JG5IFc021913;
+ Fri, 19 Jun 2020 16:09:58 GMT
+Received: from b03cxnp07029.gho.boulder.ibm.com
+ (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
+ by ppma01dal.us.ibm.com with ESMTP id 31rdtr8gwg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 19 Jun 2020 16:09:58 +0000
+Received: from b03ledav003.gho.boulder.ibm.com
+ (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
+ by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 05JG9vxp57671948
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 19 Jun 2020 16:09:57 GMT
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 59AE96A04F;
+ Fri, 19 Jun 2020 16:09:57 +0000 (GMT)
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 544776A047;
+ Fri, 19 Jun 2020 16:09:56 +0000 (GMT)
+Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
+ by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Fri, 19 Jun 2020 16:09:56 +0000 (GMT)
+Subject: Re: [PATCH v6 1/3] acpi: Some build_tpm2() code reshape
+To: Eric Auger <eric.auger@redhat.com>, eric.auger.pro@gmail.com,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org, peter.maydell@linaro.org,
+ mst@redhat.com, imammedo@redhat.com
+References: <20200619141851.16272-1-eric.auger@redhat.com>
+ <20200619141851.16272-2-eric.auger@redhat.com>
+From: Stefan Berger <stefanb@linux.ibm.com>
+Message-ID: <bfd5813b-12ef-04c8-0f21-4a3934fa0035@linux.ibm.com>
+Date: Fri, 19 Jun 2020 12:09:55 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200619082746.GA2690@work-vm>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=vgoyal@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/19 03:15:03
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <20200619141851.16272-2-eric.auger@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.687
+ definitions=2020-06-19_16:2020-06-19,
+ 2020-06-19 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 clxscore=1015
+ impostorscore=0 cotscore=-2147483648 bulkscore=0 adultscore=0
+ lowpriorityscore=0 spamscore=0 mlxlogscore=999 suspectscore=0
+ malwarescore=0 mlxscore=0 priorityscore=1501 classifier=spam adjust=0
+ reason=mlx scancount=1 engine=8.12.0-2004280000
+ definitions=main-2006190114
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=stefanb@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/19 12:10:04
+X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,143 +103,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>, Miklos Szeredi <miklos@szeredi.hu>
+Cc: thuth@redhat.com, lersek@redhat.com, drjones@redhat.com,
+ shannon.zhaosl@gmail.com, marcandre.lureau@redhat.com, philmd@redhat.com,
+ ardb@kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jun 19, 2020 at 09:27:46AM +0100, Dr. David Alan Gilbert wrote:
-> * Vivek Goyal (vgoyal@redhat.com) wrote:
-> > On Thu, Jun 18, 2020 at 08:16:55PM +0100, Dr. David Alan Gilbert wrote:
-> > > * Vivek Goyal (vgoyal@redhat.com) wrote:
-> > > > On Thu, Apr 16, 2020 at 05:49:05PM +0100, Stefan Hajnoczi wrote:
-> > > > > virtiofsd doesn't need of all Linux capabilities(7) available to root.  Keep a
-> > > > > whitelisted set of capabilities that we require.  This improves security in
-> > > > > case virtiofsd is compromised by making it hard for an attacker to gain further
-> > > > > access to the system.
-> > > > 
-> > > > Hi Stefan,
-> > > > 
-> > > > I just noticed that this patch set breaks overlayfs on top of virtiofs.
-> > > > 
-> > > > overlayfs sets "trusted.overlay.*" and xattrs in trusted domain
-> > > > need CAP_SYS_ADMIN.
-> > > > 
-> > > > man xattr says.
-> > > > 
-> > > >    Trusted extended attributes
-> > > >        Trusted  extended  attributes  are  visible and accessible only to pro‐
-> > > >        cesses that have the  CAP_SYS_ADMIN  capability.   Attributes  in  this
-> > > >        class are used to implement mechanisms in user space (i.e., outside the
-> > > >        kernel) which keep information in extended attributes to which ordinary
-> > > >        processes should not have access.
-> > > > 
-> > > > There is a chance that overlay moves away from trusted xattr in future.
-> > > > But for now we need to make it work. This is an important use case for
-> > > > kata docker in docker build.
-> > > > 
-> > > > May be we can add an option to virtiofsd say "--add-cap <capability>" and
-> > > > ask user to pass in "--add-cap cap_sys_admin" if they need to run daemon
-> > > > with this capaibility.
-> > > 
-> > > I'll admit I don't like the idea of giving it cap_sys_admin.
-> > > Can you explain:
-> > >   a) What overlayfs uses trusted for?
-> > 
-> > overlayfs stores bunch of metadata and uses "trusted" xattrs for it.
-> 
-> Tell me more about this metadata.
-> Taking a juicy looking one, what does OVL_XATTR_REDIRECT do?
+On 6/19/20 10:18 AM, Eric Auger wrote:
+> Remove any reference to Acpi20TPM2 and adopt an implementation
+> similar to build_ghes_v2().
+>
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> Suggested-by: Igor Mammedov <imammedo@redhat.com>
 
-It contains path information which is used for lookup into lower layer.
+Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
 
-> Or what happens if I was to write random numbers into OVL_XATTR_NLINK?
-
-Overlay is storing its metadata in trusted.* xattrs. If a user modifies
-metadata, then various kind of bad things can happen. I think one can
-do some kind of checks on metadata to make sure it does not crash
-atleast.
-
-And that's true for any filesystem. Isn't. If user manages to modify
-metadata outside of filesystem, then lot of bad things can happen. I
-thought that's the reason that people are not comfortable with the
-idea of allowing mounting filesystem from inside user namespace because
-it makes it easy to mount a hand crafted filesystem.
-
-Anyway, I think overlayfs is just one use case of trusted xattr. Even
-if overlayfs moves away from trusted xattr, what about other users.
-We need to have a story around how will we support trusted xattrs
-safely.
+Tested-by: Stefan Berger <stefanb@linux.ibm.com>
 
 
-> 
-> > >   b) If something nasty was to write junk into the trusted attributes,
-> > >     what would happen?
-> > 
-> > This directory is owned by guest. So it should be able to write
-> > anything it wants, as long as process in guest has CAP_SYS_ADMIN, right?
-> 
-> Well, we shouldn't be able to break/crash/escape into the host; how
-> much does overlayfs validate trusted.* it uses?
+>
+> ---
+>
+> v5 -> v6:
+> - add reference to the spec + comment about LAML and LASA fields
+> - also moved LASA intro comment above build_append_int_noprefix()
+>    as requested by Igor
+> ---
+>   hw/acpi/aml-build.c | 54 +++++++++++++++++++++++++++++----------------
+>   1 file changed, 35 insertions(+), 19 deletions(-)
+>
+> diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
+> index 2cb7b991ef..1cc08a3eb9 100644
+> --- a/hw/acpi/aml-build.c
+> +++ b/hw/acpi/aml-build.c
+> @@ -1878,48 +1878,64 @@ build_hdr:
+>                    "FACP", tbl->len - fadt_start, f->rev, oem_id, oem_table_id);
+>   }
+>   
+> +/*
+> + * build_tpm2 - Build the TPM2 table as specified in table 7 of
+> + * "TCG ACPI Specification; Family 1.2 and 2.0;
+> + * Level 00 Revision 00.37, December 19, 2014"
+> + * Note: the LASA and LAML fields are optional for TPM-2.0 (the above
+> + * table does not mention them) but are needed at least for SeaBIOS.
+> + * See the Acpi20TPM2 struct for the corresponding layout.
+> + */
+>   void build_tpm2(GArray *table_data, BIOSLinker *linker, GArray *tcpalog)
+>   {
+> -    Acpi20TPM2 *tpm2_ptr = acpi_data_push(table_data, sizeof(AcpiTableHeader));
+> -    unsigned log_addr_size = sizeof(tpm2_ptr->log_area_start_address);
+> -    unsigned log_addr_offset =
+> -        (char *)&tpm2_ptr->log_area_start_address - table_data->data;
+>       uint8_t start_method_params[12] = {};
+> +    unsigned log_addr_offset, tpm2_start;
+> +    uint64_t control_area_start_address;
+>       TPMIf *tpmif = tpm_find();
+> +    uint32_t start_method;
+> +    void *tpm2_ptr;
+>   
+> -    /* platform class */
+> +    tpm2_start = table_data->len;
+> +    tpm2_ptr = acpi_data_push(table_data, sizeof(AcpiTableHeader));
+> +
+> +    /* Platform Class */
+>       build_append_int_noprefix(table_data, TPM2_ACPI_CLASS_CLIENT, 2);
+> -    /* reserved */
+> +    /* Reserved */
+>       build_append_int_noprefix(table_data, 0, 2);
+>       if (TPM_IS_TIS_ISA(tpmif) || TPM_IS_TIS_SYSBUS(tpmif)) {
+> -        /* address of control area */
+> -        build_append_int_noprefix(table_data, 0, 8);
+> -        /* start method */
+> -        build_append_int_noprefix(table_data, TPM2_START_METHOD_MMIO, 4);
+> +        control_area_start_address = 0;
+> +        start_method = TPM2_START_METHOD_MMIO;
+>       } else if (TPM_IS_CRB(tpmif)) {
+> -        build_append_int_noprefix(table_data, TPM_CRB_ADDR_CTRL, 8);
+> -        build_append_int_noprefix(table_data, TPM2_START_METHOD_CRB, 4);
+> +        control_area_start_address = TPM_CRB_ADDR_CTRL;
+> +        start_method = TPM2_START_METHOD_CRB;
+>       } else {
+> -        g_warn_if_reached();
+> +        g_assert_not_reached();
+>       }
+> +    /* Address of Control Area */
+> +    build_append_int_noprefix(table_data, control_area_start_address, 8);
+> +    /* Start Method */
+> +    build_append_int_noprefix(table_data, start_method, 4);
+>   
+> -    /* platform specific parameters */
+> -    g_array_append_vals(table_data, &start_method_params, 12);
+> +    /* Platform Specific Parameters */
+> +    g_array_append_vals(table_data, &start_method_params,
+> +                        ARRAY_SIZE(start_method_params));
+>   
+> -    /* log area minimum length */
+> +    /* Log Area Minimum Length */
+>       build_append_int_noprefix(table_data, TPM_LOG_AREA_MINIMUM_SIZE, 4);
+>   
+>       acpi_data_push(tcpalog, TPM_LOG_AREA_MINIMUM_SIZE);
+>       bios_linker_loader_alloc(linker, ACPI_BUILD_TPMLOG_FILE, tcpalog, 1,
+>                                false);
+>   
+> -    /* log area start address to be filled by Guest linker */
+> +    log_addr_offset = table_data->len;
+> +
+> +    /* Log Area Start Address to be filled by Guest linker */
+>       build_append_int_noprefix(table_data, 0, 8);
+>       bios_linker_loader_add_pointer(linker, ACPI_BUILD_TABLE_FILE,
+> -                                   log_addr_offset, log_addr_size,
+> +                                   log_addr_offset, 8,
+>                                      ACPI_BUILD_TPMLOG_FILE, 0);
+>       build_header(linker, table_data,
+> -                 (void *)tpm2_ptr, "TPM2", sizeof(*tpm2_ptr), 4, NULL, NULL);
+> +                 tpm2_ptr, "TPM2", table_data->len - tpm2_start, 4, NULL, NULL);
+>   }
+>   
+>   /* ACPI 5.0: 6.4.3.8.2 Serial Bus Connection Descriptors */
 
-I thought qemu and kvm are the one who should ensure we should not be
-able to break out of sandbox. Kernel implementation could be as 
-buggy as it wanted to be. We are working with this security model
-that kernel is completely untrusted.
-
-> 
-> > >   c) I see overlayfs has a fallback check if xattr isn't supported at
-> > > all - what is the consequence?
-> > 
-> > It falls back to I think read only mode. 
-> 
-> It looks like the fallback is more subtle to me:
->         /*
->          * Check if upper/work fs supports trusted.overlay.* xattr
->          */
->         err = ovl_do_setxattr(ofs->workdir, OVL_XATTR_OPAQUE, "0", 1, 0);
->         if (err) {
->                 ofs->noxattr = true;
->                 ofs->config.index = false;
->                 ofs->config.metacopy = false;
->                 pr_warn("upper fs does not support xattr, falling back to index=off and metacopy=off.\n");
-> 
-> but I don't know what index and metacopy are.
-
-They enable certain features in overlayfs. In fact, we fall back to
-lesser capability on if we are running on ext4/xfs. For virtiofs, 
-we deny the mount completely.
-
-        /*
-         * We allowed sub-optimal upper fs configuration and don't want to break
-         * users over kernel upgrade, but we never allowed remote upper fs, so
-         * we can enforce strict requirements for remote upper fs.
-         */
-        if (ovl_dentry_remote(ofs->workdir) &&
-            (!d_type || !rename_whiteout || ofs->noxattr)) {
-                pr_err("upper fs missing required features.\n");
-                err = -EINVAL;
-                goto out;
-        }
-
-> 
-> > For a moment forget about overlayfs. Say a user process in guest with
-> > CAP_SYS_ADMIN is writing trusted.foo. Should that succeed? Is a
-> > passthrough filesystem, so it should go through. But currently it
-> > wont.
-> 
-> As long as any effects of what it writes are contained to the area of
-> the filesystem exposed to the guest, yes - however it worries me what
-> the consequences of broken trusted metadata is.  If it's delicate enough
-> that it's guarded by CAP_SYS_ADMIN someone must have worried about it.
-
-Agreed that we need to look into whether having CAP_SYS_ADMIN allow
-virtiofsd to break out of jail. 
-
-May be we need to provide that remapping trusted xattr feature so
-that we don't have to have CAP_SYS_ADMIN in init_user_ns and can
-provide this emulation even when running in user namespace.
-
-Vivek
 
 
