@@ -2,68 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC43320126E
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 17:53:28 +0200 (CEST)
-Received: from localhost ([::1]:36062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE6772012C9
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 17:56:48 +0200 (CEST)
+Received: from localhost ([::1]:41878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jmJKZ-0007CU-Ss
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 11:53:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36246)
+	id 1jmJNn-0001O6-Vd
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 11:56:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jmJJa-0006ku-0R
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 11:52:26 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:57336
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mgamal@redhat.com>) id 1jmJMS-0008V1-GQ
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 11:55:24 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:25549
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jmJJY-0007ab-1p
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 11:52:25 -0400
+ (Exim 4.90_1) (envelope-from <mgamal@redhat.com>) id 1jmJMQ-00080s-R3
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 11:55:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592581942;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=TwYCS38X66RlwOiNXHDbbvAR2QjAHypUAvfwoYIhq4U=;
- b=hwusCeqdliPVqqG9q7d8pnAXIEbj/YISs2J6HQqaiET6dQ1YqMdleOt2MBXqj+0XwB777j
- O+1Rs+BmjlGoR0MPCkJCm5Ygj5tfhmLOE7P+mRHL7ASxAMn5zIQseMknVqqBHv6Allqvp9
- O2OLSYV75Ma1QTNluW/BSDMmCanNpzE=
+ s=mimecast20190719; t=1592582122;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=to2CQWKmk1BHkNF1i45gKO63shrPi4wxU7I0QHSWvYE=;
+ b=a+xwZIkenr5eM9mZOG51JuItsg69frI3vkFMkiPC6q07YiZcfoV1EsF7OluS0xPSvJSwLg
+ sGy4e4g9VeZMgShLOsSCbl6YpG9OXPPjmVBQpxco11iVCzhwmt8/8GXX/dSDcFkt0jQgzU
+ gRVfwoaojHmBRBN0sgCyvui3Jt2Ee1o=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-19-_ar9jqGSNYS9pEvQBAkNng-1; Fri, 19 Jun 2020 11:52:04 -0400
-X-MC-Unique: _ar9jqGSNYS9pEvQBAkNng-1
+ us-mta-384-CVn1DvXPMHOb91P4X9CdmA-1; Fri, 19 Jun 2020 11:54:00 -0400
+X-MC-Unique: CVn1DvXPMHOb91P4X9CdmA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BDD5D801503;
- Fri, 19 Jun 2020 15:52:02 +0000 (UTC)
-Received: from redhat.com (unknown [10.36.110.65])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EB4245BAD3;
- Fri, 19 Jun 2020 15:52:00 +0000 (UTC)
-Date: Fri, 19 Jun 2020 16:51:57 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH] Deprecate TileGX port
-Message-ID: <20200619155157.GX700896@redhat.com>
-References: <20200619154831.26319-1-peter.maydell@linaro.org>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 55711108BD09;
+ Fri, 19 Jun 2020 15:53:52 +0000 (UTC)
+Received: from localhost.localdomain.com (ovpn-112-254.ams2.redhat.com
+ [10.36.112.254])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 96C9E5BAD3;
+ Fri, 19 Jun 2020 15:53:47 +0000 (UTC)
+From: Mohammed Gamal <mgamal@redhat.com>
+To: qemu-devel@nongnu.org,
+	pbonzini@redhat.com
+Subject: [PATCH 0/2] kvm: x86/cpu: Support guest MAXPHYADDR < host MAXPHYADDR
+Date: Fri, 19 Jun 2020 17:53:42 +0200
+Message-Id: <20200619155344.79579-1-mgamal@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200619154831.26319-1-peter.maydell@linaro.org>
-User-Agent: Mutt/1.14.0 (2020-05-02)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=berrange@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/19 03:15:03
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=mgamal@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/19 02:45:39
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -71,7 +60,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,52 +73,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Chen Gang <chengang@emindsoft.com.cn>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
+Cc: mtosatti@redhat.com, Mohammed Gamal <mgamal@redhat.com>,
+ ehabkost@redhat.com, kvm@vger.kernel.org, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jun 19, 2020 at 04:48:31PM +0100, Peter Maydell wrote:
-> Deprecate our TileGX target support:
->  * we have no active maintainer for it
->  * it has had essentially no contributions (other than tree-wide cleanups
->    and similar) since it was first added
->  * the Linux kernel dropped support in 2018, as has glibc
-> 
-> Note the deprecation in the manual, but don't try to print a warning
-> when QEMU runs -- printing unsuppressable messages is more obtrusive
-> for linux-user mode than it would be for system-emulation mode, and
-> it doesn't seem worth trying to invent a new suppressible-error
-> system for linux-user just for this.
+This series adds support for KVM_CAP_HAS_SMALLER_MAXPHYADDR to QEMU.
+Some processors might not handle GUEST_MAXPHYADDR < HOST_MAXPHYADDR in
+the expected manner. Hence, we added KVM_CAP_HAS_SMALLER_MAXPHYADDR to
+KVM.
+In this implementation KVM is queried for KVM_CAP_HAS_SMALLER_MAXPHYADDR
+when setting vCPU physical bits, and if the CPU doesn't support 
+KVM_CAP_HAS_SMALLER_MAXPHYADDR the ,phys-bits is ignore and host phyiscal
+bits are used. A warning message is printed to the user.
 
-Potentially we could turn it off by default in configure, so it
-requires an explicit  --target-list to request it, but either way,
-I don't mind.
+Mohammed Gamal (2):
+  kvm: Add support for KVM_CAP_HAS_SMALLER_MAXPHYADDR
+  x86/cpu: Handle GUEST_MAXPHYADDR < HOST_MAXPHYADDR for hosts that
+    don't support it
 
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
-> We discussed dropping this target last year:
->  https://patchew.org/QEMU/20191012071210.13632-1-philmd@redhat.com/
-> and before that in 2018, when Chen told us he didn't have time
-> to work on tilegx any more:
-> https://lists.gnu.org/archive/html/qemu-devel/2018-03/msg03955.html
-> Given that tilegx is no longer in upstream Linux I think it makes sense
-> to finally deprecate-and-drop our linux-user support for it.
-> 
->  docs/system/deprecated.rst | 11 +++++++++++
->  1 file changed, 11 insertions(+)
+ linux-headers/linux/kvm.h |  1 +
+ target/i386/cpu.c         | 11 +++++++++++
+ target/i386/kvm.c         |  5 +++++
+ target/i386/kvm_i386.h    |  1 +
+ 4 files changed, 18 insertions(+)
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-
-
-Regards,
-Daniel
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.26.2
 
 
