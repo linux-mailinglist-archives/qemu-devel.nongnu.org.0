@@ -2,73 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95A9820088E
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 14:20:46 +0200 (CEST)
-Received: from localhost ([::1]:38806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E93B200905
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 14:50:56 +0200 (CEST)
+Received: from localhost ([::1]:53514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jmG0j-0008D7-Ko
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 08:20:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58384)
+	id 1jmGTv-0002s6-Eq
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 08:50:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37442)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jmFyK-00059h-9v
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 08:18:16 -0400
-Received: from mail-oi1-x232.google.com ([2607:f8b0:4864:20::232]:39391)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jmFyH-0001bq-GZ
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 08:18:15 -0400
-Received: by mail-oi1-x232.google.com with SMTP id d67so8252064oig.6
- for <qemu-devel@nongnu.org>; Fri, 19 Jun 2020 05:18:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ruAogPAI5hhodelLxaMrVvdQh06qfaDcqOpLU4bnDhI=;
- b=tLb9sv46vJFHGoCKM4v0BXZI4LVIIg2wjiqFyhm4YjU6nL0lHkhPmTWrRKRanK49gJ
- dmSzCVWR5JizqI+Ry5HbcL25Ql5fC2fIieAqxVig8yhQQdTnzMmAYcNnbhxLGHxEc8bS
- sTg85qjkiyUP2fJx8VcHXYSi2dSLGjepY9I8Hb/HDLo+oX9Ey8R1EXxltobuZ/KGM117
- tCylnY/nV7PimAFxuFw3+cWXdSRXBITE9OjC7IAqKRd4FjSOe7aXgFYj5rU1GqiMBv2X
- g81Ckcj/2+srh7JOZiWMH1G67aZRNy66uCbnTFLQWV9z3qub05J83bAacALytGZ5VFVd
- UFHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ruAogPAI5hhodelLxaMrVvdQh06qfaDcqOpLU4bnDhI=;
- b=iTk5G4FCfEBXUcRbNrtlsASbTPlg0Q5zRma/wBe1hIhmEbfpe7nKdpm5IG2c8rfIAL
- NQgtxN/Hik4jshz8GFCm3YCPUaDSSKJJybpF2pOF0xQszJwpb1sLKjW8YxbOMIFmqtEt
- PeBjt9aiXvbsxec7kxdWJwbdj01ECvwEKE5T/gWzc3wZS4rb+RT32TRYua+DoZDGDLbj
- BIK82caC8BkXEHkiAEPZ8PdmLqil881womFZaq1ZGAUaVDe8Jal0MMwEAOFikqiShx/J
- XS/G07hvTY03eHcsUxmCr2wu+Srtf6FlpzUEi+MNTxqYVQXB3QakCeXI04uemlWoevtH
- EIiQ==
-X-Gm-Message-State: AOAM532nD0Yh0TUG7wEm+IIMbZS+VTmHrvaAMKz+MFR1s39dyz3WxkjO
- TOOPFo/SIZ3kKOIhpjvy09W5VuhX30J8eO6PSZ4+wsjlvRU=
-X-Google-Smtp-Source: ABdhPJwI9N1hEqx0ad3/1IJ2uqe2iz3gMd9KVoZnpWAEwHHy19gAaXLptduvm6HKiQQuwryjwMk3OaHv2PY1HeDRdJg=
-X-Received: by 2002:aca:5152:: with SMTP id f79mr2705659oib.146.1592569092091; 
- Fri, 19 Jun 2020 05:18:12 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <Filip.Bozuta@syrmia.com>)
+ id 1jmGRv-0000J9-6L
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 08:48:51 -0400
+Received: from mail-am6eur05on2105.outbound.protection.outlook.com
+ ([40.107.22.105]:53569 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <Filip.Bozuta@syrmia.com>)
+ id 1jmGRt-0006dB-Cq
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 08:48:50 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bum1XC9BoBCraele48Jobs3bX9kQBQK3kZ8ss9FRSnk2dWjOhwFD3bhKLeJXJXSTW5ysC/OueGak0MIBbAA6MfVEsrsxzRqJU/HM2Vr3qdAuuxJL0r8ZQjj2dL2+ZTI9N6UbkDGmzOoOLUkgHDfzKnhyROXRqESNiaUqmFqrLmNs4ekDZn2c+sXro7J5KqQiUbnf87+PZss5QLRONaaLMzUS5+qhLf1J82RE6rPQqF6pd5ve5nUCKBr/znbucWZMNLnpIPweltdakUi83QSHNBDhbK4X7NhCKZUXEOzdkv5iH11cnsb4rWw1xqlVJlO1F4hBLeOr1elMAByCaFu8gA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=taXPEV/n87G+ZcN4BNseNL5ET/YXPTfMc71mqV0m6sU=;
+ b=a7v2cLVv0tfiiGWOymGcxS4hjauFvIYJdN0iYi5Fw+ZduT9BQrFnJz0J7N6azi/Fj/z0bWZdg27SyaXGEw0UY7pI3Dh7AS+IwVuFZEFKxWDoeq/j2eL85J41i6Bw2eMRnLiC9G1SKVXhkfHHh+xFGGMSqyiiV9OnEbjtg3oaI5oGJKTyZpEAV6ErdZxKVyCL+5V6LCfi14xxByUaPcirGXrWnifKYHwmcDn6pKDK4A7oMlLlBbU4wdJO7rqw10Qc22lJl6EMY22/U8/KG14Yjua1SGDFfHtpM0fR4Sudq0UDRiDrvMbG+k0AmpTaKI6ApRTTovk+A/8Va/jBcUIE/w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=syrmia.com; dmarc=pass action=none header.from=syrmia.com;
+ dkim=pass header.d=syrmia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=syrmia.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=taXPEV/n87G+ZcN4BNseNL5ET/YXPTfMc71mqV0m6sU=;
+ b=jG6CahvPwgHCp5Kk0kJXIGWq9treGUBVOmvU0C+GK8j61HT63js7x7RQoesvR23+Xiaw0HesOFGb24ryDYRDtM4VcxXodRccUrFJNUEURnk9Bei/OIg2wTwXtTF3rSm72DW5N47XeLh3fzdEVJdphEWyAHOToQdm+j5T4B9isDA=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=syrmia.com;
+Received: from AM6PR03MB5233.eurprd03.prod.outlook.com (2603:10a6:20b:d1::19)
+ by AM6PR03MB5315.eurprd03.prod.outlook.com (2603:10a6:20b:d1::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3109.23; Fri, 19 Jun
+ 2020 12:33:44 +0000
+Received: from AM6PR03MB5233.eurprd03.prod.outlook.com
+ ([fe80::98f0:b948:78a8:f618]) by AM6PR03MB5233.eurprd03.prod.outlook.com
+ ([fe80::98f0:b948:78a8:f618%7]) with mapi id 15.20.3109.023; Fri, 19 Jun 2020
+ 12:33:44 +0000
+From: Filip Bozuta <filip.bozuta@syrmia.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v5 0/6] Add strace support for printing arguments of selected
+ syscalls
+Date: Fri, 19 Jun 2020 14:33:25 +0200
+Message-Id: <20200619123331.17387-1-filip.bozuta@syrmia.com>
+X-Mailer: git-send-email 2.17.1
+Content-Type: text/plain
+X-ClientProxiedBy: ZR0P278CA0023.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:1c::10) To AM6PR03MB5233.eurprd03.prod.outlook.com
+ (2603:10a6:20b:d1::19)
 MIME-Version: 1.0
-References: <CAFEAcA_HOxdK5rgKVnww6Bum3vGb=TrhDEp7oqDwsd=UbHmC_g@mail.gmail.com>
- <c47e9e4e-49eb-88c5-fdc7-8ebec121c165@ispras.ru>
- <f4fc4a1b-4054-cffd-0272-22c28d656aba@redhat.com>
-In-Reply-To: <f4fc4a1b-4054-cffd-0272-22c28d656aba@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 19 Jun 2020 13:18:01 +0100
-Message-ID: <CAFEAcA-=igrJfoiga7b7rcwZDj46nTNMiT2VEj11DKO7OiJpNA@mail.gmail.com>
-Subject: Re: what are the requirements on target/ code for -icount to work
- correctly?
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::232;
- envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x232.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from bozuta-ubuntu-18.syrmia.com (46.240.135.226) by
+ ZR0P278CA0023.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:1c::10) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3109.21 via Frontend Transport; Fri, 19 Jun 2020 12:33:43 +0000
+X-Mailer: git-send-email 2.17.1
+X-Originating-IP: [46.240.135.226]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 367a3b6d-073f-485a-08e5-08d8144d016b
+X-MS-TrafficTypeDiagnostic: AM6PR03MB5315:
+X-Microsoft-Antispam-PRVS: <AM6PR03MB53154BA8845B42BE23A4FAE0EB980@AM6PR03MB5315.eurprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:514;
+X-Forefront-PRVS: 0439571D1D
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: hVMC7yIbGRtzi0OAbtoMurQjhHov8owfQ7ugXxxLoHOJTCIQqpm0UU0gpOdjsFnbEzGNKW0u+q+ChpOQ79UYz1rn8ipwtnJPENDV7OgvJqAIpdu+gmv/m3vV2erqQ4No+SLFQCu/093+3kvqjDH6ecoRODM2wvrt6gTq1Jz00pKI+UBPnWwcfDVqdUdOajHuG2lvFzVOgH6dsf383eoLq4aq3acISV8/65Ji4cWsgKwCxd00KUTpxtdSTjwo7BGvFVcvszXZK/aaRA7vqO0tHlWyeakimtTDzWWixIGZUjGCpT/jTOLffK4tAnujiWol
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM6PR03MB5233.eurprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(346002)(366004)(376002)(136003)(39830400003)(396003)(7696005)(52116002)(4326008)(186003)(36756003)(6916009)(2616005)(26005)(16526019)(66946007)(66476007)(316002)(956004)(66556008)(1076003)(83380400001)(2906002)(508600001)(6486002)(5660300002)(6666004)(8936002)(86362001)(44832011)(8676002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: l37d9I2omyqHckp59M1QECe8y/pKpw4QwAW3YxMtaEhS5lD/1FDDkU+LZgemqCqEoYMtd6rbojqsOXAoU2ToeDVsoc47lIF4J840rHRoK/PVPnya8NzikpVPnwFElePd2KknzeDUIysiZ5XhOYAk4RDs8MZ4S4dkhm8nssLo/ERw9BE9uGFcsGTexC2dvunEBMSh+ZQZJ7jkoyOm5ZocHyMn+0vaUo4SF0vnzMHBQ0AgnGJ+jYYju0vqV7X1pSM9/tjhhxx/teFH9VPeEJKEVZJXhFJkudH+AwIIIMmlvZgpEDsx9UpWz/8ndPBmLX+6gaBJ+3tl/vEE++YVoBzzoPlK0EjLXfvHm5PN+P2r5O1h4RGM04taMBeNAd443yna7AHBV6SjLcfNYIRZ9JuQjMcPPmIZIXi+cyi4RFtAGe/liWnbJSharxF3OIyyd8+LHT8PC2HwCMKACyWi+Gg+iCgdlNQ9Gf/LB3u//vX9l2w=
+X-OriginatorOrg: syrmia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 367a3b6d-073f-485a-08e5-08d8144d016b
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jun 2020 12:33:44.3573 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 19214a73-c1ab-4e19-8f59-14bdcb09a66e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: F9X/+/d28F9a/3R7zk94jfA6YQIU869PsAfNrHA3EJTdTDWpYldMKbyMHIaVxFeHdgyZCN9f4wRiRkDvAy4PvA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR03MB5315
+Received-SPF: pass client-ip=40.107.22.105;
+ envelope-from=Filip.Bozuta@syrmia.com;
+ helo=EUR05-AM6-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/19 08:48:48
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,48 +113,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Pavel Dovgalyuk <dovgaluk@ispras.ru>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: riku.voipio@iki.fi, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 19 Jun 2020 at 12:16, Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> On 19/06/20 07:46, Pavel Dovgalyuk wrote:
-> > I think, that we need some efforts from target maintainers to remove all such calls.
->
-> I'll take care of target/i386 (which does need one of the three
-> gen_io_end calls that are left).
+From: Filip Bozuta <Filip.Bozuta@syrmia.com>
 
-So why does it need it ? Why can't it just rely on "TB going to
-end anyway which will clear the can_do_io flag" ?
+This series covers strace support for printing arguments of following syscalls:
 
-> >> Q2: is it a requirement that after an insn which is a "known
-> >> to be an I/O insn" one (like x86 in/out) and which is marked
-> >> up with gen_io_start()/gen_io_end() that we also end the TB?
-> >
-> > It is a requirement for instructions that access virtual clock/icount
-> > value (directly or not).
-> >
-> > There is also an assertion that can_do_io is enabled while generating an
-> > interrupt. I believe, that it doesn't affect RR, but is useful for
-> > deterministic icount mode.
->
-> As I understand it, the definition of "I/O insn" is anything that can
-> either:
->
-> - affect the icount deadline (e.g. by setting or removing a
-> QEMU_CLOCK_VIRTUAL timer)
->
-> - interrupt the current translation block with cpu_loop_exit,
-> cpu_restore_state or similar.
+    *acct()           *lgetxattr()       *removexattr()       *lchown()
+    *fsync()          *fgetxattr()       *lremovexattr()      *fallocate()
+    *fdatasync()      *listxattr()       *fremovexattr()
+    *listen()         *llistxattr()      *lseek()
+    *getxattr()       *flistxattr()      *chown()
 
-Right, but really what I'm interested in is what the
-requirements are on translate.c code that emits one of these
-insns. The exact definition of what an I/O insn seems
-more straightforward (and you can always err on the safe side).
+The implementation details for strace support is described in this series patch
+commit messages.
 
-thanks
--- PMM
+Testing method:
+
+    Mini test programs were written that run these syscalls for different arguments.
+    Those programs were compiled (sometimes using cross-compilers) for the following
+    architectures:
+
+        * Intel 64-bit (little endian) (gcc)
+        * Power pc 32-bit (big endian) (powerpc-linux-gnu-gcc)
+        * Power pc 64-bit (big endian) (powerpc64-linux-gnu-gcc)
+        * Mips 32-bit (little endian) (mipsel-linux-gnu-gcc)
+        * Mips 64-bit (little endian) (mips64el-linux-gnuabi64-gcc)
+
+    The corresponding native programs were executed with strace, without using
+    QEMU, on Intel Core i7-4790K (x86_64) host.
+
+    All applicable compiled programs were in turn executed with "-strace"
+    through QEMU and the strace printing results obtained were the same 
+    ones gotten for native execution.
+
+v2:
+
+    * Added patch that extends strace support by enabling argument printing
+      after syscall execution
+    * Added strace support for argument printing for syscalls:
+      removexattr(), lremovexattr(), fremovexattr()
+    * Added "print_syscall_ret_listxattr()" that prints list of extended
+      attributes after execution of syscalls: listxattr(), llistxattr(),
+      flistxattr()
+    * Corrected formats in some printing functions
+    * Moved target_offset64() function definition from "syscall.c" to
+      "qemu.h"
+
+v3:
+
+    * Added generic function SYSCALL_RET_ERR() that checks the return value
+      and prints the approppriate error message
+    * Added "print_syscall_ret_llistxattr" and "print_syscall_ret_flistxattr"
+      in strace.list for "llistxattr()" and "flistxattr()" that have same
+      definition as "print_syscall_ret_listxattr"
+
+v4:
+
+    * Changed error printing from macro SYSCALL_RET_ERR() to function
+      print_syscall_err()
+    * Changed while loop in "print_syscall_ret_listxattr()" to check printed
+      bytes against size of the return value
+
+v5:
+    * Corrected "print_newselect()" and "print_syscall_ret_newselect()"
+      to use the new functionality to store syscall argument values
+    * Changed while loop in "print_syscall_ret_listxattr()" to check only the
+      size of the return value without the variable for printed bytes
+
+Filip Bozuta (6):
+  linux-user: Extend strace support to enable argument printing after
+    syscall execution
+  linux-user: Add strace support for a group of syscalls
+  linux-user: Add strace support for printing argument of syscalls used
+    for extended attributes
+  linux-user: Add strace support for printing arguments of lseek()
+  linux-user: Add strace support for printing arguments of
+    chown()/lchown()
+  linux-user: Add strace support for printing arguments of fallocate()
+
+ linux-user/qemu.h      |  20 ++-
+ linux-user/strace.c    | 328 ++++++++++++++++++++++++++++++++++-------
+ linux-user/strace.list |  37 ++---
+ linux-user/syscall.c   |  18 +--
+ 4 files changed, 315 insertions(+), 88 deletions(-)
+
+-- 
+2.17.1
+
 
