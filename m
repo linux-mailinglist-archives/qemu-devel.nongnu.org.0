@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 151EA201978
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 19:30:07 +0200 (CEST)
-Received: from localhost ([::1]:35518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF541201928
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 19:16:25 +0200 (CEST)
+Received: from localhost ([::1]:36288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jmKq6-0004ug-3w
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 13:30:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58594)
+	id 1jmKcq-0004AE-Kt
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 13:16:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=4324eb4de=alistair.francis@wdc.com>)
- id 1jmKUo-0001ny-Ih
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 13:08:06 -0400
-Received: from esa2.hgst.iphmx.com ([68.232.143.124]:24431)
+ id 1jmKUq-0001r8-CV
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 13:08:08 -0400
+Received: from esa2.hgst.iphmx.com ([68.232.143.124]:24435)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=4324eb4de=alistair.francis@wdc.com>)
- id 1jmKUm-0004Pk-Kp
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 13:08:06 -0400
+ id 1jmKUn-0004Ps-ET
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 13:08:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1592586506; x=1624122506;
+ t=1592586507; x=1624122507;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=G/iOs6farnNl/qXC6bQwZ8DLkLUv1s/70S5FD6K0SuY=;
- b=WNZsf1ZxYqnM/kji81T75+cpCuyoequA2NmwWJ5ybiXNCkaTXUdj+Dw4
- tpaaHgB55KToot5CF21pC1ck0TokZVx0JkAjQ/XHoNUK411beTU0E/OLq
- 2jeV0r0lgF57FTVldGMvjci66TZGZKQu0RXzK6Z0b+uh62S8ij2WZNH8C
- 98prJiRjYMBWvE4JZotp68PLdBUAhz1B0dG41Ww4b1V3f6OE8ALjwlJQr
- DIxyRBeWHer0eihk4JE2d+MlIRK811UGOirYEBS1Gl3okk8SrVsoqHFkE
- bI7B6GVp+/skOcLFiGSpGQ4HQRJTOtqae/KCBHozY0bmbjtA6N3U+awM+ w==;
-IronPort-SDR: ZuzRqqt0WIlF0Zz5WzU9GKzq8DDD3R+gdEqsO9uBtMlXajKqSf/KFTzuyHiu9F7SJlbVidq4Vv
- K0IG+iSNd+nYBH+2BxuL41omRSz0eQyANIY2rBqTw7ehnLxm6W9Pm52vn8PEmxF1TxxW0k4uT8
- cnd1ICg+RjnnpHThwNpkIqgYQ/qTViEHhxIc+ISwceKaPLNw/h+KFI/0+bB+MSzBGP7p/djDVU
- vppcGhCoTrLveh9TSiunLIbwCF0PXjkkoi7hwuuwUYR/nxuNGpSu3UJdMkXTy4DOzkucr34Oov
- h1E=
-X-IronPort-AV: E=Sophos;i="5.75,256,1589212800"; d="scan'208";a="243417019"
+ bh=l12nKCebLDNm8crHR5U10P9+ehRAVHXDgPahy6nhwdg=;
+ b=AHwvbOvHip1sMEh5IDe705+CiIE/3H+lD4UTTifofTep4Op29tvTW+Ul
+ OEKHbykuwXknEwmW1JPXHQzHra9x1lXLGVAXkhr6fosvS87b5lef1A0fq
+ 3eRb1N/2cL9QjKv9ZloYlLAMd9vv7+0b/gxyO00i81LXGfHHHQ6fgQ6Wn
+ ltFW1FO5z8NAbQYm2rcuF21iIiV4kepKbOvnu+CkhYaQglCkxXSWxXc3w
+ xApFBEhG7ODthhHHTA63jfIf749niYM2Asb5U3qa6MpLwF+lomBJlvqzc
+ PVQVpDGFdAZmFGWSb8slmJRaHoFdGZmJj2P3FbpvDTBjcjBGqOjGu6fvf A==;
+IronPort-SDR: +uNRTvNFAOKqISOJs6+VK3BxJHwBEVBSGEsqnY8onyA9+xvw1oEv0OR/FWH6H9NXZeSeXwzWvM
+ K/5cEnKwXsju5W8MyQqpP2xtLzLWB8xEjs9jf+dPtuEuqzqvG7TW7zFhB8WFtypn7HRe/ssGM9
+ aF6IVwX+aaQ0xsvurW6Z6jbj1wvX2anTynv6vW52OZszP/GS8N0eKYBsvZ4ld2vIYUYAUftoBp
+ U2w71jXfPXVE3bxYYl+AOYQifUPxCQkEnnOaHdjFh5BrLG6dvNl7wE6j1S21u1vbZzfLzuXeq3
+ WCg=
+X-IronPort-AV: E=Sophos;i="5.75,256,1589212800"; d="scan'208";a="243417020"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
  by ob1.hgst.iphmx.com with ESMTP; 20 Jun 2020 01:07:31 +0800
-IronPort-SDR: tpv7y/8DYjmZ50X0WXBHZzeFxyi4nKxSV+x4hAUhcOTEn8SFIWB3FEHSCBGXxkGlUpGD46BgwI
- XQI52v/3rYLY9SbamzHAKOl9XzLKN9TKw=
+IronPort-SDR: CgRQBp62ptm6LjyKv9H1inJJIeJHm6c503LVyF37+Glu6dAV1PeZ1QHB+L1HONWut+G5znHlVb
+ F3gXqBWc8APurm8VdLyaGZzqAXLDS17pI=
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  19 Jun 2020 09:56:05 -0700
-IronPort-SDR: acATbtYKyb9h422MO005J3j/nzAATxPzBS1WVjcOLCumoTTOxdf7D0p9bEicQKc6QAjniG7BqP
- d2+s/5IHylOw==
+IronPort-SDR: BP7TMIBBijXalVdU7P2rM0X9oBeAWiLNiuvGeWLshLrDBdjWI19FGlZ/lTaPQMQnnhiSWCvRxX
+ Rr0jnEHuYdAA==
 WDCIronportException: Internal
 Received: from unknown (HELO risc6-mainframe.hgst.com) ([10.86.58.142])
  by uls-op-cesaip02.wdc.com with ESMTP; 19 Jun 2020 10:07:29 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL v2 29/32] hw/riscv: sifive: Change SiFive E/U CPU reset vector
- to 0x1004
-Date: Fri, 19 Jun 2020 09:58:14 -0700
-Message-Id: <20200619165817.4144200-30-alistair.francis@wdc.com>
+Subject: [PULL v2 30/32] hw/riscv: sifive_u: Support different boot source per
+ MSEL pin state
+Date: Fri, 19 Jun 2020 09:58:15 -0700
+Message-Id: <20200619165817.4144200-31-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200619165817.4144200-1-alistair.francis@wdc.com>
 References: <20200619165817.4144200-1-alistair.francis@wdc.com>
@@ -95,118 +95,115 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-Per the SiFive manual, all E/U series CPU cores' reset vector is
-at 0x1004. Update our codes to match the hardware.
+SiFive FU540 SoC supports booting from several sources, which are
+controlled using the Mode Select (MSEL[3:0]) pins on the chip.
+Typically, the boot process runs through several stages before it
+begins execution of user-provided programs.
+
+The SoC supports booting from memory-mapped QSPI flash, which is
+how start_in_flash property is used for at present. This matches
+MSEL = 1 configuration (QSPI0).
+
+Typical booting flows involve the Zeroth Stage Boot Loader (ZSBL).
+It's not necessary for QEMU to implement the full ZSBL ROM codes,
+because we know ZSBL downloads the next stage program into the L2
+LIM at address 0x8000000 and executes from there. We can bypass
+the whole ZSBL execution and use "-bios" to load the next stage
+program directly if MSEL indicates a ZSBL booting flow.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 1592268641-7478-3-git-send-email-bmeng.cn@gmail.com
-Message-Id: <1592268641-7478-3-git-send-email-bmeng.cn@gmail.com>
+Message-id: 1592268641-7478-4-git-send-email-bmeng.cn@gmail.com
+Message-Id: <1592268641-7478-4-git-send-email-bmeng.cn@gmail.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- hw/riscv/sifive_e.c | 10 ++++++----
- hw/riscv/sifive_u.c |  6 +++---
- target/riscv/cpu.c  | 16 ++++++++--------
- 3 files changed, 17 insertions(+), 15 deletions(-)
+ include/hw/riscv/sifive_u.h |  6 ++++++
+ hw/riscv/sifive_u.c         | 39 +++++++++++++++++++++++++++++--------
+ 2 files changed, 37 insertions(+), 8 deletions(-)
 
-diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
-index 01626820bb..0cb66ac4e2 100644
---- a/hw/riscv/sifive_e.c
-+++ b/hw/riscv/sifive_e.c
-@@ -95,14 +95,16 @@ static void sifive_e_machine_init(MachineState *machine)
-         memmap[SIFIVE_E_DTIM].base, main_mem);
- 
-     /* Mask ROM reset vector */
--    uint32_t reset_vec[2];
-+    uint32_t reset_vec[4];
- 
-     if (s->revb) {
--        reset_vec[0] = 0x200102b7;        /* 0x1000: lui     t0,0x20010 */
-+        reset_vec[1] = 0x200102b7;  /* 0x1004: lui     t0,0x20010 */
-     } else {
--        reset_vec[0] = 0x204002b7;        /* 0x1000: lui     t0,0x20400 */
-+        reset_vec[1] = 0x204002b7;  /* 0x1004: lui     t0,0x20400 */
-     }
--    reset_vec[1] = 0x00028067;        /* 0x1004: jr      t0 */
-+    reset_vec[2] = 0x00028067;      /* 0x1008: jr      t0 */
-+
-+    reset_vec[0] = reset_vec[3] = 0;
- 
-     /* copy in the reset vector in little_endian byte order */
-     for (i = 0; i < sizeof(reset_vec) >> 2; i++) {
-diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index b04be42167..ed13bc043c 100644
---- a/hw/riscv/sifive_u.c
-+++ b/hw/riscv/sifive_u.c
-@@ -430,18 +430,18 @@ static void sifive_u_machine_init(MachineState *machine)
- 
-     /* reset vector */
-     uint32_t reset_vec[8] = {
-+        0x00000000,
-         0x00000297,                    /* 1:  auipc  t0, %pcrel_hi(dtb) */
--        0x02028593,                    /*     addi   a1, t0, %pcrel_lo(1b) */
-+        0x01c28593,                    /*     addi   a1, t0, %pcrel_lo(1b) */
-         0xf1402573,                    /*     csrr   a0, mhartid  */
- #if defined(TARGET_RISCV32)
-         0x0182a283,                    /*     lw     t0, 24(t0) */
- #elif defined(TARGET_RISCV64)
--        0x0182b283,                    /*     ld     t0, 24(t0) */
-+        0x0182e283,                    /*     lwu    t0, 24(t0) */
- #endif
-         0x00028067,                    /*     jr     t0 */
-         0x00000000,
-         start_addr,                    /* start: .dword */
--        0x00000000,
-                                        /* dtb: */
-     };
- 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 5f034588ec..391a0b9eec 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -134,20 +134,20 @@ static void riscv_base_cpu_init(Object *obj)
-     set_resetvec(env, DEFAULT_RSTVEC);
- }
- 
--static void rvxx_gcsu_priv1_10_0_cpu_init(Object *obj)
-+static void rvxx_sifive_u_cpu_init(Object *obj)
- {
-     CPURISCVState *env = &RISCV_CPU(obj)->env;
-     set_misa(env, RVXLEN | RVI | RVM | RVA | RVF | RVD | RVC | RVS | RVU);
-     set_priv_version(env, PRIV_VERSION_1_10_0);
--    set_resetvec(env, DEFAULT_RSTVEC);
-+    set_resetvec(env, 0x1004);
- }
- 
--static void rvxx_imacu_nommu_cpu_init(Object *obj)
-+static void rvxx_sifive_e_cpu_init(Object *obj)
- {
-     CPURISCVState *env = &RISCV_CPU(obj)->env;
-     set_misa(env, RVXLEN | RVI | RVM | RVA | RVC | RVU);
-     set_priv_version(env, PRIV_VERSION_1_10_0);
--    set_resetvec(env, DEFAULT_RSTVEC);
-+    set_resetvec(env, 0x1004);
-     qdev_prop_set_bit(DEVICE(obj), "mmu", false);
- }
- 
-@@ -578,13 +578,13 @@ static const TypeInfo riscv_cpu_type_infos[] = {
- #if defined(TARGET_RISCV32)
-     DEFINE_CPU(TYPE_RISCV_CPU_BASE32,           riscv_base_cpu_init),
-     DEFINE_CPU(TYPE_RISCV_CPU_IBEX,             rv32_ibex_cpu_init),
--    DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E31,       rvxx_imacu_nommu_cpu_init),
-+    DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E31,       rvxx_sifive_e_cpu_init),
-     DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E34,       rv32_imafcu_nommu_cpu_init),
--    DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_U34,       rvxx_gcsu_priv1_10_0_cpu_init),
-+    DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_U34,       rvxx_sifive_u_cpu_init),
- #elif defined(TARGET_RISCV64)
-     DEFINE_CPU(TYPE_RISCV_CPU_BASE64,           riscv_base_cpu_init),
--    DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E51,       rvxx_imacu_nommu_cpu_init),
--    DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_U54,       rvxx_gcsu_priv1_10_0_cpu_init),
-+    DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E51,       rvxx_sifive_e_cpu_init),
-+    DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_U54,       rvxx_sifive_u_cpu_init),
- #endif
+diff --git a/include/hw/riscv/sifive_u.h b/include/hw/riscv/sifive_u.h
+index f6d10ebfb6..27dc35e0a3 100644
+--- a/include/hw/riscv/sifive_u.h
++++ b/include/hw/riscv/sifive_u.h
+@@ -111,6 +111,12 @@ enum {
+     SIFIVE_U_RTCCLK_FREQ = 1000000
  };
  
++enum {
++    MSEL_MEMMAP_QSPI0_FLASH = 1,
++    MSEL_L2LIM_QSPI0_FLASH = 6,
++    MSEL_L2LIM_QSPI2_SD = 11
++};
++
+ #define SIFIVE_U_MANAGEMENT_CPU_COUNT   1
+ #define SIFIVE_U_COMPUTE_CPU_COUNT      4
+ 
+diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+index ed13bc043c..eb767aa863 100644
+--- a/hw/riscv/sifive_u.c
++++ b/hw/riscv/sifive_u.c
+@@ -405,8 +405,34 @@ static void sifive_u_machine_init(MachineState *machine)
+     /* create device tree */
+     create_fdt(s, memmap, machine->ram_size, machine->kernel_cmdline);
+ 
+-    riscv_find_and_load_firmware(machine, BIOS_FILENAME,
+-                                 memmap[SIFIVE_U_DRAM].base, NULL);
++    if (s->start_in_flash) {
++        /*
++         * If start_in_flash property is given, assign s->msel to a value
++         * that representing booting from QSPI0 memory-mapped flash.
++         *
++         * This also means that when both start_in_flash and msel properties
++         * are given, start_in_flash takes the precedence over msel.
++         *
++         * Note this is to keep backward compatibility not to break existing
++         * users that use start_in_flash property.
++         */
++        s->msel = MSEL_MEMMAP_QSPI0_FLASH;
++    }
++
++    switch (s->msel) {
++    case MSEL_MEMMAP_QSPI0_FLASH:
++        start_addr = memmap[SIFIVE_U_FLASH0].base;
++        break;
++    case MSEL_L2LIM_QSPI0_FLASH:
++    case MSEL_L2LIM_QSPI2_SD:
++        start_addr = memmap[SIFIVE_U_L2LIM].base;
++        break;
++    default:
++        start_addr = memmap[SIFIVE_U_DRAM].base;
++        break;
++    }
++
++    riscv_find_and_load_firmware(machine, BIOS_FILENAME, start_addr, NULL);
+ 
+     if (machine->kernel_filename) {
+         uint64_t kernel_entry = riscv_load_kernel(machine->kernel_filename,
+@@ -424,13 +450,9 @@ static void sifive_u_machine_init(MachineState *machine)
+         }
+     }
+ 
+-    if (s->start_in_flash) {
+-        start_addr = memmap[SIFIVE_U_FLASH0].base;
+-    }
+-
+     /* reset vector */
+     uint32_t reset_vec[8] = {
+-        0x00000000,
++        s->msel,                       /* MSEL pin state */
+         0x00000297,                    /* 1:  auipc  t0, %pcrel_hi(dtb) */
+         0x01c28593,                    /*     addi   a1, t0, %pcrel_lo(1b) */
+         0xf1402573,                    /*     csrr   a0, mhartid  */
+@@ -502,7 +524,8 @@ static void sifive_u_machine_instance_init(Object *obj)
+                              sifive_u_machine_set_start_in_flash);
+     object_property_set_description(obj, "start-in-flash",
+                                     "Set on to tell QEMU's ROM to jump to "
+-                                    "flash. Otherwise QEMU will jump to DRAM");
++                                    "flash. Otherwise QEMU will jump to DRAM "
++                                    "or L2LIM depending on the msel value");
+ 
+     s->msel = 0;
+     object_property_add(obj, "msel", "uint32",
 -- 
 2.27.0
 
