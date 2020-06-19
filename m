@@ -2,70 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5A072008E5
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 14:40:09 +0200 (CEST)
-Received: from localhost ([::1]:34322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EE162008DE
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 14:39:43 +0200 (CEST)
+Received: from localhost ([::1]:60296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jmGJU-0008DT-VQ
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 08:40:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35298)
+	id 1jmGJ4-0007J7-9l
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 08:39:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35354)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jmGH4-0004ol-Nt
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 08:37:38 -0400
-Received: from mail-oo1-xc44.google.com ([2607:f8b0:4864:20::c44]:44484)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jmGH2-0004wR-VV
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 08:37:38 -0400
-Received: by mail-oo1-xc44.google.com with SMTP id e8so1855881ooi.11
- for <qemu-devel@nongnu.org>; Fri, 19 Jun 2020 05:37:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=fyeDXqEBNyAx9Xib1lWpJKC+Xr8ELu0s/0geieAm8ig=;
- b=uBxHuZReYPXbdWF6Y2HnaSAmWkxZ8D/eS6HqxXU16+X1Y7y2QKLm9bUK08r72OHdse
- rtzjyWQ3xyKibsFvrOR8N3rGO2SqJUGIFlMDEi2JLgBrUlYaIAoVrgyKxPGMzn1KnJrX
- 04Qutu84Qmf3odvy9ml/XIDKZbYxukPiVAOmBYKJeV9XV86yFLevgjZp/86VPjviSsvV
- bfXIc6qY1a0QYkhAlfuVoPMydkQ+FqglHdny2gOT1KUhPWoDsU0ChqDK9uHYfCnypbcq
- BYvH1Hv1/9IoawqDuFqQ7IDd9L5mNvr88qtit6ndq3P/qzZNrSlfaVGjkKt1nsrm7CHN
- 16qA==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jmGHR-00053n-6A
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 08:38:01 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:30581
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jmGHP-0004yF-25
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 08:38:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1592570278;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=rv8+Z25VIsouKM9jhFYoADWupgt5qpmMZmw+1np2zSA=;
+ b=ZnZ0pwJr+PxOXZQhfUWraE0kZ77SBU9/mLTAd6bpkCi/LDuYyFPg5MD2fsxxPq620ZOaFO
+ 53xjgO1dVlxUsYkVozm4mXjSpBQZ0fOF/aQZEH0d+4ZeJjiQZWNQxvmnLtfRxAeo48zAif
+ X7DZPJ+mJKbV9NHmrpusypz8O0amVu8=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-41-DMmYNHyeOKeHl6QYrEBndA-1; Fri, 19 Jun 2020 08:37:56 -0400
+X-MC-Unique: DMmYNHyeOKeHl6QYrEBndA-1
+Received: by mail-wr1-f70.google.com with SMTP id d6so4224513wrn.1
+ for <qemu-devel@nongnu.org>; Fri, 19 Jun 2020 05:37:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=fyeDXqEBNyAx9Xib1lWpJKC+Xr8ELu0s/0geieAm8ig=;
- b=AGaw/VhhN/OOK8Oyn8wgD5Y0/v2aGfdgA/Ln48Bh/4E20N01JmVymL32RY+kxmbHIV
- 5jeUj0X4pY4FuaaxUwxfwOgnK1UEliGADgqTTJ6ZfYHGlnrZieoG8DBBpOoopDg6eNUL
- vmqw1NbdkWe0s8zGdhBqkJoyd9wQO0ZL6etUMVsipIyegx6lWS6Sk2itQtdhCQ659Plv
- jkkIq+Mjf2Y+qVrvcDm6D4Fe9vkwmws2QVfJHyIWi4ubizVdgmiOryHSYw+JOOTOOJ9n
- /+RXXNVtZK0ipeNyAv6FbUbagFjWT/8gPlnSK4RNQ8QDLv7sSc/5BlsV9QuOxjbnm4xn
- JXnQ==
-X-Gm-Message-State: AOAM530E3ShjLe8vrC3lLXnuUlL6j5EHc52iwJLTNQevCUtMj1oD9BBv
- cHb6eZWgcd2wZ5++Obc3iLpmvrnJnKURVeqCJABAQQ==
-X-Google-Smtp-Source: ABdhPJyEv6SN0nERgx7k6MdKz6TDhHJxp9vioZGJ0cSRQigWJfaNUTllrYnjhp0VT6fMaiz1OZUvru4/1XUStmw5U5s=
-X-Received: by 2002:a4a:9528:: with SMTP id m37mr3049170ooi.85.1592570255656; 
- Fri, 19 Jun 2020 05:37:35 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=rv8+Z25VIsouKM9jhFYoADWupgt5qpmMZmw+1np2zSA=;
+ b=rO17IQEiXITrchAt6m8cmhbcMGm92YA48qU9yXZen8aL1ooFvtkXRSA2MGrpvUFGAs
+ GltM4nGvIgusuLEDigPzPkymJInlnZPEkcgPkyf+rdHX8BEkUEtR1BitN84UHvH9ETcS
+ luuiIENdKLZo2N8NQotdlxerw7JpSu8o3sE7Fdmyglg767kOfMLpfCfLgT2DaS8pu7Yo
+ 02YbCExnyb7iUA8G6Cv1q+1MPTVVEbt88US6268pZopYB+mKdvmw8DD/hDXuESno/ljD
+ E/GrHE2lvkU2QN7itLAeLJb7fpnX0X5d+zK/JCNXQPRWtnfI4R8/6EK6S8DJSjnoNQEF
+ D1xg==
+X-Gm-Message-State: AOAM533JVv5X3Bjy5P/frlRGjv83Xq9mntu3oM3XoPDoDsyoIXao6iz6
+ 6qxI6h/Z+1FAjk3O75oFxhRFFBX7wU2S/oyDR0MNBkekEaTi0uBC0C6ajR3T8yFqnHH7sfTDlt4
+ w+nqAWq84GzvPRsY=
+X-Received: by 2002:a7b:c8d6:: with SMTP id f22mr3423832wml.108.1592570275431; 
+ Fri, 19 Jun 2020 05:37:55 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxz3wsr/gEmluhRxuhEd24X9yh7F+UORKzygSoWQGb/kZzYO825z1FwL+XYbvL/cvZB6NUGPw==
+X-Received: by 2002:a7b:c8d6:: with SMTP id f22mr3423806wml.108.1592570275141; 
+ Fri, 19 Jun 2020 05:37:55 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:e1d2:138e:4eff:42cb?
+ ([2001:b07:6468:f312:e1d2:138e:4eff:42cb])
+ by smtp.gmail.com with ESMTPSA id t188sm6901699wmt.27.2020.06.19.05.37.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 19 Jun 2020 05:37:54 -0700 (PDT)
+Subject: Re: what are the requirements on target/ code for -icount to work
+ correctly?
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <CAFEAcA_HOxdK5rgKVnww6Bum3vGb=TrhDEp7oqDwsd=UbHmC_g@mail.gmail.com>
+ <c47e9e4e-49eb-88c5-fdc7-8ebec121c165@ispras.ru>
+ <f4fc4a1b-4054-cffd-0272-22c28d656aba@redhat.com>
+ <CAFEAcA-=igrJfoiga7b7rcwZDj46nTNMiT2VEj11DKO7OiJpNA@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <1364f7e8-3283-8ca2-76f8-75e3eb74af7b@redhat.com>
+Date: Fri, 19 Jun 2020 14:37:53 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-References: <20200619062518.1718523-1-alistair.francis@wdc.com>
-In-Reply-To: <20200619062518.1718523-1-alistair.francis@wdc.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 19 Jun 2020 13:37:24 +0100
-Message-ID: <CAFEAcA9VKbE89N3YkpN4VhcEHD92=fGb3W_-mgqd+yY0rc0=6g@mail.gmail.com>
-Subject: Re: [PULL 00/32] riscv-to-apply queue
-To: Alistair Francis <alistair.francis@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c44;
- envelope-from=peter.maydell@linaro.org; helo=mail-oo1-xc44.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <CAFEAcA-=igrJfoiga7b7rcwZDj46nTNMiT2VEj11DKO7OiJpNA@mail.gmail.com>
+Content-Language: en-US
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/19 03:15:03
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,59 +105,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair23@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Pavel Dovgalyuk <dovgaluk@ispras.ru>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 19 Jun 2020 at 07:34, Alistair Francis <alistair.francis@wdc.com> wrote:
->
-> The following changes since commit eefe34ea4b82c2b47abe28af4cc7247d51553626:
->
->   Merge remote-tracking branch 'remotes/dgilbert/tags/pull-migration-20200617a' into staging (2020-06-18 15:30:13 +0100)
->
-> are available in the Git repository at:
->
->   git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20200618-1
->
-> for you to fetch changes up to fad6a8463510ff5e0fb31bb451a6c3218a45d179:
->
->   hw/riscv: sifive_u: Add a dummy DDR memory controller device (2020-06-18 23:09:16 -0700)
->
-> ----------------------------------------------------------------
-> This is a range of patches for RISC-V.
->
-> Some key points are:
->  - Generalise the CPU init functions
->  - Support the SiFive revB machine
->  - Improvements to the Hypervisor implementation and error checking
->  - Connect some OpenTitan devices
->  - Changes to the sifive_u machine to support U-boot
->
-> ----------------------------------------------------------------
+On 19/06/20 14:18, Peter Maydell wrote:
+> On Fri, 19 Jun 2020 at 12:16, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>>
+>> On 19/06/20 07:46, Pavel Dovgalyuk wrote:
+>>> I think, that we need some efforts from target maintainers to remove all such calls.
+>>
+>> I'll take care of target/i386 (which does need one of the three
+>> gen_io_end calls that are left).
+> 
+> So why does it need it ? Why can't it just rely on "TB going to
+> end anyway which will clear the can_do_io flag" ?
 
-Hi; I'm afraid this fails "make check":
+Because the TB is not always going to end in that case that is left.
 
-MALLOC_PERTURB_=${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))}
-QTEST_QEMU_BINARY=riscv32-softmmu/qemu-system-riscv32 QTEST_QEM
-U_IMG=qemu-img tests/qtest/qom-test -m=quick -k --tap < /dev/null |
-./scripts/tap-driver.pl --test-name="qom-test"
-PASS 1 qom-test /riscv32/qom/opentitan
-PASS 2 qom-test /riscv32/qom/spike
-PASS 3 qom-test /riscv32/qom/virt
-PASS 4 qom-test /riscv32/qom/none
-qemu-system-riscv32:
-/home/petmay01/linaro/qemu-for-merges/hw/core/qdev.c:438:
-qdev_assert_realized_properly: Assertion `dev->parent_bus ||
-!dc->bus_type' failed.
-Broken pipe
-/home/petmay01/linaro/qemu-for-merges/tests/qtest/libqtest.c:175:
-kill_qemu() detected QEMU death from signal 6 (Aborted) (core dumped)
+>>>> Q2: is it a requirement that after an insn which is a "known
+>>>> to be an I/O insn" one (like x86 in/out) and which is marked
+>>>> up with gen_io_start()/gen_io_end() that we also end the TB?
+>>>
+>>> It is a requirement for instructions that access virtual clock/icount
+>>> value (directly or not).
+>>>
+>>> There is also an assertion that can_do_io is enabled while generating an
+>>> interrupt. I believe, that it doesn't affect RR, but is useful for
+>>> deterministic icount mode.
+>>
+>> As I understand it, the definition of "I/O insn" is anything that can
+>> either:
+>>
+>> - affect the icount deadline (e.g. by setting or removing a
+>> QEMU_CLOCK_VIRTUAL timer)
+>>
+>> - interrupt the current translation block with cpu_loop_exit,
+>> cpu_restore_state or similar.
+> 
+> Right, but really what I'm interested in is what the
+> requirements are on translate.c code that emits one of these
+> insns.
 
-This is a recently introduced check that all devices created
-get realized; probably somebody's added a new device in this
-pullreq but forgot a realize call.
+I would be interested in a precise definition of that as well (I've not
+really done any icount work on the translation side).
 
-thanks
--- PMM
+Paolo
+
+> The exact definition of what an I/O insn seems
+> more straightforward (and you can always err on the safe side).
+> 
+> thanks
+> -- PMM
+> 
+
 
