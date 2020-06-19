@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28F02200A26
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 15:30:23 +0200 (CEST)
-Received: from localhost ([::1]:33912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06ADF200944
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 15:01:12 +0200 (CEST)
+Received: from localhost ([::1]:41252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jmH66-0001Eg-0N
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 09:30:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36964)
+	id 1jmGdr-0004Y4-1Z
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 09:01:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39456)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chirantan@google.com>)
- id 1jmD9k-0001EB-3V
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 05:17:52 -0400
-Received: from mail-yb1-xb42.google.com ([2607:f8b0:4864:20::b42]:35217)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jmGc9-00041o-Fb
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 08:59:25 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:37623)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <chirantan@google.com>)
- id 1jmD9i-0003YL-4t
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 05:17:51 -0400
-Received: by mail-yb1-xb42.google.com with SMTP id 187so4616442ybq.2
- for <qemu-devel@nongnu.org>; Fri, 19 Jun 2020 02:17:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jmGc7-0008HA-SF
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 08:59:25 -0400
+Received: by mail-ot1-x344.google.com with SMTP id v13so7198355otp.4
+ for <qemu-devel@nongnu.org>; Fri, 19 Jun 2020 05:59:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=UTwzdRLymtwVn6UdnQK3PAdosv+ScKHHT1hAWduxwCc=;
- b=L4QnhZBOOHsZmIMqufwOZgXrl4NY0eN2CNPI+x/uHrT8+AvcEUYs7J1LsklMJyp+0J
- gqT9e0HC5bH0RGdKz0NOEAIIp6s+z2ZVXSH27z5F0HWDmvRLWAJzLe+rw5ZqKd1t+mip
- 4WrWlfxktrmnumPevn/EeufvOzW82Q2u1X248=
+ :cc:content-transfer-encoding;
+ bh=sSuLvvKjzi2Y6jWYpBFJevMTyP3Y677SbSR9aFukgBk=;
+ b=lvfYLev2s48e9pMWoWwWtqeid37o3A6lGS6yfASJS/A6xH2jExeRM/rwgAB4L5nKgN
+ dk64T18p7ABYfbl+ND6u2/s6Pun1pYxSjG/XhsrQJ07iwbM5dfO6J52QWxQ7YRKN73gp
+ wdsUj3mkyaEXjxV5X5V4E92d2cs96jnFAFUbrNmFPd6HKG/eVyPwPqIioMD+ldywdIE4
+ zifTTQaobEZ8ZHPsBLW5VRR5DXr1D+Hc800Nycey4AlZiK8WDpB9ryGiuEVESQS79mQA
+ UK5rN8Oz86ytuzNRmAiL8lm5+WoTdVAl3Wyjw/3MJhy5F1JfW4+uRC7ipD2gXGqK3QJ/
+ 26vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=UTwzdRLymtwVn6UdnQK3PAdosv+ScKHHT1hAWduxwCc=;
- b=m+btd3lfjGLrxe7nAYsbvkL4LfehOr+nrJBTdfZwM0qHrGHYniilKlbt3xQQD/Isc8
- Doa6c+f4+pTVQ61l0A08zknAhEJoKBu0qWRwY8C4s9iZztOGZz6qDPPsuIXl7PJhz7u1
- z68kzXQKm1SF677MuKnBAZkm3gVBimFnqtoF2qlFsq0Ef6IT9F6SCWBOOp/HFZBHRzxv
- dZRNhqEZLhhCR/5+cyzJax+ZqBQKw+kSQFsFMXy9WPdYFieObGWGtlnNyeRFqkQckT1q
- NXUE37ivbYbtVsC/cfj0qVhZg/STtjYAZ/mN62zy0iU8S0r9zFQZgkCL6ZHs1AuCYKm+
- OrKw==
-X-Gm-Message-State: AOAM532/w70ABukdCkSePS0Ptv3ijtByiv7qSXkRoxsqAxzhK+k575bY
- mS14DQE0QfywpcAOM0FY+kuUiQJl9eoMSFnSlrGuXA==
-X-Google-Smtp-Source: ABdhPJyF1hiGeFpX2FCa74q4gWj4hxw/oXzj6BBxFPQes7XAGsbIEoXyYtUNPzqL+7GovNMc/smSNdXUcYXYO+9NycM=
-X-Received: by 2002:a25:ccd5:: with SMTP id l204mr4365141ybf.51.1592558268848; 
- Fri, 19 Jun 2020 02:17:48 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=sSuLvvKjzi2Y6jWYpBFJevMTyP3Y677SbSR9aFukgBk=;
+ b=BxnBysyHXHbr8VsbWc4irACAW+ymJC7nymsqFsBKUFyiVzxBJb92UJVz6vt8oT5hi2
+ Q3/ghc+OsHESxPa+Y/6aelaf6CO2W7UCQAH0NHtoLJqaFE189SpSstmf1ukhMnJ8NDaE
+ fHr/n/nPaWmSNj8M2m7CGl7zwnNmY49Dv5pKhV+QQ72VJSFyVfvh1CMaVDZ/QJQB0aIf
+ sgxwrFF/p5V4qsrvu1F8EPgMhwOtABn2EnP6XZQSNuLOYycyOE372CuItm9ed3Sbhjf/
+ rNmzD0v7LpvtK7ZR7jx8C9XyuXDdHwB/ndAdVj1qKKU8udOdcygaSU79SWghambP8RTl
+ 1n9Q==
+X-Gm-Message-State: AOAM533OvIEKka7q8n9mA42YQKE+BHz/HheqCIte/f9JJ477CPMEXoa4
+ Kpjsj0hBmuuan3fKIxXvVRg7PpO/fs62LfvVlbCFvg==
+X-Google-Smtp-Source: ABdhPJxAgndkzp1tWLO83f55NUtGjTSmEQT4kXoyAQE5Nh+UyL37felKCjrRwmaDbq6a+jN9u2sXGgVewqAi7nLgW/w=
+X-Received: by 2002:a05:6830:18da:: with SMTP id
+ v26mr2944838ote.135.1592571562640; 
+ Fri, 19 Jun 2020 05:59:22 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200416164907.244868-1-stefanha@redhat.com>
- <20200618190816.GD3814@redhat.com>
- <20200618191655.GI2769@work-vm> <20200618192717.GE3814@redhat.com>
- <CAJFHJrrJzPLatNvw2xC3WYLbzCW0+DB+4UczQHGPBF9p+WGYQA@mail.gmail.com>
- <20200619083953.GB2690@work-vm>
-In-Reply-To: <20200619083953.GB2690@work-vm>
-From: Chirantan Ekbote <chirantan@chromium.org>
-Date: Fri, 19 Jun 2020 18:17:37 +0900
-Message-ID: <CAJFHJrpRGJ=myQzJtxjgQhHdbyhGXhz_N24=xJTKM4JqhhZG2g@mail.gmail.com>
-Subject: Re: [Virtio-fs] [PATCH 0/2] virtiofsd: drop Linux capabilities(7)
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+References: <20200612141917.9446-1-mst@redhat.com>
+ <20200612141917.9446-37-mst@redhat.com>
+In-Reply-To: <20200612141917.9446-37-mst@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 19 Jun 2020 13:59:11 +0100
+Message-ID: <CAFEAcA_kvr4FRfExuxyjA_9=Fm09QMum-EC0fmgp5ki3SC0yzQ@mail.gmail.com>
+Subject: Re: [PULL v2 36/58] Add helper to populate vhost-user message regions
+To: "Michael S. Tsirkin" <mst@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b42;
- envelope-from=chirantan@google.com; helo=mail-yb1-xb42.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x344.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -94
-X-Spam_score: -9.5
-X-Spam_bar: ---------
-X-Spam_report: (-9.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=_AUTOLEARN
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
-X-Mailman-Approved-At: Fri, 19 Jun 2020 09:29:13 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,46 +82,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs-list <virtio-fs@redhat.com>, qemu-devel@nongnu.org,
- Vivek Goyal <vgoyal@redhat.com>, Miklos Szeredi <miklos@szeredi.hu>
+Cc: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jun 19, 2020 at 5:40 PM Dr. David Alan Gilbert
-<dgilbert@redhat.com> wrote:
+On Fri, 12 Jun 2020 at 15:52, Michael S. Tsirkin <mst@redhat.com> wrote:
 >
-> * Chirantan Ekbote (chirantan@chromium.org) wrote:
+> From: Raphael Norwitz <raphael.norwitz@nutanix.com>
 >
-> > We ended up working around it by prefixing "user.virtiofs." to the
-> > xattr name[2], which has its own problems but there was pretty much no
-> > chance that we would be able to give the fs device CAP_SYS_ADMIN in
-> > the init namespace.
+> When setting vhost-user memory tables, memory region descriptors must be
+> copied from the vhost_dev struct to the vhost-user message. To avoid
+> duplicating code in setting the memory tables, we should use a helper to
+> populate this field. This change adds this helper.
 >
->
-> What problems did you hit with that?  We should standardise the renaming
-> so we make an on-disc format that's compatible.
->
+> Signed-off-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
+> Message-Id: <1588533678-23450-2-git-send-email-raphael.norwitz@nutanix.co=
+m>
+> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
-I guess what I meant by problems is that it made what was previously a
-simple and straightforward implementation into something more complex
-and added some limitations.  For example, we now need to parse the
-result of the listxattr system call and strip out the prefix from any
-name in the list.  It also means that we cannot allow the guest to
-directly set or remove any "user.virtiofs." xattr as this would allow
-an unprivileged process in the vm to modify an xattr that it wouldn't
-otherwise be allowed to modify.  On top of being a somewhat arbitrary
-restriction this also means that you can't have stacked virtiofs
-instances as the lower instance would reject attempts by the upper one
-to set those xattrs.  These limitations aren't really a problem for us
-but I can see how they might be a problem for others.
+Hi; Coverity reports a problem with this patch (CID 1429804):
 
-The change was also merged just yesterday so there may be other
-problems with it that haven't surfaced yet.
+> ---
+>  hw/virtio/vhost-user.c | 18 ++++++++++++------
+>  1 file changed, 12 insertions(+), 6 deletions(-)
+>
+> diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+> index ec21e8fbe8..2e0552dd74 100644
+> --- a/hw/virtio/vhost-user.c
+> +++ b/hw/virtio/vhost-user.c
+> @@ -407,6 +407,15 @@ static int vhost_user_set_log_base(struct vhost_dev =
+*dev, uint64_t base,
+>      return 0;
+>  }
+>
+> +static void vhost_user_fill_msg_region(VhostUserMemoryRegion *dst,
+> +                                       struct vhost_memory_region *src)
+> +{
+> +    assert(src !=3D NULL && dst !=3D NULL);
+> +    dst->userspace_addr =3D src->userspace_addr;
+> +    dst->memory_size =3D src->memory_size;
+> +    dst->guest_phys_addr =3D src->guest_phys_addr;
 
-I didn't mention it before because I figured this was something that
-we brought upon ourselves as chrome os is a bit extreme about
-sandboxing.  If we can come up with a standardized way to handle this
-I think we'll gladly switch the chrome os implementation to use it.
+This function only initializes 3 of the 4 fields of
+the VhostUserMemoryRegion struct...
 
-Chirantan
+> +}
+> +
+>  static int vhost_user_fill_set_mem_table_msg(struct vhost_user *u,
+>                                               struct vhost_dev *dev,
+>                                               VhostUserMsg *msg,
+> @@ -417,6 +426,7 @@ static int vhost_user_fill_set_mem_table_msg(struct v=
+host_user *u,
+>      ram_addr_t offset;
+>      MemoryRegion *mr;
+>      struct vhost_memory_region *reg;
+> +    VhostUserMemoryRegion region_buffer;
+
+...this variable starts uninitialized...
+
+>
+>      msg->hdr.request =3D VHOST_USER_SET_MEM_TABLE;
+>
+> @@ -441,12 +451,8 @@ static int vhost_user_fill_set_mem_table_msg(struct =
+vhost_user *u,
+>                  error_report("Failed preparing vhost-user memory table m=
+sg");
+>                  return -1;
+>              }
+> -            msg->payload.memory.regions[*fd_num].userspace_addr =3D
+> -                reg->userspace_addr;
+> -            msg->payload.memory.regions[*fd_num].memory_size =3D
+> -                reg->memory_size;
+> -            msg->payload.memory.regions[*fd_num].guest_phys_addr =3D
+> -                reg->guest_phys_addr;
+> +            vhost_user_fill_msg_region(&region_buffer, reg);
+> +            msg->payload.memory.regions[*fd_num] =3D region_buffer;
+
+...so this struct copy is copying uninitialized data...
+
+>              msg->payload.memory.regions[*fd_num].mmap_offset =3D offset;
+
+...which coverity complains about even though it happens that the
+following line fills in that field in the target of the struct copy.
+
+>              fds[(*fd_num)++] =3D fd;
+>          } else if (track_ramblocks) {
+
+Coverity also complains about both of the other places that call
+this function for similar reasons. My suggested fix: make
+vhost_user_fill_msg_region() take an extra argument "uint64_t mmap_offset",
+which it uses to initialize the dst->mmap_offset. Then you can
+pass in "offset" at this callsite and delete the manual initialization
+of .mmap_offset; and similarly for the other two callsites.
+
+thanks
+-- PMM
 
