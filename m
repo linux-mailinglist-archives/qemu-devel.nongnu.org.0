@@ -2,68 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F690201D10
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 23:24:22 +0200 (CEST)
-Received: from localhost ([::1]:38292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A495201D02
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 23:18:09 +0200 (CEST)
+Received: from localhost ([::1]:59024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jmOUm-0001Kf-VY
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 17:24:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34648)
+	id 1jmOOm-00033D-82
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 17:18:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jmOTs-0000bT-Oh; Fri, 19 Jun 2020 17:23:24 -0400
-Received: from mail-io1-xd41.google.com ([2607:f8b0:4864:20::d41]:40633)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jmONB-0002KB-Vo
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 17:16:30 -0400
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:35411)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jmOTr-0005qU-91; Fri, 19 Jun 2020 17:23:24 -0400
-Received: by mail-io1-xd41.google.com with SMTP id q8so13000828iow.7;
- Fri, 19 Jun 2020 14:23:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=w3KSNHNfhUCImvmD/yBXIaV81jE1bDzMWZ0ArXYcyr0=;
- b=Pc3OgTh/PSNKUwgQHRBFBHQMq4H9Ssw4bVP0I2NhLR5KPPvPQ54qhfxS6XQtTQWdMs
- KFvJpVwVg9V6FIXMDguW10CLC8uSltRnr4h3JOdRKSmTxWcBGWIutzjkW2Q3QZudzKoH
- HoOLOb7eajImWgj6cGP01IwWjpGZE8zR90QVVqsVkT7LBfBNt9g4tZP+aUDVnPJNNFq2
- ImI/2DZSVVQbCM5hQKAYZD4dSHlf0fx02bKj9Z/bmY9TYUpYY6Dn11OoQt+2Ghz1IYp9
- w++3zCZpG49t6srl1gEW/Po0gl6JJKSY4PffMURi+9TP0vTQpsWsEyKU6VGZxxw2NG0Q
- Ph5Q==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jmONA-0004fq-8m
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 17:16:29 -0400
+Received: by mail-pl1-x642.google.com with SMTP id k1so4422169pls.2
+ for <qemu-devel@nongnu.org>; Fri, 19 Jun 2020 14:16:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=IDVowvuDcIr7e7o+nP6FdV3lxtuajzSse/hqxBEV4yo=;
+ b=luqtsmGmdEzlJJOlYv6fRgDFZ9x53ofek9LMJAyCIuF7A1OSLj2YLGv1J3k6ojA79c
+ EEh0HLHR3BMdu+ighCQO+wFysC40Bx1jekTLABCkFSTHO+Y9xi2qCJHXwWYZGftoETYD
+ /YGU330XHOhbzixm0jZZLATAxM3pH/K6T1LvkwtVkYKeR4+T+rVZEdNquyTF8OBZW1bN
+ DGGt/szYoigcdv0iIxbP32ZTNbZnh7T6b4IW8BctZYe6bVN2XH/EhbnX329yOp9PWMLc
+ OCsHGMD/JkPoWLRrysWFYbySq2r17QFzy54ECaLuMzbF9dd7OPAihutJupm/l3X5XrLU
+ cTFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=w3KSNHNfhUCImvmD/yBXIaV81jE1bDzMWZ0ArXYcyr0=;
- b=MyLo3FAxAibtw5+ebSqh3xC0Y3k2+ZTVUDNTv0MIap9/vMb6vmJRGppN/dIBbc11ID
- txBqHGUUEhzcodFEsRvdJR6DNMoWYctxfNlBwN/07gJKBdRB7BlncaRaJiOo4zWU+or3
- iSkAWV3PDoo9fqamX+zfM6p/rizJyulD6oKH6KmfKHt/Iutw9w8q8O5vspE5bdC90EpZ
- SJlyCoKknhpKXxfXQku7HKGK+h64kXohsunoI/ZBk4FcsCtXBKQ/l0KVCjh8cHwEAT/w
- E0JCFNlevNleJIHPxtXBEXyV8z8uj5u6Huf0HWIEPbxETFdj2gZdAQPlcXPqiGMERRbr
- lXcw==
-X-Gm-Message-State: AOAM533gfrXXbQbHhw1L/IcIdXO5uORQw5uj+9oFbCkFX++aDzMVcsIv
- QVdwTO9mEceAmWO71j9O99dUGa/XQNOa8tU2h/4=
-X-Google-Smtp-Source: ABdhPJyQBHfqpsetQewInfCYK6HfXDVS6wl06GNNEQTh+z+4Vnavk7vI1fbv4pcnKPPRDYRAYHm+btQChfhQ42sk/Jo=
-X-Received: by 2002:a6b:b503:: with SMTP id e3mr6322630iof.175.1592601801680; 
- Fri, 19 Jun 2020 14:23:21 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=IDVowvuDcIr7e7o+nP6FdV3lxtuajzSse/hqxBEV4yo=;
+ b=eVbf6Z/I/7GFeC1qNtbNEZA6khnScr2n9mnaxrKr6cwt3cnIYU5D3TXOID2YWTQmgj
+ el5sf4/gdxstmH6U736+8FMCO/JmIhbSpkC3a1mK5uKEyJ9hZ3jDJm47h/GbH0WEkC7l
+ wOazNmoXp+bQ8nadXE1yuWm6g+cAYmIf6+QmTCVmbf90jEav+ZiziM2juzRzSQC/svG+
+ NWdG4ZbUp+TWSNsm9ntXrDOppz9yGv7J6RQKjoRm4pUEnROBY6JR8Yz9lOV+eCzJfhJl
+ 9BdHlfV3lx+xKvaclTFB605q94kMnxeHvvk4Q8hCN0q5h4oaMR81KsubA9Z8nKVLIhpn
+ ebiQ==
+X-Gm-Message-State: AOAM5304lTn3YaFPEsBl1EpLH2w0jXmy2hZPe4PEtV7Un7Fh2DgacN2a
+ BXIUUd+tRMayB2jnIOnAFUfJ3MfghEc=
+X-Google-Smtp-Source: ABdhPJxfDmBmDGSMxBoP6WIAC8pu9ndr7F3TCqN0ahoi6Ahq+VEm5A59H+A/aACmp9yrPD+Gc4ZFrA==
+X-Received: by 2002:a17:902:b40f:: with SMTP id
+ x15mr9079741plr.164.1592601385303; 
+ Fri, 19 Jun 2020 14:16:25 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
+ by smtp.gmail.com with ESMTPSA id s188sm6550634pfb.118.2020.06.19.14.16.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 19 Jun 2020 14:16:24 -0700 (PDT)
+Subject: Re: [PATCH 2/6] target/ppc: add vmulld instruction
+To: Lijun Pan <ljp@linux.vnet.ibm.com>
+References: <20200613042029.22321-1-ljp@linux.ibm.com>
+ <20200613042029.22321-3-ljp@linux.ibm.com>
+ <4341c9e1-162f-d640-e733-d69d2f894353@linaro.org>
+ <B805D51A-00EA-4A6F-92BC-A30B7F3D2B41@linux.vnet.ibm.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <b161c797-659e-d3d2-d1c7-c1d53dfe4756@linaro.org>
+Date: Fri, 19 Jun 2020 14:16:22 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-References: <20200618193556.19459-1-jrtc27@jrtc27.com>
- <20200618202343.20455-1-jrtc27@jrtc27.com>
-In-Reply-To: <20200618202343.20455-1-jrtc27@jrtc27.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 19 Jun 2020 14:13:54 -0700
-Message-ID: <CAKmqyKPBX8o3FJB9LJE-e-McoPrgwhJJosJm+X7sDjxQ3OUsQQ@mail.gmail.com>
-Subject: Re: [PATCH v2] riscv: plic: Honour source priorities
-To: Jessica Clarke <jrtc27@jrtc27.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d41;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd41.google.com
+In-Reply-To: <B805D51A-00EA-4A6F-92BC-A30B7F3D2B41@linux.vnet.ibm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::642;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x642.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
@@ -78,83 +92,17 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: qemu-ppc@nongnu.org, Lijun Pan <ljp@linux.ibm.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 18, 2020 at 1:24 PM Jessica Clarke <jrtc27@jrtc27.com> wrote:
->
-> The source priorities can be used to order sources with respect to other
-> sources, not just as a way to enable/disable them based off a threshold.
-> We must therefore always claim the highest-priority source, rather than
-> the first source we find.
->
-> Signed-off-by: Jessica Clarke <jrtc27@jrtc27.com>
+On 6/18/20 10:30 PM, Lijun Pan wrote:
+> Why do we need to convert
+> to tcg_gen_gvec_mul, which seems to me very convoluted?
 
-Thanks for the patch!
+Because that way we can generate a single host vector multiply instruction in
+the compiled translation block.
 
-This looks good to me, I'll apply it to the RISC-V tree and it'll be
-in my next round pull request.
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-
-Alistair
-
-> ---
-> Changes since v1:
->
->  * Initialise max_prio to plic->target_priority[addrid] rather than 0,
->    allowing the target priority comparison to be dropped and covered by
->    the max_prio comparison.
->
->  hw/riscv/sifive_plic.c | 17 ++++++++++++-----
->  1 file changed, 12 insertions(+), 5 deletions(-)
->
-> diff --git a/hw/riscv/sifive_plic.c b/hw/riscv/sifive_plic.c
-> index 4f216c5585..d91e82b8ab 100644
-> --- a/hw/riscv/sifive_plic.c
-> +++ b/hw/riscv/sifive_plic.c
-> @@ -166,6 +166,9 @@ static void sifive_plic_update(SiFivePLICState *plic)
->  static uint32_t sifive_plic_claim(SiFivePLICState *plic, uint32_t addrid)
->  {
->      int i, j;
-> +    uint32_t max_irq = 0;
-> +    uint32_t max_prio = plic->target_priority[addrid];
-> +
->      for (i = 0; i < plic->bitfield_words; i++) {
->          uint32_t pending_enabled_not_claimed =
->              (plic->pending[i] & ~plic->claimed[i]) &
-> @@ -177,14 +180,18 @@ static uint32_t sifive_plic_claim(SiFivePLICState *plic, uint32_t addrid)
->              int irq = (i << 5) + j;
->              uint32_t prio = plic->source_priority[irq];
->              int enabled = pending_enabled_not_claimed & (1 << j);
-> -            if (enabled && prio > plic->target_priority[addrid]) {
-> -                sifive_plic_set_pending(plic, irq, false);
-> -                sifive_plic_set_claimed(plic, irq, true);
-> -                return irq;
-> +            if (enabled && prio > max_prio) {
-> +                max_irq = irq;
-> +                max_prio = prio;
->              }
->          }
->      }
-> -    return 0;
-> +
-> +    if (max_irq) {
-> +        sifive_plic_set_pending(plic, max_irq, false);
-> +        sifive_plic_set_claimed(plic, max_irq, true);
-> +    }
-> +    return max_irq;
->  }
->
->  static uint64_t sifive_plic_read(void *opaque, hwaddr addr, unsigned size)
-> --
-> 2.20.1
->
->
+r~
 
