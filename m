@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E5FF200228
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 08:48:38 +0200 (CEST)
-Received: from localhost ([::1]:56162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E57B220022E
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 08:50:32 +0200 (CEST)
+Received: from localhost ([::1]:36180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jmApJ-0003Cf-DL
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 02:48:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56838)
+	id 1jmAr9-0006YP-Tg
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 02:50:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=4324eb4de=alistair.francis@wdc.com>)
- id 1jmAbp-0005br-Jk
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 02:34:42 -0400
-Received: from esa6.hgst.iphmx.com ([216.71.154.45]:13005)
+ id 1jmAbt-0005cQ-35
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 02:34:46 -0400
+Received: from esa6.hgst.iphmx.com ([216.71.154.45]:12994)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=4324eb4de=alistair.francis@wdc.com>)
- id 1jmAbl-00028f-4X
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 02:34:41 -0400
+ id 1jmAbl-00028T-L0
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 02:34:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1592548477; x=1624084477;
+ t=1592548478; x=1624084478;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=HF1JxGXWDSpTRfYKaMM0wJ4es08kDgUw2iC6UdUH7F8=;
- b=oYcbfj7pA+o2LMtfbSZRDWM0Ey3Nh8bgnQHUNoQEglzJQNkgW8yvU+Aq
- r+7dVr1uwfZrkXTHqex9XbyclJ8XGufJZYMsHTCLVnOMxHZaNPW89WFbL
- 1Yc5G1kmhzXJWzqnuWSaoZm5QhSon4BmT6pyl9ltSCazF3TxURJ2BFgaE
- 5Kld1p+u5FoAsWySpEikaRa9byeuuZHlAp5xy3l5zyBcjUzSWg8wA/FMJ
- EviSr+xNCWpapkdF3BgnX11im3AME8gwKo1t5vAjQYLIRlrp7u7KEo3nt
- ob+sSMpjNekIqTUFEJ2KZL6xmE+bprVxeXFIuHPVThUIxnpX/AAw7QqjD g==;
-IronPort-SDR: 4yMVrBeNVTS7ka6p0qs4zhwxtQ1Q37IuRW+5GbxoD9o+3UEYdYdWVOOO+wif1gZhaQvN+IJDgw
- TMdGG2bEm9MPuiJPxbyCrJBgEv8Sc0n1TJcTuCLExGwgq5Xq/vGmkQJWGuxUwME8jg4yobkeaJ
- GL2RRu9GBTLA8gl34z063cVlAjCU7/W5L/wmcUT+lcxbGcnI7cvI9+O+Ykk8Iy7NW0RNdvjeiQ
- D7or0S17mMY9ok4w+BzOG2qr8KKkjKHntj2PLRZjhLlmnuCIunIk9KlnnCCSdkTIFcIT4KMFdE
- UJM=
-X-IronPort-AV: E=Sophos;i="5.75,253,1589212800"; d="scan'208";a="141781929"
+ bh=dMdIIDoCv7W8aOLzjHKqNqNnPV7covUPMRH4EMqR6ec=;
+ b=URcdkar9hTM/JiEpFqmaEur5f1xO5h9nra8joRGTdeeL8rcljq3l0/j+
+ hWqtcFwPOAbHvmsCFFZPTxdMPceWdgEWnpy0hJ9J2fYIucFGCeaHNETGn
+ +UBhCQBYLpskZLsjaGyjxjTanx5UG1c+84H3pPiRm4z2T1XzULA04iaiy
+ 7gNOzrZ+ICPtaypF+k1nk7fG3P7nReamV1HVI3R6lVh6sBaUbXekp7ElC
+ 3Ioa4BG4CnF/5GzeDNC5bY9qpl9N+IfViWVzdF78hRadMs98/fGQPRStw
+ tS3T4T/cwT/TDesHvwEWte95w09XB9ZNXLVl7BGm9NctaBlFEq/k/1cuF g==;
+IronPort-SDR: GPo1ORM+6DD6UrGp5iGX1qzWfh81LiF5++NKx3wH/IFviNqb/uIuVY9YEfvFDSNRo/l6hM/TDe
+ OZqNmtgevVr4sXA2rlBQLa0QH+RJF5Ho3ghmDM0Xth+rRVOICWCRnQ3QmGrCefKNDVIWQ5LtJn
+ oCM6B4SQ5dQmXy9Qs14zUVlkJKoDdheaKmbocHwAAM7lwzI7AEIFP24afJ0jmKz5qUOdzfJuil
+ oOvIbgvYh3xb0brYhMHoy6++ZeqDyd+sIxDWJ7233uWKsbObIU+WhMHEQnwZWyRusAMvYb5qPS
+ DPM=
+X-IronPort-AV: E=Sophos;i="5.75,253,1589212800"; d="scan'208";a="141781931"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
  by ob1.hgst.iphmx.com with ESMTP; 19 Jun 2020 14:34:31 +0800
-IronPort-SDR: 5XnfBk+JFbh97wQrIrIgIFZJNmN6tpEny2zjUL71zseVbYdE/aa7FViP4qOlqL/WFJwNk62t3l
- mKjhiixIMancXNmJ5k5jbSKzcvD+235mE=
+IronPort-SDR: dN9CfW0tLmdBjjdAlYy65J/0Kpvo+iREE8FrYrQb791BPzvcyq1XWapY0DqMtR+D+105Szya6j
+ CSHnwM0SXf2TdGfXs4Ow/N5ZMt2q4K5iI=
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Jun 2020 23:23:41 -0700
-IronPort-SDR: e47mLNcURc6qJyA3J6M2zAz5yom56ZfBOzq9LKu81bSop3pgTU6nr/ibm7MU63PPwBHOWmRm6Q
- /2BUlazKZ7yw==
+ 18 Jun 2020 23:23:42 -0700
+IronPort-SDR: pLrRqrD4IK9zsAvZNTw5NB57TKcOqiyYVv6duzfUXGVMQceD1Pg7vyUz0FBeskxv4+LbDSQ6xx
+ 6HSgNldwaWWQ==
 WDCIronportException: Internal
 Received: from unknown (HELO risc6-mainframe.hgst.com) ([10.86.58.142])
  by uls-op-cesaip02.wdc.com with ESMTP; 18 Jun 2020 23:34:30 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL 19/32] hw/riscv: sifive_u: Simplify the GEM IRQ connect code a
- little bit
-Date: Thu, 18 Jun 2020 23:25:05 -0700
-Message-Id: <20200619062518.1718523-20-alistair.francis@wdc.com>
+Subject: [PULL 20/32] hw/riscv: sifive_u: Generate device tree node for OTP
+Date: Thu, 18 Jun 2020 23:25:06 -0700
+Message-Id: <20200619062518.1718523-21-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200619062518.1718523-1-alistair.francis@wdc.com>
 References: <20200619062518.1718523-1-alistair.francis@wdc.com>
@@ -95,51 +94,41 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-There is no need to retrieve all PLIC IRQ information in order to
-just connect the GEM IRQ. Use qdev_get_gpio_in() directly like
-what is done for other peripherals.
+Upstream U-Boot v2020.07 codes switch to access SiFive FU540 OTP
+based on device tree information. Let's generate the device tree
+node for OTP.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 1591625864-31494-4-git-send-email-bmeng.cn@gmail.com
-Message-Id: <1591625864-31494-4-git-send-email-bmeng.cn@gmail.com>
+Message-id: 1591625864-31494-5-git-send-email-bmeng.cn@gmail.com
+Message-Id: <1591625864-31494-5-git-send-email-bmeng.cn@gmail.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- hw/riscv/sifive_u.c | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+ hw/riscv/sifive_u.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
 diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index ea197ab64f..20b0276ea3 100644
+index 20b0276ea3..a6dfce4273 100644
 --- a/hw/riscv/sifive_u.c
 +++ b/hw/riscv/sifive_u.c
-@@ -514,7 +514,6 @@ static void sifive_u_soc_realize(DeviceState *dev, Error **errp)
-     MemoryRegion *system_memory = get_system_memory();
-     MemoryRegion *mask_rom = g_new(MemoryRegion, 1);
-     MemoryRegion *l2lim_mem = g_new(MemoryRegion, 1);
--    qemu_irq plic_gpios[SIFIVE_U_PLIC_NUM_SOURCES];
-     char *plic_hart_config;
-     size_t plic_hart_config_len;
-     int i;
-@@ -594,10 +593,6 @@ static void sifive_u_soc_realize(DeviceState *dev, Error **errp)
-     sysbus_realize(SYS_BUS_DEVICE(&s->otp), &err);
-     sysbus_mmio_map(SYS_BUS_DEVICE(&s->otp), 0, memmap[SIFIVE_U_OTP].base);
+@@ -207,6 +207,17 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
+     g_free(cells);
+     g_free(nodename);
  
--    for (i = 0; i < SIFIVE_U_PLIC_NUM_SOURCES; i++) {
--        plic_gpios[i] = qdev_get_gpio_in(DEVICE(s->plic), i);
--    }
--
-     if (nd->used) {
-         qemu_check_nic_model(nd, TYPE_CADENCE_GEM);
-         qdev_set_nic_properties(DEVICE(&s->gem), nd);
-@@ -611,7 +606,7 @@ static void sifive_u_soc_realize(DeviceState *dev, Error **errp)
-     }
-     sysbus_mmio_map(SYS_BUS_DEVICE(&s->gem), 0, memmap[SIFIVE_U_GEM].base);
-     sysbus_connect_irq(SYS_BUS_DEVICE(&s->gem), 0,
--                       plic_gpios[SIFIVE_U_GEM_IRQ]);
-+                       qdev_get_gpio_in(DEVICE(s->plic), SIFIVE_U_GEM_IRQ));
- 
-     create_unimplemented_device("riscv.sifive.u.gem-mgmt",
-         memmap[SIFIVE_U_GEM_MGMT].base, memmap[SIFIVE_U_GEM_MGMT].size);
++    nodename = g_strdup_printf("/soc/otp@%lx",
++        (long)memmap[SIFIVE_U_OTP].base);
++    qemu_fdt_add_subnode(fdt, nodename);
++    qemu_fdt_setprop_cell(fdt, nodename, "fuse-count", SIFIVE_U_OTP_REG_SIZE);
++    qemu_fdt_setprop_cells(fdt, nodename, "reg",
++        0x0, memmap[SIFIVE_U_OTP].base,
++        0x0, memmap[SIFIVE_U_OTP].size);
++    qemu_fdt_setprop_string(fdt, nodename, "compatible",
++        "sifive,fu540-c000-otp");
++    g_free(nodename);
++
+     prci_phandle = phandle++;
+     nodename = g_strdup_printf("/soc/clock-controller@%lx",
+         (long)memmap[SIFIVE_U_PRCI].base);
 -- 
 2.27.0
 
