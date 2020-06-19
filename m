@@ -2,82 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61691201D06
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 23:18:38 +0200 (CEST)
-Received: from localhost ([::1]:33034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13F1C201D1A
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 23:29:42 +0200 (CEST)
+Received: from localhost ([::1]:42918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jmOPF-0003xh-GI
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 17:18:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33192)
+	id 1jmOZw-0004it-V1
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 17:29:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35486)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jmOO6-000334-3i
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 17:17:28 -0400
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:46601)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jmOYt-0004G9-Mt; Fri, 19 Jun 2020 17:28:35 -0400
+Received: from mail-il1-x141.google.com ([2607:f8b0:4864:20::141]:39719)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jmOO3-0004yP-5e
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 17:17:24 -0400
-Received: by mail-pl1-x62d.google.com with SMTP id n2so4401104pld.13
- for <qemu-devel@nongnu.org>; Fri, 19 Jun 2020 14:17:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=sq1njPA0iUN1/hOMXyA0GkP1uP7zzPDoctkkevR7DNI=;
- b=oStDwxar8yW/Oyx8YVHTKPjBiWfM1+RgMlqI2mHbXqHuRGBTNgrqNh0IV+jQ0PhtOV
- aOmTMcnZ/HKKwrJvKR546hpNl0PCoyvjnB6gmZTCHyEZeGIvgFg8ggZ2TBAjyog5cgp5
- FbQSK3OsElv9Ss8WI6vN8OlwKJRANtnQkIYf0ZlzVrCMemmh+tTLRuLt/V2eFs51hb1x
- gUpcjc3hwWyO/vgVvaPjWL6B+bltGCzS7JEVTEuCmTwfkUJeXq/Prj/0qlfJoSZyEihO
- 8b9qI66H1r9PiIj7O5dPojUi6RXU3l1IdYzKDLs2Db5PTldwBUnHmNb8cwKB+5sWjTLJ
- Ed+Q==
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jmOYs-0006aq-7H; Fri, 19 Jun 2020 17:28:35 -0400
+Received: by mail-il1-x141.google.com with SMTP id p5so10673642ile.6;
+ Fri, 19 Jun 2020 14:28:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=FQ60atYdbCpKWcd5W7Al0DMKGjezBEjbtwl+C00qbmo=;
+ b=SUygVtgPZBygkiaZJkBtOSIkR5fL/wz+nzmNOpvku2FBKzeI6kogdYRP3uJL2/C6b0
+ OPI9xqXHbmHPjhQnYnZuZ5gP0xuvEifMQFQRG4nG9fJMka1wnoGZsUAHve4EFSqMMOCc
+ /HramkYZdw1f87VcMEWhiMFc2BzBzMbl8wedbrhSD9pfzkXq8iMebpbV35a1W+/1rCmL
+ DEHGLxcTlNOJNLf44NYOzPVpZSgh/GmBJUzcGqL2/UqOd+EdeWf5A15S+j0cJ7TMdwf1
+ 2Wn/NyorucJ21Eh9inNDRIFMcCzg/8mL+ZtmwtpP5pY4l85nDtGwD+bariNZt0AdiaHQ
+ cfkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=sq1njPA0iUN1/hOMXyA0GkP1uP7zzPDoctkkevR7DNI=;
- b=dkLC0LmQVUnyhOrVUiuczKGI/xYXEtSILynjzOvu8UdSj4fi4aPDykn58svKTSlLPv
- WjsPZIW1LIroUVDvaJBHySwRyEQS1jUjXMbgj/S8RGBp6w0gX0iQAB++bUWHNALzeFKu
- 0hGun/pqTSydpLDMkYRri0xx+eF0KLgtGjDVu5xslCIJBmLT1xY9IcYRjMn59YAV/li0
- 8/A2bUi+2gOJ3ckApawbvZrUZTVBlSeX0uld21X0Afh92HSHbtJIcZW8ylJZTM8iBHLQ
- 2XUstMJ8TyUkRQh2Yf4L3jmCkHwp8IcpQXC7nda0470/wmCbUtEPc77oXOF9mRrif3y+
- T6YQ==
-X-Gm-Message-State: AOAM533Av/nkzqNi/AMYFfoj/YVQC+iJrJ68JPVe2fJKSum5tNzROqi0
- 1jgIUYx/tWj8crU7lH8W8D28vHWsEHo=
-X-Google-Smtp-Source: ABdhPJzcJhMs5IZUAnjKr5EfFDLoZf9WvraNOCEuYK+ubsNCOtdF4YBe5DNXH2W/SqwkR4sRHC7cIQ==
-X-Received: by 2002:a17:90b:3c6:: with SMTP id
- go6mr5584778pjb.224.1592601441466; 
- Fri, 19 Jun 2020 14:17:21 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id n189sm6669040pfn.108.2020.06.19.14.17.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 19 Jun 2020 14:17:20 -0700 (PDT)
-Subject: Re: [PATCH 3/6] targetc/ppc: add vmulh{su}w instructions
-To: Lijun Pan <ljp@linux.vnet.ibm.com>
-References: <20200613042029.22321-1-ljp@linux.ibm.com>
- <20200613042029.22321-4-ljp@linux.ibm.com>
- <0777c1df-6010-ff2a-2bdf-72c381da7cbf@linaro.org>
- <D397FCD9-91C5-4C7B-89EE-67163264A79C@linux.vnet.ibm.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <90f154b0-ae66-fc9e-339d-0e4969e3885b@linaro.org>
-Date: Fri, 19 Jun 2020 14:17:18 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=FQ60atYdbCpKWcd5W7Al0DMKGjezBEjbtwl+C00qbmo=;
+ b=kRL4PX58Pom9CEV0nJa4CRGeA8+a5K7emSVJio3q+bgWwjEVXTvnYBoY0VtQr6HlmY
+ gfzzY5h1p462oy43YfPV+E07V6bLZ4hz1DM1sCVkkoxMSwJzmOsQyE+7v+9vanEQ/yLl
+ 6JMsKYd/SRA7Gh+taeRKB0clkRTFuP5RF+uU22Z18IalTYsCjwww+qNMq0KjHgYgddXO
+ Pps/KtelgHc1DJv76LNY66Fnyxlx4lWdbSrBPyp651Ahx/gne/PhKag0I4Jw0Eshbof8
+ G1cw8Xls+54Yy+lh4IrV5iY2PY7xJnewqhvOafKRhMS5hxCWPWY9B22PyjzWVaYO65sr
+ pgZA==
+X-Gm-Message-State: AOAM5303tDMwkelQ+rKXiq0b3RNjcN1mWuoAQelbzwB0UyMNQHwoK31e
+ XgJDV5AGpMUwXEWkYc2ATleqfp8Cu92SY+zzg5Y=
+X-Google-Smtp-Source: ABdhPJwTQXBHfpbH6cjK+1vwlQOZm+AVbN5/m0sT50HAogwHHkpHFKXF+tzIWRr/ObVfbwKzLMgw6S9FY4pFRdnNJUg=
+X-Received: by 2002:a92:d647:: with SMTP id x7mr5578284ilp.267.1592602112686; 
+ Fri, 19 Jun 2020 14:28:32 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <D397FCD9-91C5-4C7B-89EE-67163264A79C@linux.vnet.ibm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62d.google.com
+References: <20200618210649.22451-1-jrtc27@jrtc27.com>
+In-Reply-To: <20200618210649.22451-1-jrtc27@jrtc27.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 19 Jun 2020 14:19:04 -0700
+Message-ID: <CAKmqyKMSNiYWZtDRg2V6qCsYHVOAiUPcim_mTNEwY2pKjQ4SZQ@mail.gmail.com>
+Subject: Re: [PATCH] riscv: plic: Add a couple of mising sifive_plic_update
+ calls
+To: Jessica Clarke <jrtc27@jrtc27.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::141;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x141.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
@@ -92,33 +78,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, Lijun Pan <ljp@linux.ibm.com>, qemu-devel@nongnu.org
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/18/20 10:37 PM, Lijun Pan wrote:
-> Do you mean writing two functions directly, 
-> 
-> void helper_vmulhsw(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)
-> {
->     int i;
-> 
->     for (i = 0; i < 4; i++) {
->         r->s32[i] = (int32_t)((int64_t)a->s32[i] * (int64_t)b->s32[i]) >> 32);
->     }
-> }
-> 
-> void helper_vmulhuw(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)
-> {
->     int i;
-> 
->     for (i = 0; i < 4; i++) {
->         r->u32[i] = (uint32_t)((uint64_t)a->u32[i] * (uint64_t)b->u32[i]) >> 32);
->     }
-> }
+On Thu, Jun 18, 2020 at 2:07 PM Jessica Clarke <jrtc27@jrtc27.com> wrote:
+>
+> Claiming an interrupt and changing the source priority both potentially
+> affect whether an interrupt is pending, thus we must re-compute xEIP.
+> Note that we don't put the sifive_plic_update inside sifive_plic_claim
+> so that the logging of a claim (and the resulting IRQ) happens before
+> the state update, making the causal effect clear, and that we drop the
+> explicit call to sifive_plic_print_state when claiming since
+> sifive_plic_update already does that automatically at the end for us.
+>
+> This can result in both spurious interrupt storms if you fail to
+> complete an IRQ before enabling interrupts (and no other actions occur
+> that result in a call to sifive_plic_update), but also more importantly
+> lost interrupts if a disabled interrupt is pending and then becomes
+> enabled.
+>
+> Signed-off-by: Jessica Clarke <jrtc27@jrtc27.com>
 
-That works for me.
+Looks good to me!
 
+Applied to the RISC-V tree
 
-r~
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+
+Alistair
+
+> ---
+>  hw/riscv/sifive_plic.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/hw/riscv/sifive_plic.c b/hw/riscv/sifive_plic.c
+> index d91e82b8ab..c20c192034 100644
+> --- a/hw/riscv/sifive_plic.c
+> +++ b/hw/riscv/sifive_plic.c
+> @@ -255,8 +255,8 @@ static uint64_t sifive_plic_read(void *opaque, hwaddr addr, unsigned size)
+>                      plic->addr_config[addrid].hartid,
+>                      mode_to_char(plic->addr_config[addrid].mode),
+>                      value);
+> -                sifive_plic_print_state(plic);
+>              }
+> +            sifive_plic_update(plic);
+>              return value;
+>          }
+>      }
+> @@ -287,6 +287,7 @@ static void sifive_plic_write(void *opaque, hwaddr addr, uint64_t value,
+>              qemu_log("plic: write priority: irq=%d priority=%d\n",
+>                  irq, plic->source_priority[irq]);
+>          }
+> +        sifive_plic_update(plic);
+>          return;
+>      } else if (addr >= plic->pending_base && /* 1 bit per source */
+>                 addr < plic->pending_base + (plic->num_sources >> 3))
+> --
+> 2.20.1
+>
+>
 
