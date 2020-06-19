@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA57220190F
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 19:08:48 +0200 (CEST)
-Received: from localhost ([::1]:58156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25135201915
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 19:10:27 +0200 (CEST)
+Received: from localhost ([::1]:37420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jmKVT-000277-RC
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 13:08:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58020)
+	id 1jmKX4-0005Mi-2p
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 13:10:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58042)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=4324eb4de=alistair.francis@wdc.com>)
- id 1jmKUA-0000cV-W2
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 13:07:27 -0400
-Received: from esa3.hgst.iphmx.com ([216.71.153.141]:19125)
+ id 1jmKUC-0000dI-2h
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 13:07:28 -0400
+Received: from esa3.hgst.iphmx.com ([216.71.153.141]:19131)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=4324eb4de=alistair.francis@wdc.com>)
- id 1jmKU8-0004PR-1W
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 13:07:26 -0400
+ id 1jmKU9-0004PZ-3V
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 13:07:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1592586444; x=1624122444;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=wCzH4ldf0iBAHVrs//zx0ycxxx0p01PIIaQfMaxgfe8=;
- b=S9sbgHXJs0N9XJbe/YsrlK3uPpjinyH6LhvVTZpKJxG1ZPcp2vruhIPj
- B0vgTk6boBcV3rSjyi9pkuYFcs4mFH9dgB9uJyOLMrctO9hK9dcKfFAoG
- aCIxTFoF/3vOyXg+vhWL+3FW02xdH7aTE4xeaaegZvqV0vSO/148hZeKk
- CrU/+Nnh1uuSW7RoBDp1pc4BTAV2LZ2tRpgPIz4BTJ2oPHujJPlQNZ/8j
- 4epM1wBPbWkE8VTyAXGrSsFnhB2fScKv7UaUnP9Ql6LqnZsuKjDxrJIPV
- CP6rn2ylf/tapF5I7VXJaF83Hs2WaKgKcWBkmSRz5av8Ek7XMAmD8xDRw Q==;
-IronPort-SDR: A44IoC1dVEsOBXVGFzcg7ZV9Bpfd4NGKflT+MLiXEhdJWb5K0p9P0gTajtId4EzEkZGn16phmM
- CODFecRGkPgDzhZPzKTxm4396wiCTU+UCEnejHl1XLpdlR+/lDvIhes8JAxpS6B68sR4MyP1e/
- eituQ8IyWVgkagMIgEU6OBMcAUq7AXdWNHbZMlIln7uoRfvpUgwv0elW+x9xsIs25dMpdcp8db
- /vPOW/3rz+DzlYUjkU8LbIRAgdvmVbPeWD1vQy5nYhoZdGhNhlo6QCCefNBI+PqjI/Rgkj23nA
- kMk=
-X-IronPort-AV: E=Sophos;i="5.75,256,1589212800"; d="scan'208";a="144763293"
+ t=1592586445; x=1624122445;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=XRlfmAxnNO+uf1echkK6NudzAPtFUGkmvCQ9SmWv+Zg=;
+ b=Mxw6YUoxCzsUT30KqqdLF8NFP282/TfyNpzmldDIjzc71FbdE/l+AGfu
+ /OGjSzOO99ZX4HOY1jwe7XMSUiGxMki89Psg7uBj4MwtiatCPj9Va5H0Z
+ IqZB8sVPz5KpJkHap0/c+IjVskviBa64GgEFuBfTld8TDLIorpOaCkJsn
+ HknK8kT/NZ8qrzfzOZNbggER41i/RpNCxjfAh0N9rX+2PfyfseCTKtWq+
+ 47cIrhHr/f6ldmuPwS6A1W8VEZSXGUV4Ky1eFipPDAW6veFU2XDkd17pw
+ FTIqDS45RGInFBKhQ9acmcr1JD+/qR6Iu5LtN7tF/9roIf+R/R+xpdJRm g==;
+IronPort-SDR: zvPQ5lQqkE9Jp5JINanqI+xo/HUFMIs7K+tY9o3GT72OtI3b191iMRKxYOKJzIBB4uPIEjCLNB
+ J6jNTT2LRTwzx29wCVG6rTtLCgCt0mVtjc3Rm1vwq6a8LaoWKpaJzL1RNQWB08YJhPyGC4JvHT
+ ZHi8nC1APm9q04sT4lfKiEPg08/qL7+djzZI4J3ZGbkHR676BHSeIzWqNPLA0rzHNsybGYLeml
+ LzIx2kZVhkN9tFp1w+3jJ10SDMvVYsNSutuSM7lJIoeWiQ2W14Sgvob8s90YBE/8rk8F6Gf1ZO
+ VQc=
+X-IronPort-AV: E=Sophos;i="5.75,256,1589212800"; d="scan'208";a="144763295"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
  by ob1.hgst.iphmx.com with ESMTP; 20 Jun 2020 01:07:21 +0800
-IronPort-SDR: CngtkR53n6kQ+9tZbzVmNtydz0IEVIBcwCQy2u3GcgH6hyF0eVk91nKqoE40RgAnrlZe9Z7PiL
- 8oIYECzKzfRQijjH2791SWmqcF6bo47Vg=
+IronPort-SDR: 36Yx6u1MFk392HGrnJdJUt2DMR7n5TejB6KVLeXb8DUjBZxqSLYqtzACjkBFC3wrLJn0IyRVNU
+ 2m+Qo3olGxu68tbDHiNmjRqvGpdtzZzPo=
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  19 Jun 2020 09:55:58 -0700
-IronPort-SDR: BSNfBf9ybprIWhWPxtubCU+DqDzswv2OnZnHrERCdI2CeC6ZYk6/WlTD1yjGuLIZn3i9HtkJ59
- oiDI31xmF5rA==
+IronPort-SDR: 2KntkliM+aXblpaEUylXwA5cqhqlUeCI/qc8K2/Ppi2FYGxsdHtQqY5ejIcwm/pdeSxseFsUiE
+ RaRzKM37+5AA==
 WDCIronportException: Internal
 Received: from unknown (HELO risc6-mainframe.hgst.com) ([10.86.58.142])
  by uls-op-cesaip02.wdc.com with ESMTP; 19 Jun 2020 10:07:21 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL v2 00/32] riscv-to-apply queue
-Date: Fri, 19 Jun 2020 09:57:45 -0700
-Message-Id: <20200619165817.4144200-1-alistair.francis@wdc.com>
+Subject: [PULL v2 01/32] riscv: Add helper to make NaN-boxing for FP register
+Date: Fri, 19 Jun 2020 09:57:46 -0700
+Message-Id: <20200619165817.4144200-2-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20200619165817.4144200-1-alistair.francis@wdc.com>
+References: <20200619165817.4144200-1-alistair.francis@wdc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.71.153.141;
  envelope-from=prvs=4324eb4de=alistair.francis@wdc.com;
@@ -86,104 +87,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>
+Cc: alistair23@gmail.com, Richard Henderson <richard.henderson@linaro.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Ian Jiang <ianjiang.ict@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 4d285821c5055ed68a6f6b7693fd11a06a1aa426:
+From: Ian Jiang <ianjiang.ict@gmail.com>
 
-  Merge remote-tracking branch 'remotes/cohuck/tags/s390x-20200618' into staging (2020-06-19 11:44:03 +0100)
+The function that makes NaN-boxing when a 32-bit value is assigned
+to a 64-bit FP register is split out to a helper gen_nanbox_fpr().
+Then it is applied in translating of the FLW instruction.
 
-are available in the Git repository at:
+Signed-off-by: Ian Jiang <ianjiang.ict@gmail.com>
+Message-Id: <20200128003707.17028-1-ianjiang.ict@gmail.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+---
+ target/riscv/insn_trans/trans_rvf.inc.c | 17 +++++++++++++++--
+ 1 file changed, 15 insertions(+), 2 deletions(-)
 
-  git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20200619-3
+diff --git a/target/riscv/insn_trans/trans_rvf.inc.c b/target/riscv/insn_trans/trans_rvf.inc.c
+index e23cd639a6..3bfd8881e7 100644
+--- a/target/riscv/insn_trans/trans_rvf.inc.c
++++ b/target/riscv/insn_trans/trans_rvf.inc.c
+@@ -23,6 +23,20 @@
+         return false;                       \
+ } while (0)
+ 
++/*
++ * RISC-V requires NaN-boxing of narrower width floating
++ * point values.  This applies when a 32-bit value is
++ * assigned to a 64-bit FP register.  Thus this does not
++ * apply when the RVD extension is not present.
++ */
++static void gen_nanbox_fpr(DisasContext *ctx, int regno)
++{
++    if (has_ext(ctx, RVD)) {
++        tcg_gen_ori_i64(cpu_fpr[regno], cpu_fpr[regno],
++                        MAKE_64BIT_MASK(32, 32));
++    }
++}
++
+ static bool trans_flw(DisasContext *ctx, arg_flw *a)
+ {
+     TCGv t0 = tcg_temp_new();
+@@ -32,8 +46,7 @@ static bool trans_flw(DisasContext *ctx, arg_flw *a)
+     tcg_gen_addi_tl(t0, t0, a->imm);
+ 
+     tcg_gen_qemu_ld_i64(cpu_fpr[a->rd], t0, ctx->mem_idx, MO_TEUL);
+-    /* RISC-V requires NaN-boxing of narrower width floating point values */
+-    tcg_gen_ori_i64(cpu_fpr[a->rd], cpu_fpr[a->rd], 0xffffffff00000000ULL);
++    gen_nanbox_fpr(ctx, a->rd);
+ 
+     tcg_temp_free(t0);
+     mark_fs_dirty(ctx);
+-- 
+2.27.0
 
-for you to fetch changes up to 3eaea6eb4e534f7b87c6eca808149bb671976800:
-
-  hw/riscv: sifive_u: Add a dummy DDR memory controller device (2020-06-19 08:25:27 -0700)
-
-----------------------------------------------------------------
-This is a range of patches for RISC-V.
-
-Some key points are:
- - Generalise the CPU init functions
- - Support the SiFive revB machine
- - Improvements to the Hypervisor implementation and error checking
- - Connect some OpenTitan devices
- - Changes to the sifive_u machine to support U-boot
-
-v2:
- - Fix missing realise assert
-
-----------------------------------------------------------------
-Alistair Francis (11):
-      sifive_e: Support the revB machine
-      target/riscv: Set access as data_load when validating stage-2 PTEs
-      target/riscv: Report errors validating 2nd-stage PTEs
-      target/riscv: Move the hfence instructions to the rvh decode
-      target/riscv: Implement checks for hfence
-      riscv/opentitan: Fix the ROM size
-      hw/char: Initial commit of Ibex UART
-      hw/intc: Initial commit of lowRISC Ibex PLIC
-      riscv/opentitan: Connect the PLIC device
-      riscv/opentitan: Connect the UART device
-      target/riscv: Use a smaller guess size for no-MMU PMP
-
-Bin Meng (20):
-      riscv: Generalize CPU init routine for the base CPU
-      riscv: Generalize CPU init routine for the gcsu CPU
-      riscv: Generalize CPU init routine for the imacu CPU
-      riscv: Keep the CPU init routine names consistent
-      hw/riscv: sifive_e: Remove the riscv_ prefix of the machine* and soc* functions
-      hw/riscv: opentitan: Remove the riscv_ prefix of the machine* and soc* functions
-      hw/riscv: sifive_u: Simplify the GEM IRQ connect code a little bit
-      hw/riscv: sifive_u: Generate device tree node for OTP
-      hw/riscv: sifive_gpio: Clean up the codes
-      hw/riscv: sifive_gpio: Add a new 'ngpio' property
-      hw/riscv: sifive_u: Hook a GPIO controller
-      hw/riscv: sifive_gpio: Do not blindly trigger output IRQs
-      hw/riscv: sifive_u: Add reset functionality
-      hw/riscv: sifive_u: Rename serial property get/set functions to a generic name
-      hw/riscv: sifive_u: Add a new property msel for MSEL pin state
-      target/riscv: Rename IBEX CPU init routine
-      hw/riscv: sifive: Change SiFive E/U CPU reset vector to 0x1004
-      hw/riscv: sifive_u: Support different boot source per MSEL pin state
-      hw/riscv: sifive_u: Sort the SoC memmap table entries
-      hw/riscv: sifive_u: Add a dummy DDR memory controller device
-
-Ian Jiang (1):
-      riscv: Add helper to make NaN-boxing for FP register
-
- include/hw/char/ibex_uart.h                    | 110 ++++++
- include/hw/intc/ibex_plic.h                    |  63 ++++
- include/hw/riscv/opentitan.h                   |  16 +
- include/hw/riscv/sifive_e.h                    |   1 +
- include/hw/riscv/sifive_gpio.h                 |   8 +-
- include/hw/riscv/sifive_u.h                    |  27 ++
- target/riscv/helper.h                          |   5 +
- target/riscv/insn32.decode                     |   8 +-
- hw/char/ibex_uart.c                            | 492 +++++++++++++++++++++++++
- hw/intc/ibex_plic.c                            | 261 +++++++++++++
- hw/riscv/opentitan.c                           |  71 +++-
- hw/riscv/sifive_e.c                            |  60 ++-
- hw/riscv/sifive_gpio.c                         |  45 ++-
- hw/riscv/sifive_u.c                            | 157 ++++++--
- target/riscv/cpu.c                             |  69 ++--
- target/riscv/cpu_helper.c                      |   9 +-
- target/riscv/insn_trans/trans_privileged.inc.c |  38 --
- target/riscv/insn_trans/trans_rvf.inc.c        |  17 +-
- target/riscv/insn_trans/trans_rvh.inc.c        |  37 ++
- target/riscv/op_helper.c                       |  13 +
- target/riscv/pmp.c                             |  14 +-
- target/riscv/translate.c                       |   1 +
- MAINTAINERS                                    |   4 +
- hw/char/Makefile.objs                          |   1 +
- hw/intc/Makefile.objs                          |   1 +
- hw/riscv/Kconfig                               |   4 +
- 26 files changed, 1350 insertions(+), 182 deletions(-)
- create mode 100644 include/hw/char/ibex_uart.h
- create mode 100644 include/hw/intc/ibex_plic.h
- create mode 100644 hw/char/ibex_uart.c
- create mode 100644 hw/intc/ibex_plic.c
- create mode 100644 target/riscv/insn_trans/trans_rvh.inc.c
 
