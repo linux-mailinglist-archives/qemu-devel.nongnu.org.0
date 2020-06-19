@@ -2,71 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 317692005FE
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 12:06:38 +0200 (CEST)
-Received: from localhost ([::1]:50294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5045920060C
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 12:10:21 +0200 (CEST)
+Received: from localhost ([::1]:35470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jmDuv-0002UZ-9I
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 06:06:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49090)
+	id 1jmDyW-0000DS-CP
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 06:10:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jmDu9-0001RM-97
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 06:05:49 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:23599
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jmDu7-0003C8-OH
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 06:05:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592561147;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wOB/56I0E2vSbrY8/qvWcoDbR4ALjD0BWAr2SAMhSX0=;
- b=Cec+Jzu3sxfevBnW4pj+KWUMuboryYBlBbD4vtlOd82OoUXj2pEzYbS7qo4Sfqv0u0wpW4
- X2OrkOvjaYK6OOXn3UW9bGAqcGdkJj2AE03vaKFs7bZx5ji6LDEyIoDVhOKR7NLJlcKdgu
- w8C4k5pTXzrR98UOlAQnUoXiNavq6dY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-507-dDbRV7HOMrmyUQ04EQbE4A-1; Fri, 19 Jun 2020 06:05:45 -0400
-X-MC-Unique: dDbRV7HOMrmyUQ04EQbE4A-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 11436107ACCA;
- Fri, 19 Jun 2020 10:05:43 +0000 (UTC)
-Received: from gondolin (ovpn-112-224.ams2.redhat.com [10.36.112.224])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 964B31002394;
- Fri, 19 Jun 2020 10:05:33 +0000 (UTC)
-Date: Fri, 19 Jun 2020 12:05:30 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH v3 0/9] Generalize memory encryption models
-Message-ID: <20200619120530.256c36cb.cohuck@redhat.com>
-In-Reply-To: <79890826-f67c-2228-e98d-25d2168be3da@redhat.com>
-References: <20200619020602.118306-1-david@gibson.dropbear.id.au>
- <e045e202-cd56-4ddc-8c1d-a2fe5a799d32@redhat.com>
- <20200619114526.6a6f70c6.cohuck@redhat.com>
- <79890826-f67c-2228-e98d-25d2168be3da@redhat.com>
-Organization: Red Hat GmbH
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/19 01:50:04
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ (Exim 4.90_1) (envelope-from <den@openvz.org>)
+ id 1jmDvc-0003hx-4v; Fri, 19 Jun 2020 06:07:20 -0400
+Received: from relay.sw.ru ([185.231.240.75]:37620 helo=relay3.sw.ru)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <den@openvz.org>)
+ id 1jmDvY-0003LJ-Nh; Fri, 19 Jun 2020 06:07:19 -0400
+Received: from [192.168.15.83] (helo=iris.lishka.ru)
+ by relay3.sw.ru with esmtp (Exim 4.93)
+ (envelope-from <den@openvz.org>)
+ id 1jmDvN-0004IR-7k; Fri, 19 Jun 2020 13:07:05 +0300
+From: "Denis V. Lunev" <den@openvz.org>
+To: qemu-block@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH v5 0/6] block: seriously improve savevm performance
+Date: Fri, 19 Jun 2020 13:07:02 +0300
+Message-Id: <20200619100708.30440-1-den@openvz.org>
+X-Mailer: git-send-email 2.17.1
+Received-SPF: pass client-ip=185.231.240.75; envelope-from=den@openvz.org;
+ helo=relay3.sw.ru
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/19 06:07:12
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,35 +49,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pair@us.ibm.com, brijesh.singh@amd.com, frankja@linux.ibm.com,
- kvm@vger.kernel.org, mst@redhat.com, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>, dgilbert@redhat.com,
- pasic@linux.ibm.com, qemu-s390x@nongnu.org, qemu-ppc@nongnu.org,
- pbonzini@redhat.com, Richard Henderson <rth@twiddle.net>,
- mdroth@linux.vnet.ibm.com, David Gibson <david@gibson.dropbear.id.au>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Denis Plotnikov <dplotnikov@virtuozzo.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, "Denis V . Lunev" <den@openvz.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 19 Jun 2020 11:56:49 +0200
-David Hildenbrand <david@redhat.com> wrote:
+This series do standard basic things:
+- it creates intermediate buffer for all writes from QEMU migration code
+  to QCOW2 image,
+- this buffer is sent to disk asynchronously, allowing several writes to
+  run in parallel.
 
-> >>> For now this series covers just AMD SEV and POWER PEF.  I'm hoping it
-> >>> can be extended to cover the Intel and s390 mechanisms as well,
-> >>> though.    
-> >>
-> >> The only approach on s390x to not glue command line properties to the
-> >> cpu model would be to remove the CPU model feature and replace it by the
-> >> command line parameter. But that would, of course, be an incompatible break.  
-> > 
-> > Yuck.
-> > 
-> > We still need to provide the cpu feature to the *guest* in any case, no?  
-> 
-> Yeah, but that could be wired up internally. Wouldn't consider it clean,
-> though (I second the "overengineered" above).
+In general, migration code is fantastically inefficent (by observation),
+buffers are not aligned and sent with arbitrary pieces, a lot of time
+less than 100 bytes at a chunk, which results in read-modify-write
+operations with non-cached operations. It should also be noted that all
+operations are performed into unallocated image blocks, which also suffer
+due to partial writes to such new clusters.
 
-Could an internally wired-up cpu feature be introspected? Also, what
-happens if new cpu features are introduced that have a dependency on or
-a conflict with this one?
+This patch series is an implementation of idea discussed in the RFC
+posted by Denis Plotnikov
+https://lists.gnu.org/archive/html/qemu-devel/2020-04/msg01925.html
+Results with this series over NVME are better than original code
+                original     rfc    this
+cached:          1.79s      2.38s   1.27s
+non-cached:      3.29s      1.31s   0.81s
+
+Changes from v4:
+- added patch 4 with blk_save_vmstate() cleanup
+- added R-By
+- bdrv_flush_vmstate -> bdrv_finalize_vmstate
+- fixed return code of bdrv_co_do_save_vmstate
+- fixed typos in comments (Eric, thanks!)
+- fixed patchew warnings
+
+Changes from v3:
+- rebased to master
+- added patch 3 which removes aio_task_pool_wait_one()
+- added R-By to patch 1
+- patch 4 is rewritten via bdrv_run_co
+- error path in blk_save_vmstate() is rewritten to call bdrv_flush_vmstate
+  unconditionally
+- added some comments
+- fixes initialization in bdrv_co_vmstate_save_task_entry as suggested
+
+Changes from v2:
+- code moved from QCOW2 level to generic block level
+- created bdrv_flush_vmstate helper to fix 022, 029 tests
+- added recursive for bs->file in bdrv_co_flush_vmstate (fix 267)
+- fixed blk_save_vmstate helper
+- fixed coroutine wait as Vladimir suggested with waiting fixes from me
+
+Changes from v1:
+- patchew warning fixed
+- fixed validation that only 1 waiter is allowed in patch 1
+
+Signed-off-by: Denis V. Lunev <den@openvz.org>
+CC: Kevin Wolf <kwolf@redhat.com>
+CC: Max Reitz <mreitz@redhat.com>
+CC: Stefan Hajnoczi <stefanha@redhat.com>
+CC: Fam Zheng <fam@euphon.net>
+CC: Juan Quintela <quintela@redhat.com>
+CC: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+CC: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+CC: Denis Plotnikov <dplotnikov@virtuozzo.com>
+
 
 
