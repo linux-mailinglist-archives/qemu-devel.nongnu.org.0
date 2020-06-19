@@ -2,81 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAAC5200725
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 12:45:32 +0200 (CEST)
-Received: from localhost ([::1]:52010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C42F20071C
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 12:45:19 +0200 (CEST)
+Received: from localhost ([::1]:51422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jmEWZ-0005he-Ui
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 06:45:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58768)
+	id 1jmEWM-0005TE-4e
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 06:45:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59044)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1jmETk-000364-7g
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 06:42:36 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:33423)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jmEVA-0004dt-MA
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 06:44:04 -0400
+Received: from mail-ot1-x32f.google.com ([2607:f8b0:4864:20::32f]:41514)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1jmETi-0001U8-6E
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 06:42:35 -0400
-Received: by mail-wm1-x343.google.com with SMTP id j198so8549936wmj.0
- for <qemu-devel@nongnu.org>; Fri, 19 Jun 2020 03:42:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:reply-to:to:cc:references:in-reply-to:subject:date:message-id
- :mime-version:content-transfer-encoding:content-language
- :thread-index; bh=BFR8jLnFKKzeoiedj3QuphMlqG56YWoxLvBPjARRM6s=;
- b=cqdHZN3lGUoim3IIaQwimQW5V78VYIck3tvM6ETOkgSzqun5sM8fyS13Xgy0ejB+7v
- zMPeHCkhKMhMvTH6XofFMiO6a4p0p6q6T7H37uwpepmVm5femEPCBcIpyYH/uXuexJrT
- CrKtWn4FJMCb4M2vn9B0RUlonng5wZzhrdETTnUJRYV+PArYJKHp2Hnt5CPVc3/zpxWH
- WHZCEuZhasY36RAP+QbNybnUUMkIke77udyXXcr5TfjaX50E17QiQ5CAtfSrywoDMidf
- Xa1sP/dx3TIbbXqgeYvKjmpP7FVobUzSgIXjb65c5+J0H5OlTNiWNVinkhg8ReP8eud5
- n8qg==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jmEV8-0001br-Om
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 06:44:04 -0400
+Received: by mail-ot1-x32f.google.com with SMTP id k15so6923401otp.8
+ for <qemu-devel@nongnu.org>; Fri, 19 Jun 2020 03:44:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=J/evnrWg3IeTDWY/D23DOwlpV3zddDpvX5N6ONh88JY=;
+ b=ZcGGHMVGOzvFDgcXNPInnHG//0ZKDo/+8o5ziWYWK9bjPIbRVHMlQaE9LQmAAY0ciT
+ MUBUfOfnCX7Qpsbf0tnS95eFzDC+RrkwF6cQ00Br1Dsubo1I4wIq6EugaRbgdSixIXHZ
+ ISHciNyUwlr78Zr/yA1z4htORO2MHzONGDGN3yL17gyXcJ0NzAaEVf1+VoG9FggeBIgq
+ G5KQUXGYnB8EFw6BC/VfaimvIK8I1hTSjnsh51l8Y6t9oKdH7uVecTIIb+mO9N3qYG6D
+ OjvOK6xXFU8lXg3n30CTQCwmxJTe90SavyRWlJmkvH2T/RYCiZX38p0f712UwIvcwB0p
+ lt3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:reply-to:to:cc:references:in-reply-to
- :subject:date:message-id:mime-version:content-transfer-encoding
- :content-language:thread-index;
- bh=BFR8jLnFKKzeoiedj3QuphMlqG56YWoxLvBPjARRM6s=;
- b=uDGmMAaO1YqFuD7zCl4yehc6oZ12kAtDFweawzHyjdq+SD5zYO2xLPB3fGC8PBSs5g
- XelVecU6jk8UTyj9XofDQNC820lj8MUP+7RQryF4ILZveizSapl/Q5GQw1kMdDUFg+UD
- L3oeN2uhu3IsWzjcG7rTzSdYSqvXs0WWYbbmNMSR444aJS/ZkbHJdi8iPDIGckZwtBbZ
- xVoWQUhOdzKMoustyrcIr2jzfsH/ynWiRIgXJIUVrq7Zv0/tmHCyqY41RqN8QkU8mfpi
- qdWAqOdd8sFaS1o4BlcE8vm9dRqQoLhLzbGPHiJgzBdbWlTChdRVOSplovxZlCMm5dHf
- Jo2Q==
-X-Gm-Message-State: AOAM53217Xsumw8BXs7mnV7S0B8uPLVvLLgK2azA7t0Y/tl3/yq4cSxG
- WZg5NMeCgXqO4DkcPCEgH4s=
-X-Google-Smtp-Source: ABdhPJwaMMa/gMidMkxVhqK2lMz2pHCDECZBsvrFXbGWiBgBbPmK/XjcBpmTcn0NiMim+ey/IktetQ==
-X-Received: by 2002:a1c:e355:: with SMTP id a82mr3057725wmh.1.1592563352358;
- Fri, 19 Jun 2020 03:42:32 -0700 (PDT)
-Received: from CBGR90WXYV0 ([54.239.6.187])
- by smtp.gmail.com with ESMTPSA id i8sm6717120wru.30.2020.06.19.03.42.31
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 19 Jun 2020 03:42:31 -0700 (PDT)
-From: Paul Durrant <xadimgnik@gmail.com>
-X-Google-Original-From: "Paul Durrant" <paul@xen.org>
-To: "'Anthony PERARD'" <anthony.perard@citrix.com>,
-	<qemu-devel@nongnu.org>
-References: <20200619103115.254127-1-anthony.perard@citrix.com>
-In-Reply-To: <20200619103115.254127-1-anthony.perard@citrix.com>
-Subject: RE: [PATCH] xen: Actually fix build without passthrough
-Date: Fri, 19 Jun 2020 11:42:30 +0100
-Message-ID: <00aa01d64626$55eec020$01cc4060$@xen.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=J/evnrWg3IeTDWY/D23DOwlpV3zddDpvX5N6ONh88JY=;
+ b=XzEaKbunLgEpPgQTHtiGLySFauz5NIbaEE8v2P5TC4si7iz6pPTa08a+B8iIihejcm
+ p6CiFXE3omxzgQZpt6Io2k6nBtxR+FC0VSWpfakQs90gioAF4gM6d/tw/ZL/VkKFph//
+ aDlONxBQr1FiL5Vwrqudj0FU0U4T5UfAwLnj8+V9lx7979fY1CpJXA/o+68ohlZ4h0E4
+ LHw2xYCe+XNHocijNeoyK03C/iR7BouqhWZ6T3cWf+b6OjrOeiEWStDRZfz9lAojrn5T
+ Usguq0o0lL7UfyqVt7cmP28UQvbJZpb0beQqqrK7BNV+ihNg8HVX01lFof8cZliro9PE
+ rA0A==
+X-Gm-Message-State: AOAM533kX+rY8HNQzHTIER4avsF0d1U1pYYIbNQ5OgcXIGrFSsO32rwj
+ 0iSm2NDxThR9qz8AWiNl+oSTLexlwbY9VQlPBLrEtg==
+X-Google-Smtp-Source: ABdhPJydV9YmV7PnbfQOOvXAVWCFr+PutDtwpJeXMbOKS429H/TpYiaxF7JA67U3BFKqKGDGttzhEE7WDHIgZQAz7s8=
+X-Received: by 2002:a05:6830:8d:: with SMTP id
+ a13mr2426540oto.91.1592563441309; 
+ Fri, 19 Jun 2020 03:44:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain;
-	charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 16.0
-Content-Language: en-gb
-Thread-Index: AQJ4Bmae6BJqEg639TdZnK5dfFEOPaecP7gQ
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=xadimgnik@gmail.com; helo=mail-wm1-x343.google.com
+References: <1592486508-6135-1-git-send-email-jasowang@redhat.com>
+In-Reply-To: <1592486508-6135-1-git-send-email-jasowang@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 19 Jun 2020 11:43:50 +0100
+Message-ID: <CAFEAcA9QRqUdZqdQNhwMyHyfBXscQ8cBZ=Jut7Y+-f-FKS-iRw@mail.gmail.com>
+Subject: Re: [PULL V2 00/33] Net patches
+To: Jason Wang <jasowang@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x32f.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
@@ -91,45 +79,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: paul@xen.org
-Cc: 'Paolo Bonzini' <pbonzini@redhat.com>,
- 'Stefano Stabellini' <sstabellini@kernel.org>, xen-devel@lists.xenproject.org
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, 18 Jun 2020 at 14:21, Jason Wang <jasowang@redhat.com> wrote:
+>
+> The following changes since commit 3f429a3400822141651486193d6af625eeab05a5:
+>
+>   Merge remote-tracking branch 'remotes/kraxel/tags/microvm-20200617-pull-request' into staging (2020-06-18 11:23:15 +0100)
+>
+> are available in the git repository at:
+>
+>   https://github.com/jasowang/qemu.git tags/net-pull-request
+>
+> for you to fetch changes up to 71830d8430e65dd20aec4765d87e60336148e1a6:
+>
+>   net: Drop the NetLegacy structure, always use Netdev instead (2020-06-18 21:05:52 +0800)
+>
+> ----------------------------------------------------------------
+>
+> Changes from V1:
+> - Fix build failure for virtio-net
 
 
-> -----Original Message-----
-> From: Anthony PERARD <anthony.perard@citrix.com>
-> Sent: 19 June 2020 11:31
-> To: qemu-devel@nongnu.org
-> Cc: Paolo Bonzini <pbonzini@redhat.com>; Anthony PERARD <anthony.perard@citrix.com>; Stefano
-> Stabellini <sstabellini@kernel.org>; Paul Durrant <paul@xen.org>; xen-devel@lists.xenproject.org
-> Subject: [PATCH] xen: Actually fix build without passthrough
-> 
-> Fix typo.
-> 
-> Fixes: acd0c9416d48 ("xen: fix build without pci passthrough")
-> Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
+Applied, thanks.
 
-Acked-by: Paul Durrant <paul@xen.org>
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.1
+for any user-visible changes.
 
-> ---
->  hw/xen/Makefile.objs | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/hw/xen/Makefile.objs b/hw/xen/Makefile.objs
-> index 3fc715e5954d..502b32d877a0 100644
-> --- a/hw/xen/Makefile.objs
-> +++ b/hw/xen/Makefile.objs
-> @@ -4,4 +4,4 @@ common-obj-y += xen-legacy-backend.o xen_devconfig.o xen_pvdev.o xen-bus.o xen-b
->  obj-$(CONFIG_XEN_PCI_PASSTHROUGH) += xen-host-pci-device.o
->  obj-$(CONFIG_XEN_PCI_PASSTHROUGH) += xen_pt.o xen_pt_config_init.o xen_pt_graphics.o xen_pt_msi.o
->  obj-$(CONFIG_XEN_PCI_PASSTHROUGH) += xen_pt_load_rom.o
-> -obj-$(call $(lnot, $(CONFIG_XEN_PCI_PASSTHROUGH))) += xen_pt_stub.o
-> +obj-$(call lnot,$(CONFIG_XEN_PCI_PASSTHROUGH)) += xen_pt_stub.o
-> --
-> Anthony PERARD
-
-
+-- PMM
 
