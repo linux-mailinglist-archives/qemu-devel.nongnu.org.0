@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F3BB200226
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 08:47:37 +0200 (CEST)
-Received: from localhost ([::1]:50914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79CDC200229
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 08:48:42 +0200 (CEST)
+Received: from localhost ([::1]:56454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jmAoK-0000Mf-Ft
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 02:47:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56970)
+	id 1jmApN-0003Ji-6f
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 02:48:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=4324eb4de=alistair.francis@wdc.com>)
- id 1jmAc6-00061y-Re
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 02:34:58 -0400
-Received: from esa6.hgst.iphmx.com ([216.71.154.45]:13000)
+ id 1jmAc8-00067B-SA
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 02:35:00 -0400
+Received: from esa6.hgst.iphmx.com ([216.71.154.45]:13005)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=4324eb4de=alistair.francis@wdc.com>)
- id 1jmAc5-00028a-3h
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 02:34:58 -0400
+ id 1jmAc6-00028f-U5
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 02:35:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1592548497; x=1624084497;
+ t=1592548499; x=1624084499;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=awiPom2MLm4GSUph2K8Os6CU9vKiSvuIpuRuIMNfHzs=;
- b=nvDFWPIqfhR6Y4fRZfwXJhLLSd30vABerHO2XYqOJj/kPdwzE3gP+3sA
- FquaSSZFxyi8olhgpCbnUjZfHV74gv4IGWvt6alGfr23yiGdXC8iylnDy
- 6TNuuyUO+aGOG5nN2nbS5LS9esbJDDPi4sPok98NF9NPbiY8rzN7E7qf0
- 5AiwrYQYooW/ZSgfdTariEteN6vgtVQXRdxNfj5Y8GIrnXjVLDG8QK8Cq
- zBZgzPwsU2vc8UYltRqd3+vj8RHzRCStuvlht9eSmvJKDuagmyT03KcJ2
- 1g+yxb3A7XLrLVKYNolREFKqw0/TtQPW78ZCQocuyDtSqxY2jFeQxJTVk Q==;
-IronPort-SDR: aMqcBLmNcfHLUzDmDA4rwaY+LiaIwWucmMO1NZ2G2Q15rZcd41RH/DR62stxMz76gcNi281wX9
- OjG/Ifp4MMnNWNsOCF6Tl4V49kPTAa/Ll4FEvcixXQGP3//0X2clmPxfUg/mnOy5yJvP8Jtjnt
- 3u8SZlQUaAjj6OlSt3P8PoSwcpeqnpjsq8XttUkByuSoPwE6feGszUb/pD36UQFS2PvLuRjuh/
- 5PA+PsCHVt6XC2ZeE9T4Cm1G8oN4n7alSQw3CuLZyYYLKN23jSjZoTL7hVdBYX6GB311l0rvnx
- gRs=
-X-IronPort-AV: E=Sophos;i="5.75,253,1589212800"; d="scan'208";a="141781939"
+ bh=/VFbNCBNHJmJE++nCPIO8b5lhNMmW1HmNeApASFycK4=;
+ b=PUXK6nVr5ZXDU00QdXQ0Mf19lvtvN5d8lrv1PBljrcm0ybzh674dTp75
+ TZB0aN7DPqguyJOk+2jxy0JVJBijmlbmPTOb2/7lGklURlaIt5Khaijzp
+ pnjYCT1qH7BG7z6TNMr5/EMtE1EbTTsHLR919UFqWcZn7P7AEl1CZwiKG
+ N1fT+TvThoj5MJWQxtr3groI6jEr+ieBM0cNgVy1PlpCxarMrLnmGo5sE
+ veU+2xvNIS98bCdZfi8zP1HS9ob5X/1Y6zhHFx2OtTHVsfo0ps4Q4eLkm
+ QfUxkYzVcZ1aaWw5ESZlydjONH6NcakZLWACTV+fXrwAs4eLOBMzoqUaR A==;
+IronPort-SDR: IciwrAbBBbbPmGaT6H4mjpzoMM2+lcuYlsTWlfOJoJxigQXvzAfQRDAGKj5nGCC+AMMXNXd0xq
+ +0X2l6Cp51z1VFEI2/Jl6Pgp1ArGpFajijtVWNEnNJSFa5fqCwBxZBchmjU0nA3DPTGJhSjU3g
+ 4Z7szKYZmV7hDGBwCV+L6dt4H2UjBnLjboDCmgDP+/dWi96SBwz9+QqrqBqrml1KKlNOAVZ10f
+ hCJcIwShHIc9f8SiPxCYaNkd+bmQXXVk1ECBD2ivAzqWDNkMD3q+8Ff1KfvD8O2j8JnvOwIp6P
+ Z0k=
+X-IronPort-AV: E=Sophos;i="5.75,253,1589212800"; d="scan'208";a="141781942"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
  by ob1.hgst.iphmx.com with ESMTP; 19 Jun 2020 14:34:32 +0800
-IronPort-SDR: SxleG3n1ZDyK1JCD7A9MpBVwQsLzJ4IooGLWlpcJ2MJgQcFpSzsmXjje9MLPk1VkRTpf5hBi1b
- YCujzTbaRq8RZTSA3PTKIjOFQuI/N7KDU=
+IronPort-SDR: wvfWnnBeQp7KDvRwCG6PWLK6ZsAqfTikXWQRCoA3Wq69GwtdPIk6yJXah/9PTKVQxZGoe5vPOp
+ 5pswTEVj++j1rKNR3HePps6Hes/obx6qU=
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  18 Jun 2020 23:23:43 -0700
-IronPort-SDR: TQ66xgxGtWN4tUaYkVr1TQ2LDZih2j683rQzrWUJmCL8Kg8qGsUvEmwIZz7G+JB+9DHrLNp1F+
- t84+NRq++rUw==
+IronPort-SDR: 7O2+4ep1smA0zosWCThqAbAIKyn0cBKqYiNks5rYBYFm/B29J9S1MUYAikMFUddiUgyn7akjEa
+ DBXfuW8XjOFQ==
 WDCIronportException: Internal
 Received: from unknown (HELO risc6-mainframe.hgst.com) ([10.86.58.142])
  by uls-op-cesaip02.wdc.com with ESMTP; 18 Jun 2020 23:34:31 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL 24/32] hw/riscv: sifive_gpio: Do not blindly trigger output IRQs
-Date: Thu, 18 Jun 2020 23:25:10 -0700
-Message-Id: <20200619062518.1718523-25-alistair.francis@wdc.com>
+Subject: [PULL 25/32] hw/riscv: sifive_u: Add reset functionality
+Date: Thu, 18 Jun 2020 23:25:11 -0700
+Message-Id: <20200619062518.1718523-26-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200619062518.1718523-1-alistair.francis@wdc.com>
 References: <20200619062518.1718523-1-alistair.francis@wdc.com>
@@ -94,34 +94,100 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-At present the GPIO output IRQs are triggered each time any GPIO
-register is written. However this is not correct. We should only
-trigger the output IRQ when the pin is configured as output enable.
+The HiFive Unleashed board wires GPIO pin#10 to the input of the
+system reset signal. Let's set up the GPIO pin#10 and insert a
+"gpio-restart" device tree node so that reboot is now functional
+with QEMU 'sifive_u' machine.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 1591625864-31494-9-git-send-email-bmeng.cn@gmail.com
-Message-Id: <1591625864-31494-9-git-send-email-bmeng.cn@gmail.com>
+Message-id: 1591625864-31494-10-git-send-email-bmeng.cn@gmail.com
+Message-Id: <1591625864-31494-10-git-send-email-bmeng.cn@gmail.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- hw/riscv/sifive_gpio.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ hw/riscv/sifive_u.c | 24 +++++++++++++++++++++++-
+ 1 file changed, 23 insertions(+), 1 deletion(-)
 
-diff --git a/hw/riscv/sifive_gpio.c b/hw/riscv/sifive_gpio.c
-index 0d0fd2ba5e..aac6b44cac 100644
---- a/hw/riscv/sifive_gpio.c
-+++ b/hw/riscv/sifive_gpio.c
-@@ -76,7 +76,9 @@ static void update_state(SIFIVEGPIOState *s)
-             actual_value = pull;
-         }
+diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+index c9ef59c482..a0fcef63b1 100644
+--- a/hw/riscv/sifive_u.c
++++ b/hw/riscv/sifive_u.c
+@@ -37,6 +37,7 @@
+ #include "qapi/error.h"
+ #include "qapi/visitor.h"
+ #include "hw/boards.h"
++#include "hw/irq.h"
+ #include "hw/loader.h"
+ #include "hw/sysbus.h"
+ #include "hw/char/serial.h"
+@@ -53,6 +54,7 @@
+ #include "net/eth.h"
+ #include "sysemu/arch_init.h"
+ #include "sysemu/device_tree.h"
++#include "sysemu/runstate.h"
+ #include "sysemu/sysemu.h"
+ #include "exec/address-spaces.h"
  
--        qemu_set_irq(s->output[i], actual_value);
-+        if (output_en) {
-+            qemu_set_irq(s->output[i], actual_value);
-+        }
+@@ -96,7 +98,7 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
+     uint32_t *cells;
+     char *nodename;
+     char ethclk_names[] = "pclk\0hclk";
+-    uint32_t plic_phandle, prci_phandle, phandle = 1;
++    uint32_t plic_phandle, prci_phandle, gpio_phandle, phandle = 1;
+     uint32_t hfclk_phandle, rtcclk_phandle, phy_phandle;
  
-         /* Input value */
-         ival = input_en && actual_value;
+     fdt = s->fdt = create_device_tree(&s->fdt_size);
+@@ -270,9 +272,11 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
+     g_free(cells);
+     g_free(nodename);
+ 
++    gpio_phandle = phandle++;
+     nodename = g_strdup_printf("/soc/gpio@%lx",
+         (long)memmap[SIFIVE_U_GPIO].base);
+     qemu_fdt_add_subnode(fdt, nodename);
++    qemu_fdt_setprop_cell(fdt, nodename, "phandle", gpio_phandle);
+     qemu_fdt_setprop_cells(fdt, nodename, "clocks",
+         prci_phandle, PRCI_CLK_TLCLK);
+     qemu_fdt_setprop_cell(fdt, nodename, "#interrupt-cells", 2);
+@@ -292,6 +296,12 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
+     qemu_fdt_setprop_string(fdt, nodename, "compatible", "sifive,gpio0");
+     g_free(nodename);
+ 
++    nodename = g_strdup_printf("/gpio-restart");
++    qemu_fdt_add_subnode(fdt, nodename);
++    qemu_fdt_setprop_cells(fdt, nodename, "gpios", gpio_phandle, 10, 1);
++    qemu_fdt_setprop_string(fdt, nodename, "compatible", "gpio-restart");
++    g_free(nodename);
++
+     phy_phandle = phandle++;
+     nodename = g_strdup_printf("/soc/ethernet@%lx",
+         (long)memmap[SIFIVE_U_GEM].base);
+@@ -352,6 +362,14 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
+     g_free(nodename);
+ }
+ 
++static void sifive_u_machine_reset(void *opaque, int n, int level)
++{
++    /* gpio pin active low triggers reset */
++    if (!level) {
++        qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
++    }
++}
++
+ static void sifive_u_machine_init(MachineState *machine)
+ {
+     const struct MemmapEntry *memmap = sifive_u_memmap;
+@@ -380,6 +398,10 @@ static void sifive_u_machine_init(MachineState *machine)
+     memory_region_add_subregion(system_memory, memmap[SIFIVE_U_FLASH0].base,
+                                 flash0);
+ 
++    /* register gpio-restart */
++    qdev_connect_gpio_out(DEVICE(&(s->soc.gpio)), 10,
++                          qemu_allocate_irq(sifive_u_machine_reset, NULL, 0));
++
+     /* create device tree */
+     create_fdt(s, memmap, machine->ram_size, machine->kernel_cmdline);
+ 
 -- 
 2.27.0
 
