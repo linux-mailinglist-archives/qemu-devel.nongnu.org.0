@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EF4E200B5F
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 16:25:02 +0200 (CEST)
-Received: from localhost ([::1]:46824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 599E8200B59
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 16:23:39 +0200 (CEST)
+Received: from localhost ([::1]:42532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jmHwz-0002Av-LQ
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 10:25:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35570)
+	id 1jmHve-0000QL-EL
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 10:23:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jmHrW-0000qj-Fa
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 10:19:22 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:43532
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jmHs3-0001RL-5Q
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 10:19:55 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:55957
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jmHrT-00060g-Cc
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 10:19:22 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jmHs1-00063T-H1
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 10:19:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592576358;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1592576392;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KcGGuAFAbDU1ZUE4T7diA3r84avvDhCdeeECiA7SyFE=;
- b=XPsdXXNJl1Uq6Vfj3BjbjNmAXImvkyRvXIO3pRH7tlMAcSHNIjRtrawna2QZoKxLB3WWRE
- fr9DpYkWZCBKuu4UgM5EpQkgNHGGTK6K6k/E/N2fZW/in29vsgx5Z28CdZnx1HxgG6TnlV
- loHGrFoDrXPd6H20nMGuGNA5xuthC8E=
+ bh=KhbykAmB1tKh+RGCpfjcxjiWB3IowqXmzJ2NDceav8Q=;
+ b=C88nOwfyHaKpQgflyrb/HYG1PCkEn0UOj/wuBPgfW0oSfeaVdft0oz2YKp0kPkEvIniJUa
+ MAws3NMkFs2oZVCMQMZWa1AnXdTM6bFu7tikdOdP1UpAjCmJqpTIzDBsvGNhcb5QiuFpIf
+ sH4l0jkC15qI7TDI6dtfavOc0DzcNi4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-321-8DOVwH8HPDuSP60ugF8Qvg-1; Fri, 19 Jun 2020 10:19:11 -0400
-X-MC-Unique: 8DOVwH8HPDuSP60ugF8Qvg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-398-vclc8D9QNX62mqwuN9bDfw-1; Fri, 19 Jun 2020 10:19:48 -0400
+X-MC-Unique: vclc8D9QNX62mqwuN9bDfw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7DB14A0BE2;
- Fri, 19 Jun 2020 14:19:10 +0000 (UTC)
-Received: from redhat.com (unknown [10.36.110.65])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6F14E60BF4;
- Fri, 19 Jun 2020 14:19:09 +0000 (UTC)
-Date: Fri, 19 Jun 2020 15:19:06 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: David Edmondson <david.edmondson@oracle.com>
-Subject: Re: [PATCH] crypto/linux_keyring: fix 'secret_keyring' configure test
-Message-ID: <20200619141906.GU700896@redhat.com>
-References: <20200618092636.71832-1-david.edmondson@oracle.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 76FAA107ACF2;
+ Fri, 19 Jun 2020 14:19:47 +0000 (UTC)
+Received: from [10.3.114.4] (ovpn-114-4.phx2.redhat.com [10.3.114.4])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 56F6271660;
+ Fri, 19 Jun 2020 14:19:44 +0000 (UTC)
+Subject: Re: [PATCH 0/2] qemu-storage-daemon: memory leak and --object opts
+ fixes
+To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+References: <20200619101132.2401756-1-stefanha@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <e5d43490-c9fa-ca13-c101-2c874011f0ca@redhat.com>
+Date: Fri, 19 Jun 2020 09:19:43 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <20200618092636.71832-1-david.edmondson@oracle.com>
-User-Agent: Mutt/1.14.0 (2020-05-02)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20200619101132.2401756-1-stefanha@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=berrange@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=eblake@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/19 03:15:03
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/19 05:19:18
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,31 +82,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 18, 2020 at 10:26:36AM +0100, David Edmondson wrote:
-> The configure test for 'secret_keyring' incorrectly checked the
-> 'have_keyring' variable.
+On 6/19/20 5:11 AM, Stefan Hajnoczi wrote:
+> Small fixes for qemu-storage-daemon.
 > 
-> Fixes: 54e7aac0562452e4fcab65ca5001d030eef2de15
-> Signed-off-by: David Edmondson <david.edmondson@oracle.com>
-> ---
->  configure | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Stefan Hajnoczi (2):
+>    qemu-storage-daemon: remember to add qemu_object_opts
+>    qemu-storage-daemon: add missing cleanup calls
 
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+For both patches,
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
-and queued
+> 
+>   qemu-storage-daemon.c | 5 +++++
+>   1 file changed, 5 insertions(+)
+> 
 
-
-Regards,
-Daniel
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
