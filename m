@@ -2,66 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6289A20110C
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 17:41:27 +0200 (CEST)
-Received: from localhost ([::1]:52894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B169A201182
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 17:46:05 +0200 (CEST)
+Received: from localhost ([::1]:59482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jmJ8w-0005Yq-F3
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 11:41:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32778)
+	id 1jmJDQ-0001eI-FX
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 11:46:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34826)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1jmJ7G-0004Hl-Ox
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 11:39:42 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:40738
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jmJCW-00018B-5X
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 11:45:08 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:49786
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1jmJ7E-0005VL-IG
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 11:39:42 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jmJCT-0006lI-QQ
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 11:45:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592581178;
+ s=mimecast20190719; t=1592581504;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KhFU/p4pv8E35WqwHtBJ9ZWgckYpSx41sQ2s73o9n8s=;
- b=cWPhsiAxyXquVFOAw0fS5+owtCWMon+tjxjcc3Z7zt2h8brGZMtuzNvEnCUBJDybGkg36e
- fefDWu+bJlrn4gKdvOKk6WS1+ecRdveGwjmbQxqpc4iyGSWrZ/Bpw4+qyS1uggSH37jqRU
- FCqvsFAhbinUtuuyRU9vyiMngdhHmTQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-377-RyV7TXBIOBCqGZ0ybpJ-Hw-1; Fri, 19 Jun 2020 11:39:36 -0400
-X-MC-Unique: RyV7TXBIOBCqGZ0ybpJ-Hw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2D02C18FE884
- for <qemu-devel@nongnu.org>; Fri, 19 Jun 2020 15:39:21 +0000 (UTC)
-Received: from [10.36.114.197] (ovpn-114-197.ams2.redhat.com [10.36.114.197])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B73A05BAD3
- for <qemu-devel@nongnu.org>; Fri, 19 Jun 2020 15:39:19 +0000 (UTC)
-Subject: Re: [question] qemu abort when object-add is called with an already
- used id
-To: qemu-devel@nongnu.org
-References: <0f47e285-3811-ba08-297f-e3ff5bd5f2c3@redhat.com>
- <20200618171254.GL671599@redhat.com>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <929eee4d-9502-5fa9-297e-92214a993f5b@redhat.com>
-Date: Fri, 19 Jun 2020 17:39:18 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
+ bh=SLaQtsejDWd3u5WGrZCjwGcdz4AwMv/TH/kcYt4u6Jo=;
+ b=eR57OcxvdzqMBTvQO20ktBs0892x281gRv4VZPKGgQ/P7Sts/W1NwZQiphhgPCIHssiLB9
+ U3UnUi21uYCfcPAhRdSxspoifhtuZl3HA5c+42mPOBu9CGQdBwU18IVGUaCJcsvXAaOYGw
+ QJpdDbc/yob0nJ0tVOVypOegL33AHwM=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-287-d1klGqD-OJGVObnOf39oTQ-1; Fri, 19 Jun 2020 11:45:02 -0400
+X-MC-Unique: d1klGqD-OJGVObnOf39oTQ-1
+Received: by mail-wm1-f69.google.com with SMTP id u15so2742977wmm.5
+ for <qemu-devel@nongnu.org>; Fri, 19 Jun 2020 08:45:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=SLaQtsejDWd3u5WGrZCjwGcdz4AwMv/TH/kcYt4u6Jo=;
+ b=MzeMrHqrj+znMFYmNFUxWh+lu7GVDX45dJdAseDN82kuamzETUHLjPEcYr3gPYAylU
+ PzNua8QQBgvWTv660CjTOoDrwM3+36ZoZqSL8YX38KXduYFVSUiRL8QXw67t+5raKfm/
+ Gdd/IZ/4nzpcFDspdo1QD+r4Yj726F1mLQ0P1x1rRdBljU1sb9sGRQeU7TfBTC3hyLqt
+ 2MOtl6806geYyju23QxuTw6IVvIOwvjQIA3K2+D1x57etzdm5SLKVoQPZiaiNAwv0vGF
+ 73RyX0xC+1mNA9eBVI9Wlnj3q/x5GAE4rC8srcuIWL1+fzLQNgQaySWjTzuS8gSVsICn
+ i+Bg==
+X-Gm-Message-State: AOAM531Q5/NOVA4ZbfEmQTM2gsZYcx4B9v7hJ8ubs1OdsznWxa0aDVyr
+ yzY49EGfAoD1zefsPdu+QpGwv3t3seU8UPpSXtQPBHU+DBMhPkPA5rLr41TeUzDT9IBvFq2FhqY
+ H5WtBFrnnJxvaib0=
+X-Received: by 2002:adf:9d8e:: with SMTP id p14mr4654049wre.236.1592581501494; 
+ Fri, 19 Jun 2020 08:45:01 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzY8N9Cm+LpxaCSjVcboGH6aeHKeTxBOofUuBrtU6pbFGmjIxuFswpZguAM1Xv9AN1InzT60w==
+X-Received: by 2002:adf:9d8e:: with SMTP id p14mr4654031wre.236.1592581501312; 
+ Fri, 19 Jun 2020 08:45:01 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:e1d2:138e:4eff:42cb?
+ ([2001:b07:6468:f312:e1d2:138e:4eff:42cb])
+ by smtp.gmail.com with ESMTPSA id b18sm7465092wrn.88.2020.06.19.08.45.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 19 Jun 2020 08:45:00 -0700 (PDT)
+Subject: Re: [RFC PATCH] docs/devel: add some notes on tcg-icount for
+ developers
+To: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20200619135844.23307-1-alex.bennee@linaro.org>
+ <CAFEAcA-KX-2zjktg9A8dPdo6RkxtafM7YnahKaP=uftCO-7=GQ@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <657301f4-57d5-d55f-3f4e-c44db377aea7@redhat.com>
+Date: Fri, 19 Jun 2020 17:44:59 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <20200618171254.GL671599@redhat.com>
+In-Reply-To: <CAFEAcA-KX-2zjktg9A8dPdo6RkxtafM7YnahKaP=uftCO-7=GQ@mail.gmail.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=eric.auger@redhat.com;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/19 01:50:04
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -84,49 +102,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Pavel Dovgalyuk <dovgaluk@ispras.ru>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Daniel,
+On 19/06/20 16:54, Peter Maydell wrote:
+>> +
+>> +MMIO isn't the only type of operation for which we might need a
+>> +correct and accurate clock. IO port instructions and accesses to
+>> +system registers are the common examples here. For the clock to be
+>> +accurate you end a translation block on these instructions.
+>> +
+>> +.. warning:: (CONJECTURE) instructions that won't get trapped in the
+>> +             io_read/writex shouldn't need gen_io_start/end blocks
+>> +             around them.
+> I think this is backwards -- instructions where icount is handled
+> by io_readx/io_writex are the ones that don't need to be marked
+> with gen_io_start. It's the i/o instructions that don't go through
+> io_readx/io_writex that need gen_io_start.
 
-On 6/18/20 7:12 PM, Daniel P. Berrangé wrote:
-> On Thu, Jun 18, 2020 at 06:15:57PM +0200, Auger Eric wrote:
->> Hi,
->>
->> While testing PCDIMM hotplug/coldplug I noted qemu aborts if we attempt
->> to add from the QMP monitor an object whose id is already in use.
->>
->> for instance
->> object-add qom-type=memory-backend-ram id=mem1 props.size=4294967296
->> while mem1 is already used.
->>
->> We get:
->> Unexpected error in object_property_try_add() at qom/object.c:1167:
->> attempt to add duplicate property 'mem1' to object (type 'container')
->>
->> This is due to the fact &error_abort is passed to object_property_try_add().
->>
->> Is it the expected behavior?
-> 
-> No, this is highly undesirable. A user/mgmt app mistake in reusing a
-> property ID shouldn't result in loss of the entire running VM and the
-> user's live data within.
-> 
-> We must gracefully report the error back to the QMP client.
-> 
-> error_abort should really only be used in scenarios which are
-> not expected to happen in real world. eg it is more like an
-> assert() in terms of where it should be used.
+Yes, and likewise instructions where icount is handled by
+io_readx/io_writex need not terminate the TB.
 
-OK thank you for the confirmation, I will work on this.
-
-Thanks
-
-Eric
-> 
-> 
-> Regards,
-> Daniel
-> 
+Paolo
 
 
