@@ -2,21 +2,21 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 313C52006F3
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 12:42:51 +0200 (CEST)
-Received: from localhost ([::1]:45934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF22F2006DB
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 12:41:27 +0200 (CEST)
+Received: from localhost ([::1]:42158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jmETy-0002Le-A0
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 06:42:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58322)
+	id 1jmESc-0000Tb-R8
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 06:41:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jmERd-0008FL-W7
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 06:40:26 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:26442
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jmERd-0008E5-Fv
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 06:40:25 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58061
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jmERb-0000w2-2i
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jmERa-0000vx-Ma
  for qemu-devel@nongnu.org; Fri, 19 Jun 2020 06:40:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1592563222;
@@ -24,32 +24,32 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=j4s80g9xP/gHFPG8l8zC2Sq3SL96+Ry0KRdDn9AR2nM=;
- b=N+2wvuQnvF1S/PNRfFwQZDuhky1/sHjb701i9wAXiE/4+nK5+YCyEPlhZV5TcCjA0OX+qo
- RLgti1Gfp9PVGf4ZPNNXR9zwqNYRhTIqqV9I9xUlVSvyqsPewF7yB4ECJ2y1S33oa2L1nQ
- r17XJfmejrgFvHIVbQa3k3bCwmN2gdA=
+ bh=tn26SWpQZvPrUnPWcaacLiB+xjnFQetZ2himE/eWy6I=;
+ b=W8wbn9lU7BLQxuv1IwPx2/hgUX3reP37VmQh59iovJWRrEgHRrllgqveit7TM/0dKepTUL
+ MdnGrCwasleY16l2bnObVuSPkR7/MEJna6AmktPsn1KGVLACn1rt23LJgo5mTkrgCPrPVd
+ qsp/O3NnOc0+7qNbJOuKcaKLMs5u6cw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-80-F7AWET8LMLCaLqeoIIXGZg-1; Fri, 19 Jun 2020 06:40:18 -0400
-X-MC-Unique: F7AWET8LMLCaLqeoIIXGZg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-182-3Ldqw--2PTeYeOMAxlCTaA-1; Fri, 19 Jun 2020 06:40:20 -0400
+X-MC-Unique: 3Ldqw--2PTeYeOMAxlCTaA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0CA9F801503;
- Fri, 19 Jun 2020 10:40:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5108C8035CF;
+ Fri, 19 Jun 2020 10:40:19 +0000 (UTC)
 Received: from localhost (ovpn-113-28.ams2.redhat.com [10.36.113.28])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A0D0660BE1;
- Fri, 19 Jun 2020 10:40:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C3FC25C1D0;
+ Fri, 19 Jun 2020 10:40:18 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 1/2] qcow2: Force preallocation with data-file-raw
-Date: Fri, 19 Jun 2020 12:40:11 +0200
-Message-Id: <20200619104012.235977-2-mreitz@redhat.com>
+Subject: [PATCH 2/2] iotests/244: Test preallocation for data-file-raw
+Date: Fri, 19 Jun 2020 12:40:12 +0200
+Message-Id: <20200619104012.235977-3-mreitz@redhat.com>
 In-Reply-To: <20200619104012.235977-1-mreitz@redhat.com>
 References: <20200619104012.235977-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -82,85 +82,120 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Setting the qcow2 data-file-raw bit means that you can ignore the
-qcow2 metadata when reading from the external data file.  It does not
-mean that you have to ignore it, though.  Therefore, the data read must
-be the same regardless of whether you interpret the metadata or whether
-you ignore it, and thus the L1/L2 tables must all be present and give a
-1:1 mapping.
-
-This patch changes 244's output: First, the qcow2 file is larger right
-after creation, because of metadata preallocation.  Second, the qemu-img
-map output changes: Everything that was not explicitly discarded or
-zeroed is now a data area.
-
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/qcow2.c              | 22 ++++++++++++++++++++++
- tests/qemu-iotests/244.out |  9 ++++-----
- 2 files changed, 26 insertions(+), 5 deletions(-)
+ tests/qemu-iotests/244     | 65 ++++++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/244.out | 23 ++++++++++++++
+ 2 files changed, 88 insertions(+)
 
-diff --git a/block/qcow2.c b/block/qcow2.c
-index 0cd2e6757e..2a588d8091 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -3460,6 +3460,28 @@ qcow2_co_create(BlockdevCreateOptions *create_options, Error **errp)
-         ret = -EINVAL;
-         goto out;
-     }
-+    if (qcow2_opts->data_file_raw &&
-+        qcow2_opts->preallocation == PREALLOC_MODE_OFF)
-+    {
-+        /*
-+         * data-file-raw means that "the external data file can be
-+         * read as a consistent standalone raw image without looking
-+         * at the qcow2 metadata."  It does not say that the metadata
-+         * must be ignored, though (and the qcow2 driver in fact does
-+         * not ignore it), so the L1/L2 tables must be present and
-+         * give a 1:1 mapping, so you get the same result regardless
-+         * of whether you look at the metadata or whether you ignore
-+         * it.
-+         */
-+        qcow2_opts->preallocation = PREALLOC_MODE_METADATA;
-+
-+        /*
-+         * Cannot use preallocation with backing files, but giving a
-+         * backing file when specifying data_file_raw is an error
-+         * anyway.
-+         */
-+        assert(!qcow2_opts->has_backing_file);
-+    }
+diff --git a/tests/qemu-iotests/244 b/tests/qemu-iotests/244
+index efe3c0428b..c2fdeab0c7 100755
+--- a/tests/qemu-iotests/244
++++ b/tests/qemu-iotests/244
+@@ -217,6 +217,71 @@ $QEMU_IMG amend -f $IMGFMT -o "data_file=blkdebug::$TEST_IMG.data" "$TEST_IMG"
+ $QEMU_IMG convert -f $IMGFMT -O $IMGFMT -n -C "$TEST_IMG.src" "$TEST_IMG"
+ $QEMU_IMG compare -f $IMGFMT -F $IMGFMT "$TEST_IMG.src" "$TEST_IMG"
  
-     if (qcow2_opts->data_file) {
-         if (version < 3) {
++echo
++echo '=== Preallocation with data-file-raw ==='
++
++echo
++echo '--- Using a non-zeroed data file ---'
++
++# Using data-file-raw must enforce at least metadata preallocation so
++# that it does not matter whether one reads the raw file or the qcow2
++# file
++
++# The real test we would like to do here is to use an existing block
++# device with some random data on it as the external data file.
++# When creating the qcow2 file, it would not be overwritten and its
++# data would stay as it is.  However, using an existing block device
++# is a bit cumbersome in a test, so we are going to cheat by using a
++# normal regular file.
++
++# Unfortunately, this will O_CREAT | O_TRUNC that regular file, so
++# there is no point in creating it beforehand and filling it with
++# random data:
++_make_test_img -o "data_file=$TEST_IMG.data,data_file_raw=on" 1M
++
++# So now comes the cheating: We write directly into the data file.
++# That is actually unsupported, but it works for this test.
++# (As written above, the actual case would be to use a block device
++# as the external data file.  Such a device would not be emptied when
++# the qcow2 file is created, so its data would persist that step.)
++$QEMU_IO -f raw -c 'write -P 42 0 1M' "$TEST_IMG.data" | _filter_qemu_io
++
++echo
++echo 'Comparing pattern:'
++
++# Reading from either the qcow2 file or the data file should return
++# the same result:
++$QEMU_IO -f raw -c 'read -P 42 0 1M' "$TEST_IMG.data" | _filter_qemu_io
++$QEMU_IO -f $IMGFMT -c 'read -P 42 0 1M' "$TEST_IMG" | _filter_qemu_io
++
++# For good measure
++$QEMU_IMG compare -f raw "$TEST_IMG.data" "$TEST_IMG"
++
++echo
++echo '--- Giving a backing file at runtime ---'
++
++# qcow2 files with data-file-raw cannot have backing files given by
++# their image header, but qemu will allow you to set a backing node at
++# runtime -- it should not have any effect, though (because reading
++# from the qcow2 node should return the same data as reading from the
++# raw node).
++
++_make_test_img -o "data_file=$TEST_IMG.data,data_file_raw=on" 1M
++TEST_IMG="$TEST_IMG.base" _make_test_img 1M
++
++# Write something that is not zero into the base image
++$QEMU_IO -c 'write -P 42 0 1M' "$TEST_IMG.base" | _filter_qemu_io
++
++echo
++echo 'Comparing qcow2 image and raw data file:'
++
++# $TEST_IMG and $TEST_IMG.data must show the same data at all times;
++# that is, the qcow2 node must not fall through to the backing image
++# at any point
++$QEMU_IMG compare --image-opts \
++    "driver=raw,file.filename=$TEST_IMG.data"  \
++    "file.filename=$TEST_IMG,backing.file.filename=$TEST_IMG.base"
++
+ # success, all done
+ echo "*** done"
+ rm -f $seq.full
 diff --git a/tests/qemu-iotests/244.out b/tests/qemu-iotests/244.out
-index dbab7359a9..24f02363dd 100644
+index 24f02363dd..34d6b0e626 100644
 --- a/tests/qemu-iotests/244.out
 +++ b/tests/qemu-iotests/244.out
-@@ -83,7 +83,7 @@ qcow2 file size after I/O: 327680
- === Standalone image with external data file (valid raw) ===
- 
- Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864 data_file=TEST_DIR/t.IMGFMT.data data_file_raw=on
--qcow2 file size before I/O: 196616
-+qcow2 file size before I/O: 327680
- 
- wrote 4194304/4194304 bytes at offset 1048576
- 4 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-@@ -93,11 +93,10 @@ wrote 3145728/3145728 bytes at offset 3145728
- 3 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- No errors were found on the image.
- 
--[{ "start": 0, "length": 1048576, "depth": 0, "zero": true, "data": false},
--{ "start": 1048576, "length": 1048576, "depth": 0, "zero": false, "data": true, "offset": 1048576},
-+[{ "start": 0, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": 0},
- { "start": 2097152, "length": 2097152, "depth": 0, "zero": true, "data": false},
--{ "start": 4194304, "length": 1048576, "depth": 0, "zero": true, "data": false, "offset": 4194304},
--{ "start": 5242880, "length": 61865984, "depth": 0, "zero": true, "data": false}]
-+{ "start": 4194304, "length": 2097152, "depth": 0, "zero": true, "data": false, "offset": 4194304},
-+{ "start": 6291456, "length": 60817408, "depth": 0, "zero": false, "data": true, "offset": 6291456}]
- 
- read 1048576/1048576 bytes at offset 0
- 1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+@@ -130,4 +130,27 @@ Offset          Length          Mapped to       File
+ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864 data_file=TEST_DIR/t.IMGFMT.data
+ Images are identical.
+ Images are identical.
++
++=== Preallocation with data-file-raw ===
++
++--- Using a non-zeroed data file ---
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576 data_file=TEST_DIR/t.IMGFMT.data data_file_raw=on
++wrote 1048576/1048576 bytes at offset 0
++1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++Comparing pattern:
++read 1048576/1048576 bytes at offset 0
++1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++read 1048576/1048576 bytes at offset 0
++1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++Images are identical.
++
++--- Giving a backing file at runtime ---
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576 data_file=TEST_DIR/t.IMGFMT.data data_file_raw=on
++Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=1048576
++wrote 1048576/1048576 bytes at offset 0
++1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++Comparing qcow2 image and raw data file:
++Images are identical.
+ *** done
 -- 
 2.26.2
 
