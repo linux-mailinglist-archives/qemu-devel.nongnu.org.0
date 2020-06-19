@@ -2,74 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7527200873
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 14:14:23 +0200 (CEST)
-Received: from localhost ([::1]:53278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABC8E20088A
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 14:19:03 +0200 (CEST)
+Received: from localhost ([::1]:33830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jmFuY-0007lq-Q8
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 08:14:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56494)
+	id 1jmFz4-0005Rr-QH
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 08:19:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1jmFtO-00063F-Ko
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 08:13:10 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:37708
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1jmFtM-0000Y9-6k
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 08:13:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592568787;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Q3aXHyom7wb+5ESHwBbR2J4lFDqHDbKov4JAIw/RDqk=;
- b=J1PjN5fqvR8WV7q1/nUeWKlSGMoHsWzOEzD/NzxI89lxXigyIq9xdehlSqfDHaEi5jdXZW
- kaaOKQEOm2pxlnxgg3MlbHS8jUwurCkUgU/IW4PLvi7w2QiAlgNd4EgM93FKjKuTlC8cpf
- 7gYow2IvrFT/Hjbq/JURKH9F1cSDod0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-51-Rlrelv42NoOWX5cPMzIgMg-1; Fri, 19 Jun 2020 08:13:04 -0400
-X-MC-Unique: Rlrelv42NoOWX5cPMzIgMg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DF6198015CB;
- Fri, 19 Jun 2020 12:13:03 +0000 (UTC)
-Received: from localhost (ovpn-113-212.ams2.redhat.com [10.36.113.212])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7649C5BAD4;
- Fri, 19 Jun 2020 12:13:03 +0000 (UTC)
-Date: Fri, 19 Jun 2020 13:13:00 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Coiby Xu <coiby.xu@gmail.com>
-Subject: Re: [PATCH v9 2/5] generic vhost user server
-Message-ID: <20200619121300.GB2422025@stefanha-x1.localdomain>
-References: <20200614183907.514282-1-coiby.xu@gmail.com>
- <20200614183907.514282-3-coiby.xu@gmail.com>
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1jmFwj-0003nr-5O; Fri, 19 Jun 2020 08:16:37 -0400
+Received: from mail-qt1-x843.google.com ([2607:f8b0:4864:20::843]:44732)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1jmFwh-0001CA-Gc; Fri, 19 Jun 2020 08:16:36 -0400
+Received: by mail-qt1-x843.google.com with SMTP id c12so6929792qtq.11;
+ Fri, 19 Jun 2020 05:16:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=7LS/TugZnjYebNveEdNSU9Kvswcwc/EvpO4Z41+DyVw=;
+ b=D7GStb/MTWKkgvYxnfSuwn+JmXTUoe+Mm8Yeyt2mFLMqi01IV51gamnKcz3++wjlXk
+ YUtnMwehz22lEHbkmf38mnZGIJyq9S0VaLEX9VZKWYfGD6R6a6IhotjRK/3dCe6Egbtn
+ XDmCG64fnIhAt6tLYdM9XhIfLnWNT3K/nhiq8bjeZTnfJ+RMNabQ72+awv+m/G0idZsA
+ V1NolRQJhMJ2/XM2ZrukOfldJCHPA9MZYg1rEFxqUfAoYSd4HY+5eqoEb4b0nLdK4MlI
+ h7ZonoW3Ly/A63QAHDpj+SRImhzoNlhzyo4wV+M3kZg8gQkyd/vQ9hkFNEuEX5vZtO48
+ zlOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=7LS/TugZnjYebNveEdNSU9Kvswcwc/EvpO4Z41+DyVw=;
+ b=lxdH6/4jZZG26vI+kTnrutFpt3/456BVPKg7BJIssQiok30Y3Uq9Si6LpQfjPHO4ej
+ H0LNG3JYKCG4gbwgWIrwIs1Z/56KjDeNYpOQzCFc3ecf0VkS0+zv7OjBUY37AXKIAecP
+ ClglibrRaPbbbEu1xqsc7o+QGzuwNppu36mvpJHqe54nADsDlGqPmJehg7b/ZS8EZGvb
+ 9jUBddMeUnxOZVd+Q+3IRAGtmEI7baAT1gQiAUpT2JQF8sjRDpbiJdK8KcC+5Da7MjAy
+ iegwojlMpGbMcWCGIzSrQmLLjf1KF4XA8tbQLw0/5JR0+vkaPBIGA/slVyWquBqy5NvE
+ uzSQ==
+X-Gm-Message-State: AOAM533B8eMEwSFvcnqZe0K7OFPtEBf5uedg8KbSNtTWbKQt7+WRqNde
+ 5LfMDePJ3TxoJanu/VxMRlugPp/pY5w6NwGnxDND6xBv
+X-Google-Smtp-Source: ABdhPJzl80Yw9ZaqyXTwgIyo9Ss+ggelUrwacJFWuoNtn6+ALUdAPwwRg4iVeXwGVVwPpVfnvVYVpD2mwblTnLczSI0=
+X-Received: by 2002:ac8:4806:: with SMTP id g6mr2441184qtq.213.1592568992236; 
+ Fri, 19 Jun 2020 05:16:32 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200614183907.514282-3-coiby.xu@gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ZfOjI3PrQbgiZnxM"
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=stefanha@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/19 03:15:03
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+References: <20200619101132.2401756-1-stefanha@redhat.com>
+ <159256530289.466.10137557982265811079@d1fd068a5071>
+In-Reply-To: <159256530289.466.10137557982265811079@d1fd068a5071>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Fri, 19 Jun 2020 13:16:20 +0100
+Message-ID: <CAJSP0QWT+a609WD0DaqriUYWfkTvFKKD8s5fgmN05pZpd0jYhA@mail.gmail.com>
+Subject: Re: [PATCH 0/2] qemu-storage-daemon: memory leak and --object opts
+ fixes
+To: qemu-devel <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::843;
+ envelope-from=stefanha@gmail.com; helo=mail-qt1-x843.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ PDS_TONAME_EQ_TOLOCAL_SHORT=1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,71 +78,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, bharatlkmlkvm@gmail.com, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu block <qemu-block@nongnu.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---ZfOjI3PrQbgiZnxM
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On Fri, Jun 19, 2020 at 12:15 PM <no-reply@patchew.org> wrote:
+> /tmp/qemu-test/src/tests/qht-bench.c:287:29: error: implicit conversion from 'unsigned long' to 'double' changes value from 18446744073709551615 to 18446744073709551616 [-Werror,-Wimplicit-int-float-conversion]
+>         *threshold = rate * UINT64_MAX;
+>                           ~ ^~~~~~~~~~
+> /usr/include/stdint.h:130:23: note: expanded from macro 'UINT64_MAX'
 
-On Mon, Jun 15, 2020 at 02:39:04AM +0800, Coiby Xu wrote:
-> +/*
-> + * a wrapper for vu_kick_cb
-> + *
-> + * since aio_dispatch can only pass one user data pointer to the
-> + * callback function, pack VuDev and pvt into a struct. Then unpack it
-> + * and pass them to vu_kick_cb
-> + */
-> +static void kick_handler(void *opaque)
-> +{
-> +    KickInfo *kick_info = opaque;
-> +    kick_info->cb(kick_info->vu_dev, 0, (void *) kick_info->index);
+Unrelated failure.
 
-Where is kick_info->index assigned? It appears to be NULL in all cases.
-
-> +}
-> +
-> +
-> +static void
-> +set_watch(VuDev *vu_dev, int fd, int vu_evt,
-> +          vu_watch_cb cb, void *pvt)
-> +{
-> +
-> +    VuServer *server = container_of(vu_dev, VuServer, vu_dev);
-> +    g_assert(vu_dev);
-> +    g_assert(fd >= 0);
-> +    long index = (intptr_t) pvt;
-
-The meaning of the pvt argument is not defined in the library interface.
-set_watch() callbacks shouldn't interpret pvt.
-
-You could modify libvhost-user to explicitly pass the virtqueue index
-(or -1 if the fd is not associated with a virtqueue), but it's nice to
-avoid libvhost-user API changes so that existing libvhost-user
-applications don't require modifications.
-
-What I would do here is to change the ->kick_info[] data struct. How
-about a linked list of VuFdWatch objects? That way the code can handle
-any number of fd watches and doesn't make assumptions about virtqueues.
-set_watch() is a generic fd monitoring interface and doesn't need to be
-tied to virtqueues.
-
---ZfOjI3PrQbgiZnxM
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl7sq8wACgkQnKSrs4Gr
-c8g7zQf9Gy5CDeAhWmGcI6lXy6oGWqFWwOY1dHBMLNPFSzU7UxE9wP5SNY+PeiJx
-yHy0neGtytH/PJ9hnRQAC8IUpRKvP8KFlb7UPjVVv9oX9/s4XZhArEfbluYxfyUJ
-3dE2OeqAkaBKbX7hWG68HHoMgUG5qt/6zZ8H0T5FUzdNqwlF/Nx+AT+ckZ4vmI2W
-z7C2NX4pIiF66A+4JoqGyf95Il+Sh811m0GiwMxx7j9Z5UvhgiicmtsS5hFUdktI
-leUFtXhR6RfTPHbha8APjKunN5Bs7eUBndr4AwgSIVpUVPiHLlqrHfQRKEiYjaCc
-sGJzM35DkDSA2uEp/h3ng00Q9YAAvA==
-=8dZD
------END PGP SIGNATURE-----
-
---ZfOjI3PrQbgiZnxM--
-
+Stefan
 
