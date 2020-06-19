@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3369420022A
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 08:49:19 +0200 (CEST)
-Received: from localhost ([::1]:59422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACE2A200230
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 08:51:05 +0200 (CEST)
+Received: from localhost ([::1]:38432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jmApy-0004Wv-14
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 02:49:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57184)
+	id 1jmArg-0007tb-LU
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 02:51:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57186)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=4324eb4de=alistair.francis@wdc.com>)
- id 1jmAcd-0006gk-6K
+ id 1jmAcf-0006ic-BZ
  for qemu-devel@nongnu.org; Fri, 19 Jun 2020 02:35:33 -0400
-Received: from esa6.hgst.iphmx.com ([216.71.154.45]:13005)
+Received: from esa6.hgst.iphmx.com ([216.71.154.45]:12994)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=4324eb4de=alistair.francis@wdc.com>)
- id 1jmAcX-00028f-4l
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 02:35:29 -0400
+ id 1jmAcY-00028T-Ro
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 02:35:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1592548525; x=1624084525;
+ t=1592548527; x=1624084527;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=cG+lTw6NJcZGe01NywzuI6sjGafJO+wx2fJIsdjfiaU=;
- b=jnQdFOcDnSQaPggnTdNKXQBpQ7yL8xuT/URciPj6OtIMRCcC7LogTu0M
- AdTsG646YsP6VdYFwcWwh++qjpqlW86J/TVTwrD60cUlNO53fQqFzVK9I
- +/+ZsuXhrEI1DUnuw+taqHm0jL9JZWlq0WM5M7VyYpZ2t51+mS3wDQRi3
- n+op9An/MQAJOwYBOngzbVPq5NROB2RzCqpUVyqUwez7sa7wGpKV3rM3C
- U2ea58jidW8LNt1rUsFZHSF8rnLBDSFFwcBYoFGpLWobsTGDtPCjIOWqH
- w73FV0f26b4s7Zk74AQmVCFU/tHnuDyRa3fkiAv/HP/Z4PjIZZzsjwVgf g==;
-IronPort-SDR: RxjNH9xH0jXssNWImpUxJiTs4At39b8BnEfPAtlvNs1yOLRC46kh9Mu0mk9L26m20bgtgihMY5
- j1rVn9oT1n4fVY8qSQ7KdRFDUbVm3hPNKGP0sLUsU2Z2kLKaTXX9/NBqCplOvPVyMRQT45IC38
- F3UpFsyYnWFgv1k24Pr8VpbOK6ODqG9BC6rmANlaSMPftI7hwcSwZmAQOXdu6S27OXhdNP6+Us
- 4UpydT4Z+cRGEtSiCyL8G1tJs9Uy2tSCCWxUYKBYJ4/AGIwh+F08ZSGHJiVr+Bgat/yO7XI5Sy
- h9I=
-X-IronPort-AV: E=Sophos;i="5.75,253,1589212800"; d="scan'208";a="141781956"
+ bh=KrLdk4zQ6MVNPPBqI4ML/epsof6zu66Zr/sSiWljDzo=;
+ b=WPtebm8fiWhO44HlyxilMmUZedC6v4dcLQU8cu/RUnA3cwq34taHToRV
+ t0LUa+tFMRiBVesUoNiaGIw9kJCCLUjksCXqH6F44YQRM4CdDA59MUSVE
+ mnkwqGIlca9JjIF8fTPYFwHnTqZpkSMNynN+e4vp1sY8blmBr8AxWiPdu
+ XqX3NL8fnXTOqu1WPYTjFUwzf9r2YHg9AA7FdoA0k5+xFUoeNt+u5R3tF
+ rwtR/Uw68eMq89GG6EMPOCo94aD0xbeFW6Wj1hOV4EqUYDiAl+cQLB+Ol
+ nAJ0wb9T7z7CsEvkv47JInPzcuCeMDrb/rQbGUp/6bJ2dUvzo8NvSqVrn Q==;
+IronPort-SDR: aoVhdreP2+qImZDd4lll1GK85YGPjk9jsbRipBiN8mvy2h7oQsnWmTbqMsl6hiwKxoL32T8MHl
+ C8o/sy6HboUN37+CrVMnTGCTDcVSvUHPKOu4bssv5ln2on7jJJVays8mE9hGxLGiwAIAW+yUVl
+ lbq3cLA4gDNzl/QG2t1oU6taZDejBRCRDxUHKvqmJALHyKKwzLwawKdcLl0F0bveagMXQlN0my
+ JLF3a/NRdzEHUEmWZFG448IdBxlZYd6jwOElVdY7w02h5HYmMh2lLJGrhglonQx/DPe5F+bMFB
+ kY8=
+X-IronPort-AV: E=Sophos;i="5.75,253,1589212800"; d="scan'208";a="141781957"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
  by ob1.hgst.iphmx.com with ESMTP; 19 Jun 2020 14:34:34 +0800
-IronPort-SDR: UOdZS9PodPaTdqLoE+yrHqDb678ttt6LCc+A02G7yHRhHvzdYnu0vNGwmerEpSZ6cEdziyKShQ
- BhLPCyxSwmP/NwUMv/pWjZDHz309XILh8=
+IronPort-SDR: zPT+NeNE+uUr7BbjJQQpzoYgOai+67TKtw0ELZjrqT3D5GOLSNDnK+b9LvXHhKQgbWklo6v5gD
+ rse8IobRYGWMN2vPUWV3Bi3BdaKIX6EFo=
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Jun 2020 23:23:44 -0700
-IronPort-SDR: LArEO/wAtyqt1uOq0jkhPXJN7xRS0afRdySAt3QiOhm/kTRGtbw5jhxHNgPWOgWfppluGKBfC7
- ffG5UrWEV8fg==
+ 18 Jun 2020 23:23:45 -0700
+IronPort-SDR: PPhigWBa168wlRBR9ojg4KbQ9F+PfWM7PofgmKz8mRdg7+9Aw5HxdMeEjy7gw3V/wFcktVg7r7
+ TSFNEui8Y4zQ==
 WDCIronportException: Internal
 Received: from unknown (HELO risc6-mainframe.hgst.com) ([10.86.58.142])
  by uls-op-cesaip02.wdc.com with ESMTP; 18 Jun 2020 23:34:33 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL 31/32] hw/riscv: sifive_u: Sort the SoC memmap table entries
-Date: Thu, 18 Jun 2020 23:25:17 -0700
-Message-Id: <20200619062518.1718523-32-alistair.francis@wdc.com>
+Subject: [PULL 32/32] hw/riscv: sifive_u: Add a dummy DDR memory controller
+ device
+Date: Thu, 18 Jun 2020 23:25:18 -0700
+Message-Id: <20200619062518.1718523-33-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200619062518.1718523-1-alistair.francis@wdc.com>
 References: <20200619062518.1718523-1-alistair.francis@wdc.com>
@@ -94,34 +95,76 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-Move the flash and DRAM to the end of the SoC memmap table.
+It is enough to simply map the SiFive FU540 DDR memory controller
+into the MMIO space using create_unimplemented_device(), to make
+the upstream U-Boot v2020.07 DDR memory initialization codes happy.
+
+Note we do not generate device tree fragment for the DDR memory
+controller. Since the controller data in device tree consumes a
+very large space (see fu540-hifive-unleashed-a00-ddr.dtsi in the
+U-Boot source), and it is only needed by U-Boot SPL but not any
+operating system, we choose not to generate the fragment here.
+This also means when testing with U-Boot SPL, the device tree has
+to come from U-Boot SPL itself, but not the one generated by QEMU
+on the fly. The memory has to be set to 8GiB to match the real
+HiFive Unleashed board when invoking QEMU (-m 8G).
+
+With this commit, QEMU can boot U-Boot SPL built for SiFive FU540
+all the way up to loading U-Boot proper from MMC:
+
+$ qemu-system-riscv64 -nographic -M sifive_u,msel=6 -m 8G -bios u-boot-spl.bin
+
+U-Boot SPL 2020.07-rc3-00208-g88bd5b1 (Jun 08 2020 - 20:16:10 +0800)
+Trying to boot from MMC1
+Unhandled exception: Load access fault
+EPC: 0000000008009be6 TVAL: 0000000010050014
+
+The above exception is expected because QSPI is unsupported yet.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 1592268641-7478-5-git-send-email-bmeng.cn@gmail.com
-Message-Id: <1592268641-7478-5-git-send-email-bmeng.cn@gmail.com>
+Message-id: 1592268641-7478-6-git-send-email-bmeng.cn@gmail.com
+Message-Id: <1592268641-7478-6-git-send-email-bmeng.cn@gmail.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- hw/riscv/sifive_u.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ include/hw/riscv/sifive_u.h | 1 +
+ hw/riscv/sifive_u.c         | 4 ++++
+ 2 files changed, 5 insertions(+)
 
+diff --git a/include/hw/riscv/sifive_u.h b/include/hw/riscv/sifive_u.h
+index 27dc35e0a3..aba4d0181f 100644
+--- a/include/hw/riscv/sifive_u.h
++++ b/include/hw/riscv/sifive_u.h
+@@ -78,6 +78,7 @@ enum {
+     SIFIVE_U_UART1,
+     SIFIVE_U_GPIO,
+     SIFIVE_U_OTP,
++    SIFIVE_U_DMC,
+     SIFIVE_U_FLASH0,
+     SIFIVE_U_DRAM,
+     SIFIVE_U_GEM,
 diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index 2560c1ce4e..052ba85ec7 100644
+index 052ba85ec7..60f1cf990d 100644
 --- a/hw/riscv/sifive_u.c
 +++ b/hw/riscv/sifive_u.c
-@@ -80,10 +80,10 @@ static const struct MemmapEntry {
-     [SIFIVE_U_UART1] =    { 0x10011000,     0x1000 },
-     [SIFIVE_U_GPIO] =     { 0x10060000,     0x1000 },
+@@ -82,6 +82,7 @@ static const struct MemmapEntry {
      [SIFIVE_U_OTP] =      { 0x10070000,     0x1000 },
--    [SIFIVE_U_FLASH0] =   { 0x20000000, 0x10000000 },
--    [SIFIVE_U_DRAM] =     { 0x80000000,        0x0 },
      [SIFIVE_U_GEM] =      { 0x10090000,     0x2000 },
      [SIFIVE_U_GEM_MGMT] = { 0x100a0000,     0x1000 },
-+    [SIFIVE_U_FLASH0] =   { 0x20000000, 0x10000000 },
-+    [SIFIVE_U_DRAM] =     { 0x80000000,        0x0 },
++    [SIFIVE_U_DMC] =      { 0x100b0000,    0x10000 },
+     [SIFIVE_U_FLASH0] =   { 0x20000000, 0x10000000 },
+     [SIFIVE_U_DRAM] =     { 0x80000000,        0x0 },
  };
+@@ -714,6 +715,9 @@ static void sifive_u_soc_realize(DeviceState *dev, Error **errp)
  
- #define OTP_SERIAL          1
+     create_unimplemented_device("riscv.sifive.u.gem-mgmt",
+         memmap[SIFIVE_U_GEM_MGMT].base, memmap[SIFIVE_U_GEM_MGMT].size);
++
++    create_unimplemented_device("riscv.sifive.u.dmc",
++        memmap[SIFIVE_U_DMC].base, memmap[SIFIVE_U_DMC].size);
+ }
+ 
+ static Property sifive_u_soc_props[] = {
 -- 
 2.27.0
 
