@@ -2,68 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 202A5200FF3
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 17:27:40 +0200 (CEST)
-Received: from localhost ([::1]:37068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 595E3201109
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 17:38:53 +0200 (CEST)
+Received: from localhost ([::1]:47228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jmIva-0001Wj-JY
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 11:27:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57740)
+	id 1jmJ6S-0001wo-Ea
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 11:38:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <miklos@szeredi.hu>) id 1jmIuq-0000zz-TG
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 11:26:53 -0400
-Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:43343)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jmJ4S-0005mo-OM
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 11:36:48 -0400
+Received: from mail-il1-x142.google.com ([2607:f8b0:4864:20::142]:45296)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <miklos@szeredi.hu>) id 1jmIuo-0002qQ-DW
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 11:26:52 -0400
-Received: by mail-ej1-x641.google.com with SMTP id l12so10602328ejn.10
- for <qemu-devel@nongnu.org>; Fri, 19 Jun 2020 08:26:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=szeredi.hu; s=google;
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jmJ4Q-00051C-Ve
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 11:36:48 -0400
+Received: by mail-il1-x142.google.com with SMTP id 9so9586537ilg.12
+ for <qemu-devel@nongnu.org>; Fri, 19 Jun 2020 08:36:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ezYfCp7rMSCdCycRYPJgIax1dV1358jvQsgEOQjDekY=;
- b=K8Gc9jhGS0MVQy9vMkRFmG4D4kxf0IcAe5Irm674JuBHGP4yU8ENNr3a/vWVgAwVgA
- t2MiZSTLBSfSy4LqcF3uJz4RmURBBSJFyeFx6POunrbqZteh4w5kvFrQRcIqejK0PRr2
- PAnxLnVgyyEOIqxnSHMKoJfic4mH2l098ARPo=
+ :cc; bh=aaH9X0n7j0dnCYXLc9dDiUcmTNR1I6fIFHyALcq1pp8=;
+ b=FsSvLm/XD2fJWxk6S2CT9ksBuBsZtTuTkz3tCMQIjxPnFMbV66jFakry12bEDoogQd
+ JNkC+nt7QXPVmaYkPUz9VWblpGzwjC08Xu19jQfqmkKKJZMgkMJS1cKSUL/KiyTStdhw
+ 8DttoHKNxdcKV/WRm3tlMxFfhHW06dy0Bw5r84USTsQ6q6/C10aRS6tDKshdnuCIfsi4
+ dtFBGdJDsHNRIMTzuyK2Chbqu7kvVxm9NyMYSpKImbHyTYOYswIl9pjY0jk9slXxhmfD
+ i07Tu4Dh30ldB6QopUCLFsV3Ms2kSC0Tby8CwmduvzR/5WgWfSgiWSehPBTMLgPDfVyy
+ fkRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=ezYfCp7rMSCdCycRYPJgIax1dV1358jvQsgEOQjDekY=;
- b=iryb+NofaNTdw1+WaYZQs10YmKDXXiHwUzr1EqYX2+hfKvGZnVNOLlYGSSzeW7w12U
- AcDyF49A4HVt21lwbOdxa7jn7hb24+TG7395gEtnM0jLkJg9Kpw38uAEQZZubQb1GFHp
- GSu1Abpeg5JP/e1BRtwzgVdGw8CzoIQCexyKKiL/pZ/T2y04DUM4FdLlovZ2uiNBbTj+
- U8rNjpHKRTDqYfI1eUcoMKSa2LnaX9IR7iTkwR3NxXBcB0DieOZNBDpHr/dIY1zS+7ml
- m5wB3+eNiZQbnuDOXY4OkV1lrtfiXfkW2MK9H8U/gfxwcaClYxsyRTph+kfU245YrBAm
- LWqw==
-X-Gm-Message-State: AOAM530Hf/+C7r6S9kiaO/4kTa9H9qmuB7Ff07dWZpfYfGqeD8eyiUHZ
- zm8ByuASZoXAP60aOwAJdQyIR+57OiBLzKCwL8ky3w==
-X-Google-Smtp-Source: ABdhPJwSr+ON7KFyhmMJKrWr+mQiADgNGFkNWRk3MMcm0kurFYNtDYiR9EKq3iVZEpW1s1w90th9vtX23QXMHnaB8GY=
-X-Received: by 2002:a17:906:a402:: with SMTP id
- l2mr4364363ejz.14.1592580408038; 
- Fri, 19 Jun 2020 08:26:48 -0700 (PDT)
+ bh=aaH9X0n7j0dnCYXLc9dDiUcmTNR1I6fIFHyALcq1pp8=;
+ b=tMkFbpFrLL7EXNDfK4s2iLmoVU2Bjs9odhq4AzZLBCQvtW4ubwF58Ruy7gmGB9ZTbV
+ BTpIo0Z9P5ZviGYvftfQ5gcmVhG5L/wnuY/ZxtmPVFF92U84uNkNr99wPHyK/nePegEu
+ MzxYOvQaS4lMz3L+VgOUAXOz9lYKBRs6c39NviXs+WBwE4Jo3x+IZ6aoDHp+YwarOEd7
+ yYHaSLADjg7t6UoD7Q2bJDwhs1wK06qmKSd/79ixBdbtCH3l5wrR6p0nmDhlRAEyVaOn
+ ICtzofNGq8WkdIeJGJGShwnrIomTmRMp9BhH+kl5QtN9To3xKGbw7b3Pfu1yqGVGxtcc
+ jpwg==
+X-Gm-Message-State: AOAM531gO3qUI2au3EjZkd3c6P1vyvXMopAQuIUUn2LxbDC+iQAIzgZn
+ mjmcLd/hXzPZ2pvq+pKLNtCD4/VIof2XRdNahrw=
+X-Google-Smtp-Source: ABdhPJwZSbcyXypxgi7kay+dK0CZz9E+l0plpe90aym4DZf9kX6hdQWLwAt2LFL0jv+l3X5Dxx3H8cPVnlqdIXD2S9A=
+X-Received: by 2002:a05:6e02:4d:: with SMTP id
+ i13mr4404824ilr.227.1592581005373; 
+ Fri, 19 Jun 2020 08:36:45 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200416164907.244868-1-stefanha@redhat.com>
- <20200618190816.GD3814@redhat.com>
- <CAJfpegsfqADmK6foDyuQQnvMDh_jE0rNUCBRuxPchSSirrb04Q@mail.gmail.com>
- <20200619142508.GB3154@redhat.com>
-In-Reply-To: <20200619142508.GB3154@redhat.com>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Fri, 19 Jun 2020 17:26:37 +0200
-Message-ID: <CAJfpeguhS3w-AZTpyzO2QqcX_7F1qDm__5C8r3pBnCgPoxTKmQ@mail.gmail.com>
-Subject: Re: [Virtio-fs] [PATCH 0/2] virtiofsd: drop Linux capabilities(7)
-To: Vivek Goyal <vgoyal@redhat.com>
+References: <20200619062518.1718523-1-alistair.francis@wdc.com>
+ <CAFEAcA9VKbE89N3YkpN4VhcEHD92=fGb3W_-mgqd+yY0rc0=6g@mail.gmail.com>
+In-Reply-To: <CAFEAcA9VKbE89N3YkpN4VhcEHD92=fGb3W_-mgqd+yY0rc0=6g@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 19 Jun 2020 08:27:18 -0700
+Message-ID: <CAKmqyKO+YLQ+kYMsPsfBXPETAxKJJ1NE4PvhObZMy3DuFoUS8w@mail.gmail.com>
+Subject: Re: [PULL 00/32] riscv-to-apply queue
+To: Peter Maydell <peter.maydell@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::641;
- envelope-from=miklos@szeredi.hu; helo=mail-ej1-x641.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::142;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x142.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -16
-X-Spam_score: -1.7
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,47 +81,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs-list <virtio-fs@redhat.com>, qemu-devel@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jun 19, 2020 at 4:25 PM Vivek Goyal <vgoyal@redhat.com> wrote:
+On Fri, Jun 19, 2020 at 5:37 AM Peter Maydell <peter.maydell@linaro.org> wrote:
 >
-> On Fri, Jun 19, 2020 at 04:16:30PM +0200, Miklos Szeredi wrote:
-> > On Thu, Jun 18, 2020 at 9:08 PM Vivek Goyal <vgoyal@redhat.com> wrote:
-> > >
-> > > On Thu, Apr 16, 2020 at 05:49:05PM +0100, Stefan Hajnoczi wrote:
-> > > > virtiofsd doesn't need of all Linux capabilities(7) available to root.  Keep a
-> > > > whitelisted set of capabilities that we require.  This improves security in
-> > > > case virtiofsd is compromised by making it hard for an attacker to gain further
-> > > > access to the system.
-> > >
-> > > Hi Stefan,
-> > >
-> > > I just noticed that this patch set breaks overlayfs on top of virtiofs.
+> On Fri, 19 Jun 2020 at 07:34, Alistair Francis <alistair.francis@wdc.com> wrote:
 > >
-> > How so?  Virtiofs isn't mounting overlayfs, is it?  Only the mounter
-> > requires CAP_SYS_ADMIN, not the accessor.
+> > The following changes since commit eefe34ea4b82c2b47abe28af4cc7247d51553626:
+> >
+> >   Merge remote-tracking branch 'remotes/dgilbert/tags/pull-migration-20200617a' into staging (2020-06-18 15:30:13 +0100)
+> >
+> > are available in the Git repository at:
+> >
+> >   git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20200618-1
+> >
+> > for you to fetch changes up to fad6a8463510ff5e0fb31bb451a6c3218a45d179:
+> >
+> >   hw/riscv: sifive_u: Add a dummy DDR memory controller device (2020-06-18 23:09:16 -0700)
+> >
+> > ----------------------------------------------------------------
+> > This is a range of patches for RISC-V.
+> >
+> > Some key points are:
+> >  - Generalise the CPU init functions
+> >  - Support the SiFive revB machine
+> >  - Improvements to the Hypervisor implementation and error checking
+> >  - Connect some OpenTitan devices
+> >  - Changes to the sifive_u machine to support U-boot
+> >
+> > ----------------------------------------------------------------
 >
-> virtiofsd needs CAP_SYS_ADMIN, otherwise fsetxattr(trusted.overlay.opaque)
-> fails in lo_setxattr().
+> Hi; I'm afraid this fails "make check":
 >
-> This is triggered when we mount overlayfs on top of virtiofs and overlayfs
-> tries to set OVL_XATTR_OPAQUE on upper to check if trusted xattrs are
-> supported or not.
+> MALLOC_PERTURB_=${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))}
+> QTEST_QEMU_BINARY=riscv32-softmmu/qemu-system-riscv32 QTEST_QEM
+> U_IMG=qemu-img tests/qtest/qom-test -m=quick -k --tap < /dev/null |
+> ./scripts/tap-driver.pl --test-name="qom-test"
+> PASS 1 qom-test /riscv32/qom/opentitan
+> PASS 2 qom-test /riscv32/qom/spike
+> PASS 3 qom-test /riscv32/qom/virt
+> PASS 4 qom-test /riscv32/qom/none
+> qemu-system-riscv32:
+> /home/petmay01/linaro/qemu-for-merges/hw/core/qdev.c:438:
+> qdev_assert_realized_properly: Assertion `dev->parent_bus ||
+> !dc->bus_type' failed.
+> Broken pipe
+> /home/petmay01/linaro/qemu-for-merges/tests/qtest/libqtest.c:175:
+> kill_qemu() detected QEMU death from signal 6 (Aborted) (core dumped)
+>
+> This is a recently introduced check that all devices created
+> get realized; probably somebody's added a new device in this
+> pullreq but forgot a realize call.
 
-Ah, right.
+Argh! The final rebase introduced this. Sorry, I'll send a v2.
 
-Plan is to use "user.*" xattr for unprivileged overlay.  This would be
-a good way to eliminate this attack surface in the overlay on virtiofs
-case as well.
+Alistair
 
-Other ways to minimize risk is to separate operations requiring
-CAP_SYS_ADMIN into a separate process, preferably a separate
-executable, that communicates with virtiofsd using a pipe and contains
-the minimum amount of code.
-
-Thanks,
-Miklos
+>
+> thanks
+> -- PMM
 
