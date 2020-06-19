@@ -2,87 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65E97200918
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 14:59:02 +0200 (CEST)
-Received: from localhost ([::1]:38990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28F02200A26
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 15:30:23 +0200 (CEST)
+Received: from localhost ([::1]:33912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jmGbl-0002zT-G1
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 08:59:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39252)
+	id 1jmH66-0001Eg-0N
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 09:30:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jmGay-00024I-8W
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 08:58:12 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:33979)
+ (Exim 4.90_1) (envelope-from <chirantan@google.com>)
+ id 1jmD9k-0001EB-3V
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 05:17:52 -0400
+Received: from mail-yb1-xb42.google.com ([2607:f8b0:4864:20::b42]:35217)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jmGav-0008CP-6w
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 08:58:11 -0400
-Received: by mail-wr1-x434.google.com with SMTP id v3so2109415wrc.1
- for <qemu-devel@nongnu.org>; Fri, 19 Jun 2020 05:58:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=rdv29TNy6rWdsnWoSc0CInSwauLqNQZPYfUU4WpEBRs=;
- b=Lu+kf5Xl7pUSqAHYPcKXC9rnsMfM86FiK8LNeHE0vZ/ROiDmWSVJ4N8d31Gxzo7O3i
- r7T3BROeGYdRBxuidNlwDAbKanWObGtRGq1InLDclzOvZBiKV9sVoZFSYJIIeWpHKDK5
- rpYuXPAhRllxVwhPFh708E5DZtEpSx1RLATFoZYqsBwCEyCBfW4dQXGU0Jp8ciofDUHQ
- C7dBa0yY932Vu1OYtuuVbx2+bbA/NywxMGeT7uLgz3Wa2szIEx64KoRmkhyuDt0YTU5I
- jSnqD7YbhbKHdQmqr5pPav51qNU/7oHBM8cay0jWBqmgpKf+DmqVk9johGECLTNiL3p8
- 3heA==
+ (Exim 4.90_1) (envelope-from <chirantan@google.com>)
+ id 1jmD9i-0003YL-4t
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 05:17:51 -0400
+Received: by mail-yb1-xb42.google.com with SMTP id 187so4616442ybq.2
+ for <qemu-devel@nongnu.org>; Fri, 19 Jun 2020 02:17:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=UTwzdRLymtwVn6UdnQK3PAdosv+ScKHHT1hAWduxwCc=;
+ b=L4QnhZBOOHsZmIMqufwOZgXrl4NY0eN2CNPI+x/uHrT8+AvcEUYs7J1LsklMJyp+0J
+ gqT9e0HC5bH0RGdKz0NOEAIIp6s+z2ZVXSH27z5F0HWDmvRLWAJzLe+rw5ZqKd1t+mip
+ 4WrWlfxktrmnumPevn/EeufvOzW82Q2u1X248=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=rdv29TNy6rWdsnWoSc0CInSwauLqNQZPYfUU4WpEBRs=;
- b=feOTkIIhaM5pgmFOh286r6mISeIdMeFMhTzu2et3bYUDSs923asMlGqTRCW/r3jdI1
- H4RJdiukkCYEwkqbJooddee65PC0naVguNAZIhJlLzAL8I2rxsPTOBnaGoymLOLVWuS5
- q43oID5uyptoYayR5zgPv9IlTQhMtk31Mpq+2+h+V2ldEkS6DGdrA0I05nzp53N5/kaH
- KEud7L8CZGuFqPxiIwoxK2L9qWAktDe2QAM70DDcEKn9wj930GEYHapB7GI9Ts/iMvvx
- vI+9yy4+52oTN1uX6qnenyz9OkoynjNO9J6zXs+uY05j6apIHMS49v/rGwKZ7mYu3zBn
- 1Nng==
-X-Gm-Message-State: AOAM532ICBpr5v6dF3x9jH8iBT97Mx4pThpC4VRtONVBoMj1XFJBcuaV
- VkLVaelJAOdfGhIlIREmu+aSOw==
-X-Google-Smtp-Source: ABdhPJwqN37RSqSDdsWVNMB9WczBgScAI3QcowhQPy0JqthEIXdUqexN4cNVBoMLV2AtwhhFFI5/fg==
-X-Received: by 2002:a5d:50c9:: with SMTP id f9mr4147762wrt.9.1592571487509;
- Fri, 19 Jun 2020 05:58:07 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id r7sm6459074wmh.46.2020.06.19.05.58.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Jun 2020 05:58:06 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id CA1511FF7E;
- Fri, 19 Jun 2020 13:58:05 +0100 (BST)
-References: <CAFEAcA_HOxdK5rgKVnww6Bum3vGb=TrhDEp7oqDwsd=UbHmC_g@mail.gmail.com>
- <c47e9e4e-49eb-88c5-fdc7-8ebec121c165@ispras.ru>
- <f4fc4a1b-4054-cffd-0272-22c28d656aba@redhat.com>
- <CAFEAcA-=igrJfoiga7b7rcwZDj46nTNMiT2VEj11DKO7OiJpNA@mail.gmail.com>
- <1364f7e8-3283-8ca2-76f8-75e3eb74af7b@redhat.com>
- <CAFEAcA-8aKX=Qa=i5pahhPTWOBx6MOWfo9ezhFFH+89du8Wf7Q@mail.gmail.com>
-User-agent: mu4e 1.5.3; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: what are the requirements on target/ code for -icount to work
- correctly?
-In-reply-to: <CAFEAcA-8aKX=Qa=i5pahhPTWOBx6MOWfo9ezhFFH+89du8Wf7Q@mail.gmail.com>
-Date: Fri, 19 Jun 2020 13:58:05 +0100
-Message-ID: <87eeqbus9u.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=UTwzdRLymtwVn6UdnQK3PAdosv+ScKHHT1hAWduxwCc=;
+ b=m+btd3lfjGLrxe7nAYsbvkL4LfehOr+nrJBTdfZwM0qHrGHYniilKlbt3xQQD/Isc8
+ Doa6c+f4+pTVQ61l0A08zknAhEJoKBu0qWRwY8C4s9iZztOGZz6qDPPsuIXl7PJhz7u1
+ z68kzXQKm1SF677MuKnBAZkm3gVBimFnqtoF2qlFsq0Ef6IT9F6SCWBOOp/HFZBHRzxv
+ dZRNhqEZLhhCR/5+cyzJax+ZqBQKw+kSQFsFMXy9WPdYFieObGWGtlnNyeRFqkQckT1q
+ NXUE37ivbYbtVsC/cfj0qVhZg/STtjYAZ/mN62zy0iU8S0r9zFQZgkCL6ZHs1AuCYKm+
+ OrKw==
+X-Gm-Message-State: AOAM532/w70ABukdCkSePS0Ptv3ijtByiv7qSXkRoxsqAxzhK+k575bY
+ mS14DQE0QfywpcAOM0FY+kuUiQJl9eoMSFnSlrGuXA==
+X-Google-Smtp-Source: ABdhPJyF1hiGeFpX2FCa74q4gWj4hxw/oXzj6BBxFPQes7XAGsbIEoXyYtUNPzqL+7GovNMc/smSNdXUcYXYO+9NycM=
+X-Received: by 2002:a25:ccd5:: with SMTP id l204mr4365141ybf.51.1592558268848; 
+ Fri, 19 Jun 2020 02:17:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
+References: <20200416164907.244868-1-stefanha@redhat.com>
+ <20200618190816.GD3814@redhat.com>
+ <20200618191655.GI2769@work-vm> <20200618192717.GE3814@redhat.com>
+ <CAJFHJrrJzPLatNvw2xC3WYLbzCW0+DB+4UczQHGPBF9p+WGYQA@mail.gmail.com>
+ <20200619083953.GB2690@work-vm>
+In-Reply-To: <20200619083953.GB2690@work-vm>
+From: Chirantan Ekbote <chirantan@chromium.org>
+Date: Fri, 19 Jun 2020 18:17:37 +0900
+Message-ID: <CAJFHJrpRGJ=myQzJtxjgQhHdbyhGXhz_N24=xJTKM4JqhhZG2g@mail.gmail.com>
+Subject: Re: [Virtio-fs] [PATCH 0/2] virtiofsd: drop Linux capabilities(7)
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b42;
+ envelope-from=chirantan@google.com; helo=mail-yb1-xb42.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_score_int: -94
+X-Spam_score: -9.5
+X-Spam_bar: ---------
+X-Spam_report: (-9.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+ HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=_AUTOLEARN
 X-Spam_action: no action
+X-Mailman-Approved-At: Fri, 19 Jun 2020 09:29:13 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,44 +81,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Pavel Dovgalyuk <dovgaluk@ispras.ru>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: virtio-fs-list <virtio-fs@redhat.com>, qemu-devel@nongnu.org,
+ Vivek Goyal <vgoyal@redhat.com>, Miklos Szeredi <miklos@szeredi.hu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Peter Maydell <peter.maydell@linaro.org> writes:
-
-> On Fri, 19 Jun 2020 at 13:37, Paolo Bonzini <pbonzini@redhat.com> wrote:
->>
->> On 19/06/20 14:18, Peter Maydell wrote:
->> > On Fri, 19 Jun 2020 at 12:16, Paolo Bonzini <pbonzini@redhat.com> wrot=
-e:
->> >>
->> >> On 19/06/20 07:46, Pavel Dovgalyuk wrote:
->> >>> I think, that we need some efforts from target maintainers to remove=
- all such calls.
->> >>
->> >> I'll take care of target/i386 (which does need one of the three
->> >> gen_io_end calls that are left).
->> >
->> > So why does it need it ? Why can't it just rely on "TB going to
->> > end anyway which will clear the can_do_io flag" ?
->>
->> Because the TB is not always going to end in that case that is left.
+On Fri, Jun 19, 2020 at 5:40 PM Dr. David Alan Gilbert
+<dgilbert@redhat.com> wrote:
 >
-> OK, so when is it valid not to end the TB after an IO instruction ?
-> My initial belief was that the TB should *always* end.
+> * Chirantan Ekbote (chirantan@chromium.org) wrote:
+>
+> > We ended up working around it by prefixing "user.virtiofs." to the
+> > xattr name[2], which has its own problems but there was pretty much no
+> > chance that we would be able to give the fs device CAP_SYS_ADMIN in
+> > the init namespace.
+>
+>
+> What problems did you hit with that?  We should standardise the renaming
+> so we make an on-disc format that's compatible.
+>
 
-It has to be because the value of icount is either assumes:
+I guess what I meant by problems is that it made what was previously a
+simple and straightforward implementation into something more complex
+and added some limitations.  For example, we now need to parse the
+result of the listxattr system call and strip out the prefix from any
+name in the list.  It also means that we cannot allow the guest to
+directly set or remove any "user.virtiofs." xattr as this would allow
+an unprivileged process in the vm to modify an xattr that it wouldn't
+otherwise be allowed to modify.  On top of being a somewhat arbitrary
+restriction this also means that you can't have stacked virtiofs
+instances as the lower instance would reject attempts by the upper one
+to set those xattrs.  These limitations aren't really a problem for us
+but I can see how they might be a problem for others.
 
-  - having executed all instructions in the block
-  or
-  - done a re-compile, re-crediting the execution not done=20
+The change was also merged just yesterday so there may be other
+problems with it that haven't surfaced yet.
 
-if not you could associate an io event with the wrong icount value.
+I didn't mention it before because I figured this was something that
+we brought upon ourselves as chrome os is a bit extreme about
+sandboxing.  If we can come up with a standardized way to handle this
+I think we'll gladly switch the chrome os implementation to use it.
 
---=20
-Alex Benn=C3=A9e
+Chirantan
 
