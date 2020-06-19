@@ -2,78 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 561D1201945
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 19:20:24 +0200 (CEST)
-Received: from localhost ([::1]:53092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4B7020194E
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 19:22:18 +0200 (CEST)
+Received: from localhost ([::1]:33420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jmKgh-0003LP-BZ
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 13:20:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58996)
+	id 1jmKiX-0007lJ-OL
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 13:22:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jmKWM-0005En-NC
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 13:09:42 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:44505)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jmKWK-0004qg-Pz
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 13:09:42 -0400
-Received: by mail-wr1-x443.google.com with SMTP id b6so10373579wrs.11
- for <qemu-devel@nongnu.org>; Fri, 19 Jun 2020 10:09:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=33jMxZwxgXxmUOJv94id4+UgOjK1tI0YM/XIzTe9z9I=;
- b=Fd76l9ITXyakjw9v81IxZymwW4n0b8J0g96xgYGoz0qVG7RaWrAf8ukyIn1OZr6bqw
- UXDxu7vGVogcw7lMsPkbE5fK4LkDnraoDNocaagn4FSLsq6i5fiEm2uN1lvMEb8Teas5
- uxIoklGg24B64cMBYO9SvQ1YxPbjjtWhLErUAi1WzLnPiKcy7hkY23ndM7kc45v92a56
- fdIwNsN0EzCnu9GhcIAt/+f6scVojMZKwZHQMAlu+btJbEAE9LKndsiPGETDwPHwZziU
- f7qE3ItAUtD/uqsb/As7lFQkMrQNfDqW5MJ8zHeWYR5a0fBPOmVIL13EG5C93s+cIRPE
- 9LZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=33jMxZwxgXxmUOJv94id4+UgOjK1tI0YM/XIzTe9z9I=;
- b=CTtvMMOvNWGlJX7c1XYjAz0YrI3ypAd0ThXs4SCXM9hgZ5HZRRX/LLlVxxR9YtEQdS
- QrX7z2pk8h8CAUNo5hpr1GPC/FfetWwcy5lM/UFGmgLFXho++MeYxBNc0A3ZRjFnwkpn
- vkc/WgAEThcNF979gXtbfSwgOpWygSGNysffVZmfcMWxukMG/7RAHiUYCSnzKMglL265
- 4PueJLa5wDMnY2UKVtkoxIJTgWuVHiZLo148uWS9Zb37jq4Rj0CvxyLgh7ZF5FTP3D/6
- +jbeoHwKxETy9bVG8ODqAKlJxz8ShnIFlDx24kKBN77s3WwDgWqNgJ0e5XuU+4nobdFk
- LYQg==
-X-Gm-Message-State: AOAM531IZo7sUSvfiXPHa7DG1SrE0MUwKhA6j9718VFL8UwiDhSVPjCL
- 7CCdPnlUze7gcqrqvFSkhOBynQ==
-X-Google-Smtp-Source: ABdhPJx/z8A/8cdrrjLUocEEnQSsi/bmncDgr5svVp/r8fYByOfCh6JBQ9F85gn+silPHEwwZbPLSQ==
-X-Received: by 2002:a5d:56c7:: with SMTP id m7mr5063694wrw.223.1592586579159; 
- Fri, 19 Jun 2020 10:09:39 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id h13sm3827610wrp.77.2020.06.19.10.09.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Jun 2020 10:09:37 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id CF09D1FF7E;
- Fri, 19 Jun 2020 18:09:36 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2] docs/devel: add some notes on tcg-icount for developers
-Date: Fri, 19 Jun 2020 18:09:30 +0100
-Message-Id: <20200619170930.11704-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1jmKYE-0002Hu-E4
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 13:11:38 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:32416
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1jmKY7-0005Ak-4s
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 13:11:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1592586689;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=IKYFM+/tQxX39GcmpjlnxHPU0YXm7LXJUbikwu5r220=;
+ b=FVjwojl59/5UmR+UrWUMTjfus0UY6GoMrbVWe+BSvk7N4Wq3u4L4UwaHt/DzF+PVIOs6zM
+ Y7Br+8eF+ygzZSeSm9FpWoKk2J83Ci69wMu+U6a1OvQWvwkUze5gNzBNH196LqYIDnnzAp
+ YclScMgz0ZKFj++ijsCPaYbwSHTwmlU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-451-HARNiHXpNDyxHd7RKeSPZA-1; Fri, 19 Jun 2020 13:11:25 -0400
+X-MC-Unique: HARNiHXpNDyxHd7RKeSPZA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6084081EDDE;
+ Fri, 19 Jun 2020 17:11:23 +0000 (UTC)
+Received: from horse.redhat.com (ovpn-114-35.rdu2.redhat.com [10.10.114.35])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3409560BE1;
+ Fri, 19 Jun 2020 17:11:23 +0000 (UTC)
+Received: by horse.redhat.com (Postfix, from userid 10451)
+ id 800D3220390; Fri, 19 Jun 2020 13:11:21 -0400 (EDT)
+Date: Fri, 19 Jun 2020 13:11:21 -0400
+From: Vivek Goyal <vgoyal@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [Virtio-fs] [PATCH 0/2] virtiofsd: drop Linux capabilities(7)
+Message-ID: <20200619171121.GE3154@redhat.com>
+References: <20200416164907.244868-1-stefanha@redhat.com>
+ <20200618190816.GD3814@redhat.com> <20200618191655.GI2769@work-vm>
+ <20200618192717.GE3814@redhat.com> <20200619082746.GA2690@work-vm>
+ <20200619160923.GD3154@redhat.com> <20200619161648.GJ2690@work-vm>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x443.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+In-Reply-To: <20200619161648.GJ2690@work-vm>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=vgoyal@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/19 03:15:03
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,134 +81,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Pavel Dovgalyuk <dovgaluk@ispras.ru>
+Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>, Miklos Szeredi <miklos@szeredi.hu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This attempts to bring together my understanding of the requirements
-for icount behaviour into one reference document for our developer
-notes. It currently make one piece of conjecture which I think is true
-that we don't need gen_io_start/end statements for non-MMIO related
-I/O operations.
+On Fri, Jun 19, 2020 at 05:16:48PM +0100, Dr. David Alan Gilbert wrote:
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Pavel Dovgalyuk <dovgaluk@ispras.ru>
-Cc: Richard Henderson <richard.henderson@linaro.org>
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20200619135844.23307-1-alex.bennee@linaro.org>
+[..]
+> > > > >   b) If something nasty was to write junk into the trusted attributes,
+> > > > >     what would happen?
+> > > > 
+> > > > This directory is owned by guest. So it should be able to write
+> > > > anything it wants, as long as process in guest has CAP_SYS_ADMIN, right?
+> > > 
+> > > Well, we shouldn't be able to break/crash/escape into the host; how
+> > > much does overlayfs validate trusted.* it uses?
+> > 
+> > I thought qemu and kvm are the one who should ensure we should not be
+> > able to break out of sandbox. Kernel implementation could be as 
+> > buggy as it wanted to be. We are working with this security model
+> > that kernel is completely untrusted.
+> 
+> But with virtiofs we allow the guest to do a lot of filesystem
+> operations on the host.  It's the virtiofsd that has to ensure that
+> these are safe and contained within the fs it's exposed; the qemu/kvm
+> can't protect us from that.
 
----
-v2
-  - fix copyright date
-  - it's -> its
-  - drop mentioned of gen_io_end()
-  - remove and correct original conjecture
----
- docs/devel/tcg-icount.rst | 89 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 89 insertions(+)
- create mode 100644 docs/devel/tcg-icount.rst
+Fair enough. I should have added virtiofsd to list. Its an attack
+vector and is of concern.
 
-diff --git a/docs/devel/tcg-icount.rst b/docs/devel/tcg-icount.rst
-new file mode 100644
-index 00000000000..cb51cb34dde
---- /dev/null
-+++ b/docs/devel/tcg-icount.rst
-@@ -0,0 +1,89 @@
-+..
-+   Copyright (c) 2020, Linaro Limited
-+   Written by Alex Bennée
-+
-+
-+========================
-+TCG Instruction Counting
-+========================
-+
-+TCG has long supported a feature known as icount which allows for
-+instruction counting during execution. This should be confused with
-+cycle accurate emulation - QEMU does not attempt to emulate how long
-+an instruction would take on real hardware. That is a job for other
-+more detailed (and slower) tools that simulate the rest of a
-+micro-architecture.
-+
-+This feature is only available for system emulation and is
-+incompatible with multi-threaded TCG. It can be used to better align
-+execution time with wall-clock time so a "slow" device doesn't run too
-+fast on modern hardware. It can also provides for a degree of
-+deterministic execution and is an essential part of the record/replay
-+support in QEMU.
-+
-+Core Concepts
-+=============
-+
-+At its heart icount is simply a count of executed instructions which
-+is stored in the TimersState of QEMU's timer sub-system. The number of
-+executed instructions can then be used to calculate QEMU_CLOCK_VIRTUAL
-+which represents the amount of elapsed time in the system since
-+execution started. Depending on the icount mode this may either be a
-+fixed number of ns per instructions or adjusted as execution continues
-+to keep wall clock time and virtual time in sync.
-+
-+To be able to calculate the number of executed instructions the
-+translator starts by allocating a budget of instructions to be
-+executed. The budget of instructions is limited by how long it will be
-+until the next timer will expire. We store this budget as part of a
-+vCPU icount_decr field which shared with the machinery for handling
-+cpu_exit(). The whole field is checked at the start of every
-+translated block and will cause a return to the outer loop to deal
-+with whatever caused the exit.
-+
-+In the case of icount before the flag is checked we subtract the
-+number of instructions the translation block would execute. If this
-+would cause the instruction budget to got negative we exit the main
-+loop and regenerate a new translation block with exactly the right
-+number of instructions to take the budget to 0 meaning whatever timer
-+was due to expire will expire exactly when we exit the main run loop.
-+
-+Dealing with MMIO
-+-----------------
-+
-+While we can adjust the instruction budget for known events like timer
-+expiry we can not do the same for MMIO. Every load/store we execute
-+might potentially trigger an I/O event at which point we will need an
-+up to date and accurate reading of the icount number.
-+
-+To deal with this case when an I/O access is made we:
-+
-+  - restore un-executed instructions to the icount budget
-+  - re-compile a single [1]_ instruction block for the current PC
-+  - exit the cpu loop and execute the re-compiled block
-+
-+The new block is created with the CF_LAST_IO compile flag which
-+ensures the final instruction translation starts with a call to
-+gen_io_start() so we don't enter a perpetual loop constantly
-+recompiling a single instruction block. For translators using the
-+common translator_loop this is done automatically.
-+  
-+.. [1] sometimes two instructions if dealing with delay slots  
-+
-+Other I/O operations
-+--------------------
-+
-+MMIO isn't the only type of operation for which we might need a
-+correct and accurate clock. IO port instructions and accesses to
-+system registers are the common examples here. These instructions have
-+to be handled by the individual translators which have the knowledge
-+of which operations are I/O operations.
-+
-+.. warning:: Any instruction that eventually causes an access to
-+             QEMU_CLOCK_VIRTUAL needs to be preceded by a
-+             gen_io_start() and must also be the last instruction
-+             translated in the block.
-+   
-+
-+
-+
--- 
-2.20.1
+> 
+> That's why we sandbox the virtiofsd like we do - if we allow a
+> priviliged guest to perform calls to an unconstrained virtiofsd it would
+> be able to escape.  That's what I want to check.
+
+Sure. So does giving CAP_SYS_ADMIN to virtiofsd allow daemon to escape
+the jail. If it does we need to implement what crossvm folks did,
+remapping of trusted xattr. That will also allow us to run inside
+user namespace and still be able to support trusted xattr emulation
+for guest.
+
+Vivek
 
 
