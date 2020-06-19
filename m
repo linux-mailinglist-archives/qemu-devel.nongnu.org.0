@@ -2,74 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 599E8200B59
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 16:23:39 +0200 (CEST)
-Received: from localhost ([::1]:42532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CADA3200B69
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 16:28:56 +0200 (CEST)
+Received: from localhost ([::1]:55016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jmHve-0000QL-EL
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 10:23:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35704)
+	id 1jmI0l-000676-MV
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 10:28:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36912)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jmHs3-0001RL-5Q
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 10:19:55 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:55957
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jmHs1-00063T-H1
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 10:19:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592576392;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KhbykAmB1tKh+RGCpfjcxjiWB3IowqXmzJ2NDceav8Q=;
- b=C88nOwfyHaKpQgflyrb/HYG1PCkEn0UOj/wuBPgfW0oSfeaVdft0oz2YKp0kPkEvIniJUa
- MAws3NMkFs2oZVCMQMZWa1AnXdTM6bFu7tikdOdP1UpAjCmJqpTIzDBsvGNhcb5QiuFpIf
- sH4l0jkC15qI7TDI6dtfavOc0DzcNi4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-398-vclc8D9QNX62mqwuN9bDfw-1; Fri, 19 Jun 2020 10:19:48 -0400
-X-MC-Unique: vclc8D9QNX62mqwuN9bDfw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 76FAA107ACF2;
- Fri, 19 Jun 2020 14:19:47 +0000 (UTC)
-Received: from [10.3.114.4] (ovpn-114-4.phx2.redhat.com [10.3.114.4])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 56F6271660;
- Fri, 19 Jun 2020 14:19:44 +0000 (UTC)
-Subject: Re: [PATCH 0/2] qemu-storage-daemon: memory leak and --object opts
- fixes
-To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
-References: <20200619101132.2401756-1-stefanha@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <e5d43490-c9fa-ca13-c101-2c874011f0ca@redhat.com>
-Date: Fri, 19 Jun 2020 09:19:43 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1jmHw8-0001ha-Bb; Fri, 19 Jun 2020 10:24:08 -0400
+Received: from mout.web.de ([212.227.17.12]:48159)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1jmHw5-0006ms-SW; Fri, 19 Jun 2020 10:24:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+ s=dbaedf251592; t=1592576639;
+ bh=jTYgnLTcA1b4xag4e2EeI+/pze8dVIAdp39LDVhEhhQ=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
+ b=C8mhMan+zhEBeVb/FCe0sfRG8oxS1AToP2uvzqYT8ngBTt7UVfUPQG74Hf6UvBjAT
+ BlPtwbnlQBnn1qh6BTVgY2qYg4xFrbZDNPBrmDCS9RjQES404UjkaBFu3H72jIqfpA
+ 1tIQGK5Qr1PmRrBHJzal7WuhmUbxDlAhn2CXtFWs=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from luklap ([94.134.180.165]) by smtp.web.de (mrweb103
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 0M9GN8-1jalbF10Tm-00Cf7s; Fri, 19
+ Jun 2020 16:23:59 +0200
+Date: Fri, 19 Jun 2020 16:23:50 +0200
+From: Lukas Straub <lukasstraub2@web.de>
+To: "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>
+Subject: Re: [PATCH v4 1/4] Introduce yank feature
+Message-ID: <20200619162350.5a1cb518@luklap>
+In-Reply-To: <20200616143957.GF550360@redhat.com>
+References: <cover.1590421341.git.lukasstraub2@web.de>
+ <dc2724aead900db8fb3bed0a066f7c7e2654edb0.1590421341.git.lukasstraub2@web.de>
+ <20200616143957.GF550360@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200619101132.2401756-1-stefanha@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=eblake@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/19 05:19:18
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: multipart/signed; boundary="Sig_/DaMAwGF/S0Eh5XQLd8Kofq/";
+ protocol="application/pgp-signature"; micalg=pgp-sha512
+X-Provags-ID: V03:K1:SyICsNIVNBd2nt1X5QYEJBpAejag7Qdb+5djTRKiwk9HYdfz9Gl
+ c9ekERku40EX5m6I7fPX6EA5I1MIhVujcDvX7oa0SknbbtIVgS7SDpmTDdQttbDBpcWRln7
+ lxGX10LDE1hOzrIn2WIvvwLUIMEwbHSYEzzDVOz5b+yh/yn8C6y6XeRd80UtfCI8afQoyxC
+ 8oXQAtvuj5uYonrwCCeCA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:XmP0UyFnRdU=:uVzqOKX+1vS9QIVp7TEHbC
+ SxBDd21XO6Op6PxaDcUn3GwB12NYbq7bJqyjDgYATeBy44howwwDUQ1Y4l9IxcLJVQ494sF+O
+ uF5ieGu1m1sOv2YE/rwrFjlYf+A+g2uDwUPlrEIAC4cAt5T6UUq1JVpOQeSmaG+YyNwuc7XZI
+ PhIS9SirAfu/k7YLk84Tkz2bfSBdCdTdhUz64TaAuMzGQg7G8lZ3ScnBnhb4XCoRxOHIKMZfS
+ solq0Adg0GZFzhxaJ7XTAAjvY1mELk2nzjxyS1v4enMltBNcPP93wmNAWq4lUwl2HVxLOvkT7
+ uwsdHZKGZsr2E1TeFaYjSxUeS7ZxhCGtctZ2ETEH+In4r36+0pEe3heFa5t1S8cLC+vgfKYy+
+ AzNxMNRmlek7L02OwpI167CFbLwJ9XlBYmu3tSePauDa6zHTQCiY25BClqTUXNcMm52RHQHmG
+ RsU6KZBRzh0nF3Kzy9/YHGf/ZvBeR3TRzwLNoKdjotHaJrEwLPsXMcoz/geUnbJHtY+Mk698y
+ HsYzdd2BWdum3wr9F3Abn/L7fbmlNv8cmTwuMvT/yp6hRMvYBuzFa1G9/QGsmySNcJZtcvxdI
+ ojyP45lau5G90KawsFT49AMLw0dcgahYEB+4qxsPa/oLtSJOCd7jqwWSbGc1FH1XJKh0sYL4B
+ qpf+wnSJO1S/Tt0X6Gj1wRe1Csn0KEGKljszCe10hmPzmz+e2NRkbPvf49ZgfzOZ6KsNdL39Z
+ ZgqrJUt2rVSY3dU2Gh6sIgSRDEk3E9NZP7GBZD1SEzqvNqEIFYU4aYe3QuClNXNYOS/9Syr4V
+ b8O7TI5D6AGm2OZFv5bsTopxCXKnSOZ4fd3vnlO7xbtrpTyPeIWt1Hq9jb95DT8XYVMGwk2Ty
+ N0bcaA12JwoTAINaFlbPPVmKXGVb/vx5gcdWe8dt5WhkQQZU7rGfdMqBeAYX/X4mdy8tWSMiP
+ 0DOIlLBIFdnhmR0Wj0Qx8Y2QWvzUZ1QqxdKlV3ZBLNt7p89DiD5LXhdt3WRv/vCluIJ8UC0/D
+ Nlo2zP1CPt7r+YfgofABiRWYIdcKUGvWw0+PtZ/evOcK3dHTJrSR6JVq4MkgBmoSnVSM3prkL
+ f5Nh260NoISa+5LVZ2j9mmnlrqRT8DiHqP7Q1yTBK33vZzeqUrOVbGUkplDYeUhD4gz2Wod+2
+ dG2gjgs7B//KliC1GuoIDhLx/DRXTm+QZr/dQrzZS5KJA2CmhlACsVTNS6B0yq0cNPG1v3a9l
+ r69CGXvjxiFxQHRCs
+Received-SPF: pass client-ip=212.227.17.12; envelope-from=lukasstraub2@web.de;
+ helo=mout.web.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/19 10:24:03
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,28 +87,205 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block <qemu-block@nongnu.org>,
+ Juan Quintela <quintela@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/19/20 5:11 AM, Stefan Hajnoczi wrote:
-> Small fixes for qemu-storage-daemon.
-> 
-> Stefan Hajnoczi (2):
->    qemu-storage-daemon: remember to add qemu_object_opts
->    qemu-storage-daemon: add missing cleanup calls
+--Sig_/DaMAwGF/S0Eh5XQLd8Kofq/
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-For both patches,
-Reviewed-by: Eric Blake <eblake@redhat.com>
+On Tue, 16 Jun 2020 15:39:57 +0100
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
 
-> 
->   qemu-storage-daemon.c | 5 +++++
->   1 file changed, 5 insertions(+)
-> 
+> On Mon, May 25, 2020 at 05:44:23PM +0200, Lukas Straub wrote:
+> > The yank feature allows to recover from hanging qemu by "yanking"
+> > at various parts. Other qemu systems can register themselves and
+> > multiple yank functions. Then all yank functions for selected
+> > instances can be called by the 'yank' out-of-band qmp command.
+> > Available instances can be queried by a 'query-yank' oob command.
+> >=20
+> > Signed-off-by: Lukas Straub <lukasstraub2@web.de>
+> > ---
+> >  qapi/misc.json |  45 +++++++++++++
+> >  yank.c         | 174 +++++++++++++++++++++++++++++++++++++++++++++++++
+> >  yank.h         |  67 +++++++++++++++++++
+> >  3 files changed, 286 insertions(+)
+> >  create mode 100644 yank.c
+> >  create mode 100644 yank.h =20
+>=20
+> > +void yank_register_function(char *instance_name, YankFn *func, void *o=
+paque)
+> > +{
+> > +    struct YankInstance *instance;
+> > +    struct YankFuncAndParam *entry;
+> > +
+> > +    qemu_mutex_lock(&lock);
+> > +    instance =3D yank_find_instance(instance_name);
+> > +    assert(instance);
+> > +
+> > +    entry =3D g_slice_new(struct YankFuncAndParam);
+> > +    entry->func =3D func;
+> > +    entry->opaque =3D opaque;
+> > +
+> > +    QLIST_INSERT_HEAD(&instance->yankfns, entry, next);
+> > +    qemu_mutex_unlock(&lock);
+> > +}
+> > +
+> > +void yank_unregister_function(char *instance_name, YankFn *func, void =
+*opaque)
+> > +{
+> > +    struct YankInstance *instance;
+> > +    struct YankFuncAndParam *entry;
+> > +
+> > +    qemu_mutex_lock(&lock);
+> > +    instance =3D yank_find_instance(instance_name);
+> > +    assert(instance);
+> > +
+> > +    QLIST_FOREACH(entry, &instance->yankfns, next) {
+> > +        if (entry->func =3D=3D func && entry->opaque =3D=3D opaque) {
+> > +            QLIST_REMOVE(entry, next);
+> > +            g_slice_free(struct YankFuncAndParam, entry);
+> > +            qemu_mutex_unlock(&lock);
+> > +            return;
+> > +        }
+> > +    }
+> > +
+> > +    abort();
+> > +} =20
+>=20
+> Since the NBD impl no longer needs to register multiple different functio=
+ns
+> on the same insance_nane, these methods could be be simplified, to only
+> accept a single function, instead of keeping a whole list. This would avo=
+id
+> need to pass a function into the unregister() method at all.
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+Multiple yank functions are still needed for multifd migration.
 
+> I don't consider this a blocker though, so you pick whether to do this
+> or not.
+>=20
+>=20
+> > diff --git a/yank.h b/yank.h
+> > new file mode 100644
+> > index 0000000000..f1c8743b72
+> > --- /dev/null
+> > +++ b/yank.h
+> > @@ -0,0 +1,67 @@
+> > + =20
+>=20
+> Missing license header
+
+I will fix that in the next version.
+
+Thanks,
+Lukas Straub
+
+>=20
+> > +#ifndef YANK_H
+> > +#define YANK_H
+> > +
+> > +typedef void (YankFn) (void *opaque);
+> > +
+> > +/**
+> > + * yank_register_instance: Register a new instance.
+> > + *
+> > + * This registers a new instance for yanking. Must be called before an=
+y yank
+> > + * function is registered for this instance.
+> > + *
+> > + * This function is thread-safe.
+> > + *
+> > + * @instance_name: The globally unique name of the instance.
+> > + */
+> > +void yank_register_instance(char *instance_name);
+> > +
+> > +/**
+> > + * yank_unregister_instance: Unregister a instance.
+> > + *
+> > + * This unregisters a instance. Must be called only after every yank f=
+unction
+> > + * of the instance has been unregistered.
+> > + *
+> > + * This function is thread-safe.
+> > + *
+> > + * @instance_name: The name of the instance.
+> > + */
+> > +void yank_unregister_instance(char *instance_name);
+> > +
+> > +/**
+> > + * yank_register_function: Register a yank function
+> > + *
+> > + * This registers a yank function. All limitations of qmp oob commands=
+ apply
+> > + * to the yank function as well.
+> > + *
+> > + * This function is thread-safe.
+> > + *
+> > + * @instance_name: The name of the instance
+> > + * @func: The yank function
+> > + * @opaque: Will be passed to the yank function
+> > + */
+> > +void yank_register_function(char *instance_name, YankFn *func, void *o=
+paque);
+> > +
+> > +/**
+> > + * yank_unregister_function: Unregister a yank function
+> > + *
+> > + * This unregisters a yank function.
+> > + *
+> > + * This function is thread-safe.
+> > + *
+> > + * @instance_name: The name of the instance
+> > + * @func: func that was passed to yank_register_function
+> > + * @opaque: opaque that was passed to yank_register_function
+> > + */
+> > +void yank_unregister_function(char *instance_name, YankFn *func, void =
+*opaque);
+> > +
+> > +/**
+> > + * yank_unregister_function: Generic yank function for iochannel
+> > + *
+> > + * This is a generic yank function which will call qio_channel_shutdow=
+n on the
+> > + * provided QIOChannel.
+> > + *
+> > + * @opaque: QIOChannel to shutdown
+> > + */
+> > +void yank_generic_iochannel(void *opaque);
+> > +#endif =20
+>=20
+>=20
+>=20
+> Regards,
+> Daniel
+
+
+--Sig_/DaMAwGF/S0Eh5XQLd8Kofq/
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl7synYACgkQNasLKJxd
+slhZ7A/+Jy9eh5Sp9HEHYvwws8VM9gri/chd95l+0wbBArBjhxLkXsagsJdrO/oF
+unr4RYtJoi6Ibgg/DUclnkacavwLaYjZQtLvwJ+8KCYpHDkzl+1zqbjhSJ6Nt6PW
+dX0/DUkuxuyCWnQYikxewSSAAIbAGPhAywHbwjw7MY7EXXXyCPzKdLlw3uiibTI7
+riqxHYcx3ryDkQRkzd6b543IQ1NYBhrmXuatRqUYbW1dpjURw1ZOOzssS0GNxnHg
+7C54z2PaL23uv4b/g5dJCvbdLn1QaO1FC3/5PbWd6dasBj8bY/4f7xBm6jvrC3/8
+Dcliin3WN/JfIW5o+fjW+RogYkraF3oyLk4mK8ZJs0TjJNcOohH2CjMeFuyvJrL7
+dYviWgupO5XDXs8ycq3K3xoIJyrbEIDkZ4Xvstoab+9EUzWfXpHFAaAjDSDZ6Q1T
+MUFmEeof4kPBDK8uIJZvqzXSnSV/V4ETS6eLDQ1v7Vympi3tWFtZNOak9JoLsv+S
+lshuZvLTqr94BU2uONDky8YVLdJRCBW4M1wC6Bokuiz1gk3tjo454JjNmK4YMxsH
+asaGabHELznG65HuWgqRKFhx9suREPTWG/q9Tj/3XoOYw26kXmDabCPjxy3b5Z04
+mlFePcVguI3n36vN0/RaNysRL78DenXVfbiV5djCjg5TbbjyKj4=
+=CnMu
+-----END PGP SIGNATURE-----
+
+--Sig_/DaMAwGF/S0Eh5XQLd8Kofq/--
 
