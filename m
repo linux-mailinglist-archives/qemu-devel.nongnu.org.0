@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB716200AC2
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 15:53:16 +0200 (CEST)
-Received: from localhost ([::1]:39198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C65EC200AC7
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 15:56:25 +0200 (CEST)
+Received: from localhost ([::1]:46708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jmHSF-0006vR-TQ
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 09:53:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54634)
+	id 1jmHVI-0002ye-TZ
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 09:56:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jmHRR-0006K2-S1
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 09:52:25 -0400
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:46257)
+ id 1jmHUU-000234-73
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 09:55:34 -0400
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:39111)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jmHRO-0000w9-Cy
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 09:52:25 -0400
-Received: by mail-oi1-x242.google.com with SMTP id 25so8467545oiy.13
- for <qemu-devel@nongnu.org>; Fri, 19 Jun 2020 06:52:21 -0700 (PDT)
+ id 1jmHUS-0001Oj-HI
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 09:55:33 -0400
+Received: by mail-oi1-x242.google.com with SMTP id d67so8501288oig.6
+ for <qemu-devel@nongnu.org>; Fri, 19 Jun 2020 06:55:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=9q3TKhY7AwymSeQ+ExBiktzoKtLThZ1qOZJ9ez18g5E=;
- b=pHDpLgxXE0xww+9q7AHQse8/LckvTp9WcC3lL4gAVCL/xxqgcbPG2/AiYCObWI06pN
- MZs3I9SyT34UpTtAr5H+ghH5USNwZHwX5ALmdFmBsxgldIzjYX3/w9kUFpPQg2T5NQX0
- 0ZCK4ZVYzwtULH2mS72ItiSRkyvAf+BzrqmEpi4aX+/Mk6gtmirQJgfCiopbmvFPcR0U
- XZ/PET4VtQwaT5qXh/M0sB82OIZqNn//Z6tO73PBjaFOz28HAPiwHsrjMzdEehgc7OcI
- AkXY7bC+N7UkQ5tsJFwnyGR2qdEVIXnv4T2f2QLxREO1nh6KpellR2ck2j0Z4hCx+o4P
- 3fjg==
+ :cc; bh=1EzHJztIDOyvbULr5Zv+UekoPb8XqsgsZrIk8Ndaa5o=;
+ b=yI0Fym38fJvkBpjJZMPMxkrY6ob9DLg9fqhk8mhS8RJmyALsFS4wVXY/njtRMQ8ptY
+ 2qISFMqx4F8fjBeg+xuvBQNNOG1Ng+uPdL108mUOdpZAptioMUEFpieh0oYq+QbDd1SH
+ CuuuqTGxOQpXKqfATypC/Kyw7j3KLDDRMhYYngf2u/srCrHpmA1EEJaZ8p6vC/KFf4uw
+ z0bKCpi1gaeTyvp5iLKRCaUyQbRxRKbRVGJmOYKApu7e9OV53oQPFcPRtqkWAW4emRlh
+ h+yJw7WX5oij1ky0NY9cnulXExrtA7LCYbGfNAG3AWUImDKkhE0kJV7DBb8yOk9b1ztc
+ v6iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=9q3TKhY7AwymSeQ+ExBiktzoKtLThZ1qOZJ9ez18g5E=;
- b=ByFnojQQBnVzIFDzI7/ahFkMdqbKVZUEuIxR9qD9zejqRycz3ePRCE3JZSUEma4qHe
- 5vQ26u4y4lNiPsGXJ6eLyLEJQ7bUY1j/ihaaDuH0UBOlMby/+Kj/HJ68hysqhlvkyKrG
- fYhz3iCPrdm/IKhDFhU5F77hWwKdn6KEVO2a5peDZutBxRTeDIPrxTQPq9IiHxg4z6Vs
- +6hdqAfNZ37nd4wBnvVVbufW+SS4YDqADEYnkn8pEwBtrqG09crx7l8AOF7/mHTGfAaY
- cMngr+cKG5m+TNYGZMPQBamfU1bnHIThYPpgFAS+rAC1ATJkEcz3xSV77HRDvlKElEU3
- DN5Q==
-X-Gm-Message-State: AOAM532/R19g6ODtl5V3n9dw2jaiY8fsGArWQ3LVxdXRH69JcWyl/cti
- MPiDGCP1LSICOPCOu9SZdrWRl6YVwR/rZWmj0J/uwQ==
-X-Google-Smtp-Source: ABdhPJxyRxI+2k32N9YF37PraBPyz3KR248Edriar6FrCRV+QP4s5ARM3QMKa/Qh67Cn11YtekTjtMNTmvVqzGD/J7A=
-X-Received: by 2002:aca:5152:: with SMTP id f79mr3004043oib.146.1592574741067; 
- Fri, 19 Jun 2020 06:52:21 -0700 (PDT)
+ bh=1EzHJztIDOyvbULr5Zv+UekoPb8XqsgsZrIk8Ndaa5o=;
+ b=PLRya4pCeQmJUBpETDECtAMxglW33jph6h1y6GA9+GCfkvIwayDMewn+YyFz3lfPjM
+ gOrZoyea0wiwn0cJkrsRp4C9BaMIO4y3tlUvlX74mjFAmdRXYZ0fbcPmbrBm2okBPbfh
+ +/BPkK07/gsypWg4VM1yTGY9DSkso8hKM7cRKLItdLImJJS4U+34+3L2h9olv0OI0IQS
+ YVNPdz8nZLyz1oMSoQjYSoaOBIXBV4JHEas2tSOF4wQCh/pM0RWyG8rZdSnkRR48S7x9
+ yub8lmRxndk/LFNsws2GuVkIWLwEv072IVrjNxynC4TBFcquBORpfYyFeBrZsZtu0AAE
+ f+4w==
+X-Gm-Message-State: AOAM533K6n9yatBo6QXSEMMh7z0TtwK04WNEZY43fcA9/LoCGHC13QOH
+ jsx9g3KPbVPfSwL4vMx7ddh9j/+HBwHA1pcJ+S6vqw==
+X-Google-Smtp-Source: ABdhPJx6wPDeGPwCpAFVNUVKHxHhNULRFrdO6czkj/fwIyuEzobIyjIrnknHKEHf5GqosSIo5cTDBoJOYFeQc+WCOPk=
+X-Received: by 2002:aca:1a07:: with SMTP id a7mr3080689oia.163.1592574931344; 
+ Fri, 19 Jun 2020 06:55:31 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200603011317.473934-1-richard.henderson@linaro.org>
- <20200603011317.473934-27-richard.henderson@linaro.org>
-In-Reply-To: <20200603011317.473934-27-richard.henderson@linaro.org>
+ <20200603011317.473934-28-richard.henderson@linaro.org>
+In-Reply-To: <20200603011317.473934-28-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 19 Jun 2020 14:52:10 +0100
-Message-ID: <CAFEAcA8z6H=p9KXEQdDTahXCUFSmf8y2jvE2T92mvebaTdPNOQ@mail.gmail.com>
-Subject: Re: [PATCH v7 26/42] target/arm: Implement helper_mte_checkN
+Date: Fri, 19 Jun 2020 14:55:20 +0100
+Message-ID: <CAFEAcA_UCd8p9fS25nLqC6dOuaH6_hYR61NshTmrp3fpBqML+A@mail.gmail.com>
+Subject: Re: [PATCH v7 27/42] target/arm: Add helper_mte_check_zva
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Received-SPF: pass client-ip=2607:f8b0:4864:20::242;
@@ -87,12 +87,14 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Wed, 3 Jun 2020 at 02:13, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> Fill out the stub that was added earlier.
+> Use a special helper for DC_ZVA, rather than the more
+> general mte_checkN.  Leave the helper blank for now.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
-> v7: Fix page crossing test (szabolcs nagy).
-> ---
+
+Helper does not appear to be blank :-)
+
+Otherwise
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
 thanks
