@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D59F201929
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 19:16:52 +0200 (CEST)
-Received: from localhost ([::1]:38264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23825201939
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 19:18:45 +0200 (CEST)
+Received: from localhost ([::1]:46806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jmKdH-00053r-00
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 13:16:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58146)
+	id 1jmKf6-0000D3-6P
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 13:18:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=4324eb4de=alistair.francis@wdc.com>)
- id 1jmKUE-0000hD-Gd
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 13:07:30 -0400
-Received: from esa3.hgst.iphmx.com ([216.71.153.141]:19141)
+ id 1jmKUF-0000jB-PC
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 13:07:31 -0400
+Received: from esa3.hgst.iphmx.com ([216.71.153.141]:19125)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=4324eb4de=alistair.francis@wdc.com>)
- id 1jmKUC-0004Pg-LK
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 13:07:30 -0400
+ id 1jmKUD-0004PR-NW
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 13:07:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1592586448; x=1624122448;
+ t=1592586449; x=1624122449;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=oVrn5w9HfRb0TvrN5CP3m58pdTdH4CK0+0WfxcCouCQ=;
- b=feQ0hQs6tQUwvh6IvKh6CC4w4fGhVVQ6u2IaDUv6T0VfDD7rVmO/h10u
- bPJvKdOboeMbpQ1AQIQc4JIngNz4mtFySupl8J2JSveW3b/jt5gSGzXfC
- WUjYaRTApwro3qzzKyGQxSwG4A5tcaGJcshkUpbxS7s/IVUK/6BYWlmf0
- gfHOmVVb9cMLYHzv4AoCNh8El3KXQ5pumlzDaGhuW6iqtkvElPzkzmYq4
- ZmS/XdRBS7jOrl5ihPgSrkNOI8Of9b2atpKYyX4EoenSMYMtOUI/sfoQq
- E1K3Z6W48xSMGyCwZpugWuJOkwVloPtx4rgzHEWgtrhvQUZPVBKLXLCAV g==;
-IronPort-SDR: hax4ubTb6bcg8HwMqaP/4iq9pBld8qm9gUaVpbsoR0abkBiJqQ1Kq+flTCf20b4BLwRbRiN1Ef
- DT7n/KYKMZjUxfnD2+SZ9qhing00oGdBiCMiTr8DkAuxdnoAZNmJuAX0wWL8f7/ClA3uDfPvwI
- /xlf2Z5+vWWD43XbVfeUZS2+l1TrBrLKawYjUX97X8gPrP32AvVA5LvRV6RA3GAuOZF1/PxSxE
- 087knH7YyqvDQ9llHFYhw6XJrYhglnKGJUIdHrGSkAjxHFGzwYnKPGCWe4okQKoUzJFC+/GNnf
- b3Q=
-X-IronPort-AV: E=Sophos;i="5.75,256,1589212800"; d="scan'208";a="144763311"
+ bh=K/19YyQZ1dMfa5QzOEJU2PErNtrrLO7t97Cdg6fUhnU=;
+ b=nObRDFfD+pP7hVdY53JSKcQk/T+YuZjzCNk/KwM853pRP2pm20DsExsr
+ jcdEJdKZlssWLK/b6FwGaFfcN9IZ6kbSdmchA8SZGahiQ5awGHNsnuMyo
+ G0jOttFDj5MPkFGn4lGSwsanXW8isAkh3X7RDjo7/Q6aBsElXvF4TFiXW
+ nhUfNvEVg0IVP5xl8f1JBKpDvGGNSWXdNerP/B+qURWcCN/gOcbChimTG
+ 9cOeEm1P65PF5gxAgA7naPkDSE/x6MJij+dWB3CAQ1EkKUoEsCQEv3PHn
+ TbSxNNNNzQZWn63nPsdXzI91DT6lkYU2V5+ttZ0xQ5ziHj2puGB9+dXup w==;
+IronPort-SDR: 7fkIcEMZZ6tmGHd9NISf74+2yi5MlzOBkz16gwPBhj3KsXsd7tkc8fRdRzz/Amg8lKmJEhXJjg
+ O7ePHNLmivVTPn5CODOJvySa7cgqpTnDirKXDpD6TQZeIeRsKTd1mi2CZ8tc7Ca7jgMbSwSomd
+ fap92/URmjsLbG/zuewoAIdE9b77GLL82TU5fRs66ES9IWR0mPlWjZ5IqiDTEiGG2RMcY4Y3Jc
+ qVPjAwcU/dP3fiybK7PIpg+hM8ir3tPlYPkp/XCnB5XUfLkRq4KHqNIeju7WrM2/Pi+y8gqXXR
+ U7c=
+X-IronPort-AV: E=Sophos;i="5.75,256,1589212800"; d="scan'208";a="144763314"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
  by ob1.hgst.iphmx.com with ESMTP; 20 Jun 2020 01:07:22 +0800
-IronPort-SDR: FFVX2v67vxl4NozG2NFAAzWBO48v6mJY1EI9kXqfSI+si5EJ/gnXgAvhII6fEFyOCY80dhwhcw
- xQZTixLM1ZI02gqRzSTD8zgGm8LqB+byc=
+IronPort-SDR: 6kj3ov8XR0mpmbBX3cl7x6TYiBqHewpFy05dNUtoHLbScE1LcE+wRB0L8k86G/TuV4jsDKfKTJ
+ IbnXwcZkvpvi2q41kzh/zdTF1PhPReNwY=
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  19 Jun 2020 09:55:59 -0700
-IronPort-SDR: vejzWv0e42uTZaiMvqBN8CU5X9FrMFWNU643yjOYl2eQGtmQ8p8L+XeOB8HhrKo6VLlrndw6QA
- 6I9VBXtVfM6w==
+IronPort-SDR: Cdex+AH3dOeWDHm27jfdMxlGyCIYJp5C3m8IPAKJnRh4Kx5Giw76BCs0nTbe2TE3sndJje936O
+ 2sw8McjdPwZQ==
 WDCIronportException: Internal
 Received: from unknown (HELO risc6-mainframe.hgst.com) ([10.86.58.142])
- by uls-op-cesaip02.wdc.com with ESMTP; 19 Jun 2020 10:07:22 -0700
+ by uls-op-cesaip02.wdc.com with ESMTP; 19 Jun 2020 10:07:23 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL v2 05/32] riscv: Generalize CPU init routine for the imacu CPU
-Date: Fri, 19 Jun 2020 09:57:50 -0700
-Message-Id: <20200619165817.4144200-6-alistair.francis@wdc.com>
+Subject: [PULL v2 06/32] riscv: Keep the CPU init routine names consistent
+Date: Fri, 19 Jun 2020 09:57:51 -0700
+Message-Id: <20200619165817.4144200-7-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200619165817.4144200-1-alistair.francis@wdc.com>
 References: <20200619165817.4144200-1-alistair.francis@wdc.com>
@@ -94,86 +94,50 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-There is no need to have two functions that have almost the same
-codes for 32-bit and 64-bit imacu CPUs.
+Adding a _ to keep some consistency among the CPU init routines.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <1591837729-27486-3-git-send-email-bmeng.cn@gmail.com>
+Message-Id: <1591837729-27486-4-git-send-email-bmeng.cn@gmail.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/cpu.c | 31 ++++++++++---------------------
- 1 file changed, 10 insertions(+), 21 deletions(-)
+ target/riscv/cpu.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 437e141ef2..35a8c7853b 100644
+index 35a8c7853b..e867766cf0 100644
 --- a/target/riscv/cpu.c
 +++ b/target/riscv/cpu.c
-@@ -142,23 +142,23 @@ static void rvxx_gcsu_priv1_10_0_cpu_init(Object *obj)
-     set_resetvec(env, DEFAULT_RSTVEC);
- }
+@@ -153,7 +153,7 @@ static void rvxx_imacu_nommu_cpu_init(Object *obj)
  
--#if defined(TARGET_RISCV32)
--
+ #if defined(TARGET_RISCV32)
+ 
 -static void rv32imcu_nommu_cpu_init(Object *obj)
-+static void rvxx_imacu_nommu_cpu_init(Object *obj)
++static void rv32_imcu_nommu_cpu_init(Object *obj)
  {
      CPURISCVState *env = &RISCV_CPU(obj)->env;
--    set_misa(env, RV32 | RVI | RVM | RVC | RVU);
-+    set_misa(env, RVXLEN | RVI | RVM | RVA | RVC | RVU);
-     set_priv_version(env, PRIV_VERSION_1_10_0);
--    set_resetvec(env, 0x8090);
-+    set_resetvec(env, DEFAULT_RSTVEC);
+     set_misa(env, RV32 | RVI | RVM | RVC | RVU);
+@@ -162,7 +162,7 @@ static void rv32imcu_nommu_cpu_init(Object *obj)
      qdev_prop_set_bit(DEVICE(obj), "mmu", false);
  }
  
--static void rv32imacu_nommu_cpu_init(Object *obj)
-+#if defined(TARGET_RISCV32)
-+
-+static void rv32imcu_nommu_cpu_init(Object *obj)
+-static void rv32imafcu_nommu_cpu_init(Object *obj)
++static void rv32_imafcu_nommu_cpu_init(Object *obj)
  {
      CPURISCVState *env = &RISCV_CPU(obj)->env;
--    set_misa(env, RV32 | RVI | RVM | RVA | RVC | RVU);
-+    set_misa(env, RV32 | RVI | RVM | RVC | RVU);
-     set_priv_version(env, PRIV_VERSION_1_10_0);
--    set_resetvec(env, DEFAULT_RSTVEC);
-+    set_resetvec(env, 0x8090);
-     qdev_prop_set_bit(DEVICE(obj), "mmu", false);
- }
- 
-@@ -171,17 +171,6 @@ static void rv32imafcu_nommu_cpu_init(Object *obj)
-     qdev_prop_set_bit(DEVICE(obj), "mmu", false);
- }
- 
--#elif defined(TARGET_RISCV64)
--
--static void rv64imacu_nommu_cpu_init(Object *obj)
--{
--    CPURISCVState *env = &RISCV_CPU(obj)->env;
--    set_misa(env, RV64 | RVI | RVM | RVA | RVC | RVU);
--    set_priv_version(env, PRIV_VERSION_1_10_0);
--    set_resetvec(env, DEFAULT_RSTVEC);
--    qdev_prop_set_bit(DEVICE(obj), "mmu", false);
--}
--
- #endif
- 
- static ObjectClass *riscv_cpu_class_by_name(const char *cpu_model)
-@@ -589,12 +578,12 @@ static const TypeInfo riscv_cpu_type_infos[] = {
+     set_misa(env, RV32 | RVI | RVM | RVA | RVF | RVC | RVU);
+@@ -577,9 +577,9 @@ static const TypeInfo riscv_cpu_type_infos[] = {
+     DEFINE_CPU(TYPE_RISCV_CPU_ANY,              riscv_any_cpu_init),
  #if defined(TARGET_RISCV32)
      DEFINE_CPU(TYPE_RISCV_CPU_BASE32,           riscv_base_cpu_init),
-     DEFINE_CPU(TYPE_RISCV_CPU_IBEX,             rv32imcu_nommu_cpu_init),
--    DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E31,       rv32imacu_nommu_cpu_init),
-+    DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E31,       rvxx_imacu_nommu_cpu_init),
-     DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E34,       rv32imafcu_nommu_cpu_init),
+-    DEFINE_CPU(TYPE_RISCV_CPU_IBEX,             rv32imcu_nommu_cpu_init),
++    DEFINE_CPU(TYPE_RISCV_CPU_IBEX,             rv32_imcu_nommu_cpu_init),
+     DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E31,       rvxx_imacu_nommu_cpu_init),
+-    DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E34,       rv32imafcu_nommu_cpu_init),
++    DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E34,       rv32_imafcu_nommu_cpu_init),
      DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_U34,       rvxx_gcsu_priv1_10_0_cpu_init),
  #elif defined(TARGET_RISCV64)
      DEFINE_CPU(TYPE_RISCV_CPU_BASE64,           riscv_base_cpu_init),
--    DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E51,       rv64imacu_nommu_cpu_init),
-+    DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E51,       rvxx_imacu_nommu_cpu_init),
-     DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_U54,       rvxx_gcsu_priv1_10_0_cpu_init),
- #endif
- };
 -- 
 2.27.0
 
