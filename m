@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65774200BD5
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 16:39:05 +0200 (CEST)
-Received: from localhost ([::1]:45464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08C8E200BD6
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 16:39:57 +0200 (CEST)
+Received: from localhost ([::1]:47778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jmIAa-0008R0-06
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 10:39:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41482)
+	id 1jmIBQ-0000zk-3c
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 10:39:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41866)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jmI9a-0007Nq-Bv
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 10:38:02 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:46505)
+ id 1jmIAD-0008Sp-SX
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 10:38:41 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:46510)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jmI9X-00014K-CA
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 10:38:02 -0400
-Received: by mail-ot1-x342.google.com with SMTP id g7so7402076oti.13
- for <qemu-devel@nongnu.org>; Fri, 19 Jun 2020 07:37:58 -0700 (PDT)
+ id 1jmIAC-0001AD-7V
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 10:38:41 -0400
+Received: by mail-ot1-x343.google.com with SMTP id g7so7403829oti.13
+ for <qemu-devel@nongnu.org>; Fri, 19 Jun 2020 07:38:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=nBoKVae58ToSfWedQL5+pEeleproogYVa99U5gP9OUY=;
- b=QiDxat2K6HXhC5EXiF/jNEteSQboMepNPyQfVOoOKipdTpVYCvm67n9R2uIKGlq1F7
- LEMUM5V0/6A+1IDTMw1dJU3yVotGskv0xHKDJSNF12vJ08KptlSwp5bVlpc637qp5b2T
- v76XrUboXpMwR242FzXgiBVq3eJzqAVteQuTuEXHR4ZP+s4xz6igbqgL9m8wcS2SGDkw
- ssoOA3kApvwEQ/THcdBxs/sbtQECK9YdzVY5Oqt1/Qy9iB498JZaV8rqLHPUmkwtNHvc
- 2zB9ID8nBI19ifys7cwHkfN4QdvjrBdo3662l5Tiu7RprD/TgjeHSwsAkH1pDZrhzrTO
- HeLg==
+ :cc; bh=6ca+3ihsEpy5+fO8WuuhHBOaZ37RpKSlN3VR/yeF8GA=;
+ b=zPMGQDH1Nzdde0mKOpGg9q7K7HA7OwcTw0WVJiFdscBQzmUvV0ighc/b+ADAV1c0tY
+ F3oLX3rPna6WWi7+K2VVwGqMgUiSiLRnQXFIslBWCy5xNzHCt+n0vGkC4bY2r4NgYkFU
+ pcwLrzFzR80eHE25PtcA/VAzBTHeDlZdBguiGPDTKYKthTlXvApa/UJPa2LyG/eufKr9
+ EObEP1qGGW8d+210qVS1m9LJzgJKEvnnGzxt30Ogc+0WiEMDk93yo1vLIzzqcprzab6C
+ ny/+Q+9gSXClxwJSqiVo1uVxQ4T/Jo0Ptn1OUEyEvXqzNcUHehbofUXwkAqE/e5ulWnj
+ Gsjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=nBoKVae58ToSfWedQL5+pEeleproogYVa99U5gP9OUY=;
- b=WlAEsHdUiQgaJRoBtziZLJh8WbX6Tynx/JiDoQbnJ9rSnVDMaOPDAiCmsEuYZUmvQG
- Nh/vmNlSt2yc9kiGMuQlHZPKY8FwGEWAXjq8CA4GkU+ogC+MBmIs5tSSu9Ue2VqNjPFh
- 4ibUW5Yb/qQdBNAoW5GS+YsIFJGB93OdHjA+VjnbQcFEFPEnrSlzWxkC26IAJm/V6/DB
- B0eQ4jNd7504W9Mlpe6xcNByjrUnBOi/GompzXPAwKygtZo2u1rmwyTInbd4h1WRzkIs
- z96AjAmZe0XgHaReR6AMd4Ol1K4oUSIwjiHEpWnXqG44fQx1EGfe9gFnNScYPicKlwIL
- eRqQ==
-X-Gm-Message-State: AOAM531qa2+tqohziLgQz1d0qEfIWXYJv6YJxE5DDDqdaRC0S0xwymXs
- JzKPbeAfwDFdzCXM57idrR2lBctDT+bCNjdNB/fYkg==
-X-Google-Smtp-Source: ABdhPJyxdkpqpaJKj9BvILqg8upAONf5O4H9zQnnTIS+abVZsc/0TxIX4nvNygjkP5cAfKGkDCkkb9ehncAL2otBrAE=
+ bh=6ca+3ihsEpy5+fO8WuuhHBOaZ37RpKSlN3VR/yeF8GA=;
+ b=AtFJ+SXCRHzFn9avqAdPeuWemmHEKVAuvuHiHCMnbRVN6dgUHYuFxuz5vu70Qbx062
+ uYPM606XJRn06AOHQOuPj5P12hRPO39GioIXDXeLmTN1EFaV5JTZI534Ig/+IafwrUgB
+ yD0Ea2PDkYg+oy4Db5rXW2mP9i9TwLBLtFPFAEsgZ3LzIOdXy31OLhcux5T9ozKkaIFz
+ WY7fk4dY9AffpDEM4s8n8ibGnCfvTJY+vNzCj1bXUEuusaqG8SVJtvf2a92fgw/O11f+
+ I7bBPDkF8HMOzjiH0EgpWNYkby7F8jgXHx8++SH+/odoCzHb0AHuzXl0+j5UinOkG1gW
+ 5jTg==
+X-Gm-Message-State: AOAM532nsfiq0mr/HCb/4ABmktdf9lz+yop3xHq0fbjxTczpw3Lv/qgv
+ XqVAJvYYnRRW86QjF1Ojjh4WG/vfkEaWjY28tR/XgQ==
+X-Google-Smtp-Source: ABdhPJw9Mju4Hesg8oNIJ631wFZ1IFA2fYMbX7zBspGt1FEClOT9l6g+BcK736INIebpsTuGNOtEptZzAiQQ8UK0eBs=
 X-Received: by 2002:a05:6830:8d:: with SMTP id
- a13mr3222712oto.91.1592577478051; 
- Fri, 19 Jun 2020 07:37:58 -0700 (PDT)
+ a13mr3225296oto.91.1592577519078; 
+ Fri, 19 Jun 2020 07:38:39 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200603011317.473934-1-richard.henderson@linaro.org>
- <20200603011317.473934-42-richard.henderson@linaro.org>
-In-Reply-To: <20200603011317.473934-42-richard.henderson@linaro.org>
+In-Reply-To: <20200603011317.473934-1-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 19 Jun 2020 15:37:47 +0100
-Message-ID: <CAFEAcA_zz6Ed65qk4wVBriuREe24ppSUVce2JfFO4xXLeZSwPw@mail.gmail.com>
-Subject: Re: [PATCH v7 41/42] target/arm: Create tagged ram when MTE is enabled
+Date: Fri, 19 Jun 2020 15:38:28 +0100
+Message-ID: <CAFEAcA-YS92VA+QXzVyBTQhzskER09Cpp5p9ugi4FbbBPTEoBA@mail.gmail.com>
+Subject: Re: [PATCH v7 00/42] target/arm: Implement ARMv8.5-MemTag, system mode
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x342.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::343;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x343.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -85,74 +84,15 @@ Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 3 Jun 2020 at 02:14, Richard Henderson
+On Wed, 3 Jun 2020 at 02:13, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
-> v5: Assign cs->num_ases to the final value first.
->     Downgrade to ID_AA64PFR1.MTE=1 if tag memory is not available.
-> v6: Add secure tag memory for EL3.
-> ---
-
-
->  static void arm_cpu_finalizefn(Object *obj)
-> @@ -1735,17 +1754,43 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
->      MachineState *ms = MACHINE(qdev_get_machine());
->      unsigned int smp_cpus = ms->smp.cpus;
+> Version 6 was back in March:
+> https://lists.nongnu.org/archive/html/qemu-devel/2020-03/msg03790.html
 >
-> -    if (cpu->has_el3 || arm_feature(env, ARM_FEATURE_M_SECURITY)) {
-> +    /*
-> +     * We must set cs->num_ases to the final value before
-> +     * the first call to cpu_address_space_init.
-> +     */
-> +    if (cpu->tag_memory != NULL) {
-> +        cs->num_ases = 4;
-> +    } else if (cpu->has_el3 || arm_feature(env, ARM_FEATURE_M_SECURITY)) {
->          cs->num_ases = 2;
-> +    } else {
-> +        cs->num_ases = 1;
-> +    }
+> Version 7 is a rebase on master, which now contains all prereqs.
 
-1: neither MTE nor TrustZone
-2: TrustZone but not MTE
-...but why is MTE always 4 even if no TrustZone? I would have
-expected MTE-no-TZ to have 2 ASes...
-
-> +    if (cpu->has_el3 || arm_feature(env, ARM_FEATURE_M_SECURITY)) {
->          if (!cpu->secure_memory) {
->              cpu->secure_memory = cs->memory;
->          }
->          cpu_address_space_init(cs, ARMASIdx_S, "cpu-secure-memory",
->                                 cpu->secure_memory);
-> -    } else {
-> -        cs->num_ases = 1;
->      }
-> +
-> +    if (cpu->tag_memory != NULL) {
-> +        cpu_address_space_init(cs, ARMASIdx_TagNS, "cpu-tag-memory",
-> +                               cpu->tag_memory);
-> +        if (cpu->has_el3) {
-> +            cpu_address_space_init(cs, ARMASIdx_TagS, "cpu-tag-memory",
-> +                                   cpu->secure_tag_memory);
-> +        }
-> +    } else if (cpu_isar_feature(aa64_mte, cpu)) {
-> +        /*
-> +         * Since there is no tag memory, we can't meaningfully support MTE
-> +         * to its fullest.  To avoid problems later, when we would come to
-> +         * use the tag memory, downgrade support to insns only.
-> +         */
-> +        cpu->isar.id_aa64pfr1 =
-> +            FIELD_DP64(cpu->isar.id_aa64pfr1, ID_AA64PFR1, MTE, 1);
-> +    }
-> +
->      cpu_address_space_init(cs, ARMASIdx_NS, "cpu-memory", cs->memory);
-
-...and indeed the code here only inits the ARMASIdx_NS and
-ARMASIdx_TagNS spaces in that case. I guess we need to leave
-ARMASIdx_S in the array but unused since we're effectively
-indexing them by constant integer, but even so shouldn't
-num_ases be 3 (0 and 2 used, 1 present but empty, 3 not needed) ?
+I'm now done with my review pass on this version of the patchset.
 
 thanks
 -- PMM
