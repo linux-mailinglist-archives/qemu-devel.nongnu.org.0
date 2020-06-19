@@ -2,62 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF48D2009CF
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 15:19:56 +0200 (CEST)
-Received: from localhost ([::1]:35380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CEC62009D2
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 15:20:15 +0200 (CEST)
+Received: from localhost ([::1]:36718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jmGvz-0003B1-Gp
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 09:19:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44674)
+	id 1jmGwI-0003s7-6J
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 09:20:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44792)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
- id 1jmGth-0001eH-OI
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 09:17:34 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:42313
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jmGu2-0001uD-37
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 09:17:54 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:53939
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
- id 1jmGtf-00036f-GU
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 09:17:33 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jmGu0-00037r-C1
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 09:17:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592572648;
+ s=mimecast20190719; t=1592572671;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=XhWUY4sTxVlQy/wcNSR8ElLcSNYAXkS9ysaEjKLquFQ=;
- b=GINfllrEKSZxevXdNjqodD47demWVzVxJ7Kj+zt7yxWftRl0d2zfUbOIf6T2NHh746tmr0
- byS94laJ+hLJZv3GNModixJ4Y8NdlN5AFNEb+eeoJWboc31eLXCYdf+0qdHPQIk9+ikfgV
- frq3eZKkbuZWkQ5R82K2S48Ert9euM0=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=aUi8I3F0vxoUlkRqlsWKNA4S5IEby7gUIdYMcagMnlI=;
+ b=Ijlu6FIfFRK4HQA/6Y9GqCWthHHl8SFiPAdxQBFtOPuks3r9OM4cYUziXTUSc1K2o5izyv
+ c1zzsF6Y4W/F4tc4CWOOPNDHXf3uicYzGnbzthMZAnC4kr6opGFOVX+/dTGh7GPAd5D0UQ
+ 8T+LenD62sJmsm66a6z+HnbcXHxGOMg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-73-TQfj53AlMwWuO4yXm1Krpg-1; Fri, 19 Jun 2020 09:17:27 -0400
-X-MC-Unique: TQfj53AlMwWuO4yXm1Krpg-1
+ us-mta-449-oG_3yn80NouJ1U8vJMM9vg-1; Fri, 19 Jun 2020 09:17:49 -0400
+X-MC-Unique: oG_3yn80NouJ1U8vJMM9vg-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 49211835B40;
- Fri, 19 Jun 2020 13:17:24 +0000 (UTC)
-Received: from paraplu.localdomain (ovpn-115-54.ams2.redhat.com [10.36.115.54])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 17F9510013C4;
- Fri, 19 Jun 2020 13:17:24 +0000 (UTC)
-Received: by paraplu.localdomain (Postfix, from userid 1001)
- id BD7243E048A; Fri, 19 Jun 2020 15:17:22 +0200 (CEST)
-Date: Fri, 19 Jun 2020 15:17:22 +0200
-From: Kashyap Chamarthy <kchamart@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C9BB518FF660
+ for <qemu-devel@nongnu.org>; Fri, 19 Jun 2020 13:17:48 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-67.ams2.redhat.com
+ [10.36.112.67])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D690410013C4;
+ Fri, 19 Jun 2020 13:17:45 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 619F816E16; Fri, 19 Jun 2020 15:17:41 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: Re: [PATCH] cpu-models-x86: Fix CPU model name - s/IBR/IBRS/
-Message-ID: <20200619131722.GN20144@paraplu>
-References: <20200619125413.2210-1-kchamart@redhat.com>
+Subject: [PULL 0/7] Audio 20200619 patches
+Date: Fri, 19 Jun 2020 15:17:34 +0200
+Message-Id: <20200619131741.10857-1-kraxel@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200619125413.2210-1-kchamart@redhat.com>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=kchamart@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/19 01:50:04
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -80,43 +77,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jun 19, 2020 at 02:54:13PM +0200, Kashyap Chamarthy wrote:
-> It is specified as a literal CPU model, so worth fixing it.
-> 
-> Although the reader might eventually learn the correct name, assuming
-> they where to look -- `qemu-system-x86 -cpu help`.
+The following changes since commit 5c24bce3056ff209a1ecc50ff4b7e65b85ad8e74:
 
-s/they where/they know where/
+  Merge remote-tracking branch 'remotes/stsquad/tags/pull-testing-and-plugin-160620-2' into staging (2020-06-16 14:57:15 +0100)
 
-> 
-> Signed-off-by: Kashyap Chamarthy <kchamart@redhat.com>
-> ---
->  docs/system/cpu-models-x86.rst.inc | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/docs/system/cpu-models-x86.rst.inc b/docs/system/cpu-models-x86.rst.inc
-> index 9a2327828e..9b025c04cc 100644
-> --- a/docs/system/cpu-models-x86.rst.inc
-> +++ b/docs/system/cpu-models-x86.rst.inc
-> @@ -66,7 +66,7 @@ across all desired hosts.
->  ``Haswell``, ``Haswell-IBRS``, ``Haswell-noTSX``, ``Haswell-noTSX-IBRS``
->      Intel Core Processor (Haswell, 2013)
->  
-> -``IvyBridge``, ``IvyBridge-IBR``
-> +``IvyBridge``, ``IvyBridge-IBRS``
->      Intel Xeon E3-12xx v2 (Ivy Bridge, 2012)
->  
->  ``SandyBridge``, ``SandyBridge-IBRS``
-> -- 
-> 2.21.1
-> 
+are available in the Git repository at:
+
+  git://git.kraxel.org/qemu tags/audio-20200619-pull-request
+
+for you to fetch changes up to 586803455b3fa44d949ecd42cd9c87e5a6287aef:
+
+  hw/audio/gus: Fix registers 32-bit access (2020-06-19 11:20:09 +0200)
+
+----------------------------------------------------------------
+audio: bugfixes for jack backend and gus emulation.
+
+----------------------------------------------------------------
+
+Allan Peramaki (1):
+  hw/audio/gus: Fix registers 32-bit access
+
+Geoffrey McRae (6):
+  audio/jack: fix invalid minimum buffer size check
+  audio/jack: remove unused stopped state
+  audio/jack: remove invalid set of input support bool
+  audio/jack: do not remove ports when finishing
+  audio/jack: honour the enable state of the audio device
+  audio/jack: simplify the re-init code path
+
+ audio/jackaudio.c       | 73 +++++++++++++++++++++--------------------
+ hw/audio/gusemu_hal.c   |  2 +-
+ hw/audio/gusemu_mixer.c |  2 +-
+ 3 files changed, 40 insertions(+), 37 deletions(-)
 
 -- 
-/kashyap
+2.18.4
 
 
