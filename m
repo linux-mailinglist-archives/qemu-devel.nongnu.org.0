@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 163DE2004DA
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 11:21:05 +0200 (CEST)
-Received: from localhost ([::1]:46858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 782D32004FE
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 11:27:20 +0200 (CEST)
+Received: from localhost ([::1]:45834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jmDCq-0004yV-30
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 05:21:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37382)
+	id 1jmDIt-0000ev-It
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 05:27:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jmDBD-0002qK-1G
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 05:19:23 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:45479
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jmDBH-00034e-PU
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 05:19:27 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:32290
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jmDB8-0003eX-NG
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 05:19:22 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jmDBF-0003go-RZ
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 05:19:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592558358;
+ s=mimecast20190719; t=1592558365;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DzVjiGHlgwyOc7h8SJ/YIQqZjyI/YoNSwdoAtCxO0Xg=;
- b=Wo/zb62HbaSzeKqRwyMNlbwaAguzO/4arnWfxcCQI4GyLU0hSWVtQBFaWV2tzx7lmVOwbW
- D0Lv5BtiY86bt42YqNbVcNebBIFSrfbQy3qJe+HzfbJiHJ4aSTjlZfmeys3AO2smO/l6YN
- H4gTm2LDF0YboDnyoC+BRuoqAfgcnoQ=
+ bh=7jJRJzMVjc00f03VSOp0Q/Xhw2CEnNo4d7UxYrF29xE=;
+ b=egPrmtoUpF0XKumNSXdZ0GWSI7+DDUvQaIDfEMh0rI8CxpYnItrLRPyqtYEKKS7Glhac4f
+ 3fT3Rk6m0KnBJjs63A5emXEB3sHxl9/N3x0FHUB3CLbSzMp4MEvZTs6GWfsG0RCvHUweIs
+ Jb3tBwA7Bve+oBrcPbTMQ3cxf17aZvI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-163-feoCnPhUNGeFkAfCcH8O3Q-1; Fri, 19 Jun 2020 05:19:13 -0400
-X-MC-Unique: feoCnPhUNGeFkAfCcH8O3Q-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-231-UsVz6E1oPu-hLHx8Hz87Rw-1; Fri, 19 Jun 2020 05:19:21 -0400
+X-MC-Unique: UsVz6E1oPu-hLHx8Hz87Rw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BE183107ACCA;
- Fri, 19 Jun 2020 09:19:12 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9FE0F10524FF;
+ Fri, 19 Jun 2020 09:19:20 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-67.ams2.redhat.com
  [10.36.112.67])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 05D8B71673;
- Fri, 19 Jun 2020 09:19:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2F3A719C4F;
+ Fri, 19 Jun 2020 09:19:14 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 235BA9D8F; Fri, 19 Jun 2020 11:19:06 +0200 (CEST)
+ id 313BA9D92; Fri, 19 Jun 2020 11:19:06 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v10 04/12] floppy: make isa_fdc_get_drive_max_chs static
-Date: Fri, 19 Jun 2020 11:18:57 +0200
-Message-Id: <20200619091905.21676-5-kraxel@redhat.com>
+Subject: [PATCH v10 05/12] floppy: move cmos_get_fd_drive_type() from pc
+Date: Fri, 19 Jun 2020 11:18:58 +0200
+Message-Id: <20200619091905.21676-6-kraxel@redhat.com>
 In-Reply-To: <20200619091905.21676-1-kraxel@redhat.com>
 References: <20200619091905.21676-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=kraxel@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/19 03:15:03
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/19 01:50:04
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,45 +89,119 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-acpi aml generator needs this, but it is in floppy code now
-so we can make the function static.
-
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Acked-by: John Snow <jsnow@redhat.com>
 ---
- include/hw/block/fdc.h | 2 --
- hw/block/fdc.c         | 4 ++--
- 2 files changed, 2 insertions(+), 4 deletions(-)
+ include/hw/block/fdc.h |  1 +
+ include/hw/i386/pc.h   |  1 -
+ hw/block/fdc.c         | 26 +++++++++++++++++++++++++-
+ hw/i386/pc.c           | 25 -------------------------
+ 4 files changed, 26 insertions(+), 27 deletions(-)
 
 diff --git a/include/hw/block/fdc.h b/include/hw/block/fdc.h
-index c15ff4c62315..5d71cf972268 100644
+index 5d71cf972268..479cebc0a330 100644
 --- a/include/hw/block/fdc.h
 +++ b/include/hw/block/fdc.h
-@@ -16,7 +16,5 @@ void sun4m_fdctrl_init(qemu_irq irq, hwaddr io_base,
+@@ -16,5 +16,6 @@ void sun4m_fdctrl_init(qemu_irq irq, hwaddr io_base,
                         DriveInfo **fds, qemu_irq *fdc_tc);
  
  FloppyDriveType isa_fdc_get_drive_type(ISADevice *fdc, int i);
--void isa_fdc_get_drive_max_chs(FloppyDriveType type,
--                               uint8_t *maxc, uint8_t *maxh, uint8_t *maxs);
++int cmos_get_fd_drive_type(FloppyDriveType fd0);
  
  #endif
+diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+index 8d764f965cd3..5e3b19ab78fc 100644
+--- a/include/hw/i386/pc.h
++++ b/include/hw/i386/pc.h
+@@ -176,7 +176,6 @@ typedef void (*cpu_set_smm_t)(int smm, void *arg);
+ void pc_i8259_create(ISABus *isa_bus, qemu_irq *i8259_irqs);
+ 
+ ISADevice *pc_find_fdc0(void);
+-int cmos_get_fd_drive_type(FloppyDriveType fd0);
+ 
+ /* port92.c */
+ #define PORT92_A20_LINE "a20"
 diff --git a/hw/block/fdc.c b/hw/block/fdc.c
-index c92436772292..5a634ab46302 100644
+index 5a634ab46302..ffe650b17cd5 100644
 --- a/hw/block/fdc.c
 +++ b/hw/block/fdc.c
-@@ -2744,8 +2744,8 @@ FloppyDriveType isa_fdc_get_drive_type(ISADevice *fdc, int i)
-     return isa->state.drives[i].drive;
+@@ -32,7 +32,6 @@
+ #include "qapi/error.h"
+ #include "qemu/error-report.h"
+ #include "qemu/timer.h"
+-#include "hw/i386/pc.h"
+ #include "hw/acpi/aml-build.h"
+ #include "hw/irq.h"
+ #include "hw/isa/isa.h"
+@@ -2809,6 +2808,31 @@ static Aml *build_fdinfo_aml(int idx, FloppyDriveType type)
+     return dev;
  }
  
--void isa_fdc_get_drive_max_chs(FloppyDriveType type,
--                               uint8_t *maxc, uint8_t *maxh, uint8_t *maxs)
-+static void isa_fdc_get_drive_max_chs(FloppyDriveType type, uint8_t *maxc,
-+                                      uint8_t *maxh, uint8_t *maxs)
++int cmos_get_fd_drive_type(FloppyDriveType fd0)
++{
++    int val;
++
++    switch (fd0) {
++    case FLOPPY_DRIVE_TYPE_144:
++        /* 1.44 Mb 3"5 drive */
++        val = 4;
++        break;
++    case FLOPPY_DRIVE_TYPE_288:
++        /* 2.88 Mb 3"5 drive */
++        val = 5;
++        break;
++    case FLOPPY_DRIVE_TYPE_120:
++        /* 1.2 Mb 5"5 drive */
++        val = 2;
++        break;
++    case FLOPPY_DRIVE_TYPE_NONE:
++    default:
++        val = 0;
++        break;
++    }
++    return val;
++}
++
+ static void fdc_isa_build_aml(ISADevice *isadev, Aml *scope)
  {
-     const FDFormat *fdf;
+     Aml *dev;
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index ec39741c87ac..7e0ed987b164 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -386,31 +386,6 @@ static uint64_t ioportF0_read(void *opaque, hwaddr addr, unsigned size)
  
+ #define REG_EQUIPMENT_BYTE          0x14
+ 
+-int cmos_get_fd_drive_type(FloppyDriveType fd0)
+-{
+-    int val;
+-
+-    switch (fd0) {
+-    case FLOPPY_DRIVE_TYPE_144:
+-        /* 1.44 Mb 3"5 drive */
+-        val = 4;
+-        break;
+-    case FLOPPY_DRIVE_TYPE_288:
+-        /* 2.88 Mb 3"5 drive */
+-        val = 5;
+-        break;
+-    case FLOPPY_DRIVE_TYPE_120:
+-        /* 1.2 Mb 5"5 drive */
+-        val = 2;
+-        break;
+-    case FLOPPY_DRIVE_TYPE_NONE:
+-    default:
+-        val = 0;
+-        break;
+-    }
+-    return val;
+-}
+-
+ static void cmos_init_hd(ISADevice *s, int type_ofs, int info_ofs,
+                          int16_t cylinders, int8_t heads, int8_t sectors)
+ {
 -- 
 2.18.4
 
