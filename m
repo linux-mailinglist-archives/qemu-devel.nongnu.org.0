@@ -2,70 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4313200870
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 14:12:40 +0200 (CEST)
-Received: from localhost ([::1]:47574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7527200873
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 14:14:23 +0200 (CEST)
+Received: from localhost ([::1]:53278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jmFst-0004Oc-Pb
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 08:12:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55884)
+	id 1jmFuY-0007lq-Q8
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 08:14:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56494)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jmFrG-0002ZK-CI
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 08:10:58 -0400
-Received: from mail-oo1-xc44.google.com ([2607:f8b0:4864:20::c44]:39549)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jmFrE-0008V6-55
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 08:10:57 -0400
-Received: by mail-oo1-xc44.google.com with SMTP id c4so341058oou.6
- for <qemu-devel@nongnu.org>; Fri, 19 Jun 2020 05:10:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=i5wVyyiiuhzkwOinvjyniL/wdBrDKmU9kEVr45dWQs0=;
- b=BWvB1MT4EBeLogmWuTnT4Dr1PyW8kLZNSU5ct/WsILFxi+XVK4cy2nrPgLgyEqjEJv
- QXyLbxdMh/5C9nSqM68Iwmd8Mdol8+CPBWRM0K3VXqGdoQQ1+00cwKCRSxi/kwWuFqQi
- OzBuk0UJA3s8GcIPCX5netjZW8XKi2VHQhKI/9hgDW+LyNRZAAXjDNSV3hxMqn4k45gm
- Gxtlxv8MHjNX9EmFSJDeGdXb0YmtPNJpguO4x6xrt6xfLX2upk7mLbPZ1mAq79b89DnQ
- oHz4aBkWPdKiamEFFbZEvBd0Hm6NOouuOA3+A2qxi5WVgodftKYiHq1KomaGYdUU66aL
- 0UXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=i5wVyyiiuhzkwOinvjyniL/wdBrDKmU9kEVr45dWQs0=;
- b=RGqEvXVs7HlhvSTMawwbUJBXhhLdnuu+ZrnLTJ78VXaEEdN8515UnX91V/W7j1eqZm
- 8TL6tJ+mWW6AVaOJpfj3i+IkmiMNbt7vOzJO793f2XC+hGPcEZUTq0H2vl84ODCk7/FF
- 1anc++WgnZKQEumKDcKzmqD7BmbKSQpvLsSyiW4CDnvtBbGlZWbuPGE42vWtDlU4fcnP
- Qm/lCyKIZlnFXYmNNiIMLzwTC+mJH3H2EAAD2R222PiuZXwP4WEuMEg6K8a2NSK3sZ1Q
- whqdQdQWnKUzDnMRq42lBZF1l2VlTw1fHc7E1raAPVZzU1xp4qAY+lfAh8jifcApNoRX
- JjeQ==
-X-Gm-Message-State: AOAM531R5Ws6qHxprC+bvyP8IxVp/moaW+VKAF8XBPdZWjdQR6D5hLTC
- zdHN4zBbaUkiz4kGbJFhHmMsKdWI76/gfy6P3KA60Q==
-X-Google-Smtp-Source: ABdhPJzUZBI9dcTo7m0Vv0PYP/wTSZoAkF2itzkuovlVCTxfNkQ8Vnykrtiu+mGz3QKsn6WkdfpIImwvxVjH1uCHpos=
-X-Received: by 2002:a4a:a20b:: with SMTP id m11mr2995082ool.20.1592568654580; 
- Fri, 19 Jun 2020 05:10:54 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1jmFtO-00063F-Ko
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 08:13:10 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:37708
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1jmFtM-0000Y9-6k
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 08:13:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1592568787;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Q3aXHyom7wb+5ESHwBbR2J4lFDqHDbKov4JAIw/RDqk=;
+ b=J1PjN5fqvR8WV7q1/nUeWKlSGMoHsWzOEzD/NzxI89lxXigyIq9xdehlSqfDHaEi5jdXZW
+ kaaOKQEOm2pxlnxgg3MlbHS8jUwurCkUgU/IW4PLvi7w2QiAlgNd4EgM93FKjKuTlC8cpf
+ 7gYow2IvrFT/Hjbq/JURKH9F1cSDod0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-51-Rlrelv42NoOWX5cPMzIgMg-1; Fri, 19 Jun 2020 08:13:04 -0400
+X-MC-Unique: Rlrelv42NoOWX5cPMzIgMg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DF6198015CB;
+ Fri, 19 Jun 2020 12:13:03 +0000 (UTC)
+Received: from localhost (ovpn-113-212.ams2.redhat.com [10.36.113.212])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7649C5BAD4;
+ Fri, 19 Jun 2020 12:13:03 +0000 (UTC)
+Date: Fri, 19 Jun 2020 13:13:00 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Coiby Xu <coiby.xu@gmail.com>
+Subject: Re: [PATCH v9 2/5] generic vhost user server
+Message-ID: <20200619121300.GB2422025@stefanha-x1.localdomain>
+References: <20200614183907.514282-1-coiby.xu@gmail.com>
+ <20200614183907.514282-3-coiby.xu@gmail.com>
 MIME-Version: 1.0
-References: <20200618153854.271723-1-cohuck@redhat.com>
-In-Reply-To: <20200618153854.271723-1-cohuck@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 19 Jun 2020 13:10:43 +0100
-Message-ID: <CAFEAcA_9_E7Xm0xrXVA6JC=t8d4Y+ApERDaBo9bewpsP7f2LoA@mail.gmail.com>
-Subject: Re: [PULL 0/7] s390x update
-To: Cornelia Huck <cohuck@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c44;
- envelope-from=peter.maydell@linaro.org; helo=mail-oo1-xc44.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+In-Reply-To: <20200614183907.514282-3-coiby.xu@gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="ZfOjI3PrQbgiZnxM"
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/19 03:15:03
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,36 +82,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x <qemu-s390x@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: kwolf@redhat.com, bharatlkmlkvm@gmail.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 18 Jun 2020 at 16:39, Cornelia Huck <cohuck@redhat.com> wrote:
->
-> The following changes since commit 26bf4a29213b432eb390726c698a1915550a9cf9:
->
->   Merge remote-tracking branch 'remotes/kraxel/tags/usb-20200617-pull-request' into staging (2020-06-17 16:24:24 +0100)
->
-> are available in the Git repository at:
->
->   https://github.com/cohuck/qemu tags/s390x-20200618
->
-> for you to fetch changes up to 458e056257e67254546e58158f3f74ce040c7ca1:
->
->   docs/s390x: fix vfio-ap device_del description (2020-06-18 12:14:06 +0200)
->
-> ----------------------------------------------------------------
-> s390x update:
-> - update Linux headers to 5.8-rc1 (for vfio-ccw path handling)
-> - vfio-ccw: add support for path handling
-> - documentation fix
->
+--ZfOjI3PrQbgiZnxM
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+On Mon, Jun 15, 2020 at 02:39:04AM +0800, Coiby Xu wrote:
+> +/*
+> + * a wrapper for vu_kick_cb
+> + *
+> + * since aio_dispatch can only pass one user data pointer to the
+> + * callback function, pack VuDev and pvt into a struct. Then unpack it
+> + * and pass them to vu_kick_cb
+> + */
+> +static void kick_handler(void *opaque)
+> +{
+> +    KickInfo *kick_info = opaque;
+> +    kick_info->cb(kick_info->vu_dev, 0, (void *) kick_info->index);
 
-Applied, thanks.
+Where is kick_info->index assigned? It appears to be NULL in all cases.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.1
-for any user-visible changes.
+> +}
+> +
+> +
+> +static void
+> +set_watch(VuDev *vu_dev, int fd, int vu_evt,
+> +          vu_watch_cb cb, void *pvt)
+> +{
+> +
+> +    VuServer *server = container_of(vu_dev, VuServer, vu_dev);
+> +    g_assert(vu_dev);
+> +    g_assert(fd >= 0);
+> +    long index = (intptr_t) pvt;
 
--- PMM
+The meaning of the pvt argument is not defined in the library interface.
+set_watch() callbacks shouldn't interpret pvt.
+
+You could modify libvhost-user to explicitly pass the virtqueue index
+(or -1 if the fd is not associated with a virtqueue), but it's nice to
+avoid libvhost-user API changes so that existing libvhost-user
+applications don't require modifications.
+
+What I would do here is to change the ->kick_info[] data struct. How
+about a linked list of VuFdWatch objects? That way the code can handle
+any number of fd watches and doesn't make assumptions about virtqueues.
+set_watch() is a generic fd monitoring interface and doesn't need to be
+tied to virtqueues.
+
+--ZfOjI3PrQbgiZnxM
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl7sq8wACgkQnKSrs4Gr
+c8g7zQf9Gy5CDeAhWmGcI6lXy6oGWqFWwOY1dHBMLNPFSzU7UxE9wP5SNY+PeiJx
+yHy0neGtytH/PJ9hnRQAC8IUpRKvP8KFlb7UPjVVv9oX9/s4XZhArEfbluYxfyUJ
+3dE2OeqAkaBKbX7hWG68HHoMgUG5qt/6zZ8H0T5FUzdNqwlF/Nx+AT+ckZ4vmI2W
+z7C2NX4pIiF66A+4JoqGyf95Il+Sh811m0GiwMxx7j9Z5UvhgiicmtsS5hFUdktI
+leUFtXhR6RfTPHbha8APjKunN5Bs7eUBndr4AwgSIVpUVPiHLlqrHfQRKEiYjaCc
+sGJzM35DkDSA2uEp/h3ng00Q9YAAvA==
+=8dZD
+-----END PGP SIGNATURE-----
+
+--ZfOjI3PrQbgiZnxM--
+
 
