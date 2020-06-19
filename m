@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67681201970
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 19:27:15 +0200 (CEST)
-Received: from localhost ([::1]:53792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F52B201922
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 19:14:24 +0200 (CEST)
+Received: from localhost ([::1]:56010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jmKnK-0000ih-GU
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 13:27:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58510)
+	id 1jmKat-000057-Ko
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 13:14:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58514)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=4324eb4de=alistair.francis@wdc.com>)
- id 1jmKUc-0001M2-9q
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 13:07:54 -0400
-Received: from esa2.hgst.iphmx.com ([68.232.143.124]:24431)
+ id 1jmKUd-0001Nl-7f
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 13:07:55 -0400
+Received: from esa2.hgst.iphmx.com ([68.232.143.124]:24435)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=4324eb4de=alistair.francis@wdc.com>)
- id 1jmKUa-0004Pk-EZ
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 13:07:53 -0400
+ id 1jmKUb-0004Ps-7c
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 13:07:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1592586487; x=1624122487;
+ t=1592586489; x=1624122489;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=YgHV8IgDygqAPja2o6Anh1ZZN76opAAD7h7m5VTQjuM=;
- b=oub3hitlXHc392ULyuYxypvr10Z2o33ALlu4d9yXTOOKHJRwPiFTgojB
- xFA8wlb7dIngzo18KmAoEevkkaQ6DbyKFHfpR92+C5Dn83RxnI7aIML4u
- +ZzlGcl7fcHjK5hzpZguQmgQJOenf/fqi8YANh7P1xHXDzaXe4sXhfx02
- BrjaZc+AfgUV8bODTAg2tlYh/Fn+CFjNLQPM6hp+e6JA2b8NwqpTlqJDI
- j6SV4dY5EoRBwsjH5oWku5oGjSrrH3xcCmHzO9xkRfeoM2m700uwudV4z
- txGo/LV72rCquZFgURmVBzUjrJpZLAMiHrh8oxVzMxwv4ILPEq0BVe8wg A==;
-IronPort-SDR: nQoK3gu3H0ad085IDV6LScN35LcPRJPAcOgW9jo1cVtr/0yVBiD/6Hx1B40bKyfcC7/kraU9up
- 5ySnzwCaF9eAd2wRWrEHsqTi6WLJNabMoxOxng9BkNwIwQUTPa429+ltIKQZkvMBuyFBwzrsJz
- gGdZi+HmJv8jg7LsJz+1Pur+nu4QzRlQgheChPb5H7ApG3DhUW43dW6UOSsE2UJJAbiaI/+Ekw
- zQyzB58OG9+SwJ2yGygaf5ouaSJUEr1HgwczDhyEA6NiIJBTZptfk146Uh94kWmV2c+GhG9nhX
- Bwg=
-X-IronPort-AV: E=Sophos;i="5.75,256,1589212800"; d="scan'208";a="243417016"
+ bh=3BNyEnS/wqJC6Kgxw6ca4gmdTiZrgKGEhDv3YvYD+r0=;
+ b=QAgu3rlzcu+5BjNjBp4wVvqVJDyDDNnMwe5xMmBU5c2fSncI9XbV8Qq9
+ HnslRy35W8/dffqxXW/unHBTMJVLhOYzJgJYQLOLW1/yNTIxXwSLyZudJ
+ MEa1fwx6j9Yq7RM6oHQP/0o+ft3unCU2IXkQUq7d8Xr9uSITIJ3Yl/2j6
+ eSYpqx89Za0C9EQC2qhqE8+LC7uURMibhK0PIqv4HmKENu0vwdqXJNtzt
+ eKcZ2pQc8LZL8cGL/uk/5wY2wuDhSFzuSdUEPJYMehibfHWqPycIGv2eH
+ 1SCr2yk79evru8fCwo7a5CxO/+ru/q1xOIOVHxu1UBOBPLF+ZkR22ynZB A==;
+IronPort-SDR: 27pWBI0J4FXazzkZzEoA4h/q35kuQqTE/fwX3gVqBgruTnrkOFhjbABSCMLbPaq4H41rxHehSG
+ 00L07rMl50cUYqZGFE0x7j5xna3GgkwjsR/xMmHJie4AZOGEe+P3gO5s3xnLDBHDPPIA9vpSW8
+ E9M9Ynuqoispfa6yz+QkjCi3k3dU5cMnAhXD2jYqU9eJiN1yBNm/aNkmGpOrioxsG/JkpypFSL
+ KGx1Z/xaztaXbAYV1gHN2E6P53dStfntgFrfJDFwA18T9DRDJ1ZAzkunSrtdS3e0mHWoHPvZqj
+ US8=
+X-IronPort-AV: E=Sophos;i="5.75,256,1589212800"; d="scan'208";a="243417017"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 20 Jun 2020 01:07:29 +0800
-IronPort-SDR: d8AhczbrTEBRxSKb28ssFGiD0CIFLldYF9MsyzMax3Gty7FbxHP8d3BRyMqo2vRr/QJ0avRZie
- 6mE05X46gcXt81oj3f5tRKqRhz4DkWbCo=
+ by ob1.hgst.iphmx.com with ESMTP; 20 Jun 2020 01:07:30 +0800
+IronPort-SDR: VYkmsg4snV6szQ/K9Zcc398bCjNFX7viu1Wk1YpTo1/f82364xPkHwing2G9WDRDc1jVAYcQFr
+ M70VTL9LhkXbf/JhaEqicaOgSIAtYBfzM=
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jun 2020 09:56:04 -0700
-IronPort-SDR: pH4TmANHb9en0o7TqnaM46rqBg/7X/3xYXElVfCoJ7B6d0VHtsjP346PhYrLBLshIkWqR4jLPq
- S6Ig4YqjJvbQ==
+ 19 Jun 2020 09:56:05 -0700
+IronPort-SDR: OpeClm3pfqXOOErKkYP22v42QvPEWXCLuM6q/08jhyccUAsEK85kOPKZCagmwCLpWFHKnUesXC
+ nCTx8LcZXibg==
 WDCIronportException: Internal
 Received: from unknown (HELO risc6-mainframe.hgst.com) ([10.86.58.142])
  by uls-op-cesaip02.wdc.com with ESMTP; 19 Jun 2020 10:07:28 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL v2 26/32] hw/riscv: sifive_u: Rename serial property get/set
- functions to a generic name
-Date: Fri, 19 Jun 2020 09:58:11 -0700
-Message-Id: <20200619165817.4144200-27-alistair.francis@wdc.com>
+Subject: [PULL v2 27/32] hw/riscv: sifive_u: Add a new property msel for MSEL
+ pin state
+Date: Fri, 19 Jun 2020 09:58:12 -0700
+Message-Id: <20200619165817.4144200-28-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200619165817.4144200-1-alistair.francis@wdc.com>
 References: <20200619165817.4144200-1-alistair.francis@wdc.com>
@@ -95,54 +95,52 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-In prepration to add more properties to this machine, rename the
-existing serial property get/set functions to a generic name.
+On SiFive FU540 SoC, the value stored at physical address 0x1000
+stores the MSEL pin state that is used to control the next boot
+location that ROM codes jump to.
+
+Add a new property msel to sifive_u machine for this.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 1591625864-31494-11-git-send-email-bmeng.cn@gmail.com
-Message-Id: <1591625864-31494-11-git-send-email-bmeng.cn@gmail.com>
+Message-id: 1591625864-31494-12-git-send-email-bmeng.cn@gmail.com
+Message-Id: <1591625864-31494-12-git-send-email-bmeng.cn@gmail.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- hw/riscv/sifive_u.c | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+ include/hw/riscv/sifive_u.h | 1 +
+ hw/riscv/sifive_u.c         | 7 +++++++
+ 2 files changed, 8 insertions(+)
 
+diff --git a/include/hw/riscv/sifive_u.h b/include/hw/riscv/sifive_u.h
+index b1399a90a6..f6d10ebfb6 100644
+--- a/include/hw/riscv/sifive_u.h
++++ b/include/hw/riscv/sifive_u.h
+@@ -63,6 +63,7 @@ typedef struct SiFiveUState {
+     int fdt_size;
+ 
+     bool start_in_flash;
++    uint32_t msel;
+     uint32_t serial;
+ } SiFiveUState;
+ 
 diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index b9d2185c04..6dac662910 100644
+index 6dac662910..b04be42167 100644
 --- a/hw/riscv/sifive_u.c
 +++ b/hw/riscv/sifive_u.c
-@@ -478,14 +478,16 @@ static void sifive_u_machine_set_start_in_flash(Object *obj, bool value, Error *
-     s->start_in_flash = value;
- }
+@@ -504,6 +504,13 @@ static void sifive_u_machine_instance_init(Object *obj)
+                                     "Set on to tell QEMU's ROM to jump to "
+                                     "flash. Otherwise QEMU will jump to DRAM");
  
--static void sifive_u_machine_get_serial(Object *obj, Visitor *v, const char *name,
--                                void *opaque, Error **errp)
-+static void sifive_u_machine_get_uint32_prop(Object *obj, Visitor *v,
-+                                             const char *name, void *opaque,
-+                                             Error **errp)
- {
-     visit_type_uint32(v, name, (uint32_t *)opaque, errp);
- }
- 
--static void sifive_u_machine_set_serial(Object *obj, Visitor *v, const char *name,
--                                void *opaque, Error **errp)
-+static void sifive_u_machine_set_uint32_prop(Object *obj, Visitor *v,
-+                                             const char *name, void *opaque,
-+                                             Error **errp)
- {
-     visit_type_uint32(v, name, (uint32_t *)opaque, errp);
- }
-@@ -504,8 +506,8 @@ static void sifive_u_machine_instance_init(Object *obj)
- 
++    s->msel = 0;
++    object_property_add(obj, "msel", "uint32",
++                        sifive_u_machine_get_uint32_prop,
++                        sifive_u_machine_set_uint32_prop, NULL, &s->msel);
++    object_property_set_description(obj, "msel",
++                                    "Mode Select (MSEL[3:0]) pin state");
++
      s->serial = OTP_SERIAL;
      object_property_add(obj, "serial", "uint32",
--                        sifive_u_machine_get_serial,
--                        sifive_u_machine_set_serial, NULL, &s->serial);
-+                        sifive_u_machine_get_uint32_prop,
-+                        sifive_u_machine_set_uint32_prop, NULL, &s->serial);
-     object_property_set_description(obj, "serial", "Board serial number");
- }
- 
+                         sifive_u_machine_get_uint32_prop,
 -- 
 2.27.0
 
