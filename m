@@ -2,71 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA4A62014C3
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 18:21:21 +0200 (CEST)
-Received: from localhost ([::1]:33046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1478C201590
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 18:28:18 +0200 (CEST)
+Received: from localhost ([::1]:38692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jmJlY-0003pu-HZ
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 12:21:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45430)
+	id 1jmJsG-0007BL-Vs
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 12:28:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46616)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1jmJke-0003EE-4Z
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 12:20:24 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:52119
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1jmJkc-0004FJ-I8
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 12:20:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592583621;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=emxUC3NDAznAQVfzo78UfVpFkpwG8HwWc5KpMv9LfCc=;
- b=TQh4XHEf+MGjHI0cCkEnxfQVKLphsE27LwWO7eZdWrzdLDwC/N8vWy1ev3upJOy3xnIE1E
- FKktWSyHieLAlIMMCZW0juwCjkYQHdQqr4c8OsF1QoEU1z2jBmPU7Q+WhO0YN8U6jdC2TX
- RZr6v5kEAiaKA6LgzLfrxWQqR+W94QM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-489-Ge0KtxYuOFKjymkKd1XiRg-1; Fri, 19 Jun 2020 12:20:17 -0400
-X-MC-Unique: Ge0KtxYuOFKjymkKd1XiRg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 629EB872FEE;
- Fri, 19 Jun 2020 16:20:15 +0000 (UTC)
-Received: from localhost (ovpn-113-176.phx2.redhat.com [10.3.113.176])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4595879323;
- Fri, 19 Jun 2020 16:20:05 +0000 (UTC)
-Date: Fri, 19 Jun 2020 12:20:04 -0400
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: "Denis V. Lunev" <den@openvz.org>
-Subject: Re: [PATCH 0/2] block: propagate discard alignment from format
- drivers to the guest
-Message-ID: <20200619162004.GA9925@habkost.net>
-References: <20200611171608.22052-1-den@openvz.org>
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1jmJoO-00056u-N5; Fri, 19 Jun 2020 12:24:16 -0400
+Received: from mout.web.de ([212.227.17.12]:52315)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1jmJoM-0004rN-Qf; Fri, 19 Jun 2020 12:24:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+ s=dbaedf251592; t=1592583848;
+ bh=zslMZHe7YmxpzuGgsn/syZOsgLS+tkkDW8kZZz1WDsY=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
+ b=DVMUO3q5uMjXj2sfgtFyRCus8hIp1zsQYXJGWMNL709MAu7F/sfCjaQnVMXRMPZuT
+ fsDg7wh7cUog50Ev46+Y5n4+Z1EQZ0Gtt9VG2sRCj0ATiFkJPaweIDzxIZf0NyzLQg
+ w9pzyeDAzxL26zBTt3doW0FmU/cG5VetFBRAkcxU=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from luklap ([94.134.180.165]) by smtp.web.de (mrweb106
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MNwjS-1jWsQS15U8-00OTLG; Fri, 19
+ Jun 2020 18:24:08 +0200
+Date: Fri, 19 Jun 2020 18:23:51 +0200
+From: Lukas Straub <lukasstraub2@web.de>
+To: "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>
+Subject: Re: [PATCH v4 2/4] block/nbd.c: Add yank feature
+Message-ID: <20200619182351.549ea836@luklap>
+In-Reply-To: <20200616144406.GJ550360@redhat.com>
+References: <cover.1590421341.git.lukasstraub2@web.de>
+ <8e6a8e61b25813cdcdf385729709ef57f6255a3e.1590421341.git.lukasstraub2@web.de>
+ <20200616144406.GJ550360@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200611171608.22052-1-den@openvz.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/19 01:50:04
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: multipart/signed; boundary="Sig_/SyEbWl07Zt+A07gIcpSDj_d";
+ protocol="application/pgp-signature"; micalg=pgp-sha512
+X-Provags-ID: V03:K1:JFfobidk3+7VtB44PHao8cQpDULCz2ABqkWntVcZSxdJWuj8dRj
+ cLozX/ZDAIwu/vjoarFhBGFaIsjQ26WFsVXF3I8MpuEYBztd1kyzx/T5yDTWaYMSDR7bOUl
+ 8vJBc1eQJOxMtoPj6OsC/6HHN6IDTq49v0/hMlm0gN1ibN6D0W/ObUog9hg7N5stj9oTb2Z
+ U6KIj6vanncMfYhWzkDCQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Q91GwYWR7VU=:aLyppLjRXcWcAGxStMMu0Q
+ 6rj550cRsYvX9AZgUiTyQsvAMeK3L3kJHl+2G/JZ9iEUcrGHuZ7PTaSdnN93tZhCkYWueh+M9
+ MqIc6PfXfln9Yo6lWmRzlxsnSii6xcfaTqYGgZjwo9GJ3vZ1sev8ZD0RxQTgS4zTxyMDZdBnJ
+ 3eIScCMKg5ye2jGsEvSA5rldjoqBvLSKgoIpmfPj9VPMB4mCFGvvobhOLv7RsBMOQx0LcHxDD
+ N9uGQeA00E+tZQujKEYynaczmU0nsrWK0oVilvkj1q1EwAiCChdQcuTBc4FjzTzU8yeDEw+Uw
+ hX6GDB8m+GquAMagkw6UOZaGU38RlsOCnJH6RnIklcvmEEhEbxLGWbDpRZVhHl3+ZbbWe8ITK
+ bTeOm5dYjKO2f+8ao5rsJQlJXXUw4DAQtEmNqX+D4keA8ZApjbmvvtXtlt+fD7XQmHmihIk8m
+ BoSFSR0PqmNwydMkDkmhqMXYW+6p9tFZBTlCiqQa1GzOf2QHVYAbj86mTFH+xraLQjupX2B5h
+ ESu4r9inIEc8g0Y3E1sEO3x+EVm1r/HAXu15+zy64WwiNDFfeXCSKfW8b7ixqUvcFH8VQzBPI
+ 8vMAPdjdBclGZrYndrOGmQBYZdwlScIXfQ35DPQ7QCKCE+qFnQoaImyNRiEIdjCJ6HWPKGQz4
+ qX+eFHXbE2yD4Am40oaoe6/gwfPB1Yk2jTxb64EATje9w2FwJSwwECTj+pMxVpsGPy8i7fTR8
+ ijccicXXze2itREctYdIslM5xECKVJ8CXrzRKq08z3bGDQ3oBgDALxgtUd9t2W8p6nv1VfbtD
+ Ya30NGqtUX2KJhgGwrwzp8ZIj7Uq5W/wyFZ5kLtgHHXuakqdAi9fW6GDP4cV5eNNYhGHcMYX3
+ K/YncNT51jx04nPZTGJ2LvGxQo0NDPa+a0b8ChVR8+4XeNwFken4cu0qPo+ioyylivX6hZo5H
+ MyNia7+3eDZ3OOaxm9jFEQwdEqNSG8vUL/k74Gb1ZBL1NmF7220+RDU3AtGlimc1ie0G71uWU
+ 39GrgsLkB7bxaXYNxAq6KwFy3npwMemamswj2t6vRGaZXG4B/VqcYj8jxkl8y5Mf3avi26jgw
+ 5O2adrGrzcmQVvoHTV5iNP3ekkborYUJsn57awUVkvsExd2nI58//rrr/gOJePxM14Sm+ugpY
+ ed96rbKqH26lgSDc2TOb7B+D7DZmmHecOBGFQBS8q7daD6FwzsvC1ge6CN+hMuq66JNFn9zZ5
+ C7pm4+bHmuvawNnjb
+Received-SPF: pass client-ip=212.227.17.12; envelope-from=lukasstraub2@web.de;
+ helo=mout.web.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/19 12:24:12
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,55 +87,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block <qemu-block@nongnu.org>,
+ Juan Quintela <quintela@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 11, 2020 at 08:16:06PM +0300, Denis V. Lunev wrote:
-> Nowaday SCSI drivers in guests are able to align UNMAP requests before
-> sending to the device. Right now QEMU provides an ability to set
-> this via "discard_granularity" property of the block device which could
-> be used by management layer.
-> 
-> Though, in particular, from the point of QEMU, there is
-> pdiscard_granularity on the format driver level, f.e. on QCOW2 or iSCSI.
-> It would be beneficial to pass this value as a default for this
-> property.
+--Sig_/SyEbWl07Zt+A07gIcpSDj_d
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-I assume the value is visible to the guest.  What is supposed to
-happen if live migrating and the block backend is a different one
-on the destination?
+On Tue, 16 Jun 2020 15:44:06 +0100
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
 
-Also, don't we have mechanisms to change the block backend change
-at run time?  What should happen in that case?
+> On Mon, May 25, 2020 at 05:44:26PM +0200, Lukas Straub wrote:
+> > Register a yank function which shuts down the socket and sets
+> > s->state =3D NBD_CLIENT_QUIT. This is the same behaviour as if an
+> > error occured.
+> >=20
+> > Signed-off-by: Lukas Straub <lukasstraub2@web.de>
+> > ---
+> >  Makefile.objs |   1 +
+> >  block/nbd.c   | 101 ++++++++++++++++++++++++++++++++------------------
+> >  2 files changed, 65 insertions(+), 37 deletions(-)
+> >=20
+> > diff --git a/Makefile.objs b/Makefile.objs
+> > index a7c967633a..8e403b81f3 100644
+> > --- a/Makefile.objs
+> > +++ b/Makefile.objs
+> > @@ -18,6 +18,7 @@ block-obj-y +=3D block.o blockjob.o job.o
+> >  block-obj-y +=3D block/ scsi/
+> >  block-obj-y +=3D qemu-io-cmds.o
+> >  block-obj-$(CONFIG_REPLICATION) +=3D replication.o
+> > +block-obj-y +=3D yank.o =20
+>=20
+> Oh, I see this is repeated for migration and chardev code too.
+>=20
+> Instead of doing this and relying on linker to merge duplicates,
+> I think we should put yank.c into util/ and built it into util-obj-y,
+> so it gets added to everything.
 
-> 
-> Technically this should reduce the amount of use less UNMAP requests
-> from the guest to the host. Basic test confirms this. Fedora 31 guest
-> during 'fstrim /' on 32 Gb disk has issued 401/415 requests with/without
-> proper alignment to QEMU.
-> 
-> Changes from v2:
-> - 172 iotest fixed
-> 
-> Changes from v1:
-> - fixed typos in description
-> - added machine type compatibility layer as suggested by Kevin
-> 
-> Signed-off-by: Denis V. Lunev <den@openvz.org>
-> CC: Kevin Wolf <kwolf@redhat.com>
-> CC: Max Reitz <mreitz@redhat.com>
-> CC: Eduardo Habkost <ehabkost@redhat.com>
-> CC: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-> CC: John Snow <jsnow@redhat.com>
-> CC: Paolo Bonzini <pbonzini@redhat.com>
-> CC: Fam Zheng <fam@euphon.net>
-> 
-> 
+Ok, I will do this in the next version.
 
--- 
-Eduardo
+Thanks,
+Lukas Straub
 
+> Regards,
+> Daniel
+
+
+--Sig_/SyEbWl07Zt+A07gIcpSDj_d
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl7s5pcACgkQNasLKJxd
+slgNgxAAqVlaZY6nSZkK4EvCZvRD1BdbtXRZhdvb646cOd+M0UMQXk2LgqRMZgYm
+LgRya0IEVJwZcdvnSDac6Q5Trxv0lJNj0U78MBOdVPOEh2f5mTB50shklKArllQu
+r9YpzgqaNu0SONaQnb9ljs9JRn2weqB/frdZJSK773Ahj/T2350omVsd9Nyjo+xC
+sCRmS+JxPk5o/xgh1ZNrpGlURVTFwAp6wJE/A5zfbW+Vk2Rmqt1llH/dytGxE175
+lHAPHBOJJOl+IltQRAZ8pRkIpykb2nX69Il+dGReumD3dx7JN1EipQqLQx0JcojK
+95TWOCwkJCS2g7tTRac5sUUUD2+sxzTFNDoDtPZXxEXtaX2s1sZ/30Vf99q2vqSH
+HQgNUuHPMFAad6TNQFJhwIE8+XWenhNrtZ8+HdTRyC0MG5Hopw1dj7LyHc7eps89
+57z238pzSBsTUUpsaj/6l8wkC4/H3UQXX5KtLUzDi/WEPFmo3xzp8+xm6QmzA/Nq
+2aRCZbFFWmWKcGDGmURUJo9aaKe/HBp+zrQS459E9btjvcqPeL9JtPPFVIWujFOu
+NOnuPDJCYqz3aS7ncgvRYZRa6baObYQGkmxZQyFNm39hpyM9Vl0M9NYdPN9TyinA
+47+IObWd0AS9XMuQmEdrDIzZ2K9faOkzvQT2Nb8tGSZImEFqHaU=
+=ODnC
+-----END PGP SIGNATURE-----
+
+--Sig_/SyEbWl07Zt+A07gIcpSDj_d--
 
