@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10FD220129A
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 17:56:27 +0200 (CEST)
-Received: from localhost ([::1]:41074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 416D42012CF
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 17:57:14 +0200 (CEST)
+Received: from localhost ([::1]:44082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jmJNS-00014D-3M
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 11:56:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36794)
+	id 1jmJOD-0002Gk-9p
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 11:57:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mgamal@redhat.com>) id 1jmJMJ-0008Ff-IL
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 11:55:15 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:40838
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mgamal@redhat.com>) id 1jmJMT-000066-Pv
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 11:55:25 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:56923
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mgamal@redhat.com>) id 1jmJMH-0007wt-TI
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 11:55:15 -0400
+ (Exim 4.90_1) (envelope-from <mgamal@redhat.com>) id 1jmJMQ-00080u-QE
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 11:55:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592582112;
+ s=mimecast20190719; t=1592582122;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ONVIMPFVgNlQCWartogeNcXUxw3XoJkJEtWznEeVhjk=;
- b=COyqoN8VhOkGQxSbCY60yzjM7sjnX1NTzXT1cTxFDEb3onBV+1kbVANWoR61QnxzU9z7hU
- ZanvQ7vRie+47pD5HvO9yNVyRa10m4y8Ad7UN8bC5GjXteBuF5uuC17VBOzjYvKoOz+d1+
- nAOaYuiU7LApxQDJdzy2YtPbSSzQ+n4=
+ bh=pVIj3XToIh5tz8Pv5AGHQXu5eJDH366pzw6sKsocPMQ=;
+ b=OqxO73FVV9vj/O+mT2DIgM6oxPOnmn0/ZHbYoLH9LZPefDFl5tSvru3i/CsRgO156YjlzT
+ t9fN6YkO+xYsBQNNDaLl9sZfosdjtkjGiKnTf9j7KpJvKWISrHnP9jMe3D4z2fzhyJoUMJ
+ Ikv1omIVodaplEiSoqLMkf04UdPaYoU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-232-an-RjqUnOU2a1z51WD2Ghw-1; Fri, 19 Jun 2020 11:54:03 -0400
-X-MC-Unique: an-RjqUnOU2a1z51WD2Ghw-1
+ us-mta-490-r3sINLJfNJWXNnUfvXQW3g-1; Fri, 19 Jun 2020 11:54:00 -0400
+X-MC-Unique: r3sINLJfNJWXNnUfvXQW3g-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 79C6C18C6EEA;
- Fri, 19 Jun 2020 15:53:54 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BDB828730B3;
+ Fri, 19 Jun 2020 15:53:57 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-112-254.ams2.redhat.com
  [10.36.112.254])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A1DD95BAD3;
- Fri, 19 Jun 2020 15:53:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D8CF15BAD3;
+ Fri, 19 Jun 2020 15:53:54 +0000 (UTC)
 From: Mohammed Gamal <mgamal@redhat.com>
 To: qemu-devel@nongnu.org,
 	pbonzini@redhat.com
-Subject: [PATCH 1/2] kvm: Add support for KVM_CAP_HAS_SMALLER_MAXPHYADDR
-Date: Fri, 19 Jun 2020 17:53:43 +0200
-Message-Id: <20200619155344.79579-2-mgamal@redhat.com>
+Subject: [PATCH 2/2] x86/cpu: Handle GUEST_MAXPHYADDR < HOST_MAXPHYADDR for
+ hosts that don't support it
+Date: Fri, 19 Jun 2020 17:53:44 +0200
+Message-Id: <20200619155344.79579-3-mgamal@redhat.com>
 In-Reply-To: <20200619155344.79579-1-mgamal@redhat.com>
 References: <20200619155344.79579-1-mgamal@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=mgamal@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/19 01:50:04
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=mgamal@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/19 05:19:18
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -81,58 +82,37 @@ Cc: mtosatti@redhat.com, Mohammed Gamal <mgamal@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This adds the KVM_CAP_HAS_SMALLER_MAXPHYADDR capability
-and a helper function to check for this capability.
-This will allow QEMU to decide to what to do if the host
-CPU can't handle GUEST_MAXPHYADDR < HOST_MAXPHYADDR properly.
+If the CPU doesn't support GUEST_MAXPHYADDR < HOST_MAXPHYADDR we
+let QEMU choose to use the host MAXPHYADDR and print a warning to the
+user.
 
 Signed-off-by: Mohammed Gamal <mgamal@redhat.com>
 ---
- linux-headers/linux/kvm.h | 1 +
- target/i386/kvm.c         | 5 +++++
- target/i386/kvm_i386.h    | 1 +
- 3 files changed, 7 insertions(+)
+ target/i386/cpu.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
-index 9804495a46..9eb61a303f 100644
---- a/linux-headers/linux/kvm.h
-+++ b/linux-headers/linux/kvm.h
-@@ -1017,6 +1017,7 @@ struct kvm_ppc_resize_hpt {
- #define KVM_CAP_S390_VCPU_RESETS 179
- #define KVM_CAP_S390_PROTECTED 180
- #define KVM_CAP_PPC_SECURE_GUEST 181
-+#define KVM_CAP_SMALLER_MAXPHYADDR 184
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index b1b311baa2..91c57117ce 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -6589,6 +6589,17 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
+             uint32_t host_phys_bits = x86_host_phys_bits();
+             static bool warned;
  
- #ifdef KVM_CAP_IRQ_ROUTING
- 
-diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-index b3c13cb898..01100dbf20 100644
---- a/target/i386/kvm.c
-+++ b/target/i386/kvm.c
-@@ -136,6 +136,11 @@ bool kvm_has_smm(void)
-     return kvm_check_extension(kvm_state, KVM_CAP_X86_SMM);
- }
- 
-+bool kvm_has_smaller_maxphyaddr(void)
-+{
-+    return kvm_check_extension(kvm_state, KVM_CAP_SMALLER_MAXPHYADDR);
-+}
++	    /*
++	     * If host doesn't support setting physical bits on the guest,
++	     * report it and return
++	     */
++	    if (cpu->phys_bits < host_phys_bits &&
++		!kvm_has_smaller_maxphyaddr()) {
++		warn_report("Host doesn't support setting smaller phys-bits."
++			    " Using host phys-bits\n");
++		cpu->phys_bits = host_phys_bits;
++	    }
 +
- bool kvm_has_adjust_clock_stable(void)
- {
-     int ret = kvm_check_extension(kvm_state, KVM_CAP_ADJUST_CLOCK);
-diff --git a/target/i386/kvm_i386.h b/target/i386/kvm_i386.h
-index 00bde7acaf..513f8eebbb 100644
---- a/target/i386/kvm_i386.h
-+++ b/target/i386/kvm_i386.h
-@@ -34,6 +34,7 @@
- 
- bool kvm_allows_irq0_override(void);
- bool kvm_has_smm(void);
-+bool kvm_has_smaller_maxphyaddr(void);
- bool kvm_has_adjust_clock_stable(void);
- bool kvm_has_exception_payload(void);
- void kvm_synchronize_all_tsc(void);
+             /* Print a warning if the user set it to a value that's not the
+              * host value.
+              */
 -- 
 2.26.2
 
