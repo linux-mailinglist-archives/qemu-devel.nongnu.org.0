@@ -2,91 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6C3F2008DF
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 14:39:49 +0200 (CEST)
-Received: from localhost ([::1]:60808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A5FE2008E7
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 14:41:36 +0200 (CEST)
+Received: from localhost ([::1]:39062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jmGJA-0007W3-SL
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 08:39:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35390)
+	id 1jmGKt-0001w0-CB
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 08:41:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35576)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jmGHa-0005G0-JP
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 08:38:10 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:58996
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jmGHZ-0004yw-1s
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 08:38:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592570288;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0vzAKNhIebVNhmPTwwk2+p6+FeyRJcrmAq4fe7SPCF8=;
- b=QqXsN73Xd3UR+F5S5SrZZdF9D+XDzE2gnwYRobTuq3HE8eO1h/PKFb1AMr471Yos/o0a4o
- BnteE/xhz1LqZmoSjHh4h9j9PzRbOH5CwXqnL9GkkDy016aemJMMsSClgynU1pUM88iTBa
- OGOfaAM81g1QAPhaPJ6Ox1WJUWWLf4I=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-336-ResTKEIXOkKubroV7gEAbw-1; Fri, 19 Jun 2020 08:38:06 -0400
-X-MC-Unique: ResTKEIXOkKubroV7gEAbw-1
-Received: by mail-wr1-f71.google.com with SMTP id b14so3942987wrp.0
- for <qemu-devel@nongnu.org>; Fri, 19 Jun 2020 05:38:06 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jmGIf-0007dx-3l
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 08:39:17 -0400
+Received: from mail-oi1-x230.google.com ([2607:f8b0:4864:20::230]:47029)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jmGId-00053k-KL
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 08:39:16 -0400
+Received: by mail-oi1-x230.google.com with SMTP id 25so8276815oiy.13
+ for <qemu-devel@nongnu.org>; Fri, 19 Jun 2020 05:39:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=YRgdsySkhJUAxDmmzByeHbt5ASUto+ff6rB+GwjpagQ=;
+ b=Nt7XNOwBiZlxy6G62IrRmidcOxy0pPnJbOWNt2Eb1EL/Ovn2qAwcF081goHVpqcB9m
+ 6YSyVBXr1G+2nrHxYZwRb7FuWku/YBn366EzO4KYMRiiR7yajPh/nJfREmcDutDmRWxW
+ Un4PxIcZ5S0bQiayatALRKP84zmqIOTn0BDApeBUii/h5ceCFwjmceEoiryYT+lk1BUo
+ QIUgJEG7mGonZ6RkP+tSf0NN7MEc8FYnkkgOOCkWy3m3s1UyeQAUHPeocWDf8VW2a4Om
+ 5PgZ2972evDUnbvvKJ17+2kZlM28vASPnYtpqy2AVE3Wa1e0XAs2MumriCApUmXitSC0
+ Q3FA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=0vzAKNhIebVNhmPTwwk2+p6+FeyRJcrmAq4fe7SPCF8=;
- b=G46F+BR3QgL6fZA+d4oWqpOVIsCbgUCuiUU8L6y7j2fIYpexZSzO2KmKfrhFAaQWba
- lUrwNCtWiwvUbq44X4Qgiy3IiEzrI00IujQLKGu8MHFNO+PS+qysvI2hyJd0g9ldhcxM
- TeCpB/g4HhVLF0j593wX21k5ef3khfAdZRyzvpHSgfDezfUchHzWTZp/gv27Fe13J2Hj
- zuJCKTHlC2WsIs0DsmYDFGqkWkaTZW/FJtEnp6EDro4sZhy7sEv5FDVpDcwlbKHi3KoV
- AwFwphJAaLEvlxLctGXLWoRIkU6hhdDiWfJFqQo/1+16v5aeJVaU+gnQsIMIxmcUyPU7
- AfKg==
-X-Gm-Message-State: AOAM532y9dbev+tG6pAAkm4O7/kHVGWcS0tfq1zG97RXnBcJJ+Fr/Z01
- jYihVxVjZ0mu3X/7oNQWxBqtCjx8V5KmT6AQCtff/5EYjoMkQAS0KxJqqD6ZLiZ53yEKmzpNi60
- +iir33+BhXtlnga0=
-X-Received: by 2002:adf:a1c1:: with SMTP id v1mr3988944wrv.205.1592570285590; 
- Fri, 19 Jun 2020 05:38:05 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwKe+Jqm+9+qRBocH+ge+ctOBwEa9VJyyU/fXDgduU6zy7HpK/JjOJEWzFAFBJZy+Rk1KZCjw==
-X-Received: by 2002:adf:a1c1:: with SMTP id v1mr3988925wrv.205.1592570285337; 
- Fri, 19 Jun 2020 05:38:05 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:e1d2:138e:4eff:42cb?
- ([2001:b07:6468:f312:e1d2:138e:4eff:42cb])
- by smtp.gmail.com with ESMTPSA id z16sm7179070wrm.70.2020.06.19.05.38.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 19 Jun 2020 05:38:04 -0700 (PDT)
-Subject: Re: [PATCH] xen: Actually fix build without passthrough
-To: Anthony PERARD <anthony.perard@citrix.com>, qemu-devel@nongnu.org
-References: <20200619103115.254127-1-anthony.perard@citrix.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <ac75572a-6568-f5fd-16f0-f43c951e7e86@redhat.com>
-Date: Fri, 19 Jun 2020 14:38:04 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=YRgdsySkhJUAxDmmzByeHbt5ASUto+ff6rB+GwjpagQ=;
+ b=Zv90DDhG1sh1Co/24xHdlny31hP6d5MtjCHBGKsosRv1VDdQL3LFhDPHlwaPmTBueW
+ UUaabUIkUn9kX0/vkRr0xTGUPzfLQSesAmnoNQfgfLwMaMuluw7NEO/5FKtiAS3HtRjI
+ no7ywG6P0PZh/pBCx6PgucvexrV1+PXFVfIKVS5tsFGwXuT+VM4TVKRZkBexqr6KVD0h
+ 14T6me/w+96ctYRvVrILdQnbVEvsI0JrpXxn74uyStygNJgv0F/kw+XaW3TMux2y0Mve
+ 1hOCrJv+wmuDq4kwdv6M057V+HGNyIvW7rIS5EalsSS+ovf/Rs4hmf7CqIHFyBiIRLnH
+ R0/A==
+X-Gm-Message-State: AOAM5315go2ux7MZNEQUERog4VR8tC3YtxarWNGMUL1zwswbE3xuRfA4
+ 4RF51JG1nipmazgQEz1HlZ9QdbpoxXE1iU3Pd2RzXw==
+X-Google-Smtp-Source: ABdhPJyuGag7zb6+FgxFsOqXs21ttu0wsyvNf5vp2UCHqfkLD1LcVdgClPCMElnB0ct4p9f7oczJRZxnhmgYHRhx1s4=
+X-Received: by 2002:aca:1a07:: with SMTP id a7mr2820797oia.163.1592570354390; 
+ Fri, 19 Jun 2020 05:39:14 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200619103115.254127-1-anthony.perard@citrix.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/19 02:45:39
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+References: <CAFEAcA_HOxdK5rgKVnww6Bum3vGb=TrhDEp7oqDwsd=UbHmC_g@mail.gmail.com>
+ <c47e9e4e-49eb-88c5-fdc7-8ebec121c165@ispras.ru>
+ <f4fc4a1b-4054-cffd-0272-22c28d656aba@redhat.com>
+ <CAFEAcA-=igrJfoiga7b7rcwZDj46nTNMiT2VEj11DKO7OiJpNA@mail.gmail.com>
+ <1364f7e8-3283-8ca2-76f8-75e3eb74af7b@redhat.com>
+In-Reply-To: <1364f7e8-3283-8ca2-76f8-75e3eb74af7b@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 19 Jun 2020 13:39:03 +0100
+Message-ID: <CAFEAcA-8aKX=Qa=i5pahhPTWOBx6MOWfo9ezhFFH+89du8Wf7Q@mail.gmail.com>
+Subject: Re: what are the requirements on target/ code for -icount to work
+ correctly?
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::230;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x230.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,34 +83,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: xen-devel@lists.xenproject.org, Stefano Stabellini <sstabellini@kernel.org>,
- Paul Durrant <paul@xen.org>
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Pavel Dovgalyuk <dovgaluk@ispras.ru>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19/06/20 12:31, Anthony PERARD wrote:
-> Fix typo.
-> 
-> Fixes: acd0c9416d48 ("xen: fix build without pci passthrough")
-> Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
-> ---
->  hw/xen/Makefile.objs | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/hw/xen/Makefile.objs b/hw/xen/Makefile.objs
-> index 3fc715e5954d..502b32d877a0 100644
-> --- a/hw/xen/Makefile.objs
-> +++ b/hw/xen/Makefile.objs
-> @@ -4,4 +4,4 @@ common-obj-y += xen-legacy-backend.o xen_devconfig.o xen_pvdev.o xen-bus.o xen-b
->  obj-$(CONFIG_XEN_PCI_PASSTHROUGH) += xen-host-pci-device.o
->  obj-$(CONFIG_XEN_PCI_PASSTHROUGH) += xen_pt.o xen_pt_config_init.o xen_pt_graphics.o xen_pt_msi.o
->  obj-$(CONFIG_XEN_PCI_PASSTHROUGH) += xen_pt_load_rom.o
-> -obj-$(call $(lnot, $(CONFIG_XEN_PCI_PASSTHROUGH))) += xen_pt_stub.o
-> +obj-$(call lnot,$(CONFIG_XEN_PCI_PASSTHROUGH)) += xen_pt_stub.o
-> 
+On Fri, 19 Jun 2020 at 13:37, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> On 19/06/20 14:18, Peter Maydell wrote:
+> > On Fri, 19 Jun 2020 at 12:16, Paolo Bonzini <pbonzini@redhat.com> wrote:
+> >>
+> >> On 19/06/20 07:46, Pavel Dovgalyuk wrote:
+> >>> I think, that we need some efforts from target maintainers to remove all such calls.
+> >>
+> >> I'll take care of target/i386 (which does need one of the three
+> >> gen_io_end calls that are left).
+> >
+> > So why does it need it ? Why can't it just rely on "TB going to
+> > end anyway which will clear the can_do_io flag" ?
+>
+> Because the TB is not always going to end in that case that is left.
 
-Queued, thanks and sorry about that.
+OK, so when is it valid not to end the TB after an IO instruction ?
+My initial belief was that the TB should *always* end.
 
-Paolo
-
+thanks
+-- PMM
 
