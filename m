@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E57B220022E
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 08:50:32 +0200 (CEST)
-Received: from localhost ([::1]:36180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69EBC200232
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 08:52:10 +0200 (CEST)
+Received: from localhost ([::1]:42352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jmAr9-0006YP-Tg
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 02:50:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56868)
+	id 1jmAsj-0001qG-E2
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 02:52:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=4324eb4de=alistair.francis@wdc.com>)
- id 1jmAbt-0005cQ-35
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 02:34:46 -0400
-Received: from esa6.hgst.iphmx.com ([216.71.154.45]:12994)
+ id 1jmAbu-0005cf-Ab
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 02:34:48 -0400
+Received: from esa6.hgst.iphmx.com ([216.71.154.45]:13000)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=4324eb4de=alistair.francis@wdc.com>)
- id 1jmAbl-00028T-L0
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 02:34:42 -0400
+ id 1jmAbn-00028a-JQ
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 02:34:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1592548478; x=1624084478;
+ t=1592548480; x=1624084480;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=dMdIIDoCv7W8aOLzjHKqNqNnPV7covUPMRH4EMqR6ec=;
- b=URcdkar9hTM/JiEpFqmaEur5f1xO5h9nra8joRGTdeeL8rcljq3l0/j+
- hWqtcFwPOAbHvmsCFFZPTxdMPceWdgEWnpy0hJ9J2fYIucFGCeaHNETGn
- +UBhCQBYLpskZLsjaGyjxjTanx5UG1c+84H3pPiRm4z2T1XzULA04iaiy
- 7gNOzrZ+ICPtaypF+k1nk7fG3P7nReamV1HVI3R6lVh6sBaUbXekp7ElC
- 3Ioa4BG4CnF/5GzeDNC5bY9qpl9N+IfViWVzdF78hRadMs98/fGQPRStw
- tS3T4T/cwT/TDesHvwEWte95w09XB9ZNXLVl7BGm9NctaBlFEq/k/1cuF g==;
-IronPort-SDR: GPo1ORM+6DD6UrGp5iGX1qzWfh81LiF5++NKx3wH/IFviNqb/uIuVY9YEfvFDSNRo/l6hM/TDe
- OZqNmtgevVr4sXA2rlBQLa0QH+RJF5Ho3ghmDM0Xth+rRVOICWCRnQ3QmGrCefKNDVIWQ5LtJn
- oCM6B4SQ5dQmXy9Qs14zUVlkJKoDdheaKmbocHwAAM7lwzI7AEIFP24afJ0jmKz5qUOdzfJuil
- oOvIbgvYh3xb0brYhMHoy6++ZeqDyd+sIxDWJ7233uWKsbObIU+WhMHEQnwZWyRusAMvYb5qPS
- DPM=
-X-IronPort-AV: E=Sophos;i="5.75,253,1589212800"; d="scan'208";a="141781931"
+ bh=4Ag3dG3gO5iJShtsvDkPTUJzzzPAJlVfRVRDsoWCqx0=;
+ b=pxI3fjIf+loRcenK+AExuQeCANCg16y4CVKblf/BYpCN42/XmrQxUTf1
+ L7qgzwAG63YiBJqRYC3Xs5SJBxGKkJpJ4569i/XrPUSZplB411PQs573G
+ W0UYjO11/vu1zkVQyeXY3Yi5Ao9SpoPYNqFrozg1qdFxkBCBUS8+l7XlI
+ 3J4xtlV8+Zvv5RzKFUlEsakHV/uyVWD74nrQmjGgej3jkMxtkbxwDOcwV
+ JU2SGbwYA4L6eGkrcbwA1UQc5vTWo4AtiXyp0fELvNslfpqQV35GK9k4B
+ 8Ga7lUK+mclkQ4wvQuqXH3b8HfxqfD2VVzPPnkjKXs1uNI6bKuYzhPa25 w==;
+IronPort-SDR: VWfqnC7A1lBLneAMe1dHluURCWQX8J4R/2DnuqCubZYwEU71vlzsUfBAAuVt4HoMnp8DrAx7o+
+ tNHmsUgQMHgJUt26rsD1ayQ/nTlCGJ3Bmw+x5aUnafhz45T29ShZgXT4lR7Ygu/7ABVzNcbrLQ
+ iZl2pZWWuLsUyETqEfpnXW6ZmXsbk73dFfecA1oWYb/MsDPwyRfYq+I3iJW0BHCV4nWGEpLtO7
+ X19akSUSXQf62o04iUP7eR1eyqE/Oai08nuyuj27TQMKOxIY8AkoZbYAbUHJB2x1+B2Gpt1URa
+ 7YU=
+X-IronPort-AV: E=Sophos;i="5.75,253,1589212800"; d="scan'208";a="141781933"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
  by ob1.hgst.iphmx.com with ESMTP; 19 Jun 2020 14:34:31 +0800
-IronPort-SDR: dN9CfW0tLmdBjjdAlYy65J/0Kpvo+iREE8FrYrQb791BPzvcyq1XWapY0DqMtR+D+105Szya6j
- CSHnwM0SXf2TdGfXs4Ow/N5ZMt2q4K5iI=
+IronPort-SDR: 9JAxhJKX81uYbkYkx/dd3xaut0z04TDTpJG9+34Q1m3Gq4z/mCcz9aNxbOUsyUgHWuH3R0ans+
+ q04HtxL92zXNb68SApxUw2sKIDMuzn8lI=
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  18 Jun 2020 23:23:42 -0700
-IronPort-SDR: pLrRqrD4IK9zsAvZNTw5NB57TKcOqiyYVv6duzfUXGVMQceD1Pg7vyUz0FBeskxv4+LbDSQ6xx
- 6HSgNldwaWWQ==
+IronPort-SDR: +R53pKQkPLpYQTgFYCIfRuN1EbPJhE3ZLZmB9Ey0h5oeQz4gLg6tnAV7ALukWKhwbDlvBUILXi
+ CpbqirZwdBOA==
 WDCIronportException: Internal
 Received: from unknown (HELO risc6-mainframe.hgst.com) ([10.86.58.142])
  by uls-op-cesaip02.wdc.com with ESMTP; 18 Jun 2020 23:34:30 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL 20/32] hw/riscv: sifive_u: Generate device tree node for OTP
-Date: Thu, 18 Jun 2020 23:25:06 -0700
-Message-Id: <20200619062518.1718523-21-alistair.francis@wdc.com>
+Subject: [PULL 21/32] hw/riscv: sifive_gpio: Clean up the codes
+Date: Thu, 18 Jun 2020 23:25:07 -0700
+Message-Id: <20200619062518.1718523-22-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200619062518.1718523-1-alistair.francis@wdc.com>
 References: <20200619062518.1718523-1-alistair.francis@wdc.com>
@@ -94,41 +94,119 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-Upstream U-Boot v2020.07 codes switch to access SiFive FU540 OTP
-based on device tree information. Let's generate the device tree
-node for OTP.
+Do various minor clean-ups to the exisiting codes for:
+
+- coding convention conformance
+- remove unnecessary blank lines
+- spell SiFive correctly
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 1591625864-31494-5-git-send-email-bmeng.cn@gmail.com
-Message-Id: <1591625864-31494-5-git-send-email-bmeng.cn@gmail.com>
+Message-id: 1591625864-31494-6-git-send-email-bmeng.cn@gmail.com
+Message-Id: <1591625864-31494-6-git-send-email-bmeng.cn@gmail.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- hw/riscv/sifive_u.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ include/hw/riscv/sifive_gpio.h |  7 ++++---
+ hw/riscv/sifive_gpio.c         | 13 +++++--------
+ 2 files changed, 9 insertions(+), 11 deletions(-)
 
-diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index 20b0276ea3..a6dfce4273 100644
---- a/hw/riscv/sifive_u.c
-+++ b/hw/riscv/sifive_u.c
-@@ -207,6 +207,17 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
-     g_free(cells);
-     g_free(nodename);
- 
-+    nodename = g_strdup_printf("/soc/otp@%lx",
-+        (long)memmap[SIFIVE_U_OTP].base);
-+    qemu_fdt_add_subnode(fdt, nodename);
-+    qemu_fdt_setprop_cell(fdt, nodename, "fuse-count", SIFIVE_U_OTP_REG_SIZE);
-+    qemu_fdt_setprop_cells(fdt, nodename, "reg",
-+        0x0, memmap[SIFIVE_U_OTP].base,
-+        0x0, memmap[SIFIVE_U_OTP].size);
-+    qemu_fdt_setprop_string(fdt, nodename, "compatible",
-+        "sifive,fu540-c000-otp");
-+    g_free(nodename);
+diff --git a/include/hw/riscv/sifive_gpio.h b/include/hw/riscv/sifive_gpio.h
+index fce03d6c41..ad915b26d6 100644
+--- a/include/hw/riscv/sifive_gpio.h
++++ b/include/hw/riscv/sifive_gpio.h
+@@ -1,5 +1,5 @@
+ /*
+- * sifive System-on-Chip general purpose input/output register definition
++ * SiFive System-on-Chip general purpose input/output register definition
+  *
+  * Copyright 2019 AdaCore
+  *
+@@ -10,10 +10,12 @@
+  * This code is licensed under the GPL version 2 or later.  See
+  * the COPYING file in the top-level directory.
+  */
 +
-     prci_phandle = phandle++;
-     nodename = g_strdup_printf("/soc/clock-controller@%lx",
-         (long)memmap[SIFIVE_U_PRCI].base);
+ #ifndef SIFIVE_GPIO_H
+ #define SIFIVE_GPIO_H
+ 
+ #include "hw/sysbus.h"
++
+ #define TYPE_SIFIVE_GPIO "sifive_soc.gpio"
+ #define SIFIVE_GPIO(obj) OBJECT_CHECK(SIFIVEGPIOState, (obj), TYPE_SIFIVE_GPIO)
+ 
+@@ -66,7 +68,6 @@ typedef struct SIFIVEGPIOState {
+     uint32_t out_xor;
+     uint32_t in;
+     uint32_t in_mask;
+-
+ } SIFIVEGPIOState;
+ 
+-#endif
++#endif /* SIFIVE_GPIO_H */
+diff --git a/hw/riscv/sifive_gpio.c b/hw/riscv/sifive_gpio.c
+index 5c7c596e6b..c9cffa2eba 100644
+--- a/hw/riscv/sifive_gpio.c
++++ b/hw/riscv/sifive_gpio.c
+@@ -1,5 +1,5 @@
+ /*
+- * sifive System-on-Chip general purpose input/output register definition
++ * SiFive System-on-Chip general purpose input/output register definition
+  *
+  * Copyright 2019 AdaCore
+  *
+@@ -20,7 +20,6 @@
+ 
+ static void update_output_irq(SIFIVEGPIOState *s)
+ {
+-
+     uint32_t pending;
+     uint32_t pin;
+ 
+@@ -186,7 +185,7 @@ static uint64_t sifive_gpio_read(void *opaque, hwaddr offset, unsigned int size)
+ }
+ 
+ static void sifive_gpio_write(void *opaque, hwaddr offset,
+-                       uint64_t value, unsigned int size)
++                              uint64_t value, unsigned int size)
+ {
+     SIFIVEGPIOState *s = SIFIVE_GPIO(opaque);
+ 
+@@ -318,7 +317,6 @@ static void sifive_gpio_reset(DeviceState *dev)
+     s->out_xor = 0;
+     s->in = 0;
+     s->in_mask = 0;
+-
+ }
+ 
+ static const VMStateDescription vmstate_sifive_gpio = {
+@@ -342,8 +340,8 @@ static const VMStateDescription vmstate_sifive_gpio = {
+         VMSTATE_UINT32(iof_en,    SIFIVEGPIOState),
+         VMSTATE_UINT32(iof_sel,   SIFIVEGPIOState),
+         VMSTATE_UINT32(out_xor,   SIFIVEGPIOState),
+-        VMSTATE_UINT32(in, SIFIVEGPIOState),
+-        VMSTATE_UINT32(in_mask, SIFIVEGPIOState),
++        VMSTATE_UINT32(in,        SIFIVEGPIOState),
++        VMSTATE_UINT32(in_mask,   SIFIVEGPIOState),
+         VMSTATE_END_OF_LIST()
+     }
+ };
+@@ -356,7 +354,6 @@ static void sifive_gpio_init(Object *obj)
+             TYPE_SIFIVE_GPIO, SIFIVE_GPIO_SIZE);
+     sysbus_init_mmio(SYS_BUS_DEVICE(obj), &s->mmio);
+ 
+-
+     for (int i = 0; i < SIFIVE_GPIO_PINS; i++) {
+         sysbus_init_irq(SYS_BUS_DEVICE(obj), &s->irq[i]);
+     }
+@@ -371,7 +368,7 @@ static void sifive_gpio_class_init(ObjectClass *klass, void *data)
+ 
+     dc->vmsd = &vmstate_sifive_gpio;
+     dc->reset = sifive_gpio_reset;
+-    dc->desc = "sifive GPIO";
++    dc->desc = "SiFive GPIO";
+ }
+ 
+ static const TypeInfo sifive_gpio_info = {
 -- 
 2.27.0
 
