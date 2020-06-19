@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E22A6201919
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 19:12:20 +0200 (CEST)
-Received: from localhost ([::1]:45034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14B7D201923
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 19:14:44 +0200 (CEST)
+Received: from localhost ([::1]:58002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jmKYt-0002PQ-UD
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 13:12:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58134)
+	id 1jmKbD-0001A8-1d
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 13:14:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=4324eb4de=alistair.francis@wdc.com>)
- id 1jmKUE-0000gy-8E
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 13:07:30 -0400
-Received: from esa2.hgst.iphmx.com ([68.232.143.124]:24435)
+ id 1jmKUD-0000g4-MA
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 13:07:29 -0400
+Received: from esa2.hgst.iphmx.com ([68.232.143.124]:24436)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=4324eb4de=alistair.francis@wdc.com>)
- id 1jmKUB-0004Ps-0k
+ id 1jmKUC-0004Q3-0k
  for qemu-devel@nongnu.org; Fri, 19 Jun 2020 13:07:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1592586449; x=1624122449;
+ t=1592586450; x=1624122450;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=wj2tmgrLszFAAngO5h43Czzs+HrNQaJZBg5sgRJ6o9o=;
- b=IaqGSdk2NdnW/StJ2/FD2G2RhVN73n1ne3WHqT/IZ9ziwRRlHixEArpp
- +GuHyvg1XyJAoCW38yxdkiioX+euzlDXKGxzvSnFFCQypWR8G/gufSq2s
- eOf7aMfzyArWnWpkr3/Xlxh0EguI1MAV5Q3tEPPpxUVxpGnN2Z8pNRyza
- oWKs0S9hb2Z5TjYW+QNF6I7GS6zZh2cnIxf+fPmuVzydwFYDe791Ac70Y
- yLhORaalJqNpv6JQm6rSZ5sPbL1Oc9xCZ+FP7RhtwrOZJvAPKrTzm0xPF
- qmZMduG+DB3qKnaNhMqgC3ltN9hqHbuhMp/oGHCU78zdIjfV+f9PT1guV Q==;
-IronPort-SDR: cr8kMIEtWb2yqf3otnzW2HepBQjou9uTykuX5Z8R4v6DDIw8PXKdb64I15rEr9x4B7psRotFB1
- Wqhb6U3IP3UBOR67BWUVleguSiSYOnIRpLxZbJ7qn1SJLorsGUlAS1ZXaUV+KeM/AdYUOaVF65
- vJeplLo+ZNtiXPg9zfAxrismTjdPtNoPMcSuFt6l+MJ9xphGxPS8uRO/NmR7a+8Z3BTv2RX3K0
- KwCWCzu5pY/Rnxh72NuV8AjiAk45tdVabhXDyhuNtT3YT4XnypAQ/0/V/+skGUMuuQ6pSLDXe5
- QbI=
-X-IronPort-AV: E=Sophos;i="5.75,256,1589212800"; d="scan'208";a="243416993"
+ bh=81HMh1gHLXQkIcSglIbxP90s73UN4Lp7ZsuwWeLGYlk=;
+ b=dGxSDty1cWip2XsHIOLvERz/K0SzG6yeArbvur7gh0qHkYLxrTzHnSfw
+ qBCX3qhyKZZtytzueh0Q23icS6VdA1TBuZa1Lex80kvhrwWhAozkA6C0d
+ SC7HDDiTUIpRTg2meZ91trJRXctEJgE0Ui4XukkWGXr1jWIaAUAJXj9rP
+ GA/e4BwlslAsqwc7n6VH+S41tVMIE/8I8InXdm3Fdmp461zWKapdwhRNc
+ AbfTEE+lS6zz3/WF74G+i3x4THTaygWzFLupH9gE3WSJQ0rS86ow/dVHD
+ vJlUaU40MmdpZwstPw8nlBpDwVhD5flw26EBTLAvTH4TodYemUNFhe35j w==;
+IronPort-SDR: WU8S5MvgT+xIXU0JjsnyhyJHRmgdKspnkYfBb2n/E5qeRqUdiZXOTCui7z2JCEbpNef2N84CYb
+ 1dBoi3ei+A3kjrvWQURamtbPZ/B9gmvjSbvbsCRrqfMdtcZ66tbVUicjQ+upFAfhJZuBXYgZ7K
+ fq6/nsqzJnvciT75xD3Co7LPxVLCmAXBJbpnPQiq7Zf7Oc4iVSzGBT/sNv1WnVlwBJmodVkWUs
+ LlQ2BN/p0+f/1kN4i8rj0mmKeeFyFt/cpLEhpzTLKLNEiD5DRHyART1OfcdEu2Z72DKOQeFKkO
+ d6k=
+X-IronPort-AV: E=Sophos;i="5.75,256,1589212800"; d="scan'208";a="243416995"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 20 Jun 2020 01:07:25 +0800
-IronPort-SDR: ArbQH3j0SZfzmqNg2u4v3D6wpZ5rKWrsD8MX9TaG/KgvOgwOC+ON8mXKtrWiRWR5++ggdzZacE
- Ea8+a/ceKdeqdfu00XRgcitxisEb9H7aI=
+ by ob1.hgst.iphmx.com with ESMTP; 20 Jun 2020 01:07:26 +0800
+IronPort-SDR: r6eGJskz6iMRkve7RjR6KA56/QSe789VlGmmfjSmhnZ0KKUV++EfRlyFstzzoMC/9FY0/DqFWc
+ SArityFtDh00uQLUN/jFP8oypnag/MQZA=
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  19 Jun 2020 09:56:02 -0700
-IronPort-SDR: XUe9wYsvwIE4ZqLZs3Y6cDpuM0p2CCF40mZjYwh5pt87v6WW3YdfcMW5+n1dMdf8hGrT1V8seI
- kAoEeo6pUcfA==
+IronPort-SDR: kP8VdEr8/OSTHb8AWKYhVJYtLsb0y0ihSBhb3HE2gUDINx4RB+MDjge6evsI5i6v3OdHv0uTau
+ /e3KJycCuIGg==
 WDCIronportException: Internal
 Received: from unknown (HELO risc6-mainframe.hgst.com) ([10.86.58.142])
  by uls-op-cesaip02.wdc.com with ESMTP; 19 Jun 2020 10:07:25 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL v2 15/32] riscv/opentitan: Connect the UART device
-Date: Fri, 19 Jun 2020 09:58:00 -0700
-Message-Id: <20200619165817.4144200-16-alistair.francis@wdc.com>
+Subject: [PULL v2 16/32] target/riscv: Use a smaller guess size for no-MMU PMP
+Date: Fri, 19 Jun 2020 09:58:01 -0700
+Message-Id: <20200619165817.4144200-17-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200619165817.4144200-1-alistair.francis@wdc.com>
 References: <20200619165817.4144200-1-alistair.francis@wdc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=68.232.143.124;
  envelope-from=prvs=4324eb4de=alistair.francis@wdc.com;
@@ -89,98 +88,42 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: alistair23@gmail.com, Bin Meng <bin.meng@windriver.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Bin Meng <bin.meng@windriver.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/hw/riscv/opentitan.h | 13 +++++++++++++
- hw/riscv/opentitan.c         | 25 +++++++++++++++++++++++--
- 2 files changed, 36 insertions(+), 2 deletions(-)
+ target/riscv/pmp.c | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
 
-diff --git a/include/hw/riscv/opentitan.h b/include/hw/riscv/opentitan.h
-index 76f72905a8..8f29b9cbbf 100644
---- a/include/hw/riscv/opentitan.h
-+++ b/include/hw/riscv/opentitan.h
-@@ -21,6 +21,7 @@
- 
- #include "hw/riscv/riscv_hart.h"
- #include "hw/intc/ibex_plic.h"
-+#include "hw/char/ibex_uart.h"
- 
- #define TYPE_RISCV_IBEX_SOC "riscv.lowrisc.ibex.soc"
- #define RISCV_IBEX_SOC(obj) \
-@@ -33,6 +34,7 @@ typedef struct LowRISCIbexSoCState {
-     /*< public >*/
-     RISCVHartArrayState cpus;
-     IbexPlicState plic;
-+    IbexUartState uart;
- 
-     MemoryRegion flash_mem;
-     MemoryRegion rom;
-@@ -68,4 +70,15 @@ enum {
-     IBEX_PADCTRL,
- };
- 
-+enum {
-+    IBEX_UART_RX_PARITY_ERR_IRQ = 0x28,
-+    IBEX_UART_RX_TIMEOUT_IRQ = 0x27,
-+    IBEX_UART_RX_BREAK_ERR_IRQ = 0x26,
-+    IBEX_UART_RX_FRAME_ERR_IRQ = 0x25,
-+    IBEX_UART_RX_OVERFLOW_IRQ = 0x24,
-+    IBEX_UART_TX_EMPTY_IRQ = 0x23,
-+    IBEX_UART_RX_WATERMARK_IRQ = 0x22,
-+    IBEX_UART_TX_WATERMARK_IRQ = 0x21,
-+};
-+
- #endif
-diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
-index 835b2c503f..675ce900bd 100644
---- a/hw/riscv/opentitan.c
-+++ b/hw/riscv/opentitan.c
-@@ -97,6 +97,8 @@ static void riscv_lowrisc_ibex_soc_init(Object *obj)
-     object_initialize_child(obj, "cpus", &s->cpus, TYPE_RISCV_HART_ARRAY);
- 
-     object_initialize_child(obj, "plic", &s->plic, TYPE_IBEX_PLIC);
-+
-+    object_initialize_child(obj, "uart", &s->uart, TYPE_IBEX_UART);
- }
- 
- static void riscv_lowrisc_ibex_soc_realize(DeviceState *dev_soc, Error **errp)
-@@ -133,8 +135,27 @@ static void riscv_lowrisc_ibex_soc_realize(DeviceState *dev_soc, Error **errp)
+diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
+index 0e6b640fbd..9418660f1b 100644
+--- a/target/riscv/pmp.c
++++ b/target/riscv/pmp.c
+@@ -233,12 +233,16 @@ bool pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
+         return true;
      }
-     sysbus_mmio_map(SYS_BUS_DEVICE(&s->plic), 0, memmap[IBEX_PLIC].base);
  
--    create_unimplemented_device("riscv.lowrisc.ibex.uart",
--        memmap[IBEX_UART].base, memmap[IBEX_UART].size);
-+    /* UART */
-+    qdev_prop_set_chr(DEVICE(&(s->uart)), "chardev", serial_hd(0));
-+    sysbus_realize(SYS_BUS_DEVICE(&s->uart), &err);
-+    if (err != NULL) {
-+        error_propagate(errp, err);
-+        return;
-+    }
-+    sysbus_mmio_map(SYS_BUS_DEVICE(&s->uart), 0, memmap[IBEX_UART].base);
-+    sysbus_connect_irq(SYS_BUS_DEVICE(&s->uart),
-+                       0, qdev_get_gpio_in(DEVICE(&s->plic),
-+                       IBEX_UART_TX_WATERMARK_IRQ));
-+    sysbus_connect_irq(SYS_BUS_DEVICE(&s->uart),
-+                       1, qdev_get_gpio_in(DEVICE(&s->plic),
-+                       IBEX_UART_RX_WATERMARK_IRQ));
-+    sysbus_connect_irq(SYS_BUS_DEVICE(&s->uart),
-+                       2, qdev_get_gpio_in(DEVICE(&s->plic),
-+                       IBEX_UART_TX_EMPTY_IRQ));
-+    sysbus_connect_irq(SYS_BUS_DEVICE(&s->uart),
-+                       3, qdev_get_gpio_in(DEVICE(&s->plic),
-+                       IBEX_UART_RX_OVERFLOW_IRQ));
-+
-     create_unimplemented_device("riscv.lowrisc.ibex.gpio",
-         memmap[IBEX_GPIO].base, memmap[IBEX_GPIO].size);
-     create_unimplemented_device("riscv.lowrisc.ibex.spi",
+-    /*
+-     * if size is unknown (0), assume that all bytes
+-     * from addr to the end of the page will be accessed.
+-     */
+     if (size == 0) {
+-        pmp_size = -(addr | TARGET_PAGE_MASK);
++        if (riscv_feature(env, RISCV_FEATURE_MMU)) {
++            /*
++             * If size is unknown (0), assume that all bytes
++             * from addr to the end of the page will be accessed.
++             */
++            pmp_size = -(addr | TARGET_PAGE_MASK);
++        } else {
++            pmp_size = sizeof(target_ulong);
++        }
+     } else {
+         pmp_size = size;
+     }
 -- 
 2.27.0
 
