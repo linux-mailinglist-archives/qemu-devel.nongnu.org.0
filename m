@@ -2,50 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8192B201BC1
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 21:59:23 +0200 (CEST)
-Received: from localhost ([::1]:60330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 611BC201BB9
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 21:57:52 +0200 (CEST)
+Received: from localhost ([::1]:53798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jmNAY-00011K-He
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 15:59:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42934)
+	id 1jmN95-0005p6-DU
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 15:57:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42894)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jmN7p-0004It-1S
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 15:56:33 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:53743
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jmN7n-0004FR-Bz
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 15:56:31 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:59658
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jmN7m-0007dK-Rk
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 15:56:32 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jmN7l-0007d4-IH
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 15:56:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592596590;
+ s=mimecast20190719; t=1592596588;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0AGEILODxdwu+z0MlWOxApnCxyEGVRsM40/nHXFHodU=;
- b=VK4UU0C+ecmBAMGxZOxJVgvaaArawHvcK7PrFSaI11lt7qbBUA/2b4RiSO3lC5rW59mlLU
- 85Q8o69bqA1/gO6ZhjnRUdKyT3rMvqlRbV4/pTAsc1XCEBOZYTUjDYiDRruDz33P6g/Hiw
- wJJRBjDcxBBYQ8sK1aCQ39RVrpjUkIM=
+ bh=ECTBnS2he4XAR+17tYX0uLcF6htb9lx7WX+8NFiYHJA=;
+ b=KQUp0yysvMM9oNS1kTDU6jPacvIUnnjxM1NTOWshaSWRQSepXBdt54ig/59cfKk8G5UBZj
+ j1mDgjLyFhGgLjRJoArgX674reCWPMtpTQHmdFIgsGZh/nB0eXP+aDYCOSICTePffnPb55
+ uYbV5FVqEdZgNt2afMtZYwShbG1gOgo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-78-I8W4WsMNPN-sAtG2RPKDgw-1; Fri, 19 Jun 2020 15:56:25 -0400
-X-MC-Unique: I8W4WsMNPN-sAtG2RPKDgw-1
+ us-mta-135-cgoU-4E0OIOeWYnt62wZiw-1; Fri, 19 Jun 2020 15:56:26 -0400
+X-MC-Unique: cgoU-4E0OIOeWYnt62wZiw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 57BED801503;
- Fri, 19 Jun 2020 19:56:24 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2DF4C800053;
+ Fri, 19 Jun 2020 19:56:25 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-114-4.phx2.redhat.com [10.3.114.4])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 92EBD71661;
- Fri, 19 Jun 2020 19:56:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8571171661;
+ Fri, 19 Jun 2020 19:56:24 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 1/6] block: add bitmap-populate job
-Date: Fri, 19 Jun 2020 14:56:16 -0500
-Message-Id: <20200619195621.58740-2-eblake@redhat.com>
+Subject: [PATCH v3 2/6] blockdev: combine DriveBackupState and
+ BlockdevBackupState
+Date: Fri, 19 Jun 2020 14:56:17 -0500
+Message-Id: <20200619195621.58740-3-eblake@redhat.com>
 In-Reply-To: <20200619195621.58740-1-eblake@redhat.com>
 References: <20200619195621.58740-1-eblake@redhat.com>
 MIME-Version: 1.0
@@ -54,16 +55,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=eblake@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/19 02:45:39
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/19 01:50:04
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,388 +85,129 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: John Snow <jsnow@redhat.com>
 
-This job copies the allocation map into a bitmap. It's a job because
-there's no guarantee that allocation interrogation will be quick (or
-won't hang), so it cannot be retrofitted into block-dirty-bitmap-merge.
-
-It was designed with different possible population patterns in mind,
-but only top layer allocation was implemented for now.
+They have the same fields -- rename it BlockJobActionState.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 Signed-off-by: Eric Blake <eblake@redhat.com>
 ---
- qapi/block-core.json      |  48 +++++++++
- qapi/job.json             |   6 +-
- include/block/block_int.h |  21 ++++
- block/bitmap-populate.c   | 207 ++++++++++++++++++++++++++++++++++++++
- blockjob.c                |   3 +-
- MAINTAINERS               |   1 +
- block/Makefile.objs       |   1 +
- 7 files changed, 285 insertions(+), 2 deletions(-)
- create mode 100644 block/bitmap-populate.c
+ blockdev.c | 30 ++++++++++++------------------
+ 1 file changed, 12 insertions(+), 18 deletions(-)
 
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 0e1c6a59f228..a1bcdba04423 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -2211,6 +2211,54 @@
-       { 'command': 'block-dirty-bitmap-merge',
-         'data': 'BlockDirtyBitmapMerge' }
-
-+##
-+# @BitmapPattern:
-+#
-+# An enumeration of possible patterns that can be written into a bitmap.
-+#
-+# @allocation-top: The allocation status of the top layer
-+#                  of the attached storage node.
-+#
-+# Since: 5.1
-+##
-+{ 'enum': 'BitmapPattern',
-+  'data': ['allocation-top'] }
-+
-+##
-+# @BlockDirtyBitmapPopulate:
-+#
-+# @job-id: identifier for the newly-created block job.
-+#
-+# @pattern: What pattern should be written into the bitmap?
-+#
-+# @on-error: the action to take if an error is encountered on a bitmap's
-+#            attached node, default 'report'.
-+#            'stop' and 'enospc' can only be used if the block device supports
-+#            io-status (see BlockInfo).
-+#
-+# @auto-finalize: When false, this job will wait in a PENDING state after it has
-+#                 finished its work, waiting for @block-job-finalize before
-+#                 making any block graph changes.
-+#                 When true, this job will automatically
-+#                 perform its abort or commit actions.
-+#                 Defaults to true.
-+#
-+# @auto-dismiss: When false, this job will wait in a CONCLUDED state after it
-+#                has completely ceased all work, and awaits @block-job-dismiss.
-+#                When true, this job will automatically disappear from the query
-+#                list without user intervention.
-+#                Defaults to true.
-+#
-+# Since: 5.1
-+##
-+{ 'struct': 'BlockDirtyBitmapPopulate',
-+  'base': 'BlockDirtyBitmap',
-+  'data': { 'job-id': 'str',
-+            'pattern': 'BitmapPattern',
-+            '*on-error': 'BlockdevOnError',
-+            '*auto-finalize': 'bool',
-+            '*auto-dismiss': 'bool' } }
-+
- ##
- # @BlockDirtyBitmapSha256:
- #
-diff --git a/qapi/job.json b/qapi/job.json
-index 5e658281f5c4..33ff3500f794 100644
---- a/qapi/job.json
-+++ b/qapi/job.json
-@@ -19,10 +19,14 @@
- #
- # @create: image creation job type, see "blockdev-create" (since 3.0)
- #
-+# @bitmap-populate: drive bitmap population job type, see
-+#                   "block-dirty-bitmap-populate" (since 5.1)
-+#
- # Since: 1.7
- ##
- { 'enum': 'JobType',
--  'data': ['commit', 'stream', 'mirror', 'backup', 'create'] }
-+  'data': ['commit', 'stream', 'mirror', 'backup', 'create',
-+           'bitmap-populate'] }
-
- ##
- # @JobStatus:
-diff --git a/include/block/block_int.h b/include/block/block_int.h
-index 791de6a59c2c..93fb886e7e97 100644
---- a/include/block/block_int.h
-+++ b/include/block/block_int.h
-@@ -1231,6 +1231,27 @@ BlockJob *backup_job_create(const char *job_id, BlockDriverState *bs,
-                             BlockCompletionFunc *cb, void *opaque,
-                             JobTxn *txn, Error **errp);
-
-+/*
-+ * bitpop_job_create: Create a new bitmap population job.
-+ *
-+ * @job_id: The id of the newly-created job.
-+ * @bs: Block device associated with the @target_bitmap.
-+ * @target_bitmap: The bitmap to populate.
-+ * @on_error: What to do if an error on @bs is encountered.
-+ * @creation_flags: Flags that control the behavior of the Job lifetime.
-+ *                  See @BlockJobCreateFlags
-+ * @cb: Completion function for the job.
-+ * @opaque: Opaque pointer value passed to @cb.
-+ * @txn: Transaction that this job is part of (may be NULL).
-+ */
-+BlockJob *bitpop_job_create(const char *job_id, BlockDriverState *bs,
-+                            BdrvDirtyBitmap *target_bitmap,
-+                            BitmapPattern pattern,
-+                            BlockdevOnError on_error,
-+                            int creation_flags,
-+                            BlockCompletionFunc *cb, void *opaque,
-+                            JobTxn *txn, Error **errp);
-+
- BdrvChild *bdrv_root_attach_child(BlockDriverState *child_bs,
-                                   const char *child_name,
-                                   const BdrvChildClass *child_class,
-diff --git a/block/bitmap-populate.c b/block/bitmap-populate.c
-new file mode 100644
-index 000000000000..901b78b56c3e
---- /dev/null
-+++ b/block/bitmap-populate.c
-@@ -0,0 +1,207 @@
-+/*
-+ * Async Dirty Bitmap Populator
-+ *
-+ * Copyright (C) 2020 Red Hat, Inc.
-+ *
-+ * Authors:
-+ *  John Snow <jsnow@redhat.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ *
-+ */
-+
-+#include "qemu/osdep.h"
-+
-+#include "trace.h"
-+#include "block/block.h"
-+#include "block/block_int.h"
-+#include "block/blockjob_int.h"
-+#include "block/block_backup.h"
-+#include "block/block-copy.h"
-+#include "qapi/error.h"
-+#include "qapi/qmp/qerror.h"
-+#include "qemu/ratelimit.h"
-+#include "qemu/cutils.h"
-+#include "sysemu/block-backend.h"
-+#include "qemu/bitmap.h"
-+#include "qemu/error-report.h"
-+
-+typedef struct BitpopBlockJob {
-+    BlockJob common;
-+    BlockDriverState *bs;
-+    BdrvDirtyBitmap *target_bitmap;
-+    BdrvDirtyBitmap *new_bitmap;
-+    BlockdevOnError on_error;
-+    uint64_t len;
-+} BitpopBlockJob;
-+
-+static const BlockJobDriver bitpop_job_driver;
-+
-+static void bitpop_commit(Job *job)
-+{
-+    BitpopBlockJob *s = container_of(job, BitpopBlockJob, common.job);
-+
-+    bdrv_dirty_bitmap_merge_internal(s->target_bitmap, s->new_bitmap,
-+                                     NULL, true);
-+}
-+
-+/* no abort needed; just clean without committing. */
-+
-+static void bitpop_clean(Job *job)
-+{
-+    BitpopBlockJob *s = container_of(job, BitpopBlockJob, common.job);
-+
-+    bdrv_release_dirty_bitmap(s->new_bitmap);
-+    bdrv_dirty_bitmap_set_busy(s->target_bitmap, false);
-+}
-+
-+static BlockErrorAction bitpop_error_action(BitpopBlockJob *job, int error)
-+{
-+    return block_job_error_action(&job->common, job->on_error, true, error);
-+}
-+
-+static bool coroutine_fn yield_and_check(Job *job)
-+{
-+    if (job_is_cancelled(job)) {
-+        return true;
-+    }
-+
-+    job_sleep_ns(job, 0);
-+
-+    if (job_is_cancelled(job)) {
-+        return true;
-+    }
-+
-+    return false;
-+}
-+
-+static int coroutine_fn bitpop_run(Job *job, Error **errp)
-+{
-+    BitpopBlockJob *s = container_of(job, BitpopBlockJob, common.job);
-+    int ret = 0;
-+    int64_t offset;
-+    int64_t count;
-+    int64_t bytes;
-+
-+    for (offset = 0; offset < s->len; ) {
-+        if (yield_and_check(job)) {
-+            ret = -ECANCELED;
-+            break;
-+        }
-+
-+        bytes = s->len - offset;
-+        ret = bdrv_is_allocated(s->bs, offset, bytes, &count);
-+        if (ret < 0) {
-+            if (bitpop_error_action(s, -ret) == BLOCK_ERROR_ACTION_REPORT) {
-+                break;
-+            }
-+            continue;
-+        }
-+
-+        if (!count) {
-+            ret = 0;
-+            break;
-+        }
-+
-+        if (ret) {
-+            bdrv_set_dirty_bitmap(s->new_bitmap, offset, count);
-+            ret = 0;
-+        }
-+
-+        job_progress_update(job, count);
-+        offset += count;
-+    }
-+
-+    return ret;
-+}
-+
-+static const BlockJobDriver bitpop_job_driver = {
-+    .job_driver = {
-+        .instance_size          = sizeof(BitpopBlockJob),
-+        .job_type               = JOB_TYPE_BITMAP_POPULATE,
-+        .free                   = block_job_free,
-+        .user_resume            = block_job_user_resume,
-+        .run                    = bitpop_run,
-+        .commit                 = bitpop_commit,
-+        .clean                  = bitpop_clean,
-+    }
-+};
-+
-+
-+BlockJob *bitpop_job_create(
-+    const char *job_id,
-+    BlockDriverState *bs,
-+    BdrvDirtyBitmap *target_bitmap,
-+    BitmapPattern pattern,
-+    BlockdevOnError on_error,
-+    int creation_flags,
-+    BlockCompletionFunc *cb,
-+    void *opaque,
-+    JobTxn *txn,
-+    Error **errp)
-+{
-+    int64_t len;
-+    BitpopBlockJob *job = NULL;
-+    int64_t cluster_size;
-+    BdrvDirtyBitmap *new_bitmap = NULL;
-+
-+    assert(bs);
-+    assert(target_bitmap);
-+
-+    if (!bdrv_is_inserted(bs)) {
-+        error_setg(errp, "Device is not inserted: %s",
-+                   bdrv_get_device_name(bs));
-+        return NULL;
-+    }
-+
-+    if (bdrv_op_is_blocked(bs, BLOCK_OP_TYPE_BACKUP_SOURCE, errp)) {
-+        return NULL;
-+    }
-+
-+    if (bdrv_dirty_bitmap_check(target_bitmap, BDRV_BITMAP_DEFAULT, errp)) {
-+        return NULL;
-+    }
-+
-+    if (pattern != BITMAP_PATTERN_ALLOCATION_TOP) {
-+        error_setg(errp, "Unrecognized bitmap pattern");
-+        return NULL;
-+    }
-+
-+    len = bdrv_getlength(bs);
-+    if (len < 0) {
-+        error_setg_errno(errp, -len, "unable to get length for '%s'",
-+                         bdrv_get_device_or_node_name(bs));
-+        return NULL;
-+    }
-+
-+    /* NB: new bitmap is anonymous and enabled */
-+    cluster_size = bdrv_dirty_bitmap_granularity(target_bitmap);
-+    new_bitmap = bdrv_create_dirty_bitmap(bs, cluster_size, NULL, errp);
-+    if (!new_bitmap) {
-+        return NULL;
-+    }
-+
-+    /* Take ownership; we reserve the right to write into this on-commit. */
-+    bdrv_dirty_bitmap_set_busy(target_bitmap, true);
-+
-+    job = block_job_create(job_id, &bitpop_job_driver, txn, bs,
-+                           BLK_PERM_CONSISTENT_READ,
-+                           BLK_PERM_ALL & ~BLK_PERM_RESIZE,
-+                           0, creation_flags,
-+                           cb, opaque, errp);
-+    if (!job) {
-+        bdrv_dirty_bitmap_set_busy(target_bitmap, false);
-+        bdrv_release_dirty_bitmap(new_bitmap);
-+        return NULL;
-+    }
-+
-+    job->bs = bs;
-+    job->on_error = on_error;
-+    job->target_bitmap = target_bitmap;
-+    job->new_bitmap = new_bitmap;
-+    job->len = len;
-+    job_progress_set_remaining(&job->common.job, job->len);
-+
-+    return &job->common;
-+}
-diff --git a/blockjob.c b/blockjob.c
-index 470facfd47a0..e6ee8376645d 100644
---- a/blockjob.c
-+++ b/blockjob.c
-@@ -56,7 +56,8 @@ static bool is_block_job(Job *job)
-     return job_type(job) == JOB_TYPE_BACKUP ||
-            job_type(job) == JOB_TYPE_COMMIT ||
-            job_type(job) == JOB_TYPE_MIRROR ||
--           job_type(job) == JOB_TYPE_STREAM;
-+           job_type(job) == JOB_TYPE_STREAM ||
-+           job_type(job) == JOB_TYPE_BITMAP_POPULATE;
+diff --git a/blockdev.c b/blockdev.c
+index 72df193ca73b..6d80af903c55 100644
+--- a/blockdev.c
++++ b/blockdev.c
+@@ -1655,11 +1655,11 @@ static void external_snapshot_clean(BlkActionState *common)
+     aio_context_release(aio_context);
  }
 
- BlockJob *block_job_next(BlockJob *bjob)
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 955cc8dd5cd0..99651abcac4a 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2050,6 +2050,7 @@ S: Supported
- F: include/qemu/hbitmap.h
- F: include/block/dirty-bitmap.h
- F: block/monitor/bitmap-qmp-cmds.c
-+F: block/bitmap-populate.c
- F: block/dirty-bitmap.c
- F: block/qcow2-bitmap.c
- F: migration/block-dirty-bitmap.c
-diff --git a/block/Makefile.objs b/block/Makefile.objs
-index 96028eedcef7..55f5970f7625 100644
---- a/block/Makefile.objs
-+++ b/block/Makefile.objs
-@@ -36,6 +36,7 @@ block-obj-$(CONFIG_LIBSSH) += ssh.o
- block-obj-y += accounting.o dirty-bitmap.o
- block-obj-y += write-threshold.o
- block-obj-y += backup.o
-+block-obj-y += bitmap-populate.o
- block-obj-$(CONFIG_REPLICATION) += replication.o
- block-obj-y += throttle.o copy-on-read.o
- block-obj-y += block-copy.o
+-typedef struct DriveBackupState {
++typedef struct BlockJobActionState {
+     BlkActionState common;
+     BlockDriverState *bs;
+     BlockJob *job;
+-} DriveBackupState;
++} BlockJobActionState;
+
+ static BlockJob *do_backup_common(BackupCommon *backup,
+                                   BlockDriverState *bs,
+@@ -1669,7 +1669,7 @@ static BlockJob *do_backup_common(BackupCommon *backup,
+
+ static void drive_backup_prepare(BlkActionState *common, Error **errp)
+ {
+-    DriveBackupState *state = DO_UPCAST(DriveBackupState, common, common);
++    BlockJobActionState *state = DO_UPCAST(BlockJobActionState, common, common);
+     DriveBackup *backup;
+     BlockDriverState *bs;
+     BlockDriverState *target_bs;
+@@ -1806,7 +1806,7 @@ out:
+
+ static void drive_backup_commit(BlkActionState *common)
+ {
+-    DriveBackupState *state = DO_UPCAST(DriveBackupState, common, common);
++    BlockJobActionState *state = DO_UPCAST(BlockJobActionState, common, common);
+     AioContext *aio_context;
+
+     aio_context = bdrv_get_aio_context(state->bs);
+@@ -1820,7 +1820,7 @@ static void drive_backup_commit(BlkActionState *common)
+
+ static void drive_backup_abort(BlkActionState *common)
+ {
+-    DriveBackupState *state = DO_UPCAST(DriveBackupState, common, common);
++    BlockJobActionState *state = DO_UPCAST(BlockJobActionState, common, common);
+
+     if (state->job) {
+         AioContext *aio_context;
+@@ -1836,7 +1836,7 @@ static void drive_backup_abort(BlkActionState *common)
+
+ static void drive_backup_clean(BlkActionState *common)
+ {
+-    DriveBackupState *state = DO_UPCAST(DriveBackupState, common, common);
++    BlockJobActionState *state = DO_UPCAST(BlockJobActionState, common, common);
+     AioContext *aio_context;
+
+     if (!state->bs) {
+@@ -1851,15 +1851,9 @@ static void drive_backup_clean(BlkActionState *common)
+     aio_context_release(aio_context);
+ }
+
+-typedef struct BlockdevBackupState {
+-    BlkActionState common;
+-    BlockDriverState *bs;
+-    BlockJob *job;
+-} BlockdevBackupState;
+-
+ static void blockdev_backup_prepare(BlkActionState *common, Error **errp)
+ {
+-    BlockdevBackupState *state = DO_UPCAST(BlockdevBackupState, common, common);
++    BlockJobActionState *state = DO_UPCAST(BlockJobActionState, common, common);
+     BlockdevBackup *backup;
+     BlockDriverState *bs;
+     BlockDriverState *target_bs;
+@@ -1907,7 +1901,7 @@ static void blockdev_backup_prepare(BlkActionState *common, Error **errp)
+
+ static void blockdev_backup_commit(BlkActionState *common)
+ {
+-    BlockdevBackupState *state = DO_UPCAST(BlockdevBackupState, common, common);
++    BlockJobActionState *state = DO_UPCAST(BlockJobActionState, common, common);
+     AioContext *aio_context;
+
+     aio_context = bdrv_get_aio_context(state->bs);
+@@ -1921,7 +1915,7 @@ static void blockdev_backup_commit(BlkActionState *common)
+
+ static void blockdev_backup_abort(BlkActionState *common)
+ {
+-    BlockdevBackupState *state = DO_UPCAST(BlockdevBackupState, common, common);
++    BlockJobActionState *state = DO_UPCAST(BlockJobActionState, common, common);
+
+     if (state->job) {
+         AioContext *aio_context;
+@@ -1937,7 +1931,7 @@ static void blockdev_backup_abort(BlkActionState *common)
+
+ static void blockdev_backup_clean(BlkActionState *common)
+ {
+-    BlockdevBackupState *state = DO_UPCAST(BlockdevBackupState, common, common);
++    BlockJobActionState *state = DO_UPCAST(BlockJobActionState, common, common);
+     AioContext *aio_context;
+
+     if (!state->bs) {
+@@ -2209,14 +2203,14 @@ static const BlkActionOps actions[] = {
+         .clean = external_snapshot_clean,
+     },
+     [TRANSACTION_ACTION_KIND_DRIVE_BACKUP] = {
+-        .instance_size = sizeof(DriveBackupState),
++        .instance_size = sizeof(BlockJobActionState),
+         .prepare = drive_backup_prepare,
+         .commit = drive_backup_commit,
+         .abort = drive_backup_abort,
+         .clean = drive_backup_clean,
+     },
+     [TRANSACTION_ACTION_KIND_BLOCKDEV_BACKUP] = {
+-        .instance_size = sizeof(BlockdevBackupState),
++        .instance_size = sizeof(BlockJobActionState),
+         .prepare = blockdev_backup_prepare,
+         .commit = blockdev_backup_commit,
+         .abort = blockdev_backup_abort,
 -- 
 2.27.0
 
