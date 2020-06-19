@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BFE6201946
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 19:20:57 +0200 (CEST)
-Received: from localhost ([::1]:55414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E48BC201920
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 19:13:49 +0200 (CEST)
+Received: from localhost ([::1]:52718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jmKhE-0004R7-7C
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 13:20:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58230)
+	id 1jmKaK-0006jG-TK
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 13:13:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58240)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=4324eb4de=alistair.francis@wdc.com>)
- id 1jmKUG-0000kQ-D9
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 13:07:32 -0400
-Received: from esa2.hgst.iphmx.com ([68.232.143.124]:24436)
+ id 1jmKUG-0000l9-Pe
+ for qemu-devel@nongnu.org; Fri, 19 Jun 2020 13:07:33 -0400
+Received: from esa2.hgst.iphmx.com ([68.232.143.124]:24435)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=4324eb4de=alistair.francis@wdc.com>)
- id 1jmKUE-0004Q3-03
+ id 1jmKUE-0004Ps-IB
  for qemu-devel@nongnu.org; Fri, 19 Jun 2020 13:07:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1592586453; x=1624122453;
+ t=1592586454; x=1624122454;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=XRyEFMliFOazvxi0uiuNB7H49JK+CbFims83EBUndek=;
- b=HOOuMai8MlpHgr399522zV16bytVIpISJYwhr/J+3WiZVWOad/m/jU/W
- McNdAP3DIBIrUqQ95fUjvmpVxffwz8Lbb+G50FPtg49fXhaGjyAzDJQ4W
- R7in5a+S/pp6fOZpOkbk8iuRZYXf3ahMt0tz6GKjwqfFsvAW2H2YTITjs
- CH9iscnJXT/C96FTNDxVn7/pb9vejkRhxvlUceOLD/bHNuSGMV2XoTud9
- X9dv7origunhn8jJl0b1mm1Frb0yo+JJBp67kkA+IO1r028D3zeQSLnA1
- wOJrFm4/Y4WwUJcofLAq0xkRaKUrAoQ8qu6EB/lur/I4qPKFaTkzMzyiC w==;
-IronPort-SDR: Y9ipvCupa62SzXDYAKh1+h5J/AQac/uoTr5kHFc2D7i4rI4DV9OHXGVU+FgfVu3+XwHQ9sQ2LE
- BtrCSLHxTo2C2MimB0iLBNxdN2TyDzfFQoTkVZeXVXVnHyy3nCyQK+AJP7VgQM2anjF2GCUDxm
- 0X2tNzM83ERwZ7KCNAu+y3tC3TgJhnOfo40KSZuPr6AZt7o1sJBk2kcoDpr2S2cCcZqlZe76xJ
- FdbhCYPPHOSfIF8zT0nCXqlhP26APXO0mrpfbmfPRCJ4sLN4JBH32NcuGUC0X0ddeFgV35Kai5
- rww=
-X-IronPort-AV: E=Sophos;i="5.75,256,1589212800"; d="scan'208";a="243416999"
+ bh=HF1JxGXWDSpTRfYKaMM0wJ4es08kDgUw2iC6UdUH7F8=;
+ b=rhia0lgRqwz9Y15Pkh/mIBBCM6eWPdhJtR3YFBcy9qcR+n3r0+ZR8lWt
+ /xTz3zGs4dQZe0HY5AYOX+umW66UWYxE5iXLIirniCSAQqJNLKJuP6KYn
+ V4nwA12udohhrFa6vLkkfdUSCc5sjuvyz7Vx7CUIgOHXzNbGtY8UXHe83
+ xjjsJlHzJokGaTI0l/cc+sIDmCl4uYr3j27GYwzF2ODqu3m/WkaNcFGTT
+ GBtWm3fdu7v/BejP043vDeLI8mqWUrKSykWQh+tt4BnOCplyV9BRfNSfp
+ h1Iy9JZo6kE2YP11Jzc3w0fKhJImpibMk+H482M4u57MgZobrUq44lGRL g==;
+IronPort-SDR: KGyOF9kxo90jyrWzV5VQhrsR3CMISo6Iu8qvITnNg3u1Bek60i9Lu+6xRWYTHt7Xn92XSJZd73
+ SSipozQwrxgxWpbXVeTitFmGP0Mnr9/kTUeP481Nb/T1uiKDAs1kx21DPwY33tY53OovUvVX4/
+ AZpXxr/kc6PG5oRVIUH1rdLVAzH2+uZauAlUZoIXi2mV7sNULq1u7GYqrAYsixo1Ap3vq3S2bu
+ s+526480XpL9VVLI8xasBI6L+wDOfYcH54K9rQHsxZz7+lzGYmTvfZr8FgkWozrAGRpeb/I0vh
+ zgE=
+X-IronPort-AV: E=Sophos;i="5.75,256,1589212800"; d="scan'208";a="243417001"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
  by ob1.hgst.iphmx.com with ESMTP; 20 Jun 2020 01:07:27 +0800
-IronPort-SDR: NTWeMTPfmNu68y5kAJbn6gpHHJIxfeMgrnWabYYb4r8awmlI3RpnphjUJvUGAtlbwko0qt1FEB
- iTLNpZ2t6wgkorWi8FywAEGvnDilnfwbw=
+IronPort-SDR: ypZJUS+aOzYXvOoVLwatp1wO2qpZpRRZ8uAZcJ053SOiu1Ojqvw86EZDU/I3P78tl5nG+2Lgqe
+ UjoMTWm0mII+DWBVtcfRV+h3TNbYjfWZs=
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jun 2020 09:56:02 -0700
-IronPort-SDR: dYAT47Ubq5wt971yWEOlY6zbwIrEoTNsN/HOziCICJkaScm3EjrrJW5s1MD01ldjxbQ2MajoUL
- pfBzUcKuaUSw==
+ 19 Jun 2020 09:56:03 -0700
+IronPort-SDR: bPOAPRcStAC7V+pKVMbBXqHoM8SZyXdp96ZFcMD+NlGaoDbZS8r4LVplLnmggT869DYzPARqRM
+ aA8A4qhON3sQ==
 WDCIronportException: Internal
 Received: from unknown (HELO risc6-mainframe.hgst.com) ([10.86.58.142])
  by uls-op-cesaip02.wdc.com with ESMTP; 19 Jun 2020 10:07:26 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL v2 18/32] hw/riscv: opentitan: Remove the riscv_ prefix of the
- machine* and soc* functions
-Date: Fri, 19 Jun 2020 09:58:03 -0700
-Message-Id: <20200619165817.4144200-19-alistair.francis@wdc.com>
+Subject: [PULL v2 19/32] hw/riscv: sifive_u: Simplify the GEM IRQ connect code
+ a little bit
+Date: Fri, 19 Jun 2020 09:58:04 -0700
+Message-Id: <20200619165817.4144200-20-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200619165817.4144200-1-alistair.francis@wdc.com>
 References: <20200619165817.4144200-1-alistair.francis@wdc.com>
@@ -95,105 +95,51 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-This was done in the virt & sifive_u codes, but opentitan codes were
-missed. Remove the riscv_ prefix of the machine* and soc* functions.
+There is no need to retrieve all PLIC IRQ information in order to
+just connect the GEM IRQ. Use qdev_get_gpio_in() directly like
+what is done for other peripherals.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 1591625864-31494-3-git-send-email-bmeng.cn@gmail.com
-Message-Id: <1591625864-31494-3-git-send-email-bmeng.cn@gmail.com>
+Message-id: 1591625864-31494-4-git-send-email-bmeng.cn@gmail.com
+Message-Id: <1591625864-31494-4-git-send-email-bmeng.cn@gmail.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- hw/riscv/opentitan.c | 29 ++++++++++++++---------------
- 1 file changed, 14 insertions(+), 15 deletions(-)
+ hw/riscv/sifive_u.c | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
-diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
-index 675ce900bd..19223e4c29 100644
---- a/hw/riscv/opentitan.c
-+++ b/hw/riscv/opentitan.c
-@@ -53,7 +53,7 @@ static const struct MemmapEntry {
-     [IBEX_PADCTRL] =        {  0x40160000,  0x10000 }
- };
+diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+index ea197ab64f..20b0276ea3 100644
+--- a/hw/riscv/sifive_u.c
++++ b/hw/riscv/sifive_u.c
+@@ -514,7 +514,6 @@ static void sifive_u_soc_realize(DeviceState *dev, Error **errp)
+     MemoryRegion *system_memory = get_system_memory();
+     MemoryRegion *mask_rom = g_new(MemoryRegion, 1);
+     MemoryRegion *l2lim_mem = g_new(MemoryRegion, 1);
+-    qemu_irq plic_gpios[SIFIVE_U_PLIC_NUM_SOURCES];
+     char *plic_hart_config;
+     size_t plic_hart_config_len;
+     int i;
+@@ -594,10 +593,6 @@ static void sifive_u_soc_realize(DeviceState *dev, Error **errp)
+     sysbus_realize(SYS_BUS_DEVICE(&s->otp), &err);
+     sysbus_mmio_map(SYS_BUS_DEVICE(&s->otp), 0, memmap[SIFIVE_U_OTP].base);
  
--static void riscv_opentitan_init(MachineState *machine)
-+static void opentitan_board_init(MachineState *machine)
- {
-     const struct MemmapEntry *memmap = ibex_memmap;
-     OpenTitanState *s = g_new0(OpenTitanState, 1);
-@@ -70,7 +70,6 @@ static void riscv_opentitan_init(MachineState *machine)
-     memory_region_add_subregion(sys_mem,
-         memmap[IBEX_RAM].base, main_mem);
- 
+-    for (i = 0; i < SIFIVE_U_PLIC_NUM_SOURCES; i++) {
+-        plic_gpios[i] = qdev_get_gpio_in(DEVICE(s->plic), i);
+-    }
 -
-     if (machine->firmware) {
-         riscv_load_firmware(machine->firmware, memmap[IBEX_RAM].base, NULL);
+     if (nd->used) {
+         qemu_check_nic_model(nd, TYPE_CADENCE_GEM);
+         qdev_set_nic_properties(DEVICE(&s->gem), nd);
+@@ -611,7 +606,7 @@ static void sifive_u_soc_realize(DeviceState *dev, Error **errp)
      }
-@@ -80,17 +79,17 @@ static void riscv_opentitan_init(MachineState *machine)
-     }
- }
+     sysbus_mmio_map(SYS_BUS_DEVICE(&s->gem), 0, memmap[SIFIVE_U_GEM].base);
+     sysbus_connect_irq(SYS_BUS_DEVICE(&s->gem), 0,
+-                       plic_gpios[SIFIVE_U_GEM_IRQ]);
++                       qdev_get_gpio_in(DEVICE(s->plic), SIFIVE_U_GEM_IRQ));
  
--static void riscv_opentitan_machine_init(MachineClass *mc)
-+static void opentitan_machine_init(MachineClass *mc)
- {
-     mc->desc = "RISC-V Board compatible with OpenTitan";
--    mc->init = riscv_opentitan_init;
-+    mc->init = opentitan_board_init;
-     mc->max_cpus = 1;
-     mc->default_cpu_type = TYPE_RISCV_CPU_IBEX;
- }
- 
--DEFINE_MACHINE("opentitan", riscv_opentitan_machine_init)
-+DEFINE_MACHINE("opentitan", opentitan_machine_init)
- 
--static void riscv_lowrisc_ibex_soc_init(Object *obj)
-+static void lowrisc_ibex_soc_init(Object *obj)
- {
-     LowRISCIbexSoCState *s = RISCV_IBEX_SOC(obj);
- 
-@@ -101,7 +100,7 @@ static void riscv_lowrisc_ibex_soc_init(Object *obj)
-     object_initialize_child(obj, "uart", &s->uart, TYPE_IBEX_UART);
- }
- 
--static void riscv_lowrisc_ibex_soc_realize(DeviceState *dev_soc, Error **errp)
-+static void lowrisc_ibex_soc_realize(DeviceState *dev_soc, Error **errp)
- {
-     const struct MemmapEntry *memmap = ibex_memmap;
-     MachineState *ms = MACHINE(qdev_get_machine());
-@@ -186,26 +185,26 @@ static void riscv_lowrisc_ibex_soc_realize(DeviceState *dev_soc, Error **errp)
-         memmap[IBEX_PADCTRL].base, memmap[IBEX_PADCTRL].size);
- }
- 
--static void riscv_lowrisc_ibex_soc_class_init(ObjectClass *oc, void *data)
-+static void lowrisc_ibex_soc_class_init(ObjectClass *oc, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(oc);
- 
--    dc->realize = riscv_lowrisc_ibex_soc_realize;
-+    dc->realize = lowrisc_ibex_soc_realize;
-     /* Reason: Uses serial_hds in realize function, thus can't be used twice */
-     dc->user_creatable = false;
- }
- 
--static const TypeInfo riscv_lowrisc_ibex_soc_type_info = {
-+static const TypeInfo lowrisc_ibex_soc_type_info = {
-     .name = TYPE_RISCV_IBEX_SOC,
-     .parent = TYPE_DEVICE,
-     .instance_size = sizeof(LowRISCIbexSoCState),
--    .instance_init = riscv_lowrisc_ibex_soc_init,
--    .class_init = riscv_lowrisc_ibex_soc_class_init,
-+    .instance_init = lowrisc_ibex_soc_init,
-+    .class_init = lowrisc_ibex_soc_class_init,
- };
- 
--static void riscv_lowrisc_ibex_soc_register_types(void)
-+static void lowrisc_ibex_soc_register_types(void)
- {
--    type_register_static(&riscv_lowrisc_ibex_soc_type_info);
-+    type_register_static(&lowrisc_ibex_soc_type_info);
- }
- 
--type_init(riscv_lowrisc_ibex_soc_register_types)
-+type_init(lowrisc_ibex_soc_register_types)
+     create_unimplemented_device("riscv.sifive.u.gem-mgmt",
+         memmap[SIFIVE_U_GEM_MGMT].base, memmap[SIFIVE_U_GEM_MGMT].size);
 -- 
 2.27.0
 
