@@ -2,73 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0D46200D1A
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 16:56:29 +0200 (CEST)
-Received: from localhost ([::1]:54216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A962B200DD3
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 17:02:35 +0200 (CEST)
+Received: from localhost ([::1]:35268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jmIRR-0005wb-0c
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 10:56:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46760)
+	id 1jmIXK-0002cA-NK
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 11:02:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jmIQ9-0003cg-L9
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 10:55:09 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:34340)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jmIQ4-0004F4-I9
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 10:55:09 -0400
-Received: by mail-ot1-x343.google.com with SMTP id n5so7509119otj.1
- for <qemu-devel@nongnu.org>; Fri, 19 Jun 2020 07:55:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=+AVsDmzl/KPwBklkOCeD+E70faxKMAYgjL0ynrUExwk=;
- b=GlC96rCHuYx0paUwo84104eR+Xe5SpId3azTJIyvaYyiCqVw8hqJuOK8SFkAjHaSZj
- B3vRDyYkdCtD7cDazn2XSj577ZSwLoScl5M6OWudoglTxQ09Ydrs9O5RZvHxVEweXOKV
- IvHWprEK7I1wgeN7BoIMxC49wWfPSNH2+EsIlDCitEuNtbGTlXdLKBPdFmcYH1yssPvr
- LA4xHROLmTTNWfDOJD6Z+snhvH6ryztcHACMwBC9MYxbho6QFPEvXitJ2XdIcFu2TBIs
- Pii+inY7PTbY/0Vq93GXcX6+Q4I1RRCfRDW7CSMDYa+NBBHHGf0HXvsJpxzA13iMrKnl
- rgUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=+AVsDmzl/KPwBklkOCeD+E70faxKMAYgjL0ynrUExwk=;
- b=NvcymBrYmFHtg5Au6wrkgERcJL3HTZrlH+XQqVTW3IbjeABHRbn58XMUSpc1JMkyzN
- OF1HauXD4cjTm627yUBK9zIqOar6GPE8Krax63o9aYCtUXONxNJ9SfKBqijJi/l54TRA
- iGIMtpkKZ52ESarHokPKqLxVYbsTEMFiVrMeOa808ZgW37UNoeI3fokGN+TzOEPlQtEc
- oa69nSnawQcep2yOX5bFwkO2njJq2Umwjc/Jd5sHjsKRfrmBfpMLbrXiIdjuk6XyKHxS
- 2eMaHSip/ySIyNhfSybtmvDVkEo//lWTMQ3vVLA2yNQNjNfSBA7qS7kpF4fT2nxo2zVO
- BMXQ==
-X-Gm-Message-State: AOAM531Sv1WhLXR2Df/2F7R8X3zwgrN200/P/4lU2+TSisfN8F1aVbom
- 15DKQo82YxIQ09t98BueAu0gLww1Fmfs6KJ+nuUb1g==
-X-Google-Smtp-Source: ABdhPJyV7enVCm/5TAjEydQ0b5xYn3sNUc1AxELQmm1H5a2XCeqgYGMS9MX0R6GODjRH9OIHjgUa0PBS+PtIIpI1Sj4=
-X-Received: by 2002:a9d:67d6:: with SMTP id c22mr3163742otn.221.1592578503237; 
- Fri, 19 Jun 2020 07:55:03 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1jmIVL-0001F2-12; Fri, 19 Jun 2020 11:00:31 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:36079)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1jmIVF-00058t-7P; Fri, 19 Jun 2020 11:00:30 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 49pMRh15XWz9sjF; Sat, 20 Jun 2020 01:00:15 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1592578816;
+ bh=i09Pzm3J+sHg0qnWmU6RuDXb6mWa9G7DYcrmVm6UoBs=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=C6DS+ar7jPslhN9O0WwbEn1ayt+r6wlNcnguyJVycjvA5RqxBcPyHXrPAmuv283x2
+ HMcCuAogsKUMm1OQef7TBRlAzqp1jMAX1H0enKcgbCEt9Nnq3gvhza6kiuJxSYeEV7
+ 8tRtC/a22PQL23JdgPLKG8qPZoppbekkiRRRz1vg=
+Date: Sat, 20 Jun 2020 00:45:41 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Subject: Re: [PATCH v3 9/9] host trust limitation: Alter virtio default
+ properties for protected guests
+Message-ID: <20200619144541.GM17085@umbus.fritz.box>
+References: <20200619020602.118306-1-david@gibson.dropbear.id.au>
+ <20200619020602.118306-10-david@gibson.dropbear.id.au>
+ <20200619101245.GC700896@redhat.com>
 MIME-Version: 1.0
-References: <20200619135844.23307-1-alex.bennee@linaro.org>
-In-Reply-To: <20200619135844.23307-1-alex.bennee@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 19 Jun 2020 15:54:52 +0100
-Message-ID: <CAFEAcA-KX-2zjktg9A8dPdo6RkxtafM7YnahKaP=uftCO-7=GQ@mail.gmail.com>
-Subject: Re: [RFC PATCH] docs/devel: add some notes on tcg-icount for
- developers
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::343;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x343.google.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="AQYPrgrEUc/1pSX1"
+Content-Disposition: inline
+In-Reply-To: <20200619101245.GC700896@redhat.com>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_score_int: -9
+X-Spam_score: -1.0
+X-Spam_bar: -
+X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,38 +63,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Pavel Dovgalyuk <dovgaluk@ispras.ru>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: pair@us.ibm.com, brijesh.singh@amd.com, frankja@linux.ibm.com,
+ kvm@vger.kernel.org, mst@redhat.com, cohuck@redhat.com, david@redhat.com,
+ qemu-devel@nongnu.org, dgilbert@redhat.com, pasic@linux.ibm.com,
+ qemu-s390x@nongnu.org, qemu-ppc@nongnu.org, pbonzini@redhat.com,
+ Richard Henderson <rth@twiddle.net>, mdroth@linux.vnet.ibm.com,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 19 Jun 2020 at 14:58, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
-te:
->
-> This attempts to bring together my understanding of the requirements
-> for icount behaviour into one reference document for our developer
-> notes. It currently make one piece of conjecture which I think is true
-> that we don't need gen_io_start/end statements for non-MMIO related
-> I/O operations.
 
-> +Other I/O operations
-> +--------------------
-> +
-> +MMIO isn't the only type of operation for which we might need a
-> +correct and accurate clock. IO port instructions and accesses to
-> +system registers are the common examples here. For the clock to be
-> +accurate you end a translation block on these instructions.
-> +
-> +.. warning:: (CONJECTURE) instructions that won't get trapped in the
-> +             io_read/writex shouldn't need gen_io_start/end blocks
-> +             around them.
+--AQYPrgrEUc/1pSX1
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I think this is backwards -- instructions where icount is handled
-by io_readx/io_writex are the ones that don't need to be marked
-with gen_io_start. It's the i/o instructions that don't go through
-io_readx/io_writex that need gen_io_start.
+On Fri, Jun 19, 2020 at 11:12:45AM +0100, Daniel P. Berrang=E9 wrote:
+> On Fri, Jun 19, 2020 at 12:06:02PM +1000, David Gibson wrote:
+> > The default behaviour for virtio devices is not to use the platforms no=
+rmal
+> > DMA paths, but instead to use the fact that it's running in a hypervisor
+> > to directly access guest memory.  That doesn't work if the guest's memo=
+ry
+> > is protected from hypervisor access, such as with AMD's SEV or POWER's =
+PEF.
+> >=20
+> > So, if a host trust limitation mechanism is enabled, then apply the
+> > iommu_platform=3Don option so it will go through normal DMA mechanisms.
+> > Those will presumably have some way of marking memory as shared with the
+> > hypervisor or hardware so that DMA will work.
+> >=20
+> > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> > ---
+> >  hw/core/machine.c | 11 +++++++++++
+> >  1 file changed, 11 insertions(+)
+> >=20
+> > diff --git a/hw/core/machine.c b/hw/core/machine.c
+> > index a71792bc16..8dfc1bb3f8 100644
+> > --- a/hw/core/machine.c
+> > +++ b/hw/core/machine.c
+> > @@ -28,6 +28,8 @@
+> >  #include "hw/mem/nvdimm.h"
+> >  #include "migration/vmstate.h"
+> >  #include "exec/host-trust-limitation.h"
+> > +#include "hw/virtio/virtio.h"
+> > +#include "hw/virtio/virtio-pci.h"
+> > =20
+> >  GlobalProperty hw_compat_5_0[] =3D {
+> >      { "virtio-balloon-device", "page-poison", "false" },
+> > @@ -1165,6 +1167,15 @@ void machine_run_board_init(MachineState *machin=
+e)
+> >           * areas.
+> >           */
+> >          machine_set_mem_merge(OBJECT(machine), false, &error_abort);
+> > +
+> > +        /*
+> > +         * Virtio devices can't count on directly accessing guest
+> > +         * memory, so they need iommu_platform=3Don to use normal DMA
+> > +         * mechanisms.  That requires disabling legacy virtio support
+> > +         * for virtio pci devices
+> > +         */
+> > +        object_register_sugar_prop(TYPE_VIRTIO_PCI, "disable-legacy", =
+"on");
+> > +        object_register_sugar_prop(TYPE_VIRTIO_DEVICE, "iommu_platform=
+", "on");
+> >      }
+>=20
+> Silently changing the user's request configuration like this
 
-thanks
--- PMM
+It doesn't, though.  register_sugar_prop() effectively registers a
+default, so if the user has explicitly specified something, that will
+take precedence.
+
+> is a bad idea.
+> The "disable-legacy" option in particular is undesirable as that switches
+> the device to virtio-1.0 only mode, which exposes a different PCI ID to
+> the guest.
+>=20
+> If some options are incompatible with encryption, then we should raise a
+> fatal error at startup, so applications/admins are aware that their reque=
+sted
+> config is broken.
+>=20
+> Regards,
+> Daniel
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--AQYPrgrEUc/1pSX1
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl7sz5IACgkQbDjKyiDZ
+s5J+8w/+JJK7plk6WUNFDCN0inRibIaHRp7R6OpBirGdfBHRI1bEAYrmm7cOnjhR
+LQ67An6wmLV4QB7P+Kt7Ud1ppfskhG5Uz9xEmuFGS/fNycr3KXZ4q4OddDW7mI2/
+PADqa5j+AaqWFh+hnw/Zux6jYUGi52aqFJfh6iluGZ2Be3sD17YFKpA/yytBecWH
+dU8rFFovc4YOSHyjJEsMENtQ80qKTTObootZeTRqKQavrBQnfQ8W7GejOanVI5k9
+xez40IKMLN1FNzKt0HwBIJVClQrOYXDhoY1ia3gATv1GJ/IT+3ARH3I+qfp9rPLm
+8JyPaBgMzVv2sbRguF7nGblW58pnv4RqK9XuSpWMKfmIMtV0fm1B4R1cTwcDeaDW
+R9aGfdUIolZKUIRwlbkPhjialYbOBgJ13BgIZrlvHl4PGR6ZSvoHHyjdrtfk2aYD
+Uz/sq915JnDTHt2T1Y/I9I38Xu7HR7RAGUhSyG08kihRxBBVYqoeUldHmoOnyt3S
+br6yo5JX9LjceRJR2VaGnY8yuKXMyXNEKLLQJF1qBqzzJfrpNH4UkzDFlaj8X9IA
+/VCoiB2npTzwRCgTqNgxnCl//60s7oLx/KaEHvuB6iE4b9IZKrvWUcZADxXctxMn
+lWwvRa5r5rMiB1sx0cBJS/MeqhDlB0BX4EXlEerznh86A3KMQrg=
+=LRIe
+-----END PGP SIGNATURE-----
+
+--AQYPrgrEUc/1pSX1--
 
