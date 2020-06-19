@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F260200D16
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 16:55:04 +0200 (CEST)
-Received: from localhost ([::1]:50446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7577B200D11
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jun 2020 16:53:31 +0200 (CEST)
+Received: from localhost ([::1]:44028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jmIQ3-00025I-LD
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 10:55:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45628)
+	id 1jmIOY-0007am-Hl
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 10:53:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45586)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jmIMO-000441-5h; Fri, 19 Jun 2020 10:51:16 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:33953)
+ id 1jmIMJ-00043S-SR; Fri, 19 Jun 2020 10:51:15 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:41930)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jmIMF-0003fn-JK; Fri, 19 Jun 2020 10:51:12 -0400
-Received: by mail-wr1-x432.google.com with SMTP id v3so2477308wrc.1;
- Fri, 19 Jun 2020 07:51:05 -0700 (PDT)
+ id 1jmIMF-0003fq-Tt; Fri, 19 Jun 2020 10:51:11 -0400
+Received: by mail-wr1-x444.google.com with SMTP id q2so7532637wrv.8;
+ Fri, 19 Jun 2020 07:51:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=hlW8G4yJ34f0vynTy4tG90YnknQAoEqpm5MZOqmTBCQ=;
- b=NUqnMPMAqDOv5fMbVb6JNPuJiIMTEFmJ5QZ7ywbAd6XpOgCVudatv2rgGyxfIeH0EO
- k191b1SwL4K4t04+L2LyHtlFdQV6cxecV1CooXVH0Mk6QLMK2JLbaDAKdTHF0v/guk1z
- VbFs2E93kbfsNCyv8LugsbOT8PQkLPySMi2MuzOoOtok55x5v4qvDMmTm6AkKOgQmAHZ
- qTSF6kPTTYmU2OEoInlrgmC++46ojn4Rv5KkWNyOwrYDMdcfFMow3X+qrRul9qtVYk4L
- +KW913GINz4kuQpDP5OVnsKYh5p2EGC422pHEYetv35qYSmaVTuhndzvJRQpisO14ox2
- JKtg==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=16xjyyRgElKBAJMa5MhJMGbj3Pu1zRssl4AgrYkonAg=;
+ b=nbDkTw0dLgrqDBjj5Hs5NojrXscADRtzLI9DnFW346lJEOEHt+OFMp/+J7f71V20YR
+ J7BpUYu3IUMeEjUo3cZVj065beiZNzERDr0xw4MqIFWA2gaNWuHBF50JMVeuVfEZq05v
+ YCZ5SmnbnPftLg6M4ZRbISq88hDlVp6tyieb3weMuc+hvzl4GDcs0PJdW1bi6BwyhrWB
+ uneeeH96RZMONxGfsa+V1J8+k+xiHBgbe2ORgtCfJ+RvgwrgNwlz7hfk9Y8mPdCEdKyZ
+ vNGg5VGHU2Iw9EhHTus8IuouHTDIiGnqaMlWhXeCjnglw4bo6QcZZOrPqSMBlazSngpn
+ fIRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=hlW8G4yJ34f0vynTy4tG90YnknQAoEqpm5MZOqmTBCQ=;
- b=QwCTK1P2fOd26f7q0Q6EiwhsS44LT9PaRqxg9VNW/2YqD40oufIei7DdHbOoGFKfwU
- cUiZSKhKWbAAa6F+o9sOXM1MiwXDLJuqL25pgGI75+kFY41EjLRLjP1s3aDhmjMVMvTA
- 5zeDxw96/8UroG3esWK5RSFkhgibsjvlhAMyrRhCw/WXKUgo26eibq59Tx1ckDROr5Ow
- 9wtcd7djpmfYIJDFOV/xMUD7nb/MztuJdvjv5gXAn++TJjFN0RK59HZPcdkPdF1n2gNk
- Zeo10hjHp9gp9sp1Q/uRhlIlM0w76em3amvxZW4cTrs6jJ54chJoZ341wUrfPReAh1XN
- CpPg==
-X-Gm-Message-State: AOAM530yqIBQaqISTOH4We1UDJkgvVeVXKfdalMNa+jYnruStstbphnt
- EAG07TqTHvbQPXygRaPNe2nCCMNx
-X-Google-Smtp-Source: ABdhPJyFfifSsx0nUIcixf15KJdYf0V/BK9bg2mrXczBKMvQGx5TC8UJeKrShfDK1rCyWAZv02eqbw==
-X-Received: by 2002:adf:ff8c:: with SMTP id j12mr4472155wrr.230.1592578264046; 
- Fri, 19 Jun 2020 07:51:04 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=16xjyyRgElKBAJMa5MhJMGbj3Pu1zRssl4AgrYkonAg=;
+ b=Orzbwz55ldmm9aS9HmfdMniNnWzDJMuO41UT1gRcaF6GErA9DUmOH9GHk0jau3JxaX
+ pNJeFg0qnoHw7lBeReadCZUZnBbZitFJnO5OggWE5XpuB6A4BSC/MVBOzbORaL4QFQxj
+ zjBOPSfo7PSCtG3P46juTO2y5K+XrzeabzKq2xjPg3FUD/CiwMI6ArM4UoQ36Bn5JOSF
+ zBFxr7MvGIdwfGJMn6uw626wx1NUQnG0Fp2Ru03kTOwontzexZ9vhew8nFsi9QMtxP/Z
+ +nZGw8C5fLsQDDHlq7/Q7JzzQ0KZX3rZMexfyqxrwQodQIjxUtW1/uyhSAMR9v6H2nyL
+ bmgg==
+X-Gm-Message-State: AOAM5324o1BVbFq2HmRWRScGfFA2m4RzVEffvQqnf5m7KzHPwmTgdxAe
+ L0xi9muFxQ2AqMwiX8/DaiUWDH0e
+X-Google-Smtp-Source: ABdhPJzKjaTGJLmvt62Eeo0OJ76G4Al1la6iiWcC2tw4tNJNcaOonTWvdcONcK2nEsSQGhO4d3wbCg==
+X-Received: by 2002:adf:ee41:: with SMTP id w1mr4647811wro.172.1592578265166; 
+ Fri, 19 Jun 2020 07:51:05 -0700 (PDT)
 Received: from localhost.localdomain (93.red-83-59-160.dynamicip.rima-tde.net.
  [83.59.160.93])
- by smtp.gmail.com with ESMTPSA id e12sm7512548wro.52.2020.06.19.07.51.02
+ by smtp.gmail.com with ESMTPSA id e12sm7512548wro.52.2020.06.19.07.51.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Jun 2020 07:51:03 -0700 (PDT)
+ Fri, 19 Jun 2020 07:51:04 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 0/4] hw/misc/pca9552: Trace LED On/Off events
-Date: Fri, 19 Jun 2020 16:50:57 +0200
-Message-Id: <20200619145101.1637-1-f4bug@amsat.org>
+Subject: [PATCH v3 1/4] hw/misc/pca9552: Replace magic value by
+ PCA9552_LED_COUNT definition
+Date: Fri, 19 Jun 2020 16:50:58 +0200
+Message-Id: <20200619145101.1637-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
+In-Reply-To: <20200619145101.1637-1-f4bug@amsat.org>
+References: <20200619145101.1637-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -70,7 +73,7 @@ X-Spam_bar: /
 X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
  DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
  HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,62 +95,39 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series add trace events to better display LEDs changes.
-This helps me to work on a generic LED device, see:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg711917.html
+Replace the '16' magic value by the PCA9552_LED_COUNT definition.
 
-Example when booting an obmc-phosphor-image, we can see the LED #14
-(front-power LED) starting to blink.
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ include/hw/misc/pca9552.h | 1 +
+ hw/misc/pca9552.c         | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-- ASCII LED bar view:
-
-  $ qemu-system-arm -M witherspoon-bmc -trace pca9552_leds_status
-  19286@1592574170.202791:pca9552_leds_status 0x55dde47807c0 LEDs 0-15 [*...............]
-  19286@1592574170.203609:pca9552_leds_status 0x55dde47807c0 LEDs 0-15 [**..............]
-  19286@1592574170.204102:pca9552_leds_status 0x55dde47807c0 LEDs 0-15 [***.............]
-  19286@1592574170.204415:pca9552_leds_status 0x55dde47807c0 LEDs 0-15 [****............]
-  19286@1592574170.204758:pca9552_leds_status 0x55dde47807c0 LEDs 0-15 [****.........*..]
-  19286@1592574170.205070:pca9552_leds_status 0x55dde47807c0 LEDs 0-15 [****.........**.]
-  19286@1592574170.205380:pca9552_leds_status 0x55dde47807c0 LEDs 0-15 [****.........***]
-  19286@1592574235.384845:pca9552_leds_status 0x55dde47807c0 LEDs 0-15 [****.........*.*]
-  19286@1592574235.894049:pca9552_leds_status 0x55dde47807c0 LEDs 0-15 [****.........***]
-  19286@1592574236.404277:pca9552_leds_status 0x55dde47807c0 LEDs 0-15 [****.........*.*]
-  19286@1592574236.914644:pca9552_leds_status 0x55dde47807c0 LEDs 0-15 [****.........***]
-  19286@1592574237.424558:pca9552_leds_status 0x55dde47807c0 LEDs 0-15 [****.........*.*]
-  19286@1592574237.934580:pca9552_leds_status 0x55dde47807c0 LEDs 0-15 [****.........***]
-  19286@1592574238.444688:pca9552_leds_status 0x55dde47807c0 LEDs 0-15 [****.........*.*]
-
-- Only display LEDs which status changes:
-
-  $ qemu-system-arm -M witherspoon-bmc -trace pca9552_led_change
-  23367@1592575218.896117:pca9552_led_change 0x557cb6896d80 LED id:0 status: 0 -> 1
-  23367@1592575218.897072:pca9552_led_change 0x557cb6896d80 LED id:1 status: 0 -> 1
-  23367@1592575218.897487:pca9552_led_change 0x557cb6896d80 LED id:2 status: 0 -> 1
-  23367@1592575218.897855:pca9552_led_change 0x557cb6896d80 LED id:3 status: 0 -> 1
-  23367@1592575218.898256:pca9552_led_change 0x557cb6896d80 LED id:13 status: 0 -> 1
-  23367@1592575218.898663:pca9552_led_change 0x557cb6896d80 LED id:14 status: 0 -> 1
-  23367@1592575218.899138:pca9552_led_change 0x557cb6896d80 LED id:15 status: 0 -> 1
-  23367@1592575281.593379:pca9552_led_change 0x557cb6896d80 LED id:14 status: 1 -> 0
-  23367@1592575282.102994:pca9552_led_change 0x557cb6896d80 LED id:14 status: 0 -> 1
-  23367@1592575282.613558:pca9552_led_change 0x557cb6896d80 LED id:14 status: 1 -> 0
-  23367@1592575283.122774:pca9552_led_change 0x557cb6896d80 LED id:14 status: 0 -> 1
-
-For information about how to test the obmc-phosphor-image, see:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg712911.html
-
-Supersedes: <20200617064734.26956-1-f4bug@amsat.org>
-
-Philippe Mathieu-Daudé (4):
-  hw/misc/pca9552: Replace magic value by PCA9552_LED_COUNT definition
-  hw/misc/pca9552: Add a PCA955X_LED_MAX definition
-  hw/misc/pca9552: Trace LED On/Off events
-  hw/misc/pca9552: Trace LED change events
-
- include/hw/misc/pca9552.h |  2 ++
- hw/misc/pca9552.c         | 60 ++++++++++++++++++++++++++++++++++++++-
- hw/misc/trace-events      |  4 +++
- 3 files changed, 65 insertions(+), 1 deletion(-)
-
+diff --git a/include/hw/misc/pca9552.h b/include/hw/misc/pca9552.h
+index ebb43c63fe..b2b9a5d9d4 100644
+--- a/include/hw/misc/pca9552.h
++++ b/include/hw/misc/pca9552.h
+@@ -15,6 +15,7 @@
+ #define PCA9552(obj) OBJECT_CHECK(PCA9552State, (obj), TYPE_PCA9552)
+ 
+ #define PCA9552_NR_REGS 10
++#define PCA9552_LED_COUNT 16
+ 
+ typedef struct PCA9552State {
+     /*< private >*/
+diff --git a/hw/misc/pca9552.c b/hw/misc/pca9552.c
+index cac729e35a..e015ef0e5d 100644
+--- a/hw/misc/pca9552.c
++++ b/hw/misc/pca9552.c
+@@ -291,7 +291,7 @@ static void pca9552_initfn(Object *obj)
+      * PCA955X device
+      */
+     s->max_reg = PCA9552_LS3;
+-    s->nr_leds = 16;
++    s->nr_leds = PCA9552_LED_COUNT;
+ 
+     for (led = 0; led < s->nr_leds; led++) {
+         char *name;
 -- 
 2.21.3
 
