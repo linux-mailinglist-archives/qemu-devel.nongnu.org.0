@@ -2,69 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D694D2020A6
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Jun 2020 05:32:17 +0200 (CEST)
-Received: from localhost ([::1]:57204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B0F120210B
+	for <lists+qemu-devel@lfdr.de>; Sat, 20 Jun 2020 05:41:07 +0200 (CEST)
+Received: from localhost ([::1]:42532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jmUEq-0002EB-UK
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 23:32:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33070)
+	id 1jmUNO-0002jo-EF
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 23:41:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jmUDM-0001Ph-H3
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 23:30:44 -0400
-Received: from indium.canonical.com ([91.189.90.7]:39392)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jmUDK-0005Jo-HC
- for qemu-devel@nongnu.org; Fri, 19 Jun 2020 23:30:44 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jmUDI-0005TQ-K6
- for <qemu-devel@nongnu.org>; Sat, 20 Jun 2020 03:30:40 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 8E9982E806D
- for <qemu-devel@nongnu.org>; Sat, 20 Jun 2020 03:30:40 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <fthain@telegraphics.com.au>)
+ id 1jmUMO-0001Uz-HS; Fri, 19 Jun 2020 23:40:04 -0400
+Received: from kvm5.telegraphics.com.au ([98.124.60.144]:40580)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <fthain@telegraphics.com.au>)
+ id 1jmUMM-00070k-N8; Fri, 19 Jun 2020 23:40:04 -0400
+Received: from localhost (localhost.localdomain [127.0.0.1])
+ by kvm5.telegraphics.com.au (Postfix) with ESMTP id 89E9A27783;
+ Fri, 19 Jun 2020 23:39:48 -0400 (EDT)
+Date: Sat, 20 Jun 2020 13:39:41 +1000 (AEST)
+From: Finn Thain <fthain@telegraphics.com.au>
+To: Michael Roth <mdroth@linux.vnet.ibm.com>
+Subject: Re: [PATCH 00/78] Patch Round-up for stable 4.2.1, freeze on
+ 2020-06-22
+In-Reply-To: <alpine.LNX.2.22.394.2006201012590.23@nippy.intranet>
+Message-ID: <alpine.LNX.2.22.394.2006201332390.9@nippy.intranet>
+References: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
+ <alpine.LNX.2.22.394.2006201012590.23@nippy.intranet>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 20 Jun 2020 03:22:59 -0000
-From: Richard Henderson <1883984@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: bruno-clisp nhfbeebe rth
-X-Launchpad-Bug-Reporter: Nelson H F Beebe (nhfbeebe)
-X-Launchpad-Bug-Modifier: Richard Henderson (rth)
-References: <159243063748.16697.11009205973276249282.malonedeb@chaenomeles.canonical.com>
-Message-Id: <159262337986.14323.2815915291652120180.malone@wampee.canonical.com>
-Subject: [Bug 1883984] Re: QEMU S/390x sqxbr (128-bit IEEE 754 square root)
- crashes qemu-system-s390x
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="1cbd0aa39df153c901321817f9b57cf3f232b507";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 227c57aeb04850ad80a41666994c3269d8d046eb
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/19 23:30:40
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset=US-ASCII
+Received-SPF: none client-ip=98.124.60.144;
+ envelope-from=fthain@telegraphics.com.au; helo=kvm5.telegraphics.com.au
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/19 23:39:53
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,76 +52,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1883984 <1883984@bugs.launchpad.net>
+Cc: Max Reitz <mreitz@redhat.com>, qemu-devel@nongnu.org,
+ qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With --enable-debug,
+On Sat, 20 Jun 2020, Finn Thain wrote:
 
-qemu-s390x: /home/rth/qemu/qemu/include/tcg/tcg.h:687: temp_idx:
-Assertion `n >=3D 0 && n < tcg_ctx->nb_temps' failed.
+> 
+> Thanks for picking these fixes. When the maintainer originally merged this 
+> series of patches, the first patch got slightly damaged. This was remedied 
+> in a subsequent patch[1]. That is, mainline commit a0cf4297d6 ("dp8393x: 
+> Mask EOL bit from descriptor addresses, take 2"). Would you also pick that 
+> commit for v4.2.1 please?
+> 
+> [1]
+> https://lore.kernel.org/qemu-devel/23179263-a8fb-57cc-e98a-bfe9a2ee9037@vivier.eu/
+> 
 
-which turns out to be related to a null-pointer temporary.
-
-** Changed in: qemu
-       Status: New =3D> Confirmed
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1883984
-
-Title:
-  QEMU S/390x sqxbr (128-bit IEEE 754 square root) crashes qemu-system-
-  s390x
-
-Status in QEMU:
-  Confirmed
-
-Bug description:
-  In porting software to guest Ubuntu 18.04 and 20.04 VMs for S/390x, I dis=
-covered
-  that some of my own numerical programs, and also a GNU configure script f=
-or at
-  least one package with CC=3Dclang, would cause an instant crash of the VM=
-, sometimes
-  also destroying recently opened files, and producing long strings of NUL =
-characters
-  in /var/log/syslog in the S/390 guest O/S.
-
-  Further detective work narrowed the cause of the crash down to a single I=
-BM S/390
-  instruction: sqxbr (128-bit IEEE 754 square root).  Here is a one-line pr=
-ogram
-  that when compiled and run on a VM hosted on QEMUcc emulator version 4.2.=
-0 =
-
-  (Debian 1:4.2-3ubuntu6.1) [hosted on Ubuntu 20.04 on a Dell Precision 792=
-0 =
-
-  workstation with an Intel Xeon Platinum 8253 CPU],  and also on QEMU emul=
-ator =
-
-  version 5.0.0, reproducibly produces a VM crash under qemu-system-s390x.
-
-  % cat bug-sqrtl-one-line.c
-  int main(void) { volatile long double x, r; x =3D 4.0L; __asm__ __volatil=
-e__("sqxbr %0, %1" : "=3Df" (r) : "f" (x)); return (0);}
-
-  % cc bug-sqrtl-one-line.c && ./a.out
-  Segmentation fault (core dumped)
-
-  The problem code may be the function float128_sqrt() defined in qemu-5.0.=
-0/fpu/softfloat.c
-  starting at line 7619.  I have NOT attempted to run the qemu-system-s390x=
- executable
-  under a debugger.  However, I observe that S/390 is the only CPU family t=
-hat I know of,
-  except possibly for a Fujitsu SPARC-64, that has a 128-bit square root in=
- hardware.
-  Thus, this instruction bug may not have been seen before.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1883984/+subscriptions
+While we're on the subject of cherry-picking fixes for fixes, you may also 
+want to consider c264e5d2f9f5d73977eac8e5d084f727b3d07ea9. I didn't find 
+any fixes for fixes for fixes. That search probably needs to be 
+automated...
 
