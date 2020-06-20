@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A306202743
-	for <lists+qemu-devel@lfdr.de>; Sun, 21 Jun 2020 01:01:41 +0200 (CEST)
-Received: from localhost ([::1]:39828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55607202747
+	for <lists+qemu-devel@lfdr.de>; Sun, 21 Jun 2020 01:04:18 +0200 (CEST)
+Received: from localhost ([::1]:50046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jmmUW-0004WT-D6
-	for lists+qemu-devel@lfdr.de; Sat, 20 Jun 2020 19:01:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40612)
+	id 1jmmX3-00019N-BK
+	for lists+qemu-devel@lfdr.de; Sat, 20 Jun 2020 19:04:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jmmS6-00010E-9J; Sat, 20 Jun 2020 18:59:10 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:41156)
+ id 1jmmS7-00012t-5X; Sat, 20 Jun 2020 18:59:11 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:40773)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jmmS4-0000yq-K1; Sat, 20 Jun 2020 18:59:09 -0400
-Received: by mail-wr1-x443.google.com with SMTP id q2so10709641wrv.8;
- Sat, 20 Jun 2020 15:59:07 -0700 (PDT)
+ id 1jmmS5-0000z5-NS; Sat, 20 Jun 2020 18:59:10 -0400
+Received: by mail-wr1-x444.google.com with SMTP id h5so13165256wrc.7;
+ Sat, 20 Jun 2020 15:59:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=gvoEXdIxYQqhIJHdWM52DnB0B20B8eCcffJMhifuxRg=;
- b=jUM2UYrQRb++KYNo5KCjYsGLt0ZR3JYJx1g5W8pI+dSxzP4+AN0mLswLtC1oPPWI5l
- FK2qqgj8qmBdd3/RXT3WYVMW6UJsg0QnjWGHKbRvyRX1YyUPVEjGJUOqwGvr2KTTehMF
- zFOIGUlfv54q8RfbzEUYi/mlb6a3jV3wlgYqfdCa5wIPgG3VckVq3a0krdyi5+bZq4fO
- hHuHKehONT1RsX8/bCuWjyQ8k8VLUBpaHzAIQrWf8ZaoSGhrmgbn8oDInnTpFRfeaHXH
- hzVP01c8oV4Q0jRLE6Klyu6TZ4mwVyPa7yFTy0ALd8yP/64lQSZxSiOUpLVgWGmXNpgP
- jChQ==
+ bh=fgUUbNqs1y/GthnSZqBcErzrgj0mvX2yz73QOQqmCzs=;
+ b=IN0N44dx5JqQpjFXPsoW6yA4CjsCHIDieV3NYwj54y4/I1VmTOqPB+6LLX1de2zhwz
+ 8x7p+3AFWgKwfNq0EB5YQeHquQlw3pf1hh7MNHFXEPSsxnxKd3eSczF6DPBkGzI8v+/I
+ XleMDqLpzE7lazF8OnS9QBdIo2tQCOzVwx/LUDDfwOmC46iSZouPeUATAyf4FTV1I0Ze
+ nV4O8gnuP1nR1YF6ZA37J/AWEMTDMyMC5MSDfnhS3WTURgKEKvZQbBFiB/HQIRQ0yEDE
+ v1T2bQkLCrr0XMP1fBtX2HgywfslHzyeHDpLexjbUHWnVmP1n1dpZ4ELtahS5FMNnqfi
+ QZuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=gvoEXdIxYQqhIJHdWM52DnB0B20B8eCcffJMhifuxRg=;
- b=svs6RdtY3FG3sPFiqglHmr4hYqJ2sGjnKIvT8wEPLhTUWChUnEZTT44wzxxuHWYFdT
- BNa7yYMWPYqI1IUMLHAAJyWHkK+UlWGdeP32i63r02jKlnteGb3duDtE9d8faaWCcsDy
- yN9/ZLt38n0IbYx9fVFxAMl+Gc/gOOjUjNyGP/AUM+yHJCByh3EEbM2voXhR5V/yTq8j
- T0xKlkuCGKDG7CAASZXAX37i1llnF1s8JaGMvgnkBDGNFFMZCb8EKxysGekorvlRfULQ
- V2oJETb6/arydbZv1NuG7yWl3nVNQk6rNINqyXdGKuFL+/P8HOUgLnlN2YP3wjLR6YiD
- DmSw==
-X-Gm-Message-State: AOAM5330QQnVyYqy+jrcDEWSrETXWXONdza6QU5OoUePiDv1yg6u+bbY
- Ug4+DuyUjoCTA3WpQXtOhU3RsPgc
-X-Google-Smtp-Source: ABdhPJxhiT/TdPY2DkLujKZ8ZcSIh45y/h8z6weh4VKdLlcWUS+CUaSplRQ+PXFITP8ctN29yJaRjg==
-X-Received: by 2002:adf:ed49:: with SMTP id u9mr10893120wro.414.1592693946775; 
- Sat, 20 Jun 2020 15:59:06 -0700 (PDT)
+ bh=fgUUbNqs1y/GthnSZqBcErzrgj0mvX2yz73QOQqmCzs=;
+ b=pYTj+ijUhkJc8D69dUCOfHTGsjV5/2kvV2E/Ywfr0xFXMj1+G9bB5zXWN1vnSfenNU
+ lYfvziIgM6vamucj9MIHQwQOCqBm4RuEPjC3KMPDoppQlDrByeK7XWeaxg8OcL0QLGk7
+ 9RsC3QBGFxhTPcCqFZuDAcm6XpEgrz2/ikhGbe8jY7835zJSaRU9ocxdy7MrX4T11wNl
+ 2ckd6l1ZpsJkj0YsUmpNwk368pSqoaytWmvvpRxP6cn1JGiyTZ7LNxGZPz1We+jMJt9C
+ MbCAuvgB77eqWm4jFG1n0LMMdHJ3ZcUO5tYJgvrsze4xW1FpluDrEZMmWPmFDLk2P5l0
+ RqSg==
+X-Gm-Message-State: AOAM530r/znj1u0QBpWJq0VbsjeAvoFom+nIPMhNKVgCwRu6qsUuxkmU
+ 8dxcssi3ubf/qOSQ1f1xHpcO8wFY
+X-Google-Smtp-Source: ABdhPJzcbXkznWCbTX8RdKWF4Mi5SWOJni9zTP3OBw5vPvMI4OlQtTVqCxHjn8wMRjSR5/0Lh+UrNg==
+X-Received: by 2002:adf:f2cd:: with SMTP id d13mr10486117wrp.378.1592693947979; 
+ Sat, 20 Jun 2020 15:59:07 -0700 (PDT)
 Received: from localhost.localdomain (1.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id x18sm11147127wmi.35.2020.06.20.15.59.05
+ by smtp.gmail.com with ESMTPSA id x18sm11147127wmi.35.2020.06.20.15.59.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 20 Jun 2020 15:59:06 -0700 (PDT)
+ Sat, 20 Jun 2020 15:59:07 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 7/8] hw/misc/pca9552: Trace GPIO change events
-Date: Sun, 21 Jun 2020 00:58:53 +0200
-Message-Id: <20200620225854.31160-8-f4bug@amsat.org>
+Subject: [PATCH v4 8/8] hw/misc/pca9552: Model qdev output GPIOs
+Date: Sun, 21 Jun 2020 00:58:54 +0200
+Message-Id: <20200620225854.31160-9-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200620225854.31160-1-f4bug@amsat.org>
 References: <20200620225854.31160-1-f4bug@amsat.org>
@@ -62,8 +62,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -93,80 +93,61 @@ Cc: Corey Minyard <cminyard@mvista.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Emit a trace event when a GPIO change its state.
-
-Example booting obmc-phosphor-image:
-
-  $ qemu-system-arm -M witherspoon-bmc -trace pca9552_gpio_change
-  1592690552.687372:pca9552_gpio_change pca1 GPIO id:0 status: 0 -> 1
-  1592690552.690169:pca9552_gpio_change pca1 GPIO id:1 status: 0 -> 1
-  1592690552.691673:pca9552_gpio_change pca1 GPIO id:2 status: 0 -> 1
-  1592690552.696886:pca9552_gpio_change pca1 GPIO id:3 status: 0 -> 1
-  1592690552.698614:pca9552_gpio_change pca1 GPIO id:13 status: 0 -> 1
-  1592690552.699833:pca9552_gpio_change pca1 GPIO id:14 status: 0 -> 1
-  1592690552.700842:pca9552_gpio_change pca1 GPIO id:15 status: 0 -> 1
-  1592690683.841921:pca9552_gpio_change pca1 GPIO id:14 status: 1 -> 0
-  1592690683.861660:pca9552_gpio_change pca1 GPIO id:14 status: 0 -> 1
-  1592690684.371460:pca9552_gpio_change pca1 GPIO id:14 status: 1 -> 0
-  1592690684.882115:pca9552_gpio_change pca1 GPIO id:14 status: 0 -> 1
-  1592690685.391411:pca9552_gpio_change pca1 GPIO id:14 status: 1 -> 0
-  1592690685.901391:pca9552_gpio_change pca1 GPIO id:14 status: 0 -> 1
-  1592690686.411678:pca9552_gpio_change pca1 GPIO id:14 status: 1 -> 0
-  1592690686.921279:pca9552_gpio_change pca1 GPIO id:14 status: 0 -> 1
-
-We notice the GPIO #14 (front-power LED) starts to blink.
-
-This LED is described in the witherspoon device-tree [*]:
-
-  front-power {
-      retain-state-shutdown;
-      default-state = "keep";
-      gpios = <&pca0 14 GPIO_ACTIVE_LOW>;
-  };
-
-[*] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/arm/boot/dts/aspeed-bmc-opp-witherspoon.dts?id=b1f9be9392f0#n140
+The PCA9552 has 16 GPIOs which can be used as input,
+output or PWM mode. QEMU models the output GPIO with
+the qemu_irq type. Let the device expose the 16 GPIOs
+to allow us to later connect LEDs to these outputs.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/misc/pca9552.c    | 15 +++++++++++++++
- hw/misc/trace-events |  1 +
- 2 files changed, 16 insertions(+)
+ include/hw/misc/pca9552.h | 1 +
+ hw/misc/pca9552.c         | 4 ++++
+ 2 files changed, 5 insertions(+)
 
+diff --git a/include/hw/misc/pca9552.h b/include/hw/misc/pca9552.h
+index 755be2e8e5..2545087da3 100644
+--- a/include/hw/misc/pca9552.h
++++ b/include/hw/misc/pca9552.h
+@@ -30,6 +30,7 @@ typedef struct PCA9552State {
+     uint8_t max_reg;
+     char *description; /* For debugging purpose only */
+     uint8_t nr_leds;
++    qemu_irq gpio[PCA9552_PIN_COUNT];
+ } PCA9552State;
+ 
+ #endif
 diff --git a/hw/misc/pca9552.c b/hw/misc/pca9552.c
-index f0d435e310..85557b78d9 100644
+index 85557b78d9..8f0ce19b74 100644
 --- a/hw/misc/pca9552.c
 +++ b/hw/misc/pca9552.c
-@@ -60,6 +60,21 @@ static void pca9552_display_pins_status(PCA9552State *s)
-         buf[i] = '\0';
-         trace_pca9552_gpio_status(s->description, buf);
+@@ -16,6 +16,7 @@
+ #include "hw/qdev-properties.h"
+ #include "hw/misc/pca9552.h"
+ #include "hw/misc/pca9552_regs.h"
++#include "hw/irq.h"
+ #include "migration/vmstate.h"
+ #include "qapi/error.h"
+ #include "qapi/visitor.h"
+@@ -88,9 +89,11 @@ static void pca9552_update_pin_input(PCA9552State *s)
+ 
+         switch (config) {
+         case PCA9552_LED_ON:
++            qemu_set_irq(s->gpio[i], 1);
+             s->regs[input_reg] |= 1 << input_shift;
+             break;
+         case PCA9552_LED_OFF:
++            qemu_set_irq(s->gpio[i], 0);
+             s->regs[input_reg] &= ~(1 << input_shift);
+             break;
+         case PCA9552_LED_PWM0:
+@@ -360,6 +363,7 @@ static void pca9552_realize(DeviceState *dev, Error **errp)
+     if (!s->description) {
+         s->description = g_strdup("pca-unspecified");
      }
-+    if (trace_event_get_state_backends(TRACE_PCA9552_GPIO_CHANGE)) {
-+        for (i = 0; i < s->nr_leds; i++) {
-+            if (extract32(pins_changed, i, 1)) {
-+                unsigned new_state = extract32(pins_status, i, 1);
-+
-+                /*
-+                 * We display the state using the PCA logic ("active-high").
-+                 * This is not the state of the LED, which signal might be
-+                 * wired "active-low" on the board.
-+                 */
-+                trace_pca9552_gpio_change(s->description, i,
-+                                          !new_state, new_state);
-+            }
-+        }
-+    }
++    qdev_init_gpio_out(dev, s->gpio, s->nr_leds);
  }
  
- static void pca9552_update_pin_input(PCA9552State *s)
-diff --git a/hw/misc/trace-events b/hw/misc/trace-events
-index 7630e59652..805d2110e0 100644
---- a/hw/misc/trace-events
-+++ b/hw/misc/trace-events
-@@ -209,3 +209,4 @@ grlib_apb_pnp_read(uint64_t addr, uint32_t value) "APB PnP read addr:0x%03"PRIx6
- 
- # pca9552.c
- pca9552_gpio_status(const char *description, const char *buf) "%s GPIOs 0-15 [%s]"
-+pca9552_gpio_change(const char *description, unsigned id, unsigned prev_state, unsigned current_state) "%s GPIO id:%u status: %u -> %u"
+ static Property pca9552_properties[] = {
 -- 
 2.21.3
 
