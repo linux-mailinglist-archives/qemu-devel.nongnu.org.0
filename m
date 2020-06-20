@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 131482026F4
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Jun 2020 23:46:51 +0200 (CEST)
-Received: from localhost ([::1]:37746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B76E4202740
+	for <lists+qemu-devel@lfdr.de>; Sun, 21 Jun 2020 01:00:30 +0200 (CEST)
+Received: from localhost ([::1]:34880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jmlK5-0001Q7-Oh
-	for lists+qemu-devel@lfdr.de; Sat, 20 Jun 2020 17:46:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59496)
+	id 1jmmTN-0002Tl-7n
+	for lists+qemu-devel@lfdr.de; Sat, 20 Jun 2020 19:00:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jmlJF-0000Cu-M1
- for qemu-devel@nongnu.org; Sat, 20 Jun 2020 17:45:57 -0400
-Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:34206)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jmmRw-0000bx-I8; Sat, 20 Jun 2020 18:59:00 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:42317)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jmlJD-0007oo-Qh
- for qemu-devel@nongnu.org; Sat, 20 Jun 2020 17:45:57 -0400
-Received: by mail-pl1-x643.google.com with SMTP id n9so5675076plk.1
- for <qemu-devel@nongnu.org>; Sat, 20 Jun 2020 14:45:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jmmRu-0000xC-Qw; Sat, 20 Jun 2020 18:59:00 -0400
+Received: by mail-wr1-x444.google.com with SMTP id o11so5436230wrv.9;
+ Sat, 20 Jun 2020 15:58:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=DluY8Oq2yB2PRsFlspiwVeg903l4iG/+upHvbfNm14Q=;
- b=MOAvclSRYtWG3W0USsiKFVXWL80r3LkxmeG6Xdlr7QkqgvfernjisV9qSwNO9sO5Qp
- m70fMHU6I8zFxrcEeyHK60wTw9W3ecsZoNOBRIT4wQu4tOV1EDHQf65fdddRecE063pu
- o/PT2QNsh+9jRc1kmPI0fHxX/NMB8uSOxd1iaaF3YBKnkHZ5S4l9nfRK+znhr2MG+nR4
- XWZboUmxfJRPY5MBKRQjfLVqHUDmVHd6N6VHlFMHVou3An7Cu/rzikaqwROXN2PCAGBj
- bJvqfOMk3abzUvR0DLSSmd6+TZuxZxawl2CxvAcFwIHqlq4hilR+f9HqDJ1vK6d0S8lO
- 6VIQ==
+ bh=HOvnAFRk4OJaoGvOQC+SY/IXgxB8cGypTeZ4uN6x1qQ=;
+ b=HLuOXsoV5kP9OTKjWDW2pA3MF1dvk4QeccFR3GXNXdqlHwBkWzzFtxxEdmIPMxRX4A
+ qa0PzIKgm3gHtT32OscVUaiCgudGoB4T0piRCPt5/vMDhuOxRzlcFdNnvhiJdt/YM251
+ owIm+PkR+W4N8IzuefJBWzDyognN5EIh9Y3CsO9R+xWY4wpJIdYohU4oOPEWppJcL/fS
+ CPHJeR9Zl41uUfgLBwVUtKxxQgrkh0C23atdXUM4LFKK+WFFECz90TRNwpK6USIpdfF6
+ 7NjaVJvprPx4h5SSpY68/+PiGidcd7RpgmexiezBYBgSA8zO3AO6QYpAl7CiowUAeT90
+ jSAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=DluY8Oq2yB2PRsFlspiwVeg903l4iG/+upHvbfNm14Q=;
- b=GItML1FhkZMqvz+y6RdQApUKqukpBDRvgBh435HmhsJ8UXyY86/Fi3D9x53DimVSQ/
- xXBQjd+YcpoirnWG+HFLi1MvfYk4D0h4Q4P3cTp/dPr79mkZMtwnREJgrirq8ilXKq08
- l06KKdrCLuJrRle3YrxBC5kKIEeCfYDAoujOQ4wSvNucGHPcjYuKbcKrSIHpEqbO0OBq
- f+aOmyhZGf1A48Ky4DnXHUvI4VuNWA47Kb+D7VkrgnH8q/su2X4D7LDLFq4vxPkhLQdS
- 8PyBXbHRxgXjfIWsZ+7YmxY5Sqcinb9L9cRqOTryvfowfsaWYqc1svChwCafd43jezJR
- sG9Q==
-X-Gm-Message-State: AOAM531+XngAIqxCAimn3uk/7032MKC4vjqc3fRJk81qfI0FN9YwelAS
- ixOMC6gvdS7MwMGvj0gRii8ytFbnJHQ=
-X-Google-Smtp-Source: ABdhPJyseIoIh44J1TsyVrRZGVQb3F39FXoNNpEWkg3qCtK2G8HLgJC6Z+f0/rIbEnCTWqcfbC82yA==
-X-Received: by 2002:a17:902:ed02:: with SMTP id
- b2mr13854700pld.326.1592689553448; 
- Sat, 20 Jun 2020 14:45:53 -0700 (PDT)
-Received: from localhost.localdomain (174-21-143-238.tukw.qwest.net.
- [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id q1sm10087959pfk.132.2020.06.20.14.45.51
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=HOvnAFRk4OJaoGvOQC+SY/IXgxB8cGypTeZ4uN6x1qQ=;
+ b=RYIUZDb0k9LVnFG/Kp5CBnuy0NjZld1Ak5KVcI7TbXClGWLZtQE0Xw+7/FvHzxh+rV
+ HhtK1P8USLe/K5GBgPDAF5foAnJb82cenMFpbrWLz9E6ElEAd9ZmwPiuYrsXKFwcSYx2
+ G0csiyLh+F+Kwrr7Yrjr6iY2wrMiGGxXQYp96lr+nHXe1Srcqt1SNKCSzMIoJk3HQkPO
+ 39c74aPdGEZGnpSCZJqPzfVz+vluh7mkQ6nnmKTYFN7T7m/NT54g0NaPbrpcSO6ysj8V
+ 8277/Dsep+uZ04isJLfe3xw+7F8xza3quyXsyiu73hu08pi6BLqRtLaapIvvDNTjHNXa
+ jjNg==
+X-Gm-Message-State: AOAM531LTvwq6y4nmESfG0CFnLszW8kv4w2bLY+rLL3/MpJAIJKL1uXX
+ 3SjpfJQF7GBSV6iusu34GNiVHNDt
+X-Google-Smtp-Source: ABdhPJymxsLEl8BdMarkxlYewVhyAGVxHfZw6i/ntJr3RIaQFGjw8vs+2TSim7B79yQOy+JmuJGOQg==
+X-Received: by 2002:adf:dec5:: with SMTP id i5mr11572493wrn.16.1592693936680; 
+ Sat, 20 Jun 2020 15:58:56 -0700 (PDT)
+Received: from localhost.localdomain (1.red-83-51-162.dynamicip.rima-tde.net.
+ [83.51.162.1])
+ by smtp.gmail.com with ESMTPSA id x18sm11147127wmi.35.2020.06.20.15.58.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 20 Jun 2020 14:45:52 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
+ Sat, 20 Jun 2020 15:58:55 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] tests/qht-bench: Adjust rate computation and comparisons
-Date: Sat, 20 Jun 2020 14:45:51 -0700
-Message-Id: <20200620214551.447392-1-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
+Subject: [PATCH v4 0/8] hw/misc/pca9552: Trace GPIO change events
+Date: Sun, 21 Jun 2020 00:58:46 +0200
+Message-Id: <20200620225854.31160-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::643;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x643.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,65 +83,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, "Emilio G . Cota" <cota@braap.org>,
- alex.bennee@linaro.org
+Cc: Corey Minyard <cminyard@mvista.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-arm@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use <= comparisons vs the threshold, so that threshold UINT64_MAX
-is always true, corresponding to rate 1.0 being unity.  Simplify
-do_threshold scaling to 2**64, with a special case for 1.0.
+This series add trace events to better display GPIO changes.
+We'll continue in the following series by connecting LEDs to
+these GPIOs.
 
-Cc: Emilio G. Cota <cota@braap.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- tests/qht-bench.c | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
+This helps me to work on a generic LED device, see:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg711917.html
 
-diff --git a/tests/qht-bench.c b/tests/qht-bench.c
-index eb88a90137..21b1b7de82 100644
---- a/tests/qht-bench.c
-+++ b/tests/qht-bench.c
-@@ -132,7 +132,7 @@ static void do_rz(struct thread_info *info)
- {
-     struct thread_stats *stats = &info->stats;
- 
--    if (info->r < resize_threshold) {
-+    if (info->r <= resize_threshold) {
-         size_t size = info->resize_down ? resize_min : resize_max;
-         bool resized;
- 
-@@ -154,7 +154,7 @@ static void do_rw(struct thread_info *info)
-     uint32_t hash;
-     long *p;
- 
--    if (info->r >= update_threshold) {
-+    if (info->r > update_threshold) {
-         bool read;
- 
-         p = &keys[info->r & (lookup_range - 1)];
-@@ -281,11 +281,18 @@ static void pr_params(void)
- 
- static void do_threshold(double rate, uint64_t *threshold)
- {
-+    /*
-+     * For 0 <= rate <= 1, scale to fit in a uint64_t.
-+     *
-+     * For rate == 1, returning UINT64_MAX means 100% certainty: all
-+     * uint64_t will match using <=.  The largest representable value
-+     * for rate less than 1 is 0.999999999999999889; scaling that
-+     * by 2**64 results in 0xfffffffffffff800.
-+     */
-     if (rate == 1.0) {
-         *threshold = UINT64_MAX;
-     } else {
--        *threshold = (rate * 0xffff000000000000ull)
--                   + (rate * 0x0000ffffffffffffull);
-+        *threshold = rate * 0x1p64;
-     }
- }
- 
+Example when booting an obmc-phosphor-image, we can see the LED #14
+(front-power LED) starting to blink.
+
+- ASCII LED bar view:
+
+  $ qemu-system-arm -M witherspoon-bmc -trace pca9552_gpio_status
+  1592689902.327837:pca9552_gpio_status pca-unspecified GPIOs 0-15 [*...............]
+  1592689902.329934:pca9552_gpio_status pca-unspecified GPIOs 0-15 [**..............]
+  1592689902.330717:pca9552_gpio_status pca-unspecified GPIOs 0-15 [***.............]
+  1592689902.331431:pca9552_gpio_status pca-unspecified GPIOs 0-15 [****............]
+  1592689902.332163:pca9552_gpio_status pca-unspecified GPIOs 0-15 [****.........*..]
+  1592689902.332888:pca9552_gpio_status pca-unspecified GPIOs 0-15 [****.........**.]
+  1592689902.333629:pca9552_gpio_status pca-unspecified GPIOs 0-15 [****.........***]
+  1592690032.793289:pca9552_gpio_status pca-unspecified GPIOs 0-15 [****.........*.*]
+  1592690033.303163:pca9552_gpio_status pca-unspecified GPIOs 0-15 [****.........***]
+  1592690033.812962:pca9552_gpio_status pca-unspecified GPIOs 0-15 [****.........*.*]
+  1592690034.323234:pca9552_gpio_status pca-unspecified GPIOs 0-15 [****.........***]
+  1592690034.832922:pca9552_gpio_status pca-unspecified GPIOs 0-15 [****.........*.*]
+
+- Only display GPIOs which status changes:
+
+  $ qemu-system-arm -M witherspoon-bmc -trace pca9552_gpio_change
+  1592690552.687372:pca9552_gpio_change pca1 GPIO id:0 status: 0 -> 1
+  1592690552.690169:pca9552_gpio_change pca1 GPIO id:1 status: 0 -> 1
+  1592690552.691673:pca9552_gpio_change pca1 GPIO id:2 status: 0 -> 1
+  1592690552.696886:pca9552_gpio_change pca1 GPIO id:3 status: 0 -> 1
+  1592690552.698614:pca9552_gpio_change pca1 GPIO id:13 status: 0 -> 1
+  1592690552.699833:pca9552_gpio_change pca1 GPIO id:14 status: 0 -> 1
+  1592690552.700842:pca9552_gpio_change pca1 GPIO id:15 status: 0 -> 1
+  1592690683.841921:pca9552_gpio_change pca1 GPIO id:14 status: 1 -> 0
+  1592690683.861660:pca9552_gpio_change pca1 GPIO id:14 status: 0 -> 1
+  1592690684.371460:pca9552_gpio_change pca1 GPIO id:14 status: 1 -> 0
+  1592690684.882115:pca9552_gpio_change pca1 GPIO id:14 status: 0 -> 1
+  1592690685.391411:pca9552_gpio_change pca1 GPIO id:14 status: 1 -> 0
+  1592690685.901391:pca9552_gpio_change pca1 GPIO id:14 status: 0 -> 1
+
+For information about how to test the obmc-phosphor-image, see:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg712911.html
+
+Supersedes: <20200619145101.1637-1-f4bug@amsat.org>
+Based-on: <20200620162818.22340-1-f4bug@amsat.org>
+
+Philippe Mathieu-Daudé (8):
+  hw/i2c/core: Add i2c_try_create_slave() and i2c_realize_and_unref()
+  hw/misc/pca9552: Replace magic value by PCA9552_PIN_COUNT definition
+  hw/misc/pca9552: Use the PCA9552_PIN_COUNT definition
+  hw/misc/pca9552: Add a 'description' property for debugging purpose
+  hw/misc/pca9552: Trace GPIO High/Low events
+  hw/arm/aspeed: Describe each PCA9552 device
+  hw/misc/pca9552: Trace GPIO change events
+  hw/misc/pca9552: Model qdev output GPIOs
+
+ include/hw/i2c/i2c.h      |  2 ++
+ include/hw/misc/pca9552.h |  4 +++
+ hw/arm/aspeed.c           | 13 ++++---
+ hw/i2c/core.c             | 18 ++++++++--
+ hw/misc/pca9552.c         | 72 ++++++++++++++++++++++++++++++++++++++-
+ hw/misc/trace-events      |  4 +++
+ 6 files changed, 106 insertions(+), 7 deletions(-)
+
 -- 
-2.25.1
+2.21.3
 
 
