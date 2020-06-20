@@ -2,49 +2,112 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54B98202044
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Jun 2020 05:28:56 +0200 (CEST)
-Received: from localhost ([::1]:52632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EA0B20202A
+	for <lists+qemu-devel@lfdr.de>; Sat, 20 Jun 2020 05:22:38 +0200 (CEST)
+Received: from localhost ([::1]:43860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jmUBb-0005Lg-Ek
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 23:28:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60928)
+	id 1jmU5V-0000cL-7a
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jun 2020 23:22:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60080)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1jmUAs-0004vY-45; Fri, 19 Jun 2020 23:28:10 -0400
-Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:36036)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jmU4b-0008Hj-Io; Fri, 19 Jun 2020 23:21:41 -0400
+Received: from mail-eopbgr70134.outbound.protection.outlook.com
+ ([40.107.7.134]:38502 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1jmUAp-0004kH-IQ; Fri, 19 Jun 2020 23:28:09 -0400
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07436282|-1; CH=green;
- DM=|CONTINUE|false|;
- DS=CONTINUE|ham_system_inform|0.752466-0.00188135-0.245653;
- FP=0|0|0|0|0|-1|-1|-1; HT=e01a16368; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS;
- RN=9; RT=8; SR=0; TI=SMTPD_---.HpVxrVA_1592623681; 
-Received: from L-PF1D6DP4-1208.hz.ali.com(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.HpVxrVA_1592623681)
- by smtp.aliyun-inc.com(10.147.42.16); Sat, 20 Jun 2020 11:28:02 +0800
-From: LIU Zhiwei <zhiwei_liu@c-sky.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [PATCH v10 16/61] target/riscv: vector integer comparison instructions
-Date: Sat, 20 Jun 2020 10:54:55 +0800
-Message-Id: <20200620025540.1109-17-zhiwei_liu@c-sky.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20200620025540.1109-1-zhiwei_liu@c-sky.com>
-References: <20200620025540.1109-1-zhiwei_liu@c-sky.com>
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jmU4Y-0003zK-P0; Fri, 19 Jun 2020 23:21:40 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=HKutzWQ8dXcZF/8XeKnTHjTLHWG2mVcBhMZbo8DAsFGEdctzKZ/3p7uJkYfdrDhFg3EO6q8oskGcKubV+yKcn8VL42pnj+p1RJh5h6Nb6V9RYMgIn69WIBMT4sv2HOGY2zaB2H19JvuTC6TU8LK/fYHshjkG8nL2rouZUnpUVIFEalbiTyMObcPRg1qRUfMZSWx/6Uzdahl1tOh0dwegg/8mFXhM5o7e1oCrdJIepTCZeh+8bZJ37EWhXad83Fccz5CPuUBT4HXM4WDoHEaENzWYcETN7vJjnIdG1aPfvlEJ9CYvQW6vpZCjVHKc006f65UPb8NdLaD2Zoz7YS3OwQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=boIyH3v58RRnQBqEDp8laZbUmJTlmwzBe26C2IBwKuM=;
+ b=d4gRElMQe/oRKYRcnwr5yj4HxHbFXAUkGx7bsIDaooYOkHKpYi0HfvOG6Yo35olr/5PtvSl+ktouAdahsrgxti96Zq9VVwHs/YC65S0iv1QY7x7sAJw3Oomlj10bq4M24wAlLRQ4MzVPQr9lrrgJWYOdUlgwXQ9UVWHo9QKyMFJaFQH0V6MdFsrAa5KDWIrxFFuyMcDG6VV3rA+4SNR2cdoCf2Md8QwEwLDfiEATdsKaJdiPoSWBULnBM5aB1/wrA4N7oY2w5mPVkOLmu1WMAK1uzPvtRckpDrm85J4Opl7IAi+3pQPVF0u6Dy8nLvLOtNSq+GHfaPHQEQ6bX4fS8w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=boIyH3v58RRnQBqEDp8laZbUmJTlmwzBe26C2IBwKuM=;
+ b=WVVz45jKzkCuw7VhR8qQVub4qObv+QThiHCdMCw7dsOe90MdpbagDo3KGrVRZ8hS+7kx41EyHbvIRIzodDBdjoTvseLKGqXjKWpvKS1lobysec+KarrwJiiL3mPUaTit+//c2aLQx/3dgAFGhvIc5xZZf3K4g+ehcug81sTxMMk=
+Authentication-Results: virtuozzo.com; dkim=none (message not signed)
+ header.d=none;virtuozzo.com; dmarc=none action=none
+ header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM7PR08MB5496.eurprd08.prod.outlook.com (2603:10a6:20b:de::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3109.22; Sat, 20 Jun
+ 2020 03:06:32 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::a408:2f0f:bc6c:d312]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::a408:2f0f:bc6c:d312%3]) with mapi id 15.20.3109.021; Sat, 20 Jun 2020
+ 03:06:32 +0000
+Subject: Re: [PATCH 4/6] block/block-backend: remove always true check from
+ blk_save_vmstate
+To: "Denis V. Lunev" <den@openvz.org>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20200619100708.30440-1-den@openvz.org>
+ <20200619100708.30440-5-den@openvz.org>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <e5bba828-b161-75f3-f03f-a1bfd1d87abd@virtuozzo.com>
+Date: Sat, 20 Jun 2020 06:06:30 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
+In-Reply-To: <20200619100708.30440-5-den@openvz.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM4PR0302CA0019.eurprd03.prod.outlook.com
+ (2603:10a6:205:2::32) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=121.197.200.217;
- envelope-from=zhiwei_liu@c-sky.com; helo=smtp2200-217.mail.aliyun.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/19 21:09:48
-X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, UNPARSEABLE_RELAY=0.001 autolearn=_AUTOLEARN
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.2] (185.215.60.122) by
+ AM4PR0302CA0019.eurprd03.prod.outlook.com (2603:10a6:205:2::32) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3109.22 via Frontend
+ Transport; Sat, 20 Jun 2020 03:06:31 +0000
+X-Originating-IP: [185.215.60.122]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 79edaccd-a2dd-4330-55ad-08d814c6ef37
+X-MS-TrafficTypeDiagnostic: AM7PR08MB5496:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM7PR08MB54961D08065A63797E8A9773C1990@AM7PR08MB5496.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:127;
+X-Forefront-PRVS: 0440AC9990
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: sitbLTxeaJPSj4jcGpm9kVnKm35ZIDx1pqL5bnYdHNLsp7HOFyL5X2snGmqhEiMgv/H+DLdq2e11KaJY/TsbXm3s/KVvTHAgP+ScrHYVC76zPaHXrZ7Rqn4R8mPi4RfGK30/qKzxynkAj49zImcKKRzxJUyKSmRaGk/uOAL5jlqkTWld0UVf9kAPy07P9T+aQGcJ3OXbrsvdOPsljPZqXJ7S7AkyZd4HhL0s7fTAPJh1kRuEexsykRtlpwpR9QjYILjBbA8Z8tSdUuyX1cF1NelSy6Pn6yYaKMGOalKQb2C6yaC6a+v6eMBk+KPe3ykByIFtss85xlVM9zbVg0T2ZQLCEV7f+fdDOfuoNzEzyYidPF5pJCdjd/X9m96GXnnt
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(136003)(396003)(346002)(376002)(39840400004)(366004)(36756003)(66476007)(31696002)(86362001)(8936002)(8676002)(2616005)(66556008)(66946007)(6486002)(2906002)(5660300002)(4744005)(52116002)(31686004)(107886003)(4326008)(16526019)(54906003)(16576012)(186003)(26005)(478600001)(956004)(316002)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: 8hVuwFSMZ/yGGSNnD3wkj2Osiviudt1OGe96CUOyw7z5QqZuMDxMgDbxYhbq6iVhQihKXNJkD+FB0Qbh4tcKUrRPdKYgvlhvcL6u+wLypxP+nHGU4pAh3LtgrJ/+bE8Z/XM9Khz5o6jIs3n2Jtd6+HlWCcWFGPxnyYfCxne813VOwwoH1V54239YwGQisRnYQrpWvdBNOmI0ElF7HEqWIXcnlRSHKyNws0uJhbXES/l1Os17O9OHwvWKZ2DunmGTj7H1iHr/qcoMzNiF6GUbTL6QHkTrYQvP0SHf3hLmbOF3hi6v/Xovkmm3/FhFMZXXOl/zWrEqiIm89hY6CMo3r//znfD+DzQ4KwWyiiZaPf0QbBCKjTEB7iGRJdHkIMs3yGVGnYhpGEUQs9AN1SOwkDM1kDC3SKRwfHUtnWKPCzO514UqQS0WQG1qV74s/f9DndCn0Tyq9x4yMlVNq01IMRZg3JAIf7wW8BctkKo/GaQ=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 79edaccd-a2dd-4330-55ad-08d814c6ef37
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jun 2020 03:06:32.4168 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: qROe1QjN2B1zQFO2gv+w21qX028ZtCGuhHsr0ijVBUhQ3UsD9IBlKcLyaWyXOMyw2Smwo0cqbo3a1dIAMIDcGOFL/V/jtDiu2fl4yZw8Yz8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5496
+Received-SPF: pass client-ip=40.107.7.134;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR04-HE1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/19 23:21:36
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,304 +120,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, wxy194768@alibaba-inc.com,
- wenmeng_zhang@c-sky.com, Alistair Francis <alistair.francis@wdc.com>,
- palmer@dabbelt.com, LIU Zhiwei <zhiwei_liu@c-sky.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Denis Plotnikov <dplotnikov@virtuozzo.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
----
- target/riscv/helper.h                   |  57 +++++++++++
- target/riscv/insn32.decode              |  20 ++++
- target/riscv/insn_trans/trans_rvv.inc.c |  46 +++++++++
- target/riscv/vector_helper.c            | 123 ++++++++++++++++++++++++
- 4 files changed, 246 insertions(+)
+19.06.2020 13:07, Denis V. Lunev wrote:
+> bdrv_save_vmstate() returns either error with negative return value or
+> size. Thus this check is useless.
+> 
+> Signed-off-by: Denis V. Lunev<den@openvz.org>
+> Suggested-by: Eric Blake<eblake@redhat.com>
+> CC: Kevin Wolf<kwolf@redhat.com>
+> CC: Max Reitz<mreitz@redhat.com>
+> CC: Stefan Hajnoczi<stefanha@redhat.com>
+> CC: Fam Zheng<fam@euphon.net>
+> CC: Juan Quintela<quintela@redhat.com>
+> CC: "Dr. David Alan Gilbert"<dgilbert@redhat.com>
+> CC: Vladimir Sementsov-Ogievskiy<vsementsov@virtuozzo.com>
+> CC: Denis Plotnikov<dplotnikov@virtuozzo.com>
 
-diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-index 1ec2202814..2bcb6c7889 100644
---- a/target/riscv/helper.h
-+++ b/target/riscv/helper.h
-@@ -445,3 +445,60 @@ DEF_HELPER_6(vnsrl_vx_w, void, ptr, ptr, tl, ptr, env, i32)
- DEF_HELPER_6(vnsra_vx_b, void, ptr, ptr, tl, ptr, env, i32)
- DEF_HELPER_6(vnsra_vx_h, void, ptr, ptr, tl, ptr, env, i32)
- DEF_HELPER_6(vnsra_vx_w, void, ptr, ptr, tl, ptr, env, i32)
-+
-+DEF_HELPER_6(vmseq_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vmseq_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vmseq_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vmseq_vv_d, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vmsne_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vmsne_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vmsne_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vmsne_vv_d, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vmsltu_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vmsltu_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vmsltu_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vmsltu_vv_d, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vmslt_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vmslt_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vmslt_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vmslt_vv_d, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vmsleu_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vmsleu_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vmsleu_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vmsleu_vv_d, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vmsle_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vmsle_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vmsle_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vmsle_vv_d, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vmseq_vx_b, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vmseq_vx_h, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vmseq_vx_w, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vmseq_vx_d, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vmsne_vx_b, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vmsne_vx_h, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vmsne_vx_w, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vmsne_vx_d, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vmsltu_vx_b, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vmsltu_vx_h, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vmsltu_vx_w, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vmsltu_vx_d, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vmslt_vx_b, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vmslt_vx_h, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vmslt_vx_w, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vmslt_vx_d, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vmsleu_vx_b, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vmsleu_vx_h, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vmsleu_vx_w, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vmsleu_vx_d, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vmsle_vx_b, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vmsle_vx_h, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vmsle_vx_w, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vmsle_vx_d, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vmsgtu_vx_b, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vmsgtu_vx_h, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vmsgtu_vx_w, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vmsgtu_vx_d, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vmsgt_vx_b, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vmsgt_vx_h, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vmsgt_vx_w, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vmsgt_vx_d, void, ptr, ptr, tl, ptr, env, i32)
-diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index 435415f9f9..5d022ff414 100644
---- a/target/riscv/insn32.decode
-+++ b/target/riscv/insn32.decode
-@@ -337,6 +337,26 @@ vnsrl_vi        101100 . ..... ..... 011 ..... 1010111 @r_vm
- vnsra_vv        101101 . ..... ..... 000 ..... 1010111 @r_vm
- vnsra_vx        101101 . ..... ..... 100 ..... 1010111 @r_vm
- vnsra_vi        101101 . ..... ..... 011 ..... 1010111 @r_vm
-+vmseq_vv        011000 . ..... ..... 000 ..... 1010111 @r_vm
-+vmseq_vx        011000 . ..... ..... 100 ..... 1010111 @r_vm
-+vmseq_vi        011000 . ..... ..... 011 ..... 1010111 @r_vm
-+vmsne_vv        011001 . ..... ..... 000 ..... 1010111 @r_vm
-+vmsne_vx        011001 . ..... ..... 100 ..... 1010111 @r_vm
-+vmsne_vi        011001 . ..... ..... 011 ..... 1010111 @r_vm
-+vmsltu_vv       011010 . ..... ..... 000 ..... 1010111 @r_vm
-+vmsltu_vx       011010 . ..... ..... 100 ..... 1010111 @r_vm
-+vmslt_vv        011011 . ..... ..... 000 ..... 1010111 @r_vm
-+vmslt_vx        011011 . ..... ..... 100 ..... 1010111 @r_vm
-+vmsleu_vv       011100 . ..... ..... 000 ..... 1010111 @r_vm
-+vmsleu_vx       011100 . ..... ..... 100 ..... 1010111 @r_vm
-+vmsleu_vi       011100 . ..... ..... 011 ..... 1010111 @r_vm
-+vmsle_vv        011101 . ..... ..... 000 ..... 1010111 @r_vm
-+vmsle_vx        011101 . ..... ..... 100 ..... 1010111 @r_vm
-+vmsle_vi        011101 . ..... ..... 011 ..... 1010111 @r_vm
-+vmsgtu_vx       011110 . ..... ..... 100 ..... 1010111 @r_vm
-+vmsgtu_vi       011110 . ..... ..... 011 ..... 1010111 @r_vm
-+vmsgt_vx        011111 . ..... ..... 100 ..... 1010111 @r_vm
-+vmsgt_vi        011111 . ..... ..... 011 ..... 1010111 @r_vm
- 
- vsetvli         0 ........... ..... 111 ..... 1010111  @r2_zimm
- vsetvl          1000000 ..... ..... 111 ..... 1010111  @r
-diff --git a/target/riscv/insn_trans/trans_rvv.inc.c b/target/riscv/insn_trans/trans_rvv.inc.c
-index 87f9ee7f6c..8fa3d5ecb0 100644
---- a/target/riscv/insn_trans/trans_rvv.inc.c
-+++ b/target/riscv/insn_trans/trans_rvv.inc.c
-@@ -1515,3 +1515,49 @@ static bool trans_##NAME(DisasContext *s, arg_rmrr *a)                   \
- 
- GEN_OPIVI_NARROW_TRANS(vnsra_vi, 1, vnsra_vx)
- GEN_OPIVI_NARROW_TRANS(vnsrl_vi, 1, vnsrl_vx)
-+
-+/* Vector Integer Comparison Instructions */
-+/*
-+ * For all comparison instructions, an illegal instruction exception is raised
-+ * if the destination vector register overlaps a source vector register group
-+ * and LMUL > 1.
-+ */
-+static bool opivv_cmp_check(DisasContext *s, arg_rmrr *a)
-+{
-+    return (vext_check_isa_ill(s) &&
-+            vext_check_reg(s, a->rs2, false) &&
-+            vext_check_reg(s, a->rs1, false) &&
-+            ((vext_check_overlap_group(a->rd, 1, a->rs1, 1 << s->lmul) &&
-+              vext_check_overlap_group(a->rd, 1, a->rs2, 1 << s->lmul)) ||
-+             (s->lmul == 0)));
-+}
-+GEN_OPIVV_TRANS(vmseq_vv, opivv_cmp_check)
-+GEN_OPIVV_TRANS(vmsne_vv, opivv_cmp_check)
-+GEN_OPIVV_TRANS(vmsltu_vv, opivv_cmp_check)
-+GEN_OPIVV_TRANS(vmslt_vv, opivv_cmp_check)
-+GEN_OPIVV_TRANS(vmsleu_vv, opivv_cmp_check)
-+GEN_OPIVV_TRANS(vmsle_vv, opivv_cmp_check)
-+
-+static bool opivx_cmp_check(DisasContext *s, arg_rmrr *a)
-+{
-+    return (vext_check_isa_ill(s) &&
-+            vext_check_reg(s, a->rs2, false) &&
-+            (vext_check_overlap_group(a->rd, 1, a->rs2, 1 << s->lmul) ||
-+             (s->lmul == 0)));
-+}
-+
-+GEN_OPIVX_TRANS(vmseq_vx, opivx_cmp_check)
-+GEN_OPIVX_TRANS(vmsne_vx, opivx_cmp_check)
-+GEN_OPIVX_TRANS(vmsltu_vx, opivx_cmp_check)
-+GEN_OPIVX_TRANS(vmslt_vx, opivx_cmp_check)
-+GEN_OPIVX_TRANS(vmsleu_vx, opivx_cmp_check)
-+GEN_OPIVX_TRANS(vmsle_vx, opivx_cmp_check)
-+GEN_OPIVX_TRANS(vmsgtu_vx, opivx_cmp_check)
-+GEN_OPIVX_TRANS(vmsgt_vx, opivx_cmp_check)
-+
-+GEN_OPIVI_TRANS(vmseq_vi, 0, vmseq_vx, opivx_cmp_check)
-+GEN_OPIVI_TRANS(vmsne_vi, 0, vmsne_vx, opivx_cmp_check)
-+GEN_OPIVI_TRANS(vmsleu_vi, 1, vmsleu_vx, opivx_cmp_check)
-+GEN_OPIVI_TRANS(vmsle_vi, 0, vmsle_vx, opivx_cmp_check)
-+GEN_OPIVI_TRANS(vmsgtu_vi, 1, vmsgtu_vx, opivx_cmp_check)
-+GEN_OPIVI_TRANS(vmsgt_vi, 0, vmsgt_vx, opivx_cmp_check)
-diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-index 7b59719baa..07e474781c 100644
---- a/target/riscv/vector_helper.c
-+++ b/target/riscv/vector_helper.c
-@@ -1409,3 +1409,126 @@ GEN_VEXT_SHIFT_VX(vnsrl_vx_w, uint32_t, uint64_t, H4, H8, DO_SRL, 0x3f, clearl)
- GEN_VEXT_SHIFT_VX(vnsra_vx_b, int8_t, int16_t, H1, H2, DO_SRL, 0xf, clearb)
- GEN_VEXT_SHIFT_VX(vnsra_vx_h, int16_t, int32_t, H2, H4, DO_SRL, 0x1f, clearh)
- GEN_VEXT_SHIFT_VX(vnsra_vx_w, int32_t, int64_t, H4, H8, DO_SRL, 0x3f, clearl)
-+
-+/* Vector Integer Comparison Instructions */
-+#define DO_MSEQ(N, M) (N == M)
-+#define DO_MSNE(N, M) (N != M)
-+#define DO_MSLT(N, M) (N < M)
-+#define DO_MSLE(N, M) (N <= M)
-+#define DO_MSGT(N, M) (N > M)
-+
-+#define GEN_VEXT_CMP_VV(NAME, ETYPE, H, DO_OP)                \
-+void HELPER(NAME)(void *vd, void *v0, void *vs1, void *vs2,   \
-+                  CPURISCVState *env, uint32_t desc)          \
-+{                                                             \
-+    uint32_t mlen = vext_mlen(desc);                          \
-+    uint32_t vm = vext_vm(desc);                              \
-+    uint32_t vl = env->vl;                                    \
-+    uint32_t vlmax = vext_maxsz(desc) / sizeof(ETYPE);        \
-+    uint32_t i;                                               \
-+                                                              \
-+    for (i = 0; i < vl; i++) {                                \
-+        ETYPE s1 = *((ETYPE *)vs1 + H(i));                    \
-+        ETYPE s2 = *((ETYPE *)vs2 + H(i));                    \
-+        if (!vm && !vext_elem_mask(v0, mlen, i)) {            \
-+            continue;                                         \
-+        }                                                     \
-+        vext_set_elem_mask(vd, mlen, i, DO_OP(s2, s1));       \
-+    }                                                         \
-+    for (; i < vlmax; i++) {                                  \
-+        vext_set_elem_mask(vd, mlen, i, 0);                   \
-+    }                                                         \
-+}
-+
-+GEN_VEXT_CMP_VV(vmseq_vv_b, uint8_t,  H1, DO_MSEQ)
-+GEN_VEXT_CMP_VV(vmseq_vv_h, uint16_t, H2, DO_MSEQ)
-+GEN_VEXT_CMP_VV(vmseq_vv_w, uint32_t, H4, DO_MSEQ)
-+GEN_VEXT_CMP_VV(vmseq_vv_d, uint64_t, H8, DO_MSEQ)
-+
-+GEN_VEXT_CMP_VV(vmsne_vv_b, uint8_t,  H1, DO_MSNE)
-+GEN_VEXT_CMP_VV(vmsne_vv_h, uint16_t, H2, DO_MSNE)
-+GEN_VEXT_CMP_VV(vmsne_vv_w, uint32_t, H4, DO_MSNE)
-+GEN_VEXT_CMP_VV(vmsne_vv_d, uint64_t, H8, DO_MSNE)
-+
-+GEN_VEXT_CMP_VV(vmsltu_vv_b, uint8_t,  H1, DO_MSLT)
-+GEN_VEXT_CMP_VV(vmsltu_vv_h, uint16_t, H2, DO_MSLT)
-+GEN_VEXT_CMP_VV(vmsltu_vv_w, uint32_t, H4, DO_MSLT)
-+GEN_VEXT_CMP_VV(vmsltu_vv_d, uint64_t, H8, DO_MSLT)
-+
-+GEN_VEXT_CMP_VV(vmslt_vv_b, int8_t,  H1, DO_MSLT)
-+GEN_VEXT_CMP_VV(vmslt_vv_h, int16_t, H2, DO_MSLT)
-+GEN_VEXT_CMP_VV(vmslt_vv_w, int32_t, H4, DO_MSLT)
-+GEN_VEXT_CMP_VV(vmslt_vv_d, int64_t, H8, DO_MSLT)
-+
-+GEN_VEXT_CMP_VV(vmsleu_vv_b, uint8_t,  H1, DO_MSLE)
-+GEN_VEXT_CMP_VV(vmsleu_vv_h, uint16_t, H2, DO_MSLE)
-+GEN_VEXT_CMP_VV(vmsleu_vv_w, uint32_t, H4, DO_MSLE)
-+GEN_VEXT_CMP_VV(vmsleu_vv_d, uint64_t, H8, DO_MSLE)
-+
-+GEN_VEXT_CMP_VV(vmsle_vv_b, int8_t,  H1, DO_MSLE)
-+GEN_VEXT_CMP_VV(vmsle_vv_h, int16_t, H2, DO_MSLE)
-+GEN_VEXT_CMP_VV(vmsle_vv_w, int32_t, H4, DO_MSLE)
-+GEN_VEXT_CMP_VV(vmsle_vv_d, int64_t, H8, DO_MSLE)
-+
-+#define GEN_VEXT_CMP_VX(NAME, ETYPE, H, DO_OP)                      \
-+void HELPER(NAME)(void *vd, void *v0, target_ulong s1, void *vs2,   \
-+                  CPURISCVState *env, uint32_t desc)                \
-+{                                                                   \
-+    uint32_t mlen = vext_mlen(desc);                                \
-+    uint32_t vm = vext_vm(desc);                                    \
-+    uint32_t vl = env->vl;                                          \
-+    uint32_t vlmax = vext_maxsz(desc) / sizeof(ETYPE);              \
-+    uint32_t i;                                                     \
-+                                                                    \
-+    for (i = 0; i < vl; i++) {                                      \
-+        ETYPE s2 = *((ETYPE *)vs2 + H(i));                          \
-+        if (!vm && !vext_elem_mask(v0, mlen, i)) {                  \
-+            continue;                                               \
-+        }                                                           \
-+        vext_set_elem_mask(vd, mlen, i,                             \
-+                DO_OP(s2, (ETYPE)(target_long)s1));                 \
-+    }                                                               \
-+    for (; i < vlmax; i++) {                                        \
-+        vext_set_elem_mask(vd, mlen, i, 0);                         \
-+    }                                                               \
-+}
-+
-+GEN_VEXT_CMP_VX(vmseq_vx_b, uint8_t,  H1, DO_MSEQ)
-+GEN_VEXT_CMP_VX(vmseq_vx_h, uint16_t, H2, DO_MSEQ)
-+GEN_VEXT_CMP_VX(vmseq_vx_w, uint32_t, H4, DO_MSEQ)
-+GEN_VEXT_CMP_VX(vmseq_vx_d, uint64_t, H8, DO_MSEQ)
-+
-+GEN_VEXT_CMP_VX(vmsne_vx_b, uint8_t,  H1, DO_MSNE)
-+GEN_VEXT_CMP_VX(vmsne_vx_h, uint16_t, H2, DO_MSNE)
-+GEN_VEXT_CMP_VX(vmsne_vx_w, uint32_t, H4, DO_MSNE)
-+GEN_VEXT_CMP_VX(vmsne_vx_d, uint64_t, H8, DO_MSNE)
-+
-+GEN_VEXT_CMP_VX(vmsltu_vx_b, uint8_t,  H1, DO_MSLT)
-+GEN_VEXT_CMP_VX(vmsltu_vx_h, uint16_t, H2, DO_MSLT)
-+GEN_VEXT_CMP_VX(vmsltu_vx_w, uint32_t, H4, DO_MSLT)
-+GEN_VEXT_CMP_VX(vmsltu_vx_d, uint64_t, H8, DO_MSLT)
-+
-+GEN_VEXT_CMP_VX(vmslt_vx_b, int8_t,  H1, DO_MSLT)
-+GEN_VEXT_CMP_VX(vmslt_vx_h, int16_t, H2, DO_MSLT)
-+GEN_VEXT_CMP_VX(vmslt_vx_w, int32_t, H4, DO_MSLT)
-+GEN_VEXT_CMP_VX(vmslt_vx_d, int64_t, H8, DO_MSLT)
-+
-+GEN_VEXT_CMP_VX(vmsleu_vx_b, uint8_t,  H1, DO_MSLE)
-+GEN_VEXT_CMP_VX(vmsleu_vx_h, uint16_t, H2, DO_MSLE)
-+GEN_VEXT_CMP_VX(vmsleu_vx_w, uint32_t, H4, DO_MSLE)
-+GEN_VEXT_CMP_VX(vmsleu_vx_d, uint64_t, H8, DO_MSLE)
-+
-+GEN_VEXT_CMP_VX(vmsle_vx_b, int8_t,  H1, DO_MSLE)
-+GEN_VEXT_CMP_VX(vmsle_vx_h, int16_t, H2, DO_MSLE)
-+GEN_VEXT_CMP_VX(vmsle_vx_w, int32_t, H4, DO_MSLE)
-+GEN_VEXT_CMP_VX(vmsle_vx_d, int64_t, H8, DO_MSLE)
-+
-+GEN_VEXT_CMP_VX(vmsgtu_vx_b, uint8_t,  H1, DO_MSGT)
-+GEN_VEXT_CMP_VX(vmsgtu_vx_h, uint16_t, H2, DO_MSGT)
-+GEN_VEXT_CMP_VX(vmsgtu_vx_w, uint32_t, H4, DO_MSGT)
-+GEN_VEXT_CMP_VX(vmsgtu_vx_d, uint64_t, H8, DO_MSGT)
-+
-+GEN_VEXT_CMP_VX(vmsgt_vx_b, int8_t,  H1, DO_MSGT)
-+GEN_VEXT_CMP_VX(vmsgt_vx_h, int16_t, H2, DO_MSGT)
-+GEN_VEXT_CMP_VX(vmsgt_vx_w, int32_t, H4, DO_MSGT)
-+GEN_VEXT_CMP_VX(vmsgt_vx_d, int64_t, H8, DO_MSGT)
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+
 -- 
-2.23.0
-
+Best regards,
+Vladimir
 
