@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA35320268E
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Jun 2020 23:01:06 +0200 (CEST)
-Received: from localhost ([::1]:58154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D48D20269A
+	for <lists+qemu-devel@lfdr.de>; Sat, 20 Jun 2020 23:06:33 +0200 (CEST)
+Received: from localhost ([::1]:48954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jmkbp-0005fu-SG
-	for lists+qemu-devel@lfdr.de; Sat, 20 Jun 2020 17:01:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51746)
+	id 1jmkh6-0007Qe-6f
+	for lists+qemu-devel@lfdr.de; Sat, 20 Jun 2020 17:06:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51760)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
- id 1jmkXK-0006Ee-Iq
- for qemu-devel@nongnu.org; Sat, 20 Jun 2020 16:56:26 -0400
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:19783)
+ id 1jmkXO-0006OP-KD
+ for qemu-devel@nongnu.org; Sat, 20 Jun 2020 16:56:30 -0400
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:1161)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
- id 1jmkXI-0000SB-Jo
- for qemu-devel@nongnu.org; Sat, 20 Jun 2020 16:56:26 -0400
+ id 1jmkXM-0000SS-94
+ for qemu-devel@nongnu.org; Sat, 20 Jun 2020 16:56:30 -0400
 Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5eee77ca0000>; Sat, 20 Jun 2020 13:55:39 -0700
+ hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5eee77ee0000>; Sat, 20 Jun 2020 13:56:14 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
  by hqpgpgate101.nvidia.com (PGP Universal service);
- Sat, 20 Jun 2020 13:56:23 -0700
+ Sat, 20 Jun 2020 13:56:26 -0700
 X-PGP-Universal: processed;
- by hqpgpgate101.nvidia.com on Sat, 20 Jun 2020 13:56:23 -0700
-Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Sat, 20 Jun
- 2020 20:56:13 +0000
+ by hqpgpgate101.nvidia.com on Sat, 20 Jun 2020 13:56:26 -0700
+Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL109.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Sat, 20 Jun
+ 2020 20:56:21 +0000
 Received: from kwankhede-dev.nvidia.com (172.20.13.39) by HQMAIL107.nvidia.com
  (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via
- Frontend Transport; Sat, 20 Jun 2020 20:56:05 +0000
+ Frontend Transport; Sat, 20 Jun 2020 20:56:13 +0000
 From: Kirti Wankhede <kwankhede@nvidia.com>
 To: <alex.williamson@redhat.com>, <cjia@nvidia.com>
-Subject: [PATCH QEMU v25 12/17] vfio: Add function to start and stop dirty
- pages tracking
-Date: Sun, 21 Jun 2020 01:51:21 +0530
-Message-ID: <1592684486-18511-13-git-send-email-kwankhede@nvidia.com>
+Subject: [PATCH QEMU v25 13/17] vfio: create mapped iova list when vIOMMU is
+ enabled
+Date: Sun, 21 Jun 2020 01:51:22 +0530
+Message-ID: <1592684486-18511-14-git-send-email-kwankhede@nvidia.com>
 X-Mailer: git-send-email 2.7.0
 In-Reply-To: <1592684486-18511-1-git-send-email-kwankhede@nvidia.com>
 References: <1592684486-18511-1-git-send-email-kwankhede@nvidia.com>
@@ -46,19 +46,19 @@ X-NVConfidentiality: public
 MIME-Version: 1.0
 Content-Type: text/plain
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1592686539; bh=d4GtgRebZrD+j0T32Py4C4tR/eRSo8dzeIagsSuR6cU=;
+ t=1592686574; bh=azm+HEg8eFiI6GAZx/d7Ht6MPVKq1vZpEvScHis2BBU=;
  h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
  In-Reply-To:References:X-NVConfidentiality:MIME-Version:
  Content-Type;
- b=cIHH1839z43c++N4/pbKAzQYwJZNHMO25LmYdiVRPGYtqQ/yXeHpQUXh8NhDwwKHN
- FIipwoNaMSLTZM9JG6lCQiuluR3VWW3JOTk2chpByTcwRtheSVmfgtlGumbNPiK1V+
- X+s3ORRLGvEhiDauoSfy8y95yrVBLm4IXKSxC5G2+R3/7qebndPjT++vT4pZRoa4cO
- 2Qb3+UN8+pOV68RzCLnt8e55OJ1/YrfEk+RGB4Ggyavtxf8cUph9NQHE8T9lsPwwbW
- gBogSNJL8ixsX6MzP5t58Ak+ihS1VnaKCkAygfYGHMSWY9J3zZXipLZchcEGiNzv+7
- kNbU68aR94nKw==
-Received-SPF: pass client-ip=216.228.121.64; envelope-from=kwankhede@nvidia.com;
- helo=hqnvemgate25.nvidia.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/20 16:55:03
+ b=CSAmbb5VyjkUYUl2YEmLdzYnnjRVzs3Tiv6sikoYmCe0+m0cEG1xcewLqkdmqQIgn
+ WJ7Wc+SJvqO2HarasEy9AsIvEELsohUhwjIIyr3LUuDVw3tjo3nbU2tNuH49z57v+M
+ bP0PKRwolkyxg2QE4LDzSffLIEB02/lgbDMQTMM3bA5dJeGplFv0Gg+G8+v/cF0T95
+ V3JyYfKB4LnQj7doy1HCmIgM2o/b4mQp0ioa9Z1aefpNooqRhCF5E0rhakWligNURB
+ G0I8yRMR5iXDjFHYDyr4cwwCX7s1KPItNolvdo4j9AdvcsalUIYrSsSA80mX0D/kSD
+ yMmL/G405bqKw==
+Received-SPF: pass client-ip=216.228.121.65; envelope-from=kwankhede@nvidia.com;
+ helo=hqnvemgate26.nvidia.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/20 16:54:48
 X-ACL-Warn: Detected OS   = Windows 7 or 8 [fuzzy]
 X-Spam_score_int: -80
 X-Spam_score: -8.1
@@ -90,89 +90,160 @@ Cc: cohuck@redhat.com, aik@ozlabs.ru, Zhengxiao.zx@Alibaba-inc.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Call VFIO_IOMMU_DIRTY_PAGES ioctl to start and stop dirty pages tracking
-for VFIO devices.
+Create mapped iova list when vIOMMU is enabled. For each mapped iova
+save translated address. Add node to list on MAP and remove node from
+list on UNMAP.
+This list is used to track dirty pages during migration.
 
 Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- hw/vfio/migration.c | 36 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 36 insertions(+)
+ hw/vfio/common.c              | 58 ++++++++++++++++++++++++++++++++++++++-----
+ include/hw/vfio/vfio-common.h |  8 ++++++
+ 2 files changed, 60 insertions(+), 6 deletions(-)
 
-diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
-index faacea5327cb..e0fbb3a01855 100644
---- a/hw/vfio/migration.c
-+++ b/hw/vfio/migration.c
-@@ -11,6 +11,7 @@
- #include "qemu/main-loop.h"
- #include "qemu/cutils.h"
- #include <linux/vfio.h>
-+#include <sys/ioctl.h>
- 
- #include "sysemu/runstate.h"
- #include "hw/vfio/vfio-common.h"
-@@ -329,6 +330,32 @@ static int vfio_load_device_config_state(QEMUFile *f, void *opaque)
-     return qemu_file_get_error(f);
+diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+index e0d3d4585a65..6921a78e9ba5 100644
+--- a/hw/vfio/common.c
++++ b/hw/vfio/common.c
+@@ -408,8 +408,8 @@ static bool vfio_listener_skipped_section(MemoryRegionSection *section)
  }
  
-+static int vfio_start_dirty_page_tracking(VFIODevice *vbasedev, bool start)
-+{
-+    int ret;
-+    VFIOContainer *container = vbasedev->group->container;
-+    struct vfio_iommu_type1_dirty_bitmap dirty = {
-+        .argsz = sizeof(dirty),
-+    };
-+
-+    if (start) {
-+        if (vbasedev->device_state & VFIO_DEVICE_STATE_SAVING) {
-+            dirty.flags = VFIO_IOMMU_DIRTY_PAGES_FLAG_START;
-+        } else {
-+            return -EINVAL;
-+        }
-+    } else {
-+            dirty.flags = VFIO_IOMMU_DIRTY_PAGES_FLAG_STOP;
-+    }
-+
-+    ret = ioctl(container->fd, VFIO_IOMMU_DIRTY_PAGES, &dirty);
-+    if (ret) {
-+        error_report("Failed to set dirty tracking flag 0x%x errno: %d",
-+                     dirty.flags, errno);
-+    }
-+    return ret;
-+}
-+
- /* ---------------------------------------------------------------------- */
- 
- static int vfio_save_setup(QEMUFile *f, void *opaque)
-@@ -360,6 +387,11 @@ static int vfio_save_setup(QEMUFile *f, void *opaque)
-         return ret;
+ /* Called with rcu_read_lock held.  */
+-static bool vfio_get_vaddr(IOMMUTLBEntry *iotlb, void **vaddr,
+-                           bool *read_only)
++static bool vfio_get_xlat_addr(IOMMUTLBEntry *iotlb, void **vaddr,
++                               ram_addr_t *ram_addr, bool *read_only)
+ {
+     MemoryRegion *mr;
+     hwaddr xlat;
+@@ -440,8 +440,17 @@ static bool vfio_get_vaddr(IOMMUTLBEntry *iotlb, void **vaddr,
+         return false;
      }
  
-+    ret = vfio_start_dirty_page_tracking(vbasedev, true);
-+    if (ret) {
-+        return ret;
+-    *vaddr = memory_region_get_ram_ptr(mr) + xlat;
+-    *read_only = !writable || mr->readonly;
++    if (vaddr) {
++        *vaddr = memory_region_get_ram_ptr(mr) + xlat;
 +    }
 +
-     qemu_put_be64(f, VFIO_MIG_FLAG_END_OF_STATE);
- 
-     ret = qemu_file_get_error(f);
-@@ -375,6 +407,8 @@ static void vfio_save_cleanup(void *opaque)
-     VFIODevice *vbasedev = opaque;
-     VFIOMigration *migration = vbasedev->migration;
- 
-+    vfio_start_dirty_page_tracking(vbasedev, false);
++    if (ram_addr) {
++        *ram_addr = memory_region_get_ram_addr(mr) + xlat;
++    }
 +
-     if (migration->region.mmaps) {
-         vfio_region_unmap(&migration->region);
-     }
-@@ -706,6 +740,8 @@ static void vfio_migration_state_notifier(Notifier *notifier, void *data)
-         if (ret) {
-             error_report("%s: Failed to set state RUNNING", vbasedev->name);
++    if (read_only) {
++        *read_only = !writable || mr->readonly;
++    }
+ 
+     return true;
+ }
+@@ -451,7 +460,6 @@ static void vfio_iommu_map_notify(IOMMUNotifier *n, IOMMUTLBEntry *iotlb)
+     VFIOGuestIOMMU *giommu = container_of(n, VFIOGuestIOMMU, n);
+     VFIOContainer *container = giommu->container;
+     hwaddr iova = iotlb->iova + giommu->iommu_offset;
+-    bool read_only;
+     void *vaddr;
+     int ret;
+ 
+@@ -467,7 +475,10 @@ static void vfio_iommu_map_notify(IOMMUNotifier *n, IOMMUTLBEntry *iotlb)
+     rcu_read_lock();
+ 
+     if ((iotlb->perm & IOMMU_RW) != IOMMU_NONE) {
+-        if (!vfio_get_vaddr(iotlb, &vaddr, &read_only)) {
++        ram_addr_t ram_addr;
++        bool read_only;
++
++        if (!vfio_get_xlat_addr(iotlb, &vaddr, &ram_addr, &read_only)) {
+             goto out;
          }
+         /*
+@@ -485,8 +496,28 @@ static void vfio_iommu_map_notify(IOMMUNotifier *n, IOMMUTLBEntry *iotlb)
+                          "0x%"HWADDR_PRIx", %p) = %d (%m)",
+                          container, iova,
+                          iotlb->addr_mask + 1, vaddr, ret);
++        } else {
++            VFIOIovaRange *iova_range;
 +
-+        vfio_start_dirty_page_tracking(vbasedev, false);
-     }
- }
++            iova_range = g_malloc0(sizeof(*iova_range));
++            iova_range->iova = iova;
++            iova_range->size = iotlb->addr_mask + 1;
++            iova_range->ram_addr = ram_addr;
++
++            QLIST_INSERT_HEAD(&giommu->iova_list, iova_range, next);
+         }
+     } else {
++        VFIOIovaRange *iova_range, *tmp;
++
++        QLIST_FOREACH_SAFE(iova_range, &giommu->iova_list, next, tmp) {
++            if (iova_range->iova >= iova &&
++                iova_range->iova + iova_range->size <= iova +
++                                                       iotlb->addr_mask + 1) {
++                QLIST_REMOVE(iova_range, next);
++                g_free(iova_range);
++            }
++        }
++
+         ret = vfio_dma_unmap(container, iova, iotlb->addr_mask + 1);
+         if (ret) {
+             error_report("vfio_dma_unmap(%p, 0x%"HWADDR_PRIx", "
+@@ -643,6 +674,7 @@ static void vfio_listener_region_add(MemoryListener *listener,
+             g_free(giommu);
+             goto fail;
+         }
++        QLIST_INIT(&giommu->iova_list);
+         QLIST_INSERT_HEAD(&container->giommu_list, giommu, giommu_next);
+         memory_region_iommu_replay(giommu->iommu, &giommu->n);
+ 
+@@ -741,6 +773,13 @@ static void vfio_listener_region_del(MemoryListener *listener,
+         QLIST_FOREACH(giommu, &container->giommu_list, giommu_next) {
+             if (MEMORY_REGION(giommu->iommu) == section->mr &&
+                 giommu->n.start == section->offset_within_region) {
++                VFIOIovaRange *iova_range, *tmp;
++
++                QLIST_FOREACH_SAFE(iova_range, &giommu->iova_list, next, tmp) {
++                    QLIST_REMOVE(iova_range, next);
++                    g_free(iova_range);
++                }
++
+                 memory_region_unregister_iommu_notifier(section->mr,
+                                                         &giommu->n);
+                 QLIST_REMOVE(giommu, giommu_next);
+@@ -1538,6 +1577,13 @@ static void vfio_disconnect_container(VFIOGroup *group)
+         QLIST_REMOVE(container, next);
+ 
+         QLIST_FOREACH_SAFE(giommu, &container->giommu_list, giommu_next, tmp) {
++            VFIOIovaRange *iova_range, *itmp;
++
++            QLIST_FOREACH_SAFE(iova_range, &giommu->iova_list, next, itmp) {
++                QLIST_REMOVE(iova_range, next);
++                g_free(iova_range);
++            }
++
+             memory_region_unregister_iommu_notifier(
+                     MEMORY_REGION(giommu->iommu), &giommu->n);
+             QLIST_REMOVE(giommu, giommu_next);
+diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
+index 5a57a78ec517..56b75e4a8bc4 100644
+--- a/include/hw/vfio/vfio-common.h
++++ b/include/hw/vfio/vfio-common.h
+@@ -89,11 +89,19 @@ typedef struct VFIOContainer {
+     QLIST_ENTRY(VFIOContainer) next;
+ } VFIOContainer;
+ 
++typedef struct VFIOIovaRange {
++    hwaddr iova;
++    size_t size;
++    ram_addr_t ram_addr;
++    QLIST_ENTRY(VFIOIovaRange) next;
++} VFIOIovaRange;
++
+ typedef struct VFIOGuestIOMMU {
+     VFIOContainer *container;
+     IOMMUMemoryRegion *iommu;
+     hwaddr iommu_offset;
+     IOMMUNotifier n;
++    QLIST_HEAD(, VFIOIovaRange) iova_list;
+     QLIST_ENTRY(VFIOGuestIOMMU) giommu_next;
+ } VFIOGuestIOMMU;
  
 -- 
 2.7.0
