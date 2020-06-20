@@ -2,104 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FF4C202433
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Jun 2020 16:39:39 +0200 (CEST)
-Received: from localhost ([::1]:50452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 800A82024AA
+	for <lists+qemu-devel@lfdr.de>; Sat, 20 Jun 2020 17:05:07 +0200 (CEST)
+Received: from localhost ([::1]:59144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jmeeg-0007y5-Gd
-	for lists+qemu-devel@lfdr.de; Sat, 20 Jun 2020 10:39:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56824)
+	id 1jmf3K-0006Kg-1Z
+	for lists+qemu-devel@lfdr.de; Sat, 20 Jun 2020 11:05:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jmecQ-0002sn-Pz; Sat, 20 Jun 2020 10:37:18 -0400
-Received: from mail-eopbgr50102.outbound.protection.outlook.com
- ([40.107.5.102]:35810 helo=EUR03-VE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jmecO-0004UK-SP; Sat, 20 Jun 2020 10:37:18 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=W4F79wJMwT09FptiTx+Fw7fqc1RcIJG1vKNLfHaWvrqmXiM0ulRw6KN42jitVsP2bLMHtqdsv/+bD5PTVHNV1GFngWFce+xrp6RB9DZXzGNlpbqqtgvrTcQADxQfkhDxwve2y5hFA8hEcMfYN5nBQm5TA7GF0lh5quYDpixDct9WU4R0WV2lWIu7OLhkAuM6gOcWcOs8+DrVG9ntEyBsgDW9IVMwbaItxQg5NCanU7es6kCsgKYxWXqP8nsTkFQvZS9NLu1+yRUlql2nRMQO3o987tupDhqhVYoTYUgaXmJNtRdMDkDfhjkvypVmHENrumJklHIlqMxNB+gBVkHKnw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Cxq4by7r7/43OxvqEV2GmA4STFQGX0fX6D3AxzMKc0Q=;
- b=nLrXfrgD6yTMocoyT24AY+ZaCBhJbGA6eGHo4yvMYq21HGm1oWv0fDFnu3eCLzXhTa79Sxj/2G2/7WKVFPvgEmm2p0qpO3trMZl/+Juvvw4KQrN2ZELPrgYASpNRiknRsOoaDQfLYFiLXrW5G84fUHU/B+DV0owOC4zibumOrH7/xacskNgTcABeA2RdSsH7TERoI5kmhz/pRG8kBdw9Xzm5TN+EmkQh6ub5k4HzGK5B+oeOmv2vuqPCIcQQhbh94xZqNz3HB5FrW6W985nsrIU43K1U8w14p4Np/jCAS7ZiFRJdWelCJPou6Z/srrH7IcSOTZmiDKelkwQRGavWqg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Cxq4by7r7/43OxvqEV2GmA4STFQGX0fX6D3AxzMKc0Q=;
- b=aX9uBkdyLax3qLupvJpogZUE3Y1a0Xl4uvfX2XkvbhA++e+eMPKyopHwte6ARQZXFg1Zzbh+qwnjPuUOIE1Sy7w1qI7sjxXa+LPtF1FvFTnp0UQsSV0hOHWKdMHcYDaFcvZ6ksop1y9Zi/CbLpaRQ+uTZYcPBymS7mjQ88CwYq8=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM7PR08MB5430.eurprd08.prod.outlook.com (2603:10a6:20b:106::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3109.21; Sat, 20 Jun
- 2020 14:37:02 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::a408:2f0f:bc6c:d312]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::a408:2f0f:bc6c:d312%3]) with mapi id 15.20.3109.021; Sat, 20 Jun 2020
- 14:37:02 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH 5/5] iotests: add 298 to test new preallocate filter driver
-Date: Sat, 20 Jun 2020 17:36:49 +0300
-Message-Id: <20200620143649.225852-6-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20200620143649.225852-1-vsementsov@virtuozzo.com>
-References: <20200620143649.225852-1-vsementsov@virtuozzo.com>
-Content-Type: text/plain
-X-ClientProxiedBy: AM3PR03CA0055.eurprd03.prod.outlook.com
- (2603:10a6:207:5::13) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jmf2V-0005v7-V0
+ for qemu-devel@nongnu.org; Sat, 20 Jun 2020 11:04:15 -0400
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:34264)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jmf2U-00007o-9E
+ for qemu-devel@nongnu.org; Sat, 20 Jun 2020 11:04:15 -0400
+Received: by mail-ot1-x342.google.com with SMTP id n5so9635520otj.1
+ for <qemu-devel@nongnu.org>; Sat, 20 Jun 2020 08:04:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Q3aPgUNgSVHPH2fw/7ZEYb9EqrY0Myt/Bj5i97rY46Y=;
+ b=y4YNqghehyhsWzfoyi1FB3XQu1vEXv1vPStg+QoDEKTmUCP6t4cyCdQxtUDWVdirXu
+ w3dOHONjly5/w2pgjgeaLz2+Vqd+MX94exLR8ExoxqhTVz2EtrVNJCocG572NGZQDNQv
+ 0wBPznvrVD40Ywb+zmkeZe/eoYMAoyVXYSQfrH7+C7/l9+E/AAB6WcaorO5X6OYNYvb+
+ nEpzmilbi6Ai6zcBjcbVBoX+R2lwI/STB+qHMXvvbOu9UwyfOqcj4WOFnAvWiKG7tm8v
+ iJ2xpC2UaO3WoHao93GN/cg7f/DBElBV+ZZSWZp2MhWBo+Ap4WEXDSk+6IkhW2KZDsC6
+ oqeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Q3aPgUNgSVHPH2fw/7ZEYb9EqrY0Myt/Bj5i97rY46Y=;
+ b=ZjPDOm1FaNEqUvr0Bm9NyStYgdpjhEX/Ln8lGaKkTyt7AEnP9fxkmnMSoyvsWkKWlb
+ T5LbpVdbCVJVXG2W26kNIrd4grRoaMvPvUTlDKjA/8554rkLhGIUr23fOt7giNzL6zgt
+ /FcuFUWuLoHtDZWP6e0XPDb2PuTyjgg4PxMJXI0v9hoSBy0E2OfDCzMd/2jIONDPoCvF
+ LmvETxBGITdjm0gJg4zfe/NPXvvnm9Q8JleFkXXCLZOZwXNbOQvwyF04mrD6TgfaNCaF
+ BaiKwMvQDaEoEZIqPojiKGY+pRXAcGq+oJed1HZMCX4ty9IPw50vhCbRGJMwF+AQr/GZ
+ kwSA==
+X-Gm-Message-State: AOAM5310g6DPVzVcmvAaY9nq8ge4l0zh0n2kRRMD+hilz4dCvtwZMWHB
+ ecTXS8qxku6VAWdrDMAEv8DGlCRevZ/YlbrcOxCHQA==
+X-Google-Smtp-Source: ABdhPJxzJCzX4AGS7eBJPC76IN0NEm+UPIDw6On01ImWnL26ocN+KYkW4HpjFeYwPNBjHpREsY8/r4d0dJ7NINXXTzc=
+X-Received: by 2002:a05:6830:18da:: with SMTP id
+ v26mr7533251ote.135.1592665452973; 
+ Sat, 20 Jun 2020 08:04:12 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from kvm.sw.ru (185.215.60.122) by
- AM3PR03CA0055.eurprd03.prod.outlook.com (2603:10a6:207:5::13) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3109.22 via Frontend Transport; Sat, 20 Jun 2020 14:37:01 +0000
-X-Mailer: git-send-email 2.18.0
-X-Originating-IP: [185.215.60.122]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: dfcaa7bf-7512-47c8-3602-08d81527653b
-X-MS-TrafficTypeDiagnostic: AM7PR08MB5430:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB5430D9929A6EFF918E85359FC1990@AM7PR08MB5430.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
-X-Forefront-PRVS: 0440AC9990
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: iwCK/FRPyHjD1woIPWJj8WjkJY5O4LyE1YFv9O5o78gDfDewjazc8yXkPno+qm0c8s8ZnjqcWRMYZnMsm2kByqz95a43KpV/XIcVyl4Ujw9R/pFoRy688haAmKANuChn0M72XWK5MpK6GbznvaM4RF3x8uWN1CSkPJCygMtWm5mkkNkpcIfsM8uhM+DmxIx4zHuOUCnv2UiS/YbOhLj6o8UE41XrpHkmBr36DHoa7Q982VyddmtNuWFEJsKxEiAI7zKsnqQVP+R64TCbIln0bthbojZvINWplT8rdkfdYefE78Gwwsr7Vg3PpdwcUyzrTzqr+vo+V88BRJSEhNDjvIx7VF5xrOf1Uuz0sTlVNAyS4r3e8Vur2kYCY3WhkVPkRd7iVUkTkyGkDAnGR0Yx8AQqUH3WkyxFWCBwr8gkTnMAqY1aa9owPOSSzC6NNl0J6SmoE4B9NpmmDhZxrGBvMMyw01fvYiFoOFgpEkHJMK4=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(366004)(376002)(346002)(396003)(136003)(39840400004)(6666004)(26005)(186003)(16526019)(86362001)(2906002)(6916009)(6512007)(4326008)(83380400001)(52116002)(2616005)(6506007)(478600001)(956004)(36756003)(5660300002)(6486002)(8676002)(316002)(66946007)(8936002)(66476007)(1076003)(66556008)(21314003)(2004002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: PUnYz3KfnkF3thYESDf1n2n20j5laY+zoIi/IXiqw5e6V5BVGemgYjS/7SJ27cTsgD5BbpuyiPqaXA65AKtf2E7y83vOpC/OusRCzGecHTmG2nrpNxapVbZ+dzgQ/3k+2DDJ2C+WeT0nCbREKNXAmnwT0q+FVQYXcXgH3wvb980BIee6FN3l/SS2YCx7PUbIeeoYfSxx1SNckIsbT89A1cGxvU5TdjKEn6WgUbgu9nRwLkQpTLmMNG+thqk2Oj4iBOvKyFYVW707srSLAeXdoVK58z8Xl1foJpNaQn/v0Czimz/ng+k0kRyGao2mvA7julPJMIoOEnKvAETo1t2ijzIRkUMM30w1QsB/Ne+XXH6yCjxaP6brFI69Qabrd74ndyQUPkReL2I2f/U8WX84WLWVVLjdL+DBjPIjFJlMVBSIgpL94Y6LoqnCnG+p45DabWPOfx+qRtag+hvkict5zLDOvSLk3dZdltk5MPSATwY=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dfcaa7bf-7512-47c8-3602-08d81527653b
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jun 2020 14:37:02.0596 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: igr2+sA/HLFIR+R/TOsdZBIt9A0j+vF6dNg1FQCu9h2pQkL9q8W9SpBpa0e5gCSdMcl5vo7ueO8ylUN8qkVYqJEP2RRcvl1xPWShTgDtqDM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5430
-Received-SPF: pass client-ip=40.107.5.102;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR03-VE1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/20 10:36:59
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+References: <20200620133207.26849-1-aleksandar.qemu.devel@gmail.com>
+ <20200620133207.26849-3-aleksandar.qemu.devel@gmail.com>
+In-Reply-To: <20200620133207.26849-3-aleksandar.qemu.devel@gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sat, 20 Jun 2020 16:04:01 +0100
+Message-ID: <CAFEAcA9T1NGyi0g-DN+KGxpJwepWLfapDaWKVePhMEfeHvk5mA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] checkpatch: Change occurences of 'kernel' to 'qemu'
+ in user messages
+To: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x342.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -113,93 +81,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
- Anton.Nefedov@acronis.com, armbru@redhat.com, qemu-devel@nongnu.org,
- mreitz@redhat.com, stefanha@redhat.com, den@openvz.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- tests/qemu-iotests/298     | 45 ++++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/298.out |  5 +++++
- tests/qemu-iotests/group   |  1 +
- 3 files changed, 51 insertions(+)
- create mode 100644 tests/qemu-iotests/298
- create mode 100644 tests/qemu-iotests/298.out
+On Sat, 20 Jun 2020 at 14:33, Aleksandar Markovic
+<aleksandar.qemu.devel@gmail.com> wrote:
+>
+> It is odd that we inform user that, for example, his current working
+> directory is not kernel root, when, in face, we mean qemu root.
+>
+> Replace that and few other similar odd user messages.
+>
+> Signed-off-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+> ---
+>  scripts/checkpatch.pl | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/tests/qemu-iotests/298 b/tests/qemu-iotests/298
-new file mode 100644
-index 0000000000..a6af14fc55
---- /dev/null
-+++ b/tests/qemu-iotests/298
-@@ -0,0 +1,45 @@
-+#!/usr/bin/env python3
-+#
-+# Test for preallocate filter
-+#
-+# Copyright (c) 2020 Virtuozzo International GmbH.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+import os
-+import iotests
-+from iotests import log
-+
-+iotests.script_initialize(supported_fmts=['qcow2'])
-+
-+size = 10 * 1024 * 1024
-+disk = iotests.file_path('disk')
-+
-+iotests.qemu_img_create('-f', iotests.imgfmt, disk, str(size))
-+
-+opts = f'driver={iotests.imgfmt},' \
-+    f'file.driver=preallocate,file.file.filename={disk}'
-+p = iotests.QemuIoInteractive('--image-opts', '-t', 'none', opts)
-+
-+log(p.cmd('write 0 1M'), filters=[iotests.filter_qemu_io])
-+p.cmd('flush')
-+
-+if os.path.getsize(disk) > 100 * 1024 * 1024:
-+    log('file in progress is big, preallocation works')
-+
-+p.close()
-+
-+if os.path.getsize(disk) < 10 * 1024 * 1024:
-+    log('file is small after close')
-diff --git a/tests/qemu-iotests/298.out b/tests/qemu-iotests/298.out
-new file mode 100644
-index 0000000000..6c34d172a4
---- /dev/null
-+++ b/tests/qemu-iotests/298.out
-@@ -0,0 +1,5 @@
-+wrote 1048576/1048576 bytes at offset 0
-+1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+
-+file in progress is big, preallocation works
-+file is small after close
-diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index d886fa0cb3..1bfb864841 100644
---- a/tests/qemu-iotests/group
-+++ b/tests/qemu-iotests/group
-@@ -302,3 +302,4 @@
- 291 rw quick
- 292 rw auto quick
- 297 meta
-+298 meta
--- 
-2.18.0
+Regardless of my comments on the cover letter, for user facing
+messages this makes sense, especially since it's only 3 lines.
 
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+
+thanks
+-- PMM
 
