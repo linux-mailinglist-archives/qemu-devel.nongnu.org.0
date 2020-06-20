@@ -2,68 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55607202747
-	for <lists+qemu-devel@lfdr.de>; Sun, 21 Jun 2020 01:04:18 +0200 (CEST)
-Received: from localhost ([::1]:50046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C310D20274D
+	for <lists+qemu-devel@lfdr.de>; Sun, 21 Jun 2020 01:09:04 +0200 (CEST)
+Received: from localhost ([::1]:56884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jmmX3-00019N-BK
-	for lists+qemu-devel@lfdr.de; Sat, 20 Jun 2020 19:04:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40618)
+	id 1jmmbf-0008Ng-P6
+	for lists+qemu-devel@lfdr.de; Sat, 20 Jun 2020 19:09:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42200)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jmmS7-00012t-5X; Sat, 20 Jun 2020 18:59:11 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:40773)
+ id 1jmma5-0006x7-BW; Sat, 20 Jun 2020 19:07:25 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:36285)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jmmS5-0000z5-NS; Sat, 20 Jun 2020 18:59:10 -0400
-Received: by mail-wr1-x444.google.com with SMTP id h5so13165256wrc.7;
- Sat, 20 Jun 2020 15:59:08 -0700 (PDT)
+ id 1jmma3-0002Ly-NM; Sat, 20 Jun 2020 19:07:25 -0400
+Received: by mail-wm1-x344.google.com with SMTP id p19so1787390wmg.1;
+ Sat, 20 Jun 2020 16:07:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=fgUUbNqs1y/GthnSZqBcErzrgj0mvX2yz73QOQqmCzs=;
- b=IN0N44dx5JqQpjFXPsoW6yA4CjsCHIDieV3NYwj54y4/I1VmTOqPB+6LLX1de2zhwz
- 8x7p+3AFWgKwfNq0EB5YQeHquQlw3pf1hh7MNHFXEPSsxnxKd3eSczF6DPBkGzI8v+/I
- XleMDqLpzE7lazF8OnS9QBdIo2tQCOzVwx/LUDDfwOmC46iSZouPeUATAyf4FTV1I0Ze
- nV4O8gnuP1nR1YF6ZA37J/AWEMTDMyMC5MSDfnhS3WTURgKEKvZQbBFiB/HQIRQ0yEDE
- v1T2bQkLCrr0XMP1fBtX2HgywfslHzyeHDpLexjbUHWnVmP1n1dpZ4ELtahS5FMNnqfi
- QZuA==
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=VGwkKeB6tl+dGrbm6jHQLUZ5L3WbmR4JBPloevQDRIU=;
+ b=i3bMEs68t7hIxPLU8I8EPOyTAYoj+PPKepJA2J7T6EhchaG6BEVyjbhCZDUP9iwh7u
+ tr2GXFH48tr4Xol2F5J4lNhL5NiBOM9ra9PWybEgXKzFCYbnNzVkk2QxfwyBG4tKOR8W
+ SbxMkzP+sgbY1NyWCQtCx5dGniCtxRK8hBruqsuZWuRPo3/qea6W8XaoKkqqmTjdYEsA
+ 9UFXnGw8ah3V5q0Ec4FpDr041NioxAelPTRKqvD7hhNJT4Kr2uTW2R9Dshqb+pyHMkmn
+ HcaWqxhYia518QQzCb9rjKLrXC4C3UVvlrNdz0J2TN/usuGSP8lxYOFoua5nzM/snRlU
+ mqNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=fgUUbNqs1y/GthnSZqBcErzrgj0mvX2yz73QOQqmCzs=;
- b=pYTj+ijUhkJc8D69dUCOfHTGsjV5/2kvV2E/Ywfr0xFXMj1+G9bB5zXWN1vnSfenNU
- lYfvziIgM6vamucj9MIHQwQOCqBm4RuEPjC3KMPDoppQlDrByeK7XWeaxg8OcL0QLGk7
- 9RsC3QBGFxhTPcCqFZuDAcm6XpEgrz2/ikhGbe8jY7835zJSaRU9ocxdy7MrX4T11wNl
- 2ckd6l1ZpsJkj0YsUmpNwk368pSqoaytWmvvpRxP6cn1JGiyTZ7LNxGZPz1We+jMJt9C
- MbCAuvgB77eqWm4jFG1n0LMMdHJ3ZcUO5tYJgvrsze4xW1FpluDrEZMmWPmFDLk2P5l0
- RqSg==
-X-Gm-Message-State: AOAM530r/znj1u0QBpWJq0VbsjeAvoFom+nIPMhNKVgCwRu6qsUuxkmU
- 8dxcssi3ubf/qOSQ1f1xHpcO8wFY
-X-Google-Smtp-Source: ABdhPJzcbXkznWCbTX8RdKWF4Mi5SWOJni9zTP3OBw5vPvMI4OlQtTVqCxHjn8wMRjSR5/0Lh+UrNg==
-X-Received: by 2002:adf:f2cd:: with SMTP id d13mr10486117wrp.378.1592693947979; 
- Sat, 20 Jun 2020 15:59:07 -0700 (PDT)
+ :mime-version:content-transfer-encoding;
+ bh=VGwkKeB6tl+dGrbm6jHQLUZ5L3WbmR4JBPloevQDRIU=;
+ b=Hc2bj7/Km5BprXASbV7CXg/bIa7SiRVRhztuUiL0cGdkAenzm0eFuULJJuC6sP1els
+ S665W4E5f2zp4Lgx2NzRutAIOtN6/2Z/Sot7VeUQomLdZ9nc2hSvaeggnK6lpQ+5unZU
+ lu3cUS6U08LjzjH9wauwPYCionk5QASaseCL3eVGJYvKFCKv8m2x4Y1vrQyTSyy93jTB
+ D1LnKv0HBiPSVwBbpl59YZZdZbv6yUNOZwxOConcie4OlwvGh93ti7MRFLUCEGXjvxqY
+ k1aisUTxH/phy+9FXFHO9yyF6Jl84C66B5lMPe1AsLkl/XMgEyk6m9OAcPqOXsyY91Q9
+ pUQg==
+X-Gm-Message-State: AOAM5330K7fMlf/jZk04gLFOcxSNOde/8R8HOlowgMgO/7SuUDh+zQd7
+ 1S9qOlzuvC6PyB5lFNogXX3GAYlv
+X-Google-Smtp-Source: ABdhPJz15+tZmMj/B9tnNwTp8Hf8tErWYJ6Oh1cw7orujMqvT69W9mhGKUardplFE/n5UASERo56Fw==
+X-Received: by 2002:a7b:c441:: with SMTP id l1mr10041426wmi.7.1592694441819;
+ Sat, 20 Jun 2020 16:07:21 -0700 (PDT)
 Received: from localhost.localdomain (1.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id x18sm11147127wmi.35.2020.06.20.15.59.07
+ by smtp.gmail.com with ESMTPSA id o82sm11455037wmo.40.2020.06.20.16.07.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 20 Jun 2020 15:59:07 -0700 (PDT)
+ Sat, 20 Jun 2020 16:07:20 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 8/8] hw/misc/pca9552: Model qdev output GPIOs
-Date: Sun, 21 Jun 2020 00:58:54 +0200
-Message-Id: <20200620225854.31160-9-f4bug@amsat.org>
+Subject: [PATCH v3 0/7] hw/misc: Add LED device
+Date: Sun, 21 Jun 2020 01:07:12 +0200
+Message-Id: <20200620230719.32139-1-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
-In-Reply-To: <20200620225854.31160-1-f4bug@amsat.org>
-References: <20200620225854.31160-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x344.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -85,69 +83,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>,
- Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-arm@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Joel Stanley <joel@jms.id.au>
+ qemu-arm@nongnu.org, Joel Stanley <joel@jms.id.au>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The PCA9552 has 16 GPIOs which can be used as input,
-output or PWM mode. QEMU models the output GPIO with
-the qemu_irq type. Let the device expose the 16 GPIOs
-to allow us to later connect LEDs to these outputs.
+Hello,
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- include/hw/misc/pca9552.h | 1 +
- hw/misc/pca9552.c         | 4 ++++
- 2 files changed, 5 insertions(+)
+These patches are part of the GSoC unselected 'QEMU visualizer'
+project.  As the AVR port is not merged, I switched to microbit
+to keep working on it.
 
-diff --git a/include/hw/misc/pca9552.h b/include/hw/misc/pca9552.h
-index 755be2e8e5..2545087da3 100644
---- a/include/hw/misc/pca9552.h
-+++ b/include/hw/misc/pca9552.h
-@@ -30,6 +30,7 @@ typedef struct PCA9552State {
-     uint8_t max_reg;
-     char *description; /* For debugging purpose only */
-     uint8_t nr_leds;
-+    qemu_irq gpio[PCA9552_PIN_COUNT];
- } PCA9552State;
- 
- #endif
-diff --git a/hw/misc/pca9552.c b/hw/misc/pca9552.c
-index 85557b78d9..8f0ce19b74 100644
---- a/hw/misc/pca9552.c
-+++ b/hw/misc/pca9552.c
-@@ -16,6 +16,7 @@
- #include "hw/qdev-properties.h"
- #include "hw/misc/pca9552.h"
- #include "hw/misc/pca9552_regs.h"
-+#include "hw/irq.h"
- #include "migration/vmstate.h"
- #include "qapi/error.h"
- #include "qapi/visitor.h"
-@@ -88,9 +89,11 @@ static void pca9552_update_pin_input(PCA9552State *s)
- 
-         switch (config) {
-         case PCA9552_LED_ON:
-+            qemu_set_irq(s->gpio[i], 1);
-             s->regs[input_reg] |= 1 << input_shift;
-             break;
-         case PCA9552_LED_OFF:
-+            qemu_set_irq(s->gpio[i], 0);
-             s->regs[input_reg] &= ~(1 << input_shift);
-             break;
-         case PCA9552_LED_PWM0:
-@@ -360,6 +363,7 @@ static void pca9552_realize(DeviceState *dev, Error **errp)
-     if (!s->description) {
-         s->description = g_strdup("pca-unspecified");
-     }
-+    qdev_init_gpio_out(dev, s->gpio, s->nr_leds);
- }
- 
- static Property pca9552_properties[] = {
+This series presents a proof of concept of LED device that can
+be easily connected to a GPIO.
+
+Since v2:
+- Rebased on PCA9552
+- Model intensity to be ready for PWM use (Dave)
+- Remove QMP events until we get a UI visualizer (Peter)
+- Remove microbit patch (Peter)
+
+Since v1: addressed Eric Blake review comments
+- Added QMP rate limit
+
+Next steps planned:
+
+- PoC visualizer...
+- look at using a dbus backend (elmarco)
+- look at LED array/matrix such 7segments.
+
+Regards,
+
+Phil.
+
+Based-on: <20200620225854.31160-1-f4bug@amsat.org>
+
+Philippe Mathieu-Daudé (7):
+  hw/misc: Add a LED device
+  hw/misc/led: Add helper to connect LED to GPIO output
+  hw/misc/led: Emit a trace event when LED intensity has changed
+  hw/arm/aspeed: Add the 3 front LEDs drived by the PCA9552 #1
+  hw/misc/mps2-fpgaio: Use the LED device
+  hw/misc/mps2-scc: Use the LED device
+  hw/arm/tosa: Replace fprintf() calls by LED devices
+
+ include/hw/misc/led.h         | 100 ++++++++++++++++++++++
+ include/hw/misc/mps2-fpgaio.h |   1 +
+ include/hw/misc/mps2-scc.h    |   1 +
+ hw/arm/aspeed.c               |  17 ++++
+ hw/arm/tosa.c                 |  40 +++------
+ hw/misc/led.c                 | 151 ++++++++++++++++++++++++++++++++++
+ hw/misc/mps2-fpgaio.c         |  13 +--
+ hw/misc/mps2-scc.c            |  23 +++---
+ MAINTAINERS                   |   6 ++
+ hw/arm/Kconfig                |   2 +
+ hw/misc/Kconfig               |   5 ++
+ hw/misc/Makefile.objs         |   1 +
+ hw/misc/trace-events          |   6 +-
+ 13 files changed, 321 insertions(+), 45 deletions(-)
+ create mode 100644 include/hw/misc/led.h
+ create mode 100644 hw/misc/led.c
+
 -- 
 2.21.3
 
