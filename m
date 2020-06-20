@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FB4E2026A4
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Jun 2020 23:08:59 +0200 (CEST)
-Received: from localhost ([::1]:58444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90B6220269B
+	for <lists+qemu-devel@lfdr.de>; Sat, 20 Jun 2020 23:06:43 +0200 (CEST)
+Received: from localhost ([::1]:49700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jmkjS-0003y8-91
-	for lists+qemu-devel@lfdr.de; Sat, 20 Jun 2020 17:08:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53488)
+	id 1jmkhG-0007qw-Jw
+	for lists+qemu-devel@lfdr.de; Sat, 20 Jun 2020 17:06:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53484)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jmkfR-0005OR-VK
+ id 1jmkfR-0005NG-AO
  for qemu-devel@nongnu.org; Sat, 20 Jun 2020 17:04:49 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:54117)
+Received: from zero.eik.bme.hu ([152.66.115.2]:54115)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jmkfO-0001mb-Qf
- for qemu-devel@nongnu.org; Sat, 20 Jun 2020 17:04:49 -0400
+ id 1jmkfO-0001mL-M1
+ for qemu-devel@nongnu.org; Sat, 20 Jun 2020 17:04:48 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 51C1774594E;
- Sat, 20 Jun 2020 23:04:41 +0200 (CEST)
+ by localhost (Postfix) with SMTP id 9B0FE748DC8;
+ Sat, 20 Jun 2020 23:04:33 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id C5FFE748DCF; Sat, 20 Jun 2020 23:04:32 +0200 (CEST)
-Message-Id: <ff9136c3151a15cdfa1d9b7a68acf11cffb8efa4.1592686588.git.balaton@eik.bme.hu>
+ id E2C97748DDE; Sat, 20 Jun 2020 23:04:32 +0200 (CEST)
+Message-Id: <f0b64bf047e343f8b2e91baeccb4753bc26b17cc.1592686588.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1592686588.git.balaton@eik.bme.hu>
 References: <cover.1592686588.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v3 2/9] sm501: Drop unneded variable
+Subject: [PATCH v3 9/9] sm501: Fix and optimize overlap check
 Date: Sat, 20 Jun 2020 22:56:28 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 To: qemu-devel@nongnu.org
 X-Spam-Probability: 8%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/20 17:04:33
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -63,43 +63,61 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We don't need a separate variable to keep track if we allocated memory
-that needs to be freed as we can test the pointer itself.
+When doing reverse blit we need to check if source and dest overlap
+but it is not trivial due to possible different base and pitch of
+source and dest. Do rectangle overlap if base and pitch match,
+otherwise just check if memory area containing the rects overlaps so
+rects could possibly overlap.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/display/sm501.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ hw/display/sm501.c | 26 ++++++++++++++++----------
+ 1 file changed, 16 insertions(+), 10 deletions(-)
 
 diff --git a/hw/display/sm501.c b/hw/display/sm501.c
-index 5ceee4166f..5d2e019575 100644
+index 2db347dcbc..e7c69bf7fd 100644
 --- a/hw/display/sm501.c
 +++ b/hw/display/sm501.c
-@@ -796,13 +796,12 @@ static void sm501_2d_operation(SM501State *s)
-             de = db + width + height * (width + dst_pitch);
-             if (rtl && ((db >= sb && db <= se) || (de >= sb && de <= se))) {
-                 /* regions may overlap: copy via temporary */
--                int free_buf = 0, llb = width * (1 << format);
-+                int llb = width * (1 << format);
-                 int tmp_stride = DIV_ROUND_UP(llb, sizeof(uint32_t));
+@@ -690,6 +690,7 @@ static void sm501_2d_operation(SM501State *s)
+     unsigned int dst_pitch = (s->twoD_pitch >> 16) & 0x1FFF;
+     int crt = (s->dc_crt_control & SM501_DC_CRT_CONTROL_SEL) ? 1 : 0;
+     int fb_len = get_width(s, crt) * get_height(s, crt) * get_bpp(s, crt);
++    bool overlap = false;
+ 
+     if ((s->twoD_stretch >> 16) & 0xF) {
+         qemu_log_mask(LOG_UNIMP, "sm501: only XY addressing is supported.\n");
+@@ -784,16 +785,21 @@ static void sm501_2d_operation(SM501State *s)
+                          ldn_he_p(&s->local_mem[src_base + si], bypp));
+                 break;
+             }
+-            /* Check for overlaps, this could be made more exact */
+-            uint32_t sb, se, db, de;
+-            sb = src_base + src_x + src_y * (width + src_pitch);
+-            se = sb + width + height * (width + src_pitch);
+-            db = dst_base + dst_x + dst_y * (width + dst_pitch);
+-            de = db + width + height * (width + dst_pitch);
+-            if (rtl && ((db >= sb && db <= se) || (de >= sb && de <= se))) {
+-                /* regions may overlap: copy via temporary */
+-                int llb = width * bypp;
+-                int tmp_stride = DIV_ROUND_UP(llb, sizeof(uint32_t));
++            /* If reverse blit do simple check for overlaps */
++            if (rtl && src_base == dst_base && src_pitch == dst_pitch) {
++                overlap = (src_x < dst_x + width && src_x + width > dst_x &&
++                           src_y < dst_y + height && src_y + height > dst_y);
++            } else if (rtl) {
++                unsigned int sb, se, db, de;
++                sb = src_base + (src_x + src_y * src_pitch) * bypp;
++                se = sb + (width + height * src_pitch) * bypp;
++                db = dst_base + (dst_x + dst_y * dst_pitch) * bypp;
++                de = db + (width + height * dst_pitch) * bypp;
++                overlap = (db >= sb && db <= se) || (de >= sb && de <= se);
++            }
++            if (overlap) {
++                /* pixman can't do reverse blit: copy via temporary */
++                int tmp_stride = DIV_ROUND_UP(width * bypp, sizeof(uint32_t));
                  uint32_t *tmp = tmp_buf;
  
                  if (tmp_stride * sizeof(uint32_t) * height > sizeof(tmp_buf)) {
-                     tmp = g_malloc(tmp_stride * sizeof(uint32_t) * height);
--                    free_buf = 1;
-                 }
-                 pixman_blt((uint32_t *)&s->local_mem[src_base], tmp,
-                            src_pitch * (1 << format) / sizeof(uint32_t),
-@@ -813,7 +812,7 @@ static void sm501_2d_operation(SM501State *s)
-                            dst_pitch * (1 << format) / sizeof(uint32_t),
-                            8 * (1 << format), 8 * (1 << format),
-                            0, 0, dst_x, dst_y, width, height);
--                if (free_buf) {
-+                if (tmp != tmp_buf) {
-                     g_free(tmp);
-                 }
-             } else {
 -- 
 2.21.3
 
