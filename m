@@ -2,83 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 156E2202A8E
-	for <lists+qemu-devel@lfdr.de>; Sun, 21 Jun 2020 14:48:53 +0200 (CEST)
-Received: from localhost ([::1]:49974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16EDC202A93
+	for <lists+qemu-devel@lfdr.de>; Sun, 21 Jun 2020 14:51:01 +0200 (CEST)
+Received: from localhost ([::1]:58388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jmzP1-00053w-PF
-	for lists+qemu-devel@lfdr.de; Sun, 21 Jun 2020 08:48:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47346)
+	id 1jmzR6-0000aH-5M
+	for lists+qemu-devel@lfdr.de; Sun, 21 Jun 2020 08:51:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jmzNZ-0004cv-Pw
- for qemu-devel@nongnu.org; Sun, 21 Jun 2020 08:47:22 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:36479)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jmzOP-00050f-W6
+ for qemu-devel@nongnu.org; Sun, 21 Jun 2020 08:48:14 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:55394)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jmzNX-0002mo-QT
- for qemu-devel@nongnu.org; Sun, 21 Jun 2020 08:47:21 -0400
-Received: by mail-wm1-x344.google.com with SMTP id p19so2576946wmg.1
- for <qemu-devel@nongnu.org>; Sun, 21 Jun 2020 05:47:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=hpS+CixpisG0EzjJUYe1K/aAzyd8vL4dkIEG7p8Znro=;
- b=jzXmKPgLX9AsdnOqduwdv4zaeg7jKLIyLfigYsObCA0a0oVj7oDCLPLzVR03wa7zHa
- DocadxVujZpd0styGj7J0ZLwLhwpCBLfusT8KDtgMZb//1X6WH1dsnlLhKOJ0FDRagQL
- v14PWW34Oh/KkFhTKwaA6yvlSEMRSfpdaVqbVbmaPjP5DfgIVLHOpO75mWCPR/r8iCn6
- BPaAhtYLXP7GDOWihr8g7SNc0n4YHbka6hZ7pzu3erqw9hVp6BVs+5nSTefAzjRkD6Gw
- NZEPkYtyei5CWYp6PW9OalY18Xw9hL2BZU5lzq7g9xcR4zxBuEdW1gzs3yPLjpTceiRo
- qUvw==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jmzON-0002on-PU
+ for qemu-devel@nongnu.org; Sun, 21 Jun 2020 08:48:13 -0400
+Received: by mail-wm1-x333.google.com with SMTP id g75so4354646wme.5
+ for <qemu-devel@nongnu.org>; Sun, 21 Jun 2020 05:48:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ao9CuPu2FLLdrFCOMJ9P9MaIINUQCoiWmF+vc+aq1q0=;
+ b=D/Y4U4vf1J/6dNi+Qdupn5qr8de12JICm6RPMdTs1Wv5O8SjWwAM2+MyDzr908GIpr
+ ZF0JR5QkJQ/Kl1iv509YxhnPVPARWzd6Pi7saQhS3yRy5ZpOg99vZanTfELZrz3v6tNr
+ OO9KjH0+CwAD0IhvvbM/8b9c1vpda7/j/6iDPDYYcz/S7iwt97idYAIcnAyscYZbasfQ
+ PfIAsKS5vhES0v+aaC+KuU0or8Cml/CLLNr9RgB0dib8+4F+kAW7mpQcNdCgFlf94u1g
+ qaDRC716gaL27rGZKtKnpcZmwpO5R6DewvChm7NKF10CXXLcvi8OSoCVULbo+Udf78h1
+ 3/Kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=hpS+CixpisG0EzjJUYe1K/aAzyd8vL4dkIEG7p8Znro=;
- b=X/gcp3BsCh9bXlJAAbSGuBRiZU4zFLlidnWDS0IhJylwOlBG/Z5hDZLoBQ48Al7ZSi
- DURXcYML8TSlszROorJtlYcBvauq8v6XnUldI8PeZepFbA8h1EUsC0oRGRTOTBiaCv3I
- PSmD+6r8uLRCdrDOMXcYCyTlYmXmBdCRtUBBGjypQDet4XfYGkFlZFvhnfjSjqtRQ9IS
- 9eK+cb2eJvuCW0TqSlUTs1ClYQYpOvNsYYURixuyErd3E9lXb6cfLmMvCpaFx9DoazYN
- 1zuo074QD+cZWoVAwPollZfugFmwvOmcjMQjR2OcObbYSc4XUtaiGBwqQsW/DZtq08uI
- girQ==
-X-Gm-Message-State: AOAM531TCHWVBjHKFWRFewXjplcFmeuoo+DPI67SPU282IK/XpdgCSb7
- OKRV80xAB8Q17ncx/wQdAeOnoQ==
-X-Google-Smtp-Source: ABdhPJzi1MlMdyv3JjpW2MlW0yLHUdQ0e4Kv03EoN46pGBMh22pW7oEeYrNFHdLYJmQbgwa0Kf9YkA==
-X-Received: by 2002:a05:600c:281:: with SMTP id
- 1mr5444813wmk.143.1592743636136; 
- Sun, 21 Jun 2020 05:47:16 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id v11sm1993941wmb.3.2020.06.21.05.47.14
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=ao9CuPu2FLLdrFCOMJ9P9MaIINUQCoiWmF+vc+aq1q0=;
+ b=Dw+N06fwZr/Mv0N+I7rCMpMcyPvNfkgTzD6OOsC7EXX2bt4Y7Xg+8kLokFcBHxCwOx
+ RNiPB2y2TU9mupp8SOItqrq8rjl59AdquMEHn9x66vB9APqAJTn2qoBB31WUpHUWhxBo
+ qAW9BX+TYg+k+gW+c05hHSbixhJylyFgiD9nsItWSR7bOLCYprFMh+z1BRvEJIccpHY1
+ iec7lPhWyqYH7fU0Pu94po7fHbqIjXNX+VLmyjCaTvpCQ3kIVYno0O6mExvK1rImxYeB
+ q8rQEyBhwxo/xrMZuToOyGqoDBL/8t2/LLDRy9K4GQKS6KIj0fA1EIenWqCXZevKXdFB
+ 1BPg==
+X-Gm-Message-State: AOAM531CMHLwV2kCZ5qwszRq+HTbWQcTEMujBSRNDQR9j0/WlTf0ET/g
+ uZ5oxkCPg+0k33rEJpzuw8fS9ejD
+X-Google-Smtp-Source: ABdhPJyP2yN5q/2DaJ5vcJtAkHsRzo95kRC5SROHMGkB6X7qTsXQd3WUII09R6kap8CfHRGqi3u0lw==
+X-Received: by 2002:a05:600c:210:: with SMTP id
+ 16mr14166504wmi.185.1592743690056; 
+ Sun, 21 Jun 2020 05:48:10 -0700 (PDT)
+Received: from localhost.localdomain (1.red-83-51-162.dynamicip.rima-tde.net.
+ [83.51.162.1])
+ by smtp.gmail.com with ESMTPSA id o10sm13779362wrj.37.2020.06.21.05.48.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 21 Jun 2020 05:47:14 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 406071FF7E;
- Sun, 21 Jun 2020 13:47:14 +0100 (BST)
-References: <20200620232947.17895-1-f4bug@amsat.org>
- <6ec17c5e-a7a2-ec47-cc30-807405cd39c0@amsat.org>
-User-agent: mu4e 1.5.3; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH] .travis.yml: Build acceptance tests with -O2 compiler
- optimization
-In-reply-to: <6ec17c5e-a7a2-ec47-cc30-807405cd39c0@amsat.org>
-Date: Sun, 21 Jun 2020 13:47:14 +0100
-Message-ID: <874kr4bn71.fsf@linaro.org>
+ Sun, 21 Jun 2020 05:48:09 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/15] Renesas hardware patches for 2020-06-21
+Date: Sun, 21 Jun 2020 14:47:52 +0200
+Message-Id: <20200621124807.17226-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x344.google.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x333.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,55 +85,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
+Cc: Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The following changes since commit 06c4cc3660b366278bdc7bc8b6677032d7b1118c:
 
-Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
+  qht: Fix threshold rate calculation (2020-06-19 18:29:11 +0100)
 
-> On 6/21/20 1:29 AM, Philippe Mathieu-Daud=C3=A9 wrote:
->> As we just want the tests to succeed, build them with compiler
->> optimizations enabled to run the tests faster.
->
-> Maybe it is a good opportunity to test -O3 instead...
-> Since this configuration is not covered.
+are available in the Git repository at:
 
-Don't know if -O3 is worth it - even Gentoo developers warn against
-cranking it up too much.
+  https://gitlab.com/philmd/qemu.git tags/renesas-hw-20200621
 
-In fact I'm surprised we don't build -O2 by default.
+for you to fetch changes up to 730101266e4026fc19808c740ee4b8118eeaaafe:
 
->
->>=20
->> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
->> ---
->>  .travis.yml | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>=20
->> diff --git a/.travis.yml b/.travis.yml
->> index 74158f741b..61b247db9f 100644
->> --- a/.travis.yml
->> +++ b/.travis.yml
->> @@ -293,7 +293,7 @@ jobs:
->>      - name: "GCC check-acceptance"
->>        dist: bionic
->>        env:
->> -        - CONFIG=3D"--enable-tools --target-list=3Daarch64-softmmu,alph=
-a-softmmu,arm-softmmu,m68k-softmmu,microblaze-softmmu,mips-softmmu,mips64el=
--softmmu,nios2-softmmu,or1k-softmmu,ppc-softmmu,ppc64-softmmu,s390x-softmmu=
-,sh4-softmmu,sparc-softmmu,x86_64-softmmu,xtensa-softmmu"
->> +        - CONFIG=3D"--extra-cflags=3D-O2 --enable-tools --target-list=
-=3Daarch64-softmmu,alpha-softmmu,arm-softmmu,m68k-softmmu,microblaze-softmm=
-u,mips-softmmu,mips64el-softmmu,nios2-softmmu,or1k-softmmu,ppc-softmmu,ppc6=
-4-softmmu,s390x-softmmu,sh4-softmmu,sparc-softmmu,x86_64-softmmu,xtensa-sof=
-tmmu"
->>          - TEST_CMD=3D"make check-acceptance"
->>          - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-acceptance"
->>        after_script:
->>=20
+  docs: Document the RX target (2020-06-21 01:21:47 +0200)
 
+----------------------------------------------------------------
+Renesas hardware patches
+
+- Add a common entry for Renesas hardware in MAINTAINERS
+- Trivial SH4 cleanups
+- Add RX GDB simulator from Yoshinori Sato
+
+The Renesas RX target emulation was added in commit c8c35e5f51,
+these patches complete the target by adding the hardware emulation.
+
+Thank you Yoshinori for adding this code to QEMU, and your patience
+during the review process. Now your port is fully integrated.
+
+Travis-CI:
+https://travis-ci.org/github/philmd/qemu/builds/700461815
+----------------------------------------------------------------
+
+Philippe Mathieu-Daud=C3=A9 (7):
+  MAINTAINERS: Cover sh_intc files in the R2D/Shix machine sections
+  MAINTAINERS: Add an entry for common Renesas peripherals
+  hw/sh4: Use MemoryRegion typedef
+  hw/sh4: Extract timer definitions to 'hw/timer/tmu012.h'
+  hw/timer/sh_timer: Remove unused 'qemu/timer.h' include
+  hw/rx: Register R5F562N7 and R5F562N8 MCUs
+  BootLinuxConsoleTest: Test the RX GDB simulator
+
+Richard Henderson (1):
+  hw/rx: Honor -accel qtest
+
+Yoshinori Sato (7):
+  hw/intc: RX62N interrupt controller (ICUa)
+  hw/timer: RX62N 8-Bit timer (TMR)
+  hw/timer: RX62N compare match timer (CMT)
+  hw/char: RX62N serial communication interface (SCI)
+  hw/rx: RX62N microcontroller (MCU)
+  hw/rx: Add RX GDB simulator
+  docs: Document the RX target
+
+ docs/system/target-rx.rst             |  36 ++
+ docs/system/targets.rst               |   1 +
+ default-configs/rx-softmmu.mak        |   1 +
+ include/hw/char/renesas_sci.h         |  51 +++
+ include/hw/intc/rx_icu.h              |  76 ++++
+ include/hw/rx/rx62n.h                 |  76 ++++
+ include/hw/sh4/sh.h                   |  12 +-
+ include/hw/timer/renesas_cmt.h        |  40 +++
+ include/hw/timer/renesas_tmr.h        |  55 +++
+ include/hw/timer/tmu012.h             |  23 ++
+ hw/char/renesas_sci.c                 | 350 +++++++++++++++++++
+ hw/intc/rx_icu.c                      | 397 +++++++++++++++++++++
+ hw/rx/rx-gdbsim.c                     | 196 +++++++++++
+ hw/rx/rx62n.c                         | 323 +++++++++++++++++
+ hw/sh4/sh7750.c                       |   1 +
+ hw/timer/renesas_cmt.c                | 283 +++++++++++++++
+ hw/timer/renesas_tmr.c                | 477 ++++++++++++++++++++++++++
+ hw/timer/sh_timer.c                   |   3 +-
+ MAINTAINERS                           |  33 +-
+ hw/Kconfig                            |   1 +
+ hw/char/Kconfig                       |   3 +
+ hw/char/Makefile.objs                 |   1 +
+ hw/intc/Kconfig                       |   3 +
+ hw/intc/Makefile.objs                 |   1 +
+ hw/rx/Kconfig                         |  10 +
+ hw/rx/Makefile.objs                   |   2 +
+ hw/timer/Kconfig                      |   6 +
+ hw/timer/Makefile.objs                |   2 +
+ tests/acceptance/machine_rx_gdbsim.py |  68 ++++
+ 29 files changed, 2518 insertions(+), 13 deletions(-)
+ create mode 100644 docs/system/target-rx.rst
+ create mode 100644 include/hw/char/renesas_sci.h
+ create mode 100644 include/hw/intc/rx_icu.h
+ create mode 100644 include/hw/rx/rx62n.h
+ create mode 100644 include/hw/timer/renesas_cmt.h
+ create mode 100644 include/hw/timer/renesas_tmr.h
+ create mode 100644 include/hw/timer/tmu012.h
+ create mode 100644 hw/char/renesas_sci.c
+ create mode 100644 hw/intc/rx_icu.c
+ create mode 100644 hw/rx/rx-gdbsim.c
+ create mode 100644 hw/rx/rx62n.c
+ create mode 100644 hw/timer/renesas_cmt.c
+ create mode 100644 hw/timer/renesas_tmr.c
+ create mode 100644 hw/rx/Kconfig
+ create mode 100644 hw/rx/Makefile.objs
+ create mode 100644 tests/acceptance/machine_rx_gdbsim.py
 
 --=20
-Alex Benn=C3=A9e
+2.21.3
+
 
