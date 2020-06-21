@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C980A202B95
-	for <lists+qemu-devel@lfdr.de>; Sun, 21 Jun 2020 18:36:15 +0200 (CEST)
-Received: from localhost ([::1]:56354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0815C202B91
+	for <lists+qemu-devel@lfdr.de>; Sun, 21 Jun 2020 18:33:17 +0200 (CEST)
+Received: from localhost ([::1]:48262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jn2x4-0007YC-RC
-	for lists+qemu-devel@lfdr.de; Sun, 21 Jun 2020 12:36:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52624)
+	id 1jn2uB-0003Qt-8D
+	for lists+qemu-devel@lfdr.de; Sun, 21 Jun 2020 12:33:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52638)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noh4hss@gmail.com>) id 1jn2jm-0006oM-HQ
- for qemu-devel@nongnu.org; Sun, 21 Jun 2020 12:22:30 -0400
-Received: from mail-lf1-x141.google.com ([2a00:1450:4864:20::141]:39411)
+ (Exim 4.90_1) (envelope-from <noh4hss@gmail.com>) id 1jn2jn-0006of-G9
+ for qemu-devel@nongnu.org; Sun, 21 Jun 2020 12:22:31 -0400
+Received: from mail-lj1-x241.google.com ([2a00:1450:4864:20::241]:44172)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <noh4hss@gmail.com>) id 1jn2jk-0007y5-RX
- for qemu-devel@nongnu.org; Sun, 21 Jun 2020 12:22:30 -0400
-Received: by mail-lf1-x141.google.com with SMTP id d21so6150543lfb.6
- for <qemu-devel@nongnu.org>; Sun, 21 Jun 2020 09:22:28 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <noh4hss@gmail.com>) id 1jn2jl-0007yK-Q0
+ for qemu-devel@nongnu.org; Sun, 21 Jun 2020 12:22:31 -0400
+Received: by mail-lj1-x241.google.com with SMTP id c17so16603308lji.11
+ for <qemu-devel@nongnu.org>; Sun, 21 Jun 2020 09:22:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=IEq/0MOxjv3VFOKWXkmTsGCVmogmJmtEdGRs+jHMXjw=;
- b=JHa0a7RtIvGTH04Mx/wdFaOFP6HP8n5TGTfaM/T1khOVEKGx0OutBcrW5wEs6NLNOR
- Oz+1CgOTtFtsoWz03AcoYlzefkVBmuo8WjPmSs+Ekl57gjGAZx6OqDyAT682CkEEiBgT
- TEnDhkVKh9jgcBI/Ur7/n+m9togLJ8JNTAh0oT2dF0uq+c4pzFDtp9/sfgexvxCH1YD/
- UHNmVNsOzjPY+ygCaXQgkRZT4Vo9HOrmJZ4C7dyinZsq0laYPy63Dej4bn7RdZi/jKAx
- Oj5x+4K9nvn7PVgB04gGwGY4XgpmjH+C43bwRHkgz9IOyWTfHH6Juzqjvp6VfNXh3Yt4
- Fhag==
+ bh=Rhi9d3gdnSNNQEzJpih2aVZzubxIfPivq5heve4K+qc=;
+ b=dqPAoFb3wpY0i7LWtq/TJypevTVup726EfStumvHkxhyyY0NqrUc1bg37+qKWjBUhi
+ Vx4R8PrxAJi76j8dO5gIgf/uufvcXIb66yt7b/ZqebZXcAJ0oDgpFLC8u5BZO/S7loxr
+ eFt1arpK4GURmfyhamj7NPaIxCyoPGc5IH8SmurqwgENna0fb4nqjkop7HMdlzNiHw+V
+ zPI270AvcrDOKNMTRaCqBvPZ3rMJxnKBiM27zacvHso7Gbb0AoZu9aZhsKIWzUvCXRBy
+ QtWZOhJCB2ps9fStqhIIPD1miPMzUvdyeeC0LBhaF7MbL8ugr3kzxDZgVvsoqRAfS0Vv
+ fxBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=IEq/0MOxjv3VFOKWXkmTsGCVmogmJmtEdGRs+jHMXjw=;
- b=hMLvwv1Wi2IrkmuGmAOs6fhcBsRYC55ZNy2v2pil43TQTRt4tMKOPUdN20y6k9ukzN
- MqgjpfXMNfnRK1mgQcaxVH5QwDRF0+kite6pdbGLdM8JXFsMatKMjldyV58qcuJddrfz
- dRiZrItUaUNZct01KZvYTRMdTXYDlz77bajRx00eEZX8/aQOEVZr/9zVxGfeKgHGiIMV
- QmQxiyljpPUQyZ3TaK+e0r/regvX+tXfwKLwAFIfzUFD2j4huWzNvuH244BrkxJvcbCT
- z1tTt//M1d+56y1EjGzgrcQybze1vxz7ka9EE3qoCxoPv0feesDFBCwOtsakRhcG/h4q
- cghQ==
-X-Gm-Message-State: AOAM533pOw/Rld4RMoYHEmse8CPpZLGYF8Op4QHH8kn7JfEQFu9J2mPv
- iFSx62sVTJjlmvSuqubw/lq+QZzowqghLw==
-X-Google-Smtp-Source: ABdhPJzX5BqFUfR4aULh0LWn1LwNtQo6oMqzC9MFspMJpEYEDSb54NLlNv+cQMPlbpwG+CCc2EWMVg==
-X-Received: by 2002:a19:7014:: with SMTP id h20mr7293458lfc.49.1592756547093; 
+ bh=Rhi9d3gdnSNNQEzJpih2aVZzubxIfPivq5heve4K+qc=;
+ b=llaHPruqzymvAb0xvOaqPjqKdApiW8N+xD/3yMlaZcSlW9uYZ5oSsvqzZyh2oH2tsC
+ znBcLGkqygNl4HSzv8ZCx2+JkY3T3eG+aiaC/B6vMRzYxU3J5T9pYUaMfb79atFtMLeR
+ kaN5uFv8hvZxhqdRpa7dlXlgy5OeUJrw3x67tesnxSC352eQDfTW8BM96+uqQ8ITYk5I
+ lDDZBDpcVtHXiXNB0BQDq7VcySbbpE8OfKRqeJCpwBJ5beyayPZLpaAq+GGrRSTnpAx3
+ 2qmMCY0Ji2GwXjT72047PeSGZWGKdX03g1YOdA47DdCF9JXTbdwDZv/n3se1+MasSx0J
+ c0EQ==
+X-Gm-Message-State: AOAM533n5uVdMvHZRdpwCxgrWVYof6tNP2XC192QCOZ1KTLh62kKPene
+ tyJMrCSb0Q6402t3DIWeagUvqHCowDoK6w==
+X-Google-Smtp-Source: ABdhPJzpvOIAB9Dfu9gHwepdf2+AhVxXnyPIivRFTRLsz9ZC9IDQ+ra/sIxeGSKnrC8+aKUBYsHU0w==
+X-Received: by 2002:a2e:96da:: with SMTP id d26mr6622615ljj.25.1592756547948; 
  Sun, 21 Jun 2020 09:22:27 -0700 (PDT)
 Received: from localhost.localdomain (193-239-39-51.ksi-system.net.
  [193.239.39.51])
- by smtp.gmail.com with ESMTPSA id k7sm2822838lfd.67.2020.06.21.09.22.26
+ by smtp.gmail.com with ESMTPSA id k7sm2822838lfd.67.2020.06.21.09.22.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 21 Jun 2020 09:22:26 -0700 (PDT)
+ Sun, 21 Jun 2020 09:22:27 -0700 (PDT)
 From: Szymon Lukasz <noh4hss@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/6] char-stdio: add support for the terminal size
-Date: Sun, 21 Jun 2020 18:21:30 +0200
-Message-Id: <20200621162132.62797-5-noh4hss@gmail.com>
+Subject: [PATCH 5/6] virtio-serial-bus: add terminal resize messages
+Date: Sun, 21 Jun 2020 18:21:31 +0200
+Message-Id: <20200621162132.62797-6-noh4hss@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200621162132.62797-1-noh4hss@gmail.com>
 References: <20200621162132.62797-1-noh4hss@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::141;
- envelope-from=noh4hss@gmail.com; helo=mail-lf1-x141.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::241;
+ envelope-from=noh4hss@gmail.com; helo=mail-lj1-x241.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,100 +90,128 @@ Cc: lvivier@redhat.com, amit@kernel.org, mst@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement chr_get_winsize for the stdio backend
-and trigger CHR_EVENT_RESIZE upon SIGWINCH delivery.
+Implement the part of the virtio spec that allows to notify the virtio
+driver about terminal resizes. The virtio spec contains two methods to
+achieve that:
+
+For legacy drivers, we have only one port and we put the terminal size
+in the config space and inject the config changed interrupt.
+
+For multiport devices, we use the control virtqueue to send a packet
+containing the terminal size. Note that the Linux kernel expects
+the fields indicating the number of rows and columns in a packet to be
+in a different order than the one specified in the current version of
+the virtio spec. We follow the Linux implementation, so hopefully there
+is no implementation of this functionality conforming to the spec.
 
 Signed-off-by: Szymon Lukasz <noh4hss@gmail.com>
 ---
- chardev/char-stdio.c | 34 ++++++++++++++++++++++++++++++++++
- 1 file changed, 34 insertions(+)
+ hw/char/trace-events              |  1 +
+ hw/char/virtio-serial-bus.c       | 41 +++++++++++++++++++++++++++++--
+ include/hw/virtio/virtio-serial.h |  5 ++++
+ 3 files changed, 45 insertions(+), 2 deletions(-)
 
-diff --git a/chardev/char-stdio.c b/chardev/char-stdio.c
-index 82eaebc1db..ab14edffc1 100644
---- a/chardev/char-stdio.c
-+++ b/chardev/char-stdio.c
-@@ -34,7 +34,9 @@
- #include "chardev/char-win-stdio.h"
- #else
- #include <termios.h>
-+#include <sys/ioctl.h>
- #include "chardev/char-fd.h"
-+#include "qemu/main-loop.h"
- #endif
+diff --git a/hw/char/trace-events b/hw/char/trace-events
+index d20eafd56f..be40df47ea 100644
+--- a/hw/char/trace-events
++++ b/hw/char/trace-events
+@@ -10,6 +10,7 @@ serial_ioport_write(uint16_t addr, uint8_t value) "write addr 0x%02x val 0x%02x"
  
- #ifndef _WIN32
-@@ -45,6 +47,13 @@ static bool stdio_in_use;
- static bool stdio_allow_signal;
- static bool stdio_echo_state;
- 
-+typedef struct {
-+    FDChardev parent;
-+    Notifier resize_notifier;
-+} StdioChardev;
-+
-+#define STDIO_CHARDEV(obj) OBJECT_CHECK(StdioChardev, (obj), TYPE_CHARDEV_STDIO)
-+
- static void term_exit(void)
- {
-     if (stdio_in_use) {
-@@ -82,11 +91,31 @@ static void term_stdio_handler(int sig)
-     qemu_chr_set_echo_stdio(NULL, stdio_echo_state);
+ # virtio-serial-bus.c
+ virtio_serial_send_control_event(unsigned int port, uint16_t event, uint16_t value) "port %u, event %u, value %u"
++virtio_serial_send_console_resize(unsigned int port, uint16_t cols, uint16_t rows) "port %u, cols %u, rows %u"
+ virtio_serial_throttle_port(unsigned int port, bool throttle) "port %u, throttle %d"
+ virtio_serial_handle_control_message(uint16_t event, uint16_t value) "event %u, value %u"
+ virtio_serial_handle_control_message_port(unsigned int port) "port %u"
+diff --git a/hw/char/virtio-serial-bus.c b/hw/char/virtio-serial-bus.c
+index 262089c0c9..9d99161e13 100644
+--- a/hw/char/virtio-serial-bus.c
++++ b/hw/char/virtio-serial-bus.c
+@@ -261,6 +261,42 @@ static size_t send_control_event(VirtIOSerial *vser, uint32_t port_id,
+     return send_control_msg(vser, &cpkt, sizeof(cpkt));
  }
  
-+static int qemu_chr_get_winsize_stdio(Chardev *chr, uint16_t *cols, uint16_t *rows)
-+{
-+    struct winsize ws;
++/*
++ * This struct should be added to the Linux kernel uapi headers
++ * and later imported to standard-headers/linux/virtio_console.h
++ */
++struct virtio_console_resize {
++    __virtio16 rows;
++    __virtio16 cols;
++};
 +
-+    if (ioctl(1, TIOCGWINSZ, &ws) < 0) {
-+        return -1;
++void virtio_serial_send_console_resize(VirtIOSerialPort *port,
++                                       uint16_t cols, uint16_t rows)
++{
++    VirtIOSerial *vser = port->vser;
++    VirtIODevice *vdev = VIRTIO_DEVICE(vser);
++
++    if (virtio_vdev_has_feature(vdev, VIRTIO_CONSOLE_F_MULTIPORT)) {
++        struct {
++            struct virtio_console_control control;
++            struct virtio_console_resize resize;
++        } buffer;
++
++        virtio_stl_p(vdev, &buffer.control.id, port->id);
++        virtio_stw_p(vdev, &buffer.control.event, VIRTIO_CONSOLE_RESIZE);
++        virtio_stw_p(vdev, &buffer.resize.cols, cols);
++        virtio_stw_p(vdev, &buffer.resize.rows, rows);
++
++        trace_virtio_serial_send_console_resize(port->id, cols, rows);
++        send_control_msg(vser, &buffer, sizeof(buffer));
++
++    } else if (virtio_vdev_has_feature(vdev, VIRTIO_CONSOLE_F_SIZE)) {
++        vser->port0_cols = cols;
++        vser->port0_rows = rows;
++        virtio_notify_config(vdev);
 +    }
-+
-+    *cols = ws.ws_col;
-+    *rows = ws.ws_row;
-+    return 0;
 +}
 +
-+static void term_resize_notify(Notifier *n, void *data)
-+{
-+    StdioChardev *s = container_of(n, StdioChardev, resize_notifier);
-+    qemu_chr_be_event(CHARDEV(s), CHR_EVENT_RESIZE);
-+}
-+
- static void qemu_chr_open_stdio(Chardev *chr,
-                                 ChardevBackend *backend,
-                                 bool *be_opened,
-                                 Error **errp)
+ /* Functions for use inside qemu to open and read from/write to ports */
+ int virtio_serial_open(VirtIOSerialPort *port)
  {
-+    StdioChardev *s = STDIO_CHARDEV(chr);
-     ChardevStdio *opts = backend->u.stdio.data;
-     struct sigaction act;
+@@ -559,6 +595,7 @@ static uint64_t get_features(VirtIODevice *vdev, uint64_t features,
+     vser = VIRTIO_SERIAL(vdev);
  
-@@ -116,6 +145,9 @@ static void qemu_chr_open_stdio(Chardev *chr,
-         stdio_allow_signal = opts->signal;
+     features |= vser->host_features;
++    virtio_add_feature(&features, VIRTIO_CONSOLE_F_SIZE);
+     if (vser->bus.max_nr_ports > 1) {
+         virtio_add_feature(&features, VIRTIO_CONSOLE_F_MULTIPORT);
      }
-     qemu_chr_set_echo_stdio(chr, false);
+@@ -572,8 +609,8 @@ static void get_config(VirtIODevice *vdev, uint8_t *config_data)
+     struct virtio_console_config *config =
+         (struct virtio_console_config *)config_data;
+ 
+-    config->cols = 0;
+-    config->rows = 0;
++    config->cols = virtio_tswap16(vdev, vser->port0_cols);
++    config->rows = virtio_tswap16(vdev, vser->port0_rows);
+     config->max_nr_ports = virtio_tswap32(vdev,
+                                           vser->serial.max_virtserial_ports);
+ }
+diff --git a/include/hw/virtio/virtio-serial.h b/include/hw/virtio/virtio-serial.h
+index ed3e916b68..1d6436c0b1 100644
+--- a/include/hw/virtio/virtio-serial.h
++++ b/include/hw/virtio/virtio-serial.h
+@@ -188,6 +188,8 @@ struct VirtIOSerial {
+     virtio_serial_conf serial;
+ 
+     uint64_t host_features;
 +
-+    s->resize_notifier.notify = term_resize_notify;
-+    sigwinch_add_notifier(&s->resize_notifier);
- }
- #endif
++    uint16_t port0_cols, port0_rows;
+ };
  
-@@ -139,6 +171,7 @@ static void char_stdio_class_init(ObjectClass *oc, void *data)
- #ifndef _WIN32
-     cc->open = qemu_chr_open_stdio;
-     cc->chr_set_echo = qemu_chr_set_echo_stdio;
-+    cc->chr_get_winsize = qemu_chr_get_winsize_stdio;
- #endif
- }
+ /* Interface to the virtio-serial bus */
+@@ -222,6 +224,9 @@ size_t virtio_serial_guest_ready(VirtIOSerialPort *port);
+  */
+ void virtio_serial_throttle_port(VirtIOSerialPort *port, bool throttle);
  
-@@ -155,6 +188,7 @@ static const TypeInfo char_stdio_type_info = {
-     .parent = TYPE_CHARDEV_WIN_STDIO,
- #else
-     .parent = TYPE_CHARDEV_FD,
-+    .instance_size = sizeof(StdioChardev),
- #endif
-     .instance_finalize = char_stdio_finalize,
-     .class_init = char_stdio_class_init,
++void virtio_serial_send_console_resize(VirtIOSerialPort *port,
++                                       uint16_t cols, uint16_t rows);
++
+ #define TYPE_VIRTIO_SERIAL "virtio-serial-device"
+ #define VIRTIO_SERIAL(obj) \
+         OBJECT_CHECK(VirtIOSerial, (obj), TYPE_VIRTIO_SERIAL)
 -- 
 2.27.0
 
