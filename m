@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54FFE202B90
-	for <lists+qemu-devel@lfdr.de>; Sun, 21 Jun 2020 18:33:15 +0200 (CEST)
-Received: from localhost ([::1]:48202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B085E202B94
+	for <lists+qemu-devel@lfdr.de>; Sun, 21 Jun 2020 18:36:14 +0200 (CEST)
+Received: from localhost ([::1]:56262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jn2u9-0003OQ-C2
-	for lists+qemu-devel@lfdr.de; Sun, 21 Jun 2020 12:33:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52582)
+	id 1jn2x3-0007UH-O4
+	for lists+qemu-devel@lfdr.de; Sun, 21 Jun 2020 12:36:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noh4hss@gmail.com>) id 1jn2jk-0006nh-40
- for qemu-devel@nongnu.org; Sun, 21 Jun 2020 12:22:28 -0400
-Received: from mail-lf1-x143.google.com ([2a00:1450:4864:20::143]:42323)
+ (Exim 4.90_1) (envelope-from <noh4hss@gmail.com>) id 1jn2jl-0006nu-A8
+ for qemu-devel@nongnu.org; Sun, 21 Jun 2020 12:22:29 -0400
+Received: from mail-lj1-x244.google.com ([2a00:1450:4864:20::244]:39370)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <noh4hss@gmail.com>) id 1jn2ji-0007xW-Gp
- for qemu-devel@nongnu.org; Sun, 21 Jun 2020 12:22:27 -0400
-Received: by mail-lf1-x143.google.com with SMTP id y13so8239858lfe.9
+ (Exim 4.90_1) (envelope-from <noh4hss@gmail.com>) id 1jn2jj-0007xk-4G
+ for qemu-devel@nongnu.org; Sun, 21 Jun 2020 12:22:29 -0400
+Received: by mail-lj1-x244.google.com with SMTP id a9so16628564ljn.6
  for <qemu-devel@nongnu.org>; Sun, 21 Jun 2020 09:22:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=v/NS9YgRb0NXpU+G0HRMzylRBMOp+QQCcs98Z10vCR8=;
- b=Fl6juc9m46LV+oHRHe9VO8kWadqNYGjqrFVuqvbQ/rXGkcpXT+TOYbbeKyp2u9GxW1
- fQP6VJujj1I8RiE+gigLM3ZXVQKqLCBTq63nq9XwVBKT3vJNKHh1fxCKxg2Dmp4jbYYt
- G1mdP2YphL4alq1cj61tfYzW2KzpW7GAdu3dt4/F7xt6Yx3Pfmyivbgri7yETuvk1gTb
- +FqWtPmu6rITNDx2/XtE/iSrpDl+F+f8fnJaPBAMwC402QTZkKAtjkaxm6cMmaE0fpFk
- pbCMElfAzVaf38pALAQ00kp862El19ORcmRbzuAVvPczS2YrHR41ag06wfOzXLWoHLkF
- 2/yw==
+ bh=/OUUBKDsy3J40KxRYAgVxdYTHQyEXQLdkmrBWWB58eM=;
+ b=bxXxVtqdICCNBJooeKtTOAVbxF09EFlkmcc91+j6Vfdm6tyLqpisg8rfmHqJuG5c8Y
+ +uGg95J2/4oVIc3KwsEEMj+EaJo0kVxjSNiBH6KR/2Q7IyX/Z2YPl5WPueXgdTJouxVc
+ SXmR3Jo0JRX8OTzXHS2RlqPXmb3jr8xaolPTOr2VNeiQoA8qw1kKpJExP4kWIP8+EGyZ
+ JTUzE8ZEbHYf7TQrAb93Duty03HuXSoThIBX7FaXbvABzqG3+M9jvga0HRNW50XuCzGT
+ qIOcMeGq630VH85iRcNVmRlwvxPVTa4l50QSakut5zMUmC/LEIpp4YL/wszmIRIp3umc
+ iXTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=v/NS9YgRb0NXpU+G0HRMzylRBMOp+QQCcs98Z10vCR8=;
- b=YAMEv/gnM1JQ1MxtgKDpHpQreiwyqVKDPceCW1sS+HYFbusGcf3vbnE8HzvcjIqK1d
- YdPC2SsMUIZyMqUnl/M/0fH99vVCeSpA7cCXCZlVEK4QfTF8TimrZ9ZWbtRf28RNZLoJ
- 9lHMuWimZUlf/GXRdusVdIY6SyfNO184m0Uo8yPhkl1KhUR5XRnUHHE/X74iZyicSAQ3
- ODPoJUOELhwkZg3X2fevsVDGM7M0TwF7CPNThdHLsWVmNvQNZ5g8tDA4Exks9wcTNejC
- hdnDff+2MuIgVm7njsxEpjkwtkCe+cESD2k1K2VaKUv+Fx0f6dZs3hbZEJPrTXenFSTE
- TFpw==
-X-Gm-Message-State: AOAM531xz8Z4vApC0Xpr6OFLRi2TXpHRGW2s6hPX29f1s80GBJ9Eon5Y
- cnsh0I9w/z22+Mna7B9ZBn2lcHFXFvbI9A==
-X-Google-Smtp-Source: ABdhPJxjOwNYgW7L8jvYte2Rm0tqVcFW7O3aNCX8qsjyRMEIOq/pCtzOE0/qSYra4cSKYIqpL0H86w==
-X-Received: by 2002:ac2:5a01:: with SMTP id q1mr7641227lfn.182.1592756544487; 
- Sun, 21 Jun 2020 09:22:24 -0700 (PDT)
+ bh=/OUUBKDsy3J40KxRYAgVxdYTHQyEXQLdkmrBWWB58eM=;
+ b=CF+1mUf/e0zt0k7VLUOprtfrPVO0CfcsZZKwwnxsGPFnzxg0EiZIkhC47oRGJykqii
+ w563IfQOYeW0lm9vnde5W8Ah3HNDTYglWZFivSkQBpYDo41T8yzuh4yJJ8wseDMGk4Qc
+ sNds8P4K7dzAeuX1VelG860ARhP5qGmBtCzor/Cxd9yvi9sxoQml0l6UP+grK56vbaFM
+ gtjPIdjUMfDNbxtNiLfrOrIMRMF4s+WwoHE5tRRwaCeKj+/NYVG/XUQpBzj+fudIrVXN
+ WReJYS3xYJm022qGSjjE4tv3ee2Ws6YyZi97GVsZ+NtcBUQPA6TYgz91DAjoboIePFL9
+ rpWQ==
+X-Gm-Message-State: AOAM531LaIOM/pBqpwiuWfwYQ65lda8tRlwjBDUsCxvcBM3yJZYqBzDS
+ ene3pfvfR8XsjF9AAaubmdJ1Qi7n41TUzQ==
+X-Google-Smtp-Source: ABdhPJzSF6MtMj7BLCiNjiE547hPSpF1EnOLo25k/zV1i7vpcXLAtXts/2GUdkVqSVQ19nf3M1xKfA==
+X-Received: by 2002:a2e:a58a:: with SMTP id m10mr6435806ljp.346.1592756545385; 
+ Sun, 21 Jun 2020 09:22:25 -0700 (PDT)
 Received: from localhost.localdomain (193-239-39-51.ksi-system.net.
  [193.239.39.51])
- by smtp.gmail.com with ESMTPSA id k7sm2822838lfd.67.2020.06.21.09.22.23
+ by smtp.gmail.com with ESMTPSA id k7sm2822838lfd.67.2020.06.21.09.22.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 21 Jun 2020 09:22:24 -0700 (PDT)
+ Sun, 21 Jun 2020 09:22:25 -0700 (PDT)
 From: Szymon Lukasz <noh4hss@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/6] main-loop: change the handling of SIGWINCH
-Date: Sun, 21 Jun 2020 18:21:27 +0200
-Message-Id: <20200621162132.62797-2-noh4hss@gmail.com>
+Subject: [PATCH 2/6] chardev: add support for retrieving the terminal size
+Date: Sun, 21 Jun 2020 18:21:28 +0200
+Message-Id: <20200621162132.62797-3-noh4hss@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200621162132.62797-1-noh4hss@gmail.com>
 References: <20200621162132.62797-1-noh4hss@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::143;
- envelope-from=noh4hss@gmail.com; helo=mail-lf1-x143.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::244;
+ envelope-from=noh4hss@gmail.com; helo=mail-lj1-x244.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,112 +90,103 @@ Cc: lvivier@redhat.com, amit@kernel.org, mst@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Block SIGWINCH, so it is delivered only via signalfd.
-Install a handler that uses NotifierList to tell
-interested parties about SIGWINCH delivery.
+Extend the class of chardevs with a new function - chr_get_winsize.
+A chardev backend should implement if it is able to get the size of
+the connected terminal and can detect changes in the terminal size,
+i.e. if the backend cannot detect resizes it must not implement this
+(e.g. if we have a tty backend connected to some (pseudo)terminal
+there is no clean way to detect resizes since SIGWINCH is sent only
+for the controlling terminal).
 
 Signed-off-by: Szymon Lukasz <noh4hss@gmail.com>
 ---
- include/qemu/main-loop.h |  4 ++++
- ui/curses.c              | 11 ++++++-----
- util/main-loop.c         | 21 +++++++++++++++++++++
- 3 files changed, 31 insertions(+), 5 deletions(-)
+ chardev/char-fe.c         | 11 +++++++++++
+ chardev/char-mux.c        |  7 +++++++
+ include/chardev/char-fe.h | 11 +++++++++++
+ include/chardev/char.h    |  1 +
+ 4 files changed, 30 insertions(+)
 
-diff --git a/include/qemu/main-loop.h b/include/qemu/main-loop.h
-index a6d20b0719..f27dba1fd8 100644
---- a/include/qemu/main-loop.h
-+++ b/include/qemu/main-loop.h
-@@ -325,4 +325,8 @@ typedef struct MainLoopPoll {
- void main_loop_poll_add_notifier(Notifier *notify);
- void main_loop_poll_remove_notifier(Notifier *notify);
- 
-+#ifndef _WIN32
-+void sigwinch_add_notifier(Notifier *n);
-+#endif
-+
- #endif
-diff --git a/ui/curses.c b/ui/curses.c
-index a59b23a9cf..e5895d506f 100644
---- a/ui/curses.c
-+++ b/ui/curses.c
-@@ -34,6 +34,7 @@
- #include <iconv.h>
- 
- #include "qapi/error.h"
-+#include "qemu/main-loop.h"
- #include "qemu/module.h"
- #include "ui/console.h"
- #include "ui/input.h"
-@@ -146,7 +147,7 @@ static void curses_resize(DisplayChangeListener *dcl,
+diff --git a/chardev/char-fe.c b/chardev/char-fe.c
+index f3530a90e6..802d3096cd 100644
+--- a/chardev/char-fe.c
++++ b/chardev/char-fe.c
+@@ -336,6 +336,17 @@ void qemu_chr_fe_set_echo(CharBackend *be, bool echo)
+     }
  }
  
- #if !defined(_WIN32) && defined(SIGWINCH) && defined(KEY_RESIZE)
--static volatile sig_atomic_t got_sigwinch;
-+static bool got_sigwinch;
- static void curses_winch_check(void)
- {
-     struct winsize {
-@@ -169,17 +170,17 @@ static void curses_winch_check(void)
-     invalidate = 1;
- }
- 
--static void curses_winch_handler(int signum)
-+static void curses_winch_handler(Notifier *n, void *data)
- {
-     got_sigwinch = true;
- }
- 
- static void curses_winch_init(void)
- {
--    struct sigaction old, winch = {
--        .sa_handler  = curses_winch_handler,
-+    static Notifier n = {
-+        .notify = curses_winch_handler
-     };
--    sigaction(SIGWINCH, &winch, &old);
-+    sigwinch_add_notifier(&n);
- }
- #else
- static void curses_winch_check(void) {}
-diff --git a/util/main-loop.c b/util/main-loop.c
-index eda63fe4e0..0f5c8f3af1 100644
---- a/util/main-loop.c
-+++ b/util/main-loop.c
-@@ -90,6 +90,7 @@ static int qemu_signal_init(Error **errp)
-     sigaddset(&set, SIGIO);
-     sigaddset(&set, SIGALRM);
-     sigaddset(&set, SIGBUS);
-+    sigaddset(&set, SIGWINCH);
-     /* SIGINT cannot be handled via signalfd, so that ^C can be used
-      * to interrupt QEMU when it is being run under gdb.  SIGHUP and
-      * SIGTERM are also handled asynchronously, even though it is not
-@@ -111,6 +112,26 @@ static int qemu_signal_init(Error **errp)
-     return 0;
- }
- 
-+static NotifierList sigwinch_notifiers =
-+    NOTIFIER_LIST_INITIALIZER(sigwinch_notifiers);
-+
-+static void sigwinch_handler(int signum)
++int qemu_chr_fe_get_winsize(CharBackend *be, uint16_t *cols, uint16_t *rows)
 +{
-+    notifier_list_notify(&sigwinch_notifiers, NULL);
-+}
++    Chardev *chr = be->chr;
 +
-+void sigwinch_add_notifier(Notifier *n)
-+{
-+    if (notifier_list_empty(&sigwinch_notifiers)) {
-+        struct sigaction action = {
-+            .sa_handler = sigwinch_handler,
-+        };
-+        sigaction(SIGWINCH, &action, NULL);
++    if (chr && CHARDEV_GET_CLASS(chr)->chr_get_winsize) {
++        return CHARDEV_GET_CLASS(chr)->chr_get_winsize(chr, cols, rows);
 +    }
 +
-+    notifier_list_add(&sigwinch_notifiers, n);
++    return -1;
 +}
 +
- #else /* _WIN32 */
+ void qemu_chr_fe_set_open(CharBackend *be, int fe_open)
+ {
+     Chardev *chr = be->chr;
+diff --git a/chardev/char-mux.c b/chardev/char-mux.c
+index 46c44af67c..368ce2334e 100644
+--- a/chardev/char-mux.c
++++ b/chardev/char-mux.c
+@@ -293,6 +293,12 @@ static void mux_chr_update_read_handlers(Chardev *chr)
+                                   chr->gcontext, true, false);
+ }
  
- static int qemu_signal_init(Error **errp)
++static int mux_chr_get_winsize(Chardev *chr, uint16_t *cols, uint16_t *rows)
++{
++    MuxChardev *d = MUX_CHARDEV(chr);
++    return qemu_chr_fe_get_winsize(&d->chr, cols, rows);
++}
++
+ void mux_set_focus(Chardev *chr, int focus)
+ {
+     MuxChardev *d = MUX_CHARDEV(chr);
+@@ -385,6 +391,7 @@ static void char_mux_class_init(ObjectClass *oc, void *data)
+     cc->chr_be_event = mux_chr_be_event;
+     cc->chr_machine_done = open_muxes;
+     cc->chr_update_read_handler = mux_chr_update_read_handlers;
++    cc->chr_get_winsize = mux_chr_get_winsize;
+ }
+ 
+ static const TypeInfo char_mux_type_info = {
+diff --git a/include/chardev/char-fe.h b/include/chardev/char-fe.h
+index a553843364..b7943df93a 100644
+--- a/include/chardev/char-fe.h
++++ b/include/chardev/char-fe.h
+@@ -154,6 +154,17 @@ int qemu_chr_fe_wait_connected(CharBackend *be, Error **errp);
+  */
+ void qemu_chr_fe_set_echo(CharBackend *be, bool echo);
+ 
++/**
++ * qemu_chr_fe_get_winsize:
++ * @cols: the address for storing columns
++ * @rows: the address for storing rows
++ *
++ * Get the terminal size of the backend.
++ *
++ * Returns: 0 on success and < 0 on error
++ */
++int qemu_chr_fe_get_winsize(CharBackend *be, uint16_t *cols, uint16_t *rows);
++
+ /**
+  * qemu_chr_fe_set_open:
+  *
+diff --git a/include/chardev/char.h b/include/chardev/char.h
+index 00589a6025..fb20707917 100644
+--- a/include/chardev/char.h
++++ b/include/chardev/char.h
+@@ -276,6 +276,7 @@ typedef struct ChardevClass {
+     void (*chr_be_event)(Chardev *s, QEMUChrEvent event);
+     /* Return 0 if succeeded, 1 if failed */
+     int (*chr_machine_done)(Chardev *chr);
++    int (*chr_get_winsize)(Chardev *chr, uint16_t *cols, uint16_t *rows);
+ } ChardevClass;
+ 
+ Chardev *qemu_chardev_new(const char *id, const char *typename,
 -- 
 2.27.0
 
