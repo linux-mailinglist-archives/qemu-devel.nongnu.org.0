@@ -2,68 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16EDC202A93
-	for <lists+qemu-devel@lfdr.de>; Sun, 21 Jun 2020 14:51:01 +0200 (CEST)
-Received: from localhost ([::1]:58388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 815F9202A8F
+	for <lists+qemu-devel@lfdr.de>; Sun, 21 Jun 2020 14:49:51 +0200 (CEST)
+Received: from localhost ([::1]:53726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jmzR6-0000aH-5M
-	for lists+qemu-devel@lfdr.de; Sun, 21 Jun 2020 08:51:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47398)
+	id 1jmzPy-0006cp-Gr
+	for lists+qemu-devel@lfdr.de; Sun, 21 Jun 2020 08:49:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47396)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jmzOP-00050f-W6
- for qemu-devel@nongnu.org; Sun, 21 Jun 2020 08:48:14 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:55394)
+ id 1jmzOP-00050V-Re
+ for qemu-devel@nongnu.org; Sun, 21 Jun 2020 08:48:13 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:54816)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jmzON-0002on-PU
+ id 1jmzOO-0002or-H2
  for qemu-devel@nongnu.org; Sun, 21 Jun 2020 08:48:13 -0400
-Received: by mail-wm1-x333.google.com with SMTP id g75so4354646wme.5
- for <qemu-devel@nongnu.org>; Sun, 21 Jun 2020 05:48:11 -0700 (PDT)
+Received: by mail-wm1-x344.google.com with SMTP id g10so12440673wmh.4
+ for <qemu-devel@nongnu.org>; Sun, 21 Jun 2020 05:48:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ao9CuPu2FLLdrFCOMJ9P9MaIINUQCoiWmF+vc+aq1q0=;
- b=D/Y4U4vf1J/6dNi+Qdupn5qr8de12JICm6RPMdTs1Wv5O8SjWwAM2+MyDzr908GIpr
- ZF0JR5QkJQ/Kl1iv509YxhnPVPARWzd6Pi7saQhS3yRy5ZpOg99vZanTfELZrz3v6tNr
- OO9KjH0+CwAD0IhvvbM/8b9c1vpda7/j/6iDPDYYcz/S7iwt97idYAIcnAyscYZbasfQ
- PfIAsKS5vhES0v+aaC+KuU0or8Cml/CLLNr9RgB0dib8+4F+kAW7mpQcNdCgFlf94u1g
- qaDRC716gaL27rGZKtKnpcZmwpO5R6DewvChm7NKF10CXXLcvi8OSoCVULbo+Udf78h1
- 3/Kg==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=BGnnG9Xy3PNvVbxTp72sTTRXPqYJOpLdaAYtg1CD7cQ=;
+ b=moQdMDv2b3hG3cbKZ64kdvpDlgHfyazD4vFFY7sDOaSEzOoRssJznAnGCd5cKnjphL
+ qArAGQkLOnBTCSpp5hVb+hHMyVLNe3MSY43bD33EwNxPAEhecxi8y8qVRvt661eFn4Sd
+ OpUhJogrCQDmeUpD333NBBUC6UPVAewOSx4GGnCjQhFgdDdLZnPkOO+tHXzoGba6faaC
+ YRYosVQA4GbhbXjHRigkzhRFWC4OYlnGl2q7cAo3UnpSh8k3h7twYRi8qKsxLub8iTbe
+ jk2Ec2/gc+eyuy+2bHhy94IpGp4MEUmrhenk5+Wysb2aVkwoKkoEwKXuWaYpcXE8YOIS
+ gFZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=ao9CuPu2FLLdrFCOMJ9P9MaIINUQCoiWmF+vc+aq1q0=;
- b=Dw+N06fwZr/Mv0N+I7rCMpMcyPvNfkgTzD6OOsC7EXX2bt4Y7Xg+8kLokFcBHxCwOx
- RNiPB2y2TU9mupp8SOItqrq8rjl59AdquMEHn9x66vB9APqAJTn2qoBB31WUpHUWhxBo
- qAW9BX+TYg+k+gW+c05hHSbixhJylyFgiD9nsItWSR7bOLCYprFMh+z1BRvEJIccpHY1
- iec7lPhWyqYH7fU0Pu94po7fHbqIjXNX+VLmyjCaTvpCQ3kIVYno0O6mExvK1rImxYeB
- q8rQEyBhwxo/xrMZuToOyGqoDBL/8t2/LLDRy9K4GQKS6KIj0fA1EIenWqCXZevKXdFB
- 1BPg==
-X-Gm-Message-State: AOAM531CMHLwV2kCZ5qwszRq+HTbWQcTEMujBSRNDQR9j0/WlTf0ET/g
- uZ5oxkCPg+0k33rEJpzuw8fS9ejD
-X-Google-Smtp-Source: ABdhPJyP2yN5q/2DaJ5vcJtAkHsRzo95kRC5SROHMGkB6X7qTsXQd3WUII09R6kap8CfHRGqi3u0lw==
-X-Received: by 2002:a05:600c:210:: with SMTP id
- 16mr14166504wmi.185.1592743690056; 
- Sun, 21 Jun 2020 05:48:10 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=BGnnG9Xy3PNvVbxTp72sTTRXPqYJOpLdaAYtg1CD7cQ=;
+ b=djZDCeEAmeAO4R01XfHgq91mGE3dj6uuQ/26skwfJC5ruWqRDVdfIq+5WjHtjWvtHZ
+ EwTeBLnX32SVtC89IpG8jVdsO23JkgxRJbPeePNu0+ozS99Rh0M1Lj9afb0fIqAnGIeJ
+ +uOJXyh22Euuah+lUhjNzXQBL0gckNW72K+/vEaXNOfe6YozAOG+0PHBgMC/enbYN1vl
+ yuPaU5/71mts+7bqd/+XvVLvPTCo+wiyixg2rSBIEopBQaUmrcVHmyGK11G7PoTbzjAe
+ 8vYCFTjxgwEMiwzS6nzyuTDd67OAMal5wTY6xcBvlC+xqi5wyp4T4igR+5rxfkAPmkqK
+ sdhA==
+X-Gm-Message-State: AOAM530JgkoywpEiyF6I7RDI2FlYPF6NzPGYE00sKZc0uvklPVGnCD3C
+ COPzKVAVsSHAMe2B80ZtOUkhPfui
+X-Google-Smtp-Source: ABdhPJzvGyj9nSDUbQTkREkquGwTNNUj1lshOJk+W+U+b0ebIwwzchdo9zJQDYgW50o7nNnMJ41Zkg==
+X-Received: by 2002:a7b:c93a:: with SMTP id h26mr12571593wml.57.1592743691186; 
+ Sun, 21 Jun 2020 05:48:11 -0700 (PDT)
 Received: from localhost.localdomain (1.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id o10sm13779362wrj.37.2020.06.21.05.48.09
+ by smtp.gmail.com with ESMTPSA id o10sm13779362wrj.37.2020.06.21.05.48.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 21 Jun 2020 05:48:09 -0700 (PDT)
+ Sun, 21 Jun 2020 05:48:10 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/15] Renesas hardware patches for 2020-06-21
-Date: Sun, 21 Jun 2020 14:47:52 +0200
-Message-Id: <20200621124807.17226-1-f4bug@amsat.org>
+Subject: [PULL 01/15] MAINTAINERS: Cover sh_intc files in the R2D/Shix machine
+ sections
+Date: Sun, 21 Jun 2020 14:47:53 +0200
+Message-Id: <20200621124807.17226-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
+In-Reply-To: <20200621124807.17226-1-f4bug@amsat.org>
+References: <20200621124807.17226-1-f4bug@amsat.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x344.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -72,7 +75,7 @@ X-Spam_bar: /
 X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
  DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
  HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,7 +88,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yoshinori Sato <ysato@users.sourceforge.jp>,
+Cc: Thomas Huth <thuth@redhat.com>, Yoshinori Sato <ysato@users.sourceforge.jp>,
  Magnus Damm <magnus.damm@gmail.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
@@ -93,104 +96,39 @@ Cc: Yoshinori Sato <ysato@users.sourceforge.jp>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 06c4cc3660b366278bdc7bc8b6677032d7b1118c:
+Commit 81527b94ad added hw/intc/sh_intc.c, but only to the R2D
+machine (it is also used by the Shix machine). Complete the
+previous commit by adding the header to the R2D section, and
+both source + header to the Shix section.
 
-  qht: Fix threshold rate calculation (2020-06-19 18:29:11 +0100)
+Suggested-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ MAINTAINERS | 3 +++
+ 1 file changed, 3 insertions(+)
 
-are available in the Git repository at:
-
-  https://gitlab.com/philmd/qemu.git tags/renesas-hw-20200621
-
-for you to fetch changes up to 730101266e4026fc19808c740ee4b8118eeaaafe:
-
-  docs: Document the RX target (2020-06-21 01:21:47 +0200)
-
-----------------------------------------------------------------
-Renesas hardware patches
-
-- Add a common entry for Renesas hardware in MAINTAINERS
-- Trivial SH4 cleanups
-- Add RX GDB simulator from Yoshinori Sato
-
-The Renesas RX target emulation was added in commit c8c35e5f51,
-these patches complete the target by adding the hardware emulation.
-
-Thank you Yoshinori for adding this code to QEMU, and your patience
-during the review process. Now your port is fully integrated.
-
-Travis-CI:
-https://travis-ci.org/github/philmd/qemu/builds/700461815
-----------------------------------------------------------------
-
-Philippe Mathieu-Daud=C3=A9 (7):
-  MAINTAINERS: Cover sh_intc files in the R2D/Shix machine sections
-  MAINTAINERS: Add an entry for common Renesas peripherals
-  hw/sh4: Use MemoryRegion typedef
-  hw/sh4: Extract timer definitions to 'hw/timer/tmu012.h'
-  hw/timer/sh_timer: Remove unused 'qemu/timer.h' include
-  hw/rx: Register R5F562N7 and R5F562N8 MCUs
-  BootLinuxConsoleTest: Test the RX GDB simulator
-
-Richard Henderson (1):
-  hw/rx: Honor -accel qtest
-
-Yoshinori Sato (7):
-  hw/intc: RX62N interrupt controller (ICUa)
-  hw/timer: RX62N 8-Bit timer (TMR)
-  hw/timer: RX62N compare match timer (CMT)
-  hw/char: RX62N serial communication interface (SCI)
-  hw/rx: RX62N microcontroller (MCU)
-  hw/rx: Add RX GDB simulator
-  docs: Document the RX target
-
- docs/system/target-rx.rst             |  36 ++
- docs/system/targets.rst               |   1 +
- default-configs/rx-softmmu.mak        |   1 +
- include/hw/char/renesas_sci.h         |  51 +++
- include/hw/intc/rx_icu.h              |  76 ++++
- include/hw/rx/rx62n.h                 |  76 ++++
- include/hw/sh4/sh.h                   |  12 +-
- include/hw/timer/renesas_cmt.h        |  40 +++
- include/hw/timer/renesas_tmr.h        |  55 +++
- include/hw/timer/tmu012.h             |  23 ++
- hw/char/renesas_sci.c                 | 350 +++++++++++++++++++
- hw/intc/rx_icu.c                      | 397 +++++++++++++++++++++
- hw/rx/rx-gdbsim.c                     | 196 +++++++++++
- hw/rx/rx62n.c                         | 323 +++++++++++++++++
- hw/sh4/sh7750.c                       |   1 +
- hw/timer/renesas_cmt.c                | 283 +++++++++++++++
- hw/timer/renesas_tmr.c                | 477 ++++++++++++++++++++++++++
- hw/timer/sh_timer.c                   |   3 +-
- MAINTAINERS                           |  33 +-
- hw/Kconfig                            |   1 +
- hw/char/Kconfig                       |   3 +
- hw/char/Makefile.objs                 |   1 +
- hw/intc/Kconfig                       |   3 +
- hw/intc/Makefile.objs                 |   1 +
- hw/rx/Kconfig                         |  10 +
- hw/rx/Makefile.objs                   |   2 +
- hw/timer/Kconfig                      |   6 +
- hw/timer/Makefile.objs                |   2 +
- tests/acceptance/machine_rx_gdbsim.py |  68 ++++
- 29 files changed, 2518 insertions(+), 13 deletions(-)
- create mode 100644 docs/system/target-rx.rst
- create mode 100644 include/hw/char/renesas_sci.h
- create mode 100644 include/hw/intc/rx_icu.h
- create mode 100644 include/hw/rx/rx62n.h
- create mode 100644 include/hw/timer/renesas_cmt.h
- create mode 100644 include/hw/timer/renesas_tmr.h
- create mode 100644 include/hw/timer/tmu012.h
- create mode 100644 hw/char/renesas_sci.c
- create mode 100644 hw/intc/rx_icu.c
- create mode 100644 hw/rx/rx-gdbsim.c
- create mode 100644 hw/rx/rx62n.c
- create mode 100644 hw/timer/renesas_cmt.c
- create mode 100644 hw/timer/renesas_tmr.c
- create mode 100644 hw/rx/Kconfig
- create mode 100644 hw/rx/Makefile.objs
- create mode 100644 tests/acceptance/machine_rx_gdbsim.py
-
---=20
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 955cc8dd5c..67c495e841 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1261,12 +1261,15 @@ S: Maintained
+ F: hw/sh4/r2d.c
+ F: hw/intc/sh_intc.c
+ F: hw/timer/sh_timer.c
++F: include/hw/sh4/sh_intc.h
+ 
+ Shix
+ M: Yoshinori Sato <ysato@users.sourceforge.jp>
+ R: Magnus Damm <magnus.damm@gmail.com>
+ S: Odd Fixes
+ F: hw/sh4/shix.c
++F: hw/intc/sh_intc.c
++F: include/hw/sh4/sh_intc.h
+ 
+ SPARC Machines
+ --------------
+-- 
 2.21.3
 
 
