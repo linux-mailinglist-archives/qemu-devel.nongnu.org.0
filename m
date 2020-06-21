@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC88B202B92
-	for <lists+qemu-devel@lfdr.de>; Sun, 21 Jun 2020 18:33:22 +0200 (CEST)
-Received: from localhost ([::1]:48350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C980A202B95
+	for <lists+qemu-devel@lfdr.de>; Sun, 21 Jun 2020 18:36:15 +0200 (CEST)
+Received: from localhost ([::1]:56354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jn2uI-0003Th-04
-	for lists+qemu-devel@lfdr.de; Sun, 21 Jun 2020 12:33:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52618)
+	id 1jn2x4-0007YC-RC
+	for lists+qemu-devel@lfdr.de; Sun, 21 Jun 2020 12:36:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noh4hss@gmail.com>) id 1jn2jl-0006o2-U1
- for qemu-devel@nongnu.org; Sun, 21 Jun 2020 12:22:29 -0400
-Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243]:35795)
+ (Exim 4.90_1) (envelope-from <noh4hss@gmail.com>) id 1jn2jm-0006oM-HQ
+ for qemu-devel@nongnu.org; Sun, 21 Jun 2020 12:22:30 -0400
+Received: from mail-lf1-x141.google.com ([2a00:1450:4864:20::141]:39411)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <noh4hss@gmail.com>) id 1jn2jk-0007xw-6F
- for qemu-devel@nongnu.org; Sun, 21 Jun 2020 12:22:29 -0400
-Received: by mail-lj1-x243.google.com with SMTP id q19so16669149lji.2
- for <qemu-devel@nongnu.org>; Sun, 21 Jun 2020 09:22:27 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <noh4hss@gmail.com>) id 1jn2jk-0007y5-RX
+ for qemu-devel@nongnu.org; Sun, 21 Jun 2020 12:22:30 -0400
+Received: by mail-lf1-x141.google.com with SMTP id d21so6150543lfb.6
+ for <qemu-devel@nongnu.org>; Sun, 21 Jun 2020 09:22:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=okjFI9L7TqZfHlM0DvNcdByQI8MQ8azG7lBbIRoFOgk=;
- b=VCjATV4f7DNanJ0h7Gd+kE/yqXYfWsKYXgVMoaL4e/53o5t4yrBeIR+uyRJxpOxzFK
- wSrLPxP2PQPhnyHvVEExhXfXbpIzfHafb6b5hyLY0T9dleK2yyRjRxsrr1UlEsZid+eK
- 7g+c/CFNymlv4aYkix/+JjtiiMY0ZrOK+DNIXx82RaCTSUWyFo/+U9wbrefCZ39Vl6+L
- QAfzDtqUsPvfB0ejtXrjms8p7gWeRJxgoBxzL4Hq0gfl2xYbJLNsMI307LMGMUFK5Wyb
- Zr14a70dZtE/01TwtiWKuH27tgWU50bVNf66rFbZrN0lBeYF7DK5imxF8BUbJ/Do7I0v
- lz9Q==
+ bh=IEq/0MOxjv3VFOKWXkmTsGCVmogmJmtEdGRs+jHMXjw=;
+ b=JHa0a7RtIvGTH04Mx/wdFaOFP6HP8n5TGTfaM/T1khOVEKGx0OutBcrW5wEs6NLNOR
+ Oz+1CgOTtFtsoWz03AcoYlzefkVBmuo8WjPmSs+Ekl57gjGAZx6OqDyAT682CkEEiBgT
+ TEnDhkVKh9jgcBI/Ur7/n+m9togLJ8JNTAh0oT2dF0uq+c4pzFDtp9/sfgexvxCH1YD/
+ UHNmVNsOzjPY+ygCaXQgkRZT4Vo9HOrmJZ4C7dyinZsq0laYPy63Dej4bn7RdZi/jKAx
+ Oj5x+4K9nvn7PVgB04gGwGY4XgpmjH+C43bwRHkgz9IOyWTfHH6Juzqjvp6VfNXh3Yt4
+ Fhag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=okjFI9L7TqZfHlM0DvNcdByQI8MQ8azG7lBbIRoFOgk=;
- b=GaGTGHTeSLCe61RIxEsS0bJMTp2Xf2X7gXGo5nFSAh/qprnMeKUDvAKmKkbBWmZzFR
- zeDng6swtxlUo5uY4BGKtKacYrxhZRdNE5/ZUbTgDMwzY+/+tzla3XhUTA05MtnNrIKX
- VCVyFCojlyD0kSsICVxpSRkRIeD6CIK81w3VHVh0xPxURhW00QwLRI9fBcbiLzY4HtLe
- 49nqxJlOgHM0uSdxJoEjfcKyVHS8VVAOVROVvs2AyLTr8P0T4g01oGPCX2yAjNiXGylL
- mLdjvykv0LwrteY0caP8nKR5b4TdUB1WU0ABAq7KFTHYzjHL4ByXYqTmHExw0f0wRv2Q
- Fb7Q==
-X-Gm-Message-State: AOAM533EHzb4ZfRyWeQcLTIManS4rfu+9IHRBDN4aOGV8nRfKU0UCFSM
- WB+OYcEuTHhTd4kdvnMsMin+rGo3MRsbng==
-X-Google-Smtp-Source: ABdhPJw2bFvwv+VOg9Tw0wjHjhRKKA3ADmfw5GGIX6uuS6w2CTjTnt0SA5BnunIhqVy9UHmEa0uG5g==
-X-Received: by 2002:a2e:8110:: with SMTP id d16mr6772025ljg.12.1592756546250; 
- Sun, 21 Jun 2020 09:22:26 -0700 (PDT)
+ bh=IEq/0MOxjv3VFOKWXkmTsGCVmogmJmtEdGRs+jHMXjw=;
+ b=hMLvwv1Wi2IrkmuGmAOs6fhcBsRYC55ZNy2v2pil43TQTRt4tMKOPUdN20y6k9ukzN
+ MqgjpfXMNfnRK1mgQcaxVH5QwDRF0+kite6pdbGLdM8JXFsMatKMjldyV58qcuJddrfz
+ dRiZrItUaUNZct01KZvYTRMdTXYDlz77bajRx00eEZX8/aQOEVZr/9zVxGfeKgHGiIMV
+ QmQxiyljpPUQyZ3TaK+e0r/regvX+tXfwKLwAFIfzUFD2j4huWzNvuH244BrkxJvcbCT
+ z1tTt//M1d+56y1EjGzgrcQybze1vxz7ka9EE3qoCxoPv0feesDFBCwOtsakRhcG/h4q
+ cghQ==
+X-Gm-Message-State: AOAM533pOw/Rld4RMoYHEmse8CPpZLGYF8Op4QHH8kn7JfEQFu9J2mPv
+ iFSx62sVTJjlmvSuqubw/lq+QZzowqghLw==
+X-Google-Smtp-Source: ABdhPJzX5BqFUfR4aULh0LWn1LwNtQo6oMqzC9MFspMJpEYEDSb54NLlNv+cQMPlbpwG+CCc2EWMVg==
+X-Received: by 2002:a19:7014:: with SMTP id h20mr7293458lfc.49.1592756547093; 
+ Sun, 21 Jun 2020 09:22:27 -0700 (PDT)
 Received: from localhost.localdomain (193-239-39-51.ksi-system.net.
  [193.239.39.51])
- by smtp.gmail.com with ESMTPSA id k7sm2822838lfd.67.2020.06.21.09.22.25
+ by smtp.gmail.com with ESMTPSA id k7sm2822838lfd.67.2020.06.21.09.22.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 21 Jun 2020 09:22:25 -0700 (PDT)
+ Sun, 21 Jun 2020 09:22:26 -0700 (PDT)
 From: Szymon Lukasz <noh4hss@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/6] chardev: add support for notifying about terminal resizes
-Date: Sun, 21 Jun 2020 18:21:29 +0200
-Message-Id: <20200621162132.62797-4-noh4hss@gmail.com>
+Subject: [PATCH 4/6] char-stdio: add support for the terminal size
+Date: Sun, 21 Jun 2020 18:21:30 +0200
+Message-Id: <20200621162132.62797-5-noh4hss@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200621162132.62797-1-noh4hss@gmail.com>
 References: <20200621162132.62797-1-noh4hss@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::243;
- envelope-from=noh4hss@gmail.com; helo=mail-lj1-x243.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::141;
+ envelope-from=noh4hss@gmail.com; helo=mail-lf1-x141.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,182 +90,100 @@ Cc: lvivier@redhat.com, amit@kernel.org, mst@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a new chardev event, CHR_EVENT_RESIZE, which a backend should
-trigger if detects the size of the connected terminal changed.
+Implement chr_get_winsize for the stdio backend
+and trigger CHR_EVENT_RESIZE upon SIGWINCH delivery.
 
 Signed-off-by: Szymon Lukasz <noh4hss@gmail.com>
 ---
- backends/cryptodev-vhost-user.c | 1 +
- chardev/char.c                  | 1 +
- hw/block/vhost-user-blk.c       | 1 +
- hw/char/terminal3270.c          | 1 +
- hw/char/virtio-console.c        | 1 +
- hw/ipmi/ipmi_bmc_extern.c       | 1 +
- hw/usb/ccid-card-passthru.c     | 1 +
- hw/usb/dev-serial.c             | 1 +
- hw/usb/redirect.c               | 1 +
- include/chardev/char.h          | 1 +
- monitor/hmp.c                   | 1 +
- monitor/qmp.c                   | 1 +
- net/vhost-user.c                | 1 +
- 13 files changed, 13 insertions(+)
+ chardev/char-stdio.c | 34 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 34 insertions(+)
 
-diff --git a/backends/cryptodev-vhost-user.c b/backends/cryptodev-vhost-user.c
-index 8b8cbc4223..bbf8ad426a 100644
---- a/backends/cryptodev-vhost-user.c
-+++ b/backends/cryptodev-vhost-user.c
-@@ -174,6 +174,7 @@ static void cryptodev_vhost_user_event(void *opaque, QEMUChrEvent event)
-     case CHR_EVENT_BREAK:
-     case CHR_EVENT_MUX_IN:
-     case CHR_EVENT_MUX_OUT:
-+    case CHR_EVENT_RESIZE:
-         /* Ignore */
-         break;
-     }
-diff --git a/chardev/char.c b/chardev/char.c
-index e3051295ac..904f8bf6e3 100644
---- a/chardev/char.c
-+++ b/chardev/char.c
-@@ -74,6 +74,7 @@ void qemu_chr_be_event(Chardev *s, QEMUChrEvent event)
-     case CHR_EVENT_BREAK:
-     case CHR_EVENT_MUX_IN:
-     case CHR_EVENT_MUX_OUT:
-+    case CHR_EVENT_RESIZE:
-         /* Ignore */
-         break;
-     }
-diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
-index a00b854736..1a656a27c3 100644
---- a/hw/block/vhost-user-blk.c
-+++ b/hw/block/vhost-user-blk.c
-@@ -403,6 +403,7 @@ static void vhost_user_blk_event(void *opaque, QEMUChrEvent event)
-     case CHR_EVENT_BREAK:
-     case CHR_EVENT_MUX_IN:
-     case CHR_EVENT_MUX_OUT:
-+    case CHR_EVENT_RESIZE:
-         /* Ignore */
-         break;
-     }
-diff --git a/hw/char/terminal3270.c b/hw/char/terminal3270.c
-index 2c47ebf007..eadccbb617 100644
---- a/hw/char/terminal3270.c
-+++ b/hw/char/terminal3270.c
-@@ -169,6 +169,7 @@ static void chr_event(void *opaque, QEMUChrEvent event)
-     case CHR_EVENT_BREAK:
-     case CHR_EVENT_MUX_IN:
-     case CHR_EVENT_MUX_OUT:
-+    case CHR_EVENT_RESIZE:
-         /* Ignore */
-         break;
-     }
-diff --git a/hw/char/virtio-console.c b/hw/char/virtio-console.c
-index 4f46753ea3..97b9240ef5 100644
---- a/hw/char/virtio-console.c
-+++ b/hw/char/virtio-console.c
-@@ -165,6 +165,7 @@ static void chr_event(void *opaque, QEMUChrEvent event)
-     case CHR_EVENT_BREAK:
-     case CHR_EVENT_MUX_IN:
-     case CHR_EVENT_MUX_OUT:
-+    case CHR_EVENT_RESIZE:
-         /* Ignore */
-         break;
-     }
-diff --git a/hw/ipmi/ipmi_bmc_extern.c b/hw/ipmi/ipmi_bmc_extern.c
-index f9a13e0a44..9562584309 100644
---- a/hw/ipmi/ipmi_bmc_extern.c
-+++ b/hw/ipmi/ipmi_bmc_extern.c
-@@ -439,6 +439,7 @@ static void chr_event(void *opaque, QEMUChrEvent event)
-     case CHR_EVENT_BREAK:
-     case CHR_EVENT_MUX_IN:
-     case CHR_EVENT_MUX_OUT:
-+    case CHR_EVENT_RESIZE:
-         /* Ignore */
-         break;
-     }
-diff --git a/hw/usb/ccid-card-passthru.c b/hw/usb/ccid-card-passthru.c
-index bb325dbc4a..3c26b16ed0 100644
---- a/hw/usb/ccid-card-passthru.c
-+++ b/hw/usb/ccid-card-passthru.c
-@@ -321,6 +321,7 @@ static void ccid_card_vscard_event(void *opaque, QEMUChrEvent event)
-     case CHR_EVENT_MUX_IN:
-     case CHR_EVENT_MUX_OUT:
-     case CHR_EVENT_CLOSED:
-+    case CHR_EVENT_RESIZE:
-         /* Ignore */
-         break;
-     }
-diff --git a/hw/usb/dev-serial.c b/hw/usb/dev-serial.c
-index 7e50e3ba47..e8e960d0e6 100644
---- a/hw/usb/dev-serial.c
-+++ b/hw/usb/dev-serial.c
-@@ -507,6 +507,7 @@ static void usb_serial_event(void *opaque, QEMUChrEvent event)
-             break;
-         case CHR_EVENT_MUX_IN:
-         case CHR_EVENT_MUX_OUT:
-+        case CHR_EVENT_RESIZE:
-             /* Ignore */
-             break;
-     }
-diff --git a/hw/usb/redirect.c b/hw/usb/redirect.c
-index 417a60a2e6..b716c4fdd7 100644
---- a/hw/usb/redirect.c
-+++ b/hw/usb/redirect.c
-@@ -1383,6 +1383,7 @@ static void usbredir_chardev_event(void *opaque, QEMUChrEvent event)
-     case CHR_EVENT_BREAK:
-     case CHR_EVENT_MUX_IN:
-     case CHR_EVENT_MUX_OUT:
-+    case CHR_EVENT_RESIZE:
-         /* Ignore */
-         break;
-     }
-diff --git a/include/chardev/char.h b/include/chardev/char.h
-index fb20707917..c3d108ce82 100644
---- a/include/chardev/char.h
-+++ b/include/chardev/char.h
-@@ -22,6 +22,7 @@ typedef enum {
-     CHR_EVENT_OPENED, /* new connection established */
-     CHR_EVENT_MUX_IN, /* mux-focus was set to this terminal */
-     CHR_EVENT_MUX_OUT, /* mux-focus will move on */
-+    CHR_EVENT_RESIZE, /* the terminal size of the chardev changed */
-     CHR_EVENT_CLOSED /* connection closed.  NOTE: currently this event
-                       * is only bound to the read port of the chardev.
-                       * Normally the read port and write port of a
-diff --git a/monitor/hmp.c b/monitor/hmp.c
-index d598dd02bb..020be03d61 100644
---- a/monitor/hmp.c
-+++ b/monitor/hmp.c
-@@ -1373,6 +1373,7 @@ static void monitor_event(void *opaque, QEMUChrEvent event)
-         break;
+diff --git a/chardev/char-stdio.c b/chardev/char-stdio.c
+index 82eaebc1db..ab14edffc1 100644
+--- a/chardev/char-stdio.c
++++ b/chardev/char-stdio.c
+@@ -34,7 +34,9 @@
+ #include "chardev/char-win-stdio.h"
+ #else
+ #include <termios.h>
++#include <sys/ioctl.h>
+ #include "chardev/char-fd.h"
++#include "qemu/main-loop.h"
+ #endif
  
-     case CHR_EVENT_BREAK:
-+    case CHR_EVENT_RESIZE:
-         /* Ignored */
-         break;
+ #ifndef _WIN32
+@@ -45,6 +47,13 @@ static bool stdio_in_use;
+ static bool stdio_allow_signal;
+ static bool stdio_echo_state;
+ 
++typedef struct {
++    FDChardev parent;
++    Notifier resize_notifier;
++} StdioChardev;
++
++#define STDIO_CHARDEV(obj) OBJECT_CHECK(StdioChardev, (obj), TYPE_CHARDEV_STDIO)
++
+ static void term_exit(void)
+ {
+     if (stdio_in_use) {
+@@ -82,11 +91,31 @@ static void term_stdio_handler(int sig)
+     qemu_chr_set_echo_stdio(NULL, stdio_echo_state);
+ }
+ 
++static int qemu_chr_get_winsize_stdio(Chardev *chr, uint16_t *cols, uint16_t *rows)
++{
++    struct winsize ws;
++
++    if (ioctl(1, TIOCGWINSZ, &ws) < 0) {
++        return -1;
++    }
++
++    *cols = ws.ws_col;
++    *rows = ws.ws_row;
++    return 0;
++}
++
++static void term_resize_notify(Notifier *n, void *data)
++{
++    StdioChardev *s = container_of(n, StdioChardev, resize_notifier);
++    qemu_chr_be_event(CHARDEV(s), CHR_EVENT_RESIZE);
++}
++
+ static void qemu_chr_open_stdio(Chardev *chr,
+                                 ChardevBackend *backend,
+                                 bool *be_opened,
+                                 Error **errp)
+ {
++    StdioChardev *s = STDIO_CHARDEV(chr);
+     ChardevStdio *opts = backend->u.stdio.data;
+     struct sigaction act;
+ 
+@@ -116,6 +145,9 @@ static void qemu_chr_open_stdio(Chardev *chr,
+         stdio_allow_signal = opts->signal;
      }
-diff --git a/monitor/qmp.c b/monitor/qmp.c
-index d433ceae5b..58aecb475b 100644
---- a/monitor/qmp.c
-+++ b/monitor/qmp.c
-@@ -371,6 +371,7 @@ static void monitor_qmp_event(void *opaque, QEMUChrEvent event)
-     case CHR_EVENT_BREAK:
-     case CHR_EVENT_MUX_IN:
-     case CHR_EVENT_MUX_OUT:
-+    case CHR_EVENT_RESIZE:
-         /* Ignore */
-         break;
-     }
-diff --git a/net/vhost-user.c b/net/vhost-user.c
-index 17532daaf3..e30cbe74bd 100644
---- a/net/vhost-user.c
-+++ b/net/vhost-user.c
-@@ -297,6 +297,7 @@ static void net_vhost_user_event(void *opaque, QEMUChrEvent event)
-     case CHR_EVENT_BREAK:
-     case CHR_EVENT_MUX_IN:
-     case CHR_EVENT_MUX_OUT:
-+    case CHR_EVENT_RESIZE:
-         /* Ignore */
-         break;
-     }
+     qemu_chr_set_echo_stdio(chr, false);
++
++    s->resize_notifier.notify = term_resize_notify;
++    sigwinch_add_notifier(&s->resize_notifier);
+ }
+ #endif
+ 
+@@ -139,6 +171,7 @@ static void char_stdio_class_init(ObjectClass *oc, void *data)
+ #ifndef _WIN32
+     cc->open = qemu_chr_open_stdio;
+     cc->chr_set_echo = qemu_chr_set_echo_stdio;
++    cc->chr_get_winsize = qemu_chr_get_winsize_stdio;
+ #endif
+ }
+ 
+@@ -155,6 +188,7 @@ static const TypeInfo char_stdio_type_info = {
+     .parent = TYPE_CHARDEV_WIN_STDIO,
+ #else
+     .parent = TYPE_CHARDEV_FD,
++    .instance_size = sizeof(StdioChardev),
+ #endif
+     .instance_finalize = char_stdio_finalize,
+     .class_init = char_stdio_class_init,
 -- 
 2.27.0
 
