@@ -2,66 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DA9020283F
-	for <lists+qemu-devel@lfdr.de>; Sun, 21 Jun 2020 06:07:36 +0200 (CEST)
-Received: from localhost ([::1]:48424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAACB20295C
+	for <lists+qemu-devel@lfdr.de>; Sun, 21 Jun 2020 09:31:06 +0200 (CEST)
+Received: from localhost ([::1]:36278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jmrGY-0001lx-Mg
-	for lists+qemu-devel@lfdr.de; Sun, 21 Jun 2020 00:07:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46016)
+	id 1jmuRV-0004IC-H3
+	for lists+qemu-devel@lfdr.de; Sun, 21 Jun 2020 03:31:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <geoff@hostfission.com>)
- id 1jmrFa-00016K-C6
- for qemu-devel@nongnu.org; Sun, 21 Jun 2020 00:06:34 -0400
-Received: from mail1.hostfission.com ([139.99.139.48]:56816)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <geoff@hostfission.com>) id 1jmrFW-0001kW-Ax
- for qemu-devel@nongnu.org; Sun, 21 Jun 2020 00:06:34 -0400
-Received: from www1.hostfission.com (www1.hostfission.com [139.99.139.52])
- by mail1.hostfission.com (Postfix) with ESMTP id 34B4A44BA3;
- Sun, 21 Jun 2020 14:06:25 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=hostfission.com;
- s=mail; t=1592712385;
- bh=o6tO7GzVvrzCl7KZ7RwO+wHeRshZHRSDFbPDMSa3IdU=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=aqS0duPetX/Sq1DtaDsM5ZpUVnCt2P04ptHdjCZjz6M8g4cdoI+Hi6JLgEtiNmT28
- SiD0AWlYMR4+HFq4hYAwz+3nTxkQW3iUWhWqSSvopgoOFFmhrtXcckEEtCNvskVy6A
- 2LqhIR25r86DufsJoYPV5E+F8ZoIJK23Jw04kJ6w=
-Received: from mail.hostfission.com (www1.hostfission.com [127.0.0.1])
- by www1.hostfission.com (Postfix) with ESMTP id 21C12643;
- Sun, 21 Jun 2020 14:06:25 +1000 (AEST)
+ (Exim 4.90_1) (envelope-from <lichun@ruijie.com.cn>)
+ id 1jmtwz-0005A6-Kp
+ for qemu-devel@nongnu.org; Sun, 21 Jun 2020 02:59:33 -0400
+Received: from mxfz.ruijie.com.cn ([120.35.11.201]:14309
+ helo=FZEX3.ruijie.com.cn)
+ by eggs.gnu.org with esmtps (TLS1.0:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <lichun@ruijie.com.cn>)
+ id 1jmtwv-0006Ig-BO
+ for qemu-devel@nongnu.org; Sun, 21 Jun 2020 02:59:31 -0400
+Received: from localhost.localdomain.localdomain (172.30.216.210) by
+ FZEX3.ruijie.com.cn (192.168.58.89) with Microsoft SMTP Server id 14.3.123.3; 
+ Sun, 21 Jun 2020 14:53:07 +0800
+From: lichun <lichun@ruijie.com.cn>
+To: <qemu-devel@nongnu.org>
+Subject: [PATCH] chardev/tcp: fix error message double free error
+Date: Sun, 21 Jun 2020 22:53:03 +0800
+Message-ID: <20200621145303.13068-1-lichun@ruijie.com.cn>
+X-Mailer: git-send-email 2.18.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date: Sun, 21 Jun 2020 14:06:25 +1000
-From: Geoffrey McRae <geoff@hostfission.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH 5/6] audio/jack: honour the enable state of the audio
- device
-In-Reply-To: <20200619092924.wjvegwpfrpaq6adz@sirius.home.kraxel.org>
-References: <20200613040518.38172-1-geoff@hostfission.com>
- <20200613040518.38172-6-geoff@hostfission.com>
- <20200617124406.7dgne73ttfhgkj3x@sirius.home.kraxel.org>
- <a08a08cc6735d2fb2ba07145befc64c3@hostfission.com>
- <20200619092924.wjvegwpfrpaq6adz@sirius.home.kraxel.org>
-Message-ID: <649d66d244d7fdc8375464f91a7b254c@hostfission.com>
-X-Sender: geoff@hostfission.com
-User-Agent: Roundcube Webmail/1.3.8
-Received-SPF: pass client-ip=139.99.139.48; envelope-from=geoff@hostfission.com;
- helo=mail1.hostfission.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/21 00:06:26
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain
+X-Originating-IP: [172.30.216.210]
+Received-SPF: pass client-ip=120.35.11.201; envelope-from=lichun@ruijie.com.cn;
+ helo=FZEX3.ruijie.com.cn
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/21 02:53:10
+X-ACL-Warn: Detected OS   = Windows 7 or 8 [fuzzy]
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DATE_IN_FUTURE_06_12=1.947,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
+X-Mailman-Approved-At: Sun, 21 Jun 2020 03:29:40 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,48 +54,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: marcandre.lureau@redhat.com, lichun <lichun@ruijie.com.cn>,
+ 706701795@qq.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Signed-off-by: lichun <lichun@ruijie.com.cn>
+---
+ chardev/char-socket.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
+diff --git a/chardev/char-socket.c b/chardev/char-socket.c
+index afebeec5c3..3b6c1c5848 100644
+--- a/chardev/char-socket.c
++++ b/chardev/char-socket.c
+@@ -1086,7 +1086,10 @@ static void qemu_chr_socket_connected(QIOTask *task, void *opaque)
+     if (qio_task_propagate_error(task, &err)) {
+         tcp_chr_change_state(s, TCP_CHARDEV_STATE_DISCONNECTED);
+         check_report_connect_error(chr, err);
+-        error_free(err);
++        /* If connect_err_reported is true, it means err is already freed */
++        if (!s->connect_err_reported) {
++            error_free(err);
++        }
+         goto cleanup;
+     }
+ 
+-- 
+2.18.4
 
-On 2020-06-19 19:29, Gerd Hoffmann wrote:
-> Hi,
-> 
->> > Hmm, I guess feeding silence into jack needs some cpu cycles?
->> > Maybe add a timer to close the jack server connection?  Keep the
->> > connection open for re-use for a while, but in case the guest stops
->> > playing sound altogether close the jack connection after being unused
->> > for a few minutes?
->> >
->> > [ Doesn't render the patch invalid, consider it a suggestion for future
->> >   improvements ]
->> 
->> Thanks, I had considered that however there is a usability issue to
->> consider. Each time a jack client registers, it removes the client 
->> entirely
->> and disconnects any custom plumbing that may have been done by the 
->> user.
-> 
-> Hmm, ok, that is bad indeed.
-> 
-> Can you stop the stream without closing the connection?
-
-Not as far as I can tell, it seems the JACK API doesn't allow for this 
-in a way that is useful to us.
-
-> 
->> JACK does not remember this custom routing and as such it's lost until 
->> the
->> user re-establishes it, or they have some automation set up to do it. 
->> While
->> this could likely be worked around, it would likely cause more 
->> headaches
->> then the few CPU cycles lost in a memset.
-> 
-> I'm more concerned about the frequent wakeups to feed the next chunk of
-> (silence) data to jack.
-> 
-> take care,
->   Gerd
 
