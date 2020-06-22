@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59598203F3B
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 20:36:44 +0200 (CEST)
-Received: from localhost ([::1]:40636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 477A3203F4F
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 20:39:31 +0200 (CEST)
+Received: from localhost ([::1]:55248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnRJD-0007VI-CE
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 14:36:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43280)
+	id 1jnRLu-0005d6-AN
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 14:39:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jnRHC-0005MG-S0; Mon, 22 Jun 2020 14:34:38 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:35019)
+ id 1jnRHE-0005PC-4U; Mon, 22 Jun 2020 14:34:40 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:40185)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jnRHA-00081E-Uk; Mon, 22 Jun 2020 14:34:38 -0400
-Received: by mail-wm1-x342.google.com with SMTP id g21so563918wmg.0;
- Mon, 22 Jun 2020 11:34:36 -0700 (PDT)
+ id 1jnRHC-00081R-7w; Mon, 22 Jun 2020 14:34:39 -0400
+Received: by mail-wm1-x336.google.com with SMTP id r15so525966wmh.5;
+ Mon, 22 Jun 2020 11:34:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=7R6jRqIo79xp4PhDJe5+KO8A1sHYhX3Es+15tQBSrvI=;
- b=JO9eqX/hYphjiarl2XTu/KzcZtc3BYKHl9oyYYDb5jn53VjtMPoRM9Tx7XvDyujW9V
- zSNNivEzYWbjSIhmMddrZLWHQ/dOUi20LdvgwgzhUVZmXQB0niH6D9rQ8Z9n8Bg519hv
- xcHjc7sLXnx5oZAO91iJTW6Vyc7TAf65qmHxS9RgJthfHqFaiChdvvu9i4BNZ8EfTdyb
- PQCA5+lkM6/clLpcX3ZRMxTefogsqVRYhpFdhnO8GjGB6EEzr3kmBZT0nAoDeSfnnKVO
- bwTjWejl96X4pY/szkFlGUTRt97K3l1k+EMPjUFaCXxFOK0OXGjljZqWhufIfkfReqkR
- THuw==
+ bh=R6bhbFUFHwbjFV9VtVCbzeaqKXg8WCcxdY6HM2ZAe0c=;
+ b=QJMtl1eaH8K4HoaLvK/EAmlOnhgKV0xNPF5XzYqxJUtxyyw60uDmjApvvr3zYyEiMH
+ 31ZrKSyAqL5x0MhgliC7qkZtudSXo4f5OL9PQqq44uiRR1U8E/WnSfJ0w6Jp20fsW+N3
+ Kv4mLgd7WPQEEN67rGqLSPGU29oPGzMa3i2IrlhL5EMMqLA/dhytm4ge9tYrmGaPQG4o
+ eHMmwAfSB2A5abmlmcxZ4ZeMdoufdV5t/CD0VAOl1VMzbHHbfgRNK6V42L7zbWJWjPyA
+ aAk+i/6ixN6ZjcUw3QyTpbbv8Itxao0amxM3m1tI28XmmbzHIGErTwkC0Gx9W9qUSJz+
+ TSDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=7R6jRqIo79xp4PhDJe5+KO8A1sHYhX3Es+15tQBSrvI=;
- b=FuFvXcI6bGVBQXmPRrxWXzPzlW/9XrTCsir3g47OxPVGso/UxBaDbk2nj9MRUGFui4
- 6dwyXHaQoXllNDKba8LEmlbIRaQUwBB999me+iY3LaNDTfd5+GgF5tX/f4cHcvB1TiVc
- +NfxS93YoO4W8T64cYbFo/CobI09e7F7vd5HRYk0f+pt6ahGNzCp/8f4mLMmtR/v82Qo
- JaNYpGJbMS88gx7HqeD4lcd/qL2p21wj11KPfP3Aizc8SQ1jmzmIG8Spaj0L3tmM3eqq
- /ZYKyjt9qVLGzJcelb778PSwGeORC3JjUssl7jIYWT7em0BOI3R+Y3RoR1Dm6o8UGWp0
- 9RtQ==
-X-Gm-Message-State: AOAM531p1C+yn3XLoCaTV+1PmaBwBg9AwvDUjtNaWduzzOz7tAvEEMop
- RMuISLs0BMVHolB7MTCkbN4BrP/L
-X-Google-Smtp-Source: ABdhPJx41UX2fjTPseIwzjjl1Bwhma7I+gBJi+e4ic1t9z+AiSVGs5573mEaZE3v2ZCDR02r0NduBQ==
-X-Received: by 2002:a1c:9942:: with SMTP id b63mr19540631wme.34.1592850874789; 
- Mon, 22 Jun 2020 11:34:34 -0700 (PDT)
+ bh=R6bhbFUFHwbjFV9VtVCbzeaqKXg8WCcxdY6HM2ZAe0c=;
+ b=nohfQQtLlmJQSNtXXkkgzCgtEs8hKHA+XUBHscQdDsuXGALtuA18xIuP4cPEagkO7a
+ ceE0wgm1O4sK76tkg55SodJcfH95z1NN/h1IOs6v1mh9pPBiYxKk1uNgm/iSKlXk8L0p
+ 0ZkMX8Lr3WIfp1ZqJkjyixAq/PrFxD+ApYuiZZ/zjIIZ2faxZRV0bkxq8qk9QF9rzVv8
+ 9r8Sj1C7FylgQQE3ViDUbpfTy0GxE5s/aWjFZGwE8B05naXrPClrgn6i2Kqty9Sx17an
+ oJ3brA3VVb0Wo4m8y8OoNcTyku0uvYz+KI/1wFyIDAWZ9qpYnI5C+IQiLq4bLJfJLEEb
+ Nkww==
+X-Gm-Message-State: AOAM530AysveJeCBHdvjoba85lZ05G00qRl7xcUvk2wdx/btklJIn+8p
+ RVkH5jz6pkvInP0BFGF4uuHA4Abt
+X-Google-Smtp-Source: ABdhPJw9bpt+xJcKoVgf/eaLpDENtTj23Z89xheedBmOP7cKrJ7XrzS7G2eAE9SqN6w3tRw4C3ew2g==
+X-Received: by 2002:a7b:c248:: with SMTP id b8mr19050559wmj.2.1592850876092;
+ Mon, 22 Jun 2020 11:34:36 -0700 (PDT)
 Received: from localhost.localdomain (1.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id h29sm20286161wrc.78.2020.06.22.11.34.33
+ by smtp.gmail.com with ESMTPSA id h29sm20286161wrc.78.2020.06.22.11.34.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Jun 2020 11:34:34 -0700 (PDT)
+ Mon, 22 Jun 2020 11:34:35 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 3/9] hw/misc/pca9552: Rename generic code as pca955x
-Date: Mon, 22 Jun 2020 20:34:22 +0200
-Message-Id: <20200622183428.12255-4-f4bug@amsat.org>
+Subject: [PATCH v5 4/9] hw/misc/pca9552: Add generic PCA955xClass,
+ parent of TYPE_PCA9552
+Date: Mon, 22 Jun 2020 20:34:23 +0200
+Message-Id: <20200622183428.12255-5-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200622183428.12255-1-f4bug@amsat.org>
 References: <20200622183428.12255-1-f4bug@amsat.org>
@@ -62,8 +63,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x336.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -72,7 +73,7 @@ X-Spam_bar: /
 X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
  DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
  HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,296 +94,214 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Various code from the PCA9552 device model is generic to the
-PCA955X family. We'll split the generic code in a base class
-in the next commit. To ease review, first do a dumb renaming.
+Extract the code common to the PCA955x family in PCA955xClass,
+keeping the PCA9552 specific parts into pca9552_class_init().
+Remove the 'TODO' comment added in commit 5141d4158cf.
 
+Suggested-by: Cédric Le Goater <clg@kaod.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/hw/misc/pca9552.h | 10 ++---
- hw/misc/pca9552.c         | 80 +++++++++++++++++++--------------------
- 2 files changed, 45 insertions(+), 45 deletions(-)
+ include/hw/misc/pca9552.h |  6 ++--
+ hw/misc/pca9552.c         | 72 ++++++++++++++++++++++++++++++---------
+ 2 files changed, 58 insertions(+), 20 deletions(-)
 
 diff --git a/include/hw/misc/pca9552.h b/include/hw/misc/pca9552.h
-index bc5ed31087..db527595a3 100644
+index db527595a3..90843b03b8 100644
 --- a/include/hw/misc/pca9552.h
 +++ b/include/hw/misc/pca9552.h
-@@ -12,11 +12,11 @@
+@@ -12,9 +12,11 @@
  #include "hw/i2c/i2c.h"
  
  #define TYPE_PCA9552 "pca9552"
--#define PCA9552(obj) OBJECT_CHECK(PCA9552State, (obj), TYPE_PCA9552)
-+#define PCA955X(obj) OBJECT_CHECK(PCA955xState, (obj), TYPE_PCA9552)
+-#define PCA955X(obj) OBJECT_CHECK(PCA955xState, (obj), TYPE_PCA9552)
++#define TYPE_PCA955X "pca955x"
++#define PCA955X(obj) OBJECT_CHECK(PCA955xState, (obj), TYPE_PCA955X)
  
--#define PCA9552_NR_REGS 10
-+#define PCA955X_NR_REGS 10
+ #define PCA955X_NR_REGS 10
++#define PCA955X_PIN_COUNT_MAX 16
  
--typedef struct PCA9552State {
-+typedef struct PCA955xState {
+ typedef struct PCA955xState {
      /*< private >*/
-     I2CSlave i2c;
-     /*< public >*/
-@@ -24,9 +24,9 @@ typedef struct PCA9552State {
-     uint8_t len;
+@@ -25,8 +27,6 @@ typedef struct PCA955xState {
      uint8_t pointer;
  
--    uint8_t regs[PCA9552_NR_REGS];
-+    uint8_t regs[PCA955X_NR_REGS];
-     uint8_t max_reg;
-     uint8_t pin_count;
--} PCA9552State;
-+} PCA955xState;
+     uint8_t regs[PCA955X_NR_REGS];
+-    uint8_t max_reg;
+-    uint8_t pin_count;
+ } PCA955xState;
  
  #endif
 diff --git a/hw/misc/pca9552.c b/hw/misc/pca9552.c
-index 81da757a7e..5681ff3b22 100644
+index 5681ff3b22..34062dbb69 100644
 --- a/hw/misc/pca9552.c
 +++ b/hw/misc/pca9552.c
-@@ -25,7 +25,7 @@
+@@ -4,6 +4,7 @@
+  *     https://www.nxp.com/docs/en/application-note/AN264.pdf
+  *
+  * Copyright (c) 2017-2018, IBM Corporation.
++ * Copyright (c) 2020 Philippe Mathieu-Daudé
+  *
+  * This work is licensed under the terms of the GNU GPL, version 2 or
+  * later. See the COPYING file in the top-level directory.
+@@ -18,6 +19,20 @@
+ #include "qapi/error.h"
+ #include "qapi/visitor.h"
  
- static const char *led_state[] = {"on", "off", "pwm0", "pwm1"};
++typedef struct PCA955xClass {
++    /*< private >*/
++    I2CSlaveClass parent_class;
++    /*< public >*/
++
++    uint8_t pin_count;
++    uint8_t max_reg;
++} PCA955xClass;
++
++#define PCA955X_CLASS(klass) \
++    OBJECT_CLASS_CHECK(PCA955xClass, (klass), TYPE_PCA955X)
++#define PCA955X_GET_CLASS(obj) \
++    OBJECT_GET_CLASS(PCA955xClass, (obj), TYPE_PCA955X)
++
+ #define PCA9552_LED_ON   0x0
+ #define PCA9552_LED_OFF  0x1
+ #define PCA9552_LED_PWM0 0x2
+@@ -35,9 +50,10 @@ static uint8_t pca955x_pin_get_config(PCA955xState *s, int pin)
  
--static uint8_t pca9552_pin_get_config(PCA9552State *s, int pin)
-+static uint8_t pca955x_pin_get_config(PCA955xState *s, int pin)
+ static void pca955x_update_pin_input(PCA955xState *s)
  {
-     uint8_t reg   = PCA9552_LS0 + (pin / 4);
-     uint8_t shift = (pin % 4) << 1;
-@@ -33,14 +33,14 @@ static uint8_t pca9552_pin_get_config(PCA9552State *s, int pin)
-     return extract32(s->regs[reg], shift, 2);
- }
- 
--static void pca9552_update_pin_input(PCA9552State *s)
-+static void pca955x_update_pin_input(PCA955xState *s)
- {
++    PCA955xClass *k = PCA955X_GET_CLASS(s);
      int i;
  
-     for (i = 0; i < s->pin_count; i++) {
+-    for (i = 0; i < s->pin_count; i++) {
++    for (i = 0; i < k->pin_count; i++) {
          uint8_t input_reg = PCA9552_INPUT0 + (i / 8);
          uint8_t input_shift = (i % 8);
--        uint8_t config = pca9552_pin_get_config(s, i);
-+        uint8_t config = pca955x_pin_get_config(s, i);
- 
-         switch (config) {
-         case PCA9552_LED_ON:
-@@ -58,7 +58,7 @@ static void pca9552_update_pin_input(PCA9552State *s)
-     }
- }
- 
--static uint8_t pca9552_read(PCA9552State *s, uint8_t reg)
-+static uint8_t pca955x_read(PCA955xState *s, uint8_t reg)
- {
-     switch (reg) {
-     case PCA9552_INPUT0:
-@@ -79,7 +79,7 @@ static uint8_t pca9552_read(PCA9552State *s, uint8_t reg)
-     }
- }
- 
--static void pca9552_write(PCA9552State *s, uint8_t reg, uint8_t data)
-+static void pca955x_write(PCA955xState *s, uint8_t reg, uint8_t data)
- {
-     switch (reg) {
-     case PCA9552_PSC0:
-@@ -94,7 +94,7 @@ static void pca9552_write(PCA9552State *s, uint8_t reg, uint8_t data)
-     case PCA9552_LS2:
-     case PCA9552_LS3:
-         s->regs[reg] = data;
--        pca9552_update_pin_input(s);
-+        pca955x_update_pin_input(s);
-         break;
- 
-     case PCA9552_INPUT0:
-@@ -110,7 +110,7 @@ static void pca9552_write(PCA9552State *s, uint8_t reg, uint8_t data)
-  * after each byte is sent to or received by the device. The index
-  * rollovers to 0 when the maximum register address is reached.
+         uint8_t config = pca955x_pin_get_config(s, i);
+@@ -112,10 +128,12 @@ static void pca955x_write(PCA955xState *s, uint8_t reg, uint8_t data)
   */
--static void pca9552_autoinc(PCA9552State *s)
-+static void pca955x_autoinc(PCA955xState *s)
+ static void pca955x_autoinc(PCA955xState *s)
  {
++    PCA955xClass *k = PCA955X_GET_CLASS(s);
++
      if (s->pointer != 0xFF && s->pointer & PCA9552_AUTOINC) {
          uint8_t reg = s->pointer & 0xf;
-@@ -120,12 +120,12 @@ static void pca9552_autoinc(PCA9552State *s)
+ 
+-        reg = (reg + 1) % (s->max_reg + 1);
++        reg = (reg + 1) % (k->max_reg + 1);
+         s->pointer = reg | PCA9552_AUTOINC;
      }
  }
- 
--static uint8_t pca9552_recv(I2CSlave *i2c)
-+static uint8_t pca955x_recv(I2CSlave *i2c)
- {
--    PCA9552State *s = PCA9552(i2c);
-+    PCA955xState *s = PCA955X(i2c);
-     uint8_t ret;
- 
--    ret = pca9552_read(s, s->pointer & 0xf);
-+    ret = pca955x_read(s, s->pointer & 0xf);
- 
-     /*
-      * From the Specs:
-@@ -143,40 +143,40 @@ static uint8_t pca9552_recv(I2CSlave *i2c)
-                       __func__);
-     }
- 
--    pca9552_autoinc(s);
-+    pca955x_autoinc(s);
- 
-     return ret;
- }
- 
--static int pca9552_send(I2CSlave *i2c, uint8_t data)
-+static int pca955x_send(I2CSlave *i2c, uint8_t data)
- {
--    PCA9552State *s = PCA9552(i2c);
-+    PCA955xState *s = PCA955X(i2c);
- 
-     /* First byte sent by is the register address */
-     if (s->len == 0) {
-         s->pointer = data;
-         s->len++;
-     } else {
--        pca9552_write(s, s->pointer & 0xf, data);
-+        pca955x_write(s, s->pointer & 0xf, data);
- 
--        pca9552_autoinc(s);
-+        pca955x_autoinc(s);
-     }
- 
-     return 0;
- }
- 
--static int pca9552_event(I2CSlave *i2c, enum i2c_event event)
-+static int pca955x_event(I2CSlave *i2c, enum i2c_event event)
- {
--    PCA9552State *s = PCA9552(i2c);
-+    PCA955xState *s = PCA955X(i2c);
- 
-     s->len = 0;
-     return 0;
- }
- 
--static void pca9552_get_led(Object *obj, Visitor *v, const char *name,
-+static void pca955x_get_led(Object *obj, Visitor *v, const char *name,
+@@ -176,6 +194,7 @@ static int pca955x_event(I2CSlave *i2c, enum i2c_event event)
+ static void pca955x_get_led(Object *obj, Visitor *v, const char *name,
                              void *opaque, Error **errp)
  {
--    PCA9552State *s = PCA9552(obj);
-+    PCA955xState *s = PCA955X(obj);
++    PCA955xClass *k = PCA955X_GET_CLASS(obj);
+     PCA955xState *s = PCA955X(obj);
      int led, rc, reg;
      uint8_t state;
- 
-@@ -195,7 +195,7 @@ static void pca9552_get_led(Object *obj, Visitor *v, const char *name,
-      * reading the INPUTx reg
-      */
-     reg = PCA9552_LS0 + led / 4;
--    state = (pca9552_read(s, reg) >> (led % 8)) & 0x3;
-+    state = (pca955x_read(s, reg) >> (led % 8)) & 0x3;
-     visit_type_str(v, name, (char **)&led_state[state], errp);
- }
- 
-@@ -209,10 +209,10 @@ static inline uint8_t pca955x_ledsel(uint8_t oldval, int led_num, int state)
-                 ((state & 0x3) << (led_num << 1));
- }
- 
--static void pca9552_set_led(Object *obj, Visitor *v, const char *name,
-+static void pca955x_set_led(Object *obj, Visitor *v, const char *name,
+@@ -185,7 +204,7 @@ static void pca955x_get_led(Object *obj, Visitor *v, const char *name,
+         error_setg(errp, "%s: error reading %s", __func__, name);
+         return;
+     }
+-    if (led < 0 || led > s->pin_count) {
++    if (led < 0 || led > k->pin_count) {
+         error_setg(errp, "%s invalid led %s", __func__, name);
+         return;
+     }
+@@ -212,6 +231,7 @@ static inline uint8_t pca955x_ledsel(uint8_t oldval, int led_num, int state)
+ static void pca955x_set_led(Object *obj, Visitor *v, const char *name,
                              void *opaque, Error **errp)
  {
--    PCA9552State *s = PCA9552(obj);
-+    PCA955xState *s = PCA955X(obj);
++    PCA955xClass *k = PCA955X_GET_CLASS(obj);
+     PCA955xState *s = PCA955X(obj);
      Error *local_err = NULL;
      int led, rc, reg, val;
-     uint8_t state;
-@@ -244,9 +244,9 @@ static void pca9552_set_led(Object *obj, Visitor *v, const char *name,
+@@ -228,7 +248,7 @@ static void pca955x_set_led(Object *obj, Visitor *v, const char *name,
+         error_setg(errp, "%s: error reading %s", __func__, name);
+         return;
      }
- 
-     reg = PCA9552_LS0 + led / 4;
--    val = pca9552_read(s, reg);
-+    val = pca955x_read(s, reg);
-     val = pca955x_ledsel(val, led % 4, state);
--    pca9552_write(s, reg, val);
-+    pca955x_write(s, reg, val);
- }
- 
- static const VMStateDescription pca9552_vmstate = {
-@@ -254,17 +254,17 @@ static const VMStateDescription pca9552_vmstate = {
-     .version_id = 0,
-     .minimum_version_id = 0,
-     .fields = (VMStateField[]) {
--        VMSTATE_UINT8(len, PCA9552State),
--        VMSTATE_UINT8(pointer, PCA9552State),
--        VMSTATE_UINT8_ARRAY(regs, PCA9552State, PCA9552_NR_REGS),
--        VMSTATE_I2C_SLAVE(i2c, PCA9552State),
-+        VMSTATE_UINT8(len, PCA955xState),
-+        VMSTATE_UINT8(pointer, PCA955xState),
-+        VMSTATE_UINT8_ARRAY(regs, PCA955xState, PCA955X_NR_REGS),
-+        VMSTATE_I2C_SLAVE(i2c, PCA955xState),
-         VMSTATE_END_OF_LIST()
+-    if (led < 0 || led > s->pin_count) {
++    if (led < 0 || led > k->pin_count) {
+         error_setg(errp, "%s invalid led %s", __func__, name);
+         return;
      }
- };
+@@ -283,17 +303,10 @@ static void pca9552_reset(DeviceState *dev)
  
- static void pca9552_reset(DeviceState *dev)
+ static void pca955x_initfn(Object *obj)
  {
--    PCA9552State *s = PCA9552(dev);
-+    PCA955xState *s = PCA955X(dev);
- 
-     s->regs[PCA9552_PSC0] = 0xFF;
-     s->regs[PCA9552_PWM0] = 0x80;
-@@ -275,15 +275,15 @@ static void pca9552_reset(DeviceState *dev)
-     s->regs[PCA9552_LS2] = 0x55;
-     s->regs[PCA9552_LS3] = 0x55;
- 
--    pca9552_update_pin_input(s);
-+    pca955x_update_pin_input(s);
- 
-     s->pointer = 0xFF;
-     s->len = 0;
- }
- 
--static void pca9552_initfn(Object *obj)
-+static void pca955x_initfn(Object *obj)
- {
--    PCA9552State *s = PCA9552(obj);
-+    PCA955xState *s = PCA955X(obj);
+-    PCA955xState *s = PCA955X(obj);
++    PCA955xClass *k = PCA955X_GET_CLASS(obj);
      int led;
  
-     /* If support for the other PCA955X devices are implemented, these
-@@ -297,7 +297,7 @@ static void pca9552_initfn(Object *obj)
+-    /* If support for the other PCA955X devices are implemented, these
+-     * constant values might be part of class structure describing the
+-     * PCA955X device
+-     */
+-    s->max_reg = PCA9552_LS3;
+-    s->pin_count = 16;
+-
+-    for (led = 0; led < s->pin_count; led++) {
++    for (led = 0; led < k->pin_count; led++) {
          char *name;
  
          name = g_strdup_printf("led%d", led);
--        object_property_add(obj, name, "bool", pca9552_get_led, pca9552_set_led,
-+        object_property_add(obj, name, "bool", pca955x_get_led, pca955x_set_led,
-                             NULL, NULL);
-         g_free(name);
+@@ -303,7 +316,14 @@ static void pca955x_initfn(Object *obj)
      }
-@@ -308,9 +308,9 @@ static void pca9552_class_init(ObjectClass *klass, void *data)
+ }
+ 
+-static void pca9552_class_init(ObjectClass *klass, void *data)
++static void pca955x_realize(DeviceState *dev, Error **errp)
++{
++    PCA955xClass *k = PCA955X_GET_CLASS(dev);
++
++    assert(k->pin_count <= PCA955X_PIN_COUNT_MAX);
++}
++
++static void pca955x_class_init(ObjectClass *klass, void *data)
+ {
      DeviceClass *dc = DEVICE_CLASS(klass);
      I2CSlaveClass *k = I2C_SLAVE_CLASS(klass);
- 
--    k->event = pca9552_event;
--    k->recv = pca9552_recv;
--    k->send = pca9552_send;
-+    k->event = pca955x_event;
-+    k->recv = pca955x_recv;
-+    k->send = pca955x_send;
-     dc->reset = pca9552_reset;
-     dc->vmsd = &pca9552_vmstate;
- }
-@@ -318,14 +318,14 @@ static void pca9552_class_init(ObjectClass *klass, void *data)
- static const TypeInfo pca9552_info = {
-     .name          = TYPE_PCA9552,
-     .parent        = TYPE_I2C_SLAVE,
--    .instance_init = pca9552_initfn,
--    .instance_size = sizeof(PCA9552State),
+@@ -311,20 +331,38 @@ static void pca9552_class_init(ObjectClass *klass, void *data)
+     k->event = pca955x_event;
+     k->recv = pca955x_recv;
+     k->send = pca955x_send;
++    dc->realize = pca955x_realize;
++}
++
++static const TypeInfo pca955x_info = {
++    .name          = TYPE_PCA955X,
++    .parent        = TYPE_I2C_SLAVE,
 +    .instance_init = pca955x_initfn,
 +    .instance_size = sizeof(PCA955xState),
++    .class_init    = pca955x_class_init,
++    .abstract      = true,
++};
++
++static void pca9552_class_init(ObjectClass *oc, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(oc);
++    PCA955xClass *pc = PCA955X_CLASS(oc);
++
+     dc->reset = pca9552_reset;
+     dc->vmsd = &pca9552_vmstate;
++    pc->max_reg = PCA9552_LS3;
++    pc->pin_count = 16;
+ }
+ 
+ static const TypeInfo pca9552_info = {
+     .name          = TYPE_PCA9552,
+-    .parent        = TYPE_I2C_SLAVE,
+-    .instance_init = pca955x_initfn,
+-    .instance_size = sizeof(PCA955xState),
++    .parent        = TYPE_PCA955X,
      .class_init    = pca9552_class_init,
  };
  
--static void pca9552_register_types(void)
-+static void pca955x_register_types(void)
+ static void pca955x_register_types(void)
  {
++    type_register_static(&pca955x_info);
      type_register_static(&pca9552_info);
  }
  
--type_init(pca9552_register_types)
-+type_init(pca955x_register_types)
 -- 
 2.21.3
 
