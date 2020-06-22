@@ -2,71 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97CE3203893
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 15:59:55 +0200 (CEST)
-Received: from localhost ([::1]:42854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 915E7203958
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 16:27:56 +0200 (CEST)
+Received: from localhost ([::1]:59730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnMzK-0000zF-K3
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 09:59:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57300)
+	id 1jnNQN-0006hz-LC
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 10:27:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38338)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jnMvs-0005UT-8i
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 09:56:20 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:60110
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jnMvp-0007jd-EY
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 09:56:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592834176;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+fe8BYH1YDyqVe9iNEOk6dpYQe4tDIxPQC7jVI46fPM=;
- b=WexksQG42bkF4Co0NIIHTwBBLQoTi7ObuQG/kg+5XUO4uO3XxFQye1BJ2Ct0H8bIRmBRq/
- pO9F//DH+wA8zmXHv2LZ/oXbntka+cRyLFO9IcZgXczzZp4c2dhih69CWwSSh37iM6u+lU
- pjEQvTur8LRPLp/ILhuWA+m4qzXlXiQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-134-doya-x_WMb28w69uh1wiDA-1; Mon, 22 Jun 2020 09:56:10 -0400
-X-MC-Unique: doya-x_WMb28w69uh1wiDA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2D903107ACF7
- for <qemu-devel@nongnu.org>; Mon, 22 Jun 2020 13:56:09 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-67.ams2.redhat.com
- [10.36.112.67])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CC34E707C6;
- Mon, 22 Jun 2020 13:56:08 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 665BA9D94; Mon, 22 Jun 2020 15:56:01 +0200 (CEST)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v4 6/7] vga: build virtio-gpu only once
-Date: Mon, 22 Jun 2020 15:56:00 +0200
-Message-Id: <20200622135601.12433-7-kraxel@redhat.com>
-In-Reply-To: <20200622135601.12433-1-kraxel@redhat.com>
-References: <20200622135601.12433-1-kraxel@redhat.com>
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1jnNOr-0005A7-Bc
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 10:26:17 -0400
+Received: from mx2.suse.de ([195.135.220.15]:47054)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1jnNOp-0004om-4S
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 10:26:16 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 2FCFCC1C5;
+ Mon, 22 Jun 2020 14:26:11 +0000 (UTC)
+From: Claudio Fontana <cfontana@suse.de>
+To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>,
+ Markus Armbruster <armbru@redhat.com>
+Subject: [RFC RESEND v7 1/4] softmmu: move softmmu only files from root
+Date: Mon, 22 Jun 2020 12:15:06 +0200
+Message-Id: <20200622101509.3409-2-cfontana@suse.de>
+X-Mailer: git-send-email 2.16.4
+In-Reply-To: <20200622101509.3409-1-cfontana@suse.de>
+References: <20200622101509.3409-1-cfontana@suse.de>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=kraxel@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 01:27:42
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 06:47:54
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic]
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_03_06=1.592,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,43 +60,172 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: dinechin@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org,
+ haxm-team@intel.com, Wenchao Wang <wenchao.wang@intel.com>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>, Richard Henderson <rth@twiddle.net>,
+ Claudio Fontana <cfontana@suse.de>, Colin Xu <colin.xu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- hw/display/Makefile.objs | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+move arch_init, balloon, cpus, ioport, memory, memory_mapping, qtest.
 
-diff --git a/hw/display/Makefile.objs b/hw/display/Makefile.objs
-index 76b3571e4902..d619594ad4d3 100644
---- a/hw/display/Makefile.objs
-+++ b/hw/display/Makefile.objs
-@@ -49,12 +49,12 @@ common-obj-m += qxl.mo
- qxl.mo-objs = qxl.o qxl-logger.o qxl-render.o
- endif
+They are all specific to CONFIG_SOFTMMU.
+
+Signed-off-by: Claudio Fontana <cfontana@suse.de>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Laurent Vivier <lvivier@redhat.com>
+---
+ MAINTAINERS                                  | 12 ++++++------
+ Makefile.target                              |  7 ++-----
+ softmmu/Makefile.objs                        | 10 ++++++++++
+ arch_init.c => softmmu/arch_init.c           |  0
+ balloon.c => softmmu/balloon.c               |  0
+ cpus.c => softmmu/cpus.c                     |  0
+ ioport.c => softmmu/ioport.c                 |  0
+ memory.c => softmmu/memory.c                 |  0
+ memory_mapping.c => softmmu/memory_mapping.c |  0
+ qtest.c => softmmu/qtest.c                   |  0
+ 10 files changed, 18 insertions(+), 11 deletions(-)
+ rename arch_init.c => softmmu/arch_init.c (100%)
+ rename balloon.c => softmmu/balloon.c (100%)
+ rename cpus.c => softmmu/cpus.c (100%)
+ rename ioport.c => softmmu/ioport.c (100%)
+ rename memory.c => softmmu/memory.c (100%)
+ rename memory_mapping.c => softmmu/memory_mapping.c (100%)
+ rename qtest.c => softmmu/qtest.c (100%)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 955cc8dd5c..31e5a7aa4d 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -115,7 +115,7 @@ Overall TCG CPUs
+ M: Richard Henderson <rth@twiddle.net>
+ R: Paolo Bonzini <pbonzini@redhat.com>
+ S: Maintained
+-F: cpus.c
++F: softmmu/cpus.c
+ F: cpus-common.c
+ F: exec.c
+ F: accel/tcg/
+@@ -1686,7 +1686,7 @@ M: David Hildenbrand <david@redhat.com>
+ S: Maintained
+ F: hw/virtio/virtio-balloon*.c
+ F: include/hw/virtio/virtio-balloon.h
+-F: balloon.c
++F: softmmu/balloon.c
+ F: include/sysemu/balloon.h
  
--obj-$(CONFIG_VIRTIO_GPU) += virtio-gpu-base.o virtio-gpu.o virtio-gpu-3d.o
--obj-$(CONFIG_VHOST_USER_GPU) += vhost-user-gpu.o
--obj-$(call land,$(CONFIG_VIRTIO_GPU),$(CONFIG_VIRTIO_PCI)) += virtio-gpu-pci.o
--obj-$(call land,$(CONFIG_VHOST_USER_GPU),$(CONFIG_VIRTIO_PCI)) += vhost-user-gpu-pci.o
--obj-$(CONFIG_VIRTIO_VGA) += virtio-vga.o
--obj-$(CONFIG_VHOST_USER_VGA) += vhost-user-vga.o
-+common-obj-$(CONFIG_VIRTIO_GPU) += virtio-gpu-base.o virtio-gpu.o virtio-gpu-3d.o
-+common-obj-$(CONFIG_VHOST_USER_GPU) += vhost-user-gpu.o
-+common-obj-$(call land,$(CONFIG_VIRTIO_GPU),$(CONFIG_VIRTIO_PCI)) += virtio-gpu-pci.o
-+common-obj-$(call land,$(CONFIG_VHOST_USER_GPU),$(CONFIG_VIRTIO_PCI)) += vhost-user-gpu-pci.o
-+common-obj-$(CONFIG_VIRTIO_VGA) += virtio-vga.o
-+common-obj-$(CONFIG_VHOST_USER_VGA) += vhost-user-vga.o
- virtio-gpu.o-cflags := $(VIRGL_CFLAGS)
- virtio-gpu.o-libs += $(VIRGL_LIBS)
- virtio-gpu-3d.o-cflags := $(VIRGL_CFLAGS)
+ virtio-9p
+@@ -2135,12 +2135,12 @@ Memory API
+ M: Paolo Bonzini <pbonzini@redhat.com>
+ S: Supported
+ F: include/exec/ioport.h
+-F: ioport.c
+ F: include/exec/memop.h
+ F: include/exec/memory.h
+ F: include/exec/ram_addr.h
+ F: include/exec/ramblock.h
+-F: memory.c
++F: softmmu/ioport.c
++F: softmmu/memory.c
+ F: include/exec/memory-internal.h
+ F: exec.c
+ F: scripts/coccinelle/memory-region-housekeeping.cocci
+@@ -2172,13 +2172,13 @@ F: ui/cocoa.m
+ Main loop
+ M: Paolo Bonzini <pbonzini@redhat.com>
+ S: Maintained
+-F: cpus.c
+ F: include/qemu/main-loop.h
+ F: include/sysemu/runstate.h
+ F: util/main-loop.c
+ F: util/qemu-timer.c
+ F: softmmu/vl.c
+ F: softmmu/main.c
++F: softmmu/cpus.c
+ F: qapi/run-state.json
+ 
+ Human Monitor (HMP)
+@@ -2333,7 +2333,7 @@ M: Thomas Huth <thuth@redhat.com>
+ M: Laurent Vivier <lvivier@redhat.com>
+ R: Paolo Bonzini <pbonzini@redhat.com>
+ S: Maintained
+-F: qtest.c
++F: softmmu/qtest.c
+ F: accel/qtest.c
+ F: tests/qtest/
+ X: tests/qtest/bios-tables-test-allowed-diff.h
+diff --git a/Makefile.target b/Makefile.target
+index 8ed1eba95b..7fbf5d8b92 100644
+--- a/Makefile.target
++++ b/Makefile.target
+@@ -152,16 +152,13 @@ endif #CONFIG_BSD_USER
+ #########################################################
+ # System emulator target
+ ifdef CONFIG_SOFTMMU
+-obj-y += arch_init.o cpus.o gdbstub.o balloon.o ioport.o
+-obj-y += qtest.o
++obj-y += softmmu/
++obj-y += gdbstub.o
+ obj-y += dump/
+ obj-y += hw/
+ obj-y += monitor/
+ obj-y += qapi/
+-obj-y += memory.o
+-obj-y += memory_mapping.o
+ obj-y += migration/ram.o
+-obj-y += softmmu/
+ LIBS := $(libs_softmmu) $(LIBS)
+ 
+ # Hardware support
+diff --git a/softmmu/Makefile.objs b/softmmu/Makefile.objs
+index dd15c24346..a4bd9f2f52 100644
+--- a/softmmu/Makefile.objs
++++ b/softmmu/Makefile.objs
+@@ -1,3 +1,13 @@
+ softmmu-main-y = softmmu/main.o
++
++obj-y += arch_init.o
++obj-y += cpus.o
++obj-y += balloon.o
++obj-y += ioport.o
++obj-y += memory.o
++obj-y += memory_mapping.o
++
++obj-y += qtest.o
++
+ obj-y += vl.o
+ vl.o-cflags := $(GPROF_CFLAGS) $(SDL_CFLAGS)
+diff --git a/arch_init.c b/softmmu/arch_init.c
+similarity index 100%
+rename from arch_init.c
+rename to softmmu/arch_init.c
+diff --git a/balloon.c b/softmmu/balloon.c
+similarity index 100%
+rename from balloon.c
+rename to softmmu/balloon.c
+diff --git a/cpus.c b/softmmu/cpus.c
+similarity index 100%
+rename from cpus.c
+rename to softmmu/cpus.c
+diff --git a/ioport.c b/softmmu/ioport.c
+similarity index 100%
+rename from ioport.c
+rename to softmmu/ioport.c
+diff --git a/memory.c b/softmmu/memory.c
+similarity index 100%
+rename from memory.c
+rename to softmmu/memory.c
+diff --git a/memory_mapping.c b/softmmu/memory_mapping.c
+similarity index 100%
+rename from memory_mapping.c
+rename to softmmu/memory_mapping.c
+diff --git a/qtest.c b/softmmu/qtest.c
+similarity index 100%
+rename from qtest.c
+rename to softmmu/qtest.c
 -- 
-2.18.4
+2.16.4
 
 
