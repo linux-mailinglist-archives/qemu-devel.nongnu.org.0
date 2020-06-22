@@ -2,35 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3CC1203994
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 16:32:49 +0200 (CEST)
-Received: from localhost ([::1]:45728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED5CF2039B3
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 16:38:27 +0200 (CEST)
+Received: from localhost ([::1]:37042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnNVA-0005lg-VX
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 10:32:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38362)
+	id 1jnNac-0006GN-UV
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 10:38:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1jnNOt-0005Bu-3j
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 10:26:19 -0400
-Received: from mx2.suse.de ([195.135.220.15]:47422)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1jnNPS-0006Ff-06
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 10:26:54 -0400
+Received: from mx2.suse.de ([195.135.220.15]:51366)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1jnNOq-0004pC-IE
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 10:26:18 -0400
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1jnNPP-0004t9-Hz
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 10:26:53 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 9DB39C1C7;
- Mon, 22 Jun 2020 14:26:13 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id C60F5C1AC;
+ Mon, 22 Jun 2020 14:26:48 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Roman Bolshakov <r.bolshakov@yadro.com>,
  Markus Armbruster <armbru@redhat.com>
-Subject: [RFC v7 0/4] QEMU cpus.c refactoring
-Date: Mon, 22 Jun 2020 12:11:06 +0200
-Message-Id: <20200622101110.3263-1-cfontana@suse.de>
+Subject: [RFC RESEND v7 0/4] QEMU cpus.c refactoring
+Date: Mon, 22 Jun 2020 12:15:05 +0200
+Message-Id: <20200622101509.3409-1-cfontana@suse.de>
 X-Mailer: git-send-email 2.16.4
 Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
  helo=mx2.suse.de
@@ -54,11 +55,11 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
  Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org,
- Colin Xu <colin.xu@intel.com>, Wenchao Wang <wenchao.wang@intel.com>,
- haxm-team@intel.com, Sunil Muthuswamy <sunilmut@microsoft.com>,
- Richard Henderson <rth@twiddle.net>, Claudio Fontana <cfontana@suse.de>
+ haxm-team@intel.com, Wenchao Wang <wenchao.wang@intel.com>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>, Richard Henderson <rth@twiddle.net>,
+ Claudio Fontana <cfontana@suse.de>, Colin Xu <colin.xu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
