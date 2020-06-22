@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB2A32039C0
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 16:41:19 +0200 (CEST)
-Received: from localhost ([::1]:47728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D51E2039C7
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 16:43:46 +0200 (CEST)
+Received: from localhost ([::1]:55826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnNdO-0003Lm-LU
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 10:41:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41186)
+	id 1jnNfl-0006lm-1C
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 10:43:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jnNZi-0005xY-C3
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 10:37:30 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:38430)
+ id 1jnNZj-0005zx-K9
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 10:37:31 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:53324)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jnNZg-0006Zz-Lv
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 10:37:30 -0400
-Received: by mail-wr1-x441.google.com with SMTP id z13so5177439wrw.5
+ id 1jnNZh-0006a3-3Q
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 10:37:31 -0400
+Received: by mail-wm1-x344.google.com with SMTP id j18so1567841wmi.3
  for <qemu-devel@nongnu.org>; Mon, 22 Jun 2020 07:37:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=r4zwLgzQI1wdPNBnB1IfLtnWJ7YheiR6CeL9tVns6/w=;
- b=TTGg/oHughCIbCBUy0ldQCAts8eXYCCTMrFM0zSPCYsW3XqYia57ITz/uM02j5gZ5g
- nUnWLThkc6sOTAcAUeRpFJjMo3/25+FY284/7m42dj+uLDz3FxEX3RpGs3ZSNd8WZFqf
- RSYX30whXPYz3e6mAcMATtqZo9CrOXIGivXu76Q1J8QZ53mACmIyUNBrJaXv37ALMob4
- mLFY5koHCCl3qyAdqSyJE1sDl1wAxl3PQwbHAzh2euzd+/0BW1sNEufwcrQVVkpvaHIA
- BU7Y1Xawg+9IeqiOFk0eB577fUu8E2Ps8tKKgGVUPSWcLJ1kvHYKKoSVzGzdzqGG+GD1
- Pt1Q==
+ bh=PKCEcn+mdLK6k8p8iASrc3bnXSABtH0c5K5N75Qwt4o=;
+ b=Xt3wuFU9VYYO57XBATug7KkGFR2WUZkBywG9zvvfEhAbdAKGYWym2KV5aH4mzB8ei1
+ V2MuzC0FxrXxRoq5uMTT32cW+67JzEFFym4GssWW/r9ec199qvy7y82nU4TbKI+AdYaQ
+ pqFcpLGCf+Y3pAQRMGw2giREW/xodO/dHGtkHjCKn9LDLrARQB5rXUb36L5DA8zNGVXu
+ jS1FG40A0VskJ8dnrkaPDg/zpGYq0g1JhBsRsnl8UvcKdi72PNHERxiQ6aP51juR8p7m
+ M3ids8X9geaMb9+fukRlaJTURLOxF5ZhF0MvKJxkYv4+TelvLrG4Vb3jy3co3HcXd6Or
+ x0Gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=r4zwLgzQI1wdPNBnB1IfLtnWJ7YheiR6CeL9tVns6/w=;
- b=sSM+alH6G7fCyuHsuFkQLQzeQIQc0YYL4sGopMEgdTdMmdMxwySoVyJS8TRjA+i9XC
- g0dBkFg/60rpyJB1GJR6//fr/T3Ez4wd3HFLbxOzPKNRgp7kNNqsS3WAfCLHf4eQAfjq
- 50h/87xZVuiADiuX6M0UHfGFP6SeMLip8IA4oHrGo47SMR31i5osy45UNC9/nzLVAyEU
- oDPeH5Hp7JYREEwCuPS8IK7YcyuduBp/ZG3ebYYquPLT6V1FuqEkskMA1WtbC/eXC7CE
- lT6MzF9Yq+hBISY/l6+TOAjLKWcNGpcRr3rsNqZCpDeYN/HgvxMQ4Ik9HzXr9sQkL1Hg
- RDkg==
-X-Gm-Message-State: AOAM532wiYEmI8HfZxgQER69xtktHaEQtx9BRzBYmopXNryDYerTIOUq
- ZzXpydYOnImOxkyQhje+z6fWNA==
-X-Google-Smtp-Source: ABdhPJw/bU/1mGmYHKZvFb6aRExCiy3FF0xjpSOB2Ej02TAdBMc8glIH6VnBnc+mfixGyeiG0abHqg==
-X-Received: by 2002:a5d:4f09:: with SMTP id c9mr19019698wru.3.1592836646931;
- Mon, 22 Jun 2020 07:37:26 -0700 (PDT)
+ bh=PKCEcn+mdLK6k8p8iASrc3bnXSABtH0c5K5N75Qwt4o=;
+ b=WRntHPWz/b3CuJNPdZ0g6lXZ72VMf2OKcYq5I7kylWzpLhUbpU1t8sUl9yVh/WcXmo
+ ENkeIHTomB3dUOB4JUlkcCPnn2DbBNSEuwBvU6AlqQ9+l10tQnJDtbsnKsJgbSToxFxL
+ MiYPgn8B56jJuYMOgkwXU1qwKoL+gxYaywGT8UnmOx6lJMMtTpQIy3j9giAxbiVWuWZM
+ 2WP1Uh2Kr+pgR0DTywkKTbD3NsTluzSsUaeHh8ac2i+RV7w2IaFeMQG3f0NAgRVouYYN
+ 7kz9czlnTVVh35hf0AoaeG2TClBletuhAXr0q4lVevaWFoaMldpw0NIkeKY8UkGO9orI
+ eWkw==
+X-Gm-Message-State: AOAM532czPE/d+2OCFALhtNWTAfs3GnnjSOdz6nwABXMRbAqp8qgqmyd
+ JOeVkxJDyW2J40d9uj+kzcUkNg==
+X-Google-Smtp-Source: ABdhPJzU4NLJ/C6C/+biU97nKod1xEXRe4AZiVo7LTtqoU5rTSXptnYR8ElvjQ6oOwbBK++GjRG7+Q==
+X-Received: by 2002:a05:600c:2294:: with SMTP id
+ 20mr19658763wmf.51.1592836647516; 
+ Mon, 22 Jun 2020 07:37:27 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id 104sm18688389wrl.25.2020.06.22.07.37.25
+ by smtp.gmail.com with ESMTPSA id t188sm17525834wmt.27.2020.06.22.07.37.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 22 Jun 2020 07:37:25 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 4BF441FF9F;
+ by zen.linaroharston (Postfix) with ESMTP id 631D01FFA5;
  Mon, 22 Jun 2020 15:32:06 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 16/18] .gitlab: split fedora-misc-disabled
-Date: Mon, 22 Jun 2020 15:32:02 +0100
-Message-Id: <20200622143204.12921-17-alex.bennee@linaro.org>
+Subject: [PATCH  v1 17/18] .gitlab: tag remaining jobs as builds
+Date: Mon, 22 Jun 2020 15:32:03 +0100
+Message-Id: <20200622143204.12921-18-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200622143204.12921-1-alex.bennee@linaro.org>
 References: <20200622143204.12921-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x441.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x344.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -97,50 +98,51 @@ Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As we run check-qtest in "SLOW" mode this can timeout so split into
-two jobs.
+Technically these are build and test but there is no reason they need
+to wait for other builds to finish to get going. They might get split
+latter if the job ever gets too long.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- .gitlab-ci.yml | 17 +++++++++++++++--
- 1 file changed, 15 insertions(+), 2 deletions(-)
+ .gitlab-ci.yml | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index fc3a561d9bc..5c863562913 100644
+index 5c863562913..7816f1434c3 100644
 --- a/.gitlab-ci.yml
 +++ b/.gitlab-ci.yml
-@@ -153,8 +153,9 @@ acceptance:system-fedora-misc:
-  - make check-acceptance
-  <<: *post_acceptance
+@@ -184,6 +184,7 @@ qtest:system-fedora-misc-disabled:
  
--build-disabled:
-+build:system-fedora-misc-disabled:
+ build-tcg-disabled:
+  image: centos:8
++ stage: build
+  <<: *before_script_dnf
+  script:
+  - dnf install -y clang gtk3-devel libusbx-devel libgcrypt-devel
+@@ -203,6 +204,7 @@ build-tcg-disabled:
+             260 261 262 263 264 270 272 273 277 279
+ 
+ build-user:
++ stage: build
+  <<: *before_script_apt
+  script:
+  - mkdir build
+@@ -214,6 +216,7 @@ build-user:
+ 
+ build-clang:
   image: fedora:latest
 + stage: build
   <<: *before_script_dnf
   script:
-  - mkdir build
-@@ -167,7 +168,19 @@ build-disabled:
-       --disable-vhost-net --disable-vhost-crypto --disable-vhost-user
-       --target-list="i386-softmmu ppc64-softmmu mips64-softmmu i386-linux-user"
-  - make -j"$JOBS"
-- - make -j"$JOBS" check-qtest SPEED=slow
-+ artifacts:
-+   paths:
-+     - build
-+
-+qtest:system-fedora-misc-disabled:
-+ image: fedora:latest
-+ stage: test
-+ dependencies:
-+ - build:system-fedora-misc-disabled
-+ <<: *before_script_dnf
-+ script:
-+ - cd build
-+ - make check-qtest SPEED=slow
+  - yum install -y clang SDL2-devel libattr-devel libcap-ng-devel xfsprogs-devel
+@@ -228,6 +231,7 @@ build-clang:
  
- build-tcg-disabled:
+ build-tci:
   image: centos:8
++ stage: build
+  <<: *before_script_dnf
+  script:
+  - TARGETS="aarch64 alpha arm hppa m68k microblaze moxie ppc64 s390x x86_64"
 -- 
 2.20.1
 
