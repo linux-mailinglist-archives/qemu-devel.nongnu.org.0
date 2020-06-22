@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38F2E203AC7
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 17:25:39 +0200 (CEST)
-Received: from localhost ([::1]:42762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5766203AA9
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 17:20:47 +0200 (CEST)
+Received: from localhost ([::1]:52314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnOKI-0006Im-8G
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 11:25:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51180)
+	id 1jnOFa-0006sB-TS
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 11:20:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jnO7Y-0001TU-Vm
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 11:12:28 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:55820
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jnO7B-0000sH-Mh
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 11:12:07 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:44641
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jnO7W-000686-LB
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 11:12:28 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jnO77-00064h-7M
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 11:12:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592838746;
+ s=mimecast20190719; t=1592838720;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EDZgEmRf8j0GpS6UKy/5+lBRYRt3sbpiBRR7BzwR3M4=;
- b=L7UAV5x16lkmE3BK95e5zQvhkTgFXOeoao4/sQiZCWtcCdSLKPTc5BrmKVAB0uBu/gLOXG
- VYsK5rqXkHcd0VbKkU3jYdptWn8izrtnYKskw02GIoeGFloKqdMdIgQNOmC4hQ0U8WVGAD
- 8pNlTEXxJSZZXleI0xbREWgUT0GFsG8=
+ bh=alcfv40yDu5l+TeiP/ficXJ4JagMjki+6RyJy7EZT5o=;
+ b=M5VIWqNCnpyrzErSUUTizV8Y9h2/IQIy+L3JewiLA85NTHBY+mhbvZfGK5TXGmFaZUnQHb
+ T7ZFEXpMuEWN7k+brM+rVCdFxHEne/AT5FMm5GEgc6QOG0Cmqwt0dVyLeSDGfPpaUZeUTl
+ ANQsUz5/I/cunHZbgpmFXulAurytEyE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-188-BwN88yjRNaenWYFIJv5-Jg-1; Mon, 22 Jun 2020 11:11:43 -0400
-X-MC-Unique: BwN88yjRNaenWYFIJv5-Jg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-426-cyQi7yJiPE2F0-OJmSl37w-1; Mon, 22 Jun 2020 11:11:46 -0400
+X-MC-Unique: cyQi7yJiPE2F0-OJmSl37w-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B1B141083E9C;
- Mon, 22 Jun 2020 15:11:42 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 74DD21B18BFA;
+ Mon, 22 Jun 2020 15:11:45 +0000 (UTC)
 Received: from localhost (ovpn-114-85.ams2.redhat.com [10.36.114.85])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5004C5C660;
- Mon, 22 Jun 2020 15:11:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7386B7168B;
+ Mon, 22 Jun 2020 15:11:44 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 17/18] iotests: Fix 051 output after qdev_init_nofail() removal
-Date: Mon, 22 Jun 2020 17:10:58 +0200
-Message-Id: <20200622151059.921191-18-mreitz@redhat.com>
+Subject: [PULL 18/18] iotests: don't test qcow2.py inside 291
+Date: Mon, 22 Jun 2020 17:10:59 +0200
+Message-Id: <20200622151059.921191-19-mreitz@redhat.com>
 In-Reply-To: <20200622151059.921191-1-mreitz@redhat.com>
 References: <20200622151059.921191-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 03:17:49
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 01:27:42
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -64,7 +64,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,46 +82,98 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-Commit 96927c744 replaced qdev_init_nofail() call by
-isa_realize_and_unref() which has a different error
-message. Update the test output accordingly.
+820c6bee534ec3b added testing of qcow2.py into 291, and it breaks 291
+with external data file. Actually, 291 is bad place for qcow2.py
+testing, better add a separate test.
 
-Gitlab CI error after merging b77b5b3dc7:
-https://gitlab.com/qemu-project/qemu/-/jobs/597414772#L4375
+For now, drop qcow2.py testing from 291 to fix the regression.
 
-Reported-by: Thomas Huth <thuth@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200616154949.6586-1-philmd@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Fixes: 820c6bee534ec3b
+Reported-by: Max Reitz <mreitz@redhat.com>
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-Id: <20200618154052.8629-1-vsementsov@virtuozzo.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/051.pc.out | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ tests/qemu-iotests/291     |  4 ----
+ tests/qemu-iotests/291.out | 33 ---------------------------------
+ 2 files changed, 37 deletions(-)
 
-diff --git a/tests/qemu-iotests/051.pc.out b/tests/qemu-iotests/051.pc.out
-index 0ea80d35f0..da8ad87187 100644
---- a/tests/qemu-iotests/051.pc.out
-+++ b/tests/qemu-iotests/051.pc.out
-@@ -142,7 +142,7 @@ QEMU X.Y.Z monitor - type 'help' for more information
+diff --git a/tests/qemu-iotests/291 b/tests/qemu-iotests/291
+index 28e4fb9b4d..1e0bb76959 100755
+--- a/tests/qemu-iotests/291
++++ b/tests/qemu-iotests/291
+@@ -64,8 +64,6 @@ $QEMU_IO -c 'w 1M 1M' -f $IMGFMT "$TEST_IMG" | _filter_qemu_io
+ $QEMU_IMG bitmap --disable -f $IMGFMT "$TEST_IMG" b1
+ $QEMU_IMG bitmap --enable -f $IMGFMT "$TEST_IMG" b2
+ $QEMU_IO -c 'w 2M 1M' -f $IMGFMT "$TEST_IMG" | _filter_qemu_io
+-echo "Check resulting qcow2 header extensions:"
+-$PYTHON qcow2.py "$TEST_IMG" dump-header-exts
  
- Testing: -drive if=ide
- QEMU X.Y.Z monitor - type 'help' for more information
--(qemu) QEMU_PROG: Initialization of device ide-hd failed: Device needs media, but drive is empty
-+(qemu) QEMU_PROG: Device needs media, but drive is empty
+ echo
+ echo "=== Bitmap preservation not possible to non-qcow2 ==="
+@@ -92,8 +90,6 @@ $QEMU_IMG bitmap --merge tmp -f $IMGFMT "$TEST_IMG" b0
+ $QEMU_IMG bitmap --remove --image-opts \
+     driver=$IMGFMT,file.driver=file,file.filename="$TEST_IMG" tmp
+ _img_info --format-specific
+-echo "Check resulting qcow2 header extensions:"
+-$PYTHON qcow2.py "$TEST_IMG" dump-header-exts
  
- Testing: -drive if=virtio
- QEMU X.Y.Z monitor - type 'help' for more information
-@@ -214,7 +214,7 @@ QEMU X.Y.Z monitor - type 'help' for more information
+ echo
+ echo "=== Check bitmap contents ==="
+diff --git a/tests/qemu-iotests/291.out b/tests/qemu-iotests/291.out
+index 08bfaaaa6b..9f661515b4 100644
+--- a/tests/qemu-iotests/291.out
++++ b/tests/qemu-iotests/291.out
+@@ -14,25 +14,6 @@ wrote 1048576/1048576 bytes at offset 1048576
+ 1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ wrote 1048576/1048576 bytes at offset 2097152
+ 1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+-Check resulting qcow2 header extensions:
+-Header extension:
+-magic                     0xe2792aca (Backing format)
+-length                    5
+-data                      'qcow2'
+-
+-Header extension:
+-magic                     0x6803f857 (Feature table)
+-length                    336
+-data                      <binary>
+-
+-Header extension:
+-magic                     0x23852875 (Bitmaps)
+-length                    24
+-nb_bitmaps                2
+-reserved32                0
+-bitmap_directory_size     0x40
+-bitmap_directory_offset   0x510000
+-
  
- Testing: -drive file=TEST_DIR/t.qcow2,if=ide,readonly=on
- QEMU X.Y.Z monitor - type 'help' for more information
--(qemu) QEMU_PROG: Initialization of device ide-hd failed: Block node is read-only
-+(qemu) QEMU_PROG: Block node is read-only
+ === Bitmap preservation not possible to non-qcow2 ===
  
- Testing: -drive file=TEST_DIR/t.qcow2,if=virtio,readonly=on
- QEMU X.Y.Z monitor - type 'help' for more information
+@@ -84,20 +65,6 @@ Format specific information:
+             granularity: 65536
+     refcount bits: 16
+     corrupt: false
+-Check resulting qcow2 header extensions:
+-Header extension:
+-magic                     0x6803f857 (Feature table)
+-length                    336
+-data                      <binary>
+-
+-Header extension:
+-magic                     0x23852875 (Bitmaps)
+-length                    24
+-nb_bitmaps                3
+-reserved32                0
+-bitmap_directory_size     0x60
+-bitmap_directory_offset   0x520000
+-
+ 
+ === Check bitmap contents ===
+ 
 -- 
 2.26.2
 
