@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42ED3203B3C
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 17:40:09 +0200 (CEST)
-Received: from localhost ([::1]:41940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FDE7203B41
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 17:41:20 +0200 (CEST)
+Received: from localhost ([::1]:46348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnOYK-00068X-9F
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 11:40:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58726)
+	id 1jnOZT-00082o-L7
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 11:41:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58884)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jnOX4-0004s9-7G
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 11:38:50 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:55958
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jnOXS-0005Xx-Iu
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 11:39:14 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:43203
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jnOX2-0003Lc-6G
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 11:38:49 -0400
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jnOXR-0003PU-0b
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 11:39:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592840327;
+ s=mimecast20190719; t=1592840352;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=eEEu8ZsgVlYGREV/j3JuSlFoXTqZsrW+vsaLU2+dMmA=;
- b=B5WfoBJmMRuE7zvD2FaFwlOYWVniC3f6FrIF142fDRCQEkgsV5mcuQVhyWfj/Qtq9TNcjt
- cxuyMHura24mDW2edH00XVaNaxEn0CqPZk0N1LF44nO1e6wrkXjuO/sHIgrc6DaLWta9nT
- TkAIvbGbexrTzJqiwJ3KXQwXowt3gHE=
+ bh=6j1pA8flFXxKFgGD7KGcZegLUTAz9cG1BpLNQLqPNk0=;
+ b=FT8eoR4BZCQ6kVFhqvMUSn/xuF3DO2G9o1PELzTp6Je7ZXhX6M9lmGenrPW128aH+SWBeb
+ Lsxj4QIklWlYCsvWEdIRQyv0K3hGrXsqDpQwCEptJanUXcDzCYlpZv1O5+8JpQWmxhAN/f
+ 7C2G2qt2ds9kn2DGOO0qx+dSUaQ5Qzo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-174-L62nIV-gN7m1TjqrdHx0lw-1; Mon, 22 Jun 2020 11:38:45 -0400
-X-MC-Unique: L62nIV-gN7m1TjqrdHx0lw-1
+ us-mta-264-j4mNxZEmNR2FIK0oYu3SfA-1; Mon, 22 Jun 2020 11:39:10 -0400
+X-MC-Unique: j4mNxZEmNR2FIK0oYu3SfA-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 05228805724;
- Mon, 22 Jun 2020 15:38:43 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C20AF1883607;
+ Mon, 22 Jun 2020 15:39:07 +0000 (UTC)
 Received: from laptop.redhat.com (ovpn-13-110.pek2.redhat.com [10.72.13.110])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7E15A71679;
- Mon, 22 Jun 2020 15:38:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 55C6171679;
+ Mon, 22 Jun 2020 15:38:44 +0000 (UTC)
 From: Cindy Lu <lulu@redhat.com>
 To: mst@redhat.com, armbru@redhat.com, eblake@redhat.com, cohuck@redhat.com,
  jasowang@redhat.com
-Subject: [PATCH v1 01/10] net: introduce qemu_get_peer
-Date: Mon, 22 Jun 2020 23:37:47 +0800
-Message-Id: <20200622153756.19189-2-lulu@redhat.com>
+Subject: [PATCH v1 02/10] vhost_net: use the function qemu_get_peer
+Date: Mon, 22 Jun 2020 23:37:48 +0800
+Message-Id: <20200622153756.19189-3-lulu@redhat.com>
 In-Reply-To: <20200622153756.19189-1-lulu@redhat.com>
 References: <20200622153756.19189-1-lulu@redhat.com>
 MIME-Version: 1.0
@@ -55,9 +55,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=lulu@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 03:17:49
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=lulu@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 01:27:42
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -89,44 +89,69 @@ Cc: mhabets@solarflare.com, qemu-devel@nongnu.org, rob.miller@broadcom.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a small function that can get the peer
-from given NetClientState and queue_index
+user the qemu_get_peer to replace the old process
 
 Signed-off-by: Cindy Lu <lulu@redhat.com>
 ---
- include/net/net.h | 1 +
- net/net.c         | 6 ++++++
- 2 files changed, 7 insertions(+)
+ hw/net/vhost_net.c | 16 ++++++++++------
+ 1 file changed, 10 insertions(+), 6 deletions(-)
 
-diff --git a/include/net/net.h b/include/net/net.h
-index 39085d9444..e7ef42d62b 100644
---- a/include/net/net.h
-+++ b/include/net/net.h
-@@ -176,6 +176,7 @@ void hmp_info_network(Monitor *mon, const QDict *qdict);
- void net_socket_rs_init(SocketReadState *rs,
-                         SocketReadStateFinalize *finalize,
-                         bool vnet_hdr);
-+NetClientState *qemu_get_peer(NetClientState *nc, int queue_index);
+diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
+index 6b82803fa7..4096d64aaf 100644
+--- a/hw/net/vhost_net.c
++++ b/hw/net/vhost_net.c
+@@ -306,7 +306,9 @@ int vhost_net_start(VirtIODevice *dev, NetClientState *ncs,
+     BusState *qbus = BUS(qdev_get_parent_bus(DEVICE(dev)));
+     VirtioBusState *vbus = VIRTIO_BUS(qbus);
+     VirtioBusClass *k = VIRTIO_BUS_GET_CLASS(vbus);
++    struct vhost_net *net;
+     int r, e, i;
++    NetClientState *peer;
  
- /* NIC info */
+     if (!k->set_guest_notifiers) {
+         error_report("binding does not support guest notifiers");
+@@ -314,9 +316,9 @@ int vhost_net_start(VirtIODevice *dev, NetClientState *ncs,
+     }
  
-diff --git a/net/net.c b/net/net.c
-index 38778e831d..599fb61028 100644
---- a/net/net.c
-+++ b/net/net.c
-@@ -324,6 +324,12 @@ void *qemu_get_nic_opaque(NetClientState *nc)
+     for (i = 0; i < total_queues; i++) {
+-        struct vhost_net *net;
  
-     return nic->opaque;
- }
-+NetClientState *qemu_get_peer(NetClientState *nc, int queue_index)
-+{
-+    assert(nc != NULL);
-+    NetClientState *ncs = nc + queue_index;
-+    return ncs->peer;
-+}
+-        net = get_vhost_net(ncs[i].peer);
++        peer = qemu_get_peer(ncs, i);
++        net = get_vhost_net(peer);
+         vhost_net_set_vq_index(net, i * 2);
  
- static void qemu_cleanup_net_client(NetClientState *nc)
- {
+         /* Suppress the masking guest notifiers on vhost user
+@@ -335,15 +337,16 @@ int vhost_net_start(VirtIODevice *dev, NetClientState *ncs,
+     }
+ 
+     for (i = 0; i < total_queues; i++) {
+-        r = vhost_net_start_one(get_vhost_net(ncs[i].peer), dev);
++        peer = qemu_get_peer(ncs, i);
++        r = vhost_net_start_one(get_vhost_net(peer), dev);
+ 
+         if (r < 0) {
+             goto err_start;
+         }
+ 
+-        if (ncs[i].peer->vring_enable) {
++        if (peer->vring_enable) {
+             /* restore vring enable state */
+-            r = vhost_set_vring_enable(ncs[i].peer, ncs[i].peer->vring_enable);
++            r = vhost_set_vring_enable(peer, peer->vring_enable);
+ 
+             if (r < 0) {
+                 goto err_start;
+@@ -355,7 +358,8 @@ int vhost_net_start(VirtIODevice *dev, NetClientState *ncs,
+ 
+ err_start:
+     while (--i >= 0) {
+-        vhost_net_stop_one(get_vhost_net(ncs[i].peer), dev);
++        peer = qemu_get_peer(ncs , i);
++        vhost_net_stop_one(get_vhost_net(peer), dev);
+     }
+     e = k->set_guest_notifiers(qbus->parent, total_queues * 2, false);
+     if (e < 0) {
 -- 
 2.21.1
 
