@@ -2,57 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 426F52039DE
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 16:48:24 +0200 (CEST)
-Received: from localhost ([::1]:43162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B59D02039DB
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 16:47:20 +0200 (CEST)
+Received: from localhost ([::1]:38882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnNkF-0005b7-6x
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 10:48:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42514)
+	id 1jnNjD-0003VJ-JY
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 10:47:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42914)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jnNfT-0007dQ-E5
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 10:43:27 -0400
-Received: from 2.mo3.mail-out.ovh.net ([46.105.75.36]:48882)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jnNfQ-0007F8-O1
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 10:43:27 -0400
-Received: from player734.ha.ovh.net (unknown [10.110.171.212])
- by mo3.mail-out.ovh.net (Postfix) with ESMTP id CD69125A2B1
- for <qemu-devel@nongnu.org>; Mon, 22 Jun 2020 16:43:21 +0200 (CEST)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player734.ha.ovh.net (Postfix) with ESMTPSA id 1FA7813796292;
- Mon, 22 Jun 2020 14:43:18 +0000 (UTC)
-Authentication-Results: garm.ovh; auth=pass
- (GARM-99G00392a1cec4-e548-4159-80de-9f92e98c7a14,6D3CA472F13BA58F0C95800BF735BE34A93B107C)
- smtp.auth=groug@kaod.org
-Date: Mon, 22 Jun 2020 16:43:17 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH 03/22] Clean up some calls to ignore Error objects the
- right way
-Message-ID: <20200622164317.679021ee@bahia.lan>
-In-Reply-To: <20200622104250.1404835-4-armbru@redhat.com>
-References: <20200622104250.1404835-1-armbru@redhat.com>
- <20200622104250.1404835-4-armbru@redhat.com>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <nevilad@yahoo.com>) id 1jnNhT-0001xf-Ep
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 10:45:31 -0400
+Received: from sonic312-25.consmr.mail.ir2.yahoo.com ([77.238.178.96]:36022)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <nevilad@yahoo.com>) id 1jnNhR-0007Zr-2K
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 10:45:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+ t=1592837124; bh=xXHpcIPLnTMCGSUtPFqmz/FoGjKzs7ThX+FkeUTuxdM=;
+ h=Date:From:To:Cc:Subject:References:From:Subject;
+ b=R74N3JLtsulDoBaYQib8Ag74tB2cfj7zrLJD0zb6gqhP+mACFaTW+N8jD+c9f5s27ZbWhAXky38MctlWc0HuDfblxKnc2vYf614B3JPn8GJhCJOtG9JyTFiSKNgy7/ZRUPSahqsLHLXscYKH7xvrqX1B/NtPvGECOxrKDwetXzCsB3K1+MMcO9ro8LwpyfSF/mMRVRMvp6hE1KDYze0/Hp9qJlMi1QPyob8GsN8kEafgc4R6rhUG48eDaWDVg+Fxi4T5voNPlkd0T0/kOPzB0NgliroRsstZSMjHz3p5FA2xQ4USKynwU//QlDBTjRL2Sh8v9KQyStWN1fu/6ET0aw==
+X-YMail-OSG: hb6nA1MVM1k0mU2Kw4v0EudvhJ4fwoMPK3LFtU2dCY6Hd2fVfkTzgF3v6p4MuW8
+ bPO6vO.3goqTW9rqUHnHWc0eyWy.bX0nOW4XAIuQuFMFwO5Hk7jBiYvCqS84uKHWCSWCDisxalVt
+ iTyGpfbouY9QJZ5dqDpcOd7bY3U59PPKu.hWXjI4haWc33qXQUbTauvEjVDohXP9.B5hl9buWjx7
+ pI0eBkquUSAe_.faIBj5H8P7Y7cMFTltvF457mF6jIzIdV3CQKV8VQMSHaiuOgl5D.U7XCQMTIdS
+ HiApfz8FppWxjGB3ODYuyEhGSfTXK_cfzR2s9Qn5xJJ1VUv6CItvCy5fOWJSkd0tHs4BfTeFHSxH
+ 9Yv7RfO58oUTBWioeCBqmzXSyPAItrNj.I.yJdelagUiL.qwZK7saXl3Jgfr9.Yrs0tkNywrU.3g
+ _Ve.9pIoRu6kI._Jikp6wwD3ICrfr7awcioExlGYtBdkxrTz0cMjIwLcYeuXH6WcS4JNjlxGPcR.
+ kP1b1YZjmg609NO6se17fDo2Y6uX0_9YrNzTfZ_H.YpZ5nHC8tvDRmikDHJ.ek8AXdvAb2MHJ7mW
+ MlcxUrPEgx.xWxb3vCxJPSrw04YibRVq..519AYKXjkmynvP5LBnew8hjYmq7a6B4R.Ehe50i8SD
+ AvnX.ripEJl4mehE.1eNH8qG2bIQtdc7hb3m5aQa4XzFDGxJsfvRAerMnVIusBYp3QLEEJbsibXl
+ u8DqexIrCU33VtKDVESojIUGQrpgE40pUN9wx6oCqVAHU21O_XqOIyilt56Bry3eEnrL7BuwdER0
+ vUN79vLWeSQQc5G62dpo3yh7zKpWyn3NFRYjw7jo_sz3v7FbqYd0KTvM6YwklwtgbbveiVE_BcAA
+ LMeKbQujasvtOZE7_q2zg_0enN_B1V2NaAizcTuc5mhmHyNhqZ55egbaTQXpaWg9w_YnMgrB9RXk
+ 7HrV_Koy6ZEmi8NuGvxLTl1BtqERJNUbrC.6RmcA5XDnIpEgYayUH3ObiZUzplPMMHfYAcTcnZk8
+ ZOxjQUvROAzXbAGpQGRlRsag6NfH9NkkspmoDutJXOtBFjwtCWZASO7_o3mTEV_T.ZeQZfaiTLEc
+ S.ew8D.n.AlGep_z1hd9cKcG1xG6knC5pPFGXyqE8w4.2uqaqO4ZY2puXgQiEb4IM7lXoan.VVgj
+ 91lLi.H0lwSQwcRaCITk4EQhVnwZmTSiTzr6B95ruJ9_JPZPhQMMnd7q0PCfd7hLx4OaM54xzaKk
+ qPA85Gg8oWZgq.V2aGAjoCeJSVD3.dW9phgRgiLQPWN_R8MshP212CbD54zkxD8iEBuhngXpPjBW
+ Dfpl9bzo4ckUgOtWoKDWsTk9.U_VK6ZL8KPf4CFpVbDuIr70OIGE.IDuBOBCDFzlDGg--
+Received: from sonic.gate.mail.ne1.yahoo.com by
+ sonic312.consmr.mail.ir2.yahoo.com with HTTP; Mon, 22 Jun 2020 14:45:24 +0000
+Date: Mon, 22 Jun 2020 14:45:20 +0000 (UTC)
+From: Alexey Romko <nevilad@yahoo.com>
+To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: "haxm-team@intel.com" <haxm-team@intel.com>
+Message-ID: <545115443.3540457.1592837120032@mail.yahoo.com>
+Subject: [PATCH] Bug 1855617 Save registers to haxm when vcpu_dirty flag is
+ set and clear it. vcpu_dirty flag was set in initialization code and not
+ cleared, so read attempts were skipped and snapshots didn't contain
+ correct  register values.
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 14089792909325539726
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduhedrudekvddgkeduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepteekgeejiedvteeufeekfffhtddtgfegkeekkefgleefheejgfehtdelheeivefhnecuffhomhgrihhnpehinhgvthdrhhhoshhtnecukfhppedtrddtrddtrddtpdekvddrvdehfedrvddtkedrvdegkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejfeegrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
-Received-SPF: pass client-ip=46.105.75.36; envelope-from=groug@kaod.org;
- helo=2.mo3.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 10:43:22
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+References: <545115443.3540457.1592837120032.ref@mail.yahoo.com>
+X-Mailer: WebService/1.1.16138 YMailNorrin Mozilla/5.0 (Windows NT 6.1;
+ ) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138
+ Safari/537.36
+Received-SPF: pass client-ip=77.238.178.96; envelope-from=nevilad@yahoo.com;
+ helo=sonic312-25.consmr.mail.ir2.yahoo.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 10:45:24
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,143 +81,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel
- P . Berrange" <berrange@redhat.com>, Jerome Forissier <jerome@forissier.org>,
- qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 22 Jun 2020 12:42:31 +0200
-Markus Armbruster <armbru@redhat.com> wrote:
+Bug 1855617 Save registers to haxm when vcpu_dirty flag is
+set and clear it. vcpu_dirty flag was set in initialization code and not
+cleared, so read attempts were skipped and snapshots didn't contain correct
+register values.
 
-> Receiving the error in a local variable only to free it is less clear
-> (and also less efficient) than passing NULL.  Clean up.
-> 
-> Cc: Daniel P. Berrange <berrange@redhat.com>
-> Cc: Jerome Forissier <jerome@forissier.org>
-> CC: Greg Kurz <groug@kaod.org>
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> ---
+Signed-off-by: Alexey Romko <nevilad@yahoo.com>
+---
+=C2=A0target/i386/hax-all.c | 16 +++++++++++-----
+=C2=A01 file changed, 11 insertions(+), 5 deletions(-)
 
-Reviewed-by: Greg Kurz <groug@kaod.org>
 
-and
-
-Acked-by: Greg Kurz <groug@kaod.org> # for 9pfs
-
->  chardev/char-socket.c | 6 ++----
->  hw/9pfs/9p.c          | 6 ++----
->  hw/arm/virt.c         | 4 +---
->  hw/ppc/spapr_drc.c    | 4 +---
->  ui/vnc.c              | 3 +--
->  5 files changed, 7 insertions(+), 16 deletions(-)
-> 
-> diff --git a/chardev/char-socket.c b/chardev/char-socket.c
-> index afebeec5c3..b0cae97960 100644
-> --- a/chardev/char-socket.c
-> +++ b/chardev/char-socket.c
-> @@ -815,22 +815,20 @@ static void tcp_chr_tls_init(Chardev *chr)
->  {
->      SocketChardev *s = SOCKET_CHARDEV(chr);
->      QIOChannelTLS *tioc;
-> -    Error *err = NULL;
->      gchar *name;
->  
->      if (s->is_listen) {
->          tioc = qio_channel_tls_new_server(
->              s->ioc, s->tls_creds,
->              s->tls_authz,
-> -            &err);
-> +            NULL);
->      } else {
->          tioc = qio_channel_tls_new_client(
->              s->ioc, s->tls_creds,
->              s->addr->u.inet.host,
-> -            &err);
-> +            NULL);
->      }
->      if (tioc == NULL) {
-> -        error_free(err);
->          tcp_chr_disconnect(chr);
->          return;
->      }
-> diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-> index 45a788f6e6..9755fba9a9 100644
-> --- a/hw/9pfs/9p.c
-> +++ b/hw/9pfs/9p.c
-> @@ -1399,7 +1399,6 @@ static void coroutine_fn v9fs_attach(void *opaque)
->      size_t offset = 7;
->      V9fsQID qid;
->      ssize_t err;
-> -    Error *local_err = NULL;
->  
->      v9fs_string_init(&uname);
->      v9fs_string_init(&aname);
-> @@ -1437,9 +1436,8 @@ static void coroutine_fn v9fs_attach(void *opaque)
->          error_setg(&s->migration_blocker,
->                     "Migration is disabled when VirtFS export path '%s' is mounted in the guest using mount_tag '%s'",
->                     s->ctx.fs_root ? s->ctx.fs_root : "NULL", s->tag);
-> -        err = migrate_add_blocker(s->migration_blocker, &local_err);
-> -        if (local_err) {
-> -            error_free(local_err);
-> +        err = migrate_add_blocker(s->migration_blocker, NULL);
-> +        if (err < 0) {
->              error_free(s->migration_blocker);
->              s->migration_blocker = NULL;
->              clunk_fid(s, fid);
-> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-> index caceb1e4a0..29b9d5b2e6 100644
-> --- a/hw/arm/virt.c
-> +++ b/hw/arm/virt.c
-> @@ -217,11 +217,9 @@ static bool cpu_type_valid(const char *cpu)
->  
->  static void create_kaslr_seed(VirtMachineState *vms, const char *node)
->  {
-> -    Error *err = NULL;
->      uint64_t seed;
->  
-> -    if (qemu_guest_getrandom(&seed, sizeof(seed), &err)) {
-> -        error_free(err);
-> +    if (qemu_guest_getrandom(&seed, sizeof(seed), NULL)) {
->          return;
->      }
->      qemu_fdt_setprop_u64(vms->fdt, node, "kaslr-seed", seed);
-> diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
-> index 2689104295..951bcdf2c0 100644
-> --- a/hw/ppc/spapr_drc.c
-> +++ b/hw/ppc/spapr_drc.c
-> @@ -1163,16 +1163,14 @@ static void rtas_ibm_configure_connector(PowerPCCPU *cpu,
->      drck = SPAPR_DR_CONNECTOR_GET_CLASS(drc);
->  
->      if (!drc->fdt) {
-> -        Error *local_err = NULL;
->          void *fdt;
->          int fdt_size;
->  
->          fdt = create_device_tree(&fdt_size);
->  
->          if (drck->dt_populate(drc, spapr, fdt, &drc->fdt_start_offset,
-> -                              &local_err)) {
-> +                              NULL)) {
->              g_free(fdt);
-> -            error_free(local_err);
->              rc = SPAPR_DR_CC_RESPONSE_ERROR;
->              goto out;
->          }
-> diff --git a/ui/vnc.c b/ui/vnc.c
-> index 12a12714e1..0702a76cce 100644
-> --- a/ui/vnc.c
-> +++ b/ui/vnc.c
-> @@ -458,9 +458,8 @@ static VncServerInfo2List *qmp_query_server_entry(QIOChannelSocket *ioc,
->      Error *err = NULL;
->      SocketAddress *addr;
->  
-> -    addr = qio_channel_socket_get_local_address(ioc, &err);
-> +    addr = qio_channel_socket_get_local_address(ioc, NULL);
->      if (!addr) {
-> -        error_free(err);
->          return prev;
->      }
->  
-
+diff --git a/target/i386/hax-all.c b/target/i386/hax-all.c
+index f9c83fff25..8aea72db07 100644
+--- a/target/i386/hax-all.c
++++ b/target/i386/hax-all.c
+@@ -504,16 +504,15 @@ static int hax_vcpu_hax_exec(CPUArchState *env)
+=C2=A0 =C2=A0 =C2=A0if (cpu->interrupt_request & CPU_INTERRUPT_INIT) {
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0DPRINTF("\nhax_vcpu_hax_exec: handling IN=
+IT for %d\n",
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cpu->cpu_inde=
+x);
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 hax_cpu_synchronize_state(cpu);
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0do_cpu_init(x86_cpu);
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 hax_vcpu_sync_state(env, 1);
+=C2=A0 =C2=A0 =C2=A0}
+=C2=A0
+=C2=A0 =C2=A0 =C2=A0if (cpu->interrupt_request & CPU_INTERRUPT_SIPI) {
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0DPRINTF("hax_vcpu_hax_exec: handling SIPI=
+ for %d\n",
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cpu->cpu_inde=
+x);
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 hax_vcpu_sync_state(env, 0);
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 hax_cpu_synchronize_state(cpu);
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0do_cpu_sipi(x86_cpu);
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 hax_vcpu_sync_state(env, 1);
+=C2=A0 =C2=A0 =C2=A0}
+=C2=A0
+=C2=A0 =C2=A0 =C2=A0if (cpu->halted) {
+@@ -534,6 +533,11 @@ static int hax_vcpu_hax_exec(CPUArchState *env)
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}
+=C2=A0
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (cpu->vcpu_dirty) {
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 hax_vcpu_sync_state(env, 1);
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cpu->vcpu_dirty =3D false;
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }
++
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0hax_vcpu_interrupt(env);
+=C2=A0
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_mutex_unlock_iothread();
+@@ -621,8 +625,10 @@ static void do_hax_cpu_synchronize_state(CPUState *cpu=
+, run_on_cpu_data arg)
+=C2=A0{
+=C2=A0 =C2=A0 =C2=A0CPUArchState *env =3D cpu->env_ptr;
+=C2=A0
+-=C2=A0 =C2=A0 hax_arch_get_registers(env);
+-=C2=A0 =C2=A0 cpu->vcpu_dirty =3D true;
++=C2=A0 =C2=A0 if (!cpu->vcpu_dirty) {
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 hax_arch_get_registers(env);
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 cpu->vcpu_dirty =3D true;
++=C2=A0 =C2=A0 }
+=C2=A0}
+=C2=A0
+=C2=A0void hax_cpu_synchronize_state(CPUState *cpu)
+--=C2=A0
+2.15.0.windows.1
 
