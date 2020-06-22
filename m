@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FDE7203B41
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 17:41:20 +0200 (CEST)
-Received: from localhost ([::1]:46348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7586203B43
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 17:41:51 +0200 (CEST)
+Received: from localhost ([::1]:49026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnOZT-00082o-L7
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 11:41:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58884)
+	id 1jnOZy-0000kB-Ub
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 11:41:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jnOXS-0005Xx-Iu
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 11:39:14 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:43203
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jnOXm-0006Dx-06
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 11:39:34 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:42729
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jnOXR-0003PU-0b
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 11:39:14 -0400
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jnOXk-0003SH-DC
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 11:39:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592840352;
+ s=mimecast20190719; t=1592840371;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6j1pA8flFXxKFgGD7KGcZegLUTAz9cG1BpLNQLqPNk0=;
- b=FT8eoR4BZCQ6kVFhqvMUSn/xuF3DO2G9o1PELzTp6Je7ZXhX6M9lmGenrPW128aH+SWBeb
- Lsxj4QIklWlYCsvWEdIRQyv0K3hGrXsqDpQwCEptJanUXcDzCYlpZv1O5+8JpQWmxhAN/f
- 7C2G2qt2ds9kn2DGOO0qx+dSUaQ5Qzo=
+ bh=p5bXbIxy8s0ryaEaU97GsZ4HqDYJlmv5BJfcBBmiTCQ=;
+ b=Sp/gJ0NQ6XkXi06bjounsoSmwqGhpFxrd/xbwl6gwxMdRxEVBUjSW+N0hAUaFyzaNjn11/
+ KaCcUvXeyqU3injqF1uNbHIt3ByLfxSK0AAuxdq3Xe3XGkaRcO3ZLfZ+vBFgwX8yqu2g/J
+ 8+58f9tdXCLeaa0ErEX28wfTOHYPYrY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-264-j4mNxZEmNR2FIK0oYu3SfA-1; Mon, 22 Jun 2020 11:39:10 -0400
-X-MC-Unique: j4mNxZEmNR2FIK0oYu3SfA-1
+ us-mta-491-fu_UieGbMIqvppj2YMrbRg-1; Mon, 22 Jun 2020 11:39:29 -0400
+X-MC-Unique: fu_UieGbMIqvppj2YMrbRg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C20AF1883607;
- Mon, 22 Jun 2020 15:39:07 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3D30C184D144;
+ Mon, 22 Jun 2020 15:39:27 +0000 (UTC)
 Received: from laptop.redhat.com (ovpn-13-110.pek2.redhat.com [10.72.13.110])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 55C6171679;
- Mon, 22 Jun 2020 15:38:44 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CD3B371664;
+ Mon, 22 Jun 2020 15:39:09 +0000 (UTC)
 From: Cindy Lu <lulu@redhat.com>
 To: mst@redhat.com, armbru@redhat.com, eblake@redhat.com, cohuck@redhat.com,
  jasowang@redhat.com
-Subject: [PATCH v1 02/10] vhost_net: use the function qemu_get_peer
-Date: Mon, 22 Jun 2020 23:37:48 +0800
-Message-Id: <20200622153756.19189-3-lulu@redhat.com>
+Subject: [PATCH v1 03/10] virtio-bus: introduce queue_enabled method
+Date: Mon, 22 Jun 2020 23:37:49 +0800
+Message-Id: <20200622153756.19189-4-lulu@redhat.com>
 In-Reply-To: <20200622153756.19189-1-lulu@redhat.com>
 References: <20200622153756.19189-1-lulu@redhat.com>
 MIME-Version: 1.0
@@ -55,9 +55,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=lulu@redhat.com;
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=lulu@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 01:27:42
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 02:57:26
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -89,69 +89,51 @@ Cc: mhabets@solarflare.com, qemu-devel@nongnu.org, rob.miller@broadcom.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-user the qemu_get_peer to replace the old process
+From: Jason Wang <jasowang@redhat.com>
 
+This patch introduces queue_enabled() method which allows the
+transport to implement its own way to report whether or not a queue is
+enabled.
+
+Signed-off-by: Jason Wang <jasowang@redhat.com>
 Signed-off-by: Cindy Lu <lulu@redhat.com>
 ---
- hw/net/vhost_net.c | 16 ++++++++++------
- 1 file changed, 10 insertions(+), 6 deletions(-)
+ hw/virtio/virtio.c             | 6 ++++++
+ include/hw/virtio/virtio-bus.h | 4 ++++
+ 2 files changed, 10 insertions(+)
 
-diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
-index 6b82803fa7..4096d64aaf 100644
---- a/hw/net/vhost_net.c
-+++ b/hw/net/vhost_net.c
-@@ -306,7 +306,9 @@ int vhost_net_start(VirtIODevice *dev, NetClientState *ncs,
-     BusState *qbus = BUS(qdev_get_parent_bus(DEVICE(dev)));
-     VirtioBusState *vbus = VIRTIO_BUS(qbus);
-     VirtioBusClass *k = VIRTIO_BUS_GET_CLASS(vbus);
-+    struct vhost_net *net;
-     int r, e, i;
-+    NetClientState *peer;
+diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+index b6c8ef5bc0..445a4ed760 100644
+--- a/hw/virtio/virtio.c
++++ b/hw/virtio/virtio.c
+@@ -3285,6 +3285,12 @@ hwaddr virtio_queue_get_desc_addr(VirtIODevice *vdev, int n)
  
-     if (!k->set_guest_notifiers) {
-         error_report("binding does not support guest notifiers");
-@@ -314,9 +316,9 @@ int vhost_net_start(VirtIODevice *dev, NetClientState *ncs,
-     }
+ bool virtio_queue_enabled(VirtIODevice *vdev, int n)
+ {
++    BusState *qbus = qdev_get_parent_bus(DEVICE(vdev));
++    VirtioBusClass *k = VIRTIO_BUS_GET_CLASS(qbus);
++
++    if (k->queue_enabled) {
++        return k->queue_enabled(qbus->parent, n);
++    }
+     return virtio_queue_get_desc_addr(vdev, n) != 0;
+ }
  
-     for (i = 0; i < total_queues; i++) {
--        struct vhost_net *net;
- 
--        net = get_vhost_net(ncs[i].peer);
-+        peer = qemu_get_peer(ncs, i);
-+        net = get_vhost_net(peer);
-         vhost_net_set_vq_index(net, i * 2);
- 
-         /* Suppress the masking guest notifiers on vhost user
-@@ -335,15 +337,16 @@ int vhost_net_start(VirtIODevice *dev, NetClientState *ncs,
-     }
- 
-     for (i = 0; i < total_queues; i++) {
--        r = vhost_net_start_one(get_vhost_net(ncs[i].peer), dev);
-+        peer = qemu_get_peer(ncs, i);
-+        r = vhost_net_start_one(get_vhost_net(peer), dev);
- 
-         if (r < 0) {
-             goto err_start;
-         }
- 
--        if (ncs[i].peer->vring_enable) {
-+        if (peer->vring_enable) {
-             /* restore vring enable state */
--            r = vhost_set_vring_enable(ncs[i].peer, ncs[i].peer->vring_enable);
-+            r = vhost_set_vring_enable(peer, peer->vring_enable);
- 
-             if (r < 0) {
-                 goto err_start;
-@@ -355,7 +358,8 @@ int vhost_net_start(VirtIODevice *dev, NetClientState *ncs,
- 
- err_start:
-     while (--i >= 0) {
--        vhost_net_stop_one(get_vhost_net(ncs[i].peer), dev);
-+        peer = qemu_get_peer(ncs , i);
-+        vhost_net_stop_one(get_vhost_net(peer), dev);
-     }
-     e = k->set_guest_notifiers(qbus->parent, total_queues * 2, false);
-     if (e < 0) {
+diff --git a/include/hw/virtio/virtio-bus.h b/include/hw/virtio/virtio-bus.h
+index 38c9399cd4..0f6f215925 100644
+--- a/include/hw/virtio/virtio-bus.h
++++ b/include/hw/virtio/virtio-bus.h
+@@ -83,6 +83,10 @@ typedef struct VirtioBusClass {
+      */
+     int (*ioeventfd_assign)(DeviceState *d, EventNotifier *notifier,
+                             int n, bool assign);
++    /*
++     * Whether queue number n is enabled.
++     */
++    bool (*queue_enabled)(DeviceState *d, int n);
+     /*
+      * Does the transport have variable vring alignment?
+      * (ie can it ever call virtio_queue_set_align()?)
 -- 
 2.21.1
 
