@@ -2,60 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 027D9203F15
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 20:23:00 +0200 (CEST)
-Received: from localhost ([::1]:43018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16968203F0D
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 20:21:21 +0200 (CEST)
+Received: from localhost ([::1]:39502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnR5v-00039S-2l
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 14:22:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40424)
+	id 1jnR4K-00013U-4U
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 14:21:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
- id 1jnR30-0000F5-Qo
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 14:19:58 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:58085
+ id 1jnR2t-00006g-JM
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 14:19:51 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:28910
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
- id 1jnR2z-0005vq-6R
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 14:19:58 -0400
+ id 1jnR2s-0005vJ-17
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 14:19:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592849996;
+ s=mimecast20190719; t=1592849989;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=omyDk/w3DO0jLjvOBn6Rg7kmxPFEub/szn3Q3gQLoeI=;
- b=hKkH80yvftz9UCTn4M2/6WCUMp6XJCoCOHwL6tZRge7LdR49zEBmE0trFZD0YqdQqfFS/f
- JyrmMCv6Ec8chIJ3cmtZdNt9F4zWh5dZWHtuB9kViuMw+f7dIQDvV4KUASLUgjg/Ehb0hW
- +6pBMLN9/MVO608JSkTFcST46QutUrA=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=GAf7eDSh7BKOIu8HjEmHGkayHYgxEZUn4wuOKM1ut9U=;
+ b=IQB3uN3aows/Qj4kNVzpTj0u6VPCobTlSufH/uS5CvGPu73gIMo/xtXc9VRNeF772CtCjC
+ BEWGAbJLCcXmk9ovD5EnDFbbYeT0fHcGV3XO5xeN+mODr5AkPFJeiZ8va3Wty6T+7aVDjO
+ mx5CJ7a3mCGsqi9mjyYm+0d9R2VIXWI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-477-ZzNKig6zMMOU_8B67gyYMw-1; Mon, 22 Jun 2020 14:19:45 -0400
-X-MC-Unique: ZzNKig6zMMOU_8B67gyYMw-1
+ us-mta-428-0GHrxigYPAykF_g52EJvZg-1; Mon, 22 Jun 2020 14:19:47 -0400
+X-MC-Unique: 0GHrxigYPAykF_g52EJvZg-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 636D4464;
- Mon, 22 Jun 2020 18:19:44 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1CB1B1883604;
+ Mon, 22 Jun 2020 18:19:46 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.40.194.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0505E610AF;
- Mon, 22 Jun 2020 18:19:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B274F18B05;
+ Mon, 22 Jun 2020 18:19:44 +0000 (UTC)
 From: Michal Privoznik <mprivozn@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 0/2] qga: Ditch g_get_host_name()
-Date: Mon, 22 Jun 2020 20:19:34 +0200
-Message-Id: <cover.1592849834.git.mprivozn@redhat.com>
+Subject: [PATCH v3 1/2] util: Introduce qemu_get_host_name()
+Date: Mon, 22 Jun 2020 20:19:35 +0200
+Message-Id: <02ebd01e1ff7b4aba70e58a674f457ec8e4cf20b.1592849834.git.mprivozn@redhat.com>
+In-Reply-To: <cover.1592849834.git.mprivozn@redhat.com>
+References: <cover.1592849834.git.mprivozn@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=mprivozn@redhat.com;
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=mprivozn@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 02:57:26
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 01:27:42
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -81,25 +84,99 @@ Cc: pbonzini@redhat.com, vfeenstr@redhat.com, marcandre.lureau@gmail.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v3 of:
+This function offers operating system agnostic way to fetch host
+name. It is implemented for both POSIX-like and Windows systems.
 
-https://lists.nongnu.org/archive/html/qemu-devel/2020-06/msg06913.html
-
-diff to v2:
-- don't leak @hostname in util/oslib-posix.c:qemu_get_host_name()
-- document why we are allocating one byte more than needed
-- switch to g_new0() from g_malloc0().
-
-Michal Privoznik (2):
-  util: Introduce qemu_get_host_name()
-  qga: Use qemu_get_host_name() instead of g_get_host_name()
-
+Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
+---
  include/qemu/osdep.h | 10 ++++++++++
- qga/commands.c       | 17 +++++++++++++----
  util/oslib-posix.c   | 35 +++++++++++++++++++++++++++++++++++
  util/oslib-win32.c   | 13 +++++++++++++
- 4 files changed, 71 insertions(+), 4 deletions(-)
+ 3 files changed, 58 insertions(+)
 
+diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+index ff7c17b857..a795d46b28 100644
+--- a/include/qemu/osdep.h
++++ b/include/qemu/osdep.h
+@@ -607,4 +607,14 @@ static inline void qemu_reset_optind(void)
+ #endif
+ }
+ 
++/**
++ * qemu_get_host_name:
++ * @errp: Error object
++ *
++ * Operating system agnostic way of querying host name.
++ *
++ * Returns allocated hostname (caller should free), NULL on failure.
++ */
++char *qemu_get_host_name(Error **errp);
++
+ #endif
+diff --git a/util/oslib-posix.c b/util/oslib-posix.c
+index 916f1be224..3997ee0442 100644
+--- a/util/oslib-posix.c
++++ b/util/oslib-posix.c
+@@ -761,3 +761,38 @@ void sigaction_invoke(struct sigaction *action,
+     }
+     action->sa_sigaction(info->ssi_signo, &si, NULL);
+ }
++
++#ifndef HOST_NAME_MAX
++# ifdef _POSIX_HOST_NAME_MAX
++#  define HOST_NAME_MAX _POSIX_HOST_NAME_MAX
++# else
++#  define HOST_NAME_MAX 255
++# endif
++#endif
++
++char *qemu_get_host_name(Error **errp)
++{
++    long len = -1;
++    g_autofree char *hostname = NULL;
++
++#ifdef _SC_HOST_NAME_MAX
++    len = sysconf(_SC_HOST_NAME_MAX);
++#endif /* _SC_HOST_NAME_MAX */
++
++    if (len < 0) {
++        len = HOST_NAME_MAX;
++    }
++
++    /* Unfortunately, gethostname() below does not guarantee a
++     * NULL terminated string. Therefore, allocate one byte more
++     * to be sure. */
++    hostname = g_new0(char, len + 1);
++
++    if (gethostname(hostname, len) < 0) {
++        error_setg_errno(errp, errno,
++                         "cannot get hostname");
++        return NULL;
++    }
++
++    return g_steal_pointer(&hostname);
++}
+diff --git a/util/oslib-win32.c b/util/oslib-win32.c
+index e9b14ab178..3b49d27297 100644
+--- a/util/oslib-win32.c
++++ b/util/oslib-win32.c
+@@ -808,3 +808,16 @@ bool qemu_write_pidfile(const char *filename, Error **errp)
+     }
+     return true;
+ }
++
++char *qemu_get_host_name(Error **errp)
++{
++    wchar_t tmp[MAX_COMPUTERNAME_LENGTH + 1];
++    DWORD size = G_N_ELEMENTS(tmp);
++
++    if (GetComputerNameW(tmp, &size) == 0) {
++        error_setg_win32(errp, GetLastError(), "failed close handle");
++        return NULL;
++    }
++
++    return g_utf16_to_utf8(tmp, size, NULL, NULL, NULL);
++}
 -- 
 2.26.2
 
