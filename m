@@ -2,62 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41FC9203B0E
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 17:37:52 +0200 (CEST)
-Received: from localhost ([::1]:35484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFA6B203B3F
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 17:40:21 +0200 (CEST)
+Received: from localhost ([::1]:42756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnOW7-00033p-Ah
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 11:37:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57256)
+	id 1jnOYW-0006TS-Ta
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 11:40:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jnORy-0004Cm-RM
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 11:33:34 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:24379
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jnOWo-0004X5-Fg
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 11:38:34 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:36338
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jnORw-00028l-Qz
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 11:33:34 -0400
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jnOWm-0003I4-Rh
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 11:38:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592840012;
+ s=mimecast20190719; t=1592840311;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5p9+mJduQhGS9oftmsPvNAzWw5/XxsIW3qskgtyLetw=;
- b=LadT7Lk6zc39qWlGl/X28+P9BwXMPHE+X3MaiIOtagBdRu7LAVDzIjF2JxPvXNCB+AFAqy
- YJb3RW1yf8V0pfhPU/rE3xY5GX+Mp5w446Fl3Atzv3XqiQpuVfVO2bSK79YFc/6imFLCGM
- dVsFfH2bTAewN0p9XHMSkuXyAwHDBrM=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=hBq+Z6OPkLv/ZB3fwxJKju8zMgluDlDcd2q8/YLF+1g=;
+ b=hutqCqLg5gnrJzQNUdZqYspp7EHjSXMgI2n02NSXR0Wd00Nj8fH2UtKhmPE0VpfhkbjIvb
+ bpj/nxZK9qgKIjuK9Hxrs4HHMPRNhDBqER00+zeuQr9VRGtTmy2AvpwRjWF7PKALRXSMW/
+ WZObkeo+ansWWrs5bByb9+6ksSGA2pc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-219-FjBaHrKKPLes33m-xvG-tg-1; Mon, 22 Jun 2020 11:33:29 -0400
-X-MC-Unique: FjBaHrKKPLes33m-xvG-tg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-303-nkov9MQtO3-9Tfb5bqGS1A-1; Mon, 22 Jun 2020 11:38:24 -0400
+X-MC-Unique: nkov9MQtO3-9Tfb5bqGS1A-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BCC7983DA41;
- Mon, 22 Jun 2020 15:33:28 +0000 (UTC)
-Received: from domokun.gsslab.fab.redhat.com (unknown [10.33.8.110])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 65D3D60BEC;
- Mon, 22 Jun 2020 15:33:27 +0000 (UTC)
-From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH RFC 3/3] gitlab: convert jobs to use custom built containers
-Date: Mon, 22 Jun 2020 16:33:18 +0100
-Message-Id: <20200622153318.751107-4-berrange@redhat.com>
-In-Reply-To: <20200622153318.751107-1-berrange@redhat.com>
-References: <20200622153318.751107-1-berrange@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E0AFA1883604;
+ Mon, 22 Jun 2020 15:38:21 +0000 (UTC)
+Received: from laptop.redhat.com (ovpn-13-110.pek2.redhat.com [10.72.13.110])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6FE5C1DC;
+ Mon, 22 Jun 2020 15:38:04 +0000 (UTC)
+From: Cindy Lu <lulu@redhat.com>
+To: mst@redhat.com, armbru@redhat.com, eblake@redhat.com, cohuck@redhat.com,
+ jasowang@redhat.com
+Subject: [PATCH v1 00/10] vDPA support in qemu
+Date: Mon, 22 Jun 2020 23:37:46 +0800
+Message-Id: <20200622153756.19189-1-lulu@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=berrange@redhat.com;
- helo=us-smtp-1.mimecast.com
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=lulu@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 02:57:26
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
@@ -79,248 +75,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Laszlo Ersek <lersek@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: mhabets@solarflare.com, qemu-devel@nongnu.org, rob.miller@broadcom.com,
+ saugatm@xilinx.com, lulu@redhat.com, hanand@xilinx.com, hch@infradead.org,
+ eperezma@redhat.com, jgg@mellanox.com, shahafs@mellanox.com,
+ kevin.tian@intel.com, parav@mellanox.com, vmireyno@marvell.com,
+ cunming.liang@intel.com, gdawar@xilinx.com, jiri@mellanox.com,
+ xiao.w.wang@intel.com, stefanha@redhat.com, zhihong.wang@intel.com,
+ aadam@redhat.com, rdunlap@infradead.org, maxime.coquelin@redhat.com,
+ lingshan.zhu@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that we're building standard container images from
-dockerfiles in tests/docker/dockerfiles, we can convert
-the build jobs to use them. The key benefit of this is
-that a contributor can now more easily replicate the CI
-environment on their local machine. The container images
-are cached too, so we are not spending time waiting for
-the apt-get/dnf package installs to complete.
+vDPA device is a device that uses a datapath which complies with the
+virtio specifications with vendor specific control path. vDPA devices
+can be both physically located on the hardware or emulated by software.
+This RFC introduce the vDPA support in qemu
+TODO 
+1) vIOMMU support
+2) live migration support
 
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
----
- .gitlab-ci.yml | 187 +++++++++++++++++++++----------------------------
- 1 file changed, 81 insertions(+), 106 deletions(-)
+Cindy Lu (8):
+  net: introduce qemu_get_peer
+  vhost_net: use the function qemu_get_peer
+  vhost-backend: export the vhost backend helper
+  vhsot_net: introduce set_config & get_config function
+  vhost: introduce new VhostOps vhost_dev_start
+  vhost: implement vhost_dev_start method
+  vhost-vdpa: introduce vhost-vdpa backend
+  vhost-vdpa: introduce vhost-vdpa net client
 
-diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index 72d688875f..3297a402f7 100644
---- a/.gitlab-ci.yml
-+++ b/.gitlab-ci.yml
-@@ -9,133 +9,108 @@ include:
-   - local: '/.gitlab-ci.d/opensbi.yml'
-   - local: '/.gitlab-ci.d/containers.yml'
- 
--.update_apt_template: &before_script_apt
-- before_script:
--  - apt-get update -qq
--  - apt-get install -y -qq git gcc libglib2.0-dev libpixman-1-dev make
--        genisoimage
--  - JOBS=$(expr $(nproc) + 1)
--
--.update_dnf_template: &before_script_dnf
-- before_script:
--  - dnf update -y
--  - dnf install -y bzip2 diffutils gcc git genisoimage findutils glib2-devel
--        make python3 perl-podlators perl-Test-Harness pixman-devel zlib-devel
--  - JOBS=$(expr $(nproc) + 1)
-+.native_build_job_template: &native_build_job_definition
-+  stage: build
-+  image: $CI_REGISTRY_IMAGE/ci-$IMAGE:latest
-+  before_script:
-+    - JOBS=$(expr $(nproc) + 1)
-+  script:
-+    - mkdir build
-+    - cd build
-+    - if test -n "$TARGETS";
-+      then
-+        ../configure --enable-werror $CONFIGURE_ARGS --target-list="$TARGETS" ;
-+      else
-+        ../configure --enable-werror $CONFIGURE_ARGS ;
-+      fi
-+    - make -j"$JOBS"
-+    - make -j"$JOBS" $MAKE_CHECK_ARGS
- 
- build-system1:
-- stage: build
-- image: ubuntu:19.10
-- <<: *before_script_apt
-- script:
-- - apt-get install -y -qq libgtk-3-dev libvte-dev nettle-dev libcacard-dev
--      libusb-dev libvde-dev libspice-protocol-dev libgl1-mesa-dev libvdeplug-dev
-- - mkdir build
-- - cd build
-- - ../configure --enable-werror --target-list="aarch64-softmmu alpha-softmmu
--      cris-softmmu hppa-softmmu lm32-softmmu moxie-softmmu microblazeel-softmmu
--      mips64el-softmmu m68k-softmmu ppc-softmmu riscv64-softmmu sparc-softmmu"
-- - make -j"$JOBS"
-- - make -j"$JOBS" check
-+  <<: *native_build_job_definition
-+  variables:
-+    IMAGE: ubuntu2004
-+    TARGETS: aarch64-softmmu alpha-softmmu cris-softmmu hppa-softmmu lm32-softmmu
-+      moxie-softmmu microblazeel-softmmu mips64el-softmmu m68k-softmmu ppc-softmmu
-+      riscv64-softmmu sparc-softmmu
-+    MAKE_CHECK_ARGS: check
- 
- build-system2:
-- stage: build
-- image: fedora:latest
-- <<: *before_script_dnf
-- script:
-- - yum install -y SDL2-devel libgcrypt-devel brlapi-devel libaio-devel
--       libfdt-devel lzo-devel librdmacm-devel libibverbs-devel libibumad-devel
--       libzstd-devel
-- - mkdir build
-- - cd build
-- - ../configure --enable-werror --target-list="tricore-softmmu unicore32-softmmu
--      microblaze-softmmu mips-softmmu riscv32-softmmu s390x-softmmu sh4-softmmu
--      sparc64-softmmu x86_64-softmmu xtensa-softmmu nios2-softmmu or1k-softmmu"
-- - make -j"$JOBS"
-- - make -j"$JOBS" check
-+  <<: *native_build_job_definition
-+  variables:
-+    IMAGE: fedora
-+    TARGETS: tricore-softmmu unicore32-softmmu microblaze-softmmu mips-softmmu
-+      riscv32-softmmu s390x-softmmu sh4-softmmu sparc64-softmmu x86_64-softmmu
-+      xtensa-softmmu nios2-softmmu or1k-softmmu
-+    MAKE_CHECK_ARGS: check
- 
- build-disabled:
-- stage: build
-- image: fedora:latest
-- <<: *before_script_dnf
-- script:
-- - mkdir build
-- - cd build
-- - ../configure --enable-werror --disable-rdma --disable-slirp --disable-curl
-+  <<: *native_build_job_definition
-+  variables:
-+    IMAGE: fedora
-+    CONFIGURE_ARGS: --disable-rdma --disable-slirp --disable-curl
-       --disable-capstone --disable-live-block-migration --disable-glusterfs
-       --disable-replication --disable-coroutine-pool --disable-smartcard
-       --disable-guest-agent --disable-curses --disable-libxml2 --disable-tpm
-       --disable-qom-cast-debug --disable-spice --disable-vhost-vsock
-       --disable-vhost-net --disable-vhost-crypto --disable-vhost-user
--      --target-list="i386-softmmu ppc64-softmmu mips64-softmmu i386-linux-user"
-- - make -j"$JOBS"
-- - make -j"$JOBS" check-qtest SPEED=slow
-+    TARGETS: i386-softmmu ppc64-softmmu mips64-softmmu i386-linux-user
-+    MAKE_CHECK_ARGS: check-qtest SPEED=slow
- 
- build-tcg-disabled:
-- stage: build
-- image: centos:8
-- <<: *before_script_dnf
-- script:
-- - dnf install -y clang gtk3-devel libusbx-devel libgcrypt-devel
-- - mkdir build
-- - cd build
-- - ../configure --cc=clang --enable-werror --disable-tcg --audio-drv-list=""
-- - make -j"$JOBS"
-- - make check-unit
-- - make check-qapi-schema
-- - cd tests/qemu-iotests/
-- - ./check -raw 001 002 003 004 005 008 009 010 011 012 021 025 032 033 048
-+  <<: *native_build_job_definition
-+  variables:
-+    IMAGE: centos8
-+  script:
-+    - mkdir build
-+    - cd build
-+    - ../configure --disable-tcg --audio-drv-list=""
-+    - make -j"$JOBS"
-+    - make check-unit
-+    - make check-qapi-schema
-+    - cd tests/qemu-iotests/
-+    - ./check -raw 001 002 003 004 005 008 009 010 011 012 021 025 032 033 048
-             052 063 077 086 101 104 106 113 148 150 151 152 157 159 160 163
-             170 171 183 184 192 194 197 208 215 221 222 226 227 236 253 277
-- - ./check -qcow2 028 051 056 057 058 065 067 068 082 085 091 095 096 102 122
-+    - ./check -qcow2 028 051 056 057 058 065 067 068 082 085 091 095 096 102 122
-             124 132 139 142 144 145 151 152 155 157 165 194 196 197 200 202
-             208 209 215 216 218 222 227 234 246 247 248 250 254 255 257 258
-             260 261 262 263 264 270 272 273 277 279
- 
- build-user:
-- stage: build
-- <<: *before_script_apt
-- script:
-- - mkdir build
-- - cd build
-- - ../configure --enable-werror --disable-system --disable-guest-agent
--               --disable-capstone --disable-slirp --disable-fdt
-- - make -j"$JOBS"
-- - make run-tcg-tests-i386-linux-user run-tcg-tests-x86_64-linux-user
-+  <<: *native_build_job_definition
-+  variables:
-+    IMAGE: ubuntu2004
-+    CONFIGURE_ARGS: --disable-system --disable-guest-agent
-+      --disable-capstone --disable-slirp --disable-fdt
-+    MAKE_CHECK_ARGS:  run-tcg-tests-i386-linux-user run-tcg-tests-x86_64-linux-user
- 
- build-clang:
-- stage: build
-- image: fedora:latest
-- <<: *before_script_dnf
-- script:
-- - yum install -y clang SDL2-devel libattr-devel libcap-ng-devel xfsprogs-devel
--       libiscsi-devel libnfs-devel libseccomp-devel gnutls-devel librbd-devel
-- - mkdir build
-- - cd build
-- - ../configure --cc=clang --cxx=clang++ --enable-werror
--      --target-list="alpha-softmmu arm-softmmu m68k-softmmu mips64-softmmu
--                     ppc-softmmu s390x-softmmu x86_64-softmmu arm-linux-user"
-- - make -j"$JOBS"
-- - make -j"$JOBS" check
-+  <<: *native_build_job_definition
-+  variables:
-+    IMAGE: fedora
-+    CONFIGURE_ARGS: --cc=clang --cxx=clang++
-+    TARGETS: alpha-softmmu arm-softmmu m68k-softmmu mips64-softmmu
-+      ppc-softmmu s390x-softmmu x86_64-softmmu arm-linux-user
-+    MAKE_CHECK_ARGS: check
- 
- build-tci:
-- stage: build
-- image: centos:8
-- <<: *before_script_dnf
-- script:
-- - TARGETS="aarch64 alpha arm hppa m68k microblaze moxie ppc64 s390x x86_64"
-- - mkdir build
-- - cd build
-- - ../configure --enable-tcg-interpreter
--      --target-list="$(for tg in $TARGETS; do echo -n ${tg}'-softmmu '; done)"
-- - make -j"$JOBS"
-- - make run-tcg-tests-x86_64-softmmu
-- - make tests/qtest/boot-serial-test tests/qtest/cdrom-test tests/qtest/pxe-test
-- - for tg in $TARGETS ; do
--     export QTEST_QEMU_BINARY="${tg}-softmmu/qemu-system-${tg}" ;
--     ./tests/qtest/boot-serial-test || exit 1 ;
--     ./tests/qtest/cdrom-test || exit 1 ;
--   done
-- - QTEST_QEMU_BINARY="x86_64-softmmu/qemu-system-x86_64" ./tests/qtest/pxe-test
-- - QTEST_QEMU_BINARY="s390x-softmmu/qemu-system-s390x"
--   ./tests/qtest/pxe-test -m slow
-+  <<: *native_build_job_definition
-+  variables:
-+    IMAGE: fedora
-+  script:
-+    - TARGETS="aarch64 alpha arm hppa m68k microblaze moxie ppc64 s390x x86_64"
-+    - mkdir build
-+    - cd build
-+    - ../configure --enable-tcg-interpreter
-+        --target-list="$(for tg in $TARGETS; do echo -n ${tg}'-softmmu '; done)"
-+    - make -j"$JOBS"
-+    - make run-tcg-tests-x86_64-softmmu
-+    - make tests/qtest/boot-serial-test tests/qtest/cdrom-test tests/qtest/pxe-test
-+    - for tg in $TARGETS ; do
-+        export QTEST_QEMU_BINARY="${tg}-softmmu/qemu-system-${tg}" ;
-+        ./tests/qtest/boot-serial-test || exit 1 ;
-+        ./tests/qtest/cdrom-test || exit 1 ;
-+      done
-+    - QTEST_QEMU_BINARY="x86_64-softmmu/qemu-system-x86_64" ./tests/qtest/pxe-test
-+    - QTEST_QEMU_BINARY="s390x-softmmu/qemu-system-s390x" ./tests/qtest/pxe-test -m slow
+Jason Wang (2):
+  virtio-bus: introduce queue_enabled method
+  virtio-pci: implement queue_enabled method
+
+ configure                         |  21 ++
+ hw/net/vhost_net.c                |  46 +++-
+ hw/net/virtio-net.c               |  19 +-
+ hw/virtio/Makefile.objs           |   1 +
+ hw/virtio/vhost-backend.c         |  40 ++-
+ hw/virtio/vhost-vdpa.c            | 406 ++++++++++++++++++++++++++++++
+ hw/virtio/vhost.c                 |  59 ++++-
+ hw/virtio/virtio-pci.c            |  18 ++
+ hw/virtio/virtio.c                |   6 +
+ include/hw/virtio/vhost-backend.h |  36 ++-
+ include/hw/virtio/vhost-vdpa.h    |  26 ++
+ include/hw/virtio/vhost.h         |   8 +
+ include/hw/virtio/virtio-bus.h    |   4 +
+ include/net/net.h                 |   1 +
+ include/net/vhost-vdpa.h          |  21 ++
+ include/net/vhost_net.h           |   6 +-
+ net/Makefile.objs                 |   2 +-
+ net/clients.h                     |   2 +
+ net/net.c                         |   9 +
+ net/vhost-vdpa.c                  | 230 +++++++++++++++++
+ qapi/net.json                     |  23 +-
+ qemu-options.hx                   |  12 +
+ 22 files changed, 952 insertions(+), 44 deletions(-)
+ create mode 100644 hw/virtio/vhost-vdpa.c
+ create mode 100644 include/hw/virtio/vhost-vdpa.h
+ create mode 100644 include/net/vhost-vdpa.h
+ create mode 100644 net/vhost-vdpa.c
+
 -- 
-2.24.1
+2.21.1
 
 
