@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79750203A69
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 17:13:05 +0200 (CEST)
-Received: from localhost ([::1]:51632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94DF9203A72
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 17:15:02 +0200 (CEST)
+Received: from localhost ([::1]:59898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnO88-0001gi-GG
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 11:13:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50518)
+	id 1jnOA1-0005hW-Hk
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 11:15:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50786)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jnO6L-0007Y5-3C
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 11:11:13 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:42292
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jnO6r-0000Kd-Vy
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 11:11:46 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:38808
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jnO6H-0005wV-HO
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 11:11:12 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jnO6p-000616-Ox
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 11:11:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592838668;
+ s=mimecast20190719; t=1592838702;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8Rmje/WMnvpZo2WA1qSrULhGYOfWpz2zMU1hl/O8C7k=;
- b=DdkGuEwINJ67GHZRFAnih0XRHtYYQMD2nRlpVQu0Ftp6QUwg0fq7ID9NqM89LcXxPzk6go
- WynIqCQJxnRj9MJF/RCwS+eY3J2X5d4MyByO43FsmrHJkjwWDEyWw2zxNdvgAmnfIiEbb6
- mNgOAL2l8vKAWH1CU0qkNO68mo7oN0I=
+ bh=BfkMTw3gf8IVjYDyvCljQ1qYksnvvnYbFOXo27YLMdU=;
+ b=Jvly9iLxZM+1eqqHZ+Dhx6a/YoZc9/NFIcVMUjTy5K3lxpEss72DDIwe3m/gxXgHoLgSbU
+ baZIZq3SGKT6a/ydlPkORhj9CxbYbJzKwGi0LDMdErW4Az8eB1ACXtWMCMO9fmtU2d8npd
+ S4a1u2tG4/gixkfjufaVYE4nFnPj4B8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-217-Ai175NDKMwyVf8Ylnsz22Q-1; Mon, 22 Jun 2020 11:11:04 -0400
-X-MC-Unique: Ai175NDKMwyVf8Ylnsz22Q-1
+ us-mta-443-r00M66XJPDyZPSEDMFRsTg-1; Mon, 22 Jun 2020 11:11:06 -0400
+X-MC-Unique: r00M66XJPDyZPSEDMFRsTg-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6822D107ACF4;
- Mon, 22 Jun 2020 15:11:03 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C6D5088EA20;
+ Mon, 22 Jun 2020 15:11:05 +0000 (UTC)
 Received: from localhost (ovpn-114-85.ams2.redhat.com [10.36.114.85])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D32A310013D9;
- Mon, 22 Jun 2020 15:11:02 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3673E10013D7;
+ Mon, 22 Jun 2020 15:11:05 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 01/18] iotests: Make _filter_img_create more active
-Date: Mon, 22 Jun 2020 17:10:42 +0200
-Message-Id: <20200622151059.921191-2-mreitz@redhat.com>
+Subject: [PULL 02/18] iotests: filter few more luks specific create options
+Date: Mon, 22 Jun 2020 17:10:43 +0200
+Message-Id: <20200622151059.921191-3-mreitz@redhat.com>
 In-Reply-To: <20200622151059.921191-1-mreitz@redhat.com>
 References: <20200622151059.921191-1-mreitz@redhat.com>
 MIME-Version: 1.0
@@ -54,8 +54,8 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 02:57:26
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
@@ -82,205 +82,216 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Right now, _filter_img_create just filters out everything that looks
-format-dependent, and applies some filename filters.  That means that we
-have to add another filter line every time some format gets a new
-creation option.  This can be avoided by instead discarding everything
-and just keeping what we know is format-independent (format, size,
-backing file, encryption information[1], preallocation) or just
-interesting to have in the reference output (external data file path).
+From: Maxim Levitsky <mlevitsk@redhat.com>
 
-Furthermore, we probably want to sort these options.  Format drivers are
-not required to define them in any specific order, so the output is
-effectively random (although this has never bothered us until now).  We
-need a specific order for our reference outputs, though.  Unfortunately,
-just using a plain "sort" would change a lot of existing reference
-outputs, so we have to pre-filter the option keys to keep our existing
-order (fmt, size, backing*, data, encryption info, preallocation).
+This allows more tests to be able to have same output on both qcow2 luks encrypted images
+and raw luks images
 
-Finally, this makes it difficult for _filter_img_create to automagically
-work for QMP output.  Thus, this patch adds a separate
-_filter_img_create_for_qmp function that echos every line verbatim that
-does not start with "Formatting", and pipes those "Formatting" lines to
-_filter_img_create.
-
-[1] Actually, the only thing that is really important is whether
-    encryption is enabled or not.  A patch by Maxim thus removes all
-    other "encrypt.*" options from the output:
-    https://lists.nongnu.org/archive/html/qemu-block/2020-06/msg00339.html
-    But that patch needs to come later so we can get away with changing
-    as few reference outputs in this patch here as possible.
-
+Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
-Message-Id: <20200618150628.2169239-2-mreitz@redhat.com>
+Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
+Message-Id: <20200618150628.2169239-3-mreitz@redhat.com>
 ---
- tests/qemu-iotests/112.out       |  2 +-
- tests/qemu-iotests/141           |  2 +-
- tests/qemu-iotests/153           |  9 ++-
- tests/qemu-iotests/common.filter | 96 ++++++++++++++++++++++++--------
- 4 files changed, 78 insertions(+), 31 deletions(-)
+ tests/qemu-iotests/087.out       | 6 +++---
+ tests/qemu-iotests/134.out       | 2 +-
+ tests/qemu-iotests/158.out       | 4 ++--
+ tests/qemu-iotests/188.out       | 2 +-
+ tests/qemu-iotests/189.out       | 4 ++--
+ tests/qemu-iotests/198.out       | 4 ++--
+ tests/qemu-iotests/263.out       | 4 ++--
+ tests/qemu-iotests/284.out       | 6 +++---
+ tests/qemu-iotests/common.filter | 5 +----
+ 9 files changed, 17 insertions(+), 20 deletions(-)
 
-diff --git a/tests/qemu-iotests/112.out b/tests/qemu-iotests/112.out
-index ae0318cabe..182655dbf6 100644
---- a/tests/qemu-iotests/112.out
-+++ b/tests/qemu-iotests/112.out
-@@ -5,7 +5,7 @@ QA output created by 112
- qemu-img: TEST_DIR/t.IMGFMT: Refcount width must be a power of two and may not exceed 64 bits
- Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
- qemu-img: TEST_DIR/t.IMGFMT: Refcount width must be a power of two and may not exceed 64 bits
--Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864 refcount_bits=-1
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
- qemu-img: TEST_DIR/t.IMGFMT: Refcount width must be a power of two and may not exceed 64 bits
- Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
- qemu-img: TEST_DIR/t.IMGFMT: Refcount width must be a power of two and may not exceed 64 bits
-diff --git a/tests/qemu-iotests/141 b/tests/qemu-iotests/141
-index 5192d256e3..6d1b7b0d4c 100755
---- a/tests/qemu-iotests/141
-+++ b/tests/qemu-iotests/141
-@@ -68,7 +68,7 @@ test_blockjob()
-     _send_qemu_cmd $QEMU_HANDLE \
-         "$1" \
-         "$2" \
--        | _filter_img_create | _filter_qmp_empty_return
-+        | _filter_img_create_in_qmp | _filter_qmp_empty_return
+diff --git a/tests/qemu-iotests/087.out b/tests/qemu-iotests/087.out
+index 2d92ea847b..b61ba638af 100644
+--- a/tests/qemu-iotests/087.out
++++ b/tests/qemu-iotests/087.out
+@@ -34,7 +34,7 @@ QMP_VERSION
  
-     # We want this to return an error because the block job is still running
-     _send_qemu_cmd $QEMU_HANDLE \
-diff --git a/tests/qemu-iotests/153 b/tests/qemu-iotests/153
-index cf961d3609..11e3d28841 100755
---- a/tests/qemu-iotests/153
-+++ b/tests/qemu-iotests/153
-@@ -167,11 +167,10 @@ done
+ === Encrypted image QCow ===
  
- echo
- echo "== Creating ${TEST_IMG}.[abc] ==" | _filter_testdir
--(
--    $QEMU_IMG create -f qcow2 "${TEST_IMG}.a" -b "${TEST_IMG}"
--    $QEMU_IMG create -f qcow2 "${TEST_IMG}.b" -b "${TEST_IMG}"
--    $QEMU_IMG create -f qcow2 "${TEST_IMG}.c" -b "${TEST_IMG}.b"
--) | _filter_img_create
-+$QEMU_IMG create -f qcow2 "${TEST_IMG}.a" -b "${TEST_IMG}" | _filter_img_create
-+$QEMU_IMG create -f qcow2 "${TEST_IMG}.b" -b "${TEST_IMG}" | _filter_img_create
-+$QEMU_IMG create -f qcow2 "${TEST_IMG}.c" -b "${TEST_IMG}.b" \
-+    | _filter_img_create
+-Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728 encryption=on encrypt.key-secret=sec0
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728 encryption=on
+ Testing:
+ QMP_VERSION
+ {"return": {}}
+@@ -46,7 +46,7 @@ QMP_VERSION
  
- echo
- echo "== Two devices sharing the same file in backing chain =="
+ === Encrypted image LUKS ===
+ 
+-Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728 encrypt.format=luks encrypt.key-secret=sec0
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728
+ Testing:
+ QMP_VERSION
+ {"return": {}}
+@@ -58,7 +58,7 @@ QMP_VERSION
+ 
+ === Missing driver ===
+ 
+-Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728 encryption=on encrypt.key-secret=sec0
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728 encryption=on
+ Testing: -S
+ QMP_VERSION
+ {"return": {}}
+diff --git a/tests/qemu-iotests/134.out b/tests/qemu-iotests/134.out
+index 09d46f6b17..4abc5b5f7d 100644
+--- a/tests/qemu-iotests/134.out
++++ b/tests/qemu-iotests/134.out
+@@ -1,5 +1,5 @@
+ QA output created by 134
+-Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728 encryption=on encrypt.key-secret=sec0
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728 encryption=on
+ 
+ == reading whole image ==
+ read 134217728/134217728 bytes at offset 0
+diff --git a/tests/qemu-iotests/158.out b/tests/qemu-iotests/158.out
+index 6def216e55..f28a17626b 100644
+--- a/tests/qemu-iotests/158.out
++++ b/tests/qemu-iotests/158.out
+@@ -1,6 +1,6 @@
+ QA output created by 158
+ == create base ==
+-Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=134217728 encryption=on encrypt.key-secret=sec0
++Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=134217728 encryption=on
+ 
+ == writing whole image ==
+ wrote 134217728/134217728 bytes at offset 0
+@@ -10,7 +10,7 @@ wrote 134217728/134217728 bytes at offset 0
+ read 134217728/134217728 bytes at offset 0
+ 128 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ == create overlay ==
+-Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728 backing_file=TEST_DIR/t.IMGFMT.base encryption=on encrypt.key-secret=sec0
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728 backing_file=TEST_DIR/t.IMGFMT.base encryption=on
+ 
+ == writing part of a cluster ==
+ wrote 1024/1024 bytes at offset 0
+diff --git a/tests/qemu-iotests/188.out b/tests/qemu-iotests/188.out
+index c568ef3701..5426861b18 100644
+--- a/tests/qemu-iotests/188.out
++++ b/tests/qemu-iotests/188.out
+@@ -1,5 +1,5 @@
+ QA output created by 188
+-Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=16777216 encrypt.format=luks encrypt.key-secret=sec0 encrypt.iter-time=10
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=16777216
+ 
+ == reading whole image ==
+ read 16777216/16777216 bytes at offset 0
+diff --git a/tests/qemu-iotests/189.out b/tests/qemu-iotests/189.out
+index a0b7c9c24c..bc213cbe14 100644
+--- a/tests/qemu-iotests/189.out
++++ b/tests/qemu-iotests/189.out
+@@ -1,6 +1,6 @@
+ QA output created by 189
+ == create base ==
+-Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=16777216 encrypt.format=luks encrypt.key-secret=sec0 encrypt.iter-time=10
++Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=16777216
+ 
+ == writing whole image ==
+ wrote 16777216/16777216 bytes at offset 0
+@@ -10,7 +10,7 @@ wrote 16777216/16777216 bytes at offset 0
+ read 16777216/16777216 bytes at offset 0
+ 16 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ == create overlay ==
+-Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=16777216 backing_file=TEST_DIR/t.IMGFMT.base encrypt.format=luks encrypt.key-secret=sec1 encrypt.iter-time=10
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=16777216 backing_file=TEST_DIR/t.IMGFMT.base
+ 
+ == writing part of a cluster ==
+ wrote 1024/1024 bytes at offset 0
+diff --git a/tests/qemu-iotests/198.out b/tests/qemu-iotests/198.out
+index 6280ae6eed..4b800e70db 100644
+--- a/tests/qemu-iotests/198.out
++++ b/tests/qemu-iotests/198.out
+@@ -1,12 +1,12 @@
+ QA output created by 198
+ == create base ==
+-Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=16777216 encrypt.format=luks encrypt.key-secret=sec0 encrypt.iter-time=10
++Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=16777216
+ 
+ == writing whole image base ==
+ wrote 16777216/16777216 bytes at offset 0
+ 16 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ == create overlay ==
+-Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=16777216 backing_file=TEST_DIR/t.IMGFMT.base encrypt.format=luks encrypt.key-secret=sec1 encrypt.iter-time=10
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=16777216 backing_file=TEST_DIR/t.IMGFMT.base
+ 
+ == writing whole image layer ==
+ wrote 16777216/16777216 bytes at offset 0
+diff --git a/tests/qemu-iotests/263.out b/tests/qemu-iotests/263.out
+index 0c982c55cb..54bfbeeff8 100644
+--- a/tests/qemu-iotests/263.out
++++ b/tests/qemu-iotests/263.out
+@@ -2,7 +2,7 @@ QA output created by 263
+ 
+ testing LUKS qcow2 encryption
+ 
+-Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576 encrypt.format=luks encrypt.key-secret=sec0 encrypt.iter-time=10
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576
+ == reading the whole image ==
+ read 1048576/1048576 bytes at offset 0
+ 1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+@@ -21,7 +21,7 @@ read 982528/982528 bytes at offset 66048
+ 
+ testing legacy AES qcow2 encryption
+ 
+-Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576 encrypt.format=aes encrypt.key-secret=sec0
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576
+ == reading the whole image ==
+ read 1048576/1048576 bytes at offset 0
+ 1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+diff --git a/tests/qemu-iotests/284.out b/tests/qemu-iotests/284.out
+index 48216f5742..a929239302 100644
+--- a/tests/qemu-iotests/284.out
++++ b/tests/qemu-iotests/284.out
+@@ -2,7 +2,7 @@ QA output created by 284
+ 
+ testing LUKS qcow2 encryption
+ 
+-Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576 encrypt.format=luks encrypt.key-secret=sec0 encrypt.iter-time=10
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576
+ 
+ == cluster size 512
+ == checking image refcounts ==
+@@ -21,7 +21,7 @@ wrote 1/1 bytes at offset 512
+ 
+ == rechecking image refcounts ==
+ No errors were found on the image.
+-Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576 encrypt.format=luks encrypt.key-secret=sec0 encrypt.iter-time=10
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576
+ 
+ == cluster size 2048
+ == checking image refcounts ==
+@@ -40,7 +40,7 @@ wrote 1/1 bytes at offset 2048
+ 
+ == rechecking image refcounts ==
+ No errors were found on the image.
+-Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576 encrypt.format=luks encrypt.key-secret=sec0 encrypt.iter-time=10
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576
+ 
+ == cluster size 32768
+ == checking image refcounts ==
 diff --git a/tests/qemu-iotests/common.filter b/tests/qemu-iotests/common.filter
-index 03e4f71808..6cbd5ebba6 100644
+index 6cbd5ebba6..3a4becebb0 100644
 --- a/tests/qemu-iotests/common.filter
 +++ b/tests/qemu-iotests/common.filter
-@@ -122,38 +122,86 @@ _filter_actual_image_size()
- # replace driver-specific options in the "Formatting..." line
- _filter_img_create()
- {
--    data_file_filter=()
--    if data_file=$(_get_data_file "$TEST_IMG"); then
--        data_file_filter=(-e "s# data_file=$data_file##")
-+    # Split the line into the pre-options part ($filename_part, which
-+    # precedes ", fmt=") and the options part ($options, which starts
-+    # with "fmt=")
-+    readarray -td '' formatting_line < <(sed -e 's/, fmt=/\x0/')
-+
-+    filename_part=${formatting_line[0]}
-+    if [ -n "${formatting_line[1]}" ]; then
-+        options="fmt=${formatting_line[1]}"
-+    else
-+        options=''
-+    fi
-+
-+    # Set grep_data_file to '\|data_file' to keep it; make it empty
-+    # to drop it.
-+    # We want to drop it if it is part of the global $IMGOPTS, and we
-+    # want to keep it otherwise (if the test specifically wants to
-+    # test data files).
-+    grep_data_file='\|data_file'
-+    if _get_data_file "$TEST_IMG" > /dev/null; then
-+        grep_data_file=''
-     fi
- 
--    $SED "${data_file_filter[@]}" \
-+    filename_filters=(
-         -e "s#$REMOTE_TEST_DIR#TEST_DIR#g" \
-         -e "s#$IMGPROTO:$TEST_DIR#TEST_DIR#g" \
-         -e "s#$TEST_DIR#TEST_DIR#g" \
-         -e "s#$SOCK_DIR#SOCK_DIR#g" \
-         -e "s#$IMGFMT#IMGFMT#g" \
-         -e 's#nbd:127.0.0.1:[0-9]\\+#TEST_DIR/t.IMGFMT#g' \
--        -e 's#nbd+unix:///\??socket=SOCK_DIR/nbd#TEST_DIR/t.IMGFMT#g' \
--        -e "s# encryption=off##g" \
--        -e "s# cluster_size=[0-9]\\+##g" \
--        -e "s# table_size=[0-9]\\+##g" \
--        -e "s# compat=[^ ]*##g" \
--        -e "s# compat6=\\(on\\|off\\)##g" \
--        -e "s# static=\\(on\\|off\\)##g" \
--        -e "s# zeroed_grain=\\(on\\|off\\)##g" \
--        -e "s# subformat=[^ ]*##g" \
--        -e "s# adapter_type=[^ ]*##g" \
--        -e "s# hwversion=[^ ]*##g" \
--        -e "s# lazy_refcounts=\\(on\\|off\\)##g" \
--        -e "s# block_size=[0-9]\\+##g" \
--        -e "s# block_state_zero=\\(on\\|off\\)##g" \
--        -e "s# log_size=[0-9]\\+##g" \
--        -e "s# refcount_bits=[0-9]\\+##g" \
--        -e "s# key-secret=[a-zA-Z0-9]\\+##g" \
--        -e "s# iter-time=[0-9]\\+##g" \
--        -e "s# force_size=\\(on\\|off\\)##g" \
--        -e "s# compression_type=[a-zA-Z0-9]\\+##g"
-+        -e 's#nbd+unix:///\??socket=SOCK_DIR/nbd#TEST_DIR/t.IMGFMT#g'
-+    )
-+
-+    filename_part=$(echo "$filename_part" | $SED "${filename_filters[@]}")
-+
-+    # Break the option line before each option (preserving pre-existing
-+    # line breaks by replacing them by \0 and restoring them at the end),
-+    # then filter out the options we want to keep and sort them according
-+    # to some order that all block drivers used at the time of writing
-+    # this function.
-+    options=$(
-+        echo "$options" \
-+        | tr '\n' '\0' \
-+        | $SED -e 's/\x0$//' -e 's/ \([a-z0-9_.-]*\)=/\n\1=/g' \
-+        | grep -ae "^\(fmt\\|size\\|backing\\|preallocation\\|encrypt$grep_data_file\\)" \
-+        | $SED "${filename_filters[@]}" \
-+            -e 's/^\(fmt\)/0-\1/' \
-+            -e 's/^\(size\)/1-\1/' \
-+            -e 's/^\(backing\)/2-\1/' \
-+            -e 's/^\(data_file\)/3-\1/' \
-+            -e 's/^\(encryption\)/4-\1/' \
-+            -e 's/^\(encrypt\.format\)/5-\1/' \
-+            -e 's/^\(encrypt\.key-secret\)/6-\1/' \
-+            -e 's/^\(encrypt\.iter-time\)/7-\1/' \
-+            -e 's/^\(preallocation\)/8-\1/' \
-+        | sort \
-+        | $SED -e 's/^[0-9]-//' \
-+        | tr '\n\0' ' \n' \
-+        | $SED -e 's/^ *$//' -e 's/ *$//'
-+    )
-+
-+    if [ -n "$options" ]; then
-+        echo "$filename_part, $options"
-+    elif [ -n "$filename_part" ]; then
-+        echo "$filename_part"
-+    fi
-+}
-+
-+# Filter the "Formatting..." line in QMP output (leaving the QMP output
-+# untouched)
-+# (In contrast to _filter_img_create(), this function does not support
-+# multi-line Formatting output)
-+_filter_img_create_in_qmp()
-+{
-+    while read -r line; do
-+        if echo "$line" | grep -q '^Formatting'; then
-+            echo "$line" | _filter_img_create
-+        else
-+            echo "$line"
-+        fi
-+    done
- }
- 
- _filter_img_create_size()
+@@ -165,16 +165,13 @@ _filter_img_create()
+         echo "$options" \
+         | tr '\n' '\0' \
+         | $SED -e 's/\x0$//' -e 's/ \([a-z0-9_.-]*\)=/\n\1=/g' \
+-        | grep -ae "^\(fmt\\|size\\|backing\\|preallocation\\|encrypt$grep_data_file\\)" \
++        | grep -ae "^\(fmt\\|size\\|backing\\|preallocation\\|encryption$grep_data_file\\)" \
+         | $SED "${filename_filters[@]}" \
+             -e 's/^\(fmt\)/0-\1/' \
+             -e 's/^\(size\)/1-\1/' \
+             -e 's/^\(backing\)/2-\1/' \
+             -e 's/^\(data_file\)/3-\1/' \
+             -e 's/^\(encryption\)/4-\1/' \
+-            -e 's/^\(encrypt\.format\)/5-\1/' \
+-            -e 's/^\(encrypt\.key-secret\)/6-\1/' \
+-            -e 's/^\(encrypt\.iter-time\)/7-\1/' \
+             -e 's/^\(preallocation\)/8-\1/' \
+         | sort \
+         | $SED -e 's/^[0-9]-//' \
 -- 
 2.26.2
 
