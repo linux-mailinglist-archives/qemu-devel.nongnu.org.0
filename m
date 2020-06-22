@@ -2,150 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21C92203959
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 16:27:58 +0200 (CEST)
-Received: from localhost ([::1]:59672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3CC1203994
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 16:32:49 +0200 (CEST)
+Received: from localhost ([::1]:45728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnNQT-0006gh-4P
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 10:27:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38304)
+	id 1jnNVA-0005lg-VX
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 10:32:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38362)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jnNOp-00059w-H3
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 10:26:15 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:52688
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jnNOm-0004oa-V4
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 10:26:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592835971;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=dAFReDPxONXQcUOrVSKFVNAj20irRP9gizkZZcZ9I+Q=;
- b=cQg3/8AqbgfogthCSRSKC6ZkCB3qJ4kEM4awBHQnryDNWCWw1+/Zy8WAfK10vR0rmULqLB
- Dndd+wo46/5leY3kuduKapPfaz3gOqKltT5sBlwZJ5KFm/CqXNYh5zcT0BeZDNCHNe9ZI2
- z0mw1FkYGd3GY19oJZJINqYpTqilcuQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-312-OUFFSSaEN4O-hhfVqVBxrw-1; Mon, 22 Jun 2020 10:26:10 -0400
-X-MC-Unique: OUFFSSaEN4O-hhfVqVBxrw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F42588EF00;
- Mon, 22 Jun 2020 14:24:51 +0000 (UTC)
-Received: from [10.10.119.184] (ovpn-119-184.rdu2.redhat.com [10.10.119.184])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4EC637166A;
- Mon, 22 Jun 2020 14:24:50 +0000 (UTC)
-Subject: Re: [PATCH v3 12/16] python/machine.py: Add _qmp access shim
-To: Kevin Wolf <kwolf@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philmd@redhat.com>
-References: <20200604202236.25039-1-jsnow@redhat.com>
- <20200604202236.25039-13-jsnow@redhat.com>
- <659c7e95-54c3-dc20-02e3-86ce4ca74a5f@redhat.com>
- <CAP+75-UDM0zxzBWze2NvuJPQ3ezZDn3r-SsrM2q_7JU3ANiYaA@mail.gmail.com>
- <20200622102342.GB5707@linux.fritz.box>
-From: John Snow <jsnow@redhat.com>
-Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <139ed251-45d4-5185-ec00-7ee247787982@redhat.com>
-Date: Mon, 22 Jun 2020 10:24:49 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
-MIME-Version: 1.0
-In-Reply-To: <20200622102342.GB5707@linux.fritz.box>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=jsnow@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 01:27:42
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1jnNOt-0005Bu-3j
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 10:26:19 -0400
+Received: from mx2.suse.de ([195.135.220.15]:47422)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1jnNOq-0004pC-IE
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 10:26:18 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 9DB39C1C7;
+ Mon, 22 Jun 2020 14:26:13 +0000 (UTC)
+From: Claudio Fontana <cfontana@suse.de>
+To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>,
+ Markus Armbruster <armbru@redhat.com>
+Subject: [RFC v7 0/4] QEMU cpus.c refactoring
+Date: Mon, 22 Jun 2020 12:11:06 +0200
+Message-Id: <20200622101110.3263-1-cfontana@suse.de>
+X-Mailer: git-send-email 2.16.4
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 06:47:54
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic]
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_03_06=1.592,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -159,117 +54,286 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Cleber Rosa <crosa@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org,
+ Colin Xu <colin.xu@intel.com>, Wenchao Wang <wenchao.wang@intel.com>,
+ haxm-team@intel.com, Sunil Muthuswamy <sunilmut@microsoft.com>,
+ Richard Henderson <rth@twiddle.net>, Claudio Fontana <cfontana@suse.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Motivation and higher level steps:
+
+https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg04628.html
+
+MAIN OPEN POINTS:
+
+* confirmation on hvf state (Roman).
+
+* missing reviewed-by for patch 4 in the series
+
+OTHER DISCUSSIONS:
+
+* naming of "cpus.c" and functions, more cpus_ prefix use? (Roman)
+
+* should we accept the addional clunkyness and overhead for each call of
+  the kick and CPU sync state for all archs/accels of putting CpusAccel
+  inside AccelClass? I would tend towards no here, but welcome further
+  opinions or data if any. (Roman)
+
+* should we reorder patches or moves inside patches to avoid code going
+  from cpus.c to softmmu/cpus.c and then again to softmmu/somethingelse.c ?
+  (Philippe)
+
+* some questions about headers in include/softmmu (Philippe)
+
+----
+
+v6 -> v7:
+
+* rebased changes on top of Pavel Dovgalyuk changes to dma-helpers.c
+  "icount: make dma reads deterministic"
+
+----
+
+v5 -> v6:
+
+* rebased changes on top of Emilio G. Cota changes to cpus.c
+  "cpu: convert queued work to a QSIMPLEQ"
+
+* keep a pointer in cpus.c instead of a copy of CpusAccel
+  (Alex)
+
+----
 
 
-On 6/22/20 6:23 AM, Kevin Wolf wrote:
-> Am 20.06.2020 um 10:20 hat Philippe Mathieu-Daudé geschrieben:
->> On Sat, Jun 20, 2020 at 10:14 AM Philippe Mathieu-Daudé
->> <philmd@redhat.com> wrote:
->>>
->>> On 6/4/20 10:22 PM, John Snow wrote:
->>>> Like many other Optional[] types, it's not always a given that this
->>>> object will be set. Wrap it in a type-shim that raises a meaningful
->>>> error and will always return a concrete type.
->>>>
->>>> Signed-off-by: John Snow <jsnow@redhat.com>
->>>> ---
->>>>  python/qemu/machine.py | 12 +++++++++---
->>>>  1 file changed, 9 insertions(+), 3 deletions(-)
->>>>
->>>> diff --git a/python/qemu/machine.py b/python/qemu/machine.py
->>>> index d8289936816..a451f9000d6 100644
->>>> --- a/python/qemu/machine.py
->>>> +++ b/python/qemu/machine.py
->>>> @@ -118,7 +118,7 @@ def __init__(self, binary, args=None, wrapper=None, name=None,
->>>>          self._events = []
->>>>          self._iolog = None
->>>>          self._qmp_set = True   # Enable QMP monitor by default.
->>>> -        self._qmp = None
->>>> +        self._qmp_connection: Optional[qmp.QEMUMonitorProtocol] = None
->>>>          self._qemu_full_args = None
->>>>          self._temp_dir = None
->>>>          self._launched = False
->>>> @@ -285,7 +285,7 @@ def _pre_launch(self):
->>>>              if self._remove_monitor_sockfile:
->>>>                  assert isinstance(self._monitor_address, str)
->>>>                  self._remove_files.append(self._monitor_address)
->>>> -            self._qmp = qmp.QEMUMonitorProtocol(
->>>> +            self._qmp_connection = qmp.QEMUMonitorProtocol(
->>>>                  self._monitor_address,
->>>>                  server=True,
->>>>                  nickname=self._name
->>>> @@ -455,7 +455,13 @@ def set_qmp_monitor(self, enabled=True):
->>>>              self._qmp_set = True
->>>>          else:
->>>>              self._qmp_set = False
->>>> -            self._qmp = None
->>>> +            self._qmp_connection = None
->>>> +
->>>> +    @property
->>>> +    def _qmp(self) -> qmp.QEMUMonitorProtocol:
->>>> +        if self._qmp_connection is None:
->>>> +            raise QEMUMachineError("Attempt to access QMP with no connection")
->>>> +        return self._qmp_connection
->>>>
->>>>      @classmethod
->>>>      def _qmp_args(cls, _conv_keys: bool = True, **args: Any) -> Dict[str, Any]:
->>>>
->>>
->>> This patch breaks the EmptyCPUModel test:
->>>
->>> (043/101) tests/acceptance/empty_cpu_model.py:EmptyCPUModel.test:
->>> ERROR: Attempt to access QMP with no connection (0.03 s)
->>
->> Fixed with:
->>
->> -- >8 --
->> diff --git a/python/qemu/machine.py b/python/qemu/machine.py
->> index ba6397dd7e..26ae7be89b 100644
->> --- a/python/qemu/machine.py
->> +++ b/python/qemu/machine.py
->> @@ -480,7 +480,7 @@ def set_qmp_monitor(self, enabled: bool = True) -> None:
->>
->>      @property
->>      def _qmp(self) -> qmp.QEMUMonitorProtocol:
->> -        if self._qmp_connection is None:
->> +        if self._qmp_set and self._qmp_connection is None:
->>              raise QEMUMachineError("Attempt to access QMP with no connection")
->>          return self._qmp_connection
->>
->> ---
->>
->> Does that sound reasonable to you?
-> 
-> Wouldn't that make the return type Optional[qmp.QEMUMonitorProtocol]?
-> Maybe this is what we want, but then we don't need the shim that this
-> patch adds but can just declare the variable this way.
-> 
-> And why does the feeling code even try to acess _qmp when _qmp_set is
-> False? Shouldn't it first check whether it's even valid?
-> 
-> Or maybe going a step back, why do we even have a separate _qmp_set
-> instead of only using None for _qmp?
-> 
-> Kevin
-> 
+v4 -> v5: rebase on latest master
 
-Using Optional[qmp.QEMUMonitorProtocol] does work; it does require a lot
-more "if not None" checks littered everywhere.
+* rebased changes on top of roman series to remove one of the extra states for hvf.
+  (Is the result now functional for HVF?)
 
-From memory, it was just difficult to type a qmp(...) passthrough
-command that integrated the "if self._qmp_socket" check -- the faster
-hack was the shim around accessing the socket itself.
+* rebased changes on top of icount changes and fixes to icount_configure and
+  the new shift vmstate. (Markus)
 
-IIRC, mypy had difficulty reasoning about constraints otherwise -- but
-I'll look into it again. At this point it warrants stronger effort.
+v3 -> v4:
 
---js
+* overall: added copyright headers to all files that were missing them
+  (used copyright and license of the module the stuff was extracted from).
+  For the new interface files, added SUSE LLC.
+
+* 1/4 (move softmmu only files from root):
+
+  MAINTAINERS: moved softmmu/cpus.c to its final location (from patch 2)
+
+* 2/4 (cpu-throttle):
+
+  MAINTAINERS (to patch 1),
+  copyright Fabrice Bellard and license from cpus.c
+
+* 3/4 (cpu-timers, icount):
+
+  - MAINTAINERS: add cpu-timers.c and icount.c to Paolo
+
+  - break very long lines (patchew)
+
+  - add copyright SUSE LLC, GPLv2 to cpu-timers.h
+
+  - add copyright Fabrice Bellard and license from cpus.c to timers-state.h
+    as it is lifted from cpus.c
+
+  - vl.c: in configure_accelerators bail out if icount_enabled()
+    and !tcg_enabled() as qtest does not enable icount anymore.
+
+* 4/4 (accel stuff to accel):
+
+  - add copyright SUSE LLC to files that mostly only consist of the
+    new interface. Add whatever copyright was in the accelerator code
+    if instead they mostly consist of accelerator code.
+
+  - change a comment to mention the result of the AccelClass experiment
+
+  - moved qtest accelerator into accel/qtest/ , make it like the others.
+
+  - rename xxx-cpus-interface to xxx-cpus (remove "interface" from names)
+
+  - rename accel_int to cpus_accel
+
+  - rename CpusAccel functions from cpu_synchronize_* to synchronize_*
+
+
+--------
+
+v2 -> v3:
+
+* turned into a 4 patch series, adding a first patch moving
+  softmmu code currently in top_srcdir to softmmu/
+
+* cpu-throttle: moved to softmmu/
+
+* cpu-timers, icount:
+
+  - moved to softmmu/
+
+  - fixed assumption of qtest_enabled() => icount_enabled()
+  causing the failure of check-qtest-arm goal, in test-arm-mptimer.c
+
+  Fix is in hw/core/ptimer.c,
+
+  where the artificial timeout rate limit should not be applied
+  under qtest_enabled(), in a similar way to how it is not applied
+  for icount_enabled().
+
+* CpuAccelInterface: no change.
+
+
+--------
+
+
+v1 -> v2:
+
+* 1/3 (cpu-throttle): provide a description in the commit message
+
+* 2/3 (cpu-timers, icount): in this v2 separate icount from cpu-timers,
+  as icount is actually TCG-specific. Only build it under CONFIG_TCG.
+
+  To do this, qtest had to be detached from icount. To this end, a
+  trivial global counter for qtest has been introduced.
+
+* 3/3 (CpuAccelInterface): provided a description.
+
+This is point 8) in that plan. The idea is to extract the unrelated parts
+in cpus, and register interfaces from each single accelerator to the main
+cpus module (cpus.c).
+
+While doing this RFC, I noticed some assumptions about Windows being
+either TCG or HAX (not considering WHPX) that might need to be revisited.
+I added a comment there.
+
+The thing builds successfully based on Linux cross-compilations for
+windows/hax, windows/whpx, and I got a good build on Darwin/hvf.
+
+Tests run successully for tcg and kvm configurations, but did not test on
+windows or darwin.
+
+Welcome your feedback and help on this,
+
+Claudio
+
+Claudio Fontana (4):
+  softmmu: move softmmu only files from root
+  cpu-throttle: new module, extracted from cpus.c
+  cpu-timers, icount: new modules
+  cpus: extract out accel-specific code to each accel
+
+ MAINTAINERS                                  |   14 +-
+ Makefile.target                              |    7 +-
+ accel/kvm/Makefile.objs                      |    2 +
+ accel/kvm/kvm-all.c                          |   15 +-
+ accel/kvm/kvm-cpus-interface.c               |   94 ++
+ accel/kvm/kvm-cpus-interface.h               |    8 +
+ accel/qtest.c                                |   88 +-
+ accel/stubs/kvm-stub.c                       |    3 +-
+ accel/tcg/Makefile.objs                      |    1 +
+ accel/tcg/cpu-exec.c                         |   43 +-
+ accel/tcg/tcg-all.c                          |   19 +-
+ accel/tcg/tcg-cpus-interface.c               |  523 ++++++
+ accel/tcg/tcg-cpus-interface.h               |    8 +
+ accel/tcg/translate-all.c                    |    3 +-
+ cpus.c                                       | 2290 --------------------------
+ docs/replay.txt                              |    6 +-
+ exec.c                                       |    4 -
+ hw/core/cpu.c                                |    1 +
+ hw/core/ptimer.c                             |    6 +-
+ hw/i386/x86.c                                |    1 +
+ include/exec/cpu-all.h                       |    4 +
+ include/exec/exec-all.h                      |    4 +-
+ include/hw/core/cpu.h                        |   37 -
+ include/qemu/main-loop.h                     |    5 +
+ include/qemu/timer.h                         |   22 +-
+ include/sysemu/cpu-throttle.h                |   50 +
+ include/sysemu/cpu-timers.h                  |   72 +
+ include/sysemu/cpus.h                        |   44 +-
+ include/sysemu/hvf.h                         |    1 -
+ include/sysemu/hw_accel.h                    |   57 +-
+ include/sysemu/kvm.h                         |    2 +-
+ include/sysemu/qtest.h                       |    2 +
+ include/sysemu/replay.h                      |    4 +-
+ migration/migration.c                        |    1 +
+ migration/ram.c                              |    1 +
+ replay/replay.c                              |    6 +-
+ softmmu/Makefile.objs                        |   13 +
+ arch_init.c => softmmu/arch_init.c           |    0
+ balloon.c => softmmu/balloon.c               |    0
+ softmmu/cpu-throttle.c                       |  122 ++
+ softmmu/cpu-timers.c                         |  267 +++
+ softmmu/cpus.c                               |  741 +++++++++
+ softmmu/icount.c                             |  496 ++++++
+ ioport.c => softmmu/ioport.c                 |    0
+ memory.c => softmmu/memory.c                 |    0
+ memory_mapping.c => softmmu/memory_mapping.c |    0
+ qtest.c => softmmu/qtest.c                   |   34 +-
+ softmmu/timers-state.h                       |   45 +
+ softmmu/vl.c                                 |    8 +-
+ stubs/Makefile.objs                          |    4 +-
+ stubs/clock-warp.c                           |    4 +-
+ stubs/cpu-get-clock.c                        |    3 +-
+ stubs/cpu-get-icount.c                       |   21 -
+ stubs/cpu-synchronize-state.c                |   15 +
+ stubs/icount.c                               |   22 +
+ stubs/qemu-timer-notify-cb.c                 |    8 +
+ stubs/qtest.c                                |    5 +
+ target/alpha/translate.c                     |    3 +-
+ target/arm/helper.c                          |    7 +-
+ target/i386/Makefile.objs                    |    7 +-
+ target/i386/hax-all.c                        |    6 +-
+ target/i386/hax-cpus-interface.c             |   85 +
+ target/i386/hax-cpus-interface.h             |    8 +
+ target/i386/hax-i386.h                       |    2 +
+ target/i386/hax-posix.c                      |   12 +
+ target/i386/hax-windows.c                    |   20 +
+ target/i386/hvf/Makefile.objs                |    2 +-
+ target/i386/hvf/hvf-cpus-interface.c         |   92 ++
+ target/i386/hvf/hvf-cpus-interface.h         |    8 +
+ target/i386/hvf/hvf.c                        |    5 +-
+ target/i386/whpx-all.c                       |    3 +
+ target/i386/whpx-cpus-interface.c            |   96 ++
+ target/i386/whpx-cpus-interface.h            |    8 +
+ target/riscv/csr.c                           |    8 +-
+ tests/ptimer-test-stubs.c                    |    7 +-
+ tests/test-timed-average.c                   |    2 +-
+ util/main-loop.c                             |    4 +-
+ util/qemu-timer.c                            |   12 +-
+ 78 files changed, 3136 insertions(+), 2517 deletions(-)
+ create mode 100644 accel/kvm/kvm-cpus-interface.c
+ create mode 100644 accel/kvm/kvm-cpus-interface.h
+ create mode 100644 accel/tcg/tcg-cpus-interface.c
+ create mode 100644 accel/tcg/tcg-cpus-interface.h
+ delete mode 100644 cpus.c
+ create mode 100644 include/sysemu/cpu-throttle.h
+ create mode 100644 include/sysemu/cpu-timers.h
+ rename arch_init.c => softmmu/arch_init.c (100%)
+ rename balloon.c => softmmu/balloon.c (100%)
+ create mode 100644 softmmu/cpu-throttle.c
+ create mode 100644 softmmu/cpu-timers.c
+ create mode 100644 softmmu/cpus.c
+ create mode 100644 softmmu/icount.c
+ rename ioport.c => softmmu/ioport.c (100%)
+ rename memory.c => softmmu/memory.c (100%)
+ rename memory_mapping.c => softmmu/memory_mapping.c (100%)
+ rename qtest.c => softmmu/qtest.c (95%)
+ create mode 100644 softmmu/timers-state.h
+ delete mode 100644 stubs/cpu-get-icount.c
+ create mode 100644 stubs/cpu-synchronize-state.c
+ create mode 100644 stubs/icount.c
+ create mode 100644 stubs/qemu-timer-notify-cb.c
+ create mode 100644 target/i386/hax-cpus-interface.c
+ create mode 100644 target/i386/hax-cpus-interface.h
+ create mode 100644 target/i386/hvf/hvf-cpus-interface.c
+ create mode 100644 target/i386/hvf/hvf-cpus-interface.h
+ create mode 100644 target/i386/whpx-cpus-interface.c
+ create mode 100644 target/i386/whpx-cpus-interface.h
+
+-- 
+2.16.4
 
 
