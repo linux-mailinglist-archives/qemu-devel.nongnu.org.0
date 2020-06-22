@@ -2,76 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E1EB203F51
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 20:39:33 +0200 (CEST)
-Received: from localhost ([::1]:55394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E14E203F5D
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 20:42:45 +0200 (CEST)
+Received: from localhost ([::1]:36014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnRLw-0005ge-8s
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 14:39:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43370)
+	id 1jnRP2-00012z-F4
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 14:42:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43394)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jnRHJ-0005cN-Qs; Mon, 22 Jun 2020 14:34:45 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:33389)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jnRHI-00082N-94; Mon, 22 Jun 2020 14:34:45 -0400
-Received: by mail-wm1-x341.google.com with SMTP id a6so576466wmm.0;
- Mon, 22 Jun 2020 11:34:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=2ixgx95fnOdvGl5LE4YjxXF8tARef+K7gPstTccWoAA=;
- b=WZeeyFf2MH+aChgwu/H9gOEDqBPYPRspHorcMG/X2d8iUL4q0etQ9oCTymVFTWjz+C
- IDJqT5JI7x2hdLezRYrMfC8tKmCWrdfoi1G1tO+o4qGMirA9h9oGacx2Wr+r+AxJyj/Z
- i6jgZlIxCAvL3u3mREiHt7N56hxDIYdnLoSNXgjHbUBrMYu5R+Dgzw2GFEPeKzg0/JAa
- DcYWFxBEmZKSLQjhX8qtfpsAXnQC4ocS+sVSsoEpXekQSmMgCJ+Ov4hlAXJPGkFBSQ4r
- NRhZEVovfW37hd40DzjJRSaUv5OmwoJZo3f9Mg0q5CSil7A4rDVmh0f0qn/Hc5QWUxjl
- fcpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=2ixgx95fnOdvGl5LE4YjxXF8tARef+K7gPstTccWoAA=;
- b=EvBgZjSW+GNInajRo7PulT+ILdxEt/pRm1X0431w+bZCK8OzLX9yzAe+K8YWhk2bHz
- ry83hpZdjnoJ/FTT1PtjL2BtaxqAwWXPgoj055oThk4tF3VKb6+ryhUDy7zL3hUJ5ZDy
- 3oG/Xda4erSbVI2gAmpTY9ixeSyN0ebVC3LKMj8Ne92xUKaL55PuWJ5aDqpelc/FKrO+
- BmjdyGizQqbHWnbzqV9uVtRXMwYYhJNTN3vGWmlhrthZvJr24QWgYvxCPW74Ap8h6zvn
- 5nNP9AxY7yCsS83CSr0evw9Bh5z0HUYrdb0vHegZyq7f0qFAGaq9gz5jPCZq7/njar2U
- 5lPw==
-X-Gm-Message-State: AOAM532P1TwD/z81778U1xEckR6hCwvFkS9o/rnEzPBqzCG9nEGDTC2N
- n67LsasmtXwuzC2FenKfVAeqBtL+
-X-Google-Smtp-Source: ABdhPJy6fQG1B6XFuO9SOMdqc3N3Bcx8AWRS+lORlgoX8Uqb1EoVubl5OjB0kuT7pKoMf60ZK0HdNg==
-X-Received: by 2002:a1c:7414:: with SMTP id p20mr19560732wmc.124.1592850882298; 
- Mon, 22 Jun 2020 11:34:42 -0700 (PDT)
-Received: from localhost.localdomain (1.red-83-51-162.dynamicip.rima-tde.net.
- [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id h29sm20286161wrc.78.2020.06.22.11.34.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Jun 2020 11:34:41 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v5 9/9] hw/misc/pca9552: Model qdev output GPIOs
-Date: Mon, 22 Jun 2020 20:34:28 +0200
-Message-Id: <20200622183428.12255-10-f4bug@amsat.org>
-X-Mailer: git-send-email 2.21.3
-In-Reply-To: <20200622183428.12255-1-f4bug@amsat.org>
-References: <20200622183428.12255-1-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jnRHN-0005mM-Gi
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 14:34:49 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:38469
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jnRHL-00082t-Md
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 14:34:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1592850886;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1iBNQ33u515O4I6Zu5fn4mQsWTVS2wJO6XSUJuMcTCo=;
+ b=NHBkiu4DqPNCFl2iBWqACUnhI5dHuardefKKCYY3JIgFhXx/5X37Edzce0Z2wrmUQZ7u7N
+ UKsskcEnluypXr0g6k1/WPu0nv5EGjpCjaWDMzZSwbcKC8oivOvHnx1McprOSzPhKe3VRc
+ 5r9xovc4oRXgWap+vddtR8lQU2y0UaQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-31-9vR12TsrPfOWkgXydVyyew-1; Mon, 22 Jun 2020 14:34:42 -0400
+X-MC-Unique: 9vR12TsrPfOWkgXydVyyew-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2A5708005AD;
+ Mon, 22 Jun 2020 18:34:41 +0000 (UTC)
+Received: from [10.3.114.4] (ovpn-114-4.phx2.redhat.com [10.3.114.4])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 645C95D9E2;
+ Mon, 22 Jun 2020 18:34:40 +0000 (UTC)
+Subject: Re: [PATCH 1/2] qcow2: Force preallocation with data-file-raw
+To: Max Reitz <mreitz@redhat.com>, Nir Soffer <nsoffer@redhat.com>
+References: <20200619104012.235977-1-mreitz@redhat.com>
+ <20200619104012.235977-2-mreitz@redhat.com>
+ <w51eeqb9f43.fsf@maestria.local.igalia.com>
+ <9c14c622-eb30-4619-d33a-b59395a397be@redhat.com>
+ <w51r1u788gg.fsf@maestria.local.igalia.com>
+ <2d35fdff-6230-18b9-cf99-ca72be53267f@redhat.com>
+ <CAMRbyytkKjdAqH0hFiiAUEv7NeA9beC5CXx9LmBBSJd0r=5qQA@mail.gmail.com>
+ <3b4353d4-cbf1-df89-7f5f-1a1454cfe174@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <b72cf89a-7894-934d-cf0a-826579aa3089@redhat.com>
+Date: Mon, 22 Jun 2020 13:34:39 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <3b4353d4-cbf1-df89-7f5f-1a1454cfe174@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 02:57:26
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,72 +90,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Corey Minyard <cminyard@mvista.com>, Andrew Jeffery <andrew@aj.id.au>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-arm@nongnu.org, Joel Stanley <joel@jms.id.au>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The PCA9552 has 16 GPIOs which can be used as input,
-output or PWM mode. QEMU models the output GPIO with
-the qemu_irq type. Let the device expose the 16 GPIOs
-to allow us to later connect LEDs to these outputs.
+On 6/22/20 10:48 AM, Max Reitz wrote:
 
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- include/hw/misc/pca9552.h | 1 +
- hw/misc/pca9552.c         | 5 +++++
- 2 files changed, 6 insertions(+)
+>>> As I noted in my reply to myself, data-file-raw is an autoclear flag.
+>>> That means, an old version of qemu that doesn’t recognize the flag must
+>>> read the same data as a new version.  It follows that the the L2 tables
+>>> must be a 1:1 mapping.  (Or the flag can’t be an autoclear flag.)
 
-diff --git a/include/hw/misc/pca9552.h b/include/hw/misc/pca9552.h
-index bf1a589137..600356fbf9 100644
---- a/include/hw/misc/pca9552.h
-+++ b/include/hw/misc/pca9552.h
-@@ -27,6 +27,7 @@ typedef struct PCA955xState {
-     uint8_t pointer;
- 
-     uint8_t regs[PCA955X_NR_REGS];
-+    qemu_irq gpio[PCA955X_PIN_COUNT_MAX];
-     char *description; /* For debugging purpose only */
- } PCA955xState;
- 
-diff --git a/hw/misc/pca9552.c b/hw/misc/pca9552.c
-index 5997eef8b2..38c04c54dc 100644
---- a/hw/misc/pca9552.c
-+++ b/hw/misc/pca9552.c
-@@ -17,6 +17,7 @@
- #include "hw/qdev-properties.h"
- #include "hw/misc/pca9552.h"
- #include "hw/misc/pca9552_regs.h"
-+#include "hw/irq.h"
- #include "migration/vmstate.h"
- #include "qapi/error.h"
- #include "qapi/visitor.h"
-@@ -111,9 +112,11 @@ static void pca955x_update_pin_input(PCA955xState *s)
- 
-         switch (config) {
-         case PCA9552_LED_ON:
-+            qemu_set_irq(s->gpio[i], 1);
-             s->regs[input_reg] |= 1 << input_shift;
-             break;
-         case PCA9552_LED_OFF:
-+            qemu_set_irq(s->gpio[i], 0);
-             s->regs[input_reg] &= ~(1 << input_shift);
-             break;
-         case PCA9552_LED_PWM0:
-@@ -377,6 +380,8 @@ static void pca955x_realize(DeviceState *dev, Error **errp)
-     PCA955xState *s = PCA955X(dev);
- 
-     assert(k->pin_count <= PCA955X_PIN_COUNT_MAX);
-+    qdev_init_gpio_out(dev, s->gpio, k->pin_count);
-+
-     if (!s->description) {
-         s->description = g_strdup("pca-unspecified");
-     }
+Yes, that argument is the strongest I've seen for why both creation and 
+resize with a data-file-raw image should require metadata preallocation. 
+  In other words, we never want to expose different guest data merely 
+because we opened the file with an older version (the older version must 
+either see the same data [an autoclear bit is fine], or must know that 
+it cannot reliably open the image [an incompatible bit is needed]).
+
+>>
+>> Being able to read sounds like a nice to have feature, but what about writing?
+>>
+>> I hope that the image is not writable by older versions that do not understand
+>> data_file. Otherwise older qemu versions can corrupt the image silently.
+> 
+> It’s an autoclear flag.  That means such versions of qemu will
+> automatically clear the flag.
+
+Well, an older version is only required to clear the flag if it modifies 
+the image; if it opens the image read-only, it may leave the autoclear 
+flag set.  So you are more realistically guaranteed that the autoclear 
+flag is only cleared when writing to the image with a version that did 
+not understand the autoclear flag.
+
+Following that line of thought further - reopening the image under a 
+qemu that once again understands the data-file-raw flag will now see 
+that the file is no longer raw because the flag was cleared.  That is, 
+if you are expecting data-file-raw and no longer see the flag, then you 
+KNOW that the qcow2 file was modified by an older program that didn't 
+necessarily preserve the 1:1 correspondence, and it is up to you what to 
+do next (refuse to use the file, do a pass over the qcow2 file to flush 
+contents back to the raw file, or any number of other reactions...).
+
+> So autoclear flags are useful for features that are optional, but that
+> may be broken when the image is written to by versions of qemu that
+> don’t understand them.)
+
+More importantly, autoclear flags are useful for features where older 
+software can safely read the image without data loss, but where older 
+software modifying the image may lose whatever property the bit was 
+guaranteeing when interpreted correctly.
+
 -- 
-2.21.3
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
