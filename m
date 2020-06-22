@@ -2,85 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A32F203D0F
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 18:50:36 +0200 (CEST)
-Received: from localhost ([::1]:38714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4045203D1C
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 18:52:22 +0200 (CEST)
+Received: from localhost ([::1]:43236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnPeV-00066Z-A2
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 12:50:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48716)
+	id 1jnPgD-000155-Vz
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 12:52:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49612)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jnPcG-0004yc-DC
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 12:48:16 -0400
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:33874)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jnPcE-0000DD-Lj
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 12:48:15 -0400
-Received: by mail-pg1-x541.google.com with SMTP id t6so582699pgq.1
- for <qemu-devel@nongnu.org>; Mon, 22 Jun 2020 09:48:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=chQukggTmBstdzLo3UKBwExa9l0BhvgfjiYmy6JIZfU=;
- b=HaaET52vjWBIDH9iY7y2TUFZYmFNAc5N+TBtCuRqOhVkhiJrVaXojOiTA0HVPhqlUI
- fCW7Yi02jeGoghDCCwL1WbOX0R9HOK/UsLL8RQ94eURYMzDjb/bes7LMbGZK7yT1xO5T
- hMuVkX+TQnWpZfqLVYaO8HoNEeDQPsjB3r1KLzXV5a+sTCFfKCvM91n6cQA978u3AJEH
- zzE2cfD9J0MQZNN+z5yK2QoAUtzU5AeTrgFwZ+x+fAA3hIkayjMHSSRKpDQnSYcVkv2N
- QzYRAnB0f3d7VuELBEfQiAUINhgfVrjIzCVXjdpcbrEon7krV+ofUQljRYTs/lY8sXv9
- n+kg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=chQukggTmBstdzLo3UKBwExa9l0BhvgfjiYmy6JIZfU=;
- b=NqdDBvwraLD0sExg9N4xdC9BcT/RXeP4OYKnNRj6jU5jQyIRiJIdMV6XNk43trDC+b
- aqwlXv0N3QQkkODx1/D4s/crumpjG3yss1ne7KFbtrYd90A8wcE7dF6hQzlqRC13s3aj
- /1krKKTTV02utAQw14GHDjitxcn91vLbV1JtnfVCBA8A4J7l4/jPf/rTuA/JFDKRK8F3
- W3ArGKuyL3f5alxcfvwZdHKGCkx3f2Ot1VS+c//n3n6xvlygO55lGQXjbE3l9x52wyQ/
- hFkhWFDvyldsU0YI3ezvaL7VJrG8WFUIPWk9LnDvqy00x0gW7YGvDhPiAsa9xE2hDKyd
- IOvQ==
-X-Gm-Message-State: AOAM531NL82Q//+12FpsKZSeQFltMyWrFkFQxWu4arNyvXqlW3hBmpEJ
- SBBoR2G2lZK2DAMaFvVxgzHPZg==
-X-Google-Smtp-Source: ABdhPJz7+V31if5rIH4eA8VtJoq/Az6prc3umnIcaI3Z25dSj7meMozg0AG1mi1A6iuX08bpwTyT+Q==
-X-Received: by 2002:a63:ff54:: with SMTP id s20mr14239378pgk.251.1592844492393; 
- Mon, 22 Jun 2020 09:48:12 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id f191sm14016103pfa.82.2020.06.22.09.48.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Jun 2020 09:48:11 -0700 (PDT)
-Subject: Re: [PATCH v3 3/7] hw/misc/led: Emit a trace event when LED intensity
- has changed
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20200620230719.32139-1-f4bug@amsat.org>
- <20200620230719.32139-4-f4bug@amsat.org>
- <ae4a7411-7042-3530-3faf-e25368080820@linaro.org>
- <c9e3897b-c711-f59b-d400-0bd01fd320b5@amsat.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <191eaa28-7ff4-38f6-9489-612ac984f20f@linaro.org>
-Date: Mon, 22 Jun 2020 09:48:08 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jnPfL-0000W4-Ev
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 12:51:27 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:60037
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jnPfJ-0000nA-Ht
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 12:51:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1592844684;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1AeQIi4SaUy3e36krd8x9Wi0OL8VRoMUfofViO8y+7Y=;
+ b=Zz/rrCohbNG9AnIqyBY8QnOtDD4J8Fk7ChpPzWBSC2nwWR7sOMrY+wgQzOh9Z/2/fQkwLf
+ +WdB6ZxmtEwl2zKQ/PXitff9wjgNXlQ9NElXqQDtCqBCayb4HhQGYVrKh77gm7d9bTMnbt
+ SY3nzjGYMg7j78gwzw8fNcVcalVtuIs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-505-lX4ohBUQMW-U3Af1Gj5WMw-1; Mon, 22 Jun 2020 12:51:21 -0400
+X-MC-Unique: lX4ohBUQMW-U3Af1Gj5WMw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 90387EC1B5;
+ Mon, 22 Jun 2020 16:51:11 +0000 (UTC)
+Received: from gondolin (ovpn-113-56.ams2.redhat.com [10.36.113.56])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 16CE660BEC;
+ Mon, 22 Jun 2020 16:51:05 +0000 (UTC)
+Date: Mon, 22 Jun 2020 18:51:03 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Kirti Wankhede <kwankhede@nvidia.com>
+Subject: Re: [PATCH QEMU v25 16/17] vfio: Make vfio-pci device migration
+ capable
+Message-ID: <20200622185103.2e45c4fe.cohuck@redhat.com>
+In-Reply-To: <1592684486-18511-17-git-send-email-kwankhede@nvidia.com>
+References: <1592684486-18511-1-git-send-email-kwankhede@nvidia.com>
+ <1592684486-18511-17-git-send-email-kwankhede@nvidia.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-In-Reply-To: <c9e3897b-c711-f59b-d400-0bd01fd320b5@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::541;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x541.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 02:57:26
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,19 +80,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
- qemu-arm@nongnu.org, Joel Stanley <joel@jms.id.au>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Cc: cjia@nvidia.com, aik@ozlabs.ru, Zhengxiao.zx@Alibaba-inc.com,
+ shuangtai.tst@alibaba-inc.com, qemu-devel@nongnu.org, peterx@redhat.com,
+ eauger@redhat.com, yi.l.liu@intel.com, quintela@redhat.com,
+ ziye.yang@intel.com, armbru@redhat.com, mlevitsk@redhat.com,
+ pasic@linux.ibm.com, felipe@nutanix.com, zhi.a.wang@intel.com,
+ kevin.tian@intel.com, yan.y.zhao@intel.com, dgilbert@redhat.com,
+ alex.williamson@redhat.com, changpeng.liu@intel.com, eskultet@redhat.com,
+ Ken.Xue@amd.com, jonathan.davies@nutanix.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/21/20 3:25 PM, Philippe Mathieu-Daudé wrote:
-> Anyway I switched to a percent value. What is better to hold
-> it, an 'unsigned' or 'uint8_t' type?
+On Sun, 21 Jun 2020 01:51:25 +0530
+Kirti Wankhede <kwankhede@nvidia.com> wrote:
 
-Might as well use unsigned; you'll not be saving space with uint8_t.
+> If device is not failover primary device call vfio_migration_probe()
+> and vfio_migration_finalize() functions for vfio-pci device to enable
+> migration for vfio PCI device which support migration.
 
+"If the device is not a failover primary device, call
+vfio_migration_probe() and vfio_migration_finalize() to enable
+migration support for those devices that support it respectively to
+tear it down again."
 
-r~
+?
+
+> Removed vfio_pci_vmstate structure.
+> Removed migration blocker from VFIO PCI device specific structure and use
+> migration blocker from generic structure of  VFIO device.
+> 
+> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+> Reviewed-by: Neo Jia <cjia@nvidia.com>
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> ---
+>  hw/vfio/pci.c | 32 +++++++++++---------------------
+>  hw/vfio/pci.h |  1 -
+>  2 files changed, 11 insertions(+), 22 deletions(-)
+> 
+> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+> index 5ba340aee1d4..9dc2868993fb 100644
+> --- a/hw/vfio/pci.c
+> +++ b/hw/vfio/pci.c
+> @@ -2841,22 +2841,11 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
+>          return;
+>      }
+>  
+> -    if (!pdev->failover_pair_id) {
+> -        error_setg(&vdev->migration_blocker,
+> -                "VFIO device doesn't support migration");
+> -        ret = migrate_add_blocker(vdev->migration_blocker, &err);
+> -        if (ret) {
+> -            error_propagate(errp, err);
+> -            error_free(vdev->migration_blocker);
+> -            vdev->migration_blocker = NULL;
+> -            return;
+> -        }
+> -    }
+> -
+>      vdev->vbasedev.name = g_path_get_basename(vdev->vbasedev.sysfsdev);
+>      vdev->vbasedev.ops = &vfio_pci_ops;
+>      vdev->vbasedev.type = VFIO_DEVICE_TYPE_PCI;
+>      vdev->vbasedev.dev = DEVICE(vdev);
+> +    vdev->vbasedev.device_state = 0;
+>  
+>      tmp = g_strdup_printf("%s/iommu_group", vdev->vbasedev.sysfsdev);
+>      len = readlink(tmp, group_path, sizeof(group_path));
+> @@ -3120,6 +3109,14 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
+>          }
+>      }
+>  
+> +    if (!pdev->failover_pair_id) {
+> +        ret = vfio_migration_probe(&vdev->vbasedev, errp);
+> +        if (ret) {
+> +            error_report("%s: Failed to setup for migration",
+
+"%s: migration not enabled" ?
+
+(Although I wonder how often we need to moan here, given that the
+called function already prints error reports.)
+
+> +                         vdev->vbasedev.name);
+> +        }
+> +    }
+> +
+>      vfio_register_err_notifier(vdev);
+>      vfio_register_req_notifier(vdev);
+>      vfio_setup_resetfn_quirk(vdev);
+
+LGTM.
+
 
