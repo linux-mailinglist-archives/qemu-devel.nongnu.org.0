@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5378B2032FE
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 11:11:13 +0200 (CEST)
-Received: from localhost ([::1]:42738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C3EB203348
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 11:27:07 +0200 (CEST)
+Received: from localhost ([::1]:50500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnITw-0003Vi-Ee
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 05:11:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44204)
+	id 1jnIjK-0001VJ-It
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 05:27:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48678)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jnISd-0002sm-Ur
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 05:09:51 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:28752
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jnIiP-00010R-IX
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 05:26:09 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:21484
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jnISb-0006kj-Ib
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 05:09:51 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jnIiM-00016H-JM
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 05:26:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592816988;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1592817965;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zHjtREysJc4CmQKvOmx6dIBNDYuHnka3AwW0ds/rfSU=;
- b=IZMc0cueKjqLz0ob8nUhQZ04YQppTm3oVnS6f4tt49D69TYgbWWPgeoRggnq1aDnf0wR38
- hVyh6GW6l/DdOxhvk75pUTA3u0uQGfIGW56Q+/pBhQS90vjUMYc1H3hhQKqktbK+MgYVhA
- mSmG5P/EM8EsjQSO6A2mqNHnTKnwZ1I=
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=a9TmWcitpfhowxL2HDk8sG8+UEmxLvSZMw0fUfI8KDQ=;
+ b=cAU6PeE6EG5BPJy+qj8pIIOQRIRtNWWK6N6IcJ5KOcQZ3CwAAUQoiCVZtCHam/8UwRsajQ
+ seBLNyB2nxhQXwr/ojm/NQ7fvgqQMS+yBROaxfQOlUxK46sjlwG8RVP3CYlFOOaYy9DvKB
+ nszqXyVTW/EK2BcPUsO/kyQFLdcKodI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-91-oG97Q2aXO6-kmmgE-sV6nw-1; Mon, 22 Jun 2020 05:09:46 -0400
-X-MC-Unique: oG97Q2aXO6-kmmgE-sV6nw-1
+ us-mta-94-o48XHx8TMhao_eT7_plw_Q-1; Mon, 22 Jun 2020 05:25:57 -0400
+X-MC-Unique: o48XHx8TMhao_eT7_plw_Q-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 43A1683DE2E;
- Mon, 22 Jun 2020 09:09:44 +0000 (UTC)
-Received: from redhat.com (unknown [10.36.110.63])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D638C5C221;
- Mon, 22 Jun 2020 09:09:33 +0000 (UTC)
-Date: Mon, 22 Jun 2020 10:09:30 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [PATCH v3 9/9] host trust limitation: Alter virtio default
- properties for protected guests
-Message-ID: <20200622090930.GB736373@redhat.com>
-References: <20200619020602.118306-1-david@gibson.dropbear.id.au>
- <20200619020602.118306-10-david@gibson.dropbear.id.au>
- <20200619101245.GC700896@redhat.com>
- <20200619144541.GM17085@umbus.fritz.box>
- <20200619150556.GW700896@redhat.com>
- <20200620082427.GP17085@umbus.fritz.box>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F25D38005AD;
+ Mon, 22 Jun 2020 09:25:55 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-125.ams2.redhat.com [10.36.112.125])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AAC145C1BD;
+ Mon, 22 Jun 2020 09:25:51 +0000 (UTC)
+Subject: Re: make test failure for iotest 267 on qemu-system-sparc64
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ qemu-devel <qemu-devel@nongnu.org>
+References: <35510ff8-b301-a3a1-48a6-ae5864007c49@ilande.co.uk>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <d6a22c5f-2403-d6c4-da89-02e457ee0174@redhat.com>
+Date: Mon, 22 Jun 2020 11:25:49 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200620082427.GP17085@umbus.fritz.box>
-User-Agent: Mutt/1.14.0 (2020-05-02)
+In-Reply-To: <35510ff8-b301-a3a1-48a6-ae5864007c49@ilande.co.uk>
+Content-Language: en-US
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 02:57:26
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=thuth@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 01:27:42
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -73,7 +71,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,93 +84,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: pair@us.ibm.com, brijesh.singh@amd.com, frankja@linux.ibm.com,
- kvm@vger.kernel.org, mst@redhat.com, cohuck@redhat.com, david@redhat.com,
- qemu-devel@nongnu.org, dgilbert@redhat.com, pasic@linux.ibm.com,
- qemu-s390x@nongnu.org, qemu-ppc@nongnu.org, pbonzini@redhat.com,
- Richard Henderson <rth@twiddle.net>, mdroth@linux.vnet.ibm.com,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Qemu-block <qemu-block@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Jun 20, 2020 at 06:24:27PM +1000, David Gibson wrote:
-> On Fri, Jun 19, 2020 at 04:05:56PM +0100, Daniel P. Berrangé wrote:
-> > On Sat, Jun 20, 2020 at 12:45:41AM +1000, David Gibson wrote:
-> > > On Fri, Jun 19, 2020 at 11:12:45AM +0100, Daniel P. Berrangé wrote:
-> > > > On Fri, Jun 19, 2020 at 12:06:02PM +1000, David Gibson wrote:
-> > > > > The default behaviour for virtio devices is not to use the platforms normal
-> > > > > DMA paths, but instead to use the fact that it's running in a hypervisor
-> > > > > to directly access guest memory.  That doesn't work if the guest's memory
-> > > > > is protected from hypervisor access, such as with AMD's SEV or POWER's PEF.
-> > > > > 
-> > > > > So, if a host trust limitation mechanism is enabled, then apply the
-> > > > > iommu_platform=on option so it will go through normal DMA mechanisms.
-> > > > > Those will presumably have some way of marking memory as shared with the
-> > > > > hypervisor or hardware so that DMA will work.
-> > > > > 
-> > > > > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-> > > > > ---
-> > > > >  hw/core/machine.c | 11 +++++++++++
-> > > > >  1 file changed, 11 insertions(+)
-> > > > > 
-> > > > > diff --git a/hw/core/machine.c b/hw/core/machine.c
-> > > > > index a71792bc16..8dfc1bb3f8 100644
-> > > > > --- a/hw/core/machine.c
-> > > > > +++ b/hw/core/machine.c
-> > > > > @@ -28,6 +28,8 @@
-> > > > >  #include "hw/mem/nvdimm.h"
-> > > > >  #include "migration/vmstate.h"
-> > > > >  #include "exec/host-trust-limitation.h"
-> > > > > +#include "hw/virtio/virtio.h"
-> > > > > +#include "hw/virtio/virtio-pci.h"
-> > > > >  
-> > > > >  GlobalProperty hw_compat_5_0[] = {
-> > > > >      { "virtio-balloon-device", "page-poison", "false" },
-> > > > > @@ -1165,6 +1167,15 @@ void machine_run_board_init(MachineState *machine)
-> > > > >           * areas.
-> > > > >           */
-> > > > >          machine_set_mem_merge(OBJECT(machine), false, &error_abort);
-> > > > > +
-> > > > > +        /*
-> > > > > +         * Virtio devices can't count on directly accessing guest
-> > > > > +         * memory, so they need iommu_platform=on to use normal DMA
-> > > > > +         * mechanisms.  That requires disabling legacy virtio support
-> > > > > +         * for virtio pci devices
-> > > > > +         */
-> > > > > +        object_register_sugar_prop(TYPE_VIRTIO_PCI, "disable-legacy", "on");
-> > > > > +        object_register_sugar_prop(TYPE_VIRTIO_DEVICE, "iommu_platform", "on");
-> > > > >      }
-> > > > 
-> > > > Silently changing the user's request configuration like this
-> > > 
-> > > It doesn't, though.  register_sugar_prop() effectively registers a
-> > > default, so if the user has explicitly specified something, that will
-> > > take precedence.
-> > 
-> > Don't assume that the user has set "disable-legacy=off". People who want to
-> > have a transtional device are almost certainly pasing "-device virtio-blk-pci",
-> > because historical behaviour is that this is sufficient to give you a
-> > transitional device. Changing the default of disable-legacy=on has not
-> > honoured the users' requested config.
+On 07/03/2020 10.48, Mark Cave-Ayland wrote:
+> Hi all,
 > 
-> Umm.. by this argument we can never change any default, ever.  But we
-> do that routinely with new machine versions.  How is changing based on
-> a machine option different from that?
+> After a recent rebase I've started seeing iotest 267 after running "make check" on
+> qemu-system-sparc64. The diff output looks similar to this:
+> 
+> --- /home/build/src/qemu/git/qemu/tests/qemu-iotests/267.out    2020-01-22
+> 17:57:54.246650995 +0000
+> +++ /home/build/src/qemu/git/qemu/tests/qemu-iotests/267.out.bad        2020-03-07
+> 09:25:36.044451658 +0000
+> @@ -41,13 +41,7 @@
+>  Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728
+>  Testing: -drive driver=IMGFMT,file=TEST_DIR/t.IMGFMT,if=none -device
+> virtio-blk,drive=none0
+>  QEMU X.Y.Z monitor - type 'help' for more information
+> -(qemu) savevm snap0
+> -(qemu) info snapshots
+> -List of snapshots present on all disks:
+> -ID        TAG                 VM SIZE                DATE       VM CLOCK
+> ---        snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
+> -(qemu) loadvm snap0
+> -(qemu) quit
+> +(qemu) QEMU_PROG: -device virtio-blk,drive=none0: PCI: no slot/function available
+> for virtio-blk-pci, all in use or reserved
+> 
+> The error message here is because the sun4u machine PCI root (default) bus contains
+> only 2 PCI bridges and cannot have devices plugged into it directly. An example of
+> how to use virtio-blk-pci on qemu-system-sparc64 is shown at
+> https://wiki.qemu.org/Documentation/Platforms/SPARC#All_PCI_devices_are_attached_behind_one_of_the_simba_PCI_bridges.
+> 
+> It seems that all that is missing is a way to specify the bus= parameter for the
+> virtio-blk-pci device for this test to work. Can anyone suggest a suitable way to do
+> this?
 
-It isn't really different. Most of the time we get away with it and no one
-sees a problem. Some of the changes made though, do indeed break things,
-and libvirt tries to override QEMU's changes in defaults where they are
-especially at risk of causing breakage. The virtio device model is one such
-change I'd consider especially risky as there are clear guest OS driver
-support compatibility issues there, with it being a completely different
-PCI device ID & impl.
+ Hi!
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Sorry for the late reply... but better late than never:
+
+I think you likely don't want to change each and every current and
+future iotest to contain a "bus=..." parameter - that's not reasonable.
+So I see two possibilities to get "make check" working here again:
+
+1) From a user point of view, it would be great if PCI devices could be
+used on the sun4u machine also without specifying the "bus=..."
+property. Is there a way to convince QEMU to plug PCI devices in a
+different bus with free slots in case the root bus is already full? ...
+I had a quick look at the sources, but unfortunately I failed to spot
+the code that decides which PCI bus should be used in case no "bus=..."
+property has been specified, so no clue whether this is feasible or not.
+
+2) Simply change the _require_devices function in
+tests/qemu-iotests/common.rc to filter out the virtio and pci devices on
+sparc64. Something like this should do the job, I hope:
+
+diff a/tests/qemu-iotests/common.rc b/tests/qemu-iotests/common.rc
+--- a/tests/qemu-iotests/common.rc
++++ b/tests/qemu-iotests/common.rc
+@@ -788,6 +788,11 @@ _require_devices()
+ {
+     available=$($QEMU -M none -device help | \
+                 grep ^name | sed -e 's/^name "//' -e 's/".*$//')
++    case "$QEMU_PROG" in
++        *qemu-system-sparc64)
++            available=$(grep -v -i -E 'pci|virtio' <<< $available)
++            ;;
++    esac
+     for device
+     do
+         if ! echo "$available" | grep -q "$device" ; then
+
+ HTH,
+  Thomas
 
 
