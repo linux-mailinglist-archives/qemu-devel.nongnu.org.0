@@ -2,84 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CF2D203F17
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 20:24:55 +0200 (CEST)
-Received: from localhost ([::1]:47652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C5A1203F1E
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 20:27:12 +0200 (CEST)
+Received: from localhost ([::1]:55734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnR7m-00053J-AW
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 14:24:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41170)
+	id 1jnR9z-0000LN-LE
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 14:27:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jnR6M-0004BZ-9w
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 14:23:26 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:37665)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jnR6J-0006ZA-Tq
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 14:23:25 -0400
-Received: by mail-wr1-x443.google.com with SMTP id a6so15716641wrm.4
- for <qemu-devel@nongnu.org>; Mon, 22 Jun 2020 11:23:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=3V/aEamdd1N9VTaMBbiv286XoNvjhToyRxQ/Rr6dphM=;
- b=b4o0AbqshxUldZHuFqfWn2BWPhnZHS9Ae5fPwjaPpR8a2FHk/eIwCtLHaHQWGql2bL
- dgFc/TgXtyhNn1XnVyxISzGEgsynJIFcUEcyNqSIC7ooLWSBr2BQs+GgS3lKH3ERcgan
- jQg+in9Xnx1Q3Dx/VIu3tJRa/OXIfvy28agPHE6b5ZxVGHJ9B35Rfnr/8xoMkq/Ykh4o
- Skvg6CxA3Jjhbq2Hv2kcLp/wEizkh8wqFGH83p2CSFoje6JpthkBKyNCauO/TgvPDKa4
- Y7HaVjx5/7exXj502ipgOxnrWnCaZ0H2D1QUEOUaS3Rcvq/QlsiBCriKC7SaJ+E1QAHT
- nc5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=3V/aEamdd1N9VTaMBbiv286XoNvjhToyRxQ/Rr6dphM=;
- b=lrlNLVwV9pc2TyoGr3PDAl+mSMoDCbXrUjO01EtxU2x1cJG712ggJ9kxvCIDc+XaOk
- H8Zhprl+FYEYDt8gw8masA9Ahs1fol8ejeQ85Gx6kU7/UZq6YVESofrw3gMTp9Bj/yPt
- D5sNkXgUx5N8qXkjXxxu/ZHLwIMMuV2HL/W2g2anUs1XEsEx7jIej7+5BnE5iJ3cTX4D
- AUzrAAljkHViJLAHf7R5qT0drT9EDFwb+NYbWPyfHv8A6Zmw6+460ZmmuiWjdN3ZTji1
- DyYptq49DWnEuVqbFm2IbjDC20NNSNnMP2XzoDHiaR/UHeiKHB0MzanxHS/EVR47t2d1
- Bxpg==
-X-Gm-Message-State: AOAM5311unizuHLJJRkicw0DjIZnFVm5AWw4bQa2zROvhRbRQ+KFa4RI
- lmU1mtmxnZ4jerd0ibXrM3ZjVA==
-X-Google-Smtp-Source: ABdhPJwGcUecJOAimEVh/Ks7sgznKj1wsdlzKYOBuBGNkbEazZDBsH3IpumZzaZM4bIQNtSYeaUKiA==
-X-Received: by 2002:a05:6000:12c8:: with SMTP id
- l8mr21045216wrx.148.1592850202266; 
- Mon, 22 Jun 2020 11:23:22 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id u65sm482920wmg.5.2020.06.22.11.23.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Jun 2020 11:23:21 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 588B71FF7E;
- Mon, 22 Jun 2020 19:23:20 +0100 (BST)
-References: <20200622143204.12921-1-alex.bennee@linaro.org>
- <20200622143204.12921-2-alex.bennee@linaro.org>
- <9ad1234e-bbb7-9396-21e1-58041cffd847@redhat.com>
-User-agent: mu4e 1.5.3; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v1 01/18] iotests: Fix 051 output after
- qdev_init_nofail() removal
-In-reply-to: <9ad1234e-bbb7-9396-21e1-58041cffd847@redhat.com>
-Date: Mon, 22 Jun 2020 19:23:20 +0100
-Message-ID: <87d05r9cyv.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <andrzej.jakowski@linux.intel.com>)
+ id 1jnR7s-0005qT-7J; Mon, 22 Jun 2020 14:25:00 -0400
+Received: from mga09.intel.com ([134.134.136.24]:56182)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <andrzej.jakowski@linux.intel.com>)
+ id 1jnR7q-0006cw-J7; Mon, 22 Jun 2020 14:24:59 -0400
+IronPort-SDR: NQx0OrkKEqhnmN4XBLHvuLuGcIB62Ay5FCgFHvTgvi6R2zd4zcFGvMFXZtBPQgIgBLZbr5faAR
+ csYm3zXrDCuA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9660"; a="145349231"
+X-IronPort-AV: E=Sophos;i="5.75,268,1589266800"; d="scan'208";a="145349231"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Jun 2020 11:23:53 -0700
+IronPort-SDR: FUcvwp8qSJX3yR0r1yMzf4A3ovWJxMw8cjO158ZqrfZD3w21BJpcKzbIcEDmHh+WRjr4OZxJHA
+ c+YVYVGDp78w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,268,1589266800"; d="scan'208";a="300930919"
+Received: from unknown (HELO localhost.ch.intel.com) ([10.2.61.79])
+ by fmsmga004.fm.intel.com with ESMTP; 22 Jun 2020 11:23:53 -0700
+From: Andrzej Jakowski <andrzej.jakowski@linux.intel.com>
+To: kbusch@kernel.org,
+	kwolf@redhat.com,
+	mreitz@redhat.com
+Subject: [PATCH v3] nvme: allow cmb and pmr emulation on same device
+Date: Mon, 22 Jun 2020 11:25:09 -0700
+Message-Id: <20200622182511.17252-1-andrzej.jakowski@linux.intel.com>
+X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x443.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=134.134.136.24;
+ envelope-from=andrzej.jakowski@linux.intel.com; helo=mga09.intel.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 14:23:54
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,77 +64,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, Kevin Wolf <kwolf@redhat.com>,
- Thomas Huth <thuth@redhat.com>, berrange@redhat.com, "open list:Block
- layer core" <qemu-block@nongnu.org>, richard.henderson@linaro.org,
- qemu-devel@nongnu.org, f4bug@amsat.org, cota@braap.org,
- Max Reitz <mreitz@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud?= =?utf-8?Q?=C3=A9?= <philmd@redhat.com>,
- aurelien@aurel32.net
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi All, 
 
-John Snow <jsnow@redhat.com> writes:
+Resending series recently posted on mailing list related to nvme device
+extension with couple of fixes after review.
 
-> On 6/22/20 10:31 AM, Alex Benn=C3=A9e wrote:
->> From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->>=20
->> Commit 96927c744 replaced qdev_init_nofail() call by
->> isa_realize_and_unref() which has a different error
->> message. Update the test output accordingly.
->>=20
->> Gitlab CI error after merging b77b5b3dc7:
->> https://gitlab.com/qemu-project/qemu/-/jobs/597414772#L4375
->>=20
->> Reported-by: Thomas Huth <thuth@redhat.com>
->> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->> Message-Id: <20200616154949.6586-1-philmd@redhat.com>
->> ---
->>  tests/qemu-iotests/051.pc.out | 4 ++--
->>  1 file changed, 2 insertions(+), 2 deletions(-)
->>=20
->> diff --git a/tests/qemu-iotests/051.pc.out b/tests/qemu-iotests/051.pc.o=
-ut
->> index 0ea80d35f0e..da8ad871876 100644
->> --- a/tests/qemu-iotests/051.pc.out
->> +++ b/tests/qemu-iotests/051.pc.out
->> @@ -142,7 +142,7 @@ QEMU X.Y.Z monitor - type 'help' for more information
->>=20=20
->>  Testing: -drive if=3Dide
->>  QEMU X.Y.Z monitor - type 'help' for more information
->> -(qemu) QEMU_PROG: Initialization of device ide-hd failed: Device needs =
-media, but drive is empty
->> +(qemu) QEMU_PROG: Device needs media, but drive is empty
->>=20=20
->>  Testing: -drive if=3Dvirtio
->>  QEMU X.Y.Z monitor - type 'help' for more information
->> @@ -214,7 +214,7 @@ QEMU X.Y.Z monitor - type 'help' for more information
->>=20=20
->>  Testing: -drive file=3DTEST_DIR/t.qcow2,if=3Dide,readonly=3Don
->>  QEMU X.Y.Z monitor - type 'help' for more information
->> -(qemu) QEMU_PROG: Initialization of device ide-hd failed: Block node is=
- read-only
->> +(qemu) QEMU_PROG: Block node is read-only
->>=20=20
->>  Testing: -drive file=3DTEST_DIR/t.qcow2,if=3Dvirtio,readonly=3Don
->>  QEMU X.Y.Z monitor - type 'help' for more information
->>=20
->
-> Just ran into this and wrote an identical fix. The error is not in
-> 051.out so the pc-only fix appears to be fine.
->
-> Reviewed-by: John Snow <jsnow@redhat.com>
->
-> (There seem to be other problems with the CI at the moment, but the
-> failures I am seeing are not related to this, so I think it's probably fi=
-ne)
 
-It's queued via Max's tree - it's just easier to keep them in
-testing/next while I'm testing. I assume his PR will beat the eventual
-PR from this.
+This patch series does following:
+ - Fixes problem where CMBS bit was not set in controller capabilities
+   register, so support for CMB was not correctly advertised to guest.
+   This is resend of patch that has been submitted and reviewed by
+   Klaus [1]
+ - Introduces BAR4 sharing between MSI-X vectors and CMB. This allows
+   to have CMB and PMR emulated on the same device. This extension
+   was indicated by Keith [2]
 
---=20
-Alex Benn=C3=A9e
+v3:
+ - Code style fixes including: removal of spurious line break, moving
+   define into define section and code alignment (Klaus [4])
+ - Removed unintended code reintroduction (Klaus [4])
+
+v2:
+ - rebase on Kevin's latest block branch (Klaus [3])
+ - improved comments section (Klaus [3])
+ - simplified calculation of BAR4 size (Klaus [3])
+
+v1:
+ - initial push of the patch
+
+[1]: https://lore.kernel.org/qemu-devel/20200408055607.g2ii7gwqbnv6cd3w@apples.localdomain/
+[2]: https://lore.kernel.org/qemu-devel/20200330165518.GA8234@redsun51.ssa.fujisawa.hgst.com/
+[3]: https://lore.kernel.org/qemu-devel/20200605181043.28782-1-andrzej.jakowski@linux.intel.com/
+[4]: https://lore.kernel.org/qemu-devel/20200618092524.posxi5mysb3jjtpn@apples.localdomain/
+
+
 
