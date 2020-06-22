@@ -2,59 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5766203AA9
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 17:20:47 +0200 (CEST)
-Received: from localhost ([::1]:52314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24219203AB0
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 17:23:07 +0200 (CEST)
+Received: from localhost ([::1]:33558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnOFa-0006sB-TS
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 11:20:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51078)
+	id 1jnOHq-0002Vg-5C
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 11:23:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jnO7B-0000sH-Mh
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 11:12:07 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:44641
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jnO7K-0000y5-TG
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 11:12:14 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27852
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jnO77-00064h-7M
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 11:12:03 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jnO7I-00066M-9s
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 11:12:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592838720;
+ s=mimecast20190719; t=1592838731;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=alcfv40yDu5l+TeiP/ficXJ4JagMjki+6RyJy7EZT5o=;
- b=M5VIWqNCnpyrzErSUUTizV8Y9h2/IQIy+L3JewiLA85NTHBY+mhbvZfGK5TXGmFaZUnQHb
- T7ZFEXpMuEWN7k+brM+rVCdFxHEne/AT5FMm5GEgc6QOG0Cmqwt0dVyLeSDGfPpaUZeUTl
- ANQsUz5/I/cunHZbgpmFXulAurytEyE=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=BNvSGC9nTqGGUEXPC0RjFmoV3QN006CFzuU+WpDEcQc=;
+ b=cWjYTA3UOUbqoSjTDmI9R7TyksS35lhHJ7v02/MMKS3wyoHi740Ns8jClBmyHt/NyYY0M6
+ o03Gq8yrxghORpodi9izduMqOX6KRV0aqkFmwwusqZ+HVPx74B/cb/oDYMogDrZgORdaB1
+ xDs8BRBquDvPCjbsx/fzpEuWWNFw9EI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-426-cyQi7yJiPE2F0-OJmSl37w-1; Mon, 22 Jun 2020 11:11:46 -0400
-X-MC-Unique: cyQi7yJiPE2F0-OJmSl37w-1
+ us-mta-454-wjSteQknO2OK6vy50U3u1A-1; Mon, 22 Jun 2020 11:12:10 -0400
+X-MC-Unique: wjSteQknO2OK6vy50U3u1A-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 74DD21B18BFA;
- Mon, 22 Jun 2020 15:11:45 +0000 (UTC)
-Received: from localhost (ovpn-114-85.ams2.redhat.com [10.36.114.85])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7386B7168B;
- Mon, 22 Jun 2020 15:11:44 +0000 (UTC)
-From: Max Reitz <mreitz@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 04A52A0BEB;
+ Mon, 22 Jun 2020 15:12:09 +0000 (UTC)
+Received: from linux.fritz.box.com (ovpn-113-179.ams2.redhat.com
+ [10.36.113.179])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5775471676;
+ Mon, 22 Jun 2020 15:12:07 +0000 (UTC)
+From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 18/18] iotests: don't test qcow2.py inside 291
-Date: Mon, 22 Jun 2020 17:10:59 +0200
-Message-Id: <20200622151059.921191-19-mreitz@redhat.com>
-In-Reply-To: <20200622151059.921191-1-mreitz@redhat.com>
-References: <20200622151059.921191-1-mreitz@redhat.com>
+Subject: [PATCH] qemu-img convert: Don't pre-zero images
+Date: Mon, 22 Jun 2020 17:12:03 +0200
+Message-Id: <20200622151203.35624-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=mreitz@redhat.com;
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=kwolf@redhat.com;
  helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 01:27:42
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -64,7 +62,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,104 +75,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: kwolf@redhat.com, pl@kamp.de, qemu-devel@nongnu.org, mreitz@redhat.com,
+ nsoffer@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Since commit 5a37b60a61c, qemu-img create will pre-zero the target image
+if it isn't already zero-initialised (most importantly, for host block
+devices, but also iscsi etc.), so that writing explicit zeros wouldn't
+be necessary later.
 
-820c6bee534ec3b added testing of qcow2.py into 291, and it breaks 291
-with external data file. Actually, 291 is bad place for qcow2.py
-testing, better add a separate test.
+This could speed up the operation significantly, in particular when the
+source image file was only sparsely populated. However, it also means
+that some block are written twice: Once when pre-zeroing them, and then
+when they are overwritten with actual data. On a full image, the
+pre-zeroing is wasted work because everything will be overwritten.
 
-For now, drop qcow2.py testing from 291 to fix the regression.
+In practice, write_zeroes typically turns out faster than writing
+explicit zero buffers, but slow enough that first zeroing everything and
+then overwriting parts can be a significant net loss.
 
-Fixes: 820c6bee534ec3b
-Reported-by: Max Reitz <mreitz@redhat.com>
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-Id: <20200618154052.8629-1-vsementsov@virtuozzo.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Signed-off-by: Max Reitz <mreitz@redhat.com>
+Meanwhile, qemu-img convert was rewritten in 690c7301600 and zero blocks
+are now written to the target using bdrv_co_pwrite_zeroes() if the
+target could be pre-zeroed. This way we already make use of the faster
+write_zeroes operation, but avoid writing any blocks twice.
+
+Remove the pre-zeroing because these days this former optimisation has
+actually turned into a pessimisation in the common case.
+
+Reported-by: Nir Soffer <nsoffer@redhat.com>
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- tests/qemu-iotests/291     |  4 ----
- tests/qemu-iotests/291.out | 33 ---------------------------------
- 2 files changed, 37 deletions(-)
+ qemu-img.c | 9 ---------
+ 1 file changed, 9 deletions(-)
 
-diff --git a/tests/qemu-iotests/291 b/tests/qemu-iotests/291
-index 28e4fb9b4d..1e0bb76959 100755
---- a/tests/qemu-iotests/291
-+++ b/tests/qemu-iotests/291
-@@ -64,8 +64,6 @@ $QEMU_IO -c 'w 1M 1M' -f $IMGFMT "$TEST_IMG" | _filter_qemu_io
- $QEMU_IMG bitmap --disable -f $IMGFMT "$TEST_IMG" b1
- $QEMU_IMG bitmap --enable -f $IMGFMT "$TEST_IMG" b2
- $QEMU_IO -c 'w 2M 1M' -f $IMGFMT "$TEST_IMG" | _filter_qemu_io
--echo "Check resulting qcow2 header extensions:"
--$PYTHON qcow2.py "$TEST_IMG" dump-header-exts
+diff --git a/qemu-img.c b/qemu-img.c
+index d7e846e607..bdb9f6aa46 100644
+--- a/qemu-img.c
++++ b/qemu-img.c
+@@ -2084,15 +2084,6 @@ static int convert_do_copy(ImgConvertState *s)
+         s->has_zero_init = bdrv_has_zero_init(blk_bs(s->target));
+     }
  
- echo
- echo "=== Bitmap preservation not possible to non-qcow2 ==="
-@@ -92,8 +90,6 @@ $QEMU_IMG bitmap --merge tmp -f $IMGFMT "$TEST_IMG" b0
- $QEMU_IMG bitmap --remove --image-opts \
-     driver=$IMGFMT,file.driver=file,file.filename="$TEST_IMG" tmp
- _img_info --format-specific
--echo "Check resulting qcow2 header extensions:"
--$PYTHON qcow2.py "$TEST_IMG" dump-header-exts
- 
- echo
- echo "=== Check bitmap contents ==="
-diff --git a/tests/qemu-iotests/291.out b/tests/qemu-iotests/291.out
-index 08bfaaaa6b..9f661515b4 100644
---- a/tests/qemu-iotests/291.out
-+++ b/tests/qemu-iotests/291.out
-@@ -14,25 +14,6 @@ wrote 1048576/1048576 bytes at offset 1048576
- 1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- wrote 1048576/1048576 bytes at offset 2097152
- 1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
--Check resulting qcow2 header extensions:
--Header extension:
--magic                     0xe2792aca (Backing format)
--length                    5
--data                      'qcow2'
+-    if (!s->has_zero_init && !s->target_has_backing &&
+-        bdrv_can_write_zeroes_with_unmap(blk_bs(s->target)))
+-    {
+-        ret = blk_make_zero(s->target, BDRV_REQ_MAY_UNMAP | BDRV_REQ_NO_FALLBACK);
+-        if (ret == 0) {
+-            s->has_zero_init = true;
+-        }
+-    }
 -
--Header extension:
--magic                     0x6803f857 (Feature table)
--length                    336
--data                      <binary>
--
--Header extension:
--magic                     0x23852875 (Bitmaps)
--length                    24
--nb_bitmaps                2
--reserved32                0
--bitmap_directory_size     0x40
--bitmap_directory_offset   0x510000
--
- 
- === Bitmap preservation not possible to non-qcow2 ===
- 
-@@ -84,20 +65,6 @@ Format specific information:
-             granularity: 65536
-     refcount bits: 16
-     corrupt: false
--Check resulting qcow2 header extensions:
--Header extension:
--magic                     0x6803f857 (Feature table)
--length                    336
--data                      <binary>
--
--Header extension:
--magic                     0x23852875 (Bitmaps)
--length                    24
--nb_bitmaps                3
--reserved32                0
--bitmap_directory_size     0x60
--bitmap_directory_offset   0x520000
--
- 
- === Check bitmap contents ===
- 
+     /* Allocate buffer for copied data. For compressed images, only one cluster
+      * can be copied at a time. */
+     if (s->compressed) {
 -- 
-2.26.2
+2.25.4
 
 
