@@ -2,83 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBD502032DA
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 11:06:49 +0200 (CEST)
-Received: from localhost ([::1]:36716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A98F203336
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 11:21:54 +0200 (CEST)
+Received: from localhost ([::1]:47976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnIPg-0000QL-Rv
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 05:06:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42548)
+	id 1jnIeG-00089N-JS
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 05:21:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jnIOA-0007IW-0Z
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 05:05:14 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:49698
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jnIO8-0005uQ-51
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 05:05:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592816710;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=bKwOL50KRik/CawZkBbFc7g5lKF23F2NVueIQNZH9YA=;
- b=g1hu61+CxnRUjGIMOZbgvBkNz1+DYz0HYKVBVQxWWlNLOFiIEwC67ibTwJqVJMIaXrrYnN
- YBfBCpa8TBv92N+6FEMmNrIXaZnNU+Sx+JPC5arM1+WbXSFEJK/hWU9AsAN7akcb853UO8
- k5gSpDF6CqyYYxIZZSgZHDzOge0tuXI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-47-WYJBiooBNX-9lIN9GOXLrg-1; Mon, 22 Jun 2020 05:05:09 -0400
-X-MC-Unique: WYJBiooBNX-9lIN9GOXLrg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C104D107ACCD;
- Mon, 22 Jun 2020 09:05:07 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-67.ams2.redhat.com
- [10.36.112.67])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 77E2D7C204;
- Mon, 22 Jun 2020 09:05:07 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 6DB9117477; Mon, 22 Jun 2020 11:05:06 +0200 (CEST)
-Date: Mon, 22 Jun 2020 11:05:06 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Geoffrey McRae <geoff@hostfission.com>
-Subject: Re: [PATCH 5/6] audio/jack: honour the enable state of the audio
- device
-Message-ID: <20200622090506.tmq7a4hig5whrf6c@sirius.home.kraxel.org>
-References: <20200613040518.38172-1-geoff@hostfission.com>
- <20200613040518.38172-6-geoff@hostfission.com>
- <20200617124406.7dgne73ttfhgkj3x@sirius.home.kraxel.org>
- <a08a08cc6735d2fb2ba07145befc64c3@hostfission.com>
- <20200619092924.wjvegwpfrpaq6adz@sirius.home.kraxel.org>
- <649d66d244d7fdc8375464f91a7b254c@hostfission.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jnIdG-0007iy-VZ
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 05:20:50 -0400
+Received: from indium.canonical.com ([91.189.90.7]:40638)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jnIdE-0000DF-Gf
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 05:20:50 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jnId8-00009V-HP
+ for <qemu-devel@nongnu.org>; Mon, 22 Jun 2020 09:20:42 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 81C1C2E806B
+ for <qemu-devel@nongnu.org>; Mon, 22 Jun 2020 09:20:42 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <649d66d244d7fdc8375464f91a7b254c@hostfission.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=kraxel@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 02:57:26
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 22 Jun 2020 09:08:50 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1884507@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: philmd
+X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+Message-Id: <159281693063.26203.17684483283242220275.malonedeb@gac.canonical.com>
+Subject: [Bug 1884507] [NEW] 'none' machine should use 'none' display option
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="1cbd0aa39df153c901321817f9b57cf3f232b507";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 94cf5c4af4f5a31eb55b516107def759f6364255
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 03:50:56
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -87,24 +72,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Reply-To: Bug 1884507 <1884507@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Jun 21, 2020 at 02:06:25PM +1000, Geoffrey McRae wrote:
-> 
-> > Can you stop the stream without closing the connection?
-> 
-> Not as far as I can tell, it seems the JACK API doesn't allow for this in a
-> way that is useful to us.
+Public bug reported:
 
-What happens if you don't feed data to jack?  The cracking you hear on
-reboots etc. sounds like jack might reuses the buffers in that case.
+As the 'none' machine doesn't have any peripheral (except CPU cores)
+it is pointless to start a display. =
 
-So, maybe you can stop sending data to jack when all buffers are already
-filled with silence?
 
-take care,
-  Gerd
+'-M none' should imply '-display none'.
 
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1884507
+
+Title:
+  'none' machine should use 'none' display option
+
+Status in QEMU:
+  New
+
+Bug description:
+  As the 'none' machine doesn't have any peripheral (except CPU cores)
+  it is pointless to start a display. =
+
+
+  '-M none' should imply '-display none'.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1884507/+subscriptions
 
