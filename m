@@ -2,88 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A90A82030C6
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 09:46:16 +0200 (CEST)
-Received: from localhost ([::1]:40032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A58B2030CB
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 09:48:16 +0200 (CEST)
+Received: from localhost ([::1]:48420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnH9j-0007wp-0n
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 03:46:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52430)
+	id 1jnHBf-000342-Fo
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 03:48:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1jnH6Z-0002v4-9K; Mon, 22 Jun 2020 03:42:59 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:1266)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1jnH6W-0001vf-RV; Mon, 22 Jun 2020 03:42:58 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 05M7X9SS114297; Mon, 22 Jun 2020 03:42:55 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 31ss0hay16-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 22 Jun 2020 03:42:55 -0400
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 05M7XKgV115497;
- Mon, 22 Jun 2020 03:42:55 -0400
-Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.108])
- by mx0a-001b2d01.pphosted.com with ESMTP id 31ss0hay0m-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 22 Jun 2020 03:42:54 -0400
-Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
- by ppma05fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 05M7gc2L009873;
- Mon, 22 Jun 2020 07:42:53 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma05fra.de.ibm.com with ESMTP id 31sa37s5g9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 22 Jun 2020 07:42:53 +0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 05M7goBX8651068
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 22 Jun 2020 07:42:50 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C3BDBA405C;
- Mon, 22 Jun 2020 07:42:50 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 13B57A405F;
- Mon, 22 Jun 2020 07:42:50 +0000 (GMT)
-Received: from linux01.pok.stglabs.ibm.com (unknown [9.114.17.81])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Mon, 22 Jun 2020 07:42:49 +0000 (GMT)
-From: Janosch Frank <frankja@linux.ibm.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v4 9/9] pc-bios: s390x: Make u32 ptr check explicit
-Date: Mon, 22 Jun 2020 03:42:35 -0400
-Message-Id: <20200622074235.32528-10-frankja@linux.ibm.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200622074235.32528-1-frankja@linux.ibm.com>
-References: <20200622074235.32528-1-frankja@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <dovgaluk@ispras.ru>)
+ id 1jnH7h-0005dK-8e
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 03:44:09 -0400
+Received: from mail.ispras.ru ([83.149.199.84]:49902)
+ by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dovgaluk@ispras.ru>)
+ id 1jnH7e-00028k-FF
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 03:44:08 -0400
+Received: from [192.168.0.183] (unknown [62.118.151.149])
+ by mail.ispras.ru (Postfix) with ESMTPSA id 4721340A632F;
+ Mon, 22 Jun 2020 07:44:03 +0000 (UTC)
+Subject: Re: [PATCH v3 00/11] Record/replay acceptance tests
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Pavel Dovgalyuk <Pavel.Dovgaluk@gmail.com>, qemu-devel@nongnu.org
+References: <159073587336.20809.5404476664125786279.stgit@pasha-ThinkPad-X280>
+ <540831cc-c5b0-cf10-6889-bab499729a53@redhat.com>
+ <343df8f4-9d26-bfce-a714-2d06940a2586@redhat.com>
+From: Pavel Dovgalyuk <dovgaluk@ispras.ru>
+Message-ID: <ec069b0d-e44b-f083-90e8-503f423488b2@ispras.ru>
+Date: Mon, 22 Jun 2020 10:44:03 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
+In-Reply-To: <343df8f4-9d26-bfce-a714-2d06940a2586@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.687
- definitions=2020-06-22_02:2020-06-22,
- 2020-06-22 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 spamscore=0
- adultscore=0 suspectscore=1 priorityscore=1501 cotscore=-2147483648
- phishscore=0 malwarescore=0 lowpriorityscore=0 mlxscore=0 clxscore=1015
- mlxlogscore=615 impostorscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2004280000 definitions=main-2006220052
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=frankja@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 02:20:35
-X-ACL-Warn: Detected OS   = Linux 3.x [generic]
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Received-SPF: pass client-ip=83.149.199.84; envelope-from=dovgaluk@ispras.ru;
+ helo=mail.ispras.ru
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 03:17:28
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,36 +59,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, cohuck@redhat.com,
- thuth@redhat.com, david@redhat.com
+Cc: pbonzini@redhat.com, alex.bennee@linaro.org, ehabkost@redhat.com,
+ wrampazz@redhat.com, crosa@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let's make it a bit more clear that we check the full 64 bits to fit
-into the 32 we return.
+On 21.06.2020 02:36, Philippe Mathieu-Daudé wrote:
+> Hi Pavel,
+> 
+> On 5/31/20 5:09 PM, Philippe Mathieu-Daudé wrote:
+>> On 5/29/20 9:04 AM, Pavel Dovgalyuk wrote:
+>>> The following series adds record/replay tests to the acceptance group.
+>>> Test pass successfully with the latest submitted record/replay fixes:
+>>>   - replay: notify the main loop when there are no instructions
+>>>   - replay: synchronize on every virtual timer callback
+>>>
+>>> The provided tests perform kernel boot and disk image boot scenarios.
+>>> For all of them recording and replaying phases are executed.
+>>> Tests were borrowed from existing boot_linux*.py tests. But some
+>>> of the platforms and images were excluded, because icount for them
+>>> still has some issues.
+>>>
+>>> Tested-by: Philippe Mathieu-Daude <philmd@redhat.com>
+>>>
+>>> v3 changes:
+>>>   - Added record/replay logging (suggested by Philippe Mathieu-Daudé)
+>>>   - Changed the console pattern to get longer kernel execution (suggested by Alex Bennée)
+>>>   - Coding style fixes
+>>>   - Other minor changes
+>>> v2 changes:
+>>>   - Some test structure refactoring (suggested by Willian Rampazzo)
+>>>
+>>> ---
+>>>
+>>> Pavel Dovgaluk (11):
+>>>        tests/acceptance: allow console interaction with specific VMs
+>>>        tests/acceptance: refactor boot_linux_console test to allow code reuse
+>>>        tests/acceptance: add base class record/replay kernel tests
+>>>        tests/acceptance: add kernel record/replay test for x86_64
+>>>        tests/acceptance: add record/replay test for aarch64
+>>>        tests/acceptance: add record/replay test for arm
+>>>        tests/acceptance: add record/replay test for ppc64
+>>>        tests/acceptance: add record/replay test for m68k
+> 
+> You forgot to Cc the maintainers for each target/machine tested.
+> 
+> Anyway this series has been on the list for 3 weeks, so I'm
+> queuing it for next acceptance-testing pull request.
+> 
+> Since the x86 tests generate some timeout errors on Travis-CI,
 
-Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
-Suggested-by: David Hildenbrand <david@redhat.com>
-Reviewed-by: David Hildenbrand <david@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
----
- pc-bios/s390-ccw/helper.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Errors occur with the commits that were not queued yet?
 
-diff --git a/pc-bios/s390-ccw/helper.h b/pc-bios/s390-ccw/helper.h
-index 32a453b634..dfcfea0ff0 100644
---- a/pc-bios/s390-ccw/helper.h
-+++ b/pc-bios/s390-ccw/helper.h
-@@ -19,7 +19,7 @@
- /* Avoids compiler warnings when casting a pointer to a u32 */
- static inline uint32_t ptr2u32(void *ptr)
- {
--    IPL_assert((uint64_t)ptr <= 0xffffffff, "ptr2u32: ptr too large");
-+    IPL_assert((uint64_t)ptr <= 0xffffffffull, "ptr2u32: ptr too large");
-     return (uint32_t)(uint64_t)ptr;
- }
- 
--- 
-2.25.1
+> I squashed the following changes:
+> 
+> -- >8 --
+> diff --git a/tests/acceptance/replay_kernel.py
+> b/tests/acceptance/replay_kernel.py
+> index a25eb3d3ee..8fa6b517c5 100644
+> --- a/tests/acceptance/replay_kernel.py
+> +++ b/tests/acceptance/replay_kernel.py
+> @@ -12,6 +12,7 @@
+>   import logging
+>   import time
+> 
+> +from avocado import skipIf
+>   from avocado_qemu import wait_for_console_pattern
+>   from avocado.utils import archive
+>   from avocado.utils import process
+> @@ -72,6 +73,7 @@ def run_rr(self, kernel_path, kernel_command_line,
+> console_pattern,
+>           logger = logging.getLogger('replay')
+>           logger.info('replay overhead {:.2%}'.format(t2 / t1 - 1))
+> 
+> +    @skipIf(os.getenv('CONTINUOUS_INTEGRATION'), 'Running on Travis-CI')
+>       def test_x86_64_pc(self):
+>           """
+>           :avocado: tags=arch:x86_64
+> diff --git a/tests/acceptance/replay_linux.py
+> b/tests/acceptance/replay_linux.py
+> index 472ab730cd..8e43e282a7 100644
+> --- a/tests/acceptance/replay_linux.py
+> +++ b/tests/acceptance/replay_linux.py
+> @@ -12,6 +12,7 @@
+>   import logging
+>   import time
+> 
+> +from avocado import skipIf
+>   from avocado.utils import cloudinit
+>   from avocado.utils import datadrainer
+>   from avocado.utils import network
+> @@ -92,6 +93,7 @@ def run_rr(self, args=None, shift=7):
+>           logger = logging.getLogger('replay')
+>           logger.info('replay overhead {:.2%}'.format(t2 / t1 - 1))
+> 
+> +@skipIf(os.getenv('CONTINUOUS_INTEGRATION'), 'Running on Travis-CI')
+>   class ReplayLinuxX8664(ReplayLinux):
+>       """
+>       :avocado: tags=arch:x86_64
+> ---
+> 
+> Regards,
+> 
+> Phil.
+> 
+>>>        tests/acceptance: record/replay tests with advcal images
+>>>        tests/acceptance: refactor boot_linux to allow code reuse
+>>>        tests/acceptance: Linux boot test for record/replay
+>>
+>> Thanks, patches 1/2/10 applied to my python-next tree:
+>> https://gitlab.com/philmd/qemu/commits/python-next
+>>
+>> - tests/acceptance: allow console interaction with specific VMs
+>> - tests/acceptance: refactor boot_linux_console test to allow code reuse
+>> - tests/acceptance: refactor boot_linux to allow code reuse
+>>
+> 
 
 
