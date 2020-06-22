@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 469652039AB
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 16:37:04 +0200 (CEST)
-Received: from localhost ([::1]:59556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73A44203A00
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 16:52:04 +0200 (CEST)
+Received: from localhost ([::1]:55386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnNZH-0003uH-7H
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 10:37:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40104)
+	id 1jnNnn-0003e6-II
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 10:52:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jnNUr-00076I-2y
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 10:32:29 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:39469)
+ id 1jnNZk-00061J-7g
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 10:37:32 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:36332)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jnNUn-0005gr-E0
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 10:32:28 -0400
-Received: by mail-wm1-x343.google.com with SMTP id t194so15955641wmt.4
- for <qemu-devel@nongnu.org>; Mon, 22 Jun 2020 07:32:24 -0700 (PDT)
+ id 1jnNZh-0006a8-RG
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 10:37:31 -0400
+Received: by mail-wm1-x333.google.com with SMTP id 17so1410850wmo.1
+ for <qemu-devel@nongnu.org>; Mon, 22 Jun 2020 07:37:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Teb5CYlwDix3ktwKyP7XUM4qHJXbLvwhht+HlFFEsmI=;
- b=DnrJMFhspYGXqHtI5Oie2h43khYDeSShJ/ASj99kqUXnXBX/cETlxetXcgj17nod5w
- is1QW8XeORvhV7Gnm1RFLLxqZmCOKOjmkjvo8SesnixHQ7YDGLaQPcFsb0i+/2ksIyxF
- 9Rd6/q2HV3GoKtFhMB51vHWUm6US0MWXIwE8eSmvXedED4YNzNoIs2micQ96zEgDYnKz
- f75DpgBryD4TRqBJYgRO58b78QG0IoEZxIluiLRCcKdEr0FU4AjPOAGQIkFXYshPB762
- OThE1n2uRBFKYmewvkxbRIABrXpFJiOUjaHt2mbqpfY4tcpGbj6Y9AVrdbcHKn6EULU1
- oFCA==
+ bh=kpO6jorqg4gFYmKvuQF8bVTYfoSxIW2vkh7ytMeEuyk=;
+ b=rK0ik3peQ8vYDiJvOQixOTa6eSoI47JBg277LPIRPimM9dnIEzuHvdb97m9kkNK4+J
+ BZqEGhD/2xQvsthTGuHxTYPmssYHb213SIHaF8gutSFE1RzHuLj8bX2LNdU2VtEBhcRS
+ 7tFWzTTQ1Wj79dydAE+7oXghK/jwqyNmQ9VBL53/xVHTB8+ZyYRcV4CSDwPmCDX83cvF
+ MjHTl/XsDhhK5E3rgE48W1Z2rKfQK3w486vuZtkV43jddT4pLVEjGD5g0fa+RqhOnmNy
+ vutLqoSYlrjAm8ZM9QZ4wvGSq9a+snSgdb4pkyMoHcTZu7oxnh8JasiEdocKtJmK4QXA
+ sEFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Teb5CYlwDix3ktwKyP7XUM4qHJXbLvwhht+HlFFEsmI=;
- b=IE/7X07olQT2grONZu8kVwBl/LSrZSP1GKMxBst3vwTeJc1DjauSSZaIWVCSa4Maci
- ZoVaVmlrzkgKW1fbZ8Sy4zoxtABbXZvdIA16uSAGySpKszfaio3pUImL0n4uWu7XluLI
- G/cLHa9gRLhEEf6knN7edNOLFzqx8Mi4R/r0ZVEfClKX6A8KqFACyEnMiam9VUtz8cbp
- xGmmztI3/CXesnr7m6XdwhAleRwt5LXSGy3Ah3zG29grnV2mlwMaBAGiv9Ps8Mt4KqJ8
- 0tXy9lwf9n6dt4jdRrirwnwPuvtcNrveXff6P4j6WewqsdYBWUglVLkejBBV153w2yyF
- dWVQ==
-X-Gm-Message-State: AOAM533l5ZVVfdwbILO1rsXujRYt73AdhsRuYsgVI6zbAz62Ssq2cp+g
- P8Zui6Mmje9cETOPCqy1kvPFOg==
-X-Google-Smtp-Source: ABdhPJysydiwd6tjoielmDCg1a4a67BVX+PqahCMbJtcL9ALpttJRLjEWEOtHR8mGQ+XmbptiQgfyw==
-X-Received: by 2002:a1c:2485:: with SMTP id
- k127mr16136950wmk.138.1592836343981; 
- Mon, 22 Jun 2020 07:32:23 -0700 (PDT)
+ bh=kpO6jorqg4gFYmKvuQF8bVTYfoSxIW2vkh7ytMeEuyk=;
+ b=MA5JnXHtPeknz4jmTrPpYaeQ7u1ggpcNtNn6rnTOqhOZ6RLI4XkAsyCJZhg+gA8UyE
+ uneMU+dU7R9WHwH7xY4Mc7yzUq937abC+zaJn3CVriqfOTGlRseUd1E8YJwjP5FWIeL8
+ /K3I+fcpqXfp27yzd9QorlWSGGA5IgkEnP9eFaPL6OHzlCrqpxzZpCJCaofbLqctz1zv
+ chaaEho8g7n1mSgcqE3UDhNgbciH9Pf0uHeaORWOEyWa9z28n/5tsYUhAcN3Dse0J28l
+ q+5dYIsjS9gQ+1ITJckqvOsORWikCIseyu6JR275+FHwcN1HspBu641EKWyDDAKMh9lq
+ kDYA==
+X-Gm-Message-State: AOAM533M5duMzBi2uhrdyHhpxMd0sSGYVmid1y+kynYFZ+kPY2sBCwdy
+ /Hs9hqBe9NFpfuhLb2lUmkx0zA==
+X-Google-Smtp-Source: ABdhPJyYz9E6Vk3PxbiNHnGQaHsdAz75ABnNjB0a/SH3bbQ2MXRZlXZDVZgirsO/O7Xd0roCMi9SnQ==
+X-Received: by 2002:a1c:f203:: with SMTP id s3mr16955752wmc.126.1592836648326; 
+ Mon, 22 Jun 2020 07:37:28 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id 104sm18668728wrl.25.2020.06.22.07.32.12
+ by smtp.gmail.com with ESMTPSA id 138sm17498376wma.23.2020.06.22.07.37.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Jun 2020 07:32:20 -0700 (PDT)
+ Mon, 22 Jun 2020 07:37:25 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 204E31FF9D;
+ by zen.linaroharston (Postfix) with ESMTP id 36FFC1FF9E;
  Mon, 22 Jun 2020 15:32:06 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 14/18] .gitignore: un-ignore .gitlab-ci.d
-Date: Mon, 22 Jun 2020 15:32:00 +0100
-Message-Id: <20200622143204.12921-15-alex.bennee@linaro.org>
+Subject: [PATCH  v1 15/18] .gitlab: add acceptance testing to system builds
+Date: Mon, 22 Jun 2020 15:32:01 +0100
+Message-Id: <20200622143204.12921-16-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200622143204.12921-1-alex.bennee@linaro.org>
 References: <20200622143204.12921-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x343.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,34 +88,220 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com,
+Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- richard.henderson@linaro.org, f4bug@amsat.org, cota@braap.org,
+ richard.henderson@linaro.org, f4bug@amsat.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>, cota@braap.org,
  aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The sooner we deprecate in-tree builds the sooner this mess of regexes
-can be thrown away.
+As part of migrating things from Travis to GitLab add the acceptance
+tests. To do this:
+
+  - split system1 into ubuntu-main and debian-alt
+  - use artifacts to save build stage
+  - rename system2 to fedora-misc
+  - split into build/check/acceptance
+  - remove -j from check stages
+  - add packages needed for acceptance
+  - add post acceptance template and use
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- .gitignore | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .gitlab-ci.yml | 122 ++++++++++++++++++++++++++++++++++++++++++++++---
+ .travis.yml    |  23 ----------
+ 2 files changed, 115 insertions(+), 30 deletions(-)
 
-diff --git a/.gitignore b/.gitignore
-index 90acb4347d4..9016ee0a0b4 100644
---- a/.gitignore
-+++ b/.gitignore
-@@ -92,7 +92,7 @@
- *.toc
- *.tp
- *.vr
--*.d
-+!\.*.d
- !/scripts/qemu-guest-agent/fsfreeze-hook.d
- *.o
- .sdk
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index 349c77aa580..fc3a561d9bc 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -1,3 +1,15 @@
++#
++# Currently we have two build stages:
++#  - build (for traditional build and test or first stage build)
++#  - test (for test stages, using build artefacts from a build stage)
++stages:
++  - build
++  - test
++
++variables:
++  BASE_CONFIG: "--disable-docs"
++  MAIN_SOFTMMU_TARGETS: "aarch64-softmmu,mips64-softmmu,ppc64-softmmu,riscv64-softmmu,s390x-softmmu,x86_64-softmmu"
++
+ include:
+   - local: '/.gitlab-ci.d/edk2.yml'
+   - local: '/.gitlab-ci.d/opensbi.yml'
+@@ -16,22 +28,93 @@ include:
+         make python3 perl-podlators perl-Test-Harness pixman-devel zlib-devel
+   - JOBS=$(expr $(nproc) + 1)
+ 
+-build-system1:
++.post_acceptance_template: &post_acceptance
++  after_script:
++    - python3 -c 'import json; r = json.load(open("tests/results/latest/results.json")); [print(t["logfile"]) for t in r["tests"] if t["status"] not in ("PASS", "SKIP")]' | xargs cat
++      - du -chs $HOME/avocado/data/cache
++
++build:system-ubuntu-main:
+  image: ubuntu:19.10
++ stage: build
+  <<: *before_script_apt
+  script:
+  - apt-get install -y -qq libgtk-3-dev libvte-dev nettle-dev libcacard-dev
+       libusb-dev libvde-dev libspice-protocol-dev libgl1-mesa-dev libvdeplug-dev
+  - mkdir build
+  - cd build
+- - ../configure --enable-werror --target-list="aarch64-softmmu alpha-softmmu
+-      cris-softmmu hppa-softmmu lm32-softmmu moxie-softmmu microblazeel-softmmu
+-      mips64el-softmmu m68k-softmmu ppc-softmmu riscv64-softmmu sparc-softmmu"
++ - ../configure ${BASE_CONFIG} --enable-werror --target-list="${MAIN_SOFTMMU_TARGETS}"
+  - make -j"$JOBS"
+- - make -j"$JOBS" check
++ artifacts:
++   paths:
++     - build
+ 
+-build-system2:
++check:system-ubuntu-main:
++ image: ubuntu:19.10
++ stage: test
++ dependencies:
++ - build:system-ubuntu-main
++ <<: *before_script_apt
++ script:
++ - cd build
++ - make check
++
++acceptance:system-ubuntu-main:
++ image: ubuntu:19.10
++ stage: test
++ dependencies:
++ - build:system-ubuntu-main
++ <<: *before_script_apt
++ script:
++ - DEBIAN_FRONTEND=noninteractive apt-get install -y -qq
++    python3-pil python3-pip python3-numpy python3-opencv python3-venv
++    rpm2cpio tesseract-ocr tesseract-ocr-eng
++ - cd build
++ - make check-acceptance
++ <<: *post_acceptance
++
++build:system-debian-alt:
++ image: debian:buster-slim
++ stage: build
++ <<: *before_script_apt
++ script:
++ - apt-get install -y -qq libgtk-3-dev libvte-dev nettle-dev libcacard-dev
++      libusb-dev libvde-dev libspice-protocol-dev libgl1-mesa-dev libvdeplug-dev
++ - mkdir build
++ - cd build
++ - ../configure ${BASE_CONFIG} --enable-werror --disable-user
++     --target-list-exclude="${MAIN_SOFTMMU_TARGETS}"
++ - make -j"$JOBS"
++ artifacts:
++   paths:
++     - build
++
++check:system-debian-alt:
++ image: debian:buster-slim
++ stage: test
++ dependencies:
++ - build:system-debian-alt
++ <<: *before_script_apt
++ script:
++ - cd build
++ - make check
++
++acceptance:system-debian-alt:
++ image: debian:buster-slim
++ stage: test
++ dependencies:
++ - build:system-debian-alt
++ <<: *before_script_apt
++ script:
++ - DEBIAN_FRONTEND=noninteractive apt-get install -y -qq
++    python3-pil python3-pip python3-numpy python3-opencv python3-venv
++    rpm2cpio tesseract-ocr tesseract-ocr-eng
++ - cd build
++ - make check-acceptance
++ <<: *post_acceptance
++
++build:system-fedora-misc:
+  image: fedora:latest
++ stage: build
+  <<: *before_script_dnf
+  script:
+  - yum install -y SDL2-devel libgcrypt-devel brlapi-devel libaio-devel
+@@ -43,7 +126,32 @@ build-system2:
+       microblaze-softmmu mips-softmmu riscv32-softmmu s390x-softmmu sh4-softmmu
+       sparc64-softmmu x86_64-softmmu xtensa-softmmu nios2-softmmu or1k-softmmu"
+  - make -j"$JOBS"
+- - make -j"$JOBS" check
++ artifacts:
++   paths:
++     - build
++
++check:system-fedora-misc:
++ image: fedora:latest
++ stage: test
++ dependencies:
++ - build:system-fedora-misc
++ <<: *before_script_dnf
++ script:
++ - cd build
++ - make check
++
++acceptance:system-fedora-misc:
++ image: fedora:latest
++ stage: test
++ dependencies:
++ - build:system-fedora-misc
++ <<: *before_script_dnf
++ script:
++ - yum install -y python3-pillow python3-pip python3-numpy python3-opencv
++       python3-virtualenv tesseract tesseract-langpack-eng
++ - cd build
++ - make check-acceptance
++ <<: *post_acceptance
+ 
+ build-disabled:
+  image: fedora:latest
+diff --git a/.travis.yml b/.travis.yml
+index 74158f741b1..c24dfbe377f 100644
+--- a/.travis.yml
++++ b/.travis.yml
+@@ -289,29 +289,6 @@ jobs:
+       python: 3.6
+ 
+ 
+-    # Acceptance (Functional) tests
+-    - name: "GCC check-acceptance"
+-      dist: bionic
+-      env:
+-        - CONFIG="--enable-tools --target-list=aarch64-softmmu,alpha-softmmu,arm-softmmu,m68k-softmmu,microblaze-softmmu,mips-softmmu,mips64el-softmmu,nios2-softmmu,or1k-softmmu,ppc-softmmu,ppc64-softmmu,s390x-softmmu,sh4-softmmu,sparc-softmmu,x86_64-softmmu,xtensa-softmmu"
+-        - TEST_CMD="make check-acceptance"
+-        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-acceptance"
+-      after_script:
+-        - python3 -c 'import json; r = json.load(open("tests/results/latest/results.json")); [print(t["logfile"]) for t in r["tests"] if t["status"] not in ("PASS", "SKIP")]' | xargs cat
+-        - du -chs $HOME/avocado/data/cache
+-      addons:
+-        apt:
+-          packages:
+-            - python3-pil
+-            - python3-pip
+-            - python3-numpy
+-            - python3-opencv
+-            - python3-venv
+-            - rpm2cpio
+-            - tesseract-ocr
+-            - tesseract-ocr-eng
+-
+-
+     # Using newer GCC with sanitizers
+     - name: "GCC9 with sanitizers (softmmu)"
+       addons:
 -- 
 2.20.1
 
