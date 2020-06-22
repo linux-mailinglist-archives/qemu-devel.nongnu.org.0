@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A48620352F
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 12:56:34 +0200 (CEST)
-Received: from localhost ([::1]:36260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DE9920351C
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 12:50:48 +0200 (CEST)
+Received: from localhost ([::1]:45598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnK7t-00030r-3Z
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 06:56:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40158)
+	id 1jnK2J-0002hg-9G
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 06:50:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40298)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jnJus-0007VQ-QM
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 06:43:08 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:23213
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jnJv1-0007bO-BX
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 06:43:16 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:60141
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jnJuo-0005Nq-21
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 06:43:06 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jnJup-0005Oe-8k
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 06:43:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592822581;
+ s=mimecast20190719; t=1592822582;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IYwLcf+pVYTALN5ScB1Ik10sfW/uN0EbKCOlzTQRBqM=;
- b=IaOG/UcKJIWBPNQvUqPp9rpzFQWermLboIG225X1iyfp47+O0JPx/H7eIuf7nb1LkvRksI
- qMQLK/A/BHL+b18J7bAUFkj5rP1NeVfMzbTuQPf9XBnzYmTfU0ZhgnjGKb3cbhy8Bsb1Cd
- XH2I5IMk7ZN93GFAEgShEa/nXajyvng=
+ bh=8H1YHtBcqS6l+4xuVI+dYBAI2P39Jxhrz+3g5iy/t24=;
+ b=PufJ7zWHXZo3e4mnGZUMjGusoVjg0sXJ83Kqjju02r4ZqW/jcuyo2upCm+tcn5HMRbXtPK
+ xkuFzC9PPA4w3faXJfnKKq3NmrUkDpVj5+FiJEe1mQxWEJDwRWA3oUHRNyNJH7ctvi6SKh
+ 87SpgE0NZN3N6P/ylc8EjxmT/BdcGRw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-422-Ie1VV9K7OUCSL1un44RDqQ-1; Mon, 22 Jun 2020 06:42:59 -0400
-X-MC-Unique: Ie1VV9K7OUCSL1un44RDqQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-275-FrHsC8a0NxuEmqXO4OKoYQ-1; Mon, 22 Jun 2020 06:42:56 -0400
+X-MC-Unique: FrHsC8a0NxuEmqXO4OKoYQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B6DD210059A1
- for <qemu-devel@nongnu.org>; Mon, 22 Jun 2020 10:42:58 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0BBA68014D4
+ for <qemu-devel@nongnu.org>; Mon, 22 Jun 2020 10:42:56 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-121.ams2.redhat.com
  [10.36.112.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CF2AE1CA;
- Mon, 22 Jun 2020 10:42:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D169A1A4D9
+ for <qemu-devel@nongnu.org>; Mon, 22 Jun 2020 10:42:55 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 286A81138479; Mon, 22 Jun 2020 12:42:51 +0200 (CEST)
+ id 2BC34113847A; Mon, 22 Jun 2020 12:42:51 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 11/22] vnc: Plug minor memory leak in vnc_display_open()
-Date: Mon, 22 Jun 2020 12:42:39 +0200
-Message-Id: <20200622104250.1404835-12-armbru@redhat.com>
+Subject: [PATCH 12/22] tests/qom-proplist: Delete a superfluous error_free()
+Date: Mon, 22 Jun 2020 12:42:40 +0200
+Message-Id: <20200622104250.1404835-13-armbru@redhat.com>
 In-Reply-To: <20200622104250.1404835-1-armbru@redhat.com>
 References: <20200622104250.1404835-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 01:27:42
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 02:57:26
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -80,42 +80,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P . Berrange" <berrange@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-vnc_display_print_local_addr() leaks the Error object when
-qio_channel_socket_get_local_address() fails.  Seems unlikely.  Called
-when we create a VNC display with vnc_display_open().  Plug the leak
-by passing NULL to ignore the error.
-
-Cc: Daniel P. Berrange <berrange@redhat.com>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- ui/vnc.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ tests/check-qom-proplist.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/ui/vnc.c b/ui/vnc.c
-index 0702a76cce..527ad25124 100644
---- a/ui/vnc.c
-+++ b/ui/vnc.c
-@@ -3274,13 +3274,12 @@ int vnc_display_pw_expire(const char *id, time_t expires)
- static void vnc_display_print_local_addr(VncDisplay *vd)
- {
-     SocketAddress *addr;
--    Error *err = NULL;
+diff --git a/tests/check-qom-proplist.c b/tests/check-qom-proplist.c
+index a44d6e1171..347a866319 100644
+--- a/tests/check-qom-proplist.c
++++ b/tests/check-qom-proplist.c
+@@ -421,7 +421,6 @@ static void test_dummy_createcmdl(void)
  
-     if (!vd->listener || !vd->listener->nsioc) {
-         return;
-     }
+     user_creatable_del("dev0", &err);
+     g_assert(err == NULL);
+-    error_free(err);
  
--    addr = qio_channel_socket_get_local_address(vd->listener->sioc[0], &err);
-+    addr = qio_channel_socket_get_local_address(vd->listener->sioc[0], NULL);
-     if (!addr) {
-         return;
-     }
+     object_unref(OBJECT(dobj));
+ 
 -- 
 2.26.2
 
