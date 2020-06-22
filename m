@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A34132030CE
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 09:49:46 +0200 (CEST)
-Received: from localhost ([::1]:54714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A90A82030C6
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 09:46:16 +0200 (CEST)
+Received: from localhost ([::1]:40032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnHD7-0005ts-PX
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 03:49:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52428)
+	id 1jnH9j-0007wp-0n
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 03:46:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1jnH6Z-0002ud-5j; Mon, 22 Jun 2020 03:42:59 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:9420)
+ id 1jnH6Z-0002v4-9K; Mon, 22 Jun 2020 03:42:59 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:1266)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1jnH6W-0001vT-Mc; Mon, 22 Jun 2020 03:42:58 -0400
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+ id 1jnH6W-0001vf-RV; Mon, 22 Jun 2020 03:42:58 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 05M7X0lC040433; Mon, 22 Jun 2020 03:42:55 -0400
+ 05M7X9SS114297; Mon, 22 Jun 2020 03:42:55 -0400
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 31svf0ygf5-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 31ss0hay16-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Mon, 22 Jun 2020 03:42:55 -0400
-Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 05M7YgKC045313;
- Mon, 22 Jun 2020 03:42:54 -0400
-Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.107])
- by mx0a-001b2d01.pphosted.com with ESMTP id 31svf0yge2-1
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 05M7XKgV115497;
+ Mon, 22 Jun 2020 03:42:55 -0400
+Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.108])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 31ss0hay0m-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Mon, 22 Jun 2020 03:42:54 -0400
-Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
- by ppma03fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 05M7fAYl020087;
- Mon, 22 Jun 2020 07:42:52 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma03fra.de.ibm.com with ESMTP id 31sa3815gp-1
+Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
+ by ppma05fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 05M7gc2L009873;
+ Mon, 22 Jun 2020 07:42:53 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma05fra.de.ibm.com with ESMTP id 31sa37s5g9-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 22 Jun 2020 07:42:52 +0000
+ Mon, 22 Jun 2020 07:42:53 +0000
 Received: from b06wcsmtp001.portsmouth.uk.ibm.com
  (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 05M7gnuH62783590
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 05M7goBX8651068
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Mon, 22 Jun 2020 07:42:50 GMT
 Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E15B9A4054;
- Mon, 22 Jun 2020 07:42:49 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id C3BDBA405C;
+ Mon, 22 Jun 2020 07:42:50 +0000 (GMT)
 Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 319BBA4060;
- Mon, 22 Jun 2020 07:42:49 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 13B57A405F;
+ Mon, 22 Jun 2020 07:42:50 +0000 (GMT)
 Received: from linux01.pok.stglabs.ibm.com (unknown [9.114.17.81])
  by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
  Mon, 22 Jun 2020 07:42:49 +0000 (GMT)
 From: Janosch Frank <frankja@linux.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 8/9] pc-bios: s390x: Use ebcdic2ascii table
-Date: Mon, 22 Jun 2020 03:42:34 -0400
-Message-Id: <20200622074235.32528-9-frankja@linux.ibm.com>
+Subject: [PATCH v4 9/9] pc-bios: s390x: Make u32 ptr check explicit
+Date: Mon, 22 Jun 2020 03:42:35 -0400
+Message-Id: <20200622074235.32528-10-frankja@linux.ibm.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200622074235.32528-1-frankja@linux.ibm.com>
 References: <20200622074235.32528-1-frankja@linux.ibm.com>
@@ -70,15 +70,15 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.687
  definitions=2020-06-22_02:2020-06-22,
  2020-06-22 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 suspectscore=1
- mlxlogscore=999 malwarescore=0 impostorscore=0 priorityscore=1501
- adultscore=0 spamscore=0 cotscore=-2147483648 lowpriorityscore=0
- bulkscore=0 clxscore=1015 mlxscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2004280000 definitions=main-2006220056
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=frankja@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 03:42:49
-X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
+ bulkscore=0 spamscore=0
+ adultscore=0 suspectscore=1 priorityscore=1501 cotscore=-2147483648
+ phishscore=0 malwarescore=0 lowpriorityscore=0 mlxscore=0 clxscore=1015
+ mlxlogscore=615 impostorscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2004280000 definitions=main-2006220052
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=frankja@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 02:20:35
+X-ACL-Warn: Detected OS   = Linux 3.x [generic]
 X-Spam_score_int: -25
 X-Spam_score: -2.6
 X-Spam_bar: --
@@ -101,31 +101,30 @@ Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, cohuck@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Why should we do conversion of a ebcdic value if we have a handy table
-where we could look up the ascii value instead?
+Let's make it a bit more clear that we check the full 64 bits to fit
+into the 32 we return.
 
 Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+Suggested-by: David Hildenbrand <david@redhat.com>
 Reviewed-by: David Hildenbrand <david@redhat.com>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
 ---
- pc-bios/s390-ccw/bootmap.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ pc-bios/s390-ccw/helper.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/pc-bios/s390-ccw/bootmap.c b/pc-bios/s390-ccw/bootmap.c
-index d13b7cbd15..97205674e5 100644
---- a/pc-bios/s390-ccw/bootmap.c
-+++ b/pc-bios/s390-ccw/bootmap.c
-@@ -328,9 +328,7 @@ static void print_eckd_ldl_msg(ECKD_IPL_mode_t mode)
-         msg[0] = '2';
-         break;
-     default:
--        msg[0] = vlbl->LDL_version;
--        msg[0] &= 0x0f; /* convert EBCDIC   */
--        msg[0] |= 0x30; /* to ASCII (digit) */
-+        msg[0] = ebc2asc[vlbl->LDL_version];
-         msg[1] = '?';
-         break;
-     }
+diff --git a/pc-bios/s390-ccw/helper.h b/pc-bios/s390-ccw/helper.h
+index 32a453b634..dfcfea0ff0 100644
+--- a/pc-bios/s390-ccw/helper.h
++++ b/pc-bios/s390-ccw/helper.h
+@@ -19,7 +19,7 @@
+ /* Avoids compiler warnings when casting a pointer to a u32 */
+ static inline uint32_t ptr2u32(void *ptr)
+ {
+-    IPL_assert((uint64_t)ptr <= 0xffffffff, "ptr2u32: ptr too large");
++    IPL_assert((uint64_t)ptr <= 0xffffffffull, "ptr2u32: ptr too large");
+     return (uint32_t)(uint64_t)ptr;
+ }
+ 
 -- 
 2.25.1
 
