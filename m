@@ -2,42 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A58B2030CB
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 09:48:16 +0200 (CEST)
-Received: from localhost ([::1]:48420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEF062030D0
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 09:51:18 +0200 (CEST)
+Received: from localhost ([::1]:56910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnHBf-000342-Fo
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 03:48:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52738)
+	id 1jnHEb-000753-Om
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 03:51:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54192)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dovgaluk@ispras.ru>)
- id 1jnH7h-0005dK-8e
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 03:44:09 -0400
-Received: from mail.ispras.ru ([83.149.199.84]:49902)
+ id 1jnHDp-0006ZJ-Vk
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 03:50:29 -0400
+Received: from mail.ispras.ru ([83.149.199.84]:50298)
  by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dovgaluk@ispras.ru>)
- id 1jnH7e-00028k-FF
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 03:44:08 -0400
+ id 1jnHDo-0003Fy-4x
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 03:50:29 -0400
 Received: from [192.168.0.183] (unknown [62.118.151.149])
- by mail.ispras.ru (Postfix) with ESMTPSA id 4721340A632F;
- Mon, 22 Jun 2020 07:44:03 +0000 (UTC)
-Subject: Re: [PATCH v3 00/11] Record/replay acceptance tests
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Pavel Dovgalyuk <Pavel.Dovgaluk@gmail.com>, qemu-devel@nongnu.org
-References: <159073587336.20809.5404476664125786279.stgit@pasha-ThinkPad-X280>
- <540831cc-c5b0-cf10-6889-bab499729a53@redhat.com>
- <343df8f4-9d26-bfce-a714-2d06940a2586@redhat.com>
+ by mail.ispras.ru (Postfix) with ESMTPSA id DF57D40A6332;
+ Mon, 22 Jun 2020 07:50:24 +0000 (UTC)
+Subject: Re: what are the requirements on target/ code for -icount to work
+ correctly?
+To: Max Filippov <jcmvbkbc@gmail.com>, Peter Maydell <peter.maydell@linaro.org>
+References: <CAFEAcA_HOxdK5rgKVnww6Bum3vGb=TrhDEp7oqDwsd=UbHmC_g@mail.gmail.com>
+ <c47e9e4e-49eb-88c5-fdc7-8ebec121c165@ispras.ru>
+ <f4fc4a1b-4054-cffd-0272-22c28d656aba@redhat.com>
+ <CAFEAcA_OfF2pBPCv7Wj+u4Rm3fjtApzfiE9WYhiGeEzffd60Kw@mail.gmail.com>
+ <CAMo8BfKTMfZY_2RBncoWpZHcLQ7ug+LPxnUaS9pHe8AiAQL-0w@mail.gmail.com>
 From: Pavel Dovgalyuk <dovgaluk@ispras.ru>
-Message-ID: <ec069b0d-e44b-f083-90e8-503f423488b2@ispras.ru>
-Date: Mon, 22 Jun 2020 10:44:03 +0300
+Message-ID: <9698cdc6-e3f8-877f-2ca9-3b60e7694f48@ispras.ru>
+Date: Mon, 22 Jun 2020 10:50:24 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <343df8f4-9d26-bfce-a714-2d06940a2586@redhat.com>
+In-Reply-To: <CAMo8BfKTMfZY_2RBncoWpZHcLQ7ug+LPxnUaS9pHe8AiAQL-0w@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=83.149.199.84; envelope-from=dovgaluk@ispras.ru;
  helo=mail.ispras.ru
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 03:17:28
@@ -59,121 +61,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, alex.bennee@linaro.org, ehabkost@redhat.com,
- wrampazz@redhat.com, crosa@redhat.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21.06.2020 02:36, Philippe Mathieu-Daudé wrote:
-> Hi Pavel,
+On 22.06.2020 08:24, Max Filippov wrote:
+> On Fri, Jun 19, 2020 at 10:05 AM Peter Maydell <peter.maydell@linaro.org> wrote:
+>> I've just sent a patch that removes the target/arm gen_io_end() calls.
+>> I had a quick look at sparc, xtensa and ppc, but they were too complicated
+>> for a quick look to be sufficient :-)
 > 
-> On 5/31/20 5:09 PM, Philippe Mathieu-Daudé wrote:
->> On 5/29/20 9:04 AM, Pavel Dovgalyuk wrote:
->>> The following series adds record/replay tests to the acceptance group.
->>> Test pass successfully with the latest submitted record/replay fixes:
->>>   - replay: notify the main loop when there are no instructions
->>>   - replay: synchronize on every virtual timer callback
->>>
->>> The provided tests perform kernel boot and disk image boot scenarios.
->>> For all of them recording and replaying phases are executed.
->>> Tests were borrowed from existing boot_linux*.py tests. But some
->>> of the platforms and images were excluded, because icount for them
->>> still has some issues.
->>>
->>> Tested-by: Philippe Mathieu-Daude <philmd@redhat.com>
->>>
->>> v3 changes:
->>>   - Added record/replay logging (suggested by Philippe Mathieu-Daudé)
->>>   - Changed the console pattern to get longer kernel execution (suggested by Alex Bennée)
->>>   - Coding style fixes
->>>   - Other minor changes
->>> v2 changes:
->>>   - Some test structure refactoring (suggested by Willian Rampazzo)
->>>
->>> ---
->>>
->>> Pavel Dovgaluk (11):
->>>        tests/acceptance: allow console interaction with specific VMs
->>>        tests/acceptance: refactor boot_linux_console test to allow code reuse
->>>        tests/acceptance: add base class record/replay kernel tests
->>>        tests/acceptance: add kernel record/replay test for x86_64
->>>        tests/acceptance: add record/replay test for aarch64
->>>        tests/acceptance: add record/replay test for arm
->>>        tests/acceptance: add record/replay test for ppc64
->>>        tests/acceptance: add record/replay test for m68k
+> I've checked the xtensa translator. The only gen_io_end() is for
+> opcodes that end TB when a full instruction is translated, because
+> they can change active interrupt requests. So it can be removed.
+> I'll send a patch.
 > 
-> You forgot to Cc the maintainers for each target/machine tested.
-> 
-> Anyway this series has been on the list for 3 weeks, so I'm
-> queuing it for next acceptance-testing pull request.
-> 
-> Since the x86 tests generate some timeout errors on Travis-CI,
+> One instance of gen_io_start is for the rsr.ccount opcode that reads
+> current cycle counter that translates to reading
+> QEMU_CLOCK_VIRTUAL clock.
 
-Errors occur with the commits that were not queued yet?
+Right, this is documented by Alex in the new document recently sent into 
+the mailing list:
+https://lore.kernel.org/qemu-devel/7611429f-ec38-554d-3aec-e4a2f456a1ea@linaro.org/T/#mff14f2e3dc2cedd7cc6b1356985a0454e4772202
 
-> I squashed the following changes:
+> Looks like this adds one more case to the
+> following list:
 > 
-> -- >8 --
-> diff --git a/tests/acceptance/replay_kernel.py
-> b/tests/acceptance/replay_kernel.py
-> index a25eb3d3ee..8fa6b517c5 100644
-> --- a/tests/acceptance/replay_kernel.py
-> +++ b/tests/acceptance/replay_kernel.py
-> @@ -12,6 +12,7 @@
->   import logging
->   import time
-> 
-> +from avocado import skipIf
->   from avocado_qemu import wait_for_console_pattern
->   from avocado.utils import archive
->   from avocado.utils import process
-> @@ -72,6 +73,7 @@ def run_rr(self, kernel_path, kernel_command_line,
-> console_pattern,
->           logger = logging.getLogger('replay')
->           logger.info('replay overhead {:.2%}'.format(t2 / t1 - 1))
-> 
-> +    @skipIf(os.getenv('CONTINUOUS_INTEGRATION'), 'Running on Travis-CI')
->       def test_x86_64_pc(self):
->           """
->           :avocado: tags=arch:x86_64
-> diff --git a/tests/acceptance/replay_linux.py
-> b/tests/acceptance/replay_linux.py
-> index 472ab730cd..8e43e282a7 100644
-> --- a/tests/acceptance/replay_linux.py
-> +++ b/tests/acceptance/replay_linux.py
-> @@ -12,6 +12,7 @@
->   import logging
->   import time
-> 
-> +from avocado import skipIf
->   from avocado.utils import cloudinit
->   from avocado.utils import datadrainer
->   from avocado.utils import network
-> @@ -92,6 +93,7 @@ def run_rr(self, args=None, shift=7):
->           logger = logging.getLogger('replay')
->           logger.info('replay overhead {:.2%}'.format(t2 / t1 - 1))
-> 
-> +@skipIf(os.getenv('CONTINUOUS_INTEGRATION'), 'Running on Travis-CI')
->   class ReplayLinuxX8664(ReplayLinux):
->       """
->       :avocado: tags=arch:x86_64
-> ---
-> 
-> Regards,
-> 
-> Phil.
-> 
->>>        tests/acceptance: record/replay tests with advcal images
->>>        tests/acceptance: refactor boot_linux to allow code reuse
->>>        tests/acceptance: Linux boot test for record/replay
+>> As I understand it, the definition of "I/O insn" is anything that can
+>> either:
 >>
->> Thanks, patches 1/2/10 applied to my python-next tree:
->> https://gitlab.com/philmd/qemu/commits/python-next
+>> - affect the icount deadline (e.g. by setting or removing a
+>> QEMU_CLOCK_VIRTUAL timer)
 >>
->> - tests/acceptance: allow console interaction with specific VMs
->> - tests/acceptance: refactor boot_linux_console test to allow code reuse
->> - tests/acceptance: refactor boot_linux to allow code reuse
->>
+>> - interrupt the current translation block with cpu_loop_exit,
+>> cpu_restore_state or similar.
 > 
 
 
