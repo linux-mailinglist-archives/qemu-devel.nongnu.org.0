@@ -2,62 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 643BB2035F6
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 13:43:48 +0200 (CEST)
-Received: from localhost ([::1]:33410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E13B02035D1
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 13:37:15 +0200 (CEST)
+Received: from localhost ([::1]:40712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnKrb-0005v8-8E
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 07:43:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47254)
+	id 1jnKlG-00057v-SX
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 07:37:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47144)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jnKe4-0003N2-6k
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 07:29:48 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:49602
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jnKe1-0003Fu-5h
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 07:29:45 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:38194
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jnKdx-0008VY-0E
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 07:29:47 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jnKdv-0008US-4Q
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 07:29:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592825380;
+ s=mimecast20190719; t=1592825377;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=VrjkzeYjFVWx4CauFAh7J9oz+USZwYX0CXQbxUCKY7M=;
- b=Pq/P1AFeNN7EIccjPFerHd3tgLRqVTzdqPdboARzRtKQbjSa76Svb6Jwxto/2tDE9k69nD
- 6JUnUy5cxmFTMhuacR5J6FZMZwllkKVCRkmsCimeHbJjCHJ9++KzWT1/q7/hb4ojNopfJ4
- jQc9Pww/eRRZAUaboX5BtSN4OV1lGPg=
+ references:references; bh=cp/2ui0tlH8lhPnT5RA7r+CowqQM6Y0K53DWdoQXRic=;
+ b=Kl6b+kX5WvYVcW5T8YGD/Z5k7ZA9kqHz0YvspbDfG+PcQV8QZGF9hB2rYNUfMYoBXntfJU
+ kA/3ymUJv5dE65M/7b8nQGNiU8s5aEJ+QFCioGNNuRDKreMTvA1s68r25f4Uyry0kRxFSt
+ 45ZTFT6IEs+eoOQrW1+1suTWwB5ThC8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-27-Fa0nWRBUP8Wyd6c7Ro8XSQ-1; Mon, 22 Jun 2020 07:29:36 -0400
-X-MC-Unique: Fa0nWRBUP8Wyd6c7Ro8XSQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-448-0JZnEuFHPomFPoPS4bQRmw-1; Mon, 22 Jun 2020 07:29:35 -0400
+X-MC-Unique: 0JZnEuFHPomFPoPS4bQRmw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F023F107AFB6;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7AEA3835B43;
  Mon, 22 Jun 2020 11:29:34 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-67.ams2.redhat.com
  [10.36.112.67])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B4BD47C1E3;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AD4FB10013D2;
  Mon, 22 Jun 2020 11:29:25 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 3EC149D92; Mon, 22 Jun 2020 13:29:14 +0200 (CEST)
+ id 477469D94; Mon, 22 Jun 2020 13:29:14 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 05/19] audio: deprecate -soundhw es1370
-Date: Mon, 22 Jun 2020 13:29:00 +0200
-Message-Id: <20200622112914.30454-6-kraxel@redhat.com>
+Subject: [PATCH v3 06/19] audio: deprecate -soundhw adlib
+Date: Mon, 22 Jun 2020 13:29:01 +0200
+Message-Id: <20200622112914.30454-7-kraxel@redhat.com>
 In-Reply-To: <20200622112914.30454-1-kraxel@redhat.com>
 References: <20200622112914.30454-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 02:57:26
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 03:17:49
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -87,55 +85,36 @@ Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Switch to deprecated_register_soundhw().  Remove the now obsolete init
-function.  Add an alias so both es1370 and ES1370 are working with
--device.
+Switch to deprecated_register_soundhw().
+Remove the now obsolete init function.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/audio/es1370.c | 9 ++-------
- qdev-monitor.c    | 1 +
- 2 files changed, 3 insertions(+), 7 deletions(-)
+ hw/audio/adlib.c | 8 +-------
+ 1 file changed, 1 insertion(+), 7 deletions(-)
 
-diff --git a/hw/audio/es1370.c b/hw/audio/es1370.c
-index 5f8a83ff5624..4255463a49ff 100644
---- a/hw/audio/es1370.c
-+++ b/hw/audio/es1370.c
-@@ -884,12 +884,6 @@ static void es1370_exit(PCIDevice *dev)
-     AUD_remove_card(&s->card);
- }
+diff --git a/hw/audio/adlib.c b/hw/audio/adlib.c
+index 7c3b67dcfb8c..65dff5b6fca4 100644
+--- a/hw/audio/adlib.c
++++ b/hw/audio/adlib.c
+@@ -319,16 +319,10 @@ static const TypeInfo adlib_info = {
+     .class_init    = adlib_class_initfn,
+ };
  
--static int es1370_init (PCIBus *bus)
+-static int Adlib_init (ISABus *bus)
 -{
--    pci_create_simple (bus, -1, TYPE_ES1370);
+-    isa_create_simple (bus, TYPE_ADLIB);
 -    return 0;
 -}
 -
- static Property es1370_properties[] = {
-     DEFINE_AUDIO_PROPERTIES(ES1370State, card),
-     DEFINE_PROP_END_OF_LIST(),
-@@ -928,7 +922,8 @@ static const TypeInfo es1370_info = {
- static void es1370_register_types (void)
+ static void adlib_register_types (void)
  {
-     type_register_static (&es1370_info);
--    pci_register_soundhw("es1370", "ENSONIQ AudioPCI ES1370", es1370_init);
-+    deprecated_register_soundhw("es1370", "ENSONIQ AudioPCI ES1370",
-+                                0, TYPE_ES1370);
+     type_register_static (&adlib_info);
+-    isa_register_soundhw("adlib", ADLIB_DESC, Adlib_init);
++    deprecated_register_soundhw("adlib", ADLIB_DESC, 1, TYPE_ADLIB);
  }
  
- type_init (es1370_register_types)
-diff --git a/qdev-monitor.c b/qdev-monitor.c
-index 105d9792ecdf..e3083fae394b 100644
---- a/qdev-monitor.c
-+++ b/qdev-monitor.c
-@@ -55,6 +55,7 @@ typedef struct QDevAlias
- static const QDevAlias qdev_alias_table[] = {
-     { "AC97", "ac97" }, /* -soundhw name */
-     { "e1000", "e1000-82540em" },
-+    { "ES1370", "es1370" }, /* -soundhw name */
-     { "ich9-ahci", "ahci" },
-     { "lsi53c895a", "lsi" },
-     { "virtio-9p-ccw", "virtio-9p", QEMU_ARCH_S390X },
+ type_init (adlib_register_types)
 -- 
 2.18.4
 
