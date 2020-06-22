@@ -2,58 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E84362035BE
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 13:31:53 +0200 (CEST)
-Received: from localhost ([::1]:51330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C3072035BB
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 13:31:31 +0200 (CEST)
+Received: from localhost ([::1]:50082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnKg4-0005LN-Rt
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 07:31:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46870)
+	id 1jnKfi-0004kM-1D
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 07:31:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46760)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jnKdp-0002xx-4t
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 07:29:33 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:37334
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jnKdm-0002w8-E2
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 07:29:30 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:25786
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jnKdm-0008Rj-Ha
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 07:29:32 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jnKdk-0008Qw-L5
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 07:29:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592825369;
+ s=mimecast20190719; t=1592825367;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=DqXaTpubEmM0GbYt+uvFQ4I1A2dp8sI0Q3aU5VbLob4=;
- b=BFeZKm4lEmIikjIYdOv5FYs5WFeGDXsbe63AEwJXfqnOs0zmZWDGoSkoqEvzJA8gvJqJTS
- uL5CZFASTs3RmouOSE/14aLLCqwPDnyZkU7zeZsBIQOsT1GNqLUvxo2zK9z0ncf3pAMH2J
- MRkxRowEIblzEg84z5gYj4QRMcDNIJo=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=TblcahrtK9GAL2ZcADuEIqlUQPhrGCfzXjv5e1jl7J4=;
+ b=LeiTbX4msyRubsWOk5nJTbeQ/V9El2Sp4oKZFE4YMpXDjfKEkJ2r/scOmjvupVY8xrTmPR
+ AuIxubjDn48oLPlZXudVF4P1bV4kWjNiYat4jHoo9lDkcCMILY4SBdBQ3INVmELyrmS0E9
+ fV2uq7cURv8weZGY+QpwQ3gM8/QT3L4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-158-aHuUYsrUNd20M-YRejAE8w-1; Mon, 22 Jun 2020 07:29:26 -0400
-X-MC-Unique: aHuUYsrUNd20M-YRejAE8w-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-234-R1eg_Vv9N6O2RFuHLnFp8A-1; Mon, 22 Jun 2020 07:29:25 -0400
+X-MC-Unique: R1eg_Vv9N6O2RFuHLnFp8A-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0E54AEC1AA;
- Mon, 22 Jun 2020 11:29:25 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 646411005513;
+ Mon, 22 Jun 2020 11:29:24 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-67.ams2.redhat.com
  [10.36.112.67])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2E73A5D9D5;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 43C157166A;
  Mon, 22 Jun 2020 11:29:16 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 0C0C917477; Mon, 22 Jun 2020 13:29:14 +0200 (CEST)
+ id 1552E1750C; Mon, 22 Jun 2020 13:29:14 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 00/19] audio: deprecate -soundhw
-Date: Mon, 22 Jun 2020 13:28:55 +0200
-Message-Id: <20200622112914.30454-1-kraxel@redhat.com>
+Subject: [PATCH v3 01/19] stubs: add isa_create_simple
+Date: Mon, 22 Jun 2020 13:28:56 +0200
+Message-Id: <20200622112914.30454-2-kraxel@redhat.com>
+In-Reply-To: <20200622112914.30454-1-kraxel@redhat.com>
+References: <20200622112914.30454-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=205.139.110.61; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 03:17:49
@@ -86,61 +89,42 @@ Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v2:
- - use g_assert_not_reached() for stubs.
- - add deprecation notice.
+Needed for -soundhw cleanup.
 
-v3:
- - rebase to latest master.
- - adapt to armbru's device initialization changes.
-
-Gerd Hoffmann (19):
-  stubs: add isa_create_simple
-  stubs: add pci_create_simple
-  audio: add deprecated_register_soundhw
-  audio: deprecate -soundhw ac97
-  audio: deprecate -soundhw es1370
-  audio: deprecate -soundhw adlib
-  audio: deprecate -soundhw cs4231a
-  audio: deprecate -soundhw gus
-  audio: deprecate -soundhw sb16
-  audio: deprecate -soundhw hda
-  audio: deprecate -soundhw pcspk
-  audio: add soundhw deprecation notice
-  pc_basic_device_init: pass PCMachineState
-  pc_basic_device_init: drop has_pit arg
-  pc_basic_device_init: drop no_vmport arg
-  softmmu: initialize spice and audio earlier
-  audio: rework pcspk_init()
-  audio: create pcspk device early, add audiodev alias.
-  audio: set default value for pcspk.iobase property
-
- include/hw/audio/pcspk.h   | 12 ++----------
- include/hw/audio/soundhw.h |  2 ++
- include/hw/i386/pc.h       |  6 +++---
- hw/audio/ac97.c            |  9 ++-------
- hw/audio/adlib.c           |  8 +-------
- hw/audio/cs4231a.c         |  8 +-------
- hw/audio/es1370.c          |  9 ++-------
- hw/audio/gus.c             |  8 +-------
- hw/audio/intel-hda.c       |  3 +++
- hw/audio/pcspk.c           | 26 ++++++++++++++++++++++----
- hw/audio/sb16.c            |  9 ++-------
- hw/audio/soundhw.c         | 24 +++++++++++++++++++++++-
- hw/i386/pc.c               | 14 ++++++++------
- hw/i386/pc_piix.c          |  3 +--
- hw/i386/pc_q35.c           |  3 +--
- hw/isa/i82378.c            |  2 +-
- qdev-monitor.c             |  2 ++
- softmmu/vl.c               | 14 ++++++++------
- stubs/isa-bus.c            |  7 +++++++
- stubs/pci-bus.c            |  7 +++++++
- docs/system/deprecated.rst |  9 +++++++++
- stubs/Makefile.objs        |  2 ++
- 22 files changed, 110 insertions(+), 77 deletions(-)
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ stubs/isa-bus.c     | 7 +++++++
+ stubs/Makefile.objs | 1 +
+ 2 files changed, 8 insertions(+)
  create mode 100644 stubs/isa-bus.c
- create mode 100644 stubs/pci-bus.c
 
+diff --git a/stubs/isa-bus.c b/stubs/isa-bus.c
+new file mode 100644
+index 000000000000..522f448997d4
+--- /dev/null
++++ b/stubs/isa-bus.c
+@@ -0,0 +1,7 @@
++#include "qemu/osdep.h"
++#include "hw/isa/isa.h"
++
++ISADevice *isa_create_simple(ISABus *bus, const char *name)
++{
++    g_assert_not_reached();
++}
+diff --git a/stubs/Makefile.objs b/stubs/Makefile.objs
+index 28e48171d1f3..869204668231 100644
+--- a/stubs/Makefile.objs
++++ b/stubs/Makefile.objs
+@@ -7,6 +7,7 @@ stub-obj-y += fdset.o
+ stub-obj-y += gdbstub.o
+ stub-obj-y += iothread-lock.o
+ stub-obj-y += is-daemonized.o
++stub-obj-y += isa-bus.o
+ stub-obj-$(CONFIG_LINUX_AIO) += linux-aio.o
+ stub-obj-$(CONFIG_LINUX_IO_URING) += io_uring.o
+ stub-obj-y += monitor-core.o
 -- 
 2.18.4
 
