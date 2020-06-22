@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8721C203B49
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 17:43:57 +0200 (CEST)
-Received: from localhost ([::1]:55772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D35F1203B42
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 17:41:42 +0200 (CEST)
+Received: from localhost ([::1]:48220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnOc0-0003Ya-CL
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 11:43:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59036)
+	id 1jnOZp-0000OG-TB
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 11:41:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59122)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jnOY7-0006jp-TX
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 11:39:55 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:29464
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jnOYW-0007Pu-5I
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 11:40:20 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:46812
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jnOY6-0003Uu-8k
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 11:39:55 -0400
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jnOYU-0003ZN-6F
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 11:40:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592840393;
+ s=mimecast20190719; t=1592840417;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mCMXojiD1+Nn3lnQMP2IDGa3qVqpRilydZorQ7YFUPE=;
- b=PaL3unSDewwE7Lxwqqox78fpkxTeVSH5fNsDdPCA6V2WO/+MOj0cJDHC4DZ+0DaWPEpLmv
- 4irVGczR8N27jzryTPanV9UgHCiQKUDTK7ep1O/5UqdfVqLJXTYkX7IvMG2aRMorUr7+ZE
- 6TMrrHgCF5R/wCLa54Bad4ZQQOzFg/E=
+ bh=w7ONpZZjErZHFUYN7YfFgaMMb15Ej0bi5uA6s5ZasrY=;
+ b=D9PJbjsreLOIEedqsyurz+Ru+2jOBVFRSDZf/7SlKZ7GbF+EH1zA0aPqNlCOCvIUheVpJM
+ 94ui+BzNM4fhx4fAcatVG3do1L0AgGL7DNl5YwttcPPRhV3ENSYPTUMbnrBC5Cx/ECwyf1
+ X3zEEMhX17GzjeiHVgUdkuWTZfGEqTI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-431-WaB1oGlGNraeSDCwhYcJ3g-1; Mon, 22 Jun 2020 11:39:49 -0400
-X-MC-Unique: WaB1oGlGNraeSDCwhYcJ3g-1
+ us-mta-446-wOAhls_zNha9fqcms68PcA-1; Mon, 22 Jun 2020 11:40:12 -0400
+X-MC-Unique: wOAhls_zNha9fqcms68PcA-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C5AC78018A5;
- Mon, 22 Jun 2020 15:39:46 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5F787184D147;
+ Mon, 22 Jun 2020 15:40:10 +0000 (UTC)
 Received: from laptop.redhat.com (ovpn-13-110.pek2.redhat.com [10.72.13.110])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EF74771677;
- Mon, 22 Jun 2020 15:39:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8731A71679;
+ Mon, 22 Jun 2020 15:39:49 +0000 (UTC)
 From: Cindy Lu <lulu@redhat.com>
 To: mst@redhat.com, armbru@redhat.com, eblake@redhat.com, cohuck@redhat.com,
  jasowang@redhat.com
-Subject: [PATCH v1 04/10] virtio-pci: implement queue_enabled method
-Date: Mon, 22 Jun 2020 23:37:50 +0800
-Message-Id: <20200622153756.19189-5-lulu@redhat.com>
+Subject: [PATCH v1 05/10] vhost-backend: export the vhost backend helper
+Date: Mon, 22 Jun 2020 23:37:51 +0800
+Message-Id: <20200622153756.19189-6-lulu@redhat.com>
 In-Reply-To: <20200622153756.19189-1-lulu@redhat.com>
 References: <20200622153756.19189-1-lulu@redhat.com>
 MIME-Version: 1.0
@@ -55,9 +55,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=lulu@redhat.com;
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=lulu@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 02:57:26
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 03:17:49
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -89,53 +89,126 @@ Cc: mhabets@solarflare.com, qemu-devel@nongnu.org, rob.miller@broadcom.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jason Wang <jasowang@redhat.com>
+export the helper then we can reuse them in other backend
 
-With version 1, we can detect whether a queue is enabled via
-queue_enabled.
-
-Signed-off-by: Jason Wang <jasowang@redhat.com>
 Signed-off-by: Cindy Lu <lulu@redhat.com>
 ---
- hw/virtio/virtio-pci.c | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+ hw/virtio/vhost-backend.c         | 18 +++++++++---------
+ include/hw/virtio/vhost-backend.h | 28 ++++++++++++++++++++++++++++
+ 2 files changed, 37 insertions(+), 9 deletions(-)
 
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index 4cb784389c..3918aa9f6c 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -1107,6 +1107,23 @@ static AddressSpace *virtio_pci_get_dma_as(DeviceState *d)
-     return pci_get_address_space(dev);
+diff --git a/hw/virtio/vhost-backend.c b/hw/virtio/vhost-backend.c
+index 48905383f8..660e9e8588 100644
+--- a/hw/virtio/vhost-backend.c
++++ b/hw/virtio/vhost-backend.c
+@@ -89,7 +89,7 @@ static int vhost_kernel_scsi_get_abi_version(struct vhost_dev *dev, int *version
+     return vhost_kernel_call(dev, VHOST_SCSI_GET_ABI_VERSION, version);
  }
  
-+static bool  virtio_queue_check_enabled(VirtIODevice *vdev, int n)
-+{
-+    return  virtio_queue_get_desc_addr(vdev, n) != 0;
-+}
-+
-+static bool virtio_pci_queue_enabled(DeviceState *d, int n)
-+{
-+    VirtIOPCIProxy *proxy = VIRTIO_PCI(d);
-+    VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
-+
-+    if (virtio_vdev_has_feature(vdev, VIRTIO_F_VERSION_1)) {
-+        return proxy->vqs[vdev->queue_sel].enabled;
-+    }
-+
-+    return  virtio_queue_check_enabled(vdev, n);
-+}
-+
- static int virtio_pci_add_mem_cap(VirtIOPCIProxy *proxy,
-                                    struct virtio_pci_cap *cap)
+-static int vhost_kernel_set_log_base(struct vhost_dev *dev, uint64_t base,
++int vhost_kernel_set_log_base(struct vhost_dev *dev, uint64_t base,
+                                      struct vhost_log *log)
  {
-@@ -2059,6 +2076,7 @@ static void virtio_pci_bus_class_init(ObjectClass *klass, void *data)
-     k->ioeventfd_enabled = virtio_pci_ioeventfd_enabled;
-     k->ioeventfd_assign = virtio_pci_ioeventfd_assign;
-     k->get_dma_as = virtio_pci_get_dma_as;
-+    k->queue_enabled = virtio_pci_queue_enabled;
+     return vhost_kernel_call(dev, VHOST_SET_LOG_BASE, &base);
+@@ -101,7 +101,7 @@ static int vhost_kernel_set_mem_table(struct vhost_dev *dev,
+     return vhost_kernel_call(dev, VHOST_SET_MEM_TABLE, mem);
  }
  
- static const TypeInfo virtio_pci_bus_info = {
+-static int vhost_kernel_set_vring_addr(struct vhost_dev *dev,
++int vhost_kernel_set_vring_addr(struct vhost_dev *dev,
+                                        struct vhost_vring_addr *addr)
+ {
+     return vhost_kernel_call(dev, VHOST_SET_VRING_ADDR, addr);
+@@ -113,31 +113,31 @@ static int vhost_kernel_set_vring_endian(struct vhost_dev *dev,
+     return vhost_kernel_call(dev, VHOST_SET_VRING_ENDIAN, ring);
+ }
+ 
+-static int vhost_kernel_set_vring_num(struct vhost_dev *dev,
++int vhost_kernel_set_vring_num(struct vhost_dev *dev,
+                                       struct vhost_vring_state *ring)
+ {
+     return vhost_kernel_call(dev, VHOST_SET_VRING_NUM, ring);
+ }
+ 
+-static int vhost_kernel_set_vring_base(struct vhost_dev *dev,
++int vhost_kernel_set_vring_base(struct vhost_dev *dev,
+                                        struct vhost_vring_state *ring)
+ {
+     return vhost_kernel_call(dev, VHOST_SET_VRING_BASE, ring);
+ }
+ 
+-static int vhost_kernel_get_vring_base(struct vhost_dev *dev,
++int vhost_kernel_get_vring_base(struct vhost_dev *dev,
+                                        struct vhost_vring_state *ring)
+ {
+     return vhost_kernel_call(dev, VHOST_GET_VRING_BASE, ring);
+ }
+ 
+-static int vhost_kernel_set_vring_kick(struct vhost_dev *dev,
++int vhost_kernel_set_vring_kick(struct vhost_dev *dev,
+                                        struct vhost_vring_file *file)
+ {
+     return vhost_kernel_call(dev, VHOST_SET_VRING_KICK, file);
+ }
+ 
+-static int vhost_kernel_set_vring_call(struct vhost_dev *dev,
++int vhost_kernel_set_vring_call(struct vhost_dev *dev,
+                                        struct vhost_vring_file *file)
+ {
+     return vhost_kernel_call(dev, VHOST_SET_VRING_CALL, file);
+@@ -155,13 +155,13 @@ static int vhost_kernel_set_features(struct vhost_dev *dev,
+     return vhost_kernel_call(dev, VHOST_SET_FEATURES, &features);
+ }
+ 
+-static int vhost_kernel_get_features(struct vhost_dev *dev,
++int vhost_kernel_get_features(struct vhost_dev *dev,
+                                      uint64_t *features)
+ {
+     return vhost_kernel_call(dev, VHOST_GET_FEATURES, features);
+ }
+ 
+-static int vhost_kernel_set_owner(struct vhost_dev *dev)
++int vhost_kernel_set_owner(struct vhost_dev *dev)
+ {
+     return vhost_kernel_call(dev, VHOST_SET_OWNER, NULL);
+ }
+diff --git a/include/hw/virtio/vhost-backend.h b/include/hw/virtio/vhost-backend.h
+index 6f6670783f..300b59c172 100644
+--- a/include/hw/virtio/vhost-backend.h
++++ b/include/hw/virtio/vhost-backend.h
+@@ -172,4 +172,32 @@ int vhost_backend_handle_iotlb_msg(struct vhost_dev *dev,
+ 
+ int vhost_user_gpu_set_socket(struct vhost_dev *dev, int fd);
+ 
++
++int vhost_kernel_set_log_base(struct vhost_dev *dev, uint64_t base,
++                                     struct vhost_log *log);
++
++int vhost_kernel_set_vring_addr(struct vhost_dev *dev,
++                                       struct vhost_vring_addr *addr);
++
++int vhost_kernel_set_vring_num(struct vhost_dev *dev,
++                                      struct vhost_vring_state *ring);
++
++int vhost_kernel_set_vring_base(struct vhost_dev *dev,
++                                       struct vhost_vring_state *ring);
++
++int vhost_kernel_get_vring_base(struct vhost_dev *dev,
++                                       struct vhost_vring_state *ring);
++
++int vhost_kernel_set_vring_kick(struct vhost_dev *dev,
++                                       struct vhost_vring_file *file);
++
++int vhost_kernel_set_vring_call(struct vhost_dev *dev,
++                                       struct vhost_vring_file *file);
++
++int vhost_kernel_set_owner(struct vhost_dev *dev);
++
++int vhost_kernel_get_features(struct vhost_dev *dev,
++                                     uint64_t *features);
++
++
+ #endif /* VHOST_BACKEND_H */
 -- 
 2.21.1
 
