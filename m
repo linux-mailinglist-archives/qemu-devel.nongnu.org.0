@@ -2,83 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AC712042C0
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 23:33:36 +0200 (CEST)
-Received: from localhost ([::1]:54214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B56C2042CC
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 23:42:31 +0200 (CEST)
+Received: from localhost ([::1]:40192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnU4N-0003tO-Ai
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 17:33:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37294)
+	id 1jnUD0-0003cQ-8p
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 17:42:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jnU13-0001jI-Qj
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 17:30:09 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:51650
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jnU11-0004hX-A5
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 17:30:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592861406;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=CeoeAEHPF4sShm98K9gBUe8aicHiSzE142I02lJm3R4=;
- b=So5wF7I/GZs+xIoRgKB+7hQJkzNHSCDAr9nzJwxN/LSpS1oaylcsPD6w2ap2An04eaOfju
- X8ILIu0zgvOcmtrq9gkC0NeyCq38JlbAez2uzPrlJkBx3XP4/5CRbVstKA78+fDHeoPs3N
- Zp82N+WwuI7Rw68rlHoCkWwnka5IpyI=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-336-iE_kQ4ulPiqkO-031JVmdQ-1; Mon, 22 Jun 2020 17:30:04 -0400
-X-MC-Unique: iE_kQ4ulPiqkO-031JVmdQ-1
-Received: by mail-wr1-f71.google.com with SMTP id m14so11860956wrj.12
- for <qemu-devel@nongnu.org>; Mon, 22 Jun 2020 14:30:04 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jnUBu-0002ko-RB; Mon, 22 Jun 2020 17:41:22 -0400
+Received: from mail-io1-xd41.google.com ([2607:f8b0:4864:20::d41]:37230)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jnUBs-0001Sw-Hv; Mon, 22 Jun 2020 17:41:22 -0400
+Received: by mail-io1-xd41.google.com with SMTP id c4so7740222iot.4;
+ Mon, 22 Jun 2020 14:41:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=84ngPMDCRxQ8rJpuiNXM1KEh+s2z60OgriA8QpWSyeg=;
+ b=rdxkPaLOstS1BebkE6r6X92hYnV1FeWeT3TXaDiFpnoYrGA4HAsqV4V1w+8UnRit0N
+ PCegK2CUg3QVAo8bIONMIXX44gkdhQB43y4BHF//cKs5CFEnPFyE4C6ypiFL8NCt0w7v
+ 1ITc//Og/bFxmv3vS3ILnfklqdHiXcoLVWM9zOzMW0MqySiuWJtJwUm2P5zFAGIhShfY
+ Kz6xIk2l/au4sNQXWHi/sc+GeyRZdQ7+6KvEhgk1Lno0FMhjZ2owyHQ5goTU0KqvXYkz
+ jZmDq3L6VaiLE1T6fBCb7QER1wYKUUHA5FsR6x7pnn7xMy+cITGSlq18d2muOZ+qf61E
+ +aOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=CeoeAEHPF4sShm98K9gBUe8aicHiSzE142I02lJm3R4=;
- b=t2R8cjrwiBhKqPj+7K4Qjrd8uOhRiv7DdIjXgXbJ4N+0MbRdqThfAm7fFloUpJf/3E
- 8VMlf4hL3NhYZ0WaPZj0ULgd9cLMAknXfbqI6X39gkuVBX1paZvpOreJooPd/qBKwbu7
- Yfubd2eGmeqeIllgIdEM5amVv+i8MXrY7fcnxjSU3bka5M3T9JlQvq8yxw/0LOstoceW
- M1oPk5ZRjoiKq8LY7wxy/tNepNusSpCr4D1J/bTItpNGIjqcB2tCIFXZisIte+hq95OK
- XpfOCPzFsFtVPJkNpYsG77u0CSSiw0ZzfA2CLci84BpgDfwQqpgr4cx+hOI1Ekn4TsJv
- VKcw==
-X-Gm-Message-State: AOAM5319Ck/trUwCuoJjGgK9g33uy8DdcEr5PgrB10GH4VC/T6NTh4pn
- 3D8l7fuF8nBEtXjIMCp85yDPRL1aNsNaleGu1YC3GGShT3mSDM7FrIqNaX/3x8SC2l4tRK2JhuI
- IcCN6OoI7BZDeeNM=
-X-Received: by 2002:adf:f450:: with SMTP id f16mr21411358wrp.307.1592861403626; 
- Mon, 22 Jun 2020 14:30:03 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzRR/ZmrevwkroykiveACCjEtuOkQGbqOrLWXyN7lSjUtd/LuaIC6TV7nsH1JYl1Lxg8D9vDw==
-X-Received: by 2002:adf:f450:: with SMTP id f16mr21411325wrp.307.1592861403289; 
- Mon, 22 Jun 2020 14:30:03 -0700 (PDT)
-Received: from redhat.com (bzq-79-178-18-124.red.bezeqint.net. [79.178.18.124])
- by smtp.gmail.com with ESMTPSA id g195sm957498wme.38.2020.06.22.14.30.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Jun 2020 14:30:02 -0700 (PDT)
-Date: Mon, 22 Jun 2020 17:30:00 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Raphael Norwitz <raphael.norwitz@nutanix.com>
-Subject: Re: [PATCH] Stop vhost-user sending uninitialized mmap_offsets
-Message-ID: <20200622172940-mutt-send-email-mst@kernel.org>
-References: <1592637581-25255-1-git-send-email-raphael.norwitz@nutanix.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=84ngPMDCRxQ8rJpuiNXM1KEh+s2z60OgriA8QpWSyeg=;
+ b=hqL+IoDiK/ZiW8jL3iRLp80cFXwrpqx+O+HaZGwF86CIwxXHyBH9Z0y/me7dQwXWU2
+ 3TclDVP5lOwS4cEvlBOrPza7yrb3HPCq2pM6Ba6HVSPeGJnwwRbEiKx9vK0sNU2Wn7aH
+ qGkCF9XChve3V7kZoX8/oiy1sliPZT6Z40GI461wMQ909VM5awgxI0V03bgxXzS9amsV
+ Ys3LsoOXaWtn/xcqrF4zNb6LyUWiy3zXns7u3hQHZoU23QhYVzrMxyVH+CgJMikA9UW1
+ 3m//Vwez7H9m3+e3HRqncK8Go6JxIlQvXWm9J37JS3cADJ8fWvXlBE5SSWRL71zfRgLP
+ eszQ==
+X-Gm-Message-State: AOAM532SMF2bZViKW0sMSU7cTKQ3oawA+0dBvBxmF6nEVULb8EDz73Dq
+ CRzNRAjkSl44uRUVgd0LoslpadyXeZK6O5mdlu8=
+X-Google-Smtp-Source: ABdhPJxYBB3RKHM+0WPGeWGehsDtq1w+2h5KQjdNknfVH2ePXa5f7jBYE9bZgOWGf7PTatuk4wIb+SPTVyT2E2fZgjs=
+X-Received: by 2002:a6b:6412:: with SMTP id t18mr2920430iog.175.1592862079097; 
+ Mon, 22 Jun 2020 14:41:19 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1592637581-25255-1-git-send-email-raphael.norwitz@nutanix.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 03:17:49
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+References: <1592807604-20805-1-git-send-email-bmeng.cn@gmail.com>
+ <DM6PR04MB620142B152292DD3945E4D3C8D970@DM6PR04MB6201.namprd04.prod.outlook.com>
+ <CAEUhbmVhHKy70dA5dyQCiWeYk1nbhXHnZH8JBxmRJP6EUb2z9g@mail.gmail.com>
+ <DM6PR04MB62013393F37DC653A1D3F1B28D970@DM6PR04MB6201.namprd04.prod.outlook.com>
+ <CAEUhbmUQKv9tJfCeWYnO59AoqOHah8J6T0g2zVBnujmSdYtAfg@mail.gmail.com>
+In-Reply-To: <CAEUhbmUQKv9tJfCeWYnO59AoqOHah8J6T0g2zVBnujmSdYtAfg@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 22 Jun 2020 14:31:45 -0700
+Message-ID: <CAKmqyKNsqznVdW1FRgie15b0ufXrRU5hporKFAGbqMRkZzYZgQ@mail.gmail.com>
+Subject: Re: [PATCH v2 0/7] riscv: Switch to use generic platform of opensbi
+ bios images
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d41;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd41.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,87 +82,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org,
- marcandre.lureau@redhat.com
+Cc: Anup Patel <Anup.Patel@wdc.com>,
+ "qemu-riscv@nongnu.org" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Bin Meng <bin.meng@windriver.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>, Anup Patel <anup@brainfault.org>,
+ Palmer Dabbelt <palmerdabbelt@google.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 22, 2020 at 06:41:39PM +0000, Raphael Norwitz wrote:
-> Prior to this change, the vhost_user_fill_msg_region function filled out
-> all elements of the VhostUserMemoryRegion struct except the mmap_offset.
-> 
-> This function is often called on uninitialized structs, which are then
-> copied into VHOST_USER_SET_MEM_TABLE and VHOST_USER_ADD/REM_MEM_REG
-> messages. In some cases, where the mmap_offset was not needed, it was
-> left uninitialized, causing QEMU to send the backend uninitialized data,
-> which Coverity flagged as a series of issues.
-> 
-> This change augments the vhost_user_fill_msg_region API, adding a
-> mmap_offset paramenter, forcing the caller to initialize mmap_offset.
-> 
-> Fixes: CID-1429802, CID-1429803, CID-1429804
+On Mon, Jun 22, 2020 at 5:27 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> Hi Anup,
+>
+> On Mon, Jun 22, 2020 at 8:20 PM Anup Patel <Anup.Patel@wdc.com> wrote:
+> >
+> >
+> >
+> > > -----Original Message-----
+> > > From: Bin Meng <bmeng.cn@gmail.com>
+> > > Sent: 22 June 2020 17:43
+> > > To: Anup Patel <Anup.Patel@wdc.com>
+> > > Cc: Alistair Francis <Alistair.Francis@wdc.com>; Bastian Koppelmann
+> > > <kbastian@mail.uni-paderborn.de>; Palmer Dabbelt
+> > > <palmerdabbelt@google.com>; Sagar Karandikar
+> > > <sagark@eecs.berkeley.edu>; qemu-devel@nongnu.org; qemu-
+> > > riscv@nongnu.org; Anup Patel <anup@brainfault.org>; Bin Meng
+> > > <bin.meng@windriver.com>
+> > > Subject: Re: [PATCH v2 0/7] riscv: Switch to use generic platform of opensbi
+> > > bios images
+> > >
+> > > Hi Anup,
+> > >
+> > > On Mon, Jun 22, 2020 at 6:09 PM Anup Patel <Anup.Patel@wdc.com> wrote:
+> > > >
+> > > >
+> > > >
+> > > > > -----Original Message-----
+> > > > > From: Qemu-riscv <qemu-riscv-
+> > > > > bounces+anup.patel=wdc.com@nongnu.org> On Behalf Of Bin Meng
+> > > > > Sent: 22 June 2020 12:03
+> > > > > To: Alistair Francis <Alistair.Francis@wdc.com>; Bastian Koppelmann
+> > > > > <kbastian@mail.uni-paderborn.de>; Palmer Dabbelt
+> > > > > <palmerdabbelt@google.com>; Sagar Karandikar
+> > > > > <sagark@eecs.berkeley.edu>; qemu-devel@nongnu.org; qemu-
+> > > > > riscv@nongnu.org
+> > > > > Cc: Anup Patel <anup@brainfault.org>; Bin Meng
+> > > > > <bin.meng@windriver.com>
+> > > > > Subject: [PATCH v2 0/7] riscv: Switch to use generic platform of
+> > > > > opensbi bios images
+> > > > >
+> > > > > From: Bin Meng <bin.meng@windriver.com>
+> > > > >
+> > > > > The RISC-V generic platform is a flattened device tree (FDT) based
+> > > > > platform where all platform specific functionality is provided based
+> > > > > on FDT passed by previous booting stage. The support was added in
+> > > > > the upstream OpenSBI
+> > > > > v0.8 release recently.
+> > > > >
+> > > > > This series updates QEMU to switch to use generic platform of
+> > > > > opensbi bios images.
+> > > > >
+> > > > > The patch emails do not contain binary bits, please grab all updates
+> > > > > at https://github.com/lbmeng/qemu.git bios branch.
+> > > >
+> > > > It will be nice to have this series updated to for fw_dynamic.bin .
+> > >
+> > > Do you mean we include fw_dynamic.bin for virt & sifive_u, and
+> > > fw_dynamic.elf for spike?
+> > >
+> > > But previously we agreed to include only generic platform BIN and ELF files.
+> > > See https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg00664.html
+> >
+> > I am suggesting to use Generic platform fw_dynamic.bin and fw_dynamic.elf
+> > for QEMU virt, QEMU spike, and QEMU sifive_u machines.
+>
+> Do you mean we replace fw_jump.bin with fw_dynamic.bin in QEMU? If
+> everyone agrees this is the way to go, I can rebase this series on top
+> of Atish's fw_dynamic.bin support series.
 
+I think fw_dynamic makes the most sense. The order doesn't really
+matter, but as we are checking in binaries it might be best to avoid
+too much churn and rebase this on top of Atish's patches.
 
-Add commit hash of the buggy commit pls.
+Alistair
 
-> Suggested-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
-> ---
->  hw/virtio/vhost-user.c | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
-> 
-> diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-> index 4d6cd4e..3123121 100644
-> --- a/hw/virtio/vhost-user.c
-> +++ b/hw/virtio/vhost-user.c
-> @@ -460,12 +460,14 @@ static MemoryRegion *vhost_user_get_mr_data(uint64_t addr, ram_addr_t *offset,
->  }
->  
->  static void vhost_user_fill_msg_region(VhostUserMemoryRegion *dst,
-> -                                       struct vhost_memory_region *src)
-> +                                       struct vhost_memory_region *src,
-> +                                       uint64_t mmap_offset)
->  {
->      assert(src != NULL && dst != NULL);
->      dst->userspace_addr = src->userspace_addr;
->      dst->memory_size = src->memory_size;
->      dst->guest_phys_addr = src->guest_phys_addr;
-> +    dst->mmap_offset = mmap_offset;
->  }
->  
->  static int vhost_user_fill_set_mem_table_msg(struct vhost_user *u,
-> @@ -500,9 +502,8 @@ static int vhost_user_fill_set_mem_table_msg(struct vhost_user *u,
->                  error_report("Failed preparing vhost-user memory table msg");
->                  return -1;
->              }
-> -            vhost_user_fill_msg_region(&region_buffer, reg);
-> +            vhost_user_fill_msg_region(&region_buffer, reg, offset);
->              msg->payload.memory.regions[*fd_num] = region_buffer;
-> -            msg->payload.memory.regions[*fd_num].mmap_offset = offset;
->              fds[(*fd_num)++] = fd;
->          } else if (track_ramblocks) {
->              u->region_rb_offset[i] = 0;
-> @@ -649,7 +650,7 @@ static int send_remove_regions(struct vhost_dev *dev,
->  
->          if (fd > 0) {
->              msg->hdr.request = VHOST_USER_REM_MEM_REG;
-> -            vhost_user_fill_msg_region(&region_buffer, shadow_reg);
-> +            vhost_user_fill_msg_region(&region_buffer, shadow_reg, 0);
->              msg->payload.mem_reg.region = region_buffer;
->  
->              if (vhost_user_write(dev, msg, &fd, 1) < 0) {
-> @@ -709,9 +710,8 @@ static int send_add_regions(struct vhost_dev *dev,
->                  u->region_rb[reg_idx] = mr->ram_block;
->              }
->              msg->hdr.request = VHOST_USER_ADD_MEM_REG;
-> -            vhost_user_fill_msg_region(&region_buffer, reg);
-> +            vhost_user_fill_msg_region(&region_buffer, reg, offset);
->              msg->payload.mem_reg.region = region_buffer;
-> -            msg->payload.mem_reg.region.mmap_offset = offset;
->  
->              if (vhost_user_write(dev, msg, &fd, 1) < 0) {
->                  return -1;
-> -- 
-> 1.8.3.1
-
+>
+> Regards,
+> Bin
+>
 
