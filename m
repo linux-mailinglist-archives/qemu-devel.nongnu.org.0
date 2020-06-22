@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FE612032B2
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 11:03:19 +0200 (CEST)
-Received: from localhost ([::1]:51098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABE082032D1
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 11:05:16 +0200 (CEST)
+Received: from localhost ([::1]:58480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnIMI-0002n4-Ga
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 05:03:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41154)
+	id 1jnIOB-0006A2-KP
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 05:05:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jnIJH-0000wq-L3
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 05:00:11 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35514
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jnIJJ-0000yw-G1
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 05:00:13 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:31942
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jnIJF-0004zw-J2
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 05:00:11 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jnIJG-000505-Sg
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 05:00:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592816408;
+ s=mimecast20190719; t=1592816409;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FlCLYqnyC4KOoHC6MnLT/maL0ukmI8qUjgkm25Wbdkw=;
- b=LcUNwTtbrwkOXNVaTRa1z803kCnmYJraq1uQ3wIA5Hv1F6a458+G1kqU4PnOlYhWVmB0j/
- XvN9FkivyaKBhK+EKC4TmL2y/ZrHalVQYYPzL2vHrNrfS6vtIArzxgvoAjXkDk1wWLaLDW
- sg5ThQQNpD6+7rT/5ITC/YyZTYa2y1I=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-140-Z3K6TjtmOGep8pyBlPD_fg-1; Mon, 22 Jun 2020 05:00:01 -0400
-X-MC-Unique: Z3K6TjtmOGep8pyBlPD_fg-1
-Received: by mail-wm1-f72.google.com with SMTP id a7so6574536wmf.1
- for <qemu-devel@nongnu.org>; Mon, 22 Jun 2020 02:00:01 -0700 (PDT)
+ bh=HTagnNvXYkUNj9C7eyjbQLy9uY/KGYgd5Bwrfq0B9ic=;
+ b=aWjlhNGwC3a+Ssd/BnonYT8pF1abJe73X3qVIfgcncMKXinpvNaEzIcK/J4dYf1eSBGH+Q
+ eyrx6N+t2ctRdhhbbzfi7tgaxSFZyIxwWzxin2rYh3URu/grf8FSEH7i6crk9QyKP4+DXC
+ Oody2PaOlJGjBpsivTCAP60kI+cQqtU=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-320-Kp1m_MoeP0K4wZotjczQWg-1; Mon, 22 Jun 2020 05:00:06 -0400
+X-MC-Unique: Kp1m_MoeP0K4wZotjczQWg-1
+Received: by mail-wr1-f71.google.com with SMTP id o25so8684411wro.16
+ for <qemu-devel@nongnu.org>; Mon, 22 Jun 2020 02:00:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=FlCLYqnyC4KOoHC6MnLT/maL0ukmI8qUjgkm25Wbdkw=;
- b=ZUXjq0S8WRPcuT3SS6TY67mltPXRbXGFSpmZaghEWQKCFjLNWPwr02mH49BsTCArPz
- NBMOSZ+kxHJc6vKrQHiOT29YSa9dldS7KFeO027rmdi+ZcUu6qp+mIuQvPuoK6o0Pgaj
- cFhHbRiNwaIKlzKxd9sJ+B7f1L8e5zyc3w/dZJYDJ3+/LO8TCg2inVU6Sc3EA6L8lETS
- ek30yTMbXzunbd1ztTPG9cT77sPwptToZUhrXxrS1DQWUXB6ILXVLeedMWnw5jeWdSR4
- Xfvad85SFEZJ3WXQhI+yjhCxrMaAiVAD3HTqPMZ2BpmQ7D+2f4NSb8PM4g7s/o3guE4P
- jyEg==
-X-Gm-Message-State: AOAM531KDPCbmUeX4KoCJ5TPsSF39lPwmWPCagGjjIMHM+7AMxTv/hmi
- WJU38ZnTIidrkxMEGP+Nni2eTBkCNxQRoAh3uS0yTUl4gVM6zNQm1AYT3SpmlZb2YOZuNIpZQUt
- AUUAgI8cSS/AVIls=
-X-Received: by 2002:a5d:4e87:: with SMTP id e7mr18548846wru.12.1592816400154; 
- Mon, 22 Jun 2020 02:00:00 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwGTR7W5WX1HUX+v8kDUFeutnhdi8sFWaZnz8XKCfrxA36RF5Tr3Ek58dwn1EZzn9pQ54Hgxw==
-X-Received: by 2002:a5d:4e87:: with SMTP id e7mr18548821wru.12.1592816399887; 
- Mon, 22 Jun 2020 01:59:59 -0700 (PDT)
+ bh=HTagnNvXYkUNj9C7eyjbQLy9uY/KGYgd5Bwrfq0B9ic=;
+ b=CpElGjFhUKY8/8a+rpGaTgh8kHaiFLhI7xGVESpro47G9humJxMqpk0t98+ZVn7JM+
+ pyt5dVFvhviF3PJo9do1s9esuEdoDPPLd8UP6LWJqea3JOkd5Ic5e5Kfa6WdkXcsn72V
+ w6ob+IyOwOKeOJB8R4pXSQhqIxtimvzVyYXQtONWUGHzjOxx4tQmCdMaTSSyFLe64HSp
+ F4Lrx1MgU1eOETq3gVSkkWQScLUFY3BZeA5YXouLFJvMs9/amUnr9yF7RkePL/+9w8Ta
+ KK5AeYHkfyRT1JoaVi4oo8tjdubI20XBCI+GYumFgVGw9xqPmJZsgE8sj1oh14Fiuonj
+ ZcTw==
+X-Gm-Message-State: AOAM533KJJahOxkj+c76MwESBzpmuD+VmJ8vAWu+apsk3jT5709X1Ww8
+ 8k9/jP+kywR+K//42FKR/4JyTYK5kOUJmipyMWO3zXSgizdWM3YJf9ldhYvlRgYzixQe5Ro1pqg
+ HBkXSrZriTreH7XQ=
+X-Received: by 2002:a7b:c113:: with SMTP id w19mr18349509wmi.161.1592816404800; 
+ Mon, 22 Jun 2020 02:00:04 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxrXXGzkXW5z2SWRuR1ev+oVZJxyDP4KDSBvAXaPJlJU37tudBdzcu8k5ra5esFhYAbY21c9A==
+X-Received: by 2002:a7b:c113:: with SMTP id w19mr18349481wmi.161.1592816404623; 
+ Mon, 22 Jun 2020 02:00:04 -0700 (PDT)
 Received: from localhost.localdomain (1.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id y14sm15357965wma.25.2020.06.22.01.59.58
+ by smtp.gmail.com with ESMTPSA id 63sm18437971wra.86.2020.06.22.02.00.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Jun 2020 01:59:59 -0700 (PDT)
+ Mon, 22 Jun 2020 02:00:04 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 5/8] tests/acceptance: add record/replay test for arm
-Date: Mon, 22 Jun 2020 10:59:31 +0200
-Message-Id: <20200622085934.16441-6-philmd@redhat.com>
+Subject: [PULL 6/8] tests/acceptance: add record/replay test for ppc64
+Date: Mon, 22 Jun 2020 10:59:32 +0200
+Message-Id: <20200622085934.16441-7-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200622085934.16441-1-philmd@redhat.com>
 References: <20200622085934.16441-1-philmd@redhat.com>
@@ -72,17 +72,17 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 01:27:42
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 03:17:49
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -106,73 +106,41 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Pavel Dovgalyuk <Pavel.Dovgaluk@gmail.com>
 
 This patch adds a test for record/replay of the kernel
-image boot for two different arm platforms.
+image boot for ppc64 platform.
 
 Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
 Tested-by: Philippe Mathieu-Daude <philmd@redhat.com>
-Message-Id: <159073590785.20809.17654573764167037499.stgit@pasha-ThinkPad-X280>
+Message-Id: <159073591363.20809.15658672985367330140.stgit@pasha-ThinkPad-X280>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- tests/acceptance/replay_kernel.py | 48 +++++++++++++++++++++++++++++++
- 1 file changed, 48 insertions(+)
+ tests/acceptance/replay_kernel.py | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
 diff --git a/tests/acceptance/replay_kernel.py b/tests/acceptance/replay_kernel.py
-index 60559a13ad..748c780575 100644
+index 748c780575..b7acc4bc71 100644
 --- a/tests/acceptance/replay_kernel.py
 +++ b/tests/acceptance/replay_kernel.py
-@@ -108,3 +108,51 @@ def test_aarch64_virt(self):
- 
-         self.run_rr(kernel_path, kernel_command_line, console_pattern,
-                     args=('-cpu', 'cortex-a53'))
+@@ -156,3 +156,19 @@ def test_arm_cubieboard_initrd(self):
+                     args=('-dtb', dtb_path,
+                           '-initrd', initrd_path,
+                           '-no-reboot'))
 +
-+    def test_arm_virt(self):
++    def test_ppc64_pseries(self):
 +        """
-+        :avocado: tags=arch:arm
-+        :avocado: tags=machine:virt
++        :avocado: tags=arch:ppc64
++        :avocado: tags=machine:pseries
 +        """
-+        kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
-+                      '/linux/releases/29/Everything/armhfp/os/images/pxeboot'
-+                      '/vmlinuz')
-+        kernel_hash = 'e9826d741b4fb04cadba8d4824d1ed3b7fb8b4d4'
++        kernel_url = ('https://archives.fedoraproject.org/pub/archive'
++                      '/fedora-secondary/releases/29/Everything/ppc64le/os'
++                      '/ppc/ppc64/vmlinuz')
++        kernel_hash = '3fe04abfc852b66653b8c3c897a59a689270bc77'
 +        kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
 +
-+        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
-+                               'console=ttyAMA0')
-+        console_pattern = 'VFS: Cannot open root device'
-+
-+        self.run_rr(kernel_path, kernel_command_line, console_pattern, shift=1)
-+
-+    def test_arm_cubieboard_initrd(self):
-+        """
-+        :avocado: tags=arch:arm
-+        :avocado: tags=machine:cubieboard
-+        """
-+        deb_url = ('https://apt.armbian.com/pool/main/l/'
-+                   'linux-4.20.7-sunxi/linux-image-dev-sunxi_5.75_armhf.deb')
-+        deb_hash = '1334c29c44d984ffa05ed10de8c3361f33d78315'
-+        deb_path = self.fetch_asset(deb_url, asset_hash=deb_hash)
-+        kernel_path = self.extract_from_deb(deb_path,
-+                                            '/boot/vmlinuz-4.20.7-sunxi')
-+        dtb_path = '/usr/lib/linux-image-dev-sunxi/sun4i-a10-cubieboard.dtb'
-+        dtb_path = self.extract_from_deb(deb_path, dtb_path)
-+        initrd_url = ('https://github.com/groeck/linux-build-test/raw/'
-+                      '2eb0a73b5d5a28df3170c546ddaaa9757e1e0848/rootfs/'
-+                      'arm/rootfs-armv5.cpio.gz')
-+        initrd_hash = '2b50f1873e113523967806f4da2afe385462ff9b'
-+        initrd_path_gz = self.fetch_asset(initrd_url, asset_hash=initrd_hash)
-+        initrd_path = os.path.join(self.workdir, 'rootfs.cpio')
-+        archive.gzip_uncompress(initrd_path_gz, initrd_path)
-+
-+        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
-+                               'console=ttyS0,115200 '
-+                               'usbcore.nousb '
-+                               'panic=-1 noreboot')
-+        console_pattern = 'Boot successful.'
-+        self.run_rr(kernel_path, kernel_command_line, console_pattern, shift=1,
-+                    args=('-dtb', dtb_path,
-+                          '-initrd', initrd_path,
-+                          '-no-reboot'))
++        kernel_command_line = self.KERNEL_COMMON_COMMAND_LINE + 'console=hvc0'
++        # icount is not good enough for PPC64 for complete boot yet
++        console_pattern = 'Kernel command line: %s' % kernel_command_line
++        self.run_rr(kernel_path, kernel_command_line, console_pattern)
 -- 
 2.21.3
 
