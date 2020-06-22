@@ -2,79 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD99D204203
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 22:33:29 +0200 (CEST)
-Received: from localhost ([::1]:39958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B75DD204208
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 22:36:24 +0200 (CEST)
+Received: from localhost ([::1]:45866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnT8C-0007TE-Eh
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 16:33:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39222)
+	id 1jnTB0-00027q-Vh
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 16:36:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40884)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jnT6M-00062K-T3; Mon, 22 Jun 2020 16:31:35 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:37828)
+ (Exim 4.90_1) (envelope-from <jandryuk@gmail.com>)
+ id 1jnT89-0008HP-2y
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 16:33:25 -0400
+Received: from mail-lf1-x12d.google.com ([2a00:1450:4864:20::12d]:45542)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <flukshun@gmail.com>)
- id 1jnT6L-0001x1-Be; Mon, 22 Jun 2020 16:31:34 -0400
-Received: by mail-ot1-x344.google.com with SMTP id v13so14288198otp.4;
- Mon, 22 Jun 2020 13:31:32 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <jandryuk@gmail.com>)
+ id 1jnT87-00031C-5I
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 16:33:24 -0400
+Received: by mail-lf1-x12d.google.com with SMTP id d7so10395428lfi.12
+ for <qemu-devel@nongnu.org>; Mon, 22 Jun 2020 13:33:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:mime-version:content-transfer-encoding:to:from:in-reply-to
- :cc:references:message-id:user-agent:subject:date;
- bh=ULNJdP/LxY7hBn2xJoed3jrUlm4v/XHqomeLIfjzmI8=;
- b=D9KAnf00Eo18+1V2xCq8Vf8ajMvyKsEVuJo3BAb/GXyiWVYy39F82VuI7lCl43iSw2
- kT/auQtBmosgu+C7AIZ7xlCeSCDZH4PAHDPrl1rSYhV2FVnZOWvCOC0YYdBW1a9+53Ft
- tsDsEowA0Sim0DHYYqtRpCX/UjUKqGUxCVzfnKpyvmRBJI5P8wXwagxOAA9dMgBBBLx+
- N7RZdsz+mnHS9r58eyoyzysAqF0kLecMXCPNFzZtgwBvgZ0GPrJS6Wa/vKpX94HEPiul
- 8QsIwNqTihYrecGNTKnNhO29n5JDMdI5pGEJF93AJ0nrAr+d8dxYhnUZe+5u8vyUmhpR
- fWJw==
+ h=mime-version:from:date:message-id:subject:to;
+ bh=4mVoyL2zNAqGyZ2Atn/eutyBqxa/yw21nCBslNZLJdY=;
+ b=suJxtYlckZvugRErHhopXGyvzHiGcRVutgVuU6LAyvY5obkxUo9d5YvFy2FH6VIf+h
+ 6HUb42wgZ9QVWgySM7Y2/kfUMqHeB99U7nuJHiK1dFjpvtL7T9+xa1eqUAZVwV3tPIob
+ KEVlQGduAdP++XpMZjmet+dd26ipYaZq4jDWQ4rdIoHYMIJn/Cp0crgb9HOjLUjTWAOU
+ TLeMeJp3dGAHXRoBvEaNLvMDr1h5U7NBrakXkg95GIrxpgkdp4MSnJ/xV2pHgz2o4zol
+ HC0+/9s+rMPJqs2yzYPVGEr0y3VCyFqgcMUypdonGwGLKarw5Kb5Q5qqtkzV2k2r8SAe
+ paAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:mime-version:content-transfer-encoding:to
- :from:in-reply-to:cc:references:message-id:user-agent:subject:date;
- bh=ULNJdP/LxY7hBn2xJoed3jrUlm4v/XHqomeLIfjzmI8=;
- b=iUn0LiMu8F6y86eoz+zkDKM4mwx/7YIpN1Jc2xHclwA6fkvs5wUSD2thrqBUuEphJS
- RoeTH84ZvkbpoollG4r8zk/kv9xnrsPussOtGXB9R7rQRX0O2fNQYDOxwZ3MFQebJNzM
- m213009h+yFwu2lq3qKX9HVJCXdleEm8jACuq9aQdoKEJ8iZjb+w64YcFMs4mFG8q3C3
- Fq1VsTYhLis9LQOKanFNBcJinnmXvWkVp6QdqJn525ap3wpFY6o7AzkJLwDEe7B5/0ic
- 0R762Pk2T+6zATT6E54L4vcnzLABqrxmMyYbi2b0LxUCxj1lyQDqe+NtyXRN/MC94YJQ
- UiKQ==
-X-Gm-Message-State: AOAM533FB1AXZE1czRl6Wdb/9icCfQvQ34y16zgDXnJKriWnDeUhl6qu
- IsTEnyXSOZaPk8qbEb2Jwp0=
-X-Google-Smtp-Source: ABdhPJxK837d3uXpvD8a94YdxJYAvEbBDlnM2R6TfPIKh1x//M+TOsNf4tkgxBy5ON0Np2GeamMKiA==
-X-Received: by 2002:a9d:6052:: with SMTP id v18mr16085636otj.65.1592857891455; 
- Mon, 22 Jun 2020 13:31:31 -0700 (PDT)
-Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
- [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id c129sm3477423oif.53.2020.06.22.13.31.30
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Mon, 22 Jun 2020 13:31:30 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=4mVoyL2zNAqGyZ2Atn/eutyBqxa/yw21nCBslNZLJdY=;
+ b=SPtZwYNpq9WYdqCOe2R0ZYeQk2afs3Fw3D2YnQTFwuQmqH7ASCx6ZO/l+5+SCvGMVL
+ R9wZ6TFDZXCTNqxHJ+BkZvNEa6UKK1SVe8fpf4Rjuep/Kea32pusGQJfE0PJ2MIj3rEt
+ kG43rTciHRw3RGZEflyfzt6FTzhauR7jRkQMucq66QyhFxqLqbEcF/BWybpIMEgLUxEl
+ UQCUecxbAO9UXv8L19leb7ywpnoWDJ0qs1hjS/h7SolYDpO7s8qMHtmxgRcxf5yqidSs
+ LCzqvYUVv1e9p6ZqyK3H42zdEiX5iKXnGav2oDMnXdxtes7jygUHYQeoAw03TYrJE9Bf
+ OCdg==
+X-Gm-Message-State: AOAM533z7fJqSbKB7FmgPjC/pxgSPYAD3MMogW6DGfyM3W4D2WxHm5HB
+ SsfpCnxA/syGo1fV0Ze8cnSVY9IRSZZYRwc+Wpa9WzwD
+X-Google-Smtp-Source: ABdhPJyEtjtgqI457ZpiHwadW+wM55mq6wUWDwE/hJk43J7BbO+VFenO9m7QvkMe8EQ9JuKmhBBlfP7JPenXEqkW8gw=
+X-Received: by 2002:a05:6512:3049:: with SMTP id
+ b9mr10668922lfb.44.1592858000356; 
+ Mon, 22 Jun 2020 13:33:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-To: Finn Thain <fthain@telegraphics.com.au>
-From: Michael Roth <mdroth@linux.vnet.ibm.com>
-In-Reply-To: <alpine.LNX.2.22.394.2006201332390.9@nippy.intranet>
-References: <20200616141547.24664-1-mdroth@linux.vnet.ibm.com>
- <alpine.LNX.2.22.394.2006201012590.23@nippy.intranet>
- <alpine.LNX.2.22.394.2006201332390.9@nippy.intranet>
-Message-ID: <159285788272.15440.3321202874853204008@sif>
-User-Agent: alot/0.7
-Subject: Re: [PATCH 00/78] Patch Round-up for stable 4.2.1,
- freeze on 2020-06-22
-Date: Mon, 22 Jun 2020 15:31:22 -0500
-Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
- envelope-from=flukshun@gmail.com; helo=mail-ot1-x344.google.com
+From: Jason Andryuk <jandryuk@gmail.com>
+Date: Mon, 22 Jun 2020 16:33:09 -0400
+Message-ID: <CAKf6xpuSD3NC2bLPQN75e2pR8asu9Ey1xTGxTNeCR_1MGsnPOg@mail.gmail.com>
+Subject: sysbus failed assert for xen_sysdev
+To: QEMU <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>, 
+ xen-devel <xen-devel@lists.xenproject.org>,
+ Anthony PERARD <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::12d;
+ envelope-from=jandryuk@gmail.com; helo=mail-lf1-x12d.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,50 +78,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Max Reitz <mreitz@redhat.com>, qemu-devel@nongnu.org,
- qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Quoting Finn Thain (2020-06-19 22:39:41)
-> On Sat, 20 Jun 2020, Finn Thain wrote:
-> =
+Hi,
 
-> > =
+Running qemu devel for a Xen VM is failing an assert after the recent
+"qdev: Rework how we plug into the parent bus" sysbus changes.
 
-> > Thanks for picking these fixes. When the maintainer originally merged t=
-his =
+qemu-system-i386: hw/core/qdev.c:102: qdev_set_parent_bus: Assertion
+`dc->bus_type && object_dynamic_cast(OBJECT(bus), dc->bus_type)'
+failed.
 
-> > series of patches, the first patch got slightly damaged. This was remed=
-ied =
+dc->bus_type is "xen-sysbus" and it's the
+`object_dynamic_cast(OBJECT(bus), dc->bus_type)` portion that fails
+the assert.  bus seems to be "main-system-bus", I think:
+(gdb) p *bus
+$3 = {obj = {class = 0x55555636d780, free = 0x7ffff7c40db0 <g_free>,
+properties = 0x5555563f7180, ref = 3, parent = 0x5555563fe980}, parent
+= 0x0, name = 0x5555563fec60 "main-system-bus", ...
 
-> > in a subsequent patch[1]. That is, mainline commit a0cf4297d6 ("dp8393x=
-: =
+The call comes from hw/xen/xen-legacy-backend.c:706
+sysbus_realize_and_unref(SYS_BUS_DEVICE(xen_sysdev), &error_fatal);
 
-> > Mask EOL bit from descriptor addresses, take 2"). Would you also pick t=
-hat =
+Any pointers on what needs to be fixed?
 
-> > commit for v4.2.1 please?
-> > =
-
-> > [1]
-> > https://lore.kernel.org/qemu-devel/23179263-a8fb-57cc-e98a-bfe9a2ee9037=
-@vivier.eu/
-> > =
-
-> =
-
-> While we're on the subject of cherry-picking fixes for fixes, you may als=
-o =
-
-> want to consider c264e5d2f9f5d73977eac8e5d084f727b3d07ea9. I didn't find =
-
-> any fixes for fixes for fixes. That search probably needs to be =
-
-> automated...
-
-Thanks for the catch/suggestion. I've added a script to the process to help
-find follow-up fixes, but it still needs to be run manually. Some sort of g=
-it
-integration would probably be a good next step.
+Thanks,
+Jason
 
