@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D27B203530
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 12:56:51 +0200 (CEST)
-Received: from localhost ([::1]:37538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DBB5203517
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 12:49:52 +0200 (CEST)
+Received: from localhost ([::1]:41454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnK8A-0003wH-6L
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 06:56:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40712)
+	id 1jnK1P-00012Z-Ks
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 06:49:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41108)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jnJxX-0003LT-2q
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 06:45:51 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:23420
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jnJzZ-0007VE-Mv
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 06:47:57 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:41844
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jnJxV-0005u7-Ai
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 06:45:50 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jnJzY-00063Y-15
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 06:47:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592822748;
+ s=mimecast20190719; t=1592822875;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SQ8HakB7ZbOWyB4Yh3QhjSoK4c42rgj7fcN30BSDmzc=;
- b=YhUIwiSw1DdVDRa97pVC9L+RUW6vbneiDYp+lkNoS734HWQPCm8pTwSKqsKp/lqp/zUupR
- 968oBlGD9zWzNQ+PN/h6qb1ILEfDHIfBLihFdnVkmmrozGuAUa/I2aac5YzRPprocBDSV4
- lJ/IKwSY5zFqLOTcFCf+IfjgngsVmi8=
+ bh=irU8Zm4FqoBeBQCZOhnKEykj7gskTBEcgU8sLlOp1Mg=;
+ b=b/z2np1OA4ng+osxfBiCL05XjLNfYvMVbfFThAD09y1QRrksZz8KkAOadBYrjmJUTboimz
+ 0GWsOE7YSewEYsqXkkRojGOXVbebJqDoMF32tNJHaf6lRKi8doYdQ4Sza2opw2aEEu2mIQ
+ 6hUQvzSk2oVR4QFQf4WrvdYRQ1tHD1E=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-21-HvYVR4JnNR6BvDfJ0DuGLA-1; Mon, 22 Jun 2020 06:45:47 -0400
-X-MC-Unique: HvYVR4JnNR6BvDfJ0DuGLA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-30-xyEKxh9jM5mPWNDjpFmaow-1; Mon, 22 Jun 2020 06:47:54 -0400
+X-MC-Unique: xyEKxh9jM5mPWNDjpFmaow-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8B76A464;
- Mon, 22 Jun 2020 10:45:45 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2C0D8464;
+ Mon, 22 Jun 2020 10:47:52 +0000 (UTC)
 Received: from gondolin (ovpn-113-56.ams2.redhat.com [10.36.113.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CC0C060BEC;
- Mon, 22 Jun 2020 10:45:34 +0000 (UTC)
-Date: Mon, 22 Jun 2020 12:45:32 +0200
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D68C75BAE6;
+ Mon, 22 Jun 2020 10:47:26 +0000 (UTC)
+Date: Mon, 22 Jun 2020 12:47:23 +0200
 From: Cornelia Huck <cohuck@redhat.com>
 To: Collin Walling <walling@linux.ibm.com>
-Subject: Re: [PATCH v3 4/8] s390/sclp: read sccb from mem based on sccb length
-Message-ID: <20200622124532.23dd722a.cohuck@redhat.com>
-In-Reply-To: <20200618222258.23287-5-walling@linux.ibm.com>
+Subject: Re: [PATCH v3 5/8] s390/sclp: use cpu offset to locate cpu entries
+Message-ID: <20200622124723.38c72cba.cohuck@redhat.com>
+In-Reply-To: <20200618222258.23287-6-walling@linux.ibm.com>
 References: <20200618222258.23287-1-walling@linux.ibm.com>
- <20200618222258.23287-5-walling@linux.ibm.com>
+ <20200618222258.23287-6-walling@linux.ibm.com>
 Organization: Red Hat GmbH
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=cohuck@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 02:57:26
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 03:17:49
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -88,21 +88,25 @@ Cc: thuth@redhat.com, frankja@linux.ibm.com, mst@redhat.com, david@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 18 Jun 2020 18:22:54 -0400
+On Thu, 18 Jun 2020 18:22:55 -0400
 Collin Walling <walling@linux.ibm.com> wrote:
 
-> The header of the SCCB contains the actual length of the SCCB. Instead
-> of using a static 4K size, let's allow for a variable size determined
-> by the value set in the header. The proper checks are already in place
-> to ensure the SCCB length is sufficent to store a full response, and
-> that the length does not cross any explicitly-set boundaries.
+> The start of the CPU entry region in the Read SCP Info response data is
+> denoted by the offset_cpu field. As such, QEMU needs to begin creating
+> entries at this address. Note that the length of the Read SCP Info data
+> (data_len) denotes the same value as the cpu offset.
+> 
+> This is in preparation of when Read SCP Info inevitably introduces new
+> bytes that push the start of the CPUEntry field further away.
+> 
+> Read CPU Info is unlikely to ever change, so let's not bother
+> accounting for the offset there.
 > 
 > Signed-off-by: Collin Walling <walling@linux.ibm.com>
 > Reviewed-by: Thomas Huth <thuth@redhat.com>
 > ---
->  hw/s390x/sclp.c | 13 ++++++++-----
->  1 file changed, 8 insertions(+), 5 deletions(-)
-> 
+>  hw/s390x/sclp.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 
 Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 
