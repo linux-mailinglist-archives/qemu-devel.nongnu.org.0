@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAE09203522
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 12:54:28 +0200 (CEST)
-Received: from localhost ([::1]:57856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07E38203539
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 13:00:26 +0200 (CEST)
+Received: from localhost ([::1]:46844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnK5r-0008NS-Oy
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 06:54:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40154)
+	id 1jnKBc-00088M-UX
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 07:00:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jnJus-0007VB-PF
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 06:43:06 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:24070
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jnJuw-0007Xa-VL
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 06:43:12 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:59237
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jnJun-0005Na-1v
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 06:43:06 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jnJuo-0005O5-Fo
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 06:43:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592822580;
+ s=mimecast20190719; t=1592822581;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gZGpqjNhU3VLrZIjNN+wDj8VUXVmtMcVJTCwh6ZL+O0=;
- b=NDC96Zp9Ov1Vfn3AaOa8ZR6d5avKEFXIX2qTFXHEbsmyDsJ2Yt09KfN7PO3vQ1dZgQu2pj
- /uei/DgWhlOskzq4ZSqcLETPluj0IzpRbUtDsCw5vasYzZlKkxa2g6EiX0VpAZ9oeSJXdc
- qH4O7FH2Kf2NSbnokLrRAIyzcjUOVNk=
+ bh=qzTw6UxJ8L4OXqqhniWyy68EfIosOn665HgoDeJSQZw=;
+ b=IGFl6s1xM2XU8pj2YW9RTlBiiXRfk2r+yxqpo7uAC6kTTA10D/I2mHLSXBlKm0v9ILfYrj
+ 7bWQJStRA6abpvU4x8SnPEujfwjrFeNbDfa4pbuGCXQ+PvLJRmBoe0LRbCY0Td4uo6EzcJ
+ z1XrVbRqGj2m5bn1OpDvVOruwJvKEAo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-247-Uo6zosgMODeovQNJ5LwRfA-1; Mon, 22 Jun 2020 06:42:58 -0400
-X-MC-Unique: Uo6zosgMODeovQNJ5LwRfA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-247-msETBKloPhaXSZvw_92fXg-1; Mon, 22 Jun 2020 06:42:58 -0400
+X-MC-Unique: msETBKloPhaXSZvw_92fXg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C4E4B10059AF;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AD3C58014D4;
  Mon, 22 Jun 2020 10:42:57 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-121.ams2.redhat.com
  [10.36.112.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 933305D9D5;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 76A2E60C05;
  Mon, 22 Jun 2020 10:42:57 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 4C98D1138483; Mon, 22 Jun 2020 12:42:51 +0200 (CEST)
+ id 501DE1138484; Mon, 22 Jun 2020 12:42:51 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 21/22] x86: Fix x86_cpu_new() error API violations
-Date: Mon, 22 Jun 2020 12:42:49 +0200
-Message-Id: <20200622104250.1404835-22-armbru@redhat.com>
+Subject: [PATCH 22/22] amd_iommu: Fix amdvi_realize() error API violation
+Date: Mon, 22 Jun 2020 12:42:50 +0200
+Message-Id: <20200622104250.1404835-23-armbru@redhat.com>
 In-Reply-To: <20200622104250.1404835-1-armbru@redhat.com>
 References: <20200622104250.1404835-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -91,46 +91,44 @@ latter kind twice without clearing it in between is wrong: if the
 first call sets an error, it no longer points to NULL for the second
 call.
 
-x86_cpu_new() is wrong that way: it passes &local_err to
-object_property_set_uint() without checking it, and then to
-qdev_realize().  Harmless, because the former can't actually fail
-here.
-
-Fix by checking for failure right away.  While there, replace
-qdev_realize(); object_unref() by qdev_realize_and_unref().
+amdvi_realize() is wrong that way: it passes @errp to qdev_realize(),
+object_property_get_int(), and msi_init() without checking it.  I
+can't tell offhand whether qdev_realize() can fail here.  Fix by
+checking it for failure.  object_property_get_int() can't.  Fix by
+passing &error_abort instead.
 
 Cc: Paolo Bonzini <pbonzini@redhat.com>
 Cc: Richard Henderson <rth@twiddle.net>
 Cc: Eduardo Habkost <ehabkost@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- hw/i386/x86.c | 12 +++---------
- 1 file changed, 3 insertions(+), 9 deletions(-)
+ hw/i386/amd_iommu.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-index 34229b45c7..3a7029e6db 100644
---- a/hw/i386/x86.c
-+++ b/hw/i386/x86.c
-@@ -118,16 +118,10 @@ uint32_t x86_cpu_apic_id_from_index(X86MachineState *x86ms,
+diff --git a/hw/i386/amd_iommu.c b/hw/i386/amd_iommu.c
+index b26d30da57..087f601666 100644
+--- a/hw/i386/amd_iommu.c
++++ b/hw/i386/amd_iommu.c
+@@ -1549,7 +1549,9 @@ static void amdvi_realize(DeviceState *dev, Error **errp)
  
- void x86_cpu_new(X86MachineState *x86ms, int64_t apic_id, Error **errp)
- {
--    Object *cpu = NULL;
--    Error *local_err = NULL;
-+    Object *cpu = object_new(MACHINE(x86ms)->cpu_type);
- 
--    cpu = object_new(MACHINE(x86ms)->cpu_type);
--
--    object_property_set_uint(cpu, apic_id, "apic-id", &local_err);
--    qdev_realize(DEVICE(cpu), NULL, &local_err);
--
--    object_unref(cpu);
--    error_propagate(errp, local_err);
-+    object_property_set_uint(cpu, apic_id, "apic-id", &error_abort);
-+    qdev_realize_and_unref(DEVICE(cpu), NULL, errp);
+     /* This device should take care of IOMMU PCI properties */
+     x86_iommu->type = TYPE_AMD;
+-    qdev_realize(DEVICE(&s->pci), &bus->qbus, errp);
++    if (!qdev_realize(DEVICE(&s->pci), &bus->qbus, errp)) {
++        return;
++    }
+     ret = pci_add_capability(&s->pci.dev, AMDVI_CAPAB_ID_SEC, 0,
+                                          AMDVI_CAPAB_SIZE, errp);
+     if (ret < 0) {
+@@ -1578,7 +1580,7 @@ static void amdvi_realize(DeviceState *dev, Error **errp)
+     sysbus_init_mmio(SYS_BUS_DEVICE(s), &s->mmio);
+     sysbus_mmio_map(SYS_BUS_DEVICE(s), 0, AMDVI_BASE_ADDR);
+     pci_setup_iommu(bus, amdvi_host_dma_iommu, s);
+-    s->devid = object_property_get_int(OBJECT(&s->pci), "addr", errp);
++    s->devid = object_property_get_int(OBJECT(&s->pci), "addr", &error_abort);
+     msi_init(&s->pci.dev, 0, 1, true, false, errp);
+     amdvi_init(s);
  }
- 
- void x86_cpus_init(X86MachineState *x86ms, int default_cpu_version)
 -- 
 2.26.2
 
