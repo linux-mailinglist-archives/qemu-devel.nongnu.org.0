@@ -2,62 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12A1A203A6B
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 17:13:18 +0200 (CEST)
-Received: from localhost ([::1]:52894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A425B203A7F
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 17:17:27 +0200 (CEST)
+Received: from localhost ([::1]:40612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnO8L-0002FA-0e
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 11:13:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50604)
+	id 1jnOCM-0001ze-M0
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 11:17:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jnO6U-00080L-40
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 11:11:22 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:60791
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jnO6y-0000gI-EQ
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 11:11:52 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:46835
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jnO6S-0005xp-77
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 11:11:21 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jnO6w-000633-0d
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 11:11:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592838679;
+ s=mimecast20190719; t=1592838709;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kWlk0RfHP85NHjTYR1qqmW5V+NFFmlDtq7OQu6ex83E=;
- b=cEq9lIGC2zncC8Zcwp1f/LZnHwB3HgApMCam8rtvU9pBal2RAsPX45gZ2vhzmyBqnB7dzA
- qVLEd7U/WsJwjXkPcNjZFPHfQybnuNlucNeiVTkVQJ9dbOfnkZhQ0rBb6tHGJtqYcCSIHk
- 19bB9SGAwXpVmNQm5ij4xEQRg/V/ln0=
+ bh=vZsdfrZa9AABbOcAVi25FTFLZq4GcjtpS1hXB4cDpkc=;
+ b=YMMCaz4ZYB/FEx028R+w+IZsaWSP5YIYggIofup8HACNuxCcACfXLA3EULThKSmvSGZ2e5
+ sl5ZZX2MejsKjzYz6CaH43P7x9bhWrA9lJN0LxA5ZT8ZPp2rJb8KUeJ6aAzZG2ZLKbCIU/
+ bjS4mkyY1/Z5lvgrOCOXnfSsG5BCfEM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-177-O2Zyv0SUNh6AZB5qCHPBgw-1; Mon, 22 Jun 2020 11:11:09 -0400
-X-MC-Unique: O2Zyv0SUNh6AZB5qCHPBgw-1
+ us-mta-124-bjPx4LH_NrW7CNMnZev_WA-1; Mon, 22 Jun 2020 11:11:11 -0400
+X-MC-Unique: bjPx4LH_NrW7CNMnZev_WA-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F0D9D1083E82;
- Mon, 22 Jun 2020 15:11:07 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2C2BE8005AD;
+ Mon, 22 Jun 2020 15:11:10 +0000 (UTC)
 Received: from localhost (ovpn-114-85.ams2.redhat.com [10.36.114.85])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 931EC10013D7;
- Mon, 22 Jun 2020 15:11:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C047A10013D7;
+ Mon, 22 Jun 2020 15:11:09 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 03/18] block/block-copy: block_copy_dirty_clusters: fix failure
- check
-Date: Mon, 22 Jun 2020 17:10:44 +0200
-Message-Id: <20200622151059.921191-4-mreitz@redhat.com>
+Subject: [PULL 04/18] qcrypto/core: add generic infrastructure for crypto
+ options amendment
+Date: Mon, 22 Jun 2020 17:10:45 +0200
+Message-Id: <20200622151059.921191-5-mreitz@redhat.com>
 In-Reply-To: <20200622151059.921191-1-mreitz@redhat.com>
 References: <20200622151059.921191-1-mreitz@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 02:57:26
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 01:27:42
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -83,35 +85,184 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+From: Maxim Levitsky <mlevitsk@redhat.com>
 
-ret may be > 0 on success path at this point. Fix assertion, which may
-crash currently.
+This will be used first to implement luks keyslot management.
 
-Fixes: 4ce5dd3e9b5ee0fac18625860eb3727399ee965e
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-Id: <20200526181347.489557-1-vsementsov@virtuozzo.com>
+block_crypto_amend_opts_init will be used to convert
+qemu-img cmdline to QCryptoBlockAmendOptions
+
+Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Message-Id: <20200608094030.670121-2-mlevitsk@redhat.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/block-copy.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ qapi/crypto.json       | 16 ++++++++++++++++
+ block/crypto.h         |  3 +++
+ crypto/blockpriv.h     |  8 ++++++++
+ include/crypto/block.h | 22 ++++++++++++++++++++++
+ block/crypto.c         | 17 +++++++++++++++++
+ crypto/block.c         | 29 +++++++++++++++++++++++++++++
+ 6 files changed, 95 insertions(+)
 
-diff --git a/block/block-copy.c b/block/block-copy.c
-index bb8d0569f2..f7428a7c08 100644
---- a/block/block-copy.c
-+++ b/block/block-copy.c
-@@ -622,8 +622,10 @@ out:
-          * block_copy_task_run. If it fails, it means some task already failed
-          * for real reason, let's return first failure.
-          * Still, assert that we don't rewrite failure by success.
-+         *
-+         * Note: ret may be positive here because of block-status result.
-          */
--        assert(ret == 0 || aio_task_pool_status(aio) < 0);
-+        assert(ret >= 0 || aio_task_pool_status(aio) < 0);
-         ret = aio_task_pool_status(aio);
+diff --git a/qapi/crypto.json b/qapi/crypto.json
+index b2a4cff683..aeb6c7ef7b 100644
+--- a/qapi/crypto.json
++++ b/qapi/crypto.json
+@@ -309,3 +309,19 @@
+   'base': 'QCryptoBlockInfoBase',
+   'discriminator': 'format',
+   'data': { 'luks': 'QCryptoBlockInfoLUKS' } }
++
++
++
++##
++# @QCryptoBlockAmendOptions:
++#
++# The options that are available for all encryption formats
++# when amending encryption settings
++#
++# Since: 5.1
++##
++{ 'union': 'QCryptoBlockAmendOptions',
++  'base': 'QCryptoBlockOptionsBase',
++  'discriminator': 'format',
++  'data': {
++            } }
+diff --git a/block/crypto.h b/block/crypto.h
+index b935695e79..06e044c9be 100644
+--- a/block/crypto.h
++++ b/block/crypto.h
+@@ -91,6 +91,9 @@
+ QCryptoBlockCreateOptions *
+ block_crypto_create_opts_init(QDict *opts, Error **errp);
  
-         aio_task_pool_free(aio);
++QCryptoBlockAmendOptions *
++block_crypto_amend_opts_init(QDict *opts, Error **errp);
++
+ QCryptoBlockOpenOptions *
+ block_crypto_open_opts_init(QDict *opts, Error **errp);
+ 
+diff --git a/crypto/blockpriv.h b/crypto/blockpriv.h
+index 71c59cb542..3c7ccea504 100644
+--- a/crypto/blockpriv.h
++++ b/crypto/blockpriv.h
+@@ -62,6 +62,14 @@ struct QCryptoBlockDriver {
+                   void *opaque,
+                   Error **errp);
+ 
++    int (*amend)(QCryptoBlock *block,
++                 QCryptoBlockReadFunc readfunc,
++                 QCryptoBlockWriteFunc writefunc,
++                 void *opaque,
++                 QCryptoBlockAmendOptions *options,
++                 bool force,
++                 Error **errp);
++
+     int (*get_info)(QCryptoBlock *block,
+                     QCryptoBlockInfo *info,
+                     Error **errp);
+diff --git a/include/crypto/block.h b/include/crypto/block.h
+index c77ccaf9c0..d274819791 100644
+--- a/include/crypto/block.h
++++ b/include/crypto/block.h
+@@ -144,6 +144,28 @@ QCryptoBlock *qcrypto_block_create(QCryptoBlockCreateOptions *options,
+                                    void *opaque,
+                                    Error **errp);
+ 
++/**
++ * qcrypto_block_amend_options:
++ * @block: the block encryption object
++ *
++ * @readfunc: callback for reading data from the volume header
++ * @writefunc: callback for writing data to the volume header
++ * @opaque: data to pass to @readfunc and @writefunc
++ * @options: the new/amended encryption options
++ * @force: hint for the driver to allow unsafe operation
++ * @errp: error pointer
++ *
++ * Changes the crypto options of the encryption format
++ *
++ */
++int qcrypto_block_amend_options(QCryptoBlock *block,
++                                QCryptoBlockReadFunc readfunc,
++                                QCryptoBlockWriteFunc writefunc,
++                                void *opaque,
++                                QCryptoBlockAmendOptions *options,
++                                bool force,
++                                Error **errp);
++
+ 
+ /**
+  * qcrypto_block_calculate_payload_offset:
+diff --git a/block/crypto.c b/block/crypto.c
+index 973b57b3eb..dcf8b42bb2 100644
+--- a/block/crypto.c
++++ b/block/crypto.c
+@@ -202,6 +202,23 @@ block_crypto_create_opts_init(QDict *opts, Error **errp)
+     return ret;
+ }
+ 
++QCryptoBlockAmendOptions *
++block_crypto_amend_opts_init(QDict *opts, Error **errp)
++{
++    Visitor *v;
++    QCryptoBlockAmendOptions *ret;
++
++    v = qobject_input_visitor_new_flat_confused(opts, errp);
++    if (!v) {
++        return NULL;
++    }
++
++    visit_type_QCryptoBlockAmendOptions(v, NULL, &ret, errp);
++
++    visit_free(v);
++    return ret;
++}
++
+ 
+ static int block_crypto_open_generic(QCryptoBlockFormat format,
+                                      QemuOptsList *opts_spec,
+diff --git a/crypto/block.c b/crypto/block.c
+index 6f42b32f1e..eb057948b5 100644
+--- a/crypto/block.c
++++ b/crypto/block.c
+@@ -150,6 +150,35 @@ qcrypto_block_calculate_payload_offset(QCryptoBlockCreateOptions *create_opts,
+     return crypto != NULL;
+ }
+ 
++int qcrypto_block_amend_options(QCryptoBlock *block,
++                                QCryptoBlockReadFunc readfunc,
++                                QCryptoBlockWriteFunc writefunc,
++                                void *opaque,
++                                QCryptoBlockAmendOptions *options,
++                                bool force,
++                                Error **errp)
++{
++    if (options->format != block->format) {
++        error_setg(errp,
++                   "Cannot amend encryption format");
++        return -1;
++    }
++
++    if (!block->driver->amend) {
++        error_setg(errp,
++                   "Crypto format %s doesn't support format options amendment",
++                   QCryptoBlockFormat_str(block->format));
++        return -1;
++    }
++
++    return block->driver->amend(block,
++                                readfunc,
++                                writefunc,
++                                opaque,
++                                options,
++                                force,
++                                errp);
++}
+ 
+ QCryptoBlockInfo *qcrypto_block_get_info(QCryptoBlock *block,
+                                          Error **errp)
 -- 
 2.26.2
 
