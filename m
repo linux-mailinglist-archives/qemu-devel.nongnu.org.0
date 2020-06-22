@@ -2,78 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05C912042C2
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 23:34:52 +0200 (CEST)
-Received: from localhost ([::1]:58738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13C3A2042D8
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 23:46:26 +0200 (CEST)
+Received: from localhost ([::1]:43150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnU5b-0005z7-2G
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 17:34:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39856)
+	id 1jnUGm-0005F9-7F
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 17:46:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cminyard@mvista.com>)
- id 1jnU3b-0004CF-E0
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 17:32:47 -0400
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:39640)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cminyard@mvista.com>)
- id 1jnU3W-000640-Me
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 17:32:46 -0400
-Received: by mail-oi1-x243.google.com with SMTP id d67so16978889oig.6
- for <qemu-devel@nongnu.org>; Mon, 22 Jun 2020 14:32:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mvista-com.20150623.gappssmtp.com; s=20150623;
- h=date:from:to:cc:subject:message-id:reply-to:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=a1lkXyQ9aSVkgk0mGXS9UNgX64K5VdRMoBWw1iXHdaw=;
- b=q945bKmjtdBzXdK9vxfQYEoBcHZaZHBHuQrhXNMOsd7lZ3WMJSn5KirlPoZMCBdJKP
- Rxrsm0pvZuwPtf+TJ4C94Nd+smFkLhtl+UbrR8d1oZgs9rzqsWmLAPU0nDcNL/xkJ4TI
- +LdU2Xi5yZ17BcheEdgAa/stkH/DsDb59R7ZqZudL+hEC9jCD/cShlyWQFqYTptGMQZ4
- Rzd8ZzOGBGl20RwrV0N5itGtU9pwIxfyiUC12goYo0u6D4ncas+sH8NtN04DFL899NtK
- 3PRzEZfzoWMpPdXyFSRVbY6z8nqUGhVS6bKvtjSxsdq30mPL++Th4co/tkZpzLj1xwe+
- s1wg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:reply-to
- :references:mime-version:content-disposition:in-reply-to:user-agent;
- bh=a1lkXyQ9aSVkgk0mGXS9UNgX64K5VdRMoBWw1iXHdaw=;
- b=oQocCez5MpOwPpoyBqlygc1A6mXGTnz9917Gbyog4+ldhAKJmrTyBltFr3N/5/deXV
- gXS7oxKaCEN9JTTjoS4F+9DVDBnO9WVXiP2rI+BnHJ/kcZUm2d+tPZZF+RYHh20A1acD
- npE2BPcauQnCDMSqfFCHSkcyDVAGjQF6/KH+hwgYe53ZoP7Jj+47zGVrdAz5/Y/QZuvW
- DB51fHgvE6PR/rD9Uv6shWKloNxuSQ1awX+QOWHBmgBoD3m1Mr8Mlsyc384C0Wo/oNuG
- YOF42AmjK7IMdflTMxpnNYkLvJBTEkwNQrwBL8Q6svopP+dB3pviGy/JKVXProtjE01Z
- wixg==
-X-Gm-Message-State: AOAM531Q7O2vvO1uKyXm0joh/wpTP0PnYiZrmmbyYGkmUOIMUrVWszsx
- TQQN9ORBre3wG/1hDtkb0e3kaA==
-X-Google-Smtp-Source: ABdhPJyZGqPr6GJa21asZITlwkTlYoMY9xfBPvqK/QY86/A9rFYDCPFGmXurjL7CwSIJhOTZ9KOg5A==
-X-Received: by 2002:aca:554c:: with SMTP id j73mr14628599oib.172.1592861560253; 
- Mon, 22 Jun 2020 14:32:40 -0700 (PDT)
-Received: from minyard.net ([2001:470:b8f6:1b:acca:171:3424:849f])
- by smtp.gmail.com with ESMTPSA id z5sm3568876otp.28.2020.06.22.14.32.39
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Mon, 22 Jun 2020 14:32:39 -0700 (PDT)
-Date: Mon, 22 Jun 2020 16:32:37 -0500
-From: Corey Minyard <cminyard@mvista.com>
-To: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: Re: [PATCH] i2c: Match parameters of i2c_start_transfer and
- i2c_send_recv
-Message-ID: <20200622213237.GB3258@minyard.net>
-References: <20200621145235.9E241745712@zero.eik.bme.hu>
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jnUFC-0004Zq-JO
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 17:44:46 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:33993
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jnUFA-0003Ac-6E
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 17:44:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1592862282;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=csFN2T4s0NdUHdPmMmB0W6Bd4KLW4uJGAiELDf0bAPo=;
+ b=VzgpU/Rm4cFANgylJTnRwZsQVrcale13KZSHtEYnVPFwXnDzjfG8yiWxhnvlmxb2RRZu6i
+ v+HWw4CATcFOl95Dxg7IHYQ7Y3rSDYT7FXvgFrflsV4x6SGb8BZzrj0uCjoAJivIKZ+iYA
+ ZwO1pWkly6LQSF661NyFY2/xguQ4vrk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-347-Qxec_M6rPJyTwsLBw3y8vw-1; Mon, 22 Jun 2020 17:44:35 -0400
+X-MC-Unique: Qxec_M6rPJyTwsLBw3y8vw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F3DD0464;
+ Mon, 22 Jun 2020 21:44:33 +0000 (UTC)
+Received: from [10.3.114.4] (ovpn-114-4.phx2.redhat.com [10.3.114.4])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4A38910013D2;
+ Mon, 22 Jun 2020 21:44:32 +0000 (UTC)
+Subject: Re: [PATCH v3 1/6] block: add bitmap-populate job
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel@nongnu.org
+References: <20200619195621.58740-1-eblake@redhat.com>
+ <20200619195621.58740-2-eblake@redhat.com>
+ <074b3859-a6e1-1388-2142-5a7af8ee3fdb@virtuozzo.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <74dc0ce7-2c0e-c987-cbc8-398d2c23f21a@redhat.com>
+Date: Mon, 22 Jun 2020 16:44:30 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200621145235.9E241745712@zero.eik.bme.hu>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Received-SPF: permerror client-ip=2607:f8b0:4864:20::243;
- envelope-from=cminyard@mvista.com; helo=mail-oi1-x243.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+In-Reply-To: <074b3859-a6e1-1388-2142-5a7af8ee3fdb@virtuozzo.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=eblake@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 02:57:26
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,167 +84,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: cminyard@mvista.com
-Cc: KONRAD Frederic <frederic.konrad@adacore.com>, qemu-devel@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: kwolf@redhat.com, pkrempa@redhat.com, qemu-block@nongnu.org,
+ armbru@redhat.com, mreitz@redhat.com, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Jun 21, 2020 at 04:43:38PM +0200, BALATON Zoltan wrote:
-> These functions have a parameter that decides the direction of
-> transfer but totally confusingly they don't match but inverted sense.
-> To avoid frequent mistakes when using these functions change
-> i2c_send_recv to match i2c_start_transfer. Also use bool in
-> i2c_start_transfer instead of int to match i2c_send_recv.
+On 6/19/20 11:16 PM, Vladimir Sementsov-Ogievskiy wrote:
+> 19.06.2020 22:56, Eric Blake wrote:
+>> From: John Snow <jsnow@redhat.com>
+>>
+>> This job copies the allocation map into a bitmap. It's a job because
+>> there's no guarantee that allocation interrogation will be quick (or
+>> won't hang), so it cannot be retrofitted into block-dirty-bitmap-merge.
+>>
+>> It was designed with different possible population patterns in mind,
+>> but only top layer allocation was implemented for now.
+>>
+>> Signed-off-by: John Snow <jsnow@redhat.com>
+>> Signed-off-by: Eric Blake <eblake@redhat.com>
+>> ---
 
-Hmm, I have to admit that this is a little better.  Indeed the
-hw/misc/auxbus.c looks suspicious.  I can't imagine that code has ever
-been tested.
+>> +{ 'struct': 'BlockDirtyBitmapPopulate',
+>> +  'base': 'BlockDirtyBitmap',
+>> +  'data': { 'job-id': 'str',
+>> +            'pattern': 'BitmapPattern',
+>> +            '*on-error': 'BlockdevOnError',
+>> +            '*auto-finalize': 'bool',
+>> +            '*auto-dismiss': 'bool' } }
+>> +
+> 
+> Peter said about a possibility of populating several target bitmaps 
+> simultaneously.
+> 
+> What about such a generalized semantics:
+> 
+> Merge all sources to each target
+> 
+> @targets: list of bitmaps to be populated by the job
+> { 'struct': 'BlockDirtyBitmapPopulate',
+>    'data': { <common job fields>,
+>              'targets': ['BlockDirtyBitmap'],
+>              'sources': ['BitmapPopulateSource'] } }
 
-I don't know the policy on changing an API like this with silent
-semantic changes.  You've gotten all the internal ones; I'm wondering if
-we worry about silently breaking out of tree things.
+We still need the 'pattern' argument (the idea being that if we have: 
+Base <- Active, we want to be able to merge in the allocation map of 
+Active into bitmaps stored in Base as part of a commit operation, 
+whether that is active commit of a live guest or offline commit while 
+the guest is offline).  Having an array for 'targets' to merge into is 
+fine, but for 'sources', it's less a concern about selecting from 
+multiple sources, and more a concern about selecting the allocation 
+pattern to be merged in (libvirt wants to merge the same allocation 
+pattern into each bitmap in Base).  Generalizing things to allow the 
+merge of more than one source at once might not hurt, but I'm not sure 
+we need it yet.
 
-I'll pull this into my tree, but hopefully others will comment on this.
-
--corey
+But there are other patterns that we may want to support: an all-ones 
+pattern, or maybe a pattern that tracks known-zeros instead of allocation.
 
 > 
-> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-> ---
-> Looks like hw/misc/auxbus.c already got this wrong and calls both
-> i2c_start_transfer and i2c_send_recv with same is_write parameter.
-> Although the name of the is_write variable suggest this may need to be
-> inverted I'm not sure what that value actially means and which usage
-> was correct so I did not touch it. Someone knowing this device might
-> want to review and fix it.
 > 
->  hw/display/sm501.c   |  2 +-
->  hw/i2c/core.c        | 34 +++++++++++++++++-----------------
->  hw/i2c/ppc4xx_i2c.c  |  2 +-
->  include/hw/i2c/i2c.h |  4 ++--
->  4 files changed, 21 insertions(+), 21 deletions(-)
+> @bitmap: specify dirty bitmap to be merged to target bitamp(s)
+> @node: specify a node name, which allocation-map is to be merged to 
+> target bitmap(s)
+> { 'alternate': 'BitmapPopulateSource',
+>    'data': { 'bitmap': 'BlockDirtyBitmap',
+>              'node': 'str' } }
+
+This design is clever in that it lets us merge in both existing bitmaps 
+and using a node-name for merging in an allocation map instead of a 
+bitmap; but it limits us to only one pattern.  Better might be something 
+where we supply a union (hmm, we've had proposals in the past for a 
+default value to the discriminator to allow it to be optional, so I'll 
+proceed as if we will finally implement that):
+
+{ 'enum': 'BitmapPattern', 'data': [ 'bitmap', 'allocation-top' ] }
+{ 'union': 'BitmapPopulateSource',
+   'base': { '*pattern': 'BitmapPattern' },
+   'discriminator': { 'name': 'pattern', 'default': 'bitmap' },
+   'data': { 'bitmap': 'BitmapPopulateSource',
+             'allocation-top': { 'node': 'str' } } }
+
+so that you can then do:
+
+{ "execute": "block-dirty-bitmap-populate",
+   "arguments": { "targets": [ { "node": "base", "name": "b1" },
+                               { "node": "base", "name": "b2" } ],
+         "sources": [ { "pattern": "allocation-top", "node": "top" } ]
+   } }
+
+to merge in the allocation information of top into multiple bitmaps of 
+base at once, or conversely, do:
+
+{ "execute": "block-dirty-bitmap-populate",
+   "arguments": { "targets": [ { "node": "base", "name": "b1" } ],
+         "sources": [ { "pattern": "bitmap",
+                        "node": "top", "name": "b1" } ]
+   } }
+{ "execute": "block-dirty-bitmap-populate",
+   "arguments": { "targets": [ { "node": "base", "name": "b2" } ],
+         "sources": [ { "node": "top", "name": "b2" } ]
+   } }
+
+and of course, wrap this in a "transaction" to ensure that it all 
+succeeds or fails as a unit, rather than messing up one bitmap if 
+another fails, while also allowing future extension for additional patterns.
+
 > 
-> diff --git a/hw/display/sm501.c b/hw/display/sm501.c
-> index 2db347dcbc..ccd0a6e376 100644
-> --- a/hw/display/sm501.c
-> +++ b/hw/display/sm501.c
-> @@ -1034,7 +1034,7 @@ static void sm501_i2c_write(void *opaque, hwaddr addr, uint64_t value,
->                      int i;
->                      for (i = 0; i <= s->i2c_byte_count; i++) {
->                          res = i2c_send_recv(s->i2c_bus, &s->i2c_data[i],
-> -                                            !(s->i2c_addr & 1));
-> +                                            s->i2c_addr & 1);
->                          if (res) {
->                              s->i2c_status |= SM501_I2C_STATUS_ERROR;
->                              return;
-> diff --git a/hw/i2c/core.c b/hw/i2c/core.c
-> index 1aac457a2a..c9d01df427 100644
-> --- a/hw/i2c/core.c
-> +++ b/hw/i2c/core.c
-> @@ -91,7 +91,7 @@ int i2c_bus_busy(I2CBus *bus)
->   * without releasing the bus.  If that fails, the bus is still
->   * in a transaction.
->   */
-> -int i2c_start_transfer(I2CBus *bus, uint8_t address, int recv)
-> +int i2c_start_transfer(I2CBus *bus, uint8_t address, bool recv)
->  {
->      BusChild *kid;
->      I2CSlaveClass *sc;
-> @@ -175,26 +175,14 @@ void i2c_end_transfer(I2CBus *bus)
->      bus->broadcast = false;
->  }
->  
-> -int i2c_send_recv(I2CBus *bus, uint8_t *data, bool send)
-> +int i2c_send_recv(I2CBus *bus, uint8_t *data, bool recv)
->  {
->      I2CSlaveClass *sc;
->      I2CSlave *s;
->      I2CNode *node;
->      int ret = 0;
->  
-> -    if (send) {
-> -        QLIST_FOREACH(node, &bus->current_devs, next) {
-> -            s = node->elt;
-> -            sc = I2C_SLAVE_GET_CLASS(s);
-> -            if (sc->send) {
-> -                trace_i2c_send(s->address, *data);
-> -                ret = ret || sc->send(s, *data);
-> -            } else {
-> -                ret = -1;
-> -            }
-> -        }
-> -        return ret ? -1 : 0;
-> -    } else {
-> +    if (recv) {
->          ret = 0xff;
->          if (!QLIST_EMPTY(&bus->current_devs) && !bus->broadcast) {
->              sc = I2C_SLAVE_GET_CLASS(QLIST_FIRST(&bus->current_devs)->elt);
-> @@ -206,19 +194,31 @@ int i2c_send_recv(I2CBus *bus, uint8_t *data, bool send)
->          }
->          *data = ret;
->          return 0;
-> +    } else {
-> +        QLIST_FOREACH(node, &bus->current_devs, next) {
-> +            s = node->elt;
-> +            sc = I2C_SLAVE_GET_CLASS(s);
-> +            if (sc->send) {
-> +                trace_i2c_send(s->address, *data);
-> +                ret = ret || sc->send(s, *data);
-> +            } else {
-> +                ret = -1;
-> +            }
-> +        }
-> +        return ret ? -1 : 0;
->      }
->  }
->  
->  int i2c_send(I2CBus *bus, uint8_t data)
->  {
-> -    return i2c_send_recv(bus, &data, true);
-> +    return i2c_send_recv(bus, &data, false);
->  }
->  
->  uint8_t i2c_recv(I2CBus *bus)
->  {
->      uint8_t data = 0xff;
->  
-> -    i2c_send_recv(bus, &data, false);
-> +    i2c_send_recv(bus, &data, true);
->      return data;
->  }
->  
-> diff --git a/hw/i2c/ppc4xx_i2c.c b/hw/i2c/ppc4xx_i2c.c
-> index c0a8e04567..d3899203a4 100644
-> --- a/hw/i2c/ppc4xx_i2c.c
-> +++ b/hw/i2c/ppc4xx_i2c.c
-> @@ -239,7 +239,7 @@ static void ppc4xx_i2c_writeb(void *opaque, hwaddr addr, uint64_t value,
->                      }
->                  }
->                  if (!(i2c->sts & IIC_STS_ERR) &&
-> -                    i2c_send_recv(i2c->bus, &i2c->mdata[i], !recv)) {
-> +                    i2c_send_recv(i2c->bus, &i2c->mdata[i], recv)) {
->                      i2c->sts |= IIC_STS_ERR;
->                      i2c->extsts |= IIC_EXTSTS_XFRA;
->                      break;
-> diff --git a/include/hw/i2c/i2c.h b/include/hw/i2c/i2c.h
-> index 4117211565..a09ab9230b 100644
-> --- a/include/hw/i2c/i2c.h
-> +++ b/include/hw/i2c/i2c.h
-> @@ -72,10 +72,10 @@ struct I2CBus {
->  I2CBus *i2c_init_bus(DeviceState *parent, const char *name);
->  void i2c_set_slave_address(I2CSlave *dev, uint8_t address);
->  int i2c_bus_busy(I2CBus *bus);
-> -int i2c_start_transfer(I2CBus *bus, uint8_t address, int recv);
-> +int i2c_start_transfer(I2CBus *bus, uint8_t address, bool recv);
->  void i2c_end_transfer(I2CBus *bus);
->  void i2c_nack(I2CBus *bus);
-> -int i2c_send_recv(I2CBus *bus, uint8_t *data, bool send);
-> +int i2c_send_recv(I2CBus *bus, uint8_t *data, bool recv);
->  int i2c_send(I2CBus *bus, uint8_t data);
->  uint8_t i2c_recv(I2CBus *bus);
->  
-> -- 
-> 2.21.3
 > 
+> - so, we can merge several bitmaps together with several allocation maps 
+> into several target bitmaps.
+> (I remember, we also said about a possibility of starting several 
+> populating jobs, populating into
+>   same bitmap, I think it may be substituted by one job with several 
+> sources. Still, it's not hard to
+>   allow to use target bitmaps in a several jobs simultaneously and this 
+> is not about the QAPI interface)
+> 
+> Will this simplify things in libvirt?
+
+Peter, in your preliminary experiments with block-dirty-bitmap-populate, 
+did you ever need to start more than one job to a single bitmap 
+destination, or was it merely starting multiple jobs because you had 
+multiple destinations but always just a single source?
+
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
 
