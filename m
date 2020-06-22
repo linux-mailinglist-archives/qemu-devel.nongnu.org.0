@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DE9920351C
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 12:50:48 +0200 (CEST)
-Received: from localhost ([::1]:45598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50E4E20351E
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 12:52:34 +0200 (CEST)
+Received: from localhost ([::1]:51456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnK2J-0002hg-9G
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 06:50:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40298)
+	id 1jnK41-0005K2-Bz
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 06:52:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jnJv1-0007bO-BX
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 06:43:16 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:60141
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jnJup-0007S0-C1
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 06:43:03 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:44928
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jnJup-0005Oe-8k
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 06:43:15 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jnJum-0005N3-4x
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 06:43:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592822582;
+ s=mimecast20190719; t=1592822579;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8H1YHtBcqS6l+4xuVI+dYBAI2P39Jxhrz+3g5iy/t24=;
- b=PufJ7zWHXZo3e4mnGZUMjGusoVjg0sXJ83Kqjju02r4ZqW/jcuyo2upCm+tcn5HMRbXtPK
- xkuFzC9PPA4w3faXJfnKKq3NmrUkDpVj5+FiJEe1mQxWEJDwRWA3oUHRNyNJH7ctvi6SKh
- 87SpgE0NZN3N6P/ylc8EjxmT/BdcGRw=
+ bh=C34+qp2KRubOug7MkPViSTZ/lLcOZggxGpR4W9NJKGs=;
+ b=JObpR14crGw9uroxpSk0OKzYk8mVIfgWRV7a+khNmSIA525RbLTi5IKW5BhTLmlruibpz4
+ PaBNwcpIfl/xHbjdC+b/xd0tzx0uniz/PWNupBkHZVPvf4r9f5rSBLvwD8h/7EjKEEsaRw
+ NsvdshPIIWmVyjaFEdvZqVTWixKXn3U=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-275-FrHsC8a0NxuEmqXO4OKoYQ-1; Mon, 22 Jun 2020 06:42:56 -0400
-X-MC-Unique: FrHsC8a0NxuEmqXO4OKoYQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-438-ZIK3vc4OPWqOmIhY6wvQVQ-1; Mon, 22 Jun 2020 06:42:57 -0400
+X-MC-Unique: ZIK3vc4OPWqOmIhY6wvQVQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0BBA68014D4
- for <qemu-devel@nongnu.org>; Mon, 22 Jun 2020 10:42:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 32F6AEC1A0;
+ Mon, 22 Jun 2020 10:42:56 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-121.ams2.redhat.com
  [10.36.112.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D169A1A4D9
- for <qemu-devel@nongnu.org>; Mon, 22 Jun 2020 10:42:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 04D5F5D9D5;
+ Mon, 22 Jun 2020 10:42:56 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 2BC34113847A; Mon, 22 Jun 2020 12:42:51 +0200 (CEST)
+ id 2F4EB113847B; Mon, 22 Jun 2020 12:42:51 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 12/22] tests/qom-proplist: Delete a superfluous error_free()
-Date: Mon, 22 Jun 2020 12:42:40 +0200
-Message-Id: <20200622104250.1404835-13-armbru@redhat.com>
+Subject: [PATCH 13/22] aspeed: Clean up roundabout error propagation
+Date: Mon, 22 Jun 2020 12:42:41 +0200
+Message-Id: <20200622104250.1404835-14-armbru@redhat.com>
 In-Reply-To: <20200622104250.1404835-1-armbru@redhat.com>
 References: <20200622104250.1404835-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 02:57:26
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 03:17:49
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -80,26 +80,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Replace
+
+        sysbus_realize(SYS_BUS_DEVICE(&s->spi[i]), &local_err);
+        error_propagate(&err, local_err);
+        if (err) {
+            error_propagate(errp, err);
+            return;
+	}
+
+by
+
+        sysbus_realize(SYS_BUS_DEVICE(&s->spi[i]), &err);
+        if (err) {
+            error_propagate(errp, err);
+            return;
+	}
+
+Cc: Cédric Le Goater <clg@kaod.org>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- tests/check-qom-proplist.c | 1 -
- 1 file changed, 1 deletion(-)
+ hw/arm/aspeed_ast2600.c | 10 ++++------
+ hw/arm/aspeed_soc.c     | 10 ++++------
+ 2 files changed, 8 insertions(+), 12 deletions(-)
 
-diff --git a/tests/check-qom-proplist.c b/tests/check-qom-proplist.c
-index a44d6e1171..347a866319 100644
---- a/tests/check-qom-proplist.c
-+++ b/tests/check-qom-proplist.c
-@@ -421,7 +421,6 @@ static void test_dummy_createcmdl(void)
+diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
+index 6da687299f..08b3592e36 100644
+--- a/hw/arm/aspeed_ast2600.c
++++ b/hw/arm/aspeed_ast2600.c
+@@ -228,7 +228,7 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
+     int i;
+     AspeedSoCState *s = ASPEED_SOC(dev);
+     AspeedSoCClass *sc = ASPEED_SOC_GET_CLASS(s);
+-    Error *err = NULL, *local_err = NULL;
++    Error *err = NULL;
+     qemu_irq irq;
  
-     user_creatable_del("dev0", &err);
-     g_assert(err == NULL);
--    error_free(err);
+     /* IO space */
+@@ -394,8 +394,7 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
+             return;
+         }
+         object_property_set_int(OBJECT(&s->spi[i]), 1, "num-cs", &err);
+-        sysbus_realize(SYS_BUS_DEVICE(&s->spi[i]), &local_err);
+-        error_propagate(&err, local_err);
++        sysbus_realize(SYS_BUS_DEVICE(&s->spi[i]), &err);
+         if (err) {
+             error_propagate(errp, err);
+             return;
+@@ -446,11 +445,10 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
+     for (i = 0; i < sc->macs_num; i++) {
+         object_property_set_bool(OBJECT(&s->ftgmac100[i]), true, "aspeed",
+                                  &err);
+-        sysbus_realize(SYS_BUS_DEVICE(&s->ftgmac100[i]), &local_err);
+-        error_propagate(&err, local_err);
++        sysbus_realize(SYS_BUS_DEVICE(&s->ftgmac100[i]), &err);
+         if (err) {
+             error_propagate(errp, err);
+-           return;
++            return;
+         }
+         sysbus_mmio_map(SYS_BUS_DEVICE(&s->ftgmac100[i]), 0,
+                         sc->memmap[ASPEED_ETH1 + i]);
+diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
+index 810cf9b6cc..ec21de50ce 100644
+--- a/hw/arm/aspeed_soc.c
++++ b/hw/arm/aspeed_soc.c
+@@ -218,7 +218,7 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
+     int i;
+     AspeedSoCState *s = ASPEED_SOC(dev);
+     AspeedSoCClass *sc = ASPEED_SOC_GET_CLASS(s);
+-    Error *err = NULL, *local_err = NULL;
++    Error *err = NULL;
  
-     object_unref(OBJECT(dobj));
- 
+     /* IO space */
+     create_unimplemented_device("aspeed_soc.io", sc->memmap[ASPEED_IOMEM],
+@@ -340,8 +340,7 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
+     /* SPI */
+     for (i = 0; i < sc->spis_num; i++) {
+         object_property_set_int(OBJECT(&s->spi[i]), 1, "num-cs", &err);
+-        sysbus_realize(SYS_BUS_DEVICE(&s->spi[i]), &local_err);
+-        error_propagate(&err, local_err);
++        sysbus_realize(SYS_BUS_DEVICE(&s->spi[i]), &err);
+         if (err) {
+             error_propagate(errp, err);
+             return;
+@@ -392,11 +391,10 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
+     for (i = 0; i < sc->macs_num; i++) {
+         object_property_set_bool(OBJECT(&s->ftgmac100[i]), true, "aspeed",
+                                  &err);
+-        sysbus_realize(SYS_BUS_DEVICE(&s->ftgmac100[i]), &local_err);
+-        error_propagate(&err, local_err);
++        sysbus_realize(SYS_BUS_DEVICE(&s->ftgmac100[i]), &err);
+         if (err) {
+             error_propagate(errp, err);
+-           return;
++            return;
+         }
+         sysbus_mmio_map(SYS_BUS_DEVICE(&s->ftgmac100[i]), 0,
+                         sc->memmap[ASPEED_ETH1 + i]);
 -- 
 2.26.2
 
