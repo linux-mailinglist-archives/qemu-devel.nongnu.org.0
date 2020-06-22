@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07E38203539
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 13:00:26 +0200 (CEST)
-Received: from localhost ([::1]:46844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D27B203530
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 12:56:51 +0200 (CEST)
+Received: from localhost ([::1]:37538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnKBc-00088M-UX
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 07:00:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40216)
+	id 1jnK8A-0003wH-6L
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 06:56:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40712)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jnJuw-0007Xa-VL
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 06:43:12 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:59237
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jnJxX-0003LT-2q
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 06:45:51 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:23420
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jnJuo-0005O5-Fo
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 06:43:10 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jnJxV-0005u7-Ai
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 06:45:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592822581;
+ s=mimecast20190719; t=1592822748;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qzTw6UxJ8L4OXqqhniWyy68EfIosOn665HgoDeJSQZw=;
- b=IGFl6s1xM2XU8pj2YW9RTlBiiXRfk2r+yxqpo7uAC6kTTA10D/I2mHLSXBlKm0v9ILfYrj
- 7bWQJStRA6abpvU4x8SnPEujfwjrFeNbDfa4pbuGCXQ+PvLJRmBoe0LRbCY0Td4uo6EzcJ
- z1XrVbRqGj2m5bn1OpDvVOruwJvKEAo=
+ bh=SQ8HakB7ZbOWyB4Yh3QhjSoK4c42rgj7fcN30BSDmzc=;
+ b=YhUIwiSw1DdVDRa97pVC9L+RUW6vbneiDYp+lkNoS734HWQPCm8pTwSKqsKp/lqp/zUupR
+ 968oBlGD9zWzNQ+PN/h6qb1ILEfDHIfBLihFdnVkmmrozGuAUa/I2aac5YzRPprocBDSV4
+ lJ/IKwSY5zFqLOTcFCf+IfjgngsVmi8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-247-msETBKloPhaXSZvw_92fXg-1; Mon, 22 Jun 2020 06:42:58 -0400
-X-MC-Unique: msETBKloPhaXSZvw_92fXg-1
+ us-mta-21-HvYVR4JnNR6BvDfJ0DuGLA-1; Mon, 22 Jun 2020 06:45:47 -0400
+X-MC-Unique: HvYVR4JnNR6BvDfJ0DuGLA-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AD3C58014D4;
- Mon, 22 Jun 2020 10:42:57 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-121.ams2.redhat.com
- [10.36.112.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 76A2E60C05;
- Mon, 22 Jun 2020 10:42:57 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 501DE1138484; Mon, 22 Jun 2020 12:42:51 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 22/22] amd_iommu: Fix amdvi_realize() error API violation
-Date: Mon, 22 Jun 2020 12:42:50 +0200
-Message-Id: <20200622104250.1404835-23-armbru@redhat.com>
-In-Reply-To: <20200622104250.1404835-1-armbru@redhat.com>
-References: <20200622104250.1404835-1-armbru@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8B76A464;
+ Mon, 22 Jun 2020 10:45:45 +0000 (UTC)
+Received: from gondolin (ovpn-113-56.ams2.redhat.com [10.36.113.56])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CC0C060BEC;
+ Mon, 22 Jun 2020 10:45:34 +0000 (UTC)
+Date: Mon, 22 Jun 2020 12:45:32 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Collin Walling <walling@linux.ibm.com>
+Subject: Re: [PATCH v3 4/8] s390/sclp: read sccb from mem based on sccb length
+Message-ID: <20200622124532.23dd722a.cohuck@redhat.com>
+In-Reply-To: <20200618222258.23287-5-walling@linux.ibm.com>
+References: <20200618222258.23287-1-walling@linux.ibm.com>
+ <20200618222258.23287-5-walling@linux.ibm.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=cohuck@redhat.com;
  helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 02:57:26
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -80,56 +81,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: thuth@redhat.com, frankja@linux.ibm.com, mst@redhat.com, david@redhat.com,
+ qemu-devel@nongnu.org, pasic@linux.ibm.com, borntraeger@de.ibm.com,
+ qemu-s390x@nongnu.org, svens@linux.ibm.com, pbonzini@redhat.com,
+ mihajlov@linux.ibm.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Error ** argument must be NULL, &error_abort, &error_fatal, or a
-pointer to a variable containing NULL.  Passing an argument of the
-latter kind twice without clearing it in between is wrong: if the
-first call sets an error, it no longer points to NULL for the second
-call.
+On Thu, 18 Jun 2020 18:22:54 -0400
+Collin Walling <walling@linux.ibm.com> wrote:
 
-amdvi_realize() is wrong that way: it passes @errp to qdev_realize(),
-object_property_get_int(), and msi_init() without checking it.  I
-can't tell offhand whether qdev_realize() can fail here.  Fix by
-checking it for failure.  object_property_get_int() can't.  Fix by
-passing &error_abort instead.
+> The header of the SCCB contains the actual length of the SCCB. Instead
+> of using a static 4K size, let's allow for a variable size determined
+> by the value set in the header. The proper checks are already in place
+> to ensure the SCCB length is sufficent to store a full response, and
+> that the length does not cross any explicitly-set boundaries.
+> 
+> Signed-off-by: Collin Walling <walling@linux.ibm.com>
+> Reviewed-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  hw/s390x/sclp.c | 13 ++++++++-----
+>  1 file changed, 8 insertions(+), 5 deletions(-)
+> 
 
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Richard Henderson <rth@twiddle.net>
-Cc: Eduardo Habkost <ehabkost@redhat.com>
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
----
- hw/i386/amd_iommu.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/hw/i386/amd_iommu.c b/hw/i386/amd_iommu.c
-index b26d30da57..087f601666 100644
---- a/hw/i386/amd_iommu.c
-+++ b/hw/i386/amd_iommu.c
-@@ -1549,7 +1549,9 @@ static void amdvi_realize(DeviceState *dev, Error **errp)
- 
-     /* This device should take care of IOMMU PCI properties */
-     x86_iommu->type = TYPE_AMD;
--    qdev_realize(DEVICE(&s->pci), &bus->qbus, errp);
-+    if (!qdev_realize(DEVICE(&s->pci), &bus->qbus, errp)) {
-+        return;
-+    }
-     ret = pci_add_capability(&s->pci.dev, AMDVI_CAPAB_ID_SEC, 0,
-                                          AMDVI_CAPAB_SIZE, errp);
-     if (ret < 0) {
-@@ -1578,7 +1580,7 @@ static void amdvi_realize(DeviceState *dev, Error **errp)
-     sysbus_init_mmio(SYS_BUS_DEVICE(s), &s->mmio);
-     sysbus_mmio_map(SYS_BUS_DEVICE(s), 0, AMDVI_BASE_ADDR);
-     pci_setup_iommu(bus, amdvi_host_dma_iommu, s);
--    s->devid = object_property_get_int(OBJECT(&s->pci), "addr", errp);
-+    s->devid = object_property_get_int(OBJECT(&s->pci), "addr", &error_abort);
-     msi_init(&s->pci.dev, 0, 1, true, false, errp);
-     amdvi_init(s);
- }
--- 
-2.26.2
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 
 
