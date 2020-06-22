@@ -2,62 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1222C203B03
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 17:36:37 +0200 (CEST)
-Received: from localhost ([::1]:33392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7B07203AFB
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 17:35:19 +0200 (CEST)
+Received: from localhost ([::1]:57402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnOUu-00028j-5b
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 11:36:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57214)
+	id 1jnOTe-00057B-3b
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 11:35:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57222)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jnORv-0004A2-8s
+ id 1jnORv-0004A5-8a
  for qemu-devel@nongnu.org; Mon, 22 Jun 2020 11:33:31 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:39597
- helo=us-smtp-1.mimecast.com)
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:42675
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jnORs-00027h-KW
+ id 1jnORt-000281-5d
  for qemu-devel@nongnu.org; Mon, 22 Jun 2020 11:33:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592840006;
+ s=mimecast20190719; t=1592840008;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=ZLYTi1g/Mnv+zI9k7mRjUo2yu8MgpoJho4Uw0zqEOFE=;
- b=YsP9LCNKxAIy4AyxHoqvM51ZLPviNPrNTo81fJxDp0PT1nQxOwvUKsw5vu+ShLGGmFxCis
- dUxZzCm188Bx+1AfwN1tRdK9SIr9aGgOeoe8knTVeqMCKFvvsoz11jELGO3o9a2o9hWcbk
- O7t8x3mdTj9V90VrUpQ1HLqfi/vv74s=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+C3phPrrj7sLxFUe/oknyaioR8bFPciwI/iQ7dAlpo8=;
+ b=SG7uL1K0oGqL+PgZQ+R06VZWhSqQ5OBemInlMWy1ClmzcGhaAs5AvOag2w6PPAKEESrZ3N
+ XyG1ySH2j59q4in+bPVd1rGhCgBcmxuO0PBGX1il72UBirY9buRiiTHEWhOMVvB6uvSMF3
+ I3qXjjSKM8y93mdqpn2Pg4e+zJrnins=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-32-UKDsqUltNj-A_Ur77iH6Qg-1; Mon, 22 Jun 2020 11:33:24 -0400
-X-MC-Unique: UKDsqUltNj-A_Ur77iH6Qg-1
+ us-mta-166-QyGARkk-MfiMZsIc9NQhTg-1; Mon, 22 Jun 2020 11:33:26 -0400
+X-MC-Unique: QyGARkk-MfiMZsIc9NQhTg-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D38CA107ACCD;
- Mon, 22 Jun 2020 15:33:23 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7A14218585A2;
+ Mon, 22 Jun 2020 15:33:25 +0000 (UTC)
 Received: from domokun.gsslab.fab.redhat.com (unknown [10.33.8.110])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 48C1460BEC;
- Mon, 22 Jun 2020 15:33:19 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 22D4460BEC;
+ Mon, 22 Jun 2020 15:33:23 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH RFC 0/3] gitlab: build containers to use in build jobs
-Date: Mon, 22 Jun 2020 16:33:15 +0100
-Message-Id: <20200622153318.751107-1-berrange@redhat.com>
+Subject: [PATCH RFC 1/3] gitlab: introduce explicit "container" and "build"
+ stages
+Date: Mon, 22 Jun 2020 16:33:16 +0100
+Message-Id: <20200622153318.751107-2-berrange@redhat.com>
+In-Reply-To: <20200622153318.751107-1-berrange@redhat.com>
+References: <20200622153318.751107-1-berrange@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=berrange@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 01:27:42
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 03:17:49
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -87,72 +89,123 @@ Cc: Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The current gitlab CI jobs are quite inefficient because they
-use the generic distro images and then apt-get/dnf install
-extra packages every time.
+If no stage is listed, jobs get put in an implicit "test" stage.
+Some jobs which create container images to be used by later stages
+are currently listed as in a "build" stages.
 
-The other downside is that the container environment used is
-only defined in thte .gitlab-ci.yml file, so it tedious to
-reproduce locally.
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+---
+ .gitlab-ci.d/edk2.yml    |  3 ++-
+ .gitlab-ci.d/opensbi.yml |  3 ++-
+ .gitlab-ci.yml           | 11 +++++++++++
+ 3 files changed, 15 insertions(+), 2 deletions(-)
 
-We already have containers defined in tests/docker for use by
-developers building locally. We can use these for CI systems
-too if we just had a way to build them....
-
-...GitLab CI offers such a way. We can use docker-in-docker
-to build the images at the start of the CI cycle, and use
-the built images in later jobs.
-
-These later jobs are now faster because they're not having
-to install any software.
-
-There is a performance hit to build the images, however, they
-are cached in the GitLab docker registry. A user forking the
-repo will use the cache from qemu-project/qemu and their own
-local fork. So overall the time penalty to build images will
-only be seen if the user modifiers tests/docker/dockerfiles
-in their patch series, or if the base image changes.
-
-The GitLab container registry is public, so we're not limited
-to using the built images in GitLab CI. Any other CI system
-that uses docker can consume these images. Similarly we could
-change the tests/docker/Makefile  rules so that developers
-pull from https://gitlab.com/qemu-project/qemu, instead of
-building images locally. This is why we're building all the
-images, instead of just the handful the current jobs want.
-
-The interesting stuff is mostly in patch 2.
-
-Patch 3 is a quick hack I did to convert existing jobs to use
-the newly built images. I know there's other work being done
-on the GitLab jobs right now that probably conflicts with this
-though, so I've not invested much time in patch 3. Consider it
-more an illustration of what's possible, than a finished proposal
-for merge. The patch 3 diff is fairly unintelligble, so it is
-easier to look at the final result:
-
-  https://gitlab.com/berrange/qemu/-/blob/ci-cont/.gitlab-ci.yml
-
-An example pipeline can be viewed here:
-
-  https://gitlab.com/berrange/qemu/-/pipelines/158824359
-
-The cached images are here:
-
-  https://gitlab.com/berrange/qemu/container_registry
-
-Daniel P. Berrangé (3):
-  gitlab: introduce explicit "container" and "build" stages
-  gitlab: build all container images during CI
-  gitlab: convert jobs to use custom built containers
-
- .gitlab-ci.d/containers.yml | 248 ++++++++++++++++++++++++++++++++++++
- .gitlab-ci.d/edk2.yml       |   3 +-
- .gitlab-ci.d/opensbi.yml    |   3 +-
- .gitlab-ci.yml              | 187 +++++++++++++--------------
- 4 files changed, 340 insertions(+), 101 deletions(-)
- create mode 100644 .gitlab-ci.d/containers.yml
-
+diff --git a/.gitlab-ci.d/edk2.yml b/.gitlab-ci.d/edk2.yml
+index 088ba4b43a..d4e7dfcba6 100644
+--- a/.gitlab-ci.d/edk2.yml
++++ b/.gitlab-ci.d/edk2.yml
+@@ -1,5 +1,5 @@
+ docker-edk2:
+- stage: build
++ stage: containers
+  rules: # Only run this job when the Dockerfile is modified
+  - changes:
+    - .gitlab-ci-edk2.yml
+@@ -24,6 +24,7 @@ docker-edk2:
+  - docker push $IMAGE_TAG
+ 
+ build-edk2:
++ stage: build
+  rules: # Only run this job when ...
+  - changes: # ... roms/edk2/ is modified (submodule updated)
+    - roms/edk2/*
+diff --git a/.gitlab-ci.d/opensbi.yml b/.gitlab-ci.d/opensbi.yml
+index dd051c0124..ec1c1f4cab 100644
+--- a/.gitlab-ci.d/opensbi.yml
++++ b/.gitlab-ci.d/opensbi.yml
+@@ -1,5 +1,5 @@
+ docker-opensbi:
+- stage: build
++ stage: containers
+  rules: # Only run this job when the Dockerfile is modified
+  - changes:
+    - .gitlab-ci-opensbi.yml
+@@ -24,6 +24,7 @@ docker-opensbi:
+  - docker push $IMAGE_TAG
+ 
+ build-opensbi:
++ stage: build
+  rules: # Only run this job when ...
+  - changes: # ... roms/opensbi/ is modified (submodule updated)
+    - roms/opensbi/*
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index 349c77aa58..9fdc752ea6 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -1,3 +1,7 @@
++stages:
++  - containers
++  - build
++
+ include:
+   - local: '/.gitlab-ci.d/edk2.yml'
+   - local: '/.gitlab-ci.d/opensbi.yml'
+@@ -17,6 +21,7 @@ include:
+   - JOBS=$(expr $(nproc) + 1)
+ 
+ build-system1:
++ stage: build
+  image: ubuntu:19.10
+  <<: *before_script_apt
+  script:
+@@ -31,6 +36,7 @@ build-system1:
+  - make -j"$JOBS" check
+ 
+ build-system2:
++ stage: build
+  image: fedora:latest
+  <<: *before_script_dnf
+  script:
+@@ -46,6 +52,7 @@ build-system2:
+  - make -j"$JOBS" check
+ 
+ build-disabled:
++ stage: build
+  image: fedora:latest
+  <<: *before_script_dnf
+  script:
+@@ -62,6 +69,7 @@ build-disabled:
+  - make -j"$JOBS" check-qtest SPEED=slow
+ 
+ build-tcg-disabled:
++ stage: build
+  image: centos:8
+  <<: *before_script_dnf
+  script:
+@@ -82,6 +90,7 @@ build-tcg-disabled:
+             260 261 262 263 264 270 272 273 277 279
+ 
+ build-user:
++ stage: build
+  <<: *before_script_apt
+  script:
+  - mkdir build
+@@ -92,6 +101,7 @@ build-user:
+  - make run-tcg-tests-i386-linux-user run-tcg-tests-x86_64-linux-user
+ 
+ build-clang:
++ stage: build
+  image: fedora:latest
+  <<: *before_script_dnf
+  script:
+@@ -106,6 +116,7 @@ build-clang:
+  - make -j"$JOBS" check
+ 
+ build-tci:
++ stage: build
+  image: centos:8
+  <<: *before_script_dnf
+  script:
 -- 
 2.24.1
 
