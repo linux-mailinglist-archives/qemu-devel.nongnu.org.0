@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D51E2039C7
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 16:43:46 +0200 (CEST)
-Received: from localhost ([::1]:55826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30F0E2039DA
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 16:46:30 +0200 (CEST)
+Received: from localhost ([::1]:35386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnNfl-0006lm-1C
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 10:43:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41214)
+	id 1jnNiP-00020K-7W
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 10:46:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jnNZj-0005zx-K9
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 10:37:31 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:53324)
+ id 1jnNZk-00061t-Fy
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 10:37:32 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:54949)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jnNZh-0006a3-3Q
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 10:37:31 -0400
-Received: by mail-wm1-x344.google.com with SMTP id j18so1567841wmi.3
- for <qemu-devel@nongnu.org>; Mon, 22 Jun 2020 07:37:28 -0700 (PDT)
+ id 1jnNZi-0006aE-QY
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 10:37:32 -0400
+Received: by mail-wm1-x342.google.com with SMTP id g10so15103237wmh.4
+ for <qemu-devel@nongnu.org>; Mon, 22 Jun 2020 07:37:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=PKCEcn+mdLK6k8p8iASrc3bnXSABtH0c5K5N75Qwt4o=;
- b=Xt3wuFU9VYYO57XBATug7KkGFR2WUZkBywG9zvvfEhAbdAKGYWym2KV5aH4mzB8ei1
- V2MuzC0FxrXxRoq5uMTT32cW+67JzEFFym4GssWW/r9ec199qvy7y82nU4TbKI+AdYaQ
- pqFcpLGCf+Y3pAQRMGw2giREW/xodO/dHGtkHjCKn9LDLrARQB5rXUb36L5DA8zNGVXu
- jS1FG40A0VskJ8dnrkaPDg/zpGYq0g1JhBsRsnl8UvcKdi72PNHERxiQ6aP51juR8p7m
- M3ids8X9geaMb9+fukRlaJTURLOxF5ZhF0MvKJxkYv4+TelvLrG4Vb3jy3co3HcXd6Or
- x0Gw==
+ bh=dpnea5tgBr5eCnz0xsYvFDQLPTuuc6m9Mmvt4C1s0eA=;
+ b=ZolPyyYC8yN8buNdSKVSPpCvndq4fcDi/bkkH/ySGqrvTH6Ji5bNgJfoaCKt/RAlym
+ s5ZAO+uDpKG7X3oWldfHi9WVN9eedlxqTDsCN4RgiBV3SV7nWoMLbkAkbHf3XAib7EnM
+ Dgqo4qNAinkcxuifhFOsENeZQzIIwWsQVDMyNYQjQyoP1bL/3XhGRFxn/B/fZCzwctA4
+ fG2d5/LeKRUJzlmXn+URue0XBSpqKjGPVXJeQlY7KXRoRJKuEA1ESnIYJxx7xVLlbc1i
+ JvqbHaREqLUYBDyCXsrNpxnkkVSGcdIa6MJzdKFqvpoh7EHh718QrhO2bBczzzsRlu1N
+ LVeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=PKCEcn+mdLK6k8p8iASrc3bnXSABtH0c5K5N75Qwt4o=;
- b=WRntHPWz/b3CuJNPdZ0g6lXZ72VMf2OKcYq5I7kylWzpLhUbpU1t8sUl9yVh/WcXmo
- ENkeIHTomB3dUOB4JUlkcCPnn2DbBNSEuwBvU6AlqQ9+l10tQnJDtbsnKsJgbSToxFxL
- MiYPgn8B56jJuYMOgkwXU1qwKoL+gxYaywGT8UnmOx6lJMMtTpQIy3j9giAxbiVWuWZM
- 2WP1Uh2Kr+pgR0DTywkKTbD3NsTluzSsUaeHh8ac2i+RV7w2IaFeMQG3f0NAgRVouYYN
- 7kz9czlnTVVh35hf0AoaeG2TClBletuhAXr0q4lVevaWFoaMldpw0NIkeKY8UkGO9orI
- eWkw==
-X-Gm-Message-State: AOAM532czPE/d+2OCFALhtNWTAfs3GnnjSOdz6nwABXMRbAqp8qgqmyd
- JOeVkxJDyW2J40d9uj+kzcUkNg==
-X-Google-Smtp-Source: ABdhPJzU4NLJ/C6C/+biU97nKod1xEXRe4AZiVo7LTtqoU5rTSXptnYR8ElvjQ6oOwbBK++GjRG7+Q==
-X-Received: by 2002:a05:600c:2294:: with SMTP id
- 20mr19658763wmf.51.1592836647516; 
- Mon, 22 Jun 2020 07:37:27 -0700 (PDT)
+ bh=dpnea5tgBr5eCnz0xsYvFDQLPTuuc6m9Mmvt4C1s0eA=;
+ b=Lmxsd7VDA3fUB0Ga2iVnxcC13nh/nHU6XVteI5dT/MagVB99e+FndWId81UtfywlGS
+ LyKBbdhWQtnW0oygiNi6AdE+IoaYb40zOB8VvCOLma3gU+yv/XVzfQ3aC6ndUOrAChhz
+ dfZuHvHz5Kv4VgPEfgX2t+OdGeKMJezqijXbPgG9kfnYaxZ7bkTxKN9Dov87Msibm3o/
+ M0a8uO8ccZ09wYttNaWjkUcSf5XXlIJyf7iNpbowUCb87OKOmCIBYlohhSqblp6SmOa8
+ TD7/lWwOrl7NR3j8epux1Qw80SXdcoa+A7ZiN4iEzvTlI1WqkZP/LLNc45gBpsOFA7dD
+ LjVw==
+X-Gm-Message-State: AOAM533p0UxUl5cYQ/oYcu0aRAmn2DUFHlUcDwFpHGMR0hIj7yXnI3A9
+ wtQ3poaFMJgBqyU54R+Bo6qWlw==
+X-Google-Smtp-Source: ABdhPJyb3G3YQ4eyt0CIfSnlIr+KeD9cC2jyPa0pkUfhDoikcIAayIfii+fO9iXk50dZwPUHaGyPkQ==
+X-Received: by 2002:a05:600c:2307:: with SMTP id
+ 7mr5775371wmo.115.1592836649483; 
+ Mon, 22 Jun 2020 07:37:29 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id t188sm17525834wmt.27.2020.06.22.07.37.25
+ by smtp.gmail.com with ESMTPSA id n8sm15088881wrj.44.2020.06.22.07.37.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 22 Jun 2020 07:37:25 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 631D01FFA5;
+ by zen.linaroharston (Postfix) with ESMTP id 7939D1FFA6;
  Mon, 22 Jun 2020 15:32:06 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 17/18] .gitlab: tag remaining jobs as builds
-Date: Mon, 22 Jun 2020 15:32:03 +0100
-Message-Id: <20200622143204.12921-18-alex.bennee@linaro.org>
+Subject: [PATCH  v1 18/18] .gitlab: add avocado asset caching
+Date: Mon, 22 Jun 2020 15:32:04 +0100
+Message-Id: <20200622143204.12921-19-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200622143204.12921-1-alex.bennee@linaro.org>
 References: <20200622143204.12921-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x344.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -98,51 +98,31 @@ Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Technically these are build and test but there is no reason they need
-to wait for other builds to finish to get going. They might get split
-latter if the job ever gets too long.
+These can be quite big so lets cache them. I couldn't find any nots on
+ccache in the gitlab docs so I've just ignored it for now.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- .gitlab-ci.yml | 4 ++++
- 1 file changed, 4 insertions(+)
+ .gitlab-ci.yml | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index 5c863562913..7816f1434c3 100644
+index 7816f1434c3..693ecad770f 100644
 --- a/.gitlab-ci.yml
 +++ b/.gitlab-ci.yml
-@@ -184,6 +184,7 @@ qtest:system-fedora-misc-disabled:
+@@ -14,6 +14,12 @@ include:
+   - local: '/.gitlab-ci.d/edk2.yml'
+   - local: '/.gitlab-ci.d/opensbi.yml'
  
- build-tcg-disabled:
-  image: centos:8
-+ stage: build
-  <<: *before_script_dnf
-  script:
-  - dnf install -y clang gtk3-devel libusbx-devel libgcrypt-devel
-@@ -203,6 +204,7 @@ build-tcg-disabled:
-             260 261 262 263 264 270 272 273 277 279
- 
- build-user:
-+ stage: build
-  <<: *before_script_apt
-  script:
-  - mkdir build
-@@ -214,6 +216,7 @@ build-user:
- 
- build-clang:
-  image: fedora:latest
-+ stage: build
-  <<: *before_script_dnf
-  script:
-  - yum install -y clang SDL2-devel libattr-devel libcap-ng-devel xfsprogs-devel
-@@ -228,6 +231,7 @@ build-clang:
- 
- build-tci:
-  image: centos:8
-+ stage: build
-  <<: *before_script_dnf
-  script:
-  - TARGETS="aarch64 alpha arm hppa m68k microblaze moxie ppc64 s390x x86_64"
++# We assume GitLab has it's own caching set up for RPM/APT repositories so we
++# just take care of avocado assets here.
++cache:
++  paths:
++    - $HOME/avocado/data/cache
++
+ .update_apt_template: &before_script_apt
+  before_script:
+   - apt-get update -qq
 -- 
 2.20.1
 
