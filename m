@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E270220399F
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 16:35:53 +0200 (CEST)
-Received: from localhost ([::1]:54264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDCBF2039C1
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 16:41:43 +0200 (CEST)
+Received: from localhost ([::1]:49194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnNY8-0001TY-SS
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 10:35:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39862)
+	id 1jnNdm-000418-UG
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 10:41:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39884)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jnNUZ-0006mm-6N
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 10:32:12 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:41748)
+ id 1jnNUb-0006qX-6k
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 10:32:14 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:33186)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jnNUW-0005dx-TZ
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 10:32:10 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id q2so14474522wrv.8
- for <qemu-devel@nongnu.org>; Mon, 22 Jun 2020 07:32:08 -0700 (PDT)
+ id 1jnNUY-0005eM-SE
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 10:32:12 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id l11so16942630wru.0
+ for <qemu-devel@nongnu.org>; Mon, 22 Jun 2020 07:32:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=c2Ux+T+fS/HESUzVrNCO1n2kjnwyS/C8XASbbm6Vx/0=;
- b=SiUJ905Tp4BepS/nhSEDC8wpgQWD2B9BJWGJEInLKFctofPnZeoJqSoB1wyM3LzkJu
- iwTxDYqyvvB7FFfJF3Y6XZOuCLuRIaZysyfIWzX7rYaaY5EwbF7scQLhp4O6rtTOWBcF
- +a0q7MDtJym+hAHU7NhnvmsboLIudwNEaON3BQZCTIV5W7M6Vy0YS1aTFytNW4aiwLcZ
- I9gOzSGJ/1F/01faouW1Qo6c9zc5nLee92r2UDqLRGUy0yrz6vnbdpSNJ+rTyMmdFtqW
- IMSBXcIH3cTus08xv83hZinL+83PQruG+sqIUIFy4B5ynBIeUI0leuLA2QvcHOvgfJL8
- xGfg==
+ bh=m1Iumf3YfxuO4NhxteboEtLnibs/CAVIrPHuCmkmoi4=;
+ b=oGBYxPyOAYgmZ0GopkO8p/KIEz05emt4dkR/2HqeZUD9ZoWK0WNhvz/X9s35UsfWqB
+ Vwfr8xkTrbh5gp3JaueBe1o2YJdiLPG8dUi5AnVFO0Q22/YPgedfBwP1XpES+PSIMyYA
+ jUWj35azekwx7kmi1ymlx1SWiMl6d1XkjJlg6zTvPEHC2hPeoGsruXYf/CdcMNSKAUho
+ nZJz4XYAl/QrUIZRWGj9hj2ZUWgyNhcEeL/H1Nf2vTmQIkpTA6ekErXYGUbDlnbu6po3
+ MIAAfB561yc969VzTB0gREPmg719VvcYY4WQ26SEqcm1K9DZohD4TtlpIfEEXNAeNVKo
+ mOeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=c2Ux+T+fS/HESUzVrNCO1n2kjnwyS/C8XASbbm6Vx/0=;
- b=X4MUw7Q84jY6bcu7mAkDXO9grOFd43kWUZNCK5Xgglg/3r1pr5jR8gzvk89XVJXyIx
- y4Bb8L2HT1qIHSFDgCG7hqSXvDywy1spT+rSplxnIcOJwta2Grs0c+8oPtL5mIm96DVz
- Zf9R0Kzk+BZOiCIJ0B2tCbmC4+DrFJ7FsTzYzIjZbo8YklJvxcE+eq/Hyz6Deamevz82
- YLdbVMfIMbNiRiAkjZcgg1eu67fo/76J6YUJ4aluu0E6WwBDPV7S4u+a7qcS7a3yl2Y8
- O896FYFcuqk3LgNbDSfb+9LjCLXDXjKwNML80oemnKl0kK5sHmunY9pgbYItyH7+2mas
- 2e1Q==
-X-Gm-Message-State: AOAM531wJFXw7SiviLe94zdbqvXeSWK/wZtEGuNVHZ5OPPSixF9xvkP/
- YjSZ+qzE5GPSw51WKvCLQwoXBQ==
-X-Google-Smtp-Source: ABdhPJw+BUQf8wqVHYoX3/6ywPmXoZGVpq2xrD9cWqOMNGAIKk4+3o/lpr4O9YuILCwDOD8n9/dE8w==
-X-Received: by 2002:adf:ce8d:: with SMTP id r13mr17219444wrn.392.1592836326792; 
- Mon, 22 Jun 2020 07:32:06 -0700 (PDT)
+ bh=m1Iumf3YfxuO4NhxteboEtLnibs/CAVIrPHuCmkmoi4=;
+ b=aCYe/RYNpFKwKHVJm7u4xpGP9XYKVEju28X4aLaXbVHypDQaBeElsQBG3wEizwF+y5
+ LvSP+K0Akc2o8/jb2en2XoP8SEULTsjWWyItDyBaL2G9EH2HGGwFVhXor3BCdS5JpbVJ
+ FWG2h4rD5fKsr9JmLoho8t3EYT7/4dSyZ32F5GOKq6Ds1wPDv6pHhmI7zjAKpDShmXU9
+ LYULQW/3xsplmll+tectQMemUgBvV6gSCQ4RAYNl0ztzQR0eb15QQthC2xWtX3SEw9Er
+ 0RDnekTDW/Sa6GTj36lEBFUYdxElHHMr6t5xQUTtoUxHCfW35oJyb2g1u/Qu9wcyqoj/
+ Dp6g==
+X-Gm-Message-State: AOAM531dDH/3ib+6f6bspJnLLyr04M9OOEmUWxYCxkzLoCmgf+pQ8uLv
+ eX01UzTgziJLMACIVJpY2M/68w==
+X-Google-Smtp-Source: ABdhPJzs3y3WsnBiiiGT7ohytiyXv5ojrJvSdKDYytstzI2QT6zt+sQE6rc1qK1hC5M/j1aDGR33Mw==
+X-Received: by 2002:adf:e811:: with SMTP id o17mr5962257wrm.53.1592836329459; 
+ Mon, 22 Jun 2020 07:32:09 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id a15sm20640436wrh.54.2020.06.22.07.32.05
+ by smtp.gmail.com with ESMTPSA id o6sm18265567wrp.3.2020.06.22.07.32.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 22 Jun 2020 07:32:05 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id CD6D71FF87;
+ by zen.linaroharston (Postfix) with ESMTP id E3E571FF8C;
  Mon, 22 Jun 2020 15:32:04 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 01/18] iotests: Fix 051 output after qdev_init_nofail()
- removal
-Date: Mon, 22 Jun 2020 15:31:47 +0100
-Message-Id: <20200622143204.12921-2-alex.bennee@linaro.org>
+Subject: [PATCH  v1 02/18] tests/vm: pass args through to BaseVM's __init__
+Date: Mon, 22 Jun 2020 15:31:48 +0100
+Message-Id: <20200622143204.12921-3-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200622143204.12921-1-alex.bennee@linaro.org>
 References: <20200622143204.12921-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -75,8 +74,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,55 +88,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, Kevin Wolf <kwolf@redhat.com>,
- Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
- "open list:Block layer core" <qemu-block@nongnu.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- richard.henderson@linaro.org, f4bug@amsat.org, Max Reitz <mreitz@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, cota@braap.org,
+Cc: fam@euphon.net, berrange@redhat.com, Robert Foley <robert.foley@linaro.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ richard.henderson@linaro.org, f4bug@amsat.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>, cota@braap.org,
  aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+From: Robert Foley <robert.foley@linaro.org>
 
-Commit 96927c744 replaced qdev_init_nofail() call by
-isa_realize_and_unref() which has a different error
-message. Update the test output accordingly.
+Adding the args parameter to BaseVM's __init__.
+We will shortly need to pass more parameters to the class
+so let's just pass args rather than growing the parameter list.
 
-Gitlab CI error after merging b77b5b3dc7:
-https://gitlab.com/qemu-project/qemu/-/jobs/597414772#L4375
-
-Reported-by: Thomas Huth <thuth@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Robert Foley <robert.foley@linaro.org>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20200616154949.6586-1-philmd@redhat.com>
+Message-Id: <20200601211421.1277-2-robert.foley@linaro.org>
 ---
- tests/qemu-iotests/051.pc.out | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ tests/vm/basevm.py | 16 +++++++---------
+ 1 file changed, 7 insertions(+), 9 deletions(-)
 
-diff --git a/tests/qemu-iotests/051.pc.out b/tests/qemu-iotests/051.pc.out
-index 0ea80d35f0e..da8ad871876 100644
---- a/tests/qemu-iotests/051.pc.out
-+++ b/tests/qemu-iotests/051.pc.out
-@@ -142,7 +142,7 @@ QEMU X.Y.Z monitor - type 'help' for more information
+diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
+index a80b616a08d..5a58e6c3930 100644
+--- a/tests/vm/basevm.py
++++ b/tests/vm/basevm.py
+@@ -61,11 +61,10 @@ class BaseVM(object):
+     # 4 is arbitrary, but greater than 2,
+     # since we found we need to wait more than twice as long.
+     tcg_ssh_timeout_multiplier = 4
+-    def __init__(self, debug=False, vcpus=None, genisoimage=None,
+-                 build_path=None):
++    def __init__(self, args):
+         self._guest = None
+-        self._genisoimage = genisoimage
+-        self._build_path = build_path
++        self._genisoimage = args.genisoimage
++        self._build_path = args.build_path
+         self._tmpdir = os.path.realpath(tempfile.mkdtemp(prefix="vm-test-",
+                                                          suffix=".tmp",
+                                                          dir="."))
+@@ -78,7 +77,7 @@ class BaseVM(object):
+         self._ssh_pub_key_file = os.path.join(self._tmpdir, "id_rsa.pub")
+         open(self._ssh_pub_key_file, "w").write(SSH_PUB_KEY)
  
- Testing: -drive if=ide
- QEMU X.Y.Z monitor - type 'help' for more information
--(qemu) QEMU_PROG: Initialization of device ide-hd failed: Device needs media, but drive is empty
-+(qemu) QEMU_PROG: Device needs media, but drive is empty
- 
- Testing: -drive if=virtio
- QEMU X.Y.Z monitor - type 'help' for more information
-@@ -214,7 +214,7 @@ QEMU X.Y.Z monitor - type 'help' for more information
- 
- Testing: -drive file=TEST_DIR/t.qcow2,if=ide,readonly=on
- QEMU X.Y.Z monitor - type 'help' for more information
--(qemu) QEMU_PROG: Initialization of device ide-hd failed: Block node is read-only
-+(qemu) QEMU_PROG: Block node is read-only
- 
- Testing: -drive file=TEST_DIR/t.qcow2,if=virtio,readonly=on
- QEMU X.Y.Z monitor - type 'help' for more information
+-        self.debug = debug
++        self.debug = args.debug
+         self._stderr = sys.stderr
+         self._devnull = open(os.devnull, "w")
+         if self.debug:
+@@ -92,8 +91,8 @@ class BaseVM(object):
+                        (",ipv6=no" if not self.ipv6 else ""),
+             "-device", "virtio-net-pci,netdev=vnet",
+             "-vnc", "127.0.0.1:0,to=20"]
+-        if vcpus and vcpus > 1:
+-            self._args += ["-smp", "%d" % vcpus]
++        if args.jobs and args.jobs > 1:
++            self._args += ["-smp", "%d" % args.jobs]
+         if kvm_available(self.arch):
+             self._args += ["-enable-kvm"]
+         else:
+@@ -456,8 +455,7 @@ def main(vmcls):
+             return 1
+         logging.basicConfig(level=(logging.DEBUG if args.debug
+                                    else logging.WARN))
+-        vm = vmcls(debug=args.debug, vcpus=args.jobs,
+-                   genisoimage=args.genisoimage, build_path=args.build_path)
++        vm = vmcls(args)
+         if args.build_image:
+             if os.path.exists(args.image) and not args.force:
+                 sys.stderr.writelines(["Image file exists: %s\n" % args.image,
 -- 
 2.20.1
 
