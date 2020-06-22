@@ -2,73 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B56C2042CC
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 23:42:31 +0200 (CEST)
-Received: from localhost ([::1]:40192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05C912042C2
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 23:34:52 +0200 (CEST)
+Received: from localhost ([::1]:58738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnUD0-0003cQ-8p
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 17:42:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46694)
+	id 1jnU5b-0005z7-2G
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 17:34:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jnUBu-0002ko-RB; Mon, 22 Jun 2020 17:41:22 -0400
-Received: from mail-io1-xd41.google.com ([2607:f8b0:4864:20::d41]:37230)
+ (Exim 4.90_1) (envelope-from <cminyard@mvista.com>)
+ id 1jnU3b-0004CF-E0
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 17:32:47 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:39640)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jnUBs-0001Sw-Hv; Mon, 22 Jun 2020 17:41:22 -0400
-Received: by mail-io1-xd41.google.com with SMTP id c4so7740222iot.4;
- Mon, 22 Jun 2020 14:41:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=84ngPMDCRxQ8rJpuiNXM1KEh+s2z60OgriA8QpWSyeg=;
- b=rdxkPaLOstS1BebkE6r6X92hYnV1FeWeT3TXaDiFpnoYrGA4HAsqV4V1w+8UnRit0N
- PCegK2CUg3QVAo8bIONMIXX44gkdhQB43y4BHF//cKs5CFEnPFyE4C6ypiFL8NCt0w7v
- 1ITc//Og/bFxmv3vS3ILnfklqdHiXcoLVWM9zOzMW0MqySiuWJtJwUm2P5zFAGIhShfY
- Kz6xIk2l/au4sNQXWHi/sc+GeyRZdQ7+6KvEhgk1Lno0FMhjZ2owyHQ5goTU0KqvXYkz
- jZmDq3L6VaiLE1T6fBCb7QER1wYKUUHA5FsR6x7pnn7xMy+cITGSlq18d2muOZ+qf61E
- +aOw==
+ (Exim 4.90_1) (envelope-from <cminyard@mvista.com>)
+ id 1jnU3W-000640-Me
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 17:32:46 -0400
+Received: by mail-oi1-x243.google.com with SMTP id d67so16978889oig.6
+ for <qemu-devel@nongnu.org>; Mon, 22 Jun 2020 14:32:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mvista-com.20150623.gappssmtp.com; s=20150623;
+ h=date:from:to:cc:subject:message-id:reply-to:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=a1lkXyQ9aSVkgk0mGXS9UNgX64K5VdRMoBWw1iXHdaw=;
+ b=q945bKmjtdBzXdK9vxfQYEoBcHZaZHBHuQrhXNMOsd7lZ3WMJSn5KirlPoZMCBdJKP
+ Rxrsm0pvZuwPtf+TJ4C94Nd+smFkLhtl+UbrR8d1oZgs9rzqsWmLAPU0nDcNL/xkJ4TI
+ +LdU2Xi5yZ17BcheEdgAa/stkH/DsDb59R7ZqZudL+hEC9jCD/cShlyWQFqYTptGMQZ4
+ Rzd8ZzOGBGl20RwrV0N5itGtU9pwIxfyiUC12goYo0u6D4ncas+sH8NtN04DFL899NtK
+ 3PRzEZfzoWMpPdXyFSRVbY6z8nqUGhVS6bKvtjSxsdq30mPL++Th4co/tkZpzLj1xwe+
+ s1wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=84ngPMDCRxQ8rJpuiNXM1KEh+s2z60OgriA8QpWSyeg=;
- b=hqL+IoDiK/ZiW8jL3iRLp80cFXwrpqx+O+HaZGwF86CIwxXHyBH9Z0y/me7dQwXWU2
- 3TclDVP5lOwS4cEvlBOrPza7yrb3HPCq2pM6Ba6HVSPeGJnwwRbEiKx9vK0sNU2Wn7aH
- qGkCF9XChve3V7kZoX8/oiy1sliPZT6Z40GI461wMQ909VM5awgxI0V03bgxXzS9amsV
- Ys3LsoOXaWtn/xcqrF4zNb6LyUWiy3zXns7u3hQHZoU23QhYVzrMxyVH+CgJMikA9UW1
- 3m//Vwez7H9m3+e3HRqncK8Go6JxIlQvXWm9J37JS3cADJ8fWvXlBE5SSWRL71zfRgLP
- eszQ==
-X-Gm-Message-State: AOAM532SMF2bZViKW0sMSU7cTKQ3oawA+0dBvBxmF6nEVULb8EDz73Dq
- CRzNRAjkSl44uRUVgd0LoslpadyXeZK6O5mdlu8=
-X-Google-Smtp-Source: ABdhPJxYBB3RKHM+0WPGeWGehsDtq1w+2h5KQjdNknfVH2ePXa5f7jBYE9bZgOWGf7PTatuk4wIb+SPTVyT2E2fZgjs=
-X-Received: by 2002:a6b:6412:: with SMTP id t18mr2920430iog.175.1592862079097; 
- Mon, 22 Jun 2020 14:41:19 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:reply-to
+ :references:mime-version:content-disposition:in-reply-to:user-agent;
+ bh=a1lkXyQ9aSVkgk0mGXS9UNgX64K5VdRMoBWw1iXHdaw=;
+ b=oQocCez5MpOwPpoyBqlygc1A6mXGTnz9917Gbyog4+ldhAKJmrTyBltFr3N/5/deXV
+ gXS7oxKaCEN9JTTjoS4F+9DVDBnO9WVXiP2rI+BnHJ/kcZUm2d+tPZZF+RYHh20A1acD
+ npE2BPcauQnCDMSqfFCHSkcyDVAGjQF6/KH+hwgYe53ZoP7Jj+47zGVrdAz5/Y/QZuvW
+ DB51fHgvE6PR/rD9Uv6shWKloNxuSQ1awX+QOWHBmgBoD3m1Mr8Mlsyc384C0Wo/oNuG
+ YOF42AmjK7IMdflTMxpnNYkLvJBTEkwNQrwBL8Q6svopP+dB3pviGy/JKVXProtjE01Z
+ wixg==
+X-Gm-Message-State: AOAM531Q7O2vvO1uKyXm0joh/wpTP0PnYiZrmmbyYGkmUOIMUrVWszsx
+ TQQN9ORBre3wG/1hDtkb0e3kaA==
+X-Google-Smtp-Source: ABdhPJyZGqPr6GJa21asZITlwkTlYoMY9xfBPvqK/QY86/A9rFYDCPFGmXurjL7CwSIJhOTZ9KOg5A==
+X-Received: by 2002:aca:554c:: with SMTP id j73mr14628599oib.172.1592861560253; 
+ Mon, 22 Jun 2020 14:32:40 -0700 (PDT)
+Received: from minyard.net ([2001:470:b8f6:1b:acca:171:3424:849f])
+ by smtp.gmail.com with ESMTPSA id z5sm3568876otp.28.2020.06.22.14.32.39
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Mon, 22 Jun 2020 14:32:39 -0700 (PDT)
+Date: Mon, 22 Jun 2020 16:32:37 -0500
+From: Corey Minyard <cminyard@mvista.com>
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Subject: Re: [PATCH] i2c: Match parameters of i2c_start_transfer and
+ i2c_send_recv
+Message-ID: <20200622213237.GB3258@minyard.net>
+References: <20200621145235.9E241745712@zero.eik.bme.hu>
 MIME-Version: 1.0
-References: <1592807604-20805-1-git-send-email-bmeng.cn@gmail.com>
- <DM6PR04MB620142B152292DD3945E4D3C8D970@DM6PR04MB6201.namprd04.prod.outlook.com>
- <CAEUhbmVhHKy70dA5dyQCiWeYk1nbhXHnZH8JBxmRJP6EUb2z9g@mail.gmail.com>
- <DM6PR04MB62013393F37DC653A1D3F1B28D970@DM6PR04MB6201.namprd04.prod.outlook.com>
- <CAEUhbmUQKv9tJfCeWYnO59AoqOHah8J6T0g2zVBnujmSdYtAfg@mail.gmail.com>
-In-Reply-To: <CAEUhbmUQKv9tJfCeWYnO59AoqOHah8J6T0g2zVBnujmSdYtAfg@mail.gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 22 Jun 2020 14:31:45 -0700
-Message-ID: <CAKmqyKNsqznVdW1FRgie15b0ufXrRU5hporKFAGbqMRkZzYZgQ@mail.gmail.com>
-Subject: Re: [PATCH v2 0/7] riscv: Switch to use generic platform of opensbi
- bios images
-To: Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d41;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd41.google.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200621145235.9E241745712@zero.eik.bme.hu>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Received-SPF: permerror client-ip=2607:f8b0:4864:20::243;
+ envelope-from=cminyard@mvista.com; helo=mail-oi1-x243.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,95 +86,167 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Anup Patel <Anup.Patel@wdc.com>,
- "qemu-riscv@nongnu.org" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Bin Meng <bin.meng@windriver.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>, Anup Patel <anup@brainfault.org>,
- Palmer Dabbelt <palmerdabbelt@google.com>
+Reply-To: cminyard@mvista.com
+Cc: KONRAD Frederic <frederic.konrad@adacore.com>, qemu-devel@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 22, 2020 at 5:27 AM Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> Hi Anup,
->
-> On Mon, Jun 22, 2020 at 8:20 PM Anup Patel <Anup.Patel@wdc.com> wrote:
-> >
-> >
-> >
-> > > -----Original Message-----
-> > > From: Bin Meng <bmeng.cn@gmail.com>
-> > > Sent: 22 June 2020 17:43
-> > > To: Anup Patel <Anup.Patel@wdc.com>
-> > > Cc: Alistair Francis <Alistair.Francis@wdc.com>; Bastian Koppelmann
-> > > <kbastian@mail.uni-paderborn.de>; Palmer Dabbelt
-> > > <palmerdabbelt@google.com>; Sagar Karandikar
-> > > <sagark@eecs.berkeley.edu>; qemu-devel@nongnu.org; qemu-
-> > > riscv@nongnu.org; Anup Patel <anup@brainfault.org>; Bin Meng
-> > > <bin.meng@windriver.com>
-> > > Subject: Re: [PATCH v2 0/7] riscv: Switch to use generic platform of opensbi
-> > > bios images
-> > >
-> > > Hi Anup,
-> > >
-> > > On Mon, Jun 22, 2020 at 6:09 PM Anup Patel <Anup.Patel@wdc.com> wrote:
-> > > >
-> > > >
-> > > >
-> > > > > -----Original Message-----
-> > > > > From: Qemu-riscv <qemu-riscv-
-> > > > > bounces+anup.patel=wdc.com@nongnu.org> On Behalf Of Bin Meng
-> > > > > Sent: 22 June 2020 12:03
-> > > > > To: Alistair Francis <Alistair.Francis@wdc.com>; Bastian Koppelmann
-> > > > > <kbastian@mail.uni-paderborn.de>; Palmer Dabbelt
-> > > > > <palmerdabbelt@google.com>; Sagar Karandikar
-> > > > > <sagark@eecs.berkeley.edu>; qemu-devel@nongnu.org; qemu-
-> > > > > riscv@nongnu.org
-> > > > > Cc: Anup Patel <anup@brainfault.org>; Bin Meng
-> > > > > <bin.meng@windriver.com>
-> > > > > Subject: [PATCH v2 0/7] riscv: Switch to use generic platform of
-> > > > > opensbi bios images
-> > > > >
-> > > > > From: Bin Meng <bin.meng@windriver.com>
-> > > > >
-> > > > > The RISC-V generic platform is a flattened device tree (FDT) based
-> > > > > platform where all platform specific functionality is provided based
-> > > > > on FDT passed by previous booting stage. The support was added in
-> > > > > the upstream OpenSBI
-> > > > > v0.8 release recently.
-> > > > >
-> > > > > This series updates QEMU to switch to use generic platform of
-> > > > > opensbi bios images.
-> > > > >
-> > > > > The patch emails do not contain binary bits, please grab all updates
-> > > > > at https://github.com/lbmeng/qemu.git bios branch.
-> > > >
-> > > > It will be nice to have this series updated to for fw_dynamic.bin .
-> > >
-> > > Do you mean we include fw_dynamic.bin for virt & sifive_u, and
-> > > fw_dynamic.elf for spike?
-> > >
-> > > But previously we agreed to include only generic platform BIN and ELF files.
-> > > See https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg00664.html
-> >
-> > I am suggesting to use Generic platform fw_dynamic.bin and fw_dynamic.elf
-> > for QEMU virt, QEMU spike, and QEMU sifive_u machines.
->
-> Do you mean we replace fw_jump.bin with fw_dynamic.bin in QEMU? If
-> everyone agrees this is the way to go, I can rebase this series on top
-> of Atish's fw_dynamic.bin support series.
+On Sun, Jun 21, 2020 at 04:43:38PM +0200, BALATON Zoltan wrote:
+> These functions have a parameter that decides the direction of
+> transfer but totally confusingly they don't match but inverted sense.
+> To avoid frequent mistakes when using these functions change
+> i2c_send_recv to match i2c_start_transfer. Also use bool in
+> i2c_start_transfer instead of int to match i2c_send_recv.
 
-I think fw_dynamic makes the most sense. The order doesn't really
-matter, but as we are checking in binaries it might be best to avoid
-too much churn and rebase this on top of Atish's patches.
+Hmm, I have to admit that this is a little better.  Indeed the
+hw/misc/auxbus.c looks suspicious.  I can't imagine that code has ever
+been tested.
 
-Alistair
+I don't know the policy on changing an API like this with silent
+semantic changes.  You've gotten all the internal ones; I'm wondering if
+we worry about silently breaking out of tree things.
 
->
-> Regards,
-> Bin
->
+I'll pull this into my tree, but hopefully others will comment on this.
+
+-corey
+
+> 
+> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+> ---
+> Looks like hw/misc/auxbus.c already got this wrong and calls both
+> i2c_start_transfer and i2c_send_recv with same is_write parameter.
+> Although the name of the is_write variable suggest this may need to be
+> inverted I'm not sure what that value actially means and which usage
+> was correct so I did not touch it. Someone knowing this device might
+> want to review and fix it.
+> 
+>  hw/display/sm501.c   |  2 +-
+>  hw/i2c/core.c        | 34 +++++++++++++++++-----------------
+>  hw/i2c/ppc4xx_i2c.c  |  2 +-
+>  include/hw/i2c/i2c.h |  4 ++--
+>  4 files changed, 21 insertions(+), 21 deletions(-)
+> 
+> diff --git a/hw/display/sm501.c b/hw/display/sm501.c
+> index 2db347dcbc..ccd0a6e376 100644
+> --- a/hw/display/sm501.c
+> +++ b/hw/display/sm501.c
+> @@ -1034,7 +1034,7 @@ static void sm501_i2c_write(void *opaque, hwaddr addr, uint64_t value,
+>                      int i;
+>                      for (i = 0; i <= s->i2c_byte_count; i++) {
+>                          res = i2c_send_recv(s->i2c_bus, &s->i2c_data[i],
+> -                                            !(s->i2c_addr & 1));
+> +                                            s->i2c_addr & 1);
+>                          if (res) {
+>                              s->i2c_status |= SM501_I2C_STATUS_ERROR;
+>                              return;
+> diff --git a/hw/i2c/core.c b/hw/i2c/core.c
+> index 1aac457a2a..c9d01df427 100644
+> --- a/hw/i2c/core.c
+> +++ b/hw/i2c/core.c
+> @@ -91,7 +91,7 @@ int i2c_bus_busy(I2CBus *bus)
+>   * without releasing the bus.  If that fails, the bus is still
+>   * in a transaction.
+>   */
+> -int i2c_start_transfer(I2CBus *bus, uint8_t address, int recv)
+> +int i2c_start_transfer(I2CBus *bus, uint8_t address, bool recv)
+>  {
+>      BusChild *kid;
+>      I2CSlaveClass *sc;
+> @@ -175,26 +175,14 @@ void i2c_end_transfer(I2CBus *bus)
+>      bus->broadcast = false;
+>  }
+>  
+> -int i2c_send_recv(I2CBus *bus, uint8_t *data, bool send)
+> +int i2c_send_recv(I2CBus *bus, uint8_t *data, bool recv)
+>  {
+>      I2CSlaveClass *sc;
+>      I2CSlave *s;
+>      I2CNode *node;
+>      int ret = 0;
+>  
+> -    if (send) {
+> -        QLIST_FOREACH(node, &bus->current_devs, next) {
+> -            s = node->elt;
+> -            sc = I2C_SLAVE_GET_CLASS(s);
+> -            if (sc->send) {
+> -                trace_i2c_send(s->address, *data);
+> -                ret = ret || sc->send(s, *data);
+> -            } else {
+> -                ret = -1;
+> -            }
+> -        }
+> -        return ret ? -1 : 0;
+> -    } else {
+> +    if (recv) {
+>          ret = 0xff;
+>          if (!QLIST_EMPTY(&bus->current_devs) && !bus->broadcast) {
+>              sc = I2C_SLAVE_GET_CLASS(QLIST_FIRST(&bus->current_devs)->elt);
+> @@ -206,19 +194,31 @@ int i2c_send_recv(I2CBus *bus, uint8_t *data, bool send)
+>          }
+>          *data = ret;
+>          return 0;
+> +    } else {
+> +        QLIST_FOREACH(node, &bus->current_devs, next) {
+> +            s = node->elt;
+> +            sc = I2C_SLAVE_GET_CLASS(s);
+> +            if (sc->send) {
+> +                trace_i2c_send(s->address, *data);
+> +                ret = ret || sc->send(s, *data);
+> +            } else {
+> +                ret = -1;
+> +            }
+> +        }
+> +        return ret ? -1 : 0;
+>      }
+>  }
+>  
+>  int i2c_send(I2CBus *bus, uint8_t data)
+>  {
+> -    return i2c_send_recv(bus, &data, true);
+> +    return i2c_send_recv(bus, &data, false);
+>  }
+>  
+>  uint8_t i2c_recv(I2CBus *bus)
+>  {
+>      uint8_t data = 0xff;
+>  
+> -    i2c_send_recv(bus, &data, false);
+> +    i2c_send_recv(bus, &data, true);
+>      return data;
+>  }
+>  
+> diff --git a/hw/i2c/ppc4xx_i2c.c b/hw/i2c/ppc4xx_i2c.c
+> index c0a8e04567..d3899203a4 100644
+> --- a/hw/i2c/ppc4xx_i2c.c
+> +++ b/hw/i2c/ppc4xx_i2c.c
+> @@ -239,7 +239,7 @@ static void ppc4xx_i2c_writeb(void *opaque, hwaddr addr, uint64_t value,
+>                      }
+>                  }
+>                  if (!(i2c->sts & IIC_STS_ERR) &&
+> -                    i2c_send_recv(i2c->bus, &i2c->mdata[i], !recv)) {
+> +                    i2c_send_recv(i2c->bus, &i2c->mdata[i], recv)) {
+>                      i2c->sts |= IIC_STS_ERR;
+>                      i2c->extsts |= IIC_EXTSTS_XFRA;
+>                      break;
+> diff --git a/include/hw/i2c/i2c.h b/include/hw/i2c/i2c.h
+> index 4117211565..a09ab9230b 100644
+> --- a/include/hw/i2c/i2c.h
+> +++ b/include/hw/i2c/i2c.h
+> @@ -72,10 +72,10 @@ struct I2CBus {
+>  I2CBus *i2c_init_bus(DeviceState *parent, const char *name);
+>  void i2c_set_slave_address(I2CSlave *dev, uint8_t address);
+>  int i2c_bus_busy(I2CBus *bus);
+> -int i2c_start_transfer(I2CBus *bus, uint8_t address, int recv);
+> +int i2c_start_transfer(I2CBus *bus, uint8_t address, bool recv);
+>  void i2c_end_transfer(I2CBus *bus);
+>  void i2c_nack(I2CBus *bus);
+> -int i2c_send_recv(I2CBus *bus, uint8_t *data, bool send);
+> +int i2c_send_recv(I2CBus *bus, uint8_t *data, bool recv);
+>  int i2c_send(I2CBus *bus, uint8_t data);
+>  uint8_t i2c_recv(I2CBus *bus);
+>  
+> -- 
+> 2.21.3
+> 
 
