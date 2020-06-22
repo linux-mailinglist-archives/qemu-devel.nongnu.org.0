@@ -2,65 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B88B4203695
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 14:18:44 +0200 (CEST)
-Received: from localhost ([::1]:45420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16D6D2036A1
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 14:21:53 +0200 (CEST)
+Received: from localhost ([::1]:49560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnLPP-0004Ie-Hf
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 08:18:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57778)
+	id 1jnLSS-0006ht-3C
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 08:21:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57794)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1jnLLR-0001HW-1k
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 08:14:37 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:48937
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1jnLLY-0001Rr-KH
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 08:14:44 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:26360
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1jnLLP-0007Oi-1c
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 08:14:36 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1jnLLW-0007P4-Pw
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 08:14:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592828073;
+ s=mimecast20190719; t=1592828081;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yrJl2/rwyNsdaivp6bT5sK95BFXGNRp7aXL0LJTJzBY=;
- b=V9wGQi/9iWhjVmzi0X8gr4xFmznXPVCg21cysjwFdFbc6V2s7dATYSbdEa1QVlfY9200LP
- PjIcMJrZ25YvsNs/wVQi4jvG4x1wsnALHxZiyOctUOwWXuGqObeP/4zrHXLcJMBXGwuOct
- A61xfNi85/XOaspTB0uG35hdfcNJWec=
+ bh=CMLboNu1qxqZPPO8HVB4OJvxdDg36/k2iGV/iQP/PZs=;
+ b=AZ/nrmSd61hw+f9FKfhiBNq44OshS7tO4RNBy388cgxIuAKlWcSr4pBaqi9s4qXgbYwm5L
+ RY2oOagtWHWsYkMSip0pkd3B+5GKxKt+XxeuWdZzoFqG3slfJSqsPhx8bYEbhX/OZn0Twi
+ M+008vPi0YkJAwnZyuoPqWevXQKDQvY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-155-Z9tl7HW_P3udf0evi6rbiQ-1; Mon, 22 Jun 2020 08:14:06 -0400
-X-MC-Unique: Z9tl7HW_P3udf0evi6rbiQ-1
+ us-mta-382-AbU0wt0xMVeCE4069InVug-1; Mon, 22 Jun 2020 08:14:35 -0400
+X-MC-Unique: AbU0wt0xMVeCE4069InVug-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DC053107B0E1;
- Mon, 22 Jun 2020 12:14:05 +0000 (UTC)
-Received: from localhost (ovpn-115-184.ams2.redhat.com [10.36.115.184])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3DEFD10013D2;
- Mon, 22 Jun 2020 12:14:05 +0000 (UTC)
-Date: Mon, 22 Jun 2020 13:14:03 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Lin Ma <lma@suse.com>
-Subject: Re: [PATCH v2 3/3] scsi-disk: Add support for the GET LBA STATUS 16
- command
-Message-ID: <20200622121403.GB13543@stefanha-x1.localdomain>
-References: <20200617103018.18026-1-lma@suse.com>
- <20200617103018.18026-4-lma@suse.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2D219107ACF9;
+ Mon, 22 Jun 2020 12:14:34 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.85])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A06A01002396;
+ Mon, 22 Jun 2020 12:14:16 +0000 (UTC)
+Date: Mon, 22 Jun 2020 14:14:12 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Auger Eric <eric.auger@redhat.com>
+Subject: Re: [PATCH v4 1/5] acpi: Convert build_tpm2() to build_append* API
+Message-ID: <20200622141412.0e5640f8@redhat.com>
+In-Reply-To: <d9d263ba-fc1e-d3af-857b-4d77c190bb73@redhat.com>
+References: <20200611135917.18300-1-eric.auger@redhat.com>
+ <20200611135917.18300-2-eric.auger@redhat.com>
+ <20200616143327.2ee38a48@redhat.com>
+ <3c3b466a-c965-e3f6-9bd6-74fce9c424c8@linux.ibm.com>
+ <ed1b453d-2568-2134-3e86-c268e82a90f8@redhat.com>
+ <ded58c6b-dcea-67ef-4f3c-b8af9f149ae8@redhat.com>
+ <44663542-8352-2398-a297-3e1fe7f4bfd5@redhat.com>
+ <ce60f439-fd2a-a72b-f004-44a01f4c5bdf@linux.ibm.com>
+ <20200622113915.1dce2989@redhat.com>
+ <d9d263ba-fc1e-d3af-857b-4d77c190bb73@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200617103018.18026-4-lma@suse.com>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="rS8CxjVDS/+yyDmU"
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=stefanha@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=imammedo@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 02:57:26
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 01:27:42
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -68,7 +75,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,210 +88,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, pbonzini@redhat.com,
- qemu-devel@nongnu.org, mreitz@redhat.com
+Cc: peter.maydell@linaro.org, drjones@redhat.com, mst@redhat.com,
+ Laszlo Ersek <lersek@redhat.com>, qemu-devel@nongnu.org,
+ shannon.zhaosl@gmail.com, qemu-arm@nongnu.org, marcandre.lureau@redhat.com,
+ eric.auger.pro@gmail.com, philmd@redhat.com, ardb@kernel.org,
+ Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---rS8CxjVDS/+yyDmU
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Mon, 22 Jun 2020 11:47:26 +0200
+Auger Eric <eric.auger@redhat.com> wrote:
 
-On Wed, Jun 17, 2020 at 06:30:18PM +0800, Lin Ma wrote:
-> Signed-off-by: Lin Ma <lma@suse.com>
-> ---
->  hw/scsi/scsi-disk.c        | 90 ++++++++++++++++++++++++++++++++++++++
->  include/block/accounting.h |  1 +
->  include/scsi/constants.h   |  1 +
->  3 files changed, 92 insertions(+)
+> Hi Igor,
 >=20
-> diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
-> index 387503e11b..9e3002ddaf 100644
-> --- a/hw/scsi/scsi-disk.c
-> +++ b/hw/scsi/scsi-disk.c
-> @@ -1866,6 +1866,89 @@ static void scsi_disk_emulate_write_data(SCSIReque=
-st *req)
->      }
->  }
-> =20
-> +typedef struct GetLbaStatusCBData {
-> +    uint32_t num_blocks;
-> +    uint32_t is_deallocated;
-> +    SCSIDiskReq *r;
-> +} GetLbaStatusCBData;
-> +
-> +static void scsi_get_lba_status_complete(void *opaque, int ret);
-> +
-> +static void scsi_get_lba_status_complete_noio(GetLbaStatusCBData *data, =
-int ret)
-> +{
-> +    SCSIDiskReq *r =3D data->r;
-> +    SCSIDiskState *s =3D DO_UPCAST(SCSIDiskState, qdev, r->req.dev);
-> +
-> +    assert(r->req.aiocb =3D=3D NULL);
-> +
-> +    block_acct_start(blk_get_stats(s->qdev.conf.blk), &r->acct,
-> +                     s->qdev.blocksize, BLOCK_ACCT_GET_LBA_STATUS);
-> +
-> +    r->req.aiocb =3D blk_aio_get_lba_status(s->qdev.conf.blk,
-> +                                          r->req.cmd.lba * s->qdev.block=
-size,
-> +                                          s->qdev.blocksize,
-> +                                          scsi_get_lba_status_complete, =
-data);
-> +}
-> +
-> +static void scsi_get_lba_status_complete(void *opaque, int ret)
-> +{
-> +    GetLbaStatusCBData *data =3D opaque;
-> +    SCSIDiskReq *r =3D data->r;
-> +    SCSIDiskState *s =3D DO_UPCAST(SCSIDiskState, qdev, r->req.dev);
-> +
-> +    assert(r->req.aiocb !=3D NULL);
-> +    r->req.aiocb =3D NULL;
-> +
-> +    aio_context_acquire(blk_get_aio_context(s->qdev.conf.blk));
-> +    if (scsi_disk_req_check_error(r, ret, true)) {
-> +        g_free(data);
-> +        goto done;
-> +    }
-> +
-> +    block_acct_done(blk_get_stats(s->qdev.conf.blk), &r->acct);
-> +    scsi_req_unref(&r->req);
-> +    g_free(data);
-> +
-> +done:
-> +    aio_context_release(blk_get_aio_context(s->qdev.conf.blk));
-> +}
-> +
-> +static void scsi_disk_emulate_get_lba_status(SCSIRequest *req, uint8_t *=
-outbuf)
-> +{
-> +    SCSIDiskReq *r =3D DO_UPCAST(SCSIDiskReq, req, req);
-> +    GetLbaStatusCBData *data;
-> +    uint32_t *num_blocks;
-> +    uint32_t *is_deallocated;
-> +
-> +    data =3D g_new0(GetLbaStatusCBData, 1);
-> +    data->r =3D r;
-> +    num_blocks =3D &(data->num_blocks);
-> +    is_deallocated =3D &(data->is_deallocated);
-> +
-> +    scsi_req_ref(&r->req);
-> +    scsi_get_lba_status_complete_noio(data, 0);
-
-scsi_get_lba_status_complete_noio() looks asynchronous. If the
-BlockDriver yields in .bdrv_co_block_status() then the operation has not
-completed yet when scsi_get_lba_status_complete_noio() returns. It is
-not safe to access the GetLbaStatusCBData data until the async operation
-is complete.
-
-Also, scsi_get_lba_status_complete() calls g_free(data) so there is a
-use-after-free when *num_blocks and *is_deallocated are accessed.
-
-These issues can be solved by making this code asynchronous (similar to
-read/write/flush/discard_zeroes/ioctl). outbuf[] will be filled in in
-the completion function before g_free(data) is called.
-
-> +
-> +    /*
-> +     * 8 + 16 is the length in bytes of response header and
-> +     * one LBA status descriptor
-> +     */
-> +    memset(outbuf, 0, 8 + 16);
-> +    outbuf[3] =3D 20;
-> +    outbuf[8] =3D (req->cmd.lba >> 56) & 0xff;
-> +    outbuf[9] =3D (req->cmd.lba >> 48) & 0xff;
-> +    outbuf[10] =3D (req->cmd.lba >> 40) & 0xff;
-> +    outbuf[11] =3D (req->cmd.lba >> 32) & 0xff;
-> +    outbuf[12] =3D (req->cmd.lba >> 24) & 0xff;
-> +    outbuf[13] =3D (req->cmd.lba >> 16) & 0xff;
-> +    outbuf[14] =3D (req->cmd.lba >> 8) & 0xff;
-> +    outbuf[15] =3D req->cmd.lba & 0xff;
-> +    outbuf[16] =3D (*num_blocks >> 24) & 0xff;
-> +    outbuf[17] =3D (*num_blocks >> 16) & 0xff;
-> +    outbuf[18] =3D (*num_blocks >> 8) & 0xff;
-> +    outbuf[19] =3D *num_blocks & 0xff;
-> +    outbuf[20] =3D *is_deallocated ? 1 : 0;
-
-SCSI defines 3 values and QEMU can represent all of them:
-
-0 - mapped or unknown
-1 - deallocated
-2 - anchored
-
-See the BDRV_BLOCK_* constants in include/block/block.h. The
-is_deallocated boolean is not enough to represent this state, but the
-bdrv_block_status() return value can be used instead.
-
-> +}
-> +
->  static int32_t scsi_disk_emulate_command(SCSIRequest *req, uint8_t *buf)
->  {
->      SCSIDiskReq *r =3D DO_UPCAST(SCSIDiskReq, req, req);
-> @@ -2076,6 +2159,13 @@ static int32_t scsi_disk_emulate_command(SCSIReque=
-st *req, uint8_t *buf)
-> =20
->              /* Protection, exponent and lowest lba field left blank. */
->              break;
-> +        } else if ((req->cmd.buf[1] & 31) =3D=3D SAI_GET_LBA_STATUS) {
-> +            if (req->cmd.lba > s->qdev.max_lba) {
-> +                goto illegal_lba;
-> +            }
-> +            scsi_disk_emulate_get_lba_status(req, outbuf);
-> +            r->iov.iov_len =3D req->cmd.xfer;
-> +            return r->iov.iov_len;
-
-Is there something tricky going on here with iov_len that prevents us
-from using break here and sharing the functions normal return code path?
-
->          }
->          trace_scsi_disk_emulate_command_SAI_unsupported();
->          goto illegal_request;
-> diff --git a/include/block/accounting.h b/include/block/accounting.h
-> index 878b4c3581..645014fb0b 100644
-> --- a/include/block/accounting.h
-> +++ b/include/block/accounting.h
-> @@ -38,6 +38,7 @@ enum BlockAcctType {
->      BLOCK_ACCT_WRITE,
->      BLOCK_ACCT_FLUSH,
->      BLOCK_ACCT_UNMAP,
-> +    BLOCK_ACCT_GET_LBA_STATUS,
->      BLOCK_MAX_IOTYPE,
->  };
-> =20
-> diff --git a/include/scsi/constants.h b/include/scsi/constants.h
-> index 874176019e..b18377b214 100644
-> --- a/include/scsi/constants.h
-> +++ b/include/scsi/constants.h
-> @@ -154,6 +154,7 @@
->   * SERVICE ACTION IN subcodes
->   */
->  #define SAI_READ_CAPACITY_16  0x10
-> +#define SAI_GET_LBA_STATUS    0x12
-> =20
->  /*
->   * READ POSITION service action codes
-> --=20
-> 2.26.0
+> On 6/22/20 11:39 AM, Igor Mammedov wrote:
+> > On Fri, 19 Jun 2020 07:19:51 -0400
+> > Stefan Berger <stefanb@linux.ibm.com> wrote:
+> >  =20
+> >> On 6/19/20 5:43 AM, Auger Eric wrote: =20
+> >>> Hi Laszlo,
+> >>>
+> >>> On 6/19/20 11:38 AM, Laszlo Ersek wrote:   =20
+> >>>> On 06/18/20 09:50, Auger Eric wrote:   =20
+> >>>>> Hi Stefan, Igor,
+> >>>>>
+> >>>>> On 6/16/20 4:11 PM, Stefan Berger wrote:   =20
+> >>>>>> On 6/16/20 8:33 AM, Igor Mammedov wrote:   =20
+> >>>>>>> nevertheless looks like faithfull conversion,
+> >>>>>>> btw why you didn't drop Acpi20TPM2 structure definition?
+> >>>>>>>   =20
+> >>>>>> If we get rid of the table we should keep a reference to this docu=
+ment,
+> >>>>>> table 7: "TCG ACPI Specification; Family 1.2 and 2.0; Level 00 Rev=
+ision
+> >>>>>> 00.37, December 19, 2014"
+> >>>>>>
+> >>>>>> https://trustedcomputinggroup.org/wp-content/uploads/TCG_ACPIGener=
+alSpecification_1-10_0-37-Published.pdf
+> >>>>>>
+> >>>>>>
+> >>>>>>   =20
+> >>>>> Further looking at this spec, the log_area_minimum_length and
+> >>>>> log_area_start_address only are described in
+> >>>>> - Table 2 (TCG Hardware InterfaceDescription Table Format for TPM 1=
+.2
+> >>>>> Clients)
+> >>>>> - Table 4 (TCG Hardware Interface Description Table Format for TPM =
+1.2
+> >>>>> Servers)
+> >>>>> but not in Table 7, ie. not for TPM 2.0.
+> >>>>>
+> >>>>> Are they really needed for TPM2 or what do I miss?   =20
+> >>>> (side comment:
+> >>>>
+> >>>> LASA and LAML are optional with TPM-2.0. From the discussion at
+> >>>> <https://bugzilla.tianocore.org/show_bug.cgi?id=3D978>.   =20
+> >>
+> >>
+> >> They are needed for (x86) BIOS, such as SeaBIOS, not for UEFI, though.=
+ I=20
+> >> do not know about ARM.
+> >>
+> >> =20
+> >>> Thank you for the pointer and info. I failed to find this info in the
+> >>> spec. Given the risk of confusion, I would personally keep struct
+> >>> Acpi20TPM2 and maybe add a comment. Stefan?   =20
+> >>
+> >> Either way is fine with me for as long as we know where to find the=20
+> >> layout of the structure. =20
+> > I'd remove Acpi20TPM2 as it hardly documents anything, and add a commen=
+t
+> > pointing to the concrete spec that has these fields.
+> >=20
+> > TCGTCG ACPI SpecificationFamily =E2=80=9C1.2=E2=80=9D and =E2=80=9C2.0=
+=E2=80=9DVersion 1.2,Revision 8 =20
 >=20
+> [PATCH v6 0/3] vTPM/aarch64 ACPI support was posted.
+>=20
+> As documented in the cover letter (history log), the presence of the
+> LAML and LASA fields in the TPM2 table is not clearly documented in the
+> spec (at least I failed to find it). It is for TPM 1.2. On the other
+> hand, Stefan said it is mandated for some x86 BIOS to work. Given this
+> weirdness I think keeping the  Acpi20TPM2 struct is not too bad. See v6 .=
+..
 
---rS8CxjVDS/+yyDmU
-Content-Type: application/pgp-signature; name="signature.asc"
+Laszlo pointed to spec version where LAML/LASA in TPM2 are documented,
+so I'd just use that as a spec this code is based on.
 
------BEGIN PGP SIGNATURE-----
+PS:
+Acpi20TPM2 struct doesn't document anything, it's just another way to do
+the same thing as build_appen_* calls do. Having it just adds to confusion.=
+=20
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl7woIsACgkQnKSrs4Gr
-c8hkLAgArVec7E49EmzDmcR1BqNk7QrwOdnv8wHWwUyPQjvkgJDzqlVHHwXW4WNP
-SPduZlkk18e+Mqvj1uAdu546SZJkN+38ChKKMQT/L5nsX83Hb2qVHH3/M5GdEfTq
-fZUsMcmPTA5FbxMNKEiMjrz8VMHlUqGabk3IzhGmWfbuzk0g2WmFK34EUy6f1a1G
-rKCnNm6ixScp6YZxX3HQ60PQLaYM5gCY8u/hfpj2Iiz7Jf/L6vT4A4Jpw3cI7mWd
-K/8oRZO9rP9xlzTYJ6ijqTTk32K9v5WYXq61joOlCA58CjLdt7hh/i9Ij/g9c8xN
-QjyYBsKHh6jrXbir2oP9S/UedCaPMQ==
-=OwlD
------END PGP SIGNATURE-----
-
---rS8CxjVDS/+yyDmU--
+>=20
+> Thanks
+>=20
+> Eric
+> >  =20
+> >>
+> >>  =C2=A0 Stefan
+> >> =20
+> >>>
+> >>> Thanks
+> >>>
+> >>> Eric   =20
+> >>>> )
+> >>>>
+> >>>> Thanks
+> >>>> Laszlo
+> >>>>   =20
+> >> =20
+> >=20
+> >  =20
 
 
