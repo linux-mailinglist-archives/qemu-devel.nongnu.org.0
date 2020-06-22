@@ -2,79 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16E09203418
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 11:57:59 +0200 (CEST)
-Received: from localhost ([::1]:32990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84890203470
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 12:03:45 +0200 (CEST)
+Received: from localhost ([::1]:37302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnJDC-0008CZ-5l
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 05:57:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56898)
+	id 1jnJIm-0002DC-JT
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 06:03:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jnJC0-0007HM-DU; Mon, 22 Jun 2020 05:56:44 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:50532)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jnJBy-00065q-Rf; Mon, 22 Jun 2020 05:56:44 -0400
-Received: by mail-wm1-x343.google.com with SMTP id l17so14264650wmj.0;
- Mon, 22 Jun 2020 02:56:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=QspcduoJo3RG4AddvPS2f5EZc3dAyNj6iKCIvo0Uvjc=;
- b=nH4mjvJOE0FPw5AiuxgXiXtBFxe+wnUZTus7nwslQALO4KOE3WPRr0ieyjpw62H9Z9
- 6GdWAUO0GIaCaElXwOKXNydq0doudM9WgyjvJGZ6m/s2kdflIh1TjRsIc5oKsT3GiL+W
- xp0bDYZRAYFPp1Mdn1oOAO2kjoxCMxlK9mf6SaqfPr3iLiMi1jkJtoWOMVpyMz8d6Dys
- /EUAkLwIJ6ozMHwmfDxsHMeXIGy/2wUOXdQq6fXWbPeVHtB/YMGDkYOMF4HuI/BIAWYv
- BEvdyTkp5fcJcXFdRDG3GyNNaZgMod94oTTZxzFhaCPByLLgQFgOo9/Rxjt9fXdKH74o
- NUhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=QspcduoJo3RG4AddvPS2f5EZc3dAyNj6iKCIvo0Uvjc=;
- b=b+a+etkrrG5sLcKZ1cvxppqO1K4pTHtzTYBpp1CZlhttCZKvu2TuthvReHcuEZgK9x
- PqvYbycfMlXVRbO8cxqQCUfxtSBN7UmQAFiJuax2fN8fcysXAN6kv2RGiyp61J/I4Cuw
- 3FOhaCA4MzSL6UwvEOzvtICJIyWXF0fUAbsaLT+/COLKo4paaJLewTPpjUak7tu1K37+
- a0OsVGBcZynmYkQmGUDuM7ijH4bDlYFsiGlGs3NOGP9/f/4ISXbjXUCiu0Bk4TUAjkC8
- 7KZDe+MEmyFm0M1ANdnqBT/Y3ntvKHDkAtGnAX4971cZ3cKFNh0wF5kVov7NrAQKyNsy
- JK1w==
-X-Gm-Message-State: AOAM530xpFLjCA/UzngnWnZ0ZnZH+4RBpt/7irLLlhXARAbqRv+iIoOM
- FEs1fHAOU94VkQ8T1FnbmVs=
-X-Google-Smtp-Source: ABdhPJxLSGeM+WJG/1GepAuBjluIsjdkajXnUJ3CP3VcrHKNIWe7OYHYa/YQCy9ne0ribZQgWqwZnw==
-X-Received: by 2002:a7b:c345:: with SMTP id l5mr18503287wmj.31.1592819801095; 
- Mon, 22 Jun 2020 02:56:41 -0700 (PDT)
-Received: from [192.168.1.39] (1.red-83-51-162.dynamicip.rima-tde.net.
- [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id 11sm11748652wmg.41.2020.06.22.02.56.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Jun 2020 02:56:40 -0700 (PDT)
-Subject: Re: [PATCH v2 16/16] sd/milkymist-memcard: Fix error API violation
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <20200622094227.1271650-1-armbru@redhat.com>
- <20200622094227.1271650-17-armbru@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <57e88af4-9590-5786-ea9d-5575fcb675f2@amsat.org>
-Date: Mon, 22 Jun 2020 11:56:39 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jnJHq-0001m2-Gq
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 06:02:46 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:41534
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jnJHo-0007CJ-Eo
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 06:02:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1592820163;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=LUqGJEZ9d7pemoW9r6jWeIJwv7AlTMlPdFaPrLSR1mw=;
+ b=AWVwRWe567qTfOlot4X+o1RFR530Rvl9iLgKgnSnMvlX5bPM68lmmdO/D8WYHnCiv7uPMm
+ 4YAM/TNccB1OwEEFH/PdDOd0BfAOb+YFGqXaESAKc8aPBWD3s1lk0BSjC+GhZYJwJ9Hg6m
+ hX9P2jHxnJ+yEm43s0mb9VnohsJcsUo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-356-NUJAxVWZORqF3Ybfth4aRg-1; Mon, 22 Jun 2020 06:02:39 -0400
+X-MC-Unique: NUJAxVWZORqF3Ybfth4aRg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 733D28018AC;
+ Mon, 22 Jun 2020 10:02:38 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-125.ams2.redhat.com [10.36.112.125])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E6DDD7C20A;
+ Mon, 22 Jun 2020 10:02:29 +0000 (UTC)
+Subject: Re: [PATCH v4 2/9] pc-bios: s390x: Consolidate timing functions into
+ time.h
+To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
+References: <20200622074235.32528-1-frankja@linux.ibm.com>
+ <20200622074235.32528-3-frankja@linux.ibm.com>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <98bf10d9-76cb-0196-5fef-8a4e3a5b1c4f@redhat.com>
+Date: Mon, 22 Jun 2020 12:02:27 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20200622094227.1271650-17-armbru@redhat.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20200622074235.32528-3-frankja@linux.ibm.com>
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=thuth@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 01:27:42
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,49 +83,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
- qemu-block@nongnu.org, mreitz@redhat.com, Michael Walle <michael@walle.cc>,
- pbonzini@redhat.com, jsnow@redhat.com
+Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, cohuck@redhat.com,
+ david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/22/20 11:42 AM, Markus Armbruster wrote:
-> The Error ** argument must be NULL, &error_abort, &error_fatal, or a
-> pointer to a variable containing NULL.  Passing an argument of the
-> latter kind twice without clearing it in between is wrong: if the
-> first call sets an error, it no longer points to NULL for the second
-> call.
+On 22/06/2020 09.42, Janosch Frank wrote:
+> Let's consolidate timing related functions into one header.
 > 
-> milkymist_memcard_realize() is wrong that way: it passes &err to
-> qdev_prop_set_drive_err() and qdev_realize_and_unref().  Currently
-> harmless, because the latter uses it only as first argument of
-> error_propagate().
-> 
-> Making qdev_prop_set_drive_err() fail involves abuse of -global.
-> Leave handling that to qdev_prop_set_drive(), like we do elsewhere.
-> 
-> Cc: Michael Walle <michael@walle.cc>
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
+> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
 > ---
->  hw/sd/milkymist-memcard.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  pc-bios/s390-ccw/menu.c        |  1 +
+>  pc-bios/s390-ccw/netmain.c     | 15 +++------------
+>  pc-bios/s390-ccw/s390-ccw.h    |  8 ++++----
+>  pc-bios/s390-ccw/s390-time.h   | 23 +++++++++++++++++++++++
+>  pc-bios/s390-ccw/virtio-net.c  |  1 +
+>  pc-bios/s390-ccw/virtio-scsi.c |  1 +
+>  pc-bios/s390-ccw/virtio.c      | 18 +++---------------
+>  7 files changed, 36 insertions(+), 31 deletions(-)
+>  create mode 100644 pc-bios/s390-ccw/s390-time.h
 > 
-> diff --git a/hw/sd/milkymist-memcard.c b/hw/sd/milkymist-memcard.c
-> index 1c23310715..482e97191e 100644
-> --- a/hw/sd/milkymist-memcard.c
-> +++ b/hw/sd/milkymist-memcard.c
-> @@ -279,7 +279,7 @@ static void milkymist_memcard_realize(DeviceState *dev, Error **errp)
->      dinfo = drive_get_next(IF_SD);
->      blk = dinfo ? blk_by_legacy_dinfo(dinfo) : NULL;
->      carddev = qdev_new(TYPE_SD_CARD);
-> -    qdev_prop_set_drive_err(carddev, "drive", blk, &err);
-> +    qdev_prop_set_drive(carddev, "drive", blk);
->      qdev_realize_and_unref(carddev, BUS(&s->sdbus), &err);
->      if (err) {
->          error_setg(errp, "failed to init SD card: %s", error_get_pretty(err));
-> 
+> diff --git a/pc-bios/s390-ccw/menu.c b/pc-bios/s390-ccw/menu.c
+> index ce3815b201..de8260a5d6 100644
+> --- a/pc-bios/s390-ccw/menu.c
+> +++ b/pc-bios/s390-ccw/menu.c
+> @@ -12,6 +12,7 @@
+>  #include "libc.h"
+>  #include "s390-ccw.h"
+>  #include "sclp.h"
+> +#include "s390-time.h"
+
+You could maybe drop these additional includes...
+
+> diff --git a/pc-bios/s390-ccw/s390-ccw.h b/pc-bios/s390-ccw/s390-ccw.h
+> index 21f27e7990..fae1de363f 100644
+> --- a/pc-bios/s390-ccw/s390-ccw.h
+> +++ b/pc-bios/s390-ccw/s390-ccw.h
+> @@ -74,8 +74,6 @@ unsigned long virtio_load_direct(ulong rec_list1, ulong rec_list2,
+>  bool virtio_is_supported(SubChannelId schid);
+>  void virtio_blk_setup_device(SubChannelId schid);
+>  int virtio_read(ulong sector, void *load_addr);
+> -u64 get_clock(void);
+> -ulong get_second(void);
+>  
+>  /* bootmap.c */
+>  void zipl_load(void);
+> @@ -153,11 +151,13 @@ static inline void yield(void)
+>  
+>  #define MAX_SECTOR_SIZE 4096
+>  
+> +#include "s390-time.h"
+
+... since you already include s390-time.h here in this central header
+file...
+
+>  static inline void sleep(unsigned int seconds)
+>  {
+> -    ulong target = get_second() + seconds;
+> +    ulong target = get_time_seconds() + seconds;
+>  
+> -    while (get_second() < target) {
+> +    while (get_time_seconds() < target) {
+>          yield();
+>      }
+>  }
+
+... or you could move the sleep() function into s390-time.h, too?
+
+Anyway, both ways are fine for me, so:
+
+Acked-by: Thomas Huth <thuth@redhat.com>
 
 
