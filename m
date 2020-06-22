@@ -2,57 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24219203AB0
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 17:23:07 +0200 (CEST)
-Received: from localhost ([::1]:33558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEFE6203AB7
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 17:24:45 +0200 (CEST)
+Received: from localhost ([::1]:39068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnOHq-0002Vg-5C
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 11:23:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51128)
+	id 1jnOJQ-0004mB-V4
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 11:24:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jnO7K-0000y5-TG
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 11:12:14 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27852
+ (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
+ id 1jnOBA-0000hV-Bg
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 11:16:12 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:37699
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jnO7I-00066M-9s
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 11:12:14 -0400
+ (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
+ id 1jnOB8-0006w0-Ea
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 11:16:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592838731;
+ s=mimecast20190719; t=1592838969;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=BNvSGC9nTqGGUEXPC0RjFmoV3QN006CFzuU+WpDEcQc=;
- b=cWjYTA3UOUbqoSjTDmI9R7TyksS35lhHJ7v02/MMKS3wyoHi740Ns8jClBmyHt/NyYY0M6
- o03Gq8yrxghORpodi9izduMqOX6KRV0aqkFmwwusqZ+HVPx74B/cb/oDYMogDrZgORdaB1
- xDs8BRBquDvPCjbsx/fzpEuWWNFw9EI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-454-wjSteQknO2OK6vy50U3u1A-1; Mon, 22 Jun 2020 11:12:10 -0400
-X-MC-Unique: wjSteQknO2OK6vy50U3u1A-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 04A52A0BEB;
- Mon, 22 Jun 2020 15:12:09 +0000 (UTC)
-Received: from linux.fritz.box.com (ovpn-113-179.ams2.redhat.com
- [10.36.113.179])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5775471676;
- Mon, 22 Jun 2020 15:12:07 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH] qemu-img convert: Don't pre-zero images
-Date: Mon, 22 Jun 2020 17:12:03 +0200
-Message-Id: <20200622151203.35624-1-kwolf@redhat.com>
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2S7JlTygIgLcCPv9jguU7J8r23I6aVZEmkJ0kh+RTEM=;
+ b=ENZIgEk3xuoxf57BxWnECQ48dMItnRCNtjWHjRYtFoBBSF94jgprPsqzOuGRVl5AbkSHPC
+ rJsJgDYoP8mgsnpfuvKFAUr6rCI/eREgphF3T4FrV8ZqVG4NhKjc4sGiKwd8y+cr3ErTeJ
+ WwNKmf7zzCbnLVXqIbyvdHeaA0oQiKU=
+Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com
+ [209.85.167.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-226-c-tffXSvO5y-kckGIspLOg-1; Mon, 22 Jun 2020 11:16:07 -0400
+X-MC-Unique: c-tffXSvO5y-kckGIspLOg-1
+Received: by mail-oi1-f200.google.com with SMTP id x7so8176613oif.13
+ for <qemu-devel@nongnu.org>; Mon, 22 Jun 2020 08:16:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=2S7JlTygIgLcCPv9jguU7J8r23I6aVZEmkJ0kh+RTEM=;
+ b=f2QudE4vHiAFaP5/gkc4AaRFq2w7sjCmqe89sDYxjSPjvE7mubeomOjtC+luHnolyP
+ /EjwpCXUev/git1h0qfDk4XL4pNSmAVGZVFIwX6wDrCBGtTfymMQ0VUC9HNipavGTI4M
+ JeJQncxZ3H7zUOkqXENOX+EfiIkzXGnMLwx55moUk66aw1RQOAcA47v3snqr/EmNLPzO
+ ienMmTMpSxZbbMjEyo3xBNcgz9UsquUEdrN44Yofo4bbgzX+l10cQGz581htvjKfz3Sr
+ b3VusTF3UlAINXxde8QwYx6+8neXLUImU+GNodOjNERrIXjUFHXf9Wu6k5BN1M1cbZjU
+ nYKQ==
+X-Gm-Message-State: AOAM533zVf/L7oEgZKAUNdEtySgEQlmIiDR3xVzVj8aZW1NViPW7OMDb
+ 8iUBOXeVtBWbH3t3WqD7UEbJxUzjt7ZSA69nOMYKNtDc1xDTEfwoLJyCMM4aWhIS4HPEEziY0OP
+ 2zw4SK0dDFT7bYkrjIF5yqUms5v62uwk=
+X-Received: by 2002:a05:6830:18eb:: with SMTP id
+ d11mr14985576otf.315.1592838966055; 
+ Mon, 22 Jun 2020 08:16:06 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzFt15/YZ0QBqf4Dr1TuMz2qjDbzTb+H9NB3dtBpK6K8CWx8vHrRqiocek540EeCtKwTXuAcQKlfkpmloqk+0U=
+X-Received: by 2002:a05:6830:18eb:: with SMTP id
+ d11mr14985544otf.315.1592838965737; 
+ Mon, 22 Jun 2020 08:16:05 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+References: <20200619104012.235977-1-mreitz@redhat.com>
+ <20200619104012.235977-2-mreitz@redhat.com>
+ <w51eeqb9f43.fsf@maestria.local.igalia.com>
+ <9c14c622-eb30-4619-d33a-b59395a397be@redhat.com>
+ <w51r1u788gg.fsf@maestria.local.igalia.com>
+ <2d35fdff-6230-18b9-cf99-ca72be53267f@redhat.com>
+In-Reply-To: <2d35fdff-6230-18b9-cf99-ca72be53267f@redhat.com>
+From: Nir Soffer <nsoffer@redhat.com>
+Date: Mon, 22 Jun 2020 18:15:49 +0300
+Message-ID: <CAMRbyytkKjdAqH0hFiiAUEv7NeA9beC5CXx9LmBBSJd0r=5qQA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] qcow2: Force preallocation with data-file-raw
+To: Max Reitz <mreitz@redhat.com>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=kwolf@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=nsoffer@redhat.com;
  helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 01:27:42
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -75,61 +97,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, pl@kamp.de, qemu-devel@nongnu.org, mreitz@redhat.com,
- nsoffer@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since commit 5a37b60a61c, qemu-img create will pre-zero the target image
-if it isn't already zero-initialised (most importantly, for host block
-devices, but also iscsi etc.), so that writing explicit zeros wouldn't
-be necessary later.
+On Mon, Jun 22, 2020 at 6:07 PM Max Reitz <mreitz@redhat.com> wrote:
+>
+> On 22.06.20 16:46, Alberto Garcia wrote:
+> > On Mon 22 Jun 2020 11:35:59 AM CEST, Max Reitz wrote:
+> >>>> +    if (qcow2_opts->data_file_raw &&
+> >>>> +        qcow2_opts->preallocation =3D=3D PREALLOC_MODE_OFF)
+> >>>> +    {
+> >>>> +        /*
+> >>>> +         * data-file-raw means that "the external data file can be
+> >>>> +         * read as a consistent standalone raw image without lookin=
+g
+> >>>> +         * at the qcow2 metadata."  It does not say that the metada=
+ta
+> >>>> +         * must be ignored, though (and the qcow2 driver in fact do=
+es
+> >>>> +         * not ignore it), so the L1/L2 tables must be present and
+> >>>> +         * give a 1:1 mapping, so you get the same result regardles=
+s
+> >>>> +         * of whether you look at the metadata or whether you ignor=
+e
+> >>>> +         * it.
+> >>>> +         */
+> >>>> +        qcow2_opts->preallocation =3D PREALLOC_MODE_METADATA;
+> >>>
+> >>> I'm not convinced by this,
+> >>
+> >> Why not?
+> >>
+> >> This is how I read the spec.  Furthermore, I see two problems that we
+> >> have right now that are fixed by this patch (namely (1) using a device
+> >> file as the external data file, which may have non-zero data at
+> >> creation; and (2) assigning a backing file at runtime must not show
+> >> the data).
+> >
+> > What happens if you first create the image (which would be preallocated
+> > with this patch), then you resize it and finally you assign the backing
+> > file? Would the resized part be preallocated?
+>
+> Good point, when resizing an image with data-file-raw we also need to
+> preallocate the L2 tables.
+>
+> >>> but your comment made me think of another possible alternative: in
+> >>> qcow2_get_cluster_offset(), if the cluster is unallocated and we are
+> >>> using a raw data file then we return _ZERO_PLAIN:
+> >>>
+> >>> --- a/block/qcow2-cluster.c
+> >>> +++ b/block/qcow2-cluster.c
+> >>> @@ -654,6 +654,10 @@ out:
+> >>>      assert(bytes_available - offset_in_cluster <=3D UINT_MAX);
+> >>>      *bytes =3D bytes_available - offset_in_cluster;
+> >>>
+> >>> +    if (type =3D=3D QCOW2_CLUSTER_UNALLOCATED && data_file_is_raw(bs=
+)) {
+> >>> +        type =3D QCOW2_CLUSTER_ZERO_PLAIN;
+> >>> +    }
+> >>> +
+> >>>      return type;
+> >>>
+> >>> You could even add a '&& bs->backing' to the condition and emit a
+> >>> warning to make it more explicit.
+> >>
+> >> No, this is wrong.  This still wouldn=E2=80=99t fix the problem of hav=
+ing a
+> >> device file as the external data file, when it already has non-zero
+> >> data during creation.  (Reading the qcow2 file would return zeroes,
+> >> but reading the device would not.)
+> >
+> > But you wouldn't fix that preallocating the metadata either, you would
+> > need to fill the device with zeroes.
+>
+> What it fixes is that reading the qcow2 image and the raw device returns
+> the same data.
+>
+> Initially, I also thought that we should initialize raw data files to be
+> zero during creation, but Eric changed my mind:
+>
+> https://lists.nongnu.org/archive/html/qemu-block/2020-04/msg00223.html
+>
+> >> I interpret the spec in that the metadata can be ignored, but it does
+> >> not need to be ignored.  So the L1/L2 tables must be 1:1 mapping of
+> >> QCOW2_CLUSTER_NORMAL entries.
+> >>
+> >> We could also choose to interpret it as =E2=80=9CWith data-file-raw, t=
+he L1/L2
+> >> tables must be ignored=E2=80=9D.  In that case, our qcow2 driver would=
+ need to
+> >> be modified to indeed fully ignore the L1/L2 tables with
+> >> data-file-raw.  (I certainly don=E2=80=99t interpret the spec this way=
+, but I
+> >> suppose we could call it a bug fix and amend it.)
+> >
+> > The way I interpret it is that regardless of whether you read the data
+> > through the qcow2 file or directly from the data file you should get th=
+e
+> > same results, but how that should be reflected in the L1/L2 metadata is
+> > not specified.
+>
+> That=E2=80=99s an absolute given, but the question is what does =E2=80=9C=
+reading through
+> the qcow2 file=E2=80=9D mean.  Respecting the metadata?  Ignoring it?  So=
+mething
+> in between?
+>
+> As I noted in my reply to myself, data-file-raw is an autoclear flag.
+> That means, an old version of qemu that doesn=E2=80=99t recognize the fla=
+g must
+> read the same data as a new version.  It follows that the the L2 tables
+> must be a 1:1 mapping.  (Or the flag can=E2=80=99t be an autoclear flag.)
 
-This could speed up the operation significantly, in particular when the
-source image file was only sparsely populated. However, it also means
-that some block are written twice: Once when pre-zeroing them, and then
-when they are overwritten with actual data. On a full image, the
-pre-zeroing is wasted work because everything will be overwritten.
+Being able to read sounds like a nice to have feature, but what about writi=
+ng?
 
-In practice, write_zeroes typically turns out faster than writing
-explicit zero buffers, but slow enough that first zeroing everything and
-then overwriting parts can be a significant net loss.
-
-Meanwhile, qemu-img convert was rewritten in 690c7301600 and zero blocks
-are now written to the target using bdrv_co_pwrite_zeroes() if the
-target could be pre-zeroed. This way we already make use of the faster
-write_zeroes operation, but avoid writing any blocks twice.
-
-Remove the pre-zeroing because these days this former optimisation has
-actually turned into a pessimisation in the common case.
-
-Reported-by: Nir Soffer <nsoffer@redhat.com>
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
----
- qemu-img.c | 9 ---------
- 1 file changed, 9 deletions(-)
-
-diff --git a/qemu-img.c b/qemu-img.c
-index d7e846e607..bdb9f6aa46 100644
---- a/qemu-img.c
-+++ b/qemu-img.c
-@@ -2084,15 +2084,6 @@ static int convert_do_copy(ImgConvertState *s)
-         s->has_zero_init = bdrv_has_zero_init(blk_bs(s->target));
-     }
- 
--    if (!s->has_zero_init && !s->target_has_backing &&
--        bdrv_can_write_zeroes_with_unmap(blk_bs(s->target)))
--    {
--        ret = blk_make_zero(s->target, BDRV_REQ_MAY_UNMAP | BDRV_REQ_NO_FALLBACK);
--        if (ret == 0) {
--            s->has_zero_init = true;
--        }
--    }
--
-     /* Allocate buffer for copied data. For compressed images, only one cluster
-      * can be copied at a time. */
-     if (s->compressed) {
--- 
-2.25.4
+I hope that the image is not writable by older versions that do not underst=
+and
+data_file. Otherwise older qemu versions can corrupt the image silently.
 
 
