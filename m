@@ -2,95 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C11452039D0
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 16:44:42 +0200 (CEST)
-Received: from localhost ([::1]:59200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 426F52039DE
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 16:48:24 +0200 (CEST)
+Received: from localhost ([::1]:43162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnNgf-0008N5-Rt
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 10:44:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40958)
+	id 1jnNkF-0005b7-6x
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 10:48:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42514)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jnNYP-0003YT-9R
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 10:36:09 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:51951
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jnNYL-0006JZ-DH
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 10:36:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592836564;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=moaZohW8jViZzq8ht4JalzN6TH7/1foBJAIsOHN/8h0=;
- b=fd84+WdlKbZFmMHObqjTYAYpdMAKDlhHnqE8dmtHRfx7R+6v+JrA5bBiaw6XkaIhdCfoxd
- cnvB/59elQNxC4MVqZszuQ2wLoWHunAEW1RmzbthtOE6OQoIe+yTrIWWHRKSp01LD99QIq
- 2bvQ+yROdqtqDpCaRsGD8sR6kOrA9mU=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-472--PPd0-wtN9aWtoURwRLHjQ-1; Mon, 22 Jun 2020 10:36:02 -0400
-X-MC-Unique: -PPd0-wtN9aWtoURwRLHjQ-1
-Received: by mail-wm1-f72.google.com with SMTP id t127so7538709wmg.0
- for <qemu-devel@nongnu.org>; Mon, 22 Jun 2020 07:36:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=moaZohW8jViZzq8ht4JalzN6TH7/1foBJAIsOHN/8h0=;
- b=nwsNHBkekk9L2irKsPYpyhnBRMzBLhU6Iy4AzNc7ke+DrFk/aGyR69lUkfGF5h3fdQ
- zLlmCANIDI6Ch9NMnrX/J/1+Z8JLopfj5mlj4F+SVCPthPfVVwCiq5NBxovXW0WlMeQM
- NkL0r5BC7FEBt1HjZPcTB23P3PKK4pKSxNFhwxOWxpmLmdmzE33Q2Vh+xTPvrePS60WV
- Ox9njQRQXqlqfLAgx7Re3VQIqQpj6KpdF3n201iY0d1XMqT5CD1CWjcXDUVymbfBen+7
- kdZrJUZ0RNMm8YPES92xV/ONTztjKEoyRwXLdnX7UjxT3xCdLDxG28zTseEtVucdxNWs
- XhgA==
-X-Gm-Message-State: AOAM533S+avV+/ph3uQoSpRnHunN4oFqnrIVi7VRs8ozm8t+9OMW1CBp
- PBkDOt8B5cUXIcZ2dn6XLyXAuoCHlYaI02IBVLZ0SXmFfRSO83LZn9hac9ehCfx6V5V2RSGY+51
- Tv2gdZe3QVmDLMFc=
-X-Received: by 2002:a7b:c7d4:: with SMTP id z20mr18782766wmk.35.1592836561113; 
- Mon, 22 Jun 2020 07:36:01 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyDB2qIleRS3NWQTbcqn8YLKq10gVKBFMXicFDO49HFmlimfPLOkN6o0QA87eo8f+JQMyrCpg==
-X-Received: by 2002:a7b:c7d4:: with SMTP id z20mr18782741wmk.35.1592836560839; 
- Mon, 22 Jun 2020 07:36:00 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:fd64:dd90:5ad5:d2e1?
- ([2001:b07:6468:f312:fd64:dd90:5ad5:d2e1])
- by smtp.gmail.com with ESMTPSA id y19sm16286906wmi.6.2020.06.22.07.35.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Jun 2020 07:36:00 -0700 (PDT)
-Subject: Re: [PATCH v3 11/19] audio: deprecate -soundhw pcspk
-To: Gerd Hoffmann <kraxel@redhat.com>
-References: <20200622112914.30454-1-kraxel@redhat.com>
- <20200622112914.30454-12-kraxel@redhat.com>
- <47fe0fd8-ab19-b35d-0808-d9a83201c530@redhat.com>
- <4df07eb8-0352-3976-67a2-d49a4fb482da@redhat.com>
- <20200622140354.cin36ds36nwn2khu@sirius.home.kraxel.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <3212b87f-c99e-992f-9d0d-f545cbffbe77@redhat.com>
-Date: Mon, 22 Jun 2020 16:35:59 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jnNfT-0007dQ-E5
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 10:43:27 -0400
+Received: from 2.mo3.mail-out.ovh.net ([46.105.75.36]:48882)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jnNfQ-0007F8-O1
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 10:43:27 -0400
+Received: from player734.ha.ovh.net (unknown [10.110.171.212])
+ by mo3.mail-out.ovh.net (Postfix) with ESMTP id CD69125A2B1
+ for <qemu-devel@nongnu.org>; Mon, 22 Jun 2020 16:43:21 +0200 (CEST)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+ [82.253.208.248]) (Authenticated sender: groug@kaod.org)
+ by player734.ha.ovh.net (Postfix) with ESMTPSA id 1FA7813796292;
+ Mon, 22 Jun 2020 14:43:18 +0000 (UTC)
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-99G00392a1cec4-e548-4159-80de-9f92e98c7a14,6D3CA472F13BA58F0C95800BF735BE34A93B107C)
+ smtp.auth=groug@kaod.org
+Date: Mon, 22 Jun 2020 16:43:17 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH 03/22] Clean up some calls to ignore Error objects the
+ right way
+Message-ID: <20200622164317.679021ee@bahia.lan>
+In-Reply-To: <20200622104250.1404835-4-armbru@redhat.com>
+References: <20200622104250.1404835-1-armbru@redhat.com>
+ <20200622104250.1404835-4-armbru@redhat.com>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20200622140354.cin36ds36nwn2khu@sirius.home.kraxel.org>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 01:27:42
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Ovh-Tracer-Id: 14089792909325539726
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduhedrudekvddgkeduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepteekgeejiedvteeufeekfffhtddtgfegkeekkefgleefheejgfehtdelheeivefhnecuffhomhgrihhnpehinhgvthdrhhhoshhtnecukfhppedtrddtrddtrddtpdekvddrvdehfedrvddtkedrvdegkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejfeegrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
+Received-SPF: pass client-ip=46.105.75.36; envelope-from=groug@kaod.org;
+ helo=2.mo3.mail-out.ovh.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 10:43:22
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -103,26 +66,143 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- libvir-list@redhat.com, qemu-devel@nongnu.org,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>, qemu-ppc@nongnu.org,
- Richard Henderson <rth@twiddle.net>
+Cc: "Daniel
+ P . Berrange" <berrange@redhat.com>, Jerome Forissier <jerome@forissier.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22/06/20 16:03, Gerd Hoffmann wrote:
+On Mon, 22 Jun 2020 12:42:31 +0200
+Markus Armbruster <armbru@redhat.com> wrote:
+
+> Receiving the error in a local variable only to free it is less clear
+> (and also less efficient) than passing NULL.  Clean up.
 > 
-> The plan is to have audio work simliar to block.  -audiodev creates a
-> backend (like -blockdev).  Properties are used to reference them.
-> Device properties in most cases, machine properties for builtin devices
-> (i.e. pcspk works like pflash then).
+> Cc: Daniel P. Berrange <berrange@redhat.com>
+> Cc: Jerome Forissier <jerome@forissier.org>
+> CC: Greg Kurz <groug@kaod.org>
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
 
-Block still has a "-drive" option to configure both frontend and
-backend, though.  Audio should have the same (and I modeled my example
-on -nic because that's much better than -drive).
+Reviewed-by: Greg Kurz <groug@kaod.org>
 
-Paolo
+and
+
+Acked-by: Greg Kurz <groug@kaod.org> # for 9pfs
+
+>  chardev/char-socket.c | 6 ++----
+>  hw/9pfs/9p.c          | 6 ++----
+>  hw/arm/virt.c         | 4 +---
+>  hw/ppc/spapr_drc.c    | 4 +---
+>  ui/vnc.c              | 3 +--
+>  5 files changed, 7 insertions(+), 16 deletions(-)
+> 
+> diff --git a/chardev/char-socket.c b/chardev/char-socket.c
+> index afebeec5c3..b0cae97960 100644
+> --- a/chardev/char-socket.c
+> +++ b/chardev/char-socket.c
+> @@ -815,22 +815,20 @@ static void tcp_chr_tls_init(Chardev *chr)
+>  {
+>      SocketChardev *s = SOCKET_CHARDEV(chr);
+>      QIOChannelTLS *tioc;
+> -    Error *err = NULL;
+>      gchar *name;
+>  
+>      if (s->is_listen) {
+>          tioc = qio_channel_tls_new_server(
+>              s->ioc, s->tls_creds,
+>              s->tls_authz,
+> -            &err);
+> +            NULL);
+>      } else {
+>          tioc = qio_channel_tls_new_client(
+>              s->ioc, s->tls_creds,
+>              s->addr->u.inet.host,
+> -            &err);
+> +            NULL);
+>      }
+>      if (tioc == NULL) {
+> -        error_free(err);
+>          tcp_chr_disconnect(chr);
+>          return;
+>      }
+> diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+> index 45a788f6e6..9755fba9a9 100644
+> --- a/hw/9pfs/9p.c
+> +++ b/hw/9pfs/9p.c
+> @@ -1399,7 +1399,6 @@ static void coroutine_fn v9fs_attach(void *opaque)
+>      size_t offset = 7;
+>      V9fsQID qid;
+>      ssize_t err;
+> -    Error *local_err = NULL;
+>  
+>      v9fs_string_init(&uname);
+>      v9fs_string_init(&aname);
+> @@ -1437,9 +1436,8 @@ static void coroutine_fn v9fs_attach(void *opaque)
+>          error_setg(&s->migration_blocker,
+>                     "Migration is disabled when VirtFS export path '%s' is mounted in the guest using mount_tag '%s'",
+>                     s->ctx.fs_root ? s->ctx.fs_root : "NULL", s->tag);
+> -        err = migrate_add_blocker(s->migration_blocker, &local_err);
+> -        if (local_err) {
+> -            error_free(local_err);
+> +        err = migrate_add_blocker(s->migration_blocker, NULL);
+> +        if (err < 0) {
+>              error_free(s->migration_blocker);
+>              s->migration_blocker = NULL;
+>              clunk_fid(s, fid);
+> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> index caceb1e4a0..29b9d5b2e6 100644
+> --- a/hw/arm/virt.c
+> +++ b/hw/arm/virt.c
+> @@ -217,11 +217,9 @@ static bool cpu_type_valid(const char *cpu)
+>  
+>  static void create_kaslr_seed(VirtMachineState *vms, const char *node)
+>  {
+> -    Error *err = NULL;
+>      uint64_t seed;
+>  
+> -    if (qemu_guest_getrandom(&seed, sizeof(seed), &err)) {
+> -        error_free(err);
+> +    if (qemu_guest_getrandom(&seed, sizeof(seed), NULL)) {
+>          return;
+>      }
+>      qemu_fdt_setprop_u64(vms->fdt, node, "kaslr-seed", seed);
+> diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
+> index 2689104295..951bcdf2c0 100644
+> --- a/hw/ppc/spapr_drc.c
+> +++ b/hw/ppc/spapr_drc.c
+> @@ -1163,16 +1163,14 @@ static void rtas_ibm_configure_connector(PowerPCCPU *cpu,
+>      drck = SPAPR_DR_CONNECTOR_GET_CLASS(drc);
+>  
+>      if (!drc->fdt) {
+> -        Error *local_err = NULL;
+>          void *fdt;
+>          int fdt_size;
+>  
+>          fdt = create_device_tree(&fdt_size);
+>  
+>          if (drck->dt_populate(drc, spapr, fdt, &drc->fdt_start_offset,
+> -                              &local_err)) {
+> +                              NULL)) {
+>              g_free(fdt);
+> -            error_free(local_err);
+>              rc = SPAPR_DR_CC_RESPONSE_ERROR;
+>              goto out;
+>          }
+> diff --git a/ui/vnc.c b/ui/vnc.c
+> index 12a12714e1..0702a76cce 100644
+> --- a/ui/vnc.c
+> +++ b/ui/vnc.c
+> @@ -458,9 +458,8 @@ static VncServerInfo2List *qmp_query_server_entry(QIOChannelSocket *ioc,
+>      Error *err = NULL;
+>      SocketAddress *addr;
+>  
+> -    addr = qio_channel_socket_get_local_address(ioc, &err);
+> +    addr = qio_channel_socket_get_local_address(ioc, NULL);
+>      if (!addr) {
+> -        error_free(err);
+>          return prev;
+>      }
+>  
 
 
