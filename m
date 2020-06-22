@@ -2,88 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 335912038B5
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 16:04:00 +0200 (CEST)
-Received: from localhost ([::1]:54538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80A692038C2
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 16:06:27 +0200 (CEST)
+Received: from localhost ([::1]:60322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnN3H-00061u-8a
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 10:03:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58228)
+	id 1jnN5e-0008U1-J3
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 10:06:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jnMz6-0001na-87
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 09:59:40 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:41220
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jnN3o-0007NT-5q
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 10:04:32 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:50032
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jnMz3-0008FI-Vy
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 09:59:39 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jnN3l-0000m6-NC
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 10:04:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592834377;
+ s=mimecast20190719; t=1592834667;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9BiD6ihmh7HVq7Tiy25cLlHRw95ssQel+yhdTLsTGnc=;
- b=NMRVD19CWcOwG2/4r/+2VToXZZ9GvETcjle8sdjjajM1NiufqTSIcGOHea3TbgV9hB/LzK
- pgARvipX13UKct9gE9Z18eQuKe8JckO2Ii33GR/JMv/uV0S95WKN0Glx8+p8H+U337u7Da
- scL95B/4qEVEXsGH9ngrNn4BYYghiqA=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-24-qv71DGKqPGKx8V077tKQyA-1; Mon, 22 Jun 2020 09:59:35 -0400
-X-MC-Unique: qv71DGKqPGKx8V077tKQyA-1
-Received: by mail-wm1-f70.google.com with SMTP id p24so6842442wma.4
- for <qemu-devel@nongnu.org>; Mon, 22 Jun 2020 06:59:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=9BiD6ihmh7HVq7Tiy25cLlHRw95ssQel+yhdTLsTGnc=;
- b=sXGWNIZIMbaXaZYXNqAeMAk4RxllRxQdq9x8YkisbaVk6pCzqpQN84zyjgYZ4RdAAi
- AvAQjhxDxWdPPcSrTbDVwo7IFBKtJfgoWOVFd/5jXswSg+jM6kTJjwd5bN0ZEBtA4E62
- ySyarYHvJV5aTJg/jfm4rrId3382qN5nT/XZC0VjykzPE+v7DfmdNrMI0MkRvPvbJ5G+
- 1DZfP/V8A4eLv18U2CioRJFfQ1pMH0KwsrYmYJwxx7BNSAc4PsbAR7RVgtgVBsa8xYRX
- RGTuyN3G8OWYl85lnEJ94NomUPKJZ6JLcgmJ9oakmXgYSF3HyWaCWeHNDnDnC7TXOu0b
- nKwA==
-X-Gm-Message-State: AOAM531S3OsTgf9wqGabTW8pW5CKKely+Fx94VzUfA4k/fJdmdhV9XgU
- Ou9pP1dObCIOjBp6MaBVgiw37yr91IqYQjmN0KREKFa88qXIGM5gMvyAOWPKaMVQSr8jmn9Na8o
- j9LighTK0/IU4Awk=
-X-Received: by 2002:a7b:c3d0:: with SMTP id t16mr17426973wmj.117.1592834374528; 
- Mon, 22 Jun 2020 06:59:34 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwoHWAXVPnmQ2lx7J2D9yV+2Ef5HKSVoghEAvuK4wS3g6BluFTOcizo7KQ7ZvTw807VajZdlQ==
-X-Received: by 2002:a7b:c3d0:: with SMTP id t16mr17426950wmj.117.1592834374293; 
- Mon, 22 Jun 2020 06:59:34 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:fd64:dd90:5ad5:d2e1?
- ([2001:b07:6468:f312:fd64:dd90:5ad5:d2e1])
- by smtp.gmail.com with ESMTPSA id p13sm7832535wrn.0.2020.06.22.06.59.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Jun 2020 06:59:33 -0700 (PDT)
-Subject: Re: CFP: KVM Forum 2020 virtual experience
-To: Sean Christopherson <sean.j.christopherson@intel.com>,
- kvm-forum-2020-pc@redhat.com
-References: <a1d960aa-c1a0-ff95-68a8-6e471028fe1e@redhat.com>
- <391a9edc-57e3-75a8-c762-d1606fefb4ae@redhat.com>
- <20200617190531.GL26818@linux.intel.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <cb0b5cde-283a-e8b5-1879-170ed3f6ddb4@redhat.com>
-Date: Mon, 22 Jun 2020 15:59:36 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ bh=bs0vz6JqUf4xH2IP0vle9j4+vLkvczrIR2L7a94oQhY=;
+ b=W1VEQEgmGVk5q56XVeaZSq1HSR0WX6P7828yjHjFDcrxNJWO7On0Vc+w9qNfsXfo0OLmA0
+ nuaQIHSdKTeagm3Bftoj/6M7AzV1vHfQDRUgdWs9c6czZTi1viAuP3qkMFp0aMj2hTHP32
+ YXAf9vsZTbZV59Xcs3eMalXVRDSwm+w=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-69-luXr9-YgPe6ayi45ymAYFA-1; Mon, 22 Jun 2020 10:04:07 -0400
+X-MC-Unique: luXr9-YgPe6ayi45ymAYFA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A2BDE801503;
+ Mon, 22 Jun 2020 14:04:06 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-67.ams2.redhat.com
+ [10.36.112.67])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BE7BC5BAD8;
+ Mon, 22 Jun 2020 14:03:59 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 934FA17477; Mon, 22 Jun 2020 16:03:54 +0200 (CEST)
+Date: Mon, 22 Jun 2020 16:03:54 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH v3 11/19] audio: deprecate -soundhw pcspk
+Message-ID: <20200622140354.cin36ds36nwn2khu@sirius.home.kraxel.org>
+References: <20200622112914.30454-1-kraxel@redhat.com>
+ <20200622112914.30454-12-kraxel@redhat.com>
+ <47fe0fd8-ab19-b35d-0808-d9a83201c530@redhat.com>
+ <4df07eb8-0352-3976-67a2-d49a4fb482da@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200617190531.GL26818@linux.intel.com>
-Content-Language: en-US
+In-Reply-To: <4df07eb8-0352-3976-67a2-d49a4fb482da@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 01:27:42
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 02:57:26
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -104,29 +84,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "libvir-list@redhat.com" <libvir-list@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, KVM list <kvm@vger.kernel.org>
+Cc: Thomas Huth <thuth@redhat.com>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ libvir-list@redhat.com, qemu-devel@nongnu.org,
+ =?utf-8?B?SGVydsOp?= Poussineau <hpoussin@reactos.org>, qemu-ppc@nongnu.org,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 17/06/20 21:05, Sean Christopherson wrote:
-> On Wed, Jun 17, 2020 at 05:09:31PM +0200, Paolo Bonzini wrote:
->> In order to allow everyone to present at KVM Forum, including people
->> who might not have been able to travel to Dublin, we are extending the
->> submission deadline for presentations for 6 more weeks!
->>
->> * CFP Closes: Sunday, August 2 at 11:59 PM PST
+On Mon, Jun 22, 2020 at 03:22:05PM +0200, Paolo Bonzini wrote:
+> On 22/06/20 14:59, Thomas Huth wrote:
+> >> +static int pcspk_audio_init_soundhw(ISABus *bus)
+> >> +{
+> >> +    PCSpkState *s = pcspk_state;
+> >> +
+> >> +    warn_report("'-soundhw pcspk' is deprecated, "
+> >> +                "please set a backend using '-global isa-pcspk.audiodev=<name>' instead");
+> >> +    return pcspk_audio_init(s);
+> >> +}
+> > While "-soundhw pcspk" is quite easy to use for the average user, I
+> > think the "-global" options will be quite hard to figure out, especially
+> > once this deprecation message got removed again when -soundhw has been
+> > deleted. Could you maybe add a description how to configure the
+> > pc-speaker to docs/system/target-i386-desc.rst.inc, too?
 > 
-> Blasting the lists as I'm guessing I'm not alone in having a topic whose
-> status could change substantially in the next 6 weeks...
+> -nic is an example of how a single option can work great for both
+> built-in and custom devices, and perhaps we could design something like
+> that for audio.  For example you could have
 > 
-> What is the recommended course of action for people that would like to edit
-> an already-submitted proposal?  I don't see any way to edit or delete via
-> the web interface.
+> 	# configure a builtin or default audio device
+> 	# and an ALSA audiodev
+> 	-sound alsa
+> 
+> 	# configure an external audio device and a PA audiodev
+> 	# options other than "model" go to audiodev
+> 	-sound pa,model=sb16,fixed-settings=off
+> 
+> For more information: https://www.qemu.org/2018/05/31/nic-parameter/
+> 
+> I think we can go ahead with the deprecation, but -global and -device
+> are probably not good enough a replacement for actual removal.
 
-You can contact the mailing list again (closer to the deadline, as we'd
-forget otherwise :)).
+-global is temporary, see patch 19/19 (guess I should reorder the series
+and squash 19/19 to fix that confusion).
 
-Paolo
+The plan is to have audio work simliar to block.  -audiodev creates a
+backend (like -blockdev).  Properties are used to reference them.
+Device properties in most cases, machine properties for builtin devices
+(i.e. pcspk works like pflash then).
+
+take care,
+  Gerd
 
 
