@@ -2,81 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADD4C20362D
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 13:50:42 +0200 (CEST)
-Received: from localhost ([::1]:50110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84DC1203667
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 14:07:12 +0200 (CEST)
+Received: from localhost ([::1]:34446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnKyH-0005NE-OJ
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 07:50:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51498)
+	id 1jnLEF-0005FY-Al
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 08:07:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55666)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jnKwI-0004M8-TZ
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 07:48:38 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:57275
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jnKwE-00038W-C7
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 07:48:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592826513;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=a2DOp/fkqTuEubMOU2RUpBwzkH1zydI7663MmnBMKAM=;
- b=d5K8GTzKfrIJlenqO/mRYpFlIFkVpCZnNovIbo+IFLe9qPlY8Uto/aKSRPyS+jbazAd+nD
- E+cpJHdVVfcah45B5qGka6JNyWHnSHXX9Opj2jkX0XxWk16ir4Q2Sc8owo16ehgkJ8g+37
- GzN7eVSZdnwSp/1gHQWrRvgvYLGMQh4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-66-RR_ZeIYfOuO7VkhQ9lYOLQ-1; Mon, 22 Jun 2020 07:48:30 -0400
-X-MC-Unique: RR_ZeIYfOuO7VkhQ9lYOLQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 37A11800053;
- Mon, 22 Jun 2020 11:48:29 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-125.ams2.redhat.com [10.36.112.125])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8641D7C1F3;
- Mon, 22 Jun 2020 11:48:24 +0000 (UTC)
-Subject: Re: [PATCH v4 7/9] pc-bios: s390x: Move panic() into header and add
- infinite loop
-To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
-References: <20200622074235.32528-1-frankja@linux.ibm.com>
- <20200622074235.32528-8-frankja@linux.ibm.com>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <e162af39-d54e-e419-9da0-c3d35d1d892b@redhat.com>
-Date: Mon, 22 Jun 2020 13:48:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jnLCp-0004K9-Dk
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 08:05:43 -0400
+Received: from indium.canonical.com ([91.189.90.7]:52714)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jnLCl-0005z9-I2
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 08:05:43 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jnLCj-0007gq-Cz
+ for <qemu-devel@nongnu.org>; Mon, 22 Jun 2020 12:05:37 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 506CC2E8109
+ for <qemu-devel@nongnu.org>; Mon, 22 Jun 2020 12:05:37 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200622074235.32528-8-frankja@linux.ibm.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=thuth@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 01:27:42
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 22 Jun 2020 12:00:11 -0000
+From: Francesco Turco <1884302@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: fturco kraxel-redhat
+X-Launchpad-Bug-Reporter: Francesco Turco (fturco)
+X-Launchpad-Bug-Modifier: Francesco Turco (fturco)
+References: <159259247450.25654.11249497243330169394.malonedeb@gac.canonical.com>
+Message-Id: <159282721117.5653.421297417198178540.malone@soybean.canonical.com>
+Subject: [Bug 1884302] Re: disable automatic mouse grabbing
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="1cbd0aa39df153c901321817f9b57cf3f232b507";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: d8f80f3a6d0e9f2a6dac93ca6b76bf51e06236a7
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 08:05:37
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -85,47 +71,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, cohuck@redhat.com,
- david@redhat.com
+Reply-To: Bug 1884302 <1884302@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22/06/2020 09.42, Janosch Frank wrote:
-> panic() was defined for the ccw and net bios, i.e. twice, so it's
-> cleaner to rather put it into the header.
-> 
-> Also let's add an infinite loop into the assembly of disabled_wait() so
-> the caller doesn't need to take care of it.
-> 
-> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
-> Reviewed-by: Pierre Morel <pmorel@linux.ibm.com>
-> Reviewed-by: David Hildenbrand <david@redhat.com>
-> Reviewed-by: Thomas Huth <thuth@redhat.com>
-> ---
->  pc-bios/s390-ccw/main.c     | 7 -------
->  pc-bios/s390-ccw/netmain.c  | 8 --------
->  pc-bios/s390-ccw/s390-ccw.h | 9 +++++++--
->  pc-bios/s390-ccw/start.S    | 5 +++--
->  4 files changed, 10 insertions(+), 19 deletions(-)
-[...]
-> diff --git a/pc-bios/s390-ccw/start.S b/pc-bios/s390-ccw/start.S
-> index aa8fceb19d..35be141d8d 100644
-> --- a/pc-bios/s390-ccw/start.S
-> +++ b/pc-bios/s390-ccw/start.S
-> @@ -47,8 +47,9 @@ memsetxc:
->   */
->  	.globl disabled_wait
->  disabled_wait:
-> -        larl %r1,disabled_wait_psw
-> -        lpswe   0(%r1)
-> +        larl	%r1,disabled_wait_psw
-> +        lpswe	0(%r1)
-> +1:	j	1b
+Thanks for the info, but I prefer to continue using the SDL interface, if p=
+ossible.
+Is there a plan to add the grab-on-hover=3Doff option to the SDL interface?
 
-Could you please fix the white spaces here while you're at it (TABs vs.
-spaces).
+-- =
 
- Thanks,
-  Thomas
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1884302
 
+Title:
+  disable automatic mouse grabbing
+
+Status in QEMU:
+  New
+
+Bug description:
+  I'm using QEMU 5.0.0 on a Gentoo Linux host system. Guest is an Arch
+  Linux system.
+
+  I'd like to disable automatic mouse grabbing when the QEMU window is focu=
+sed.
+  I would prefer for QEMU to grab the mouse only after a click.
+
+  I use the i3 window manager on my host system.
+  Suppose I'm in workspace 1, while the QEMU window is in workspace 2.
+  In order to switch to workspace 2, I need to press the "Win+2" key combin=
+ation ("Win" is the Windows key).
+  The problem is that the character "2" (from "Win+2") will get transferred=
+ to the guest system.
+  For example, if I have a text editor opened under the guest system, the c=
+haracter "2" will be pasted inside the document I'm working on, which is pr=
+etty annoying.
+
+  I would like instead to press the "Win+2" key combination and then
+  explicitely click on the QEMU window with the mouse before grabbing
+  it.
+
+  Command line:
+
+  qemu-system-x86_64 -drive
+  file=3D/home/fturco/qemu/arch.img,media=3Ddisk,index=3D0,if=3Dvirtio,form=
+at=3Draw,cache=3Dnone
+  -cpu host -m 2G -k it -enable-kvm -net nic,model=3Dvirtio -net user -vga
+  virtio -display sdl -usb -rtc base=3Dutc -soundhw ac97 -monitor stdio
+  -no-quit
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1884302/+subscriptions
 
