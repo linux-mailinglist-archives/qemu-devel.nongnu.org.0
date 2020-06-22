@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC61D2038C0
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 16:05:32 +0200 (CEST)
-Received: from localhost ([::1]:58376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36B1A203899
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 16:01:26 +0200 (CEST)
+Received: from localhost ([::1]:46856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnN4h-0007bb-Ah
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 10:05:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57312)
+	id 1jnN0n-0002oi-5r
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 10:01:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jnMvu-0005ZH-Rq
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 09:56:24 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:24723
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jnMvr-0005SD-4n
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 09:56:19 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:33079
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jnMvo-0007jK-HJ
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 09:56:22 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jnMvn-0007j6-VA
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 09:56:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1592834175;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=vhTeCajKC2nULXLiXiNaBtZWkN7Tx6hzRVNzLfPfrAc=;
- b=Osz5FVVEcVF+cyIF9lqK/MoCdOzd8/qJzaoMLi4idTdhkRIemylAh92r149SyKojGFT/Ny
- NL7c5veuzPP3A7lxEMoie9dcr8g8pnanpm+FJFRcgD2DiVOURSaOwtNVprtzMWlw8a7j9h
- zs+Nu4KIvE9dyk4/ioW7cPFParBa87o=
+ references:references; bh=W8gbI8KRCrUVM0ZRjcx8SDNrJaT9c2nnHM26ICBr8o0=;
+ b=dQBCA7qzAlPuavxwhOq5XbQZK5qROZc7786SGjISW4a4gwFC5YuLBwuloGNwbKhHmlBKD/
+ uT0O2zda3ASG5ITVyQoVQFzvoL86ygqshYd2U0g/OgMgg+NSkULQeHZvSs4IUjboDYyHX0
+ vhP2h+4gGN3+9nyG2uFEo3vE+kj2ZV8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-497-RjxYKOTLNEiMCb94DBk_eg-1; Mon, 22 Jun 2020 09:56:09 -0400
-X-MC-Unique: RjxYKOTLNEiMCb94DBk_eg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-399-9_fskh8xOfK4C5PiMNF_ow-1; Mon, 22 Jun 2020 09:56:10 -0400
+X-MC-Unique: 9_fskh8xOfK4C5PiMNF_ow-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6B3A9100CC85
- for <qemu-devel@nongnu.org>; Mon, 22 Jun 2020 13:56:08 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4B77757097
+ for <qemu-devel@nongnu.org>; Mon, 22 Jun 2020 13:56:09 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-67.ams2.redhat.com
  [10.36.112.67])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4B81A7C1F9;
- Mon, 22 Jun 2020 13:56:02 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4BC0B5C1BD;
+ Mon, 22 Jun 2020 13:56:03 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 4730B1753D; Mon, 22 Jun 2020 15:56:01 +0200 (CEST)
+ id 519CE9D8F; Mon, 22 Jun 2020 15:56:01 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 3/7] ccid: build smartcard as module
-Date: Mon, 22 Jun 2020 15:55:57 +0200
-Message-Id: <20200622135601.12433-4-kraxel@redhat.com>
+Subject: [PATCH v4 4/7] usb: build usb-redir as module
+Date: Mon, 22 Jun 2020 15:55:58 +0200
+Message-Id: <20200622135601.12433-5-kraxel@redhat.com>
 In-Reply-To: <20200622135601.12433-1-kraxel@redhat.com>
 References: <20200622135601.12433-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=kraxel@redhat.com;
- helo=us-smtp-1.mimecast.com
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 02:57:26
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
@@ -82,70 +82,46 @@ Cc: dinechin@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Drops libcacard.so dependency from core qemu.
+Drops libusbredirparser.so dependency from core qemu.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- Makefile.objs        | 1 +
- hw/core/qdev.c       | 2 ++
- hw/Makefile.objs     | 1 +
- hw/usb/Makefile.objs | 4 +++-
- 4 files changed, 7 insertions(+), 1 deletion(-)
+ hw/core/qdev.c       | 1 +
+ hw/usb/Makefile.objs | 9 ++++++---
+ 2 files changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/Makefile.objs b/Makefile.objs
-index 7ce2588b89a3..ca555ede0710 100644
---- a/Makefile.objs
-+++ b/Makefile.objs
-@@ -59,6 +59,7 @@ common-obj-y += migration/
- common-obj-y += audio/
- common-obj-m += audio/
- common-obj-y += hw/
-+common-obj-m += hw/
- 
- common-obj-y += replay/
- 
 diff --git a/hw/core/qdev.c b/hw/core/qdev.c
-index 6119e25e0eeb..d6459e4aa8e8 100644
+index d6459e4aa8e8..e77f40db675c 100644
 --- a/hw/core/qdev.c
 +++ b/hw/core/qdev.c
-@@ -172,6 +172,8 @@ static struct {
-     const char *type;
-     const char *mod;
+@@ -174,6 +174,7 @@ static struct {
  } const hwmodules[] = {
-+    { .type = "ccid-card-passthru",    .mod = "usb-smartcard"         },
-+    { .type = "ccid-card-emulated",    .mod = "usb-smartcard"         },
+     { .type = "ccid-card-passthru",    .mod = "usb-smartcard"         },
+     { .type = "ccid-card-emulated",    .mod = "usb-smartcard"         },
++    { .type = "usb-redir",             .mod = "usb-redirect"          },
  };
  
  static bool qdev_module_loaded_all;
-diff --git a/hw/Makefile.objs b/hw/Makefile.objs
-index 4cbe5e4e57d6..af8fd9a510ed 100644
---- a/hw/Makefile.objs
-+++ b/hw/Makefile.objs
-@@ -43,4 +43,5 @@ devices-dirs-y += smbios/
- endif
- 
- common-obj-y += $(devices-dirs-y)
-+common-obj-m += usb/
- obj-y += $(devices-dirs-y)
 diff --git a/hw/usb/Makefile.objs b/hw/usb/Makefile.objs
-index fa5c3fa1b877..3c5b3d4fadd3 100644
+index 3c5b3d4fadd3..3bb8dd53421a 100644
 --- a/hw/usb/Makefile.objs
 +++ b/hw/usb/Makefile.objs
-@@ -29,11 +29,13 @@ common-obj-$(CONFIG_USB_NETWORK)      += dev-network.o
+@@ -43,9 +43,12 @@ endif
  
- ifeq ($(CONFIG_USB_SMARTCARD),y)
- common-obj-y                          += dev-smartcard-reader.o
--common-obj-$(CONFIG_SMARTCARD)        += smartcard.mo
-+ifeq ($(CONFIG_SMARTCARD),y)
-+common-obj-m                          += smartcard.mo
- smartcard.mo-objs := ccid-card-passthru.o ccid-card-emulated.o
- smartcard.mo-cflags := $(SMARTCARD_CFLAGS)
- smartcard.mo-libs := $(SMARTCARD_LIBS)
- endif
+ # usb redirection
+ ifeq ($(CONFIG_USB),y)
+-common-obj-$(CONFIG_USB_REDIR) += redirect.o quirks.o
+-redirect.o-cflags = $(USB_REDIR_CFLAGS)
+-redirect.o-libs = $(USB_REDIR_LIBS)
++ifeq ($(CONFIG_USB-REDIR),y)
++common-obj-m += redirect.mo
++redirect.mo-objs = redirect.o quirks.o
++redirect.mo-cflags = $(USB_REDIR_CFLAGS)
++redirect.mo-libs = $(USB_REDIR_LIBS)
 +endif
+ endif
  
- ifeq ($(CONFIG_POSIX),y)
- common-obj-$(CONFIG_USB_STORAGE_MTP)  += dev-mtp.o
+ # usb pass-through
 -- 
 2.18.4
 
