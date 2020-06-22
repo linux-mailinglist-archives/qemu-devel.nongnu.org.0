@@ -2,57 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3C522030D8
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 09:54:09 +0200 (CEST)
-Received: from localhost ([::1]:33422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96D652031AA
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 10:12:24 +0200 (CEST)
+Received: from localhost ([::1]:48514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnHHM-0000xP-Or
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 03:54:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54754)
+	id 1jnHZ1-0003Bk-L6
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 04:12:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58720)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jnHGf-0000Pa-5N
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 03:53:25 -0400
-Received: from 2.mo173.mail-out.ovh.net ([178.33.251.49]:52671)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1jnHXN-0001s2-Uk; Mon, 22 Jun 2020 04:10:41 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:60537 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jnHGb-0003fD-UY
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 03:53:24 -0400
-Received: from player157.ha.ovh.net (unknown [10.108.54.97])
- by mo173.mail-out.ovh.net (Postfix) with ESMTP id E09BB145171
- for <qemu-devel@nongnu.org>; Mon, 22 Jun 2020 09:53:18 +0200 (CEST)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player157.ha.ovh.net (Postfix) with ESMTPSA id A25FA139BCF7B;
- Mon, 22 Jun 2020 07:53:13 +0000 (UTC)
-Authentication-Results: garm.ovh; auth=pass
- (GARM-103G0051f1eb5bc-80bc-43a3-a771-26561e097bc8,6D3CA472F13BA58F0C95800BF735BE34A93B107C)
- smtp.auth=groug@kaod.org
-Date: Mon, 22 Jun 2020 09:53:12 +0200
-From: Greg Kurz <groug@kaod.org>
-To: =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1jnHXJ-0006Fd-KP; Mon, 22 Jun 2020 04:10:41 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 49r2CS4lcvz9sSd; Mon, 22 Jun 2020 18:10:28 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1592813428;
+ bh=Rn0WlC5NdVJOxpVIEIKwBJEf5DsssHRiGOqgtD6ip0M=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=DAB+J14DyD696nbBF0rFxt0S5Bgv03kpFbNpRriiIDmIaMtwTOtmLntV4uqARvlSy
+ KngmoXYAt1hgTfSHuJEPl0O5LaECO9pe9I/iAVD25zDTwdYnWAkT5OO3EQ9e7lin61
+ GQZkL4aDFQiWJUk0WMLrQtox7NyI2FzI+3xqeNeI=
+Date: Mon, 22 Jun 2020 17:50:59 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Greg Kurz <groug@kaod.org>
 Subject: Re: [PATCH] ppc/pnv: Silence missing BMC warning with qtest
-Message-ID: <20200622095312.0919cfc4@bahia.lan>
-In-Reply-To: <47741f1f-0070-4325-9690-9549211f266c@kaod.org>
+Message-ID: <20200622075059.GS17085@umbus.fritz.box>
 References: <159280903824.485572.831378159272329707.stgit@bahia.lan>
- <47741f1f-0070-4325-9690-9549211f266c@kaod.org>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Ovh-Tracer-Id: 7164664058301618571
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduhedrudekuddguddtlecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgsehtqhertdertdejnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeukeejkeeiffeftdevueekvdetjeegieevhffgjefgtdeluddvgfefleekueevueenucfkpheptddrtddrtddrtddpkedvrddvheefrddvtdekrddvgeeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrudehjedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
-Received-SPF: pass client-ip=178.33.251.49; envelope-from=groug@kaod.org;
- helo=2.mo173.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 03:53:19
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="A3RWl4qWgABmkY4K"
+Content-Disposition: inline
+In-Reply-To: <159280903824.485572.831378159272329707.stgit@bahia.lan>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -9
+X-Spam_score: -1.0
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,92 +61,108 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: qemu-ppc@nongnu.org,
- Philippe =?UTF-8?B?TWF0?= =?UTF-8?B?aGlldS1EYXVkw6k=?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 22 Jun 2020 09:13:46 +0200
-C=C3=A9dric Le Goater <clg@kaod.org> wrote:
 
-> On 6/22/20 8:57 AM, Greg Kurz wrote:
-> > The device introspect test in qtest emits some warnings with the
-> > the pnv machine types during the "nodefaults" phase:
-> >=20
-> > TEST check-qtest-ppc64: tests/qtest/device-introspect-test
-> > qemu-system-ppc64: warning: machine has no BMC device. Use '-device
-> > ipmi-bmc-sim,id=3Dbmc0 -device isa-ipmi-bt,bmc=3Dbmc0,irq=3D10' to defi=
-ne
-> > one
-> > qemu-system-ppc64: warning: machine has no BMC device. Use '-device
-> > ipmi-bmc-sim,id=3Dbmc0 -device isa-ipmi-bt,bmc=3Dbmc0,irq=3D10' to defi=
-ne
-> > one
-> > qemu-system-ppc64: warning: machine has no BMC device. Use '-device
-> > ipmi-bmc-sim,id=3Dbmc0 -device isa-ipmi-bt,bmc=3Dbmc0,irq=3D10' to defi=
-ne
-> > one
-> >=20
-> > This is expected since the pnv machine doesn't create the internal
-> > BMC simulator fallback when "-nodefaults" is passed on the command
-> > line, but these warnings appear in ci logs and confuse people.
-> >=20
-> > Not having a BMC isn't recommended but it is still a supported
-> > configuration, so a straightforward fix is to just silent this
-> > warning when qtest is enabled.
-> >=20
-> > Fixes: 25f3170b0654 ("ppc/pnv: Create BMC devices only when defaults ar=
-e enabled")
-> > Reported-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> > Signed-off-by: Greg Kurz <groug@kaod.org>
+--A3RWl4qWgABmkY4K
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, Jun 22, 2020 at 08:57:18AM +0200, Greg Kurz wrote:
+> The device introspect test in qtest emits some warnings with the
+> the pnv machine types during the "nodefaults" phase:
 >=20
-> Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+> TEST check-qtest-ppc64: tests/qtest/device-introspect-test
+> qemu-system-ppc64: warning: machine has no BMC device. Use '-device
+> ipmi-bmc-sim,id=3Dbmc0 -device isa-ipmi-bt,bmc=3Dbmc0,irq=3D10' to define
+> one
+> qemu-system-ppc64: warning: machine has no BMC device. Use '-device
+> ipmi-bmc-sim,id=3Dbmc0 -device isa-ipmi-bt,bmc=3Dbmc0,irq=3D10' to define
+> one
+> qemu-system-ppc64: warning: machine has no BMC device. Use '-device
+> ipmi-bmc-sim,id=3Dbmc0 -device isa-ipmi-bt,bmc=3Dbmc0,irq=3D10' to define
+> one
 >=20
-> It looks good but could you reproduce ?=20
+> This is expected since the pnv machine doesn't create the internal
+> BMC simulator fallback when "-nodefaults" is passed on the command
+> line, but these warnings appear in ci logs and confuse people.
 >=20
-
-Yup, this test is only run in "slow" mode, eg:
-
-    make check-qtest-ppc64 SPEED=3Dslow
-
-
-> C.
+> Not having a BMC isn't recommended but it is still a supported
+> configuration, so a straightforward fix is to just silent this
+> warning when qtest is enabled.
 >=20
-> > ---
-> >  hw/ppc/pnv.c |    9 ++++++---
-> >  1 file changed, 6 insertions(+), 3 deletions(-)
-> >=20
-> > diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-> > index 806a5d9a8d34..1622d29b4ba7 100644
-> > --- a/hw/ppc/pnv.c
-> > +++ b/hw/ppc/pnv.c
-> > @@ -21,6 +21,7 @@
-> >  #include "qemu-common.h"
-> >  #include "qemu/units.h"
-> >  #include "qapi/error.h"
-> > +#include "sysemu/qtest.h"
-> >  #include "sysemu/sysemu.h"
-> >  #include "sysemu/numa.h"
-> >  #include "sysemu/reset.h"
-> > @@ -587,9 +588,11 @@ static void pnv_reset(MachineState *machine)
-> >      bmc =3D pnv_bmc_find(&error_fatal);
-> >      if (!pnv->bmc) {
-> >          if (!bmc) {
-> > -            warn_report("machine has no BMC device. Use '-device "
-> > -                        "ipmi-bmc-sim,id=3Dbmc0 -device isa-ipmi-bt,bm=
-c=3Dbmc0,irq=3D10' "
-> > -                        "to define one");
-> > +            if (!qtest_enabled()) {
-> > +                warn_report("machine has no BMC device. Use '-device "
-> > +                            "ipmi-bmc-sim,id=3Dbmc0 -device isa-ipmi-b=
-t,bmc=3Dbmc0,irq=3D10' "
-> > +                            "to define one");
-> > +            }
-> >          } else {
-> >              pnv_bmc_set_pnor(bmc, pnv->pnor);
-> >              pnv->bmc =3D bmc;
-> >=20
-> >=20
+> Fixes: 25f3170b0654 ("ppc/pnv: Create BMC devices only when defaults are =
+enabled")
+> Reported-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+> Signed-off-by: Greg Kurz <groug@kaod.org>
+
+Applied to ppc-for-5.1, thanks.
+
+> ---
+>  hw/ppc/pnv.c |    9 ++++++---
+>  1 file changed, 6 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+> index 806a5d9a8d34..1622d29b4ba7 100644
+> --- a/hw/ppc/pnv.c
+> +++ b/hw/ppc/pnv.c
+> @@ -21,6 +21,7 @@
+>  #include "qemu-common.h"
+>  #include "qemu/units.h"
+>  #include "qapi/error.h"
+> +#include "sysemu/qtest.h"
+>  #include "sysemu/sysemu.h"
+>  #include "sysemu/numa.h"
+>  #include "sysemu/reset.h"
+> @@ -587,9 +588,11 @@ static void pnv_reset(MachineState *machine)
+>      bmc =3D pnv_bmc_find(&error_fatal);
+>      if (!pnv->bmc) {
+>          if (!bmc) {
+> -            warn_report("machine has no BMC device. Use '-device "
+> -                        "ipmi-bmc-sim,id=3Dbmc0 -device isa-ipmi-bt,bmc=
+=3Dbmc0,irq=3D10' "
+> -                        "to define one");
+> +            if (!qtest_enabled()) {
+> +                warn_report("machine has no BMC device. Use '-device "
+> +                            "ipmi-bmc-sim,id=3Dbmc0 -device isa-ipmi-bt,=
+bmc=3Dbmc0,irq=3D10' "
+> +                            "to define one");
+> +            }
+>          } else {
+>              pnv_bmc_set_pnor(bmc, pnv->pnor);
+>              pnv->bmc =3D bmc;
+>=20
 >=20
 
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--A3RWl4qWgABmkY4K
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl7wYuEACgkQbDjKyiDZ
+s5JGmw/9HGJP8EC44LkaUmadz174zyRx9n1UmUnueaBEH3OpdFVcQBAct/Q7zrl2
+Fnc2+NORWUy21L/Ec/hb/GZClqK02QX1gNoxX7X16dsHbobw7i2Ghy0EH/fFRDU6
+TDHZw25jOm+SFeLGjR7T0XRkZ4DWpS4oFaN1o9C31T/FCqDKGQssv1tvZdcjAbed
+CBpZYdcuSqQJM1g2HiAvVWskWjobi1WuvJmmOsm8G3Oc7xrHB0DQrdSNz/A6BZoL
+i2Kiic8ejicBY7yMhRvuLP8jQFh5y4mmBDtN2g/OWPjIdWGmxRGQ4kbMGYtr5Q9q
+ALF3O2qBbBLEo3/19YEF+Vm89u0W7r5Z4Yw+Fuss2daLtAGEkOiGjxchAd4xgDur
+VOgQZVocFV8g2RRpCrzSs7n15qyl0NYXYCtEGNdaFjS9f6AFa/3qAGwpTchisNlP
+Nxao+Q+RIvAqwL1o4IrKsgxmRIO6l4DEYVFluY5LrLQcOQSCj8aQL62XJ75LfOND
+6vUip5ZMgTqTF8qnxzxsk4KIa1Dg//tRZ1TPZx2MMPkaJNc/tXJmzZV97plFjZsp
+WvU5YSESxGYD5MCgGA918EtvqBWDMFLWz5rwoShK5W27m4KDTXZQGh7tD17rKMvI
+mWBe4cED5DkK8qDdFNvj08hJCR/59sS83nk/Vt75htim8KEXSpY=
+=xKEo
+-----END PGP SIGNATURE-----
+
+--A3RWl4qWgABmkY4K--
 
