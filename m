@@ -2,72 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3F2E203F0E
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 20:21:23 +0200 (CEST)
-Received: from localhost ([::1]:39634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CF2D203F17
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 20:24:55 +0200 (CEST)
+Received: from localhost ([::1]:47652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnR4M-00016c-S9
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 14:21:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40398)
+	id 1jnR7m-00053J-AW
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 14:24:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
- id 1jnR2u-00006r-NO
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 14:19:52 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:26796
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
- id 1jnR2t-0005vQ-3c
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 14:19:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592849990;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=omB/C5xhlgaHTAk2xiwoKR+JnhPBVcdye6A/qfnjfTY=;
- b=Idkss52k1LDr0qJZNTLFS1WPwViOVRnbsCDiZNKGlzDejJYplG57qWvaUC05ewq+mlUupJ
- VwsDjfU7UaGA0qYyeb+IiM4X3oDKimo2iRKyi/BcU+lUIrsuW2iKsfeXVH1sM76s6jNJB0
- 0X/qM7JlxZckovaBGzsEEiif2WENHo4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-172-rqnMv9NaPTWIJLOEMi0LjA-1; Mon, 22 Jun 2020 14:19:48 -0400
-X-MC-Unique: rqnMv9NaPTWIJLOEMi0LjA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C86A7100A907;
- Mon, 22 Jun 2020 18:19:47 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.40.194.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6AE4D610F2;
- Mon, 22 Jun 2020 18:19:46 +0000 (UTC)
-From: Michal Privoznik <mprivozn@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 2/2] qga: Use qemu_get_host_name() instead of
- g_get_host_name()
-Date: Mon, 22 Jun 2020 20:19:36 +0200
-Message-Id: <873fc5052847ee5df75a75e30960d6d4ab44473b.1592849834.git.mprivozn@redhat.com>
-In-Reply-To: <cover.1592849834.git.mprivozn@redhat.com>
-References: <cover.1592849834.git.mprivozn@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jnR6M-0004BZ-9w
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 14:23:26 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:37665)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jnR6J-0006ZA-Tq
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 14:23:25 -0400
+Received: by mail-wr1-x443.google.com with SMTP id a6so15716641wrm.4
+ for <qemu-devel@nongnu.org>; Mon, 22 Jun 2020 11:23:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=3V/aEamdd1N9VTaMBbiv286XoNvjhToyRxQ/Rr6dphM=;
+ b=b4o0AbqshxUldZHuFqfWn2BWPhnZHS9Ae5fPwjaPpR8a2FHk/eIwCtLHaHQWGql2bL
+ dgFc/TgXtyhNn1XnVyxISzGEgsynJIFcUEcyNqSIC7ooLWSBr2BQs+GgS3lKH3ERcgan
+ jQg+in9Xnx1Q3Dx/VIu3tJRa/OXIfvy28agPHE6b5ZxVGHJ9B35Rfnr/8xoMkq/Ykh4o
+ Skvg6CxA3Jjhbq2Hv2kcLp/wEizkh8wqFGH83p2CSFoje6JpthkBKyNCauO/TgvPDKa4
+ Y7HaVjx5/7exXj502ipgOxnrWnCaZ0H2D1QUEOUaS3Rcvq/QlsiBCriKC7SaJ+E1QAHT
+ nc5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=3V/aEamdd1N9VTaMBbiv286XoNvjhToyRxQ/Rr6dphM=;
+ b=lrlNLVwV9pc2TyoGr3PDAl+mSMoDCbXrUjO01EtxU2x1cJG712ggJ9kxvCIDc+XaOk
+ H8Zhprl+FYEYDt8gw8masA9Ahs1fol8ejeQ85Gx6kU7/UZq6YVESofrw3gMTp9Bj/yPt
+ D5sNkXgUx5N8qXkjXxxu/ZHLwIMMuV2HL/W2g2anUs1XEsEx7jIej7+5BnE5iJ3cTX4D
+ AUzrAAljkHViJLAHf7R5qT0drT9EDFwb+NYbWPyfHv8A6Zmw6+460ZmmuiWjdN3ZTji1
+ DyYptq49DWnEuVqbFm2IbjDC20NNSNnMP2XzoDHiaR/UHeiKHB0MzanxHS/EVR47t2d1
+ Bxpg==
+X-Gm-Message-State: AOAM5311unizuHLJJRkicw0DjIZnFVm5AWw4bQa2zROvhRbRQ+KFa4RI
+ lmU1mtmxnZ4jerd0ibXrM3ZjVA==
+X-Google-Smtp-Source: ABdhPJwGcUecJOAimEVh/Ks7sgznKj1wsdlzKYOBuBGNkbEazZDBsH3IpumZzaZM4bIQNtSYeaUKiA==
+X-Received: by 2002:a05:6000:12c8:: with SMTP id
+ l8mr21045216wrx.148.1592850202266; 
+ Mon, 22 Jun 2020 11:23:22 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id u65sm482920wmg.5.2020.06.22.11.23.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 22 Jun 2020 11:23:21 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 588B71FF7E;
+ Mon, 22 Jun 2020 19:23:20 +0100 (BST)
+References: <20200622143204.12921-1-alex.bennee@linaro.org>
+ <20200622143204.12921-2-alex.bennee@linaro.org>
+ <9ad1234e-bbb7-9396-21e1-58041cffd847@redhat.com>
+User-agent: mu4e 1.5.3; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v1 01/18] iotests: Fix 051 output after
+ qdev_init_nofail() removal
+In-reply-to: <9ad1234e-bbb7-9396-21e1-58041cffd847@redhat.com>
+Date: Mon, 22 Jun 2020 19:23:20 +0100
+Message-ID: <87d05r9cyv.fsf@linaro.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=mprivozn@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 01:27:42
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x443.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,55 +92,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, vfeenstr@redhat.com, marcandre.lureau@gmail.com,
- mdroth@linux.vnet.ibm.com, sw@weilnetz.de
+Cc: fam@euphon.net, Kevin Wolf <kwolf@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, berrange@redhat.com, "open list:Block
+ layer core" <qemu-block@nongnu.org>, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, f4bug@amsat.org, cota@braap.org,
+ Max Reitz <mreitz@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud?= =?utf-8?Q?=C3=A9?= <philmd@redhat.com>,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Problem with g_get_host_name() is that on the first call it saves
-the hostname into a global variable and from then on, every
-subsequent call returns the saved hostname. Even if the hostname
-changes. This doesn't play nicely with guest agent, because if
-the hostname is acquired before the guest is set up (e.g. on the
-first boot, or before DHCP) we will report old, invalid hostname.
 
-Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=1845127
+John Snow <jsnow@redhat.com> writes:
 
-Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
----
- qga/commands.c | 17 +++++++++++++----
- 1 file changed, 13 insertions(+), 4 deletions(-)
+> On 6/22/20 10:31 AM, Alex Benn=C3=A9e wrote:
+>> From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>>=20
+>> Commit 96927c744 replaced qdev_init_nofail() call by
+>> isa_realize_and_unref() which has a different error
+>> message. Update the test output accordingly.
+>>=20
+>> Gitlab CI error after merging b77b5b3dc7:
+>> https://gitlab.com/qemu-project/qemu/-/jobs/597414772#L4375
+>>=20
+>> Reported-by: Thomas Huth <thuth@redhat.com>
+>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>> Message-Id: <20200616154949.6586-1-philmd@redhat.com>
+>> ---
+>>  tests/qemu-iotests/051.pc.out | 4 ++--
+>>  1 file changed, 2 insertions(+), 2 deletions(-)
+>>=20
+>> diff --git a/tests/qemu-iotests/051.pc.out b/tests/qemu-iotests/051.pc.o=
+ut
+>> index 0ea80d35f0e..da8ad871876 100644
+>> --- a/tests/qemu-iotests/051.pc.out
+>> +++ b/tests/qemu-iotests/051.pc.out
+>> @@ -142,7 +142,7 @@ QEMU X.Y.Z monitor - type 'help' for more information
+>>=20=20
+>>  Testing: -drive if=3Dide
+>>  QEMU X.Y.Z monitor - type 'help' for more information
+>> -(qemu) QEMU_PROG: Initialization of device ide-hd failed: Device needs =
+media, but drive is empty
+>> +(qemu) QEMU_PROG: Device needs media, but drive is empty
+>>=20=20
+>>  Testing: -drive if=3Dvirtio
+>>  QEMU X.Y.Z monitor - type 'help' for more information
+>> @@ -214,7 +214,7 @@ QEMU X.Y.Z monitor - type 'help' for more information
+>>=20=20
+>>  Testing: -drive file=3DTEST_DIR/t.qcow2,if=3Dide,readonly=3Don
+>>  QEMU X.Y.Z monitor - type 'help' for more information
+>> -(qemu) QEMU_PROG: Initialization of device ide-hd failed: Block node is=
+ read-only
+>> +(qemu) QEMU_PROG: Block node is read-only
+>>=20=20
+>>  Testing: -drive file=3DTEST_DIR/t.qcow2,if=3Dvirtio,readonly=3Don
+>>  QEMU X.Y.Z monitor - type 'help' for more information
+>>=20
+>
+> Just ran into this and wrote an identical fix. The error is not in
+> 051.out so the pc-only fix appears to be fine.
+>
+> Reviewed-by: John Snow <jsnow@redhat.com>
+>
+> (There seem to be other problems with the CI at the moment, but the
+> failures I am seeing are not related to this, so I think it's probably fi=
+ne)
 
-diff --git a/qga/commands.c b/qga/commands.c
-index efc8b90281..d3fec807c1 100644
---- a/qga/commands.c
-+++ b/qga/commands.c
-@@ -515,11 +515,20 @@ int ga_parse_whence(GuestFileWhence *whence, Error **errp)
- GuestHostName *qmp_guest_get_host_name(Error **errp)
- {
-     GuestHostName *result = NULL;
--    gchar const *hostname = g_get_host_name();
--    if (hostname != NULL) {
--        result = g_new0(GuestHostName, 1);
--        result->host_name = g_strdup(hostname);
-+    g_autofree char *hostname = qemu_get_host_name(errp);
-+
-+    /*
-+     * We want to avoid using g_get_host_name() because that
-+     * caches the result and we wouldn't reflect changes in the
-+     * host name.
-+     */
-+
-+    if (!hostname) {
-+        hostname = g_strdup("localhost");
-     }
-+
-+    result = g_new0(GuestHostName, 1);
-+    result->host_name = g_steal_pointer(&hostname);
-     return result;
- }
- 
--- 
-2.26.2
+It's queued via Max's tree - it's just easier to keep them in
+testing/next while I'm testing. I assume his PR will beat the eventual
+PR from this.
 
+--=20
+Alex Benn=C3=A9e
 
