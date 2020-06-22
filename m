@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4AA7202FCF
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 08:38:33 +0200 (CEST)
-Received: from localhost ([::1]:48806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1ABD202FD1
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 08:39:09 +0200 (CEST)
+Received: from localhost ([::1]:51400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnG6C-0003k4-Ot
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 02:38:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37158)
+	id 1jnG6m-0005Oh-VC
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 02:39:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37192)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1jnG1i-0006WA-9A; Mon, 22 Jun 2020 02:33:54 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:36889)
+ id 1jnG1k-0006c3-Hi; Mon, 22 Jun 2020 02:33:56 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:52140)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1jnG1b-0007v9-Jv; Mon, 22 Jun 2020 02:33:53 -0400
-Received: by mail-wr1-x441.google.com with SMTP id a6so13420922wrm.4;
- Sun, 21 Jun 2020 23:33:46 -0700 (PDT)
+ id 1jnG1h-0007vc-MT; Mon, 22 Jun 2020 02:33:56 -0400
+Received: by mail-wm1-x341.google.com with SMTP id x16so4555894wmj.1;
+ Sun, 21 Jun 2020 23:33:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=xz3x58qCy/6rZFSI16VgMGU7FAdOPJY6KAWYPjgSODE=;
- b=U7C3q21XyfMc755wUOL50i/2a1gFlnECu0lLh+XcvccNvMCqNCX2aRK4cjK2J8H3h+
- WNw64j3lb4SDstIHkZJr5fZHyGXTZdfpdjtptFW9AUqYx2DaVXhWof+M1jvGbDrToIht
- bAwg63QjenuXquThZp8DZ8vPpUALinSiVzovc/oUJpZqbLaXEwDKNgJEelwT6T7pCtM1
- JBB3EuBk36dyYZUCvqHQ8DSRCSkccg6QnEHkDCCH5z0oXhvyuzrAfz3q9tbAvUz6uTwK
- b4jhMwPWLg4KTBb9w5E+iK2UX9RmoHFsyceMxDXLpGRqXZlIg5W6rznDuECWe55T3frz
- HkUQ==
+ bh=Bf9mVslhR8Md1AJAa172xTX30v7Z4QWEBUyTeFfWAU4=;
+ b=p0o12OZ3EJiu6TbgQNLrR89eYluwfA5iYe5EVxpVWp5PoX+ENaVbloaFOH/ESk+ul5
+ 3s1GZDgFlPG+T9BSqFjkB1rSpEkPizbxKXOgm7xrepZcZ6MyMQCTh3ainRrVCu0Z3LrH
+ uR3l1CqNXfrma7+Mu62sQ0rgLddzOEQkQeOFbBOQiXBBCxsQRzSTFzhmmTw5GXk58OFh
+ 9+YpBgxhkRHzM+r1FXSBdEHP2rm2A1hYp2Fcs2z8giI5/n61Pa2xF/oPXu0W+41aVNts
+ AcCkVNy9tWixPgLos05n43UZDBEQaIGSk9W1PfP+NTXmow8pbrnALXULBJzaDB//B+RW
+ D67A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=xz3x58qCy/6rZFSI16VgMGU7FAdOPJY6KAWYPjgSODE=;
- b=otYVwtR7pw7z0PSHRwSE1bT5DsOlZt/nsPILHAdjhwEoNRK/gSwBGgqKtYPQAOkQ09
- k2LljPJzvCchzhZlA+Az19tCiagy/dx1BC3FGEN6BRKC5BeF0SGD6l23YXoWi09SKxiT
- PxvjbHwYFzF81ZI9ajXCNniUdg/1Reb18caxhZ6H8WpJB/5/5kfmet3+LwJCo989DcRH
- 4/eElKrebXhHiym8TKOnLxAiGpgeSGMowRy6IfXYj6V3T5euW2uHV+a9QdKmchvhOvKW
- 8EBLupcv4GQpaoABZSkHH1LXuAPCu4lCJOEtlfWfkfoqcmT53U2JmT8MjWWb3Vs7tkQO
- 9zbQ==
-X-Gm-Message-State: AOAM533wolrWQv4TU7LjBKQDIavUx8jdg9x3E/LFX0FW/Eulo0Fq3guQ
- nP0rfH/fWuVXgMjCJl2Bwjk=
-X-Google-Smtp-Source: ABdhPJw4XJMvzuVDtqPZSUYnUax1VSxhdpAThyrWnPJkAbQ4uXJ6Hv1eVw84MdE99HzJX3vzYBDefg==
-X-Received: by 2002:adf:fd41:: with SMTP id h1mr17831639wrs.374.1592807625465; 
- Sun, 21 Jun 2020 23:33:45 -0700 (PDT)
+ bh=Bf9mVslhR8Md1AJAa172xTX30v7Z4QWEBUyTeFfWAU4=;
+ b=XN0kNOxEGYxkZ8PRBjXJpZOAvybuWY/UCOYYkJMgRx+2xaJcb5OhgAan+CW27ev00i
+ ING4ZUeOe+yM6RVIni3x2lNSpo+arRXm3Pb+w/KvpvBJPSoeBCbcXYpgRFcebrq94ou2
+ TgzPcSQCi+usO/4Hr5UWgUUhJ6M1IlRfgtiKN8/ls0akyD61tiRjYv/flDbJsSPXRW9a
+ LRAp6WKF2EOljldqOLH5Ust9O9W40RLuU+xIb6tBbteYvC6Tj/WZSYkacNUkVlLg2T/m
+ OLNeU9ur3eOakYHZZOaZY+vcejZsM2+AiMcouH7Z3xHWLXgbmq+Vwyw8gdW4ZMqvHcpt
+ SfvQ==
+X-Gm-Message-State: AOAM533joqQ8KSEWDKK+lIhtxKD40JlaeQ1PvWM1bPbVW2lSo2cfXUSS
+ gN/W9C1GsVnrcJzkTPhxscs=
+X-Google-Smtp-Source: ABdhPJxrsHGxPd8Eu7eA08bYb8E62OX07e+JeAE7oc1K80El8Keyw9+g/JLO423rBAqcv3z+/bpFjw==
+X-Received: by 2002:a7b:c14a:: with SMTP id z10mr5242721wmi.19.1592807627832; 
+ Sun, 21 Jun 2020 23:33:47 -0700 (PDT)
 Received: from localhost.localdomain (unknown-224-80.windriver.com.
  [147.11.224.80])
- by smtp.gmail.com with ESMTPSA id a10sm16684240wrm.21.2020.06.21.23.33.43
+ by smtp.gmail.com with ESMTPSA id a10sm16684240wrm.21.2020.06.21.23.33.45
  (version=TLS1 cipher=AES128-SHA bits=128/128);
- Sun, 21 Jun 2020 23:33:45 -0700 (PDT)
+ Sun, 21 Jun 2020 23:33:47 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: Alistair Francis <Alistair.Francis@wdc.com>,
  Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
  Palmer Dabbelt <palmerdabbelt@google.com>,
  Sagar Karandikar <sagark@eecs.berkeley.edu>, qemu-devel@nongnu.org,
  qemu-riscv@nongnu.org
-Subject: [PATCH v2 5/7] hw/riscv: spike: Change the default bios to use
- generic platform image
-Date: Sun, 21 Jun 2020 23:33:22 -0700
-Message-Id: <1592807604-20805-6-git-send-email-bmeng.cn@gmail.com>
+Subject: [PATCH v2 6/7] gitlab-ci/opensbi: Update GitLab CI to build generic
+ platform
+Date: Sun, 21 Jun 2020 23:33:23 -0700
+Message-Id: <1592807604-20805-7-git-send-email-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 1.7.1
 In-Reply-To: <1592807604-20805-1-git-send-email-bmeng.cn@gmail.com>
 References: <1592807604-20805-1-git-send-email-bmeng.cn@gmail.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=bmeng.cn@gmail.com; helo=mail-wr1-x441.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-wm1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -91,56 +91,64 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-To keep sync with other RISC-V machines, change the default bios to
-use generic platform image.
-
-While we are here, add some comments to mention that using ELF files
-for the Spike machine was intentional.
+This updates the GitLab CI opensbi job to build opensbi bios images
+for the generic platform.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 Reviewed-by: Anup Patel <anup@brainfault.org>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+
 ---
 
-(no changes since v1)
+Changes in v2:
+- Include ELF images in the artifacts
 
- hw/riscv/spike.c                            |   9 +++++++--
- pc-bios/opensbi-riscv32-generic-fw_jump.elf | Bin 0 -> 554156 bytes
- pc-bios/opensbi-riscv64-generic-fw_jump.elf | Bin 0 -> 619960 bytes
- 3 files changed, 7 insertions(+), 2 deletions(-)
- create mode 100644 pc-bios/opensbi-riscv32-generic-fw_jump.elf
- create mode 100644 pc-bios/opensbi-riscv64-generic-fw_jump.elf
+ .gitlab-ci.d/opensbi.yml | 28 ++++++++++------------------
+ 1 file changed, 10 insertions(+), 18 deletions(-)
 
-diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
-index 3c87e04..2fb7f98 100644
---- a/hw/riscv/spike.c
-+++ b/hw/riscv/spike.c
-@@ -45,10 +45,15 @@
- 
- #include <libfdt.h>
- 
-+/*
-+ * Not like other RISC-V machines that use plain binary bios images,
-+ * keeping ELF files here was intentional because BIN files don't work
-+ * for the Spike machine as HTIF emulation depends on ELF parsing.
-+ */
- #if defined(TARGET_RISCV32)
--# define BIOS_FILENAME "opensbi-riscv32-spike-fw_jump.elf"
-+# define BIOS_FILENAME "opensbi-riscv32-generic-fw_jump.elf"
- #else
--# define BIOS_FILENAME "opensbi-riscv64-spike-fw_jump.elf"
-+# define BIOS_FILENAME "opensbi-riscv64-generic-fw_jump.elf"
- #endif
- 
- static const struct MemmapEntry {
-diff --git a/pc-bios/opensbi-riscv32-generic-fw_jump.elf b/pc-bios/opensbi-riscv32-generic-fw_jump.elf
-new file mode 100644
-index 0000000..5fd3fb7
-Binary files /dev/null and b/pc-bios/opensbi-riscv32-generic-fw_jump.elf differ
-diff --git a/pc-bios/opensbi-riscv64-generic-fw_jump.elf b/pc-bios/opensbi-riscv64-generic-fw_jump.elf
-new file mode 100644
-index 0000000..d29e4f8
-Binary files /dev/null and b/pc-bios/opensbi-riscv64-generic-fw_jump.elf differ
+diff --git a/.gitlab-ci.d/opensbi.yml b/.gitlab-ci.d/opensbi.yml
+index dd051c0..23e2fe4 100644
+--- a/.gitlab-ci.d/opensbi.yml
++++ b/.gitlab-ci.d/opensbi.yml
+@@ -34,18 +34,14 @@ build-opensbi:
+    when: always
+  artifacts:
+    paths: # 'artifacts.zip' will contains the following files:
+-   - pc-bios/opensbi-riscv32-sifive_u-fw_jump.bin
+-   - pc-bios/opensbi-riscv32-virt-fw_jump.bin
+-   - pc-bios/opensbi-riscv64-sifive_u-fw_jump.bin
+-   - pc-bios/opensbi-riscv64-virt-fw_jump.bin
+-   - opensbi32-virt-stdout.log
+-   - opensbi32-virt-stderr.log
+-   - opensbi64-virt-stdout.log
+-   - opensbi64-virt-stderr.log
+-   - opensbi32-sifive_u-stdout.log
+-   - opensbi32-sifive_u-stderr.log
+-   - opensbi64-sifive_u-stdout.log
+-   - opensbi64-sifive_u-stderr.log
++   - pc-bios/opensbi-riscv32-generic-fw_jump.bin
++   - pc-bios/opensbi-riscv32-generic-fw_jump.elf
++   - pc-bios/opensbi-riscv64-generic-fw_jump.bin
++   - pc-bios/opensbi-riscv64-generic-fw_jump.elf
++   - opensbi32-generic-stdout.log
++   - opensbi32-generic-stderr.log
++   - opensbi64-generic-stdout.log
++   - opensbi64-generic-stderr.log
+  image: $CI_REGISTRY_IMAGE:opensbi-cross-build
+  variables:
+    GIT_DEPTH: 3
+@@ -54,10 +50,6 @@ build-opensbi:
+  - export JOBS=$(($(getconf _NPROCESSORS_ONLN) + 1))
+  - echo "=== Using ${JOBS} simultaneous jobs ==="
+  - make -j${JOBS} -C roms/opensbi clean
+- - make -j${JOBS} -C roms opensbi32-virt 2>&1 1>opensbi32-virt-stdout.log | tee -a opensbi32-virt-stderr.log >&2
++ - make -j${JOBS} -C roms opensbi32-generic 2>&1 1>opensbi32-generic-stdout.log | tee -a opensbi32-generic-stderr.log >&2
+  - make -j${JOBS} -C roms/opensbi clean
+- - make -j${JOBS} -C roms opensbi64-virt 2>&1 1>opensbi64-virt-stdout.log | tee -a opensbi64-virt-stderr.log >&2
+- - make -j${JOBS} -C roms/opensbi clean
+- - make -j${JOBS} -C roms opensbi32-sifive_u 2>&1 1>opensbi32-sifive_u-stdout.log | tee -a opensbi32-sifive_u-stderr.log >&2
+- - make -j${JOBS} -C roms/opensbi clean
+- - make -j${JOBS} -C roms opensbi64-sifive_u 2>&1 1>opensbi64-sifive_u-stdout.log | tee -a opensbi64-sifive_u-stderr.log >&2
++ - make -j${JOBS} -C roms opensbi64-generic 2>&1 1>opensbi64-generic-stdout.log | tee -a opensbi64-generic-stderr.log >&2
 -- 
 2.7.4
 
