@@ -2,62 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D35F1203B42
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 17:41:42 +0200 (CEST)
-Received: from localhost ([::1]:48220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD16E203B53
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 17:45:49 +0200 (CEST)
+Received: from localhost ([::1]:33438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnOZp-0000OG-TB
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 11:41:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59122)
+	id 1jnOdo-0005yY-Vh
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 11:45:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jnOYW-0007Pu-5I
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 11:40:20 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:46812
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jnOYn-0007zL-58
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 11:40:37 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:44727
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jnOYU-0003ZN-6F
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 11:40:19 -0400
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jnOYl-0003hO-6w
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 11:40:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592840417;
+ s=mimecast20190719; t=1592840434;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=w7ONpZZjErZHFUYN7YfFgaMMb15Ej0bi5uA6s5ZasrY=;
- b=D9PJbjsreLOIEedqsyurz+Ru+2jOBVFRSDZf/7SlKZ7GbF+EH1zA0aPqNlCOCvIUheVpJM
- 94ui+BzNM4fhx4fAcatVG3do1L0AgGL7DNl5YwttcPPRhV3ENSYPTUMbnrBC5Cx/ECwyf1
- X3zEEMhX17GzjeiHVgUdkuWTZfGEqTI=
+ bh=DepnZlL/bm0hHGf+dW+67jhLOZh9XVMNcbyUYjOici8=;
+ b=dx4wjxuFZ6XSpa6OeMzSsNlK8Ukwa6ROk/e1O1dOc75iXBuoTZAJ9UlWVn2NOJeYJfcv7S
+ 8ZUrA9Uf5y2gv9NLranJs1TMICpycPxmprQkQ3thTay+eAWKBakNAMXBAFXPGUo5zhUMjR
+ +055hvFI5aiBXeVMxMpOTKCY7RTl1NQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-446-wOAhls_zNha9fqcms68PcA-1; Mon, 22 Jun 2020 11:40:12 -0400
-X-MC-Unique: wOAhls_zNha9fqcms68PcA-1
+ us-mta-74-w1ngTPbiMDyteOj9Le-B4Q-1; Mon, 22 Jun 2020 11:40:32 -0400
+X-MC-Unique: w1ngTPbiMDyteOj9Le-B4Q-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5F787184D147;
- Mon, 22 Jun 2020 15:40:10 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 379A28064D8;
+ Mon, 22 Jun 2020 15:40:30 +0000 (UTC)
 Received: from laptop.redhat.com (ovpn-13-110.pek2.redhat.com [10.72.13.110])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8731A71679;
- Mon, 22 Jun 2020 15:39:49 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 249FE7167B;
+ Mon, 22 Jun 2020 15:40:12 +0000 (UTC)
 From: Cindy Lu <lulu@redhat.com>
 To: mst@redhat.com, armbru@redhat.com, eblake@redhat.com, cohuck@redhat.com,
  jasowang@redhat.com
-Subject: [PATCH v1 05/10] vhost-backend: export the vhost backend helper
-Date: Mon, 22 Jun 2020 23:37:51 +0800
-Message-Id: <20200622153756.19189-6-lulu@redhat.com>
+Subject: [PATCH v1 06/10] vhsot_net: introduce set_config & get_config function
+Date: Mon, 22 Jun 2020 23:37:52 +0800
+Message-Id: <20200622153756.19189-7-lulu@redhat.com>
 In-Reply-To: <20200622153756.19189-1-lulu@redhat.com>
 References: <20200622153756.19189-1-lulu@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lulu@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=lulu@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 03:17:49
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=lulu@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 01:27:42
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -89,126 +91,53 @@ Cc: mhabets@solarflare.com, qemu-devel@nongnu.org, rob.miller@broadcom.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-export the helper then we can reuse them in other backend
+This patch introduces set_config & get_config  method which allows
+vhost_net set/get the config to backend
 
 Signed-off-by: Cindy Lu <lulu@redhat.com>
 ---
- hw/virtio/vhost-backend.c         | 18 +++++++++---------
- include/hw/virtio/vhost-backend.h | 28 ++++++++++++++++++++++++++++
- 2 files changed, 37 insertions(+), 9 deletions(-)
+ hw/net/vhost_net.c      | 11 +++++++++++
+ include/net/vhost_net.h |  5 +++++
+ 2 files changed, 16 insertions(+)
 
-diff --git a/hw/virtio/vhost-backend.c b/hw/virtio/vhost-backend.c
-index 48905383f8..660e9e8588 100644
---- a/hw/virtio/vhost-backend.c
-+++ b/hw/virtio/vhost-backend.c
-@@ -89,7 +89,7 @@ static int vhost_kernel_scsi_get_abi_version(struct vhost_dev *dev, int *version
-     return vhost_kernel_call(dev, VHOST_SCSI_GET_ABI_VERSION, version);
+diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
+index 4096d64aaf..04cc3db264 100644
+--- a/hw/net/vhost_net.c
++++ b/hw/net/vhost_net.c
+@@ -111,6 +111,17 @@ uint64_t vhost_net_get_features(struct vhost_net *net, uint64_t features)
+             features);
  }
  
--static int vhost_kernel_set_log_base(struct vhost_dev *dev, uint64_t base,
-+int vhost_kernel_set_log_base(struct vhost_dev *dev, uint64_t base,
-                                      struct vhost_log *log)
++int vhost_net_get_config(struct vhost_net *net,  uint8_t *config,
++                         uint32_t config_len)
++{
++    return vhost_dev_get_config(&net->dev, config, config_len);
++}
++int vhost_net_set_config(struct vhost_net *net, const uint8_t *data,
++                         uint32_t offset, uint32_t size, uint32_t flags)
++{
++    return vhost_dev_set_config(&net->dev, data, offset, size, flags);
++}
++
+ void vhost_net_ack_features(struct vhost_net *net, uint64_t features)
  {
-     return vhost_kernel_call(dev, VHOST_SET_LOG_BASE, &base);
-@@ -101,7 +101,7 @@ static int vhost_kernel_set_mem_table(struct vhost_dev *dev,
-     return vhost_kernel_call(dev, VHOST_SET_MEM_TABLE, mem);
- }
+     net->dev.acked_features = net->dev.backend_features;
+diff --git a/include/net/vhost_net.h b/include/net/vhost_net.h
+index 77e47398c4..abfb0e8e68 100644
+--- a/include/net/vhost_net.h
++++ b/include/net/vhost_net.h
+@@ -27,6 +27,11 @@ void vhost_net_cleanup(VHostNetState *net);
  
--static int vhost_kernel_set_vring_addr(struct vhost_dev *dev,
-+int vhost_kernel_set_vring_addr(struct vhost_dev *dev,
-                                        struct vhost_vring_addr *addr)
- {
-     return vhost_kernel_call(dev, VHOST_SET_VRING_ADDR, addr);
-@@ -113,31 +113,31 @@ static int vhost_kernel_set_vring_endian(struct vhost_dev *dev,
-     return vhost_kernel_call(dev, VHOST_SET_VRING_ENDIAN, ring);
- }
+ uint64_t vhost_net_get_features(VHostNetState *net, uint64_t features);
+ void vhost_net_ack_features(VHostNetState *net, uint64_t features);
++int vhost_net_get_config(struct vhost_net *net,  uint8_t *config,
++                         uint32_t config_len);
++
++int vhost_net_set_config(struct vhost_net *net, const uint8_t *data,
++                         uint32_t offset, uint32_t size, uint32_t flags);
  
--static int vhost_kernel_set_vring_num(struct vhost_dev *dev,
-+int vhost_kernel_set_vring_num(struct vhost_dev *dev,
-                                       struct vhost_vring_state *ring)
- {
-     return vhost_kernel_call(dev, VHOST_SET_VRING_NUM, ring);
- }
- 
--static int vhost_kernel_set_vring_base(struct vhost_dev *dev,
-+int vhost_kernel_set_vring_base(struct vhost_dev *dev,
-                                        struct vhost_vring_state *ring)
- {
-     return vhost_kernel_call(dev, VHOST_SET_VRING_BASE, ring);
- }
- 
--static int vhost_kernel_get_vring_base(struct vhost_dev *dev,
-+int vhost_kernel_get_vring_base(struct vhost_dev *dev,
-                                        struct vhost_vring_state *ring)
- {
-     return vhost_kernel_call(dev, VHOST_GET_VRING_BASE, ring);
- }
- 
--static int vhost_kernel_set_vring_kick(struct vhost_dev *dev,
-+int vhost_kernel_set_vring_kick(struct vhost_dev *dev,
-                                        struct vhost_vring_file *file)
- {
-     return vhost_kernel_call(dev, VHOST_SET_VRING_KICK, file);
- }
- 
--static int vhost_kernel_set_vring_call(struct vhost_dev *dev,
-+int vhost_kernel_set_vring_call(struct vhost_dev *dev,
-                                        struct vhost_vring_file *file)
- {
-     return vhost_kernel_call(dev, VHOST_SET_VRING_CALL, file);
-@@ -155,13 +155,13 @@ static int vhost_kernel_set_features(struct vhost_dev *dev,
-     return vhost_kernel_call(dev, VHOST_SET_FEATURES, &features);
- }
- 
--static int vhost_kernel_get_features(struct vhost_dev *dev,
-+int vhost_kernel_get_features(struct vhost_dev *dev,
-                                      uint64_t *features)
- {
-     return vhost_kernel_call(dev, VHOST_GET_FEATURES, features);
- }
- 
--static int vhost_kernel_set_owner(struct vhost_dev *dev)
-+int vhost_kernel_set_owner(struct vhost_dev *dev)
- {
-     return vhost_kernel_call(dev, VHOST_SET_OWNER, NULL);
- }
-diff --git a/include/hw/virtio/vhost-backend.h b/include/hw/virtio/vhost-backend.h
-index 6f6670783f..300b59c172 100644
---- a/include/hw/virtio/vhost-backend.h
-+++ b/include/hw/virtio/vhost-backend.h
-@@ -172,4 +172,32 @@ int vhost_backend_handle_iotlb_msg(struct vhost_dev *dev,
- 
- int vhost_user_gpu_set_socket(struct vhost_dev *dev, int fd);
- 
-+
-+int vhost_kernel_set_log_base(struct vhost_dev *dev, uint64_t base,
-+                                     struct vhost_log *log);
-+
-+int vhost_kernel_set_vring_addr(struct vhost_dev *dev,
-+                                       struct vhost_vring_addr *addr);
-+
-+int vhost_kernel_set_vring_num(struct vhost_dev *dev,
-+                                      struct vhost_vring_state *ring);
-+
-+int vhost_kernel_set_vring_base(struct vhost_dev *dev,
-+                                       struct vhost_vring_state *ring);
-+
-+int vhost_kernel_get_vring_base(struct vhost_dev *dev,
-+                                       struct vhost_vring_state *ring);
-+
-+int vhost_kernel_set_vring_kick(struct vhost_dev *dev,
-+                                       struct vhost_vring_file *file);
-+
-+int vhost_kernel_set_vring_call(struct vhost_dev *dev,
-+                                       struct vhost_vring_file *file);
-+
-+int vhost_kernel_set_owner(struct vhost_dev *dev);
-+
-+int vhost_kernel_get_features(struct vhost_dev *dev,
-+                                     uint64_t *features);
-+
-+
- #endif /* VHOST_BACKEND_H */
+ bool vhost_net_virtqueue_pending(VHostNetState *net, int n);
+ void vhost_net_virtqueue_mask(VHostNetState *net, VirtIODevice *dev,
 -- 
 2.21.1
 
