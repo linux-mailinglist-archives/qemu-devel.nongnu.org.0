@@ -2,113 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB4C8203F57
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 20:39:59 +0200 (CEST)
-Received: from localhost ([::1]:57198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0A43203F5E
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 20:42:54 +0200 (CEST)
+Received: from localhost ([::1]:36670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnRMM-0006Ot-TL
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 14:39:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44050)
+	id 1jnRPB-0001K3-S1
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 14:42:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44818)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jnRKH-0002W4-Rj
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 14:37:49 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:52987
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jnRKF-000060-Nl
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 14:37:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592851066;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=nt1GnSVQf/NCJiEbEKyHC6d7MSGvnzAEIdQQLJkM6QM=;
- b=C2Yl+elR3i/gansJtgEGZdfqSlRVrB4GTJCuE4xPHRU5tKsvABYw6xFwGmHinmN2hyvFZB
- +39A19nhAngzxB5842ZVT9G6ExCWKyW2z69A7FZnFrducVvHvqHDzvOMydAW74nHN9LkPp
- JPXfV4+8IQbIlxsU8IBJweYYFCGFkA8=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-190-qTOR-_nCPXKY9JHCC_mdPg-1; Mon, 22 Jun 2020 14:37:44 -0400
-X-MC-Unique: qTOR-_nCPXKY9JHCC_mdPg-1
-Received: by mail-wm1-f72.google.com with SMTP id c66so270232wma.8
- for <qemu-devel@nongnu.org>; Mon, 22 Jun 2020 11:37:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=nt1GnSVQf/NCJiEbEKyHC6d7MSGvnzAEIdQQLJkM6QM=;
- b=mk4wsWeLLVe63kIlTOJ5DdQ3I1ukJY+y4GSZGiuH3ALncM/DIVi6323FKcvCbt+yp/
- vlBgHLzA/mw0jcArxwsWJLgJF9/PP4Usftjb9cBcpuav6dMRf+RF1hpG45h+KwWXMHp8
- 5GxyWR2zJok8q9mhIqdmJpGmP80mqgqvb9Y2o09sC6djL7ci9wVClHCwC7XhmrH95ps4
- 8r09BIPQ2WlQrNvJFKk+aKTX5dOAzhLXqA2oZmJR88mG99J3lBMACLUSMMdpaLGkwsza
- lClBaI33kTqvHF/wvLipf/2UorQcH+k3U7cUVxe+K9+mydxdUTDmCvRVszfTtt37K1Xg
- KR6w==
-X-Gm-Message-State: AOAM532LCNHoSL7Fe/xMeqPEnAQPaL4T+2v5Jixs4kotjUGd9zuy2Znq
- 5qy+IIKydJL2pUICRFzzDexFa0XlmJIrkxaqDV1mSFMdpCbKsgHc/FKmqeo5sO1hkn9Fy1/nk+F
- otpjaFUi/Rgl1fdE=
-X-Received: by 2002:a5d:464e:: with SMTP id j14mr20533558wrs.393.1592851062827; 
- Mon, 22 Jun 2020 11:37:42 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxi37iaNLmyrmI3FvKHu+GZrc2j1eoAvzQa+52IYyYp8/AOvC6xHuvarubi6Jg8AUQx9dbW2A==
-X-Received: by 2002:a5d:464e:: with SMTP id j14mr20533531wrs.393.1592851062586; 
- Mon, 22 Jun 2020 11:37:42 -0700 (PDT)
-Received: from [192.168.1.40] (1.red-83-51-162.dynamicip.rima-tde.net.
- [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id f14sm1115965wro.90.2020.06.22.11.37.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Jun 2020 11:37:42 -0700 (PDT)
-Subject: Re: [PATCH v3 1/2] util: Introduce qemu_get_host_name()
-To: Michal Privoznik <mprivozn@redhat.com>, qemu-devel@nongnu.org
-References: <cover.1592849834.git.mprivozn@redhat.com>
- <02ebd01e1ff7b4aba70e58a674f457ec8e4cf20b.1592849834.git.mprivozn@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <151caec3-fbdf-10ff-34c7-39737c7f4d07@redhat.com>
-Date: Mon, 22 Jun 2020 20:37:41 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
-MIME-Version: 1.0
-In-Reply-To: <02ebd01e1ff7b4aba70e58a674f457ec8e4cf20b.1592849834.git.mprivozn@redhat.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 01:27:42
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
+ (Exim 4.90_1)
+ (envelope-from <bounces+16159052-3d09-qemu-devel=nongnu.org@sendgrid.net>)
+ id 1jnRO4-0000L9-Go
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 14:41:44 -0400
+Received: from o1.dev.nutanix.com ([198.21.4.205]:62792)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <bounces+16159052-3d09-qemu-devel=nongnu.org@sendgrid.net>)
+ id 1jnRO2-000164-ED
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 14:41:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sendgrid.net;
+ h=from:subject:to:cc:content-type:content-transfer-encoding;
+ s=smtpapi; bh=W7UT2L/3cDgUS4c6yIl6C4600Td51ns/jp0qTrD5H9U=;
+ b=bdfIe5vXrRaKAeyoy0aMYw98MR1xhjDXvOQt56p6qtq8ASR+zazh8Q2DcDX4ykZdqSsf
+ iKlKX3dkZm1uYSI2LEwJYllWsskVf4aI4wiPVpA1W2Dqma0lthtWqTit/fcIcTgctpYJtw
+ JYf5P/YTCEYRzvEta0SYclJIia0OJGDWo=
+Received: by filterdrecv-p3mdw1-6dd9dd6d45-kzfl7 with SMTP id
+ filterdrecv-p3mdw1-6dd9dd6d45-kzfl7-19-5EF0FB63-C
+ 2020-06-22 18:41:39.201949304 +0000 UTC m=+347944.536090791
+Received: from localhost.localdomain.com (unknown)
+ by ismtpd0012p1las1.sendgrid.net (SG) with ESMTP
+ id wU5mNpNlQcO9EeplrsLRVg Mon, 22 Jun 2020 18:41:39.015 +0000 (UTC)
+From: Raphael Norwitz <raphael.norwitz@nutanix.com>
+Subject: [PATCH] Stop vhost-user sending uninitialized mmap_offsets
+Date: Mon, 22 Jun 2020 18:41:39 +0000 (UTC)
+Message-Id: <1592637581-25255-1-git-send-email-raphael.norwitz@nutanix.com>
+X-Mailer: git-send-email 1.8.3.1
+X-SG-EID: =?us-ascii?Q?YCLURHX+pjNDm1i7d69iKyMnQi=2FdvWah9veFa8nllaoUC0ScIWrCgiaWGu43Vg?=
+ =?us-ascii?Q?xFdB4istXUBpN9H93OJgc8zciUKG=2Fx94H5nEBLg?=
+ =?us-ascii?Q?g=2FS3Dm5OJAEQAuqwtzZ7VB1p4dFrRcjv4X3anhe?=
+ =?us-ascii?Q?K4kpktsuJ8o24iKzgC5xBHKSuydHVDZT0T8kdiF?=
+ =?us-ascii?Q?m4UiVx+919f++BmlLw5NBIiI0vgvpkRcXYUgl8g?=
+ =?us-ascii?Q?=2FLjbzOHDgfdFNNfaoCYPZfWhyUSi758=2Fr=2FFvJmp?=
+ =?us-ascii?Q?YtJ76x2EQJroWVzkqhVCQ=3D=3D?=
+To: qemu-devel@nongnu.org, mst@redhat.com, peter.maydell@linaro.org
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=198.21.4.205;
+ envelope-from=bounces+16159052-3d09-qemu-devel=nongnu.org@sendgrid.net;
+ helo=o1.dev.nutanix.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 14:41:39
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -29
+X-Spam_score: -3.0
 X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1,
+ HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ UNPARSEABLE_RELAY=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -121,110 +73,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, sw@weilnetz.de, marcandre.lureau@gmail.com,
- vfeenstr@redhat.com, mdroth@linux.vnet.ibm.com
+Cc: marcandre.lureau@redhat.com, Raphael Norwitz <raphael.norwitz@nutanix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/22/20 8:19 PM, Michal Privoznik wrote:
-> This function offers operating system agnostic way to fetch host
-> name. It is implemented for both POSIX-like and Windows systems.
-> 
-> Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
+Prior to this change, the vhost_user_fill_msg_region function filled out
+all elements of the VhostUserMemoryRegion struct except the mmap_offset.
 
-Thanks for the updates!
+This function is often called on uninitialized structs, which are then
+copied into VHOST_USER_SET_MEM_TABLE and VHOST_USER_ADD/REM_MEM_REG
+messages. In some cases, where the mmap_offset was not needed, it was
+left uninitialized, causing QEMU to send the backend uninitialized data,
+which Coverity flagged as a series of issues.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+This change augments the vhost_user_fill_msg_region API, adding a
+mmap_offset paramenter, forcing the caller to initialize mmap_offset.
 
-> ---
->  include/qemu/osdep.h | 10 ++++++++++
->  util/oslib-posix.c   | 35 +++++++++++++++++++++++++++++++++++
->  util/oslib-win32.c   | 13 +++++++++++++
->  3 files changed, 58 insertions(+)
-> 
-> diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-> index ff7c17b857..a795d46b28 100644
-> --- a/include/qemu/osdep.h
-> +++ b/include/qemu/osdep.h
-> @@ -607,4 +607,14 @@ static inline void qemu_reset_optind(void)
->  #endif
->  }
->  
-> +/**
-> + * qemu_get_host_name:
-> + * @errp: Error object
-> + *
-> + * Operating system agnostic way of querying host name.
-> + *
-> + * Returns allocated hostname (caller should free), NULL on failure.
-> + */
-> +char *qemu_get_host_name(Error **errp);
-> +
->  #endif
-> diff --git a/util/oslib-posix.c b/util/oslib-posix.c
-> index 916f1be224..3997ee0442 100644
-> --- a/util/oslib-posix.c
-> +++ b/util/oslib-posix.c
-> @@ -761,3 +761,38 @@ void sigaction_invoke(struct sigaction *action,
->      }
->      action->sa_sigaction(info->ssi_signo, &si, NULL);
->  }
-> +
-> +#ifndef HOST_NAME_MAX
-> +# ifdef _POSIX_HOST_NAME_MAX
-> +#  define HOST_NAME_MAX _POSIX_HOST_NAME_MAX
-> +# else
-> +#  define HOST_NAME_MAX 255
-> +# endif
-> +#endif
-> +
-> +char *qemu_get_host_name(Error **errp)
-> +{
-> +    long len = -1;
-> +    g_autofree char *hostname = NULL;
-> +
-> +#ifdef _SC_HOST_NAME_MAX
-> +    len = sysconf(_SC_HOST_NAME_MAX);
-> +#endif /* _SC_HOST_NAME_MAX */
-> +
-> +    if (len < 0) {
-> +        len = HOST_NAME_MAX;
-> +    }
-> +
-> +    /* Unfortunately, gethostname() below does not guarantee a
-> +     * NULL terminated string. Therefore, allocate one byte more
-> +     * to be sure. */
-> +    hostname = g_new0(char, len + 1);
-> +
-> +    if (gethostname(hostname, len) < 0) {
-> +        error_setg_errno(errp, errno,
-> +                         "cannot get hostname");
-> +        return NULL;
-> +    }
-> +
-> +    return g_steal_pointer(&hostname);
-> +}
-> diff --git a/util/oslib-win32.c b/util/oslib-win32.c
-> index e9b14ab178..3b49d27297 100644
-> --- a/util/oslib-win32.c
-> +++ b/util/oslib-win32.c
-> @@ -808,3 +808,16 @@ bool qemu_write_pidfile(const char *filename, Error **errp)
->      }
->      return true;
->  }
-> +
-> +char *qemu_get_host_name(Error **errp)
-> +{
-> +    wchar_t tmp[MAX_COMPUTERNAME_LENGTH + 1];
-> +    DWORD size = G_N_ELEMENTS(tmp);
-> +
-> +    if (GetComputerNameW(tmp, &size) == 0) {
-> +        error_setg_win32(errp, GetLastError(), "failed close handle");
-> +        return NULL;
-> +    }
-> +
-> +    return g_utf16_to_utf8(tmp, size, NULL, NULL, NULL);
-> +}
-> 
+Fixes: CID-1429802, CID-1429803, CID-1429804
+
+Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
+---
+ hw/virtio/vhost-user.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+index 4d6cd4e..3123121 100644
+--- a/hw/virtio/vhost-user.c
++++ b/hw/virtio/vhost-user.c
+@@ -460,12 +460,14 @@ static MemoryRegion *vhost_user_get_mr_data(uint64_t addr, ram_addr_t *offset,
+ }
+ 
+ static void vhost_user_fill_msg_region(VhostUserMemoryRegion *dst,
+-                                       struct vhost_memory_region *src)
++                                       struct vhost_memory_region *src,
++                                       uint64_t mmap_offset)
+ {
+     assert(src != NULL && dst != NULL);
+     dst->userspace_addr = src->userspace_addr;
+     dst->memory_size = src->memory_size;
+     dst->guest_phys_addr = src->guest_phys_addr;
++    dst->mmap_offset = mmap_offset;
+ }
+ 
+ static int vhost_user_fill_set_mem_table_msg(struct vhost_user *u,
+@@ -500,9 +502,8 @@ static int vhost_user_fill_set_mem_table_msg(struct vhost_user *u,
+                 error_report("Failed preparing vhost-user memory table msg");
+                 return -1;
+             }
+-            vhost_user_fill_msg_region(&region_buffer, reg);
++            vhost_user_fill_msg_region(&region_buffer, reg, offset);
+             msg->payload.memory.regions[*fd_num] = region_buffer;
+-            msg->payload.memory.regions[*fd_num].mmap_offset = offset;
+             fds[(*fd_num)++] = fd;
+         } else if (track_ramblocks) {
+             u->region_rb_offset[i] = 0;
+@@ -649,7 +650,7 @@ static int send_remove_regions(struct vhost_dev *dev,
+ 
+         if (fd > 0) {
+             msg->hdr.request = VHOST_USER_REM_MEM_REG;
+-            vhost_user_fill_msg_region(&region_buffer, shadow_reg);
++            vhost_user_fill_msg_region(&region_buffer, shadow_reg, 0);
+             msg->payload.mem_reg.region = region_buffer;
+ 
+             if (vhost_user_write(dev, msg, &fd, 1) < 0) {
+@@ -709,9 +710,8 @@ static int send_add_regions(struct vhost_dev *dev,
+                 u->region_rb[reg_idx] = mr->ram_block;
+             }
+             msg->hdr.request = VHOST_USER_ADD_MEM_REG;
+-            vhost_user_fill_msg_region(&region_buffer, reg);
++            vhost_user_fill_msg_region(&region_buffer, reg, offset);
+             msg->payload.mem_reg.region = region_buffer;
+-            msg->payload.mem_reg.region.mmap_offset = offset;
+ 
+             if (vhost_user_write(dev, msg, &fd, 1) < 0) {
+                 return -1;
+-- 
+1.8.3.1
 
 
