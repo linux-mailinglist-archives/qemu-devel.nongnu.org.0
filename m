@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D23E62038C7
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 16:08:29 +0200 (CEST)
-Received: from localhost ([::1]:37968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AF3B2038CF
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 16:09:49 +0200 (CEST)
+Received: from localhost ([::1]:44072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnN7c-0003KS-TZ
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 10:08:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60978)
+	id 1jnN8u-0006Rk-LW
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 10:09:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1jnN63-0001SK-SO
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 10:06:51 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:21862
+ id 1jnN6C-0001ma-O7
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 10:07:03 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:60159
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1jnN5y-0001MS-5r
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 10:06:51 -0400
+ id 1jnN6A-0001Nx-CC
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 10:07:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592834805;
+ s=mimecast20190719; t=1592834817;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kvhA5hZROQq5b7fo6lHe5uZjadQELg38ByIgNwsrlf4=;
- b=MaAzdpbRbJb4TunA7UexnZjQEZrZ7vF4cTlQqeos4TfYUDWTWkV9FWYEmSqhVEc5IGchSy
- 8jUngD9rWNjtlfD7OxLuiLt7+Qw7W2kSOlVzz7d3tAGvjBn6FnRgKnwctZ3S59AAr86sTU
- rRI/lSOi1JkksGlLMykDTCekG7tGKeg=
+ bh=AGCYoDDWC27/vDqcwRPzgnEr51neGV9WUERuFPPBHcw=;
+ b=ami9S5zSs+fDJE/E1UGQS2so2mMFcuHWQugioD12P8Ii6vRREd9B85CH+hF7LrLeyxHMcR
+ wUEz1d/Sq2T/AUh7oGVr7+hfeC/eMm5TRsBw1rxF1bkM9toO56ROQFOvWnSkLMhw+b4Z9g
+ aJnjwKj1B3cgf6cMm8scj+m/ect9Fu8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-144-R68bomIRPMSwgq-JwEp2pQ-1; Mon, 22 Jun 2020 10:06:43 -0400
-X-MC-Unique: R68bomIRPMSwgq-JwEp2pQ-1
+ us-mta-5-6RkE_tS-MCCz0lH8I1ureQ-1; Mon, 22 Jun 2020 10:06:55 -0400
+X-MC-Unique: 6RkE_tS-MCCz0lH8I1ureQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 22226BFC1;
- Mon, 22 Jun 2020 14:06:42 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A0211801503;
+ Mon, 22 Jun 2020 14:06:53 +0000 (UTC)
 Received: from laptop.redhat.com (ovpn-114-197.ams2.redhat.com [10.36.114.197])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D962F27CC9;
- Mon, 22 Jun 2020 14:06:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 78AE02B4A6;
+ Mon, 22 Jun 2020 14:06:42 +0000 (UTC)
 From: Eric Auger <eric.auger@redhat.com>
 To: eric.auger.pro@gmail.com, eric.auger@redhat.com, stefanb@linux.ibm.com,
  qemu-devel@nongnu.org, qemu-arm@nongnu.org, peter.maydell@linaro.org,
  mst@redhat.com, imammedo@redhat.com
-Subject: [PATCH v7 2/3] arm/acpi: Add the TPM2.0 device under the DSDT
-Date: Mon, 22 Jun 2020 16:06:19 +0200
-Message-Id: <20200622140620.17229-3-eric.auger@redhat.com>
+Subject: [PATCH v7 3/3] docs/specs/tpm: ACPI boot now supported for TPM/ARM
+Date: Mon, 22 Jun 2020 16:06:20 +0200
+Message-Id: <20200622140620.17229-4-eric.auger@redhat.com>
 In-Reply-To: <20200622140620.17229-1-eric.auger@redhat.com>
 References: <20200622140620.17229-1-eric.auger@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120;
+Received-SPF: pass client-ip=207.211.31.120;
  envelope-from=eric.auger@redhat.com; helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 01:27:42
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 02:57:26
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -87,91 +89,28 @@ Cc: thuth@redhat.com, lersek@redhat.com, drjones@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In case it is dynamically instantiated, add the TPM 2.0 device object
-under the DSDT table in the ACPI namespace. Its HID is MSFT0101
-while its current resource settings (CRS) property is initialized
-with the guest physical address and MMIO size of the device.
+ACPI boot now is supported. Let's remove the comment
+saying it is not.
 
 Signed-off-by: Eric Auger <eric.auger@redhat.com>
 Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
 Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-
 ---
+ docs/specs/tpm.rst | 2 --
+ 1 file changed, 2 deletions(-)
 
-v3 -> v4:
-- check the presence of the tpm in acpi_dsdt_add_tpm
-  as it was done in v2
-
-v2 -> v3:
-- use SYS_BUS_DEVICE() instead of
-  (SysBusDevice *)object_dynamic_cast(OBJECT())
-
-v1 -> v2:
-- use memory_region_size
-- fix mingw compilation issue by casting to uint32_t
-- added Stefan's R-b
----
- hw/arm/virt-acpi-build.c | 34 ++++++++++++++++++++++++++++++++++
- 1 file changed, 34 insertions(+)
-
-diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-index ca31f70f7f..1384a2cf2a 100644
---- a/hw/arm/virt-acpi-build.c
-+++ b/hw/arm/virt-acpi-build.c
-@@ -46,6 +46,7 @@
- #include "hw/pci/pci.h"
- #include "hw/arm/virt.h"
- #include "hw/mem/nvdimm.h"
-+#include "hw/platform-bus.h"
- #include "sysemu/numa.h"
- #include "sysemu/reset.h"
- #include "sysemu/tpm.h"
-@@ -364,6 +365,38 @@ static void acpi_dsdt_add_power_button(Aml *scope)
-     aml_append(scope, dev);
- }
+diff --git a/docs/specs/tpm.rst b/docs/specs/tpm.rst
+index 5e61238bc5..eeeb93730a 100644
+--- a/docs/specs/tpm.rst
++++ b/docs/specs/tpm.rst
+@@ -346,8 +346,6 @@ In case an Arm virt machine is emulated, use the following command line:
+     -drive if=pflash,format=raw,file=flash0.img,readonly \
+     -drive if=pflash,format=raw,file=flash1.img
  
-+static void acpi_dsdt_add_tpm(Aml *scope, VirtMachineState *vms)
-+{
-+    PlatformBusDevice *pbus = PLATFORM_BUS_DEVICE(vms->platform_bus_dev);
-+    hwaddr pbus_base = vms->memmap[VIRT_PLATFORM_BUS].base;
-+    SysBusDevice *sbdev = SYS_BUS_DEVICE(tpm_find());
-+    MemoryRegion *sbdev_mr;
-+    hwaddr tpm_base;
-+
-+    if (!sbdev) {
-+        return;
-+    }
-+
-+    tpm_base = platform_bus_get_mmio_addr(pbus, sbdev, 0);
-+    assert(tpm_base != -1);
-+
-+    tpm_base += pbus_base;
-+
-+    sbdev_mr = sysbus_mmio_get_region(sbdev, 0);
-+
-+    Aml *dev = aml_device("TPM0");
-+    aml_append(dev, aml_name_decl("_HID", aml_string("MSFT0101")));
-+    aml_append(dev, aml_name_decl("_UID", aml_int(0)));
-+
-+    Aml *crs = aml_resource_template();
-+    aml_append(crs,
-+               aml_memory32_fixed(tpm_base,
-+                                  (uint32_t)memory_region_size(sbdev_mr),
-+                                  AML_READ_WRITE));
-+    aml_append(dev, aml_name_decl("_CRS", crs));
-+    aml_append(scope, dev);
-+}
-+
- static void
- build_iort(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
- {
-@@ -762,6 +795,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
-     }
- 
-     acpi_dsdt_add_power_button(scope);
-+    acpi_dsdt_add_tpm(scope, vms);
- 
-     aml_append(dsdt, scope);
+-  On Arm, ACPI boot with TPM is not yet supported.
+-
+ In case SeaBIOS is used as firmware, it should show the TPM menu item
+ after entering the menu with 'ESC'.
  
 -- 
 2.20.1
