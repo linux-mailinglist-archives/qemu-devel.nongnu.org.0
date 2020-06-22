@@ -2,72 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4045203D1C
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 18:52:22 +0200 (CEST)
-Received: from localhost ([::1]:43236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BB69203D76
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 19:08:34 +0200 (CEST)
+Received: from localhost ([::1]:54150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnPgD-000155-Vz
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 12:52:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49612)
+	id 1jnPvt-0008RG-8J
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 13:08:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53464)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jnPfL-0000W4-Ev
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 12:51:27 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:60037
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jnPfJ-0000nA-Ht
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 12:51:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592844684;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1AeQIi4SaUy3e36krd8x9Wi0OL8VRoMUfofViO8y+7Y=;
- b=Zz/rrCohbNG9AnIqyBY8QnOtDD4J8Fk7ChpPzWBSC2nwWR7sOMrY+wgQzOh9Z/2/fQkwLf
- +WdB6ZxmtEwl2zKQ/PXitff9wjgNXlQ9NElXqQDtCqBCayb4HhQGYVrKh77gm7d9bTMnbt
- SY3nzjGYMg7j78gwzw8fNcVcalVtuIs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-505-lX4ohBUQMW-U3Af1Gj5WMw-1; Mon, 22 Jun 2020 12:51:21 -0400
-X-MC-Unique: lX4ohBUQMW-U3Af1Gj5WMw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 90387EC1B5;
- Mon, 22 Jun 2020 16:51:11 +0000 (UTC)
-Received: from gondolin (ovpn-113-56.ams2.redhat.com [10.36.113.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 16CE660BEC;
- Mon, 22 Jun 2020 16:51:05 +0000 (UTC)
-Date: Mon, 22 Jun 2020 18:51:03 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Kirti Wankhede <kwankhede@nvidia.com>
-Subject: Re: [PATCH QEMU v25 16/17] vfio: Make vfio-pci device migration
- capable
-Message-ID: <20200622185103.2e45c4fe.cohuck@redhat.com>
-In-Reply-To: <1592684486-18511-17-git-send-email-kwankhede@nvidia.com>
-References: <1592684486-18511-1-git-send-email-kwankhede@nvidia.com>
- <1592684486-18511-17-git-send-email-kwankhede@nvidia.com>
-Organization: Red Hat GmbH
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jnPtj-0006Qw-1w
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 13:06:19 -0400
+Received: from mail-eopbgr770118.outbound.protection.outlook.com
+ ([40.107.77.118]:23989 helo=NAM02-SN1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jnPtc-0003Ih-AQ
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 13:06:18 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Q45HR43sH24emHIIma82o92YJ+Trbgjl6bbkdtXgq+aeHNdZF2gnLi0rIvLXJIf1/eobG1MHv6g9UsZYlbA0m3CzYd+8fljgv63mlLmz+kHJmZy94OnGCgY88UHXFQIckG3R5Ly6bcyo0BdG+JutpEWxh09sRwSEGD0bS06lLAcWXt8dPrVfv6Yuxj3+Lu+b19MTlXrnqTZFccGFm+76OWRyS2Knjkl2qq17YpR80QKlkqP7s4Cp9QEFOoIF+3hSFmzaGRagnmbTEFLnT04Y3bc8KjloPH07funO8E1VQ88jyKXRQ8CxqWUWIP9neZ9lW18T8uvqMYBqpzDnxd0ZTA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mu/T7bHTtapOSeNaWLFNf84aQ8uEfzIC6t/4bR2taMc=;
+ b=D/W1ttEMWSu1b0sV1tW2jaDaoUrfFp89TYZQo/GUNp9U4nbNabcbHwTmmL4N0ILUbCfhQpy2cdWL9qN+dk0/QwlEPPNurV+cPTg/mbDq3uSgWPJ0hUq5CxUR2wh100LOaUNQG+Q0DUw3jvrvxaKro79gfPKWNjCN2vZKM8Lk7h1CjPTm13sKm2cuo8HHkNx+daLXy4siVZMUCA0caXJ4RbsDgdyYTNfVcVg4BXwpsfrsPAz/lIitwIxgoJDDiKIu6Mf7jBtps8rGLBh8cKFSaWKGqgDu029UjFA7BptIJf01YEiWyuTchTbKTNbMqAYwJhygZqRoETa0iQi000Iwsw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
+ header.d=bu.edu; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mu/T7bHTtapOSeNaWLFNf84aQ8uEfzIC6t/4bR2taMc=;
+ b=N15krGd6RBOi+204xsr2EeMiyzR6vOff7FzNJtsM7Ts6xBNXRWL2dgV4HDasfDGkRoYvoVqGLaJFQ7eATopM/vOOjy6Ugbw66+qeJTQB+xY6750STWE4rqTb3K4qoKEQMjgfwQR5D5Bh3piA7DbTje5EqT2+54/fvohr1hq5BO0=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=bu.edu;
+Received: from SN6PR03MB3871.namprd03.prod.outlook.com (2603:10b6:805:6d::32)
+ by SN2PR03MB2144.namprd03.prod.outlook.com (2603:10b6:804:c::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3109.21; Mon, 22 Jun
+ 2020 16:51:04 +0000
+Received: from SN6PR03MB3871.namprd03.prod.outlook.com
+ ([fe80::8ce:29a6:77be:c35b]) by SN6PR03MB3871.namprd03.prod.outlook.com
+ ([fe80::8ce:29a6:77be:c35b%7]) with mapi id 15.20.3109.027; Mon, 22 Jun 2020
+ 16:51:04 +0000
+From: Alexander Bulekov <alxndr@bu.edu>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] fuzz: do not use POSIX shm for coverage bitmap
+Date: Mon, 22 Jun 2020 12:50:40 -0400
+Message-Id: <20200622165040.15121-1-alxndr@bu.edu>
+X-Mailer: git-send-email 2.26.2
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: MN2PR18CA0029.namprd18.prod.outlook.com
+ (2603:10b6:208:23c::34) To SN6PR03MB3871.namprd03.prod.outlook.com
+ (2603:10b6:805:6d::32)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=cohuck@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 02:57:26
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from mozz.bu.edu (128.197.127.33) by
+ MN2PR18CA0029.namprd18.prod.outlook.com (2603:10b6:208:23c::34) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3109.22 via Frontend
+ Transport; Mon, 22 Jun 2020 16:51:03 +0000
+X-Mailer: git-send-email 2.26.2
+X-Originating-IP: [128.197.127.33]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: d4be7aae-5849-48b0-29cc-08d816cc7377
+X-MS-TrafficTypeDiagnostic: SN2PR03MB2144:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <SN2PR03MB214428FDC3ABE39FDEF31587BA970@SN2PR03MB2144.namprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-Forefront-PRVS: 0442E569BC
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 7Kc1TfCa6P+B+8UYsgPNVMkXlc5EcGSqsSTPgPJXTdIbXZ0ZHUq0NMjVtZW9O4Qhl3KTQY90Om2Qojqo0TOjwnPgYbAMOL/bkNEnhZK8WQNq2fKw8VgGQmJNliSxu4E/rojqikhoni0R8vXHJc5mf1rJc4KTvYu/AXp/yuhPgg+0BuH7S5FgFAaxUHdtlAqKTzuJzpW0BO3gJv4Bog5Z4Guptvsj8NExecqFgr0jlC9DCWQDT26bkvv7X+29qye5IOeBIvSs3Nl1y+CiLmTVGPQVbGgl2/4NfbTw5v/RFZiwNQ1Y+UXfJ9DBp59Ptb1DzQ0NhC9sua8W0FoYdQ+izdwZ0LvmPrsmcbMl8k4bz+CGfUeu7QaoYF3Us+xgQZg30dOUVSAaLp+yhvk04t+8OA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR03MB3871.namprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(346002)(136003)(376002)(396003)(366004)(39860400002)(83380400001)(54906003)(8676002)(26005)(7696005)(75432002)(966005)(6486002)(6666004)(316002)(2906002)(786003)(1076003)(52116002)(16526019)(186003)(478600001)(5660300002)(4326008)(66946007)(956004)(66556008)(36756003)(8936002)(86362001)(2616005)(6916009)(66476007);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: 8h2/bWKRini27vd2fzd37D5Fo1qu19ZTeKPYwNdTfJdH9BGVeFJi6VqXF+1XJmKMNsHGs2mNVv9vlqhsIaR+XCnM4wVwPigbjbtiZe98VY/mUdp0gl+qVkMbW5WRHrpkAmCal20CAChXv78E4zowf2gYyxoqsAG2OuUPJgkIFjB0gFv1VXS+qSTbPUQpUlMoUsKxWW5YTXQiCQ50Hscb59QtM+9E3AyrVtoT1990VbH7YwuRAwXfGLyQiBjgH7Eqv6LksEDCQvtcOc+tvKdNI/VJdecWOQlbusTScHaVcNbn3R9tB8LKLqjOFPBZX+r4S7kxmIIbF1IL7DfGt+jpb/xbj7ERPPW+yH6/eZsbD2vzGQww7Rz5qEfrF+X7yZYOloSiKd9UPQLiYyGlDofVapxM1CtSdB78kYwS8d57tel56rJj7q/58uNDAMMryWmhm5aMuLc8l/IkZRlZ8jDaRxxVAOBYLVQbL7M/ZuWUP7g=
+X-OriginatorOrg: bu.edu
+X-MS-Exchange-CrossTenant-Network-Message-Id: d4be7aae-5849-48b0-29cc-08d816cc7377
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jun 2020 16:51:04.1702 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d57d32cc-c121-488f-b07b-dfe705680c71
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: xAo1C5s8Xbj0VjRDuVE4A1k1599KSGL+dUpiqTpDr9VMyTq1JdPw+Wptwdqulcv5
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN2PR03MB2144
+Received-SPF: pass client-ip=40.107.77.118; envelope-from=alxndr@bu.edu;
+ helo=NAM02-SN1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 13:06:07
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,93 +112,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: cjia@nvidia.com, aik@ozlabs.ru, Zhengxiao.zx@Alibaba-inc.com,
- shuangtai.tst@alibaba-inc.com, qemu-devel@nongnu.org, peterx@redhat.com,
- eauger@redhat.com, yi.l.liu@intel.com, quintela@redhat.com,
- ziye.yang@intel.com, armbru@redhat.com, mlevitsk@redhat.com,
- pasic@linux.ibm.com, felipe@nutanix.com, zhi.a.wang@intel.com,
- kevin.tian@intel.com, yan.y.zhao@intel.com, dgilbert@redhat.com,
- alex.williamson@redhat.com, changpeng.liu@intel.com, eskultet@redhat.com,
- Ken.Xue@amd.com, jonathan.davies@nutanix.com, pbonzini@redhat.com
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ f4bug@amsat.org, Alexander Bulekov <alxndr@bu.edu>,
+ Bandan Das <bsd@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 21 Jun 2020 01:51:25 +0530
-Kirti Wankhede <kwankhede@nvidia.com> wrote:
+We used shm_open with mmap to share libfuzzer's coverage bitmap with
+child (runner) processes. The same functionality can be achieved with
+MAP_SHARED | MAP_ANONYMOUS, since we do not care about naming or
+permissioning the shared memory object.
 
-> If device is not failover primary device call vfio_migration_probe()
-> and vfio_migration_finalize() functions for vfio-pci device to enable
-> migration for vfio PCI device which support migration.
+Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+---
+This might fix:
+qemu-fuzz-i386-target-virtio-net-socket: Unexpected-exit in
+counter_shm_init 
+https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=23636 (private link)
 
-"If the device is not a failover primary device, call
-vfio_migration_probe() and vfio_migration_finalize() to enable
-migration support for those devices that support it respectively to
-tear it down again."
+oss-fuzz does not provide access to /dev/, so it is likely that shm_open
+breaks, when it tries to access /dev/shm. This seems likely, based on
+the oss-fuzz minijail setup:
+https://github.com/google/oss-fuzz/blob/3740c751fd9edea138c17783995d370d6b1b89bc/infra/base-images/base-runner/run_minijail
 
-?
+ tests/qtest/fuzz/fork_fuzz.c | 40 ++++++++++++------------------------
+ 1 file changed, 13 insertions(+), 27 deletions(-)
 
-> Removed vfio_pci_vmstate structure.
-> Removed migration blocker from VFIO PCI device specific structure and use
-> migration blocker from generic structure of  VFIO device.
-> 
-> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
-> Reviewed-by: Neo Jia <cjia@nvidia.com>
-> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> ---
->  hw/vfio/pci.c | 32 +++++++++++---------------------
->  hw/vfio/pci.h |  1 -
->  2 files changed, 11 insertions(+), 22 deletions(-)
-> 
-> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-> index 5ba340aee1d4..9dc2868993fb 100644
-> --- a/hw/vfio/pci.c
-> +++ b/hw/vfio/pci.c
-> @@ -2841,22 +2841,11 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
->          return;
->      }
->  
-> -    if (!pdev->failover_pair_id) {
-> -        error_setg(&vdev->migration_blocker,
-> -                "VFIO device doesn't support migration");
-> -        ret = migrate_add_blocker(vdev->migration_blocker, &err);
-> -        if (ret) {
-> -            error_propagate(errp, err);
-> -            error_free(vdev->migration_blocker);
-> -            vdev->migration_blocker = NULL;
-> -            return;
-> -        }
-> -    }
-> -
->      vdev->vbasedev.name = g_path_get_basename(vdev->vbasedev.sysfsdev);
->      vdev->vbasedev.ops = &vfio_pci_ops;
->      vdev->vbasedev.type = VFIO_DEVICE_TYPE_PCI;
->      vdev->vbasedev.dev = DEVICE(vdev);
-> +    vdev->vbasedev.device_state = 0;
->  
->      tmp = g_strdup_printf("%s/iommu_group", vdev->vbasedev.sysfsdev);
->      len = readlink(tmp, group_path, sizeof(group_path));
-> @@ -3120,6 +3109,14 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
->          }
->      }
->  
-> +    if (!pdev->failover_pair_id) {
-> +        ret = vfio_migration_probe(&vdev->vbasedev, errp);
-> +        if (ret) {
-> +            error_report("%s: Failed to setup for migration",
-
-"%s: migration not enabled" ?
-
-(Although I wonder how often we need to moan here, given that the
-called function already prints error reports.)
-
-> +                         vdev->vbasedev.name);
-> +        }
-> +    }
-> +
->      vfio_register_err_notifier(vdev);
->      vfio_register_req_notifier(vdev);
->      vfio_setup_resetfn_quirk(vdev);
-
-LGTM.
+diff --git a/tests/qtest/fuzz/fork_fuzz.c b/tests/qtest/fuzz/fork_fuzz.c
+index 2bd0851903..6ffb2a7937 100644
+--- a/tests/qtest/fuzz/fork_fuzz.c
++++ b/tests/qtest/fuzz/fork_fuzz.c
+@@ -17,39 +17,25 @@
+ 
+ void counter_shm_init(void)
+ {
+-    char *shm_path = g_strdup_printf("/qemu-fuzz-cntrs.%d", getpid());
+-    int fd = shm_open(shm_path, O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
+-    g_free(shm_path);
+-
+-    if (fd == -1) {
+-        perror("Error: ");
+-        exit(1);
+-    }
+-    if (ftruncate(fd, &__FUZZ_COUNTERS_END - &__FUZZ_COUNTERS_START) == -1) {
+-        perror("Error: ");
+-        exit(1);
+-    }
+-    /* Copy what's in the counter region to the shm.. */
+-    void *rptr = mmap(NULL ,
+-            &__FUZZ_COUNTERS_END - &__FUZZ_COUNTERS_START,
+-            PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+-    memcpy(rptr,
++    /* Copy what's in the counter region to a temporary buffer.. */
++    void *copy = malloc(&__FUZZ_COUNTERS_END - &__FUZZ_COUNTERS_START);
++    memcpy(copy,
+            &__FUZZ_COUNTERS_START,
+            &__FUZZ_COUNTERS_END - &__FUZZ_COUNTERS_START);
+ 
+-    munmap(rptr, &__FUZZ_COUNTERS_END - &__FUZZ_COUNTERS_START);
+-
+-    /* And map the shm over the counter region */
+-    rptr = mmap(&__FUZZ_COUNTERS_START,
+-            &__FUZZ_COUNTERS_END - &__FUZZ_COUNTERS_START,
+-            PROT_READ | PROT_WRITE, MAP_SHARED | MAP_FIXED, fd, 0);
+-
+-    close(fd);
+-
+-    if (!rptr) {
++    /* Map a shared region over the counter region */
++    if (mmap(&__FUZZ_COUNTERS_START,
++             &__FUZZ_COUNTERS_END - &__FUZZ_COUNTERS_START,
++             PROT_READ | PROT_WRITE, MAP_SHARED | MAP_FIXED | MAP_ANONYMOUS,
++             0, 0) == MAP_FAILED) {
+         perror("Error: ");
+         exit(1);
+     }
++
++    /* Copy the original data back to the counter-region */
++    memcpy(&__FUZZ_COUNTERS_START, copy,
++           &__FUZZ_COUNTERS_END - &__FUZZ_COUNTERS_START);
++    free(copy);
+ }
+ 
+ 
+-- 
+2.26.2
 
 
