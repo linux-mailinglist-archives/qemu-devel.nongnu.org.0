@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BA352039FB
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 16:50:56 +0200 (CEST)
-Received: from localhost ([::1]:52940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 469652039AB
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 16:37:04 +0200 (CEST)
+Received: from localhost ([::1]:59556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnNmh-0002Zo-Fd
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 10:50:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40118)
+	id 1jnNZH-0003uH-7H
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 10:37:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jnNUt-00077H-70
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 10:32:32 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:37725)
+ id 1jnNUr-00076I-2y
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 10:32:29 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:39469)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jnNUp-0005i7-8H
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 10:32:30 -0400
-Received: by mail-wm1-x342.google.com with SMTP id y20so15957894wmi.2
- for <qemu-devel@nongnu.org>; Mon, 22 Jun 2020 07:32:26 -0700 (PDT)
+ id 1jnNUn-0005gr-E0
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 10:32:28 -0400
+Received: by mail-wm1-x343.google.com with SMTP id t194so15955641wmt.4
+ for <qemu-devel@nongnu.org>; Mon, 22 Jun 2020 07:32:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=4LEU0pltPGXSZOYL7F80Ql3BPnvdmnM8vPzgdqbMG+Y=;
- b=ClTW9mEP2z1SuAZrbYrN4X2uyDDtTeaMHTMAuXtQb0dWLZ7UR/tU9sR4XnTOKCVcYo
- 10R5TGdKkfpm9h9E6Mfs7fRDDbZ8zKKrQ1e9EoxFYXA2HnkHhp+Fh9LY7dLVvFZgXmk3
- nJ1xxev4DfzGB6vxdA4eQzrBQpS2xqN0hvGoeMCot1tAooqIhQ1m/M1NOtsPEBa9scpq
- 1WOMm6wEmF+E3L+7Tonqm+Y3ZD5KiQGTZrzLk5e4Yr8drt7+lBqQJJE6gs0PzhW+Qwih
- bwDPP3WPgmugRSAJ5vYid0YEMdFrJGEIVagVckv//ROeuvx9D9KQIKdfIg0QNCSYKjnW
- 2IwA==
+ bh=Teb5CYlwDix3ktwKyP7XUM4qHJXbLvwhht+HlFFEsmI=;
+ b=DnrJMFhspYGXqHtI5Oie2h43khYDeSShJ/ASj99kqUXnXBX/cETlxetXcgj17nod5w
+ is1QW8XeORvhV7Gnm1RFLLxqZmCOKOjmkjvo8SesnixHQ7YDGLaQPcFsb0i+/2ksIyxF
+ 9Rd6/q2HV3GoKtFhMB51vHWUm6US0MWXIwE8eSmvXedED4YNzNoIs2micQ96zEgDYnKz
+ f75DpgBryD4TRqBJYgRO58b78QG0IoEZxIluiLRCcKdEr0FU4AjPOAGQIkFXYshPB762
+ OThE1n2uRBFKYmewvkxbRIABrXpFJiOUjaHt2mbqpfY4tcpGbj6Y9AVrdbcHKn6EULU1
+ oFCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=4LEU0pltPGXSZOYL7F80Ql3BPnvdmnM8vPzgdqbMG+Y=;
- b=JMjQBW/Dqpqz+68gSwqK77cF7iefdGNFSVrkoe/72a1I6r1q9xFtDebYW0RQNRXlu/
- icoJ3kL+Wd76tb/qiaVCcEfRgoSaJswXQCGMALsDduSBL9XDKavI31k+XfSD6Qg+LOVo
- c3UAJtygXgMQRGbKdRP6SbG3tQHQCdXWNMWn1i0EbXnsAtTe2XkBeXKM71sjPW0CRYU6
- kfWgmpYTHWTC1WFuAuzDNUb7i6dVkAWZ1oQqy9qwyS/9kHHUxeoEXrYT8re/xQkTObtp
- jfg05iZNiUrE1Yb1+oJEWwpI3x3clwMsEsgoo42aUxE1A+hynRCMq6uv0gaigKf7urMM
- XWjQ==
-X-Gm-Message-State: AOAM531sN2V+Pmzn5/5DHEfwHgFox2eyY1kvewmKFqz91wqTYIYrjtIw
- uE1RR7JTFxhUQd7/Q4F5ILcWUw==
-X-Google-Smtp-Source: ABdhPJzem75xc6RN0sszS/iqc9X5FMbeb2RGvMm2eiWSB3XX0SgrcpOvbDmNws5HlQXFPPdGc9zpEg==
-X-Received: by 2002:a1c:2044:: with SMTP id g65mr20322718wmg.16.1592836345796; 
- Mon, 22 Jun 2020 07:32:25 -0700 (PDT)
+ bh=Teb5CYlwDix3ktwKyP7XUM4qHJXbLvwhht+HlFFEsmI=;
+ b=IE/7X07olQT2grONZu8kVwBl/LSrZSP1GKMxBst3vwTeJc1DjauSSZaIWVCSa4Maci
+ ZoVaVmlrzkgKW1fbZ8Sy4zoxtABbXZvdIA16uSAGySpKszfaio3pUImL0n4uWu7XluLI
+ G/cLHa9gRLhEEf6knN7edNOLFzqx8Mi4R/r0ZVEfClKX6A8KqFACyEnMiam9VUtz8cbp
+ xGmmztI3/CXesnr7m6XdwhAleRwt5LXSGy3Ah3zG29grnV2mlwMaBAGiv9Ps8Mt4KqJ8
+ 0tXy9lwf9n6dt4jdRrirwnwPuvtcNrveXff6P4j6WewqsdYBWUglVLkejBBV153w2yyF
+ dWVQ==
+X-Gm-Message-State: AOAM533l5ZVVfdwbILO1rsXujRYt73AdhsRuYsgVI6zbAz62Ssq2cp+g
+ P8Zui6Mmje9cETOPCqy1kvPFOg==
+X-Google-Smtp-Source: ABdhPJysydiwd6tjoielmDCg1a4a67BVX+PqahCMbJtcL9ALpttJRLjEWEOtHR8mGQ+XmbptiQgfyw==
+X-Received: by 2002:a1c:2485:: with SMTP id
+ k127mr16136950wmk.138.1592836343981; 
+ Mon, 22 Jun 2020 07:32:23 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id g16sm12906153wrh.91.2020.06.22.07.32.12
+ by smtp.gmail.com with ESMTPSA id 104sm18668728wrl.25.2020.06.22.07.32.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 22 Jun 2020 07:32:20 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 0A3FA1FF9C;
+ by zen.linaroharston (Postfix) with ESMTP id 204E31FF9D;
  Mon, 22 Jun 2020 15:32:06 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 13/18] tests/docker: check for an parameters not empty
- string
-Date: Mon, 22 Jun 2020 15:31:59 +0100
-Message-Id: <20200622143204.12921-14-alex.bennee@linaro.org>
+Subject: [PATCH  v1 14/18] .gitignore: un-ignore .gitlab-ci.d
+Date: Mon, 22 Jun 2020 15:32:00 +0100
+Message-Id: <20200622143204.12921-15-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200622143204.12921-1-alex.bennee@linaro.org>
 References: <20200622143204.12921-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x342.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x343.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -91,31 +91,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: fam@euphon.net, berrange@redhat.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- richard.henderson@linaro.org, f4bug@amsat.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>, cota@braap.org,
+ richard.henderson@linaro.org, f4bug@amsat.org, cota@braap.org,
  aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reported-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+The sooner we deprecate in-tree builds the sooner this mess of regexes
+can be thrown away.
+
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/docker/common.rc | 2 +-
+ .gitignore | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/docker/common.rc b/tests/docker/common.rc
-index 02cd67a8c5e..b27ce17e333 100755
---- a/tests/docker/common.rc
-+++ b/tests/docker/common.rc
-@@ -47,7 +47,7 @@ build_qemu()
- check_qemu()
- {
-     # default to make check unless the caller specifies
--    if test -z "$@"; then
-+    if [ $# == 0 ]; then
-         INVOCATION="check"
-     else
-         INVOCATION="$@"
+diff --git a/.gitignore b/.gitignore
+index 90acb4347d4..9016ee0a0b4 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -92,7 +92,7 @@
+ *.toc
+ *.tp
+ *.vr
+-*.d
++!\.*.d
+ !/scripts/qemu-guest-agent/fsfreeze-hook.d
+ *.o
+ .sdk
 -- 
 2.20.1
 
