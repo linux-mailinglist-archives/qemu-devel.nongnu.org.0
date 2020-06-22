@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41B41203513
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 12:48:14 +0200 (CEST)
-Received: from localhost ([::1]:36074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A48620352F
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jun 2020 12:56:34 +0200 (CEST)
+Received: from localhost ([::1]:36260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnJzp-0006mN-6n
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 06:48:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40026)
+	id 1jnK7t-00030r-3Z
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 06:56:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jnJun-0007OZ-6y
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 06:43:01 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:25775
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jnJus-0007VQ-QM
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 06:43:08 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:23213
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jnJuk-0005MM-FF
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 06:43:00 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jnJuo-0005Nq-21
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 06:43:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592822577;
+ s=mimecast20190719; t=1592822581;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=d/zNBLVNetSddXJjo9hxS9J+W0d8hwauSV+gbhSfTCE=;
- b=O8/lDtB0PBBuEzxQMDPEt1rhARXYy2YQRVpx5/0jMae4Ht0ewJufnbnQD0scwUs3V5NrOx
- Rdr3Iu0ntIBIkndIe/iMnlgNVp5Yjd2satu08+GSkcgzUXofGH/2jbMlA+c/ouZTrz5RT+
- C9Yk07RXd11bIeyY+oo7uWGIXkI5Q1U=
+ bh=IYwLcf+pVYTALN5ScB1Ik10sfW/uN0EbKCOlzTQRBqM=;
+ b=IaOG/UcKJIWBPNQvUqPp9rpzFQWermLboIG225X1iyfp47+O0JPx/H7eIuf7nb1LkvRksI
+ qMQLK/A/BHL+b18J7bAUFkj5rP1NeVfMzbTuQPf9XBnzYmTfU0ZhgnjGKb3cbhy8Bsb1Cd
+ XH2I5IMk7ZN93GFAEgShEa/nXajyvng=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-240-lspGgWWjPcG8lQx9rboHvg-1; Mon, 22 Jun 2020 06:42:55 -0400
-X-MC-Unique: lspGgWWjPcG8lQx9rboHvg-1
+ us-mta-422-Ie1VV9K7OUCSL1un44RDqQ-1; Mon, 22 Jun 2020 06:42:59 -0400
+X-MC-Unique: Ie1VV9K7OUCSL1un44RDqQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BAC26107ACF6
- for <qemu-devel@nongnu.org>; Mon, 22 Jun 2020 10:42:54 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B6DD210059A1
+ for <qemu-devel@nongnu.org>; Mon, 22 Jun 2020 10:42:58 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-121.ams2.redhat.com
  [10.36.112.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8BAF01CA;
- Mon, 22 Jun 2020 10:42:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CF2AE1CA;
+ Mon, 22 Jun 2020 10:42:55 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 24F5B1138478; Mon, 22 Jun 2020 12:42:51 +0200 (CEST)
+ id 286A81138479; Mon, 22 Jun 2020 12:42:51 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 10/22] test-util-filemonitor: Plug unlikely memory leak
-Date: Mon, 22 Jun 2020 12:42:38 +0200
-Message-Id: <20200622104250.1404835-11-armbru@redhat.com>
+Subject: [PATCH 11/22] vnc: Plug minor memory leak in vnc_display_open()
+Date: Mon, 22 Jun 2020 12:42:39 +0200
+Message-Id: <20200622104250.1404835-12-armbru@redhat.com>
 In-Reply-To: <20200622104250.1404835-1-armbru@redhat.com>
 References: <20200622104250.1404835-1-armbru@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
  helo=us-smtp-1.mimecast.com
@@ -80,31 +80,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Cc: "Daniel P . Berrange" <berrange@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-test_file_monitor_events() leaks an Error object when
-qemu_file_monitor_add_watch() fails, which seems unlikely.  Plug it.
+vnc_display_print_local_addr() leaks the Error object when
+qio_channel_socket_get_local_address() fails.  Seems unlikely.  Called
+when we create a VNC display with vnc_display_open().  Plug the leak
+by passing NULL to ignore the error.
 
-Cc: Daniel P. Berrangé <berrange@redhat.com>
+Cc: Daniel P. Berrange <berrange@redhat.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- tests/test-util-filemonitor.c | 1 +
- 1 file changed, 1 insertion(+)
+ ui/vnc.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/tests/test-util-filemonitor.c b/tests/test-util-filemonitor.c
-index 45009c69f4..8f0eff3d03 100644
---- a/tests/test-util-filemonitor.c
-+++ b/tests/test-util-filemonitor.c
-@@ -495,6 +495,7 @@ test_file_monitor_events(void)
-             if (*op->watchid < 0) {
-                 g_printerr("Unable to add watch %s",
-                            error_get_pretty(local_err));
-+                error_free(local_err);
-                 goto cleanup;
-             }
-             if (debug) {
+diff --git a/ui/vnc.c b/ui/vnc.c
+index 0702a76cce..527ad25124 100644
+--- a/ui/vnc.c
++++ b/ui/vnc.c
+@@ -3274,13 +3274,12 @@ int vnc_display_pw_expire(const char *id, time_t expires)
+ static void vnc_display_print_local_addr(VncDisplay *vd)
+ {
+     SocketAddress *addr;
+-    Error *err = NULL;
+ 
+     if (!vd->listener || !vd->listener->nsioc) {
+         return;
+     }
+ 
+-    addr = qio_channel_socket_get_local_address(vd->listener->sioc[0], &err);
++    addr = qio_channel_socket_get_local_address(vd->listener->sioc[0], NULL);
+     if (!addr) {
+         return;
+     }
 -- 
 2.26.2
 
