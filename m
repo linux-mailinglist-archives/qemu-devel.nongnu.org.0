@@ -2,105 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71D7A20562D
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 17:40:21 +0200 (CEST)
-Received: from localhost ([::1]:47518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45145205640
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 17:45:05 +0200 (CEST)
+Received: from localhost ([::1]:53604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnl24-0003JT-0S
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 11:40:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51298)
+	id 1jnl6d-00067a-Pe
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 11:45:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jnl1B-0002gv-GF
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 11:39:25 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:51036
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jnl5f-0005Fo-FX
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 11:44:03 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:29746
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jnl18-0007B3-LS
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 11:39:24 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jnl5d-0001ib-Qt
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 11:44:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592926760;
+ s=mimecast20190719; t=1592927041;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=XY6ebUwbL66ALjwEfWPhUoEVjl2/AFfBvB/uhze7Oa4=;
- b=CdqjMf4jXga2Nvr4MWUI/VeqLVGl+pwxa0hQpZIYXumapWkRbz5jWRfLe4wP25hEBL70iK
- b4jVZ/b3Q0s4OsygDblzzsonCfeiiVenGVPTExf9/a+2NiD0aPkPKqubSkq57t1lBde0MR
- oUc0uhet+GstIHcjx3fHJIzuSQID8+E=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-380-pchFJZRbN0qn5nd9WgQlBQ-1; Tue, 23 Jun 2020 11:39:16 -0400
-X-MC-Unique: pchFJZRbN0qn5nd9WgQlBQ-1
-Received: by mail-wr1-f71.google.com with SMTP id c14so16087386wrm.15
- for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 08:39:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=XY6ebUwbL66ALjwEfWPhUoEVjl2/AFfBvB/uhze7Oa4=;
- b=nTVh2WqIATOAaCyTCqw5PBCIIDpz0TrIDQ5iojIVmDBIzpMC3pi9TLKYiedaV4SHdD
- k++GC31Nxsc+Eo3P/n9c1QWxSFeTzbUMl0en9ZLKE9BLWoBc8WCXiDol887UFBarHqCs
- BcBt9W8TM6hmflMCAjsX9UkFC/3B9ZOjosggeVoIFkzbsF0GTXfn8Itqj8RFMjMFT82K
- POIVfQ1el69DV7pX49wsS/Lc4aDdnKpR2+vv/iI5UU5BnR1S9sKJ47IpWmOw5qlOIN00
- 7rpy+8cBEh0g/1MWkkaM8YRblfU7jHz3c13MqTP8kWzQ0a6xhxbqzEgHsw5GxxIcW/kc
- bEWA==
-X-Gm-Message-State: AOAM5326hLWt79jk+Yu91mu2F9ODSUGBNHYxLZ9DdJwPdhNTu4pFL4vQ
- LAS89iukOA3gY5fNM9BI1zRZWGqztSbegAbJIdY/ftwcLnpV5krCiPgRqOml5kY1fFAl1v96L1k
- lTITKIobikFZ5fIc=
-X-Received: by 2002:adf:ea84:: with SMTP id s4mr14638706wrm.222.1592926755513; 
- Tue, 23 Jun 2020 08:39:15 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx/xqaHbn/nlTfYy5aU5m96snoBoI33gMIzxBnaDzV8xjLYueYRaFwSySxr3SQnP7qZmjVjOw==
-X-Received: by 2002:adf:ea84:: with SMTP id s4mr14638678wrm.222.1592926755206; 
- Tue, 23 Jun 2020 08:39:15 -0700 (PDT)
-Received: from [192.168.1.40] (1.red-83-51-162.dynamicip.rima-tde.net.
- [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id c2sm23818116wrv.47.2020.06.23.08.39.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 23 Jun 2020 08:39:14 -0700 (PDT)
-Subject: Re: [PATCH] Revert "tests/migration: Reduce autoconverge initial
- bandwidth"
-To: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>
-References: <20200623145506.439100-1-mst@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <3554a068-ba6f-0aa0-38b4-b6dca3069630@redhat.com>
-Date: Tue, 23 Jun 2020 17:39:13 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ in-reply-to:in-reply-to:references:references;
+ bh=HKWiIbEnoBKdrEpt4leFANplYkn60/HbZQG9iAnotP8=;
+ b=LCZLuPfLimMnYMqvfXh7yG3M0Or/CDSR2+cAzVBR0/JIycF7uWwiWDHew4Ldzf32qRyqut
+ a7F35/5XnrjOsrEiZx8WJDpP+gu3pVp1heUU9iXrsipZz3SxoPC4guMKNuKjsLzFUi7eWj
+ k/CPJfHU2qVcXKyYwpQwH9jgdLGf4pM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-158-GE8oYt_2NMWGgR_EhjhW6Q-1; Tue, 23 Jun 2020 11:43:57 -0400
+X-MC-Unique: GE8oYt_2NMWGgR_EhjhW6Q-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F1958031E1;
+ Tue, 23 Jun 2020 15:43:55 +0000 (UTC)
+Received: from gondolin (ovpn-112-222.ams2.redhat.com [10.36.112.222])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9EC8C5C240;
+ Tue, 23 Jun 2020 15:43:42 +0000 (UTC)
+Date: Tue, 23 Jun 2020 17:43:40 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
+Subject: Re: [PATCH 2/7] accel/kvm: Simplify kvm_check_extension()
+Message-ID: <20200623174340.0dbc1989.cohuck@redhat.com>
+In-Reply-To: <20200623105052.1700-3-philmd@redhat.com>
+References: <20200623105052.1700-1-philmd@redhat.com>
+ <20200623105052.1700-3-philmd@redhat.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-In-Reply-To: <20200623145506.439100-1-mst@redhat.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=cohuck@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/23 01:55:08
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -123,64 +77,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ kvm@vger.kernel.org, David Hildenbrand <david@redhat.com>,
+ qemu-s390x@nongnu.org, "Michael S.
+ Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>, qemu-arm@nongnu.org,
+ qemu-ppc@nongnu.org, Thomas Huth <thuth@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/23/20 4:56 PM, Michael S. Tsirkin wrote:
-> This reverts commit 6d1da867e65f ("tests/migration: Reduce autoconverge initial bandwidth")
-> since that change makes unit tests much slower for all developers, while it's not
-> a robust way to fix migration tests. Migration tests need to find
-> a more robust way to discover a reasonable bandwidth without slowing
-> things down for everyone.
+On Tue, 23 Jun 2020 12:50:47 +0200
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
 
-Please also mention we can do this since 1de8e4c4dcf which allow
-marked the s390x job as "unstable" and allow it to fail.
+> In previous commit we let kvm_check_extension() use the
+> global kvm_state. Since the KVMState* argument is now
+> unused, drop it.
+>=20
+> Convert callers with this Coccinelle script:
+>=20
+>   @@
+>   expression kvm_state, extension;
+>   @@
+>   -   kvm_check_extension(kvm_state, extension)
+>   +   kvm_check_extension(extension)
+>=20
+> Unused variables manually removed:
+> - CPUState* in hyperv_enabled()
+> - KVMState* in kvm_arm_get_max_vm_ipa_size()
+>=20
+> Inspired-by: Paolo Bonzini <pbonzini@redhat.com>
 
-But if nobody is going to look at it, instead lets disable
-it until someone figure out the issue:
+=F0=9F=8C=9F=F0=9F=92=A1=F0=9F=8C=9F
 
--- >8 --
-diff --git a/.travis.yml b/.travis.yml
-index 74158f741b..364e67b14b 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -507,6 +507,7 @@ jobs:
-
-     - name: "[s390x] Clang (disable-tcg)"
-       arch: s390x
-+      if: false # Temporarily disabled due to issue testing migration
-(see commit 6d1da867e65).
-       dist: bionic
-       compiler: clang
-       addons:
----
-
-With the hunk amended (no need to mention 1de8e4c4d actually):
-Acked-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-
-> 
-> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> 
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 > ---
->  tests/qtest/migration-test.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-> index dc3490c9fa..21ea5ba1d2 100644
-> --- a/tests/qtest/migration-test.c
-> +++ b/tests/qtest/migration-test.c
-> @@ -1211,7 +1211,7 @@ static void test_migrate_auto_converge(void)
->       * without throttling.
->       */
->      migrate_set_parameter_int(from, "downtime-limit", 1);
-> -    migrate_set_parameter_int(from, "max-bandwidth", 1000000); /* ~1Mb/s */
-> +    migrate_set_parameter_int(from, "max-bandwidth", 100000000); /* ~100Mb/s */
->  
->      /* To check remaining size after precopy */
->      migrate_set_capability(from, "pause-before-switchover", true);
-> 
+>  include/sysemu/kvm.h         |  2 +-
+>  accel/kvm/kvm-all.c          | 64 ++++++++++++++++++------------------
+>  hw/hyperv/hyperv.c           |  2 +-
+>  hw/i386/kvm/clock.c          |  2 +-
+>  hw/i386/kvm/i8254.c          |  4 +--
+>  hw/i386/kvm/ioapic.c         |  2 +-
+>  hw/intc/arm_gic_kvm.c        |  2 +-
+>  hw/intc/openpic_kvm.c        |  2 +-
+>  hw/intc/xics_kvm.c           |  2 +-
+>  hw/s390x/s390-stattrib-kvm.c |  2 +-
+>  target/arm/kvm.c             | 13 ++++----
+>  target/arm/kvm32.c           |  2 +-
+>  target/arm/kvm64.c           | 15 ++++-----
+>  target/i386/kvm.c            | 61 ++++++++++++++++------------------
+>  target/mips/kvm.c            |  4 +--
+>  target/ppc/kvm.c             | 34 +++++++++----------
+>  target/s390x/cpu_models.c    |  3 +-
+>  target/s390x/kvm.c           | 30 ++++++++---------
+>  18 files changed, 119 insertions(+), 127 deletions(-)
+
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 
 
