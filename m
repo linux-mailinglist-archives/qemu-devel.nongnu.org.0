@@ -2,92 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A463205181
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 13:58:51 +0200 (CEST)
-Received: from localhost ([::1]:40778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 552382051AF
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 14:02:39 +0200 (CEST)
+Received: from localhost ([::1]:53800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnhZi-0002JT-Fq
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 07:58:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45184)
+	id 1jnhdO-00089D-CI
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 08:02:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.vnet.ibm.com>)
- id 1jnhIs-0006HF-L6
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 07:41:26 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:11170)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.vnet.ibm.com>)
- id 1jnhIq-0004iH-MB
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 07:41:26 -0400
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 05NBWpd3183454; Tue, 23 Jun 2020 07:41:23 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 31sk2s8bb8-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 23 Jun 2020 07:41:22 -0400
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 05NBXHPJ184524;
- Tue, 23 Jun 2020 07:41:22 -0400
-Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.26])
- by mx0a-001b2d01.pphosted.com with ESMTP id 31sk2s8ba4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 23 Jun 2020 07:41:22 -0400
-Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
- by ppma04wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 05NBQ9e1032641;
- Tue, 23 Jun 2020 11:41:20 GMT
-Received: from b03cxnp08025.gho.boulder.ibm.com
- (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
- by ppma04wdc.us.ibm.com with ESMTP id 31u20cw6hs-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 23 Jun 2020 11:41:20 +0000
-Received: from b03ledav006.gho.boulder.ibm.com
- (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
- by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 05NBfItp24248760
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 23 Jun 2020 11:41:18 GMT
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A0DFEC605B;
- Tue, 23 Jun 2020 11:41:19 +0000 (GMT)
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1DEF6C6057;
- Tue, 23 Jun 2020 11:41:19 +0000 (GMT)
-Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
- by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTP;
- Tue, 23 Jun 2020 11:41:19 +0000 (GMT)
-From: Stefan Berger <stefanb@linux.vnet.ibm.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jnhHB-0003K3-Sp
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 07:39:41 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:38950)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jnhHA-0003LV-25
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 07:39:41 -0400
+Received: by mail-wr1-x433.google.com with SMTP id q5so7773626wru.6
+ for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 04:39:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+ :content-transfer-encoding;
+ bh=uHtXjv+DNeh42TRXwhtc/t5t5RE6Yero04gixho+blI=;
+ b=D5aYj2liYVTMkUUGmFHa9RHDRqjeW/gJUoGiI2dXQaZaM6KR78m3HPnnBk0ZJo01HE
+ vyu5yF/LV8pcbkSh8qfuf0dKaA6XHN1tfwTo5jJjUc5Sv2lxwNEcO0CBTcyeP/z/8q05
+ 8NVVu2pbZoV7pPJLCUzfc9VxXC7bCpnHmxvqG027MJQHBdIfrAiXo64J0KeVT6ImOBGv
+ 1v31YYnhd1YhSIWrjPUC6P7LlVcsOCdk3IKL/OMCt2BJ6PCO2huSgDH4fGr8zYSCQrQa
+ pTdkCq4zMib+5X5rVozBfnisXPiUj2rLt/ReR70dMi/AG/THeEU7ZQZP5QkNluoIi3Kx
+ +KCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=uHtXjv+DNeh42TRXwhtc/t5t5RE6Yero04gixho+blI=;
+ b=uRXfvKURXex9Cx5sfcwy1ncixqvE+A4a8DY4VEh+cSzkotvREbDvMs8ai9sdAABFjk
+ zTbiRtimn3lQ+WFh5cWE4+6TEBTgRo0P2X5rueKDdmmXV8OkXM/XhTJZnYoV4n240A6c
+ +pqnb0vIEx6s9URecMbg74j/ugEbDxTAdQAAZR36/FMqH5qAWq1/U+sDnc24xasqYrzF
+ qrXs1QFKIDZ8fSkFQp3NSpKaXiyhHpgFvMNWbqNbVaUOqEHArnjUIGSR/h2dxi2ciA0M
+ 8zrAl6b7QKPH1dhZg0fxHL5HnkAFFQLgc0NqixTuXmlL6AcDZDa3KWchua/uwm+r1jVd
+ r+wA==
+X-Gm-Message-State: AOAM530HLQwxQYtCR10frm3XShtg6/MLM6FC2aBDTIl/S8b8XXuPXK/P
+ VjbZwBF3HUxKmt0Txa5SMNU0JKmo/icTzg==
+X-Google-Smtp-Source: ABdhPJyl69uk8JV4Qfl7i+Hbu47NJpl4kgU5QmkZ05DsW5r9+K5Atp6HRdY7zHyBuDjojZ/g5+xMfw==
+X-Received: by 2002:a5d:40cb:: with SMTP id b11mr13050892wrq.263.1592912378495; 
+ Tue, 23 Jun 2020 04:39:38 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id m10sm4022177wru.4.2020.06.23.04.39.36
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 23 Jun 2020 04:39:36 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL v1 03/12] hw/tpm: Rename TPMDEV as TPM_BACKEND in Kconfig
-Date: Tue, 23 Jun 2020 07:41:05 -0400
-Message-Id: <20200623114114.1375104-4-stefanb@linux.vnet.ibm.com>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200623114114.1375104-1-stefanb@linux.vnet.ibm.com>
-References: <20200623114114.1375104-1-stefanb@linux.vnet.ibm.com>
+Subject: [PULL 27/42] hw/i2c/versatile_i2c: Add definitions for register
+ addresses
+Date: Tue, 23 Jun 2020 12:38:49 +0100
+Message-Id: <20200623113904.28805-28-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200623113904.28805-1-peter.maydell@linaro.org>
+References: <20200623113904.28805-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.687
- definitions=2020-06-23_06:2020-06-23,
- 2020-06-23 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999
- suspectscore=1 clxscore=1015 lowpriorityscore=0 bulkscore=0
- cotscore=-2147483648 mlxscore=0 priorityscore=1501 malwarescore=0
- adultscore=0 spamscore=0 phishscore=0 impostorscore=0 classifier=spam
- adjust=0 reason=mlx scancount=1 engine=8.12.0-2004280000
- definitions=main-2006230092
-Received-SPF: none client-ip=148.163.156.1;
- envelope-from=stefanb@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/23 07:29:31
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=_AUTOLEARN
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,68 +87,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Stefan Berger <stefanb@linux.vnet.ibm.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-The TPMDEV describe TPM backends. Use the TPM_BACKEND config
-name which is self-explicit.
+Use self-explicit definitions instead of magic values.
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
-Message-id: 20200612085444.8362-4-philmd@redhat.com
-Signed-off-by: Stefan Berger <stefanb@linux.vnet.ibm.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-id: 20200617072539.32686-3-f4bug@amsat.org
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/tpm/Kconfig | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ hw/i2c/versatile_i2c.c | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
-diff --git a/hw/tpm/Kconfig b/hw/tpm/Kconfig
-index 4794e7fe28..5028fd8880 100644
---- a/hw/tpm/Kconfig
-+++ b/hw/tpm/Kconfig
-@@ -1,4 +1,4 @@
--config TPMDEV
-+config TPM_BACKEND
-     bool
-     depends on TPM
+diff --git a/hw/i2c/versatile_i2c.c b/hw/i2c/versatile_i2c.c
+index 1ac2a6f59a0..040139d701b 100644
+--- a/hw/i2c/versatile_i2c.c
++++ b/hw/i2c/versatile_i2c.c
+@@ -24,6 +24,7 @@
+ #include "qemu/osdep.h"
+ #include "hw/sysbus.h"
+ #include "hw/i2c/bitbang_i2c.h"
++#include "hw/registerfields.h"
+ #include "qemu/log.h"
+ #include "qemu/module.h"
  
-@@ -15,26 +15,26 @@ config TPM_TIS_SYSBUS
- config TPM_TIS
-     bool
-     depends on TPM
--    select TPMDEV
-+    select TPM_BACKEND
+@@ -40,14 +41,19 @@ typedef struct VersatileI2CState {
+     int in;
+ } VersatileI2CState;
  
- config TPM_CRB
-     bool
-     depends on TPM && PC
--    select TPMDEV
-+    select TPM_BACKEND
++REG32(CONTROL_GET, 0)
++REG32(CONTROL_SET, 0)
++REG32(CONTROL_CLR, 4)
++
+ static uint64_t versatile_i2c_read(void *opaque, hwaddr offset,
+                                    unsigned size)
+ {
+     VersatileI2CState *s = (VersatileI2CState *)opaque;
  
- config TPM_PASSTHROUGH
-     bool
-     default y
-     # FIXME: should check for x86 host as well
--    depends on TPMDEV && LINUX
-+    depends on TPM_BACKEND && LINUX
+-    if (offset == 0) {
++    switch (offset) {
++    case A_CONTROL_SET:
+         return (s->out & 1) | (s->in << 1);
+-    } else {
++    default:
+         qemu_log_mask(LOG_GUEST_ERROR,
+                       "%s: Bad offset 0x%x\n", __func__, (int)offset);
+         return -1;
+@@ -60,10 +66,10 @@ static void versatile_i2c_write(void *opaque, hwaddr offset,
+     VersatileI2CState *s = (VersatileI2CState *)opaque;
  
- config TPM_EMULATOR
-     bool
-     default y
--    depends on TPMDEV
-+    depends on TPM_BACKEND
- 
- config TPM_SPAPR
-     bool
-     default y
-     depends on TPM && PSERIES
--    select TPMDEV
-+    select TPM_BACKEND
+     switch (offset) {
+-    case 0:
++    case A_CONTROL_SET:
+         s->out |= value & 3;
+         break;
+-    case 4:
++    case A_CONTROL_CLR:
+         s->out &= ~value;
+         break;
+     default:
 -- 
-2.24.1
+2.20.1
 
 
