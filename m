@@ -2,51 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D97A2055B1
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 17:20:25 +0200 (CEST)
-Received: from localhost ([::1]:45718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FEFC20557D
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 17:07:00 +0200 (CEST)
+Received: from localhost ([::1]:41888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnkil-0002Lt-R6
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 11:20:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34938)
+	id 1jnkVn-0003BX-Dx
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 11:06:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jnkLV-0007Ki-Jw
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 10:56:21 -0400
-Received: from relay64.bu.edu ([128.197.228.104]:50945)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jnkLT-00031y-Lq
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 10:56:20 -0400
-X-Envelope-From: alxndr@bu.edu
-X-BU-AUTH: mozz.bu.edu [128.197.127.33]
-Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
- bits=0)
- by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id 05NEt0ou014755
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
- Tue, 23 Jun 2020 10:55:04 -0400
-Date: Tue, 23 Jun 2020 10:55:00 -0400
-From: Alexander Bulekov <alxndr@bu.edu>
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Subject: Re: [RFC PATCH 3/3] fuzz: Add callbacks for dma-access functions
-Message-ID: <20200623145500.jtdb5skwj5htgfcz@mozz.bu.edu>
-References: <20200611055651.13784-1-alxndr@bu.edu>
- <20200611055651.13784-4-alxndr@bu.edu>
- <20200623141456.GK36568@stefanha-x1.localdomain>
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jnkMH-0007rT-LN
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 10:57:09 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35757
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jnkMF-0003mi-4y
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 10:57:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1592924225;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+ bh=kIDvPuB8KHqCOD97URxiiLd4BWyBBgGXBC7RqCRKmCw=;
+ b=AVTBsUjSEzka8Wv9GpoT1z6BPNRuDUg7jgxvCoUKWkRx/tXkUu1hjNy0BpsMfHt2sd002e
+ y9EHIPJntOF7jb4B/LKiSv85YnsrqU6vAzHwvqclmLtOaV+12973P/u1h3ipTe2rSrZEmb
+ 1Bo68WEkvn/pkfIhmNogUs0Mslqp4mo=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-10-7OIPjzOXM7meTpjf_AI4ag-1; Tue, 23 Jun 2020 10:57:03 -0400
+X-MC-Unique: 7OIPjzOXM7meTpjf_AI4ag-1
+Received: by mail-wr1-f71.google.com with SMTP id y16so12233421wrr.20
+ for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 07:57:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition;
+ bh=kIDvPuB8KHqCOD97URxiiLd4BWyBBgGXBC7RqCRKmCw=;
+ b=eiB6a73jZ9so90oGxsyPBWuLiGSn92PVFDjDIHQega8lzpXBxInxb8oyglucJv4MA0
+ NvveEEe8tyKCSOhAbqU4Q4I/ybEkne003SAAqJPJ3mhyne/TGa39qjTRaIgK88PP/PZm
+ wxq1a8w1Eq7NFKEFgfQ9kupCzoEXjstCpwMi4yPcQhu2Jl/3gQtrPaA5JUc7jDD1t2Zi
+ vDlBcmcdpmYhLYT1t/oMkG2Ait+ddwfm18+JRUFyQIwOOQ7odlYL9HJzRUtQnQZze32F
+ kkLvdba71bHS/09r+nU28YMEWDBuTUTiMELwqYUucsDAdQ89MHsL0VUqMe3QosIouBWS
+ 6N5g==
+X-Gm-Message-State: AOAM532wm4UeWwMcqO6PsQjE1dmll4B0jywRLlo7IPByjjxYoor+zMLP
+ 9fGobpTt3kbNGYe2cjBK3rJmHsavQVxdHsFN2Qece67iZsF3xFC+r6FfzS4RMRNW3tIn58tNHtX
+ BZq4QT9EgTb/h4mI=
+X-Received: by 2002:a7b:cc08:: with SMTP id f8mr26089337wmh.106.1592924222208; 
+ Tue, 23 Jun 2020 07:57:02 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxC/JDUCeWsSN7TILJPGuAsQQn4ik7dj6gztwccS6Pz5E2hG1G/cRA+pzF+O4T2vObZXoBvQg==
+X-Received: by 2002:a7b:cc08:: with SMTP id f8mr26089321wmh.106.1592924222035; 
+ Tue, 23 Jun 2020 07:57:02 -0700 (PDT)
+Received: from redhat.com (bzq-79-182-31-92.red.bezeqint.net. [79.182.31.92])
+ by smtp.gmail.com with ESMTPSA id
+ f2sm3924171wmj.39.2020.06.23.07.57.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 23 Jun 2020 07:57:01 -0700 (PDT)
+Date: Tue, 23 Jun 2020 10:56:59 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] Revert "tests/migration: Reduce autoconverge initial
+ bandwidth"
+Message-ID: <20200623145506.439100-1-mst@redhat.com>
 MIME-Version: 1.0
+X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
+X-Mutt-Fcc: =sent
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200623141456.GK36568@stefanha-x1.localdomain>
-User-Agent: NeoMutt/20180716
-Received-SPF: pass client-ip=128.197.228.104; envelope-from=alxndr@bu.edu;
- helo=relay64.bu.edu
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/23 10:56:19
-X-ACL-Warn: Detected OS   = Linux 2.6.x
-X-Spam_score_int: -31
-X-Spam_score: -3.2
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=mst@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/23 01:53:54
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
 X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
- HK_RANDOM_FROM=1, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,70 +94,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, f4bug@amsat.org, darren.kenny@oracle.com,
- bsd@redhat.com, stefanha@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 200623 1514, Stefan Hajnoczi wrote:
-> On Thu, Jun 11, 2020 at 01:56:51AM -0400, Alexander Bulekov wrote:
-> > Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-> > ---
-> >  exec.c                                | 17 ++++++++++++++++-
-> >  include/exec/memory.h                 |  8 ++++++++
-> >  include/exec/memory_ldst_cached.inc.h |  9 +++++++++
-> >  include/sysemu/dma.h                  |  5 ++++-
-> >  memory_ldst.inc.c                     | 12 ++++++++++++
-> >  5 files changed, 49 insertions(+), 2 deletions(-)
-> 
-> Please rename dma_read_cb() to fuzz_dma_read_cb() so the purpose of the
-> function is clear.
-> 
-> The ifdefs can be avoided by defining an empty function when CONFIG_FUZZ
-> is undefined. In a header file:
-> 
->   #ifdef CONFIG_FUZZ
->   void fuzz_dma_read_cb(size_t addr, size_t len);
->   #else
->   static inline void fuzz_dma_read_cb(size_t addr, size_t len)
->   {
->       /* Do nothing */
->   }
->   #endif
-> 
-> Now the compiler should eliminate the deadcode:
-> 
->   #ifdef CONFIG_FUZZ
->   if (as->root == get_system_memory()) {
->       dma_read_cb(addr, len);
->   }
->   #endif
-> 
-> becomes:
-> 
->   if (as->root == get_system_memory()) {
->       fuzz_dma_read_cb(addr, len);
->   }
-> 
-> Hopefully gcc and clang will eliminate this and emit no instructions
-> when CONFIG_FUZZ is undefined. If not, you can simply pass in 'as' and
-> 'is_write' too:
-> 
->   void fuzz_dma_read_cb(AddressSpace *as, bool is_write, size_t addr, size_t len)
-> 
-> This way the conditional is moved inside fuzz_dma_read_cb() and deadcode
-> elimination becomes trivial for the compiler:
-> 
->   fuzz_read_cb(as, is_write, addr, len);
+This reverts commit 6d1da867e65f ("tests/migration: Reduce autoconverge initial bandwidth")
+since that change makes unit tests much slower for all developers, while it's not
+a robust way to fix migration tests. Migration tests need to find
+a more robust way to discover a reasonable bandwidth without slowing
+things down for everyone.
 
-Do you think it would be better to have a "trace_dma_read" or
-"trace_device_read_from_guest_memory"? I haven't looked under the hood
-too much for the tracepoint api, but these would just be standard
-tracepoints(disabled for the majority of builds). When we build the
-fuzzer, we could compile with --wrap="trace_dma_read" and implement
-a __wrap_trace_dma_read in the generic fuzzer. I looked at the symbols
-for a qemu build and it looks like trace_* are actual functions, rather
-than preprocessor magic, so maybe this could work?
--Alex
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+
+---
+ tests/qtest/migration-test.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
+index dc3490c9fa..21ea5ba1d2 100644
+--- a/tests/qtest/migration-test.c
++++ b/tests/qtest/migration-test.c
+@@ -1211,7 +1211,7 @@ static void test_migrate_auto_converge(void)
+      * without throttling.
+      */
+     migrate_set_parameter_int(from, "downtime-limit", 1);
+-    migrate_set_parameter_int(from, "max-bandwidth", 1000000); /* ~1Mb/s */
++    migrate_set_parameter_int(from, "max-bandwidth", 100000000); /* ~100Mb/s */
+ 
+     /* To check remaining size after precopy */
+     migrate_set_capability(from, "pause-before-switchover", true);
+-- 
+MST
+
 
